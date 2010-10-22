@@ -30,7 +30,7 @@ BinaryImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage 
   m_InputForegroundValue = NumericTraits< OutputImagePixelType >::max();
   m_FullyConnected = false;
   m_ComputeFeretDiameter = false;
-  m_ComputePerimeter = false;
+  m_ComputePerimeter = true;
   m_NumberOfBins = 128;
   m_ComputeHistogram = true;
   this->SetNumberOfRequiredInputs(2);

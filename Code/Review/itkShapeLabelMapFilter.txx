@@ -19,12 +19,17 @@
 
 #include "itkShapeLabelMapFilter.h"
 #include "itkProgressReporter.h"
-#include "itkNeighborhoodIterator.h"
+#include "itkConstNeighborhoodIterator.h"
+#include "itkConstShapedNeighborhoodIterator.h"
 #include "itkLabelMapToLabelImageFilter.h"
 #include "itkConstantBoundaryCondition.h"
+#include "itkGeometryUtilities.h"
+#include "itkConnectedComponentAlgorithm.h"
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/vnl_math.h"
+#include <deque>
+#include <map>
 
 namespace itk
 {
@@ -33,7 +38,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 ::ShapeLabelMapFilter()
 {
   m_ComputeFeretDiameter = false;
-  m_ComputePerimeter = false;
+  m_ComputePerimeter = true;
 }
 
 template< class TImage, class TLabelImage >
@@ -44,7 +49,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   Superclass::BeforeThreadedGenerateData();
 
   // Generate the label image, if needed
-  if ( m_ComputeFeretDiameter || m_ComputePerimeter )
+  if ( m_ComputeFeretDiameter )
     {
     if ( !m_LabelImage )
       {
@@ -58,14 +63,6 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       m_LabelImage = lci2i->GetOutput();
       }
     }
-
-  // Delegate the computation of the perimeter to a dedicated calculator
-  if ( m_ComputePerimeter )
-    {
-    m_PerimeterCalculator = PerimeterCalculatorType::New();
-    m_PerimeterCalculator->SetImage(m_LabelImage);
-    m_PerimeterCalculator->Compute();
-    }
 }
 
 template< class TImage, class TLabelImage >
@@ -74,7 +71,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
 {
   ImageType *            output = this->GetOutput();
-  const LabelPixelType & label = labelObject->GetLabel();
+  // const LabelPixelType & label = labelObject->GetLabel();
 
   // Compute the size per pixel, to be used later
   double sizePerPixel = 1;
@@ -99,15 +96,15 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   // Init the vars
-  unsigned long                             size = 0;
+  unsigned long                             nbOfPixels = 0;
   ContinuousIndex< double, ImageDimension > centroid;
   centroid.Fill(0);
   IndexType mins;
   mins.Fill( NumericTraits< long >::max() );
   IndexType maxs;
   maxs.Fill( NumericTraits< long >::NonpositiveMin() );
-  unsigned long sizeOnBorder = 0;
-  double        physicalSizeOnBorder = 0;
+  unsigned long nbOfPixelsOnBorder = 0;
+  double        perimeterOnBorder = 0;
   MatrixType    centralMoments;
   centralMoments.Fill(0);
 
@@ -120,8 +117,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     const IndexType & idx = lit->GetIndex();
     unsigned long     length = lit->GetLength();
 
-    // Update the size
-    size += length;
+    // Update the nbOfPixels
+    nbOfPixels += length;
 
     // Update the centroid - and report the progress
     // First, update the axes that are not 0
@@ -164,7 +161,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       {
       // The line touch a border on a dimension other than 0, so
       // all the line touch a border
-      sizeOnBorder += length;
+      nbOfPixelsOnBorder += length;
       }
     else
       {
@@ -173,7 +170,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       if ( idx[0] == borderMin[0] )
         {
         // One more pixel on the border
-        sizeOnBorder++;
+        nbOfPixelsOnBorder++;
         isOnBorder0 = true;
         }
       if ( !isOnBorder0 || length > 1 )
@@ -182,7 +179,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
         if ( idx[0] + (long)length - 1 == borderMax[0] )
           {
           // One more pixel on the border
-          sizeOnBorder++;
+          nbOfPixelsOnBorder++;
           }
         }
       }
@@ -192,12 +189,12 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     if ( idx[0] == borderMin[0] )
       {
       // Fhe beginning of the line
-      physicalSizeOnBorder += sizePerPixelPerDimension[0];
+      perimeterOnBorder += sizePerPixelPerDimension[0];
       }
     if ( idx[0] + (long)length - 1 == borderMax[0] )
       {
       // And the end of the line
-      physicalSizeOnBorder += sizePerPixelPerDimension[0];
+      perimeterOnBorder += sizePerPixelPerDimension[0];
       }
     // Then the other dimensions
     for ( unsigned int i = 1; i < ImageDimension; i++ )
@@ -205,12 +202,12 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       if ( idx[i] == borderMin[i] )
         {
         // one border
-        physicalSizeOnBorder += sizePerPixelPerDimension[i] * length;
+        perimeterOnBorder += sizePerPixelPerDimension[i] * length;
         }
       if ( idx[i] == borderMax[i] )
         {
         // and the other
-        physicalSizeOnBorder += sizePerPixelPerDimension[i] * length;
+        perimeterOnBorder += sizePerPixelPerDimension[i] * length;
         }
       }
 
@@ -271,22 +268,22 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   // final computation
-  typename LabelObjectType::RegionType::SizeType regionSize;
+  typename LabelObjectType::RegionType::SizeType boundingBoxSize;
   double minSize = NumericTraits< double >::max();
   double maxSize = NumericTraits< double >::NonpositiveMin();
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    centroid[i] /= size;
-    regionSize[i] = maxs[i] - mins[i] + 1;
-    double s = regionSize[i] * output->GetSpacing()[i];
+    centroid[i] /= nbOfPixels;
+    boundingBoxSize[i] = maxs[i] - mins[i] + 1;
+    double s = boundingBoxSize[i] * output->GetSpacing()[i];
     minSize = vnl_math_min(s, minSize);
     maxSize = vnl_math_max(s, maxSize);
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      centralMoments[i][j] /= size;
+      centralMoments[i][j] /= nbOfPixels;
       }
     }
-  typename LabelObjectType::RegionType region(mins, regionSize);
+  typename LabelObjectType::RegionType boundingBox(mins, boundingBoxSize);
   typename LabelObjectType::CentroidType physicalCentroid;
   output->TransformContinuousIndexToPhysicalPoint(centroid, physicalCentroid);
 
@@ -338,12 +335,12 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     flatness = vcl_sqrt(principalMoments[1] / principalMoments[0]);
     }
 
-  double physicalSize = size * sizePerPixel;
-  double equivalentRadius = HyperSphereRadiusFromVolume(physicalSize);
-  double equivalentPerimeter = HyperSpherePerimeter(equivalentRadius);
+  double physicalSize = nbOfPixels * sizePerPixel;
+  double equivalentRadius = GeometryUtilities::HyperSphereRadiusFromVolume(ImageDimension, physicalSize);
+  double equivalentPerimeter = GeometryUtilities::HyperSpherePerimeter(ImageDimension, equivalentRadius);
 
   // Compute equivalent ellipsoid radius
-  VectorType ellipsoidSize;
+  VectorType ellipsoidDiameter;
   double     edet = 1.0;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
@@ -354,51 +351,45 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     {
     if ( edet != 0.0 )
       {
-      ellipsoidSize[i] = 2.0 *equivalentRadius *vcl_sqrt(principalMoments[i] / edet);
+      ellipsoidDiameter[i] = 2.0 *equivalentRadius *vcl_sqrt(principalMoments[i] / edet);
       }
     else
       {
-      ellipsoidSize[i] = 0.0;
+      ellipsoidDiameter[i] = 0.0;
       }
     }
 
   // Set the values in the object
-  labelObject->SetSize(size);
+  labelObject->SetNumberOfPixels(nbOfPixels);
   labelObject->SetPhysicalSize(physicalSize);
-  labelObject->SetRegion(region);
+  labelObject->SetBoundingBox(boundingBox);
   labelObject->SetCentroid(physicalCentroid);
   if ( minSize != 0 )
     {
     labelObject->SetRegionElongation(maxSize / minSize);
     }
-  if ( region.GetNumberOfPixels() != 0 )
+  if ( boundingBox.GetNumberOfPixels() != 0 )
     {
-    labelObject->SetSizeRegionRatio( size / (double)region.GetNumberOfPixels() );
+    labelObject->SetSizeRegionRatio( nbOfPixels / (double)boundingBox.GetNumberOfPixels() );
     }
-  labelObject->SetSizeOnBorder(sizeOnBorder);
-  labelObject->SetPhysicalSizeOnBorder(physicalSizeOnBorder);
-  labelObject->SetBinaryPrincipalMoments(principalMoments);
-  labelObject->SetBinaryPrincipalAxes(principalAxes);
-  labelObject->SetBinaryElongation(elongation);
-  labelObject->SetEquivalentRadius(equivalentRadius);
-  labelObject->SetEquivalentPerimeter(equivalentPerimeter);
-  labelObject->SetEquivalentEllipsoidSize(ellipsoidSize);
-  labelObject->SetBinaryFlatness(flatness);
+  labelObject->SetNumberOfPixelsOnBorder(nbOfPixelsOnBorder);
+  labelObject->SetPerimeterOnBorder(perimeterOnBorder);
+  labelObject->SetPrincipalMoments(principalMoments);
+  labelObject->SetPrincipalAxes(principalAxes);
+  labelObject->SetElongation(elongation);
+  labelObject->SetEquivalentSphericalRadius(equivalentRadius);
+  labelObject->SetEquivalentSphericalPerimeter(equivalentPerimeter);
+  labelObject->SetEquivalentEllipsoidDiameter(ellipsoidDiameter);
+  labelObject->SetFlatness(flatness);
 
-  // Don't compute the Feret Diameter on the 0 label!
-  if ( m_ComputeFeretDiameter && labelObject->GetLabel() != 0 )
+  if ( m_ComputeFeretDiameter )
     {
     this->ComputeFeretDiameter(labelObject);
     }
 
-  // Be sure that the calculator has the perimeter estimation for that label.
-  // The calculator may not have the label if the object is only on a border.
-  // It will occurre for sure when processing a 2D image with a 3D filter.
-  if ( m_ComputePerimeter && m_PerimeterCalculator->HasLabel(label) )
+  if ( m_ComputePerimeter )
     {
-    double perimeter = m_PerimeterCalculator->GetPerimeter(label);
-    labelObject->SetPerimeter(perimeter);
-    labelObject->SetRoundness(equivalentPerimeter / perimeter);
+    this->ComputePerimeter(labelObject);
     }
 }
 
@@ -488,14 +479,298 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 template< class TImage, class TLabelImage >
 void
 ShapeLabelMapFilter< TImage, TLabelImage >
+::ComputePerimeter(LabelObjectType *labelObject)
+{
+  // the iterators
+  typename LabelObjectType::LineContainerType::const_iterator lit;
+  typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
+
+  // store the lines in a N-1D image of vectors
+  typedef std::deque< typename LabelObjectType::LineType > VectorLineType;
+  typedef itk::Image< VectorLineType, ImageDimension - 1 > LineImageType;
+  typename LineImageType::Pointer lineImage = LineImageType::New();
+  typename LineImageType::IndexType lIdx;
+  typename LineImageType::SizeType lSize;
+  RegionType boundingBox = labelObject->GetBoundingBox();
+  for( int i=0; i<ImageDimension-1; i++ )
+    {
+    lIdx[i] = boundingBox.GetIndex()[i+1];
+    lSize[i] = boundingBox.GetSize()[i+1];
+    }
+  typename LineImageType::RegionType lRegion;
+  lRegion.SetIndex( lIdx );
+  lRegion.SetSize( lSize );
+  // enlarge the region a bit to avoid boundary problems
+  typename LineImageType::RegionType elRegion(lRegion);
+  lSize.Fill(1);
+  elRegion.PadByRadius(lSize);
+  // std::cout << boundingBox << "  " << lRegion << "  " << elRegion << std::endl;
+  // now initialize the image
+  lineImage->SetRegions( elRegion );
+  lineImage->Allocate();
+  lineImage->FillBuffer( VectorLineType() );
+
+  // std::cout << "lineContainer.size(): " << lineContainer.size() << std::endl;
+
+  // Iterate over all the lines and fill the image of lines
+  for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+    {
+    const IndexType & idx = lit->GetIndex();
+    for( int i=0; i<ImageDimension-1; i++ )
+      {
+      lIdx[i] = idx[i+1];
+      }
+    lineImage->GetPixel( lIdx ).push_back( *lit );
+    }
+
+  // a data structure to store the number of intercepts on each direction
+  typedef typename std::map<OffsetType, unsigned long, typename OffsetType::LexicographicCompare>
+    MapInterceptType;
+  MapInterceptType intercepts;
+  // int nbOfDirections = (int)vcl_pow( 2.0, (int)ImageDimension ) - 1;
+  // intecepts.resize(nbOfDirections + 1);  // code begins at position 1
+
+  // now iterate over the vectors of lines
+  typedef ConstShapedNeighborhoodIterator< LineImageType > LineImageIteratorType;
+  LineImageIteratorType lIt( lSize, lineImage, lRegion ); // the original, non padded region
+  setConnectivity( &lIt, true );
+  for( lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt )
+    {
+    const VectorLineType & ls = lIt.GetCenterPixel();
+
+    // there are two intercepts on the 0 axis for each line
+    OffsetType no;
+    no.Fill(0);
+    no[0] = 1;
+    // std::cout << no << "-> " << 2 * ls.size() << std::endl;
+    intercepts[no] += 2 * ls.size();
+
+    // and look at the neighbors
+    typename LineImageIteratorType::ConstIterator ci;
+    for (ci = lIt.Begin(); ci != lIt.End(); ci++)
+      {
+          // std::cout << "-------------" << std::endl;
+      // the vector of lines in the neighbor
+      const VectorLineType & ns = ci.Get();
+      // prepare the offset to be stored in the intercepts map
+      typename LineImageType::OffsetType lno = ci.GetNeighborhoodOffset();
+      no[0] = 0;
+      for( int i=0; i<ImageDimension-1; i++ )
+        {
+        no[i+1] = vcl_abs(lno[i]);
+        }
+      OffsetType dno = no; // offset for the diagonal
+      dno[0] = 1;
+
+      // now process the two lines to search the pixels on the contour of the object
+      if( ls.empty() )
+        {
+        // std::cout << "ls.empty()" << std::endl;
+        // nothing to do
+        }
+      if( ns.empty() )
+        {
+        // no line in the neighbors - all the lines in ls are on the contour
+        for( typename VectorLineType::const_iterator li = ls.begin(); li != ls.end(); ++li )
+          {
+          // std::cout << "ns.empty()" << std::endl;
+          const typename LabelObjectType::LineType & l = *li;
+          // add as much intercepts as the line size
+          intercepts[no] += l.GetLength();
+          // and 2 times as much diagonal intercepts as the line size
+          intercepts[dno] += l.GetLength() * 2;
+          }
+        }
+      else
+        {
+        // std::cout << "else" << std::endl;
+        // TODO - fix the code when the line starts at  NumericTraits<long int>::NonpositiveMin()
+        // or end at  NumericTraits<long int>::max()
+        const VectorLineType & ns = ci.Get();
+
+        typename VectorLineType::const_iterator li = ls.begin();
+        typename VectorLineType::const_iterator ni = ns.begin();
+
+        long int lMin = 0;
+        long int lMax = 0;
+
+        long int nMin = NumericTraits<long int>::NonpositiveMin() + 1;
+        long int nMax = ni->GetIndex()[0] - 1;
+
+        while( li!=ls.end() )
+          {
+          // update the current line min and max. Neighbor line data is already up to date.
+          lMin = li->GetIndex()[0];
+          lMax = lMin + li->GetLength() - 1;
+
+          // add as much intercepts as intersections of the 2 lines
+          intercepts[no] += std::max( 0l, std::min(lMax, nMax) - std::max(lMin, nMin) + 1 );
+          // std::cout << "============" << std::endl;
+          // std::cout << "  lMin:" << lMin << " lMax:" << lMax << " nMin:" << nMin << " nMax:" << nMax << " count: " << std::max( 0l, std::min(lMax, nMax) - std::max(lMin, nMin) + 1 ) << std::endl;
+          // std::cout << "  " << no << ": " << intercepts[no] << std::endl;
+          // std::cout << std::max( 0l, std::min(lMax, nMax+1) - std::max(lMin, nMin+1) + 1 ) << std::endl;
+          // std::cout << std::max( 0l, std::min(lMax, nMax-1) - std::max(lMin, nMin-1) + 1 ) << std::endl;
+          // left diagonal intercepts
+          intercepts[dno] += std::max( 0l, std::min(lMax, nMax+1) - std::max(lMin, nMin+1) + 1 );
+          // right diagonal intercepts
+          intercepts[dno] += std::max( 0l, std::min(lMax, nMax-1) - std::max(lMin, nMin-1) + 1 );
+
+          // go to the next line or the next neighbor depending on where we are
+          if(nMax <= lMax )
+            {
+            // go to next neighbor
+            nMin = ni->GetIndex()[0] + ni->GetLength();
+            ni++;
+
+            if( ni != ns.end() )
+              {
+              nMax = ni->GetIndex()[0] - 1;
+              }
+            else
+              {
+              nMax = NumericTraits<long int>::max() - 1;
+              }
+            }
+          else
+            {
+            // go to next line
+            li++;
+            }
+          }
+
+        }
+      }
+    }
+
+  // compute the perimeter based on the intercept counts
+  double perimeter = PerimeterFromInterceptCount( intercepts, this->GetOutput()->GetSpacing() );
+  labelObject->SetPerimeter( perimeter );
+  labelObject->SetRoundness( labelObject->GetEquivalentSphericalPerimeter() / perimeter );
+  labelObject->SetPerimeterOnBorderRatio( labelObject->GetPerimeterOnBorder() / perimeter );
+}
+
+template< class TImage, class TLabelImage >
+template<class TMapIntercept, class TSpacing>
+double
+ShapeLabelMapFilter< TImage, TLabelImage >
+::PerimeterFromInterceptCount( TMapIntercept & intercepts, const TSpacing & spacing )
+{
+  // std::cout << "PerimeterFromInterceptCount<>" << std::endl;
+  double perimeter = 0.0;
+  double pixelSize = 1.0;
+  int dim = TSpacing::GetVectorDimension();
+  typedef typename TMapIntercept::key_type OffsetType;
+  for ( int i = 0; i < dim; i++ )
+    {
+    pixelSize *= spacing[i];
+    }
+
+  for( int i=0; i<dim; i++ )
+    {
+    OffsetType no;
+    no.Fill(0);
+    no[i] = 1;
+    // std::cout << no << ": " << intercepts[no] << std::endl;
+    perimeter += pixelSize / spacing[i] * intercepts[no]/2.0;
+    }
+
+  // Crofton's constant
+  perimeter *= GeometryUtilities::HyperSphereVolume( dim, 1.0 )
+                 / GeometryUtilities::HyperSphereVolume( dim - 1, 1.0 );
+  return perimeter;
+}
+
+#if ! defined(ITK_DO_NOT_USE_PERIMETER_SPECIALIZATION)
+template< class TImage, class TLabelImage >
+double
+ShapeLabelMapFilter< TImage, TLabelImage >
+::PerimeterFromInterceptCount( MapIntercept2Type & intercepts, const Spacing2Type spacing )
+{
+  // std::cout << "PerimeterFromInterceptCount2" << std::endl;
+  double dx = spacing[0];
+  double dy = spacing[1];
+
+  Offset2Type nx =  {{1, 0}};
+  Offset2Type ny =  {{0, 1}};
+  Offset2Type nxy = {{1, 1}};
+
+  // std::cout << "nx: " << intercepts[nx] << std::endl;
+  // std::cout << "ny: " << intercepts[ny] << std::endl;
+  // std::cout << "nxy: " << intercepts[nxy] << std::endl;
+
+  double perimeter = 0.0;
+  perimeter += dy * intercepts[nx]/2.0;
+  perimeter += dx * intercepts[ny]/2.0;
+  perimeter += dx*dy / spacing.GetNorm() * intercepts[nxy]/2.0;
+  perimeter *= itk::Math::pi / 4.0;
+  return perimeter;
+};
+
+template< class TImage, class TLabelImage >
+double
+ShapeLabelMapFilter< TImage, TLabelImage >
+::PerimeterFromInterceptCount( MapIntercept3Type & intercepts, const Spacing3Type spacing )
+{
+  // std::cout << "PerimeterFromInterceptCount3" << std::endl;
+  double dx = spacing[0];
+  double dy = spacing[1];
+  double dz = spacing[2];
+  double dxy = vcl_sqrt( spacing[0]*spacing[0] + spacing[1]*spacing[1] );
+  double dxz = vcl_sqrt( spacing[0]*spacing[0] + spacing[2]*spacing[2] );
+  double dyz = vcl_sqrt( spacing[1]*spacing[1] + spacing[2]*spacing[2] );
+  double dxyz = vcl_sqrt( spacing[0]*spacing[0] + spacing[1]*spacing[1] + spacing[2]*spacing[2] );
+  double vol = spacing[0]*spacing[1]*spacing[2];
+
+  // 'magical numbers', corresponding to area of voronoi partition on the
+  // unit sphere, when germs are the 26 directions on the unit cube
+  // Sum of (c1+c2+c3 + c4*2+c5*2+c6*2 + c7*4) equals 1.
+  double c1 = 0.04577789120476 * 2;  // Ox
+  double c2 = 0.04577789120476 * 2;  // Oy
+  double c3 = 0.04577789120476 * 2;  // Oz
+  double c4 = 0.03698062787608 * 2;  // Oxy
+  double c5 = 0.03698062787608 * 2;  // Oxz
+  double c6 = 0.03698062787608 * 2;  // Oyz
+  double c7 = 0.03519563978232 * 2;  // Oxyz
+  // TODO - recompute those values if the spacing is non isotrope
+
+  Offset3Type nx =   {{1, 0, 0}};
+  Offset3Type ny =   {{0, 1, 0}};
+  Offset3Type nz =   {{0, 0, 1}};
+  Offset3Type nxy =  {{1, 1, 0}};
+  Offset3Type nxz =  {{1, 0, 1}};
+  Offset3Type nyz =  {{0, 1, 1}};
+  Offset3Type nxyz = {{1, 1, 1}};
+
+  // std::cout << "nx: " << intercepts[nx] << std::endl;
+  // std::cout << "ny: " << intercepts[ny] << std::endl;
+  // std::cout << "nz: " << intercepts[nz] << std::endl;
+  // std::cout << "nxy: " << intercepts[nxy] << std::endl;
+  // std::cout << "nxz: " << intercepts[nxz] << std::endl;
+  // std::cout << "nyz: " << intercepts[nyz] << std::endl;
+  // std::cout << "nxyz: " << intercepts[nxyz] << std::endl;
+
+  double perimeter = 0.0;
+  perimeter += vol/dx * intercepts[nx]/2.0 * c1;
+  perimeter += vol/dy * intercepts[ny]/2.0 * c2;
+  perimeter += vol/dz * intercepts[nz]/2.0 * c3;
+  perimeter += vol/dxy * intercepts[nxy]/2.0 * c4;
+  perimeter += vol/dxz * intercepts[nxz]/2.0 * c5;
+  perimeter += vol/dyz * intercepts[nyz]/2.0 * c6;
+  perimeter += vol/dxyz * intercepts[nxyz]/2.0 * c7;
+  perimeter *= 4;
+  return perimeter;
+};
+#endif
+
+template< class TImage, class TLabelImage >
+void
+ShapeLabelMapFilter< TImage, TLabelImage >
 ::AfterThreadedGenerateData()
 {
   Superclass::AfterThreadedGenerateData();
 
   // Release the label image
   m_LabelImage = NULL;
-  // and the perimeter calculator
-  m_PerimeterCalculator = NULL;
 }
 
 template< class TImage, class TLabelImage >
@@ -509,71 +784,5 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
 }
 
-template< class TImage, class TLabelImage >
-long
-ShapeLabelMapFilter< TImage, TLabelImage >
-::Factorial(const long n)
-{
-  if ( n < 1 )
-    {
-    return 1;
-    }
-  return n * Factorial(n - 1);
-}
-
-template< class TImage, class TLabelImage >
-long
-ShapeLabelMapFilter< TImage, TLabelImage >
-::DoubleFactorial(const long n)
-{
-  if ( n < 2 )
-    {
-    return 1;
-    }
-  return n * DoubleFactorial(n - 2);
-}
-
-template< class TImage, class TLabelImage >
-double
-ShapeLabelMapFilter< TImage, TLabelImage >
-::GammaN2p1(const long n)
-{
-  const bool even = n % 2 == 0;
-
-  if ( even )
-    {
-    return Factorial(n / 2);
-    }
-  else
-    {
-    return vcl_sqrt(vnl_math::pi) * DoubleFactorial(n) / vcl_pow(2, ( n + 1 ) / 2.0);
-    }
-}
-
-template< class TImage, class TLabelImage >
-double
-ShapeLabelMapFilter< TImage, TLabelImage >
-::HyperSphereVolume(const double radius)
-{
-  const double dblImageDimension = static_cast< double >( ImageDimension );
-
-  return vcl_pow(vnl_math::pi, dblImageDimension * 0.5) * vcl_pow(radius, dblImageDimension) / GammaN2p1(ImageDimension);
-}
-
-template< class TImage, class TLabelImage >
-double
-ShapeLabelMapFilter< TImage, TLabelImage >
-::HyperSpherePerimeter(const double radius)
-{
-  return ImageDimension * HyperSphereVolume(radius) / radius;
-}
-
-template< class TImage, class TLabelImage >
-double
-ShapeLabelMapFilter< TImage, TLabelImage >
-::HyperSphereRadiusFromVolume(const double volume)
-{
-  return vcl_pow(volume * GammaN2p1(ImageDimension) / vcl_pow(vnl_math::pi, ImageDimension * 0.5), 1.0 / ImageDimension);
-}
 } // end namespace itk
 #endif

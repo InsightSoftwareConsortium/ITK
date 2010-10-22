@@ -69,30 +69,31 @@ public:
   typedef typename Superclass::LineContainerType LineContainerType;
 
   typedef typename Superclass::AttributeType AttributeType;
-  itkStaticConstMacro(SIZE, AttributeType, 100);
+  itkStaticConstMacro(NUMBER_OF_PIXELS, AttributeType, 100);
   itkStaticConstMacro(PHYSICAL_SIZE, AttributeType, 101);
   itkStaticConstMacro(REGION_ELONGATION, AttributeType, 102);
   itkStaticConstMacro(SIZE_REGION_RATIO, AttributeType, 103);
   itkStaticConstMacro(CENTROID, AttributeType, 104);
-  itkStaticConstMacro(REGION, AttributeType, 105);
-  itkStaticConstMacro(SIZE_ON_BORDER, AttributeType, 106);
-  itkStaticConstMacro(PHYSICAL_SIZE_ON_BORDER, AttributeType, 107);
+  itkStaticConstMacro(BOUNDING_BOX, AttributeType, 105);
+  itkStaticConstMacro(NUMBER_OF_PIXELS_ON_BORDER, AttributeType, 106);
+  itkStaticConstMacro(PERIMETER_ON_BORDER, AttributeType, 107);
   itkStaticConstMacro(FERET_DIAMETER, AttributeType, 108);
-  itkStaticConstMacro(BINARY_PRINCIPAL_MOMENTS, AttributeType, 109);
-  itkStaticConstMacro(BINARY_PRINCIPAL_AXES, AttributeType, 110);
-  itkStaticConstMacro(BINARY_ELONGATION, AttributeType, 111);
+  itkStaticConstMacro(PRINCIPAL_MOMENTS, AttributeType, 109);
+  itkStaticConstMacro(PRINCIPAL_AXES, AttributeType, 110);
+  itkStaticConstMacro(ELONGATION, AttributeType, 111);
   itkStaticConstMacro(PERIMETER, AttributeType, 112);
   itkStaticConstMacro(ROUNDNESS, AttributeType, 113);
-  itkStaticConstMacro(EQUIVALENT_RADIUS, AttributeType, 114);
-  itkStaticConstMacro(EQUIVALENT_PERIMETER, AttributeType, 115);
-  itkStaticConstMacro(EQUIVALENT_ELLIPSOID_RADIUS, AttributeType, 116);
-  itkStaticConstMacro(BINARY_FLATNESS, AttributeType, 117);
+  itkStaticConstMacro(EQUIVALENT_SPHERICAL_RADIUS, AttributeType, 114);
+  itkStaticConstMacro(EQUIVALENT_SPHERICAL_PERIMETER, AttributeType, 115);
+  itkStaticConstMacro(EQUIVALENT_ELLIPSOID_DIAMETER, AttributeType, 116);
+  itkStaticConstMacro(FLATNESS, AttributeType, 117);
+  itkStaticConstMacro(PERIMETER_ON_BORDER_RATIO, AttributeType, 118);
 
   static AttributeType GetAttributeFromName(const std::string & s)
   {
-    if ( s == "Size" )
+    if ( s == "NumberOfPixels" )
       {
-      return SIZE;
+      return NUMBER_OF_PIXELS;
       }
     else if ( s == "PhysicalSize" )
       {
@@ -110,33 +111,33 @@ public:
       {
       return CENTROID;
       }
-    else if ( s == "Region" )
+    else if ( s == "BoundingBox" )
       {
-      return REGION;
+      return BOUNDING_BOX;
       }
-    else if ( s == "SizeOnBorder" )
+    else if ( s == "NumberOfPixelsOnBorder" )
       {
-      return SIZE_ON_BORDER;
+      return NUMBER_OF_PIXELS_ON_BORDER;
       }
-    else if ( s == "PhysicalSizeOnBorder" )
+    else if ( s == "PerimeterOnBorder" )
       {
-      return PHYSICAL_SIZE_ON_BORDER;
+      return PERIMETER_ON_BORDER;
       }
     else if ( s == "FeretDiameter" )
       {
       return FERET_DIAMETER;
       }
-    else if ( s == "BinaryPrincipalMoments" )
+    else if ( s == "PrincipalMoments" )
       {
-      return BINARY_PRINCIPAL_MOMENTS;
+      return PRINCIPAL_MOMENTS;
       }
-    else if ( s == "BinaryPrincipalAxes" )
+    else if ( s == "PrincipalAxes" )
       {
-      return BINARY_PRINCIPAL_AXES;
+      return PRINCIPAL_AXES;
       }
-    else if ( s == "BinaryElongation" )
+    else if ( s == "Elongation" )
       {
-      return BINARY_ELONGATION;
+      return ELONGATION;
       }
     else if ( s == "Perimeter" )
       {
@@ -146,21 +147,25 @@ public:
       {
       return ROUNDNESS;
       }
-    else if ( s == "EquivalentRadius" )
+    else if ( s == "EquivalentSphericalRadius" )
       {
-      return EQUIVALENT_RADIUS;
+      return EQUIVALENT_SPHERICAL_RADIUS;
       }
-    else if ( s == "EquivalentPerimeter" )
+    else if ( s == "EquivalentSphericalPerimeter" )
       {
-      return EQUIVALENT_PERIMETER;
+      return EQUIVALENT_SPHERICAL_PERIMETER;
       }
-    else if ( s == "EquivalentEllipsoidSize" )
+    else if ( s == "EquivalentEllipsoidDiameter" )
       {
-      return EQUIVALENT_ELLIPSOID_RADIUS;
+      return EQUIVALENT_ELLIPSOID_DIAMETER;
       }
-    else if ( s == "BinaryFlatness" )
+    else if ( s == "Flatness" )
       {
-      return BINARY_FLATNESS;
+      return FLATNESS;
+      }
+    else if ( s == "PerimeterOnBorderRatio" )
+      {
+      return PERIMETER_ON_BORDER_RATIO;
       }
     // can't recognize the name
     return Superclass::GetAttributeFromName(s);
@@ -171,8 +176,8 @@ public:
     std::string name;
     switch ( a )
       {
-      case SIZE:
-        name = "Size";
+      case NUMBER_OF_PIXELS:
+        name = "NumberOfPixels";
         break;
       case PHYSICAL_SIZE:
         name = "PhysicalSize";
@@ -186,26 +191,26 @@ public:
       case CENTROID:
         name = "Centroid";
         break;
-      case REGION:
-        name = "Region";
+      case BOUNDING_BOX:
+        name = "BoundingBox";
         break;
-      case SIZE_ON_BORDER:
-        name = "SizeOnBorder";
+      case NUMBER_OF_PIXELS_ON_BORDER:
+        name = "NumberOfPixelsOnBorder";
         break;
-      case PHYSICAL_SIZE_ON_BORDER:
-        name = "PhysicalSizeOnBorder";
+      case PERIMETER_ON_BORDER:
+        name = "PerimeterOnBorder";
         break;
       case FERET_DIAMETER:
         name = "FeretDiameter";
         break;
-      case BINARY_PRINCIPAL_MOMENTS:
-        name = "BinaryPrincipalMoments";
+      case PRINCIPAL_MOMENTS:
+        name = "PrincipalMoments";
         break;
-      case BINARY_PRINCIPAL_AXES:
-        name = "BinaryPrincipalAxes";
+      case PRINCIPAL_AXES:
+        name = "PrincipalAxes";
         break;
-      case BINARY_ELONGATION:
-        name = "BinaryElongation";
+      case ELONGATION:
+        name = "Elongation";
         break;
       case PERIMETER:
         name = "Perimeter";
@@ -213,17 +218,20 @@ public:
       case ROUNDNESS:
         name = "Roundness";
         break;
-      case EQUIVALENT_RADIUS:
-        name = "EquivalentRadius";
+      case EQUIVALENT_SPHERICAL_RADIUS:
+        name = "EquivalentSphericalRadius";
         break;
-      case EQUIVALENT_PERIMETER:
-        name = "EquivalentPerimeter";
+      case EQUIVALENT_SPHERICAL_PERIMETER:
+        name = "EquivalentSphericalPerimeter";
         break;
-      case EQUIVALENT_ELLIPSOID_RADIUS:
-        name = "EquivalentEllipsoidSize";
+      case EQUIVALENT_ELLIPSOID_DIAMETER:
+        name = "EquivalentEllipsoidDiameter";
         break;
-      case BINARY_FLATNESS:
-        name = "BinaryFlatness";
+      case FLATNESS:
+        name = "Flatness";
+        break;
+      case PERIMETER_ON_BORDER_RATIO:
+        name = "PerimeterOnBorderRatio";
         break;
       default:
         // can't recognize the name
@@ -241,14 +249,14 @@ public:
 
   typedef Vector< double, VImageDimension > VectorType;
 
-  const RegionType & GetRegion() const
+  const RegionType & GetBoundingBox() const
   {
-    return m_Region;
+    return m_BoundingBox;
   }
 
-  void SetRegion(const RegionType & v)
+  void SetBoundingBox(const RegionType & v)
   {
-    m_Region = v;
+    m_BoundingBox = v;
   }
 
   const double & GetPhysicalSize() const
@@ -261,14 +269,14 @@ public:
     m_PhysicalSize = v;
   }
 
-  const unsigned long & GetSize() const
+  const unsigned long & GetNumberOfPixels() const
   {
-    return m_Size;
+    return m_NumberOfPixels;
   }
 
-  void SetSize(const unsigned long & v)
+  void SetNumberOfPixels(const unsigned long & v)
   {
-    m_Size = v;
+    m_NumberOfPixels = v;
   }
 
   const CentroidType & GetCentroid() const
@@ -301,24 +309,24 @@ public:
     m_SizeRegionRatio = v;
   }
 
-  const unsigned long & GetSizeOnBorder() const
+  const unsigned long & GetNumberOfPixelsOnBorder() const
   {
-    return m_SizeOnBorder;
+    return m_NumberOfPixelsOnBorder;
   }
 
-  void SetSizeOnBorder(const unsigned long & v)
+  void SetNumberOfPixelsOnBorder(const unsigned long & v)
   {
-    m_SizeOnBorder = v;
+    m_NumberOfPixelsOnBorder = v;
   }
 
-  const double & GetPhysicalSizeOnBorder() const
+  const double & GetPerimeterOnBorder() const
   {
-    return m_PhysicalSizeOnBorder;
+    return m_PerimeterOnBorder;
   }
 
-  void SetPhysicalSizeOnBorder(const double & v)
+  void SetPerimeterOnBorder(const double & v)
   {
-    m_PhysicalSizeOnBorder = v;
+    m_PerimeterOnBorder = v;
   }
 
   const double & GetFeretDiameter() const
@@ -331,34 +339,34 @@ public:
     m_FeretDiameter = v;
   }
 
-  const VectorType & GetBinaryPrincipalMoments() const
+  const VectorType & GetPrincipalMoments() const
   {
-    return m_BinaryPrincipalMoments;
+    return m_PrincipalMoments;
   }
 
-  void SetBinaryPrincipalMoments(const VectorType & v)
+  void SetPrincipalMoments(const VectorType & v)
   {
-    m_BinaryPrincipalMoments = v;
+    m_PrincipalMoments = v;
   }
 
-  const MatrixType & GetBinaryPrincipalAxes() const
+  const MatrixType & GetPrincipalAxes() const
   {
-    return m_BinaryPrincipalAxes;
+    return m_PrincipalAxes;
   }
 
-  void SetBinaryPrincipalAxes(const MatrixType & v)
+  void SetPrincipalAxes(const MatrixType & v)
   {
-    m_BinaryPrincipalAxes = v;
+    m_PrincipalAxes = v;
   }
 
-  const double & GetBinaryElongation() const
+  const double & GetElongation() const
   {
-    return m_BinaryElongation;
+    return m_Elongation;
   }
 
-  void SetBinaryElongation(const double & v)
+  void SetElongation(const double & v)
   {
-    m_BinaryElongation = v;
+    m_Elongation = v;
   }
 
   const double & GetPerimeter() const
@@ -381,44 +389,54 @@ public:
     m_Roundness = v;
   }
 
-  const double & GetEquivalentRadius() const
+  const double & GetEquivalentSphericalRadius() const
   {
-    return m_EquivalentRadius;
+    return m_EquivalentSphericalRadius;
   }
 
-  void SetEquivalentRadius(const double & v)
+  void SetEquivalentSphericalRadius(const double & v)
   {
-    m_EquivalentRadius = v;
+    m_EquivalentSphericalRadius = v;
   }
 
-  const double & GetEquivalentPerimeter() const
+  const double & GetEquivalentSphericalPerimeter() const
   {
-    return m_EquivalentPerimeter;
+    return m_EquivalentSphericalPerimeter;
   }
 
-  void SetEquivalentPerimeter(const double & v)
+  void SetEquivalentSphericalPerimeter(const double & v)
   {
-    m_EquivalentPerimeter = v;
+    m_EquivalentSphericalPerimeter = v;
   }
 
-  const VectorType & GetEquivalentEllipsoidSize() const
+  const VectorType & GetEquivalentEllipsoidDiameter() const
   {
-    return m_EquivalentEllipsoidSize;
+    return m_EquivalentEllipsoidDiameter;
   }
 
-  void SetEquivalentEllipsoidSize(const VectorType & v)
+  void SetEquivalentEllipsoidDiameter(const VectorType & v)
   {
-    m_EquivalentEllipsoidSize = v;
+    m_EquivalentEllipsoidDiameter = v;
   }
 
-  const double & GetBinaryFlatness() const
+  const double & GetFlatness() const
   {
-    return m_BinaryFlatness;
+    return m_Flatness;
   }
 
-  void SetBinaryFlatness(const double & v)
+  void SetFlatness(const double & v)
   {
-    m_BinaryFlatness = v;
+    m_Flatness = v;
+  }
+
+  const double & GetPerimeterOnBorderRatio() const
+  {
+    return m_PerimeterOnBorderRatio;
+  }
+
+  void SetPerimeterOnBorderRatio(const double & v)
+  {
+    m_PerimeterOnBorderRatio = v;
   }
 
   // some helper methods - not really required, but really useful!
@@ -430,7 +448,7 @@ public:
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from
    * the principal axes coordinate system to physical coordinates. */
-  AffineTransformPointer GetBinaryPrincipalAxesToPhysicalAxesTransform() const
+  AffineTransformPointer GetPrincipalAxesToPhysicalAxesTransform() const
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
@@ -439,7 +457,7 @@ public:
       offset[i]  = m_Centroid[i];
       for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
-        matrix[j][i] = m_BinaryPrincipalAxes[i][j];    // Note the transposition
+        matrix[j][i] = m_PrincipalAxes[i][j];    // Note the transposition
         }
       }
 
@@ -455,7 +473,7 @@ public:
    * This method returns an affine transform which transforms from
    * the physical coordinate system to the principal axes coordinate
    * system. */
-  AffineTransformPointer GetPhysicalAxesToBinaryPrincipalAxesTransform(void) const
+  AffineTransformPointer GetPhysicalAxesToPrincipalAxesTransform(void) const
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
@@ -464,7 +482,7 @@ public:
       offset[i]    = m_Centroid[i];
       for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
-        matrix[j][i] = m_BinaryPrincipalAxes[i][j];    // Note the transposition
+        matrix[j][i] = m_PrincipalAxes[i][j];    // Note the transposition
         }
       }
 
@@ -488,95 +506,99 @@ public:
       {
       return;
       }
-    m_Region = src->m_Region;
-    m_Size = src->m_Size;
+    m_BoundingBox = src->m_BoundingBox;
+    m_NumberOfPixels = src->m_NumberOfPixels;
     m_PhysicalSize = src->m_PhysicalSize;
     m_Centroid = src->m_Centroid;
     m_RegionElongation = src->m_RegionElongation;
     m_SizeRegionRatio = src->m_SizeRegionRatio;
-    m_SizeOnBorder = src->m_SizeOnBorder;
-    m_PhysicalSizeOnBorder = src->m_PhysicalSizeOnBorder;
+    m_NumberOfPixelsOnBorder = src->m_NumberOfPixelsOnBorder;
+    m_PerimeterOnBorder = src->m_PerimeterOnBorder;
     m_FeretDiameter = src->m_FeretDiameter;
-    m_BinaryPrincipalMoments = src->m_BinaryPrincipalMoments;
-    m_BinaryPrincipalAxes = src->m_BinaryPrincipalAxes;
-    m_BinaryElongation = src->m_BinaryElongation;
+    m_PrincipalMoments = src->m_PrincipalMoments;
+    m_PrincipalAxes = src->m_PrincipalAxes;
+    m_Elongation = src->m_Elongation;
     m_Perimeter = src->m_Perimeter;
     m_Roundness = src->m_Roundness;
-    m_EquivalentRadius = src->m_EquivalentRadius;
-    m_EquivalentPerimeter = src->m_EquivalentPerimeter;
-    m_EquivalentEllipsoidSize = src->m_EquivalentEllipsoidSize;
-    m_BinaryFlatness = src->m_BinaryFlatness;
+    m_EquivalentSphericalRadius = src->m_EquivalentSphericalRadius;
+    m_EquivalentSphericalPerimeter = src->m_EquivalentSphericalPerimeter;
+    m_EquivalentEllipsoidDiameter = src->m_EquivalentEllipsoidDiameter;
+    m_Flatness = src->m_Flatness;
+    m_PerimeterOnBorderRatio = src->m_PerimeterOnBorderRatio;
   }
 
 protected:
   ShapeLabelObject()
   {
-    m_Size = 0;
+    m_NumberOfPixels = 0;
     m_PhysicalSize = 0;
     m_Centroid.Fill(0);
     m_RegionElongation = 0;
     m_SizeRegionRatio = 0;
-    m_SizeOnBorder = false;
-    m_PhysicalSizeOnBorder = 0;
-    m_FeretDiameter = false;
-    m_BinaryPrincipalMoments.Fill(0);
-    m_BinaryPrincipalAxes.Fill(0);
-    m_BinaryElongation = 0;
+    m_NumberOfPixelsOnBorder = 0;
+    m_PerimeterOnBorder = 0;
+    m_FeretDiameter = 0;
+    m_PrincipalMoments.Fill(0);
+    m_PrincipalAxes.Fill(0);
+    m_Elongation = 0;
     m_Perimeter = 0;
     m_Roundness = 0;
-    m_EquivalentRadius = 0;
-    m_EquivalentPerimeter = 0;
-    m_EquivalentEllipsoidSize.Fill(0);
-    m_BinaryFlatness = 0;
+    m_EquivalentSphericalRadius = 0;
+    m_EquivalentSphericalPerimeter = 0;
+    m_EquivalentEllipsoidDiameter.Fill(0);
+    m_Flatness = 0;
+    m_PerimeterOnBorderRatio = 0;
   }
 
   void PrintSelf(std::ostream & os, Indent indent) const
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "Centroid: " << m_Centroid << std::endl;
-    os << indent << "Region: ";
-    m_Region.Print(os, indent);
+    os << indent << "NumberOfPixels: " << m_NumberOfPixels << std::endl;
     os << indent << "PhysicalSize: " << m_PhysicalSize << std::endl;
-    os << indent << "Size: " << m_Size << std::endl;
+    os << indent << "Perimeter: " << m_Perimeter << std::endl;
+    os << indent << "NumberOfPixelsOnBorder: " << m_NumberOfPixelsOnBorder << std::endl;
+    os << indent << "PerimeterOnBorder: " << m_PerimeterOnBorder << std::endl;
+    os << indent << "PerimeterOnBorderRatio: " << m_PerimeterOnBorderRatio << std::endl;
+    os << indent << "Elongation: " << m_Elongation << std::endl;
+    os << indent << "Flatness: " << m_Flatness << std::endl;
+    os << indent << "Roundness: " << m_Roundness << std::endl;
+    os << indent << "Centroid: " << m_Centroid << std::endl;
+    os << indent << "BoundingBox: ";
+    m_BoundingBox.Print(os, indent);
+    os << indent << "EquivalentSphericalRadius: " << m_EquivalentSphericalRadius << std::endl;
+    os << indent << "EquivalentSphericalPerimeter: " << m_EquivalentSphericalPerimeter << std::endl;
+    os << indent << "EquivalentEllipsoidDiameter: " << m_EquivalentEllipsoidDiameter << std::endl;
+    os << indent << "PrincipalMoments: " << m_PrincipalMoments << std::endl;
+    os << indent << "PrincipalAxes: " << std::endl << m_PrincipalAxes;
+    os << indent << "FeretDiameter: " << m_FeretDiameter << std::endl;
     os << indent << "RegionElongation: " << m_RegionElongation << std::endl;
     os << indent << "SizeRegionRatio: " << m_SizeRegionRatio << std::endl;
-    os << indent << "SizeOnBorder: " << m_SizeOnBorder << std::endl;
-    os << indent << "PhysicalSizeOnBorder: " << m_PhysicalSizeOnBorder << std::endl;
-    os << indent << "FeretDiameter: " << m_FeretDiameter << std::endl;
-    os << indent << "BinaryPrincipalMoments: " << m_BinaryPrincipalMoments << std::endl;
-    os << indent << "BinaryPrincipalAxes: " << std::endl << m_BinaryPrincipalAxes;
-    os << indent << "BinaryElongation: " << m_BinaryElongation << std::endl;
-    os << indent << "BinaryFlatness: " << m_BinaryFlatness << std::endl;
-    os << indent << "Perimeter: " << m_Perimeter << std::endl;
-    os << indent << "Roundness: " << m_Roundness << std::endl;
-    os << indent << "EquivalentRadius: " << m_EquivalentRadius << std::endl;
-    os << indent << "EquivalentPerimeter: " << m_EquivalentPerimeter << std::endl;
-    os << indent << "EquivalentEllipsoidSize: " << m_EquivalentEllipsoidSize << std::endl;
   }
 
 private:
   ShapeLabelObject(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented
 
-  RegionType    m_Region;
-  unsigned long m_Size;
+  RegionType    m_BoundingBox;
+  unsigned long m_NumberOfPixels;
   double        m_PhysicalSize;
   CentroidType  m_Centroid;
   double        m_RegionElongation;
   double        m_SizeRegionRatio;
-  unsigned long m_SizeOnBorder;
-  double        m_PhysicalSizeOnBorder;
+  unsigned long m_NumberOfPixelsOnBorder;
+  double        m_PerimeterOnBorder;
   double        m_FeretDiameter;
-  VectorType    m_BinaryPrincipalMoments;
-  MatrixType    m_BinaryPrincipalAxes;
-  double        m_BinaryElongation;
+  VectorType    m_PrincipalMoments;
+  MatrixType    m_PrincipalAxes;
+  double        m_Elongation;
   double        m_Perimeter;
   double        m_Roundness;
-  double        m_EquivalentRadius;
-  double        m_EquivalentPerimeter;
-  VectorType    m_EquivalentEllipsoidSize;
-  double        m_BinaryFlatness;
+  double        m_EquivalentSphericalRadius;
+  double        m_EquivalentSphericalPerimeter;
+  VectorType    m_EquivalentEllipsoidDiameter;
+  double        m_Flatness;
+  double        m_PerimeterOnBorderRatio;
 };
 } // end namespace itk
 

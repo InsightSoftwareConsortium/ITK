@@ -40,8 +40,8 @@ void RegisterTests()
   REGISTER_TEST(itkLabelMapToBinaryImageFilterTest);
   REGISTER_TEST(itkLabelShapeKeepNObjectsImageFilterTest1);
   REGISTER_TEST(itkLabelShapeOpeningImageFilterTest1);
-  REGISTER_TEST(itkMergeLabelMapFilterTest1);  
-  REGISTER_TEST(itkPadLabelMapFilterTest1);  
+  REGISTER_TEST(itkMergeLabelMapFilterTest1);
+  REGISTER_TEST(itkPadLabelMapFilterTest1);
   REGISTER_TEST(itkRegionFromReferenceLabelMapFilterTest1);
   REGISTER_TEST(itkRelabelLabelMapFilterTest1);
   REGISTER_TEST(itkShapeKeepNObjectsLabelMapFilterTest1);
@@ -53,4 +53,27 @@ void RegisterTests()
   REGISTER_TEST(itkShiftScaleLabelMapFilterTest1);
   REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest3);
   REGISTER_TEST(itkDiscreteGaussianDerivativeImageFilterTest);
-}
+  REGISTER_TEST(itkAttributeLabelObjectAccessorsTest1);
+  REGISTER_TEST(itkAttributeOpeningLabelMapFilterTest1);
+  REGISTER_TEST(itkAttributeKeepNObjectsLabelMapFilterTest1);
+  REGISTER_TEST(itkAttributeRelabelLabelMapFilterTest1);
+  REGISTER_TEST(itkLabelSelectionLabelMapFilterTest);
+  REGISTER_TEST(itkLabelMapMaskImageFilterTest);
+  REGISTER_TEST(itkObjectByObjectLabelMapFilterTest);
+  REGISTER_TEST(itkAttributeUniqueLabelMapFilterTest1);
+  REGISTER_TEST(itkLabelUniqueLabelMapFilterTest1);
+  REGISTER_TEST(itkLabelMapToAttributeImageFilterTest1);
+  REGISTER_TEST(itkLabelMapToRGBImageFilterTest1);
+  REGISTER_TEST(itkLabelMapOverlayImageFilterTest1);
+  REGISTER_TEST(itkLabelMapContourOverlayImageFilterTest1);
+  REGISTER_TEST(itkBinaryFillholeImageFilterTest1);
+  REGISTER_TEST(itkBinaryGrindPeakImageFilterTest1);
+  REGISTER_TEST(itkShapePositionLabelMapFilterTest1);
+  REGISTER_TEST(itkStatisticsPositionLabelMapFilterTest1);
+  REGISTER_TEST(itkAttributePositionLabelMapFilterTest1);
+  REGISTER_TEST(itkBinaryReconstructionLabelMapFilterTest);
+  REGISTER_TEST(itkBinaryReconstructionByDilationImageFilterTest);
+  REGISTER_TEST(itkBinaryReconstructionByErosionImageFilterTest);
+  REGISTER_TEST(itkBinaryClosingByReconstructionImageFilterTest);
+  REGISTER_TEST(itkBinaryOpeningByReconstructionImageFilterTest);
+  }

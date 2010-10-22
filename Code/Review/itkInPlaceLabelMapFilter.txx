@@ -123,29 +123,6 @@ InPlaceLabelMapFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
-void
-InPlaceLabelMapFilter< TInputImage >
-::ReleaseInputs()
-{
-  // if told to run in place and the types support it,
-  if ( this->m_InPlace && ( typeid( TInputImage ) == typeid( TOutputImage ) ) )
-    {
-    // Release any input where the ReleaseData flag has been set
-    ProcessObject::ReleaseInputs();
-
-    // Release input 0 by default since we overwrote it
-    TInputImage *ptr = const_cast< TInputImage * >( this->GetInput() );
-    if ( ptr )
-      {
-      ptr->ReleaseData();
-      }
-    }
-  else
-    {
-    Superclass::ReleaseInputs();
-    }
-}
 } // end namespace itk
 
 #endif

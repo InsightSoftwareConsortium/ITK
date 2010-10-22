@@ -29,7 +29,7 @@ LabelShapeOpeningImageFilter< TInputImage >
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
   m_Lambda = NumericTraits< double >::Zero;
   m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::SIZE;
+  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
 template< class TInputImage >
@@ -80,9 +80,9 @@ LabelShapeOpeningImageFilter< TInputImage >
   valuator->SetInput( labelizer->GetOutput() );
   valuator->SetLabelImage( this->GetInput() );
   valuator->SetNumberOfThreads( this->GetNumberOfThreads() );
-  if ( m_Attribute == LabelObjectType::PERIMETER || m_Attribute == LabelObjectType::ROUNDNESS )
+  if ( m_Attribute != LabelObjectType::PERIMETER && m_Attribute != LabelObjectType::ROUNDNESS )
     {
-    valuator->SetComputePerimeter(true);
+    valuator->SetComputePerimeter(false);
     }
   if ( m_Attribute == LabelObjectType::FERET_DIAMETER )
     {

@@ -31,7 +31,7 @@ BinaryShapeOpeningImageFilter< TInputImage >
   m_FullyConnected = false;
   m_ReverseOrdering = false;
   m_Lambda = 0.0;
-  m_Attribute = LabelObjectType::SIZE;
+  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
 template< class TInputImage >
@@ -83,9 +83,9 @@ BinaryShapeOpeningImageFilter< TInputImage >
   typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
   valuator->SetInput( labelizer->GetOutput() );
   valuator->SetNumberOfThreads( this->GetNumberOfThreads() );
-  if ( m_Attribute == LabelObjectType::PERIMETER || m_Attribute == LabelObjectType::ROUNDNESS )
+  if ( m_Attribute != LabelObjectType::PERIMETER && m_Attribute != LabelObjectType::ROUNDNESS )
     {
-    valuator->SetComputePerimeter(true);
+    valuator->SetComputePerimeter(false);
     }
   if ( m_Attribute == LabelObjectType::FERET_DIAMETER )
     {

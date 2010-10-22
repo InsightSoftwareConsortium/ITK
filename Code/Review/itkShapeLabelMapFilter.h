@@ -16,7 +16,6 @@
 =========================================================================*/
 #ifndef __itkShapeLabelMapFilter_h
 #define __itkShapeLabelMapFilter_h
-#include "itkLabelPerimeterEstimationCalculator.h"
 
 #include "itkInPlaceLabelMapFilter.h"
 
@@ -67,6 +66,8 @@ public:
   typedef typename ImageType::PixelType        PixelType;
   typedef typename ImageType::IndexType        IndexType;
   typedef typename ImageType::SizeType         SizeType;
+  typedef typename ImageType::RegionType       RegionType;
+  typedef typename ImageType::OffsetType       OffsetType;
   typedef typename ImageType::LabelObjectType  LabelObjectType;
   typedef typename LabelObjectType::MatrixType MatrixType;
   typedef typename LabelObjectType::VectorType VectorType;
@@ -78,8 +79,6 @@ public:
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
-
-  typedef LabelPerimeterEstimationCalculator< LabelImageType > PerimeterCalculatorType;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -140,23 +139,27 @@ private:
   bool                   m_ComputePerimeter;
   LabelImageConstPointer m_LabelImage;
 
-  typename PerimeterCalculatorType::Pointer m_PerimeterCalculator;
-
   void ComputeFeretDiameter(LabelObjectType *labelObject);
+  void ComputePerimeter(LabelObjectType *labelObject);
 
-  /** utilities */
-  static long Factorial(const long n);
+  // typedef typename std::map<OffsetType, unsigned long, typename OffsetType::LexicographicCompare> MapInterceptType;
+  typedef itk::Offset<2> Offset2Type;
+  typedef itk::Offset<3> Offset3Type;
+  typedef itk::Vector<double, 2> Spacing2Type;
+  typedef itk::Vector<double, 3> Spacing3Type;
+  typedef std::map<Offset2Type, unsigned long, Offset2Type::LexicographicCompare> MapIntercept2Type;
+  typedef std::map<Offset3Type, unsigned long, Offset3Type::LexicographicCompare> MapIntercept3Type;
 
-  static long DoubleFactorial(const long n);
+  // it seems impossible to specialize a method without specializing the whole class, but we
+  // can use simple overloading
+  template<class TMapIntercept, class TSpacing> double PerimeterFromInterceptCount( TMapIntercept & intercepts, const TSpacing & spacing );
+#if ! defined(ITK_DO_NOT_USE_PERIMETER_SPECIALIZATION)
+  double PerimeterFromInterceptCount( MapIntercept2Type & intercepts, const Spacing2Type spacing );
+  double PerimeterFromInterceptCount( MapIntercept3Type & intercepts, const Spacing3Type spacing );
+#endif
+};
 
-  static double GammaN2p1(const long n);
 
-  static double HyperSphereVolume(const double radius);
-
-  static double HyperSpherePerimeter(const double radius);
-
-  static double HyperSphereRadiusFromVolume(const double volume);
-}; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

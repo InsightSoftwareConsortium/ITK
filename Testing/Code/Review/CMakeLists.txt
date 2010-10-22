@@ -202,7 +202,32 @@ set(ReviewTest3_SRCS
 
   itkGaborImageSourceTest.cxx
 
-  itkDiscreteGaussianDerivativeImageFilterTest
+  itkDiscreteGaussianDerivativeImageFilterTest.cxx
+
+  itkAttributeLabelObjectAccessorsTest1.cxx
+  itkAttributeOpeningLabelMapFilterTest1.cxx
+  itkAttributeKeepNObjectsLabelMapFilterTest1.cxx
+  itkAttributeRelabelLabelMapFilterTest1.cxx
+  itkLabelSelectionLabelMapFilterTest.cxx
+  itkLabelMapMaskImageFilterTest.cxx
+  itkObjectByObjectLabelMapFilterTest.cxx
+  itkAttributeUniqueLabelMapFilterTest1.cxx
+  itkLabelUniqueLabelMapFilterTest1.cxx
+  itkLabelMapToAttributeImageFilterTest1.cxx
+  itkLabelMapToRGBImageFilterTest1.cxx
+  itkLabelMapOverlayImageFilterTest1.cxx
+  itkLabelMapContourOverlayImageFilterTest1.cxx
+  itkShapePositionLabelMapFilterTest1.cxx
+  itkStatisticsPositionLabelMapFilterTest1.cxx
+  itkAttributePositionLabelMapFilterTest1.cxx
+  itkBinaryReconstructionLabelMapFilterTest.cxx
+
+  itkBinaryFillholeImageFilterTest1.cxx
+  itkBinaryGrindPeakImageFilterTest1.cxx
+  itkBinaryReconstructionByDilationImageFilterTest.cxx
+  itkBinaryReconstructionByErosionImageFilterTest.cxx
+  itkBinaryClosingByReconstructionImageFilterTest.cxx
+  itkBinaryOpeningByReconstructionImageFilterTest.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -217,6 +242,7 @@ set(ReviewTest4_SRCS
   itkLabelStatisticsOpeningImageFilterTest1.cxx
   itkStatisticsRelabelImageFilterTest1.cxx
   itkStatisticsUniqueLabelMapFilterTest1.cxx
+  itkAttributeLabelObjectAccessorsTest1.cxx
 )
 
 set(ReviewTest5_SRCS
@@ -1990,6 +2016,372 @@ add_test(itkGaborImageSourceTest1
   ${TEMP}/GaborImageSourceTest1.mha
   itkGaborImageSourceTest ${TEMP}/GaborImageSourceTest1.mha 1)
 
+add_test(itkAttributeLabelObjectAccessorsTest1
+  ${REVIEW_TESTS3}
+  itkAttributeLabelObjectAccessorsTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${INPUTDATA}/cthead1.png
+  )
+
+add_test(itkAttributeOpeningLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeOpeningLabelMapFilterTest0.png
+            ${TEMP}/itkAttributeOpeningLabelMapFilterTest0.png
+  itkAttributeOpeningLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeOpeningLabelMapFilterTest0.png
+  2
+  0
+  )
+
+add_test(itkAttributeOpeningLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeOpeningLabelMapFilterTest1.png
+            ${TEMP}/itkAttributeOpeningLabelMapFilterTest1.png
+  itkAttributeOpeningLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeOpeningLabelMapFilterTest1.png
+  2
+  1
+  )
+
+add_test(itkAttributeKeepNObjectsLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeKeepNObjectsLabelMapFilterTest0.png
+            ${TEMP}/itkAttributeKeepNObjectsLabelMapFilterTest0.png
+  itkAttributeKeepNObjectsLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeKeepNObjectsLabelMapFilterTest0.png
+  2
+  0
+  )
+
+add_test(itkAttributeKeepNObjectsLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
+            ${TEMP}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
+  itkAttributeKeepNObjectsLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
+  2
+  1
+  )
+
+add_test(itkAttributeRelabelLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeRelabelLabelMapFilterTest0.png
+            ${TEMP}/itkAttributeRelabelLabelMapFilterTest0.png
+  itkAttributeRelabelLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeRelabelLabelMapFilterTest0.png
+  0
+  )
+
+add_test(itkAttributeRelabelLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeRelabelLabelMapFilterTest1.png
+            ${TEMP}/itkAttributeRelabelLabelMapFilterTest1.png
+  itkAttributeRelabelLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeRelabelLabelMapFilterTest1.png
+  1
+  )
+
+add_test(itkLabelSelectionLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelSelectionLabelMapFilterTest0.png
+            ${TEMP}/itkLabelSelectionLabelMapFilterTest0.png
+  itkLabelSelectionLabelMapFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkLabelSelectionLabelMapFilterTest0.png
+  0
+  94
+  )
+
+add_test(itkLabelSelectionLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelSelectionLabelMapFilterTest1.png
+            ${TEMP}/itkLabelSelectionLabelMapFilterTest1.png
+  itkLabelSelectionLabelMapFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkLabelSelectionLabelMapFilterTest1.png
+  1
+  94
+  )
+
+FOREACH(label 0 100)
+  FOREACH(bg 0 1)
+    FOREACH(neg 0 1)
+      ADD_TEST(itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}
+        ${REVIEW_TESTS3}
+        --compare ${TEMP}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
+                  ${BASELINE}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
+        itkLabelMapMaskImageFilterTest
+        ${INPUTDATA}/2th_cthead1.png ${INPUTDATA}/cthead1.png
+        ${TEMP}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
+        ${label} ${bg} ${neg} 0 0
+      )
+
+      FOREACH(border 0 10)
+        ADD_TEST(itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}
+          ${REVIEW_TESTS3}
+          --compare ${TEMP}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
+                    ${BASELINE}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
+          itkLabelMapMaskImageFilterTest
+          ${INPUTDATA}/2th_cthead1.png ${INPUTDATA}/cthead1.png
+          ${TEMP}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
+          ${label} ${bg} ${neg} 1 ${border}
+        )
+      ENDFOREACH(border)
+    ENDFOREACH(neg)
+  ENDFOREACH(bg)
+ENDFOREACH(label)
+
+add_test(itkObjectByObjectLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkObjectByObjectLabelMapFilterTest0.png
+            ${TEMP}/itkObjectByObjectLabelMapFilterTest0.png
+  itkObjectByObjectLabelMapFilterTest
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkObjectByObjectLabelMapFilterTest0.png
+  0
+  )
+
+add_test(itkObjectByObjectLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkObjectByObjectLabelMapFilterTest1.png
+            ${TEMP}/itkObjectByObjectLabelMapFilterTest1.png
+  itkObjectByObjectLabelMapFilterTest
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkObjectByObjectLabelMapFilterTest1.png
+  1
+  )
+
+add_test(itkAttributeUniqueLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeUniqueLabelMapFilterTest0.png
+            ${TEMP}/itkAttributeUniqueLabelMapFilterTest0.png
+  itkAttributeUniqueLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkAttributeUniqueLabelMapFilterTest0.png
+  0
+  )
+
+add_test(itkAttributeUniqueLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeUniqueLabelMapFilterTest1.png
+            ${TEMP}/itkAttributeUniqueLabelMapFilterTest1.png
+  itkAttributeUniqueLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkAttributeUniqueLabelMapFilterTest1.png
+  1
+  )
+
+add_test(itkLabelUniqueLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelUniqueLabelMapFilterTest0.png
+            ${TEMP}/itkLabelUniqueLabelMapFilterTest0.png
+  itkLabelUniqueLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkLabelUniqueLabelMapFilterTest0.png
+  0
+  )
+
+add_test(itkLabelUniqueLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelUniqueLabelMapFilterTest1.png
+            ${TEMP}/itkLabelUniqueLabelMapFilterTest1.png
+  itkLabelUniqueLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkLabelUniqueLabelMapFilterTest1.png
+  1
+  )
+
+add_test(itkLabelMapToAttributeImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapToAttributeImageFilterTest1.png
+            ${TEMP}/itkLabelMapToAttributeImageFilterTest1.png
+  itkLabelMapToAttributeImageFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkLabelMapToAttributeImageFilterTest1.png
+  )
+
+add_test(itkLabelMapToRGBImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapToRGBImageFilterTest1.png
+            ${TEMP}/itkLabelMapToRGBImageFilterTest1.png
+  itkLabelMapToRGBImageFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkLabelMapToRGBImageFilterTest1.png
+  )
+
+add_test(itkLabelMapOverlayImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapOverlayImageFilterTest1.png
+            ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
+  itkLabelMapOverlayImageFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
+  0.3
+  )
+
+add_test(itkLabelMapContourOverlayImageFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest0.png
+            ${TEMP}/itkLabelMapContourOverlayImageFilterTest0.png
+  itkLabelMapContourOverlayImageFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/SpotsInverted.png
+  ${TEMP}/itkLabelMapContourOverlayImageFilterTest0.png
+  0.6  # opacity
+  0    # type (plain)
+  0    # thickness (irrelevant with that type)
+  10   # dilation radius
+  1    # priority
+  )
+
+add_test(itkLabelMapContourOverlayImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest1.png
+            ${TEMP}/itkLabelMapContourOverlayImageFilterTest1.png
+  itkLabelMapContourOverlayImageFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/SpotsInverted.png
+  ${TEMP}/itkLabelMapContourOverlayImageFilterTest1.png
+  0.7  # opacity
+  1    # type (contour)
+  2    # thickness
+  15   # dilation radius
+  0    # priority
+  )
+
+add_test(itkLabelMapContourOverlayImageFilterTest2
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest2.png
+            ${TEMP}/itkLabelMapContourOverlayImageFilterTest2.png
+  itkLabelMapContourOverlayImageFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/SpotsInverted.png
+  ${TEMP}/itkLabelMapContourOverlayImageFilterTest2.png
+  0.8  # opacity
+  2    # type (slice contour)
+  3    # thickness (irrelevant with that type)
+  12   # dilation radius
+  1    # priority
+  )
+
+add_test(itkBinaryFillholeImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryFillholeImageFilterTest1.png
+            ${TEMP}/itkBinaryFillholeImageFilterTest1.png
+  itkBinaryFillholeImageFilterTest1
+  ${INPUTDATA}/Spots.png
+  ${TEMP}/itkBinaryFillholeImageFilterTest1.png
+  1      # connectivity
+  255    # fg
+  )
+
+add_test(itkBinaryGrindPeakImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryGrindPeakImageFilterTest1.png
+            ${TEMP}/itkBinaryGrindPeakImageFilterTest1.png
+  itkBinaryGrindPeakImageFilterTest1
+  ${INPUTDATA}/SpotsInverted.png
+  ${TEMP}/itkBinaryGrindPeakImageFilterTest1.png
+  1      # connectivity
+  255    # fg
+  )
+
+add_test(itkShapePositionLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkShapePositionLabelMapFilterTest1.png
+            ${TEMP}/itkShapePositionLabelMapFilterTest1.png
+  itkShapePositionLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkShapePositionLabelMapFilterTest1.png
+  Centroid
+  )
+
+add_test(itkStatisticsPositionLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkShapePositionLabelMapFilterTest1.png
+            ${TEMP}/itkStatisticsPositionLabelMapFilterTest1.png
+  itkStatisticsPositionLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkStatisticsPositionLabelMapFilterTest1.png
+  CenterOfGravity
+  )
+
+add_test(itkAttributePositionLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributePositionLabelMapFilterTest1.png
+            ${TEMP}/itkAttributePositionLabelMapFilterTest1.png
+  itkAttributePositionLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkAttributePositionLabelMapFilterTest1.png
+  )
+
+add_test(itkBinaryReconstructionLabelMapFilterTest
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryReconstructionLabelMapFilterTest.png
+            ${TEMP}/itkBinaryReconstructionLabelMapFilterTest.png
+  itkBinaryReconstructionLabelMapFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${INPUTDATA}/cthead1-markers.png
+  ${TEMP}/itkBinaryReconstructionLabelMapFilterTest.png
+  94
+  )
+
+add_test(itkBinaryReconstructionByDilationImageFilterTest
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryReconstructionByDilationImageFilterTest.png
+            ${TEMP}/itkBinaryReconstructionByDilationImageFilterTest.png
+  itkBinaryReconstructionByDilationImageFilterTest
+  ${INPUTDATA}/SpotsInverted.png
+  ${INPUTDATA}/Spots-markers.png
+  ${TEMP}/itkBinaryReconstructionByDilationImageFilterTest.png
+  255
+  100
+  )
+
+add_test(itkBinaryReconstructionByErosionImageFilterTest
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryReconstructionByErosionImageFilterTest.png
+            ${TEMP}/itkBinaryReconstructionByErosionImageFilterTest.png
+  itkBinaryReconstructionByErosionImageFilterTest
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/Spots-markers.png
+  ${TEMP}/itkBinaryReconstructionByErosionImageFilterTest.png
+  0
+  255
+  )
+
+add_test(itkBinaryClosingByReconstructionImageFilterTest
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryClosingByReconstructionImageFilterTest.png
+            ${TEMP}/itkBinaryClosingByReconstructionImageFilterTest.png
+  itkBinaryClosingByReconstructionImageFilterTest
+  ${INPUTDATA}/cthead1-bin.png
+  ${TEMP}/itkBinaryClosingByReconstructionImageFilterTest.png
+  0   # connectivity
+  255 # bg
+  10  # kernel size
+  )
+
+add_test(itkBinaryOpeningByReconstructionImageFilterTest
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryOpeningByReconstructionImageFilterTest.png
+            ${TEMP}/itkBinaryOpeningByReconstructionImageFilterTest.png
+  itkBinaryOpeningByReconstructionImageFilterTest
+  ${INPUTDATA}/cthead1-bin.png
+  ${TEMP}/itkBinaryOpeningByReconstructionImageFilterTest.png
+  0   # connectivity
+  255 # bg
+  10  # kernel size
+  )
+
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
   ${REVIEW_TESTS4}
   --compare ${BASELINE}/Spots-binaryimage-to-statisticslabel.mha
@@ -2181,6 +2573,7 @@ add_executable(itkReviewTests3 itkReviewTests3.cxx ${ReviewTest3_SRCS})
 
 set(ReviewTest3_LIBS
   ITKIOReview
+  ITKReview
   ITKIO
   ITKStatistics
   )
@@ -2191,6 +2584,7 @@ add_executable(itkReviewTests4 itkReviewTests4.cxx ${ReviewTest4_SRCS})
 set(ReviewTest4_LIBS
   ITKIO
   ITKStatistics
+  ITKReview
   )
 target_link_libraries(itkReviewTests4 ${ReviewTest4_LIBS})
 

@@ -86,9 +86,9 @@ BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
   valuator->SetFeatureImage( this->GetFeatureImage() );
   valuator->SetNumberOfThreads( this->GetNumberOfThreads() );
   valuator->SetComputeHistogram(false);
-  if ( m_Attribute == LabelObjectType::PERIMETER || m_Attribute == LabelObjectType::ROUNDNESS )
+  if ( m_Attribute != LabelObjectType::PERIMETER && m_Attribute != LabelObjectType::ROUNDNESS )
     {
-    valuator->SetComputePerimeter(true);
+    valuator->SetComputePerimeter(false);
     }
   if ( m_Attribute == LabelObjectType::FERET_DIAMETER )
     {

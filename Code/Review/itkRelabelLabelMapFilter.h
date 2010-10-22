@@ -17,7 +17,8 @@
 #ifndef __itkRelabelLabelMapFilter_h
 #define __itkRelabelLabelMapFilter_h
 
-#include "itkInPlaceLabelMapFilter.h"
+#include "itkAttributeRelabelLabelMapFilter.h"
+#include "itkLabelObjectAccessors.h"
 
 namespace itk
 {
@@ -41,12 +42,14 @@ namespace itk
  */
 template< class TImage >
 class ITK_EXPORT RelabelLabelMapFilter:
-  public InPlaceLabelMapFilter< TImage >
+  public AttributeRelabelLabelMapFilter< TImage, typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType> >
 {
 public:
   /** Standard class typedefs. */
   typedef RelabelLabelMapFilter           Self;
-  typedef InPlaceLabelMapFilter< TImage > Superclass;
+  typedef AttributeRelabelLabelMapFilter< TImage,
+     typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType> >
+                                          Superclass;
   typedef SmartPointer< Self >            Pointer;
   typedef SmartPointer< const Self >      ConstPointer;
 
@@ -66,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RelabelLabelMapFilter, InPlaceLabelMapFilter);
+  itkTypeMacro(RelabelLabelMapFilter, AttributeRelabelLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -79,12 +82,11 @@ public:
 /** End concept checking */
 #endif
 protected:
-  RelabelLabelMapFilter() {}
+  RelabelLabelMapFilter()
+    {
+    this->SetReverseOrdering( true );
+    }
   ~RelabelLabelMapFilter() {}
-
-  void PrintSelf(std::ostream & os, Indent indent) const;
-
-  void GenerateData();
 
 private:
   RelabelLabelMapFilter(const Self &); //purposely not implemented
@@ -92,8 +94,5 @@ private:
 };                                     // end of class
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRelabelLabelMapFilter.txx"
-#endif
 
 #endif

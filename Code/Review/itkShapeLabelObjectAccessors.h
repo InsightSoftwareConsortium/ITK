@@ -23,7 +23,7 @@ namespace itk
 namespace Functor
 {
 template< class TLabelObject >
-class ITK_EXPORT SizeLabelObjectAccessor
+class ITK_EXPORT NumberOfPixelsLabelObjectAccessor
 {
 public:
   typedef TLabelObject  LabelObjectType;
@@ -31,12 +31,12 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetSize();
+    return labelObject->GetNumberOfPixels();
   }
 };
 
 template< class TLabelObject >
-class ITK_EXPORT RegionLabelObjectAccessor
+class ITK_EXPORT BoundingBoxLabelObjectAccessor
 {
 public:
   typedef TLabelObject                         LabelObjectType;
@@ -44,7 +44,7 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetRegion();
+    return labelObject->GetBoundingBox();
   }
 };
 
@@ -88,7 +88,7 @@ public:
 };
 
 template< class TLabelObject >
-class ITK_EXPORT SizeOnBorderLabelObjectAccessor
+class ITK_EXPORT NumberOfPixelsOnBorderLabelObjectAccessor
 {
 public:
   typedef TLabelObject  LabelObjectType;
@@ -96,12 +96,12 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetSizeOnBorder();
+    return labelObject->GetNumberOfPixelsOnBorder();
   }
 };
 
 template< class TLabelObject >
-class ITK_EXPORT PhysicalSizeOnBorderLabelObjectAccessor
+class ITK_EXPORT PerimeterOnBorderLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;
@@ -109,7 +109,7 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetPhysicalSizeOnBorder();
+    return labelObject->GetPerimeterOnBorder();
   }
 };
 
@@ -140,7 +140,7 @@ public:
 };
 
 template< class TLabelObject >
-class ITK_EXPORT BinaryPrincipalMomentsLabelObjectAccessor
+class ITK_EXPORT PrincipalMomentsLabelObjectAccessor
 {
 public:
   typedef TLabelObject                         LabelObjectType;
@@ -148,12 +148,12 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetBinaryPrincipalMoments();
+    return labelObject->GetPrincipalMoments();
   }
 };
 
 template< class TLabelObject >
-class ITK_EXPORT BinaryPrincipalAxesLabelObjectAccessor
+class ITK_EXPORT PrincipalAxesLabelObjectAccessor
 {
 public:
   typedef TLabelObject                         LabelObjectType;
@@ -161,12 +161,12 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetBinaryPrincipalAxes();
+    return labelObject->GetPrincipalAxes();
   }
 };
 
 template< class TLabelObject >
-class ITK_EXPORT BinaryElongationLabelObjectAccessor
+class ITK_EXPORT ElongationLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;
@@ -174,7 +174,7 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetBinaryElongation();
+    return labelObject->GetElongation();
   }
 };
 
@@ -205,7 +205,7 @@ public:
 };
 
 template< class TLabelObject >
-class ITK_EXPORT EquivalentRadiusLabelObjectAccessor
+class ITK_EXPORT EquivalentSphericalRadiusLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;
@@ -213,12 +213,12 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetEquivalentRadius();
+    return labelObject->GetEquivalentSphericalRadius();
   }
 };
 
 template< class TLabelObject >
-class ITK_EXPORT EquivalentPerimeterLabelObjectAccessor
+class ITK_EXPORT EquivalentSphericalPerimeterLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;
@@ -226,12 +226,12 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetEquivalentPerimeter();
+    return labelObject->GetEquivalentSphericalPerimeter();
   }
 };
 
 template< class TLabelObject >
-class ITK_EXPORT EquivalentEllipsoidSizeLabelObjectAccessor
+class ITK_EXPORT EquivalentEllipsoidDiameterLabelObjectAccessor
 {
 public:
   typedef TLabelObject                         LabelObjectType;
@@ -239,12 +239,12 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetEquivalentEllipsoidSize();
+    return labelObject->GetEquivalentEllipsoidDiameter();
   }
 };
 
 template< class TLabelObject >
-class ITK_EXPORT BinaryFlatnessLabelObjectAccessor
+class ITK_EXPORT FlatnessLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;
@@ -252,9 +252,23 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetBinaryFlatness();
+    return labelObject->GetFlatness();
   }
 };
+
+template< class TLabelObject >
+class ITK_EXPORT PerimeterOnBorderRatioLabelObjectAccessor
+{
+public:
+  typedef TLabelObject LabelObjectType;
+  typedef double       AttributeValueType;
+
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
+    return labelObject->GetPerimeterOnBorderRatio();
+  }
+};
+
 }
 } // end namespace itk
 

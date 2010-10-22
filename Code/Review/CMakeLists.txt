@@ -73,17 +73,20 @@ endif(ITK_USE_TRANSFORM_IO_FACTORIES)
 # directory, these lines must be commented out again if the library
 # becomes empty.
 #
-# add_library(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
-# target_link_libraries(ITKReview ITKCommon itkvnl)
-# if(ITK_LIBRARY_PROPERTIES)
-#   set_target_properties(ITKReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-# endif(ITK_LIBRARY_PROPERTIES)
-# if(NOT ITK_INSTALL_NO_LIBRARIES)
-#   install(TARGETS ITKReview
-#     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
-#     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
-#     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-# endif(NOT ITK_INSTALL_NO_LIBRARIES)
+set(ITKReview_SRCS
+  itkGeometryUtilities.cxx
+  )
+add_library(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
+target_link_libraries(ITKReview ITKCommon itkvnl)
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(ITKReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
+if(NOT ITK_INSTALL_NO_LIBRARIES)
+  install(TARGETS ITKReview
+    RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
+    LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
+    ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
+endif(NOT ITK_INSTALL_NO_LIBRARIES)
 #
 #
 #   End of optional ITKReview library setup
