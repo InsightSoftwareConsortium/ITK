@@ -264,4 +264,3 @@ for name in attrNameList:
             exploreMethods(attr(), attr)
         except:
             pass
-

@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __wrap_SwigExtras_h
+#define __wrap_SwigExtras_h
+
 #ifdef CABLE_CONFIGURATION
 
 namespace _cable_
@@ -22,8 +25,9 @@ namespace _cable_
   namespace renames
   {
     typedef std::vector<std::string>::vector StringVector;
-    typedef std::list<std::string>::list StringList;
+    typedef std::list<std::string>::list     StringList;
   }
 }
 
+#endif
 #endif

@@ -60,4 +60,3 @@ while ret != 0:
     print repr(faultyArgs)
     segfaultFile.write(faultyArgs+"\n")
     segfaultFile.flush()
-
