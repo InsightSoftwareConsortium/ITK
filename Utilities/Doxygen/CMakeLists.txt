@@ -14,7 +14,7 @@ if (BUILD_DOXYGEN)
   configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
                  ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
 
-  add_custom_target(Documentation
+  add_custom_target(Documentation ALL
     COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
     MAIN_DEPENDENCY ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
     DEPENDS         ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl
