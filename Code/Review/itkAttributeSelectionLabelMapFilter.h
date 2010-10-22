@@ -60,6 +60,7 @@ public:
   typedef typename ImageType::ConstPointer    ImageConstPointer;
   typedef typename ImageType::PixelType       PixelType;
   typedef typename ImageType::IndexType       IndexType;
+  typedef typename ImageType::LabelObjectType LabelObjectType;
 
   typedef TAttributeAccessor                                 AttributeAccessorType;
   typedef typename AttributeAccessorType::AttributeValueType AttributeValueType;

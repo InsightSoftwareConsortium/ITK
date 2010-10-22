@@ -47,7 +47,7 @@ class ITK_EXPORT AttributeUniqueLabelMapFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef AttributeUniqueLabelMapFilter    Self;
+  typedef AttributeUniqueLabelMapFilter Self;
   typedef InPlaceLabelMapFilter<TImage> Superclass;
   typedef SmartPointer<Self>            Pointer;
   typedef SmartPointer<const Self>      ConstPointer;
@@ -114,9 +114,9 @@ private:
     {
     typedef typename LabelObjectType::LineType LineType;
 
-    LineOfLabelObject( const LineType line, LabelObjectType * lo )
+    LineOfLabelObject( const LineType l, LabelObjectType * lo )
       {
-      this->line = line;
+      this->line = l;
       this->labelObject = lo;
       }
     LineType          line;

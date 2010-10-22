@@ -35,7 +35,6 @@ void
 AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
-  typedef typename TAttributeAccessor::AttributeValueType AttributeValueType;
   TAttributeAccessor accessor;
   AttributeValueType position = accessor( labelObject );
   // change it to an index position if it is physical
