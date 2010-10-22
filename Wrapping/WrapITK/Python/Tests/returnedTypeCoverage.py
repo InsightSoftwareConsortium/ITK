@@ -46,9 +46,9 @@ ctypes = [
 
 excludedMethodsList = [
   'Delete',
-  'Unregister', 
+  'Unregister',
   'SetReferenceCount',
-  
+
   # the method broken for all filters
   'PushBackInput',
   'PushFrontInput',
@@ -57,17 +57,17 @@ excludedMethodsList = [
   'UpdateOutputData',
   'PropagateRequestedRegion',
   'EnlargeOutputRequestedRegion',
-  
+
   # functor are not wrapped so exclude GetFunctor
   'GetFunctor',
-  
+
   #'UnCreateAllInstanceRegister',
   #'Update',
   #'UpdateLargestPossibleRegion',
   #'GenerateInputRequestedRegion',
   #'GenerateOutputInformation',
   #'GenerateData',
-  #'GetImageIO', 
+  #'GetImageIO',
   #'UpdateOutputData',
   #'UpdateOutputInformation',
   #'GraftOutput',
@@ -166,25 +166,25 @@ def addUnwrappedType(s):
 
 def exploreTpl(tpl):
     for cl in tpl.itervalues():
-	exploreMethods(cl, cl)
-	# try to instanciate the class
-	try :
-	    obj = cl.New()
-	    exploreMethods(obj, cl)
-	except:
-	    pass
-	try :
-	    exploreMethods(cl(), cl)
-	except:
-	    pass
-    
+        exploreMethods(cl, cl)
+        # try to instanciate the class
+        try :
+            obj = cl.New()
+            exploreMethods(obj, cl)
+        except:
+            pass
+        try :
+            exploreMethods(cl(), cl)
+        except:
+            pass
+
 def exploreMethods(obj, cl):
     attrNameList = [i for i in dir(obj) if isinstance(i, str) and i[0].isupper() and i not in excludedMethodsList]
     attrNameList.sort()
-	    
+
     for attrName in attrNameList:
-	log(" + " + attrName, 2)
-	try :
+        log(" + " + attrName, 2)
+        try :
             parameters = repr((cl.__name__, attrName))
             if parameters not in exclude :
               log(parameters, 4)
@@ -192,32 +192,32 @@ def exploreMethods(obj, cl):
               if isUnwrappedTypeString(s):
                   addUnwrappedType(s)
                   log("   - " + cleanType(s), 5)
-	except :
-	    # try with some parameters
-	    if attrName not in excludedMethodsWithParamList :
-		for param in [0, '', False, None] :
+        except :
+            # try with some parameters
+            if attrName not in excludedMethodsWithParamList :
+                for param in [0, '', False, None] :
                   parameters = repr((cl.__name__, attrName, param))
                   if parameters not in exclude :
-		    log('  * ' + repr(param), 3)
+                    log('  * ' + repr(param), 3)
                     log(parameters, 4)
-		    try :
-			exec "s = obj.%s(param)" % attrName
-			if isUnwrappedTypeString(s):
+                    try :
+                        exec "s = obj.%s(param)" % attrName
+                        if isUnwrappedTypeString(s):
                           addUnwrappedType(s)
                           log("   - " + cleanType(s), 5)
-		    except :
-			pass
-	
+                    except :
+                        pass
+
 def isUnwrappedTypeString(s):
     if not isinstance(s, str):
-	return False
+        return False
     if not s[0] == "_":
-	return False
+        return False
     for t in ctypes :
-	if re.match('^_[0-9a-z]+_p_%s$' % t, s) :
-	    return False
+        if re.match('^_[0-9a-z]+_p_%s$' % t, s) :
+            return False
     return True
-    
+
 
 
 
@@ -232,7 +232,7 @@ if options.logFile == "-":
   logFile = sys.stdout
 else:
   logFile = file(options.logFile, "w")
-  
+
 
 exclude = set()
 if options.exclude :
@@ -253,15 +253,15 @@ for name in attrNameList:
     # attr = itk.__dict__[name]
     log(name, 1)
     if isinstance(attr, itkTemplate) :
-	exploreTpl(attr)
+        exploreTpl(attr)
     else :
-	exploreMethods(attr, attr)
+        exploreMethods(attr, attr)
         try :
-	    exploreMethods(attr.New(), attr)
-	except:
-	    pass
-	try :
-	    exploreMethods(attr(), attr)
-	except:
-	    pass
-								
+            exploreMethods(attr.New(), attr)
+        except:
+            pass
+        try :
+            exploreMethods(attr(), attr)
+        except:
+            pass
+

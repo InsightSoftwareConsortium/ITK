@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkTclStringStream_h
-#define _itkTclStringStream_h
+#ifndef __itkStringStream_h
+#define __itkStringStream_h
 
 // Need to include at least one ITK header.
 #include "itkMacro.h"
@@ -25,13 +25,13 @@
 namespace itk
 {
 
-/** \Class StringStream
+/** \class StringStream
  *  \brief Provides access to C++ ostreams.
  */
 class StringStream: public std::ostringstream
 {
 public:
-  typedef StringStream Self;
+  typedef StringStream       Self;
   typedef std::ostringstream Superclass;
 
   StringStream();

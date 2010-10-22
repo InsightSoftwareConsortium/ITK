@@ -53,11 +53,11 @@ while ret != 0:
       if faultyArgs == None and l.startswith('('):
         faultyArgs = l
       if faultyArgs != None :
-	# find the last class
-	if len(l) != 0 and l[0].isupper():
-	  lastClass = l
-	  break
+        # find the last class
+        if len(l) != 0 and l[0].isupper():
+          lastClass = l
+          break
     print repr(faultyArgs)
     segfaultFile.write(faultyArgs+"\n")
     segfaultFile.flush()
-    
+

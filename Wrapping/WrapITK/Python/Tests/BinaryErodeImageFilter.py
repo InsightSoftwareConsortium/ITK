@@ -37,6 +37,3 @@ cast = itk.CastImageFilter[IType, OIType].New(filter)
 writer = itk.ImageFileWriter[OIType].New( cast, FileName=argv[2] )
 
 writer.Update()
-
-
-

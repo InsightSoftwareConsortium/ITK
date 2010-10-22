@@ -19,4 +19,3 @@ WRAPPER_LIBRARY_CREATE_LIBRARY()
 enable_testing()
 
 add_subdirectory(Python)
-

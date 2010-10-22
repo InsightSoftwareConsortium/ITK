@@ -48,9 +48,9 @@ namespace eval itk::interact {
       set CommandList [linsert $CommandList end $s]
       eval .itkInteract.display.text tag configure $tag $Normal
       .itkInteract.display.text tag bind $tag <Any-Enter> \
-      	".itkInteract.display.text tag configure $tag $Bold"
+              ".itkInteract.display.text tag configure $tag $Bold"
       .itkInteract.display.text tag bind $tag <Any-Leave> \
-      	".itkInteract.display.text tag configure $tag $Normal"
+              ".itkInteract.display.text tag configure $tag $Normal"
       .itkInteract.display.text tag bind $tag <1> "itk::interact::doitk [list $s] .itkInteract"
       .itkInteract.display.text insert end \n;
       .itkInteract.display.text insert end [uplevel 1 $s]
@@ -67,15 +67,15 @@ namespace eval itk::interact {
     frame .itkInteract.buttons -bg #bbbbbb
     pack  .itkInteract.buttons -side bottom -fill both -expand 0 -pady 2m
     button .itkInteract.buttons.dismiss -text Dismiss \
-	    -command "wm withdraw .itkInteract" \
-	    -bg #bbbbbb -fg #221133 -activebackground #cccccc -activeforeground #221133
+            -command "wm withdraw .itkInteract" \
+            -bg #bbbbbb -fg #221133 -activebackground #cccccc -activeforeground #221133
     pack .itkInteract.buttons.dismiss -side left -expand 1 -fill x
 
     frame .itkInteract.file -bg #bbbbbb
     label .itkInteract.file.label -text "Command:" -width 10 -anchor w \
-	    -bg #bbbbbb -fg #221133
+            -bg #bbbbbb -fg #221133
     entry .itkInteract.file.entry -width 40 \
-	    -bg #dddddd -fg #221133 -highlightthickness 1 -highlightcolor #221133
+            -bg #dddddd -fg #221133 -highlightthickness 1 -highlightcolor #221133
     bind .itkInteract.file.entry <Return> {
         itk::interact::doitk [%W get] .itkInteract; %W delete 0 end
     }
@@ -84,11 +84,11 @@ namespace eval itk::interact {
 
     frame .itkInteract.display -bg #bbbbbb
     text .itkInteract.display.text -yscrollcommand ".itkInteract.display.scroll set" \
-	    -setgrid true -width 60 -height 8 -wrap word -bg #dddddd -fg #331144 \
-	    -state disabled
+            -setgrid true -width 60 -height 8 -wrap word -bg #dddddd -fg #331144 \
+            -state disabled
     scrollbar .itkInteract.display.scroll \
-	    -command ".itkInteract.display.text yview" -bg #bbbbbb \
-	    -troughcolor #bbbbbb -activebackground #cccccc -highlightthickness 0
+            -command ".itkInteract.display.text yview" -bg #bbbbbb \
+            -troughcolor #bbbbbb -activebackground #cccccc -highlightthickness 0
     pack .itkInteract.display.text -side left -expand 1 -fill both
     pack .itkInteract.display.scroll -side left -expand 0 -fill y
 
@@ -102,12 +102,12 @@ namespace eval itk::interact {
       global itk::interact::CommandList
 
       if { $CommandIndex < [expr $Tagcount - 1] } {
-	incr CommandIndex
-	set command_string [lindex $CommandList $CommandIndex]
-	.itkInteract.file.entry delete 0 end
-	.itkInteract.file.entry insert end $command_string
+        incr CommandIndex
+        set command_string [lindex $CommandList $CommandIndex]
+        .itkInteract.file.entry delete 0 end
+        .itkInteract.file.entry insert end $command_string
       } elseif { $CommandIndex == [expr $Tagcount - 1] } {
-	.itkInteract.file.entry delete 0 end
+        .itkInteract.file.entry delete 0 end
       }
     }
 
@@ -116,10 +116,10 @@ namespace eval itk::interact {
       global itk::interact::CommandList
 
       if { $CommandIndex > 0 } {
-	set CommandIndex [expr $CommandIndex - 1]
-	set command_string [lindex $CommandList $CommandIndex]
-	.itkInteract.file.entry delete 0 end
-	.itkInteract.file.entry insert end $command_string
+        set CommandIndex [expr $CommandIndex - 1]
+        set command_string [lindex $CommandList $CommandIndex]
+        .itkInteract.file.entry delete 0 end
+        .itkInteract.file.entry insert end $command_string
       }
     }
 

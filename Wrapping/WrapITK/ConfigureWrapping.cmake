@@ -277,4 +277,3 @@ include("${WRAP_ITK_CMAKE_DIR}/CreateLanguageSupport.cmake")
 ###############################################################################
 include("${WRAP_ITK_CMAKE_DIR}/WrapBasicTypes.cmake")
 include("${WRAP_ITK_CMAKE_DIR}/WrapITKTypes.cmake")
-

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPyBuffer_txx
-#define _itkPyBuffer_txx
+#ifndef __itkPyBuffer_txx
+#define __itkPyBuffer_txx
 
 #include "itkPyBuffer.h"
 #include "itkPixelTraits.h"
@@ -66,8 +66,6 @@ PyBuffer<TImage>
 
   return obj;
 }
-
-
 
 template<class TImage>
 const typename PyBuffer<TImage>::ImagePointer
@@ -199,4 +197,3 @@ PyBuffer<TImage>
 } // namespace itk
 
 #endif
-

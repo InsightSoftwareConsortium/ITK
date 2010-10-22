@@ -47,6 +47,3 @@ writer = itk.ImageFileWriter.IUC2.New()
 writer.SetFileName( sys.argv[2] )
 writer.SetInput( cast.GetOutput()  )
 writer.Update()
-
-
-

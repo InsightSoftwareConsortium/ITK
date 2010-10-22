@@ -129,4 +129,3 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itkwish.in
 #install the actual executable
 install_targets("${WRAP_ITK_INSTALL_PREFIX}/bin" itkwish)
 install_files("${WRAP_ITK_INSTALL_PREFIX}/Tcl" .tcl itkinteraction itktesting itkdata itkutils)
-

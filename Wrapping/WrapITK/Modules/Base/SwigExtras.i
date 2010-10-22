@@ -15,7 +15,7 @@
 %array_class(double, DArrayClass);
 
 // Create swig version of std::list with
-// a specialization for std::string.  
+// a specialization for std::string.
 // This is because list<std::string> is used
 // in the wrapper interface of ITK and for java
 // this creates SWIGTYPE_p_*.java files that are
@@ -32,7 +32,7 @@ namespace std {
     unsigned int size() const;
     bool empty() const;
     void clear();
-    void push_back(std::string x); 
+    void push_back(std::string x);
   };
   template<> class list<std::string> {
     // add specialized typemaps here
@@ -41,9 +41,9 @@ namespace std {
     unsigned int size() const;
     bool empty() const;
     void clear();
-    void push_back(std::string x); 
+    void push_back(std::string x);
     %extend {
-      std::string get(int i) 
+      std::string get(int i)
         {
         std::list<std::string>::iterator j = self->begin();
         while(i)

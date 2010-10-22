@@ -26,7 +26,7 @@ from InsightToolkit import *
 from sys import argv
 
 #
-# Reads an image in  16bits/pixel 
+# Reads an image in  16bits/pixel
 # and save it as      8bits/pixel
 #
 reader = itkImageFileReaderUS2_New()
@@ -48,5 +48,3 @@ reader.SetFileName( argv[1] )
 writer.SetFileName( argv[2] )
 
 writer.Update()
-
-

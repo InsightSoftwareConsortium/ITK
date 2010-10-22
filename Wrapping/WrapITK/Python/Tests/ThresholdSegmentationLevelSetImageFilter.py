@@ -47,7 +47,7 @@ OutputPixelType = itk.UC
 OutputImageType = itk.Image[ OutputPixelType, Dimension ]
 
 thresholder = itk.BinaryThresholdImageFilter[ InternalImageType, OutputImageType ].New()
-                      
+
 thresholder.SetLowerThreshold( -1000.0 )
 thresholder.SetUpperThreshold(     0.0 )
 
@@ -67,7 +67,7 @@ writer.SetFileName( argv[2] )
 FastMarchingFilterType = itk.FastMarchingImageFilter[ InternalImageType, InternalImageType ]
 fastMarching = FastMarchingFilterType.New()
 
-ThresholdSegmentationLevelSetImageFilterType = itk.ThresholdSegmentationLevelSetImageFilter[ InternalImageType, InternalImageType, InternalPixelType ] 
+ThresholdSegmentationLevelSetImageFilterType = itk.ThresholdSegmentationLevelSetImageFilter[ InternalImageType, InternalImageType, InternalPixelType ]
 thresholdSegmentation = ThresholdSegmentationLevelSetImageFilterType.New()
 thresholdSegmentation.SetPropagationScaling( 1.0 )
 if len(argv) > 8 :
@@ -110,14 +110,14 @@ fastMarching.SetSpeedConstant( 1.0 )
 
 
 reader.Update()
-fastMarching.SetOutputSize( 
+fastMarching.SetOutputSize(
   reader.GetOutput().GetBufferedRegion().GetSize() )
 writer.Update()
 
 itk.echo(thresholdSegmentation)
 
 
-InternalWriterType = itk.ImageFileWriter[ InternalImageType ] 
+InternalWriterType = itk.ImageFileWriter[ InternalImageType ]
 
 mapWriter = InternalWriterType.New()
 mapWriter.SetInput( fastMarching.GetOutput() )
@@ -128,7 +128,3 @@ speedWriter = InternalWriterType.New()
 speedWriter.SetInput( thresholdSegmentation.GetSpeedImage() )
 speedWriter.SetFileName("speedTermImage.mha")
 speedWriter.Update()
-
-
-
-

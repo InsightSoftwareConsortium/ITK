@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef _itkTclCommand_h
-#define _itkTclCommand_h
+#ifndef __itkTclCommand_h
+#define __itkTclCommand_h
 
 #include "itkCommand.h"
 
@@ -77,4 +77,3 @@ private:
 } // namespace itk
 
 #endif // _itkTclCommand_h
-

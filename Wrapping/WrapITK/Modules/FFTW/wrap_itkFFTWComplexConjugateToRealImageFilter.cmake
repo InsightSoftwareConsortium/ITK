@@ -9,4 +9,3 @@ WRAP_CLASS("itk::FFTWComplexConjugateToRealImageFilter" POINTER)
     endif(WRAP_complex_double AND WRAP_double AND FFTWD_LIB)
   endforeach(d)
 END_WRAP_CLASS()
-

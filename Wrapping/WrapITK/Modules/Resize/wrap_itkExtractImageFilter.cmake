@@ -16,4 +16,3 @@ WRAP_CLASS("itk::ExtractImageFilter" POINTER)
   endforeach(d1)
 
 END_WRAP_CLASS()
-

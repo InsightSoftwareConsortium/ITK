@@ -46,7 +46,7 @@ class ITK_EXPORT VTKImageToImageFilter : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageToImageFilter       Self;
+  typedef VTKImageToImageFilter     Self;
   typedef ProcessObject             Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -58,9 +58,9 @@ public:
   itkTypeMacro(VTKImageToImageFilter, ProcessObject);
 
   /** Some typedefs. */
-  typedef TOutputImage OutputImageType;
+  typedef TOutputImage                                 OutputImageType;
   typedef typename    OutputImageType::ConstPointer    OutputImagePointer;
-  typedef VTKImageImport< OutputImageType >   ImporterFilterType;
+  typedef VTKImageImport< OutputImageType >            ImporterFilterType;
   typedef typename ImporterFilterType::Pointer         ImporterFilterPointer;
 
   /** Get the output in the form of a vtkImage.
@@ -103,6 +103,3 @@ private:
 #endif
 
 #endif
-
-
-

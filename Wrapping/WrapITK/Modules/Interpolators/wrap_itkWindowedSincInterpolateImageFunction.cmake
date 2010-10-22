@@ -14,4 +14,3 @@ WRAP_CLASS("itk::WindowedSincInterpolateImageFunction" POINTER)
     endforeach(t)
   endforeach(d)
 END_WRAP_CLASS()
-

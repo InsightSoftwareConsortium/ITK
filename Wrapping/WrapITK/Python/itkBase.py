@@ -20,20 +20,20 @@ import os, os.path, sys, imp, inspect, itkConfig, itkTemplate
 
 def LoadModule(name, namespace = None):
   """This function causes a SWIG module to be loaded into memory after its dependencies
-  are satisfied. Information about the templates defined therein is looked up from 
-  a config file, and PyTemplate instances for each are created. These template 
-  instances are placed in a module with the given name that is either looked up 
+  are satisfied. Information about the templates defined therein is looked up from
+  a config file, and PyTemplate instances for each are created. These template
+  instances are placed in a module with the given name that is either looked up
   from sys.modules or created and placed there if it does not already exist.
   Optionally, a 'namespace' parameter can be provided. If it is provided, this
   namespace will be updated with the new template instantiations.
-  The raw classes loaded from the named module's SWIG interface are placed in a 
+  The raw classes loaded from the named module's SWIG interface are placed in a
   'swig' sub-module. If the namespace parameter is provided, this information will
   be placed in a sub-module named 'swig' therein as well. This latter submodule
   will be created if it does not already exist."""
-  
+
   # find the module's name in sys.modules, or create a new module so named
   this_module = sys.modules.setdefault(name, imp.new_module(name))
- 
+
   # if this library and it's template instantiations have already been loaded
   # into sys.modules, bail out after loading the defined symbols into 'namespace'
   if hasattr(this_module, '__templates_loaded'):
@@ -48,12 +48,12 @@ def LoadModule(name, namespace = None):
         for k, v in this_module.__dict__.items():
           if not (k.startswith('_') or k == 'swig'): namespace[k] = v
     return
-  
+
   # We're definitely going to load the templates. We set templates_loaded here
   # instead of at the end of the file to protect against cyclical dependencies
   # that could kill the recursive lookup below.
-  this_module.__templates_loaded = True 
-  
+  this_module.__templates_loaded = True
+
   # For external projects :
   # If this_module name (variable name) is in the module_data dictionnary, then
   # this_module is an installed module (or a previously loaded module).
@@ -84,7 +84,7 @@ def LoadModule(name, namespace = None):
   # of the modules on which this one depends. Ditto for the SWIG modules.
   # So, we recursively satisfy the dependencies of named module and create the
   # template instantiations.
-  # Dependencies are looked up from the auto-generated configuration files, via 
+  # Dependencies are looked up from the auto-generated configuration files, via
   # the module_data instance defined at the bottom of this file, which knows how
   # to find those configuration files.
   data = module_data[name]
@@ -93,26 +93,26 @@ def LoadModule(name, namespace = None):
     deps.sort()
     for dep in deps:
       LoadModule(dep, namespace)
-  
+
   if itkConfig.ImportCallback: itkConfig.ImportCallback(name, 0)
-  
+
   # SWIG-generated modules have 'Python' appended. Only load the SWIG module if
   # we haven't already.
   swigModuleName = name + "Python"
   loader = LibraryLoader()
   if not swigModuleName in sys.modules: module = loader.load(swigModuleName)
-  
+
   # OK, now the modules on which this one depends are loaded and template-instantiated,
   # and the SWIG module for this one is also loaded.
-  # We're going to put the things we load and create in two places: the optional 
+  # We're going to put the things we load and create in two places: the optional
   # 'namespace' parameter, and the this_module variable's namespace.
-  
-  # make a new 'swig' sub-module for this_module. Also look up or create a 
-  # different 'swig' module for 'namespace'. Since 'namespace' may be used to 
-  # collect symbols from multiple different ITK modules, we don't want to 
+
+  # make a new 'swig' sub-module for this_module. Also look up or create a
+  # different 'swig' module for 'namespace'. Since 'namespace' may be used to
+  # collect symbols from multiple different ITK modules, we don't want to
   # stomp on an existing 'swig' module, nor do we want to share 'swig' modules
   # between this_module and namespace.
-  
+
   this_module.swig = imp.new_module('swig')
   if namespace is not None: swig = namespace.setdefault('swig', imp.new_module('swig'))
   for k, v in module.__dict__.items():
@@ -122,8 +122,8 @@ def LoadModule(name, namespace = None):
   data = module_data[name]
   if data:
     for template in data['templates']:
-      if len(template) == 4: 
-        # this is a template description      
+      if len(template) == 4:
+        # this is a template description
         pyClassName, cppClassName, swigClassName, templateParams = template
         # It doesn't matter if an itkTemplate for this class name already exists
         # since every instance of itkTemplate with the same name shares the same
@@ -137,7 +137,7 @@ def LoadModule(name, namespace = None):
           if current_value != None and current_value != templateContainer:
             DebugPrintError("Namespace already has a value for %s, which is not an itkTemplate instance for class %s. Overwriting old value." %(pyClassName, cppClassName))
           namespace[pyClassName] = templateContainer
-        
+
       else:
         # this is a description of a non-templated class
         pyClassName, cppClassName, swigClassName = template
@@ -150,9 +150,9 @@ def LoadModule(name, namespace = None):
           if current_value != None and current_value != swigClass:
             DebugPrintError("Namespace already has a value for %s, which is not class %s. Overwriting old value." %(pyClassName, cppClassName))
           namespace[pyClassName] = swigClass
-  
+
   if itkConfig.ImportCallback: itkConfig.ImportCallback(name, 1)
-  
+
 def DebugPrintError(error):
   if itkConfig.DebugLevel == itkConfig.WARN:
     print >> sys.stderr, error
@@ -161,8 +161,8 @@ def DebugPrintError(error):
 
 class LibraryLoader(object):
   """Do all the work to set up the environment so that a SWIG-generated library
-  can be properly loaded. This invloves setting paths, etc., defined in itkConfig."""  
-  
+  can be properly loaded. This invloves setting paths, etc., defined in itkConfig."""
+
   # To share symbols across extension modules, we must set
   #     sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
   #
@@ -172,7 +172,7 @@ class LibraryLoader(object):
   # we need different flags because RTLD_GLOBAL = 0x008.
   darwin_dlopenflags  = 0xA
   generic_dlopenflags = 0x102
-    
+
   if sys.platform.startswith('darwin'):
     dlopenflags = darwin_dlopenflags
   elif sys.platform.startswith('win'):
@@ -185,8 +185,8 @@ class LibraryLoader(object):
     dlopenflags = dl.RTLD_NOW|dl.RTLD_GLOBAL
   except:
     pass
-    
-  
+
+
   def setup(self):
     self.old_cwd = os.getcwd()
     try:
@@ -201,7 +201,7 @@ class LibraryLoader(object):
       sys.setdlopenflags(self.dlopenflags)
     except:
       self.old_dlopenflags = None
-  
+
   def load(self, name):
     self.setup()
     try:
@@ -212,7 +212,7 @@ class LibraryLoader(object):
       # Since we may exit via an exception, close fp explicitly.
       if fp: fp.close()
       self.cleanup()
-  
+
   def cleanup(self):
     os.chdir(self.old_cwd)
     sys.path = self.old_path
@@ -221,7 +221,7 @@ class LibraryLoader(object):
       except: pass
 
 
-# Make a list of all know modules (described in *Config.py files in the 
+# Make a list of all know modules (described in *Config.py files in the
 # config_py directory) and load the information described in those Config.py
 # files.
 dirs = [p for p in itkConfig.path if os.path.isdir(p)]
@@ -231,7 +231,7 @@ for d in dirs:
   known_modules.sort()
   sys.path.append(d)
   sys.path.append(d+os.sep+".."+os.sep+"lib")
-  
+
   for module in known_modules:
     data = {}
     execfile(os.path.join(d+os.sep+"Configuration", module + 'Config.py'), data)

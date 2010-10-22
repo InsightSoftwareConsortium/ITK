@@ -13,4 +13,3 @@ if(d3)
     WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
   END_WRAP_CLASS()
 endif(d3)
-

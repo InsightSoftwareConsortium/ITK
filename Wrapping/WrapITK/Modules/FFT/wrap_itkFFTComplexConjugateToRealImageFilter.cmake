@@ -24,4 +24,3 @@ WRAP_CLASS("itk::VnlFFTComplexConjugateToRealImageFilter" POINTER)
     endif(WRAP_complex_double AND WRAP_double)
   endforeach(d)
 END_WRAP_CLASS()
-

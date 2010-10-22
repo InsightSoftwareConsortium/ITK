@@ -52,4 +52,3 @@ endif(WRAP_ITK_PERL)
 #    CREATE_SWIG_RUNTIME(-java Java "${JAVA_LIBRARY}")
 # endif(WRAP_ITK_JAVA)
 #
-

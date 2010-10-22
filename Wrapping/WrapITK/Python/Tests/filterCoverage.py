@@ -27,24 +27,24 @@ if sys.version < '2.4' :
         set = sets.Set
 
         def sorted(iterable, cmp=None, key=None, reverse=False) :
-	    i = list(iterable)
-	    if key :
-		d = {}
-		for v in iterable :
-		    k = key(v)
-		    if not d.has_key(k) :
-			d[k] = []
-		    d[k].append(v)
-		keys = d.keys()
-		keys.sort(cmp)
-		i = []
-		for k in keys :
-		    i += d[k]
-	    else :
-		i.sort(cmp)
-	    if reverse :
-		i.reverse()
-	    return i
+            i = list(iterable)
+            if key :
+                d = {}
+                for v in iterable :
+                    k = key(v)
+                    if not d.has_key(k) :
+                        d[k] = []
+                    d[k].append(v)
+                keys = d.keys()
+                keys.sort(cmp)
+                i = []
+                for k in keys :
+                    i += d[k]
+            else :
+                i.sort(cmp)
+            if reverse :
+                i.reverse()
+            return i
 
 # declares filter which will not be wrapped
 excluded = set([
@@ -134,7 +134,7 @@ nonWrapped = filters - wrapped
 
 # print non wrapped filters without much text to stdout, so they can be easily reused
 for f in sorted(nonWrapped) :
-	print f
+        print f
 
 # and print stats in stderr to avoid poluting the list above
 print >>sys.stderr
@@ -149,4 +149,3 @@ print >>sys.stderr
 # but we are not yet at this stage !
 #
 # return len(nonWrapped)
-

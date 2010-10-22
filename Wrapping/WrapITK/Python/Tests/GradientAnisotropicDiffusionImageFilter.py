@@ -30,8 +30,8 @@ reader = itk.ImageFileReader[InputImageType].New( FileName=argv[1] )
 
 filter = itk.GradientAnisotropicDiffusionImageFilter[InputImageType, OutputImageType].New( reader,
                   NumberOfIterations=int(argv[3]),
-		  TimeStep=float(argv[4]),
-		  ConductanceParameter=float(argv[5]))
+                  TimeStep=float(argv[4]),
+                  ConductanceParameter=float(argv[5]))
 filter.Update();
 
 WritePixelType = itk.UC

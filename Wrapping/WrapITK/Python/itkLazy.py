@@ -35,8 +35,8 @@ class LazyITKModule(types.ModuleType):
       module = self.__lazy_attributes[attr]
       namespace = {}
       itkBase.LoadModule(module, namespace)
-      # Load into 'namespace' first, then self.__dict__ (via setattr) to 
-      # prevent the warnings about overwriting the 'NotLoaded' values already 
+      # Load into 'namespace' first, then self.__dict__ (via setattr) to
+      # prevent the warnings about overwriting the 'NotLoaded' values already
       # in in self.__dict__ we would get if we just passed self.__dict__ to
       # itkBase.LoadModule.
       for k, v in namespace.items():

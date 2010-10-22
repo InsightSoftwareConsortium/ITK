@@ -6,6 +6,3 @@ endmacro(ADD_JAVA_TYPEMAP)
 macro(JAVA_SUPPORT_CONFIGURE_FILES)
   # write me
 endmacro(JAVA_SUPPORT_CONFIGURE_FILES)
-
-
-

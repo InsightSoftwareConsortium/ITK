@@ -6,8 +6,8 @@ Currently-supported options are:
   DebugLevel: must be one of SILENT, WARN, or ERROR (these values are defined
     in itkConfig). Default is WARN.
   ImportCallback: importing itk libraries can take a while. ImportCallback will
-    be called when each new library is imported in the import process. 
-    ImportCallback must be a function that takes two parameters: the name of 
+    be called when each new library is imported in the import process.
+    ImportCallback must be a function that takes two parameters: the name of
     the library being imported, and a float (between 0 and 1) reflecting the
     fraction of the import that is completed.
   LazyLoading: Only load an itk library when needed. Before the library is
@@ -39,7 +39,7 @@ swig_lib = normalized_path('@CONFIG_PYTHON_SWIGLIB_DIR@')
 # swig_py: location of the xxxPython.py swig-generated python interfaces
 swig_py = normalized_path('@CONFIG_PYTHON_SWIGPY_DIR@')
 
-# config_py: location of xxxConfix.py CMake-generated library descriptions 
+# config_py: location of xxxConfix.py CMake-generated library descriptions
 config_py = normalized_path('@CONFIG_PYTHON_CONFIGPY_DIR@')
 
 # put the itkConfig.py path in the path list

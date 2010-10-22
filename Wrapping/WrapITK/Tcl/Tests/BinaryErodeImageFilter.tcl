@@ -40,11 +40,10 @@ itkSize2 radius
 radius Fill 5
 set element [ itkFlatStructuringElement2_Ball radius ]
 
-$filter SetKernel $element 
+$filter SetKernel $element
 $filter SetErodeValue 200
 
 $writer Update
 
 
 exit
-

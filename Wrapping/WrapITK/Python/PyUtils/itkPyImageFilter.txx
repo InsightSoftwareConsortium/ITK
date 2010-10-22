@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkPyImageFilter_txx
+#define __itkPyImageFilter_txx
+
 #include "itkPyImageFilter.h"
 
 namespace itk
@@ -24,18 +27,18 @@ template <class TInputImage, class TOutputImage>
 PyImageFilter<TInputImage,TOutputImage>
 ::PyImageFilter()
 {
-    this->obj = NULL;
+    this->m_Object = NULL;
 }
 
 template <class TInputImage, class TOutputImage>
 PyImageFilter<TInputImage,TOutputImage>
 ::~PyImageFilter()
 {
-    if (this->obj)
+    if (this->m_Object)
     {
-        Py_DECREF(this->obj);
+        Py_DECREF(this->m_Object);
     }
-    this->obj = NULL;
+    this->m_Object = NULL;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -43,22 +46,22 @@ void
 PyImageFilter<TInputImage,TOutputImage>
 ::SetPyGenerateData(PyObject *obj)
 {
-    if (obj != this->obj)
+    if (obj != this->m_Object)
     {
-        if (this->obj)
+        if (this->m_Object)
         {
             // get rid of our reference
-            Py_DECREF(this->obj);
+            Py_DECREF(this->m_Object);
         }
 
         // store the new object
-        this->obj = obj;
+        this->m_Object = obj;
 
-        if (this->obj)
+        if (this->m_Object)
         {
             // take out reference (so that the calling code doesn't
             // have to keep a binding to the callable around)
-            Py_INCREF(this->obj);
+            Py_INCREF(this->m_Object);
         }
     }
 }
@@ -70,7 +73,7 @@ PyImageFilter<TInputImage,TOutputImage>
 ::GenerateData()
 {
     // make sure that the CommandCallable is in fact callable
-    if (!PyCallable_Check(this->obj))
+    if (!PyCallable_Check(this->m_Object))
     {
         // we throw a standard ITK exception: this makes it possible for
         // our standard CableSwig exception handling logic to take this
@@ -82,7 +85,7 @@ PyImageFilter<TInputImage,TOutputImage>
     {
         PyObject *result;
 
-        result = PyEval_CallObject(this->obj, (PyObject *)NULL);
+        result = PyEval_CallObject(this->m_Object, (PyObject *)NULL);
 
         if (result)
         {
@@ -100,8 +103,6 @@ PyImageFilter<TInputImage,TOutputImage>
     }
 }
 
-
-
 } // namespace itk
 
-
+#endif

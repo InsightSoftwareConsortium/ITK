@@ -5,4 +5,3 @@ endmacro(ADD_TCL_TYPEMAP)
 macro(TCL_SUPPORT_CONFIGURE_FILES)
   # write me
 endmacro(TCL_SUPPORT_CONFIGURE_FILES)
-

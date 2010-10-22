@@ -10,5 +10,3 @@ add_test(PythonMultithreader
   ${PYTHON_DRIVER}
   ${CMAKE_CURRENT_SOURCE_DIR}/multithreader.py
 )
-
-

@@ -41,5 +41,3 @@ print "ready to convert array into image"
 writer.SetInput( connector.GetImageFromArray( buffer ) )
 
 writer.Update()
-
-

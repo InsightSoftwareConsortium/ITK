@@ -38,7 +38,7 @@ img = strel.GetImageUC()
 size = itk.size( img )
 for y in range(0, size.GetElement(1)):
   for x in range(0, size.GetElement(0)):
-   if img.GetPixel( [x, y] ): 
+   if img.GetPixel( [x, y] ):
      print "X",
    else:
      print " ",

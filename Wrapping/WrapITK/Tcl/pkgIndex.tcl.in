@@ -12,5 +12,3 @@ foreach module $modules {
   set libFile [file join $libPath "$libPrefix$module$libSuffix"]
   load "$libFile"
 }
-
-

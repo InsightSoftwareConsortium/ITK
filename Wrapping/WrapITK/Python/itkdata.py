@@ -40,5 +40,3 @@ if not ITK_DATA_ROOT and os.environ.has_key('ITK_DATA_ROOT'):
 # Use the default output directory.
 if not ITK_DATA_ROOT:
   ITK_DATA_ROOT = itkbase.defaultDataRoot
-
-

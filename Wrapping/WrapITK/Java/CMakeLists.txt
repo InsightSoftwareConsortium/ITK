@@ -135,5 +135,3 @@ add_dependencies(ITKJavaJarDummyLibrary ITKJavaJar)
 
 
 add_subdirectory(CWD)
-
-

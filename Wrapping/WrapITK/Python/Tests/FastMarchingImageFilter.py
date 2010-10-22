@@ -19,15 +19,15 @@
 #     INPUTS: BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput5.png
 #     81 114 1.0  -0.5  3.0   100 100
-# 
+#
 #     INPUTS: BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput6.png
 #     99 114 1.0  -0.5  3.0   100 100
-# 
+#
 #     INPUTS: BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput7.png
 #     56 92 1.0  -0.3  2.0   200 100
-# 
+#
 #     INPUTS: BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput8.png
 #     OUTPUTS: [FastMarchingFilterOutput1.png]
@@ -43,7 +43,7 @@ if( len(argv) < 10 ):
   print >> stderr, """Missing Parameters
 Usage: FastMarchingImageFilter.py inputImage  outputImage seedX seedY Sigma SigmoidAlpha SigmoidBeta TimeThreshold StoppingValue"""
   exit(1)
-  
+
 itk.auto_progress(2)
 
 
@@ -73,22 +73,22 @@ reader.SetFileName( argv[1] )
 writer.SetFileName( argv[2] )
 
 
-CastFilterType = itk.RescaleIntensityImageFilter[ 
-                            InternalImageType, 
+CastFilterType = itk.RescaleIntensityImageFilter[
+                            InternalImageType,
                             OutputImageType ]
 
-SmoothingFilterType = itk.CurvatureAnisotropicDiffusionImageFilter[ 
-                            InternalImageType, 
+SmoothingFilterType = itk.CurvatureAnisotropicDiffusionImageFilter[
+                            InternalImageType,
                             InternalImageType ]
 
 smoothing = SmoothingFilterType.New()
 
 GradientFilterType = itk.GradientMagnitudeRecursiveGaussianImageFilter[
-                            InternalImageType, 
+                            InternalImageType,
                             InternalImageType ]
 
 SigmoidFilterType = itk.SigmoidImageFilter[
-                            InternalImageType, 
+                            InternalImageType,
                             InternalImageType ]
 
 gradientMagnitude = GradientFilterType.New();
@@ -97,7 +97,7 @@ sigmoid = SigmoidFilterType.New()
 sigmoid.SetOutputMinimum(  0.0  )
 sigmoid.SetOutputMaximum(  1.0  )
 
-FastMarchingFilterType = itk.FastMarchingImageFilter[ InternalImageType, 
+FastMarchingFilterType = itk.FastMarchingImageFilter[ InternalImageType,
                             InternalImageType ]
 
 fastMarching = FastMarchingFilterType.New()
@@ -179,7 +179,7 @@ caster4.SetOutputMinimum(   0 )
 caster4.SetOutputMaximum( 255 )
 
 
-fastMarching.SetOutputSize( 
+fastMarching.SetOutputSize(
         reader.GetOutput().GetBufferedRegion().GetSize() )
 
 stoppingTime = float( argv[9] )
@@ -208,7 +208,3 @@ gradientWriter = InternalWriterType.New()
 gradientWriter.SetInput( gradientMagnitude.GetOutput() )
 gradientWriter.SetFileName("FastMarchingFilterOutput2.mha")
 gradientWriter.Update()
-
-
-
-

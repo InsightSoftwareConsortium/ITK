@@ -30,18 +30,18 @@ count = 0
 
 def exploreTpl(tpl):
     for cl in tpl.itervalues():
-	exploreMethods(cl)
-	# try to instanciate the class
-	try :
-	    obj = cl.New()
-	    exploreMethods(obj)
-	except:
-	    pass
-	try :
-	    exploreMethods(cl())
-	except:
-	    pass
-    
+        exploreMethods(cl)
+        # try to instanciate the class
+        try :
+            obj = cl.New()
+            exploreMethods(obj)
+        except:
+            pass
+        try :
+            exploreMethods(cl())
+        except:
+            pass
+
 def exploreMethods(obj):
     global count
     excludeList = ['this', 'thisown']
@@ -49,8 +49,8 @@ def exploreMethods(obj):
     if attrNameList == [] :
       count += 1
       print obj
-	
-      
+
+
 excluded = set([
   "PeriodicBoundaryCondition",
   "BandNode",
@@ -67,16 +67,16 @@ for name in attrNameList:
     exec "attr = itk."+name
     # print "-----------", name, "-----------"
     if isinstance(attr, itkTemplate) :
-	exploreTpl(attr)
+        exploreTpl(attr)
     else :
-	exploreMethods(attr)
+        exploreMethods(attr)
         try :
-	    exploreMethods(cl.New())
-	except:
-	    pass
-	try :
-	    exploreMethods(cl())
-	except:
-	    pass
-								
+            exploreMethods(cl.New())
+        except:
+            pass
+        try :
+            exploreMethods(cl())
+        except:
+            pass
+
 sys.exit(count)

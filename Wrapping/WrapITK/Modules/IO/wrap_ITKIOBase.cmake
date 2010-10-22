@@ -47,4 +47,3 @@ WRAP_NON_TEMPLATE_CLASS("itk::DICOMSeriesFileNames" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::GDCMSeriesFileNames" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::NumericSeriesFileNames" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::RegularExpressionSeriesFileNames" POINTER)
-

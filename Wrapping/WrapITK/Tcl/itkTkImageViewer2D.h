@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkTkImageViewer2D_h
-#define _itkTkImageViewer2D_h
+#ifndef __itkTkImageViewer2D_h
+#define __itkTkImageViewer2D_h
 
 #include "itkObject.h"
 #include "itkImage.h"
@@ -28,14 +28,14 @@
 namespace itk
 {
 
-/** \Class TkImageViewer2D
+/** \class TkImageViewer2D
  *  \brief View an ITK image in a Tk window.
  */
 class TkImageViewer2D : public ProcessObject
 {
 public:
   /** Standard ITK class members.  */
-  typedef TkImageViewer2D      Self;
+  typedef TkImageViewer2D    Self;
   typedef SmartPointer<Self> Pointer;
   typedef ProcessObject      Superclass;
   itkTypeMacro(TkImageViewer2D, ProcessObject);
@@ -95,4 +95,3 @@ private:
 } // namespace itk
 
 #endif // _itkTkImageViewer2D_h
-

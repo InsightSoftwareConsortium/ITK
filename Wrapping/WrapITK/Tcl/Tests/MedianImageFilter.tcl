@@ -34,14 +34,13 @@ $writer SetFileName [lindex $argv 1]
 
 set radius [expr [ lindex $argv 2] ]
 
-itkSize2 sizeRadius 
+itkSize2 sizeRadius
 sizeRadius SetElement  0  $radius
 sizeRadius SetElement  1  $radius
 
-$filter SetRadius  sizeRadius 
+$filter SetRadius  sizeRadius
 
 $writer Update
 
 
 exit
-

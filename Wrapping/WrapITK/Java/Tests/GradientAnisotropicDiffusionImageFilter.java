@@ -32,7 +32,7 @@ public class GradientAnisotropicDiffusionImageFilter
     itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
 
     itkCastImageFilterIUS2IF2_Pointer inputCast = itkCastImageFilterIUS2IF2.itkCastImageFilterIUS2IF2_New();
-      
+
     itkGradientAnisotropicDiffusionImageFilterIF2IF2_Pointer filter = itkGradientAnisotropicDiffusionImageFilterIF2IF2.itkGradientAnisotropicDiffusionImageFilterIF2IF2_New();
 
     itkRescaleIntensityImageFilterIF2IUS2_Pointer outputCast = itkRescaleIntensityImageFilterIF2IUS2.itkRescaleIntensityImageFilterIF2IUS2_New();
@@ -56,5 +56,3 @@ public class GradientAnisotropicDiffusionImageFilter
   }
 
 }
-
-

@@ -32,7 +32,7 @@ public class CurvatureAnisotropicDiffusionImageFilter
     itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
 
     itkCastImageFilterIUS2IF2_Pointer inputCast = itkCastImageFilterIUS2IF2.itkCastImageFilterIUS2IF2_New();
-      
+
     itkCurvatureAnisotropicDiffusionImageFilterIF2IF2_Pointer filter = itkCurvatureAnisotropicDiffusionImageFilterIF2IF2.itkCurvatureAnisotropicDiffusionImageFilterIF2IF2_New();
 
     itkRescaleIntensityImageFilterIF2IUS2_Pointer outputCast = itkRescaleIntensityImageFilterIF2IUS2.itkRescaleIntensityImageFilterIF2IUS2_New();
@@ -56,5 +56,3 @@ public class CurvatureAnisotropicDiffusionImageFilter
   }
 
 }
-
-

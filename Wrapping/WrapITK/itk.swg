@@ -1,4 +1,4 @@
-/* This is an itk-specific typemap used by CableSwig.  
+/* This is an itk-specific typemap used by CableSwig.
  *   -- Charl P. Botha <cpbotha AT ieee.org>
  */
 
@@ -25,7 +25,7 @@
        return NULL;
    }
 }
-   
+
 #else  // SWIGPYTHON
 
 /* A "throws" attribute with the "std::exception" type is added synthetically
@@ -33,7 +33,7 @@
  * correct throws types, this typemap could be optionally extended to
  * account for more different types.  For now this is sufficient though.
  */
- 
+
 %typemap(throws) std::exception {
    SWIG_exception(SWIG_RuntimeError, const_cast<char*>(_e.what()));
 }
@@ -52,12 +52,12 @@
  * This is default behaviour for python.swg, but Cable passes
  * a PyObject * through as a "p._object", so we redo the typemap
  * ------------------------------------------------------------ */
-  
+
 %typemap(in)   p._object "$1 = $input;";
 %typemap(out)  p._object "$result = $1;";
 
 
-// a implementation of %extend in cableswig would also be great to move back __getitem__ method 
+// a implementation of %extend in cableswig would also be great to move back __getitem__ method
 // added in some files in this one
 
 

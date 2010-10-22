@@ -15,4 +15,3 @@ WRAP_NON_TEMPLATE_CLASS("itk::SimpleFilterWatcher")
 WRAP_NON_TEMPLATE_CLASS("itk::XMLFilterWatcher")
 WRAP_NON_TEMPLATE_CLASS("itk::StringStream")
 WRAP_NON_TEMPLATE_CLASS("itk::MetaDataDictionary")
-

@@ -36,5 +36,3 @@ $writer Update
 
 
 exit
-
-

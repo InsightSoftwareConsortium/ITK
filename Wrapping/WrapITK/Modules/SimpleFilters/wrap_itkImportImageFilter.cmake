@@ -7,4 +7,3 @@ WRAP_CLASS("itk::ImportImageFilter" POINTER)
   endforeach(d)
 
 END_WRAP_CLASS()
-

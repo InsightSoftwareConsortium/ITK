@@ -77,5 +77,3 @@ endforeach(JAVA_TEST_IMAGE_DIMENSION)
 
 add_custom_target(JavaTests ALL DEPENDS ${targets})
 add_dependencies(JavaTests ITKJavaJar)
-
-

@@ -19,5 +19,3 @@ if(WRAP_ITK_PYTHON)
 
   add_subdirectory(Python)
 endif(WRAP_ITK_PYTHON)
-
-

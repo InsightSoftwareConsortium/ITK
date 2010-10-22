@@ -27,22 +27,26 @@
 // which gcc-xml and cswig can't deal with properly. So we hide that stuff in
 // these restricted headers.
 
+#ifndef __itkConstantBoundaryConditionStub_h
+#define __itkConstantBoundaryConditionStub_h
+
 #ifndef __itkConstantBoundaryCondition_h
 #define __itkConstantBoundaryCondition_h
 
 namespace itk
 {
+/** \class TODO */
 template<class TImage>
 class ITK_EXPORT ConstantBoundaryCondition
   : public ImageBoundaryCondition<TImage>
 {
 public:
-  typedef ConstantBoundaryCondition Self;
-  typedef ImageBoundaryCondition<TImage> Superclass;
-  typedef typename Superclass::PixelType PixelType;
+  typedef ConstantBoundaryCondition             Self;
+  typedef ImageBoundaryCondition<TImage>        Superclass;
+  typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::OffsetType       OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
   typedef typename Superclass::NeighborhoodAccessorFunctorType

@@ -27,6 +27,9 @@
 // unsigned long (__stdcall *)(void*)
 // Unfortunately, gcc_xml and cswig can't properly wrap __stdcall functions,
 // causing compile errors.
+#ifndef __itkMultiThreaderStub_h
+#define __itkMultiThreaderStub_h
+
 #ifndef __itkMultiThreader_h
 #define __itkMultiThreader_h
 
@@ -51,13 +54,14 @@ namespace itk
 #define ITK_MAX_THREADS 1
 #endif
 
+/** \class TODO */
 class  MultiThreader : public Object
   {
 public:
     /** Standard class typedefs. */
-    typedef MultiThreader         Self;
-    typedef Object  Superclass;
-    typedef SmartPointer<Self>  Pointer;
+    typedef MultiThreader             Self;
+    typedef Object                    Superclass;
+    typedef SmartPointer<Self>        Pointer;
     typedef SmartPointer<const Self>  ConstPointer;
     itkNewMacro(Self);
     itkTypeMacro(MultiThreader, Object);

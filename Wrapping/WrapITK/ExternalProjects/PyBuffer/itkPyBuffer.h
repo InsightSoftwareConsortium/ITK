@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPyBuffer_h
-#define _itkPyBuffer_h
+#ifndef __itkPyBuffer_h
+#define __itkPyBuffer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -96,4 +96,3 @@ protected:
 #endif
 
 #endif // _itkPyBuffer_h
-

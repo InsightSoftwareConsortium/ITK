@@ -189,8 +189,8 @@ for sname, s in sources:
     except RuntimeError, e:
       print "%s -> %s fail" % (sname, dname)
       failList.append((sname, dname))
-      
-      
+
+
 print
 print "%i tests succeed" % (nb - len(failList))
 print "%i tests failed" % len(failList)

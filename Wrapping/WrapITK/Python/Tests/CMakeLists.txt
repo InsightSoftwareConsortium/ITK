@@ -456,4 +456,3 @@ foreach(d ${WRAP_ITK_DIMS})
     )
   endforeach(t)
 endforeach(d)
-

@@ -28,52 +28,52 @@ def auto_not_in_place( v=True ) :
 
 def auto_progress( progressType = 1 ):
   """Set up auto progress report
-  
+
   progressType:
     1 or True  -> auto progress be used in a terminal
     2          -> simple auto progress (without special characters)
     0 or False -> disable auto progress
   """
   import itkConfig
-  
+
   if progressType == True or progressType == 1 :
     itkConfig.ImportCallback = terminal_import_callback
     itkConfig.ProgressCallback = terminal_progress_callback
-    
+
   elif progressType == 2 :
     itkConfig.ImportCallback = simple_import_callback
     itkConfig.ProgressCallback = simple_progress_callback
-    
+
   elif progressType == False or progressType == 0 :
     itkConfig.ImportCallback = None
     itkConfig.ProgressCallback = None
-    
+
   else:
     raise ValueError("Invalid auto progress type: "+repr(progressType))
-  
+
 def terminal_progress_callback(name, p):
   """Display the progress of an object and clean the display once complete
-  
+
   This function can be used with itkConfig.ProgressCallback
   """
   import sys
   print >> sys.stderr, clrLine+"%s: %f" % (name, p),
   if p == 1 :
     print >> sys.stderr, clrLine,
-  
+
 def terminal_import_callback(name, p):
   """Display the loading of a module and clean the display once complete
-  
+
   This function can be used with itkConfig.ImportCallback
   """
   import sys
   print >> sys.stderr, clrLine+"Loading %s..." % name,
   if p == 1 :
     print >> sys.stderr, clrLine,
-  
+
 def simple_import_callback(name, p):
   """Print a message when a module is loading
-  
+
   This function can be used with itkConfig.ImportCallback
   """
   import sys
@@ -84,7 +84,7 @@ def simple_import_callback(name, p):
 
 def simple_progress_callback(name, p):
   """Print a message when an object is running
-  
+
   This function can be used with itkConfig.ProgressCallback
   """
   import sys
@@ -104,7 +104,7 @@ def force_load():
 import sys
 def echo(object, f=sys.stderr) :
    """Print an object is f
-   
+
    If the object has a method Print(), this method is used.
    repr(object) is used otherwise
    """
@@ -124,18 +124,18 @@ del sys
 
 def size(imageOrFilter) :
   """Return the size of an image, or of the output image of a filter
-  
+
   This method take care of updating the needed informations
   """
   # we don't need the entire output, only its size
   imageOrFilter.UpdateOutputInformation()
   img = image(imageOrFilter)
   return img.GetLargestPossibleRegion().GetSize()
-  
+
 
 def physical_size(imageOrFilter) :
   """Return the physical size of an image, or of the output image of a filter
-  
+
   This method take care of updating the needed informations
   """
   from __builtin__ import range # required because range is overladed in this module
@@ -149,63 +149,63 @@ def physical_size(imageOrFilter) :
 
 def spacing(imageOrFilter) :
   """Return the spacing of an image, or of the output image of a filter
-  
+
   This method take care of updating the needed informations
   """
   # we don't need the entire output, only its size
   imageOrFilter.UpdateOutputInformation()
   img = image(imageOrFilter)
   return img.GetSpacing()
-  
+
 
 def origin(imageOrFilter) :
   """Return the origin of an image, or of the output image of a filter
-  
+
   This method take care of updating the needed informations
   """
   # we don't need the entire output, only its size
   imageOrFilter.UpdateOutputInformation()
   img = image(imageOrFilter)
   return img.GetOrigin()
-  
+
 
 def index(imageOrFilter) :
   """Return the index of an image, or of the output image of a filter
-  
+
   This method take care of updating the needed informations
   """
   # we don't need the entire output, only its size
   imageOrFilter.UpdateOutputInformation()
   img = image(imageOrFilter)
   return img.GetLargestPossibleRegion().GetIndex()
-  
+
 
 def strel(dim, radius=1) :
   """A method to create a ball structuring element
   """
   import itk
   import sys
-  # print >> sys.stderr, "strel() is deprecated and will be removed in the next release" 
+  # print >> sys.stderr, "strel() is deprecated and will be removed in the next release"
   return itk.FlatStructuringElement[dim].Ball(radius)
-  
+
 # return an image
 from itkTemplate import image
 
 
 def template(cl) :
   """Return the template of a class (or of the class of an object) and its parameters
-  
+
   template() returns a tuple with 2 elements:
     - the first one is the itkTemplate object
     - the second is a tuple containing the template parameters
   """
   from itkTemplate import itkTemplate
   return itkTemplate.__class_to_template__[class_(cl)]
-  
+
 
 def ctype(s) :
   """Return the c type corresponding to the string passed in parameter
-   
+
   The string can contain some extra spaces.
   see also itkCType
   """
@@ -214,11 +214,11 @@ def ctype(s) :
   if ret == None :
     raise KeyError("Unrecognized C type '%s'" % s)
   return ret
-  
+
 
 def class_(obj) :
   """Return a class from an object
-  
+
   Often in itk, the __class__ is not what the user is expecting.
   class_() should do a better job
   """
@@ -243,7 +243,7 @@ def class_(obj) :
 
 def range(imageOrFilter) :
   """Return the range of values in a image of in the output image of a filter
-  
+
   The minimum and maximum values are returned in a tuple: (min, max)
   range() take care of updating the pipeline
   """
@@ -258,7 +258,7 @@ def range(imageOrFilter) :
 
 def write(imageOrFilter, fileName, compression=False):
   """Write a image or the output image of a filter to filename
-  
+
   The writer is instantiated with the image type of the image in
   parameter (or, again, with the output image of the filter in parameter)
   """
@@ -267,11 +267,11 @@ def write(imageOrFilter, fileName, compression=False):
   img.UpdateOutputInformation()
   writer = itk.ImageFileWriter[img].New(Input=img, FileName=fileName, UseCompression=compression)
   writer.Update()
-  
+
 
 def index_to_physical_point( imageOrFilter, idx ):
   """Get the pysical point in an image from an index
-  
+
   imageOrFilter is the image where the physical point must be computed
   idx is the index used to compute the physical point. It can be a continuous index.
   """
@@ -281,21 +281,21 @@ def index_to_physical_point( imageOrFilter, idx ):
   dim = img.GetImageDimension()
   o = origin( img )
   s = spacing( img )
-  
+
   # use the typemaps to really get a continuous index
   import itk
   idx = itk.ContinuousIndex[ itk.D, dim ]( idx )
-  
+
   # create the output object
   p = itk.Point[ itk.D, dim ]()
   for i in range( 0, dim ):
     p.SetElement( i, s.GetElement(i) * idx.GetElement(i) + o.GetElement(i) )
   return p
-  
+
 
 def physical_point_to_continuous_index( imageOrFilter, p ):
   """Get the continuous index in an image from the physical point
-  
+
   imageOrFilter is the image where the physical point must be computed
   p is the point used to compute the index
   """
@@ -305,21 +305,21 @@ def physical_point_to_continuous_index( imageOrFilter, p ):
   dim = img.GetImageDimension()
   o = origin( img )
   s = spacing( img )
-  
+
   # use the typemaps to really get a point
   import itk
   p = itk.Point[ itk.D, dim ]( p )
-  
+
   # create the output object
   idx = itk.ContinuousIndex[ itk.D, dim ]()
   for i in range( 0, dim ):
     idx.SetElement( i, ( p.GetElement(i) - o.GetElement(i) ) / s.GetElement(i) )
   return idx
-  
+
 
 def physical_point_to_index( imageOrFilter, p ):
   """Get the index in an image from the physical point
-  
+
   image is the image where the physical point must be computed
   p is the point used to compute the index
   """
@@ -329,17 +329,17 @@ def physical_point_to_index( imageOrFilter, p ):
   dim = img.GetImageDimension()
   o = origin( img )
   s = spacing( img )
-  
+
   # use the typemaps to really get a point
   import itk
   p = itk.Point[ itk.D, dim ]( p )
-  
+
   # create the output object
   idx = itk.Index[ dim ]()
   for i in range( 0, dim ):
     idx.SetElement( i, int( round( ( p.GetElement(i) - o.GetElement(i) ) / s.GetElement(i) ) ) )
   return idx
-  
+
 
 def show(input, **kargs) :
   """display an image
@@ -347,11 +347,11 @@ def show(input, **kargs) :
   import itk
   img = image(input)
   if img.GetImageDimension() == 3 and "show3D" in dir(itk):
-	  return itk.show3D(input, **kargs)
+          return itk.show3D(input, **kargs)
   else :
-	  # print "2D not supported yet, use the 3D viewer."
-	  return show2D(input, **kargs)
-    
+          # print "2D not supported yet, use the 3D viewer."
+          return show2D(input, **kargs)
+
 class show2D :
   """Display a 2D image
   """
@@ -369,7 +369,7 @@ class show2D :
 
 class pipeline:
   """A convenient class to store the reference to the filters of a pipeline
-  
+
   With this class, a method can create a pipeline of several filters and return
   it without losing the references to the filters in this pipeline. The pipeline
   object act almost like a filter (it has a GetOutput() method) and thus can
@@ -381,7 +381,7 @@ class pipeline:
 
   def connect( self, filter ):
     """Connect a new filter to the pipeline
-    
+
     The output of the first filter will be used as the input of this
     one and the filter passed as parameter will be added to the list
     """
@@ -391,7 +391,7 @@ class pipeline:
 
   def append( self, filter ):
     """Add a new filter to the pipeline
-    
+
     The new filter will not be connected. The user must connect it.
     """
     self.filter_list.append( filter )
@@ -403,7 +403,7 @@ class pipeline:
 
   def GetOutput( self ):
     """Return the output of the pipeline
-    
+
     If another output is needed, use
     pipeline[-1].GetAnotherOutput() instead of this method, or subclass
     pipeline to implement another GetOutput() method
@@ -424,19 +424,19 @@ class pipeline:
     """Get the input of the pipeline
     """
     return self.input
-    
+
   def Update( self ):
     """Update the pipeline
     """
     if len(self) > 0:
       return self[-1].Update()
-  
+
   def UpdateOutputInformation( self ):
     if "UpdateOutputInformation" in dir(self[-1]):
       self[-1].UpdateOutputInformation()
-    else:	
+    else:
       self.Update()
-      
+
   def __getitem__( self, i ):
      return self.filter_list[i]
 

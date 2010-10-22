@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPyCommand_h
-#define _itkPyCommand_h
+#ifndef __itkPyCommand_h
+#define __itkPyCommand_h
 
 #include "itkCommand.h"
 
@@ -27,7 +27,7 @@
 namespace itk
 {
 
-/** \Class PyCommand
+/** \class PyCommand
  *  \brief Command subclass that calls a Python callable object, e.g.
  *  a Python function.
  *
@@ -70,11 +70,10 @@ protected:
   void operator=(const Self&); // Not implemented.
 
 private:
-  PyObject *obj;
+  PyObject *m_Object;
 };
 
 
 } // namespace itk
 
 #endif // _itkPyCommand_h
-

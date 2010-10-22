@@ -1,12 +1,12 @@
 IMPORTANT NOTE
 
-WrapITK is incompatible with all versions of Python before 2.5 on OS X and 
+WrapITK is incompatible with all versions of Python before 2.5 on OS X and
 Darwin platforms. This is due to a subtle bug/limitation in Python on these
 platforms that was patched in version 2.5.
 
 Unfortunately, Python 2.5 is itself subtly incompatible with the current
 version of CableSWIG. In addition, CMake doesn't properly find Python 2.5.
-These limitations will be lifted soon; however until then a few CMake 
+These limitations will be lifted soon; however until then a few CMake
 variables must be manually set in order to compile WrapITK with Python 2.5.
 
 To deal with CableSWIG:

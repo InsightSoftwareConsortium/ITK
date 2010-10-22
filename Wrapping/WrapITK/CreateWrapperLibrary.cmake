@@ -537,4 +537,3 @@ macro(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_l
   WRAP_ITK_INSTALL("/lib" ${clean_library_location})
 
 endmacro(CREATE_WRAPPER_LIBRARY)
-

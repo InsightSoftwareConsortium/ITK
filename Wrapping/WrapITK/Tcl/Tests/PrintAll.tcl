@@ -35,4 +35,3 @@ foreach class $allClasses {
 }
 
 exit
-

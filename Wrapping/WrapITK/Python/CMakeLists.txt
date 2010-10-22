@@ -189,5 +189,3 @@ endif(PY_SITE_PACKAGES_PATH)
 #
 #   DEPENDS SwigRuntimePython ${PYTHON_MODULES}
 # )
-
-

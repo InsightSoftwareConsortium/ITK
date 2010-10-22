@@ -11,4 +11,3 @@ WRAP_CLASS("itk::JoinSeriesImageFilter" POINTER)
   endforeach(d1)
 
 END_WRAP_CLASS()
-

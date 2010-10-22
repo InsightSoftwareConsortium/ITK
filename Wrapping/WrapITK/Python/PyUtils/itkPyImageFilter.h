@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPyImageFilter_h
-#define _itkPyImageFilter_h
+#ifndef __itkPyImageFilter_h
+#define __itkPyImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
@@ -27,7 +27,7 @@
 namespace itk
 {
 
-/** \Class PyImageFilter
+/** \class PyImageFilter
  *  \brief Command subclass that calls a Python callable object, e.g.
  *  a Python function.
  *
@@ -44,10 +44,10 @@ class ITK_EXPORT PyImageFilter : public ImageToImageFilter<TInputImage,TOutputIm
 {
 public:
   /** Standard class typedefs. */
-  typedef PyImageFilter  Self;
+  typedef PyImageFilter                                 Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,11 +56,11 @@ public:
   itkTypeMacro(PyImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef typename    InputImageType::Pointer    InputImagePointer;
-  typedef typename    InputImageType::RegionType InputImageRegionType;
-  typedef typename    InputImageType::PixelType  InputImagePixelType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              InputImageType;
+  typedef typename    InputImageType::Pointer      InputImagePointer;
+  typedef typename    InputImageType::RegionType   InputImageRegionType;
+  typedef typename    InputImageType::PixelType    InputImagePixelType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename     OutputImageType::Pointer    OutputImagePointer;
   typedef typename     OutputImageType::RegionType OutputImageRegionType;
   typedef typename     OutputImageType::PixelType  OutputImagePixelType;
@@ -82,7 +82,7 @@ protected:
 private:
   PyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  PyObject *obj;
+  PyObject *m_Object;
 
 };
 
@@ -94,4 +94,3 @@ private:
 #endif
 
 #endif // _itkPyImageFilter_h
-

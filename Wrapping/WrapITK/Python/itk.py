@@ -22,10 +22,10 @@ import itkBase, itkConfig, itkLazy, itkTypes, itkExtras, os, sys
 thisModule = sys.modules[__name__]
 
 if itkConfig.LazyLoading:
-  # If we are loading lazily (on-demand), make a dict mapping the available 
-  # classes/functions/etc. (read from the configuration modules) to the 
+  # If we are loading lazily (on-demand), make a dict mapping the available
+  # classes/functions/etc. (read from the configuration modules) to the
   # modules they are declared in. Then pass that dict to a LazyITKModule
-  # instance and (later) do some surgery on sys.modules so that the 'itk' 
+  # instance and (later) do some surgery on sys.modules so that the 'itk'
   # module becomes that new instance instead of what is executed from this file.
   lazyAttributes = {}
   for module, data in itkBase.module_data.items():
@@ -40,19 +40,19 @@ if itkConfig.LazyLoading:
     del lazyAttributes
   else:
     thisModule = itkLazy.LazyITKModule(__name__, lazyAttributes)
-else: 
-  # We're not lazy-loading. Just load the modules in the order specified in 
+else:
+  # We're not lazy-loading. Just load the modules in the order specified in
   # the known_modules list for consistency.
   for module in itkBase.known_modules:
     itkBase.LoadModule(module, thisModule.__dict__)
-  
+
 # Regardless of how it was loaded, fill up the itk module with the ITK types
 # and extras.
 for k, v in itkTypes.__dict__.items():
-  if k != 'itkCType' and not k.startswith('_'): 
+  if k != 'itkCType' and not k.startswith('_'):
     setattr(thisModule, k, v)
 for k, v in itkExtras.__dict__.items():
-  if not k.startswith('_'): 
+  if not k.startswith('_'):
     setattr(thisModule, k, v)
 
 if itkConfig.LazyLoading:

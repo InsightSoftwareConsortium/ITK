@@ -118,5 +118,3 @@ endmacro(CONFIGURE_TYPEMAPS)
 include(${WRAP_ITK_CMAKE_DIR}/Python/CreateLanguageSupport.cmake)
 include(${WRAP_ITK_CMAKE_DIR}/Java/CreateLanguageSupport.cmake)
 include(${WRAP_ITK_CMAKE_DIR}/Tcl/CreateLanguageSupport.cmake)
-
-

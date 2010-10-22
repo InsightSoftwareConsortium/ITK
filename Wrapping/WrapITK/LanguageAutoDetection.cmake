@@ -44,5 +44,3 @@ endif(NOT NO_LANGUAGES_AUTO_DETECT)
 # there is no need to set NO_LANGUAGES_AUTO_DETECT, because options can't be overiten
 # from the cmake code
 # set(NO_LANGUAGES_AUTO_DETECT ON CACHE INTERNAL "disable laguage automatic detection")
-
-
