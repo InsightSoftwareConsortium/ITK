@@ -26,7 +26,7 @@ if git config remote.stage.url >/dev/null; then
   echo "Topic stage remote was already configured."
 else
   echo "Configuring the topic stage remote..."
-  git remote add stage http://itk.org/stage/ITK.git || \
+  git remote add stage git://itk.org/stage/ITK.git || \
     die "Could not add the topic stage remote."
   git config remote.stage.pushurl git@itk.org:stage/ITK.git
 fi
