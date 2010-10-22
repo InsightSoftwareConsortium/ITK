@@ -586,8 +586,6 @@ ShapeLabelMapFilter< TImage, TLabelImage >
         // std::cout << "else" << std::endl;
         // TODO - fix the code when the line starts at  NumericTraits<long int>::NonpositiveMin()
         // or end at  NumericTraits<long int>::max()
-        const VectorLineType & ns = ci.Get();
-
         typename VectorLineType::const_iterator li = ls.begin();
         typename VectorLineType::const_iterator ni = ns.begin();
 
@@ -659,7 +657,6 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   double perimeter = 0.0;
   double pixelSize = 1.0;
   int dim = TSpacing::GetVectorDimension();
-  typedef typename TMapIntercept::key_type OffsetType;
   for ( int i = 0; i < dim; i++ )
     {
     pixelSize *= spacing[i];
