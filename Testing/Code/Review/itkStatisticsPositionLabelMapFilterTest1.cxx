@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkKdTreeBasedKmeansEstimator.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -19,7 +36,7 @@ int itkStatisticsPositionLabelMapFilterTest1(int argc, char * argv[])
 
   // declare the dimension used, and the type of the input image
   const int dim = 3;
-  typedef unsigned char PType;
+  typedef unsigned char            PType;
   typedef itk::Image< PType, dim > IType;
 
   // We read the input image.

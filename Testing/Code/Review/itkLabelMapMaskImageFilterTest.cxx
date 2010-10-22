@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkKdTreeBasedKmeansEstimator.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -30,7 +47,7 @@ int itkLabelMapMaskImageFilterTest(int argc, char * argv[])
   // chosen, because only the mask feature is tested here, so we don't need any
   // attribute.
   typedef itk::LabelObject< unsigned char, dim > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType > LabelMapType;
+  typedef itk::LabelMap< LabelObjectType >       LabelMapType;
 
   // read the label image and the input image to be masked.
   typedef itk::ImageFileReader< ImageType > ReaderType;
