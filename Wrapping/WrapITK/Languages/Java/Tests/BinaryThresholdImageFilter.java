@@ -21,7 +21,8 @@
  *
  */
 
-import InsightToolkit.*;
+import org.itk.io.*;
+import org.itk.binarymorphology.*;
 
 public class BinaryThresholdImageFilter
 {
@@ -29,10 +30,10 @@ public class BinaryThresholdImageFilter
   {
     System.out.println("BinaryThresholdImageFilter Example");
 
-    itkImageFileReaderIUS2_Pointer reader = itkImageFileReaderIUS2.itkImageFileReaderIUS2_New();
-    itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
+    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
+    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
 
-    itkBinaryThresholdImageFilterIUS2IUS2_Pointer filter = itkBinaryThresholdImageFilterIUS2IUS2.itkBinaryThresholdImageFilterIUS2IUS2_New();
+    itkBinaryThresholdImageFilterIUS2IUS2 filter = new itkBinaryThresholdImageFilterIUS2IUS2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

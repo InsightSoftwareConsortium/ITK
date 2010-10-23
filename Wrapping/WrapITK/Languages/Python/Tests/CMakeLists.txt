@@ -3,8 +3,12 @@
 find_program(ITK_TEST_DRIVER itkTestDriver)
 
 set(PYTHON_DRIVER "${ITK_TEST_DRIVER}"
-  --add-before-env PYTHONPATH "${WrapITK_BINARY_DIR}/Python/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}"
   --add-before-env PYTHONPATH "${LIBRARY_OUTPUT_PATH}/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-env PYTHONPATH "${LIBRARY_OUTPUT_PATH}"
+  --add-before-libpath "${ITK_DIR}/bin/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-libpath "${ITK_DIR}"
   "${PYTHON_EXECUTABLE}"
 )
 
@@ -13,11 +17,20 @@ add_test(PythonTestDirectory ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/TestDi
 
 add_test(PythonTestObject ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/TestObject.py)
 
-add_test(PythonFilterCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/filterCoverage.py ${ITK_INCLUDE_DIRS})
+# TODO: drop -E option once all filters/spatial objects/cost functions are actually wrapped
+add_test(NonBlockingPythonFilterCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b Filter -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-filters.txt ${ITK_INCLUDE_DIRS})
+add_test(NonBlockingPythonSpatialObjectCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b SpatialObject ${ITK_INCLUDE_DIRS})
+add_test(NonBlockingPythonCostFunctionCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b CostFunction ${ITK_INCLUDE_DIRS})
+
+add_test(PythonImageIOCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b ImageIO -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-imageio.txt ${ITK_INCLUDE_DIRS})
+add_test(PythonOptimizerCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Optimizer ${ITK_INCLUDE_DIRS})
+add_test(PythonTransformCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Transform -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt ${ITK_INCLUDE_DIRS})
 
 add_test(PythonFindEmptyClasses ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py)
 
 add_test(PythonGetNameOfClass ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py)
+
+add_test(PythonTiming ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/timing.py)
 
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
@@ -26,6 +39,24 @@ if(WRAP_unsigned_short AND WRAP_2)
   add_test(PythonTypemaps ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/typemaps.py)
 
   add_test(PythonTemplate ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/template.py)
+
+  add_test(PythonAutoPipeline
+    ${PYTHON_DRIVER}
+    ${CMAKE_CURRENT_SOURCE_DIR}/auto_pipeline.py
+    ${WrapITK_SOURCE_DIR}/images/cthead1.png
+    auto_pipeline.png
+    3
+    --compare auto_pipeline.png ${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png
+  )
+
+  add_test(PythonTemplatedPipeline
+    ${PYTHON_DRIVER}
+    ${CMAKE_CURRENT_SOURCE_DIR}/templated_pipeline.py
+    ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
+    templated_pipeline.png
+    10
+    --compare templated_pipeline.png ${WrapITK_SOURCE_DIR}/images/templated_pipeline.png
+  )
 
   add_test(PythonExtras ${PYTHON_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/extras.py
@@ -409,7 +440,7 @@ if(WRAP_float AND WRAP_2)
     ${PYTHON_DRIVER}
     --compare SpatialObject.png
               ${WrapITK_SOURCE_DIR}/images/SpatialObject.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/SpatialObject.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/SpatialObjectTest.py
           SpatialObject.png
   )
 

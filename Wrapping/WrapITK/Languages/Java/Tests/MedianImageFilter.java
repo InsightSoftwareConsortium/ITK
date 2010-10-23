@@ -21,7 +21,9 @@
  *
  */
 
-import InsightToolkit.*;
+import org.itk.base.*;
+import org.itk.io.*;
+import org.itk.denoising.*;
 
 public class MedianImageFilter
 {
@@ -29,10 +31,10 @@ public class MedianImageFilter
   {
     System.out.println("MedianImageFilter Example");
 
-    itkImageFileReaderIUS2_Pointer reader = itkImageFileReaderIUS2.itkImageFileReaderIUS2_New();
-    itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
+    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
+    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
 
-    itkMedianImageFilterIUS2IUS2_Pointer filter = itkMedianImageFilterIUS2IUS2.itkMedianImageFilterIUS2IUS2_New();
+    itkMedianImageFilterIUS2IUS2 filter = new itkMedianImageFilterIUS2IUS2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

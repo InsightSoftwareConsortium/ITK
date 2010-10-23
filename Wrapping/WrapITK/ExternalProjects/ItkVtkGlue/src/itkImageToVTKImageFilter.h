@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkImageToVTKImageFilter_h
 #define __itkImageToVTKImageFilter_h
 
@@ -80,35 +81,6 @@ public:
   /** This call delegate the update to the importer */
   void Update();
 
-   const std::vector<double>& getvtest() const
-     {
-  return m_vtest;
-     }
-
-   int testsize()
-     {
-  return m_vtest.size();
-     }
-
-   std::vector<double> addvector(const std::vector<double>& v) {
-          for (unsigned int i=0; i<v.size(); i++)
-          m_vtest.push_back(v[i]);
-          return m_vtest;
-      }
-
-   const std::vector<double>& addtest(double toto)
-          {
-       m_vtest.push_back(toto);
-               return m_vtest;
-            }
-   std::vector<double> tralala()
-     {
-  std::vector<double> w;
-      for (double i=0; i<10; i++)
-            w.push_back(i);
-      return w;
-
-     }
 
 protected:
   ImageToVTKImageFilter();
@@ -120,6 +92,7 @@ private:
 
   ExporterFilterPointer       m_Exporter;
   vtkImageImport            * m_Importer;
+
 };
 
 } // end namespace itk

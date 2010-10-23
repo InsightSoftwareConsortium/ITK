@@ -84,7 +84,7 @@ class itkTemplate(object):
     # the full class should not be already registered. If it is, there is a problem
     # somewhere so warn the user so he can fix the problem
     if itkTemplate.__templates__.has_key( normalizedFullName ) :
-      print >>sys.stderr, "Warning: templated class already defined '%s'" % normalizedFullName
+      print >>sys.stderr,"Warning: template %s\n  already defined as %s\n  is redefined as    %s" % (normalizedFullName, self.__templates__[normalizedFullName], cl)
     # register the class
     itkTemplate.__templates__[normalizedFullName] = cl
 
@@ -96,7 +96,7 @@ class itkTemplate(object):
     # once again, warn the user if the tuple of parameter is already defined
     # so he can fix the problem
     if self.__template__.has_key( param ) :
-      print >>sys.stderr,"Warning: template %s\n  already defined as %s\n  is redefined as    %s" % (normalizedFullName, self.__template__[param], cl)
+      print >>sys.stderr,"Warning: template already defined '%s'" % normalizedFullName
     # and register the parameter tuple
     self.__template__[param] = cl
 
@@ -110,17 +110,26 @@ class itkTemplate(object):
     # - the template is not a SmartPointer. In that case, we keep only the end of the
     #   real class name which is a short string discribing the template arguments
     #   (for example IUC2)
-    if cl.__name__.endswith("_Pointer") :
-      # it's a SmartPointer
-      attributeName = cl.__name__[len("itk"):-len("_Pointer")]
-    else :
-      # it's not a SmartPointer
-      # we need to now the size of the name to keep only the suffix
-      # short name does not contain :: and nested namespace
-      # itk::Numerics::Sample -> itkSample
+    if cl.__name__.startswith("itk"):
+      if cl.__name__.endswith("_Pointer") :
+        # it's a SmartPointer
+        attributeName = cl.__name__[len("itk"):-len("_Pointer")]
+      else :
+        # it's not a SmartPointer
+        # we need to now the size of the name to keep only the suffix
+        # short name does not contain :: and nested namespace
+        # itk::Numerics::Sample -> itkSample
+        import re
+        shortNameSize = len(re.sub(r':.*:', '', self.__name__))
+        attributeName = cl.__name__[shortNameSize:]
+    elif cl.__name__.startswith("vcl_complex"):
+      # C++ name is likely to be std::complex here, instead of the expected vcl_complex
+      attributeName = cl.__name__[len("vcl_complex"):]
+    else:
       import re
-      shortNameSize = len(re.sub(r':.*:', '', self.__name__))
+      shortNameSize = len(re.sub(r'.*::', '', self.__name__))
       attributeName = cl.__name__[shortNameSize:]
+
 
     if attributeName.isdigit() :
       # the attribute name can't be a number
@@ -130,11 +139,6 @@ class itkTemplate(object):
     # add the attribute to this object
     self.__dict__[attributeName] = cl
 
-    # now replace New method by a custom one
-    if hasattr(cl, 'New') :
-      # the new method needs to call the old one, so keep it with another (hidden) name
-      cl.__New_orig__ = cl.New
-      cl.New = types.MethodType(New, cl)
 
   def __find_param__(self, paramSetString):
     """find the parameters of the template
@@ -184,6 +188,11 @@ class itkTemplate(object):
         # convert the string to a number !
         param = int(param)
 
+      elif paramNorm == "true":
+        param = True
+      elif paramNorm == "false":
+        param = False
+
       else :
         # unable to convert the parameter
         # use it without changes, but display a warning message, to incite
@@ -210,15 +219,6 @@ class itkTemplate(object):
 
     cleanParameters = []
     for param in parameters:
-      # In the case of itk SmartPointer, get the pointed object class
-      try: param = param.GetPointer()
-      except:pass
-
-      # In the case where elt is a pointer (<className>Ptr), the real class
-      # can be found in the pointer class dictionary
-      try: param = param.__dict__[ param.__class__ ]
-      except: pass
-
       # In the case of itk class instance, get the class
       if not inspect.isclass( param ) and param.__class__.__name__[:3] == 'itk' and param.__class__.__name__!= "itkCType" :
         param = param.__class__
@@ -251,11 +251,28 @@ class itkTemplate(object):
           # groff does not.
           return commands.getoutput("groff -mandoc -Tascii -c '" + man_path +"'")
         else:
-          return "Cannot find man page for %s in %s." %(self.__name__, itkTemplate.__doxygen_root__)
+          return "Cannot find man page for %s: %s" %(self.__name__, man_path+"[.bz2]")
       except Exception, e:
         return "Cannot display man page for %s due to exception: %s." %(self.__name__, e)
     else:
       return object.__getattribute__(self, attr)
+
+  def New(self, *args, **kargs):
+    """TODO: some doc! Don't call it __call__ as it break the __doc__ attribute feature in
+    ipython"""
+    import itk
+    keys = self.keys()
+    if len(args) != 0:
+      # try to find a type suitable for the input provided
+      input_types = [output(f).__class__ for f in args]
+      keys = [k for k in self.keys() if k[0] == input_types[0]]
+    if itk.auto_pipeline.current != None and len(itk.auto_pipeline.current) != 0:
+      # try to find a type suitable for the input provided
+      input_type = output(itk.auto_pipeline.current).__class__
+      keys = [k for k in self.keys() if k[0] == input_type]
+    if len(keys) == 0:
+      raise RuntimeError("No suitable template parameter can be found.")
+    return self[keys[0]].New(*args, **kargs)
 
   def keys(self):
     return self.__template__.keys()
@@ -309,78 +326,15 @@ class itkTemplate(object):
 
 # create a new New function which accepts parameters
 def New(self, *args, **kargs) :
-  import sys
+  import sys, itk
 
-  newItkObject = self.__New_orig__()
-
-  # try to get the images from the filters in args
-  args = [image(arg) for arg in args]
-
-  # args without name are filter used to set input image
-  #
-  # count SetInput calls to call SetInput, SetInput2, SetInput3, ...
-  # usefull with filter which take 2 input (or more) like SubstractImageFiler
-  # Ex: substract image2.png to image1.png and save the result in result.png
-  # r1 = itk.ImageFileReader.US2.New(FileName='image1.png')
-  # r2 = itk.ImageFileReader.US2.New(FileName='image2.png')
-  # s = itk.SubtractImageFilter.US2US2US2.New(r1, r2)
-  # itk.ImageFileWriter.US2.New(s, FileName='result.png').Update()
-  try :
-    for setInputNb, arg  in enumerate(args) :
-      methodName = 'SetInput%i' % (setInputNb+1)
-      if methodName in dir(newItkObject) :
-        # first try to use methods called SetInput1, SetInput2, ...
-        # those method should have more chances to work in case of multiple
-        # input types
-        getattr(newItkObject, methodName)(arg)
-      else :
-        # no method called SetInput?
-        # try with the standard SetInput(nb, input)
-        newItkObject.SetInput(setInputNb, arg)
-  except TypeError, e :
-    # the exception have (at least) to possible reasons:
-    # + the filter don't take the input number as first argument
-    # + arg is an object of wrong type
-    #
-    # if it's not the first input, re-raise the exception
-    if setInputNb != 0 :
-      raise e
-    # it's the first input, try to use the SetInput() method without input number
-    newItkObject.SetInput(args[0])
-    # but raise an exception if there is more than 1 argument
-    if len(args) > 1 :
-      raise TypeError('Object accept only 1 input.')
-  except AttributeError :
-    # There is no SetInput() method, try SetImage
-    # but before, check the number of inputs
-    if len(args) > 1 :
-      raise TypeError('Object accept only 1 input.')
-    methodList = ['SetImage', 'SetInputImage']
-    methodName = None
-    for m in methodList:
-      if m in dir(newItkObject):
-        methodName = m
-    if methodName :
-      getattr(newItkObject, methodName)(args[0])
-    else:
-      raise AttributeError('No method found to set the input.')
-
-  # named args : name is the function name, value is argument(s)
-  for attribName, value in kargs.iteritems() :
-    # use Set as prefix. It allow to use a shorter and more intuitive
-    # call (Ex: itk.ImageFileReader.UC2.New(FileName='image.png')) than with the
-    # full name (Ex: itk.ImageFileReader.UC2.New(SetFileName='image.png'))
-    if attribName != "auto_progress" :
-      attrib = getattr(newItkObject, 'Set' + attribName)
-      attrib(value)
+  itk.set_inputs( self, args, kargs )
 
   # now, try to add observer to display progress
   if "auto_progress" in kargs.keys() :
     if kargs["auto_progress"] in [True, 1] :
-      import itk
       callback = itk.terminal_progress_callback
     elif kargs["auto_progress"] == 2 :
-      import itk
       callback = itk.simple_progress_callback
     else :
       callback = None
@@ -390,35 +344,36 @@ def New(self, *args, **kargs) :
     callback = None
 
   if callback :
-    import itk
     try :
+      name = self.__class__.__name__
       def progress() :
-        # newItkObject and callback are kept referenced with a closure
-        callback(self.__name__, newItkObject.GetProgress())
+        # self and callback are kept referenced with a closure
+        callback(name, self.GetProgress())
 
-      command = itk.PyCommand.New()
-      command.SetCommandCallable(progress)
-      newItkObject.AddObserver(itk.ProgressEvent(), command.GetPointer())
+      self.AddObserver(itk.ProgressEvent(), progress)
     except :
       # it seems that something goes wrong...
       # as this feature is designed for prototyping, it's not really a problem
       # if an object  don't have progress reporter, so adding reporter can silently fail
       pass
 
-  if itkConfig.NotInPlace :
-      if "SetInPlace" in dir(newItkObject) :
-          newItkObject.SetInPlace( False )
+  if itkConfig.NotInPlace and "SetInPlace" in dir(self) :
+    self.SetInPlace( False )
 
-  return newItkObject
+  if itk.auto_pipeline.current != None:
+    itk.auto_pipeline.current.connect(self)
 
+  return self
+
+
+def output(input) :
+  try :
+    img = input.GetOutput()
+  except AttributeError :
+    img = input
+  return img
 
 def image(input) :
-    try :
-        img = input.GetOutput()
-    except AttributeError :
-        img = input
-    try :
-        img = img.GetPointer()
-    except AttributeError :
-        pass
-    return img
+  import sys
+  print >> sys.stderr, "WrapITK warning: itk.image() is deprecated. Use itk.output() instead."
+  return output(input)

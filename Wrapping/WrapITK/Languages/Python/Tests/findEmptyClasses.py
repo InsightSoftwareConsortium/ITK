@@ -26,10 +26,11 @@ import sets
 set = sets.Set
 
 # dirty but easier: a global var to count the empty classes
-count = 0
+empty = set()
 
 def exploreTpl(tpl):
     for cl in tpl.itervalues():
+        print cl
         exploreMethods(cl)
         # try to instanciate the class
         try :
@@ -47,8 +48,7 @@ def exploreMethods(obj):
     excludeList = ['this', 'thisown']
     attrNameList = [i for i in dir(obj) if isinstance(i, str) and i[0].isupper() and i not in excludeList]
     if attrNameList == [] :
-      count += 1
-      print obj
+      empty.add(obj)
 
 
 excluded = set([
@@ -58,14 +58,36 @@ excluded = set([
   "DefaultStaticMeshTraits",
   "NormalBandNode",
   "ZeroFluxNeumannBoundaryCondition",
+  "SparseFieldLevelSetNode",
+  "ParallelSparseFieldLevelSetNode",
+  "PySwigIterator",
+  "SwigPyIterator",
+  "COLORS",
+  "VECTOR_REALS",
+  "SCALARS",
+  "ALL_TYPES",
+  "COMPLEX_REALS",
+  "RGBS",
+  "RGBAS",
+  "REALS",
+  "USIGN_INTS",
+  "DIMS",
+  "SIGN_INTS",
+  "VECTORS",
+  "INTS",
+  "COV_VECTOR_REALS",
+  "FFTComplexToComplexImageFilter",
+  "QuadEdgeMeshCellTraitsInfo",
+  "QuadEdgeMeshTraits",
   ])
+
 
 attrNameList = set([i for i in dir(itk) if i[0].isupper() and len(i) > 2]) - excluded
 
 for name in attrNameList:
     # use it because of lazy loading
     exec "attr = itk."+name
-    # print "-----------", name, "-----------"
+    print "-----------", name, "-----------"
     if isinstance(attr, itkTemplate) :
         exploreTpl(attr)
     else :
@@ -79,4 +101,10 @@ for name in attrNameList:
         except:
             pass
 
-sys.exit(count)
+print
+print
+print len(empty), "empty classes found"
+for c in empty:
+  print c
+
+sys.exit(len(empty))

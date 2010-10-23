@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #==========================================================================
 #
 #   Copyright Insight Software Consortium
@@ -84,13 +83,13 @@ except AttributeError:
 try :
   reader = readerType.New(FileName=1)
   raise Exception('no exception sent for wrong attribute type')
-except TypeError:
+except :
   pass
 
 # pass filter as argument for input
 # to a filter with SetInput method
 median = itk.MedianImageFilter[IType, IType].New(reader)
-assert repr(reader.GetOutput().GetPointer()) == repr(median.GetInput().GetPointer())
+assert reader.GetOutput() == median.GetInput()
 
 # to a filter with a SetImage method
 calculator = itk.MinimumMaximumImageCalculator[IType].New(reader)
@@ -98,14 +97,14 @@ calculator = itk.MinimumMaximumImageCalculator[IType].New(reader)
 
 # to a filter with several inputs
 sub = itk.SubtractImageFilter[IType, IType, IType].New(reader, reader2)
-assert repr(reader.GetOutput().GetPointer()) == repr(sub.GetInput(0).GetPointer())
-assert repr(reader2.GetOutput().GetPointer()) == repr(sub.GetInput(1).GetPointer())
+assert reader.GetOutput() == sub.GetInput(0)
+assert reader2.GetOutput() == sub.GetInput(1)
 
 
 # pass image as argument for input
 # to a filter with SetInput method
 median = itk.MedianImageFilter[IType, IType].New(im)
-assert repr(im.GetPointer()) == repr(median.GetInput().GetPointer())
+assert im == median.GetInput()
 
 # to a filter with a SetImage method
 calculator = itk.MinimumMaximumImageCalculator[IType].New(im)
@@ -113,15 +112,15 @@ calculator = itk.MinimumMaximumImageCalculator[IType].New(im)
 
 # to a filter with several inputs
 sub = itk.SubtractImageFilter[IType, IType, IType].New(im, im2)
-assert repr(im.GetPointer()) == repr(sub.GetInput(0).GetPointer())
-assert repr(im2.GetPointer()) == repr(sub.GetInput(1).GetPointer())
+assert im == sub.GetInput(0)
+assert im2 == sub.GetInput(1)
 
 
 # pass invalid input
 try:
   itk.MedianImageFilter[IType, IType].New(1)
   raise Exception('no exception sent for wrong input type')
-except TypeError:
+except:
   pass
 
 try:
@@ -133,8 +132,8 @@ except TypeError:
 
 # pass both input and attribute
 recons = itk.ReconstructionByDilationImageFilter[IType, IType].New(reader.GetOutput(), im, FullyConnected=True)
-assert repr(reader.GetOutput().GetPointer()) == repr(recons.GetInput(0).GetPointer())
-assert repr(im.GetPointer()) == repr(recons.GetInput(1).GetPointer())
+assert reader.GetOutput() == recons.GetInput(0)
+assert im == recons.GetInput(1)
 assert recons.GetFullyConnected() == True
 
 

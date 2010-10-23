@@ -21,7 +21,8 @@
  *
  */
 
-import InsightToolkit.*;
+import org.itk.io.*;
+import org.itk.segmentationandthreshold.*;
 
 public class ThresholdImageFilter
 {
@@ -29,10 +30,10 @@ public class ThresholdImageFilter
   {
     System.out.println("ThresholdImageFilter Example");
 
-    itkImageFileReaderIUS2_Pointer reader = itkImageFileReaderIUS2.itkImageFileReaderIUS2_New();
-    itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
+    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
+    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
 
-    itkThresholdImageFilterIUS2_Pointer filter = itkThresholdImageFilterIUS2.itkThresholdImageFilterIUS2_New();
+    itkThresholdImageFilterIUS2 filter = new itkThresholdImageFilterIUS2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

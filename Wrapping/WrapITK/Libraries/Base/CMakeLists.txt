@@ -1,31 +1,40 @@
-BEGIN_WRAPPER_LIBRARY(Base)
+WRAP_LIBRARY(Base)
 
 set(WRAPPER_LIBRARY_GROUPS
+  itkEventObjects
   ITKCommonBase
   itkOffset
   itkArray
   itkFixedArray
-  itkPoint
-  itkDefaultStaticMeshTraits
-  itkDefaultDynamicMeshTraits
-  itkPointSet
-  itkContinuousIndex
-  itkCovariantVector
+  itkIndex
+  itkSize
   itkVector
+  itkPoint
+#  itkDefaultDynamicMeshTraits
+#  itkDefaultStaticMeshTraits
+  itkLevelSet
+  itkContinuousIndex
+  itkVectorContainer
+  itkMapContainer
+  itkBoundingBox
+#  itkPointSet
+  itkCovariantVector
   itkRGBPixel
   itkRGBAPixel
   itkVariableLengthVector
+  ITKRegions
+  itkMatrix
+  itkSymmetricSecondRankTensor
   itkImage
   itkVectorImage
-  itkLevelSet
   itkNeighborhood
-  ITKRegions
-  SwigExtras
+#  SwigExtras
   itkImageSource
   itkImageToImageFilterA
   itkImageToImageFilterB
   itkInPlaceImageFilterA
   itkInPlaceImageFilterB
+  itkFiniteDifferenceFunction
   itkFiniteDifferenceImageFilter
   itkPath
   itkParametricPath
@@ -34,11 +43,8 @@ set(WRAPPER_LIBRARY_GROUPS
 
 set(WRAPPER_LIBRARY_DEPENDS VXLNumerics)
 
-set(WRAPPER_LIBRARY_SWIG_INPUTS "${CMAKE_CURRENT_SOURCE_DIR}/SwigExtras.i")
-set(WRAPPER_LIBRARY_CXX_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/itkStringStream.cxx")
-
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon ITKNumerics)
 
-WRAPPER_LIBRARY_CREATE_WRAP_FILES()
+AUTO_INCLUDE_MODULES()
 
-WRAPPER_LIBRARY_CREATE_LIBRARY()
+END_WRAP_LIBRARY()

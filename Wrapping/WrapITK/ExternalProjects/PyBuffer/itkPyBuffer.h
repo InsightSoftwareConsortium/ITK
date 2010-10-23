@@ -32,7 +32,7 @@
 namespace itk
 {
 
-/** \Class PyBuffer
+/** \class PyBuffer
  *  \brief Helper class for converting C buffers into python arrays.
  *
  *  This class will receive a C buffer and create the equivalen python

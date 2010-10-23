@@ -21,7 +21,8 @@
  *
  */
 
-import InsightToolkit.*;
+import org.itk.io.*;
+import org.itk.intensityfilters.*;
 
 public class SigmoidImageFilter
 {
@@ -29,10 +30,10 @@ public class SigmoidImageFilter
   {
     System.out.println("SigmoidImageFilter Example");
 
-    itkImageFileReaderIUS2_Pointer reader = itkImageFileReaderIUS2.itkImageFileReaderIUS2_New();
-    itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
+    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
+    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
 
-    itkSigmoidImageFilterIUS2IUS2_Pointer filter = itkSigmoidImageFilterIUS2IUS2.itkSigmoidImageFilterIUS2IUS2_New();
+    itkSigmoidImageFilterIUS2IUS2 filter = new itkSigmoidImageFilterIUS2IUS2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

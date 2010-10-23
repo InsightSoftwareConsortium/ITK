@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkPyCommand_h
 #define __itkPyCommand_h
 
@@ -58,6 +59,8 @@ public:
    * to make sure the Callable sticks around.
    */
   void SetCommandCallable(PyObject *obj);
+
+  PyObject * GetCommandCallable();
 
   void Execute(Object *, const EventObject&);
   void Execute(const Object *, const EventObject&);

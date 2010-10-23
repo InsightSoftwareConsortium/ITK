@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkPyImageFilter_txx
 #define __itkPyImageFilter_txx
 
@@ -44,9 +45,9 @@ PyImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 PyImageFilter<TInputImage,TOutputImage>
-::SetPyGenerateData(PyObject *obj)
+::SetPyGenerateData(PyObject *o)
 {
-    if (obj != this->m_Object)
+    if (o != this->m_Object)
     {
         if (this->m_Object)
         {
@@ -55,7 +56,7 @@ PyImageFilter<TInputImage,TOutputImage>
         }
 
         // store the new object
-        this->m_Object = obj;
+        this->m_Object = o;
 
         if (this->m_Object)
         {

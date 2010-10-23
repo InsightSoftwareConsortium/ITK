@@ -3,7 +3,10 @@
 find_program(ITK_TEST_DRIVER itkTestDriver)
 
 set(TCL_DRIVER "${ITK_TEST_DRIVER}"
-  --add-before-env TCLLIBPATH "${WrapITK_BINARY_DIR}/Tcl/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-env TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages/Tcl/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-libpath "${WrapITK_BINARY_DIR}/lib/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-libpath "${ITK_DIR}/bin/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-libpath "${ITK_DIR}"
   "${EXECUTABLE_OUTPUT_PATH}/\${CTEST_CONFIGURATION_TYPE}/itkwish"
 )
 
@@ -17,13 +20,13 @@ add_test(TclListAll ${TCL_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/ListAll.tcl)
 
 INTERSECTION(WRAP_2 2 "${WRAP_ITK_DIMS}")
 if(WRAP_unsigned_short AND WRAP_2)
-  add_test(TclBinaryDilateImageFilter
-    ${TCL_DRIVER}
-    ${CMAKE_CURRENT_SOURCE_DIR}/BinaryDilateImageFilter.tcl
-    ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
-    BinaryDilateImageFilter.png
-    --compare BinaryDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png
-  )
+#  add_test(TclBinaryDilateImageFilter
+#    ${TCL_DRIVER}
+#    ${CMAKE_CURRENT_SOURCE_DIR}/BinaryDilateImageFilter.tcl
+#    ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
+#    BinaryDilateImageFilter.png
+#    --compare BinaryDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png
+#  )
 
   add_test(TclBinaryErodeImageFilter
     ${TCL_DRIVER}
@@ -74,7 +77,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     MedianImageFilter.png
     3
-    --compare MeanImageFilter.png ${WrapITK_SOURCE_DIR}/images/MeanImageFilter.png
+    --compare MedianImageFilter.png ${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png
   )
 
   add_test(TclSigmoidImageFilter

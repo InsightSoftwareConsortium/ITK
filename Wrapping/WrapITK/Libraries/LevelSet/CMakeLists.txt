@@ -1,15 +1,17 @@
-BEGIN_WRAPPER_LIBRARY(LevelSet)
+WRAP_LIBRARY(LevelSet)
 
 set(WRAPPER_LIBRARY_GROUPS
+  itkLevelSetFunction
   itkSparseFieldLevelSetImageFilter
   itkSparseFieldFourthOrderLevelSetImageFilter
   itkSegmentationLevelSetImageFilter
   itkShapePriorSegmentationLevelSetImageFilter
   itkFastMarchingImageFilter
 )
-set(WRAPPER_LIBRARY_DEPENDS Base BaseNumerics)
+
+set(WRAPPER_LIBRARY_DEPENDS VXLNumerics Base Numerics)
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon)
 
-WRAPPER_LIBRARY_CREATE_WRAP_FILES()
-WRAPPER_LIBRARY_CREATE_LIBRARY()
+AUTO_INCLUDE_MODULES()
+END_WRAP_LIBRARY()

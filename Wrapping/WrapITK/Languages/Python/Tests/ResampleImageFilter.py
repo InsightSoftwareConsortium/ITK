@@ -71,13 +71,13 @@ filter = FilterType.New()
 TransformType = itk.AffineTransform[ itk.D, Dimension ]
 
 transform = TransformType.New()
-filter.SetTransform( transform.GetPointer() )
+filter.SetTransform( transform )
 
 InterpolatorType = itk.NearestNeighborInterpolateImageFunction[
                       InputImageType, itk.D ]
 
 interpolator = InterpolatorType.New()
-filter.SetInterpolator( interpolator.GetPointer() )
+filter.SetInterpolator( interpolator )
 
 filter.SetDefaultPixelValue( 0 )
 

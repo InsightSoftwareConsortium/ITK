@@ -30,7 +30,7 @@ OIType = itk.Image[itk.UC, dim]
 reader = itk.ImageFileReader[IType].New( FileName=argv[1] )
 filter  = itk.MedianImageFilter[IType, IType].New( reader, Radius=eval( argv[3] ) )
 
-watcher = itk.XMLFilterWatcher( filter.GetPointer(), "filter" )
+watcher = itk.XMLFilterWatcher( filter, "filter" )
 
 cast = itk.CastImageFilter[IType, OIType].New(filter)
 writer = itk.ImageFileWriter[OIType].New( cast, FileName=argv[2] )

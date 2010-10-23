@@ -1,15 +1,22 @@
-BEGIN_WRAPPER_LIBRARY(BaseSpatialObject)
+WRAP_LIBRARY(SpatialObject)
 
 set(WRAPPER_LIBRARY_GROUPS
+  itkSpatialObjectProperty
+  itkAffineGeometryFrame
   itkSpatialObjectBase
+  itkSpatialObjectPoint
+  itkContourSpatialObjectPoint
+  itkDTITubeSpatialObjectPoint
+  itkVesselTubeSpatialObjectPoint
   itkPointBasedSpatialObject
   itkImageSpatialObject
-  itkTreeNodeSO
+  itkBlobSpatialObject
+  itkPolygonSpatialObject
 )
 
-set(WRAPPER_LIBRARY_DEPENDS Base BaseTransforms)
+set(WRAPPER_LIBRARY_DEPENDS VXLNumerics Base Transforms Calculators)
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon ITKSpatialObject)
 
-WRAPPER_LIBRARY_CREATE_WRAP_FILES()
-WRAPPER_LIBRARY_CREATE_LIBRARY()
+AUTO_INCLUDE_MODULES()
+END_WRAP_LIBRARY()

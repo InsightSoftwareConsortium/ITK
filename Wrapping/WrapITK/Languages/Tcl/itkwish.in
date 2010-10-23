@@ -62,7 +62,7 @@ ITKWISH_Usage()
 }
 
 
-if [ -d "@CONFIG_WRAP_ITK_TCL_DIR@" ]; then : ; else
+if [ -d "@WRAP_ITK_TCL_DIR@" ]; then : ; else
   ITKWISH_Usage
   echo ""
   echo "Error:"
@@ -76,23 +76,23 @@ fi
 case "`uname`" in
 Darwin)
   if [ -z "$DYLD_LIBRARY_PATH" ]; then
-    export DYLD_LIBRARY_PATH="@CONFIG_WRAP_ITK_TCL_SWIG_DIR@"
+    export DYLD_LIBRARY_PATH="@WRAP_ITK_TCL_SWIG_DIR@"
   else
-    export DYLD_LIBRARY_PATH="@CONFIG_WRAP_ITK_TCL_SWIG_DIR@:$DYLD_LIBRARY_PATH"
+    export DYLD_LIBRARY_PATH="@WRAP_ITK_TCL_SWIG_DIR@:$DYLD_LIBRARY_PATH"
   fi
   ;;
 *)
   if [ -z "$LD_LIBRARY_PATH" ]; then
-    export LD_LIBRARY_PATH="@CONFIG_WRAP_ITK_TCL_SWIG_DIR@"
+    export LD_LIBRARY_PATH="@WRAP_ITK_TCL_SWIG_DIR@"
   else
-    export LD_LIBRARY_PATH="@CONFIG_WRAP_ITK_TCL_SWIG_DIR@:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="@WRAP_ITK_TCL_SWIG_DIR@:$LD_LIBRARY_PATH"
   fi
 esac
 
 if [ -z "$TCLLIBPATH" ]; then
-  export TCLLIBPATH="\"@CONFIG_WRAP_ITK_TCL_DIR@\""
+  export TCLLIBPATH="\"@WRAP_ITK_TCL_DIR@\""
 else
-  export TCLLIBPATH="\"@CONFIG_WRAP_ITK_TCL_DIR@\" $TCLLIBPATH"
+  export TCLLIBPATH="\"@WRAP_ITK_TCL_DIR@\" $TCLLIBPATH"
 fi
 
 if [ "$1" = "--help" ]; then
@@ -106,5 +106,5 @@ elif [ "$1" = "--run" ]; then
   exec "$@"
 else
   # Run real itkwish executable in this environment.
-  exec "@CONFIG_WRAP_ITK_ITKWISH_DIR@/itkwish" "$@"
+  exec "@WRAP_ITK_TCL_ITKWISH_DIR@/itkwish" "$@"
 fi

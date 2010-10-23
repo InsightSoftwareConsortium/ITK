@@ -1,137 +1,411 @@
-add_subdirectory(Tests)
+###############################################################################
 
-make_directory(${WRAP_ITK_JAVA_DIR})
-make_directory(${WRAP_ITK_JAVA_DIR}/InsightToolkit)
-set(ITK_JAVA_CLASSPATH ${WRAP_ITK_JAVA_DIR})
-set(ITK_JAVA_OUTPATH ${WRAP_ITK_JAVA_DIR})
+set(WRAP_ITK_JAVA_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "java source dir")
+set(WRAP_ITK_JAVA_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "java binary dir")
 
-# Relative path from InsightToolkit.jar installation to dlls.
-set(ITK_JAVA_INSTALL_DIR "/../Java-SWIG")
+# java stuff
+find_package(Java)
+find_package(JNI)
+include_directories(${JAVA_INCLUDE_PATH} ${JAVA_INCLUDE_PATH2})
 
-# a macro to create sym links on apple
-macro(APPLE_SYMLINK Kit)
+# create the java directory in the classindex dir
+file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java)
+
+# some glorbal variables
+set(WRAP_ITK_JAVA_OUT_DIR ${PROJECT_BINARY_DIR}/Languages/Java/Proxies CACHE INTERNAL "Java proxies directory")
+set(WRAP_ITK_JAVA_SRC_DIR ${WRAP_ITK_JAVA_OUT_DIR}/src CACHE INTERNAL "Java proxies source directory")
+#set(WRAP_ITK_JAVA_BIN_DIR ${WRAP_ITK_JAVA_OUT_DIR}/bin CACHE INTERNAL "Java proxies binary directory")
+set(WRAP_ITK_JAVA_BIN_DIR ${WRAP_ITK_JAVA_SRC_DIR} CACHE INTERNAL "Java proxies binary directory")
+set(WRAP_ITK_JAVA_JAR_DIR ${LIBRARY_OUTPUT_PATH} CACHE INTERNAL "Java jar files directory")
+set(WRAP_ITK_JAVA_CLASS_NAMES "" CACHE INTERNAL "")
+set(WRAP_ITK_JAVA_JAR_DEPS "" CACHE INTERNAL "")
+set(WRAP_ITK_JAVA_USER_CLASS_PATH "" CACHE INTERNAL "additional user java classpath")
+
+# java proxy package
+set(WRAP_ITK_JAVA_CORE_PACKAGE_NAME "org.itk" CACHE INTERNAL "")
+set(WRAP_ITK_JAVA_CORE_PACKAGE_PATH "org/itk" CACHE INTERNAL "") #TODO: this should be automated
+
+# TODO: iterators are not supported by java
+remove(JAVA_ITK_MODULES "${WRAP_ITK_MODULES}" Iterators)
+
+###############################################################################
+# Install java stuff for external projects
+if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+  WRAP_ITK_INSTALL(/Configuration/Languages/Java
+    CMakeLists.txt
+    java.i
+    module_ext.i.in
+    manifest.in
+  )
+endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+
+
+###############################################################################
+macro(CREATE_JAVA_DIRECTORY_STRUCTURE)
+
+  message(STATUS "Creating wrapping Java wrapping directories.")
+
+  file(MAKE_DIRECTORY ${WRAP_ITK_JAVA_OUT_DIR})
+  file(MAKE_DIRECTORY ${WRAP_ITK_JAVA_SRC_DIR})
+  file(MAKE_DIRECTORY ${WRAP_ITK_JAVA_BIN_DIR})
+  file(MAKE_DIRECTORY ${WRAP_ITK_JAVA_JAR_DIR})
+
+  # Packages output directory
+  file(MAKE_DIRECTORY ${WRAP_ITK_JAVA_SRC_DIR}/${WRAP_ITK_JAVA_CORE_PACKAGE_PATH})
+
+endmacro(CREATE_JAVA_DIRECTORY_STRUCTURE)
+
+
+#-----------------------------------------------------------------------------#
+# call the initialisation macros
+CREATE_JAVA_DIRECTORY_STRUCTURE()
+#-----------------------------------------------------------------------------#
+
+
+###############################################################################
+macro(WRAP_LIBRARY_JAVA library_name)
+#  set(WRAP_ITK_JAVA_CONFIGURATION_TEMPLATES "")
+#  set(WRAP_ITK_JAVA_LIBRARY_MODULE "")
+  set(WRAP_ITK_JAVA_LIBRARY_DEPS )
+#  set(WRAP_ITK_JAVA_LIBRARY_DECLS )
+#  set(WRAP_ITK_JAVA_LIBRARY_CALLS )
+  set(WRAP_ITK_JAVA_CXX_FILES )
+
+  string(TOLOWER ${WRAPPER_LIBRARY_NAME} _java_package_name)
+  set(java_package_path ${WRAP_ITK_JAVA_SRC_DIR}/${WRAP_ITK_JAVA_CORE_PACKAGE_PATH}/${_java_package_name})
+  # clean java proxies. It's difficult to know which files are produced by swig,
+  # so all the java are compiled at once in the Proxies subdirectories. A file
+  # from a previous build can make the build fail.
+  set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${java_package_path}")
+  # create the directory during the build so it can be recreated after a make clean.
+  # dummy is there to make the command not depend on ${java_package_path} directly
+  # to avoid rerunning the command when a file is added or modified in that dir.
+  add_custom_command(COMMAND ${CMAKE_COMMAND}
+    ARGS -E make_directory ${java_package_path}/dummy
+    OUTPUT ${java_package_path}/dummy
+  )
+endmacro(WRAP_LIBRARY_JAVA library_name)
+
+
+###############################################################################
+macro(END_WRAP_LIBRARY_JAVA)
+
+  # Loop over the extra swig input files and add them to the generated files
+  # lists. Guess that the generated cxx output will have the same name as
+  # the .i input file.
+  foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
+    get_filename_component(base_name ${source} NAME_WE)
+    string(REPLACE "wrap_" "" base_name "${base_name}")
+    WRAP_MODULE_JAVA("${base_name}")
+    END_WRAP_MODULE_JAVA("${base_name}")
+  endforeach(source)
+
+  # set the package name and path
+  string(TOLOWER ${WRAPPER_LIBRARY_NAME} _java_package_name)
+  set(java_package_path ${WRAP_ITK_JAVA_SRC_DIR}/${WRAP_ITK_JAVA_CORE_PACKAGE_PATH}/${_java_package_name})
+  set(java_package_bin_path ${WRAP_ITK_JAVA_BIN_DIR}/${WRAP_ITK_JAVA_CORE_PACKAGE_PATH}/${_java_package_name})
+  set(java_package_name ${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${_java_package_name})
+  set(java_jar_file_name ${java_package_name}.jar)
+  set(java_jar_file_path ${WRAP_ITK_JAVA_JAR_DIR}/${java_jar_file_name})
+
+  # set the java source and bin files
+  set(java_file )
+  set(java_bin_file )
+  foreach(class_name ${WRAP_ITK_JAVA_CLASS_NAMES})
+    set(java_file ${java_file} ${java_package_path}/${class_name}.java)
+    set(java_bin_file ${java_bin_file} ${java_package_bin_path}/${class_name}.class)
+  endforeach(class_name ${WRAP_ITK_JAVA_CLASS_NAMES})
+
+  configure_file("${WRAP_ITK_JAVA_SOURCE_DIR}/module_ext.i.in"
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i"
+    @ONLY IMMEDIATE)
+  WRAP_ITK_INSTALL(/Configuration/Typedefs/java
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i")
+
+  set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+
+#  set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}Java.cpp")
+
+
+#  add_custom_command(
+#    OUTPUT ${cpp_file} ${java_file}
+#    COMMAND ${SWIG_EXECUTABLE} -c++ -java -O -features autodoc=1
+##    -Werror
+#    -package ${java_package_name}
+##       -fcompact
+#    -w508 -w312 -w314 -w509 -w302 -w362
+#    -w389 # operator[], to be suppressed later...
+#    -w384 -w383 # operator++ ane operator--
+#    -w361 # operator!
+#    -w467 # overloaded functions (with typemaps)
+#    -w401 -w503 -w516 #!
+#    -o ${cpp_file}
+#    -I${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/Java
+#    -outdir ${java_package_path}
+#    ${interface_file}
+#    WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}
+#    DEPENDS ${DEPS} ${WRAP_ITK_JAVA_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i ${WRAP_ITK_JAVA_SOURCE_DIR}/java.i ${SWIG_EXECUTABLE}
+#    COMMENT "Generating Java wrap files for class ${java_package_name}.${WRAPPER_LIBRARY_NAME}"
+#  )
+
+
+  # create java wrapping binaries
+  set(lib ${WRAPPER_LIBRARY_NAME}Java)
+  include_directories(${WRAPPER_LIBRARY_INCLUDE_DIRECTORIES})
+  add_library(${lib} MODULE ${WRAP_ITK_JAVA_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
+#  set_target_properties(${lib} PROPERTIES PREFIX "_")
   if(APPLE)
-    # on mac os x, java files must have the name .jnilib
-    # just link them with std lib file, and install the link
-    # string(REGEX REPLACE ".dylib\$" ".jnilib" tgt "${clean_library_location}")
-    set(src ${LIBRARY_OUTPUT_PATH}/lib${Kit}Java.dylib)
-    set(tgt ${LIBRARY_OUTPUT_PATH}/lib${Kit}Java.jnilib)
-    add_custom_command(
-                      OUTPUT ${tgt}
-                      DEPENDS ${Kit}Java
-                      COMMAND ln
-                      ARGS -sf ${src} ${tgt}
-                      COMMENT "Creating symbolic link for ${Kit}Java")
-    # installing the symlink will copy the regular file, not a symlink
-    # so in the install tree, we don't need to have the .dylib
-    WRAP_ITK_INSTALL("/lib" ${tgt})
-    set(ITK_JAVA_KITS_FILES ${ITK_JAVA_KITS_FILES} ${tgt})
+    set_target_properties(${lib} PROPERTIES SUFFIX .jnilib)
   endif(APPLE)
-endmacro(APPLE_SYMLINK)
+  # work around linkage problem on some solaris systems
+  if(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+    target_link_libraries(${lib} stdc++)
+  endif(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+  # strict-aliasing breaks produced code with gcc, according to http://www.swig.org/Doc1.3/Java.html#compiling_dynamic
+  if(CMAKE_COMPILER_IS_GNUCC)
+    set_target_properties(${lib} PROPERTIES COMPILE_FLAGS -fno-strict-aliasing)
+  endif(CMAKE_COMPILER_IS_GNUCC)
+  target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES})
+  if(WRAP_ITK_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
+    target_link_libraries(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
+#     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
+  endif(WRAP_ITK_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
+  add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
+  install(TARGETS "${lib}" DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/lib")
+  if(EXTERNAL_WRAP_ITK_PROJECT)
+    # don't depends on the targets from wrapitk in external projects
+    foreach(dep ${WRAPPER_LIBRARY_DEPENDS} ITKJavaBase)
+      add_dependencies(${lib} ${dep}Swig)
+    endforeach(dep)
+  endif(EXTERNAL_WRAP_ITK_PROJECT)
 
+  if(WIN32)
+    set(sep "\;")
+  else(WIN32)
+    set(sep ":")
+  endif(WIN32)
 
-if(CMAKE_CONFIGURATION_TYPES)
-  set(ITK_BASE_JAVA_FILE ${WRAP_ITK_JAVA_DIR}/${CMAKE_CFG_INTDIR}/InsightToolkit/itkbase.java)
-  foreach(config ${CMAKE_CONFIGURATION_TYPES})
-    set(ITK_JAVA_BUILD_DIR ${LIBRARY_OUTPUT_PATH}/${config})
-    configure_file(
-      ${WrapITK_SOURCE_DIR}/Java/itkbase.java.in
-      ${WrapITK_BINARY_DIR}/Java/${config}/InsightToolkit/itkbase.java
-      @ONLY IMMEDIATE
-      )
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${config}/itk_build_tree.mark
-      "File next to InsightToolkit.jar to mark the build tree.\n"
-    )
-  endforeach(config)
-  set(ITK_JAVA_CLASSPATH
-    "${ITK_JAVA_CLASSPATH}\;${WRAP_ITK_JAVA_DIR}/${CMAKE_CFG_INTDIR}")
-  set(ITK_JAVA_OUTPATH "${ITK_JAVA_OUTPATH}/${CMAKE_CFG_INTDIR}")
-else(CMAKE_CONFIGURATION_TYPES)
-  set(ITK_JAVA_BUILD_DIR ${LIBRARY_OUTPUT_PATH})
-  set(ITK_BASE_JAVA_FILE ${WRAP_ITK_JAVA_DIR}/InsightToolkit/itkbase.java)
-  configure_file(
-    ${WrapITK_SOURCE_DIR}/Java/itkbase.java.in
-    ${ITK_BASE_JAVA_FILE}
-    @ONLY IMMEDIATE
-    )
-  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/itk_build_tree.mark
-    "File next to InsightToolkit.jar to mark the build tree.\n"
-    )
-  WRAP_ITK_INSTALL(/Java ${WRAP_ITK_JAVA_DIR}/InsightToolkit.jar )
-endif(CMAKE_CONFIGURATION_TYPES)
+  set(class_path )
+  # Current module source path
+  set(class_path "${class_path}${java_package_path}${sep}")
+  # Dependency modules bin path
+  #set(class_path "${class_path}${WRAP_ITK_JAVA_BIN_DIR}${sep}")
+  # Dependency modules jar files
+  # manifest content
+  set(WRAP_ITK_JAVA_MANIFEST )
+  foreach(dep ${WRAPPER_LIBRARY_DEPENDS} ITKJavaBase)
+    # create the import package commands
+    string(TOLOWER ${dep} ldep)
+    set(dep_jar_file ${WRAP_ITK_LIB_DIRECTORY}/${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${ldep}.jar)
+    set(class_path "${class_path}${dep_jar_file}${sep}")
+    set(WRAP_ITK_JAVA_MANIFEST "${WRAP_ITK_JAVA_MANIFEST} ${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${ldep}.jar")
+  endforeach(dep)
+  foreach(ucp ${WRAP_ITK_JAVA_USER_CLASS_PATH})
+    set(class_path "${class_path}${ucp}${sep}")
+  endforeach(ucp)
 
-set(ORDERING_DEP)
-# iterators are not supported by java
-remove(java_itk_modules "${WRAP_ITK_MODULES}" Iterators)
-foreach(Kit ${java_itk_modules})
-  set(KIT_JAVACLASS_DEP_FILES)
-  set(DEP_FILES ${${Kit}_JAVA_DEPENDS})
-  set(KIT_JAVA_NAME ${Kit})
-  foreach(File ${DEP_FILES})
-    set(FULL_JAVA_DEP_FILES ${FULL_JAVA_DEP_FILES} ${WRAP_ITK_JAVA_DIR}/InsightToolkit/${File}.java)
-    set(KIT_JAVACLASS_DEP_FILES ${KIT_JAVACLASS_DEP_FILES} ${WRAP_ITK_JAVA_DIR}/InsightToolkit/${File}.class)
+  # create the manifest file
+  if(WRAP_ITK_JAVA_MANIFEST)
+    set(WRAP_ITK_JAVA_MANIFEST "Class-Path: ${WRAP_ITK_JAVA_MANIFEST}")
+  endif(WRAP_ITK_JAVA_MANIFEST)
+  configure_file("${WRAP_ITK_JAVA_SOURCE_DIR}/manifest.in"
+                "${CMAKE_CURRENT_BINARY_DIR}/manifest"
+                @ONLY IMMEDIATE)
+
+  # Add java proxy compilation stuff
+  # Only add this if there is any classes to be built
+  if(NOT "${WRAP_ITK_JAVA_CLASS_NAMES}" STREQUAL "")
+    # compile java proxies
+    set(lib_jar ${lib}Jar)
     add_custom_command(
-      OUTPUT ${WRAP_ITK_JAVA_DIR}/InsightToolkit/${File}.class
-      DEPENDS ${WRAP_ITK_JAVA_DIR}/InsightToolkit/${File}.java ${WRAP_ITK_JAVA_DIR}/InsightToolkit/JavaCWD.java ${ITK_BASE_JAVA_FILE} ${ORDERING_DEP}
-      COMMAND ${JAVA_COMPILE}
-      ARGS -classpath "${ITK_JAVA_CLASSPATH}" -d "${ITK_JAVA_OUTPATH}"
-      ${WRAPPER_LIBRARY_OUTPUT_DIR}/${WRAP_ITK_JAVA_DIR}/InsightToolkit/${File}.java
-      COMMENT "Compile ${File}.java")
-  endforeach(File)
-  set(FULL_JAVACLASS_DEP_FILES ${FULL_JAVACLASS_DEP_FILES} ${KIT_JAVACLASS_DEP_FILES})
+      OUTPUT ${java_bin_file}
+      DEPENDS ${java_file}
+      COMMAND ${Java_JAVAC_EXECUTABLE}
+      ARGS
+      -classpath "${class_path}"
+      -d "${WRAP_ITK_JAVA_BIN_DIR}"
+#      -sourcepath "${java_package_path}"
+#      -verbose
+      "${java_package_path}/*.java"
+      COMMENT "Compiling java proxies: ${java_package_name}"
+      )
 
-  set(ITK_JAVA_KIT_LIBS ${ITK_JAVA_KIT_LIBS} ${KIT_JAVA_NAME}Java)
-  set(KIT_FILE_NAME ${WRAP_ITK_JAVA_DIR}/InsightToolkit/${KIT_JAVA_NAME}Java)
+    add_custom_command(
+      OUTPUT ${java_jar_file_path}
+      DEPENDS ${java_bin_file} ${CMAKE_CURRENT_BINARY_DIR}/manifest
+      COMMAND ${Java_JAR_EXECUTABLE}
+      ARGS
+      -cmf "${CMAKE_CURRENT_BINARY_DIR}/manifest" "${java_jar_file_path}"
+      "${WRAP_ITK_JAVA_CORE_PACKAGE_PATH}/${_java_package_name}/*"
+      WORKING_DIRECTORY ${WRAP_ITK_JAVA_BIN_DIR}
+      COMMENT "Creating java archive: ${java_jar_file_name}"
+      )
+    add_custom_target(${lib_jar} ALL DEPENDS ${java_bin_file} ${java_jar_file_path})
+    WRAP_ITK_INSTALL(/lib ${java_jar_file_path})
+
+    add_dependencies(${lib_jar} ${lib})
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      # don't depends on the targets from wrapitk in external projects
+      foreach(dep ${WRAPPER_LIBRARY_DEPENDS} ITKJavaBase)
+        add_dependencies(${lib_jar} ${dep}Java)
+        add_dependencies(${lib_jar} ${dep}JavaJar)
+      endforeach(dep)
+    endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+
+    set(WRAP_ITK_JAVA_JAR_DEPS ${WRAP_ITK_JAVA_JAR_DEPS} ${lib_jar})
+  else(NOT "${WRAP_ITK_JAVA_CLASS_NAMES}" STREQUAL "")
+    message("Warning: Unable to create java proxies for ${WRAPPER_LIBRARY_NAME}, nothing to get wrapped in this module.")
+  endif(NOT "${WRAP_ITK_JAVA_CLASS_NAMES}" STREQUAL "")
+
+endmacro(END_WRAP_LIBRARY_JAVA)
+
+###############################################################################
+macro(END_WRAP_MODULE_JAVA group_name)
+  set(WRAP_ITK_JAVA_CLASS_NAMES ${WRAP_ITK_JAVA_CLASS_NAMES} ${group_name}Java)
+
+  # set the package name and path
+  string(TOLOWER ${WRAPPER_LIBRARY_NAME} java_package_name)
+  set(java_package_path ${WRAP_ITK_JAVA_SRC_DIR}/${WRAP_ITK_JAVA_CORE_PACKAGE_PATH}/${java_package_name})
+  set(java_package_name ${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${java_package_name})
+
+  # set the java source files
+  set(java_file )
+  foreach(class_name ${WRAP_ITK_JAVA_CLASS_NAMES})
+    set(java_file ${java_file} ${java_package_path}/${class_name}.java)
+  endforeach(class_name ${WRAP_ITK_JAVA_CLASS_NAMES})
+
+  set(base_name wrap_${group_name})
+
+  # create the swig interface for all the groups in the module
+  set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${base_name}.i" )
+  set(lib ${group_name}Java)
+  set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${base_name}Java.cpp")
+
+  set(WRAP_ITK_JAVA_CXX_FILES ${WRAP_ITK_JAVA_CXX_FILES} ${cpp_file})
+
+  # prepare dependencies
+  set(DEPS )
+  set(WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS )
+  foreach(dep ${WRAPPER_LIBRARY_DEPENDS} ITKJavaBase)
+    # library dependencies
+    set(DEPS ${DEPS} ${${dep}SwigFiles})
+
+    # create the import package commands
+    string(TOLOWER ${dep} java_import_package_name)
+    set(java_import_package_name ${WRAP_ITK_JAVA_CORE_PACKAGE_NAME}.${java_import_package_name})
+    set(WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS ${WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS} "import ${java_import_package_name}.*;")
+  endforeach(dep)
+
+  set(swig_command ${SWIG_EXECUTABLE})
+  if(WRAP_ITK_USE_CCACHE)
+    set(swig_command ${CCACHE_EXECUTABLE} ${swig_command})
+  endif(WRAP_ITK_USE_CCACHE)
+
+  # if this is for an external library, let the user add extra swig args
+  if(EXTERNAL_WRAP_ITK_PROJECT)
+    set(WRAP_ITK_SWIG_ARGS_JAVA "" CACHE STRING "Extra user-defined swig arguments to be to the swig executable.")
+  endif(EXTERNAL_WRAP_ITK_PROJECT)
+
   add_custom_command(
-    OUTPUT ${KIT_FILE_NAME}.class
-    DEPENDS ${KIT_FILE_NAME}.java ${FULL_JAVA_DEP_FILES} ${ITK_BASE_JAVA_FILE} ${WRAPPER_LIBRARY_OUTPUT_DIR}/${WRAP_ITK_JAVA_DIR}/InsightToolkit/JavaCWD.java ${ORDERING_DEP}
-    COMMAND ${JAVA_COMPILE}
-    ARGS -classpath "${ITK_JAVA_CLASSPATH}" -d "${ITK_JAVA_OUTPATH}"
-    ${KIT_FILE_NAME}.java
-    COMMENT "Building ${KIT_FILE_NAME}.class")
-  set(ITK_JAVA_KITS_FILES ${ITK_JAVA_KITS_FILES} ${KIT_FILE_NAME}.class)
-  set(ORDERING_DEP ${KIT_FILE_NAME}.class)
+    OUTPUT ${cpp_file} ${java_file}
+    COMMAND ${swig_command} -c++ -java -O -features autodoc=1
+#    -Werror
+    -package ${java_package_name}
+#       -fcompact
+    -w508 -w312 -w314 -w509 -w302 -w362
+    -w389 # operator[], to be suppressed later...
+    -w384 -w383 # operator++ ane operator--
+    -w361 # operator!
+    -w467 # overloaded functions (with typemaps)
+    -w401 -w503 -w516 #!
+    -w303 # extend itklightobject
+    -o ${cpp_file}
+    -I${LANGUAGES_SRC_DIR}
+    -I${WRAP_ITK_JAVA_SOURCE_DIR}
+    -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/java
+    -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
+    ${WRAP_ITK_SWIG_ARGS_JAVA}
+    -outdir ${java_package_path}
+    ${interface_file}
+    WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java
+    DEPENDS ${java_package_path}/dummy ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i ${WRAP_ITK_JAVA_SOURCE_DIR}/java.i ${SWIG_EXECUTABLE}
+    COMMENT "Generating Java wrap files for class ${java_package_name}.${group_name}"
+  )
+  # ${WRAP_ITK_JAVA_LIBRARY_DEPS}
 
-  APPLE_SYMLINK("${Kit}")
+  configure_file("${WRAP_ITK_JAVA_SOURCE_DIR}/module_ext.i.in"
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/wrap_${group_name}_ext.i"
+    @ONLY IMMEDIATE)
 
-endforeach(Kit)
+  WRAP_ITK_INSTALL("/Configuration/Typedefs/java"
+   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/wrap_${group_name}_ext.i")
 
-# symlink SwigRuntime
-APPLE_SYMLINK(SwigRuntime)
+  set(WRAP_ITK_JAVA_LIBRARY_DEPS ${WRAP_ITK_JAVA_LIBRARY_DEPS} "${java_file}" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i")
 
-
-if(CMAKE_CONFIGURATION_TYPES)
-  add_custom_command(
-    OUTPUT ${WRAP_ITK_JAVA_DIR}/${CMAKE_CFG_INTDIR}/InsightToolkit.jar
-    DEPENDS ${ITK_JAVA_KITS_FILES}
-    COMMAND ${JAVA_ARCHIVE}
-    ARGS -cf ${WRAP_ITK_JAVA_DIR}/${CMAKE_CFG_INTDIR}/InsightToolkit.jar
-    -C ${CMAKE_CFG_INTDIR}
-    InsightToolkit
-    COMMENT "Java Archive"
-    )
-  add_custom_target(ITKJavaJar ALL DEPENDS ${WRAP_ITK_JAVA_DIR}/${CMAKE_CFG_INTDIR}/InsightToolkit.jar)
-  set(DOLLAR "$")
-  WRAP_ITK_INSTALL(/Java ${WRAP_ITK_JAVA_DIR}/${DOLLAR}{BUILD_TYPE}/InsightToolkit.jar)
-else(CMAKE_CONFIGURATION_TYPES)
-  add_custom_command(
-    OUTPUT ${WRAP_ITK_JAVA_DIR}/InsightToolkit.jar
-    DEPENDS ${ITK_JAVA_KITS_FILES} ${FULL_JAVACLASS_DEP_FILES} ${FULL_JAVA_DEP_FILES} ${WRAP_ITK_JNILIB}
-    COMMAND ${JAVA_ARCHIVE}
-    ARGS -cf ${WRAP_ITK_JAVA_DIR}/InsightToolkit.jar
-    InsightToolkit
-    COMMENT "Java Archive"
-    )
-  add_custom_target(ITKJavaJar ALL DEPENDS ${WRAP_ITK_JAVA_DIR}/InsightToolkit.jar)
-  WRAP_ITK_INSTALL(/Java ${WRAP_ITK_JAVA_DIR}/InsightToolkit.jar)
-endif(CMAKE_CONFIGURATION_TYPES)
-
-add_dependencies(ITKJavaJar ${ITK_JAVA_KIT_LIBS}  SwigRuntimeJava)
-foreach(Kit ${WRAP_ITK_MODULES})
-  add_dependencies(ITKJavaJar "${Kit}Java")
-endforeach(Kit)
-add_library(ITKJavaJarDummyLibrary ITKJavaJarDummyLibrary.c)
-add_dependencies(ITKJavaJarDummyLibrary ITKJavaJar)
+endmacro(END_WRAP_MODULE_JAVA group_name)
 
 
-add_subdirectory(CWD)
+###############################################################################
+macro(WRAP_MODULE_JAVA module)
+
+  set(text "\n")
+
+  set(text "${text}%include java.i\n\n")
+
+  set(WRAP_ITK_JAVA_SWIG_EXT "${text}")
+
+endmacro(WRAP_MODULE_JAVA)
+
+
+###############################################################################
+macro(ADD_SIMPLE_TYPEDEF_JAVA wrap_class swig_name)
+
+  if("${wrap_class}" MATCHES "SmartPointer$")
+    string(REGEX REPLACE "_Pointer$" "" smart_pointed "${swig_name}")
+    ADD_JAVA_POINTER_TYPEMAP("${smart_pointed}")
+  endif("${wrap_class}" MATCHES "SmartPointer$")
+
+endmacro(ADD_SIMPLE_TYPEDEF_JAVA wrap_class swig_name)
+
+
+###############################################################################
+macro(ADD_JAVA_POINTER_TYPEMAP template_params)
+
+  set(text "DECLARE_REF_COUNT_CLASS_JAVA(${template_params})\n")
+  set(WRAP_ITK_JAVA_SWIG_EXT "${WRAP_ITK_JAVA_SWIG_EXT}${text}")
+
+endmacro(ADD_JAVA_POINTER_TYPEMAP template_params)
+
+
+###############################################################################
+macro(ADD_ONE_TYPEDEF_JAVA wrap_method wrap_class swig_name template_params)
+
+  # store the wrapped final class names
+  set(WRAP_ITK_JAVA_CLASS_NAMES ${WRAP_ITK_JAVA_CLASS_NAMES} ${swig_name})
+
+endmacro(ADD_ONE_TYPEDEF_JAVA wrap_method wrap_class swig_name template_params)
+
+
+###############################################################################
+# Create the JavaUtils library
+
+if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+  macro(END_WRAP_LIBRARIES_JAVA)
+    add_subdirectory(${WRAP_ITK_JAVA_SOURCE_DIR}/Tests)
+#    add_subdirectory(${WRAP_ITK_JAVA_SOURCE_DIR}/JavaUtils)
+  endmacro(END_WRAP_LIBRARIES_JAVA)
+
+  macro(WRAP_LIBRARIES_JAVA)
+    add_subdirectory(${WRAP_ITK_JAVA_SOURCE_DIR}/JavaBase)
+  endmacro(WRAP_LIBRARIES_JAVA)
+
+else(NOT EXTERNAL_WRAP_ITK_PROJECT)
+  macro(END_WRAP_LIBRARIES_JAVA)
+    # just do nothing
+  endmacro(END_WRAP_LIBRARIES_JAVA)
+
+  macro(WRAP_LIBRARIES_JAVA)
+    # just do nothing
+  endmacro(WRAP_LIBRARIES_JAVA)
+
+endif(NOT EXTERNAL_WRAP_ITK_PROJECT)

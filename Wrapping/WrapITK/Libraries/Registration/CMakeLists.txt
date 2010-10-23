@@ -1,4 +1,4 @@
-BEGIN_WRAPPER_LIBRARY(Registration)
+WRAP_LIBRARY(Registration)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkPDEDeformableRegistrationFilter
@@ -8,12 +8,16 @@ set(WRAPPER_LIBRARY_GROUPS
 )
 
 set(WRAPPER_LIBRARY_DEPENDS
+  VXLNumerics
   Base
-  BaseNumerics
-  BaseTransforms
-  BaseSpatialObject)
+  Numerics
+  Transforms
+  SpatialObject
+  Resize
+  Calculators
+)
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon ITKNumerics)
 
-WRAPPER_LIBRARY_CREATE_WRAP_FILES()
-WRAPPER_LIBRARY_CREATE_LIBRARY()
+AUTO_INCLUDE_MODULES()
+END_WRAP_LIBRARY()

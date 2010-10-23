@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #==========================================================================
 #
 #   Copyright Insight Software Consortium
@@ -46,13 +45,11 @@ itk.echo(reader, sys.stdout)
 
 # test class_
 assert itk.class_(reader) == ReaderType
-assert itk.class_(reader.GetPointer()) == ReaderType
 assert itk.class_("dummy") == str
 
 # test template
 assert itk.template(ReaderType) == (itk.ImageFileReader, (IType,))
 assert itk.template(reader) == (itk.ImageFileReader, (IType,))
-assert itk.template(reader.GetPointer()) == (itk.ImageFileReader, (IType,))
 try:
   itk.template(str)
   raise Exception("unknown class should send an exception")
@@ -69,10 +66,11 @@ except KeyError:
   pass
 
 
-# test image
-assert repr(itk.image(reader)) == repr(reader.GetOutput().GetPointer())
-assert repr(itk.image(reader.GetOutput())) == repr(reader.GetOutput().GetPointer())
-assert repr(itk.image(reader.GetOutput().GetPointer())) == repr(reader.GetOutput().GetPointer())
+# test output
+assert itk.output(reader) == reader.GetOutput()
+assert itk.output(1) == 1
+# test the deprecated image
+assert itk.image(reader) == reader.GetOutput()
 assert itk.image(1) == 1
 
 
@@ -85,22 +83,71 @@ for s in [2, (2, 2), [2, 2], itk.Size[2](2)] :
   (tpl, param) = itk.template(st)
   assert tpl == itk.FlatStructuringElement
   assert param[0] == dim
-  assert st.GetRadius().GetElement(0) == st.GetRadius().GetElement(1) == 2
+  assert st.GetRadius()[0] == st.GetRadius()[1] == 2
 
 # test size
 s = itk.size(reader)
-assert s.GetElement(0) == s.GetElement(1) == 256
+assert s[0] == s[1] == 256
 s = itk.size(reader.GetOutput())
-assert s.GetElement(0) == s.GetElement(1) == 256
-s = itk.size(reader.GetOutput().GetPointer())
-assert s.GetElement(0) == s.GetElement(1) == 256
+assert s[0] == s[1] == 256
+
+# test physical size
+s = itk.physical_size(reader)
+assert s[0] == s[1] == 256.0
+s = itk.physical_size(reader.GetOutput())
+assert s[0] == s[1] == 256.0
+
+# test spacing
+s = itk.spacing(reader)
+assert s[0] == s[1] == 1.0
+s = itk.spacing(reader.GetOutput())
+assert s[0] == s[1] == 1.0
+
+# test origin
+s = itk.origin(reader)
+assert s[0] == s[1] == 0.0
+s = itk.origin(reader.GetOutput())
+assert s[0] == s[1] == 0.0
+
+# test index
+s = itk.index(reader)
+assert s[0] == s[1] == 0
+s = itk.index(reader.GetOutput())
+assert s[0] == s[1] == 0
+
+# test region
+s = itk.region(reader)
+assert s.GetIndex()[0] == s.GetIndex()[1] == 0
+assert s.GetSize()[0] == s.GetSize()[1] == 256
+s = itk.region(reader.GetOutput())
+assert s.GetIndex()[0] == s.GetIndex()[1] == 0
+assert s.GetSize()[0] == s.GetSize()[1] == 256
 
 
 # test range
 assert itk.range(reader) == (0, 255)
 assert itk.range(reader.GetOutput()) == (0, 255)
-assert itk.range(reader.GetOutput().GetPointer()) == (0, 255)
 
 
 # test write
 itk.write(reader, sys.argv[2])
+itk.write(reader, sys.argv[2], True)
+
+# test search
+res = itk.search("Index")
+assert res[0] == "Index"
+assert res[1] == "index"
+assert "ContinuousIndex" in res
+
+res = itk.search("index", True)
+assert "Index" not in res
+
+
+# test down_cast
+obj = itk.Object.cast(reader)
+assert obj.__class__ == itk.Object  # be sure that the reader is casted to itk::Object
+down_casted = itk.down_cast(obj)
+assert down_casted == reader
+assert down_casted.__class__ == ReaderType
+
+# pipeline, auto_pipeline and templated class are tested in other files

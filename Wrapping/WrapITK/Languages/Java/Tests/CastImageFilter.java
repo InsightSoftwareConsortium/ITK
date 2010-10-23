@@ -21,7 +21,8 @@
  *
  */
 
-import InsightToolkit.*;
+import org.itk.io.*;
+import org.itk.simplefilters.*;
 
 public class CastImageFilter
 {
@@ -29,10 +30,10 @@ public class CastImageFilter
   {
     System.out.println("CastImageFilter Example");
 
-    itkImageFileReaderIUC2_Pointer reader = itkImageFileReaderIUC2.itkImageFileReaderIUC2_New();
-    itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
+    itkImageFileReaderIUC2 reader = new itkImageFileReaderIUC2();
+    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
 
-    itkCastImageFilterIUC2IUS2_Pointer filter = itkCastImageFilterIUC2IUS2.itkCastImageFilterIUC2IUS2_New();
+    itkCastImageFilterIUC2IUS2 filter = new itkCastImageFilterIUC2IUS2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

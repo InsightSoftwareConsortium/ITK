@@ -21,7 +21,9 @@
  *
  */
 
-import InsightToolkit.*;
+import org.itk.base.*;
+import org.itk.io.*;
+import org.itk.denoising.*;
 
 public class MeanImageFilter
 {
@@ -29,10 +31,10 @@ public class MeanImageFilter
   {
     System.out.println("MeanImageFilter Example");
 
-    itkImageFileReaderIUS2_Pointer reader = itkImageFileReaderIUS2.itkImageFileReaderIUS2_New();
-    itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
+    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
+    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
 
-    itkMeanImageFilterIUS2IUS2_Pointer filter = itkMeanImageFilterIUS2IUS2.itkMeanImageFilterIUS2IUS2_New();
+    itkMeanImageFilterIUS2IUS2 filter = new itkMeanImageFilterIUS2IUS2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

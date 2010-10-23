@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #==========================================================================
 #
 #   Copyright Insight Software Consortium
@@ -17,8 +16,7 @@
 #
 #==========================================================================*/
 
-
-import itk
+import itk, sys, gc
 
 # create some vars used later
 
@@ -64,14 +62,36 @@ assert size1.GetElement(1) == size2.GetElement(1) == size3.GetElement(1) == size
 
 # smart pointers
 im = itk.Image.US2.New()
-assert im.GetPointer() != None
-assert im.GetPointer().__class__ != im.__class__
+assert im != None
 
 median.SetInput( im )
-assert repr(median.GetInput().GetPointer()) == repr(im.GetPointer())
-
-median.SetInput( im.GetPointer() )
-assert repr(median.GetInput().GetPointer()) == repr(im.GetPointer())
+assert median.GetInput() == im
+assert median.GetInput() != median.GetOutput()
 
 median.SetInput( None )
-assert repr(median.GetInput().GetPointer()) == repr(None)
+assert median.GetInput() == None
+
+
+# ImageSource
+
+median2 = itk.MedianImageFilter.IUS2IUS2.New()
+median.SetInput( median2 )
+assert median.GetInput() == median2.GetOutput()
+
+
+# catching exception
+try:
+  median.Update()
+  print >> sys.stderr, "Exception not throwed!"
+  sys.exit(1)
+except RuntimeError, e:
+  print "Exception catched as expected", e
+
+#   ----- keep that at the end! -----
+
+# pycommand masked
+median2.AddObserver(itk.DeleteEvent(), lambda: sys.exit(0))
+del median
+
+# we shouldn't reach that point
+sys.exit(1)

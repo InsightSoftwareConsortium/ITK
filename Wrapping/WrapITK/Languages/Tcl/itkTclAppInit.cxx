@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkLightObject.h"
 #include "itkTclConfigure.h"
 
@@ -101,7 +102,7 @@ int itkTclAppInit(Tcl_Interp* interp)
     }
 
   // Initialize the built-in packages.
-  for (unsigned int i; i < NumITKModules; i++)
+  for (unsigned int i=0; i < NumITKModules; i++)
     {
     if( ModuleInitializers[i](interp) != TCL_OK )
       {

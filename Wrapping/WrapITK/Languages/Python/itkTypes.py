@@ -20,19 +20,19 @@ class itkCType :
    __cTypes__ = {}
 
    def __init__(self,name,shortName):
-      self.__name=name
-      self.__shortName=shortName
+      self.name=name
+      self.short_name=shortName
 
-      itkCType.__cTypes__[self.__name]=self
+      itkCType.__cTypes__[self.name]=self
 
    def __del__(self):
       try:
-         del itkCType.__cTypes__[self.__name]
+         del itkCType.__cTypes__[self.name]
       except:
          pass
 
    def __repr__(self):
-      return "<itkCType %s>" % self.__name
+      return "<itkCType %s>" % self.name
 
    def GetCType(name):
       try:

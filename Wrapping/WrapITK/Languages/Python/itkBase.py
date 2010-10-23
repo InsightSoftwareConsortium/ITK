@@ -129,27 +129,31 @@ def LoadModule(name, namespace = None):
         # since every instance of itkTemplate with the same name shares the same
         # state. So we just make a new instance and add the new templates.
         templateContainer = itkTemplate.itkTemplate(cppClassName)
-        try: templateContainer.__add__(templateParams, getattr(module, swigClassName))
-        except Exception, e: DebugPrintError("%s not loaded from module %s because of exception:\n %s" %(swigClassName, name, e))
-        setattr(this_module, pyClassName, templateContainer)
-        if namespace is not None:
-          current_value = namespace.get(pyClassName)
-          if current_value != None and current_value != templateContainer:
-            DebugPrintError("Namespace already has a value for %s, which is not an itkTemplate instance for class %s. Overwriting old value." %(pyClassName, cppClassName))
-          namespace[pyClassName] = templateContainer
+        try:
+          templateContainer.__add__(templateParams, getattr(module, swigClassName))
+          setattr(this_module, pyClassName, templateContainer)
+          if namespace is not None:
+            current_value = namespace.get(pyClassName)
+            if current_value != None and current_value != templateContainer:
+              DebugPrintError("Namespace already has a value for %s, which is not an itkTemplate instance for class %s. Overwriting old value." %(pyClassName, cppClassName))
+            namespace[pyClassName] = templateContainer
+        except Exception, e:
+          DebugPrintError("%s not loaded from module %s because of exception:\n %s" %(swigClassName, name, e))
 
       else:
         # this is a description of a non-templated class
         pyClassName, cppClassName, swigClassName = template
-        try: swigClass = getattr(module, swigClassName)
-        except Exception, e: DebugPrintError("%s not found in module %s because of exception:\n %s" %(swigClassName, name, e))
-        itkTemplate.registerNoTpl(cppClassName, swigClass)
-        setattr(this_module, pyClassName, swigClass)
-        if namespace is not None:
-          current_value = namespace.get(pyClassName)
-          if current_value != None and current_value != swigClass:
-            DebugPrintError("Namespace already has a value for %s, which is not class %s. Overwriting old value." %(pyClassName, cppClassName))
-          namespace[pyClassName] = swigClass
+        try:
+          swigClass = getattr(module, swigClassName)
+          itkTemplate.registerNoTpl(cppClassName, swigClass)
+          setattr(this_module, pyClassName, swigClass)
+          if namespace is not None:
+            current_value = namespace.get(pyClassName)
+            if current_value != None and current_value != swigClass:
+              DebugPrintError("Namespace already has a value for %s, which is not class %s. Overwriting old value." %(pyClassName, cppClassName))
+            namespace[pyClassName] = swigClass
+        except Exception, e:
+          DebugPrintError("%s not found in module %s because of exception:\n %s" %(swigClassName, name, e))
 
   if itkConfig.ImportCallback: itkConfig.ImportCallback(name, 1)
 

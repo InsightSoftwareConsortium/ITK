@@ -1,8 +1,12 @@
+
 # non templated IO classes and factories
 WRAP_NON_TEMPLATE_CLASS("itk::ImageIOBase" POINTER)
+WRAP_NON_TEMPLATE_CLASS("itk::StreamingImageIOBase" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::IPLCommonImageIO" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::TransformFileReader" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::TransformFileWriter" POINTER)
+WRAP_NON_TEMPLATE_CLASS("itk::ImageIORegion")
+WRAP_NON_TEMPLATE_CLASS("itk::ImageIOFactory")
 
 WRAP_CLASS("itk::RawImageIO" POINTER)
   foreach(d ${WRAP_ITK_DIMS})
@@ -29,6 +33,12 @@ set(io_classes
   SiemensVisionImageIO
   StimulateImageIO
   VTKImageIO
+#  Brains2MaskImageIO
+  Bruker2DSEQImageIO
+  PhilipsRECImageIO
+  VoxBoCUBImageIO
+  MRCImageIO
+  JPEG2000ImageIO
 )
 
 if(NOT ITK_USE_MODULAR_BUILD)

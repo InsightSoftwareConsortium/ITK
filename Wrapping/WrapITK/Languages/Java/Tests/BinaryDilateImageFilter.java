@@ -21,7 +21,10 @@
  *
  */
 
-import InsightToolkit.*;
+import org.itk.base.*;
+import org.itk.io.*;
+import org.itk.binarymorphology.*;
+import org.itk.simplefilters.*;
 
 public class BinaryDilateImageFilter
 {
@@ -29,11 +32,11 @@ public class BinaryDilateImageFilter
   {
     System.out.println("BinaryDilateImageFilter Example");
 
-    itkImageFileReaderIUS2_Pointer reader = itkImageFileReaderIUS2.itkImageFileReaderIUS2_New();
-    itkImageFileWriterIUC2_Pointer writer = itkImageFileWriterIUC2.itkImageFileWriterIUC2_New();
-    itkCastImageFilterIUS2IUC2_Pointer caster = itkCastImageFilterIUS2IUC2.itkCastImageFilterIUS2IUC2_New();
+    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
+    itkImageFileWriterIUC2 writer = new itkImageFileWriterIUC2();
+    itkCastImageFilterIUS2IUC2 caster = new itkCastImageFilterIUS2IUC2();
 
-    itkBinaryDilateImageFilterIUS2IUS2SE2_Pointer filter = itkBinaryDilateImageFilterIUS2IUS2SE2.itkBinaryDilateImageFilterIUS2IUS2SE2_New();
+    itkBinaryDilateImageFilterIUS2IUS2SE2 filter = new itkBinaryDilateImageFilterIUS2IUS2SE2();
 
     filter.SetInput( reader.GetOutput() );
     caster.SetInput( filter.GetOutput() );

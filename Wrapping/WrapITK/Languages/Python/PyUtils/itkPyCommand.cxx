@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkPyCommand.h"
 
 namespace itk
@@ -34,9 +35,9 @@ PyCommand::~PyCommand()
     this->m_Object = NULL;
 }
 
-void PyCommand::SetCommandCallable(PyObject *obj)
+void PyCommand::SetCommandCallable(PyObject *o)
 {
-    if (obj != this->m_Object)
+    if (o != this->m_Object)
     {
         if (this->m_Object)
         {
@@ -45,7 +46,7 @@ void PyCommand::SetCommandCallable(PyObject *obj)
         }
 
         // store the new object
-        this->m_Object = obj;
+        this->m_Object = o;
 
         if (this->m_Object)
         {
@@ -54,6 +55,11 @@ void PyCommand::SetCommandCallable(PyObject *obj)
             Py_INCREF(this->m_Object);
         }
     }
+}
+
+PyObject * PyCommand::GetCommandCallable()
+{
+    return this->m_Object;
 }
 
 void PyCommand::Execute(Object *, const EventObject&)

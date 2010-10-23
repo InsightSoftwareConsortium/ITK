@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #==========================================================================
 #
 #   Copyright Insight Software Consortium
@@ -25,9 +24,9 @@
 import itk, sys
 
 import Base
-import BaseNumerics
-import BaseSpatialObject
-import BaseTransforms
+import Numerics
+import SpatialObject
+import Transforms
 import BinaryMorphology
 import Calculators
 import Compose
@@ -35,7 +34,7 @@ import DeformableTransforms
 import Denoising
 import DistanceMap
 import EdgesAndContours
-import FFT
+# import FFT
 import Filtering
 import IntensityFilters
 import Interpolators
@@ -72,9 +71,9 @@ image.Allocate()
 
 
 
-# BaseNumerics
-# BaseSpatialObject
-# BaseTransforms
+# Numerics
+# SpatialObject
+# Transforms
 # Compose
 # DeformableTransforms
 # FFT

@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkVTKImageToImageFilter_txx
 #define __itkVTKImageToImageFilter_txx
 
@@ -33,20 +34,18 @@ VTKImageToImageFilter<TOutputImage>
 
   m_Exporter = vtkImageExport::New();
 
-  m_Importer = ImporterFilterType::New();
-
-  m_Importer->SetUpdateInformationCallback( m_Exporter->GetUpdateInformationCallback());
-  m_Importer->SetPipelineModifiedCallback( m_Exporter->GetPipelineModifiedCallback());
-  m_Importer->SetWholeExtentCallback( m_Exporter->GetWholeExtentCallback());
-  m_Importer->SetSpacingCallback( m_Exporter->GetSpacingCallback());
-  m_Importer->SetOriginCallback( m_Exporter->GetOriginCallback());
-  m_Importer->SetScalarTypeCallback( m_Exporter->GetScalarTypeCallback());
-  m_Importer->SetNumberOfComponentsCallback( m_Exporter->GetNumberOfComponentsCallback());
-  m_Importer->SetPropagateUpdateExtentCallback( m_Exporter->GetPropagateUpdateExtentCallback());
-  m_Importer->SetUpdateDataCallback( m_Exporter->GetUpdateDataCallback());
-  m_Importer->SetDataExtentCallback( m_Exporter->GetDataExtentCallback());
-  m_Importer->SetBufferPointerCallback( m_Exporter->GetBufferPointerCallback());
-  m_Importer->SetCallbackUserData( m_Exporter->GetCallbackUserData());
+  this->SetUpdateInformationCallback( m_Exporter->GetUpdateInformationCallback());
+  this->SetPipelineModifiedCallback( m_Exporter->GetPipelineModifiedCallback());
+  this->SetWholeExtentCallback( m_Exporter->GetWholeExtentCallback());
+  this->SetSpacingCallback( m_Exporter->GetSpacingCallback());
+  this->SetOriginCallback( m_Exporter->GetOriginCallback());
+  this->SetScalarTypeCallback( m_Exporter->GetScalarTypeCallback());
+  this->SetNumberOfComponentsCallback( m_Exporter->GetNumberOfComponentsCallback());
+  this->SetPropagateUpdateExtentCallback( m_Exporter->GetPropagateUpdateExtentCallback());
+  this->SetUpdateDataCallback( m_Exporter->GetUpdateDataCallback());
+  this->SetDataExtentCallback( m_Exporter->GetDataExtentCallback());
+  this->SetBufferPointerCallback( m_Exporter->GetBufferPointerCallback());
+  this->SetCallbackUserData( m_Exporter->GetCallbackUserData());
 
 }
 
@@ -76,17 +75,6 @@ VTKImageToImageFilter<TOutputImage>
 }
 
 /**
- * Get an itk::Image as output
- */
-template <class TOutputImage>
-const typename VTKImageToImageFilter<TOutputImage>::OutputImageType *
-VTKImageToImageFilter<TOutputImage>
-::GetOutput() const
-{
-  return m_Importer->GetOutput();
-}
-
-/**
  * Get the exporter filter
  */
 template <class TOutputImage>
@@ -101,22 +89,11 @@ VTKImageToImageFilter<TOutputImage>
  * Get the importer filter
  */
 template <class TOutputImage>
-typename VTKImageToImageFilter<TOutputImage>::ImporterFilterType *
+const typename VTKImageToImageFilter<TOutputImage>::Superclass *
 VTKImageToImageFilter<TOutputImage>
 ::GetImporter() const
 {
-  return m_Importer;
-}
-
-/**
- * Delegate the Update to the importer
- */
-template <class TOutputImage>
-void
-VTKImageToImageFilter<TOutputImage>
-::Update()
-{
-  m_Importer->Update();
+  return this;
 }
 
 } // end namespace itk

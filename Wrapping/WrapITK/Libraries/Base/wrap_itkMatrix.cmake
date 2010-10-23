@@ -1,9 +1,6 @@
 WRAP_CLASS("itk::Matrix")
-  WRAP_TEMPLATE("${ITKM_F}22" "${ITKT_F},2,2")
-  WRAP_TEMPLATE("${ITKM_F}33" "${ITKT_F},3,3")
-  WRAP_TEMPLATE("${ITKM_F}44" "${ITKT_F},4,4")
-
-  WRAP_TEMPLATE("${ITKM_D}22" "${ITKT_D},2,2")
-  WRAP_TEMPLATE("${ITKM_D}33" "${ITKT_D},3,3")
-  WRAP_TEMPLATE("${ITKM_D}44" "${ITKT_D},4,4")
+  foreach(d ${WRAP_ITK_DIMS})
+    WRAP_TEMPLATE("${ITKM_F}${d}${d}" "${ITKT_F},${d},${d}")
+    WRAP_TEMPLATE("${ITKM_D}${d}${d}" "${ITKT_D},${d},${d}")
+  endforeach(d)
 END_WRAP_CLASS()

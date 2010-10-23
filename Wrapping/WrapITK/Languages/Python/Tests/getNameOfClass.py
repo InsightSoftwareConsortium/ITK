@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #==========================================================================
 #
 #   Copyright Insight Software Consortium
@@ -28,7 +27,7 @@ itk.force_load()
 
 # a list of classes to exclude. Typically, the classes with a custom New() method, which return a subclass
 # of the current class
-exclude = ["FFTRealToComplexConjugateImageFilter", "FFTComplexConjugateToRealImageFilter", "OutputWindow", "FFTComplexToComplexImageFilter"]
+exclude = ["FFTRealToComplexConjugateImageFilter", "FFTComplexConjugateToRealImageFilter", "OutputWindow", "FFTComplexToComplexImageFilter", "templated_class"]
 
 wrongName = False
 

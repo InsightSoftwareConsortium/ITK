@@ -10,7 +10,7 @@ WRAP_CLASS("itk::RealAndImaginaryToComplexImageFilter" POINTER_WITH_SUPERCLASS)
       endif(WRAP_complex_float)
 
       if(WRAP_complex_double)
-         WRAP_TEMPLATE("${ITKM_${t}}${ITKM_${t}}${ITKM_D}${d}" "${ITKT_${t}},${ITKT_${t}},${ITKT_L},${d}")
+         WRAP_TEMPLATE("${ITKM_${t}}${ITKM_${t}}${ITKM_D}${d}" "${ITKT_${t}},${ITKT_${t}},${ITKT_D},${d}")
       endif(WRAP_complex_double)
     endforeach(t)
   endforeach(d)

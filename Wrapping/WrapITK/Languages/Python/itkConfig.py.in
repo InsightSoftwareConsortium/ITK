@@ -55,7 +55,7 @@ data_root = normalized_path('@CONFIG_WRAP_ITK_DATA_ROOT@')
 test_root = normalized_path('@CONFIG_WRAP_ITK_TEST_ROOT@')
 
 # location of doxygen-generated man pages
-doxygen_root = '@CONFIG_WRAP_ITK_DOXYGEN_ROOT@'
+doxygen_root = normalized_path('../Doc')
 
 del normalized_path
 del os

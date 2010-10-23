@@ -28,21 +28,22 @@ WRAP_CLASS("itk::ImageToImageFilter" POINTER)
   WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
 
   # complex <-> scalar
-  if(WRAP_complex_float AND WRAP_float)
-    WRAP_IMAGE_FILTER_TYPES(CF F)
-    WRAP_IMAGE_FILTER_TYPES(F CF)
-  endif(WRAP_complex_float AND WRAP_float)
+  WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
+  WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_REAL}")
 
-  if(WRAP_complex_double AND WRAP_double)
-    WRAP_IMAGE_FILTER_TYPES(CD D)
-    WRAP_IMAGE_FILTER_TYPES(D CD)
-  endif(WRAP_complex_double AND WRAP_double)
+  # scalar <-> SymmetricSecondRankTensor
+  foreach(d ${WRAP_ITK_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_ISSRT${ITKM_D}${d}${d}}" "${ITKT_I${t}${d}}, ${ITKT_ISSRT${ITKM_D}${d}${d}}")
+      WRAP_TEMPLATE("${ITKM_ISSRT${ITKM_D}${d}${d}}${ITKM_I${t}${d}}" "${ITKT_ISSRT${ITKM_D}${d}${d}}, ${ITKT_I${t}${d}}")
+    endforeach(t)
+  endforeach(d)
 
   # Wrap dim=3 -> dim=2, dim=3 -> dim=2, etc.
   foreach(d ${WRAP_ITK_DIMS})
     foreach(d2 ${WRAP_ITK_DIMS})
       if(NOT "${d}" EQUAL "${d2}") # this was already taken care of elsewhere
-        foreach(t ${WRAP_ITK_SCALAR})
+        foreach(t ${WRAP_ITK_SCALAR} ${WRAP_ITK_RGB} ${WRAP_ITK_COMPLEX_REAL})
           WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_I${t}${d2}}"
                         "${ITKT_I${t}${d}},${ITKT_I${t}${d2}}")
         endforeach(t)

@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkPyImageFilter_h
 #define __itkPyImageFilter_h
 
@@ -28,14 +29,8 @@ namespace itk
 {
 
 /** \class PyImageFilter
- *  \brief Command subclass that calls a Python callable object, e.g.
+ *  \brief ImageToImageFilter subclass that calls a Python callable object, e.g.
  *  a Python function.
- *
- * With this class, arbitrary Python callable objects (e.g. functions)
- * can be associated with an instance to be used in AddObserver calls.
- * This is analogous to itk::TclCommand, but then a tad more flexible. ;)
- *
- * This class was contributed by Charl P. Botha <cpbotha |AT| ieee.org>
  */
 
 

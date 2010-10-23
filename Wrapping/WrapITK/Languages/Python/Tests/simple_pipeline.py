@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #==========================================================================
 #
 #   Copyright Insight Software Consortium
@@ -16,7 +15,6 @@
 #   limitations under the License.
 #
 #==========================================================================*/
-
 
 import itk, sys
 itk.auto_progress(2)

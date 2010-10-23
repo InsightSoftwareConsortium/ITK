@@ -19,6 +19,13 @@
 """itk.py : Top-level container module for ITK wrappers."""
 import itkBase, itkConfig, itkLazy, itkTypes, itkExtras, os, sys
 
+# silently import psyco
+try:
+  import psyco
+  psyco.profile()
+except ImportError:
+  pass
+
 thisModule = sys.modules[__name__]
 
 if itkConfig.LazyLoading:

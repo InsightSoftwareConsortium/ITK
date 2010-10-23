@@ -3,6 +3,7 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 WRAP_INCLUDE("vnl/vnl_matrix_fixed_ref.h")
 
+# the super class - should have the same parameters
 WRAP_CLASS("vnl_matrix_fixed_ref_const")
 #  WRAP_TEMPLATE("${ITKM_D}_2_2" "${ITKT_D},2,2")
 #  WRAP_TEMPLATE("${ITKM_D}_2_3" "${ITKT_D},2,3")
@@ -13,12 +14,16 @@ WRAP_CLASS("vnl_matrix_fixed_ref_const")
 #  WRAP_TEMPLATE("${ITKM_D}_4_3" "${ITKT_D},4,3")
 #  WRAP_TEMPLATE("${ITKM_D}_4_4" "${ITKT_D},4,4")
   WRAP_TEMPLATE("${ITKM_F}_3_3" "${ITKT_F},3,3")
-
-    # save the template parameters declared here to reuse them for the superclass
-  set(param_set ${WRAPPER_TEMPLATES})
-
 END_WRAP_CLASS()
 
 WRAP_CLASS("vnl_matrix_fixed_ref")
-  set(WRAPPER_TEMPLATES ${param_set})
+#  WRAP_TEMPLATE("${ITKM_D}_2_2" "${ITKT_D},2,2")
+#  WRAP_TEMPLATE("${ITKM_D}_2_3" "${ITKT_D},2,3")
+#  WRAP_TEMPLATE("${ITKM_D}_2_6" "${ITKT_D},2,6")
+#  WRAP_TEMPLATE("${ITKM_D}_3_12" "${ITKT_D},3,12")
+#  WRAP_TEMPLATE("${ITKM_D}_3_3" "${ITKT_D},3,3")
+#  WRAP_TEMPLATE("${ITKM_D}_3_4" "${ITKT_D},3,4")
+#  WRAP_TEMPLATE("${ITKM_D}_4_3" "${ITKT_D},4,3")
+#  WRAP_TEMPLATE("${ITKM_D}_4_4" "${ITKT_D},4,4")
+  WRAP_TEMPLATE("${ITKM_F}_3_3" "${ITKT_F},3,3")
 END_WRAP_CLASS()

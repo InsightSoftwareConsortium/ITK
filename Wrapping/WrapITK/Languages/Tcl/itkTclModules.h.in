@@ -11,12 +11,12 @@ typedef int (*InitFunctionType)(Tcl_Interp*);
 
 extern "C"
 {
-@CONFIG_MODULE_INIT_DECLARATIONS@
+@WRAP_ITK_TCL_LIBRARIES_INIT_DECLARATIONS@
 }
 
-static const unsigned int NumITKModules = @CONFIG_MODULE_COUNT@;
-static const InitFunctionType ModuleInitializers[@CONFIG_MODULE_COUNT@] = {
-@CONFIG_MODULE_INIT_ARRAY_INITIALIZER@
+static const unsigned int NumITKModules = @WRAP_ITK_TCL_LIBRARIES_COUNT@;
+static const InitFunctionType ModuleInitializers[@WRAP_ITK_TCL_LIBRARIES_COUNT@] = {
+@WRAP_ITK_TCL_LIBRARIES_ARRAY_INITIALIZER@
 };
 
 #endif

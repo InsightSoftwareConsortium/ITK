@@ -18,7 +18,7 @@
 
 # GeodesicActiveContourImageFilter.py
 # Translated by Charl P. Botha <http://cpbotha.net/> from the cxx original.
-# Id
+# $Id: GeodesicActiveContourImageFilter.py,v 1.1 2006/09/06 20:58:42 glehmann Exp $
 
 # example runs:
 # ------------
@@ -104,7 +104,8 @@ def main():
                         OutputSize=reader.GetOutput().GetBufferedRegion().GetSize() )
 
 
-    geodesicActiveContour = itk.GeodesicActiveContourLevelSetImageFilter[InternalImageType, InternalImageType, InternalPixelType].New(fastMarching, sigmoid,
+    geodesicActiveContour = itk.GeodesicActiveContourLevelSetImageFilter[InternalImageType, InternalImageType, InternalPixelType].New(fastMarching,
+                        FeatureImage=sigmoid.GetOutput(), # it is required to use the explicitly the FeatureImage - itk segfault without that :-(
                         PropagationScaling=float(argv[9]),
                         CurvatureScaling=1.0,
                         AdvectionScaling=1.0,

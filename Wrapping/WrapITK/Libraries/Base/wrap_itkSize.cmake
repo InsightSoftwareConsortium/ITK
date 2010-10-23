@@ -1,5 +1,6 @@
 WRAP_CLASS("itk::Size")
-  foreach(d ${WRAP_ITK_DIMS})
+  UNIQUE(dims "${WRAP_ITK_DIMS};1;2")
+  foreach(d ${dims})
     WRAP_TEMPLATE(${d} ${d})
   endforeach(d)
 END_WRAP_CLASS()

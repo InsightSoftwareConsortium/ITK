@@ -21,21 +21,24 @@
  *
  */
 
-import InsightToolkit.*;
+import org.itk.io.*;
+import org.itk.denoising.*;
+import org.itk.intensityfilters.*;
+import org.itk.simplefilters.*;
 
 
 public class GradientAnisotropicDiffusionImageFilter
 {
   public static void main( String argv[] )
   {
-    itkImageFileReaderIUS2_Pointer reader = itkImageFileReaderIUS2.itkImageFileReaderIUS2_New();
-    itkImageFileWriterIUS2_Pointer writer = itkImageFileWriterIUS2.itkImageFileWriterIUS2_New();
+    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
+    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
 
-    itkCastImageFilterIUS2IF2_Pointer inputCast = itkCastImageFilterIUS2IF2.itkCastImageFilterIUS2IF2_New();
+    itkCastImageFilterIUS2IF2 inputCast = new itkCastImageFilterIUS2IF2();
 
-    itkGradientAnisotropicDiffusionImageFilterIF2IF2_Pointer filter = itkGradientAnisotropicDiffusionImageFilterIF2IF2.itkGradientAnisotropicDiffusionImageFilterIF2IF2_New();
+    itkGradientAnisotropicDiffusionImageFilterIF2IF2 filter = new itkGradientAnisotropicDiffusionImageFilterIF2IF2();
 
-    itkRescaleIntensityImageFilterIF2IUS2_Pointer outputCast = itkRescaleIntensityImageFilterIF2IUS2.itkRescaleIntensityImageFilterIF2IUS2_New();
+    itkRescaleIntensityImageFilterIF2IUS2 outputCast = new itkRescaleIntensityImageFilterIF2IUS2();
 
     inputCast.SetInput( reader.GetOutput() );
     filter.SetInput( inputCast.GetOutput() );

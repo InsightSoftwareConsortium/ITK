@@ -1,0 +1,348 @@
+%%
+%% This is file `floatflt.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% floatflt.dtx  (with options: `paketkod')
+%%
+%% Copyright (c) 1994-1998 by Mats Dahlgren <matsd@sssk.se>.
+%% All rights reserved.  See the file `floatflt.ins' for information
+%% on how you may (re-)distribute the `floatflt' package files.
+%% You are not allowed to make any changes to this file without
+%% explicit permission from the author.
+%%
+\NeedsTeXFormat{LaTeX2e}[1996/12/01]
+\ProvidesPackage{floatflt}[1997/07/16 v. 1.31]
+\newcounter{OptionTest}
+\setcounter{OptionTest}{0}
+\DeclareOption{rflt}{\setcounter{OptionTest}{1}}
+\DeclareOption{lflt}{\setcounter{OptionTest}{2}}
+\DeclareOption{vflt}{\setcounter{OptionTest}{0}}
+\DeclareOption*{\OptionNotUsed}
+\ProcessOptions
+\newbox\figbox
+\newbox\tabbox
+\newbox\pagebox
+\newcount\ffigcount
+\newcount\ftabcount
+\newcount\fftest
+\newcount\hangcount
+\newcount\nosuccesstryfig
+\newcount\nosuccesstrytab
+\newdimen\figgutter   \figgutter=1truepc
+\newdimen\tabgutter   \tabgutter=1truepc
+\newdimen\htdone      \htdone=0pt
+\newdimen\pageht
+\newdimen\startpageht
+\newdimen\tabbredd
+\newdimen\floatfltwidth
+\newdimen\fltitemwidth
+\newif\iftryingfig     \tryingfigfalse
+\newif\iftryingtab     \tryingtabfalse
+\newif\ifdoingfig      \doingfigfalse
+\newif\ifdoingtab      \doingtabfalse
+\newif\iffigprocessing \figprocessingfalse
+\newif\iftabprocessing \tabprocessingfalse
+\newif\ifpageafterfig  \pageafterfigfalse
+\newif\ifpageaftertab  \pageaftertabfalse
+\newif\ifoddpages
+\newif\ifoutput
+\newtoks\outputpretest
+\newenvironment{floatingfigure}[2][v]%
+{\@tfor \@tempa :=#1\do
+         {\if\@tempa r\global\oddpagestrue\fi
+          \if\@tempa l\global\oddpagesfalse\fi
+          \if\@tempa p%
+              \ifodd\c@page\global\oddpagestrue
+                \else\global\oddpagesfalse\fi
+          \fi
+          \if\@tempa v%
+             \ifnum\theOptionTest=0
+                 \ifodd\c@page\global\oddpagestrue
+                   \else\global\oddpagesfalse\fi
+             \else
+                  \ifodd\theOptionTest\global\oddpagestrue
+                    \else\global\oddpagesfalse\fi
+             \fi
+          \fi
+         }
+ \expandafter\ifx\csname oldoutput\endcsname\relax% ref. TeXbook Ex.7.7
+    \PackageError{floatflt}{The `floatflt' package is not initialized}
+     {Try to reinstall the `floatflt' package.\MessageBreak
+      Type `x' to quit or <Return> to try to go on.}\@@end\fi
+ \global\everypar={\tryfig\oldeverypar}% must be set globally!
+ \global\advance\ffigcount by 1
+ \iffigprocessing
+    {\count0=\ffigcount\advance\count0 by -1
+     \PackageWarningNoLine{floatflt}{Floating figures \the\count0\space%
+       \space and \the\ffigcount\space colliding}%
+    }%
+ \fi
+ \iftabprocessing \PackageWarningNoLine{floatflt}{Floating figure %
+   \the\ffigcount\space and floating table \the\ftabcount\space colliding}
+ \fi
+ \def\@captype{figure}
+ \global\setlength{\floatfltwidth}{#2}
+ \global\figprocessingtrue
+ \global\setbox\figbox=\vbox\bgroup% begin of figbox
+                               \hrule height 0pt width #2 depth 0pt%
+                               \hsize=#2%
+}
+{
+\egroup
+\figinsert\par%
+}
+\newenvironment{floatingtable}[2][v]%
+{\@tfor \@tempa :=#1\do
+         {\if\@tempa r\global\oddpagestrue\fi
+          \if\@tempa l\global\oddpagesfalse\fi
+          \if\@tempa p%
+              \ifodd\c@page\global\oddpagestrue
+                \else\global\oddpagesfalse\fi
+          \fi
+          \if\@tempa v%
+             \ifnum \theOptionTest=0
+                 \ifodd\c@page\global\oddpagestrue
+                   \else\global\oddpagesfalse\fi
+             \else
+                  \ifodd\theOptionTest\global\oddpagestrue
+                    \else\global\oddpagesfalse\fi
+             \fi
+          \fi
+         }
+\expandafter\ifx\csname oldoutput\endcsname\relax% ref. TeXbook Ex.7.7
+     \PackageError{floatflt}{The `floatflt' package is not initialized}
+     {Try to reinstall the `floatflt' package.\MessageBreak
+      Type `x' to quit or <Return> to try to go on.}\@@end\fi
+\global\setbox\tabbox=\vbox\bgroup\hrule height 0pt width 0pt depth 0pt%
+   \hsize=0pt\egroup
+ \global\everypar={\trytab\oldeverypar}
+ \global\advance\ftabcount by 1
+ \iftabprocessing
+    {\count0=\ftabcount\advance\count0 by -1
+     \PackageWarningNoLine{floatflt}{Floating tables \the\count0\space%
+            \space and \the\ftabcount \space colliding}%
+    }
+ \fi
+ \iftabprocessing \PackageWarningNoLine{floatflt}{Floating table %
+   \the\ffigcount\space and floating figure \the\ftabcount\space colliding}
+ \fi
+ \settowidth{\tabbredd}{#2}
+ \global\setlength{\floatfltwidth}{\tabbredd}
+ \def\@captype{table}
+ \global\tabprocessingtrue
+ \global\setbox\tabbox=\vbox\bgroup% begin of tabbox
+                              \hrule height 0pt width\tabbredd depth 0pt%
+                               \hsize=\tabbredd
+\noindent\ifnum\ftabcount >1\ifoddpages\else\hspace*{-12pt}\fi\fi%
+#2\vspace{0.2\baselineskip}%
+}
+{
+\egroup% end of \tabbox
+\tabinsert\par%
+}
+\AtBeginDocument{%
+\edef\oldoutput{\the\output}%
+\output={\the\outputpretest%
+           \ifoutput\oldoutput\fi}
+\outputpretest={\outputtrue}
+\edef\oldeverypar{\the\everypar}
+}
+\def\dofigtest{%
+   \ifnum\outputpenalty=-10005
+     \setbox\pagebox=\vbox{\unvbox255}%
+     \global\pageht=\ht\pagebox
+     \global\outputfalse
+     \unvbox\pagebox
+   \else
+     \global\outputtrue
+     \ifdoingfig
+         \global\pageafterfigtrue
+     \fi
+   \fi}%
+\def\dotabtest{%
+   \ifnum\outputpenalty=-10005
+     \setbox\pagebox=\vbox{\unvbox255}%
+     \global\pageht=\ht\pagebox
+     \global\outputfalse
+     \unvbox\pagebox
+   \else
+     \global\outputtrue
+     \ifdoingtab
+         \global\pageaftertabtrue
+     \fi
+   \fi}%
+\def\tryfig{%
+      \iftryingfig
+       {\everypar={\relax}\setbox0=\lastbox%
+       \parindent=\wd0 \parskip=0pt \par%
+       \penalty-10005 \leavevmode}%
+       \dimen0=\vsize%
+       \advance\dimen0 by -\pageht%
+       \advance\dimen0 by -2\baselineskip%
+       \ifdim\dimen0>\ht\figbox%
+         \dimen0=0.3\baselineskip
+         \vrule depth \dimen0 width 0pt
+         \vadjust{\kern -\dimen0%
+         \vtop to \dimen0{%
+             \baselineskip=\dimen0%
+             \vss \vbox to 1ex{%
+             \ifoddpages%
+               \hbox to \hsize{\hss\copy\figbox}%
+             \else% leftsetting
+               \hbox to \hsize{\copy\figbox\hss}%
+             \fi% \ifodd\count0
+             \vss}\null}}%
+       \global\tryingfigfalse%
+       \global\doingfigtrue
+       \global\startpageht=\pageht
+       \global\htdone=0pt
+       \dohangf
+       \ifnum\nosuccesstryfig>0%
+         \typeout{floatflt Message: Flt. fig. \the\ffigcount\space set on page
+             \the\count0, shifted \the\nosuccesstryfig\space par(s) forward.}%
+       \else
+         \typeout{Package floatflt Message: Floating figure \the\ffigcount
+              \space set on page \the\count0}%
+       \fi
+     \else
+       \global\advance\nosuccesstryfig by 1
+     \fi
+     \else%
+     \ifdoingfig
+       {\everypar={\relax}\setbox0=\lastbox
+       \parindent=\wd0 \parskip=0pt \par
+         \penalty-10005 \leavevmode}%
+    \global\htdone=\pageht
+    \global\advance\htdone by -\startpageht
+    \ifpageafterfig
+      \global\doingfigfalse
+    \else
+      \dimen0=\ht\figbox%
+      \advance\dimen0 by 0.5\baselineskip%
+      \ifdim\htdone<\dimen0%
+         \dohangf
+      \else
+         \global\doingfigfalse
+      \fi
+    \fi
+    \ifdoingfig\relax\else\global\figprocessingfalse\fi
+  \else
+    \global\outputpretest={\outputtrue}%
+  \fi
+\fi
+}
+\def\trytab{%
+      \iftryingtab%
+       {\everypar={\relax}\setbox0=\lastbox%
+       \parindent=\wd0 \parskip=0pt \par%
+       \penalty-10005 \leavevmode}%
+       \dimen0=\vsize%
+       \advance\dimen0 by -\pageht%
+       \advance\dimen0 by -2\baselineskip%
+       \ifdim\dimen0>\ht\tabbox%
+         \dimen0=0.3\baselineskip
+         \vrule depth \dimen0 width 0pt
+         \vadjust{\kern -\dimen0%
+         \vtop to \dimen0{%
+             \baselineskip=\dimen0%
+             \vss \vbox to 1ex{%
+              \ifoddpages%
+               \hbox to \hsize{\hss\copy\tabbox}%
+             \else% leftsetting
+               \hbox to \hsize{\copy\tabbox\hss}%
+             \fi% \ifodd\count0
+             \vss}\null}}%
+       \global\tryingtabfalse%
+       \global\doingtabtrue
+       \global\startpageht=\pageht
+       \global\htdone=0pt
+       \dohangt
+       \ifnum\nosuccesstrytab>0%
+         \typeout{floatflt Message: Flt. tab. \the\ftabcount\space set on page
+             \the\count0, shifted \the\nosuccesstrytab\space par(s) forward.}%
+       \else
+         \typeout{Package floatflt Message: Floating table \the\ftabcount\space
+                  set on page \the\count0}%
+       \fi
+     \else
+       \global\advance\nosuccesstrytab by 1
+     \fi
+     \else
+     \ifdoingtab
+       {\everypar={\relax}\setbox0=\lastbox
+       \parindent=\wd0 \parskip=0pt \par
+         \penalty-10005 \leavevmode}%
+    \global\htdone=\pageht
+    \global\advance\htdone by -\startpageht
+    \ifpageaftertab
+      \global\doingtabfalse
+    \else
+      \dimen0=\ht\tabbox%
+      \advance\dimen0 by 0.5\baselineskip%
+      \ifdim\htdone<\dimen0%
+         \dohangt
+      \else
+         \global\doingtabfalse
+      \fi
+    \fi
+    \ifdoingtab\relax\else\global\tabprocessingfalse\fi
+  \else
+    \global\outputpretest={\outputtrue}%
+  \fi
+\fi
+}
+\def\figinsert{%
+   \global\nosuccesstryfig=0%
+   \global\outputpretest={\dofigtest}%
+   \global\tryingfigtrue \global\doingfigfalse%
+   \global\pageafterfigfalse}%
+\def\tabinsert{%
+   \global\nosuccesstrytab=0%
+   \global\outputpretest={\dotabtest}%
+   \global\tryingtabtrue \global\doingtabfalse%
+   \global\pageaftertabfalse}%
+\def\dohangf{%
+   \dimen0=\ht\figbox%
+   \advance\dimen0 by -\htdone%
+   \advance\dimen0 by 1.49\baselineskip%
+   \hangcount=\dimen0%
+   \divide\hangcount by \baselineskip%
+   \dimen0=\wd\figbox%
+   \advance\dimen0 by \figgutter%
+   \ifoddpages%
+     \global\hangafter=-\hangcount% placing right
+     \global\hangindent=-\dimen0%
+   \else% \ifleftsetting
+     \global\hangafter=-\hangcount% placing left
+     \global\hangindent=\dimen0%
+   \fi
+}
+\def\dohangt{%
+   \dimen0=\ht\tabbox%
+   \advance\dimen0 by -\htdone%
+   \advance\dimen0 by 1.49\baselineskip%
+   \hangcount=\dimen0%
+   \divide\hangcount by \baselineskip%
+   \dimen0=\wd\tabbox%
+   \advance\dimen0 by \tabgutter%
+   \ifoddpages%
+     \global\hangafter=-\hangcount% placing right
+     \global\hangindent=-\dimen0%
+   \else% \ifleftsetting
+     \global\hangafter=-\hangcount% placing left
+     \global\hangindent=\dimen0%
+   \fi
+}
+\newcommand{\fltitem}[2][0pt]{\setlength{\fltitemwidth}{\linewidth}%
+  \addtolength{\fltitemwidth}{-\floatfltwidth}%
+  \addtolength{\fltitemwidth}{-0.5em}%
+  \item \parbox[t]{\fltitemwidth}{#2}\\[#1]}
+\newcommand{\fltditem}[3][0pt]{\setlength{\fltitemwidth}{\linewidth}%
+  \addtolength{\fltitemwidth}{-\floatfltwidth}%
+  \addtolength{\fltitemwidth}{-0.5em}%
+  \item[#2] \parbox[t]{\fltitemwidth}{#3}\\[#1]}
+\endinput
+%%
+%% End of file `floatflt.sty'.
