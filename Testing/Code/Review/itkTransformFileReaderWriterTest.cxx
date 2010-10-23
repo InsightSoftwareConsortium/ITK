@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -39,7 +39,7 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   itk::TransformIOBase::Pointer transformIO =
     itk::TransformIOFactory::CreateTransformIO(argv[1],itk::TransformIOFactory::ReadMode);
   transformIO->Print(std::cout,0);
@@ -86,16 +86,17 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
     std::cerr << "Expected exception (no transformio that can read file)"
               << excp << std::endl;
     }
-  
+
   //DEBUG
   std::cout << "Reading " << argv[1] << std::endl;
-  
-  
+
+
   transformReader->SetFileName( argv[1] );
   std::cout << "Filename: " << transformReader->GetFileName() << std::endl;
   transformReader->Update();
-  
+
   typedef TransformReaderType::TransformListType * TransformListType;
+  typedef TransformReaderType::TransformPointer    TransformPointer;
 
   TransformListType transforms = transformReader->GetTransformList();
 
@@ -106,9 +107,9 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
   if( !strcmp((*tit)->GetNameOfClass(),"AffineTransform") )
     {
 
-    AffineTransformPointer affine_read = static_cast<AffineTransformType*>((*tit).GetPointer());
-    affine_transform1 = dynamic_cast< AffineTransformType * >( affine_read.GetPointer() );
-  
+    TransformPointer transform_read = tit->GetPointer();
+    affine_transform1 = dynamic_cast< AffineTransformType * >( transform_read.GetPointer() );
+
     if( affine_transform1 )
       {
       std::cout << "Successful Read" << std::endl;
@@ -119,7 +120,7 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
       std::cerr << "Error reading Affine Transform" << std::endl;
       return EXIT_FAILURE;
       }
-    } 
+    }
 
   //
   // Now Write the transform:
@@ -156,11 +157,11 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
   transformWriter->SetAppendOn();
   transformWriter->SetAppendOff();
   transformWriter->SetAppendMode(appendMode);
-  
+
   transformWriter->SetInput( affine_transform1 );
 
   transformWriter->Update();
- 
+
   //
   // And read it again to compare
   //
@@ -170,7 +171,7 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
 
   transformReader2->SetFileName( argv[2] );
   transformReader2->Update();
-  
+
   TransformListType transforms2 = transformReader2->GetTransformList();
 
   TransformReaderType::TransformListType::const_iterator tit2 = transforms2->begin();
@@ -181,9 +182,9 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
     {
     typedef AffineTransformType::Pointer AffineTransformPointer;
 
-    AffineTransformPointer affine_read = static_cast<AffineTransformType*>((*tit).GetPointer());
-    affine_transform2 = dynamic_cast< AffineTransformType * >( affine_read.GetPointer() );
-  
+    TransformPointer transform_read = tit->GetPointer();
+    affine_transform2 = dynamic_cast< AffineTransformType * >( transform_read.GetPointer() );
+
     if( affine_transform2 )
       {
       std::cout << "Successful Read" << std::endl;
@@ -193,7 +194,7 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
       std::cerr << "Error reading Affine Transform" << std::endl;
       return EXIT_FAILURE;
       }
-    } 
+    }
 
   const double tolerance = 1e-6;
 
