@@ -526,6 +526,14 @@ else(QNANHIBIT_VALUE)
    set(QNANHIBIT 0 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
 endif(QNANHIBIT_VALUE)
 
+#-----------------------------------------------------------------------------
+# turn on exceptions for floating point errors
+option(ITK_USE_FLOATINGPOINTEXCEPTIONS
+  "Enable Floating Point Exceptions for Testing"
+  OFF)
+mark_as_advanced(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+
+
 include(CheckTypeSize)
 
 

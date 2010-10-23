@@ -85,6 +85,7 @@ set(ITKCommon_SRCS
   itkMetaDataObjectBase.cxx
   itkMetaDataDictionary.cxx
   itkOctreeNode.cxx
+  itkFloatingPointExceptions.cxx
 )
 
 if(NOT ITK_EXPLICIT_INSTANTIATION)
@@ -93,6 +94,11 @@ if(NOT ITK_EXPLICIT_INSTANTIATION)
       itkParametricPath.cxx
      )
 endif(NOT ITK_EXPLICIT_INSTANTIATION)
+
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/itkFloatingPointExceptionsConfigure.h.in
+  ${CMAKE_CURRENT_BINARY_DIR}/itkFloatingPointExceptionsConfigure.h IMMEDIATE)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 if(WIN32)
    set(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
@@ -185,6 +191,9 @@ if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   file(GLOB __files1 "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
   file(GLOB __files2 "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
   install(FILES ${__files1} ${__files2}
+    DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_COMMON}
+    COMPONENT Development)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/itkFloatingPointExceptionConfigure.h
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_COMMON}
     COMPONENT Development)
 

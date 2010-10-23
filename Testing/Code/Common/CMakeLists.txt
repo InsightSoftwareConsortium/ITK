@@ -26,6 +26,15 @@ set(BASELINE ${ITK_DATA_ROOT}/Baseline/Common)
 set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 set(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
+if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+  set_source_files_properties(itkFloatingPointExceptionsTest.cxx
+    COMPILE_FLAGS -DITK_USE_FPE)
+endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+
+
+#-----------------------------------------------------------------------------
+#
+
 add_test(itkAnnulusOperatorTest ${COMMON_TESTS} itkAnnulusOperatorTest)
 add_test(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 add_test(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
@@ -409,6 +418,38 @@ if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
   add_test(itkImageFillBufferTest4.1 ${COMMON_TESTS2} itkImageFillBufferTest 4.1)
 endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
 
+#
+# this test depends on being able to raise C++ exceptions from
+# the signal handler. This is apparently not something that
+# works properly
+if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+
+  add_test(itkFloatingPointExceptionsTest1 ${COMMON_TESTS2}
+    itkFloatingPointExceptionsTest DivByZero)
+
+  add_test(itkFloatingPointExceptionsTest2 ${COMMON_TESTS2}
+    itkFloatingPointExceptionsTest ZeroDivByZero)
+
+  add_test(itkFloatingPointExceptionsTest3 ${COMMON_TESTS2}
+    itkFloatingPointExceptionsTest FPOverFlow)
+
+  add_test(itkFloatingPointExceptionsTest4 ${COMMON_TESTS2}
+    itkFloatingPointExceptionsTest FPUnderFlow)
+
+  add_test(itkFloatingPointExceptionsTest5 ${COMMON_TESTS2}
+    itkFloatingPointExceptionsTest IntDivByZero)
+
+  set_tests_properties(
+    itkFloatingPointExceptionsTest1
+    itkFloatingPointExceptionsTest2
+    itkFloatingPointExceptionsTest3
+    itkFloatingPointExceptionsTest4
+    itkFloatingPointExceptionsTest5
+    PROPERTIES WILL_FAIL TRUE
+    )
+
+endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+
 if(ITK_BINARY_DIR)
   set(ITK_SYSTEM_INFORMATION_DIR ${ITK_BINARY_DIR})
 else(ITK_BINARY_DIR)
@@ -673,6 +714,7 @@ itkVariableSizeMatrixTest.cxx
 itkImportContainerTest.cxx
 itkZeroFluxBoundaryConditionTest.cxx
 itkImageFillBufferTest.cxx
+itkFloatingPointExceptionsTest.cxx
 )
 # itkQuaternionOrientationAdapterTest.cxx
 

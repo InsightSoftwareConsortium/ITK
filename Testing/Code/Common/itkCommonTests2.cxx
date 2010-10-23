@@ -161,4 +161,5 @@ REGISTER_TEST(itkTriangleHelperTest);
 REGISTER_TEST(itkCrossHelperTest);
 REGISTER_TEST(itkPriorityQueueTest);
 REGISTER_TEST(itkPriorityQueueTest);
+REGISTER_TEST(itkFloatingPointExceptionsTest);
 }
