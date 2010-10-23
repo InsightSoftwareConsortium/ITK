@@ -75,7 +75,7 @@ int main( int argc, char *argv[] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Error writing the image" << std::endl;
+    std::cerr << "Error reading the image" << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
