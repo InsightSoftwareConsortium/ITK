@@ -32,9 +32,9 @@ namespace itk
  * \code
  *     medianFilter->Update();
  *     ImageType::Pointer image = medianFilter->GetOutput();
- *     typedef ImageDuplicator< ImageType > DuplicatorType;
+ *     typedef itk::ImageDuplicator< ImageType > DuplicatorType;
  *     DuplicatorType::Pointer duplicator = DuplicatorType::New();
- *     duplicator->SetInput();
+ *     duplicator->SetInputImage(image);
  *     duplicator->Update();
  *     ImageType::Pointer clonedImage = duplicator->GetOutput();
  * \endcode
