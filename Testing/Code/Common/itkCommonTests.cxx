@@ -4,7 +4,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include <iostream>
-#include "itkTestMain.h" 
+#include "itkTestMain.h"
 
 
 void RegisterTests()
@@ -44,8 +44,9 @@ REGISTER_TEST(itkConstShapedNeighborhoodIteratorTest );
 REGISTER_TEST(itkCovariantVectorGeometryTest );
 REGISTER_TEST(itkCovarianceImageFunctionTest );
 REGISTER_TEST(itkDataTypeTest );
-REGISTER_TEST(itkDecoratorTest ); 
-REGISTER_TEST(itkDirectoryTest ); 
+REGISTER_TEST(itkDecoratorTest );
+REGISTER_TEST(itkDerivativeOperatorTest );
+REGISTER_TEST(itkDirectoryTest );
 REGISTER_TEST(itkDynamicMeshTest );
 REGISTER_TEST(itkDiffusionTensor3DTest );
 REGISTER_TEST(itkEuler2DTransformTest );
@@ -94,4 +95,3 @@ REGISTER_TEST(itkMatrixTest );
 REGISTER_TEST(itkMapContainerTest );
 REGISTER_TEST(itkMahalanobisDistanceThresholdImageFunctionTest );
 }
-
