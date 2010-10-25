@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNeighborhoodTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -46,7 +47,7 @@ int itkNeighborhoodTest(int, char* [] )
   println("Test const_iterators");
   for (itk::Neighborhood<float, 2>::ConstIterator itc = b.Begin();
        itc < b.End(); ++itc) std::cout << *itc << " ";
-  
+
   println("Copy the buffer into a vnl_vector");
   vnl_vector<float> v = b.GetBufferReference();
   v[2] = 0.0f;
@@ -57,7 +58,7 @@ int itkNeighborhoodTest(int, char* [] )
   const vnl_vector<float> &vcp = b.GetBufferReference();
   std::cout << &vcp << std::endl;
   std::cout << vcp;
-  
+
   println("Point to the buffer using a vnl_vector");
   vnl_vector<float> &vp = b.GetBufferReference();
   std::cout << &vp << std::endl;
@@ -84,7 +85,7 @@ int itkNeighborhoodTest(int, char* [] )
   itk::Neighborhood< itk::Vector<float, 3>, 2 > s;
   s.SetRadius(rad);
   s.Print(std::cout);
-  
+
   println("Testing stride lengths");
   itk::Neighborhood<float , 2> stride_2d;
   stride_2d.SetRadius(1);
@@ -111,6 +112,6 @@ int itkNeighborhoodTest(int, char* [] )
   q2.Print(std::cout);
 
 
-  
+
   return EXIT_SUCCESS;
 }

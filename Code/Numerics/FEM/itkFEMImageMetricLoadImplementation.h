@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMImageMetricLoadImplementation.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMImageMetricLoadImplementation_h
 #define __itkFEMImageMetricLoadImplementation_h
 
@@ -52,7 +52,7 @@ template<class TLoadClass>
 class ImageMetricLoadImplementation
 {
 public:
-  
+
   template<class TElementClassConstPointer>
   static void ImplementImageMetricLoad(TElementClassConstPointer element, Element::LoadPointer load, Element::VectorType& Fe )
     {
@@ -66,16 +66,16 @@ public:
     }
 
 private:
-  
+
   static const bool m_Registered;
-  
+
   static void Implementation(typename Element::ConstPointer element, typename TLoadClass::Pointer l0, typename Element::VectorType& Fe)
     {
     const unsigned int TotalSolutionIndex=1;/* Need to change if the index changes in CrankNicolsonSolver */
     typename Solution::ConstPointer   S=l0->GetSolution(); // has current solution state
 
     // Order of integration
-    // FIXME: Allow changing the order of integration by setting a 
+    // FIXME: Allow changing the order of integration by setting a
     //        static member within an element base class.
     unsigned int order=l0->GetNumberOfIntegrationPoints();
 
@@ -87,7 +87,7 @@ private:
     Element::VectorType  force(Ndofs,0.0),
       ip,gip,gsol,force_tmp,shapef;
     Element::Float w,detJ;
-    
+
     Fe.set_size(element->GetNumberOfDegreesOfFreedom());
     Fe.fill(0.0);
     shapef.set_size(Nnodes);
@@ -121,7 +121,7 @@ private:
         }
       float solval,posval;
       detJ=element->JacobianDeterminant(ip);
-        
+
       for(unsigned int f=0; f<ImageDimension; f++)
         {
         solval=0.0;
@@ -140,7 +140,7 @@ private:
       // a vector with less dimensions, we add zero elements. If the Fg
       // returned a vector with more dimensions, we remove the extra dimensions.
       force.fill(0.0);
-      
+
       force=l0->Fe(gip,gsol);
       // Calculate the equivalent nodal loads
       for(unsigned int n=0; n<Nnodes; n++)
@@ -151,11 +151,11 @@ private:
           Fe[n*Ndofs+d] += temp;
           }
         }
-      
+
       }
-    
+
     }
-  
+
 };
 
 

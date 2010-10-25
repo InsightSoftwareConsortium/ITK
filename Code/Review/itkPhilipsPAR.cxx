@@ -1,155 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPhilipsPAR.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
-#include "itkPhilipsPAR.h"
-#include "itkExceptionObject.h"
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <algorithm>
-#include <string.h>
-
-/**
- * \author Don C. Bigler
- *         The Pennsylvania State University 2005
  *
- * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/1381
+ *  Copyright Insight Software Consortium
  *
- */
-
-namespace itk
-{
-/*#=== IMAGE INFORMATION DEFINITION ============================================
-#
-#The rest of this file contains ONE line per image, this line contains the
-#following information:
-#
-#slice number                             (integer)
-#echo number                              (integer)
-#dynamic scan number                      (integer)
-#cardiac phase number                     (integer)
-#image_type_mr                            (integer)
-#scanning sequence                        (integer)
-#index in REC file (in images)            (integer)
-#rescale intercept                        (float)
-#rescale slope                            (float)
-#scale slope                              (float)
-#window center                            (integer)
-#window width                             (integer)
-#image angulation (ap,fh,rl in degrees )  (3*float)
-#image offcentre (ap,fh,rl in mm )        (3*float)
-#image_display_orientation                (integer)
-#slice orientation ( TRA/SAG/COR )        (integer)
-#fmri_status_indication                   (integer)
-#image_type_ed_es  (end diast/end syst)   (integer)
-#pixel spacing (x,y) (in mm)              (2*float)
-#echo_time                                (float)
-#dyn_scan_begin_time                      (float)
-#trigger_time                             (float)
-#diffusion_b_factor                       (float)
-#image_flip_angle (in degrees)            (float)
-#
-#=== IMAGE INFORMATION =======================================================*/
-/**
- * \struct image_info_defV3
- */
-struct image_info_defV3 {
-  int problemreading;
-  int slice;
-  int echo;
-  int dynamic;
-  int cardiac;
-  int image_type_mr;
-  int scan_sequence;
-  int index;
-  float rescale_int;
-  float rescale_slope;
-  float scale_slope;
-  int window_center;
-  int window_width;
-  float angAP;
-  float angFH;
-  float angRL;
-  float offAP;
-  float offFH;
-  float offRL;
-  int display_orientation;
-  int slice_orientation;
-  int fmri_status_indication;
-  int image_type_ed_es;
-  float spacingx;
-  float spacingy;
-  float echo_time;
-  float dyn_scan_begin_time;
-  float trigger_time;
-  float diffusion_b_factor;
-  float image_flip_angle;
-};
-
-/*#=== IMAGE INFORMATION DEFINITION ============================================
-#The rest of this file contains ONE line per image, this line contains the
-#following information:
-#
-#slice number                             (integer)
-#echo number                              (integer)
-#dynamic scan number                      (integer)
-#cardiac phase number                     (integer)
-#image_type_mr                            (integer)
-#scanning sequence                        (integer)
-#index in REC file (in images)            (integer)
-#image pixel size (in bits)               (integer)
-#scan percentage                          (integer)
-#recon resolution (x y)                   (2*integer)
-#rescale intercept                        (float)
-#rescale slope                            (float)
-#scale slope                              (float)
-#window center                            (integer)
-#window width                             (integer)
-#image angulation (ap,fh,rl in degrees )  (3*float)
-#image offcentre (ap,fh,rl in mm )        (3*float)
-#slice thickness (in mm )                 (float)
-#slice gap (in mm )                       (float)
-#image_display_orientation                (integer)
-#slice orientation ( TRA/SAG/COR )        (integer)
-#fmri_status_indication                   (integer)
-#image_type_ed_es  (end diast/end syst)   (integer)
-#pixel spacing (x,y) (in mm)              (2*float)
-#echo_time                                (float)
-#dyn_scan_begin_time                      (float)
-#trigger_time                             (float)
-#diffusion_b_factor                       (float)
-#number of averages                       (integer)
-#image_flip_angle (in degrees)            (float)
-#cardiac frequency   (bpm)                (integer)
-#minimum RR-interval (in ms)              (integer)
-#maximum RR-interval (in ms)              (integer)
-#TURBO factor  <0=no turbo>               (integer)
-#Inversion delay (in ms)                  (float)
-Version 4.1
-#diffusion b value number    (imagekey!)  (integer)
-#gradient orientation number (imagekey!)  (integer)
-#contrast type                            (string)
-#diffusion anisotropy type                (string)
-#diffusion (ap, fh, rl)                   (3*float)
-Version 4.2
-#label type (ASL)            (imagekey!)  (integer)
-#
-#=== IMAGE INFORMATION =======================================================*/
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 /**
  * \struct image_info_defV4
  */

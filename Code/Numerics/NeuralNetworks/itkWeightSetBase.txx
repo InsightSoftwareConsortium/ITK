@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWeightSetBase.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkWeightSetBase_txx
 #define __itkWeightSetBase_txx
 
@@ -227,11 +228,11 @@ void
 WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetWeightValues(ValuePointer w)
 {
-  vnl_matrix<ValueType> W_temp;   
+  vnl_matrix<ValueType> W_temp;
   W_temp.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
   W_temp.fill(0);
   W_temp.copy_in(w);
- 
+
   m_WeightMatrix = W_temp;
   // ValueType v=0.0;
   // m_WeightMatrix.set_column( m_NumberOfInputNodes-1,v);
@@ -243,11 +244,11 @@ void
 WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetDWValues(ValuePointer dw)
 {
-  vnl_matrix<ValueType> DW_temp;   
+  vnl_matrix<ValueType> DW_temp;
   DW_temp.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
   DW_temp.fill(0);
   DW_temp.copy_in(dw);
- 
+
   m_DW = DW_temp;
   ValueType v=0.0;
   m_DW.set_column( m_NumberOfInputNodes-1,v);
@@ -262,8 +263,8 @@ WeightSetBase<TMeasurementVector,TTargetVector>
   vnl_vector<ValueType> db_temp;
   db_temp.set_size(m_NumberOfOutputNodes);
   db_temp.fill(0);
-  db_temp.copy_in(db);  
-  
+  db_temp.copy_in(db);
+
   m_DB=db_temp;
   this->Modified();
 }
@@ -404,23 +405,23 @@ WeightSetBase<TMeasurementVector,TTargetVector>
 {
   m_Del_m_2 = m_Del_m_1;    // save last weight update;
   m_Del_m_1 = m_Del_new;    // save last weight update;
- 
+
   m_Delb_m_2 = m_Delb_m_1;  // save last weight update;
   m_Delb_m_1 = m_Delb_new;  // save last weight update;
-  
+
   m_Del_new.fill(0);
   m_Delb_new.fill(0);
 
   m_DW.set_column(m_NumberOfInputNodes - 1, m_DB);
   m_WeightMatrix += m_DW;
   m_DW.set_column(m_NumberOfInputNodes - 1, m_Delb_new);
- 
+
   m_DB_m_2 = m_DB_m_1;
   m_DB_m_1 = m_DB;
 
   m_DW_m_2 = m_DW_m_1;
   m_DW_m_1 = m_DW;
-   
+
   if(m_FirstPass == true)
     {
     m_FirstPass = false;
@@ -434,11 +435,11 @@ WeightSetBase<TMeasurementVector,TTargetVector>
 
 /** Print the object */
 template<class TMeasurementVector, class TTargetVector>
-void  
+void
 WeightSetBase<TMeasurementVector,TTargetVector>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  Superclass::PrintSelf( os, indent ); 
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf( os, indent );
 
   os << indent << "WeightSetBase(" << this << ")"
      << std::endl;
@@ -453,8 +454,8 @@ WeightSetBase<TMeasurementVector,TTargetVector>
      << std::endl;
   os << indent << "m_InputErrorValues = " << m_InputErrorValues
      << std::endl;
-  
-  os << indent << "m_DW = " << m_DW 
+
+  os << indent << "m_DW = " << m_DW
      << std::endl;
   os << indent << "m_DW_new = " << m_DW_new
      << std::endl;
@@ -464,7 +465,7 @@ WeightSetBase<TMeasurementVector,TTargetVector>
      << std::endl;
   os << indent << "m_DW_m = " << m_DW_m
      << std::endl;
-  
+
   os << indent << "m_DB = " << m_DB
      << std::endl;
   os << indent << "m_DB_new = " << m_DB_new
@@ -473,7 +474,7 @@ WeightSetBase<TMeasurementVector,TTargetVector>
      << std::endl;
   os << indent << "m_DB_m_2 = " << m_DB_m_2
      << std::endl;
-  
+
   os << indent << "m_Del = " << m_Del
      << std::endl;
   os << indent << "m_Del_new = " << m_Del_new
@@ -482,7 +483,7 @@ WeightSetBase<TMeasurementVector,TTargetVector>
      << std::endl;
   os << indent << "m_Del_m_2 = " << m_Del_m_2
      << std::endl;
-  
+
   os << indent << "m_Delb = " << m_Delb
      << std::endl;
   os << indent << "m_Delb_new = " << m_Delb_new
@@ -498,7 +499,7 @@ WeightSetBase<TMeasurementVector,TTargetVector>
      << std::endl;
   os << indent << "m_ConnectivityMatrix = " << m_ConnectivityMatrix
      << std::endl;
-  
+
   os << indent << "m_Momentum = " << m_Momentum
      << std::endl;
   os << indent << "m_Bias = " << m_Bias
@@ -510,7 +511,7 @@ WeightSetBase<TMeasurementVector,TTargetVector>
   os << indent << "m_Range = " << m_Range
      << std::endl;
 
-} 
+}
 
 } // end namespace Statistics
 } // end namespace itk

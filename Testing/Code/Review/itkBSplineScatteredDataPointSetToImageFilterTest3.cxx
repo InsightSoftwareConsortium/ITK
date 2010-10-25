@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4756 ) // overflow in constant arithmetic
 // seems to be a bogus warning for this test
@@ -45,18 +46,18 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
   typedef double                                         RealType;
   typedef itk::Vector<RealType, DataDimension>           VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>    ImageType;  
+  typedef itk::Image<VectorType, ParametricDimension>    ImageType;
   typedef VectorType                                     PointSetPixelType;
 
   typedef itk::PointSet< PointSetPixelType, ParametricDimension > PointSetType;
 
-  PointSetType::Pointer pointSet = PointSetType::New();  
+  PointSetType::Pointer pointSet = PointSetType::New();
 
   // Read the input points
   std::ifstream inputFile;
   inputFile.open( argv[1] );
-  
-  
+
+
   VectorType P; // The actual data to be approximated
 
   PointSetType::PointType parameterPosition; // parameter of the curve
@@ -89,13 +90,13 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   // Instantiate the filter and set the parameters
   typedef itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, ImageType>  FilterType;
   FilterType::Pointer filter = FilterType::New();
-  
+
   // Define the parametric domain
-  ImageType::SpacingType spacing;  
+  ImageType::SpacingType spacing;
   spacing.Fill( 0.001 );
-  ImageType::SizeType size;  
+  ImageType::SizeType size;
   size.Fill( static_cast<unsigned int>( 1.0/spacing[0] ) + 1 );
-  ImageType::PointType origin;  
+  ImageType::PointType origin;
   origin.Fill( 0.0 );
 
   filter->SetSize( size );
@@ -103,23 +104,23 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   filter->SetSpacing( spacing );
   filter->SetInput( pointSet );
 
-  filter->SetSplineOrder( 3 );  
+  filter->SetSplineOrder( 3 );
   FilterType::ArrayType ncps;
-  ncps.Fill( 4 );  
+  ncps.Fill( 4 );
   filter->SetNumberOfControlPoints( ncps );
   filter->SetNumberOfLevels( 5 );
   filter->SetGenerateOutputImage( false );
 
-  try 
+  try
     {
     filter->Update();
-  
+
     std::ofstream outputFile;
 
     outputFile.open( argv[2] );
-    
+
     PointSetType::PointType parameterPosition2;
-    VectorType P2; 
+    VectorType P2;
     FilterType::GradientType G;
 
     for ( RealType t2 = 0.0; t2 <= 1.0+1e-10; t2 += 0.01 )
@@ -138,7 +139,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
     outputFile.close();
 
     }
-  catch ( itk::ExceptionObject & excp ) 
+  catch ( itk::ExceptionObject & excp )
     {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

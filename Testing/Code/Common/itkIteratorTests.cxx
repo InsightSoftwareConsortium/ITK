@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkIteratorTests.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -53,7 +54,7 @@ int itkIteratorTests(int, char* [] )
   region.SetSize(regionSize3D);
   region.SetIndex(regionStartIndex3D);
   o3->SetRequestedRegion( region );
-  
+
   o3->SetOrigin(origin3D);
   o3->SetSpacing(spacing3D);
 
@@ -65,7 +66,7 @@ int itkIteratorTests(int, char* [] )
   unsigned long num = 190*190*190;
   unsigned long i;
   bool passed = true;
-  
+
   // memset
   start = clock();
   unsigned short *ptr = o3->GetBufferPointer();
@@ -96,7 +97,7 @@ int itkIteratorTests(int, char* [] )
     {
     passed = false;
     }
-  
+
   // 3 nested loops
   unsigned long ii, jj, kk, len=190;
   start = clock();
@@ -116,7 +117,7 @@ int itkIteratorTests(int, char* [] )
   std::cout << "Raw pointer in 3 nested loops" << std::endl;
   std::cout << "\tTime   = " << elapsedTime << std::endl;
   std::cout << "\tPixels = " << i << std::endl;
-  
+
   if (i != num)
     {
     passed = false;
@@ -128,7 +129,7 @@ int itkIteratorTests(int, char* [] )
 
   unsigned short scalar;
   scalar = 5;
-  
+
   i = 0;
   for ( ; !it.IsAtEnd(); ++it)
     {
@@ -168,7 +169,7 @@ int itkIteratorTests(int, char* [] )
     {
     passed = false;
     }
-  
+
   if (passed)
     {
     std::cout << "Iterator tests passed" << std::endl;

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRigid3DPerspectiveTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -33,7 +34,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
 
   const double epsilon = 1e-10;
   const unsigned int N = 3;
-  
+
   const double focal   = 100.0;
 
   bool Ok = true;
@@ -53,18 +54,18 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
       if( vcl_fabs( offset[i]-0.0 ) > epsilon )
       {
         Ok = false;
-        break;    
+        break;
       }
     }
     if( !Ok )
-    { 
+    {
       std::cerr << "Identity doesn't have a null offset" << std::endl;
       return EXIT_FAILURE;
     }
   }
 
 
- 
+
   /* Create a Rigid 3D transform with translation */
   {
     TransformType::Pointer  translation = TransformType::New();
@@ -84,11 +85,11 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
       if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
       {
         Ok = false;
-        break;    
+        break;
       }
     }
     if( !Ok )
-    { 
+    {
       std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
       return EXIT_FAILURE;
     }
@@ -110,11 +111,11 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
         if( vcl_fabs( s[i]- r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error translating point: " << p << std::endl;
         std::cerr << "Result should be       : " << s << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
@@ -126,7 +127,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
       }
     }
   }
- 
+
   /* Create a Rigid 3D transform with a rotation */
   {
     TransformType::Pointer  rigid = TransformType::New();
@@ -148,7 +149,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
     axis[0] = 1.0f;
     axis[1] = 1.0f;
     axis[2] = 1.0f;
-    
+
     rotation.Set( axis, angle );
     rigid->SetRotation( rotation );
 
@@ -169,11 +170,11 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
         if( vcl_fabs( s[i]- r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error rotating point: " << p << std::endl;
         std::cerr << "Result should be       : " << s << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
@@ -186,7 +187,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
     }
   }
 
- 
+
   std::cout << "Test successful" << std::endl;
   return EXIT_SUCCESS;
 

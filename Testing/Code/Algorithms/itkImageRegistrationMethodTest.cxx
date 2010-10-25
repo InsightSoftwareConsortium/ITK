@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageRegistrationMethodTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,11 +27,11 @@
 
 #include "itkTextOutput.h"
 
-/** 
+/**
  *  This program test one instantiation of the itk::ImageRegistrationMethod class
- * 
+ *
  *  This file tests initialization errors.
- */ 
+ */
 
 int itkImageRegistrationMethodTest(int, char* [] )
 {
@@ -54,26 +55,26 @@ int itkImageRegistrationMethodTest(int, char* [] )
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
 
   // Metric Type
-  typedef itk::MeanSquaresImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
 
   // Registration Method
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
 
   MetricType::Pointer         metric        = MetricType::New();
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  FixedImageType::Pointer     fixedImage    = FixedImageType::New();  
-  MovingImageType::Pointer    movingImage   = MovingImageType::New();  
+  FixedImageType::Pointer     fixedImage    = FixedImageType::New();
+  MovingImageType::Pointer    movingImage   = MovingImageType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
@@ -88,7 +89,7 @@ int itkImageRegistrationMethodTest(int, char* [] )
   movingImage->SetRegions( region );
   movingImage->Allocate();
   movingImage->FillBuffer( 4 );
-  
+
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
@@ -140,7 +141,7 @@ int itkImageRegistrationMethodTest(int, char* [] )
     { \
     std::cout << "Test failed." << std::endl; \
     return EXIT_FAILURE; \
-    } 
+    }
 
   TEST_INITIALIZATION_ERROR( InitialTransformParameters, badParameters, initialParameters );
   TEST_INITIALIZATION_ERROR( Metric, NULL, metric );

@@ -1,4 +1,21 @@
 /*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkImageRandomNonRepeatingIteratorWithIndexTest.cxx
@@ -10,13 +27,13 @@
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
   This tests the classes ImageRandomNonRepeatingIteratorWithIndex and
-  ImageRandomNonRepeatingConstIteratorWithIndex.  This was contributed 
+  ImageRandomNonRepeatingConstIteratorWithIndex.  This was contributed
   by Rupert Brooks, McGill Centre for Intelligent
   Machines, Montreal, Canada.  It is heavily based on the
-  ImageRandomIterator test program. 
+  ImageRandomIterator test program.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -55,7 +72,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 
   ImageType::Pointer myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage.GetPointer();
-  
+
   ImageType::SizeType size0;
 
   size0[0] = 50;
@@ -112,16 +129,16 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
   substart[0] = 15;
   substart[1] = 16;
   substart[2] = 17;
-  
+
   PriorityImageType::SizeType subsize;
   subsize[0] = 3;
   subsize[1] = 4;
   subsize[2] = 5;
-  
+
   PriorityImageType::RegionType subregion;
   subregion.SetIndex( substart );
   subregion.SetSize( subsize );
-  
+
   PriorityIteratorType subit( priorityImage, subregion );
   subit.GoToBegin();
   while( !subit.IsAtEnd() )
@@ -129,7 +146,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
       subit.Set( 0 );
       ++subit;
     }
-  
+
 
 
   //********
@@ -150,8 +167,8 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
     ++it;
   }
 
-  
-  // Sample the image 
+
+  // Sample the image
   IteratorType ot( myImage, region0 );
   ot.GoToBegin();
 
@@ -174,13 +191,13 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
     }
   std::cout << std::endl<<"   Done ! " << std::endl;
 
-  
-  // Verification 
+
+  // Verification
   RandomConstIteratorType cot( myConstImage, region0 );
-  cot.SetNumberOfSamples( numberOfSamples ); 
+  cot.SetNumberOfSamples( numberOfSamples );
   cot.GoToBegin();
 
- 
+
   std::cout << "Verifying const iterator... ";
   std::cout << "Random walk of the Iterator over the image " << std::endl;
 
@@ -202,16 +219,16 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying iterator in reverse direction... " << std::endl;
   std::cout << "Should be a random walk too (a different one)" << std::endl;
 
   RandomIteratorType ior( myImage, region0 );
-  ior.SetNumberOfSamples( numberOfSamples ); 
+  ior.SetNumberOfSamples( numberOfSamples );
   ior.GoToEnd();
 
   --ior;
- 
+
 
   while( !ior.IsAtBegin() )
   {
@@ -232,14 +249,14 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
 
   RandomConstIteratorType cor( myImage, region0 );
   cor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
   cor.GoToEnd();
 
-  --cor; // start at the end position 
+  --cor; // start at the end position
 
   while( !cor.IsAtBegin() )
     {
@@ -258,14 +275,14 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
   std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
 
- // Verification 
+ // Verification
   std::cout << "Verifying const iterator in both directions... ";
 
   RandomConstIteratorType dor( myImage, region0 );
   dor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
   dor.GoToEnd();
 
-  --dor; // start at the last valid pixel position 
+  --dor; // start at the last valid pixel position
 
   for (unsigned int counter = 0; ! dor.IsAtEnd(); ++counter)
     {
@@ -284,7 +301,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
     }
   std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
-  
+
 
   // Verification of the Iterator in a subregion of the image
   {
@@ -295,7 +312,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -346,7 +363,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -358,7 +375,7 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 
     RandomConstIteratorType cbot( myImage, region );
 
-    cbot.SetNumberOfSamples( numberOfSamples ); 
+    cbot.SetNumberOfSamples( numberOfSamples );
     cbot.GoToBegin();
 
     while( !cbot.IsAtEnd() )
@@ -387,10 +404,10 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
   }
 
 
- 
+
 
   // Verifying iterator works with  the priority image
-  
+
 
   {
     std::cout << "Verifying Iterator with respect to priority image... "

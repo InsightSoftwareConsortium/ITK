@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkIsolatedConnectedImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -36,10 +37,10 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 
   typedef unsigned char PixelType;
   typedef itk::Image<PixelType, 2> myImage;
-  itk::ImageFileReader<myImage>::Pointer input 
+  itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
-  
+
   // Create a filter
   typedef itk::IsolatedConnectedImageFilter<myImage,myImage> FilterType;
 
@@ -47,12 +48,12 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   FilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());
-  
+
   FilterType::IndexType seed1;
-  
+
   seed1[0] = atoi(av[4]); seed1[1] = atoi(av[5]);
   filter->SetSeed1(seed1); // deprecated method
-  
+
   seed1[0] = atoi(av[6]); seed1[1] = atoi(av[7]);
   filter->SetSeed2(seed1); // deprecated method
 
@@ -61,7 +62,7 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
     {
     seed1[0] = atoi(av[i]); seed1[1] = atoi(av[i+1]);
     filter->AddSeed1(seed1);
-  
+
     seed1[0] = atoi(av[i+2]); seed1[1] = atoi(av[i+3]);
     filter->AddSeed2(seed1);
     }
@@ -71,16 +72,16 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   filter->SetUpperValueLimit(255); //deprecated method
   filter->SetUpper(255);
   filter->SetReplaceValue(255);
-    
+
   // Test SetMacro
   filter->SetIsolatedValueTolerance(1);
-  
+
   // Test SetMacro
   std::string findUpper = av[3];
   if (findUpper == "true")
     { filter->FindUpperThresholdOn(); }
   else
-    { filter->FindUpperThresholdOff(); }    
+    { filter->FindUpperThresholdOff(); }
 
   // Test GetMacros
   PixelType lower = filter->GetLower();
@@ -88,7 +89,7 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(lower)
             << std::endl;
   PixelType isolatedValueTolerance = filter->GetIsolatedValueTolerance();
-  std::cout << "filter->GetIsolatedValueTolerance(): " 
+  std::cout << "filter->GetIsolatedValueTolerance(): "
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(isolatedValueTolerance)
             << std::endl;
   PixelType upperValueLimit = filter->GetUpperValueLimit();
@@ -108,7 +109,7 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
             << findUpperThreshold
             << std::endl;
 
-  
+
 
   try
     {
@@ -131,7 +132,7 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
     {
     std::cout << "Selection of isolating threshold succeeded" << std::endl;
     }
-    
+
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
@@ -140,12 +141,12 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   writer->Update();
 
 
-  // Now flip the mode to test whether it fails 
+  // Now flip the mode to test whether it fails
   if (findUpper == "true")
     { filter->FindUpperThresholdOff(); }
   else
-    { filter->FindUpperThresholdOn(); }    
-  
+    { filter->FindUpperThresholdOn(); }
+
   try
     {
     filter->Update();

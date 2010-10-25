@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCannyEdgeDetectionImageFilterTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -45,21 +46,21 @@ int itkCannyEdgeDetectionImageFilterTest2(int argc, char * argv[] )
   typedef itk::Image<float, dimension> InputImage;
   typedef itk::Image<unsigned char, dimension> OutputImage;
 
-  itk::ImageFileReader<InputImage>::Pointer input 
+  itk::ImageFileReader<InputImage>::Pointer input
     = itk::ImageFileReader<InputImage>::New();
   input->SetFileName(argv[1]);
-  
+
   // Set up filter
-  itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::Pointer 
+  itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::Pointer
     filter =
     itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::New();
-  filter->SetInput(input->GetOutput());  
+  filter->SetInput(input->GetOutput());
   filter->SetVariance(1.0f);
   filter->SetMaximumError(.01f);
-  
+
   filter->SetUpperThreshold(25);
   filter->SetLowerThreshold(10);
-  
+
 
   itk::RescaleIntensityImageFilter<InputImage, OutputImage>::Pointer
     rescale =
@@ -72,7 +73,7 @@ int itkCannyEdgeDetectionImageFilterTest2(int argc, char * argv[] )
   writer = itk::ImageFileWriter<OutputImage>::New();
   writer->SetInput( rescale->GetOutput() );
 
-  
+
   try
     {
     // Generate test image
@@ -82,27 +83,27 @@ int itkCannyEdgeDetectionImageFilterTest2(int argc, char * argv[] )
     // set canny filter to another value
     filter->SetUpperThreshold(20);
     filter->SetLowerThreshold(5);
-    
+
     rescale->Update();
-    
+
     // set it back expecting the same results
     filter->SetUpperThreshold(25);
     filter->SetLowerThreshold(10);
-    
+
     // Generate test image
     writer->SetFileName( argv[3] );
     writer->Update();
 
-    
+
     }
   catch(itk::ExceptionObject &err)
     {
       (&err)->Print(std::cerr);
       return EXIT_FAILURE;
-    } 
+    }
 
 
 
 
-  return EXIT_SUCCESS;   
+  return EXIT_SUCCESS;
 }

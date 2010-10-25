@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMaskNegatedImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,7 +23,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMaskNegatedImageFilter.h"
 
-int itkMaskNegatedImageFilterTest(int, char* [] ) 
+int itkMaskNegatedImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -36,7 +37,7 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<myDimension>          mySizeType;
 
   // Declare the type of the Region
@@ -45,7 +46,7 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
   // Create two images
   myImageType1::Pointer inputImageA  = myImageType1::New();
   myImageType2::Pointer inputImageB  = myImageType2::New();
-  
+
   // Define their size, and start index
   mySizeType size;
   size[0] = 2;
@@ -74,7 +75,7 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
   inputImageB->Allocate();
 
 
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
   typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
   typedef itk::ImageRegionIteratorWithIndex<myImageType3>  myIteratorType3;
@@ -84,7 +85,7 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
 
   // Initialize the content of Image A
   std::cout << "First operand " << std::endl;
-  while( !it1.IsAtEnd() ) 
+  while( !it1.IsAtEnd() )
   {
     it1.Set( 255.0 );
     std::cout << it1.Get() << std::endl;
@@ -97,9 +98,9 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
   // Initialize the content of Image B
   // Set to mask first 2 pixels and last 2 pixels and leave the rest as is
   std::cout << "Second operand " << std::endl;
-  for(unsigned int i = 0; i<2; ++i, ++it2) it2.Set( 0 ); 
+  for(unsigned int i = 0; i<2; ++i, ++it2) it2.Set( 0 );
 
-  while( !it2.IsAtEnd() ) 
+  while( !it2.IsAtEnd() )
   {
     it2.Set( 3 );
     ++it2;
@@ -108,7 +109,7 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
   for(unsigned int i = 0; i< 3; ++i, --it2) it2.Set( 0 );
 
   it2.GoToBegin();
-  while( !it2.IsAtEnd() ) 
+  while( !it2.IsAtEnd() )
     {
     std::cout << it2.Get() << std::endl;
     ++it2;
@@ -119,31 +120,31 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
                            myImageType1,
                            myImageType2,
                            myImageType3  >       myFilterType;
-            
 
-  // Create an MaskNegated Filter                                
+
+  // Create an MaskNegated Filter
   myFilterType::Pointer filter = myFilterType::New();
 
 
   // Connect the input images
-  filter->SetInput1( inputImageA ); 
+  filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
   filter->SetOutsideValue( 50 );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   myImageType3::Pointer outputImage = filter->GetOutput();
 
-  
+
   // Execute the filter
   filter->Update();
   filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
-  
+
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
-  while( !it3.IsAtEnd() ) 
+  while( !it3.IsAtEnd() )
     {
     std::cout << it3.Get() << std::endl;
     ++it3;

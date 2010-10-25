@@ -1,4 +1,21 @@
 /*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+/*=========================================================================
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkFFTTest.cxx
   Language:  C++
@@ -236,20 +253,20 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
     ex.Print(std::cerr);
     return -1;
     }
-  
+
   /*Real to complex pointers. This computes the forward FFT*/
   typename R2CAType::Pointer R2Ca = R2CAType::New();
 
   /*Real to complex pointers. This computes the forward FFT*/
   typename R2CBType::Pointer R2Cb = R2CBType::New();
-  
+
   /*Set the real image created as the input to the forwar FFT filter*/
   R2Ca->SetInput(realimage);
   R2Ca->Update();
 
   R2Cb->SetInput(realimage);
   R2Cb->Update();
-  
+
   /*Get the size and the pointer to the complex image.*/
   typename ComplexImageType::Pointer complexImageA = R2Ca->GetOutput();
   std::complex<TPixel> *fftbufA = complexImageA->GetBufferPointer();
@@ -261,7 +278,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
   const typename ComplexImageType::SizeType &complexImageSizeB =
     complexImageB->GetLargestPossibleRegion().GetSize();
 
-  
+
   unsigned int _SizesA[3] = { 1,1,1 };
   unsigned int _SizesB[3] = { 1,1,1 };
   for(unsigned int i = 0; i < ImageDimensions; i++)
@@ -271,7 +288,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
       _SizesA[i] = complexImageSizeA[i];
       _SizesB[i] = complexImageSizeB[i];
     }
-  
+
   /*Print out the  the frequency domain data obtained after performing the forward transform */
   for(unsigned int i = 0; i < _SizesA[2]; i++)
     {
@@ -303,7 +320,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
     }
   std::cerr << std::endl << std::endl;
 
-  
+
   /*Subtract the 2 images Pixel Values
     and test whether they are greater than 0.01 for the test to pass*/
   for(unsigned int i = 0; i < vnl_math_min(_SizesA[2],_SizesB[2]); i++)
@@ -331,7 +348,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
         }
       }
     }
-  
+
   std::cerr << std::endl << std::endl;
   return 0;
 }

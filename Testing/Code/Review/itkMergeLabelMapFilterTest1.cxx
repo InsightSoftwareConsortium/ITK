@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMergeLabelMapFilterTest1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -36,16 +36,16 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
 
   const unsigned int dim = 2;
   typedef unsigned char PixelType;
-  
+
   typedef itk::Image< PixelType, dim > ImageType;
 
   typedef itk::LabelObject< PixelType, dim >      LabelObjectType;
   typedef itk::LabelMap< LabelObjectType >        LabelMapType;
-  
+
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  
+
   typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
@@ -53,7 +53,7 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   const PixelType background1 = atoi(argv[4]);
   i2l->SetBackgroundValue( background1 );
   TEST_SET_GET_VALUE( background1, i2l->GetBackgroundValue() );
- 
+
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
   I2LType::Pointer i2l2 = I2LType::New();
@@ -62,7 +62,7 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   const PixelType background2 = atoi(argv[5]);
   i2l2->SetBackgroundValue( background2 );
   TEST_SET_GET_VALUE( background2, i2l2->GetBackgroundValue() );
- 
+
   typedef itk::MergeLabelMapFilter< LabelMapType > ChangeType;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
@@ -77,7 +77,7 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   change->SetMethod( ChangeType::KEEP );
   TEST_SET_GET_VALUE( ChangeType::KEEP, change->GetMethod() );
 
-  change->SetMethod( method ); 
+  change->SetMethod( method );
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
@@ -89,7 +89,7 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[3] );
   writer->UseCompressionOn();
-  
+
   bool expectfailure = atoi( argv[7] );
 
   if( expectfailure )

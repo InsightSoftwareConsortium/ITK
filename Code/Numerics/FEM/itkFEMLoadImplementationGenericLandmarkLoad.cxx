@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadImplementationGenericLandmarkLoad.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -49,7 +49,7 @@ LoadImplementationGenericLandmarkLoad
 
   // Retrieve the stored solution
   Solution::ConstPointer sol = load->GetSolution();
-  
+
   // Determine the displacement at point pt
   const unsigned int TotalSolutionIndex=1;
   disp = element->InterpolateSolution( pt, (*sol), TotalSolutionIndex );
@@ -58,25 +58,25 @@ LoadImplementationGenericLandmarkLoad
   new_source = load->GetSource() + disp;
 
    // Calculate the new force
-  
+
   load->m_force =  disp;
   force =  (load->m_target-new_source) / load->eta;
- 
+
 //  std::cout << " disp " << disp <<  std::endl;
   //force /= vcl_sqrt(fmag);
   new_source = (load->GetTarget() - new_source);
 //  std::cout << " force = " << force <<  " distance  " << new_source.magnitude() << std::endl;
-  
+
   Element::Float curdist = new_source.magnitude();
   if ( curdist < 1.0 )
     {
     force.fill(0.0);
     }
   std::cout <<  " LM distance  " << curdist << std::endl;
-  
+
   // "Integrate" at the location of the point load
   shapeF = element->ShapeFunctions(pt);
-  
+
   // Calculate the equivalent nodal loads
   for(unsigned int n=0; n < Nnodes; n++)
     {

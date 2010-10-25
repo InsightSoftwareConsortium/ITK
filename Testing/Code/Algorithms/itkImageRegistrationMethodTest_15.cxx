@@ -1,121 +1,21 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageRegistrationMethodTest_15.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#pragma warning ( disable : 4288 )
-#endif
-
-#include "itkImageRegistrationMethod.h"
-#include "itkAffineTransform.h"
-#include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkBSplineInterpolateImageFunction.h"
-#include "itkGradientDescentOptimizer.h"
-
-#include "itkTextOutput.h"
-#include "itkImageRegionIterator.h"
-#include "itkCommandIterationUpdate.h"
-#include "vnl/vnl_sample.h"
-namespace
-{
-
-double F( itk::Vector<double,3> & v );
-}
-
-
-/** 
- *  This program test one instantiation of the itk::ImageRegistrationMethod class
- * 
- *  This file tests the combination of:
- *   - MattesMutualInformation
- *   - AffineTransform
- *   - GradientDescentOptimizer
- *   - BSplineInterpolateImageFunction
  *
- *  The test image pattern consists of a 3D gaussian in the middle
- *  with some directional pattern on the outside.
- *  One image is scaled and shifted relative to the other.
+ *  Copyright Insight Software Consortium
  *
- * Notes:
- * =======
- * This example performs an affine registration
- * between a moving (source) and fixed (target) image using mutual information.
- * It uses a simple steepest descent optimizer to find the
- * best affine transform to register the moving image onto the fixed
- * image. 
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * The mutual information value and its derivatives are estimated
- * using spatial sampling.
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
  *
- * The registration uses a simple stochastic gradient ascent scheme. Steps
- * are repeatedly taken that are proportional to the approximate
- * deriviative of the mutual information with respect to the affine
- * transform parameters. The stepsize is governed by the LearningRate
- * parameter.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
- * Since the parameters of the linear part is different in magnitude
- * to the parameters in the offset part, scaling is required
- * to improve convergence. The scaling can set via the optimizer.
- *
- * In the optimizer's scale transform set the scaling for
- * all the translation parameters to TranslationScale^{-2}.
- * Set the scale for all other parameters to 1.0.
- *
- * Note: the optimization performance can be improved by 
- * setting the image origin to center of mass of the image.
- * 
- */ 
-int itkImageRegistrationMethodTest_15(int, char* [] )
-{
-
-  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
-
-/*==================================================*/
-/**
- * Debugging vnl_sample
- */
-  std::cout << "Debugging vnl_sample" << std::endl;
-  
-  #if VXL_STDLIB_HAS_DRAND48
-  std::cout << "vxl stdlib has drand48" << std::endl;
-  #else
-  std::cout << "vxl stdlib does not have drand48" << std::endl;
-  #endif
-
-  std::cout << std::endl;
-  std::cout << "printout 10 numbers with default seeds" << std::endl;
- 
-  for( int p = 0; p < 10; p++ )
-    {
-    double value = vnl_sample_uniform( 0, 100 );
-    std::cout << p << "\t" << value << std::endl;
-    }
-
-  std::cout << "printout 10 numbers with seed 171219" << std::endl;
-  vnl_sample_reseed( 171219 );
-  
-  for( int p = 0; p < 10; p++ )
-    {
-    double value = vnl_sample_uniform( 0, 100 );
-    std::cout << p << "\t" << value << std::endl;
-    }
-
-/*==================================================*/
-
-  bool pass = true;
+ *=========================================================================*/
+bool pass = true;
 
   const unsigned int dimension = 3;
   unsigned int j;
@@ -135,26 +35,26 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
   typedef itk::GradientDescentOptimizer             OptimizerType;
 
   // Metric Type
-  typedef itk::MattesMutualInformationImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MattesMutualInformationImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
 
   // Interpolation technique
-  typedef itk:: BSplineInterpolateImageFunction< 
+  typedef itk:: BSplineInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
 
   // Registration Method
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
 
   MetricType::Pointer         metric        = MetricType::New();
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  FixedImageType::Pointer     fixedImage    = FixedImageType::New();  
-  MovingImageType::Pointer    movingImage   = MovingImageType::New();  
+  FixedImageType::Pointer     fixedImage    = FixedImageType::New();
+  MovingImageType::Pointer    movingImage   = MovingImageType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
@@ -180,7 +80,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
   movingImage->SetBufferedRegion( region );
   movingImage->SetRequestedRegion( region );
   movingImage->Allocate();
-  
+
 
   typedef itk::ImageRegionIterator<MovingImageType> MovingImageIterator;
   typedef itk::ImageRegionIterator<FixedImageType> FixedImageIterator;
@@ -192,7 +92,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
     }
 
   itk::Point<double,dimension> p;
-  itk::Vector<double,dimension> d;  
+  itk::Vector<double,dimension> d;
 
   MovingImageIterator mIter( movingImage, region );
   FixedImageIterator  fIter( fixedImage, region );
@@ -211,7 +111,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
     for ( j = 0; j < dimension; j++ )
       {
       d[j] = d[j] * scale[j] + displacement[j];
-      }  
+      }
 
     mIter.Set( (PixelType) F(d) );
 
@@ -253,7 +153,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
    * Set up the optimizer observer
    ******************************************************************/
   typedef itk::CommandIterationUpdate< OptimizerType > CommandIterationType;
-  CommandIterationType::Pointer iterationCommand = 
+  CommandIterationType::Pointer iterationCommand =
     CommandIterationType::New();
 
   iterationCommand->SetOptimizer( optimizer );
@@ -261,7 +161,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
   /******************************************************************
    * Set up the metric.
    ******************************************************************/
-  metric->SetNumberOfSpatialSamples( static_cast<unsigned long>( 
+  metric->SetNumberOfSpatialSamples( static_cast<unsigned long>(
     0.01 * fixedImage->GetBufferedRegion().GetNumberOfPixels() ) );
 
   metric->SetNumberOfHistogramBins( 50 );
@@ -286,9 +186,9 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
   registration->SetFixedImage( fixedImage );
   registration->SetMovingImage( movingImage );
   registration->SetInterpolator( interpolator );
-  
+
   // set initial parameters to identity
-  RegistrationType::ParametersType initialParameters( 
+  RegistrationType::ParametersType initialParameters(
     transform->GetNumberOfParameters() );
 
   initialParameters.Fill( 0.0 );
@@ -314,7 +214,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
         optimizer->SetLearningRate( rates[j] );
         registration->SetInitialTransformParameters( initialParameters );
         registration->Update();
-     
+
         initialParameters = registration->GetLastTransformParameters();
 
       }
@@ -337,7 +237,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
   std::cout << "Solution is: " << solution << std::endl;
 
 
-  RegistrationType::ParametersType trueParameters( 
+  RegistrationType::ParametersType trueParameters(
     transform->GetNumberOfParameters() );
   trueParameters.Fill( 0.0 );
   trueParameters[ 0] = 1/scale[0];
@@ -378,7 +278,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
 }
 namespace
 {
-  
+
 
 /**
  * This function defines the test image pattern.
@@ -387,8 +287,8 @@ namespace
  */
 double F( itk::Vector<double,3> & v )
 {
-  double x = v[0]; 
-  double y = v[1]; 
+  double x = v[0];
+  double y = v[1];
   double z = v[2];
   const double s = 50;
   double value = 200.0 * vcl_exp( - ( x*x + y*y + z*z )/(s*s) );

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPointSetTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -41,11 +42,11 @@ int itkPointSetTest(int, char* [] )
    * Define the 3d geometric positions for 8 points in a cube.
    */
   PointSet::CoordRepType testPointCoords[3];
-  
+
   /**
    * Create the point set through its object factory.
    */
-  PointSet::Pointer pset(PointSet::New());  
+  PointSet::Pointer pset(PointSet::New());
 
   /**
    * Add our test points to the mesh.
@@ -55,11 +56,11 @@ int itkPointSetTest(int, char* [] )
    */
   for(int i=0; i < 100 ; ++i)
     {
-    testPointCoords[0] = (PointSet::CoordRepType) 
+    testPointCoords[0] = (PointSet::CoordRepType)
       vnl_sample_uniform((double)-1.0,(double)1.0);
-    testPointCoords[1] = (PointSet::CoordRepType) 
+    testPointCoords[1] = (PointSet::CoordRepType)
       vnl_sample_uniform((double)-1.0,(double)1.0);
-    testPointCoords[2] = (PointSet::CoordRepType) 
+    testPointCoords[2] = (PointSet::CoordRepType)
       vnl_sample_uniform((double)-1.0,(double)1.0);
     pset->SetPoint(i, PointType(testPointCoords));
     }
@@ -91,7 +92,7 @@ int itkPointSetTest(int, char* [] )
   BoundingBox::ConstPointer bbox2 = pset->GetBoundingBox();
   std::cout << bbox2 << std::endl;
 
-  return EXIT_SUCCESS;  
+  return EXIT_SUCCESS;
 
 }
 

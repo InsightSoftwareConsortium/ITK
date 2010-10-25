@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAdaptorComparisonTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -33,7 +34,7 @@ void AdaptorSupportedIteratorSpeed(itk::Image<float, 3> *img)
     {
       ++it;
     }
-  
+
 }
 
 void NoAdaptorSupportIteratorSpeed(itk::Image<float, 3> *img)
@@ -91,10 +92,10 @@ void AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
   const unsigned int N = 3;
   unsigned int i;
   VectorType temp_vector;
-  
+
   itk::ImageRegionIteratorWithIndex<itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
-  
+
   while( ! it.IsAtEnd() )
     {
       temp_vector = it.Get();
@@ -112,10 +113,10 @@ void NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
   const unsigned int N = 3;
   unsigned int i;
   VectorType temp_vector;
-  
+
   itk::ImageRegionIterator<itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
-  
+
   while( ! it.IsAtEnd() )
     {
       temp_vector = it.Get();
@@ -135,10 +136,10 @@ void BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img
   typedef itk::Vector<float, 3> VectorType;
   const unsigned int N = 3;
   unsigned int i;
-  
+
   itk::ImageRegionIteratorWithIndex< itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
-  
+
   while( ! it.IsAtEnd() )
     {
       for (i = 0; i<N; ++i)  (it.Value())[i] += 3.435f;
@@ -152,10 +153,10 @@ void BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *i
   typedef itk::Vector<float, 3> VectorType;
   const unsigned int N = 3;
   unsigned int i;
-  
+
   itk::ImageRegionIterator< itk::Image<VectorType, 3> >
     it (img, img->GetRequestedRegion());
-  
+
   while( ! it.IsAtEnd() )
     {
       for (i = 0; i<N; ++i)  (it.Value())[i] += 3.435f;
@@ -170,7 +171,7 @@ int itkAdaptorComparisonTest(int, char * [] )
   typedef itk::Image<itk::Vector<float, 3>, 3> VectorImageType;
 
   clock_t start, stop, no_adaptor_comp, adaptor_comp;
-  
+
   // Set up some images
   itk::ImageRegion<3> region;
   itk::Size<3> size;
@@ -201,7 +202,7 @@ int itkAdaptorComparisonTest(int, char * [] )
   VectorImageType::PixelType initialVectorValue;
   initialVectorValue.Fill(1.2345);  // arbitrary value;
   vector_image->FillBuffer( initialVectorValue );
-  
+
   // Time trials
 
   std::cout << "Speed of adaptor supporting interator (for reference) \t";
@@ -218,7 +219,7 @@ int itkAdaptorComparisonTest(int, char * [] )
   stop = clock();
   no_adaptor_comp = stop - start;
   std::cout << no_adaptor_comp << std::endl;
-  
+
   std::cout << "Modifying scalar image using adaptor iterator...\t";
   start = clock();
   AdaptorSupportedModifyScalars(scalar_image);
@@ -254,7 +255,7 @@ int itkAdaptorComparisonTest(int, char * [] )
   stop = clock();
   std::cout << (stop - start) << "\t compensated = " << (stop-start) -
     adaptor_comp <<std::endl;
-  
+
   std::cout << "Modifying vector image bypassing adaptor api using"
             << " non-adaptor iterator...\t";
   start = clock();

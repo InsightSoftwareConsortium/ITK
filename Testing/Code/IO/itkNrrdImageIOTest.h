@@ -1,19 +1,20 @@
 /*=========================================================================
-  
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNrrdImageIOTest.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkNrrdImageIOTest_h_
 #define __itkNrrdImageIOTest_h_
 
@@ -43,13 +44,13 @@ itkNrrdImageIOTestGenerateRandomImage(unsigned int size)
     spacing[i] = static_cast<float>(i+1);
     origin[i]  = static_cast<float>(i);
     }
-  
+
   source->SetSize(sz);
   source->SetOrigin(origin);
   source->SetSpacing(spacing);
 
   source->Update();
-  return (source->GetOutput());  
+  return (source->GetOutput());
 }
 
 template<class TPixelType, unsigned int VImageDimension>
@@ -58,7 +59,7 @@ int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
 {
   typedef itk::Image<TPixelType, VImageDimension> ImageType;
 
-  typename itk::ImageFileReader<ImageType>::Pointer reader 
+  typename itk::ImageFileReader<ImageType>::Pointer reader
     = itk::ImageFileReader<ImageType>::New();
   typename itk::ImageFileWriter<ImageType>::Pointer writer
     = itk::ImageFileWriter<ImageType>::New();
@@ -80,7 +81,7 @@ int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
       std::cerr << e << std::endl;
       return EXIT_FAILURE;
       }
-    
+
     image = tmpReader->GetOutput();
     }
   else
@@ -88,7 +89,7 @@ int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
     // Generate a random image.
     image = itkNrrdImageIOTestGenerateRandomImage<TPixelType, VImageDimension>(size);
     }
-    
+
   // Write, then read the image.
   try
     {
@@ -100,19 +101,19 @@ int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
     reader->SetFileName(fn.c_str());
     //writer->SetFileName("testDebug.mhd");
     //reader->SetFileName("testDebug.mhd");
-    
+
     }
   catch(itk::ExceptionObject &e)
     {
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
-  
+
     writer->SetInput(image);
-    
+
     image->Print(std::cout);
     std::cout << "----------" << std::endl;
-    
+
   try
     {
     writer->Update();
@@ -132,7 +133,7 @@ int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
 
   reader->GetOutput()->Print(std::cout);
   std::cout << std::endl;
-  
+
   // Compare input and output images.
   itk::ImageRegionIterator<ImageType> a(image, image->GetRequestedRegion());
   itk::ImageRegionIterator<ImageType> b(reader->GetOutput(),

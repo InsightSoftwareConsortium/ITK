@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    BayesianPluginClassifier.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -39,7 +40,7 @@
 // estimation algorithms of the two parameters. If we want more robust
 // estimation algorithm, we can replace these estimation algorithms with more
 // alternatives without changing other components in the classifier system.
-// 
+//
 // It is a bad idea to use the same sample for test and training
 // (parameter estimation) of the parameters. However, for simplicity, in
 // this example, we use a sample for test and training.
@@ -55,9 +56,9 @@
 // We use the \subdoxygen{Statistics}{ListSample} as the sample (test
 // and training). The \doxygen{Vector} is our measurement vector
 // class. To store measurement vectors into two separate sample
-// containers, we use the \subdoxygen{Statistics}{Subsample} objects. 
+// containers, we use the \subdoxygen{Statistics}{Subsample} objects.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
@@ -80,7 +81,7 @@
 //
 // The following files define the components required by ITK statistical
 // classification framework: the decision rule, the membership
-// function, and the classifier. 
+// function, and the classifier.
 //
 // Software Guide : EndLatex
 
@@ -92,7 +93,7 @@
 
 // Software Guide : BeginLatex
 //
-// We will fill the sample with random variables from two normal 
+// We will fill the sample with random variables from two normal
 // distribution using the \subdoxygen{Statistics}{NormalVariateGenerator}.
 //
 // Software Guide : EndLatex
@@ -108,7 +109,7 @@ int main( int,  char *[])
   // Since the NormalVariateGenerator class only supports 1-D, we define our
   // measurement vector type as a one component vector. We then, create a
   // ListSample object for data inputs.
-  // 
+  //
   // We also create two Subsample objects that will store
   // the measurement vectors in \code{sample} into two separate
   // sample containers. Each Subsample object stores only the
@@ -196,7 +197,7 @@ int main( int,  char *[])
   typedef itk::Statistics::MeanCalculator< ClassSampleType > MeanEstimatorType;
   typedef itk::Statistics::CovarianceCalculator< ClassSampleType >
     CovarianceEstimatorType;
-  
+
   std::vector< MeanEstimatorType::Pointer > meanEstimators;
   std::vector< CovarianceEstimatorType::Pointer > covarianceEstimators;
 
@@ -205,7 +206,7 @@ int main( int,  char *[])
     meanEstimators.push_back( MeanEstimatorType::New() );
     meanEstimators[i]->SetInputSample( classSamples[i] );
     meanEstimators[i]->Update();
-    
+
     covarianceEstimators.push_back( CovarianceEstimatorType::New() );
     covarianceEstimators[i]->SetInputSample( classSamples[i] );
     covarianceEstimators[i]->SetMean( meanEstimators[i]->GetOutput() );
@@ -223,25 +224,25 @@ int main( int,  char *[])
   for ( unsigned int i = 0 ; i < 2 ; ++i )
     {
     std::cout << "class[" << i << "] " << std::endl;
-    std::cout << "    estimated mean : " 
-              << *(meanEstimators[i]->GetOutput()) 
-              << "    covariance matrix : " 
+    std::cout << "    estimated mean : "
+              << *(meanEstimators[i]->GetOutput())
+              << "    covariance matrix : "
               << *(covarianceEstimators[i]->GetOutput()) << std::endl;
     }
   // Software Guide : EndCodeSnippet
-  
+
   // Software Guide : BeginLatex
   //
   // After creating a SampleClassifier object and a
   // MaximumRatioDecisionRule object, we plug in the
   // \code{decisionRule} and the \code{sample} to the classifier. Then,
   // we specify the number of classes that will be considered using
-  // the \code{SetNumberOfClasses()} method. 
+  // the \code{SetNumberOfClasses()} method.
   //
   // The MaximumRatioDecisionRule requires a vector of \emph{a
   // priori} probability values. Such \emph{a priori} probability will
   // be the $P(\omega_{i})$ of the following variation of the Bayes
-  // decision rule: 
+  // decision rule:
   // \begin{equation}
   //   \textrm{Decide } \omega_{i} \textrm{ if }
   //   \frac{p(\overrightarrow{x}|\omega_{i})}
@@ -249,7 +250,7 @@ int main( int,  char *[])
   // > \frac{P(\omega_{j})}{P(\omega_{i})} \textrm{ for all } j \not= i
   //   \label{eq:bayes2}
   // \end{equation}
-  // 
+  //
   // The remainder of the code snippet shows how to use user-specified class
   // labels. The classification result will be stored in a
   // MembershipSample object, and for each measurement vector, its
@@ -259,16 +260,16 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::GaussianDensityFunction< MeasurementVectorType > 
+  typedef itk::Statistics::GaussianDensityFunction< MeasurementVectorType >
     MembershipFunctionType;
   typedef itk::MaximumRatioDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::APrioriVectorType aPrioris;
-  aPrioris.push_back( classSamples[0]->GetTotalFrequency() 
-                      / sample->GetTotalFrequency() ) ; 
-  aPrioris.push_back( classSamples[1]->GetTotalFrequency() 
-                      / sample->GetTotalFrequency() ) ; 
+  aPrioris.push_back( classSamples[0]->GetTotalFrequency()
+                      / sample->GetTotalFrequency() ) ;
+  aPrioris.push_back( classSamples[1]->GetTotalFrequency()
+                      / sample->GetTotalFrequency() ) ;
   decisionRule->SetAPriori( aPrioris );
 
   typedef itk::Statistics::SampleClassifier< SampleType > ClassifierType;
@@ -297,12 +298,12 @@ int main( int,  char *[])
   // plug-in two distance functions, we call the
   // \code{AddMembershipFunction()} method. Then invocation of the
   // \code{Update()} method will perform the classification.
-  // 
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   std::vector< MembershipFunctionType::Pointer > membershipFunctions;
-  for ( unsigned int i = 0 ; i < 2 ; i++ ) 
+  for ( unsigned int i = 0 ; i < 2 ; i++ )
     {
     membershipFunctions.push_back(MembershipFunctionType::New());
     membershipFunctions[i]->SetMean( meanEstimators[i]->GetOutput() );

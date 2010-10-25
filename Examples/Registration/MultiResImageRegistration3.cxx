@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MultiResImageRegistration3.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,7 +39,7 @@
 
 
 template <typename TRegistration>
-class RegistrationInterfaceCommand : public itk::Command 
+class RegistrationInterfaceCommand : public itk::Command
 {
 
 public:
@@ -64,7 +65,7 @@ public:
     RegistrationPointer registration =
       dynamic_cast<RegistrationPointer>( object );
 
-    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
+    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >(
       registration->GetOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
@@ -74,7 +75,7 @@ public:
 
     if ( registration->GetCurrentLevel() == 0 )
       {
-      optimizer->SetMaximumStepLength( 16.00 );  
+      optimizer->SetMaximumStepLength( 16.00 );
       optimizer->SetMinimumStepLength( 0.01 );
       }
     else
@@ -92,7 +93,7 @@ public:
 //  The following section of code implements an observer
 //  that will monitor the evolution of the registration process.
 //
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -112,7 +113,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
+      OptimizerPointer optimizer =
         dynamic_cast< OptimizerPointer >( object );
       if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
@@ -138,10 +139,10 @@ int main( int argc, char *argv[] )
     std::cerr << " [numberOfBins] [numberOfSamples ] " << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 3;
   typedef  unsigned short  PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
@@ -150,14 +151,14 @@ int main( int argc, char *argv[] )
 
   typedef itk::TranslationTransform< double, Dimension > TransformType;
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     InternalImageType,
                                     double             > InterpolatorType;
-  typedef itk::MattesMutualInformationImageToImageMetric< 
-                                    InternalImageType, 
+  typedef itk::MattesMutualInformationImageToImageMetric<
+                                    InternalImageType,
                                     InternalImageType >   MetricType;
-  typedef itk::MultiResolutionImageRegistrationMethod< 
-                                    InternalImageType, 
+  typedef itk::MultiResolutionImageRegistrationMethod<
+                                    InternalImageType,
                                     InternalImageType >   RegistrationType;
 
   typedef itk::MultiResolutionPyramidImageFilter<
@@ -169,7 +170,7 @@ int main( int argc, char *argv[] )
 
 
   //  All the components are instantiated using their \code{New()} method
-  //  and connected to the registration object as in previous example.  
+  //  and connected to the registration object as in previous example.
   //
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -177,7 +178,7 @@ int main( int argc, char *argv[] )
   RegistrationType::Pointer   registration  = RegistrationType::New();
   MetricType::Pointer         metric        = MetricType::New();
 
-  FixedImagePyramidType::Pointer fixedImagePyramid = 
+  FixedImagePyramidType::Pointer fixedImagePyramid =
       FixedImagePyramidType::New();
   MovingImagePyramidType::Pointer movingImagePyramid =
       MovingImagePyramidType::New();
@@ -188,7 +189,7 @@ int main( int argc, char *argv[] )
   registration->SetMetric( metric  );
   registration->SetFixedImagePyramid( fixedImagePyramid );
   registration->SetMovingImagePyramid( movingImagePyramid );
-  
+
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -200,9 +201,9 @@ int main( int argc, char *argv[] )
   movingImageReader->SetFileName( argv[2] );
 
 
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         FixedImageType, InternalImageType > FixedCastFilterType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         MovingImageType, InternalImageType > MovingCastFilterType;
 
   FixedCastFilterType::Pointer fixedCaster   = FixedCastFilterType::New();
@@ -217,9 +218,9 @@ int main( int argc, char *argv[] )
 
   fixedCaster->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
        fixedCaster->GetOutput()->GetBufferedRegion() );
-   
+
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
@@ -227,7 +228,7 @@ int main( int argc, char *argv[] )
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
   initialParameters[2] = 0.0;  // Initial offset in mm along Z
-  
+
   registration->SetInitialTransformParameters( initialParameters );
 
   metric->SetNumberOfHistogramBins( 128 );
@@ -246,7 +247,7 @@ int main( int argc, char *argv[] )
     }
 
   metric->ReinitializeSeed( 76926294 );
- 
+
 
   if( argc > 7 )
     {
@@ -274,28 +275,28 @@ int main( int argc, char *argv[] )
 
   registration->SetNumberOfLevels( 3 );
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
   double TranslationAlongZ = finalParameters[2];
-  
+
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   double bestValue = optimizer->GetValue();
 
 
@@ -308,8 +309,8 @@ int main( int argc, char *argv[] )
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -340,11 +341,11 @@ int main( int argc, char *argv[] )
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
@@ -353,12 +354,12 @@ int main( int argc, char *argv[] )
 
 
   writer->SetFileName( argv[3] );
-  
+
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
-  
+
   //
   // Generate checkerboards before and after registration
   //
@@ -371,9 +372,9 @@ int main( int argc, char *argv[] )
 
   caster->SetInput( checker->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
-  
+
   resample->SetDefaultPixelValue( 0 );
-  
+
   // Before registration
   TransformType::Pointer identityTransform = TransformType::New();
   identityTransform->SetIdentity();
@@ -385,7 +386,7 @@ int main( int argc, char *argv[] )
     writer->Update();
     }
 
- 
+
   // After registration
   resample->SetTransform( finalTransform );
   if( argc > 6 )

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPointSetToImageRegistrationTest_1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -32,7 +33,7 @@
 
 /**
  *
- *  This program tests the registration of a PointSet against an image. 
+ *  This program tests the registration of a PointSet against an image.
  *
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  *  One is shifted by 5 pixels from the other.
@@ -67,14 +68,14 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   itk::Size<ImageDimension> size;
   size[0] = 100;
   size[1] = 100;
-  
+
   imageSource->GenerateImages( size );
 
   MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
   FixedImageType::ConstPointer  fixedImage  = imageSource->GetFixedImage();
 
 //-----------------------------------------------------------
-// Create the point set and load it with data by sampling 
+// Create the point set and load it with data by sampling
 // the fixed image
 //-----------------------------------------------------------
   typedef itk::PointSet< float, 2 >   FixedPointSetType;
@@ -91,7 +92,7 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   ImageIteratorType it( fixedImage, fixedImage->GetBufferedRegion() );
 
-  const unsigned int skip = 
+  const unsigned int skip =
     fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
 
   unsigned int counter = 0;
@@ -107,7 +108,7 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
       fixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
       fixedPointSet->SetPoint( pointId, point );
       fixedPointSet->SetPointData( pointId, it.Get() );
-      ++pointId; 
+      ++pointId;
       if( pointId == numberOfPoints )
         {
         break;
@@ -121,9 +122,9 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::NormalizedCorrelationPointSetToImageMetric<  
-    FixedPointSetType, 
-    MovingImageType >   
+  typedef itk::NormalizedCorrelationPointSetToImageMetric<
+    FixedPointSetType,
+    MovingImageType >
     MetricType;
 
   typedef MetricType::TransformType                 TransformBaseType;
@@ -137,8 +138,8 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 // Set up a Transform
 //-----------------------------------------------------------
 
-  typedef itk::TranslationTransform< 
-    CoordinateRepresentationType, 
+  typedef itk::TranslationTransform<
+    CoordinateRepresentationType,
     ImageDimension >         TransformType;
 
   TransformType::Pointer transform = TransformType::New();
@@ -147,7 +148,7 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 //------------------------------------------------------------
 // Set up an Interpolator
 //------------------------------------------------------------
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
     MovingImageType,
     double > InterpolatorType;
 
@@ -163,15 +164,15 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
 
   // Registration Method
-  typedef itk::PointSetToImageRegistrationMethod< 
-    FixedPointSetType, 
+  typedef itk::PointSetToImageRegistrationMethod<
+    FixedPointSetType,
     MovingImageType >    RegistrationType;
 
 
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
 
-  typedef itk::CommandIterationUpdate<  
+  typedef itk::CommandIterationUpdate<
     OptimizerType >    CommandIterationType;
 
 
@@ -184,7 +185,7 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 1.0 );
 
-  
+
   unsigned long   numberOfIterations =   50;
   //double          translationScale   =  1.0; // not used
   double          maximumStepLenght  =  1.0;  // no step will be larger than this
@@ -199,7 +200,7 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   optimizer->SetGradientMagnitudeTolerance( gradientTolerance );
   optimizer->MinimizeOn();
 
-  // Start from an Identity transform (in a normal case, the user 
+  // Start from an Identity transform (in a normal case, the user
   // can probably provide a better guess than the identity...
   transform->SetIdentity();
   registration->SetInitialTransformParameters( transform->GetParameters() );
@@ -233,7 +234,7 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
     }
 
 
-  try 
+  try
     {
     registration->StartRegistration();
     }

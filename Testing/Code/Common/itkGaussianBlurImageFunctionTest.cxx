@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGaussianBlurImageFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -24,7 +25,7 @@
 int itkGaussianBlurImageFunctionTest(int, char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef float  PixelType; 
+  typedef float  PixelType;
   typedef itk::Image< PixelType, Dimension > ImageType;
   typedef itk::GaussianBlurImageFunction< ImageType > GFunctionType;
 
@@ -33,11 +34,11 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
   ImageType::SizeType     size;
   ImageType::IndexType    start;
   ImageType::RegionType   region;
- 
+
   size[0] = 50;
   size[1] = 50;
 
-  start.Fill( 0 ); 
+  start.Fill( 0 );
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -65,10 +66,10 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
   index.Fill(25);
 
   // Testing Set/GetVariance()
-  std::cout << "Testing Set/GetVariance(): ";  
+  std::cout << "Testing Set/GetVariance(): ";
   gaussianFunction->SetSigma(5.0);
   const GFunctionType::SigmaArrayType & sigma = gaussianFunction->GetSigma();
-  
+
   for(unsigned int i=0;i<Dimension;i++)
   {
     if( sigma[i] !=  5.0)
@@ -78,13 +79,13 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
     }
   }
   std::cout << "[PASSED] " << std::endl;
-  
+
   // Testing Set/GetExtent()
   std::cout << "Testing Set/GetExtent(): ";
-    
+
   gaussianFunction->SetExtent(5.0);
   const GFunctionType::ExtentArrayType & ext = gaussianFunction->GetExtent();
-  
+
   for(unsigned int i=0;i<Dimension;i++)
   {
     if( ext[i] !=  5.0)
@@ -100,13 +101,13 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
   {
     std::cout << "Testing Set/GetMaximumError(): ";
     GFunctionType::ErrorArrayType  setError;
-    
+
     setError.Fill( 0.05 );
     gaussianFunction->SetMaximumError( setError );
 
     const GFunctionType::ErrorArrayType & readError =
                             gaussianFunction->GetMaximumError();
-    
+
     for(unsigned int i=0;i<Dimension;i++)
     {
       if( vcl_fabs( setError[i] - readError[i] ) > 1e-6 )
@@ -116,30 +117,30 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
       }
     }
     std::cout << "[PASSED] " << std::endl;
-  } 
+  }
 
   // Testing Set/GetMaximumKernelWidth()
   {
     std::cout << "Testing Set/GetMaximumKernelWidth(): ";
     int setKernelWidth = 47;
-    
+
     gaussianFunction->SetMaximumKernelWidth( setKernelWidth );
 
     int readKernelWidth = gaussianFunction->GetMaximumKernelWidth();
-    
+
     if( readKernelWidth != setKernelWidth )
       {
       std::cerr << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
       }
     std::cout << "[PASSED] " << std::endl;
-  } 
+  }
 
   // Testing Set/GetUseImageSpacing()
   {
     std::cout << "Testing Set/GetUseImageSpacing(): ";
     bool useImageSpacing = true;
-    
+
     gaussianFunction->SetUseImageSpacing( useImageSpacing );
     if( gaussianFunction->GetUseImageSpacing() != useImageSpacing )
       {
@@ -148,7 +149,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
       }
 
     useImageSpacing = false;
-    
+
     gaussianFunction->SetUseImageSpacing( useImageSpacing );
     if( gaussianFunction->GetUseImageSpacing() != useImageSpacing )
       {
@@ -173,32 +174,32 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
 
     gaussianFunction->UseImageSpacingOn(); // leave it ON for the next test.
     std::cout << "[PASSED] " << std::endl;
-  } 
+  }
 
 
   GFunctionType::OutputType  blurredvalue_index;
   blurredvalue_index = gaussianFunction->EvaluateAtIndex( index );
-  
+
   GFunctionType::PointType pt;
   pt[0]=25.0;
   pt[1]=25.0;
   GFunctionType::OutputType  blurredvalue_point;
   blurredvalue_point = gaussianFunction->Evaluate( pt );
 
-  
+
   GFunctionType::ContinuousIndexType continuousIndex;
   continuousIndex.Fill(25);
   GFunctionType::OutputType  blurredvalue_continuousIndex;
   blurredvalue_continuousIndex = gaussianFunction->EvaluateAtContinuousIndex( continuousIndex );
-  
-  
+
+
   std::cout << "Testing Evaluate(), EvaluateAtIndex() and EvaluateIndex: ";
   if( (vcl_fabs(blurredvalue_index-blurredvalue_point)>0.01)
      || blurredvalue_point != blurredvalue_continuousIndex)
     {
-    std::cerr << "[FAILED] : " 
-              << blurredvalue_index << " : " 
-              << blurredvalue_point << " : " 
+    std::cerr << "[FAILED] : "
+              << blurredvalue_index << " : "
+              << blurredvalue_point << " : "
               << blurredvalue_continuousIndex <<  std::endl;
     return EXIT_FAILURE;
     }
@@ -212,7 +213,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
- 
+
   std::cout << "[PASSED] " << std::endl;
 
   gaussianFunction->Print( std::cout );

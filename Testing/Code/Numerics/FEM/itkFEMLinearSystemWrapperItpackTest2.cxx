@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLinearSystemWrapperItpackTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -51,14 +51,14 @@ int itkFEMLinearSystemWrapperItpackTest2( int argc, char * argv [] )
   it.SetNumberOfMatrices(nMatrices);
   it.SetNumberOfVectors(nVectors);
   it.SetNumberOfSolutions(nSolutions);
-  
+
 
   /* Set max non zeros in any matrix */
   it.SetMaximumNonZeroValuesInMatrix(9);
 
 
   /* Initialize memory */
-  for (i=0; i<nMatrices; i++) 
+  for (i=0; i<nMatrices; i++)
     {
     it.InitializeMatrix(i);
     }
@@ -78,14 +78,14 @@ int itkFEMLinearSystemWrapperItpackTest2( int argc, char * argv [] )
    * | 0  0 33|
    */
   it.SetMatrixValue(0,0,11,0);
-  it.SetMatrixValue(1,1,22,0); 
-  it.SetMatrixValue(2,2,33,0); 
+  it.SetMatrixValue(1,1,22,0);
+  it.SetMatrixValue(2,2,33,0);
 
   /* print matrix 0 */
   std::cout << "Matrix 0" << std::endl;
-  for(i=0; i<N; i++) 
+  for(i=0; i<N; i++)
     {
-    for (j=0; j<N; j++) 
+    for (j=0; j<N; j++)
       {
       std::cout << it.GetMatrixValue(i,j,0) << " ";
       }
@@ -100,7 +100,7 @@ int itkFEMLinearSystemWrapperItpackTest2( int argc, char * argv [] )
 
   /* print Vector 0 */
   std::cout << "Vector 0" << std::endl;
-  for (i=0; i<N; i++) 
+  for (i=0; i<N; i++)
     {
     std::cout << it.GetVectorValue(i,0) << " ";
     }
@@ -140,12 +140,12 @@ int itkFEMLinearSystemWrapperItpackTest2( int argc, char * argv [] )
   std::cout << "Solve for x in: Matrix 0 * x = Vector 0" << std::endl;
   it.Solve();
   std::cout << "Solution 0" << std::endl;
-  for (i=0; i<N; i++) 
+  for (i=0; i<N; i++)
     {
     std::cout << it.GetSolutionValue(i,0) << " ";
     }
   std::cout << std::endl << std::endl;
-  
+
   /* destroy matrix,vector,solution */
   it.DestroyMatrix(0);
   it.DestroyVector(0);
@@ -154,5 +154,5 @@ int itkFEMLinearSystemWrapperItpackTest2( int argc, char * argv [] )
   std::cout << "Done." << std::endl;
 
   return EXIT_SUCCESS;
- 
+
 }

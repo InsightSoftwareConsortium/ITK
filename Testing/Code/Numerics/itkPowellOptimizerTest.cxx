@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPowellOptimizerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,7 +24,7 @@
 
 int POWELL_CALLS_TO_GET_VALUE = 0;
 
-/** 
+/**
  *  The objectif function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
@@ -37,8 +38,8 @@ int POWELL_CALLS_TO_GET_VALUE = 0;
  *
  *   the solution is the vector | 2 -2 |
  *
- */ 
-class PowellBoundedCostFunction : public itk::SingleValuedCostFunction 
+ */
+class PowellBoundedCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
@@ -50,7 +51,7 @@ public:
   itkTypeMacro( PowellBoundedCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
-  
+
   typedef Superclass::ParametersType      ParametersType;
   typedef Superclass::DerivativeType      DerivativeType;
   typedef Superclass::MeasureType         MeasureType ;
@@ -66,7 +67,7 @@ public:
   }
 
   MeasureType  GetValue( const ParametersType & parameters ) const
-  { 
+  {
     ++POWELL_CALLS_TO_GET_VALUE;
 
     double x = parameters[0];
@@ -78,7 +79,7 @@ public:
 
     MeasureType measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
-    std::cout << measure << std::endl; 
+    std::cout << measure << std::endl;
 
     return measure;
 
@@ -97,7 +98,7 @@ private:
 
 
 
-int itkPowellOptimizerTest(int, char* [] ) 
+int itkPowellOptimizerTest(int, char* [] )
 {
   std::cout << "Powell Optimizer Test ";
   std::cout << std::endl << std::endl;
@@ -105,21 +106,21 @@ int itkPowellOptimizerTest(int, char* [] )
   typedef  itk::PowellOptimizer  OptimizerType;
 
   typedef OptimizerType::ScalesType        ScalesType;
-    
+
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
 
-  // Declaration of the CostFunction 
+  // Declaration of the CostFunction
   PowellBoundedCostFunction::Pointer costFunction = PowellBoundedCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
-  
+
   typedef PowellBoundedCostFunction::ParametersType    ParametersType;
 
-  const unsigned int spaceDimension = 
+  const unsigned int spaceDimension =
                       costFunction->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
@@ -136,7 +137,7 @@ int itkPowellOptimizerTest(int, char* [] )
 
   itkOptimizer->SetInitialPosition( initialPosition );
 
-  try 
+  try
     {
     itkOptimizer->StartOptimization();
     }
@@ -152,7 +153,7 @@ int itkPowellOptimizerTest(int, char* [] )
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
-  std::cout << finalPosition[1] << ")" << std::endl;  
+  std::cout << finalPosition[1] << ")" << std::endl;
 
   //
   // check results to see if it is within range

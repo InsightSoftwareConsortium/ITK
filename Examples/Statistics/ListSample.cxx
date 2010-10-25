@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ListSample.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -43,7 +44,7 @@
 // the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
 // class.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -58,7 +59,7 @@ int main()
   // The following code snippet defines the measurement vector type as
   // three component \code{float} \doxygen{Vector}. The
   // \code{MeasurementVectorType} is the measurement vector type in the
-  // \code{SampleType}. An object is instantiated at the third line. 
+  // \code{SampleType}. An object is instantiated at the third line.
   //
   // Software Guide : EndLatex
 
@@ -85,7 +86,7 @@ int main()
   mv[0] = 1.0 ;
   mv[1] = 2.0 ;
   mv[2] = 4.0 ;
-  
+
   sample->PushBack(mv) ;
   // Software Guide : EndCodeSnippet
 
@@ -99,7 +100,7 @@ int main()
   // measurement vector. The following code snippet increases the size of the
   // container to three and stores two measurement vectors at the second and
   // the third slot. The measurement vector stored using the \code{PushBack}
-  // method above is still at the first slot.  
+  // method above is still at the first slot.
   //
   // Software Guide : EndLatex
 
@@ -110,7 +111,7 @@ int main()
   mv[1] = 4.0 ;
   mv[2] = 5.0 ;
   sample->SetMeasurementVector(1, mv) ;
-  
+
   mv[0] = 3.0 ;
   mv[1] = 8.0 ;
   mv[2] = 6.0 ;
@@ -139,11 +140,11 @@ int main()
   // Software Guide : BeginCodeSnippet
   for ( unsigned long i = 0 ; i < sample->Size() ; ++i )
     {
-    std::cout << "id = " << i 
-              << "\t measurement vector = " 
-              << sample->GetMeasurementVector(i) 
-              << "\t frequency = " 
-              << sample->GetFrequency(i) 
+    std::cout << "id = " << i
+              << "\t measurement vector = "
+              << sample->GetMeasurementVector(i)
+              << "\t frequency = "
+              << sample->GetFrequency(i)
               << std::endl ;
     }
   // Software Guide : EndCodeSnippet
@@ -164,11 +165,11 @@ int main()
 
   while( iter != sample->End() )
     {
-    std::cout << "id = " << iter.GetInstanceIdentifier()  
-              << "\t measurement vector = " 
-              << iter.GetMeasurementVector() 
-              << "\t frequency = " 
-              << iter.GetFrequency() 
+    std::cout << "id = " << iter.GetInstanceIdentifier()
+              << "\t measurement vector = "
+              << iter.GetMeasurementVector()
+              << "\t frequency = "
+              << iter.GetFrequency()
               << std::endl ;
     ++iter ;
     }
@@ -185,13 +186,13 @@ int main()
   // \subdoxygen{Statistics}{Histogram}, the frequency values can vary.
   // Therefore, if we want to develop a general algorithm to calculate the
   // sample mean, we must use the \code{GetTotalFrequency()} method instead of
-  // the \code{Size()} method.  
+  // the \code{Size()} method.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Size = " << sample->Size() << std::endl ;
-  std::cout << "Total frequency = " 
+  std::cout << "Total frequency = "
             << sample->GetTotalFrequency() << std::endl ;
   // Software Guide : EndCodeSnippet
   return 0 ;

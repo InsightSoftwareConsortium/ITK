@@ -1,26 +1,27 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGDCMSeriesReadImageWrite.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 //
 //  This example illustrates how to read a DICOM series into a volume
-//  and then save this volume into another DICOM series using the 
+//  and then save this volume into another DICOM series using the
 //  exact same name.
 //  It makes use of the GDCM library
 //
@@ -36,7 +37,7 @@ int main( int argc, char* argv[] )
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << 
+    std::cerr << "Usage: " << argv[0] <<
       " DicomDirectory  outputFile OutputDicomDirectory" << std::endl;
     return EXIT_FAILURE;
     }
@@ -62,13 +63,13 @@ int main( int argc, char* argv[] )
 
   const ReaderType::FileNamesContainer & filenames = it->GetInputFileNames();
   unsigned int numberOfFilenames =  filenames.size();
-  std::cout << numberOfFilenames << std::endl; 
+  std::cout << numberOfFilenames << std::endl;
   for(unsigned int fni = 0; fni<numberOfFilenames; fni++)
     {
     std::cout << "filename # " << fni << " = ";
     std::cout << filenames[fni] << std::endl;
     }
-  
+
   reader->SetFileNames( filenames );
   reader->SetImageIO( gdcmIO );
 
@@ -108,10 +109,10 @@ int main( int argc, char* argv[] )
   // is disable
 #if  0
   // Ok saving as a known format worked now try to save as a serie of DICOM file
-    
+
   typedef itk::Image<unsigned short,2>            Image2DType;
   typedef itk::ImageSeriesWriter< ImageType, Image2DType > SeriesWriterType;
-    
+
   SeriesWriterType::Pointer swriter = SeriesWriterType::New();
   swriter->SetInput( reader->GetOutput() );
   swriter->SetImageIO( gdcmIO );
@@ -135,7 +136,7 @@ int main( int argc, char* argv[] )
 
 #else
   // Writing image afer downscaling to 8bits (unsigned char)
-  
+
   typedef itk::Image< unsigned short, 3>            Image3DType;
   typedef itk::Image< unsigned char,  3>            RescaleImageType;
   typedef itk::Image< unsigned char,  2>            OutputImageType;
@@ -170,7 +171,7 @@ int main( int argc, char* argv[] )
     }
 
 #endif
-  
+
   return EXIT_SUCCESS;
 }
 

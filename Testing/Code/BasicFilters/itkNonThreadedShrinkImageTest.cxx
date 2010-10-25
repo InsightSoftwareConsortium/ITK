@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNonThreadedShrinkImageTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -30,14 +31,14 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
   fow->SetInstance(fow);
 
   std::cout << "Shrink an image by (2,3)" << std::endl;
-  
+
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   SimpleImage;
   SimpleImage::Pointer simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
             << simpleImage->GetSpacing()[1] << std::endl;
   std::cout << std::flush;
-  
+
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;
 
@@ -61,13 +62,13 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
     {
     iterator.Set( i );
     }
-  
+
   // Create a filter, shrink by 2,3
   itk::NonThreadedShrinkImageFilter< ShortImage, ShortImage >::Pointer shrink;
   shrink = itk::NonThreadedShrinkImageFilter< ShortImage, ShortImage >::New();
   shrink->SetInput( if2 );
   shrink->SetNumberOfThreads(4);
-  
+
   unsigned int factors[2] = { 2, 3 };
   shrink->SetShrinkFactors(factors);
   shrink->UpdateLargestPossibleRegion();
@@ -81,16 +82,16 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
   std::cout << std::flush;
   std::cout << "Input Requested region: " << shrink->GetInput()->GetRequestedRegion() << std::endl;
   std::cout << std::flush;
-  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;  
+  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;
   std::cout << std::flush;
-  
+
   //
   // This code determines whether the shrink code produced
   // the image we expected.
   //
   ShortImage::RegionType requestedRegion;
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
-  
+
   itk::ImageRegionIterator<ShortImage>
     iterator2(shrink->GetOutput(), requestedRegion);
 
@@ -130,7 +131,7 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
     if ( iterator2.Get() != trueValue )
       {
       passed = false;
-      std::cout << "Pixel " << iterator2.GetIndex() 
+      std::cout << "Pixel " << iterator2.GetIndex()
                 << " expected " << trueValue
                 << " but got " << iterator2.Get()
                 << std::endl;
@@ -140,7 +141,7 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
   // Now test shrinking by 2x2
   std::cout << "Shrink the image by (2,2) instead." << std::endl;
   std::cout << std::flush;
-  
+
   factors[1] = 2;
   shrink->SetShrinkFactors(factors);
 
@@ -154,7 +155,7 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
   fooregion = shrink->GetOutput()->GetRequestedRegion();
   fooregion.SetIndex(foo);
   shrink->GetOutput()->SetRequestedRegion( fooregion );
-  
+
   try
     {
     // this should fail due to a bad requested region
@@ -189,7 +190,7 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
   std::cout << std::flush;
   std::cout << "Input Requested region: " << std::flush << shrink->GetInput()->GetRequestedRegion() << std::endl;
   std::cout << std::flush;
-  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;  
+  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;
   std::cout << std::flush;
 
   std::cout << shrink << std::endl;
@@ -198,7 +199,7 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
   std::cout << std::flush;
   std::cout << "Output" << std::endl << shrink->GetOutput() << std::endl;
   std::cout << std::flush;
-  
+
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   iterator2 = itk::ImageRegionIterator<ShortImage>(shrink->GetOutput(), requestedRegion);
 
@@ -217,14 +218,14 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
                                                             (shrink->GetShrinkFactors()[1] - 1.0) / 2.0)));
     if ( iterator2.Get() != trueValue )
       {
-      std::cout << "B) Pixel " << iterator2.GetIndex() 
+      std::cout << "B) Pixel " << iterator2.GetIndex()
                 << " expected " << trueValue
                 << " but got " << iterator2.Get()
                 << std::endl;
       passed = false;
-      }    
+      }
     }
-  
+
   std::cout << std::endl;
   std::cout << std::flush;
   if (passed)

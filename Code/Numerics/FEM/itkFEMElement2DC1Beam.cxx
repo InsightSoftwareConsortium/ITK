@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DC1Beam.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -117,7 +117,7 @@ Element2DC1Beam
   return l/2;
 }
 
-void 
+void
 Element2DC1Beam
 ::GetStiffnessMatrix( MatrixType& Ke ) const
 {
@@ -242,7 +242,7 @@ Element2DC1Beam
 out:
 
   if( !f )
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element2DC1Beam::Read()","Error reading FEM element!");
     }
 }
@@ -262,13 +262,13 @@ Element2DC1Beam
 
   // check for errors
   if (!f)
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element1DStress::Write()","Error writing FEM element!");
     }
 }
 
 #ifdef FEM_BUILD_VISUALIZATION
-void 
+void
 Element2DC1Beam
 ::Draw(CDC* pDC, Solution::ConstPointer sol) const
 {

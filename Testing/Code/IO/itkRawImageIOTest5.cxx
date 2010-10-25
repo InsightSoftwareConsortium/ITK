@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRawImageIOTest5.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,7 +39,7 @@ public:
 
 
 public:
-  
+
   RawImageReaderAndWriter()
     {
     m_Image = ImageType::New();
@@ -48,7 +49,7 @@ public:
     typename ImageType::IndexType      start;
 
     start.Fill(0);
-    size[0] = 16;  // To fill the range of 8 bits image 
+    size[0] = 16;  // To fill the range of 8 bits image
     size[1] = 16;
 
     region.SetSize( size );
@@ -75,7 +76,7 @@ public:
     m_Error = false;
 
     }
-  
+
   void Write()
     {
     typedef itk::ImageFileWriter< ImageType >  WriterType;
@@ -83,7 +84,7 @@ public:
 
     writer->SetFileName( m_FileName.c_str() );
     writer->SetInput( m_Image );
-    
+
     RawImageIOType::Pointer rawImageIO = RawImageIOType::New();
     writer->SetImageIO( rawImageIO );
 
@@ -95,7 +96,7 @@ public:
     typedef itk::ImageFileReader< ImageType >  ReaderType;
     ReaderType::Pointer  reader  = ReaderType::New();
     reader->SetFileName( m_FileName.c_str() );
-    
+
     RawImageIOType::Pointer rawImageIO = RawImageIOType::New();
     reader->SetImageIO( rawImageIO );
 
@@ -121,7 +122,7 @@ public:
 
     //
     // Verify the content of the image.
-    // 
+    //
     typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
 
     ConstIteratorType it1( m_Image, m_Image->GetLargestPossibleRegion() );
@@ -155,7 +156,7 @@ public:
     {
     return m_Error;
     }
-  
+
 private:
 
   std::string m_FileName;
@@ -208,7 +209,7 @@ int itkRawImageIOTest5(int argc, char*argv[])
     return EXIT_FAILURE;
     }
 
-  
+
   try
     {
     tester1.Read();
@@ -252,7 +253,7 @@ int itkRawImageIOTest5(int argc, char*argv[])
     return EXIT_FAILURE;
     }
 
-  
+
   try
     {
     tester2.Read();
@@ -298,7 +299,7 @@ int itkRawImageIOTest5(int argc, char*argv[])
     return EXIT_FAILURE;
     }
 
-  
+
   try
     {
     tester3.Read();

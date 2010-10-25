@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMultiResolutionImageRegistrationMethodTest_1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -35,10 +36,10 @@ double F( itk::Vector<double,3> & v );
 
 }
 
-/** 
- *  This program test the 
+/**
+ *  This program test the
  *  itk::MultiResolutionImageRegistrationMethod class
- * 
+ *
  *  This file tests the combination of:
  *   - MutualInformation
  *   - AffineTransform
@@ -49,8 +50,8 @@ double F( itk::Vector<double,3> & v );
  *  The test image pattern consists of a 3D gaussian in the middle
  *  with some directional pattern on the outside.
  *  One image is scaled and shifted relative to the other.
- *  
- *  This program runs two registration tests. The first test 
+ *
+ *  This program runs two registration tests. The first test
  *  uses SetNumberOfLevels() method to specify the number of computation levels
  *  in the pyramid. The second test uses a user defined multi-resolution schedule.
  *  The final transform of the registration runs are compared with the
@@ -66,14 +67,14 @@ double F( itk::Vector<double,3> & v );
  * See notes for itkImageRegistrationMethodTest_13.cxx for more
  * detailed information on the algorithm.
  *
- * A simple user-interface, allows the user to define the number 
+ * A simple user-interface, allows the user to define the number
  * of iteration and learning rate at each resolution level.
  *
  * In addition, several exceptions are exercised for testing and code
  * coverage purpose.
  *
  *
- */ 
+ */
 
 int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
 {
@@ -100,12 +101,12 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   typedef itk::GradientDescentOptimizer             OptimizerType;
 
   // Metric Type
-  typedef itk::MutualInformationImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MutualInformationImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
 
@@ -121,16 +122,16 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
 
 
   // Registration Method
-  typedef itk::MultiResolutionImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::MultiResolutionImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
   /*********************************************************
    * Set up the two input images.
    * One image scaled and shifted with respect to the other.
    **********************************************************/
-  FixedImageType::Pointer     fixedImage    = FixedImageType::New();  
-  MovingImageType::Pointer    movingImage   = MovingImageType::New();  
- 
+  FixedImageType::Pointer     fixedImage    = FixedImageType::New();
+  MovingImageType::Pointer    movingImage   = MovingImageType::New();
+
   double displacement[dimension] = {7,3,2};
   double scale[dimension] = { 0.80, 1.0, 1.0 };
 
@@ -149,7 +150,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   movingImage->SetBufferedRegion( region );
   movingImage->SetRequestedRegion( region );
   movingImage->Allocate();
-  
+
 
   typedef itk::ImageRegionIterator<MovingImageType> MovingImageIterator;
   typedef itk::ImageRegionIterator<FixedImageType> FixedImageIterator;
@@ -161,7 +162,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     }
 
   itk::Point<double,dimension> p;
-  itk::Vector<double,dimension> d;  
+  itk::Vector<double,dimension> d;
 
   MovingImageIterator mIter( movingImage, region );
   FixedImageIterator  fIter( fixedImage, region );
@@ -180,7 +181,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     for ( j = 0; j < dimension; j++ )
       {
       d[j] = d[j] * scale[j] + displacement[j];
-      }  
+      }
 
     mIter.Set( (PixelType) F(d) );
 
@@ -201,7 +202,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
 
   RegistrationType::ScheduleType  fixedImageSchedule;
   RegistrationType::ScheduleType  movingImageSchedule;
- 
+
   /* The first registration run invokes SetNumberOfLevels to specify
    * the number of computation levels */
  {
@@ -210,7 +211,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
-  FixedImagePyramidType::Pointer fixedImagePyramid = 
+  FixedImagePyramidType::Pointer fixedImagePyramid =
     FixedImagePyramidType::New();
   MovingImagePyramidType::Pointer movingImagePyramid =
     MovingImagePyramidType::New();
@@ -232,7 +233,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     }
 
   optimizer->SetScales( parametersScales );
-  
+
   // need to maximize for mutual information
   optimizer->MaximizeOn();
 
@@ -257,9 +258,9 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   registration->SetFixedImagePyramid( fixedImagePyramid );
   registration->SetMovingImagePyramid( movingImagePyramid );
   registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
-  
+
   // set initial parameters to identity
-  RegistrationType::ParametersType initialParameters( 
+  RegistrationType::ParametersType initialParameters(
     transform->GetNumberOfParameters() );
 
   initialParameters.Fill( 0.0 );
@@ -270,7 +271,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   /******************************************************************
    * Attach registration to a simple UI and run registration
    ******************************************************************/
-  SimpleMultiResolutionImageRegistrationUI2<RegistrationType> 
+  SimpleMultiResolutionImageRegistrationUI2<RegistrationType>
     simpleUI( registration );
 
   unsigned short numberOfLevels = 3;
@@ -313,7 +314,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   std::cout << "Solution is: " << solution << std::endl;
 
 
-  RegistrationType::ParametersType trueParameters( 
+  RegistrationType::ParametersType trueParameters(
     transform->GetNumberOfParameters() );
   trueParameters.Fill( 0.0 );
   trueParameters[ 0] = 1/scale[0];
@@ -350,8 +351,8 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   //used by the second registration run.
   fixedImageSchedule = registration->GetFixedImagePyramid()->GetSchedule();
   movingImageSchedule = registration->GetMovingImagePyramid()->GetSchedule();
- 
- 
+
+
   /*************************************************
    * Check for parzen window exception
    **************************************************/
@@ -405,9 +406,9 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  
+
   /* To avoid confusion, SetNumberOfLevels and SetSchedules are not allowed to be
-   * used together. An exception is thrown if SetSchedules() is invoked after 
+   * used together. An exception is thrown if SetSchedules() is invoked after
    * invoking SetNumberOfLevels */
  try
     {
@@ -417,7 +418,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     }
   catch( itk::ExceptionObject & e )
     {
-    std::cout << "Expected exception is thrown since we tried to set schedules after" 
+    std::cout << "Expected exception is thrown since we tried to set schedules after"
                  << " setting the number of levels" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
     }
@@ -429,8 +430,8 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     }
   }
 
-  /* The second registration uses user defined schedules. For testing purpose, we 
-   * will use the schedules internally generated in the first registration run 
+  /* The second registration uses user defined schedules. For testing purpose, we
+   * will use the schedules internally generated in the first registration run
    * by the fixed and moving image after the number of levels is set. The final
    * registration transform parameter values should remain the same*/
 
@@ -440,7 +441,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
-  FixedImagePyramidType::Pointer fixedImagePyramid = 
+  FixedImagePyramidType::Pointer fixedImagePyramid =
     FixedImagePyramidType::New();
   MovingImagePyramidType::Pointer movingImagePyramid =
     MovingImagePyramidType::New();
@@ -462,7 +463,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
     }
 
   optimizer->SetScales( parametersScales );
-  
+
   // need to maximize for mutual information
   optimizer->MaximizeOn();
 
@@ -487,9 +488,9 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   registration->SetFixedImagePyramid( fixedImagePyramid );
   registration->SetMovingImagePyramid( movingImagePyramid );
   registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
-  
+
   // set initial parameters to identity
-  RegistrationType::ParametersType initialParameters( 
+  RegistrationType::ParametersType initialParameters(
     transform->GetNumberOfParameters() );
 
   initialParameters.Fill( 0.0 );
@@ -500,7 +501,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   /******************************************************************
    * Attach registration to a simple UI and run registration
    ******************************************************************/
-  SimpleMultiResolutionImageRegistrationUI2<RegistrationType> 
+  SimpleMultiResolutionImageRegistrationUI2<RegistrationType>
     simpleUI( registration );
 
   unsigned short numberOfLevels = 3;
@@ -544,7 +545,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
   std::cout << "Solution is: " << solution << std::endl;
 
 
-  RegistrationType::ParametersType trueParameters( 
+  RegistrationType::ParametersType trueParameters(
     transform->GetNumberOfParameters() );
   trueParameters.Fill( 0.0 );
   trueParameters[ 0] = 1/scale[0];
@@ -592,8 +593,8 @@ namespace
  */
 double F( itk::Vector<double,3> & v )
 {
-  double x = v[0]; 
-  double y = v[1]; 
+  double x = v[0];
+  double y = v[1];
   double z = v[2];
   const double s = 50;
   double value = 200.0 * vcl_exp( - ( x*x + y*y + z*z )/(s*s) );

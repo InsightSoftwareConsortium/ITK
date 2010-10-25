@@ -1,32 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLabelGeometryImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
-/*=========================================================================
-*
-*  Authors: Dirk Padfield and James Miller.
-*
-*  This work is part of the National Alliance for Medical Image
-*  Computing (NAMIC), funded by the National Institutes of Health
-*  through the NIH Roadmap for Medical Research, Grant U54 EB005149.
-*  Information on the National Centers for Biomedical Computing
-*  can be obtained from http://nihroadmap.nih.gov/bioinformatics.
-*
-*=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkConnectedComponentImageFilter.h"
@@ -39,8 +27,8 @@
 template < const unsigned int NDimension >
 int LabelGeometryImageFilterTest(const char * labelImageName,const char * outputImageName,const char * intensityImageName)
 {
-  typedef unsigned short   LabelPixelType; 
-  typedef unsigned short   IntensityPixelType; 
+  typedef unsigned short   LabelPixelType;
+  typedef unsigned short   IntensityPixelType;
   typedef unsigned char    UCharPixelType;
 
   typedef itk::Image<LabelPixelType, NDimension>        LabelImageType;
@@ -77,7 +65,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
   labelGeometryFilter->CalculateOrientedBoundingBoxOn();
   labelGeometryFilter->CalculateOrientedLabelRegionsOn();
 
-  try 
+  try
     {
     labelGeometryFilter->Update();
     }
@@ -87,7 +75,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
     }
   std::cout << "\n\nRUNNING THE FILTER WITHOUT AN INTENSITY IMAGE..." << std::endl;
   labelGeometryFilter->Print(std::cout);
-  
+
   // Print out the features for the last label.
   // The integrated intensity and weighted centroid values will not be
   // valid sine an intensity image has not been defined.
@@ -97,7 +85,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
   std::cout << "\tIntegrated Intensity: " << labelGeometryFilter->GetIntegratedIntensity(labelValue) << std::endl;
   std::cout << "\tCentroid: " << labelGeometryFilter->GetCentroid(labelValue) << std::endl;
   std::cout << "\tWeighted Centroid: " << labelGeometryFilter->GetWeightedCentroid(labelValue) << std::endl;
-  std::cout << "\tAxes Length: " << labelGeometryFilter->GetAxesLength(labelValue) << std::endl; 
+  std::cout << "\tAxes Length: " << labelGeometryFilter->GetAxesLength(labelValue) << std::endl;
   std::cout << "\tMajorAxisLength: " << labelGeometryFilter->GetMajorAxisLength(labelValue) << std::endl;
   std::cout << "\tMinorAxisLength: " << labelGeometryFilter->GetMinorAxisLength(labelValue) << std::endl;
   std::cout << "\tEccentricity: " << labelGeometryFilter->GetEccentricity(labelValue) << std::endl;
@@ -119,7 +107,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
 
   // If there is no intensity image, stop here.  Otherwise, continue.
   if( !strcmp(intensityImageName,"") )
-    { 
+    {
     return EXIT_SUCCESS;
     }
 
@@ -148,7 +136,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
 
   labelGeometryFilter2->SetIntensityInput( intensityReader->GetOutput() );
 
-  try 
+  try
     {
     labelGeometryFilter2->Update();
     }
@@ -165,7 +153,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
   typename LabelWriterType::Pointer labelWriter = LabelWriterType::New();
   labelWriter->SetFileName( outputImageName );
   labelWriter->SetInput( caster->GetOutput() );
-  try 
+  try
     {
     labelWriter->Update();
     }
@@ -205,7 +193,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
     labelWriter->SetFileName( filename.str().c_str() );
     labelWriter->SetInput( labelGeometryFilter2->GetOrientedLabelImage(label) );
 
-    try 
+    try
       {
       labelWriter->Update();
       }
@@ -221,7 +209,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
     intensityWriter->SetFileName( filename2.str().c_str() );
     intensityWriter->SetInput( labelGeometryFilter2->GetOrientedIntensityImage(label) );
 
-    try 
+    try
       {
       intensityWriter->Update();
       }
@@ -242,7 +230,7 @@ int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
     std::cerr << argv[0] << " binaryImage outputLabeledImage dimension [intensityImage]" << std::endl;
     return EXIT_FAILURE;
     }
-    
+
   const char * labelImageName  = argv[1];
   const char * outputImageName = argv[2];
   unsigned int dimension = atoi(argv[3]);

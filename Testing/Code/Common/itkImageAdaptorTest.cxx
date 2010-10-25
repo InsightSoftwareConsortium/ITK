@@ -1,25 +1,26 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageAdaptorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 /**
- *  
+ *
  *  This program illustrates the use of Adaptors and
  *  Accessors
  *
- *  The example shows how an Adaptor can be used to 
+ *  The example shows how an Adaptor can be used to
  *  get acces only to thered component of an RGBPixel image
  *  giving the appearance of being just a 'float' image
  *
@@ -78,13 +79,13 @@ int itkImageAdaptorTest(int, char* []) {
   myImage->SetBufferedRegion( region );
   myImage->SetRequestedRegion( region );
   myImage->Allocate();
-  
+
   myIteratorType  it1( myImage, myImage->GetRequestedRegion() );
-  
+
   // Value to initialize the pixels
   myImageType::PixelType::ComponentType colorInit[3] = {1.0f, 0.5f, 0.5f};
   myImageType::PixelType color = colorInit;
-  
+
   // Initializing all the pixel in the image
   it1.GoToBegin();
   while( !it1.IsAtEnd() )
@@ -110,7 +111,7 @@ int itkImageAdaptorTest(int, char* []) {
   myRedAdaptorType::Pointer myAdaptor = myRedAdaptorType::New();
   myAdaptor->SetImage( myImage );
 
- 
+
   myRedIteratorType  it2( myAdaptor, myAdaptor->GetRequestedRegion() );
 
   // Set the values of the Red component of myImage, using myAdaptor
