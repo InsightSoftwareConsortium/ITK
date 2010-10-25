@@ -1,17 +1,20 @@
+#==========================================================================
 #
-#  Program:   Insight Segmentation & Registration Toolkit
-#  Module:    itkinteraction.tcl
-#  Language:  C++
-#  Date:      $Date$
-#  Version:   $Revision$
+#   Copyright Insight Software Consortium
 #
-#  Copyright (c) Insight Software Consortium. All rights reserved.
-#  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
 #
-#     This software is distributed WITHOUT ANY WARRANTY; without even 
-#     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-#     PURPOSE.  See the above copyright notices for more information.
+#          http://www.apache.org/licenses/LICENSE-2.0.txt
 #
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#==========================================================================*/
 
 # Need Tk.
 package require Tk
@@ -29,14 +32,14 @@ namespace eval itk::interact {
     global itk::interact::CommandList
     global itk::interact::CommandIndex
     global itk::interact::Tagcount
-    
+
     proc doitk {s w} {
       global itk::interact::Bold
       global itk::interact::Normal
-      global itk::interact::Tagcount 
+      global itk::interact::Tagcount
       global itk::interact::CommandList
       global itk::interact::CommandIndex
-      
+
       set tag [append tagnum $Tagcount]
       set CommandIndex $Tagcount
       incr Tagcount 1
@@ -55,19 +58,19 @@ namespace eval itk::interact {
       .itkInteract.display.text configure -state disabled
       .itkInteract.display.text yview end
     }
-    
+
     catch {destroy .itkInteract}
     toplevel .itkInteract -bg #bbbbbb
     wm title .itkInteract "itk Interactor"
     wm iconname .itkInteract "itk"
-    
+
     frame .itkInteract.buttons -bg #bbbbbb
     pack  .itkInteract.buttons -side bottom -fill both -expand 0 -pady 2m
     button .itkInteract.buttons.dismiss -text Dismiss \
 	    -command "wm withdraw .itkInteract" \
 	    -bg #bbbbbb -fg #221133 -activebackground #cccccc -activeforeground #221133
     pack .itkInteract.buttons.dismiss -side left -expand 1 -fill x
-    
+
     frame .itkInteract.file -bg #bbbbbb
     label .itkInteract.file.label -text "Command:" -width 10 -anchor w \
 	    -bg #bbbbbb -fg #221133
@@ -78,22 +81,22 @@ namespace eval itk::interact {
     }
     pack .itkInteract.file.label -side left
     pack .itkInteract.file.entry -side left -expand 1 -fill x
-    
+
     frame .itkInteract.display -bg #bbbbbb
     text .itkInteract.display.text -yscrollcommand ".itkInteract.display.scroll set" \
 	    -setgrid true -width 60 -height 8 -wrap word -bg #dddddd -fg #331144 \
 	    -state disabled
     scrollbar .itkInteract.display.scroll \
 	    -command ".itkInteract.display.text yview" -bg #bbbbbb \
-	    -troughcolor #bbbbbb -activebackground #cccccc -highlightthickness 0 
+	    -troughcolor #bbbbbb -activebackground #cccccc -highlightthickness 0
     pack .itkInteract.display.text -side left -expand 1 -fill both
     pack .itkInteract.display.scroll -side left -expand 0 -fill y
-    
+
     pack .itkInteract.display -side bottom -expand 1 -fill both
-    pack .itkInteract.file -pady 3m -padx 2m -side bottom -fill x 
-    
+    pack .itkInteract.file -pady 3m -padx 2m -side bottom -fill x
+
     set CommandIndex 0
-    
+
     bind .itkInteract <Down> {
       global itk::interact::CommandIndex
       global itk::interact::CommandList
@@ -107,22 +110,22 @@ namespace eval itk::interact {
 	.itkInteract.file.entry delete 0 end
       }
     }
-    
+
     bind .itkInteract <Up> {
       global itk::interact::CommandIndex
       global itk::interact::CommandList
 
-      if { $CommandIndex > 0 } { 
+      if { $CommandIndex > 0 } {
 	set CommandIndex [expr $CommandIndex - 1]
 	set command_string [lindex $CommandList $CommandIndex]
 	.itkInteract.file.entry delete 0 end
 	.itkInteract.file.entry insert end $command_string
       }
     }
-    
+
     wm withdraw .itkInteract
   }
-  
+
   # Create the interactor.
   createInteractor
 }
