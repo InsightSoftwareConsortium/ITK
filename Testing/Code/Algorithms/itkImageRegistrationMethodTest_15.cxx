@@ -15,7 +15,108 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-bool pass = true;
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#pragma warning ( disable : 4288 )
+#endif
+
+#include "itkImageRegistrationMethod.h"
+#include "itkAffineTransform.h"
+#include "itkMattesMutualInformationImageToImageMetric.h"
+#include "itkBSplineInterpolateImageFunction.h"
+#include "itkGradientDescentOptimizer.h"
+
+#include "itkTextOutput.h"
+#include "itkImageRegionIterator.h"
+#include "itkCommandIterationUpdate.h"
+#include "vnl/vnl_sample.h"
+namespace
+{
+
+double F( itk::Vector<double,3> & v );
+}
+
+
+/**
+ *  This program test one instantiation of the itk::ImageRegistrationMethod class
+ *
+ *  This file tests the combination of:
+ *   - MattesMutualInformation
+ *   - AffineTransform
+ *   - GradientDescentOptimizer
+ *   - BSplineInterpolateImageFunction
+ *
+ *  The test image pattern consists of a 3D gaussian in the middle
+ *  with some directional pattern on the outside.
+ *  One image is scaled and shifted relative to the other.
+ *
+ * Notes:
+ * =======
+ * This example performs an affine registration
+ * between a moving (source) and fixed (target) image using mutual information.
+ * It uses a simple steepest descent optimizer to find the
+ * best affine transform to register the moving image onto the fixed
+ * image.
+ *
+ * The mutual information value and its derivatives are estimated
+ * using spatial sampling.
+ *
+ * The registration uses a simple stochastic gradient ascent scheme. Steps
+ * are repeatedly taken that are proportional to the approximate
+ * deriviative of the mutual information with respect to the affine
+ * transform parameters. The stepsize is governed by the LearningRate
+ * parameter.
+ *
+ * Since the parameters of the linear part is different in magnitude
+ * to the parameters in the offset part, scaling is required
+ * to improve convergence. The scaling can set via the optimizer.
+ *
+ * In the optimizer's scale transform set the scaling for
+ * all the translation parameters to TranslationScale^{-2}.
+ * Set the scale for all other parameters to 1.0.
+ *
+ * Note: the optimization performance can be improved by
+ * setting the image origin to center of mass of the image.
+ *
+ */
+int itkImageRegistrationMethodTest_15(int, char* [] )
+{
+
+  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
+
+/*==================================================*/
+/**
+ * Debugging vnl_sample
+ */
+  std::cout << "Debugging vnl_sample" << std::endl;
+
+  #if VXL_STDLIB_HAS_DRAND48
+  std::cout << "vxl stdlib has drand48" << std::endl;
+  #else
+  std::cout << "vxl stdlib does not have drand48" << std::endl;
+  #endif
+
+  std::cout << std::endl;
+  std::cout << "printout 10 numbers with default seeds" << std::endl;
+
+  for( int p = 0; p < 10; p++ )
+    {
+    double value = vnl_sample_uniform( 0, 100 );
+    std::cout << p << "\t" << value << std::endl;
+    }
+
+  std::cout << "printout 10 numbers with seed 171219" << std::endl;
+  vnl_sample_reseed( 171219 );
+
+  for( int p = 0; p < 10; p++ )
+    {
+    double value = vnl_sample_uniform( 0, 100 );
+    std::cout << p << "\t" << value << std::endl;
+    }
+
+/*==================================================*/
+
+  bool pass = true;
 
   const unsigned int dimension = 3;
   unsigned int j;
