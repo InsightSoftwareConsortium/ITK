@@ -119,10 +119,17 @@ void TransformFileReader
       }
     line_end = "\r";
     }
-  while ( position < data.size() )
+  while ( position != std::string::npos && position < data.size() )
     {
     // Find the next string
     std::string::size_type end = data.find (line_end, position);
+    //
+    // detect files lacking terminal \n or \r
+    if(end == std::string::npos)
+      {
+      position = std::string::npos;
+      continue;
+      }
     std::string            line = trim ( data.substr (position, end - position) );
     position = end + 1;
     itkDebugMacro ("Found line: \"" << line << "\"");
