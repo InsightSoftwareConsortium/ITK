@@ -117,6 +117,25 @@ private:
   typename DanielssonDistanceMapImageFilter< ImageType, ImageType >::Pointer m_Distance;
 
   typename CastImageFilter< FeatureImageType, ImageType >::Pointer m_Caster;
+
+  /** If FeatureImageType != ImageType,
+   *  use the CastImageFilter to match them.
+   */
+  template <class DummyImagePointerType>
+  void AssignCannyInput(typename FeatureImageType::Pointer &feature,
+                        DummyImagePointerType &)
+  {
+    m_Caster->SetInput(feature);
+    m_Canny->SetInput( m_Caster->GetOutput() );
+  }
+  /** If FeatureImageType == ImageType,
+   *  assign directly to the Canny filter
+   */
+  void AssignCannyInput(typename FeatureImageType::Pointer &feature,
+                        typename FeatureImageType::Pointer &)
+  {
+    m_Canny->SetInput(feature);
+  }
 };
 } // end namespace itk
 

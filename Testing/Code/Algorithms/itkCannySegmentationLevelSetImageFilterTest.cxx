@@ -28,7 +28,7 @@
 namespace CSIFTN {
 
 typedef itk::Image<float, 3> ImageType;
-typedef itk::Image<char, 3> SeedImageType;
+typedef itk::Image<char, 3>  SeedImageType;
 
 const int V_WIDTH  = 64;
 const int V_HEIGHT = 64;
@@ -117,9 +117,9 @@ class RMSCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef RMSCommand Self;
-  typedef Command Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef RMSCommand                     Self;
+  typedef Command                        Superclass;
+  typedef itk::SmartPointer<Self>        Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
   itkTypeMacro( RMSCommand, Command );
   itkNewMacro(Self);
@@ -243,6 +243,14 @@ int itkCannySegmentationLevelSetImageFilterTest(int, char * [] )
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
-  
+  //
+  // simple test to see if itkCannySegmentationLevelSetFunction can
+  // handle a different FeatureImageType
+  itk::CannySegmentationLevelSetImageFilter< ::CSIFTN::SeedImageType,
+                                             ::CSIFTN::ImageType,
+                                             double >::Pointer filter2 =
+    itk::CannySegmentationLevelSetImageFilter< ::CSIFTN::SeedImageType,
+                                               ::CSIFTN::ImageType,
+                                               double >::New();
   return EXIT_SUCCESS;
 }
