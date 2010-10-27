@@ -49,7 +49,6 @@ AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
   // set the background value for the second output - this is not done in the superclasses
   output2->SetBackgroundValue( output->GetBackgroundValue() );
 
-  typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
   const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
   typedef typename std::vector< typename LabelObjectType::Pointer > VectorType;
 

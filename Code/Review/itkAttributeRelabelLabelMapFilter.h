@@ -50,12 +50,13 @@ public:
   typedef SmartPointer<const Self>       ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::LabelObjectType LabelObjectType;
+  typedef TImage                                       ImageType;
+  typedef typename ImageType::Pointer                  ImagePointer;
+  typedef typename ImageType::ConstPointer             ImageConstPointer;
+  typedef typename ImageType::PixelType                PixelType;
+  typedef typename ImageType::IndexType                IndexType;
+  typedef typename ImageType::LabelObjectType          LabelObjectType;
+  typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
 
   typedef TAttributeAccessor                                 AttributeAccessorType;
   typedef typename AttributeAccessorType::AttributeValueType AttributeValueType;

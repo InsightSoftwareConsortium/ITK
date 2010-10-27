@@ -56,6 +56,8 @@ public:
   typedef typename ImageType::PixelType       PixelType;
   typedef typename ImageType::IndexType       IndexType;
 
+  typedef typename Superclass::LabelObjectType LabelObjectType;
+
   typedef TAttributeAccessor                                 AttributeAccessorType;
   typedef typename AttributeAccessorType::AttributeValueType AttributeValueType;
 
