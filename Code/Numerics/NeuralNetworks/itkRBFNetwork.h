@@ -64,7 +64,7 @@ public:
 
   // Specializations for RBF Networks
   typedef Array<ValueType>                            ArrayType;
-  typedef EuclideanDistanceMetric<ArrayType>                DistanceMetricType;
+  typedef EuclideanDistanceMetric<ArrayType>          DistanceMetricType;
   typedef RadialBasisFunctionBase<ValueType>          RBFTransferFunctionType;
   typedef RBFLayer<TMeasurementVector, TTargetVector> HiddenLayerType;
 
