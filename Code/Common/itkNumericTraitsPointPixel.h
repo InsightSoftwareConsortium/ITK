@@ -36,7 +36,7 @@ public:
 
   /** Return the type of the native component type. */
   typedef T              ValueType;
-  typedef Point< T, D > Self;
+  typedef Point< T, D >  Self;
 
   /** Unsigned component type */
   typedef Point< ElementAbsType, D > AbsType;

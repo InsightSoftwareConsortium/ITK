@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNumericTraitsStdVectorPixel_h
-#define __itkNumericTraitsStdVectorPixel_h
+#ifndef __itkNumericTraitsStdVector_h
+#define __itkNumericTraitsStdVector_h
 
 #include "itkNumericTraits.h"
 #include <vector>
