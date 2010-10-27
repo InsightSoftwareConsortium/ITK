@@ -24,6 +24,11 @@
 
 namespace itk
 {
+
+/**
+ * \class MeanSquaresImageToImageMetric
+ * \brief TODO
+ */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MeanSquaresImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
