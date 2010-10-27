@@ -47,7 +47,7 @@ public:
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void DoLine(InputImagePixelType *buffer, unsigned bufflength);
+  void DoLine(std::vector<InputImagePixelType> & buffer, unsigned bufflength);
 
   void SetSize(unsigned int size)
   {
@@ -63,18 +63,16 @@ private:
   typedef MorphologyHistogramVec< InputImagePixelType, THistogramCompare > VHistogram;
   typedef MorphologyHistogramMap< InputImagePixelType, THistogramCompare > MHistogram;
 
-  bool StartLine(InputImagePixelType *buffer,
+  bool StartLine(std::vector<InputImagePixelType> & buffer,
                  InputImagePixelType & Extreme,
                  Histogram & histo,
                  unsigned & outLeftP,
-                 unsigned & outRightP,
-                 unsigned bufflength);
+                 unsigned & outRightP);
 
-  void FinishLine(InputImagePixelType *buffer,
+  void FinishLine(std::vector<InputImagePixelType> & buffer,
                   InputImagePixelType & Extreme,
                   unsigned & outLeftP,
-                  unsigned & outRightP,
-                  unsigned bufflength);
+                  unsigned & outRightP);
 
   bool UseVectorBasedHistogram()
   {

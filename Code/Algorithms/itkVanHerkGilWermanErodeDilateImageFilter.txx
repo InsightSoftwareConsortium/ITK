@@ -93,9 +93,9 @@ VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
   // compat
   bufflength += 2;
 
-  InputImagePixelType *buffer = new InputImagePixelType[bufflength];
-  InputImagePixelType *forward = new InputImagePixelType[bufflength];
-  InputImagePixelType *reverse = new InputImagePixelType[bufflength];
+  std::vector<InputImagePixelType> buffer(bufflength);
+  std::vector<InputImagePixelType> forward(bufflength);
+  std::vector<InputImagePixelType> reverse(bufflength);
   // iterate over all the structuring elements
   typename KernelType::DecompType decomposition = m_Kernel.GetLines();
   BresType BresLine;
@@ -134,10 +134,6 @@ VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
     oit.Set( iit.Get() );
     }
   progress.CompletedPixel();
-
-  delete[] buffer;
-  delete[] forward;
-  delete[] reverse;
 }
 
 template< class TImage, class TKernel, class TFunction1 >

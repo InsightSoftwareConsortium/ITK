@@ -31,31 +31,16 @@ namespace itk
  *
  */
 #if defined( _MSC_VER ) && _MSC_VER >= 1300
-#if 0
-// version with no user access to border
-template< class TImage, class TBres, class TLine, class TFunction >
-int FillLineBuffer(typename TImage::ConstPointer input,
-                   const typename TImage::IndexType StartIndex,
-                   typename TImage::PixelType border,
-                   const TLine line,  // unit vector
-                   const float tol,
-                   const typename TBres::OffsetArray LineOffsets,
-                   const typename TImage::RegionType AllImage,
-                   const unsigned int KernLen,
-                   typename TImage::PixelType * pixbuffer,
-                   typename TImage::PixelType * fExtBuffer,
-                   unsigned &start,
-                   unsigned &end);
-#else
+
 template< class PixelType, class TFunction >
-void FillReverseExt(PixelType *pixbuffer, PixelType *rExtBuffer,
+void FillReverseExt(std::vector<PixelType> & pixbuffer,
+                    std::vector<PixelType> & rExtBuffer,
                     const unsigned int KernLen, unsigned len);
 
 template< class PixelType, class TFunction >
-void FillForwardExt(PixelType *pixbuffer, PixelType *fExtBuffer,
+void FillForwardExt(std::vector<PixelType> & pixbuffer,
+                    std::vector<PixelType> & fExtBuffer,
                     const unsigned int KernLen, unsigned len);
-
-#endif
 
 template< class TImage, class TBres, class TFunction, class TLine >
 void DoFace(typename TImage::ConstPointer input,
@@ -64,9 +49,9 @@ void DoFace(typename TImage::ConstPointer input,
             TLine line,
             const typename TBres::OffsetArray LineOffsets,
             const unsigned int KernLen,
-            typename TImage::PixelType * pixbuffer,
-            typename TImage::PixelType * fExtBuffer,
-            typename TImage::PixelType * rExtBuffer,
+            std::vector<typename TImage::PixelType> & pixbuffer,
+            std::vector<typename TImage::PixelType> & fExtBuffer,
+            std::vector<typename TImage::PixelType> & rExtBuffer,
             const typename TImage::RegionType AllImage,
             const typename TImage::RegionType face);
 

@@ -135,7 +135,7 @@ private:
                   KernelLType line,
                   AnchorLineOpenType & AnchorLineOpen,
                   const BresOffsetArray LineOffsets,
-                  InputImagePixelType *outbuffer,
+                  std::vector<InputImagePixelType> & outbuffer,
                   const InputImageRegionType AllImage,
                   const InputImageRegionType face);
 }; // end of class

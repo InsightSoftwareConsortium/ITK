@@ -92,8 +92,9 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
   // compat
   bufflength += 2;
 
-  InputImagePixelType *buffer = new InputImagePixelType[bufflength];
-  InputImagePixelType *inbuffer = new InputImagePixelType[bufflength];
+  std::vector<InputImagePixelType> buffer(bufflength);
+  std::vector<InputImagePixelType> inbuffer(bufflength);
+
   // iterate over all the structuring elements
   typename KernelType::DecompType decomposition = m_Kernel.GetLines();
   BresType BresLine;
@@ -179,8 +180,6 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
     }
   progress.CompletedPixel();
 
-  delete[] buffer;
-  delete[] inbuffer;
 }
 
 template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
@@ -192,7 +191,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
              KernelLType line,
              AnchorLineOpenType & AnchorLineOpen,
              const BresOffsetArray LineOffsets,
-             InputImagePixelType *outbuffer,
+             std::vector<InputImagePixelType> & outbuffer,
              const InputImageRegionType AllImage,
              const InputImageRegionType face)
 {

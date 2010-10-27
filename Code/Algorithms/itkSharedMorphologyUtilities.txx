@@ -242,7 +242,7 @@ template< class TImage, class TBres >
 void CopyLineToImage(const typename TImage::Pointer output,
                      const typename TImage::IndexType StartIndex,
                      const typename TBres::OffsetArray LineOffsets,
-                     const typename TImage::PixelType *outbuffer,
+                     std::vector<typename TImage::PixelType> & outbuffer,
                      const unsigned start,
                      const unsigned end)
 {
@@ -250,14 +250,9 @@ void CopyLineToImage(const typename TImage::Pointer output,
 
   for ( unsigned i = 0; i < size; i++ )
     {
-    assert(start + i >= 0);
+    // assert(start + i >= 0);
     assert( start + i < LineOffsets.size() );
-#if 1
     output->SetPixel(StartIndex + LineOffsets[start + i], outbuffer[i + 1]);  //compat
-#else
-    typename TImage::IndexType I = StartIndex + LineOffsets[start + i];
-    output->SetPixel( I, 1 + output->GetPixel(I) );
-#endif
     }
 }
 
@@ -267,19 +262,6 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
                  const typename TInputImage::RegionType AllImage,
                  const TLine line)
 {
-#if 0
-  // use the face calculator to produce a face list
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >
-  FaceCalculatorType;
-  FaceCalculatorType faceCalculator;
-  typename TInputImage::SizeType radius;
-  radius.Fill(1);
-  typename FaceCalculatorType::FaceListType faceList;
-  faceList = faceCalculator(input, AllImage, radius);
-  typename FaceCalculatorType::FaceListType::iterator fit;
-  fit = faceList.begin();
-  ++fit;
-#else
   // the face list calculator strategy fails in multithreaded mode
   // with 1D kernels
   // because it doesn't return faces of the sub-blocks if they don't
@@ -313,7 +295,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     }
   typename FaceListType::iterator fit;
   fit = faceList.begin();
-#endif
+
   typename TInputImage::RegionType RelevantRegion;
   bool     foundFace = false;
   float    MaxComp = NumericTraits< float >::NonpositiveMin();
@@ -397,9 +379,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     {
     std::cout << "Line " << line << " doesnt correspond to a face" << std::endl;
     }
-//  std::cout << "Result region = " << RelevantRegion << std::endl;
 
-//  std::cout << "+++++++++++++++++" << std::endl;
   return RelevantRegion;
 }
 
@@ -410,51 +390,20 @@ int FillLineBuffer(typename TImage::ConstPointer input,
                    const float tol,
                    const typename TBres::OffsetArray LineOffsets,
                    const typename TImage::RegionType AllImage,
-                   typename TImage::PixelType *inbuffer,
+                   std::vector<typename TImage::PixelType> & inbuffer,
                    unsigned int & start,
                    unsigned int & end)
 {
-//   if (AllImage.IsInside(StartIndex))
-//     {
-//     start = 0;
-//     }
-//   else
-
-#if 0
-  // we need to figure out where to start
-  // this is an inefficient way we'll use for testing
-  for ( start = 0; start < LineOffsets.size(); ++start )
-    {
-    if ( AllImage.IsInside(StartIndex + LineOffsets[start]) ) { break; }
-    }
-#else
   int status = ComputeStartEnd< TImage, TBres, TLine >(StartIndex, line, tol, LineOffsets, AllImage,
                                                        start, end);
   if ( !status ) { return ( status ); }
-#endif
-#if 1
   unsigned size = end - start + 1;
   // compat
   for ( unsigned i = 0; i < size; i++ )
     {
-    assert(start + i >= 0);
     assert( start + i < LineOffsets.size() );
     inbuffer[i + 1] = input->GetPixel(StartIndex + LineOffsets[start + i]);
     }
-#else
-  typedef ImageRegionConstIteratorWithIndex< TImage > ItType;
-  ItType it(input, AllImage);
-  it.SetIndex(StartIndex);
-  for ( unsigned i = 0; i < lastPos; i++ )
-    {
-    inbuffer[i] = it.Get();
-    assert(i >= 0);
-    assert( i < LineOffsets.size() );
-    typename TImage::IndexType I = StartIndex + LineOffsets[i];
-    typename TImage::OffsetType Off = I - it.GetIndex();
-    it += Off;
-    }
-#endif
   return ( 1 );
 }
 

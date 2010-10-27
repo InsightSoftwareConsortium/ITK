@@ -30,20 +30,6 @@ namespace itk
 *
 **/
 #if defined( _MSC_VER ) && _MSC_VER >= 1300
-#if 0
-// can be moved to SharedMorphUtilities if user control of border is permitted
-template< class TImage, class TBres, class TLine >
-int FillLineBuffer(typename TImage::ConstPointer input,
-                   const typename TImage::IndexType StartIndex,
-                   const TLine line,
-                   const float tol,
-                   const typename TBres::OffsetArray LineOffsets,
-                   const typename TImage::RegionType AllImage,
-                   typename TImage::PixelType * inbuffer,
-                   unsigned &start,
-                   unsigned &end);
-#endif
-
 template< class TImage, class TBres, class TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
@@ -60,8 +46,8 @@ void DoAnchorFace(const TImage * input,
                   TLine line,
                   TAnchor & AnchorLine,
                   typename TBres::OffsetArray LineOffsets,
-                  typename TImage::PixelType * inbuffer,
-                  typename TImage::PixelType * outbuffer,
+                  std::vector<typename TImage::PixelType> & inbuffer,
+                  std::vector<typename TImage::PixelType> & outbuffer,
                   const typename TImage::RegionType AllImage,
                   const typename TImage::RegionType face);
 

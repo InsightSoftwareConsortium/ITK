@@ -38,7 +38,7 @@ public:
   /** Some convenient typedefs. */
   typedef TInputPix InputImagePixelType;
 
-  void DoLine(InputImagePixelType *buffer, InputImagePixelType *inbuffer,
+  void DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer,
               unsigned bufflength);
 
   void SetSize(unsigned int size)
@@ -65,25 +65,25 @@ private:
   typedef MorphologyHistogramVec< InputImagePixelType, TFunction1 > VHistogram;
   typedef MorphologyHistogramMap< InputImagePixelType, TFunction1 > MHistogram;
 
-  bool StartLine(InputImagePixelType *buffer,
-                 InputImagePixelType *inbuffer,
+  bool StartLine(std::vector<TInputPix> & buffer,
+                 std::vector<TInputPix> & inbuffer,
                  InputImagePixelType & Extreme,
                  Histogram & histo,
                  int & outLeftP,
                  int & outRightP,
                  int & inLeftP,
                  int & inRightP,
-                 int middle, unsigned bufflength);
+                 int middle);
 
-  void FinishLine(InputImagePixelType *buffer,
-                  InputImagePixelType *inbuffer,
+  void FinishLine(std::vector<TInputPix> & buffer,
+                  std::vector<TInputPix> & inbuffer,
                   InputImagePixelType & Extreme,
                   Histogram & histo,
                   int & outLeftP,
                   int & outRightP,
                   int & inLeftP,
                   int & inRightP,
-                  int middle, unsigned bufflength);
+                  int middle);
 
   bool UseVectorBasedHistogram()
   {
