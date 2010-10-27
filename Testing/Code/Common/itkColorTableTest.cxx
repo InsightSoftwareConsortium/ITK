@@ -22,12 +22,13 @@
 
 #include "itkColorTable.h"
 
-
-int itkColorTableTest(int, char* [] )
+template<class T> void ColorTableTest(const char *name)
 {
-  typedef itk::ColorTable<unsigned char> ColorTableType;
-  ColorTableType::Pointer colors = ColorTableType::New();
+  typedef itk::ColorTable<T> ColorTableType;
+  typename ColorTableType::Pointer colors = ColorTableType::New();
 
+  std::cout << "---------- Testing for type: :" << name
+            << std::endl;
   colors->UseRandomColors(16);
   std::cout << "Random Colors" << std::endl;
   colors->Print(std::cout);
@@ -47,30 +48,63 @@ int itkColorTableTest(int, char* [] )
   std::cout << "Discrete Colors" << std::endl;
   colors->Print(std::cout);
   std::cout << std::endl;
+}
 
-  typedef itk::ColorTable<short> ShortColorTableType;
-  ShortColorTableType::Pointer shortColors = ShortColorTableType::New();
+int itkColorTableTest(int, char* [] )
+{
+  ColorTableTest<unsigned char> ("unsigned char");
+  ColorTableTest<char>          ("char");
+  ColorTableTest<unsigned short>("unsigned short");
+  ColorTableTest<short>         ("short");
+  ColorTableTest<unsigned int>  ("unsigned int");
+  ColorTableTest<int>           ("int");
+  ColorTableTest<unsigned long> ("unsigned long");
+  ColorTableTest<long>          ("long");
+  ColorTableTest<float>         ("float");
+  ColorTableTest<double>         ("double");
 
-  shortColors->UseRandomColors(16);
-  std::cout << "Random ShortColors" << std::endl;
-  shortColors->Print(std::cout);
-  std::cout << std::endl;
+  // Find the closest color for a few colors
+  typedef itk::ColorTable<unsigned char> ColorTableType;
+  ColorTableType::Pointer colors = ColorTableType::New();
 
-  shortColors->UseHeatColors(16);
-  std::cout << "Heat ShortColors" << std::endl;
-  shortColors->Print(std::cout);
-  std::cout << std::endl;
+  unsigned int id;
+  itk::RGBPixel<unsigned char> pixel;
+  colors->UseRandomColors(10000);
+  pixel.Set(255, 0, 0);
+  id = colors->GetClosestColorTableId(pixel[0], pixel[1], pixel[2]);
+  std::cout << "Pixel : " << pixel
+            << " is closest to id: " << id
+            << " which has the color: " << colors->GetColor(id)
+            << " and name " << colors->GetColorName(id) << std::endl;
 
-  shortColors->UseGrayColors(16);
-  std::cout << "Gray ShortColors" << std::endl;
-  shortColors->Print(std::cout);
-  std::cout << std::endl;
+  colors->UseDiscreteColors();
+  pixel.Set(255, 0, 0);
+  id = colors->GetClosestColorTableId(pixel[0], pixel[1], pixel[2]);
+  std::cout << "Pixel : " << pixel
+            << " is closest to id: " << id
+            << " which has the color: " << colors->GetColor(id)
+            << " and name " << colors->GetColorName(id) << std::endl;
 
-  shortColors->UseDiscreteColors();
-  std::cout << "Discrete ShortColors" << std::endl;
-  shortColors->Print(std::cout);
-  std::cout << std::endl;
+  colors->UseGrayColors();
+  pixel.Set(17, 17, 17);
+  id = colors->GetClosestColorTableId(pixel[0], pixel[1], pixel[2]);
+  std::cout << "Pixel : " << pixel
+            << " is closest to id: " << id
+            << " which has the color: " << colors->GetColor(id)
+            << " and name " << colors->GetColorName(id) << std::endl;
 
-  std::cout << "Test Passed ! " << std::endl;      
+  // Check for degenerate case
+  colors->UseGrayColors(1);
+  colors->Print(std::cout);
+
+  // Exercise the SetColorMethod
+  colors->UseRandomColors(4);
+  colors->SetColor(0, 0, 0, 0, "Background");
+  colors->SetColor(1, 255, 0, 0, "Red");
+  colors->SetColor(2, 255, 255, 0, "Yellow");
+  pixel.Set(255, 255, 255);
+  colors->SetColor(3, pixel, "White");
+  colors->Print(std::cout);
+
   return EXIT_SUCCESS;
 }
