@@ -2,8 +2,7 @@
 # install the files requires for explicit
 if(NOT EXPLICITAL_WRAP_ITK_PROJECT)
   WRAP_ITK_INSTALL(/Configuration/Languages/Explicit CMakeLists.txt)
-  WRAP_ITK_INSTALL(/Configuration/Languages/Explicit gcc_xml.inc.in)
-  WRAP_ITK_INSTALL(/Configuration/Languages/Explicit wrap_.cxx.in)
+  WRAP_ITK_INSTALL(/Configuration/Languages/Explicit explicit.in)
 endif(NOT EXPLICITAL_WRAP_ITK_PROJECT)
 
 
@@ -135,10 +134,12 @@ macro(END_WRAP_LIBRARY_EXPLICIT)
   set(CONFIG_EXPLICIT_CONTENT "${CONFIG_EXPLICIT_CONTENT}${EXPLICIT_EXPLICITS}")
   configure_file("${WRAP_ITK_EXPLICIT_SOURCE_DIR}/explicit.in"
     "${cxx_file}" @ONLY IMMEDIATE)
+   WRAP_ITK_INSTALL(/Configuration/Typedefs "${cxx_file}")
   if(EXPLICIT_EXPLICITS_FILES)
     add_library(${WRAPPER_LIBRARY_NAME}Explicit SHARED ${EXPLICIT_EXPLICITS_FILES})
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
       target_link_libraries(${WRAPPER_LIBRARY_NAME}Explicit ${dep}Explicit)
     endforeach(dep)
+    install(TARGETS ${WRAPPER_LIBRARY_NAME}Explicit DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/lib")
   endif(EXPLICIT_EXPLICITS_FILES)
 endmacro(END_WRAP_LIBRARY_EXPLICIT)
