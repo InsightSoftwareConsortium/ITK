@@ -36,7 +36,7 @@ public:
 
   /** Return the type of the native component type. */
   typedef T              ValueType;
-  typedef Array< T > Self;
+  typedef Array< T >     Self;
 
   /** Unsigned component type */
   typedef Array< ElementAbsType > AbsType;
