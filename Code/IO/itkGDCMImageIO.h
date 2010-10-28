@@ -20,6 +20,8 @@
 #ifndef __itkGDCMImageIO_h
 #define __itkGDCMImageIO_h
 
+#define ITKIO_DEPRECATED_GDCM1_API
+
 #include "itkImageIOBase.h"
 #include <fstream>
 #include <string>
@@ -187,6 +189,7 @@ public:
   static bool GetLabelFromTag(const std::string & tag,
                               std::string & labelId);
 
+#if defined( ITKIO_DEPRECATED_GDCM1_API )
   /** A DICOM file can contains multiple binary stream that can be very long
    * For example an Overlay on the image. Most of the time user do not want to load
    * this binary structure in memory since it can consume lot of memory. Therefore
@@ -194,25 +197,27 @@ public:
    * This method allow advanced user to force the reading of such field
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  itkSetMacro(MaxSizeLoadEntry, long);
+  virtual void SetMaxSizeLoadEntry( const long ) {}
 
   /** Parse any sequences in the DICOM file. Defaults to the value of
    *  LoadSequencesDefault. Loading DICOM files is faster when
    *  sequences are not needed.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  itkSetMacro(LoadSequences, bool);
-  itkGetConstMacro(LoadSequences, bool);
-  itkBooleanMacro(LoadSequences);
+  virtual void SetLoadSequences( const bool ) {}
+  virtual bool GetLoadSequences () const { return true; }
+  virtual void LoadSequencesOn () {}
+  virtual void LoadSequencesOff () {}
 
   /** Parse any private tags in the DICOM file. Defaults to the value
    * of LoadPrivateTagsDefault. Loading DICOM files is faster when
    * private tags are not needed.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  itkSetMacro(LoadPrivateTags, bool);
-  itkGetConstMacro(LoadPrivateTags, bool);
-  itkBooleanMacro(LoadPrivateTags);
+  virtual void SetLoadPrivateTags( const bool ) {}
+  virtual bool GetLoadPrivateTags() const { return true; }
+  virtual void LoadPrivateTagsOn () {}
+  virtual void LoadPrivateTagsOff () {}
 
   /** Global method to define the default value for
    * LoadSequences. When instances of GDCMImageIO are created, the
@@ -222,14 +227,10 @@ public:
    * particular ImageIO object on the readers. Default is false.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  static void SetLoadSequencesDefault(bool b)
-  { m_LoadSequencesDefault = b; }
-  static void LoadSequencesDefaultOn()
-  { m_LoadSequencesDefault = true; }
-  static void LoadSequencesDefaultOff()
-  { m_LoadSequencesDefault = false; }
-  static bool GetLoadSequencesDefault()
-  { return m_LoadSequencesDefault; }
+  static void SetLoadSequencesDefault(bool b) {}
+  static void LoadSequencesDefaultOn() {}
+  static void LoadSequencesDefaultOff() {}
+  static bool GetLoadSequencesDefault() { return true; }
 
   /** Global method to define the default value for
    * LoadPrivateTags. When instances of GDCMImageIO are created, the
@@ -239,19 +240,17 @@ public:
    * particular ImageIO object on the readers. Default is false.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  static void SetLoadPrivateTagsDefault(bool b)
-  { m_LoadPrivateTagsDefault = b; }
-  static void LoadPrivateTagsDefaultOn()
-  { m_LoadPrivateTagsDefault = true; }
-  static void LoadPrivateTagsDefaultOff()
-  { m_LoadPrivateTagsDefault = false; }
-  static bool GetLoadPrivateTagsDefault()
-  { return m_LoadPrivateTagsDefault; }
+  static void SetLoadPrivateTagsDefault(bool b) {}
+  static void LoadPrivateTagsDefaultOn() {}
+  static void LoadPrivateTagsDefaultOff() {}
+  static bool GetLoadPrivateTagsDefault() { return true; }
+#endif
 
-  /** Set/Get a boolean to use the JPEG2000 compression or not. */
-  typedef enum { JPEG = 0, JPEG2000 } TCompressionType;
+  /** Set/Get a compression type to use. */
+  typedef enum { JPEG = 0, JPEG2000, JPEGLS, RLE } TCompressionType;
   itkSetEnumMacro(CompressionType, TCompressionType);
   itkGetEnumMacro(CompressionType, TCompressionType);
+
 protected:
   GDCMImageIO();
   ~GDCMImageIO();
@@ -272,11 +271,11 @@ protected:
   std::string m_FrameOfReferenceInstanceUID;
 
   bool m_KeepOriginalUID;
-  long m_MaxSizeLoadEntry;
 private:
   GDCMImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
+#if defined( ITKIO_DEPRECATED_GDCM1_API )
   std::string m_PatientName;
   std::string m_PatientID;
   std::string m_PatientDOB;
@@ -293,11 +292,7 @@ private:
   std::string m_Institution;
   std::string m_Model;
   std::string m_ScanOptions;
-
-  bool        m_LoadSequences;
-  bool        m_LoadPrivateTags;
-  static bool m_LoadSequencesDefault;
-  static bool m_LoadPrivateTagsDefault;
+#endif
 
   /** defines whether this image is a 2D out of a 2D image
    *  or a 2D out of a 3D image. */
