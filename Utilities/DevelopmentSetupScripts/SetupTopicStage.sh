@@ -33,10 +33,15 @@ fi
 
 read -ep "Do you have git push access to itk.org? [y/N]: " access
 if test "$access" = "y"; then
+
   echo "Configuring push urls..."
-  git config remote.origin.pushurl git@itk.org:ITK.git
+  if [ "`git config remote.origin.url`" == "git://itk.org/ITK.git" ]; then
+    git config remote.origin.pushurl git@itk.org:ITK.git
+  fi
 
   pushd ../../Testing/Data >/dev/null
+  # not sure how the ITKData should be managed... so do as if the one at
+  # itk.org was the only where we want to push
   git config remote.origin.pushurl git@itk.org:ITKData.git
   popd >/dev/null
   echo -e "Done.\n"
