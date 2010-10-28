@@ -74,8 +74,6 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
     {
     std::cout << excp << std::endl;
     std::cout << "caught EXPECTED exception for empty image as input" << std::endl;
-    // TODO: should ResetPipeline() be required?
-    filter->ResetPipeline();
     }
 
   filter->FullyConnectedOn();
