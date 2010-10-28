@@ -64,7 +64,7 @@ public:
   typedef typename CellTraits::PointIdIterator     PointIdIterator;
 
   typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer PointsContainer;
+  typedef typename OutputMeshType::PointsContainer        PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
   typedef TriangleCell< CellType > TriangleCellType;

@@ -59,9 +59,8 @@ public:
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Type of the mean vector */
-  typedef typename itk::NumericTraits< MeasurementVectorType >::RealType
-    MeasurementVectorRealType;
-  typedef MeasurementVectorRealType MeanType;
+  typedef typename itk::NumericTraits< MeasurementVectorType >::RealType MeasurementVectorRealType;
+  typedef MeasurementVectorRealType                                      MeanType;
 
 
   /** Type of the covariance matrix */

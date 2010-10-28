@@ -56,8 +56,8 @@ public:
 
   //Distance Metric
   typedef EuclideanDistanceMetric<InternalVectorType> DistanceMetricType;
-  typedef typename DistanceMetricType::Pointer  DistanceMetricPointer;
-  typedef RadialBasisFunctionBase<ValueType>    RBFType;
+  typedef typename DistanceMetricType::Pointer        DistanceMetricPointer;
+  typedef RadialBasisFunctionBase<ValueType>          RBFType;
 
   //Member Functions
   itkGetConstReferenceMacro(RBF_Dim, unsigned int);
