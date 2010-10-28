@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkResampleImageTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -56,7 +57,7 @@ int itkResampleImageTest(int, char* [] )
   // Fill image with a ramp
   itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region);
   PixelType value;
-  for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter) 
+  for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
     {
     index = iter.GetIndex();
     value = index[0] + index[1];
@@ -70,7 +71,7 @@ int itkResampleImageTest(int, char* [] )
   // Create a linear interpolation image function
   InterpolatorType::Pointer interp = InterpolatorType::New();
   interp->SetInputImage(image);
-  
+
   // Create and configure a resampling filter
   itk::ResampleImageFilter< ImageType, ImageType >::Pointer resample;
   resample = itk::ResampleImageFilter< ImageType, ImageType >::New();
@@ -85,7 +86,7 @@ int itkResampleImageTest(int, char* [] )
   ImageType::PointType origin;
   origin.Fill( 0.0 );
   resample->SetOutputOrigin( origin );
- 
+
   ImageType::SpacingType spacing;
   spacing.Fill( 1.0 );
   resample->SetOutputSpacing( spacing );
@@ -102,13 +103,13 @@ int itkResampleImageTest(int, char* [] )
       iter2(resample->GetOutput(), region2);
   PixelType pixval;
   const double tolerance = 1e-30;
-  for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2) 
+  for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2)
     {
     index  = iter2.GetIndex();
     value  = iter2.Get();
     pixval = value;
     PixelType expectedValue = static_cast<PixelType>( (index[0] + index[1]) / 2.0 );
-    if ( vcl_fabs( expectedValue - pixval ) > tolerance ) 
+    if ( vcl_fabs( expectedValue - pixval ) > tolerance )
       {
       std::cout << "Error in resampled image: Pixel " << index
                 << "value    = " << value << "  "
@@ -136,7 +137,7 @@ int itkResampleImageTest(int, char* [] )
   std::cout << "OutputStartIndex: " << resample->GetOutputStartIndex() << std::endl;
 
   // Exercise error handling
-  
+
   try
     {
     std::cout << "Setting interpolator to NULL" << std::endl;

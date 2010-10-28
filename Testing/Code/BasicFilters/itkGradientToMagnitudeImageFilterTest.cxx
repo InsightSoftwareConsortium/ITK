@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGradientToMagnitudeImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 #include <itkGradientToMagnitudeImageFilter.h>
 
 
-int itkGradientToMagnitudeImageFilterTest(int, char* [] ) 
+int itkGradientToMagnitudeImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -38,7 +39,7 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>             myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<myDimension>              mySizeType;
 
   // Declare the type of the Region
@@ -47,7 +48,7 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();
 
-  
+
   // Define their size, and start index
   mySizeType size;
   size[0] = 8;
@@ -74,7 +75,7 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
 
   // Initialize the content of Image A
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     it.Set( 0.0 );
     ++it;
@@ -94,33 +95,33 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
   myIteratorType itb( inputImage, region );
 
   // Initialize the content the internal region
-  while( !itb.IsAtEnd() ) 
+  while( !itb.IsAtEnd() )
   {
     itb.Set( 100.0 );
     ++itb;
   }
 
   // Declare the type for the gradient filter
-  typedef itk::GradientRecursiveGaussianImageFilter< 
+  typedef itk::GradientRecursiveGaussianImageFilter<
                                             myImageType >  myFilterType;
-            
+
   typedef myFilterType::OutputImageType myGradientImageType;
 
 
-  // Create a  Filter                                
+  // Create a  Filter
   myFilterType::Pointer gradient = myFilterType::New();
 
 
   // Connect the input images
-  gradient->SetInput( inputImage ); 
+  gradient->SetInput( inputImage );
 
   // Select the value of Sigma
-  gradient->SetSigma( 2.5 ); 
+  gradient->SetSigma( 2.5 );
 
-  
+
   // Declare the gradient to Magnitude image filter
-  typedef itk::GradientToMagnitudeImageFilter< 
-                                  myGradientImageType, 
+  typedef itk::GradientToMagnitudeImageFilter<
+                                  myGradientImageType,
                                   myImageType >         myMagnitudeFilterType;
 
   // Create the filter
@@ -140,7 +141,7 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   // It is important to do it AFTER the gradient filter is Updated
   // Because the object connected to the output may be changed
   // by another during GenerateData() call
@@ -151,13 +152,13 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
                                  myImageType>  myOutputIteratorType;
 
   // Create an iterator for going through the output image
-  myOutputIteratorType itg( outputImage, 
+  myOutputIteratorType itg( outputImage,
                             outputImage->GetBufferedRegion() );
-  
+
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
   itg.GoToBegin();
-  while( !itg.IsAtEnd() ) 
+  while( !itg.IsAtEnd() )
   {
     std::cout << itg.Get() << std::endl;
     ++itg;

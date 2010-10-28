@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SpatialObjectTransforms.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,7 +24,7 @@
 // \index{itk::SpatialObjectTransforms} This example describes the different
 // transformations associated with a spatial object.
 //
-//  
+//
 // \begin{figure} \center
 // \includegraphics[width=0.9\textwidth]{SpatialObjectTransforms.eps}
 // \itkcaption[SpatialObject Transformations]{Set of transformations associated
@@ -33,7 +34,7 @@
 //
 // Figure~\ref{fig:SpatialObjectTransforms} shows our set of transformations.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 #include "itkSpatialObject.h"
 
@@ -45,7 +46,7 @@ int main( int , char *[] )
 // Like the first example, we create two spatial objects and give them the
 // names \code{First Object} and \code{Second Object}, respectively.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::SpatialObject<2>             SpatialObjectType;
@@ -80,7 +81,7 @@ int main( int , char *[] )
 // which the object was defined) to ``physical" space (which accounts for the
 // spacing, orientation, and offset of the indices).
 //
-// The ObjectToParentTransform transforms points from the object-specific 
+// The ObjectToParentTransform transforms points from the object-specific
 // ``physical" space to the ``physical" space of its parent object. As one can see from the
 // figure ~\ref{fig:SpatialObjectTransforms}, the ObjectToParentTransform is composed of two
 // transforms: ObjectToNodeTransform and NodeToParentNodeTransform. The ObjectToNodeTransform
@@ -102,7 +103,7 @@ int main( int , char *[] )
 // First we define an index scaling factor of 2 for the object2.
 // This is done by setting the Scale of the IndexToObjectTransform.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
   double scale[2];
   scale[0]=2;
@@ -113,11 +114,11 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we apply an offset on the ObjectToParentTransform of the child object 
+// Next, we apply an offset on the ObjectToParentTransform of the child object
 // Therefore, object2 is now translated by a vector [4,3] regarding to its
 // parent.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   TransformType::OffsetType Object2ToObject1Offset;
@@ -133,7 +134,7 @@ int main( int , char *[] )
 // invoke the \code{ComputeObjectToWorldTransform()} that recomputes all
 // dependent transformations.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   object2->ComputeObjectToWorldTransform();
@@ -149,14 +150,14 @@ int main( int , char *[] )
 // transformation are a Matrix and an Offset. For instance, when we invoke the
 // \code{Scale()} method the internal Matrix is recomputed to
 // reflect this change.
-// 
+//
 // The FixedCenterOfRotationAffineTransform performs the following
 // computation
 //
 //  \begin{equation}
 //  X' = R \cdot \left( S \cdot X - C \right) + C + V
 //  \end{equation}
-// 
+//
 // Where $R$ is the rotation matrix, $S$ is a scaling factor, $C$ is the center
 // of rotation and $V$ is a translation vector or offset.
 // Therefore the affine matrix $M$ and the affine offset $T$ are defined as:
@@ -176,8 +177,8 @@ int main( int , char *[] )
 //
 // Next, we show the two affine transformations corresponding to the two
 // objects.
-//  
-// Software Guide : EndLatex 
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   std::cout << "object2 IndexToObject Matrix: " << std::endl;
@@ -200,9 +201,9 @@ int main( int , char *[] )
 // ObjectToWorldTransform because the first object does not have any parent
 // and therefore is attached to the world coordinate frame.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet 
+// Software Guide : BeginCodeSnippet
   TransformType::OffsetType Object1ToWorldOffset;
   Object1ToWorldOffset[0] = 3;
   Object1ToWorldOffset[1] = 3;
@@ -215,16 +216,16 @@ int main( int , char *[] )
 // Next we invoke \code{ComputeObjectToWorldTransform()} on the modified
 // object.  This will propagate the transformation through all its children.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet 
+// Software Guide : BeginCodeSnippet
   object1->ComputeObjectToWorldTransform();
 // Software Guide : EndCodeSnippet
 
 
 // Software Guide : BeginLatex
 //
-//  
+//
 // \begin{figure} \center
 // \includegraphics[width=0.5\textwidth]{SpatialObjectExampleTransforms.eps}
 // \itkcaption[SpatialObject Transform Computations]{Physical positions of the
@@ -236,9 +237,9 @@ int main( int , char *[] )
 // Figure~\ref{fig:SpatialObjectExampleTransforms} shows our set of transformations.
 //
 // Finally, we display the resulting affine transformations.
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet 
+// Software Guide : BeginCodeSnippet
   std::cout << "object1 IndexToWorld Matrix: " << std::endl;
   std::cout << object1->GetIndexToWorldTransform()->GetMatrix() << std::endl;
   std::cout << "object1 IndexToWorld Offset: ";
@@ -271,8 +272,8 @@ int main( int , char *[] )
 //0 2
 //object2 IndexToWorld Offset: 7  6
 // \end{verbatim}
-// \normalsize  
+// \normalsize
 
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
   return 0;
 }

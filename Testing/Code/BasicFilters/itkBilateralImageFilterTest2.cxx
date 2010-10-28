@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBilateralImageFilterTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -35,24 +36,24 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   typedef unsigned char PixelType;
   const unsigned int dimension = 2;
   typedef itk::Image<PixelType, dimension> myImage;
-  itk::ImageFileReader<myImage>::Pointer input 
+  itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
-  
+
   // Create a filter
   typedef itk::BilateralImageFilter<myImage,myImage> FilterType;
-  
+
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher watcher(filter, "filter");
 
   filter->SetInput(input->GetOutput());
-  
+
   // these settings reduce the amount of noise by a factor of 10
   // when the original signal to noise level is 5
   filter->SetDomainSigma( 4.0 );
   filter->SetRangeSigma( 50.0 );
-  
-  
+
+
   // Test itkSetVectorMacro
   double domainSigma[dimension];
   for (unsigned int i = 0; i < dimension; i++)
@@ -67,9 +68,9 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   // Test itkSetMacro
   unsigned int filterDimensionality = dimension;
   unsigned long  numberOfRangeGaussianSamples = 100;
-  filter->SetFilterDimensionality(filterDimensionality); 
+  filter->SetFilterDimensionality(filterDimensionality);
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
-  
+
   // Test itkGetMacro
   double rangeSigma2 = filter->GetRangeSigma();
   std::cout << "filter->GetRangeSigma(): " << rangeSigma2 << std::endl;
@@ -77,7 +78,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   std::cout << "filter->GetFilterDimensionality(): " << filterDimensionality2 << std::endl;
   unsigned long numberOfRangeGaussianSamples2 = filter->GetNumberOfRangeGaussianSamples();
   std::cout << "filter->GetNumberOfRangeGaussianSamples(): " << numberOfRangeGaussianSamples2 << std::endl;
-  
+
   try
     {
     input->Update();

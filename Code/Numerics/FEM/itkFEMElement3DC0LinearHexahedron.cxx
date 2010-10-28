@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement3DC0LinearHexahedron.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -67,7 +67,7 @@ Element3DC0LinearHexahedron
    * Linear hexahedral element has local coordinates
    *  (-1,-1,-1), (1,-1,-1), (1,1,-1), (-1,1,-1), (-1,-1,1), (1,-1,1), (1,1,1), (-1,1,1)
    */
-  
+
   /* given local point x=(r,s,t), where -1 <= r,s,t <= 1 and */
 
   /** N_1 = ((1-r) * (1-s) * (1-t)) / 8 */
@@ -106,7 +106,7 @@ Element3DC0LinearHexahedron
 
   // d(N_1) / d(r)
   shapeD[0][0] = (-1) * (1 - pt[1]) * (1 - pt[2]) * 0.125;
-  
+
   // d(N_1) / d(s)
   shapeD[1][0] = (-1) * (1 - pt[0]) * (1 - pt[2]) * 0.125;
 
@@ -115,7 +115,7 @@ Element3DC0LinearHexahedron
 
   // d(N_2) / d(r)
   shapeD[0][1] = (+1) * (1 - pt[1]) * (1 - pt[2]) * 0.125;
-  
+
   // d(N_2) / d(s)
   shapeD[1][1] = (-1) * (1 + pt[0]) * (1 - pt[2]) * 0.125;
 
@@ -124,7 +124,7 @@ Element3DC0LinearHexahedron
 
   // d(N_3) / d(r)
   shapeD[0][2] = (+1) * (1 + pt[1]) * (1 - pt[2]) * 0.125;
-  
+
   // d(N_3) / d(s)
   shapeD[1][2] = (+1) * (1 + pt[0]) * (1 - pt[2]) * 0.125;
 
@@ -133,7 +133,7 @@ Element3DC0LinearHexahedron
 
   // d(N_4) / d(r)
   shapeD[0][3] = (-1) * (1 + pt[1]) * (1 - pt[2]) * 0.125;
-       
+
   // d(N_4) / d(s)
   shapeD[1][3] = (+1) * (1 - pt[0]) * (1 - pt[2]) * 0.125;
 
@@ -142,7 +142,7 @@ Element3DC0LinearHexahedron
 
   // d(N_5) / d(r)
   shapeD[0][4] = (-1) * (1 - pt[1]) * (1 + pt[2]) * 0.125;
-  
+
   // d(N_5) / d(s)
   shapeD[1][4] = (-1) * (1 - pt[0]) * (1 + pt[2]) * 0.125;
 
@@ -151,7 +151,7 @@ Element3DC0LinearHexahedron
 
   // d(N_6) / d(r)
   shapeD[0][5] = (+1) * (1 - pt[1]) * (1 + pt[2]) * 0.125;
-  
+
   // d(N_6) / d(s)
   shapeD[1][5] = (-1) * (1 + pt[0]) * (1 + pt[2]) * 0.125;
 
@@ -160,7 +160,7 @@ Element3DC0LinearHexahedron
 
   // d(N_7) / d(r)
   shapeD[0][6] = (+1) * (1 + pt[1]) * (1 + pt[2]) * 0.125;
-  
+
   // d(N_7) / d(s)
   shapeD[1][6] = (+1) * (1 + pt[0]) * (1 + pt[2]) * 0.125;
 
@@ -169,7 +169,7 @@ Element3DC0LinearHexahedron
 
   // d(N_8) / d(r)
   shapeD[0][7] = (-1) * (1 + pt[1]) * (1 + pt[2]) * 0.125;
-  
+
   // d(N_8) / d(s)
   shapeD[1][7] = (+1) * (1 - pt[0]) * (1 + pt[2]) * 0.125;
 
@@ -237,7 +237,7 @@ Element3DC0LinearHexahedron
 #ifdef FEM_BUILD_VISUALIZATION
 void
 Element3DC0LinearHexahedron
-::Draw(CDC* pDC, Solution::ConstPointer sol) const 
+::Draw(CDC* pDC, Solution::ConstPointer sol) const
 {
 
   int x1=m_node[0]->GetCoordinates()[0]*DC_Scale;
@@ -247,11 +247,11 @@ Element3DC0LinearHexahedron
   int x2=m_node[1]->GetCoordinates()[0]*DC_Scale;
   int y2=m_node[1]->GetCoordinates()[1]*DC_Scale;
   int z2=m_node[1]->GetCoordinates()[2]*DC_Scale;
-  
+
   int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
   int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
   int z3=m_node[2]->GetCoordinates()[2]*DC_Scale;
-  
+
   int x4=m_node[3]->GetCoordinates()[0]*DC_Scale;
   int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
   int z4=m_node[3]->GetCoordinates()[2]*DC_Scale;
@@ -263,11 +263,11 @@ Element3DC0LinearHexahedron
   int x6=m_node[5]->GetCoordinates()[0]*DC_Scale;
   int y6=m_node[5]->GetCoordinates()[1]*DC_Scale;
   int z6=m_node[5]->GetCoordinates()[2]*DC_Scale;
-  
+
   int x7=m_node[6]->GetCoordinates()[0]*DC_Scale;
   int y7=m_node[6]->GetCoordinates()[1]*DC_Scale;
   int z7=m_node[6]->GetCoordinates()[2]*DC_Scale;
-  
+
   int x8=m_node[7]->GetCoordinates()[0]*DC_Scale;
   int y8=m_node[7]->GetCoordinates()[1]*DC_Scale;
   int z8=m_node[7]->GetCoordinates()[2]*DC_Scale;

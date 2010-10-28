@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRegularSphereMeshSourceTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,7 +37,7 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
   typedef SphereMeshSourceType::PointType   PointType;
   typedef SphereMeshSourceType::VectorType  VectorType;
 
-  PointType center; 
+  PointType center;
   center.Fill( 7.4 );
 
   const double radius = 1.5;
@@ -45,7 +45,7 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
 
   VectorType scale;
   scale.Fill( radius );
-  
+
   mySphereMeshSource->SetCenter( center );
   mySphereMeshSource->SetResolution( 1 );
   mySphereMeshSource->SetScale( scale );
@@ -63,7 +63,7 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
     }
 
   std::cout << "mySphereMeshSource: " << mySphereMeshSource;
-  
+
   MeshType::Pointer myMesh = mySphereMeshSource->GetOutput();
 
   PointType  pt;
@@ -73,13 +73,13 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
 
   std::cout << "Testing itk::RegularSphereMeshSource "<< std::endl;
 
-  for(unsigned int i=0; i<myMesh->GetNumberOfPoints(); i++) 
+  for(unsigned int i=0; i<myMesh->GetNumberOfPoints(); i++)
     {
     myMesh->GetPoint(i, &pt);
     std::cout << "Point[" << i << "]: " << pt << std::endl;
 
     const double distanceToCenter = pt.EuclideanDistanceTo( center );
- 
+
     if( vnl_math_abs( distanceToCenter - radius ) > tolerance )
       {
       std::cerr << "Distance to center " << distanceToCenter;

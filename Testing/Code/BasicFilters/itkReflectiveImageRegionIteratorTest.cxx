@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkReflectiveImageRegionIteratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,7 +38,7 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
   typedef itk::ImageRegionIteratorWithIndex<ImageVisitsType> IteratorVisitsType;
 
   ImageType::Pointer myImage = ImageType::New();
-  
+
   ImageType::SizeType size = {{4,4,4,4}};
 
   ImageType::IndexType start;
@@ -69,25 +70,25 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
   while( !nit.IsAtEnd() )
     {
     // set the pixel index as value
-    nit.Set( nit.GetIndex() );      
+    nit.Set( nit.GetIndex() );
     // Set the number of visits to zero
     vit.Set( itk::NumericTraits< ImageVisitsType::PixelType >::Zero );
     ++nit;
     ++vit;
-    } 
-  
+    }
 
 
-  typedef itk::ReflectiveImageRegionConstIterator< ImageType > 
+
+  typedef itk::ReflectiveImageRegionConstIterator< ImageType >
                                                   ReflectiveIteratorType;
   ReflectiveIteratorType rit( myImage, region );
 
-  typedef itk::ReflectiveImageRegionIterator< ImageVisitsType > 
+  typedef itk::ReflectiveImageRegionIterator< ImageVisitsType >
                                                   ReflectiveVisitsIteratorType;
 
   ReflectiveVisitsIteratorType rvt( visitImage, region );
 
-  // Verification 
+  // Verification
   std::cout << "Verifying the reflective iterator... " << std::endl;;
 
   rit.GoToBegin();
@@ -97,7 +98,7 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
     PixelType value = rit.Get();
     ImageType::IndexType index = rit.GetIndex();
     rvt.Set( rvt.Get() + 1 );
-    if( value != index ) 
+    if( value != index )
       {
       std::cerr << "Error :  at Index " << index << std::endl;
       std::cerr << "It is pointing to " << value << std::endl;
@@ -111,7 +112,7 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
 
   // Each element should be visited 2 ^ # of dimensions
   // each left shift = multiply by 2
-  int visits = ( 1 << (ImageType::ImageDimension)); 
+  int visits = ( 1 << (ImageType::ImageDimension));
   int failed = 0;
 
   // Verify the number of visits
@@ -134,7 +135,7 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  
+
   std::cout << "      PASSED !" << std::endl << std::endl;
   return EXIT_SUCCESS;
 

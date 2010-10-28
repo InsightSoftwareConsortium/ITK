@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAmoebaOptimizerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -30,12 +31,12 @@
 
 
 
-/** 
+/**
  *  The objectif function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
  *
- *  Where A is represented as an itkMatrix and 
+ *  Where A is represented as an itkMatrix and
  *  b is represented as a itkVector
  *
  *  The system in this example is:
@@ -48,8 +49,8 @@
  *
  *   and the expected final value of the function is 10.0
  *
- */ 
-class amoebaCostFunction : public itk::SingleValuedCostFunction 
+ */
+class amoebaCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
@@ -70,7 +71,7 @@ public:
   typedef vnl_matrix<double>                      MatrixType;
 
 
-  amoebaCostFunction():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension) 
+  amoebaCostFunction():m_A(SpaceDimension,SpaceDimension),m_b(SpaceDimension)
    {
     m_A[0][0] =  3;
     m_A[0][1] =  2;
@@ -82,7 +83,7 @@ public:
     m_Negate = false;
     }
 
-  double GetValue( const ParametersType & parameters ) const 
+  double GetValue( const ParametersType & parameters ) const
     {
 
     VectorType v( parameters.Size() );
@@ -125,7 +126,7 @@ public:
         }
       }
     }
-  
+
   unsigned int GetNumberOfParameters(void) const
     {
     return SpaceDimension;
@@ -143,7 +144,7 @@ private:
   bool              m_Negate;
 };
 
-class CommandIterationUpdateAmoeba : public itk::Command 
+class CommandIterationUpdateAmoeba : public itk::Command
 {
 public:
   typedef  CommandIterationUpdateAmoeba   Self;
@@ -151,7 +152,7 @@ public:
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 protected:
-  CommandIterationUpdateAmoeba() 
+  CommandIterationUpdateAmoeba()
   {
     m_IterationNumber=0;
   }
@@ -166,7 +167,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
+      OptimizerPointer optimizer =
         dynamic_cast< OptimizerPointer >( object );
       if( m_FunctionEvent.CheckEvent( &event ) )
         {
@@ -190,7 +191,7 @@ private:
 
 
 
-int itkAmoebaOptimizerTest(int, char* [] ) 
+int itkAmoebaOptimizerTest(int, char* [] )
 {
 
   std::cout << "Amoeba Optimizer Test \n \n";
@@ -198,7 +199,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
   typedef  itk::AmoebaOptimizer  OptimizerType;
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
-  
+
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
@@ -231,13 +232,13 @@ int itkAmoebaOptimizerTest(int, char* [] )
   currentValue = initialValue;
 
   itkOptimizer->SetInitialPosition( currentValue );
-  
 
-  try 
+
+  try
     {
 
     vnlOptimizer->verbose = true;
- 
+
     std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
     std::cout << " iterations." << std::endl;
 
@@ -262,7 +263,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
     }
 
 
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
 
   std::cout << "Optimizer: " << itkOptimizer;
 
@@ -276,9 +277,9 @@ int itkAmoebaOptimizerTest(int, char* [] )
   double trueParameters[2] = { 2, -2 };
   bool pass = true;
 
-  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl; 
+  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition     << std::endl;
-  
+
   for( unsigned int j = 0; j < 2; j++ )
     {
     if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
@@ -306,7 +307,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
 
 
   // Set now the function to maximize
-  // 
+  //
   { // add a block-scope to have local variables
 
   std::cout << "Testing Maximization " << std::endl;
@@ -314,22 +315,22 @@ int itkAmoebaOptimizerTest(int, char* [] )
   currentValue = initialValue;
 
   itkOptimizer->SetInitialPosition( currentValue );
-  
-  CommandIterationUpdateAmoeba::Pointer observer = 
+
+  CommandIterationUpdateAmoeba::Pointer observer =
     CommandIterationUpdateAmoeba::New();
   itkOptimizer->AddObserver( itk::IterationEvent(), observer );
   itkOptimizer->AddObserver( itk::FunctionEvaluationIterationEvent(), observer );
 
 
-  try 
+  try
     {
     // These two following statement should compensate each other
     // and allow us to get to the same result as the test above.
     costFunction->SetNegate(true);
     itkOptimizer->MaximizeOn();
-        
+
     vnlOptimizer->verbose = true;
- 
+
     std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
     std::cout << " iterations." << std::endl;
 
@@ -353,9 +354,9 @@ int itkAmoebaOptimizerTest(int, char* [] )
     }
 
   finalPosition = itkOptimizer->GetCurrentPosition();
-  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl; 
+  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition     << std::endl;
-  
+
   for( unsigned int j = 0; j < 2; j++ )
     {
     if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
@@ -384,7 +385,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
 
 
 
-  
+
   std::cout << "Test done." << std::endl;
   return EXIT_SUCCESS;
 }

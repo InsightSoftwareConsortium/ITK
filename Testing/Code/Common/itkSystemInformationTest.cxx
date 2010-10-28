@@ -1,19 +1,31 @@
 /*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+/*=========================================================================
+ *
+ *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
+ *
+ *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+ *
+ *  For complete copyright, license and disclaimer of warranty information
+ *  please refer to the NOTICE file at the top of the ITK source tree.
+ *
+ *=========================================================================*/
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSystemInformationTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -134,7 +146,7 @@ int main(int,char *[])
 {
   const char* files[] =
     {
-      ITK_SYSTEM_INFORMATION_DIR "/CMakeCache.txt", 
+      ITK_SYSTEM_INFORMATION_DIR "/CMakeCache.txt",
       ITK_SYSTEM_INFORMATION_DIR "/itkConfigure.h",
       ITK_SYSTEM_INFORMATION_DIR "/CMakeFiles/CMakeOutput.log",
       ITK_SYSTEM_INFORMATION_DIR "/CMakeFiles/CMakeError.log",
@@ -145,18 +157,18 @@ int main(int,char *[])
       ITK_SYSTEM_INFORMATION_DIR "/ITKConfig.cmake",
       0
     };
-  
-  const char** f;  
+
+  const char** f;
   for(f = files; *f; ++f)
     {
     itkSystemInformationPrintFile(*f, std::cout);
     }
-  
+
   std::ofstream outf(ITK_SYSTEM_INFORMATION_NOTES, std::ios::out);
   if(outf)
     {
     std::cout << "Also writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
-  
+
     outf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
     outf << "<Site BuildName=\"" << ITKTesting_BUILD_NAME << "\"  Name=\""
          << ITKTesting_SITE << "\">" << std::endl;
@@ -168,13 +180,13 @@ int main(int,char *[])
            << itkGetCurrentDateTime("%a %b %d %Y %H:%M:%S %Z")
            << "</DateTime>" << std::endl;
       outf << "<Text>" << std::endl;
-    
+
       itkSystemInformationPrintFile(*f, outf, true);
 
       outf << "</Text>" << std::endl;
       outf << "</Note>" << std::endl;
       }
-    
+
     outf << "</BuildNameNotes>" << std::endl;
     outf << "</Site>" << std::endl;
     outf.close();
@@ -184,25 +196,6 @@ int main(int,char *[])
     std::cerr << "Error writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
     return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
-} 
-
-// This test has been derived from the equivalent test in VTK:
-/*=========================================================================
-
-  Program:   Visualization Toolkit
-  Module:    itkSystemInformationTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) 1993-2002 Ken Martin, Will Schroeder, Bill Lorensen 
-  All rights reserved.
-  See Copyright.txt or http://www.kitware.com/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notice for more information.
-
-=========================================================================*/
+}

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageHistogram1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -35,7 +36,7 @@
 // \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor!header}
 // \index{Statistics!Images}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkScalarImageToListAdaptor.h"
@@ -49,7 +50,7 @@
 //
 // \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator!header}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
@@ -73,7 +74,7 @@ int main( int argc, char * argv [] )
 // The image type must be defined using the typical pair of pixel type and
 // dimension specification.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -90,7 +91,7 @@ int main( int argc, char * argv [] )
 // Using the same image type we instantiate the type of the image reader that
 // will provide the image source for our example.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -109,11 +110,11 @@ int main( int argc, char * argv [] )
 // samples. We instantiate the type of the adaptor by using the actual image
 // type. Then construct the adaptor by invoking its \code{New()} method and
 // assigning the result to the corresponding smart pointer. Finally we connect
-// the output of the image reader to the input of the adaptor. 
+// the output of the image reader to the input of the adaptor.
 //
 // \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor!instantiation}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -136,7 +137,7 @@ int main( int argc, char * argv [] )
 // inside a try/catch block because the read operation can potentially throw
 // exceptions.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   try
@@ -162,15 +163,15 @@ int main( int argc, char * argv [] )
 //
 // \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator!instantiation}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
   typedef PixelType        HistogramMeasurementType;
 
-  typedef itk::Statistics::ListSampleToHistogramGenerator< 
-                                                AdaptorType, 
-                                                HistogramMeasurementType 
+  typedef itk::Statistics::ListSampleToHistogramGenerator<
+                                                AdaptorType,
+                                                HistogramMeasurementType
                                                                 > GeneratorType;
 
   GeneratorType::Pointer generator = GeneratorType::New();
@@ -189,7 +190,7 @@ int main( int argc, char * argv [] )
 // when assigning values to histogram bins. Finally we invoke the
 // \code{Update()} method in the generator.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -204,10 +205,10 @@ int main( int argc, char * argv [] )
 
   HistogramType::MeasurementVectorType min;
   HistogramType::MeasurementVectorType max;
-  
+
   min.Fill(   -0.5 );
   max.Fill(  255.5 );
-  
+
   generator->SetHistogramMin( min );
   generator->SetHistogramMax( max );
 
@@ -223,7 +224,7 @@ int main( int argc, char * argv [] )
 // The histogram is obtained from the generator by invoking the
 // \code{GetOutput()} method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -237,7 +238,7 @@ int main( int argc, char * argv [] )
 // In this current example we simply print out the frequency values of all the
 // bins in the image histogram.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -253,7 +254,7 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
   return 0;
-  
+
 }
 
 

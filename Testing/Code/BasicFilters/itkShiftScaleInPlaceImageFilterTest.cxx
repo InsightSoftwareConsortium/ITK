@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkShiftScaleInPlaceImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -34,7 +35,7 @@ class ShiftScaleInPlaceFilterWatcher : public FilterWatcher
  public:
   ShiftScaleInPlaceFilterWatcher(itk::ProcessObject* o, std::string name)
     : FilterWatcher(o), m_Name( name ) {};
-  
+
   virtual void StartFilter()
     {
     m_Start = ::clock();
@@ -61,7 +62,7 @@ class ShiftScaleInPlaceFilterWatcher : public FilterWatcher
 int itkShiftScaleInPlaceImageFilterTest(int, char* [] )
 {
   int status = 0;
-  
+
   typedef itk::Image<char,3> TestInputImage;
   typedef itk::Image<char,3> TestOutputImage;
 
@@ -96,8 +97,8 @@ int itkShiftScaleInPlaceImageFilterTest(int, char* [] )
   ShiftScaleInPlaceFilterWatcher filterWatch(filter, "filter");
   filter->SetInput(zeroFilter->GetOutput());
   filter->SetShift(20);
-  
-  
+
+
   // Define two consumers of the shift scale filter, one another shift scale
   // and the other an in place shift scale
   typedef itk::ShiftScaleInPlaceImageFilter<TestInputImage> InPlaceFilterType;
@@ -110,7 +111,7 @@ int itkShiftScaleInPlaceImageFilterTest(int, char* [] )
   ShiftScaleInPlaceFilterWatcher secondFilterWatch( secondFilter, "secondFilter" );
   secondFilter->SetInput( filter->GetOutput() );
   secondFilter->SetShift( 50 );
-  
+
 
   // Test itkSetMacros and itkGetMacros
   inPlaceFilter->GetShift();
@@ -118,10 +119,10 @@ int itkShiftScaleInPlaceImageFilterTest(int, char* [] )
   inPlaceFilter->GetScale();
   long value = inPlaceFilter->GetUnderflowCount();
   std::cout << "inPlaceFilter->GetUnderflowCount(): " << value << std::endl;
-  
+
   long value2 = inPlaceFilter-> GetOverflowCount();
   std::cout << "inPlaceFilter->GetOverflowCount(): " << value2 << std::endl;
-  
+
   try
     {
     // update the in place filter
@@ -156,7 +157,7 @@ int itkShiftScaleInPlaceImageFilterTest(int, char* [] )
                 << std::endl;
       status |= 0x04;
       }
-    
+
     std::cout << "=========== Updating the in place filter again. This should only update the in place filter.  ==============="
               << std::endl;
     inPlaceFilter->UpdateLargestPossibleRegion();

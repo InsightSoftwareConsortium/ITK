@@ -1,20 +1,20 @@
-#=========================================================================
+#==========================================================================
 #
-#  Program:   Insight Segmentation & Registration Toolkit
-#  Module:    ImageRegistration4.tcl
-#  Language:  C++
-#  Date:      $Date$
-#  Version:   $Revision$
+#   Copyright Insight Software Consortium
 #
-#  Copyright (c) Insight Software Consortium. All rights reserved.
-#  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
 #
-#     This software is distributed WITHOUT ANY WARRANTY; without even 
-#     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-#     PURPOSE.  See the above copyright notices for more information.
+#          http://www.apache.org/licenses/LICENSE-2.0.txt
 #
-#=========================================================================
-
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#==========================================================================*/
 
 package require InsightToolkit
 package require itkinteraction
@@ -46,8 +46,8 @@ $movingImageReader   Update
 set fixedImage  [ $fixedImageReader GetOutput  ]
 set movingImage [ $movingImageReader GetOutput ]
 
-$registration  SetFixedImage    $fixedImage  
-$registration  SetMovingImage   $movingImage 
+$registration  SetFixedImage    $fixedImage
+$registration  SetMovingImage   $movingImage
 
 set fixedImageRegion [ $fixedImage  GetBufferedRegion ]
 
@@ -56,7 +56,7 @@ $registration  SetFixedImageRegion   $fixedImageRegion
 $transform SetIdentity
 set initialParameters [ $transform GetParameters ]
 
-$registration  SetInitialTransformParameters  $initialParameters 
+$registration  SetInitialTransformParameters  $initialParameters
 
 
 
@@ -74,7 +74,7 @@ $optimizer AddObserver [itkIterationEvent] [$command GetPointer]
 
 
 # Here the registration is done
-$registration StartRegistration 
+$registration StartRegistration
 
 
 # Get the final parameters of the transformation
@@ -87,7 +87,7 @@ puts "Translation X =  [$finalParameters GetElement 0]"
 puts "Translation Y =  [$finalParameters GetElement 1]"
 
 
-# Now, 
+# Now,
 # we use the final transform for resampling the
 # moving image.
 set resampler [itkResampleImageFilterF2F2_New ]
@@ -105,7 +105,7 @@ $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
 set outputCast  [itkRescaleIntensityImageFilterF2US2_New]
-$outputCast SetOutputMinimum  0 
+$outputCast SetOutputMinimum  0
 $outputCast SetOutputMaximum 65535
 $outputCast SetInput [$resampler GetOutput]
 

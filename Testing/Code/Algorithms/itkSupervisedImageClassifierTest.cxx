@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSupervisedImageClassifierTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #pragma warning ( disable : 4288 )
@@ -30,11 +31,11 @@
 #include "itkImageClassifierBase.h"
 
 
-//Data definitons 
+//Data definitons
 #define   IMGWIDTH            2
 #define   IMGHEIGHT           2
 #define   NFRAMES             4
-#define   NUMBANDS            2  
+#define   NUMBANDS            2
 #define   NDIMENSION          3
 #define   NUM_CLASSES         3
 #define   MAX_NUM_ITER       50
@@ -57,11 +58,11 @@ int itkSupervisedImageClassifierTest(int, char* [] )
 {
 
   //------------------------------------------------------
-  //Create a simple test image with width, height, and 
-  //depth 4 vectors each with each vector having data for 
+  //Create a simple test image with width, height, and
+  //depth 4 vectors each with each vector having data for
   //2 bands.
   //------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> VecImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> VecImageType;
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
@@ -110,9 +111,9 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   vec.Fill(11); outIt.Set( vec ); ++outIt;
   //Vector no. 4
   vec.Fill(9); outIt.Set( vec ); ++outIt;
-  
+
   //Slice 3
-  //Vector no. 1 
+  //Vector no. 1
   vec.Fill(19); outIt.Set( vec ); ++outIt;
   //Vector no. 2
   vec.Fill(19); outIt.Set( vec ); ++outIt;
@@ -120,7 +121,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   vec.Fill(11); outIt.Set( vec ); ++outIt;
   //Vector no. 4
   vec.Fill(11); outIt.Set( vec ); ++outIt;
-  
+
   //Slice 4
   //Vector no. 1
   vec.Fill(18); outIt.Set( vec ); ++outIt;
@@ -134,7 +135,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<unsigned short,NDIMENSION> ClassImageType; 
+  typedef itk::Image<unsigned short,NDIMENSION> ClassImageType;
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
@@ -157,7 +158,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   typedef
     itk::ImageRegionIterator<ClassImageType> ClassImageIterator;
 
-  ClassImageIterator 
+  ClassImageIterator
     classoutIt( classImage, classImage->GetBufferedRegion() );
 
 
@@ -172,7 +173,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   classoutIt.Set( outputPixel );
   ++classoutIt;
 
-  //Pixel no. 2 
+  //Pixel no. 2
   outputPixel = 2;
   classoutIt.Set( outputPixel );
   ++classoutIt;
@@ -192,7 +193,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
-  
+
   //Pixel no. 2
   outputPixel = 0;
   classoutIt.Set( outputPixel );
@@ -209,7 +210,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   ++classoutIt;
 
   //Slice 3
-  //Pixel no. 1 
+  //Pixel no. 1
   outputPixel = 2;
   classoutIt.Set( outputPixel );
   ++classoutIt;
@@ -218,7 +219,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   outputPixel = 2;
   classoutIt.Set( outputPixel );
   ++classoutIt;
-  
+
   //Pixel no. 3
   outputPixel = 1;
   classoutIt.Set( outputPixel );
@@ -234,7 +235,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   outputPixel = 0;
   classoutIt.Set( outputPixel );
   ++classoutIt;
-  
+
   //Pixel no. 2
   outputPixel = 0;
   classoutIt.Set( outputPixel );
@@ -255,33 +256,33 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //----------------------------------------------------------------------
   namespace stat = itk::Statistics;
 
-  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType > 
+  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
     MembershipFunctionType ;
   typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
 
-  typedef std::vector< MembershipFunctionPointer > 
+  typedef std::vector< MembershipFunctionPointer >
     MembershipFunctionPointerVector;
 
   //----------------------------------------------------------------------
   //Set the image model estimator
   //----------------------------------------------------------------------
   typedef itk::ImageGaussianModelEstimator<VecImageType,
-    MembershipFunctionType, ClassImageType> 
+    MembershipFunctionType, ClassImageType>
     ImageGaussianModelEstimatorType;
-  
-  ImageGaussianModelEstimatorType::Pointer 
-    applyEstimateModel = ImageGaussianModelEstimatorType::New();  
+
+  ImageGaussianModelEstimatorType::Pointer
+    applyEstimateModel = ImageGaussianModelEstimatorType::New();
 
   applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
   applyEstimateModel->SetInputImage(vecImage);
-  applyEstimateModel->SetTrainingImage(classImage);  
+  applyEstimateModel->SetTrainingImage(classImage);
 
   //Run the gaussian classifier algorithm
   applyEstimateModel->Update();
-  applyEstimateModel->Print(std::cout); 
+  applyEstimateModel->Print(std::cout);
 
-  MembershipFunctionPointerVector membershipFunctions = 
-    applyEstimateModel->GetMembershipFunctions();  
+  MembershipFunctionPointerVector membershipFunctions =
+    applyEstimateModel->GetMembershipFunctions();
 
   for(unsigned int idx=0; idx < membershipFunctions.size(); idx++ )
     {
@@ -290,12 +291,12 @@ int itkSupervisedImageClassifierTest(int, char* [] )
     }
 
   //----------------------------------------------------------------------
-  //Set the decision rule 
-  //----------------------------------------------------------------------  
+  //Set the decision rule
+  //----------------------------------------------------------------------
   typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
 
   typedef itk::MinimumDecisionRule DecisionRuleType;
-  DecisionRuleType::Pointer  
+  DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 
   //----------------------------------------------------------------------
@@ -310,10 +311,10 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   typedef itk::ImageClassifierBase< VecImageType,
     ClassImageType > SupervisedClassifierType;
 
-  SupervisedClassifierType::Pointer 
+  SupervisedClassifierType::Pointer
     applyClassifier = SupervisedClassifierType::New();
- 
-  typedef ShowProgressObject 
+
+  typedef ShowProgressObject
     ProgressType;
 
   ProgressType progressWatch(applyClassifier);
@@ -327,7 +328,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   applyClassifier->SetNumberOfClasses(NUM_CLASSES);
   applyClassifier->SetInputImage(vecImage);
 
-  // Set the decison rule 
+  // Set the decison rule
   applyClassifier->
     SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
 
@@ -341,13 +342,13 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   applyClassifier->Update();
 
   //Get the classified image
-  ClassImageType::Pointer 
+  ClassImageType::Pointer
     outClassImage = applyClassifier->GetClassifiedImage();
 
-  applyClassifier->Print(std::cout); 
+  applyClassifier->Print(std::cout);
 
   //Print the gaussian classified image
-  ClassImageIterator labeloutIt( outClassImage, 
+  ClassImageIterator labeloutIt( outClassImage,
                                  outClassImage->GetBufferedRegion() );
 
   int i=0;

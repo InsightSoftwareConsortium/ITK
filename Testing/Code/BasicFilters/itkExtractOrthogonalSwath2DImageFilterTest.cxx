@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkExtractOrthogonalSwath2DImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,7 +39,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
     return -1;
     }
 
-  typedef itk::Image<unsigned char, 2>         ImageType; 
+  typedef itk::Image<unsigned char, 2>         ImageType;
   typedef itk::PolyLineParametricPath<2>       InPathType;
   typedef itk::ChainCodePath<2>                ChainPathType;
   typedef itk::FourierSeriesPath<2>            FSPathType;
@@ -91,7 +92,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
       it.Set(0);
     ++it;
     }
-  
+
   // Setup the path
   std::cout << "Making a square Path with v0 at (24,24) -> (24,104) -> (104,104) -> (104,24)" << std::endl;
   VertexType        v;
@@ -108,18 +109,18 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   inPath->AddVertex(v);
   v.Fill(24);
   inPath->AddVertex(v);
-  
+
   // Setup the first filter
   Filter1Type::Pointer filter1 = Filter1Type::New();
   filter1->SetInput(inPath);
   chainPath=filter1->GetOutput();
-  
+
   // Setup the second filter
   Filter2Type::Pointer filter2 = Filter2Type::New();
   filter2->SetInput(filter1->GetOutput());
   filter2->SetNumberOfHarmonics(7); // make a nice, round, path for the swath
   outPath=filter2->GetOutput();
-  
+
   // Setup the third filter; THIS IS THE MAIN FILTER TO BE TESTED
   Filter3Type::Pointer filter3 = Filter3Type::New();
   filter3->SetImageInput(inImage);
@@ -128,19 +129,19 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   size[0]=512;
   size[1]=21*2+1;
   filter3->SetSize(size);
-  
+
   // Setup the output
   ImageType::Pointer outImage;
   outImage=filter3->GetOutput();
-  
-  
-  
-  // Testing spacing 
+
+
+
+  // Testing spacing
   std::cout << "Testing Spacing: ";
-  
+
   float spacing_float[2];
   double spacing_double[2];
-  
+
   for(unsigned int i=0;i<2;i++)
   {
     spacing_float[i]=1.0;
@@ -149,7 +150,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   filter3->SetSpacing(spacing_float);
   filter3->SetSpacing(spacing_double);
   const double* spacing_result = filter3->GetSpacing();
-  
+
   for(unsigned int i=0;i<2;i++)
   {
     if(spacing_result[i]!=1.0)
@@ -161,9 +162,9 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
 
   std::cout << "[PASSED]" << std::endl;
 
-  // Testing Origin 
+  // Testing Origin
   std::cout << "Testing Origin: ";
-  
+
   float origin_float[2];
   double origin_double[2];
 
@@ -175,7 +176,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   filter3->SetOrigin(origin_float);
   filter3->SetOrigin(origin_double);
   const double* origin_result = filter3->GetOrigin();
-  
+
   for(unsigned int i=0;i<2;i++)
   {
     if(origin_result[i]!=0.0)
@@ -189,12 +190,12 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
 
   // Testing PrintSelf
   std::cerr << filter3 << std::endl;
-  
+
   // Update the pipeline
   std::cerr << "Running the Pipeline: ";
   outImage->Update();
   std::cerr << "[DONE]" << std::endl;
-  
+
   // Testing pipeline execution
   std::cerr << "Testing Output Image: ";
 
@@ -227,8 +228,8 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
   writer->SetFileName( argv[1] );
   writer->Write();
 
-    
-  
+
+
   return EXIT_SUCCESS;
 }
 

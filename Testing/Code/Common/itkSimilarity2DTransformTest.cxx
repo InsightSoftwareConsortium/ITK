@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSimilarity2DTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -24,9 +25,9 @@
 #include "vnl/vnl_vector_fixed.h"
 #include "itkVector.h"
 
-namespace 
+namespace
 {
-bool CheckEqual( 
+bool CheckEqual(
  itk::Point<double,2> p1,
  itk::Point<double,2> p2 )
 {
@@ -61,7 +62,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   // Test the identity transform
   std::cout << "Testing Identity:";
   transform->SetIdentity();
- 
+
   SimilarityTransformType::InputPointType::ValueType pInit[2] = {10,10};
   SimilarityTransformType::InputPointType p = pInit;
   SimilarityTransformType::OutputPointType r;
@@ -73,11 +74,11 @@ int itkSimilarity2DTransformTest(int ,char *[] )
     if( vcl_fabs( p[i]- r[i] ) > epsilon )
       {
       Ok = false;
-      break;    
+      break;
       }
     }
   if( !Ok )
-    { 
+    {
     std::cerr << "Error with Identity transform" << std::endl;
     return EXIT_FAILURE;
     }
@@ -135,21 +136,21 @@ int itkSimilarity2DTransformTest(int ,char *[] )
 
   transform->SetParameters(params);
   SimilarityTransformType::ParametersType outputParams(6);
-  
+
   outputParams = transform->GetParameters();
-  
+
   std::cout << "Output Parameters = " << outputParams << std::endl;
-  
+
   for(unsigned int i=0; i<4; i++) // do not test for the offset
     {
     if( vcl_fabs( outputParams[i]-params[i] ) > epsilon )
       {
       Ok = false;
-      break;    
+      break;
       }
     }
   if( !Ok )
-    { 
+    {
     std::cerr << "Error with Set/GetParameters:" << std::endl;
     std::cerr << "Input:" << params << std::endl;
     std::cerr << "Output:" << outputParams << std::endl;
@@ -159,10 +160,10 @@ int itkSimilarity2DTransformTest(int ,char *[] )
     {
     std::cout << " [ PASSED ] " << std::endl;
     }
-  
+
   // 15 degrees in radians
   transform->SetIdentity();
-  const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+  const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0;
   const double sinth = vcl_sin( angle );
   const double costh = vcl_cos( angle );
 
@@ -181,11 +182,11 @@ int itkSimilarity2DTransformTest(int ,char *[] )
     if( vcl_fabs( q[i]- r[i] ) > epsilon )
       {
       Ok = false;
-      break;    
+      break;
       }
     }
   if( !Ok )
-    { 
+    {
     std::cerr << "Error rotating point   : " << p << std::endl;
     std::cerr << "Result should be       : " << q << std::endl;
     std::cerr << "Reported Result is     : " << r << std::endl;
@@ -195,29 +196,29 @@ int itkSimilarity2DTransformTest(int ,char *[] )
     {
     std::cout << " [ PASSED ] " << std::endl;
     }
-  
+
   std::cout << "Testing Translation:";
 
   transform->SetAngle(0);
-  
+
   SimilarityTransformType::OffsetType::ValueType ioffsetInit[2] = {1,4};
   SimilarityTransformType::OffsetType ioffset = ioffsetInit;
 
   transform->SetOffset( ioffset );
 
   q = p + ioffset;
-      
+
   r = transform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
     {
     if( vcl_fabs( q[i]- r[i] ) > epsilon )
       {
       Ok = false;
-      break;    
+      break;
       }
     }
   if( !Ok )
-    { 
+    {
     std::cerr << "Error translating point: " << p << std::endl;
     std::cerr << "Result should be       : " << q << std::endl;
     std::cerr << "Reported Result is     : " << r << std::endl;
@@ -232,11 +233,11 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   std::cout << "Testing Jacobian:";
   SimilarityTransformType::JacobianType jacobian0 =  transform->GetJacobian(p);
 
-  if( 
-    (jacobian0[0][0] != 10) || (jacobian0[0][1] != -10) || (jacobian0[0][2] != 0) || (jacobian0[0][3] != 0) 
+  if(
+    (jacobian0[0][0] != 10) || (jacobian0[0][1] != -10) || (jacobian0[0][2] != 0) || (jacobian0[0][3] != 0)
     || (jacobian0[0][4] != 1) || (jacobian0[0][5] != 0) || (jacobian0[1][0] != 10) || (jacobian0[1][1] != 10)
     || (jacobian0[1][2] !=0 ) || (jacobian0[1][3] != 0) || (jacobian0[1][4] !=0) || (jacobian0[1][5] != 1)
-    ) 
+    )
     {
     std::cerr << "Error with Jacobian: " << jacobian0 << std::endl;
     return EXIT_FAILURE;
@@ -304,7 +305,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
     return EXIT_FAILURE;
     }
   p3dash = t2dash->TransformPoint( p2 );
-  
+
   std::cout << "Test GetInverseTransform(): ";
   if( !CheckEqual( p1, p3dash ) )
     {
@@ -319,7 +320,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
 
   TransformType::InputPointType p4;
   p4 = t3->TransformPoint( p1 );
-    
+
   std::cout << "Test Clone(): ";
   if( !CheckEqual( p2, p4 ) )
     {
@@ -343,7 +344,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   TransformType::Pointer t5;
   t1->CloneTo( t5 );
   t5->Compose( t4, false );
-     
+
   TransformType::InputPointType p5, p6, p7;
   p5 = t1->TransformPoint( p1 );
   p6 = t4->TransformPoint( p5 );
@@ -353,7 +354,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   if( !CheckEqual( p6, p7 ) )
     {
     return EXIT_FAILURE;
-    } 
+    }
 
   t1->CloneTo( t5 );
   t5->Compose( t4, true );
@@ -366,7 +367,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   if( !CheckEqual( p6, p7 ) )
     {
     return EXIT_FAILURE;
-    } 
+    }
 
   // Really test the jacobian
   std::cout << "Testing Jacobian: ";
@@ -408,11 +409,11 @@ int itkSimilarity2DTransformTest(int ,char *[] )
         return EXIT_FAILURE;
         } // if
       } // for j
-    
+
     } // for k
 
   std::cout << " [ PASSED ] " << std::endl;
-  
+
   }
 
   {
@@ -470,7 +471,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
     return EXIT_FAILURE;
     }
   p3dash = t2dash->TransformPoint( p2 );
-  
+
   std::cout << "Test GetInverseTransform(): ";
   if( !CheckEqual( p1, p3dash ) )
     {
@@ -484,7 +485,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
 
   TransformType::InputPointType p4;
   p4 = t3->TransformPoint( p1 );
-    
+
   std::cout << "Test Clone(): ";
   if( !CheckEqual( p2, p4 ) )
     {
@@ -516,7 +517,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   if( !CheckEqual( p6, p7 ) )
     {
     return EXIT_FAILURE;
-    } 
+    }
 
   t1->CloneTo( t5 );
   t5->Compose( t4, true );
@@ -529,7 +530,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   if( !CheckEqual( p6, p7 ) )
     {
     return EXIT_FAILURE;
-    } 
+    }
 
   // Really test the jacobian
   std::cout << "Testing Jacobian: ";
@@ -575,7 +576,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
     } // for k
 
   std::cout << " [ PASSED ] " << std::endl;
-      
+
   }
 
   {
@@ -616,8 +617,8 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   if( !CheckEqual( op1, op2 ) )
     {
     return EXIT_FAILURE;
-    } 
- 
+    }
+
   // check that parameters are the same
   TransformType::ParametersType pdash = t2->GetParameters();
 

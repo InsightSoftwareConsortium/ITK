@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageLinearIteratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,7 +39,7 @@ int itkImageLinearIteratorTest(int, char* [] )
 
   ImageType::Pointer myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage.GetPointer();
-  
+
   ImageType::SizeType size0;
 
   size0[0] = 100;
@@ -48,7 +49,7 @@ int itkImageLinearIteratorTest(int, char* [] )
   ImageType::IndexType start0;
   start0.Fill(0);
 
-  ImageType::RegionType region0; 
+  ImageType::RegionType region0;
   region0.SetIndex( start0 );
   region0.SetSize( size0 );
 
@@ -68,7 +69,7 @@ int itkImageLinearIteratorTest(int, char* [] )
   it.SetDirection( 0 ); // 0=x, 1=y, 2=z
 
   ImageType::IndexType index0;
-  
+
   while( !it.IsAtEnd() )
   {
     while( !it.IsAtEndOfLine() )
@@ -80,13 +81,13 @@ int itkImageLinearIteratorTest(int, char* [] )
     it.NextLine();
   }
 
-  
-  // Verification 
+
+  // Verification
   IteratorType ot( myImage, region0 );
 
   ot.GoToBegin();
   ot.SetDirection( 0 ); // 0=x, 1=y, 2=z
- 
+
   std::cout << "Verifying iterator... ";
 
   while( !ot.IsAtEnd() )
@@ -108,13 +109,13 @@ int itkImageLinearIteratorTest(int, char* [] )
   }
   std::cout << "   Done ! " << std::endl;
 
-  
-  // Verification 
+
+  // Verification
   ConstIteratorType cot( myConstImage, region0 );
 
   cot.GoToBegin();
   cot.SetDirection( 0 ); // 0=x, 1=y, 2=z
- 
+
   std::cout << "Verifying const iterator... ";
 
   while( !cot.IsAtEnd() )
@@ -149,18 +150,18 @@ int itkImageLinearIteratorTest(int, char* [] )
     std::cerr << index0 << " value is " << cot.Get() <<  std::endl;
     return EXIT_FAILURE;
     }
-  
 
 
-  // Verification 
+
+  // Verification
   {
   std::cout << "Verifying iterator in reverse direction... ";
- 
+
   ImageType::IndexType start;
   start[0] = 10;
   start[1] = 20;
   start[2] = 30;
-    
+
   ImageType::SizeType size;
   size[0] = 2;
   size[1] = 3;
@@ -207,14 +208,14 @@ int itkImageLinearIteratorTest(int, char* [] )
   std::cout << "   Done ! " << std::endl;
   }
 
-  // Verification 
+  // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
 
   ConstIteratorType cor( myImage, region0 );
 
   cor.GoToReverseBegin();
   cor.SetDirection( 0 ); // 0=x, 1=y, 2=z
- 
+
 
   while( !cor.IsAtReverseEnd() )
   {
@@ -245,7 +246,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -296,7 +297,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -346,7 +347,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -377,7 +378,7 @@ int itkImageLinearIteratorTest(int, char* [] )
 
         ++cbot;
         }
-      cbot.NextLine(); 
+      cbot.NextLine();
       }
 
     std::cout << "   Done ! " << std::endl;
@@ -393,7 +394,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -424,7 +425,7 @@ int itkImageLinearIteratorTest(int, char* [] )
 
         ++cbot;
         }
-      cbot.NextLine(); 
+      cbot.NextLine();
       }
 
     std::cout << "   Done ! " << std::endl;
@@ -440,7 +441,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -495,7 +496,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -555,7 +556,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -600,7 +601,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;

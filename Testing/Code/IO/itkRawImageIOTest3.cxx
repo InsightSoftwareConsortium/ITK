@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRawImageIOTest3.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,10 +30,10 @@ int itkRawImageIOTest3(int argc, char*argv[])
   typedef itk::Image<unsigned short,2>    ImageType;
   typedef ImageType::PixelType            PixelType;
 
-  typedef itk::ImageRegionIterator< 
+  typedef itk::ImageRegionIterator<
                                   ImageType > ImageIteratorType;
 
-  typedef itk::ImageRegionConstIterator< 
+  typedef itk::ImageRegionConstIterator<
                                   ImageType > ImageConstIteratorType;
 
   typedef itk::RawImageIO<PixelType,
@@ -44,21 +45,21 @@ int itkRawImageIOTest3(int argc, char*argv[])
     std::cerr << "Usage: " << argv[0] << " Output1 Output2\n";
     return EXIT_FAILURE;
     }
-  
+
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
   ImageType::SizeType size;
   size[0]=517;  // prime numbers are good bug testers...
   size[1]=293;
-  
+
   ImageType::RegionType region;
   ImageType::IndexType  index;
   index.Fill(0);
 
   region.SetIndex( index );
   region.SetSize(size);
-  
+
   ImageType::Pointer image = ImageType::New();
   image->SetRegions( region );
   image->Allocate();
@@ -95,7 +96,7 @@ int itkRawImageIOTest3(int argc, char*argv[])
   // Compare pixel by pixel in memory
 
 
-  ImageConstIteratorType it( reader->GetOutput(), 
+  ImageConstIteratorType it( reader->GetOutput(),
                              reader->GetOutput()->GetBufferedRegion() );
 
   ImageConstIteratorType ot( image,
@@ -107,7 +108,7 @@ int itkRawImageIOTest3(int argc, char*argv[])
     {
     const PixelType iv = it.Get();
     const PixelType ov = ot.Get();
-    if( iv != ov ) 
+    if( iv != ov )
       {
       std::cerr << "Error in read/write of pixel " << it.GetIndex() << std::endl;
       std::cerr << "Read value  is : " << iv << std::endl;

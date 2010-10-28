@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MaximumDecisionRule.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-     Copyright (c) Insight Software Consortium. All rights reserved.
-     See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +30,7 @@
 // To begin the example, we include the header files for the class and the
 // MaximumDecisionRule. We also include the header file for the
 // \code{std::vector} class that will be the container for the discriminant
-// scores.  
+// scores.
 //
 // Software Guide : EndLatex
 
@@ -45,7 +46,7 @@ int main(int, char*[])
   // The instantiation of the function is done through the usual
   // \code{New()} method and a smart pointer.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::MaximumDecisionRule DecisionRuleType;
@@ -59,7 +60,7 @@ int main(int, char*[])
   // values. The \code{Evaluate( discriminantScores )} will return 2
   // because the third value is the largest value.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   std::vector< double > discriminantScores;
@@ -67,7 +68,7 @@ int main(int, char*[])
   discriminantScores.push_back( 0.3 );
   discriminantScores.push_back( 0.6 );
 
-  std::cout << "MaximumDecisionRule: The index of the chosen = " 
+  std::cout << "MaximumDecisionRule: The index of the chosen = "
             << decisionRule->Evaluate( discriminantScores )
             << std::endl;
   // Software Guide : EndCodeSnippet

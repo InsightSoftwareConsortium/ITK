@@ -1,19 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkPolygonGroupSpatialObjectTest.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,7 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include <iostream>
 
-static float testPoints[11][2] = 
+static float testPoints[11][2] =
   {
     {1,1},{1,2},{1.25,2},{1.25,1.25},{1.75,1.25},
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
@@ -37,7 +38,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
   try
     {
     for(float z = 0.0; z <= 10.0; z += 1.0)
-      {      
+      {
       itk::PolygonSpatialObject<3>::Pointer strand
         = itk::PolygonSpatialObject<3>::New();
       strand->Print(std::cout);
@@ -57,7 +58,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         pos[1] = testPoints[i][1];
         pos[2] = z;
         itk::PolygonSpatialObject<3>::PointType curpoint(pos);
-        if(!strand->AddPoint(curpoint)) 
+        if(!strand->AddPoint(curpoint))
           {
           std::cerr << "Error adding point" << std::endl;
           return -1;
@@ -88,14 +89,14 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         // try replacing it.
         PolygonGroup->ReplaceStrand(strand,strand);
 
-        if(!strand->IsClosed()) 
+        if(!strand->IsClosed())
           {
           std::cerr << "Strand should be closed" << std::endl;
           return -1;
           }
-        std::cerr << "Area = " << area 
-                  << " Volume = " << volume 
-                  << " Perimeter = " << perimeter 
+        std::cerr << "Area = " << area
+                  << " Volume = " << volume
+                  << " Perimeter = " << perimeter
                   << std::endl;
 
         double pos[3];
@@ -149,7 +150,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
           pos[2] = z;
           itk::PolygonSpatialObject<3>::PointType curpoint(pos);
 
-          if(!strand->AddPoint(curpoint)) 
+          if(!strand->AddPoint(curpoint))
             {
             std::cerr << "Error adding point" << std::endl;
             return -1;
@@ -165,13 +166,13 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         double perimeter2 = strand->MeasurePerimeter();
         if(area != area2)
           {
-          std::cerr << "Area shouldn't have changed; old = " 
+          std::cerr << "Area shouldn't have changed; old = "
                     << area << " new = " << area2 << std::endl;
           return -1;
           }
         if(perimeter != perimeter2)
           {
-          std::cerr << "Perimeter shouldn't have changed; old = " 
+          std::cerr << "Perimeter shouldn't have changed; old = "
                     << perimeter << " new = " << perimeter2 << std::endl;
           return -1;
           }
@@ -192,14 +193,14 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
           {
           std::cerr << " 1.75, 1.75, 0 should be inside strand" << std::endl;
           return -1;
-          
-          }      
+
+          }
         if(strand->IsInside(outsidepoint))
           {
           std::cerr << " 1.6, 1.3, 0 should be outside strand" << std::endl;
           return -1;
-          
-          }      
+
+          }
         }
       }
     }

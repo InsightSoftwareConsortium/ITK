@@ -1,27 +1,28 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRGBToVectorAdaptImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 /**
- *  
+ *
  *  This program illustrates the AdaptImageFilter
  *
- *  The example shows how an Accessor can be used to 
+ *  The example shows how an Accessor can be used to
  *  convert an RGBPixel image to an image that has
  *  vector pixel type.
  *
@@ -80,12 +81,12 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
 
   myImage->SetRegions( region );
   myImage->Allocate();
-  
+
   myRGBIteratorType  it1( myImage, myImage->GetRequestedRegion() );
-  
+
   // Value to initialize the pixels
   RGBImageType::PixelType color;
-  
+
   // Initializing all the pixel in the image
   it1.GoToBegin();
   while( !it1.IsAtEnd() )
@@ -100,17 +101,17 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
   bool passed = true;
 
   // Convert to a Vector image
-  typedef itk::AdaptImageFilter< RGBImageType, 
-                                 myImageType, 
+  typedef itk::AdaptImageFilter< RGBImageType,
+                                 myImageType,
                                  AccessorType   >  AdaptFilterType;
 
   AdaptFilterType::Pointer  adaptImageToVector = AdaptFilterType::New();
 
   adaptImageToVector->SetInput(myImage);
   adaptImageToVector->UpdateLargestPossibleRegion();
- 
-  myVectorIteratorType  it( 
-            adaptImageToVector->GetOutput(), 
+
+  myVectorIteratorType  it(
+            adaptImageToVector->GetOutput(),
             adaptImageToVector->GetOutput()->GetRequestedRegion() );
 
   std::cout << "--- Read Vector values --- " << std::endl;
@@ -121,20 +122,20 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
   {
   VectorPixelType v =   it.Get();
   RGBPixelType    c =  it1.Get();
-  
+
   if ( v[0] != c.GetRed()   ||
        v[1] != c.GetGreen() ||
        v[2] != c.GetBlue()     )
     {
     std::cerr << "Vector pixel = " << v << std::endl;
-    std::cerr << "does not match " << std::endl; 
+    std::cerr << "does not match " << std::endl;
     std::cerr << "RGB    pixel = " << c << std::endl;
     std::cerr << "myImage->GetRequestedRegion()" << myImage->GetRequestedRegion() << std::endl;
     std::cerr << "adaptImageToVector->GetRequestedRegion()" << adaptImageToVector->GetOutput()->GetRequestedRegion() << std::endl;
     passed = false;
     break;
     }
-    
+
   ++it;
   ++it1;
   }

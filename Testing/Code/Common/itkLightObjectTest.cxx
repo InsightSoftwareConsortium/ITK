@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLightObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,7 +24,7 @@
 // Excersise the LightObject methods
 int itkLightObjectTest(int, char* [] )
 {
- 
+
 
   typedef itk::LightObject    ObjectType;
 
@@ -36,7 +37,7 @@ int itkLightObjectTest(int, char* [] )
 
   std::cout << "Printing LightObject: " << std::endl;
   light->Print( std::cout );
- 
+
   std::cout << "Number of References counts: " << std::endl;
   const int counts1 = light->GetReferenceCount();
   std::cout << counts1 << std::endl;
@@ -50,7 +51,7 @@ int itkLightObjectTest(int, char* [] )
         std::cout << "Test FAILED !" << std::endl;
         return EXIT_FAILURE;
         }
-      else 
+      else
         {
         std::cout << "After assignment to another SmartPointer" << std::endl;
         std::cout << "reference count is:  " << counts2 << std::endl;
@@ -65,7 +66,7 @@ int itkLightObjectTest(int, char* [] )
     std::cout << "Test FAILED !" << std::endl;
     return EXIT_FAILURE;
     }
-  else 
+  else
     {
     std::cout << "After destroying one SmartPointer" << std::endl;
     std::cout << "reference count is:  " << counts3 << std::endl;

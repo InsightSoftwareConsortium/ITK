@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBasicArchitectureTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,11 +39,11 @@ public:
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
   itk::ProcessObject::Pointer m_Process;
 };
-  
+
 class StartEndEvent
 {
 public:
-  void Start() 
+  void Start()
     {std::cout << "start event" << std::endl;}
   void End()
     {std::cout << "end event " << std::endl;}
@@ -89,7 +90,7 @@ public:
         {
         eventName = "ExitEvent";
         }
-      else 
+      else
         {
         eventName = "UserEvent";
         }
@@ -129,7 +130,7 @@ int itkBasicArchitectureTest(int, char* [] )
   random->SetMin(0.0);
   random->SetMax(1.0);
 
-  // Create a filter...shrink the image by an integral amount. We also 
+  // Create a filter...shrink the image by an integral amount. We also
   // add some callbacks to the start, progress, and end filter execution
   // methods. The filter is templated on the input and output data types.
   //
@@ -137,7 +138,7 @@ int itkBasicArchitectureTest(int, char* [] )
   shrink = itk::ShrinkImageFilter<FloatImage2DType,FloatImage2DType>::New();
   shrink->SetInput(random->GetOutput());
   shrink->SetShrinkFactors(2);
-  
+
   // Create a command to call ShowProgress when progress event is triggered
   ShowProgressObject progressWatch(shrink);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -145,20 +146,20 @@ int itkBasicArchitectureTest(int, char* [] )
   command->SetCallbackFunction(&progressWatch,
                                &ShowProgressObject::ShowProgress);
   shrink->AddObserver(itk::ProgressEvent(), command);
-  
+
   // Create a command to call StartEndEvent when start event is triggered
   StartEndEvent startEndWatch;
   itk::SimpleMemberCommand<StartEndEvent>::Pointer start;
   start = itk::SimpleMemberCommand<StartEndEvent>::New();
   start->SetCallbackFunction(&startEndWatch, &StartEndEvent::Start);
   unsigned long tag = shrink->AddObserver(itk::StartEvent(), start);
-  
+
   // Create a command to call StartEndEvent when end event is triggered
   itk::SimpleMemberCommand<StartEndEvent>::Pointer end;
   end = itk::SimpleMemberCommand<StartEndEvent>::New();
   end->SetCallbackFunction(&startEndWatch, &StartEndEvent::End);
   shrink->AddObserver(itk::EndEvent(), end);
-  
+
   // Create a command that to call AnyEvent when event is fired
   AllEvents allWatch;
   itk::MemberCommand<AllEvents>::Pointer allEvents;

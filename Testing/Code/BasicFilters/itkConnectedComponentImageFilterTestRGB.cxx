@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkConnectedComponentImageFilterTestRGB.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -39,7 +40,7 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
 
   typedef   unsigned short  InternalPixelType;
   const     unsigned int    Dimension = 2;
-  
+
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   typedef itk::Image<unsigned short,Dimension> OutputImageType;
 
@@ -49,18 +50,18 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
   typedef itk::ImageFileReader< InternalImageType > ReaderType;
   typedef itk::ImageFileWriter<  RGBImageType  > WriterType;
 
-  
+
   typedef itk::BinaryThresholdImageFilter< InternalImageType, RGBImageType > ThresholdFilterType;
   typedef itk::ConnectedComponentImageFilter< RGBImageType, OutputImageType > FilterType;
   typedef itk::RelabelComponentImageFilter< OutputImageType, OutputImageType > RelabelType;
 
-  
+
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
   ThresholdFilterType::Pointer threshold = ThresholdFilterType::New();
   FilterType::Pointer filter = FilterType::New();
   RelabelType::Pointer relabel = RelabelType::New();
-  
+
   itk::SimpleFilterWatcher watcher(filter);
   watcher.QuietOn();
 
@@ -76,7 +77,7 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
   threshold->SetLowerThreshold(threshold_low);
   threshold->SetUpperThreshold(threshold_hi);
   threshold->Update();
-  
+
   filter->SetInput (threshold->GetOutput());
   if (argc > 5)
     {
@@ -90,7 +91,7 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
     relabel->SetMinimumObjectSize( minSize );
     std::cerr << "minSize: " << minSize << std::endl;
     }
-  
+
   try
     {
     relabel->Update();
@@ -107,7 +108,7 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
   colored->Allocate();
 
   unsigned short numObjects = relabel->GetNumberOfObjects();
-  
+
   std::vector<RGBPixelType> colormap;
   RGBPixelType px;
   colormap.resize( numObjects+1 );
@@ -123,12 +124,12 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
 
     colormap[i] = px;
     }
-  
+
   itk::ImageRegionIterator<OutputImageType>
     it(relabel->GetOutput(), relabel->GetOutput()->GetBufferedRegion());
   itk::ImageRegionIterator<RGBImageType> cit(colored,
                                              colored->GetBufferedRegion());
-  
+
   while( !it.IsAtEnd() )
     {
     if (it.Get() == 0)
@@ -142,7 +143,7 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
     ++it;
     ++cit;
     }
-  
+
   try
     {
     writer->SetInput (colored);
@@ -154,7 +155,7 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     }
-  
+
 
   return EXIT_SUCCESS;
 }

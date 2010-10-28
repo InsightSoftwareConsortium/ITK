@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ResampleImageFilter5.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 //  particular implementation is available for $2D$.
 //
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -41,7 +42,7 @@
 //
 //  \index{itk::Similarity2DTransform!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkSimilarity2DTransform.h"
@@ -53,7 +54,7 @@ int main( int argc, char * argv[] )
   if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees  scale" << std::endl; 
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees  scale" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -89,7 +90,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Similarity2DTransform!instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Similarity2DTransform< double >  TransformType;
@@ -104,17 +105,17 @@ int main( int argc, char * argv[] )
   //  \index{itk::Similarity2DTransform!New()}
   //  \index{itk::Similarity2DTransform!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer transform = TransformType::New();
   // Software Guide : EndCodeSnippet
- 
 
-  typedef itk::LinearInterpolateImageFunction< 
+
+  typedef itk::LinearInterpolateImageFunction<
                        InputImageType, double >  InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
- 
+
   filter->SetInterpolator( interpolator );
 
   filter->SetDefaultPixelValue( 100 );
@@ -124,7 +125,7 @@ int main( int argc, char * argv[] )
   //
   //  The parameters of the output image are taken from the input image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   reader->Update();
   const InputImageType::SpacingType&
@@ -133,7 +134,7 @@ int main( int argc, char * argv[] )
     origin  = reader->GetOutput()->GetOrigin();
   const InputImageType::DirectionType&
     direction  = reader->GetOutput()->GetDirection();
-  InputImageType::SizeType size = 
+  InputImageType::SizeType size =
       reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   filter->SetOutputOrigin( origin );
@@ -154,7 +155,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Similarity2DTransform!SetRotationCenter()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::InputPointType rotationCenter;
@@ -167,11 +168,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The rotation is specified with the method \code{SetAngle()}.
-  //  
+  //
   //  \index{itk::Similarity2DTransform!SetAngle()}
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   const double degreesToRadians = vcl_atan(1.0) / 45.0;
   const double angle = angleInDegrees * degreesToRadians;
@@ -181,10 +182,10 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The scale change is defined using the method \code{SetScale()}. 
+  //  The scale change is defined using the method \code{SetScale()}.
   //  \index{itk::Similarity2DTransform!SetScale()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   transform->SetScale( scale );
@@ -198,14 +199,14 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::AffineTransform!Translate()}
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation;
 
   translation[0] =   13.0;
   translation[1] =   17.0;
-  
+
   transform->SetTranslation( translation );
 
   filter->SetTransform( transform );
@@ -222,10 +223,10 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Similarity2DTransform!SetScale()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
-  try 
+  try
     {
     writer->Update();
     }
@@ -250,9 +251,9 @@ int main( int argc, char * argv[] )
   //  Figure \ref{fig:ResampleImageFilterOutput11} shows the effect of this
   //  rotation, translation and scaling on a slice of a brain MRI. The scale
   //  applied for producing this figure was $1.2$ and the rotation angle was
-  //  $10^{\circ}$. 
+  //  $10^{\circ}$.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

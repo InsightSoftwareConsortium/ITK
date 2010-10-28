@@ -1,20 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkWeightSetBase.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkWeightSetBase_h
 #define __itkWeightSetBase_h
 
@@ -43,7 +43,7 @@ public:
   itkTypeMacro(WeightSetBase, LightProcessObject);
 
   typedef MersenneTwisterRandomVariateGenerator  RandomVariateGeneratorType;
-  
+
   typedef typename TMeasurementVector::ValueType ValueType;
   typedef ValueType*                             ValuePointer;
   typedef const ValueType*                       ValueConstPointer;
@@ -62,7 +62,7 @@ public:
 
   void SetNumberOfOutputNodes(unsigned int n);
   unsigned int GetNumberOfOutputNodes() const;
-  
+
   void SetRange(ValueType Range);
 
   virtual ValuePointer GetOutputValues();
@@ -72,7 +72,7 @@ public:
   ValuePointer GetTotalDeltaBValues();
 
   ValuePointer GetDeltaValues();
-  
+
   void SetDeltaValues(ValuePointer);
   void SetDWValues(ValuePointer);
   void SetDBValues(ValuePointer);
@@ -140,7 +140,7 @@ protected:
   vnl_matrix<ValueType> m_DW_m_1;        // delta valies for weight update
   vnl_matrix<ValueType> m_DW_m_2;        // delta valies for weight update
   vnl_matrix<ValueType> m_DW_m;          // delta valies for weight update
-  
+
   vnl_vector<ValueType> m_DB;            // delta values for bias update
   vnl_vector<ValueType> m_DB_new;        // delta values for bias update
   vnl_vector<ValueType> m_DB_m_1;        // delta values for bias update

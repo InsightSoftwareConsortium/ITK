@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNeighborhoodIteratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -28,10 +29,10 @@ int itkNeighborhoodIteratorTest(int, char* [] )
 
   itk::NeighborhoodIterator<TestImageType>::IndexType zeroIDX;
   zeroIDX.Fill(0);
-  
+
   itk::NeighborhoodIterator<TestImageType>::RadiusType radius;
   radius[0] = radius[1] = radius[2] = radius[3] = 1;
-  
+
   println("Creating NeighborhoodIterator");
   itk::NeighborhoodIterator<TestImageType>
     it(radius, img, img->GetRequestedRegion());
@@ -49,7 +50,7 @@ int itkNeighborhoodIteratorTest(int, char* [] )
   println("Using Superclass::GetNeighborhood()");
   itk::NeighborhoodIterator<TestImageType>::NeighborhoodType n
     = it.GetNeighborhood();
-  
+
   println("Testing SetNeighborhood()");
   it.SetNeighborhood(n);
   it.GetNeighborhood().Print(std::cout);
@@ -100,7 +101,7 @@ int itkNeighborhoodIteratorTest(int, char* [] )
       }
     std::cout << std::endl;
     }
-  
+
   println("Testing SetNext(1, 2, [0,0,0,0])");
   it3.SetNext(1,2,z);
   for (y = 0, i=0; y < 5; y++)
@@ -111,7 +112,7 @@ int itkNeighborhoodIteratorTest(int, char* [] )
       }
     std::cout << std::endl;
     }
-  
+
   println("Testing SetNext(0, [0,0,0,0])");
   it3.SetNext(0, z);
   for (y = 0, i=0; y < 5; y++)
@@ -146,7 +147,7 @@ int itkNeighborhoodIteratorTest(int, char* [] )
       }
     std::cout << std::endl;
     }
-  
+
   println("Testing SetPrevious(1, 2, [0,0,0,0])");
   it3.SetPrevious(1,2,z);
   for (y = 0, i=0; y < 5; y++)
@@ -157,7 +158,7 @@ int itkNeighborhoodIteratorTest(int, char* [] )
       }
     std::cout << std::endl;
     }
-  
+
   println("Testing SetPrevious(0, [0,0,0,0])");
   it3.SetPrevious(0, z);
   for (y = 0, i=0; y < 5; y++)
@@ -198,9 +199,9 @@ int itkNeighborhoodIteratorTest(int, char* [] )
     {
     return EXIT_FAILURE;
     }
-      
-  
 
-  
+
+
+
   return EXIT_SUCCESS;
 }

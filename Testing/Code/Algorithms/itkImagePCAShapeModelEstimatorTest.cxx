@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImagePCAShapeModelEstimatorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -42,7 +43,7 @@ public:
 
 int itkImagePCAShapeModelEstimatorTest(int, char* [] )
 {
-  //Data definitions 
+  //Data definitions
   int IMGWIDTH          = 2;
   int IMGHEIGHT         = 2;
   const int NDIMENSION  = 2;
@@ -54,8 +55,8 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //------------------------------------------------------
   //Create 3 simple test images with
   //------------------------------------------------------
-  typedef itk::Image<double,NDIMENSION> InputImageType; 
-  typedef itk::Image<double,NDIMENSION> OutputImageType; 
+  typedef itk::Image<double,NDIMENSION> InputImageType;
+  typedef itk::Image<double,NDIMENSION> OutputImageType;
   typedef itk::Image<double,NDIMENSION> MeanImageType;
 
 
@@ -68,7 +69,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
 
   typedef
     itk::ImageRegionIterator< OutputImageType > OutputImageIterator;
-  
+
   InputImageType::Pointer image1 = InputImageType::New();
 
   InputImageType::Pointer image2 = InputImageType::New();
@@ -144,10 +145,10 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //----------------------------------------------------------------------
   //Set the image model estimator
   //----------------------------------------------------------------------
-  typedef itk::ImagePCAShapeModelEstimator<InputImageType, OutputImageType> 
+  typedef itk::ImagePCAShapeModelEstimator<InputImageType, OutputImageType>
     ImagePCAShapeModelEstimatorType;
 
-  ImagePCAShapeModelEstimatorType::Pointer 
+  ImagePCAShapeModelEstimatorType::Pointer
     applyPCAShapeEstimator = ImagePCAShapeModelEstimatorType::New();
 
   //----------------------------------------------------------------------
@@ -169,7 +170,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   typedef ImagePCAShapeModelEstimatorType::Superclass GenericEstimatorType;
   std::cout << applyPCAShapeEstimator->GenericEstimatorType::GetNameOfClass() << std::endl;
 
-  //Print out the number of training images and the number of principal 
+  //Print out the number of training images and the number of principal
   //components
   std::cout << "The number of training images are: " <<
     applyPCAShapeEstimator->GetNumberOfTrainingImages() << std::endl;
@@ -178,23 +179,23 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
     applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << std::endl;
 
   //Print the eigen vectors
-  vnl_vector<double> eigenValues = 
+  vnl_vector<double> eigenValues =
     applyPCAShapeEstimator->GetEigenValues();
   unsigned int numEigVal =  eigenValues.size();
   std::cout << "Number of returned eign-values: " << numEigVal << std::endl;
 
-  std::cout << "The " << 
-    applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << 
+  std::cout << "The " <<
+    applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() <<
     " largest eigen values are:" << std::endl;
 
   for(unsigned int i= 0; i< vnl_math_min( numEigVal, NUMLARGESTPC ); i++ )
     {
-    std::cout << eigenValues[ i ] << std::endl; 
-    }  
+    std::cout << eigenValues[ i ] << std::endl;
+    }
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
 
-  
+
   //Print the MeanImage
   OutputImageType::Pointer outImage = applyPCAShapeEstimator->GetOutput( 0 );
   OutputImageIterator outImageIt( outImage, outImage->GetBufferedRegion() );
@@ -203,9 +204,9 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   std::cout << "The mean image is:" << std::endl;
   while(!outImageIt.IsAtEnd() )
     {
-    std::cout << (double)(outImageIt.Get()) << ";"  << std::endl;  
-    ++outImageIt; 
-    } 
+    std::cout << (double)(outImageIt.Get()) << ";"  << std::endl;
+    ++outImageIt;
+    }
   std::cout << "  " << std::endl;
 
   //Print the largest two eigen vectors
@@ -219,9 +220,9 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
     std::cout << "The eigen vector number: " << j << " is:" << std::endl;
     while(!outImage2It.IsAtEnd() )
       {
-      std::cout << (double) (outImage2It.Get()) << ";"  << std::endl;  
-      ++outImage2It; 
-      } 
+      std::cout << (double) (outImage2It.Get()) << ";"  << std::endl;
+      ++outImage2It;
+      }
     std::cout << "  " << std::endl;
 
     }

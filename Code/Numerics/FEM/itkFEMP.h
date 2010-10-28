@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMP.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMP_h
 #define __itkFEMP_h
 
@@ -52,7 +53,7 @@ public:
   FEMP() : m_Data(0)
     {
     }
-  
+
   /**
    * Copy constructor. Clone() method is called
    * to duplicate the existing object.
@@ -77,7 +78,7 @@ public:
    */
   explicit FEMP(typename T::Pointer x) : m_Data(x)
     {}
-  
+
   /**
    * Destructor of a special pointer class also destroys the actual object.
    */
@@ -90,23 +91,23 @@ public:
 
   /**
    * Asignment operator
-   */  
+   */
   const FEMP& operator= (const FEMP &rhs);
 
   /**
    * Easy access to members of stored object
    */
   typename T::Pointer operator-> () const { return m_Data; }
-  
+
   /**
-   * Dereferencing operator provides automatic conversion from 
+   * Dereferencing operator provides automatic conversion from
    * special to standard pointer to object
-   */  
+   */
   operator T * () const
     {
     return m_Data;
     }
-  
+
   /**
    * Return true if special pointer actually points
    * to a valid object and false otherwise.
@@ -130,7 +131,7 @@ const FEMP<T>& FEMP<T>::operator= (const FEMP &rhs)
 {
 
   /** Self assignments don't make sense. */
-  if (&rhs!=this) 
+  if (&rhs!=this)
     {
     /**
      * First destroy the existing object on the left hand side

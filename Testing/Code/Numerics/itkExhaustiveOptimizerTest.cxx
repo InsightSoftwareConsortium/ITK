@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkExhaustiveOptimizerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 
 #include <vnl/vnl_math.h>
 
-/** 
+/**
  *  The objectif function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
@@ -40,8 +41,8 @@
  *
  *   the solution is the vector | 2 -2 |
  *
- */ 
-class RSGCostFunction : public itk::SingleValuedCostFunction 
+ */
+class RSGCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
@@ -52,19 +53,19 @@ public:
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
-  
+
   typedef Superclass::ParametersType      ParametersType;
   typedef Superclass::DerivativeType      DerivativeType;
   typedef Superclass::MeasureType         MeasureType ;
 
-  RSGCostFunction() 
+  RSGCostFunction()
   {
   }
 
 
   MeasureType  GetValue( const ParametersType & parameters ) const
-  { 
-    
+  {
+
     double x = parameters[0];
     double y = parameters[1];
 
@@ -74,7 +75,7 @@ public:
 
     MeasureType measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
-    std::cout << measure << std::endl;    
+    std::cout << measure << std::endl;
 
     return measure;
 
@@ -91,13 +92,13 @@ public:
     std::cout << x << " ";
     std::cout << y << ") = ";
 
-    derivative = DerivativeType( SpaceDimension ); 
+    derivative = DerivativeType( SpaceDimension );
     derivative[0] = 3 * x + 2 * y -2;
     derivative[1] = 2 * x + 6 * y +8;
 
   }
 
- 
+
   unsigned int GetNumberOfParameters(void) const
     {
     return SpaceDimension;
@@ -129,7 +130,7 @@ public:
         unsigned long idx = static_cast < unsigned long > ( currentIndex [ 0 ] + 21 * currentIndex [ 1 ] );
         m_visitedIndices.push_back ( idx );
       }
-    } 
+    }
   }
 
   virtual void  Execute (itk::Object *caller, const itk::EventObject &event)
@@ -140,7 +141,7 @@ public:
   std::vector < unsigned long > m_visitedIndices;
 };
 
-int itkExhaustiveOptimizerTest(int, char* [] ) 
+int itkExhaustiveOptimizerTest(int, char* [] )
 {
   std::cout << "ExhaustiveOptimizer Test ";
   std::cout << std::endl << std::endl;
@@ -148,8 +149,8 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   typedef  itk::ExhaustiveOptimizer  OptimizerType;
 
   typedef  OptimizerType::ScalesType            ScalesType;
-  
-  
+
+
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
@@ -158,22 +159,22 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   IndexObserver::Pointer idxObserver = IndexObserver::New ();
   itkOptimizer->AddObserver ( itk::IterationEvent (), idxObserver );
 
-  // Declaration of the CostFunction 
+  // Declaration of the CostFunction
   RSGCostFunction::Pointer costFunction = RSGCostFunction::New();
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
-  
+
   typedef RSGCostFunction::ParametersType    ParametersType;
 
 
-  const unsigned int spaceDimension = 
+  const unsigned int spaceDimension =
                       costFunction->GetNumberOfParameters();
 
   // We start not so far from  | 2 -2 |
   ParametersType  initialPosition( spaceDimension );
   initialPosition[0] =  0.0;
   initialPosition[1] = -4.0;
-  
+
   itkOptimizer->SetInitialPosition( initialPosition );
 
 
@@ -195,7 +196,7 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   itkOptimizer->SetNumberOfSteps( steps );
 
 
-  try 
+  try
     {
     itkOptimizer->StartOptimization();
     }
@@ -221,7 +222,7 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   ParametersType finalPosition = itkOptimizer->GetMinimumMetricValuePosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
-  std::cout << finalPosition[1] << ")" << std::endl;  
+  std::cout << finalPosition[1] << ")" << std::endl;
 
   bool visitedIndicesPass = true;
   std::vector < unsigned long > visitedIndices = idxObserver->m_visitedIndices;
@@ -241,7 +242,7 @@ int itkExhaustiveOptimizerTest(int, char* [] )
       visitedIndicesPass = false;
       std::cout << "Mismatch in visited index " << visitedIndices [ i ] << " @ " << i << std::endl;
       break;
-      }    
+      }
     }
 
   //

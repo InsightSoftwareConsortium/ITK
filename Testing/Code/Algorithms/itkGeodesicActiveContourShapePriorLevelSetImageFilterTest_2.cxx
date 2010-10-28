@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -50,12 +51,12 @@ public:
   ShowIterationObject( TFilter * filter )
     { m_Filter = filter; }
   void ShowIteration()
-    { 
+    {
     std::cout << m_Filter->GetElapsedIterations() << ": ";
     std::cout << m_Filter->GetCurrentParameters() << " ";
     std::cout << m_Filter->GetRMSChange() << std::endl;
     }
-  
+
   typename TFilter::Pointer m_Filter;
 };
 }
@@ -76,7 +77,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   typedef itk::AmoebaOptimizer OptimizerType;
   typedef FilterType::ParametersType ParametersType;
 
- 
+
   typedef itk::SphereSignedDistanceFunction<double,ImageDimension> SphereFunctionType;
 
   FilterType::Pointer  filter            = FilterType::New();
@@ -90,7 +91,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   ImageType::SizeType imageSize;
   imageSize[0] = 128;
   imageSize[1] = 128;
-  
+
   ImageType::RegionType imageRegion;
   imageRegion.SetSize( imageSize );
 
@@ -102,7 +103,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
    *
    * The true shape is just the circle.
    */
-  
+
   PixelType background = 0;
   PixelType foreground = 190;
 
@@ -220,7 +221,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   fastMarching->SetOutputSize( imageSize );
 
 
-  /** 
+  /**
    * Set up the components of the shape prior segmentation filter
    */
 
@@ -262,7 +263,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   //
   typedef ShapeFunctionType::ImagePointerVector ImageVectorType;
   ImageVectorType pca;
-   
+
   unsigned int numberOfPCA = 1;
   pca.resize( numberOfPCA );
 
@@ -271,8 +272,8 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   pca[0]->Allocate();
   pca[0]->FillBuffer( 1.0 );
 
-  
-  // 
+
+  //
   // Set up a translation transform
   //
   typedef itk::TranslationTransform<double,ImageDimension> TransformType;
@@ -298,7 +299,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   // Assume the pca component has a mean value of -15.0 and std dev of 3
   mean[0]   = -15.0;
   stddev[0] = 3.0;
-  
+
   costFunction->SetShapeParameterMeans( mean );
   costFunction->SetShapeParameterStandardDeviations( stddev );
 
@@ -317,7 +318,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   ParametersType parameters( shape->GetNumberOfParameters() );
 
   parameters[0] = mean[0]; // mean pca value
-  parameters[1] = 1.0; // center of model already located at center of image 
+  parameters[1] = 1.0; // center of model already located at center of image
   parameters[2] = 1.0; // center of model already located at center of image
 
   // Set up the scaling between the level set terms
@@ -393,7 +394,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   std::cout << "RMS change: " << filter->GetRMSChange() << std::endl;
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
-  /* Uncomment to write out images */   
+  /* Uncomment to write out images */
 /*
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -429,7 +430,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   writer->SetInput( thresholder->GetOutput() );
   writer->SetFileName( "initialLevelSet.png" );
   writer->Update();
-  
+
   ccaster->SetInput( meanImage );
   rescaler->SetInput( ccaster->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );

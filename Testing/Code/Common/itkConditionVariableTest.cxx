@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkConditionVariableTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +30,7 @@ public:
   itk::ConditionVariable::Pointer m_ConditionVariable;
   unsigned int m_Counter;
   unsigned int m_CountLimit;
-  
+
   ConditionVariableTestUserData()
   {
     m_ConditionVariable = itk::ConditionVariable::New();
@@ -69,7 +70,7 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestIncCount( void *ptr )
       v = v * 2.4;
       }
     }
-  
+
   return ITK_THREAD_RETURN_VALUE;
 }
 
@@ -84,9 +85,9 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestWatchCount( void *ptr )
     {
     data->m_ConditionVariable->Wait( &data->m_Mutex );
     }
-  data->m_Mutex.Unlock();  
+  data->m_Mutex.Unlock();
 
-  return ITK_THREAD_RETURN_VALUE;  
+  return ITK_THREAD_RETURN_VALUE;
 }
 
 ITK_THREAD_RETURN_TYPE ConditionVariableTestCallback( void *ptr )
@@ -102,18 +103,18 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestCallback( void *ptr )
     ConditionVariableTestIncCount( ptr );
     }
   return ITK_THREAD_RETURN_VALUE;
-} 
+}
 
 int itkConditionVariableTest(int , char*[])
 {
   ConditionVariableTestUserData cond;
-  
+
   try
-    {  
+    {
     itk::MultiThreader::Pointer multithreader = itk::MultiThreader::New();
     multithreader->SetNumberOfThreads(3);
     multithreader->SetSingleMethod( ConditionVariableTestCallback, &cond);
-    
+
     for (unsigned int i = 0; i < 1000; i++)
       {
       cond.m_Counter = 0;
@@ -125,8 +126,8 @@ int itkConditionVariableTest(int , char*[])
     std::cerr << e << std::endl;
     return 2;
     }
-  
+
   std::cout << "[TEST PASSED]" << std::endl;
-  return EXIT_SUCCESS; 
+  return EXIT_SUCCESS;
 }
 

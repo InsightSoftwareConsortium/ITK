@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBoundingBoxTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -42,11 +43,11 @@ int itkBoundingBoxTest (int, char*[])
       std::cerr << "Bounding Box initialization test failed" << std::endl;
       std::cerr << bounds << std::endl;
       return EXIT_FAILURE;
-      }   
+      }
     }
   }
   std::cout << "Null GetBoundingBox test passed" <<std::endl;
-  
+
   {
   BB::PointType center = myBox->GetCenter();
   for(unsigned int i=0; i< 1; i++)
@@ -55,25 +56,25 @@ int itkBoundingBoxTest (int, char*[])
       {
       std::cerr << "Empty Box GetCenter initialization test failed" << std::endl;
       return EXIT_FAILURE;
-      }   
+      }
     }
   std::cout << "Null GetCenter test passed" <<std::endl;
   }
 
-  
+
   if ( myBox->GetDiagonalLength2 ( ) != itk::NumericTraits<double>::Zero )
     {
     return EXIT_FAILURE;
     }
   std::cout << "Null GetDiagonalLength2 test passed" <<std::endl;
-  
+
   if ( myBox->GetPoints () )
     {
     return EXIT_FAILURE;
     }
   std::cout << "Null GetPoints test passed" <<std::endl;
 
-  
+
   for ( unsigned int i = 0; i < 10; i++ )
     {
     P[0] = (double)i;
@@ -96,7 +97,7 @@ int itkBoundingBoxTest (int, char*[])
     std::cerr << "Bounding Box initialization test failed" << std::endl;
     std::cerr << bounds << std::endl;
     return EXIT_FAILURE;
-    }   
+    }
   std::cout << "GetBoundingBox passed" <<std::endl;
   }
 
@@ -109,7 +110,7 @@ int itkBoundingBoxTest (int, char*[])
       {
       std::cerr << "Empty Box GetCenter initialization test failed" << std::endl;
       return EXIT_FAILURE;
-      }   
+      }
     }
   std::cout << "Null GetCenter test passed" <<std::endl;
   }
@@ -124,7 +125,7 @@ int itkBoundingBoxTest (int, char*[])
     return EXIT_FAILURE;
     }
   std::cout << "GetDiagonalLength2 passed" << std::endl;
-  
+
   BB::PointsContainerConstPointer NewPoints = myBox->GetPoints();
 
   // End with a Print.
@@ -177,7 +178,7 @@ int itkBoundingBoxTest (int, char*[])
   CC::PointsContainer::const_iterator it = corners->begin();
   unsigned int j=0;
   while(it != corners->end())
-    {      
+    {
     for(unsigned int i=0; i<3;i++)
       {
       if((*it)[i] != vcl_pow(-1.0,(double)(j/(int(vcl_pow(2.0,(double)i))))))
@@ -185,7 +186,7 @@ int itkBoundingBoxTest (int, char*[])
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
         }
-      } 
+      }
     j++;
     ++it;
     }
@@ -193,7 +194,7 @@ int itkBoundingBoxTest (int, char*[])
 
 
 
-  // Testing the DeepCopy method 
+  // Testing the DeepCopy method
   {
   const double tolerance = 1e-10;
   CC::Pointer clone = my3DBox->DeepCopy();
@@ -207,7 +208,7 @@ int itkBoundingBoxTest (int, char*[])
       std::cerr << originalBounds << std::endl;
       std::cerr << clonedbounds   << std::endl;
       return EXIT_FAILURE;
-      }   
+      }
     }
   }
 

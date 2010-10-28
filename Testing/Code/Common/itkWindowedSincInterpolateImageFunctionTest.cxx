@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWindowedSincInterpolateImageFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -36,7 +37,7 @@ typedef itk::Function::HammingWindowFunction<2>  WindowFunctionType;
 
 typedef itk::ConstantBoundaryCondition< ImageType >  BoundaryConditionType;
 
-typedef itk::WindowedSincInterpolateImageFunction< 
+typedef itk::WindowedSincInterpolateImageFunction<
                                           ImageType,2,
                                           WindowFunctionType,
                                           BoundaryConditionType,
@@ -156,7 +157,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
 
   image->SetRegions( region );
   image->Allocate();
- 
+
   image->SetOrigin( origin );
   image->SetSpacing( spacing );
 
@@ -181,7 +182,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
     pixel = value;
 
     iter.Set( pixel );
-    
+
     }
 
   // Create the interpolator
@@ -206,12 +207,12 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   }
 
   if( !passed ) flag = 1;
-  
+
   image->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = SincInterpolate::TestGeometricPoint( interp, point, true, output );
 
   if( !passed ) flag = 1;
-  
+
   // position at the image border
   {
   CoordRepType darray[3] = {0, 20, 40};
@@ -258,7 +259,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
 
   if( !passed ) flag = 1;
 
-  // at non-integer position 
+  // at non-integer position
   {
   CoordRepType darray[3] = {5.25, 12.5, 42.0};
   output = OutputType( 59.75 );
@@ -266,7 +267,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   passed = SincInterpolate::TestContinuousIndex( interp, cindex, true, output );
   }
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
@@ -274,19 +275,19 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   image->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = SincInterpolate::TestGeometricPoint( interp, point, true, output );
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
 
   /* Return results of test */
-  if (flag != 0) 
+  if (flag != 0)
     {
     std::cout << "*** Some test failed" << std::endl;
-    return flag; 
+    return flag;
     }
-  
- 
+
+
   std::cout << "All tests successfully passed" << std::endl;
   return EXIT_SUCCESS;
 

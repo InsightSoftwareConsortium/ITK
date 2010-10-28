@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageAdaptorInterpolateImageFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,14 +26,14 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace ImageAdaptorInterpolate {
-  
-class RedChannelPixelAccessor  
+
+class RedChannelPixelAccessor
 {
 public:
   typedef itk::RGBPixel<float>   InternalType;
   typedef               float    ExternalType;
 
-  static ExternalType Get( const InternalType & input ) 
+  static ExternalType Get( const InternalType & input )
     {
       return static_cast<ExternalType>( input.GetRed() );
     }
@@ -45,12 +46,12 @@ enum{ ImageDimension = 3 };
 
 typedef itk::Image<InputPixelType,ImageDimension> ImageType;
 
-typedef itk::ImageAdaptor<  ImageType, 
+typedef itk::ImageAdaptor<  ImageType,
                             RedChannelPixelAccessor > ImageAdaptorType;
 
 typedef double CoordRepType;
 
-typedef itk::LinearInterpolateImageFunction< 
+typedef itk::LinearInterpolateImageFunction<
                                   ImageAdaptorType,
                                   CoordRepType  > InterpolatorType;
 
@@ -172,7 +173,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   image->SetLargestPossibleRegion( region );
   image->SetBufferedRegion( region );
   image->Allocate();
- 
+
   image->SetOrigin( origin );
   image->SetSpacing( spacing );
 
@@ -200,13 +201,13 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
       }
 
     iter.Set( pixel );
-    
+
     }
 
   // Create the image adaptor
   typedef ImageAdaptorInterpolate::ImageAdaptorType  ImageAdaptorType;
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
-  
+
   adaptor->SetImage( image );
 
   // Create the interpolator
@@ -231,19 +232,19 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, true, output );
   }
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
-  
+
   adaptor->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = ImageAdaptorInterpolate::TestGeometricPoint( interp, point, true, output );
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
-  
+
   // position at the image border
   {
   double darray[3] = {0, 20, 40};
@@ -253,7 +254,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, true, output );
   }
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
@@ -276,7 +277,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, true, output );
   }
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
@@ -298,7 +299,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, false, output );
   }
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
@@ -306,12 +307,12 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   adaptor->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = ImageAdaptorInterpolate::TestGeometricPoint( interp, point, false, output );
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
 
-  // at non-integer position 
+  // at non-integer position
   {
   double darray[3] = {5.25, 12.5, 42.0};
   double temp = 59.75;
@@ -320,7 +321,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   passed = ImageAdaptorInterpolate::TestContinuousIndex( interp, cindex, true, output );
   }
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
@@ -328,19 +329,19 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   adaptor->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = ImageAdaptorInterpolate::TestGeometricPoint( interp, point, true, output );
 
-  if( !passed ) 
+  if( !passed )
     {
     flag = 1;
     }
 
 
   /* Return results of test */
-  if( flag != 0 ) 
+  if( flag != 0 )
     {
     std::cout << "*** Some test failed" << std::endl;
     return flag;
     }
-  else 
+  else
     {
     std::cout << "All tests successfully passed" << std::endl;
     }

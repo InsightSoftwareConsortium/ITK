@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMatrixTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@
 VNL_MATRIX_FIXED_INSTANTIATE(float,7,7);
 
 
-int itkMatrixTest(int, char* [] ) 
+int itkMatrixTest(int, char* [] )
 {
 
 
@@ -51,7 +52,7 @@ int itkMatrixTest(int, char* [] )
   v1[0] = 3;
   v1[1] = 4;
   v1[2] = 5;
-  
+
   VectorType resultVector = matrix * v1;
   std::cout << resultVector[0] << ", ";
   std::cout << resultVector[1] << ", ";
@@ -59,7 +60,7 @@ int itkMatrixTest(int, char* [] )
 
   PointType::ValueType p1Init[3] = {3,4,5};
   PointType p1 = p1Init;
-  
+
   PointType resultPoint = matrix * p1;
   std::cout << resultPoint[0] << ", ";
   std::cout << resultPoint[1] << ", ";
@@ -67,7 +68,7 @@ int itkMatrixTest(int, char* [] )
 
   CovariantVectorType::ValueType cv1Init[3] = {3,4,5};
   CovariantVectorType cv1 = cv1Init;
-  
+
   CovariantVectorType resultCovariantVector = matrix * cv1;
   std::cout << resultCovariantVector[0] << ", ";
   std::cout << resultCovariantVector[1] << ", ";
@@ -77,7 +78,7 @@ int itkMatrixTest(int, char* [] )
   v2[0] = 3;
   v2[1] = 4;
   v2[2] = 5;
-  
+
   vnlVectorType resultVnlVector = matrix * v2;
   std::cout << resultVnlVector[0] << ", ";
   std::cout << resultVnlVector[1] << ", ";
@@ -121,8 +122,8 @@ int itkMatrixTest(int, char* [] )
     std::cerr << "Problem accessing matrix element " << std::endl;
     return EXIT_FAILURE;
     }
- 
- 
+
+
   MatrixType matrix6 = matrix5 * 2.5;
 
   matrix6 *= 1.3;
@@ -135,8 +136,8 @@ int itkMatrixTest(int, char* [] )
     {
       itk::Matrix<double,2,2> m1;
       itk::Matrix<double,2,2> m2;
-       
-      for(unsigned int i=0; i<2 ;i++ ) 
+
+      for(unsigned int i=0; i<2 ;i++ )
         {
         for( unsigned int j=0; j<2; j++ )
           {
@@ -159,7 +160,7 @@ int itkMatrixTest(int, char* [] )
       std::cout << "m2=" << std::endl;
       std::cout << m2 << std::endl;
 
-      
+
       std::cout << "VNL * VNL Multiplication result: " << std::endl;
       std::cout << m1.GetVnlMatrix()*m2.GetVnlMatrix() << std::endl;
 
@@ -170,7 +171,7 @@ int itkMatrixTest(int, char* [] )
 
       itk::Matrix<double,2,2> m3;
       itk::Matrix<double,2,3> m4;
-       
+
       for(unsigned int i=0; i<2; i++ )
           {
           for(unsigned int j=0; j<2; j++)
@@ -200,26 +201,26 @@ int itkMatrixTest(int, char* [] )
 
       std::cout << "ITK * VNL Multiplication result: " << std::endl;
       std::cout << m3*m4.GetVnlMatrix() << std::endl;
-      
-    } 
-  catch ( itk::ExceptionObject & e) 
+
+    }
+  catch ( itk::ExceptionObject & e)
     {
     std::cerr<<"Exception caught in test..."<<std::endl;
     std::cerr<< e <<std::endl;
     return EXIT_FAILURE;
     }
-      
+
 
   { // Test for Matrix addition and subtraction
     const unsigned int nc = 4;
     const unsigned int nr = 3;
 
     typedef itk::Matrix<double, nr, nc>  MatrixType;
-    
+
     MatrixType m1;
     MatrixType m2;
-    
-    // fill the matrices with something  
+
+    // fill the matrices with something
     {
     for(unsigned int r=0; r < nr; r++)
       {
@@ -227,8 +228,8 @@ int itkMatrixTest(int, char* [] )
         {
         const double fr = (double)r;
         const double fc = (double)c;
-        m1[r][c] = fr + fc;  
-        m2[r][c] = fr - fc;  
+        m1[r][c] = fr + fc;
+        m2[r][c] = fr - fc;
         }
       }
     }
@@ -244,7 +245,7 @@ int itkMatrixTest(int, char* [] )
     std::cout << "M2 = " << std::endl << m2 << std::endl;
     std::cout << "M1+M2 = " << std::endl << m3 << std::endl;
     std::cout << "M1-M2 = " << std::endl << m4 << std::endl;
- 
+
     // Check the addition and subtraction values
     {
     const double tolerance = 1e-7;
@@ -252,14 +253,14 @@ int itkMatrixTest(int, char* [] )
       {
       for(unsigned int c=0; c < nc; c++)
         {
-        if( vcl_fabs( m3[r][c] - 2*r ) > tolerance ) 
+        if( vcl_fabs( m3[r][c] - 2*r ) > tolerance )
           {
           std::cerr << "Addition failed !" << std::endl;
           std::cerr << "M["<< r << "][" << c << "] = ";
           std::cerr << m3[r][c] << std::endl;
           return EXIT_FAILURE;
           }
-        if( vcl_fabs( m4[r][c] - 2*c ) > tolerance ) 
+        if( vcl_fabs( m4[r][c] - 2*c ) > tolerance )
           {
           std::cerr << "Subtraction failed !" << std::endl;
           return EXIT_FAILURE;
@@ -278,13 +279,13 @@ int itkMatrixTest(int, char* [] )
       {
       for(unsigned int c=0; c < nc; c++)
         {
-        if( vcl_fabs( m3[r][c] - m1[r][c] ) > tolerance ) 
+        if( vcl_fabs( m3[r][c] - m1[r][c] ) > tolerance )
           {
           std::cerr << "In-place addition failed !" << std::endl;
           std::cerr << m3 << std::endl;
           return EXIT_FAILURE;
           }
-        if( vcl_fabs( m4[r][c] - m1[r][c] ) > tolerance ) 
+        if( vcl_fabs( m4[r][c] - m1[r][c] ) > tolerance )
           {
           std::cerr << "In-place subtraction failed !" << std::endl;
           std::cerr << m4 << std::endl;
@@ -294,7 +295,7 @@ int itkMatrixTest(int, char* [] )
       }
     }
 
-   
+
 
 
   }
@@ -391,7 +392,7 @@ int itkMatrixTest(int, char* [] )
    *    -1.4363e-40  -1.0156e+00   2.9279e-16
    *
    *  Matlab suggest that the inverse of this matrix is close to
-   *  
+   *
    *     9.8462e-01  -1.4797e-17  -5.6092e-40
    *     3.6105e-33   2.4024e-16  -9.8462e-01
    *     1.2524e-17   8.3334e-01   2.0333e-16
@@ -404,7 +405,7 @@ int itkMatrixTest(int, char* [] )
    *  and will then only return NaN values
    *
    */
- 
+
    itk::Matrix<double,3,3> invertibleMatrix;
    invertibleMatrix[0][0] = 1.015625;
    invertibleMatrix[0][1] = 3.7241876106217399000472402087113071242494464386448e-33;
@@ -426,15 +427,15 @@ int itkMatrixTest(int, char* [] )
    inverseMatrixMatlab[2][0] = 1.2524e-17;
    inverseMatrixMatlab[2][1] = 8.3334e-01;
    inverseMatrixMatlab[2][2] = 2.0333e-16;
- 
+
    std::cout << "Testing matrix inversion for " << std::endl << invertibleMatrix << std::endl;
- 
+
    const vnl_matrix_fixed<double,3,3> invertedMatrix = invertibleMatrix.GetInverse();
-   
+
    std::cout << "Inverted to " << std::endl << invertedMatrix << std::endl;
 
    std::cout << "Matlab inverse " << std::endl << inverseMatrixMatlab << std::endl;
- 
+
    unsigned int num_nans(0);
    for ( unsigned int i = 0; i < 3; ++i )
      {
@@ -444,12 +445,12 @@ int itkMatrixTest(int, char* [] )
        }
      }
 
-   
+
    const double relative_error = ( invertedMatrix - inverseMatrixMatlab.GetVnlMatrix() ).frobenius_norm()
       / inverseMatrixMatlab.GetVnlMatrix().frobenius_norm();
-   
+
    std::cout << "Relative error compared to Matlab " << std::endl << relative_error << std::endl;
- 
+
    if ( num_nans>0 || relative_error>1e-4 )
      {
      std::cout << "Matrix could not be inverted" << std::endl;
@@ -457,7 +458,7 @@ int itkMatrixTest(int, char* [] )
      }
   }
 
-  
+
   std::cout << "Test Passed !" << std::endl;
   return EXIT_SUCCESS;
 }

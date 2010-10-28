@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMException.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMException_h
 #define __itkFEMException_h
 
@@ -73,7 +74,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionIO() throw() {}
-  
+
   /** Type related information. */
   itkTypeMacro(FEMExceptionIO,FEMException);
 };
@@ -81,7 +82,7 @@ public:
 /**
  * \class FEMExceptionWrongClass
  * \brief Bad object exception.
- * 
+ *
  * This exception occures, when a the pointer that was passed to a
  * function or member, was pointing to the wrong class of object.
  * Usially this means that the dynamic_cast operator failed.
@@ -102,7 +103,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionWrongClass() throw() {}
-  
+
   /** Type related information. */
   itkTypeMacro(FEMExceptionWrongClass,FEMException);
 };
@@ -149,13 +150,13 @@ public:
    * of the exception.
    */
   FEMExceptionSolution(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
- 
+
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionSolution() throw() {}
-  
+
   /** Type related information. */
   itkTypeMacro(FEMExceptionSolution,FEMException);
-  
+
 };
 
 }} // end namespace itk::fem

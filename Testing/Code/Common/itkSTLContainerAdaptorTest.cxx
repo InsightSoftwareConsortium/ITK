@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSTLContainerAdaptorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -46,7 +47,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     STLVectorType  vectorSource;
 
-    for (unsigned int i = 0; i < containerSize; i++) 
+    for (unsigned int i = 0; i < containerSize; i++)
       {
       vectorSource.push_back(containerSize - i);
       }
@@ -64,7 +65,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
       AdaptorType adaptor( vectorContainer );
       TargetType & targetRef = adaptor.GetSTLContainerRef();
 
-      std::cout << "Testing assignment... "; 
+      std::cout << "Testing assignment... ";
 
       targetRef.reserve( vectorSource.size() );
       targetRef.assign( vectorSource.begin(), vectorSource.end() );
@@ -88,9 +89,9 @@ int itkSTLContainerAdaptorTest(int, char* [] )
         }
       std::cout << "Passed !" << std::endl;
 
-      
+
       // Test of index access
-      std::cout << "Testing index access... "; 
+      std::cout << "Testing index access... ";
       for (unsigned int i = 0; i < containerSize; i++)
         {
         if( vectorSource[i] != vectorContainer->GetElement(i) )
@@ -111,14 +112,14 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     std::cout << "----- Testing const Adaptor " << std::endl;
 
-   
+
     { // define a local scope
       ConstAdaptorType constAdaptor(vectorContainer);
       ConstTargetType & constTargetRef = constAdaptor.GetSTLConstContainerRef();
 
       STLVectorType destination;
 
-      std::cout << "Testing reading assignment... "; 
+      std::cout << "Testing reading assignment... ";
       destination.assign( constTargetRef.begin(), constTargetRef.end() );
 
       STLVectorType::const_iterator it    = destination.begin();
@@ -140,9 +141,9 @@ int itkSTLContainerAdaptorTest(int, char* [] )
         }
       std::cout << "Passed !" << std::endl;
 
-      
+
       // Test of index access
-      std::cout << "Testing index access... "; 
+      std::cout << "Testing index access... ";
       for (unsigned int i = 0; i < containerSize; i++)
         {
         if( destination[i] != vectorContainer->GetElement(i) )
@@ -178,7 +179,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
     typedef std::map<int,ElementType>  STLMapType;
     STLMapType mapSource;
 
-    for (unsigned int i = 0; i < containerSize; i++) 
+    for (unsigned int i = 0; i < containerSize; i++)
       {
       mapSource[i] = containerSize - i;
     }
@@ -197,7 +198,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
       AdaptorType adaptor( mapContainer );
       TargetType & targetRef = adaptor.GetSTLContainerRef();
 
-      std::cout << "Testing assignment... "; 
+      std::cout << "Testing assignment... ";
 
       for(unsigned int i=0; i < containerSize; i++)
         {
@@ -223,9 +224,9 @@ int itkSTLContainerAdaptorTest(int, char* [] )
         }
       std::cout << "Passed !" << std::endl;
 
-      
+
       // Test of index access
-      std::cout << "Testing index access... "; 
+      std::cout << "Testing index access... ";
       for (unsigned int j = 0; j < containerSize; j++)
         {
         if( mapSource[j] != mapContainer->GetElement(j) )
@@ -246,14 +247,14 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     std::cout << "----- Testing const Adaptor " << std::endl;
 
-   
+
     { // define a local scope
       ConstAdaptorType constAdaptor(mapContainer);
       ConstTargetType & constTargetRef = constAdaptor.GetSTLConstContainerRef();
 
       STLMapType destination;
 
-      std::cout << "Testing reading assignment... "; 
+      std::cout << "Testing reading assignment... ";
       for( unsigned int i=0; i < containerSize; i++)
         {
         destination[i] = constTargetRef.find(i)->second;
@@ -278,9 +279,9 @@ int itkSTLContainerAdaptorTest(int, char* [] )
         }
       std::cout << "Passed !" << std::endl;
 
-      
+
       // Test of index access
-      std::cout << "Testing index access... "; 
+      std::cout << "Testing index access... ";
       for (unsigned int j = 0; j < containerSize; j++)
         {
         if( destination[j] != mapContainer->GetElement(j) )
@@ -299,7 +300,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
   }
 
- 
+
 
   return EXIT_SUCCESS;
 }

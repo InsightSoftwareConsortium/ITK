@@ -1,17 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTimeStampTest.cxx
-  Language:  C++
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +29,7 @@ typedef struct {
   std::vector<itk::TimeStamp> timestamps;
   std::vector<long int> counters;
 } TimeStampTestHelper;
- 
+
 ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
 {
   typedef itk::MultiThreader::ThreadInfoStruct  ThreadInfoType;
@@ -35,7 +38,7 @@ ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
 
   const unsigned int threadId = infoStruct->ThreadID;
 
-  TimeStampTestHelper * helper = 
+  TimeStampTestHelper * helper =
     static_cast< TimeStampTestHelper * >( infoStruct->UserData );
 
   helper->timestamps[threadId].Modified();
@@ -51,14 +54,14 @@ int itkTimeStampTest(int, char*[])
   try
     {
     TimeStampTestHelper helper;
-       
+
     // Set up the multithreader
     itk::MultiThreader::Pointer multithreader = itk::MultiThreader::New();
     multithreader->SetNumberOfThreads( ITK_MAX_THREADS+10 );// this will be clamped
     multithreader->SetSingleMethod( modified_function, &helper);
 
-    // Test that the number of threads has actually been clamped 
-    const long int numberOfThreads = 
+    // Test that the number of threads has actually been clamped
+    const long int numberOfThreads =
       static_cast<long int>( multithreader->GetNumberOfThreads() );
 
     if( numberOfThreads > ITK_MAX_THREADS )
@@ -70,7 +73,7 @@ int itkTimeStampTest(int, char*[])
 
     // Set up the helper class
     helper.counters.resize( numberOfThreads );
-    helper.timestamps.resize( numberOfThreads );    
+    helper.timestamps.resize( numberOfThreads );
     for(int k=0; k < numberOfThreads; k++)
     {
        helper.counters[k] = 0;
@@ -80,7 +83,7 @@ int itkTimeStampTest(int, char*[])
     // been used
     std::vector<bool> istimestamped( numberOfThreads );
 
-    
+
 
     // Call Modified once  on any object to make it up-to-date
     multithreader->Modified();
@@ -145,7 +148,7 @@ int itkTimeStampTest(int, char*[])
             }
           }
       }
-      
+
       if( !iter_success )
         {
         std::cerr << "[Iteration " << i << " FAILED]" << std::endl;

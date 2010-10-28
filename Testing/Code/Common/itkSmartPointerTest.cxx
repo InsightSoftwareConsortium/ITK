@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSmartPointerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,43 +30,43 @@ public:
   static itkTestObject::Pointer New();
   virtual void Register()
     {
-    std::cout << "Register " << *this << " count:" 
+    std::cout << "Register " << *this << " count:"
               << (m_ReferenceCount+1) << "  " << std::endl;
     m_ReferenceCount++;
     }
   virtual void UnRegister()
     {
-    std::cout << "UnRegister " << this << " count:" 
+    std::cout << "UnRegister " << this << " count:"
               << (m_ReferenceCount-1) << "  " << std::endl;
-      
+
     m_ReferenceCount--;
     if ( m_ReferenceCount == 0 )
       {
       delete this;
       }
     }
-    inline friend std::ostream &operator << (std::ostream &os, 
-                                             itkTestObject const& o) 
+    inline friend std::ostream &operator << (std::ostream &os,
+                                             itkTestObject const& o)
     {
-      os << "itkTestObject " << (void const * )&o << " " << o.m_ReferenceCount; 
+      os << "itkTestObject " << (void const * )&o << " " << o.m_ReferenceCount;
       return os;
     }
-  
+
   std::ostream& Print(std::ostream& os) const
     {
-    os << "itkTestObject " << (void const * )this << " " << this->m_ReferenceCount; 
+    os << "itkTestObject " << (void const * )this << " " << this->m_ReferenceCount;
     return os;
-    }   
+    }
 
 protected:
-  itkTestObject() 
+  itkTestObject()
     {
     m_ReferenceCount = 0;
-    std::cout << "construct itkTestObject " << *this << std::endl; 
+    std::cout << "construct itkTestObject " << *this << std::endl;
     }
-  virtual ~itkTestObject() 
+  virtual ~itkTestObject()
     {
-    std::cout << "destruct itkTestObject " << *this << std::endl; 
+    std::cout << "destruct itkTestObject " << *this << std::endl;
     }
 
 private:
@@ -107,7 +108,7 @@ int itkSmartPointerTest(int, char* [] )
   // Create a base class pointer to a child class
   itkTestObject::Pointer to(itkTestObjectSubClass::New());
   // test the safe down cast and create a child class Pointer object
-  itkTestObjectSubClass::Pointer sc 
+  itkTestObjectSubClass::Pointer sc
     = dynamic_cast<itkTestObjectSubClass*>(to.GetPointer());
   // Test the up cast with a function that takes a pointer
   TestUpCast(sc);
@@ -118,14 +119,14 @@ int itkSmartPointerTest(int, char* [] )
 
   // This will not work, but only in construction
   //itkTestObject::Pointer p = sc;
-  
+
   // For construction use the constructor call:
   // Test casting up the tree, note no explict cast is required
   itkTestObject::Pointer p(sc);
 
   // No cast is required for assignment
   p = sc;
-  
+
   std::cout <<"second test" << std::endl;
   {
   itkTestObject::Pointer o1 = itkTestObject::New();
@@ -136,7 +137,7 @@ int itkSmartPointerTest(int, char* [] )
   std::cout << "o3 " << &o3 << std::endl;
   itkTestObject::Pointer o4 = itkTestObject::New();
   std::cout << "o4 " << &o4 << std::endl;
-  
+
   o1 = o2;
   o2 = o3;
   o4 = o1;

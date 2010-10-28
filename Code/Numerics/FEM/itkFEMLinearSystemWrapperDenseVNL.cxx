@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLinearSystemWrapperDenseVNL.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -144,7 +144,7 @@ void LinearSystemWrapperDenseVNL::DestroySolution(unsigned int solutionIndex)
 
 LinearSystemWrapperDenseVNL::Float LinearSystemWrapperDenseVNL::GetSolutionValue(unsigned int i, unsigned int solutionIndex) const
 {
-  
+
   if ( m_Solutions==0 ) return 0.0;
   if ( ((*m_Solutions)[solutionIndex])->size() <= i) return 0.0;
   else return (*((*m_Solutions)[solutionIndex]))(i);
@@ -170,8 +170,8 @@ void LinearSystemWrapperDenseVNL::Solve(void)
    * Here we use the SVD method.
    */
 
-  vnl_svd<Float> svd( (*((*m_Matrices)[0])) ); 
-  (*((*m_Solutions)[0])) = svd.solve( (*((*m_Vectors)[0])) ); 
+  vnl_svd<Float> svd( (*((*m_Matrices)[0])) );
+  (*((*m_Solutions)[0])) = svd.solve( (*((*m_Vectors)[0])) );
 }
 
 
@@ -218,7 +218,7 @@ void LinearSystemWrapperDenseVNL::CopyVector2Solution(unsigned int VectorIndex, 
 
 void LinearSystemWrapperDenseVNL::MultiplyMatrixMatrix(unsigned int ResultMatrixIndex, unsigned int LeftMatrixIndex, unsigned int RightMatrixIndex)
 {
-  
+
   //delete (*m_Matrices)[ResultMatrixIndex];
   //(*m_Matrices)[ResultMatrixIndex] = new vnl_matrix<Float>( this->GetSystemOrder(), this->GetSystemOrder() );
 
@@ -229,7 +229,7 @@ void LinearSystemWrapperDenseVNL::MultiplyMatrixMatrix(unsigned int ResultMatrix
 
 void LinearSystemWrapperDenseVNL::MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex)
 {
-  
+
   //delete (*m_Matrices)[ResultMatrixIndex];
   //(*m_Matrices)[ResultMatrixIndex] = new vnl_matrix<Float>( this->GetSystemOrder(), this->GetSystemOrder() );
   (*(*m_Vectors)[resultVectorIndex]) = (*(*m_Vectors)[vectorIndex]);

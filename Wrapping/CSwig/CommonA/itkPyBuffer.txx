@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPyBuffer.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef _itkPyBuffer_txx
 #define _itkPyBuffer_txx
 
@@ -28,7 +29,7 @@ PyBuffer<TImage>
 {
     this->obj = NULL;
     this->m_Importer = ImporterType::New();
-    
+
     import_libnumarray();
 }
 
@@ -43,9 +44,9 @@ PyBuffer<TImage>
     this->obj = NULL;
 }
 
-    
+
 template<typename TImage>
-PyObject * 
+PyObject *
 PyBuffer<TImage>
 ::GetArrayFromImage( const ImageType * image )
 {
@@ -57,7 +58,7 @@ PyBuffer<TImage>
    PixelType * buffer = const_cast< PixelType *>( image->GetBufferPointer() );
 
    char * data = (char *)( buffer );
-   
+
    int dimensions[ ImageDimension ];
 
    SizeType size = image->GetBufferedRegion().GetSize();
@@ -68,7 +69,7 @@ PyBuffer<TImage>
      }
 
    int item_type = 0;  // TODO find a way of doing this through pixel traits
-   
+
    this->obj = PyArray_FromDimsAndData( ImageDimension, dimensions, item_type, data );
 
    return this->obj;
@@ -77,7 +78,7 @@ PyBuffer<TImage>
 
 
 template<typename TImage>
-const typename PyBuffer<TImage>::ImageType * 
+const typename PyBuffer<TImage>::ImageType *
 PyBuffer<TImage>
 ::GetImageFromArray( PyObject *obj )
 {
@@ -99,13 +100,13 @@ PyBuffer<TImage>
             Py_INCREF(this->obj);
         }
     }
-    
+
 
     int element_type = PyArray_DOUBLE;  // change this with pixel traits.
 
-    PyArrayObject * parray = 
-          (PyArrayObject *) PyArray_ContiguousFromObject( 
-                                                    this->obj, 
+    PyArrayObject * parray =
+          (PyArrayObject *) PyArray_ContiguousFromObject(
+                                                    this->obj,
                                                     element_type,
                                                     ImageDimension,
                                                     ImageDimension  );
@@ -116,7 +117,7 @@ PyBuffer<TImage>
       }
 
     const unsigned int imageDimension = parray->nd;
-    
+
     SizeType size;
 
     unsigned int numberOfPixels = 1;
@@ -145,16 +146,16 @@ PyBuffer<TImage>
     this->m_Importer->SetSpacing( spacing );
 
     const bool importImageFilterWillOwnTheBuffer = false;
-    
+
     PixelType * data = (PixelType *)parray->data;
-    
-    this->m_Importer->SetImportPointer( 
+
+    this->m_Importer->SetImportPointer(
                         data,
                         numberOfPixels,
                         importImageFilterWillOwnTheBuffer );
 
     this->m_Importer->Update();
-    
+
     return this->m_Importer->GetOutput();
 }
 

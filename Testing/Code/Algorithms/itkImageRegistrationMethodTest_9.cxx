@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageRegistrationMethodTest_9.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,11 +28,11 @@
 
 #include "itkImageRegistrationMethodImageSource.h"
 
-/** 
+/**
  *  This program tests one instantiation of the itk::ImageRegistrationMethod class
- * 
- *  
- */ 
+ *
+ *
+ */
 
 int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
 {
@@ -63,21 +64,21 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   typedef itk::ConjugateGradientOptimizer         OptimizerType;
 
   // Metric Type
-  typedef itk::MeanSquaresImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double >             InterpolatorType;
 
   // Registration Method
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
-  typedef itk::CommandVnlIterationUpdate<  
+  typedef itk::CommandVnlIterationUpdate<
                                   OptimizerType >    CommandIterationType;
 
 
@@ -93,7 +94,7 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   SizeType size;
   size[0] = 100;
   size[1] = 100;
-  
+
   imageSource->GenerateImages( size );
 
   FixedImageType::ConstPointer     fixedImage    = imageSource->GetFixedImage();
@@ -122,7 +123,7 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 1.0 );
 
-  
+
   double          translationScale   =  1.0;
 
   if( argc > 1 )
@@ -142,12 +143,12 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   optimizer->SetScales( scales );
 
 
-  // Start from an Identity transform (in a normal case, the user 
+  // Start from an Identity transform (in a normal case, the user
   // can probably provide a better guess than the identity...
   transform->SetIdentity();
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-  // Initialize the internal connections of the registration method. 
+  // Initialize the internal connections of the registration method.
   // This can potentially throw an exception
   try
     {
@@ -165,14 +166,14 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   vnl_conjugate_gradient * vnlOptimizer = optimizer->GetOptimizer();
 
   const double F_Tolerance      = 1e-3;  // Function value tolerance
-  const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance 
+  const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
   const double X_Tolerance      = 1e-8;  // Search space tolerance
   const double Epsilon_Function = 1e-10; // Step
   const int    Max_Iterations   =   100; // Maximum number of iterations
 
   vnlOptimizer->set_f_tolerance( F_Tolerance );
   vnlOptimizer->set_g_tolerance( G_Tolerance );
-  vnlOptimizer->set_x_tolerance( X_Tolerance ); 
+  vnlOptimizer->set_x_tolerance( X_Tolerance );
   vnlOptimizer->set_epsilon_function( Epsilon_Function );
   vnlOptimizer->set_max_function_evals( Max_Iterations );
 
@@ -198,7 +199,7 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
 
   const double tolerance = 1.0;  // equivalent to 1 pixel.
 
-  for(unsigned int i=0; i<numbeOfParameters; i++) 
+  for(unsigned int i=0; i<numbeOfParameters; i++)
     {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....

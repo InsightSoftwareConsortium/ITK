@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    testMetaBlob.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -49,18 +50,18 @@ int testMetaBlob(int argc, char * argv[])
     pnt->m_X[2]=static_cast<float>(i);
     blob.GetPoints().push_back(pnt);
   }
-  
+
   std::cout << "Writing test file ..." << std::endl;
-   
+
   blob.BinaryData(true);
   blob.ElementType(MET_FLOAT);
   blob.Write("myCNC.meta");
 
   std::cout << "  done" << std::endl;
- 
+
   std::cout << "Reading test file ..." << std::endl;
   MetaBlob blobRead("myCNC.meta"); // coverage
-  blob.Read("myCNC.meta"); 
+  blob.Read("myCNC.meta");
   MetaBlob blobCopy(&blob);
 
   std::cout << "NPoints = " << blobCopy.NPoints() << std::endl;
@@ -75,7 +76,7 @@ int testMetaBlob(int argc, char * argv[])
 
   MetaBlob::PointListType plist =  blob.GetPoints();
   MetaBlob::PointListType::const_iterator it = plist.begin();
-  
+
   while(it != plist.end())
   {
     for(unsigned int d = 0; d < 3; d++)
