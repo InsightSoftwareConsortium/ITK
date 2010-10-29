@@ -39,7 +39,7 @@ class ITK_EXPORT ShapePositionLabelMapFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef ShapePositionLabelMapFilter    Self;
+  typedef ShapePositionLabelMapFilter   Self;
   typedef InPlaceLabelMapFilter<TImage> Superclass;
   typedef SmartPointer<Self>            Pointer;
   typedef SmartPointer<const Self>      ConstPointer;

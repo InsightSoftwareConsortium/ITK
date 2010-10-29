@@ -27,7 +27,6 @@
 #include "itkMedianImageFilter.h"
 
 
-
 void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)
 {
   // the same typedefs than in the main function - should be done in a nicer way

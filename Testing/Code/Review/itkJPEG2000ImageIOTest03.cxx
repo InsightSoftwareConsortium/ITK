@@ -45,7 +45,7 @@ int itkJPEG2000ImageIOTest03( int argc, char * argv[] )
   typedef itk::RGBPixel<unsigned char>  PixelType;
   const   unsigned int        Dimension = 2;
 
-  typedef itk::Image< PixelType,  Dimension >    InputImageType;
+  typedef itk::Image< PixelType,  Dimension >   InputImageType;
   typedef itk::Image< PixelType, Dimension >    OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
