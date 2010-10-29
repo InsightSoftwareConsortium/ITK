@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVoronoiSegmentationRGBImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -72,7 +73,7 @@ ImageType::Pointer SetUpInputImage()
   inputImage->SetBufferedRegion(region);
   inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
-  
+
   // add background random field
   itk::ImageRegionIterator<ImageType> iter(inputImage, region);
   while (!iter.IsAtEnd())
@@ -84,7 +85,7 @@ ImageType::Pointer SetUpInputImage()
     iter.Set(px);
     ++iter;
     }
-  
+
   // add objects to image
   for (unsigned int x = objAStartX; x < objAEndX; x++)
     {
@@ -93,7 +94,7 @@ ImageType::Pointer SetUpInputImage()
       ImageType::IndexType idx;
       idx[0] = x;
       idx[1] = y;
-      
+
       PixelType px;
       px[0] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
       px[1] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
@@ -108,7 +109,7 @@ ImageType::Pointer SetUpInputImage()
       ImageType::IndexType idx;
       idx[0] = x;
       idx[1] = y;
-      
+
       PixelType px;
       px[0] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
       px[1] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
@@ -116,7 +117,7 @@ ImageType::Pointer SetUpInputImage()
       inputImage->SetPixel(idx, px);
       }
     }
-  
+
   return inputImage;
 }
 
@@ -138,21 +139,21 @@ double CheckResults(SegmentationType::Pointer outputImage)
       SegmentationType::IndexType idx;
       idx[0] = x;
       idx[1] = y;
-      
+
       bool inInterior = false;
-      
+
       // check if in objA
       if (x >= objAStartX && x < objAEndX && y >= objAStartY && y < objAEndY)
         {
         inInterior = true;
         }
-      
+
       // check if in objB
       else if (x >= objBStartX && x < objBEndX && y >= objBStartY && y < objBEndY)
         {
         inInterior = true;
         }
-      
+
       if (inInterior)
         {
         if (outputImage->GetPixel(idx) == 1)
@@ -177,7 +178,7 @@ double CheckResults(SegmentationType::Pointer outputImage)
         }
       }
     }
-  
+
   // report the results and fail if too many incorrectly segmented
   std::cout << "Correct Interior: " << correctInterior << std::endl;
   std::cout << "Correct Exterior: " << correctExterior << std::endl;
@@ -185,7 +186,7 @@ double CheckResults(SegmentationType::Pointer outputImage)
   std::cout << "False Exterior: " << falseExterior << std::endl;
   double percentCorrect = (double)(correctInterior+correctExterior)/(double)(width*height);
   std::cout << "Percent Correct = " << percentCorrect *100 << "%" << std::endl;
-  
+
   return percentCorrect;
 }
 
@@ -194,15 +195,15 @@ double CheckResults(SegmentationType::Pointer outputImage)
 // Test with no prior
 //
 int TestNoPrior(ImageType::Pointer inputImage)
-{ 
-  
+{
+
   std::cout << "Beginning no-prior test" << std::endl;
-  
+
   // set up the filter
   FilterType::Pointer filter = FilterType::New();
   std::cout << "Setting filter input" << std::endl;
   filter->SetInput(inputImage);
-  
+
   // explicitly set mean and std
   std::cout << "Setting up mean and std for filter" << std::endl;
   double mean[6];
@@ -224,7 +225,7 @@ int TestNoPrior(ImageType::Pointer inputImage)
   filter->SetNumberOfSeeds(400);
   filter->SetSteps(5);
   filter->SetMaxValueOfRGB(255);
-  
+
   // test GetMaxValueOfRGB
   std::cout << "Checking GetMaxValueOfRGB" << std::endl;
   if (filter->GetMaxValueOfRGB() != 255)
@@ -232,11 +233,11 @@ int TestNoPrior(ImageType::Pointer inputImage)
     std::cout << "[FAILED] Didn't set max RGB correctly" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // run the filter
   std::cout << "Running the filter" << std::endl;
   filter->Update();
-  
+
   // check the results
   std::cout << "Checking the filter results" << std::endl;
   double percentCorrect = CheckResults(filter->GetOutput());
@@ -245,7 +246,7 @@ int TestNoPrior(ImageType::Pointer inputImage)
     std::cout << "[FAILED] Did not segment over "<< minCorrectRate*100 <<"% correctly" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // return successfully
   return EXIT_SUCCESS;
 }
@@ -260,7 +261,7 @@ int TestWithPrior(ImageType::Pointer inputImage)
   std::cout << "Setting up the filter and image" << std::endl;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(inputImage);
-  
+
   // set up the prior
   std::cout << "Setting up the prior image" << std::endl;
   BinaryObjectImage::Pointer prior = BinaryObjectImage::New();
@@ -271,7 +272,7 @@ int TestWithPrior(ImageType::Pointer inputImage)
   prior->SetBufferedRegion(region);
   prior->SetRequestedRegion(region);
   prior->Allocate();
-  
+
   // create prior as 100% segmentation
   for (unsigned int x = 0; x < width; x++)
     {
@@ -280,21 +281,21 @@ int TestWithPrior(ImageType::Pointer inputImage)
       SegmentationType::IndexType idx;
       idx[0] = x;
       idx[1] = y;
-      
+
       bool inInterior = false;
-      
+
       // check if in objA
       if (x >= objAStartX && x < objAEndX && y >= objAStartY && y < objAEndY)
         {
         inInterior = true;
         }
-      
+
       // check if in objB
       else if (x >= objBStartX && x < objBEndX && y >= objBStartY && y < objBEndY)
         {
         inInterior = true;
         }
-      
+
       if (inInterior)
         {
         prior->SetPixel(idx,1);
@@ -305,14 +306,14 @@ int TestWithPrior(ImageType::Pointer inputImage)
         }
       }
     }
-  
+
   // add prior to filter
   filter->TakeAPrior(prior);
-  
+
   // run the filter
   std::cout << "Running the filter" << std::endl;
   filter->Update();
-  
+
   // check the results
   std::cout << "Checking the results of the filter" << std::endl;
   double percentCorrect = CheckResults(filter->GetOutput());
@@ -321,7 +322,7 @@ int TestWithPrior(ImageType::Pointer inputImage)
     std::cout << "[FAILED] Did not segment over "<< minCorrectRate*100 <<"% correctly" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // return successfully
   return EXIT_SUCCESS;
 }
@@ -336,58 +337,58 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
 {
   // set up the input image
   ImageType::Pointer inputImage = VoronoiSegRGBTest::SetUpInputImage();
-  
+
   // test without prior
   std::cout << "[Running test without prior]" << std::endl;
   int noPriorTestResult = VoronoiSegRGBTest::TestNoPrior(inputImage);
   if (noPriorTestResult == EXIT_FAILURE)
     {
     std::cout << "Failed on test without prior" << std::endl;
-    return EXIT_FAILURE;  
+    return EXIT_FAILURE;
     }
   std::cout << std::endl;
-  
+
   // test with prior
   std::cout << "[Running test with prior]" << std::endl;
   int priorTestResult = VoronoiSegRGBTest::TestWithPrior(inputImage);
   if (priorTestResult == EXIT_FAILURE)
     {
     std::cout << "Failed on test with prior" << std::endl;
-    return EXIT_FAILURE;  
+    return EXIT_FAILURE;
     }
-  
+
   // test set/get TestMean
   FilterType::Pointer filter = FilterType::New();
   filter->SetTestMean(VoronoiSegRGBTest::fgMean,VoronoiSegRGBTest::fgMean,VoronoiSegRGBTest::fgMean);
   unsigned int testMean[3];
   filter->GetTestMean(testMean);
-  if (testMean[0] != VoronoiSegRGBTest::fgMean || 
-      testMean[1] != VoronoiSegRGBTest::fgMean || 
+  if (testMean[0] != VoronoiSegRGBTest::fgMean ||
+      testMean[1] != VoronoiSegRGBTest::fgMean ||
       testMean[2] != VoronoiSegRGBTest::fgMean)
     {
     std::cout << "[FAILED] Didn't set/get TestMean correctly" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // test set/get TestSTD
   filter->SetTestSTD(VoronoiSegRGBTest::fgStd,VoronoiSegRGBTest::fgStd,VoronoiSegRGBTest::fgStd);
   unsigned int testStd[3];
   filter->GetTestSTD(testStd);
-  if (testStd[0] != VoronoiSegRGBTest::fgStd || 
-      testStd[1] != VoronoiSegRGBTest::fgStd || 
+  if (testStd[0] != VoronoiSegRGBTest::fgStd ||
+      testStd[1] != VoronoiSegRGBTest::fgStd ||
       testStd[2] != VoronoiSegRGBTest::fgStd)
     {
     std::cout << "[FAILED] Didn't set/get TestSTD correctly" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // test set/get MeanPercentError
   double meanPercentErrorIn[6] = {0.1,0.1,0.1,0.1,0.1,0.1};
   filter->SetMeanPercentError(meanPercentErrorIn);
   double meanPercentErrorOut[6];
   filter->GetMeanPercentError(meanPercentErrorOut);
-  if (meanPercentErrorOut[0] != 0.1 || 
-      meanPercentErrorOut[1] != 0.1 || 
+  if (meanPercentErrorOut[0] != 0.1 ||
+      meanPercentErrorOut[1] != 0.1 ||
       meanPercentErrorOut[2] != 0.1 ||
       meanPercentErrorOut[3] != 0.1 ||
       meanPercentErrorOut[4] != 0.1 ||
@@ -396,14 +397,14 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
     std::cout << "[FAILED] Didn't set/get MeanPercentError correctly" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // test set/get STDPercentError
   double stdPercentErrorIn[6] = {0.1,0.1,0.1,0.1,0.1,0.1};
   filter->SetSTDPercentError(stdPercentErrorIn);
   double stdPercentErrorOut[6];
   filter->GetSTDPercentError(stdPercentErrorOut);
-  if (stdPercentErrorOut[0] != 0.1 || 
-      stdPercentErrorOut[1] != 0.1 || 
+  if (stdPercentErrorOut[0] != 0.1 ||
+      stdPercentErrorOut[1] != 0.1 ||
       stdPercentErrorOut[2] != 0.1 ||
       stdPercentErrorOut[3] != 0.1 ||
       stdPercentErrorOut[4] != 0.1 ||
@@ -412,11 +413,11 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
     std::cout << "[FAILED] Didn't set/get STDPercentError correctly" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // test get mean/std tolerance
   double meanTolerance[6];
   filter->GetMeanTolerance(meanTolerance);
-  std::cout << "Mean Tolerance = (" 
+  std::cout << "Mean Tolerance = ("
             << meanTolerance[0] << ","
             << meanTolerance[1] << ","
             << meanTolerance[2] << ","
@@ -426,7 +427,7 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
             << std::endl;
   double stdTolerance[6];
   filter->GetSTDTolerance(stdTolerance);
-  std::cout << "STD Tolerance = (" 
+  std::cout << "STD Tolerance = ("
             << stdTolerance[0] << ","
             << stdTolerance[1] << ","
             << stdTolerance[2] << ","
@@ -434,18 +435,18 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
             << stdTolerance[4] << ","
             << stdTolerance[5] << ")"
             << std::endl;
-  
+
   // test type information
   if (strcmp(filter->GetNameOfClass(),"VoronoiSegmentationRGBImageFilter") != 0)
     {
     std::cout << "[FAILED] Didn't report class name correctly" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // test printing
   std::cout << filter << std::endl;
-  
+
   // return successfully
   return EXIT_SUCCESS;
-  
+
 }

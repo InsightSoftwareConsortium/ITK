@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -103,8 +104,8 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   if ( argc > 5 )
     {
-    double sigmaMaximum = atof( argv[5] ); 
-    multiScaleEnhancementFilter->SetSigmaMaximum( sigmaMaximum ); 
+    double sigmaMaximum = atof( argv[5] );
+    multiScaleEnhancementFilter->SetSigmaMaximum( sigmaMaximum );
 
     if( vnl_math_abs( multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum ) > tolerance )
       {
@@ -136,34 +137,34 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     }
 
   multiScaleEnhancementFilter->GenerateScalesOutputOn();
-  if ( !multiScaleEnhancementFilter->GetGenerateScalesOutput() ) 
+  if ( !multiScaleEnhancementFilter->GetGenerateScalesOutput() )
     {
     std::cerr << "Error in Set/GetGenerateScalesOutput()" << std::endl;
     return EXIT_FAILURE;
     }
 
   multiScaleEnhancementFilter->SetGenerateScalesOutput( false );
-  if ( multiScaleEnhancementFilter->GetGenerateScalesOutput() ) 
+  if ( multiScaleEnhancementFilter->GetGenerateScalesOutput() )
     {
     std::cerr << "Error in Set/GetGenerateScalesOutput()" << std::endl;
     return EXIT_FAILURE;
     }
   multiScaleEnhancementFilter->SetGenerateScalesOutput( true );
-  
+
   multiScaleEnhancementFilter->GenerateHessianOutputOn();
-  if ( !multiScaleEnhancementFilter->GetGenerateHessianOutput() ) 
+  if ( !multiScaleEnhancementFilter->GetGenerateHessianOutput() )
     {
     std::cerr << "Error in Set/GetGenerateHessianOutput()" << std::endl;
     return EXIT_FAILURE;
     }
   multiScaleEnhancementFilter->SetGenerateHessianOutput( false );
-  if ( multiScaleEnhancementFilter->GetGenerateHessianOutput() ) 
+  if ( multiScaleEnhancementFilter->GetGenerateHessianOutput() )
     {
     std::cerr << "Error in Set/GetGenerateHessianOutput()" << std::endl;
     return EXIT_FAILURE;
     }
   multiScaleEnhancementFilter->SetGenerateHessianOutput( true );
-  
+
   try
     {
     multiScaleEnhancementFilter->Update();
@@ -200,19 +201,19 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     std::cerr << e << std::endl;
     }
 
-  const HessianImageType * hessianImage = 
+  const HessianImageType * hessianImage =
     multiScaleEnhancementFilter->GetHessianOutput();
 
   std::cout << "Hessian Image Buffered Region = " << std::endl;
   std::cout << hessianImage->GetBufferedRegion() << std::endl;
 
-  //Print out 
+  //Print out
   multiScaleEnhancementFilter->Print( std::cout );
 
   if ( argc > 9 )
     {
     //Change sigma step to equispaced type and regnerate vesselness image
-    multiScaleEnhancementFilter->SetSigmaStepMethod( 
+    multiScaleEnhancementFilter->SetSigmaStepMethod(
           MultiScaleEnhancementFilterType::EquispacedSigmaSteps);
 
     try
@@ -242,8 +243,8 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
   if ( argc > 10 )
     {
     //Change NonNegativeHessianBasedMeasure to Off and regnerate vesselness image
-    multiScaleEnhancementFilter->NonNegativeHessianBasedMeasureOff(); 
-  
+    multiScaleEnhancementFilter->NonNegativeHessianBasedMeasureOff();
+
     multiScaleEnhancementFilter->Print( std::cout );
 
     try

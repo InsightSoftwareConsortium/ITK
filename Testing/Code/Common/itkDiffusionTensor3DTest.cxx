@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDiffusionTensor3DTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -381,7 +382,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    // Test the value of internal scalar product 
+    // Test the value of internal scalar product
     const RealValueType expectedInternalScalarProduct = 1829;
 
     RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
@@ -424,48 +425,48 @@ int itkDiffusionTensor3DTest(int, char* [] )
   //Test Numeric Traits
   {
     typedef itk::DiffusionTensor3D<int>             TensorType;
-    
+
     typedef itk::NumericTraits<TensorType>::ValueType      ValueType;
-    typedef itk::NumericTraits<TensorType>::AbsType        AbsType;           
-    typedef itk::NumericTraits<TensorType>::AccumulateType AccumulateType;     
-    typedef itk::NumericTraits<TensorType>::FloatType      FloatType;          
-    typedef itk::NumericTraits<TensorType>::PrintType      PrintType;          
-    typedef itk::NumericTraits<TensorType>::RealType       RealType;           
-                                                                        
-    typedef itk::NumericTraits<TensorType>::ScalarRealType ScalarRealType;     
-    
-    TensorType maxTensor = itk::NumericTraits<TensorType>::max();                               
-    TensorType minTensor = itk::NumericTraits<TensorType>::min();                               
+    typedef itk::NumericTraits<TensorType>::AbsType        AbsType;
+    typedef itk::NumericTraits<TensorType>::AccumulateType AccumulateType;
+    typedef itk::NumericTraits<TensorType>::FloatType      FloatType;
+    typedef itk::NumericTraits<TensorType>::PrintType      PrintType;
+    typedef itk::NumericTraits<TensorType>::RealType       RealType;
+
+    typedef itk::NumericTraits<TensorType>::ScalarRealType ScalarRealType;
+
+    TensorType maxTensor = itk::NumericTraits<TensorType>::max();
+    TensorType minTensor = itk::NumericTraits<TensorType>::min();
     TensorType nonpositiveMinTensor
-                          = itk::NumericTraits<TensorType>::NonpositiveMin();                               
+                          = itk::NumericTraits<TensorType>::NonpositiveMin();
     TensorType zeroValue
-                          = itk::NumericTraits<TensorType>::ZeroValue();                               
+                          = itk::NumericTraits<TensorType>::ZeroValue();
     TensorType oneValue
-                          = itk::NumericTraits<TensorType>::OneValue();                               
+                          = itk::NumericTraits<TensorType>::OneValue();
 
     TensorType zero = itk::NumericTraits<TensorType>::Zero;
     TensorType one = itk::NumericTraits<TensorType>::One;
   }
 
   //Test casting constructors
-  {  
+  {
     typedef itk::DiffusionTensor3D<int>     Int3DTensorType;
     typedef itk::DiffusionTensor3D<float>   Float3DTensorType;
-    
+
     Int3DTensorType intTensor;
     intTensor[0] =   1;
-    intTensor[1] =  -2; 
+    intTensor[1] =  -2;
     intTensor[2] =   3;
     intTensor[3] =   4;
-    intTensor[4] =   5; 
+    intTensor[4] =   5;
     intTensor[5] =   6;
-    
+
     //Test constructors
     Float3DTensorType floatTensor(intTensor);
-    
+
     //test Assignment
     Float3DTensorType floatTensor2 = intTensor;
-    
+
     //Test casting
     Float3DTensorType floatTensor3 = static_cast<Float3DTensorType>(intTensor);
 

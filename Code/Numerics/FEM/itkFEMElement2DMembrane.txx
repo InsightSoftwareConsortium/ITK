@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DMembrane.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMElement2DMembrane_txx
 #define __itkFEMElement2DMembrane_txx
 
@@ -40,7 +40,7 @@ Element2DMembrane<TBaseClass>
   unsigned int p;
   unsigned int Nn=this->GetNumberOfNodes();
   B.set_size(4,2*Nn); // note minor difference from linear elasticity
-  
+
   // Copy the shape function derivatives to the B matrix.
   for (unsigned int i=0; i<Nn; i++) {
   // Compute B index
@@ -87,7 +87,7 @@ Element2DMembrane<TBaseClass>
   // This is the main difference from the linear elasticity problem.
   /* Material properties matrix.  Simpler than linear elasticity. */
   Float disot = m_mat->E;
-    
+
   for (unsigned int i=0; i<d; i++) D[i][i] = disot;
 
 }
@@ -120,17 +120,17 @@ Element2DMembrane<TBaseClass>
     {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"Element2DMembrane::Read()",e.m_baseClassName,e.m_GN);
     }
-  
+
   // Check if the material object was of correct class
   if(!m_mat)
     {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DMembrane::Read()");
     }
-  
+
 out:
 
   if( !f )
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element2DMembrane::Read()","Error reading FEM element!");
     }
 
@@ -155,7 +155,7 @@ Element2DMembrane<TBaseClass>
 
   // check for errors
   if (!f)
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element2DMembrane::Write()","Error writing FEM element!");
     }
 }

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMeshSpatialObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,7 +24,7 @@
 #include <itkMeshSpatialObject.h>
 #include <itkTetrahedronCell.h>
 
-int itkMeshSpatialObjectTest(int, char * [] ) 
+int itkMeshSpatialObjectTest(int, char * [] )
 {
   typedef itk::DefaultDynamicMeshTraits< float , 3, 3 > MeshTrait;
   typedef itk::Mesh<float,3,MeshTrait>                  MeshType;
@@ -40,9 +41,9 @@ int itkMeshSpatialObjectTest(int, char * [] )
 
   MeshType::CoordRepType testPointCoords[4][3]
     = { {0,0,0}, {9,0,0}, {9,9,0}, {0,0,9} };
-  
+
   unsigned long tetraPoints[4] = {0,1,2,3};
- 
+
   int i;
   for(i=0; i < 4 ; ++i)
     {
@@ -50,18 +51,18 @@ int itkMeshSpatialObjectTest(int, char * [] )
     }
 
   mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
-  CellAutoPointer testCell1; 
-  testCell1.TakeOwnership(  new TetraCellType ); 
+  CellAutoPointer testCell1;
+  testCell1.TakeOwnership(  new TetraCellType );
   testCell1->SetPointIds(tetraPoints);
   mesh->SetCell(0, testCell1 );
-  
+
   // Create the mesh Spatial Object
 
   MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
   meshSO->Print(std::cout);
 
   meshSO->SetMesh(mesh);
-    
+
   std::cout << "Testing GetMesh(): ";
 
   if(mesh != meshSO->GetMesh())
@@ -70,9 +71,9 @@ int itkMeshSpatialObjectTest(int, char * [] )
     return EXIT_FAILURE;
     }
   std::cout<<"[PASSED]"<<std::endl;
-  
+
   std::cout << "Testing Bounding Box: ";
-  
+
   if( (meshSO->GetBoundingBox()->GetBounds()[0] != 0)
    || (meshSO->GetBoundingBox()->GetBounds()[1] != 9)
    || (meshSO->GetBoundingBox()->GetBounds()[2] != 0)
@@ -84,7 +85,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
     }
-  
+
   std::cout<<"[PASSED]"<<std::endl;
 
 
@@ -144,24 +145,24 @@ int itkMeshSpatialObjectTest(int, char * [] )
 
   MeshType::CoordRepType testTrianglePointCoords[4][3]
     = { {50,50,64}, {50,100,64}, {100,50,64} , {100,100,64}};
-  
+
   unsigned long trianglePoint1[3] = {0,1,2};
- 
+
   for(i=0; i < 4 ; ++i)
     {
     meshTriangle->SetPoint(i, PointType(testTrianglePointCoords[i]));
     }
- 
+
   unsigned long trianglePoint2[] = {1,2,3};
 
   meshTriangle->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
-  CellAutoPointer testCell3; 
-  testCell3.TakeOwnership(  new TriangleCellType ); 
+  CellAutoPointer testCell3;
+  testCell3.TakeOwnership(  new TriangleCellType );
   testCell3->SetPointIds(trianglePoint1);
   meshTriangle->SetCell(0, testCell3 );
- 
-  CellAutoPointer testCell4; 
-  testCell4.TakeOwnership(  new TriangleCellType ); 
+
+  CellAutoPointer testCell4;
+  testCell4.TakeOwnership(  new TriangleCellType );
   testCell4->SetPointIds(trianglePoint2);
   meshTriangle->SetCell(1, testCell4 );
 

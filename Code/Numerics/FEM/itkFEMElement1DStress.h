@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement1DStress.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMElement1DStress_h
 #define __itkFEMElement1DStress_h
 
@@ -81,7 +81,7 @@ public:
 
   /**
    * Element stiffness matrix is reimplemented here, because we want to
-   * be able to use this class to implement 1D stress problem in any 
+   * be able to use this class to implement 1D stress problem in any
    * number of dimensions i.e. Bar1D, Bar2D, Bar3D.
    */
   virtual void GetStiffnessMatrix(MatrixType& Ke) const;
@@ -104,7 +104,7 @@ public:
   MaterialLinearElasticity::ConstPointer m_mat;
   virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
   virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
-  
+
 
 }; // class Element1DStress
 

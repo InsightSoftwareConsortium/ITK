@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLinearSystemWrapper.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -141,7 +141,7 @@ void LinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVector, unsign
   this->InitializeVector(resultVector);
 
   /* perform multiply */
-  for (i=0; i<m_Order; i++) 
+  for (i=0; i<m_Order; i++)
     {
     for (j=0; j<m_Order; j++)
       {
@@ -184,7 +184,7 @@ void LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsign
       this->SetMatrixValue(i,currentRow[j],this->GetMatrixValue(i, currentRow[j], tempMatrixIndex), matrixIndex);
       }
     }
-      
+
   /* destroy temp matrix space */
   this->DestroyMatrix(tempMatrixIndex);
 
@@ -266,11 +266,11 @@ void LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray& newNumbering, int st
   newNumbering = ColumnArray(this->m_Order);    /* new row numbering */
   reverseMapping = ColumnArray (this->m_Order); /* allocate temp storage */
   unsigned int i;                               /* loop counter */
-  
+
   /* find degrees of each row in matrix & initialize newNumbering vector */
   ColumnArray currentRow;                 /* column indices of nonzero in current row */
   ColumnArray rowDegree(this->m_Order);   /* degrees in each row */
-  
+
   /* initialize variables */
   for (i=0; i<this->m_Order; i++)
     {
@@ -280,11 +280,11 @@ void LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray& newNumbering, int st
     }
 
   /* choose starting row if not given - chooses row of lowest degree */
-  if (startingRow < 0) 
+  if (startingRow < 0)
     {
     unsigned int lowestDegree = rowDegree[0];
     startingRow = 0;
-    for (i=1; i<this->m_Order; i++) 
+    for (i=1; i<this->m_Order; i++)
       {
       if (rowDegree[i] < lowestDegree)
         {
@@ -308,7 +308,7 @@ void LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray& newNumbering, int st
 
 }
 
-  
+
 void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int rowNumber, ColumnArray& rowDegree, ColumnArray& reverseMapping, unsigned int nextRowNumber, unsigned int matrixIndex)
 {
 
@@ -321,7 +321,7 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
   ColumnArray bufferArray;
   ColumnArray rowBuffer;
 
-  if (reverseMapping[rowNumber] > (this->m_Order-1) ) 
+  if (reverseMapping[rowNumber] > (this->m_Order-1) )
     {
     return;
     }
@@ -341,7 +341,7 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
     }
 
   /* order by degree */
-  if (nextRows.size() > 1) 
+  if (nextRows.size() > 1)
     {
     for( i=0; i < (int)(nextRows.size()) - 1; i++ )
       {
@@ -358,20 +358,20 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
     }
 
   /* while there are more rows to examine */
-  while ( (nextRows.size() != 0 ) && (nextRowNumber < this->m_Order) ) 
+  while ( (nextRows.size() != 0 ) && (nextRowNumber < this->m_Order) )
     {
-    
+
 
     bufferArray.clear();
 
-    for (i=0; i<(int)(nextRows.size()); i++) 
+    for (i=0; i<(int)(nextRows.size()); i++)
       {
       reverseMapping[ nextRows[i] ] = nextRowNumber++;
       }
 
 
     /* renumber rows in nextRows */
-    for (i=0; i<(int)(nextRows.size()); i++) 
+    for (i=0; i<(int)(nextRows.size()); i++)
       {
 
       /* connections of current row */

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    Image2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 //  The first thing required to read an image from a file is to include
 //  the header file of the \doxygen{ImageFileReader} class.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
@@ -38,7 +39,7 @@ int main( int , char * argv[])
   // Then, the image type should be defined by specifying the
   // type used to represent pixels and the dimensions of the image.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef unsigned char          PixelType;
@@ -64,7 +65,7 @@ int main( int , char * argv[])
   // \index{itk::ImageFileReader!Instantiation}
   // \index{itk::Image!read}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType >  ReaderType;
@@ -81,7 +82,7 @@ int main( int , char * argv[])
   // \index{itk::ImageFileReader!New()}
   // \index{itk::ImageFileReader!Pointer}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
@@ -100,7 +101,7 @@ int main( int , char * argv[])
   //
   // \index{itk::ImageFileReader!SetFileName()}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const char * filename = argv[1];
@@ -123,7 +124,7 @@ int main( int , char * argv[])
   //
   // \index{itk::ImageFileReader!Update()}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   reader->Update();
@@ -140,7 +141,7 @@ int main( int , char * argv[])
   //
   // \index{itk::ImageFileReader!GetOutput()}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ImageType::Pointer image = reader->GetOutput();
@@ -149,10 +150,10 @@ int main( int , char * argv[])
   // Software Guide : BeginLatex
   //
   // Any attempt to access image data before the reader executes will yield
-  // an image with no pixel data. It is likely that a program crash will 
+  // an image with no pixel data. It is likely that a program crash will
   // result since the image will not have been properly initialized.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   return 0;
 }

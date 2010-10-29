@@ -1,24 +1,25 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVectorGeometryTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 /**
- *  
+ *
  *  This program illustrates the use of Geometric objects
  *
  */
@@ -33,7 +34,7 @@
 //   Main code
 //
 //-------------------------
-int itkVectorGeometryTest(int, char* [] ) 
+int itkVectorGeometryTest(int, char* [] )
 {
 
   // Dimension & Type
@@ -56,7 +57,7 @@ int itkVectorGeometryTest(int, char* [] )
     }
   */
 
-  
+
 
   VectorType va;
   va[0] = 1.0;
@@ -67,7 +68,7 @@ int itkVectorGeometryTest(int, char* [] )
   std::cout << va << std::endl;
 
   VectorType vb;
-  
+
   vb[0] = 1.0;
   vb[1] = 3.0;
   vb[2] = 5.0;
@@ -160,7 +161,7 @@ int itkVectorGeometryTest(int, char* [] )
     VectorType vw;
     vw.Fill( 0 );
 
-    if( vv == vw ) 
+    if( vv == vw )
       {
       std::cout << std::endl;
       std::cout << "Problem with operator==() " << std::endl;
@@ -172,8 +173,8 @@ int itkVectorGeometryTest(int, char* [] )
 
     VectorType ww;
     ww = vv;
-    
-    if( vv != ww ) 
+
+    if( vv != ww )
     {
       std::cout << std::endl;
       std::cout << "Problem with operator!=() " << std::endl;
@@ -183,7 +184,7 @@ int itkVectorGeometryTest(int, char* [] )
       return EXIT_FAILURE;
     }
 
-    if( !( vv == ww ) ) 
+    if( !( vv == ww ) )
     {
       std::cout << std::endl;
       std::cout << "Problem with operator==() " << std::endl;
@@ -192,7 +193,7 @@ int itkVectorGeometryTest(int, char* [] )
       std::cout << "Vector " << ww << std::endl;
       return EXIT_FAILURE;
     }
-       
+
   }
 
   // Test for CastFrom() method
@@ -216,12 +217,12 @@ int itkVectorGeometryTest(int, char* [] )
   fp[2] = 0.0;
 
 
-  fp.CastFrom( dp ); 
+  fp.CastFrom( dp );
 
-  
+
   for(unsigned int i=0; i<N; i++)
     {
-    FloatVectorType::ValueType val = 
+    FloatVectorType::ValueType val =
         static_cast< FloatVectorType::ValueType >( dp[i] );
     if( vnl_math_abs( val - fp[i] ) > tolerance )
       {

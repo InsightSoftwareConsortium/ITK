@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageAdaptorNthElementTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -59,16 +60,16 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   typedef   itk::NthElementImageAdaptor< myContainerPixelImageType,
                                          myFloatPixelType >        myAdaptorType;
 
-  typedef itk::ImageRegionIteratorWithIndex< 
+  typedef itk::ImageRegionIteratorWithIndex<
                                    myFloatImageType > myFloatIteratorType;
 
 
-  typedef itk::ImageRegionIteratorWithIndex< 
+  typedef itk::ImageRegionIteratorWithIndex<
                          myContainerPixelImageType >   myContainerPixelIteratorType;
 
 
-  typedef itk::AddImageFilter< myAdaptorType, 
-                               myFloatImageType, 
+  typedef itk::AddImageFilter< myAdaptorType,
+                               myFloatImageType,
                                myFloatImageType >       myFilterType;
 
 
@@ -81,7 +82,7 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;    // Small size, because we are printing it
-  
+
   myIndexType start;
   start.Fill(0);
 
@@ -94,12 +95,12 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   spacing[0] = 1.0;
   spacing[1] = 1.0;
   spacing[2] = 1.0;
-  
+
   //-------------------------------------------------------------
   //                 Create and Initialize the RGBPixel image
   //-------------------------------------------------------------
 
-  myContainerPixelImageType::Pointer   myContainerPixelImage 
+  myContainerPixelImageType::Pointer   myContainerPixelImage
                                           = myContainerPixelImageType::New();
 
   myContainerPixelImage->SetLargestPossibleRegion( region );
@@ -108,7 +109,7 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   myContainerPixelImage->Allocate();
   myContainerPixelImage->SetSpacing( spacing );
 
-  myContainerPixelIteratorType it(  myContainerPixelImage, 
+  myContainerPixelIteratorType it(  myContainerPixelImage,
                             myContainerPixelImage->GetRequestedRegion() );
 
   myContainerPixelType initialPixelValue;
@@ -116,15 +117,15 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   initialPixelValue[ 1 ] = 11;
   initialPixelValue[ 2 ] = 17;
 
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
-    it.Set( initialPixelValue );  
+    it.Set( initialPixelValue );
     ++it;
   }
 
   std::cout << "Initial Container Image Values : " << std::endl;
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     myIndexType index = it.GetIndex();
     std::cout <<  "[";
@@ -139,13 +140,13 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     std::cout.width(4);
     std::cout <<  it.Get()[1] << ",";
     std::cout.width(4);
-    std::cout <<  it.Get()[2] << std::endl;  
+    std::cout <<  it.Get()[2] << std::endl;
     ++it;
   }
 
 
   std::cout << "Container Image Initializaed" << std::endl;
- 
+
   //-------------------------------------------------------------
   //                 Create and Initialize the Float image
   //-------------------------------------------------------------
@@ -162,15 +163,15 @@ int itkImageAdaptorNthElementTest(int, char* [] )
 
   myFloatPixelType initialFloatValue = 5.0;
 
-  while( !itf.IsAtEnd() ) 
+  while( !itf.IsAtEnd() )
   {
-    itf.Set( initialFloatValue );  
+    itf.Set( initialFloatValue );
     ++itf;
   }
 
   std::cout << "Initial Float Image Values : " << std::endl;
   itf.GoToBegin();
-  while( !itf.IsAtEnd() ) 
+  while( !itf.IsAtEnd() )
   {
     myIndexType index = itf.GetIndex();
     std::cout <<  "[";
@@ -181,7 +182,7 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout <<  itf.Get() << std::endl;  
+    std::cout <<  itf.Get() << std::endl;
     ++itf;
   }
 
@@ -228,25 +229,25 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   std::cout << "Calling filter Update" << std::endl;
 
 
- // Multiplex !!  
+ // Multiplex !!
   myAdaptor->SelectNthElement( 0 );
 
   filter->Update();
-  
+
   std::cout << "Filter Updated" << std::endl;
 
   //-------------------------------------------------------------
   //         Force the execution of the filter
   //-------------------------------------------------------------
-  
+
   myFloatOutputImage = filter->GetOutput();
-  
+
   myFloatIteratorType ito(  myFloatOutputImage, myFloatOutputImage->GetRequestedRegion() );
 
 
   std::cout << std::endl;
   std::cout << "Filter Output :" << std::endl;
-  while( !ito.IsAtEnd() ) 
+  while( !ito.IsAtEnd() )
   {
     myIndexType index = ito.GetIndex();
     std::cout <<  "[";
@@ -257,7 +258,7 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout <<  ito.Get() << std::endl;  
+    std::cout <<  ito.Get() << std::endl;
     ++ito;
   }
 
@@ -266,16 +267,16 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   //-------------------------------------------------------------
   //         Force the execution of the filter
   //-------------------------------------------------------------
-  // Second Multiplex !!  
+  // Second Multiplex !!
 
   myAdaptor->SelectNthElement( 1 );
 
-  filter->Update();  
-  
+  filter->Update();
+
   std::cout << std::endl;
   std::cout << "Second Filter Output :" << std::endl;
   ito = myFloatIteratorType(  myFloatOutputImage, myFloatOutputImage->GetRequestedRegion() );
-  while( !ito.IsAtEnd() ) 
+  while( !ito.IsAtEnd() )
   {
     myIndexType index = ito.GetIndex();
     std::cout <<  "[";
@@ -286,7 +287,7 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout <<  ito.Get() << std::endl;  
+    std::cout <<  ito.Get() << std::endl;
     ++ito;
   }
 
@@ -295,16 +296,16 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   //-------------------------------------------------------------
   //         Force the execution of the filter
   //-------------------------------------------------------------
-  // Third Multiplex !!  
+  // Third Multiplex !!
 
   myAdaptor->SelectNthElement( 2 );
 
-  filter->Update();  
+  filter->Update();
 
   std::cout << std::endl;
   std::cout << "Second Filter Output :" << std::endl;
   ito = myFloatIteratorType(  myFloatOutputImage, myFloatOutputImage->GetRequestedRegion() );
-  while( !ito.IsAtEnd() ) 
+  while( !ito.IsAtEnd() )
   {
     myIndexType index = ito.GetIndex();
     std::cout <<  "[";
@@ -315,7 +316,7 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout <<  ito.Get() << std::endl;  
+    std::cout <<  ito.Get() << std::endl;
     ++ito;
   }
 

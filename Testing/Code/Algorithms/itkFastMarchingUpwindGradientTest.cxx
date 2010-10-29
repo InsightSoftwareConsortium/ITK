@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFastMarchingUpwindGradientTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -58,7 +59,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
 //   marcher->AddObserver( itk::ProgressEvent(), command);
 
   itk::SimpleFilterWatcher MarcherWatcher( marcher );
-  
+
   typedef FloatFMType::NodeType NodeType;
   typedef FloatFMType::NodeContainer NodeContainer;
 
@@ -80,7 +81,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   index.Fill( 200 );
   node.SetIndex( index ); // this node is out of range
   alivePoints->InsertElement(1, node);
-  
+
   marcher->SetAlivePoints( alivePoints );
 
 
@@ -160,7 +161,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   FloatGradientImage::Pointer gradientOutput = marcher->GetGradientImage();
   itk::ImageRegionIterator<FloatGradientImage>
     iterator( gradientOutput, gradientOutput->GetBufferedRegion() );
- 
+
   bool passed = true;
 
   for ( ; !iterator.IsAtEnd(); ++iterator )
@@ -197,8 +198,8 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
       {
       dot += tempIndex[j] / distance * outputPixel[j];
       }
-     
-    if ( outputPixelNorm < 0.9999 || outputPixelNorm > 1.0001 || 
+
+    if ( outputPixelNorm < 0.9999 || outputPixelNorm > 1.0001 ||
          dot < 0.99 || dot > 1.01 )
       {
       std::cout << iterator.GetIndex() << " ";
@@ -206,7 +207,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
       std::cout << dot << std::endl;
       passed = false;
       }
-    
+
     }
 
 
@@ -236,7 +237,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
     {
     node.SetIndex( index + targetOffsets[i] );
     targetPoints->InsertElement(i, node);
-    }  
+    }
   marcher->SetTargetPoints( targetPoints );
 
   // Stop the algorithm when ONE of the targets has been reached.
@@ -263,7 +264,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
     passed = false;
     }
 
-  
+
   // Now stop the algorithm once ALL of the targets have been reached.
   marcher->SetTargetReachedModeToAllTargets();
   marcher->Update();

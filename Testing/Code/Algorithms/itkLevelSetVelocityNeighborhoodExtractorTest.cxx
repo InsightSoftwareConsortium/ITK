@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:    itkLevelSetVelocityNeighborhoodExtractorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -34,13 +35,13 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
 
   ImageType::SizeType size;
   size.Fill( 17 );
-  
+
   source->SetOutputSize( size );
 
   SourceType::NodeType node;
   ImageType::IndexType index;
   index.Fill( 8 );
-  
+
   node.SetIndex( index );
   node.SetValue( -4.0 );
 
@@ -52,7 +53,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
   source->SetTrialPoints( container );
   source->CollectPointsOn();
   source->Update();
-  
+
   typedef itk::LevelSetVelocityNeighborhoodExtractor<ImageType,AuxValueType,2> ExtractorType;
   ExtractorType::Pointer extractor = ExtractorType::New();
 
@@ -62,7 +63,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
 
   // create some dummy auxiliary variable images
   typedef ExtractorType::AuxImageType AuxImageType;
-  
+
   AuxImageType::Pointer aux0 = AuxImageType::New();
   aux0->SetRegions( source->GetOutput()->GetBufferedRegion() );
   aux0->Allocate();
@@ -99,7 +100,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
     std::cout << iter.Value().GetValue() << " ";
     std::cout << aIter.Value() << std::endl;
     }
-  
+
   std::cout << "Outside Points" << std::endl;
   iter     = extractor->GetOutsidePoints()->Begin();
   iterEnd  = extractor->GetOutsidePoints()->End();
@@ -120,7 +121,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
 
   // exercise error handling
   extractor->SetAuxImage( aux0, 2 );
-  
+
   if ( extractor->GetAuxImage( 2 ) )
     {
     std::cout << "Out of range index should return NULL pointer" << std::endl;

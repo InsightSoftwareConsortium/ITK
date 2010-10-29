@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageMomentsTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,14 +30,14 @@ typedef itk::ImageMomentsCalculator<ImageType> CalculatorType;
 typedef CalculatorType::AffineTransformType AffineTransformType;
 
 
-int 
+int
 itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
 {
     /* Define acceptable (absolute) error in computed results.
        All the calculations are done in double and are well-conditioned,
        so we should be able to get within a few epsilon of the right
        values.  So choose maxerr to be 10*epsilon for IEEE 754 double.
-       FIXME: For some reason as yet undetermined, the Intel compiler 
+       FIXME: For some reason as yet undetermined, the Intel compiler
        produces results that are off by 12*epsilon.  This is still
        reasonably close but might deserve investigation some day when all
        the worse problems have been fixed. */
@@ -93,14 +94,14 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     image->SetOrigin(origin);
     image->SetSpacing(spacing);
     image->Allocate();
-    
+
     image->FillBuffer( itk::NumericTraits<PixelType>::Zero );
 
     /* Set a few mass points within the image */
     /* FIXME: The method used here to set the points is klutzy,
        but appears to be the only method currently supported. */
     itk::Index<3> index;          /* Index over pixels */
-    for ( int i = 0; i < 6; i++) 
+    for ( int i = 0; i < 6; i++)
     {
       index.SetIndex(point[i]);
       image->SetPixel(index, mass);
@@ -174,17 +175,17 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     double pmerr = 0.0;             // Error in moments
     double paerr = 0.0;             // Error in axes
 
-    for ( int i = 0; i < 3; ++i) 
+    for ( int i = 0; i < 3; ++i)
     {
-      if ( vnl_math_abs(ccg[i] - tcg[i]) > cgerr ) 
+      if ( vnl_math_abs(ccg[i] - tcg[i]) > cgerr )
       {
         cgerr = vnl_math_abs(ccg[i] - tcg[i]);
       }
-      if ( vnl_math_abs(cpm[i] - tpm[i]) > pmerr ) 
+      if ( vnl_math_abs(cpm[i] - tpm[i]) > pmerr )
       {
         pmerr = vnl_math_abs(cpm[i] - tpm[i]);
       }
-      for (int j = 0; j < 3; ++j) 
+      for (int j = 0; j < 3; ++j)
       {
         if ( vnl_math_abs(cpa[i][j] - tpa[i][j]) > paerr)
         {
@@ -201,7 +202,7 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     std::cout << "   Transformations   = " << trerr << std::endl;
 
     /* Return error if differences are too large */
-    int stat = 
+    int stat =
         tmerr > maxerr || cgerr > maxerr ||
         pmerr > maxerr || paerr > maxerr ||
         trerr > maxerr;

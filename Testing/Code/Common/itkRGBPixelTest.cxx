@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRGBPixelTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 int itkRGBPixelTest(int, char* [] )
 {
   // Test it all
-  
+
   float val[3] = {1, 0, .5};
   itk::RGBPixel<float> pixel(val);
   unsigned char pixelInit0[3] = {255, 255, 255};
@@ -33,7 +34,7 @@ int itkRGBPixelTest(int, char* [] )
   itk::RGBPixel<unsigned char> pixelArray[2];
   pixelArray[0] = pixelInit0;
   pixelArray[1] = pixelInit1;
-  
+
   std::cout << "sizeof(pixel) = " << sizeof (pixel) << std::endl;
   if (sizeof(pixel) != 3 * sizeof(itk::RGBPixel<float>::ComponentType))
     {
@@ -56,18 +57,18 @@ int itkRGBPixelTest(int, char* [] )
   std::cout << "pixel.GetRed() = " << pixel.GetRed() << std::endl;
   std::cout << "pixel.GetGreen() = " << pixel.GetGreen() << std::endl;
   std::cout << "pixel.GetBlue() = " << pixel.GetBlue() << std::endl;
-  
+
   std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << std::endl;
-  
+
   pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
     }
-  
+
   std::cout << "std::cout << pixel << std::endl;" << std::endl;
   std::cout << "\t" << pixel << std::endl;
-  
+
   for (unsigned int j = 0; j < 2; j++)
     {
     std::cout << "pixelArray["<< j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents() << std::endl;
@@ -92,7 +93,7 @@ int itkRGBPixelTest(int, char* [] )
   pb[2] = 5.55;
 
   itk::RGBPixel< float > pc;
-  
+
   pc = pa + pb;
   std::cout << "addition = " << pc << std::endl;
 
@@ -108,7 +109,7 @@ int itkRGBPixelTest(int, char* [] )
   pc = pa * 3.2;
   std::cout << "product by scalar = " << pc << std::endl;
 
-  
+
   std::cout << "Test luminance conversion" << std::endl;
 
   itk::RGBPixel< float > rgbl;

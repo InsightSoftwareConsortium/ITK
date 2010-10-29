@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMImageMetricLoad.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMImageMetricLoad_h
 #define __itkFEMImageMetricLoad_h
 
@@ -36,7 +37,7 @@
 //#include <itkMeanReciprocalSquareDifferenceImageToImageMetric.h>
 
 
-namespace itk 
+namespace itk
 {
 namespace fem
 {
@@ -45,7 +46,7 @@ namespace fem
  * \class ImageMetricLoad
  * \brief General image pair load that uses the itkImageToImageMetrics.
  *
- * LoadImageMetric computes FEM gravity loads by using derivatives provided 
+ * LoadImageMetric computes FEM gravity loads by using derivatives provided
  * by itkImageToImageMetrics (e.g. mean squares intensity difference.)
  * The function responsible for this is called Fg, as required by the FEMLoad
  * standards.  It takes a vnl_vector as input.
@@ -55,16 +56,16 @@ namespace fem
  * elements contain the value of the vector field at that point, v(p).
  *
  * Then, we evaluate the derivative at the point p+v(p) with respect to
- * some region of the target (fixed) image by calling the metric with 
+ * some region of the target (fixed) image by calling the metric with
  * the translation parameters as provided by the vector field at p.
- * The metrics return both a scalar similarity value and vector-valued derivative.  
+ * The metrics return both a scalar similarity value and vector-valued derivative.
  * The derivative is what gives us the force to drive the FEM registration.
  * These values are computed with respect to some region in the Fixed image.
  * This region size may be set by the user by calling SetMetricRadius.
  * As the metric derivative computation evolves, performance should improve
  * and more functionality will be available (such as scale selection).
- */ 
-template<class TMoving,class TFixed> 
+ */
+template<class TMoving,class TFixed>
 class ImageMetricLoad : public LoadElement
 {
   FEM_CLASS(ImageMetricLoad,LoadElement)
@@ -84,21 +85,21 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       MovingType::ImageDimension);
 
-  typedef ImageRegionIteratorWithIndex<MovingType> RefRegionIteratorType; 
-  typedef ImageRegionIteratorWithIndex<FixedType>    TarRegionIteratorType; 
-  
+  typedef ImageRegionIteratorWithIndex<MovingType> RefRegionIteratorType;
+  typedef ImageRegionIteratorWithIndex<FixedType>    TarRegionIteratorType;
 
-  typedef NeighborhoodIterator<MovingType> 
-                                     MovingNeighborhoodIteratorType; 
-  typedef typename MovingNeighborhoodIteratorType::IndexType  
+
+  typedef NeighborhoodIterator<MovingType>
+                                     MovingNeighborhoodIteratorType;
+  typedef typename MovingNeighborhoodIteratorType::IndexType
                                      MovingNeighborhoodIndexType;
-  typedef typename MovingNeighborhoodIteratorType::RadiusType 
+  typedef typename MovingNeighborhoodIteratorType::RadiusType
                                      MovingRadiusType;
-  typedef NeighborhoodIterator<FixedType> 
-                                     FixedNeighborhoodIteratorType; 
-  typedef typename FixedNeighborhoodIteratorType::IndexType  
+  typedef NeighborhoodIterator<FixedType>
+                                     FixedNeighborhoodIteratorType;
+  typedef typename FixedNeighborhoodIteratorType::IndexType
                                      FixedNeighborhoodIndexType;
-  typedef typename FixedNeighborhoodIteratorType::RadiusType 
+  typedef typename FixedNeighborhoodIteratorType::RadiusType
                                      FixedRadiusType;
 
 
@@ -113,7 +114,7 @@ public:
   typedef   vnl_vector<Float>                             VectorType;
 
 // Necessary typedefs for dealing with images END
- 
+
 //------------------------------------------------------------
 // Set up the metrics
 //------------------------------------------------------------
@@ -150,7 +151,7 @@ public:
   typedef SmartPointer<GradientImageType>     GradientImagePointer;
   typedef GradientRecursiveGaussianImageFilter< ImageType,
                                                 GradientImageType >
-          GradientImageFilterType;  
+          GradientImageFilterType;
   //  typedef typename GradientImageFilterType::Pointer GradientImageFilterPointer;
 
 
@@ -159,42 +160,42 @@ public:
   /** Set/Get the Metric.  */
   void SetMetric(MetricBaseTypePointer MP)
     { m_Metric=MP; }
-  
+
  /** Define the reference (moving) image. */
   void SetMovingImage(MovingType* R)
-    { 
-    m_RefImage = R; 
+    {
+    m_RefImage = R;
     m_RefSize=m_RefImage->GetLargestPossibleRegion().GetSize();
     }
 
-  void SetMetricMovingImage(MovingType* R)  
-    { 
-    m_Metric->SetMovingImage( R ); 
-    m_RefSize=R->GetLargestPossibleRegion().GetSize(); 
+  void SetMetricMovingImage(MovingType* R)
+    {
+    m_Metric->SetMovingImage( R );
+    m_RefSize=R->GetLargestPossibleRegion().GetSize();
     }
 
-  /** Define the target (fixed) image. */ 
+  /** Define the target (fixed) image. */
   void SetFixedImage(FixedType* T)
-    { 
-    m_TarImage=T; 
-    m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
+    {
+    m_TarImage=T;
+    m_TarSize=T->GetLargestPossibleRegion().GetSize();
     }
-  void SetMetricFixedImage(FixedType* T)  
-    { 
+  void SetMetricFixedImage(FixedType* T)
+    {
     m_Metric->SetFixedImage( T );
-    m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
+    m_TarSize=T->GetLargestPossibleRegion().GetSize();
     }
 
   MovingPointer GetMovingImage()
     { return m_RefImage; }
   FixedPointer GetFixedImage() { return m_TarImage; }
 
-  /** Define the metric region size. */ 
-  void SetMetricRadius(MovingRadiusType T) {m_MetricRadius  = T; }   
-  /** Get the metric region size. */ 
+  /** Define the metric region size. */
+  void SetMetricRadius(MovingRadiusType T) {m_MetricRadius  = T; }
+  /** Get the metric region size. */
   MovingRadiusType GetMetricRadius() { return m_MetricRadius; }
-  
-  /** Set/Get methods for the number of integration points to use 
+
+  /** Set/Get methods for the number of integration points to use
    * in each 1-dimensional line integral when evaluating the load.
    * This value is passed to the load implementation.
    */
@@ -203,12 +204,12 @@ public:
   unsigned int GetNumberOfIntegrationPoints()
     { return m_NumberOfIntegrationPoints;}
 
-  /** Set the direction of the gradient (uphill or downhill). 
+  /** Set the direction of the gradient (uphill or downhill).
     * E.g. the mean squares metric should be minimized while NCC and PR should be maximized.
-    */ 
+    */
   void SetSign(Float s)
     {m_Sign=s;}
-  
+
   /** Set the sigma in a gaussian measure. */
   void SetTemp(Float s)
     {m_Temp=s;}
@@ -232,23 +233,23 @@ public:
 
   // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
   Float GetSolution(unsigned int i,unsigned int which=0)
-    {  
-    return m_Solution->GetSolutionValue(i,which); 
+    {
+    return m_Solution->GetSolutionValue(i,which);
     }
-  
-// define the copy constructor 
+
+// define the copy constructor
 //  ImageMetricLoad(const ImageMetricLoad& LMS);
 
   void InitializeMetric(void);
   ImageMetricLoad(); // cannot be private until we always use smart pointers
   Float EvaluateMetricGivenSolution ( Element::ArrayType* el, Float step=1.0);
- 
+
   /**
    * Compute the image based load - implemented with ITK metric derivatives.
    */
   VectorType Fe1(VectorType);
   VectorType Fe(VectorType,VectorType);
- 
+
   static Baseclass* NewImageMetricLoad(void)
     { return new ImageMetricLoad; }
 
@@ -274,7 +275,7 @@ private:
   GradientImageType*            m_MetricGradientImage;
   MovingPointer                 m_RefImage;
   FixedPointer                  m_TarImage;
-  MovingRadiusType              m_MetricRadius; /** used by the metric to set region size for fixed image*/ 
+  MovingRadiusType              m_MetricRadius; /** used by the metric to set region size for fixed image*/
   typename MovingType::SizeType m_RefSize;
   typename FixedType::SizeType  m_TarSize;
   unsigned int                  m_NumberOfIntegrationPoints;

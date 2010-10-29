@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement3DStrain.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMElement3DStrain_txx
 #define __itkFEMElement3DStrain_txx
 
@@ -48,9 +48,9 @@ void Element3DStrain<TBaseClass>
   // in right position in B matrix.
 
   for (unsigned int i=0; i<Nn; i++)
-    {  
+    {
     p = i / 3;
-    
+
     switch(i % 3)
       {
       case 0:  /** Columns 1, 4, 7, ..., 22 */
@@ -58,7 +58,7 @@ void Element3DStrain<TBaseClass>
         B[3][i] = shapeDgl[1][p];
         B[5][i] = shapeDgl[2][p];
         break;
-        
+
       case 1:  /** Columns 2, 5, 8, ..., 23 */
         B[1][i] = shapeDgl[1][p];
         B[3][i] = shapeDgl[0][p];
@@ -72,7 +72,7 @@ void Element3DStrain<TBaseClass>
         break;
       }
     }
-  
+
 }
 
 template<class TBaseClass>
@@ -85,7 +85,7 @@ Element3DStrain<TBaseClass>
 
   /* Material properties matrix */
   Float fac = (m_mat->h * m_mat->E) / ((1 + m_mat->nu) * (1 - 2 * m_mat->nu));
-    
+
   /** Set the elements in the top left quadrant */
   for (int j=0; j < 3; j++) {
   for (int k=0; k < 3; k++) {
@@ -127,7 +127,7 @@ Element3DStrain<TBaseClass>
      */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     m_mat=dynamic_cast<const MaterialLinearElasticity*>( &*mats->Find(n));
-    
+
     }
   catch ( FEMExceptionObjectNotFound e )
     {
@@ -139,11 +139,11 @@ Element3DStrain<TBaseClass>
     {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element3DStress::Read()");
     }
-  
+
 out:
 
   if( !f )
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element3DStrain::Read()","Error reading FEM element!");
     }
 }
@@ -168,7 +168,7 @@ Element3DStrain<TBaseClass>
 
   // check for errors
   if (!f)
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element3DStrain::Write()","Error writing FEM element!");
     }
 

@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBinaryImageToShapeLabelMapFilterTest1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -40,18 +40,18 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
     }
 
   const unsigned int dim = 2;
-  
+
   typedef itk::Image< unsigned char, dim > ImageType;
 
   typedef itk::ShapeLabelObject< unsigned char, dim > LabelObjectType;
   typedef itk::LabelMap< LabelObjectType >            LabelMapType;
- 
-  //reading image to file 
+
+  //reading image to file
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
- 
-  //converting binary image to shape label map 
+
+  //converting binary image to shape label map
   typedef itk::BinaryImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
   itk::SimpleFilterWatcher watcher1( i2l );
@@ -79,19 +79,19 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   int outputBackgroundValue = ( atoi(argv[5]) );
   i2l->SetOutputBackgroundValue( outputBackgroundValue );
   TEST_SET_GET_VALUE( outputBackgroundValue, i2l->GetOutputBackgroundValue() );
- 
+
   //testing get/set ComputeFeretDiameter macro
   bool computeFeretDiameter =  ( atoi(argv[6]) );
   i2l->SetComputeFeretDiameter( computeFeretDiameter );
   TEST_SET_GET_VALUE( computeFeretDiameter, i2l->GetComputeFeretDiameter() );
-  
+
   //testing boolean ComputeFeretDiameter macro
   i2l->ComputeFeretDiameterOff();
   TEST_SET_GET_VALUE( false, i2l->GetComputeFeretDiameter() );
 
   i2l->ComputeFeretDiameterOn();
   TEST_SET_GET_VALUE( true, i2l->GetComputeFeretDiameter() );
-    
+
   //testing get/set ComputePerimeter macro
   bool computePerimeter =  atoi(argv[7]);
   i2l->SetComputePerimeter( computePerimeter );

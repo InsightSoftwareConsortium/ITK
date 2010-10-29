@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWarpImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -40,7 +41,7 @@ public:
   typedef itk::Size<VDimension> SizeType;
   typedef float PixelType;
 
-  ImagePattern() 
+  ImagePattern()
     {
     offset = 0.0;
     for( int j = 0; j < VDimension; j++ )
@@ -70,10 +71,10 @@ public:
          else
            {
            accum = padValue;
-           break; 
-           }     
+           break;
+           }
       }
-            
+
     return accum;
       }
 
@@ -114,7 +115,7 @@ int itkWarpImageFilterTest(int, char* [] )
   ImageType::RegionType region;
   ImageType::SizeType size = {{64, 64}};
   region.SetSize( size );
-  
+
   ImageType::Pointer input = ImageType::New();
   input->SetLargestPossibleRegion( region );
   input->SetBufferedRegion( region );
@@ -158,7 +159,7 @@ int itkWarpImageFilterTest(int, char* [] )
   FieldType::Pointer field = FieldType::New();
   field->SetLargestPossibleRegion( fieldRegion );
   field->SetBufferedRegion( fieldRegion );
-  field->Allocate(); 
+  field->Allocate();
 
   typedef itk::ImageRegionIteratorWithIndex<FieldType> FieldIterator;
   FieldIterator fieldIter( field, fieldRegion );
@@ -210,12 +211,12 @@ int itkWarpImageFilterTest(int, char* [] )
   warper->SetOutputOrigin( array.GetDataPointer() );
   array.Fill( 0.0 );
   warper->SetOutputOrigin( array.GetDataPointer() );
- 
+
   // Update the filter
   warper->Update();
 
   //=============================================================
-  
+
   std::cout << "Checking the output against expected." << std::endl;
   Iterator outIter( warper->GetOutput(),
     warper->GetOutput()->GetBufferedRegion() );
@@ -226,7 +227,7 @@ int itkWarpImageFilterTest(int, char* [] )
 
   //Needed to deal with incompatibility of various IsInside()s &
   //nearest-neighbour type interpolation on half-band at perimeter of
-  //image. Evaluate() now has logic for this outer half-band.   
+  //image. Evaluate() now has logic for this outer half-band.
   ImageType::SizeType decrementForScaling;
   ImageType::SizeType clampSizeDecrement;
   ImageType::SizeType clampSize;
@@ -238,17 +239,17 @@ int itkWarpImageFilterTest(int, char* [] )
     //(0-63) map to (0,126), with 127 exactly at 1/2 pixel, therefore
     //edged out; or to (0,190), with 190 just beyond 189 by 1/3 pixel;
     //or to (0,253), with 254 exactly at 1/2 pixel, therefore out
-    //also; or (0, 317), with 317 at 2/5 pixel beyond 315. And so on. 
+    //also; or (0, 317), with 317 at 2/5 pixel beyond 315. And so on.
 
     decrementForScaling[j] =   factors[j] / 2 ;
 
     validSize[j] -= decrementForScaling[j];
-    
+
     //This part of logic determines what is inside, but in outer
     //1/2 pixel band, which has to be clamped to that nearest outer
     //pixel scaled by factor: (0,63) maps to (0,190) as inside, but
     //pixel 190 is outside of (0,189), and must be clamped to it.
-    //If factor is 2 or less, this decrement has no effect. 
+    //If factor is 2 or less, this decrement has no effect.
 
     if( factors[j] < 1+decrementForScaling[j])
       {
@@ -262,13 +263,13 @@ int itkWarpImageFilterTest(int, char* [] )
     }
 
   validRegion.SetSize( validSize );
-  
+
   // adjust the pattern coefficients to match
   for( j = 0; j < ImageDimension; j++ )
     {
     pattern.coeff[j] /= (double) factors[j];
     }
-    
+
   for( ; !outIter.IsAtEnd(); ++outIter )
     {
     ImageType::IndexType index = outIter.GetIndex();
@@ -277,7 +278,7 @@ int itkWarpImageFilterTest(int, char* [] )
 
     if( validRegion.IsInside( index ) )
       {
-         
+
     double trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, clampSize, padValue );
 
       if( vnl_math_abs( trueValue - value ) > 1e-4 )
@@ -290,7 +291,7 @@ int itkWarpImageFilterTest(int, char* [] )
       }
     else
       {
-      
+
       if( value != padValue )
         {
         testPassed = false;
@@ -345,7 +346,7 @@ int itkWarpImageFilterTest(int, char* [] )
     ++outIter;
     ++streamIter;
     }
-  
+
 
   if ( !testPassed )
     {
@@ -354,10 +355,10 @@ int itkWarpImageFilterTest(int, char* [] )
     }
 
   // Exercise error handling
-  
+
   typedef WarperType::InterpolatorType InterpolatorType;
   InterpolatorType::Pointer interp = warper->GetInterpolator();
- 
+
   try
     {
     std::cout << "Setting interpolator to NULL" << std::endl;

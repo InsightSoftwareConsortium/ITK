@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    EuclideanDistance.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -36,10 +37,10 @@
 // coordinate distance between two measurements (not vectors) ---
 // \code{Evaluate(measurement, measurement)}. The argument type of the
 // latter method is the type of the component of the measurement vector.
-// 
+//
 // We include the header files for the class and the \doxygen{Vector}.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
@@ -53,7 +54,7 @@
 // the Euclidean distance function. As a result, the measurement type
 // is \code{float}.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 int main(int, char*[])
 {
@@ -66,10 +67,10 @@ int main(int, char*[])
   // The instantiation of the function is done through the usual
   // \code{New()} method and a smart pointer.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
+  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType >
     DistanceMetricType;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
   // Software Guide : EndCodeSnippet
@@ -83,7 +84,7 @@ int main(int, char*[])
   // \code{itk::Vector< double, length of the measurement vector of the
   // each distance metric instance>}.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   // The Distance metric does not know about the length of the measurement vectors.
@@ -104,29 +105,29 @@ int main(int, char*[])
 
   queryPointB[0] = 3;
   queryPointB[1] = 3;
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
   //
   // In the following code snippet, we show the uses of the three different
-  // \code{Evaluate()} methods.  
+  // \code{Evaluate()} methods.
   //
-  // Software Guide : EndLatex 
-  
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   distanceMetric->SetOrigin( originPoint );
   std::cout << "Euclidean distance between the origin and the query point A = "
-            << distanceMetric->Evaluate( queryPointA ) 
+            << distanceMetric->Evaluate( queryPointA )
             << std::endl;
-  
-  std::cout << "Euclidean distance between the two query points (A and B) = " 
-            << distanceMetric->Evaluate( queryPointA, queryPointB ) 
+
+  std::cout << "Euclidean distance between the two query points (A and B) = "
+            << distanceMetric->Evaluate( queryPointA, queryPointB )
             << std::endl;
-  
-  std::cout << "Coordinate distance between " 
+
+  std::cout << "Coordinate distance between "
             << "the first components of the two query points = "
-            << distanceMetric->Evaluate( queryPointA[0], queryPointB[0] ) 
+            << distanceMetric->Evaluate( queryPointA[0], queryPointB[0] )
             << std::endl;
   // Software Guide : EndCodeSnippet
 

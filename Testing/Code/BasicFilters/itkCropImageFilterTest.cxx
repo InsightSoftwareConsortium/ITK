@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCropImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,13 +38,13 @@ int itkCropImageFilterTest(int, char* [] )
   SimpleImage::Pointer simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
             << simpleImage->GetSpacing()[1] << std::endl;
-  
+
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;
-  
+
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();
-  
+
   // fill in an image
   ShortImage::IndexType  index = {{0, 0}};
   ShortImage::SizeType   size = {{8, 12}};
@@ -54,9 +55,9 @@ int itkCropImageFilterTest(int, char* [] )
   if2->SetLargestPossibleRegion( region );
   if2->SetBufferedRegion( region );
   if2->Allocate();
-  
+
   itk::ImageRegionIterator<ShortImage> iterator(if2, region);
-  
+
   short i=0;
   for (; !iterator.IsAtEnd(); ++iterator, ++i)
     {
@@ -71,10 +72,10 @@ int itkCropImageFilterTest(int, char* [] )
   FilterWatcher watcher(extract);
 
   extract->SetInput( if2 );
-  
+
   ShortImage::RegionType requestedRegion;
-  
-  ShortImage::SizeType   extractSize = {{8, 12}};  
+
+  ShortImage::SizeType   extractSize = {{8, 12}};
   extractSize[0] = 1; extractSize[1] = 1;
   extract->SetBoundaryCropSize(extractSize);
   extract->SetUpperBoundaryCropSize(extractSize);
@@ -93,6 +94,6 @@ int itkCropImageFilterTest(int, char* [] )
     {
       return EXIT_FAILURE;
     }
-    
+
   return EXIT_SUCCESS;
 }

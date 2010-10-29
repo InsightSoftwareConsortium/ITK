@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGrayscaleFunctionDilateImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,10 +28,10 @@
 #include "itkFilterWatcher.h"
 #include "itkImageFileWriter.h"
 
-int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] ) 
+int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
 {
   unsigned int i;
-  
+
   // Define the dimension of the images
   const unsigned int myDimension = 2;
 
@@ -44,7 +45,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<myDimension>          mySizeType;
 
   // Declare the type of the Region
@@ -52,7 +53,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
 
   // Create an image
   myImageType::Pointer inputImage  = myImageType::New();
-  
+
   // Define their size, and start index
   mySizeType size;
   size[0] = 20;
@@ -70,7 +71,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   inputImage->SetRegions( region );
   inputImage->Allocate();
 
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIterator<myImageType>  myIteratorType;
 
   // Create one iterator for image (this is a light object)
@@ -116,11 +117,11 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
       std::cout << std::endl;
       }
     }
-  
+
   // Declare the type for the structuring element
   typedef itk::BinaryBallStructuringElement<unsigned short, myDimension>
     myKernelType;
-  
+
   // Declare the type for the morphology Filter
   typedef itk::GrayscaleFunctionDilateImageFilter<myImageType, myImageType, myKernelType>
     myFilterType;
@@ -136,12 +137,12 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   ballSize[1] = 4;
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
-  
+
   // Connect the input image
   filter->SetInput( inputImage );
   filter->SetKernel( ball );
-  
-  // Get the Smart Pointer to the Filter Output 
+
+  // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
 
 
@@ -152,15 +153,15 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
     filter->Update();
     // Create an iterator for going through the image output
     myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
-  
+
     //  Print the content of the result image
     std::cout << "Result " << std::endl;
     i=0;
-    while( !it2.IsAtEnd() ) 
+    while( !it2.IsAtEnd() )
       {
       std::cout << it2.Get() << "  ";
       ++it2;
-    
+
       if (++i % 20 == 0)
         {
         std::cout << std::endl;
@@ -184,7 +185,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
     writer->SetInput( filter->GetOutput() );
     writer->Update();
     }
-  
+
   return EXIT_SUCCESS;
 
 }

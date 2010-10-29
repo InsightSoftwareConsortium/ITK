@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // Test itk::ShapedFloodFilledImageFunctionConditionalConstIterator on a 2D
 // image using 4 connectivity.
 
@@ -25,7 +25,7 @@
 #include "itkShapedFloodFilledImageFunctionConditionalConstIterator.h"
 
 int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2( int, char * [] )
-{  
+{
   try
     {
     const unsigned int ImageDimension = 2;
@@ -39,23 +39,23 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2( int, char * 
     typedef itk::FloodFilledImageFunctionConditionalConstIterator<
       ImageType, FunctionType> FloodFilledIteratorType;
     typedef itk::ShapedFloodFilledImageFunctionConditionalConstIterator<
-      ImageType, FunctionType> ShapedFloodFilledIteratorType;  
-    
+      ImageType, FunctionType> ShapedFloodFilledIteratorType;
+
     std::vector<IndexType> seedList;
-    
+
     RegionType region;
     region.SetSize(0, 128);
     region.SetSize(1, 128);
     region.SetIndex(0, 0);
     region.SetIndex(1, 0);
-    
+
     ImageType::Pointer inputImage = ImageType::New();
     inputImage->SetRegions(region);
     inputImage->Allocate();
     inputImage->FillBuffer(0);
-    
+
     itk::ImageLinearIteratorWithIndex<ImageType> it( inputImage, region );
-    
+
     // make sure that we create a 4-connected image!
     for( unsigned int dir = 0; dir < ImageDimension; ++dir )
       {
@@ -70,18 +70,18 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2( int, char * 
             {
             seedList.push_back(it.GetIndex());
             }
-          
+
           it.Set(255);
           ++it;
           }
-        
-        // and jump over every 
+
+        // and jump over every
         it.NextLine();
         if (!it.IsAtEnd())
-          { 
+          {
           it.NextLine();
           }
-        if (!it.IsAtEnd()) 
+        if (!it.IsAtEnd())
           {
           it.NextLine();
           }
@@ -89,26 +89,26 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2( int, char * 
       }
 
     FunctionType::Pointer function = FunctionType::New();
-    
+
     function->SetInputImage ( inputImage );
-    function->ThresholdAbove ( 1 ); // >= 1  
-    
+    function->ThresholdAbove ( 1 ); // >= 1
+
     FloodFilledIteratorType floodIt(inputImage, function, seedList);
     ShapedFloodFilledIteratorType shapedFloodIt(inputImage, function, seedList);
-    
+
     shapedFloodIt.SetFullyConnected(false); // 4-connected, default
-    
-    for (unsigned short i = 1; !floodIt.IsAtEnd(); ++floodIt, 
+
+    for (unsigned short i = 1; !floodIt.IsAtEnd(); ++floodIt,
                                                    ++shapedFloodIt,
                                                    ++i)
       {
-      if (floodIt.GetIndex() != shapedFloodIt.GetIndex()) 
+      if (floodIt.GetIndex() != shapedFloodIt.GetIndex())
         {
         return EXIT_FAILURE;
         }
       }
-    
-    if (!floodIt.IsAtEnd() || !shapedFloodIt.IsAtEnd()) 
+
+    if (!floodIt.IsAtEnd() || !shapedFloodIt.IsAtEnd())
       {
       return EXIT_FAILURE;
       }

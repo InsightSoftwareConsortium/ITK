@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkInteriorExteriorMeshFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,14 +23,14 @@
 #include <itkMesh.h>
 #include <itkSphereSpatialFunction.h>
 
-int itkInteriorExteriorMeshFilterTest(int, char* [] ) 
+int itkInteriorExteriorMeshFilterTest(int, char* [] )
 {
 
   // Declare the mesh pixel type.
-  // Those are the values associated 
+  // Those are the values associated
   // with each mesh point. (not used on this filter test)
   typedef int PixelType;
-  
+
   // Declare the types of the Mesh
   // By default it is a 3D mesh using itk::Point<float,3>
   // on the vertices, and an itk::VectorContainter
@@ -40,7 +41,7 @@ int itkInteriorExteriorMeshFilterTest(int, char* [] )
   typedef MeshType::PointsContainer     PointsContainerType;
 
   // Declare the type for PointsContainerPointer
-  typedef MeshType::PointsContainerPointer     
+  typedef MeshType::PointsContainerPointer
                                         PointsContainerPointer;
   // Declare the type for Points
   typedef MeshType::PointType           PointType;
@@ -70,27 +71,27 @@ int itkInteriorExteriorMeshFilterTest(int, char* [] )
         }
       }
     }
-  
-  
+
+
   // Declare the function type
-  typedef itk::SphereSpatialFunction< 
+  typedef itk::SphereSpatialFunction<
                                 MeshType::PointDimension,
-                                MeshType::PointType >  
+                                MeshType::PointType >
                                             SpatialFunctionType;
-  
+
 
   // Declare the type for the filter
   typedef itk::InteriorExteriorMeshFilter<
                                 MeshType,
                                 MeshType,
                                 SpatialFunctionType  > FilterType;
-            
 
-  // Create a Filter                                
+
+  // Create a Filter
   FilterType::Pointer filter = FilterType::New();
-  
+
   // Create the Spatial Function
-  SpatialFunctionType::Pointer   spatialFunction = 
+  SpatialFunctionType::Pointer   spatialFunction =
                                       SpatialFunctionType::New();
 
   SpatialFunctionType::InputType center;
@@ -104,18 +105,18 @@ int itkInteriorExteriorMeshFilterTest(int, char* [] )
   spatialFunction->SetRadius( radius );
 
   // Connect the inputs
-  filter->SetInput( inputMesh ); 
-  filter->SetSpatialFunction( spatialFunction ); 
+  filter->SetInput( inputMesh );
+  filter->SetSpatialFunction( spatialFunction );
 
   // Execute the filter
   filter->Update();
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   MeshType::Pointer outputMesh = filter->GetOutput();
 
 
   // Get the the point container
-  MeshType::PointsContainerPointer  
+  MeshType::PointsContainerPointer
                   transformedPoints = outputMesh->GetPoints();
 
 
@@ -125,7 +126,7 @@ int itkInteriorExteriorMeshFilterTest(int, char* [] )
     PointType p = it.Value();
 
     const double distance = p.EuclideanDistanceTo( center );
-    if( distance > radius ) 
+    if( distance > radius )
       {
       std::cerr << "Point " << p << std::endl;
       std::cerr << " is at distance  " << distance << std::endl;
@@ -136,7 +137,7 @@ int itkInteriorExteriorMeshFilterTest(int, char* [] )
       }
     ++it;
     }
-  
+
   // All objects shall be automatically destroyed at this point
 
   std::cout << "Test passed ! " << std::endl;

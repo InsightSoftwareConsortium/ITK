@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkScalarToRGBPixelFunctorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 int itkScalarToRGBPixelFunctorTest(int, char* [] )
 {
   itk::RGBPixel<unsigned char> pixel;
-  
+
   // Test with unsigned long.
   itk::Functor::ScalarToRGBPixelFunctor<unsigned long> ulf;
 
@@ -42,7 +43,7 @@ int itkScalarToRGBPixelFunctorTest(int, char* [] )
     }
   std::cout << "Testing unsigned long integers in little endian mode"
             << std::endl;
-  
+
   ulf.SetLittleEndian();
   for (ul = 0; ul < 100; ++ul)
     {
@@ -51,7 +52,7 @@ int itkScalarToRGBPixelFunctorTest(int, char* [] )
                 << static_cast<int>(pixel[1]) << " " << static_cast<int>(pixel[2])
                 << std::endl;
     }
-  
+
   // Test with unsigned char.
   itk::Functor::ScalarToRGBPixelFunctor<unsigned char> ucf;
 
@@ -72,14 +73,14 @@ int itkScalarToRGBPixelFunctorTest(int, char* [] )
   for (f = 0; f < 100; ++f)
     {
       pixel = ff(f);
-      
+
       std::cout << f << "->" << static_cast<int>(pixel[0]) << " "
                 << static_cast<int>(pixel[1]) << " " << static_cast<int>(pixel[2])
                 << std::endl;
     }
   std::cout << "Testing float in little endian mode"
             << std::endl;
-  
+
   ff.SetLittleEndian();
   for (f = 0; f < 100; ++f)
     {

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWatershedImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,18 +32,18 @@ int itkWatershedImageFilterTest(int, char* [] )
 {
   typedef itk::Image<float, 2> ImageType2D;
   typedef itk::Image<unsigned long, 2> LongImageType2D;
-  
+
   println("Creating some images");
   itk::ImageRegion<2> Region2D;
-  
+
   itk::Size<2>  size2D;
    size2D[0] = 314;
    size2D[1] = 314;
-  
+
   itk::Index<2> orig2D;
    orig2D[0] = 0;
    orig2D[1] = 0;
-   
+
   Region2D.SetSize(size2D);
   Region2D.SetIndex(orig2D);
 
@@ -56,9 +57,9 @@ int itkWatershedImageFilterTest(int, char* [] )
    longimage2D->SetRegions(Region2D);
    longimage2D->Allocate();
    longimage2D->FillBuffer(0);
-  
+
  itk::ImageRegionIterator<ImageType2D>
-     it2D(image2D, image2D->GetRequestedRegion());  
+     it2D(image2D, image2D->GetRequestedRegion());
   println("Initializing an image");
   float q = 0.00f;
   for (; !it2D.IsAtEnd(); ++it2D)
@@ -68,7 +69,7 @@ int itkWatershedImageFilterTest(int, char* [] )
     }
 
 
-  println("Testing various associated objects");  
+  println("Testing various associated objects");
   println("Testing EquivalenceRelabeler");
   itk::EquivalencyTable::Pointer t= itk::EquivalencyTable::New();
 
@@ -91,7 +92,7 @@ int itkWatershedImageFilterTest(int, char* [] )
   const itk::ProcessObject *constp = eq.GetPointer();
   wmppc->Execute(constp, itk::ProgressEvent());
   wmppc->Execute(eq.GetPointer(), itk::ProgressEvent());
-  
+
 
   println("Testing watershed::BoundaryResolver");
   itk::watershed::BoundaryResolver<float, 2>::Pointer br
@@ -100,9 +101,9 @@ int itkWatershedImageFilterTest(int, char* [] )
     = itk::watershed::Boundary<float, 1>::New();
   itk::watershed::Boundary<float, 1>::Pointer boundaryB
     = itk::watershed::Boundary<float, 1>::New();
-  
 
-  
+
+
   println("Creating the watershed filter");
   itk::WatershedImageFilter<ImageType2D>::Pointer ws_filter =
                   itk::WatershedImageFilter<ImageType2D>::New();

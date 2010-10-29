@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageCompare.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -71,7 +72,7 @@ int main(int argc, char **argv)
       {
       RegressionTestImage(argv[1], argv[bestBaseline], 1, true);
       }
-    
+
     }
   catch(itk::ExceptionObject& e)
     {
@@ -135,7 +136,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     baselineSize = baselineReader->GetOutput()->GetLargestPossibleRegion().GetSize();
   ImageType::SizeType testSize;
     testSize = testReader->GetOutput()->GetLargestPossibleRegion().GetSize();
-  
+
   if (baselineSize != testSize)
     {
     std::cerr << "The size of the Baseline image and Test image do not match!" << std::endl;
@@ -156,7 +157,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 
   double status = diff->GetTotalDifference();
 
-  
+
   if (reportErrors)
     {
     typedef itk::RescaleIntensityImageFilter<ImageType,OutputType>    RescaleType;
@@ -176,7 +177,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 
     RegionType region;
     region.SetIndex(index);
-    
+
     size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
     for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
       {

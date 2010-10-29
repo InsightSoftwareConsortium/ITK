@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageHistogram4.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -49,7 +50,7 @@
 // \index{itk::RGBPixel!header}
 // \index{itk::RGBPixel!Statistics}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -78,7 +79,7 @@ int main( int argc, char * argv [] )
 // We declare now the type used for the components of the RGB pixel,
 // instantiate the type of the RGBPixel and instantiate the image type.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef unsigned char                         PixelComponentType;
@@ -119,14 +120,14 @@ int main( int argc, char * argv [] )
 // that type for constructing an instance of the generator by invoking its
 // \code{New()} method and assigning the result to a smart pointer.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ImageToHistogramGenerator< 
+  typedef itk::Statistics::ImageToHistogramGenerator<
                                  RGBImageType >   HistogramGeneratorType;
-  
-  HistogramGeneratorType::Pointer histogramGenerator = 
+
+  HistogramGeneratorType::Pointer histogramGenerator =
                                            HistogramGeneratorType::New();
 // Software Guide : EndCodeSnippet
 
@@ -141,7 +142,7 @@ int main( int argc, char * argv [] )
 // \code{size} variable. We set in this variable the number of bins to use for
 // each component of the color image.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::SizeType   SizeType;
@@ -157,7 +158,7 @@ int main( int argc, char * argv [] )
 
 
 
-  
+
 
 // Software Guide : BeginLatex
 //
@@ -165,7 +166,7 @@ int main( int argc, char * argv [] )
 // reader. Of course, the output of any filter producing an RGB image could
 // have been used instead of a reader.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->SetInput(  reader->GetOutput()  );
@@ -179,7 +180,7 @@ int main( int argc, char * argv [] )
 // The marginal scale is defined in the histogram generator. This value will
 // define the precision in the assignment of values to the histogram bins.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->SetMarginalScale( 10.0 );
@@ -197,7 +198,7 @@ int main( int argc, char * argv [] )
 // pipeline objects. It is therefore your responsibility to make sure that you
 // update the filter that provides the input image to the generator.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->Compute();
@@ -214,7 +215,7 @@ int main( int argc, char * argv [] )
 // variable that is instantiated using the \code{HistogramType} trait of the
 // generator type.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::HistogramType  HistogramType;
@@ -230,7 +231,7 @@ int main( int argc, char * argv [] )
 // We can verify that the computed histogram has the requested size by invoking
 // its \code{Size()} method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const unsigned int histogramSize = histogram->Size();
@@ -244,13 +245,13 @@ int main( int argc, char * argv [] )
 // The values of the histogram can now be saved into a file by walking through
 // all of the histogram bins and pushing them into a std::ofstream.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
   std::ofstream histogramFile;
   histogramFile.open( argv[2] );
-  
+
   HistogramType::ConstIterator itr = histogram->Begin();
   HistogramType::ConstIterator end = histogram->End();
 
@@ -276,13 +277,13 @@ int main( int argc, char * argv [] )
 // histogram in a display that would be equivalent to a scatter plot of the RGB
 // components of the input color image.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
- 
+
   return 0;
-  
-  
+
+
 }
 
 

@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadEdge.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -25,7 +25,7 @@
 namespace itk {
 namespace fem {
 
-/** 
+/**
  * Read the Load object from input stream
  */
 void LoadEdge::Read( std::istream& f, void* info )
@@ -66,7 +66,7 @@ void LoadEdge::Read( std::istream& f, void* info )
 /**
  * Write the Load object to the output stream
  */
-void LoadEdge::Write( std::ostream& f ) const 
+void LoadEdge::Write( std::ostream& f ) const
 {
   /** first call the parent's write function */
   Superclass::Write(f);
@@ -92,7 +92,7 @@ void LoadEdge::Write( std::ostream& f ) const
 
   /** check for errors */
   if (!f)
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadBCMFC::Write()","Error writing FEM load!");
     }
 

@@ -1,21 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCovariantVectorGeometryTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 /**
- *  
+ *
  *  This program illustrates the use of Geometric objects
  *
  */
@@ -42,7 +43,7 @@
 //   Main code
 //
 //-------------------------
-int itkCovariantVectorGeometryTest(int, char* [] ) 
+int itkCovariantVectorGeometryTest(int, char* [] )
 {
 
   VectorType va;
@@ -54,7 +55,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   std::cout << va << std::endl;
 
   VectorType vb;
-  
+
   vb[0] = 1.0;
   vb[1] = 3.0;
   vb[2] = 5.0;
@@ -157,19 +158,19 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   fp[1] = 0.0;
   fp[2] = 0.0;
 
-  
-  fp.CastFrom( dp ); 
+
+  fp.CastFrom( dp );
 
   std::cout << std::endl;
   for(unsigned int i=0; i<N; i++)
     {
-    FloatCovariantVectorType::ValueType val = 
+    FloatCovariantVectorType::ValueType val =
         static_cast< FloatCovariantVectorType::ValueType >( dp[i] );
 
 //   std::cout << val   << std::endl;
 //   std::cout << fp[i] << std::endl;
 
-    const float diff = vnl_math_abs( val - fp[i] ); 
+    const float diff = vnl_math_abs( val - fp[i] );
     std::cout << "difference = " << diff << std::endl;
     if( vnl_math_abs ( val - fp[i] ) > tolerance )
       {
@@ -187,7 +188,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   {
     typedef itk::Vector<double, 3>           ContravariantVectorType;
     typedef itk::CovariantVector<double, 3>  CovariantVectorType;
-    
+
     ContravariantVectorType vaa;
     ContravariantVectorType vbb;
 
@@ -202,13 +203,13 @@ int itkCovariantVectorGeometryTest(int, char* [] )
     CovariantVectorType normal;
 
     itk::CrossProduct( normal, vaa, vbb );
-    
+
     CovariantVectorType expectedNormal;
 
     expectedNormal[0] = 0.0;
     expectedNormal[1] = 0.0;
     expectedNormal[2] = 1.0;
-    
+
     const double tolerance = 1e-7;
 
     if( vcl_fabs( normal[0] - expectedNormal[0] ) > tolerance ||
@@ -218,7 +219,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
       std::cerr << "Error in CrossProduct computation." << std::endl;
       return EXIT_FAILURE;
       }
-       
+
   }
 
   return EXIT_SUCCESS;

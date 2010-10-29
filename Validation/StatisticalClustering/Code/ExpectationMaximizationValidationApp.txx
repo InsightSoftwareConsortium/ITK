@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ExpectationMaximizationValidationApp.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __ExpectationMaximizationValidationApp_txx
 #define __ExpectationMaximizationValidationApp_txx
 
@@ -32,7 +33,7 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 }
 
 template< class TPixel, unsigned int VMeasurementVectorSize >
-void 
+void
 ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 ::GenerateSample()
 {
@@ -57,7 +58,7 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 }
 
 template< class TPixel, unsigned int VMeasurementVectorSize >
-void 
+void
 ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 ::PrepareInputParameterFilter()
 {
@@ -78,7 +79,7 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 }
 
 template< class TPixel, unsigned int VMeasurementVectorSize >
-void 
+void
 ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 ::PrepareOutputParameterTableHeader()
 {
@@ -109,15 +110,15 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
   m_OutputHeader.push_back("time estimation") ;
   m_OutputHeader.push_back("time total") ;
 
-} 
+}
 
 template< class TPixel, unsigned int VMeasurementVectorSize >
 void
 ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 ::StartClustering(ParametersType& params)
 {
-  unsigned int numberOfParametersPerClass = 
-    VMeasurementVectorSize + 
+  unsigned int numberOfParametersPerClass =
+    VMeasurementVectorSize +
     VMeasurementVectorSize * VMeasurementVectorSize ;
 
   ParametersType tempParams((numberOfParametersPerClass + 1) * m_NumberOfClasses) ;
@@ -137,7 +138,7 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 
   m_ClusteringMethod.SetMaximumIteration(m_MaximumIteration) ;
   m_ClusteringMethod.SetInitialParameters(tempParams) ;
- 
+
   m_ClusteringMethod.Run() ;
   m_EstimatedParameters =  m_ClusteringMethod.GetEstimatedParameters() ;
   m_ClusterLabels = m_ClusteringMethod.GetClusterLabels() ;
@@ -146,13 +147,13 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 template< class TPixel, unsigned int VMeasurementVectorSize >
 void
 ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
-::MapClusterToClass() 
+::MapClusterToClass()
 {
   VectorType x ;
   double temp, minDistance ;
   unsigned int paramIndex = 0 ;
-  unsigned int numberOfParametersPerClass = 
-    VMeasurementVectorSize + 
+  unsigned int numberOfParametersPerClass =
+    VMeasurementVectorSize +
     VMeasurementVectorSize * VMeasurementVectorSize + 1 ;
 
   ParametersType tempParameters = m_EstimatedParameters ;
@@ -167,10 +168,10 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
           ++paramIndex ;
         }
       paramIndex += numberOfParametersPerClass - VMeasurementVectorSize ;
-      
+
       for ( unsigned int j = 0 ; j < m_NumberOfClasses ; j++ )
         {
-          temp = m_DistanceMetric->Evaluate(m_SampleGenerator.GetClassMean(m_ClassLabels[j]), 
+          temp = m_DistanceMetric->Evaluate(m_SampleGenerator.GetClassMean(m_ClassLabels[j]),
                                   x) ;
           if ( temp < minDistance )
             {
@@ -178,17 +179,17 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
               minDistance = temp ;
               classLabelIndex = j ;
             }
-          
+
         }
-      
+
       m_ClusterMap[i] = m_ClassLabels[classLabelIndex] ;
     }
-  
+
 //   for (unsigned int k = 0 ; k < numberOfParametersPerClass ; k++ )
 //     {
 //       //           std::cout << "DEBUG: i begins at " << numberOfParametersPerClass*i
 //       //                     << " j begins at " << numberOfParametersPerClass * classLabelIndex <<std::endl ;
-//       tempParameters[numberOfParametersPerClass * i + k] = 
+//       tempParameters[numberOfParametersPerClass * i + k] =
 //         m_EstimatedParameters[numberOfParametersPerClass * classLabelIndex + k] ;
 //     }
 
@@ -196,12 +197,12 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 }
 
 template< class TPixel, unsigned int VMeasurementVectorSize >
-void 
+void
 ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
 ::PutResult(unsigned int caseNo)
 {
-  unsigned int numberOfParametersPerClass = 
-    VMeasurementVectorSize + 
+  unsigned int numberOfParametersPerClass =
+    VMeasurementVectorSize +
     VMeasurementVectorSize * VMeasurementVectorSize + 1 ;
 
   ParameterTable::ParametersType tempOutputParams(m_OutputParameterTable.GetHeaderSize()) ;
@@ -222,23 +223,23 @@ ExpectationMaximizationValidationApp< TPixel, VMeasurementVectorSize >
           ++outputParamIndex ;
           ++paramIndex ;
         }
-      
+
       for ( i = 0 ; i < m_NumberOfClasses ; i++)
         {
-          tempOutputParams[outputParamIndex] = 
+          tempOutputParams[outputParamIndex] =
             (m_Evaluator.GetComposition(classLabel))[i] ;
           ++outputParamIndex ;
         }
       tempOutputParams[outputParamIndex] = m_ClusteringMethod.GetLastIteration() ;
       ++outputParamIndex ;
-      
+
       tempOutputParams[outputParamIndex] = m_ClusteringMethod.GetEstimationElapsedTime() ;
       ++outputParamIndex ;
-      
+
       tempOutputParams[outputParamIndex] = m_ClusteringMethod.GetTotalElapsedTime() ;
       ++outputParamIndex ;
-      
-      m_OutputParameterTable.SetParameters(caseNo, classLabel, tempOutputParams) ; 
+
+      m_OutputParameterTable.SetParameters(caseNo, classLabel, tempOutputParams) ;
     }
 }
 

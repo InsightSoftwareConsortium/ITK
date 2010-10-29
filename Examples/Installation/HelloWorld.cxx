@@ -1,10 +1,27 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 //  Software Guide : BeginLatex
 //
 //  The following code is an implementation of a small Insight
 //  program. It tests including header files and linking with ITK
 //  libraries.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
@@ -33,6 +50,6 @@ int main()
 //  information).  The \doxygen{Image} class will be described in
 //  Section~\ref{sec:ImageSection}.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
