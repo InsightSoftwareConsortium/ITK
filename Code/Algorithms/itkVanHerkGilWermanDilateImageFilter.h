@@ -51,24 +51,19 @@ public:
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
+  typedef typename TImage::PixelType PixelType;
+
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  virtual ~VanHerkGilWermanDilateImageFilter() {}
 protected:
-
-  typedef typename TImage::PixelType PixelType;
 
   VanHerkGilWermanDilateImageFilter()
   {
     this->m_Boundary = NumericTraits< PixelType >::NonpositiveMin();
   }
-
-  void PrintSelf(std::ostream & os, Indent indent) const
-  {
-    os << indent << "VanHerkGilWerman erosion: " << std::endl;
-  }
+  virtual ~VanHerkGilWermanDilateImageFilter() {}
 
 private:
 

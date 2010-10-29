@@ -39,18 +39,13 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  virtual ~AnchorCloseImageFilter() {}
 protected:
   AnchorCloseImageFilter()
   {
     this->m_Boundary1 = NumericTraits< ITK_TYPENAME TImage::PixelType >::NonpositiveMin();
     this->m_Boundary2 = NumericTraits< ITK_TYPENAME TImage::PixelType >::max();
   }
-
-  void PrintSelf(std::ostream & os, Indent indent) const
-  {
-    os << indent << "Anchor closing: " << std::endl;
-  }
+  virtual ~AnchorCloseImageFilter() {}
 
 private:
 
