@@ -259,7 +259,7 @@ ColorTable< TPixel >
     {
       r = static_cast< TPixel >( vnl_sample_uniform( minimum, maximum));
     m_Color[i][0] = r;
-    g = static_cast< TPixel >( vnl_sample_uniform( minimum, maximum));;
+    g = static_cast< TPixel >( vnl_sample_uniform( minimum, maximum));
     m_Color[i][1] = g;
     b = static_cast< TPixel >( vnl_sample_uniform( minimum, maximum));
     m_Color[i][2] = b;
