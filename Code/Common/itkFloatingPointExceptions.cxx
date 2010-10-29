@@ -353,7 +353,7 @@ void FloatingPointExceptions
   _controlfp(_EM_DENORMAL | _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
 }
 
-FloatingPointExceptions
+void FloatingPointExceptions
 ::Disable()
 {
   // disable floating point exceptions on MSVC

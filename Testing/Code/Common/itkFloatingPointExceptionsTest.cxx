@@ -43,7 +43,7 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     {
     force_zero_denom = 1.0;
     test1 = 1.0;
-    force_int_zero = 1.0;
+    force_int_zero = 1;
     }
 
   std::string testName(argv[1]);
