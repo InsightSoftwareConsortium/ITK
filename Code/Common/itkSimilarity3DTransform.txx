@@ -27,24 +27,40 @@ namespace itk
 template< class TScalarType >
 Similarity3DTransform< TScalarType >
 ::Similarity3DTransform():
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(OutputSpaceDimension, ParametersDimension),
+  m_Scale(1.0)
 {
-  m_Scale = 1.0;
 }
 
 // Constructor with arguments
 template< class TScalarType >
-Similarity3DTransform< TScalarType >::Similarity3DTransform(unsigned int outputSpaceDim,
-                                                            unsigned int paramDim):
-  Superclass(outputSpaceDim, paramDim)
-{}
+Similarity3DTransform<TScalarType >
+::Similarity3DTransform(unsigned int outputSpaceDim,
+                        unsigned int paramDim):
+  Superclass(outputSpaceDim, paramDim),
+  m_Scale(1.0)
+{
+}
 
 // Constructor with arguments
 template< class TScalarType >
-Similarity3DTransform< TScalarType >::Similarity3DTransform(const MatrixType & matrix,
-                                                            const OutputVectorType & offset):
-  Superclass(matrix, offset)
-{}
+Similarity3DTransform< TScalarType >
+::Similarity3DTransform(const MatrixType & matrix,
+                      const OutputVectorType & offset):
+  Superclass(matrix, offset),
+  m_Scale(1.0)
+{
+}
+
+/// Set the parameters to the IdentityTransform
+template< class TScalarType >
+void
+Similarity3DTransform< TScalarType >
+::SetIdentity(void)
+{
+  this->Superclass::SetIdentity();
+  this->m_Scale = 1.0;
+}
 
 // Set the scale factor
 template< class TScalarType >
@@ -190,7 +206,8 @@ Similarity3DTransform< TScalarType >
 // Set parameters
 template< class TScalarType >
 const typename Similarity3DTransform< TScalarType >::JacobianType &
-Similarity3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
+Similarity3DTransform< TScalarType >::
+GetJacobian(const InputPointType & p) const
 {
   typedef typename VersorType::ValueType ValueType;
 
@@ -293,7 +310,8 @@ Similarity3DTransform< TScalarType >
 // Print self
 template< class TScalarType >
 void
-Similarity3DTransform< TScalarType >::PrintSelf(std::ostream & os, Indent indent) const
+Similarity3DTransform< TScalarType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Scale = " << m_Scale << std::endl;
