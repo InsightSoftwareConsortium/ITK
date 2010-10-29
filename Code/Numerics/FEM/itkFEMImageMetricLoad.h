@@ -86,7 +86,7 @@ public:
                       MovingType::ImageDimension);
 
   typedef ImageRegionIteratorWithIndex<MovingType> RefRegionIteratorType;
-  typedef ImageRegionIteratorWithIndex<FixedType>    TarRegionIteratorType;
+  typedef ImageRegionIteratorWithIndex<FixedType>  TarRegionIteratorType;
 
 
   typedef NeighborhoodIterator<MovingType>

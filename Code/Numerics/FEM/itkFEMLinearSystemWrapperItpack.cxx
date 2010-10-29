@@ -895,8 +895,6 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack(void)
     delete m_Solutions;
     }
 
-
-
 }
 
 
