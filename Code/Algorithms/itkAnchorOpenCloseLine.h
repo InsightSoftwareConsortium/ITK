@@ -30,8 +30,7 @@ namespace itk
  * methods. This is the base class that must be instantiated with
  * appropriate definitions of greater, less and so on
  */
-template< class TInputPix, class THistogramCompare,
-          class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 class ITK_EXPORT AnchorOpenCloseLine
 {
 public:
@@ -56,12 +55,10 @@ public:
 
 private:
   unsigned int m_Size;
-  TFunction1   m_TF1;
-  TFunction2   m_TF2;
 
-  typedef MorphologyHistogram< InputImagePixelType >                       Histogram;
-  typedef MorphologyHistogramVec< InputImagePixelType, THistogramCompare > VHistogram;
-  typedef MorphologyHistogramMap< InputImagePixelType, THistogramCompare > MHistogram;
+  typedef MorphologyHistogram< InputImagePixelType >              Histogram;
+  typedef MorphologyHistogramVec< InputImagePixelType, TCompare > VHistogram;
+  typedef MorphologyHistogramMap< InputImagePixelType, TCompare > MHistogram;
 
   bool StartLine(std::vector<InputImagePixelType> & buffer,
                  InputImagePixelType & Extreme,
@@ -87,6 +84,19 @@ private:
   }
 
   Histogram *m_Histo;
+
+  inline bool Compare1( const InputImagePixelType & a, const InputImagePixelType & b )
+    {
+    TCompare compare;
+    return ! compare( a, b );
+    }
+
+  inline bool Compare2( const InputImagePixelType & a, const InputImagePixelType & b )
+    {
+    TCompare compare;
+    return compare( a, b ) || a == b;
+    }
+
 }; // end of class
 } // end namespace itk
 

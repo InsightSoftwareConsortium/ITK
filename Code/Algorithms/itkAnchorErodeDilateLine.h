@@ -31,7 +31,7 @@ namespace itk
  * same data structures. Hopefully these sections occupy a very minor
  * proportion of the time.
  */
-template< class TInputPix, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 class ITK_EXPORT AnchorErodeDilateLine
 {
 public:
@@ -56,14 +56,10 @@ public:
 
 private:
   unsigned int m_Size;
-  TFunction1   m_TF1;
-  TFunction2   m_TF2;
 
-  bool m_UseVec;
-
-  typedef MorphologyHistogram< InputImagePixelType >                Histogram;
-  typedef MorphologyHistogramVec< InputImagePixelType, TFunction1 > VHistogram;
-  typedef MorphologyHistogramMap< InputImagePixelType, TFunction1 > MHistogram;
+  typedef MorphologyHistogram< InputImagePixelType >              Histogram;
+  typedef MorphologyHistogramVec< InputImagePixelType, TCompare > VHistogram;
+  typedef MorphologyHistogramMap< InputImagePixelType, TCompare > MHistogram;
 
   bool StartLine(std::vector<TInputPix> & buffer,
                  std::vector<TInputPix> & inbuffer,
@@ -96,6 +92,18 @@ private:
            || typeid( InputImagePixelType ) == typeid( signed short )
            || typeid( InputImagePixelType ) == typeid( bool );
   }
+
+  inline bool StrictCompare( const InputImagePixelType & a, const InputImagePixelType & b )
+    {
+    TCompare compare;
+    return compare( a, b );
+    }
+
+  inline bool Compare( const InputImagePixelType & a, const InputImagePixelType & b )
+    {
+    TCompare compare;
+    return compare( a, b ) || a == b;
+    }
 
   Histogram *m_Histo;
 }; // end of class

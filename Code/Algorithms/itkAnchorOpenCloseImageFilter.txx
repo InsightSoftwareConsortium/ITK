@@ -25,16 +25,16 @@
 #include <itkImageRegionIterator.h>
 namespace itk
 {
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::AnchorOpenCloseImageFilter()
 {
   m_KernelSet = false;
 }
 
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 void
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
                        int threadId)
 {
@@ -182,9 +182,9 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
 
 }
 
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 void
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::DoFaceOpen(InputImageConstPointer input,
              InputImagePointer output,
              InputImagePixelType border,
@@ -239,17 +239,17 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
     }
 }
 
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 void
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 void
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method

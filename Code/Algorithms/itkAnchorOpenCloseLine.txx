@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
-AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
+template< class TInputPix, class TCompare >
+AnchorOpenCloseLine< TInputPix, TCompare >
 ::AnchorOpenCloseLine()
 {
   m_Size = 2;
@@ -37,9 +37,9 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
     }
 }
 
-template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 void
-AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
+AnchorOpenCloseLine< TInputPix, TCompare >
 ::DoLine(std::vector<InputImagePixelType> & buffer, unsigned bufflength)
 {
   // TFunction1 will be >= for openings
@@ -58,7 +58,7 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
     InputImagePixelType Extreme = buffer[0];
     for ( unsigned i = 0; i < bufflength; i++ )
       {
-      if ( m_TF1(Extreme, buffer[i]) )
+      if ( Compare1(Extreme, buffer[i]) )
         {
         Extreme = buffer[i];
         }
@@ -76,11 +76,11 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
   // arithmetic rather than pointer arithmetic
   unsigned outLeftP = 0, outRightP = bufflength - 1;
   // left side
-  while ( ( outLeftP < outRightP ) && m_TF1(buffer[outLeftP], buffer[outLeftP + 1]) )
+  while ( ( outLeftP < outRightP ) && Compare1(buffer[outLeftP], buffer[outLeftP + 1]) )
     {
     ++outLeftP;
     }
-  while ( ( outLeftP < outRightP ) && m_TF2(buffer[outRightP - 1], buffer[outRightP]) )
+  while ( ( outLeftP < outRightP ) && Compare2(buffer[outRightP - 1], buffer[outRightP]) )
     {
     --outRightP;
     }
@@ -99,7 +99,7 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
   Extreme = buffer[m_Size / 2 + 1];
   for ( int i = m_Size / 2; i >= 0; i-- )
     {
-    if ( m_TF1(Extreme, buffer[i]) )
+    if ( Compare1(Extreme, buffer[i]) )
       {
       Extreme = buffer[i];
       }
@@ -111,7 +111,7 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
   Extreme = buffer[bufflength - m_Size / 2 - 2];
   for ( int i = (int)bufflength - m_Size / 2 - 1; i < (int)bufflength; i++ )
     {
-    if ( m_TF1(Extreme, buffer[i]) )
+    if ( Compare1(Extreme, buffer[i]) )
       {
       Extreme = buffer[i];
       }
@@ -120,9 +120,9 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
     }
 }
 
-template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 bool
-AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
+AnchorOpenCloseLine< TInputPix, TCompare >
 ::StartLine(std::vector<InputImagePixelType> & buffer,
             InputImagePixelType & Extreme,
             Histogram & histo,
@@ -136,7 +136,7 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
   unsigned currentP = outLeftP + 1;
   unsigned sentinel, endP;
 
-  while ( ( currentP < outRightP ) && m_TF2(buffer[currentP], Extreme) )
+  while ( ( currentP < outRightP ) && Compare2(buffer[currentP], Extreme) )
     {
     Extreme = buffer[currentP];
     ++outLeftP;
@@ -153,7 +153,7 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
   // ran m_Size pixels ahead
   while ( currentP < sentinel )
     {
-    if ( m_TF2(buffer[currentP], Extreme) )
+    if ( Compare2(buffer[currentP], Extreme) )
       {
       endP = currentP;
       for ( unsigned PP = outLeftP + 1; PP < endP; ++PP )
@@ -168,7 +168,7 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
   // We didn't find a smaller (for opening) value in the segment of
   // reach of outLeftP. currentP is the first position outside the
   // reach of outLeftP
-  if ( m_TF2(buffer[currentP], Extreme) )
+  if ( Compare2(buffer[currentP], Extreme) )
     {
     endP = currentP;
     for ( unsigned PP = outLeftP + 1; PP < endP; ++PP )
@@ -201,7 +201,7 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
   while ( currentP < outRightP )
     {
     ++currentP;
-    if ( m_TF2(buffer[currentP], Extreme) )
+    if ( Compare2(buffer[currentP], Extreme) )
       {
       // Found a new extrem
       endP = currentP;
@@ -237,9 +237,9 @@ AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
   return ( false );
 }
 
-template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 void
-AnchorOpenCloseLine< TInputPix,  THistogramCompare, TFunction1, TFunction2 >
+AnchorOpenCloseLine< TInputPix,  TCompare >
 ::FinishLine(std::vector<InputImagePixelType> & buffer,
              InputImagePixelType & Extreme,
              unsigned & outLeftP,
@@ -248,11 +248,11 @@ AnchorOpenCloseLine< TInputPix,  THistogramCompare, TFunction1, TFunction2 >
 {
   while ( outLeftP < outRightP )
     {
-    if ( m_TF2(buffer[outLeftP], buffer[outRightP]) )
+    if ( Compare2(buffer[outLeftP], buffer[outRightP]) )
       {
       Extreme = buffer[outRightP];
       --outRightP;
-      if ( !m_TF2(buffer[outRightP], Extreme) )
+      if ( !Compare2(buffer[outRightP], Extreme) )
         {
         buffer[outRightP] = Extreme;
         }
@@ -261,7 +261,7 @@ AnchorOpenCloseLine< TInputPix,  THistogramCompare, TFunction1, TFunction2 >
       {
       Extreme = buffer[outLeftP];
       ++outLeftP;
-      if ( !m_TF2(buffer[outLeftP], Extreme) )
+      if ( !Compare2(buffer[outLeftP], Extreme) )
         {
         buffer[outLeftP] = Extreme;
         }
@@ -269,9 +269,9 @@ AnchorOpenCloseLine< TInputPix,  THistogramCompare, TFunction1, TFunction2 >
     }
 }
 
-template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 void
-AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
+AnchorOpenCloseLine< TInputPix, TCompare >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Size: " << m_Size << std::endl;

@@ -46,10 +46,7 @@ namespace itk
  * comparison operations need to be passed in. The less
  *
  */
-template< class TImage, class TKernel,
-          class LessThan, class GreaterThan, class LessEqual, class GreaterEqual >
-//          class THistogramCompare,
-//          class TFunction1, class TFunction2>
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 class ITK_EXPORT AnchorOpenCloseImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
@@ -122,12 +119,12 @@ private:
 
 //  typedef AnchorOpenCloseLine<InputImagePixelType, THistogramCompare,
 // TFunction1, TFunction2> AnchorLineOpenType;
-  typedef AnchorOpenCloseLine< InputImagePixelType, LessThan, GreaterEqual, LessEqual > AnchorLineOpenType;
+  typedef AnchorOpenCloseLine< InputImagePixelType, TCompare1 > AnchorLineOpenType;
 
-  typedef AnchorErodeDilateLine< InputImagePixelType, LessThan, LessEqual > AnchorLineErodeType;
+  typedef AnchorErodeDilateLine< InputImagePixelType, TCompare1 > AnchorLineErodeType;
 
   // the class that does the dilation
-  typedef AnchorErodeDilateLine< InputImagePixelType, GreaterThan, GreaterEqual > AnchorLineDilateType;
+  typedef AnchorErodeDilateLine< InputImagePixelType, TCompare2 > AnchorLineDilateType;
 
   void DoFaceOpen(InputImageConstPointer input,
                   InputImagePointer output,

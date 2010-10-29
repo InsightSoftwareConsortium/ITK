@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template< class TInputPix, class TFunction1, class TFunction2 >
-AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+template< class TInputPix, class TCompare >
+AnchorErodeDilateLine< TInputPix, TCompare >
 ::AnchorErodeDilateLine()
 {
   m_Size = 2;
@@ -38,12 +38,12 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
     }
 }
 
-template< class TInputPix, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 void
-AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+AnchorErodeDilateLine< TInputPix, TCompare >
 ::DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer, unsigned bufflength)
 {
-  // TFunction1 will be < for erosions
+  // TCompare will be < for erosions
   // TFunction2 will be <=
 
   // the initial version will adopt the methodology of loading a line
@@ -59,7 +59,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
     InputImagePixelType Extreme = inbuffer[0];
     for ( unsigned i = 0; i < bufflength; i++ )
       {
-      if ( m_TF1(Extreme, inbuffer[i]) )
+      if ( StrictCompare(Extreme, inbuffer[i]) )
         {
         Extreme = inbuffer[i];
         }
@@ -88,7 +88,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
       {
       ++inLeftP;
       m_Histo->AddPixel(inbuffer[inLeftP]);
-      if ( m_TF1(inbuffer[inLeftP], Extreme) )
+      if ( StrictCompare(inbuffer[inLeftP], Extreme) )
         {
         Extreme = inbuffer[inLeftP];
         }
@@ -103,7 +103,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
       if ( inLeftP < (int)bufflength )
         {
         m_Histo->AddPixel(inbuffer[inLeftP]);
-        if ( m_TF1(inbuffer[inLeftP], Extreme) )
+        if ( StrictCompare(inbuffer[inLeftP], Extreme) )
           {
           Extreme = inbuffer[inLeftP];
           }
@@ -130,7 +130,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
     {
     ++inLeftP;
     m_Histo->AddPixel(inbuffer[inLeftP]);
-    if ( m_TF1(inbuffer[inLeftP], Extreme) )
+    if ( StrictCompare(inbuffer[inLeftP], Extreme) )
       {
       Extreme = inbuffer[inLeftP];
       }
@@ -143,14 +143,14 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
     ++inLeftP;
     ++outLeftP;
     m_Histo->AddPixel(inbuffer[inLeftP]);
-    if ( m_TF1(inbuffer[inLeftP], Extreme) )
+    if ( StrictCompare(inbuffer[inLeftP], Extreme) )
       {
       Extreme = inbuffer[inLeftP];
       }
     buffer[outLeftP] = Extreme;
     }
   // Use the histogram until we find a new minimum
-  while ( ( inLeftP < inRightP ) && m_TF2(Extreme, inbuffer[inLeftP + 1]) )
+  while ( ( inLeftP < inRightP ) && Compare(Extreme, inbuffer[inLeftP + 1]) )
     {
     ++inLeftP;
     ++outLeftP;
@@ -184,9 +184,9 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
              middle);
 }
 
-template< class TInputPix, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 bool
-AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+AnchorErodeDilateLine< TInputPix, TCompare >
 ::StartLine(std::vector<TInputPix> & buffer,
             std::vector<TInputPix> & inbuffer,
             InputImagePixelType & Extreme,
@@ -203,7 +203,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
   int currentP = inLeftP + 1;
   int sentinel;
 
-  while ( ( currentP < inRightP ) && m_TF2(inbuffer[currentP], Extreme) )
+  while ( ( currentP < inRightP ) && Compare(inbuffer[currentP], Extreme) )
     {
     Extreme = inbuffer[currentP];
     ++outLeftP;
@@ -225,7 +225,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
   ++currentP;
   while ( currentP < sentinel )
     {
-    if ( m_TF2(inbuffer[currentP], Extreme) )
+    if ( Compare(inbuffer[currentP], Extreme) )
       {
       Extreme = inbuffer[currentP];
       ++outLeftP;
@@ -240,7 +240,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
   // We didn't find a smaller (for erosion) value in the segment of
   // reach of inLeftP. currentP is the first position outside the
   // reach of inLeftP
-  if ( m_TF2(inbuffer[currentP], Extreme) )
+  if ( Compare(inbuffer[currentP], Extreme) )
     {
     Extreme = inbuffer[currentP];
     ++outLeftP;
@@ -266,7 +266,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
   while ( currentP < inRightP )
     {
     ++currentP;
-    if ( m_TF2(inbuffer[currentP], Extreme) )
+    if ( Compare(inbuffer[currentP], Extreme) )
       {
       // Found a new extrem
       Extreme = inbuffer[currentP];
@@ -290,9 +290,9 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
   return ( false );
 }
 
-template< class TInputPix, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 void
-AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+AnchorErodeDilateLine< TInputPix, TCompare >
 ::FinishLine(std::vector<TInputPix> & buffer,
              std::vector<TInputPix> & inbuffer,
              InputImagePixelType & Extreme,
@@ -314,7 +314,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
     {
     --inRightP;
     histo.AddPixel(inbuffer[inRightP]);
-    if ( m_TF1(inbuffer[inRightP], Extreme) )
+    if ( StrictCompare(inbuffer[inRightP], Extreme) )
       {
       Extreme = inbuffer[inRightP];
       }
@@ -326,7 +326,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
     --inRightP;
     --outRightP;
     histo.AddPixel(inbuffer[inRightP]);
-    if ( m_TF1(inbuffer[inRightP], Extreme) )
+    if ( StrictCompare(inbuffer[inRightP], Extreme) )
       {
       Extreme = inbuffer[inRightP];
       }
@@ -339,7 +339,7 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
     --outRightP;
     histo.RemovePixel(inbuffer[inRightP + (int)m_Size]);
     histo.AddPixel(inbuffer[inRightP]);
-    if ( m_TF1(inbuffer[inRightP], Extreme) )
+    if ( StrictCompare(inbuffer[inRightP], Extreme) )
       {
       Extreme = inbuffer[inRightP];
       }
@@ -348,9 +348,9 @@ AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
     }
 }
 
-template< class TInputPix, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 void
-AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+AnchorErodeDilateLine< TInputPix, TCompare >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Size: " << m_Size << std::endl;

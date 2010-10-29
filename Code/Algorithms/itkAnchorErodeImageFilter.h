@@ -24,15 +24,13 @@ namespace itk
 {
 template< class TImage, class TKernel >
 class ITK_EXPORT AnchorErodeImageFilter:
-  public AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType >,
-                                       std::less_equal< typename TImage::PixelType > >
+  public AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType > >
 
 {
 public:
-  typedef AnchorErodeImageFilter
-                                                                                        Self;
-  typedef AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType >,
-                                        std::less_equal< typename TImage::PixelType > > Superclass;
+  typedef AnchorErodeImageFilter Self;
+  typedef AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType > >
+                                 Superclass;
 
   /** Runtime information support. */
   itkTypeMacro(AnchorErodeImageFilter,

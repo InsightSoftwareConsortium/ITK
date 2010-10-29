@@ -25,24 +25,24 @@
 #include "itkAnchorUtilities.h"
 namespace itk
 {
-template< class TImage, class TKernel, class TFunction1, class TFunction2 >
-AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
+template< class TImage, class TKernel, class TFunction1 >
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::AnchorErodeDilateImageFilter()
 {
   m_KernelSet = false;
 }
 
-template< class TImage, class TKernel, class TFunction1, class TFunction2 >
+template< class TImage, class TKernel, class TFunction1 >
 void
-AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::SetBoundary(const InputImagePixelType value)
 {
   m_Boundary = value;
 }
 
-template< class TImage, class TKernel, class TFunction1, class TFunction2 >
+template< class TImage, class TKernel, class TFunction1 >
 void
-AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
                        int threadId)
 {
@@ -148,18 +148,18 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
   progress.CompletedPixel();
 }
 
-template< class TImage, class TKernel, class TFunction1, class TFunction2 >
+template< class TImage, class TKernel, class TFunction1 >
 void
-AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Boundary: " << m_Boundary << std::endl;
 }
 
-template< class TImage, class TKernel, class TFunction1, class TFunction2 >
+template< class TImage, class TKernel, class TFunction1 >
 void
-AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method

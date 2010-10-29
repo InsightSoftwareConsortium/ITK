@@ -25,17 +25,13 @@ namespace itk
 template< class TImage, class TKernel >
 class ITK_EXPORT AnchorCloseImageFilter:
   public AnchorOpenCloseImageFilter< TImage, TKernel, std::greater< typename TImage::PixelType >,
-                                     std::less< typename TImage::PixelType >,
-                                     std::greater_equal< typename TImage::PixelType >,
-                                     std::less_equal< typename TImage::PixelType > >
+                                     std::less< typename TImage::PixelType > >
 
 {
 public:
   typedef AnchorCloseImageFilter Self;
   typedef AnchorOpenCloseImageFilter< TImage, TKernel, std::greater< typename TImage::PixelType >,
-                                      std::less< typename TImage::PixelType >,
-                                      std::greater_equal< typename TImage::PixelType >,
-                                      std::less_equal< typename TImage::PixelType > > Superclass;
+                                      std::less< typename TImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

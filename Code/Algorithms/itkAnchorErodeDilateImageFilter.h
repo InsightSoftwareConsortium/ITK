@@ -35,7 +35,7 @@ namespace itk
  * morphology classes in itk.
  */
 template< class TImage, class TKernel,
-          class TFunction1, class TFunction2 >
+          class TFunction1 >
 class ITK_EXPORT AnchorErodeDilateImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
@@ -108,7 +108,7 @@ private:
   typedef BresenhamLine< itkGetStaticConstMacro(InputImageDimension) > BresType;
 
   // the class that operates on lines
-  typedef AnchorErodeDilateLine< InputImagePixelType, TFunction1, TFunction2 > AnchorLineType;
+  typedef AnchorErodeDilateLine< InputImagePixelType, TFunction1 > AnchorLineType;
 }; // end of class
 } // end namespace itk
 
