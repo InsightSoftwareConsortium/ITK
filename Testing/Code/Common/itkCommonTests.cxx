@@ -63,6 +63,7 @@ REGISTER_TEST(itkCovarianceImageFunctionTest );
 REGISTER_TEST(itkDataTypeTest );
 REGISTER_TEST(itkDecoratorTest );
 REGISTER_TEST(itkDirectoryTest );
+REGISTER_TEST(itkDerivativeOperatorTest );
 REGISTER_TEST(itkDynamicMeshTest );
 REGISTER_TEST(itkDiffusionTensor3DTest );
 REGISTER_TEST(itkEuler2DTransformTest );
@@ -111,4 +112,3 @@ REGISTER_TEST(itkMatrixTest );
 REGISTER_TEST(itkMapContainerTest );
 REGISTER_TEST(itkMahalanobisDistanceThresholdImageFunctionTest );
 }
-
