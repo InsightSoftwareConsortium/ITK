@@ -42,11 +42,11 @@ BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
   this->AllocateOutputs();
 
   /** set up erosion and dilation methods */
-  typename BinaryDilateImageFilter< TInputImage, TInputImage, TKernel >::Pointer
-  dilate = BinaryDilateImageFilter< TInputImage, TInputImage, TKernel >::New();
+  typename BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >::Pointer
+  dilate = BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >::New();
 
-  typename BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >::Pointer
-  erode = BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >::New();
+  typename BinaryErodeImageFilter< TInputImage, TInputImage, TKernel >::Pointer
+  erode = BinaryErodeImageFilter< TInputImage, TInputImage, TKernel >::New();
 
   dilate->SetKernel( this->GetKernel() );
   dilate->ReleaseDataFlagOn();
