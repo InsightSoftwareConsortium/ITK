@@ -48,7 +48,7 @@ class ITK_EXPORT LabelMapContourOverlayImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef LabelMapContourOverlayImageFilter                Self;
+  typedef LabelMapContourOverlayImageFilter         Self;
   typedef LabelMapFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                        Pointer;
   typedef SmartPointer<const Self>                  ConstPointer;

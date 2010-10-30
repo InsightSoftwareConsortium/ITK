@@ -118,13 +118,10 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
   CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
   reconstruct->AddObserver( itk::ProgressEvent(), observer );
 
-
-
   RescalerType::Pointer rescaler = RescalerType::New();
   rescaler->SetInput( reconstruct->GetOutput() );
   rescaler->SetOutputMinimum( itk::NumericTraits< OutputPixelType >::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits< OutputPixelType >::max() );
-
 
 
   ROIFilterType::Pointer ROIFilter = ROIFilterType::New();
@@ -148,16 +145,10 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
   ROIFilter->SetRegionOfInterest( requestedRegion );
 
 
-
-
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn(  );
   writer->SetInput( ROIFilter->GetOutput() );
-
-
-
-
 
 
   try

@@ -474,7 +474,6 @@ int itkMRCImageIOTest(int argc, char* argv[])
   std::cout << "[PASSED] threw exception (5D)" << std::endl;
 
 
-
   //
   // use print methods
   //
