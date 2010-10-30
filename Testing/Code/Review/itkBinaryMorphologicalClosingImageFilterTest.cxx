@@ -66,7 +66,7 @@ int itkBinaryMorphologicalClosingImageFilterTest(int argc, char * argv[])
   filter->SafeBorderOn();
   filter->SetSafeBorder( atoi( argv[4] ) );
 
-  if( filter->GetForegroundValue() != 255 )
+  if( filter->GetForegroundValue() != itk::NumericTraits<InputPixelType>::max() )
     {
     std::cerr << "Wrong Foreground default value" << std::endl;
     return EXIT_FAILURE;
