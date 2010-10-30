@@ -1,7 +1,3 @@
-set(CTEST_PROJECT_NAME "ITK")
-set(CTEST_NIGHTLY_START_TIME "1:00:00 UTC")
-
-set(CTEST_DROP_METHOD "http")
-set(CTEST_DROP_SITE "www.cdash.org")
-set(CTEST_DROP_LOCATION "/CDash/submit.php?project=Insight")
-set(CTEST_DROP_SITE_CDASH TRUE)
+get_filename_component(this_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(parent_dir "${this_dir}" PATH)
+include("${parent_dir}/CTestConfig.cmake")
