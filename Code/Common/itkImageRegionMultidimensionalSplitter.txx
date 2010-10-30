@@ -88,10 +88,10 @@ ImageRegionMultidimensionalSplitter< VImageDimension >
   // compute the region size and index
   for ( i = 0; i < VImageDimension; i++ )
     {
-    splitIndex[i] += vcl_floor( ( splittedRegionIndex[i] ) * ( regionSize[i] / double(splits[i]) ) );
+    splitIndex[i] += Math::Floor<IndexValueType>( ( splittedRegionIndex[i] ) * ( regionSize[i] / double(splits[i]) ) );
     if ( splittedRegionIndex[i] < splits[i] - 1 )
       {
-      splitSize[i] = vcl_floor( ( splittedRegionIndex[i] + 1 ) * ( regionSize[i] / double(splits[i]) ) )
+      splitSize[i] = Math::Floor<SizeValueType>( ( splittedRegionIndex[i] + 1 ) * ( regionSize[i] / double(splits[i]) ) )
                      - splitIndex[i];
       }
     else
