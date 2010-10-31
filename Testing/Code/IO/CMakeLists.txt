@@ -140,6 +140,7 @@ testMetaTube.cxx
 testMetaUtils.cxx
 testMetaArray.cxx
 testMetaCommand.cxx
+itkImageFileWriterUpdateLargestPossibleRegionTest.cxx
 )
 
 set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
@@ -555,6 +556,14 @@ add_test(itkImageFileWriterPastingTest1 ${IO_TESTS}
   itkImageFileWriterPastingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha)
+
+
+add_test(itkImageFileWriterUpdateLargestPossibleRegionTest ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png
+  itkImageFileWriterUpdateLargestPossibleRegionTest
+            ${ITK_DATA_ROOT}/Input/cthead1.png
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png)
 
 
 set(ITK_IOTEST_PASTINGSTREAMING_MACRO_I 0)

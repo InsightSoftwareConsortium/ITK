@@ -152,7 +152,19 @@ public:
    * pipeline. */
   virtual void Update()
   {
-    this->Write(); \
+    this->Write();
+  }
+
+  /** \brief Writes the entire image to file.
+   *
+   * Updates the pipeline, streaming it the NumberOfStreamDivisions times.
+   * Existing PasteIORegion is reset.
+   */
+  virtual void UpdateLargestPossibleRegion()
+  {
+    m_PasteIORegion = ImageIORegion(TInputImage::ImageDimension);
+    m_UserSpecifiedIORegion = false;
+    this->Write();
   }
 
   /** Set the compression On or Off */
