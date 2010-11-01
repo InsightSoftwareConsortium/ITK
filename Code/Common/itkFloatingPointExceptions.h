@@ -35,6 +35,11 @@ public:
   /** Disable floating point exceptions. */
   static void Disable();
 
+  /** Return the current state of FP Exceptions */
+  static bool GetEnabled();
+  /** Set the state to specified value */
+  static void SetEnabled(bool val);
+
   /** Control whether exit(255) or abort() is called on an exception */
   static void SetExceptionAction(ExceptionAction a);
 
@@ -49,6 +54,7 @@ private:
 
   /** static member that controls what happens during an exception */
   static ExceptionAction m_ExceptionAction;
+  static bool            m_Enabled;
 };
 }
 

@@ -85,6 +85,7 @@ and that's what we implement.  Linux "man fegetenv" appears
 to suggest that it's the mask corresponding to bits in
 excepts that is returned.
 */
+#if 0
 static int
 fegetexcept (void)
 {
@@ -95,6 +96,7 @@ fegetexcept (void)
       ( fenv & (FM_ALL_EXCEPT) ) << FE_EXCEPT_SHIFT )
     );
 }
+#endif
 
 static int
 feenableexcept (unsigned int excepts)
@@ -126,6 +128,7 @@ fedisableexcept (unsigned int excepts)
 
 #elif DEFINED_INTEL
 
+#if 0
 static int
 fegetexcept (void)
 {
@@ -133,6 +136,7 @@ fegetexcept (void)
 
   return fegetenv (&fenv) ? -1 : (fenv.__control & FE_ALL_EXCEPT);
 }
+#endif
 
 static int
 feenableexcept (unsigned int excepts)
@@ -317,6 +321,7 @@ namespace itk
 FloatingPointExceptions::ExceptionAction
 FloatingPointExceptions::m_ExceptionAction =
   FloatingPointExceptions::ABORT;
+bool FloatingPointExceptions::m_Enabled(false);
 
 void
 FloatingPointExceptions
@@ -329,6 +334,27 @@ FloatingPointExceptions::ExceptionAction
 FloatingPointExceptions::GetExceptionAction()
 {
   return FloatingPointExceptions::m_ExceptionAction;
+}
+
+bool
+FloatingPointExceptions::
+GetEnabled()
+{
+  return FloatingPointExceptions::m_Enabled;
+}
+
+void
+FloatingPointExceptions::
+SetEnabled(bool val)
+{
+  if(val)
+    {
+    FloatingPointExceptions::Enable();
+    }
+  else
+    {
+    FloatingPointExceptions::Disable();
+    }
 }
 
 #if !defined(ITK_USE_FPE)
@@ -351,6 +377,7 @@ void FloatingPointExceptions
 {
   // enable floating point exceptions on MSVC
   _controlfp(_EM_DENORMAL | _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
+  FloatingPointExceptions::m_Enabled = true;
 }
 
 void FloatingPointExceptions
@@ -359,6 +386,7 @@ void FloatingPointExceptions
   // disable floating point exceptions on MSVC
   _controlfp(_EM_INVALID | _EM_DENORMAL | _EM_ZERODIVIDE | _EM_OVERFLOW |
              _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
+  FloatingPointExceptions::m_Enabled = false;
 }
 
 #else // ITK_USE_FPE
@@ -382,7 +410,7 @@ FloatingPointExceptions
   sigemptyset(&act.sa_mask);
   act.sa_flags = SA_SIGINFO;
   sigaction(SIGFPE,&act,0);
-
+  FloatingPointExceptions::m_Enabled = true;
 }
 void
 FloatingPointExceptions
@@ -396,6 +424,7 @@ FloatingPointExceptions
   fedisableexcept (FPE_FLTSUB);
   fedisableexcept (FPE_INTDIV);
   fedisableexcept (FPE_INTOVF);
+  FloatingPointExceptions::m_Enabled = false;
 }
 
 #endif // ITK_USE_FPE
