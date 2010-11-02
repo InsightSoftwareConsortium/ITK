@@ -45,11 +45,8 @@ namespace itk
  * the structuring element (or kernel) type, and the histogram type.
  * The input and output image must have the same number of dimension.
  *
- * The histogram type is a class which has to implements seven methods:
+ * The histogram type is a class which has to implements six methods:
  * + a default constructor which takes no parameter.
- * + HistogramType * Clone() must produce a new identical histogram. It is
- * used internally to optimize the filter, by avoiding reverse iteration
- * over the image.
  * + void AddPixel( const InputPixelType &p ) is called when a new pixel
  * is added to the histogram.
  * + void RemovePixel( const InputPixelType &p ) is called when a pixel
@@ -89,12 +86,13 @@ namespace itk
 
 template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 class ITK_EXPORT MovingHistogramImageFilter:
-  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
+  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
 {
 public:
   /** Standard class typedefs. */
   typedef MovingHistogramImageFilter                                           Self;
-  typedef MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel > Superclass;
+  typedef MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
+                                                                               Superclass;
   typedef SmartPointer< Self >                                                 Pointer;
   typedef SmartPointer< const Self >                                           ConstPointer;
 
@@ -141,18 +139,11 @@ protected:
                              outputRegionForThread,
                              int threadId);
 
-  /** NewHistogram must return an histogram object. It's also the good place to
-   * pass parameters to the histogram.
-   * A default version is provided which just create a new Historgram and return
-   * it.
-   */
-  virtual THistogram * NewHistogram();
-
 #ifndef zigzag
   // declare the type used to store the histogram
   typedef THistogram HistogramType;
 
-  void PushHistogram(HistogramType *histogram,
+  void PushHistogram(HistogramType & histogram,
                      const OffsetListType *addedList,
                      const OffsetListType *removedList,
                      const RegionType & inputRegion,

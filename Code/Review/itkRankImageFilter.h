@@ -102,30 +102,21 @@ public:
 
   itkSetMacro(Rank, float)
   itkGetConstMacro(Rank, float)
+
+  bool GetUseVectorBasedHistogram()
+  {
+    return HistogramType::UseVectorBasedHistogram();
+  }
+
 protected:
   RankImageFilter();
   ~RankImageFilter() {}
 
   typedef RankHistogram< InputPixelType > HistogramType;
 
-  typedef RankHistogramVec< InputPixelType, std::less< InputPixelType > >  VHistogram;
-  typedef RankHistogramMap< InputPixelType, std::less< InputPixelType >  > MHistogram;
-
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  bool UseVectorBasedHistogram()
-  {
-    // bool, short and char are acceptable for vector based algorithm: they do
-    // not require
-    // too much memory. Other types are not usable with that algorithm
-    return typeid( InputPixelType ) == typeid( unsigned char )
-           || typeid( InputPixelType ) == typeid( signed char )
-//       || typeid(InputPixelType) == typeid(unsigned short)
-//       || typeid(InputPixelType) == typeid(signed short)
-           || typeid( InputPixelType ) == typeid( bool );
-  }
-
-  virtual HistogramType * NewHistogram();
+  virtual void ConfigureHistogram( HistogramType & histogram );
 
 private:
   RankImageFilter(const Self &); //purposely not implemented

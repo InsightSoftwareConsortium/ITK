@@ -40,23 +40,13 @@ MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
 }
 
 template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
-typename MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >::HistogramType *
+void
 MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
-::NewHistogram()
+::ConfigureHistogram( HistogramType & histogram )
 {
-  HistogramType *hist;
-
-  if ( UseVectorBasedHistogram() )
-    {
-    hist = new VHistogram();
-    }
-  else
-    {
-    hist = new MHistogram();
-    }
-  hist->SetRank( this->GetRank() );
-  return hist;
+  histogram.SetRank( m_Rank );
 }
+
 
 template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
 void

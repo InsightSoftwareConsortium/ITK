@@ -103,7 +103,7 @@ protected:
 //                               int threadId);
 
   /** needed to pass the boundary value to the histogram object */
-  virtual THistogram * NewHistogram();
+  virtual void ConfigureHistogram(THistogram & histogram);
 
   PixelType m_Boundary;
 private:
