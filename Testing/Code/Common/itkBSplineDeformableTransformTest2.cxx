@@ -1,26 +1,27 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineDeformableTransformTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 #include "itkResampleImageFilter.h"
 
@@ -32,7 +33,7 @@
 //  used to monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandProgressUpdate : public itk::Command 
+class CommandProgressUpdate : public itk::Command
 {
 public:
   typedef  CommandProgressUpdate      Self;
@@ -102,12 +103,12 @@ static int RunTest(int argc, char * argv [] )
   typename FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
-  typedef itk::ResampleImageFilter< MovingImageType, 
+  typedef itk::ResampleImageFilter< MovingImageType,
                                     FixedImageType  >  FilterType;
 
   typename FilterType::Pointer resampler = FilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                        MovingImageType, double >  InterpolatorType;
 
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -122,7 +123,7 @@ static int RunTest(int argc, char * argv [] )
   resampler->SetOutputOrigin(  fixedOrigin  );
   resampler->SetOutputDirection(  fixedDirection  );
 
-  
+
   typename FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
   typename FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
@@ -130,7 +131,7 @@ static int RunTest(int argc, char * argv [] )
 
 
   resampler->SetInput( movingReader->GetOutput() );
-  
+
   movingWriter->SetInput( resampler->GetOutput() );
 
 
@@ -141,7 +142,7 @@ static int RunTest(int argc, char * argv [] )
                             CoordinateRepType,
                             SpaceDimension,
                             VSplineOrder >     TransformType;
-  
+
   typename TransformType::Pointer bsplineTransform = TransformType::New();
 
 
@@ -153,13 +154,13 @@ static int RunTest(int argc, char * argv [] )
 
   const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
 
-  const unsigned int numberOfGridNodes = 
+  const unsigned int numberOfGridNodes =
                         numberOfGridNodesInsideTheImageSupport +
                         numberOfGridNodesOutsideTheImageSupport;
 
-  const unsigned int numberOfGridCells = 
+  const unsigned int numberOfGridCells =
                         numberOfGridNodesInsideTheImageSupport - 1;
-                        
+
   size.Fill( numberOfGridNodes );
   bsplineRegion.SetSize( size );
 
@@ -176,12 +177,12 @@ static int RunTest(int argc, char * argv [] )
 
   origin[0] = fixedOrigin[0] - orderShift * spacing[0] - fixedSpacing[0] / 2.0;
   origin[1] = fixedOrigin[1] - orderShift * spacing[1] - fixedSpacing[1] / 2.0;
-  
+
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );
   bsplineTransform->SetGridDirection( fixedImage->GetDirection() );
-  
+
 
   typedef typename TransformType::ParametersType     ParametersType;
 
@@ -198,9 +199,9 @@ static int RunTest(int argc, char * argv [] )
 
   for( unsigned int n=0; n < numberOfNodes; n++ )
     {
-    infile >>  parameters[n]; 
-    infile >>  parameters[n+numberOfNodes]; 
-    } 
+    infile >>  parameters[n];
+    infile >>  parameters[n+numberOfNodes];
+    }
 
   infile.close();
 
@@ -211,10 +212,10 @@ static int RunTest(int argc, char * argv [] )
   typename CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
   resampler->AddObserver( itk::ProgressEvent(), observer );
-  
+
 
   resampler->SetTransform( bsplineTransform );
-  
+
   try
     {
     movingWriter->Update();
@@ -310,17 +311,17 @@ int itkBSplineDeformableTransformTest2( int argc, char * argv[] )
     {
     case 1:
       {
-      status |= BSplineDeformableTransformTest2Helper< 1 >::RunTest( argc, argv ); 
+      status |= BSplineDeformableTransformTest2Helper< 1 >::RunTest( argc, argv );
       break;
       }
     case 2:
       {
-      status |= BSplineDeformableTransformTest2Helper< 2 >::RunTest( argc, argv ); 
+      status |= BSplineDeformableTransformTest2Helper< 2 >::RunTest( argc, argv );
       break;
       }
     case 3:
       {
-      status |= BSplineDeformableTransformTest2Helper< 3 >::RunTest( argc, argv ); 
+      status |= BSplineDeformableTransformTest2Helper< 3 >::RunTest( argc, argv );
       break;
       }
     }

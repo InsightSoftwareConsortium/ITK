@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSTAPLEImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,26 +38,26 @@ public:
 
   const std::string &GetOutputFileName() const
   { return m_OutputFile; }
-  
+
   void AddFileName( const char *s )
   {
     std::string tmp(s);
     m_Files.push_back(tmp);
   }
-  
+
   const std::string &GetFileName( unsigned int i ) const
   { return m_Files[i]; }
-  
+
   void ClearFileNames()
   { m_Files.clear(); }
 
   unsigned int GetNumberOfFiles() const
   { return m_Files.size(); }
-  
+
   virtual double GetSensitivity( unsigned int ) = 0;
   virtual double GetSpecificity( unsigned int ) = 0;
   virtual unsigned short GetForeground() const  = 0;
-  virtual void SetForeground( unsigned short )  = 0;  
+  virtual void SetForeground( unsigned short )  = 0;
   virtual void SetConfidenceWeight( double ) = 0;
   virtual double GetConfidenceWeight() const = 0;
 
@@ -88,7 +89,7 @@ public:
   { return m_Stapler->GetConfidenceWeight(); }
   virtual void SetConfidenceWeight( double w )
   { m_Stapler->SetConfidenceWeight( w); }
-  
+
   virtual double GetSensitivity( unsigned int i )
   { return m_Stapler->GetSensitivity(i); }
   virtual double GetSpecificity( unsigned int i )
@@ -101,7 +102,7 @@ public:
 
   virtual unsigned int GetElapsedIterations()
   { return m_Stapler->GetElapsedIterations(); }
-  
+
   virtual int Execute();
 
 private:
@@ -119,7 +120,7 @@ int Stapler<VDimension>::Execute()
     = itk::ImageFileWriter<OutputImageType>::New();
 
   int number_of_files = m_Files.size();
-  
+
   // Set the inputs
   for (i = 0; i < number_of_files; i++)
     {
@@ -136,7 +137,7 @@ int Stapler<VDimension>::Execute()
       return -1;
       }
     }
-  
+
   try
     {
     writer->SetFileName( m_OutputFile.c_str() );
@@ -148,7 +149,7 @@ int Stapler<VDimension>::Execute()
     std::cerr << e << std::endl;
     return -2;
     }
-  
+
   return 0;
 }
 
@@ -160,7 +161,7 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
 
   if (argc < 5)
     {
-    std::cerr << "Use: " << argv[0] << 
+    std::cerr << "Use: " << argv[0] <<
       " file_dimensionality output.mhd foreground_value confidence_weight "
       "file1 file2 ... fileN" << std::endl;
     return -1;
@@ -221,9 +222,9 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
   avg_q /= static_cast<double>( stapler->GetNumberOfFiles() );
 
   std::cout << "Mean:\t\t" << avg_p << "\t\t" << avg_q << std::endl;
-  
+
   delete stapler;
-  
+
   return EXIT_SUCCESS;
 }
 

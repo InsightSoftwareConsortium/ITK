@@ -1,22 +1,30 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineResampleImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-  Portions of this code are covered under the VTK copyright.
-  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+/*=========================================================================
+ *
+ *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
+ *
+ *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+ *
+ *  For complete copyright, license and disclaimer of warranty information
+ *  please refer to the NOTICE file at the top of the ITK source tree.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -53,7 +61,7 @@ void set2DData(ImageType2D::Pointer);
 void PrintImageData(ImageTypePtr2D imgPtr)
 {
   typedef itk::ImageLinearIteratorWithIndex<ImageType2D> Iterator;
- 
+
   std::cout << "Size: " << imgPtr->GetLargestPossibleRegion().GetSize() << std::endl;
   int dim = ImageType2D::ImageDimension;
 
@@ -82,13 +90,13 @@ void PrintImageData(ImageTypePtr2D imgPtr)
        outIt.NextLine();
        std::cout << std::endl;
       }
-    }   
+    }
 }
 
 void set2DData(ImageType2D::Pointer imgPtr)
 {
   SizeType2D size = { {4,4} };
-  double mydata[ 49 ] = {  0, 1, 2, 3, 
+  double mydata[ 49 ] = {  0, 1, 2, 3,
     1, 2, 3, 4,
     2, 3, 4, 5,
     3, 4, 3, 2};
@@ -100,7 +108,7 @@ void set2DData(ImageType2D::Pointer imgPtr)
   imgPtr->SetBufferedRegion( region );
   imgPtr->Allocate();
 
-  // Set origin and spacing of physical coordinates 
+  // Set origin and spacing of physical coordinates
   double origin [] = { 0.5, 1.0 };
   double spacing[] = { 0.1, 0.5  };
   imgPtr->SetOrigin(origin);
@@ -114,13 +122,13 @@ void set2DData(ImageType2D::Pointer imgPtr)
     inIter.Set(mydata[j]);
     ++inIter;
     ++j;
-    }  
+    }
 }
 
 void setInt2DData(IntImageType2D::Pointer imgPtr)
 {
   IntSizeType2D size = { {4,4} };
-  int mydata[ 49 ] = {  0, 1, 2, 3, 
+  int mydata[ 49 ] = {  0, 1, 2, 3,
     1, 2, 3, 4,
     2, 3, 4, 5,
     3, 4, 3, 2};
@@ -132,7 +140,7 @@ void setInt2DData(IntImageType2D::Pointer imgPtr)
   imgPtr->SetBufferedRegion( region );
   imgPtr->Allocate();
 
-  // Set origin and spacing of physical coordinates 
+  // Set origin and spacing of physical coordinates
   double origin [] = { 0.5, 1.0 };
   double spacing[] = { 0.1, 0.5  };
   imgPtr->SetOrigin(origin);
@@ -146,7 +154,7 @@ void setInt2DData(IntImageType2D::Pointer imgPtr)
     inIter.Set(mydata[j]);
     ++inIter;
     ++j;
-    }  
+    }
 }
 
 bool VerifyResultsHigherOrderSpline(ImageTypePtr2D ActualResults, double *ExpectedResults)
@@ -252,7 +260,7 @@ bool VerifyResultsLowerOrderSpline(ImageTypePtr2D ActualResults, double *Expecte
   return true;
 }
 
-   
+
 int test2D_Standard_l2_NthOrderSpline_filter(unsigned int splineOrder)
 {
   int flag = 0;
@@ -289,19 +297,19 @@ int test2D_Standard_l2_NthOrderSpline_filter(unsigned int splineOrder)
   PrintImageData(outImage2);
 
   bool sameResults=false;
-  if( splineOrder == 3 ) 
+  if( splineOrder == 3 )
     {
     sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 2 ) 
+  else if( splineOrder == 2 )
     {
     sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 1 ) 
+  else if( splineOrder == 1 )
     {
     sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 0 ) 
+  else if( splineOrder == 0 )
     {
     sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
     }
@@ -327,7 +335,7 @@ int test2D_Standard_L2_NthOrderSpline_filter(unsigned int splineOrder)
 {
   int flag = 0;
 
-  // Allocate a simple test image 
+  // Allocate a simple test image
   ImageTypePtr2D image = ImageType2D::New();
 
   set2DData(image);
@@ -360,19 +368,19 @@ int test2D_Standard_L2_NthOrderSpline_filter(unsigned int splineOrder)
   PrintImageData(outImage2);
 
   bool sameResults = false;
-  if( splineOrder == 5 ) 
+  if( splineOrder == 5 )
     {
     sameResults = VerifyResultsHigherOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 3 ) 
+  else if( splineOrder == 3 )
     {
     sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 1 ) 
+  else if( splineOrder == 1 )
     {
     sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 0 ) 
+  else if( splineOrder == 0 )
     {
     sameResults = VerifyResultsLowerOrderSpline(outImage2, ExpectedResults);
     }
@@ -397,7 +405,7 @@ int test2D_Centered_l2_NthOrderSpline_filter(unsigned int splineOrder)
 {
   int flag = 0;
 
-  // Allocate a simple test image 
+  // Allocate a simple test image
   ImageTypePtr2D image = ImageType2D::New();
 
   set2DData(image);
@@ -427,15 +435,15 @@ int test2D_Centered_l2_NthOrderSpline_filter(unsigned int splineOrder)
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
   bool sameResults = false;
-  if( splineOrder == 4 ) 
+  if( splineOrder == 4 )
     {
     sameResults = VerifyResultsHigherOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 3 ) 
+  else if( splineOrder == 3 )
     {
     sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 2 ) 
+  else if( splineOrder == 2 )
     {
     sameResults = VerifyResults2ndOrderSpline(outImage2, ExpectedResults);
     }
@@ -468,9 +476,9 @@ int testIntInputDoubleOutput()
 {
   int flag = 0;
 
-  // Note this only tests the downsampling using Int input and double output.  
+  // Note this only tests the downsampling using Int input and double output.
   // TODO:  Modify to test upsampling also.
-  // Allocate a simple test image 
+  // Allocate a simple test image
   IntImageTypePtr2D image = IntImageType2D::New();
 
   setInt2DData(image);
@@ -523,7 +531,7 @@ int test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
 {
   int flag = 0;
 
-  // Allocate a simple test image 
+  // Allocate a simple test image
   ImageTypePtr2D image = ImageType2D::New();
 
   set2DData(image);
@@ -558,15 +566,15 @@ int test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
   PrintImageData(outImage2);
 
   bool sameResults = false;
-  if( splineOrder == 4 ) 
+  if( splineOrder == 4 )
     {
     sameResults = VerifyResultsHigherOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 3 ) 
+  else if( splineOrder == 3 )
     {
     sameResults = VerifyResults3rdOrderSpline(outImage2, ExpectedResults);
     }
-  else if( splineOrder == 2 ) 
+  else if( splineOrder == 2 )
     {
     sameResults = VerifyResults2ndOrderSpline(outImage2, ExpectedResults);
     }
@@ -594,22 +602,22 @@ int test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
   return flag;
 }
 
-int 
+int
 itkBSplineResampleImageFilterTest(
     int itkNotUsed(argc),
     char * itkNotUsed(argv) [] )
 {
   int flag = 0;
-  int dummyflag = 0;  
+  int dummyflag = 0;
 
   std::cout << "Testing B Spline up and down sampling methods: \n";
 
-  flag += testIntInputDoubleOutput();    
+  flag += testIntInputDoubleOutput();
 
   //Test for Standard l2 BSplines for different orders (3,2,1,0)
   flag += test2D_Standard_l2_NthOrderSpline_filter( 3 );
   flag += test2D_Standard_l2_NthOrderSpline_filter( 2 );
-  flag += test2D_Standard_l2_NthOrderSpline_filter( 0 );  
+  flag += test2D_Standard_l2_NthOrderSpline_filter( 0 );
   //The error for spline order 1 is much higher than allowable threshold
   //Hence, a different reference set is needed for comparison. Therefore, a
   //dummy flag is used to test that the code compiles. The accuracy of this
@@ -618,28 +626,28 @@ itkBSplineResampleImageFilterTest(
 
   //Test for Centered l2 BSplines for different orders (4-1)
   flag += test2D_Centered_l2_NthOrderSpline_filter( 4 );
-  flag += test2D_Centered_l2_NthOrderSpline_filter( 3 ); 
-  flag += test2D_Centered_l2_NthOrderSpline_filter( 2 );  
-  flag += test2D_Centered_l2_NthOrderSpline_filter( 1 );  
+  flag += test2D_Centered_l2_NthOrderSpline_filter( 3 );
+  flag += test2D_Centered_l2_NthOrderSpline_filter( 2 );
+  flag += test2D_Centered_l2_NthOrderSpline_filter( 1 );
 
   //Test for Standard L2 BSplines for different orders (5,3,1,0)
-  flag += test2D_Standard_L2_NthOrderSpline_filter( 5 ); 
+  flag += test2D_Standard_L2_NthOrderSpline_filter( 5 );
   flag += test2D_Standard_L2_NthOrderSpline_filter( 3 );
   flag += test2D_Standard_L2_NthOrderSpline_filter( 1 );
   flag += test2D_Standard_L2_NthOrderSpline_filter( 0 );
 
   //Test for Centered L2 BSplines for different orders (4-1)
-  flag += test2D_Centered_L2_NthOrderSpline_filter( 4 ); 
-  flag += test2D_Centered_L2_NthOrderSpline_filter( 3 );  
-  flag += test2D_Centered_L2_NthOrderSpline_filter( 2 );   
-  flag += test2D_Centered_L2_NthOrderSpline_filter( 1 );   
+  flag += test2D_Centered_L2_NthOrderSpline_filter( 4 );
+  flag += test2D_Centered_L2_NthOrderSpline_filter( 3 );
+  flag += test2D_Centered_L2_NthOrderSpline_filter( 2 );
+  flag += test2D_Centered_L2_NthOrderSpline_filter( 1 );
 
   //Test for the exceptions for unsupported spline orders
   bool passed = false;
   try
     {
     std::cout << "Test when Standard_l2 spline order is unsupported" << std::endl;
-    dummyflag += test2D_Standard_l2_NthOrderSpline_filter( 6 ); 
+    dummyflag += test2D_Standard_l2_NthOrderSpline_filter( 6 );
     }
   catch( itk::ExceptionObject& err )
     {
@@ -654,14 +662,14 @@ itkBSplineResampleImageFilterTest(
   try
     {
     std::cout << "Test when Centered_l2 spline order is unsupported" << std::endl;
-    dummyflag += test2D_Centered_l2_NthOrderSpline_filter( 6 ); 
+    dummyflag += test2D_Centered_l2_NthOrderSpline_filter( 6 );
     }
   catch( itk::ExceptionObject& err )
     {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
     passed = true;
-    } 
+    }
   if (!passed)
     std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
   passed = false;
@@ -669,7 +677,7 @@ itkBSplineResampleImageFilterTest(
   try
     {
     std::cout << "Test when Standard_L2 spline order is unsupported" << std::endl;
-    dummyflag += test2D_Standard_L2_NthOrderSpline_filter( 6 ); 
+    dummyflag += test2D_Standard_L2_NthOrderSpline_filter( 6 );
     }
   catch( itk::ExceptionObject& err )
     {
@@ -684,22 +692,22 @@ itkBSplineResampleImageFilterTest(
   try
     {
     std::cout << "Test when Centered_L2 spline order is unsupported" << std::endl;
-    dummyflag += test2D_Centered_L2_NthOrderSpline_filter( 6 ); 
+    dummyflag += test2D_Centered_L2_NthOrderSpline_filter( 6 );
     }
   catch( itk::ExceptionObject& err )
     {
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
     passed = true;
-    } 
+    }
   if (!passed)
     std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
 
   std::cout << "dummyflag: " << dummyflag << std::endl;
-  // Return results of test 
+  // Return results of test
   if (flag != 0) {
     std::cout << "*** " << flag << " tests failed" << std::endl;
-  
+
     return EXIT_FAILURE; }
   else {
     std::cout << "All tests successfully passed" << std::endl;

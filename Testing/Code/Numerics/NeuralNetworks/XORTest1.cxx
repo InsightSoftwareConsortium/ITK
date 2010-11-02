@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    XORTest1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
@@ -36,14 +36,14 @@ XORTest1(int argc, char* argv[])
               << " InputTrainingFile(.txt)" << std::endl ;
     return EXIT_FAILURE;
     }
-  
+
   char* dataFileName = argv[1] ;
 
- 
+
   unsigned int num_input_nodes = 2;
   unsigned int num_hidden_nodes = 5;
   unsigned int num_output_nodes = 1;
-  
+
   typedef itk::Array<double> MeasurementVectorType;
   typedef itk::Array<double> TargetVectorType;
 
@@ -61,7 +61,7 @@ XORTest1(int argc, char* argv[])
   TargetType::Pointer targets = TargetType::New();
   sample->SetMeasurementVectorSize( num_input_nodes);
   targets->SetMeasurementVectorSize( num_output_nodes);
-  
+
   std::ifstream infile1;
   infile1.open(dataFileName, std::ios::in);
   if (infile1.fail())
@@ -90,18 +90,18 @@ XORTest1(int argc, char* argv[])
   net1->SetNumOfInputNodes(num_input_nodes);
   net1->SetNumOfFirstHiddenNodes(num_hidden_nodes);
   net1->SetNumOfOutputNodes(num_output_nodes);
- 
+
   net1->SetFirstHiddenLayerBias(1.0);
   net1->SetOutputLayerBias(1.0);
 
   net1->Initialize();
   net1->InitializeWeights();
   net1->SetLearningRate(0.05);
-  
+
   TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
   trainingfcn->SetIterations(200);
-  
-  trainingfcn->SetThreshold(0.001); 
+
+  trainingfcn->SetThreshold(0.001);
   trainingfcn->Train(net1, sample, targets);
 
   //Network Simulation
@@ -143,9 +143,9 @@ XORTest1(int argc, char* argv[])
       ++error2;
       }
 
-    outfile << mv[0] << " " << mv[1] << " " 
+    outfile << mv[0] << " " << mv[1] << " "
             << tv[0] << " " << ov[0] << std::endl;
-    
+
     std::cout << "Network Input = " << mv << std::endl;
     std::cout << "Network Output = " << ov << std::endl;
     std::cout << "Target = " << tv << std::endl;
@@ -163,7 +163,7 @@ XORTest1(int argc, char* argv[])
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
-     
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGradientAnisotropicDiffusionImageFilterTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -36,10 +37,10 @@ namespace {
 // compare two images with an intensity tolerance
 bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  PixelType intensityTolerance = .001; 
+  PixelType intensityTolerance = .001;
   int radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
-    
+
   typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineImage);
@@ -70,11 +71,11 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
     return -1;
     }
 
- 
-  itk::ImageFileReader<myFloatImage>::Pointer input 
+
+  itk::ImageFileReader<myFloatImage>::Pointer input
     = itk::ImageFileReader<myFloatImage>::New();
   input->SetFileName(av[1]);
-  
+
   // Create a filter
   itk::GradientAnisotropicDiffusionImageFilter<myFloatImage, myFloatImage>
     ::Pointer filter
@@ -83,14 +84,14 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
   filter->SetNumberOfIterations(10);
   filter->SetConductanceParameter(1.0f);
   filter->SetTimeStep(0.125f);
-  
+
   filter->SetInput(input->GetOutput());
 
   typedef itk::Image<unsigned char, 2> myUCharImage;
   itk::CastImageFilter<myFloatImage, myUCharImage>::Pointer caster
     = itk::CastImageFilter<myFloatImage, myUCharImage>::New();
   caster->SetInput(filter->GetOutput());
-  
+
   try
     {
     caster->Update();
@@ -122,8 +123,8 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
   spacing[1] = input->GetOutput()->GetSpacing()[1]*100.0;
   changeInfo->SetOutputSpacing( spacing );
   changeInfo->ChangeSpacingOn();
-  
-  
+
+
   filter->SetInput( changeInfo->GetOutput() );
   filter->UseImageSpacingOn();
   // need to adjust the time step to the number of iterations equates
@@ -139,12 +140,12 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
     std::cerr << "Exception detected: "  << e.GetDescription();
     return EXIT_FAILURE;
     }
-  
+
   // the results with spacing should be about the same as without spacing
-  if ( !SameImage( filter->GetOutput(), normalImage ) ) 
+  if ( !SameImage( filter->GetOutput(), normalImage ) )
     {
     std::cout << "Results varied with spacing enabled!" << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;

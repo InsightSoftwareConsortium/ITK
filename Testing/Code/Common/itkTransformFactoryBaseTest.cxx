@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTransformFactoryBaseTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,10 +28,10 @@ int itkTransformFactoryBaseTest (int, char*[])
 {
   // Call register default transforms
   itk::TransformFactoryBase::RegisterDefaultTransforms();
-  
+
   // Print out the names of all the registered transforms
   std::list<std::string> names = itk::TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
-  
+
   // create the list of default transforms
   std::list<std::string> defaultTransforms;
   defaultTransforms.push_back("AffineTransform_double_2_2");
@@ -62,7 +63,7 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("VersorRigid3DTransform_double_3_3");
   defaultTransforms.push_back("VersorTransform_double_3_3");
   defaultTransforms.push_back("Similarity2DTransform_double_2_2");
-  
+
   defaultTransforms.push_back("AffineTransform_float_2_2");
   defaultTransforms.push_back("AffineTransform_float_3_3");
   defaultTransforms.push_back("BSplineDeformableTransform_float_2_2");
@@ -92,13 +93,13 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("VersorRigid3DTransform_float_3_3");
   defaultTransforms.push_back("VersorTransform_float_3_3");
   defaultTransforms.push_back("Similarity2DTransform_float_2_2");
-  
+
   // check to make sure that all default transforms have been registered
   defaultTransforms.sort();
   names.sort();
   std::list<std::string>::iterator namesIt;
   std::list<std::string>::iterator defaultsIt;
-  for (namesIt = names.begin(), defaultsIt = defaultTransforms.begin(); 
+  for (namesIt = names.begin(), defaultsIt = defaultTransforms.begin();
        namesIt != names.end(), defaultsIt != defaultTransforms.end();
        namesIt++, defaultsIt++)
     {
@@ -112,7 +113,7 @@ int itkTransformFactoryBaseTest (int, char*[])
       std::cout << "[SUCCESS] " << *defaultsIt << " registered properly" << std::endl;
       }
     }
-  
+
   // test other methods
   itk::TransformFactoryBase::Pointer base = itk::TransformFactoryBase::New();
   const char* itkVersion = base->GetITKSourceVersion();
@@ -142,7 +143,7 @@ int itkTransformFactoryBaseTest (int, char*[])
     {
     std::cout << "[SUCCESS] Reported type correctly as " << type << std::endl;
     }
-  
+
   // return successfully
   return EXIT_SUCCESS;
 

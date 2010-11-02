@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkEuler2DTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -28,9 +29,9 @@
 #include "itkTransformFileReader.h"
 #include "itkTransformFactory.h"
 
-namespace 
+namespace
 {
-bool CheckEqual( 
+bool CheckEqual(
  itk::Point<double,2> p1,
  itk::Point<double,2> p2 )
 {
@@ -56,7 +57,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
 
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Euler Angles 2D Transform" << std::endl << std::endl;
@@ -67,14 +68,14 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
 
   typedef itk::Euler2DTransform<double>  EulerTransformType;
   EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
-  
+
   // Testing Identity
   std::cout << "Testing identity transform: ";
   eulerTransform->SetIdentity();
 
   EulerTransformType::OffsetType offset = eulerTransform->GetOffset();
-  if( offset[0] != 0.0 
-     || offset[1] != 0.0 
+  if( offset[0] != 0.0
+     || offset[1] != 0.0
     )
   {
      std::cout << "[ FAILED ]" << std::endl;
@@ -84,7 +85,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   std::cout << "[ PASSED ]" << std::endl;
 
   // 15 degrees in radians
-  const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+  const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0;
   const double sinth = vcl_sin( angle );
   const double costh = vcl_cos( angle );
 
@@ -107,11 +108,11 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
      if( vcl_fabs( q[i]- r[i] ) > epsilon )
      {
         Ok = false;
-        break;    
+        break;
      }
   }
   if( !Ok )
-  { 
+  {
     std::cerr << "Error rotating point   : " << p << std::endl;
     std::cerr << "Result should be       : " << q << std::endl;
     std::cerr << "Reported Result is     : " << r << std::endl;
@@ -122,29 +123,29 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     std::cout << " [ PASSED ] " << std::endl;
   }
 
-  
+
   std::cout << "Testing Translation:";
 
   eulerTransform->SetRotation(0);
-  
+
   EulerTransformType::OffsetType::ValueType ioffsetInit[2] = {1,4};
   EulerTransformType::OffsetType ioffset = ioffsetInit;
 
   eulerTransform->SetOffset( ioffset );
 
   q = p + ioffset;
-      
+
   r = eulerTransform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
   {
     if( vcl_fabs( q[i]- r[i] ) > epsilon )
     {
       Ok = false;
-      break;    
+      break;
     }
   }
   if( !Ok )
-  { 
+  {
     std::cerr << "Error translating point: " << p << std::endl;
     std::cerr << "Result should be       : " << q << std::endl;
     std::cerr << "Reported Result is     : " << r << std::endl;
@@ -158,14 +159,14 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   // Testing Parameters
   std::cout << "Testing Parameters: " ;
   EulerTransformType::ParametersType parameters = eulerTransform->GetParameters();
-  
+
   if( parameters[0] != 0.0
       || parameters[1] != 1.0
       || parameters[2] != 4.0
     )
   {
     std::cout << " [ FAILED ] " << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
   }
   std::cout << " [ PASSED ] " << std::endl;
 
@@ -173,15 +174,15 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   // Testing Jacobian
   std::cout << "Testing Jacobian: ";
   EulerTransformType::JacobianType  jacobian = eulerTransform->GetJacobian(pInit);
-  
-  if( jacobian[0][0] != -10.0 || jacobian[0][1] != 1.0 
+
+  if( jacobian[0][0] != -10.0 || jacobian[0][1] != 1.0
       || jacobian[0][2] != 0.0
-      || jacobian[1][0] != 10.0 || jacobian[1][1] != 0.0 
+      || jacobian[1][0] != 10.0 || jacobian[1][1] != 0.0
       || jacobian[1][2] != 1.0
     )
   {
     std::cout << " [ FAILED ] " << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
   }
   std::cout << " [ PASSED ] " << std::endl;
 
@@ -189,14 +190,14 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   std::cout << "Testing Angle from matrix : ";
   eulerTransform->SetIdentity();
   eulerTransform->SetRotation(0.2);
-  
+
   EulerTransformType::Pointer t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
   if(vcl_fabs(t2->GetParameters()[0]-0.2)>0.0001)
     {
     std::cout << " [ FAILED ] " << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
     }
   std::cout << " [ PASSED ] " << std::endl;
 
@@ -270,7 +271,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
 
       TransformType::InputPointType p4;
       p4 = t3->TransformPoint( p1 );
-    
+
       std::cout << "Test Clone(): ";
       if( !CheckEqual( p2, p4 ) )
         {
@@ -302,7 +303,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     if( !CheckEqual( p6, p7 ) )
       {
       return EXIT_FAILURE;
-      } 
+      }
 
     t1->CloneTo( t5 );
     t5->Compose( t4, true );
@@ -315,7 +316,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     if( !CheckEqual( p6, p7 ) )
       {
       return EXIT_FAILURE;
-      } 
+      }
 
     // Really test the jacobian
     std::cout << "Testing Jacobian: ";
@@ -361,7 +362,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
       } // for k
 
     std::cout << " [ PASSED ] " << std::endl;
-      
+
     }
 
   {
@@ -401,8 +402,8 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     if( !CheckEqual( op1, op2 ) )
       {
       return EXIT_FAILURE;
-      } 
- 
+      }
+
     // check that parameters are the same
     TransformType::ParametersType pdash = t23->GetParameters();
 
@@ -425,7 +426,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     // Test IO
     typedef EulerTransformType TransformType;
     itk::TransformFactory<TransformType>::RegisterTransform();
-    
+
     TransformType::Pointer t1 = TransformType::New();
 
     TransformType::ParametersType po, pf;
@@ -494,7 +495,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     if( !CheckEqual( op1, op2 ) )
       {
       return EXIT_FAILURE;
-      } 
+      }
 
   }
 

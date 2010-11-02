@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSliceIteratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -32,17 +33,17 @@ void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
   unsigned long int Location[N];
   unsigned int mult;
   T value;
-  
+
   itk::ImageRegionIterator<itk::Image<T, N> > data(I, I->GetRequestedRegion());
 
   Index = (I->GetRequestedRegion()).GetSize();
-  
+
   for (ArrayLength=1, iDim = 0; iDim<N; ++iDim)
   {
     Location[iDim] =0;
     ArrayLength*=Index[iDim];
   }
-  
+
   for (i=0; i<ArrayLength; ++i, ++data)
   {
     for (iDim=0, mult=1, value=0; iDim<N; ++iDim, mult*=10)
@@ -50,7 +51,7 @@ void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
       value += mult *  Location[N-iDim-1];
     }
     data.Set( value );
-          
+
     iDim = N-1;
           bool done=false;
           while(!done)
@@ -74,10 +75,10 @@ void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
   unsigned int iDim;
   long rsz[VDimension];
   long Location[VDimension];
-  
+
   memcpy(rsz, I->GetRequestedRegion().GetSize().m_Size,
          sizeof(unsigned long) * VDimension);
-  memset(Location, 0, sizeof(unsigned long) * VDimension); 
+  memset(Location, 0, sizeof(unsigned long) * VDimension);
   for (iDim = 0; iDim < VDimension; ++iDim)
     {
       std::cout << "iDim = " << iDim << std::endl;
@@ -87,9 +88,9 @@ void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
       std::cout << "\tRegionStartIndex = "
            << I->GetRequestedRegion().GetIndex()[iDim] << std::endl;
     }
-  
+
   itk::ImageRegionIterator<itk::Image<T, VDimension> > iter( I, I->GetRequestedRegion());
-    
+
   for (; ! iter.IsAtEnd(); ++iter)
     {
       std::cout << iter.Get() << " ";
@@ -123,7 +124,7 @@ void PrintSlice(TContainer s)
       std::cout << *s << " ";
     }
   std::cout << "]" << std::endl;
-  
+
 }
 
 
@@ -132,7 +133,7 @@ int itkSliceIteratorTest(int, char* [] )
 
   // tests non-const slice iterator
   try {
-    
+
       itk::ImageRegion<2> reg;
       itk::Size<2> hoodRadius;
       itk::Size<2> imgSize;
@@ -142,7 +143,7 @@ int itkSliceIteratorTest(int, char* [] )
       hoodRadius[0]=hoodRadius[1]=2;
       reg.SetIndex(zeroIndex);
       reg.SetSize(imgSize);
-      
+
       std::slice hslice(10, 5, 1); // slice through the horizontal center
       std::slice vslice(2, 5, 5);  // slice through the vertical center
       itk::Neighborhood<int, 2> temp;
@@ -150,25 +151,25 @@ int itkSliceIteratorTest(int, char* [] )
       itk::SliceIterator<int, itk::Neighborhood<int,2> > vnsi(&temp, vslice);
       itk::ConstSliceIterator<int, itk::Neighborhood<int,2> > hnsi2(&temp, hslice);
       itk::ConstSliceIterator<int, itk::Neighborhood<int,2> > vnsi2(&temp, vslice);
-      
+
       itk::Neighborhood<int, 2> op;
       op.SetRadius(hoodRadius);
-      
+
       itk::Index<2> idx;
       idx[0]=idx[1]=0;
-      
+
       itk::Image<int, 2>::Pointer ip = itk::Image<int,2>::New();
       ip->SetRequestedRegion(reg);
       ip->SetBufferedRegion(reg);
       ip->SetLargestPossibleRegion(reg);
       ip->Allocate();
-      
+
       FillRegionSequential<int, 2>(ip);
       PrintRegion<int,2>(ip);
-      
+
       itk::NeighborhoodIterator<itk::Image<int,2> >
         it(hoodRadius, ip, reg);
-      
+
       for (it.GoToBegin(); !it.IsAtEnd(); ++it)
         {
           temp = it.GetNeighborhood();

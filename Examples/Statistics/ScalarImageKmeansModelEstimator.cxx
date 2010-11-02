@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ScalarImageKmeansModelEstimator.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,7 +38,7 @@
 // techniques that will use the classification as a prior and add spatial
 // information to it in order to produce a better segmentation.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 #include "itkKdTree.h"
@@ -89,7 +90,7 @@ int main( int argc, char * argv [] )
 
 
   // Software Guide : BeginCodeSnippet
-  
+
   // Create a List from the scalar image
   typedef itk::Statistics::ScalarImageToListAdaptor< ImageType >   AdaptorType;
 
@@ -104,8 +105,8 @@ int main( int argc, char * argv [] )
 
 
   // Create the K-d tree structure
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< 
-                                                      AdaptorType > 
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator<
+                                                      AdaptorType >
                                                               TreeGeneratorType;
 
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
@@ -124,12 +125,12 @@ int main( int argc, char * argv [] )
   const unsigned int numberOfClasses = 3;
 
   EstimatorType::ParametersType initialMeans( numberOfClasses );
-  initialMeans[0] = 25.0;   
-  initialMeans[1] = 125.0;  
-  initialMeans[2] = 250.0;  
+  initialMeans[0] = 25.0;
+  initialMeans[1] = 125.0;
+  initialMeans[2] = 250.0;
 
   estimator->SetParameters( initialMeans );
-  
+
   estimator->SetKdTree( treeGenerator->GetOutput() );
   estimator->SetMaximumIteration( 200 );
   estimator->SetCentroidPositionChangesThreshold(0.0);
@@ -146,7 +147,7 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{BrainT1Slice.eps}
   // \itkcaption[Output of the ScalarImageKmeansModelEstimator]{Test image for the
@@ -154,14 +155,14 @@ int main( int argc, char * argv [] )
   // \label{fig:ScalarImageKmeansModelEstimatorTestImage}
   // \end{figure}
   //
-  //  The example produces means of 14.8, 91.6, 134.9 on 
+  //  The example produces means of 14.8, 91.6, 134.9 on
   // Figure \ref{fig:ScalarImageKmeansModelEstimatorTestImage}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;
-  
+
 }
 
 

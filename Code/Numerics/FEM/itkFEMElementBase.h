@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElementBase.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMElementBase_h
 #define __itkFEMElementBase_h
 
@@ -48,8 +48,8 @@ namespace fem {
  *    - Write(): Writes element data to the stream.
  *    - Draw():  Draws the element on the device context (Windows only).
  *
- * The storage of element parameters (geometry...) can't be implemented here, since we don't know yet, 
- * how much memory each element needs. Instead each derived class should take care of the memory 
+ * The storage of element parameters (geometry...) can't be implemented here, since we don't know yet,
+ * how much memory each element needs. Instead each derived class should take care of the memory
  * management (declare appropriate data members) for the element parameters and provide access
  * to these parameters (like nodes, materials...).
  */
@@ -116,14 +116,14 @@ public:
    * Constant that represents an invalid DegreeOfFreedomID object.
    * If a degree of freedom is assigned this value, this means that
    * that no specific value was (yet) assigned to this DOF.
-   */ 
+   */
   enum{ InvalidDegreeOfFreedomID = 0xffffffff };
 
   /**
    * \class Node
    * \brief Class that stores information required to define a node.
    *
-   * A node can define a point in space and can hold an arbitrary number 
+   * A node can define a point in space and can hold an arbitrary number
    * of coordinates and the DOFs. Since the only classes that use nodes
    * are the elements, the node class is defined within an element base class.
    */
@@ -131,7 +131,7 @@ public:
     {
     FEM_CLASS(Node,FEMLightObject)
      public:
-    
+
     /**
      * Floating point precision type.
      */
@@ -300,7 +300,7 @@ public:
    * Compute and return the element load vector for a given external load.
    * The class of load object determines the type of load acting on the
    * elemnent. Basically this is the contribution of this element on the right
-   * side of the master matrix equation, due to the specified load. 
+   * side of the master matrix equation, due to the specified load.
    * Returned vector includes only nodal forces that correspond to the given
    * Load object.
    *
@@ -372,7 +372,7 @@ public:
   virtual Float InterpolateSolutionN( const VectorType& pt, const Solution& sol, unsigned int f , unsigned int solutionIndex=0 ) const;
 
   /**
-   * Convenient way to access IDs of degrees of freedom 
+   * Convenient way to access IDs of degrees of freedom
    * that are stored in node objects.
    *
    * \param local_dof Local number of degree of freedom within an element.
@@ -396,7 +396,7 @@ public:
    * enables easy access to this pointer from the base class. If the
    * derived class does not override this function, the returned pointer
    * is 0 by default, signaling that there is no Material object.
-   * 
+   *
    * \sa SetMaterial
    */
   virtual Material::ConstPointer GetMaterial(void) const { return 0; }
@@ -417,7 +417,7 @@ public:
    */
 
   /**
-   * Computes the vector representing the i-th integration point in 
+   * Computes the vector representing the i-th integration point in
    * local element coordinates for a Gauss-Legendre numerical integration
    * over the element domain. It also computes the weight at this integration
    * point.
@@ -466,7 +466,7 @@ public:
    * Points for 1D Gauss-Legendre integration from -1 to 1. First
    * index is order of integration, second index is the number of
    * integration point.
-   * 
+   *
    * Example: gaussPoint[4][2] returns third point of the 4th order
    * integration rule. Subarray gaussPoint[0][...] does not provide useful
    * information. It is there only to keep order index correct.
@@ -585,7 +585,7 @@ public:
    */
   virtual void ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixType& shapeDgl, const MatrixType* pJ=0, const MatrixType* pshapeD=0 ) const;
 
-  /** 
+  /**
    * Compute the Jacobian matrix of the transformation from local
    * to global coordinates at a given local point.
    *

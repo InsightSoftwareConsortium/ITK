@@ -1,25 +1,25 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDeformableSimplexMesh3DFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #pragma warning ( disable : 4503 )
 #endif
- 
+
 #include <math.h>
 #include <iostream>
 #include <time.h>
@@ -38,13 +38,13 @@
 int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 {
   // Declare the type of the input and output mesh
- 
+
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3,double,double>  TriangleMeshTraits;
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double,double> SimplexMeshTraits;
   typedef itk::Mesh<double,3, TriangleMeshTraits>                    TriangleMeshType;
   typedef itk::SimplexMesh<double,3, SimplexMeshTraits>              SimplexMeshType;
 
-  // declare the image class 
+  // declare the image class
   typedef itk::Image<float,3>                       OriginalImageType;
   typedef OriginalImageType::PixelType              PixelType;
   typedef OriginalImageType::IndexType              IndexType;
@@ -68,29 +68,29 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 
    // declare the triangle to simplex mesh filter
   typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType> SimplexFilterType;
-  
-  
+
+
   // decalre the simplex mesh volume calculator
   typedef itk::SimplexMeshVolumeCalculator<SimplexMeshType> SimplexVolumeType;
 
-  // create the actual mesh, sphere 
+  // create the actual mesh, sphere
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
-  PointType center; 
+  PointType center;
   center.Fill(10);
   PointType::ValueType scaleInit[3] = {3,3,3};
   VectorType scale = scaleInit;
-  
+
   mySphereMeshSource->SetCenter(center);
-  mySphereMeshSource->SetResolution(2); 
+  mySphereMeshSource->SetResolution(2);
   mySphereMeshSource->SetScale(scale);
 
   std::cout << "Triangle mesh created. " << std::endl;
-  
+
   // send the sphere mesh ( triangle cells) to create a simplex mesh
   SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput( mySphereMeshSource->GetOutput() );
   simplexFilter->Update();
-  
+
   SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   simplexMesh->DisconnectPipeline();
 
@@ -116,12 +116,12 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
         index[2] = z;
         if ( ( (x == 5 || x == 15) && y >= 5 && y <= 15 && z >= 5 && z <= 15)  ||
              ( (y == 5 || y == 15) && x >= 5 && x <= 15 && z >= 5 && z <= 15)  ||
-             ( (z == 5 || z == 15) && y >= 5 && y <= 15 && x >= 5 && x <= 15) 
+             ( (z == 5 || z == 15) && y >= 5 && y <= 15 && x >= 5 && x <= 15)
            )
         {
           originalImage->SetPixel(index, 1);
         }
-        else 
+        else
         {
           originalImage->SetPixel(index, 0);
         }
@@ -129,7 +129,7 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
     }
   }
   std::cout << "Creating dummy image done" << std::endl;
-  
+
   std::cout << " starting to Filter Image" << std::endl;
   GradientAnisotropicImageType::Pointer gradientanisotropicfilter = GradientAnisotropicImageType::New();
   gradientanisotropicfilter->SetInput(originalImage);
@@ -153,7 +153,7 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
   sigmoidimagefilter->SetBeta(100);
   sigmoidimagefilter->Update();
   std::cout << "Sigmoid is DONE!" << std::endl;
-  
+
   GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
   gradientFilter->SetInput(sigmoidimagefilter->GetOutput());
   gradientFilter->SetSigma(1.0);
@@ -161,29 +161,29 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
   std::cout << "GradientMagnitude is DONE!" << std::endl;
 
   DeformFilterType::Pointer deformFilter = DeformFilterType::New();
-  
+
   for (int i=0 ; i < 100; i++)
     {
 
-  
+
       // must disconnect the pipeline
       simplexMesh->DisconnectPipeline();
       deformFilter->SetInput( simplexMesh );
       deformFilter->SetGradient( gradientFilter->GetOutput() );
       deformFilter->SetAlpha(0.1);
       deformFilter->SetBeta(-0.1);
-      deformFilter->SetIterations(5); 
+      deformFilter->SetIterations(5);
       deformFilter->SetRigidity(1);
       deformFilter->Update();
-     
+
     }
   SimplexMeshType::Pointer deformResult =  deformFilter->GetOutput();
-  
+
   // calculate the volume of the mesh
   SimplexVolumeType::Pointer volumecalculator = SimplexVolumeType::New();
   volumecalculator->SetSimplexMesh(deformFilter->GetOutput()  );
   volumecalculator->Compute();
-  
+
   std::cout << "whole volume is " << volumecalculator->GetVolume() << std::endl;
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;

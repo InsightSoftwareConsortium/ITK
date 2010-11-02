@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAlgorithmsPrintTest4.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -41,28 +42,28 @@
 
 int main(int , char* [])
 {
-  typedef itk::Image<float,2> InputType; 
+  typedef itk::Image<float,2> InputType;
   typedef itk::Image<float,2> OutputType;
   typedef itk::Image<bool,2> BinaryImageType;
   typedef itk::Image<unsigned short,2> UShortImageType;
   typedef itk::Image<unsigned char,2> CharType;
-  
+
   typedef itk::Mesh<double>  MeshType;
-  
+
   typedef itk::Vector<float,2> VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
   typedef itk::PointSet<float,2> PointSetType;
-  
+
   // Used for GradientVectorFlowImageFilter
   typedef itk::CovariantVector<double,2> GradientType;
   typedef itk::Image<GradientType,2>   GradientImageType;
 
   //Used for ImageKMeansModelEstimator
   typedef itk::Statistics::DistanceToCentroidMembershipFunction<VectorType> KMeansMemFuncType;
-  
+
   // Used for ImageGaussianModelEstimator
   typedef itk::Statistics::MahalanobisDistanceMembershipFunction<VectorType> GaussianMemFuncType;
-  
+
   // Used for ImageToSpatialObjectRegistrationMethod
   typedef itk::GroupSpatialObject<2>   GroupType;
 
@@ -93,7 +94,7 @@ int main(int , char* [])
   itk::ImageGaussianModelEstimator<VectorImageType,GaussianMemFuncType,UShortImageType>::Pointer ImageGaussianModelEstimatorObj =
     itk::ImageGaussianModelEstimator<VectorImageType,GaussianMemFuncType,UShortImageType>::New();
   std:: cout << "-------------ImageGaussianModelEstimator " << ImageGaussianModelEstimatorObj;
-  
+
   itk::ImageKmeansModelEstimator<VectorImageType,KMeansMemFuncType>::Pointer ImageKmeansModelEstimatorObj =
     itk::ImageKmeansModelEstimator<VectorImageType,KMeansMemFuncType>::New();
   std:: cout << "-------------ImageKmeansModelEstimator " << ImageKmeansModelEstimatorObj;

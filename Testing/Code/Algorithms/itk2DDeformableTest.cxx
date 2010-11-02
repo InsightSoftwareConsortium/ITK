@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itk2DDeformableTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -41,7 +42,7 @@ int itk2DDeformableTest(int, char* [])
 // change the image size to your test images
   int WIDTH = 100;
   int HEIGHT = 100;
-  
+
   // Define the dimension of the images
   const unsigned int myDimension = 2;
 
@@ -54,7 +55,7 @@ int itk2DDeformableTest(int, char* [])
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>       myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<myDimension>        mySizeType;
 
   // Declare the type of the Region
@@ -86,7 +87,7 @@ int itk2DDeformableTest(int, char* [])
   biindex.Fill(0);
   biregion.SetSize(bisize);
   biregion.SetIndex(biindex);
-  
+
   biimg->SetLargestPossibleRegion( biregion );
   biimg->SetBufferedRegion( biregion );
   biimg->SetRequestedRegion( biregion );
@@ -116,9 +117,9 @@ int itk2DDeformableTest(int, char* [])
 
   /////////////////////////////////////////////////////////////////////////
   // create user defined images for test
-  
 
-  while( !it.IsAtEnd() ) 
+
+  while( !it.IsAtEnd() )
   {
     it.Set( 0.0 );
     bit.Set( 0 );
@@ -141,7 +142,7 @@ int itk2DDeformableTest(int, char* [])
   itk::ImageRegionIteratorWithIndex <binaryImageType> bitb( biimg, biregion );
 
   // Initialize the content the internal region
-  while( !itb.IsAtEnd() ) 
+  while( !itb.IsAtEnd() )
   {
     itb.Set( 100.0 );
     bitb.Set ( 255 );
@@ -168,15 +169,15 @@ int itk2DDeformableTest(int, char* [])
                                             myImageType,
                                             myGradientImageType
                                             >  myFilterType;
-            
 
-  // Create a  Filter                                
+
+  // Create a  Filter
   myFilterType::Pointer grfilter = myFilterType::New();
   myGFilterType::Pointer gfilter = myGFilterType::New();
   myGToMFilterType::Pointer gtomfilter = myGToMFilterType::New();
 
   // Connect the input images
-  grfilter->SetInput( dshrink->GetOutput() ); 
+  grfilter->SetInput( dshrink->GetOutput() );
 
   // Set sigma
   grfilter->SetSigma( 3.0 );
@@ -230,7 +231,7 @@ int itk2DDeformableTest(int, char* [])
 
   m_dfilter->Update();
   std::cout << m_dfilter;
-  
+
   DMesh::Pointer normals = m_dfilter->GetNormals();
   DMesh::Pointer locations = m_dfilter->GetLocations();
   DMesh::Pointer displacements = m_dfilter->GetDisplacements();

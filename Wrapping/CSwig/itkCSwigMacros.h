@@ -1,10 +1,27 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkConfigure.h"
 
 #define ITK_WRAP_GROUP(x) #x
 
 #define ITK_WRAP_PACKAGE_NAME(p) p
 
-// Wrap an itk object, the wrap name is itkname, 
+// Wrap an itk object, the wrap name is itkname,
 // this is for non-templated itk objects, so
 // ITK_WRAP_OBJECT(Object) would wrap itk::Object to the wrapped name itkObject
 #define ITK_WRAP_OBJECT(name) \
@@ -13,16 +30,16 @@ typedef itk::name::Pointer::SmartPointer itk##name##_Pointer
 
 // define the template class wrapper macros
 
-// Wrap an itk object with one template parameter 
+// Wrap an itk object with one template parameter
 // The wrapname is the name that will be used and usually
 // encodes the template parameters, i.e. itk::Image<float, 2> would
 // itkImageF2
 
 #define ITK_WRAP_OBJECT1(name, arg1, wrapname) \
 typedef itk::name<arg1 >::name wrapname; \
-typedef itk::name<arg1 >::Pointer::SmartPointer wrapname##_Pointer 
+typedef itk::name<arg1 >::Pointer::SmartPointer wrapname##_Pointer
 
-// same as ITK_WRAP_OBJECT1 but also wraps the super class 
+// same as ITK_WRAP_OBJECT1 but also wraps the super class
 #define ITK_WRAP_OBJECT1_WITH_SUPERCLASS(name, arg1, wrapname) \
 ITK_WRAP_OBJECT1(name, arg1, wrapname); \
 typedef itk::name<arg1 >::Superclass::Self wrapname##_Superclass; \

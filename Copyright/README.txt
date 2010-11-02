@@ -1,5 +1,0 @@
-See files
-
-LICENSE
-
-NOTICE

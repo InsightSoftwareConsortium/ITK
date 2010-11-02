@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageFileReaderDimensionsTest.cxx
-  Language:  C++
-  Date:      $Date$xgoto-l
-
-  Version:   $Revision$
-
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -79,7 +79,7 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     Reader3DType::Pointer reader = Reader3DType::New();
     // we expect the filename to be 4 dimensions
     reader->SetFileName(tempFile1);
-   
+
 
     Writer3DType::Pointer writer = Writer3DType::New();
     writer->SetInput(reader->GetOutput());
@@ -141,25 +141,25 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     Reader2DType::Pointer reader = Reader2DType::New();
     // we expect the filename to be 4 dimensions
     reader->SetFileName(tempFile1);
-    reader->UpdateLargestPossibleRegion();    
+    reader->UpdateLargestPossibleRegion();
     }
   catch (itk::ExceptionObject &ex)
     {
     std::cout << ex;
     return EXIT_FAILURE;
     }
- 
+
   int status = 1;
   // read the 4D file into a 4D image, then try to stream it as a 3D
-  // IORegion   
+  // IORegion
   std::cout << "testing requested invalid paste IORegion" << std::endl;
   try
     {
     Reader4DType::Pointer reader = Reader4DType::New();
     reader->SetFileName(tempFile4);
-    
+
     Image4DType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-    
+
     // the dimension of this ioregion is an error, since it is one
     // less then the image file dimension
     itk::ImageIORegion ioregion(3);
@@ -178,18 +178,18 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     writer->Update();
     }
   catch (itk::ExceptionObject &ex)
-    {    
+    {
     // this exception is expected since the ioregion should be invalid
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
     }
-  if (status) 
+  if (status)
     {
     std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // regression test of bug #10529
   // we expect the filename to be 2 or 3 dimensions
   // and reading it into a 4D

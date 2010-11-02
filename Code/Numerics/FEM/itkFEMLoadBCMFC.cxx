@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadBCMFC.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -53,9 +53,9 @@ void LoadBCMFC::Read( std::istream& f, void* info )
 
   /** read number of terms in lhs of MFC equation */
   this->SkipWhiteSpace(f); f>>nlhs; if(!f) goto out;
-  
+
   lhs.clear();
-  for(int i=0; i<nlhs; i++) 
+  for(int i=0; i<nlhs; i++)
     {
     /** read and set pointer to element that we're applying the load to */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
@@ -97,7 +97,7 @@ out:
 /**
  * Write the LoadBCMFC object to the output stream
  */
-void LoadBCMFC::Write( std::ostream& f ) const 
+void LoadBCMFC::Write( std::ostream& f ) const
 {
   /** first call the parent's write function */
   Superclass::Write(f);
@@ -111,7 +111,7 @@ void LoadBCMFC::Write( std::ostream& f ) const
 
   /** write each term */
   f << "\t  %==>\n";
-  for(LhsType::const_iterator q=lhs.begin(); q != lhs.end(); q++) 
+  for(LhsType::const_iterator q=lhs.begin(); q != lhs.end(); q++)
     {
     f << "\t  "<<q->m_element->GN<<"\t% GN of element" << std::endl;
     f << "\t  "<<q->dof<<"\t% DOF# in element" << std::endl;

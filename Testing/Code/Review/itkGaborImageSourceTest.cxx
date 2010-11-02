@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGaborImageSourceTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkGaborImageSource.h"
 #include "itkImageFileWriter.h"
 
@@ -21,7 +22,7 @@ int itkGaborImageSourceTest0( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 2;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;   
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
 
   // Instantiate the filter
   typedef itk::GaborImageSource<ImageType> GaborSourceType;
@@ -32,24 +33,24 @@ int itkGaborImageSourceTest0( int, char *argv[] )
   sigma[0] = 2.0;
   sigma[1] = 5.0;
 
-  ImageType::SizeType size;  
+  ImageType::SizeType size;
   size.Fill( 64*4 );
-  
+
   gaborImage->SetSize( size );
 
   gaborImage->SetSigma( sigma );
   gaborImage->SetFrequency( 0.1 );
   gaborImage->SetCalculateImaginaryPart( false );
-  
+
   try
     {
     gaborImage->Update();
     gaborImage->Print(std::cout);
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -66,7 +67,7 @@ int itkGaborImageSourceTest1( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;   
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
 
   // Instantiate the filter
   typedef itk::GaborImageSource<ImageType> GaborSourceType;
@@ -82,15 +83,15 @@ int itkGaborImageSourceTest1( int, char *argv[] )
   gaborImage->SetSigma( sigma );
   gaborImage->SetFrequency( 0.1 );
   gaborImage->SetCalculateImaginaryPart( true );
-  
+
   try
     {
     gaborImage->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -113,7 +114,7 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
     std::cout << "Usage: " << argv[0] << " outputImage whichTest" << std::endl;
     return EXIT_FAILURE;
     }
-    
+
   int test;
   if ( atoi( argv[2] ) == 0 )
     {
@@ -124,5 +125,5 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
     test = itkGaborImageSourceTest1( argc, argv );
     }
 
-  return test;  
+  return test;
 }

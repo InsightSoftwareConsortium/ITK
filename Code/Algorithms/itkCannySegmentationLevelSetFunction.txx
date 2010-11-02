@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCannySegmentationLevelSetFunction.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkCannySegmentationLevelSetFunction_txx
 #define __itkCannySegmentationLevelSetFunction_txx
 
@@ -87,16 +88,11 @@ void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
   // build the distance image.
   tempFeature->Graft( this->GetFeatureImage() );
 
-  // Only cast if we need to
-  if ( typeid( TImageType ) == typeid( TFeatureImageType ) )
-    {
-    m_Canny->SetInput(tempFeature);
-    }
-  else
-    {
-    m_Caster->SetInput(tempFeature);
-    m_Canny->SetInput( m_Caster->GetOutput() );
-    }
+  // AssignCannyInput either sets up a pipeline through the
+  // CastImageFilter if TImageType != TFeatureImageType
+  // or bypasses the Cast operation if TImageType == TFeatureType
+  typename TImageType::Pointer junk;
+  this->AssignCannyInput(tempFeature,junk);
 
   m_Canny->SetUpperThreshold(m_Threshold);
   m_Canny->SetVariance(m_Variance);

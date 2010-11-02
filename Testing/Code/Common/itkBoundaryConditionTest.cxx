@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBoundaryConditionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -43,7 +44,7 @@ void filln(itk::Image<float, 2> *img)
 {
   float i, j;
   i=j=0.0f;
-  
+
   itk::ImageRegionIterator<itk::Image<float, 2> > it(img, img->GetRequestedRegion());
 
   while( ! it.IsAtEnd() )
@@ -69,16 +70,16 @@ int itkBoundaryConditionTest(int, char* [] )
  typedef itk::Image<float, 4> ImageTypeND;
 
  println("Creating some images");
-  
- // Create some images  
+
+ // Create some images
  itk::ImageRegion<2> Region2D;
  itk::ImageRegion<3> Region3D;
  itk::ImageRegion<4> RegionND;
-  
+
   itk::Size<2>  size2D;
    size2D[0] = 30;
    size2D[1] = 15;
-  
+
   itk::Size<3>  size3D;
    size3D[0] = 100;
    size3D[1] = 100;
@@ -89,7 +90,7 @@ int itkBoundaryConditionTest(int, char* [] )
    sizeND[1] = 10;
    sizeND[2] = 4;
    sizeND[3] = 2;
-  
+
   itk::Index<2> orig2D;
    orig2D[0] = 0;
    orig2D[1] = 0;
@@ -104,11 +105,11 @@ int itkBoundaryConditionTest(int, char* [] )
    origND[1] = 0;
    origND[2] = 0;
    origND[3] = 0;
-   
+
   Region2D.SetSize(size2D);
   Region3D.SetSize(size3D);
   RegionND.SetSize(sizeND);
-  
+
   Region2D.SetIndex(orig2D);
   Region3D.SetIndex(orig3D);
   RegionND.SetIndex(origND);
@@ -141,22 +142,22 @@ int itkBoundaryConditionTest(int, char* [] )
                                           imageND->GetRequestedRegion());
 
   println("Initializing some images");
-  
+
   //  for (; !it2D.IsAtEnd(); ++it2D) *it2D = 1.0f;
   filln(image2D);
   for (; !it3D.IsAtEnd(); ++it3D) it3D.Set(1.0f);
   for (; !itND.IsAtEnd(); ++itND) itND.Set(1.0f);
-  
+
   println("Initializing smart neighborhood iterators");
   itk::Size<2> sz2;
    sz2[0] = 2;
    sz2[1] = 1;
-  
+
   itk::Size<3> sz3;
    sz3[0] = 2;
    sz3[1] = 3;
    sz3[2] = 1;
-  
+
   itk::Size<4> szN;
    szN[0] = 1;
    szN[1] = 3;
@@ -172,7 +173,7 @@ int itkBoundaryConditionTest(int, char* [] )
    cbc.SetConstant(itk::NumericTraits<float>::Zero);
    it2d.OverrideBoundaryCondition(&cbc);
 
-   SmartIteratorType::NeighborhoodType tempN; 
+   SmartIteratorType::NeighborhoodType tempN;
    SmartIteratorType::NeighborhoodType temp2N;
    temp2N = it2d.GetNeighborhood(); // initialize
 
@@ -196,7 +197,7 @@ int itkBoundaryConditionTest(int, char* [] )
                temp2N[ii] = it2d.GetPixel(ii);
              }
 #if 0
-           std::cout << " ________________________________________ " << std::endl; 
+           std::cout << " ________________________________________ " << std::endl;
            printn(it2d.GetNeighborhood().GetBufferReference(),
                   it2d.GetNeighborhood().GetSize() );
            std::cout << "  +++++ " << std::endl;
@@ -204,7 +205,7 @@ int itkBoundaryConditionTest(int, char* [] )
            std::cout << "________________________________________"<< std::endl;
 #endif
          }
-       
+
        it2d.OverrideBoundaryCondition(&neumann);
      }
 

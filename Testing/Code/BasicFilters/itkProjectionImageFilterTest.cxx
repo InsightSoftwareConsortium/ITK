@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkProjectionImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -26,9 +26,9 @@
 
 namespace itk
 {
-namespace ProjectionImageFilterNamespace 
+namespace ProjectionImageFilterNamespace
 {
-namespace Function 
+namespace Function
 {
 
 template <class TInputPixel, class TOutputPixel>
@@ -47,7 +47,7 @@ public:
     {
     if( input == 100 )
       {
-      m_IsForeground = true; 
+      m_IsForeground = true;
       }
     }
 
@@ -81,16 +81,16 @@ int itkProjectionImageFilterTest(int argc, char * argv[])
     }
 
   const int dim = 3;
-  
+
   typedef unsigned char                PixelType;
   typedef itk::Image< PixelType, dim > ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  
+
   // produce an image with 3 labels: 0 (background), 100 and 200
-  
+
   typedef itk::ThresholdLabelerImageFilter< ImageType, ImageType > LabelerType;
   LabelerType::Pointer labeler = LabelerType::New();
   labeler->SetInput( reader->GetOutput() );
@@ -98,7 +98,7 @@ int itkProjectionImageFilterTest(int argc, char * argv[])
   thresholds.push_back( 100 );
   thresholds.push_back( 200 );
   labeler->SetRealThresholds( thresholds );
-  
+
   typedef itk::ChangeLabelImageFilter< ImageType, ImageType > ChangeType;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( labeler->GetOutput() );
@@ -108,7 +108,7 @@ int itkProjectionImageFilterTest(int argc, char * argv[])
   typedef itk::ProjectionImageFilterNamespace::Function::BinaryAccumulator<
     PixelType, PixelType>  FunctionType;
 
-  typedef itk::ProjectionImageFilter< 
+  typedef itk::ProjectionImageFilter<
     ImageType, ImageType, FunctionType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
@@ -124,7 +124,7 @@ int itkProjectionImageFilterTest(int argc, char * argv[])
   try
     {
     writer->Update();
-    } 
+    }
   catch ( itk::ExceptionObject & excp )
     {
     std::cerr << excp << std::endl;

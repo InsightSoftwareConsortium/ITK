@@ -1,16 +1,21 @@
 /*=========================================================================
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFFTTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-  CopyOriginalImageIteratorght (c) 2002 Insight Consortium. All OriginalImageIteratorghts reserved.
-  See ITKCopyOriginalImageIteratorght.txt or http://www.itk.org/HTML/CopyOriginalImageIteratorght.htm for details.
-     This software is distOriginalImageIteratorbuted WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
-=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -30,20 +35,24 @@
 #include <math.h>
 
 
-/*test_fft is the test function and it is templated over the pixel,
-  Image dimensions and the  FFT library to be used.*/
-template <class TPixel,unsigned int ImageDimensions,
+// test_fft is the test function and it is templated over the pixel, Image
+// dimensions and the  FFT library to be used.
+template <class TPixel,unsigned int VImageDimensions,
           class R2CType,class C2RType>
-int
-test_fft(unsigned int *SizeOfDimensions)
+int test_fft(unsigned int *SizeOfDimensions)
 {
-  typedef itk::Image< TPixel , ImageDimensions > RealImageType;
-  typedef itk::Image< std::complex<TPixel> , ImageDimensions > ComplexImageType;
+  typedef itk::Image< TPixel , VImageDimensions >                  RealImageType;
+  typedef itk::Image< std::complex<TPixel> , VImageDimensions >    ComplexImageType;
   unsigned int counter = 0;
-  typename RealImageType::SizeType imageSize;
+  typename RealImageType::SizeType  imageSize;
   typename RealImageType::IndexType imageIndex;
-  /* We are testing the fft for 1d ,2d and 3d images. An array  (SizeOfDimensions) containing the sizes of each dimension is passed as an argument to this function.Based on the template argument ImageDimensions, we create a 1d 2d or 3d image by selecting the sizes of image dimensions from this array .*/
-  for(unsigned int i = 0; i < ImageDimensions; i++)
+
+  // We are testing the fft for 1d ,2d and 3d images. An array
+  // (SizeOfDimensions) containing the sizes of each dimension is passed as an
+  // argument to this function.Based on the template argument VImageDimensions, we
+  // create a 1d 2d or 3d image by selecting the sizes of image dimensions from
+  // this array .
+  for(unsigned int i = 0; i < VImageDimensions; i++)
     {
     imageSize.SetElement(i,SizeOfDimensions[i]);
     imageIndex.SetElement(i,0);
@@ -102,7 +111,7 @@ test_fft(unsigned int *SizeOfDimensions)
   const typename ComplexImageType::SizeType &complexImageSize =
     complexImage->GetLargestPossibleRegion().GetSize();
   unsigned int _Sizes[3] = { 1,1,1 };
-  for(unsigned int i = 0; i < ImageDimensions; i++)
+  for(unsigned int i = 0; i < VImageDimensions; i++)
     {
     _Sizes[i] = complexImageSize[i];
     }
@@ -120,9 +129,14 @@ test_fft(unsigned int *SizeOfDimensions)
       std::cerr << std::endl;
       }
     }
+
   std::cerr << std::endl << std::endl;
-  /*Perform the Inverse FFT to get back the Real Image.C@R is the complex conjugate to real image filter and we give the obtained complex image as input to this filter. This is the Inverse FFT of the image.*/
+
+  // Perform the Inverse FFT to get back the Real Image.C@R is the complex
+  // conjugate to real image filter and we give the obtained complex image as
+  // input to this filter. This is the Inverse FFT of the image.
   C2R->SetInput(complexImage);
+
   //
   // newer method to inform filter that there's an odd # of pixels in the x dimension.
   const bool dimensionIsOdd = SizeOfDimensions[0] & 1;
@@ -175,22 +189,25 @@ test_fft(unsigned int *SizeOfDimensions)
 }
 
 
-
-
 /*test_fft_rtc is the test function to compare two implementations (Direct FFT only).
   It is templated over the pixel, Image dimensions and the  FFT libraries to be used.*/
-template <class TPixel,unsigned int ImageDimensions,
+template <class TPixel,unsigned int VImageDimensions,
           class R2CAType,class R2CBType>
 int
 test_fft_rtc(unsigned int *SizeOfDimensions)
 {
-  typedef itk::Image< TPixel , ImageDimensions > RealImageType;
-  typedef itk::Image< std::complex<TPixel> , ImageDimensions > ComplexImageType;
+  typedef itk::Image< TPixel , VImageDimensions >                RealImageType;
+  typedef itk::Image< std::complex<TPixel> , VImageDimensions >  ComplexImageType;
   unsigned int counter = 0;
-  typename RealImageType::SizeType imageSize;
-  typename RealImageType::IndexType imageIndex;
-  /* We are testing the fft for 1d ,2d and 3d images. An array  (SizeOfDimensions) containing the sizes of each dimension is passed as an argument to this function.Based on the template argument ImageDimensions, we create a 1d 2d or 3d image by selecting the sizes of image dimensions from this array .*/
-  for(unsigned int i = 0; i < ImageDimensions; i++)
+  typename RealImageType::SizeType    imageSize;
+  typename RealImageType::IndexType   imageIndex;
+
+  // We are testing the fft for 1d ,2d and 3d images. An array
+  // (SizeOfDimensions) containing the sizes of each dimension is passed as an
+  // argument to this function.Based on the template argument VImageDimensions,
+  // we create a 1d 2d or 3d image by selecting the sizes of image dimensions
+  // from this array .
+  for(unsigned int i = 0; i < VImageDimensions; i++)
     {
     imageSize.SetElement(i,SizeOfDimensions[i]);
     imageIndex.SetElement(i,0);
@@ -236,20 +253,20 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
     ex.Print(std::cerr);
     return -1;
     }
-  
+
   /*Real to complex pointers. This computes the forward FFT*/
   typename R2CAType::Pointer R2Ca = R2CAType::New();
 
   /*Real to complex pointers. This computes the forward FFT*/
   typename R2CBType::Pointer R2Cb = R2CBType::New();
-  
+
   /*Set the real image created as the input to the forwar FFT filter*/
   R2Ca->SetInput(realimage);
   R2Ca->Update();
 
   R2Cb->SetInput(realimage);
   R2Cb->Update();
-  
+
   /*Get the size and the pointer to the complex image.*/
   typename ComplexImageType::Pointer complexImageA = R2Ca->GetOutput();
   std::complex<TPixel> *fftbufA = complexImageA->GetBufferPointer();
@@ -261,17 +278,17 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
   const typename ComplexImageType::SizeType &complexImageSizeB =
     complexImageB->GetLargestPossibleRegion().GetSize();
 
-  
+
   unsigned int _SizesA[3] = { 1,1,1 };
   unsigned int _SizesB[3] = { 1,1,1 };
-  for(unsigned int i = 0; i < ImageDimensions; i++)
+  for(unsigned int i = 0; i < VImageDimensions; i++)
     {
       /* the size may be different if one implementation returns
          a fullmatrix but not the other. */
       _SizesA[i] = complexImageSizeA[i];
       _SizesB[i] = complexImageSizeB[i];
     }
-  
+
   /*Print out the  the frequency domain data obtained after performing the forward transform */
   for(unsigned int i = 0; i < _SizesA[2]; i++)
     {
@@ -303,7 +320,7 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
     }
   std::cerr << std::endl << std::endl;
 
-  
+
   /*Subtract the 2 images Pixel Values
     and test whether they are greater than 0.01 for the test to pass*/
   for(unsigned int i = 0; i < vnl_math_min(_SizesA[2],_SizesB[2]); i++)
@@ -316,34 +333,33 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
       unsigned int yStrideB = j * _SizesB[0];
       for(unsigned int k = 0; k < vnl_math_min(_SizesA[0],_SizesB[0]); k++)
         {
-          double val = std::abs(fftbufA[zStrideA+yStrideA+k]);
-          double diff = std::abs(fftbufA[zStrideA+yStrideA+k]-fftbufB[zStrideB+yStrideB+k]);
-          if(val != 0)
-            {
-              diff /= vnl_math_abs(val);
-            }
-          if(diff > 0.01)
-            {
-              std::cerr << "Diff found " << fftbufA[zStrideA+yStrideA+k]
-                        << " " << fftbufB[zStrideB+yStrideB+k] << " diff " << diff << std::endl;
-              return -1;
-            }
+        double val = std::abs(fftbufA[zStrideA+yStrideA+k]);
+        double diff = std::abs(fftbufA[zStrideA+yStrideA+k]-fftbufB[zStrideB+yStrideB+k]);
+        if(val != 0)
+          {
+          diff /= vnl_math_abs(val);
+          }
+        if(diff > 0.01)
+          {
+          std::cerr << "Diff found " << fftbufA[zStrideA+yStrideA+k]
+                    << " " << fftbufB[zStrideB+yStrideB+k] << " diff " << diff << std::endl;
+          return -1;
+          }
         }
       }
     }
-  
+
   std::cerr << std::endl << std::endl;
   return 0;
 }
 
 
-
-
-
-   /*Test FFT using VNL Libraries. The test is performed for 2 3d array one of them
-   having the same dimension(4,4,4) and the other having different dimensions (3,4,5).
-   Images are created with different dimensions in the test function based on the second template argument    and  the size of these dimensions are taken from the array.
-   The data types used are float and double. */
+// Test FFT using VNL Libraries. The test is performed for 2 3d array one of
+// them having the same dimension(4,4,4) and the other having different
+// dimensions (3,4,5).  Images are created with different dimensions in the
+// test function based on the second template argument    and  the size of
+// these dimensions are taken from the array.  The data types used are float
+// and double.
 int itkVnlFFTTest(int, char *[])
 {
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
@@ -354,7 +370,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTRealToComplexConjugateImageFilter<float,1> ,
       itk::VnlFFTComplexConjugateToRealImageFilter<float,1> >(SizeOfDimensions1)) != 0)
     {
-    rval++;;
+    rval++;
     std::cerr << "--------------------- Failed!" << std::endl;
     }
   std::cerr << "Vnl float,2 (4,4,4)"<< std::endl;
@@ -363,7 +379,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<float,2> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl float,3 (4,4,4)"<< std::endl;
   if((test_fft<float,3,
@@ -371,7 +387,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<float,3> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl double,1 (4,4,4)"<< std::endl;
   if((test_fft<double,1,
@@ -379,7 +395,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<double,1> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl double,2 (4,4,4)"<< std::endl;
   if((test_fft<double,2,
@@ -387,7 +403,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<double,2> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl double,3 (4,4,4)"<< std::endl;
   if((test_fft<double,3,
@@ -395,7 +411,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<double,3> >(SizeOfDimensions1)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl float,1 (3,5,4)" << std::endl;
   if((test_fft<float,1,
@@ -403,7 +419,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<float,1> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl float,2 (3,5,4)"<< std::endl;
   if((test_fft<float,2,
@@ -411,7 +427,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<float,2> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl float,3 (3,5,4)"<< std::endl;
   if((test_fft<float,3,
@@ -419,7 +435,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<float,3> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl double,1 (3,5,4)"<< std::endl;
   if((test_fft<double,1,
@@ -427,7 +443,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<double,1> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl double,2 (3,5,4)"<< std::endl;
   if((test_fft<double,2,
@@ -435,7 +451,7 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<double,2> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   std::cerr << "Vnl double,3 (3,5,4)"<< std::endl;
   if((test_fft<double,3,
@@ -443,15 +459,18 @@ int itkVnlFFTTest(int, char *[])
       itk::VnlFFTComplexConjugateToRealImageFilter<double,3> >(SizeOfDimensions2)) != 0)
     {
     std::cerr << "--------------------- Failed!" << std::endl;
-    rval++;;
+    rval++;
     }
   return rval == 0 ? 0 : -1;
 }
 
 #if defined(USE_FFTWF)
-   /*Test FFT using FFTW Libraries. The test is performed for 2 3d array one of them
-   having the same dimension(4,4,4) and the other having different dimensions (3,4,5).
-   Images are created with different dimensions in the test function based on the second template argument   and  the size of these dimensions are taken from the array.The data types used are float and double. */
+// Test FFT using FFTW Libraries. The test is performed for 2 3d array one of
+// them having the same dimension(4,4,4) and the other having different
+// dimensions (3,4,5).  Images are created with different dimensions in the
+// test function based on the second template argument   and  the size of these
+// dimensions are taken from the array.The data types used are float and
+// double.
 int itkFFTWF_FFTTest(int, char *[])
 {
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
@@ -461,39 +480,42 @@ int itkFFTWF_FFTTest(int, char *[])
   if((test_fft<float,1,
       itk::FFTWRealToComplexConjugateImageFilter<float,1> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,1> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWF:float,2 (4,4,4)"<< std::endl;
   if((test_fft<float,2,
       itk::FFTWRealToComplexConjugateImageFilter<float,2> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,2> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWF:float,3 (4,4,4)"<< std::endl;
   if((test_fft<float,3,
       itk::FFTWRealToComplexConjugateImageFilter<float,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,3> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWF:float,1 (3,5,4)" << std::endl;
   if((test_fft<float,1,
       itk::FFTWRealToComplexConjugateImageFilter<float,1> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,1> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWF:float,2 (3,5,4)"<< std::endl;
   if((test_fft<float,2,
       itk::FFTWRealToComplexConjugateImageFilter<float,2> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,2> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWF:float,3 (3,5,4)"<< std::endl;
   if((test_fft<float,3,
       itk::FFTWRealToComplexConjugateImageFilter<float,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<float,3> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
 
   return (rval == 0) ? 0 : -1;
 }
 
-   /*Compare FFT using VNL and FFTW Libraries. The test is performed for 2 3d array one of them
-   having the same dimension(4,4,4) and the other having different dimensions (3,4,5).
-   Images are created with different dimensions in the test function based on the second template argument   and  the size of these dimensions are taken from the array.The data types used are float and double. */
+// Compare FFT using VNL and FFTW Libraries. The test is performed for 2 3d
+// array one of them having the same dimension(4,4,4) and the other having
+// different dimensions (3,4,5). Images are created with different dimensions
+// in the test function based on the second template argument   and  the size
+// of these dimensions are taken from the array.The data types used are float
+// and double.
 int itkVnlFFTWF_FFTTest(int, char *[])
 {
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
@@ -503,32 +525,32 @@ int itkVnlFFTWF_FFTTest(int, char *[])
   if((test_fft_rtc<float,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,1> ,
       itk::FFTWRealToComplexConjugateImageFilter<float,1> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWF:float,2 (4,4,4)"<< std::endl;
   if((test_fft_rtc<float,2,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,2> ,
       itk::FFTWRealToComplexConjugateImageFilter<float,2> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWF:float,3 (4,4,4)"<< std::endl;
   if((test_fft_rtc<float,3,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,3> ,
       itk::FFTWRealToComplexConjugateImageFilter<float,3> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWF:float,1 (3,5,4)" << std::endl;
   if((test_fft_rtc<float,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,1> ,
       itk::FFTWRealToComplexConjugateImageFilter<float,1> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWF:float,2 (3,5,4)"<< std::endl;
   if((test_fft_rtc<float,2,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,2> ,
       itk::FFTWRealToComplexConjugateImageFilter<float,2> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWF:float,3 (3,5,4)"<< std::endl;
   if((test_fft_rtc<float,3,
       itk::VnlFFTRealToComplexConjugateImageFilter<float,3> ,
       itk::FFTWRealToComplexConjugateImageFilter<float,3> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
 
   return (rval == 0) ? 0 : -1;
 }
@@ -544,38 +566,41 @@ int itkFFTWD_FFTTest(int, char *[])
   if((test_fft<double,1,
       itk::FFTWRealToComplexConjugateImageFilter<double,1> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,1> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWD:double,2 (4,4,4)"<< std::endl;
   if((test_fft<double,2,
       itk::FFTWRealToComplexConjugateImageFilter<double,2> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,2> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWD:double,3 (4,4,4)"<< std::endl;
   if((test_fft<double,3,
       itk::FFTWRealToComplexConjugateImageFilter<double,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,3> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWD:double,1 (3,5,4)"<< std::endl;
   if((test_fft<double,1,
       itk::FFTWRealToComplexConjugateImageFilter<double,1> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,1> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWD:double,2 (3,5,4)"<< std::endl;
   if((test_fft<double,2,
       itk::FFTWRealToComplexConjugateImageFilter<double,2> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,2> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "FFTWD:double,3 (3,5,4)"<< std::endl;
   if((test_fft<double,3,
       itk::FFTWRealToComplexConjugateImageFilter<double,3> ,
       itk::FFTWComplexConjugateToRealImageFilter<double,3> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   return (rval == 0) ? 0 : -1;
 }
 
-   /*Compare FFT using VNL and FFTW Libraries. The test is performed for 2 3d array one of them
-   having the same dimension(4,4,4) and the other having different dimensions (3,4,5).
-   Images are created with different dimensions in the test function based on the second template argument   and  the size of these dimensions are taken from the array.The data types used are float and double. */
+// Compare FFT using VNL and FFTW Libraries. The test is performed for 2 3d
+// array one of them having the same dimension(4,4,4) and the other having
+// different dimensions (3,4,5). Images are created with different dimensions
+// in the test function based on the second template argument   and  the size
+// of these dimensions are taken from the array.The data types used are float
+// and double.
 int itkVnlFFTWD_FFTTest(int, char *[])
 {
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
@@ -585,34 +610,33 @@ int itkVnlFFTWD_FFTTest(int, char *[])
   if((test_fft_rtc<double,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,1> ,
       itk::FFTWRealToComplexConjugateImageFilter<double,1> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWD:double,2 (4,4,4)"<< std::endl;
   if((test_fft_rtc<double,2,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,2> ,
       itk::FFTWRealToComplexConjugateImageFilter<double,2> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWD:double,3 (4,4,4)"<< std::endl;
   if((test_fft_rtc<double,3,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,3> ,
       itk::FFTWRealToComplexConjugateImageFilter<double,3> >(SizeOfDimensions1)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWD:double,1 (3,5,4)" << std::endl;
   if((test_fft_rtc<double,1,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,1> ,
       itk::FFTWRealToComplexConjugateImageFilter<double,1> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWD:double,2 (3,5,4)"<< std::endl;
   if((test_fft_rtc<double,2,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,2> ,
       itk::FFTWRealToComplexConjugateImageFilter<double,2> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
   std::cerr << "VnlFFTWD:double,3 (3,5,4)"<< std::endl;
   if((test_fft_rtc<double,3,
       itk::VnlFFTRealToComplexConjugateImageFilter<double,3> ,
       itk::FFTWRealToComplexConjugateImageFilter<double,3> >(SizeOfDimensions2)) != 0)
-    rval++;;
+    rval++;
 
   return (rval == 0) ? 0 : -1;
 }
 #endif
-

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMItpackSparseMatrix.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkFEMItpackSparseMatrix.h"
 #include "itpack.h"
 
@@ -79,8 +80,8 @@ void ItpackSparseMatrix::Initialize()
 {
 
   /* is matrix ready for initialization */
-  if ( (m_N <= 0) || (m_NZ <= 0) ) 
-    { 
+  if ( (m_N <= 0) || (m_NZ <= 0) )
+    {
     /* FIX ME: error handling */
     throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Initialize");
     }
@@ -108,20 +109,20 @@ void ItpackSparseMatrix::Initialize()
   m_A =     new doublereal [ m_NZ ];
 
   int i;
-  for (i=0; i<m_NZ; i++) 
+  for (i=0; i<m_NZ; i++)
     {
     m_JA[i] = 0;
     m_IWORK[i] = 0;
     m_A[i] = 0.0;
     }
-  for (i=0; i<=m_N; i++) 
+  for (i=0; i<=m_N; i++)
     {
     m_IA[i] = 0;
     }
 
   /* initialize sparse matrix storage via itpack routine */
   sbini_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
-  
+
   /* set info flags */
   m_MatrixInitialized = 1;
   m_MatrixFinalized = 0;
@@ -155,14 +156,14 @@ void ItpackSparseMatrix::Clear()
     {
     delete [] m_A;
     }
- 
+
   m_MatrixFinalized = 0;
   m_MatrixInitialized = 0;
   m_N = 0;
   m_NZ = 0;
   /* m_IER = 0;   */
-  m_MODE = 1;   
-  m_LEVEL = -1;  
+  m_MODE = 1;
+  m_LEVEL = -1;
   m_NOUT = 0;
 
   m_IA = 0;
@@ -175,7 +176,7 @@ void ItpackSparseMatrix::Finalize()
 {
 
   /* check */
-  if ( (m_MatrixFinalized != 0) || (m_MatrixInitialized == 0) ) 
+  if ( (m_MatrixFinalized != 0) || (m_MatrixInitialized == 0) )
     {
     throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Finalize");
     }
@@ -185,10 +186,10 @@ void ItpackSparseMatrix::Finalize()
 
   /* finalize */
   sbend_( &m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK );
-  
+
   //this->PrintCompressedRow();
   //std::cout << "sbend_ " << m_IER << std::endl;
- 
+
   /* set info flag */
   m_MatrixFinalized = 1;
 
@@ -233,13 +234,13 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
       {
       throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Set");
       }
-    else 
+    else
       {
       this->Initialize();
       }
     }
 
-  if (m_MatrixFinalized == 1) 
+  if (m_MatrixFinalized == 1)
     {
     this->UnFinalize();
     }
@@ -267,7 +268,7 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
 {
 
   /* ignore add zero */
-  if (value == 0.0) 
+  if (value == 0.0)
     {
     return;
     }
@@ -281,12 +282,12 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
       {
       throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Add");
       }
-    else 
+    else
       {
       this->Initialize();
       }
     }
-  if (m_MatrixFinalized != 0) 
+  if (m_MatrixFinalized != 0)
     {
     this->UnFinalize();
     }
@@ -299,7 +300,7 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
   integer fortranI = i+1;
   integer fortranJ = j+1;
   sbsij_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK, &fortranI, &fortranJ, &value, &m_MODE, &m_LEVEL, &m_NOUT, &IER);
-  
+
   if (IER > 700)
     {
     throw FEMExceptionItpackSparseMatrixSbsij(__FILE__, __LINE__, "ItpackSparseMatrix::Set", IER);
@@ -318,7 +319,7 @@ ItpackSparseMatrix::doublereal ItpackSparseMatrix::Get(integer i, integer j)
 
   /* check for readiness */
   if (m_MatrixInitialized != 0)
-    {  
+    {
 
     /* ensure matrix is in readable form */
     if (m_MatrixFinalized == 0)
@@ -444,7 +445,7 @@ void ItpackSparseMatrix::mult(ItpackSparseMatrix* rightMatrix, ItpackSparseMatri
       /* bounds of values located in current row */
       lower = m_IA[i]-1;
       upper = m_IA[i+1]-1;
-    
+
       // sum up row*column elements
       summed = 0.0;
       for (k=lower; k<upper; k++)
@@ -457,14 +458,14 @@ void ItpackSparseMatrix::mult(ItpackSparseMatrix* rightMatrix, ItpackSparseMatri
         {
         resultMatrix->Set(i,j,summed);
         }
-      
+
       }
     }
-  
+
 }
 
 
-void ItpackSparseMatrix::SetCompressedRow(integer* ia, integer* ja, doublereal *a) 
+void ItpackSparseMatrix::SetCompressedRow(integer* ia, integer* ja, doublereal *a)
 {
   m_IA = ia;
   m_JA = ja;
@@ -488,7 +489,7 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
 {
   std::string solverError;
 
-  if (errorCode == 703) 
+  if (errorCode == 703)
     {
     solverError = "maximumNumberOfNonZeroValuesInMatrix is too small";
     }
@@ -501,7 +502,7 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
   buf << "Error: " << solverError;
 
   SetDescription(buf.str().c_str());
-  
+
   SetLocation(location);
 }
 
@@ -510,7 +511,7 @@ FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const c
 {
   std::string solverError;
 
-  switch (errorCode) 
+  switch (errorCode)
     {
     case 701 :
       solverError = "Improper index of matrix";

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSpatialObjectToImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -50,9 +51,9 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   size[1]=50;
   imageFilter->SetSize(size);
 
-  // Testing spacing 
+  // Testing spacing
   std::cout << "Testing Spacing: ";
-  
+
   float spacing_float[2];
   double spacing_double[2];
 
@@ -64,7 +65,7 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   imageFilter->SetSpacing(spacing_float);
   imageFilter->SetSpacing(spacing_double);
   const double* spacing_result = imageFilter->GetSpacing();
-  
+
   for(unsigned int i=0;i<2;i++)
   {
     if(spacing_result[i]!=1.0)
@@ -76,9 +77,9 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
 
   std::cout << "[PASSED]" << std::endl;
 
-  // Testing Origin 
+  // Testing Origin
   std::cout << "Testing Origin: ";
-  
+
   float origin_float[2];
   double origin_double[2];
 
@@ -90,7 +91,7 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   imageFilter->SetOrigin(origin_float);
   imageFilter->SetOrigin(origin_double);
   const double* origin_result = imageFilter->GetOrigin();
-  
+
   for(unsigned int i=0;i<2;i++)
   {
     if(origin_result[i]!=0.0)

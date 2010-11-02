@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    testMetaMesh.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -44,7 +45,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       || ((*it2)->m_X[2] != j)
       )
       {
-      std::cout <<  (*it2)->m_Id << " : " << (*it2)->m_X[0] 
+      std::cout <<  (*it2)->m_Id << " : " << (*it2)->m_X[0]
       << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2] << std::endl;
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
@@ -52,7 +53,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
     it2++;
     }
   std::cout << "[PASSED]" << std::endl;
-      
+
   // Testing cells
   std::cout << "Testing Cells : ";
   typedef MetaMesh::CellListType CellListType;
@@ -62,12 +63,12 @@ bool TestingMetaMesh(MetaMesh* _mesh)
     if( ((*it3)->m_Dim != 4)
       || ((*it3)->m_Id != j)
       )
-      {        
+      {
       std::cout << "Cell Type = " << (*it3)->m_Dim << " : " << (*it3)->m_Id << " : ";
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
       }
-    
+
     for(int k=0;k<static_cast<int>((*it3)->m_Dim);k++)
       {
       if((*it3)->m_PointsId[k] != j+k)
@@ -85,7 +86,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
     if( ((*it3)->m_Dim != 3)
       || ((*it3)->m_Id != j)
       )
-      {        
+      {
       std::cout << "Cell Type = " << (*it3)->m_Dim << " : " << (*it3)->m_Id << " : ";
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
@@ -128,7 +129,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
     it_link++;
     }
   std::cout << "[PASSED]" << std::endl;
-      
+
   // Testing PointData
   std::cout << "Testing PointData : ";
   typedef MetaMesh::PointDataListType PointDataListType;
@@ -137,7 +138,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
     {
     if(((*it_pd)->m_Id != j) || ((int)(static_cast<MeshData<int>*>(*it_pd)->m_Data) != j))
       {
-      std::cout << "PointData ID = " << (*it_pd)->m_Id << " : " << (int)(static_cast<MeshData<int>*>(*it_pd)->m_Data) << std::endl;    
+      std::cout << "PointData ID = " << (*it_pd)->m_Id << " : " << (int)(static_cast<MeshData<int>*>(*it_pd)->m_Data) << std::endl;
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
       }
@@ -154,7 +155,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
     {
     if(((*it_cd)->m_Id != j) || (vcl_fabs((float)(static_cast<MeshData<float>*>(*it_cd)->m_Data)-f)>0.001))
       {
-      std::cout << "CellData ID = " << (*it_cd)->m_Id << " : " << (float)(static_cast<MeshData<float>*>(*it_cd)->m_Data) << " : " << f << std::endl;    
+      std::cout << "CellData ID = " << (*it_cd)->m_Id << " : " << (float)(static_cast<MeshData<float>*>(*it_cd)->m_Data) << " : " << f << std::endl;
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
       }
@@ -175,7 +176,7 @@ int testMetaMesh(int argc, char * argv[])
     }
 
   MetaScene myScene = MetaScene(3);
-  
+
   std::cout << "Creating mesh: ";
   MetaMesh* mesh = new MetaMesh(3);
   mesh->ID(0);
@@ -232,7 +233,7 @@ int testMetaMesh(int argc, char * argv[])
     pd->m_Data = i;
     mesh->GetPointData().push_back(pd);
     }
-  
+
   // Add cell data
   float f = (float)(0.1);
   for(i=0;i<4;i++)
@@ -253,7 +254,7 @@ int testMetaMesh(int argc, char * argv[])
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Reading non binary Mesh : ";
-  // Read the mesh 
+  // Read the mesh
   MetaScene myScene2 = MetaScene();
   myScene2.InitializeEssential(3);
   myScene2.Read("metamesh.msh");
@@ -262,7 +263,7 @@ int testMetaMesh(int argc, char * argv[])
   typedef  MetaScene::ObjectListType ListType;
   ListType * list = myScene2.GetObjectList();
   ListType::iterator it = list->begin();
- 
+
   for(i=0;i< static_cast<int>(list->size());i++)
     {
     if(!strncmp((*it)->ObjectTypeName(),"Mesh",4))
@@ -274,7 +275,7 @@ int testMetaMesh(int argc, char * argv[])
         return EXIT_FAILURE;
         }
       (mesh2)->PrintInfo();
-      }    
+      }
     it++;
     }
 
@@ -285,7 +286,7 @@ int testMetaMesh(int argc, char * argv[])
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Reading binary Mesh : ";
-  // Read the mesh 
+  // Read the mesh
   MetaScene myScene3 = MetaScene();
   myScene3.InitializeEssential(3);
   myScene3.Read("metamesh.msh");
@@ -293,7 +294,7 @@ int testMetaMesh(int argc, char * argv[])
 
   list = myScene3.GetObjectList();
   it = list->begin();
- 
+
   for(i=0;i< static_cast<int>(list->size());i++)
     {
     if(!strncmp((*it)->ObjectTypeName(),"Mesh",4))
@@ -305,7 +306,7 @@ int testMetaMesh(int argc, char * argv[])
         return EXIT_FAILURE;
         }
       (mesh2)->PrintInfo();
-      }    
+      }
     it++;
     }
   std::cout << "[DONE]" << std::endl;

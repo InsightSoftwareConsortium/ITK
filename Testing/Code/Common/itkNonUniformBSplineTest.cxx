@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNonUniformBSplineTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -78,7 +79,7 @@ int itkNonUniformBSplineTest(int, char* [] )
     point[0] = 0.0;
     point[1] = 0.0;
     point[2] = Z;
-    
+
     pointList.push_back( point );
     }
 
@@ -105,7 +106,7 @@ int itkNonUniformBSplineTest(int, char* [] )
   KnotListType knotList;
 
   // Generate a list of knots (non-uniformly spaced)
-  // Purposely set them between 0.0 and 1.0 so that 
+  // Purposely set them between 0.0 and 1.0 so that
   // they don't get to be rescaled.
   knotList.push_back( 0.0 );
   knotList.push_back( 0.3 );
@@ -160,7 +161,7 @@ int itkNonUniformBSplineTest(int, char* [] )
 
   itk::Array<double> pp(3);
   pp.Fill( 0.5);
-  
+
   PointType p2 = mySpline->EvaluateSpline( pp );
   // FIXME: Validate the return value in p2
 
@@ -168,7 +169,7 @@ int itkNonUniformBSplineTest(int, char* [] )
   ControlPointListType controlPointList;
 
   // Generate a list of knots (non-uniformly spaced)
-  // Purposely set them between 0.0 and 1.0 so that 
+  // Purposely set them between 0.0 and 1.0 so that
   // they don't get to be rescaled.
   const unsigned int numberOfControlPoints = 5;
   const double Corigin  = 0.0;
@@ -181,7 +182,7 @@ int itkNonUniformBSplineTest(int, char* [] )
     point[0] = 0.0;
     point[1] = 0.0;
     point[2] = Z;
-    
+
     controlPointList.push_back( point );
     }
 
@@ -216,7 +217,7 @@ int itkNonUniformBSplineTest(int, char* [] )
     {
     double t = px * TSpacing + TOrigin;
 
-    double value = 
+    double value =
       mySpline->NonUniformBSplineFunctionRecursive( orderB, basisFunctionNumber, t);
 
     std::cout << t << " -> " << value << std::endl;

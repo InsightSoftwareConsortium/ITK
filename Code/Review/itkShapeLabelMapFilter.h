@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkShapeLabelMapFilter.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkShapeLabelMapFilter_h
 #define __itkShapeLabelMapFilter_h
 
@@ -143,10 +144,10 @@ private:
   void ComputePerimeter(LabelObjectType *labelObject);
 
   // typedef typename std::map<OffsetType, unsigned long, typename OffsetType::LexicographicCompare> MapInterceptType;
-  typedef itk::Offset<2> Offset2Type;
-  typedef itk::Offset<3> Offset3Type;
-  typedef itk::Vector<double, 2> Spacing2Type;
-  typedef itk::Vector<double, 3> Spacing3Type;
+  typedef itk::Offset<2>                                                          Offset2Type;
+  typedef itk::Offset<3>                                                          Offset3Type;
+  typedef itk::Vector<double, 2>                                                  Spacing2Type;
+  typedef itk::Vector<double, 3>                                                  Spacing3Type;
   typedef std::map<Offset2Type, unsigned long, Offset2Type::LexicographicCompare> MapIntercept2Type;
   typedef std::map<Offset3Type, unsigned long, Offset3Type::LexicographicCompare> MapIntercept3Type;
 

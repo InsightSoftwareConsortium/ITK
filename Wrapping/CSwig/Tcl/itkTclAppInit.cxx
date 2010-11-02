@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTclAppInit.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkLightObject.h"
 #include "itkTclConfigure.h"
 
@@ -83,12 +84,12 @@ int itkTclAppInit(Tcl_Interp* interp)
 {
   // Initialize Tcl.
   if(Tcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
-  
+
 #ifndef ITK_TCL_NO_TK
   // Initialize Tk.
   if(Tk_Init(interp) != TCL_OK) { return TCL_ERROR; }
 #endif
-  
+
   if(itkTclAppInitCheckSameExecutable(interp))
     {
     // Running from build tree, load the pkgIndex.tcl file from it.
@@ -109,7 +110,7 @@ int itkTclAppInit(Tcl_Interp* interp)
       "unset itkTclAppInit_pkgIndex_tcl";
     if(Tcl_GlobalEval(interp, pkgIndexScript) != TCL_OK) { return TCL_ERROR; }
     }
-  
+
   // Initialize the built-in packages.
   if(Vxlnumericstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itknumericstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
@@ -119,16 +120,16 @@ int itkTclAppInit(Tcl_Interp* interp)
   if(Itkbasicfiltersatcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkbasicfiltersbtcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
   if(Itkalgorithmstcl_Init(interp) != TCL_OK) { return TCL_ERROR; }
-  
+
   // Initialize all ITK Tcl packages.
   static char initScript[] = "package require InsightToolkit " ITK_VERSION_STRING;
   if(Tcl_GlobalEval(interp, initScript) != TCL_OK) { return TCL_ERROR; }
-  
+
   // Allow users to have an initialization file for interactive mode.
   static char rcFileNameVariable[] = "tcl_rcFileName";
   static char rcFileNameValue[] = "~/.itktclrc";
   Tcl_SetVar(interp, rcFileNameVariable, rcFileNameValue, TCL_GLOBAL_ONLY);
-  
+
   return TCL_OK;
 }
 
@@ -139,19 +140,19 @@ bool itkTclAppInitCheckSameExecutable(Tcl_Interp* interp)
   char nameScript[] = "info nameofexecutable";
   if(Tcl_GlobalEval(interp, nameScript) != TCL_OK) { return TCL_ERROR; }
   std::string nameOfExecutable = Tcl_GetStringResult(interp);
-  
+
   // Get the name of the executable in the build tree.
   std::string buildExecutable = ITK_TCL_EXE_DIR "/" ITK_TCL_EXE_NAME;
-  
+
   const char* file1 = nameOfExecutable.c_str();
   const char* file2 = buildExecutable.c_str();
-  
+
 #if defined(_WIN32)
   struct stat fileStat1, fileStat2;
   if (stat(file1, &fileStat1) == 0 && stat(file2, &fileStat2) == 0)
     {
     HANDLE hFile1, hFile2;
-    
+
     hFile1 = CreateFile(file1, GENERIC_READ, FILE_SHARE_READ, NULL,
                         OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
     hFile2 = CreateFile(file2, GENERIC_READ, FILE_SHARE_READ, NULL,
@@ -168,7 +169,7 @@ bool itkTclAppInitCheckSameExecutable(Tcl_Interp* interp)
         }
       return false;
       }
-    
+
     BY_HANDLE_FILE_INFORMATION fiBuf1;
     BY_HANDLE_FILE_INFORMATION fiBuf2;
     GetFileInformationByHandle( hFile1, &fiBuf1 );
@@ -185,10 +186,10 @@ bool itkTclAppInitCheckSameExecutable(Tcl_Interp* interp)
     {
     // see if the files are the same file
     // check the device inode and size
-    if(memcmp(&fileStat2.st_dev, &fileStat1.st_dev, sizeof(fileStat1.st_dev)) == 0 && 
+    if(memcmp(&fileStat2.st_dev, &fileStat1.st_dev, sizeof(fileStat1.st_dev)) == 0 &&
        memcmp(&fileStat2.st_ino, &fileStat1.st_ino, sizeof(fileStat1.st_ino)) == 0 &&
-       fileStat2.st_size == fileStat1.st_size 
-      ) 
+       fileStat2.st_size == fileStat1.st_size
+      )
       {
       return true;
       }

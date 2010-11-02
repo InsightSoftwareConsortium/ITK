@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFactoryTestLib.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkFactoryTestLib.h"
 #include "itkImage.h"
 #include "itkRGBPixel.h"
@@ -43,7 +44,7 @@ public:
   typedef std::allocator<TElement>                Allocator;
 
   // Methods from itkObject
-  virtual ~TestImportImageContainer() 
+  virtual ~TestImportImageContainer()
     {
     itkTotalMemoryUsed -= m_TotalSize;
     m_TotalSize = 0;
@@ -56,7 +57,7 @@ public:
     }
 protected:
   TElement* AllocateElements(ElementIdentifier size) const
-    { 
+    {
     std::cout << "TestImportImageContainer: Allocating "
               << size << " elements of type "
               << typeid(TElement).name() << " totaling "
@@ -90,9 +91,9 @@ protected:
 
     m_TotalSize = size * sizeof(TElement);
     itkTotalMemoryUsed += m_TotalSize;
-    
+
     m_MemoryAllocatedByAllocator = true;
-    
+
     std::cout << "TestImportImageContainer: Total memory used is "
               << itkTotalMemoryUsed << " bytes" << std::endl;
 
@@ -105,7 +106,7 @@ protected:
               << this->Capacity() << " elements of type "
               << typeid(TElement).name() << " totaling "
               << sizeof(TElement) * this->Capacity() << " bytes" << std::endl;
-    
+
     if (m_MemoryAllocatedByAllocator)
       {
       TElement * ptr = this->GetImportPointer();
@@ -125,7 +126,7 @@ protected:
       {
       Superclass::DeallocateManagedMemory();
       }
-    
+
     std::cout << "TestImportImageContainer: Total memory used is "
               << itkTotalMemoryUsed << " bytes" << std::endl;
     }
@@ -153,7 +154,7 @@ public:
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImportImageContainerFactory, itk::ObjectFactoryBase);
 

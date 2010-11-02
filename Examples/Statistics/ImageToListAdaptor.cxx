@@ -1,27 +1,28 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageToListAdaptor.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 // Software Guide : BeginLatex
 //
-// This example shows how to instantiate an 
-// \subdoxygen{Statistics}{ImageToListAdaptor} object and plug-in an 
+// This example shows how to instantiate an
+// \subdoxygen{Statistics}{ImageToListAdaptor} object and plug-in an
 // \doxygen{Image} object as the data source for the adaptor.
 //
 // \index{itk::Statistics::Image\-To\-List\-Adaptor}
@@ -53,7 +54,7 @@
 // from the \subdoxygen{Statistics}{ImageToListAdaptor}. The usage of the
 // ScalarImageToListAdaptor is identical to that of the ImageToListAdaptor.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -70,7 +71,7 @@ int main()
   // We assume you already know how to create an image (see
   // Section~\ref{sec:CreatingAnImageSection}). The following code snippet
   // will create a 2D image of float pixels filled with random values.
-  // 
+  //
   // Software Guide :EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -81,7 +82,7 @@ int main()
 
   random->SetMin(    0.0 );
   random->SetMax( 1000.0 );
-  
+
   typedef FloatImage2DType::SpacingValueType  SpacingValueType;
   typedef FloatImage2DType::SizeValueType     SizeValueType;
   typedef FloatImage2DType::PointValueType    PointValueType;
@@ -163,7 +164,7 @@ int main()
   // \code{GetMeasurementVector()} method, the returned measurement
   // vector is composed of the physical coordinates and pixel
   // values. The usage is almost the same as with
-  // ImageToListAdaptor. One important difference between 
+  // ImageToListAdaptor. One important difference between
   // JointDomainImageToListAdaptor and the other two image
   // adaptors is that the JointDomainImageToListAdaptor is the
   // \code{SetNormalizationFactors()} method. Each component of a

@@ -1,22 +1,30 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineDeformableTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-  Portions of this code are covered under the VTK copyright.
-  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+/*=========================================================================
+ *
+ *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
+ *
+ *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+ *
+ *  For complete copyright, license and disclaimer of warranty information
+ *  please refer to the NOTICE file at the top of the ITK source tree.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -44,9 +52,9 @@ int itkBSplineDeformableTransformTest1()
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder> 
+  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder>
     TransformType;
-   
+
   typedef TransformType::ParametersType ParametersType;
 
   unsigned int j;
@@ -78,8 +86,8 @@ int itkBSplineDeformableTransformTest1()
   transform->SetGridOrigin( origin );
   transform->SetGridRegion( region );
   transform->Print( std::cout );
-  
-  /** 
+
+  /**
    * Allocate memory for the parameters
    */
   unsigned long numberOfParameters = transform->GetNumberOfParameters();
@@ -187,7 +195,7 @@ int itkBSplineDeformableTransformTest1()
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
-  
+
   // point outside the grid support region
   inputPoint.Fill( 40.0 );
   outputPoint = transform->TransformPoint( inputPoint );
@@ -244,7 +252,7 @@ int itkBSplineDeformableTransformTest1()
   transform->TransformPoint( inputPoint, outputPoint, weights, indices, inside );
 
   std::cout << "Number of Parameters: " << transform->GetNumberOfParameters() << std::endl;
-  std::cout << "Number of Parameters per dimension: " << 
+  std::cout << "Number of Parameters per dimension: " <<
     transform->GetNumberOfParametersPerDimension() << std::endl;
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;
@@ -433,7 +441,7 @@ int itkBSplineDeformableTransformTest1()
   typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,2>
     EvenOrderTransformType;
   EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
- 
+
   /**
    * Parameters should remain even when the transform has been destroyed
    */
@@ -471,9 +479,9 @@ int itkBSplineDeformableTransformTest1()
         }
       }
   } // end of SetIdentity() test
-  
 
-  std::cout << "Test passed." << std::endl;  
+
+  std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
 }
@@ -483,7 +491,7 @@ int itkBSplineDeformableTransformTest2()
 
  /**
   * This function tests the Set/GetCoefficientImage interface
-  */ 
+  */
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   unsigned int j;
@@ -538,7 +546,7 @@ int itkBSplineDeformableTransformTest2()
   typedef itk::BSplineDeformableTransform<CoordRep,Dimension,SplineOrder> TransformType;
   TransformType::InputPointType inputPoint;
   TransformType::OutputPointType outputPoint;
-  
+
   TransformType::Pointer transform = TransformType::New();
 
   // This should generate a warning about parameters not being set
@@ -550,7 +558,7 @@ int itkBSplineDeformableTransformTest2()
 
   // Exercise get and print methods
   transform->Print( std::cout );
-  std::cout << "CoefficientImage[0]: " 
+  std::cout << "CoefficientImage[0]: "
             << transform->GetCoefficientImage()[0].GetPointer() << std::endl;
 
   /**
@@ -595,7 +603,7 @@ int itkBSplineDeformableTransformTest2()
     std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
- 
+
  std::cout << "Test passed." << std::endl;
  return EXIT_SUCCESS;
 }
@@ -611,9 +619,9 @@ int itkBSplineDeformableTransformTest3()
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder> 
+  typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,SplineOrder>
     TransformType;
-   
+
   typedef TransformType::ParametersType ParametersType;
 
   unsigned int j;
@@ -645,8 +653,8 @@ int itkBSplineDeformableTransformTest3()
   transform->SetGridOrigin( origin );
   transform->SetGridRegion( region );
   transform->Print( std::cout );
-  
-  /** 
+
+  /**
    * Allocate memory for the parameters
    */
   unsigned long numberOfParameters = transform->GetNumberOfParameters();

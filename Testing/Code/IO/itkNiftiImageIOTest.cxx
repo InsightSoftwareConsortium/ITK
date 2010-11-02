@@ -1,19 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkNiftiImageIOTest.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -143,7 +144,7 @@ int itkNiftiImageIOTest(int ac, char* av[])
     --ac;
   }
   static bool firstTime = true;
-  if(firstTime) 
+  if(firstTime)
     {
     itk::ObjectFactoryBase::RegisterFactory(itk::NiftiImageIOFactory::New() );
     firstTime = false;
@@ -304,7 +305,7 @@ TestImageOfVectors(const std::string &fname)
   // 0 0 0 1
   // anything in the 4th dimension that didn't follow that form would just come up scrambled.
   //NOTE: Nifti only reports upto 3D images correctly for direction cosigns.  It is implicitly assumed
-  //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the 
+  //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the
   //      direction matrix.
   switch(Dimension)
     {
@@ -327,7 +328,7 @@ TestImageOfVectors(const std::string &fname)
       myDirection[3][3] = 1.0;
       break;
     }
-  
+
   std::cout << " === Testing VectorLength: " << VecLength << " Image Dimension " << static_cast<int>(Dimension) << std::endl;
   std::cout << "======================== Initialized Direction" << std::endl;
   std::cout << myDirection << std::endl;
@@ -340,7 +341,7 @@ TestImageOfVectors(const std::string &fname)
     origin[i] = 0;
     }
 
-  imageRegion.SetSize(size); 
+  imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
   AllocateImageFromRegionAndSpacing(VectorImageType, vi, imageRegion, spacing);
   vi->SetOrigin(origin);
@@ -372,7 +373,7 @@ TestImageOfVectors(const std::string &fname)
         {
         _index[4] = n;
         for(int p = 0; p < dims[3]; p++)
-          { 
+          {
           _index[3] = p;
           for(int i = 0; i < dims[2]; i++)
             {
@@ -469,7 +470,7 @@ TestImageOfVectors(const std::string &fname)
         {
         _index[4] = n;
         for(int p = 0; p < dims[3]; p++)
-          { 
+          {
           _index[3] = p;
           for(int i = 0; i < dims[2]; i++)
             {
@@ -520,7 +521,7 @@ int itkNiftiImageIOTest3(int ac, char* av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1) 
+  if(ac > 1)
     {
     char *testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
@@ -593,7 +594,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1) 
+  if(ac > 1)
     {
     char *testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
@@ -602,7 +603,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
     {
     return EXIT_FAILURE;
     }
-  
+
   //
   Test4ImageType::Pointer test4Image = Test4ImageType::New();
   Test4ImageType::RegionType imageRegion;
@@ -618,7 +619,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
     spacing[i] = 1.0;
     }
 
-  imageRegion.SetSize(size); 
+  imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
   AllocateImageFromRegionAndSpacing(Test4ImageType, test4Image, imageRegion, spacing);
   test4Image->FillBuffer(0);
@@ -647,9 +648,9 @@ int itkNiftiImageIOTest4(int ac, char* av[])
       dir[i][j] = mat[i][j];
       }
     }
-  
+
 #else
-  dir = 
+  dir =
     itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI);
 #endif
   test4Image->SetDirection(dir);
@@ -726,8 +727,8 @@ SlopeInterceptTest()
   niftiImage->ny = niftiImage->dim[2] = 8;
   niftiImage->nz = niftiImage->dim[3] = 4;
   niftiImage->nvox = 256;
-  niftiImage->dx = niftiImage->pixdim[1] = 
-  niftiImage->dy = niftiImage->pixdim[2] = 
+  niftiImage->dx = niftiImage->pixdim[1] =
+  niftiImage->dy = niftiImage->pixdim[2] =
   niftiImage->dz = niftiImage->pixdim[3] = 1.0;
   niftiImage->nu = 1;
   niftiImage->datatype = typeIndex;
@@ -812,7 +813,7 @@ int itkNiftiImageIOTest5(int ac, char* av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1) 
+  if(ac > 1)
     {
     char *testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
@@ -832,7 +833,7 @@ int itkNiftiImageIOTest5(int ac, char* av[])
 
 int itkNiftiImageIOTest6(int ac, char *av[])
 {
-  if(ac > 1) 
+  if(ac > 1)
     {
     char *testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
@@ -860,7 +861,7 @@ int itkNiftiImageIOTest6(int ac, char *av[])
   VectorImageType::Pointer vecImage;
   AllocateVecImageFromRegionAndSpacing(VectorImageType, vecImage, imageRegion, spacing,vecLength);
 
-  itk::ImageRegionIterator<VectorImageType> 
+  itk::ImageRegionIterator<VectorImageType>
     it(vecImage,vecImage->GetLargestPossibleRegion());
   double val(0.0);
   for(it.GoToBegin(); it != it.End(); ++it)
@@ -882,7 +883,7 @@ int itkNiftiImageIOTest6(int ac, char *av[])
     }
   catch(itk::ExceptionObject &err)
     {
-    std::cout << "itkNiftiImageIOTest6" << std::endl 
+    std::cout << "itkNiftiImageIOTest6" << std::endl
               << "Exception Object caught: " << std::endl
               << err << std::endl;
     throw;
@@ -1186,7 +1187,7 @@ int itkNiftiImageIOTest7(int ac, char* av[])
 
 int itkNiftiImageIOTest8(int ac, char *av[])
 {
-  if(ac > 1) 
+  if(ac > 1)
     {
     char *testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);

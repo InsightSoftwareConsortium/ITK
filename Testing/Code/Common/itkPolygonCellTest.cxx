@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPolygonCellTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -28,7 +29,7 @@
 int itkPolygonCellTest(int, char* [] )
 {
 
- 
+
   /**
    * Define a mesh type that stores a PixelType of "int".  Use the defaults for
    * the other template parameters.
@@ -44,7 +45,7 @@ int itkPolygonCellTest(int, char* [] )
   typedef itk::CellInterface< int, CellTraits >           CellInterfaceType;
   typedef itk::PolygonCell<CellInterfaceType>             PolygonCellType;
 
-   
+
   /**
    * Typedef the generic cell type for the mesh.  It is an abstract class,
    * so we can only use information from it, like get its pointer type.
@@ -59,11 +60,11 @@ int itkPolygonCellTest(int, char* [] )
    */
   typedef MeshType::PointType  PointType;
 
-  
+
   /**
    * Create the mesh through its object factory.
    */
-  MeshType::Pointer mesh = MeshType::New();  
+  MeshType::Pointer mesh = MeshType::New();
   mesh->DebugOn();
 
   /**
@@ -72,7 +73,7 @@ int itkPolygonCellTest(int, char* [] )
   MeshType::CoordRepType testPointCoords[8][3]
     = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
         {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
- 
+
   /**
    * Add our test points to the mesh.
    * mesh->SetPoint(pointId, point)
@@ -84,7 +85,7 @@ int itkPolygonCellTest(int, char* [] )
     mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
 
-  /** 
+  /**
    * Specify the method used for allocating cells
    */
    mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
@@ -94,7 +95,7 @@ int itkPolygonCellTest(int, char* [] )
    * pointer to a cell; in this example it ends up pointing to
    * different types of cells.
    */
-  CellAutoPointer testCell; 
+  CellAutoPointer testCell;
   PolygonCellType * newcell = new PolygonCellType;
   testCell.TakeOwnership( newcell ); // polymorphism
 
@@ -102,7 +103,7 @@ int itkPolygonCellTest(int, char* [] )
    * List the points that the polygon will use from the mesh.
    */
   unsigned long polygon1Points[4] = {0,1,2,3};
- 
+
   /**
    * Assign the points to the tetrahedron through their identifiers.
    */
@@ -115,7 +116,7 @@ int itkPolygonCellTest(int, char* [] )
   mesh->SetCell(0, testCell ); // Transfer ownership to the mesh
   std::cout << "PolygonCell pointer = " << (void const *)testCell.GetPointer() << std::endl;
   std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << std::endl;
-  
+
   {
   std::cout << "Test MakeCopy" << std::endl;
 
@@ -131,7 +132,7 @@ int itkPolygonCellTest(int, char* [] )
   }
 
   /**
-   * Exercise the methods AddPointId() and RemovePointId() 
+   * Exercise the methods AddPointId() and RemovePointId()
    */
   {
     unsigned int np = newcell->GetNumberOfPoints();
@@ -150,7 +151,7 @@ int itkPolygonCellTest(int, char* [] )
       return EXIT_FAILURE;
       }
   }
-  
-  return EXIT_SUCCESS;  
+
+  return EXIT_SUCCESS;
 }
 

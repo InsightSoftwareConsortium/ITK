@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkArrowSpatialObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,8 +28,8 @@
 int itkArrowSpatialObjectTest(int, char* [])
 {
   typedef itk::ArrowSpatialObject<3>   ArrowType;
-  
-  ArrowType::Pointer myArrow = ArrowType::New(); 
+
+  ArrowType::Pointer myArrow = ArrowType::New();
 
   // Testing the length
   std::cout << "Testing length : ";
@@ -80,7 +81,7 @@ int itkArrowSpatialObjectTest(int, char* [])
 
   std::cout<<"[PASSED]"<<std::endl;
 
- 
+
   std::cout << "ComputeBoundingBox: ";
   myArrow->ComputeBoundingBox();
   ArrowType::BoundingBoxType * boundingBox = myArrow->GetBoundingBox();
@@ -97,7 +98,7 @@ int itkArrowSpatialObjectTest(int, char* [])
 
   std::cout << "Testing 2D Arrow:";
   typedef itk::ArrowSpatialObject<2>   Arrow2DType;
-  Arrow2DType::Pointer myArrow2D = Arrow2DType::New(); 
+  Arrow2DType::Pointer myArrow2D = Arrow2DType::New();
   myArrow2D->Print(std::cout);
 
   std::cout << "[PASSED]" << std::endl;

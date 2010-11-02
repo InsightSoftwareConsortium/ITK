@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCenteredAffineTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +30,7 @@ typedef  itk::Vector<double,2>     VectorType;
 
 namespace
 {
-  
+
 void PrintVector( const VectorType & v )
 {
   for( unsigned int i=0; i<VectorType::Dimension; i++)
@@ -59,7 +60,7 @@ int itkCenteredAffineTransformTest(int, char *[])
     /* Create a 2D identity transformation and show its parameters */
     typedef itk::Point<double,6> ParametersType;
     typedef itk::Matrix<double,2,6> JacobianType;
-    
+
     typedef itk::CenteredAffineTransform<double,2> Affine2DType;
     Affine2DType::Pointer id2 = Affine2DType::New();
     matrix2 = id2->GetMatrix();
@@ -69,7 +70,7 @@ int itkCenteredAffineTransformTest(int, char *[])
     std::cout << "Vector from instantiating an identity transform:"
               << std::endl;
     PrintVector( vector2 );
-    
+
     /* Create and show a simple 2D transform from given parameters */
     matrix2[0][0] = 1;
     matrix2[0][1] = 2;
@@ -261,12 +262,12 @@ int itkCenteredAffineTransformTest(int, char *[])
     Affine3DType::InputPointType jpoint;
     jpoint[0] = 5.0;
     jpoint[1] = 10.0;
-    jpoint[2] = 15.0; 
+    jpoint[2] = 15.0;
     Affine3DType::JacobianType jaffJacobian = jaff->GetJacobian( jpoint );
 
     std::cout << "GetJacobian: " << std::endl;
     std::cout << jaffJacobian << std::endl;
-    
+
     /* Get the parameters */
     Affine3DType::ParametersType parameters3D;
     parameters3D = aff3->GetParameters();

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageMutualInformation1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 // framework.
 //
 // For example, you could use:
-// 
+//
 // \begin{itemize}
 // \item \doxygen{MutualInformationImageToImageMetric}
 // \item \doxygen{MattesMutualInformationImageToImageMetric}
@@ -56,8 +57,8 @@
 // \index{Statistics!Joint Entropy}
 // \index{Joint Histogram!Statistics}
 // \index{Statistics!Joint Histogram}
-// 
-// Software Guide : EndLatex 
+//
+// Software Guide : EndLatex
 
 
 
@@ -78,7 +79,7 @@
 // fundamental statistical classes are expecting to receive multi-valued
 // measures.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
@@ -104,7 +105,7 @@ int main( int argc, char * argv [] )
 //
 // We define the pixel type and dimension of the images to be read.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef unsigned char                                 PixelComponentType;
@@ -121,7 +122,7 @@ int main( int argc, char * argv [] )
 // Using the image type we proceed to instantiate the readers for both input
 // images. Then, we take their filenames from the command line arguments.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType >             ReaderType;
@@ -143,13 +144,13 @@ int main( int argc, char * argv [] )
 // Using the \doxygen{JoinImageFilter} we use the two input images and put them
 // together in an image of two components.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::JoinImageFilter< ImageType, ImageType >  JoinFilterType;
 
   JoinFilterType::Pointer joinFilter = JoinFilterType::New();
-  
+
   joinFilter->SetInput1( reader1->GetOutput() );
   joinFilter->SetInput2( reader2->GetOutput() );
 // Software Guide : EndCodeSnippet
@@ -164,7 +165,7 @@ int main( int argc, char * argv [] )
 // try/catch block because the Update() call may potentially result in
 // exceptions being thrown.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   try
@@ -187,14 +188,14 @@ int main( int argc, char * argv [] )
 // histogram. For this purpose, we take the type of the image resulting from
 // the JoinImageFilter and use it as template argument of the
 // \doxygen{ImageToHistogramGenerator}. We then construct one by invoking the
-// \code{New()} method. 
-// 
-// Software Guide : EndLatex 
+// \code{New()} method.
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef JoinFilterType::OutputImageType               VectorImageType;
 
-  typedef itk::Statistics::ImageToHistogramGenerator< 
+  typedef itk::Statistics::ImageToHistogramGenerator<
                                        VectorImageType >  HistogramGeneratorType;
 
   HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
@@ -209,7 +210,7 @@ int main( int argc, char * argv [] )
 // and setup the marginal scale value that will define the precision to be used
 // for classifying values into the histogram bins.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->SetInput(  joinFilter->GetOutput()  );
@@ -229,7 +230,7 @@ int main( int argc, char * argv [] )
 // passed to the generator and we can then invoke the \code{Compute()} method
 // in order to trigger the computation of the joint histogram.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::SizeType   SizeType;
@@ -251,7 +252,7 @@ int main( int argc, char * argv [] )
 // The histogram can be recovered from the generator by creating a variable
 // with the histogram type taken from the generator traits.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::HistogramType  HistogramType;
@@ -270,12 +271,12 @@ int main( int argc, char * argv [] )
 // convert them to an estimation of probability by dividing them over the total
 // sum of frequencies returned by the \code{GetTotalFrequency()} method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   HistogramType::ConstIterator itr = histogram->Begin();
   HistogramType::ConstIterator end = histogram->End();
- 
+
   const double Sum = histogram->GetTotalFrequency();
 // Software Guide : EndCodeSnippet
 
@@ -293,7 +294,7 @@ int main( int argc, char * argv [] )
 // contribution must be computed using logarithms in base two in order to be
 // able express entropy in \textbf{bits}.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   double JointEntropy = 0.0;
@@ -321,7 +322,7 @@ int main( int argc, char * argv [] )
 // the values of the entropies for each image independently. This can be done
 // by simply changing the number of bins and then recomputing the histogram.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   size[0] = 255;  // number of bins for the first  channel
@@ -339,7 +340,7 @@ int main( int argc, char * argv [] )
 // We initialize to zero another variable in order to start accumulating the
 // entropy contributions from every bin.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   itr = histogram->Begin();
@@ -369,7 +370,7 @@ int main( int argc, char * argv [] )
 // The same process is used for computing the entropy of the other component.
 // Simply by swapping the number of bins in the histogram.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   size[0] =   1;  // number of bins for the first channel
@@ -387,9 +388,9 @@ int main( int argc, char * argv [] )
 //
 // The entropy is computed in a similar manner, just by visiting all the bins on
 // the histogram and accumulating their entropy contributions.
-// 
 //
-// Software Guide : EndLatex 
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   itr = histogram->Begin();
@@ -417,26 +418,26 @@ int main( int argc, char * argv [] )
 // At this point we can compute any of the popular measures of Mutual
 // Information. For example
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   double MutualInformation = Entropy1 + Entropy2 - JointEntropy;
 // Software Guide : EndCodeSnippet
-  
+
   std::cout << "Mutual Information = " << MutualInformation << " bits " << std::endl;
 
 
-  
+
 
 // Software Guide : BeginLatex
 //
 // or Normalized Mutual Information, where the value of Mutual Information gets
-// divided by the mean entropy of the input images. 
+// divided by the mean entropy of the input images.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  double NormalizedMutualInformation1 = 
+  double NormalizedMutualInformation1 =
                      2.0 * MutualInformation / ( Entropy1 + Entropy2 );
 // Software Guide : EndCodeSnippet
 
@@ -450,7 +451,7 @@ int main( int argc, char * argv [] )
 // A second form of Normalized Mutual Information has been defined as the mean
 // entropy of the two images divided by their joint entropy.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   double NormalizedMutualInformation2 = ( Entropy1 + Entropy2 ) / JointEntropy;
@@ -467,10 +468,10 @@ int main( int argc, char * argv [] )
 // is strongly dependent on the number of bins over which the histogram is
 // defined.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
   return 0;
-  
+
 }
 

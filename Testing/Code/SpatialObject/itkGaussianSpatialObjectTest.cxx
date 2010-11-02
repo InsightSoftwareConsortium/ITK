@@ -1,19 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkGaussianSpatialObjectTest.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@ PURPOSE.  See the above copyright notices for more information.
 int itkGaussianSpatialObjectTest(int, char* [])
 {
   typedef itk::GaussianSpatialObject<4>   GaussianType;
-  
+
   GaussianType::Pointer myGaussian = GaussianType::New();
   myGaussian->Print(std::cout);
 
@@ -41,7 +42,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
     }
 
   myGaussian->SetRadius(3);
-  GaussianType::ScalarType radius = 
+  GaussianType::ScalarType radius =
     myGaussian->GetRadius();
   std::cout << "Testing Radius: ";
   if( radius != 3 )
@@ -51,7 +52,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
     }
 
   myGaussian->SetSigma(1.5);
-  GaussianType::ScalarType sigma = 
+  GaussianType::ScalarType sigma =
     myGaussian->GetSigma();
   std::cout << "Testing Sigma: ";
   if( sigma != 1.5 )
@@ -66,14 +67,14 @@ int itkGaussianSpatialObjectTest(int, char* [])
   // Point consistency
 
   itk::Point<double,4> in;
-  in[0]=1; in[1]=2; in[2]=1; in[3]=1; 
+  in[0]=1; in[1]=2; in[2]=1; in[3]=1;
   itk::Point<double,4> out;
-  out[0]=0; out[1]=4; out[2]=0; out[3]=0; 
+  out[0]=0; out[1]=4; out[2]=0; out[3]=0;
 
   double value;
   myGaussian->ValueAt(in, value);
   std::cout << "ValueAt(" << in << ") = " << value << std::endl;
-  
+
   std::cout << "Is Inside: ";
 
   if(!myGaussian->IsInside(in))
@@ -94,7 +95,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
             << myGaussian->GetEllipsoid() << std::endl;
 
   std::cout << "ObjectToWorldTransform : ";
- 
+
   // Create myGaussian2 as a child of myGaussian
   GaussianType::Pointer myGaussian2 = GaussianType::New();
   myGaussian->AddSpatialObject(myGaussian2);
@@ -111,11 +112,11 @@ int itkGaussianSpatialObjectTest(int, char* [])
   myGaussian2->ComputeObjectToParentTransform();
 
   GaussianType::TransformType::OffsetType offset3;
-  
+
   offset3 = myGaussian2->GetObjectToParentTransform()->GetOffset();
 
-  if( (offset3[0]!=5) || (offset3[1]!=5) 
-      ||(offset3[2]!=5) ||(offset3[3]!=5) 
+  if( (offset3[0]!=5) || (offset3[1]!=5)
+      ||(offset3[2]!=5) ||(offset3[3]!=5)
     )
     {
     std::cout<<"[FAILED]"<<std::endl;

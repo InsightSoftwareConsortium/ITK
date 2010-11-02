@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageAdaptorPipeLineTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -60,16 +61,16 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   typedef   itk::ImageAdaptor<myRGBPixelImageType,
                               myAccessorType>        myAdaptorType;
 
-  typedef itk::ImageRegionIteratorWithIndex< 
+  typedef itk::ImageRegionIteratorWithIndex<
                                    myFloatImageType > myFloatIteratorType;
 
 
-  typedef itk::ImageRegionIteratorWithIndex< 
+  typedef itk::ImageRegionIteratorWithIndex<
                                      myRGBPixelImageType >   myRGBPixelIteratorType;
 
 
-  typedef itk::AddImageFilter< myAdaptorType, 
-                               myFloatImageType, 
+  typedef itk::AddImageFilter< myAdaptorType,
+                               myFloatImageType,
                                myFloatImageType >       myFilterType;
 
 
@@ -82,7 +83,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;    // Small size, because we are printing it
-  
+
   myIndexType start;
   start[0]=  0;
   start[1]=  0;
@@ -96,7 +97,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   spacing[0] = 1.0;
   spacing[1] = 1.0;
   spacing[2] = 1.0;
-  
+
   //-------------------------------------------------------------
   //                 Create and Initialize the RGBPixel image
   //-------------------------------------------------------------
@@ -116,15 +117,15 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   initialRGBPixelValue.SetBlue( 30 );
   initialRGBPixelValue.SetGreen( 20 );
 
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
-    it.Set( initialRGBPixelValue );  
+    it.Set( initialRGBPixelValue );
     ++it;
   }
 
   std::cout << "Initial RGBPixel Image Values : " << std::endl;
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     myIndexType index = it.GetIndex();
     std::cout <<  "[";
@@ -139,13 +140,13 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     std::cout.width(4);
     std::cout <<  it.Get().GetGreen() << ",";
     std::cout.width(4);
-    std::cout <<  it.Get().GetBlue() << std::endl;  
+    std::cout <<  it.Get().GetBlue() << std::endl;
     ++it;
   }
 
 
   std::cout << "RGBPixel Image Initializaed" << std::endl;
- 
+
   //-------------------------------------------------------------
   //                 Create and Initialize the Float image
   //-------------------------------------------------------------
@@ -162,15 +163,15 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
 
   myFloatPixelType initialFloatValue = 5.0;
 
-  while( !itf.IsAtEnd() ) 
+  while( !itf.IsAtEnd() )
   {
-    itf.Set( initialFloatValue );  
+    itf.Set( initialFloatValue );
     ++itf;
   }
 
   std::cout << "Initial Float Image Values : " << std::endl;
   itf.GoToBegin();
-  while( !itf.IsAtEnd() ) 
+  while( !itf.IsAtEnd() )
   {
     myIndexType index = itf.GetIndex();
     std::cout <<  "[";
@@ -181,7 +182,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout <<  itf.Get() << std::endl;  
+    std::cout <<  itf.Get() << std::endl;
     ++itf;
   }
 
@@ -225,23 +226,23 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   //-------------------------------------------------------------
 
   std::cout << "Calling filter Update" << std::endl;
-  
+
   filter->Update();
-  
+
   std::cout << "Filter Updated" << std::endl;
 
   //-------------------------------------------------------------
   //         Force the execution of the filter
   //-------------------------------------------------------------
-  
+
   myFloatOutputImage = filter->GetOutput();
-  
+
   myFloatIteratorType ito(  myFloatOutputImage, myFloatOutputImage->GetRequestedRegion() );
 
 
   std::cout << std::endl;
   std::cout << "Filter Output :" << std::endl;
-  while( !ito.IsAtEnd() ) 
+  while( !ito.IsAtEnd() )
   {
     myIndexType index = ito.GetIndex();
     std::cout <<  "[";
@@ -252,7 +253,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout <<  ito.Get() << std::endl;  
+    std::cout <<  ito.Get() << std::endl;
     ++ito;
   }
 

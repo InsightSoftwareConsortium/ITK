@@ -1,27 +1,28 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAdaptImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 /**
- *  
+ *
  *  This program illustrates the AdaptImageFilter
  *
- *  The example shows how an Accessor can be used to 
+ *  The example shows how an Accessor can be used to
  *  convert an RGBPixel image to an image that has
  *  just the red component.
  *
@@ -82,12 +83,12 @@ int itkAdaptImageFilterTest(int, char* [] ) {
 
   myImage->SetRegions( region );
   myImage->Allocate();
-  
+
   myRGBIteratorType  it1( myImage, myImage->GetRequestedRegion() );
-  
+
   // Value to initialize the pixels
   myRGBImageType::PixelType color;
-  
+
   // Initializing all the pixel in the image
   it1.GoToBegin();
   while( !it1.IsAtEnd() )
@@ -120,7 +121,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
   adaptImageToRed->SetInput(myImage);
   adaptImageToRed->UpdateLargestPossibleRegion();
   adaptImageToRed->SetFunctor(adaptImageToRed->GetFunctor());
- 
+
   myIteratorType  it( adaptImageToRed->GetOutput(), adaptImageToRed->GetOutput()->GetRequestedRegion() );
 
   std::cout << "--- Red values --- " << std::endl;
@@ -134,7 +135,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
     {
     passed = false;
     }
-    
+
   ++it;
   ++it1;
   }
@@ -145,7 +146,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
 
   adaptImageToGreen->SetInput(myImage);
   adaptImageToGreen->UpdateLargestPossibleRegion();
- 
+
   it = myIteratorType( adaptImageToGreen->GetOutput(), adaptImageToGreen->GetOutput()->GetRequestedRegion() );
 
   std::cout << "--- Green values --- " << std::endl;
@@ -159,7 +160,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
     {
     passed = false;
     }
-  
+
   ++it;
   ++it1;
   }
@@ -170,7 +171,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
 
   adaptImageToBlue->SetInput(myImage);
   adaptImageToBlue->UpdateLargestPossibleRegion();
- 
+
   it = myIteratorType( adaptImageToBlue->GetOutput(), adaptImageToBlue->GetOutput()->GetRequestedRegion() );
 
   std::cout << "--- Blue values --- " << std::endl;
@@ -184,7 +185,7 @@ int itkAdaptImageFilterTest(int, char* [] ) {
     {
     passed = false;
     }
-  
+
   ++it;
   ++it1;
   }
