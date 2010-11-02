@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDirectFourierReconstructionImageToImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -46,30 +47,30 @@ class CommandProgressUpdate : public itk::Command
 public:
   typedef CommandProgressUpdate Self;
   typedef itk::Command          Superclass;
-  
+
   typedef itk::SmartPointer< Self > Pointer;
-  
+
   itkNewMacro( Self );
-  
+
 protected:
   CommandProgressUpdate() {}; // purposely not implemented
- 
+
   typedef const ReconstructionFilterType * ReconstructionFilterPointer;
- 
+
   void Execute(itk::Object * caller, const itk::EventObject & event )
     {
     Execute( ( const itk::Object * )caller, event);
     }
-  
+
   void Execute( const itk::Object * caller, const itk::EventObject & event )
     {
     ReconstructionFilterPointer reconstructor = dynamic_cast< ReconstructionFilterPointer >( caller );
-   
+
     if ( ! itk::ProgressEvent().CheckEvent( &event ) )
       {
       return;
       }
-   
+
     std::cout << (int)( 100 * reconstructor->GetProgress() ) << "%" << std::endl;
     }
 };
@@ -88,20 +89,20 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
- 
- 
+
+
   SmootherType::Pointer smoother = SmootherType::New();
   smoother->SetInput( reader->GetOutput() );
   smoother->SetSigma( atof( argv[17] ) );
   smoother->SetDirection( atoi( argv[3] ) );
- 
- 
+
+
   ReconstructionFilterType::Pointer reconstruct = ReconstructionFilterType::New();
-  if ( atof( argv[17] ) == 0 ) 
+  if ( atof( argv[17] ) == 0 )
     {
     reconstruct->SetInput( reader->GetOutput() );
     }
-  else 
+  else
     {
     reconstruct->SetInput( smoother->GetOutput() );
     }
@@ -115,54 +116,45 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
   reconstruct->SetAlphaRange( atoi( argv[10] ) );
 
   CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
-  reconstruct->AddObserver( itk::ProgressEvent(), observer ); 
- 
- 
- 
+  reconstruct->AddObserver( itk::ProgressEvent(), observer );
+
   RescalerType::Pointer rescaler = RescalerType::New();
   rescaler->SetInput( reconstruct->GetOutput() );
   rescaler->SetOutputMinimum( itk::NumericTraits< OutputPixelType >::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits< OutputPixelType >::max() );
- 
- 
- 
+
+
   ROIFilterType::Pointer ROIFilter = ROIFilterType::New();
   ROIFilter->SetInput( rescaler->GetOutput() );
- 
+
   ROIFilterType::IndexType start;
   ROIFilterType::SizeType size;
- 
+
   start[0] = atoi( argv[11] );
   start[1] = atoi( argv[12] );
   start[2] = atoi( argv[13] );
- 
+
   size[0] = atoi( argv[14] );
   size[1] = atoi( argv[15] );
   size[2] = atoi( argv[16] );
 
-  ROIFilterType::RegionType requestedRegion;  
+  ROIFilterType::RegionType requestedRegion;
   requestedRegion.SetIndex( start );
   requestedRegion.SetSize( size );
- 
+
   ROIFilter->SetRegionOfInterest( requestedRegion );
- 
- 
- 
- 
+
+
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn(  );
   writer->SetInput( ROIFilter->GetOutput() );
 
- 
- 
- 
- 
- 
-  try 
+
+  try
     {
-    writer->Update(); 
-    } 
+    writer->Update();
+    }
   catch ( itk::ExceptionObject err )
     {
     std::cerr << "An error occurred somewhere:" << std::endl;
@@ -171,7 +163,7 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
     }
 
   std::cout << "Done" << std::endl;
- 
+
   std::cout << reconstruct << std::endl;
 
   return 0;

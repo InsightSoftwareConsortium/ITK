@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLinearSystemWrapperItpack.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMLinearSystemWrapperItpack_h
 #define __itkFEMLinearSystemWrapperItpack_h
 
@@ -28,8 +28,8 @@ typedef long      integer;
 typedef double    doublereal;
 
 extern "C" {
-  typedef  
-  int (*ItkItpackSolverFunction)(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *, integer *, doublereal *, 
+  typedef
+  int (*ItkItpackSolverFunction)(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *, integer *, doublereal *,
                                  integer *, doublereal *, integer *);
 }
 
@@ -46,7 +46,7 @@ namespace fem {
 class LinearSystemWrapperItpack : public LinearSystemWrapper
 {
 public:
- 
+
   /** Standard "Self" typedef. */
   typedef LinearSystemWrapperItpack Self;
 
@@ -76,10 +76,10 @@ public:
   /* typedef std::auto_ptr<unsigned int> UnsignedIntegerArrayPtr; */
 
   /* -----------------------------------------------------------------
-   * 
-   * Routines for setting/reporting itpack parameters 
    *
-   * ----------------------------------------------------------------- 
+   * Routines for setting/reporting itpack parameters
+   *
+   * -----------------------------------------------------------------
    */
 
   /**
@@ -96,7 +96,7 @@ public:
   //void SetErrorReportingLevel(int i) {   m_IPARM[1] = i; }
 
   /**
-   * Get a flag indicating the type of error reporting 
+   * Get a flag indicating the type of error reporting
    */
   int  GetErrorReportingLevel() { return m_IPARM[1]; }
 
@@ -124,7 +124,7 @@ public:
    */
   void SetSymmetricMatrixFlag(int i) {   m_IPARM[4] = i; }
 
-  /** 
+  /**
    * Get flag indicating use of symmetric matrix (1=symmetric, 0=non-symmetric)
    */
   int  GetSymmetricMatrixFlag() { return m_IPARM[4]; }
@@ -340,55 +340,55 @@ public:
    */
   double GetDigitsInResidual()    { return m_RPARM[11]; }
 
-  /** 
-   * Set numerical solving method to jacobian conjugate gradient 
+  /**
+   * Set numerical solving method to jacobian conjugate gradient
    */
   void JacobianConjugateGradient() { m_Method = 0; }
 
-  /** 
+  /**
    * Set numerical solving method to jacobian semi iterative
    */
   void JacobianSemiIterative() { m_Method = 1; }
 
-  /** 
+  /**
    * Set numerical solving method to successive over-relaxation
    */
   void SuccessiveOverrelaxation() { m_Method = 2; }
 
-  /** 
+  /**
    * Set numerical solving method to symmetric successive over-relaxation
-   * conjugate gradient 
+   * conjugate gradient
    */
   void SymmetricSuccessiveOverrelaxationConjugateGradient() { m_Method = 3; }
 
-  /** 
+  /**
    * Set numerical solving method to symmetric successive over-relaxation
    * successive over-relaxation
    */
   void SymmetricSuccessiveOverrelaxationSuccessiveOverrelaxation() { m_Method = 4; }
 
-  /** 
-   * Set numerical solving method to reduced system conjugate gradient 
+  /**
+   * Set numerical solving method to reduced system conjugate gradient
    */
   void ReducedSystemConjugateGradient() { m_Method = 5; }
 
-  /** 
+  /**
    * Set numerical solving method to reduced system semi-iteration */
   void ReducedSystemSemiIteration() { m_Method = 6; }
 
 
   /** -----------------------------------------------------------------
-   * 
-   * Redefine methods defined in LinearSystemWrapper 
    *
-   * ----------------------------------------------------------------- 
+   * Redefine methods defined in LinearSystemWrapper
+   *
+   * -----------------------------------------------------------------
    */
 
   /**
    * set maximum number of entires in a matrix
    * \param maxNonZeroValues maximum number of entries allowed in matrix
    * \note this must be called before any matrices are initialized
-   */  
+   */
   virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeroValues) {m_MaximumNonZeroValues = maxNonZeroValues;}
 
 
@@ -396,17 +396,17 @@ public:
 
 
   /** -----------------------------------------------------------------
-   * 
-   * Functions required by LinearSystemWrapper 
    *
-   * ----------------------------------------------------------------- 
+   * Functions required by LinearSystemWrapper
+   *
+   * -----------------------------------------------------------------
    */
 
   /**
-   * constructor 
+   * constructor
    */
   LinearSystemWrapperItpack();
-  
+
   /**
    * destructor
    */
@@ -414,7 +414,7 @@ public:
 
 
   /* memory management routines */
-  virtual void  InitializeMatrix(unsigned int matrixIndex);  
+  virtual void  InitializeMatrix(unsigned int matrixIndex);
 
   virtual bool  IsMatrixInitialized(unsigned int matrixIndex);
 
@@ -518,13 +518,13 @@ public:
    * of the exception.
    */
   FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
- 
+
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionItpackSolver() throw() {}
-  
+
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSolver,FEMException);
-  
+
 };
 }} // end namespace itk::fem
 

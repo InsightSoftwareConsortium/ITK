@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWarpMeshFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,10 +23,10 @@
 #include "itkRegularSphereMeshSource.h"
 #include "itkImage.h"
 
-int itkWarpMeshFilterTest(int, char* [] ) 
+int itkWarpMeshFilterTest(int, char* [] )
 {
   const unsigned int Dimension = 3;
-  
+
   // Declare the type of the input and output mesh
   typedef itk::DefaultStaticMeshTraits<
     double, Dimension, Dimension, double, double, double> MeshTraits;
@@ -39,7 +40,7 @@ int itkWarpMeshFilterTest(int, char* [] )
 
   SphereMeshSourceType::Pointer  sphereMeshSource = SphereMeshSourceType::New();
 
-  PointType center; 
+  PointType center;
   center[0] = 25.0;
   center[1] = 25.0;
   center[2] = 25.0;
@@ -48,16 +49,16 @@ int itkWarpMeshFilterTest(int, char* [] )
   scale[0] = 20.0;
   scale[1] = 20.0;
   scale[2] = 20.0;
-  
+
   sphereMeshSource->SetCenter(center);
   sphereMeshSource->SetScale(scale);
   sphereMeshSource->SetResolution(2);
 
 
-  // Declare the deformation field 
+  // Declare the deformation field
   typedef itk::Vector< double, Dimension> VectorType;
   typedef itk::Image< VectorType, Dimension > DeformationFieldType;
-  
+
   DeformationFieldType::Pointer deformationField = DeformationFieldType::New();
 
   DeformationFieldType::IndexType  start;
@@ -80,14 +81,14 @@ int itkWarpMeshFilterTest(int, char* [] )
   origin[0] = 0.0;
   origin[1] = 0.0;
   origin[2] = 0.0;
- 
+
   deformationField->SetOrigin( origin );
 
   DeformationFieldType::SpacingType  spacing;
   spacing[0] = 2.0;
   spacing[1] = 2.0;
   spacing[2] = 2.0;
- 
+
   deformationField->SetSpacing( spacing );
 
   deformationField->Allocate();
@@ -96,20 +97,20 @@ int itkWarpMeshFilterTest(int, char* [] )
   simpleVector[0] = 3.0;
   simpleVector[1] = 5.0;
   simpleVector[2] = 7.0;
-  
+
   deformationField->FillBuffer( simpleVector );
 
   // Declare the Warping filter
-  typedef itk::WarpMeshFilter< 
+  typedef itk::WarpMeshFilter<
             MeshType, MeshType, DeformationFieldType >
                                            WarpFilterType;
-  
+
   WarpFilterType::Pointer warpFilter = WarpFilterType::New();
 
   warpFilter->SetInput( sphereMeshSource->GetOutput() );
 
   warpFilter->SetDeformationField( deformationField );
-      
+
   try
     {
     warpFilter->Update();
@@ -151,7 +152,7 @@ return EXIT_SUCCESS;
     ++inputPoint;
     ++outputPoint;
     }
-      
+
   return EXIT_SUCCESS;
 
 }

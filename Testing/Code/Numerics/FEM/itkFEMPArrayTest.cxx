@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMPArrayTest.cxx
-  Language:  C++
-  Date: $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -70,14 +70,14 @@ int itkFEMPArrayTest(int, char*[])
 
     std::cout << "Nodes\n";
 
-    try 
-      { 
+    try
+      {
       array.Find(0);
       array.Find(1);
       array.Find(2);
       array.Find(3);
       }
-    catch ( itk::ExceptionObject &e) 
+    catch ( itk::ExceptionObject &e)
       {
       std::cout << "Exception caught: " << e << std::endl;
       return EXIT_FAILURE;
@@ -94,25 +94,25 @@ int itkFEMPArrayTest(int, char*[])
 
     NodeType::Pointer node;
 
-    try 
-      { 
+    try
+      {
       node = &*array.Find(200);
       }
-    catch ( itk::ExceptionObject &e) 
+    catch ( itk::ExceptionObject &e)
       {
       std::cout << "Exception caught: " << e << std::endl;
       return EXIT_FAILURE;
       }
 
 
-    try 
-      { 
+    try
+      {
       // Intentionally fail, by asking for a non-existing element
       node = &*array.Find(1000);
       std::cout << "Error: exception should have been thrown here... " << std::endl;
       return EXIT_FAILURE;
       }
-    catch ( itk::ExceptionObject &e) 
+    catch ( itk::ExceptionObject &e)
       {
       std::cout << "Passed Exception test: " << e << std::endl;
       }
@@ -124,7 +124,7 @@ int itkFEMPArrayTest(int, char*[])
     std::cout << "Coordinates = " << std::endl;
     for( unsigned int c=0; c<coordinates.size(); c++)
       {
-      std::cout << coordinates[c] << "  " << std::endl; 
+      std::cout << coordinates[c] << "  " << std::endl;
       }
 
     std::cout << "Test PASSED!\n";

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkSpatialObjectToImageRegistrationTest.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkEuler2DTransform.h"
 #include "itkDiscreteGaussianImageFilter.h"
-#include <itkNormalVariateGenerator.h> 
+#include <itkNormalVariateGenerator.h>
 #include <itkCommand.h>
 
 namespace itk
@@ -35,7 +36,7 @@ namespace itk
 
 /** Iteration callback */
 template < class TOptimizer >
-class IterationCallback : public Command 
+class IterationCallback : public Command
 {
 
 public:
@@ -43,7 +44,7 @@ public:
   typedef itk::Command  Superclass;
   typedef itk::SmartPointer<Self>  Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
-  
+
   itkTypeMacro( IterationCallback, Superclass );
   itkNewMacro( Self );
 
@@ -53,7 +54,7 @@ public:
 
   /** Set Optimizer */
   void SetOptimizer( OptimizerType * optimizer )
-    { 
+    {
       m_Optimizer = optimizer;
       m_Optimizer->AddObserver( itk::IterationEvent(), this );
     }
@@ -71,10 +72,10 @@ public:
         {
         std::cout << std::endl << "Position              Value";
         std::cout << std::endl << std::endl;
-        }    
+        }
       else if( typeid( event ) == typeid( itk::IterationEvent ) )
         {
-        std::cout << "#" << m_Optimizer->GetCurrentIteration() 
+        std::cout << "#" << m_Optimizer->GetCurrentIteration()
                   << " Current parameters = " << m_Optimizer->GetCurrentPosition()
                   << std::endl;
         }
@@ -92,7 +93,7 @@ public:
 protected:
   IterationCallback() {};
   WeakPointer<OptimizerType>   m_Optimizer;
- 
+
 };
 
 /** Cost Function */
@@ -103,7 +104,7 @@ public:
 
   /** Standard class typedefs. */
   typedef SimpleImageToSpatialObjectMetric  Self;
-  typedef ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>  
+  typedef ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
   Superclass;
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -117,7 +118,7 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimpleImageToSpatialObjectMetric, ImageToSpatialObjectMetric);
 
@@ -145,11 +146,11 @@ public:
           {
           point[i]=it.GetIndex()[i];
           }
-      
+
         if(this->m_MovingSpatialObject->IsInside(point,99999))
-          { 
+          {
           m_PointList.push_back(point);
-          }    
+          }
         ++it;
         }
 
@@ -167,12 +168,12 @@ public:
 
   /** Get the Value for SingleValue Optimizers */
   MeasureType    GetValue( const ParametersType & parameters ) const
-    {   
+    {
       double value;
       this->m_Transform->SetParameters(parameters);
-    
+
       PointListType::const_iterator it = m_PointList.begin();
-    
+
       Index<2> index;
       value = 0;
       while(it != m_PointList.end())
@@ -232,7 +233,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   offset[1]=40;
   ellipse1->GetObjectToParentTransform()->SetOffset(offset);
   ellipse1->ComputeObjectToWorldTransform();
- 
+
   offset[0]=40;
   offset[1]=150;
   ellipse2->GetObjectToParentTransform()->SetOffset(offset);
@@ -306,7 +307,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
     }
 
   registration->SetFixedImage(image);
-  
+
   try
     {
     catching = false;
@@ -376,15 +377,15 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   initialParameters.set_size(3);
 
   initialParameters[0] = 0.2; // angle
-  initialParameters[1] = 7; // offset 
-  initialParameters[2] = 6; // offset 
+  initialParameters[1] = 7; // offset
+  initialParameters[2] = 6; // offset
 
   std::cout << "Initial Parameters  : " << initialParameters << std::endl;
 
   registration->SetInitialTransformParameters(initialParameters);
   optimizer->MaximizeOn();
 
-  itk::Statistics::NormalVariateGenerator::Pointer generator 
+  itk::Statistics::NormalVariateGenerator::Pointer generator
     = itk::Statistics::NormalVariateGenerator::New();
   generator->Initialize(12345);
 
@@ -437,8 +438,8 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   registration->SetInterpolator(interpolator.GetPointer());
 
   registration->StartRegistration();
- 
-  RegistrationType::ParametersType finalParameters 
+
+  RegistrationType::ParametersType finalParameters
     = registration->GetLastTransformParameters();
 
   std::cout << "Final Solution is : " << finalParameters << std::endl;

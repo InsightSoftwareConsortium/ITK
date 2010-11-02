@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    WatershedSegmentation1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -50,7 +51,7 @@
 // use the vector versions of these filters because the input data is a color
 // image.
 //
-// 
+//
 // Software Guide : EndLatex
 #include <iostream>
 
@@ -74,7 +75,7 @@ int main( int argc, char *argv[] )
     std::cerr << " inputImage outputImage conductanceTerm diffusionIterations lowerThreshold outputScaleLevel gradientMode " << std::endl;
     return 1;
     }
-  
+
   // Software Guide : BeginLatex
   //
   // We now declare the image and pixel types to use for instantiation of the
@@ -104,12 +105,12 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader<RGBImageType> FileReaderType;
-  typedef itk::VectorCastImageFilter<RGBImageType, VectorImageType> 
+  typedef itk::VectorCastImageFilter<RGBImageType, VectorImageType>
     CastFilterType;
   typedef itk::VectorGradientAnisotropicDiffusionImageFilter<VectorImageType,
     VectorImageType>  DiffusionFilterType;
   typedef itk::VectorGradientMagnitudeImageFilter<VectorImageType>
-    GradientMagnitudeFilterType; 
+    GradientMagnitudeFilterType;
   typedef itk::WatershedImageFilter<ScalarImageType> WatershedFilterType;
   // Software Guide : EndCodeSnippet
 
@@ -117,9 +118,9 @@ int main( int argc, char *argv[] )
 
   FileReaderType::Pointer reader = FileReaderType::New();
   reader->SetFileName(argv[1]);
-  
+
   CastFilterType::Pointer caster = CastFilterType::New();
-  
+
   // Software Guide : BeginLatex
   //
   // Next we instantiate the filters and set their parameters.  The first
@@ -133,7 +134,7 @@ int main( int argc, char *argv[] )
   // the ITK anisotropic diffusion filters.
   //
   // Software Guide : EndLatex
-  
+
   // Software Guide : BeginCodeSnippet
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations( atoi(argv[4]) );
@@ -144,13 +145,13 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The ITK gradient magnitude filter for vector-valued images can optionally
-  // take several parameters.  Here we allow only enabling or disabling 
+  // take several parameters.  Here we allow only enabling or disabling
   // of principal component analysis.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GradientMagnitudeFilterType::Pointer 
+  GradientMagnitudeFilterType::Pointer
     gradient = GradientMagnitudeFilterType::New();
   gradient->SetUsePrincipleComponents(atoi(argv[7]));
   // Software Guide : EndCodeSnippet
@@ -195,7 +196,7 @@ int main( int argc, char *argv[] )
   ColorMapFilterType::Pointer colormapper = ColorMapFilterType::New();
   // Software Guide : EndCodeSnippet
 
-  
+
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
 
@@ -215,7 +216,7 @@ int main( int argc, char *argv[] )
   writer->SetInput(colormapper->GetOutput());
   // Software Guide : EndCodeSnippet
 
-  try 
+  try
     {
     writer->Update();
     }
@@ -223,7 +224,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << e << std::endl;
     }
-    
+
   return 0;
 }
 
@@ -269,5 +270,5 @@ int main( int argc, char *argv[] )
 // significant than the number of pixels in the image.  A very large, but very
 // flat input take less time to segment than a very small, but very detailed
 // input.
-// 
+//
 // Software Guide : EndLatex

@@ -255,7 +255,7 @@ ptrdiff_t rle_encode(char *output, unsigned int outputlength, const char *input,
     // count byte where read, move pin to new position:
     pin += count;
     // compute remaining length:
-    assert( count <= length );
+    assert( (unsigned int)count <= length );
     length -= count;
     }
   return pout - output;
@@ -487,7 +487,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
       if( seg == MaxNumSegments - 1 )
         {
         partition += image_len % MaxNumSegments;
-        assert( (MaxNumSegments-1) * input_seg_length + partition == image_len );
+        assert( (MaxNumSegments-1) * (unsigned int)input_seg_length + partition == image_len );
         }
       assert( partition == input_seg_length );
 

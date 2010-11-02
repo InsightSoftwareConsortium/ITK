@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkHoughTransform2DLinesImageTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -72,20 +73,20 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   /** Create a line */
   float teta = 0.20; // radians
   float radius = 50;
-  
+
   double Vx = radius * vcl_cos( teta );
   double Vy = radius * vcl_sin( teta );
 
   double norm = vcl_sqrt(Vx*Vx+Vy*Vy);
   double VxNorm = Vx / norm;
   double VyNorm = Vy / norm;
-       
+
   unsigned int maxval = size[0]*size[1];
 
   const double nPI = 4.0 * vcl_atan( 1.0 );
-    
+
   for(unsigned int i=0;i<maxval;i+=1)
-  {    
+  {
     m_Index[0]=(long int)(Vx-VyNorm*i);
     m_Index[1]=(long int)(Vy+VxNorm*i);
 
@@ -95,7 +96,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
     {
        m_Image->SetPixel(m_Index,255);
     }
-  } 
+  }
 
   /** Allocate Hough Space image (accumulator) */
   std::cout << "Allocating Hough Space Image" << std::endl;
@@ -104,14 +105,14 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   m_HoughSpaceImage->Allocate();
 
   /** Apply gradient filter to the input image */
- typedef itk::CastImageFilter< 
-                        ImageType, 
+ typedef itk::CastImageFilter<
+                        ImageType,
                         HoughImageType    >    CastingFilterType;
-  
+
   CastingFilterType::Pointer caster = CastingFilterType::New();
   caster->SetInput(m_Image);
 
-  
+
   std::cout << "Applying gradient magnitude filter" << std::endl;
   typedef itk::GradientMagnitudeImageFilter<HoughImageType,HoughImageType> GradientFilterType;
   GradientFilterType::Pointer gradFilter =  GradientFilterType::New();
@@ -128,14 +129,14 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   unsigned char thresh_above = 200;
   threshFilter->ThresholdOutside(thresh_below,thresh_above);
   threshFilter->Update();
-   
+
   /** Define the HoughTransform filter */
   typedef itk::HoughTransform2DLinesImageFilter<HoughSpacePixelType,HoughSpacePixelType> HoughTransformFilterType;
-  
+
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
 
   houghFilter->SetInput(threshFilter->GetOutput());
-  
+
   houghFilter->SetThreshold(0.0f);
   if(houghFilter->GetThreshold() != 0.0f)
   {
@@ -161,7 +162,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
 
   houghFilter->Update();
   houghFilter->Simplify();
-  
+
   HoughImageType::Pointer m_SimplifyAccumulator = houghFilter->GetSimplifyAccumulator();
   HoughImageType::Pointer m_Accumulator = houghFilter->GetOutput();
 
@@ -184,7 +185,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   itk::ImageRegionIterator<HoughImageType> it_output(m_HoughSpaceImage,m_HoughSpaceImage->GetLargestPossibleRegion());
   itk::ImageRegionIterator<HoughImageType> it_input(m_PostProcessImage,m_PostProcessImage->GetLargestPossibleRegion());
 
-  /** Set the number of lines we are looking for. */ 
+  /** Set the number of lines we are looking for. */
   unsigned int m_NumberOfLines=1;
   /** Each time we find a maximum we remove it by drawing a black disc
       this define the size of this disc */
@@ -198,20 +199,20 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
     minMaxCalculator->SetImage(m_PostProcessImage);
     minMaxCalculator->ComputeMaximum();
     HoughImageType::PixelType  max = minMaxCalculator->GetMaximum();
-    
+
     for(it_input.GoToBegin();!it_input.IsAtEnd();++it_input)
     {
-      if(it_input.Get() == max) 
-      { 
+      if(it_input.Get() == max)
+      {
         houghPoint m_HoughPoint;
         m_HoughPoint.radius = it_input.GetIndex()[0];
         m_HoughPoint.angle  = ((it_input.GetIndex()[1])*2*nPI/houghFilter->GetAngleResolution())-nPI ;
-        
+
         m_LinesList.push_back(m_HoughPoint);
-        
+
         // Remove a black disc from the hough space domain
         for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
-        {     
+        {
           for(double length = 0; length < m_HoughDiscRadius;length += 1)
           {
             m_Index[0] = (long int)(it_input.GetIndex()[0] + length * vcl_cos(angle));
@@ -222,12 +223,12 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
             {
               m_Accumulator->SetPixel(m_Index,0);
             }
-          } 
+          }
         }
         minMaxCalculator->SetImage(m_Accumulator);
         minMaxCalculator->ComputeMaximum();
         max = minMaxCalculator->GetMaximum();
-      
+
         lines++;
         if(lines == m_NumberOfLines) break;
       }
@@ -241,7 +242,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
     {
     std::cout << "Angle = " << it_list->angle << " (expected " << teta << ")"<< std::endl;
     std::cout << "Radius = " << it_list->radius << " (expected " << radius << ")"<< std::endl;
-    
+
     if( vcl_fabs(it_list->angle-teta)>0.1)
       {
       std::cout << "Failure" << std::endl;
@@ -251,8 +252,8 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
       {
       std::cout << "Failure" << std::endl;
       return EXIT_FAILURE;
-      } 
-    it_list++;  
+      }
+    it_list++;
     }
 
   std::cout << "Printing Hough Fiter information:" << std::endl;

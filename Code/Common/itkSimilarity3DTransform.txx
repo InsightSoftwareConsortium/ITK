@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSimilarity3DTransform.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkSimilarity3DTransform_txx
 #define __itkSimilarity3DTransform_txx
 
@@ -27,24 +28,40 @@ namespace itk
 template< class TScalarType >
 Similarity3DTransform< TScalarType >
 ::Similarity3DTransform():
-  Superclass(OutputSpaceDimension, ParametersDimension)
+  Superclass(OutputSpaceDimension, ParametersDimension),
+  m_Scale(1.0)
 {
-  m_Scale = 1.0;
 }
 
 // Constructor with arguments
 template< class TScalarType >
-Similarity3DTransform< TScalarType >::Similarity3DTransform(unsigned int outputSpaceDim,
-                                                            unsigned int paramDim):
-  Superclass(outputSpaceDim, paramDim)
-{}
+Similarity3DTransform<TScalarType >
+::Similarity3DTransform(unsigned int outputSpaceDim,
+                        unsigned int paramDim):
+  Superclass(outputSpaceDim, paramDim),
+  m_Scale(1.0)
+{
+}
 
 // Constructor with arguments
 template< class TScalarType >
-Similarity3DTransform< TScalarType >::Similarity3DTransform(const MatrixType & matrix,
-                                                            const OutputVectorType & offset):
-  Superclass(matrix, offset)
-{}
+Similarity3DTransform< TScalarType >
+::Similarity3DTransform(const MatrixType & matrix,
+                      const OutputVectorType & offset):
+  Superclass(matrix, offset),
+  m_Scale(1.0)
+{
+}
+
+/// Set the parameters to the IdentityTransform
+template< class TScalarType >
+void
+Similarity3DTransform< TScalarType >
+::SetIdentity(void)
+{
+  this->Superclass::SetIdentity();
+  this->m_Scale = 1.0;
+}
 
 // Set the scale factor
 template< class TScalarType >
@@ -190,7 +207,8 @@ Similarity3DTransform< TScalarType >
 // Set parameters
 template< class TScalarType >
 const typename Similarity3DTransform< TScalarType >::JacobianType &
-Similarity3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
+Similarity3DTransform< TScalarType >::
+GetJacobian(const InputPointType & p) const
 {
   typedef typename VersorType::ValueType ValueType;
 
@@ -293,7 +311,8 @@ Similarity3DTransform< TScalarType >
 // Print self
 template< class TScalarType >
 void
-Similarity3DTransform< TScalarType >::PrintSelf(std::ostream & os, Indent indent) const
+Similarity3DTransform< TScalarType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Scale = " << m_Scale << std::endl;

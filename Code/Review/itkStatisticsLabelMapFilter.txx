@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkStatisticsLabelMapFilter.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkStatisticsLabelMapFilter_txx
 #define __itkStatisticsLabelMapFilter_txx
 
@@ -22,6 +23,7 @@
 #include "itkProgressReporter.h"
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -160,10 +162,26 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   const double variance = ( sum2 - ( vcl_pow(sum, 2) / totalFreq ) ) / ( totalFreq - 1 );
   const double sigma = vcl_sqrt(variance);
   const double mean2 = mean * mean;
-  const double skewness = ( ( sum3 - 3.0 * mean * sum2 ) / totalFreq + 2.0 * mean * mean2 ) / ( variance * sigma );
-  const double kurtosis =
-    ( ( sum4 - 4.0 * mean * sum3 + 6.0 * mean2
-        * sum2 ) / totalFreq - 3.0 * mean2 * mean2 ) / ( variance * variance ) - 3.0;
+  double skewness;
+  if(vcl_abs(variance * sigma) > itk::NumericTraits<double>::min())
+    {
+    skewness = ( ( sum3 - 3.0 * mean * sum2 ) / totalFreq + 2.0 * mean * mean2 ) / ( variance * sigma );
+    }
+  else
+    {
+    skewness = 0.0;
+    }
+  double kurtosis;
+  if(vcl_abs(variance) > itk::NumericTraits<double>::min())
+    {
+    kurtosis = ( ( sum4 - 4.0 * mean * sum3 + 6.0 * mean2
+                   * sum2 ) / totalFreq - 3.0 * mean2 * mean2 ) /
+      ( variance * variance ) - 3.0;
+    }
+  else
+    {
+    kurtosis = 0.0;
+    }
 
   // the median
   double median = 0;

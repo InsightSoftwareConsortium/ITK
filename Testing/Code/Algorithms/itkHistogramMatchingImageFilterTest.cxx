@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit (ITK)
-  Module:    itkHistogramMatchingImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -28,7 +29,7 @@
  * This test uses artificial data, where we multiply different intensity
  * classes by different factors and test whether we can recover the
  * reference image.
- */ 
+ */
 
 double refPattern( unsigned long offset )
 {
@@ -49,7 +50,7 @@ double srcPattern( unsigned long offset )
 }
 namespace
 {
-  
+
 // The following classe is used to support callbacks
 // on the filter in the pipeline that follows later
 class ShowProgressObject
@@ -79,7 +80,7 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
 
   ImageType::RegionType region;
   region.SetSize( size );
-  
+
   ImageType::Pointer reference = ImageType::New();
   ImageType::Pointer source = ImageType::New();
 
@@ -104,7 +105,7 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
     ++refIter;
     ++srcIter;
     ++counter;
-    }  
+    }
 
 
   typedef itk::HistogramMatchingImageFilter<ImageType,ImageType> FilterType;
@@ -126,7 +127,7 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
   filter->Update();
   filter->Print( std::cout );
 
-  // Walk the output and compare with reference 
+  // Walk the output and compare with reference
   Iterator outIter( filter->GetOutput(), region );
 
   refIter.GoToBegin();
@@ -153,9 +154,9 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
   std::cout << filter->GetNumberOfHistogramLevels() << std::endl;
   std::cout << filter->GetNumberOfMatchPoints() << std::endl;
 
-  std::cout << "Source Histogram: " << 
+  std::cout << "Source Histogram: " <<
     filter->GetSourceHistogram() << std::endl;
-  std::cout << "Reference Histogram: " << 
+  std::cout << "Reference Histogram: " <<
     filter->GetReferenceHistogram() << std::endl;
   std::cout << "Output Histogram: " <<
     filter->GetOutputHistogram() << std::endl;

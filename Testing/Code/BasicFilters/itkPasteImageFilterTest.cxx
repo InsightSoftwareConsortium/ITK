@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPasteImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,14 +38,14 @@ int itkPasteImageFilterTest(int ac, char* av[] )
 
   typedef unsigned char PixelType;
   typedef itk::Image<PixelType, 2> myImage;
-  itk::ImageFileReader<myImage>::Pointer dest 
+  itk::ImageFileReader<myImage>::Pointer dest
     = itk::ImageFileReader<myImage>::New();
   dest->SetFileName(av[1]);
 
-  itk::ImageFileReader<myImage>::Pointer src 
+  itk::ImageFileReader<myImage>::Pointer src
     = itk::ImageFileReader<myImage>::New();
   src->SetFileName(av[2]);
-  
+
   // Create a filter
   typedef itk::PasteImageFilter<myImage> FilterType;
 
@@ -83,14 +84,14 @@ int itkPasteImageFilterTest(int ac, char* av[] )
   streamer->SetInput( filter->GetOutput() );
   streamer->SetNumberOfStreamDivisions( 25 );
   streamer->SetRegionSplitter( splitter );
-  
+
 
   // Test itkGetMacros
   myImage::IndexType  value  = filter->GetDestinationIndex();
   std::cout << "filter->GetDestinationIndex(): " << value << std::endl;
 
   myImage::RegionType value2 = filter->GetSourceRegion();
-  std::cout << "filter->GetSourceRegion(): " << value2 << std::endl;  
+  std::cout << "filter->GetSourceRegion(): " << value2 << std::endl;
 
   try
     {

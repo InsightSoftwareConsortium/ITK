@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVectorConfidenceConnectedImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -48,12 +49,12 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
   typedef itk::Image<PixelType,       Dimension> ImageType;
   typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
-  
+
   typedef itk::ImageFileReader<ImageType>  ReaderType;
-    
+
   ReaderType::Pointer input = ReaderType::New();
   input->SetFileName(av[1]);
-  
+
   // Create a filter
   typedef itk::VectorConfidenceConnectedImageFilter<
                                               ImageType,
@@ -66,15 +67,15 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->SetInput(input->GetOutput());
   filter->SetInitialNeighborhoodRadius( 3 ); // measured in pixels
 
-  FilterType::IndexType seed1; 
-  FilterType::IndexType seed2; 
-  
+  FilterType::IndexType seed1;
+  FilterType::IndexType seed2;
+
   seed1[0] = atoi( av[3] );
   seed1[1] = atoi( av[4] );
-  
+
   seed2[0] = atoi( av[5] );
   seed2[1] = atoi( av[6] );
-  
+
   filter->AddSeed( seed1 );
   filter->AddSeed( seed2 );
 
@@ -95,13 +96,13 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
   // Test the GetMacros
   double doubleMultiplier = filter->GetMultiplier();
-  std::cout << "filter->GetMultiplier(): " 
+  std::cout << "filter->GetMultiplier(): "
             << doubleMultiplier
             << std::endl;
 
   unsigned int uintNumberOfIterations = filter->GetNumberOfIterations();
   std::cout << "filter->GetNumberOfIterations(): "
-            << uintNumberOfIterations 
+            << uintNumberOfIterations
             << std::endl;
 
   OutputPixelType pixelReplaceValue = filter->GetReplaceValue();
@@ -117,7 +118,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   // Generate test image
   typedef itk::ImageFileWriter<OutputImageType>  WriterType;
   WriterType::Pointer writer = WriterType::New();
-    
+
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( av[2] );
   writer->Update();

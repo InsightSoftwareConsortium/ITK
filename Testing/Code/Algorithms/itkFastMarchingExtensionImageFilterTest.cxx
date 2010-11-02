@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFastMarchingExtensionImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -57,7 +58,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 
 
   bool passed;
-  
+
   // setup trial points
   typedef MarcherType::NodeType NodeType;
   typedef MarcherType::NodeContainer NodeContainer;
@@ -80,7 +81,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   index.Fill( 200 );
   node.SetIndex( index ); // this node is out of range
   alivePoints->InsertElement(1, node);
-  
+
   marcher->SetAlivePoints( alivePoints );
 
 
@@ -220,7 +221,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   auxTrialValues->InsertElement(2,vector);
   auxTrialValues->InsertElement(3,vector);
   auxTrialValues->InsertElement(4,vector);
- 
+
 
   // run the algorithm
   passed = true;
@@ -289,7 +290,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
       passed = false;
       break;
       }
-    
+
     }
 
   // Exercise other member functions
@@ -306,7 +307,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
     std::cout << "GetAuxiliaryImage(2) should have returned NULL";
     std::cout << std::endl;
     passed = false;
-    } 
+    }
 
   if ( passed )
     {

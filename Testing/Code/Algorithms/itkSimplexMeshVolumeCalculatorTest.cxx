@@ -1,24 +1,24 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkSimplexMeshVolumeCalculatorTest.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
- 
+
 #include <math.h>
 #include <iostream>
 
@@ -28,7 +28,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 
 int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
-{ 
+{
   // Declare the type of the input and output mesh
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double> MeshTraits;
 
@@ -54,21 +54,21 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
 
   SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput( mySphereMeshSource->GetOutput() );
- 
-  typedef itk::SimplexMeshVolumeCalculator< 
+
+  typedef itk::SimplexMeshVolumeCalculator<
                  SimplexMeshType > VolumeCalculatorType;
 
-    
+
   VolumeCalculatorType::Pointer calculator = VolumeCalculatorType::New();
 
   calculator->SetSimplexMesh( simplexFilter->GetOutput() );
   for ( int i = 1; i <= 5; i++)
     {
-    mySphereMeshSource->SetResolution(i); 
+    mySphereMeshSource->SetResolution(i);
     simplexFilter->Update();
 
     calculator->Compute();
-    std::cout << "Resolution: " << i 
+    std::cout << "Resolution: " << i
               << ", Volume: " << calculator->GetVolume()
               << ", Area: " << calculator->GetArea()
               << std::endl;
@@ -79,8 +79,8 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
   double volume = calculator->GetVolume();
 
   const double pi = vcl_atan(1.0) * 4.0;
-  const double knownVolume = 4.0/3.0 * pi * (1000.0);  // scale was 10 = radius 
-  
+  const double knownVolume = 4.0/3.0 * pi * (1000.0);  // scale was 10 = radius
+
   std::cout << "knownVolume: " << knownVolume << " versus computedVolume: " << volume << std::endl;
 
   if( vnl_math_abs( volume - knownVolume ) > (1e-2 * knownVolume) )
@@ -90,7 +90,7 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
     std::cerr << "But we got  " << volume << std::endl;
     return EXIT_FAILURE;
     }
-    
+
 
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;

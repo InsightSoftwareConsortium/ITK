@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkConvertBufferTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 #include <iostream>
 
 int itkConvertBufferTest(int, char* [])
-{ 
+{
   unsigned int k;
   int piInit[3] = {3,1,4};
   itk::RGBPixel<int> pi = piInit;
@@ -44,7 +45,7 @@ int itkConvertBufferTest(int, char* [])
   int ipa[] = {1, 2, 3};
   itk::RGBPixel<int> p[3];
   // convert from int to RGB<int>
-  itk::ConvertPixelBuffer<int, itk::RGBPixel<int>, 
+  itk::ConvertPixelBuffer<int, itk::RGBPixel<int>,
     itk::DefaultConvertPixelTraits<itk::RGBPixel<int> > >::
     Convert(ipa, 1, p, 3);
   std::cerr << "RGB 111 222 333 = ";
@@ -56,7 +57,7 @@ int itkConvertBufferTest(int, char* [])
   int ipa3com[] = {1,1,1, 2,2,2, 3,3,3};
   itk::RGBPixel<float> pf[3];
   // convert from int[3] to RGB<float>
-  itk::ConvertPixelBuffer<int, itk::RGBPixel<float>, 
+  itk::ConvertPixelBuffer<int, itk::RGBPixel<float>,
     itk::DefaultConvertPixelTraits<itk::RGBPixel<float> > >::
     Convert(ipa3com, 3, pf, 3);
   std::cerr << "itk::RGBPixel<float> array converted from int\n";
@@ -71,23 +72,23 @@ int itkConvertBufferTest(int, char* [])
     std::cerr << pa[k] << " ";
     }
   std::cerr << "\n";
-  
+
   // create an initial array of floats
   float farray[] = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f, 6.4f, 7.4f, 8.8f, 9.9f  };
   // set the size of the array in number of elements
   const int arraySize = sizeof(farray)/sizeof(farray[0]);
-  double darray[arraySize];     // create a double array 
-  int iarray[arraySize];        // create an int array 
+  double darray[arraySize];     // create a double array
+  int iarray[arraySize];        // create an int array
   // convert the float array to a double array
   itk::ConvertPixelBuffer<float, double,
     itk::DefaultConvertPixelTraits<double> >::
     Convert(farray, 1, darray, arraySize);
   // convert a float array to an int array
-  itk::ConvertPixelBuffer<float, int, 
+  itk::ConvertPixelBuffer<float, int,
     itk::DefaultConvertPixelTraits<int> >::
     Convert(farray, 1, iarray, arraySize);
   // convert the int array to the float array
-  itk::ConvertPixelBuffer<int, float, 
+  itk::ConvertPixelBuffer<int, float,
     itk::DefaultConvertPixelTraits<float> >::
     Convert(iarray, 1, farray, arraySize);
   // print out all arrays after conversion
@@ -108,10 +109,10 @@ int itkConvertBufferTest(int, char* [])
     std::cerr << darray[i] << " " ;
     }
   std::cerr << "\n";
-  
-  
+
+
   typedef itk::Image<unsigned char, 2> ushort3Image;
-  itk::ImageFileReader<ushort3Image>::Pointer reader 
+  itk::ImageFileReader<ushort3Image>::Pointer reader
     = itk::ImageFileReader<ushort3Image>::New();
         return EXIT_SUCCESS;
 }

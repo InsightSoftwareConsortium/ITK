@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMutualInformationMetricTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -205,7 +206,7 @@ int itkMutualInformationMetricTest(int, char* [] )
   collector.Start("Loop");
 
   std::cout << "param[4]\tMI\tdMI/dparam[4]" << std::endl;
-  
+
   for( double trans = -10; trans <= 5; trans += 0.5 )
     {
     parameters[4] = trans;
@@ -226,7 +227,7 @@ int itkMutualInformationMetricTest(int, char* [] )
 //-------------------------------------------------------
   std::cout << "Name of class: " <<
     metric->GetNameOfClass() << std::endl;
-  std::cout << "No. of samples used = " << 
+  std::cout << "No. of samples used = " <<
     metric->GetNumberOfSpatialSamples() << std::endl;
   std::cout << "Fixed image std dev = " <<
     metric->GetFixedImageStandardDeviation() << std::endl;

@@ -1,27 +1,28 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAdaptImageFilterTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 /**
- *  
+ *
  *  This program illustrates the AdaptImageFilter
  *
- *  The example shows how an Accessor can be used to 
+ *  The example shows how an Accessor can be used to
  *  convert an Vector image to an image that has
  *  just a single component.
  *
@@ -80,12 +81,12 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   myImage->SetBufferedRegion( region );
   myImage->SetRequestedRegion( region );
   myImage->Allocate();
-  
+
   myVectorIteratorType  it1( myImage, myImage->GetRequestedRegion() );
-  
+
   // Value to initialize the pixels
   myVectorImageType::PixelType color;
-  
+
   // Initializing all the pixel in the image
   it1.GoToBegin();
   while( !it1.IsAtEnd() )
@@ -114,7 +115,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
 
   // Get the first element
   typedef itk::AdaptImageFilter<myVectorImageType, myImageType, myAccessorType> AdaptFilterType;
-    
+
   AdaptFilterType::Pointer adaptImage = AdaptFilterType::New();
 
   myAccessorType accessor;
@@ -123,7 +124,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   adaptImage->SetAccessor( accessor );
   adaptImage->SetInput(myImage);
   adaptImage->UpdateLargestPossibleRegion();
- 
+
   myIteratorType  it( adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion() );
 
   std::cout << "--- First component values --- " << std::endl;
@@ -137,7 +138,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
     {
     passed = false;
     }
-    
+
   ++it;
   ++it1;
   }
@@ -146,7 +147,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   accessor.SetElementNumber(1);
   adaptImage->SetAccessor( accessor );
   adaptImage->UpdateLargestPossibleRegion();
- 
+
   it = myIteratorType( adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion() );
 
   std::cout << "--- Second component values --- " << std::endl;
@@ -160,7 +161,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
     {
     passed = false;
     }
-  
+
   ++it;
   ++it1;
   }
@@ -169,7 +170,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   accessor.SetElementNumber(2);
   adaptImage->SetAccessor( accessor );
   adaptImage->UpdateLargestPossibleRegion();
- 
+
   it = myIteratorType( adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion() );
 
   std::cout << "--- Third component values --- " << std::endl;
@@ -183,12 +184,12 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
     {
     passed = false;
     }
-  
+
   ++it;
   ++it1;
   }
-  
-  // Test access to Accessor 
+
+  // Test access to Accessor
   std::cout << adaptImage->GetAccessor().GetElementNumber() << std::endl;
 
   std::cout << std::endl;

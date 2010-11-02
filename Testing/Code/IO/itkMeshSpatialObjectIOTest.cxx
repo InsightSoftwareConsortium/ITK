@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMeshSpatialObjectIOTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -48,7 +49,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
 
   MeshType::CoordRepType testPointCoords[8][3]
     = { {0,1,2}, {1,2,3}, {2,3,4}, {3,4,5}, {4,5,6}, {5,6,7}, {6,7,8}, {7,8,9}};
-  
+
   unsigned long tetraPoints[4] = {0,1,2,3};
   unsigned long hexaPoints[8] = {0,1,2,3,4,5,6,7};
 
@@ -60,13 +61,13 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
     }
 
   mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
-  CellAutoPointer testCell1; 
-  testCell1.TakeOwnership(  new TetraCellType ); 
+  CellAutoPointer testCell1;
+  testCell1.TakeOwnership(  new TetraCellType );
   testCell1->SetPointIds(tetraPoints);
   mesh->SetCell(0, testCell1 );
 
   CellAutoPointer testCell2;
-  testCell2.TakeOwnership(  new HexaCellType ); 
+  testCell2.TakeOwnership(  new HexaCellType );
   testCell2->SetPointIds(hexaPoints);
   mesh->SetCell(0, testCell1 );
   mesh->SetCell(1, testCell2 );
@@ -75,7 +76,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   typedef MeshType::CellLinksContainer CellLinksContainerType;
   CellLinksContainerType::Pointer linkContainer = CellLinksContainerType::New();
   MeshType::PointCellLinksContainer pcl;
-  
+
   for(j=0;j<3;j++)
     {
     for(i=0;i<5;i++)
@@ -90,7 +91,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   // Add point data
   typedef MeshType::PointDataContainer PointDataContainer;
   PointDataContainer::Pointer pointData = PointDataContainer::New();
- 
+
   float data = 0.1;
   for(j=0;j<2;j++)
     {
@@ -102,7 +103,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   // Add cell data
   typedef  MeshType::CellDataContainer CellDataContainer;
   CellDataContainer::Pointer cellData = CellDataContainer::New();
-  
+
   data = 0.9;
   for(j=0;j<3;j++)
     {
@@ -151,7 +152,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
   }
   std::cout<<" [PASSED]"<<std::endl;
-  
+
   // Testing the mesh validity
   MeshSpatialObjectType::ChildrenListType* children = reader->GetGroup()->GetChildren();
   if(strcmp((*(children->begin()))->GetTypeName(),"MeshSpatialObject"))
@@ -171,11 +172,11 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   std::cout<<" [PASSED]"<<std::endl;
 
   std::cout<<"Testing Points: ";
-  MeshType::Pointer mesh2 = meshSO2->GetMesh(); 
+  MeshType::Pointer mesh2 = meshSO2->GetMesh();
   // Testing points
   const MeshType::PointsContainer* points = mesh2->GetPoints();
   MeshType::PointsContainer::ConstIterator it_points = points->Begin();
-    
+
   j=0;
   while(it_points != points->End())
     {
@@ -204,7 +205,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   std::cout<<"Testing Cells : ";
   const MeshType::CellsContainer* cells = mesh2->GetCells();
   MeshType::CellsContainer::ConstIterator it_cells = cells->Begin();
-    
+
   j=0;
   while(it_cells != cells->End())
     {
@@ -215,7 +216,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
       std::cout << (*it_cells)->Index() << " v.s " << j << std::endl;;
       return EXIT_FAILURE;
       }
-    
+
     unsigned int ii=0;
     while(itptids != (*it_cells)->Value()->PointIdsEnd())
       {
@@ -224,7 +225,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
         std::cout<<" [FAILED]"<<std::endl;
         std::cout << *itptids << " v.s. " << ii << std::endl;
         return EXIT_FAILURE;
-        }  
+        }
       ii++;
       itptids++;
       }
@@ -240,7 +241,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   typedef MeshType::CellLinksContainer  CellLinksContainer;
   const CellLinksContainer* links = mesh2->GetCellLinks();
   MeshType::CellLinksContainer::ConstIterator it_celllinks = links->Begin();
- 
+
   while(it_celllinks != links->End())
     {
     if((*it_celllinks)->Index() != j)
@@ -278,7 +279,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   if(pd)
     {
     MeshType::PointDataContainer::ConstIterator it_pd = pd->Begin();
- 
+
     while(it_pd != pd->End())
       {
       if((*it_pd)->Index() != j)
@@ -316,7 +317,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   if(pc)
     {
     MeshType::CellDataContainer::ConstIterator it_pc = pc->Begin();
- 
+
     while(it_pc != pc->End())
       {
       if((*it_pc)->Index() != j)

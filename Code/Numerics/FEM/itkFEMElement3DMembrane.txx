@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement3DMembrane.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMElement3DMembrane_txx
 #define __itkFEMElement3DMembrane_txx
 
@@ -40,13 +40,13 @@ Element3DMembrane<TBaseClass>
   unsigned int p;
   unsigned int Nn=this->GetNumberOfNodes();
   B.set_size(9,3*Nn); //  note minor difference from 2D membrane
-  
+
   // Copy the shape function derivatives to the B matrix.
   for (unsigned int i=0; i<Nn; i++) {
   // Compute B index
   p = i * 3;
 
-  // Compute B elements   
+  // Compute B elements
   // below are the dN/dx entries
   B[0][p]   = shapeDgl[0][i];
   B[0][p+1] = 0.0;
@@ -60,8 +60,8 @@ Element3DMembrane<TBaseClass>
   B[2][p+1] = 0.0;
   B[2][p+2] = shapeDgl[0][i];
 
-  
-  // below are the dN/dy entries 
+
+  // below are the dN/dy entries
   B[3][p]   = shapeDgl[1][i];
   B[3][p+1] = 0.0;
   B[3][p+2] = 0.0;
@@ -109,7 +109,7 @@ void
 Element3DMembrane<TBaseClass>
 ::GetMaterialMatrix(MatrixType& D) const
 {
-  unsigned int d=9;  
+  unsigned int d=9;
   D.set_size(d,d);
 
   D.fill(0.0);
@@ -117,7 +117,7 @@ Element3DMembrane<TBaseClass>
   // This is the main difference from the linear elasticity problem.
   /* Material properties matrix.  Simpler than linear elasticity. */
   Float disot = m_mat->E;
-    
+
   for (unsigned int i=0; i<d; i++) D[i][i] = disot;
 
 }
@@ -144,7 +144,7 @@ Element3DMembrane<TBaseClass>
      */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     m_mat=dynamic_cast<const MaterialLinearElasticity*>( &*mats->Find(n));
-    
+
     }
   catch ( FEMExceptionObjectNotFound e )
     {
@@ -160,7 +160,7 @@ Element3DMembrane<TBaseClass>
 out:
 
   if( !f )
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element3DMembrane::Read()","Error reading FEM element!");
     }
 
@@ -185,7 +185,7 @@ Element3DMembrane<TBaseClass>
 
   // check for errors
   if (!f)
-    { 
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element3DMembrane::Write()","Error writing FEM element!");
     }
 }

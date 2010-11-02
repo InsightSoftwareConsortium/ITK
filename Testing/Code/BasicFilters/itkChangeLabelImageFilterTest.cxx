@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkChangeLabelImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 
-int itkChangeLabelImageFilterTest(int, char* [] ) 
+int itkChangeLabelImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -60,9 +61,9 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   // Declare the type for the binary threshold filter
   typedef itk::ChangeLabelImageFilter< InputImageType,
                                OutputImageType  >  FilterType;
-            
 
-  // Create a filter                                
+
+  // Create a filter
   FilterType::Pointer filter = FilterType::New();
 
   // Eliminate most labels
@@ -78,11 +79,11 @@ int itkChangeLabelImageFilterTest(int, char* [] )
 
 
   // Connect the input images
-  filter->SetInput( source->GetOutput() ); 
+  filter->SetInput( source->GetOutput() );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
-  
+
   // Execute the filter
   try
     {
@@ -97,21 +98,21 @@ int itkChangeLabelImageFilterTest(int, char* [] )
     }
 
   // Create an iterator for going through the image output
-  InputIteratorType  it( source->GetOutput(), source->GetOutput()->GetRequestedRegion() ); 
+  InputIteratorType  it( source->GetOutput(), source->GetOutput()->GetRequestedRegion() );
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
-  
+
   bool pass = true;
- 
+
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
   {
 
     const InputPixelType  input  = it.Get();
     const OutputPixelType output = ot.Get();
-    std::cout <<  (double) input  << " " << (double) output << std::endl; 
+    std::cout <<  (double) input  << " " << (double) output << std::endl;
 
     if( output > maxRemainingLabel )
       {
@@ -147,21 +148,21 @@ int itkChangeLabelImageFilterTest(int, char* [] )
     }
 
   // Create an iterator for going through the image output
-  InputIteratorType  ita( source->GetOutput(), source->GetOutput()->GetRequestedRegion() ); 
+  InputIteratorType  ita( source->GetOutput(), source->GetOutput()->GetRequestedRegion() );
   OutputIteratorType ota(outputImage, outputImage->GetRequestedRegion());
-  
+
 
   //  Check the content of the result image
   //  Since the change map is clear, input is expected to be the same as output
   std::cout << "Verification of the output " << std::endl;
   ota.GoToBegin();
   ita.GoToBegin();
-  while( !ota.IsAtEnd() ) 
+  while( !ota.IsAtEnd() )
   {
 
     const InputPixelType  input  = ita.Get();
     const OutputPixelType output = ota.Get();
-    std::cout <<  (double) input  << " " << (double) output << std::endl; 
+    std::cout <<  (double) input  << " " << (double) output << std::endl;
 
     if( input != output )
       {
@@ -181,7 +182,7 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   }
 
 
- 
+
   if ( pass )
     {
     std::cout << "Test passsed. " << std::endl;

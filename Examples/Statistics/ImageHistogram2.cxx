@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageHistogram2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,13 +24,13 @@
 // From the previous example you will have noticed that there is a significant
 // number of operations to perform to compute the simple histogram of
 // a scalar image. Given that this is a relatively common operation, it is
-// convenient to encapsulate many of these operations in a single helper class. 
+// convenient to encapsulate many of these operations in a single helper class.
 //
 // The \subdoxygen{Statistics}{ScalarImageToHistogramGenerator} is the result
 // of such encapsulation.  This example illustrates how to compute the
 // histogram of a scalar image using this helper class.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 
@@ -41,7 +42,7 @@
 //
 // \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!header}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkScalarImageToHistogramGenerator.h"
@@ -68,7 +69,7 @@ int main( int argc, char * argv [] )
 // The image type must be defined using the typical pair of pixel type and
 // dimension specification.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -108,10 +109,10 @@ int main( int argc, char * argv [] )
 //
 // \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!header}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ScalarImageToHistogramGenerator< 
+  typedef itk::Statistics::ScalarImageToHistogramGenerator<
                                  ImageType >   HistogramGeneratorType;
 
   HistogramGeneratorType::Pointer histogramGenerator =
@@ -127,7 +128,7 @@ int main( int argc, char * argv [] )
 // The image to be passed as input to the histogram generator is taken in this
 // case from the output of an image reader.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->SetInput(  reader->GetOutput() );
@@ -142,7 +143,7 @@ int main( int argc, char * argv [] )
 // We define also the typical parameters that specify the characteristics of
 // the histogram to be computed.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->SetNumberOfBins( 256 );
@@ -162,7 +163,7 @@ int main( int argc, char * argv [] )
 //
 // \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!Compute()}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->Compute();
@@ -176,7 +177,7 @@ int main( int argc, char * argv [] )
 // \code{GetOutput()} method. It is also convenient to get the Histogram type
 // from the traits of the generator type itself as shown in the code below.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::HistogramType  HistogramType;
@@ -207,17 +208,17 @@ int main( int argc, char * argv [] )
 //
 // \index{itk::Statistics::Histogram!Iterators}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   HistogramType::ConstIterator itr = histogram->Begin();
   HistogramType::ConstIterator end = histogram->End();
- 
+
   unsigned int binNumber = 0;
   while( itr != end )
     {
     std::cout << "bin = " << binNumber << " frequency = ";
-    std::cout << itr.GetFrequency() << std::endl;     
+    std::cout << itr.GetFrequency() << std::endl;
     ++itr;
     ++binNumber;
     }
@@ -225,7 +226,7 @@ int main( int argc, char * argv [] )
 
 
   return 0;
-  
+
 }
 
 

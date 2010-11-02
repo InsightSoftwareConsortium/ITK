@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageRandomIteratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -39,7 +40,7 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   ImageType::Pointer myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage.GetPointer();
-  
+
   ImageType::SizeType size0;
 
   size0[0] = 100;
@@ -70,7 +71,7 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   it.GoToBegin();
   ImageType::IndexType index0;
-  
+
   // Fill an image with indices
   while( !it.IsAtEnd() )
   {
@@ -79,13 +80,13 @@ int itkImageRandomIteratorTest(int, char* [] )
     ++it;
   }
 
-  
-  // Sample the image 
+
+  // Sample the image
   RandomIteratorType ot( myImage, region0 );
-  ot.SetNumberOfSamples( numberOfSamples ); 
+  ot.SetNumberOfSamples( numberOfSamples );
   ot.GoToBegin();
 
- 
+
   std::cout << "Verifying non-const iterator... ";
   std::cout << "Random walk of the Iterator over the image " << std::endl;
   while( !ot.IsAtEnd() )
@@ -104,13 +105,13 @@ int itkImageRandomIteratorTest(int, char* [] )
     }
   std::cout << "   Done ! " << std::endl;
 
-  
-  // Verification 
+
+  // Verification
   RandomConstIteratorType cot( myConstImage, region0 );
   cot.SetNumberOfSamples( numberOfSamples );
   cot.GoToBegin();
 
- 
+
   std::cout << "Verifying const iterator... ";
   std::cout << "Random walk of the Iterator over the image " << std::endl;
 
@@ -132,7 +133,7 @@ int itkImageRandomIteratorTest(int, char* [] )
 
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying iterator in reverse direction... " << std::endl;
   std::cout << "Should be a random walk too (a different one)" << std::endl;
 
@@ -141,7 +142,7 @@ int itkImageRandomIteratorTest(int, char* [] )
   ior.GoToEnd();
 
   --ior;
- 
+
 
   while( !ior.IsAtBegin() )
   {
@@ -162,14 +163,14 @@ int itkImageRandomIteratorTest(int, char* [] )
 
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
 
   RandomConstIteratorType cor( myImage, region0 );
   cor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
   cor.GoToEnd();
 
-  --cor; // start at the end position 
+  --cor; // start at the end position
 
   while( !cor.IsAtBegin() )
     {
@@ -188,14 +189,14 @@ int itkImageRandomIteratorTest(int, char* [] )
   std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
 
- // Verification 
+ // Verification
   std::cout << "Verifying const iterator in both directions... ";
 
   RandomConstIteratorType dor( myImage, region0 );
   dor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
   dor.GoToEnd();
 
-  --dor; // start at the last valid pixel position 
+  --dor; // start at the last valid pixel position
 
   for (unsigned int counter = 0; ! dor.IsAtEnd(); ++counter)
     {
@@ -214,7 +215,7 @@ int itkImageRandomIteratorTest(int, char* [] )
     }
   std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
-  
+
 
   // Verification of the Iterator in a subregion of the image
   {
@@ -225,7 +226,7 @@ int itkImageRandomIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;
@@ -276,7 +277,7 @@ int itkImageRandomIteratorTest(int, char* [] )
     start[0] = 10;
     start[1] = 12;
     start[2] = 14;
-    
+
     ImageType::SizeType size;
     size[0] = 11;
     size[1] = 12;

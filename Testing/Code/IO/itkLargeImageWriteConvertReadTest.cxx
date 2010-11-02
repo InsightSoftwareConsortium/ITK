@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLargeImageWriteConvertReadTest.cxx
-  Language:  C++
-  Date:      $Date$xgoto-l
-
-  Version:   $Revision$
-
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -40,25 +40,25 @@ int itkLargeImageWriteConvertReadTest(int ac, char* av[])
   typedef itk::ImageFileWriter< OutputImageType >   WriterType;
   typedef itk::ImageFileReader< InputImageType >   ReaderType;
 
-  
+
   itk::TimeProbesCollectorBase chronometer;
-  
-  { // begin write block 
+
+  { // begin write block
   OutputImageType::Pointer image = OutputImageType::New();
   OutputImageType::RegionType region;
   OutputImageType::IndexType index;
   OutputImageType::SizeType size;
-  
+
 
   const size_t numberOfPixelsInOneDimension = atol( av[2] );
- 
+
   size.Fill( numberOfPixelsInOneDimension );
   index.Fill(0);
   region.SetSize(size);
   region.SetIndex(index);
-  
+
   image->SetRegions(region);
-  
+
   chronometer.Start("Allocate");
   image->Allocate();
   chronometer.Stop("Allocate");
@@ -95,7 +95,7 @@ int itkLargeImageWriteConvertReadTest(int ac, char* av[])
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   } // end writing block so data is freed
 
   std::cout << "Trying to read the image back from disk" << std::endl;

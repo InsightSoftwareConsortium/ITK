@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCenteredVersorTransformInitializerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -24,11 +25,11 @@
 #include "itkImageRegionIterator.h"
 
 
-/** 
+/**
  *  This program tests the use of the CenteredVersorTransformInitializer class
- * 
- *  
- */ 
+ *
+ *
+ */
 
 int itkCenteredVersorTransformInitializerTest(int , char* [] )
 {
@@ -59,7 +60,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   size[0] = 100;
   size[1] = 100;
   size[2] = 150;
-  
+
   PointType fixedOrigin;
   fixedOrigin[0] = 0.0;
   fixedOrigin[1] = 0.0;
@@ -99,7 +100,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   movingImage->SetOrigin(  movingOrigin );
   movingImage->Allocate();
   movingImage->FillBuffer( 0 );
-  
+
   RegionType internalRegion;
   SizeType  internalSize;
   IndexType internalIndex;
@@ -107,7 +108,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   internalIndex[0] = index[0] + 20;
   internalIndex[1] = index[1] + 30;
   internalIndex[2] = index[2] + 10;
-  
+
   internalSize[0]  = size[0] - 2 * 20;
   internalSize[1]  = size[1] - 2 * 30;
   internalSize[2]  = size[2] - 2 * 10;
@@ -125,12 +126,12 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
     fi.Set( 200 );
     ++fi;
     }
-   
+
 
   internalIndex[0] = index[0] + 10;
   internalIndex[1] = index[1] + 20;
   internalIndex[2] = index[2] + 30;
-  
+
   internalSize[0]  = size[0] - 2 * 10;
   internalSize[1]  = size[1] - 2 * 20;
   internalSize[2]  = size[2] - 2 * 30;
@@ -149,16 +150,16 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
     mi.Set( 200 );
     ++mi;
     }
-   
 
 
-  
+
+
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 
 
-  typedef itk::CenteredVersorTransformInitializer< 
-                                  FixedImageType, 
+  typedef itk::CenteredVersorTransformInitializer<
+                                  FixedImageType,
                                   MovingImageType >
                                             InitializerType;
 
@@ -167,14 +168,14 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   initializer->SetFixedImage( fixedImage );
   initializer->SetMovingImage( movingImage );
   initializer->SetTransform( transform );
-                                    
+
   initializer->InitializeTransform();
 
   TransformType::InputPointType   center2      = transform->GetCenter();
   TransformType::OutputVectorType translation2 = transform->GetTranslation();
   TransformType::OffsetType       offset2      = transform->GetOffset();
 
-  { // Verfications 
+  { // Verfications
   TransformType::InputPointType   fixedCenter;
   TransformType::InputPointType   movingCenter;
 
@@ -183,7 +184,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
     fixedCenter[j]  = fixedOrigin[j]  + size[j] * spacing[j] / 2.0 ;
     movingCenter[j] = movingOrigin[j] + size[j] * spacing[j] / 2.0 ;
     }
-  
+
   TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
 
 
@@ -218,8 +219,8 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
   TransformType::InputPointType mappedOrigin = transform->TransformPoint( fixedOrigin );
   TransformType::InputPointType expectedPoint;
-  expectedPoint[0] = 29.0; 
-  expectedPoint[1] = 165.75; 
+  expectedPoint[0] = 29.0;
+  expectedPoint[1] = 165.75;
   expectedPoint[2] = 13.25;
 
   for(unsigned int j=0; j < Dimension; j++ )
@@ -238,7 +239,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   }
 
 
-  
+
   if( !pass )
     {
     std::cout << "Test FAILED." << std::endl;

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMIRegistrationFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  *  One is shifted by 5 pixels from the other.
  *
- *  This test exercises the MIRegistrationFunction 
+ *  This test exercises the MIRegistrationFunction
  *
  */
 
@@ -59,13 +60,13 @@ int itkMIRegistrationFunctionTest(int, char* [] )
 
   // Note: the following declarations are classical arrays
   FixedImageType::SizeValueType fixedImageSize[]     = {  100,  100 };
-  MovingImageType::SizeValueType movingImageSize[]    = {  100,  100 }; 
+  MovingImageType::SizeValueType movingImageSize[]    = {  100,  100 };
 
-  FixedImageType::SpacingValueType fixedImageSpacing[]  = { 1.0f, 1.0f }; 
-  MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f }; 
+  FixedImageType::SpacingValueType fixedImageSpacing[]  = { 1.0f, 1.0f };
+  MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  FixedImageType::PointValueType fixedImageOrigin[]   = { 0.0f, 0.0f }; 
-  MovingImageType::PointValueType movingImageOrigin[]  = { 0.0f, 0.0f }; 
+  FixedImageType::PointValueType fixedImageOrigin[]   = { 0.0f, 0.0f };
+  MovingImageType::PointValueType movingImageOrigin[]  = { 0.0f, 0.0f };
 
   MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
   FixedImageSourceType::Pointer  fixedImageSource  = FixedImageSourceType::New();
@@ -92,10 +93,10 @@ int itkMIRegistrationFunctionTest(int, char* [] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::MIRegistrationFunction<  
-                                       FixedImageType, 
+  typedef itk::MIRegistrationFunction<
+                                       FixedImageType,
                                        MovingImageType,
-                                       DeformationFieldType >   
+                                       DeformationFieldType >
                                                 MetricFunctionType;
 
   MetricFunctionType::Pointer  metricFunction = MetricFunctionType::New();
@@ -108,8 +109,8 @@ int itkMIRegistrationFunctionTest(int, char* [] )
   metricFunction->SetMovingImage( movingImage );
 
 
- 
-  
+
+
   std::cout << metricFunction << std::endl;
 
   return EXIT_SUCCESS;

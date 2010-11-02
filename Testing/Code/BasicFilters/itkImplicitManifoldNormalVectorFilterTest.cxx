@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImplicitManifoldNormalVectorFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,19 +32,19 @@ class NormalBandNode
 {
 public:
   typedef TImageType LevelSetImageType;
-  typedef typename LevelSetImageType::PixelType   NodeValueType; 
+  typedef typename LevelSetImageType::PixelType   NodeValueType;
   typedef typename LevelSetImageType::IndexType   IndexType;
   typedef Vector <NodeValueType,
                   ::itk::GetImageDimension<TImageType>::ImageDimension>
   NodeDataType;
-  
+
   NodeDataType m_Data, m_InputData, m_Update;
   NodeDataType
   m_ManifoldNormal [::itk::GetImageDimension<TImageType>::ImageDimension];
   NodeDataType m_Flux [::itk::GetImageDimension<TImageType>::ImageDimension];
 
-  IndexType m_Index;  
-  NormalBandNode *Next;  
+  IndexType m_Index;
+  NormalBandNode *Next;
   NormalBandNode *Previous;
 };
 
@@ -57,7 +58,7 @@ int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
   typedef itk::ImplicitManifoldNormalVectorFilter<InputImageType,
     OutputImageType> FilterType;
   typedef itk::NormalVectorDiffusionFunction<OutputImageType> FunctionType;
-  
+
   InputImageType::Pointer im_init = InputImageType::New();
   InputImageType::RegionType r;
   InputImageType::SizeType   sz = {{50, 50}};
@@ -75,7 +76,7 @@ int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
       {
       im_init->SetPixel (index, static_cast<float>(index[0]));
       }
-  
+
   FilterType::Pointer filter = FilterType::New();
   FunctionType::Pointer function = FunctionType::New();
   filter->SetInput(im_init);
@@ -84,7 +85,7 @@ int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
   filter->SetIsoLevelHigh (35.0);
   filter->SetMaxIteration (100);
   filter->SetMinVectorNorm (0.001);
-     
+
   std::cout<<"Max iteration = "<<(filter->GetMaxIteration())<<"\n";
   std::cout<<"IsoLevelLow = "<<(filter->GetIsoLevelLow())<<"\n";
   std::cout<<"IsoLevelHigh = "<<(filter->GetIsoLevelHigh())<<"\n";
@@ -93,7 +94,7 @@ int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
   std::cout<<"UnsharpMaskingWeight = "
            <<(filter->GetUnsharpMaskingWeight())<<"\n";
   std::cout<<"Precomputeflag = "<<(filter->GetPrecomputeFlag())<<"\n";
-  
+
   filter->Print(std::cout);
   function->Print(std::cout);
   try {
@@ -103,6 +104,6 @@ int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
     {
       std::cerr << e << std::endl;
     }
-  
+
   return EXIT_SUCCESS;
 }

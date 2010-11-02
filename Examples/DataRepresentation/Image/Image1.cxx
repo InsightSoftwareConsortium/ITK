@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    Image1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +30,7 @@
 //
 // First, the header file of the Image class must be included.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -39,34 +40,34 @@
 int main(int, char *[])
 {
   // Software Guide : BeginLatex
-  // 
+  //
   // Then we must decide with what type to represent the pixels
-  // and what the dimension of the image will be. With these two 
+  // and what the dimension of the image will be. With these two
   // parameters we can instantiate the image class. Here we create
   // a 3D image with \code{unsigned short} pixel data.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
   //
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned short, 3 > ImageType;
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
-  
+
   // Software Guide : BeginLatex
   //
   // The image can then be created by invoking the \code{New()} operator
   // from the corresponding image type and assigning the result
-  // to a \doxygen{SmartPointer}. 
+  // to a \doxygen{SmartPointer}.
   //
   // \index{itk::Image!Pointer}
   // \index{itk::Image!New()}
-  // 
-  // Software Guide : EndLatex 
   //
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : EndLatex
+  //
+  // Software Guide : BeginCodeSnippet
   ImageType::Pointer image = ImageType::New();
-  // Software Guide : EndCodeSnippet 
- 
+  // Software Guide : EndCodeSnippet
+
 
   // Software Guide : BeginLatex
   //
@@ -95,7 +96,7 @@ int main(int, char *[])
   // responsible for defining the image size and the index at which the image
   // grid starts. These two parameters make it possible to process selected
   // regions.
-  //   
+  //
   // The starting point of the image is defined by an Index class
   // that is an n-dimensional array where each component is an integer
   // indicating the grid coordinates of the initial pixel of the image.
@@ -103,15 +104,15 @@ int main(int, char *[])
   // \index{itk::Image!Size}
   // \index{itk::Image!SizeType}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
   //
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : BeginCodeSnippet
   ImageType::IndexType start;
 
   start[0] =   0;  // first index on X
   start[1] =   0;  // first index on Y
   start[2] =   0;  // first index on Z
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
@@ -123,15 +124,15 @@ int main(int, char *[])
   // \index{itk::Image!Index}
   // \index{itk::Image!IndexType}
   //
-  // Software Guide : EndLatex 
-  // 
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : EndLatex
+  //
+  // Software Guide : BeginCodeSnippet
   ImageType::SizeType  size;
 
   size[0]  = 200;  // size along X
   size[1]  = 200;  // size along Y
   size[2]  = 200;  // size along Z
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
@@ -143,14 +144,14 @@ int main(int, char *[])
   // \index{itk::Image!itk::ImageRegion}
   // \index{itk::Image!RegionType}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : BeginCodeSnippet
   ImageType::RegionType region;
-  
+
   region.SetSize( size );
   region.SetIndex( start );
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
@@ -166,12 +167,12 @@ int main(int, char *[])
   // \index{itk::Image!Allocate()}
   // \index{itk::Image!SetRegions()}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : BeginCodeSnippet
   image->SetRegions( region );
   image->Allocate();
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
   return 0;
 }

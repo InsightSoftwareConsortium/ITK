@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    StatisticalClusteringValidationAppBase.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __StatisticalClusteringValidationAppBase_txx
 #define __StatisticalClusteringValidationAppBase_txx
 
@@ -38,7 +39,7 @@ StatisticalClusteringValidationAppBase< TPixel, VMeasurementVectorSize >
 ::SetCommandLineOptions(int argc, char* argv[])
 {
   namespace stat = itk::Statistics ;
- 
+
   if (argc <= 1)
     {
       print_usage() ;
@@ -61,8 +62,8 @@ StatisticalClusteringValidationAppBase< TPixel, VMeasurementVectorSize >
     }
   catch(OptionList::RequiredOptionMissing e)
     {
-      std::cout << "ERROR: The '" << e.OptionTag 
-                << "' option is required but missing." 
+      std::cout << "ERROR: The '" << e.OptionTag
+                << "' option is required but missing."
                 << std::endl ;
       exit(1) ;
     }
@@ -109,11 +110,11 @@ StatisticalClusteringValidationAppBase< TPixel, VMeasurementVectorSize >
   m_InitialProportions = ParametersType(m_NumberOfClasses) ;
   for ( unsigned int i = 0 ; i < m_NumberOfClasses ; i++ )
     {
-      m_InitialProportions[i] = 
-        (double)m_SampleGenerator.GetClassSize(m_ClassLabels[i]) / 
+      m_InitialProportions[i] =
+        (double)m_SampleGenerator.GetClassSize(m_ClassLabels[i]) /
         (double)m_SampleGenerator.GetListSample()->Size() ;
     }
-  
+
 
   std::cout << "DEBUG: Preparing the Output header..." << std::endl ;
   this->PrepareOutputParameterTableHeader() ;
@@ -128,7 +129,7 @@ StatisticalClusteringValidationAppBase< TPixel, VMeasurementVectorSize >
 
   m_Evaluator.SetUniqueClassLabels(m_ClassLabels) ;
   m_Evaluator.SetTruth(m_SampleGenerator.GetClassLabels()) ;
-  
+
   for ( caseNo = 0 ; caseNo < m_NumberOfCases ; caseNo++ )
     {
       std::cout << "DEBUG: =================================== " << std::endl ;
@@ -138,7 +139,7 @@ StatisticalClusteringValidationAppBase< TPixel, VMeasurementVectorSize >
         {
           for ( unsigned int i = 0 ; i < numberOfParametersPerClass ; i++ )
             {
-              params[paramIndex] = 
+              params[paramIndex] =
                 m_InputParameterTable.GetParameters(caseNo, m_ClassLabels[classIndex])[i] ;
               ++paramIndex ;
             }
@@ -149,7 +150,7 @@ StatisticalClusteringValidationAppBase< TPixel, VMeasurementVectorSize >
       std::cout << "DEBUG: Input parameters = " << params << std::endl ;
       this->StartClustering(params) ;
 
-      std::cout << "DEBUG: estimated parameters = " 
+      std::cout << "DEBUG: estimated parameters = "
                 << m_EstimatedParameters << std::endl ;
 
       // subclass

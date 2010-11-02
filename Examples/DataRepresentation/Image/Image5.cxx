@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    Image5.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -39,7 +40,7 @@
 // First, the header file of the ImportImageFilter class must be
 // included.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -54,25 +55,25 @@ int main(int argc, char * argv[])
   if( argc < 2 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  outputImageFile" << std::endl; 
+    std::cerr << argv[0] << "  outputImageFile" << std::endl;
     return 1;
     }
-  
+
   // Software Guide : BeginLatex
-  // 
+  //
   // Next, we select the data type to use to represent the image pixels.  We
   // assume that the external block of memory uses the same data type to
   // represent the pixels.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
   //
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : BeginCodeSnippet
   typedef unsigned char   PixelType;
   const unsigned int Dimension = 3;
   typedef itk::Image< PixelType, Dimension > ImageType;
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
-  
+
   // Software Guide : BeginLatex
   //
   // The type of the ImportImageFilter is instantiated in the
@@ -80,7 +81,7 @@ int main(int argc, char * argv[])
   //
   // \index{itk::ImportImageFilter!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImportImageFilter< PixelType, Dimension >   ImportFilterType;
@@ -91,31 +92,31 @@ int main(int argc, char * argv[])
   //
   //  A filter object created using the \code{New()} method is then
   //  assigned to a \code{SmartPointer}.
-  //  
+  //
   // \index{itk::ImportImageFilter!Pointer}
   // \index{itk::ImportImageFilter!New()}
-  // 
-  // Software Guide : EndLatex 
   //
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : EndLatex
+  //
+  // Software Guide : BeginCodeSnippet
   ImportFilterType::Pointer importFilter = ImportFilterType::New();
-  // Software Guide : EndCodeSnippet 
- 
+  // Software Guide : EndCodeSnippet
+
 
   // Software Guide : BeginLatex
   //
   // This filter requires the user to specify the size of the image to be
   // produced as output.  The \code{SetRegion()} method is used to this end.
   // The image size should exactly match the number of pixels available in the
-  // locally allocated buffer. 
+  // locally allocated buffer.
   //
   // \index{itk::ImportImageFilter!SetRegion()}
   // \index{itk::ImportImageFilter!New()}
   // \index{itk::ImportImageFilter!New()}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
   //
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : BeginCodeSnippet
   ImportFilterType::SizeType  size;
 
   size[0]  = 200;  // size along X
@@ -130,7 +131,7 @@ int main(int argc, char * argv[])
   region.SetSize(  size  );
 
   importFilter->SetRegion( region );
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
@@ -138,11 +139,11 @@ int main(int argc, char * argv[])
   //  The origin of the output image is specified with the \code{SetOrigin()}
   //  method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   double origin[ Dimension ];
-  origin[0] = 0.0;    // X coordinate 
+  origin[0] = 0.0;    // X coordinate
   origin[1] = 0.0;    // Y coordinate
   origin[2] = 0.0;    // Z coordinate
 
@@ -154,11 +155,11 @@ int main(int argc, char * argv[])
   //
   //  The spacing of the image is passed with the \code{SetSpacing()} method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   double spacing[ Dimension ];
-  spacing[0] = 1.0;    // along X direction 
+  spacing[0] = 1.0;    // along X direction
   spacing[1] = 1.0;    // along Y direction
   spacing[2] = 1.0;    // along Z direction
 
@@ -174,7 +175,7 @@ int main(int argc, char * argv[])
   //  practical application, you may get this buffer from some other library
   //  using a different data structure to represent the images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPixels =  size[0] * size[1] * size[2];
@@ -190,10 +191,10 @@ int main(int argc, char * argv[])
   //  programming languages. Note that ITK
   //  does not use \code{for()} loops in its internal code to access
   //  pixels. All pixel access tasks are instead performed using
-  //  \doxygen{ImageIterator}s that support the management of 
+  //  \doxygen{ImageIterator}s that support the management of
   //  n-dimensional images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const double radius2 = radius * radius;
@@ -238,17 +239,17 @@ int main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   const bool importImageFilterWillOwnTheBuffer = true;
-  importFilter->SetImportPointer( localBuffer, numberOfPixels, 
+  importFilter->SetImportPointer( localBuffer, numberOfPixels,
                                   importImageFilterWillOwnTheBuffer );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Finally, we can connect the output of this filter to a pipeline. 
+  //  Finally, we can connect the output of this filter to a pipeline.
   //  For simplicity we just use a writer here, but it could be any other filter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -264,7 +265,7 @@ int main(int argc, char * argv[])
     {
     writer->Update();
     }
-  catch( itk::ExceptionObject & exp ) 
+  catch( itk::ExceptionObject & exp )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << exp << std::endl;
@@ -275,7 +276,7 @@ int main(int argc, char * argv[])
   //
   //  Note that we do not call \code{delete} on the buffer since we pass
   //  \code{true} as the last argument of \code{SetImportPointer()}. Now the
-  //  buffer is owned by the ImportImageFilter. 
+  //  buffer is owned by the ImportImageFilter.
   //
   //  Software Guide : EndLatex
 

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLabelVotingImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 #include <itkImageRegionIterator.h>
 
 
-int itkLabelVotingImageFilterTest(int, char* [] ) 
+int itkLabelVotingImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -36,37 +37,37 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   typedef itk::Image<unsigned int, myDimension>  myImageType;
 
   // Input data arrays for test images
-  const unsigned int dataImageA[8] = 
+  const unsigned int dataImageA[8] =
     { 0, 1, 3, 3, 4, 6, 6, 0 };
-  const unsigned int dataImageB[8] = 
+  const unsigned int dataImageB[8] =
     { 1, 1, 2, 4, 4, 5, 7, 1 };
-  const unsigned int dataImageC[8] = 
+  const unsigned int dataImageC[8] =
     { 0, 2, 2, 3, 5, 5, 6, 8 };
 
   // Correct combinations of input images
-  const unsigned int combinationABC[8] = 
+  const unsigned int combinationABC[8] =
     { 0, 1, 2, 3, 4, 5, 6, 9 };
-  const unsigned int combinationAB[8] = 
+  const unsigned int combinationAB[8] =
     { 8, 1, 8, 8, 4, 8, 8, 8 };
-  const unsigned int combinationABundecided255[8] = 
+  const unsigned int combinationABundecided255[8] =
     { 255, 1, 255, 255, 4, 255, 255, 255 };
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<myDimension>          mySizeType;
 
   // Declare the type of the Region
   typedef itk::ImageRegion<myDimension>        myRegionType;
 
-  // Declare Iterator type apropriate for image 
+  // Declare Iterator type apropriate for image
   typedef itk::ImageRegionIterator<myImageType>  myIteratorType;
 
   // Declare the type for the ADD filter
   typedef itk::LabelVotingImageFilter<myImageType> myFilterType;
   typedef myFilterType::Pointer myFilterTypePointer;
- 
+
   // Declare the pointers to images
   typedef myImageType::Pointer   myImageTypePointer;
 
@@ -74,7 +75,7 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   myImageTypePointer inputImageA  = myImageType::New();
   myImageTypePointer inputImageB  = myImageType::New();
   myImageTypePointer inputImageC  = myImageType::New();
-  
+
   // Define their size, and start index
   mySizeType size;
   size[0] = 2;
@@ -96,9 +97,9 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   inputImageA->SetRequestedRegion( region );
   inputImageA->Allocate();
 
-  myIteratorType it = 
+  myIteratorType it =
     myIteratorType( inputImageA, inputImageA->GetBufferedRegion() );
-  
+
   for( int i = 0; i < 8; ++i, ++it )
     {
     it.Set( dataImageA[i] );
@@ -128,17 +129,17 @@ int itkLabelVotingImageFilterTest(int, char* [] )
     it.Set( dataImageC[i] );
     }
 
-  // Create an LabelVoting Filter                                
+  // Create an LabelVoting Filter
   myFilterTypePointer filter = myFilterType::New();
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   myImageTypePointer outputImage = filter->GetOutput();
-  
+
   // = test first two input images with undecided label set to 255 = //
 
   // Connect the first two input images
-  filter->SetInput( 0, inputImageA ); 
-  filter->SetInput( 1, inputImageB ); 
+  filter->SetInput( 0, inputImageA );
+  filter->SetInput( 1, inputImageB );
 
   // Set label for undecided pixels
   filter->SetLabelForUndecidedPixels( 255 );
@@ -153,7 +154,7 @@ int itkLabelVotingImageFilterTest(int, char* [] )
     if( combinationABundecided255[i] != it.Get() )
       {
       std::cout << "Incorrect result using images A,B and undecided=255: "
-                << "i = " << i 
+                << "i = " << i
                 << ", correct = " << combinationABundecided255[i]
                 << ", got = " << it.Get() << "\n";
       return EXIT_FAILURE;
@@ -174,7 +175,7 @@ int itkLabelVotingImageFilterTest(int, char* [] )
     {
     if( combinationAB[i] != it.Get() )
       {
-      std::cout << "Incorrect result using images A,B: i = " << i 
+      std::cout << "Incorrect result using images A,B: i = " << i
                 << ", correct = " << combinationAB[i]
                 << ", got = " << it.Get() << "\n";
       return EXIT_FAILURE;
@@ -184,7 +185,7 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   // =========== test all three input images ============ //
 
   // connect third input image
-  filter->SetInput( 2, inputImageC ); 
+  filter->SetInput( 2, inputImageC );
 
   // Execute the filter
   filter->Update();
@@ -195,13 +196,13 @@ int itkLabelVotingImageFilterTest(int, char* [] )
     {
     if( combinationABC[i] != it.Get() )
       {
-      std::cout << "Incorrect result using images A,B,C: i = " << i 
+      std::cout << "Incorrect result using images A,B,C: i = " << i
                 << ", correct = " << combinationABC[i]
                 << ", got = " << it.Get() << "\n";
       return EXIT_FAILURE;
       }
     }
-  
+
   std::cout << "Success!\n";
 
   // All objects should be automatically destroyed at this point

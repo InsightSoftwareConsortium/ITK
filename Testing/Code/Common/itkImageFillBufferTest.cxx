@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageFillBufferTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,7 +39,7 @@ int itkImageFillBufferTest(int argc, char * argv[])
   size[0] = (ImageType::SizeValueType) (atof(argv[1])*1024);
   size[1] = 1024;
   size[2] = 1024;
- 
+
   // // do the math with a very large type to be sure to be able to store very
   // // large numbers on 32 bit systems
   // vxl_uint_64 total = ((vxl_uint_64)size[0]) * ((vxl_uint_64)size[1]) * ((vxl_uint_64)size[2]);
@@ -56,7 +57,7 @@ int itkImageFillBufferTest(int argc, char * argv[])
   //     std::cout << "Can't allocate memory - that's nice. Don't go further." << std::endl;
   //     return (EXIT_SUCCESS);
   //     }
-  //   return (EXIT_FAILURE); 
+  //   return (EXIT_FAILURE);
   //   }
   // else
   //   {
@@ -78,7 +79,7 @@ int itkImageFillBufferTest(int argc, char * argv[])
   if( image->GetPixel( idx ) != 128 )
     {
     std::cerr << "Value is not 128!" << std::endl;
-    return (EXIT_FAILURE);  
+    return (EXIT_FAILURE);
     }
 
   return (EXIT_SUCCESS);

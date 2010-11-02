@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkKmeansModelEstimatorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@
 #include "itkImageKmeansModelEstimator.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 
-//Data definitions 
+//Data definitions
 #define   IMGWIDTH            16
 #define   IMGHEIGHT           1
 #define   NFRAMES             1
@@ -61,10 +62,10 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //------------------------------------------------------
   //Create a simple test vector with 16 entries and 2 bands
   //------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> VecImageType; 
+  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> VecImageType;
 
   typedef VecImageType::PixelType VecImagePixelType;
-  
+
   VecImageType::Pointer vecImage = VecImageType::New();
 
   VecImageType::SizeType vecImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
@@ -159,21 +160,21 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //----------------------------------------------------------------------
   namespace stat = itk::Statistics;
 
-  typedef stat::DistanceToCentroidMembershipFunction< VecImagePixelType > 
+  typedef stat::DistanceToCentroidMembershipFunction< VecImagePixelType >
     MembershipFunctionType ;
   typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
 
-  typedef std::vector< MembershipFunctionPointer > 
+  typedef std::vector< MembershipFunctionPointer >
     MembershipFunctionPointerVector;
 
 
   //----------------------------------------------------------------------
   //Set the image model estimator
   //----------------------------------------------------------------------
-  typedef itk::ImageKmeansModelEstimator<VecImageType, MembershipFunctionType> 
+  typedef itk::ImageKmeansModelEstimator<VecImageType, MembershipFunctionType>
     ImageKmeansModelEstimatorType;
 
-  ImageKmeansModelEstimatorType::Pointer 
+  ImageKmeansModelEstimatorType::Pointer
     applyKmeansEstimator = ImageKmeansModelEstimatorType::New();
 
   //----------------------------------------------------------------------
@@ -188,16 +189,16 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   applyKmeansEstimator->Update();
   applyKmeansEstimator->Print(std::cout);
 
-  MembershipFunctionPointerVector membershipFunctions = 
-    applyKmeansEstimator->GetMembershipFunctions(); 
+  MembershipFunctionPointerVector membershipFunctions =
+    applyKmeansEstimator->GetMembershipFunctions();
 
-  vnl_vector<double> kmeansResultForClass;  
+  vnl_vector<double> kmeansResultForClass;
   vnl_vector<double> referenceCodebookForClass;
   vnl_vector<double> errorForClass;
   double error =0;
   double meanCDBKvalue = 0;
 
-  for(unsigned int classIndex=0; classIndex < membershipFunctions.size(); 
+  for(unsigned int classIndex=0; classIndex < membershipFunctions.size();
     classIndex++ )
     {
     kmeansResultForClass = membershipFunctions[classIndex]->GetCentroid();
@@ -212,7 +213,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
 
     }
   error /= NCODEWORDS*NUMBANDS;
-  meanCDBKvalue /= NCODEWORDS*NUMBANDS; 
+  meanCDBKvalue /= NCODEWORDS*NUMBANDS;
 
   if( error < 0.1 * meanCDBKvalue)
     std::cout << "Kmeans algorithm passed (without initial input)"<<std::endl;
@@ -226,7 +227,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   applyKmeansEstimator->Update();
   applyKmeansEstimator->Print(std::cout);
 
-  membershipFunctions = applyKmeansEstimator->GetMembershipFunctions(); 
+  membershipFunctions = applyKmeansEstimator->GetMembershipFunctions();
 
   //Testing for the various parameter access functions in the test
   std::cout << "The final codebook (cluster centers are: " << std::endl;
@@ -254,7 +255,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
       {
       mindist = classdist;
       minidx = idx;
-      }    
+      }
     }
 
   //Validation with initial Kmeans estimate provided as input by the user
@@ -275,9 +276,9 @@ int itkKmeansModelEstimatorTest(int, char* [] )
     }
 
   error /= NCODEWORDS*NUMBANDS;
-  meanCDBKvalue /= NCODEWORDS*NUMBANDS; 
+  meanCDBKvalue /= NCODEWORDS*NUMBANDS;
 
-  //Check if the mean codebook is within error limits and the first pixel 
+  //Check if the mean codebook is within error limits and the first pixel
   //is labeled to belong to class 2
   if( (error < 0.1 * meanCDBKvalue) && (minidx == 2) )
     {

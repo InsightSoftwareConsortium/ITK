@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SubsampleVolume.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@
 //  then resampled by using three different factors, one per dimension of the
 //  image.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 
@@ -43,7 +44,7 @@
 // resampling image filter, the transform, the interpolator and the smoothing
 // filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -62,9 +63,9 @@ int main( int argc, char * argv[] )
   if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] 
-      << "  inputImageFile  outputImageFile factorX factorY factorZ" 
-      << std::endl; 
+    std::cerr << argv[0]
+      << "  inputImageFile  outputImageFile factorX factorY factorZ"
+      << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -76,7 +77,7 @@ int main( int argc, char * argv[] )
 // We explicitly instantiate the pixel type and dimension of the input image,
 // and the images that will be used internally for computing the resampling.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const     unsigned int    Dimension = 3;
@@ -106,7 +107,7 @@ int main( int argc, char * argv[] )
 // In this particular case we take the factors for resampling directly from the
 // command line arguments.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const double factorX = atof( argv[3] );
@@ -115,7 +116,7 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-  try 
+  try
     {
     reader->Update();
     }
@@ -136,7 +137,7 @@ int main( int argc, char * argv[] )
 // A casting filter is instantiated in order to convert the pixel type of the
 // input image into the pixel type desired for computing the resampling.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::CastImageFilter< InputImageType,
@@ -156,10 +157,10 @@ int main( int argc, char * argv[] )
 // We create three of them in order to have the freedom of performing smoothing
 // with different Sigma values along each dimension.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::RecursiveGaussianImageFilter< 
+  typedef itk::RecursiveGaussianImageFilter<
                                   InternalImageType,
                                   InternalImageType > GaussianFilterType;
 
@@ -173,7 +174,7 @@ int main( int argc, char * argv[] )
 //
 // The smoothing filters are connected in a cascade in the pipeline.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   smootherX->SetInput( caster->GetOutput() );
@@ -187,9 +188,9 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // The Sigma values to use in the smoothing filters is computed based on the
-// pixel spacings of the input image and the factors provided as arguments. 
+// pixel spacings of the input image and the factors provided as arguments.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const InputImageType::SpacingType& inputSpacing = inputImage->GetSpacing();
@@ -213,7 +214,7 @@ int main( int argc, char * argv[] )
 // in order to prevent for the reduction of intensity that accompanies the
 // diffusion process associated with the Gaussian smoothing.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   smootherX->SetDirection( 0 );
@@ -233,7 +234,7 @@ int main( int argc, char * argv[] )
 // The type of the resampling filter is instantiated using the internal image
 // type and the output image type.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ResampleImageFilter<
@@ -251,7 +252,7 @@ int main( int argc, char * argv[] )
 // image, we select the IdentityTransform as the one to be used by the resampling
 // filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::IdentityTransform< double, Dimension >  TransformType;
@@ -271,10 +272,10 @@ int main( int argc, char * argv[] )
 // interpolator or with the \doxygen{WindowedSincInterpolateImageFunction}
 // interpolator.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                    InternalImageType, double >  InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -290,7 +291,7 @@ int main( int argc, char * argv[] )
 // the input image spacing and the factors provided in the command line
 // arguments.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   OutputImageType::SpacingType spacing;
@@ -310,7 +311,7 @@ int main( int argc, char * argv[] )
 // The origin and direction of the input image is preserved and passed to the
 // output image.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   resampler->SetOutputOrigin( inputImage->GetOrigin() );
@@ -325,10 +326,10 @@ int main( int argc, char * argv[] )
 // resampled image is computed using the number of pixels in the input image
 // and the sampling factors.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  InputImageType::SizeType   inputSize = 
+  InputImageType::SizeType   inputSize =
               inputImage->GetLargestPossibleRegion().GetSize();
 
   typedef InputImageType::SizeType::SizeValueType SizeValueType;
@@ -350,7 +351,7 @@ int main( int argc, char * argv[] )
 // Finally, the input to the resampler is taken from the output of the
 // smoothing filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   resampler->SetInput( smootherZ->GetOutput() );
@@ -364,9 +365,9 @@ int main( int argc, char * argv[] )
 // \code{Update()} method, or we can chose to pass the output of the resampling
 // filter to another section of pipeline, for example, an image writer.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
- 
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
@@ -375,7 +376,7 @@ int main( int argc, char * argv[] )
 
   writer->SetFileName( argv[2] );
 
-  try 
+  try
     {
     writer->Update();
     }

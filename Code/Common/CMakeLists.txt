@@ -193,7 +193,7 @@ if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES ${__files1} ${__files2}
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_COMMON}
     COMPONENT Development)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/itkFloatingPointExceptionConfigure.h
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/itkFloatingPointExceptionsConfigure.h
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_COMMON}
     COMPONENT Development)
 

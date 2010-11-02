@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkExtractImageTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,14 +39,14 @@ int itkExtractImageTest(int, char* [] )
   SimpleImage::Pointer simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
             << simpleImage->GetSpacing()[1] << std::endl;
-  
+
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;
   typedef itk::Image<short, 1>   LineImage;
-  
+
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();
-  
+
   // fill in an image
   ShortImage::IndexType  index = {{0, 0}};
   ShortImage::SizeType   size = {{8, 12}};
@@ -56,7 +57,7 @@ int itkExtractImageTest(int, char* [] )
   if2->SetLargestPossibleRegion( region );
   if2->SetBufferedRegion( region );
   if2->Allocate();
-  
+
   ShortImage::DirectionType directions;
     directions.SetIdentity();
     directions[0][0] = 0.0;
@@ -67,7 +68,7 @@ int itkExtractImageTest(int, char* [] )
     if2->SetDirection (directions);
 
   itk::ImageRegionIterator<ShortImage> iterator(if2, region);
-  
+
   short i=0;
   for (; !iterator.IsAtEnd(); ++iterator, ++i)
     {
@@ -80,7 +81,7 @@ int itkExtractImageTest(int, char* [] )
   itk::ExtractImageFilter< ShortImage, ShortImage >::Pointer extract;
   extract = itk::ExtractImageFilter< ShortImage, ShortImage >::New();
   extract->SetInput( if2 );
-  
+
   // fill in an image
   ShortImage::IndexType  extractIndex = {{0, 0}};
   ShortImage::SizeType   extractSize = {{8, 12}};
@@ -96,35 +97,35 @@ int itkExtractImageTest(int, char* [] )
   std::cout << "Output spacing: " << extract->GetOutput()->GetSpacing()[0]
             << ", "
             << extract->GetOutput()->GetSpacing()[1] << std::endl;
-  
-  
+
+
   ShortImage::RegionType requestedRegion;
   bool passed;
-  
+
   // CASE 1
-  extractIndex[0] = 1; extractIndex[1] = 2; 
+  extractIndex[0] = 1; extractIndex[1] = 2;
   extractSize[0] = 5; extractSize[1] = 6;
   extractRegion.SetSize( extractSize );
   extractRegion.SetIndex( extractIndex );
   extract->SetExtractionRegion(extractRegion);
   extract->UpdateLargestPossibleRegion();
   requestedRegion = extract->GetOutput()->GetRequestedRegion();
-  
+
   itk::ImageRegionIterator<ShortImage>
     iteratorIn1(extract->GetOutput(), requestedRegion);
-  
-  passed = true; 
+
+  passed = true;
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
 
   if ((index[0] != extractIndex[0])
       || (index[1] != extractIndex[1])
-      || (size[0] != extractSize[0]) 
-      || (size[1] != extractSize[1])) 
+      || (size[0] != extractSize[0])
+      || (size[1] != extractSize[1]))
     {
       passed = false;
     } else {
-    
+
       for (; !iteratorIn1.IsAtEnd(); ++iteratorIn1)
         {
           row = iteratorIn1.GetIndex()[0];
@@ -138,15 +139,15 @@ int itkExtractImageTest(int, char* [] )
             nextVal = 8*column+row;
             if (iteratorIn1.Get() != nextVal)
               {
-                std::cout << "Error: (" << row << ", " << column 
-                          << "), expected " << nextVal << " got " 
+                std::cout << "Error: (" << row << ", " << column
+                          << "), expected " << nextVal << " got "
                           << iteratorIn1.Get() << std::endl;
                 passed = false;
               }
           }
         }
     }
-  
+
   if (passed)
     {
       std::cout << "ExtractImageFilter case 1 passed." << std::endl;
@@ -156,10 +157,10 @@ int itkExtractImageTest(int, char* [] )
       std::cout << "ExtractImageFilter case 1 failed." << std::endl;
       return EXIT_FAILURE;
     }
-  
-  extract->GetOutput()->Print(std::cout);   
+
+  extract->GetOutput()->Print(std::cout);
   // CASE 2
-  extractIndex[0] = 1; extractIndex[1] = 1; 
+  extractIndex[0] = 1; extractIndex[1] = 1;
   extractSize[0] = 7; extractSize[1] = 11;
   extractRegion.SetSize( extractSize );
   extractRegion.SetIndex( extractIndex );
@@ -170,32 +171,32 @@ int itkExtractImageTest(int, char* [] )
   stream = itk::StreamingImageFilter< ShortImage, ShortImage >::New();
   stream->SetInput( extract->GetOutput() );
   stream->SetNumberOfStreamDivisions(2);
-  
+
   ShortImage::RegionType setRegion = extract->GetExtractionRegion();
   size = setRegion.GetSize();
   index = setRegion.GetIndex();
 
   if ((index[0] != extractIndex[0])
       || (index[1] != extractIndex[1])
-      || (size[0] != extractSize[0]) 
+      || (size[0] != extractSize[0])
       || (size[1] != extractSize[1]))
     {
       passed = false;
-    } 
-  else 
+    }
+  else
     {
       stream->UpdateLargestPossibleRegion();
       requestedRegion = stream->GetOutput()->GetRequestedRegion();
-      
+
       itk::ImageRegionIterator<ShortImage>
   iteratorIn2(stream->GetOutput(), requestedRegion);
-      
-      passed = true; 
+
+      passed = true;
       size = requestedRegion.GetSize();
       index = requestedRegion.GetIndex();
       if ((index[0] != extractIndex[0])
           || (index[1] != extractIndex[1])
-          || (size[0] != extractSize[0]) 
+          || (size[0] != extractSize[0])
           || (size[1] != extractSize[1]))
         {
           passed = false;
@@ -212,9 +213,9 @@ int itkExtractImageTest(int, char* [] )
               } else {
                 nextVal = 8*column+row;
                 if (iteratorIn2.Get() != nextVal)
-                  { 
-                    std::cout << "Error: (" << row << ", " << column 
-                              << "), expected " << nextVal << " got " 
+                  {
+                    std::cout << "Error: (" << row << ", " << column
+                              << "), expected " << nextVal << " got "
                               << iteratorIn2.Get() << std::endl;
                     passed = false;
                   }
@@ -226,7 +227,7 @@ int itkExtractImageTest(int, char* [] )
 
   // need to put in code to check whether the proper region was extracted.
   //
-  
+
   if (passed)
     {
       std::cout << "ExtractImageFilter case 2 passed." << std::endl;
@@ -251,15 +252,15 @@ int itkExtractImageTest(int, char* [] )
 
   lineExtract->SetExtractionRegion( extractRegion );
   lineExtract->UpdateLargestPossibleRegion();
-  lineExtract->GetOutput()->Print(std::cout);   
+  lineExtract->GetOutput()->Print(std::cout);
 
   std::cout << "After 1D extraction. " << std::endl;
-  
+
   //test the dimension collapse
   LineImage::RegionType requestedLineRegion;
-  
+
   requestedLineRegion = lineExtract->GetOutput()->GetRequestedRegion();
-  
+
   itk::ImageRegionIterator<LineImage>
     iteratorLineIn(lineExtract->GetOutput(), requestedLineRegion);
 
@@ -283,6 +284,6 @@ int itkExtractImageTest(int, char* [] )
       std::cout << "ExtractImageFilter case 3 failed." << std::endl;
       return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 }

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,31 +19,28 @@
 #endif
 
 /**
- *  
+ *
  *  This program illustrates the use of Similarity3DTransform
- *  
+ *
  *  This transform performs: translation, rotation and uniform scaling.
  *
  */
 
-
 #include "itkSimilarity3DTransform.h"
-#include <iostream>
-
-
-
+#include "itkNumericTraits.h"
+#include <math.h>
+#include "vnl/vnl_math.h"
 //-------------------------
 //
 //   Main code
 //
 //-------------------------
-int itkSimilarity3DTransformTest(int, char* [] ) 
+int itkSimilarity3DTransformTest(int, char* [] )
 {
 
   typedef   double          ValueType;
 
   const ValueType epsilon = 1e-12;
-
 
   //  Versor Transform type
   typedef    itk::Similarity3DTransform< ValueType >   TransformType;
@@ -55,35 +52,48 @@ int itkSimilarity3DTransformTest(int, char* [] )
   //  Vector type
   typedef    TransformType::InputVectorType      VectorType;
 
-
   //  Point type
   typedef    TransformType::InputPointType      PointType;
-
 
   //  Covariant Vector type
   typedef    TransformType::InputCovariantVectorType      CovariantVectorType;
 
-
   //  VnlVector type
   typedef    TransformType::InputVnlVectorType      VnlVectorType;
-
 
   //  Parameters type
   typedef    TransformType::ParametersType      ParametersType;
 
-
   //  Jacobian type
   typedef    TransformType::JacobianType      JacobianType;
-
 
   //  Rotation Matrix type
   typedef    TransformType::MatrixType           MatrixType;
 
-  
+
   {
     std::cout << "Test default constructor... ";
-    
+
     TransformType::Pointer transform = TransformType::New();
+    if(vcl_fabs(transform->GetScale() - 1.0) >
+       itk::NumericTraits<TransformType::ScaleType>::min())
+      {
+      std::cout << "Error: Scale: Expected 1.0, got "
+                << transform->GetScale()
+                << " ! " << std::endl;
+      return EXIT_FAILURE;
+      }
+    // SetIdentity supposed to reset scale as well.
+    transform->SetScale(2.0);
+    transform->SetIdentity();
+    if(vcl_fabs(transform->GetScale() - 1.0) >
+       itk::NumericTraits<TransformType::ScaleType>::min())
+      {
+      std::cout << "Error: Scale: Expected 1.0 after SetIdentity, got "
+                << transform->GetScale()
+                << " ! " << std::endl;
+      return EXIT_FAILURE;
+      }
 
     VectorType axis(1.5);
 
@@ -91,7 +101,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
     VersorType versor;
     versor.Set( axis, angle );
-    
+
     ParametersType parameters( transform->GetNumberOfParameters() ); // Number of parameters
 
     parameters[0] = versor.GetX();
@@ -104,16 +114,14 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
     transform->SetParameters( parameters );
 
-    if( 0.0 > epsilon ) 
+    if( 0.0 > epsilon )
       {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
 
   }
-
-
   {
     std::cout << "Test initial rotation matrix " << std::endl;
     TransformType::Pointer transform = TransformType::New();
@@ -121,9 +129,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
     std::cout << "Matrix = " << std::endl;
     std::cout <<    matrix   << std::endl;
   }
-
-
-
   /* Create a Rigid 3D transform with rotation */
 
   {
@@ -147,19 +152,19 @@ int itkSimilarity3DTransformTest(int, char* [] )
       if( vcl_fabs( offset[i] - 0.0 ) > epsilon )
       {
         Ok = false;
-        break;    
+        break;
       }
     }
 
     if( !Ok )
-    { 
+    {
       std::cerr << "Get Offset  differs from null in rotation " << std::endl;
       return EXIT_FAILURE;
     }
 
     VersorType versor;
     versor.Set( axis, angle );
-    
+
     {
       // Rotate an itk::Point
       TransformType::InputPointType::ValueType pInit[3] = {1,4,9};
@@ -174,11 +179,11 @@ int itkSimilarity3DTransformTest(int, char* [] )
         if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cout << "Error rotating point : " << p << std::endl;
         std::cout << "Result should be     : " << q << std::endl;
         std::cout << "Reported Result is   : " << r << std::endl;
@@ -204,11 +209,11 @@ int itkSimilarity3DTransformTest(int, char* [] )
         if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cout << "Error rotating vector : " << p << std::endl;
         std::cout << "Result should be      : " << q << std::endl;
         std::cout << "Reported Result is    : " << r << std::endl;
@@ -219,8 +224,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
         std::cout << "Ok rotating an itk::Vector " << std::endl;
       }
     }
-
-
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = {1,4,9};
@@ -235,11 +238,11 @@ int itkSimilarity3DTransformTest(int, char* [] )
         if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cout << "Error rotating covariant vector : " << p << std::endl;
         std::cout << "Result should be                : " << q << std::endl;
         std::cout << "Reported Result is              : " << r << std::endl;
@@ -251,7 +254,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
       }
     }
 
-    
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -269,11 +271,11 @@ int itkSimilarity3DTransformTest(int, char* [] )
         if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cout << "Error rotating vnl_vector : " << p << std::endl;
         std::cout << "Result should be          : " << q << std::endl;
         std::cout << "Reported Result is        : " << r << std::endl;
@@ -284,13 +286,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
         std::cout << "Ok rotating an vnl_Vector " << std::endl;
       }
     }
-
-
-
-
   }
-
-
   /**  Exercise the SetCenter method  */
   {
   bool Ok = true;
@@ -307,7 +303,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
     center[0] = 31;
     center[1] = 62;
     center[2] = 93;
-    
+
     transform->SetCenter( center );
 
     TransformType::OutputPointType transformedPoint;
@@ -318,12 +314,12 @@ int itkSimilarity3DTransformTest(int, char* [] )
         if( vcl_fabs( center[i] - transformedPoint[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
 
     if( !Ok )
-      { 
+      {
       std::cout << "The center point was not invariant to rotation " << std::endl;
       return EXIT_FAILURE;
       }
@@ -373,7 +369,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
      // copy the read one just for getting the right matrix size
      JacobianType   TheoreticalJacobian = jacobian;
-     
+
      TheoreticalJacobian[0][0] =    0.0;
      TheoreticalJacobian[1][0] =  206.0;
      TheoreticalJacobian[2][0] =  -84.0;
@@ -422,7 +418,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
   }
 
   {
-  std::cout << " Exercise the SetIdentity() method " << std::endl; 
+  std::cout << " Exercise the SetIdentity() method " << std::endl;
   TransformType::Pointer  transform = TransformType::New();
 
   itk::Vector<double,3> axis(1);
@@ -435,7 +431,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
   center[0] = 31;
   center[1] = 62;
   center[2] = 93;
-  
+
   transform->SetCenter( center );
 
   transform->SetIdentity();
@@ -454,7 +450,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
   parameters[5] = 0.0;
   parameters[6] = 1.0;
 
-
   ParametersType parameters2 = transform->GetParameters();
 
   const double tolerance = 1e-8;
@@ -471,7 +466,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
   }
 
   {
-  std::cout << " Exercise the Scaling methods " << std::endl; 
+  std::cout << " Exercise the Scaling methods " << std::endl;
   TransformType::Pointer  transform = TransformType::New();
 
   itk::Vector<double,3> axis(1);
@@ -484,7 +479,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
   center[0] = 31;
   center[1] = 62;
   center[2] = 93;
-  
+
   transform->SetCenter( center );
 
   TransformType::OutputVectorType translation;
@@ -493,7 +488,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
   translation[2] = 23;
 
   transform->SetTranslation( translation );
-
 
   const double scale = 2.5;
 
@@ -524,7 +518,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
   parameters[5] = translation[2];
   parameters[6] = scale;
 
-
   ParametersType parameters2 = transform->GetParameters();
 
   for(unsigned int p=0; p<np; p++)
@@ -537,8 +530,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
     }
   std::cout << "Input/Output parameter check Passed !"  << std::endl;
   }
-
-
   {
      // Testing SetMatrix()
      std::cout << "Testing SetMatrix() ... ";
@@ -549,7 +540,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
      MatrixType matrix;
 
      TransformType::Pointer t = TransformType::New();
-      
+
      // attempt to set an non-orthogonal matrix
      par = 0;
      for( unsigned int row = 0; row < 3; row++ )
@@ -596,7 +587,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
       double s = 0.5;
       matrix[0][0] =        vcl_cos( a ) * s;
       matrix[0][1] = -1.0 * vcl_sin( a ) * s;
-      matrix[1][0] =        vcl_sin( a ) * s; 
+      matrix[1][0] =        vcl_sin( a ) * s;
       matrix[1][1] =        vcl_cos( a ) * s;
       matrix[2][2] =                   s;
 
@@ -651,7 +642,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
         std::cout << " [ FAILED ] " << std::endl;
         std::cout << "Expected parameters: " << e << std::endl;
         std::cout << "but got: " << p << std::endl;
-        return EXIT_FAILURE; 
+        return EXIT_FAILURE;
         }
       }
 
@@ -663,6 +654,3 @@ int itkSimilarity3DTransformTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-

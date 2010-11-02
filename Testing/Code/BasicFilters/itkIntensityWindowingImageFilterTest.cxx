@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkIntensityWindowingImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -60,7 +61,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
 
   source->SetMin( static_cast< TestInputImage::PixelType >( minValue ) );
   source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
-  
+
   filter->SetInput(source->GetOutput());
 
   const double desiredMinimum = -1.0;
@@ -75,7 +76,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   filter->SetWindowMaximum( windowMaximum  );
 
   std::cout << "Window minimum:maximum = " << windowMinimum << ":" << windowMaximum << ", equivalent window:level = " << filter->GetWindow() << ":" << filter->GetLevel() << std::endl;
-  
+
   try
     {
     filter->UpdateLargestPossibleRegion();
@@ -86,7 +87,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
     std::cerr << "Exception detected: "  << e;
     return -1;
     }
-  
+
   typedef itk::MinimumMaximumImageCalculator< TestOutputImage > CalculatorType;
   CalculatorType::Pointer calculator  =  CalculatorType::New();
 
@@ -121,7 +122,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   filter->SetWindowLevel( window, level  );
 
   std::cout << "Window:level = " << filter->GetWindow() << ":" << filter->GetLevel() << ", equivalent window minimum:maximum = " << filter->GetWindowMinimum()  << ":" << filter->GetWindowMaximum() << std::endl;
-  
+
   try
     {
     filter->UpdateLargestPossibleRegion();
@@ -152,7 +153,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
     std::cerr << "Obtained maximum = " << obtainedMaximum2 << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 

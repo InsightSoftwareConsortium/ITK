@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkReleaseDataFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -35,13 +36,13 @@ int itkReleaseDataFilterTest(int, char* [] )
 
   typedef itk::Image<float,2> ImageType;
   typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
-  
-  
+
+
   // use all the static GlobalReleaseData methods
   ImageType::SetGlobalReleaseDataFlag( ImageType::GetGlobalReleaseDataFlag() );
   ImageType::GlobalReleaseDataFlagOff();
   ImageType::GlobalReleaseDataFlagOn();
-  
+
   typedef itk::RandomImageSource<ImageType> RandomImageSourceType;
   RandomImageSourceType::Pointer random = RandomImageSourceType::New();
   random->SetMin(0.0);
@@ -53,13 +54,13 @@ int itkReleaseDataFilterTest(int, char* [] )
   randomSize[0] = randomSize[1] = 16;
 
   random->SetSize(randomSize);
-  
+
   ImageType::SpacingValueType spacing[2] = {0.7, 2.1};
   random->SetSpacing( spacing );
 
   ImageType::PointValueType origin[2] = {15, 400};
   random->SetOrigin( origin );
-  
+
   MonitorFilter::Pointer monitor1 = MonitorFilter::New();
   monitor1->SetInput( random->GetOutput() );
 
@@ -71,11 +72,11 @@ int itkReleaseDataFilterTest(int, char* [] )
   MeanImageFilterType::Pointer mean1 = MeanImageFilterType::New();
   mean1->SetInput( monitor1->GetOutput() );
 
-  // define the neighborhood size used for the mean filter 
+  // define the neighborhood size used for the mean filter
   ImageType::SizeType neighRadius;
   neighRadius.Fill(2);
   mean1->SetRadius( neighRadius );
- 
+
   MonitorFilter::Pointer monitor2a = MonitorFilter::New();
   monitor2a->SetInput( mean1->GetOutput() );
 
@@ -86,12 +87,12 @@ int itkReleaseDataFilterTest(int, char* [] )
   shiftscale->SetInput( monitor1->GetOutput() );
   shiftscale->SetScale( 2.0 );
   shiftscale->SetShift( -100.0 );
-  
+
   typedef itk::ShrinkImageFilter<ImageType, ImageType> ShrinkImageFilterType;
   ShrinkImageFilterType::Pointer shrinker = ShrinkImageFilterType::New();
   shrinker->SetInput( shiftscale->GetOutput() );
   shrinker->SetShrinkFactors( 2 );
-    
+
   MonitorFilter::Pointer monitor2b = MonitorFilter::New();
   monitor2b->SetInput( shrinker->GetOutput() );
 
@@ -108,12 +109,12 @@ int itkReleaseDataFilterTest(int, char* [] )
 
   std::cout << "---- Updating \"a\" Pipeline ---" << std::endl;
   monitor2a->Update();
-  if ( !monitor1->VerifyAllInputCanStream(1) || 
-       !monitor2a->VerifyAllInputCanStream(1) || 
+  if ( !monitor1->VerifyAllInputCanStream(1) ||
+       !monitor2a->VerifyAllInputCanStream(1) ||
        !monitor2b->VerifyAllNoUpdate() )
     {
     std::cout << "Monitor1:\n" << monitor1 << std::endl;
-    std::cout << "Monitor2a:\n" << monitor2a << std::endl;    
+    std::cout << "Monitor2a:\n" << monitor2a << std::endl;
     std::cout << "Monitor2b:\n" << monitor2b << std::endl;
     std::cout << "Monitor's VerifyAllInputCanStream failed!" << std::endl;
     return EXIT_FAILURE;
@@ -129,10 +130,10 @@ int itkReleaseDataFilterTest(int, char* [] )
   // no updates should happen
   std::cout << "---- Reupdating \"a\" Pipeline ---" << std::endl;
   monitor2a->Update();
-  if ( !monitor1->VerifyAllNoUpdate() || 
-       !monitor2a->VerifyAllNoUpdate() || 
+  if ( !monitor1->VerifyAllNoUpdate() ||
+       !monitor2a->VerifyAllNoUpdate() ||
        !monitor2b->VerifyAllNoUpdate() )
-    {    
+    {
     std::cout << "monitor1:\n" << monitor1 << std::endl;
     std::cout << "monitor2a:\n" << monitor2a << std::endl;
     std::cout << "Monitor2b:\n" << monitor2b << std::endl;
@@ -149,10 +150,10 @@ int itkReleaseDataFilterTest(int, char* [] )
 
   std::cout << "---- Streaming \"b\" Pipeline ---" << std::endl;
   streamer->Update();
-  if ( !monitor1->VerifyAllInputCanStream(4) || 
-       !monitor2a->VerifyAllNoUpdate() || 
+  if ( !monitor1->VerifyAllInputCanStream(4) ||
+       !monitor2a->VerifyAllNoUpdate() ||
        !monitor2b->VerifyAllInputCanStream(4) )
-    {    
+    {
     std::cout << "monitor1:\n" << monitor1 << std::endl;
     std::cout << "monitor2a:\n" << monitor2a << std::endl;
     std::cout << "Monitor2b:\n" << monitor2b << std::endl;
@@ -169,4 +170,4 @@ int itkReleaseDataFilterTest(int, char* [] )
 
 
   return EXIT_SUCCESS;
-} 
+}

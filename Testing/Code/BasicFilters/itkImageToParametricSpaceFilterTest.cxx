@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageToParametricSpaceFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,7 +23,7 @@
 #include "itkMesh.h"
 #include "itkImage.h"
 
-int itkImageToParametricSpaceFilterTest(int, char* [] ) 
+int itkImageToParametricSpaceFilterTest(int, char* [] )
 {
 
   typedef float  ImagePixelType;
@@ -34,7 +35,7 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
 
   // Make the Mesh PointData type be an Image Index.
   typedef itk::Point<float,2>                 MeshPixelType;
-  
+
   // Declare the types of the Mesh
   typedef itk::Mesh<MeshPixelType>  MeshType;
 
@@ -42,7 +43,7 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   typedef MeshType::PointsContainer     PointsContainerType;
 
   // Declare the type for PointsContainerPointer
-  typedef MeshType::PointsContainerPointer     
+  typedef MeshType::PointsContainerPointer
                                         PointsContainerPointer;
   // Declare the type for Points
   typedef MeshType::PointType           PointType;
@@ -127,21 +128,21 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   FilterPointer filter = FilterType::New();
 
   // Connect the inputs
-  filter->SetInput( 0, imageX ); 
-  filter->SetInput( 1, imageY ); 
-  filter->SetInput( 2, imageZ ); 
+  filter->SetInput( 0, imageX );
+  filter->SetInput( 1, imageY );
+  filter->SetInput( 2, imageZ );
 
   // Execute the filter
   filter->Update();
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   MeshType::Pointer outputMesh = filter->GetOutput();
 
   // Get the the point container
-  MeshType::PointsContainer::Iterator beginPoint = 
+  MeshType::PointsContainer::Iterator beginPoint =
                            outputMesh->GetPoints()->Begin();
 
-  MeshType::PointsContainer::Iterator endPoint = 
+  MeshType::PointsContainer::Iterator endPoint =
                            outputMesh->GetPoints()->End();
 
   MeshType::PointsContainer::Iterator pointIt = beginPoint;
@@ -176,7 +177,7 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
     ++iy;
     ++iz;
     }
-  
+
   // All objects should be automatically destroyed at this point
 
   if( !ok )

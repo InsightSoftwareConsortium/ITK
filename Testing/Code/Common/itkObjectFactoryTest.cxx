@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkObjectFactoryTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -40,7 +41,7 @@ public:
   itkTypeMacro(TestImage, Image);
 
   // Methods from itkObject
-  virtual ~TestImage() 
+  virtual ~TestImage()
     {
     }
   TestImage()
@@ -68,7 +69,7 @@ public:
   itkTypeMacro(TestImage2, Image);
 
   // Methods from itkObject
-  virtual ~TestImage2() 
+  virtual ~TestImage2()
     {
     }
   TestImage2()
@@ -93,7 +94,7 @@ public:
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(TestFactory, itk::ObjectFactoryBase);
 
@@ -147,7 +148,7 @@ int itkObjectFactoryTest(int, char *[])
     itk::ObjectFactoryBase::GetRegisteredFactories();
 
   std::cout << "----- Registered factories -----" << std::endl;
-  for ( std::list<itk::ObjectFactoryBase*>::iterator 
+  for ( std::list<itk::ObjectFactoryBase*>::iterator
           f = factories.begin();
         f != factories.end(); ++f )
     {
@@ -180,7 +181,7 @@ int itkObjectFactoryTest(int, char *[])
   int status = EXIT_SUCCESS;
   if (!TestNewImage(v, "TestImage"))
     {
-    status = EXIT_FAILURE;    
+    status = EXIT_FAILURE;
     }
 
   // disable all itk::Image creation with the
@@ -188,9 +189,9 @@ int itkObjectFactoryTest(int, char *[])
   v = itk::Image<short,2>::New();
   if (!TestNewImage(v, "Image"))
     {
-    status = EXIT_FAILURE;    
+    status = EXIT_FAILURE;
     }
-  
+
   factory->SetEnableFlag(true,
                          typeid(itk::Image<short,2>).name(),
                          typeid(TestImage2<short,2>).name());
@@ -206,9 +207,9 @@ int itkObjectFactoryTest(int, char *[])
   v = itk::Image<short,2>::New();
   if (!TestNewImage(v, "TestImage2"))
     {
-    status = EXIT_FAILURE;    
+    status = EXIT_FAILURE;
     }
-  
+
   factory->SetEnableFlag(false,
                          typeid(itk::Image<short,2>).name(),
                          typeid(TestImage2<short,2>).name());
@@ -219,22 +220,22 @@ int itkObjectFactoryTest(int, char *[])
   v = itk::Image<short,2>::New();
   if (!TestNewImage(v, "TestImage"))
     {
-    status = EXIT_FAILURE;    
+    status = EXIT_FAILURE;
     }
 
   itk::ObjectFactoryBase::UnRegisterFactory(factory);
-  
+
   v = itk::Image<short,2>::New();
   if (!TestNewImage(v, "Image"))
     {
-    status = EXIT_FAILURE;    
+    status = EXIT_FAILURE;
     }
 
   TestFactory::RegisterOneFactory();
   v = itk::Image<short,2>::New();
   if (!TestNewImage(v, "TestImage"))
     {
-    status = EXIT_FAILURE;    
+    status = EXIT_FAILURE;
     }
 
   return status;

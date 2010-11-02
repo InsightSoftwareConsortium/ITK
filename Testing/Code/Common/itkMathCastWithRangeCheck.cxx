@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMathCastWithRangeCheck.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 #include <cstdlib>
 
 
-namespace 
+namespace
 {
 
 
@@ -38,7 +39,7 @@ bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
 {
   T1 ret;
   // tying to convert T2 to T1
-  try 
+  try
     {
     ret = itk::Math::CastWithRangeCheck<T1>( value );
     // value should match
@@ -48,7 +49,7 @@ bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
       return false;
       }
     }
-  catch(...) 
+  catch(...)
     {
     // conversion should result in some overflow problem
     T1 retCheck =  static_cast<T1>( value );
@@ -57,10 +58,10 @@ bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
       std::cout << "unexpected exception with value: " << value << std::endl;
       return false;
       }
-    
+
     }
-  
-  
+
+
   return true;
 }
 
@@ -106,7 +107,7 @@ bool DoCastWithRangeCheckTestForTypes( const T1* = 0 )
   pass &= DoCastWithRangeCheckTest<T1, signed short>();
   pass &= DoCastWithRangeCheckTest<T1, unsigned int>();
   pass &= DoCastWithRangeCheckTest<T1, signed int>();
-  pass &= DoCastWithRangeCheckTest<T1, unsigned long>(); 
+  pass &= DoCastWithRangeCheckTest<T1, unsigned long>();
   pass &= DoCastWithRangeCheckTest<T1, signed long>();
 #ifdef ITK_USE_LONG_LONG
   pass &= DoCastWithRangeCheckTest<T1, unsigned long long>();
@@ -114,14 +115,14 @@ bool DoCastWithRangeCheckTestForTypes( const T1* = 0 )
 #endif
   return pass;
 }
- 
+
 } // end namespace
 
 int itkMathCastWithRangeCheckTest( int, char *[] )
 {
   bool pass = true;
-  
-   try 
+
+   try
     {
     itk::Math::CastWithRangeCheck<short, int>( int(itk::NumericTraits<short>::max())+10 );
     pass = false;
@@ -132,14 +133,14 @@ int itkMathCastWithRangeCheckTest( int, char *[] )
      std::cout << "caught exception as expected" << std::endl;
      }
 
-  
+
   DoCastWithRangeCheckTestExulstive<signed char, unsigned char>();
   DoCastWithRangeCheckTestExulstive<unsigned char, signed char>();
   DoCastWithRangeCheckTestExulstive<unsigned char, signed short>();
   DoCastWithRangeCheckTestExulstive<signed char, signed short>();
 
   DoCastWithRangeCheckTestExulstive<unsigned int, signed char>();
-  
+
 
   pass &= DoCastWithRangeCheckTestForTypes<unsigned char>();
   pass &= DoCastWithRangeCheckTestForTypes<signed char>();
@@ -158,5 +159,5 @@ int itkMathCastWithRangeCheckTest( int, char *[] )
     return EXIT_SUCCESS;
   else
     return EXIT_FAILURE;
-  
+
 }

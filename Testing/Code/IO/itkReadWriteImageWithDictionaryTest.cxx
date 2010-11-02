@@ -1,20 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkReadWriteImageWithDictionaryTest.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkIOCommon.h"
@@ -28,14 +28,14 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     std::cerr << "Usage: " << argv[0] << " Input\n";
     return EXIT_FAILURE;
     }
-  
+
   typedef itk::Image< unsigned char, 3 > ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
 
   //Create the 16x16 input image
   ImageType::Pointer  inputImage = ImageType::New();
-  
+
   ImageType::SizeType size;
   size.Fill( 16 );
   ImageType::IndexType index;
@@ -75,18 +75,18 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
 
   reader->SetFileName(argv[1]);
   reader->Update();
-  
+
   ImageType::Pointer outputImage = reader->GetOutput();
 
   // Compare the metadatas
   int numMissingMetaData = 0;
   int numWrongMetaData = 0;
-  
+
   itk::MetaDataDictionary & outputDictionary =
     outputImage->GetMetaDataDictionary();
-  
+
   std::string metadatastr;
-  
+
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_VoxelUnits, metadatastr ) )
     {
     // MetaIO is rather strict on the format of ITK_VoxelUnits but for our purpose "mm"=="mm. "
@@ -104,7 +104,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     std::cout<<"Missing ITK_VoxelUnits"<<std::endl;
     ++numMissingMetaData;
     }
-  
+
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_ExperimentDate, metadatastr ) )
     {
     if ( metadatastr != datestr )
@@ -121,7 +121,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     std::cout<<"Missing ITK_ExperimentDate"<<std::endl;
     ++numMissingMetaData;
     }
-  
+
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_ExperimentTime, metadatastr ) )
     {
     if ( metadatastr != timestr )
@@ -138,7 +138,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     std::cout<<"Missing ITK_ExperimentTime"<<std::endl;
     ++numMissingMetaData;
     }
-  
+
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_PatientID, metadatastr ) )
     {
     if ( metadatastr != patientstr )
@@ -210,7 +210,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     // FIXME:   FIXME MetaImage library: Then restore this test:    return EXIT_FAILURE;
     std::cout <<" FAILED: FIXME MetaImage library: Then restore this test" << std::endl;
     }
-  
+
   return EXIT_SUCCESS;
 #endif
 }

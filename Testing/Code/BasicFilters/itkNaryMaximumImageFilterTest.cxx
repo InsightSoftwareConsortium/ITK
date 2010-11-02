@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNaryMaximumImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -39,7 +39,7 @@ typedef itk::Image<float, Dimension>  OutputImageType;
 // Declare the type of the index to access images
 typedef itk::Index<Dimension>         IndexType;
 
-// Declare the type of the size 
+// Declare the type of the size
 typedef itk::Size<Dimension>          SizeType;
 
 // Declare the type of the Region
@@ -53,7 +53,7 @@ typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutImageIteratorTyp
 typedef itk::NaryMaximumImageFilter<
                               InputImageType,
                               OutputImageType  >  FilterType;
- 
+
 
 
 
@@ -75,17 +75,17 @@ void InitializeImage( InputImageType * image, double value   )
   RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
-  
+
   inputImage->SetLargestPossibleRegion( region );
   inputImage->SetBufferedRegion( region );
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
-  InImageIteratorType it( inputImage, 
+  InImageIteratorType it( inputImage,
                      inputImage->GetRequestedRegion() );
-  
+
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
     {
     it.Set( value );
     ++it;
@@ -100,13 +100,13 @@ void InitializeImage( InputImageType * image, double value   )
 void PrintImage( InputImageType * image, const char *)
 {
   // Create an iterator for going through the image
-  InImageIteratorType it( image, 
+  InImageIteratorType it( image,
                           image->GetRequestedRegion() );
-  
+
   it.GoToBegin();
   //  Print the content of the image
   //std::cout << text << std::endl;
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     std::cout << it.Get() << std::endl;
     ++it;
@@ -118,48 +118,48 @@ void PrintImage( InputImageType * image, const char *)
 } // end namespace NaryMaximumImageFilterTest
 
 
-int itkNaryMaximumImageFilterTest(int, char* [] ) 
+int itkNaryMaximumImageFilterTest(int, char* [] )
 {
 
-  // It is safe to open the namespace here because 
+  // It is safe to open the namespace here because
   // the symbols will not be exposed outside this function
-  using namespace NaryMaximumImageFilterTest; 
+  using namespace NaryMaximumImageFilterTest;
 
 
   // Create two images
   InputImageType::Pointer inputImageA  = InputImageType::New();
   InputImageType::Pointer inputImageB  = InputImageType::New();
-  
+
   static const int minValue = 12;
   static const int maxValue = 13;
   InitializeImage( inputImageA, minValue );
   InitializeImage( inputImageB, maxValue );
 
-  PrintImage( inputImageA, "Input image A" ); 
-  PrintImage( inputImageB, "Input image B" ); 
+  PrintImage( inputImageA, "Input image A" );
+  PrintImage( inputImageB, "Input image B" );
 
-  // Create an ADD Filter                                
+  // Create an ADD Filter
   FilterType::Pointer filter = FilterType::New();
 
 
   // Connect the input images
-  filter->SetInput( 0, inputImageA ); 
+  filter->SetInput( 0, inputImageA );
   filter->SetInput( 1, inputImageB );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
-  
+
   // Execute the filter
   filter->Update();
   filter->SetFunctor(filter->GetFunctor());
 
-  PrintImage( outputImage, "Resulting image 1" ); 
+  PrintImage( outputImage, "Resulting image 1" );
 
-  OutImageIteratorType it( outputImage, 
+  OutImageIteratorType it( outputImage,
               outputImage->GetRequestedRegion() );
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     if (it.Get() != maxValue)
       {
@@ -168,21 +168,21 @@ int itkNaryMaximumImageFilterTest(int, char* [] )
       }
     ++it;
   }
-  
+
   // now try it the other way
   InitializeImage( inputImageA, minValue );
   InitializeImage( inputImageB, maxValue );
-  filter->SetInput( 1, inputImageA ); 
+  filter->SetInput( 1, inputImageA );
   filter->SetInput( 0, inputImageB );
   filter->InPlaceOff(); // let's make sure this works too, while we're at it...
   filter->Update();
-  
-  PrintImage( outputImage, "Resulting image 2" ); 
-  
-  OutImageIteratorType it2( outputImage, 
+
+  PrintImage( outputImage, "Resulting image 2" );
+
+  OutImageIteratorType it2( outputImage,
                outputImage->GetRequestedRegion() );
   it2.GoToBegin();
-  while( !it2.IsAtEnd() ) 
+  while( !it2.IsAtEnd() )
   {
     if (it2.Get() != maxValue)
     {
@@ -191,7 +191,7 @@ int itkNaryMaximumImageFilterTest(int, char* [] )
     }
     ++it2;
   }
-  
+
   std::cerr << "Test Passed!" << std::endl;
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

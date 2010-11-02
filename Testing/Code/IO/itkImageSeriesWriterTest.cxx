@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageSeriesWriterTest.cxx
-  Language:  C++
-  Date:      $Date$xgoto-l
-
-  Version:   $Revision$
-
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -68,7 +68,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
   typedef itk::Image< WritePixelType, 3 > RescaleImageType;
   typedef itk::Image< WritePixelType, 2 > OutputImageType;
 
-  typedef itk::RescaleIntensityImageFilter< 
+  typedef itk::RescaleIntensityImageFilter<
                ImageNDType, RescaleImageType > RescaleFilterType;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
     rescaler->SetInput(reader->GetOutput());
@@ -79,7 +79,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
 
   { // This API is being deprecated. Please use NumericSeriesFileNames in the future
     // for generating the list of filenames.  This API will be removed after ITK 1.8
-  typedef  itk::ImageSeriesWriter<RescaleImageType,OutputImageType> WriterType; 
+  typedef  itk::ImageSeriesWriter<RescaleImageType,OutputImageType> WriterType;
 
   WriterType::Pointer writer = WriterType::New();
 
@@ -87,7 +87,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
 
   writer->SetInput(rescaler->GetOutput());
   char format[4096];
-  sprintf (format, "%s/series.%%d.%s", av[2], av[3]); 
+  sprintf (format, "%s/series.%%d.%s", av[2], av[3]);
   writer->SetSeriesFormat(format);
 
   try
@@ -117,17 +117,17 @@ int itkImageSeriesWriterTest(int ac, char* av[])
 
   std::cout << "Old API PASSED !" << std::endl;
   }
- 
+
   { // This is the new API, using the NumericSeriesFileNames (or any other filename generator).
   itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
 
-  typedef  itk::ImageSeriesWriter<RescaleImageType,OutputImageType> WriterType; 
+  typedef  itk::ImageSeriesWriter<RescaleImageType,OutputImageType> WriterType;
 
   WriterType::Pointer writer = WriterType::New();
 
 
   char format[4096];
-  sprintf (format, "%s/series.%%d.%s", av[2], av[3]); 
+  sprintf (format, "%s/series.%%d.%s", av[2], av[3]);
 
   std::cout << "Format = " << format << std::endl;
 
@@ -179,7 +179,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
 
   std::cout << "Test with NumericSeriesFileNames PASSED !" << std::endl;
   }
-  
+
   return EXIT_SUCCESS;
 
 }

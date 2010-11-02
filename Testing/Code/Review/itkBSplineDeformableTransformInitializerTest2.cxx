@@ -1,26 +1,27 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineDeformableTransformInitializerTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 #include "itkResampleImageFilter.h"
 
@@ -80,12 +81,12 @@ int itkBSplineDeformableTransformInitializerTest2( int argc, char * argv[] )
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
-  typedef itk::ResampleImageFilter< MovingImageType, 
+  typedef itk::ResampleImageFilter< MovingImageType,
                                     FixedImageType  >  FilterType;
 
   FilterType::Pointer resampler = FilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                        MovingImageType, double >  InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -100,7 +101,7 @@ int itkBSplineDeformableTransformInitializerTest2( int argc, char * argv[] )
   resampler->SetOutputOrigin(  fixedOrigin  );
   resampler->SetOutputDirection(  fixedDirection  );
 
-  
+
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
   FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
@@ -108,7 +109,7 @@ int itkBSplineDeformableTransformInitializerTest2( int argc, char * argv[] )
 
 
   resampler->SetInput( movingReader->GetOutput() );
-  
+
   movingWriter->SetInput( resampler->GetOutput() );
 
   const unsigned int SpaceDimension = ImageDimension;
@@ -119,12 +120,12 @@ int itkBSplineDeformableTransformInitializerTest2( int argc, char * argv[] )
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
-  
+
   TransformType::Pointer bsplineTransform = TransformType::New();
 
 
   typedef itk::BSplineDeformableTransformInitializer<
-                  TransformType, 
+                  TransformType,
                   FixedImageType >      InitializerType;
 
   InitializerType::Pointer transformInitilizer = InitializerType::New();
@@ -135,16 +136,16 @@ int itkBSplineDeformableTransformInitializerTest2( int argc, char * argv[] )
 
   const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
 
-  transformInitilizer->SetNumberOfGridNodesInsideTheImage( 
+  transformInitilizer->SetNumberOfGridNodesInsideTheImage(
     numberOfGridNodesInsideTheImageSupport );
 
   transformInitilizer->InitializeTransform();
- 
+
   typedef TransformType::ParametersType     ParametersType;
 
   const unsigned int numberOfParameters =
                bsplineTransform->GetNumberOfParameters();
-  
+
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
   ParametersType parameters( numberOfParameters );
@@ -155,16 +156,16 @@ int itkBSplineDeformableTransformInitializerTest2( int argc, char * argv[] )
 
   for( unsigned int n=0; n < numberOfNodes; n++ )
     {
-    infile >>  parameters[n]; 
-    infile >>  parameters[n+numberOfNodes]; 
-    } 
+    infile >>  parameters[n];
+    infile >>  parameters[n+numberOfNodes];
+    }
 
   infile.close();
 
   bsplineTransform->SetParameters( parameters );
 
   resampler->SetTransform( bsplineTransform );
-  
+
   try
     {
     movingWriter->Update();

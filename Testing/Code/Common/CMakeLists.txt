@@ -42,6 +42,7 @@ add_test(itkColorTableTest ${COMMON_TESTS} itkColorTableTest)
 add_test(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
 add_test(itkDecoratorTest ${COMMON_TESTS} itkDecoratorTest)
 add_test(itkDirectoryTest ${COMMON_TESTS} itkDirectoryTest ${TEMP})
+add_test(itkDerivativeOperatorTest ${COMMON_TESTS} itkDerivativeOperatorTest)
 add_test(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
 add_test(itkMultipleLogOutputTest ${COMMON_TESTS} itkMultipleLogOutputTest ${TEMP}/test_multi.txt)
 add_test(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
@@ -520,6 +521,7 @@ itkCovariantVectorGeometryTest.cxx
 itkCovarianceImageFunctionTest.cxx
 itkDataTypeTest.cxx
 itkDecoratorTest.cxx
+itkDerivativeOperatorTest.cxx
 itkDirectoryTest.cxx
 itkDynamicMeshTest.cxx
 itkDiffusionTensor3DTest.cxx

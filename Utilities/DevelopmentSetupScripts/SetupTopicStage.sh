@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
-#=============================================================================
-# Copyright (c) 2010 Insight Software Consortium. All rights reserved.
-# See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+#==========================================================================
 #
-# This software is distributed WITHOUT ANY WARRANTY; without even
-# the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-# PURPOSE.  See the above copyright notices for more information.
-#=============================================================================
+#   Copyright Insight Software Consortium
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#          http://www.apache.org/licenses/LICENSE-2.0.txt
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#==========================================================================*/
 
 
 # Run this script to set up the topic stage for pushing changes.
@@ -33,10 +42,15 @@ fi
 
 read -ep "Do you have git push access to itk.org? [y/N]: " access
 if test "$access" = "y"; then
+
   echo "Configuring push urls..."
-  git config remote.origin.pushurl git@itk.org:ITK.git
+  if [ "`git config remote.origin.url`" == "git://itk.org/ITK.git" ]; then
+    git config remote.origin.pushurl git@itk.org:ITK.git
+  fi
 
   pushd ../../Testing/Data >/dev/null
+  # not sure how the ITKData should be managed... so do as if the one at
+  # itk.org was the only where we want to push
   git config remote.origin.pushurl git@itk.org:ITKData.git
   popd >/dev/null
   echo -e "Done.\n"
