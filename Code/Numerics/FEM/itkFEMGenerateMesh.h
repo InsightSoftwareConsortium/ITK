@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMGenerateMesh.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMGenerateMesh_h
 #define __itkFEMGenerateMesh_h
 
@@ -29,7 +29,7 @@ namespace fem {
  * \brief Use this function to generate 2D meshes in Solver.
  *
  * This function uses the generic quadrilateral elements
- * to build meshes that can be used with specific elements for solving 
+ * to build meshes that can be used with specific elements for solving
  * membrane or linear elasticity problems.
  *
  * See other functions if you need to constuct the mesh from other types
@@ -57,7 +57,7 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vn
  *
  * \sa Generate2DRectilinearMesh
  */
-void Generate3DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig, 
+void Generate3DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig,
  vnl_vector<double>& size, vnl_vector<double>& Nel);
 
 }} // end namespace itk::fem

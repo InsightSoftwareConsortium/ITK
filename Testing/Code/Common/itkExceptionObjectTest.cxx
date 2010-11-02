@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkExceptionObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -24,28 +25,28 @@
 
 class mammal
  {
- public:  
-   virtual int GetType()=0;  
-   virtual bool operator== (mammal &); 
+ public:
+   virtual int GetType()=0;
+   virtual bool operator== (mammal &);
    mammal() {};
    virtual ~mammal() {};
  };
 
-class human : public mammal 
-{  
-  public: 
-    int GetType() 
-    { 
-      return 32; 
+class human : public mammal
+{
+  public:
+    int GetType()
+    {
+      return 32;
     }
 };
 
 class naked_mole_rat : public mammal
-{ 
-  public:  
-    int GetType() 
-    { 
-      return 2; 
+{
+  public:
+    int GetType()
+    {
+      return 2;
     }
 };
 
@@ -60,11 +61,11 @@ bool mammal::operator== (mammal &o)
     }
   else
     {
-    if ( /* blah blah blah */ 1) 
+    if ( /* blah blah blah */ 1)
       {
       return true;
       }
-    else 
+    else
       {
       return false;
       }
@@ -88,7 +89,7 @@ int lookup(const int& i)
 int itkExceptionObjectTest(int, char* [] )
 {
   // SOME BASIC TESTS OF THE itk::ExceptionObject 's
-  
+
   itk::RangeError E;
   E.SetLocation("itkExceptionObjectTest(int, char**)");
   E.SetDescription("E");
@@ -110,16 +111,16 @@ int itkExceptionObjectTest(int, char* [] )
   *Fp = *Ep;
   delete Ep;
   std::cout << *Fp << std::endl;
-  
+
   // ** BE SURE TO CATCH BY REFERENCE TO AVOID SLICING **
   bool raised = false;
   try {
     lookup(4);  // OK
     lookup(12); // ERROR
     }
-  catch (itk::ExceptionObject &e) 
-    { 
-    std::cout << e << std::endl; 
+  catch (itk::ExceptionObject &e)
+    {
+    std::cout << e << std::endl;
     raised = true;
     }
   if( !raised )
@@ -136,9 +137,9 @@ int itkExceptionObjectTest(int, char* [] )
     jane == john;  // OK
     hal == john;   // ERROR
     }
-  catch (itk::IncompatibleOperandsError &e) 
-    { 
-    std::cout << e << std::endl; 
+  catch (itk::IncompatibleOperandsError &e)
+    {
+    std::cout << e << std::endl;
     raised = true;
     }
   if( !raised )
@@ -155,7 +156,7 @@ int itkExceptionObjectTest(int, char* [] )
   itk::SampleError Sg;
   Sg = Sf;
   std::cout << Sg << std::endl;
-  
+
 
   try
   {
@@ -170,5 +171,5 @@ int itkExceptionObjectTest(int, char* [] )
   delete Fp;
 
   return EXIT_SUCCESS;
-  
+
 }

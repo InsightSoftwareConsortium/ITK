@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMItpackSparseMatrix.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMItpackSparseMatrix_h
 #define __itkFEMItpackSparseMatrix_h
 
@@ -26,14 +26,14 @@ namespace fem {
 
 /**
  * \class ItpackSparseMatrix
- * \brief a compressed row sparse matrix representation that makes 
+ * \brief a compressed row sparse matrix representation that makes
  *        use of itpack to dynamically assemble the matrix
  * \sa ItpackLinearSystemWrapper
  */
 
 // Forward declaration of friend class
 class ItpackLinearSystemWrapper;
-  
+
 class ItpackSparseMatrix
 {
 public:
@@ -44,7 +44,7 @@ public:
 
   /** Constructor */
   ItpackSparseMatrix();
-  
+
   /**
    * Constructor with single parameter
    * \param order the order of the matrix to be created
@@ -70,7 +70,7 @@ public:
    * \param order the order of the matrix
    * \note the order must be set before any values are entered
    */
-  void SetOrder(integer order) { m_N = order; } 
+  void SetOrder(integer order) { m_N = order; }
 
   /**
    * Set the maximum number of non-zero values that may appear in the matrix
@@ -79,8 +79,8 @@ public:
    */
   void SetMaxNonZeroValues(integer maxNonZeroValues) { m_NZ = maxNonZeroValues; }
 
-  /** 
-   * Insert a value into the matrix 
+  /**
+   * Insert a value into the matrix
    * \param i row index
    * \param j column index
    * \param value value to be added at (i,j)
@@ -190,7 +190,7 @@ private:
 
   /** flag indicating variables have been initialized */
   integer m_MatrixInitialized;
-  
+
   /** Order of system */
   integer m_N;
 
@@ -217,9 +217,9 @@ private:
    */
   integer m_MODE;
 
-  /** unit number that error messages are written to during matrix building */ 
+  /** unit number that error messages are written to during matrix building */
   integer m_NOUT;
-  
+
   /**
    * flag indicating desired level of error reporting during matrix building
    * m_LEVEL < 0 - no printing
@@ -259,13 +259,13 @@ public:
    * of the exception, and the invalid index
    */
   FEMExceptionItpackSparseMatrixSbagn(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
- 
+
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionItpackSparseMatrixSbagn() throw() {}
-  
+
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSparseMatrixSbagn,FEMException);
-  
+
 };
 
 /**
@@ -287,13 +287,13 @@ public:
    * of the exception, and the invalid index
    */
   FEMExceptionItpackSparseMatrixSbsij(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
- 
+
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionItpackSparseMatrixSbsij() throw() {}
-  
+
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSparseMatrixSbsij,FEMException);
-  
+
 };
 
 }} // end namespace itk::fem

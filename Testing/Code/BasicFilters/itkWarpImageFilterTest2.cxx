@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include <iostream>
 #include <string>
 #include <math.h>
@@ -106,7 +123,7 @@ itkWarpImageFilterTest2(int, char * [])
   filter->SetOutputParametersFromImage(image);
   filter->Update();
   ImageType::Pointer result2 = filter->GetOutput();
-  itk::ImageRegionIterator<ImageType> 
+  itk::ImageRegionIterator<ImageType>
     it1(result1,result1->GetLargestPossibleRegion()),
     it2(result2,result1->GetLargestPossibleRegion());
   for(it1.GoToBegin(),it2.GoToBegin();
@@ -115,7 +132,7 @@ itkWarpImageFilterTest2(int, char * [])
     {
     if(it1.Value() != it2.Value())
       {
-      std::cout << "Pixels differ " << it1.Value() << " " 
+      std::cout << "Pixels differ " << it1.Value() << " "
                 << it2.Value()
                 << std::endl;
       return EXIT_FAILURE;
@@ -153,12 +170,12 @@ itkWarpImageFilterTest2(int, char * [])
     {
     if(streamIt.Value() != it2.Value())
       {
-      std::cout << "Pixels differ " << streamIt.Value() << " " 
+      std::cout << "Pixels differ " << streamIt.Value() << " "
                 << it2.Value()
                 << std::endl;
       return EXIT_FAILURE;
       }
-    
+
     }
   if(streamIt.IsAtEnd() != it2.IsAtEnd())
     {
@@ -168,7 +185,7 @@ itkWarpImageFilterTest2(int, char * [])
 
   // this verifies that the pipeline was executed as expected along
   // with correct region propagation and output information
-  if (!monitor2->VerifyAllInputCanStream(4)) 
+  if (!monitor2->VerifyAllInputCanStream(4))
     {
     std::cout << "Filter failed to execute as expected!" << std::endl;
     std::cout << monitor2;

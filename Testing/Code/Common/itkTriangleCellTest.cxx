@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTriangleCellTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -28,7 +29,7 @@
 int itkTriangleCellTest(int, char* [] )
 {
 
-   
+
   /**
    * Define a mesh type that stores a PixelType of "int".  Use the defaults for
    * the other template parameters.
@@ -62,7 +63,7 @@ int itkTriangleCellTest(int, char* [] )
       return this->Superclass::EvaluatePosition( inputPoint,
         points, closestPoint, pcoord, distance, weights );
       }
-      
+
     };
 
 
@@ -80,11 +81,11 @@ int itkTriangleCellTest(int, char* [] )
    */
   typedef MeshType::PointType  PointType;
 
-  
+
   /**
    * Create the mesh through its object factory.
    */
-  MeshType::Pointer mesh = MeshType::New();  
+  MeshType::Pointer mesh = MeshType::New();
   mesh->DebugOn();
 
   const unsigned int numberOfPoints = 4;
@@ -93,7 +94,7 @@ int itkTriangleCellTest(int, char* [] )
    */
   MeshType::CoordRepType testPointCoords[numberOfPoints][3]
     = { {0,0,0}, {10,0,0}, {10,10,0}, {0,10,0} };
- 
+
   /**
    * Add our test points to the mesh.
    * mesh->SetPoint(pointId, point)
@@ -105,7 +106,7 @@ int itkTriangleCellTest(int, char* [] )
     mesh->SetPoint(i, PointType( testPointCoords[i] ) );
     }
 
-  /** 
+  /**
    * Specify the method used for allocating cells
    */
    mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
@@ -115,7 +116,7 @@ int itkTriangleCellTest(int, char* [] )
    * pointer to a cell; in this example it ends up pointing to
    * different types of cells.
    */
-  CellAutoPointer testCell; 
+  CellAutoPointer testCell;
   TriangleHelper * newcell = new TriangleHelper;
   testCell.TakeOwnership( newcell ); // polymorphism
 
@@ -123,7 +124,7 @@ int itkTriangleCellTest(int, char* [] )
    * List the points that the polygon will use from the mesh.
    */
   unsigned long polygon1Points1[3] = {2,0,1};
- 
+
   /**
    * Assign the points to the tetrahedron through their identifiers.
    */
@@ -136,7 +137,7 @@ int itkTriangleCellTest(int, char* [] )
   mesh->SetCell(0, testCell ); // Transfer ownership to the mesh
   std::cout << "TriangleCell pointer = " << (void const *)testCell.GetPointer() << std::endl;
   std::cout << "TriangleCell Owner   = " << testCell.IsOwner() << std::endl;
-  
+
   {
   std::cout << "Test MakeCopy" << std::endl;
 
@@ -150,8 +151,8 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
   }
- 
-  
+
+
 
   //
   // Exercise the EvaluatePosition() method of the TriangleCell
@@ -177,9 +178,9 @@ int itkTriangleCellTest(int, char* [] )
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
 
-  isInside = testCell->EvaluatePosition(inputPoint, 
+  isInside = testCell->EvaluatePosition(inputPoint,
     points, closestPoint, pcoords , &distance, weights);
- 
+
   if( !isInside )
     {
     std::cerr << "Error: point should be reported as being inside" << std::endl;
@@ -219,9 +220,9 @@ int itkTriangleCellTest(int, char* [] )
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
 
-  isInside = testCell->EvaluatePosition(inputPoint, 
+  isInside = testCell->EvaluatePosition(inputPoint,
     points, closestPoint, pcoords , &distance, weights);
- 
+
   if( isInside )
     {
     std::cerr << "Error: point should be reported as being outside" << std::endl;
@@ -254,9 +255,9 @@ int itkTriangleCellTest(int, char* [] )
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
 
-  isInside = testCell->EvaluatePosition(inputPoint, 
+  isInside = testCell->EvaluatePosition(inputPoint,
     points, closestPoint, pcoords , &distance, weights);
- 
+
   if( isInside )
     {
     std::cerr << "Error: point should be reported as being outside" << std::endl;
@@ -289,9 +290,9 @@ int itkTriangleCellTest(int, char* [] )
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
 
-  isInside = testCell->EvaluatePosition(inputPoint, 
+  isInside = testCell->EvaluatePosition(inputPoint,
     points, closestPoint, pcoords , &distance, weights);
- 
+
   if( isInside )
     {
     std::cerr << "Error: point should be reported as being outside" << std::endl;
@@ -324,9 +325,9 @@ int itkTriangleCellTest(int, char* [] )
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
 
-  isInside = testCell->EvaluatePosition(inputPoint, 
+  isInside = testCell->EvaluatePosition(inputPoint,
     points, closestPoint, pcoords , &distance, weights);
- 
+
   if( isInside )
     {
     std::cerr << "Error: point should be reported as being outside" << std::endl;
@@ -350,6 +351,6 @@ int itkTriangleCellTest(int, char* [] )
 
 
 
-  return EXIT_SUCCESS;  
+  return EXIT_SUCCESS;
 }
 

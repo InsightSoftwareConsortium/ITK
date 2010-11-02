@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkChangeInformationImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -104,7 +105,7 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   ImageType::Pointer inputImage  = ImageType::New();
   ImageType::Pointer referenceImage  = ImageType::New();
   FilterType::Pointer filter = FilterType::New();
-  
+
   double spacing[ImageDimension] = {1, 2, 3};
   double origin[ImageDimension] = {-100, -200, -300};
   ImageType::DirectionType direction;
@@ -117,11 +118,11 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   direction[0][2] = 0.0;
   direction[1][2] = 0.0;
   direction[2][2] = 1.0;
-  
+
   typedef itk::ImageRegion<ImageDimension> RegionType;
   typedef itk::Size<ImageDimension> SizeType;
   //typedef itk::ImageRegion<ImageDimension> RegionType;
-  
+
   SizeType size; size.Fill(20);
 
   inputImage->SetRegions(size);
@@ -142,8 +143,8 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   double referenceSpacing[ImageDimension] = {1000, 2000, 3000};
 
   referenceImage->SetOrigin(referenceOrigin);
-  referenceImage->SetSpacing(referenceSpacing);  
-  referenceImage->SetDirection(referenceDirection);  
+  referenceImage->SetSpacing(referenceSpacing);
+  referenceImage->SetDirection(referenceDirection);
 
   referenceImage->SetRegions(size);
   referenceImage->Allocate();
@@ -165,19 +166,19 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   newDirection[0][2] = 0.0;
   newDirection[1][2] = 0.0;
   newDirection[2][2] = -1.0;
-  
+
   filter->SetInput (inputImage);
   filter->SetOutputSpacing (newSpacing);
   filter->SetOutputOrigin (newOrigin);
   filter->SetOutputOffset (newOffset);
   filter->SetOutputDirection (newDirection);
   filter->SetReferenceImage (referenceImage);
-  
+
 
   // Test GetObjectMacro
   ImageType * referenceImage2 = filter->GetReferenceImage();
   std::cout << "filter->GetReferenceImage(): " << referenceImage2 << std::endl;
-  
+
   // Test GetMacros
   bool useReferenceImage = filter->GetUseReferenceImage();
   std::cout << "filter->GetUseReferenceImage(): " << useReferenceImage << std::endl;
@@ -206,11 +207,11 @@ int itkChangeInformationImageFilterTest(int, char* [] )
 
   bool centerImage = filter->GetCenterImage();
   std::cout << "filter->GetCenterImage(): " << centerImage << std::endl;
-  
+
   // Test GetVectorMacro
   const long * outputOffset = filter->GetOutputOffset();
   std::cout << "filter->GetOutputOffset(): " << outputOffset << std::endl;
- 
+
 
 
   // Catch any exceptions
@@ -220,31 +221,31 @@ int itkChangeInformationImageFilterTest(int, char* [] )
     filter->Update();
     std::cout << "-----------Default behavior: "<< std::endl;;
     PrintInformation (inputImage, filter->GetOutput());
-  
+
     filter->ChangeAll();
     filter->ChangeRegionOff();
     filter->Update();
     std::cout << "-----------ChangeAll(), ChangeRegionOff(): " << std::endl;;
     PrintInformation (inputImage, filter->GetOutput());
-  
+
     filter->CenterImageOn();
     filter->Update();
     std::cout << "-----------CenterImageOn(): " << std::endl;;
     PrintInformation (inputImage, filter->GetOutput());
-  
+
     filter->CenterImageOn();
     filter->ChangeSpacingOff();
     filter->Update();
     std::cout << "-----------CenterImageOn(), ChangeSpacingOff(): " << std::endl;;
     PrintInformation (inputImage, filter->GetOutput());
-  
+
     filter->CenterImageOn();
     filter->ChangeSpacingOn();
     filter->ChangeOriginOff();
     filter->Update();
     std::cout << "-----------CenterImageOn(), ChangeOriginOff(): " << std::endl;;
     PrintInformation (inputImage, filter->GetOutput());
-    
+
     filter->CenterImageOff();
     filter->ChangeNone();
     filter->Update();

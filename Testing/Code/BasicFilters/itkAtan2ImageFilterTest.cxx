@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAtan2ImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -24,7 +25,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 
-int itkAtan2ImageFilterTest(int, char* [] ) 
+int itkAtan2ImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -34,9 +35,9 @@ int itkAtan2ImageFilterTest(int, char* [] )
   typedef itk::Image<float, ImageDimension>  InputImageType;
   typedef itk::Image<float, ImageDimension>  OutputImageType;
 
-  
-  
-  // Declare Iterator types apropriated for each image 
+
+
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<
                                   InputImageType>  InputIteratorType;
 
@@ -48,7 +49,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<ImageDimension>          SizeType;
 
   // Declare the type of the Region
@@ -57,7 +58,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
   // Create two images
   InputImageType::Pointer sinImage    = InputImageType::New();
   InputImageType::Pointer cosImage  = InputImageType::New();
-  
+
   // Define their size, and start index
   SizeType size;
   size[0] = 2;
@@ -90,7 +91,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
 
   it1.GoToBegin();
 
-  while( !it1.IsAtEnd() ) 
+  while( !it1.IsAtEnd() )
     {
     it1.Set( sinValue );
     std::cout << it1.Get() << std::endl;
@@ -107,7 +108,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
 
   it2.GoToBegin();
 
-  while( !it2.IsAtEnd() ) 
+  while( !it2.IsAtEnd() )
     {
     it2.Set( cosValue );
     std::cout << it2.Get() << std::endl;
@@ -116,28 +117,28 @@ int itkAtan2ImageFilterTest(int, char* [] )
 
 
   // Declare the type for the Atan filter
-  typedef itk::Atan2ImageFilter< 
+  typedef itk::Atan2ImageFilter<
     InputImageType, InputImageType, OutputImageType  >  FilterType;
-            
 
-  // Create the Filter                                
+
+  // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
 
   // Connect the input images
-  filter->SetInput1( sinImage ); 
-  filter->SetInput2( cosImage ); 
+  filter->SetInput1( sinImage );
+  filter->SetInput2( cosImage );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
-  
+
   // Execute the filter
   filter->Update();
 
   // Create an iterator for going through the image output
   OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
   const OutputImageType::PixelType epsilon = 1e-6;
@@ -146,7 +147,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
   it1.GoToBegin();
   it2.GoToBegin();
 
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
     {
     const InputImageType::PixelType  input1  = it1.Get();
     const InputImageType::PixelType  input2  = it2.Get();

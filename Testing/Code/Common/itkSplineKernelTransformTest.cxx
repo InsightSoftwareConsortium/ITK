@@ -1,25 +1,26 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSplineKernelTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 /**
- * This tests the elastic body spline and thin plate spline 
+ * This tests the elastic body spline and thin plate spline
  * transform classes by warping a unit cube into a cube with side length 3.
  * It performs the test for 2D, 3D, and 4D to ensure that the
  * class works in N dimensions
@@ -35,7 +36,7 @@ int itkSplineKernelTransformTest(int , char* [] )
 {
 
   const double epsilon = 1e-12;
-  
+
   // 2-D case
   int i, j;
 
@@ -69,9 +70,9 @@ int itkSplineKernelTransformTest(int , char* [] )
   // Create landmark sets
   Points2DIteratorType source2Dit = sourceLandmarks2D->GetPoints()->Begin();
   Points2DIteratorType target2Dit = targetLandmarks2D->GetPoints()->Begin();
-  
+
   Points2DIteratorType source2Dend = sourceLandmarks2D->GetPoints()->End();
-  
+
   for (i = 0; i < 2; i++)
     {
     for (j = 0; j < 2; j++)
@@ -87,7 +88,7 @@ int itkSplineKernelTransformTest(int , char* [] )
       }
     }
 
-  
+
   std::cout << "EBS 2D Test:" << std::endl;
   // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
   ebs2D->SetSourceLandmarks( sourceLandmarks2D );
@@ -95,7 +96,7 @@ int itkSplineKernelTransformTest(int , char* [] )
   ebs2D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs2D->ComputeWMatrix();
 
-  { // Testing the number of parameters 
+  { // Testing the number of parameters
   EBSTransform2DType::ParametersType parameters1 = ebs2D->GetParameters();
   const unsigned int numberOfParameters = parameters1.Size();
   if( numberOfParameters != 4 * 2 )
@@ -110,7 +111,7 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   source2Dit = sourceLandmarks2D->GetPoints()->Begin();
   target2Dit = targetLandmarks2D->GetPoints()->Begin();
-  
+
   source2Dend = sourceLandmarks2D->GetPoints()->End();
   while( source2Dit != source2Dend )
     {
@@ -128,7 +129,7 @@ int itkSplineKernelTransformTest(int , char* [] )
     }
   std::cout << std::endl;
 
- 
+
   std::cout << "EBRS 2D Test:" << std::endl;
   ebrs2D->SetSourceLandmarks( sourceLandmarks2D );
   ebrs2D->SetTargetLandmarks( targetLandmarks2D );
@@ -137,7 +138,7 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   source2Dit = sourceLandmarks2D->GetPoints()->Begin();
   target2Dit = targetLandmarks2D->GetPoints()->Begin();
-  
+
   source2Dend = sourceLandmarks2D->GetPoints()->End();
   while( source2Dit != source2Dend )
     {
@@ -156,7 +157,7 @@ int itkSplineKernelTransformTest(int , char* [] )
   std::cout << std::endl;
 
 
- 
+
   std::cout << "TPS 2D Test:" << std::endl;
   tps2D->SetSourceLandmarks( sourceLandmarks2D );
   tps2D->SetTargetLandmarks( targetLandmarks2D );
@@ -165,7 +166,7 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   source2Dit = sourceLandmarks2D->GetPoints()->Begin();
   target2Dit = targetLandmarks2D->GetPoints()->Begin();
-  
+
   source2Dend = sourceLandmarks2D->GetPoints()->End();
   while( source2Dit != source2Dend )
     {
@@ -191,7 +192,7 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   source2Dit = sourceLandmarks2D->GetPoints()->Begin();
   target2Dit = targetLandmarks2D->GetPoints()->Begin();
-  
+
   source2Dend = sourceLandmarks2D->GetPoints()->End();
   while( source2Dit != source2Dend )
     {
@@ -218,7 +219,7 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   source2Dit = sourceLandmarks2D->GetPoints()->Begin();
   target2Dit = targetLandmarks2D->GetPoints()->Begin();
-  
+
   source2Dend = sourceLandmarks2D->GetPoints()->End();
   while( source2Dit != source2Dend )
     {
@@ -252,11 +253,11 @@ int itkSplineKernelTransformTest(int , char* [] )
   EBSTransform3DType::Pointer ebs3D = EBSTransform3DType::New();
   TPSTransform3DType::Pointer tps3D = TPSTransform3DType::New();
 
- 
+
   // Reserve memory for the number of points
-  ebs3D->GetTargetLandmarks()->GetPoints()->Reserve( 8 );  
+  ebs3D->GetTargetLandmarks()->GetPoints()->Reserve( 8 );
   tps3D->GetTargetLandmarks()->GetPoints()->Reserve( 8 );
-  ebs3D->GetSourceLandmarks()->GetPoints()->Reserve( 8 );  
+  ebs3D->GetSourceLandmarks()->GetPoints()->Reserve( 8 );
   tps3D->GetSourceLandmarks()->GetPoints()->Reserve( 8 );
 
 
@@ -268,7 +269,7 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   Points3DIteratorType ebs3DsEnd  = ebs3D->GetSourceLandmarks()->GetPoints()->End();
   Points3DIteratorType tps3DsEnd  = tps3D->GetSourceLandmarks()->GetPoints()->End();
-  
+
   for (i = 0; i < 2; i++)
     {
     for (j = 0; j < 2; j++)
@@ -299,7 +300,7 @@ int itkSplineKernelTransformTest(int , char* [] )
   // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
   ebs3D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs3D->ComputeWMatrix();
-  
+
   ebs3Ds     = ebs3D->GetSourceLandmarks()->GetPoints()->Begin();
   ebs3Dt     = ebs3D->GetTargetLandmarks()->GetPoints()->Begin();
   ebs3DsEnd  = ebs3D->GetSourceLandmarks()->GetPoints()->End();
@@ -319,7 +320,7 @@ int itkSplineKernelTransformTest(int , char* [] )
     ebs3Dt++;
   }
   std::cout << std::endl;
-  
+
 
 
   std::cout << "TPS 3D Test:" << std::endl;
@@ -367,7 +368,7 @@ int itkSplineKernelTransformTest(int , char* [] )
   int l;
   typedef itk::ElasticBodySplineKernelTransform<double, 4> EBSTransform4DType;
   typedef itk::ThinPlateSplineKernelTransform<double, 4>   TPSTransform4DType;
-  
+
   typedef EBSTransform4DType::InputPointType PointType4D;
   typedef EBSTransform4DType::PointsIterator Points4DIteratorType;
 
@@ -379,10 +380,10 @@ int itkSplineKernelTransformTest(int , char* [] )
   TPSTransform4DType::Pointer tps4D = TPSTransform4DType::New();
 
   // Reserve memory for the number of points
-  ebs4D->GetTargetLandmarks()->GetPoints()->Reserve( 16 );  
+  ebs4D->GetTargetLandmarks()->GetPoints()->Reserve( 16 );
   tps4D->GetTargetLandmarks()->GetPoints()->Reserve( 16 );
-  
-  ebs4D->GetSourceLandmarks()->GetPoints()->Reserve( 16 );  
+
+  ebs4D->GetSourceLandmarks()->GetPoints()->Reserve( 16 );
   tps4D->GetSourceLandmarks()->GetPoints()->Reserve( 16 );
 
   // Create landmark sets
@@ -390,10 +391,10 @@ int itkSplineKernelTransformTest(int , char* [] )
   Points4DIteratorType ebs4Dt = ebs4D->GetTargetLandmarks()->GetPoints()->Begin();
   Points4DIteratorType tps4Ds = tps4D->GetSourceLandmarks()->GetPoints()->Begin();
   Points4DIteratorType tps4Dt = tps4D->GetTargetLandmarks()->GetPoints()->Begin();
-  
+
   Points4DIteratorType ebs4DsEnd  = ebs4D->GetSourceLandmarks()->GetPoints()->End();
   Points4DIteratorType tps4DsEnd  = tps4D->GetSourceLandmarks()->GetPoints()->End();
- 
+
   for (i = 0; i < 2; i++)
     {
     for (j = 0; j < 2; j++)

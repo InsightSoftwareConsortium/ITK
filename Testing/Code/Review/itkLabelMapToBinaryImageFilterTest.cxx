@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLabelMapToBinaryImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -41,7 +42,7 @@ int itkLabelMapToBinaryImageFilterTest( int argc, char * argv [] )
     }
 
   const unsigned int Dimension = 2;
-  
+
   typedef unsigned char BinaryPixelType;
   typedef unsigned char LabelPixelType;
 
@@ -50,11 +51,11 @@ int itkLabelMapToBinaryImageFilterTest( int argc, char * argv [] )
 
   typedef itk::LabelObject< LabelPixelType, Dimension >   LabelObjectType;
   typedef itk::LabelMap< LabelObjectType >                LabelMapType;
-  
+
   typedef itk::ImageFileReader< LabelImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  
+
   typedef itk::LabelImageToLabelMapFilter< LabelImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
 
@@ -65,7 +66,7 @@ int itkLabelMapToBinaryImageFilterTest( int argc, char * argv [] )
   TEST_SET_GET_VALUE( atoi(argv[3]), l2i->GetForegroundValue() );
 
   l2i->SetBackgroundValue( atoi(argv[4]) );
-  TEST_SET_GET_VALUE( atoi(argv[4]), l2i->GetBackgroundValue() ); 
+  TEST_SET_GET_VALUE( atoi(argv[4]), l2i->GetBackgroundValue() );
 
   itk::SimpleFilterWatcher watcher( l2i );
 
@@ -85,7 +86,7 @@ int itkLabelMapToBinaryImageFilterTest( int argc, char * argv [] )
   i2l->GetOutput()->PrintLabelObjects();
 
   std::cout << l2i->GetNameOfClass() << std::endl;
-   
+
   l2i->Print( std::cout );
 
   return EXIT_SUCCESS;

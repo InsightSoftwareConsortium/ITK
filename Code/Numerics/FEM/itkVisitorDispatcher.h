@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVisitorDispatcher.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkVisitorDispatcher_h
 #define __itkVisitorDispatcher_h
 
@@ -66,7 +67,7 @@ public:
  *
  * To make a specific base class and all its derived classes visitable, you
  * must make the following changes to your code:
- * 
+ *
  * 1. Declare the folowing virtual member function in the base class:
  *
  *      class BaseVisitable
@@ -75,14 +76,14 @@ public:
  *        virtual ReturnType AcceptVisitor( VisitorBase* ) = 0;
  *        ...
  *      };
- * 
+ *
  * 2. Implement this function in ALL derived classes like this:
  *
  *      class MyVisitableClass : public BaseVisitable
  *      {
  *        ...
- *        virtual ReturnType AcceptVisitor( VisitorBase* l ) 
- *        { 
+ *        virtual ReturnType AcceptVisitor( VisitorBase* l )
+ *        {
  *          return VisitorDispatcher<MyVisitableClass,VisitorBase,VisitFunctionPointerType>::Visit( <parameters> );
  *        }
  *        ...
@@ -94,7 +95,7 @@ public:
  * 3. Register each visitor class with the VisitorDispatcher class before it
  *    is called. This is done by calling the member function RegisterVisitor
  *    of the VisitorDispatcher class and providing the pointer to the Visitor
- *    function that performs the required task. The visitor function must be 
+ *    function that performs the required task. The visitor function must be
  *    declared according to the VisitFunctionPointerType template parameter.
  *
  *      ReturnType MyVisitor_Function( ... );
@@ -105,7 +106,7 @@ public:
  * to base class and providing a pointer to the specific Visitor object:
  *
  *    object->AcceptVisitor(visitor);
- * 
+ *
  *
  * The Visitor class is templated over several classes that make its use
  * generic and simple.
@@ -119,7 +120,7 @@ public:
  *  - TVisitFunctionPointerType Type of visit functions. Visitor dispatcher
  *                  stores an array of pointers to these functions. Default
  *                  function pointer type is provided.
- * 
+ *
  * \note Template parameter TVisitFunctionPointerType in general doesn't
  *       have to be a pointer to function. In fact, it can be any type
  *       Object of this type will be returned, when calling the
@@ -133,7 +134,7 @@ class VisitorDispatcher
 public:
 
   /**
-   * TVisitedClass is class to which visitor functions will be applied. 
+   * TVisitedClass is class to which visitor functions will be applied.
    */
   typedef TVisitedClass VisitedClass;
 
@@ -186,7 +187,7 @@ public:
    * the same.
    *
    *   bool Dummy = VisitorDispatcher<Bar,Load>::RegisterVisitor((LoadGrav*)0, &LoadGravImpl);
-   * 
+   *
    * \param visitor_function Pointer to a visitor function.
    *
    * \note Dummy class pointer must be passed as a first parameter to
@@ -219,11 +220,11 @@ public:
       }
     return status;
   }
-  
+
   /**
    * Returns the pointer to the correct implementation of the visit function.
    * based on the class of object passed in l.
-   * 
+   *
    * Before this function can be called, the visitor functions must be added
    * to the VisitorDispatcher class for visitor class that is derived from
    * TVisitorBase.
@@ -272,8 +273,8 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
 ::Instance()
 {
   // Implementation of the singleton design pattern
-  if (!obj) 
-    { 
+  if (!obj)
+    {
     // Create a new VisitorDispatcher object if we don't have it already.
     obj=new VisitorDispatcher;
 
@@ -281,7 +282,7 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
     // when program finishes.
     atexit(reinterpret_cast<c_void_cast>(&CleanUP));
     }
-  
+
   // Return the actual VisitorDispatcher object
   return *obj;
 }

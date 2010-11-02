@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement2DC0LinearTriangular.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -28,16 +28,16 @@ namespace fem {
 
 const double
 Element2DC0LinearTriangular
-::trigGaussRuleInfo[6][7][4] = 
+::trigGaussRuleInfo[6][7][4] =
 {
   { // order=0, never used
-    { 0.0 } 
+    { 0.0 }
   },
   { // order=1
     //<-------------------------- point ---------------------------> <-------weight----->
     {  0.33333333333333333, 0.33333333333333333, 0.33333333333333333, 1.00000000000000000}
   },
-  
+
   { // order=2
     {  0.66666666666666667, 0.16666666666666667, 0.16666666666666667, 0.33333333333333333},
     {  0.16666666666666667, 0.66666666666666667, 0.16666666666666667, 0.33333333333333333},
@@ -70,7 +70,7 @@ Element2DC0LinearTriangular
   }
 };
 
-const unsigned int 
+const unsigned int
 Element2DC0LinearTriangular
 ::Nip[6]=
 {
@@ -151,7 +151,7 @@ Element2DC0LinearTriangular
 ::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt) const
 {
 
-  Float x, x1, x2, x3, 
+  Float x, x1, x2, x3,
         y, y1, y2, y3,
         A;
 
@@ -208,7 +208,7 @@ void
 Element2DC0LinearTriangular
 ::JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ ) const
 {
-  
+
   MatrixType* pJlocal=0;
 
   // If Jacobian was not provided, we
@@ -237,18 +237,18 @@ Element2DC0LinearTriangular
 #ifdef FEM_BUILD_VISUALIZATION
 void
 Element2DC0LinearTriangular
-::Draw(CDC* pDC, Solution::ConstPointer sol) const 
+::Draw(CDC* pDC, Solution::ConstPointer sol) const
 {
 
   int x1=m_node[0]->GetCoordinates()[0]*DC_Scale;
   int y1=m_node[0]->GetCoordinates()[1]*DC_Scale;
-  
+
   int x2=m_node[1]->GetCoordinates()[0]*DC_Scale;
   int y2=m_node[1]->GetCoordinates()[1]*DC_Scale;
-  
+
   int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
   int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
-  
+
   x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
   y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
   x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;

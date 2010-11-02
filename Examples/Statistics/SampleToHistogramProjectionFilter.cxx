@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SampleToHistogramProjectionFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -36,7 +37,7 @@
 //
 // We will use the ListSample as the input sample.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -45,10 +46,10 @@
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-//  
+//
 // We need another header for measurement vectors. We are going to use
 // the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}.
-//  
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -97,8 +98,8 @@ int main()
   // normalizes the measurement vectors with the given mean and the
   // standard deviation. Therefore, the projected value is approximately
   // the distance between the measurement vector and the mean divided by
-  // the standard deviation. 
-  // 
+  // the standard deviation.
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -134,14 +135,14 @@ int main()
   //
   // As mentioned above, this class projects measurement vectors onto the
   // projection axis with normalization using the mean and standard
-  // deviation. 
+  // deviation.
   // \begin{equation}
   // y = \frac{\sum^{d}_{i=0} (x_{i} - \mu_{i})\alpha_{i}}{\sigma}
   // \end{equation}
   // where, $y$ is the projected value, $x$ is the $i$th component of the
   // measurement vector, $\mu_{i}$ is the $i$th component of the mean vector,
   // $\alpha_{i}$ is the $i$th component of the projection axis (a
-  // vector), and $\sigma$ is the standard deviation. 
+  // vector), and $\sigma$ is the standard deviation.
   //
   // If the bin overlap value is set by the \code{SetHistogramBinOverlap()}
   // method and it is greater than 0.001, the frequency will be weighted based
@@ -155,7 +156,7 @@ int main()
   // \cite{Aylward1997b}.
   //
   // Software Guide : EndLatex
-  
+
   // Software Guide : BeginCodeSnippet
   ProjectorType::MeanType mean( MeasurementVectorLength );
   mean[0] = 3.66667;
@@ -186,10 +187,10 @@ int main()
   HistogramType::Iterator iter = histogram->Begin();
   while ( iter != histogram->End() )
     {
-    std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
-              << "\t measurement vector = " 
-              << iter.GetMeasurementVector() 
-              << "\t frequency = " 
+    std::cout << "instance identifier = " << iter.GetInstanceIdentifier()
+              << "\t measurement vector = "
+              << iter.GetMeasurementVector()
+              << "\t frequency = "
               << iter.GetFrequency() << std::endl;
     fSum += iter.GetFrequency();
     ++iter;

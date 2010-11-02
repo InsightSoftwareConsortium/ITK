@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGradientDifferenceImageToImageMetricTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -32,61 +33,61 @@ int itkGradientDifferenceImageToImageMetricTest(int , char*[] )
   const unsigned int ImageDimension = 2;
   typedef double PixelType;
   typedef double CoordinateRepresentationType;
-    
+
   //Allocate Images
   typedef itk::Image<PixelType,ImageDimension> MovingImageType;
   typedef itk::Image<PixelType,ImageDimension> FixedImageType;
-    
+
   // Declare Gaussian Sources
   typedef itk::GaussianImageSource<MovingImageType> MovingImageSourceType;
   typedef itk::GaussianImageSource<FixedImageType> FixedImageSourceType;
   typedef MovingImageSourceType::Pointer MovingImageSourcePointer;
   typedef FixedImageSourceType::Pointer FixedImageSourcePointer;
-    
+
   // Note: the following declarations are classical arrays
   FixedImageType::SizeValueType fixedImageSize[] = {100,  100};
-  MovingImageType::SizeValueType movingImageSize[] = {100,  100}; 
-    
-  FixedImageType::SpacingValueType fixedImageSpacing[]  = {1.0f, 1.0f}; 
-  MovingImageType::SpacingValueType movingImageSpacing[] = {1.0f, 1.0f}; 
-    
-  FixedImageType::PointValueType fixedImageOrigin[] = {0.0f, 0.0f}; 
-  MovingImageType::PointValueType movingImageOrigin[] = {0.0f, 0.0f}; 
-    
+  MovingImageType::SizeValueType movingImageSize[] = {100,  100};
+
+  FixedImageType::SpacingValueType fixedImageSpacing[]  = {1.0f, 1.0f};
+  MovingImageType::SpacingValueType movingImageSpacing[] = {1.0f, 1.0f};
+
+  FixedImageType::PointValueType fixedImageOrigin[] = {0.0f, 0.0f};
+  MovingImageType::PointValueType movingImageOrigin[] = {0.0f, 0.0f};
+
   MovingImageSourceType::Pointer movingImageSource =
     MovingImageSourceType::New();
   FixedImageSourceType::Pointer  fixedImageSource  =
     FixedImageSourceType::New();
-    
+
   movingImageSource->SetSize(movingImageSize);
   movingImageSource->SetOrigin(movingImageOrigin);
   movingImageSource->SetSpacing(movingImageSpacing);
   movingImageSource->SetNormalized(false);
   movingImageSource->SetScale(200.0f);
-    
+
   fixedImageSource->SetSize(fixedImageSize);
   fixedImageSource->SetOrigin(fixedImageOrigin);
   fixedImageSource->SetSpacing(fixedImageSpacing);
   fixedImageSource->SetNormalized(false);
   fixedImageSource->SetScale(200.0f);
-    
+
   movingImageSource->Update(); // Force the filter to run
   fixedImageSource->Update();  // Force the filter to run
-    
+
   MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
   FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
-    
+
   // Set up the metric.
   typedef itk::GradientDifferenceImageToImageMetric<
                                             FixedImageType,
                                             MovingImageType> MetricType;
-    
+
   typedef MetricType::TransformType TransformBaseType;
   typedef MetricType::DerivativeType DerivativeType;
   typedef TransformBaseType::ParametersType ParametersType;
-    
+
   MetricType::Pointer metric = MetricType::New();
-    
+
   // Plug the images into the metric.
   metric->SetFixedImage(fixedImage);
   metric->SetMovingImage(movingImage);
@@ -94,18 +95,18 @@ int itkGradientDifferenceImageToImageMetricTest(int , char*[] )
   // Set up a transform.
   typedef itk::TranslationTransform<CoordinateRepresentationType,
     ImageDimension> TransformType;
-    
+
   TransformType::Pointer transform = TransformType::New();
   metric->SetTransform(transform.GetPointer());
-    
+
   // Set up an interpolator.
   typedef itk::LinearInterpolateImageFunction<MovingImageType,
     double> InterpolatorType;
-    
+
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   interpolator->SetInputImage(movingImage.GetPointer());
   metric->SetInterpolator(interpolator.GetPointer());
-    
+
   // Define the region over which the metric will be computed.
   metric->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
@@ -135,7 +136,7 @@ int itkGradientDifferenceImageToImageMetricTest(int , char*[] )
         parameters[0] = x;
         metric->GetValueAndDerivative (parameters, value, derivatives);
         std::cout << "Parameters: " << parameters
-                  << ", Value: " << value 
+                  << ", Value: " << value
                   << ", Derivatives: " << derivatives << std::endl;
         }
       }

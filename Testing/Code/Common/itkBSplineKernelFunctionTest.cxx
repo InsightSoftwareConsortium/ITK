@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineKernelFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -30,65 +31,65 @@ int itkBSplineKernelFunctionTest(int, char* [] )
 // Externally generated results
 const unsigned int npoints = 49;
 
-const double x[npoints] = { 
--3, -2.875, -2.75, -2.625, -2.5, 
--2.375, -2.25, -2.125, -2, -1.875, 
--1.75, -1.625, -1.5, -1.375, -1.25, 
--1.125, -1, -0.875, -0.75, -0.625, 
--0.5, -0.375, -0.25, -0.125, 0, 
-0.125, 0.25, 0.375, 0.5, 0.625, 
-0.75, 0.875, 1, 1.125, 1.25, 
-1.375, 1.5, 1.625, 1.75, 1.875, 
-2, 2.125, 2.25, 2.375, 2.5, 
-2.625, 2.75, 2.875, 3 }; 
+const double x[npoints] = {
+-3, -2.875, -2.75, -2.625, -2.5,
+-2.375, -2.25, -2.125, -2, -1.875,
+-1.75, -1.625, -1.5, -1.375, -1.25,
+-1.125, -1, -0.875, -0.75, -0.625,
+-0.5, -0.375, -0.25, -0.125, 0,
+0.125, 0.25, 0.375, 0.5, 0.625,
+0.75, 0.875, 1, 1.125, 1.25,
+1.375, 1.5, 1.625, 1.75, 1.875,
+2, 2.125, 2.25, 2.375, 2.5,
+2.625, 2.75, 2.875, 3 };
 
-const double b0[npoints] = { 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0.5, 1, 1, 1, 1, 
-1, 1, 1, 0.5, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0 }; 
+const double b0[npoints] = {
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0.5, 1, 1, 1, 1,
+1, 1, 1, 0.5, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0 };
 
-const double b1[npoints] = { 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0.125, 0.25, 0.375, 
-0.5, 0.625, 0.75, 0.875, 1, 
-0.875, 0.75, 0.625, 0.5, 0.375, 
-0.25, 0.125, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0 }; 
+const double b1[npoints] = {
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0.125, 0.25, 0.375,
+0.5, 0.625, 0.75, 0.875, 1,
+0.875, 0.75, 0.625, 0.5, 0.375,
+0.25, 0.125, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0 };
 
-const double b2[npoints] = { 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0.0078125, 0.03125, 
-0.0703125, 0.125, 0.195313, 0.28125, 0.382813, 
-0.5, 0.609375, 0.6875, 0.734375, 0.75, 
-0.734375, 0.6875, 0.609375, 0.5, 0.382813, 
-0.28125, 0.195313, 0.125, 0.0703125, 0.03125, 
-0.0078125, 0, 0, 0, 0, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0 }; 
+const double b2[npoints] = {
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0.0078125, 0.03125,
+0.0703125, 0.125, 0.195313, 0.28125, 0.382813,
+0.5, 0.609375, 0.6875, 0.734375, 0.75,
+0.734375, 0.6875, 0.609375, 0.5, 0.382813,
+0.28125, 0.195313, 0.125, 0.0703125, 0.03125,
+0.0078125, 0, 0, 0, 0,
+0, 0, 0, 0, 0,
+0, 0, 0, 0 };
 
-const double b3[npoints] = { 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0, 0.000325521, 
-0.00260417, 0.00878906, 0.0208333, 0.0406901, 0.0703125, 
-0.111654, 0.166667, 0.236003, 0.315104, 0.398112, 
-0.479167, 0.552409, 0.611979, 0.652018, 0.666667, 
-0.652018, 0.611979, 0.552409, 0.479167, 0.398112, 
-0.315104, 0.236003, 0.166667, 0.111654, 0.0703125, 
-0.0406901, 0.0208333, 0.00878906, 0.00260417, 0.000325521, 
-0, 0, 0, 0, 0, 
-0, 0, 0, 0 }; 
+const double b3[npoints] = {
+0, 0, 0, 0, 0,
+0, 0, 0, 0, 0.000325521,
+0.00260417, 0.00878906, 0.0208333, 0.0406901, 0.0703125,
+0.111654, 0.166667, 0.236003, 0.315104, 0.398112,
+0.479167, 0.552409, 0.611979, 0.652018, 0.666667,
+0.652018, 0.611979, 0.552409, 0.479167, 0.398112,
+0.315104, 0.236003, 0.166667, 0.111654, 0.0703125,
+0.0406901, 0.0208333, 0.00878906, 0.00260417, 0.000325521,
+0, 0, 0, 0, 0,
+0, 0, 0, 0 };
 
 
  // Testing the output of BSplineKernelFunction
@@ -151,7 +152,7 @@ const double b3[npoints] = {
 
   typedef itk::BSplineKernelFunction<7> FunctionType;
   FunctionType::Pointer function = FunctionType::New();
- 
+
   bool pass = false;
   try
     {
@@ -163,7 +164,7 @@ const double b3[npoints] = {
     std::cout << err << std::endl;
     pass = true;
     }
-  
+
   if( !pass )
     {
     std::cout << "Did not catch expected exception" << std::endl;
@@ -178,7 +179,7 @@ const double b3[npoints] = {
 
   typedef itk::BSplineDerivativeKernelFunction<5> FunctionType;
   FunctionType::Pointer function = FunctionType::New();
- 
+
   bool pass = false;
   try
     {
@@ -190,7 +191,7 @@ const double b3[npoints] = {
     std::cout << err << std::endl;
     pass = true;
     }
-  
+
   if( !pass )
     {
     std::cout << "Did not catch expected exception" << std::endl;

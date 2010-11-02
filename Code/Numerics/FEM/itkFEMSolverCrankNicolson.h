@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMSolverCrankNicolson.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMSolverCrankNicolson_h
 #define __itkFEMSolverCrankNicolson_h
 
@@ -37,24 +37,24 @@ namespace fem {
  * \class SolverCrankNicolson
  * \brief FEM Solver for time dependent problems; uses Crank-Nicolson implicit discretization scheme.
  *
- * This is the main class used for solving FEM time-dependent problems. 
+ * This is the main class used for solving FEM time-dependent problems.
  * It solves the following problem:
  *
  * \f[
- *      ( M + \alpha*dt* K )*U_t=(M - (1.- \alpha)*dt* K)* U_{t-1} + dt*(\alpha*f_{n+1} + (1-\alpha)*f_n) 
+ *      ( M + \alpha*dt* K )*U_t=(M - (1.- \alpha)*dt* K)* U_{t-1} + dt*(\alpha*f_{n+1} + (1-\alpha)*f_n)
  * \f]
  *
- * which is the Crank-Nicolson formulation of the static problem if \f$\alpha=0.5\f$.  
+ * which is the Crank-Nicolson formulation of the static problem if \f$\alpha=0.5\f$.
  * The static solution is gained if :
- *      \f$\rho = 0.0\f$;   \f$\alpha = 1.0\f$;  \f$dt = 1.0\f$;  
+ *      \f$\rho = 0.0\f$;   \f$\alpha = 1.0\f$;  \f$dt = 1.0\f$;
  * Practically, it is good to set rho to something small (for the itpack solver).
  * The advantage of choosing \f$\alpha=0.5\f$ is that the solution is then stable for any
  * choice of time step, dt.  This class inherits and uses most of the Solver class
- * functionality.  One must call AssembleKandM instead of AssembleK and 
- * AssembleFforTimeStep instead of AssembleF.  
+ * functionality.  One must call AssembleKandM instead of AssembleK and
+ * AssembleFforTimeStep instead of AssembleF.
  * FIXMEs:  1) Members should be privatized, etc.
  * 2) We should also account for the contribution to the force from essential BCs.
- * Basically there are terms involving  \f$ M * (\dot g_b) \f$  and  \f$ K * g_b \f$ 
+ * Basically there are terms involving  \f$ M * (\dot g_b) \f$  and  \f$ K * g_b \f$
  * where\f$ g_b\f$ is the essential BC vector.
  */
 class SolverCrankNicolson : public Solver
@@ -64,11 +64,11 @@ public:
   /**
    * helper initialization function before assembly but after generate GFN.
    */
-  void InitializeForSolution(); 
+  void InitializeForSolution();
   /**
    * Assemble the master stiffness and mass matrix.  We actually assemble
    * the right hand side and left hand side of the implicit scheme equation.
-   */  
+   */
   void AssembleKandM();
 
   /**
@@ -92,9 +92,9 @@ public:
   void AddToDisplacements(Float optimum=1.0);
   void AverageLastTwoDisplacements(Float t=0.5);
   void ZeroVector(int which=0);
-  void PrintDisplacements(); 
+  void PrintDisplacements();
   void PrintForce();
-  
+
   /** Set stability step for the solution.  */
   inline void SetAlpha(Float a = 0.5) { m_alpha=a; }
 
@@ -104,7 +104,7 @@ public:
   /** Set density constant.  */
   inline void SetRho(Float rho) { m_rho=rho;  }
 
-  /** compute the current state of the right hand side and store the current force 
+  /** compute the current state of the right hand side and store the current force
    *  for the next iteration.
    */
   void RecomputeForceVector(unsigned int index);
@@ -112,7 +112,7 @@ public:
   /* Finds a triplet that brackets the energy minimum.  From Numerical Recipes.*/
   void FindBracketingTriplet(Float* a,Float* b,Float* c);
 
-  /** Finds the optimum value between the last two solutions 
+  /** Finds the optimum value between the last two solutions
    * and sets the current solution to that value.  Uses Evaluate Residual;
    */
   Float GoldenSection(Float tol=0.01,unsigned int MaxIters=25);
@@ -135,10 +135,10 @@ public:
    * Default constructor which sets the indices for the matrix and vector storage.
    * Time step and other parameters are also initialized.
    */
-  SolverCrankNicolson() 
-    { 
-    m_deltaT=0.5; 
-    m_rho=1.; 
+  SolverCrankNicolson()
+    {
+    m_deltaT=0.5;
+    m_rho=1.;
     m_alpha=0.5;
     // BUG FIXME NOT SURE IF SOLVER IS USING VECTOR INDEX 1 FOR BCs
     ForceTIndex=0;                        // vector
@@ -154,7 +154,7 @@ public:
     m_CurrentMaxSolution=1.0;
     }
 
- 
+
   ~SolverCrankNicolson() { }
 
   Float m_deltaT;
@@ -172,7 +172,7 @@ public:
   unsigned int DifferenceMatrixIndex;
   unsigned int SumMatrixIndex;
   unsigned int DiffMatrixBySolutionTMinus1Index;
-  
+
 };
 
 }} // end namespace itk::fem

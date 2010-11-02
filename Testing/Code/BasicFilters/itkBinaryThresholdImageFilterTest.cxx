@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBinaryThresholdImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 
-int itkBinaryThresholdImageFilterTest(int, char* [] ) 
+int itkBinaryThresholdImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -58,9 +59,9 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
   // Declare the type for the binary threshold filter
   typedef itk::BinaryThresholdImageFilter< InputImageType,
                                OutputImageType  >  FilterType;
-            
 
-  // Create a filter                                
+
+  // Create a filter
   FilterType::Pointer filter = FilterType::New();
 
   // Setup ivars
@@ -89,11 +90,11 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
             << std::endl;
 
   // Connect the input images
-  filter->SetInput( source->GetOutput() ); 
+  filter->SetInput( source->GetOutput() );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
-  
+
   // Execute the filter
   try
     {
@@ -109,19 +110,19 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
     }
 
   // Create an iterator for going through the image output
-  InputIteratorType  it( source->GetOutput(), source->GetOutput()->GetRequestedRegion() ); 
+  InputIteratorType  it( source->GetOutput(), source->GetOutput()->GetRequestedRegion() );
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
   {
 
     const InputPixelType  input  = it.Get();
     const OutputPixelType output = ot.Get();
-    std::cout <<  (double) input  << " " << (double) output << std::endl; 
+    std::cout <<  (double) input  << " " << (double) output << std::endl;
 
     bool pass = true;
     if( lower <= input && input <= upper )

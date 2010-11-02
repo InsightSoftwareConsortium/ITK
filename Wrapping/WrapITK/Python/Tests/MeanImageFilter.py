@@ -1,3 +1,4 @@
+
 #
 #  Example on the use of the MeanImageFilter
 #

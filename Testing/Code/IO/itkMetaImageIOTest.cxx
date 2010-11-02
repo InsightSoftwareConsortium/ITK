@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMetaImageIOTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,28 +32,28 @@ int itkMetaImageIOTest(int ac, char* av[])
     std::cerr << "Usage: " << av[0] << " Input Output [ShouldFail]\n";
     return EXIT_FAILURE;
     }
-  
-  // ATTENTION THIS IS THE PIXEL TYPE FOR 
+
+  // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
   typedef unsigned short PixelType;
   typedef itk::Image<PixelType, 3> myImage;
 
-  itk::ImageFileReader<myImage>::Pointer reader 
+  itk::ImageFileReader<myImage>::Pointer reader
                                   = itk::ImageFileReader<myImage>::New();
-  
+
   // force use of MetaIO
   typedef itk::MetaImageIO IOType;
   IOType::Pointer metaIn = IOType::New();
   metaIn->SetDoublePrecision(8);  // Set manually for coverage
   reader->SetImageIO(metaIn);
-  
+
   // check usability of dimension (for coverage)
   if (!metaIn->SupportsDimension(3))
     {
     std::cerr << "Did not support dimension 3" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // test subsampling factor (change it then change it back)
   unsigned int origSubSamplingFactor = metaIn->GetSubSamplingFactor();
   unsigned int subSamplingFactor = 2;
@@ -63,7 +64,7 @@ int itkMetaImageIOTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
   metaIn->SetSubSamplingFactor(origSubSamplingFactor);
-  
+
   // read the file
   reader->SetFileName(av[1]);
   try
@@ -80,10 +81,10 @@ int itkMetaImageIOTest(int ac, char* av[])
       }
     return EXIT_FAILURE;
     }
-  
+
   myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout );
-  
+
   myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 

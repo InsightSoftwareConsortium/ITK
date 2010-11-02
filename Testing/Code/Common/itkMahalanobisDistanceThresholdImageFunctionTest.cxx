@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMahalanobisDistanceThresholdImageFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -28,8 +29,8 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
 {
 
   const unsigned int          Dimension = 3;
-  typedef unsigned char       PixelComponentType; 
-  typedef itk::RGBPixel<PixelComponentType>  PixelType; 
+  typedef unsigned char       PixelComponentType;
+  typedef itk::RGBPixel<PixelComponentType>  PixelType;
 
   typedef itk::Image< PixelType, Dimension > ImageType;
   typedef itk::MahalanobisDistanceThresholdImageFunction< ImageType > FunctionType;
@@ -39,13 +40,13 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   ImageType::SizeType     size;
   ImageType::IndexType    start;
   ImageType::RegionType   region;
- 
+
   size[0] = 50;
   size[1] = 50;
   size[2] = 50;
 
   start.Fill( 0 );
-    
+
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -65,7 +66,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   function->SetInputImage( image );
 
   const double threshold = 5.0;
-  function->SetThreshold( threshold ); 
+  function->SetThreshold( threshold );
 
 
   typedef vnl_matrix<double> CovarianceType;
@@ -85,7 +86,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
 
   function->SetCovariance( Covariance );
   function->SetMean( Mean );
-  
+
   ImageType::IndexType    index;
 
   index[0] = 25;
@@ -113,7 +114,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
     std::cerr << "Distance obtained value = " << distance << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // Test Evaluate
   FunctionType::PointType point;
   point[0] = 25;
@@ -140,7 +141,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
     std::cerr << "Distance obtained value = " << distance2 << std::endl;
     return EXIT_FAILURE;
     }
-  
+
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -171,7 +172,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   // Exercise GetMean() and GetCovariance()
   Mean       = function->GetMean();
   Covariance = function->GetCovariance();
-  
+
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;

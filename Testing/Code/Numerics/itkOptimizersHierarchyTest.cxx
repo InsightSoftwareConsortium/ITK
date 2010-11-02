@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOptimizersHierarchyTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -34,14 +35,14 @@
 
 
 
-/** 
+/**
  *
  *  This file performs only simple C++ tests of
  *  the base classes in the Optimizers hierarchy.
  *
  *  Nothing numerical is computed in these tests,
  *  only code conformance.
- */ 
+ */
 
 int itkOptimizersHierarchyTest(int, char* [] )
 {
@@ -64,9 +65,9 @@ int itkOptimizersHierarchyTest(int, char* [] )
   genericOptimizer->SetInitialPosition( initialPosition );
   genericOptimizer->SetScales( parameterScale );
 
-  OptimizerType::ScalesType parameterScaleGot = 
+  OptimizerType::ScalesType parameterScaleGot =
                                  genericOptimizer->GetScales();
-  
+
   const double tolerance = 1e-10;
 
   for(unsigned int i=0; i<spaceDimension; i++)
@@ -82,9 +83,9 @@ int itkOptimizersHierarchyTest(int, char* [] )
   }
 
 
-  OptimizerType::ParametersType initialPositionGot = 
+  OptimizerType::ParametersType initialPositionGot =
                                    genericOptimizer->GetInitialPosition();
-  
+
   for(unsigned int i=0; i<spaceDimension; i++)
   {
     if( vnl_math_abs( initialPositionGot[i] - initialPosition[i] ) > tolerance )
@@ -105,7 +106,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
 
 
 
-  typedef itk::SingleValuedNonLinearOptimizer 
+  typedef itk::SingleValuedNonLinearOptimizer
                                 SingleValuedNonLinearOptimizerType;
 
   SingleValuedNonLinearOptimizerType::Pointer singleValuedOptimizer =
@@ -115,7 +116,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
 
 
   // This cannot be instantiated due to abstract function SetCostFunction()
-  typedef itk::SingleValuedNonLinearVnlOptimizer 
+  typedef itk::SingleValuedNonLinearVnlOptimizer
                                 SingleValuedNonLinearVnlOptimizerType;
 
 
@@ -130,7 +131,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
   AmoebaOptimizerType::Pointer   amoeba = AmoebaOptimizerType::New();
 
   typedef itk::ConjugateGradientOptimizer    ConjugateGradientOptimizerType;
-  ConjugateGradientOptimizerType::Pointer  conjugete 
+  ConjugateGradientOptimizerType::Pointer  conjugete
                                     = ConjugateGradientOptimizerType::New();
 
   typedef itk::LBFGSOptimizer    LBFGSOptimizerType;
@@ -147,12 +148,12 @@ int itkOptimizersHierarchyTest(int, char* [] )
 
   typedef itk::OnePlusOneEvolutionaryOptimizer OnePlusOneEvolutionaryOptimizerType;
 
-  OnePlusOneEvolutionaryOptimizerType::Pointer onePlusOne = 
+  OnePlusOneEvolutionaryOptimizerType::Pointer onePlusOne =
                                           OnePlusOneEvolutionaryOptimizerType::New();
-  
+
   typedef itk::CumulativeGaussianOptimizer CumulativeGaussianOptimizerType;
   CumulativeGaussianOptimizerType::Pointer   cumgaussopt = CumulativeGaussianOptimizerType::New();
-  
+
   typedef itk::CumulativeGaussianCostFunction CumulativeGaussianCostFunctionType;
   CumulativeGaussianCostFunctionType::Pointer   cumgausstype = CumulativeGaussianCostFunctionType::New();
 

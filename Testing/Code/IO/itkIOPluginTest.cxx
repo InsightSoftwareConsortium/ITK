@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkIOPluginTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -47,7 +48,7 @@ int itkIOPluginTest(int argc, char *argv[])
   std::cout << "----- Registered factories -----" << std::endl;
   if (factories.size() > 0)
     {
-    for ( std::list<itk::ObjectFactoryBase*>::iterator 
+    for ( std::list<itk::ObjectFactoryBase*>::iterator
             f = factories.begin();
           f != factories.end(); ++f )
       {
@@ -55,7 +56,7 @@ int itkIOPluginTest(int argc, char *argv[])
                 << (*f)->GetITKSourceVersion() << std::endl
                 << "  Factory description: "
                 << (*f)->GetDescription() << std::endl;
-      
+
       std::list<std::string> overrides = (*f)->GetClassOverrideNames();
       std::list<std::string> names = (*f)->GetClassOverrideWithNames();
       std::list<std::string> descriptions = (*f)->GetClassOverrideDescriptions();

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkScaleLogarithmicTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -56,18 +57,18 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       if( vcl_fabs( scale[i] - 1.0 ) > epsilon )
       {
         Ok = false;
-        break;    
+        break;
       }
     }
     if( !Ok )
-    { 
+    {
       std::cerr << "Identity doesn't have a unit scale " << std::endl;
       return EXIT_FAILURE;
     }
   }
 
 
- 
+
   /* Create a Scale transform */
   {
     TransformType::Pointer    scaleTransform = TransformType::New();
@@ -90,11 +91,11 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       if( vcl_fabs( scale[i] - iscale[i] ) > epsilon )
       {
         Ok = false;
-        break;    
+        break;
       }
     }
     if( !Ok )
-    { 
+    {
       std::cerr << "GetScale  differs from SetScale value " << std::endl;
       return EXIT_FAILURE;
     }
@@ -115,11 +116,11 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
         if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error scaling point : " << p << std::endl;
         std::cerr << "Result should be    : " << q << std::endl;
         std::cerr << "Reported Result is  : " << r << std::endl;
@@ -147,11 +148,11 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
         if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error scaling vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
@@ -178,11 +179,11 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
         if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error scaling covariant vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
@@ -211,11 +212,11 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
         if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error scaling vnl_vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
@@ -262,7 +263,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       parameters[1] = 0.0;  // log(1);
       parameters[2] = 0.0;  // log(1);
       scaleTransform->SetParameters( parameters );
-      
+
       ParametersType p2 = scaleTransform->GetParameters();
 
       Ok = true;
@@ -287,13 +288,13 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       }
 
     }
-      
+
 
 
   }
 
- 
- 
+
+
   return EXIT_SUCCESS;
 
 }

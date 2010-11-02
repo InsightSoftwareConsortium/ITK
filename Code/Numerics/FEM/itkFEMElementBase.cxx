@@ -1,28 +1,28 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElementBase.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
-#endif 
+#endif
 
 #include "itkFEMElementBase.h"
 #include "vnl/algo/vnl_svd.h"
-#include "vnl/algo/vnl_qr.h"   
+#include "vnl/algo/vnl_qr.h"
 
 namespace itk {
 namespace fem {
@@ -39,14 +39,14 @@ double &Element::Node::DC_Scale=Element::DC_Scale;
 /**
  * draws the node on DC
  */
-void Element::Node::Draw(CDC* pDC, Solution::ConstPointer sol) const 
+void Element::Node::Draw(CDC* pDC, Solution::ConstPointer sol) const
 {
   // We can only draw 2D nodes here
   if(m_coordinates.size() != 2)
     {
     return;
     }
-  
+
   // Normally we draw a white circle.
   CPen pen(PS_SOLID, 0, (COLORREF) RGB(0,0,0) );
   CBrush brush( RGB(255,255,255) );
@@ -105,7 +105,7 @@ out:
 /*
  * Write the Node to the output stream
  */
-void Element::Node::Write( std::ostream& f ) const 
+void Element::Node::Write( std::ostream& f ) const
 {
   /**
    * First call the parent's write function
@@ -115,7 +115,7 @@ void Element::Node::Write( std::ostream& f ) const
   /**
    * Write actual data (node, and properties numbers)
    */
-  
+
   /* write the value of dof */
   f<<"\t"<<this->m_coordinates.size();
   f<<" "<<this->m_coordinates<<"\t% Node coordinates"<<"\n";
@@ -197,14 +197,14 @@ Element::VectorType Element::GetStrainsAtPoint(const VectorType& pt, const Solut
   MatrixType B;
   VectorType e, u;
   MatrixType J, shapeD, shapeDgl;
-  
+
   this->ShapeFunctionDerivatives(pt, shapeD);
   this->Jacobian(pt, J, &shapeD);
   this->ShapeFunctionGlobalDerivatives(pt, shapeDgl, &J, &shapeD);
   this->GetStrainDisplacementMatrix(B, shapeDgl);
-  
+
   u = this->InterpolateSolution(pt, sol, index);
-  
+
   e = B*u;
 
   return e;
@@ -220,7 +220,7 @@ Element::VectorType Element::GetStressesAtPoint(const VectorType& itkNotUsed(pt)
   VectorType sigma;
 
   this->GetMaterialMatrix(D);
-  
+
   sigma = D*e;
 
   return sigma;
@@ -247,7 +247,7 @@ void Element::GetLandmarkContributionMatrix(float eta, MatrixType& Le) const
     {
     this->GetIntegrationPointAndWeight(i,ip,w,0);
     shape=this->ShapeFunctions(ip);
-    
+
     for(unsigned int ni=0; ni<Nnodes; ni++)
       {
       for(unsigned int nj=0; nj<Nnodes; nj++)
@@ -307,7 +307,7 @@ void Element::GetMassMatrix( MatrixType& Me ) const
     this->ShapeFunctionDerivatives(ip,shapeD);
     this->Jacobian(ip,J,&shapeD);
     Float detJ=this->JacobianDeterminant( ip, &J );
-    
+
     for(unsigned int ni=0; ni<Nnodes; ni++)
       {
       for(unsigned int nj=0; nj<Nnodes; nj++)
@@ -493,7 +493,7 @@ Element::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
     {
     nc.set_column( n,this->GetNodeCoordinates(n) );
     }
-  
+
   VectorType shapeF = ShapeFunctions(pt);
 
   return nc*shapeF;

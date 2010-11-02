@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkQuickPropLearningRule.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkQuickPropLearningRule_txx
 #define __itkQuickPropLearningRule_txx
 
@@ -51,7 +51,7 @@ QuickPropLearningRule<LayerType,TTargetVector>
   typename LayerType::ValuePointer Delvalues_m_1 = inputweightset->GetPrevDeltaValues();
   typename LayerType::ValuePointer Delvalues = inputweightset->GetTotalDeltaValues();
   typename LayerType::ValuePointer weightvalues = inputweightset->GetWeightValues();
-   
+
   unsigned int input_cols = inputweightset->GetNumberOfInputNodes();
   unsigned int input_rows = inputweightset->GetNumberOfOutputNodes();
 
@@ -73,8 +73,8 @@ QuickPropLearningRule<LayerType,TTargetVector>
   vnl_matrix<ValueType> temp(inputweightset->GetNumberOfOutputNodes(),
                                         inputweightset->GetNumberOfInputNodes());
   temp.fill(0);
-  
-  //get bias 
+
+  //get bias
   vnl_vector<ValueType> delb;
   delb.set_size(inputweightset->GetNumberOfOutputNodes());
   delb.fill(0);
@@ -100,10 +100,10 @@ QuickPropLearningRule<LayerType,TTargetVector>
   DW_temp.set_column(input_cols-1,delb);
   Del_m_1.set_column(input_cols-1,delb_m_1);
   DW_m_1.set_column(input_cols-1,DB_m_1);
-  
+
   ValueType step_val;
   float shrink_factor =(float)m_Max_Growth_Factor/(1.0+ m_Max_Growth_Factor);
- 
+
   for(unsigned int i=0; i<input_rows; i++)
     {
     for(unsigned int j=0; j<input_cols; j++)
@@ -119,7 +119,7 @@ QuickPropLearningRule<LayerType,TTargetVector>
         if(DW_temp(i,j) >(shrink_factor*Del_m_1(i,j)))
           {
           step_val += (m_Max_Growth_Factor*DW_m_1(i,j));
-          } 
+          }
         else
           {
           step_val += ((DW_temp(i,j)/(Del_m_1(i,j)-DW_temp(i,j)))*DW_m_1(i,j));
@@ -147,7 +147,7 @@ QuickPropLearningRule<LayerType,TTargetVector>
       temp(i,j)=step_val;
       }// inner for
    }//outer for
-  DB=temp.get_column(input_cols-1); 
+  DB=temp.get_column(input_cols-1);
   inputweightset->SetDBValues(DB.data_block());
   inputweightset->SetDWValues(temp.data_block());
 }
@@ -161,20 +161,20 @@ QuickPropLearningRule<LayerType,TTargetVector>
 
 /** Print the object */
 template<class LayerType, class TTargetVector>
-void  
+void
 QuickPropLearningRule<LayerType,TTargetVector>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  os << indent << "QuickPropLearningRule(" << this << ")" << std::endl; 
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  os << indent << "QuickPropLearningRule(" << this << ")" << std::endl;
   os << indent << "m_Momentum = " << m_Momentum << std::endl;
   os << indent << "m_Max_Growth_Factor = " << m_Max_Growth_Factor << std::endl;
   os << indent << "m_Decay = " << m_Decay << std::endl;
   os << indent << "m_Threshold = " << m_Threshold << std::endl;
   os << indent << "m_Epsilon = " << m_Epsilon << std::endl;
-  os << indent << "m_SigmoidPrimeOffset = " << m_SigmoidPrimeOffset << std::endl; 
-  os << indent << "m_SplitEpsilon = " << m_SplitEpsilon << std::endl; 
-  Superclass::PrintSelf( os, indent ); 
-} 
+  os << indent << "m_SigmoidPrimeOffset = " << m_SigmoidPrimeOffset << std::endl;
+  os << indent << "m_SplitEpsilon = " << m_SplitEpsilon << std::endl;
+  Superclass::PrintSelf( os, indent );
+}
 
 } // end namespace Statistics
 } // end namespace itk

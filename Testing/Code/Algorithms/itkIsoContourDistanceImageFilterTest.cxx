@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkIsoContourDistanceImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -72,7 +73,7 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
 
   const unsigned int ImageDimension = 2;
   typedef float PixelType;
-  
+
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::Image<unsigned char,ImageDimension> OutputImageType;
   typedef ImageType::IndexType IndexType;
@@ -122,16 +123,16 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
 
   // For debugging
 try {
-  
+
 //  typedef itk::ImageFileWriter<ImageType> WriterType;
 //  WriterType::Pointer writer = WriterType::New();
 //  writer->SetInput( image );
 //  writer->SetFileName( "input.mhd" );
 //  writer->Write();
 
-    
-    typedef itk::RescaleIntensityImageFilter< 
-                               ImageType, 
+
+    typedef itk::RescaleIntensityImageFilter<
+                               ImageType,
                                OutputImageType >   CastFilterType;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput(isocontour->GetOutput());
@@ -149,18 +150,18 @@ try {
       (&err)->Print(std::cerr);
       return 2;
     }
-    
+
  //Create narrowband
   typedef ImageType::IndexType IndexType;
   typedef ImageType::PixelType DataType;
   typedef IsoContourType::BandNodeType BandNodeType;
   typedef IsoContourType::NarrowBandType NarrowBandType;
   //typedef itk::NarrowBand<BandNodeType> NarrowBandType;
-  
+
   NarrowBandType::Pointer band = NarrowBandType::New();
   //Create nodes
   BandNodeType node;
-   
+
  iter.GoToBegin();
  while (!iter.IsAtEnd())
  {
@@ -170,7 +171,7 @@ try {
          band->PushBack(node);
          }
     ++iter;
- }   
+ }
 
  // Run isocontour with narrowband
  isocontour->NarrowBandingOn();
@@ -194,7 +195,7 @@ try {
     }
 
 
-  
+
 
   // Check if inside/outside points remain the same after reinitialization
   typedef itk::MultiplyImageFilter<ImageType,ImageType,ImageType> CheckerType;
@@ -202,7 +203,7 @@ try {
   checker->SetInput1( image );
   checker->SetInput2( isocontour->GetOutput() );
   checker->Update();
-  
+
   typedef itk::MinimumMaximumImageCalculator<ImageType> CalculatorType;
   CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetImage( checker->GetOutput() );
@@ -212,9 +213,9 @@ try {
 
   std::cout << "Min. product = " << minValue << std::endl;
   std::cout << "Max. product = " << maxValue << std::endl;
- 
+
   if ( minValue < 0.0 )
-    { 
+    {
     std::cout << "Inside/Outside mismatch at ";
     std::cout << calculator->GetIndexOfMinimum() << std::endl;
     std::cout << "Test failed" << std::endl;
@@ -223,13 +224,13 @@ try {
 
   // Exercise other member functions
   isocontour->Print( std::cout );
- 
+
   // Exercise the narrowband version
   isocontour->SetLevelSetValue( 1.0 );
   isocontour->SetLevelSetValue( 0.0 );
   isocontour->NarrowBandingOff();
   isocontour->Update();
- 
+
 
   std::cout << "Level set value = " << isocontour->GetLevelSetValue() << std::endl;
   std::cout << "Narrow banding = " << isocontour->GetNarrowBanding() << std::endl;
@@ -238,7 +239,7 @@ try {
   //isocontour->SetInputNarrowBand( nodes );
   //isocontour->Update();
 
- 
+
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
 

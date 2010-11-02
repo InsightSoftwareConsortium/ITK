@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMultiResolutionImageRegistrationMethodTest_2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,10 +38,10 @@ double F( itk::Vector<double,3> & v );
 }
 
 
-/** 
- *  This program test one instantiation of the 
+/**
+ *  This program test one instantiation of the
  *  itk::MultiResolutionImageRegistrationMethod class
- * 
+ *
  *  This file tests the combination of:
  *   - MutualInformation
  *   - QuaternionRigidTransform
@@ -61,10 +62,10 @@ double F( itk::Vector<double,3> & v );
  * See notes for itkImageRegistrationMethodTest_14.cxx for more
  * detailed information on the algorithm.
  *
- * A simple user-interface, allows the user to define the number 
+ * A simple user-interface, allows the user to define the number
  * of iteration and learning rate at each resolution level.
  *
- */ 
+ */
 
 int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
 {
@@ -88,16 +89,16 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
   typedef itk::QuaternionRigidTransform< double >       TransformType;
 
   // Optimizer Type
-  typedef itk::QuaternionRigidTransformGradientDescentOptimizer 
+  typedef itk::QuaternionRigidTransformGradientDescentOptimizer
                                                          OptimizerType;
 
   // Metric Type
-  typedef itk::MutualInformationImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MutualInformationImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
 
@@ -112,18 +113,18 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
                                     MovingImageType  >   MovingImagePyramidType;
 
   // Registration Method
-  typedef itk::MultiResolutionImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::MultiResolutionImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
 
   MetricType::Pointer         metric        = MetricType::New();
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  FixedImageType::Pointer     fixedImage    = FixedImageType::New();  
-  MovingImageType::Pointer    movingImage   = MovingImageType::New();  
+  FixedImageType::Pointer     fixedImage    = FixedImageType::New();
+  MovingImageType::Pointer    movingImage   = MovingImageType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
-  FixedImagePyramidType::Pointer fixedImagePyramid = 
+  FixedImagePyramidType::Pointer fixedImagePyramid =
     FixedImagePyramidType::New();
   MovingImagePyramidType::Pointer movingImagePyramid =
     MovingImagePyramidType::New();
@@ -151,7 +152,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
   movingImage->SetBufferedRegion( region );
   movingImage->SetRequestedRegion( region );
   movingImage->Allocate();
-  
+
 
   typedef itk::ImageRegionIterator<MovingImageType> MovingImageIterator;
   typedef itk::ImageRegionIterator<FixedImageType> FixedImageIterator;
@@ -163,7 +164,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
     }
 
   itk::Point<double,dimension> p;
-  itk::Vector<double,dimension> d, d2;  
+  itk::Vector<double,dimension> d, d2;
 
   MovingImageIterator mIter( movingImage, region );
   FixedImageIterator  fIter( fixedImage, region );
@@ -179,7 +180,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
 
     fIter.Set( (PixelType) F(d) );
 
-      
+
     d2[0] =  d[0] * vcl_cos(angle) + d[1] * vcl_sin(angle) + displacement[0];
     d2[1] = -d[0] * vcl_sin(angle) + d[1] * vcl_cos(angle) + displacement[1];
     d2[2] = d[2] + displacement[2];
@@ -218,7 +219,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
     }
 
   optimizer->SetScales( parametersScales );
-  
+
   // need to maximize for mutual information
   optimizer->MaximizeOn();
 
@@ -227,7 +228,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
    ******************************************************************/
 /*
   typedef itk::CommandIterationUpdate< OptimizerType > CommandIterationType;
-  CommandIterationType::Pointer iterationCommand = 
+  CommandIterationType::Pointer iterationCommand =
     CommandIterationType::New();
 
   iterationCommand->SetOptimizer( optimizer );
@@ -254,9 +255,9 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
   registration->SetFixedImagePyramid( fixedImagePyramid );
   registration->SetMovingImagePyramid( movingImagePyramid );
   registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
-  
+
   // set initial parameters to identity
-  RegistrationType::ParametersType initialParameters( 
+  RegistrationType::ParametersType initialParameters(
     transform->GetNumberOfParameters() );
 
   initialParameters.Fill( 0.0 );
@@ -266,7 +267,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
   /******************************************************************
    * Attach registration to a simple UI and run registration
    ******************************************************************/
-  SimpleMultiResolutionImageRegistrationUI2<RegistrationType> 
+  SimpleMultiResolutionImageRegistrationUI2<RegistrationType>
     simpleUI( registration );
 
   unsigned short numberOfLevels = 3;
@@ -308,7 +309,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
   std::cout << "Solution is: " << solution << std::endl;
 
 
-  RegistrationType::ParametersType trueParameters( 
+  RegistrationType::ParametersType trueParameters(
     transform->GetNumberOfParameters() );
   trueParameters.Fill( 0.0 );
   trueParameters[2] =   vcl_sin( angle / 2.0 );
@@ -405,7 +406,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
 
 namespace
 {
-  
+
 /**
  * This function defines the test image pattern.
  * The pattern is a 3D gaussian in the middle
@@ -413,8 +414,8 @@ namespace
  */
 double F( itk::Vector<double,3> & v )
 {
-  double x = v[0]; 
-  double y = v[1]; 
+  double x = v[0];
+  double y = v[1];
   double z = v[2];
   const double s = 50;
   double value = 200.0 * vcl_exp( - ( x*x + y*y + z*z )/(s*s) );

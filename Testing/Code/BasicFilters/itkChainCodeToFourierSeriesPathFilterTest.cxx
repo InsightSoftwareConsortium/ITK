@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkChainCodeToFourierSeriesPathFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -51,7 +52,7 @@ int itkChainCodeToFourierSeriesPathFilterTest(int, char*[])
   std::cout << "Making a triangle Path with v0 at (30,30) -> (30,33) -> (33,33)" << std::endl;
   VertexType        v;
   inPath = InPathType::New();
-  
+
   v.Fill(30);
   inPath->AddVertex(v);
   v[0]=30;
@@ -61,17 +62,17 @@ int itkChainCodeToFourierSeriesPathFilterTest(int, char*[])
   inPath->AddVertex(v);
   v.Fill(30);
   inPath->AddVertex(v);
-  
+
   // Setup the first filter
   Filter1Type::Pointer filter1 = Filter1Type::New();
   filter1->SetInput(inPath);
   chainPath=filter1->GetOutput();
-  
+
   // Setup the second filter
   Filter2Type::Pointer filter2 = Filter2Type::New();
   filter2->SetInput(filter1->GetOutput());
   outPath=filter2->GetOutput();
-  
+
   filter2->Update();
   std::cout << "PathToChainCodePathFilter:  open test path is "
       << chainPath->NumberOfSteps() << " steps" << std::endl;
@@ -93,9 +94,9 @@ int itkChainCodeToFourierSeriesPathFilterTest(int, char*[])
     {
     passed = false;
     }
-  
-  
-  
+
+
+
   if (passed)
     {
     std::cout << "PathToFourierSeriesPathFilter tests passed" << std::endl;

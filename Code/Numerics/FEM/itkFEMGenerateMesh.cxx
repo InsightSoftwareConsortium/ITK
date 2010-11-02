@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMGenerateMesh.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkFEMGenerateMesh.h"
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
 #include "itkFEMElement3DC0LinearHexahedron.h"
@@ -52,7 +52,7 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vn
   int gn=0; // number of node
   for(double j=0; j<=Nj; j++)
     {
-    for(double i=0; i<=Ni; i++)  
+    for(double i=0; i<=Ni; i++)
       {
       n=new Node(orig[0]+i*size[0]/Nel[0], orig[1]+j*size[1]/Nel[1]);
       n->GN=gn;
@@ -61,7 +61,7 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vn
       }
     }
 
-  // Create elements  
+  // Create elements
   gn=0; // global number of the element
   Element2DC0LinearQuadrilateral::Pointer e;
   for(unsigned int j=0; j<Nj; j++)
@@ -85,7 +85,7 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vn
  * Generate a rectangular mesh of hexahedron elements
  */
 void Generate3DRectilinearMesh
-(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig, 
+(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig,
  vnl_vector<double>& size, vnl_vector<double>& Nel)
 {
 
@@ -115,7 +115,7 @@ void Generate3DRectilinearMesh
       for(double i=0; i<=Ni; i++)
         {
         double xx,yy,zz;
-        xx=orig[0]+i*size[0]/Nel[0]; 
+        xx=orig[0]+i*size[0]/Nel[0];
         yy=orig[1]+j*size[1]/Nel[1];
         zz=orig[2]+k*size[2]/Nel[2];
 //std::cout << " xx " << xx << " yy " << yy << " zz " << zz << std::endl;
@@ -127,7 +127,7 @@ void Generate3DRectilinearMesh
       }
     }
 
-  // Create elements  
+  // Create elements
   gn=0; // global number of the element
   itk::fem::Element3DC0LinearHexahedron::Pointer e;
   for(unsigned int k=0; k<Nk; k++)

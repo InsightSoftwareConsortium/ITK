@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkAttributeRelabelLabelMapFilter.h,v $
-  Language:  C++
-  Date:      $Date: 2006/03/28 19:59:05 $
-  Version:   $Revision: 1.6 $
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkAttributeRelabelLabelMapFilter_h
 #define __itkAttributeRelabelLabelMapFilter_h
 
@@ -50,12 +51,13 @@ public:
   typedef SmartPointer<const Self>       ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::LabelObjectType LabelObjectType;
+  typedef TImage                                       ImageType;
+  typedef typename ImageType::Pointer                  ImagePointer;
+  typedef typename ImageType::ConstPointer             ImageConstPointer;
+  typedef typename ImageType::PixelType                PixelType;
+  typedef typename ImageType::IndexType                IndexType;
+  typedef typename ImageType::LabelObjectType          LabelObjectType;
+  typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
 
   typedef TAttributeAccessor                                 AttributeAccessorType;
   typedef typename AttributeAccessorType::AttributeValueType AttributeValueType;

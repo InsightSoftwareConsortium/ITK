@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMeanSquaresPointSetToImageMetricTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -63,13 +64,13 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
 
   // Note: the following declarations are classical arrays
   FixedImageType::SizeValueType fixedImageSize[]     = {  100,  100 };
-  MovingImageType::SizeValueType movingImageSize[]    = {  100,  100 }; 
+  MovingImageType::SizeValueType movingImageSize[]    = {  100,  100 };
 
-  FixedImageType::SpacingValueType fixedImageSpacing[]  = { 1.0f, 1.0f }; 
-  MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f }; 
+  FixedImageType::SpacingValueType fixedImageSpacing[]  = { 1.0f, 1.0f };
+  MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  FixedImageType::PointValueType fixedImageOrigin[]   = { 0.0f, 0.0f }; 
-  MovingImageType::PointValueType movingImageOrigin[]  = { 0.0f, 0.0f }; 
+  FixedImageType::PointValueType fixedImageOrigin[]   = { 0.0f, 0.0f };
+  MovingImageType::PointValueType movingImageOrigin[]  = { 0.0f, 0.0f };
 
   MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
   FixedImageSourceType::Pointer  fixedImageSource  = FixedImageSourceType::New();
@@ -93,7 +94,7 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
   FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
 
 //-----------------------------------------------------------
-// Create the point set and load it with data by sampling 
+// Create the point set and load it with data by sampling
 // the fixed image
 //-----------------------------------------------------------
   typedef itk::PointSet< float, 2 >   FixedPointSetType;
@@ -106,10 +107,10 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
   fixedPointSet->GetPoints()->Reserve( numberOfPoints );
   fixedPointSet->GetPointData()->Reserve( numberOfPoints );
 
-  itk::ImageRegionIterator< FixedImageType > it( fixedImage, 
+  itk::ImageRegionIterator< FixedImageType > it( fixedImage,
                                             fixedImage->GetBufferedRegion() );
 
-  const unsigned int skip = 
+  const unsigned int skip =
       fixedImage->GetBufferedRegion().GetNumberOfPixels() / numberOfPoints;
 
   unsigned int counter = 0;
@@ -126,7 +127,7 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
       std::cout << "******************* " << pointId << ":" << point << std::endl;
       fixedPointSet->SetPoint( pointId, point );
       fixedPointSet->SetPointData( pointId, it.Get() );
-      ++pointId; 
+      ++pointId;
       if( pointId == numberOfPoints )
         {
         break;
@@ -145,15 +146,15 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     std::cout << pointItr.Value() << std::endl;
     ++pointItr;
     }
-   
+
 
 
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::MeanSquaresPointSetToImageMetric<  
-                                       FixedPointSetType, 
-                                       MovingImageType >   
+  typedef itk::MeanSquaresPointSetToImageMetric<
+                                       FixedPointSetType,
+                                       MovingImageType >
                                                     MetricType;
 
   typedef MetricType::TransformType                 TransformBaseType;
@@ -173,8 +174,8 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
 // Set up a Transform
 //-----------------------------------------------------------
 
-  typedef itk::TranslationTransform< 
-                        CoordinateRepresentationType, 
+  typedef itk::TranslationTransform<
+                        CoordinateRepresentationType,
                         ImageDimension >         TransformType;
 
   TransformType::Pointer transform = TransformType::New();
@@ -185,14 +186,14 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
 //------------------------------------------------------------
 // Set up an Interpolator
 //------------------------------------------------------------
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                     MovingImageType,
                     double > InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   interpolator->SetInputImage( movingImage.GetPointer() );
- 
+
   metric->SetInterpolator( interpolator.GetPointer() );
 
 
@@ -201,7 +202,7 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
 
 //------------------------------------------------------------
 // This call is mandatory before start querying the Metric
-// This method do all the necesary connections between the 
+// This method do all the necesary connections between the
 // internal components: Interpolator, Transform and Images
 //------------------------------------------------------------
   try {
@@ -264,7 +265,7 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
 //-------------------------------------------------------
   std::cout << "Check case when Target is NULL" << std::endl;
   metric->SetFixedPointSet( NULL );
-  try 
+  try
     {
     std::cout << "Value = " << metric->GetValue( parameters );
     std::cout << "If you are reading this message the Metric " << std::endl;
@@ -272,14 +273,14 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & e )
-    { 
+    {
     std::cout << "Exception received (as expected) "    << std::endl;
     std::cout << "Description : " << e.GetDescription() << std::endl;
     std::cout << "Location    : " << e.GetLocation()    << std::endl;
     std::cout << "Test for exception throwing... PASSED ! " << std::endl;
     }
-  
-  try 
+
+  try
     {
     metric->GetValueAndDerivative( parameters, measure, derivative );
     std::cout << "Value = " << measure << std::endl;
@@ -288,13 +289,13 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & e )
-    { 
+    {
     std::cout << "Exception received (as expected) "    << std::endl;
     std::cout << "Description : " << e.GetDescription() << std::endl;
     std::cout << "Location    : " << e.GetLocation()    << std::endl;
     std::cout << "Test for exception throwing... PASSED ! "  << std::endl;
     }
- 
+
 
   return EXIT_SUCCESS;
 

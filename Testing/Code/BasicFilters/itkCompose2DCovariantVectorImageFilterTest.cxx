@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCompose2DCovariantVectorImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -40,7 +41,7 @@ int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
 
   InputImageType::Pointer zeroImage   = InputImageType::New();
   InputImageType::Pointer oneImage = InputImageType::New();
- 
+
   SizeType size;
   size[0] = 2;
   size[1] = 2;
@@ -52,7 +53,7 @@ int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
   RegionType region;
   region.SetIndex( start );
   region.SetSize(  size  );
-  
+
   zeroImage->SetRegions( region );
   oneImage->SetRegions( region );
 
@@ -81,7 +82,7 @@ int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
   typedef FilterType::OutputImageType  OutputImageType;
 
   OutputImageType::Pointer twoVectorImage = filter->GetOutput();
-  
+
   typedef itk::ImageRegionIterator<OutputImageType> OutputIterator;
   typedef itk::ImageRegionIterator<InputImageType>  InputIterator;
 
@@ -92,9 +93,9 @@ int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
 
   i0.GoToBegin();
   i1.GoToBegin();
-  
+
   ot.GoToBegin();
-  
+
   typedef OutputImageType::PixelType  OutputPixelType;
 
   while( !ot.IsAtEnd() )

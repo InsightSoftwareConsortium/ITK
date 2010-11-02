@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    NNetClassifierTest4.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkTwoHiddenLayerBackPropagationNeuralNetwork.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
@@ -73,7 +73,7 @@ NNetClassifierTest4(int argc, char* argv[])
               << trainFileName << std::endl;
     return EXIT_FAILURE;
     }
- 
+
   for (int a = 0; a < num_train; a++)
     {
     for (int i = 0; i < num_input_nodes; i++)
@@ -120,7 +120,7 @@ NNetClassifierTest4(int argc, char* argv[])
 
   TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
   trainingfcn->SetIterations(250);
-  trainingfcn->SetThreshold(0.0001); 
+  trainingfcn->SetThreshold(0.0001);
   trainingfcn->Train(net1, trainsample, traintargets);
 
   //Network Simulation
@@ -158,12 +158,12 @@ NNetClassifierTest4(int argc, char* argv[])
     ++iter1;
     ++iter2;
     }
- 
+
   std::cout << "Among "<<num_test<<" measurement vectors, " << error1 + error2
             << " vectors are misclassified." << std::endl ;
   std::cout<<"Network Weights = "<<std::endl;
   std::cout << net1 << std::endl;
-  
+
   if (double(error1 / 10) > 2 || double(error2 / 10) > 2)
     {
     std::cout << "Test failed." << std::endl;

@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkShapeLabelObjectAccessorsTest1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -38,7 +38,7 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     }
 
   const unsigned int dim = 3;
- 
+
   typedef unsigned char                           PixelType;
   typedef itk::Image< PixelType, dim >            ImageType;
   typedef itk::ShapeLabelObject< PixelType, dim > ShapeLabelObjectType;
@@ -75,13 +75,13 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     if (ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) != attributes[a])
       {
       std::cout << "Attribute translation for " << attributes[a] << " failed." << std::endl;
-      std::cout << "   Received " << ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) << " but expected " << attributes[a] << std::endl; 
+      std::cout << "   Received " << ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) << " but expected " << attributes[a] << std::endl;
       status = EXIT_FAILURE;
       }
     }
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
- 
+
   typedef itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
@@ -92,12 +92,12 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   LabelMapType *labelMap = i2l->GetOutput();
   LabelObjectContainerType container = labelMap->GetLabelObjectContainer();
   std::cout << "File " << argv[1] << " has " << labelMap->GetNumberOfLabelObjects() << " labels." << std::endl;
- 
+
   // Retrieve all attributes
   for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
     {
     ShapeLabelObjectType *labelObject = labelMap->GetNthLabelObject(n);
-    std::cout << "Label: " 
+    std::cout << "Label: "
               << itk::NumericTraits<LabelMapType::LabelType>::PrintType(labelObject->GetLabel()) << std::endl;
     std::cout << "    BoundingBox: "
               << labelObject->GetBoundingBox() << std::endl;

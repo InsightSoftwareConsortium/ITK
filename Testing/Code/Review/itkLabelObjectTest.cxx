@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLabelObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,20 +32,20 @@ int itkLabelObjectTest(int argc, char * argv[])
     }
 
   const int dim = 3;
-  
+
   typedef itk::LabelObject< unsigned long, dim > LabelObjectType;
   typedef LabelObjectType::IndexType             IndexType;
-  
+
   // testing AddLine(), GetNumberOfLines(), GetLineContainer() const and Optimize()
-  
+
   LabelObjectType::Pointer lo = LabelObjectType::New();
-  
+
   IndexType idx;
   idx[0] = 1;
   idx[1] = 20;
   idx[2] = 30;
   lo->AddLine( idx, 10 );
-  
+
   idx[0] = 5;
   lo->AddLine( idx, 10 );
 
@@ -62,23 +63,23 @@ int itkLabelObjectTest(int argc, char * argv[])
   idx[1] = 1;
   idx[2] = 0;
   lo->AddLine( idx, 10 );
-  
+
   idx[0] = 0;
   idx[1] = 1;
   idx[2] = 1;
   lo->AddLine( idx, 10 );
-  
+
   idx[0] = 10;
   idx[1] = 1;
   idx[2] = 1;
   // add this line with an itk::LabelLineObject to test the AddLine(LabelObjectLine) method
   lo->AddLine( LabelObjectType::LineType(idx, 1) );
-  
+
   lo->Optimize();
-  
+
   // the expected result after Optimize()
   LabelObjectType::Pointer ref = LabelObjectType::New();
-  
+
   idx[0] = 5;
   idx[1] = 0;
   idx[2] = 0;
@@ -88,7 +89,7 @@ int itkLabelObjectTest(int argc, char * argv[])
   idx[1] = 1;
   idx[2] = 0;
   ref->AddLine( idx, 10 );
-  
+
   idx[0] = 5;
   idx[1] = 0;
   idx[2] = 1;
@@ -98,19 +99,19 @@ int itkLabelObjectTest(int argc, char * argv[])
   idx[1] = 1;
   idx[2] = 1;
   ref->AddLine( idx, 11 );
-  
+
   idx[0] = 1;
   idx[1] = 20;
   idx[2] = 30;
   ref->AddLine( idx, 14 );
-  
+
   // compare the result
   if( lo->GetNumberOfLines() != ref->GetNumberOfLines() )
     {
     std::cerr << "number of lines is different!" << std::endl;
     return EXIT_FAILURE;
     }
-    
+
   typedef LabelObjectType::LineContainerType::const_iterator IteratorType;
 
   IteratorType it2 = lo->GetLineContainer().begin();
@@ -132,13 +133,13 @@ int itkLabelObjectTest(int argc, char * argv[])
     it1++;
     it2++;
     }
-    
+
 
   // testing AddIndex(), GetIndex() and HasIndex()
-  
+
   lo = LabelObjectType::New();
   std::vector< IndexType > idxs;
-  
+
   // one isolated pixel
   idx[0] = 0;
   idx[1] = 0;
@@ -158,21 +159,21 @@ int itkLabelObjectTest(int argc, char * argv[])
   idx[2] = 3;
   lo->AddIndex( idx );
   idxs.push_back( idx );
-  
+
   // should produce 2 lines
   if( lo->GetNumberOfLines() != 2 )
     {
     std::cerr << "number of lines should be 2!" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // should produce 3 pixels
   if( lo->Size() != 3 )
     {
     std::cerr << "size should be 3!" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   for( unsigned int i=0; i<lo->Size(); i++ )
     {
     if( lo->GetIndex( i ) != idxs[i] )
@@ -186,7 +187,7 @@ int itkLabelObjectTest(int argc, char * argv[])
       return EXIT_FAILURE;
       }
     }
-  
+
   // test with an index not there
   idx[0] = 10;
   idx[1] = 10;

@@ -1,22 +1,30 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineInterpolateImageFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-  Portions of this code are covered under the VTK copyright.
-  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+/*=========================================================================
+ *
+ *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
+ *
+ *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+ *
+ *  For complete copyright, license and disclaimer of warranty information
+ *  please refer to the NOTICE file at the top of the ITK source tree.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -218,7 +226,7 @@ double * trueValue )
     double value2 = interp->EvaluateAtContinuousIndex( index );
     std::cout << "Interpolated Value: " << value2 << "\n";
     value = interp->EvaluateDerivativeAtContinuousIndex( index );
-    std::cout << " Value: "; 
+    std::cout << " Value: ";
     for (int i=0; i < ImageDimension3D; i++)
         {
         if (i != 0)
@@ -241,42 +249,42 @@ double * trueValue )
 }
 
 
-// Run a series of tests to validate the 1D 
+// Run a series of tests to validate the 1D
 // cubic spline implementation.
 int test1DCubicSpline()
 {
   int flag = 0;
 
-  // Allocate a simple test image 
+  // Allocate a simple test image
   ImageTypePtr1D image = ImageType1D::New();
 
   set1DInterpData(image);
 
-  // Set origin and spacing of physical coordinates 
+  // Set origin and spacing of physical coordinates
   double origin [] = { 0.5  };
   double spacing[] = { 0.1  };
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
-  // Create and initialize the interpolator 
+  // Create and initialize the interpolator
   InterpolatorType1D::Pointer interp = InterpolatorType1D::New();
 //  interp->SetSplineOrder(1);
   interp->SetInputImage(image);
   interp->Print( std::cout );
 
   // Test evaluation at continuous indices and corresponding
-  //gemetric points 
+  //gemetric points
   std::cout << "Testing 1D Cubic B-Spline:\n";
   std::cout << "Evaluate at: " << std::endl;
   ContinuousIndexType1D cindex;
   PointType1D point;
   bool passed;
 
-  // These values test 1) near border, 
+  // These values test 1) near border,
   //    2) inside
   //    3) integer value
   //    4) outside image
-#define NPOINTS 4  // number of points 
+#define NPOINTS 4  // number of points
   double darray1[NPOINTS] = {1.4, 8.9, 10.0, 40.0};
   double truth[NPOINTS] = {334.41265437584, 18.158173426944, 4.0000, 0};
   bool b_Inside[NPOINTS] = {true, true, true, false};
@@ -284,15 +292,15 @@ int test1DCubicSpline()
   // an integer position inside the image
   for (int ii=0; ii < NPOINTS; ii++)
     {
-  
+
     cindex = ContinuousIndexType1D(&darray1[ii]);
     passed = TestContinuousIndex<InterpolatorType1D, ContinuousIndexType1D >( interp, cindex, b_Inside[ii], truth[ii] );
-  
+
     if( !passed ) flag += 1;
-  
+
     image->TransformContinuousIndexToPhysicalPoint( cindex, point );
     passed = TestGeometricPoint<InterpolatorType1D, PointType1D>( interp, point, b_Inside[ii], truth[ii]  );
-  
+
     if( !passed ) flag += 1;
     }
 
@@ -334,11 +342,11 @@ int test2DSpline()
     PointType2D point;
     bool passed;
 
-    // These values test 1) near border, 
+    // These values test 1) near border,
     //    2) inside
     //    3) integer value
     //    4) outside image
-#define NPOINTS2 4  // number of points 
+#define NPOINTS2 4  // number of points
 
     double darray1[NPOINTS2][2] = {{0.1, 0.2}, {3.4, 5.8}, {4.0, 6.0}, { 2.1, 8.0}};
     double truth[NPOINTS2][6] = {{154.5, 140.14, 151.86429192392, 151.650316034, 151.865916515, 151.882483111},
@@ -355,12 +363,12 @@ int test2DSpline()
      // darray1[1] = darray[ii][1];
       cindex = ContinuousIndexType2D(&darray1[ii][0]);
       passed = TestContinuousIndex<InterpolatorType2D, ContinuousIndexType2D >( interp, cindex, b_Inside[ii], truth[ii][splineOrder] );
-  
+
       if( !passed ) flag += 1;
-  
+
       image->TransformContinuousIndexToPhysicalPoint( cindex, point );
       passed = TestGeometricPoint<InterpolatorType2D, PointType2D>( interp, point, b_Inside[ii], truth[ii][splineOrder ]  );
-  
+
       if( !passed ) flag += 1;
       }
     }  // end of splineOrder
@@ -399,12 +407,12 @@ int test3DSpline()
     PointType3D point;
     bool passed;
 
-    // These values test 
-    //    1) near border, 
+    // These values test
+    //    1) near border,
     //    2) inside
     //    3) integer value
     //    4) outside image
-#define NPOINTS3 4  // number of points 
+#define NPOINTS3 4  // number of points
 
     double darray1[NPOINTS3][ImageDimension3D] = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2 }, {10, 20, 12}, { 15, 20.2, 31}};
     double truth[NPOINTS3][4] = {{48.621593795, 48.651173138, 48.656914878, 48.662256571},
@@ -421,12 +429,12 @@ int test3DSpline()
      // darray1[1] = darray[ii][1];
       cindex = ContinuousIndexType3D(&darray1[ii][0]);
       passed = TestContinuousIndex<InterpolatorType3D, ContinuousIndexType3D >( interp, cindex, b_Inside[ii], truth[ii][splineOrder -2] );
-  
+
       if( !passed ) flag += 1;
-  
+
       image->TransformContinuousIndexToPhysicalPoint( cindex, point );
       passed = TestGeometricPoint<InterpolatorType3D, PointType3D>( interp, point, b_Inside[ii], truth[ii][splineOrder -2]  );
-  
+
       if( !passed ) flag += 1;
       }
     }  // end of splineOrder
@@ -467,18 +475,18 @@ int test3DSplineDerivative()
     PointType3D point;
     bool passed;
 
-    // These values test 
-    //    1) near border, 
+    // These values test
+    //    1) near border,
     //    2) inside
     //    3) integer value
     //    4) outside image
-#define NPOINTS4 4  // number of points 
+#define NPOINTS4 4  // number of points
 
     double darray1[NPOINTS4][ImageDimension3D] = {{25.3,26.8,24.5}, {21.0, 1.4, 0.6}, {18, 31, 10 }, { 4.3, 17.9, 42} };
     // Calculated Truth is: {19.4158,5,-24}, {0.9,5,71.6}, {-7.2, 5, 34}, {0,0,0}
     // TODO: Value near border is way off, is this an algorithm problem?  Also,
     //       Is error for 1st order splines in the expected range?
-    double truth[5][NPOINTS4][ImageDimension3D] = { 
+    double truth[5][NPOINTS4][ImageDimension3D] = {
       { {23.6,   5,-24}, {0,        5,       72.0},    {-3.0,     5,       32},      {0,0,0} },
       { {19.345, 5,-24}, {0.875,    4.8873,  98.6607}, {-7.525,   5,       34},      {0,0,0} },
       { {19.399, 5,-24}, {0.9,      4.95411, 92.9006}, {-7.2,     5,       33.9999}, {0,0,0} },
@@ -494,12 +502,12 @@ int test3DSplineDerivative()
      // darray1[1] = darray[ii][1];
       cindex = ContinuousIndexType3D(&darray1[ii][0]);
       passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D >( interp, cindex, b_Inside[ii], &truth[splineOrder - 1][ii][0] );
-  
+
       if( !passed ) flag += 1;
-  
+
 //      interp->ConvertContinuousIndexToPoint( cindex, point );
 //      passed = TestGeometricPoint<InterpolatorType3D, PointType3D>( interp, point, b_Inside[ii], truth[ii][splineOrder -2]  );
-  
+
       if( !passed ) flag += 1;
       }
     }  // end of splineOrder
@@ -538,12 +546,12 @@ int testInteger3DSpline()
     PointIntegerType3D point;
     bool passed;
 
-    // These values test 
-    //    1) near border, 
+    // These values test
+    //    1) near border,
     //    2) inside
     //    3) integer value
     //    4) outside image
-#define NPOINTS5 4  // number of points 
+#define NPOINTS5 4  // number of points
 
     // Note: the answers should be the same as for the test3DSpline
     double darray1[NPOINTS5][ImageDimension3D] = {{0.1, 20.1, 28.4}, {21.58, 34.5, 17.2 }, {10, 20, 12}, { 15, 20.2, 31}};
@@ -561,12 +569,12 @@ int testInteger3DSpline()
      // darray1[1] = darray[ii][1];
       cindex = ContinuousIntegerIndexType3D(&darray1[ii][0]);
       passed = TestContinuousIndex<InterpolatorIntegerType3D, ContinuousIntegerIndexType3D >( interp, cindex, b_Inside[ii], truth[ii][splineOrder -2] );
-  
+
       if( !passed ) flag += 1;
-  
+
       image->TransformContinuousIndexToPhysicalPoint( cindex, point );
       passed = TestGeometricPoint<InterpolatorIntegerType3D, PointIntegerType3D>( interp, point, b_Inside[ii], truth[ii][splineOrder -2]  );
-  
+
       if( !passed ) flag += 1;
       }
     }  // end of splineOrder
@@ -574,7 +582,7 @@ int testInteger3DSpline()
   return (flag);
 }
 
-int 
+int
 itkBSplineInterpolateImageFunctionTest(
     int itkNotUsed(argc),
     char * itkNotUsed(argv) [] )
@@ -599,7 +607,7 @@ itkBSplineInterpolateImageFunctionTest(
   /* Return results of test */
   if (flag != 0) {
     std::cout << "*** " << flag << " tests failed" << std::endl;
-  
+
     return EXIT_FAILURE; }
   else {
     std::cout << "All tests successfully passed" << std::endl;
@@ -634,7 +642,7 @@ void set1DInterpData(ImageType1D::Pointer imgPtr)
     ++j;
     }
 
-  
+
 }
 
 void set2DInterpData(ImageType2D::Pointer imgPtr)
@@ -667,7 +675,7 @@ void set2DInterpData(ImageType2D::Pointer imgPtr)
     ++j;
     }
 
-  
+
 }
 
 

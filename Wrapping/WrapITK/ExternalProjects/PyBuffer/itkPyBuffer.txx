@@ -1,28 +1,29 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPyBuffer.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef _itkPyBuffer_txx
 #define _itkPyBuffer_txx
 
 #include "itkPyBuffer.h"
 #include "itkPixelTraits.h"
 
-// Deal with slight incompatibilites between NumPy (the future, hopefully), 
+// Deal with slight incompatibilites between NumPy (the future, hopefully),
 // Numeric (old version) and Numarray's Numeric compatibility module (also old).
-#ifndef NDARRAY_VERSION 
+#ifndef NDARRAY_VERSION
 // NDARRAY_VERSION is only defined by NumPy's arrayobject.h
 // In non NumPy arrayobject.h files, PyArray_SBYTE is used instead of BYTE.
 #define PyArray_BYTE PyArray_SBYTE
@@ -32,7 +33,7 @@ namespace itk
 {
 
 template<class TImage>
-PyObject * 
+PyObject *
 PyBuffer<TImage>
 ::GetArrayFromImage( ImageType * image )
 {
@@ -40,19 +41,19 @@ PyBuffer<TImage>
     {
     throw std::runtime_error("Input image is null");
     }
-  
+
   image->Update();
 
   import_array1(0);
 
   PixelType * buffer = const_cast < PixelType * > ( image->GetBufferPointer() );
- 
+
   char * data = (char *)( buffer );
-  
+
   int dimensions[ ImageDimension ];
-  
+
   SizeType size = image->GetBufferedRegion().GetSize();
-  
+
   for(unsigned int d=0; d < ImageDimension; d++ )
     {
     dimensions[ImageDimension - d - 1] = size[d];
@@ -78,9 +79,9 @@ PyBuffer<TImage>
 
     int element_type = GetPyType();  ///PyArray_DOUBLE;  // change this with pixel traits.
 
-    PyArrayObject * parray = 
-          (PyArrayObject *) PyArray_ContiguousFromObject( 
-                                                    obj, 
+    PyArrayObject * parray =
+          (PyArrayObject *) PyArray_ContiguousFromObject(
+                                                    obj,
                                                     element_type,
                                                     ImageDimension,
                                                     ImageDimension  );
@@ -91,7 +92,7 @@ PyBuffer<TImage>
       }
 
     const unsigned int imageDimension = parray->nd;
-    
+
     SizeType size;
 
     unsigned int numberOfPixels = 1;
@@ -121,10 +122,10 @@ PyBuffer<TImage>
     importer->SetSpacing( spacing );
 
     const bool importImageFilterWillOwnTheBuffer = false;
-    
+
     PixelType * data = (PixelType *)parray->data;
-    
-    importer->SetImportPointer( 
+
+    importer->SetImportPointer(
                         data,
                         numberOfPixels,
                         importImageFilterWillOwnTheBuffer );

@@ -1,21 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPointGeometryTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 /**
- *  
+ *
  *  This program illustrates the use of Geometric objects
  *
  */
@@ -37,7 +38,7 @@
 //   Main code
 //
 //-------------------------
-int itkPointGeometryTest(int, char* [] ) 
+int itkPointGeometryTest(int, char* [] )
 {
 
 // Dimension & Type
@@ -49,7 +50,7 @@ int itkPointGeometryTest(int, char* [] )
   typedef    itk::Point<  ValueType, N >    PointType;
 
   VectorType va;
-  
+
   va[0] = 1.0;
   va[1] = 3.0;
   va[2] = 5.0;
@@ -82,7 +83,7 @@ int itkPointGeometryTest(int, char* [] )
   pb = pd + va;
   std::cout << "vector sum pb = pd + va = ";
   std::cout << pb << std::endl;
-  
+
   VectorType  diff = pa - pb;
   std::cout << "diff = pa - pb = ";
   std::cout << diff << std::endl;
@@ -134,13 +135,13 @@ int itkPointGeometryTest(int, char* [] )
   fp[1] = 0.0;
   fp[2] = 0.0;
 
- 
+
   fp.CastFrom( dp );  // Here is the call !
 
   // Verification...
   for(unsigned int i=0; i<N; i++)
     {
-    FloatPointType::ValueType val = 
+    FloatPointType::ValueType val =
         static_cast< FloatPointType::ValueType >( dp[i] );
     if( vcl_fabs ( val - fp[i] ) > tolerance )
       {
@@ -278,7 +279,7 @@ int itkPointGeometryTest(int, char* [] )
     VectorOfPoints::Pointer points = VectorOfPoints::New();
     points->Reserve(NP);
     const double K = 12.0;
-    
+
     VectorOfPoints::Iterator point = points->Begin();
     PointType::ValueType vInit0[3] = {   K,  0.0, 0.0};
     PointType::ValueType vInit1[3] = { 0.0,    K, 0.0};

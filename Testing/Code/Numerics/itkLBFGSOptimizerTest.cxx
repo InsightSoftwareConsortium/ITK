@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLBFGSOptimizerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,12 +23,12 @@
 #include <vnl/vnl_math.h>
 #include <iostream>
 
-/** 
+/**
  *  The objectif function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
  *
- *  Where A is represented as an itkMatrix and 
+ *  Where A is represented as an itkMatrix and
  *  b is represented as a itkVector
  *
  *  The system in this example is:
@@ -38,8 +39,8 @@
  *
  *   the solution is the vector | 2 -2 |
  *
- */ 
-class LBFGSCostFunction : public itk::SingleValuedCostFunction 
+ */
+class LBFGSCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
@@ -75,7 +76,7 @@ public:
 
     double val = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
-    std::cout << val << std::endl; 
+    std::cout << val << std::endl;
 
     return val;
   }
@@ -93,12 +94,12 @@ public:
     derivative = DerivativeType(SpaceDimension);
     derivative[0] = 3*x + 2*y -2;
     derivative[1] = 2*x + 6*y +8;
-    std::cout << "(" ; 
+    std::cout << "(" ;
     std::cout << derivative[0] <<" , ";
     std::cout << derivative[1] << ")" << std::endl;
   }
 
-  
+
   unsigned int GetNumberOfParameters(void) const
     {
     return SpaceDimension;
@@ -110,13 +111,13 @@ private:
 };
 
 
-int itkLBFGSOptimizerTest(int, char* [] ) 
+int itkLBFGSOptimizerTest(int, char* [] )
 {
   std::cout << "LBFGS Optimizer Test \n \n";
 
   typedef  itk::LBFGSOptimizer  OptimizerType;
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
-  
+
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
@@ -132,8 +133,8 @@ int itkLBFGSOptimizerTest(int, char* [] )
   std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
-  const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance 
-  const int    Max_Iterations   = 100;   // Maximum number of iterations 
+  const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
+  const int    Max_Iterations   = 100;   // Maximum number of iterations
   const bool   Trace            = false; // Tracing
   const double LineSearch_Tol   = 0.9;   // Line search tolerance
   const double Step_Length      = 1.0;   // Default step length
@@ -145,7 +146,7 @@ int itkLBFGSOptimizerTest(int, char* [] )
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
   vnlOptimizer->set_check_derivatives( 0 );
-      
+
   const unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
@@ -168,7 +169,7 @@ int itkLBFGSOptimizerTest(int, char* [] )
   itkOptimizer->Print( std::cout );
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
-  try 
+  try
     {
 
     itkOptimizer->StartOptimization();
@@ -184,15 +185,15 @@ int itkLBFGSOptimizerTest(int, char* [] )
 
   std::cout << "End condition   = " << vnlOptimizer->get_failure_code()    << std::endl;
   std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations()  << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
   std::cout << std::endl;
 
   OptimizerType::ParametersType finalPosition;
   finalPosition = itkOptimizer->GetCurrentPosition();
-  
+
   std::cout << "Solution        = ("
     << finalPosition[0] << ","
-    << finalPosition[1] << ")" << std::endl;  
+    << finalPosition[1] << ")" << std::endl;
 
   std::cout << "End condition   = "
     << itkOptimizer->GetStopConditionDescription() << std::endl;

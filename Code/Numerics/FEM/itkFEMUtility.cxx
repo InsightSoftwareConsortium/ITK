@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMUtility.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -35,7 +35,7 @@ double GaussIntegrate::Integrate(double (*f)(double), double a, double b, int n)
   /**
    * This subprogram produces the gauss-legendre numerical
    * integral for
-  
+
    *   b
    * int   f(x)*dx
    *    a
@@ -51,22 +51,22 @@ double GaussIntegrate::Integrate(double (*f)(double), double a, double b, int n)
 
 
   /*  Begin integration  */
-      
+
   scale = (b - a)/two;
-  if ( (n&1) == 0 )  
+  if ( (n&1) == 0 )
     {
     m = n/2;
     ibase = m*m;
     sum = zero;
     }
-  else  
+  else
     {
     m = (n - 1)/2;
     ibase = (n*n - 1)/4;
     sum = w[ibase+m]*(*f)((a + b)/two);
     }
-        
-  for (i=1; i <= m; i++)  
+
+  for (i=1; i <= m; i++)
     {
     t = z[ibase + i - 1];
     tl = (a*(one + t) + (one - t)*b)/two;
@@ -98,24 +98,24 @@ const double GaussIntegrate::z[110] = {
   0.904117256370475, 0.769902674194305, 0.587317954286617,
   0.367831498998180, 0.125233408511469, 0.984183054718588,
   0.917598399222978, 0.801578090733310, 0.642349339440340,
-  0.448492751036447, 0.230458315955135, 0.0, 
+  0.448492751036447, 0.230458315955135, 0.0,
   0.986283808696812, 0.928434883663574, 0.827201315069765,
   0.687292904811685, 0.515248636358154, 0.319112368927890,
   0.108054948707344, 0.987992518020485, 0.937273392400706,
   0.848206583410427, 0.724417731360170, 0.570972172608539,
-  0.394151347077563, 0.201194093997435, 0.0, 
+  0.394151347077563, 0.201194093997435, 0.0,
   0.989400934991650, 0.944575023073233, 0.865631202387832,
   0.755404408355003, 0.617876244402644, 0.458016777657227,
   0.281603550779259, 0.0950125098376374,0.990575475314417,
   0.950675521768768, 0.880239153726986, 0.781514003896801,
   0.657671159216691, 0.512690537086477, 0.351231763453876,
-  0.178484181495848, 0.0, 0.991565168420931, 
+  0.178484181495848, 0.0, 0.991565168420931,
   0.955823949571398, 0.892602466497556, 0.803704958972523,
   0.691687043060353, 0.559770831073948, 0.411751161462843,
   0.251886225691506, 0.0847750130417353,0.992406843843584,
   0.960208152134830, 0.903155903614818, 0.822714656537143,
   0.720966177335229, 0.600545304661681, 0.464570741375961,
-  0.316564099963630, 0.160358645640225, 0.0, 
+  0.316564099963630, 0.160358645640225, 0.0,
   0.993128599185095, 0.963971927277914, 0.912234428251326,
   0.839116971822219, 0.746331906460151, 0.636053680726515,
   0.510867001950827, 0.373706088715420, 0.227785851141645,

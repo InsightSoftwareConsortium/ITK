@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVarianceImageFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@ int itkVarianceImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef unsigned char   PixelType; 
+  typedef unsigned char   PixelType;
 
   typedef itk::Image< PixelType, Dimension > ImageType;
   typedef itk::VarianceImageFunction< ImageType > FunctionType;
@@ -37,13 +38,13 @@ int itkVarianceImageFunctionTest(int, char* [] )
   ImageType::SizeType     size;
   ImageType::IndexType    start;
   ImageType::RegionType   region;
- 
+
   size[0] = 50;
   size[1] = 50;
   size[2] = 50;
 
   start.Fill( 0 );
-    
+
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -95,14 +96,14 @@ int itkVarianceImageFunctionTest(int, char* [] )
   std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << std::endl;
 
 
-  // since the input image is constant 
+  // since the input image is constant
   // the variance should be zero
   if( vnl_math_abs( variance ) > 10e-7 )
     {
     std::cerr << "Error in variance computation" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -50,16 +51,16 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   typedef itk::Image< RGBPixelType,    Dimension > RGBImageType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::Image< WritePixelType,  Dimension > WriteImageType;
-  
+
   typedef itk::ImageFileReader< InputImageType >   InputReaderType;
   typedef itk::ImageFileReader< RGBImageType >     RGBReaderType;
-    
+
   RGBReaderType::Pointer   rgbReader   = RGBReaderType::New();
   InputReaderType::Pointer inputReader = InputReaderType::New();
 
   inputReader->SetFileName(av[1]);
   rgbReader->SetFileName(av[2]);
-  
+
   // Create a filter
   typedef itk::VectorThresholdSegmentationLevelSetImageFilter<
                                               InputImageType,
@@ -74,9 +75,9 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   filter->SetFeatureImage( rgbReader->GetOutput() );
 
   // Mean values hand coded for the VisibleWomanSlice.png color file
-  typedef FilterType::MeanVectorType  MeanVectorType; 
-  MeanVectorType  mean = MeanVectorType(3); 
-  
+  typedef FilterType::MeanVectorType  MeanVectorType;
+  MeanVectorType  mean = MeanVectorType(3);
+
   mean[0] = 44.7504;
   mean[1] = 37.5443;
   mean[2] = 29.5179;
@@ -84,8 +85,8 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   filter->SetMean( mean );
 
   // Covariance values hand coded for the VisibleWomanSlice.png color file
-  typedef FilterType::CovarianceMatrixType  CovarianceMatrixType; 
-  CovarianceMatrixType  covariance = CovarianceMatrixType( 3, 3 ); 
+  typedef FilterType::CovarianceMatrixType  CovarianceMatrixType;
+  CovarianceMatrixType  covariance = CovarianceMatrixType( 3, 3 );
 
   covariance[0][0] = 79.2225;
   covariance[1][1] = 81.0314;
@@ -100,11 +101,11 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   filter->SetCovariance(  covariance );
 
   const double threshold = atof( av[4] );
-  
+
   filter->SetThreshold( threshold );
 
   const double curvatureScaling = atof( av[5] );
-  
+
   filter->SetCurvatureScaling( curvatureScaling );
 
   try
@@ -133,14 +134,14 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   RescalerType::Pointer rescaler = RescalerType::New();
 
   rescaler->SetInput( filter->GetOutput() );
-  
+
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
+
   // Generate test image
   typedef itk::ImageFileWriter< WriteImageType >   WriterType;
   WriterType::Pointer writer = WriterType::New();
-    
+
   writer->SetInput( rescaler->GetOutput() );
   writer->SetFileName( av[3] );
   writer->Update();

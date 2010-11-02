@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMathRoundTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -32,7 +33,7 @@
       ok = false;                                                   \
     }
 
-namespace 
+namespace
 {
 
 
@@ -43,11 +44,11 @@ bool TemplatedRoundTest( void )
    bool ok = true;
 
    const unsigned int numberOfElements = 15;
-   
+
   // input data for rounding methods
-  float input[] =  {-8.4999f, -8.50f, -8.5001f, 
-                     8.4999f,  8.50f,  8.5001f, 
-                    -9.4999f, -9.50f, -9.5001f, 
+  float input[] =  {-8.4999f, -8.50f, -8.5001f,
+                     8.4999f,  8.50f,  8.5001f,
+                    -9.4999f, -9.50f, -9.5001f,
                     9.4999f,  9.50f,  9.5001f,
                     -0.4999f, -.50f, -.5001f};
 
@@ -66,8 +67,8 @@ bool TemplatedRoundTest( void )
 
 
   T *halfupOutput = roundOutput;
-  
-  
+
+
   ////////
   // input data for floor and ceil methods
   float fcinput[] = { 8.0f,  8.9999f,  8.0001f,
@@ -79,32 +80,32 @@ bool TemplatedRoundTest( void )
    T floorOutput[] =  {  8,  8,  8,
                         -8, -9, -9,
                          9,  9,  9,
-                         -9,-10,-10, 
+                         -9,-10,-10,
                          -1,-1, -2};
 
- 
+
   T ceilOutput[] =  {  8,  9,  9,
                       -8, -8, -8,
                        9, 10, 10,
                        -9, -9, -9,
                        -1, 0, -1};
 
-  
+
   // Round
-  for (unsigned int i = 0; i < numberOfElements; ++i) 
+  for (unsigned int i = 0; i < numberOfElements; ++i)
     {
-    
+
     RoundTestHelperMacro( itk::Math::Round<T>, (float)input[i], roundOutput[i] );
 
     RoundTestHelperMacro( itk::Math::Round<T>, (double)input[i], roundOutput[i] );
-    
+
     }
 
   // RoundHalfIntegerToEven
-  for (unsigned int i = 0; i < numberOfElements; ++i) 
+  for (unsigned int i = 0; i < numberOfElements; ++i)
     {
 
-  
+
     RoundTestHelperMacro( itk::Math::RoundHalfIntegerToEven<T>, (float)input[i], halftoevenOutput[i] );
 
     RoundTestHelperMacro( itk::Math::RoundHalfIntegerToEven<T>, (double)input[i], halftoevenOutput[i] );
@@ -112,7 +113,7 @@ bool TemplatedRoundTest( void )
     }
 
   // RoundHalfIntegerUp
-  for (unsigned int i = 0; i < numberOfElements; ++i) 
+  for (unsigned int i = 0; i < numberOfElements; ++i)
     {
 
     RoundTestHelperMacro( itk::Math::RoundHalfIntegerUp<T>, (float)input[i], halfupOutput[i] );
@@ -124,7 +125,7 @@ bool TemplatedRoundTest( void )
 
 
   // Floor
-  for (unsigned int i = 0; i < numberOfElements; ++i) 
+  for (unsigned int i = 0; i < numberOfElements; ++i)
     {
 
     RoundTestHelperMacro( itk::Math::Floor<T>, (float)fcinput[i], floorOutput[i] );
@@ -132,11 +133,11 @@ bool TemplatedRoundTest( void )
     RoundTestHelperMacro( itk::Math::Floor<T>, (double)fcinput[i], floorOutput[i] );
 
     }
-  
- 
+
+
 
   // Ceil
-  for (unsigned int i = 0; i < numberOfElements; ++i) 
+  for (unsigned int i = 0; i < numberOfElements; ++i)
     {
 
     RoundTestHelperMacro( itk::Math::Ceil<T>, (float)fcinput[i], ceilOutput[i] );
@@ -144,7 +145,7 @@ bool TemplatedRoundTest( void )
     RoundTestHelperMacro( itk::Math::Ceil<T>, (double)fcinput[i], ceilOutput[i] );
 
     }
-  
+
 
   return ok;
 }

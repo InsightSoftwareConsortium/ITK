@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCenteredTransformInitializerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -210,7 +211,7 @@ void PopulateImage( itk::SmartPointer< TImage > image )
   internalIndex[0] = index[0] + border;
   internalIndex[1] = index[1] + border;
   internalIndex[2] = index[2] + border;
-  
+
   internalSize[0]  = size[0] - 2 * border;
   internalSize[1]  = size[1] - 2 * border;
   internalSize[2]  = size[2] - 2 * border;
@@ -233,11 +234,11 @@ void PopulateImage( itk::SmartPointer< TImage > image )
 } // namespace
 
 
-/** 
+/**
  *  This program tests the use of the CenteredTransformInitializer class
- * 
- *  
- */ 
+ *
+ *
+ */
 
 int itkCenteredTransformInitializerTest(int , char* [] )
 {
@@ -262,7 +263,7 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   size[0] = 100;
   size[1] = 100;
   size[2] =  60;
-  
+
   PointType fixedOrigin;
   fixedOrigin[0] = 0.0;
   fixedOrigin[1] = 0.0;
@@ -324,7 +325,7 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   size[0] = 100;
   size[1] = 100;
   size[2] =  60;
-  
+
   PointType fixedOrigin;
   fixedOrigin[0] = 0.0;
   fixedOrigin[1] = 0.0;

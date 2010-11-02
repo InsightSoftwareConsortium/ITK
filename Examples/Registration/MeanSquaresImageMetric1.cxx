@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MeanSquaresImageMetric1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -33,7 +34,7 @@
 // minima or maxima in which an optimizer may get trapped while exploring the
 // parametric space.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 
@@ -49,7 +50,7 @@
 // We start by including the headers of the basic components: Metric, Transform
 // and Interpolator.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkMeanSquaresImageToImageMetric.h"
@@ -72,7 +73,7 @@ int main( int argc, char * argv[] )
 // We define the dimension and pixel type of the images to be used in the
 // evaluation of the Metric.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 2;
@@ -92,7 +93,7 @@ int main( int argc, char * argv[] )
   fixedReader->SetFileName(  argv[ 1 ] );
   movingReader->SetFileName( argv[ 2 ] );
 
-  try 
+  try
     {
     fixedReader->Update();
     movingReader->Update();
@@ -109,10 +110,10 @@ int main( int argc, char * argv[] )
 // we decided to use the same image type for both the fixed and the moving
 // images.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::MeanSquaresImageToImageMetric< 
+  typedef itk::MeanSquaresImageToImageMetric<
                             ImageType, ImageType >  MetricType;
 
   MetricType::Pointer metric = MetricType::New();
@@ -124,7 +125,7 @@ int main( int argc, char * argv[] )
 // We also instantiate the transform and interpolator types, and create objects
 // of each class.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension >  TransformType;
@@ -132,7 +133,7 @@ int main( int argc, char * argv[] )
   TransformType::Pointer transform = TransformType::New();
 
 
-  typedef itk::NearestNeighborInterpolateImageFunction< 
+  typedef itk::NearestNeighborInterpolateImageFunction<
                                  ImageType, double >  InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -150,7 +151,7 @@ int main( int argc, char * argv[] )
 // The classes required by the metric are connected to it. This includes the
 // fixed and moving images, the interpolator and the  transform.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   metric->SetTransform( transform );
@@ -162,7 +163,7 @@ int main( int argc, char * argv[] )
 
   metric->SetFixedImageRegion(  fixedImage->GetBufferedRegion()  );
 
-  try 
+  try
     {
     metric->Initialize();
     }
@@ -181,7 +182,7 @@ int main( int argc, char * argv[] )
 // from a negative position to a positive position, in both $x$ and $y$. For
 // each one of those positions we invoke the GetValue() method of the Metric.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   MetricType::TransformParametersType displacement( Dimension );
@@ -232,7 +233,7 @@ int main( int argc, char * argv[] )
 // available in the directory
 //
 //             \code{InsightDocuments/SoftwareGuide/Art}
-// 
+//
 // Of course, this plotting exercise becomes more challenging when the
 // transform has more than three parameters, and when those parameters have
 // very different range of values. In those cases is necessary to select only a
@@ -240,7 +241,7 @@ int main( int argc, char * argv[] )
 // metric when those parameters are varied.
 //
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 
