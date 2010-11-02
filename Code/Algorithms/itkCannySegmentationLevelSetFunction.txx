@@ -88,16 +88,11 @@ void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
   // build the distance image.
   tempFeature->Graft( this->GetFeatureImage() );
 
-  // Only cast if we need to
-  if ( typeid( TImageType ) == typeid( TFeatureImageType ) )
-    {
-    m_Canny->SetInput(tempFeature);
-    }
-  else
-    {
-    m_Caster->SetInput(tempFeature);
-    m_Canny->SetInput( m_Caster->GetOutput() );
-    }
+  // AssignCannyInput either sets up a pipeline through the
+  // CastImageFilter if TImageType != TFeatureImageType
+  // or bypasses the Cast operation if TImageType == TFeatureType
+  typename TImageType::Pointer junk;
+  this->AssignCannyInput(tempFeature,junk);
 
   m_Canny->SetUpperThreshold(m_Threshold);
   m_Canny->SetVariance(m_Variance);
