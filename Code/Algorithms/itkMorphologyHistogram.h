@@ -43,6 +43,7 @@ public:
 
     result->m_Map = this->m_Map;
     result->m_Vector = this->m_Vector;
+    result->m_InitValue = this->m_InitValue;
     result->m_CurrentValue = this->m_CurrentValue;
     result->m_Compare = this->m_Compare;
     result->m_Direction = this->m_Direction;
@@ -176,12 +177,14 @@ public:
                                         - NumericTraits< TInputPixel >::NonpositiveMin() + 1 ), 0);
     if ( m_Compare( NumericTraits< TInputPixel >::max(), NumericTraits< TInputPixel >::NonpositiveMin() ) )
       {
-      m_CurrentValue = NumericTraits< TInputPixel >::NonpositiveMin();
+      m_InitValue = NumericTraits< TInputPixel >::NonpositiveMin();
+      m_CurrentValue = m_InitValue;
       m_Direction = -1;
       }
     else
       {
-      m_CurrentValue = NumericTraits< TInputPixel >::max();
+      m_InitValue = NumericTraits< TInputPixel >::max();
+      m_CurrentValue = m_InitValue;
       m_Direction = 1;
       }
   }
@@ -202,14 +205,18 @@ public:
   inline void RemovePixelVector(const TInputPixel & p)
   {
     m_Vector[static_cast< int >( p - NumericTraits < TInputPixel > ::NonpositiveMin() )]--;
-    while ( m_Vector[static_cast< int >( m_CurrentValue - NumericTraits < TInputPixel > ::NonpositiveMin() )] == 0 )
-            { m_CurrentValue += m_Direction; }
+    while ( m_Vector[static_cast< int >( m_CurrentValue - NumericTraits < TInputPixel > ::NonpositiveMin() )] == 0
+            && m_CurrentValue != m_InitValue )
+      {
+      m_CurrentValue += m_Direction;
+      }
   }
 
   inline TInputPixel GetValueVector()
   { return m_CurrentValue; }
 
   std::vector< unsigned long > m_Vector;
+  TInputPixel                  m_InitValue;
   TInputPixel                  m_CurrentValue;
   TCompare                     m_Compare;
   signed int                   m_Direction;

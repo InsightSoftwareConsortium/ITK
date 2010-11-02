@@ -27,14 +27,6 @@ AnchorOpenCloseLine< TInputPix, TCompare >
 ::AnchorOpenCloseLine()
 {
   m_Size = 2;
-  if ( UseVectorBasedHistogram() )
-    {
-    m_Histo = new VHistogram;
-    }
-  else
-    {
-    m_Histo = new MHistogram;
-    }
 }
 
 template< class TInputPix, class TCompare >
@@ -71,7 +63,6 @@ AnchorOpenCloseLine< TInputPix, TCompare >
     return;
     }
 
-  m_Histo->Reset();
   // start the real work - everything here will be done with index
   // arithmetic rather than pointer arithmetic
   unsigned outLeftP = 0, outRightP = bufflength - 1;
@@ -85,7 +76,7 @@ AnchorOpenCloseLine< TInputPix, TCompare >
     --outRightP;
     }
   InputImagePixelType Extreme;
-  while ( StartLine(buffer, Extreme, *m_Histo, outLeftP, outRightP) )
+  while ( StartLine(buffer, Extreme, outLeftP, outRightP) )
       {}
 
   FinishLine(buffer, Extreme, outLeftP, outRightP);
@@ -125,7 +116,6 @@ bool
 AnchorOpenCloseLine< TInputPix, TCompare >
 ::StartLine(std::vector<InputImagePixelType> & buffer,
             InputImagePixelType & Extreme,
-            Histogram & histo,
             unsigned & outLeftP,
             unsigned & outRightP
             )
@@ -168,6 +158,7 @@ AnchorOpenCloseLine< TInputPix, TCompare >
   // We didn't find a smaller (for opening) value in the segment of
   // reach of outLeftP. currentP is the first position outside the
   // reach of outLeftP
+  HistogramType histo;
   if ( Compare2(buffer[currentP], Extreme) )
     {
     endP = currentP;
@@ -182,7 +173,6 @@ AnchorOpenCloseLine< TInputPix, TCompare >
     {
     // Now we need a histogram
     // Initialise it
-    histo.Reset();
     outLeftP++;
     for ( unsigned aux = outLeftP; aux <= currentP; ++aux )
       {

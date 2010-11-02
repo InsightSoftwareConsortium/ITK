@@ -18,7 +18,7 @@
 #ifndef __itkAnchorOpenCloseLine_h
 #define __itkAnchorOpenCloseLine_h
 
-#include "itkAnchorHistogram.h"
+#include "itkMorphologyHistogram.h"
 
 //#define RAWHIST
 
@@ -39,7 +39,6 @@ public:
   AnchorOpenCloseLine();
   ~AnchorOpenCloseLine()
   {
-    delete m_Histo;
   }
 
   void PrintSelf(std::ostream & os, Indent indent) const;
@@ -56,13 +55,10 @@ public:
 private:
   unsigned int m_Size;
 
-  typedef AnchorHistogram< InputImagePixelType >              Histogram;
-  typedef AnchorHistogramVec< InputImagePixelType, TCompare > VHistogram;
-  typedef AnchorHistogramMap< InputImagePixelType, TCompare > MHistogram;
+  typedef Function::MorphologyHistogram< InputImagePixelType, TCompare > HistogramType;
 
   bool StartLine(std::vector<InputImagePixelType> & buffer,
                  InputImagePixelType & Extreme,
-                 Histogram & histo,
                  unsigned & outLeftP,
                  unsigned & outRightP);
 
@@ -70,20 +66,6 @@ private:
                   InputImagePixelType & Extreme,
                   unsigned & outLeftP,
                   unsigned & outRightP);
-
-  bool UseVectorBasedHistogram()
-  {
-    // bool, short and char are acceptable for vector based algorithm: they do
-    // not require
-    // too much memory. Other types are not usable with that algorithm
-    return typeid( InputImagePixelType ) == typeid( unsigned char )
-           || typeid( InputImagePixelType ) == typeid( signed char )
-           || typeid( InputImagePixelType ) == typeid( unsigned short )
-           || typeid( InputImagePixelType ) == typeid( signed short )
-           || typeid( InputImagePixelType ) == typeid( bool );
-  }
-
-  Histogram *m_Histo;
 
   inline bool Compare1( const InputImagePixelType & a, const InputImagePixelType & b )
     {
