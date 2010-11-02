@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDecoratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -34,7 +35,7 @@
 namespace {
 template <class charT, class traits, class T, class A>
 std::basic_ostream<charT, traits>&
-operator<<(std::basic_ostream<charT, traits>&os, const std::vector<T,A> &p) 
+operator<<(std::basic_ostream<charT, traits>&os, const std::vector<T,A> &p)
 {
   os << "vector<" << typeid(T).name() << "> with " << p.size() << " elements " << std::endl;
   return os;
@@ -48,7 +49,7 @@ int itkDecoratorTest(int, char* [] )
 
   std::cout << "----------------------------------------------------"
             << std::endl;
-  
+
   typedef itk::SimpleDataObjectDecorator<float> FloatObjectType;
 
   FloatObjectType::Pointer f = FloatObjectType::New();
@@ -70,7 +71,7 @@ int itkDecoratorTest(int, char* [] )
   transformObject->Scale( 5.0 );
 
   decoratedTransform->Set( constTransformObject );
-  
+
   std::cout << "Value of decoratedTransform: ";
   decoratedTransform->Get()->Print(std::cout);
   std::cout << "TransformDataObject: " << decoratedTransform;
@@ -87,7 +88,7 @@ int itkDecoratorTest(int, char* [] )
   v.resize(5);
 #ifdef OK
   std::cout << v << std::endl;
-#endif  
+#endif
   VectorObjectType::Pointer vo = VectorObjectType::New();
   vo->Set(v);
 #ifdef OK
@@ -98,7 +99,7 @@ int itkDecoratorTest(int, char* [] )
 
   // The following code block will NOT cause a memory leak because the
   // ownership of the dynamically allocated memory is passed to the
-  // AutoPointerDataObjectDecorator 
+  // AutoPointerDataObjectDecorator
   {
   VectorPointer vp;
   vp = new VectorType;
@@ -127,7 +128,7 @@ int itkDecoratorTest(int, char* [] )
   //vp2 = new VectorType;
   //vp2->resize(4);
   //std::cout << *vp2 << std::endl;
-  
+
   //VectorPointerObjectType2::Pointer vop2 = VectorPointerObjectType2::New();
   //vop2->Set(vp2);
 

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkExponentialDeformationFieldImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 #include "vnl/vnl_random.h"
 
 
-int itkExponentialDeformationFieldImageFilterTest(int, char* [] ) 
+int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 {
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
@@ -34,7 +35,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 
   // Declare the types of the images
   typedef itk::Image<PixelType, ImageDimension>  ImageType;
-  
+
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex< ImageType>  IteratorType;
 
@@ -50,7 +51,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 
   // Create two images
   ImageType::Pointer inputImage  = ImageType::New();
-  
+
   // Define their size, and start index
   SizeType size;
   size[0] = 2;
@@ -78,7 +79,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   // Initialize the content of Image A
   PixelType vectorValue;
   vectorValue.Fill( 5.0 ); // FIXME: replace with something more interesting...
-  
+
   it.GoToBegin();
   while( !it.IsAtEnd() )
     {
@@ -100,7 +101,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   filter->SetInput( inputImage );
 
   filter->SetMaximumNumberOfIterations( 20 );
-  
+
   // Execute the filter
   filter->Update();
 
@@ -109,7 +110,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 
   // Create an iterator for going through the image output
   IteratorType ot(outputImage, outputImage->GetRequestedRegion());
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
   const PixelType::ValueType epsilon = 1e-6;
@@ -134,7 +135,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 
   // Ask for the inverse deformation
   filter->ComputeInverseOn();
-  
+
   // Execute the filter
   filter->Update();
 
@@ -143,7 +144,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 
   // Create an iterator for going through the image output
   IteratorType ot2(outputImage2, outputImage2->GetRequestedRegion());
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the inverse output " << std::endl;
 
@@ -162,11 +163,11 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
     ++it;
     }
 
-  
+
   // Try with 0 iterations
   filter->ComputeInverseOff();
   filter->SetMaximumNumberOfIterations( 0 );
-  
+
   // Execute the filter
   filter->Update();
 
@@ -175,7 +176,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 
   // Create an iterator for going through the image output
   IteratorType ot3(outputImage3, outputImage3->GetRequestedRegion());
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the output with 0 iterations " << std::endl;
 
@@ -194,11 +195,11 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
     ++it;
     }
 
-  
+
   // Try inverse with 0 iterations
   filter->ComputeInverseOn();
   filter->SetMaximumNumberOfIterations( 0 );
-  
+
   // Execute the filter
   filter->Update();
 
@@ -207,7 +208,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 
   // Create an iterator for going through the image output
   IteratorType ot4(outputImage4, outputImage4->GetRequestedRegion());
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the inverse output with 0 iterations " << std::endl;
 
@@ -236,7 +237,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
     {
     spacing[d] = isospacing;
     }
-  
+
   filter->SetInput( inputImage );
   filter->SetMaximumNumberOfIterations( 20 );
   filter->ComputeInverseOff();
@@ -244,7 +245,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   // Random number generator
   vnl_random rng;
   const double power = 5.0;
-  
+
   it.GoToBegin();
   while( !it.IsAtEnd() )
     {

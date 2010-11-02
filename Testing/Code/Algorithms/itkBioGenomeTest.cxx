@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBioGenomeTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -39,13 +40,13 @@ int itkBioGenomeTest( int, char * [] )
    genome.SetExpressionLevel("Cyclin",inLevel);
 
    const double outLevel = genome.GetExpressionLevel("Cyclin");
-   
+
    if( vnl_math_abs( inLevel - outLevel ) / outLevel > tolerance )
      {
      std::cerr << "Error in SetExpressionLevel()/GetExpressionLevel()" << std::endl;
      return EXIT_FAILURE;
      }
-   
+
    genome.KnockOutGene("Cyclin");
 
    if( vnl_math_abs( genome.GetExpressionLevel("Cyclin") ) > tolerance )
@@ -53,11 +54,11 @@ int itkBioGenomeTest( int, char * [] )
      std::cerr << "Error in KnockOutGene()/GetExpressionLevel()" << std::endl;
      return EXIT_FAILURE;
      }
-   
+
    const double value = 3.0;
    const double threshold = 2.0;
    const double slant = 5.0;
-   
+
    const double sigmoid = itk::bio::Genome::Sigmoide( threshold, slant, value );
 
    const double expectedSigmoid = vcl_atan(( value - threshold ) / slant ) / 3.1416 + 0.5001;
@@ -71,11 +72,11 @@ int itkBioGenomeTest( int, char * [] )
      std::cerr << "Tolerance       = " << tolerance << std::endl;
      return EXIT_FAILURE;
      }
-   
+
 
    const double cyclinLevel  = 3.45;
    const double tubulinLevel = 2.79;
-   
+
    genome.SetExpressionLevel("Cyclin" ,cyclinLevel );
    genome.SetExpressionLevel("Tubulin",tubulinLevel);
 
@@ -96,7 +97,7 @@ int itkBioGenomeTest( int, char * [] )
      std::cerr << "Error in Copy()" << std::endl;
      return EXIT_FAILURE;
      }
-   
+
    std::cout << "Test Passed !" << std::endl;
    return EXIT_SUCCESS;
 }

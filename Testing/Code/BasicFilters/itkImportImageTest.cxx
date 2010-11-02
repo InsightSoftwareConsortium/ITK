@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImportImageTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -35,7 +36,7 @@ int itkImportImageTest(int, char* [] )
   // typdefs to simplify the syntax
   typedef itk::ImportImageFilter<short, 2>          ImportImageFilter;
   typedef itk::Image<short, 2>   ShortImage;
-    
+
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer import;
   import = ImportImageFilter::New();
@@ -49,7 +50,7 @@ int itkImportImageTest(int, char* [] )
 
   import->SetRegion( region );
   import->SetImportPointer( rawImage, 8*12, true);
-  
+
   // Create another filter
   itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage >::Pointer shrink;
   shrink = itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::New();
@@ -70,7 +71,7 @@ int itkImportImageTest(int, char* [] )
   // Test the SetVectorMacros and GetVectorMacros
   const double data[2] = {1.0,1.0};
   import->SetSpacing(data);
-  
+
   const float data2[2] = {1.0,1.0};
   import->SetSpacing(data2);
 
@@ -79,7 +80,7 @@ int itkImportImageTest(int, char* [] )
 
   const double data3[2] = {1.0,1.0};
   import->SetOrigin(data3);
-  
+
   const float data4[2] = {1.0,1.0};
   import->SetOrigin(data4);
 
@@ -92,7 +93,7 @@ int itkImportImageTest(int, char* [] )
   //
   ShortImage::RegionType requestedRegion;
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
-  
+
   itk::ImageRegionIterator<ShortImage>
     iterator2(shrink->GetOutput(), requestedRegion);
 
@@ -100,7 +101,7 @@ int itkImportImageTest(int, char* [] )
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
-    if ( iterator2.Get() != 
+    if ( iterator2.Get() !=
          itk::Math::RoundHalfIntegerUp<short>(
             static_cast<float>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                                  shrink->GetShrinkFactors()[0]/2) +

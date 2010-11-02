@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBayesianClassifierImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,8 +32,8 @@
 int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 {
 
-  if( argc < 5 ) 
-    { 
+  if( argc < 5 )
+    {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile outputImageFile numberOfClasses smoothingIterations" << std::endl;
     return EXIT_FAILURE;
@@ -52,7 +53,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
   typedef float          PriorType;
   typedef float          PosteriorType;
 
-  typedef itk::BayesianClassifierInitializationImageFilter< InputImageType > 
+  typedef itk::BayesianClassifierInitializationImageFilter< InputImageType >
                                                 BayesianInitializerType;
 
   BayesianInitializerType::Pointer bayesianInitializer = BayesianInitializerType::New();
@@ -62,7 +63,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
   typedef BayesianInitializerType::OutputImageType  InitialLabelImageType;
 
-  typedef itk::BayesianClassifierImageFilter< 
+  typedef itk::BayesianClassifierImageFilter<
     InitialLabelImageType, LabelType, PosteriorType, PriorType >   ClassifierFilterType;
 
   ClassifierFilterType::Pointer filter = ClassifierFilterType::New();
@@ -71,20 +72,20 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
   //
   //  Exercise Set/GetNumberOfSmoothingIterations()
-  // 
+  //
   filter->SetNumberOfSmoothingIterations( 1 );
   if( filter->GetNumberOfSmoothingIterations() != 1 )
     {
     std::cerr << "Error in Set/GetNumberOfSmoothingIterations()" << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   filter->SetNumberOfSmoothingIterations( 19 );
   if( filter->GetNumberOfSmoothingIterations() != 19 )
     {
     std::cerr << "Error in Set/GetNumberOfSmoothingIterations()" << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   filter->SetNumberOfSmoothingIterations( 0 );
 
@@ -95,36 +96,36 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
   SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
   smoother->SetNumberOfIterations( 1 );
   smoother->SetTimeStep( 0.125 );
-  smoother->SetConductanceParameter( 3 );  
+  smoother->SetConductanceParameter( 3 );
   filter->SetSmoothingFilter( smoother );
 
   //
   //  Exercise Set/GetSmoothingFilter()
-  // 
+  //
   if( filter->GetSmoothingFilter().GetPointer() != smoother.GetPointer() )
     {
     std::cerr << "Error in Set/GetSmoothingFilter()" << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   filter->SetSmoothingFilter( NULL );
   if( filter->GetSmoothingFilter().GetPointer() != NULL )
     {
     std::cerr << "Error in Set/GetSmoothingFilter()" << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   filter->SetSmoothingFilter( smoother );
 
-  
+
   typedef itk::PipelineMonitorImageFilter<InputImageType> MonitorFilterType;
   MonitorFilterType::Pointer monitor =  MonitorFilterType::New();
   monitor->SetInput(filter->GetOutput());
-  
-    
+
+
   typedef ClassifierFilterType::OutputImageType      ClassifierOutputImageType;
   typedef itk::Image< unsigned char, Dimension >     OutputImageType;
-  typedef itk::RescaleIntensityImageFilter< 
+  typedef itk::RescaleIntensityImageFilter<
     ClassifierOutputImageType, OutputImageType >   RescalerType;
   RescalerType::Pointer rescaler = RescalerType::New();
   rescaler->SetInput( monitor->GetOutput() );
@@ -151,12 +152,12 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     }
 
 
-  if (!monitor->VerifyAllIputCanNotStream()) 
+  if (!monitor->VerifyAllIputCanNotStream())
     {
     std::cout << "pipeline did not execute as expected!" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   filter->Print( std::cout );
   std::cout << "Test passed." << std::endl;
 
@@ -192,7 +193,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     typedef unsigned char  TestLabelType;
     typedef float          TestPosteriorType;
 
-    typedef float          TestPriorType; 
+    typedef float          TestPriorType;
     typedef itk::VectorImage< double ,TestDimension > TestInitialLabelImageType; //The element type MUST be the PriorType
 
     typedef itk::BayesianClassifierImageFilter<

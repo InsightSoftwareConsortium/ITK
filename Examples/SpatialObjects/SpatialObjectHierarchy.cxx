@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SpatialObjectHierarchy.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,10 +23,10 @@
 //
 // \index{itk::SpatialObjectHierarchy}
 // This example describes how \doxygen{SpatialObject} can form a hierarchy.
-// This first example also shows how to create and manipulate 
+// This first example also shows how to create and manipulate
 // spatial objects.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkSpatialObject.h"
@@ -39,7 +40,7 @@ int main( int , char *[] )
 // First, we create two spatial objects and give them the names \code{First
 // Object} and \code{Second Object}, respectively.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::SpatialObject<3> SpatialObjectType;
@@ -56,9 +57,9 @@ int main( int , char *[] )
 // \code{AddSpatialObject()} method.  As a result \code{object2} becomes a
 // child of object1.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet 
+// Software Guide : BeginCodeSnippet
   object1->AddSpatialObject(object2);
 // Software Guide : EndCodeSnippet
 
@@ -69,7 +70,7 @@ int main( int , char *[] )
 // the parent.  In our case, if we ask the parent's name of the object2 we
 // should obtain: \code{First Object}.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   if(object2->HasParent())
@@ -84,12 +85,12 @@ int main( int , char *[] )
 // To access the list of children of the object, the \code{GetChildren()}
 // method returns a pointer to the (STL) list of children.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   SpatialObjectType::ChildrenListType * childrenList = object1->GetChildren();
   std::cout << "object1 has " << childrenList->size() << " child" << std::endl;
-  
+
   SpatialObjectType::ChildrenListType::const_iterator it = childrenList->begin();
   while(it != childrenList->end())
     {
@@ -102,8 +103,8 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 // Do NOT forget to delete the list of children since the \code{GetChildren()} function
 // creates an internal list.
-// Software Guide : EndLatex 
-// Software Guide : BeginCodeSnippet  
+// Software Guide : EndLatex
+// Software Guide : BeginCodeSnippet
   delete childrenList;
 // Software Guide : EndCodeSnippet
 
@@ -112,7 +113,7 @@ int main( int , char *[] )
 // An object can also be removed by using the \code{RemoveSpatialObject()}
 // method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   object1->RemoveSpatialObject(object2);
@@ -122,7 +123,7 @@ int main( int , char *[] )
 // We can query the number of children an object has with the
 // \code{GetNumberOfChildren()} method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   std::cout << "Number of children for object1: ";
@@ -131,10 +132,10 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // The \code{Clear()} method erases all the information regarding the object
-// as well as the data. This method is usually overloaded by 
+// as well as the data. This method is usually overloaded by
 // derived classes.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   object1->Clear();
@@ -150,8 +151,8 @@ int main( int , char *[] )
 //   Name of the child of the object 1: Second Object
 //   Number of children for object1: 0
 // \end{verbatim}
-// \normalsize  
-// Software Guide : EndLatex 
+// \normalsize
+// Software Guide : EndLatex
 
   return 0;
 }

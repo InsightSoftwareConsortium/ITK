@@ -1,22 +1,30 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkInterpolateImagePointsFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-  Portions of this code are covered under the VTK copyright.
-  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+/*=========================================================================
+ *
+ *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
+ *
+ *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+ *
+ *  For complete copyright, license and disclaimer of warranty information
+ *  please refer to the NOTICE file at the top of the ITK source tree.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -85,14 +93,14 @@ int test2DInterpolateImagePointsFilter()
   image->SetSpacing(spacing);
 
   // Initialize the sample data
-  const int NPOINTS2 = 4;  // number of points 
+  const int NPOINTS2 = 4;  // number of points
   const double DEFAULTPIXELVALUE =   1.23;  // arb value to test setting
 
   double xcoord[NPOINTS2] = { 0.1, 3.4, 4.0, 2.0};
   double ycoord[NPOINTS2] = { 0.2, 5.8, 6.0, 7.0};
   double truth[NPOINTS2] = {151.650316034, 22.411473093, 36.2, DEFAULTPIXELVALUE};
 
-  
+
   // Place Continuous Index Coordinates into an image data structure
   CoordImageType2DPointer index1 = CoordImageType2D::New();
   CoordImageType2DPointer index2 = CoordImageType2D::New();
@@ -180,7 +188,7 @@ int test3DInterpolateImagePointsFilter()
   unsigned int splineOrder = 3;
   resamp->GetInterpolator()->SetSplineOrder(splineOrder);
   resamp->SetInputImage(image);
-  
+
 
   // Generate Coordinates at original index locations
   SizeType3D size = image->GetLargestPossibleRegion().GetSize();
@@ -216,7 +224,7 @@ int test3DInterpolateImagePointsFilter()
       {
       resamp->SetInterpolationCoordinate(coord[i],i);
       }
-   
+
 
   resamp->Update();
   resamp->Print(std::cout);
@@ -257,7 +265,7 @@ int test3DInterpolateImagePointsFilter()
   return flag;
 }
 
-int 
+int
 itkInterpolateImagePointsFilterTest( int, char * [] )
 {
   int flag = 0;           /* Did this test program work? */
@@ -271,7 +279,7 @@ itkInterpolateImagePointsFilterTest( int, char * [] )
   /* Return results of test */
   if (flag != 0) {
     std::cout << "\n*** " << flag << " tests failed" << std::endl;
-  
+
     return EXIT_FAILURE; }
   else {
     std::cout << "\nAll tests successfully passed\n" << std::endl;
@@ -311,7 +319,7 @@ void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer imgPtr)
     ++j;
     }
 
-  
+
 }
 
 
@@ -330,12 +338,12 @@ ImageTypePtr3D set3DData()
   mean[0] = size[0]/2.0f + origin[0];
   mean[1] = size[1]/2.0f + origin[1];
   mean[2] = size[2]/2.0f + origin[2];
-  
+
   GaussianSourceType::ArrayType sigma;
   sigma[0] = 12.5f;
   sigma[1] = 17.5f;
   sigma[2] = 27.5f;
-  
+
   pSource->SetSize( size );
   pSource->SetOrigin( origin );
   pSource->SetSpacing( spacing );
@@ -350,11 +358,11 @@ ImageTypePtr3D set3DData()
   //pImage->SetBufferedRegion( region );
   //pImage->Allocate();
   pImage = pSource->GetOutput();
-  
+
   // Run the pipeline
   pSource->Update();
   return (pImage);
-  
+
 
 }
 

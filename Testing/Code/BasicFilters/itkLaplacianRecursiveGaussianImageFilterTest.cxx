@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLaplacianRecursiveGaussianImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -34,7 +35,7 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
     std::cerr << argv[0] << " inputImage outputImage " << std::endl;
     return -1;
     }
-   
+
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
 
@@ -45,7 +46,7 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
 
   typedef itk::Image<CharPixelType, Dimension>    CharImageType;
   typedef itk::Image<RealPixelType, Dimension>    RealImageType;
-  
+
   typedef itk::ImageFileReader< CharImageType >  ReaderType;
   typedef itk::ImageFileWriter< CharImageType >  WriterType;
 
@@ -53,13 +54,13 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
   typedef itk::CastImageFilter<RealImageType, CharImageType> CastToCharFilterType;
 
   typedef itk::RescaleIntensityImageFilter<RealImageType, RealImageType> RescaleFilter;
-  
-  typedef itk::LaplacianRecursiveGaussianImageFilter< 
-                              RealImageType, 
+
+  typedef itk::LaplacianRecursiveGaussianImageFilter<
+                              RealImageType,
                               RealImageType >    LaplacianFilter;
 
   typedef itk::ZeroCrossingImageFilter<
-                              RealImageType, 
+                              RealImageType,
                               RealImageType>     ZeroCrossingFilter;
 
   //Setting the IO
@@ -71,10 +72,10 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
   RescaleFilter::Pointer rescale = RescaleFilter::New();
 
   //Setting the ITK pipeline filter
-  
+
   LaplacianFilter::Pointer lapFilter = LaplacianFilter::New();
-  ZeroCrossingFilter::Pointer zeroFilter = ZeroCrossingFilter::New();  
-  
+  ZeroCrossingFilter::Pointer zeroFilter = ZeroCrossingFilter::New();
+
   reader->SetFileName( inputFilename  );
   writer->SetFileName( outputFilename );
 
@@ -104,11 +105,11 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
     writer->Update();
     }
   catch( itk::ExceptionObject & err )
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return -1;
-    } 
+    }
 
   return EXIT_SUCCESS;
 

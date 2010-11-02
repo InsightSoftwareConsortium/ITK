@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkJoinSeriesImageFilterStreamingTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,10 +32,10 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
 {
   typedef itk::Image< unsigned char, 3> ImageType;
   typedef itk::Image< unsigned char, 2> SliceImageType;
-  
+
   typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
-  typedef itk::ExtractImageFilter<ImageType,SliceImageType> SliceExtractorFilterType;  
-  typedef itk::JoinSeriesImageFilter<SliceImageType, ImageType> JoinSeriesFilterType;  
+  typedef itk::ExtractImageFilter<ImageType,SliceImageType> SliceExtractorFilterType;
+  typedef itk::JoinSeriesImageFilter<SliceImageType, ImageType> JoinSeriesFilterType;
   typedef itk::ImageFileWriter<ImageType> ImageFileWriterType;
 
 
@@ -43,7 +44,7 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
     std::cerr << "Usage: " << argv[0] << " InputImage OutputImage" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
 
   std::string inputFileName = argv[1];
   std::string outputFileName = argv[2];
@@ -52,10 +53,10 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
   reader->SetFileName( inputFileName );
   reader->UpdateOutputInformation();
 
-  
+
   const unsigned int numberOfSlices = itk::Math::CastWithRangeCheck<unsigned int>(reader->GetOutput()->GetLargestPossibleRegion().GetSize(2));
-  
-  
+
+
   itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor1 = itk::PipelineMonitorImageFilter<ImageType>::New();
   monitor1->SetInput( reader->GetOutput() ) ;
 
@@ -64,18 +65,18 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
   JoinSeriesFilterType::Pointer joinSeries = JoinSeriesFilterType::New();
   joinSeries->SetOrigin( reader->GetOutput()->GetOrigin()[2] );
   joinSeries->SetSpacing( reader->GetOutput()->GetSpacing()[2] );
-  
-  for ( ImageType::SizeValueType z = 0; z < numberOfSlices; ++z ) 
+
+  for ( ImageType::SizeValueType z = 0; z < numberOfSlices; ++z )
     {
-    
+
     SliceExtractorFilterType::Pointer extractor = SliceExtractorFilterType::New();
 
     SliceExtractorFilterType::InputImageRegionType slice( reader->GetOutput()->GetLargestPossibleRegion() );
     slice.SetSize( 2, 0 );
-    slice.SetIndex( 2, z );    
+    slice.SetIndex( 2, z );
 
     extractor->SetExtractionRegion( slice );
-    extractor->SetInput( monitor1->GetOutput() ); 
+    extractor->SetInput( monitor1->GetOutput() );
     extractor->ReleaseDataFlagOn();
 
     savedPointers.push_back( extractor.GetPointer() );
@@ -94,11 +95,11 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
   writer->SetNumberOfStreamDivisions( numberOfSlices );
 
 
-  try 
+  try
     {
     writer->Update();
-    } 
-  catch (...) 
+    }
+  catch (...)
     {
     std::cerr << "Exception while trying to stream write file." << std::endl;
     throw;
@@ -109,7 +110,7 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
 
   // We can not use one of the standard verify all methods due to
   // multiple filters connected to the output of the reader
-  if ( !(monitor1->VerifyInputFilterExecutedStreaming( numberOfSlices ) && 
+  if ( !(monitor1->VerifyInputFilterExecutedStreaming( numberOfSlices ) &&
         monitor1->VerifyInputFilterMatchedUpdateOutputInformation()) )
     {
     std::cerr << monitor1;

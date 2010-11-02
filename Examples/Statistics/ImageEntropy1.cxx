@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageEntropy1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -39,7 +40,7 @@
 // \index{Image!Amount of information}
 // \index{Amount of information!Image}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginLatex
 //
@@ -50,7 +51,7 @@
 // \subdoxygen{Statistics}{ScalarImageToHistogramGenerator} class, as well as
 // the image class.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -76,7 +77,7 @@ int main( int argc, char * argv [] )
 // The pixel type and dimension of the image are explicitly declared and then
 // used for instantiating the image type.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef unsigned char       PixelType;
@@ -108,13 +109,13 @@ int main( int argc, char * argv [] )
 // The image type is used as template parameter for instantiating the histogram
 // generator.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ScalarImageToHistogramGenerator< 
+  typedef itk::Statistics::ScalarImageToHistogramGenerator<
                                       ImageType >   HistogramGeneratorType;
 
-  HistogramGeneratorType::Pointer histogramGenerator = 
+  HistogramGeneratorType::Pointer histogramGenerator =
                                       HistogramGeneratorType::New();
 // Software Guide : EndCodeSnippet
 
@@ -130,7 +131,7 @@ int main( int argc, char * argv [] )
 // easily experiment with different values for the number of bins and see how
 // that choice affects the computation of the entropy.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const unsigned int numberOfHistogramBins = atoi( argv[2] );
@@ -147,11 +148,11 @@ int main( int argc, char * argv [] )
 // histogram computation by invoking the \code{Compute()} method in the
 // generator.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->SetInput(  reader->GetOutput() );
-  
+
   histogramGenerator->Compute();
 // Software Guide : EndCodeSnippet
 
@@ -165,7 +166,7 @@ int main( int argc, char * argv [] )
 // \code{GetOutput()} method. A histogram class can be declared using the
 // \code{HistogramType} trait from the generator.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::HistogramType  HistogramType;
@@ -197,20 +198,20 @@ int main( int argc, char * argv [] )
 // the histogram, which is the simple count of frequency of occurrence for the
 // gray scale values of the image pixels, can be normalized in order to estimate
 // the probability density function \textbf{PDF} of the actual statistical
-// distribution of pixel values. 
+// distribution of pixel values.
 //
 //  First we declare an iterator that will visit all the bins in the histogram.
 //  Then we obtain the total number of counts using the
 //  \code{GetTotalFrequency()} method, and we initialize the entropy variable
-//  to zero.  
+//  to zero.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
   HistogramType::ConstIterator itr = histogram->Begin();
   HistogramType::ConstIterator end = histogram->End();
- 
+
   double Sum = histogram->GetTotalFrequency();
 
   double Entropy = 0.0;
@@ -234,7 +235,7 @@ int main( int argc, char * argv [] )
 //  in to a logarithm of base 2, and make possible to report the entropy in its
 //  natural unit: the bit.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   while( itr != end )
@@ -261,7 +262,7 @@ int main( int argc, char * argv [] )
 // large that our number of bins will always underestimate the variability of
 // the data.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   std::cout << "Image entropy = " << Entropy << " bits " << std::endl;
@@ -272,7 +273,7 @@ int main( int argc, char * argv [] )
 
 // Software Guide : BeginLatex
 //
-// As an illustration, the application of this program to the image 
+// As an illustration, the application of this program to the image
 //
 // \begin{itemize}
 // \item \code{Examples/Data/BrainProtonDensitySlice.png}
@@ -290,18 +291,18 @@ int main( int argc, char * argv [] )
 // \hline
 // \end{tabular}
 // \end{center}
-// 
+//
 //
 // This table highlights the importance of carefully considering the
 // characteristics of the histograms used for estimating Information Theory
 // measures such as the entropy.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 
   return 0;
-  
+
 }
 
 

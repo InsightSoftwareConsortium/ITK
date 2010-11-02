@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTrainingFunctionBase.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkTrainingFunctionBase_txx
 #define __itkTrainingFunctionBase_txx
 
@@ -47,7 +47,7 @@ void TrainingFunctionBase<TSample,TTargetVector,ScalarType>
     {
     //m_InputSamples.push_back(defaultconverter(iter.GetMeasurementVector()));
     m_InputSamples.push_back(iter.GetMeasurementVector());
-    
+
     ++iter;
     }
 }
@@ -95,10 +95,10 @@ void TrainingFunctionBase<TSample,TTargetVector,ScalarType>
 
 /** Print the object */
 template<class TSample, class TTargetVector, class ScalarType>
-void  
+void
 TrainingFunctionBase<TSample,TTargetVector,ScalarType>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
   os << indent << "TrainingFunctionBase(" << this << ")" << std::endl;
 
   os << indent << "m_PerformanceFunction = " << m_PerformanceFunction << std::endl;
@@ -115,8 +115,8 @@ TrainingFunctionBase<TSample,TTargetVector,ScalarType>
   //os << indent << "m_InputSamples = " << m_InputSamples << std::endl;
   //os << indent << "m_Targets = " << m_Targets << std::endl;
   os << indent << "m_LearningRate = " << m_LearningRate << std::endl;
-  Superclass::PrintSelf( os, indent ); 
-} 
+  Superclass::PrintSelf( os, indent );
+}
 
 } // end namespace Statistics
 } // end namespace itk

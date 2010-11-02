@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElementTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -40,7 +40,7 @@ int itkFEMElementTest(int ac, char* av[] )
   std::ifstream f;
 
   // Storage for list of or user-specified input file(s)
-  char** filelist; 
+  char** filelist;
   char buffer[80] = {'\0'};
   int numfiles = 0;
   char *fname;
@@ -64,14 +64,14 @@ int itkFEMElementTest(int ac, char* av[] )
   // Display the menu
   {
     std::cout << "Loading menu..." << std::endl;
-    
+
     f.open(listloc,std::ios::binary);
     if (!f) {
       std::cout << "ERROR: null file handle - couldn't read input file list" << std::endl;
       std::cout << "Test FAILED" << std::endl;
       return EXIT_FAILURE;
     }
-    
+
     f >> numfiles;
     filelist = new char*[numfiles];
     for (int k=0; k < numfiles; k++) {
@@ -80,7 +80,7 @@ int itkFEMElementTest(int ac, char* av[] )
       strcpy(filelist[k], buffer);
     }
     f.close();
-    
+
     // Prompt the user to select a problem
     int ch = -1;
     while (ch < 0 || ch >= numfiles) {
@@ -90,10 +90,10 @@ int itkFEMElementTest(int ac, char* av[] )
       std::cout << std::endl << "Select an FEM problem to solve:  ";
       std::cin >> ch;
     }
-    
+
     // Print the name of the selected problem
     std::cout << std::endl << comment << "FEM Problem: " << filelist[ch] << std::endl;
-    
+
     // Construct the file name appropriately from the list
     fname = new char[strlen(filepath)+strlen(filelist[ch])+5];
     strcpy(fname, filepath);
@@ -102,10 +102,10 @@ int itkFEMElementTest(int ac, char* av[] )
   // Accept a user-specified file
   else {
     std::cout << "User-specified file..." << std::endl;
-      
+
     fname = new char[strlen(av[1])+5];
     strcpy(fname, av[1]);
-    
+
     // Print the name of the user-specified problem
     std::cout << std::endl << comment << "FEM Input: " << fname << std::endl;
 
@@ -115,7 +115,7 @@ int itkFEMElementTest(int ac, char* av[] )
       std::cout << "currsolver = " << currsolver << std::endl;
     }
   }
-    
+
   // Open a file handle & associate it with the input file
   f.open(fname,std::ios::binary);
   if (!f)
@@ -136,10 +136,10 @@ int itkFEMElementTest(int ac, char* av[] )
     S.Read(f);
     f.close();
     delete []fname;
-    
+
     // Call the appropriate sequence of Solver methods to solve the
     // problem
-    
+
     std::cout << comment << "GenerateGFN()" << std::endl;
     S.GenerateGFN();          // Generate global freedom numbers for system DOFs
 
@@ -150,9 +150,9 @@ int itkFEMElementTest(int ac, char* av[] )
     itk::fem::LinearSystemWrapperVNL lsw_vnl;
 
     for (s=0; s < numsolvers; s++) {
- 
+
       if (s == 2) {
-        // Itpack 
+        // Itpack
         std::cout << std::endl << comment << ">>>>>Using LinearSystemWrapperItpack" << std::endl;
         lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
         S.SetLinearSystemWrapper(&lsw_itpack);
@@ -170,16 +170,16 @@ int itkFEMElementTest(int ac, char* av[] )
 
       std::cout << comment << "AssembleK()" << std::endl;
       S.AssembleK();            // Assemble the global stiffness matrix K
-    
+
       std::cout << comment << "DecomposeK()" << std::endl;
       S.DecomposeK();           // Invert K
-      
+
       std::cout << comment << "AssembleF()" << std::endl;
       S.AssembleF();            // Assemble the global load vector F
-      
+
       std::cout << comment << "Solver::Solve()"<< std::endl;
       S.Solve();                // Solve the system Ku=F for u
-      
+
 #if DEBUG_FEM_TESTS
       PrintK(S, s, comment);
       PrintF(S, s, comment);
@@ -187,7 +187,7 @@ int itkFEMElementTest(int ac, char* av[] )
       PrintU(S, s, comment);
 #endif
       std::cout << comment << "Done" << std::endl;
-      
+
       std::cout << comment << "Test PASSED" << std::endl;
     }
   }
@@ -209,7 +209,7 @@ void PrintK( itk::fem::Solver& S, int s, char )
 // Print K - the global stiffness matrix
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
-  
+
   std::cout << std::endl << "k" << s << "=[";
   for (unsigned int j=0; j < lsw->GetSystemOrder(); j++) {
     if (IDL_OUTPUT) { std::cout << " ["; }
@@ -220,24 +220,24 @@ void PrintK( itk::fem::Solver& S, int s, char )
     if (IDL_OUTPUT) {
       if (j < lsw->GetSystemOrder()-1) { std::cout << " ], $" << std::endl; }
       else  { std::cout << "]"; }
-    } 
+    }
     else if (MATLAB_OUTPUT) { std::cout << std::endl; }
   }
   std::cout << "];" << std::endl;
-}  
+}
 
 void PrintF( itk::fem::Solver& S, int s, char )
 // Print F - the global load vector
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
-  
+
   std::cout << std::endl << "f" << s << "=[";
   for (unsigned int j=0; j < lsw->GetSystemOrder(); j++) {
     if (j > 0) { std::cout << ",  "; }
     std::cout << lsw->GetVectorValue(j);
   }
   std::cout << "];" << std::endl;
-}  
+}
 
 void PrintNodalCoordinates( itk::fem::Solver& S, int w, char comment)
 // Print the nodal coordinates
@@ -249,7 +249,7 @@ void PrintNodalCoordinates( itk::fem::Solver& S, int w, char comment)
     if (IDL_OUTPUT) { std::cout << " ["; }
     // FIXME: this will generate errors in IDL - needs to be comma-delimited
     std::cout << (*n)->GetCoordinates();
-    if (IDL_OUTPUT) { 
+    if (IDL_OUTPUT) {
       if ((n+1) != S.node.end()) { std::cout << " ], $" << std::endl; }
       else { std::cout << "]"; }
     }
@@ -271,7 +271,7 @@ void PrintU( itk::fem::Solver& S, int s, char comment)
       if (d > 0 && d != ::itk::fem::Element::InvalidDegreeOfFreedomID) { std::cout<<", "; }
       std::cout<<S.GetSolution(dof);
     }
-    if (IDL_OUTPUT) { 
+    if (IDL_OUTPUT) {
       if ((n+1) != S.node.end()) { std::cout << " ], $" << std::endl; }
       else { std::cout << "]"; }
     }
@@ -279,8 +279,8 @@ void PrintU( itk::fem::Solver& S, int s, char comment)
   }
   std::cout << "];" << std::endl;
 }
-      
-#endif    
+
+#endif
 
 
 

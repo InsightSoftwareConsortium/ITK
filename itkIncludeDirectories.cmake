@@ -191,10 +191,10 @@ endif(ITK_USE_REVIEW)
 
 #-----------------------------------------------------------------------------
 # Include directories for 3rd-party utilities provided by ITK.
+ITK_THIRD_PARTY_INCLUDE(OpenJPEG openjpeg)
 ITK_THIRD_PARTY_INCLUDE2(PNG)
 ITK_THIRD_PARTY_INCLUDE2(TIFF)
 ITK_THIRD_PARTY_INCLUDE2(ZLIB)
 if(ITK_USE_SYSTEM_LIBXML2 OR ITK_USE_LIBXML2)
   ITK_THIRD_PARTY_INCLUDE(LIBXML2 libxml2)
 endif(ITK_USE_SYSTEM_LIBXML2 OR ITK_USE_LIBXML2)
-

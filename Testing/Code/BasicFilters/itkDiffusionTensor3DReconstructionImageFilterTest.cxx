@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDiffusionTensor3DReconstructionImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include <iostream>
@@ -24,13 +25,13 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
   typedef short int          GradientPixelType;
   typedef double             TensorPrecisionType;
 
-  typedef itk::DiffusionTensor3DReconstructionImageFilter< 
-      ReferencePixelType, GradientPixelType, TensorPrecisionType > 
+  typedef itk::DiffusionTensor3DReconstructionImageFilter<
+      ReferencePixelType, GradientPixelType, TensorPrecisionType >
         TensorReconstructionImageFilterType;
   typedef TensorReconstructionImageFilterType::GradientImageType GradientImageType;
-  TensorReconstructionImageFilterType::Pointer tensorReconstructionFilter = 
+  TensorReconstructionImageFilterType::Pointer tensorReconstructionFilter =
     TensorReconstructionImageFilterType::New();
-  
+
   // Create a reference image
   //
   typedef TensorReconstructionImageFilterType::ReferenceImageType ReferenceImageType;
@@ -46,13 +47,13 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
   referenceImage->SetRegions( regionReferenceImage );
   referenceImage->Allocate();
   referenceImage->FillBuffer( 100 );
-  
-  
+
+
   const unsigned int numberOfGradientImages = 6;
 
   // Assign gradient directions
   //
-  double  gradientDirections[6][3] = 
+  double  gradientDirections[6][3] =
     {
       {-1.000000,   0.000000  ,      0.000000},
       {-0.166000,   0.986000  ,      0.000000},
@@ -61,8 +62,8 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
       {0.169000 ,   -0.601000 ,      0.781000},
       {0.815000 ,   -0.386000 ,      0.433000}
     };
-    
-  
+
+
   // Create gradient images
   //
   typedef GradientImageType::Pointer GradientImagePointer;
@@ -71,9 +72,9 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
   typedef GradientRegionType::IndexType  GradientIndexType;
   typedef GradientRegionType::SizeType   GradientSizeType;
   typedef ReferenceRegionType::IndexType ReferenceIndexType;
-  
+
   for( unsigned int i=0; i < numberOfGradientImages; i++ )
-    { 
+    {
     GradientImageType::Pointer gradientImage = GradientImageType::New();
     GradientSizeType  sizeGradientImage  = {{ 4, 4, 4 }};
     GradientIndexType indexGradientImage = {{ 0, 0, 0 }};
@@ -82,64 +83,64 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
     regionGradientImage.SetIndex( indexGradientImage);
     gradientImage->SetRegions( regionGradientImage );
     gradientImage->Allocate();
-  
-    itk::ImageRegionIteratorWithIndex< GradientImageType > git( 
+
+    itk::ImageRegionIteratorWithIndex< GradientImageType > git(
         gradientImage, regionGradientImage );
     git.GoToBegin();
     while( !git.IsAtEnd() )
       {
-      GradientPixelType fancyGradientValue = 
+      GradientPixelType fancyGradientValue =
         static_cast< short int >((i+1) * (i+1) * (i+1));
       git.Set( fancyGradientValue );
       ++git;
       }
-    
+
     TensorReconstructionImageFilterType::GradientDirectionType gradientDirection;
     gradientDirection[0] = gradientDirections[i][0];
     gradientDirection[1] = gradientDirections[i][1];
     gradientDirection[2] = gradientDirections[i][2];
-    tensorReconstructionFilter->AddGradientImage( gradientDirection, gradientImage );   
+    tensorReconstructionFilter->AddGradientImage( gradientDirection, gradientImage );
     std::cout << "Gradient directions: " << gradientDirection << std::endl;
     }
 
   tensorReconstructionFilter->SetReferenceImage( referenceImage );
   // TODO: remove this when netlib is made thread safe
-  tensorReconstructionFilter->SetNumberOfThreads( 1 ); 
+  tensorReconstructionFilter->SetNumberOfThreads( 1 );
 
   // Also see if vnl_svd is thread safe now...
-  std::cout << std::endl << "This filter is using " << 
+  std::cout << std::endl << "This filter is using " <<
    tensorReconstructionFilter->GetNumberOfThreads() << " threads " << std::endl;
-  
+
   tensorReconstructionFilter->Update();
 
   typedef TensorReconstructionImageFilterType::TensorImageType TensorImageType;
   TensorImageType::Pointer tensorImage = tensorReconstructionFilter->GetOutput();
   typedef TensorImageType::IndexType TensorImageIndexType;
-  
+
   TensorImageIndexType tensorImageIndex    = {{3,3,3}};
   GradientIndexType    gradientImageIndex  = {{3,3,3}};
   ReferenceIndexType   referenceImageIndex = {{3,3,3}};
 
   std::cout << std::endl << "Pixels at index: " << tensorImageIndex << std::endl;
-  std::cout << "Reference pixel " 
+  std::cout << "Reference pixel "
     << referenceImage->GetPixel( referenceImageIndex ) << std::endl;
-  
+
   for( unsigned int i=0; i < numberOfGradientImages; i++ )
-    { 
-    std::cout << "Gradient image " << i << " pixel : " 
+    {
+    std::cout << "Gradient image " << i << " pixel : "
       << static_cast< GradientImageType * >( const_cast< GradientImageType * >(
           tensorReconstructionFilter->GetInput(i+1)))->GetPixel(gradientImageIndex)
       << std::endl;
     }
 
-  double  expectedResult[3][3] = 
+  double  expectedResult[3][3] =
     {
       {4.60517, -2.6698, -8.4079},
       {-2.6698, 1.56783, 0.900034},
       {-8.4079, 0.900034, 2.62504}
     };
-  
-  std::cout << std::endl << "Reconstructed tensor : " << std::endl; 
+
+  std::cout << std::endl << "Reconstructed tensor : " << std::endl;
   bool passed = true;
   double precision = 0.0001;
   for( unsigned int i = 0; i<3; i++ )
@@ -156,10 +157,10 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
     std::cout << std::endl;
     }
 
-  if( !passed ) 
+  if( !passed )
     {
     std::cout << "[FAILED]" << std::endl;
-    
+
     std::cout << "Expected tensor : " << std::endl;
     for( unsigned int i = 0; i<3; i++ )
       {
@@ -173,7 +174,7 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED]" << std::endl;
-      
+
   return EXIT_SUCCESS;
 }
 

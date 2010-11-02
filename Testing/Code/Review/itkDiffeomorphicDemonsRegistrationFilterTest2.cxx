@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -74,7 +75,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   typedef float                                     PixelType;
   const unsigned int                                ImageDimension = 2;
 
-  typedef itk::Image<PixelType,ImageDimension>      ImageType;  
+  typedef itk::Image<PixelType,ImageDimension>      ImageType;
   typedef itk::Vector<float,ImageDimension>         VectorType;
   typedef itk::Image<VectorType,ImageDimension>     FieldType;
 
@@ -174,7 +175,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
   std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
   std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
-  
+
   double v[ImageDimension];
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
@@ -189,7 +190,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   command->SetCallbackFunction(&progressWatch,
                                &ProgressType::ShowProgress);
   registrator->AddObserver( itk::ProgressEvent(), command);
- 
+
   // warp moving image
   typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
   WarperType::Pointer warper = WarperType::New();
@@ -198,7 +199,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
     InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  
+
   const ImageType * fixed  = fixedReader->GetOutput();
   const ImageType * moving = movingReader->GetOutput();
 
@@ -212,10 +213,10 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   warper->Print( std::cout );
 
   warper->Update();
- 
+
   writer->SetInput( warper->GetOutput() );
   writer->UseCompressionOn();
-  
+
   try
     {
     writer->Update();
@@ -228,6 +229,6 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
-  
+
 
 }

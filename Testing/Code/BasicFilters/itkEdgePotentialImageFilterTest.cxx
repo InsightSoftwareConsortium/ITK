@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkEdgePotentialImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -24,7 +25,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
 
-int itkEdgePotentialImageFilterTest(int, char* [] ) 
+int itkEdgePotentialImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -35,8 +36,8 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
   typedef itk::Image<VectorType, ImageDimension>  InputImageType;
   typedef itk::Image<float, ImageDimension>  OutputImageType;
 
-  
-  // Declare Iterator types apropriated for each image 
+
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIterator<InputImageType>  InputIteratorType;
 
   typedef itk::ImageRegionIterator<OutputImageType>  OutputIteratorType;
@@ -45,7 +46,7 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<ImageDimension>          SizeType;
 
   // Declare the type of the Region
@@ -53,7 +54,7 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
 
   // Create two images
   InputImageType::Pointer inputImage  = InputImageType::New();
-  
+
   // Define their size, and start index
   SizeType size;
   size[0] = 2;
@@ -86,7 +87,7 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
     }
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     it.Set( vec );
     std::cout << it.Get() << std::endl;
@@ -96,35 +97,35 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
   // create an EdgePotentialImageFilter
   typedef itk::EdgePotentialImageFilter< InputImageType,
                                OutputImageType  >  FilterType;
-                                          
+
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher watcher(filter);
 
   // Connect the input images
-  filter->SetInput( inputImage ); 
+  filter->SetInput( inputImage );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
-  
+
   // Execute the filter
   filter->Update();
   filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
   {
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType pot  = vcl_exp( -1.0 * (it.Get().GetNorm() ) );
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  pot  << std::endl; 
+    std::cout <<  pot  << std::endl;
     if( vcl_fabs( pot - output ) > epsilon )
     {
       std::cerr << "Error in itkEdgePotentialImageFilterTest " << std::endl;

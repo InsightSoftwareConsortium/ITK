@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadBCMFC.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMLoadBCMFC_h
 #define __itkFEMLoadBCMFC_h
 
@@ -29,7 +30,7 @@ namespace fem {
  * These constraints are implemented using the Lagrange multiplier method.
  * We treat displacement constraints (or essential boundary conditions, which are
  * exactly the same but with less functionality) as a special kind of load on the system.
- * 
+ *
  * How to store data in a LoadBCMFC object... Suppose you want to impose the following
  * constraint to the system:
  *
@@ -58,7 +59,7 @@ public:
    * \brief Class that holds information about one term in MFC constraint equation.
    * \sa LoadBCMFC
    */
-  class MFCTerm 
+  class MFCTerm
     {
     public:
     /**
@@ -80,9 +81,9 @@ public:
      * Constructor for easy object creation.
      */
       MFCTerm(Element::ConstPointer element_, int dof_, Element::Float value_) : m_element(element_), dof(dof_), value(value_) {}
-      
+
     };
-  
+
   /**
    * Left hand side of the MFC constraint equation
    */

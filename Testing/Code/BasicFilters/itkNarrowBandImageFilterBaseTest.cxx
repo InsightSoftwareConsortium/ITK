@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNarrowBandImageFilterBaseTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,14 +28,14 @@
 #include "itkAddImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-namespace itk 
+namespace itk
 {
   template <class TInputImageType, class TOutputImageType>
   class NbTestClass: public NarrowBandImageFilterBase<TInputImageType, TOutputImageType>
   {
      public:
      typedef NbTestClass Self;
-    
+
      typedef NarrowBandImageFilterBase<TInputImageType, TOutputImageType> Superclass;
      typedef SmartPointer<Self> Pointer;
      typedef SmartPointer<const Self> ConstPointer;
@@ -42,17 +43,17 @@ namespace itk
 
     /** Standard method for creation through object factory. */
         itkNewMacro(Self);
-    
+
     /** Run-time class information. */
      itkTypeMacro(NbTestClass,NarrowBandImageFilterBase);
-    
+
      typedef CurvatureFlowFunction<TOutputImageType> FiniteFunctionType;
-    
- 
-  protected:  
+
+
+  protected:
     typename FiniteFunctionType::Pointer m_Function;
-    
-    NbTestClass () 
+
+    NbTestClass ()
     {
       m_Function=FiniteFunctionType::New();
       this->SetDifferenceFunction(m_Function);
@@ -63,7 +64,7 @@ namespace itk
       if (this->GetElapsedIterations()==20) return true;
       else return false;
     }
-    
+
     virtual void CreateNarrowBand()
       {
       //Create a band
@@ -73,9 +74,9 @@ namespace itk
 
       for (in[0]=32+tl[0]; in[0]<tl[0]+(long int)(sz[0]); in[0]++)
         {
-        for (in[1]=tl[1]+32; in[1]<tl[1]+(long int)(sz[1]);in[1]++)       
+        for (in[1]=tl[1]+32; in[1]<tl[1]+(long int)(sz[1]);in[1]++)
           {
-          this->InsertNarrowBandNode (in); 
+          this->InsertNarrowBandNode (in);
           }
         }
       }
@@ -119,13 +120,13 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;
   typedef itk::Point<double,ImageDimension> PointType;
-  
+
   ImageType::SizeType size = {{64,64}};
   ImageType::IndexType index = {{0,0}};
   ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
-  
+
   ImageType::Pointer inputImage = ImageType::New();
   inputImage->SetLargestPossibleRegion( region );
   inputImage->SetBufferedRegion( region );
@@ -165,7 +166,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
   typedef itk::NbTestClass <ImageType,ImageType> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput(addFilter->GetOutput());    
+  filter->SetInput(addFilter->GetOutput());
   filter->Print(std::cout);
   try
     {
@@ -187,8 +188,8 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   std::cout << "Test Passed. " << std::endl;
   return EXIT_SUCCESS;
- 
+
 }

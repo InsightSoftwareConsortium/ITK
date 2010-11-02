@@ -1,19 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkPolygonGroupSpatialObjectXMLFileTest.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,7 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
 #include <itksys/SystemTools.hxx>
 
-static float strandPoints[11][2] = 
+static float strandPoints[11][2] =
   {
     {1,1},{1,2},{1.25,2},{1.25,1.25},{1.75,1.25},
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
@@ -38,7 +39,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
   try
     {
     for(float z = 0.0; z <= 10.0; z += 1.0)
-      {      
+      {
       itk::PolygonSpatialObject<3>::Pointer strand
         = itk::PolygonSpatialObject<3>::New();
 
@@ -57,7 +58,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         pos[1] = strandPoints[i][1];
         pos[2] = z;
         itk::PolygonSpatialObject<3>::PointType curpoint(pos);
-        if(!strand->AddPoint(curpoint)) 
+        if(!strand->AddPoint(curpoint))
           {
           std::cerr << "Error adding point" << std::endl;
           return EXIT_FAILURE;
@@ -110,17 +111,17 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     Polygon3DType::PointListType &points2 =
       curstrand2->GetPoints();
 
-    Polygon3DType::PointListType::iterator pointIt1 
+    Polygon3DType::PointListType::iterator pointIt1
       = points1.begin();
     Polygon3DType::PointListType::iterator pointItEnd1
       = points1.end();
 
-    Polygon3DType::PointListType::iterator pointIt2 
+    Polygon3DType::PointListType::iterator pointIt2
       = points2.begin();
     Polygon3DType::PointListType::iterator pointItEnd2
       = points2.end();
 
-    while(pointIt1 != pointItEnd1) 
+    while(pointIt1 != pointItEnd1)
       {
       if(pointIt2 == pointItEnd2)
         {
@@ -128,9 +129,9 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
         delete children2;
         return EXIT_FAILURE;
         }
-      Polygon3DType::PointType curpoint1 = 
+      Polygon3DType::PointType curpoint1 =
         (*pointIt1).GetPosition();
-      Polygon3DType::PointType curpoint2 = 
+      Polygon3DType::PointType curpoint2 =
         (*pointIt2).GetPosition();
       pointIt1++;
       pointIt2++;
@@ -144,14 +145,14 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     it1++;
     it2++;
     }
-  
+
   if(it2 != end2)
     {
     delete children1;
     delete children2;
     return EXIT_FAILURE;
     }
-  
+
   delete children1;
   delete children2;
   return EXIT_SUCCESS;
@@ -179,7 +180,7 @@ int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
     {
     itk::PolygonGroupSpatialObjectXMLFileWriter::Pointer pw =
       itk::PolygonGroupSpatialObjectXMLFileWriter::New();
-  
+
     pw->SetFilename(xmlfilename.c_str());
     pw->SetObject(&(*PolygonGroup));
     pw->WriteFile();
@@ -192,7 +193,7 @@ int itkPolygonGroupSpatialObjectXMLFileTest(int ac, char *av[])
 
   try
     {
-    itk::PolygonGroupSpatialObjectXMLFileReader::Pointer p = 
+    itk::PolygonGroupSpatialObjectXMLFileReader::Pointer p =
       itk::PolygonGroupSpatialObjectXMLFileReader::New();
     p->SetFilename(xmlfilename.c_str());
     p->GenerateOutputInformation();

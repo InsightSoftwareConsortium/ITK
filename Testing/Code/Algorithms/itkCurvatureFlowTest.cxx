@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCurvatureFlowTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -59,19 +60,19 @@ public:
   typedef FiniteDifferenceFunction<TImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
 
-  virtual PixelType ComputeUpdate( const NeighborhoodType &, void *, 
+  virtual PixelType ComputeUpdate( const NeighborhoodType &, void *,
                                    const FloatOffsetType & )
     { return 0; }
-  
+
   virtual TimeStepType ComputeGlobalTimeStep( void * ) const
     { return 0; }
-  
+
   virtual void *GetGlobalDataPointer() const
     { return NULL; }
 
@@ -92,8 +93,8 @@ private:
 int itkCurvatureFlowTest(int argc, char* argv[] )
 {
 
-  if( argc < 2 ) 
-    { 
+  if( argc < 2 )
+    {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  outputFile" << std::endl;
     return EXIT_FAILURE;
@@ -125,7 +126,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
     std::cout << err << std::endl;
     passed = true;
     }
-  
+
   if ( !passed )
     {
     std::cout << "Test failed." << std::endl;
@@ -158,7 +159,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
     std::cout << "Caught expected error." << std::endl;
     std::cout << err << std::endl;
     }
-  
+
   //-----------------------------------------------------------------------
 
   std::cout << "Create input image using RandomImageSource" << std::endl;
@@ -242,7 +243,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
 
   // Exercise other member functions here
   denoiser->Print( std::cout );
- 
+
   itk::VTKImageIO::Pointer vtkIO;
   vtkIO = itk::VTKImageIO::New();
   typedef itk::ImageFileWriter<ImageType> WriterType;

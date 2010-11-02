@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkUnicodeIOTest.cxx
-  Language:  C++
-  Date:      $Date$xgoto-l
-
-  Version:   $Revision$
-
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkInternationalizationIOHelpers.h"
 
 #include <cstdlib> // for EXIT_FAILURE and EXIT_SUCCESS
@@ -87,15 +87,15 @@ bool removeAlpha()
 int main( int , char * [] )
 {
   std::cout << "Starting unicode IO test." << std::endl;
-  
+
   int nberror = 0;
-   
+
   // Put alpha.txt encoded in utf8 within a std::string
   std::string utf8_str;
   utf8_str.append(1, (char)(0xCE));
   utf8_str.append(1, (char)(0xB1));
   utf8_str += ".txt";
-  
+
   // Check if we actually find it is a valid string
   if ( !itk::i18n::IsStringEncodingValid(utf8_str) )
     {
@@ -136,10 +136,10 @@ int main( int , char * [] )
   // Start by removing alpha.txt if it exists
   removeAlpha();
 
-  
+
   // Create alpha.txt using utf8fopen
   FILE * wfile = itk::i18n::I18nFopen(utf8_str, "wb");
-  
+
   if (!checkAlphaExists())
     {
     std::cout << "alpha.txt does not exist after utf8fopen." << std::endl;
@@ -211,7 +211,7 @@ int main( int , char * [] )
     ++nberror;
     }
   wstream.close();
-  
+
 
   itk::i18n::I18nIfstream rstream(utf8_str.c_str(), std::ios::binary | std::ios::in );
 
@@ -220,7 +220,7 @@ int main( int , char * [] )
     std::string teststring;
     std::getline(rstream, teststring);
     std::cout << "teststring=" << teststring <<std::endl;
-    
+
     if ( teststring != std::string("teststream") )
       {
       std::cout << "teststring is not equal to teststream." << std::endl;
@@ -244,8 +244,8 @@ int main( int , char * [] )
 
 
   // Check number of errors
-  if ( nberror > 0 ) 
-    {  
+  if ( nberror > 0 )
+    {
     std::cout << "Test failed with " << nberror << " errors." << std::endl;
     return EXIT_FAILURE;
     }

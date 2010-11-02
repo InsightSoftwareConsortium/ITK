@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSpatialObjectDuplicatorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +30,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   EllipseType::Pointer ellipse = EllipseType::New();
   ellipse->SetRadius(3);
   ellipse->GetProperty()->SetColor(0,1,1);
- 
+
   typedef itk::SpatialObjectDuplicator<EllipseType> DuplicatorType;
   DuplicatorType::Pointer duplicator = DuplicatorType::New();
 
@@ -47,7 +48,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   typedef itk::GroupSpatialObject<3> GroupType;
   GroupType::Pointer group = GroupType::New();
   group->AddSpatialObject(ellipse);
-  
+
   typedef itk::SpatialObjectDuplicator<GroupType> DuplicatorGroupType;
   DuplicatorGroupType::Pointer duplicatorGroup = DuplicatorGroupType::New();
   duplicatorGroup->SetInput(group);
@@ -111,7 +112,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   // Testing DTITubeSO
   std::cout << "Testing DTITubeSpatialObject: ";
   DTITubeType::PointListType::const_iterator jdti;
- 
+
   bool found = false;
   if(!strcmp(dtiTube_copy->GetTypeName(),"DTITubeSpatialObject"))
     {
@@ -124,8 +125,8 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
       return EXIT_FAILURE;
       }
 
-    for(jdti = dtiTube_copy->GetPoints().begin(); 
-        jdti != dtiTube_copy->GetPoints().end(); 
+    for(jdti = dtiTube_copy->GetPoints().begin();
+        jdti != dtiTube_copy->GetPoints().end();
         jdti++)
       {
       for(unsigned int d=0;d<3;d++)
@@ -142,25 +143,25 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
           std::cout<<" [FAILED] : Red : found " << ( *jdti).GetRed() << " instead of " << value <<std::endl;
           return EXIT_FAILURE;
           }
-      
+
         if((*jdti).GetGreen()!=value+1)
           {
           std::cout<<" [FAILED] : Green : found " << ( *jdti).GetGreen() << " instead of " << value+1 <<std::endl;
           return EXIT_FAILURE;
           }
-      
+
         if((*jdti).GetBlue()!=value+2)
           {
           std::cout<<"[FAILED] : Blue : found " << ( *jdti).GetBlue() << " instead of " << value+2 <<std::endl;
           return EXIT_FAILURE;
           }
-    
+
         if((*jdti).GetAlpha()!=value+3)
           {
           std::cout<<" [FAILED] : Alpha : found " << ( *jdti).GetAlpha() << " instead of " << value+3 <<std::endl;
           return EXIT_FAILURE;
           }
-        
+
         if((*jdti).GetField(DTITubePointType::FA)!=value)
           {
           std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA") << " instead of " << value <<std::endl;
@@ -190,7 +191,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
           {
           std::cout<<" [FAILED] : GetLambda3 : found " << ( *jdti).GetField("Lambda3") << " instead of " << value*6 <<std::endl;
           return EXIT_FAILURE;
-          }      
+          }
         int ind;
         for(ind=0;ind<6;ind++)
           {
@@ -217,6 +218,6 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
 
   std::cout << "TEST: [DONE]" << std::endl;
 
- 
+
   return EXIT_SUCCESS;
 }

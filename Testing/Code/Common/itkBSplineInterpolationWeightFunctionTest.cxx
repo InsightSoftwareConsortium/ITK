@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineInterpolationWeightFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -21,7 +22,7 @@
 #include "itkBSplineInterpolationWeightFunction.h"
 
 /*
- * This test exercises methods in the 
+ * This test exercises methods in the
  * BSplineInterpolationWeightFunction class.
  */
 int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
@@ -68,7 +69,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
     function->Evaluate( position2, weights2, startIndex2 );
 
     const unsigned int numberOfWeigts = weights1.size();
-    
+
     const int indexDifference = vnl_math_abs( startIndex2[0] + startIndex1[0] ) & 1;
 
 
@@ -90,22 +91,22 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
       testFailed = true;
       std::cerr << "indexDifference= " << indexDifference << std::endl;
       for( unsigned int nw = 0; nw < numberOfWeigts; nw++ )
-        { 
+        {
         std::cerr << weights1[nw] << "\t";
         }
       std::cerr << std::endl;
       for( unsigned int nw = 0; nw < numberOfWeigts; nw++ )
-        { 
+        {
         std::cerr << weights2[nw] << "\t";
         }
       std::cerr << std::endl;
       for( unsigned int sd = 0; sd < SpaceDimension; sd++ )
-        { 
+        {
         std::cerr << startIndex1[sd] << "\t";
         }
       std::cerr << std::endl;
       for( unsigned int sd = 0; sd < SpaceDimension; sd++ )
-        { 
+        {
         std::cerr << startIndex2[sd] << "\t";
         }
       std::cerr << std::endl;
@@ -160,7 +161,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
     function->Evaluate( position2, weights2, startIndex2 );
 
     const unsigned int numberOfWeigts = weights1.size();
-    
+
     const int indexDifference = vnl_math_abs( startIndex2[0] + startIndex1[0] + 1 ) & 1;
 
 
@@ -182,22 +183,22 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
       testFailed = true;
       std::cerr << "indexDifference= " << indexDifference << std::endl;
       for( unsigned int nw = 0; nw < numberOfWeigts; nw++ )
-        { 
+        {
         std::cerr << weights1[nw] << "\t";
         }
       std::cerr << std::endl;
       for( unsigned int nw = 0; nw < numberOfWeigts; nw++ )
-        { 
+        {
         std::cerr << weights2[nw] << "\t";
         }
       std::cerr << std::endl;
       for( unsigned int sd = 0; sd < SpaceDimension; sd++ )
-        { 
+        {
         std::cerr << startIndex1[sd] << "\t";
         }
       std::cerr << std::endl;
       for( unsigned int sd = 0; sd < SpaceDimension; sd++ )
-        { 
+        {
         std::cerr << startIndex2[sd] << "\t";
         }
       std::cerr << std::endl;
@@ -249,11 +250,11 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   std::cout << "Weights: " << weights << std::endl;
   std::cout << "Start Index: " << startIndex << std::endl;
 
-  
+
   // Check for accuracy
   typedef itk::BSplineKernelFunction<SplineOrder> KernelType;
   KernelType::Pointer kernel = KernelType::New();
- 
+
   typedef itk::Image<char,SpaceDimension> ImageType;
   ImageType::Pointer image = ImageType::New();
   ImageType::RegionType region;
@@ -275,7 +276,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
     double value = 1.0;
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      value *= kernel->Evaluate( 
+      value *= kernel->Evaluate(
         static_cast<double>(iter.GetIndex()[j]) - position[j] );
       }
     if ( vnl_math_abs(weights[counter] - value) > 1e-7 )

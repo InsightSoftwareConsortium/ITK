@@ -1,26 +1,27 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableRegistration1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
@@ -34,13 +35,13 @@
 //
 //  \index{Registration!Finite Element-Based}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkFEM.h"
 #include "itkFEMRegistrationFilter.h"
-       
+
 // Software Guide : EndCodeSnippet
 
 //#include "itkFEMFiniteDifferenceFunctionLoad.h"
@@ -53,7 +54,7 @@
 //  two-dimensional registration problem.  We define multiple element
 //  types so that they can be used without recompiling the code.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 //  Software Guide : BeginCodeSnippet
@@ -83,10 +84,10 @@ typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  Here, we instantiate the load types and explicitly template the
 //  load implementation type.  We also define visitors that allow the
-//  elements and loads to communicate with one another.  
+//  elements and loads to communicate with one another.
 //
 //  Software Guide : EndLatex
 
@@ -104,10 +105,10 @@ typedef ElementType::LoadType                              ElementLoadType;
 typedef ElementType2::LoadImplementationFunctionPointer    LoadImpFP2;
 typedef ElementType2::LoadType                             ElementLoadType2;
 
-typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>   
+typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>
                                                            DispatcherType;
 
-typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>   
+typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>
                                                            DispatcherType2;
 //  Software Guide : EndCodeSnippet
 
@@ -134,29 +135,29 @@ int main(int argc, char *argv[])
     std::cout << "Parameter file name missing" << std::endl;
     std::cout << "Usage: " << argv[0] << " param.file" << std::endl;
     return EXIT_FAILURE;
-    } 
-  else 
-    { 
-    paramname=argv[1]; 
+    }
+  else
+    {
+    paramname=argv[1];
     }
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  The \doxygen{fem::ImageMetricLoad} must be registered before it
 //  can be used correctly with a particular element type.  An example
 //  of this is shown below for ElementType.  Similar
 //  definitions are required for all other defined element types.
 //
 //  Software Guide : EndLatex
-  
-  // Register the correct load implementation with the element-typed visitor dispatcher. 
+
+  // Register the correct load implementation with the element-typed visitor dispatcher.
   {
 //  Software Guide : BeginCodeSnippet
-  ElementType::LoadImplementationFunctionPointer fp = 
+  ElementType::LoadImplementationFunctionPointer fp =
     &itk::fem::ImageMetricLoadImplementation<ImageLoadType>::ImplementImageMetricLoad;
   DispatcherType::RegisterVisitor((ImageLoadType*)0,fp);
-//  Software Guide : EndCodeSnippet  
+//  Software Guide : EndCodeSnippet
   }
   {
   ElementType2::LoadImplementationFunctionPointer fp =
@@ -166,36 +167,36 @@ int main(int argc, char *argv[])
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  In order to begin the registration, we declare an instance of the
 //  FEMRegistrationFilter.  For simplicity, we will call
 //  it \code{registrationFilter}.
-// 
+//
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  RegistrationType::Pointer registrationFilter = RegistrationType::New(); 
+  RegistrationType::Pointer registrationFilter = RegistrationType::New();
 //  Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
-// 
+//
 //  Next, we call \code{registrationFilter->SetConfigFileName()} to read the parameter
 //  file containing information we need to set up the registration
 //  filter (image files, image sizes, etc.).  A sample parameter file is shown at the end of this
-//  section, and the individual components are labeled.  
+//  section, and the individual components are labeled.
 //
 //  Software Guide : EndLatex
 
 
   // Attempt to read the parameter file, and exit if an error occurs
   registrationFilter->SetConfigFileName(paramname);
-  if ( !registrationFilter->ReadConfigFile( 
-           (registrationFilter->GetConfigFileName()).c_str() ) ) 
-    { 
-    return EXIT_FAILURE; 
+  if ( !registrationFilter->ReadConfigFile(
+           (registrationFilter->GetConfigFileName()).c_str() ) )
+    {
+    return EXIT_FAILURE;
     }
- 
+
   // Read the image files
   typedef itk::ImageFileReader< fileImageType >      FileSourceType;
   typedef fileImageType::PixelType PixType;
@@ -206,7 +207,7 @@ int main(int argc, char *argv[])
   fixedfilter->SetFileName( (registrationFilter->GetFixedFile()).c_str() );
   std::cout << " reading moving " << registrationFilter->GetMovingFile() << std::endl;
   std::cout << " reading fixed " << registrationFilter->GetFixedFile() << std::endl;
-  
+
 
   try
     {
@@ -228,7 +229,7 @@ int main(int argc, char *argv[])
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
-  
+
 
   // Rescale the image intensities so that they fall between 0 and 255
   typedef itk::RescaleIntensityImageFilter<fileImageType,ImageType> FilterType;
@@ -247,7 +248,7 @@ int main(int argc, char *argv[])
   fixedrescalefilter->SetOutputMinimum( desiredMinimum );
   fixedrescalefilter->SetOutputMaximum( desiredMaximum );
   fixedrescalefilter->UpdateLargestPossibleRegion();
-  
+
 
   // Histogram match the images
   typedef itk::HistogramMatchingImageFilter<ImageType,ImageType> HEFilterType;
@@ -268,7 +269,7 @@ int main(int argc, char *argv[])
   writer = itk::ImageFileWriter<ImageType>::New();
   std::string ofn="fixed.mha";
   writer->SetFileName(ofn.c_str());
-  writer->SetInput(registrationFilter->GetFixedImage() ); 
+  writer->SetInput(registrationFilter->GetFixedImage() );
 
   try
     {
@@ -284,8 +285,8 @@ int main(int argc, char *argv[])
   itk::ImageFileWriter<ImageType>::Pointer writer2;
   writer2 =  itk::ImageFileWriter<ImageType>::New();
   writer2->SetFileName(ofn.c_str());
-  writer2->SetInput(registrationFilter->GetMovingImage() ); 
- 
+  writer2->SetInput(registrationFilter->GetMovingImage() );
+
   try
     {
     writer2->Write();
@@ -300,7 +301,7 @@ int main(int argc, char *argv[])
 
 
 //  Software Guide : BeginLatex
-// 
+//
 //  In order to initialize the mesh of elements, we must first create
 //  ``dummy'' material and element objects and assign them to the
 //  registration filter.  These objects are subsequently used to
@@ -309,9 +310,9 @@ int main(int argc, char *argv[])
 //  material object are arbitrary since they will be replaced with
 //  those specified in the parameter file.  Similarly, the element
 //  object will be replaced with those from the desired mesh.
-// 
+//
 //  Software Guide : EndLatex
-  
+
 //  Software Guide : BeginCodeSnippet
   // Create the material properties
   itk::fem::MaterialLinearElasticity::Pointer m;
@@ -323,8 +324,8 @@ int main(int argc, char *argv[])
   m->I = 1.0;                 // Moment of inertia
   m->nu = 0.;                 // Poisson's ratio -- DONT CHOOSE 1.0!!
   m->RhoC = 1.0;              // Density
-  
-  // Create the element type 
+
+  // Create the element type
   ElementType::Pointer e1=ElementType::New();
   e1->m_mat=dynamic_cast<itk::fem::MaterialLinearElasticity*>( m );
   registrationFilter->SetElement(e1);
@@ -367,7 +368,7 @@ int main(int argc, char *argv[])
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  if (registrationFilter->GetWriteDisplacements()) 
+  if (registrationFilter->GetWriteDisplacements())
     {
     registrationFilter->WriteDisplacementField(0);
     registrationFilter->WriteDisplacementField(1);

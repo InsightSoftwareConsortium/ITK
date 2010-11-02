@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLargeImageWriteReadTest.cxx
-  Language:  C++
-  Date:      $Date$xgoto-l
-
-  Version:   $Revision$
-
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +29,7 @@
 namespace {
 
 template <typename TImageType>
-int ActualTest( std::string filename, typename TImageType::SizeType size ) 
+int ActualTest( std::string filename, typename TImageType::SizeType size )
 {
   typedef TImageType ImageType;
   typedef typename ImageType::PixelType PixelType;
@@ -53,30 +53,30 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
   index.Fill(0);
   region.SetSize(size);
   region.SetIndex(index);
-  
+
   image->SetRegions(region);
-  
+
   size_t numberOfPixels = 1;
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i )
     {
     numberOfPixels *= region.GetSize( i );
     }
-         
+
   const unsigned long sizeInMegaBytes = static_cast< unsigned long >(
     ( sizeof(PixelType) * numberOfPixels ) / ( 1024.0 * 1024.0 ) );
 
-  
-  std::cout << "Trying to allocate an image of size " << sizeInMegaBytes << " Mb " << std::endl; 
-  
+
+  std::cout << "Trying to allocate an image of size " << sizeInMegaBytes << " Mb " << std::endl;
+
   chronometer.Start("Allocate");
   image->Allocate();
   chronometer.Stop("Allocate");
-  
+
   std::cout << "Initializing pixel values " << std::endl;
-  
+
   IteratorType itr( image, region );
   itr.GoToBegin();
-  
+
   pixelValue = itk::NumericTraits< PixelType >::Zero;
 
   chronometer.Start("Initializing");
@@ -170,35 +170,35 @@ int itkLargeImageWriteReadTest(int ac, char* argv[])
     std::cout << "usage: itkIOTests itkLargeImageWriteReadTest outputFileName numberOfPixelsInOneDimension [numberOfZslices]" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const std::string filename = argv[1];
-        
+
   if ( ac == 3 )
     {
     const unsigned int Dimension = 2;
-    
+
     typedef unsigned short PixelType;
     typedef itk::Image< PixelType, Dimension> ImageType;
 
     ImageType::SizeType size;
-    
+
     size.Fill( atol( argv[2] ) );
-    
+
     return ActualTest< ImageType >( filename, size );
-    
+
     }
   else
-    {    
+    {
     const unsigned int Dimension = 3;
 
     typedef unsigned short PixelType;
     typedef itk::Image< PixelType, Dimension> ImageType;
 
     ImageType::SizeType size;
-    
+
     size.Fill( atol( argv[2] ) );
     size[2] = atol( argv[3] );
-    
+
     return ActualTest< ImageType >( filename, size );
     }
 

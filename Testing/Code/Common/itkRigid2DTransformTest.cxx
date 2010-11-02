@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRigid2DTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // Disable warning for long symbol names in this file only
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -32,7 +33,7 @@
 
 namespace
 {
-bool CheckEqual( 
+bool CheckEqual(
  itk::Point<double,2> p1,
  itk::Point<double,2> p2 )
 {
@@ -78,18 +79,18 @@ int itkRigid2DTransformTest(int ,char * [] )
       if( vcl_fabs( offset[i]-0.0 ) > epsilon )
       {
         Ok = false;
-        break;    
+        break;
       }
     }
     if( !Ok )
-    { 
+    {
       std::cerr << "Identity doesn't have a null offset" << std::endl;
       return EXIT_FAILURE;
     }
   }
 
 
- 
+
   /* Create a Rigid 2D transform with translation */
   {
     TransformType::Pointer  translation = TransformType::New();
@@ -125,11 +126,11 @@ int itkRigid2DTransformTest(int ,char * [] )
       if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
       {
         Ok = false;
-        break;    
+        break;
       }
     }
     if( !Ok )
-    { 
+    {
       std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
       return EXIT_FAILURE;
     }
@@ -147,11 +148,11 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error translating point: " << p << std::endl;
         std::cerr << "Result should be       : " << q << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
@@ -174,11 +175,11 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( q[i]- p[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error translating vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
@@ -200,11 +201,11 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( q[i]- p[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error translating covariant vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
@@ -215,7 +216,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       }
     }
 
-    
+
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -228,11 +229,11 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( q[i] - p[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error translating vnl_vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
@@ -248,20 +249,20 @@ int itkRigid2DTransformTest(int ,char * [] )
 
   }
 
- 
+
   /* Create a Rigid 2D transform with a rotation given by a Matrix */
   {
     TransformType::Pointer  rotation = TransformType::New();
     TransformType::MatrixType mrotation;
-   
+
     mrotation.SetIdentity();
 
     // 15 degrees in radians
-    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0;
     const double sinth = vcl_sin( angle );
     const double costh = vcl_cos( angle );
 
-    // around the positive Z axis 
+    // around the positive Z axis
     mrotation[0][0] =  costh;
     mrotation[0][1] =  sinth;
     mrotation[1][0] = -sinth;
@@ -304,11 +305,11 @@ int itkRigid2DTransformTest(int ,char * [] )
       if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
       {
         Ok = false;
-        break;    
+        break;
       }
     }
     if( !Ok )
-    { 
+    {
       std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
       return EXIT_FAILURE;
     }
@@ -325,12 +326,12 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( matrix[i][j]- mrotation[i][j] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
     }
     if( !Ok )
-    { 
+    {
       std::cerr << "Get Rotation Matrix  differs " << std::endl;
       std::cerr << "from SetRotationMatrix value " << std::endl;
       return EXIT_FAILURE;
@@ -352,11 +353,11 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error rotating point   : " << p << std::endl;
         std::cerr << "Result should be       : " << q << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
@@ -384,11 +385,11 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error rotating vector  : " << p << std::endl;
         std::cerr << "Result should be       : " << q << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
@@ -417,11 +418,11 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error Rotating covariant vector: " << p << std::endl;
         std::cerr << "Result should be               : " << q << std::endl;
         std::cerr << "Reported Result is             : " << r << std::endl;
@@ -433,7 +434,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       }
     }
 
-    
+
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;
@@ -453,11 +454,11 @@ int itkRigid2DTransformTest(int ,char * [] )
         if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
-          break;    
+          break;
         }
       }
       if( !Ok )
-      { 
+      {
         std::cerr << "Error translating vnl_vector : " << p << std::endl;
         std::cerr << "Result should be             : " << q << std::endl;
         std::cerr << "Reported Result is           : " << r << std::endl;
@@ -540,7 +541,7 @@ int itkRigid2DTransformTest(int ,char * [] )
 
       TransformType::InputPointType p4;
       p4 = t3->TransformPoint( p1 );
-    
+
       std::cout << "Test Clone(): ";
       if( !CheckEqual( p2, p4 ) )
         {
@@ -570,7 +571,7 @@ int itkRigid2DTransformTest(int ,char * [] )
     if( !CheckEqual( p6, p7 ) )
       {
       return EXIT_FAILURE;
-      } 
+      }
 
     t1->CloneTo( t5 );
     t5->Compose( t4, true );
@@ -583,8 +584,8 @@ int itkRigid2DTransformTest(int ,char * [] )
     if( !CheckEqual( p6, p7 ) )
       {
       return EXIT_FAILURE;
-      } 
-      
+      }
+
     }
   }
 

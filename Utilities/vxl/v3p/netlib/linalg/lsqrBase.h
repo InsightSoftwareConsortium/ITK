@@ -1,18 +1,21 @@
 /*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 #ifndef __itk_lsqr_h
 #define __itk_lsqr_h
 
@@ -24,44 +27,44 @@
  *  \brief implement a solver for a set of linear equations.
  *
  *   LSQR  finds a solution x to the following problems:
- *  
+ *
  *   1. Unsymmetric equations:    Solve  A*x = b
- *  
+ *
  *   2. Linear least squares:     Solve  A*x = b
  *                                in the least-squares sense
- *  
+ *
  *   3. Damped least squares:     Solve  (   A    )*x = ( b )
  *                                       ( damp*I )     ( 0 )
  *                                in the least-squares sense
- *  
+ *
  *   where A is a matrix with m rows and n columns, b is an m-vector,
  *   and damp is a scalar.  (All quantities are real.)
  *   The matrix A is treated as a linear operator.  It is accessed
  *   by means of subroutine calls with the following purpose:
- *  
+ *
  *   call Aprod1(m,n,x,y)  must compute y = y + A*x  without altering x.
  *   call Aprod2(m,n,x,y)  must compute x = x + A'*y without altering y.
- *  
+ *
  *   LSQR uses an iterative method to approximate the solution.
  *   The number of iterations required to reach a certain accuracy
  *   depends strongly on the scaling of the problem.  Poor scaling of
  *   the rows or columns of A should therefore be avoided where
  *   possible.
- *  
+ *
  *   For example, in problem 1 the solution is unaltered by
  *   row-scaling.  If a row of A is very small or large compared to
  *   the other rows of A, the corresponding row of ( A  b ) should be
  *   scaled up or down.
- *  
+ *
  *   In problems 1 and 2, the solution x is easily recovered
  *   following column-scaling.  Unless better information is known,
  *   the nonzero columns of A should be scaled so that they all have
  *   the same Euclidean norm (e.g., 1.0).
- *  
+ *
  *   In problem 3, there is no freedom to re-scale if damp is
  *   nonzero.  However, the value of damp should be assigned only
  *   after attention has been paid to the scaling of A.
- *  
+ *
  *   The parameter damp is intended to help regularize
  *   ill-conditioned systems, by preventing the true solution from
  *   being very large.  Another aid to regularization is provided by
@@ -72,13 +75,13 @@
  *   of the solver that is available at
  *   http://www.stanford.edu/group/SOL/software.html
  *   distributed under a BSD license.
- *   
+ *
  *   This class is a replacement for the lsqr code taken from netlib.
  *   That code had to be removed because it is copyrighted by ACM and
  *   its license was incompatible with a BSD license.
- *  
+ *
  */
-class lsqrBase 
+class lsqrBase
 {
 public:
 
@@ -100,7 +103,7 @@ public:
    * The size of the vector y is m.
    */
   virtual void Aprod2(unsigned int m, unsigned int n, double * x, const double * y ) const = 0;
-  
+
   /**
    * returns sqrt( a**2 + b**2 )
    * with precautions to avoid overflow.
@@ -112,12 +115,12 @@ public:
    * with precautions to avoid overflow.
    */
   double Dnrm2( unsigned int n, const double *x ) const;
-  
+
   /**
    * Scale a vector by multiplying with a constant
    */
   void Scale( unsigned int n, double factor, double *x ) const;
- 
+
   /**  A logical variable to say if the array se(*) of standard error estimates
    * should be computed.  If m > n  or  damp > 0,  the system is overdetermined
    * and the standard errors may be useful.  (See the first LSQR reference.)
@@ -125,7 +128,7 @@ public:
    * storage can be saved by setting wantse = .false. and using any convenient
    * array for se(*), which won't be touched.  If you call this method with the
    * flag ON, then you MUST provide a working memory array to store the standard
-   * error estimates, via the method SetStandardErrorEstimates() 
+   * error estimates, via the method SetStandardErrorEstimates()
    */
   void SetStandardErrorEstimatesFlag( bool );
 
@@ -135,8 +138,8 @@ public:
    */
   void SetToleranceA( double );
 
-  /** An estimate of the relative error in the data 
-   *  defining the rhs b.  For example, if b is     
+  /** An estimate of the relative error in the data
+   *  defining the rhs b.  For example, if b is
    *  accurate to about 6 digits, set btol = 1.0e-6.
    */
   void SetToleranceB( double );
@@ -179,9 +182,9 @@ public:
    *   of damp in the range 0 to sqrt(eps)*norm(A)
    *   will probably have a negligible effect.
    *   Larger values of damp will tend to decrease
-   *   the norm of x and reduce the number of 
+   *   the norm of x and reduce the number of
    *   iterations required by LSQR.
-   * 
+   *
    *   The work per iteration and the storage needed
    *   by LSQR are the same for all values of damp.
    *
@@ -196,41 +199,41 @@ public:
    */
   void SetMaximumNumberOfIterations( unsigned int );
 
-  /** 
+  /**
    * If provided, a summary will be printed out to this stream during
    * the execution of the Solve function.
    */
   void SetOutputStream( std::ostream & os );
 
-  /** Provide the array where the standard error estimates will be stored. 
+  /** Provide the array where the standard error estimates will be stored.
    *  You MUST provide this working memory array if you turn on the computation
    *  of standard error estimates with teh method SetStandardErrorEstimatesFlag().
    */
   void SetStandardErrorEstimates( double * array );
 
-  /** 
+  /**
    *   Returns an integer giving the reason for termination:
-   * 
+   *
    *     0       x = 0  is the exact solution.
    *             No iterations were performed.
-   * 
+   *
    *     1       The equations A*x = b are probably compatible.
    *             Norm(A*x - b) is sufficiently small, given the
    *             values of atol and btol.
-   * 
+   *
    *     2       damp is zero.  The system A*x = b is probably
    *             not compatible.  A least-squares solution has
    *             been obtained that is sufficiently accurate,
    *             given the value of atol.
-   * 
+   *
    *     3       damp is nonzero.  A damped least-squares
    *             solution has been obtained that is sufficiently
    *             accurate, given the value of atol.
-   * 
+   *
    *     4       An estimate of cond(Abar) has exceeded conlim.
    *             The system A*x = b appears to be ill-conditioned,
    *             or there could be an error in Aprod1 or Aprod2.
-   * 
+   *
    *     5       The iteration limit itnlim was reached.
    *
    */
@@ -241,7 +244,7 @@ public:
   unsigned int GetNumberOfIterationsPerformed() const;
 
 
-  /** 
+  /**
    *   An estimate of the Frobenius norm of Abar.
    *   This is the square-root of the sum of squares
    *   of the elements of Abar.
@@ -254,7 +257,7 @@ public:
   double GetFrobeniusNormEstimateOfAbar() const;
 
 
-  /** 
+  /**
    *   An estimate of cond(Abar), the condition
    *   number of Abar.  A very high value of Acond
    *   may again indicate an error in Aprod1 or Aprod2.
@@ -288,7 +291,7 @@ public:
 
   /**
    *    Execute the solver
-   * 
+   *
    *    solves Ax = b or min ||Ax - b|| with or without damping,
    *
    *    m is the size of the input  vector b
@@ -332,4 +335,4 @@ private:
   double * se;
 };
 
-#endif 
+#endif
