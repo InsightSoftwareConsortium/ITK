@@ -27,11 +27,11 @@ namespace itk
 // a simple histogram class hierarchy. One subclass will be maps, the
 // other vectors
 template< class TInputPixel >
-class MorphologyHistogram
+class AnchorHistogram
 {
 public:
-  MorphologyHistogram() {}
-  virtual ~MorphologyHistogram(){}
+  AnchorHistogram() {}
+  virtual ~AnchorHistogram(){}
 
   virtual void Reset(){}
 
@@ -58,17 +58,17 @@ protected:
 };
 
 template< class TInputPixel, class TCompare >
-class MorphologyHistogramMap:public MorphologyHistogram< TInputPixel >
+class AnchorHistogramMap:public AnchorHistogram< TInputPixel >
 {
 private:
   typedef typename std::map< TInputPixel, unsigned long, TCompare > MapType;
 
   MapType m_Map;
 public:
-  MorphologyHistogramMap()
+  AnchorHistogramMap()
   {}
 
-  ~MorphologyHistogramMap(){}
+  ~AnchorHistogramMap(){}
 
   void Reset()
   {
@@ -127,10 +127,10 @@ public:
 };
 
 template< class TInputPixel, class TCompare >
-class MorphologyHistogramVec:public MorphologyHistogram< TInputPixel >
+class AnchorHistogramVec:public AnchorHistogram< TInputPixel >
 {
 public:
-  MorphologyHistogramVec()
+  AnchorHistogramVec()
   {
     m_Size = static_cast< unsigned int >( NumericTraits< TInputPixel >::max()
                                           - NumericTraits< TInputPixel >::NonpositiveMin() + 1 );
@@ -150,7 +150,7 @@ public:
     m_Entries = 0;
   }
 
-  ~MorphologyHistogramVec(){}
+  ~AnchorHistogramVec(){}
 
   void Reset()
   {

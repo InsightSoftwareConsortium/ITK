@@ -56,9 +56,9 @@ public:
 private:
   unsigned int m_Size;
 
-  typedef MorphologyHistogram< InputImagePixelType >              Histogram;
-  typedef MorphologyHistogramVec< InputImagePixelType, TCompare > VHistogram;
-  typedef MorphologyHistogramMap< InputImagePixelType, TCompare > MHistogram;
+  typedef AnchorHistogram< InputImagePixelType >              Histogram;
+  typedef AnchorHistogramVec< InputImagePixelType, TCompare > VHistogram;
+  typedef AnchorHistogramMap< InputImagePixelType, TCompare > MHistogram;
 
   bool StartLine(std::vector<InputImagePixelType> & buffer,
                  InputImagePixelType & Extreme,

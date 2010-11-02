@@ -18,7 +18,8 @@
 #ifndef __itkAnchorErodeDilateLine_h
 #define __itkAnchorErodeDilateLine_h
 
-#include "itkAnchorHistogram.h"
+#include "itkMovingHistogramMorphologyImageFilter.h"
+
 namespace itk
 {
 /**
@@ -51,20 +52,16 @@ public:
   AnchorErodeDilateLine();
   ~AnchorErodeDilateLine()
   {
-    delete m_Histo;
   }
 
 private:
   unsigned int m_Size;
 
-  typedef MorphologyHistogram< InputImagePixelType >              Histogram;
-  typedef MorphologyHistogramVec< InputImagePixelType, TCompare > VHistogram;
-  typedef MorphologyHistogramMap< InputImagePixelType, TCompare > MHistogram;
+  typedef Function::MorphologyHistogram< InputImagePixelType, TCompare >              HistogramType;
 
   bool StartLine(std::vector<TInputPix> & buffer,
                  std::vector<TInputPix> & inbuffer,
                  InputImagePixelType & Extreme,
-                 Histogram & histo,
                  int & outLeftP,
                  int & outRightP,
                  int & inLeftP,
@@ -74,7 +71,6 @@ private:
   void FinishLine(std::vector<TInputPix> & buffer,
                   std::vector<TInputPix> & inbuffer,
                   InputImagePixelType & Extreme,
-                  Histogram & histo,
                   int & outLeftP,
                   int & outRightP,
                   int & inLeftP,
@@ -105,7 +101,6 @@ private:
     return compare( a, b ) || a == b;
     }
 
-  Histogram *m_Histo;
 }; // end of class
 } // end namespace itk
 
