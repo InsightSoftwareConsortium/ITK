@@ -238,6 +238,12 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDeformatio
                       << "or SetInput.");
     }
 
+  // as per suggestion in this bug report:
+  // http://public.kitware.com/Bug/view.php?id=3590
+  // this should allow input images to be released, since
+  // they are no longer needed after generating the image pyramid
+  this->RestoreInputReleaseDataFlags();
+
   // Create the image pyramids.
   m_MovingImagePyramid->SetInput(movingImage);
   m_MovingImagePyramid->UpdateLargestPossibleRegion();
