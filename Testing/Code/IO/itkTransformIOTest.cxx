@@ -18,6 +18,8 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+#include <iostream>
+#include <fstream>
 
 #include "itkTransformFileWriter.h"
 #include "itkTransformFileReader.h"
@@ -166,6 +168,54 @@ static int oneTest(const char *goodname,const char *badname)
   return EXIT_SUCCESS;
 }
 
+//
+// test endless loop bug in transform reader, triggered by no
+// EOL at end of file.
+// This test will exercise this reported bug:
+// http://public.kitware.com/Bug/view.php?id=7028
+int
+secondTest()
+{
+  std::filebuf fb;
+  fb.open("IllegalTransform.txt",std::ios::out);
+  std::ostream os(&fb);
+  os << "#Insight Transform File V1.0"
+     << std::endl
+     << "#Transform 0"
+     << std::endl
+     << "Transform: AffineTransform_double_4_4"
+     << std::endl
+     << "Parameters: 0 1 2 3 4 5 6 7 8 9 10 11 12"
+     << " 13 14 15 16 17 18 19"
+     << std::endl
+     << "FixedParameters: 0 1 2 3 4 5";
+  fb.close();
+  itk::TransformFileReader::Pointer reader;
+  reader = itk::TransformFileReader::New();
+  reader->SetFileName("IllegalTransform.txt");
+  try
+    {
+    reader->Update();
+    itk::TransformFileReader::TransformListType *list;
+    list = reader->GetTransformList();
+    itk::TransformFileReader::TransformListType::iterator lit =
+      list->begin();
+    while ( lit != list->end() )
+      {
+      (*lit)->Print ( std::cout );
+      lit++;
+      }
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error while reading the transforms" << std::endl;
+    std::cerr << excp << std::endl;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  return EXIT_SUCCESS;
+}
+
 int itkTransformIOTest(int argc, char* argv[])
 {
   if (argc > 1)
@@ -174,5 +224,7 @@ int itkTransformIOTest(int argc, char* argv[])
     }
   int result1 =  oneTest("Transforms.txt", "TransformsBad.txt" );
   int result2 =  oneTest("Transforms.mat", "TransformsBad.mat" );
-  return !(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS);
+  int result3 =  secondTest();
+  return !(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS
+    && result3 == EXIT_SUCCESS);
 }
