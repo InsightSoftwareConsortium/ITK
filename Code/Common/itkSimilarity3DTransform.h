@@ -91,6 +91,8 @@ public:
   typedef typename Superclass::AngleType  AngleType;
   typedef          TScalarType            ScaleType;
 
+  /** Set the parameters to the IdentityTransform */
+  virtual void SetIdentity(void);
   /** Directly set the rotation matrix of the transform.
    * \warning The input matrix must be orthogonal with isotropic scaling
    * to within a specified tolerance, else an exception is thrown.
