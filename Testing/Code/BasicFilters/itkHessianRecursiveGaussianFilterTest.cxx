@@ -19,9 +19,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
 #include <itkHessianRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 
@@ -149,7 +146,3 @@ int itkHessianRecursiveGaussianFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-
