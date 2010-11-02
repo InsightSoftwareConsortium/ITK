@@ -23,6 +23,7 @@
 #include "itkNrrdImageIO.h"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
+#include "itkFloatingPointExceptions.h"
 
 namespace itk
 {
@@ -232,6 +233,10 @@ void NrrdImageIO::ReadImageInformation()
   Nrrd *       nrrd = nrrdNew();
   NrrdIoState *nio = nrrdIoStateNew();
 
+  // nrrd causes exceptions on purpose, so mask them
+  bool saveFPEState(FloatingPointExceptions::GetExceptionAction());
+  FloatingPointExceptions::Disable();
+
   // this is the mechanism by which we tell nrrdLoad to read
   // just the header, and none of the data
   nrrdIoStateSet(nio, nrrdIoStateSkipData, 1);
@@ -241,6 +246,9 @@ void NrrdImageIO::ReadImageInformation()
     itkExceptionMacro("ReadImageInformation: Error reading "
                       << this->GetFileName() << ":\n" << err);
     }
+
+  // restore state
+  FloatingPointExceptions::SetEnabled(saveFPEState);
 
   if ( nrrdTypeBlock == nrrd->type )
     {
@@ -708,6 +716,10 @@ void NrrdImageIO::Read(void *buffer)
       }
     }
 
+  // nrrd causes exceptions on purpose, so mask them
+  bool saveFPEState(FloatingPointExceptions::GetExceptionAction());
+  FloatingPointExceptions::Disable();
+
   // Read in the nrrd.  Yes, this means that the header is being read
   // twice: once by NrrdImageIO::ReadImageInformation, and once here
   if ( nrrdLoad(nrrd, this->GetFileName(), NULL) != 0 )
@@ -716,6 +728,9 @@ void NrrdImageIO::Read(void *buffer)
     itkExceptionMacro("Read: Error reading "
                       << this->GetFileName() << ":\n" << err);
     }
+
+  // restore state
+  FloatingPointExceptions::SetEnabled(saveFPEState);
 
   unsigned int rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
   rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
