@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSparseFieldLayerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -35,7 +36,7 @@ int itkSparseFieldLayerTest(int , char *[] )
   unsigned int i, j;
   node_type *store = new node_type[4000];
   itk::SparseFieldLayer<node_type>::RegionListType rlist;
-  
+
   itk::SparseFieldLayer<node_type>::Pointer layer
     = itk::SparseFieldLayer<node_type>::New();
 
@@ -46,25 +47,25 @@ int itkSparseFieldLayerTest(int , char *[] )
         {
           (store+i)->value = i;
         }
-      
+
       layer->Print(std::cout);
       std::cout << layer->Size() << std::endl;
-      
+
       for (i = 0; i < 4000; i++)
         {
           layer->PushFront(store +i);
         }
-      
+
       layer->Print(std::cout);
       std::cout << layer->Size() << std::endl;
-        
+
       rlist=layer->SplitRegions(5);
-      for (int k=0;k<5;k++) 
+      for (int k=0;k<5;k++)
         {
           itk::SparseFieldLayer<node_type>::ConstIterator ptr=rlist[k].last;
           std::cout<<"Region begin:"<<(rlist[k].first)->value<<std::endl;
         }
-      
+
 
       itk::SparseFieldLayer<node_type>::ConstIterator cit
         = layer->Begin();
@@ -75,7 +76,7 @@ int itkSparseFieldLayerTest(int , char *[] )
           ++cit;
           --i;
         }
-      
+
       itk::SparseFieldLayer<node_type>::Iterator it
         = layer->Begin();
       i = 3999;
@@ -87,7 +88,7 @@ int itkSparseFieldLayerTest(int , char *[] )
           ++it;
           --i;
         }
-      
+
       for (i = 0; i < 5000; i++)
         {
           layer->PopFront();
@@ -106,8 +107,8 @@ int itkSparseFieldLayerTest(int , char *[] )
       layer->Print(std::cout);
       std::cout << layer->Size() << std::endl;
     }
-  
+
   delete[] store;
-  
+
   return EXIT_SUCCESS;
 }

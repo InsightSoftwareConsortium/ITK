@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBloxBoundaryPointImageTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -79,7 +80,7 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
   printf("New sourceImage allocated\n");
 
   // Initialize the image to hold all 0's
-  itk::ImageRegionIterator<ImageType> it = 
+  itk::ImageRegionIterator<ImageType> it =
     itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -124,7 +125,7 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
 
   //--------------------Do blurring and edge detection----------------
   typedef ImageType OutputType;
-  
+
   // Create a binomial blur filter
   itk::BinomialBlurImageFilter<ImageType, OutputType>::Pointer binfilter;
   binfilter = itk::BinomialBlurImageFilter<ImageType, OutputType>::New();
@@ -164,17 +165,17 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
 
   TBPFilter::Pointer bpFilter= TBPFilter::New();
   bpFilter->SetInput( DOGFilter->GetOutput() );
-  
+
   // Test the macros in the filter
   bpFilter->SetThreshold(128.0);
-  
+
   if(bpFilter->GetThreshold() != 128.0)
     return EXIT_FAILURE;
 
   BloxBPImageType::Pointer bloxBoundaryPointImage = bpFilter->GetOutput();
 
   bpFilter->Update();
-  
+
 
   //-------------------Pull boundary points out of the image----------------------
 
@@ -189,7 +190,7 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
 
   // Used for obtaining position data from a BloxPoint
   itk::Point<double, 3> position;
-  
+
   // Position are we at in the list
   int depth;
 
@@ -203,7 +204,7 @@ int itkBloxBoundaryPointImageTest(int, char* [] )
 
     // Get the index of the pixel
     bloxindex = bloxIt.GetIndex();
-    
+
     // Get the number of items in the pixel to exercise the GetSize function
     unsigned long int numItems = bloxIt.Value().GetSize();
     std::cout << "Number of items in the pixel = " << numItems << std::endl;

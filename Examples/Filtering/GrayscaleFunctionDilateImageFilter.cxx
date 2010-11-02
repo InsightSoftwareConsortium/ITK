@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    GrayscaleFunctionDilateImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 
-int main(int argc, char *argv[] ) 
+int main(int argc, char *argv[] )
 {
   if( argc < 3 )
     {
@@ -49,9 +50,9 @@ int main(int argc, char *argv[] )
   writer->SetFileName( argv[2] );
 
 
-  typedef itk::BinaryBallStructuringElement< 
+  typedef itk::BinaryBallStructuringElement<
     PixelType, Dimension> KernelType;
-  
+
   typedef itk::GrayscaleFunctionDilateImageFilter<
     ImageType, ImageType, KernelType> FilterType;
 
@@ -63,7 +64,7 @@ int main(int argc, char *argv[] )
   ballSize[1] = 4;
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
-  
+
   filter->SetKernel( ball );
 
   filter->SetInput( reader->GetOutput() );
@@ -78,6 +79,6 @@ int main(int argc, char *argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
- 
+
   return EXIT_SUCCESS;
 }

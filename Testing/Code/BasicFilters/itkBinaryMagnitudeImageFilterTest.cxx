@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBinaryMagnitudeImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 
-int itkBinaryMagnitudeImageFilterTest(int, char* [] ) 
+int itkBinaryMagnitudeImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -49,7 +50,7 @@ int itkBinaryMagnitudeImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<myDimension>          mySizeType;
 
   // Declare the type of the Region
@@ -58,7 +59,7 @@ int itkBinaryMagnitudeImageFilterTest(int, char* [] )
   // Create two images
   myImageType1::Pointer inputImageA  = myImageType1::New();
   myImageType2::Pointer inputImageB  = myImageType2::New();
-  
+
   // Define their size, and start index
   mySizeType size;
   size[0] = 2;
@@ -86,7 +87,7 @@ int itkBinaryMagnitudeImageFilterTest(int, char* [] )
   inputImageB->SetRequestedRegion( region );
   inputImageB->Allocate();
 
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
   typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
   typedef itk::ImageRegionIteratorWithIndex<myImageType4>  myIteratorType4;
@@ -96,7 +97,7 @@ int itkBinaryMagnitudeImageFilterTest(int, char* [] )
 
   // Initialize the content of Image A
   std::cout << "First operand " << std::endl;
-  while( !it1.IsAtEnd() ) 
+  while( !it1.IsAtEnd() )
   {
     it1.Set( input1Value );
     std::cout << it1.Get() << std::endl;
@@ -108,7 +109,7 @@ int itkBinaryMagnitudeImageFilterTest(int, char* [] )
 
   // Initialize the content of Image B
   std::cout << "Second operand " << std::endl;
-  while( !it2.IsAtEnd() ) 
+  while( !it2.IsAtEnd() )
   {
     it2.Set( input2Value );
     std::cout << it2.Get() << std::endl;
@@ -121,30 +122,30 @@ int itkBinaryMagnitudeImageFilterTest(int, char* [] )
                                 myImageType1,
                                 myImageType2,
                                 myImageType4  >       myFilterType;
-            
 
-  // Create a MagnitudeImageFilter 
+
+  // Create a MagnitudeImageFilter
   myFilterType::Pointer filter = myFilterType::New();
 
 
   // Connect the input images
-  filter->SetInput1( inputImageA ); 
+  filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   myImageType4::Pointer outputImage = filter->GetOutput();
 
-  
+
   // Execute the filter
   filter->Update();
   filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   myIteratorType4 it4(outputImage, outputImage->GetBufferedRegion());
-  
+
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
-  while( !it4.IsAtEnd() ) 
+  while( !it4.IsAtEnd() )
     {
     std::cout << it4.Get() << std::endl;
     if( vcl_fabs( it4.Get() - outputValue ) > epsilon )

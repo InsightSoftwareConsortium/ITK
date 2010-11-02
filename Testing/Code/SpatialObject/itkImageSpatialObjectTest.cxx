@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageSpatialObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // Disable warning for long symbol names in this file only
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -21,7 +22,7 @@
 
 
 /*
-* This is a test file for the itkImageSpatialObject class. 
+* This is a test file for the itkImageSpatialObject class.
 * The suported pixel types does not include itkRGBPixel, itkRGBAPixel, etc...
 * So far it only allows to manage images of simple types like unsigned short,
 * unsigned int, or itk::Vector<...>.
@@ -54,7 +55,7 @@ int itkImageSpatialObjectTest(int, char* [])
   ImageType::RegionType region;
   ImageType::PointType origin;
   origin.Fill(5);
-  
+
   region.SetSize(size);
   region.SetIndex(index);
   image->SetOrigin(origin);
@@ -62,7 +63,7 @@ int itkImageSpatialObjectTest(int, char* [])
   image->SetBufferedRegion(region);
   image->SetRequestedRegion(region);
   image->Allocate();
-  
+
   Iterator it(image,region);
   Pixel p =0;
 
@@ -74,7 +75,7 @@ int itkImageSpatialObjectTest(int, char* [])
 
   ImageSpatialObject::Pointer imageSO = ImageSpatialObject::New();
   imageSO->Print(std::cout);
- 
+
   imageSO->SetImage(image);
   ImageSpatialObject::TransformType::OffsetType offset;
   offset.Fill(5);
@@ -82,9 +83,9 @@ int itkImageSpatialObjectTest(int, char* [])
   imageSO->GetObjectToParentTransform()->SetOffset(offset);
   imageSO->ComputeObjectToWorldTransform();
 
-  Point q,r; 
+  Point q,r;
   double returnedValue,expectedValue;
- 
+
   r.Fill(9);
   q.Fill(15);
 
@@ -103,7 +104,7 @@ int itkImageSpatialObjectTest(int, char* [])
 
   q.Fill(15.1);
   expectedValue = 555;
-  
+
   try
     {
     imageSO->ValueAt(q,returnedValue);
@@ -118,13 +119,13 @@ int itkImageSpatialObjectTest(int, char* [])
     {
     std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
     std::cout <<"[FAILED]: " << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
     }
   else
     {
     std::cout<<"[PASSED]"<<std::endl;
     }
-  
+
   ImageSpatialObject::OutputVectorType derivative,expectedDerivative;
   Pixel expectedPixel;
 
@@ -151,7 +152,7 @@ int itkImageSpatialObjectTest(int, char* [])
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   imageSO->SetInterpolator(interpolator);
   expectedValue = 566.1;
-  
+
   try
     {
     imageSO->ValueAt(q,returnedValue);

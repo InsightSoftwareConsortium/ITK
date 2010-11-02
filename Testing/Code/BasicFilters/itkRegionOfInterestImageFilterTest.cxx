@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRegionOfInterestImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -32,7 +33,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   typedef itk::Image< PixelType,
                       Dimension >   ImageType;
 
-  typedef itk::RegionOfInterestImageFilter< 
+  typedef itk::RegionOfInterestImageFilter<
                                       ImageType,
                                       ImageType  > FilterType;
 
@@ -42,17 +43,17 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   typedef ImageType::IndexType    IndexType;
   typedef ImageType::DirectionType DirectionType;
 
-  typedef itk::ImageRegionIterator< 
+  typedef itk::ImageRegionIterator<
                            ImageType > IteratorType;
 
   FilterType::Pointer filter = FilterType::New();
- 
+
 
   ImageType::Pointer image = ImageType::New();
 
   IndexType start;
   start.Fill( 0 );
- 
+
   SizeType  size;
   size[0] = 40;
   size[1] = 40;
@@ -103,7 +104,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
 
   itk::SimpleFilterWatcher watcher(filter);
   filter->SetRegionOfInterest( regionOfInterest );
-  
+
 
   filter->Update();
   filter->GetOutput()->Print(std::cout);
@@ -120,8 +121,8 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   bool passed = true;
   while( !it.IsAtEnd() )
     {
-    IndexType inIndex  = it.Get(); 
-    IndexType outIndex = ot.Get(); 
+    IndexType inIndex  = it.Get();
+    IndexType outIndex = ot.Get();
     if( inIndex[0] != outIndex[0]  ||
         inIndex[1] != outIndex[1]  ||
         inIndex[2] != outIndex[2]    )
@@ -136,7 +137,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
     ++ot;
     }
 
-  if( !passed ) 
+  if( !passed )
     {
     return EXIT_FAILURE;
     }

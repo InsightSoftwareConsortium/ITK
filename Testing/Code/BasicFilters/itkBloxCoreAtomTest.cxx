@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBloxCoreAtomTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -79,7 +80,7 @@ int itkBloxCoreAtomTest(int, char* [] )
   printf("New sourceImage allocated\n");
 
   // Initialize the image to hold all 0's
-  itk::ImageRegionIterator<ImageType> it = 
+  itk::ImageRegionIterator<ImageType> it =
     itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -124,7 +125,7 @@ int itkBloxCoreAtomTest(int, char* [] )
 
   //--------------------Do blurring and edge detection----------------
   typedef ImageType OutputType;
-  
+
   // Create a binomial blur filter
   itk::BinomialBlurImageFilter<ImageType, OutputType>::Pointer binfilter;
   binfilter = itk::BinomialBlurImageFilter<ImageType, OutputType>::New();
@@ -179,7 +180,7 @@ int itkBloxCoreAtomTest(int, char* [] )
   BloxCAImageType::Pointer bloxCoreAtomImage = caFilter->GetOutput();
 
   caFilter->Update();
-  
+
   // Test the macros in the image
   bloxCoreAtomImage->GetMedialNodeCount();
   bloxCoreAtomImage->GetNodePointerList();
@@ -187,13 +188,13 @@ int itkBloxCoreAtomTest(int, char* [] )
   //--------------------Analyze core atom population---------------------
 
   std::cout << "Performing Eigenanalysis\n";
-  
+
   bloxCoreAtomImage->DoEigenanalysis();
-  
+
   //--------------------------Run voting test-----------------------------
-  
+
   std::cout << "Doing core atom voting\n";
-  
+
   bloxCoreAtomImage->DoCoreAtomVoting();
 
   return EXIT_SUCCESS;

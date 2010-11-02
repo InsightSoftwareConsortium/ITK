@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,7 +38,7 @@
  * NormalVectorDiffusionFunction
  * LevelSetFunctionWithRefitTerm
  * SparseFieldFourthOrderLevelSetImageFilter
- * 
+ *
  */
 
 const unsigned int HEIGHT = (128);
@@ -62,7 +63,7 @@ float square(unsigned x, unsigned y)
 // Evaluates a function at each pixel in the itk image
 void evaluate_function(itk::Image<float, 2> *im,
                        float (*f)(unsigned int, unsigned int) )
-  
+
 {
   itk::Image<float, 2>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
@@ -94,9 +95,9 @@ public:
   typedef typename Superclass::SparseImageType SparseImageType;
   typedef LevelSetFunctionWithRefitTerm <TOutputImage,SparseImageType> FunctionType;
   typedef typename FunctionType::RadiusType RadiusType;
-  
+
 protected:
-  typename FunctionType::Pointer m_Function;        
+  typename FunctionType::Pointer m_Function;
   IsotropicDiffusionLevelSetFilter()
   {
     RadiusType radius;
@@ -108,15 +109,15 @@ protected:
     m_Function=FunctionType::New();
     this->SetLevelSetFunction(m_Function);
     this->SetNumberOfLayers(this->GetMinimumNumberOfLayers());
-    
+
     this->SetMaxNormalIteration(10);
     this->SetMaxRefitIteration(40);
-    m_Function->Initialize(radius);    
+    m_Function->Initialize(radius);
     this->SetNormalProcessType (0);
 
     m_Function->Print(std::cout);
   }
-  
+
   virtual bool Halt ()
   {
     if (this->GetElapsedIterations()==50) return true;
@@ -129,9 +130,9 @@ protected:
 int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
 {
   typedef itk::Image<float, 2> ImageType;
-  
+
   ImageType::Pointer im_init = ImageType::New();
-  
+
   ImageType::RegionType r;
   ImageType::SizeType   sz = {{HEIGHT, WIDTH}};
   ImageType::IndexType  idx = {{0,0}};
@@ -160,7 +161,7 @@ int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
   std::cout<<"Unsharp flag = "<<(filter->GetNormalProcessUnsharpFlag())<<"\n";
   std::cout<<"Unsharp weight = "
            <<(filter->GetNormalProcessUnsharpWeight())<<"\n";
-  
+
   filter->Update();
   filter->Print(std::cout);
   std::cout<<"Passed.\n";

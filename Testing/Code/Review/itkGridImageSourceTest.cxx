@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGridImageSourceTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkGridImageSource.h"
 #include "itkImageFileWriter.h"
 #include "itkBSplineKernelFunction.h"
@@ -23,7 +24,7 @@ int itkGridImageSourceTest0( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;   
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
 
   // Instantiate the filter
   typedef itk::GridImageSource<ImageType> GridSourceType;
@@ -35,10 +36,10 @@ int itkGridImageSourceTest0( int, char *argv[] )
   ImageType::SpacingType   spacing;
   ImageType::DirectionType direction;
 
-  GridSourceType::ArrayType     gridSpacing; 
-  GridSourceType::ArrayType     gridOffset; 
-  GridSourceType::ArrayType     sigma; 
-  GridSourceType::BoolArrayType which; 
+  GridSourceType::ArrayType     gridSpacing;
+  GridSourceType::ArrayType     gridOffset;
+  GridSourceType::ArrayType     sigma;
+  GridSourceType::BoolArrayType which;
 
   // Specify image parameters
   origin.Fill( 0.0 );
@@ -56,7 +57,7 @@ int itkGridImageSourceTest0( int, char *argv[] )
   // Specify 0th order B-spline function (Box function)
   typedef itk::BSplineKernelFunction<0> KernelType;
   KernelType::Pointer kernel = KernelType::New();
-  
+
   itk::SimpleFilterWatcher watcher(gridImage, "gridImage");
 
   // Set parameters
@@ -71,15 +72,15 @@ int itkGridImageSourceTest0( int, char *argv[] )
   gridImage->SetWhichDimensions( which );
   gridImage->SetSigma( sigma );
   gridImage->SetScale( scale );
-  
+
   try
     {
     gridImage->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -92,12 +93,12 @@ int itkGridImageSourceTest0( int, char *argv[] )
     writer->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "Unexpected exception caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "Unexpected exception caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 }
 
@@ -105,7 +106,7 @@ int itkGridImageSourceTest1( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;   
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
 
   // Instantiate the filter
   typedef itk::GridImageSource<ImageType> GridSourceType;
@@ -115,16 +116,16 @@ int itkGridImageSourceTest1( int, char *argv[] )
   ImageType::SizeType size;
   ImageType::PointType origin;
   ImageType::SpacingType spacing;
-  GridSourceType::ArrayType gridSpacing; 
-  GridSourceType::ArrayType gridOffset; 
-  GridSourceType::ArrayType sigma; 
-  GridSourceType::BoolArrayType which; 
+  GridSourceType::ArrayType gridSpacing;
+  GridSourceType::ArrayType gridOffset;
+  GridSourceType::ArrayType sigma;
+  GridSourceType::BoolArrayType which;
 
   // Specify image parameters
   origin.Fill( 0.0 );
   size.Fill( 64 );
   spacing.Fill( 1.0 );
-  
+
   // Specify grid parameters
   gridSpacing.Fill( 16.0 );
   gridOffset.Fill( 0.0 );
@@ -134,7 +135,7 @@ int itkGridImageSourceTest1( int, char *argv[] )
   // Specify 0th order B-spline function (Box function)
   typedef itk::BSplineKernelFunction<3> KernelType;
   KernelType::Pointer kernel = KernelType::New();
-  
+
   // Set parameters
   gridImage->SetKernelFunction( kernel );
   gridImage->SetSpacing( spacing );
@@ -145,15 +146,15 @@ int itkGridImageSourceTest1( int, char *argv[] )
   gridImage->SetWhichDimensions( which );
   gridImage->SetSigma( sigma );
   gridImage->SetScale( scale );
-  
+
   try
     {
     gridImage->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -166,12 +167,12 @@ int itkGridImageSourceTest1( int, char *argv[] )
     writer->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "Unexpected exception caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "Unexpected exception caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 }
 
@@ -179,7 +180,7 @@ int itkGridImageSourceTest2( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;   
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
 
   // Instantiate the filter
   typedef itk::GridImageSource<ImageType> GridSourceType;
@@ -189,16 +190,16 @@ int itkGridImageSourceTest2( int, char *argv[] )
   ImageType::SizeType size;
   ImageType::PointType origin;
   ImageType::SpacingType spacing;
-  GridSourceType::ArrayType gridSpacing; 
-  GridSourceType::ArrayType gridOffset; 
-  GridSourceType::ArrayType sigma; 
-  GridSourceType::BoolArrayType which; 
+  GridSourceType::ArrayType gridSpacing;
+  GridSourceType::ArrayType gridOffset;
+  GridSourceType::ArrayType sigma;
+  GridSourceType::BoolArrayType which;
 
   // Specify image parameters
   origin.Fill( 0.0 );
   size.Fill( 32 );
   spacing.Fill( 1.0 );
-  
+
   // Specify grid parameters
   gridSpacing.Fill( 4.0 );
   gridOffset.Fill( 0.0 );
@@ -215,15 +216,15 @@ int itkGridImageSourceTest2( int, char *argv[] )
   gridImage->SetWhichDimensions( which );
   gridImage->SetSigma( sigma );
   gridImage->SetScale( scale );
-  
+
   try
     {
     gridImage->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -236,12 +237,12 @@ int itkGridImageSourceTest2( int, char *argv[] )
     writer->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "Unexpected exception caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "Unexpected exception caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 }
 
@@ -249,7 +250,7 @@ int itkGridImageSourceTest3( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;   
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
 
   // Instantiate the filter
   typedef itk::GridImageSource<ImageType> GridSourceType;
@@ -259,16 +260,16 @@ int itkGridImageSourceTest3( int, char *argv[] )
   ImageType::SizeType size;
   ImageType::PointType origin;
   ImageType::SpacingType spacing;
-  GridSourceType::ArrayType gridSpacing; 
-  GridSourceType::ArrayType gridOffset; 
-  GridSourceType::ArrayType sigma; 
-  GridSourceType::BoolArrayType which; 
+  GridSourceType::ArrayType gridSpacing;
+  GridSourceType::ArrayType gridOffset;
+  GridSourceType::ArrayType sigma;
+  GridSourceType::BoolArrayType which;
 
   // Specify image parameters
   origin.Fill( 0.0 );
   size.Fill( 64 );
   spacing.Fill( 1.0 );
-  
+
   // Specify grid parameters
   gridOffset.Fill( 0.0 );
   gridSpacing[0] = 32.0;
@@ -277,7 +278,7 @@ int itkGridImageSourceTest3( int, char *argv[] )
   sigma[0] = 1.0;
   sigma[1] = 5.0;
   sigma[2] = 6.0;
-  
+
   which.Fill( true );
 
   // Set parameters
@@ -289,15 +290,15 @@ int itkGridImageSourceTest3( int, char *argv[] )
   gridImage->SetWhichDimensions( which );
   gridImage->SetSigma( sigma );
   gridImage->SetScale( scale );
-  
+
   try
     {
     gridImage->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "Unexpected exception caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "Unexpected exception caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -310,12 +311,12 @@ int itkGridImageSourceTest3( int, char *argv[] )
     writer->Update();
     }
   catch (itk::ExceptionObject & err)
-    { 
-    std::cout << "Unexpected exception caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    {
+    std::cout << "Unexpected exception caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 }
 
@@ -326,7 +327,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
     std::cout << "Usage: " << argv[0] << " outputImage whichTest" << std::endl;
     return EXIT_FAILURE;
     }
-    
+
   int test;
   if ( atoi( argv[2] ) == 0 )
     {
@@ -345,5 +346,5 @@ int itkGridImageSourceTest( int argc, char *argv[] )
     test = itkGridImageSourceTest3( argc, argv );
     }
 
-  return test;  
+  return test;
 }

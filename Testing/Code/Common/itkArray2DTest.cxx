@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkArray2DTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -28,13 +29,13 @@ int itkArray2DTest(int, char* [] )
   typedef itk::Array2D< double > ArrayType;
 
   typedef vnl_matrix<double> VnlMatrixType;
-  
+
   const unsigned int rows = 3;
   const unsigned int cols = 4;
-  
+
   ArrayType a( rows, cols);
-  VnlMatrixType vm( rows, cols ); 
-  
+  VnlMatrixType vm( rows, cols );
+
   for( unsigned int r=0; r<rows; r++)
     {
     for( unsigned int c=0; c<cols; c++)
@@ -83,7 +84,7 @@ int itkArray2DTest(int, char* [] )
 
   // test for assignment from Array2D
   ArrayType e;
-  
+
   e = a;
 
   for( unsigned int r=0; r<rows; r++)
@@ -102,7 +103,7 @@ int itkArray2DTest(int, char* [] )
 
   // test for assignment from vnl_matrix
   ArrayType f;
-  
+
   f = vm;
 
   for( unsigned int r=0; r<rows; r++)
@@ -121,6 +122,6 @@ int itkArray2DTest(int, char* [] )
 
 
 
-  std::cout << "Test Passed ! " << std::endl;      
+  std::cout << "Test Passed ! " << std::endl;
   return EXIT_SUCCESS;
 }

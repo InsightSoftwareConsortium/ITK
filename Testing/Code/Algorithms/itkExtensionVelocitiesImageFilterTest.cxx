@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkExtensionVelocitiesImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -94,7 +95,7 @@ SimpleVelocity( const TPoint & p )
       {
       value = vnl_math::pi + vnl_math::pi_over_2;
       }
-    }  
+    }
   else
     {
     value = vcl_atan( y / x );
@@ -102,7 +103,7 @@ SimpleVelocity( const TPoint & p )
       {
       value += vnl_math::pi;
       }
-   
+
     if ( y <= 0.0 )
       {
       value += vnl_math::pi;
@@ -120,7 +121,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 
   const unsigned int ImageDimension = 2;
   typedef float PixelType;
-  
+
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef ImageType::IndexType IndexType;
   typedef itk::Point<double,ImageDimension> PointType;
@@ -256,13 +257,13 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   // Exercise other member functions
   reinitializer->Print( std::cout );
   reinitializer->SetLevelSetValue( 1.0 );
- 
+
   // Exercise the narrowband version
   reinitializer->SetLevelSetValue( 0.0 );
   reinitializer->NarrowBandingOn();
   reinitializer->SetNarrowBandwidth( 8 );
   reinitializer->Update();
- 
+
   // We will use the output narrowband from the last run as the input narrowband
   reinitializer->SetInputNarrowBand( reinitializer->GetOutputNarrowBand() );
   reinitializer->Update();
@@ -279,7 +280,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   while( nodeIter != nodeEnd )
     {
     ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
-    double absDiff = vnl_math_abs( aux2->GetPixel( nodeIndex ) - 
+    double absDiff = vnl_math_abs( aux2->GetPixel( nodeIndex ) -
       reinitializer->GetOutputVelocityImage( 1 )->GetPixel( nodeIndex ) );
     if ( absDiff > 0.6 )
       {
@@ -294,7 +295,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 
   // Test setting/getting velocity beyond index
   reinitializer->SetInputVelocityImage( aux1, 2 );
-    
+
   if( reinitializer->GetInputVelocityImage( 2 )  )
     {
     std::cout << "GetInputVelocityImage(2) should have returned NULL" << std::endl;

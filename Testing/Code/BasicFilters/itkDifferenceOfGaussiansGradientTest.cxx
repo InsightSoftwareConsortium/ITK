@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDifferenceOfGaussiansGradientTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -82,7 +83,7 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   printf("New sourceImage allocated\n");
 
   // Initialize the image to hold all 0's
-  itk::ImageRegionIterator<TImageType> it = 
+  itk::ImageRegionIterator<TImageType> it =
     itk::ImageRegionIterator<TImageType>(sourceImage, largestPossibleRegion);
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -127,7 +128,7 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 
   //--------------------Do blurring----------------
   typedef TImageType TOutputType;
-  
+
   // Create a binomial blur filter
   itk::BinomialBlurImageFilter<TImageType, TOutputType>::Pointer binfilter;
   binfilter = itk::BinomialBlurImageFilter<TImageType, TOutputType>::New();
@@ -144,9 +145,9 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   // Execute the filter
   binfilter->Update();
   printf("Binomial blur filter updated\n");
-  
+
   //------------Finally we can test the DOG filter------------
-  
+
   // Create a differennce of gaussians gradient filter
   typedef itk::DifferenceOfGaussiansGradientImageFilter<TOutputType,
     double> TDOGFilterType;
@@ -155,12 +156,12 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 
   // We're filtering the output of the binomial filter
   DOGFilter->SetInput(blurredImage);
-  
+
   // Test the get/set macro for width
   DOGFilter->SetWidth(4);
   unsigned int theWidth = DOGFilter->GetWidth();
   std::cout << "DOGFilter->GetWidth(): " << theWidth << std::endl;
-  
+
   // Get the output of the gradient filter
   TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
 

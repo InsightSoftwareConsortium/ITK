@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageHistogram3.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,7 +39,7 @@
 //
 // \index{itk::Statistics::ImageToHistogramGenerator!header}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageToHistogramGenerator.h"
@@ -70,7 +71,7 @@ int main( int argc, char * argv [] )
 //
 // \index{itk::Statistics!Color Images}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef unsigned char                         PixelComponentType;
@@ -110,13 +111,13 @@ int main( int argc, char * argv [] )
 // histogram generator and construct one generator by invoking its \code{New()}
 // method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ImageToHistogramGenerator< 
+  typedef itk::Statistics::ImageToHistogramGenerator<
                             RGBImageType >   HistogramGeneratorType;
 
-  HistogramGeneratorType::Pointer histogramGenerator = 
+  HistogramGeneratorType::Pointer histogramGenerator =
                                              HistogramGeneratorType::New();
 // Software Guide : EndCodeSnippet
 
@@ -135,7 +136,7 @@ int main( int argc, char * argv [] )
 // how to define a histogram on the red component of the image while
 // disregarding the green and blue components.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::SizeType   SizeType;
@@ -157,7 +158,7 @@ int main( int argc, char * argv [] )
 // The marginal scale must be defined in the generator. This will determine the
 // precision in the assignment of values to the histogram bins.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->SetMarginalScale( 10.0 );
@@ -173,8 +174,8 @@ int main( int argc, char * argv [] )
 // method of the generator.
 //
 // \index{itk::Statistics::ImageToHistogramGenerator!Compute()}
-// 
-// Software Guide : EndLatex 
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   histogramGenerator->SetInput(  reader->GetOutput()  );
@@ -196,8 +197,8 @@ int main( int argc, char * argv [] )
 // the histogram to a const smart pointer as shown in previous examples.
 //
 // \index{itk::Statistics::ImageToHistogramGenerator!GetOutput()}
-// 
-// Software Guide : EndLatex 
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::HistogramType  HistogramType;
@@ -218,7 +219,7 @@ int main( int argc, char * argv [] )
 //
 // \index{itk::Statistics::Histogram!Size()}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const unsigned int histogramSize = histogram->Size();
@@ -243,7 +244,7 @@ int main( int argc, char * argv [] )
 //
 // \index{itk::Statistics::Histogram!GetFrequency()}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   unsigned int channel = 0;  // red channel
@@ -269,7 +270,7 @@ int main( int argc, char * argv [] )
 // of bins desired on each channel and invoking the computation of the
 // generator again by calling the \code{Compute()} method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   size[0] =   1;  // number of bins for the Red   channel
@@ -277,7 +278,7 @@ int main( int argc, char * argv [] )
   size[2] =   1;  // number of bins for the Blue  channel
 
   histogramGenerator->SetNumberOfBins( size );
-  
+
   histogramGenerator->Compute();
 // Software Guide : EndCodeSnippet
 
@@ -290,7 +291,7 @@ int main( int argc, char * argv [] )
 // The result can be verified now by setting the desired channel to green and
 // invoking the \code{GetFrequency()} method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   channel = 1;  // green channel
@@ -307,13 +308,13 @@ int main( int argc, char * argv [] )
 
 
 
-  
+
 // Software Guide : BeginLatex
 //
 // To finalize the example, we do the same computation for the case of the blue
 // channel.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -322,7 +323,7 @@ int main( int argc, char * argv [] )
   size[2] = 255;  // number of bins for the Blue  channel
 
   histogramGenerator->SetNumberOfBins( size );
-  
+
   histogramGenerator->Compute();
 // Software Guide : EndCodeSnippet
 
@@ -332,7 +333,7 @@ int main( int argc, char * argv [] )
 //
 // and verify the output.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -349,7 +350,7 @@ int main( int argc, char * argv [] )
 
 
   return 0;
-  
+
 }
 
 

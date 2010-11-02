@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkKalmanLinearEstimatorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,14 +23,14 @@
 
 #include <iostream>
 
-/** 
+/**
  *  This program test one instantiation of the itk::KalmanLinearEstimator class
- * 
- *  The test is done by providing a Linear Equation in 6D for which the 
- *  coefficients are known. A population of samples is generated and 
+ *
+ *  The test is done by providing a Linear Equation in 6D for which the
+ *  coefficients are known. A population of samples is generated and
  *  passed to the KalmanLinearEstimator.
  *
- */ 
+ */
 
 int itkKalmanLinearEstimatorTest(int, char* [] )
 {
@@ -45,7 +46,7 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
 
   filter.ClearEstimation();
   filter.SetVariance(1.0);
-  
+
   ValueType     measure;
   VectorType    predictor;
 
@@ -60,27 +61,27 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
 
   const unsigned int N = 10;
 
-  predictor(5)  =  1.0; 
-  for(unsigned int ax=0; ax < N; ax++) 
+  predictor(5)  =  1.0;
+  for(unsigned int ax=0; ax < N; ax++)
     {
-    predictor(0)  = ax; 
-    for(unsigned int bx=0; bx < N; bx++) 
+    predictor(0)  = ax;
+    for(unsigned int bx=0; bx < N; bx++)
       {
-      predictor(1)  = bx; 
-      for(unsigned int cx=0; cx < N; cx++) 
+      predictor(1)  = bx;
+      for(unsigned int cx=0; cx < N; cx++)
         {
-        predictor(2)  = cx; 
-        for(unsigned int dx=0; dx < N; dx++) 
+        predictor(2)  = cx;
+        for(unsigned int dx=0; dx < N; dx++)
           {
-          predictor(3)  = dx; 
-          for(unsigned int ex=0; ex < N; ex++) 
+          predictor(3)  = dx;
+          for(unsigned int ex=0; ex < N; ex++)
             {
-            predictor(4)  =  ex; 
-            
+            predictor(4)  =  ex;
+
             measure = dot_product( predictor, planeEquation );
-            
+
             filter.UpdateWithNewMeasure(measure,predictor);
-            
+
             }
           }
         }
@@ -106,14 +107,14 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
 
   std::cout << std::endl << "Variance : " << std::endl;
   std::cout << filter.GetVariance();
-   
+
   std::cout << std::endl << std::endl;
 
   bool pass = true;
 
   const float tolerance = 1e-4;
-  
-  if( errorMagnitude > tolerance ) 
+
+  if( errorMagnitude > tolerance )
     {
     pass = false;
     }

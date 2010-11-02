@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMatrixImageWriteReadTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -32,15 +33,15 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
     std::cerr << "Usage: " << av[0] << " Input\n";
     return EXIT_FAILURE;
     }
-  
+
   typedef itk::Matrix<float,3,3>                      MatrixPixelType;
   typedef itk::Image<MatrixPixelType, 3>              MatrixImageType;
- 
+
   MatrixImageType::Pointer matrixImage1 = MatrixImageType::New();
-   
+
   MatrixImageType::SizeType size;
   size.Fill(10);
-  
+
   MatrixImageType::IndexType start;
   start.Fill(0);
 
@@ -53,17 +54,17 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
 
   MatrixPixelType matrixPixel;
 
-  matrixPixel[0][0] = 1; 
-  matrixPixel[0][1] = 2; 
-  matrixPixel[0][2] = 3; 
+  matrixPixel[0][0] = 1;
+  matrixPixel[0][1] = 2;
+  matrixPixel[0][2] = 3;
 
-  matrixPixel[1][0] = 4; 
-  matrixPixel[1][1] = 5; 
-  matrixPixel[1][2] = 6; 
+  matrixPixel[1][0] = 4;
+  matrixPixel[1][1] = 5;
+  matrixPixel[1][2] = 6;
 
-  matrixPixel[2][0] = 7; 
-  matrixPixel[2][1] = 8; 
-  matrixPixel[2][2] = 9; 
+  matrixPixel[2][0] = 7;
+  matrixPixel[2][1] = 8;
+  matrixPixel[2][2] = 9;
 
   itk::ImageRegionIterator< MatrixImageType > itr( matrixImage1, region );
 
@@ -98,12 +99,12 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
- 
+
 
   typedef itk::ImageFileReader<  MatrixImageType > MatrixReaderType;
 
   MatrixReaderType::Pointer matrixReader = MatrixReaderType::New();
- 
+
   matrixReader->SetFileName( av[1] );
 
   try
@@ -123,7 +124,7 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
 
   itk::ImageRegionConstIterator< MatrixImageType > tItr( matrixImage2, region );
   itk::ImageRegionConstIterator< MatrixImageType > mItr( matrixImage1, region );
-  
+
   tItr.GoToBegin();
   mItr.GoToBegin();
 
@@ -149,7 +150,7 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
     ++mItr;
     ++tItr;
     }
-  
+
 
   return EXIT_SUCCESS;
 

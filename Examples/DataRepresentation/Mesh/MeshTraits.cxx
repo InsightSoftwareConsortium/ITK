@@ -1,34 +1,35 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MeshTraits.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 //  Software Guide : BeginLatex
 //
-//  This section illustrates the full power of 
+//  This section illustrates the full power of
 //  \href{http://www.boost.org/more/generic_programming.html}{Generic
 //  Programming}.  This is sometimes perceived as \emph{too much of a good
-//  thing}! 
+//  thing}!
 //
 //  The toolkit has been designed to offer flexibility while keeping the
 //  complexity of the code to a moderate level. This is achieved in the Mesh by
 //  hiding most of its parameters and defining reasonable defaults for them.
-// 
+//
 //  The generic concept of a mesh integrates many different elements. It is
 //  possible in principle to use independent types for every one of such
 //  elements. The mechanism used in generic programming for specifying the many
@@ -53,14 +54,14 @@
 //  its content. Only the first approach is illustrated here. The second is
 //  discouraged unless you are familiar with Generic Programming, feel
 //  comfortable with C++ templates and have access to an abundant supply of
-//  (Columbian) coffee. 
+//  (Columbian) coffee.
 //
 //  The first step in customizing the mesh is to include the header file of the
 //  Mesh and its static traits.
-//  
+//
 //  \index{itk::DefaultStaticMeshTraits!Header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -75,10 +76,10 @@
 int main(int, char *[])
 {
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then the MeshTraits class is instantiated by selecting the types of each
   //  one of its six template arguments. They are in order
-  // 
+  //
   //  \begin{description}
   //  \item[PixelType.] The type associated with every point.
   //  \item[PointDimension.] The dimension of the space in which the mesh is embedded.
@@ -102,7 +103,7 @@ int main(int, char *[])
   //
   //  \index{itk::DefaultStaticMeshTraits!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int PointDimension = 3;
@@ -114,10 +115,10 @@ int main(int, char *[])
   typedef double CoordinateType;
   typedef double InterpolationWeightType;
 
-  typedef itk::DefaultStaticMeshTraits< 
+  typedef itk::DefaultStaticMeshTraits<
             PixelType, PointDimension, MaxTopologicalDimension,
             CoordinateType, InterpolationWeightType, CellDataType > MeshTraits;
-                            
+
   typedef itk::Mesh< PixelType, PointDimension, MeshTraits > MeshType;
   // Software Guide : EndCodeSnippet
 
@@ -125,11 +126,11 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The \doxygen{LineCell} type can now be instantiated using the traits
-  //  taken from the Mesh.  
+  //  taken from the Mesh.
   //
   //  \index{itk::LineCell!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellType                CellType;
@@ -149,7 +150,7 @@ int main(int, char *[])
   //  \index{itk::Mesh!PointType}
   //  \index{itk::Mesh!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MeshType::Pointer  mesh = MeshType::New();
@@ -158,7 +159,7 @@ int main(int, char *[])
   PointType point;
 
   const unsigned int numberOfPoints = 10;
-  for(unsigned int id=0; id<numberOfPoints; id++) 
+  for(unsigned int id=0; id<numberOfPoints; id++)
     {
     point[0] = 1.565;   // Initialize points here
     point[1] = 3.647;   // with arbitrary values
@@ -182,7 +183,7 @@ int main(int, char *[])
   //  \index{CellType!creation}
   //  \index{itk::Mesh!SetCell()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   CellType::CellAutoPointer line;
@@ -190,9 +191,9 @@ int main(int, char *[])
   for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
     {
     line.TakeOwnership(  new LineType  );
-    line->SetPointId( 0, cellId   ); // first point 
+    line->SetPointId( 0, cellId   ); // first point
     line->SetPointId( 1, cellId+1 ); // second point
-    mesh->SetCell( cellId, line );   // insert the cell 
+    mesh->SetCell( cellId, line );   // insert the cell
     }
   // Software Guide : EndCodeSnippet
 
@@ -208,7 +209,7 @@ int main(int, char *[])
   //  of the inserted cells. In this example, we simply store a CellDataType
   //  dummy variable named \code{value}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
@@ -230,7 +231,7 @@ int main(int, char *[])
   //
   //  \index{itk::Mesh!GetCellData()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   for(unsigned int cellId=0; cellId<numberOfCells; cellId++)
@@ -246,9 +247,9 @@ int main(int, char *[])
   //
   //  Neither \code{SetCellData()} or \code{GetCellData()} are efficient ways
   //  to access cell data. Efficient access to cell data can be achieved
-  //  by using the Iterators built into the CellDataContainer. 
+  //  by using the Iterators built into the CellDataContainer.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;
@@ -272,11 +273,11 @@ int main(int, char *[])
   //  \index{CellDataContainer!Iterator}
   //  \index{CellDataContainer!ConstIterator}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CellDataIterator cellDataIterator  = mesh->GetCellData()->Begin();  
-  CellDataIterator end               = mesh->GetCellData()->End();  
+  CellDataIterator cellDataIterator  = mesh->GetCellData()->Begin();
+  CellDataIterator end               = mesh->GetCellData()->End();
   // Software Guide : EndCodeSnippet
 
 
@@ -289,11 +290,11 @@ int main(int, char *[])
   //  \index{CellDataIterator!Value()}
   //  \index{CellDataIterator!increment}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
-  while( cellDataIterator != end ) 
+  while( cellDataIterator != end )
     {
     CellDataType cellValue = cellDataIterator.Value();
     std::cout << cellValue << std::endl;

@@ -1,28 +1,29 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVersorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 /**
- *  
+ *
  *  This program illustrates the use of Versors
- *  
+ *
  *  Versors are Unit Quaternions used to represent
- *  rotations. 
+ *  rotations.
  *
  */
 
@@ -83,8 +84,8 @@ itk::Versor<double> TestCreateRotationVersorFromAngles(const double alpha, const
 }
 
 /**
- * This test that the conversion to and from Rotaion Matrix and 
- * Versor produces consistent results. 
+ * This test that the conversion to and from Rotaion Matrix and
+ * Versor produces consistent results.
  */
 int RotationMatrixToVersorTest(void)
 {
@@ -132,19 +133,19 @@ int RotationMatrixToVersorTest(void)
           const double error_newVRFROMMRPoint_newVRFROMMRTransformPoint=(newVRFROMMRPoint-newVRFROMMRTransformPoint).GetNorm();
 
           const double maxAllowedPointError=1e-5;
-          if( ( error_newMRtestPoint_newVRtestPoint + error_newMRtestPoint_newVRFROMMRPoint 
+          if( ( error_newMRtestPoint_newVRtestPoint + error_newMRtestPoint_newVRFROMMRPoint
                 + error_newVRFROMMRPoint_newVRFROMMRTransformPoint) > maxAllowedPointError)
             {
             std::cout << "(alpha,beta,gamma)= (" << alpha << ","<< beta << "," << gamma << ")" << std::endl;
 
             std::cout << newMRtestPoint << " " << newVRtestPoint << " " << newVRFROMMRPoint << " " << newVRFROMMRTransformPoint << std::endl;
-            std::cout << "ERRORS: " << error_newMRtestPoint_newVRtestPoint << " " 
-                      << error_newMRtestPoint_newVRFROMMRPoint << " " 
+            std::cout << "ERRORS: " << error_newMRtestPoint_newVRtestPoint << " "
+                      << error_newMRtestPoint_newVRFROMMRPoint << " "
                       << error_newVRFROMMRPoint_newVRFROMMRTransformPoint << std::endl;
             std::cout << "MR=\n"<< MR << "\nVR=\n" << VR.GetMatrix() << "\nVFROMMR=\n" << VFROMMR.GetMatrix() << std::endl;
             errorCount++;
             }
-          
+
           }
         }
       }
@@ -159,7 +160,7 @@ int RotationMatrixToVersorTest(void)
 //   Main code
 //
 //-------------------------
-int itkVersorTest(int, char* [] ) 
+int itkVersorTest(int, char* [] )
 {
 
   typedef   double          ValueType;
@@ -190,26 +191,26 @@ int itkVersorTest(int, char* [] )
   {
     std::cout << "Test default constructor... ";
     VersorType qa;
-    if( vcl_abs(qa.GetX()) > epsilon ) 
+    if( vcl_abs(qa.GetX()) > epsilon )
       {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(qa.GetY()) > epsilon ) 
+      }
+    if( vcl_abs(qa.GetY()) > epsilon )
       {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(qa.GetZ()) > epsilon ) 
+      }
+    if( vcl_abs(qa.GetZ()) > epsilon )
       {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(qa.GetW()-1.0) > epsilon ) 
+      }
+    if( vcl_abs(qa.GetW()-1.0) > epsilon )
       {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
 
@@ -233,7 +234,7 @@ int itkVersorTest(int, char* [] )
     xa[2] = 0.5;
     ValueType angle = vcl_atan(1.0)/3.0; // 15 degrees in radians
     qa.Set( xa, angle );
-        
+
     xa.Normalize();
 
     ValueType cosangle = vcl_cos( angle / 2.0 );
@@ -243,31 +244,31 @@ int itkVersorTest(int, char* [] )
 
     xb =  xa * sinangle;
 
-    if( vcl_abs(qa.GetX()-xb[0]) > epsilon ) 
+    if( vcl_abs(qa.GetX()-xb[0]) > epsilon )
       {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(qa.GetY()-xb[1]) > epsilon ) 
+      }
+    if( vcl_abs(qa.GetY()-xb[1]) > epsilon )
       {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(qa.GetZ()-xb[2]) > epsilon ) 
+      }
+    if( vcl_abs(qa.GetZ()-xb[2]) > epsilon )
       {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(qa.GetW()-cosangle) > epsilon ) 
+      }
+    if( vcl_abs(qa.GetW()-cosangle) > epsilon )
       {
       std::cout << "Error in W ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(qa.GetAngle()-angle) > epsilon ) 
+      }
+    if( vcl_abs(qa.GetAngle()-angle) > epsilon )
       {
       std::cout << "Error in Angle ! " << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
 
     std::cout << " PASSED !" << std::endl;
   }
@@ -276,12 +277,12 @@ int itkVersorTest(int, char* [] )
     std::cout << "Test for setting Right part...";
     ValueType angle = vcl_atan(1.0)*30.0/45.0;
     ValueType sin2a = vcl_sin( angle/2.0 );
-    
+
     VectorType xa;
     xa[0] = 0.7;
     xa[1] = 0.3;
     xa[2] = 0.1;
-    
+
     xa.Normalize();
     xa *= sin2a;
 
@@ -289,48 +290,48 @@ int itkVersorTest(int, char* [] )
     qa.Set( xa, angle );
     ValueType cos2a = vcl_cos( angle/2.0 );
 
-    if( vcl_abs(qa.GetW()-cos2a) > epsilon ) 
+    if( vcl_abs(qa.GetW()-cos2a) > epsilon )
       {
       std::cout << "Error in W ! " << std::endl;
       std::cout << "W= " << qa.GetW();
       std::cout << " it should be " << cos2a << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(qa.GetAngle()-angle) > epsilon ) 
+      }
+    if( vcl_abs(qa.GetAngle()-angle) > epsilon )
       {
       std::cout << "Error in Angle ! " << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
 
  {
     std::cout << "Test for Square Root...";
-    
+
     ValueType angle = vcl_atan(1.0)*30.0/45.0;
     ValueType sin2a = vcl_sin( angle/2.0 );
-    
+
     VectorType xa;
     xa[0] = 0.7;
     xa[1] = 0.3;
     xa[2] = 0.1;
-    
+
     xa.Normalize();
     xa *= sin2a;
 
     VersorType qa;
     qa.Set( xa, angle );
-        
+
     VersorType qb;
     qb = qa.SquareRoot();
 
-    if( vcl_abs( qa.GetAngle() - 2.0 * qb.GetAngle() ) > epsilon ) 
+    if( vcl_abs( qa.GetAngle() - 2.0 * qb.GetAngle() ) > epsilon )
       {
       std::cout << "Error in Square Root ! " << std::endl;
       std::cout << "Angle = " << qb.GetAngle();
       std::cout << " it should be " << qa.GetAngle() / 2.0 << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
 
@@ -341,31 +342,31 @@ int itkVersorTest(int, char* [] )
     xa[1] = 2.5;
     xa[2] = 2.5;
     ValueType angle = 8.0*vcl_atan(1.0)/3.0; // 120 degrees in radians
-    
+
     VersorType qa;
     qa.Set( xa, angle );
-        
+
     VectorType::ValueType xbInit[3] = {3.0, 7.0, 9.0};
     VectorType xb = xbInit;
 
     VectorType xc= qa.Transform( xb );
 
     // This rotation will just permute the axis
-    if( vcl_abs(xc[1]-xb[0]) > epsilon ) 
+    if( vcl_abs(xc[1]-xb[0]) > epsilon )
       {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(xc[2]-xb[1]) > epsilon ) 
+      }
+    if( vcl_abs(xc[2]-xb[1]) > epsilon )
       {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(xc[0]-xb[2]) > epsilon ) 
+      }
+    if( vcl_abs(xc[0]-xb[2]) > epsilon )
       {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
 
@@ -376,31 +377,31 @@ int itkVersorTest(int, char* [] )
     xa[1] = 2.5;
     xa[2] = 2.5;
     ValueType angle = 8.0*vcl_atan(1.0)/3.0; // 120 degrees in radians
-    
+
     VersorType qa;
     qa.Set( xa, angle );
-        
+
     PointType::ValueType xbInit[3] = {3.0, 7.0, 9.0};
     PointType xb = xbInit;
 
     PointType xc = qa.Transform( xb );
 
     // This rotation will just permute the axis
-    if( vcl_abs(xc[1]-xb[0]) > epsilon ) 
+    if( vcl_abs(xc[1]-xb[0]) > epsilon )
       {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(xc[2]-xb[1]) > epsilon ) 
+      }
+    if( vcl_abs(xc[2]-xb[1]) > epsilon )
       {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(xc[0]-xb[2]) > epsilon ) 
+      }
+    if( vcl_abs(xc[0]-xb[2]) > epsilon )
       {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
 
@@ -412,31 +413,31 @@ int itkVersorTest(int, char* [] )
     xa[1] = 2.5;
     xa[2] = 2.5;
     ValueType angle = 8.0*vcl_atan(1.0)/3.0; // 120 degrees in radians
-    
+
     VersorType qa;
     qa.Set( xa, angle );
-        
+
     CovariantVectorType::ValueType xbInit[3] = {3.0, 7.0, 9.0};
     CovariantVectorType xb = xbInit;
 
     CovariantVectorType xc = qa.Transform( xb );
 
     // This rotation will just permute the axis
-    if( vcl_abs(xc[1]-xb[0]) > epsilon ) 
+    if( vcl_abs(xc[1]-xb[0]) > epsilon )
       {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(xc[2]-xb[1]) > epsilon ) 
+      }
+    if( vcl_abs(xc[2]-xb[1]) > epsilon )
       {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(xc[0]-xb[2]) > epsilon ) 
+      }
+    if( vcl_abs(xc[0]-xb[2]) > epsilon )
       {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
 
@@ -447,10 +448,10 @@ int itkVersorTest(int, char* [] )
     xa[1] = 2.5;
     xa[2] = 2.5;
     ValueType angle = 8.0*vcl_atan(1.0)/3.0; // 120 degrees in radians
-    
+
     VersorType qa;
     qa.Set( xa, angle );
-        
+
     VnlVectorType xb;
     xb[0] = 3.0;
     xb[1] = 7.0;
@@ -459,24 +460,24 @@ int itkVersorTest(int, char* [] )
     VnlVectorType xc = qa.Transform( xb );
 
     // This rotation will just permute the axis
-    if( vcl_abs(xc[1]-xb[0]) > epsilon ) 
+    if( vcl_abs(xc[1]-xb[0]) > epsilon )
       {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(xc[2]-xb[1]) > epsilon ) 
+      }
+    if( vcl_abs(xc[2]-xb[1]) > epsilon )
       {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
-      } 
-    if( vcl_abs(xc[0]-xb[2]) > epsilon ) 
+      }
+    if( vcl_abs(xc[0]-xb[2]) > epsilon )
       {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
-  
+
   {
     std::cout << "Test for Set components operations ...";
 
@@ -485,17 +486,17 @@ int itkVersorTest(int, char* [] )
     VectorType x1 = x1Init;
 
     ValueType angle1 = vcl_atan(1.0)/3.0; // 15 degrees in radians
-    
+
     VersorType v1;
     v1.Set( x1, angle1 );
- 
+
     // Get the components and scale them
     ValueType scale = 5.5;
     ValueType x = v1.GetX() * scale;
     ValueType y = v1.GetY() * scale;
     ValueType z = v1.GetZ() * scale;
     ValueType w = v1.GetW() * scale;
- 
+
     VersorType v2;
     v2.Set( x, y, z, w );
 
@@ -509,7 +510,7 @@ int itkVersorTest(int, char* [] )
       std::cout << "v1  = " << v1 << std::endl;
       std::cout << "v2  = " << v2 << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
 
     std::cout << "Test for Set quaternion ...";
@@ -529,21 +530,21 @@ int itkVersorTest(int, char* [] )
       std::cout << "v1  = " << v1 << std::endl;
       std::cout << "v2  = " << v2 << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
 
     std::cout << "Test for Set(x,y,z,w) with negative W.";
-    // Check that a negative W results in negating 
+    // Check that a negative W results in negating
     // all the versor components.
     x = - v1.GetX();
     y = - v1.GetY();
     z = - v1.GetZ();
     w = - v1.GetW();
- 
+
     VersorType v3;
     v3.Set( x, y, z, w );
 
-     // Compare both versors 
+     // Compare both versors
     if( vcl_abs( v1.GetX() - v3.GetX() ) > epsilon ||
         vcl_abs( v1.GetY() - v3.GetY() ) > epsilon ||
         vcl_abs( v1.GetZ() - v3.GetZ() ) > epsilon ||
@@ -553,7 +554,7 @@ int itkVersorTest(int, char* [] )
       std::cout << "v1  = " << v1 << std::endl;
       std::cout << "v3  = " << v3 << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
 
@@ -564,17 +565,17 @@ int itkVersorTest(int, char* [] )
     VectorType x1 = x1Init;
 
     ValueType angle1 = vcl_atan(1.0)/3.0; // 15 degrees in radians
-    
+
     VectorType::ValueType x2Init[3] = {1.5f, 0.5f, 0.5f};
     VectorType x2 = x2Init;
 
     ValueType angle2 = vcl_atan(1.0)/1.0; // 45 degrees in radians
-    
+
     VersorType  v1;
     v1.Set( x1, angle1 );
     VersorType  v2;
     v2.Set( x2, angle2 );
-        
+
     VersorType v2r = v2.GetReciprocal();
     VersorType unit = v2 * v2r;
 
@@ -589,7 +590,7 @@ int itkVersorTest(int, char* [] )
       std::cout << "Product    = " << unit  << std::endl;
 
       return EXIT_FAILURE;
-      }  
+      }
 
     unit = v2 / v2;
 
@@ -603,7 +604,7 @@ int itkVersorTest(int, char* [] )
       std::cout << "Self Division   = " << unit  << std::endl;
 
       return EXIT_FAILURE;
-      }  
+      }
 
     unit =  v2;
     unit /= v2;
@@ -617,12 +618,12 @@ int itkVersorTest(int, char* [] )
       std::cout << "Self Division   = " << unit  << std::endl;
 
       return EXIT_FAILURE;
-      }  
+      }
 
     x1.Normalize();
     x2.Normalize();
 
-   
+
     VersorType v3= v1 * v2;
     VersorType v4= v3 * v2r;
 
@@ -635,7 +636,7 @@ int itkVersorTest(int, char* [] )
       std::cout << "v1  = " << v1 << std::endl;
       std::cout << "v1' = " << v4 << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
 
@@ -669,7 +670,7 @@ int itkVersorTest(int, char* [] )
       std::cout << "Error in Versor Set(Matrix) method ! " << std::endl;
       std::cout << "vv  = " << vv << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     std::cout << " PASSED !" << std::endl;
   }
   {

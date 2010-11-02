@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRayCastInterpolateImageFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 
 
-int 
+int
 itkRayCastInterpolateImageFunctionTest(
     int itkNotUsed(argc),
     char * itkNotUsed(argv) [] )
@@ -43,7 +44,7 @@ itkRayCastInterpolateImageFunctionTest(
     typedef ImageType::SpacingType  SpacingType;
     typedef ImageType::SizeType     SizeType;
     typedef ImageType::RegionType   RegionType;
-    
+
     /* Allocate a simple test image */
     ImageType::Pointer image = ImageType::New();
     IndexType start;
@@ -71,13 +72,13 @@ itkRayCastInterpolateImageFunctionTest(
 
     /* Initialize the image contents */
     IndexType index;
-    for (unsigned int slice = 0; slice < size[2]; slice++) 
+    for (unsigned int slice = 0; slice < size[2]; slice++)
       {
       index[2] = slice;
-      for (unsigned int row = 0; row < size[1]; row++) 
+      for (unsigned int row = 0; row < size[1]; row++)
         {
         index[1] = row;
-        for (unsigned int col = 0; col < size[0]; col++) 
+        for (unsigned int col = 0; col < size[0]; col++)
           {
           index[0] = col;
           PixelType value = (PixelType)(slice+row+col);
@@ -98,7 +99,7 @@ itkRayCastInterpolateImageFunctionTest(
     focus[0] =  15.0;
     focus[1] =  15.0;
     focus[2] = 100.0;
-   
+
     interp->SetFocalPoint( focus );
 
 
@@ -110,11 +111,11 @@ itkRayCastInterpolateImageFunctionTest(
     interp->SetTransform( transform );
 
     /* Create the auxiliary interpolator */
-    typedef itk::LinearInterpolateImageFunction< 
+    typedef itk::LinearInterpolateImageFunction<
                     ImageType, double > InterpolatorType;
 
     InterpolatorType::Pointer auxInterpolator = InterpolatorType::New();
-    
+
     interp->SetInterpolator( auxInterpolator );
 
 
@@ -130,7 +131,7 @@ itkRayCastInterpolateImageFunctionTest(
     query[2] = 15;
 
     integral = interp->Evaluate(query);
-      
+
     std::cout << "Integral = " << integral << std::endl;
 
     return EXIT_SUCCESS;

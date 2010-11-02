@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    wrap_ITKInterpolators.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImage.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -30,82 +31,82 @@ namespace _cable_
   {
     // wrap InterpolateImageFunction and two super classes up
     ITK_WRAP_OBJECT2(InterpolateImageFunction, image::F2,
-                                       double, 
+                                       double,
                                        itkInterpolateImageFunctionF2D);
-    ITK_WRAP_OBJECT2(InterpolateImageFunction, image::F3, 
-                                       double, 
+    ITK_WRAP_OBJECT2(InterpolateImageFunction, image::F3,
+                                       double,
                                        itkInterpolateImageFunctionF3D);
-    ITK_WRAP_OBJECT2(InterpolateImageFunction, image::US2, 
-                                       double, 
+    ITK_WRAP_OBJECT2(InterpolateImageFunction, image::US2,
+                                       double,
                                        itkInterpolateImageFunctionUS2D);
     ITK_WRAP_OBJECT2(InterpolateImageFunction, image::US3,
-                                       double, 
+                                       double,
                                        itkInterpolateImageFunctionUS3D);
-    
+
     // wrap LinearInterpolateImageFunction
-    ITK_WRAP_OBJECT2(LinearInterpolateImageFunction, image::F2, double, 
+    ITK_WRAP_OBJECT2(LinearInterpolateImageFunction, image::F2, double,
                      itkLinearInterpolateImageFunctionF2D);
-    ITK_WRAP_OBJECT2(LinearInterpolateImageFunction, image::F3, double, 
+    ITK_WRAP_OBJECT2(LinearInterpolateImageFunction, image::F3, double,
                      itkLinearInterpolateImageFunctionF3D);
-    ITK_WRAP_OBJECT2(LinearInterpolateImageFunction, image::US2, double, 
+    ITK_WRAP_OBJECT2(LinearInterpolateImageFunction, image::US2, double,
                      itkLinearInterpolateImageFunctionUS2D);
-    ITK_WRAP_OBJECT2(LinearInterpolateImageFunction, image::US3, double, 
+    ITK_WRAP_OBJECT2(LinearInterpolateImageFunction, image::US3, double,
                      itkLinearInterpolateImageFunctionUS3D);
 
-    // wrap NearestNeighborInterpolateImageFunction 
+    // wrap NearestNeighborInterpolateImageFunction
     ITK_WRAP_OBJECT2(NearestNeighborInterpolateImageFunction, image::F2,
-                     double, 
+                     double,
                      itkNearestNeighborInterpolateImageFunctionF2D);
-    ITK_WRAP_OBJECT2(NearestNeighborInterpolateImageFunction, image::F3, 
-                     double, 
+    ITK_WRAP_OBJECT2(NearestNeighborInterpolateImageFunction, image::F3,
+                     double,
                      itkNearestNeighborInterpolateImageFunctionF3D);
     ITK_WRAP_OBJECT2(NearestNeighborInterpolateImageFunction, image::US2,
-                     double, 
+                     double,
                      itkNearestNeighborInterpolateImageFunctionUS2D);
     ITK_WRAP_OBJECT2(NearestNeighborInterpolateImageFunction, image::US3,
-                     double, 
+                     double,
                      itkNearestNeighborInterpolateImageFunctionUS3D);
-    
-    // wrap BSplineInterpolateImageFunction 
+
+    // wrap BSplineInterpolateImageFunction
     ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::F2,
-                     double, 
+                     double,
                      itkBSplineInterpolateImageFunctionF2D);
-    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::F3, 
-                     double, 
+    ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::F3,
+                     double,
                      itkBSplineInterpolateImageFunctionF3D);
     ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::US2,
-                     double, 
+                     double,
                      itkBSplineInterpolateImageFunctionUS2D);
     ITK_WRAP_OBJECT2(BSplineInterpolateImageFunction, image::US3,
-                     double, 
+                     double,
                      itkBSplineInterpolateImageFunctionUS3D);
 
     ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F2,
-                     double,float, 
+                     double,float,
                      itkBSplineInterpolateImageFunctionF2DF);
-    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F3, 
-                     double,float, 
+    ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::F3,
+                     double,float,
                      itkBSplineInterpolateImageFunctionF3DF);
     ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::US2,
-                     double,unsigned short, 
+                     double,unsigned short,
                      itkBSplineInterpolateImageFunctionUS2DUS);
     ITK_WRAP_OBJECT3(BSplineInterpolateImageFunction, image::US3,
-                     double,unsigned short, 
+                     double,unsigned short,
                      itkBSplineInterpolateImageFunctionUS3DUS);
 
 
-    // wrap BSplineResampleImageFunction 
+    // wrap BSplineResampleImageFunction
     ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::F2,
-                     double, 
+                     double,
                      itkBSplineResampleImageFunctionF2D);
-    ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::F3, 
-                     double, 
+    ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::F3,
+                     double,
                      itkBSplineResampleImageFunctionF3D);
     ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::US2,
-                     double, 
+                     double,
                      itkBSplineResampleImageFunctionUS2D);
     ITK_WRAP_OBJECT2(BSplineResampleImageFunction, image::US3,
-                     double, 
+                     double,
                      itkBSplineResampleImageFunctionUS3D);
 
 

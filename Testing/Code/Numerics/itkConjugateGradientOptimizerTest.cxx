@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkConjugateGradientOptimizerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,12 +24,12 @@
 #include <cstdlib>
 
 
-/** 
+/**
  *  The objectif function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
  *
- *  Where A is represented as an itkMatrix and 
+ *  Where A is represented as an itkMatrix and
  *  b is represented as a itkVector
  *
  *  The system in this example is:
@@ -39,8 +40,8 @@
  *
  *   the solution is the vector | 2 -2 |
  *
- */ 
-class conjugateCostFunction : public itk::SingleValuedCostFunction 
+ */
+class conjugateCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
@@ -69,7 +70,7 @@ public:
 
 
   double GetValue( const ParametersType & position ) const
-  { 
+  {
 
     double x = position[0];
     double y = position[1];
@@ -80,14 +81,14 @@ public:
 
     double val = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
-    std::cout << val << std::endl; 
+    std::cout << val << std::endl;
 
     return val;
   }
 
 
 
-  void GetDerivative( const ParametersType & position, 
+  void GetDerivative( const ParametersType & position,
                             DerivativeType & derivative ) const
   {
 
@@ -101,7 +102,7 @@ public:
     derivative = DerivativeType(SpaceDimension);
     derivative[0] = 3*x + 2*y -2;
     derivative[1] = 2*x + 6*y +8;
-    std::cout << "(" ; 
+    std::cout << "(" ;
     std::cout << derivative[0] <<" , ";
     std::cout << derivative[1] << ")" << std::endl;
   }
@@ -116,7 +117,7 @@ private:
 
 };
 
-class CommandIterationUpdateConjugateGradient : public itk::Command 
+class CommandIterationUpdateConjugateGradient : public itk::Command
 {
 public:
   typedef  CommandIterationUpdateConjugateGradient   Self;
@@ -124,7 +125,7 @@ public:
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 protected:
-  CommandIterationUpdateConjugateGradient() 
+  CommandIterationUpdateConjugateGradient()
   {
     m_IterationNumber=0;
   }
@@ -139,7 +140,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
+      OptimizerPointer optimizer =
         dynamic_cast< OptimizerPointer >( object );
       if( m_FunctionEvent.CheckEvent( &event ) )
         {
@@ -160,7 +161,7 @@ private:
   itk::GradientEvaluationIterationEvent m_GradientEvent;
 };
 
-int itkConjugateGradientOptimizerTest(int, char* [] ) 
+int itkConjugateGradientOptimizerTest(int, char* [] )
 {
   std::cout << "Conjugate Gradient Optimizer Test \n \n";
 
@@ -168,8 +169,8 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
 
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
 
-  
-  
+
+
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
@@ -180,23 +181,23 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
-  
+
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
   const double F_Tolerance      = 1e-3;  // Function value tolerance
-  const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance 
+  const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
   const double X_Tolerance      = 1e-8;  // Search space tolerance
   const double Epsilon_Function = 1e-10; // Step
   const int    Max_Iterations   =   100; // Maximum number of iterations
 
   vnlOptimizer->set_f_tolerance( F_Tolerance );
   vnlOptimizer->set_g_tolerance( G_Tolerance );
-  vnlOptimizer->set_x_tolerance( X_Tolerance ); 
+  vnlOptimizer->set_x_tolerance( X_Tolerance );
   vnlOptimizer->set_epsilon_function( Epsilon_Function );
   vnlOptimizer->set_max_function_evals( Max_Iterations );
 
   vnlOptimizer->set_check_derivatives( 3 );
-      
+
 
   OptimizerType::ParametersType initialValue(2);       // constructor requires vector size
   // We start not so far from  | 2 -2 |
@@ -210,13 +211,13 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
 
   itkOptimizer->SetInitialPosition( currentValue );
 
-  CommandIterationUpdateConjugateGradient::Pointer observer = 
+  CommandIterationUpdateConjugateGradient::Pointer observer =
     CommandIterationUpdateConjugateGradient::New();
   itkOptimizer->AddObserver( itk::IterationEvent(), observer );
   itkOptimizer->AddObserver( itk::FunctionEvaluationIterationEvent(), observer );
 
 
-  try 
+  try
     {
     itkOptimizer->StartOptimization();
     }
@@ -231,7 +232,7 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
 
 
   std::cout << "Number of iters = " << itkOptimizer->GetCurrentIteration()  << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
 
   std::cout << "Report from vnl optimizer: " << std::endl;
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
@@ -247,7 +248,7 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
 
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
-  std::cout << finalPosition[1] << ")" << std::endl;  
+  std::cout << finalPosition[1] << ")" << std::endl;
 
   bool pass = true;
   double trueParameters[2] = { 2, -2 };

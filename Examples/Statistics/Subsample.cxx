@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    Subsample.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -41,7 +42,7 @@
 // the class itself and a Sample class. We will use the
 // \subdoxygen{Statistics}{ListSample} as the input sample.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -52,7 +53,7 @@
 // Software Guide : BeginLatex
 //
 // We need another header for measurement vectors. We are going to use
-// the \doxygen{Vector} class in this example. 
+// the \doxygen{Vector} class in this example.
 //
 // Software Guide : EndLatex
 
@@ -78,14 +79,14 @@ int main()
   mv[0] = 1.0;
   mv[1] = 2.0;
   mv[2] = 4.0;
-  
+
   sample->PushBack(mv);
 
   mv[0] = 2.0;
   mv[1] = 4.0;
   mv[2] = 5.0;
   sample->PushBack(mv);
-  
+
   mv[0] = 3.0;
   mv[1] = 8.0;
   mv[2] = 6.0;
@@ -126,7 +127,7 @@ int main()
   typedef itk::Statistics::Subsample< SampleType > SubsampleType;
   SubsampleType::Pointer subsample = SubsampleType::New();
   subsample->SetSample( sample );
-  
+
   subsample->AddInstance( 0UL );
   subsample->AddInstance( 2UL );
   // Software Guide : EndCodeSnippet
@@ -134,7 +135,7 @@ int main()
   // Software Guide : BeginLatex
   //
   // The Subsample is ready for use. The following code snippet
-  // shows how to use \code{Iterator} interfaces. 
+  // shows how to use \code{Iterator} interfaces.
   //
   // Software Guide : EndLatex
 
@@ -142,17 +143,17 @@ int main()
   SubsampleType::Iterator iter = subsample->Begin();
   while ( iter != subsample->End() )
     {
-    std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
-              << "\t measurement vector = " 
-              << iter.GetMeasurementVector() 
-              << "\t frequency = " 
+    std::cout << "instance identifier = " << iter.GetInstanceIdentifier()
+              << "\t measurement vector = "
+              << iter.GetMeasurementVector()
+              << "\t frequency = "
               << iter.GetFrequency()
               << std::endl;
     ++iter;
     }
   // Software Guide : EndCodeSnippet
 
-  
+
   // Software Guide : BeginLatex
   //
   // As mentioned earlier, the instances in a Subsample can be sorted without
@@ -179,14 +180,14 @@ int main()
 
   for ( int index = 0 ; index < subsample->Size() ; ++index )
     {
-    std::cout << "instance identifier = " 
-              << subsample->GetInstanceIdentifier(index) 
-              << "\t measurement vector = " 
-              << subsample->GetMeasurementVectorByIndex(index) 
+    std::cout << "instance identifier = "
+              << subsample->GetInstanceIdentifier(index)
+              << "\t measurement vector = "
+              << subsample->GetMeasurementVectorByIndex(index)
               << std::endl;
     }
   // Software Guide : EndCodeSnippet
-  
+
   // Software Guide : BeginLatex
   //
   // Since we are using a ListSample object as the source sample, the
@@ -200,7 +201,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Size = " << subsample->Size() << std::endl;
-  std::cout << "Total frequency = " 
+  std::cout << "Total frequency = "
             << subsample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -215,9 +216,9 @@ int main()
   // Software Guide : BeginCodeSnippet
   subsample->Clear();
   std::cout << "Size = " << subsample->Size() << std::endl;
-  std::cout << "Total frequency = " 
+  std::cout << "Total frequency = "
             << subsample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
-  
+
   return 0;
 }

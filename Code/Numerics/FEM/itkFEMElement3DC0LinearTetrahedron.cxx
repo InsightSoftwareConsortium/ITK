@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMElement3DC0LinearTetrahedron.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -60,7 +61,7 @@ Element3DC0LinearTetrahedron
    * Linear tetrahedral element has local coordinates
    * (0,0,0), (1,0,0), (0,1,0), (0,0,1)
    */
-  
+
   /** given local point x=(r,s,t), where 0 <= r,s,t <= 1 */
 
   /** N_1 = 1 - r - s - t; */
@@ -112,19 +113,19 @@ Element3DC0LinearTetrahedron
   localPt.set_size(3);
   localPt.fill(0.0);
 
-  x0 = this->m_node[0]->GetCoordinates()[0];   
+  x0 = this->m_node[0]->GetCoordinates()[0];
   y0 = this->m_node[0]->GetCoordinates()[1];
   z0 = this->m_node[0]->GetCoordinates()[2];
 
-  x1 = this->m_node[1]->GetCoordinates()[0];   
+  x1 = this->m_node[1]->GetCoordinates()[0];
   y1 = this->m_node[1]->GetCoordinates()[1];
   z1 = this->m_node[1]->GetCoordinates()[2];
 
-  x2 = this->m_node[2]->GetCoordinates()[0];   
+  x2 = this->m_node[2]->GetCoordinates()[0];
   y2 = this->m_node[2]->GetCoordinates()[1];
   z2 = this->m_node[2]->GetCoordinates()[2];
 
-  x3 = this->m_node[3]->GetCoordinates()[0];   
+  x3 = this->m_node[3]->GetCoordinates()[0];
   y3 = this->m_node[3]->GetCoordinates()[1];
   z3 = this->m_node[3]->GetCoordinates()[2];
 
@@ -138,21 +139,21 @@ Element3DC0LinearTetrahedron
       - (y-y0)*((x2-x0)*(z3-z0)-(z2-z0)*(x3-x0))
       + (z-z0)*((x2-x0)*(y3-y0)-(y2-y0)*(x3-x0))
       );
-  
+
   localPt[1] = 1/A *
     (
       - (x-x0)*((y1-y0)*(z3-z0)-(z1-z0)*(y3-y0))
       + (y-y0)*((x1-x0)*(z3-z0)-(z1-z0)*(x3-x0))
       - (z-z0)*((x1-x0)*(y3-y0)-(y1-y0)*(x3-x0))
       );
-  
+
   localPt[2] = 1/A *
     (
       (x-x0)*((y1-y0)*(z2-z0)-(z1-z0)*(y2-y0))
       - (y-y0)*((x1-x0)*(z2-z0)-(z1-z0)*(x2-x0))
       + (z-z0)*((x1-x0)*(y2-y0)-(y1-y0)*(x2-x0))
       );
-  
+
   const double FEM_TETRA_EPSILON = 1e-5;
 
   if (localPt[0] < (0.0 - FEM_TETRA_EPSILON)
@@ -177,7 +178,7 @@ Element3DC0LinearTetrahedron
 #ifdef FEM_BUILD_VISUALIZATION
 void
 Element3DC0LinearTetrahedron
-::Draw(CDC* pDC, Solution::ConstPointer sol) const 
+::Draw(CDC* pDC, Solution::ConstPointer sol) const
 {
 
   int x1=m_node[0]->GetCoordinates()[0]*DC_Scale;
@@ -187,11 +188,11 @@ Element3DC0LinearTetrahedron
   int x2=m_node[1]->GetCoordinates()[0]*DC_Scale;
   int y2=m_node[1]->GetCoordinates()[1]*DC_Scale;
   int z2=m_node[1]->GetCoordinates()[2]*DC_Scale;
-  
+
   int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
   int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
   int z3=m_node[2]->GetCoordinates()[2]*DC_Scale;
-  
+
   int x4=m_node[3]->GetCoordinates()[0]*DC_Scale;
   int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
   int z4=m_node[3]->GetCoordinates()[2]*DC_Scale;

@@ -70,6 +70,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
   //  Rotation Matrix type
   typedef    TransformType::MatrixType           MatrixType;
 
+
   {
     std::cout << "Test default constructor... ";
 
@@ -252,6 +253,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
         std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
       }
     }
+
     {
       // Translate a vnl_vector
       TransformType::InputVnlVectorType p;

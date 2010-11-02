@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRecursiveGaussianImageFiltersTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // Disable warning for long symbol names in this file only
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -27,7 +27,7 @@
 #include <itkImageRegionConstIterator.h>
 
 
-int itkRecursiveGaussianImageFiltersTest(int, char* [] ) 
+int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 {
 
   {  // 3D test
@@ -41,7 +41,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>             myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<myDimension>              mySizeType;
 
   // Declare the type of the Region
@@ -50,7 +50,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();
 
-  
+
   // Define their size, and start index
   mySizeType size;
   size[0] = 100;
@@ -70,7 +70,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
 
 
@@ -79,7 +79,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
   // Initialize the content of Image A
   std::cout << "Input Image initialization " << std::endl;
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     it.Set( 0.0 );
     ++it;
@@ -99,7 +99,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   myIteratorType itb( inputImage, region );
 
   // Initialize the content the internal region
-  while( !itb.IsAtEnd() ) 
+  while( !itb.IsAtEnd() )
   {
     itb.Set( 100.0 );
     ++itb;
@@ -113,34 +113,34 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
                                               myImageType,
                                               myImageType
                                                         >  myGaussianFilterType;
-            
 
-  // Create a  Filter                                
+
+  // Create a  Filter
   myGaussianFilterType::Pointer filter = myGaussianFilterType::New();
 
 
   // Connect the input images
-  filter->SetInput( inputImage ); 
+  filter->SetInput( inputImage );
   filter->SetDirection( 2 );  // apply along Z
   filter->SetOrder( myGaussianFilterType::ZeroOrder );
 
-  
+
   // Execute the filter
   std::cout << "Executing Smoothing filter...";
   filter->Update();
   std::cout << " Done !" << std::endl;
 
 
-  // Create a  Filter                                
+  // Create a  Filter
   myGaussianFilterType::Pointer filter1 = myGaussianFilterType::New();
 
 
   // Connect the input images
-  filter1->SetInput( inputImage ); 
+  filter1->SetInput( inputImage );
   filter1->SetDirection( 2 );  // apply along Z
   filter1->SetOrder( myGaussianFilterType::FirstOrder );
 
-  
+
   // Execute the filter1
   std::cout << "Executing First Derivative filter...";
   filter1->Update();
@@ -148,15 +148,15 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
 
 
-  // Create a  Filter                                
+  // Create a  Filter
   myGaussianFilterType::Pointer filter2 = myGaussianFilterType::New();
 
 
   // Connect the input images
-  filter2->SetInput( inputImage ); 
+  filter2->SetInput( inputImage );
   filter2->SetDirection( 2 );  // apply along Z
   filter2->SetOrder( myGaussianFilterType::SecondOrder );
-  
+
   // Execute the filter2
   std::cout << "Executing Second Derivative filter...";
   filter2->Update();
@@ -164,7 +164,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   }
 
 
- 
+
   { // Test normalizations factors using a 1D image
   std::cout << "Test normalizations factors using a 1-D image" << std::endl;
 
@@ -199,10 +199,10 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
   IndexType index;
   index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
-  
+
   inputImage->SetPixel( index, static_cast< PixelType >( 1000.0 ) );
 
-  typedef itk::RecursiveGaussianImageFilter< 
+  typedef itk::RecursiveGaussianImageFilter<
                             ImageType, ImageType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
@@ -211,7 +211,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
   std::cout << "Testing normalization across scales...  ";
   { // begin of test for normalization across scales
-    
+
     filter->SetNormalizeAcrossScale( true );
 
     const double sigmaA = 2.0;
@@ -247,14 +247,14 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     { // begin of test for normalization among derivatives
     filter->SetNormalizeAcrossScale( false );
 
-    // Since one side of the Gaussian is monotonic we can 
+    // Since one side of the Gaussian is monotonic we can
     // use the middle-value theorem: The value of the derivative at
     // index[0] - 2 must be bounded by the estimation of the derivative
     // at index[0] -1 and index[0] -3. In the following we compute an
-    // estimation of derivatives by partial differences at this two 
+    // estimation of derivatives by partial differences at this two
     // positions and use them as bounds for the value of the first order
     // derivative returned by the filter.
-    
+
     const double sigmaC = 3.0;
     filter->SetSigma( sigmaC );
 
@@ -262,13 +262,13 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     filter->Update();
 
     index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
-    const PixelRealType valueA = filter->GetOutput()->GetPixel( index ); 
+    const PixelRealType valueA = filter->GetOutput()->GetPixel( index );
 
     index[0] -= 2;
-    const PixelRealType valueB = filter->GetOutput()->GetPixel( index ); 
+    const PixelRealType valueB = filter->GetOutput()->GetPixel( index );
 
     index[0] -= 2;
-    const PixelRealType valueC = filter->GetOutput()->GetPixel( index ); 
+    const PixelRealType valueC = filter->GetOutput()->GetPixel( index );
 
     const PixelRealType derivativeLowerBound = ( valueA - valueB ) / 2.0;
     const PixelRealType derivativeUpperBound = ( valueB - valueC ) / 2.0;
@@ -281,10 +281,10 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
     index[0] -= 2;
 
-    const PixelRealType derivativeValue = filter->GetOutput()->GetPixel( index ); 
+    const PixelRealType derivativeValue = filter->GetOutput()->GetPixel( index );
 
     std::cout << "   first derivative normalization...  ";
-    if( ( derivativeLowerBound > derivativeValue ) || 
+    if( ( derivativeLowerBound > derivativeValue ) ||
         ( derivativeUpperBound < derivativeValue )  )
       {
       std::cout << "FAILED !" << std::endl;
@@ -294,25 +294,25 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
       std::cerr << " : " << derivativeUpperBound << " ] " << std::endl;
       return EXIT_FAILURE;
       }
-    else 
+    else
       {
       std::cout << "PASSED !" << std::endl;
       }
 
 
-    // Now do the similar testing between First Derivative and Second 
+    // Now do the similar testing between First Derivative and Second
     // derivative.
     filter->SetFirstOrder();
     filter->Update();
 
-    index[0] = ( size[0] - 1 ) / 2;  // the middle pixel 
-    const PixelRealType value1A = filter->GetOutput()->GetPixel( index ); 
+    index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
+    const PixelRealType value1A = filter->GetOutput()->GetPixel( index );
 
     index[0] -= 2;
-    const PixelRealType value1B = filter->GetOutput()->GetPixel( index ); 
+    const PixelRealType value1B = filter->GetOutput()->GetPixel( index );
 
     index[0] -= 2;
-    const PixelRealType value1C = filter->GetOutput()->GetPixel( index ); 
+    const PixelRealType value1C = filter->GetOutput()->GetPixel( index );
 
     // NOTE that the second derivative in this region is monotonic but decreasing.
     const PixelRealType secondDerivativeLowerBound = ( value1A - value1B ) / 2.0;
@@ -325,10 +325,10 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
     index[0] = (( size[0] - 1 ) / 2) - 2; // where to sample the second derivative
 
-    const PixelRealType secondDerivativeValue = filter->GetOutput()->GetPixel( index ); 
+    const PixelRealType secondDerivativeValue = filter->GetOutput()->GetPixel( index );
 
     std::cout << "   second derivative normalization...  ";
-    if( ( secondDerivativeLowerBound > secondDerivativeValue ) || 
+    if( ( secondDerivativeLowerBound > secondDerivativeValue ) ||
         ( secondDerivativeUpperBound < secondDerivativeValue )  )
       {
       std::cout << "FAILED !" << std::endl;
@@ -338,16 +338,16 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
       std::cerr << " : " << secondDerivativeUpperBound << " ] " << std::endl;
       return EXIT_FAILURE;
       }
-    else 
+    else
       {
       std::cout << "PASSED !" << std::endl;
       }
 
 
     } // end of test for normalization among derivatives
-  
 
-    
+
+
   // Print out all the values for the zero, first and second order
   filter->SetNormalizeAcrossScale( false );
   filter->SetSigma( 2.0 );
@@ -395,7 +395,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
   }
 
-  
+
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
 

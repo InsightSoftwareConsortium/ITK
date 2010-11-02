@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageToMeshFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -33,12 +34,12 @@ int itkImageToMeshFilterTest(int , char *[] )
 
   typedef unsigned char  BinaryMaskPixelType;
 
-  typedef itk::Image< 
-                        BinaryMaskPixelType, 
+  typedef itk::Image<
+                        BinaryMaskPixelType,
                         Dimension  >           BinaryMaskImageType;
 
 
-  // 
+  //
   //  Initialize an image with a white square in a black background
   //
   BinaryMaskImageType::Pointer binaryMask = BinaryMaskImageType::New();
@@ -55,7 +56,7 @@ int itkImageToMeshFilterTest(int , char *[] )
 
   region.SetIndex( index );
   region.SetSize(  size );
-  
+
   binaryMask->SetRegions( region );
   binaryMask->Allocate();
 
@@ -69,7 +70,7 @@ int itkImageToMeshFilterTest(int , char *[] )
 
   region.SetIndex( index );
   region.SetSize(  size );
-  
+
   itk::ImageRegionIterator< BinaryMaskImageType > it( binaryMask, region );
 
   it.GoToBegin();
@@ -78,7 +79,7 @@ int itkImageToMeshFilterTest(int , char *[] )
     it.Set( 255 );
     ++it;
     }
-  
+
 
 
 
@@ -87,7 +88,7 @@ int itkImageToMeshFilterTest(int , char *[] )
   //
   typedef itk::Mesh< float, Dimension >    MeshType;
 
-  typedef itk::BinaryMaskToNarrowBandPointSetFilter< 
+  typedef itk::BinaryMaskToNarrowBandPointSetFilter<
                                 BinaryMaskImageType,
                                 MeshType
                                             >  GeneratorType;
@@ -104,7 +105,7 @@ int itkImageToMeshFilterTest(int , char *[] )
   try
     {
     narrowBandGenerator->Update();
-    } 
+    }
   catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown during the excecution of the generator " << std::endl;
@@ -112,11 +113,11 @@ int itkImageToMeshFilterTest(int , char *[] )
     return EXIT_FAILURE;
     }
 
-  
+
 
 
   //
-  //  Checking the output 
+  //  Checking the output
   //
   typedef MeshType::PointType               PointType;
 
@@ -141,9 +142,9 @@ int itkImageToMeshFilterTest(int , char *[] )
 
   while( point != lastPoint  && data != lastData )
     {
-      
-    const PointType & p = point.Value();  
-      
+
+    const PointType & p = point.Value();
+
     binaryMask->TransformPhysicalPointToIndex( p, index );
 
     if( ( !binaryMask->GetPixel( index ) && data.Value() > 0 ) ||
@@ -156,7 +157,7 @@ int itkImageToMeshFilterTest(int , char *[] )
     ++point;
     ++data;
     }
-  
+
 
 
   return EXIT_SUCCESS;

@@ -1,25 +1,26 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTreeContainerTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 #include <fstream>
-#include <itkCommand.h> 
+#include <itkCommand.h>
 #include "itkMacro.h"
 #include <iostream>
 #include <itkSmartPointer.h>
@@ -133,7 +134,7 @@ public:
   typedef itk::SmartPointer<Self>  Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
   itkNewMacro(Self);
-  
+
   /**
    *
    */
@@ -146,7 +147,7 @@ public:
    *
    */
   virtual void  Execute (const itk::Object *, const itk::EventObject &event) {
-  
+
     std::cout << event.GetEventName();
 
     const itk::TreeChangeEvent<TreeType>* e = dynamic_cast<const itk::TreeChangeEvent<TreeType>*>(&event);
@@ -188,11 +189,11 @@ TreeType::Pointer CreateTree_1()
 
   TreeType::Pointer tree = TreeType::New();
 
-  
+
   TreeChangeListener::Pointer treeChangeListener = TreeChangeListener::New();
   itk::TreeAddEvent<TreeType> ev;
   unsigned long tag = tree->AddObserver( ev, treeChangeListener );
-  
+
 
   itk::PostOrderTreeIterator<TreeType> it( tree );
 
@@ -233,14 +234,14 @@ TreeType::Pointer CreateTree_1()
   InternalList.push_back(newNode);
   it.Add(newNode);
   tree->RemoveObserver( tag );
-  
+
   std::cout << "end create tree" << std::endl;
   return tree;
 }
 
 /*
     CreateTree_2()
-                                                    
+
                                                              *
                                                              *
                                                              *
@@ -289,7 +290,7 @@ TreeType::Pointer CreateTree_2()
 /**
  *
  */
-int IteratorTest( itk::TreeIteratorBase<TreeType>& i ) 
+int IteratorTest( itk::TreeIteratorBase<TreeType>& i )
 {
   int sum = 0;
 
@@ -300,7 +301,7 @@ int IteratorTest( itk::TreeIteratorBase<TreeType>& i )
     std::cout << i.Get()->Get() << std::endl;
     ++i;
   }
-  
+
   return sum;
 }
 
@@ -414,7 +415,7 @@ int itkTreeContainerTest2(int, char* [])
     std::cout << "TEST DONE" << std::endl;
     return EXIT_SUCCESS;
     }
-  else 
+  else
     {
     std::cout << "TEST [FAILURE]" << std::endl;
     return EXIT_FAILURE;

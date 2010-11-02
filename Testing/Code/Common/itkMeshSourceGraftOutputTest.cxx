@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMeshSourceGraftOutputTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 namespace itk
 {
 template <class TInputMesh, class TOutputMesh, class TTransform>
-class MeshSourceGraftOutputFilter : 
+class MeshSourceGraftOutputFilter :
     public MeshToMeshFilter<TInputMesh,TOutputMesh>
 {
 public:
@@ -35,12 +36,12 @@ public:
   typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
   typedef SmartPointer<Self>  Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
+
   typedef TInputMesh InputMeshType;
   typedef TOutputMesh OutputMeshType;
   typedef typename InputMeshType::Pointer InputMeshPointer;
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
-  
+
   /** Type for representing coordinates. */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
 
@@ -49,12 +50,12 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeshSourceGraftOutputFilter,MeshToMeshFilter);
 
   /** Set transform. */
-  itkSetObjectMacro(Transform, TransformType); 
+  itkSetObjectMacro(Transform, TransformType);
 
   /** Get transform. */
   itkGetObjectMacro(Transform,TransformType);
@@ -63,7 +64,7 @@ protected:
   MeshSourceGraftOutputFilter();
   ~MeshSourceGraftOutputFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-  
+
   /** Generate Requested Data */
   virtual void GenerateData( void );
 
@@ -73,7 +74,7 @@ protected:
 private:
   MeshSourceGraftOutputFilter(const MeshSourceGraftOutputFilter&); //purposely not implemented
   void operator=(const MeshSourceGraftOutputFilter&); //purposely not implemented
-  
+
 };
 
 /**
@@ -90,7 +91,7 @@ MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
  *
  */
 template <class TInputMesh, class TOutputMesh, class TTransform>
-void 
+void
 MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
@@ -107,7 +108,7 @@ MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
  */
 template <class TInputMesh, class TOutputMesh, class TTransform>
 void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
-::GenerateData(void) 
+::GenerateData(void)
 {
   typedef typename TInputMesh::PointsContainer  InputPointsContainer;
   typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
@@ -117,7 +118,7 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
 
   const InputMeshType * inputMesh    =  this->GetInput();
   OutputMeshPointer   outputMesh     =  this->GetOutput();
-  
+
   if( !inputMesh )
     {
     itkExceptionMacro(<<"Missing Input Mesh");
@@ -133,20 +134,20 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
                                 TInputMesh,
                                 TOutputMesh,
                                 TransformType  >       FilterType;
-            
 
-  // Create a Filter                                
+
+  // Create a Filter
   typename FilterType::Pointer filter = FilterType::New();
 
   // Connect the inputs
-  filter->SetInput( inputMesh ); 
-  filter->SetTransform( m_Transform ); 
+  filter->SetInput( inputMesh );
+  filter->SetTransform( m_Transform );
 
   // Execute the filter
   filter->Update();
   std::cout << "Filter: " << filter;
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   GraftOutput( filter->GetOutput() );
 /*
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
@@ -155,15 +156,15 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
   OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
 
   outPoints->Reserve( inputMesh->GetNumberOfPoints() );
-  outPoints->Squeeze();  // in case the previous mesh had 
+  outPoints->Squeeze();  // in case the previous mesh had
                          // allocated a larger memory
 
   typename InputPointsContainer::ConstIterator  inputPoint  = inPoints->Begin();
   typename OutputPointsContainer::Iterator      outputPoint = outPoints->Begin();
 
-  while( inputPoint != inPoints->End() ) 
+  while( inputPoint != inPoints->End() )
     {
-    outputPoint.Value() = 
+    outputPoint.Value() =
       m_Transform->TransformPoint( inputPoint.Value() );
 
     ++inputPoint;
@@ -174,13 +175,13 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
   // Create duplicate references to the rest of data on the mesh
 
   outputMesh->SetPointData(  inputMesh->GetPointData() );
-  
+
   outputMesh->SetCellLinks(  inputMesh->GetCellLinks() );
-  
+
   outputMesh->SetCells(  inputMesh->GetCells() );
   outputMesh->SetCellData(  inputMesh->GetCellData() );
-  
-  
+
+
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
   for( unsigned int dim = 0; dim < maxDimension; dim++ )
@@ -193,13 +194,13 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
 
 } // end namespace itk
 
-int itkMeshSourceGraftOutputTest(int, char* [] ) 
+int itkMeshSourceGraftOutputTest(int, char* [] )
 {
   // Declare the mesh pixel type.
-  // Those are the values associated 
+  // Those are the values associated
   // with each mesh point. (not used on this filter test)
   typedef int PixelType;
-  
+
   // Declare the types of the Mesh
   // By default it is a 3D mesh using itk::Point<float,3>
   // on the vertices, and an itk::VectorContainter
@@ -210,7 +211,7 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
   typedef MeshType::PointsContainer     PointsContainerType;
 
   // Declare the type for PointsContainerPointer
-  typedef MeshType::PointsContainerPointer     
+  typedef MeshType::PointsContainerPointer
                                         PointsContainerPointer;
   // Declare the type for Points
   typedef MeshType::PointType           PointType;
@@ -245,26 +246,26 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
         }
       }
     }
-  
+
   std::cout << "Input Mesh has " << inputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
 
-  
+
   // Declare the transform type
   typedef itk::AffineTransform<float,3> TransformType;
-  
+
 
   // Declare the type for the filter
   typedef itk::MeshSourceGraftOutputFilter<
                                 MeshType,
                                 MeshType,
                                 TransformType  >       FilterType;
-            
 
-  // Create a Filter                                
+
+  // Create a Filter
   FilterType::Pointer filter = FilterType::New();
-  
-  // Create an  Transform 
+
+  // Create an  Transform
   // (it doesn't use smart pointers)
   TransformType::Pointer   affineTransform = TransformType::New();
   affineTransform->Scale( 3.5 );
@@ -273,21 +274,21 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
   affineTransform->Translate( translation );
 
   // Connect the inputs
-  filter->SetInput( inputMesh ); 
-  filter->SetTransform( affineTransform ); 
+  filter->SetInput( inputMesh );
+  filter->SetTransform( affineTransform );
 
   // Execute the filter
   filter->Update();
   std::cout << "Filter: " << filter;
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   MeshType::Pointer outputMesh = filter->GetOutput();
 
   std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
 
   // Get the the point container
-  MeshType::PointsContainerPointer  
+  MeshType::PointsContainerPointer
                   transformedPoints = outputMesh->GetPoints();
 
 
@@ -300,7 +301,7 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
     std::cout.width( 5 ); std::cout << p[2] << std::endl;
     ++it;
     }
-  
+
   // All objects should be automatically destroyed at this point
 
   return EXIT_SUCCESS;

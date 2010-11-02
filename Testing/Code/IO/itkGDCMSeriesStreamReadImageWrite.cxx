@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGDCMSeriesStreamReadImageWrite.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,9 +38,9 @@
 /// epsilon for the type
 static bool IsEqualTolerant(const float lm, const float rm, double tol) {
   tol = vcl_fabs(tol);
-  float temp = vcl_fabs(lm - rm);    
+  float temp = vcl_fabs(lm - rm);
   return  temp <= tol*vcl_fabs(lm) ||
-    temp <= tol*vcl_fabs(rm) || 
+    temp <= tol*vcl_fabs(rm) ||
     (vcl_fabs(lm) < vcl_numeric_limits<float>::epsilon() &&
      vcl_fabs(rm) < vcl_numeric_limits<float>::epsilon());
  }
@@ -67,7 +68,7 @@ int main( int argc, char* argv[] )
   expectedSpacing[0] = atof(argv[3]);
   expectedSpacing[1] = atof(argv[4]);
   expectedSpacing[2] = atof(argv[5]);
-  
+
 
   bool forceNoStreaming = true;
   if( argc > 6 )
@@ -107,7 +108,7 @@ int main( int argc, char* argv[] )
     if( forceNoStreaming )
       {
       // no streaming
-      reader->UseStreamingOff();      
+      reader->UseStreamingOff();
       streamer->Update();
       }
     else
@@ -153,24 +154,24 @@ int main( int argc, char* argv[] )
     }
 
   std::cout << "Origin: " << reader->GetOutput()->GetOrigin() << std::endl;
-  std::cout << "direction: " << reader->GetOutput()->GetDirection() << std::endl;  
+  std::cout << "direction: " << reader->GetOutput()->GetDirection() << std::endl;
   std::cout << "Spacing: " << reader->GetOutput()->GetSpacing() << std::endl;
   std::cout << "Expected Spacing: " << expectedSpacing << std::endl;
 
 
   ImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
 
-  // we only give 4 bits of tolerence, IEEE float a 24-bit mantissa 
-  const double percentTolerance = 1.0 / double ( (unsigned int)(1) << 18);  
+  // we only give 4 bits of tolerence, IEEE float a 24-bit mantissa
+  const double percentTolerance = 1.0 / double ( (unsigned int)(1) << 18);
 
   if (!IsEqualTolerant(spacing[0], expectedSpacing[0], percentTolerance) ||
       !IsEqualTolerant(spacing[1], expectedSpacing[1], percentTolerance) ||
-      !IsEqualTolerant(spacing[2], expectedSpacing[2], percentTolerance)) 
+      !IsEqualTolerant(spacing[2], expectedSpacing[2], percentTolerance))
     {
     std::cerr << "Spacing does not match expected" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();

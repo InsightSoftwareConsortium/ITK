@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkReinitializeLevelSetImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -70,7 +71,7 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
 
   const unsigned int ImageDimension = 2;
   typedef float PixelType;
-  
+
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef ImageType::IndexType IndexType;
   typedef itk::Point<double,ImageDimension> PointType;
@@ -172,9 +173,9 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
 
   std::cout << "Min. product = " << minValue << std::endl;
   std::cout << "Max. product = " << maxValue << std::endl;
- 
+
   if ( minValue < 0.0 )
-    { 
+    {
     std::cout << "Inside/Outside mismatch at ";
     std::cout << calculator->GetIndexOfMinimum() << std::endl;
     std::cout << "Test failed" << std::endl;
@@ -183,14 +184,14 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
 
   // Exercise other member functions
   reinitializer->Print( std::cout );
- 
+
   // Exercise the narrowband version
   reinitializer->SetLevelSetValue( 1.0 );
   reinitializer->SetLevelSetValue( 0.0 );
   reinitializer->NarrowBandingOn();
   reinitializer->SetNarrowBandwidth( 8 );
   reinitializer->Update();
- 
+
   typedef ReinitializerType::NodeContainerPointer NodeContainerPointer;
   NodeContainerPointer nodes = reinitializer->GetOutputNarrowBand();
 
@@ -215,7 +216,7 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   while( nodeIter != nodeEnd )
     {
     ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
-    double product = image->GetPixel( nodeIndex ) * 
+    double product = image->GetPixel( nodeIndex ) *
       reinitializer->GetOutput()->GetPixel( nodeIndex );
     if ( product < 0.0 )
       {

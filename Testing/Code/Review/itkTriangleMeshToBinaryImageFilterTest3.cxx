@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTriangleMeshToBinaryImageFilterTest3.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +25,7 @@
 #include "itkVTKPolyDataReader.h"
 
 int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
-{ 
+{
 
   if( argc != 12 )
     {
@@ -59,21 +59,21 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
     }
 
   typedef itk::Image<unsigned char, 3> ImageType;
- 
+
   typedef itk::TriangleMeshToBinaryImageFilter< MeshType, ImageType >  TriangleImageType;
 
   TriangleImageType::Pointer imageFilter = TriangleImageType::New();
-  
+
   imageFilter->SetInput( polyDataReader->GetOutput() );
-  
+
   ImageType::SizeType size;
-  
+
   size[0] = atoi( argv[3] );
   size[1] = atoi( argv[4] );
   size[2] = atoi( argv[5] );
 
   imageFilter->SetSize( size );
-  
+
   ImageType::PointType origin;
 
   origin[0] = atof( argv[6] );
@@ -90,7 +90,7 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
 
   imageFilter->SetSpacing( spacing );
 
-  std::cout << "[PASSED]" << std::endl; 
+  std::cout << "[PASSED]" << std::endl;
 
   // Testing PrintSelf
   std::cout << imageFilter <<std::endl;

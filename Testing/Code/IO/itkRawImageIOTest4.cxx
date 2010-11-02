@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRawImageIOTest4.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +30,7 @@
 
 
 
-// Helper class for reading a file and checking the content 
+// Helper class for reading a file and checking the content
 template< typename TImageType >
 class RawImageIOReadFileTester
 {
@@ -48,12 +49,12 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
     typename IOType::Pointer io = IOType::New();
 
     io->SetFileTypeToBinary();
-    
+
     if( ReadBigEndian )
       {
       io->SetByteOrderToBigEndian();
       }
-    else 
+    else
       {
       io->SetByteOrderToLittleEndian();
       }
@@ -84,7 +85,7 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
     Iterator it( reader->GetOutput(), reader->GetOutput()->GetBufferedRegion() );
 
     it.GoToBegin();
-    it.SetDirection( 0 ); 
+    it.SetDirection( 0 );
 
 
     PixelType value = itk::NumericTraits< PixelType >::Zero;
@@ -162,15 +163,15 @@ int itkRawImageIOTest4(int argc, char*argv[])
   for( unsigned int i = 0; i < numberOfPixels; i++ )
     {
     PixelType swappedValue = value;
-    // make sure that the file is written in 
+    // make sure that the file is written in
     // BigEndian regardless of the platform
     ByteSwapperType::SwapFromSystemToBigEndian( &swappedValue );
-    outputFile1.write( reinterpret_cast<char*>(&swappedValue), 
+    outputFile1.write( reinterpret_cast<char*>(&swappedValue),
                       sizeof(swappedValue) );
     ++value;
     }
   outputFile1.close();
- 
+
   if( outputFile1.fail() )
     {
     std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;
@@ -199,15 +200,15 @@ int itkRawImageIOTest4(int argc, char*argv[])
   for( unsigned int i = 0; i < numberOfPixels; i++ )
     {
     PixelType swappedValue = value;
-    // make sure that the file is written in 
+    // make sure that the file is written in
     // LittleEndian regardless of the platform
     ByteSwapperType::SwapFromSystemToLittleEndian( &swappedValue );
-    outputFile2.write( reinterpret_cast<char*>(&swappedValue), 
+    outputFile2.write( reinterpret_cast<char*>(&swappedValue),
                       sizeof(swappedValue) );
     ++value;
     }
   outputFile2.close();
- 
+
   if( outputFile2.fail() )
     {
     std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAnnulusOperatorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,7 +24,7 @@
 int itkAnnulusOperatorTest(int, char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef float  PixelType; 
+  typedef float  PixelType;
   typedef itk::AnnulusOperator< PixelType, Dimension > OperatorType;
 
 
@@ -86,7 +87,7 @@ int itkAnnulusOperatorTest(int, char* [] )
             << ", t = " << normalizedAnnulus.GetThickness()
             << std::endl;
 
-  
+
   for (i=0, k=0; i < normalizedAnnulusSize[1]; ++i)
     {
     for (j=0; j < normalizedAnnulusSize[0]; ++j, ++k)
@@ -119,7 +120,7 @@ int itkAnnulusOperatorTest(int, char* [] )
             << ", a = " << annulus.GetAnnulusValue()
             << ", e = " << annulus.GetExteriorValue()
             << std::endl;
-  
+
   for (i=0, k=0; i < annulusSize[1]; ++i)
     {
     for (j=0; j < annulusSize[0]; ++j, ++k)
@@ -130,13 +131,13 @@ int itkAnnulusOperatorTest(int, char* [] )
       }
     std::cout << std::endl;
     }
-  
+
   // Try making the inner radius 0
   std::cout << std::endl << std::endl;
   std::cout << "Setting inner radius to zero";
   annulus.SetInnerRadius(0);
   annulus.CreateOperator();
-  
+
   annulusSize = annulus.GetSize();
   std::cout << ", N = " << annulusSize
             << ", r = " << annulus.GetInnerRadius()
@@ -145,7 +146,7 @@ int itkAnnulusOperatorTest(int, char* [] )
             << ", a = " << annulus.GetAnnulusValue()
             << ", e = " << annulus.GetExteriorValue()
             << std::endl;
-  
+
   for (i=0, k=0; i < annulusSize[1]; ++i)
     {
     for (j=0; j < annulusSize[0]; ++j, ++k)
@@ -164,7 +165,7 @@ int itkAnnulusOperatorTest(int, char* [] )
   annulus.SetInnerRadius(2);
   annulus.SetThickness(0);
   annulus.CreateOperator();
-  
+
   annulusSize = annulus.GetSize();
   std::cout << ", N = " << annulusSize
             << ", r = " << annulus.GetInnerRadius()
@@ -173,7 +174,7 @@ int itkAnnulusOperatorTest(int, char* [] )
             << ", a = " << annulus.GetAnnulusValue()
             << ", e = " << annulus.GetExteriorValue()
             << std::endl;
-  
+
   for (i=0, k=0; i < annulusSize[1]; ++i)
     {
     for (j=0; j < annulusSize[0]; ++j, ++k)
@@ -196,7 +197,7 @@ int itkAnnulusOperatorTest(int, char* [] )
   annulus.SetThickness(1);
   annulus.SetSpacing(spacing);
   annulus.CreateOperator();
-  
+
   annulusSize = annulus.GetSize();
   std::cout << ", N = " << annulusSize
             << ", r = " << annulus.GetInnerRadius()
@@ -206,7 +207,7 @@ int itkAnnulusOperatorTest(int, char* [] )
             << ", a = " << annulus.GetAnnulusValue()
             << ", e = " << annulus.GetExteriorValue()
             << std::endl;
-  
+
   for (i=0, k=0; i < annulusSize[1]; ++i)
     {
     for (j=0; j < annulusSize[0]; ++j, ++k)

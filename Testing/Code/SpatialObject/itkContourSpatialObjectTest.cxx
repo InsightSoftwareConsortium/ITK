@@ -1,27 +1,26 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkContourSpatialObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-  
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkContourSpatialObject.h"
 #include <iostream>
 
 /**
  * This is a test for itkContourSpatialObject.  It runs all methods and checks
- * the correctness of each result.  There are several potential issues 
+ * the correctness of each result.  There are several potential issues
  * surrounding the IsInside method.  The IsEvaluable and ValueAt methods both
  * depend on IsInside and at the moment IsInside will always return false.  It
  * is unclear whether this is done intentionally to indicate that nothing can
@@ -29,13 +28,13 @@
  */
 int itkContourSpatialObjectTest(int, char* [])
 {
-  
+
   //
   // Set up data
   //
   const unsigned int NumDimensions = 2;
   typedef itk::ContourSpatialObject<NumDimensions> SpatialObjectType;
-  
+
   // contour is a unit square
   SpatialObjectType::ControlPointType pt1;
   pt1.SetPickedPoint(0,0);
@@ -45,10 +44,10 @@ int itkContourSpatialObjectTest(int, char* [])
   pt3.SetPickedPoint(1,1);
   SpatialObjectType::ControlPointType  pt4;
   pt4.SetPickedPoint(0,1);
-  
+
   SpatialObjectType::Pointer contour = SpatialObjectType::New();
-  
-  
+
+
   //
   // Test ComputeBoundingBox before data added
   //
@@ -58,8 +57,8 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] ComputeLocalBoundingBox before data" << std::endl;
-  
-  
+
+
   //
   // Test Control Points (SetControlPoints, GetControlPoints, GetNumberOfControlPoints,
   // GetControlPoint)
@@ -69,9 +68,9 @@ int itkContourSpatialObjectTest(int, char* [])
   controlPointList.push_back(pt2);
   controlPointList.push_back(pt3);
   controlPointList.push_back(pt4);
-  
+
   contour->SetControlPoints(controlPointList);
-  
+
   // check number of points
   if (contour->GetNumberOfControlPoints() != 4)
     {
@@ -79,7 +78,7 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] GetNumberOfControlPoints" << std::endl;
-  
+
   // check values of points
   if (contour->GetControlPoints()[0].GetPickedPoint()[0] != pt1.GetPickedPoint()[0] ||
       contour->GetControlPoints()[0].GetPickedPoint()[1] != pt1.GetPickedPoint()[1] ||
@@ -94,7 +93,7 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetControlPoints" << std::endl;
-  
+
   // check retrieval of a single point
   if (contour->GetControlPoint(0)->GetPickedPoint()[0] != pt1.GetPickedPoint()[0] ||
       contour->GetControlPoint(0)->GetPickedPoint()[1] != pt1.GetPickedPoint()[1])
@@ -103,12 +102,12 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] GetControlPoint" << std::endl;
-  
-  
+
+
   //
   // Test Set/Get Closed
   //
-  
+
   // first set to not closed and test
   contour->SetClosed(false);
   if (contour->GetClosed())
@@ -116,7 +115,7 @@ int itkContourSpatialObjectTest(int, char* [])
     std::cout << "[FAILED] Did not set/retreive closed property correctly" << std::endl;
     return EXIT_FAILURE;
     }
-    
+
   // then set it to closed and test
   contour->SetClosed(true);
   if (!contour->GetClosed())
@@ -125,8 +124,8 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetClosed" << std::endl;
-  
-  
+
+
   //
   // Test Set/Get DisplayOrientation
   //
@@ -137,19 +136,19 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetDisplayOrientation" << std::endl;
-  
-  
+
+
   //
   // Test Set/Get AttachedToSlice
   //
-  
+
   // first test with no slice
   if (contour->GetAttachedToSlice() != -1)
     {
     std::cout << "[FAILED] Did not retreive -1 when not slice" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // then test when attached to a slice
   contour->SetAttachedToSlice(1);
   if (contour->GetAttachedToSlice() != 1)
@@ -158,8 +157,8 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetAttachedToSlice" << std::endl;
-  
-  
+
+
   //
   // Test Set/Get InterpolationType
   //
@@ -170,23 +169,23 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetInterpolationType" << std::endl;
-    
-  
+
+
   //
-  // Test Interpolation Points (SetInterpolationPoints, GetInterpolationPoints, 
+  // Test Interpolation Points (SetInterpolationPoints, GetInterpolationPoints,
   // GetNumberOfInterpolationPoints, GetInterpolationPoint)
   //
   SpatialObjectType::InterpolatedPointType intPt1;
   intPt1.SetPosition(0,0.5);
   SpatialObjectType::InterpolatedPointType  intPt2;
   intPt2.SetPosition(0.5,0);
-  
+
   SpatialObjectType::InterpolatedPointListType interpPointList;
   interpPointList.push_back(intPt1);
   interpPointList.push_back(intPt2);
-  
+
   contour->SetInterpolatedPoints(interpPointList);
-  
+
   // check number of points
   if (contour->GetNumberOfInterpolatedPoints() != 2)
     {
@@ -194,7 +193,7 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] GetNumberOfInterpolatedPoints" << std::endl;
-  
+
   // check values of points
   if (contour->GetInterpolatedPoints()[0].GetPosition()[0] != intPt1.GetPosition()[0] ||
       contour->GetInterpolatedPoints()[0].GetPosition()[1] != intPt1.GetPosition()[1] ||
@@ -205,7 +204,7 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetInterpolatedPoints" << std::endl;
-  
+
   // check retrieval of a single point
   if (contour->GetInterpolatedPoint(0)->GetPosition()[0] != intPt1.GetPosition()[0] ||
       contour->GetInterpolatedPoint(0)->GetPosition()[1] != intPt1.GetPosition()[1])
@@ -214,8 +213,8 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] GetInterpolatedPoint" << std::endl;
-  
-  
+
+
   //
   // Test ComputeLocalBoundingBox
   //
@@ -225,8 +224,8 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] ComputeLocalBoundingBox" << std::endl;
-  
-  
+
+
   //
   // Test IsInside (at this point, this should always return false)
   //
@@ -239,8 +238,8 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] IsInside" << std::endl;
-  
-  
+
+
   //
   // Test IsEvaluableAt (should always return false since IsInside always returns false)
   //
@@ -250,8 +249,8 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] IsEvaluableAt" << std::endl;
-  
-  
+
+
   //
   // Test ValueAt (should always return false and val=0 since IsInside always returns false)
   //
@@ -263,18 +262,18 @@ int itkContourSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] ValueAt" << std::endl;
-  
-  
+
+
   //
   // Run PrintSelf for the sake of coverage (and to make sure no segfault/exceptions arise)
   //
   itk::Indent idt;
   contour->Print(std::cout, idt);
-  
-  
+
+
   //
   // All tests executed successfully
   //
   return EXIT_SUCCESS;
-  
+
 }

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBinaryThresholdSpatialFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -32,8 +33,8 @@
  * connect it to a BinaryThresholdSpatialFunction class.
  *
  * The sphere parameters are set at radius of 5 and center of (0,0).
- * Memebership (i.e. with user specified threshold) is evaluated at 
- * several point and compared to expected values. 
+ * Memebership (i.e. with user specified threshold) is evaluated at
+ * several point and compared to expected values.
  * The test fails if the evaluated results is not the same as expected
  * results.
  *
@@ -42,7 +43,7 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
 {
   typedef double CoordRep;
   const unsigned int Dimension = 2;
- 
+
   typedef itk::SphereSignedDistanceFunction<CoordRep,Dimension> SphereFunctionType;
   typedef itk::BinaryThresholdSpatialFunction<SphereFunctionType> FunctionType;
   typedef SphereFunctionType::PointType PointType;
@@ -61,7 +62,7 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
 
   std::cout << "SphereParameters: " << sphere->GetParameters() << std::endl;
 
-  // create a binary threshold function 
+  // create a binary threshold function
   FunctionType::Pointer function = FunctionType::New();
 
   // connect the sphere function
@@ -126,7 +127,7 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
 
   unsigned int counter = 0;
   iterator.GoToBegin();
-  
+
   while( !iterator.IsAtEnd() )
     {
 

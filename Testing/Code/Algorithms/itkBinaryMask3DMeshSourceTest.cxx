@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBinaryMask3DMeshSourceTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -37,11 +38,11 @@ typedef ImageType::RegionType                    RegionType;
 typedef ImageType::PixelType                     PixelType;
 typedef ImageType::Pointer                       ImagePointerType;
 
-void CreateCubeConfig( 
+void CreateCubeConfig(
                   ImagePointerType image,
-                  const unsigned int& StartX, 
-                  const unsigned int& StartY, 
-                  const unsigned int& StartZ, 
+                  const unsigned int& StartX,
+                  const unsigned int& StartY,
+                  const unsigned int& StartZ,
                   const unsigned char& value1,
                   const unsigned char& value2,
                   const unsigned char& value3,
@@ -53,9 +54,9 @@ void CreateCubeConfig(
 
 void Create16CubeConfig(
                   ImagePointerType image,
-                  const unsigned int& StartX, 
-                  const unsigned int& StartY, 
-                  const unsigned int& StartZ, 
+                  const unsigned int& StartX,
+                  const unsigned int& StartY,
+                  const unsigned int& StartZ,
                   const unsigned char& value1,
                   const unsigned char& value2,
                   const unsigned char& value3,
@@ -71,11 +72,11 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
 
   const PixelType backgroundValue = 0;
   const PixelType internalValue   = 1;
-  
+
   SizeType size;
-  size[0] = 128;  
-  size[1] = 128;  
-  size[2] = 128;  
+  size[0] = 128;
+  size[1] = 128;
+  size[2] = 128;
 
   IndexType start;
   start.Fill(0);
@@ -83,7 +84,7 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
   RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
-    
+
   ImagePointerType image = ImageType::New();
   image->SetRegions( region );
   image->Allocate();
@@ -114,7 +115,7 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   std::cout << meshSource->GetNameOfClass()   << std::endl;
   std::cout << meshSource->GetNumberOfNodes() << std::endl;
   std::cout << meshSource->GetNumberOfCells() << std::endl;
@@ -124,11 +125,11 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
 
 }
 
-void CreateCubeConfig( 
+void CreateCubeConfig(
                   ImagePointerType image,
-                  const unsigned int& StartX, 
-                  const unsigned int& StartY, 
-                  const unsigned int& StartZ, 
+                  const unsigned int& StartX,
+                  const unsigned int& StartY,
+                  const unsigned int& StartZ,
                   const unsigned char& value1,
                   const unsigned char& value2,
                   const unsigned char& value3,
@@ -191,125 +192,125 @@ void CreateCubeConfig(
 
 
 
-void Create16CubeConfig( 
+void Create16CubeConfig(
                   ImagePointerType image,
-                  const unsigned int& StartX, 
-                  const unsigned int& StartY, 
-                  const unsigned int& StartZ, 
+                  const unsigned int& StartX,
+                  const unsigned int& StartY,
+                  const unsigned int& StartZ,
                   const unsigned char& value1,
                   const unsigned char& value2,
                   const unsigned char& value3,
                   const unsigned char& value4 )
 {
-  // Case 0 
-  CreateCubeConfig( 
-    image, 
-    StartX + 0, StartY + 0, StartZ + 0,  
+  // Case 0
+  CreateCubeConfig(
+    image,
+    StartX + 0, StartY + 0, StartZ + 0,
     value1, value2, value3, value4,
     0, 0, 0, 0 );
 
-  // Case 1 
-  CreateCubeConfig( 
-    image, 
-    StartX + 3, StartY + 0, StartZ + 0,  
+  // Case 1
+  CreateCubeConfig(
+    image,
+    StartX + 3, StartY + 0, StartZ + 0,
     value1, value2, value3, value4,
     0, 0, 0, 1 );
 
-  // Case 2 
-  CreateCubeConfig( 
-    image, 
-    StartX + 6, StartY + 0, StartZ + 0,  
+  // Case 2
+  CreateCubeConfig(
+    image,
+    StartX + 6, StartY + 0, StartZ + 0,
     value1, value2, value3, value4,
     0, 0, 1, 0 );
 
-  // Case 3 
-  CreateCubeConfig( 
-    image, 
-    StartX + 9, StartY + 0, StartZ + 0,  
+  // Case 3
+  CreateCubeConfig(
+    image,
+    StartX + 9, StartY + 0, StartZ + 0,
     value1, value2, value3, value4,
     0, 0, 1, 1 );
 
-  // Case 4 
-  CreateCubeConfig( 
-    image, 
-    StartX + 0, StartY + 3, StartZ + 0,  
+  // Case 4
+  CreateCubeConfig(
+    image,
+    StartX + 0, StartY + 3, StartZ + 0,
     value1, value2, value3, value4,
     0, 1, 0, 0 );
 
-  // Case 5 
-  CreateCubeConfig( 
-    image, 
-    StartX + 3, StartY + 3, StartZ + 0,  
+  // Case 5
+  CreateCubeConfig(
+    image,
+    StartX + 3, StartY + 3, StartZ + 0,
     value1, value2, value3, value4,
     0, 1, 0, 1 );
 
-  // Case 6 
-  CreateCubeConfig( 
-    image, 
-    StartX + 6, StartY + 3, StartZ + 0,  
+  // Case 6
+  CreateCubeConfig(
+    image,
+    StartX + 6, StartY + 3, StartZ + 0,
     value1, value2, value3, value4,
     0, 1, 1, 0 );
 
-  // Case 7 
-  CreateCubeConfig( 
-    image, 
-    StartX + 9, StartY + 3, StartZ + 0,  
+  // Case 7
+  CreateCubeConfig(
+    image,
+    StartX + 9, StartY + 3, StartZ + 0,
     value1, value2, value3, value4,
     0, 1, 1, 1 );
 
-  // Case 8 
-  CreateCubeConfig( 
-    image, 
-    StartX + 0, StartY + 6, StartZ + 0,  
+  // Case 8
+  CreateCubeConfig(
+    image,
+    StartX + 0, StartY + 6, StartZ + 0,
     value1, value2, value3, value4,
     1, 0, 0, 0 );
 
-  // Case 9 
-  CreateCubeConfig( 
-    image, 
-    StartX + 3, StartY + 6, StartZ + 0,  
+  // Case 9
+  CreateCubeConfig(
+    image,
+    StartX + 3, StartY + 6, StartZ + 0,
     value1, value2, value3, value4,
     1, 0, 0, 1 );
 
-  // Case 10 
-  CreateCubeConfig( 
-    image, 
-    StartX + 6, StartY + 6, StartZ + 0,  
+  // Case 10
+  CreateCubeConfig(
+    image,
+    StartX + 6, StartY + 6, StartZ + 0,
     value1, value2, value3, value4,
     1, 0, 1, 0 );
 
-  // Case 11 
-  CreateCubeConfig( 
-    image, 
-    StartX + 9, StartY + 6, StartZ + 0,  
+  // Case 11
+  CreateCubeConfig(
+    image,
+    StartX + 9, StartY + 6, StartZ + 0,
     value1, value2, value3, value4,
     1, 0, 1, 1 );
 
-  // Case 12 
-  CreateCubeConfig( 
-    image, 
-    StartX + 0, StartY + 9, StartZ + 0,  
+  // Case 12
+  CreateCubeConfig(
+    image,
+    StartX + 0, StartY + 9, StartZ + 0,
     value1, value2, value3, value4,
     1, 1, 0, 0 );
 
-  // Case 13 
-  CreateCubeConfig( 
-    image, 
-    StartX + 3, StartY + 9, StartZ + 0,  
+  // Case 13
+  CreateCubeConfig(
+    image,
+    StartX + 3, StartY + 9, StartZ + 0,
     value1, value2, value3, value4,
     1, 1, 0, 1 );
 
-  // Case 14 
-  CreateCubeConfig( 
-    image, 
-    StartX + 6, StartY + 9, StartZ + 0,  
+  // Case 14
+  CreateCubeConfig(
+    image,
+    StartX + 6, StartY + 9, StartZ + 0,
     value1, value2, value3, value4,
     1, 1, 1, 0 );
 
-  // Case 15 
-  CreateCubeConfig( 
-    image, 
-    StartX + 9, StartY + 9, StartZ + 0,  
+  // Case 15
+  CreateCubeConfig(
+    image,
+    StartX + 9, StartY + 9, StartZ + 0,
     value1, value2, value3, value4,
     1, 1, 1, 1 );
 

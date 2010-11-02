@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkUnsharpMaskLevelSetImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -48,7 +49,7 @@ float square(unsigned x, unsigned y)
 // Evaluates a function at each pixel in the itk image
 void evaluate_function(itk::Image<float, 2> *im,
                        float (*f)(unsigned int, unsigned int) )
-  
+
 {
   itk::Image<float, 2>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
@@ -65,9 +66,9 @@ void evaluate_function(itk::Image<float, 2> *im,
 int itkUnsharpMaskLevelSetImageFilterTest(int, char* [] )
 {
   typedef itk::Image<float, 2> ImageType;
-  
+
   ImageType::Pointer im_init = ImageType::New();
-  
+
   ImageType::RegionType r;
   ImageType::SizeType   sz = {{HEIGHT, WIDTH}};
   ImageType::IndexType  idx = {{0,0}};
@@ -85,7 +86,7 @@ int itkUnsharpMaskLevelSetImageFilterTest(int, char* [] )
   FilterType::Pointer filter = FilterType::New();
   filter->SetMaxFilterIteration (99);
   filter->SetNormalProcessUnsharpWeight(1);
-  
+
   filter->SetInput(im_init);
   std::cout<<"max iteration = "<<(filter->GetMaxFilterIteration())<<"\n";
   std::cout<<"Starting processing.\n";

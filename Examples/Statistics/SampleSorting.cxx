@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SampleSorting.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -48,7 +49,7 @@
 // We include the header files for the \subdoxygen{Statistics}{ListSample}
 // and the \code{Subsample} classes.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -58,11 +59,11 @@
 // Software Guide : BeginLatex
 //
 // The sorting and selecting related functions are in the include file
-// \code{itkStatisticsAlgorithm.h}. 
+// \code{itkStatisticsAlgorithm.h}.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet 
+// Software Guide : BeginCodeSnippet
 #include "itkStatisticsAlgorithm.h"
 // Software Guide : EndCodeSnippet
 
@@ -70,10 +71,10 @@
 //
 // We need another header for measurement vectors. We are going to use
 // the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
-// in this example. 
+// in this example.
 //
 // We define the types of the measurement vectors, the sample, and the
-// subsample.  
+// subsample.
 //
 // Software Guide : EndLatex
 
@@ -118,9 +119,9 @@ void printSubsample(SubsampleType* subsample, const char* header)
   SubsampleType::Iterator iter = subsample->Begin();
   while ( iter != subsample->End() )
     {
-    std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
-              << "\t measurement vector = " 
-              << iter.GetMeasurementVector() 
+    std::cout << "instance identifier = " << iter.GetInstanceIdentifier()
+              << "\t measurement vector = "
+              << iter.GetMeasurementVector()
               << std::endl;
     ++iter;
     }
@@ -134,7 +135,7 @@ int main()
   // The following code snippet will create a ListSample object
   // with two-component int measurement vectors and put the measurement
   // vectors: [5,5] - 5 times, [4,4] - 4 times, [3,3] - 3 times, [2,2] -
-  // 2 times,[1,1] - 1 time into the \code{sample}. 
+  // 2 times,[1,1] - 1 time into the \code{sample}.
   //
   // Software Guide : EndLatex
 
@@ -179,7 +180,7 @@ int main()
   // \code{subsample}. The sorting or selecting algorithms are applied
   // only to the range specified by the beginning index and the ending
   // index. The ending index should be the actual last index plus one.
-  // 
+  //
   // The \doxygen{InsertSort} function does not require any other optional
   // arguments. The following function call will sort the all measurement
   // vectors in the \code{subsample}. The beginning index is \code{0}, and
@@ -189,7 +190,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  int activeDimension = 0 ; 
+  int activeDimension = 0 ;
   itk::Statistics::InsertSort< SubsampleType >( subsample, activeDimension,
                                                 0, subsample->Size() );
   printSubsample(subsample, "InsertSort");
@@ -242,9 +243,9 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   initializeSubsample(subsample, sample);
-  SubsampleType::MeasurementType median = 
-          itk::Statistics::QuickSelect< SubsampleType >( subsample, 
-                                                         activeDimension, 
+  SubsampleType::MeasurementType median =
+          itk::Statistics::QuickSelect< SubsampleType >( subsample,
+                                                         activeDimension,
                                                          0, subsample->Size(),
                                                          subsample->Size()/2 );
   std::cout << std::endl;

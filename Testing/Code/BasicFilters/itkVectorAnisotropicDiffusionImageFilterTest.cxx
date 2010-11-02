@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVectorAnisotropicDiffusionImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -36,7 +37,7 @@ int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itk
   try
     {
       typedef itk::Image<itk::Vector<float, 3>, 2> ImageType;
-      
+
       // Set up Gradient diffusion filter
       itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>
         ::Pointer  filter =
@@ -62,7 +63,7 @@ int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itk
       test1.SetFilter(filter.GetPointer());
       test1.Execute();
 
-      
+
  // Set up Curvature diffusion filter
       itk::VectorCurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>
         ::Pointer  filter2 =
@@ -81,13 +82,13 @@ int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itk
       test2.SetImageSize(sz);
       test2.SetFilter(filter2.GetPointer());
       test2.Execute();
-      
-      
+
+
     }
   catch(itk::ExceptionObject &err)
     {
       (&err)->Print(std::cerr);
       return EXIT_FAILURE;
-    } 
-  return EXIT_SUCCESS;   
+    }
+  return EXIT_SUCCESS;
 }

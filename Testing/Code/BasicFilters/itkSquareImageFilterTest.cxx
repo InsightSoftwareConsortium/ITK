@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSquareImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 #include <itkSubtractImageFilter.h>
 
 
-int itkSquareImageFilterTest(int, char* [] ) 
+int itkSquareImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -34,13 +35,13 @@ int itkSquareImageFilterTest(int, char* [] )
   // Declare the types of the images
   typedef float       InputPixelType;
   typedef float       OutputPixelType;
-  
+
   typedef itk::Image<InputPixelType,  ImageDimension>  InputImageType;
   typedef itk::Image<OutputPixelType, ImageDimension>  OutputImageType;
 
-  
-  
-  // Declare Iterator types apropriated for each image 
+
+
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<
                                   InputImageType>  InputIteratorType;
 
@@ -52,7 +53,7 @@ int itkSquareImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<ImageDimension>          SizeType;
 
   // Declare the type of the Region
@@ -60,7 +61,7 @@ int itkSquareImageFilterTest(int, char* [] )
 
   // Create two images
   InputImageType::Pointer inputImage  = InputImageType::New();
-  
+
   // Define their size, and start index
   SizeType size;
   size[0] = 2;
@@ -88,7 +89,7 @@ int itkSquareImageFilterTest(int, char* [] )
   const double value = 30;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     it.Set( value );
     std::cout << it.Get() << std::endl;
@@ -98,38 +99,38 @@ int itkSquareImageFilterTest(int, char* [] )
   // Declare the type for the Square filter
   typedef itk::SquareImageFilter< InputImageType,
                                   OutputImageType  >  FilterType;
-            
 
-  // Create a Filter                                
+
+  // Create a Filter
   FilterType::Pointer filter = FilterType::New();
 
 
   // Connect the input images
-  filter->SetInput( inputImage ); 
+  filter->SetInput( inputImage );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
-  
+
   // Execute the filter
   filter->Update();
   filter->SetFunctor(filter->GetFunctor());
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
     {
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const double x1 = input;
     const double x2 = x1 * x1;
-    const OutputImageType::PixelType square  = 
+    const OutputImageType::PixelType square  =
             static_cast<OutputImageType::PixelType>( x2 );
     if( vcl_fabs( square - output ) > epsilon )
       {
@@ -143,6 +144,6 @@ int itkSquareImageFilterTest(int, char* [] )
     ++it;
     }
 
-  
+
   return EXIT_SUCCESS;
 }

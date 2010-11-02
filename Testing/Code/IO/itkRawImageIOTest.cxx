@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRawImageIOTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,21 +30,21 @@ int itkRawImageIOTest(int argc, char* argv[])
 {
   typedef itk::Image<unsigned short,2>    ImageType;
   typedef ImageType::PixelType            PixelType;
-  typedef itk::ImageRegionConstIterator< 
+  typedef itk::ImageRegionConstIterator<
                                   ImageType > ImageIteratorType;
   if(argc < 3)
     {
     std::cerr << "Usage: " << argv[0] << " Output1 Output2\n";
     return EXIT_FAILURE;
     }
-  
+
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
   ImageType::SizeValueType size[2];
 
   size[0]=128; size[1]=64;
-  
+
   itk::RandomImageSource<ImageType>::Pointer random;
   random = itk::RandomImageSource<ImageType>::New();
   random->SetMin(0);
@@ -95,10 +96,10 @@ int itkRawImageIOTest(int argc, char* argv[])
   // Compare pixel by pixel in memory
 
 
-  ImageIteratorType it( reader->GetOutput(), 
+  ImageIteratorType it( reader->GetOutput(),
                         reader->GetOutput()->GetBufferedRegion() );
 
-  ImageIteratorType ot( random->GetOutput(), 
+  ImageIteratorType ot( random->GetOutput(),
                         random->GetOutput()->GetBufferedRegion() );
 
   it.GoToBegin();
@@ -107,7 +108,7 @@ int itkRawImageIOTest(int argc, char* argv[])
     {
     const PixelType iv = it.Get();
     const PixelType ov = ot.Get();
-    if( iv != ov ) 
+    if( iv != ov )
       {
       std::cerr << "Error in read/write of pixel " << it.GetIndex() << std::endl;
       std::cerr << "Read value  is : " << iv << std::endl;

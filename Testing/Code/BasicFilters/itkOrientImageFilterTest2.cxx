@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOrientImageFilterTest2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,7 +32,7 @@ static void PrintImg(ImageType::Pointer img,
                      const OrientImageFilterType::PermuteOrderArrayType &permute)
 {
 // Print the volume
-  ImageType::IndexType Index;  
+  ImageType::IndexType Index;
   for(Index[1] = 0; Index[1] < 4; Index[1]++)
     {
     for(Index[2] = 0; Index[2] < 4; Index[2]++)
@@ -39,8 +40,8 @@ static void PrintImg(ImageType::Pointer img,
       for(Index[0] = 0; Index[0] < 4; Index[0]++)
         {
         std::cerr << img->GetPixel(Index).c_str()[permute[0]]
-                  << img->GetPixel(Index).c_str()[permute[1]]          
-                  << img->GetPixel(Index).c_str()[permute[2]]          
+                  << img->GetPixel(Index).c_str()[permute[1]]
+                  << img->GetPixel(Index).c_str()[permute[2]]
                   << " ";
         }
       std::cerr <<  " | ";
@@ -128,7 +129,7 @@ ImageType::Pointer CreateCoronalImage()
   imageDirection[0][2] = 0;
   imageDirection[1][2] = 1;
   imageDirection[2][2] = 0;
-  img->SetDirection(imageDirection);  
+  img->SetDirection(imageDirection);
   std::string row, column, slice, label;
   for(imageIndex[2] = 0; imageIndex[2] < 4; imageIndex[2]++)
     {
