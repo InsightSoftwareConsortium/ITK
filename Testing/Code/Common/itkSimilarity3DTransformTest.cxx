@@ -1,20 +1,19 @@
 /*=========================================================================
- *
- *  Copyright Insight Software Consortium
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- *=========================================================================*/
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSimilarity3DTransformTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,12 +26,10 @@
  *
  */
 
-
 #include "itkSimilarity3DTransform.h"
-#include <iostream>
-
-
-
+#include "itkNumericTraits.h"
+#include <math.h>
+#include "vnl/vnl_math.h"
 //-------------------------
 //
 //   Main code
@@ -45,7 +42,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
   const ValueType epsilon = 1e-12;
 
-
   //  Versor Transform type
   typedef    itk::Similarity3DTransform< ValueType >   TransformType;
 
@@ -56,26 +52,20 @@ int itkSimilarity3DTransformTest(int, char* [] )
   //  Vector type
   typedef    TransformType::InputVectorType      VectorType;
 
-
   //  Point type
   typedef    TransformType::InputPointType      PointType;
-
 
   //  Covariant Vector type
   typedef    TransformType::InputCovariantVectorType      CovariantVectorType;
 
-
   //  VnlVector type
   typedef    TransformType::InputVnlVectorType      VnlVectorType;
-
 
   //  Parameters type
   typedef    TransformType::ParametersType      ParametersType;
 
-
   //  Jacobian type
   typedef    TransformType::JacobianType      JacobianType;
-
 
   //  Rotation Matrix type
   typedef    TransformType::MatrixType           MatrixType;
@@ -85,6 +75,25 @@ int itkSimilarity3DTransformTest(int, char* [] )
     std::cout << "Test default constructor... ";
 
     TransformType::Pointer transform = TransformType::New();
+    if(vcl_fabs(transform->GetScale() - 1.0) >
+       itk::NumericTraits<TransformType::ScaleType>::min())
+      {
+      std::cout << "Error: Scale: Expected 1.0, got "
+                << transform->GetScale()
+                << " ! " << std::endl;
+      return EXIT_FAILURE;
+      }
+    // SetIdentity supposed to reset scale as well.
+    transform->SetScale(2.0);
+    transform->SetIdentity();
+    if(vcl_fabs(transform->GetScale() - 1.0) >
+       itk::NumericTraits<TransformType::ScaleType>::min())
+      {
+      std::cout << "Error: Scale: Expected 1.0 after SetIdentity, got "
+                << transform->GetScale()
+                << " ! " << std::endl;
+      return EXIT_FAILURE;
+      }
 
     VectorType axis(1.5);
 
@@ -113,8 +122,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
     std::cout << " PASSED !" << std::endl;
 
   }
-
-
   {
     std::cout << "Test initial rotation matrix " << std::endl;
     TransformType::Pointer transform = TransformType::New();
@@ -122,9 +129,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
     std::cout << "Matrix = " << std::endl;
     std::cout <<    matrix   << std::endl;
   }
-
-
-
   /* Create a Rigid 3D transform with rotation */
 
   {
@@ -220,8 +224,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
         std::cout << "Ok rotating an itk::Vector " << std::endl;
       }
     }
-
-
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = {1,4,9};
@@ -251,7 +253,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
         std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
       }
     }
-
 
     {
       // Translate a vnl_vector
@@ -285,13 +286,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
         std::cout << "Ok rotating an vnl_Vector " << std::endl;
       }
     }
-
-
-
-
   }
-
-
   /**  Exercise the SetCenter method  */
   {
   bool Ok = true;
@@ -455,7 +450,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
   parameters[5] = 0.0;
   parameters[6] = 1.0;
 
-
   ParametersType parameters2 = transform->GetParameters();
 
   const double tolerance = 1e-8;
@@ -495,7 +489,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
   transform->SetTranslation( translation );
 
-
   const double scale = 2.5;
 
   transform->SetScale( scale );
@@ -525,7 +518,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
   parameters[5] = translation[2];
   parameters[6] = scale;
 
-
   ParametersType parameters2 = transform->GetParameters();
 
   for(unsigned int p=0; p<np; p++)
@@ -538,8 +530,6 @@ int itkSimilarity3DTransformTest(int, char* [] )
     }
   std::cout << "Input/Output parameter check Passed !"  << std::endl;
   }
-
-
   {
      // Testing SetMatrix()
      std::cout << "Testing SetMatrix() ... ";
@@ -664,6 +654,3 @@ int itkSimilarity3DTransformTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-

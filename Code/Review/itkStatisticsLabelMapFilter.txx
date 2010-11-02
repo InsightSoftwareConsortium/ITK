@@ -23,6 +23,7 @@
 #include "itkProgressReporter.h"
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -161,10 +162,26 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   const double variance = ( sum2 - ( vcl_pow(sum, 2) / totalFreq ) ) / ( totalFreq - 1 );
   const double sigma = vcl_sqrt(variance);
   const double mean2 = mean * mean;
-  const double skewness = ( ( sum3 - 3.0 * mean * sum2 ) / totalFreq + 2.0 * mean * mean2 ) / ( variance * sigma );
-  const double kurtosis =
-    ( ( sum4 - 4.0 * mean * sum3 + 6.0 * mean2
-        * sum2 ) / totalFreq - 3.0 * mean2 * mean2 ) / ( variance * variance ) - 3.0;
+  double skewness;
+  if(vcl_abs(variance * sigma) > itk::NumericTraits<double>::min())
+    {
+    skewness = ( ( sum3 - 3.0 * mean * sum2 ) / totalFreq + 2.0 * mean * mean2 ) / ( variance * sigma );
+    }
+  else
+    {
+    skewness = 0.0;
+    }
+  double kurtosis;
+  if(vcl_abs(variance) > itk::NumericTraits<double>::min())
+    {
+    kurtosis = ( ( sum4 - 4.0 * mean * sum3 + 6.0 * mean2
+                   * sum2 ) / totalFreq - 3.0 * mean2 * mean2 ) /
+      ( variance * variance ) - 3.0;
+    }
+  else
+    {
+    kurtosis = 0.0;
+    }
 
   // the median
   double median = 0;
