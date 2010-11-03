@@ -19,9 +19,7 @@
 #define __itkLaplacianRecursiveGaussianImageFilter_h
 
 #include "itkRecursiveGaussianImageFilter.h"
-#include "itkNthElementImageAdaptor.h"
 #include "itkImage.h"
-#include "itkPixelTraits.h"
 #include "itkCommand.h"
 
 namespace itk
@@ -35,9 +33,6 @@ namespace itk
  * \ingroup GradientFilters
  * \ingroup Singlethreaded
  */
-// NOTE that the ITK_TYPENAME macro has to be used here in lieu
-// of "typename" because VC++ doesn't like the typename keyword
-// on the defaults of template parameters
 template< typename TInputImage,
           typename TOutputImage = TInputImage >
 class ITK_EXPORT LaplacianRecursiveGaussianImageFilter:
@@ -63,7 +58,6 @@ public:
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
-
   typedef float InternalRealType;
   typedef Image< InternalRealType,
                  itkGetStaticConstMacro(ImageDimension) >   RealImageType;
@@ -93,11 +87,6 @@ public:
   typedef TOutputImage                                 OutputImageType;
   typedef typename          OutputImageType::PixelType OutputPixelType;
 
-  /**  Auxiliary image for holding the values of the squared gradient components
-    */
-  typedef Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >      CumulativeImageType;
-  typedef typename CumulativeImageType::Pointer CumulativeImagePointer;
 
   /**  Command for observing progress of internal pipeline filters */
   typedef          MemberCommand< Self > CommandType;
@@ -118,14 +107,6 @@ public:
 
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
-  /** LaplacianRecursiveGaussianImageFilter needs all of the input to produce an
-   * output. Therefore, LaplacianRecursiveGaussianImageFilter needs to provide
-   * an implementation for GenerateInputRequestedRegion in order to inform
-   * the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
-
 protected:
   LaplacianRecursiveGaussianImageFilter();
   virtual ~LaplacianRecursiveGaussianImageFilter() {}
@@ -137,23 +118,36 @@ protected:
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output);
 
-  /** Compute progress by weighting the contributions of the internal filters */
-  void ReportProgress(const Object *object, const EventObject & event);
-
 private:
   LaplacianRecursiveGaussianImageFilter(const Self &); //purposely not
                                                        // implemented
   void operator=(const Self &);                        //purposely not
+                                                       // implemented
 
-  // implemented
+  // special binary functor to perform A+B*ConstValue
+  //
+  // Where A is the cumulativeImage, B is the last filter, and
+  // ConstValue is the spacing scalling
+  class AddMultConstFunctor
+  {
+  public:
+    typedef AddMultConstFunctor Self;
+
+    AddMultConstFunctor( void ) : m_Value( NumericTraits<PixelType>::One ) {}
+
+    bool operator!=( const Self &other ) const { return !(*this==other); }
+    bool operator==( const Self &other ) const { return m_Value == other.m_Value; }
+
+    inline InternalRealType operator()( const InternalRealType &a, const InternalRealType &b ) const
+    {
+      return static_cast<InternalRealType>( a + b*m_Value );
+    }
+
+    RealType m_Value;
+  };
 
   GaussianFilterPointer   m_SmoothingFilters[ImageDimension - 1];
   DerivativeFilterPointer m_DerivativeFilter;
-
-  CumulativeImagePointer m_CumulativeImage;
-
-  CommandPointer m_ProgressCommand;
-  float          m_Progress;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale;
