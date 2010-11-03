@@ -23,14 +23,21 @@
 namespace itk
 {
 /** \class MergeLabelMapFilter
- * \brief Merges two Label Maps using different methods to create the product.
+ * \brief Merges several Label Maps
  *
- * This filter takes two input Label Map and takes an additional integer to determine the method that will
- * be used to merge the two Label Maps. The integers are read as follows:
- *   KEEP = 0,
- *   AGGREGATE = 1,
- *   PACK = 2,
- *   STRICT = 3
+ * This filter takes one or more input Label Map and merges them.
+ *
+ * SetMethod() can be used to change how the filter manage the
+ * labels from the different label maps.
+ *   KEEP (0): MergeLabelMapFilter do its best to keep the label unchanged,
+ *             but if a label is already used in a previous label map, a new
+ *             label is assigned.
+ *   AGGREGATE (1): If the same label is found several times in the label maps,
+ *                  the label objects with the same label are merged.
+ *   PACK (2): MergeLabelMapFilter relabel all the label objects by order of
+ *             processing. No conflict can occur.
+ *   STRICT (3): MergeLabelMapFilter keeps the labels unchanged and raises an
+ *               exception if the same label is found in several images.
  *
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/584  or
@@ -91,6 +98,7 @@ public:
     STRICT = 3
     } MethodChoice;
 
+  /** Set/Get the method used to merge the label maps */
   itkSetMacro(Method, MethodChoice);
   itkGetConstReferenceMacro(Method, MethodChoice);
 protected:
