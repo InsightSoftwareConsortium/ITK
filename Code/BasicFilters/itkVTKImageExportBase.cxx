@@ -145,6 +145,13 @@ int VTKImageExportBase::PipelineModifiedCallback()
     pipelineMTime = this->GetMTime();
     }
 
+  // Pipeline MTime of the input does not include the MTime of the
+  // data object itself. Factor these mtimes into the next PipelineMTime
+  if( input->GetMTime() > pipelineMTime)
+    {
+    pipelineMTime = input->GetMTime();
+    }
+
   if ( pipelineMTime > m_LastPipelineMTime )
     {
     m_LastPipelineMTime = pipelineMTime;
