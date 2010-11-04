@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMedialNodeCorrespondencesTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -42,9 +43,9 @@
 #include "itkMedialNodeTripletCorrespondenceProcess.h"
 
 
-// Main for testing various classes related to medial node (clustered and 
-// statistically analyzed core atoms) correspondences. There are to be 4 tests 
-// included. Specifically tests for, itkCoreAtomImageToDistanceMatrixProcess, 
+// Main for testing various classes related to medial node (clustered and
+// statistically analyzed core atoms) correspondences. There are to be 4 tests
+// included. Specifically tests for, itkCoreAtomImageToDistanceMatrixProcess,
 // itkCoreAtomImageToUnaryCorrespondenceMatrixProcess,
 // itkMedialNodePairCorrespondenceProcess, and itkMedialNodeTripletCorrespondenceProcess.
 // These tests explicitely test higher level processing as well as lower level
@@ -120,7 +121,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     printf("New sourceImage allocated\n");
 
     // Initialize the image to hold all 0's
-    itk::ImageRegionIterator<ImageType> it = 
+    itk::ImageRegionIterator<ImageType> it =
       itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);
 
     for(it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -168,7 +169,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     printf("Spatial function iterator created, sphere drawn\n");
 
     //--------------------Do blurring and edge detection----------------
-  
+
     // Create a binomial blur filter
     itk::BinomialBlurImageFilter<ImageType, OutputType>::Pointer binfilter;
     binfilter = itk::BinomialBlurImageFilter<ImageType, OutputType>::New();
@@ -233,7 +234,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     BloxCAImageType::Pointer bloxCoreAtomImage = caFilter->GetOutput();
 
     caFilter->Update();
-  
+
     // Test the macros in the image
     bloxCoreAtomImage->GetMedialNodeCount();
     bloxCoreAtomImage->GetNodePointerList();
@@ -241,13 +242,13 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     //--------------------Analyze core atom population---------------------
 
     std::cout << "Performing Eigenanalysis\n";
-  
+
     bloxCoreAtomImage->DoEigenanalysis();
-  
+
     //-----------------------Do core atom voting---------------------------
-  
+
     std::cout << "Doing core atom voting\n";
-  
+
     bloxCoreAtomImage->DoCoreAtomVoting();
 
     if(i == 0)
@@ -262,8 +263,8 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   int numberNodes1 = bloxCoreAtomImage1->GetMedialNodeCount();
   int numberNodes2 = bloxCoreAtomImage2->GetMedialNodeCount();
-  std::cout << " numberNodes1 " << numberNodes1 << "\n"; 
-  std::cout << " numberNodes2 " << numberNodes2 << "\n"; 
+  std::cout << " numberNodes1 " << numberNodes1 << "\n";
+  std::cout << " numberNodes2 " << numberNodes2 << "\n";
 
   //-------Test CoreAtomImageToDistanceMatrixProcess-----------
 
@@ -281,7 +282,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   // Set the correct values of the distance matrix to test against.
   correctDistance->set_size(numberNodes1, numberNodes1);
-  correctDistance->put(0,0,0); 
+  correctDistance->put(0,0,0);
   correctDistance->put(0,1,2.42084);
   correctDistance->put(0,2,2.42084);
   correctDistance->put(0,3,3.41827);
@@ -374,7 +375,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     {
     for(int j=0;j<numberNodes1;++j)
       {
-      if( vcl_fabs(distanceMatrix->get(i,j) - correctDistance->get(i,j)) >= 0.0001) 
+      if( vcl_fabs(distanceMatrix->get(i,j) - correctDistance->get(i,j)) >= 0.0001)
         {
         indexI = i;
         indexJ = j;
@@ -391,7 +392,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     std::cerr << "CoreAtomImageToDistanceMatrixProcess Test Passed!" << std::endl;
   else
     {
-    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed at index (" << indexI << ", " 
+    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed at index (" << indexI << ", "
       << indexJ << ") with difference: " << difference << std::endl;
     return EXIT_FAILURE;
     }
@@ -501,7 +502,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     std::cerr << std::endl;
     }
 
-  // Compare the test results with the correct results. 
+  // Compare the test results with the correct results.
   int indexK = 0;
   int indexL = 0;
   double difference2 = 0;
@@ -527,7 +528,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     std::cerr << "CoreAtomImageToUnaryCorrespondenceMatrixProcess Test Passed!" << std::endl;
   else
     {
-    std::cerr << "CoreAtomImageToUnaryCorrespondenceMatrixProcess Test failed at index (" << indexK << ", " 
+    std::cerr << "CoreAtomImageToUnaryCorrespondenceMatrixProcess Test failed at index (" << indexK << ", "
       << indexL << ") with difference: " << difference2 << std::endl;
     return EXIT_FAILURE;
     }
@@ -548,7 +549,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   // Here we will need to create the output type and set it
   typedef PairCorrespondenceProcess::NodeType NodeType2;
-  typedef PairCorrespondenceProcess::DataStructureType DataStructureType2; 
+  typedef PairCorrespondenceProcess::DataStructureType DataStructureType2;
   typedef DataStructureType2::Pointer DataStructurePointerType2;
 
   DataStructurePointerType2 pairDataStructure;
@@ -574,7 +575,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     }
   else
     {
-    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed: numberOfPairs = " 
+    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed: numberOfPairs = "
       << numberOfPairs << " , not 21" << std::endl;
     return EXIT_FAILURE;
     }
@@ -584,7 +585,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   typedef itk::MedialNodeTripletCorrespondenceProcess<BloxCAImageType> TripletCorrespondenceProcessType;
   typedef TripletCorrespondenceProcessType::Pointer TripletCorrespondenceProcessPointer;
   typedef TripletCorrespondenceProcessType::OutputNodeType TripletNodeType;
-  typedef TripletCorrespondenceProcessType::OutputDataStructureType TripletDataStructureType; 
+  typedef TripletCorrespondenceProcessType::OutputDataStructureType TripletDataStructureType;
   typedef TripletDataStructureType::Pointer TripletDataStructurePointer;
 
   TripletCorrespondenceProcessPointer nodeTripletProcess = TripletCorrespondenceProcessType::New();
@@ -596,7 +597,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   nodeTripletProcess->SetCoreAtomImageB(bloxCoreAtomImage2);
   nodeTripletProcess->SetDistanceMatrixA(distanceMatrix);
   nodeTripletProcess->SetDistanceMatrixB(distanceMatrix2);
-  
+
   tripletDataStructure = nodeTripletProcess->GetOutput();
 
   nodeTripletProcess->Update();
@@ -606,12 +607,12 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   // Print results of test.
   if(numberOfTriplets == 0)
-    {    
+    {
     std::cerr << "MedialNodeTripletCorrespondenceProcess Test Passed!" << std::endl;
     }
   else
     {
-    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed: numberOfTriplets = " 
+    std::cerr << "CoreAtomImageToDistanceMatrixProcess Test failed: numberOfTriplets = "
       << numberOfTriplets << " , not 0" << std::endl;
     return EXIT_FAILURE;
     }

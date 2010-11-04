@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkConstNeighborhoodIteratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -36,7 +37,7 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
   idx[0] = idx[1] = idx[2] = 0;  idx[3] = 1;
   sz[0] = sz[1] = 10; sz[2] = 5; sz[3] = 1;
   reg.SetIndex(idx); reg.SetSize(sz);
-  
+
   println("Creating ConstNeighborhoodIterator");
   itk::ConstNeighborhoodIterator<TestImageType>
      it(radius, img, reg);
@@ -78,7 +79,7 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
   println("Moving iterator using SetLocation()");
   it.SetLocation(loc);
   it.Print(std::cout);
-  
+
   println("Testing GetNeighborhood()");
   it.GetNeighborhood().Print(std::cout);
 
@@ -92,7 +93,7 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
       std::cout << " GetIndex(" << it.GetOffset(j) << ")=" << it.GetIndex(it.GetOffset(j));
       std::cout << std::endl;
     }
-  
+
   println("Testing GetCenterPixel()");
   std::cout << it.GetCenterPixel() << std::endl;
 
@@ -137,13 +138,13 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
   std::cout << it.GetPrevious(0,1) << std::endl;
 
   println("Testing GetPrevious(1, 1)");
-  std::cout << it.GetPrevious(1,1) << std::endl;  
+  std::cout << it.GetPrevious(1,1) << std::endl;
 
   println("Testing GetBoundingBoxAsImageRegion");
   std::cout << it.GetBoundingBoxAsImageRegion() << std::endl;
 
 
-  
+
   println("Testing random access iteration");
 
   TestImageType::Pointer ra_img = GetTestImage(10, 10, 5, 3);
@@ -190,10 +191,10 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
   printnb<itk::ConstNeighborhoodIterator<TestImageType> >(ra_it, false);
 
 
-  
 
-  
+
+
   return EXIT_SUCCESS;
-  
-  
+
+
 }

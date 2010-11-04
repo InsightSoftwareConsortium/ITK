@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkScalarConnectedComponentImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -41,7 +42,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   typedef   unsigned short  InternalPixelType;
   typedef   bool  MaskPixelType;
   const     unsigned int    Dimension = 2;
-  
+
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   typedef itk::Image< MaskPixelType, Dimension >  MaskImageType;
   typedef itk::Image<unsigned short,Dimension> OutputImageType;
@@ -52,22 +53,22 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   typedef itk::ImageFileReader< InternalImageType > ReaderType;
   typedef itk::ImageFileWriter<  RGBImageType  > WriterType;
 
-  
+
   typedef itk::ScalarConnectedComponentImageFilter< InternalImageType, OutputImageType, MaskImageType > FilterType;
   typedef itk::RelabelComponentImageFilter< OutputImageType, OutputImageType > RelabelType;
-  
+
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
   FilterType::Pointer filter = FilterType::New();
   RelabelType::Pointer relabel = RelabelType::New();
-  
+
   itk::SimpleFilterWatcher watcher(filter);
   watcher.QuietOn();
 
   reader->SetFileName( argv[1] );
   reader->Update();
-  
+
   // create a mask containing the upper left hand corner and
   // a chunk out of the middle
   MaskImageType::Pointer mask = MaskImageType::New();
@@ -82,7 +83,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   MaskImageType::RegionType region;
   MaskImageType::SizeType size;
   MaskImageType::IndexType index;
-  
+
   // use upper left corner
   index.Fill(0);
   for (unsigned int i=0; i<MaskImageType::ImageDimension; i++)
@@ -132,7 +133,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
     relabel->SetMinimumObjectSize( minSize );
     std::cerr << "minSize: " << minSize << std::endl;
     }
-  
+
   try
     {
     relabel->Update();
@@ -149,7 +150,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   colored->Allocate();
 
   unsigned short numObjects = relabel->GetNumberOfObjects();
-  
+
   std::vector<RGBPixelType> colormap;
   RGBPixelType px;
   colormap.resize( numObjects+1 );
@@ -165,12 +166,12 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
       static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
     colormap[i] = px;
     }
-  
+
   itk::ImageRegionIterator<OutputImageType>
     it(relabel->GetOutput(), relabel->GetOutput()->GetBufferedRegion());
   itk::ImageRegionIterator<RGBImageType> cit(colored,
                                              colored->GetBufferedRegion());
-  
+
   while( !it.IsAtEnd() )
     {
     if (it.Get() == 0)
@@ -184,7 +185,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
     ++it;
     ++cit;
     }
-  
+
   try
     {
     writer->SetInput (colored);

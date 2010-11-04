@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkGibbsTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include <iostream>
 #include <string>
 #include <math.h>
@@ -36,7 +37,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 
 int itkGibbsTest(int, char*[] )
-//int main() 
+//int main()
 {
   std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 
@@ -91,7 +92,7 @@ int itkGibbsTest(int, char*[] )
   };
 
   typedef itk::Vector<unsigned short,NumberOfBands>  PixelType;
-  typedef itk::Image<PixelType,ImageDimension>       VecImageType; 
+  typedef itk::Image<PixelType,ImageDimension>       VecImageType;
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
@@ -122,7 +123,7 @@ int itkGibbsTest(int, char*[] )
 
   //Set up the vector to store the image  data
   typedef VecImageType::PixelType     DataVector;
-  DataVector   dblVec; 
+  DataVector   dblVec;
 
   //--------------------------------------------------------------------------
   //Manually create and store each vector
@@ -130,12 +131,12 @@ int itkGibbsTest(int, char*[] )
   //Slice 1
   //Vector 1
   int i = 0;
-  while ( !outIt.IsAtEnd() ) 
-    { 
+  while ( !outIt.IsAtEnd() )
+    {
     dblVec[0] = (unsigned short) TestingImage[i];
 //  dblVec[1] = (unsigned short) TestImage[i+65536];
 //  dblVec[2] = (unsigned short) TestImage[i+65536*2];
-    outIt.Set(dblVec); 
+    outIt.Set(dblVec);
     ++outIt;
     i++;
     }
@@ -143,7 +144,7 @@ int itkGibbsTest(int, char*[] )
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<unsigned short, ImageDimension > ClassImageType; 
+  typedef itk::Image<unsigned short, ImageDimension > ClassImageType;
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES} };
@@ -175,21 +176,21 @@ int itkGibbsTest(int, char*[] )
   //Pixel no. 1
 
   i = 0;
-  while ( !classoutIt.IsAtEnd() ) 
-    {  
-    if ( (i%IMGWIDTH<8) && (i%IMGWIDTH>4) && 
-         (i/IMGWIDTH<8) && (i/IMGWIDTH>4)) 
+  while ( !classoutIt.IsAtEnd() )
+    {
+    if ( (i%IMGWIDTH<8) && (i%IMGWIDTH>4) &&
+         (i/IMGWIDTH<8) && (i/IMGWIDTH>4))
       {
       classoutIt.Set( 1 );
-      } 
-    else 
+      }
+    else
       {
-      if ( (i%IMGWIDTH<18) && (i%IMGWIDTH>14) && 
+      if ( (i%IMGWIDTH<18) && (i%IMGWIDTH>14) &&
            (i/IMGWIDTH<18) && (i/IMGWIDTH>14))
         {
         classoutIt.Set( 2 );
         }
-      else 
+      else
         {
         classoutIt.Set( 0 );
         }
@@ -212,47 +213,47 @@ int itkGibbsTest(int, char*[] )
 
   namespace stat = itk::Statistics;
 
-  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType > 
+  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
     MembershipFunctionType ;
   typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
 
-  typedef std::vector< MembershipFunctionPointer > 
-    MembershipFunctionPointerVector;  
+  typedef std::vector< MembershipFunctionPointer >
+    MembershipFunctionPointerVector;
 
   //----------------------------------------------------------------------
   // Set the image model estimator (train the class models)
   //----------------------------------------------------------------------
 
   typedef itk::ImageGaussianModelEstimator<VecImageType,
-    MembershipFunctionType, ClassImageType> 
+    MembershipFunctionType, ClassImageType>
     ImageGaussianModelEstimatorType;
-  
-  ImageGaussianModelEstimatorType::Pointer 
-    applyEstimateModel = ImageGaussianModelEstimatorType::New();  
+
+  ImageGaussianModelEstimatorType::Pointer
+    applyEstimateModel = ImageGaussianModelEstimatorType::New();
 
   applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
   applyEstimateModel->SetInputImage(vecImage);
-  applyEstimateModel->SetTrainingImage(classImage);  
+  applyEstimateModel->SetTrainingImage(classImage);
 
   //Run the gaussian classifier algorithm
   applyEstimateModel->Update();
-  applyEstimateModel->Print(std::cout); 
+  applyEstimateModel->Print(std::cout);
 
-  MembershipFunctionPointerVector membershipFunctions = 
+  MembershipFunctionPointerVector membershipFunctions =
     applyEstimateModel->GetMembershipFunctions();
 
   //----------------------------------------------------------------------
-  //Set the decision rule 
-  //----------------------------------------------------------------------  
+  //Set the decision rule
+  //----------------------------------------------------------------------
   typedef itk::DecisionRuleBase::Pointer DecisionRuleBasePointer;
 
   typedef itk::MinimumDecisionRule DecisionRuleType;
-  DecisionRuleType::Pointer  
+  DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 
   //----------------------------------------------------------------------
-  // Set the classifier to be used and assigne the parameters for the 
-  // supervised classifier algorithm except the input image which is 
+  // Set the classifier to be used and assigne the parameters for the
+  // supervised classifier algorithm except the input image which is
   // grabbed from the MRF application pipeline.
   //----------------------------------------------------------------------
   //---------------------------------------------------------------------
@@ -261,7 +262,7 @@ int itkGibbsTest(int, char*[] )
   typedef itk::ImageClassifierBase< VecImageType,
     ClassImageType > ClassifierType;
 
-  typedef itk::ClassifierBase<VecImageType>::Pointer 
+  typedef itk::ClassifierBase<VecImageType>::Pointer
     ClassifierBasePointer;
 
   typedef ClassifierType::Pointer ClassifierPointer;
@@ -269,7 +270,7 @@ int itkGibbsTest(int, char*[] )
   // Set the Classifier parameters
   myClassifier->SetNumberOfClasses(NUM_CLASSES);
 
-  // Set the decison rule 
+  // Set the decison rule
   myClassifier->
     SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
 
@@ -297,13 +298,13 @@ int itkGibbsTest(int, char*[] )
   applyGibbsImageFilter->SetCliqueWeight_4(5.0);
   applyGibbsImageFilter->SetCliqueWeight_5(5.0);
   applyGibbsImageFilter->SetCliqueWeight_6(0.0);
- 
+
   applyGibbsImageFilter->SetInput(vecImage);
-  applyGibbsImageFilter->SetClassifier( myClassifier ); 
- 
+  applyGibbsImageFilter->SetClassifier( myClassifier );
+
 
   applyGibbsImageFilter->SetObjectThreshold(5.0);
-  
+
   /** coverage */
   std::cout << applyGibbsImageFilter->GetNumberOfClasses() << std::endl;
   std::cout << applyGibbsImageFilter->GetMaximumNumberOfIterations() << std::endl;
@@ -317,7 +318,7 @@ int itkGibbsTest(int, char*[] )
   std::cout << applyGibbsImageFilter->GetCliqueWeight_6() << std::endl;
 
   //Since a suvervised classifier is used, it requires a training image
-  applyGibbsImageFilter->SetTrainingImage(classImage);  
+  applyGibbsImageFilter->SetTrainingImage(classImage);
 
   //Kick off the Gibbs labeller function
   applyGibbsImageFilter->Update();
@@ -351,7 +352,7 @@ int itkGibbsTest(int, char*[] )
 //  fwrite(outImage, 2, IMGWIDTH*IMGHEIGHT, output);
 //  fclose(output);
   //Verify if the results were as per expectation
-  
+
   bool passTest;
 /*  int j = 0;
   i = 0;
@@ -364,11 +365,11 @@ int itkGibbsTest(int, char*[] )
   }
 */
   passTest = ((j1 > 285) && (j1 < 315));
-  if( passTest ) 
+  if( passTest )
     {
     std::cout<< "Gibbs Prior Test Passed" << std::endl;
     }
-  else 
+  else
     {
     std::cout<< "Gibbs Prior Test failed" << std::endl;
     return EXIT_FAILURE;

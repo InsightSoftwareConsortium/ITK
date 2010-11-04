@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNrrdImageIO.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,6 +23,7 @@
 #include "itkNrrdImageIO.h"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
+#include "itkFloatingPointExceptions.h"
 
 namespace itk
 {
@@ -231,6 +233,10 @@ void NrrdImageIO::ReadImageInformation()
   Nrrd *       nrrd = nrrdNew();
   NrrdIoState *nio = nrrdIoStateNew();
 
+  // nrrd causes exceptions on purpose, so mask them
+  bool saveFPEState(FloatingPointExceptions::GetExceptionAction());
+  FloatingPointExceptions::Disable();
+
   // this is the mechanism by which we tell nrrdLoad to read
   // just the header, and none of the data
   nrrdIoStateSet(nio, nrrdIoStateSkipData, 1);
@@ -240,6 +246,9 @@ void NrrdImageIO::ReadImageInformation()
     itkExceptionMacro("ReadImageInformation: Error reading "
                       << this->GetFileName() << ":\n" << err);
     }
+
+  // restore state
+  FloatingPointExceptions::SetEnabled(saveFPEState);
 
   if ( nrrdTypeBlock == nrrd->type )
     {
@@ -707,6 +716,10 @@ void NrrdImageIO::Read(void *buffer)
       }
     }
 
+  // nrrd causes exceptions on purpose, so mask them
+  bool saveFPEState(FloatingPointExceptions::GetExceptionAction());
+  FloatingPointExceptions::Disable();
+
   // Read in the nrrd.  Yes, this means that the header is being read
   // twice: once by NrrdImageIO::ReadImageInformation, and once here
   if ( nrrdLoad(nrrd, this->GetFileName(), NULL) != 0 )
@@ -715,6 +728,9 @@ void NrrdImageIO::Read(void *buffer)
     itkExceptionMacro("Read: Error reading "
                       << this->GetFileName() << ":\n" << err);
     }
+
+  // restore state
+  FloatingPointExceptions::SetEnabled(saveFPEState);
 
   unsigned int rangeAxisNum, rangeAxisIdx[NRRD_DIM_MAX];
   rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);

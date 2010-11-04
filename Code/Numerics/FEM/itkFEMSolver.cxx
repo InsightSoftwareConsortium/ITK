@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMSolver.cxx
-  Language:  C++
-  Date:  $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -426,7 +426,7 @@ void Solver::AssembleF(int dim)
     if ( LoadNode::Pointer l1=dynamic_cast<LoadNode*>(&*l0) )
       {
       // yep, we have a nodal load
-      
+
       // size of a force vector in load must match number of DOFs in node
       if ( (l1->F.size() % l1->m_element->GetNumberOfDegreesOfFreedomPerNode()) != 0 )
         {
@@ -492,7 +492,7 @@ void Solver::AssembleF(int dim)
             }
           }
 
-        } 
+        }
       else
         {
 
@@ -514,7 +514,7 @@ void Solver::AssembleF(int dim)
 
             // update the master force vector (take care of the correct isotropic dimensions)
             m_ls->AddVectorValue((*e)->GetDegreeOfFreedom(j) , Fe(j+dim*Ne));
-            
+
             }
           }
         }
@@ -539,20 +539,20 @@ void Solver::AssembleF(int dim)
      */
     if ( LoadBC::Pointer l1=dynamic_cast<LoadBC*>(&*l0) )
       {
-      
+
       // Here we just store the values of fixed DOFs. We can't set it here, because
       // it may be changed by other loads that are applied later.
       bcterm[ l1->m_element->GetDegreeOfFreedom(l1->m_dof) ]=l1->m_value[dim];
-      
+
       // skip to the next load in an array
       continue;
       }
-    
+
     /**
      * If we got here, we were unable to handle that class of Load object.
      * We do nothing...
      */
-    
+
 
     }  // for(LoadArray::iterator l ... )
 

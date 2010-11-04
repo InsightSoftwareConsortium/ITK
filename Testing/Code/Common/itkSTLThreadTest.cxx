@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSTLThreadTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -43,7 +44,7 @@ int itkSTLThreadTest(int argc, char* argv[])
       numThreads = nt;
       }
     }
-  
+
   // Choose a number of iterations (0 is infinite).
   if(argc > 2)
     {
@@ -53,26 +54,26 @@ int itkSTLThreadTest(int argc, char* argv[])
       itkSTLThreadTestImpl::numberOfIterations = ni;
       }
     }
-  
+
   // Enforce limit on number of threads.
   if(numThreads > ITK_MAX_THREADS)
     {
     numThreads = ITK_MAX_THREADS;
     }
-  
+
   // Report what we'll do.
   std::cout << "Using " << numThreads << " threads.\n";
   if(itkSTLThreadTestImpl::numberOfIterations)
     {
     std::cout << "Using " << itkSTLThreadTestImpl::numberOfIterations
               << " iterations.\n";
-  
+
     }
   else
     {
     std::cout << "Using infinite iterations.\n";
     }
-  
+
   // Create result array.  Assume failure.
   int* results = new int[numThreads];
   int i;
@@ -80,13 +81,13 @@ int itkSTLThreadTest(int argc, char* argv[])
     {
     results[i] = 0;
     }
-  
+
   // Create and execute the threads.
   itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
-  threader->SetSingleMethod(itkSTLThreadTestImpl::Runner, results);  
+  threader->SetSingleMethod(itkSTLThreadTestImpl::Runner, results);
   threader->SetNumberOfThreads(numThreads);
   threader->SingleMethodExecute();
-  
+
   // Report results.
   int result = 0;
   for(i=0; i < numThreads; ++i)
@@ -104,16 +105,16 @@ int itkSTLThreadTest(int argc, char* argv[])
             << std::endl;
   threader->SetGlobalMaximumNumberOfThreads(1);
   threader->SetGlobalDefaultNumberOfThreads(1);
-  
+
   std::cout << "threader->GetGlobalMaximumNumberOfThreads(): "
             << threader->GetGlobalMaximumNumberOfThreads() << std::endl;
-  
+
   int threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, 0);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
             << threadId << std::endl;
   threader->TerminateThread(threadId);
   std::cout << "Spawned thread terminated." << std::endl;
-  
+
   return result;
 }
 
@@ -144,26 +145,26 @@ int Thread(int tnum)
   // Implementation in individual thread.  We don't care about
   // mutexing the output because it doesn't matter for the test.
   std::cout << "Starting " << tnum << "\n";
-  
+
   // Create a list with which to play.
   std::list<int> l;
-  
+
   // Choose a size for each iteration for this thread.
   int count = 10000+100*tnum;
-  
+
   int iteration=0;
   while(!done && !(numberOfIterations && (iteration >= numberOfIterations)))
     {
     // Output progress of this thread.
     std::cout << tnum << ": " << iteration << "\n";
-    
+
     // Fill the list.
     int j;
     for(j=0; j < count; ++j)
       {
       l.push_back(j);
       }
-    
+
     // Empty the list while making sure values match.  Threading
     // errors can cause mismatches here, which is the purpose of the
     // test.
@@ -176,10 +177,10 @@ int Thread(int tnum)
         }
       l.pop_front();
       }
-    
+
     ++iteration;
     }
-  
+
   // Only get here on failure or iterations finished.
   if(numberOfIterations && (iteration >= numberOfIterations))
     {

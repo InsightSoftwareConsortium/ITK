@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPCAShapeSignedDistanceFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,10 +30,10 @@
  * This module tests the functionality of the PCAShapeSignedDistanceFunction
  * class.
  *
- * The mean image, principal component images, standard deviations, and 
- * and weighting parameters are randomly generated. The signed distance is 
- * evaluated at all image points and compared to expected values. 
- * The test fails if the evaluated results is not within a certain tolerance 
+ * The mean image, principal component images, standard deviations, and
+ * and weighting parameters are randomly generated. The signed distance is
+ * evaluated at all image points and compared to expected values.
+ * The test fails if the evaluated results is not within a certain tolerance
  * of the expected results.
  */
 int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
@@ -58,7 +59,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   shape->SetTransform(transform);
 
 
-  // prepare for image creation 
+  // prepare for image creation
   typedef ShapeFunction::ImageType ImageType;
 
   ImageType::SizeType imageSize = {{ImageWidth, ImageHeight}};
@@ -87,7 +88,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   for(meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
     {
     randomPixel = vnl_sample_normal(0, 1);
-    meanImageIt.Set(randomPixel); 
+    meanImageIt.Set(randomPixel);
     }
 
   shape->SetMeanImage(meanImage);
@@ -109,7 +110,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
     for(pcImageIts[i].GoToBegin(); !pcImageIts[i].IsAtEnd(); ++pcImageIts[i])
       {
       randomPixel = vnl_sample_normal(0, 1);
-      pcImageIts[i].Set(randomPixel); 
+      pcImageIts[i].Set(randomPixel);
       }
     }
 
@@ -128,7 +129,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   // set up the parameters
   unsigned int numberOfShapeParameters  = shape->GetNumberOfShapeParameters();
   unsigned int numberOfPoseParameters   = shape->GetNumberOfPoseParameters();
-  unsigned int numberOfParameters = 
+  unsigned int numberOfParameters =
     numberOfShapeParameters  + numberOfPoseParameters;;
   ShapeFunction::ParametersType parameters(numberOfParameters);
 
@@ -149,7 +150,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
 
   std::cout << "check results:" << std::endl;
   unsigned int numberOfRotationParameters = Dimension*(Dimension-1)/2;
-  unsigned int startIndexOfTranslationParameters = 
+  unsigned int startIndexOfTranslationParameters =
     numberOfShapeParameters + numberOfRotationParameters;
 
   ShapeFunction::TransformType::InputPointType p;
@@ -158,16 +159,16 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   for(meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
     {
     // from index to physical point
-    index = meanImageIt.GetIndex(); 
+    index = meanImageIt.GetIndex();
     meanImage->TransformIndexToPhysicalPoint(index, point);
 
     // inverse Euler2DTransform: first translation then rotation
     p[0] =  point[0] - parameters[startIndexOfTranslationParameters];
-    p[1] =  point[1] - parameters[startIndexOfTranslationParameters + 1]; 
+    p[1] =  point[1] - parameters[startIndexOfTranslationParameters + 1];
 
-    double angle = parameters[numberOfShapeParameters]; 
+    double angle = parameters[numberOfShapeParameters];
     q[0] =  p[0] * vcl_cos(-angle) - p[1] * vcl_sin(-angle);
-    q[1] =  p[0] * vcl_sin(-angle) + p[1] * vcl_cos(-angle);    
+    q[1] =  p[0] * vcl_sin(-angle) + p[1] * vcl_cos(-angle);
 
     // evaluate shape function
     output = shape->Evaluate(q);
@@ -177,7 +178,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
     for(i=0; i<NumberOfPCs; i++)
       {
       expected += pcImages[i]->GetPixel(index) *
-      pcStandardDeviations[i] * 
+      pcStandardDeviations[i] *
       parameters[i];
       }
 
@@ -190,7 +191,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
       return EXIT_FAILURE;
       }
     }
- 
+
  // Evaluate at a point outside the image domain
  std::cout << "Evaluate at point outside image domain" << std::endl;
  q.Fill( 5.0 );
@@ -200,7 +201,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
  // Exercise other methods for test coverage
  shape->Print( std::cout );
 
- std::cout << "NumberOfPrincipalComponents: " 
+ std::cout << "NumberOfPrincipalComponents: "
            << shape->GetNumberOfPrincipalComponents() << std::endl;
  std::cout << "MeanImage: "
            << shape->GetMeanImage() << std::endl;
@@ -233,7 +234,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
     { \
     std::cout << "Test failed." << std::endl; \
     return EXIT_FAILURE; \
-    } 
+    }
 
   // NULL MeanImage
   TEST_INITIALIZATION_ERROR( MeanImage, NULL, meanImage );

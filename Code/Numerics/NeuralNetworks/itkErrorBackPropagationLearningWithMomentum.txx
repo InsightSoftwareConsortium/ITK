@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkErrorBackPropagationLearningWithMomentum.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkErrorBackPropagationLearningWithMomentum_txx
 #define __itkErrorBackPropagationLearningWithMomentum_txx
 
@@ -71,7 +71,7 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
   DB_m_1.fill(0);
   DB.copy_in(DBValues);
   DB_m_1.copy_in(PrevDBValues);
-  
+
   if (!inputweightset->GetFirstPass())
     {
     DW_m_1.copy_in(DWvalues_m_1);
@@ -87,7 +87,7 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
   vnl_matrix<ValueType> DW_temp1(inputweightset->GetNumberOfOutputNodes(),
                                            inputweightset->GetNumberOfInputNodes());
   DW_temp1.fill(0);
-  
+
   //Momentum
   if (!inputweightset->GetFirstPass())
     {
@@ -113,14 +113,14 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
 
 /** Print the object */
 template<class LayerType, class TTargetVector>
-void  
+void
 ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  os << indent << "ErrorBackPropagationLearningWithMomentum(" << this << ")" << std::endl; 
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  os << indent << "ErrorBackPropagationLearningWithMomentum(" << this << ")" << std::endl;
   os << indent << "m_Momentum = " << m_Momentum << std::endl;
-  Superclass::PrintSelf( os, indent ); 
-} 
+  Superclass::PrintSelf( os, indent );
+}
 
 } // end namespace Statistics
 } // end namespace itk

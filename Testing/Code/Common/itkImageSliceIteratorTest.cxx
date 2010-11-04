@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageSliceIteratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,7 +39,7 @@ int itkImageSliceIteratorTest(int, char* [] )
 
 
   ImageType::Pointer myImage = ImageType::New();
-  
+
   ImageType::SizeType size;
 
   size[0] = 100;
@@ -68,7 +69,7 @@ int itkImageSliceIteratorTest(int, char* [] )
   it.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
 
   ImageType::IndexType index;
-  
+
   while( !it.IsAtEnd() )
   {
     while( !it.IsAtEndOfSlice() )
@@ -84,15 +85,15 @@ int itkImageSliceIteratorTest(int, char* [] )
     it.NextSlice();
   }
 
-  { 
-  // Verification 
+  {
+  // Verification
   std::cout << "Verifying for iterator...";
   IteratorType ot( myImage, region );
 
   ot.GoToBegin();
   ot.SetFirstDirection( 0 ); // 0=x, 1=y, 2=z
   ot.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
- 
+
   while( !ot.IsAtEnd() )
   {
     while( !ot.IsAtEndOfSlice() )
@@ -119,14 +120,14 @@ int itkImageSliceIteratorTest(int, char* [] )
   std::cout << "  Done !" << std::endl;
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying for const iterator...";
   ConstIteratorType cot( myImage, region );
 
   cot.GoToBegin();
   cot.SetFirstDirection( 0 ); // 0=x, 1=y, 2=z
   cot.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
- 
+
   while( !cot.IsAtEnd() )
   {
     while( !cot.IsAtEndOfSlice() )
@@ -155,7 +156,7 @@ int itkImageSliceIteratorTest(int, char* [] )
 
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying iterator in reverse direction... ";
 
   IteratorType ior( myImage, region );
@@ -163,7 +164,7 @@ int itkImageSliceIteratorTest(int, char* [] )
   ior.GoToReverseBegin();
   ior.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   ior.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
- 
+
   while( !ior.IsAtReverseEnd() )
   {
     while( !ior.IsAtReverseEndOfSlice() )
@@ -190,7 +191,7 @@ int itkImageSliceIteratorTest(int, char* [] )
 
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
 
   ConstIteratorType cor( myImage, region );
@@ -198,7 +199,7 @@ int itkImageSliceIteratorTest(int, char* [] )
   cor.GoToReverseBegin();
   cor.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   cor.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
- 
+
   while( !cor.IsAtReverseEnd() )
   {
     while( !cor.IsAtReverseEndOfSlice() )
@@ -224,8 +225,8 @@ int itkImageSliceIteratorTest(int, char* [] )
 
   }
 
-  { 
-  // Verification 
+  {
+  // Verification
   std::cout << "Test in a region < LargestPossibleRegion" << std::endl;
   std::cout << "Verifying for iterator...";
 
@@ -245,7 +246,7 @@ int itkImageSliceIteratorTest(int, char* [] )
   ot.GoToBegin();
   ot.SetFirstDirection( 0 ); // 0=x, 1=y, 2=z
   ot.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
- 
+
   while( !ot.IsAtEnd() )
   {
     while( !ot.IsAtEndOfSlice() )
@@ -272,14 +273,14 @@ int itkImageSliceIteratorTest(int, char* [] )
   std::cout << "  Done !" << std::endl;
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying for const iterator...";
   ConstIteratorType cot( myImage, region );
 
   cot.GoToBegin();
   cot.SetFirstDirection( 0 ); // 0=x, 1=y, 2=z
   cot.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
- 
+
   while( !cot.IsAtEnd() )
   {
     while( !cot.IsAtEndOfSlice() )
@@ -308,7 +309,7 @@ int itkImageSliceIteratorTest(int, char* [] )
 
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying iterator in reverse direction... ";
 
   IteratorType ior( myImage, region );
@@ -316,7 +317,7 @@ int itkImageSliceIteratorTest(int, char* [] )
   ior.GoToReverseBegin();
   ior.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   ior.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
- 
+
   while( !ior.IsAtReverseEnd() )
   {
     while( !ior.IsAtReverseEndOfSlice() )
@@ -343,7 +344,7 @@ int itkImageSliceIteratorTest(int, char* [] )
 
 
 
-  // Verification 
+  // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
 
   ConstIteratorType cor( myImage, region );
@@ -351,7 +352,7 @@ int itkImageSliceIteratorTest(int, char* [] )
   cor.GoToReverseBegin();
   cor.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   cor.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
- 
+
   while( !cor.IsAtReverseEnd() )
   {
     while( !cor.IsAtReverseEndOfSlice() )

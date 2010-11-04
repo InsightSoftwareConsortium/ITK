@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAntiAliasBinaryImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -46,9 +47,9 @@ float sphere(float x, float y, float z)
 {
     float dis;
     dis = (x - (float)V_WIDTH/2.0)*(x - (float)V_WIDTH/2.0)
-      /((0.2f*V_WIDTH)*(0.2f*V_WIDTH)) + 
+      /((0.2f*V_WIDTH)*(0.2f*V_WIDTH)) +
       (y - (float)V_HEIGHT/2.0)*(y - (float)V_HEIGHT/2.0)
-      /((0.2f*V_HEIGHT)*(0.2f*V_HEIGHT)) + 
+      /((0.2f*V_HEIGHT)*(0.2f*V_HEIGHT)) +
       (z - (float)V_DEPTH/2.0)*(z - (float)V_DEPTH/2.0)
       /((0.2f*V_DEPTH)*(0.2f*V_DEPTH));
     return(1.0f-dis);
@@ -76,7 +77,7 @@ void evaluate_function(itk::Image<char, 3> *im,
         }
     }
 }
-  
+
 } // end namespace
 
 int itkAntiAliasBinaryImageFilterTest(int , char * [] )
@@ -85,10 +86,10 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
   typedef itk::Image<InputDataType, 3> BinaryImageType;
   typedef itk::Image<float, 3> RealImageType;
 
-  
+
   itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::Pointer
     antialiaser = itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::New();
-  
+
   // Create a binary image of a sphere.
   BinaryImageType::Pointer image = BinaryImageType::New();
   BinaryImageType::RegionType region;
@@ -112,7 +113,7 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
 
   // For increased code coverage.  Does nothing.
   antialiaser->GetMaximumRMSError();
-  
+
 
   // Generally a good idea to set this value as a safeguard against infinte
   // loops if the MaximumRMSError has been set too low.
@@ -122,7 +123,7 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
 
   std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
   std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
-  
+
   if (antialiaser->GetElapsedIterations() >= 100)
     {
     std::cout << "ERROR: Filter did not converge.";
@@ -136,12 +137,12 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
 
     // itk::RawImageIO<float, 3>::Pointer output_io
     //    = itk::RawImageIO<float, 3>::New();
-    //  
+    //
     // itk::ImageFileWriter<RealImageType>::Pointer writer
     //    = itk::ImageFileWriter<RealImageType>::New();
     //      output_io->SetFileTypeToBinary();
     //      output_io->SetFileDimensionality(3);
-    //      output_io->SetByteOrderToLittleEndian();     
+    //      output_io->SetByteOrderToLittleEndian();
     //      writer->SetInput(antialiaser->GetOutput());
     //      writer->SetFileName("spheretest.raw");
     //      writer->SetImageIO(output_io);

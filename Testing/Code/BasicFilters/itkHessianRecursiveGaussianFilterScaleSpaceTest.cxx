@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkHessianRecursiveGaussianFilterScaleSpaceTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,12 +23,12 @@
 #include <itkImageRegionIteratorWithIndex.h>
 
 // This test creates an image varying as a 1D Gaussian in the X direction
-// for different values of sigma, and checks the scale-space response of 
+// for different values of sigma, and checks the scale-space response of
 // the xx component of the Hessian at the center of the Gaussian.
-// If NormalizeAcrossScale works correctly, the filter should yield the 
+// If NormalizeAcrossScale works correctly, the filter should yield the
 // same Hxx across different scales.
 
-int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] ) 
+int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 {
   const unsigned int Dimension = 3;
   typedef double PixelType;
@@ -39,7 +40,7 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
   typedef ImageType::SpacingType SpacingType;
 
   ImageType::Pointer inputImage = ImageType::New();
-  
+
   SizeType size;
   size.Fill(21);
   size[0] = 401;
@@ -78,14 +79,14 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
   for (unsigned int i=0; i<numberOfScales; i++)
     {
     IteratorType it(inputImage, inputImage->GetRequestedRegion());
-  
+
     PointType point;
     double objectSize = scales[i];
 
     // Fill the image with a 1D Gaussian along X with sigma equal to the current scale
     // The Gaussian is not normalized, since it should have the same peak value across
     // scales, only sigma should change
-    while(!it.IsAtEnd()) 
+    while(!it.IsAtEnd())
       {
       inputImage->TransformIndexToPhysicalPoint(it.GetIndex(),point);
       double value = vcl_exp(-point[0]*point[0] / (2.0*objectSize*objectSize));
@@ -95,12 +96,12 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 
     // Compute the hessian using NormalizeAcrossScale true
     typedef itk::HessianRecursiveGaussianImageFilter<ImageType> FilterType;
-              
+
     typedef FilterType::OutputImageType HessianImageType;
 
     FilterType::Pointer filter = FilterType::New();
-    filter->SetInput(inputImage); 
-    filter->SetSigma(objectSize); 
+    filter->SetInput(inputImage);
+    filter->SetSigma(objectSize);
     filter->SetNormalizeAcrossScale(true);
     filter->Update();
 
@@ -109,14 +110,14 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
     // Get the value at the center of the image, the location of the peak of the Gaussian
     PointType center;
     center.Fill(0.0);
-    
+
     IndexType centerIndex;
 
     typedef HessianImageType::PixelType HessianType;
 
     outputImage->TransformPhysicalPointToIndex(center,centerIndex);
 
-    // Irrespective of the scale, the Hxx component should be the same 
+    // Irrespective of the scale, the Hxx component should be the same
     double centerHxx = outputImage->GetPixel(centerIndex)[0];
 
     if (centerHxx > -35.46 || centerHxx < -35.47)

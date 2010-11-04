@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFloatingPointExceptions.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkFloatingPointExceptions.h"
 #include "itkFloatingPointExceptionsConfigure.h"
 #include <iostream>
@@ -84,6 +85,7 @@ and that's what we implement.  Linux "man fegetenv" appears
 to suggest that it's the mask corresponding to bits in
 excepts that is returned.
 */
+#if 0
 static int
 fegetexcept (void)
 {
@@ -94,6 +96,7 @@ fegetexcept (void)
       ( fenv & (FM_ALL_EXCEPT) ) << FE_EXCEPT_SHIFT )
     );
 }
+#endif
 
 static int
 feenableexcept (unsigned int excepts)
@@ -125,6 +128,7 @@ fedisableexcept (unsigned int excepts)
 
 #elif DEFINED_INTEL
 
+#if 0
 static int
 fegetexcept (void)
 {
@@ -132,6 +136,7 @@ fegetexcept (void)
 
   return fegetenv (&fenv) ? -1 : (fenv.__control & FE_ALL_EXCEPT);
 }
+#endif
 
 static int
 feenableexcept (unsigned int excepts)
@@ -316,6 +321,7 @@ namespace itk
 FloatingPointExceptions::ExceptionAction
 FloatingPointExceptions::m_ExceptionAction =
   FloatingPointExceptions::ABORT;
+bool FloatingPointExceptions::m_Enabled(false);
 
 void
 FloatingPointExceptions
@@ -328,6 +334,27 @@ FloatingPointExceptions::ExceptionAction
 FloatingPointExceptions::GetExceptionAction()
 {
   return FloatingPointExceptions::m_ExceptionAction;
+}
+
+bool
+FloatingPointExceptions::
+GetEnabled()
+{
+  return FloatingPointExceptions::m_Enabled;
+}
+
+void
+FloatingPointExceptions::
+SetEnabled(bool val)
+{
+  if(val)
+    {
+    FloatingPointExceptions::Enable();
+    }
+  else
+    {
+    FloatingPointExceptions::Disable();
+    }
 }
 
 #if !defined(ITK_USE_FPE)
@@ -350,14 +377,16 @@ void FloatingPointExceptions
 {
   // enable floating point exceptions on MSVC
   _controlfp(_EM_DENORMAL | _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
+  FloatingPointExceptions::m_Enabled = true;
 }
 
-FloatingPointExceptions
+void FloatingPointExceptions
 ::Disable()
 {
   // disable floating point exceptions on MSVC
   _controlfp(_EM_INVALID | _EM_DENORMAL | _EM_ZERODIVIDE | _EM_OVERFLOW |
              _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
+  FloatingPointExceptions::m_Enabled = false;
 }
 
 #else // ITK_USE_FPE
@@ -381,7 +410,7 @@ FloatingPointExceptions
   sigemptyset(&act.sa_mask);
   act.sa_flags = SA_SIGINFO;
   sigaction(SIGFPE,&act,0);
-
+  FloatingPointExceptions::m_Enabled = true;
 }
 void
 FloatingPointExceptions
@@ -395,6 +424,7 @@ FloatingPointExceptions
   fedisableexcept (FPE_FLTSUB);
   fedisableexcept (FPE_INTDIV);
   fedisableexcept (FPE_INTOVF);
+  FloatingPointExceptions::m_Enabled = false;
 }
 
 #endif // ITK_USE_FPE

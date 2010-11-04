@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTubeSpatialObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 /*
 * itkTubeSpatialObject test file.
 * This test file test also the basic functions of the CompositeSpatialObject class,
@@ -32,7 +32,7 @@
 
 #include <vnl/vnl_math.h>
 
-int itkTubeSpatialObjectTest(int, char * [] ) 
+int itkTubeSpatialObjectTest(int, char * [] )
 {
   typedef double                                      ScalarType;
   typedef bool                                        OutputType;
@@ -91,7 +91,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   in.Fill(15);
   out.Fill(5);
-  
+
   std::cout<<"IsInside()...";
   if( !tube1->IsInside(in) || tube1->IsInside(out) )
     {
@@ -108,7 +108,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout<<"DerivativeAt()...";
   try
     {
-    tube1->DerivativeAt(in,1,derivative); 
+    tube1->DerivativeAt(in,1,derivative);
     }
   catch(...)
     {
@@ -138,11 +138,11 @@ int itkTubeSpatialObjectTest(int, char * [] )
     {
     std::cout<<"[FAILED]"<<std::endl;
     }
-   
+
   //==============================================
   // testing of a single CompositeSpatialObject...
   //==============================================
-  
+
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing GroupSpatialObject:"<<std::endl<<std::endl;
 
@@ -155,7 +155,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tube2->SetId(2);
   tube2->SetPoints(list);
   tube2->ComputeBoundingBox();
-  
+
   TubePointer tube3 = TubeType::New();
   tube3->GetProperty()->SetName("Tube 3");
   tube3->SetId(3);
@@ -164,8 +164,8 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   GroupPointer tubeNet1 = GroupType::New();
   tubeNet1->GetProperty()->SetName("tube network 1");
-  
- 
+
+
   tubeNet1->AddSpatialObject( tube1 );
   tubeNet1->AddSpatialObject( tube2 );
   tubeNet1->AddSpatialObject( tube3 );
@@ -195,7 +195,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   if( nbChildren != 0 )
     {
     std::cout<<"[FAILED]"<<std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
     }
   else
     {
@@ -289,7 +289,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     {
     std::cout<<"[PASSED]"<<std::endl;
     }
-  
+
   tubeNet1->ComputeBoundingBox();
 
   std::cout<<"HasParent()...";
@@ -302,11 +302,11 @@ int itkTubeSpatialObjectTest(int, char * [] )
     {
     std::cout<<"[PASSED]"<<std::endl;
     }
- 
+
   translation.Fill(10);
-  tubeNet1->GetObjectToParentTransform()->Translate(translation,false);  
+  tubeNet1->GetObjectToParentTransform()->Translate(translation,false);
   tubeNet1->ComputeObjectToWorldTransform();
-  
+
   axis.Fill(0);
   axis[1] = 1;
   angle = vnl_math::pi_over_2;
@@ -442,13 +442,13 @@ int itkTubeSpatialObjectTest(int, char * [] )
   TubePointType::CovariantVectorType n1 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal1();
   TubePointType::CovariantVectorType n2 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal2();
 
-  if(  (vcl_fabs(t[0]-0.57735)>0.0001) 
-    || (vcl_fabs(t[1]-0.57735)>0.0001) 
+  if(  (vcl_fabs(t[0]-0.57735)>0.0001)
+    || (vcl_fabs(t[1]-0.57735)>0.0001)
     || (vcl_fabs(t[2]-0.57735)>0.0001)
-    || (vcl_fabs(n1[0]-0.0)>0.0001) 
+    || (vcl_fabs(n1[0]-0.0)>0.0001)
     || (vcl_fabs(n1[1]+0.57735)>0.0001)
     || (vcl_fabs(n1[2]-0.57735)>0.0001)
-    || (vcl_fabs(n2[0]-0.666667)>0.0001) 
+    || (vcl_fabs(n2[0]-0.666667)>0.0001)
     || (vcl_fabs(n2[1]+0.333333)>0.0001)
     || (vcl_fabs(n2[2]+0.333333)>0.0001)
     )
@@ -478,7 +478,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     }
   std::cout << "[PASSED]" << std::endl;
 
-  
+
   // For coverage only
   std::cout << "Testing PointBasedSO: ";
   typedef itk::PointBasedSpatialObject<3> PointBasedType;

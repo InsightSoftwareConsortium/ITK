@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSetFunctionTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@
  * set surface modeling function object.  It shows how to subclass
  * the DenseFiniteDifferenceImageFilter and the LevelSetFunction to
  * create a very simple level set surface evolution application.
- * 
+ *
  * This application morphs a circle to a square using the level-set surface
  * modeling framework.  Speed function input to the level-set equation
  * is the square distance transform.
@@ -65,7 +66,7 @@ float square(unsigned x, unsigned y)
 // Evaluates a function at each pixel in the itk image
 void evaluate_function(itk::Image<float, 2> *im,
                        float (*f)(unsigned int, unsigned int) )
-  
+
 {
   itk::Image<float, 2>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
@@ -84,7 +85,7 @@ namespace itk {
 /**
  * \class MorphFunction
  * Subclasses LevelSetFunction, supplying the ``PropagationSpeed'' term.
- * 
+ *
  * See LevelSetFunction for more information.
  */
 class MorphFunction : public LevelSetFunction< Image<float, 2> >
@@ -92,14 +93,14 @@ class MorphFunction : public LevelSetFunction< Image<float, 2> >
 public:
   void SetDistanceTransform (Image<float, 2> *d)
     { m_DistanceTransform = d; }
-  
+
   typedef MorphFunction Self;
 
   typedef LevelSetFunction< Image<float, 2> > Superclass;
   typedef Superclass::RadiusType RadiusType;
   typedef Superclass::GlobalDataStruct GlobalDataStruct;
-  
-   /** 
+
+   /**
    * Smart pointer support for this class.
    */
   typedef SmartPointer<Self> Pointer;
@@ -109,7 +110,7 @@ public:
    * Run-time type information (and related methods)
    */
   itkTypeMacro( MorphFunction, LevelSetFunction );
-  
+
   /**
    * Method for creation through the object factory.
    */
@@ -130,7 +131,7 @@ private:
   virtual ScalarValueType PropagationSpeed(
                             const NeighborhoodType& neighborhood,
                             const FloatOffsetType &,
-                            GlobalDataStruct * 
+                            GlobalDataStruct *
                           ) const
     {
       Index<2> idx = neighborhood.GetIndex();
@@ -144,8 +145,8 @@ DenseFiniteDifferenceImageFilter< Image<float, 2>, Image<float, 2> >
 {
 public:
   typedef MorphFilter Self;
-  
-  /** 
+
+  /**
    * Smart pointer support for this class.
    */
   typedef SmartPointer<Self> Pointer;
@@ -155,7 +156,7 @@ public:
    * Run-time type information (and related methods)
    */
   itkTypeMacro( MorphFunction, LevelSetFunction );
-  
+
   /**
    * Method for creation through the object factory.
    */
@@ -182,27 +183,27 @@ protected:
       m_Iterations = 0;
     }
   MorphFilter(const Self &); // purposely not implemented
-  
+
 private:
-  unsigned int m_Iterations; 
-  
+  unsigned int m_Iterations;
+
   virtual bool Halt()
     {
       if (this->GetElapsedIterations() == m_Iterations) return true;
       else return false;
-    }  
+    }
 };
 
 } // end namespace itk
 int itkLevelSetFunctionTest(int, char* [] )
 {
   typedef itk::Image<float, 2> ImageType;
-  
+
   const int n = 100;  // Number of iterations
-  
+
   ImageType::Pointer im_init = ImageType::New();
   ImageType::Pointer im_target = ImageType::New();
-  
+
   ImageType::RegionType r;
   ImageType::SizeType   sz = {{HEIGHT, WIDTH}};
   ImageType::IndexType  idx = {{0,0}};
@@ -232,7 +233,7 @@ int itkLevelSetFunctionTest(int, char* [] )
     itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
 
     }
- 
+
   itk::MorphFilter::Pointer mf = itk::MorphFilter::New();
   mf->SetDistanceTransform(im_target);
   mf->SetIterations(n);

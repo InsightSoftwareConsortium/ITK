@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVersorTransformOptimizerTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,27 +24,27 @@
 #include <itkVersorTransform.h>
 
 
-/** 
+/**
  *  The objectif function is the scalar product:
  *
  *  f( V ) = < A, V(B) >
- * 
+ *
  *  where:
  *
  *    V  is a Versor representing a rotation
- *    A  is a vector 
+ *    A  is a vector
  *    B  is another vector
  *
  *  the vector A = [ 0 0 1 ]
  *  the vector B = [ 0 1 0 ]
- * 
+ *
  *  the Versor solution should be: V = [ k1 0 0 k2 ]
  *
  *        k1 = sin( 45 degrees )
  *        k2 = cos( 45 degrees )
  *
- */ 
-class versorCostFunction : public itk::SingleValuedCostFunction 
+ */
+class versorCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
@@ -51,14 +52,14 @@ public:
   typedef itk::SingleValuedCostFunction       Superclass;
   typedef itk::SmartPointer<Self>             Pointer;
   typedef itk::SmartPointer<const Self>       ConstPointer;
-  
+
   typedef itk::VersorTransform<double>        TransformType;
-    
+
   itkNewMacro( Self );
   itkTypeMacro( versorCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension = 3 };
-  
+
   typedef Superclass::ParametersType              ParametersType;
   typedef Superclass::DerivativeType              DerivativeType;
 
@@ -76,8 +77,8 @@ public:
 
 
   MeasureType GetValue( const ParametersType & parameters ) const
-  { 
-    
+  {
+
     std::cout << "GetValue( " << parameters << " ) = ";
 
     VectorType A;
@@ -145,7 +146,7 @@ public:
     ParametersType parametersPlustDeltaX(SpaceDimension);
     ParametersType parametersPlustDeltaY(SpaceDimension);
     ParametersType parametersPlustDeltaZ(SpaceDimension);
-    
+
     parametersPlustDeltaX[0] = plusdDeltaX.GetX();
     parametersPlustDeltaX[1] = plusdDeltaX.GetY();
     parametersPlustDeltaX[2] = plusdDeltaX.GetZ();
@@ -169,7 +170,7 @@ public:
 
   }
 
-  unsigned int GetNumberOfParameters(void) const 
+  unsigned int GetNumberOfParameters(void) const
     {
     return SpaceDimension;
     }
@@ -182,7 +183,7 @@ private:
 
 
 
-int itkVersorTransformOptimizerTest(int, char* [] ) 
+int itkVersorTransformOptimizerTest(int, char* [] )
 {
   std::cout << "VersorTransform Optimizer Test ";
   std::cout << std::endl << std::endl;
@@ -190,8 +191,8 @@ int itkVersorTransformOptimizerTest(int, char* [] )
   typedef  itk::VersorTransformOptimizer  OptimizerType;
 
   typedef  OptimizerType::ScalesType            ScalesType;
-  
-  
+
+
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
@@ -202,7 +203,7 @@ int itkVersorTransformOptimizerTest(int, char* [] )
 
   itkOptimizer->SetCostFunction( costFunction );
 
-  
+
   typedef versorCostFunction::ParametersType    ParametersType;
 
   typedef OptimizerType::VersorType      VersorType;
@@ -217,7 +218,7 @@ int itkVersorTransformOptimizerTest(int, char* [] )
 
   VersorType initialRotation;
   initialRotation.Set( axis, angle );
-  
+
   const unsigned int spaceDimensions = costFunction->GetNumberOfParameters();
 
   ParametersType  initialPosition( spaceDimensions );
@@ -239,7 +240,7 @@ int itkVersorTransformOptimizerTest(int, char* [] )
 
   itkOptimizer->SetInitialPosition( initialPosition );
 
-  try 
+  try
     {
     itkOptimizer->StartOptimization();
     }
@@ -264,7 +265,7 @@ int itkVersorTransformOptimizerTest(int, char* [] )
     finalRightPart[i] = finalPosition[i];
     }
   finalRotation.Set( finalRightPart );
-  std::cout << "Solution        = (" << finalRotation << ")" << std::endl;  
+  std::cout << "Solution        = (" << finalRotation << ")" << std::endl;
 
   //
   // check results to see if it is within range
@@ -281,17 +282,17 @@ int itkVersorTransformOptimizerTest(int, char* [] )
   trueAngle = 2.0 * vcl_atan( 1.0f );
   VersorType trueRotation;
   trueRotation.Set( trueAxis, trueAngle );
-    
+
   ParametersType trueParameters(spaceDimensions);
   trueParameters[0] = trueRotation.GetX();
   trueParameters[1] = trueRotation.GetY();
   trueParameters[2] = trueRotation.GetZ();
-  
+
   std::cout << "True Parameters = " << trueParameters << std::endl;
 
   VersorType ratio = finalRotation * trueRotation.GetReciprocal();
   const VersorType::ValueType cosHalfAngle = ratio.GetW();
-  const VersorType::ValueType cosHalfAngleSquare = 
+  const VersorType::ValueType cosHalfAngleSquare =
                                           cosHalfAngle * cosHalfAngle;
   if( cosHalfAngleSquare < 0.95 )
     {

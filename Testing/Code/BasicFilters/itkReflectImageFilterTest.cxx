@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkReflectImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -24,7 +25,7 @@
 #include <itkImageLinearIteratorWithIndex.h>
 
 
-int itkReflectImageFilterTest(int, char* [] ) 
+int itkReflectImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the image
@@ -39,20 +40,20 @@ int itkReflectImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef myRegionType::IndexType        myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef myRegionType::SizeType         mySizeType;
 
   // Declare the type for the ADD filter
   typedef itk::ReflectImageFilter<
                         myImageType,
                         myImageType  >  myFilterType;
- 
+
   // Declare the pointers to images
   typedef myImageType::Pointer   myImagePointer;
 
   // Create an image
   myImagePointer inputImage = myImageType::New();
-  
+
   // Define their size, and start index
   mySizeType size;
   size[0] = 15;
@@ -68,24 +69,24 @@ int itkReflectImageFilterTest(int, char* [] )
   region.SetIndex( start );
   region.SetSize( size );
 
-  // Initialize Image 
+  // Initialize Image
   inputImage->SetLargestPossibleRegion( region );
   inputImage->SetBufferedRegion( region );
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
 
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
 
   // Create one iterator for the input Image  (this is a light object)
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
 
-  // Initialize the content of the input Image 
+  // Initialize the content of the input Image
   // with a ramp along the 0 direction
   std::cout << "Input Image " << std::endl;
   unsigned long counter = 0;
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
   {
     it.Set( counter );
     std::cout << it.Get() << std::endl;
@@ -93,26 +94,26 @@ int itkReflectImageFilterTest(int, char* [] )
     ++it;
   }
 
-  // Create the Filter                                
+  // Create the Filter
   myFilterType::Pointer filter = myFilterType::New();
 
 
   // Connect the input image
-  filter->SetInput( inputImage ); 
+  filter->SetInput( inputImage );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   myImagePointer outputImage = filter->GetOutput();
 
-  
+
   // Execute the filter
   filter->Update();
 
   // Create an iterator for going through the image output
   myIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
-  
+
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
   {
     std::cout << ot.GetIndex() << " = " << ot.Get() << std::endl;
     ++ot;

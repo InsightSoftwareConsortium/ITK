@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkTensorFractionalAnisotropyImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,7 @@
 #include <itkDiffusionTensor3D.h>
 
 
-int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] ) 
+int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -39,7 +40,7 @@ int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>             myIndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<myDimension>              mySizeType;
 
   // Declare the type of the Region
@@ -48,7 +49,7 @@ int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();
 
-  
+
   // Define their size, and start index
   mySizeType size;
   size[0] = 8;
@@ -75,7 +76,7 @@ int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
 
   // Initialize the content of Image A
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
     {
     it.Set( 0.0 );
     ++it;
@@ -95,7 +96,7 @@ int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
   myIteratorType itb( inputImage, region );
 
   // Initialize the content the internal region
-  while( !itb.IsAtEnd() ) 
+  while( !itb.IsAtEnd() )
     {
     itb.Set( 100.0 );
     ++itb;
@@ -107,38 +108,38 @@ int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
   typedef myTensorPixelType::RealValueType myRealValueType;
 
   // Declare the type for the image generator
-  typedef itk::HessianRecursiveGaussianImageFilter< 
-                                            myImageType, 
+  typedef itk::HessianRecursiveGaussianImageFilter<
+                                            myImageType,
                                             myDTIImageType >  myFilterType;
-            
+
   typedef itk::Image< myRealValueType, myDimension > myFaImageType;
 
 
-  // Create a  Filter                                
+  // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
 
 
   // Connect the input images
-  filter->SetInput( inputImage ); 
+  filter->SetInput( inputImage );
 
   // Select the value of Sigma
-  filter->SetSigma( 2.5 ); 
+  filter->SetSigma( 2.5 );
 
-  
-  typedef itk::TensorFractionalAnisotropyImageFilter< 
+
+  typedef itk::TensorFractionalAnisotropyImageFilter<
                                                   myDTIImageType,
-                                                  myFaImageType 
+                                                  myFaImageType
                                                         > FAFilterType;
 
   FAFilterType::Pointer fractionalAnisotropyFilter = FAFilterType::New();
-    
+
   fractionalAnisotropyFilter->SetInput( filter->GetOutput() );
 
   // Execute the filter
   fractionalAnisotropyFilter->Update();
   fractionalAnisotropyFilter->SetFunctor(fractionalAnisotropyFilter->GetFunctor());
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   // It is important to do it AFTER the filter is Updated
   // Because the object connected to the output may be changed
   // by another during GenerateData() call
@@ -149,13 +150,13 @@ int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )
                                  myFaImageType>  myOutputIteratorType;
 
   // Create an iterator for going through the output image
-  myOutputIteratorType itg( outputImage, 
+  myOutputIteratorType itg( outputImage,
                             outputImage->GetRequestedRegion() );
-  
+
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
   itg.GoToBegin();
-  while( !itg.IsAtEnd() ) 
+  while( !itg.IsAtEnd() )
     {
     std::cout << itg.GetIndex() << " = " << itg.Get() << std::endl;
     ++itg;

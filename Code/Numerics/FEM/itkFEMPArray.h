@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMPArray.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMPArray_h
 #define __itkFEMPArray_h
 
@@ -28,7 +28,7 @@ namespace fem {
 /**
  * \class FEMPArray
  * \brief Array for FEMP objects
- * 
+ *
  * Array class that holds special pointers to objects. Every object must contain
  * a variable member of type int called GN (global number). You can search for
  * an object with specific GN within an array.
@@ -69,7 +69,7 @@ public:
   /**
    * Returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object).
    */
-  ClassTypePointer operator() (int i) 
+  ClassTypePointer operator() (int i)
     {
     return &(*this->operator[](i));
     }
@@ -78,8 +78,8 @@ public:
    * Returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object).
    * This function works on the const arrays.
    */
-  ClassTypeConstPointer operator() (int i) const 
-    {  
+  ClassTypeConstPointer operator() (int i) const
+    {
     return &(*this->operator[](i));
     }
 
@@ -97,13 +97,13 @@ public:
  * Find function for for non-const objects
  */
 template<class T>
-typename FEMPArray<T>::ClassTypePointer 
+typename FEMPArray<T>::ClassTypePointer
 FEMPArray<T>::Find(int gn)
 {
 
   typedef typename Superclass::iterator Iterator;
 
-  Iterator it   = this->begin(); 
+  Iterator it   = this->begin();
   Iterator iend = this->end();
   while( it != iend )
     {
@@ -112,7 +112,7 @@ FEMPArray<T>::Find(int gn)
       break;
       }
     it++;
-    }  
+    }
 
   if( it == this->end() )
     {
@@ -127,20 +127,20 @@ FEMPArray<T>::Find(int gn)
    */
   return &(*(*it));
 
-} 
+}
 
 
 /**
  * Find function for for const objects
  */
 template<class T>
-typename FEMPArray<T>::ClassTypeConstPointer 
+typename FEMPArray<T>::ClassTypeConstPointer
 FEMPArray<T>::Find( int gn ) const
 {
 
   typedef typename Superclass::const_iterator ConstIterator;
 
-  ConstIterator it   = this->begin(); 
+  ConstIterator it   = this->begin();
   ConstIterator iend = this->end();
   while( it != iend )
     {
@@ -149,7 +149,7 @@ FEMPArray<T>::Find( int gn ) const
       break;
       }
     it++;
-    }  
+    }
 
   if( it == this->end() )
     {
@@ -167,7 +167,7 @@ FEMPArray<T>::Find( int gn ) const
 }
 
 template<class T>
-int FEMPArray<T>::Renumber() 
+int FEMPArray<T>::Renumber()
 {
 
   typename Superclass::iterator i;

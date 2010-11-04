@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableModel2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,24 +23,24 @@
 //
 // This example illustrates the use of the \doxygen{DeformableMesh3DFilter}.
 // An initial mesh is created using the \doxygen{SphereMeshSource} filter.
-// 
+//
 // \index{Deformable Models}
 // \index{DeformableMesh3DFilter}
 // \index{SphereMeshSource}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 
-#include "itkDeformableMesh3DFilter.h" 
+#include "itkDeformableMesh3DFilter.h"
 
-#include "itkGradientRecursiveGaussianImageFilter.h" 
-#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h" 
+#include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 
 
 #include "itkSphereMeshSource.h"
 
-#include "itkImageFileReader.h" 
+#include "itkImageFileReader.h"
 
 int main(int argc, char * argv [] )
 {
@@ -56,7 +57,7 @@ int main(int argc, char * argv [] )
   const float timeStep           = atof( argv[4] );  // Suggested value = 0.1
   const float externalForceScale = atof( argv[5] );   // Suggested value = 10  (linked to stiffness)
   const float stiffness          = atof( argv[6] );   // Suggested value = 0.1 (linked to force scale)
-  
+
 
   typedef double                            MeshPixelType;
   typedef itk::Mesh< MeshPixelType >        MeshType;
@@ -67,7 +68,7 @@ int main(int argc, char * argv [] )
   typedef   float                               PixelType;
   typedef itk::Image<PixelType, Dimension>      ImageType;
 
-  
+
   typedef itk::GradientRecursiveGaussianImageFilter<
                                         ImageType
                                            > GradientFilterType;
@@ -78,8 +79,8 @@ int main(int argc, char * argv [] )
 
 
   typedef itk::DeformableMesh3DFilter<MeshType,MeshType>  DeformableFilterType;
-  
-    
+
+
   typedef itk::ImageFileReader< ImageType       >  ReaderType;
 
   ReaderType::Pointer       imageReader   =  ReaderType::New();
@@ -103,7 +104,7 @@ int main(int argc, char * argv [] )
 
   ImageType::ConstPointer inputImage = imageReader->GetOutput();
 
-  gradientMagnitudeFilter->SetInput( inputImage ); 
+  gradientMagnitudeFilter->SetInput( inputImage );
 
 
   gradientMagnitudeFilter->SetSigma( sigma );
@@ -114,20 +115,20 @@ int main(int argc, char * argv [] )
 
   gradientMapFilter->SetInput( gradientMagnitudeFilter->GetOutput());
   gradientMapFilter->SetSigma( sigma );
-  
-  gradientMapFilter->Update();
-  
 
-  
-  DeformableFilterType::Pointer deformableModelFilter = 
+  gradientMapFilter->Update();
+
+
+
+  DeformableFilterType::Pointer deformableModelFilter =
                                      DeformableFilterType::New();
 
 
-  
+
   typedef itk::SphereMeshSource< MeshType >        MeshSourceType;
 
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
-  
+
 
 
   // Set the initial sphere in the center of the image
@@ -136,7 +137,7 @@ int main(int argc, char * argv [] )
   ImageType::PointType         origin  = inputImage->GetOrigin();
   ImageType::SizeType          size    = inputImage->GetBufferedRegion().GetSize();
 
-  
+
   MeshType::PointType center;
   center[0] = origin[0] + spacing[0] * size[0] / 2.0;
   center[1] = origin[1] + spacing[1] * size[1] / 2.0;
@@ -159,23 +160,23 @@ int main(int argc, char * argv [] )
 
   deformableModelFilter->SetGradient( gradientMapFilter->GetOutput() );
 
-    
 
-  typedef itk::CovariantVector<double, 2>           StiffnessType;  
-  
-  StiffnessType stiffnessVector;  
+
+  typedef itk::CovariantVector<double, 2>           StiffnessType;
+
+  StiffnessType stiffnessVector;
   stiffnessVector[0] = stiffness;
   stiffnessVector[1] = stiffness;
-  
+
 
 
   deformableModelFilter->SetTimeStep( timeStep );
   deformableModelFilter->SetStiffness( stiffnessVector );
   deformableModelFilter->SetStepThreshold( numberOfIterations );
   deformableModelFilter->SetGradientMagnitude( externalForceScale );
- 
-  
-  try 
+
+
+  try
     {
     deformableModelFilter->Update();
     }

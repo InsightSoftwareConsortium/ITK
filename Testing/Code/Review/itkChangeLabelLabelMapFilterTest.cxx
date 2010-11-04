@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkChangeLabelLabelMapFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -39,7 +39,7 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
     }
 
   const unsigned int Dimension = 2;
-  
+
   typedef unsigned char    ImagePixelType;
   typedef unsigned char    LabelPixelType;
 
@@ -47,11 +47,11 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
 
   typedef itk::LabelObject< LabelPixelType, Dimension >  LabelObjectType;
   typedef itk::LabelMap< LabelObjectType >               LabelMapType;
-  
+
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  
+
   typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
@@ -94,10 +94,10 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
   std::cout << "GetNameOfClass() = " << changeFilter->GetNameOfClass() << std::endl;
 
   changeFilter->Print( std::cout );
-  
+
   const ChangeLabelFilterType::ChangeMapType & mapOfLabel = changeFilter->GetChangeMap();
 
-  const unsigned int numberOfLabelsToReplace = 
+  const unsigned int numberOfLabelsToReplace =
     ( numberOfArguments - numberOfArgumentsBeforeLabels ) / 2;
 
   if( mapOfLabel.size() != numberOfLabelsToReplace )

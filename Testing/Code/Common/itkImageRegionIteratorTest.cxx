@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageRegionIteratorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -34,7 +35,7 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
   typename itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = {{8, 15, 17}};
 
   T vec;
-  
+
   vec[0] = 5;
   vec[1] = 4;
   vec[2] = 3;
@@ -77,7 +78,7 @@ int itkImageRegionIteratorTest(int, char* [] )
   region.SetSize(regionSize3D);
   region.SetIndex(regionStartIndex3D);
   o3->SetRequestedRegion( region );
-  
+
   o3->SetOrigin(origin3D);
   o3->SetSpacing(spacing3D);
 
@@ -85,7 +86,7 @@ int itkImageRegionIteratorTest(int, char* [] )
 
   std::cout << "Setting/Getting a pixel" << std::endl;
   itk::Vector<unsigned short, 5> vec;
-  
+
   vec[0] = 5;
   vec[1] = 4;
   vec[2] = 3;
@@ -96,7 +97,7 @@ int itkImageRegionIteratorTest(int, char* [] )
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-  
+
   itk::ImageIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > standardIt(o3, region);
 
   // Iterate over a region using a simple for loop
@@ -124,7 +125,7 @@ int itkImageRegionIteratorTest(int, char* [] )
 
   // Iterator over the region backwards using a simple for loop
   itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > backIt(o3, region);
- 
+
   backIt = backIt.End(); // one pixel past the end of the region
   do
     {
@@ -136,10 +137,10 @@ int itkImageRegionIteratorTest(int, char* [] )
       {
       std::cout << index[i] << " ";
       }
-    std::cout << std::endl;    
+    std::cout << std::endl;
     }
   while (!backIt.IsAtBegin()); // stop when we reach the beginning
-  
+
 
   if (status == 0)
     {

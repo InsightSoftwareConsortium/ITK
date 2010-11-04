@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFilterDispatchTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -62,8 +63,8 @@ public:
    */
   typedef itk::ImageToImageFilter<TInputImage, TOutputImage> Superclass;
 
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * Smart pointer typedef support
    */
   typedef itk::SmartPointer<Self> Pointer;
   typedef itk::SmartPointer<const Self> ConstPointer;
@@ -73,7 +74,7 @@ public:
   enum { ImageDimension = InputImageType::ImageDimension };
 
   void Update(void);
-  
+
   /**
    * Method for creation through the object factory.
    */
@@ -84,21 +85,21 @@ protected:
   ExampleImageFilter(const Self&) {}
   void operator=(const Self&) {}
   virtual ~ExampleImageFilter() {}
-  
+
 private:
   /**
    * Dispatch class base allows automatic use of general implementation
    * when no specific dispatch rules match.
    */
   struct DispatchBase {};
-  
+
   /**
    * Dispatch control class simply holds information in its template
    * parameter(s) that is used to control which Execute() method is chosen.
    */
   template <unsigned long>
   struct Dispatch: public DispatchBase {};
-  
+
   void Execute(const DispatchBase&);
   void Execute(Dispatch<2>);
   void Execute(Dispatch<3>);
@@ -140,7 +141,7 @@ void ExampleImageFilter<TInputImage, TOutputImage>
         << std::endl;
     throw std::string(err.str().c_str());
     }
-}  
+}
 
 
 /**
@@ -176,7 +177,7 @@ void ExampleImageFilter<TInputImage, TOutputImage>
 ::Execute(Dispatch<3>)
 {
   std::cout << "3d-specific Execute() has been called." << std::endl;
-  
+
   // Make sure the correct Execute() method has been called.
   if(ImageDimension != 3)
     {
@@ -208,21 +209,21 @@ void ExampleImageFilter<TInputImage, TOutputImage>
  * and calls them to check if the dispatch rules are working correctly.
  */
 int itkFilterDispatchTest(int, char* [] )
-{  
+{
   bool passed = true;
-  
+
   // Define an image of each dimension.
   typedef itk::Image<float, 2> Image2d;
   typedef itk::Image<float, 3> Image3d;
-  typedef itk::Image<float, 4> Image4d;  
-  typedef itk::Image<float, 5> Image5d;  
-  
+  typedef itk::Image<float, 4> Image4d;
+  typedef itk::Image<float, 5> Image5d;
+
   // Define a filter of each dimension.
   typedef ExampleImageFilter<Image2d, Image2d>  Filter2d;
   typedef ExampleImageFilter<Image3d, Image3d>  Filter3d;
   typedef ExampleImageFilter<Image4d, Image4d>  Filter4d;
   typedef ExampleImageFilter<Image5d, Image5d>  Filter5d;
-  
+
   // Instantiate a filter of each dimension.
   Filter2d::Pointer filter2d = Filter2d::New();
   Filter3d::Pointer filter3d = Filter3d::New();
@@ -231,18 +232,18 @@ int itkFilterDispatchTest(int, char* [] )
 
   // Try running each of the filters.  If the wrong Execute() method is
   // invoked by one of these calls, a std::string() exception will be
-  // thrown with the error description.  
+  // thrown with the error description.
   try
     {
     std::cout << "Executing 2-d filter: ";
     filter2d->Update();
-    
+
     std::cout << "Executing 3-d filter: ";
     filter3d->Update();
-    
+
     std::cout << "Executing 4-d filter: ";
     filter4d->Update();
-    
+
     std::cout << "Executing 5-d filter: ";
     filter5d->Update();
     }

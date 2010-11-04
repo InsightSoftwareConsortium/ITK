@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNeighborhoodConnectedImageFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -35,10 +36,10 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
 
   typedef unsigned char PixelType;
   typedef itk::Image<PixelType, 2> myImage;
-  itk::ImageFileReader<myImage>::Pointer input 
+  itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
-  
+
   // Create a filter
   typedef itk::NeighborhoodConnectedImageFilter<myImage,myImage> FilterType;
 
@@ -46,21 +47,21 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
   FilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());
-  
+
   FilterType::IndexType seed;
-  
+
   seed[0] = atoi(av[3]); seed[1] = atoi(av[4]);
   filter->SetSeed(seed);
-  
+
   filter->SetLower (0);
   filter->SetUpper (210);
   typedef FilterType::InputImageSizeType SizeType;
   SizeType radius;
   radius.Fill(5);
-  
+
   filter->SetRadius(radius);
   filter->SetReplaceValue(255);
-  
+
   // Test GetMacros
   PixelType lower = filter->GetLower();
   std::cout << "filter->GetLower(): "
@@ -74,7 +75,7 @@ int itkNeighborhoodConnectedImageFilterTest(int ac, char* av[] )
   std::cout << "filter->GetReplaceValue(): "
             << itk::NumericTraits<PixelType>::PrintType(replaceValue)
             << std::endl;
-  
+
   // Test GetConstReferenceMacro
   const SizeType & radius2 = filter->GetRadius();
   std::cout << "filter->GetRadius(): " << radius2 << std::endl;

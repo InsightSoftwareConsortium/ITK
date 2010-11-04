@@ -1,22 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLinearSystemWrapper.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMLinearSystemWrapper_h
-#define __itkFEMLinearSystemWrapper_h 
+#define __itkFEMLinearSystemWrapper_h
 
 #include "itkFEMSolution.h"
 #include "itkFEMException.h"
@@ -39,7 +39,7 @@ namespace fem {
  * within A and B. Objects of derived classes should make appropriate calls
  * to the numeric library in implementation of virtual functions to assemble
  * and solve the linear system.
- * 
+ *
  * See comments for each virtual member for more information about how to
  * derive a new LinearSystemWrapper class. An example derived class
  * LinearSystemWrapperVNL is defined to use VNL sparse matrix representation
@@ -61,7 +61,7 @@ public:
    * Constructor for linear system, should perform any initialization that
    * is required by derived class.
    */
-  LinearSystemWrapper() 
+  LinearSystemWrapper()
     : m_Order(0), m_NumberOfMatrices(1), m_NumberOfVectors(1), m_NumberOfSolutions(1) {}
       /* , m_PrimaryMatrixSetupFunction(0), m_PrimaryVectorSetupFunction(0), m_PrimarySolutionSetupFunction(0) {} */
 
@@ -78,7 +78,7 @@ public:
   virtual void Clean( void );
 
   /**
-   * Set the order of the system.  All matrices will be of size NxN and 
+   * Set the order of the system.  All matrices will be of size NxN and
    * all vectors will be of size N
    * \param N order of the linear system
    */
@@ -99,7 +99,7 @@ public:
    * Set the maximum number of entries permitted in a matrix
    * \param matrixIndex index of matrix to set value for
    * \param maxNonZeros maximum number of entries allowed in matrix
-   * \note in general this function does nothing, however it may 
+   * \note in general this function does nothing, however it may
    *       redefined by the derived wrapper if necessary
    */
   //virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeroValues) = 0;
@@ -132,9 +132,9 @@ public:
   unsigned int GetNumberOfSolutions() { return m_NumberOfSolutions; }
 
   /**
-   * Initialization of the A matrix. First any existing data for matrix A 
+   * Initialization of the A matrix. First any existing data for matrix A
    * must be be destroyed, and then a new matrix is created in the memory. All
-   * elements in A must be set to zero. 
+   * elements in A must be set to zero.
    *
    * \param matrixIndex index of matrix to initialize
    */
@@ -283,14 +283,14 @@ public:
    */
   virtual void Solve(void) = 0;
 
-  /** 
+  /**
    * Swaps access indices of any 2 matrices in the linear system
    * \param matrixIndex1 index of a matrix to swap
    * \param matrixIndex2 index of matrix to swap with
    */
   virtual void SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) = 0;
 
-  /** 
+  /**
    * Copies the content of source matrix to destination matrix. Any existing
    * data in destination matrix is overwritten.
    *
@@ -299,14 +299,14 @@ public:
    */
   virtual void CopyMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2);
 
-  /** 
+  /**
    * Swaps access indices of any 2 vectors in the linear system
    * \param vectorIndex1 index of a vector to swap
    * \param vectorIndex2 index of vector to swap with
    */
   virtual void SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2) = 0;
 
-  /** 
+  /**
    * Swaps access indices of any 2 solution vectors in the linear system
    * \param solutionIndex1 index of a solution vector to swap
    * \param solutionIndex2 index of solution vector to swap with
@@ -345,7 +345,7 @@ public:
    */
   virtual void MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex, unsigned int rightMatrixIndex) = 0;
 
-  /** 
+  /**
    * Adds two matrices storing the result in the first matrix.
    *
    * \param matrixIndex1 index of a matrix to add the other matrix to
@@ -353,7 +353,7 @@ public:
    */
   virtual void AddMatrixMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2);
 
-  /** 
+  /**
    * Adds two vectors storing the result in the first vector.
    *
    * \param vectorIndex1 index of a vector to add the other vector to
@@ -390,7 +390,7 @@ public:
   virtual void CopyVector(unsigned int vectorSource, unsigned int vectorDestination);
 
   /**
-   * Remove all zeros from a matrix 
+   * Remove all zeros from a matrix
    * \param matrixIndex index of matrix to remove zeros from
    * \param tempMatrixIndex index of matrix to use for temp storage space
    * \note an extra matrix must be allocated by the solver in order to use this method
@@ -410,32 +410,32 @@ protected:
   unsigned int m_Order;
 
   /**
-   * Number of matrices used by system 
+   * Number of matrices used by system
    */
   unsigned int m_NumberOfMatrices;
 
   /**
-   * Number of vectors used by system 
+   * Number of vectors used by system
    */
   unsigned int m_NumberOfVectors;
 
   /**
-   * Number of solutions used by system 
+   * Number of solutions used by system
    */
   unsigned int m_NumberOfSolutions;
 
   /*
-   * Function used to prepare primary matrix for numerical solving 
+   * Function used to prepare primary matrix for numerical solving
    */
   //void (*m_PrimaryMatrixSetupFunction)(LinearSystemWrapper *lsw);
 
   /*
-   * Function used to prepare primary vector for numerical solving 
+   * Function used to prepare primary vector for numerical solving
    */
   /* void (*m_PrimaryVectorSetupFunction)(LinearSystemWrapper *lsw);*/
 
   /*
-   * Function used to prepare primary matrix for numerical solving 
+   * Function used to prepare primary matrix for numerical solving
    */
   /* void (*m_PrimarySolutionSetupFunction)(LinearSystemWrapper *lsw); */
 
@@ -465,13 +465,13 @@ public:
    * of the exception.
    */
   FEMExceptionLinearSystem(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
- 
+
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionLinearSystem() throw() {}
-  
+
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem,FEMException);
-  
+
 };
 
 class FEMExceptionLinearSystemBounds : public FEMException
@@ -483,7 +483,7 @@ public:
    * of the exception, and the invalid index
    */
   FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription, unsigned int index1);
- 
+
   /**
    * Constructor. In order to construct this exception object, six parameters
    * must be provided: file, lineNumber, location and a detailed description
@@ -492,10 +492,10 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionLinearSystemBounds() throw() {}
-  
+
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem,FEMException);
-  
+
 };
 
 }} // end namespace itk::fem

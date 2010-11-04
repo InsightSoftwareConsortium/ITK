@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBoxSpatialObjectTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,7 +32,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
 {
   if (argc < 2)
     {
-    std::cerr << "Missing Parameters: Usage " << argv[0] << "OutputImageFile" 
+    std::cerr << "Missing Parameters: Usage " << argv[0] << "OutputImageFile"
                                         << std::endl;
     }
 
@@ -40,7 +41,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   typedef itk::BoxSpatialObject< Dimension >         BoxType;
   typedef itk::Image< unsigned char, Dimension >     OutputImageType;
   typedef itk::ImageFileWriter< OutputImageType >    WriterType;
-  typedef itk::SpatialObjectToImageFilter< SceneType, OutputImageType >     
+  typedef itk::SpatialObjectToImageFilter< SceneType, OutputImageType >
                                       SpatialObjectToImageFilterType;
 
   SceneType::Pointer scene =  SceneType::New();
@@ -79,18 +80,18 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   offset2[1] = 50.0;
   box2->GetObjectToParentTransform()->SetOffset( offset2 );
   box2->ComputeObjectToWorldTransform();
-  
+
   box1->ComputeBoundingBox();
   box2->ComputeBoundingBox();
-  
+
   std::cout <<"Test ComputeBoundingBox: " << std::endl;
   std::cout << box1->GetBoundingBox()->GetBounds() << std::endl;
   std::cout << box2->GetBoundingBox()->GetBounds() << std::endl;
   BoxType::BoundingBoxType * boundingBox = box1->GetBoundingBox();
-  
-  if(     (boundingBox->GetBounds()[0]!= 29) 
-      ||  (boundingBox->GetBounds()[1]!= 59) 
-      ||  (boundingBox->GetBounds()[2]!= 29) 
+
+  if(     (boundingBox->GetBounds()[0]!= 29)
+      ||  (boundingBox->GetBounds()[1]!= 59)
+      ||  (boundingBox->GetBounds()[2]!= 29)
       ||  (boundingBox->GetBounds()[3]!= 59) )
     {
     std::cout << "[FAILED] Test returned" << std::endl;
@@ -99,7 +100,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED]" << std::endl;
-   
+
   // Point consistency
   std::cout << "Test Is Inside: ";
   itk::Point<double,2> in;
@@ -116,11 +117,11 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
-  } 
+  }
   std::cout << "[PASSED]" << std::endl;
-       
+
   std::cout << "Test ObjectToWorldTransform " << std::endl;
- 
+
   BoxType::TransformType::OffsetType translation;
   translation[0] =  5.0;
   translation[1] =  5.0;
@@ -131,7 +132,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   box2->GetObjectToParentTransform()->SetOffset( offset2 );
   box2->ComputeObjectToWorldTransform();
 
-  SpatialObjectToImageFilterType::Pointer imageFilter = 
+  SpatialObjectToImageFilterType::Pointer imageFilter =
                             SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(  scene  );
 
@@ -141,10 +142,10 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   imageFilter->SetSize( size );
 
   SpatialObjectToImageFilterType::PointType origin;
-  origin[0]=0; 
+  origin[0]=0;
   origin[1]=0;
   imageFilter->SetOrigin( origin );
-  
+
   imageFilter->SetInsideValue( 255 );
   imageFilter->SetOutsideValue( 0 );
   imageFilter->Update();

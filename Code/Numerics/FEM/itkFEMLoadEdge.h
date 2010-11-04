@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkFEMLoadEdge.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkFEMLoadEdge_h
 #define __itkFEMLoadEdge_h
 
@@ -37,7 +37,7 @@ class LoadEdge : public LoadElement
 {
   FEM_CLASS(LoadEdge,LoadElement)
 public:
-  /** 
+  /**
    * Read a Load object from input stream.
    * We need arrays of elements and nodes to do that.
    */
@@ -58,7 +58,7 @@ public:
   /**
    * An edge force matrix. This matrix specifies nodal forces on all
    * nodes within the edge or face on which the load acts. Each nodal
-   * force is decomposed into several components (check the documentation 
+   * force is decomposed into several components (check the documentation
    * inside the element class). In case of 2D elements this components
    * are normal (1st component) and tangential (2nd component) force
    * acting on the edge of the element. A positive normal load acts in

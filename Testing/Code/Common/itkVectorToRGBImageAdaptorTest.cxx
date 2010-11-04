@@ -1,28 +1,29 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVectorToRGBImageAdaptorTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 /**
- *  
+ *
  *  This program tests the VectorToRGBImageAdaptor.
  *
  *  This class allows to take an image of pixel type RGBPixel,
- *  and use it as if it was an image of pixel type itk::Vector<>. 
+ *  and use it as if it was an image of pixel type itk::Vector<>.
  *
  */
 
@@ -49,7 +50,7 @@ typedef float  ValueType;
 
 const unsigned int numberOfComponents = 3;
 
-typedef itk::Vector< ValueType, 
+typedef itk::Vector< ValueType,
                      numberOfComponents >   VectorPixelType;
 
 const unsigned int ImageDimension = 2;
@@ -83,15 +84,15 @@ typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RGBIteratorType;
   image->SetBufferedRegion( region );
   image->SetRequestedRegion( region );
   image->Allocate();
-  
+
   IteratorType  it1( image, image->GetRequestedRegion() );
-  
+
   // Value to initialize the pixels
   ImageType::PixelType vector;
-  vector[0] = 1.2; 
-  vector[1] = 1.3; 
-  vector[2] = 1.4; 
-  
+  vector[0] = 1.2;
+  vector[1] = 1.3;
+  vector[2] = 1.4;
+
   // Initializing all the pixel in the image
   it1.GoToBegin();
   while( !it1.IsAtEnd() )
@@ -117,13 +118,13 @@ typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RGBIteratorType;
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   adaptor->SetImage( image );
 
- 
+
   RGBIteratorType  it2( adaptor, adaptor->GetRequestedRegion() );
 
   // Set the values of the image, using the adaptor
 
   typedef ImageAdaptorType::AccessorType::ExternalType  RGBPixelType;
- 
+
   RGBPixelType color;
 
   color[0] = 13;

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLevelSetMotionRegistrationFilterTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -49,7 +50,7 @@ public:
       std::cout << std::endl;
       }
     if ( m_Process->GetElapsedIterations() == 750 )
-      { 
+      {
       m_Process->StopRegistration(); }
       }
   typename TRegistration::Pointer m_Process;
@@ -71,7 +72,7 @@ typename TImage::PixelType backgnd )
   Iterator it( image, image->GetBufferedRegion() );
 
   it.GoToBegin();
-    
+
   typename TImage::IndexType index;
   double r2 = vnl_math_sqr( radius );
 
@@ -127,7 +128,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
 
   typedef float PixelType;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension> ImageType;  
+  typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::Vector<float,ImageDimension> VectorType;
   typedef itk::Image<VectorType,ImageDimension> FieldType;
   typedef itk::Image<VectorType::ValueType,ImageDimension> FloatImageType;
@@ -145,11 +146,11 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
 
   IndexType index;
   index.Fill( 0 );
- 
+
   RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
-  
+
   ImageType::Pointer moving = ImageType::New();
   ImageType::Pointer fixed = ImageType::New();
   FieldType::Pointer initField = FieldType::New();
@@ -161,7 +162,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   fixed->SetLargestPossibleRegion( region );
   fixed->SetBufferedRegion( region );
   fixed->Allocate();
-  
+
   initField->SetLargestPossibleRegion( region );
   initField->SetBufferedRegion( region );
   initField->Allocate();
@@ -171,7 +172,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   PixelType fgnd = 250;
   PixelType bgnd = 15;
 
-  // fill moving with circle 
+  // fill moving with circle
   center[0] = 64; center[1] = 64; radius = 30;
   FillWithCircle<ImageType>( moving, center, radius, fgnd, bgnd );
 
@@ -192,7 +193,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
-  typedef itk::LevelSetMotionRegistrationFilter<ImageType,ImageType,FieldType> 
+  typedef itk::LevelSetMotionRegistrationFilter<ImageType,ImageType,FieldType>
     RegistrationType;
   RegistrationType::Pointer registrator = RegistrationType::New();
 
@@ -222,7 +223,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
   std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
   std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
-  
+
   double v[ImageDimension];
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
@@ -239,7 +240,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
 
   registrator->AddObserver( itk::ProgressEvent(), command);
- 
+
   // warp moving image
   typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
   WarperType::Pointer warper = WarperType::New();
@@ -248,7 +249,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
     InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  
+
 
   warper->SetInput( moving );
   warper->SetDeformationField( registrator->GetOutput() );
@@ -261,7 +262,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   warper->Print( std::cout );
 
   warper->Update();
- 
+
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
 
@@ -307,7 +308,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
     ++warpedIter;
     }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent; 
+  std::cout << "Number of pixels different: " << numPixelsDifferent;
   std::cout << std::endl;
 
   const unsigned int maximumNumberOfPixelsDifferent = 4600;
@@ -361,7 +362,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
     std::cout << err << std::endl;
     passed = true;
     }
-  
+
   if ( !passed )
     {
     std::cout << "Test failed" << std::endl;
@@ -386,7 +387,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
     std::cout << err << std::endl;
     passed = true;
     }
-  
+
   if ( !passed )
     {
     std::cout << "Test failed" << std::endl;
@@ -395,7 +396,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
-  
+
 
 }
 

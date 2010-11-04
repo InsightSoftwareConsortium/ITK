@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkPointSetToPointSetRegistrationTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -28,7 +29,7 @@
 
 /**
  *
- *  This program tests the registration of a PointSet against an other PointSet. 
+ *  This program tests the registration of a PointSet against an other PointSet.
  *
  */
 
@@ -91,9 +92,9 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::EuclideanDistancePointMetric<  
-    FixedPointSetType, 
-    MovingPointSetType>   
+  typedef itk::EuclideanDistancePointMetric<
+    FixedPointSetType,
+    MovingPointSetType>
     MetricType;
 
   typedef MetricType::TransformType                 TransformBaseType;
@@ -107,8 +108,8 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 // Set up a Transform
 //-----------------------------------------------------------
 
-  typedef itk::TranslationTransform< 
-    double, 
+  typedef itk::TranslationTransform<
+    double,
     2 >         TransformType;
 
   TransformType::Pointer transform = TransformType::New();
@@ -121,8 +122,8 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   optimizer->SetUseCostFunctionGradient(false);
 
   // Registration Method
-  typedef itk::PointSetToPointSetRegistrationMethod< 
-    FixedPointSetType, 
+  typedef itk::PointSetToPointSetRegistrationMethod<
+    FixedPointSetType,
     MovingPointSetType >    RegistrationType;
 
 
@@ -132,7 +133,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 1.0 );
 
-  
+
   unsigned long   numberOfIterations =   100;
   double          gradientTolerance  =  1e-1; // convergence criterion
   double          valueTolerance =  1e-1; // convergence criterion
@@ -145,7 +146,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   optimizer->SetGradientTolerance(gradientTolerance);
   optimizer->SetEpsilonFunction(epsilonFunction);
 
-  // Start from an Identity transform (in a normal case, the user 
+  // Start from an Identity transform (in a normal case, the user
   // can probably provide a better guess than the identity...
   transform->SetIdentity();
 
@@ -175,7 +176,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   transform->SetParameters(parameters);
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-  try 
+  try
     {
     registration->StartRegistration();
     }
@@ -198,10 +199,10 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   /** Test with the danielsson distance map */
   typedef itk::Image<unsigned char,2>  BinaryImageType;
   typedef itk::Image<unsigned short,2> ImageType;
- 
+
   typedef itk::PointSetToImageFilter<FixedPointSetType,BinaryImageType> PSToImageFilterType;
   PSToImageFilterType::Pointer psToImageFilter = PSToImageFilterType::New();
-  
+
   psToImageFilter->SetInput(fixedPointSet);
   double origin[2] = {0.0, 0.0}, spacing[2] = {1.0, 1.0};
   psToImageFilter->SetSpacing(spacing);
@@ -231,7 +232,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   transform->SetParameters(parameters);
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-  try 
+  try
     {
     registration->StartRegistration();
     }
