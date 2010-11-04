@@ -962,35 +962,33 @@ ProcessObject
   m_AbortGenerateData = false;
   m_Progress = 0.0f;
 
-  /**
-   * Count the number of required inputs which have been assigned
-   */
-  DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
-  if ( ninputs < m_NumberOfRequiredInputs )
+  try
     {
-    itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs
-                      << " inputs are required but only " << ninputs
-                      << " are specified.");
+    /**
+    * Count the number of required inputs which have been assigned
+    */
+    DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
+    if ( ninputs < m_NumberOfRequiredInputs )
+      {
+      itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs
+                        << " inputs are required but only " << ninputs
+                        << " are specified.");
+      }
+
+    this->GenerateData();
     }
-  else
+  catch ( ProcessAborted & excp )
     {
-    try
-      {
-      this->GenerateData();
-      }
-    catch ( ProcessAborted & excp )
-      {
-      this->InvokeEvent( AbortEvent() );
-      this->ResetPipeline();
-      this->RestoreInputReleaseDataFlags();
-      throw excp;
-      }
-    catch ( ExceptionObject & excp )
-      {
-      this->ResetPipeline();
-      this->RestoreInputReleaseDataFlags();
-      throw excp;
-      }
+    this->InvokeEvent( AbortEvent() );
+    this->ResetPipeline();
+    this->RestoreInputReleaseDataFlags();
+    throw excp;
+    }
+  catch (...)
+    {
+    this->ResetPipeline();
+    this->RestoreInputReleaseDataFlags();
+    throw;
     }
 
   /**
