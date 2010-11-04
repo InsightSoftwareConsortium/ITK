@@ -20,8 +20,6 @@
 
 #include "itkMovingHistogramImageFilterBase.h"
 
-//#define zigzag
-
 namespace itk
 {
 /**
@@ -139,7 +137,6 @@ protected:
                              outputRegionForThread,
                              int threadId);
 
-#ifndef zigzag
   // declare the type used to store the histogram
   typedef THistogram HistogramType;
 
@@ -151,9 +148,6 @@ protected:
                      const InputImageType *inputImage,
                      const IndexType currentIdx);
 
-  void PrintHistogram(const HistogramType & H);
-
-#endif
 private:
   MovingHistogramImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

@@ -23,13 +23,8 @@
 #include "itkOffset.h"
 #include "itkProgressReporter.h"
 #include "itkNumericTraits.h"
-
-#ifndef zigzag
-
 #include "itkImageRegionIterator.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
-
-#endif
 
 namespace itk
 {
