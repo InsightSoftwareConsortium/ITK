@@ -17,37 +17,8 @@
  *=========================================================================*/
 #ifndef __itkLoggerThreadWrapper_txx
 #define __itkLoggerThreadWrapper_txx
-#if !( defined( _MSC_VER )  ||   ( defined( __GNUC__ ) && ( __GNUC__ <= 2 )  ) ) //NOTE:
-                                                                                 //
-                                                                                 //
-                                                                                 // This
-                                                                                 //
-                                                                                 //
-                                                                                 // class
-                                                                                 //
-                                                                                 //
-                                                                                 // does
-                                                                                 //
-                                                                                 //
-                                                                                 // not
-                                                                                 //
-                                                                                 //
-                                                                                 // work
-                                                                                 //
-                                                                                 //
-                                                                                 // under
-                                                                                 //
-                                                                                 //
-                                                                                 // MSVS6,
-                                                                                 //
-                                                                                 //
-                                                                                 // or
-                                                                                 //
-                                                                                 //
-                                                                                 // gnu
-                                                                                 //
-                                                                                 //
-                                                                                 // 2.95
+//NOTE: This class does not work gnu 2.95
+#if !( defined( __GNUC__ ) && ( __GNUC__ <= 2 ) )
 
 #include <iostream>
 #include "itkLoggerThreadWrapper.h"
@@ -271,5 +242,5 @@ void LoggerThreadWrapper< SimpleLoggerType >::PrintSelf(std::ostream & os, Inden
 }
 } // namespace itk
 
-#endif  // !defined (_MSC_VER)
 #endif
+#endif // __itkLoggerThreadWrapper_txx
