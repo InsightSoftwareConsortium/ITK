@@ -3,11 +3,10 @@
 find_program(ITK_TEST_DRIVER itkTestDriver)
 
 set(JAVA_DRIVER "${ITK_TEST_DRIVER}"
-  --add-before-libpath "${WrapITK_BINARY_DIR}/lib/\\\${CTEST_CONFIGURATION_TYPE}"
   --add-before-libpath "${ITK_DIR}/bin/\\\${CTEST_CONFIGURATION_TYPE}"
   --add-before-libpath "${ITK_DIR}"
   "${Java_JAVA_EXECUTABLE}"
-  -Djava.library.path=${WrapITK_BINARY_DIR}/lib/\\\${CTEST_CONFIGURATION_TYPE}
+  -Djava.library.path=${ITK_DIR}/bin/\\\${CTEST_CONFIGURATION_TYPE}
 )
 
 # windows doesn't use the same separator than the others
@@ -27,7 +26,7 @@ macro(BUILD_CLASSPATH var)
   set(LAST_TEST_DEPS_OK ON)
   foreach(lib ${ARGN})
     string(TOLOWER ${lib} lower_lib)
-    set(${var} "${${var}}${sep}${WrapITK_BINARY_DIR}/lib/org.itk.${lower_lib}.jar")
+    set(${var} "${${var}}${sep}${ITK_DIR}/bin/org.itk.${lower_lib}.jar")
     set(depends ${depends} ${lib}JavaJar)
     if(NOT "${WRAP_ITK_LIBRARIES}" MATCHES "(^|;)${lib}(;|$)")
       set(LAST_TEST_DEPS_OK OFF)

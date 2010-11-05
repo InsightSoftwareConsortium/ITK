@@ -96,18 +96,21 @@ option(INSTALL_WRAP_ITK_COMPATIBILITY "Install FindWrapITK.cmake and WrapITK.pth
 
 set(WRAP_ITK_INSTALL_PREFIX "lib/InsightToolkit/WrapITK/" CACHE PATH "subpath where where most of WrapITK files will be installed")
 
-
 # Output directories.
 set(WRAP_ITK_CONFIG_DIR "${WrapITK_SOURCE_DIR}/")
 set(WRAP_ITK_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
 set(WRAP_ITK_JAVA_DIR "${WrapITK_BINARY_DIR}/Java")
+
 if(NOT LIBRARY_OUTPUT_PATH)
   set(LIBRARY_OUTPUT_PATH ${WrapITK_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
 endif(NOT LIBRARY_OUTPUT_PATH)
+
 if(NOT EXECUTABLE_OUTPUT_PATH)
   set(EXECUTABLE_OUTPUT_PATH ${WrapITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
 endif(NOT EXECUTABLE_OUTPUT_PATH)
+
 mark_as_advanced(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH WRAP_ITK_INSTALL_PREFIX)
+
 set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 ###############################################################################
