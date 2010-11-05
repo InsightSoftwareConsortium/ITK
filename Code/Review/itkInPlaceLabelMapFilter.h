@@ -124,7 +124,11 @@ public:
    * operation if the InPlace is true and CanRunInPlace is true. */
   bool CanRunInPlace() const
   {
-    return ( typeid( TInputImage ) == typeid( TOutputImage ) );
+    return true; // used to test if TInputImage == TOutputImage. But
+                 // if you look above, the superclass declaration
+                 // specifies
+                 // LabelMapFilter<TInputImage,TOutputImage> so there's
+                 // no way this couldn't be true.
   }
 
 protected:
