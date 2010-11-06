@@ -1,5 +1,13 @@
 ###############################################################################
 
+if(APPLE)
+  set( WRAP_ITK_JAVAC_ARGS "-J-mx1024m" CACHE STRING "Extra arguments for javac")
+else(APPLE)
+  set( WRAP_ITK_JAVAC_ARGS "" CACHE STRING "Extra arguments for javac")
+endif(APPLE)
+mark_as_advanced(WRAP_ITK_JAVAC_ARGS)
+
+
 set(WRAP_ITK_JAVA_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "java source dir")
 set(WRAP_ITK_JAVA_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "java binary dir")
 
@@ -14,7 +22,9 @@ file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java)
 # some glorbal variables
 set(WRAP_ITK_JAVA_OUT_DIR ${PROJECT_BINARY_DIR}/Languages/Java/Proxies CACHE INTERNAL "Java proxies directory")
 set(WRAP_ITK_JAVA_SRC_DIR ${WRAP_ITK_JAVA_OUT_DIR}/src CACHE INTERNAL "Java proxies source directory")
+
 #set(WRAP_ITK_JAVA_BIN_DIR ${WRAP_ITK_JAVA_OUT_DIR}/bin CACHE INTERNAL "Java proxies binary directory")
+
 set(WRAP_ITK_JAVA_BIN_DIR ${WRAP_ITK_JAVA_SRC_DIR} CACHE INTERNAL "Java proxies binary directory")
 set(WRAP_ITK_JAVA_JAR_DIR ${LIBRARY_OUTPUT_PATH} CACHE INTERNAL "Java jar files directory")
 set(WRAP_ITK_JAVA_CLASS_NAMES "" CACHE INTERNAL "")
@@ -64,19 +74,24 @@ CREATE_JAVA_DIRECTORY_STRUCTURE()
 
 ###############################################################################
 macro(WRAP_LIBRARY_JAVA library_name)
+
 #  set(WRAP_ITK_JAVA_CONFIGURATION_TEMPLATES "")
 #  set(WRAP_ITK_JAVA_LIBRARY_MODULE "")
-  set(WRAP_ITK_JAVA_LIBRARY_DEPS )
 #  set(WRAP_ITK_JAVA_LIBRARY_DECLS )
 #  set(WRAP_ITK_JAVA_LIBRARY_CALLS )
+
+  set(WRAP_ITK_JAVA_LIBRARY_DEPS )
   set(WRAP_ITK_JAVA_CXX_FILES )
 
   string(TOLOWER ${WRAPPER_LIBRARY_NAME} _java_package_name)
+
   set(java_package_path ${WRAP_ITK_JAVA_SRC_DIR}/${WRAP_ITK_JAVA_CORE_PACKAGE_PATH}/${_java_package_name})
+
   # clean java proxies. It's difficult to know which files are produced by swig,
   # so all the java are compiled at once in the Proxies subdirectories. A file
   # from a previous build can make the build fail.
   set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${java_package_path}")
+
   # create the directory during the build so it can be recreated after a make clean.
   # dummy is there to make the command not depend on ${java_package_path} directly
   # to avoid rerunning the command when a file is added or modified in that dir.
@@ -119,59 +134,40 @@ macro(END_WRAP_LIBRARY_JAVA)
   configure_file("${WRAP_ITK_JAVA_SOURCE_DIR}/module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i"
     @ONLY IMMEDIATE)
+
   WRAP_ITK_INSTALL(/Configuration/Typedefs/java
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i")
 
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
 
-#  set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}Java.cpp")
-
-
-#  add_custom_command(
-#    OUTPUT ${cpp_file} ${java_file}
-#    COMMAND ${SWIG_EXECUTABLE} -c++ -java -O -features autodoc=1
-##    -Werror
-#    -package ${java_package_name}
-##       -fcompact
-#    -w508 -w312 -w314 -w509 -w302 -w362
-#    -w389 # operator[], to be suppressed later...
-#    -w384 -w383 # operator++ ane operator--
-#    -w361 # operator!
-#    -w467 # overloaded functions (with typemaps)
-#    -w401 -w503 -w516 #!
-#    -o ${cpp_file}
-#    -I${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/Java
-#    -outdir ${java_package_path}
-#    ${interface_file}
-#    WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}
-#    DEPENDS ${DEPS} ${WRAP_ITK_JAVA_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i ${WRAP_ITK_JAVA_SOURCE_DIR}/java.i ${SWIG_EXECUTABLE}
-#    COMMENT "Generating Java wrap files for class ${java_package_name}.${WRAPPER_LIBRARY_NAME}"
-#  )
-
-
   # create java wrapping binaries
   set(lib ${WRAPPER_LIBRARY_NAME}Java)
   include_directories(${WRAPPER_LIBRARY_INCLUDE_DIRECTORIES})
   add_library(${lib} MODULE ${WRAP_ITK_JAVA_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
-#  set_target_properties(${lib} PROPERTIES PREFIX "_")
+
   if(APPLE)
     set_target_properties(${lib} PROPERTIES SUFFIX .jnilib)
   endif(APPLE)
+
   # work around linkage problem on some solaris systems
   if(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
     target_link_libraries(${lib} stdc++)
   endif(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+
   # strict-aliasing breaks produced code with gcc, according to http://www.swig.org/Doc1.3/Java.html#compiling_dynamic
   if(CMAKE_COMPILER_IS_GNUCC)
     set_target_properties(${lib} PROPERTIES COMPILE_FLAGS -fno-strict-aliasing)
   endif(CMAKE_COMPILER_IS_GNUCC)
+
   target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES})
+
   if(WRAP_ITK_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
     target_link_libraries(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
-#     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
   endif(WRAP_ITK_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
+
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
   install(TARGETS "${lib}" DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/lib")
+
   if(EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS} ITKJavaBase)
@@ -222,9 +218,9 @@ macro(END_WRAP_LIBRARY_JAVA)
       DEPENDS ${java_file}
       COMMAND ${Java_JAVAC_EXECUTABLE}
       ARGS
+      ${WRAP_ITK_JAVAC_ARGS}
       -classpath "${class_path}"
       -d "${WRAP_ITK_JAVA_BIN_DIR}"
-#      -sourcepath "${java_package_path}"
 #      -verbose
       "${java_package_path}/*.java"
       COMMENT "Compiling java proxies: ${java_package_name}"
