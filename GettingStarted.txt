@@ -2,92 +2,23 @@
 Welcome to the Insight Registration and Segmentation Toolkit (ITK)
 -----------------------------------------------------------------
 
-This is the fourth public release of ITK (Release-1-2). The ITK developer
-community appreciates any feedback that you may have regarding this
-software. Join the ITK user mailing list (instructions later) and post your
-feedback there. Warning: since the software is young, and this is an early
-release, the API to the software will likely change in the future.
-
 Here are suggested steps for the ITK beginner. Please refer to
-http://www.itk.org for more information. Another document, found in
-Insight/Documentation/InsightStart.pdf is highly recommended.
+http://www.itk.org for more information.
 
-1) Get the software. We strongly suggest that you obtain the pre-packaged
-   source code distributions (binaries/executables are not yet available).
+1) Get the software.
 
-     http://www.itk.org/HTML/Download.htm
-
-   You may also obtain CVS access. (This requires the CVS executable and
-   access to ITK's source code through your repository.) To check out the ITK
-   version 1.2 release, use the following procedure:
-
-     cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight login
-         (respond with password "insight")
-     cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight co \
-            -r Release-1-2 Insight
-
-   The current development version of ITK is available using the following
-   process. Please realize that the development version is inherently less
-   stable than official releases. If you access the development version, you
-   will want to monitor code quality at the ITK Dashboard
-   http://public.kitware.com/dashboard.php?name=itk.
-
-     cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight login
-         (respond with password "insight")
-     cvs -d :pserver:anonymous@www.itk.org:/cvsroot/Insight co Insight
-
+            http://www.itk.org/HTML/Download.htm
 
 2) The software is compiled using CMake http://www.cmake.org. CMake
    generates Makefiles on Unix platforms, and Windows workspaces (or
    appropriate) build files according to your compiler, operating
    system, and other system variables.
 
-   If at all possible, obtain the pre-compiled CMake binaries. Binaries
-   for Windows and various Unix flavors are available from
-   http://www.cmake.org/CMake/HTML/Download.html. On Windows, run the
-   CMSetup.exe to install CMake. On Unix, uncompress and untar the
-   package and place the executable in a location in your path.
+   Create a binary directory, and then run cmake. Provide to CMake
+   the source directory of ITK and the binary directory that you
+   just created.
 
-   On Windows, run CMake by clicking on CMakeSetup.exe. You have to point
-   CMake to the source directory (e.g., Insight), a build directory (where
-   the binaries and object files go), and choose the compiler. The GUI allows
-   you to choose build options and configure the build. Rerun CMake (by
-   selecting "Configure") until all "red" entries disappear. Then select
-   "Ok". This will produce a compiler workspace in the directory that you
-   selected.
-
-   On Unix, run "ccmake". This simple, curses-based GUI to CMake allows
-   you to configure the build process. First create a build directory
-   in which to generate object code and executables. Cd into this
-   directory and specify your C and C++ compilers with the environment
-   variables CC and CXX.
-
-
-   Depending on the shell that you use, this will be done with the 
-   command:
-
-        setenv CC your-c-compiler
-        setenv CXX your-c++-compiler
-
-   or with the command
-
-        export CC=your-c-compiler
-        export CXX=your-c-compiler
-
-   Next invoke "ccmake ../Insight" assuming that your build
-   directory is a sibling directory to Insight/. While running
-   ccmake, changes are made using the arrow keys to move over an
-   option, and the "Enter" key to edit it. Type "C" to configure
-   the build. As long as "*" appear next to any entries, keep
-   running CMake until none exist. Then type "G" to generate
-   makefiles and exit. Then run "make" in the build directory.
-
-   If you have difficulty with CMake, please refer to http://www.cmake.org
-   for additional instructions. It is possible to obtain CVS access and
-   compile CMake if absolutely necessary.
-
-
-3) Join the mailing list. Go to 
+3) Join the mailing list. Go to
    http://www.itk.org/mailman/listinfo/insight-users and follow the
    instructions there. You may choose to receive a digest version of the
    mail to minimize traffic.
@@ -100,28 +31,8 @@ Insight/Documentation/InsightStart.pdf is highly recommended.
    make sure the CMake flag "BUILD_EXAMPLES" is on.) You may also wish
    to peruse the many tests found in Insight/Testing/Code.
 
-   If you would like to be more ambitious, a separate checkout of ITK
-   applications is available. Please do not attempt this until ITK and
-   its examples are building correctly (as described previously). The
-   InsightApplications may be difficult to build because of their
-   dependency on external packages like VTK, FLTK, and Qt.
-
-   TO obtain the InsightApplications checkout via CVS:
-
-     cvs -d :pserver:anonymous@www.itk.org:/cvsroot/InsightApplications co \
-           -r Release-1-2 InsightApplications
-
 
 ITK resources are available at the following locations.
   + http://www.itk.org - main web page
   + http://www.itk.org/mailman/listinfo/insight-users - mailing list
-  + Insight/README.html - in the source code distribution
-  + Insight/Documentation/InsightStart.pdf - oriented towards developers
-    but contains useful information about compiling and building ITK.
-  + http://www.cmake.org - the CMake build environment
-  + http://public.kitware.com/dashboard.php?name=itk - the ITK software
-    quality dashboard
-  + http://public.kitware.com/Dart - what manages the testing process in ITK
-  + http://public.kitware.com/Cable - the automated C++ wrapping system
-    
 
