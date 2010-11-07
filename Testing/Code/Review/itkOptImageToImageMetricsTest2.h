@@ -96,6 +96,13 @@ public:
        static_cast<TransformType*>(transformPtr[0].GetPointer());
     typedef typename TransformType::BulkTransformPointer BulkTransformPointer;
     BulkTransformPointer firstBulkTransform = firstBSpline->GetBulkTransform();
+
+    // The bulk transform may be IdentityTransform, which has no parameters
+    if (firstBulkTransform->GetNumberOfParameters() == 0)
+      {
+      return;
+      }
+
     ParametersType firstBulkParameters =  firstBulkTransform->GetParameters();
     double firstBulkEntry = firstBulkParameters[0];
 
@@ -111,6 +118,12 @@ public:
         const TransformType *loopBSpline=
            static_cast<TransformType*>(transformPtr[i].GetPointer());
         BulkTransformPointer loopBulkTransform = loopBSpline->GetBulkTransform();
+
+        // The bulk transform may be IdentityTransform, which has no parameters
+        if (loopBulkTransform->GetNumberOfParameters() == 0)
+          {
+          return;
+          }
         ParametersType loopBulkParameters =  loopBulkTransform->GetParameters();
         double loopBulkEntry = loopBulkParameters[0];
         double entryComparisonTolerance = 0.001;
