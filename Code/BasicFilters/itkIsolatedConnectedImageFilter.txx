@@ -175,6 +175,16 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 
   typedef typename NumericTraits< InputImagePixelType >::AccumulateType AccumulateType;
 
+  if( m_Seeds1.empty() )
+    {
+    itkExceptionMacro("Seeds1 container is empty");
+    }
+
+  if( m_Seeds2.empty() )
+    {
+    itkExceptionMacro("Seeds2 container is empty");
+    }
+
   // Zero the output
   OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
