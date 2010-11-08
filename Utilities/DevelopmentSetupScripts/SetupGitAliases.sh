@@ -42,3 +42,5 @@ ${GITCONFIG} alias.stage-merge-next "!sh -c \"${stage_cmd} merge -b next ${git_b
 ${GITCONFIG} alias.stage-merge "!sh -c \"${stage_cmd} merge ${git_branch}\""
 # Alias to push the current topic branch to Gerrit
 ${GITCONFIG} alias.gerrit-push "!sh -c \"git push gerrit HEAD:refs/for/master/${git_branch}\""
+# Alias to push and merge the active topic to the stage
+${GITCONFIG} alias.gerrit-merge "!sh -c \"git stage-push && git stage-merge\""
