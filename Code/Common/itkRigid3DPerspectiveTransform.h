@@ -86,12 +86,20 @@ public:
   typedef Vector< TScalarType, itkGetStaticConstMacro(InputSpaceDimension) >  InputVectorType;
   typedef Vector< TScalarType, itkGetStaticConstMacro(OutputSpaceDimension) > OutputVectorType;
 
+  /** Standard covariant vector type for this class */
+  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+
   /** Standard coordinate point type for this class. */
   typedef Point< TScalarType, itkGetStaticConstMacro(InputSpaceDimension) >  InputPointType;
   typedef Point< TScalarType, itkGetStaticConstMacro(OutputSpaceDimension) > OutputPointType;
 
   /** Standard vnl_quaternion type. */
   typedef vnl_quaternion< TScalarType > VnlQuaternionType;
+
+  /** Standard vnl_vector type for this class. */
+  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
   /** Versor type. */
   typedef Versor< TScalarType >           VersorType;
@@ -118,6 +126,11 @@ public:
   void SetParameters(const ParametersType & parameters);
 
   const ParametersType & GetParameters() const;
+
+  /** Set the fixed parameters and update internal
+   * transformation. This transform has no fixed paramaters
+   */
+  virtual void SetFixedParameters(const ParametersType &) {}
 
   /** This method sets the offset of an Rigid3DPerspectiveTransform to a
    * value specified by the user. */
@@ -148,6 +161,23 @@ public:
    *  applies the transform given by self to a
    *  given point, returning the transformed point. */
   OutputPointType  TransformPoint(const InputPointType  & point) const;
+
+  /** These vector transforms are not implemented for this transform */
+  virtual OutputVectorType TransformVector(const InputVectorType &) const
+  {
+    itkExceptionMacro(
+      << "TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
+  }
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
+  {
+    itkExceptionMacro(
+      << "TransformVector(const InputVnlVectorType &) is not implemented for Rigid3DPerspectiveTransform");
+  }
+
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+  {
+    itkExceptionMacro(<< "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for Rigid3DPerspectiveTransform");
+  }
 
   /** Return the rotation matrix */
   const MatrixType & GetRotationMatrix() const { return m_RotationMatrix; }
