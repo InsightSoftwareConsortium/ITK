@@ -45,13 +45,15 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     m_SmoothingFilters[i] = GaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(GaussianFilterType::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
+    m_SmoothingFilters[i]->InPlaceOn();
     m_SmoothingFilters[i]->ReleaseDataFlagOn();
     }
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder(DerivativeFilterType::FirstOrder);
   m_DerivativeFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-
+  m_DerivativeFilter->ReleaseDataFlagOn();
+  m_DerivativeFilter->InPlaceOff();
   m_DerivativeFilter->SetInput( this->GetInput() );
 
   if ( ImageDimension > 1 )
@@ -211,13 +213,13 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
     if ( ImageDimension > 1 )
       {
-      int imageDimensionMinus2 = static_cast< int >( ImageDimension ) - 2;
+      const int imageDimensionMinus2 = static_cast< int >( ImageDimension ) - 2;
       lastFilter = m_SmoothingFilters[imageDimensionMinus2];
-      lastFilter->Update();
+      lastFilter->UpdateLargestPossibleRegion();
       }
     else
       {
-      m_DerivativeFilter->Update();
+      m_DerivativeFilter->UpdateLargestPossibleRegion();
       }
 
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
@@ -254,6 +256,16 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
       ++it;
       ++ot;
       }
+    }
+
+  // manually release memory in last filter in the mini-pipeline
+  if ( ImageDimension > 1 )
+    {
+    m_SmoothingFilters[ImageDimension - 2]->GetOutput()->ReleaseData();
+    }
+  else
+    {
+    m_DerivativeFilter->GetOutput()->ReleaseData();
     }
 
   // If the flag for using the input image direction is ON,

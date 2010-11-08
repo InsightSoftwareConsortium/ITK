@@ -23,7 +23,6 @@
 #include "itkImage.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkPixelTraits.h"
-#include "itkCommand.h"
 
 namespace itk
 {

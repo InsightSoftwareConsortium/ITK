@@ -18,7 +18,7 @@
 #ifndef __itkRecursiveSeparableImageFilter_h
 #define __itkRecursiveSeparableImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkInPlaceImageFilter.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -47,7 +47,7 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_EXPORT RecursiveSeparableImageFilter:
-  public ImageToImageFilter< TInputImage, TOutputImage >
+  public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
