@@ -1362,3 +1362,9 @@
    obj:/lib/ld-2.10.1.so
    obj:/lib/ld-2.10.1.so
 }
+{
+  ExitFreeLibC
+  Memcheck:Free
+  obj:*/ld-2.9.so
+  fun:exit
+}
