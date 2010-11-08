@@ -470,6 +470,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
       }
     }
 
+#if defined( ITKIO_DEPRECATED_GDCM1_API )
   // Now is a good time to fill in the class member:
   char name[512];
   this->GetPatientName(name);
@@ -488,6 +489,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
   this->GetInstitution(name);
   this->GetModel(name);
   this->GetScanOptions(name);
+#endif
 }
 
 void GDCMImageIO::ReadImageInformation()
@@ -968,6 +970,7 @@ void GDCMImageIO::Write(const void *buffer)
     }
 }
 
+#if defined( ITKIO_DEPRECATED_GDCM1_API )
 // Convenience methods to query patient and scanner information. These
 // methods are here for compatibility with the DICOMImageIO2 class.
 void GDCMImageIO::GetPatientName(char *name)
@@ -1120,6 +1123,7 @@ bool GDCMImageIO::GetLabelFromTag(const std::string & tag,
     }
   return false;
 }
+#endif
 
 void GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -1135,6 +1139,7 @@ void GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << std::endl;
   os << indent << "CompressionType:" << m_CompressionType << std::endl;
 
+#if defined( ITKIO_DEPRECATED_GDCM1_API )
   os << indent << "Patient Name:" << m_PatientName << std::endl;
   os << indent << "Patient ID:" << m_PatientID << std::endl;
   os << indent << "Patient Sex:" << m_PatientSex << std::endl;
@@ -1151,5 +1156,6 @@ void GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Institution Name:" << m_Institution << std::endl;
   os << indent << "Model:" << m_Model << std::endl;
   os << indent << "Scan Options:" << m_ScanOptions << std::endl;
+#endif
 }
 } // end namespace itk
