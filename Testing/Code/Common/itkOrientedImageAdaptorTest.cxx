@@ -33,9 +33,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkRedPixelAccessor.h>
+#include "itkImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkRedPixelAccessor.h"
 
 
 //-------------------------------------

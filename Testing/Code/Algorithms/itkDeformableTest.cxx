@@ -23,13 +23,13 @@
 #include <iostream>
 #include <time.h>
 
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkDeformableMesh3DFilter.h>
-#include <itkGradientRecursiveGaussianImageFilter.h>
-#include <itkGradientImageFilter.h>
-#include <itkGradientToMagnitudeImageFilter.h>
-#include <itkDerivativeImageFilter.h>
-#include <itkGradientVectorFlowImageFilter.h>
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkDeformableMesh3DFilter.h"
+#include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkGradientImageFilter.h"
+#include "itkGradientToMagnitudeImageFilter.h"
+#include "itkDerivativeImageFilter.h"
+#include "itkGradientVectorFlowImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkBinaryMask3DMeshSource.h"
 

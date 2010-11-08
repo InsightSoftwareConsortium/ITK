@@ -21,12 +21,12 @@
 
 
 #include <stdlib.h>
-#include <itkImage.h>
-#include <itkBinaryErodeImageFilter.h>
-#include <itkBinaryBallStructuringElement.h>
-#include <itkImageRegionIterator.h>
+#include "itkImage.h"
+#include "itkBinaryErodeImageFilter.h"
+#include "itkBinaryBallStructuringElement.h"
+#include "itkImageRegionIterator.h"
 #include "itkFilterWatcher.h"
-#include <itkMacro.h>
+#include "itkMacro.h"
 
 int itkBinaryErodeImageFilterTest(int, char* [] )
 {

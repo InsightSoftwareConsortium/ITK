@@ -81,7 +81,7 @@
 // Software Guide : EndCodeSnippet
 
 #include <vector>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int main( int argc, char* argv[] )
 {

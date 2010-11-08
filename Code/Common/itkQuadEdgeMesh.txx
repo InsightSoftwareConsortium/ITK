@@ -18,7 +18,7 @@
 #ifndef __itkQuadEdgeMesh_txx
 #define __itkQuadEdgeMesh_txx
 #include "itkQuadEdgeMesh.h"
-#include <vcl_limits.h>
+#include "vcl_limits.h"
 #include <vector>
 
 namespace itk

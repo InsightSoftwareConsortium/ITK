@@ -21,8 +21,8 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
-#include <itkObject.h>
-#include <itkObjectFactory.h>
+#include "itkObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {

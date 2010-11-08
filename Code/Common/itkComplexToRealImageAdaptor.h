@@ -18,7 +18,7 @@
 #ifndef __itkComplexToRealImageAdaptor_h
 #define __itkComplexToRealImageAdaptor_h
 
-#include <itkImageAdaptor.h>
+#include "itkImageAdaptor.h"
 #include <complex>
 
 namespace itk

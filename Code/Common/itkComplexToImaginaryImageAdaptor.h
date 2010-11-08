@@ -18,7 +18,7 @@
 #ifndef __itkComplexToImaginaryImageAdaptor_h
 #define __itkComplexToImaginaryImageAdaptor_h
 
-#include <itkImageAdaptor.h>
+#include "itkImageAdaptor.h"
 #include <complex>
 
 namespace itk

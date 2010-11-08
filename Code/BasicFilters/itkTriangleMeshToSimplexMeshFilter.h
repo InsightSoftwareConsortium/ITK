@@ -18,12 +18,12 @@
 #ifndef __itkTriangleMeshToSimplexMeshFilter_h
 #define __itkTriangleMeshToSimplexMeshFilter_h
 
-#include <itkMapContainer.h>
+#include "itkMapContainer.h"
 #include "itkSimplexMesh.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkVectorContainer.h"
 
-#include <itkPolygonCell.h>
+#include "itkPolygonCell.h"
 namespace itk
 {
 /**

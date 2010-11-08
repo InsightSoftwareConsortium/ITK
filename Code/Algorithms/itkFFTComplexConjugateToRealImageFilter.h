@@ -18,8 +18,8 @@
 #ifndef __itkFFTComplexConjugateToRealImageFilter_h
 #define __itkFFTComplexConjugateToRealImageFilter_h
 
-#include <itkImageToImageFilter.h>
-#include <itkImage.h>
+#include "itkImageToImageFilter.h"
+#include "itkImage.h"
 #include <complex>
 
 namespace itk

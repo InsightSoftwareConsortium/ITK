@@ -18,7 +18,7 @@
 #ifndef __itkTanImageAdaptor_h
 #define __itkTanImageAdaptor_h
 
-#include <itkImageAdaptor.h>
+#include "itkImageAdaptor.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

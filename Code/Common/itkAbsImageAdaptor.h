@@ -18,7 +18,7 @@
 #ifndef __itkAbsImageAdaptor_h
 #define __itkAbsImageAdaptor_h
 
-#include <itkImageAdaptor.h>
+#include "itkImageAdaptor.h"
 
 namespace itk
 {

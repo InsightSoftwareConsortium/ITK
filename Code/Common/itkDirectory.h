@@ -19,7 +19,7 @@
 #define __itkDirectory_h
 
 #include "itkObject.h"
-#include <itksys/Directory.hxx>
+#include "itksys/Directory.hxx"
 
 namespace itk
 {

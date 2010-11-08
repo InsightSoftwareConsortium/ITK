@@ -37,7 +37,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include <itkTreeContainer.h>
+#include "itkTreeContainer.h"
 #include "itkTreeContainer.h"
 #include "itkChildTreeIterator.h"
 #include "itkLeafTreeIterator.h"

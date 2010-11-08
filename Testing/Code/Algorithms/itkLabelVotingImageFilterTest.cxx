@@ -22,9 +22,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkLabelVotingImageFilter.h>
-#include <itkImageRegionIterator.h>
+#include "itkImage.h"
+#include "itkLabelVotingImageFilter.h"
+#include "itkImageRegionIterator.h"
 
 
 int itkLabelVotingImageFilterTest(int, char* [] )

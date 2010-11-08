@@ -18,7 +18,7 @@
 #ifndef __itkLeafTreeIterator_h
 #define __itkLeafTreeIterator_h
 
-#include <itkPreOrderTreeIterator.h>
+#include "itkPreOrderTreeIterator.h"
 
 namespace itk
 {

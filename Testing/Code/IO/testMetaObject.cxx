@@ -26,7 +26,7 @@
 #include <metaObject.h>
 #include <metaUtils.h>
 #include "itkNumericTraits.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaObject(int argc, char *argv[])
   {

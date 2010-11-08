@@ -21,9 +21,9 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#include <itkMetaArrayWriter.h>
-#include <itkMetaArrayReader.h>
-#include <itksys/SystemTools.hxx>
+#include "itkMetaArrayWriter.h"
+#include "itkMetaArrayReader.h"
+#include "itksys/SystemTools.hxx"
 
 int testMetaArray(int argc, char * argv[])
   {

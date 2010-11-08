@@ -19,8 +19,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkRegularStepGradientDescentOptimizer.h>
-#include <vnl/vnl_math.h>
+#include "itkRegularStepGradientDescentOptimizer.h"
+#include "vnl/vnl_math.h"
 
 /**
  *  The objectif function is the quadratic form:

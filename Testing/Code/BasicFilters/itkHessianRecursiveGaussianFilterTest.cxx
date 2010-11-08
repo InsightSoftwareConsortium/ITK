@@ -18,8 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkHessianRecursiveGaussianImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkHessianRecursiveGaussianImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkHessianRecursiveGaussianFilterTest(int, char* [] )

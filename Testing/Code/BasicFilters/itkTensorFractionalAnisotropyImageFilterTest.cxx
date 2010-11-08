@@ -22,10 +22,10 @@
 
 
 
-#include <itkHessianRecursiveGaussianImageFilter.h>
-#include <itkTensorFractionalAnisotropyImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkDiffusionTensor3D.h>
+#include "itkHessianRecursiveGaussianImageFilter.h"
+#include "itkTensorFractionalAnisotropyImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkDiffusionTensor3D.h"
 
 
 int itkTensorFractionalAnisotropyImageFilterTest(int, char* [] )

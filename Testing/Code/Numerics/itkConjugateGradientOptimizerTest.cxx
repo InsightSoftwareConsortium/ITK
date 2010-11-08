@@ -19,8 +19,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkConjugateGradientOptimizer.h>
-#include <vnl/vnl_math.h>
+#include "itkConjugateGradientOptimizer.h"
+#include "vnl/vnl_math.h"
 #include <cstdlib>
 
 

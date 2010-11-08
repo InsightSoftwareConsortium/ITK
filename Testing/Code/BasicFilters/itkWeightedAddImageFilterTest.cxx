@@ -22,9 +22,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkWeightedAddImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkWeightedAddImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkWeightedAddImageFilterTest(int, char* [] )

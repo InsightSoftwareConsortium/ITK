@@ -20,10 +20,10 @@
 #endif
 
 #include <fstream>
-#include <itkCommand.h>
+#include "itkCommand.h"
 #include "itkMacro.h"
 #include <iostream>
-#include <itkSmartPointer.h>
+#include "itkSmartPointer.h"
 
 
 /**

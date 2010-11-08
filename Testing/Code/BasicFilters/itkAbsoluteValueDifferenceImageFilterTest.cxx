@@ -21,9 +21,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkAbsoluteValueDifferenceImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkAbsoluteValueDifferenceImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkAbsoluteValueDifferenceImageFilterTest(int, char* [] )

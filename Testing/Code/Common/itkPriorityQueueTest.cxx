@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vnl/vnl_random.h>
+#include "vnl/vnl_random.h"
 #include "itkPriorityQueueContainer.h"
 
 int itkPriorityQueueTest( int, char * [] )

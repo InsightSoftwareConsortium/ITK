@@ -15,5 +15,5 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vnl/vnl_matrix.txx>
+#include "vnl/vnl_matrix.txx"
 VNL_MATRIX_INSTANTIATE(signed short);

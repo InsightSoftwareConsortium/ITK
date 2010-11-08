@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <itkVTKPolyDataReader.h>
-#include <itkVTKPolyDataWriter.h>
+#include "itkVTKPolyDataReader.h"
+#include "itkVTKPolyDataWriter.h"
 
 #include <sstream>
 

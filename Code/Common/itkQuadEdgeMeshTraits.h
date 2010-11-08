@@ -19,7 +19,7 @@
 #define __itkQuadEdgeMeshTraits_h
 
 #include <set>
-#include <itkCellInterface.h>
+#include "itkCellInterface.h"
 #include "itkQuadEdgeCellTraitsInfo.h"
 
 namespace itk

@@ -18,12 +18,12 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <itkGradientRecursiveGaussianImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkGradientImageFilter.h>
-#include <itkGradientToMagnitudeImageFilter.h>
-#include <itkDerivativeImageFilter.h>
-#include <itkGradientVectorFlowImageFilter.h>
+#include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkGradientImageFilter.h"
+#include "itkGradientToMagnitudeImageFilter.h"
+#include "itkDerivativeImageFilter.h"
+#include "itkGradientVectorFlowImageFilter.h"
 
 int itkGradientVectorFlowImageFilterTest(int , char *[])
 {

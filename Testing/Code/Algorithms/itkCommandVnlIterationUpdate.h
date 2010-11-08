@@ -18,7 +18,7 @@
 #ifndef __itkCommandIterationUpdate_h
 #define __itkCommandIterationUpdate_h
 
-#include <itkCommand.h>
+#include "itkCommand.h"
 #include "itkWeakPointer.h"
 
 namespace itk {

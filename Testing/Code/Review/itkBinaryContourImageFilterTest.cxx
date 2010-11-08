@@ -23,7 +23,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkSimpleFilterWatcher.h"
-#include <itkBinaryContourImageFilter.h>
+#include "itkBinaryContourImageFilter.h"
 
 int itkBinaryContourImageFilterTest(int argc, char * argv[])
 {

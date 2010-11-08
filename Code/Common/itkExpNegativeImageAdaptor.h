@@ -18,7 +18,7 @@
 #ifndef __itkExpNegativeImageAdaptor_h
 #define __itkExpNegativeImageAdaptor_h
 
-#include <itkImageAdaptor.h>
+#include "itkImageAdaptor.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

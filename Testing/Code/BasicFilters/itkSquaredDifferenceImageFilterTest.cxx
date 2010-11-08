@@ -21,9 +21,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkSquaredDifferenceImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkSquaredDifferenceImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkSquaredDifferenceImageFilterTest(int, char* [] )

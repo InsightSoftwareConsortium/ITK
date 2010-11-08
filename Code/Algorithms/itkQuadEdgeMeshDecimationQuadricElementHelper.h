@@ -18,10 +18,10 @@
 #ifndef __itkQuadEdgeMeshDecimationQuadricElementHelper_h
 #define __itkQuadEdgeMeshDecimationQuadricElementHelper_h
 
-#include <itkPoint.h>
-#include <vnl/vnl_vector_fixed.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/algo/vnl_matrix_inverse.h>
+#include "itkPoint.h"
+#include "vnl/vnl_vector_fixed.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/algo/vnl_matrix_inverse.h"
 
 #include "itkTriangleHelper.h"
 

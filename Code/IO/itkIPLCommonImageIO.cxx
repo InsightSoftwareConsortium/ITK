@@ -21,7 +21,7 @@
 // is not a UDT or reference
 #endif
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include "itkIPLCommonImageIO.h"
 #include "itkByteSwapper.h"
 #include "itkSpatialOrientationAdapter.h"

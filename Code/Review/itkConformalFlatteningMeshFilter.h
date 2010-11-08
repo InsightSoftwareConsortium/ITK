@@ -22,8 +22,8 @@
 #include "itkMeshToMeshFilter.h"
 
 // vnl headers
-#include <vnl/vnl_math.h>
-#include <vnl/vnl_sparse_matrix.h>
+#include "vnl/vnl_math.h"
+#include "vnl/vnl_sparse_matrix.h"
 
 // #include "itkConformalFlatteningFunction.h"
 

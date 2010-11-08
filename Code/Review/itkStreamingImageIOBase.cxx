@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkStreamingImageIOBase.h"
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 namespace itk
 {

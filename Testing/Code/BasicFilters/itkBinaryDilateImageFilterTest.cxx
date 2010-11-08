@@ -21,11 +21,11 @@
 
 
 #include <stdlib.h>
-#include <itkImage.h>
-#include <itkBinaryDilateImageFilter.h>
-#include <itkBinaryBallStructuringElement.h>
-#include <itkImageRegionIterator.h>
-#include <itkMacro.h>
+#include "itkImage.h"
+#include "itkBinaryDilateImageFilter.h"
+#include "itkBinaryBallStructuringElement.h"
+#include "itkImageRegionIterator.h"
+#include "itkMacro.h"
 #include "itkFilterWatcher.h"
 
 int itkBinaryDilateImageFilterTest(int, char* [] )

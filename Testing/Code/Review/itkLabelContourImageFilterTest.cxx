@@ -23,7 +23,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkSimpleFilterWatcher.h"
-#include <itkLabelContourImageFilter.h>
+#include "itkLabelContourImageFilter.h"
 
 int itkLabelContourImageFilterTest(int argc, char * argv[])
 {

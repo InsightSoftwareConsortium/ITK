@@ -21,8 +21,8 @@
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itkNumericTraits.h"
-#include <itksys/SystemTools.hxx>
-#include <vnl/vnl_math.h>
+#include "itksys/SystemTools.hxx"
+#include "vnl/vnl_math.h"
 #include "itk_zlib.h"
 #include <stdio.h>
 #include <stdlib.h>

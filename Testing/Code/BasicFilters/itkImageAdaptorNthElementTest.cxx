@@ -27,11 +27,11 @@
 //-------------------------------------------
 
 
-#include <itkIndex.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkNthElementImageAdaptor.h>
-#include <itkAddImageFilter.h>
-#include <itkVector.h>
+#include "itkIndex.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkNthElementImageAdaptor.h"
+#include "itkAddImageFilter.h"
+#include "itkVector.h"
 
 
 int itkImageAdaptorNthElementTest(int, char* [] )

@@ -21,7 +21,7 @@
 #endif
 
 #include "itkRegularSphereMeshSource.h"
-#include <itkTriangleMeshToSimplexMeshFilter.h>
+#include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkSimplexMeshAdaptTopologyFilter.h"
 #include "itkDefaultDynamicMeshTraits.h"
 

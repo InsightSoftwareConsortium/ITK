@@ -24,7 +24,7 @@
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/vnl_transpose.h"
 #include "vnl/vnl_matrix.h"
-#include <vnl/algo/vnl_determinant.h>
+#include "vnl/algo/vnl_determinant.h"
 
 namespace itk
 {

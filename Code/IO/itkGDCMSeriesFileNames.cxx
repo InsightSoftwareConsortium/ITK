@@ -19,7 +19,7 @@
 #define _itkGDCMSeriesFileNames_h
 
 #include "itkGDCMSeriesFileNames.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 #include "gdcmSerieHelper.h"
 #include "gdcmFile.h"

@@ -16,9 +16,9 @@
  *
  *=========================================================================*/
 #include "itkTxtTransformIO.h"
-#include <itksys/SystemTools.hxx>
-#include <vnl/vnl_matlab_read.h>
-#include <vnl/vnl_matlab_write.h>
+#include "itksys/SystemTools.hxx"
+#include "vnl/vnl_matlab_read.h"
+#include "vnl/vnl_matlab_write.h"
 
 namespace itk
 {

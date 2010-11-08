@@ -83,7 +83,7 @@
 #include "itkHoughTransform2DCirclesImageFilter.h"
 #include "itkHoughTransform2DLinesImageFilter.h"
 
-#include <itkSphereSpatialFunction.h>
+#include "itkSphereSpatialFunction.h"
 #include "itkGaussianSpatialFunction.h"
 
 

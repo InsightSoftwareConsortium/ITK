@@ -20,12 +20,12 @@
 #endif
 
 
-#include <itkImage.h>
-#include <itkGrayscaleMorphologicalClosingImageFilter.h>
-#include <itkBinaryBallStructuringElement.h>
+#include "itkImage.h"
+#include "itkGrayscaleMorphologicalClosingImageFilter.h"
+#include "itkBinaryBallStructuringElement.h"
 #include "itkFilterWatcher.h"
-#include <itkImageFileReader.h>
-#include <itkImageFileWriter.h>
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 int itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char* argv [] )
 {

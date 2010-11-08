@@ -22,8 +22,7 @@
 #include "itkOctree.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
-#include "stdlib.h"
-//#include "cstdio"
+#include <stdlib.h>
 #include <time.h>
 #include <math.h>
 

@@ -26,7 +26,7 @@
 
 
 #include "itkVector.h"
-#include <vnl/vnl_vector_ref.h>
+#include "vnl/vnl_vector_ref.h"
 #include <iostream>
 
 //-------------------------

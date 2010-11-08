@@ -20,13 +20,13 @@
 #endif
 
 
-#include <itkImage.h>
-#include <itkBlackTopHatImageFilter.h>
-#include <itkWhiteTopHatImageFilter.h>
-#include <itkBinaryBallStructuringElement.h>
+#include "itkImage.h"
+#include "itkBlackTopHatImageFilter.h"
+#include "itkWhiteTopHatImageFilter.h"
+#include "itkBinaryBallStructuringElement.h"
 #include "itkFilterWatcher.h"
-#include <itkImageFileReader.h>
-#include <itkImageFileWriter.h>
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 int itkTopHatImageFilterTest(int argc, char* argv [] )
 {

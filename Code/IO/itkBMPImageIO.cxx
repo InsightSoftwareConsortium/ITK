@@ -19,7 +19,7 @@
 #include "itkMacro.h"
 #include "itkByteSwapper.h"
 #include "itkRGBAPixel.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <iostream>
 #include <list>
 #include <string>

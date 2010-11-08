@@ -24,7 +24,7 @@
 #include "vnl/vnl_math.h"
 #include "itkNeighborhoodIterator.h"
 
-#include <vnl/vnl_matrix.h>
+#include "vnl/vnl_matrix.h"
 
 namespace itk
 {

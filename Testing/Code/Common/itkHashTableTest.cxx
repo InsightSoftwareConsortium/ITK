@@ -32,7 +32,7 @@ void IgnoreUnusedVariable(const T&)
 }
 
 extern "C" {
-#include "string.h"
+#include <string.h>
 }
 
 struct eqstr

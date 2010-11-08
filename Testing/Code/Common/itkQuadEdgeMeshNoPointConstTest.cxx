@@ -21,7 +21,7 @@
 
 #include "itkQuadEdgeMesh.h"
 #include <iostream>
-#include <vcl_limits.h>
+#include "vcl_limits.h"
 
 int itkQuadEdgeMeshNoPointConstTest( int , char* [] )
 {

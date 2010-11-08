@@ -39,8 +39,8 @@
 #include "itkImageRegionIterator.h"
 #include "itkThresholdImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
-#include <itkGradientMagnitudeImageFilter.h>
-#include <itkDiscreteGaussianImageFilter.h>
+#include "itkGradientMagnitudeImageFilter.h"
+#include "itkDiscreteGaussianImageFilter.h"
 #include <list>
 #include "itkCastImageFilter.h"
 #include "vnl/vnl_math.h"

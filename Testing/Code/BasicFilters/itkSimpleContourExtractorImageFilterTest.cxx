@@ -20,10 +20,10 @@
 #endif
 
 
-#include <itkSimpleContourExtractorImageFilter.h>
+#include "itkSimpleContourExtractorImageFilter.h"
 #include "itkFilterWatcher.h"
-#include <itkImageFileReader.h>
-#include <itkImageFileWriter.h>
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 int itkSimpleContourExtractorImageFilterTest(int argc, char* argv [] )
 {

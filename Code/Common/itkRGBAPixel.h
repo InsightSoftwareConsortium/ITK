@@ -23,8 +23,8 @@
 #undef RGBAPixel
 #endif
 
-#include <itkIndent.h>
-#include <itkFixedArray.h>
+#include "itkIndent.h"
+#include "itkFixedArray.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

@@ -20,7 +20,7 @@
 #endif
 
 #include "itkEllipseSpatialObject.h"
-#include <itkSpatialObjectToImageFilter.h>
+#include "itkSpatialObjectToImageFilter.h"
 
 int itkSpatialObjectToImageFilterTest(int, char* [] )
 {

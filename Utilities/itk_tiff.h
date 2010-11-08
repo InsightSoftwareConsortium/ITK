@@ -34,7 +34,7 @@
 #ifdef ITK_USE_SYSTEM_TIFF
 # include <tiffio.h>
 #else
-# include <itktiff/tiffio.h>
+# include "itktiff/tiffio.h"
 #endif
 
 #endif
