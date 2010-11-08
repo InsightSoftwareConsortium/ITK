@@ -143,6 +143,7 @@ public:
   itkGetConstMacro(KeepOriginalUID, bool);
   itkBooleanMacro(KeepOriginalUID);
 
+#if defined( ITKIO_DEPRECATED_GDCM1_API )
   /** Convenience methods to query patient information and scanner
    * information. These methods are here for compatibility with the
    * DICOMImageIO2 class and as such should not be used in any new code.
@@ -196,6 +197,7 @@ public:
    * tagkey is returned in the variable labelId. */
   static bool GetLabelFromTag(const std::string & tag,
                               std::string & labelId);
+#endif
 
 #if defined( ITKIO_DEPRECATED_GDCM1_API )
   /** A DICOM file can contains multiple binary stream that can be very long
@@ -235,7 +237,7 @@ public:
    * particular ImageIO object on the readers. Default is false.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  static void SetLoadSequencesDefault(bool b) {}
+  static void SetLoadSequencesDefault(bool) {}
   static void LoadSequencesDefaultOn() {}
   static void LoadSequencesDefaultOff() {}
   static bool GetLoadSequencesDefault() { return true; }
@@ -248,7 +250,7 @@ public:
    * particular ImageIO object on the readers. Default is false.
    * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
-  static void SetLoadPrivateTagsDefault(bool b) {}
+  static void SetLoadPrivateTagsDefault(bool) {}
   static void LoadPrivateTagsDefaultOn() {}
   static void LoadPrivateTagsDefaultOff() {}
   static bool GetLoadPrivateTagsDefault() { return true; }
