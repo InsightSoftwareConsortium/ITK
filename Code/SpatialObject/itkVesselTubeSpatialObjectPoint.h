@@ -44,7 +44,7 @@ public:
   typedef Vector< double, TPointDimension >          VectorType;
   typedef CovariantVector< double, TPointDimension > CovariantVectorType;
 
-  /** Constructor. This one defines the #of dimensions in the
+  /** Constructor. This one defines the number of dimensions in the
    * VesselTubeSpatialObjectPoint */
   VesselTubeSpatialObjectPoint(void);
 

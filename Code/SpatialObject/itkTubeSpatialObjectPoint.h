@@ -45,7 +45,7 @@ public:
   typedef Vector< double, TPointDimension >          VectorType;
   typedef CovariantVector< double, TPointDimension > CovariantVectorType;
 
-  /** Constructor. This one defines the #of dimensions in the
+  /** Constructor. This one defines the number of dimensions in the
    * TubeSpatialObjectPoint */
   TubeSpatialObjectPoint(void);
 
@@ -88,7 +88,7 @@ public:
   /** Set R */
   void SetRadius(const float newR);
 
-  /** Get #of dimensions */
+  /** Get number of dimensions */
   unsigned short int GetNumDimensions(void) const;
 
   /** Copy one TubeSpatialObjectPoint to another */
@@ -103,7 +103,7 @@ protected:
   /** The radius of the tube point */
   float m_R;
 
-  /** #of dimensions */
+  /** number of dimensions */
   unsigned short int m_NumDimensions;
 
   /** Print the object */

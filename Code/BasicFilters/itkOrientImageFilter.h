@@ -50,13 +50,13 @@ namespace itk
  * third fastest third.
  * Examples:
  *  - ITK_COORDINATE_ORIENTATION_RIP
- *    -#Right to Left varies fastest (0th pixel on Subject's right)
- *    -#Inferior to Superior varies second fastest
- *    -#Posterior to Anterior varies slowest.
+ *    -# Right to Left varies fastest (0th pixel on Subject's right)
+ *    -# Inferior to Superior varies second fastest
+ *    -# Posterior to Anterior varies slowest.
  *  - ITK_COORDINATE_ORIENTATION_LSA
- *    -#Left to Right varies fastest (0th pixel on Subject's left)
- *    -#Superior to Inferior varies second fastest
- *    -#Anterior to Posterior varies slower
+ *    -# Left to Right varies fastest (0th pixel on Subject's left)
+ *    -# Superior to Inferior varies second fastest
+ *    -# Anterior to Posterior varies slower
  *
  * In order to use this filter, you need to supply an input
  * image, the current orientation of the input image (set with

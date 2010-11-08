@@ -54,20 +54,20 @@ namespace Statistics
  * The default is to use a dense frequency container.
  *
  * Inputs and parameters:
- * -#An image
- * -#A mask defining the region over which texture features will be
+ * -# An image
+ * -# A mask defining the region over which texture features will be
  *    calculated. (Optional)
- * -#The pixel value that defines the "inside" of the mask. (Optional, defaults
+ * -# The pixel value that defines the "inside" of the mask. (Optional, defaults
  *    to 1 if a mask is set.)
- * -#The set of features to be calculated. These features are defined
+ * -# The set of features to be calculated. These features are defined
  *    in the GreyLevelCooccurrenceMatrixTextureCoefficientsCalculator class. (Optional,
  *    defaults to {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade,
  *    ClusterProminence}, as in Conners, Trivedi and Harlow.)
- * -#The number of intensity bins. (Optional, defaults to 256.)
- * -#The set of directions (offsets) to average across. (Optional, defaults to
+ * -# The number of intensity bins. (Optional, defaults to 256.)
+ * -# The set of directions (offsets) to average across. (Optional, defaults to
  *    {(-1, 0), (-1, -1), (0, -1), (1, -1)} for 2D images and scales analogously for ND
  *    images.)
- * -#The pixel intensity range over which the features will be calculated.
+ * -# The pixel intensity range over which the features will be calculated.
  *    (Optional, defaults to the full dynamic range of the pixel type.)
  *
  * In general, the default parameter values should be sufficient.

@@ -37,7 +37,7 @@ class ITK_EXPORT SpatialObjectPoint
 {
 public:
 
-  /** Constructor. This one defines the #of dimensions in the
+  /** Constructor. This one defines the number of dimensions in the
    * SpatialObjectPoint */
   SpatialObjectPoint(void);
 

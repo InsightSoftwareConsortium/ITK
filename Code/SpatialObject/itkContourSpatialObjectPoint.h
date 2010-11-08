@@ -43,7 +43,7 @@ public:
   typedef Point< double, TPointDimension >           PointType;
   typedef CovariantVector< double, TPointDimension > VectorType;
 
-  /** Constructor. This one defines the #of dimensions
+  /** Constructor. This one defines the number of dimensions
    *  in the ContourSpatialObjectPoint */
   ContourSpatialObjectPoint(void);
 

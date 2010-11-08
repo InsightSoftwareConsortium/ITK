@@ -50,7 +50,7 @@ public:
   // to translate the enum to a string
   typedef enum { FA, ADC, GA } FieldEnumType;
 
-  /** Constructor. This one defines the #of dimensions in the
+  /** Constructor. This one defines the number of dimensions in the
    * DTITubeSpatialObjectPoint */
   DTITubeSpatialObjectPoint(void);
 

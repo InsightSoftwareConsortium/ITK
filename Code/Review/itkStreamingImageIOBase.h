@@ -156,6 +156,8 @@ protected:
 
   /** \brief Opens a file for writing and random access
    *
+   * \param os is an ostream presumed to be opened for writing
+   * \param filename is the name of the file
    * \param truncate if true then the file is truncated
    *
    * The stream is closed if it's already opened. If an error is
