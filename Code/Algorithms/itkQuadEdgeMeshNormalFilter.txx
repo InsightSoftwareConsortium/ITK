@@ -194,18 +194,18 @@ QuadEdgeMeshNormalFilter< TInputMesh, TOutputMesh >
                 v = pt[1] - pt[2];
                 break;
               }
-            typename OutputVectorType::RealValueType norm2_u = u.GetSquaredNorm();
-            if ( norm2_u > vnl_math::eps )
+            typename OutputVectorType::RealValueType norm_u = u.GetNorm();
+            if ( norm_u > vnl_math::eps )
               {
-              norm2_u = 1. / norm2_u;
-              u *= norm2_u;
+              norm_u = 1. / norm_u;
+              u *= norm_u;
               }
 
-            typename OutputVectorType::RealValueType norm2_v = v.GetSquaredNorm();
-            if ( norm2_v > vnl_math::eps )
+            typename OutputVectorType::RealValueType norm_v = v.GetNorm();
+            if ( norm_v > vnl_math::eps )
               {
-              norm2_v = 1. / norm2_v;
-              v *= norm2_v;
+              norm_v = 1. / norm_v;
+              v *= norm_v;
               }
             return static_cast< OutputVertexNormalComponentType >(
                      vcl_acos(u * v) );
