@@ -25,17 +25,13 @@ namespace itk
 template< class TImage, class TKernel >
 class ITK_EXPORT AnchorCloseImageFilter:
   public AnchorOpenCloseImageFilter< TImage, TKernel, std::greater< typename TImage::PixelType >,
-                                     std::less< typename TImage::PixelType >,
-                                     std::greater_equal< typename TImage::PixelType >,
-                                     std::less_equal< typename TImage::PixelType > >
+                                     std::less< typename TImage::PixelType > >
 
 {
 public:
   typedef AnchorCloseImageFilter Self;
   typedef AnchorOpenCloseImageFilter< TImage, TKernel, std::greater< typename TImage::PixelType >,
-                                      std::less< typename TImage::PixelType >,
-                                      std::greater_equal< typename TImage::PixelType >,
-                                      std::less_equal< typename TImage::PixelType > > Superclass;
+                                      std::less< typename TImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -43,18 +39,13 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  virtual ~AnchorCloseImageFilter() {}
 protected:
   AnchorCloseImageFilter()
   {
     this->m_Boundary1 = NumericTraits< ITK_TYPENAME TImage::PixelType >::NonpositiveMin();
     this->m_Boundary2 = NumericTraits< ITK_TYPENAME TImage::PixelType >::max();
   }
-
-  void PrintSelf(std::ostream & os, Indent indent) const
-  {
-    os << indent << "Anchor closing: " << std::endl;
-  }
+  virtual ~AnchorCloseImageFilter() {}
 
 private:
 

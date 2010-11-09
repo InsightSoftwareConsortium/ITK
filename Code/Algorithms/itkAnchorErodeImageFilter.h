@@ -24,15 +24,13 @@ namespace itk
 {
 template< class TImage, class TKernel >
 class ITK_EXPORT AnchorErodeImageFilter:
-  public AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType >,
-                                       std::less_equal< typename TImage::PixelType > >
+  public AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType > >
 
 {
 public:
-  typedef AnchorErodeImageFilter
-                                                                                        Self;
-  typedef AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType >,
-                                        std::less_equal< typename TImage::PixelType > > Superclass;
+  typedef AnchorErodeImageFilter Self;
+  typedef AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType > >
+                                 Superclass;
 
   /** Runtime information support. */
   itkTypeMacro(AnchorErodeImageFilter,
@@ -41,23 +39,18 @@ public:
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
+  typedef typename TImage::PixelType PixelType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  virtual ~AnchorErodeImageFilter() {}
-protected:
-
-  typedef typename TImage::PixelType PixelType;
+  protected:
 
   AnchorErodeImageFilter()
   {
     this->m_Boundary = NumericTraits< PixelType >::max();
   }
-
-  void PrintSelf(std::ostream & os, Indent indent) const
-  {
-    os << indent << "Anchor erosion: " << std::endl;
-  }
+  virtual ~AnchorErodeImageFilter() {}
 
 private:
 

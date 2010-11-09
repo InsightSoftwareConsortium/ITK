@@ -18,7 +18,7 @@
 #ifndef __itkAnchorOpenCloseImageFilter_h
 #define __itkAnchorOpenCloseImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkKernelImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkAnchorOpenCloseLine.h"
 #include "itkAnchorErodeDilateLine.h"
@@ -46,17 +46,15 @@ namespace itk
  * comparison operations need to be passed in. The less
  *
  */
-template< class TImage, class TKernel,
-          class LessThan, class GreaterThan, class LessEqual, class GreaterEqual >
-//          class THistogramCompare,
-//          class TFunction1, class TFunction2>
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 class ITK_EXPORT AnchorOpenCloseImageFilter:
-  public ImageToImageFilter< TImage, TImage >
+  public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
   typedef AnchorOpenCloseImageFilter           Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
+  typedef KernelImageFilter< TImage, TImage, TKernel >
+                                               Superclass;
   typedef SmartPointer< Self >                 Pointer;
   typedef SmartPointer< const Self >           ConstPointer;
 
@@ -82,13 +80,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(AnchorOpenCloseImageFilter,
-               ImageToImageFilter);
-
-  void SetKernel(const KernelType & kernel)
-  {
-    m_Kernel = kernel;
-    m_KernelSet = true;
-  }
+               KernelImageFilter);
 
 protected:
   AnchorOpenCloseImageFilter();
@@ -99,20 +91,11 @@ protected:
   void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
                              int threadId);
 
-  /** GrayscaleMorphologicalOpeningImageFilter need to make sure they request enough of an
-   * input image to account for the structuring element size.  The input
-   * requested region is expanded by the radius of the structuring element.
-   * If the request extends past the LargestPossibleRegion for the input,
-   * the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion();
-
   InputImagePixelType m_Boundary1, m_Boundary2;
 private:
   AnchorOpenCloseImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented
 
-  TKernel m_Kernel;
-  bool    m_KernelSet;
   typedef BresenhamLine< itkGetStaticConstMacro(InputImageDimension) > BresType;
   typedef typename BresType::OffsetArray                               BresOffsetArray;
 
@@ -122,12 +105,12 @@ private:
 
 //  typedef AnchorOpenCloseLine<InputImagePixelType, THistogramCompare,
 // TFunction1, TFunction2> AnchorLineOpenType;
-  typedef AnchorOpenCloseLine< InputImagePixelType, LessThan, GreaterEqual, LessEqual > AnchorLineOpenType;
+  typedef AnchorOpenCloseLine< InputImagePixelType, TCompare1 > AnchorLineOpenType;
 
-  typedef AnchorErodeDilateLine< InputImagePixelType, LessThan, LessEqual > AnchorLineErodeType;
+  typedef AnchorErodeDilateLine< InputImagePixelType, TCompare1 > AnchorLineErodeType;
 
   // the class that does the dilation
-  typedef AnchorErodeDilateLine< InputImagePixelType, GreaterThan, GreaterEqual > AnchorLineDilateType;
+  typedef AnchorErodeDilateLine< InputImagePixelType, TCompare2 > AnchorLineDilateType;
 
   void DoFaceOpen(InputImageConstPointer input,
                   InputImagePointer output,
@@ -135,7 +118,7 @@ private:
                   KernelLType line,
                   AnchorLineOpenType & AnchorLineOpen,
                   const BresOffsetArray LineOffsets,
-                  InputImagePixelType *outbuffer,
+                  std::vector<InputImagePixelType> & outbuffer,
                   const InputImageRegionType AllImage,
                   const InputImageRegionType face);
 }; // end of class

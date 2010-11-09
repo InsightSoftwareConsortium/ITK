@@ -30,85 +30,69 @@ namespace itk
 // Support for different TCompare hasn't been tested, and shouldn't be
 // necessary for the rank filters.
 //
-#include <sstream>
+// This is a modified version for use with masks. Need to allow for
+// the situation in which the map is empty
 
 template< class TInputPixel >
 class RankHistogram
 {
 public:
+
+  typedef std::less< TInputPixel > TCompare;
+
   RankHistogram()
   {
     m_Rank = 0.5;
-  }
-
-  virtual ~RankHistogram(){}
-
-  virtual RankHistogram * Clone() const
-  {
-    return 0;
-  }
-
-  virtual void AddPixel( const TInputPixel & itkNotUsed(p) ){}
-
-  virtual void RemovePixel( const TInputPixel & itkNotUsed(p) ){}
-
-  void AddBoundary(){}
-
-  void RemoveBoundary(){}
-
-  virtual TInputPixel GetValue(const TInputPixel &){ return 0; }
-
-  void SetRank(float rank)
-  {
-    m_Rank = rank;
-  }
-
-protected:
-  float m_Rank;
-};
-
-template< class TInputPixel, class TCompare >
-class RankHistogramMap:public RankHistogram< TInputPixel >
-{
-public:
-
-  typedef RankHistogram< TInputPixel > Superclass;
-public:
-  RankHistogramMap()
-  {
     m_Below = m_Entries = 0;
     // can't set m_RankIt until something has been put in the histogram
     m_Initialized = false;
     if ( m_Compare( NumericTraits< TInputPixel >::max(),
                     NumericTraits< TInputPixel >::NonpositiveMin() ) )
       {
-      m_InitVal = NumericTraits< TInputPixel >::NonpositiveMin();
+      m_InitVal = NumericTraits< TInputPixel >::max();
       }
     else
       {
-      m_InitVal = NumericTraits< TInputPixel >::max();
+      m_InitVal = NumericTraits< TInputPixel >::NonpositiveMin();
       }
     m_RankValue = m_InitVal;
     m_RankIt = m_Map.begin();  // equivalent to setting to the intial value
   }
 
-  ~RankHistogramMap()
+  ~RankHistogram()
   {}
+
+  RankHistogram & operator=( const RankHistogram & hist )
+  {
+    m_Map = hist.m_Map;
+    m_Rank = hist.m_Rank;
+    m_Below = hist.m_Below;
+    m_Entries = hist.m_Entries;
+    m_InitVal = hist.m_InitVal;
+    m_RankValue = hist.m_RankValue;
+    m_Initialized = hist.m_Initialized;
+    if ( m_Initialized )
+      {
+      m_RankIt = m_Map.find(m_RankValue);
+      }
+    return *this;
+  }
 
   void AddPixel(const TInputPixel & p)
   {
     m_Map[p]++;
-    ++m_Entries;
     if ( !m_Initialized )
       {
       m_Initialized = true;
       m_RankIt = m_Map.begin();
+      m_Entries = m_Below = 0;
       m_RankValue = p;
       }
     if ( m_Compare(p, m_RankValue) || p == m_RankValue )
       {
       ++m_Below;
       }
+    ++m_Entries;
   }
 
   void RemovePixel(const TInputPixel & p)
@@ -119,22 +103,42 @@ public:
       --m_Below;
       }
     --m_Entries;
+    // this is the change that makes this version less efficient. The
+    // simplest approach I can think of with maps, though
+    if ( m_Entries <= 0 )
+      {
+      m_Initialized = false;
+      m_Below = 0;
+      m_Map.clear();
+      }
   }
 
-  void Initialize()
+  virtual bool IsValid()
   {
-    m_RankIt = m_Map.begin();
+    return m_Initialized;
+  }
+
+  TInputPixel GetValueBruteForce()
+  {
+    unsigned long count = 0;
+    unsigned long target = (int)( m_Rank * ( m_Entries - 1 ) ) + 1;
+    for( typename MapType::iterator it=m_Map.begin(); it != m_Map.end(); it++ )
+      {
+      count += it->second;
+      if( count >= target )
+        {
+        return it->first;
+        }
+      }
+    return NumericTraits< TInputPixel >::max();
   }
 
   TInputPixel GetValue(const TInputPixel &)
   {
-    unsigned long target = (int)( this->m_Rank * ( m_Entries - 1 ) ) + 1;
+    unsigned long target = (unsigned long)( m_Rank * ( m_Entries - 1 ) ) + 1;
     unsigned long total = m_Below;
     unsigned long ThisBin;
     bool          eraseFlag = false;
-
-    // an itkAssertOrThrowMacro is better than a log message in that case
-    itkAssertOrThrowMacro(m_Initialized, "Not Initialized");
 
     if ( total < target )
       {
@@ -191,7 +195,6 @@ public:
           eraseFlag = true;
           }
         total = tbelow;
-//         std::cout << searchIt->first << std::endl;
 
         --searchIt;
         }
@@ -200,27 +203,21 @@ public:
       }
 
     m_Below = total;
-
+    assert( m_RankValue == GetValueBruteForce() );
     return ( m_RankValue );
   }
 
-  Superclass * Clone() const
+  void SetRank(float rank)
   {
-    RankHistogramMap *result = new RankHistogramMap();
-
-    result->m_Map = this->m_Map;
-    result->m_Rank = this->m_Rank;
-    result->m_Below = this->m_Below;
-    result->m_Entries = this->m_Entries;
-    result->m_InitVal = this->m_InitVal;
-    result->m_RankValue = this->m_RankValue;
-    result->m_Initialized = this->m_Initialized;
-    if ( result->m_Initialized )
-      {
-      result->m_RankIt = result->m_Map.find(this->m_RankValue);
-      }
-    return ( result );
+    m_Rank = rank;
   }
+
+  void AddBoundary(){}
+
+  void RemoveBoundary(){}
+
+protected:
+  float m_Rank;
 
 private:
   typedef typename std::map< TInputPixel, unsigned long, TCompare > MapType;
@@ -236,16 +233,17 @@ private:
   typename MapType::iterator m_RankIt;
 };
 
-template< class TInputPixel, class TCompare >
-class RankHistogramVec:public RankHistogram< TInputPixel >
+
+template< class TInputPixel >
+class VectorRankHistogram
 {
 public:
-  typedef RankHistogram< TInputPixel > Superclass;
-public:
-  RankHistogramVec()
+
+  typedef std::less< TInputPixel > TCompare;
+
+  VectorRankHistogram()
   {
-    m_Size = static_cast< unsigned int >( NumericTraits< TInputPixel >::max()
-                                          - NumericTraits< TInputPixel >::NonpositiveMin() + 1 );
+    m_Size = (long)NumericTraits< TInputPixel >::max() - (long)NumericTraits< TInputPixel >::NonpositiveMin() + 1;
     m_Vec.resize(m_Size, 0);
     if ( m_Compare( NumericTraits< TInputPixel >::max(),
                     NumericTraits< TInputPixel >::NonpositiveMin() ) )
@@ -258,38 +256,41 @@ public:
       }
     m_Entries = m_Below = 0;
     m_RankValue = m_InitVal  - NumericTraits< TInputPixel >::NonpositiveMin();
+    m_Rank = 0.5;
   }
 
-  RankHistogramVec(bool NoInit)
+  ~VectorRankHistogram() {}
+
+  virtual bool IsValid()
   {
-    m_Size = static_cast< unsigned int >( NumericTraits< TInputPixel >::max()
-                                          - NumericTraits< TInputPixel >::NonpositiveMin() + 1 );
-    if ( !NoInit ) { m_Vec.resize(m_Size, 0); }
-    if ( m_Compare( NumericTraits< TInputPixel >::max(),
-                    NumericTraits< TInputPixel >::NonpositiveMin() ) )
-      {
-      m_InitVal = NumericTraits< TInputPixel >::NonpositiveMin();
-      }
-    else
-      {
-      m_InitVal = NumericTraits< TInputPixel >::max();
-      }
-    m_Entries = m_Below = 0;
-    m_RankValue = m_InitVal  - NumericTraits< TInputPixel >::NonpositiveMin();
+    return m_Entries > 0;
   }
 
-  ~RankHistogramVec()
-  {}
+  TInputPixel GetValueBruteForce()
+  {
+    unsigned long count = 0;
+    unsigned long target = (unsigned long)( m_Rank * ( m_Entries - 1 ) ) + 1;
+    for( unsigned long i=0; i<m_Size; i++ )
+      {
+      count += m_Vec[i];
+      if( count >= target )
+        {
+        return i + NumericTraits< TInputPixel >::NonpositiveMin();
+        }
+      }
+    return NumericTraits< TInputPixel >::max();
+  }
 
   TInputPixel GetValue(const TInputPixel &)
   {
-    unsigned long     target = (int)( this->m_Rank * ( m_Entries - 1 ) ) + 1;
+    return GetValueBruteForce();
+    unsigned long     target = (unsigned long)( this->m_Rank * ( m_Entries - 1 ) ) + 1;
     unsigned long     total = m_Below;
-    long unsigned int pos = (long unsigned int)( m_RankValue - NumericTraits< TInputPixel >::NonpositiveMin() );
+    unsigned long     pos = (long)m_RankValue - NumericTraits< TInputPixel >::NonpositiveMin();
 
     if ( total < target )
       {
-      while ( pos < m_Size )
+      while ( pos < m_Size - 1 )
         {
         ++pos;
         total += m_Vec[pos];
@@ -303,7 +304,7 @@ public:
       {
       while ( pos > 0 )
         {
-        unsigned int tbelow = total - m_Vec[pos];
+        unsigned long tbelow = total - m_Vec[pos];
         if ( tbelow < target ) // we've overshot
           {
           break;
@@ -315,14 +316,16 @@ public:
 
     m_RankValue = (TInputPixel)( pos + NumericTraits< TInputPixel >::NonpositiveMin() );
     m_Below = total;
+    // std::cout << m_RankValue+0.0 << "  " << GetValueBruteForce(0)+0.0 << std::endl;
+    assert( m_RankValue == GetValueBruteForce() );
     return ( m_RankValue );
   }
 
   void AddPixel(const TInputPixel & p)
   {
-    long unsigned int idx = (long unsigned int)( p - NumericTraits< TInputPixel >::NonpositiveMin() );
+    long q = (long)p - NumericTraits< TInputPixel >::NonpositiveMin();
 
-    m_Vec[idx]++;
+    m_Vec[q]++;
     if ( m_Compare(p, m_RankValue) || p == m_RankValue )
       {
       ++m_Below;
@@ -332,12 +335,14 @@ public:
 
   void RemovePixel(const TInputPixel & p)
   {
-    itkAssertOrThrowMacro( ( p - NumericTraits< TInputPixel >::NonpositiveMin() >= 0 ),
-                           "pixel value too close to zero" );
-    itkAssertOrThrowMacro( ( p - NumericTraits< TInputPixel >::NonpositiveMin() < (int)m_Vec.size() ),
-                           "pixel value outside the range of m_Vec.size()" );
-    itkAssertOrThrowMacro( ( m_Entries >= 1 ), "Not enough entries" );
-    m_Vec[(long unsigned int)( p - NumericTraits < TInputPixel > ::NonpositiveMin() )]--;
+    const long q = (long)p - NumericTraits< TInputPixel >::NonpositiveMin();
+
+    assert( q >= 0 );
+    assert( q < (int)m_Vec.size() );
+    assert( m_Entries >= 1 );
+    assert( m_Vec[q] > 0 );
+
+    m_Vec[q]--;
     --m_Entries;
 
     if ( m_Compare(p, m_RankValue) || p == m_RankValue )
@@ -346,20 +351,17 @@ public:
       }
   }
 
-  Superclass * Clone() const
+  void SetRank(float rank)
   {
-    RankHistogramVec *result = new RankHistogramVec(true);
-
-    result->m_Vec = this->m_Vec;
-    result->m_Size = this->m_Size;
-    //result->m_CurrentValue = this->m_CurrentValue;
-    result->m_InitVal = this->m_InitVal;
-    result->m_Entries = this->m_Entries;
-    result->m_Below = this->m_Below;
-    result->m_Rank = this->m_Rank;
-    result->m_RankValue = this->m_RankValue;
-    return ( result );
+    m_Rank = rank;
   }
+
+  void AddBoundary(){}
+
+  void RemoveBoundary(){}
+
+protected:
+  float m_Rank;
 
 private:
   typedef typename std::vector< unsigned long > VecType;
@@ -367,12 +369,32 @@ private:
   VecType      m_Vec;
   unsigned int m_Size;
   TCompare     m_Compare;
-  //unsigned int m_CurrentValue;
-  //TInputPixel m_CurrentValue;
-  TInputPixel m_RankValue;
-  TInputPixel m_InitVal;
-  int         m_Below;
-  int         m_Entries;
+  TInputPixel  m_RankValue;
+  TInputPixel  m_InitVal;
+  int          m_Below;
+  int          m_Entries;
 };
+
+// now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram
+// as base class
+
+template<>
+class RankHistogram<unsigned char>:
+  public VectorRankHistogram<unsigned char>
+{
+};
+
+template<>
+class RankHistogram<signed char>:
+  public VectorRankHistogram<signed char>
+{
+};
+
+template<>
+class RankHistogram<bool>:
+  public VectorRankHistogram<bool>
+{
+};
+
 } // end namespace itk
 #endif

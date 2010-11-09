@@ -18,7 +18,7 @@
 #ifndef __itkAnchorErodeDilateImageFilter_h
 #define __itkAnchorErodeDilateImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkKernelImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkAnchorErodeDilateLine.h"
 #include "itkBresenhamLine.h"
@@ -35,14 +35,15 @@ namespace itk
  * morphology classes in itk.
  */
 template< class TImage, class TKernel,
-          class TFunction1, class TFunction2 >
+          class TFunction1 >
 class ITK_EXPORT AnchorErodeDilateImageFilter:
-  public ImageToImageFilter< TImage, TImage >
+  public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
   typedef AnchorErodeDilateImageFilter         Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
+  typedef KernelImageFilter< TImage, TImage, TKernel >
+                                               Superclass;
   typedef SmartPointer< Self >                 Pointer;
   typedef SmartPointer< const Self >           ConstPointer;
 
@@ -69,17 +70,10 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(AnchorErodeDilateImageFilter,
-               ImageToImageFilter);
-
-  void SetKernel(const KernelType & kernel)
-  {
-    m_Kernel = kernel;
-    m_KernelSet = true;
-  }
+               KernelImageFilter);
 
   /** Set/Get the boundary value. */
-  void SetBoundary(const InputImagePixelType value);
-
+  itkSetMacro(Boundary, InputImagePixelType);
   itkGetConstMacro(Boundary, InputImagePixelType);
 protected:
   AnchorErodeDilateImageFilter();
@@ -90,25 +84,16 @@ protected:
   void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
                              int threadId);
 
-  /** GrayscaleMorphologicalOpeningImageFilter need to make sure they request enough of an
-   * input image to account for the structuring element size.  The input
-   * requested region is expanded by the radius of the structuring element.
-   * If the request extends past the LargestPossibleRegion for the input,
-   * the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion();
-
   // should be set by the meta filter
   InputImagePixelType m_Boundary;
 private:
   AnchorErodeDilateImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented
 
-  TKernel m_Kernel;
-  bool    m_KernelSet;
   typedef BresenhamLine< itkGetStaticConstMacro(InputImageDimension) > BresType;
 
   // the class that operates on lines
-  typedef AnchorErodeDilateLine< InputImagePixelType, TFunction1, TFunction2 > AnchorLineType;
+  typedef AnchorErodeDilateLine< InputImagePixelType, TFunction1 > AnchorLineType;
 }; // end of class
 } // end namespace itk
 

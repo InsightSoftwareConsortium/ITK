@@ -44,7 +44,7 @@ int FillLineBuffer(typename TImage::ConstPointer input,
                    const float tol,
                    const typename TBres::OffsetArray LineOffsets,
                    const typename TImage::RegionType AllImage,
-                   typename TImage::PixelType * inbuffer,
+                   std::vector<typename TImage::PixelType> & inbuffer,
                    unsigned int &start,
                    unsigned int &end);
 
@@ -52,7 +52,7 @@ template< class TImage, class TBres >
 void CopyLineToImage(const typename TImage::Pointer output,
                      const typename TImage::IndexType StartIndex,
                      const typename TBres::OffsetArray LineOffsets,
-                     const typename TImage::PixelType *outbuffer,
+                     std::vector<typename TImage::PixelType> & outbuffer,
                      const unsigned start,
                      const unsigned end);
 

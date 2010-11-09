@@ -18,7 +18,7 @@
 #ifndef __itkAnchorOpenCloseLine_h
 #define __itkAnchorOpenCloseLine_h
 
-#include "itkAnchorHistogram.h"
+#include "itkMorphologyHistogram.h"
 
 //#define RAWHIST
 
@@ -30,8 +30,7 @@ namespace itk
  * methods. This is the base class that must be instantiated with
  * appropriate definitions of greater, less and so on
  */
-template< class TInputPix, class THistogramCompare,
-          class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 class ITK_EXPORT AnchorOpenCloseLine
 {
 public:
@@ -40,14 +39,13 @@ public:
   AnchorOpenCloseLine();
   ~AnchorOpenCloseLine()
   {
-    delete m_Histo;
   }
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void DoLine(InputImagePixelType *buffer, unsigned bufflength);
+  void DoLine(std::vector<InputImagePixelType> & buffer, unsigned bufflength);
 
   void SetSize(unsigned int size)
   {
@@ -56,39 +54,31 @@ public:
 
 private:
   unsigned int m_Size;
-  TFunction1   m_TF1;
-  TFunction2   m_TF2;
 
-  typedef MorphologyHistogram< InputImagePixelType >                       Histogram;
-  typedef MorphologyHistogramVec< InputImagePixelType, THistogramCompare > VHistogram;
-  typedef MorphologyHistogramMap< InputImagePixelType, THistogramCompare > MHistogram;
+  typedef Function::MorphologyHistogram< InputImagePixelType, TCompare > HistogramType;
 
-  bool StartLine(InputImagePixelType *buffer,
+  bool StartLine(std::vector<InputImagePixelType> & buffer,
                  InputImagePixelType & Extreme,
-                 Histogram & histo,
                  unsigned & outLeftP,
-                 unsigned & outRightP,
-                 unsigned bufflength);
+                 unsigned & outRightP);
 
-  void FinishLine(InputImagePixelType *buffer,
+  void FinishLine(std::vector<InputImagePixelType> & buffer,
                   InputImagePixelType & Extreme,
                   unsigned & outLeftP,
-                  unsigned & outRightP,
-                  unsigned bufflength);
+                  unsigned & outRightP);
 
-  bool UseVectorBasedHistogram()
-  {
-    // bool, short and char are acceptable for vector based algorithm: they do
-    // not require
-    // too much memory. Other types are not usable with that algorithm
-    return typeid( InputImagePixelType ) == typeid( unsigned char )
-           || typeid( InputImagePixelType ) == typeid( signed char )
-           || typeid( InputImagePixelType ) == typeid( unsigned short )
-           || typeid( InputImagePixelType ) == typeid( signed short )
-           || typeid( InputImagePixelType ) == typeid( bool );
-  }
+  inline bool Compare1( const InputImagePixelType & a, const InputImagePixelType & b )
+    {
+    TCompare compare;
+    return ! compare( a, b );
+    }
 
-  Histogram *m_Histo;
+  inline bool Compare2( const InputImagePixelType & a, const InputImagePixelType & b )
+    {
+    TCompare compare;
+    return compare( a, b ) || a == b;
+    }
+
 }; // end of class
 } // end namespace itk
 

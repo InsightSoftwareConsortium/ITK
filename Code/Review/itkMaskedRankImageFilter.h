@@ -22,7 +22,7 @@
 #include <list>
 #include <map>
 #include <set>
-#include "itkMaskedRankHistogram.h"
+#include "itkRankHistogram.h"
 #include "itkFlatStructuringElement.h"
 
 namespace itk
@@ -58,13 +58,13 @@ template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel
             FlatStructuringElement< ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 class ITK_EXPORT MaskedRankImageFilter:
   public MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
-                                           MaskedRankHistogram< ITK_TYPENAME TInputImage::PixelType > >
+                                           RankHistogram< ITK_TYPENAME TInputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
   typedef MaskedRankImageFilter Self;
   typedef MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
-                                            MaskedRankHistogram< typename TInputImage::PixelType > > Superclass;
+                                            RankHistogram< typename TInputImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -103,30 +103,21 @@ public:
 
   itkSetMacro(Rank, float)
   itkGetConstMacro(Rank, float)
+
+  bool GetUseVectorBasedHistogram()
+  {
+    return HistogramType::UseVectorBasedHistogram();
+  }
+
 protected:
   MaskedRankImageFilter();
   ~MaskedRankImageFilter() {}
 
-  typedef MaskedRankHistogram< InputPixelType > HistogramType;
-
-  typedef MaskedRankHistogramVec< InputPixelType, std::less< InputPixelType > >  VHistogram;
-  typedef MaskedRankHistogramMap< InputPixelType, std::less< InputPixelType >  > MHistogram;
+  typedef RankHistogram< InputPixelType > HistogramType;
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  bool UseVectorBasedHistogram()
-  {
-    // bool, short and char are acceptable for vector based algorithm: they do
-    // not require
-    // too much memory. Other types are not usable with that algorithm
-    return typeid( InputPixelType ) == typeid( unsigned char )
-           || typeid( InputPixelType ) == typeid( signed char )
-//       || typeid(InputPixelType) == typeid(unsigned short)
-//       || typeid(InputPixelType) == typeid(signed short)
-           || typeid( InputPixelType ) == typeid( bool );
-  }
-
-  virtual HistogramType * NewHistogram();
+  void ConfigureHistogram( HistogramType & histogram );
 
 private:
   MaskedRankImageFilter(const Self &); //purposely not implemented

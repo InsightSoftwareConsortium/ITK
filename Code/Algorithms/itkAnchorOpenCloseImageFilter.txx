@@ -25,28 +25,22 @@
 #include <itkImageRegionIterator.h>
 namespace itk
 {
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::AnchorOpenCloseImageFilter()
 {
-  m_KernelSet = false;
 }
 
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 void
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
                        int threadId)
 {
   // check that we are using a decomposable kernel
-  if ( !m_Kernel.GetDecomposable() )
+  if ( !this->GetKernel().GetDecomposable() )
     {
     itkExceptionMacro("Anchor morphology only works with decomposable structuring elements");
-    return;
-    }
-  if ( !m_KernelSet )
-    {
-    itkExceptionMacro("No kernel set - quitting");
     return;
     }
   // TFunction1 will be < for erosions
@@ -63,15 +57,15 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
 
   AnchorLineOpenType AnchorLineOpen;
 
-  ProgressReporter progress(this, threadId, m_Kernel.GetLines().size() * 2 + 1);
+  ProgressReporter progress(this, threadId, this->GetKernel().GetLines().size() * 2 + 1);
 
   InputImageConstPointer input = this->GetInput();
 
   InputImageRegionType IReg = outputRegionForThread;
   // seem to need a double padding for the multi threaded case because
   // we get boundary effects otherwise
-  IReg.PadByRadius( m_Kernel.GetRadius() );
-  IReg.PadByRadius( m_Kernel.GetRadius() );
+  IReg.PadByRadius( this->GetKernel().GetRadius() );
+  IReg.PadByRadius( this->GetKernel().GetRadius() );
   IReg.Crop( this->GetInput()->GetRequestedRegion() );
 
   // allocate an internal buffer
@@ -92,10 +86,11 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
   // compat
   bufflength += 2;
 
-  InputImagePixelType *buffer = new InputImagePixelType[bufflength];
-  InputImagePixelType *inbuffer = new InputImagePixelType[bufflength];
+  std::vector<InputImagePixelType> buffer(bufflength);
+  std::vector<InputImagePixelType> inbuffer(bufflength);
+
   // iterate over all the structuring elements
-  typename KernelType::DecompType decomposition = m_Kernel.GetLines();
+  typename KernelType::DecompType decomposition = this->GetKernel().GetLines();
   BresType BresLine;
 
   // first stage -- all of the erosions if we are doing an opening
@@ -179,20 +174,18 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
     }
   progress.CompletedPixel();
 
-  delete[] buffer;
-  delete[] inbuffer;
 }
 
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 void
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::DoFaceOpen(InputImageConstPointer input,
              InputImagePointer output,
              InputImagePixelType border,
              KernelLType line,
              AnchorLineOpenType & AnchorLineOpen,
              const BresOffsetArray LineOffsets,
-             InputImagePixelType *outbuffer,
+             std::vector<InputImagePixelType> & outbuffer,
              const InputImageRegionType AllImage,
              const InputImageRegionType face)
 {
@@ -240,64 +233,14 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual
     }
 }
 
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
+template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 void
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
-void
-AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
-::GenerateInputRequestedRegion()
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-
-  // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr =
-    const_cast< TImage * >( this->GetInput() );
-
-  if ( !inputPtr )
-    {
-    return;
-    }
-
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
-
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
-    {
-    inputPtr->SetRequestedRegion(inputRequestedRegion);
-    return;
-    }
-  else
-    {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion(inputRequestedRegion);
-
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    std::ostringstream          msg;
-    msg << static_cast< const char * >( this->GetNameOfClass() )
-        << "::GenerateInputRequestedRegion()";
-    e.SetLocation( msg.str().c_str() );
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-    }
-}
 } // end namespace itk
 
 #endif

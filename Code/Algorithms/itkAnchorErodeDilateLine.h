@@ -18,7 +18,8 @@
 #ifndef __itkAnchorErodeDilateLine_h
 #define __itkAnchorErodeDilateLine_h
 
-#include "itkAnchorHistogram.h"
+#include "itkMovingHistogramMorphologyImageFilter.h"
+
 namespace itk
 {
 /**
@@ -31,14 +32,14 @@ namespace itk
  * same data structures. Hopefully these sections occupy a very minor
  * proportion of the time.
  */
-template< class TInputPix, class TFunction1, class TFunction2 >
+template< class TInputPix, class TCompare >
 class ITK_EXPORT AnchorErodeDilateLine
 {
 public:
   /** Some convenient typedefs. */
   typedef TInputPix InputImagePixelType;
 
-  void DoLine(InputImagePixelType *buffer, InputImagePixelType *inbuffer,
+  void DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer,
               unsigned bufflength);
 
   void SetSize(unsigned int size)
@@ -51,39 +52,30 @@ public:
   AnchorErodeDilateLine();
   ~AnchorErodeDilateLine()
   {
-    delete m_Histo;
   }
 
 private:
   unsigned int m_Size;
-  TFunction1   m_TF1;
-  TFunction2   m_TF2;
 
-  bool m_UseVec;
+  typedef Function::MorphologyHistogram< InputImagePixelType, TCompare >              HistogramType;
 
-  typedef MorphologyHistogram< InputImagePixelType >                Histogram;
-  typedef MorphologyHistogramVec< InputImagePixelType, TFunction1 > VHistogram;
-  typedef MorphologyHistogramMap< InputImagePixelType, TFunction1 > MHistogram;
-
-  bool StartLine(InputImagePixelType *buffer,
-                 InputImagePixelType *inbuffer,
+  bool StartLine(std::vector<TInputPix> & buffer,
+                 std::vector<TInputPix> & inbuffer,
                  InputImagePixelType & Extreme,
-                 Histogram & histo,
                  int & outLeftP,
                  int & outRightP,
                  int & inLeftP,
                  int & inRightP,
-                 int middle, unsigned bufflength);
+                 int middle);
 
-  void FinishLine(InputImagePixelType *buffer,
-                  InputImagePixelType *inbuffer,
+  void FinishLine(std::vector<TInputPix> & buffer,
+                  std::vector<TInputPix> & inbuffer,
                   InputImagePixelType & Extreme,
-                  Histogram & histo,
                   int & outLeftP,
                   int & outRightP,
                   int & inLeftP,
                   int & inRightP,
-                  int middle, unsigned bufflength);
+                  int middle);
 
   bool UseVectorBasedHistogram()
   {
@@ -97,7 +89,18 @@ private:
            || typeid( InputImagePixelType ) == typeid( bool );
   }
 
-  Histogram *m_Histo;
+  inline bool StrictCompare( const InputImagePixelType & a, const InputImagePixelType & b )
+    {
+    TCompare compare;
+    return compare( a, b );
+    }
+
+  inline bool Compare( const InputImagePixelType & a, const InputImagePixelType & b )
+    {
+    TCompare compare;
+    return compare( a, b ) || a == b;
+    }
+
 }; // end of class
 } // end namespace itk
 

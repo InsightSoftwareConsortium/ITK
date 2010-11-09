@@ -31,80 +31,32 @@ class MorphologicalGradientHistogram
 public:
   MorphologicalGradientHistogram()
   {
-    m_UseVectorBasedAlgorithm = UseVectorBasedAlgorithm();
-    if ( m_UseVectorBasedAlgorithm )
-            { initVector(); }
   }
 
   ~MorphologicalGradientHistogram(){}
-
-  MorphologicalGradientHistogram * Clone() const
-  {
-    MorphologicalGradientHistogram *result = new MorphologicalGradientHistogram();
-
-    result->m_Map = this->m_Map;
-    result->m_Vector = this->m_Vector;
-    result->m_Min = this->m_Min;
-    result->m_Max = this->m_Max;
-    result->m_Count = this->m_Count;
-    return result;
-  }
 
   inline void AddBoundary() {}
 
   inline void RemoveBoundary() {}
 
+  typedef std::map< TInputPixel, unsigned long > MapType;
+
   inline void AddPixel(const TInputPixel & p)
   {
-    if ( m_UseVectorBasedAlgorithm )
-            { AddPixelVector(p); }
-    else
-            { AddPixelMap(p); }
+    m_Map[p]++;
   }
 
   inline void RemovePixel(const TInputPixel & p)
   {
-    if ( m_UseVectorBasedAlgorithm )
-            { RemovePixelVector(p); }
-    else
-            { RemovePixelMap(p); }
+    m_Map[p]--;
   }
 
   inline TInputPixel GetValue(const TInputPixel &)
   {
-    if ( m_UseVectorBasedAlgorithm )
-            { return GetValueVector(); }
-    else
-            { return GetValueMap(); }
+    return GetValue();
   }
 
-  static inline bool UseVectorBasedAlgorithm()
-  {
-    // bool, short and char are acceptable for vector based algorithm: they do
-    // not require
-    // too much memory. Other types are not usable with that algorithm
-    return typeid( TInputPixel ) == typeid( unsigned char )
-           || typeid( TInputPixel ) == typeid( signed char )
-           || typeid( TInputPixel ) == typeid( unsigned short )
-           || typeid( TInputPixel ) == typeid( signed short )
-           || typeid( TInputPixel ) == typeid( bool );
-  }
-
-  bool m_UseVectorBasedAlgorithm;
-
-  //
-  // the map based algorithm
-  //
-
-  typedef std::map< TInputPixel, unsigned long > MapType;
-
-  inline void AddPixelMap(const TInputPixel & p)
-  { m_Map[p]++; }
-
-  inline void RemovePixelMap(const TInputPixel & p)
-  { m_Map[p]--; }
-
-  inline TInputPixel GetValueMap()
+  inline TInputPixel GetValue()
   {
     // clean the map
     typename MapType::iterator mapIt = m_Map.begin();
@@ -127,47 +79,70 @@ public:
       }
 
     // and return the value
-    if ( !m_Map.empty() )
-            { return m_Map.rbegin()->first - m_Map.begin()->first; }
+    if( !m_Map.empty() )
+      {
+      return m_Map.rbegin()->first - m_Map.begin()->first;
+      }
     return 0;
   }
 
+  static bool UseVectorBasedAlgorithm()
+  {
+    return false;
+  }
+
   MapType m_Map;
+};
 
-  //
-  // the vector based algorithm
-  //
 
-  inline void initVector()
+template< class TInputPixel >
+class VectorMorphologicalGradientHistogram
+{
+public:
+  VectorMorphologicalGradientHistogram()
   {
     // initialize members need for the vector based algorithm
-    m_Vector.resize(static_cast< int >( NumericTraits< TInputPixel >::max()
-                                        - NumericTraits< TInputPixel >::NonpositiveMin() + 1 ), 0);
+    m_Vector.resize(NumericTraits< TInputPixel >::max() - NumericTraits< TInputPixel >::NonpositiveMin() + 1, 0);
     m_Max = NumericTraits< TInputPixel >::NonpositiveMin();
     m_Min = NumericTraits< TInputPixel >::max();
     m_Count = 0;
   }
 
-  inline void AddPixelVector(const TInputPixel & p)
+  ~VectorMorphologicalGradientHistogram(){}
+
+  inline void AddBoundary() {}
+
+  inline void RemoveBoundary() {}
+
+
+  inline void AddPixel(const TInputPixel & p)
   {
-    m_Vector[static_cast< int >( p - NumericTraits < TInputPixel > ::NonpositiveMin() )]++;
+    m_Vector[p - NumericTraits < TInputPixel > ::NonpositiveMin()]++;
     if ( p > m_Max )
-            { m_Max = p; }
+      {
+      m_Max = p;
+      }
     if ( p < m_Min )
-            { m_Min = p; }
+      {
+      m_Min = p;
+      }
     m_Count++;
   }
 
-  inline void RemovePixelVector(const TInputPixel & p)
+  inline void RemovePixel(const TInputPixel & p)
   {
-    m_Vector[static_cast< int >( p - NumericTraits < TInputPixel > ::NonpositiveMin() )]--;
+    m_Vector[p - NumericTraits < TInputPixel > ::NonpositiveMin()]--;
     m_Count--;
     if ( m_Count > 0 )
       {
-      while ( m_Vector[static_cast< int >( m_Max - NumericTraits < TInputPixel > ::NonpositiveMin() )] == 0 )
-              { m_Max--; }
-      while ( m_Vector[static_cast< int >( m_Min - NumericTraits < TInputPixel > ::NonpositiveMin() )] == 0 )
-              { m_Min++; }
+      while ( m_Vector[m_Max - NumericTraits < TInputPixel > ::NonpositiveMin()] == 0 )
+        {
+        m_Max--;
+        }
+      while ( m_Vector[m_Min - NumericTraits < TInputPixel > ::NonpositiveMin()] == 0 )
+        {
+        m_Min++;
+        }
       }
     else
       {
@@ -176,12 +151,26 @@ public:
       }
   }
 
-  inline TInputPixel GetValueVector()
+  inline TInputPixel GetValue(const TInputPixel &)
+  {
+    return GetValue();
+  }
+
+  inline TInputPixel GetValue()
   {
     if ( m_Count > 0 )
-            { return m_Max - m_Min; }
+      {
+      return m_Max - m_Min;
+      }
     else
-            { return NumericTraits< TInputPixel >::Zero; }
+      {
+      return NumericTraits< TInputPixel >::Zero;
+      }
+  }
+
+  static bool UseVectorBasedAlgorithm()
+  {
+    return true;
   }
 
   std::vector< unsigned long > m_Vector;
@@ -189,6 +178,28 @@ public:
   TInputPixel                  m_Max;
   unsigned long                m_Count;
 };
+
+// now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram
+// as base class
+
+template<>
+class MorphologicalGradientHistogram<unsigned char>:
+  public VectorMorphologicalGradientHistogram<unsigned char>
+{
+};
+
+template<>
+class MorphologicalGradientHistogram<signed char>:
+  public VectorMorphologicalGradientHistogram<signed char>
+{
+};
+
+template<>
+class MorphologicalGradientHistogram<bool>:
+  public VectorMorphologicalGradientHistogram<bool>
+{
+};
+
 } // end namespace Function
 
 /**

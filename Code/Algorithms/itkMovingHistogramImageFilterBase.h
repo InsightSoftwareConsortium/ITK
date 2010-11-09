@@ -48,9 +48,6 @@ namespace itk
  *
  * The histogram type is a class which has to implements seven methods:
  * + a default constructor which takes no parameter.
- * + HistogramType * Clone() must produce a new identical histogram. It is
- * used internally to optimize the filter, by avoiding reverse iteration
- * over the image.
  * + void AddPixel( const InputPixelType &p ) is called when a new pixel
  * is added to the histogram.
  * + void RemovePixel( const InputPixelType &p ) is called when a pixel
@@ -88,7 +85,7 @@ namespace itk
  * \author Richard Beare
  */
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 class ITK_EXPORT MovingHistogramImageFilterBase:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
@@ -117,6 +114,8 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   typedef typename TOutputImage::PixelType           OutputPixelType;
 
+  typedef THistogram                                 HistogramType;
+
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -138,6 +137,10 @@ public:
   void SetKernel(const KernelType & kernel);
 
   itkGetConstMacro(PixelsPerTranslation, unsigned long);
+
+  /** ConfigurewHistogram can be used to configure the histogram. The default version just do nothing. */
+  virtual void ConfigureHistogram(THistogram &) {}
+
 protected:
   MovingHistogramImageFilterBase();
   ~MovingHistogramImageFilterBase() {}
