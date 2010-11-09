@@ -39,53 +39,26 @@ class ITK_EXPORT VanHerkGilWermanDilateImageFilter;
 namespace itk
 {
 template< unsigned int VDimension >
+template< class TRadius >
 FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
-::Poly(RadiusType radius, unsigned lines)
+::Polygon(TRadius radius, unsigned lines)
 {
-  Self res = Self();
-
-  res = res.PolySub(Dispatch< VDimension >(), radius, lines);
-  res.SetRadius(radius);
-#if 0
-  float theta, phi, step;
-  theta = phi = 0;
-  step = M_PI / ( lines - 1 );
-
-  while ( theta < M_PI )
-    {
-    std::cout << "theta= " << theta << " phi = " << phi << std::endl;
-    LType O = res.mkOffset(phi, theta);
-    std::cout << O << std::endl;
-    if ( res.checkParallel(O, res.m_Lines) )
-      {
-      std::cout << "Already have this line" << std::endl;
-      }
-    else
-      {
-      res.m_Lines.push_back(O);
-      }
-    theta += step;
-    phi += step;
-    }
-  std::cout << "---------------" << std::endl;
-#endif
-  res.ComputeBufferFromLines();
-  return ( res );
+  itkGenericExceptionMacro("Only dimension 2 and 3 are suported.");
 }
 
 template< unsigned int VDimension >
-FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
-::PolySub(const Dispatch< 2 > &, RadiusType radius, unsigned lines) const
+FlatStructuringElement< 2 > FlatStructuringElement< VDimension >
+::Polygon(itk::Size<2> radius, unsigned lines)
 {
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
   //std::cout << "2 dimensions" << std::endl;
   Self res = Self();
-
+  res.SetRadius(radius);
   res.m_Decomposable = true;
 
   unsigned int rr = 0;
-  for ( unsigned i = 0; i < VDimension; i++ )
+  for ( unsigned i = 0; i < 2; i++ )
     {
     if ( radius[i] > rr ) { rr = radius[i]; }
     }
@@ -116,14 +89,14 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
     LType O;
     O[0] = k1 * vcl_cos(theta);
     O[1] = k2 * vcl_sin(theta);
-    if ( !res.checkParallel(O, res.m_Lines) )
+    if ( !res.CheckParallel(O, res.m_Lines) )
       {
       //std::cout << O << std::endl;
       res.m_Lines.push_back(O);
       }
     O[0] = k1 * vcl_cos(-theta);
     O[1] = k2 * vcl_sin(-theta);
-    if ( !res.checkParallel(O, res.m_Lines) )
+    if ( !res.CheckParallel(O, res.m_Lines) )
       {
       //std::cout << O << std::endl;
       res.m_Lines.push_back(O);
@@ -132,7 +105,8 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
     //std::cout << "theta1 = " << theta << " " << M_PI/2.0 << std::endl;
     }
 
-  return ( res );
+  res.ComputeBufferFromLines();
+  return res;
 }
 
 //    O[0] = k1 * vcl_cos(phi) * vcl_cos(theta);
@@ -140,17 +114,18 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
 //    O[2] = k3 * vcl_sin(theta);
 
 template< unsigned int VDimension >
-FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
-::PolySub(const Dispatch< 3 > &, RadiusType radius, unsigned lines) const
+FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
+::Polygon(itk::Size<3> radius, unsigned lines)
 {
   Self res = Self();
-
+  res.SetRadius(radius);
   res.m_Decomposable = true;
+
   // std::cout << "3 dimensions" << std::endl;
   unsigned int rr = 0;
   int          iterations = 1;
   int          faces = lines * 2;
-  for ( unsigned i = 0; i < VDimension; i++ )
+  for ( unsigned i = 0; i < 3; i++ )
     {
     if ( radius[i] > rr ) { rr = radius[i]; }
     }
@@ -282,12 +257,11 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if ( !res.checkParallel(L, res.m_Lines) )
+        if ( !res.CheckParallel(L, res.m_Lines) )
           {
           res.m_Lines.push_back(L);
           }
         }
-      return ( res );
       }
       break;
     case 14:
@@ -324,7 +298,6 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
       A.Normalize();
       A *= rr;
       res.m_Lines.push_back(A);
-      return ( res );
       }
       break;
     case 20:
@@ -516,12 +489,11 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if ( !res.checkParallel(L, res.m_Lines) )
+        if ( !res.CheckParallel(L, res.m_Lines) )
           {
           res.m_Lines.push_back(L);
           }
         }
-      return ( res );
       }
       break;
     case 32:
@@ -575,7 +547,7 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
         for ( unsigned i = 0; i < ntold; i++ )
           {
           LType Pa, Pb, Pc;
-          for ( unsigned d = 0; d <  VDimension; d++ )
+          for ( unsigned d = 0; d <  3; d++ )
             {
             Pa[d] = ( FacetArray[i].P1[d] + FacetArray[i].P2[d] ) / 2;
             Pb[d] = ( FacetArray[i].P2[d] + FacetArray[i].P3[d] ) / 2;
@@ -615,29 +587,18 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if ( !res.checkParallel(L, res.m_Lines) )
+        if ( !res.CheckParallel(L, res.m_Lines) )
           {
           res.m_Lines.push_back(L);
           }
         }
-      return ( res );
       }
       break;
     default:
-      std::cout << "Unsupported number of lines" << std::endl;
-      return ( res );
+      itkGenericExceptionMacro("Unsupported number of lines: " << lines << ". Supported values are 6, 7, 10 and 16.");
     }
-}
-
-template< unsigned int VDimension >
-FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
-::PolySub(const DispatchBase &, RadiusType, unsigned) const
-{
-  Self res = Self();
-
-  res.m_Decomposable = true;
-  std::cout << "Don't know how to deal with this many dimensions" << std::endl;
-  return ( res );
+  res.ComputeBufferFromLines();
+  return res;
 }
 
 template< unsigned int VDimension >
@@ -668,7 +629,7 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
     *kernel_it = true;
     }
 
-  return ( res );
+  return res;
 }
 
 template< unsigned int VDimension >
@@ -696,7 +657,7 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
       }
     }
 
-  return ( res );
+  return res;
 }
 
 template< unsigned int VDimension >
@@ -924,7 +885,7 @@ FlatStructuringElement< NDimension >
 
 template< unsigned int VDimension >
 bool
-FlatStructuringElement< VDimension >::checkParallel(LType NewVec, DecompType Lines)
+FlatStructuringElement< VDimension >::CheckParallel(LType NewVec, DecompType Lines)
 {
   LType NN = NewVec;
 
@@ -958,9 +919,9 @@ template< unsigned int VDimension >
 void
 FlatStructuringElement< VDimension >::ComputeBufferFromLines()
 {
-  if ( m_Decomposable )
+  if ( !m_Decomposable )
     {
-/*    itkExceptionMacro("Element must be decomposable.");*/
+    itkGenericExceptionMacro("Element must be decomposable.");
     }
 
   // create an image with a single pixel in the center which will be dilated
