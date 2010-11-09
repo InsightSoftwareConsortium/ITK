@@ -44,7 +44,7 @@ class ConvertPixelBuffer
 public:
   /** Determine the output data type. */
   typedef typename OutputConvertTraits::ComponentType OutputComponentType;
-
+  typedef ConvertPixelBuffer                          Self;
   /** General method converts from one type to another. */
   static void Convert(InputPixelType *inputData,
                       int inputNumberOfComponents,
@@ -143,6 +143,18 @@ protected:
 private:
   ConvertPixelBuffer();
   ~ConvertPixelBuffer();
+
+  /** the most common case, where InputComponentType == unsigned
+   *  char, the alpha is in the range 0..255. I presume in the
+   *  mythical world of rgba<X> for all integral scalar types X, alpha
+   *  will be in the range 0..X::max().  In the even more fantastical
+   *  world of rgb<float> or rgb<double> alpha would have to be 1.0
+   */
+  template <typename PixelType>
+  static double MaxAlpha(PixelType &) { return static_cast<double>(NumericTraits<PixelType>::max()); }
+  static double MaxAlpha(double &) {  return static_cast<double>(NumericTraits<double>::One); }
+  static double MaxAlpha(float &) {  return static_cast<double>(NumericTraits<float>::One); }
+
 };
 } //namespace ITK
 

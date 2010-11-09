@@ -23,6 +23,68 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
+#include "itkRGBAPixel.h"
+#include "itkImageRegionConstIterator.h"
+
+int itkPNGRGBAIOTest(int argc, char * argv[])
+{
+  if( argc < 3)
+    {
+    std::cerr << "Usage: " << argv[0] << " input output\n";
+    return EXIT_FAILURE;
+    }
+  const unsigned int                      Dimension = 2;
+  typedef unsigned char                   PixelType;
+  typedef itk::Image<PixelType,Dimension> ImageType;
+  typedef itk::ImageFileReader<ImageType> ReaderType;
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  ImageType::Pointer                      readResult;
+  ImageType::Pointer                      baseline;
+  try
+    {
+    //
+    // actually reading a RGBA image;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(argv[1]);
+    reader->Update();
+    readResult = reader->GetOutput();
+    //
+    // writing grayscale image
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetInput(readResult);
+    writer->SetFileName(argv[2]);
+    writer->Update();
+    // read the baseline
+    reader = ReaderType::New(); // reinit, maybe necessary
+    reader->SetFileName(argv[3]);
+    reader->Update();
+    baseline = reader->GetOutput();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+    }
+  itk::ImageRegionIterator<ImageType>
+    readIter(readResult,readResult->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<ImageType>
+    baselineIter(baseline,baseline->GetLargestPossibleRegion());
+  for(;!readIter.IsAtEnd() && !baselineIter.IsAtEnd();
+      ++readIter,++baselineIter)
+    {
+    if(readIter.Get() != baselineIter.Get())
+      {
+      std::cerr << "Pixel mismatch: "
+                << "read "
+                << readIter.Get()
+                << "baseline "
+                << baselineIter.Get()
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  return EXIT_SUCCESS;
+}
 
 int itkPNGImageIOTest(int argc, char * argv[])
 {
@@ -36,7 +98,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
 
   // We are converting read data into RGB pixel image
   typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef itk::Image<RGBPixelType,2> RGBImageType;
+  typedef itk::Image<RGBPixelType,2>   RGBImageType;
 
   // Read in the image
   itk::PNGImageIO::Pointer io;

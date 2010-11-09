@@ -941,6 +941,11 @@ add_test(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
          ${ITK_DATA_ROOT}/Input/012345.002.050
          ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
 
+add_test(itkPNGRGBAIOTest ${IO_TESTS} itkPNGRGBAIOTest
+        ${ITK_DATA_ROOT}/Input/PNGRGBAImageIOTestInput.png
+        ${ITK_TEST_OUTPUT_DIR}/PNGRGBAImageIOTestOutput.png
+        ${ITK_DATA_ROOT}/Baseline/IO/PNGRGBAImageIOTestBaseline.png)
+
 add_test(itkPNGImageIOTest1 ${IO_TESTS} itkPNGImageIOTest
          ${ITK_DATA_ROOT}/Input/cthead1.png
          ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1.png)
@@ -1566,8 +1571,3 @@ if(ITK_CSWIG_JAVA AND ITK_BINARY_DIR)
 
 endif(ITK_CSWIG_JAVA AND ITK_BINARY_DIR)
 endif( NOT ITK_DISABLE_JAVA_TESTING )
-
-
-
-
-
