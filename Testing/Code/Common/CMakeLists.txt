@@ -76,6 +76,7 @@ add_test(itkCentralDifferenceImageFunctionTest ${COMMON_TESTS} itkCentralDiffere
 add_test(itkCenteredEuler3DTransformTest ${COMMON_TESTS} itkCenteredEuler3DTransformTest)
 add_test(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
 add_test(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest)
+add_test(itkConstShapedNeighborhoodIteratorTest2 ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest2)
 add_test(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
 add_test(itkCovarianceImageFunctionTest ${COMMON_TESTS} itkCovarianceImageFunctionTest)
 add_test(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)

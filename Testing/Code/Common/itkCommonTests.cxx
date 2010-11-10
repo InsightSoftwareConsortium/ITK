@@ -58,6 +58,7 @@ REGISTER_TEST(itkChainCodePathTest );
 REGISTER_TEST(itkColorTableTest );
 REGISTER_TEST(itkConstNeighborhoodIteratorTest );
 REGISTER_TEST(itkConstShapedNeighborhoodIteratorTest );
+REGISTER_TEST(itkConstShapedNeighborhoodIteratorTest2);
 REGISTER_TEST(itkCovariantVectorGeometryTest );
 REGISTER_TEST(itkCovarianceImageFunctionTest );
 REGISTER_TEST(itkDataTypeTest );

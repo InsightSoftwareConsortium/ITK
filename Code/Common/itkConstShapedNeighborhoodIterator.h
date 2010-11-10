@@ -257,6 +257,10 @@ protected:
   Superclass::OverrideBoundaryCondition;
   Superclass::ResetBoundaryCondition;
   Superclass::GetBoundaryCondition;
+  Superclass::GetNeedToUseBoundaryCondition;
+  Superclass::SetNeedToUseBoundaryCondition;
+  Superclass::NeedToUseBoundaryConditionOn;
+  Superclass::NeedToUseBoundaryConditionOff;
   Superclass::Print;
   Superclass::operator-;
 
