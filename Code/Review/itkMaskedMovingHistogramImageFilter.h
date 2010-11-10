@@ -34,13 +34,12 @@ namespace itk
 
 template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
 class ITK_EXPORT MaskedMovingHistogramImageFilter:
-  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
+  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
   typedef MaskedMovingHistogramImageFilter                                     Self;
-  typedef MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
-                                                                               Superclass;
+  typedef MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel > Superclass;
   typedef SmartPointer< Self >                                                 Pointer;
   typedef SmartPointer< const Self >                                           ConstPointer;
 
@@ -129,6 +128,10 @@ public:
 
   itkGetConstMacro(GenerateOutputMask, bool);
 //   itkBooleanMacro(GenerateOutputMask);
+
+  /** ConfigurewHistogram can be used to configure the histogram. The default version just do nothing. */
+  virtual void ConfigureHistogram(THistogram &) {}
+
 protected:
   MaskedMovingHistogramImageFilter();
   ~MaskedMovingHistogramImageFilter() {}

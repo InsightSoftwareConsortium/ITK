@@ -84,13 +84,12 @@ namespace itk
 
 template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 class ITK_EXPORT MovingHistogramImageFilter:
-  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
+  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
   typedef MovingHistogramImageFilter                                           Self;
-  typedef MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
-                                                                               Superclass;
+  typedef MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel > Superclass;
   typedef SmartPointer< Self >                                                 Pointer;
   typedef SmartPointer< const Self >                                           ConstPointer;
 
@@ -128,6 +127,10 @@ public:
   typedef typename std::list< OffsetType > OffsetListType;
 
   typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare > OffsetMapType;
+
+  /** ConfigurewHistogram can be used to configure the histogram. The default version just do nothing. */
+  virtual void ConfigureHistogram(THistogram &) {}
+
 protected:
   MovingHistogramImageFilter();
   ~MovingHistogramImageFilter() {}

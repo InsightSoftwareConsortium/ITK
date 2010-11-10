@@ -28,8 +28,8 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
-MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
+template< class TInputImage, class TOutputImage, class TKernel >
+MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::MovingHistogramImageFilterBase()
 {
   m_PixelsPerTranslation = 0;
@@ -39,9 +39,9 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
   this->SetKernel( this->GetKernel() );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
+MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
 {
   // first, build the list of offsets of added and removed pixels when the
@@ -189,9 +189,9 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
                                                                        // axis
 }
 
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
+MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::GetDirAndOffset(const IndexType LineStart,
                   const IndexType PrevLineStart,
                   OffsetType & LineOffset,
@@ -216,9 +216,9 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel, THistogram >
+MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

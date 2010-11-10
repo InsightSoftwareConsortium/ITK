@@ -85,7 +85,7 @@ namespace itk
  * \author Richard Beare
  */
 
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< class TInputImage, class TOutputImage, class TKernel >
 class ITK_EXPORT MovingHistogramImageFilterBase:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
@@ -114,8 +114,6 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   typedef typename TOutputImage::PixelType           OutputPixelType;
 
-  typedef THistogram                                 HistogramType;
-
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -137,9 +135,6 @@ public:
   void SetKernel(const KernelType & kernel);
 
   itkGetConstMacro(PixelsPerTranslation, unsigned long);
-
-  /** ConfigurewHistogram can be used to configure the histogram. The default version just do nothing. */
-  virtual void ConfigureHistogram(THistogram &) {}
 
 protected:
   MovingHistogramImageFilterBase();
