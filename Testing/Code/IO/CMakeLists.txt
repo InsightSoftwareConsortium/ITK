@@ -86,6 +86,7 @@ itkLargeImageWriteConvertReadTest.cxx
 itkMatrixImageWriteReadTest.cxx
 itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
+itkMetaImageIOMetaDataTest.cxx
 itkMetaImageStreamingIOTest.cxx
 itkMetaImageStreamingWriterIOTest.cxx
 itkNrrdImageIOTest.cxx
@@ -670,6 +671,10 @@ add_test(itkMetaImageStreamingWriterIOTest2 ${IO_TESTS}
   itkMetaImageStreamingWriterIOTest
             ${ITK_DATA_ROOT}/Input/mri3D.mhd
             ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha)
+add_test(itkMetaImageIOMetaDataTest ${IO_TESTS}
+  itkMetaImageIOMetaDataTest
+  ${ITK_TEST_OUTPUT_DIR}/MetaImageIOMetaDataTest.mhd)
+
 add_test(itkGiplImageIOTest ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
