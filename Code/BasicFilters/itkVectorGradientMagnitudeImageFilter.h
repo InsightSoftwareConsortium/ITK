@@ -222,6 +222,10 @@ public:
   itkSetVectorMacro(ComponentWeights, TRealType, itk::GetVectorDimension< InputPixelType >::VectorDimension);
   itkGetVectorMacro(ComponentWeights, const TRealType, itk::GetVectorDimension< InputPixelType >::VectorDimension);
 
+  /** Get/Set the neighborhood radius used for gradient computation */
+  itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);
+  itkSetMacro(NeighborhoodRadius, RadiusType);
+
   /** Set/Get principle components calculation mode.  When this is set to TRUE/ON,
       the gradient calculation will involve a priniciple component analysis of
       the partial derivatives of the color components.  When this value is set
@@ -280,10 +284,6 @@ protected:
 
   /** Get access to the input image casted as real pixel values */
   itkGetConstObjectMacro(RealValuedInputImage, ImageBaseType);
-
-  /** Get/Set the neighborhood radius used for gradient computation */
-  itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);
-  itkSetMacro(NeighborhoodRadius, RadiusType);
 
   TRealType NonPCEvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const
   {
