@@ -100,7 +100,9 @@ public:
    * is decomposable.
    * lines is the number of elements in the decomposition
    */
-  static Self Poly(RadiusType radius, unsigned lines);
+  template<class TRadius>  static Self Polygon(TRadius radius, unsigned lines);
+  static     FlatStructuringElement<2> Polygon(itk::Size<2> radius, unsigned lines);
+  static     FlatStructuringElement<3> Polygon(itk::Size<3> radius, unsigned lines);
 
   /**
    * Returns wether the structuring element is decomposable or not. If the
@@ -133,24 +135,7 @@ private:
 
   DecompType m_Lines;
 
-  // dispatch between 2D and 3D
-  struct DispatchBase {};
-  template< unsigned int VDimension2 >
-  struct Dispatch: DispatchBase {};
-
-  virtual FlatStructuringElement PolySub(const Dispatch< 2 > &,
-                                         RadiusType radius,
-                                         unsigned lines) const;
-
-  virtual FlatStructuringElement PolySub(const Dispatch< 3 > &,
-                                         RadiusType radius,
-                                         unsigned lines) const;
-
-  virtual FlatStructuringElement PolySub(const DispatchBase &,
-                                         RadiusType radius,
-                                         unsigned lines) const;
-
-  bool checkParallel(LType NewVec, DecompType Lines);
+  bool CheckParallel(LType NewVec, DecompType Lines);
 
   template< unsigned int VDimension3 >
   struct StructuringElementFacet {
