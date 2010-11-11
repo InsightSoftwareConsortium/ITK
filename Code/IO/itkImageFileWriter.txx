@@ -26,6 +26,12 @@
 #include "vnl/vnl_vector.h"
 #include "itkVectorImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkRGBPixel.h"
+#include "itkRGBAPixel.h"
+#include "itkSymmetricSecondRankTensor.h"
+#include "itkDiffusionTensor3D.h"
+#include "itkMatrix.h"
+#include <complex>
 
 namespace itk
 {
@@ -216,15 +222,14 @@ ImageFileWriter< TInputImage >
   if ( strcmp(input->GetNameOfClass(), "VectorImage") == 0 )
     {
     typedef typename InputImageType::InternalPixelType VectorImageScalarType;
-    m_ImageIO->SetPixelTypeInfo( typeid( VectorImageScalarType ) );
-
+    m_ImageIO->SetPixelTypeInfo(static_cast<const VectorImageScalarType *>(0));
     typedef typename InputImageType::AccessorFunctorType AccessorFunctorType;
     m_ImageIO->SetNumberOfComponents( AccessorFunctorType::GetVectorLength(input) );
     }
   else
     {
     // Set the pixel and component type; the number of components.
-    m_ImageIO->SetPixelTypeInfo( typeid( InputImagePixelType ) );
+    m_ImageIO->SetPixelTypeInfo(static_cast<const InputImagePixelType *>(0));
     }
 
   // Setup the image IO for writing.

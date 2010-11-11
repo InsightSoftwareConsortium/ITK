@@ -26,7 +26,7 @@ RawImageIO< TPixel, VImageDimension >::RawImageIO():
   ImageIOBase()
 {
   this->SetNumberOfComponents(1);
-  this->SetPixelTypeInfo( typeid( PixelType ) );
+  this->SetPixelTypeInfo( static_cast<const PixelType *>(0) );
   this->SetNumberOfDimensions(VImageDimension);
 
   for ( unsigned int idx = 0; idx < VImageDimension; ++idx )

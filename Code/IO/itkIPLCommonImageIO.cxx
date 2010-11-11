@@ -45,10 +45,13 @@ namespace itk
 // Default constructor
 IPLCommonImageIO::IPLCommonImageIO()
 {
-  m_SystemByteOrder = ByteSwapper< int >::SystemIsBigEndian() ? ImageIOBase::BigEndian :
-                      ImageIOBase::LittleEndian;
+  m_SystemByteOrder =
+    ByteSwapper< int >::SystemIsBigEndian() ?
+    ImageIOBase::BigEndian :
+    ImageIOBase::LittleEndian;
   m_ImageHeader = 0;
   m_FilenameList = new IPLFileNameList;
+  this->SetComponentType(ImageIOBase::SHORT);
 }
 
 IPLCommonImageIO::~IPLCommonImageIO()
@@ -68,16 +71,6 @@ void IPLCommonImageIO::PrintSelf(std::ostream & os, Indent indent) const
 bool IPLCommonImageIO::CanWriteFile(const char *)
 {
   return false;
-}
-
-const std::type_info & IPLCommonImageIO::GetPixelTypeInfo() const
-{
-  return typeid( short int );
-}
-
-const std::type_info & IPLCommonImageIO::GetComponentTypeInfo() const
-{
-  return typeid( short int );
 }
 
 unsigned int IPLCommonImageIO::GetComponentSize() const

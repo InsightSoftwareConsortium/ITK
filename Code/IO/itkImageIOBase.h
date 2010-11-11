@@ -21,6 +21,13 @@
 #include "itkLightProcessObject.h"
 #include "itkIndent.h"
 #include "itkImageIORegion.h"
+#include "itkRGBPixel.h"
+#include "itkRGBAPixel.h"
+#include "itkVariableLengthVector.h"
+#include "itkCovariantVector.h"
+#include "itkSymmetricSecondRankTensor.h"
+#include "itkDiffusionTensor3D.h"
+
 #include "vnl/vnl_vector.h"
 
 #include <string>
@@ -158,19 +165,10 @@ public:
   itkSetEnumMacro(PixelType, IOPixelType);
   itkGetEnumMacro(PixelType, IOPixelType);
 
-  /** SetPixelTypeInfo is used by writers to convert from an ITK
-   * strongly typed pixel to a ImageIO (weaker) typed pixel. This
-   * function sets these PixelType, ComponentType, and
-   * NumberOfComponents based on RTTI type_info structure passed
-   * in. The function returns false if the pixel type is not
-   * supported. */
-  virtual bool SetPixelTypeInfo(const std::type_info & ptype);
-
   /** Set/Get the component type of the image. This is always a native
    * type. */
   itkSetEnumMacro(ComponentType, IOComponentType);
   itkGetEnumMacro(ComponentType, IOComponentType);
-  virtual const std::type_info & GetComponentTypeInfo() const;
 
   /** Set/Get the number of components per pixel in the image. This may
    * be set by the reading process. For SCALAR pixel types,
@@ -401,6 +399,105 @@ public:
    */
   const ArrayOfExtensionsType & GetSupportedWriteExtensions() const;
 
+  template <typename TPixel>
+    void SetTypeInfo(const TPixel *);
+
+  /** Map between C++ Pixel type and ImageIOBase ComponentType */
+  template <typename TPixel>
+    struct MapPixelType
+  {
+    static const IOComponentType CType =
+      UNKNOWNCOMPONENTTYPE;
+  };
+  template <typename TPixel>
+    void SetPixelTypeInfo(const TPixel *)
+  {
+    this->SetNumberOfComponents(1);
+    this->SetPixelType(SCALAR);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+  template <typename TPixel>
+    void SetPixelTypeInfo(const RGBPixel< TPixel > *)
+  {
+    this->SetNumberOfComponents(3);
+    this->SetPixelType(RGB);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+  template <typename TPixel>
+    void SetPixelTypeInfo(const RGBAPixel< TPixel > *)
+  {
+    this->SetNumberOfComponents(4);
+    this->SetPixelType(RGBA);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+  template <typename TPixel, unsigned VLength>
+    void SetPixelTypeInfo(const Vector< TPixel , VLength > *)
+  {
+    this->SetNumberOfComponents(VLength);
+    this->SetPixelType(VECTOR);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+  template <typename TPixel>
+    void SetPixelTypeInfo(const VariableLengthVector< TPixel > *)
+  {
+    this->SetNumberOfComponents(1);
+    this->SetPixelType(VECTOR);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+  template <typename TPixel, unsigned VLength>
+    void SetPixelTypeInfo(const CovariantVector< TPixel,VLength > *)
+  {
+    this->SetNumberOfComponents(VLength);
+    this->SetPixelType(COVARIANTVECTOR);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+  template <typename TPixel,unsigned VLength>
+    void SetPixelTypeInfo(const FixedArray< TPixel,VLength > *)
+  {
+    this->SetNumberOfComponents(VLength);
+    this->SetPixelType(COVARIANTVECTOR);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+
+  template <class TPixel, unsigned VLength>
+    void SetPixelTypeInfo(const SymmetricSecondRankTensor<TPixel,VLength> *)
+  {
+    this->SetNumberOfComponents(VLength * (VLength + 1) / 2 );
+    this->SetPixelType(SYMMETRICSECONDRANKTENSOR);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+
+  template <typename TPixel>
+    inline void SetPixelTypeInfo(const DiffusionTensor3D< TPixel > *)
+  {
+    this->SetNumberOfComponents(6);
+    this->SetPixelType(DIFFUSIONTENSOR3D);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+    }
+
+  template <typename TPixel, unsigned VLength>
+    void SetPixelTypeInfo(const Matrix< TPixel,VLength, VLength > *)
+  {
+    this->SetNumberOfComponents(VLength * VLength);
+    this->SetPixelType(MATRIX);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+
+  template <typename TPixel>
+    void SetPixelTypeInfo(const std::complex< TPixel > *)
+  {
+    this->SetNumberOfComponents(2);
+    this->SetPixelType(COMPLEX);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+
+  template <unsigned VLength>
+    void SetPixelTypeInfo(const Offset< VLength > *)
+  {
+    this->SetNumberOfComponents(VLength);
+    this->SetPixelType(ImageIOBase::OFFSET);
+    this->SetComponentType(ImageIOBase::LONG);
+  }
 protected:
   ImageIOBase();
   ~ImageIOBase();
@@ -529,6 +626,26 @@ private:
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;
 };
+
+#define IMAGEIOBASE_TYPEMAP(type,ctype)                         \
+  template <> struct ImageIOBase::MapPixelType<type>    \
+  {                                                     \
+    static const IOComponentType CType = ctype; \
+  }
+
+IMAGEIOBASE_TYPEMAP(char, CHAR);
+IMAGEIOBASE_TYPEMAP(unsigned char, UCHAR);
+IMAGEIOBASE_TYPEMAP(short, SHORT);
+IMAGEIOBASE_TYPEMAP(unsigned short, USHORT);
+IMAGEIOBASE_TYPEMAP(int, INT);
+IMAGEIOBASE_TYPEMAP(unsigned int, UINT);
+IMAGEIOBASE_TYPEMAP(long, LONG);
+IMAGEIOBASE_TYPEMAP(unsigned long, ULONG);
+IMAGEIOBASE_TYPEMAP(float, FLOAT);
+IMAGEIOBASE_TYPEMAP(double, DOUBLE);
+#undef IMAGIOBASE_TYPEMAP
+
+
 } // end namespace itk
 
 #endif // __itkImageIOBase_h
