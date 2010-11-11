@@ -19,6 +19,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageToParametricSpaceFilter.h"
 #include "itkMesh.h"
 #include "itkImage.h"
