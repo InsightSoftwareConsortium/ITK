@@ -33,12 +33,13 @@ ScalarAnisotropicDiffusionFunction< TImage >
   typedef ConstNeighborhoodIterator< TImage >                           RNI_type;
   typedef ConstNeighborhoodIterator< TImage >                           SNI_type;
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TImage > BFC_type;
+  typedef typename NumericTraits<PixelType>::AccumulateType             AccumulateType;
 
   unsigned int                               i;
   ZeroFluxNeumannBoundaryCondition< TImage > bc;
-  PixelType                                  accumulator;
-  PixelType                                  val;
-  PixelType                                  counter;
+  AccumulateType                             accumulator;
+  PixelRealType                              val;
+  size_t                                     counter;
   BFC_type                                   bfc;
   typename BFC_type::FaceListType faceList;
   typename RNI_type::RadiusType radius;
@@ -66,8 +67,8 @@ ScalarAnisotropicDiffusionFunction< TImage >
   fit      = faceList.begin();
 
   // Now do the actual processing
-  accumulator = NumericTraits< PixelType >::Zero;
-  counter     = NumericTraits< PixelType >::Zero;
+  accumulator = NumericTraits< AccumulateType >::Zero;
+  counter     = 0;
 
   // First process the non-boundary region
 
@@ -83,14 +84,13 @@ ScalarAnisotropicDiffusionFunction< TImage >
     }
   while ( !iterator_list[0].IsAtEnd() )
     {
-    counter += NumericTraits< PixelType >::One;
+    counter++;
     for ( i = 0; i < ImageDimension; ++i )
       {
-      val = static_cast< PixelType >( iterator_list[i].GetPixel(Center[i] + Stride[i]) )
-            - static_cast< PixelType >( iterator_list[i].GetPixel(Center[i] - Stride[i]) );
-      double tempval;
-      tempval = val / -2.0f;
-      val = static_cast< PixelType >( tempval * this->m_ScaleCoefficients[i] );
+      val = iterator_list[i].GetPixel(Center[i] + Stride[i])
+            - iterator_list[i].GetPixel(Center[i] - Stride[i]);
+      PixelRealType tempval = val / -2.0f;
+      val = tempval * this->m_ScaleCoefficients[i];
       accumulator += val * val;
       ++iterator_list[i];
       }
@@ -112,17 +112,13 @@ ScalarAnisotropicDiffusionFunction< TImage >
 
     while ( !face_iterator_list[0].IsAtEnd() )
       {
-      counter += NumericTraits< PixelType >::One;
+      counter++;
       for ( i = 0; i < ImageDimension; ++i )
         {
-        val = static_cast< PixelType >(
-          face_iterator_list[i].GetPixel(Center[i] + Stride[i]) )
-              - static_cast< PixelType >(
-          face_iterator_list[i].GetPixel(Center[i] - Stride[i]) );
-        double tempval;
-        tempval = val / -2.0f;
-        val = static_cast< PixelType >(
-          tempval * this->m_ScaleCoefficients[i] );
+        val = face_iterator_list[i].GetPixel(Center[i] + Stride[i])
+              - face_iterator_list[i].GetPixel(Center[i] - Stride[i]);
+        PixelRealType tempval = val / -2.0f;
+        val = tempval * this->m_ScaleCoefficients[i];
         accumulator += val * val;
         ++face_iterator_list[i];
         }
