@@ -26,15 +26,15 @@
 namespace itk
 {
 /** \class Transform
- * \brief Transform points and vector from an input space to an output space.
+ * \brief Transform points and vectors from an input space to an output space.
  *
- * This abstract class define the generic interface for a geometrical
+ * This abstract class defines the generic interface for a geometric
  * transformation from one space to another. The class provides methods
  * for mapping points, vectors and covariant vectors from the input space
  * to the output space.
  *
- * Given that transformation are not necesarily invertible, this basic
- * class does not provide the methods for back transfromation. Back transform
+ * Given that transformations are not necessarily invertible, this basic
+ * class does not provide the methods for back transformation. Back transform
  * methods are implemented in derived classes where appropriate.
  *
  * \par Registration Framework Support
@@ -45,12 +45,20 @@ namespace itk
  * the SetParameters() method.
  *
  * Another requirement of the registration framework is the computation
- * of the transform Jacobian. In general, a ImageToImageMetric requires
+ * of the transform Jacobian. In general, an ImageToImageMetric requires
  * the knowledge of the Jacobian in order to compute the metric derivatives.
  * The Jacobian is a matrix whose element are the partial derivatives
  * of the output point with respect to the array of parameters that defines
  * the transform.
  *
+ * Subclasses must provide implementations for:
+ *   OutputPointType           TransformPoint(const InputPointType  &) const
+ *   OutputVectorType          TransformVector(const InputVectorType &) const
+ *   OutputVnlVectorType       TransformVector(const InputVnlVectorType &) const
+ *   OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+ *   void                      SetParameters(const ParametersType &)
+ *   void                      SetFixedParameters(const ParametersType &)
+ *   const                     JacobianType & GetJacobian(const InputPointType  &) const
  * \ingroup Transforms
  *
  */
@@ -65,9 +73,6 @@ public:
   typedef TransformBase              Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
-
-  /** New method for creating an object using a factory. */
-  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Transform, TransformBase);
@@ -123,21 +128,16 @@ public:
   typedef typename InverseTransformBaseType::Pointer InverseTransformBasePointer;
 
   /**  Method to transform a point. */
-  virtual OutputPointType TransformPoint(const InputPointType  &) const
-  { return OutputPointType(); }
+  virtual OutputPointType TransformPoint(const InputPointType  &) const = 0;
 
   /**  Method to transform a vector. */
-  virtual OutputVectorType    TransformVector(const InputVectorType &) const
-  { return OutputVectorType(); }
+  virtual OutputVectorType    TransformVector(const InputVectorType &) const = 0;
 
   /**  Method to transform a vnl_vector. */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
-  { return OutputVnlVectorType(); }
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const = 0;
 
   /**  Method to transform a CovariantVector. */
-  virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &) const
-  { return OutputCovariantVectorType(); }
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const = 0;
 
   /** Set the transformation parameters and update internal transformation.
    * SetParameters gives the transform the option to set it's
@@ -146,8 +146,7 @@ public:
    * SetParametersByValue.
    * \sa SetParametersByValue
    */
-  virtual void SetParameters(const ParametersType &)
-  { itkExceptionMacro(<< "Subclasses should override this method") }
+  virtual void SetParameters(const ParametersType &) = 0;
 
   /** Set the transformation parameters and update internal transformation.
    * This method forces the transform to copy the parameters.  The
@@ -162,23 +161,16 @@ public:
   /** Get the Transformation Parameters. */
   virtual const ParametersType & GetParameters(void) const
   {
-    itkExceptionMacro(<< "Subclasses should override this method");
-    // Next line is needed to avoid errors due to:
-    // "function must return a value".
-    return this->m_Parameters;
+    return m_Parameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const ParametersType &)
-  { itkExceptionMacro(<< "Subclasses should override this method") }
+  virtual void SetFixedParameters(const ParametersType &) = 0;
 
   /** Get the Fixed Parameters. */
   virtual const ParametersType & GetFixedParameters(void) const
   {
-    itkExceptionMacro(<< "Subclasses should override this method");
-    // Next line is needed to avoid errors due to:
-    // "function must return a value".
-    return this->m_FixedParameters;
+    return m_FixedParameters;
   }
 
   /** Compute the Jacobian of the transformation
@@ -208,13 +200,7 @@ public:
    *
    * \f]
    * */
-  virtual const JacobianType & GetJacobian(const InputPointType  &) const
-  {
-    itkExceptionMacro(<< "Subclass should override this method");
-    // Next line is needed to avoid errors due to:
-    // "function must return a value" .
-    return this->m_Jacobian;
-  }
+  virtual const JacobianType & GetJacobian(const InputPointType  &) const = 0;
 
   /** Return the number of parameters that completely define the Transfom  */
   virtual unsigned int GetNumberOfParameters(void) const

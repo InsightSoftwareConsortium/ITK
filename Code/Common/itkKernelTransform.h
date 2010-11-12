@@ -96,6 +96,14 @@ public:
   typedef typename Superclass::InputVectorType  InputVectorType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
 
+  /** Standard covariant vector type for this class */
+  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+
+  /** Standard vnl_vector type for this class. */
+  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+
   /** PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists. */
   typedef DefaultStaticMeshTraits< TScalarType, NDimensions,
@@ -133,6 +141,25 @@ public:
 
   /** Compute the position of point in the new space */
   virtual OutputPointType TransformPoint(const InputPointType & thisPoint) const;
+
+  /** These vector transforms are not implemented for this transform */
+  virtual OutputVectorType TransformVector(const InputVectorType &) const
+  {
+    itkExceptionMacro(
+      << "TransformVector(const InputVectorType &) is not implemented for KernelTransform");
+  }
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
+  {
+    itkExceptionMacro(
+      << "TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform");
+  }
+
+  /**  Method to transform a CovariantVector. */
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
+  {
+    itkExceptionMacro(
+      << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
+  }
 
   /** 'I' (identity) matrix typedef. */
   typedef vnl_matrix_fixed< TScalarType, NDimensions, NDimensions > IMatrixType;
