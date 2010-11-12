@@ -572,6 +572,43 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
     throw e_; /* Explicit naming to work around Intel compiler bug.  */                 \
     }
 
+#define itkDeclareExceptionMacro(newexcp,parentexcp,whatmessage)                        \
+namespace itk {                                                                         \
+class ITK_EXPORT newexcp : public parentexcp                                            \
+{                                                                                       \
+public:                                                                                 \
+newexcp( const char *file, unsigned int lineNumber ) :                                  \
+parentexcp( file, lineNumber )                                                          \
+{                                                                                       \
+  this->SetDescription( whatmessage );                                                  \
+}                                                                                       \
+newexcp( const std::string & file, unsigned int lineNumber ) :                          \
+parentexcp( file, lineNumber )                                                          \
+{                                                                                       \
+  this->SetDescription( whatmessage );                                                  \
+}                                                                                       \
+itkTypeMacro(newexcp, parentexcp);                                                      \
+};                                                                                      \
+}
+
+#define itkSpecializedExceptionMacro(exceptiontype)                                     \
+    {                                                                                   \
+    ::itk::exceptiontype e_(__FILE__, __LINE__);                                        \
+    e_.SetLocation(ITK_LOCATION);                                                       \
+    throw e_; /* Explicit naming to work around Intel compiler bug.  */                 \
+    }
+
+#define itkSpecializedMessageExceptionMacro(exceptiontype,x)                            \
+    {                                                                                   \
+    ::itk::exceptiontype e_(__FILE__, __LINE__);                                        \
+    std::ostringstream message;                                                         \
+    message << "itk::ERROR: " x;                                                        \
+    e_.SetDescription(message.str().c_str());                                           \
+    e_.SetLocation(ITK_LOCATION);                                                       \
+    throw e_; /* Explicit naming to work around Intel compiler bug.  */                 \
+    }
+
+
 #ifdef ITK_LEAN_AND_MEAN_TEST_RENAME_TO_INVESTIGATE_REMOVAL_OPTIONS
 #define itkGenericOutputMacro(x)
 #else
