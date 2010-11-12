@@ -2,6 +2,9 @@ project(ITK_HIGHER_ORDER_ACCURATE_GRADIENT)
 
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
+if(${ITK_VERSION_MAJOR} VERSION_LESS 4)
+  message(SEND_ERROR "This project requires ITKv4.")
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
