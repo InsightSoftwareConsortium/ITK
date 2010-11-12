@@ -4,6 +4,11 @@ cmake_policy(VERSION 2.8)
 project(ITK_SPLIT_COMPONENTS)
 
 find_package(ITK REQUIRED)
+include(IJMacros.txt)
+set(REQUIRED_PACKAGES ITK3.20)
+foreach(package ${REQUIRED_PACKAGES})
+  loadpackage( ${package} )
+endforeach()
 include(${ITK_USE_FILE})
 
 # where all the executables go
