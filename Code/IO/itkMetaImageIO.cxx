@@ -805,13 +805,6 @@ void MetaImageIO::ReadImageInformation()
         break;
         }
       }
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-    if ( !coordUndefined )
-      {
-      EncapsulateMetaData< SpatialOrientation::ValidCoordinateOrientationFlags >(
-        thisMetaDict, ITK_CoordinateOrientation, coordOrient);
-      }
-#endif
     }
 
   //
@@ -1128,12 +1121,6 @@ MetaImageIO
     {
     SpatialOrientation::ValidCoordinateOrientationFlags coordOrient =
       SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-    if ( !ExposeMetaData
-         < SpatialOrientation::ValidCoordinateOrientationFlags >
-           (thisMetaDict, ITK_CoordinateOrientation, coordOrient) )
-      {
-#endif
     std::vector< double > dirx, diry, dirz;
     SpatialOrientationAdapter::DirectionType dir;
     dirx = this->GetDirection(0);
@@ -1146,9 +1133,6 @@ MetaImageIO
       dir[ii][2] = dirz[ii];
       }
     coordOrient = SpatialOrientationAdapter().FromDirectionCosines(dir);
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-    }
-#endif
 
     switch ( coordOrient )
       {
@@ -1390,17 +1374,17 @@ MetaImageIO
       {
       // try for common scalar types
       std::ostringstream strs;
-      double dval;
-      float fval;
-      long lval;
-      unsigned long ulval;
-      int ival;
-      unsigned uval;
-      short shval;
-      unsigned short ushval;
-      char cval;
-      unsigned char ucval;
-      bool bval;
+      double dval=0.0;
+      float fval=0.0F;
+      long lval=0L;
+      unsigned long ulval=0L;
+      int ival=0;
+      unsigned uval=0;
+      short shval=0;
+      unsigned short ushval=0;
+      char cval=0;
+      unsigned char ucval=0;
+      bool bval=false;
       if(ExposeMetaData<double>(thisMetaDict,*keyIt,dval))
         {
         strs << dval;
