@@ -85,6 +85,9 @@ public:
   /** Type for real-valued scalar operations. */
   typedef ElementRealType ScalarRealType;
 
+  /** Measurement vector type */
+  typedef Self MeasurementVectorType;
+
   /** Component wise defined element
    *
    * \note minimum value for floating pointer types is defined as
