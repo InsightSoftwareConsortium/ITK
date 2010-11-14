@@ -118,7 +118,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
   for ( unsigned int component = 0; component < PointDimension; component++ )
     {
     image = this->GetInput(component);
-    typename itk::ImageRegionConstIterator< InputImageType >
+    ImageRegionConstIterator< InputImageType >
       it( image, image->GetRequestedRegion() );
 
     PointsContainerIterator point  = points->Begin();
@@ -137,7 +137,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
     {
     PointDataContainerIterator data   = pointData->Begin();
     image = this->GetInput(0);
-    typename itk::ImageRegionConstIteratorWithIndex< InputImageType >
+    ImageRegionConstIteratorWithIndex< InputImageType >
       it( image, image->GetRequestedRegion() );
     it.GoToBegin();
     while ( !it.IsAtEnd() )
