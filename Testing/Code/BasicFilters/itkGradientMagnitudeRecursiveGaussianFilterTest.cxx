@@ -18,8 +18,8 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <itkGradientMagnitudeRecursiveGaussianImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkSimpleFilterWatcher.h"
 
 template<class TImage1Type,class TImage2Type>

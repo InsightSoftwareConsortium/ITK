@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <itkPoint.h>
-#include <itkTriangleHelper.h>
+#include "itkPoint.h"
+#include "itkTriangleHelper.h"
 #include <iostream>
 
 int itkTriangleHelperTest( int argc, char* argv[] )

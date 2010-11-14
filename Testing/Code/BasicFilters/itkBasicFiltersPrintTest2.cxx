@@ -98,7 +98,7 @@
 #include "itkZeroCrossingBasedEdgeDetectionImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
 
-#include <itkSphereSpatialFunction.h>
+#include "itkSphereSpatialFunction.h"
 #include "itkGaussianSpatialFunction.h"
 
 

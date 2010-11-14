@@ -34,7 +34,7 @@
 #ifdef ITK_USE_SYSTEM_JPEG
 # include <jpeglib.h>
 #else
-# include <itkjpeg/jpeglib.h>
+# include "itkjpeg/jpeglib.h"
 #endif
 
 #endif

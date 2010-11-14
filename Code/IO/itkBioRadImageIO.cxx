@@ -27,7 +27,7 @@
  *=========================================================================*/
 #include "itkBioRadImageIO.h"
 #include "itkByteSwapper.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <string.h>  // for strncpy
 
 #define BIORAD_HEADER_LENGTH    76

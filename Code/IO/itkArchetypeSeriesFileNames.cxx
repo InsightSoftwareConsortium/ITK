@@ -24,7 +24,7 @@
 
 #include "itkArchetypeSeriesFileNames.h"
 #include "itkRegularExpressionSeriesFileNames.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <stdio.h>
 #include <algorithm>
 

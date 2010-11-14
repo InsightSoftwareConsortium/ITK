@@ -21,11 +21,11 @@
 
 
 
-#include <itkImage.h>
-#include <itkSqrtImageFilter.h>
-#include <itkSqrtImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkSubtractImageFilter.h>
+#include "itkImage.h"
+#include "itkSqrtImageFilter.h"
+#include "itkSqrtImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkSubtractImageFilter.h"
 
 
 int itkSqrtImageFilterAndAdaptorTest(int, char* [] )

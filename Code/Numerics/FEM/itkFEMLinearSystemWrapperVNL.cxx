@@ -22,7 +22,7 @@
 
 #include "itkMacro.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
-#include <vxl/core/vxl_version.h>
+#include "vxl/core/vxl_version.h"
 #include <iostream>
 
 namespace itk {

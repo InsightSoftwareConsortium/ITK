@@ -18,8 +18,8 @@
 #include <iostream>
 #include <string>
 #include <math.h>
-#include <itkWarpImageFilter.h>
-#include <itkStreamingImageFilter.h>
+#include "itkWarpImageFilter.h"
+#include "itkStreamingImageFilter.h"
 
 #include "../IO/itkPipelineMonitorImageFilter.h"
 

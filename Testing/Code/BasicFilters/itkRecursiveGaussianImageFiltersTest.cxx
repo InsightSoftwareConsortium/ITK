@@ -21,10 +21,10 @@
 #endif
 
 
-#include <itkImage.h>
-#include <itkRecursiveGaussianImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkImageRegionConstIterator.h>
+#include "itkImage.h"
+#include "itkRecursiveGaussianImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionConstIterator.h"
 
 
 int itkRecursiveGaussianImageFiltersTest(int, char* [] )

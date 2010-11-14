@@ -19,7 +19,7 @@
 #include "itkMacro.h"
 #include "itkByteSwapper.h"
 #include "itkDirectory.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -29,9 +29,9 @@
 #include <vector>
 #include <string>
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_cross.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_cross.h"
 
 #include "itkGEImageHeader.h"
 

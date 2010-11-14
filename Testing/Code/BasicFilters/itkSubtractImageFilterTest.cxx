@@ -21,9 +21,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkSubtractImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkSubtractImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkSubtractImageFilterTest(int, char* [] )

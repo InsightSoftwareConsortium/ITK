@@ -22,9 +22,9 @@
 
 
 
-#include <itkGradientRecursiveGaussianImageFilter.h>
-#include <itkImageRegionIterator.h>
-#include <itkGradientToMagnitudeImageFilter.h>
+#include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkImageRegionIterator.h"
+#include "itkGradientToMagnitudeImageFilter.h"
 
 
 int itkGradientToMagnitudeImageFilterTest(int, char* [] )

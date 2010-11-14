@@ -33,9 +33,9 @@
 
 #include <set>
 
-#include <vxl_version.h>
+#include "vxl_version.h"
 #if VXL_VERSION_DATE_FULL > 20040406
-#include <vnl/vnl_cross.h>
+#include "vnl/vnl_cross.h"
 #define itk_cross_3d vnl_cross_3d
 #else
 #define itk_cross_3d cross_3d

@@ -20,9 +20,9 @@
 
 #include "itkImageSource.h"
 
-#include <itkPolygonCell.h>
-#include <itkMapContainer.h>
-#include <itkVectorContainer.h>
+#include "itkPolygonCell.h"
+#include "itkMapContainer.h"
+#include "itkVectorContainer.h"
 #include "itkAutomaticTopologyMeshSource.h"
 #include "itkPointSet.h"
 

@@ -21,11 +21,11 @@
 
 
 
-#include <itkImage.h>
-#include <itkComplexToRealImageFilter.h>
-#include <itkComplexToRealImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkSubtractImageFilter.h>
+#include "itkImage.h"
+#include "itkComplexToRealImageFilter.h"
+#include "itkComplexToRealImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkSubtractImageFilter.h"
 
 
 int itkComplexToRealFilterAndAdaptorTest(int, char* [] )

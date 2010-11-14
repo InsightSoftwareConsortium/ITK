@@ -18,8 +18,8 @@
 #include "itkVTKImageIO2.h"
 #include "itkByteSwapper.h"
 
-#include <itksys/ios/sstream>
-#include <itksys/SystemTools.hxx>
+#include "itksys/ios/sstream"
+#include "itksys/SystemTools.hxx"
 
 #include <stdio.h>
 #include <string.h>

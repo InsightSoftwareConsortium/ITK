@@ -18,19 +18,19 @@
 #include <iostream>
 #include <fstream>
 
-#include <itkArray.h>
-#include <itkImage.h>
-#include <itkVectorImage.h>
-#include <itkImageFileWriter.h>
-#include <itkImageFileReader.h>
-#include <itkMetaDataObject.h>
-#include <itkImageRegionIterator.h>
-#include <itkLabelStatisticsImageFilter.h>
-#include <itkThresholdImageFilter.h>
-#include <itkMaskImageFilter.h>
-#include <itkNotImageFilter.h>
-#include <itkScalarImageKmeansImageFilter.h>
-#include <itkImageRegionIterator.h>
+#include "itkArray.h"
+#include "itkImage.h"
+#include "itkVectorImage.h"
+#include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
+#include "itkMetaDataObject.h"
+#include "itkImageRegionIterator.h"
+#include "itkLabelStatisticsImageFilter.h"
+#include "itkThresholdImageFilter.h"
+#include "itkMaskImageFilter.h"
+#include "itkNotImageFilter.h"
+#include "itkScalarImageKmeansImageFilter.h"
+#include "itkImageRegionIterator.h"
 
 int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 {

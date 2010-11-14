@@ -22,9 +22,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkMinimumImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkMinimumImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkMinimumImageFilterTest(int, char* [] )

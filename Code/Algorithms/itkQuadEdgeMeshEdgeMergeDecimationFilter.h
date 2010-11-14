@@ -22,8 +22,8 @@
 #include <map>
 #include <algorithm>
 
-#include <itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h>
-#include <itkQuadEdgeMeshPolygonCell.h>
+#include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
+#include "itkQuadEdgeMeshPolygonCell.h"
 
 #include "itkQuadEdgeMeshDecimationFilter.h"
 #include "itkPriorityQueueContainer.h"

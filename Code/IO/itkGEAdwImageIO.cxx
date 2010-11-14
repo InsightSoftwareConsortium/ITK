@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkGEAdwImageIO.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 #include "itkMacro.h"
 #include "itkByteSwapper.h"

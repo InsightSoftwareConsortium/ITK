@@ -34,7 +34,7 @@
 #ifdef ITK_USE_SYSTEM_PNG
 # include <png.h>
 #else
-# include <itkpng/png.h>
+# include "itkpng/png.h"
 #endif
 
 #endif

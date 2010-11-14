@@ -29,7 +29,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include <itkArrowSpatialObject.h>
+#include "itkArrowSpatialObject.h"
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )

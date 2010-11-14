@@ -18,8 +18,8 @@
 #ifndef __itkOnePlusOneEvolutionaryOptimizer_h
 #define __itkOnePlusOneEvolutionaryOptimizer_h
 
-#include <itkSingleValuedNonLinearOptimizer.h>
-#include <itkRandomVariateGeneratorBase.h>
+#include "itkSingleValuedNonLinearOptimizer.h"
+#include "itkRandomVariateGeneratorBase.h"
 #include <string>
 
 namespace itk

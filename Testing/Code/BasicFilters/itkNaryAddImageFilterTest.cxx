@@ -19,9 +19,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkImage.h>
-#include <itkNaryAddImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkNaryAddImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include <iostream>
 
 

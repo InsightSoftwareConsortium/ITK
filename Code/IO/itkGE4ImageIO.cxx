@@ -22,7 +22,7 @@
 #include "Ge4xHdr.h"
 #include "itkMvtSunf.h"
 #include "itkDirectory.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <string.h>
 #include <string>
 #include <iostream>

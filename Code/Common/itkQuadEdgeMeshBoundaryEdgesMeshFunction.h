@@ -18,7 +18,7 @@
 #ifndef __itkQuadEdgeMeshBoundaryEdgesMeshFunction_h
 #define __itkQuadEdgeMeshBoundaryEdgesMeshFunction_h
 
-#include <itkFunctionBase.h>
+#include "itkFunctionBase.h"
 
 namespace itk
 {

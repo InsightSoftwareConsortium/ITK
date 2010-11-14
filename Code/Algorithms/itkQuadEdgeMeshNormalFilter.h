@@ -18,8 +18,8 @@
 #ifndef __itkQuadEdgeMeshNormalFilter_h
 #define __itkQuadEdgeMeshNormalFilter_h
 
-#include <itkQuadEdgeMeshToQuadEdgeMeshFilter.h>
-#include <itkQuadEdgeMeshPolygonCell.h>
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
+#include "itkQuadEdgeMeshPolygonCell.h"
 #include "itkTriangleHelper.h"
 
 namespace itk

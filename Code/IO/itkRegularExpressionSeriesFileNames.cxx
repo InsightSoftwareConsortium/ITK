@@ -27,9 +27,9 @@
 #include <stdlib.h>
 #include <algorithm>
 
-#include <itksys/SystemTools.hxx>
-#include <itksys/Directory.hxx>
-#include <itksys/RegularExpression.hxx>
+#include "itksys/SystemTools.hxx"
+#include "itksys/Directory.hxx"
+#include "itksys/RegularExpression.hxx"
 #include "itkRegularExpressionSeriesFileNames.h"
 
 struct lt_pair_numeric_string_string {

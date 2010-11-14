@@ -30,11 +30,11 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "vnl/vnl_math.h"
 
-#include <itkMutualInformationImageToImageMetric.h>
-#include <itkMattesMutualInformationImageToImageMetric.h>
-#include <itkMeanSquaresImageToImageMetric.h>
-#include <itkNormalizedCorrelationImageToImageMetric.h>
-//#include <itkMeanReciprocalSquareDifferenceImageToImageMetric.h>
+#include "itkMutualInformationImageToImageMetric.h"
+#include "itkMattesMutualInformationImageToImageMetric.h"
+#include "itkMeanSquaresImageToImageMetric.h"
+#include "itkNormalizedCorrelationImageToImageMetric.h"
+//#include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 
 
 namespace itk

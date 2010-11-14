@@ -4,7 +4,7 @@ library is intended to be shared among many projects.
 
 How to use KWSys from ITK:
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 bool MyIsDirectory(const char* fname)
 {

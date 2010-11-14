@@ -18,8 +18,8 @@
 #ifndef __itkDanielssonDistanceMapImageFilter_h
 #define __itkDanielssonDistanceMapImageFilter_h
 
-#include <itkImageToImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImageToImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {

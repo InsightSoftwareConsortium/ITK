@@ -19,9 +19,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkImage.h>
-#include <itkImageSliceConstIteratorWithIndex.h>
-#include <itkDanielssonDistanceMapImageFilter.h>
+#include "itkImage.h"
+#include "itkImageSliceConstIteratorWithIndex.h"
+#include "itkDanielssonDistanceMapImageFilter.h"
 
 
 int itkDanielssonDistanceMapImageFilterTest(int, char* [] )

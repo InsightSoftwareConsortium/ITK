@@ -22,7 +22,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkAnchorUtilities.h"
-#include <itkImageRegionIterator.h>
+#include "itkImageRegionIterator.h"
 namespace itk
 {
 template< class TImage, class TKernel, class TCompare1, class TCompare2 >

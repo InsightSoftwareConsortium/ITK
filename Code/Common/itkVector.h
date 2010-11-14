@@ -20,7 +20,7 @@
 
 #include "itkFixedArray.h"
 
-#include <vnl/vnl_vector_ref.h> // Get_vnl_vector method return
+#include "vnl/vnl_vector_ref.h" // Get_vnl_vector method return
 
 namespace itk
 {

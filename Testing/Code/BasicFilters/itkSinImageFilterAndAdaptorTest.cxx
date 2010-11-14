@@ -21,11 +21,11 @@
 
 
 
-#include <itkImage.h>
-#include <itkSinImageFilter.h>
-#include <itkSinImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkSubtractImageFilter.h>
+#include "itkImage.h"
+#include "itkSinImageFilter.h"
+#include "itkSinImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkSubtractImageFilter.h"
 
 
 int itkSinImageFilterAndAdaptorTest(int, char* [] )

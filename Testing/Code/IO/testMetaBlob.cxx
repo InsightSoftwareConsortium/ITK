@@ -23,7 +23,7 @@
 #include <ctype.h>
 #include <metaBlob.h>
 #include <cstdlib>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaBlob(int argc, char * argv[])
 {

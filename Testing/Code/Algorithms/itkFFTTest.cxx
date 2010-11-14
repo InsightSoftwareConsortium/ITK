@@ -30,7 +30,7 @@
 #include "itkFFTWComplexConjugateToRealImageFilter.h"
 #include "itkFFTWRealToComplexConjugateImageFilter.h"
 #endif
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include "vnl/vnl_sample.h"
 #include <math.h>
 

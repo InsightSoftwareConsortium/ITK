@@ -25,10 +25,10 @@
 #include "itk_hash_map.h"
 #include "itkFastMutexLock.h"
 #include <vector>
-#include <vnl/algo/vnl_symmetric_eigensystem.h>
-#include <vnl/vnl_det.h>
-#include <vnl/vnl_math.h>
-#include <vcl_cmath.h>
+#include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "vnl/vnl_det.h"
+#include "vnl/vnl_math.h"
+#include "vcl_cmath.h"
 
 namespace itk
 {

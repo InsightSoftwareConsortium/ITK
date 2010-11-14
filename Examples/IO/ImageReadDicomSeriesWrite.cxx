@@ -26,7 +26,7 @@
 #include "itkMetaDataObject.h"
 
 #include <vector>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 //  Software Guide : BeginLatex
 //

@@ -21,8 +21,8 @@
 
 #include "itkFEMElementStd.h"
 //to make some checks in GetLocalFromGlobalCoordinates
-#include <vnl/vnl_matrix.h>
-#include <vnl/algo/vnl_matrix_inverse.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/algo/vnl_matrix_inverse.h"
 
 namespace itk {
 namespace fem {

@@ -25,7 +25,7 @@
 #include "itkPixelTraits.h"
 #include "itkVectorImage.h"
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <fstream>
 
 namespace itk

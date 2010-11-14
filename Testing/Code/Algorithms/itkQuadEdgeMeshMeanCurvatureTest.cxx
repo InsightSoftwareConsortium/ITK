@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <itkQuadEdgeMesh.h>
-#include <itkVTKPolyDataReader.h>
+#include "itkQuadEdgeMesh.h"
+#include "itkVTKPolyDataReader.h"
 
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkQuadEdgeMeshDiscreteMeanCurvatureEstimator.h"

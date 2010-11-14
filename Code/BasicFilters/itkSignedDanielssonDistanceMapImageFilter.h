@@ -18,7 +18,7 @@
 #ifndef __itkSignedDanielssonDistanceMapImageFilter_h
 #define __itkSignedDanielssonDistanceMapImageFilter_h
 
-#include <itkDanielssonDistanceMapImageFilter.h>
+#include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkSubtractImageFilter.h"
 
 //Simple functor to invert an image for Outside Danielsson distance map

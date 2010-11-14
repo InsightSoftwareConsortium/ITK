@@ -31,7 +31,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 typedef itk::Image<signed short, 3> ImageType ;
 typedef ImageType::Pointer ImagePointer ;

@@ -18,7 +18,7 @@
 #ifndef __itkCosImageAdaptor_h
 #define __itkCosImageAdaptor_h
 
-#include <itkImageAdaptor.h>
+#include "itkImageAdaptor.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

@@ -19,7 +19,7 @@
 #define __itkSpatialObjectToImageFilter_txx
 
 #include "itkSpatialObjectToImageFilter.h"
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {

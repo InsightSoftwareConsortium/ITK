@@ -25,9 +25,9 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include <stdio.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
-#include <itk_jpeg.h>
+#include "itk_jpeg.h"
 #include <setjmp.h>
 
 // create an error handler for jpeg that

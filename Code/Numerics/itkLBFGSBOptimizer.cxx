@@ -20,7 +20,7 @@
 
 #include "itkLBFGSBOptimizer.h"
 #include "vnl/algo/vnl_lbfgsb.h"
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 
 extern "C" {
 extern double v3p_netlib_dpmeps_();

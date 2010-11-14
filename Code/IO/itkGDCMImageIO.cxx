@@ -32,14 +32,14 @@
 #include "itkIOCommon.h"
 #include "itkArray.h"
 #include "itkMatrix.h"
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_cross.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_cross.h"
 
 #include "itkMetaDataObject.h"
 
-#include <itksys/SystemTools.hxx>
-#include <itksys/Base64.h>
+#include "itksys/SystemTools.hxx"
+#include "itksys/Base64.h"
 
 #include "gdcmFile.h"
 #include "gdcmImageHelper.h"

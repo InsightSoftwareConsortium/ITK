@@ -19,8 +19,8 @@
 #define __itkPointSetToImageFilter_txx
 
 #include "itkPointSetToImageFilter.h"
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkNumericTraits.h>
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {

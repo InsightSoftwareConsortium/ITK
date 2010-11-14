@@ -18,8 +18,8 @@
 #ifndef __itkNthElementImageAdaptor_h
 #define __itkNthElementImageAdaptor_h
 
-#include <itkImageAdaptor.h>
-#include <itkNthElementPixelAccessor.h>
+#include "itkImageAdaptor.h"
+#include "itkNthElementPixelAccessor.h"
 
 namespace itk
 {

@@ -33,12 +33,12 @@
  */
 
 
-#include <itkAdaptImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkVector.h>
-#include <itkNthElementPixelAccessor.h>
+#include "itkAdaptImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkVector.h"
+#include "itkNthElementPixelAccessor.h"
 
-#include <vnl/vnl_sample.h>
+#include "vnl/vnl_sample.h"
 
 
 //-------------------------------------

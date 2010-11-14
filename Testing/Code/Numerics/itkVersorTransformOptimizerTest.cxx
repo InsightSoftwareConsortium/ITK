@@ -19,9 +19,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkVersorTransformOptimizer.h>
-#include <itkCovariantVector.h>
-#include <itkVersorTransform.h>
+#include "itkVersorTransformOptimizer.h"
+#include "itkCovariantVector.h"
+#include "itkVersorTransform.h"
 
 
 /**

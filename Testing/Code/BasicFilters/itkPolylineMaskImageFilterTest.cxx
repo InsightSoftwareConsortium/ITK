@@ -19,12 +19,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkImage.h>
-#include <itkPolylineMaskImageFilter.h>
-#include <itkPolyLineParametricPath.h>
-#include <itkEllipseSpatialObject.h>
-#include <itkSpatialObjectToImageFilter.h>
-#include <itkImageFileWriter.h>
+#include "itkImage.h"
+#include "itkPolylineMaskImageFilter.h"
+#include "itkPolyLineParametricPath.h"
+#include "itkEllipseSpatialObject.h"
+#include "itkSpatialObjectToImageFilter.h"
+#include "itkImageFileWriter.h"
 #include <iostream>
 
 int itkPolylineMaskImageFilterTest(int , char * [] )

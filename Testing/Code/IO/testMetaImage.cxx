@@ -23,7 +23,7 @@
 #include <ctype.h>
 #include <cstdlib>
 #include <metaImage.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaImage(int , char * [])
   {

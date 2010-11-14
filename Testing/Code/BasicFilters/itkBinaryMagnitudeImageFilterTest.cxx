@@ -21,9 +21,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkBinaryMagnitudeImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkBinaryMagnitudeImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkBinaryMagnitudeImageFilterTest(int, char* [] )

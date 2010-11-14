@@ -25,7 +25,7 @@
 #include <cstdlib>
 
 #include <metaGroup.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaGroup(int argc, char *argv[])
 {

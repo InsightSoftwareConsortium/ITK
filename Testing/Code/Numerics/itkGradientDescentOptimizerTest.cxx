@@ -19,8 +19,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkGradientDescentOptimizer.h>
-#include <vnl/vnl_math.h>
+#include "itkGradientDescentOptimizer.h"
+#include "vnl/vnl_math.h"
 
 
 /**

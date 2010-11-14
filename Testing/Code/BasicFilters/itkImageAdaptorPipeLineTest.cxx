@@ -27,11 +27,11 @@
 //-------------------------------------------
 
 
-#include <itkIndex.h>
-#include <itkImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkRedPixelAccessor.h>
-#include <itkAddImageFilter.h>
+#include "itkIndex.h"
+#include "itkImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkRedPixelAccessor.h"
+#include "itkAddImageFilter.h"
 
 
 int itkImageAdaptorPipeLineTest(int, char* [] )

@@ -18,7 +18,7 @@
 #ifndef __itkFFTComplexToComplexImageFilter_h
 #define __itkFFTComplexToComplexImageFilter_h
 
-#include <itkImageToImageFilter.h>
+#include "itkImageToImageFilter.h"
 #include <complex>
 
 namespace itk

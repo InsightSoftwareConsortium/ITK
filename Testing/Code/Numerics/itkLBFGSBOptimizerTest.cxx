@@ -21,7 +21,7 @@
 
 #include "itkLBFGSBOptimizer.h"
 #include "itkTextOutput.h"
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 #include <iostream>
 
 /**

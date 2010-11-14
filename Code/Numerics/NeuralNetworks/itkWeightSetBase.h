@@ -19,8 +19,8 @@
 #define __itkWeightSetBase_h
 
 #include "itkLightProcessObject.h"
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_diag_matrix.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_diag_matrix.h"
 #include "itkVector.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include <math.h>

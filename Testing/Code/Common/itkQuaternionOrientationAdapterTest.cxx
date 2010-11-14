@@ -20,8 +20,8 @@
 #endif
 
 #include <iostream>
-#include <itkSpatialOrientationAdapter.h>
-#include <itkQuaternionOrientationAdapter.h>
+#include "itkSpatialOrientationAdapter.h"
+#include "itkQuaternionOrientationAdapter.h"
 
 typedef itk::SpatialOrientation::CoordinateTerms SO_CoordTermsType;
 typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags SO_OrientationType;

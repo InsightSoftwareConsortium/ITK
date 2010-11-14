@@ -26,7 +26,7 @@
 
 
 #include <metaUtils.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaUtils(int argc, char * argv[])
 {

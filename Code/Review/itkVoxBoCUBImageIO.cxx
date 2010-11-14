@@ -20,7 +20,7 @@
 #include "itkExceptionObject.h"
 #include "itkMetaDataObject.h"
 #include "itkByteSwapper.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <iostream>
 #include <list>
 #include <string>

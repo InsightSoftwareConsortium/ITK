@@ -20,7 +20,7 @@
 
 #include "itkInPlaceImageFilter.h"
 #include "itkFiniteDifferenceFunction.h"
-#include <vnl/vnl_vector.h>
+#include "vnl/vnl_vector.h"
 #include "itkImageRegionIterator.h"
 
 #include "itkListSample.h"

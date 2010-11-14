@@ -20,11 +20,11 @@
 #endif
 
 
-#include <itkImage.h>
-#include <itkCosImageFilter.h>
-#include <itkCosImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkSubtractImageFilter.h>
+#include "itkImage.h"
+#include "itkCosImageFilter.h"
+#include "itkCosImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkSubtractImageFilter.h"
 
 
 int itkCosImageFilterAndAdaptorTest(int, char* [] )

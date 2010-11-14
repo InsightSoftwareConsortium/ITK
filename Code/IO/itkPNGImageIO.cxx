@@ -19,7 +19,7 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itk_png.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 namespace itk
 {
