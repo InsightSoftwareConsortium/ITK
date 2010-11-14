@@ -19,7 +19,6 @@
 #define __itkImageToParametricSpaceFilter_h
 
 #include "itkImageToMeshFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -64,8 +63,6 @@ public:
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
   typedef typename InputImageType::RegionType   InputImageRegionType;
   typedef typename InputImageType::PixelType    InputImagePixelType;
-  typedef ImageRegionConstIteratorWithIndex< InputImageType >
-  InputImageIterator;
 
   /** Some typedefs associated with the output mesh. */
   typedef TOutputMesh                                 OutputMeshType;
