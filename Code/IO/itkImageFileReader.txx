@@ -367,7 +367,10 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
                   << output->GetRequestedRegion() << "\n");
 
   // allocated the output image to the size of the enlarge requested region
-  this->AllocateOutputs();
+  if( ! m_ImageIO->CanUseOwnBuffer() )
+    {
+    this->AllocateOutputs();
+    }
 
   // Test if the file exists and if it can be opened.
   // An exception will be thrown otherwise, since we can't
@@ -411,8 +414,15 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
                     << typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType).name());
 
 
-      loadBuffer = new char[ sizeOfActualIORegion ];
-      m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+      if( ! m_ImageIO->CanUseOwnBuffer() )
+        {
+        loadBuffer = new char[ sizeOfActualIORegion ];
+        m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+        }
+      else
+        {
+        m_ImageIO->ReadUsingOwnBuffer();
+        }
       
       // See note below as to why the buffered region is needed and
       // not actualIOregion
@@ -429,7 +439,15 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
       
       OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
       
-      loadBuffer = new char[ sizeOfActualIORegion ];
+      if( ! m_ImageIO->CanUseOwnBuffer() )
+        {
+        loadBuffer = new char[ sizeOfActualIORegion ];
+        m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+        }
+      else
+        {
+        m_ImageIO->ReadUsingOwnBuffer();
+        }
       m_ImageIO->Read( static_cast< void *>(loadBuffer) );
       
       // we use std::copy here as it should be optimized to memcpy for
@@ -442,8 +460,18 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
       {
       itkDebugMacro(<< "No buffer conversion required.");
 
-      OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
-      m_ImageIO->Read(outputBuffer);
+      if( ! m_ImageIO->CanUseOwnBuffer() )
+        {
+        loadBuffer = new char[ sizeOfActualIORegion ];
+        m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+        }
+      else
+        {
+        m_ImageIO->ReadUsingOwnBuffer();
+        }
+      output->GetPixelContainer()->SetImportPointer( 
+        reinterpret_cast< OutputImagePixelType * >( 
+          m_ImageIO->GetOwnBuffer() ), sizeOfActualIORegion, false );
       }
 
     }
