@@ -238,6 +238,8 @@ add_test(itkImageRandomIteratorTest ${COMMON_TESTS} itkImageRandomIteratorTest)
 add_test(itkImageRandomIteratorTest2 ${COMMON_TESTS} itkImageRandomIteratorTest2
       ${TEMP}/itkImageRandomIteratorTest2Output.mha)
 add_test(itkImageRandomNonRepeatingIteratorWithIndexTest ${COMMON_TESTS} itkImageRandomNonRepeatingIteratorWithIndexTest)
+add_test(itkImageRandomNonRepeatingIteratorWithIndexTest2
+  ${COMMON_TESTS} itkImageRandomNonRepeatingIteratorWithIndexTest2)
 add_test(itkImageRegionTest ${COMMON_TESTS} itkImageRegionTest)
 add_test(itkImageRegionExclusionIteratorWithIndexTest ${COMMON_TESTS} itkImageRegionExclusionIteratorWithIndexTest)
 add_test(itkImageReverseIteratorTest ${COMMON_TESTS} itkImageReverseIteratorTest)
