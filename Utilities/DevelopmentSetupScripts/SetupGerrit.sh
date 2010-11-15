@@ -23,18 +23,49 @@
 
 
 die() {
-	echo 'failure during Gerrit setup' 1>&2
-	echo '---------------------------' 1>&2
-	echo '' 1>&2
-	echo "$@" 1>&2
-	exit 1
+  echo 'Failure during Gerrit setup.' 1>&2
+  echo '----------------------------' 1>&2
+  echo '' 1>&2
+  echo "$@" 1>&2
+  exit 1
+}
+
+gerrit_user() {
+  read -ep "Enter your gerrit user (set in Gerrit Settings/Profile) [$USER]: " gu
+  if [ "$gu" == "" ]; then
+   # Use current user name.
+   gu=$USER
+  fi
+  echo -e "\nConfiguring 'gerrit' remote with user '$gu'..."
+  if git config remote.gerrit.url >/dev/null; then
+    # Correct the remote url
+    git remote set-url gerrit $gu@review.source.kitware.com:ITK || \
+      die "Could not amend gerrit remote."
+  else
+    # Add a new one
+    git remote add gerrit $gu@review.source.kitware.com:ITK || \
+      die "Could not add gerrit remote."
+  fi
+  cat << EOF
+
+For more information on Gerrit usage, see
+
+  http://www.itk.org/Wiki/ITK/Gerrit
+EOF
 }
 
 # Make sure we are inside the repository.
 cd "$(echo "$0"|sed 's/[^/]*$//')"
 
 if git config remote.gerrit.url >/dev/null; then
-  echo "Gerrit was already configured."
+  echo "Gerrit was already configured. The configured remote URL is:"
+  echo
+  git config remote.gerrit.url
+  echo
+  read -ep "Is the username correct? [Y/n]: " correct
+  if [ "$correct" == "n" ] || [ "$correct" == "N" ]; then
+    gerrit_user
+  fi
 else
   cat << EOF
 Gerrit is a code review system that works with Git.
@@ -48,25 +79,13 @@ In order to register you need an OpenID
   http://openid.net/get-an-openid/
 
 EOF
-  read -ep "Enter your gerrit user [$USER]: " gu
-  if [ "$gu" == "" ]; then
-   # Use current user name.
-   gu=$USER
-  fi
-  echo -e "\nConfiguring 'gerrit' remote with user '$gu'..."
-  git remote add gerrit $gu@review.source.kitware.com:ITK || \
-    die "Could not add gerrit remote."
-  cat << EOF
-
-For more information on Gerrit usage, see
-
-  http://www.itk.org/Wiki/ITK/Gerrit
-  http://www.itk.org/Wiki/ITK/Gerrit/Primer
-EOF
+  gerrit_user
 fi
 
-echo -e "\nFetching from gerrit..."
-git fetch gerrit || die "Could not fetch gerrit remote."
+echo -e "\nFetching from gerrit to test SSH key configuration (Settings/SSH Public Keys)"
+echo
+git fetch gerrit ||
+  die "Could not fetch gerrit remote. You need to upload your public SSH key to Gerrit."
 
 echo "Done."
 
