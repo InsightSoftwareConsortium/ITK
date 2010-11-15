@@ -357,6 +357,7 @@ std::istream &ExplicitImplicitDataElement::Read(std::istream &is)
         }
       catch( std::exception &ex)
         {
+        (void)ex;
         // Must be one of those non-cp246 file...
         // but for some reason seekg back to previous offset + Read
         // as Explicit does not work...

@@ -71,6 +71,7 @@ std::istream &CP246ExplicitDataElement::Read(std::istream &is)
     }
   catch( std::exception &ex )
     {
+    (void)ex;
     // gdcm-MR-PHILIPS-16-Multi-Seq.dcm
     // assert( TagField == Tag(0xfffe, 0xe000) );
     // -> For some reason VR is written as {44,0} well I guess this is a VR...
@@ -138,6 +139,7 @@ std::istream &CP246ExplicitDataElement::Read(std::istream &is)
         }
       catch( std::exception &ex)
         {
+        (void)ex;
         // Must be one of those non-cp246 file...
         // but for some reason seekg back to previous offset + Read
         // as CP246Explicit does not work...
@@ -184,6 +186,7 @@ std::istream &CP246ExplicitDataElement::Read(std::istream &is)
       }
     catch( std::exception &ex )
       {
+      (void)ex;
       ValueLengthField = ValueField->GetLength();
       }
     return is;

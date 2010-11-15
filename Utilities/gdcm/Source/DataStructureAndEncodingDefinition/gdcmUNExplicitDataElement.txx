@@ -79,6 +79,7 @@ std::istream &UNExplicitDataElement::Read(std::istream &is)
     }
   catch( Exception &ex )
     {
+    (void)ex;
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
     // gdcm-MR-PHILIPS-16-Multi-Seq.dcm
     // assert( TagField == Tag(0xfffe, 0xe000) );
@@ -161,6 +162,7 @@ std::istream &UNExplicitDataElement::Read(std::istream &is)
         }
       catch( std::exception &ex)
         {
+        (void)ex;
         // Must be one of those non-cp246 file...
         // but for some reason seekg back to previous offset + Read
         // as UNExplicit does not work...
