@@ -119,15 +119,15 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
     {
     image = this->GetInput(component);
     ImageRegionConstIterator< InputImageType >
-      it( image, image->GetRequestedRegion() );
+      itr( image, image->GetRequestedRegion() );
 
     PointsContainerIterator point  = points->Begin();
 
-    it.GoToBegin();
-    while ( !it.IsAtEnd() )
+    itr.GoToBegin();
+    while ( !itr.IsAtEnd() )
       {
-      ( point.Value() )[component] = it.Get();
-      ++it;
+      ( point.Value() )[component] = itr.Get();
+      ++itr;
       ++point;
       progress.CompletedPixel();
       }
@@ -138,17 +138,17 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
     PointDataContainerIterator data   = pointData->Begin();
     image = this->GetInput(0);
     ImageRegionConstIteratorWithIndex< InputImageType >
-      it( image, image->GetRequestedRegion() );
-    it.GoToBegin();
-    while ( !it.IsAtEnd() )
+      itr( image, image->GetRequestedRegion() );
+    itr.GoToBegin();
+    while ( !itr.IsAtEnd() )
       {
       //  The data at each point is the index
       //  of the corresponding pixel on the image.
       typedef typename OutputMeshType::PixelType MeshPixelType;
       MeshPixelType point;
-      image->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+      image->TransformIndexToPhysicalPoint(itr.GetIndex(), point);
       ( data.Value() ) = point;
-      ++it;
+      ++itr;
       ++data;
       }
     }
