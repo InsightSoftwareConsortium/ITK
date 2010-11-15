@@ -122,8 +122,8 @@ protected:
 
     ImageType *output = this->GetOutput();
     ImageType *output2 = this->GetOutput(1);
-    assert(this->GetNumberOfOutputs() == 2);
-    assert(output2 != NULL);
+    itkAssertInDebugAndIgnoreInReleaseMacro(this->GetNumberOfOutputs() == 2);
+    itkAssertInDebugAndIgnoreInReleaseMacro(output2 != NULL);
 
     // set the background value for the second output - this is not done in the
     // superclasses

@@ -72,7 +72,7 @@ template< class TTreeType >
 void
 TreeIteratorBase< TTreeType >::Set(ValueType element)
 {
-//  assert(m_Position);
+//  itkAssertInDebugAndIgnoreInReleaseMacro(m_Position);
   m_Position->Set(element);
   m_Tree->Modified();
   m_Tree->InvokeEvent( TreeNodeChangeEvent< TTreeType >(*this) );

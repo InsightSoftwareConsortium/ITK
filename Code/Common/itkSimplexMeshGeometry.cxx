@@ -100,7 +100,7 @@ SimplexMeshGeometry
   // necessary ??
   if ( val == 0 )
     {
-    val = 1; //  assert (val != 0 );
+    val = 1; //  itkAssertInDebugAndIgnoreInReleaseMacro (val != 0 );
     }
 
   sphereRadius = sphereTmp.GetNorm() / val;

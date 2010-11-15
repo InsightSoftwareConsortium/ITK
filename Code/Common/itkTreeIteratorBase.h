@@ -183,7 +183,7 @@ public:
   void
   operator++(int)
   {
-    // assert( !IsAtEnd() );
+    // itkAssertInDebugAndIgnoreInReleaseMacro( !IsAtEnd() );
     this->Next();
   }
 

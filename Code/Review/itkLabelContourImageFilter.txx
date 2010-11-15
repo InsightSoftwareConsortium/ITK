@@ -180,7 +180,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
   // now process the map and make appropriate entries in an equivalence
   // table
-  // assert( linecount == m_ForegroundLineMap.size() );
+  // itkAssertInDebugAndIgnoreInReleaseMacro( linecount == m_ForegroundLineMap.size() );
   SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];
   OffsetValueType linecount = pixelcount / xsize;
@@ -411,7 +411,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
       if ( eq )
         {
 //         std::cout << oStart << " " << oLast << std::endl;
-        assert(oStart <= oLast);
+        itkAssertInDebugAndIgnoreInReleaseMacro(oStart <= oLast);
         IndexType idx = cIt->where;
         for ( int x = oStart; x <= oLast; x++ )
           {

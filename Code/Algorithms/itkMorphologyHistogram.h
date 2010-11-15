@@ -55,7 +55,7 @@ public:
 
   inline TInputPixel GetValue()
   {
-    assert(!m_Map.empty());
+    itkAssertInDebugAndIgnoreInReleaseMacro(!m_Map.empty());
     // clean the map
     typename MapType::iterator mapIt = m_Map.begin();
     while ( mapIt != m_Map.end() )
@@ -82,7 +82,7 @@ public:
       }
 
     // and return the value
-    assert(!m_Map.empty());
+    itkAssertInDebugAndIgnoreInReleaseMacro(!m_Map.empty());
     return m_Map.begin()->first;
   }
 

@@ -812,7 +812,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 
     absvec = -vcl_sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
 
-    assert (absvec != 0);
+    itkAssertInDebugAndIgnoreInReleaseMacro (absvec != 0);
 
     v4[0] = coa / absvec;
     v4[1] = cob / absvec;

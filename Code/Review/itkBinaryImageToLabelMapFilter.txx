@@ -232,7 +232,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   // now process the map and make appropriate entries in an equivalence
   // table
-  // assert( linecount == m_LineMap.size() );
+  // itkAssertInDebugAndIgnoreInReleaseMacro( linecount == m_LineMap.size() );
   SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];
   OffsetValueType linecount = pixelcount / xsize;

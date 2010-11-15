@@ -21,6 +21,7 @@
 #include "itkCumulativeGaussianOptimizer.h"
 #include <assert.h>
 #include "itkMath.h"
+#include "itkMacro.h"
 
 namespace itk
 {
@@ -192,7 +193,7 @@ void CumulativeGaussianOptimizer
     }
   // Assertion fails if number of samples <=2 or UpperAsymptote==LowerAsymptote
   // improper behavior if number of samples == 3.
-  assert(sum != 0);
+  itkAssertInDebugAndIgnoreInReleaseMacro(sum != 0);
   m_ComputedMean /= sum;
 
   // Calculate the standard deviation

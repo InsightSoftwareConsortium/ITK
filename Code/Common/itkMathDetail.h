@@ -147,7 +147,7 @@ inline TReturn Ceil_base(TInput x)
 inline int32_t RoundHalfIntegerToEven_32(double x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   return _mm_cvtsd_si32( _mm_set_sd(x) );
 }
@@ -155,7 +155,7 @@ inline int32_t RoundHalfIntegerToEven_32(double x)
 inline int32_t RoundHalfIntegerToEven_32(float x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   return _mm_cvtss_si32( _mm_set_ss(x) );
 }
@@ -165,7 +165,7 @@ inline int32_t RoundHalfIntegerToEven_32(float x)
 inline int32_t RoundHalfIntegerToEven_32(double x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   int32_t r;
   __asm__ __volatile__ ( "fistpl %0" : "=m" ( r ) : "t" ( x ) : "st" );
@@ -175,7 +175,7 @@ inline int32_t RoundHalfIntegerToEven_32(double x)
 inline int32_t RoundHalfIntegerToEven_32(float x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   int32_t r;
   __asm__ __volatile__ ( "fistpl %0" : "=m" ( r ) : "t" ( x ) : "st" );
@@ -187,7 +187,7 @@ inline int32_t RoundHalfIntegerToEven_32(float x)
 inline int32_t RoundHalfIntegerToEven_32(double x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   int32_t r;
   __asm
@@ -201,7 +201,7 @@ inline int32_t RoundHalfIntegerToEven_32(double x)
 inline int32_t RoundHalfIntegerToEven_32(float x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   int32_t r;
   __asm
@@ -251,7 +251,7 @@ inline int32_t Ceil_32(float x) { return Ceil_base< int32_t, float >(x); }
 inline int64_t RoundHalfIntegerToEven_64(double x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE )  && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   return _mm_cvtsd_si64( _mm_set_sd(x) );
 }
@@ -259,7 +259,7 @@ inline int64_t RoundHalfIntegerToEven_64(double x)
 inline int64_t RoundHalfIntegerToEven_64(float x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   return _mm_cvtss_si64( _mm_set_ss(x) );
 }
@@ -269,7 +269,7 @@ inline int64_t RoundHalfIntegerToEven_64(float x)
 inline int64_t RoundHalfIntegerToEven_64(double x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   int64_t r;
   __asm__ __volatile__ ( "fistpll %0" : "=m" ( r ) : "t" ( x ) : "st" );
@@ -279,7 +279,7 @@ inline int64_t RoundHalfIntegerToEven_64(double x)
 inline int64_t RoundHalfIntegerToEven_64(float x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   int64_t r;
   __asm__ __volatile__ ( "fistpll %0" : "=m" ( r ) : "t" ( x ) : "st" );
@@ -291,7 +291,7 @@ inline int64_t RoundHalfIntegerToEven_64(float x)
 inline int64_t RoundHalfIntegerToEven_64(double x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   int64_t r;
   __asm
@@ -305,7 +305,7 @@ inline int64_t RoundHalfIntegerToEven_64(double x)
 inline int64_t RoundHalfIntegerToEven_64(float x)
 {
   #if defined( ITK_CHECK_FPU_ROUNDING_MODE ) && defined( HAVE_FENV_H )
-  assert(fegetround() == FE_TONEAREST);
+  itkAssertInDebugAndIgnoreInReleaseMacro(fegetround() == FE_TONEAREST);
   #endif
   int64_t r;
   __asm
