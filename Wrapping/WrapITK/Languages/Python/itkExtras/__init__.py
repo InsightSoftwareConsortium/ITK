@@ -18,7 +18,7 @@
 
 # new features introduced by itk module
 # each new feature use a name in lower case
-clrLine = "\033[2K\033E\033[1A"
+clrLine = "\033[2000D\033[K"
 
 def auto_not_in_place( v=True ) :
   """Force it to not run in place
