@@ -212,15 +212,17 @@ public:
 
   itkGetConstMacro(UseImageSpacing, bool);
 
+  typedef FixedArray< TRealType, VectorDimension > WeightsType;
+
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */
-  void SetDerivativeWeights(TRealType data[]);
-  itkGetVectorMacro(DerivativeWeights, const TRealType, itk::GetImageDimension< TInputImage >::ImageDimension);
+  itkSetMacro(DerivativeWeights, WeightsType);
+  itkGetConstReferenceMacro(DerivativeWeights, WeightsType);
 
   /** Set/Get the array of weightings for the different components of the
       vector.  Default values are 1.0. */
-  itkSetVectorMacro(ComponentWeights, TRealType, itk::GetVectorDimension< InputPixelType >::VectorDimension);
-  itkGetVectorMacro(ComponentWeights, const TRealType, itk::GetVectorDimension< InputPixelType >::VectorDimension);
+  itkSetMacro(ComponentWeights, WeightsType);
+  itkGetConstReferenceMacro(ComponentWeights, WeightsType);
 
   /** Get/Set the neighborhood radius used for gradient computation */
   itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);
@@ -457,13 +459,13 @@ protected:
   }
 
   /** The weights used to scale derivatives during processing */
-  TRealType m_DerivativeWeights[itk::GetImageDimension < TInputImage > ::ImageDimension];
+  WeightsType m_DerivativeWeights;
 
   /** These weights are used to scale
       vector component values when they are combined to produce  a scalar.  The
       square root */
-  TRealType m_ComponentWeights[itk::GetVectorDimension < InputPixelType > ::VectorDimension];
-  TRealType m_SqrtComponentWeights[itk::GetVectorDimension < InputPixelType > ::VectorDimension];
+  WeightsType m_ComponentWeights;
+  WeightsType m_SqrtComponentWeights;
 private:
   bool m_UseImageSpacing;
   bool m_UsePrincipleComponents;

@@ -82,8 +82,8 @@ BinaryMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
     {
     typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
     typename PadType::Pointer pad = PadType::New();
-    pad->SetPadLowerBound(this->GetKernel().GetRadius().m_Size);
-    pad->SetPadUpperBound(this->GetKernel().GetRadius().m_Size);
+    pad->SetPadLowerBound(this->GetKernel().GetRadius());
+    pad->SetPadUpperBound(this->GetKernel().GetRadius());
     pad->SetConstant(backgroundValue);
     pad->SetInput( this->GetInput() );
 

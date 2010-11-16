@@ -191,10 +191,13 @@ public:
 
   itkGetConstMacro(UseImageSpacing, bool);
 
+  typedef FixedArray< TRealType, ImageDimension > WeightsType;
+
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */
-  void SetDerivativeWeights(TRealType data[]);
-  itkGetVectorMacro(DerivativeWeights, const TRealType, itk::GetImageDimension< TInputImage >::ImageDimension);
+  void SetDerivativeWeights(const WeightsType &);
+  itkGetConstReferenceMacro(DerivativeWeights, WeightsType);
+
 protected:
   DisplacementFieldJacobianDeterminantFilter();
   virtual ~DisplacementFieldJacobianDeterminantFilter() {}
@@ -233,10 +236,10 @@ protected:
   virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const;
 
   /** The weights used to scale partial derivatives during processing */
-  TRealType m_DerivativeWeights[itk::GetImageDimension < TInputImage > ::ImageDimension];
+  WeightsType m_DerivativeWeights;
   /** Pre-compute 0.5*m_DerivativeWeights since that is the only thing used in
     the computations. */
-  TRealType m_HalfDerivativeWeights[itk::GetImageDimension < TInputImage > ::ImageDimension];
+  WeightsType m_HalfDerivativeWeights;
 private:
   bool m_UseImageSpacing;
 

@@ -140,10 +140,10 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 
     MaskPad->SetConstant(m_MarkerValue);
     MarkerPad->SetConstant(m_MarkerValue);
-    MaskPad->SetPadLowerBound(padSize.m_Size);
-    MaskPad->SetPadUpperBound(padSize.m_Size);
-    MarkerPad->SetPadLowerBound(padSize.m_Size);
-    MarkerPad->SetPadUpperBound(padSize.m_Size);
+    MaskPad->SetPadLowerBound(padSize);
+    MaskPad->SetPadUpperBound(padSize);
+    MarkerPad->SetPadLowerBound(padSize);
+    MarkerPad->SetPadUpperBound(padSize);
 
     MaskPad->SetInput(maskImage);
     MarkerPad->SetInput(markerImage);

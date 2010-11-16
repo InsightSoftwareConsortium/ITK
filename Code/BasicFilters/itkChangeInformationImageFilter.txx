@@ -45,11 +45,7 @@ ChangeInformationImageFilter< TInputImage >
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
-
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    m_OutputOffset[i] = 0;
-    }
+  m_OutputOffset.Fill(0);
 }
 
 template< class TInputImage >
@@ -110,10 +106,7 @@ ChangeInformationImageFilter< TInputImage >
     origin = m_OutputOrigin;
     spacing = m_OutputSpacing;
     direction = m_OutputDirection;
-    for ( i = 0; i < ImageDimension; i++ )
-      {
-      m_Shift[i] = m_OutputOffset[i];
-      }
+    m_Shift = m_OutputOffset;
     }
 
   // Change the output spacing
@@ -258,15 +251,7 @@ ChangeInformationImageFilter< TInputImage >
   os << m_OutputDirection << std::endl;
 
   os << indent << "OutputOffset: [";
-  if ( ImageDimension >= 1 )
-    {
-    os << m_OutputOffset[0];
-    }
-  for ( unsigned int j = 1; j < ImageDimension; j++ )
-    {
-    os << ", " << m_OutputOffset[j];
-    }
-  os << "]" << std::endl;
+  os << m_OutputOffset << std::endl;
 }
 } // end namespace itk
 

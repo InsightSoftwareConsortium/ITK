@@ -73,34 +73,6 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
-::SetShrinkFactors(unsigned int factors[])
-{
-  unsigned int j;
-
-  for ( j = 0; j < ImageDimension; j++ )
-    {
-    if ( factors[j] != m_ShrinkFactors[j] ) { break; }
-    }
-  if ( j < ImageDimension )
-    {
-    this->Modified();
-    for ( j = 0; j < ImageDimension; j++ )
-      {
-      m_ShrinkFactors[j] = factors[j];
-      if ( m_ShrinkFactors[j] < 1 )
-        {
-        m_ShrinkFactors[j] = 1;
-        }
-      }
-    }
-}
-
-/**
- *
- */
-template< class TInputImage, class TOutputImage >
-void
-ShrinkImageFilter< TInputImage, TOutputImage >
 ::SetShrinkFactors(unsigned int factor)
 {
   unsigned int j;

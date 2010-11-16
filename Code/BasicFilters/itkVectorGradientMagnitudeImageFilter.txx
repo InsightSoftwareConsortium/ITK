@@ -86,23 +86,6 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 template< typename TInputImage, typename TRealType, typename TOutputImage >
 void
 VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
-::SetDerivativeWeights(TRealType data[])
-{
-  m_UseImageSpacing = false;
-
-  for ( unsigned i = 0; i < ImageDimension; ++i )
-    {
-    if ( m_DerivativeWeights[i] != data[i] )
-      {
-      this->Modified();
-      m_DerivativeWeights[i] = data[i];
-      }
-    }
-}
-
-template< typename TInputImage, typename TRealType, typename TOutputImage >
-void
-VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 ::SetUseImageSpacing(bool f)
 {
   if ( m_UseImageSpacing == f ) { return; }

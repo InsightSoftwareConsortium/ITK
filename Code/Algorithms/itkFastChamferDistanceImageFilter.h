@@ -103,9 +103,11 @@ public:
   typedef NarrowBand< BandNodeType >       NarrowBandType;
   typedef typename NarrowBandType::Pointer NarrowBandPointer;
 
+  typedef FixedArray< float, ImageDimension > WeightsType;
+
   /** coefficients of the Chamfer distance for each kind of neighbor. */
-  itkSetVectorMacro(Weights, float, ImageDimension);
-  itkGetVectorMacro(Weights, const float, ImageDimension);
+  itkSetMacro(Weights, WeightsType);
+  itkGetConstReferenceMacro(Weights, WeightsType);
 
   /** Maximal computed distance */
   itkSetMacro(MaximumDistance, float);
@@ -182,7 +184,7 @@ private:
   float m_MaximumDistance;
 
   /** coefficients of the Chamfer distance for each kind of neighbor. */
-  float m_Weights[ImageDimension];
+  WeightsType m_Weights;
 
   NarrowBandPointer m_NarrowBand;
 

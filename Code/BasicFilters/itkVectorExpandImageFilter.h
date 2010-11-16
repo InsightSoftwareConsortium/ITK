@@ -107,7 +107,8 @@ public:
   enum { VectorDimension = InputPixelType::Dimension };
 
   /** The type of the expand factors representation */
-  typedef float ExpandFactorsType;
+  typedef float                                           ExpandFactorsType;
+  typedef FixedArray< ExpandFactorsType, ImageDimension > ExpandFactorsArrayType;
 
   /** Typedef support for the interpolation function */
   typedef double                                                               CoordRepType;
@@ -123,15 +124,12 @@ public:
 
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
-  virtual void SetExpandFactors(const ExpandFactorsType factors[]);
-
-  virtual void SetExpandFactors(const ExpandFactorsType factor);
-
-  virtual void SetExpandFactors(const unsigned int factors[]);
+  itkSetMacro(ExpandFactors, ExpandFactorsArrayType);
+  virtual void SetExpandFactors(const float factor);
+  itkSetVectorMacro(ExpandFactors, const unsigned int, ImageDimension);
 
   /** Get the expand factors. */
-  const ExpandFactorsType * GetExpandFactors() const
-  { return m_ExpandFactors; }
+  itkGetConstReferenceMacro(ExpandFactors, ExpandFactorsArrayType);
 
 //TEST_RMV20100728  /** Set the edge padding value. The default is a vector of
 // zero. */
@@ -191,8 +189,8 @@ private:
   VectorExpandImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented
 
-  ExpandFactorsType   m_ExpandFactors[ImageDimension];
-  InterpolatorPointer m_Interpolator;
+  ExpandFactorsArrayType   m_ExpandFactors;
+  InterpolatorPointer      m_Interpolator;
 //TEST_RMV20100728 * \warning: The following is valid only when the flag
 //TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
 //TEST_RMV20100728 * The output image will not contain any padding, and

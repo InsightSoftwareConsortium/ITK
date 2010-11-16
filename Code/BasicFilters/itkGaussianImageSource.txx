@@ -31,12 +31,9 @@ GaussianImageSource< TOutputImage >
 ::GaussianImageSource()
 {
   //Initial image is 64 wide in each direction.
-  for ( unsigned int i = 0; i < TOutputImage::GetImageDimension(); i++ )
-    {
-    m_Size[i] = 64;
-    m_Spacing[i] = 1.0;
-    m_Origin[i] = 0.0;
-    }
+  m_Size.Fill(64);
+  m_Spacing.Fill(1.0);
+  m_Origin.Fill(0.0);
   m_Direction.SetIdentity();
 
   // Gaussian parameters, defined so that the gaussian
@@ -107,13 +104,11 @@ GaussianImageSource< TOutputImage >
   TOutputImage *output;
 
   typename TOutputImage::IndexType index = { { 0 } };
-  typename TOutputImage::SizeType size = { { 0 } };
-  size.SetSize(m_Size);
 
   output = this->GetOutput(0);
 
   typename TOutputImage::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize(size);
+  largestPossibleRegion.SetSize(m_Size);
   largestPossibleRegion.SetIndex(index);
   output->SetLargestPossibleRegion(largestPossibleRegion);
 
@@ -170,149 +165,6 @@ GaussianImageSource< TOutputImage >
     }
 }
 
-template< typename TOutputImage >
-void
-GaussianImageSource< TOutputImage >
-::SetSpacing(const float *spacing)
-{
-  unsigned int i;
-
-  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
-    if ( (double)spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    }
-  if ( i < TOutputImage::ImageDimension )
-    {
-    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    this->Modified();
-    }
-}
-
-template< typename TOutputImage >
-void
-GaussianImageSource< TOutputImage >
-::SetSpacing(const double *spacing)
-{
-  unsigned int i;
-
-  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
-    if ( spacing[i] != m_Spacing[i] )
-      {
-      break;
-      }
-    }
-  if ( i < TOutputImage::ImageDimension )
-    {
-    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-      {
-      m_Spacing[i] = spacing[i];
-      }
-    this->Modified();
-    }
-}
-
-template< typename TOutputImage >
-void
-GaussianImageSource< TOutputImage >
-::SetOrigin(const float *origin)
-{
-  unsigned int i;
-
-  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
-    if ( (double)origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    }
-  if ( i < TOutputImage::ImageDimension )
-    {
-    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-      {
-      m_Origin[i] = origin[i];
-      }
-    this->Modified();
-    }
-}
-
-template< typename TOutputImage >
-void
-GaussianImageSource< TOutputImage >
-::SetOrigin(const double *origin)
-{
-  unsigned int i;
-
-  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
-    if ( origin[i] != m_Origin[i] )
-      {
-      break;
-      }
-    }
-  if ( i < TOutputImage::ImageDimension )
-    {
-    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-      {
-      m_Origin[i] = origin[i];
-      }
-    this->Modified();
-    }
-}
-
-template< typename TOutputImage >
-void
-GaussianImageSource< TOutputImage >
-::SetSize(const SizeValueType *size)
-{
-  unsigned int i;
-
-  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
-    if ( size[i] != m_Size[i] )
-      {
-      break;
-      }
-    }
-  if ( i < TOutputImage::ImageDimension )
-    {
-    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-      {
-      m_Size[i] = size[i];
-      }
-    this->Modified();
-    }
-}
-
-template< typename TOutputImage >
-void
-GaussianImageSource< TOutputImage >
-::SetSize(const SizeType size)
-{
-  unsigned int i;
-
-  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-    {
-    if ( size[i] != m_Size[i] )
-      {
-      break;
-      }
-    }
-  if ( i < TOutputImage::ImageDimension )
-    {
-    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
-      {
-      m_Size[i] = size[i];
-      }
-    this->Modified();
-    }
-}
 } // end namespace itk
 
 #endif

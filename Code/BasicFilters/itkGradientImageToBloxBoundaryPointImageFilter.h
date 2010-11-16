@@ -81,11 +81,14 @@ public:
   itkSetMacro(Threshold, double);
   itkGetConstMacro(Threshold, double);
 
+  typedef FixedArray< float, NDimensions > BloxResolutionType;
+
   /** Get and set the resolution of the blox
    *  This is the number of input pixels "contained" within
    *  each blox pixel
    */
-  void SetBloxResolution(float bloxResolution[]);
+  itkSetMacro(BloxResolution, BloxResolutionType);
+  itkGetConstReferenceMacro(BloxResolution, BloxResolutionType);
   void SetBloxResolution(float bloxResolution);
 
   void GenerateInputRequestedRegion();
@@ -112,7 +115,7 @@ private:
   double m_Threshold;
 
   /** The resolution of the blox in each dimension */
-  float m_BloxResolution[NDimensions];
+  BloxResolutionType m_BloxResolution;
 };
 } // end namespace itk
 

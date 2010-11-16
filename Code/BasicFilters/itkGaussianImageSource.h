@@ -84,28 +84,22 @@ public:
   itkNewMacro(Self);
 
   /** Specify the size of the output image. */
-  virtual void SetSize(const SizeValueType *values);
-
-  /** Specify the size of the output image. */
-  virtual void SetSize(const SizeType values);
+  itkSetMacro(Size, SizeType);
+  itkSetVectorMacro(Size, unsigned long, NDimensions);
 
   /** Get the size of the output image. */
-  itkGetVectorMacro(Size, const SizeValueType, NDimensions);
+  itkGetConstReferenceMacro(Size, SizeType);
 
   /** Specify the spacing of the output image. */
   itkSetMacro(Spacing, SpacingType);
-  virtual void SetSpacing(const float *values);
-
-  virtual void SetSpacing(const double *values);
+  itkSetVectorMacro(Spacing, const float, NDimensions);
 
   /** Get the spacing of the output image. */
   itkGetConstReferenceMacro(Spacing, SpacingType);
 
   /** Specify the origin of the output image. */
   itkSetMacro(Origin, PointType);
-  virtual void SetOrigin(const float *values);
-
-  virtual void SetOrigin(const double *values);
+  itkSetVectorMacro(Origin, const float, NDimensions);
 
   /** Get the origin of the output image. */
   itkGetConstReferenceMacro(Origin, PointType);
@@ -136,7 +130,7 @@ private:
   GaussianImageSource(const GaussianImageSource &); //purposely not implemented
   void operator=(const GaussianImageSource &);      //purposely not implemented
 
-  SizeValueType m_Size[NDimensions]; //size of the output image
+  SizeType      m_Size;              //size of the output image
   SpacingType   m_Spacing;           //spacing
   PointType     m_Origin;            //origin
   DirectionType m_Direction;         // direction

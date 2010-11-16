@@ -36,18 +36,15 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
 {
   m_UseImageSpacing = false;
   m_RequestedNumberOfThreads = this->GetNumberOfThreads();
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use
-    m_DerivativeWeights[i] = static_cast< TRealType >( 1.0 );
-    m_HalfDerivativeWeights[i] = static_cast< TRealType >( 0.5 );
-    }
+  m_NeighborhoodRadius.Fill(1);
+  m_DerivativeWeights.Fill(1.0);
+  m_HalfDerivativeWeights.Fill(0.5);
 }
 
 template< typename TInputImage, typename TRealType, typename TOutputImage >
 void
 DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
-::SetDerivativeWeights(TRealType data[])
+::SetDerivativeWeights(const WeightsType & data)
 {
   m_UseImageSpacing = false;
 

@@ -107,6 +107,15 @@ public:
    *  range are displayed with a grey value that is scaled linearly between the
    *  low_value and high_value. */
   itkGetVectorMacro(DisplayRange, const float, 2);
+  const float & GetHighDisplayValue()
+  {
+    return m_DisplayRange[1];
+  }
+  const float & GetLowDisplayValue()
+  {
+    return m_DisplayRange[1];
+  }
+
 protected:
   StimulateImageIO();
   ~StimulateImageIO();

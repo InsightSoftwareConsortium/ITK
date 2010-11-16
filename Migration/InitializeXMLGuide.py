@@ -174,7 +174,8 @@ if __name__ == '__main__':
   #
   # Parse each commit's log
   #
-  descriptionText = ""
+  descriptionText = "---- REMOVE THIS LINE -- This element should contain an English description of what changes were made along with rational for making them. ----\n"
+  descriptionText += "---- REMOVE THIS LINE -- The commit log should help you to fill this field. ----\n"
   changeIdText = ""
   sampleCodeOldText = ""
   sampleCodeNewText = ""
@@ -188,7 +189,7 @@ if __name__ == '__main__':
     print logCommand
     log = runCommand(logCommand)
 
-    descriptionText = descriptionText + "---- " + commit + " ----\n"
+    descriptionText = descriptionText + "---- REMOVE THIS LINE -- Log from commit " + commit + " ----\n"
 
     for line in log.splitlines():
       # commit message lines and change id lines
@@ -214,15 +215,17 @@ if __name__ == '__main__':
   #
   # parse the diff of each Example or Testing file
   #
+  print exampleAndTestChangedFileList
   for filename in exampleAndTestChangedFileList:
 
     # Add filename
-    sampleCodeOldText = sampleCodeOldText + "---- " + filename + " ----\n"
-    sampleCodeNewText = sampleCodeNewText + "---- " + filename + " ----\n"
+    sampleCodeOldText = sampleCodeOldText + "---- REMOVE THIS LINE -- Code from " + filename + " ----\n"
+    sampleCodeNewText = sampleCodeNewText + "---- REMOVE THIS LINE -- Code from " + filename + " ----\n"
 
     # get the log for the commit
     fullPath = baseDir + "/" + filename
     diffCommand = "git diff " + baseCommit + " -- " + fullPath
+    print diffCommand
     diff = runCommand(diffCommand)
 
     # parse lines into old and new
@@ -255,8 +258,9 @@ if __name__ == '__main__':
     prepXMLString(descriptionText), True, descriptionComment)
 
   # <SampleCode> element
-  sampleCodeComment = "Sample code snippets\n-->Extracted from git diff of changed files in Examples and Testing"
-  sampleCodeElementBody = ""
+  sampleCodeComment = "Sample code snippets\nExtracted from git diff of changed files in Examples and Testing"
+  sampleCodeElementBody = "---- REMOVE THIS LINE -- This element should contain some code snippet that illustrates how to update the API from the old version to the new version. ----\n"
+  sampleCodeElementBody += "---- REMOVE THIS LINE -- The changes extracted from the Examples and Testing directory should help you to fill this field. ----\n"
   sampleCodeElementBody = \
     addXMLElement(sampleCodeElementBody, "Old", prepXMLString(sampleCodeOldText))
   sampleCodeElementBody = \
@@ -282,7 +286,9 @@ if __name__ == '__main__':
   # <Change> element
   changeComment = "\n" + XMLFileName + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nTHIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING\n<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n"
   xmlString = addXMLElement(xmlString, "Change", changeElementBody, False, changeComment)
-  xmlString = xmlString.strip()
+
+  # drop the blanks at the end of the lines to please git's hooks
+  xmlString = "\n".join([l.rstrip() for l in xmlString.splitlines()])
 
   #
   # Save the file
