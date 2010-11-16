@@ -27,8 +27,10 @@
 #include "vnl/vnl_matrix_fixed.txx"
 VNL_MATRIX_FIXED_INSTANTIATE(float,7,7);
 
+
 int itkMatrixTest(int, char* [] )
 {
+
 
   typedef   float                                 NumericType;
   typedef   itk::Matrix<NumericType,3,3>          MatrixType;
@@ -37,6 +39,7 @@ int itkMatrixTest(int, char* [] )
   typedef   itk::CovariantVector<NumericType,3>   CovariantVectorType;
 
   typedef   vnl_vector_fixed<NumericType,3>       vnlVectorType;
+
 
 
   MatrixType matrix;
@@ -120,9 +123,11 @@ int itkMatrixTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+
   MatrixType matrix6 = matrix5 * 2.5;
 
   matrix6 *= 1.3;
+
 
   // This was added after a bug in operator*() was reported on the users list.
   std::cout << "Testing products in non-square matrices" << std::endl;
@@ -132,7 +137,7 @@ int itkMatrixTest(int, char* [] )
       itk::Matrix<double,2,2> m1;
       itk::Matrix<double,2,2> m2;
 
-      for(unsigned int i=0; i<2; i++ )
+      for(unsigned int i=0; i<2 ;i++ )
         {
         for( unsigned int j=0; j<2; j++ )
           {
@@ -142,6 +147,7 @@ int itkMatrixTest(int, char* [] )
 
       std::cout << "m1="  << std::endl;
       std::cout << m1 << std::endl;
+
 
       for(unsigned int i=0; i<2; i++)
         {
@@ -154,11 +160,13 @@ int itkMatrixTest(int, char* [] )
       std::cout << "m2=" << std::endl;
       std::cout << m2 << std::endl;
 
+
       std::cout << "VNL * VNL Multiplication result: " << std::endl;
       std::cout << m1.GetVnlMatrix()*m2.GetVnlMatrix() << std::endl;
 
       std::cout << "ITK * VNL Multiplication result: " << std::endl;
       std::cout << m1*m2.GetVnlMatrix() << std::endl;
+
 
 
       itk::Matrix<double,2,2> m3;
@@ -175,6 +183,7 @@ int itkMatrixTest(int, char* [] )
       std::cout << "m3="  << std::endl;
       std::cout << m3 << std::endl;
 
+
       for(unsigned int i=0; i<2; i++ )
         {
         for(unsigned int j=0; j<3; j++ )
@@ -185,6 +194,7 @@ int itkMatrixTest(int, char* [] )
 
       std::cout << "m4=" << std::endl;
       std::cout << m4 << std::endl;
+
 
       std::cout << "VNL * VNL Multiplication result: " << std::endl;
       std::cout << m3.GetVnlMatrix()*m4.GetVnlMatrix() << std::endl;
@@ -199,6 +209,7 @@ int itkMatrixTest(int, char* [] )
     std::cerr<< e <<std::endl;
     return EXIT_FAILURE;
     }
+
 
   { // Test for Matrix addition and subtraction
     const unsigned int nc = 4;
@@ -283,6 +294,10 @@ int itkMatrixTest(int, char* [] )
         }
       }
     }
+
+
+
+
   }
 
   {
@@ -415,7 +430,7 @@ int itkMatrixTest(int, char* [] )
 
    std::cout << "Testing matrix inversion for " << std::endl << invertibleMatrix << std::endl;
 
-   const itk::Matrix<double,3,3> invertedMatrix = invertibleMatrix.GetInverse();
+   const vnl_matrix_fixed<double,3,3> invertedMatrix = invertibleMatrix.GetInverse();
 
    std::cout << "Inverted to " << std::endl << invertedMatrix << std::endl;
 
@@ -430,10 +445,9 @@ int itkMatrixTest(int, char* [] )
        }
      }
 
-   const double relative_error =
-     ( invertedMatrix.GetVnlMatrix() -
-       inverseMatrixMatlab.GetVnlMatrix() ).frobenius_norm()
-     / inverseMatrixMatlab.GetVnlMatrix().frobenius_norm();
+
+   const double relative_error = ( invertedMatrix - inverseMatrixMatlab.GetVnlMatrix() ).frobenius_norm()
+      / inverseMatrixMatlab.GetVnlMatrix().frobenius_norm();
 
    std::cout << "Relative error compared to Matlab " << std::endl << relative_error << std::endl;
 
@@ -443,6 +457,7 @@ int itkMatrixTest(int, char* [] )
      return EXIT_FAILURE;
      }
   }
+
 
   std::cout << "Test Passed !" << std::endl;
   return EXIT_SUCCESS;
