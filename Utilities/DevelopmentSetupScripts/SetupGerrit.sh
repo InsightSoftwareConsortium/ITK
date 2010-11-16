@@ -20,8 +20,6 @@
 
 # Run this script to set up the git repository to push to the Gerrit code review
 # system.
-
-
 die() {
   echo 'Failure during Gerrit setup.' 1>&2
   echo '----------------------------' 1>&2
@@ -82,12 +80,14 @@ EOF
   gerrit_user
 fi
 
-echo -e "\nFetching from gerrit to test SSH key configuration (Settings/SSH Public Keys)"
-echo
-git fetch gerrit ||
-  die "Could not fetch gerrit remote. You need to upload your public SSH key to Gerrit."
-
-echo "Done."
+read -ep "Would you like to verify authentication to Gerrit? [y/N]: " ans
+if [ "$ans" == "y" ] || [ "$ans" == "Y" ]; then
+  echo
+  echo "Fetching from gerrit to test SSH key configuration (Settings/SSH Public Keys)"
+  git fetch gerrit ||
+    die "Could not fetch gerrit remote. You need to upload your public SSH key to Gerrit."
+  echo "Done."
+fi
 
 echo -e "\nConfiguring GerritId hook..."
 if git config hooks.GerritId >/dev/null; then
