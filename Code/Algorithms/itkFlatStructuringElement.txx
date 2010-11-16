@@ -38,24 +38,36 @@ class ITK_EXPORT VanHerkGilWermanDilateImageFilter;
 
 namespace itk
 {
+
+template< unsigned int NDimension >
+FlatStructuringElement< NDimension >
+FlatStructuringElement< NDimension >
+::Polygon(RadiusType radius, unsigned lines)
+{
+  Self res = Self();
+  GeneratePolygon(res, radius, lines);
+  return res;
+}
+
 template< unsigned int VDimension >
-template< class TRadius >
-FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
-::Polygon(TRadius radius, unsigned lines)
+template< class TStructuringElement, class TRadius >
+void
+FlatStructuringElement< VDimension >
+::GeneratePolygon(TStructuringElement & res, TRadius radius, unsigned lines)
 {
   itkGenericExceptionMacro("Only dimension 2 and 3 are suported.");
 }
 
 template< unsigned int VDimension >
-FlatStructuringElement< 2 > FlatStructuringElement< VDimension >
-::Polygon(itk::Size<2> radius, unsigned lines)
+void
+FlatStructuringElement< VDimension >
+::GeneratePolygon(itk::FlatStructuringElement< 2 > & res, itk::Size<2> radius, unsigned lines)
 {
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
   //std::cout << "2 dimensions" << std::endl;
-  Self res = Self();
   res.SetRadius(radius);
-  res.m_Decomposable = true;
+  res.SetDecomposable(true);
 
   unsigned int rr = 0;
   for ( unsigned i = 0; i < 2; i++ )
@@ -86,27 +98,26 @@ FlatStructuringElement< 2 > FlatStructuringElement< VDimension >
   // just to ensure that we get the last one
   while ( theta <= M_PI / 2.0 + 0.0001 )
     {
-    LType O;
+    LType2 O;
     O[0] = k1 * vcl_cos(theta);
     O[1] = k2 * vcl_sin(theta);
-    if ( !res.CheckParallel(O, res.m_Lines) )
+    if ( !res.CheckParallel(O) )
       {
       //std::cout << O << std::endl;
-      res.m_Lines.push_back(O);
+      res.AddLine(O);
       }
     O[0] = k1 * vcl_cos(-theta);
     O[1] = k2 * vcl_sin(-theta);
-    if ( !res.CheckParallel(O, res.m_Lines) )
+    if ( !res.CheckParallel(O) )
       {
       //std::cout << O << std::endl;
-      res.m_Lines.push_back(O);
+      res.AddLine(O);
       }
     theta += step;
     //std::cout << "theta1 = " << theta << " " << M_PI/2.0 << std::endl;
     }
 
   res.ComputeBufferFromLines();
-  return res;
 }
 
 //    O[0] = k1 * vcl_cos(phi) * vcl_cos(theta);
@@ -114,12 +125,12 @@ FlatStructuringElement< 2 > FlatStructuringElement< VDimension >
 //    O[2] = k3 * vcl_sin(theta);
 
 template< unsigned int VDimension >
-FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
-::Polygon(itk::Size<3> radius, unsigned lines)
+void
+FlatStructuringElement< VDimension >
+::GeneratePolygon(itk::FlatStructuringElement< 3 > & res, itk::Size<3> radius, unsigned lines)
 {
-  Self res = Self();
   res.SetRadius(radius);
-  res.m_Decomposable = true;
+  res.SetDecomposable(true);
 
   // std::cout << "3 dimensions" << std::endl;
   unsigned int rr = 0;
@@ -138,14 +149,14 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
       float    b = 1.0 / phi;
       float    c = 2.0 - phi;
       unsigned facets = 12;
-      typedef std::vector< FacetType > FacetArrayType;
+      typedef std::vector< FacetType3 > FacetArrayType;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType     PP(0.0);
-      FacetType Fc;
+      LType3     PP(0.0);
+      FacetType3 Fc;
       b /= 2.0;
       c /= 2.0;
 
@@ -247,7 +258,7 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
       for ( unsigned j = 0; j < facets; j++ )
         {
         // Find a line perpendicular to each face
-        LType L, A, B;
+        LType3 L, A, B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
         L[0] = A[1] * B[2] - B[1] * A[2];
@@ -257,9 +268,9 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if ( !res.CheckParallel(L, res.m_Lines) )
+        if ( !res.CheckParallel(L) )
           {
-          res.m_Lines.push_back(L);
+          res.AddLine(L);
           }
         }
       }
@@ -267,37 +278,37 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
     case 14:
       {
       // cube with the corners cut off
-      LType A;
+      LType3 A;
       // The axes
       A[0] = 1; A[1] = 0; A[2] = 0;
       A *= rr;
-      res.m_Lines.push_back(A);
+      res.AddLine(A);
       A[0] = 0; A[1] = 1; A[2] = 0;
       A *= rr;
-      res.m_Lines.push_back(A);
+      res.AddLine(A);
       A[0] = 0; A[1] = 0; A[2] = 1;
       A *= rr;
-      res.m_Lines.push_back(A);
+      res.AddLine(A);
       // Diagonals
       A[0] = 1; A[1] = 1; A[2] = 1;
       A.Normalize();
       A *= rr;
-      res.m_Lines.push_back(A);
+      res.AddLine(A);
 
       A[0] = -1; A[1] = 1; A[2] = 1;
       A.Normalize();
       A *= rr;
-      res.m_Lines.push_back(A);
+      res.AddLine(A);
 
       A[0] = 1; A[1] = -1; A[2] = 1;
       A.Normalize();
       A *= rr;
-      res.m_Lines.push_back(A);
+      res.AddLine(A);
 
       A[0] = -1; A[1] = -1; A[2] = 1;
       A.Normalize();
       A *= rr;
-      res.m_Lines.push_back(A);
+      res.AddLine(A);
       }
       break;
     case 20:
@@ -307,14 +318,14 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
       float    a = 0.5;
       float    b = 1.0 / ( 2.0 * phi );
       unsigned facets = 20;
-      typedef std::vector< FacetType > FacetArrayType;
+      typedef std::vector< FacetType3 > FacetArrayType;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType     PP(0.0);
-      FacetType Fc;
+      LType3     PP(0.0);
+      FacetType3 Fc;
 
       PP[0] = 0; PP[1] = b; PP[2] = -a;
       Fc.P1 = PP;
@@ -479,7 +490,7 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
       for ( unsigned j = 0; j < facets; j++ )
         {
         // Find a line perpendicular to each face
-        LType L, A, B;
+        LType3 L, A, B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
         L[0] = A[1] * B[2] - B[1] * A[2];
@@ -489,9 +500,9 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if ( !res.CheckParallel(L, res.m_Lines) )
+        if ( !res.CheckParallel(L) )
           {
-          res.m_Lines.push_back(L);
+          res.AddLine(L);
           }
         }
       }
@@ -507,12 +518,12 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
       unsigned int facets = 8 * (int)vcl_pow( (double)4, iterations );
       float        sqrt2 = vcl_sqrt(2.0);
       // std::cout << facets << " facets" << std::endl;
-      typedef std::vector< FacetType > FacetArrayType;
+      typedef std::vector< FacetType3 > FacetArrayType;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
 
       // original corners of octahedron
-      LType P0(0.0), P1(0.0), P2(0.0), P3(0.0), P4(0.0), P5(0.0);
+      LType3 P0(0.0), P1(0.0), P2(0.0), P3(0.0), P4(0.0), P5(0.0);
       P0[0] = 0;         P0[1] = 0;       P0[2] = 1;
       P1[0] = 0;         P1[1] = 0;       P1[2] = -1;
       P2[0] = -1.0 / sqrt2; P2[1] = -1 / sqrt2; P2[2] = 0;
@@ -520,7 +531,7 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
       P4[0] = 1 / sqrt2;   P4[1] = 1 / sqrt2; P4[2] = 0;
       P5[0] = -1 / sqrt2;  P5[1] = 1 / sqrt2; P5[2] = 0;
 
-      FacetType F0, F1, F2, F3, F4, F5, F6, F7;
+      FacetType3 F0, F1, F2, F3, F4, F5, F6, F7;
       F0.P1 = P0; F0.P2 = P3; F0.P3 = P4;
       F1.P1 = P0; F1.P2 = P4; F1.P3 = P5;
       F2.P1 = P0; F2.P2 = P5; F2.P3 = P2;
@@ -546,7 +557,7 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
         unsigned ntold = pos;
         for ( unsigned i = 0; i < ntold; i++ )
           {
-          LType Pa, Pb, Pc;
+          LType3 Pa, Pb, Pc;
           for ( unsigned d = 0; d <  3; d++ )
             {
             Pa[d] = ( FacetArray[i].P1[d] + FacetArray[i].P2[d] ) / 2;
@@ -577,7 +588,7 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
       for ( unsigned j = 0; j < facets; j++ )
         {
         // Find a line perpendicular to each face
-        LType L, A, B;
+        LType3 L, A, B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
         L[0] = A[1] * B[2] - B[1] * A[2];
@@ -587,9 +598,9 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if ( !res.CheckParallel(L, res.m_Lines) )
+        if ( !res.CheckParallel(L) )
           {
-          res.m_Lines.push_back(L);
+          res.AddLine(L);
           }
         }
       }
@@ -598,7 +609,6 @@ FlatStructuringElement< 3 > FlatStructuringElement< VDimension >
       itkGenericExceptionMacro("Unsupported number of lines: " << lines << ". Supported values are 6, 7, 10 and 16.");
     }
   res.ComputeBufferFromLines();
-  return res;
 }
 
 template< unsigned int VDimension >
@@ -608,7 +618,7 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
   // this should work for any number of dimensions
   Self res = Self();
 
-  res.m_Decomposable = true;
+  res.SetDecomposable(true);
   res.SetRadius(radius);
   for ( unsigned i = 0; i < VDimension; i++ )
     {
@@ -617,7 +627,7 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
       LType L;
       L.Fill(0);
       L[i] = radius[i] * 2 + 1;
-      res.m_Lines.push_back(L);
+      res.AddLine(L);
       }
     }
   // this doesn't work if one of the dimensions is zero. Suspect an
@@ -885,14 +895,14 @@ FlatStructuringElement< NDimension >
 
 template< unsigned int VDimension >
 bool
-FlatStructuringElement< VDimension >::CheckParallel(LType NewVec, DecompType Lines)
+FlatStructuringElement< VDimension >::CheckParallel(LType NewVec) const
 {
   LType NN = NewVec;
 
   NN.Normalize();
-  for ( unsigned i = 0; i < Lines.size(); i++ )
+  for ( unsigned i = 0; i < m_Lines.size(); i++ )
     {
-    LType LL = Lines[i];
+    LType LL = m_Lines[i];
     LL.Normalize();
     float L = NN * LL;
     if ( ( 1.0 - vcl_fabs(L) ) < 0.000001 ) { return ( true ); }
@@ -904,7 +914,7 @@ template< unsigned int VDimension >
 void FlatStructuringElement< VDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  //Superclass::PrintSelf(os, indent);
+  Superclass::PrintSelf(os, indent);
   if ( m_Decomposable )
     {
     os << indent << "SE decomposition:" << std::endl;

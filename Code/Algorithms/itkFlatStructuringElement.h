@@ -100,9 +100,7 @@ public:
    * is decomposable.
    * lines is the number of elements in the decomposition
    */
-  template<class TRadius>  static Self Polygon(TRadius radius, unsigned lines);
-  static     FlatStructuringElement<2> Polygon(itk::Size<2> radius, unsigned lines);
-  static     FlatStructuringElement<3> Polygon(itk::Size<3> radius, unsigned lines);
+  static Self Polygon(RadiusType radius, unsigned lines);
 
   /**
    * Returns wether the structuring element is decomposable or not. If the
@@ -113,16 +111,22 @@ public:
   {
     return m_Decomposable;
   }
+  void SetDecomposable( bool v )
+  {
+    m_Decomposable = v;
+  }
 
   /** Return the lines associated with the structuring element */
   const DecompType & GetLines() const
   {
     return ( m_Lines );
   }
+  void AddLine( LType l )
+  {
+    m_Lines.push_back(l);
+  }
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
-
-protected:
+  bool CheckParallel(LType NewVec) const;
 
   /**
    * Fill the buffer of the structuring element based on the lines
@@ -130,18 +134,31 @@ protected:
    */
   void ComputeBufferFromLines();
 
+protected:
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
   bool m_Decomposable;
 
   DecompType m_Lines;
 
-  bool CheckParallel(LType NewVec, DecompType Lines);
-
   template< unsigned int VDimension3 >
   struct StructuringElementFacet {
-    LType P1, P2, P3;
+    Vector< float, VDimension3 > P1, P2, P3;
   };
   typedef StructuringElementFacet< VDimension > FacetType;
+
+  template<class TStructuringElement, class TRadius>
+  static void GeneratePolygon(TStructuringElement & res,            TRadius      radius, unsigned lines);
+  static void GeneratePolygon(itk::FlatStructuringElement<2> & res, itk::Size<2> radius, unsigned lines);
+  static void GeneratePolygon(itk::FlatStructuringElement<3> & res, itk::Size<3> radius, unsigned lines);
+
+  typedef Vector< float, 2 >           LType2;
+
+  typedef Vector< float, 3 >           LType3;
+  typedef StructuringElementFacet< 3 > FacetType3;
+
 };
 } // namespace itk
 
