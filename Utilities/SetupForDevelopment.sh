@@ -72,6 +72,10 @@ echo
 
 cd Utilities/DevelopmentSetupScripts
 
+echo "Checking basic user information..."
+./SetupUser.sh || exit 1
+echo
+
 echo "Setting up git hooks..."
 ./SetupHooks.sh || exit 1
 echo
