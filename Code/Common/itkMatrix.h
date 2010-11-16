@@ -208,7 +208,6 @@ public:
   }
 
   /** Return the inverse matrix. */
-#if 0
   inline vnl_matrix_fixed< T, NColumns, NRows > GetInverse(void) const
   {
     if ( vnl_determinant(m_Matrix) == 0.0 )
@@ -218,18 +217,7 @@ public:
     vnl_matrix< T > temp = vnl_matrix_inverse< T >(m_Matrix);
     return temp;
   }
-#else
-  inline Self GetInverse(void) const
-    {
-    if ( vnl_determinant(m_Matrix) == 0.0 )
-      {
-      itkGenericExceptionMacro(<< "Singular matrix. Determinant is 0.");
-      }
-    vnl_matrix< T > vnl_temp = vnl_matrix_inverse< T >(m_Matrix);
-    Self temp(vnl_temp);
-    return temp;
-    }
-#endif
+
   /** Return the transposed matrix. */
   inline vnl_matrix_fixed< T, NColumns, NRows > GetTranspose(void) const
   {
