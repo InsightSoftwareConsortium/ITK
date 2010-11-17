@@ -78,13 +78,24 @@ TxtTransformIO::Read()
   TransformPointer transform;
   std::ifstream    in;
 
+std::cout << "Opening file : " << this->GetFileName() << std::endl;
+
+  if( ! itksys::SystemTools::FileExists( this->GetFileName() ) )
+    {
+    itkExceptionMacro ("The input file doesn't exist"
+                       << std::endl << "Filename: \"" << this->GetFileName() << "\"");
+    }
+
   in.open (this->GetFileName(), std::ios::in | std::ios::binary);
+
   if ( in.fail() )
     {
     in.close();
     itkExceptionMacro ("The file could not be opened for read access "
                        << std::endl << "Filename: \"" << this->GetFileName() << "\"");
     }
+
+std::cout << "DIDN'T FAIL" << std::endl;
 
   std::ostringstream InData;
 
@@ -119,9 +130,11 @@ TxtTransformIO::Read()
   TmpFixedParameterArray.clear();
   bool haveFixedParameters = false;
   bool haveParameters = false;
+
   //
   // check for line end convention
   std::string line_end("\n");
+
   if ( data.find('\n') == std::string::npos )
     {
     if ( data.find('\r') == std::string::npos )
@@ -130,8 +143,12 @@ TxtTransformIO::Read()
       }
     line_end = "\r";
     }
+
+std::cout << "data.size() = " << data.size() << std::endl;
+
   while ( position < data.size() )
     {
+std::cout << "position = " << position << std::endl;
     // Find the next string
     std::string::size_type end = data.find (line_end, position);
     std::string            line = trim ( data.substr (position, end - position) );
@@ -140,21 +157,26 @@ TxtTransformIO::Read()
 
     if ( line.length() == 0 )
       {
+      std::cout << "continue because line.length() == 0 " << std::endl;
       continue;
       }
+
     if ( line[0] == '#' || std::string::npos == line.find_first_not_of (" \t") )
       {
       // Skip lines beginning with #, or blank lines
+      std::cout << "continue because line begins with # " << std::endl;
       continue;
       }
 
     // Get the name
     end = line.find (":");
+
     if ( end == std::string::npos )
       {
       // Throw an error
       itkExceptionMacro ("Tags must be delimited by :");
       }
+
     std::string Name = trim ( line.substr (0, end) );
     std::string Value = trim ( line.substr ( end + 1, line.length() ) );
     // Push back
