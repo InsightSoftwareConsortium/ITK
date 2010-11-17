@@ -21,11 +21,11 @@
 # Run this script to set up the topic stage for pushing changes.
 
 die() {
-	echo 'failure during topic stage setup' 1>&2
-	echo '--------------------------------' 1>&2
-	echo '' 1>&2
-	echo "$@" 1>&2
-	exit 1
+  echo 'Failure during topic stage setup.' 1>&2
+  echo '---------------------------------' 1>&2
+  echo '' 1>&2
+  echo "$@" 1>&2
+  exit 1
 }
 
 # Make sure we are inside the repository.
@@ -40,8 +40,8 @@ else
   git config remote.stage.pushurl git@itk.org:stage/ITK.git
 fi
 
-read -ep "Do you have git push access to itk.org? [y/N]: " access
-if test "$access" = "y"; then
+read -ep "Do you want to test push access itk.org? [y/N]: " access
+if [ "$access" == "y" ] || [ "$access" == "Y" ]; then
 
   echo "Configuring push urls..."
   if [ "`git config remote.origin.url`" == "git://itk.org/ITK.git" ]; then
@@ -91,8 +91,19 @@ EOF
     fi
   fi
   echo "Testing ssh capabilities..."
-  git ls-remote git@itk.org:stage/ITK.git refs/heads/master || die "ssh test to git@itk.org failed."
-  echo "Test successful!"
+  git ls-remote git@itk.org:stage/ITK.git refs/heads/master || \
+    die "SSH test to git@itk.org failed. You may need to request access at:
+
+https://www.kitware.com/Admin/SendPassword.cgi
+
+Note that push access to the stage/ITK is separate to Gerrit.
+"
+
+  echo "Test successful! ITK push access confirmed. Summary of project access:"
+  echo
+  # This command queries gitolite for your access privileges
+  ssh git@itk.org info
+
 fi
 
 echo "Done."
