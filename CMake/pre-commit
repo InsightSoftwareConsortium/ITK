@@ -1,11 +1,8 @@
 #!/bin/sh
-echo 'Please initialize your local Git hooks.
+echo 'Your work tree has not been configured for ITK development.
 Paste the following commands into a shell:
 
- cd "'$PWD'/.git/hooks"
- git init
- git pull .. remotes/origin/hooks
- cd ../..
+ ./Utilities/SetupForDevelopment.sh
 
-See http://www.itk.org/Wiki/Git/Hooks for more details.'
+See http://www.itk.org/Wiki/ITK/Git/Develop for more details.'
 exit 1
