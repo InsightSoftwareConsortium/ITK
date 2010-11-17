@@ -218,6 +218,11 @@ public:
 
   void RemoveBoundary(){}
 
+  static bool UseVectorBasedAlgorithm()
+  {
+    return false;
+  }
+
 protected:
   float m_Rank;
 
@@ -361,6 +366,11 @@ public:
   void AddBoundary(){}
 
   void RemoveBoundary(){}
+
+  static bool UseVectorBasedAlgorithm()
+  {
+    return true;
+  }
 
 protected:
   float m_Rank;

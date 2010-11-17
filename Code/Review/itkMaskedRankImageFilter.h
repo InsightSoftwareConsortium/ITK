@@ -88,6 +88,8 @@ public:
   typedef typename TOutputImage::PixelType           OutputPixelType;
   typedef typename TInputImage::PixelType            InputPixelType;
 
+  typedef typename Superclass::HistogramType         HistogramType;
+
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -104,16 +106,14 @@ public:
   itkSetMacro(Rank, float)
   itkGetConstMacro(Rank, float)
 
-  bool GetUseVectorBasedHistogram()
+  bool GetUseVectorBasedAlgorithm()
   {
-    return HistogramType::UseVectorBasedHistogram();
+    return HistogramType::UseVectorBasedAlgorithm();
   }
 
 protected:
   MaskedRankImageFilter();
   ~MaskedRankImageFilter() {}
-
-  typedef RankHistogram< InputPixelType > HistogramType;
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
