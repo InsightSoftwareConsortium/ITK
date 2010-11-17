@@ -1004,4 +1004,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
     itkAssertInDebugOrThrowInReleaseMacro( msgstr.str().c_str() ); \
     }
 
+#define itkAssertInDebugAndIgnoreInReleaseMacro(X) assert(X)
+
 #endif //end of itkMacro.h

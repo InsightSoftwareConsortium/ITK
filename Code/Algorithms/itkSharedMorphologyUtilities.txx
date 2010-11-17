@@ -144,8 +144,8 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
     if ( Tnear - Tfar < 10 )
       {
 //      std::cout << "Searching " << Tnear << " " << Tfar << std::endl;
-      assert(ePos >= 0);
-      assert( sPos < (int)LineOffsets.size() );
+      itkAssertInDebugAndIgnoreInReleaseMacro(ePos >= 0);
+      itkAssertInDebugAndIgnoreInReleaseMacro( sPos < (int)LineOffsets.size() );
       for ( int i = ePos; i <= sPos; i++ )
         {
         if ( AllImage.IsInside(StartIndex + LineOffsets[i]) )
@@ -160,21 +160,21 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
       {
 //      std::cout << "Found intersection after all :: " << inside << std::endl;
       sPos = ePos = inside;
-      assert(ePos + 1 >= 0);
-      assert( ePos + 1 < (int)LineOffsets.size() );
+      itkAssertInDebugAndIgnoreInReleaseMacro(ePos + 1 >= 0);
+      itkAssertInDebugAndIgnoreInReleaseMacro( ePos + 1 < (int)LineOffsets.size() );
       while ( AllImage.IsInside(StartIndex + LineOffsets[ePos + 1]) )
         {
         ++ePos;
-        assert(ePos + 1 >= 0);
-        assert( ePos + 1 < (int)LineOffsets.size() );
+        itkAssertInDebugAndIgnoreInReleaseMacro(ePos + 1 >= 0);
+        itkAssertInDebugAndIgnoreInReleaseMacro( ePos + 1 < (int)LineOffsets.size() );
         }
-      assert(sPos - 1 >= 0);
-      assert( sPos - 1 < (int)LineOffsets.size() );
+      itkAssertInDebugAndIgnoreInReleaseMacro(sPos - 1 >= 0);
+      itkAssertInDebugAndIgnoreInReleaseMacro( sPos - 1 < (int)LineOffsets.size() );
       while ( AllImage.IsInside(StartIndex + LineOffsets[sPos - 1]) )
         {
         --sPos;
-        assert(sPos - 1 >= 0);
-        assert( sPos - 1 < (int)LineOffsets.size() );
+        itkAssertInDebugAndIgnoreInReleaseMacro(sPos - 1 >= 0);
+        itkAssertInDebugAndIgnoreInReleaseMacro( sPos - 1 < (int)LineOffsets.size() );
         }
       start = sPos;
       end = ePos;
@@ -188,14 +188,14 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
     }
   else
     {
-    assert(sPos >= 0);
-    assert( sPos < (int)LineOffsets.size() );
+    itkAssertInDebugAndIgnoreInReleaseMacro(sPos >= 0);
+    itkAssertInDebugAndIgnoreInReleaseMacro( sPos < (int)LineOffsets.size() );
     if ( AllImage.IsInside(StartIndex + LineOffsets[sPos]) )
       {
       for (; sPos > 0; )
         {
-        assert(sPos - 1 >= 0);
-        assert( sPos - 1 < (int)LineOffsets.size() );
+        itkAssertInDebugAndIgnoreInReleaseMacro(sPos - 1 >= 0);
+        itkAssertInDebugAndIgnoreInReleaseMacro( sPos - 1 < (int)LineOffsets.size() );
         if ( !AllImage.IsInside(StartIndex + LineOffsets[sPos - 1]) ) { break; }
         else { --sPos; }
         }
@@ -204,8 +204,8 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
       {
       for (; sPos < (int)LineOffsets.size(); )
         {
-        assert(sPos >= 0);
-        assert( sPos < (int)LineOffsets.size() );
+        itkAssertInDebugAndIgnoreInReleaseMacro(sPos >= 0);
+        itkAssertInDebugAndIgnoreInReleaseMacro( sPos < (int)LineOffsets.size() );
         ++sPos;
         if ( !AllImage.IsInside(StartIndex + LineOffsets[sPos]) ) { ++sPos; }
         else { break; }
@@ -215,8 +215,8 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
       {
       for (; ePos < (int)LineOffsets.size(); )
         {
-        assert(ePos + 1 >= 0);
-        assert( ePos + 1 < (int)LineOffsets.size() );
+        itkAssertInDebugAndIgnoreInReleaseMacro(ePos + 1 >= 0);
+        itkAssertInDebugAndIgnoreInReleaseMacro( ePos + 1 < (int)LineOffsets.size() );
         if ( !AllImage.IsInside(StartIndex + LineOffsets[ePos + 1]) ) { break; }
         else { ++ePos; }
         }
@@ -226,8 +226,8 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
       for (; ePos > 0; )
         {
         --ePos;
-        assert(ePos >= 0);
-        assert( ePos < (int)LineOffsets.size() );
+        itkAssertInDebugAndIgnoreInReleaseMacro(ePos >= 0);
+        itkAssertInDebugAndIgnoreInReleaseMacro( ePos < (int)LineOffsets.size() );
         if ( !AllImage.IsInside(StartIndex + LineOffsets[ePos]) ) { --ePos; }
         else { break; }
         }
@@ -250,8 +250,8 @@ void CopyLineToImage(const typename TImage::Pointer output,
 
   for ( unsigned i = 0; i < size; i++ )
     {
-    // assert(start + i >= 0);
-    assert( start + i < LineOffsets.size() );
+    // itkAssertInDebugAndIgnoreInReleaseMacro(start + i >= 0);
+    itkAssertInDebugAndIgnoreInReleaseMacro( start + i < LineOffsets.size() );
     output->SetPixel(StartIndex + LineOffsets[start + i], outbuffer[i + 1]);  //compat
     }
 }
@@ -401,7 +401,7 @@ int FillLineBuffer(typename TImage::ConstPointer input,
   // compat
   for ( unsigned i = 0; i < size; i++ )
     {
-    assert( start + i < LineOffsets.size() );
+    itkAssertInDebugAndIgnoreInReleaseMacro( start + i < LineOffsets.size() );
     inbuffer[i + 1] = input->GetPixel(StartIndex + LineOffsets[start + i]);
     }
   return ( 1 );

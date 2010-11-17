@@ -116,7 +116,7 @@ CoreAtomImageToDistanceMatrixProcess< TSourceImage >
   else
     {
     itkDebugMacro(<< "m_DistanceMatrix resize failed");
-    assert(0);
+    itkAssertInDebugAndIgnoreInReleaseMacro(0);
     }
   itkDebugMacro(
     << "CoreAtomImageToDistanceMatrixProcess::GenerateData(): Matrix Size: " << m_NumberOfNodes << " x "

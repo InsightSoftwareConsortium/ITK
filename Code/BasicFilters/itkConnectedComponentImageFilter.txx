@@ -240,7 +240,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 
   // now process the map and make appropriate entries in an equivalence
   // table
-  // assert( linecount == m_LineMap.size() );
+  // itkAssertInDebugAndIgnoreInReleaseMacro( linecount == m_LineMap.size() );
   long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   long xsize = output->GetRequestedRegion().GetSize()[0];
   long linecount = pixelcount / xsize;

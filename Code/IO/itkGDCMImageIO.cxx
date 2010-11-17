@@ -208,7 +208,7 @@ void GDCMImageIO::Read(void *pointer)
 {
   const char *filename = m_FileName.c_str();
 
-  assert( gdcm::ImageHelper::GetForceRescaleInterceptSlope() );
+  itkAssertInDebugAndIgnoreInReleaseMacro( gdcm::ImageHelper::GetForceRescaleInterceptSlope() );
   gdcm::ImageReader reader;
   reader.SetFileName(filename);
   if ( !reader.Read() )
@@ -219,7 +219,7 @@ void GDCMImageIO::Read(void *pointer)
 
   gdcm::Image & image = reader.GetImage();
   gdcm::PixelFormat pixeltype_debug = image.GetPixelFormat();
-  assert(image.GetNumberOfDimensions() == 2 || image.GetNumberOfDimensions() == 3);
+  itkAssertInDebugAndIgnoreInReleaseMacro(image.GetNumberOfDimensions() == 2 || image.GetNumberOfDimensions() == 3);
   unsigned long len = image.GetBufferLength();
 
   // I think ITK only allow RGB image by pixel (and not by plane)
@@ -244,7 +244,7 @@ void GDCMImageIO::Read(void *pointer)
   image.GetBuffer( (char *)pointer );
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
-  assert( pixeltype_debug == pixeltype ); (void)pixeltype_debug;
+  itkAssertInDebugAndIgnoreInReleaseMacro( pixeltype_debug == pixeltype ); (void)pixeltype_debug;
 
   if ( m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0 )
     {
@@ -267,7 +267,7 @@ void GDCMImageIO::Read(void *pointer)
   // can now check compat:
   const unsigned long numberOfBytesToBeRead =
     static_cast< unsigned long >( this->GetImageSizeInBytes() );
-  assert(numberOfBytesToBeRead == len);   // programmer error
+  itkAssertInDebugAndIgnoreInReleaseMacro(numberOfBytesToBeRead == len);   // programmer error
 #endif
 }
 
@@ -311,7 +311,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
   r.SetPixelFormat(pixeltype);
   gdcm::PixelFormat::ScalarType outputpt = r.ComputeInterceptSlopePixelType();
 
-  assert(pixeltype <= outputpt);
+  itkAssertInDebugAndIgnoreInReleaseMacro(pixeltype <= outputpt);
 
   m_ComponentType = UNKNOWNCOMPONENTTYPE;
   switch ( outputpt )
@@ -357,7 +357,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
   if ( image.GetPhotometricInterpretation() ==
        gdcm::PhotometricInterpretation::PALETTE_COLOR )
     {
-    assert(m_NumberOfComponents == 1);
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_NumberOfComponents == 1);
     // TODO: need to do the LUT ourself...
     //itkExceptionMacro(<< "PALETTE_COLOR is not implemented yet");
     // AFAIK ITK user don't care about the palette so always apply it and fake a
@@ -432,7 +432,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
     // representation. VR::US is binary, but user want ASCII representation.
     if ( vr & ( gdcm::VR::OB | gdcm::VR::OF | gdcm::VR::OW | gdcm::VR::SQ | gdcm::VR::UN ) )
       {
-      // assert( vr & gdcm::VR::VRBINARY );
+      // itkAssertInDebugAndIgnoreInReleaseMacro( vr & gdcm::VR::VRBINARY );
       /*
        * Old behavior was to skip SQ, Pixel Data element. I decided that it is not safe to mime64
        * VR::UN element. There used to be a bug in gdcm 1.2.0 and VR:UN element.
@@ -810,7 +810,7 @@ void GDCMImageIO::Write(const void *buffer)
     default:
       itkExceptionMacro(<< "DICOM does not support this component type");
     }
-  assert(pixeltype != gdcm::PixelFormat::UNKNOWN);
+  itkAssertInDebugAndIgnoreInReleaseMacro(pixeltype != gdcm::PixelFormat::UNKNOWN);
   gdcm::PhotometricInterpretation pi;
   if ( this->GetNumberOfComponents() == 1 )
     {
@@ -842,7 +842,7 @@ void GDCMImageIO::Write(const void *buffer)
         {
         itkExceptionMacro(<< "Sorry Dave I can't do that");
         }
-      assert(outpixeltype != gdcm::PixelFormat::UNKNOWN);
+      itkAssertInDebugAndIgnoreInReleaseMacro(outpixeltype != gdcm::PixelFormat::UNKNOWN);
       }
     else
       {
@@ -869,7 +869,7 @@ void GDCMImageIO::Write(const void *buffer)
   // Whenever shift / scale is needed... do it !
   if( outpixeltype != gdcm::PixelFormat::UNKNOWN )
     {
-    assert( m_RescaleIntercept != 0 || m_RescaleSlope != 1 );
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_RescaleIntercept != 0 || m_RescaleSlope != 1 );
     // rescale from float to unsigned short
     gdcm::Rescaler ir;
     ir.SetIntercept(m_RescaleIntercept);
@@ -885,7 +885,7 @@ void GDCMImageIO::Write(const void *buffer)
     }
   else
     {
-    assert(len == numberOfBytes);
+    itkAssertInDebugAndIgnoreInReleaseMacro(len == numberOfBytes);
     // only do a straight copy:
     pixeldata.SetByteValue( (char *)buffer, numberOfBytes );
     }

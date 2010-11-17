@@ -53,7 +53,7 @@ public:
 
   const BoundsArrayType GetBounds() const
   {
-    assert( m_BoundingBox.IsNotNull() );
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_BoundingBox.IsNotNull() );
     return m_BoundingBox->GetBounds();
   }
 
@@ -65,8 +65,8 @@ public:
   /** Get the extent of the bounding box */
   TScalarType GetExtent(unsigned int direction) const
   {
-    assert(direction < NDimensions);
-    assert( m_BoundingBox.IsNotNull() );
+    itkAssertInDebugAndIgnoreInReleaseMacro(direction < NDimensions);
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_BoundingBox.IsNotNull() );
     BoundsArrayType bounds = m_BoundingBox->GetBounds();
     return bounds[direction * 2 + 1] - bounds[direction * 2];
   }

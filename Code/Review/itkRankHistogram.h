@@ -203,7 +203,7 @@ public:
       }
 
     m_Below = total;
-    assert( m_RankValue == GetValueBruteForce() );
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_RankValue == GetValueBruteForce() );
     return ( m_RankValue );
   }
 
@@ -317,7 +317,7 @@ public:
     m_RankValue = (TInputPixel)( pos + NumericTraits< TInputPixel >::NonpositiveMin() );
     m_Below = total;
     // std::cout << m_RankValue+0.0 << "  " << GetValueBruteForce(0)+0.0 << std::endl;
-    assert( m_RankValue == GetValueBruteForce() );
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_RankValue == GetValueBruteForce() );
     return ( m_RankValue );
   }
 
@@ -337,10 +337,10 @@ public:
   {
     const long q = (long)p - NumericTraits< TInputPixel >::NonpositiveMin();
 
-    assert( q >= 0 );
-    assert( q < (int)m_Vec.size() );
-    assert( m_Entries >= 1 );
-    assert( m_Vec[q] > 0 );
+    itkAssertInDebugAndIgnoreInReleaseMacro( q >= 0 );
+    itkAssertInDebugAndIgnoreInReleaseMacro( q < (int)m_Vec.size() );
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_Entries >= 1 );
+    itkAssertInDebugAndIgnoreInReleaseMacro( m_Vec[q] > 0 );
 
     m_Vec[q]--;
     --m_Entries;
