@@ -21,9 +21,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkTernaryMagnitudeSquaredImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkTernaryMagnitudeSquaredImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkTernaryMagnitudeSquaredImageFilterTest(int, char* [] )

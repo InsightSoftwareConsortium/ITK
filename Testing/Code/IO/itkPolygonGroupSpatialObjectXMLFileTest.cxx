@@ -22,7 +22,7 @@
 #include "itkPolygonSpatialObject.h"
 #include <iostream>
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 static float strandPoints[11][2] =
   {

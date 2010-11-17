@@ -22,9 +22,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkConstrainedValueDifferenceImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkConstrainedValueDifferenceImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkConstrainedValueDifferenceImageFilterTest(int, char* [] )

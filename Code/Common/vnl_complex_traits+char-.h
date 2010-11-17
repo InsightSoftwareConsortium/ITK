@@ -18,7 +18,7 @@
 #ifndef __vnl_complex_traits_plus_char__h
 #define __vnl_complex_traits_plus_char__h
 
-#include <vnl/vnl_complex_traits.h>
+#include "vnl/vnl_complex_traits.h"
 // The following macro is a complement to the ones
 // in vxl/core/vnl/vnl_complex_traits.h lines 34-49.
 #define VCL_DEFINE_SPECIALIZATION_MACRO(T)                                        \

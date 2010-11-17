@@ -19,7 +19,7 @@
 #define __itkPoint_txx
 #include "itkPoint.h"
 #include "itkNumericTraitsPointPixel.h"
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 #include "itkObject.h"
 
 namespace itk

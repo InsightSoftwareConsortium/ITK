@@ -25,7 +25,7 @@
 #include "itkCommand.h"
 #include "itkExhaustiveOptimizer.h"
 
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 
 /**
  *  The objectif function is the quadratic form:

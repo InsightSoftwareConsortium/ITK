@@ -27,6 +27,41 @@
 
 namespace itk
 {
+
+template <typename TSelfPointer, unsigned int VDimension, typename TPixel>
+struct DispatchFFTW_R2C_New
+{
+  static TSelfPointer apply()
+    {
+      return VnlFFTRealToComplexConjugateImageFilter< TPixel, VDimension >
+        ::New().GetPointer();
+    }
+};
+
+#ifdef USE_FFTWD
+template <typename TSelfPointer, unsigned int VDimension>
+struct DispatchFFTW_R2C_New<TSelfPointer, VDimension, double>
+{
+  static TSelfPointer apply()
+    {
+      return FFTWRealToComplexConjugateImageFilter< double, VDimension >
+        ::New().GetPointer();
+    }
+};
+#endif
+
+#ifdef USE_FFTWF
+template <typename TSelfPointer, unsigned int VDimension>
+struct DispatchFFTW_R2C_New<TSelfPointer, VDimension, float>
+{
+  static TSelfPointer apply()
+    {
+      return FFTWRealToComplexConjugateImageFilter< float, VDimension >
+        ::New().GetPointer();
+    }
+};
+#endif
+
 template< class TPixel, unsigned int VDimension >
 typename FFTRealToComplexConjugateImageFilter< TPixel, VDimension >::Pointer
 FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
@@ -34,33 +69,9 @@ FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
 
-#ifdef USE_FFTWD
   if ( smartPtr.IsNull() )
     {
-    if ( typeid( TPixel ) == typeid( double ) )
-      {
-      smartPtr = dynamic_cast< Self * >(
-        FFTWRealToComplexConjugateImageFilter< double, VDimension >
-        ::New().GetPointer() );
-      }
-    }
-#endif
-#ifdef USE_FFTWF
-  if ( smartPtr.IsNull() )
-    {
-    if ( typeid( TPixel ) == typeid( float ) )
-      {
-      smartPtr = dynamic_cast< Self * >(
-        FFTWRealToComplexConjugateImageFilter< float, VDimension >
-        ::New().GetPointer() );
-      }
-    }
-#endif
-
-  if ( smartPtr.IsNull() )
-    {
-    smartPtr = VnlFFTRealToComplexConjugateImageFilter< TPixel, VDimension >
-               ::New().GetPointer();
+    smartPtr = DispatchFFTW_R2C_New<Self*, VDimension, TPixel>::apply();
     }
 
   return smartPtr;

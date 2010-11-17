@@ -24,7 +24,7 @@
 #include "itkCommand.h"
 #include "itkTextOutput.h"
 
-#include <itksys/ios/sstream>
+#include "itksys/ios/sstream"
 
 
 int itkThresholdImageFilterTest(int, char* [] )

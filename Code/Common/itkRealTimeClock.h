@@ -18,9 +18,9 @@
 #ifndef __itkRealTimeClock_h
 #define __itkRealTimeClock_h
 
-#include <itkMacro.h>
-#include <itkObject.h>
-#include <itkObjectFactory.h>
+#include "itkMacro.h"
+#include "itkObject.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {

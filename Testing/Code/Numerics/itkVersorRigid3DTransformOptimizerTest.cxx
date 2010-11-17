@@ -19,9 +19,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkVersorRigid3DTransformOptimizer.h>
-#include <itkCovariantVector.h>
-#include <itkVersorRigid3DTransform.h>
+#include "itkVersorRigid3DTransformOptimizer.h"
+#include "itkCovariantVector.h"
+#include "itkVersorRigid3DTransform.h"
 
 
 /** The objectif function is the sum of squared distances between two pairs of points.

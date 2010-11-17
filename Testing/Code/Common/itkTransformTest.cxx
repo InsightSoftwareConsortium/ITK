@@ -37,23 +37,23 @@ class TransformTestHelper :
           public Transform< TScalarType, NInputDimensions, NOutputDimensions >
 {
 public:
-  typedef TransformTestHelper Self;
+  typedef TransformTestHelper                                           Self;
   typedef Transform< TScalarType, NInputDimensions, NOutputDimensions > Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                            Pointer;
+  typedef SmartPointer<const Self>                                      ConstPointer;
 
   itkNewMacro( Self );
   itkTypeMacro( TransformTestHelper, Transform );
 
-  typedef typename Superclass::JacobianType       JacobianType;
-  typedef typename Superclass::ParametersType     ParametersType;
-  typedef typename Superclass::InputPointType     InputPointType;
-  typedef typename Superclass::OutputPointType    OutputPointType;
-  typedef typename Superclass::InputVectorType    InputVectorType;
-  typedef typename Superclass::OutputVectorType   OutputVectorType;
-  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType   OutputVnlVectorType;
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
+  typedef typename Superclass::JacobianType                JacobianType;
+  typedef typename Superclass::ParametersType              ParametersType;
+  typedef typename Superclass::InputPointType              InputPointType;
+  typedef typename Superclass::OutputPointType             OutputPointType;
+  typedef typename Superclass::InputVectorType             InputVectorType;
+  typedef typename Superclass::OutputVectorType            OutputVectorType;
+  typedef typename Superclass::InputVnlVectorType          InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType         OutputVnlVectorType;
+  typedef typename Superclass::InputCovariantVectorType    InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType   OutputCovariantVectorType;
 
   virtual OutputPointType TransformPoint(const InputPointType  & inputPoint ) const
@@ -70,6 +70,9 @@ public:
 
   virtual const JacobianType & GetJacobian(const InputPointType  & ) const
     { return this->m_Jacobian; }
+
+  virtual void SetParameters(const ParametersType &) {}
+  virtual void SetFixedParameters(const ParametersType &) {}
 };
 
 

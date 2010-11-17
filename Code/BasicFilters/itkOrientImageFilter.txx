@@ -20,9 +20,9 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkOrientImageFilter.h"
-#include <itkCastImageFilter.h>
-#include <itkConstantPadImageFilter.h>
-#include <itkExtractImageFilter.h>
+#include "itkCastImageFilter.h"
+#include "itkConstantPadImageFilter.h"
+#include "itkExtractImageFilter.h"
 #include "itkMetaDataObject.h"
 #include "itkProgressAccumulator.h"
 
@@ -563,20 +563,13 @@ OrientImageFilter< TInputImage, TOutputImage >
     itkDebugMacro(<< "No need to flip");
     }
 
-  if ( typeid( TInputImage ) != typeid( TOutputImage ) )
-    {
-    cast->SetInput(castInput);
-    cast->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
-    cast->Update();
-    this->GraftOutput( cast->GetOutput() );
-    }
-  else
-    {
-    castInput->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
-    castInput->Update();
-    this->GraftOutput(castInput);
-    itkDebugMacro(<< "No need to cast");
-    }
+  //
+  // cast might not be necessary, but CastImagefilter is optimized for
+  // the case where the InputImageType == OutputImageType
+  cast->SetInput(castInput);
+  cast->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
+  cast->Update();
+  this->GraftOutput( cast->GetOutput() );
 
   this->GetOutput()->SetMetaDataDictionary( this->GetInput()->GetMetaDataDictionary() );
 

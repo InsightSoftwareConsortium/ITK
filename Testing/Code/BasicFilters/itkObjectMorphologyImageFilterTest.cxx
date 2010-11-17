@@ -22,15 +22,15 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <itkImage.h>
-#include <itkIndex.h>
+#include "itkImage.h"
+#include "itkIndex.h"
 #include "itkDilateObjectMorphologyImageFilter.h"
 #include "itkErodeObjectMorphologyImageFilter.h"
 #include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryDilateImageFilter.h"
-#include <itkBinaryBallStructuringElement.h>
-#include <itkImageRegionIterator.h>
-#include <itkMacro.h>
+#include "itkBinaryBallStructuringElement.h"
+#include "itkImageRegionIterator.h"
+#include "itkMacro.h"
 
 int itkObjectMorphologyImageFilterTest(int, char* [] )
 {

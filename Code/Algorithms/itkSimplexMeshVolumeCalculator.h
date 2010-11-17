@@ -18,7 +18,7 @@
 #ifndef __itkSimplexMeshVolumeCalculator_h
 #define __itkSimplexMeshVolumeCalculator_h
 
-#include <itkPolygonCell.h>
+#include "itkPolygonCell.h"
 #include "itkVector.h"
 #include "itkSimplexMesh.h"
 #include "itkVectorContainer.h"

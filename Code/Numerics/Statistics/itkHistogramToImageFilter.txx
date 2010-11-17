@@ -19,7 +19,7 @@
 #define __itkHistogramToImageFilter_txx
 
 #include "itkHistogramToImageFilter.h"
-#include <itkNumericTraits.h>
+#include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 
 namespace itk

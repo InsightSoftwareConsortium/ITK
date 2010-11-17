@@ -31,10 +31,10 @@
  ***************************************************************/
 
 
-#include <itkImageFileWriter.h>
-#include <itkImageMomentsCalculator.h>
-#include <itkMultiResolutionPyramidImageFilter.h>
-#include <itkShrinkImageFilter.h>
+#include "itkImageFileWriter.h"
+#include "itkImageMomentsCalculator.h"
+#include "itkMultiResolutionPyramidImageFilter.h"
+#include "itkShrinkImageFilter.h"
 
 //typedef itk::Image<signed short, 2> TImageType;
 typedef itk::Image<signed short, 2> WImageType;

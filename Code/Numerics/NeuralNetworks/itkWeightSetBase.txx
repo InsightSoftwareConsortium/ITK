@@ -19,7 +19,7 @@
 #define __itkWeightSetBase_txx
 
 #include "itkWeightSetBase.h"
-#include "stdlib.h"
+#include <stdlib.h>
 
 namespace itk
 {

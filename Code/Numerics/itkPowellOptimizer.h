@@ -18,9 +18,9 @@
 #ifndef __itkPowellOptimizer_h
 #define __itkPowellOptimizer_h
 
-#include <itkVector.h>
-#include <itkMatrix.h>
-#include <itkSingleValuedNonLinearOptimizer.h>
+#include "itkVector.h"
+#include "itkMatrix.h"
+#include "itkSingleValuedNonLinearOptimizer.h"
 
 namespace itk
 {

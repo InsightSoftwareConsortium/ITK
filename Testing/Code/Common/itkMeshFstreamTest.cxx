@@ -20,7 +20,7 @@
 #endif
 
 #include <fstream>
-#include <itkMesh.h>
+#include "itkMesh.h"
 
 int itkMeshFstreamTest(int argc, char* argv[] )
 {

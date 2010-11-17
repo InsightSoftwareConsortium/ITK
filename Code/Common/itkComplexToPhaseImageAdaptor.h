@@ -18,7 +18,7 @@
 #ifndef __itkComplexToPhaseImageAdaptor_h
 #define __itkComplexToPhaseImageAdaptor_h
 
-#include <itkImageAdaptor.h>
+#include "itkImageAdaptor.h"
 #include <complex>
 
 namespace itk

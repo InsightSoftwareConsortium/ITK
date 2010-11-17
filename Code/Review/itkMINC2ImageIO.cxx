@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkMINC2ImageIO.h"
 #include <stdio.h>
-#include <vnl/vnl_vector.h>
+#include "vnl/vnl_vector.h"
 
 namespace itk
 {

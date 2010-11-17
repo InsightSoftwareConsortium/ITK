@@ -20,7 +20,7 @@
 
 #include "itkXMLFile.h"
 #include "itkMacro.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <fstream>
 
 namespace itk

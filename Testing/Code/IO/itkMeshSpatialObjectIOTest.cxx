@@ -25,7 +25,7 @@
 #include "itkTetrahedronCell.h"
 #include "itkHexahedronCell.h"
 #include "itkQuadraticTriangleCell.h"
-#include <itkDefaultDynamicMeshTraits.h>
+#include "itkDefaultDynamicMeshTraits.h"
 #include <iostream>
 #include <string>
 

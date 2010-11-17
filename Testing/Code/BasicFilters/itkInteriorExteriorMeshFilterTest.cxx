@@ -19,9 +19,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkInteriorExteriorMeshFilter.h>
-#include <itkMesh.h>
-#include <itkSphereSpatialFunction.h>
+#include "itkInteriorExteriorMeshFilter.h"
+#include "itkMesh.h"
+#include "itkSphereSpatialFunction.h"
 
 int itkInteriorExteriorMeshFilterTest(int, char* [] )
 {

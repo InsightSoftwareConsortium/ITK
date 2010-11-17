@@ -23,7 +23,7 @@
 #include <ctype.h>
 #include <cstdlib>
 #include <metaSurface.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaSurface(int argc, char * argv[])
 {

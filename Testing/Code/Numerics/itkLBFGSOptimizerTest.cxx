@@ -19,8 +19,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkLBFGSOptimizer.h>
-#include <vnl/vnl_math.h>
+#include "itkLBFGSOptimizer.h"
+#include "vnl/vnl_math.h"
 #include <iostream>
 
 /**

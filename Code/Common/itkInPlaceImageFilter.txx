@@ -113,6 +113,14 @@ InPlaceImageFilter< TInputImage, TOutputImage >
 }
 
 template< class TInputImage, class TOutputImage >
+bool
+InPlaceImageFilter< TInputImage, TOutputImage >
+::CanRunInPlace() const
+{
+  return Self::CanRunInPlace(is_same<TInputImage,TOutputImage>());
+}
+
+template< class TInputImage, class TOutputImage >
 void
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::ReleaseInputs()

@@ -114,10 +114,7 @@ public:
    * operation if the InPlace is true and CanRunInPlace is true.
    * CanRunInPlace may also be overridded by InPlaceImageFilter
    * subclasses to fine tune its behavior. */
-  virtual bool CanRunInPlace() const
-  {
-    return ( typeid( TInputImage ) == typeid( TOutputImage ) );
-  }
+  virtual bool CanRunInPlace() const;
 
 protected:
   InPlaceImageFilter();
@@ -155,6 +152,20 @@ private:
   void operator=(const Self &);     //purposely not implemented
 
   bool m_InPlace;
+  /** borrowed from type_traits */
+  struct true_type { };
+  struct false_type{ };
+  template<typename, typename>
+    struct is_same
+      : public false_type { };
+
+  template<typename _Tp>
+    struct is_same<_Tp, _Tp>
+      : public true_type { };
+
+  static bool CanRunInPlace(const true_type &) { return true; }
+  static bool CanRunInPlace(const false_type &) { return false; }
+
 };
 } // end namespace itk
 

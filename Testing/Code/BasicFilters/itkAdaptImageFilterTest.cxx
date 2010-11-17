@@ -33,14 +33,14 @@
  */
 
 
-#include <itkAdaptImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkRedPixelAccessor.h>
-#include <itkGreenPixelAccessor.h>
-#include <itkBluePixelAccessor.h>
+#include "itkAdaptImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkRedPixelAccessor.h"
+#include "itkGreenPixelAccessor.h"
+#include "itkBluePixelAccessor.h"
 #include "itkFilterWatcher.h"
 
-#include <vnl/vnl_sample.h>
+#include "vnl/vnl_sample.h"
 
 
 //-------------------------------------

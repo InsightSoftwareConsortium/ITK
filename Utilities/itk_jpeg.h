@@ -33,8 +33,10 @@
 #include "itkThirdParty.h"
 #ifdef ITK_USE_SYSTEM_JPEG
 # include <jpeglib.h>
+# include <jerror.h>
 #else
 # include <itkjpeg/jpeglib.h>
+# include <itkjpeg/jerror.h>
 #endif
 
 #endif

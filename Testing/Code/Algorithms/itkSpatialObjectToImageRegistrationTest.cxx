@@ -22,14 +22,14 @@
 #include "itkEllipseSpatialObject.h"
 #include "itkLineSpatialObject.h"
 #include "itkGroupSpatialObject.h"
-#include <itkSpatialObjectToImageFilter.h>
-#include <itkImageToSpatialObjectRegistrationMethod.h>
+#include "itkSpatialObjectToImageFilter.h"
+#include "itkImageToSpatialObjectRegistrationMethod.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkEuler2DTransform.h"
 #include "itkDiscreteGaussianImageFilter.h"
-#include <itkNormalVariateGenerator.h>
-#include <itkCommand.h>
+#include "itkNormalVariateGenerator.h"
+#include "itkCommand.h"
 
 namespace itk
 {

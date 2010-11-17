@@ -35,7 +35,7 @@
 #include "itkOffset.h"
 #include "itkFixedArray.h"
 #include "itkImageHelper.h"
-#include <vnl/vnl_matrix_fixed.txx>
+#include "vnl/vnl_matrix_fixed.txx"
 
 #include "itkImageRegion.h"
 #include "itkImageTransformHelper.h"

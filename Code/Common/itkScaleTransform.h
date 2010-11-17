@@ -105,6 +105,11 @@ public:
    * parameter[1], parameter[2] } respectively */
   const ParametersType & GetParameters(void) const;
 
+  /** Set the fixed parameters and update internal
+   * transformation. This transform has no fixed paramaters
+   */
+  virtual void SetFixedParameters(const ParametersType &) {}
+
   /** Get the Jacobian matrix. */
   const JacobianType & GetJacobian(const InputPointType & point) const;
 

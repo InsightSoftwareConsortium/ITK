@@ -28,8 +28,8 @@
 #include <vector>
 #include <string>
 
-#include <itksys/SystemTools.hxx>
-#include <itksys/Directory.hxx>
+#include "itksys/SystemTools.hxx"
+#include "itksys/Directory.hxx"
 #include "itkDICOMSeriesFileNames.h"
 #include <stdio.h>
 

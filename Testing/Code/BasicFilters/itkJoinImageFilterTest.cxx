@@ -18,12 +18,12 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <itkImage.h>
-#include <itkJoinImageFilter.h>
-#include <itkImageRegionIterator.h>
-#include <itkVector.h>
-#include <itkRGBAPixel.h>
-#include <vnl/vnl_sample.h>
+#include "itkImage.h"
+#include "itkJoinImageFilter.h"
+#include "itkImageRegionIterator.h"
+#include "itkVector.h"
+#include "itkRGBAPixel.h"
+#include "vnl/vnl_sample.h"
 
 int itkJoinImageFilterTest(int, char* [] )
 {

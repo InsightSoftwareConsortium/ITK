@@ -23,7 +23,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkSimpleFilterWatcher.h"
-#include <itkAreaOpeningImageFilter.h>
+#include "itkAreaOpeningImageFilter.h"
 
 int itkAreaOpeningImageFilterTest(int argc, char * argv[])
 {

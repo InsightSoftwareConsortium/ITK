@@ -136,7 +136,7 @@
 #define JPEG_INTERNALS /* Include "jpegint.h" for "DSTATE_*" symbols */
 #define JPEG_CJPEG_DJPEG /* Include all Version 6B+ "jconfig.h" options */
 #undef INLINE
-#include <itkjpeg/8/jpeglib.h>
+#include "itk_jpeg.h"
 #undef JPEG_CJPEG_DJPEG
 #undef JPEG_INTERNALS
 

@@ -26,7 +26,7 @@
 #include <metaTube.h>
 #include <metaScene.h>
 #include <metaEllipse.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaTube(int argc, char * argv[])
 {

@@ -18,7 +18,7 @@
 #ifndef __itkFRPROptimizer_h
 #define __itkFRPROptimizer_h
 
-#include <itkPowellOptimizer.h>
+#include "itkPowellOptimizer.h"
 
 namespace itk
 {

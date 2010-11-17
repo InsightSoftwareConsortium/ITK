@@ -21,7 +21,7 @@
 
 #include <fstream>
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <iostream>
 
 #include "itkAnalyzeImageIOFactory.h"

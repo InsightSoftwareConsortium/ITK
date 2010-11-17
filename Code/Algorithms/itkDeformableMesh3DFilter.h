@@ -25,7 +25,7 @@
 #include "itkTriangleCell.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include <itkCovariantVector.h>
+#include "itkCovariantVector.h"
 
 namespace itk
 {

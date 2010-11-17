@@ -21,8 +21,8 @@
 #include <iostream>
 
 #include "itkFastChamferDistanceImageFilter.h"
-#include <itkNeighborhoodIterator.h>
-#include <itkImageRegionIterator.h>
+#include "itkNeighborhoodIterator.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {

@@ -26,8 +26,8 @@
 // \brief In-place 3D fast fourier transform
 // \author fsm
 
-#include <vnl/vnl_matrix.h>
-#include <vnl/algo/vnl_fft_base.h>
+#include "vnl/vnl_matrix.h"
+#include "vnl/algo/vnl_fft_base.h"
 
 //: In-place 3D fast fourier transform
 

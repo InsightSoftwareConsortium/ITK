@@ -27,6 +27,41 @@
 
 namespace itk
 {
+// Partial Specialization allows avoiding runtime type choice
+template <typename TSelfPointer, unsigned int VDimension, typename TPixel>
+struct Dispatch_C2R_New
+{
+  static TSelfPointer apply()
+    {
+      return VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >
+        ::New().GetPointer();
+    }
+};
+
+#ifdef USE_FFTWD
+template <typename TSelfPointer, unsigned int VDimension>
+struct Dispatch_C2R_New<TSelfPointer, VDimension, double>
+{
+  static TSelfPointer apply()
+    {
+      return FFTWComplexConjugateToRealImageFilter< double, VDimension >
+        ::New().GePointer();
+    }
+};
+#endif
+
+#ifdef USE_FFTWF
+template <typename TSelfPointer, unsigned int VDimension>
+struct Dispatch_C2R_New<TSelfPointer, VDimension, float>
+{
+  static TSelfPointer apply()
+    {
+      return FFTWComplexConjugateToRealImageFilter< float, VDimension >
+        ::New().GetPointer();
+    }
+};
+#endif
+
 template< class TPixel, unsigned int VDimension >
 typename FFTComplexConjugateToRealImageFilter< TPixel, VDimension >::Pointer
 FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
@@ -34,33 +69,9 @@ FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
 
-#ifdef USE_FFTWD
   if ( smartPtr.IsNull() )
     {
-    if ( typeid( TPixel ) == typeid( double ) )
-      {
-      smartPtr = dynamic_cast< Self * >(
-        FFTWComplexConjugateToRealImageFilter< double, VDimension >
-        ::New().GetPointer() );
-      }
-    }
-#endif
-#ifdef USE_FFTWF
-  if ( smartPtr.IsNull() )
-    {
-    if ( typeid( TPixel ) == typeid( float ) )
-      {
-      smartPtr = dynamic_cast< Self * >(
-        FFTWComplexConjugateToRealImageFilter< float, VDimension >
-        ::New().GetPointer() );
-      }
-    }
-#endif
-
-  if ( smartPtr.IsNull() )
-    {
-    smartPtr = VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >
-               ::New().GetPointer();
+    smartPtr = Dispatch_C2R_New<Self*, VDimension, TPixel>::apply();
     }
 
   return smartPtr;
@@ -68,7 +79,8 @@ FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
 
 template< class TPixel, unsigned int VDimension >
 void
-FFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateOutputInformation()
+FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
+::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
@@ -149,7 +161,8 @@ FFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateOutputInform
 
 template< class TPixel, unsigned int VDimension >
 void
-FFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateInputRequestedRegion()
+FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
+::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output
@@ -163,7 +176,8 @@ FFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateInputRequest
 
 template< class TPixel, unsigned int VDimension >
 void
-FFTComplexConjugateToRealImageFilter< TPixel, VDimension >::EnlargeOutputRequestedRegion(DataObject *)
+FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
+::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );

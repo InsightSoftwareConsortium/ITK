@@ -161,23 +161,14 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
       m_HalfDerivativeWeights[i] = 0.5 * m_DerivativeWeights[i];
       }
     }
-
-  /** If the input needs casting to a real-valued vector type, create the
-      appropriate image and set the m_RealValuedInputImage pointer to this
-      image.  Otherwise just point to the input image. */
-  if ( typeid( typename InputImageType::PixelType ) != typeid( RealVectorType ) )
-    {
-    typename VectorCastImageFilter< TInputImage, RealVectorImageType >::Pointer
+  //
+  // cast might not be necessary, but CastImagefilter is optimized for
+  // the case where the InputImageType == OutputImageType
+  typename VectorCastImageFilter< TInputImage, RealVectorImageType >::Pointer
     caster = VectorCastImageFilter< TInputImage, RealVectorImageType >::New();
-    caster->SetInput( this->GetInput() );
-    caster->Update();
-    m_RealValuedInputImage = caster->GetOutput();
-    }
-  else
-    {
-    m_RealValuedInputImage =
-      dynamic_cast< const ImageBase< ImageDimension > * >( this->GetInput() );
-    }
+  caster->SetInput( this->GetInput() );
+  caster->Update();
+  m_RealValuedInputImage = caster->GetOutput();
 }
 
 template< typename TInputImage, typename TRealType, typename TOutputImage >

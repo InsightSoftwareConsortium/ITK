@@ -31,7 +31,7 @@
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include "itk_zlib.h"
 #include <fstream>
 #include <stdio.h>

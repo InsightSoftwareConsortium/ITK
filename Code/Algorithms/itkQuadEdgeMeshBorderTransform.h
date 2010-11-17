@@ -18,9 +18,9 @@
 #ifndef __itkQuadEdgeMeshBorderTransform_h
 #define __itkQuadEdgeMeshBorderTransform_h
 
-#include <itkQuadEdgeMesh.h>
-#include <itkQuadEdgeMeshToQuadEdgeMeshFilter.h>
-#include <itkQuadEdgeMeshBoundaryEdgesMeshFunction.h>
+#include "itkQuadEdgeMesh.h"
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 
 namespace itk
 {

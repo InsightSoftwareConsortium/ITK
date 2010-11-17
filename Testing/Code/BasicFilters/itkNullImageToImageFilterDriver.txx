@@ -23,13 +23,13 @@
 #ifndef __itkNullImageToImageFilterDriver_h
 #define __itkNullImageToImageFilterDriver_h
 
-#include <iostream>
 #include "itkPixelTraits.h"
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 #include "itkIndex.h"
+#include <iostream>
 extern "C" {
-#include "time.h"
+#include <time.h>
 }
 
 namespace itk {

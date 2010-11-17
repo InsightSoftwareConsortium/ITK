@@ -18,8 +18,8 @@
 #ifndef __itkAdaptiveHistogramEqualizationImageFilter_h
 #define __itkAdaptiveHistogramEqualizationImageFilter_h
 
-#include <itkBoxImageFilter.h>
-#include <itkImage.h>
+#include "itkBoxImageFilter.h"
+#include "itkImage.h"
 
 namespace itk
 {

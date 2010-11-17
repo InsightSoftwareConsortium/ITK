@@ -38,7 +38,7 @@
   ITK_VERSION_TO_STRING(ITK_VERSION_MINOR) "." \
   ITK_VERSION_TO_STRING(ITK_VERSION_PATCH)
 #if ITK_MINOR_VERSION & 1
-#include <itksys/DateStamp.h> // For date stamp
+#include "itksys/DateStamp.h" // For date stamp
 #define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", Date: " itksys_DATE_STAMP_STRING
 #else
 #define ITK_SOURCE_VERSION "itk version " ITK_VERSION

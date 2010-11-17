@@ -19,10 +19,10 @@
 #define __itkHoughTransform2DLinesImageFilter_txx
 
 #include "itkHoughTransform2DLinesImageFilter.h"
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkDiscreteGaussianImageFilter.h>
-#include <itkMinimumMaximumImageCalculator.h>
-#include <itkCastImageFilter.h>
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkDiscreteGaussianImageFilter.h"
+#include "itkMinimumMaximumImageCalculator.h"
+#include "itkCastImageFilter.h"
 
 namespace itk
 {

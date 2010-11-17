@@ -13,6 +13,7 @@
 
 =========================================================================*/
 #include "gdcmSpacing.h"
+#include <math.h>
 
 namespace gdcm
 {

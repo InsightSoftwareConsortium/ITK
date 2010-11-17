@@ -19,8 +19,8 @@
 #define __itkQuadEdgeMeshDelaunayConformingFilter_h
 
 #include "itkPriorityQueueContainer.h"
-#include <itkQuadEdgeMeshToQuadEdgeMeshFilter.h>
-#include <itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h>
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
+#include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
 
 namespace itk
 {

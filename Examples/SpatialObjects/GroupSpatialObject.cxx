@@ -33,9 +33,9 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include <itkGroupSpatialObject.h>
+#include "itkGroupSpatialObject.h"
 // Software Guide : EndCodeSnippet
-#include <itkEllipseSpatialObject.h>
+#include "itkEllipseSpatialObject.h"
 
 int main( int , char *[] )
 {

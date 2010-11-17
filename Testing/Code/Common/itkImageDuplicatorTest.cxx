@@ -20,9 +20,9 @@
 #endif
 
 #include <iostream>
-#include <itkImageRegionIterator.h>
+#include "itkImageRegionIterator.h"
 #include "itkImageDuplicator.h"
-#include <itkRGBPixel.h>
+#include "itkRGBPixel.h"
 #include "itkShiftScaleImageFilter.h"
 
 int itkImageDuplicatorTest(int, char* [] )

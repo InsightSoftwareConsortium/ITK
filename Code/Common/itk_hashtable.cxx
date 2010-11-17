@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vcl_compiler.h>
+#include "vcl_compiler.h"
 #include "itk_hashtable.h"
 namespace itk
 {

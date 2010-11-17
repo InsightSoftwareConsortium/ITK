@@ -28,7 +28,7 @@
 #include "itkLSMImageIO.h"
 #include "itkByteSwapper.h"
 #include <string.h> // for memset
-#include <itksys/FundamentalType.h>
+#include "itksys/FundamentalType.h"
 
 #include "itk_tiff.h"
 

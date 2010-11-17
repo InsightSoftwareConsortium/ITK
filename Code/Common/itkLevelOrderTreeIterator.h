@@ -20,7 +20,7 @@
 
 #include <queue>
 #include <climits>
-#include <itkTreeIteratorBase.h>
+#include "itkTreeIteratorBase.h"
 
 namespace itk
 {

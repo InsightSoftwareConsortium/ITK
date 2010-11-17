@@ -25,7 +25,7 @@
 #include <metaScene.h>
 #include <metaGroup.h>
 #include <metaEllipse.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaScene(int argc, char * argv[])
 {

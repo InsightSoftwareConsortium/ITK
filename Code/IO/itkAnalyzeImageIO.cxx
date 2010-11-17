@@ -23,7 +23,7 @@
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itkRGBPixel.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include "itk_zlib.h"
 #include <stdio.h>
 #include <stdlib.h>

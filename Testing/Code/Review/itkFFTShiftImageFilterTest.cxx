@@ -23,7 +23,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkSimpleFilterWatcher.h"
-#include <itkFFTShiftImageFilter.h>
+#include "itkFFTShiftImageFilter.h"
 #include "itkRGBPixel.h"
 
 int itkFFTShiftImageFilterTest(int argc, char * argv[])

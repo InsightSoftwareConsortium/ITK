@@ -30,6 +30,7 @@
 #define __itkThirdParty_h
 
 /* Whether ITK is using its own utility libraries.  */
+#cmakedefine ITK_USE_SYSTEM_JPEG
 #cmakedefine ITK_USE_SYSTEM_PNG
 #cmakedefine ITK_USE_SYSTEM_TIFF
 #cmakedefine ITK_USE_SYSTEM_ZLIB

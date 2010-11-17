@@ -19,7 +19,7 @@
 #define __itkQuadEdgeMeshDiscreteGaussianCurvatureEstimator_h
 
 #include "itkQuadEdgeMeshDiscreteCurvatureEstimator.h"
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 
 //#include "itkTriangleHelper.h"
 

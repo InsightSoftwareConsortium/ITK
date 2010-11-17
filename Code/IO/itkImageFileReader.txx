@@ -25,7 +25,7 @@
 #include "itkPixelTraits.h"
 #include "itkVectorImage.h"
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <fstream>
 
 namespace itk
@@ -390,24 +390,34 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
 
   try
     {
-    if ( ( m_ImageIO->GetComponentTypeInfo() != typeid( ITK_TYPENAME ConvertPixelTraits::ComponentType ) )
-         || ( m_ImageIO->GetNumberOfComponents() != ConvertPixelTraits::GetNumberOfComponents() ) )
+    ImageIOBase::IOComponentType ioType =
+      ImageIOBase
+      ::MapPixelType< ITK_TYPENAME ConvertPixelTraits::ComponentType >::CType;
+    if ( m_ImageIO->GetComponentType() != ioType
+         || ( m_ImageIO->GetNumberOfComponents() !=
+              ConvertPixelTraits::GetNumberOfComponents() ) )
       {
       // the pixel types don't match so a type conversion needs to be
       // performed
       itkDebugMacro( << "Buffer conversion required from: "
-                     << m_ImageIO->GetComponentTypeInfo().name()
+                     << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
                      << " to: "
-                     << typeid( ITK_TYPENAME ConvertPixelTraits::ComponentType ).name() );
+                     << m_ImageIO->GetComponentTypeAsString(ioType)
+                     << " ConvertPixelTraits::NumComponents "
+                     << ConvertPixelTraits::GetNumberOfComponents()
+                     << " m_ImageIO->NumComponents "
+                     << m_ImageIO->GetNumberOfComponents() );
 
       loadBuffer = new char[sizeOfActualIORegion];
       m_ImageIO->Read( static_cast< void * >( loadBuffer ) );
 
       // See note below as to why the buffered region is needed and
       // not actualIOregion
-      this->DoConvertBuffer( static_cast< void * >( loadBuffer ), output->GetBufferedRegion().GetNumberOfPixels() );
+      this->DoConvertBuffer( static_cast< void * >( loadBuffer ),
+                             output->GetBufferedRegion().GetNumberOfPixels() );
       }
-    else if ( m_ActualIORegion.GetNumberOfPixels() != output->GetBufferedRegion().GetNumberOfPixels() )
+    else if ( m_ActualIORegion.GetNumberOfPixels() !=
+              output->GetBufferedRegion().GetNumberOfPixels() )
       {
       // NOTE:
       // for the number of pixels read and the number of pixels
@@ -468,7 +478,8 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
   // get the pointer to the destination buffer
   OutputImagePixelType *outputData =
     this->GetOutput()->GetPixelContainer()->GetBufferPointer();
-
+  bool isVectorImage(strcmp(this->GetOutput()->GetNameOfClass(),
+                            "VectorImage") == 0);
   // TODO:
   // Pass down the PixelType (RGB, VECTOR, etc.) so that any vector to
   // scalar conversion be type specific. i.e. RGB to scalar would use
@@ -484,67 +495,73 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
   // VectorImage needs to copy out the buffer differently.. The buffer is of
   // type InternalPixelType, but each pixel is really 'k' consecutive pixels.
 
-#define ITK_CONVERT_BUFFER_IF_BLOCK(type)                                  \
-  else if ( m_ImageIO->GetComponentTypeInfo() == typeid( type ) )          \
-    {                                                                      \
-    if ( strcmp(this->GetOutput()->GetNameOfClass(), "VectorImage") == 0 ) \
-      {                                                                    \
-      ConvertPixelBuffer<                                                  \
-        type,                                                              \
-        OutputImagePixelType,                                              \
-        ConvertPixelTraits                                                 \
-        >                                                                  \
-      ::ConvertVectorImage(                                                \
-        static_cast< type * >( inputData ),                                \
-        m_ImageIO->GetNumberOfComponents(),                                \
-        outputData,                                                        \
-        numberOfPixels);                                                   \
-      }                                                                    \
-    else                                                                   \
-      {                                                                    \
-      ConvertPixelBuffer<                                                  \
-        type,                                                              \
-        OutputImagePixelType,                                              \
-        ConvertPixelTraits                                                 \
-        >                                                                  \
-      ::Convert(                                                           \
-        static_cast< type * >( inputData ),                                \
-        m_ImageIO->GetNumberOfComponents(),                                \
-        outputData,                                                        \
-        numberOfPixels);                                                   \
-      }                                                                    \
+#define ITK_CONVERT_BUFFER_IF_BLOCK(_CType,type)                        \
+  else if(m_ImageIO->GetComponentType() == _CType)                      \
+    {                                                                   \
+    std::cerr << "Pixel type match "                                    \
+              << m_ImageIO->GetComponentTypeAsString                    \
+      (_CType)                                                          \
+              << " "                                                    \
+              << m_ImageIO->GetComponentTypeAsString                    \
+      (m_ImageIO->GetComponentType())                                   \
+              << std::endl;                                             \
+    if (isVectorImage)                                                  \
+      {                                                                 \
+      ConvertPixelBuffer<type,                                          \
+                         OutputImagePixelType,                          \
+                         ConvertPixelTraits                             \
+                         >                                              \
+        ::ConvertVectorImage(static_cast< type * >( inputData ),        \
+                             m_ImageIO->GetNumberOfComponents(),        \
+                             outputData,                                \
+                             numberOfPixels);                           \
+      }                                                                 \
+    else                                                                \
+      {                                                                 \
+      ConvertPixelBuffer<type,                                          \
+                         OutputImagePixelType,                          \
+                         ConvertPixelTraits                             \
+                         >                                              \
+        ::Convert(static_cast< type * >( inputData ),                   \
+                  m_ImageIO->GetNumberOfComponents(),                   \
+                  outputData,                                           \
+                  numberOfPixels);                                      \
+      }                                                                 \
     }
 
-  if ( 0 )
-       {}
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned short)
-  ITK_CONVERT_BUFFER_IF_BLOCK(short)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned int)
-  ITK_CONVERT_BUFFER_IF_BLOCK(int)
-  ITK_CONVERT_BUFFER_IF_BLOCK(unsigned long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(long)
-  ITK_CONVERT_BUFFER_IF_BLOCK(float)
-  ITK_CONVERT_BUFFER_IF_BLOCK(double)
+  if(0) {}
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR,unsigned char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::CHAR,char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT,unsigned short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::SHORT,short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UINT,unsigned int)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::INT,int)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONG,unsigned long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONG,long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::FLOAT,float)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::DOUBLE,double)
   else
     {
+#define TYPENAME(x)                                     \
+    m_ImageIO->GetComponentTypeAsString                 \
+      (ImageIOBase::MapPixelType<x>::CType)
+
     ImageFileReaderException e(__FILE__, __LINE__);
     std::ostringstream       msg;
     msg << "Couldn't convert component type: "
         << std::endl << "    "
         << m_ImageIO->GetComponentTypeAsString( m_ImageIO->GetComponentType() )
         << std::endl << "to one of: "
-        << std::endl << "    " << typeid( unsigned char ).name()
-        << std::endl << "    " << typeid( char ).name()
-        << std::endl << "    " << typeid( unsigned short ).name()
-        << std::endl << "    " << typeid( short ).name()
-        << std::endl << "    " << typeid( unsigned int ).name()
-        << std::endl << "    " << typeid( int ).name()
-        << std::endl << "    " << typeid( unsigned long ).name()
-        << std::endl << "    " << typeid( long ).name()
-        << std::endl << "    " << typeid( float ).name()
-        << std::endl << "    " << typeid( double ).name()
+        << std::endl << "    " << TYPENAME( unsigned char )
+        << std::endl << "    " << TYPENAME( char )
+        << std::endl << "    " << TYPENAME( unsigned short )
+        << std::endl << "    " << TYPENAME( short )
+        << std::endl << "    " << TYPENAME( unsigned int )
+        << std::endl << "    " << TYPENAME( int )
+        << std::endl << "    " << TYPENAME( unsigned long )
+        << std::endl << "    " << TYPENAME( long )
+        << std::endl << "    " << TYPENAME( float )
+        << std::endl << "    " << TYPENAME( double )
         << std::endl;
     e.SetDescription( msg.str().c_str() );
     e.SetLocation(ITK_LOCATION);

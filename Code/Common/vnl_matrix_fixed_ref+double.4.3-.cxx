@@ -15,5 +15,5 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vnl/vnl_matrix_fixed_ref.txx>
+#include "vnl/vnl_matrix_fixed_ref.txx"
 VNL_MATRIX_FIXED_REF_INSTANTIATE(double, 4, 3);

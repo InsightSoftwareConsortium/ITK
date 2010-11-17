@@ -19,7 +19,7 @@
 #define _itkPolygonGroupSpatialObjectXMLFile_txx
 
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #define RAISE_EXCEPTION(s)                                     \

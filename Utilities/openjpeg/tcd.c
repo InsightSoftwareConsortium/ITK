@@ -46,6 +46,8 @@
 #include "j2k_lib.h"
 #include "profile.h"
 
+#include <math.h> // lrintf
+
 /**
  * Deallocates the encoding data of the given precinct.
  */

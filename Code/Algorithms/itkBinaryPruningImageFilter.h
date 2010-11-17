@@ -18,9 +18,9 @@
 #ifndef __itkBinaryPruningImageFilter_h
 #define __itkBinaryPruningImageFilter_h
 
-#include <itkImageToImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkNeighborhoodIterator.h>
+#include "itkImageToImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkNeighborhoodIterator.h"
 
 namespace itk
 {

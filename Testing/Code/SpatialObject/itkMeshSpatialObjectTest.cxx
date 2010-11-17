@@ -20,9 +20,9 @@
 #endif
 
 
-#include <itkDefaultDynamicMeshTraits.h>
-#include <itkMeshSpatialObject.h>
-#include <itkTetrahedronCell.h>
+#include "itkDefaultDynamicMeshTraits.h"
+#include "itkMeshSpatialObject.h"
+#include "itkTetrahedronCell.h"
 
 int itkMeshSpatialObjectTest(int, char * [] )
 {

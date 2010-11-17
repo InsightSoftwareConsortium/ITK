@@ -20,8 +20,8 @@
 #endif
 
 
-#include <itkDefaultDynamicMeshTraits.h>
-#include <itkTetrahedronCell.h>
+#include "itkDefaultDynamicMeshTraits.h"
+#include "itkTetrahedronCell.h"
 
 // Software Guide : BeginLatex
 //
@@ -37,10 +37,10 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include <itkSpatialObjectToImageFilter.h>
-#include <itkMeshSpatialObject.h>
-#include <itkSpatialObjectReader.h>
-#include <itkSpatialObjectWriter.h>
+#include "itkSpatialObjectToImageFilter.h"
+#include "itkMeshSpatialObject.h"
+#include "itkSpatialObjectReader.h"
+#include "itkSpatialObjectWriter.h"
 
 // Software Guide : EndCodeSnippet
 

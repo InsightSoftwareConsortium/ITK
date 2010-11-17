@@ -23,7 +23,7 @@
 #include <ctype.h>
 #include <cstdlib>
 #include <metaLine.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaLine(int argc, char * argv[])
 {

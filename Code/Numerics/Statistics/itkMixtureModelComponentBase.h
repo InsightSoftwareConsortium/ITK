@@ -18,8 +18,8 @@
 #ifndef __itkMixtureModelComponentBase_h
 #define __itkMixtureModelComponentBase_h
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
 
 #include "itkArray.h"
 #include "itkObject.h"

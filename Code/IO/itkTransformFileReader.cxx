@@ -21,7 +21,7 @@
 #include "itkTransformFileReader.h"
 #include "itkTransformFactoryBase.h"
 
-#include <itksys/ios/sstream>
+#include "itksys/ios/sstream"
 
 namespace itk
 {

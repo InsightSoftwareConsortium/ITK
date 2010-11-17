@@ -18,12 +18,12 @@
 #ifndef __itkMahalanobisDistanceMetric_h
 #define __itkMahalanobisDistanceMetric_h
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_vector_ref.h>
-#include <vnl/vnl_transpose.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/algo/vnl_matrix_inverse.h>
-#include <vnl/algo/vnl_determinant.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_vector_ref.h"
+#include "vnl/vnl_transpose.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/algo/vnl_matrix_inverse.h"
+#include "vnl/algo/vnl_determinant.h"
 #include "itkArray.h"
 
 #include "itkDistanceMetric.h"

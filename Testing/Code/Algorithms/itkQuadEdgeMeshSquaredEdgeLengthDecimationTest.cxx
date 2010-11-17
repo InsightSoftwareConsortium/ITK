@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <itkQuadEdgeMesh.h>
-#include <itkVTKPolyDataReader.h>
-#include <itkVTKPolyDataWriter.h>
+#include "itkQuadEdgeMesh.h"
+#include "itkVTKPolyDataReader.h"
+#include "itkVTKPolyDataWriter.h"
 
 #include <sstream>
 

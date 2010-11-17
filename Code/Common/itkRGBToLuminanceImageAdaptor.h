@@ -18,7 +18,7 @@
 #ifndef __itkRGBToLuminanceImageAdaptor_h
 #define __itkRGBToLuminanceImageAdaptor_h
 
-#include <itkImageAdaptor.h>
+#include "itkImageAdaptor.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

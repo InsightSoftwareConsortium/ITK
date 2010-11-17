@@ -20,7 +20,7 @@
 
 #include "itkQuadEdgeMesh.h"
 #include "itkTriangleHelper.h"
-#include <vnl/vnl_math.h>
+#include "vnl/vnl_math.h"
 
 namespace itk
 {

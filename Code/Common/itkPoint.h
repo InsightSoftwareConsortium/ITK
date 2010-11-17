@@ -22,7 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkVector.h"
 
-#include <vnl/vnl_vector_ref.h>
+#include "vnl/vnl_vector_ref.h"
 
 namespace itk
 {

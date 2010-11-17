@@ -19,10 +19,10 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkImage.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkImageSliceConstIteratorWithIndex.h>
-#include <itkSignedDanielssonDistanceMapImageFilter.h>
+#include "itkImage.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageSliceConstIteratorWithIndex.h"
+#include "itkSignedDanielssonDistanceMapImageFilter.h"
 
 void test(int);
 

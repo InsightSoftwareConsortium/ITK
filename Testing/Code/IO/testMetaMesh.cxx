@@ -26,8 +26,8 @@
 #include <metaMesh.h>
 #include <metaScene.h>
 #include <math.h>
-#include <vcl_cmath.h>
-#include <itksys/SystemTools.hxx>
+#include "vcl_cmath.h"
+#include "itksys/SystemTools.hxx"
 
 
 bool TestingMetaMesh(MetaMesh* _mesh)

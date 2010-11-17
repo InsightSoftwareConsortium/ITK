@@ -19,9 +19,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkImage.h>
-#include <itkMultiplyImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkMultiplyImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkMultiplyImageFilterTest(int, char* [])

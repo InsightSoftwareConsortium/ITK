@@ -31,7 +31,7 @@
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
-#include <itkTriangleMeshToBinaryImageFilter.h>
+#include "itkTriangleMeshToBinaryImageFilter.h"
 
 int itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv [] )
 {

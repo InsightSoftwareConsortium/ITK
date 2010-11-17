@@ -23,7 +23,7 @@
 #include <ctype.h>
 #include <cstdlib>
 #include <metaLandmark.h>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int testMetaLandmark(int argc, char * argv[])
 {

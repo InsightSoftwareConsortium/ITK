@@ -23,7 +23,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkSimpleFilterWatcher.h"
-#include <itkAreaClosingImageFilter.h>
+#include "itkAreaClosingImageFilter.h"
 
 int itkAreaClosingImageFilterTest(int argc, char * argv[])
 {

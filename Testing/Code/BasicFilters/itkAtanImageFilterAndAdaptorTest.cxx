@@ -20,11 +20,11 @@
 #endif
 
 
-#include <itkImage.h>
-#include <itkAtanImageFilter.h>
-#include <itkAtanImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkSubtractImageFilter.h>
+#include "itkImage.h"
+#include "itkAtanImageFilter.h"
+#include "itkAtanImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkSubtractImageFilter.h"
 
 
 int itkAtanImageFilterAndAdaptorTest(int, char* [] )

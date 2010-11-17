@@ -23,8 +23,8 @@
 #include "itkImageFileWriter.h"
 
 #include "itkSimpleFilterWatcher.h"
-#include <itkIntensityWindowingImageFilter.h>
-#include <itkMinimumMaximumImageCalculator.h>
+#include "itkIntensityWindowingImageFilter.h"
+#include "itkMinimumMaximumImageCalculator.h"
 #include "itkMorphologicalWatershedImageFilter.h"
 #include "itkLabelOverlayImageFilter.h"
 

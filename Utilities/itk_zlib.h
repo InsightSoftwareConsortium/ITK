@@ -34,7 +34,7 @@
 #ifdef ITK_USE_SYSTEM_ZLIB
 # include <zlib.h>
 #else
-# include <itkzlib/zlib.h>
+# include "itkzlib/zlib.h"
 #endif
 
 #endif

@@ -21,6 +21,7 @@
 
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkQuadEdgeMeshNormalFilter.h"
+#include <stdlib.h>
 
 int itkQuadEdgeMeshNormalFilterTest( int argc, char* argv[] )
 {

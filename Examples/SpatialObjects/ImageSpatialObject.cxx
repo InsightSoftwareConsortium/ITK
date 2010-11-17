@@ -29,7 +29,7 @@
 //
 // Software Guide : EndLatex
 
-#include <itkImageRegionIterator.h>
+#include "itkImageRegionIterator.h"
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageSpatialObject.h"

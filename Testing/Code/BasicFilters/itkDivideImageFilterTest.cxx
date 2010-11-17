@@ -22,9 +22,9 @@
 
 
 
-#include <itkImage.h>
-#include <itkDivideImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkImage.h"
+#include "itkDivideImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
 int itkDivideImageFilterTest(int, char* [] )

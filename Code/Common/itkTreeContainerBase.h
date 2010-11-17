@@ -20,7 +20,7 @@
 
 #include "itkMacro.h"
 #include <iostream>
-#include <itkTreeNode.h>
+#include "itkTreeNode.h"
 
 namespace itk
 {

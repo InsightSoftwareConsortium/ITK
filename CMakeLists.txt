@@ -7,13 +7,7 @@ endif(COMMAND CMAKE_POLICY)
 #-----------------------------------------------------------------------------
 # Sanity check -- prevent in-source builds
 #
-option(ALLOW_IN_SOURCE_BUILDS
-"Allow the user to build ITK inside the source tree"
-OFF)
-
-if(NOT ALLOW_IN_SOURCE_BUILDS)
-  include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/PreventInSourceBuilds.cmake)
-endif(NOT ALLOW_IN_SOURCE_BUILDS)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/PreventInSourceBuilds.cmake)
 
 project(ITK)
 include_regular_expression("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|v3p|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib|gdcm).*$")
@@ -706,13 +700,11 @@ include_directories(
 option(ITK_USE_SYSTEM_GDCM "Use an outside build of GDCM." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_GDCM)
 if(ITK_USE_SYSTEM_GDCM)
-  message(FATAL_ERROR "This feature is not supported (for now).")
-  find_package(GDCM)
+  find_package(GDCM REQUIRED)
   if(GDCM_FOUND)
     include(${GDCM_USE_FILE})
     if( "${GDCM_MAJOR_VERSION}" LESS 2.0 )
-      #set(ITK_GDCM_LIBRARIES gdcm)
-      message(FATAL_ERROR "Unhandled")
+      message(FATAL_ERROR "You need at least version 2.0")
     else( "${GDCM_MAJOR_VERSION}" LESS 2.0 )
       if(ITK_USE_SYSTEM_TIFF)
         # Long story short. ITKIO is NOT linked to itkjpeg8 explicitely. itkjpeg8 dep is being
@@ -727,13 +719,11 @@ if(ITK_USE_SYSTEM_GDCM)
         # 1. Have FindTIFF link to jpeg8 (which would be the right thing to do for static system libtiff)
         # 2. Have ITKIO explicitely link to itkjpeg8
         # For the time being let's explicitely pull the dep to itkjpeg8 ourselves.
-        set(ITK_GDCM_LIBRARIES gdcmMSFF itkjpeg)
+        set(ITK_GDCM_LIBRARIES gdcmMSFF)
       else(ITK_USE_SYSTEM_TIFF)
         set(ITK_GDCM_LIBRARIES gdcmMSFF)
       endif(ITK_USE_SYSTEM_TIFF)
     endif( "${GDCM_MAJOR_VERSION}" LESS 2.0 )
-  else(GDCM_FOUND)
-    message(FATAL_ERROR "Must set GDCM_DIR for ITK_USE_SYSTEM_GDCM.")
   endif(GDCM_FOUND)
 else(ITK_USE_SYSTEM_GDCM)
   set(ITK_GDCM_LIBRARIES gdcmMSFF)

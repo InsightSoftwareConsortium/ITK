@@ -27,7 +27,7 @@
 namespace itk
 {
 /** \class ValarrayImageContainer
- * Defines a front-end to the STL "valarray" container that conforms to the
+ * Defines a front-end to the STL <valarray> container that conforms to the
  * ImageContainerInterface.  This is a full-fleged Object, so
  * there is modification time, debug, and reference count information.
  *

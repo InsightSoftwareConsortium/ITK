@@ -22,11 +22,11 @@
 
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
 
-#include <vnl/vnl_vector.h>
-#include <vnl/vnl_matrix.h>
-#include <vnl/vnl_math.h>
-#include <itkArray.h>
-#include <itkArray2D.h>
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_math.h"
+#include "itkArray.h"
+#include "itkArray2D.h"
 
 typedef vnl_matrix< double > MatrixType;
 typedef vnl_vector< double > VectorType;
