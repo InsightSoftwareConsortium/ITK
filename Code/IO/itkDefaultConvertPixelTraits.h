@@ -97,91 +97,56 @@ ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(bool)
 //  Default traits for the Offset<> pixel type
 //
 
-#define ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(dimension)                            \
-  template< >                                                                      \
-  class DefaultConvertPixelTraits< Offset< dimension > >                           \
-  {                                                                                \
-public:                                                                            \
-    typedef Offset< dimension >         TargetType;                                \
-    typedef TargetType::OffsetValueType ComponentType;                             \
-    static unsigned int GetNumberOfComponents()                                    \
-      {                                                                            \
-      return dimension;                                                            \
-      }                                                                            \
-    static void SetNthComponent(int i, TargetType & pixel, const ComponentType &v) \
-      {                                                                            \
-      pixel[i] = v;                                                                \
-      }                                                                            \
-    static ComponentType GetScalarValue(const TargetType &pixel)                   \
-      {                                                                            \
-      return pixel[0];                                                             \
-      }                                                                            \
-  };                                                                               \
-
-
-// Define traits for Offset<> from dimensions 1 to 5
-ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(1)
-ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(2)
-ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(3)
-ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(4)
-ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
+template<unsigned int VDimension>
+class DefaultConvertPixelTraits< Offset< VDimension > >
+{
+public:
+  typedef Offset< VDimension >                 TargetType;
+  typedef typename TargetType::OffsetValueType ComponentType;
+  static unsigned int GetNumberOfComponents()
+    {
+      return VDimension;
+    }
+  static void SetNthComponent(int i, TargetType & pixel, const ComponentType &v)
+    {
+      pixel[i] = v;
+    }
+  static ComponentType GetScalarValue(const TargetType &pixel)
+    {
+      return pixel[0];
+    }
+};
 
 //
 //  Default traits for the pixel types deriving from FixedArray<>
 //
 
-#define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type, componenttype, dimension)   \
-  template< >                                                                      \
-  class DefaultConvertPixelTraits< type< componenttype, dimension > >              \
-  {                                                                                \
-public:                                                                            \
-    typedef type< componenttype, dimension > TargetType;                           \
-    typedef componenttype                    ComponentType;                        \
-    static unsigned int GetNumberOfComponents()                                    \
-      {                                                                            \
-      return dimension;                                                            \
-      }                                                                            \
-    static void SetNthComponent(int i, TargetType & pixel, const ComponentType &v) \
-      {                                                                            \
-      pixel[i] = v;                                                                \
-      }                                                                            \
-    static ComponentType GetScalarValue(const TargetType &pixel)                   \
-      {                                                                            \
-      return pixel[0];                                                             \
-      }                                                                            \
-  };                                                                               \
+#define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type)                  \
+  template<typename TComponentType, unsigned VDimension >               \
+  class DefaultConvertPixelTraits< type< TComponentType, VDimension > > \
+  {                                                                     \
+  public:                                                               \
+    typedef type< TComponentType, VDimension > TargetType;              \
+    typedef TComponentType                    ComponentType;            \
+    static unsigned int GetNumberOfComponents()                         \
+    {                                                                   \
+      return VDimension;                                                \
+    }                                                                   \
+    static void SetNthComponent(int i, TargetType & pixel,              \
+                                const ComponentType &v)                 \
+    {                                                                   \
+      pixel[i] = v;                                                     \
+    }                                                                   \
+    static ComponentType GetScalarValue(const TargetType &pixel)        \
+    {                                                                   \
+      return pixel[0];                                                  \
+    }                                                                   \
+  }                                                                     \
 
-//
-//
-// Define traits for Classed deriving from FixedArray from dimensions 1 to 6
-// These classes include: Vector, CovariantVector and Point.
-//
-//
-#define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, Type) \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 1)              \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 2)              \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 3)              \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 4)              \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 5)              \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 6)
-
-#define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(ArrayType)      \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, char);           \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, signed char);    \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned char);  \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, short);          \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned short); \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, int);            \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned int);   \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, long);           \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned long);  \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, float);          \
-  ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, double);
-
-ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(Vector);
-ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(CovariantVector);
-ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(Point);
-ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(FixedArray);
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector);
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(CovariantVector);
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Point);
+ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray);
 
 //
 //  End of Traits for the classes deriving from FixedArray.
@@ -192,105 +157,60 @@ ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(FixedArray);
 //  Default traits for the pixel types deriving from Matrix<>
 //
 
-#define ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(type, componenttype, rows, cols)      \
-  template< >                                                                      \
-  class DefaultConvertPixelTraits< type< componenttype, rows, cols > >             \
-  {                                                                                \
-public:                                                                            \
-    typedef type< componenttype, rows, cols > TargetType;                          \
-    typedef componenttype                     ComponentType;                       \
-    static unsigned int GetNumberOfComponents()                                    \
-      {                                                                            \
-      return rows * cols;                                                          \
-      }                                                                            \
-    static void SetNthComponent(int i, TargetType & pixel, const ComponentType &v) \
-      {                                                                            \
-      const unsigned int row = i / cols;                                           \
-      const unsigned int col = i % cols;                                           \
-      pixel[row][col] = v;                                                         \
-      }                                                                            \
-    static ComponentType GetScalarValue(const TargetType &pixel)                   \
-      {                                                                            \
-      return pixel[0][0];                                                          \
-      }                                                                            \
-  };                                                                               \
-
-//
-//
-// Define traits for Classed deriving from Matrix from dimensions 1 to 6
-//
-//
-#define ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, Type) \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 1, 1)           \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 2, 2)           \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 3, 3)           \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 4, 4)           \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 5, 5)           \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 6, 6)
-
-#define ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(ArrayType)      \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, char);           \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, signed char);    \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned char);  \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, short);          \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned short); \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, int);            \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned int);   \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, long);           \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned long);  \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, float);          \
-  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, double);
-
-//
-// Add here other classes that derive from Matrix or that have the same API
-//
-ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(Matrix);
-
-//
-//  End of Traits for the classes deriving from Matrix.
-//
-//
+template<typename VComponent, unsigned VRows, unsigned VCols >
+class DefaultConvertPixelTraits< Matrix< VComponent, VRows, VCols > >
+{
+public:
+  typedef Matrix< VComponent, VRows, VCols > TargetType;
+  typedef VComponent                         ComponentType;
+  static unsigned int GetNumberOfComponents()
+    {
+      return VRows * VCols;
+    }
+  static void SetNthComponent(int i, TargetType & pixel,
+                              const ComponentType &v)
+    {
+      const unsigned int row = i / VCols;
+      const unsigned int col = i % VCols;
+      pixel[row][col] = v;
+    }
+  static ComponentType GetScalarValue(const TargetType &pixel)
+    {
+      return pixel[0][0];
+    }
+};
 
 //
 //  Default traits for the pixel types deriving from std::complex<>
 //
 
-#define ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(componenttype)                       \
-  template< >                                                                      \
-  class DefaultConvertPixelTraits< ::std::complex< componenttype > >               \
-  {                                                                                \
-public:                                                                            \
-    typedef::std::complex< componenttype > TargetType;                             \
-    typedef componenttype                  ComponentType;                          \
-    static unsigned int GetNumberOfComponents()                                    \
-      {                                                                            \
-      return 2;                                                                    \
-      }                                                                            \
-    static void SetNthComponent(int i, TargetType & pixel, const ComponentType &v) \
-      {                                                                            \
-      if ( i == 0 )                                                                \
-        {                                                                          \
-        pixel = TargetType( v, pixel.imag() );                                     \
-        }                                                                          \
-      else                                                                         \
-        {                                                                          \
-        pixel = TargetType(pixel.real(), v);                                       \
-        }                                                                          \
-      }                                                                            \
-    static ComponentType GetScalarValue(const TargetType &pixel)                   \
-      {                                                                            \
-      return std::norm(pixel);                                                     \
-      }                                                                            \
-  };                                                                               \
+template<typename TComponent >
+class DefaultConvertPixelTraits< ::std::complex< TComponent > >
+{
+public:
+  typedef::std::complex< TComponent > TargetType;
+  typedef TComponent                  ComponentType;
+  static unsigned int GetNumberOfComponents()
+    {
+      return 2;
+    }
+  static void SetNthComponent(int i, TargetType & pixel, const ComponentType &v)
+    {
+      if ( i == 0 )
+        {
+        pixel = TargetType( v, pixel.imag() );
+        }
+      else
+        {
+        pixel = TargetType(pixel.real(), v);
+        }
+    }
+  static ComponentType GetScalarValue(const TargetType &pixel)
+    {
+      return std::norm(pixel);
+    }
+};
 
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(float);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(double);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed int);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned int);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed char);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned char);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed long);
-ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned long);
 
 //
 //  End of Traits for the classes deriving from std::complex.

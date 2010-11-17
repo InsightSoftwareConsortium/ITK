@@ -86,12 +86,6 @@ public:
   /** Optionally, modify spacing, origin and direction */
   virtual void ModifyImageInformation() {}
 
-  /** Get the type of the pixel.  */
-  virtual const std::type_info & GetPixelTypeInfo() const;
-
-  /** Get the component type of the pixel.  */
-  virtual const std::type_info & GetComponentTypeInfo() const;
-
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void *buffer);
 
