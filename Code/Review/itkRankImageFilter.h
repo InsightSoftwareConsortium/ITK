@@ -58,7 +58,7 @@ template< class TInputImage, class TOutputImage, class TKernel =
             FlatStructuringElement< ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 class ITK_EXPORT RankImageFilter:
   public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
-                                     RankHistogram< ITK_TYPENAME TInputImage::PixelType > >
+                                     Function::RankHistogram< ITK_TYPENAME TInputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
@@ -66,7 +66,7 @@ public:
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
   typedef MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
-                                      RankHistogram< typename TInputImage::PixelType > > Superclass;
+                                      Function::RankHistogram< typename TInputImage::PixelType > > Superclass;
 
   /** Standard New method. */
   itkNewMacro(Self);

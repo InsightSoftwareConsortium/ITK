@@ -22,6 +22,8 @@
 
 namespace itk
 {
+namespace Function
+{
 // a simple histogram class hierarchy. One subclass will be maps, the
 // other vectors.
 // This version is intended for keeping track of arbitary ranks. It is
@@ -396,5 +398,6 @@ class RankHistogram<bool>:
 {
 };
 
+} // end namespace Function
 } // end namespace itk
 #endif
