@@ -620,10 +620,9 @@ void IPLCommonImageIO
 }
 
 int IPLCommonImageIO
-::statTimeToAscii(void *clock, char *timeString)
+::statTimeToAscii(void *clock, char *timeString,int len)
 {
   char *       asciiTime;
-  unsigned int i;
 
 #ifdef SGI
   timespec_t *lclock;
@@ -639,16 +638,14 @@ int IPLCommonImageIO
   asciiTime = ctime (&tclock);
 #endif
 
-  strncpy (timeString, asciiTime, 64);
-
-  for ( i = 0; i < 26; i++ )
+  strncpy (timeString, asciiTime, len);
+  timeString[len-1] = '\0';
+  char *newline;
+  if((newline = strrchr(timeString,'\n')) != 0 ||
+     (newline = strrchr(timeString,'\r')))
     {
-    if ( timeString[i] == '\n' )
-      {
-      timeString[i] = '\0';
-      }
+    *newline = '\0';
     }
-
   return 1;
 }
 } // end namespace itk

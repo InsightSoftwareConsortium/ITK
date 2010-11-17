@@ -140,7 +140,7 @@ protected:
 
   void sortImageListDescend();
 
-  int statTimeToAscii(void *clock, char *timeString);
+  int statTimeToAscii(void *clock, char *timeString, int len);
 
   virtual GEImageHeader * ReadHeader(const char *FileNameToRead);
 
