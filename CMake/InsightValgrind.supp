@@ -1363,8 +1363,12 @@
    obj:/lib/ld-2.10.1.so
 }
 {
-  ExitFreeLibC
-  Memcheck:Free
-  obj:*/ld-2.9.so
-  fun:exit
+   ExitFreeLibC brian.jouy.inra.fr
+   Memcheck:Free
+   fun:free
+   obj:/lib64/libc-2.9.so
+   obj:/lib64/libc-2.9.so
+   fun:_vgnU_freeres
+   fun:exit
+   fun:(below main)
 }
