@@ -112,6 +112,7 @@
 #endif  /* ITKBasicFilters_EXPORT */
 #else
 /* unix needs nothing */
+#define ITKCommon_EXPORT
 #define ITKBasicFilters_EXPORT
 #endif
 
