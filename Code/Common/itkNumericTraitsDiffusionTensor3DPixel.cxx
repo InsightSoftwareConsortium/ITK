@@ -22,13 +22,9 @@ namespace itk
 // All the specializations that were here previously have now been
 // replaced with a single template in the header file.
 //
-
-//
 // Helper macro for initializing the Zero and One static member of the
 // NumericTraits<>.
 //
-
-#ifdef ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 
 #define DIFFUSIONTENSOR3DPIXELSTATICTRAITSMACRO(T)                                                      \
   template< >                                                                                           \
@@ -37,16 +33,6 @@ namespace itk
   template< >                                                                                           \
   const DiffusionTensor3D< T >  NumericTraits< DiffusionTensor3D< T > >::One = DiffusionTensor3D< T >(  \
     NumericTraits< T >::One);
-
-#else // ITK_USE_NUMERICTRAITS_PARTIAL_SPECIALIZATION
-
-#define DIFFUSIONTENSOR3DPIXELSTATICTRAITSMACRO(T)                                                      \
-  const DiffusionTensor3D< T >  NumericTraits< DiffusionTensor3D< T > >::Zero = DiffusionTensor3D< T >( \
-    NumericTraits< T >::Zero);                                                                          \
-  const DiffusionTensor3D< T >  NumericTraits< DiffusionTensor3D< T > >:: One = DiffusionTensor3D< T >( \
-    NumericTraits< T >::One);
-
-#endif // ITK_USE_NUMERICTRAITS_PARTIAL_SPECIALIZATION
 
 //
 // List here the specializations of the Traits:

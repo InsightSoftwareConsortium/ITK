@@ -84,14 +84,6 @@
 #cmakedefine ITK_SUPPORTS_FDSTREAM_HPP
 
 /*
- * TODO: this should be changed to a compile time test for the needed
- * feature and then defined as a cmake variable
- */
-#if !(defined( _MSC_VER ) && ( _MSC_VER < 1310 ))
-#define ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
-#endif
-
-/*
  * The @HAVE_INCLUDE_H@ gets replaced with "1" or "", this define is
  * to remap these values to 0 and 1
  */

@@ -61,8 +61,17 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
-#if defined( _MSC_VER ) && ( _MSC_VER <= 1300 )
-#error "MSC_VER <= 1300 not supported under ITKv4"
+/*
+ * ITK only supports MSVC++ 7.1 and greater
+ * MSVC++ 9.0 _MSC_VER = 1500
+ * MSVC++ 8.0 _MSC_VER = 1400
+ * MSVC++ 7.1 _MSC_VER = 1310
+ * MSVC++ 7.0 _MSC_VER = 1300
+ * MSVC++ 6.0 _MSC_VER = 1200
+ * MSVC++ 5.0 _MSC_VER = 1100
+*/
+#if defined( _MSC_VER ) && ( _MSC_VER < 1310 )
+//#error "_MSC_VER < 1310 (MSVC++ 7.1) not supported under ITKv4"
 #endif
 #if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x590 )
 #error "__SUNPRO_CC < 0x590 not supported under ITKv4"
