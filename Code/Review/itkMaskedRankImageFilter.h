@@ -58,13 +58,13 @@ template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel
             FlatStructuringElement< ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 class ITK_EXPORT MaskedRankImageFilter:
   public MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
-                                           RankHistogram< ITK_TYPENAME TInputImage::PixelType > >
+                                           Function::RankHistogram< ITK_TYPENAME TInputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
   typedef MaskedRankImageFilter Self;
   typedef MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
-                                            RankHistogram< typename TInputImage::PixelType > > Superclass;
+                                            Function::RankHistogram< typename TInputImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -88,6 +88,8 @@ public:
   typedef typename TOutputImage::PixelType           OutputPixelType;
   typedef typename TInputImage::PixelType            InputPixelType;
 
+  typedef typename Superclass::HistogramType         HistogramType;
+
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -104,16 +106,14 @@ public:
   itkSetMacro(Rank, float)
   itkGetConstMacro(Rank, float)
 
-  bool GetUseVectorBasedHistogram()
+  bool GetUseVectorBasedAlgorithm()
   {
-    return HistogramType::UseVectorBasedHistogram();
+    return HistogramType::UseVectorBasedAlgorithm();
   }
 
 protected:
   MaskedRankImageFilter();
   ~MaskedRankImageFilter() {}
-
-  typedef RankHistogram< InputPixelType > HistogramType;
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 

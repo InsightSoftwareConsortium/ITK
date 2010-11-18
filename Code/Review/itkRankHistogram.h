@@ -22,6 +22,8 @@
 
 namespace itk
 {
+namespace Function
+{
 // a simple histogram class hierarchy. One subclass will be maps, the
 // other vectors.
 // This version is intended for keeping track of arbitary ranks. It is
@@ -216,6 +218,11 @@ public:
 
   void RemoveBoundary(){}
 
+  static bool UseVectorBasedAlgorithm()
+  {
+    return false;
+  }
+
 protected:
   float m_Rank;
 
@@ -360,6 +367,11 @@ public:
 
   void RemoveBoundary(){}
 
+  static bool UseVectorBasedAlgorithm()
+  {
+    return true;
+  }
+
 protected:
   float m_Rank;
 
@@ -396,5 +408,6 @@ class RankHistogram<bool>:
 {
 };
 
+} // end namespace Function
 } // end namespace itk
 #endif
