@@ -134,7 +134,7 @@ GEImageHeader * GEAdwImageIO::ReadHeader(const char *FileNameToRead)
 
   int timeStamp;
   this->GetIntAt(f, GE_ADW_EX_DATETIME, &timeStamp);
-  this->statTimeToAscii(&timeStamp, hdr->date);
+  this->statTimeToAscii(&timeStamp, hdr->date,sizeof(hdr->date));
 
   this->GetStringAt(f, GE_ADW_SU_PRODID, hdr->scanner, 13);
   hdr->scanner[13] = '\0';
