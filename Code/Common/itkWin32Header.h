@@ -104,9 +104,15 @@
 #else
 #define ITKCommon_EXPORT __declspec(dllimport)
 #endif  /* ITKCommon_EXPORT */
+
+#ifdef ITKBasicFilters_EXPORTS
+#define ITKBasicFilters_EXPORT __declspec(dllexport)
+#else
+#define ITKBasicFilters_EXPORT __declspec(dllimport)
+#endif  /* ITKBasicFilters_EXPORT */
 #else
 /* unix needs nothing */
-#define ITKCommon_EXPORT
+#define ITKBasicFilters_EXPORT
 #endif
 
 #endif
