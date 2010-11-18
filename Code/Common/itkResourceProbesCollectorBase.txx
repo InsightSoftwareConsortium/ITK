@@ -23,7 +23,7 @@
 
 namespace itk
 {
-#if defined( ITKSTATIC ) || !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
+
 template< class TProbe >
 ResourceProbesCollectorBase< TProbe >
 ::~ResourceProbesCollectorBase()
@@ -101,43 +101,6 @@ ResourceProbesCollectorBase< TProbe >
   this->m_Probes.clear();
 }
 
-#else
-template< class TProbe >
-ResourceProbesCollectorBase< TProbe >
-::~ResourceProbesCollectorBase()
-{}
-
-template< class TProbe >
-void
-ResourceProbesCollectorBase< TProbe >
-::Start(const char *id)
-{}
-
-template< class TProbe >
-void
-ResourceProbesCollectorBase< TProbe >
-::Stop(const char *id)
-{}
-
-template< class TProbe >
-void
-ResourceProbesCollectorBase< TProbe >
-::Report(std::ostream & os) const
-{
-  os
-  <<
-  "Warning: ResourceProbesCollector's are not supported in shared libraries by the Visual Studio 6 and earlier compilers."
-  << std::endl
-  << "Build with BUILD_SHARED_LIBS OFF if you need this functionality." << std::endl;
-}
-
-template< class TProbe >
-void
-ResourceProbesCollectorBase< TProbe >
-::Clear(void)
-{}
-
-#endif
 } // end namespace itk
 
 #endif //__itkResourceProbesCollectorBase_txx

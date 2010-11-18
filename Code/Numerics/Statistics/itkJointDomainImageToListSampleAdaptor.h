@@ -248,9 +248,7 @@ public:
       return ( m_InstanceIdentifier == it.m_InstanceIdentifier );
     }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
 protected:
-#endif
     // This method should only be available to the ListSample class
     ConstIterator(
       const JointDomainImageToListSampleAdaptor *adaptor,
@@ -285,9 +283,7 @@ public:
       return *this;
     }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
 protected:
-#endif
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
     Iterator();

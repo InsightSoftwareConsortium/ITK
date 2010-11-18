@@ -642,7 +642,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 // possible on this compiler.
 #if defined( __GNUC__ ) && !defined( __INTEL_COMPILER ) && ( __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ >= 1 ) )
 #define itkLegacyMacro(method) method __attribute__( ( deprecated ) )
-#elif defined( _MSC_VER ) && _MSC_VER >= 1300
+#elif defined( _MSC_VER )
 #define itkLegacyMacro(method) __declspec(deprecated) method
 #else
 #define itkLegacyMacro(method) method
@@ -749,7 +749,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 #define ITK_TEMPLATE_EXTERN 1
 #elif defined( __GNUC__ ) && __GNUC__ >= 3
 #define ITK_TEMPLATE_EXTERN 1
-#elif defined( _MSC_VER ) && _MSC_VER >= 1300
+#elif defined( _MSC_VER )
 #define ITK_TEMPLATE_EXTERN 1
 #endif
 #if !defined( ITK_TEMPLATE_DO_NOT_INSTANTIATE )

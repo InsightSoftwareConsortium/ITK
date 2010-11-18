@@ -340,13 +340,10 @@ StatisticsImageFilter< TImage >
 {
   Superclass::PrintSelf(os, indent);
 
-// Trying to debug wrapping problem with VS6
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1300 ) )
   os << indent << "Minimum: "
      << static_cast< typename NumericTraits< PixelType >::PrintType >( this->GetMinimum() ) << std::endl;
   os << indent << "Maximum: "
      << static_cast< typename NumericTraits< PixelType >::PrintType >( this->GetMaximum() ) << std::endl;
-#endif
   os << indent << "Sum: "      << this->GetSum() << std::endl;
   os << indent << "Mean: "     << this->GetMean() << std::endl;
   os << indent << "Sigma: "    << this->GetSigma() << std::endl;

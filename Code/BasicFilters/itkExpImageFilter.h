@@ -21,10 +21,6 @@
 #include "itkUnaryFunctorImageFilter.h"
 #include "vnl/vnl_math.h"
 
-#if defined( _MSC_VER ) && ( _MSC_VER >= 1300 )
-#pragma function(exp)
-#endif
-
 namespace itk
 {
 /** \class ExpImageFilter
@@ -53,9 +49,6 @@ public:
     return !( *this != other );
   }
 
-#if defined( _MSC_VER ) && ( _MSC_VER == 1300 )
-#pragma optimize("g",off)
-#endif
   inline TOutput operator()(const TInput & A) const
   {
     return (TOutput)vcl_exp( (double)A );
@@ -103,9 +96,6 @@ private:
   ExpImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 };
-#if defined( _MSC_VER ) && ( _MSC_VER == 1300 )
-#pragma optimize("",on)
-#endif
 } // end namespace itk
 
 #endif

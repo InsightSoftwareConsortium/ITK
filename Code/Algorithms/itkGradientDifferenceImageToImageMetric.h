@@ -73,12 +73,7 @@ public:
   itkTypeMacro(GradientDifferenceImageToImageMetric, ImageToImageMetric);
 
   /** Types transferred from the base class */
-// Work around a Visual Studio .NET bug
-#if defined( _MSC_VER ) && ( _MSC_VER == 1300 )
-  typedef double RealType;
-#else
-  typedef typename Superclass::RealType RealType;
-#endif
+  typedef typename Superclass::RealType                RealType;
   typedef typename Superclass::TransformType           TransformType;
   typedef typename Superclass::TransformPointer        TransformPointer;
   typedef typename Superclass::TransformParametersType TransformParametersType;
