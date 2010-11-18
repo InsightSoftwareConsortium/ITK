@@ -44,14 +44,14 @@ while IFS='' read line; do
     # Look for valid prefixes.
     echo "$line" |
     grep -q '^\(Merge\|Revert\|BUG:\|COMP:\|DOC:\|ENH:\|PERF:\|STYLE:\) ' ||
-    die 'Start ITK commit messages with a standard prefix:
+    die 'Start ITK commit messages with a standard prefix (and a space):
   BUG:    - fix for runtime crash or incorrect result
   COMP:   - compiler error or warning fix
   DOC:    - documentation change
   ENH:    - new functionality
   PERF:   - performance improvement
   STYLE:  - no logic impact (indentation, comments)
-To reference a Mantis issue, append " (#NNNN)" to first line.'
+To reference Mantis issue XY, add " (#XY)" to the END of the FIRST line.'
 
     # Reject bug number reference that CDash rejects.
     echo "$line" |
