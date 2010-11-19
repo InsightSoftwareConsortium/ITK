@@ -115,7 +115,7 @@ public:
       }
   }
 
-  virtual bool IsValid()
+  bool IsValid()
   {
     return m_Initialized;
   }
@@ -268,7 +268,7 @@ public:
 
   ~VectorRankHistogram() {}
 
-  virtual bool IsValid()
+  bool IsValid()
   {
     return m_Entries > 0;
   }
