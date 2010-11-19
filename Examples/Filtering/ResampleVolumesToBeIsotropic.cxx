@@ -313,20 +313,14 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // We instruct the smoothing filters to act along the $X$ and $Y$ direction
-// respectively. And define the settings for avoiding the loss of intensity as
-// a result of the diffusion process that is inherited from the use of a
-// Gaussian filter.
+// respectively.
 //
-// \index{RecursiveGaussianImageFilter!SetNormalizeAcrossScale}
 // Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
   smootherX->SetDirection( 0 );
   smootherY->SetDirection( 1 );
-
-  smootherX->SetNormalizeAcrossScale( true );
-  smootherY->SetNormalizeAcrossScale( true );
 // Software Guide : EndCodeSnippet
 
 

@@ -1054,6 +1054,10 @@ add_test(itkBSplineUpsampleImageFilterTest
   3  # Spline order
   )
 
+add_test(itkRecursiveGaussianScaleSpaceTest1
+  ${BASIC_FILTERS_TESTS5} itkRecursiveGaussianScaleSpaceTest1
+  )
+
 
 set(BasicFilters_SRCS
 itkAcosImageFilterAndAdaptorTest.cxx
@@ -1352,6 +1356,7 @@ set(BasicFilters5_SRCS
   itkBSplineDownsampleImageFilterTest.cxx
   itkBSplineUpsampleImageFilterTest.cxx
   itkDiscreteGaussianImageFilterTest2.cxx
+  itkRecursiveGaussianScaleSpaceTest1.cxx
 )
 
 if(ITK_OBJCXX_COMPILER_WORKS)

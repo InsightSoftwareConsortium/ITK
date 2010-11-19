@@ -43,4 +43,5 @@ void RegisterTests()
   REGISTER_TEST(itkReleaseDataFilterTest);
   REGISTER_TEST(itkWarpImageFilterTest2);
   REGISTER_TEST(itkDiscreteGaussianImageFilterTest2);
+  REGISTER_TEST(itkRecursiveGaussianScaleSpaceTest1);
 }

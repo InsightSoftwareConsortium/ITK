@@ -112,6 +112,8 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   m_NormalizeAcrossScale = normalize;
 
+  // No normalization across scale is needed for the zero-order
+  // gaussian filters. Only the derivatives need normalization.
   m_DerivativeFilterA->SetNormalizeAcrossScale(normalize);
   m_DerivativeFilterB->SetNormalizeAcrossScale(normalize);
 

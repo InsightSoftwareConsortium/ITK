@@ -118,16 +118,16 @@ public:
     use the method SetSigmaArray if you need different values along each
     axis. */
   void SetSigmaArray(const SigmaArrayType & sigmas);
-
   void SetSigma(ScalarRealType sigma);
 
   SigmaArrayType GetSigmaArray() const;
-
   ScalarRealType GetSigma() const;
 
-  /** Define which normalization factor will be used for the Gaussian */
+  /** This method does not effect the output of this filter.
+   *
+   *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
+   */
   void SetNormalizeAcrossScale(bool normalizeInScaleSpace);
-
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   // See super class for doxygen documentation

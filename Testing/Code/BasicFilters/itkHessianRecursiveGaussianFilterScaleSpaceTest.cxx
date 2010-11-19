@@ -120,8 +120,9 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
     // Irrespective of the scale, the Hxx component should be the same
     double centerHxx = outputImage->GetPixel(centerIndex)[0];
 
-    if (centerHxx > -35.46 || centerHxx < -35.47)
+    if (centerHxx > -0.3546 || centerHxx < -0.3547 )
       {
+      std::cout << "center Hessian: " << outputImage->GetPixel(centerIndex) << std::endl;
       return EXIT_FAILURE;
       }
     }

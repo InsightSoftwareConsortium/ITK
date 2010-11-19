@@ -86,21 +86,45 @@ public:
   /** Type of the output image */
   typedef TOutputImage OutputImageType;
 
-  /** Set/Get the flag for normalizing the gaussian over scale space.
+  /** Set/Get the flag for normalizing the gaussian over scale-space.
+
+      This flag enables the analysis of the differential shape of
+      features independent of their size ( both pixels and physical
+      size ). Following the notation of Tony Lindeberg:
+
+      Let \f[ L(x; t) = g(x; t) \ast f(x) \f] be the scale-space
+      representation of image \f[ f(x) \f]
+      where \f[ g(x; t) = \frac{1}{ \sqrt{ 2 \pi t}  }  \exp{ \left( -\frac{x^2}{ 2 t } \right) } \f] is
+      the Gaussian function and \f[\ast\f] denotes convolution. This
+      is a change from above with \f[ t = \sigma^2 \f].
+
+      Then the normalized derivative operator for normalized
+      coordinates across scale is:
+
+      \f[
+            \partial_\xi = \sqrt{t} \partial_x
+      \f]
+
+      The resulting scaling factor is
+      \f[
+            \sigma^N
+      \f]
+      where N is the order of the derivative.
+
+
       When this flag is ON the filter will be normalized in such a way
-      that larger sigmas will not result in the image fading away.
+      that the values of derivatives are not biased by the size of the
+      object. That is to say the maximum value a feature reaches across
+      scale is independent of the scale of the object.
 
-      \f[
-            \frac{ 1 }{ \sqrt{ 2 \pi } };
-      \f]
+      For analyzing an image across scale-space you want to enable
+      this flag.  It is disabled by default.
 
-      When the flag is OFF the normalization will conserve contant the
-      integral of the image intensity.
-      \f[
-            \frac{ 1 }{ \sigma  \sqrt{ 2 \pi } };
-      \f]
-  For analyzing an image across Scale Space you want to enable
-      this flag.  It is disabled by default.  */
+      \note Not all scale space axioms are satisfied by this filter,
+      some are only approximated. Particularly, at fine scales ( say
+      less than 1 pixel ) other methods such as a discrete Gaussian
+      kernel should be considered.
+     */
   itkSetMacro(NormalizeAcrossScale, bool);
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
