@@ -19,6 +19,7 @@
 #define __itkTensorFractionalAnisotropyImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
+#include "itkImage.h"
 
 namespace itk
 {
@@ -64,7 +65,10 @@ public:
  * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
  *
  */
-template< typename  TInputImage, typename  TOutputImage = TInputImage >
+template< typename  TInputImage,
+  typename  TOutputImage = Image<
+    typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,
+    TInputImage::Dimension > >
 class ITK_EXPORT TensorFractionalAnisotropyImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

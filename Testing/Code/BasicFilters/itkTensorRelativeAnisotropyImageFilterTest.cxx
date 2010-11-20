@@ -20,8 +20,6 @@
 #endif
 
 
-
-
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkTensorRelativeAnisotropyImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -103,9 +101,9 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the tensor pixel and tensor image.
-  typedef itk::DiffusionTensor3D< double > myTensorPixelType;
-  typedef itk::Image< myTensorPixelType, myDimension > myDTIImageType;
-  typedef myTensorPixelType::RealValueType myRealValueType;
+  typedef itk::DiffusionTensor3D< double >              myTensorPixelType;
+  typedef itk::Image< myTensorPixelType, myDimension >  myDTIImageType;
+  typedef myTensorPixelType::RealValueType              myRealValueType;
 
   // Declare the type for the image generator
   typedef itk::HessianRecursiveGaussianImageFilter<
@@ -167,7 +165,3 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-
