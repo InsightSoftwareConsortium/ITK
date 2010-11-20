@@ -78,24 +78,13 @@ TxtTransformIO::Read()
   TransformPointer transform;
   std::ifstream    in;
 
-std::cout << "Opening file : " << this->GetFileName() << std::endl;
-
-  if( ! itksys::SystemTools::FileExists( this->GetFileName() ) )
-    {
-    itkExceptionMacro ("The input file doesn't exist"
-                       << std::endl << "Filename: \"" << this->GetFileName() << "\"");
-    }
-
   in.open (this->GetFileName(), std::ios::in | std::ios::binary);
-
   if ( in.fail() )
     {
     in.close();
     itkExceptionMacro ("The file could not be opened for read access "
                        << std::endl << "Filename: \"" << this->GetFileName() << "\"");
     }
-
-std::cout << "DIDN'T FAIL" << std::endl;
 
   std::ostringstream InData;
 
@@ -144,39 +133,37 @@ std::cout << "DIDN'T FAIL" << std::endl;
     line_end = "\r";
     }
 
-std::cout << "data.size() = " << data.size() << std::endl;
-
   while ( position < data.size() )
     {
-std::cout << "position = " << position << std::endl;
     // Find the next string
     std::string::size_type end = data.find (line_end, position);
+
+    if( end == std::string::npos )
+      {
+      itkExceptionMacro("Couldn't find end of line in " << data );
+      }
+
     std::string            line = trim ( data.substr (position, end - position) );
     position = end + 1;
     itkDebugMacro ("Found line: \"" << line << "\"");
 
     if ( line.length() == 0 )
       {
-      std::cout << "continue because line.length() == 0 " << std::endl;
       continue;
       }
-
     if ( line[0] == '#' || std::string::npos == line.find_first_not_of (" \t") )
       {
       // Skip lines beginning with #, or blank lines
-      std::cout << "continue because line begins with # " << std::endl;
       continue;
       }
 
     // Get the name
     end = line.find (":");
-
     if ( end == std::string::npos )
       {
       // Throw an error
       itkExceptionMacro ("Tags must be delimited by :");
       }
-
     std::string Name = trim ( line.substr (0, end) );
     std::string Value = trim ( line.substr ( end + 1, line.length() ) );
     // Push back
