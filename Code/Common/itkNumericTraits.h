@@ -145,14 +145,14 @@ template< >
 class NumericTraits< bool > :public vcl_numeric_limits< bool >
 {
 public:
-  typedef bool          ValueType;
-  typedef bool          PrintType;
-  typedef unsigned char AbsType;
-  typedef unsigned char AccumulateType;
-  typedef double        RealType;
-  typedef RealType      ScalarRealType;
-  typedef float         FloatType;
-  typedef FixedArray<ValueType, 1>     MeasurementVectorType;
+  typedef bool                     ValueType;
+  typedef bool                     PrintType;
+  typedef unsigned char            AbsType;
+  typedef unsigned char            AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const bool ITKCommon_EXPORT Zero;
   static const bool ITKCommon_EXPORT One;
@@ -178,14 +178,14 @@ template< >
 class NumericTraits< char > :public vcl_numeric_limits< char >
 {
 public:
-  typedef char          ValueType;
-  typedef int           PrintType;
-  typedef unsigned char AbsType;
-  typedef short         AccumulateType;
-  typedef double        RealType;
-  typedef RealType      ScalarRealType;
-  typedef float         FloatType;
-  typedef FixedArray<ValueType, 1>     MeasurementVectorType;
+  typedef char                     ValueType;
+  typedef int                      PrintType;
+  typedef unsigned char            AbsType;
+  typedef short                    AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const char ITKCommon_EXPORT Zero;
   static const char ITKCommon_EXPORT One;
@@ -219,14 +219,14 @@ template< >
 class NumericTraits< signed char > :public vcl_numeric_limits< signed char >
 {
 public:
-  typedef signed char   ValueType;
-  typedef int           PrintType;
-  typedef unsigned char AbsType;
-  typedef short         AccumulateType;
-  typedef double        RealType;
-  typedef RealType      ScalarRealType;
-  typedef float         FloatType;
-  typedef FixedArray<ValueType, 1>     MeasurementVectorType;
+  typedef signed char              ValueType;
+  typedef int                      PrintType;
+  typedef unsigned char            AbsType;
+  typedef short                    AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const signed char ITKCommon_EXPORT Zero;
   static const signed char ITKCommon_EXPORT One;
@@ -252,14 +252,14 @@ template< >
 class NumericTraits< unsigned char > :public vcl_numeric_limits< unsigned char >
 {
 public:
-  typedef unsigned char  ValueType;
-  typedef int            PrintType;
-  typedef unsigned char  AbsType;
-  typedef unsigned short AccumulateType;
-  typedef double         RealType;
-  typedef RealType       ScalarRealType;
-  typedef float          FloatType;
-  typedef FixedArray<ValueType, 1>      MeasurementVectorType;
+  typedef unsigned char            ValueType;
+  typedef int                      PrintType;
+  typedef unsigned char            AbsType;
+  typedef unsigned short           AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const unsigned char ITKCommon_EXPORT Zero;
   static const unsigned char ITKCommon_EXPORT One;
@@ -282,14 +282,14 @@ template< >
 class NumericTraits< short > :public vcl_numeric_limits< short >
 {
 public:
-  typedef short          ValueType;
-  typedef short          PrintType;
-  typedef unsigned short AbsType;
-  typedef int            AccumulateType;
-  typedef double         RealType;
-  typedef RealType       ScalarRealType;
-  typedef float          FloatType;
-  typedef FixedArray<ValueType, 1>      MeasurementVectorType;
+  typedef short                    ValueType;
+  typedef short                    PrintType;
+  typedef unsigned short           AbsType;
+  typedef int                      AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const short ITKCommon_EXPORT Zero;
   static const short ITKCommon_EXPORT One;
@@ -312,14 +312,14 @@ template< >
 class NumericTraits< unsigned short > :public vcl_numeric_limits< unsigned short >
 {
 public:
-  typedef unsigned short ValueType;
-  typedef unsigned short PrintType;
-  typedef unsigned short AbsType;
-  typedef unsigned int   AccumulateType;
-  typedef double         RealType;
-  typedef RealType       ScalarRealType;
-  typedef float          FloatType;
-  typedef FixedArray<ValueType, 1>      MeasurementVectorType;
+  typedef unsigned short           ValueType;
+  typedef unsigned short           PrintType;
+  typedef unsigned short           AbsType;
+  typedef unsigned int             AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const unsigned short ITKCommon_EXPORT Zero;
   static const unsigned short ITKCommon_EXPORT One;
@@ -341,14 +341,14 @@ template< >
 class NumericTraits< int > :public vcl_numeric_limits< int >
 {
 public:
-  typedef int          ValueType;
-  typedef int          PrintType;
-  typedef unsigned int AbsType;
-  typedef long         AccumulateType;
-  typedef double       RealType;
-  typedef RealType     ScalarRealType;
-  typedef float        FloatType;
-  typedef FixedArray<ValueType, 1>    MeasurementVectorType;
+  typedef int                      ValueType;
+  typedef int                      PrintType;
+  typedef unsigned int             AbsType;
+  typedef long                     AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const int ITKCommon_EXPORT Zero;
   static const int ITKCommon_EXPORT One;
@@ -371,14 +371,14 @@ template< >
 class NumericTraits< unsigned int > :public vcl_numeric_limits< unsigned int >
 {
 public:
-  typedef unsigned int ValueType;
-  typedef unsigned int PrintType;
-  typedef unsigned int AbsType;
-  typedef unsigned int AccumulateType;
-  typedef double       RealType;
-  typedef RealType     ScalarRealType;
-  typedef float        FloatType;
-  typedef FixedArray<ValueType, 1>    MeasurementVectorType;
+  typedef unsigned int             ValueType;
+  typedef unsigned int             PrintType;
+  typedef unsigned int             AbsType;
+  typedef unsigned int             AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const unsigned int ITKCommon_EXPORT Zero;
   static const unsigned int ITKCommon_EXPORT One;
@@ -404,14 +404,14 @@ template< >
 class NumericTraits< long > :public vcl_numeric_limits< long >
 {
 public:
-  typedef long          ValueType;
-  typedef long          PrintType;
-  typedef unsigned long AbsType;
-  typedef long          AccumulateType;
-  typedef double        RealType;
-  typedef RealType      ScalarRealType;
-  typedef float         FloatType;
-  typedef FixedArray<ValueType, 1>     MeasurementVectorType;
+  typedef long                     ValueType;
+  typedef long                     PrintType;
+  typedef unsigned long            AbsType;
+  typedef long                     AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const long ITKCommon_EXPORT Zero;
   static const long ITKCommon_EXPORT One;
@@ -434,14 +434,14 @@ template< >
 class NumericTraits< unsigned long > :public vcl_numeric_limits< unsigned long >
 {
 public:
-  typedef unsigned long ValueType;
-  typedef unsigned long PrintType;
-  typedef unsigned long AbsType;
-  typedef unsigned long AccumulateType;
-  typedef double        RealType;
-  typedef RealType      ScalarRealType;
-  typedef float         FloatType;
-  typedef FixedArray<ValueType, 1>     MeasurementVectorType;
+  typedef unsigned long            ValueType;
+  typedef unsigned long            PrintType;
+  typedef unsigned long            AbsType;
+  typedef unsigned long            AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const unsigned long ITKCommon_EXPORT Zero;
   static const unsigned long ITKCommon_EXPORT One;
@@ -464,13 +464,13 @@ template< >
 class NumericTraits< float > :public vcl_numeric_limits< float >
 {
 public:
-  typedef float     ValueType;
-  typedef float     PrintType;
-  typedef float     AbsType;
-  typedef double    AccumulateType;
-  typedef double    RealType;
-  typedef RealType  ScalarRealType;
-  typedef float     FloatType;
+  typedef float                    ValueType;
+  typedef float                    PrintType;
+  typedef float                    AbsType;
+  typedef double                   AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const float ITKCommon_EXPORT Zero;
@@ -494,13 +494,13 @@ template< >
 class NumericTraits< double > :public vcl_numeric_limits< double >
 {
 public:
-  typedef double    ValueType;
-  typedef double    PrintType;
-  typedef double    AbsType;
-  typedef double    AccumulateType;
-  typedef double    RealType;
-  typedef RealType  ScalarRealType;
-  typedef float     FloatType;
+  typedef double                   ValueType;
+  typedef double                   PrintType;
+  typedef double                   AbsType;
+  typedef double                   AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const double ITKCommon_EXPORT Zero;
@@ -530,16 +530,16 @@ public:
   // segfaults.
   // conversion to double will give usable results if the value is in the double
   // range - better than nothing.
-  typedef double PrintType;
+  typedef double                   PrintType;
 #else
-  typedef long double PrintType;
+  typedef long double              PrintType;
 #endif
-  typedef long double AbsType;
-  typedef long double AccumulateType;
-  typedef long double RealType;
-  typedef RealType    ScalarRealType;
-  typedef float       FloatType;
-  typedef FixedArray<ValueType, 1>   MeasurementVectorType;
+  typedef long double              AbsType;
+  typedef long double              AccumulateType;
+  typedef long double              RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const long double ITKCommon_EXPORT Zero;
   static const long double ITKCommon_EXPORT One;
@@ -570,7 +570,7 @@ public:
   typedef std::complex< double > RealType;
   typedef double                 ScalarRealType;
   typedef std::complex< float >  FloatType;
-  typedef FixedArray<TheType, 1>               MeasurementVectorType;
+  typedef FixedArray<TheType, 1> MeasurementVectorType;
 
   static const TheType ITKCommon_EXPORT Zero;
   static const TheType ITKCommon_EXPORT One;
@@ -606,7 +606,7 @@ public:
   typedef std::complex< double > RealType;
   typedef double                 ScalarRealType;
   typedef std::complex< float >  FloatType;
-  typedef FixedArray<TheType, 1>                MeasurementVectorType;
+  typedef FixedArray<TheType, 1> MeasurementVectorType;
 
   static const TheType ITKCommon_EXPORT Zero;
   static const TheType ITKCommon_EXPORT One;
@@ -635,13 +635,13 @@ class NumericTraits< long long > :
   public vcl_numeric_limits< long long >
 {
 public:
-  typedef long long ValueType;
-  typedef long long PrintType;
-  typedef long long AbsType;
-  typedef long long AccumulateType;
-  typedef double    RealType;
-  typedef RealType  ScalarRealType;
-  typedef float     FloatType;
+  typedef long long                ValueType;
+  typedef long long                PrintType;
+  typedef long long                AbsType;
+  typedef long long                AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const ValueType ITKCommon_EXPORT Zero;
@@ -666,14 +666,14 @@ class NumericTraits< unsigned long long > :
   public vcl_numeric_limits< unsigned long long >
 {
 public:
-  typedef unsigned long long ValueType;
-  typedef unsigned long long PrintType;
-  typedef unsigned long long AbsType;
-  typedef unsigned long long AccumulateType;
-  typedef double             RealType;
-  typedef RealType           ScalarRealType;
-  typedef float              FloatType;
-  typedef FixedArray<ValueType, 1>          MeasurementVectorType;
+  typedef unsigned long long       ValueType;
+  typedef unsigned long long       PrintType;
+  typedef unsigned long long       AbsType;
+  typedef unsigned long long       AccumulateType;
+  typedef double                   RealType;
+  typedef RealType                 ScalarRealType;
+  typedef float                    FloatType;
+  typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
   static const ValueType ITKCommon_EXPORT Zero;
   static const ValueType ITKCommon_EXPORT One;
