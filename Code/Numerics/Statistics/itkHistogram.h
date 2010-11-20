@@ -358,6 +358,11 @@ public:
       return m_Histogram->GetMeasurementVector(m_Id);
     }
 
+    const IndexType & GetIndex() const
+    {
+      return m_Histogram->GetIndex(m_Id);
+    }
+
     ConstIterator & operator++()
     {
       ++m_Id;
