@@ -32,7 +32,7 @@ namespace itk
  * \ingroup IOFilters
  * \sa VTKImageExport
  */
-class ITKBasicFilters_EXPORT VTKImageExportBase:public ProcessObject
+class ITK_EXPORT VTKImageExportBase:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
