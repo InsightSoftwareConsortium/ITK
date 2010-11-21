@@ -119,8 +119,6 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
     it2D2.NextSlice();
   }
 
-
-
   /* Show Closest Points map */
   std::cout << std::endl << std::endl;
   std::cout << "Voronoi Map Image 2D" << std::endl << std::endl;
@@ -165,17 +163,17 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
     {
       while( !it2D4.IsAtEndOfLine() )
       {
-        std::cout << "[" ;
+        std::cout << "[";
         for (unsigned int i=0;i<2;i++)
         {
-          std::cout << it2D4.Get()[i] ;
+          std::cout << it2D4.Get()[i];
           if(i==0)
           {
             std::cout << ",";
           }
         }
         std::cout << "]";
-        std::cout << "\t" ;
+        std::cout << "\t";
         ++it2D4;
 
       }
@@ -196,8 +194,8 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   filter2D->Update();
 
   const double distance2 = outputDistance2D->GetPixel( index );
-
-  if( vcl_fabs( distance2 - distance1 * distance1 ) > 1e-5 )
+  const myImageType2D2::PixelType epsilon = 1e-5;
+  if( vcl_fabs( distance2 - distance1 * distance1 ) > epsilon )
     {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
     return EXIT_FAILURE;
@@ -244,8 +242,21 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 
   filter2D->SetInput( inputImage2D );
   filter2D->SetInputIsBinary(true);
+  filter2D->SetUseImageSpacing(true);
   filter2D->Update();
 
+  index2D[1] = 5;
+  myImageType2D2::PixelType expectedValue =
+    static_cast<myImageType2D2::PixelType>(anisotropicSpacing[1]);
+  expectedValue *= expectedValue;
+  myImageType2D2::PixelType pixelValue =
+    filter2D->GetOutput()->GetPixel( index2D );
+  if ( vcl_fabs( expectedValue - pixelValue ) > epsilon )
+    {
+    std::cerr << "Error when image spacing is anisotropic." << std::endl;
+    std::cerr << "Pixel value was " << pixelValue << ", expected " << expectedValue << std::endl;
+    return EXIT_FAILURE;
+    }
 
   it2D2.GoToBegin();
   it2D2.SetFirstDirection ( 0 );
@@ -266,8 +277,6 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
     }
     it2D2.NextSlice();
   }
-
-
 
   return EXIT_SUCCESS;
 
