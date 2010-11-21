@@ -306,6 +306,7 @@ std::istream &is = *Stream;
     }
   catch( std::exception &ex )
     {
+    (void)ex;
     // return to beginning of file, hopefully this file is simply missing preamble
     is.seekg(0, std::ios::beg);
     haspreamble = false;
@@ -350,6 +351,7 @@ std::istream &is = *Stream;
     }
   catch( std::exception &ex )
     {
+    (void)ex;
     // Same player play again:
     is.seekg(0, std::ios::beg );
     hasmetaheader = false;
@@ -545,6 +547,7 @@ std::istream &is = *Stream;
           }
         catch ( Exception &ex1 )
           {
+          (void)ex1;
           try
             {
             // Ouch ! the file is neither:
@@ -643,6 +646,7 @@ std::istream &is = *Stream;
     }
   catch( Exception &ex )
     {
+    (void)ex;
     gdcmDebugMacro( ex.what() );
     success = false;
     }
@@ -657,6 +661,7 @@ std::istream &is = *Stream;
     }
   catch( Exception &ex )
     {
+    (void)ex;
     gdcmDebugMacro( ex.what() );
     success = false;
     }

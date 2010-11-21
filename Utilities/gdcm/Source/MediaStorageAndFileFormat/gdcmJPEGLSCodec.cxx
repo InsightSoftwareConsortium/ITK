@@ -155,7 +155,7 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
       }
 
     // allowedlossyerror == 0 => Lossless
-    LossyFlag = metadata.allowedlossyerror;
+    LossyFlag = metadata.allowedlossyerror != 0;
 
     const BYTE* pbyteCompressed = (const BYTE*)buffer;
     int cbyteCompressed = totalLen;
@@ -213,7 +213,7 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
       }
 
     // allowedlossyerror == 0 => Lossless
-    LossyFlag = metadata.allowedlossyerror;
+    LossyFlag = metadata.allowedlossyerror != 0;
 
 
     int cbyteCompressed = totalLen;
