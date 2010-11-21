@@ -366,11 +366,6 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
                   << "Allocating the buffer with the EnlargedRequestedRegion \n" 
                   << output->GetRequestedRegion() << "\n");
 
-  // allocated the output image to the size of the enlarge requested region
-  if( ! m_ImageIO->CanUseOwnBuffer() )
-    {
-    this->AllocateOutputs();
-    }
 
   // Test if the file exists and if it can be opened.
   // An exception will be thrown otherwise, since we can't
@@ -400,11 +395,14 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   // (as opposed to the sizes of the output)
   size_t sizeOfActualIORegion = m_ActualIORegion.GetNumberOfPixels() * (m_ImageIO->GetComponentSize()*m_ImageIO->GetNumberOfComponents());
 
+  bool freeLoadBuffer = true;
   try 
     {
     
-    if ( (m_ImageIO->GetComponentTypeInfo() != typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType) )
-         || (m_ImageIO->GetNumberOfComponents() != ConvertPixelTraits::GetNumberOfComponents() ))
+    if ( (m_ImageIO->GetComponentTypeInfo() 
+        != typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType) )
+      || (m_ImageIO->GetNumberOfComponents() 
+        != ConvertPixelTraits::GetNumberOfComponents() ))
       {
       // the pixel types don't match so a type conversion needs to be
       // performed
@@ -414,64 +412,82 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
                     << typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType).name());
 
 
-      if( ! m_ImageIO->CanUseOwnBuffer() )
+      this->AllocateOutputs();
+
+      // To use OwnBuffer, that feature must be supported by the reader
+      //   and the number of pixels in that buffer must equal the number
+      //   of pixels expected as output.   Otherwise the Read() function
+      //   must be called.
+      if( ! m_ImageIO->CanUseOwnBuffer() 
+        || m_ActualIORegion.GetNumberOfPixels() 
+             != output->GetBufferedRegion().GetNumberOfPixels() ) 
         {
         loadBuffer = new char[ sizeOfActualIORegion ];
         m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+        freeLoadBuffer = true;
         }
       else
         {
         m_ImageIO->ReadUsingOwnBuffer();
+        loadBuffer = static_cast< char * >( m_ImageIO->GetOwnBuffer() );
+        freeLoadBuffer = false;
         }
       
       // See note below as to why the buffered region is needed and
       // not actualIOregion
-      this->DoConvertBuffer(static_cast< void *>(loadBuffer), output->GetBufferedRegion().GetNumberOfPixels() );
+      this->DoConvertBuffer(static_cast< void *>(loadBuffer),
+        output->GetBufferedRegion().GetNumberOfPixels() );
       }
-    else if ( m_ActualIORegion.GetNumberOfPixels() != output->GetBufferedRegion().GetNumberOfPixels() ) 
+    else if ( m_ActualIORegion.GetNumberOfPixels() 
+      != output->GetBufferedRegion().GetNumberOfPixels() ) 
       {
       // NOTE:
       // for the number of pixels read and the number of pixels
-      // requested to not match, the dimensions of the two regions may
+      // requested do not match, the dimensions of the two regions may
       // be different, therefore we buffer and copy the pixels
 
       itkDebugMacro(<< "Buffer required because file dimension is greater then image dimension");
       
-      OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
+      this->AllocateOutputs();
+
+      OutputImagePixelType *outputBuffer =
+        output->GetPixelContainer()->GetBufferPointer();
       
-      if( ! m_ImageIO->CanUseOwnBuffer() )
-        {
-        loadBuffer = new char[ sizeOfActualIORegion ];
-        m_ImageIO->Read( static_cast< void *>(loadBuffer) );
-        }
-      else
-        {
-        m_ImageIO->ReadUsingOwnBuffer();
-        }
+      loadBuffer = new char[ sizeOfActualIORegion ];
       m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+      freeLoadBuffer = true;
       
       // we use std::copy here as it should be optimized to memcpy for
       // plain old data, but still is oop
       std::copy( reinterpret_cast<const OutputImagePixelType *>(loadBuffer),
-                 reinterpret_cast<const OutputImagePixelType *>(loadBuffer) +  output->GetBufferedRegion().GetNumberOfPixels(),
+                 reinterpret_cast<const OutputImagePixelType *>(loadBuffer)
+                   + output->GetBufferedRegion().GetNumberOfPixels(),
                  outputBuffer );
       }
     else 
       {
       itkDebugMacro(<< "No buffer conversion required.");
 
+      // We know the number of pixels read and the type of pixels read 
+      //   matches the expected output, so use OwnBuffer if supported
+      //   by the reader.
       if( ! m_ImageIO->CanUseOwnBuffer() )
         {
-        loadBuffer = new char[ sizeOfActualIORegion ];
-        m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+        this->AllocateOutputs();
+
+        OutputImagePixelType *outputBuffer =
+          output->GetPixelContainer()->GetBufferPointer();
+        m_ImageIO->Read( outputBuffer );
+        freeLoadBuffer = false;
         }
       else
         {
         m_ImageIO->ReadUsingOwnBuffer();
+        output->GetPixelContainer()->SetImportPointer( 
+          reinterpret_cast< OutputImagePixelType * >( 
+            m_ImageIO->GetOwnBuffer() ), sizeOfActualIORegion, false );
+        freeLoadBuffer = false;
         }
-      output->GetPixelContainer()->SetImportPointer( 
-        reinterpret_cast< OutputImagePixelType * >( 
-          m_ImageIO->GetOwnBuffer() ), sizeOfActualIORegion, false );
       }
 
     }
@@ -479,7 +495,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     {
     // if an exception is thrown catch it
     
-    if (loadBuffer) 
+    if( freeLoadBuffer && loadBuffer ) 
       {
       // clean up
       delete [] loadBuffer;
@@ -492,7 +508,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   
 
   // clean up
-  if (loadBuffer) 
+  if( freeLoadBuffer && loadBuffer )
     {
     delete [] loadBuffer;
     loadBuffer = 0;
