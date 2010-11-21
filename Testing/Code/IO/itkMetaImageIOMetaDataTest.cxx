@@ -145,7 +145,7 @@ TestMatch(itk::MetaDataDictionary &dict,
 }
 
 int
-itkMetaImageIOMetaDataTest(int argc, char **argv)
+itkMetaImageIOMetaDataTest(int argc, char * argv [] )
 {
   if(argc < 2)
     {
