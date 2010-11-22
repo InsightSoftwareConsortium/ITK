@@ -29,6 +29,7 @@
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
 #include <string.h>  // for strncpy
+#include <sstream>
 
 #define BIORAD_HEADER_LENGTH    76
 #define BIORAD_NOTE_LENGTH      96
@@ -39,13 +40,14 @@
 
 namespace itk
 {
-struct bioradheader {
+struct bioradheader
+{
   unsigned short nx, ny;               // 0   2*2  image width and height in
-                                       // pixels
+  // pixels
   unsigned short npic;                 // 4   2    number of images in file
   unsigned short ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
   char notes[4];                       // 10  4    no notes=0; has notes=non
-                                       // zero
+  // zero
   short byte_format;                   // 14  2    bytes=TRUE(1); words=FALSE(0)
   short image_number;                  // 16  2    image number within file
   char filename[32];                   // 18  32   file name
@@ -56,11 +58,54 @@ struct bioradheader {
   unsigned short color2;               // 60  2    LUT2 color status
   short edited;                        // 62  2    image has been edited=TRUE(1)
   short lens;                          // 64  2    Integer part of lens
-                                       // magnification
+  // magnification
   char mag_factor[4];                  // 66  4    4 byte real mag. factor (old
-                                       // ver.)
+  // ver.)
   unsigned char reserved[6];           // 70  6    NOT USED (old ver.=real lens
                                        // mag.)
+};
+
+typedef enum
+{
+  NOTE_STATUS_ALL      = 0x0100,
+  NOTE_STATUS_DISPLAY  = 0x0200,
+  NOTE_STATUS_POSITION = 0x0400
+} biorad_notestatus;
+
+typedef enum
+{
+  NOTE_TYPE_LIVE       = 1,     // info about live collection
+  NOTE_TYPE_FILE1      = 2,     // note from image #1
+  NOTE_TYPE_NUMBER     = 3,     // number in multiple image file
+  NOTE_TYPE_USER       = 4,     // user notes generated notes
+  NOTE_TYPE_LINE       = 5,     // line mode info
+  NOTE_TYPE_COLLECT    = 6,     // collect mode info
+  NOTE_TYPE_FILE2      = 7,     // notes from image #2
+  NOTE_TYPE_SCALEBAR   = 8,     // scale bar info
+  NOTE_TYPE_MERGE      = 9,     // # merge info
+  NOTE_TYPE_THRUVIEW   = 10,    // # thruview info
+  NOTE_TYPE_ARROW      = 11,    // arrow info
+  NOTE_TYPE_VARIABLE   = 20,    // internal variable
+  NOTE_TYPE_STRUCTURE  = 21,    // again internal variable, as a
+                                // structure.
+  NOTE_TYPE_4D_SERIES  = 22     // 4D acquisition information
+} biorad_notetype;
+
+struct bioradnote
+{
+  short level;                  //  0 level of note -- no longer
+                                //    used
+  char next[4];                 //  2 indicates there is a note
+                                //    after this one
+  short num;                    //  6 image number for the display
+                                //    of this note
+  short status;                 //  8 one of NOTE_STATUS_ALL,
+                                //    NOTE_STATUS_DISPLAY,
+                                //    NOTE_STATUS_POSITION
+  short type;                   // 10 type code for note
+  short x;                      // 12 x coordinate for note
+  short y;                      // 14 y coordinate for note
+  char text[80];                // 16 info, maybe not null terminated
 };
 
 BioRadImageIO::BioRadImageIO()
@@ -234,9 +279,42 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     }
   file.seekg(0, std::ios::beg);
   file.read( (char *)p, BIORAD_HEADER_LENGTH );
-  // Only byte swap the first 66 bytes
+
+  //byteswap header fields
   ByteSwapper< unsigned short >::
-  SwapRangeFromSystemToLittleEndian( (unsigned short *)p, ( BIORAD_HEADER_LENGTH - 10 ) / 2 );
+    SwapFromSystemToLittleEndian( &h.nx);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.ny);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.npic);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.ramp1_min);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.ramp1_max);
+  ByteSwapper< short >::
+    SwapFromSystemToLittleEndian( &h.byte_format);
+  ByteSwapper< short >::
+    SwapFromSystemToLittleEndian( &h.image_number);
+  ByteSwapper< short >::
+    SwapFromSystemToLittleEndian( &h.image_number);
+  ByteSwapper< short >::
+    SwapFromSystemToLittleEndian( &h.merged);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.color1);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.file_id);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.ramp2_min);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.ramp2_max);
+  ByteSwapper< unsigned short >::
+    SwapFromSystemToLittleEndian( &h.color2);
+  ByteSwapper< short >::
+    SwapFromSystemToLittleEndian( &h.edited);
+  ByteSwapper< short >::
+    SwapFromSystemToLittleEndian( &h.lens);
+  ByteSwapper< float >::
+    SwapFromSystemToLittleEndian( (float *)&h.mag_factor);
 
   // Set dim X,Y,Z
   m_Dimensions[0] = h.nx;
@@ -249,17 +327,6 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   else
     {
     this->SetNumberOfDimensions(2);
-    }
-
-  // These are not specified by the format, but we can deduce them:
-  // pixel size = scale_factor/lens/mag_factor
-  ByteSwapper< float >::SwapFromSystemToLittleEndian( (float *)&h.mag_factor );
-  float mag_factor;
-  memcpy (&mag_factor, h.mag_factor, 4);
-  m_Spacing[0] = m_Spacing[1] = mag_factor / h.lens;
-  if ( m_NumberOfDimensions == 3 )
-    {
-    m_Spacing[2] = m_Spacing[0];
     }
 
   // Check the pixel size:
@@ -287,6 +354,93 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
       {
       SetComponentType(UNKNOWNCOMPONENTTYPE);
       itkExceptionMacro(<< "Cannot read requested file");
+      }
+    }
+  int punt(0);
+  unsigned int notes;
+  memcpy(&notes,h.notes,sizeof(notes));
+  ByteSwapper< unsigned int >::SwapFromSystemToLittleEndian(&notes);
+
+  if(notes != 0)
+    {
+    // do it the recommended way
+    std::streampos pos = static_cast<std::streampos>(h.nx) *
+      static_cast<std::streampos>(h.ny);
+    if(this->GetComponentType() == USHORT)
+      {
+      pos = pos * 2;
+      }
+    pos += BIORAD_HEADER_LENGTH;
+    file.seekg(pos,std::ios::beg);
+    bioradnote note;
+    if(sizeof(note) != 96)
+      {
+      itkExceptionMacro("BIORadImageIO:Problem with structure alignmet");
+      }
+    while(!file.eof())
+      {
+      file.read((char *)&note,sizeof(note));
+      ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.level);
+      ByteSwapper<int>::SwapFromSystemToLittleEndian((int *)&note.next[0]);
+      ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.num);
+      ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.status);
+      ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.type);
+      ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.x);
+      ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.y);
+      note.text[sizeof(note.text)-1] = '0'; // make sure terminated
+      if(note.type == NOTE_TYPE_VARIABLE)
+        {
+        punt = false;
+        std::string note_text(note.text);
+        std::istringstream ss(note_text);
+        std::string label;
+        ss >> label;
+        short type;
+        ss >> type;
+        if((type & 0x00ff) != 1)
+          {
+          continue;
+          }
+        double origin;
+        double spacing;
+        if(label == "AXIS_2")
+          {
+          ss >> origin;         // skip origin
+          ss >> spacing;
+          spacing *= 1000; // move to millemeters
+          m_Spacing[0] = spacing;
+          punt++;
+          }
+        else if(label == "AXIS_3")
+          {
+          ss >> origin;         // skip origin
+          ss >> spacing;
+          spacing *= 1000; // move to millemeters
+          m_Spacing[1] = spacing;
+          punt++;
+          }
+        else if(label == "AXIS_4")
+          {
+          ss >> origin;         // skip origin
+          ss >> spacing;
+          spacing *= 1000; // move to millemeters
+          m_Spacing[2] = spacing;
+          punt++;
+          }
+        }
+      }
+    }
+  if(punt == 0)
+    {
+    // deprecated method for finding spacing
+    // These are not specified by the format, but we can deduce them:
+    // pixel size = scale_factor/lens/mag_factor
+    float mag_factor;
+    memcpy (&mag_factor, h.mag_factor, 4);
+    m_Spacing[0] = m_Spacing[1] = mag_factor / h.lens;
+    if ( m_NumberOfDimensions == 3 )
+      {
+      m_Spacing[2] = m_Spacing[0];
       }
     }
 }
