@@ -30,7 +30,7 @@ namespace bio
  * \brief non-templated Base class from which the templated Cell classes will be derived.
  * Derived classes are instantiated for a specific space dimension.
  */
-class ITK_EXPORT CellBase
+class ITKAlgorithms_EXPORT CellBase
 {
 public:
   typedef   itk::RGBPixel< float > ColorType;

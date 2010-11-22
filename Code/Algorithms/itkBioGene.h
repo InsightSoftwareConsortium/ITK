@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "itkWin32Header.h"
 
 namespace itk
 {
@@ -39,7 +40,7 @@ namespace bio
  * a polynome in a finite different equation determining the rate at which
  * protein is syntethizied by this gene.
  */
-class Gene
+class ITKAlgorithms_EXPORT Gene
 {
 public:
   typedef   std::string                          NameType;

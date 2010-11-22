@@ -30,7 +30,7 @@ namespace itk
 /** \class GEAdwImageIOFactory
    * \brief Create instances of GEAdwImageIO objects using an object factory.
    */
-class ITK_EXPORT GEAdwImageIOFactory:public ObjectFactoryBase
+class ITKIO_EXPORT GEAdwImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -4,7 +4,7 @@ set(ITKSpatialObject_SRCS
   itkSpatialObjectFactoryBase.cxx
 )
 
-add_library(ITKSpatialObject ${ITKSpatialObject_SRCS})
+add_library(ITKSpatialObject ${ITK_LIBRARY_BUILD_TYPE} ${ITKSpatialObject_SRCS})
 target_link_libraries(ITKSpatialObject ITKMetaIO ITKCommon)
 if(ITK_LIBRARY_PROPERTIES)
   set_target_properties(ITKSpatialObject PROPERTIES ${ITK_LIBRARY_PROPERTIES})

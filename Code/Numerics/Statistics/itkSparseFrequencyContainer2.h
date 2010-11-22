@@ -36,7 +36,7 @@ namespace Statistics
  * (InstanceIdentifier)index or measurement vector.
  */
 
-class ITK_EXPORT SparseFrequencyContainer2:public Object
+class ITKStatistics_EXPORT SparseFrequencyContainer2:public Object
 {
 public:
   /** Standard class typedefs. */

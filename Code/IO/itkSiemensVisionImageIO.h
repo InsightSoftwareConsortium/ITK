@@ -48,7 +48,7 @@ namespace itk
  *
  * \ingroup IOFilters
  */
-class ITK_EXPORT SiemensVisionImageIO:public IPLCommonImageIO
+class ITKIO_EXPORT SiemensVisionImageIO:public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */

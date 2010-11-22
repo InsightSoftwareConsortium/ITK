@@ -46,7 +46,7 @@ namespace itk
  * \ingroup Numerics Cost Functions
  */
 
-class ITK_EXPORT CumulativeGaussianCostFunction:public MultipleValuedCostFunction
+class ITKNumerics_EXPORT CumulativeGaussianCostFunction:public MultipleValuedCostFunction
 {
 public:
 

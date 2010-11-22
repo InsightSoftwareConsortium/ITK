@@ -30,8 +30,7 @@ namespace itk
  * in that some functions that are generic to opening and parsing a file
  * are implemented here.
  */
-class
-XMLReaderBase:public LightProcessObject
+class ITKIO_EXPORT XMLReaderBase:public LightProcessObject
 {
 public:
   typedef XMLReaderBase Self;
@@ -87,8 +86,7 @@ private:
  * It can't be instantiated by itself
  */
 template< class T >
-class
-XMLReader:public XMLReaderBase
+class ITKIO_EXPORT XMLReader: public XMLReaderBase
 {
 public:
   typedef XMLReader Self;
@@ -119,7 +117,7 @@ private:
  * implementing WriteFile.
  */
 template< class T >
-class XMLWriterBase:public LightProcessObject
+class ITKIO_EXPORT XMLWriterBase:public LightProcessObject
 {
 public:
   typedef XMLWriterBase Self;

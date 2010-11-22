@@ -37,7 +37,7 @@ namespace itk
  *
  * \brief TODO
  */
-class TransformFileReader:public LightProcessObject
+class ITKIO_EXPORT TransformFileReader:public LightProcessObject
 {
 public:
 

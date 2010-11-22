@@ -36,7 +36,7 @@ namespace itk
    * \ingroup IOFilters
    *
    */
-class ITK_EXPORT IOCommon
+class ITKIO_EXPORT IOCommon
 {
 public:
   typedef enum {
@@ -63,38 +63,38 @@ public:
   static unsigned int ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType);
 };
 
-extern const char *const ITK_OnDiskStorageTypeName;
-extern const char *const ITK_ImageFileBaseName;
-extern const char *const ITK_VoxelUnits;
-extern const char *const ITK_OnDiskBitPerPixel;
-extern const char *const SPM_ROI_SCALE;
-extern const char *const ITK_FileNotes;
+extern ITKIO_EXPORT const char *const ITK_OnDiskStorageTypeName;
+extern ITKIO_EXPORT const char *const ITK_ImageFileBaseName;
+extern ITKIO_EXPORT const char *const ITK_VoxelUnits;
+extern ITKIO_EXPORT const char *const ITK_OnDiskBitPerPixel;
+extern ITKIO_EXPORT const char *const SPM_ROI_SCALE;
+extern ITKIO_EXPORT const char *const ITK_FileNotes;
 #define ITKIO_DEPRECATED_METADATA_ORIENTATION
 #if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-extern const char *const ITK_CoordinateOrientation;
+extern ITKIO_EXPORT const char *const ITK_CoordinateOrientation;
 #endif
-extern const char *const ITK_Origin;
-extern const char *const ITK_Spacing;
-extern const char *const ITK_FileOriginator;
-extern const char *const ITK_OriginationDate;
-extern const char *const ITK_PatientID;
-extern const char *const ITK_ExperimentDate;
-extern const char *const ITK_ExperimentTime;
-extern const char *const ITK_InputFilterName;
-extern const char *const ITK_NumberOfDimensions;
-extern const char *const ITK_ImageType;
-extern const char *const ITK_PatientName;
-extern const char *const ITK_ScanID;
-extern const char *const ROI_NAME;
-extern const char *const ROI_X_SIZE;
-extern const char *const ROI_X_RESOLUTION;
-extern const char *const ROI_Y_SIZE;
-extern const char *const ROI_Y_RESOLUTION;
-extern const char *const ROI_Z_SIZE;
-extern const char *const ROI_Z_RESOLUTION;
-extern const char *const ROI_NUM_SEGMENTS;
-extern const char *const ROI_PLANE;
-extern const char *const ROI_SCAN_ID;
+extern ITKIO_EXPORT const char *const ITK_Origin;
+extern ITKIO_EXPORT const char *const ITK_Spacing;
+extern ITKIO_EXPORT const char *const ITK_FileOriginator;
+extern ITKIO_EXPORT const char *const ITK_OriginationDate;
+extern ITKIO_EXPORT const char *const ITK_PatientID;
+extern ITKIO_EXPORT const char *const ITK_ExperimentDate;
+extern ITKIO_EXPORT const char *const ITK_ExperimentTime;
+extern ITKIO_EXPORT const char *const ITK_InputFilterName;
+extern ITKIO_EXPORT const char *const ITK_NumberOfDimensions;
+extern ITKIO_EXPORT const char *const ITK_ImageType;
+extern ITKIO_EXPORT const char *const ITK_PatientName;
+extern ITKIO_EXPORT const char *const ITK_ScanID;
+extern ITKIO_EXPORT const char *const ROI_NAME;
+extern ITKIO_EXPORT const char *const ROI_X_SIZE;
+extern ITKIO_EXPORT const char *const ROI_X_RESOLUTION;
+extern ITKIO_EXPORT const char *const ROI_Y_SIZE;
+extern ITKIO_EXPORT const char *const ROI_Y_RESOLUTION;
+extern ITKIO_EXPORT const char *const ROI_Z_SIZE;
+extern ITKIO_EXPORT const char *const ROI_Z_RESOLUTION;
+extern ITKIO_EXPORT const char *const ROI_NUM_SEGMENTS;
+extern ITKIO_EXPORT const char *const ROI_PLANE;
+extern ITKIO_EXPORT const char *const ROI_SCAN_ID;
 } // end namespace itk
 
 #endif // __itkIOCommon_h

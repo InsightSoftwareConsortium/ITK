@@ -53,7 +53,7 @@ namespace Statistics
  * Information on the National Centers for Biomedical Computing
  * can be obtained from http://nihroadmap.nih.gov/bioinformatics.
  */
-class ITK_EXPORT TDistribution:
+class ITKStatistics_EXPORT TDistribution:
   public ProbabilityDistribution
 {
 public:

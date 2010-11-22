@@ -37,7 +37,7 @@ namespace Statistics
  * \sa Histogram, SparseFrequencyContainer
  */
 
-class ITK_EXPORT DenseFrequencyContainer2:
+class ITKStatistics_EXPORT DenseFrequencyContainer2:
   public Object
 {
 public:

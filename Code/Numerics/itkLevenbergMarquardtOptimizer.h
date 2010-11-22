@@ -28,7 +28,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-class ITK_EXPORT LevenbergMarquardtOptimizer:
+class ITKNumerics_EXPORT LevenbergMarquardtOptimizer:
   public MultipleValuedNonLinearVnlOptimizer
 {
 public:

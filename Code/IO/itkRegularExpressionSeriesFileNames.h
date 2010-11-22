@@ -69,7 +69,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITK_EXPORT RegularExpressionSeriesFileNames:public Object
+class ITKIO_EXPORT RegularExpressionSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */

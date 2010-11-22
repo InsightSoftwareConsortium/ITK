@@ -66,7 +66,7 @@ namespace itk
  * \sa NormalVariateGenerator
  */
 
-class ITK_EXPORT OnePlusOneEvolutionaryOptimizer:
+class ITKNumerics_EXPORT OnePlusOneEvolutionaryOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

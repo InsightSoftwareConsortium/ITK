@@ -49,9 +49,9 @@ namespace itk
  * and assign it to a ImageFileReader/ImageFileWriter or
  * ImageSeriesReader/ImageSeriesWriter.
  *
- * A Pluggable factory pattern is used this allows different kinds of readers
- * to be registered (even at run time) without having to modify the
- * code in this class.
+ * A Pluggable factory pattern is used this allows different kinds of
+ * readers to be registered (even at run time) without having to
+ * modify the code in this class.
  *
  * \sa ImageFileWriter
  * \sa ImageFileReader
@@ -61,7 +61,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITK_EXPORT ImageIOBase:public LightProcessObject
+class ITKIO_EXPORT ImageIOBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */

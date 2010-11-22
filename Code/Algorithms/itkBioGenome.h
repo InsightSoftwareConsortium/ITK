@@ -25,6 +25,7 @@
 #if defined( _WIN32 )
 #include "itkWindows.h"
 #endif
+#include "itkWin32Header.h"
 
 #include <map>
 #include <string>
@@ -41,7 +42,7 @@ namespace bio
  * a name and a level of expression. This class is intended to be used
  * by artificial cells implementing cellular algorithms for image processing.
  */
-class Genome
+class ITKAlgorithms_EXPORT Genome
 {
 public:
   typedef   std::string                    GeneIdType;

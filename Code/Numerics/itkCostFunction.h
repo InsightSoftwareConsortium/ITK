@@ -31,7 +31,7 @@ namespace itk
  *
  */
 
-class ITK_EXPORT CostFunction:public Object
+class ITKNumerics_EXPORT CostFunction:public Object
 {
 public:
   /** Standard class typedefs. */

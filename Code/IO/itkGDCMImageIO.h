@@ -74,7 +74,7 @@ namespace itk
  *
  */
 class InternalHeader;
-class ITK_EXPORT GDCMImageIO:public ImageIOBase
+class ITKIO_EXPORT GDCMImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

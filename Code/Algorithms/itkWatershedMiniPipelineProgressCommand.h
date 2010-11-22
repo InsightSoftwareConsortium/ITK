@@ -28,7 +28,7 @@ namespace itk
  *  MiniPipeline.  Follows the progress of a series of filters
  *  and calls UpdateProgress on another filter (i.e. the filter
  * implementing the mini-pipeline). */
-class ITK_EXPORT WatershedMiniPipelineProgressCommand:public Command
+class ITKAlgorithms_EXPORT WatershedMiniPipelineProgressCommand:public Command
 {
 public:
   /** Smart pointer declaration methods */

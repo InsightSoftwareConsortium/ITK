@@ -64,7 +64,7 @@ set(ITKIO_SRCS
 endif( NOT ITK_USE_TRANSFORM_IO_FACTORIES )
 
 # Add ITKIO library
-add_library(ITKIO ${ITKIO_SRCS})
+add_library(ITKIO ${ITK_LIBRARY_BUILD_TYPE} ${ITKIO_SRCS})
 
 # Enable warnings for trunctation of 64bits to 32bits in Mac
 if(APPLE)

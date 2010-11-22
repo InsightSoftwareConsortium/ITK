@@ -42,7 +42,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITK_EXPORT LSMImageIO:public TIFFImageIO
+class ITKIO_EXPORT LSMImageIO:public TIFFImageIO
 {
 public:
   /** Standard class typedefs. */

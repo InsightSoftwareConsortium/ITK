@@ -1,4 +1,4 @@
-add_library(ITKAlgorithms
+add_library(ITKAlgorithms ${ITK_LIBRARY_BUILD_TYPE}
   itkWatershedMiniPipelineProgressCommand.cxx
   itkBioCellBase.cxx
   itkBioCellularAggregateBase.cxx
