@@ -97,7 +97,7 @@ public:
   enum
     {
     HIGH_LABEL_ON_TOP = 0,
-    LOW_LABEL_ON_TOP = 1,
+    LOW_LABEL_ON_TOP = 1
     };
 
   /** Standard New method. */
