@@ -120,6 +120,12 @@ ColorTable< TPixel >
                  (TPixel)(0.7 * scale + shift),
                  (TPixel)(0.7 * scale + shift));
   m_ColorName[6] = "Grey0.70";
+  //
+  // to avoid numeric exception, need to make
+  // sure that the value assigned is clamped at
+  // max for TPixel.  Exceptions were happening
+  // on this assignment, even if realMax was
+  // set to NumericTraits<TPixel>::max().
   typename NumericTraits< TPixel >::RealType
     realMax(1.0 * scale + shift);
   TPixel pixelMax(NumericTraits< TPixel >::max());
