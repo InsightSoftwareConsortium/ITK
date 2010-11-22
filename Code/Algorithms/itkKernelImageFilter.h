@@ -102,6 +102,23 @@ protected:
 private:
   KernelImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
+
+  template<class T> void MakeKernel( const RadiusType & radius, T & kernel )
+  {
+    kernel.SetRadius( radius );
+    for( typename T::Iterator kit=kernel.Begin(); kit != kernel.End(); kit++ )
+      {
+      *kit = 1;
+      }
+  }
+
+  void MakeKernel( const RadiusType & radius, FlatKernelType & kernel )
+  {
+    // set up a decomposable box structuring element which is
+    // much efficient with van Herk / Gil Werman filters
+    kernel = FlatKernelType::Box( radius );
+    assert( kernel.GetDecomposable() );
+  }
 };
 }
 

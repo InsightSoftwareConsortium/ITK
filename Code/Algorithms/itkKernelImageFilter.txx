@@ -1,4 +1,4 @@
- /*=========================================================================
+/*=========================================================================
  *
  *  Copyright Insight Software Consortium
  *
@@ -30,52 +30,17 @@ KernelImageFilter< TInputImage, TOutputImage, TKernel >
   this->SetRadius(1UL);
 }
 
-namespace KernelImageFilterLocal
-{
-struct true_type {};
-struct false_type{};
-template<typename, typename>
-struct is_same
-  : public false_type { };
-
-template<typename _Tp>
-struct is_same<_Tp, _Tp>
-  : public true_type { };
-
-template <typename RadiusType, typename KernelType>
-KernelType
-__SetRadius(const RadiusType &radius,const true_type &)
-{
-  KernelType kernel = KernelType::Box(radius);
-  return kernel;
-}
-
-template <typename RadiusType, typename KernelType>
-KernelType
-__SetRadius(const RadiusType &radius,const false_type &)
-{
-  KernelType kernel;
-  kernel.SetRadius(radius);
-  return kernel;
-  for ( typename KernelType::Iterator kit = kernel.Begin();
-        kit != kernel.End(); kit++ )
-    {
-    *kit = 1;
-    }
-  return kernel;
-}
-} // namespace KernelImageFilterLocal
-
 template< class TInputImage, class TOutputImage, class TKernel >
 void
 KernelImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetRadius(const RadiusType & radius)
 {
-  KernelType kernel =
-    KernelImageFilterLocal::__SetRadius<RadiusType,KernelType>
-    (radius,
-     KernelImageFilterLocal::is_same<KernelType,FlatKernelType>());
-  this->SetKernel(kernel);
+  // SetKernel() must be called, because it can be overloaded in a subclass
+  // - MovingHistogramImageFilterBase for example.
+  KernelType kernel;
+  // the right version of the MakeKernel method should be called there
+  this->MakeKernel( radius, kernel );
+  this->SetKernel( kernel );
 }
 
 template< class TInputImage, class TOutputImage, class TKernel >
