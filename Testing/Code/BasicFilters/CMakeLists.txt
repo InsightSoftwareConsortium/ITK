@@ -165,6 +165,7 @@ add_test(itkExpImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpImageFilte
 add_test(itkExpNegativeImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkExpNegativeImageFilterAndAdaptorTest)
 add_test(itkExpandImageFilterTest ${BASIC_FILTERS_TESTS} itkExpandImageFilterTest)
 add_test(itkExtractImageTest ${BASIC_FILTERS_TESTS} itkExtractImageTest)
+add_test(itkExtractImage3Dto2DTest ${BASIC_FILTERS_TESTS} itkExtractImage3Dto2DTest)
 add_test(itkFilterDispatchTest ${BASIC_FILTERS_TESTS} itkFilterDispatchTest)
 add_test(itkFlipImageFilterTest ${BASIC_FILTERS_TESTS} itkFlipImageFilterTest)
 add_test(itkFloodFillIteratorTest ${BASIC_FILTERS_TESTS} itkFloodFillIteratorTest)
