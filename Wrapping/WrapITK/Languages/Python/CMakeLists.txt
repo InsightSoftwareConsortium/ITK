@@ -32,8 +32,9 @@ endif("${SWIG_VERSION}" STREQUAL "1.3.37")
 # files.
 # TODO: file a bug report at opensolaris
 if(CMAKE_SYSTEM MATCHES "SunOS-." AND NOT EXISTS "${LIBRARY_OUTPUT_PATH}/64")
+  file(MAKE_DIRECTORY "${LIBRARY_OUTPUT_PATH}")
   exec_program(ln ARGS -sf . "${LIBRARY_OUTPUT_PATH}/64")
-endif(CMAKE_SYSTEM MATCHES "SunOS-." AND NOT EXISTS "${LIBRARY_OUTPUT_PATH}/64")
+endif()
 
 
 ###############################################################################
