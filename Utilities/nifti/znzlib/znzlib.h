@@ -56,13 +56,12 @@ extern "C" {
 
 
 #ifdef HAVE_ZLIB
-#if defined(ITKZLIB)
+#if defined(ITKZLIB) && !defined(ITK_USE_SYSTEM_ZLIB)
 #include "itk_zlib.h"
 #else
 #include "zlib.h"
 #endif
 #endif
-
 
 struct znzptr {
   int withz;

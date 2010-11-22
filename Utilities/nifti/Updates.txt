@@ -85,8 +85,9 @@ Updated in version 1.1.0 August 28, 2008
          http://www.itk.org/Bug/view.php?id=7530
          having to do with ITK version numbers for znzlib.
 
+
 -----------------------------------------------------------------
-Recent Updates
+Updated in version 2.0.0 July 20, 2010
 
     - RR added nifti_NBL_matches_nim() check for write_bricks()
     - HJ added casts to suppress compiler warnings
@@ -95,4 +96,13 @@ Recent Updates
     - RR added examples/clib_01_read_write.c as a simple library example
     - RR allow uppercase extension
     - RR added 4 checks of alloc() returns
+    - RR added NIFTI_ECODE_VOXBO for Dan Kimberg of VoxBo
+    - RR added NIFTI_ECODE_CARET for John Harwell of Caret
+    - RR fixed znzread/write for large files
+    - RR changed nifti_swap_* routines/calls to take size_t
+    - RR fixed nifti_tool.c:nt_read_bricks bsize for large files
+    - MH updated CMakeLists.txt to version 2.0
 
+
+-----------------------------------------------------------------
+Recent Updates

@@ -153,9 +153,11 @@ static char * g_history[] =
   "   - added -help_ana, -disp_ana,\n"
   "    -swap_as_analyze, -swap_as_nifti, -swap_as_old\n"
   "1.22 08 Oct 2008 [rickr] - allow cbl with indices in 0..nt*nu*nv*nw-1\n"
+  "1.23 06 Jul 2010 [rickr]\n",
+  "   - in nt_read_bricks, bsize computation should allow for large integers\n"
   "----------------------------------------------------------------------\n"
 };
-static char g_version[] = "version 1.22 (Oct 8, 2008)";
+static char g_version[] = "version 1.23 (July 6, 2010)";
 static int  g_debug = 1;
 
 #define _NIFTI_TOOL_C_
@@ -255,7 +257,7 @@ int process_opts( int argc, char * argv[], nt_opts * opts )
    opts->new_dim[0] = 3;
    opts->new_dim[1] = 1;  opts->new_dim[2] = 1;  opts->new_dim[3] = 1;
 
-   if( argc < 2 ) return usage(argv[0], USE_SHORT);
+   if( argc < 2 ) return usage(argv[0], USE_FULL);
 
    /* terminal options are first, the rest are sorted */
    for( ac = 1; ac < argc; ac++ )
@@ -4069,8 +4071,8 @@ nifti_image * nt_image_read( nt_opts * opts, char * fname, int doread )
         }
     }
 
-    /* create a new nifti_image, complete with zero'd data */
-    return nifti_make_new_nim(opts->new_dim, opts->new_datatype, 1);
+    /* create a new nifti_image, with data depending on doread */
+    return nifti_make_new_nim(opts->new_dim, opts->new_datatype, doread);
 }
 
 
@@ -4164,7 +4166,7 @@ nifti_image * nt_read_bricks(nt_opts * opts, char * fname, int len, int * list,
 
     /* now populate NBL (can be based only on len and nim) */
     NBL->nbricks = len;
-    NBL->bsize = nim->nbyper * nim->nx * nim->ny * nim->nz;
+    NBL->bsize = (size_t)nim->nbyper * nim->nx * nim->ny * nim->nz;
     NBL->bricks = (void **)calloc(NBL->nbricks, sizeof(void *));
     if( !NBL->bricks ){
         fprintf(stderr,"** NRB: failed to alloc %d pointers\n",NBL->nbricks);

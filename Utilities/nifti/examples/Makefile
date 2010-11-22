@@ -32,7 +32,7 @@ endif
 
 
 
-all:	fsl_api_driver
+all:	fsl_api_driver clib_01_read_write
 
 clean:
 	rm -f fsl_api_driver clib_01_read_write
