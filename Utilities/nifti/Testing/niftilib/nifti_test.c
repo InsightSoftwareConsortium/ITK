@@ -141,7 +141,7 @@ void compare_reference_image_values(nifti_image const * const reference_image, n
   for(; CurrVoxel < NumVoxels ; CurrVoxel++)
     {
     /*printf("%d ",CurrVoxel); fflush(stdout);*/
-    if( ((int *)(reference_image->data))[CurrVoxel] !=  ((int *)(reloaded_image->data))[CurrVoxel]) 
+    if( ((int *)(reference_image->data))[CurrVoxel] !=  ((int *)(reloaded_image->data))[CurrVoxel])
       {
       PrintTest("Incorrect Pixel Value Found",0,NIFTITEST_FALSE,Errors);
       }
@@ -213,7 +213,7 @@ int main (int argc, char *argv[])
       PrintTest("nifti_copy_extension",
                 nifti_copy_extensions(nim,reference_image),
                 NIFTITEST_FALSE,&Errors);
-      
+
       nifti_image_free(nim);
       nim = nifti_copy_nim_info(reference_image);
       PrintTest("nifti_copy_nim_info",
@@ -222,15 +222,15 @@ int main (int argc, char *argv[])
       PrintTest("nifti_nim_is_valid",
                 nifti_nim_is_valid(nim,0) == 0,
                 NIFTITEST_FALSE,&Errors);
-      
-      
+
+
       nifti_image_free(nim);
-      
+
     }
     {
     nifti_image * reloaded_image = nifti_image_read(reference_image->fname,1);
     PrintTest("Reload of image ",reloaded_image==0,NIFTITEST_TRUE,&Errors);
-    
+
     {
     /*
      * if the file is named '.img', '.hdr', '.img.gz', or '.hdr.gz', then
@@ -266,7 +266,7 @@ int main (int argc, char *argv[])
     PrintTest("Reload of bricked image",nim_orig == 0,NIFTITEST_FALSE,&Errors);
     nifti_free_NBL(&NB_orig);
     nifti_image_free(nim_orig);
-    
+
     nim_select = nifti_image_read_bricks(reference_image->fname, 5, blist, &NB_select);
     PrintTest("Reload of bricked image with blist",nim_orig == 0,NIFTITEST_FALSE,&Errors);
     nifti_free_NBL(&NB_select);
@@ -300,7 +300,7 @@ int main (int argc, char *argv[])
   {
   char *imgname = nifti_findimgname("ATestReferenceImageForReadingAndWriting.hdr",2);
   PrintTest("nifti_findimgname",
-            imgname == 0 || 
+            imgname == 0 ||
             strcmp(imgname,"ATestReferenceImageForReadingAndWriting.img") != 0,
             NIFTITEST_FALSE,&Errors);
   free(imgname);
@@ -320,13 +320,13 @@ int main (int argc, char *argv[])
   PrintTest("is_nifti_file2",
             IsNiftiFile != 2,NIFTITEST_FALSE,&Errors);
   }
-  
+
   }
   {
   /*
    * test writing and reading an ascii file
    */
-  nifti_image * reference_image = 
+  nifti_image * reference_image =
     generate_reference_image("TestAsciiImage.nia",&Errors);
   reference_image->nifti_type = 3;
   nifti_image_write(reference_image);
@@ -399,7 +399,7 @@ int main (int argc, char *argv[])
     snprintf(TEMP_STR,256,"nifti_makebasename(\"%s\")=\"%s\"",FILE_NAMES[fni],basename);
     PrintTest(TEMP_STR,strcmp(basename,KNOWN_FILE_BASENAMES[fni]) != 0,NIFTITEST_FALSE,&Errors);
     free(basename);
-   
+
     }
     }
   /*
@@ -435,7 +435,7 @@ int main (int argc, char *argv[])
             NIFTITEST_FALSE,                                            \
             &Errors);                                                   \
   }
-  nifti_datatype_test(DT_UNKNOWN,"UNKNOWN"); 
+  nifti_datatype_test(DT_UNKNOWN,"UNKNOWN");
   nifti_datatype_test(DT_BINARY, "BINARY");
   nifti_datatype_test(DT_INT8, "INT8");
   nifti_datatype_test(DT_UINT8, "UINT8");
@@ -619,9 +619,9 @@ int main (int argc, char *argv[])
   float qfac;
   nifti_mat44_to_quatern(R,&qb,&qc,&qd,&qx,&qy,&qz,&dx,&dy,&dz,&qfac);
   PrintTest("nifti_mat44_to_quatern",
-            qb != 0.000000 || qc != 0.000000 || qd != 0.000000 ||  
-            qx != 0.000000 || qy != 0.000000 || qd != 0.000000 ||  
-            dx != 1.000000 || dy != 1.000000 || dz != 1.000000 ||  
+            qb != 0.000000 || qc != 0.000000 || qd != 0.000000 ||
+            qx != 0.000000 || qy != 0.000000 || qd != 0.000000 ||
+            dx != 1.000000 || dy != 1.000000 || dz != 1.000000 ||
             qfac != 1.000000,
             NIFTITEST_FALSE,&Errors);
   }
@@ -629,7 +629,7 @@ int main (int argc, char *argv[])
   mat44 x = nifti_make_orthog_mat44(0.14,0.0,0.0,
                                     0.0,0.9,0.0,
                                     0.0,0.0,1.1);
-  
+
   PrintTest("nifti_make_orthog_mat44",
             x.m[0][0] != 1.0 || x.m[1][1] != 1.0 ||
             x.m[2][2] != 1.0 || x.m[3][3] != 1.0,
@@ -645,7 +645,7 @@ int main (int argc, char *argv[])
             x[8] != 'h' || x[9] != 'g' || x[10] != 'f' || x[11] != 'e' ||
             x[12] != 'd' || x[13] != 'c' || x[14] != 'b' || x[15] != 'a',
             NIFTITEST_FALSE,&Errors);
-    
+
   }
   {
   static char x[8] = { 'a','b','c','d','D','C','B','A' };
@@ -654,7 +654,7 @@ int main (int argc, char *argv[])
             x[0] != 'A' || x[1] != 'B' || x[2] != 'C' || x[3] != 'D' ||
             x[4] != 'd' || x[5] != 'c' || x[6] != 'b' || x[7] != 'a',
             NIFTITEST_FALSE,&Errors);
-    
+
   }
   {
   /*

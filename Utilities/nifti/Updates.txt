@@ -51,12 +51,12 @@ Updated in version 0.6 August 27, 2007
     - RR allowed for datasets with a single volume > 2^31 bytes
     - RR allowed for datasets with total size > 2^32 bytes
     - RR added regression testing under Testing/nifti_regress_test
-    - KF added upper level packaging directory and put Andy Loenings's 
+    - KF added upper level packaging directory and put Andy Loenings's
          rpm spec file in it
-    - HJ Changed default installation path of header files into include/nifti 
+    - HJ Changed default installation path of header files into include/nifti
          from CMakeLists.txt
     - HJ/KW Added exposing Analyze75 orientation codes
-    - HJ/KW Added function to allow any sized subregion of the image to be read 
+    - HJ/KW Added function to allow any sized subregion of the image to be read
          from disk
     - RR/KF znzlib/config.h incorporated into znzlib.h and removed
 

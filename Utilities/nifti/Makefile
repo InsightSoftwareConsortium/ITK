@@ -27,7 +27,7 @@ ANSI_FLAGS	= 	${GNU_ANSI_FLAGS}
 CFLAGS		=	$(ANSI_FLAGS)
 
 ## Command defines
-## gmake does not work on MacOSX or some versions of linux MAKE  = gmake 
+## gmake does not work on MacOSX or some versions of linux MAKE  = gmake
 RM		=	rm
 MV		=	mv
 CP		=	cp
@@ -43,7 +43,7 @@ INSTALL_INC_DIR	=	include
 ## Zlib defines
 ZLIB_INC	=	-I/usr/include
 ZLIB_PATH	=	-L/usr/lib
-ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz 
+ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz
 
 ##############################################################
 # platform specific redefines (to use, set ARCH appropriately)
@@ -63,7 +63,7 @@ else
 ifeq ($(ARCH),X86_64) ## 64-bit Linux
 ZLIB_INC	=
 ZLIB_PATH	=
-ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz 
+ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz
 TAR		=	/bin/tar
 endif
 endif

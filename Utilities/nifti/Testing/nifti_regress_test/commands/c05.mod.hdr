@@ -1,6 +1,6 @@
 
 # modify the header of default anat, creating a new anat
-# 
+#
 # then compare the resulting headers
 
 nifti_tool -mod_hdr -prefix anat1 -infiles anat0.nii     \

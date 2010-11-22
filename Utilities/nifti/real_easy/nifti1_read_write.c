@@ -32,11 +32,11 @@
  *
  * 2. scaling
  *      nifti1 datasets can contain a scaling factor.  You need to check the
- *      scl_slope field and if that isn't 0, scale your data by 
+ *      scl_slope field and if that isn't 0, scale your data by
  *      Y * scl_slope  + scl_inter
  *
  * 3. extensions
- *      nifti1 datasets can have some "extension data" stuffed after the 
+ *      nifti1 datasets can have some "extension data" stuffed after the
  *      regular header.  You can just ignore it, but, be aware that a
  *      .hdr file may be longer than 348 bytes, and, in a .nii file
  *      you can't just jump to byte 352, you need to use the vox_offset
@@ -64,15 +64,15 @@
  * You need to put a copy of the nifti1.h header file in this directory.
  * It can be obtained from the NIFTI homepage  http://nifti.nimh.nih.gov/
  * or from the niftilib SourceForge site http://niftilib.sourceforge.net/
- * 
+ *
  * cc -o nifti1_read_write nifti1_read_write.c
- * 
- * 
+ *
+ *
  * To run:
  * nifti1_read_write -w abc.nii abc.nii
  * nifti1_read_write -r abc.nii abc.nii
- * 
- * 
+ *
+ *
  * The read method is hardcoded to read float32 data.  To change
  * to your datatype, just change the line:
  * typedef float MY_DATATYPE;
@@ -100,7 +100,7 @@ typedef float MY_DATATYPE;
 #define NII_HEADER_SIZE 352
 
 
-main(argc,argv) 
+main(argc,argv)
 int argc;
 char *argv[];
 {
@@ -228,7 +228,7 @@ return(0);
 /**********************************************************************
  *
  * write_nifti_file
- * 
+ *
  * write a sample nifti1 (.nii) data file
  * datatype is float32
  * XYZT size is 64x64x16x10
@@ -265,7 +265,7 @@ else {
         fprintf(stderr, "\nError: file(s) to be written must end with .hdr/.img or .nii/.nii extension\n");
         exit(1);
 }
-        
+
 
 /********** fill in the minimal default header fields */
 bzero((void *)&hdr, sizeof(hdr));

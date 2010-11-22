@@ -7,7 +7,7 @@
  * usage: nifti_tool [options] -infiles files...
  *
  * Via this tool, one should be able to:
- * 
+ *
  *       - copy a set of volumes (sub-bricks) from one dataset to another
  *       - copy a dataset, restricting some dimensions to given indices
  *
@@ -25,7 +25,7 @@
  *
  *       - modify any field(s) of a nifti_image
  *       - modify any field(s) of a nifti1_struct
- *    
+ *
  * usage forms:
  *
  *   nifti_tool -help
@@ -51,14 +51,14 @@
  *
  *   nifti_tool -diff_hdr [-field fieldname] [...] -infiles f1 f2
  *   nifti_tool -diff_nim [-field fieldname] [...] -infiles f1 f2
- *  
+ *
  *   nifti_tool -add_afni_ext    "extension in quotes" -infiles f1 ...
  *   nifti_tool -add_comment_ext "extension in quotes" -infiles f1 ...
  *   nifti_tool -rm_ext ext_index -infiles f1 ...
- *  
+ *
  *   nifti_tool -mod_hdr  [-mod_field fieldname new_val] [...] -infiles f1 ...
  *   nifti_tool -mod_nim  [-mod_field fieldname new_val] [...] -infiles f1 ...
- *  
+ *
  * </pre> */
 /*-------------------------------------------------------------------------*/
 
@@ -107,7 +107,7 @@ static char * g_history[] =
   "   - added -disp_ts: 'disp time series' data display functionality\n"
   "   - moved raw data display to disp_raw_data()\n"
   "\n",
-  "1.7  14 April 2005 [rickr] - added data display functionality\n" 
+  "1.7  14 April 2005 [rickr] - added data display functionality\n"
   "   - added -dci: 'display collapsed image' functionality\n"
   "   - modified -dts to use -dci\n"
   "   - modified and updated the help in use_full()\n"
@@ -368,8 +368,8 @@ int process_opts( int argc, char * argv[], nt_opts * opts )
          opts->disp_nim = 1;
       else if( ! strncmp(argv[ac], "-disp_ana", 8) )
          opts->disp_ana = 1;
-      else if( ! strncmp(argv[ac], "-dci_lines", 6) ||   /* before -dts */ 
-               ! strncmp(argv[ac], "-dts_lines", 6) ) 
+      else if( ! strncmp(argv[ac], "-dci_lines", 6) ||   /* before -dts */
+               ! strncmp(argv[ac], "-dts_lines", 6) )
       {
          opts->dci_lines = 1;
       }
@@ -2306,7 +2306,7 @@ int act_check_hdrs( nt_opts * opts )
       {
           nim = nifti_convert_nhdr2nim(*nhdr, opts->infiles.list[filenum]);
           if( !nim ) continue;  /* errors are printed from library */
-          
+
           if( g_debug > 1 )
              fprintf(stdout,"\nchecking nifti_image for file '%s'\n",
                      opts->infiles.list[filenum]);
@@ -2489,7 +2489,7 @@ int act_disp_nims( nt_opts * opts )
    {
       nim = nt_image_read(opts, opts->infiles.list[filenum], 0);
       if( !nim ) return 1;  /* errors are printed from library */
-                                                                                
+
       if( g_debug > 0 )
          fprintf(stdout,"\nheader file '%s', num_fields = %d, fields:\n\n",
                  nim->fname, nfields);
@@ -2529,7 +2529,7 @@ int act_mod_hdrs( nt_opts * opts )
    int              filec, swap;
    char           * fname, * dupname;
    char             func[] = { "act_mod_hdrs" };
- 
+
    if( g_debug > 2 )
       fprintf(stderr,"-d modifying %d fields for %d nifti headers...\n",
               opts->flist.len, opts->infiles.len);
@@ -2618,7 +2618,7 @@ int act_swap_hdrs( nt_opts * opts )
    int              filec, swap;
    char           * fname, * dupname;
    char             func[] = { "act_mod_hdrs" };
- 
+
    /* count requested operations: "there can be only one", and not Sean */
    swap = opts->swap_hdr + opts->swap_ana + opts->swap_old;
    if( swap > 1 ) {
@@ -2725,7 +2725,7 @@ int act_mod_nims( nt_opts * opts )
    nifti_image    * nim;         /* for reading/writing entire datasets */
    int              filec;
    char             func[] = { "act_mod_nims" };
- 
+
    if( g_debug > 2 )
       fprintf(stderr,"-d modifying %d fields for %d nifti images...\n",
               opts->flist.len, opts->infiles.len);
@@ -3293,7 +3293,7 @@ int fill_field( field_s * fp, int type, int offset, int num, char * name )
    fp->offset = offset;
    fp->size   = 1;     /* init before check */
    fp->len    = num;
-   
+
    strncpy(fp->name, name, NT_FIELD_NAME_LEN-1);
 
    switch( type ){
@@ -3406,7 +3406,7 @@ int disp_field(char *mesg, field_s *fieldp, void * str, int nfields, int header)
          case DT_FLOAT32: case DT_FLOAT64:
             disp_raw_data((char *)str+fp->offset, fp->type, fp->len, ' ', 1);
             break;
-                
+
          case NT_DT_POINTER:
             fprintf(stdout,"(raw data of unknown type)\n");
             break;
@@ -3487,12 +3487,12 @@ int diff_field(field_s *fieldp, void * str0, void * str1, int nfields)
                if( *cp0 != *cp1 ) break;
 
             if(c < size) return 1;  /* found a diff */
-  
+
             break;
 
          case NT_DT_POINTER:     /* let's pass on these - no diff */
          case NT_DT_CHAR_PTR:
-            
+
             break;
 
          case NT_DT_EXT_PTR:
@@ -3735,7 +3735,7 @@ int act_disp_ci( nt_opts * opts )
                  nim->fname);
          err++;
       }
-      
+
       switch( nim->datatype )
       {
          case DT_INT8:    case DT_INT16:   case DT_INT32:
@@ -3753,7 +3753,7 @@ int act_disp_ci( nt_opts * opts )
       }
 
       if( err ) { nifti_image_free(nim);  continue; }
-                                                                                
+
       len = nifti_read_collapsed_image(nim, opts->ci_dims, &data);
       if( len < 0 || !data )
       {
@@ -3919,7 +3919,7 @@ int act_cbl( nt_opts * opts )
 
    nim = nt_image_read(opts, fname, 0);  /* get image */
    if( !nim ) return 1;
-      
+
    /* since nt can be zero now (sigh), check for it   02 Mar 2006 [rickr] */
    blist = nifti_get_intlist(nim->nt > 0 ? num_volumes(nim) : 1, selstr);
    nifti_image_free(nim);             /* throw away, will re-load */
@@ -3985,7 +3985,7 @@ int act_cci( nt_opts * opts )
    nim = nt_image_read(opts, opts->infiles.list[0], 0);
    if( !nim ) return 1;
    nim->data = NULL;    /* just to be sure */
-      
+
    if( nifti_read_collapsed_image(nim, opts->ci_dims, &nim->data) < 0 )
    {
       nifti_image_free(nim);

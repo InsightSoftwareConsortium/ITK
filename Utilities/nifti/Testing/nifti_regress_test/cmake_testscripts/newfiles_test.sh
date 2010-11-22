@@ -29,7 +29,7 @@ ${NT} -copy_im -prefix ${DATA}/ncopy5.nii -infiles ${DATA}/new5.nia
 set count = 0
 for index in 2 3 4 5 ; do
     diff ${DATA}/ncopy1.nii ${DATA}/ncopy$index.nii
-    if [ $? -ne 0 ] ; then 
+    if [ $? -ne 0 ] ; then
         echo "-- failure on test index $index --"
         exit 1
     fi
