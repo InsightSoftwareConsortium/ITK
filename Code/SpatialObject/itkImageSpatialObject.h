@@ -132,6 +132,31 @@ protected:
   std::string m_PixelType;
 
   typename InterpolatorType::Pointer m_Interpolator;
+  template <typename T>
+    void InternalSetPixelType(const T *)
+  {
+    itkWarningMacro("itk::ImageSpatialObject() : PixelType not recognized");
+  }
+  void InternalSetPixelType(const short *)
+  {
+    m_PixelType = "short";
+  }
+  void InternalSetPixelType(const unsigned char *)
+  {
+    m_PixelType = "unsigned char";
+  }
+  void InternalSetPixelType(const unsigned short *)
+  {
+    m_PixelType = "unsigned short";
+  }
+  void InternalSetPixelType(const float *)
+  {
+    m_PixelType = "float";
+  }
+  void InternalSetPixelType(const double *)
+  {
+    m_PixelType = "double";
+  }
 };
 } // end of namespace itk
 

@@ -498,13 +498,6 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 #define ITK_CONVERT_BUFFER_IF_BLOCK(_CType,type)                        \
   else if(m_ImageIO->GetComponentType() == _CType)                      \
     {                                                                   \
-    std::cerr << "Pixel type match "                                    \
-              << m_ImageIO->GetComponentTypeAsString                    \
-      (_CType)                                                          \
-              << " "                                                    \
-              << m_ImageIO->GetComponentTypeAsString                    \
-      (m_ImageIO->GetComponentType())                                   \
-              << std::endl;                                             \
     if (isVectorImage)                                                  \
       {                                                                 \
       ConvertPixelBuffer<type,                                          \

@@ -1019,57 +1019,6 @@ void AnalyzeImageIO::ReadImageInformation()
     }
   itk::EncapsulateMetaData< int >(thisDic, ITK_NumberOfDimensions, dim);
 
-  switch ( this->m_Hdr.dime.datatype )
-    {
-    case ANALYZE_DT_BINARY:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName, std::string( typeid( char ).name() ) );
-      break;
-    case ANALYZE_DT_UNSIGNED_CHAR:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( unsigned char ).name() ) );
-      break;
-    case ANALYZE_DT_SIGNED_SHORT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( short ).name() ) );
-      break;
-    case SPMANALYZE_DT_UNSIGNED_SHORT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( unsigned short ).name() ) );
-      break;
-    case ANALYZE_DT_SIGNED_INT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( long ).name() ) );
-      break;
-    case SPMANALYZE_DT_UNSIGNED_INT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( unsigned long ).name() ) );
-      break;
-    case ANALYZE_DT_FLOAT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( float ).name() ) );
-      break;
-    case ANALYZE_DT_DOUBLE:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( double ).name() ) );
-      break;
-    case ANALYZE_DT_RGB:
-      // DEBUG -- Assuming this is a triple, not quad
-      //image.setDataType( uiig::DATA_RGBQUAD );
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( itk::RGBPixel< unsigned char > ).name() ) );
-      break;
-    default:
-      break;
-    }
 
   //Important hist fields
   itk::EncapsulateMetaData< std::string >

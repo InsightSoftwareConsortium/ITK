@@ -1245,61 +1245,6 @@ NiftiImageIO
   std::string          classname( this->GetNameOfClass() );
   EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
 
-  switch ( this->m_ComponentType )
-    {
-    case CHAR:
-      EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                          std::string( typeid( char ).name() ) );
-      break;
-    case UCHAR:
-      if ( this->m_PixelType == RGB )
-        {
-        EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                            std::string("RGB") );
-        }
-      else if ( this->m_PixelType == RGBA )
-        {
-        EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                            std::string("RGBA") );
-        }
-      else
-        {
-        EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                            std::string( typeid( unsigned char ).name() ) );
-        }
-      break;
-    case SHORT:
-      EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                          std::string( typeid( short ).name() ) );
-      break;
-    case USHORT:
-      EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                          std::string( typeid( unsigned short ).name() ) );
-      break;
-    case INT:
-      EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                          std::string( typeid( long ).name() ) );
-      break;
-    case UINT:
-      EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                          std::string( typeid( unsigned long ).name() ) );
-      break;
-    case FLOAT:
-      EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                          std::string( typeid( float ).name() ) );
-      break;
-    case DOUBLE:
-      EncapsulateMetaData< std::string >( thisDic, ITK_OnDiskStorageTypeName,
-                                          std::string( typeid( double ).name() ) );
-      break;
-    //    case NIFTI_TYPE_RGB24: handled above under UChar
-    //    case DT_RGB:
-    // DEBUG -- Assuming this is a triple, not quad
-    //image.setDataType( uiig::DATA_RGBQUAD );
-    //      break;
-    default:
-      break;
-    }
   // set the image orientation
   this->SetImageIOOrientationFromNIfTI(dims);
 
