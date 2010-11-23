@@ -1439,7 +1439,10 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "VXL_BIG_ENDIAN=1" \
                          "VXL_LITTLE_ENDIAN=0" \
                          "VNL_DLL_DATA=" \
-                         "size_t=vcl_size_t"
+                         "size_t=vcl_size_t" \
+                         "ITK_USE_REVIEW" \
+                         "USE_FFTWD" \
+                         "USE_FFTWF"
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then
 # this tag can be used to specify a list of macro names that should be expanded.
