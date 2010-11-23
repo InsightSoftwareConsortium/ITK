@@ -18,18 +18,8 @@
 #ifndef __itkTransformFileReader_h
 #define __itkTransformFileReader_h
 
-// First make sure that the configuration is available.
-// This line can be removed once the factory based version
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_TRANSFORM_IO_FACTORIES
-#include "itkTransformFileReaderWithFactory.h"
-#else
-
-#include "itkLightProcessObject.h"
 #include "metaTransform.h"
-#include "itkTransformBase.h"
+#include "itkTransformIOBase.h"
 
 namespace itk
 {
@@ -44,11 +34,11 @@ public:
   /** SmartPointer typedef support */
   typedef TransformFileReader  Self;
   typedef SmartPointer< Self > Pointer;
-  typedef TransformBase        TransformType;
+  typedef TransformBase TransformType;
 
-  typedef TransformType::ParametersType ParametersType;
-  typedef TransformType::Pointer        TransformPointer;
-  typedef std::list< TransformPointer > TransformListType;
+  typedef TransformType::ParametersType      ParametersType;
+  typedef TransformIOBase::TransformPointer  TransformPointer;
+  typedef TransformIOBase::TransformListType TransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -63,12 +53,13 @@ public:
   /** Get the filename */
   itkGetStringMacro(FileName);
 
-  /** Write out the transform */
+  /** Read the transform */
   void Update();
 
   /** Get the list of transform */
   TransformListType * GetTransformList() { return &m_TransformList; }
 protected:
+  TransformIOBase::Pointer m_TransformIO;
   TransformFileReader(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
   void PrintSelf(std::ostream & os, Indent indent) const;
@@ -77,12 +68,11 @@ protected:
 
   TransformFileReader();
   virtual ~TransformFileReader();
-private:
+  void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
+private:
   TransformListType m_TransformList;
 };
 } // namespace itk
-
-#endif
 
 #endif // __itkTransformFileReader_h

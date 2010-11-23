@@ -21,7 +21,7 @@
 
 namespace itk
 {
-class ITK_EXPORT TxtTransformIO:public TransformIOBase
+class ITKIO_EXPORT TxtTransformIO:public TransformIOBase
 {
 public:
   typedef TxtTransformIO                Self;

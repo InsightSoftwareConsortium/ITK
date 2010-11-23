@@ -34,34 +34,6 @@ if(NOT ITK_INSTALL_NO_LIBRARIES)
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
 endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
-if(ITK_USE_TRANSFORM_IO_FACTORIES)
-# Sources of non-templated classes.
-set(ITKTransformIOReview_SRCS
-  itkTransformFileReaderWithFactory.cxx
-  itkTransformFileWriterWithFactory.cxx
-  itkMatlabTransformIO.cxx
-  itkMatlabTransformIOFactory.cxx
-  itkTransformIOBase.cxx
-  itkTransformIOFactory.cxx
-  itkTxtTransformIO.cxx
-  itkTxtTransformIOFactory.cxx
-  )
-
-add_library(ITKTransformIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKTransformIOReview_SRCS})
-target_link_libraries(ITKTransformIOReview ITKCommon)
-if(ITK_LIBRARY_PROPERTIES)
-  set_target_properties(ITKTransformIOReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-endif(ITK_LIBRARY_PROPERTIES)
-if(NOT ITK_INSTALL_NO_LIBRARIES)
-  install(TARGETS ITKTransformIOReview
-    RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
-    LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
-    ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-endif(NOT ITK_INSTALL_NO_LIBRARIES)
-
-endif(ITK_USE_TRANSFORM_IO_FACTORIES)
-
-
 #
 #   Begin of optional ITKReview library setup
 #

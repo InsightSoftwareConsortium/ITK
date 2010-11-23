@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMatlabTransformIOFactory_h
-#define __itkMatlabTransformIOFactory_h
+#ifndef __itkTxtTransformIOFactory_h
+#define __itkTxtTransformIOFactory_h
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -27,15 +27,14 @@
 
 namespace itk
 {
-/** \class MatlabTransformIOFactory
- *  \brief Create instances of MatlabTransformIO objects using an
- *  object factory.
- */
-class ITK_EXPORT MatlabTransformIOFactory:public ObjectFactoryBase
+/** \class TxtTransformIOFactory
+   * \brief Create instances of TxtTransformIO objects using an object factory.
+   */
+class ITKIO_EXPORT TxtTransformIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef MatlabTransformIOFactory   Self;
+  typedef TxtTransformIOFactory      Self;
   typedef ObjectFactoryBase          Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -49,25 +48,24 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MatlabTransformIOFactory, ObjectFactoryBase);
+  itkTypeMacro(TxtTransformIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
   {
-    MatlabTransformIOFactory::Pointer metaFactory =
-      MatlabTransformIOFactory::New();
+    TxtTransformIOFactory::Pointer metaFactory = TxtTransformIOFactory::New();
 
     ObjectFactoryBase::RegisterFactory(metaFactory);
   }
 
 protected:
-  MatlabTransformIOFactory();
-  ~MatlabTransformIOFactory();
+  TxtTransformIOFactory();
+  ~TxtTransformIOFactory();
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MatlabTransformIOFactory(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  TxtTransformIOFactory(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 };
 } // end namespace itk
 

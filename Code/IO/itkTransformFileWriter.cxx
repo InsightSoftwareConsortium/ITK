@@ -19,6 +19,8 @@
 #define __itkTransformFileWriter_cxx
 
 #include "itkTransformFileWriter.h"
+#include "itkTransformFactoryBase.h"
+#include "itkTransformIOFactory.h"
 
 namespace itk
 {
@@ -27,6 +29,7 @@ TransformFileWriter
 {
   m_FileName = "";
   this->m_AppendMode = false;
+  TransformFactoryBase::RegisterDefaultTransforms();
 }
 
 TransformFileWriter
@@ -36,14 +39,14 @@ TransformFileWriter
 /** Set the writer to append to the specified file */
 void TransformFileWriter::SetAppendOn()
 {
-  this->m_AppendMode = true;
+  this->SetAppendMode(true);
 }
 
 /** Set the writer to overwrite the specified file - This is the
  * default mode. */
 void TransformFileWriter::SetAppendOff()
 {
-  this->m_AppendMode = false;
+  this->SetAppendMode(false);
 }
 
 /** Set the writer mode (append/overwrite). */
@@ -62,45 +65,34 @@ bool TransformFileWriter::GetAppendMode()
 void TransformFileWriter::SetInput(const TransformType *transform)
 {
   m_TransformList.clear();
-  m_TransformList.push_back(transform);
+  m_TransformList.push_back( ConstTransformPointer(transform) );
 }
 
 /** Add a transform to be written */
 void TransformFileWriter::AddTransform(const TransformType *transform)
 {
-  m_TransformList.push_back(transform);
+  m_TransformList.push_back( ConstTransformPointer(transform) );
 }
 
-/** Update the writer */
 void TransformFileWriter
 ::Update()
 {
-  std::list< const TransformType * >::iterator it = m_TransformList.begin();
-  vnl_vector< double >                         TempArray;
-  std::ofstream                                out;
-  if ( this->m_AppendMode )
+  if ( m_FileName == "" )
     {
-    out.open(m_FileName.c_str(), std::ios::out | std::ios::app);
+    itkExceptionMacro ("No file name given");
     }
-  else
+  TransformIOBase::Pointer transformIO =
+    TransformIOFactory::CreateTransformIO(m_FileName.c_str(),
+                                          TransformIOFactory::WriteMode);
+  if ( transformIO.IsNull() )
     {
-    out.open(m_FileName.c_str(), std::ios::out);
+    itkExceptionMacro("Can't Create IO object for file "
+                      << m_FileName);
     }
-  out << "#Insight Transform File V1.0" << std::endl;
-  int count = 0;
-  while ( it != m_TransformList.end() )
-    {
-    out << "#Transform " << count << std::endl;
-    out << "Transform: " << ( *it )->GetTransformTypeAsString() << std::endl;
-
-    TempArray = ( *it )->GetParameters();
-    out << "Parameters: " << TempArray << std::endl;
-    TempArray = ( *it )->GetFixedParameters();
-    out << "FixedParameters: " << TempArray << std::endl;
-    it++;
-    count++;
-    }
-  out.close();
+  transformIO->SetAppendMode(this->m_AppendMode);
+  transformIO->SetFileName(m_FileName);
+  transformIO->SetTransformList(this->m_TransformList);
+  transformIO->Write();
 }
 
 void TransformFileWriter::PrintSelf(std::ostream & os, Indent indent) const

@@ -120,6 +120,7 @@ itkStimulateImageIOTest.cxx
 itkStimulateImageIOTest2.cxx
 itkTIFFImageIOTest.cxx
 itkTransformIOTest.cxx
+itkTransformFileReaderWriterTest.cxx
 itkVTKImageIOTest.cxx
 itkVTKImageIOTest2.cxx
 itkVTKPolyDataIOQuadEdgeMeshTest.cxx
@@ -173,112 +174,112 @@ add_test( itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1 ${IO_TESTS}
 
 add_test(itkVTKPolyDataIOQuadEdgeMeshTest ${IO_TESTS}
   itkVTKPolyDataIOQuadEdgeMeshTest
-  ${INPUTDATA}/genusZeroSurface01.vtk
+  ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk
   ${TEMP}/VTKPolyDataIOTest.vtk)
 
 add_test(itkVTKPolyDataReaderQuadEdgeMeshTest ${IO_TESTS}
   itkVTKPolyDataReaderQuadEdgeMeshTest
-  ${INPUTDATA}/genusZeroSurface01.vtk
+  ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk
   )
 
 add_test(itkVTKPolyDataReaderTest ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/genusZeroSurface01.vtk
+  ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk
   )
 
 add_test(itkVTKPolyDataReaderTest2 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/sphereBinary.vtk
+  ${ITK_DATA_ROOT}/Input/sphereBinary.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest0 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad0.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad0.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest1 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad1.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad1.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest2 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad2.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad2.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest3 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad3.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad3.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest4 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad4.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad4.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest5 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad5.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad5.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest6 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad6.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad6.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest7 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad7.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad7.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest8 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad8.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad8.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest9 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad9.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad9.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest10 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad10.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad10.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest11 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad11.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad11.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest12 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad12.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad12.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest13 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad13.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad13.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest14 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad14.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad14.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest15 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad15.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad15.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest16 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad16.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad16.vtk
   )
 
 add_test(itkVTKPolyDataReaderBadTest17 ${IO_TESTS}
   itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad17.vtk
+  ${ITK_DATA_ROOT}/Input/vtkPolyDataBad17.vtk
   )
 
 SET_TESTS_PROPERTIES(itkVTKPolyDataReaderTest2
@@ -345,6 +346,22 @@ add_test(itkMeshSpatialObjectIOTest2 ${IO_TESTS} itkMeshSpatialObjectIOTest ${TE
                                                 ${ITK_DATA_ROOT}/Input/metamesh.txt)
 
 add_test(itkTransformIOTest ${IO_TESTS} itkTransformIOTest ${TEMP})
+#######
+## HACK
+add_test(itkTransformFileReaderWriterTest0 ${IO_TESTS} itkTransformFileReaderWriterTest
+  ${ITK_DATA_ROOT}/Input/itkAffineTransform00.txt ${TEMP}/itkTransformFileReaderWriterTest0.txt)
+
+add_test(itkTransformFileReaderWriterTest1 ${IO_TESTS} itkTransformFileReaderWriterTest
+  ${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt ${TEMP}/itkTransformFileReaderWriterTest1.txt)
+
+add_test(itkTransformFileReaderWriterTest2 ${IO_TESTS} itkTransformFileReaderWriterTest
+  ${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt ${TEMP}/itkTransformFileReaderWriterTest1.mat)
+
+add_test(itkTransformFileReaderWriterTest3 ${IO_TESTS} itkTransformFileReaderWriterTest
+  ${ITK_DATA_ROOT}/Input/itkBSplineTransform00.txt ${TEMP}/itkBSplineTransform00.mat)
+
+## HACK
+#######
 
 add_test(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
