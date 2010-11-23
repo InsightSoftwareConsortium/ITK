@@ -132,8 +132,7 @@ TxtTransformIO::Read()
       }
     line_end = "\r";
     }
-
-  while ( position < data.size() )
+  while ( position != std::string::npos && position < data.size() )
     {
     // Find the next string
     std::string::size_type end = data.find (line_end, position);

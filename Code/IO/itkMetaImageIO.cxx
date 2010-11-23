@@ -1369,81 +1369,82 @@ MetaImageIO
   std::vector< std::string >::const_iterator keyIt;
   for ( keyIt = keys.begin(); keyIt != keys.end(); ++keyIt )
     {
-    std::string value;
+    // try for common scalar types
+    std::ostringstream strs;
+    double dval=0.0;
+    float fval=0.0F;
+    long lval=0L;
+    unsigned long ulval=0L;
+    int ival=0;
+    unsigned uval=0;
+    short shval=0;
+    unsigned short ushval=0;
+    char cval=0;
+    unsigned char ucval=0;
+    bool bval=false;
+    std::string value="";
     if(!ExposeMetaData< std::string >(thisMetaDict, *keyIt, value))
       {
-      // try for common scalar types
-      std::ostringstream strs;
-      double dval=0.0;
-      float fval=0.0F;
-      long lval=0L;
-      unsigned long ulval=0L;
-      int ival=0;
-      unsigned uval=0;
-      short shval=0;
-      unsigned short ushval=0;
-      char cval=0;
-      unsigned char ucval=0;
-      bool bval=false;
-      if(ExposeMetaData<double>(thisMetaDict,*keyIt,dval))
-        {
-        strs << dval;
-        }
-      else if(ExposeMetaData<float>(thisMetaDict,*keyIt,fval))
-        {
-        strs << fval;
-        }
-      else if(ExposeMetaData<long>(thisMetaDict,*keyIt,lval))
-        {
-        strs << lval;
-        }
-      else if(ExposeMetaData<unsigned long>(thisMetaDict,*keyIt,ulval))
-        {
-        strs << ulval;
-        }
-      else if(ExposeMetaData<int>(thisMetaDict,*keyIt,ival))
-        {
-        strs << ival;
-        }
-      else if(ExposeMetaData<unsigned int>(thisMetaDict,*keyIt,uval))
-        {
-        strs << uval;
-        }
-      else if(ExposeMetaData<short>(thisMetaDict,*keyIt,shval))
-        {
-        strs << shval;
-        }
-      else if(ExposeMetaData<unsigned short>(thisMetaDict,*keyIt,ushval))
-        {
-        strs << ushval;
-        }
-      else if(ExposeMetaData<char>(thisMetaDict,*keyIt,cval))
-        {
-        strs << cval;
-        }
-      else if(ExposeMetaData<unsigned char>(thisMetaDict,*keyIt,ucval))
-        {
-        strs << ucval;
-        }
-      else if(ExposeMetaData<bool>(thisMetaDict,*keyIt,bval))
-        {
-        strs << bval;
-        }
-      else
-        {
-        itkWarningMacro("Unsupported metaData item "
-                        << *keyIt << " of type "
-                        << thisMetaDict[*keyIt]->GetMetaDataObjectTypeName()
-                        << "found, won't be written to image file");
-        }
-      value = strs.str();
+      strs << value;
       }
-    m_MetaImage.AddUserField( (*keyIt).c_str(),
-                              MET_STRING,
-                              value.size(),
-                              value.c_str(),
-                              false,
-                              -1 );
+    else if(ExposeMetaData<double>(thisMetaDict,*keyIt,dval))
+      {
+      strs << dval;
+      }
+    else if(ExposeMetaData<float>(thisMetaDict,*keyIt,fval))
+      {
+      strs << fval;
+      }
+    else if(ExposeMetaData<long>(thisMetaDict,*keyIt,lval))
+      {
+      strs << lval;
+      }
+    else if(ExposeMetaData<unsigned long>(thisMetaDict,*keyIt,ulval))
+      {
+      strs << ulval;
+      }
+    else if(ExposeMetaData<int>(thisMetaDict,*keyIt,ival))
+      {
+      strs << ival;
+      }
+    else if(ExposeMetaData<unsigned int>(thisMetaDict,*keyIt,uval))
+      {
+      strs << uval;
+      }
+    else if(ExposeMetaData<short>(thisMetaDict,*keyIt,shval))
+      {
+      strs << shval;
+      }
+    else if(ExposeMetaData<unsigned short>(thisMetaDict,*keyIt,ushval))
+      {
+      strs << ushval;
+      }
+    else if(ExposeMetaData<char>(thisMetaDict,*keyIt,cval))
+      {
+      strs << cval;
+      }
+    else if(ExposeMetaData<unsigned char>(thisMetaDict,*keyIt,ucval))
+      {
+      strs << ucval;
+      }
+    else if(ExposeMetaData<bool>(thisMetaDict,*keyIt,bval))
+      {
+      strs << bval;
+      }
+    else
+      {
+      itkWarningMacro("Unsupported metaData item "
+        << *keyIt << " of type "
+        << thisMetaDict[*keyIt]->GetMetaDataObjectTypeName()
+        << "found, won't be written to image file");
+      }
+    value = strs.str();
+
+#if 0
+    // Rolling this back out so that the tests pass.
+    // The meta image AddUserField requires control of the memory space.
+    m_MetaImage.AddUserField( (*keyIt).c_str(), MET_STRING, value.size(), value.c_str(), true, -1 );
+#endif
     }
 
   // Propagage direction cosine information .
