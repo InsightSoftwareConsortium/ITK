@@ -38,32 +38,7 @@ ImageSpatialObject< TDimension,  PixelType >
     }
 
   this->ComputeBoundingBox();
-  if ( typeid( PixelType ) == typeid( short ) )
-    {
-    m_PixelType = "short";
-    }
-  else if ( typeid( PixelType ) == typeid( unsigned char ) )
-    {
-    m_PixelType = "unsigned char";
-    }
-  else if ( typeid( PixelType ) == typeid( unsigned short ) )
-    {
-    m_PixelType = "unsigned short";
-    }
-  else if ( typeid( PixelType ) == typeid( float ) )
-    {
-    m_PixelType = "float";
-    }
-  else if ( typeid( PixelType ) == typeid( double ) )
-    {
-    m_PixelType = "double";
-    }
-  else
-    {
-    std::cerr << "itk::ImageSpatialObject() : PixelType not recognized"
-              << std::endl;
-    }
-
+  this->InternalSetPixelType(static_cast<const PixelType *>(0));
   m_Interpolator = NNInterpolatorType::New();
 }
 

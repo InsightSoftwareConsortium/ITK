@@ -252,6 +252,22 @@ protected:
 private:
   Transform(const Self &);      //purposely not implemented
   void operator=(const Self &); //purposely not implemented
+  template <typename TType>
+    std::string GetTransformTypeAsString(TType *) const
+  {
+    std::string rval("other");
+    return rval;
+  }
+  std::string GetTransformTypeAsString(float *) const
+  {
+    std::string rval("float");
+    return rval;
+  }
+  std::string GetTransformTypeAsString(double *) const
+  {
+    std::string rval("double");
+    return rval;
+  }
 };
 } // end namespace itk
 
