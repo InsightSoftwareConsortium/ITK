@@ -26,6 +26,7 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
 
+  REGISTER_TEST(itkDeformationFieldTransformTest);
   REGISTER_TEST(itkScalarChanAndVeseLevelSetFunctionTest1);
   REGISTER_TEST(itkScalarChanAndVeseLevelSetFunctionTest2);
   REGISTER_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest1);
