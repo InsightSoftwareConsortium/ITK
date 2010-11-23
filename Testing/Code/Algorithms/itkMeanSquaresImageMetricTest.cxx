@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkMath.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
 
@@ -142,16 +143,14 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
 //------------------------------------------------------------
 // Define the region over which the metric will be computed
 //------------------------------------------------------------
-   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
-
-
+  metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
   std::cout << metric << std::endl;
 
 
 //------------------------------------------------------------
 // This call is mandatory before start querying the Metric
-// This method do all the necesary connections between the
+// This method makes all the necesary connections between the
 // internal components: Interpolator, Transform and Images
 //------------------------------------------------------------
   try {
@@ -185,7 +184,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   MetricType::MeasureType     measure;
   MetricType::DerivativeType  derivative;
 
-  std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
+  std::cout << "param[1]   Metric    d(Metric)/d(param[1]) " << std::endl;
 
   for( double trans = -10; trans <= 5; trans += 0.2  )
     {
@@ -206,15 +205,103 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     // exercise the other functions
     metric->GetValue( parameters );
     metric->GetDerivative( parameters, derivative );
-
     }
+
+  // Compute a reference metric and partial derivative with one
+  // thread. NOTE - this test checks for consistency in the answer
+  // computed by differing numbers of threads, not correctness.
+  metric->SetNumberOfThreads(1);
+  metric->Initialize();
+  parameters[1] = 2.0;
+  MetricType::MeasureType    referenceMeasure;
+  MetricType::DerivativeType referenceDerivative;
+  referenceMeasure = metric->GetValue(parameters);
+  metric->GetDerivative( parameters, referenceDerivative );
+
+  std::cout << "Testing consistency of the metric value computed by "
+            << "several different thread counts." << std::endl;
+
+  // Now check that the same metric value is computed when the number
+  // of threads is adjusted from 1 to 8.
+  for (int numThreads = 1; numThreads <= 8; numThreads++)
+    {
+    itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numThreads);
+    metric->SetNumberOfThreads(numThreads);
+    metric->Initialize();
+
+    std::cout << "Threads Metric    d(Metric)/d(param[1]) " << std::endl;
+
+    measure = metric->GetValue( parameters );
+    metric->GetDerivative( parameters, derivative );
+    std::cout.width(4);
+    std::cout << numThreads;
+    std::cout.width(10);
+    std::cout.precision(5);
+    std::cout << measure;
+    std::cout.width(10);
+    std::cout.precision(5);
+    std::cout << derivative[1];
+    std::cout << std::endl;
+
+    bool sameDerivative = true;
+    for (unsigned int d = 0; d < parameters.Size(); d++)
+      {
+      if ( fabs(derivative[d] - referenceDerivative[d]) > 1e-5 )
+        {
+        sameDerivative = false;
+        break;
+        }
+      }
+
+    if ( fabs(measure - referenceMeasure) > 1e-5 || !sameDerivative )
+      {
+      std::cout << "Testing different number of threads... FAILED" << std::endl;
+      std::cout << "Metric value computed with " << numThreads
+                << " threads is incorrect. Computed value is "
+                << measure << ", should be " << referenceMeasure
+                << ", computed derivative is " << derivative
+                << ", should be " << referenceDerivative << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  std::cout << "Testing different number of threads... PASSED." << std::endl;
+
+  // Now check that the same metric value is computed when the number
+  // of threads in the metric is set to 8 and the global max number of
+  // threads is reduced to 2. These are arbitrary numbers of threads
+  // used to verify the correctness of the metric under a particular
+  // usage scenario.
+  metric->SetNumberOfThreads(8);
+  int numThreads = 2;
+  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numThreads);
+  metric->Initialize();
+
+  std::cout << "Threads Metric    d(Metric)/d(param[1]) " << std::endl;
+
+  measure = metric->GetValue( parameters );
+  std::cout.width(4);
+  std::cout << numThreads;
+  std::cout.width(10);
+  std::cout.precision(5);
+  std::cout << measure;
+  std::cout.width(10);
+  std::cout.precision(5);
+  std::cout << derivative[1];
+  std::cout << std::endl;
+  if ( fabs(measure - referenceMeasure) > 1e-5 )
+    {
+    std::cout << "Test reducing global max number of threads... FAILED." << std::endl;
+    std::cout << "Metric value computed with " << numThreads
+              << " threads is incorrect. Computed value is "
+              << measure << ", should be " << referenceMeasure << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "Test reducing global max number of threads... PASSED." << std::endl;
 
 //-------------------------------------------------------
 // exercise Print() method
 //-------------------------------------------------------
   metric->Print( std::cout );
-
-
 
 //-------------------------------------------------------
 // exercise misc member functions
@@ -290,4 +377,3 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

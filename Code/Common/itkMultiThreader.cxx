@@ -103,7 +103,8 @@ void MultiThreader::SetGlobalDefaultNumberOfThreads(int val)
 
 void MultiThreader::SetNumberOfThreads(int numberOfThreads)
 {
-  if ( m_NumberOfThreads == numberOfThreads )
+  if ( m_NumberOfThreads == numberOfThreads &&
+       numberOfThreads <= m_GlobalMaximumNumberOfThreads )
     {
     return;
     }
