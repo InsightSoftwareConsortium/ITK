@@ -2,19 +2,20 @@
 # configure the test driver
 find_program(ITK_TEST_DRIVER itkTestDriver)
 
-set(JAVA_DRIVER "${ITK_TEST_DRIVER}"
-  --add-before-libpath "${ITK_DIR}/bin/\\\${CTEST_CONFIGURATION_TYPE}"
-  --add-before-libpath "${ITK_DIR}"
-  "${Java_JAVA_EXECUTABLE}"
-  -Djava.library.path=${ITK_DIR}/bin/\\\${CTEST_CONFIGURATION_TYPE}
-)
-
 # windows doesn't use the same separator than the others
 if(WIN32)
   set(sep "\\\;")
 else(WIN32)
   set(sep ":")
 endif(WIN32)
+
+set(JAVA_DRIVER "${ITK_TEST_DRIVER}"
+  --add-before-libpath "${ITK_DIR}/bin/\\\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-libpath "${ITK_DIR}/bin"
+  --add-before-libpath "${ITK_DIR}"
+  "${Java_JAVA_EXECUTABLE}"
+  -Djava.library.path=${LIBRARY_OUTPUT_PATH}/\\\${CTEST_CONFIGURATION_TYPE}${sep}${LIBRARY_OUTPUT_PATH}
+)
 
 # put all generated files in this list
 set(targets "")
