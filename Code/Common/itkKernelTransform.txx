@@ -271,12 +271,13 @@ void KernelTransform< TScalarType, NDimensions >::ComputeP()
   IMatrixType    I;
   IMatrixType    temp;
   InputPointType p;
+  p.Fill( NumericTraits< ScalarType >::Zero );
 
   I.set_identity();
   this->m_PMatrix.set_size( NDimensions * numberOfLandmarks,
                             NDimensions * ( NDimensions + 1 ) );
   this->m_PMatrix.fill(0.0);
-  for ( unsigned int i = 0; i < numberOfLandmarks; i++ )
+  for ( unsigned long i = 0; i < numberOfLandmarks; i++ )
     {
     this->m_SourceLandmarks->GetPoint(i, &p);
     for ( unsigned int j = 0; j < NDimensions; j++ )
