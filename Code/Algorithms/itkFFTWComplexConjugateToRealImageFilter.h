@@ -19,13 +19,15 @@
 #define __itkFFTWComplexConjugateToRealImageFilter_h
 
 #include "itkFFTComplexConjugateToRealImageFilter.h"
-
-//
-// FFTWCommon defines proxy classes based on data types
 #include "itkFFTWCommon.h"
 
 namespace itk
 {
+/** \class FFTWComplexConjugateToRealImageFilter
+ * \brief TODO
+ *
+ * \ingroup FourierTransform
+ */
 template< typename TPixel, unsigned int VDimension >
 class ITK_EXPORT FFTWComplexConjugateToRealImageFilter:
   public FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
@@ -35,18 +37,19 @@ public:
   typedef FFTComplexConjugateToRealImageFilter< TPixel, VDimension > Superclass;
   typedef SmartPointer< Self >                                       Pointer;
   typedef SmartPointer< const Self >                                 ConstPointer;
-  //
-  // the proxy type is a wrapper for the fftw API
-  // since the proxy is only defined over double and float,
-  // trying to use any other pixel type is inoperative, as
-  // is trying to use double if only the float FFTW version is
-  // configured in, or float if only double is configured.
-  //
-  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
 
   /** Standard class typedefs. */
   typedef typename Superclass::TInputImageType  TInputImageType;
   typedef typename Superclass::TOutputImageType TOutputImageType;
+
+  /**
+   * the proxy type is a wrapper for the fftw API
+   * since the proxy is only defined over double and float,
+   * trying to use any other pixel type is inoperative, as
+   * is trying to use double if only the float FFTW version is
+   * configured in, or float if only double is configured.
+   */
+  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
