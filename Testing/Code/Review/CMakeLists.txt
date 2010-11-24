@@ -274,6 +274,7 @@ set(ReviewTest6_SRCS
   itkDeformationFieldTransformTest.cxx
   itkBSplineControlPointImageFilterTest.cxx
   itkN4MRIBiasFieldCorrectionImageFilterTest.cxx
+  itkCompositeTransformTest.cxx
   itkScalarChanAndVeseLevelSetFunctionTest1.cxx
   itkScalarChanAndVeseLevelSetFunctionTest2.cxx
   itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
@@ -2416,6 +2417,7 @@ add_test(itkObjectToObjectMetricTest ${REVIEW_TESTS6}
          itkObjectToObjectMetricTest)
 add_test(itkDeformationFieldTransformTest ${REVIEW_TESTS6}
   itkDeformationFieldTransformTest)
+add_test(itkCompositeTransformTest ${REVIEW_TESTS6} itkCompositeTransformTest)
 
 add_test(itkBSplineControlPointImageFilterTest1
   ${REVIEW_TESTS6}
