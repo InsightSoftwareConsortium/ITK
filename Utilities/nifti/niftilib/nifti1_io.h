@@ -39,9 +39,9 @@ extern "C" {
 /*****  incidental or otherwise, caused by any use of this document.     *****/
 /*****===================================================================*****/
 
-/* 
+/*
    Modified by: Mark Jenkinson (FMRIB Centre, University of Oxford, UK)
-   Date: July/August 2004 
+   Date: July/August 2004
 
       Mainly adding low-level IO and changing things to allow gzipped files
       to be read and written
@@ -262,11 +262,11 @@ float nifti_mat33_colnorm( mat33 A ) ;
 float nifti_mat33_determ ( mat33 R ) ;
 mat33 nifti_mat33_mul    ( mat33 A , mat33 B ) ;
 
-void  nifti_swap_2bytes ( int n , void *ar ) ;
-void  nifti_swap_4bytes ( int n , void *ar ) ;
-void  nifti_swap_8bytes ( int n , void *ar ) ;
-void  nifti_swap_16bytes( int n , void *ar ) ;
-void  nifti_swap_Nbytes ( int n , int siz , void *ar ) ;
+void  nifti_swap_2bytes ( size_t n , void *ar ) ;
+void  nifti_swap_4bytes ( size_t n , void *ar ) ;
+void  nifti_swap_8bytes ( size_t n , void *ar ) ;
+void  nifti_swap_16bytes( size_t n , void *ar ) ;
+void  nifti_swap_Nbytes ( size_t n , int siz , void *ar ) ;
 
 int    nifti_datatype_is_valid   (int dtype, int for_nifti);
 int    nifti_datatype_from_string(const char * name);
@@ -294,12 +294,12 @@ void         nifti_image_free    ( nifti_image *nim ) ;
 int          nifti_read_collapsed_image( nifti_image * nim, const int dims [8],
                                          void ** data );
 
-int          nifti_read_subregion_image( nifti_image * nim, 
+int          nifti_read_subregion_image( nifti_image * nim,
                                          int *start_index, int *region_size,
                                          void ** data );
 
 void         nifti_image_write   ( nifti_image * nim ) ;
-void         nifti_image_write_bricks(nifti_image * nim, 
+void         nifti_image_write_bricks(nifti_image * nim,
                                       const nifti_brick_list * NBL);
 void         nifti_image_infodump( const nifti_image * nim ) ;
 
@@ -322,6 +322,14 @@ char * nifti_makehdrname  (const char * prefix, int nifti_type, int check,
 char * nifti_makeimgname  (const char * prefix, int nifti_type, int check,
                            int comp);
 int    is_nifti_file      (const char *hname);
+/*
+ * Note that in ITK, the function nifti_find_file_extension
+ * is const-correct (i.e. preserve the mutability status
+ * of the name variable through the function call.
+ * This deviation is due to a difference of opion regarding
+ * the benifits/detrement of using const judiciously to
+ * avoid compiler warnings.
+ */
 const char * nifti_find_file_extension(const char * name);
 int    nifti_is_complete_filename(const char* fname);
 int    nifti_validfilename(const char* fname);
@@ -435,7 +443,7 @@ int    valid_nifti_extensions(const nifti_image *nim);
 
 #define NIFTI_ECODE_COMMENT          6  /* plain ASCII text only              */
 
-#define NIFTI_ECODE_XCEDE            8  /* David B Keator: dbkeator@uci.edu 
+#define NIFTI_ECODE_XCEDE            8  /* David B Keator: dbkeator@uci.edu
                                            http://www.nbirn.net/Resources
                                                 /Users/Applications/
                                                 /xcede/index.htm              */
@@ -462,7 +470,14 @@ int    valid_nifti_extensions(const nifti_image *nim);
 #define NIFTI_ECODE_DT_COMPONENT    24
 #define NIFTI_ECODE_SHC_DEGREEORDER 26  /* end LONI MiND codes                */
 
-#define NIFTI_MAX_ECODE             26  /******* maximum extension code *******/
+#define NIFTI_ECODE_VOXBO           28  /* Dan Kimberg: www.voxbo.org         */
+
+#define NIFTI_ECODE_CARET           30  /* John Harwell: john@brainvis.wustl.edu
+                                           http://brainvis.wustl.edu/wiki
+                                             /index.php/Caret:Documentation
+                                             :CaretNiftiExtension             */
+
+#define NIFTI_MAX_ECODE             30  /******* maximum extension code *******/
 
 /* nifti_type file codes */
 #define NIFTI_FTYPE_ANALYZE   0

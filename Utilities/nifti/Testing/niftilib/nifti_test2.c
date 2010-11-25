@@ -11,7 +11,7 @@ int main (int argc, char *argv[])
    */
   nifti_image *i1 = nifti_simple_init_nim();
   nifti_image *i2;
-  
+
   /*
    * add an extension to the dummy
    */

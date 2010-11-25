@@ -16,13 +16,19 @@ echo can\'t cd to $1
 exit 1
 fi
 
-
 if wget -nd http://nifti.nimh.nih.gov/pub/dist/data/nifti_regress_data.tgz
 then
-echo wget succeeded
+  echo wget succeeded
 else
-echo wget failed
-exit 1
+  ## Note:  On MacOSX, wget is not installed by default, but curl is
+  ##        so use this fall back strategy when wget can not be found
+  if curl -O http://nifti.nimh.nih.gov/pub/dist/data/nifti_regress_data.tgz
+  then
+    echo curl succeeded
+  else
+    echo Both curl and wget failed
+    exit 1
+  fi
 fi
 
 if tar xzvf nifti_regress_data.tgz

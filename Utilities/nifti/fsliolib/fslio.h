@@ -10,12 +10,12 @@
 
 */
 
-    
+
 /*
     The fslio.h file was originally part of FSL - FMRIB's Software Library
     http://www.fmrib.ox.ac.uk/fsl
     fslio.h has now been placed in the public domain.
-   
+
     Developed at FMRIB (Oxford Centre for Functional Magnetic Resonance
     Imaging of the Brain), Department of Clinical Neurology, Oxford
     University, Oxford, UK
@@ -58,22 +58,22 @@ extern "C" {
     Writing
     -------
       This is more complicated due to the nature of gzipped writing, which must be
-      done in the correct order, and for single files (*.nii.gz) this means that 
+      done in the correct order, and for single files (*.nii.gz) this means that
       the header information must be written before any image data.
 
     (1)
-      The best method to use is almost backwards compatible, but requires 
+      The best method to use is almost backwards compatible, but requires
       an FslWriteHeader() call:
 
         FSLIO* fslio;
         fslio = FslOpen("/some/path/name_of_file","wb");
           ... set the appropriate header information using FslSet calls ...
         FslWriteHeader(fslio);
-        
-          ... now can write one or more volumes at a time using 
+
+          ... now can write one or more volumes at a time using
               FslWriteVolumes(fslio,buffer,nvols) ...
 
-        FslClose(fslio); 
+        FslClose(fslio);
 
       This version is useful if your image data needs to be written from different blocks
       of memory.
@@ -82,9 +82,9 @@ extern "C" {
       Another method is available, but which is discouraged, is:
         FSLIO* fslio;
         fslio = FslOpen("/some/path/name_of_file","wb");
-        
+
           ... set some appropriate header information using FslSet calls ...
-          ... now can write one or more volumes at a time using 
+          ... now can write one or more volumes at a time using
               FslWriteVolumes(fslio,buffer,nvols) ...
           ... set more appropriate header information using FslSet calls ...
 
@@ -93,7 +93,7 @@ extern "C" {
       WARNING: this cannot write .nii.gz files as the header information cannot be
       written by FslClose() after the image data is written, which is how the previous
       versions have worked.
-        
+
 
    */
 
@@ -120,7 +120,7 @@ extern "C" {
     \sa nifti_image
     \sa minc_image
  */
-typedef struct 
+typedef struct
 {
   znzFile fileptr;
   nifti_image *niftiptr;
@@ -182,7 +182,7 @@ int  FslReadRawHeader(void *buffer, const char* filename);
   /* simple creation and clone/copy operations */
 
 FSLIO *FslInit(void);
-void   FslInitHeader(FSLIO *fslio, short t, 
+void   FslInitHeader(FSLIO *fslio, short t,
                    size_t x, size_t y, size_t z, size_t v,
                    float vx, float vy, float vz, float tr,
                    size_t dim,
@@ -217,18 +217,18 @@ short  FslGetIntent(FSLIO *fslio, short *intent_code, float *p1, float *p2,
 
 short FslGetStdXform(FSLIO *fslio, mat44 *stdmat);
 void  FslSetStdXform(FSLIO *fslio, short sform_code, mat44 stdmat);
-void  FslGetMMCoord(mat44 stdmat, float voxx, float voxy, float voxz, 
+void  FslGetMMCoord(mat44 stdmat, float voxx, float voxy, float voxz,
                     float *mmx, float *mmy, float *mmz);
 
-void  FslGetVoxCoord(mat44 stdmat, float mmx, float mmy, float mmz, 
-                     float *voxx, float *voxy, float *voxz); 
+void  FslGetVoxCoord(mat44 stdmat, float mmx, float mmy, float mmz,
+                     float *voxx, float *voxy, float *voxz);
 short FslGetRigidXform(FSLIO *fslio, mat44 *rigidmat);
 void  FslSetRigidXform(FSLIO *fslio, short qform_code, mat44 rigidmat);
 int   FslGetLeftRightOrder(FSLIO *fslio);
 
   /* these two functions are deprecated with the nifti/analyze support */
   /* please do all spatial coordinate origins via the Std and Rigid Xforms */
-void  FslSetAnalyzeSform(FSLIO *fslio, const short *orig, 
+void  FslSetAnalyzeSform(FSLIO *fslio, const short *orig,
                          float dx, float dy, float dz);
 void  FslGetAnalyzeOrigin(FSLIO *fslio, short orig[5]);
 
@@ -245,7 +245,7 @@ mat33 mat44_to_mat33(mat44 x);
 
 
 /* added by KF pending discussion w/ Mark */
-typedef unsigned char   THIS_UINT8; 
+typedef unsigned char   THIS_UINT8;
 typedef char            THIS_INT8;
 typedef unsigned short  THIS_UINT16;
 typedef short           THIS_INT16;

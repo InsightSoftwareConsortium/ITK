@@ -20,7 +20,7 @@ vim ${TMP_DIR}/firstpass_script.vi
 <<< Add ":%s/  *$//ge" to remove end of line spaces.
 <<< Add ":wqa" to end of the vim script >>>
 <<< Add ":%s#\<SUBDIRS\> *(#add_subdirectory(#ge" >>>
-:w! ${TMP_DIR}/convert_cmake_to_lowercase.vim
+:w! /tmp/convert_cmake_to_lowercase.vim
 
 This will create a file that is suitable for using as
 a vim batch script.

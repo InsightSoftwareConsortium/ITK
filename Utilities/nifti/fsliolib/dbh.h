@@ -2,7 +2,7 @@
 #define _DBH_H_
 
 /*
- * 
+ *
  * (c) Copyright, 1986-1994
  * Biomedical Imaging Resource
  * Mayo Foundation
@@ -34,7 +34,7 @@ struct image_dimension                  /*      image_dimension  */
         short int bitpix;                       /* 32 + 2    */
         short int dim_un0;                      /* 34 + 2    */
         float pixdim[8];                        /* 36 + 32   */
-                        /* 
+                        /*
                                 pixdim[] specifies the voxel dimensions:
                                 pixdim[1] - voxel width
                                 pixdim[2] - voxel height
@@ -51,7 +51,7 @@ struct image_dimension                  /*      image_dimension  */
         int verified;                           /* 96 + 4    */
         int glmax, glmin;                       /* 100 + 8   */
     };                                          /* total=108 */
-         
+
 struct data_history                     /*      data_history     */
     {                                           /* off + size*/
         char descrip[80];                       /* 0 + 80    */
@@ -78,7 +78,7 @@ struct dsr                              /*      dsr              */
         struct image_dimension dime;            /* 40 + 108  */
         struct data_history hist;               /* 148 + 200 */
     };                                          /* total=348 */
-        
+
 /* Acceptable values for hdr.dime.datatype */
 
 #define DT_NONE                         0
@@ -93,7 +93,7 @@ struct dsr                              /*      dsr              */
 #define DT_RGB                          128
 #define DT_ALL                          255
 
-typedef struct 
+typedef struct
         {
         float real;
         float imag;

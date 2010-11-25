@@ -20,7 +20,7 @@ znzlib.h  (zipped or non-zipped library)
 
 This library provides an interface to both compressed (gzip/zlib) and
 uncompressed (normal) file IO.  The functions are written to have the
-same interface as the standard file IO functions.  
+same interface as the standard file IO functions.
 
 To use this library instead of normal file IO, the following changes
 are required:
@@ -30,7 +30,7 @@ are required:
  - add a third parameter to all calls to znzopen (previously fopen)
    that specifies whether to use compression (1) or not (0)
  - use znz_isnull rather than any (pointer == NULL) comparisons in the code
- 
+
 NB: seeks for writable files with compression are quite restricted
 
 */
@@ -56,13 +56,12 @@ extern "C" {
 
 
 #ifdef HAVE_ZLIB
-#if defined(ITKZLIB)
+#if defined(ITKZLIB) && !defined(ITK_USE_SYSTEM_ZLIB)
 #include "itk_zlib.h"
 #else
 #include "zlib.h"
 #endif
 #endif
-
 
 struct znzptr {
   int withz;
@@ -81,7 +80,7 @@ typedef struct znzptr * znzFile;
 #define znz_isnull(f) ((f) == NULL)
 #define znzclose(f)   Xznzclose(&(f))
 
-/* Note extra argument (use_compression) where 
+/* Note extra argument (use_compression) where
    use_compression==0 is no compression
    use_compression!=0 uses zlib (gzip) compression
 */

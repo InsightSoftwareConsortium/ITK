@@ -1,7 +1,7 @@
 #!/bin/tcsh
 
 #  - add junk extensions to the new anat, overwriting it
-#  - display extensions for the two files 
+#  - display extensions for the two files
 #  - again, compare the headers
 
 nifti_tool -add_afni_ext 'wow, my first extension :)'    \

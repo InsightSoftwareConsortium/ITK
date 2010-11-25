@@ -2,11 +2,11 @@
  *
  * fsl_api_driver.c
  *
- * Test fslio API 
+ * Test fslio API
  *
  * Usage: fsl_api_driver <command> <dataset(s)> [params]
  *
- * 
+ *
  *      print <dataset>
  *              print dataset header fields
  *      peek <dataset> X Y Z T
