@@ -289,8 +289,14 @@ private:
   ResampleImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
 
-  SizeType                m_Size;              // Size of the output image
-  TransformPointerType    m_Transform;         // Coordinate transform to use
+  SizeType                m_Size;      // Size of the output image
+
+  TransformPointerType    m_Transform; // Main transform to be used in thread = 0
+  // Copies of Transform helpers per thread (N-1 of them), since m_Transform
+  // will do the work for thread=0.
+  TransformPointerType  * m_ThreaderTransform;
+
+
   InterpolatorPointerType m_Interpolator;      // Image function for
                                                // interpolation
   PixelType m_DefaultPixelValue;               // default pixel value
