@@ -60,9 +60,17 @@ public:
 
   /** Set the input image of this process object.  */
   void SetInput(unsigned int idx, const InputImageType *input);
+  void SetInput(const InputImageType *input)
+    {
+    this->SetInput(0, input);
+    }
 
   /** Get the input image of this process object.  */
   const InputImageType * GetInput(unsigned int idx);
+  const InputImageType * GetInput()
+    {
+    return this->GetInput(0);
+    }
 
   /** Get the output Mesh of this process object.  */
   OutputMeshType * GetOutput(void);
