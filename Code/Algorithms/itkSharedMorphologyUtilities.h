@@ -22,7 +22,6 @@
 
 namespace itk
 {
-#if defined( _MSC_VER ) && _MSC_VER >= 1300
 template< class TRegion, class TLine >
 bool NeedToDoFace(const TRegion AllImage,
                   const TRegion face,
@@ -73,7 +72,6 @@ MakeEnlargedFace(const TInputImage *input,
 template< class TLine >
 unsigned int GetLinePixels(const TLine line);
 
-#endif
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

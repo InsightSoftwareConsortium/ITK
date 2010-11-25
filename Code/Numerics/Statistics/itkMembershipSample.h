@@ -196,9 +196,7 @@ public:
       return m_MembershipSample->GetClassLabel(m_InstanceIdentifier);
     }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
 protected:
-#endif
     // Purposely not implemented
     ConstIterator();
 
@@ -231,9 +229,7 @@ public:
       return *this;
     }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
 protected:
-#endif
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
     Iterator();

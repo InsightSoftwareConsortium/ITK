@@ -178,9 +178,7 @@ public:
       return ( m_Iter == it.m_Iter );
     }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
 protected:
-#endif
     // This method should only be available to the ListSample class
     ConstIterator(
       ImageConstIteratorType iter,
@@ -216,9 +214,7 @@ public:
       return *this;
     }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
 protected:
-#endif
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
     Iterator();

@@ -374,9 +374,7 @@ public:
       return ( m_Id == it.m_Id );
     }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
 protected:
-#endif
     // This method is purposely not implemented
     ConstIterator();
 
@@ -419,9 +417,7 @@ public:
       return histogram->SetFrequency(this->m_Id, value);
     }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
 protected:
-#endif
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
     Iterator();
