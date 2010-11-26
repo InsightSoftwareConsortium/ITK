@@ -55,6 +55,15 @@ void MetaArrayReader
 {
   m_MetaArray.Read(m_FileName.c_str(), true, m_Buffer);
 }
+
+void
+MetaArrayReader::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "FileName: " << m_FileName << std::endl;
+}
+
 } // namespace itk
 
 #endif

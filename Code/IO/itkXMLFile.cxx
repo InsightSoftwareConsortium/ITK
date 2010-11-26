@@ -122,6 +122,14 @@ XMLReaderBase::GenerateOutputInformation()
 {
   this->parse();
 }
+
+void
+XMLReaderBase::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Filename: " << m_Filename << std::endl;
 }
 
+} // namespace itk
 #endif

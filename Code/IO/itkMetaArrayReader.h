@@ -243,6 +243,8 @@ protected:
 
   MetaArrayReader();
   virtual ~MetaArrayReader();
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
 
   MetaArray m_MetaArray;

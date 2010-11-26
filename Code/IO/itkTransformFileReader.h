@@ -71,6 +71,7 @@ public:
 protected:
   TransformFileReader(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   std::string m_FileName;
 
