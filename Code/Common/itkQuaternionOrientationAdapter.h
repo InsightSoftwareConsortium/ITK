@@ -27,7 +27,7 @@
  *=========================================================================*/
 #ifndef __itkQuaternionOrientationAdapter_h
 #define __itkQuaternionOrientationAdapter_h
-#include "itkOrientationAdapter.h"
+#include "itkOrientationAdapterBase.h"
 #include "itkQuaternionRigidTransform.h"
 #include "itkConceptChecking.h"
 
