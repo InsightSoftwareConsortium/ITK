@@ -28,6 +28,7 @@
 #include <time.h>
 
 #include "itk_zlib.h"
+#include "itkSpatialOrientationAdapter.h"
 
 namespace itk
 {
@@ -584,9 +585,18 @@ void VoxBoCUBImageIO::ReadImageInformation()
         OrientationMap::const_iterator it = m_OrientationMap.find(code);
         if ( it != m_OrientationMap.end() )
           {
-          MetaDataDictionary & dic = this->GetMetaDataDictionary();
-          EncapsulateMetaData< OrientationFlags >(
-            dic, ITK_CoordinateOrientation, it->second);
+          //NOTE:  The itk::ImageIOBase direction is a std::vector<std::vector > >, and threeDDirection is a 3x3 matrix
+          itk::SpatialOrientationAdapter soAdaptor;
+          itk::SpatialOrientationAdapter::DirectionType threeDDirection=soAdaptor.ToDirectionCosines(it->second);
+          this->m_Direction[0][0]=threeDDirection[0][0];
+          this->m_Direction[0][1]=threeDDirection[0][1];
+          this->m_Direction[0][2]=threeDDirection[0][2];
+          this->m_Direction[1][0]=threeDDirection[1][0];
+          this->m_Direction[1][1]=threeDDirection[1][1];
+          this->m_Direction[1][2]=threeDDirection[1][2];
+          this->m_Direction[2][0]=threeDDirection[2][0];
+          this->m_Direction[2][1]=threeDDirection[2][1];
+          this->m_Direction[2][2]=threeDDirection[2][2];
           }
         }
 
@@ -686,12 +696,21 @@ VoxBoCUBImageIO
          << ( ( ByteSwapper< short >::SystemIsBigEndian() ) ? m_VB_BYTEORDER_MSB : m_VB_BYTEORDER_LSB ) << std::endl;
 
   // Write the orientation code
-  MetaDataDictionary & dic = GetMetaDataDictionary();
-  OrientationFlags     oflag = SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
-  if ( ExposeMetaData< OrientationFlags >(dic, ITK_CoordinateOrientation, oflag) )
+  //NOTE:  The itk::ImageIOBase direction is a std::vector<std::vector > >, and threeDDirection is a 3x3 matrix
+  itk::SpatialOrientationAdapter soAdaptor;
+  itk::SpatialOrientationAdapter::DirectionType threeDDirection;
+  threeDDirection[0][0]=this->m_Direction[0][0];
+  threeDDirection[0][1]=this->m_Direction[0][1];
+  threeDDirection[0][2]=this->m_Direction[0][2];
+  threeDDirection[1][0]=this->m_Direction[1][0];
+  threeDDirection[1][1]=this->m_Direction[1][1];
+  threeDDirection[1][2]=this->m_Direction[1][2];
+  threeDDirection[2][0]=this->m_Direction[2][0];
+  threeDDirection[2][1]=this->m_Direction[2][1];
+  threeDDirection[2][2]=this->m_Direction[2][2];
+  OrientationFlags     oflag = soAdaptor.FromDirectionCosines(threeDDirection);
     {
-    InverseOrientationMap::const_iterator it =
-      m_InverseOrientationMap.find(oflag);
+    InverseOrientationMap::const_iterator it = m_InverseOrientationMap.find(oflag);
     if ( it != m_InverseOrientationMap.end() )
       {
       header << m_VB_ORIENTATION << ":\t" << it->second << std::endl;
@@ -699,28 +718,25 @@ VoxBoCUBImageIO
     }
 
   //Add CUB specific parameters to header from MetaDictionary
-
+  MetaDataDictionary & dic = GetMetaDataDictionary();
   std::vector< std::string > keys = dic.GetKeys();
   std::string                word;
   for ( size_t i = 0; i < keys.size(); i++ )
     {
-    if ( strcmp(keys[i].c_str(), ITK_CoordinateOrientation) )
+    // The following local, key, was required to avoid Borland compiler errors
+    // Using const reference should avoid extra copy while still please bcc32
+    const std::string & key = keys[i];
+    ExposeMetaData< std::string >(dic, key, word);
+    if ( !strcmp(key.c_str(), "resample_date") )
       {
-      // The following local, key, was required to avoid Borland compiler errors
-      // Using const reference should avoid extra copy while still please bcc32
-      const std::string & key = keys[i];
-      ExposeMetaData< std::string >(dic, key, word);
-      if ( !strcmp(key.c_str(), "resample_date") )
-        {
-        time_t rawtime;
-        time(&rawtime);
-        word = ctime(&rawtime);
-        header << key << ":\t" << word;
-        }
-      else
-        {
-        header << key << ":\t" << word << std::endl;
-        }
+      time_t rawtime;
+      time(&rawtime);
+      word = ctime(&rawtime);
+      header << key << ":\t" << word;
+      }
+    else
+      {
+      header << key << ":\t" << word << std::endl;
       }
     }
   // Write the terminating characters
