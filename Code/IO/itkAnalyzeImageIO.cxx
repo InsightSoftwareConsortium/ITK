@@ -1019,57 +1019,6 @@ void AnalyzeImageIO::ReadImageInformation()
     }
   itk::EncapsulateMetaData< int >(thisDic, ITK_NumberOfDimensions, dim);
 
-  switch ( this->m_Hdr.dime.datatype )
-    {
-    case ANALYZE_DT_BINARY:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName, std::string( typeid( char ).name() ) );
-      break;
-    case ANALYZE_DT_UNSIGNED_CHAR:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( unsigned char ).name() ) );
-      break;
-    case ANALYZE_DT_SIGNED_SHORT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( short ).name() ) );
-      break;
-    case SPMANALYZE_DT_UNSIGNED_SHORT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( unsigned short ).name() ) );
-      break;
-    case ANALYZE_DT_SIGNED_INT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( long ).name() ) );
-      break;
-    case SPMANALYZE_DT_UNSIGNED_INT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( unsigned long ).name() ) );
-      break;
-    case ANALYZE_DT_FLOAT:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( float ).name() ) );
-      break;
-    case ANALYZE_DT_DOUBLE:
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( double ).name() ) );
-      break;
-    case ANALYZE_DT_RGB:
-      // DEBUG -- Assuming this is a triple, not quad
-      //image.setDataType( uiig::DATA_RGBQUAD );
-      itk::EncapsulateMetaData< std::string >
-        ( thisDic, ITK_OnDiskStorageTypeName,
-        std::string( typeid( itk::RGBPixel< unsigned char > ).name() ) );
-      break;
-    default:
-      break;
-    }
 
   //Important hist fields
   itk::EncapsulateMetaData< std::string >
@@ -1164,11 +1113,6 @@ void AnalyzeImageIO::ReadImageInformation()
         }
       }
     }
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-  itk::EncapsulateMetaData
-  < itk::SpatialOrientation::ValidCoordinateOrientationFlags >
-    (thisDic, ITK_CoordinateOrientation, coord_orient);
-#endif
 
   itk::EncapsulateMetaData< std::string >
     ( thisDic, ITK_FileOriginator,
@@ -1301,12 +1245,6 @@ AnalyzeImageIO
 
   itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient =
     itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-  if ( !itk::ExposeMetaData
-       < itk::SpatialOrientation::ValidCoordinateOrientationFlags >
-         (thisDic, ITK_CoordinateOrientation, coord_orient) )
-    {
-#endif
   typedef itk::SpatialOrientationAdapter::DirectionType DirectionType;
   DirectionType dir;
   unsigned int dims = this->GetNumberOfDimensions();
@@ -1339,10 +1277,6 @@ AnalyzeImageIO
     }
   coord_orient =
     itk::SpatialOrientationAdapter().FromDirectionCosines(dir);
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-}
-
-#endif
   switch ( coord_orient )
     {
     case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:

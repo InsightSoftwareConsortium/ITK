@@ -2,6 +2,7 @@
 Nifti-1 C libraries
 -------------------
 
+Version 2.0.0 beta release Jul  2010
 Version 1.1.0 beta release Aug  2008
 Version 1.0.0 beta release Dec  2007
 Version 0.6 beta release Aug  2007
@@ -21,7 +22,7 @@ znzlib   -- low level library for handling read/write of compressed files.
 niftilib -- core i/o routines for reading and writing nifti-1 format files.
 	    Primarily routines to read/write and manipulate the header field
 	    information, including orientation matrices.  Volume-wise,
-            timecourse-wise, access to image data.  
+            timecourse-wise, access to image data.
 
 nifticdf -- functions to compute cumulative distributions and their inverses
 
@@ -61,7 +62,7 @@ packaging -- spec file for building RPMs, and template package
 Instructions to build
 ---------------------
 
-command  -- "make all" 
+command  -- "make all"
 
             results will be left in the directories: bin/ include/ lib/
 

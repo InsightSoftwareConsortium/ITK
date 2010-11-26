@@ -19,16 +19,6 @@
 
 namespace itk
 {
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, char);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, unsigned char);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, signed char);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, short);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, unsigned short);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, int);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, unsigned int);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, long);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, unsigned long);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, float);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, double);
-itkStaticNumericTraitsGenericArrayNoDimensionMacro(Array, long double);
+// All the specializations that were here previously have now been
+// replaced with a single template in the header file.
 } // end namespace itk

@@ -30,8 +30,6 @@ namespace itk
  * erosions/dilation
  *
  */
-#if defined( _MSC_VER ) && _MSC_VER >= 1300
-
 template< class PixelType, class TFunction >
 void FillReverseExt(std::vector<PixelType> & pixbuffer,
                     std::vector<PixelType> & rExtBuffer,
@@ -54,8 +52,6 @@ void DoFace(typename TImage::ConstPointer input,
             std::vector<typename TImage::PixelType> & rExtBuffer,
             const typename TImage::RegionType AllImage,
             const typename TImage::RegionType face);
-
-#endif
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

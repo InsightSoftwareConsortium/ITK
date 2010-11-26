@@ -111,3 +111,11 @@ if(ITK_USE_SYSTEM_GDCM)
     endif(GDCM_FOUND)
   endif(GDCM_FOUND)
 endif(ITK_USE_SYSTEM_GDCM)
+
+## The ITK version of nifti requires a mechanism for identifing which version
+## zlib to use for installed versions of ITK.  If "NOT ITK_USE_SYSTEM_ZLIB",
+## then the nifti headers require a hint to look for the name mangled
+## itk version.
+if(NOT ITK_USE_SYSTEM_ZLIB)
+  add_definitions(-DITKZLIB)
+endif(NOT ITK_USE_SYSTEM_ZLIB)

@@ -115,16 +115,9 @@ public:
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-#if _MSC_VER <= 1300
-  // Work-around for a visual c++ 6.0 and 7.0 bug. For details, see
-  //
-  //
-  // http://www.itk.org/mailman/private/insight-developers/2009-April/012191.html
-  typedef TransformBase InverseTransformBaseType;
-#else
   typedef Transform<
     TScalarType, NOutputDimensions, NInputDimensions > InverseTransformBaseType;
-#endif
+
   typedef typename InverseTransformBaseType::Pointer InverseTransformBasePointer;
 
   /**  Method to transform a point. */
@@ -252,6 +245,22 @@ protected:
 private:
   Transform(const Self &);      //purposely not implemented
   void operator=(const Self &); //purposely not implemented
+  template <typename TType>
+    std::string GetTransformTypeAsString(TType *) const
+  {
+    std::string rval("other");
+    return rval;
+  }
+  std::string GetTransformTypeAsString(float *) const
+  {
+    std::string rval("float");
+    return rval;
+  }
+  std::string GetTransformTypeAsString(double *) const
+  {
+    std::string rval("double");
+    return rval;
+  }
 };
 } // end namespace itk
 

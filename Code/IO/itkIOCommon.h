@@ -69,10 +69,6 @@ extern ITKIO_EXPORT const char *const ITK_VoxelUnits;
 extern ITKIO_EXPORT const char *const ITK_OnDiskBitPerPixel;
 extern ITKIO_EXPORT const char *const SPM_ROI_SCALE;
 extern ITKIO_EXPORT const char *const ITK_FileNotes;
-#define ITKIO_DEPRECATED_METADATA_ORIENTATION
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-extern ITKIO_EXPORT const char *const ITK_CoordinateOrientation;
-#endif
 extern ITKIO_EXPORT const char *const ITK_Origin;
 extern ITKIO_EXPORT const char *const ITK_Spacing;
 extern ITKIO_EXPORT const char *const ITK_FileOriginator;

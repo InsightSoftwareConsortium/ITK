@@ -10,7 +10,7 @@ SRCS=nifti1_io.c
 OBJS=nifti1_io.o
 MOBJS=mjtest.o
 
-SCRIPTS = 
+SCRIPTS =
 
 depend:	
 	$(RM) -f depend.mk

@@ -28,7 +28,7 @@ void _PrintTest(const int line,const char * message,const int FailureOccured, co
   _PrintTest(__LINE__,message,failure,isfailure,errorcount)
 
 
-nifti_image * 
+nifti_image *
 generate_reference_image(const char * write_image_filename,
                          int * const Errors)
 {
@@ -138,7 +138,7 @@ compare_subregion(const int *reference_data,
       {
       for(k = 0; k < regionsize[0]; k++)
         {
-        int imageIndex = 
+        int imageIndex =
           (i * regionsize[1] * regionsize[0]) +
           (j * regionsize[0]) + k;
         int referenceIndex =
@@ -159,7 +159,7 @@ int main(int argc, char **argv)
 {
   int Errors = 0;
   nifti_image *read_image;
-  nifti_image *reference_image = 
+  nifti_image *reference_image =
     generate_reference_image(testfilename,&Errors);
   if(Errors != 0)
     {
@@ -190,7 +190,7 @@ int main(int argc, char **argv)
             NIFTITEST_TRUE,&Errors);
   free(imagedata);
   }
-  {                             
+  {
   /* test using a case where nifti_collapsed_region would be called */
   void *imagedata = 0;
   int origin[7] = { 0, 0, 1, 0, 0, 0, 0 };

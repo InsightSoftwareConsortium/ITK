@@ -61,8 +61,17 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
-#if defined( _MSC_VER ) && ( _MSC_VER <= 1300 )
-#error "MSC_VER <= 1300 not supported under ITKv4"
+/*
+ * ITK only supports MSVC++ 7.1 and greater
+ * MSVC++ 9.0 _MSC_VER = 1500
+ * MSVC++ 8.0 _MSC_VER = 1400
+ * MSVC++ 7.1 _MSC_VER = 1310
+ * MSVC++ 7.0 _MSC_VER = 1300
+ * MSVC++ 6.0 _MSC_VER = 1200
+ * MSVC++ 5.0 _MSC_VER = 1100
+*/
+#if defined( _MSC_VER ) && ( _MSC_VER < 1310 )
+//#error "_MSC_VER < 1310 (MSVC++ 7.1) not supported under ITKv4"
 #endif
 #if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x590 )
 #error "__SUNPRO_CC < 0x590 not supported under ITKv4"
@@ -633,7 +642,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 // possible on this compiler.
 #if defined( __GNUC__ ) && !defined( __INTEL_COMPILER ) && ( __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ >= 1 ) )
 #define itkLegacyMacro(method) method __attribute__( ( deprecated ) )
-#elif defined( _MSC_VER ) && _MSC_VER >= 1300
+#elif defined( _MSC_VER )
 #define itkLegacyMacro(method) __declspec(deprecated) method
 #else
 #define itkLegacyMacro(method) method
@@ -740,7 +749,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 #define ITK_TEMPLATE_EXTERN 1
 #elif defined( __GNUC__ ) && __GNUC__ >= 3
 #define ITK_TEMPLATE_EXTERN 1
-#elif defined( _MSC_VER ) && _MSC_VER >= 1300
+#elif defined( _MSC_VER )
 #define ITK_TEMPLATE_EXTERN 1
 #endif
 #if !defined( ITK_TEMPLATE_DO_NOT_INSTANTIATE )

@@ -66,39 +66,36 @@ public:
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
-  static const Self max(const Self &)
+  static const Self max(const Self & a)
   {
-    return Self( NumericTraits< T >::max() );
+    Self b( a.Size() );
+
+    b.Fill( NumericTraits< T >::max() );
+    return b;
   }
 
-  static const Self min(const Self &)
+  static const Self min(const Self & a)
   {
-    return Self( NumericTraits< T >::min() );
+    Self b( a.Size() );
+
+    b.Fill( NumericTraits< T >::min() );
+    return b;
   }
 
-  static const Self max()
+  static const Self Zero(const Self  & a)
   {
-    return Self( NumericTraits< T >::max() );
+    Self b( a.Size() );
+
+    b.Fill(NumericTraits< T >::Zero);
+    return b;
   }
 
-  static const Self min()
+  static const Self One(const Self & a)
   {
-    return Self( NumericTraits< T >::min() );
-  }
+    Self b( a.Size() );
 
-  static const Self NonpositiveMin()
-  {
-    return Self( NumericTraits< T >::NonpositiveMin() );
-  }
-
-  static const Self ZeroValue()
-  {
-    return Self( NumericTraits< T >::ZeroValue() );
-  }
-
-  static const Self OneValue()
-  {
-    return Self( NumericTraits< T >::OneValue() );
+    b.Fill(NumericTraits< T >::One);
+    return b;
   }
 
   /** Set the length of the input array and fill it with zeros. */
@@ -114,22 +111,7 @@ public:
     return m.GetSize();
   }
 
-  /** \note: the functions are prefered over the member variables as
-   * they are defined for all partial specialization
-   */
-  static const Self ITKCommon_EXPORT Zero;
-  static const Self ITKCommon_EXPORT One;
 };
-
-// a macro to define and initialize static member variables with no dimension
-#define itkStaticNumericTraitsGenericArrayNoDimensionMacro(GENERIC_ARRAY,T) \
-  template< > \
-  const GENERIC_ARRAY< T > NumericTraits< GENERIC_ARRAY< T > >::Zero = GENERIC_ARRAY< T >( \
-  NumericTraits< T >::Zero); \
-  template< > \
-  const GENERIC_ARRAY< T > NumericTraits< GENERIC_ARRAY< T > >::One = GENERIC_ARRAY< T >( \
-  NumericTraits< T >::One); \
-
 } // end namespace itk
 
 #endif // __itkNumericTraitsArrayPixel_h

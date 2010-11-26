@@ -120,10 +120,20 @@ ColorTable< TPixel >
                  (TPixel)(0.7 * scale + shift),
                  (TPixel)(0.7 * scale + shift));
   m_ColorName[6] = "Grey0.70";
-
-  m_Color[7].Set((TPixel)(1.0 * scale + shift),
-                 (TPixel)(1.0 * scale + shift),
-                 (TPixel)(1.0 * scale + shift));
+  //
+  // to avoid numeric exception, need to make
+  // sure that the value assigned is clamped at
+  // max for TPixel.  Exceptions were happening
+  // on this assignment, even if realMax was
+  // set to NumericTraits<TPixel>::max().
+  typename NumericTraits< TPixel >::RealType
+    realMax(1.0 * scale + shift);
+  TPixel pixelMax(NumericTraits< TPixel >::max());
+  if(realMax < NumericTraits< TPixel >::max())
+    {
+    pixelMax = static_cast< TPixel >(realMax);
+    }
+  m_Color[7].Set(pixelMax,pixelMax,pixelMax);
   m_ColorName[7] = "White";
 }
 
@@ -163,11 +173,18 @@ ColorTable< TPixel >
     {
     delta = 0.0;
     }
-  TPixel gray;
 
   for ( i = 0; i < m_NumberOfColors; i++ )
     {
-    gray =  static_cast<TPixel>(minimum + i * delta);
+    typename NumericTraits< TPixel >::RealType
+      realGray( minimum + i * delta );
+
+    TPixel gray = NumericTraits< TPixel >::max();
+    if( realGray < NumericTraits< TPixel >::max() )
+      {
+      gray = static_cast< TPixel >(realGray);
+      }
+
     m_Color[i].Set(gray, gray, gray);
     std::ostringstream name;
     name << "Gray" << std::fixed << std::setprecision(2)
@@ -206,11 +223,18 @@ ColorTable< TPixel >
     }
   for ( i = 0; i < n / 2.0; i++ )
     {
-    m_Color[i].Set(
-      static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 ) ) * scale + shift),
-      static_cast<TPixel>(0 * scale + shift),
-      static_cast<TPixel>(0 * scale + shift));
-
+    //
+    // avoid overflow
+    typename NumericTraits < TPixel >::RealType
+      realR((( i + 1 ) / ( n / 2.0 + 1 ) ) * scale + shift);
+    TPixel r(NumericTraits< TPixel >::max());
+    if(realR < NumericTraits< TPixel >::max())
+      {
+      r = static_cast< TPixel >(realR);
+      }
+    TPixel g(static_cast<TPixel>(0 * scale + shift));
+    TPixel b(static_cast<TPixel>(0 * scale + shift));
+    m_Color[i].Set(r,g,b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2)
          << i / static_cast<float>(n);
@@ -219,11 +243,16 @@ ColorTable< TPixel >
 
   for ( i = 0; i < n / 2; i++ )
     {
-    m_Color[(int)( i + n / 2.0 )].Set(
-      static_cast<TPixel>( 1.0 * scale + shift),
-      static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift),
-      static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift));
-
+    typename NumericTraits< TPixel >::RealType
+      rdouble(1.0 * scale + shift);
+    TPixel r(NumericTraits<TPixel>::max());
+    if( rdouble < NumericTraits<TPixel>::max() )
+      {
+      r = static_cast<TPixel>(rdouble);
+      }
+    TPixel g = static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift);
+    TPixel b = static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift);
+    m_Color[(int)(i + n / 2.0 )].Set(r,g,b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2)
          << ( i + n / 2.0 ) / (float)n;

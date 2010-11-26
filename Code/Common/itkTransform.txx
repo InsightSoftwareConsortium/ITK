@@ -64,18 +64,7 @@ std::string Transform< TScalarType, NInputDimensions, NOutputDimensions >
 
   n << GetNameOfClass();
   n << "_";
-  if ( typeid( TScalarType ) == typeid( float ) )
-    {
-    n << "float";
-    }
-  else if ( typeid( TScalarType ) == typeid( double ) )
-    {
-    n << "double";
-    }
-  else
-    {
-    n << "other";
-    }
+  n << this->GetTransformTypeAsString(static_cast<TScalarType *>(0));
   n << "_" << this->GetInputSpaceDimension() << "_" << this->GetOutputSpaceDimension();
   return n.str();
 }

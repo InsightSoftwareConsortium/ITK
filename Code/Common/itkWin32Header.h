@@ -83,16 +83,10 @@
 // unreferenced local function has been removed
 #pragma warning ( disable : 4505 )
 
-// typename keyword in default template arguments is not accepted by
-// MSVC.  This macro should only be used in such places.
-#if !defined( CABLE_CONFIGURATION ) && ( _MSC_VER < 1310 )
-#define ITK_TYPENAME
-#else
-#define ITK_TYPENAME typename
 #endif
-#else
+
+// As of MSVS++ 7.1 and greater, typename is supported in templates
 #define ITK_TYPENAME typename
-#endif
 
 // When a class definition has ITK_EXPORT, the class will be
 // checked automatically, by Utilities/Dart/PrintSelfCheck.tcl

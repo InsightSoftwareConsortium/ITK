@@ -24,11 +24,10 @@
 namespace itk
 {
 /** \class FFTWRealToComplexConjugateImageFilter
- * \brief
+ * \brief TODO
  *
- * \ingroup
+ * \ingroup FourierTransform
  */
-
 template< class TPixel, unsigned int VDimension = 3 >
 class ITK_EXPORT FFTWRealToComplexConjugateImageFilter:
   public FFTRealToComplexConjugateImageFilter< TPixel, VDimension >

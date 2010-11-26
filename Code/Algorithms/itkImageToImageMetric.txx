@@ -358,7 +358,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 ::MultiThreadingInitialize(void)
 throw ( ExceptionObject )
 {
-  m_Threader->SetNumberOfThreads(m_NumberOfThreads);
+  this->SetNumberOfThreads(m_NumberOfThreads);
 
   if ( m_ThreaderNumberOfMovingImageSamples != NULL )
     {

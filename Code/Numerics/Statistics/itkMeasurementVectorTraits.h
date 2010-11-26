@@ -71,7 +71,6 @@ public:
     return ( len == 0 );
   }
 
-#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
   template< class TValueType1, unsigned int VLength, class TValueType2, unsigned int VLength2 >
   static MeasurementVectorLength Assert(const FixedArray< TValueType1, VLength > &,
                                         const FixedArray< TValueType2, VLength2 > &,
@@ -98,7 +97,6 @@ public:
     return 0;
   }
 
-#endif
   template< class TValueType1, class TValueType2 >
   static MeasurementVectorLength Assert(const Array< TValueType1 > & a,
                                         const Array< TValueType2 > & b, const char *errMsg = "Length Mismatch")
@@ -427,36 +425,12 @@ public:
   typedef typename TMeasurementVector::ValueType ValueType;
 };
 
-//
-// Visual Studio 6.0 and 7.0 are not capable of managing the next
-// template implementation. A macro workaround is provided.
-#define itkMeasurementVectorTraitsTypesMacro(T)          \
-  template< >                                            \
-  class MeasurementVectorTraitsTypes< std::vector< T > > \
-  {                                                      \
-public:                                                  \
-    typedef T ValueType;                                 \
-  };
-
-#if defined( _MSC_VER ) && ( _MSC_VER < 1310 )
-itkMeasurementVectorTraitsTypesMacro(char);
-itkMeasurementVectorTraitsTypesMacro(unsigned char);
-itkMeasurementVectorTraitsTypesMacro(short);
-itkMeasurementVectorTraitsTypesMacro(unsigned short);
-itkMeasurementVectorTraitsTypesMacro(int);
-itkMeasurementVectorTraitsTypesMacro(unsigned int);
-itkMeasurementVectorTraitsTypesMacro(long);
-itkMeasurementVectorTraitsTypesMacro(unsigned long);
-itkMeasurementVectorTraitsTypesMacro(float);
-itkMeasurementVectorTraitsTypesMacro(double);
-#else
 template< class T >
 class MeasurementVectorTraitsTypes< std::vector< T > >
 {
 public:
   typedef T ValueType;
 };
-#endif
 
 /** Traits for generating the MeasurementVectorType that best matches a
  * particular pixel type. */

@@ -13,7 +13,7 @@ UTILS_PROGS	=	nifti_stats nifti_tool nifti1_test
 THIS_DIR	=	`basename ${PWD}`
 
 ## Note the TARFILE_NAME embeds the release version number
-TARFILE_NAME	=	nifticlib-1.1.0
+TARFILE_NAME	=	nifticlib-2.0.0
 
 
 ## Compiler  defines
@@ -27,7 +27,7 @@ ANSI_FLAGS	= 	${GNU_ANSI_FLAGS}
 CFLAGS		=	$(ANSI_FLAGS)
 
 ## Command defines
-## gmake does not work on MacOSX or some versions of linux MAKE  = gmake 
+## gmake does not work on MacOSX or some versions of linux MAKE  = gmake
 RM		=	rm
 MV		=	mv
 CP		=	cp
@@ -43,12 +43,12 @@ INSTALL_INC_DIR	=	include
 ## Zlib defines
 ZLIB_INC	=	-I/usr/include
 ZLIB_PATH	=	-L/usr/lib
-ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz 
+ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz
 
 ##############################################################
 # platform specific redefines (to use, set ARCH appropriately)
 
-## ARCH = X86_64
+##ARCH = X86_64
 
 ifeq ($(ARCH),SGI) ## SGI 32bit
 ZLIB_INC	=	-I/usr/freeware/include
@@ -63,7 +63,7 @@ else
 ifeq ($(ARCH),X86_64) ## 64-bit Linux
 ZLIB_INC	=
 ZLIB_PATH	=
-ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz 
+ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz
 TAR		=	/bin/tar
 endif
 endif

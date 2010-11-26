@@ -1,0 +1,34 @@
+#!/bin/tcsh
+
+echo '------------- DISP nifti_1_header -------------'
+nifti_tool -disp_hdr -debug 2 -infiles rand.hdr > out.rand.hdr
+echo '------------- DISP nifti_analyze75 ------------'
+nifti_tool -disp_ana -debug 2 -infiles rand.hdr > out.rand.ana
+
+cp rand.hdr swap.ana.hdr
+cp rand.hdr swap.nim.hdr
+cp rand.hdr swap.old.hdr
+cp rand_nifti.hdr swap.old_nifti.hdr
+cp rand_nifti.hdr swap.new_nifti.hdr
+
+echo '------------- SWAP nifti_1_header -------------'
+nifti_tool -swap_as_nifti -infiles swap.nim.hdr -overwrite -debug 2
+echo '------------- SWAP nifti_analyze75 ------------'
+nifti_tool -swap_as_analyze -infiles swap.ana.hdr -overwrite -debug 2
+echo '------------- SWAP old analyze ----------------'
+nifti_tool -swap_as_old -infiles swap.old.hdr -overwrite -debug 2
+echo '------------- SWAP old vs new nifti ------------------'
+nifti_tool -swap_as_old -infiles swap.old_nifti.hdr -overwrite -debug 2
+nifti_tool -swap_as_nifti -infiles swap.new_nifti.hdr -overwrite -debug 2
+
+echo '------------- DISP nifti_1_header swapped -------------'
+nifti_tool -disp_hdr -debug 2 -infiles swap.nim.hdr > out.rand.swap.hdr
+echo '------------- DISP nifti_analyze75 swapped ------------'
+nifti_tool -disp_ana -debug 2 -infiles swap.ana.hdr > out.rand.swap.ana
+
+echo '------------- DIFF old/new analyze -----------'
+nifti_tool -diff_hdr -debug 2 -infiles swap.old.hdr swap.ana.hdr        \
+           > out.rand.swap.compare.analyze
+echo '------------- DIFF old/new nifti -------------'
+nifti_tool -diff_hdr -debug 2 -infiles swap.new_nifti.hdr swap.old_nifti.hdr  \
+           > out.rand.swap.compare.nifti

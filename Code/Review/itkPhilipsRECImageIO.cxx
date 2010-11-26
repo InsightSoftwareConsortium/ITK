@@ -799,11 +799,6 @@ void PhilipsRECImageIO::ReadImageInformation()
   this->SetDirection(2, dirz);
   this->SetDirection(3, dirBlock);
 
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-  EncapsulateMetaData< SpatialOrientation::ValidCoordinateOrientationFlags >(
-    thisDic, ITK_CoordinateOrientation, coord_orient);
-#endif
-
   EncapsulateMetaData< std::string >( thisDic, ITK_PatientID,
                                       std::string(par.patient_name, 32) );
   EncapsulateMetaData< std::string >( thisDic, ITK_ExperimentDate,

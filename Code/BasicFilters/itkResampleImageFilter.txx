@@ -47,6 +47,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   m_OutputStartIndex.Fill(0);
 
   m_Transform = IdentityTransform< TInterpolatorPrecisionType, ImageDimension >::New();
+  m_ThreaderTransform = NULL;
 
   m_InterpolatorIsBSpline = false;
   m_BSplineInterpolator = NULL;
@@ -151,6 +152,32 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   if ( !m_Transform )
     {
     itkExceptionMacro(<< "Transform not set");
+    }
+
+  // Allocate the array of transform clones to be used in every thread
+  if ( m_ThreaderTransform != NULL )
+    {
+    delete[] m_ThreaderTransform;
+    }
+
+  itk::MultiThreader * threader = this->GetMultiThreader();
+  const unsigned long numberOfThreads = threader->GetNumberOfThreads();
+
+  m_ThreaderTransform = new TransformPointerType[numberOfThreads - 1];
+
+  for ( unsigned int ithread = 0; ithread < numberOfThreads - 1; ++ithread )
+    {
+    // Create a copy of the main transform to be used in this thread.
+    LightObject::Pointer anotherTransform = this->m_Transform->CreateAnother();
+    // This static_cast should always work since the pointer was created by
+    // CreateAnother() called from the transform itself.
+    TransformType *transformCopy = static_cast< TransformType * >( anotherTransform.GetPointer() );
+    /** Set the fixed parameters first. Some transforms have parameters which depend on
+        the values of the fixed parameters. For instance, the BSplineDeformableTransform
+        checks the grid size (part of the fixed parameters) before setting the parameters. */
+    transformCopy->SetFixedParameters( this->m_Transform->GetFixedParameters() );
+    transformCopy->SetParameters( this->m_Transform->GetParameters() );
+    this->m_ThreaderTransform[ithread] = transformCopy;
     }
 
   if ( !m_Interpolator )
@@ -298,6 +325,18 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   // needs to be made lower.
   double precisionConstant = 1 << ( NumericTraits< double >::digits >> 1 );
 
+  const TransformType * transform;
+
+  if ( threadId > 0 )
+    {
+    transform = this->m_ThreaderTransform[threadId - 1];
+    }
+  else
+    {
+    transform = this->m_Transform;
+    }
+
+
   if ( m_InterpolatorIsBSpline )
     {
     while ( !outIt.IsAtEnd() )
@@ -306,7 +345,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
       outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
 
       // Compute corresponding input pixel position
-      inputPoint = m_Transform->TransformPoint(outputPoint);
+      inputPoint = transform->TransformPoint(outputPoint);
       inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
       // The inputIndex is precise to many decimal points, but this precision
@@ -371,7 +410,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
       outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
 
       // Compute corresponding input pixel position
-      inputPoint = m_Transform->TransformPoint(outputPoint);
+      inputPoint = transform->TransformPoint(outputPoint);
       inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
       // The inputIndex is precise to many decimal points, but this precision
@@ -435,7 +474,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
       outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
 
       // Compute corresponding input pixel position
-      inputPoint = m_Transform->TransformPoint(outputPoint);
+      inputPoint = transform->TransformPoint(outputPoint);
       inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
       // The inputIndex is precise to many decimal points, but this precision
@@ -554,8 +593,22 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   index = outIt.GetIndex();
   outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
 
+  // Use the Transform that corresponds to this thread
+  // Transforms are not thread-safe, so they have been replicated.
+  const TransformType * transform;
+
+  if ( threadId > 0 )
+    {
+    transform = this->m_ThreaderTransform[threadId - 1];
+    }
+  else
+    {
+    transform = this->m_Transform;
+    }
+
+
   // Compute corresponding input pixel position
-  inputPoint = m_Transform->TransformPoint(outputPoint);
+  inputPoint = transform->TransformPoint(outputPoint);
   inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
   // As we walk across a scan line in the output image, we trace
@@ -576,7 +629,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   //
   ++index[0];
   outputPtr->TransformIndexToPhysicalPoint(index, tmpOutputPoint);
-  tmpInputPoint = m_Transform->TransformPoint(tmpOutputPoint);
+  tmpInputPoint = transform->TransformPoint(tmpOutputPoint);
   inputPtr->TransformPhysicalPointToContinuousIndex(tmpInputPoint,
                                                     tmpInputIndex);
   delta = tmpInputIndex - inputIndex;
@@ -624,7 +677,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 
     // Compute corresponding input pixel continuous index, this index
     // will incremented in the scanline loop
-    inputPoint = m_Transform->TransformPoint(outputPoint);
+    inputPoint = transform->TransformPoint(outputPoint);
     inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
     // The inputIndex is precise to many decimal points, but this precision

@@ -29,7 +29,6 @@ namespace itk
 * erosions/dilation
 *
 **/
-#if defined( _MSC_VER ) && _MSC_VER >= 1300
 template< class TImage, class TBres, class TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
@@ -51,16 +50,6 @@ void DoAnchorFace(const TImage * input,
                   const typename TImage::RegionType AllImage,
                   const typename TImage::RegionType face);
 
-// This creates a list of non overlapping faces that need to be
-// processed for this particular line orientation. We are doing this
-// instead of using the Face Calculator to avoid repeated operations
-// starting from corners.
-
-//template <class TRegion, class TLine>
-//std::list<TRegion> mkFaceList(const TRegion AllImage,
-//                              const TLine line);
-
-#endif
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

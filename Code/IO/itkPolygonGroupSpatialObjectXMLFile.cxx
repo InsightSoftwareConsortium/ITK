@@ -149,13 +149,6 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
       //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
       coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
       }
-    //itk::EncapsulateMetaData<itk::SpatialOrientation::ValidAnalyzeOrientationFlags>(thisDic,
-    // ITK_AnalyzeOrientation, temporient);
-#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
-    itk::EncapsulateMetaData< itk::SpatialOrientation::ValidCoordinateOrientationFlags >(thisDic,
-                                                                                         ITK_CoordinateOrientation,
-                                                                                         coord_orient);
-#endif
     //
     // set direction cosines
     }

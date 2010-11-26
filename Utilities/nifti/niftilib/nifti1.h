@@ -276,7 +276,7 @@ typedef struct nifti_1_header nifti_1_header ;
    program can simply ignore all extended header sections simply by jumping
    straight to the image data using vox_offset.
 -----------------------------------------------------------------------------*/
-   
+
 /*! \struct nifti1_extender
     \brief This structure represents a 4-byte string that should follow the
            binary nifti_1_header data in a NIFTI-1 header file.  If the char
@@ -910,7 +910,7 @@ typedef struct { unsigned char r,g,b; } rgb_byte ;
 
 #define NIFTI_INTENT_QUATERNION 1010
 
- /*! Dimensionless value - no params - although, as in _ESTIMATE 
+ /*! Dimensionless value - no params - although, as in _ESTIMATE
      the name of the parameter may be stored in intent_name.     */
 
 #define NIFTI_INTENT_DIMLESS    1011
