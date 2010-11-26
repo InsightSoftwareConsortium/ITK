@@ -42,6 +42,8 @@ namespace gdcm
                 operator()(const Segment* segment) const
             { return std::make_pair(segment->First(), segment); }
         };
+        virtual ~Segment() {}
+
     protected:
         Segment(const EntryType* first, const EntryType* last) {
             _first = first; _last = last;
@@ -63,6 +65,7 @@ namespace gdcm
             std::copy(this->_first + 2, this->_last, std::back_inserter(expanded));
             return true;
         }
+        virtual ~DiscreteSegment() {}
     };
 
     // linear segment (opcode = 1)
@@ -92,6 +95,7 @@ namespace gdcm
             }
             return true;
         }
+        virtual ~LinearSegment() {}
     };
 
     // indirect segment (opcode = 2)
@@ -129,6 +133,7 @@ namespace gdcm
             }
             return true;
         }
+        virtual ~IndirectSegment() {}
     };
 
     template <typename EntryType>

@@ -223,10 +223,10 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
 
   // Now check that the same metric value is computed when the number
   // of threads is adjusted from 1 to 8.
-  for (int numThreads = 1; numThreads <= 8; numThreads++)
+  for (int currNumThreadsToTest = 1; currNumThreadsToTest <= 8; currNumThreadsToTest++)
     {
-    itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numThreads);
-    metric->SetNumberOfThreads(numThreads);
+    itk::MultiThreader::SetGlobalMaximumNumberOfThreads(currNumThreadsToTest);
+    metric->SetNumberOfThreads(currNumThreadsToTest);
     metric->Initialize();
 
     std::cout << "Threads Metric    d(Metric)/d(param[1]) " << std::endl;
@@ -234,7 +234,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     measure = metric->GetValue( parameters );
     metric->GetDerivative( parameters, derivative );
     std::cout.width(4);
-    std::cout << numThreads;
+    std::cout << currNumThreadsToTest;
     std::cout.width(10);
     std::cout.precision(5);
     std::cout << measure;
@@ -256,7 +256,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     if ( fabs(measure - referenceMeasure) > 1e-5 || !sameDerivative )
       {
       std::cout << "Testing different number of threads... FAILED" << std::endl;
-      std::cout << "Metric value computed with " << numThreads
+      std::cout << "Metric value computed with " << currNumThreadsToTest
                 << " threads is incorrect. Computed value is "
                 << measure << ", should be " << referenceMeasure
                 << ", computed derivative is " << derivative
@@ -272,7 +272,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   // used to verify the correctness of the metric under a particular
   // usage scenario.
   metric->SetNumberOfThreads(8);
-  int numThreads = 2;
+  const int numThreads = 2;
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numThreads);
   metric->Initialize();
 

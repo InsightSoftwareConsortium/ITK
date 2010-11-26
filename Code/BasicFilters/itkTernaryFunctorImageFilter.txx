@@ -45,7 +45,7 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 ::SetInput1(const TInputImage1 *image1)
 {
   // The ProcessObject is not const-correct so the const_cast is required here
-  SetNthInput( 0, const_cast< TInputImage1 * >( image1 ) );
+  this->SetNthInput( 0, const_cast< TInputImage1 * >( image1 ) );
 }
 
 /**
@@ -58,7 +58,7 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 ::SetInput2(const TInputImage2 *image2)
 {
   // The ProcessObject is not const-correct so the const_cast is required here
-  SetNthInput( 1, const_cast< TInputImage2 * >( image2 ) );
+  this->SetNthInput( 1, const_cast< TInputImage2 * >( image2 ) );
 }
 
 /**
@@ -71,7 +71,7 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 ::SetInput3(const TInputImage3 *image3)
 {
   // The ProcessObject is not const-correct so the const_cast is required here
-  SetNthInput( 2, const_cast< TInputImage3 * >( image3 ) );
+  this->SetNthInput( 2, const_cast< TInputImage3 * >( image3 ) );
 }
 
 /**

@@ -460,6 +460,48 @@ QuickSelect(TSubsample *sample,
                                    beginIndex, endIndex, kth, medianGuess);
 }
 
+
+template< class TSubsample >
+inline int UnguardedPartition(TSubsample *sample,
+                              unsigned int activeDimension,
+                              int beginIndex,
+                              int endIndex,
+                              typename TSubsample::MeasurementType pivotValue)
+{
+  typedef typename TSubsample::MeasurementType MeasurementType;
+  while ( true )
+    {
+    MeasurementType beginValue =
+      sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension];
+
+    while ( beginValue < pivotValue )
+      {
+      ++beginIndex;
+
+      beginValue = sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension];
+      }
+
+    --endIndex;
+
+    MeasurementType endValue =
+      sample->GetMeasurementVectorByIndex(endIndex)[activeDimension];
+
+    while ( pivotValue < endValue )
+      {
+      --endIndex;
+      endValue = sample->GetMeasurementVectorByIndex(endIndex)[activeDimension];
+      }
+
+    if ( !( beginIndex < endIndex ) )
+      {
+      return beginIndex;
+      }
+
+    sample->Swap(beginIndex, endIndex);
+
+    ++beginIndex;
+    }
+}
 template< class TSubsample >
 inline typename TSubsample::MeasurementType
 NthElement(TSubsample *sample,
@@ -503,48 +545,6 @@ NthElement(TSubsample *sample,
   InsertSort(sample, activeDimension, beginElement,  endElement);
 
   return sample->GetMeasurementVectorByIndex(nthIndex)[activeDimension];
-}
-
-template< class TSubsample >
-inline int UnguardedPartition(TSubsample *sample,
-                              unsigned int activeDimension,
-                              int beginIndex,
-                              int endIndex,
-                              typename TSubsample::MeasurementType pivotValue)
-{
-  typedef typename TSubsample::MeasurementType MeasurementType;
-  while ( true )
-    {
-    MeasurementType beginValue =
-      sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension];
-
-    while ( beginValue < pivotValue )
-      {
-      ++beginIndex;
-
-      beginValue = sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension];
-      }
-
-    --endIndex;
-
-    MeasurementType endValue =
-      sample->GetMeasurementVectorByIndex(endIndex)[activeDimension];
-
-    while ( pivotValue < endValue )
-      {
-      --endIndex;
-      endValue = sample->GetMeasurementVectorByIndex(endIndex)[activeDimension];
-      }
-
-    if ( !( beginIndex < endIndex ) )
-      {
-      return beginIndex;
-      }
-
-    sample->Swap(beginIndex, endIndex);
-
-    ++beginIndex;
-    }
 }
 
 template< class TSubsample >

@@ -276,7 +276,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   char *buffer;
   if(pixelHdrFlag)
     {
-    char* buffer = new char[imageHdr.GENESIS_IH_img_l_exam];
+    buffer = new char[imageHdr.GENESIS_IH_img_l_exam];
     if ( buffer == NULL )
       {
       f.close();

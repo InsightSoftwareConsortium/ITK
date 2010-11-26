@@ -270,9 +270,8 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
                                                                    // threshold
                                                                    // guess
     }
-
   // If the lower threshold has not been set, find it.
-  else if ( !m_FindUpperThreshold )
+  else
     {
     AccumulateType lower = static_cast< AccumulateType >( m_Lower );
     AccumulateType upper = static_cast< AccumulateType >( m_Upper );
