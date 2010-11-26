@@ -77,7 +77,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-class ITK_EXPORT ExhaustiveOptimizer:
+class ITKNumerics_EXPORT ExhaustiveOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

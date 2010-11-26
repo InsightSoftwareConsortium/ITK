@@ -57,7 +57,7 @@ namespace itk
  *
  */
 
-class ITK_EXPORT PowellOptimizer:
+class ITKNumerics_EXPORT PowellOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

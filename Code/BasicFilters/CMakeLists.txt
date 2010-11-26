@@ -1,4 +1,4 @@
-add_library(ITKBasicFilters itkVTKImageExportBase.cxx)
+add_library(ITKBasicFilters ${ITK_LIBRARY_BUILD_TYPE} itkVTKImageExportBase.cxx)
 target_link_libraries(ITKBasicFilters ITKCommon)
 if(ITK_LIBRARY_PROPERTIES)
   set_target_properties(ITKBasicFilters PROPERTIES ${ITK_LIBRARY_PROPERTIES})

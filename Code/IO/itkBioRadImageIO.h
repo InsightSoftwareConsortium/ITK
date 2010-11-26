@@ -45,7 +45,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITK_EXPORT BioRadImageIO:public ImageIOBase
+class ITKIO_EXPORT BioRadImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

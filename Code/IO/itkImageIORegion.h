@@ -47,7 +47,7 @@ namespace itk
  * \sa MeshRegion
  */
 
-class ITK_EXPORT ImageIORegion:public Region
+class ITKIO_EXPORT ImageIORegion:public Region
 {
 public:
   /** Standard class typedefs. */
@@ -157,7 +157,7 @@ private:
 };
 
 // Declare operator<<
-extern std::ostream & operator<<(std::ostream & os, const ImageIORegion & region);
+extern ITKIO_EXPORT std::ostream & operator<<(std::ostream & os, const ImageIORegion & region);
 
 /** \class ImageIORegionAdaptor
  * \brief Helper class for converting ImageRegions into ImageIORegions and back.

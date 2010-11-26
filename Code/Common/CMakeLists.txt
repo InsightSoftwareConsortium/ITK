@@ -137,7 +137,7 @@ if(ITK_EXPLICIT_INSTANTIATION)
   )
 endif(ITK_EXPLICIT_INSTANTIATION)
 
-add_library(ITKCommon ${ITK_COMMON_BUILD_TYPE} ${ITKCommon_SRCS} ${WRAPPER_EXPLICIT_ITKCommon_SRCS})
+add_library(ITKCommon ${ITK_LIBRARY_BUILD_TYPE} ${ITKCommon_SRCS} ${WRAPPER_EXPLICIT_ITKCommon_SRCS})
 
 target_link_libraries(ITKCommon itkvnl_inst itksys)
 if(UNIX)

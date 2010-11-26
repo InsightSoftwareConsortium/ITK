@@ -21,6 +21,7 @@
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
+#include "itkWin32Header.h"
 
 #include <vector>
 
@@ -35,7 +36,7 @@ namespace bio
  * following update rules (typical Partial Differential Equations).
  *
  */
-class GeneNetwork
+class ITKAlgorithms_EXPORT GeneNetwork
 {
 public:
   typedef   std::vector< float > ProteomeType;

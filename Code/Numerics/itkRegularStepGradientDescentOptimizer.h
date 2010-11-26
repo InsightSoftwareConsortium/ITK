@@ -28,7 +28,7 @@ namespace itk
  * \ingroup Numerics  Optimizers
  *
  */
-class ITK_EXPORT RegularStepGradientDescentOptimizer:
+class ITKNumerics_EXPORT RegularStepGradientDescentOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:

@@ -45,7 +45,7 @@ namespace itk
  *
  */
 
-class ITK_EXPORT DICOMSeriesFileNames:public Object
+class ITKIO_EXPORT DICOMSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */

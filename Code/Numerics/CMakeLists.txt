@@ -2,7 +2,7 @@ add_subdirectory(Statistics)
 add_subdirectory(FEM)
 add_subdirectory(NeuralNetworks)
 
-add_library(ITKNumerics
+add_library(ITKNumerics ${ITK_LIBRARY_BUILD_TYPE}
   itkAmoebaOptimizer.cxx
   itkCacheableScalarFunction.cxx
   itkCompositeValleyFunction.cxx

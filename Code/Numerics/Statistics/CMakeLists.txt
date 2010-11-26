@@ -1,6 +1,6 @@
 # Sources for ITKStatisticsNew library
 
-add_library(ITKStatistics
+add_library(ITKStatistics ${ITK_LIBRARY_BUILD_TYPE}
   itkDenseFrequencyContainer2.cxx
   itkSparseFrequencyContainer2.cxx
   itkDecisionRule.cxx

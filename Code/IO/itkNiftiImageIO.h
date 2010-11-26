@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup IOFilters
  */
-class ITK_EXPORT NiftiImageIO:public ImageIOBase
+class ITKIO_EXPORT NiftiImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

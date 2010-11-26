@@ -90,7 +90,7 @@ private:
   double m_Sigma;
 }; // end of class
 
-class CompositeValleyFunction:public CacheableScalarFunction
+class ITKNumerics_EXPORT CompositeValleyFunction:public CacheableScalarFunction
 {
 public:
 

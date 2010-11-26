@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-class ITK_EXPORT SingleValuedVnlCostFunctionAdaptor:
+class ITKNumerics_EXPORT SingleValuedVnlCostFunctionAdaptor:
   public vnl_cost_function
 {
 public:
