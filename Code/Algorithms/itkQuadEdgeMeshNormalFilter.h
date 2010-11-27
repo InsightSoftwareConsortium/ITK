@@ -37,20 +37,23 @@ namespace itk
  * The difference between each method relies in the definition of the weight
  * \f$ \omega_i \f$ that you can specify by the method SetWeight.
  *
- * GOURAUD \f$ \omega_i = 1\f$ [1]
- * THURMER \f$ \omega_i = \text{Angle of the considered triangle at the given vertex \f$ [2]
- * AREA \f$ \omega_i = \text{Area}(t_i)\f$ [3]
+ * <ul>
+ *    <li> GOURAUD \f$ \omega_i = 1\f$ [1] </li>
+ *    <li> THURMER \f$ \omega_i = \f$ Angle of the considered triangle at the given vertex} [2] </li>
+ *    <li> AREA \f$ \omega_i = \text{Area}(t_i)\f$ [3] </li>
+ * </ul>
  *
  * These weights are defined in the literature:
- * [1] Henri Gouraud.
- * Continuous shading of curved surfaces.
- * IEEE Transaction on Computers, 20(6):623-629, 1971
- * [2] Shuangshuang Jin, Robert R. Lewis, and David West.
- * A comparison of algorithms for vertex normal computation.
- * The Visual Computer, 21(1-2):71-82, 2005.
- * [3] Grit Thurmer and Charles A. Wuthrich.
- * Computing vertex normals from polygonal facets.
- * Journal of Graphic Tools, 3(1):43-46, 1998.
+ * <ul>
+ *    <li> [1] Henri Gouraud. Continuous shading of curved surfaces.
+ *    IEEE Transaction on Computers, 20(6):623-629, 1971 </li>
+ *    <li> [2] Shuangshuang Jin, Robert R. Lewis, and David West.
+ *    A comparison of algorithms for vertex normal computation.
+ *    The Visual Computer, 21(1-2):71-82, 2005. </li>
+ *    <li> [3] Grit Thurmer and Charles A. Wuthrich.
+ *    Computing vertex normals from polygonal facets.
+ *    Journal of Graphic Tools, 3(1):43-46, 1998. </li>
+ * </ul>
  *
  * \note By default the weight is set to the TURMER weight.
  *
