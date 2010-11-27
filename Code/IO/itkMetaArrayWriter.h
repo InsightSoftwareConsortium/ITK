@@ -158,6 +158,8 @@ protected:
 
   MetaArrayWriter();
   virtual ~MetaArrayWriter();
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
 
   bool m_Binary;

@@ -240,6 +240,14 @@ void TransformFileReader
       }
     }
 }
+
+void TransformFileReader::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "FileName: " << m_FileName << std::endl;
+}
+
 } // namespace itk
 
 #endif

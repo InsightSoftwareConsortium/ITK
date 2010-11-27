@@ -102,6 +102,15 @@ void TransformFileWriter
     }
   out.close();
 }
+
+void TransformFileWriter::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "Precision: " << m_Precision << std::endl;
+}
+
 } // namespace itk
 
 #endif
