@@ -482,7 +482,8 @@ RayCastHelper< TInputImage, TCoordRep >
 {
   double maxInterDist, interDist;
   double cornerVect[4][3];
-  int    cross[4][3], noInterFlag[6];
+  int    cross[4][3];
+  bool   noInterFlag[6];
   int    nSidesCrossed, crossFlag, c[4];
   double ax, ay, az, bx, by, bz;
   double cubeInter[6][3];
@@ -513,11 +514,11 @@ RayCastHelper< TInputImage, TCoordRep >
       intercepty[j] = m_CurrentRayPositionInMM[1] + d[j] * m_RayDirectionInMM[1];
       interceptz[j] = m_CurrentRayPositionInMM[2] + d[j] * m_RayDirectionInMM[2];
 
-      noInterFlag[j] = 1;  //OK
+      noInterFlag[j] = true;  //OK
       }
     else
       {
-      noInterFlag[j] = 0;  //NOT OK
+      noInterFlag[j] = false;  //NOT OK
       }
     }
 
@@ -554,13 +555,13 @@ RayCastHelper< TInputImage, TCoordRep >
     // Calculate vectors from corner of ct volume to intercept.
     for ( i = 0; i < 4; i++ )
       {
-      if ( noInterFlag[j] == 1 )
+      if ( noInterFlag[j] )
         {
         cornerVect[i][0] = m_BoundingCorner[c[i]][0] - interceptx[j];
         cornerVect[i][1] = m_BoundingCorner[c[i]][1] - intercepty[j];
         cornerVect[i][2] = m_BoundingCorner[c[i]][2] - interceptz[j];
         }
-      else if ( noInterFlag[j] == 0 )
+      else
         {
         cornerVect[i][0] = 0;
         cornerVect[i][1] = 0;
