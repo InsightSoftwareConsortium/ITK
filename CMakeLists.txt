@@ -172,16 +172,6 @@ option(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give 
 mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
 
 #-----------------------------------------------------------------------------
-# ITK turn on the use of experimental IO factories for the TransformFileReader and TransformFileWriter
-option(ITK_USE_TRANSFORM_IO_FACTORIES "Turn on the experimental IO factories for reading and writing transforms." OFF)
-mark_as_advanced(ITK_USE_TRANSFORM_IO_FACTORIES)
-if(ITK_USE_TRANSFORM_IO_FACTORIES)
-  if(NOT ITK_USE_REVIEW)
-    message(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental transform IO factories.")
-  endif(NOT ITK_USE_REVIEW)
-endif(ITK_USE_TRANSFORM_IO_FACTORIES)
-
-#-----------------------------------------------------------------------------
 # Installation vars.
 # ITK_INSTALL_BIN_DIR          - binary dir (executables)
 # ITK_INSTALL_LIB_DIR          - library dir (libs)

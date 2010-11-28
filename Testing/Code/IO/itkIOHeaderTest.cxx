@@ -81,6 +81,11 @@
 #include "itkTIFFImageIOFactory.h"
 #include "itkTransformFileReader.h"
 #include "itkTransformFileWriter.h"
+#include "itkMatlabTransformIO.h"
+#include "itkMatlabTransformIOFactory.h"
+#include "itkTransformIOFactory.h"
+#include "itkTxtTransformIO.h"
+#include "itkTxtTransformIOFactory.h"
 #include "itkVTKImageIO.h"
 #include "itkVTKImageIOFactory.h"
 

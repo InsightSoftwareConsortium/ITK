@@ -108,9 +108,6 @@ void RegisterTests()
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif
 
-#ifdef ITK_USE_TRANSFORM_IO_FACTORIES
-  REGISTER_TEST(itkTransformFileReaderWriterTest);
-#endif
 
   REGISTER_TEST( itkBoxMeanImageFilterTest );
   REGISTER_TEST( itkBoxSigmaImageFilterTest );
