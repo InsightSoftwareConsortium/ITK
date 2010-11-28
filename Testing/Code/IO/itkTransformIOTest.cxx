@@ -34,7 +34,7 @@ static int oneTest(const char *goodname,const char *badname)
   unsigned int i;
   // Create an odd type of transform, and register it
   typedef itk::AffineTransform<double,4> AffineTransformType;
-  typedef itk::AffineTransform<double,6> AffineTransformTypeNotRegistered;
+  typedef itk::AffineTransform<double,10> AffineTransformTypeNotRegistered;
   itk::TransformFactory<AffineTransformType>::RegisterTransform();
   AffineTransformType::Pointer affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
@@ -183,12 +183,13 @@ secondTest()
      << std::endl
      << "#Transform 0"
      << std::endl
-     << "Transform: AffineTransform_double_4_4"
+     << "Transform: AffineTransform_double_10_10"
      << std::endl
-     << "Parameters: 0 1 2 3 4 5 6 7 8 9 10 11 12"
-     << " 13 14 15 16 17 18 19"
+     << "Parameters: "
+     << "  0 1 2 3 4 5 6 7 8 9 10 11 12"
+     << " 13 14 15 16 17 18 19 20 21 22"
      << std::endl
-     << "FixedParameters: 0 1 2 3 4 5";
+     << "FixedParameters: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18";
   fb.close();
   itk::TransformFileReader::Pointer reader;
   reader = itk::TransformFileReader::New();

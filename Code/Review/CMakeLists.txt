@@ -77,7 +77,7 @@ set(ITKReview_SRCS
   itkGeometryUtilities.cxx
   )
 add_library(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
-target_link_libraries(ITKReview ITKCommon itkvnl)
+target_link_libraries(ITKReview ITKCommon ${VXL_NUMERICS_LIBRARIES} )
 if(ITK_LIBRARY_PROPERTIES)
   set_target_properties(ITKReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 endif(ITK_LIBRARY_PROPERTIES)

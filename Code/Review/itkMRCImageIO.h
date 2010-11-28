@@ -20,6 +20,7 @@
 
 #include "itkStreamingImageIOBase.h"
 #include "itkMRCHeaderObject.h"
+#include "itkGenericUtilities.h"
 #include <numeric>
 
 namespace itk
@@ -123,7 +124,7 @@ private:
     // this could be replaced with std::min_element and
     // std::max_element, but that is slighlty less efficient
     std::pair< ConstPixelPointer, ConstPixelPointer > mm =
-      min_max_element(bufferBegin, bufferEnd);
+      itk::min_max_element(bufferBegin, bufferEnd);
 
     double mean = std::accumulate( bufferBegin, bufferEnd, double(0.0) )
                   / std::distance(bufferBegin, bufferEnd);
