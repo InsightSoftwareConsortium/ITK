@@ -115,6 +115,8 @@ namespace itk
 class ITK_EXPORT Bruker2DSEQImageIO:public ImageIOBase
 {
 public:
+  typedef ImageIOBase SuperClass;
+
   /** Standard class typedefs. */
   typedef Bruker2DSEQImageIO   Self;
   typedef ImageIOBase          Superclass;
@@ -174,6 +176,8 @@ public:
   {
     return;
   }
+
+  using SuperClass::SetPixelTypeInfo;
 
 protected:
   Bruker2DSEQImageIO();

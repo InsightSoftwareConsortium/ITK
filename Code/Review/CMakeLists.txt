@@ -23,7 +23,7 @@ set(ITKIOReview_SRCS
 include_directories(${ITK_SOURCE_DIR}/Utilities/openjpeg)
 
 add_library(ITKIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKIOReview_SRCS})
-target_link_libraries(ITKIOReview  ITKIO itkopenjpeg)
+target_link_libraries(ITKIOReview ITKCommon ITKIO itkopenjpeg)
 if(ITK_LIBRARY_PROPERTIES)
   set_target_properties(ITKIOReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 endif(ITK_LIBRARY_PROPERTIES)
