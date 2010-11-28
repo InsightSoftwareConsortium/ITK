@@ -59,6 +59,14 @@ git remote set-url origin git://itk.org/ITK.git
 "
     exit 1
   else
+    echo "Setting up upstream remote to the itk.org repository..."
+    if ! git config remote.upstream.url > /dev/null ; then
+      git remote add upstream git://itk.org/ITK.git
+      git remote set-url --push upstream git@itk.org:ITK.git
+      echo "Done"
+    else
+      echo "upstream is already configured."
+    fi
     echo
     echo "WARNING: continuing with non-standard origin remote."
   fi
