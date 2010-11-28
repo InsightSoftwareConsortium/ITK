@@ -1002,9 +1002,9 @@ the File-set.
 
 {
   //const gdcm::DataElement &de_drs = ds.GetDataElement( Tag(0x4,0x1220) ); // DirectoryRecordSequence
-  SmartPointer<SequenceOfItems> sqi = de_drs.GetValueAsSQ();
-  gdcm::SequenceOfItems::SizeType n = sqi->GetNumberOfItems();
-  const Item &item = sqi->GetItem( n ); // last item
+  SmartPointer<SequenceOfItems> local_sqi = de_drs.GetValueAsSQ();
+  gdcm::SequenceOfItems::SizeType n = local_sqi->GetNumberOfItems();
+  const Item &item = local_sqi->GetItem( n ); // last item
   VL sub = item.GetLength<ExplicitDataElement>();
   // Let's substract item length as well as the item sequence delimiter end (tag + vl => 8)
   offsetofthelastdirectoryrecordoftherootdirectoryentity.SetValue( fmi_len + fmi_len_offset2 - sub - 8 );

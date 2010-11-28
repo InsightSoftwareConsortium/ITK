@@ -227,7 +227,7 @@ bool ComputeZSpacingFromIPP(const DataSet &ds, double &zspacing)
     Attribute<0x0020,0x0032> ipp;
     ipp.SetFromDataElement(de);
     double dist = 0;
-    for (int i = 0; i < 3; ++i) dist += normal[i]*ipp[i];
+    for (unsigned int it = 0; it < 3; ++it) dist += normal[it]*ipp[it];
     distances.push_back( dist );
     }
   assert( distances.size() == nitems );
@@ -1213,11 +1213,11 @@ void SetDataElementInSQAsItemNumber(DataSet & ds, DataElement const & de, Tag co
     if( !ds.FindDataElement( tfgs ) )
       {
       sqi = new SequenceOfItems;
-      DataElement de( tfgs );
-      de.SetVR( VR::SQ );
-      de.SetValue( *sqi );
-      de.SetVLToUndefined();
-      ds.Insert( de );
+      DataElement dataElement( tfgs );
+      dataElement.SetVR( VR::SQ );
+      dataElement.SetValue( *sqi );
+      dataElement.SetVLToUndefined();
+      ds.Insert( dataElement );
       }
     //sqi = (SequenceOfItems*)ds.GetDataElement( tfgs ).GetSequenceOfItems();
     sqi = ds.GetDataElement( tfgs ).GetValueAsSQ();
@@ -1235,11 +1235,11 @@ void SetDataElementInSQAsItemNumber(DataSet & ds, DataElement const & de, Tag co
     if( !subds.FindDataElement( tpms ) )
       {
       SequenceOfItems *sqi2 = new SequenceOfItems;
-      DataElement de( tpms );
-      de.SetVR( VR::SQ );
-      de.SetValue( *sqi2 );
-      de.SetVLToUndefined();
-      subds.Insert( de );
+      DataElement dataElement( tpms );
+      dataElement.SetVR( VR::SQ );
+      dataElement.SetValue( *sqi2 );
+      dataElement.SetVLToUndefined();
+      subds.Insert( dataElement );
       }
 
     //sqi = (SequenceOfItems*)subds.GetDataElement( tpms ).GetSequenceOfItems();

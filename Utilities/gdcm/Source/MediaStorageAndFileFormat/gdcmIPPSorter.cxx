@@ -135,13 +135,13 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
       const char *value =  scanner.GetValue(filename, ipp);
       if( value )
         {
-        //gdcmDebugMacro( filename << " has " << ipp << " = " << value );
-        Element<VR::DS,VM::VM3> ipp;
-        std::stringstream ss;
-        ss.str( value );
-        ipp.Read( ss );
+        //gdcmDebugMacro( filename << " has " << ipp<< " = " << value );
+        Element<VR::DS,VM::VM3> ippElement;
+        std::stringstream sstream;
+        sstream.str( value );
+        ippElement.Read( sstream );
         double dist = 0;
-        for (int i = 0; i < 3; ++i) dist += normal[i]*ipp[i];
+        for (int i = 0; i < 3; ++i) dist += normal[i]*ippElement[i];
         // FIXME: This test is weak, since implicitely we are doing a != on floating point value
         if( sorted.find(dist) != sorted.end() )
           {

@@ -1074,18 +1074,18 @@ void Printer::PrintDataSetOld(std::ostream &os, const DataSet &ds)
     DataSet::ConstIterator it = ds.Begin();
     for( ; it != ds.End(); ++it )
       {
-      const DataElement &de = *it;
-      //const DictEntry &entry = d.GetDictEntry(de.GetTag());
+      const DataElement &dataElement = *it;
+      //const DictEntry &entry = d.GetDictEntry(dataElement.GetTag());
       std::string owner;
       const char *strowner = 0;
-      if( de.GetTag().IsPrivate() /*&& de.GetTag().GetElement()*/ )
+      if( dataElement.GetTag().IsPrivate() /*&& dataElement.GetTag().GetElement()*/ )
         {
-        Tag t = de.GetTag().GetPrivateCreator();
-        const ByteValue * bv = de.GetByteValue();
+        Tag t = dataElement.GetTag().GetPrivateCreator();
+        const ByteValue * bv = dataElement.GetByteValue();
         if( t.GetElement() )
           {
-          const DataElement & de = ds.GetDataElement( t );
-          bv = de.GetByteValue();
+          const DataElement & dataElement = ds.GetDataElement( t );
+          bv = dataElement.GetByteValue();
           }
         else
           {
@@ -1102,31 +1102,31 @@ void Printer::PrintDataSetOld(std::ostream &os, const DataSet &ds)
         assert( owner[owner.size()-1] != ' ' );
         strowner = owner.c_str();
         }
-      const DictEntry &entry = dicts.GetDictEntry(de.GetTag(),strowner);
+      const DictEntry &entry = dicts.GetDictEntry(dataElement.GetTag(),strowner);
       // Use VR from dictionary
       VR vr = entry.GetVR();
       VM vm = entry.GetVM();
       // TODO: FIXME FIXME FIXME
-      const Tag& t = de.GetTag();
+      const Tag& t = dataElement.GetTag();
       //std::cerr << t << std::endl;
-      const VR::VRType vr_read = de.GetVR();
+      const VR::VRType vr_read = dataElement.GetVR();
       if( t == Tag(0x7fe0,0x0010) )
         {
         assert( vr & VR::OB_OW );
         //vr = VR::OW;
         //vm = VM::VM1_n;
         }
-      if ( de.GetTag().GetElement() == 0x0 )
+      if ( dataElement.GetTag().GetElement() == 0x0 )
         {
         assert( vm == VM::VM0 || vm == VM::VM1 ); // not found
         vm = VM::VM1; // this is a group length (VR=UL,VM=1)
         assert( vr == VR::INVALID || vr == VR::UL ); // not found
         vr = VR::UL;  // this is a group length (VR=UL,VM=1)
         }
-      else if( de.GetTag().IsPrivate() )
+      else if( dataElement.GetTag().IsPrivate() )
         {
-        //assert( !de.GetTag().GetElement() || vr == VR::INVALID );
-        //assert( !de.GetTag().GetElement() || vm == VM::VM0 );
+        //assert( !dataElement.GetTag().GetElement() || vr == VR::INVALID );
+        //assert( !dataElement.GetTag().GetElement() || vm == VM::VM0 );
         if ( vr == VR::INVALID )
           {
           vr = vr_read; // we have no choice for now but trust it
@@ -1146,20 +1146,20 @@ void Printer::PrintDataSetOld(std::ostream &os, const DataSet &ds)
       /*if( vr == VR::INVALID )
         {
         const VM vm = entry.GetVM();
-        const Value& val = de.GetValue();
-        os << de.GetTag();
+        const Value& val = dataElement.GetValue();
+        os << dataElement.GetTag();
         }
       else */
       if( VR::IsASCII(vr_read) || VR::IsBinary(vr_read) )
         {
-  //  _os << de << std::endl;
-        PrintElement(os, de, entry);
+  //  _os << dataElement << std::endl;
+        PrintElement(os, dataElement, entry);
         }
       else // INVALID case
         {
         const VM& vm = entry.GetVM(); (void)vm;
-        const Value& val = de.GetValue(); (void)val;
-        os << de.GetTag();
+        const Value& val = dataElement.GetValue(); (void)val;
+        os << dataElement.GetTag();
         //if( pstyle == Printer::CONDENSED_STYLE )
         //  {
         //  os << " " << vr_read;
@@ -1179,12 +1179,12 @@ void Printer::PrintDataSetOld(std::ostream &os, const DataSet &ds)
           }
         //if( pstyle == Printer::CONDENSED_STYLE )
         //  {
-        //  os << /*"\t " << std::dec << de.GetVL() << */
+        //  os << /*"\t " << std::dec << dataElement.GetVL() << */
         //    " ";
         //  }
           {
-          //_os << "\tVL=" << std::dec << de.GetVL() << "\tValueField=[";
-          os << " " << std::dec << de.GetVL() << " ";
+          //_os << "\tVL=" << std::dec << dataElement.GetVL() << "\tValueField=[";
+          os << " " << std::dec << dataElement.GetVL() << " ";
           }
 
         // Use super class of the template stuff
@@ -1201,9 +1201,9 @@ void Printer::PrintDataSetOld(std::ostream &os, const DataSet &ds)
         //  os << "]";
         //  }
         }
-      if( de.GetTag().GetElement() == 0x0 )
+      if( dataElement.GetTag().GetElement() == 0x0 )
         {
-        os << " (" << gd.GetName(de.GetTag().GetGroup() )
+        os << " (" << gd.GetName(dataElement.GetTag().GetGroup() )
           << ") " << entry.GetName() << std::endl;
         }
       else

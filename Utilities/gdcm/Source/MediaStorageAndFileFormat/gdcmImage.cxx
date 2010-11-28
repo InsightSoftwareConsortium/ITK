@@ -144,54 +144,56 @@ void Image::Print(std::ostream &os) const
   os << "NumberOfDimensions: " << NumberOfDimensions << "\n";
   if( NumberOfDimensions )
     {
-    assert( Dimensions.size() );
-    os << "Dimensions: (";
-    std::vector<unsigned int>::const_iterator it = Dimensions.begin();
-    os << *it;
-    for(++it; it != Dimensions.end(); ++it)
       {
-      os << "," << *it;
+      assert( Dimensions.size() );
+      os << "Dimensions: (";
+      std::vector<unsigned int>::const_iterator it = Dimensions.begin();
+      os << *it;
+      for(++it; it != Dimensions.end(); ++it)
+        {
+        os << "," << *it;
+        }
+      os << ")\n";
       }
-    os << ")\n";
-{
-  os << "Origin: (";
-  if( !Origin.empty() )
-    {
-    std::vector<double>::const_iterator it = Origin.begin();
-    os << *it;
-    for(++it; it != Origin.end(); ++it)
       {
-      os << "," << *it;
+      os << "Origin: (";
+      if( !Origin.empty() )
+        {
+        std::vector<double>::const_iterator it = Origin.begin();
+        os << *it;
+        for(++it; it != Origin.end(); ++it)
+          {
+          os << "," << *it;
+          }
+        }
+      os << ")\n";
       }
-    }
-  os << ")\n";
-}
-{
-    os << "Spacing: (";
-    std::vector<double>::const_iterator it = Spacing.begin();
-    os << *it;
-    for(++it; it != Spacing.end(); ++it)
       {
-      os << "," << *it;
+      os << "Spacing: (";
+      std::vector<double>::const_iterator it = Spacing.begin();
+      os << *it;
+      for(++it; it != Spacing.end(); ++it)
+        {
+        os << "," << *it;
+        }
+      os << ")\n";
       }
-    os << ")\n";
-}
-{
-  os << "DirectionCosines: (";
-  if( !DirectionCosines.empty() )
-    {
-    std::vector<double>::const_iterator it = DirectionCosines.begin();
-    os << *it;
-    for(++it; it != DirectionCosines.end(); ++it)
       {
-      os << "," << *it;
+      os << "DirectionCosines: (";
+      if( !DirectionCosines.empty() )
+        {
+        std::vector<double>::const_iterator it = DirectionCosines.begin();
+        os << *it;
+        for(++it; it != DirectionCosines.end(); ++it)
+          {
+          os << "," << *it;
+          }
+        }
+      os << ")\n";
       }
-    }
-  os << ")\n";
-}
-{
-  os << "Rescale Intercept/Slope: (" << Intercept << "," << Slope << ")\n";
-}
+      {
+      os << "Rescale Intercept/Slope: (" << Intercept << "," << Slope << ")\n";
+      }
     //std::vector<double> Spacing;
     //std::vector<double> Origin;
 

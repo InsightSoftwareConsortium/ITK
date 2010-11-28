@@ -306,7 +306,7 @@ bool
 ColorTable< TPixel >
 ::SetColor(unsigned int c, RGBPixel<TPixel> pixel, const char *name)
 {
-  return this->SetColor(c, pixel[0], pixel[1], pixel[2]);
+  return this->SetColor(c, pixel[0], pixel[1], pixel[2], name);
 }
 
 template< class TPixel >
