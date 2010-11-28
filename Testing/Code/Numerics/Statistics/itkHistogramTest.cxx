@@ -612,6 +612,20 @@ int itkHistogramTest(int, char* [] )
 
 
   //
+  // Excercise GetIndex() method in the iterator.
+  //
+  std::cout << "TEST GetIndex() and GetFrequency() in the iterator" << std::endl;
+  itr = histogram->Begin();
+  end = histogram->End();
+
+  // Print out only some of them, the first 10...
+  for( unsigned int kk = 0; kk < 10 && itr != end; ++itr, ++kk )
+    {
+    std::cout << itr.GetIndex() <<  " : " << itr.GetFrequency() << std::endl;
+    }
+
+
+  //
   // Exercise GetMin / GetMax methods
   //
     {
