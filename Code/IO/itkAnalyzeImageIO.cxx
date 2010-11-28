@@ -1367,7 +1367,7 @@ AnalyzeImageIO
     //and dim[1..7] are the actual dims.
     this->m_Hdr.dime.dim[dim + 1]  = 1; //Hardcoded to be 1;
     }
-  for ( unsigned dim = 0; dim < this->GetNumberOfDimensions(); dim++ )
+  for ( unsigned int dim = 0; dim < this->GetNumberOfDimensions(); dim++ )
     {
     //NOTE: Analyze pixdim[0] is ignored, and the number of dims are
     //taken from dims[0], and pixdim[1..7] are the actual pixdims.
