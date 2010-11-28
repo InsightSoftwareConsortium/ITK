@@ -47,7 +47,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   m_OutputStartIndex.Fill(0);
 
   m_Transform = IdentityTransform< TInterpolatorPrecisionType, ImageDimension >::New();
-  m_ThreaderTransform = NULL;
+  m_ThreaderTransform.clear();
 
   m_InterpolatorIsBSpline = false;
   m_BSplineInterpolator = NULL;
@@ -154,16 +154,10 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
     itkExceptionMacro(<< "Transform not set");
     }
 
-  // Allocate the array of transform clones to be used in every thread
-  if ( m_ThreaderTransform != NULL )
-    {
-    delete[] m_ThreaderTransform;
-    }
-
   itk::MultiThreader * threader = this->GetMultiThreader();
   const unsigned long numberOfThreads = threader->GetNumberOfThreads();
 
-  m_ThreaderTransform = new TransformPointerType[numberOfThreads - 1];
+  m_ThreaderTransform.resize(numberOfThreads - 1);
 
   for ( unsigned int ithread = 0; ithread < numberOfThreads - 1; ++ithread )
     {
@@ -230,6 +224,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 {
   // Disconnect input image from the interpolator
   m_Interpolator->SetInputImage(NULL);
+  m_ThreaderTransform.clear();
 }
 
 /**

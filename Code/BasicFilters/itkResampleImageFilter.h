@@ -294,7 +294,7 @@ private:
   TransformPointerType    m_Transform; // Main transform to be used in thread = 0
   // Copies of Transform helpers per thread (N-1 of them), since m_Transform
   // will do the work for thread=0.
-  TransformPointerType  * m_ThreaderTransform;
+  std::vector<TransformPointerType> m_ThreaderTransform;
 
 
   InterpolatorPointerType m_Interpolator;      // Image function for
