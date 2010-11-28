@@ -34,13 +34,6 @@ SampleToHistogramFilter< TSample, THistogram >
 
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 
-  const unsigned int minimumNumberOfComponents = 1;
-
-  // Set some default inputs
-  HistogramSizeType histogramSize(minimumNumberOfComponents);
-  histogramSize.Fill(0);
-  this->SetHistogramSize(histogramSize);
-
   this->SetMarginalScale(100);
 
   this->SetAutoMinimumMaximum(true);
@@ -152,12 +145,12 @@ SampleToHistogramFilter< TSample, THistogram >
 
   if ( histogramSizeObject == NULL )
     {
-    itkExceptionMacro("Histogram Size input is missing");
+    itkSpecializedExceptionMacro(MissingHistogramSizeInput);
     }
 
   if ( marginalScaleObject == NULL )
     {
-    itkExceptionMacro("Marginal scale input is missing");
+    itkSpecializedExceptionMacro(MissingHistogramMarginalScaleInput);
     }
 
   HistogramSizeType histogramSize = histogramSizeObject->Get();
@@ -172,15 +165,16 @@ SampleToHistogramFilter< TSample, THistogram >
 
   if ( measurementVectorSize == 0 )
     {
-    itkExceptionMacro("Input sample MeasurementVectorSize is zero");
+    itkSpecializedExceptionMacro(NullSizeHistogramInputMeasurementVectorSize);
     }
 
   if ( histogramSize.Size() != measurementVectorSize )
     {
-    itkExceptionMacro("Histogram number of components: "
-                      << histogramSize.Size()
-                      << " doesn't match Measurement Vector Size: "
-                      << measurementVectorSize);
+    itkSpecializedMessageExceptionMacro(HistogramWrongNumberOfComponents,
+      "Histogram number of components: "
+      << histogramSize.Size()
+      << " doesn't match Measurement Vector Size: "
+      << measurementVectorSize);
     }
 
   outputHistogram->SetMeasurementVectorSize(measurementVectorSize);
@@ -275,12 +269,12 @@ SampleToHistogramFilter< TSample, THistogram >
     {
     if ( binMaximumObject == NULL )
       {
-      itkExceptionMacro("Histogram Bin Maximum input is missing");
+      itkSpecializedExceptionMacro(MissingHistogramBinMaximumInput);
       }
 
     if ( binMinimumObject == NULL )
       {
-      itkExceptionMacro("Histogram Bin Minimum input is missing");
+      itkSpecializedExceptionMacro(MissingHistogramBinMinimumInput);
       }
 
     h_upper = binMaximumObject->Get();
