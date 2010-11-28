@@ -148,7 +148,7 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
   std::cout << "Filter: " << filter;
 
   // Get the Smart Pointer to the Filter Output
-  GraftOutput( filter->GetOutput() );
+  this->GraftOutput( filter->GetOutput() );
 /*
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
 
