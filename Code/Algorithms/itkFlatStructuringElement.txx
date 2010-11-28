@@ -975,7 +975,8 @@ FlatStructuringElement< VDimension >::ComputeBufferFromLines()
 
   // initialize the kernel with everything to false, to avoid warnings in
   // valgrind in the SetKernel() method
-  for ( Iterator kernel_it = this->Begin(); kernel_it != this->End(); ++kernel_it )
+  Iterator kernel_it;
+  for ( kernel_it = this->Begin(); kernel_it != this->End(); ++kernel_it )
     {
     *kernel_it = false;
     }
@@ -989,7 +990,6 @@ FlatStructuringElement< VDimension >::ComputeBufferFromLines()
 
   // copy back the image to the kernel
   ImageRegionIterator< ImageType > oit(dilate->GetOutput(), region);
-  Iterator                         kernel_it;
   for ( oit.GoToBegin(), kernel_it = this->Begin(); !oit.IsAtEnd(); ++oit, ++kernel_it )
     {
     *kernel_it = oit.Get();
