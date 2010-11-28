@@ -2578,13 +2578,6 @@ set(ReviewTest6_LIBS
   )
 target_link_libraries(itkReviewTests6 ${ReviewTest6_LIBS})
 
-if(ITK_USE_TRANSFORM_IO_FACTORIES)
-set(ReviewTest_LIBS ${ReviewTest_LIBS}
-  ITKTransformIOReview
-  )
-endif(ITK_USE_TRANSFORM_IO_FACTORIES)
-
-
 if(ITK_USE_MINC2 AND MINC2_FOUND)
   set(ReviewTest_LIBS ${ReviewTest_LIBS} ITKIOMINC2)
 endif(ITK_USE_MINC2 AND MINC2_FOUND)
