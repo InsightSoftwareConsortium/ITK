@@ -112,9 +112,11 @@ protected:
     public:
     bool operator()( const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b )
       {
-      return accessor( a ) < accessor( b );
+      return m_Accessor( a ) < m_Accessor( b );
       }
-     AttributeAccessorType accessor;
+    ReverseComparator() : m_Accessor() {}
+    private:
+     AttributeAccessorType m_Accessor;
     };
 
   class Comparator
@@ -122,9 +124,11 @@ protected:
   public:
     bool operator()( const typename LabelObjectType::Pointer & a, const typename LabelObjectType::Pointer & b )
       {
-      return accessor( a ) > accessor( b );
+      return m_Accessor( a ) > m_Accessor( b );
       }
-    AttributeAccessorType accessor;
+    Comparator(): m_Accessor () {}
+  private:
+    AttributeAccessorType m_Accessor;
     };
 
 private:

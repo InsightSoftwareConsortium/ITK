@@ -47,11 +47,10 @@ void PrintVector( const Vector2Type & v )
 template <typename TMatrix>
 bool testMatrix( const TMatrix & m1, const TMatrix & m2 )
   {
-  unsigned int i, j;
   bool pass=true;
-  for ( i = 0; i < TMatrix::RowDimensions; i++ )
+  for (unsigned int  i = 0; i < TMatrix::RowDimensions; i++ )
     {
-    for ( j = 0; j < TMatrix::ColumnDimensions; j++ )
+    for (unsigned int j = 0; j < TMatrix::ColumnDimensions; j++ )
       {
       if( vcl_fabs( m1[i][j] - m2[i][j] ) > epsilon )
         pass=false;
@@ -95,7 +94,6 @@ int itkAffineTransformTest(int, char *[])
     Matrix2Type                   inverse2;
     Vector2Type                   vector2, vector2Truth;
 
-    unsigned int i, j;
 
     /* Create a 2D identity transformation and show its parameters */
     typedef itk::Point<double,12>    ParametersType;
@@ -137,9 +135,9 @@ int itkAffineTransformTest(int, char *[])
     Affine2DType::Pointer aff2 = Affine2DType::New();
     aff2->SetMatrix( matrix2 );
     aff2->SetOffset( vector2 );
-    for (i = 0; i < 2; i++)
+    for (unsigned int i = 0; i < 2; i++)
       {
-      for (j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; j++)
         {
         matrix2[i][j] = 0.0;
         }
@@ -182,9 +180,9 @@ int itkAffineTransformTest(int, char *[])
     vector2[1] = 1;
     aff2->SetMatrix(matrix2);
     aff2->SetOffset(vector2);
-    for (i = 0; i < 2; i++)
+    for (unsigned int i = 0; i < 2; i++)
       {
-      for (j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; j++)
         {
         matrix2[i][j] = 0.0;
         }

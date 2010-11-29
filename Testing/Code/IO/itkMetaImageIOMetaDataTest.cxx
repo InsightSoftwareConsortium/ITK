@@ -28,8 +28,7 @@
 
 /** read an image using ITK -- image-based template */
 template <typename TImage>
-typename TImage::Pointer ReadImage( const std::string &fileName,
-                                    const bool zeroOrigin = false )
+typename TImage::Pointer ReadImage( const std::string &fileName )
 {
   typename TImage::Pointer image;
   typedef itk::ImageFileReader<TImage> ReaderType;

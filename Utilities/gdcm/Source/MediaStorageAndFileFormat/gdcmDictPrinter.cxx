@@ -440,13 +440,13 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
 
   std::string strowner;
   const char *owner = 0;
-  const Tag& t = de.GetTag();
-  if( t.IsPrivate() && !t.IsPrivateCreator() )
+  const Tag& tag = de.GetTag();
+  if( tag.IsPrivate() && !tag.IsPrivateCreator() )
     {
-    strowner = ds.GetPrivateCreator(t);
+    strowner = ds.GetPrivateCreator(tag);
     owner = strowner.c_str();
     }
-  const DictEntry &entry = dicts.GetDictEntry(t,owner);
+  const DictEntry &entry = dicts.GetDictEntry(tag,owner);
 
   if( de.GetTag().IsPrivate() && de.GetTag().GetElement() >= 0x0100 )
     {

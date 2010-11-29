@@ -290,9 +290,9 @@ JpegMarkerSegment* EncodeStartOfScan(const JlsParamaters* pparams, LONG icompone
   if (icomponent < 0)
   {
     rgbyte.push_back((BYTE)pparams->components);
-    for (LONG icomponent = 0; icomponent < pparams->components; ++icomponent )
+    for (LONG local_icomponent = 0; local_icomponent < pparams->components; ++local_icomponent )
     {
-      rgbyte.push_back(BYTE(icomponent + 1));
+      rgbyte.push_back(BYTE(local_icomponent + 1));
       rgbyte.push_back(itable);
     }
   }

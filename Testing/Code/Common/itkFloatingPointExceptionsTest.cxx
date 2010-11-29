@@ -20,15 +20,19 @@
 #include <iostream>
 #include <float.h>
 
+#if !defined(ITK_USE_FPE)
+int
+itkFloatingPointExceptionsTest(int , char *[] )
+{
+  return 0;
+}
+#else
 int
 itkFloatingPointExceptionsTest(int argc, char *argv[] )
 {
   itk::FloatingPointExceptions::Enable();
   itk::FloatingPointExceptions::
     SetExceptionAction(itk::FloatingPointExceptions::EXIT);
-#if !defined(ITK_USE_FPE)
-  return 0;
-#else
   if(argc < 2)
     {
     std::cout << "No test specified" << std::endl;
@@ -151,5 +155,5 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
       }
     }
   return error_return;
-#endif
 }
+#endif

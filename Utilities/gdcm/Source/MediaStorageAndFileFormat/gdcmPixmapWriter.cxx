@@ -181,10 +181,10 @@ Attribute<0x0028,0x0004> piat;
 
  {
   // Pixel Data
-  DataElement de( Tag(0x7fe0,0x0010) );
+  DataElement dataElement( Tag(0x7fe0,0x0010) );
   const Value &v = icon.GetDataElement().GetValue();
-  de.SetValue( v );
-  const ByteValue *bv = de.GetByteValue();
+  dataElement.SetValue( v );
+  const ByteValue *bv = dataElement.GetByteValue();
   const TransferSyntax &ts = icon.GetTransferSyntax();
   assert( ts.IsExplicit() || ts.IsImplicit() );
   VL vl;
@@ -203,12 +203,12 @@ Attribute<0x0028,0x0004> piat;
     switch ( pf.GetBitsAllocated() )
       {
       case 8:
-        de.SetVR( VR::OB );
+        dataElement.SetVR( VR::OB );
         break;
       //case 12:
       case 16:
       case 32:
-        de.SetVR( VR::OW );
+        dataElement.SetVR( VR::OW );
         break;
       default:
         assert( 0 && "should not happen" );
@@ -217,10 +217,10 @@ Attribute<0x0028,0x0004> piat;
     }
   else
     {
-    de.SetVR( VR::OB );
+    dataElement.SetVR( VR::OB );
     }
-  de.SetVL( vl );
-  ds.Replace( de );
+  dataElement.SetVL( vl );
+  ds.Replace( dataElement );
 }
 
     Item item;
@@ -491,21 +491,21 @@ bool PixmapWriter::PrepareWrite()
   const char* msstr = MediaStorage::GetMSString(ms);
   if( !ds.FindDataElement( Tag(0x0008, 0x0016) ) )
     {
-    DataElement de( Tag(0x0008, 0x0016 ) );
+    DataElement dataElement( Tag(0x0008, 0x0016 ) );
     VL::Type strlenMsstr = (VL::Type)strlen(msstr);
-    de.SetByteValue( msstr, strlenMsstr);
-    de.SetVR( Attribute<0x0008, 0x0016>::GetVR() );
-    ds.Insert( de );
+    dataElement.SetByteValue( msstr, strlenMsstr);
+    dataElement.SetVR( Attribute<0x0008, 0x0016>::GetVR() );
+    ds.Insert( dataElement );
     }
   else
     {
     const ByteValue *bv = ds.GetDataElement( Tag(0x0008,0x0016) ).GetByteValue();
     if( strncmp( bv->GetPointer(), msstr, bv->GetLength() ) != 0 )
       {
-      DataElement de = ds.GetDataElement( Tag(0x0008,0x0016) );
+      DataElement dataElement = ds.GetDataElement( Tag(0x0008,0x0016) );
       VL::Type strlenMsstr = (VL::Type) strlen(msstr);
-      de.SetByteValue( msstr, strlenMsstr );
-      ds.Replace( de );
+      dataElement.SetByteValue( msstr, strlenMsstr );
+      ds.Replace( dataElement );
       }
     else
       {
@@ -560,43 +560,43 @@ bool PixmapWriter::PrepareWrite()
     sq->AddItem( item );
     if( !ds.FindDataElement( tsourceImageSequence ) )
       {
-      DataElement de( tsourceImageSequence );
-      de.SetVR( VR::SQ );
-      de.SetValue( *sq );
-      de.SetVLToUndefined();
-      //std::cout << de << std::endl;
-      ds.Insert( de );
+      DataElement dataElement( tsourceImageSequence );
+      dataElement.SetVR( VR::SQ );
+      dataElement.SetValue( *sq );
+      dataElement.SetVLToUndefined();
+      //std::cout << dataElement << std::endl;
+      ds.Insert( dataElement );
       }
     }
     {
     const char *sop = uid.Generate();
-    DataElement de( Tag(0x0008,0x0018) );
+    DataElement dataElement( Tag(0x0008,0x0018) );
     VL::Type strlenSOP = (VL::Type) strlen(sop);
-    de.SetByteValue( sop, strlenSOP );
-    de.SetVR( Attribute<0x0008, 0x0018>::GetVR() );
-    ds.ReplaceEmpty( de );
+    dataElement.SetByteValue( sop, strlenSOP );
+    dataElement.SetVR( Attribute<0x0008, 0x0018>::GetVR() );
+    ds.ReplaceEmpty( dataElement );
     }
 
   // Are we on a particular Study ? If not create a new UID
   if( !ds.FindDataElement( Tag(0x0020, 0x000d) ) )
     {
     const char *study = uid.Generate();
-    DataElement de( Tag(0x0020,0x000d) );
+    DataElement dataElement( Tag(0x0020,0x000d) );
     VL::Type strlenStudy= (VL::Type)strlen(study);
-    de.SetByteValue( study, strlenStudy );
-    de.SetVR( Attribute<0x0020, 0x000d>::GetVR() );
-    ds.ReplaceEmpty( de );
+    dataElement.SetByteValue( study, strlenStudy );
+    dataElement.SetVR( Attribute<0x0020, 0x000d>::GetVR() );
+    ds.ReplaceEmpty( dataElement );
     }
 
   // Are we on a particular Series ? If not create a new UID
   if( !ds.FindDataElement( Tag(0x0020, 0x000e) ) )
     {
     const char *series = uid.Generate();
-    DataElement de( Tag(0x0020,0x000e) );
+    DataElement dataElement( Tag(0x0020,0x000e) );
     VL::Type strlenSeries= (VL::Type)strlen(series);
-    de.SetByteValue( series, strlenSeries );
-    de.SetVR( Attribute<0x0020, 0x000e>::GetVR() );
-    ds.ReplaceEmpty( de );
+    dataElement.SetByteValue( series, strlenSeries );
+    dataElement.SetVR( Attribute<0x0020, 0x000e>::GetVR() );
+    ds.ReplaceEmpty( dataElement );
     }
 
   FileMetaInformation &fmi = file.GetHeader();
@@ -604,11 +604,11 @@ bool PixmapWriter::PrepareWrite()
   //assert( ts == TransferSyntax::ImplicitVRLittleEndian );
     {
     const char *tsuid = TransferSyntax::GetTSString( ts );
-    DataElement de( Tag(0x0002,0x0010) );
+    DataElement dataElement( Tag(0x0002,0x0010) );
     VL::Type strlenTSUID = (VL::Type)strlen(tsuid);
-    de.SetByteValue( tsuid, strlenTSUID );
-    de.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
-    fmi.Replace( de );
+    dataElement.SetByteValue( tsuid, strlenTSUID );
+    dataElement.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
+    fmi.Replace( dataElement );
     fmi.SetDataSetTransferSyntax(ts);
     }
   fmi.FillFromDataSet( ds );

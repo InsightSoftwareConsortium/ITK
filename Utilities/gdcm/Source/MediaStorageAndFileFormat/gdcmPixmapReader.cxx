@@ -449,13 +449,13 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
       JPEGCodec jpeg;
       jpeg.SetPhotometricInterpretation( pixeldata.GetPhotometricInterpretation() );
       jpeg.SetPlanarConfiguration( 0 );
-      PixelFormat pf = pixeldata.GetPixelFormat();
+      PixelFormat pFormat = pixeldata.GetPixelFormat();
       // Apparently bits stored can only be 8 or 12:
-      if( pf.GetBitsStored() == 16 )
+      if( pFormat.GetBitsStored() == 16 )
         {
-        pf.SetBitsStored( 12 );
+        pFormat.SetBitsStored( 12 );
         }
-      jpeg.SetPixelFormat( pf );
+      jpeg.SetPixelFormat( pFormat );
       DataElement de2;
       jpeg.Decode( de, de2);
       pixeldata.SetDataElement( de2 );
@@ -1150,17 +1150,17 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
     gdcm::JPEGCodec jpeg;
     if( jpeg.CanDecode( PixelData->GetTransferSyntax() ) )
       {
-      std::stringstream ss;
+      std::stringstream sstream;
       const DataElement &de = PixelData->GetDataElement();
       //const ByteValue *bv = de.GetByteValue();
       const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
-      sqf->WriteBuffer( ss );
+      sqf->WriteBuffer( sstream );
       //std::string s( bv->GetPointer(), bv->GetLength() );
       //is.str( s );
-      gdcm::PixelFormat pf ( gdcm::PixelFormat::UINT8 ); // usual guess...
-      jpeg.SetPixelFormat( pf );
+      gdcm::PixelFormat pFormat ( gdcm::PixelFormat::UINT8 ); // usual guess...
+      jpeg.SetPixelFormat( pFormat );
       gdcm::TransferSyntax ts;
-      bool b = jpeg.GetHeaderInfo( ss, ts );
+      const bool b = jpeg.GetHeaderInfo( sstream, ts );
       if( b )
         {
         std::vector<unsigned int> v(3);
@@ -1216,12 +1216,12 @@ bool PixmapReader::ReadACRNEMAImage()
       {
       PixelData->SetNumberOfDimensions(3);
       // D 0028|0012 [US] [Planes] [262]
-      const DataElement& de = ds.GetDataElement( Tag(0x0028, 0x0012) );
-      Attribute<0x0028,0x0012> at = { 0 };
-      at.SetFromDataElement( de );
-      assert( at.GetNumberOfValues() == 1 );
-      PixelData->SetDimension(2, at.GetValue() );
-      //assert( at.GetValue() == ReadUSFromTag( Tag(0x0028, 0x0012), ss, conversion ) );
+      const DataElement& dattribaElement = ds.GetDataElement( Tag(0x0028, 0x0012) );
+      Attribute<0x0028,0x0012> attrib = { 0 };
+      attrib.SetFromDataElement( dattribaElement );
+      assert( attrib.GetNumberOfValues() == 1 );
+      PixelData->SetDimension(2, attrib.GetValue() );
+      //assert( attrib.GetValue() == ReadUSFromTag( Tag(0x0028, 0x0012), ss, conversion ) );
       }
     else if ( imagedimensions == 2 )
       {

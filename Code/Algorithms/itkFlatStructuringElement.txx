@@ -53,7 +53,7 @@ template< unsigned int VDimension >
 template< class TStructuringElement, class TRadius >
 void
 FlatStructuringElement< VDimension >
-::GeneratePolygon(TStructuringElement & res, TRadius radius, unsigned lines)
+::GeneratePolygon(TStructuringElement & , TRadius , unsigned )
 {
   itkGenericExceptionMacro("Only dimension 2 and 3 are suported.");
 }

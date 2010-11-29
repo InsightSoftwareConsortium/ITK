@@ -177,7 +177,6 @@ std::pair<std::string, std::string> StringFilter::ToStringPair(const Tag& t, Dat
         {
         vr = DataSetHelper::ComputeVR(GetFile(),ds, t);
         }
-      std::ostringstream os;
       switch(vr)
         {
         StringFilterCase(AT);
