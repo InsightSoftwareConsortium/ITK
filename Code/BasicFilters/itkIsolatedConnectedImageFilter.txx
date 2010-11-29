@@ -197,8 +197,8 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage (inputImage);
 
-  float             progressWeight;
-  float             cumulatedProgress;
+  float             progressWeight = 0.0f;
+  float             cumulatedProgress = 0.0f;
   IteratorType      it = IteratorType (outputImage, function, m_Seeds1);
   IterationReporter iterate(this, 0, 1);
 
@@ -270,9 +270,8 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
                                                                    // threshold
                                                                    // guess
     }
-  // If the lower threshold has not been set, find it.
   else
-    {
+    { // If the lower threshold has not been set, find it.
     AccumulateType lower = static_cast< AccumulateType >( m_Lower );
     AccumulateType upper = static_cast< AccumulateType >( m_Upper );
     AccumulateType guess = lower;

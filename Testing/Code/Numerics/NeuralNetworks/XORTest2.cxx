@@ -31,19 +31,19 @@ XORTest2(int argc, char* argv[])
   if (argc < 2)
     {
     std::cout << "Usage: " << argv[0]
-              << " InputTrainingFile(.txt)" << std::endl ;
+              << " InputTrainingFile(.txt)" << std::endl;
     return EXIT_FAILURE;
     }
 
-  char* dataFileName = argv[1] ;
+  char* dataFileName = argv[1];
   const int num_input_nodes = 2;
   const int num_hidden_nodes = 2;
   const int num_output_nodes = 1;
 
-  typedef itk::Vector<double, num_input_nodes> MeasurementVectorType;
-  typedef itk::Vector<double, num_output_nodes> TargetVectorType;
+  typedef itk::Vector<double, num_input_nodes>               MeasurementVectorType;
+  typedef itk::Vector<double, num_output_nodes>              TargetVectorType;
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
-  typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
+  typedef itk::Statistics::ListSample<TargetVectorType>      TargetType;
 
   typedef itk::Statistics::IterativeSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
 
@@ -97,10 +97,11 @@ XORTest2(int argc, char* argv[])
   std::cout << sample->Size() << std::endl;
   std::cout << "Network Simulation" << std::endl;
   TargetVectorType ov;
+  ov.Fill(0.0);
   SampleType::ConstIterator iter1 = sample->Begin();
   TargetType::ConstIterator iter2 = targets->Begin();
-  unsigned int error1 = 0 ;
-  unsigned int error2 = 0 ;
+  unsigned int error1 = 0;
+  unsigned int error2 = 0;
   int flag;
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
@@ -137,7 +138,7 @@ XORTest2(int argc, char* argv[])
     }
 
   std::cout << "Among 4 measurement vectors, " << error1 + error2
-            << " vectors are misclassified." << std::endl ;
+            << " vectors are misclassified." << std::endl;
   std::cout<<"Network Weights and Biases after Training= "<<std::endl;
   std::cout << net1 << std::endl;
   if ((error1 + error2) > 2)

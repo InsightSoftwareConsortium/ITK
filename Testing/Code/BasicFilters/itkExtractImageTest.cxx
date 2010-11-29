@@ -293,7 +293,7 @@ int itkExtractImage3Dto2DTest(int, char* [] )
 {
   typedef itk::Image<unsigned char,3>                      Image3DType;
   typedef itk::Image<unsigned char,2>                      Image2DType;
-  typedef itk::ExtractImageFilter<Image3DType,Image2DType> ExtractType;;
+  typedef itk::ExtractImageFilter<Image3DType,Image2DType> ExtractType;
   typedef itk::RandomImageSource<Image3DType>              RandomImageSourceType;
 
   RandomImageSourceType::Pointer src =
@@ -322,7 +322,7 @@ int itkExtractImage3Dto2DTest(int, char* [] )
 
   extractSize[2] = 0;
   Image3DType::IndexType extractIndex;
-  extractIndex[2] = extractIndex[1] = extractIndex[0] = 0.0;
+  extractIndex[2] = extractIndex[1] = extractIndex[0] = 0;
 
   extract->SetInput(im3d);
   extractRegion.SetSize(extractSize);

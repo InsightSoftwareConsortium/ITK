@@ -69,7 +69,7 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>
     Comparator comparator;
     std::sort( labelObjects.begin(), labelObjects.end(), comparator );
     }
-//   progress.CompletedPixel();
+  //   progress.CompletedPixel();
 
   // and put back the objects in the map
   output->ClearLabels();

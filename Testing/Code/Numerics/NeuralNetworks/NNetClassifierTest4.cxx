@@ -31,7 +31,7 @@ NNetClassifierTest4(int argc, char* argv[])
   if (argc < 3)
     {
     std::cout << "Usage: " << argv[0]
-              << " InputTrainingFile(.txt) InputTestFile(.txt)" << std::endl ;
+              << " InputTrainingFile(.txt) InputTestFile(.txt)" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -46,15 +46,17 @@ NNetClassifierTest4(int argc, char* argv[])
   const int num_hidden2_nodes = 2;
   const int num_output_nodes = 1;
 
-  typedef itk::Vector<double, num_input_nodes> MeasurementVectorType;
-  typedef itk::Vector<double, num_output_nodes> TargetVectorType;
+  typedef itk::Vector<double, num_input_nodes>               MeasurementVectorType;
+  typedef itk::Vector<double, num_output_nodes>              TargetVectorType;
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
-  typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
-  typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
+  typedef itk::Statistics::ListSample<TargetVectorType>      TargetType;
+  typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double>
+                                                             TrainingFcnType;
 
   MeasurementVectorType mv;
   TargetVectorType tv;
   TargetVectorType ov;
+  ov.Fill(0.0);
 
   SampleType::Pointer trainsample = SampleType::New();
   SampleType::Pointer testsample = SampleType::New();
@@ -128,8 +130,8 @@ NNetClassifierTest4(int argc, char* argv[])
   std::cout << "Network Simulation" << std::endl;
   SampleType::ConstIterator iter1 = testsample->Begin();
   TargetType::ConstIterator iter2 = testtargets->Begin();
-  unsigned int error1 = 0 ;
-  unsigned int error2 = 0 ;
+  unsigned int error1 = 0;
+  unsigned int error2 = 0;
   int flag;
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
@@ -160,7 +162,7 @@ NNetClassifierTest4(int argc, char* argv[])
     }
 
   std::cout << "Among "<<num_test<<" measurement vectors, " << error1 + error2
-            << " vectors are misclassified." << std::endl ;
+            << " vectors are misclassified." << std::endl;
   std::cout<<"Network Weights = "<<std::endl;
   std::cout << net1 << std::endl;
 

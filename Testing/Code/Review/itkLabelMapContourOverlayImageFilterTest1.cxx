@@ -55,13 +55,13 @@ int itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
   colorizer->SetInput( converter->GetOutput() );
   colorizer->SetFeatureImage( reader2->GetOutput() );
   colorizer->SetOpacity( atof(argv[4]) );
-  colorizer->SetType( atof(argv[5]) );
+  colorizer->SetType( atoi(argv[5]) );
   ColorizerType::SizeType r;
   r.Fill( atoi(argv[6]) );
   colorizer->SetContourThickness( r );
   r.Fill( atoi(argv[7]) );
   colorizer->SetDilationRadius( r );
-  colorizer->SetPriority( atof(argv[8]) );
+  colorizer->SetPriority( atoi(argv[8]) );
 
 
   itk::SimpleFilterWatcher watcher(colorizer, "filter");

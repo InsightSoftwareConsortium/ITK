@@ -68,7 +68,9 @@ ExtractImageFilter< TInputImage, TOutputImage >
   unsigned int         nonzeroSizeCount = 0;
   InputImageSizeType   inputSize = extractRegion.GetSize();
   OutputImageSizeType  outputSize;
+  outputSize.Fill(0);
   OutputImageIndexType outputIndex;
+  outputIndex.Fill(0);
 
   /**
    * check to see if the number of non-zero entries in the extraction region
@@ -146,6 +148,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
     typename OutputImageType::SpacingType outputSpacing;
     typename OutputImageType::DirectionType outputDirection;
     typename OutputImageType::PointType outputOrigin;
+    outputOrigin.Fill(0.0);
 
     if ( static_cast< unsigned int >( OutputImageDimension ) >
          static_cast< unsigned int >( InputImageDimension ) )

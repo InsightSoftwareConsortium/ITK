@@ -33,7 +33,7 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   unsigned int dim = ImageDimension;
 
-  switch ( ImageDimension )
+  switch ( dim )
     {
     // Note the fall through the cases to set all the components
     case 3:

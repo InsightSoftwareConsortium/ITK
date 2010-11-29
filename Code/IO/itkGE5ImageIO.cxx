@@ -273,7 +273,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
 #define VOff(a,b) (imageHdr.GENESIS_IH_img_version != 2 ? a : b)
   // Create a buffer to read the exam header.
   // Now seek to the exam header and read the data into the buffer.
-  char *buffer;
+  char *buffer = NULL;
   if(pixelHdrFlag)
     {
     buffer = new char[imageHdr.GENESIS_IH_img_l_exam];
@@ -426,8 +426,8 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   curImage->xFOV = hdr2Float(buffer+VOff(34,36));
   curImage->yFOV = hdr2Float(buffer+VOff(38,40));
 
-  curImage->acqXsize = hdr2Float(buffer+VOff(42,44));
-  curImage->acqYsize = hdr2Float(buffer+VOff(46,48));
+  curImage->acqXsize = hdr2Short(buffer+VOff(42,44));
+  curImage->acqYsize = hdr2Short(buffer+VOff(46,48));
 
   curImage->imageXres = hdr2Float(buffer+VOff(50,52));
   curImage->imageYres = hdr2Float(buffer+VOff(54,56));
@@ -484,7 +484,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
 
   curImage->echoNumber = hdr2Short(buffer+VOff(212,218));
 
-  curImage->NEX = hdr2Float(buffer+VOff(218,224));
+  curImage->NEX = hdr2Int(buffer+VOff(218,224));
 
   curImage->flipAngle = hdr2Short(buffer+VOff(254,260));
 

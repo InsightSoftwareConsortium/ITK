@@ -140,7 +140,7 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
     {
     // in theory, no intersection, but search between them
     bool     intersection = false;
-    unsigned inside;
+    unsigned int inside = 0; // initialize to avoid warning
     if ( Tnear - Tfar < 10 )
       {
 //      std::cout << "Searching " << Tnear << " " << Tfar << std::endl;
