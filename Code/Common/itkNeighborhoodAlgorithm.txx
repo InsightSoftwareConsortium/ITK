@@ -38,21 +38,7 @@ ImageBoundaryFacesCalculator< TImage >
   // have to treat them differently).  We also determine the size of the non-
   // boundary region that will be processed. For instance, given a 2D image
   // and regionTOProcess (size = 5x5),
-  // First we find center (non-boundary) region 0.
-  // then find the face on the lower side of the 0th dimension (Region 1).
-  // Next we find the face opposite to that face (Region 2).
-  // Then we find the face between region 1 and region 2 on
-  // the lower side of the 1th dimension.(region 3).
-  // Finally we find the face opposite to face 3 (region 4).
-  // The diagram shows return regions with their ids.
-  //  14442
-  //  10002
-  //  10002
-  //  10002
-  //  13332
-  // Note, the first region contained in faceList should be non-boundary region
-  // (if there is, depends on the relative location of regionToProcess and
-  // bufferedRegion) then non-boundary region (if there is).
+
 
   const IndexType bStart = img->GetBufferedRegion().GetIndex();
   const SizeType  bSize  = img->GetBufferedRegion().GetSize();
