@@ -6235,11 +6235,7 @@ bool j2k_write_eoc(
   {
     return false;
   }
-  if
-    (! opj_stream_flush(p_stream,p_manager))
-  {
-    return false;
-  }
+
   return true;
 }
 

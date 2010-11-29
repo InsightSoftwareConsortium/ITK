@@ -525,11 +525,13 @@ bool jp2_read_header_procedure(
         (jp2->jp2_state & JP2_STATE_HEADER)
       {
         jp2->jp2_state |= JP2_STATE_CODESTREAM;
+        opj_free( l_current_data );
         return true;
       }
       else
       {
         opj_event_msg(p_manager, EVT_ERROR, "bad placed jpeg codestream\n");
+        opj_free( l_current_data );
         return false;
       }
     }
@@ -537,6 +539,7 @@ bool jp2_read_header_procedure(
       (box.length == 0)
     {
       opj_event_msg(p_manager, EVT_ERROR, "Cannot handle box of undefined sizes\n");
+      opj_free( l_current_data );
       return false;
     }
 
@@ -557,11 +560,13 @@ bool jp2_read_header_procedure(
         (l_nb_bytes_read != l_current_data_size)
       {
         opj_event_msg(p_manager, EVT_ERROR, "Problem with reading JPEG2000 box, stream error\n");
+        opj_free( l_current_data );
         return false;
       }
       if
         (! l_current_handler->handler(jp2,l_current_data,l_current_data_size,p_manager))
       {
+        opj_free( l_current_data );
         return false;
       }
     }
@@ -572,10 +577,12 @@ bool jp2_read_header_procedure(
         (opj_stream_skip(cio,l_current_data_size,p_manager) != l_current_data_size)
       {
         opj_event_msg(p_manager, EVT_ERROR, "Problem with skipping JPEG2000 box, stream error\n");
+        opj_free( l_current_data );
         return false;
       }
     }
   }
+  opj_free( l_current_data );
   return true;
 }
 
