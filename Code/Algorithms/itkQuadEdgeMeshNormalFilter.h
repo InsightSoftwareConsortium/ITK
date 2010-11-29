@@ -40,7 +40,7 @@ namespace itk
  * <ul>
  *    <li> GOURAUD \f$ \omega_i = 1\f$ [1] </li>
  *    <li> THURMER \f$ \omega_i = \f$ Angle of the considered triangle at the given vertex} [2] </li>
- *    <li> AREA \f$ \omega_i = \text{Area}(t_i)\f$ [3] </li>
+ *    <li> AREA \f$ \omega_i = Area(t_i)\f$ [3] </li>
  * </ul>
  *
  * These weights are defined in the literature:
