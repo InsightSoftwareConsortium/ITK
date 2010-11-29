@@ -80,7 +80,7 @@ int itkAttributeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   LabelKeepNObjectsType::Pointer opening = LabelKeepNObjectsType::New();
 
   //testing get and set macros for NumberOfObjects
-  double nbOfObjects = atof( argv[3] );
+  unsigned long nbOfObjects = atoi( argv[3] );
   opening->SetNumberOfObjects( nbOfObjects );
   TEST_SET_GET_VALUE( nbOfObjects , opening->GetNumberOfObjects() );
 

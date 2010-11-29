@@ -124,6 +124,7 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   std::cout << sample->Size() << std::endl;
   std::cout << "Network Simulation" << std::endl;
   TargetVectorType ov;
+  ov.Fill(0.0);
   SampleType::ConstIterator iter1 = sample->Begin();
   TargetType::ConstIterator iter2 = targets->Begin();
   unsigned int error1 = 0;

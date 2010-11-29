@@ -1007,7 +1007,7 @@ JPEG2000ImageIO
 
   IndexValueType endQuantizedInTileSize = startQuantizedInTileSize + sizeQuantizedInTileSize - 1;
 
-  if ( endQuantizedInTileSize > this->GetDimensions(dimension) )
+  if ( endQuantizedInTileSize > static_cast<int>(this->GetDimensions(dimension)) )
     {
     sizeQuantizedInTileSize = this->GetDimensions(dimension) - startQuantizedInTileSize;
     }

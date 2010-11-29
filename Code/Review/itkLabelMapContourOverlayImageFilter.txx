@@ -128,6 +128,7 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   typedef typename itk::BinaryErodeImageFilter< SliceInternalImageType, SliceInternalImageType, SliceKernelType > SliceErodeType;
   typename SliceErodeType::Pointer serode = SliceErodeType::New();
   typename SliceKernelType::RadiusType srad;
+  srad.Fill(0.0);
   int j=0;
   for( int i=0; i<ImageDimension; i++ )
     {

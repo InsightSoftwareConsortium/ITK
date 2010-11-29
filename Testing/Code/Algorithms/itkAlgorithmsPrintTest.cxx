@@ -36,15 +36,16 @@
 
 int main (int , char* [])
 {
-  typedef itk::Image<float,2> InputType;
-  typedef itk::Image<float,2> OutputType;
-  typedef itk::Image<bool,2> BinaryImageType;
+  typedef itk::Image<float,2>          InputType;
+  typedef itk::Image<float,3>          InputType3D;
+  typedef itk::Image<float,2>          OutputType;
+  typedef itk::Image<bool,2>           BinaryImageType;
   typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Image<unsigned char,2> CharType;
+  typedef itk::Image<unsigned char,2>  CharType;
 
   typedef itk::Mesh<double>  MeshType;
 
-  typedef itk::Vector<float,2> VectorType;
+  typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
 
   // Used for NormalizedCorrelationPointSetToImageMetric
@@ -58,8 +59,8 @@ int main (int , char* [])
     itk::BalloonForceFilter<MeshType,MeshType>::New();
   std:: cout << "-------------BalloonForceFilter " << BalloonForceFilterObj;
 
-  itk::BinaryMask3DMeshSource<InputType,MeshType>::Pointer BinaryMask3DMeshSourceObj =
-    itk::BinaryMask3DMeshSource<InputType,MeshType>::New();
+  itk::BinaryMask3DMeshSource<InputType3D,MeshType>::Pointer BinaryMask3DMeshSourceObj =
+    itk::BinaryMask3DMeshSource<InputType3D,MeshType>::New();
   std:: cout << "-------------BinaryMask3DMeshSource " << BinaryMask3DMeshSourceObj;
 
   itk::BinaryMinMaxCurvatureFlowFunction<InputType>::Pointer BinaryMinMaxCurvatureFlowFunctionObj =
