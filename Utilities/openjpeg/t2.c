@@ -210,9 +210,9 @@ static bool t2_encode_packet(
       for
         (cblkno = 0; cblkno < l_nb_blocks; ++cblkno)
       {
-        opj_tcd_cblk_enc_t* cblk = &prc->cblks.enc[cblkno];
-        cblk->numpasses = 0;
-        tgt_setvalue(prc->imsbtree, cblkno, band->numbps - cblk->numbps);
+        opj_tcd_cblk_enc_t* cblk_v = &prc->cblks.enc[cblkno];
+        cblk_v->numpasses = 0;
+        tgt_setvalue(prc->imsbtree, cblkno, band->numbps - cblk_v->numbps);
       }
       ++band;
     }
@@ -387,10 +387,10 @@ static bool t2_encode_packet(
   return true;
 }
 
-static bool t2_init_seg(opj_tcd_cblk_dec_t* cblk, OPJ_UINT32 index, OPJ_UINT32 cblksty, OPJ_UINT32 first)
+static bool t2_init_seg(opj_tcd_cblk_dec_t* cblk, OPJ_UINT32 indexvalue, OPJ_UINT32 cblksty, OPJ_UINT32 first)
 {
   opj_tcd_seg_t* seg = 00;
-  OPJ_UINT32 l_nb_segs = index + 1;
+  OPJ_UINT32 l_nb_segs = indexvalue + 1;
 
   if
     (l_nb_segs > cblk->m_current_max_segs)
@@ -403,7 +403,7 @@ static bool t2_init_seg(opj_tcd_cblk_dec_t* cblk, OPJ_UINT32 index, OPJ_UINT32 c
       return false;
     }
   }
-  seg = &cblk->segs[index];
+  seg = &cblk->segs[indexvalue];
   memset(seg,0,sizeof(opj_tcd_seg_t));
 
   if (cblksty & J2K_CCP_CBLKSTY_TERMALL) {

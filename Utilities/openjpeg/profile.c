@@ -170,8 +170,8 @@ void _ProfPrint(void)
 } // _ProfPrint
 
 //==============================================================================
-static void GetTimeStamp(unsigned *time)
+static void GetTimeStamp(unsigned *timevalue)
 {
-   *time = clock();
+   *timevalue = clock();
 
 } // GetTimeStamp
