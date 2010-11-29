@@ -36,7 +36,9 @@ ImageBoundaryFacesCalculator< TImage >
   // along a buffer boundary (we have no data in the buffer for pixels
   // that are outside the boundary, but within the neighborhood radius and will
   // have to treat them differently).  We also determine the size of the non-
-  // boundary region that will be processed.
+  // boundary region that will be processed. For instance, given a 2D image
+  // and regionTOProcess (size = 5x5),
+
 
   const IndexType bStart = img->GetBufferedRegion().GetIndex();
   const SizeType  bSize  = img->GetBufferedRegion().GetSize();
@@ -52,6 +54,9 @@ ImageBoundaryFacesCalculator< TImage >
   IndexType    nbStart = regionToProcess.GetIndex(); // data.
   RegionType   nbRegion;
 
+  IndexType    vrStart = rStart; //start index of variable processed region which has considered the boundary region in last direction
+  SizeType     vrSize = rSize; //size of variable processed region which has considered the boundary region in last direction
+
   for ( i = 0; i < ImageDimension; ++i )
     {
     overlapLow = static_cast< long >( ( rStart[i] - radius[i] ) - bStart[i] );
@@ -62,15 +67,17 @@ ImageBoundaryFacesCalculator< TImage >
       {                                      // iteration along this face
       for ( j = 0; j < ImageDimension; ++j ) // define the starting index
         {                                    // and size of the face region
-        fStart[j] = rStart[j];
+        fStart[j] = vrStart[j];
         if ( j == i )
           {
           fSize[j] = -overlapLow;
+          vrSize[j] += overlapLow; //change start and size in this direction
+          vrStart[j] -= overlapLow;//to ensure no duplicate pixels at corners
           }
-        else                                 // NOTE: this algorithm
-          {                                  // results in duplicate
-          fSize[j] = rSize[j];               // pixels at corners between
-          }                                  // adjacent faces.
+        else
+          {
+          fSize[j] = vrSize[j];
+          }
 
         // Boundary region cannot be outside the region to process
         if ( fSize[j] > rSize[j] )
@@ -78,7 +85,6 @@ ImageBoundaryFacesCalculator< TImage >
           fSize[j] = rSize[j];
           }
         }
-
       // avoid unsigned overflow if the non-boundary region is too small to
       // process
       if ( fSize[i] > nbSize[i] )
@@ -102,6 +108,7 @@ ImageBoundaryFacesCalculator< TImage >
           {
           fStart[j] = rStart[j] + static_cast< IndexValueType >( rSize[j] ) + overlapHigh;
           fSize[j] = -overlapHigh;
+          vrSize[j] += overlapHigh; //change size in this direction
 
           // Start of the boundary condition region cannot be to the
           // left of the region to process
@@ -113,8 +120,8 @@ ImageBoundaryFacesCalculator< TImage >
           }
         else
           {
-          fStart[j] = rStart[j];
-          fSize[j] = rSize[j];
+          fStart[j] = vrStart[j];
+          fSize[j] = vrSize[j];
           }
         }
       // avoid unsigned overflow if the non-boundary region is too small to
@@ -127,6 +134,7 @@ ImageBoundaryFacesCalculator< TImage >
         {
         nbSize[i] -= fSize[i];
         }
+
       fRegion.SetIndex(fStart);
       fRegion.SetSize(fSize);
       faceList.push_back(fRegion);

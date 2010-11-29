@@ -47,6 +47,7 @@ REGISTER_TEST(itkMetaDataDictionaryTest );
 REGISTER_TEST(itkMinimumDecisionRuleTest );
 REGISTER_TEST(itkMultiThreaderTest );
 REGISTER_TEST(itkNearestNeighborExtrapolateImageFunctionTest );
+REGISTER_TEST(itkNeighborhoodAlgorithmTest );
 REGISTER_TEST(itkNeighborhoodTest );
 REGISTER_TEST(itkNeighborhoodIteratorTest );
 REGISTER_TEST(itkNeighborhoodOperatorImageFunctionTest);

@@ -211,10 +211,6 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
   val[1] = -1;
   baselineVectorList.push_back( val );
 
-  val[0] = 0;
-  val[1] = 1;
-  baselineVectorList.push_back( val );
-
   val[0] = 1;
   val[1] = 2;
   baselineVectorList.push_back( val );
@@ -227,14 +223,6 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
   val[1] = 4;
   baselineVectorList.push_back( val );
 
-  val[0] = 4;
-  val[1] = -1;
-  baselineVectorList.push_back( val );
-
-  val[0] = 4;
-  val[1] = 5;
-  baselineVectorList.push_back( val );
-
   val[0] = 5;
   val[1] = 6;
   baselineVectorList.push_back( val );
@@ -245,10 +233,6 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
 
   val[0] = 7;
   val[1] = 8;
-  baselineVectorList.push_back( val );
-
-  val[0] = 8;
-  val[1] = -1;
   baselineVectorList.push_back( val );
 
   std::vector< MeasurementVectorType >::const_iterator it;
