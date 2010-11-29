@@ -32,9 +32,9 @@ class ITKIO_EXPORT TransformFileReader:public LightProcessObject
 public:
 
   /** SmartPointer typedef support */
-  typedef TransformFileReader  Self;
-  typedef SmartPointer< Self > Pointer;
-  typedef TransformBase TransformType;
+  typedef TransformFileReader                 Self;
+  typedef SmartPointer< Self >                Pointer;
+  typedef TransformBase                       TransformType;
 
   typedef TransformType::ParametersType      ParametersType;
   typedef TransformIOBase::TransformPointer  TransformPointer;

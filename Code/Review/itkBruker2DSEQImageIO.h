@@ -177,7 +177,6 @@ public:
     return;
   }
 
-  using SuperClass::SetPixelTypeInfo;
 
 protected:
   Bruker2DSEQImageIO();
