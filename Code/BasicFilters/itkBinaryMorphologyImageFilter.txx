@@ -306,7 +306,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
         // Test if shifted element is OFF: in fact diff(dir) = all the
         // elements of SE + dir where elements of SE is ON and
         // elements of SE + dir is OFF.
-        if ( this->GetKernel()[currentShiftedIndex] <= 0 )
+        if ( !this->GetKernel()[currentShiftedIndex] )
           {
           // Add it to difference set in dir i
           m_KernelDifferenceSets[i].push_back(currentOffset);
