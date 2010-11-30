@@ -130,10 +130,12 @@ int Xznzclose(znzFile * file)
 
 size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file)
 {
+#ifdef HAVE_ZLIB
   size_t     remain = size*nmemb;
   char     * cbuf = (char *)buf;
-  unsigned   n2read;
+  size_t     n2read;
   int        nread;
+#endif
 
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
@@ -164,10 +166,12 @@ size_t znzread(void* buf, size_t size, size_t nmemb, znzFile file)
 
 size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file)
 {
+#ifdef HAVE_ZLIB
   size_t     remain = size*nmemb;
   const char * cbuf = (const char *)buf;
-  unsigned   n2write;
+  size_t     n2write;
   int        nwritten;
+#endif
 
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
