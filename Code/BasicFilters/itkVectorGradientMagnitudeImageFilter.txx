@@ -216,13 +216,13 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
     {
     this->SetNumberOfThreads(m_RequestedNumberOfThreads);
     }
-
   //
   // cast might not be necessary, but CastImagefilter is optimized for
   // the case where the InputImageType == OutputImageType
   typename VectorCastImageFilter< TInputImage, RealVectorImageType >::Pointer
     caster = VectorCastImageFilter< TInputImage, RealVectorImageType >::New();
   caster->SetInput( this->GetInput() );
+  caster->GetOutput()->SetRequestedRegion( this->GetInput()->GetRequestedRegion() );
   caster->Update();
   m_RealValuedInputImage = caster->GetOutput();
 }
