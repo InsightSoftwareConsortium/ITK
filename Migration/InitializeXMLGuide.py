@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#
 # InitializeXMLGuide.py
 #
 # This script will parse the Git commits on the current branch and initializes
