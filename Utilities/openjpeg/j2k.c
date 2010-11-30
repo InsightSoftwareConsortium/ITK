@@ -1589,7 +1589,7 @@ const OPJ_CHAR * j2k_convert_progression_order(OPJ_PROG_ORDER p_prg_order)
 bool j2k_check_poc_val(const opj_poc_t *p_pocs, OPJ_UINT32 p_nb_pocs, OPJ_UINT32 p_nb_resolutions, OPJ_UINT32 p_num_comps, OPJ_UINT32 p_num_layers, opj_event_mgr_t * p_manager)
 {
   OPJ_UINT32* packet_array;
-  OPJ_UINT32 index , resno, compno, layno;
+  OPJ_UINT32 indexvalue , resno, compno, layno;
   OPJ_UINT32 i;
   OPJ_UINT32 step_c = 1;
   OPJ_UINT32 step_r = p_num_comps * step_c;
@@ -1611,12 +1611,12 @@ bool j2k_check_poc_val(const opj_poc_t *p_pocs, OPJ_UINT32 p_nb_pocs, OPJ_UINT32
     return true;
   }
 
-  index = step_r * p_pocs->resno0;
+  indexvalue = step_r * p_pocs->resno0;
   // take each resolution for each poc
   for
     (resno = p_pocs->resno0 ; resno < p_pocs->resno1 ; ++resno)
   {
-    OPJ_UINT32 res_index = index + p_pocs->compno0 * step_c;
+    OPJ_UINT32 res_index = indexvalue + p_pocs->compno0 * step_c;
     // take each comp of each resolution for each poc
     for
       (compno = p_pocs->compno0 ; compno < p_pocs->compno1 ; ++compno)
@@ -1626,13 +1626,13 @@ bool j2k_check_poc_val(const opj_poc_t *p_pocs, OPJ_UINT32 p_nb_pocs, OPJ_UINT32
       for
         (layno = layno0; layno < p_pocs->layno1 ; ++layno)
       {
-        //index = step_r * resno + step_c * compno + step_l * layno;
+        //indexvalue = step_r * resno + step_c * compno + step_l * layno;
         packet_array[comp_index] = 1;
         comp_index += step_l;
       }
       res_index += step_c;
     }
-    index += step_r;
+    indexvalue += step_r;
   }
   ++p_pocs;
   // iterate through all the pocs
@@ -1641,12 +1641,12 @@ bool j2k_check_poc_val(const opj_poc_t *p_pocs, OPJ_UINT32 p_nb_pocs, OPJ_UINT32
   {
     OPJ_UINT32 l_last_layno1 = (p_pocs-1)->layno1 ;
     layno0 = (p_pocs->layno1 > l_last_layno1)? l_last_layno1 : 0;
-    index = step_r * p_pocs->resno0;
+    indexvalue = step_r * p_pocs->resno0;
     // take each resolution for each poc
     for
       (resno = p_pocs->resno0 ; resno < p_pocs->resno1 ; ++resno)
     {
-      OPJ_UINT32 res_index = index + p_pocs->compno0 * step_c;
+      OPJ_UINT32 res_index = indexvalue + p_pocs->compno0 * step_c;
       // take each comp of each resolution for each poc
       for
         (compno = p_pocs->compno0 ; compno < p_pocs->compno1 ; ++compno)
@@ -1656,18 +1656,18 @@ bool j2k_check_poc_val(const opj_poc_t *p_pocs, OPJ_UINT32 p_nb_pocs, OPJ_UINT32
         for
           (layno = layno0; layno < p_pocs->layno1 ; ++layno)
         {
-          //index = step_r * resno + step_c * compno + step_l * layno;
+          //indexvalue = step_r * resno + step_c * compno + step_l * layno;
           packet_array[comp_index] = 1;
           comp_index += step_l;
         }
         res_index += step_c;
       }
-      index += step_r;
+      indexvalue += step_r;
     }
     ++p_pocs;
   }
 
-  index = 0;
+  indexvalue = 0;
   for
     (layno = 0; layno < p_num_layers ; ++layno)
   {
@@ -1677,9 +1677,9 @@ bool j2k_check_poc_val(const opj_poc_t *p_pocs, OPJ_UINT32 p_nb_pocs, OPJ_UINT32
       for
         (compno = 0; compno < p_num_comps; ++compno)
       {
-        loss |= (packet_array[index]!=1);
-        //index = step_r * resno + step_c * compno + step_l * layno;
-        index += step_c;
+        loss |= (packet_array[indexvalue]!=1);
+        //indexvalue = step_r * resno + step_c * compno + step_l * layno;
+        indexvalue += step_c;
       }
     }
   }
@@ -7764,6 +7764,7 @@ void j2k_setup_decoder(
 
 void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_image_t *image, struct opj_event_mgr * p_manager) {
   OPJ_UINT32 i, j, tileno, numpocs_tile;
+  OPJ_INT32 jk;
   opj_cp_t *cp = 00;
   bool l_res;
   if(!p_j2k || !parameters || ! image) {
@@ -8017,19 +8018,19 @@ void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_imag
       }else{
         if (parameters->csty & J2K_CCP_CSTY_PRT) {
           int p = 0;
-          for (j = tccp->numresolutions - 1; j >= 0; j--) {
+          for (jk = tccp->numresolutions - 1; jk >= 0; jk--) {
             if (p < parameters->res_spec) {
 
               if (parameters->prcw_init[p] < 1) {
-                tccp->prcw[j] = 1;
+                tccp->prcw[jk] = 1;
               } else {
-                tccp->prcw[j] = int_floorlog2(parameters->prcw_init[p]);
+                tccp->prcw[jk] = int_floorlog2(parameters->prcw_init[p]);
               }
 
               if (parameters->prch_init[p] < 1) {
-                tccp->prch[j] = 1;
+                tccp->prch[jk] = 1;
               }else {
-                tccp->prch[j] = int_floorlog2(parameters->prch_init[p]);
+                tccp->prch[jk] = int_floorlog2(parameters->prch_init[p]);
               }
 
             } else {
@@ -8038,19 +8039,19 @@ void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_imag
               int size_prch = parameters->prch_init[res_spec - 1] >> (p - (res_spec - 1));
 
               if (size_prcw < 1) {
-                tccp->prcw[j] = 1;
+                tccp->prcw[jk] = 1;
               } else {
-                tccp->prcw[j] = int_floorlog2(size_prcw);
+                tccp->prcw[jk] = int_floorlog2(size_prcw);
               }
 
               if (size_prch < 1) {
-                tccp->prch[j] = 1;
+                tccp->prch[jk] = 1;
               } else {
-                tccp->prch[j] = int_floorlog2(size_prch);
+                tccp->prch[jk] = int_floorlog2(size_prch);
               }
             }
             p++;
-            /*printf("\nsize precinct for level %d : %d,%d\n", j,tccp->prcw[j], tccp->prch[j]); */
+            /*printf("\nsize precinct for level %d : %d,%d\n", jk,tccp->prcw[jk], tccp->prch[jk]); */
           }  //end for
         } else {
           for (j = 0; j < tccp->numresolutions; j++) {
