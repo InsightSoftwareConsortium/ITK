@@ -50,7 +50,7 @@ bool ImageFragmentSplitter::Split()
   const Fragment& frag = sqf->GetFragment(0);
   const ByteValue *bv = frag.GetByteValue();
   const char *p = bv->GetPointer();
-  unsigned long len = bv->GetLength();
+  size_t len = bv->GetLength();
   if( FragmentSizeMax > len && !Force )
     {
     // I think it is ok
@@ -62,12 +62,12 @@ bool ImageFragmentSplitter::Split()
     gdcmDebugMacro( "Need to set a real value for fragment size" );
     return false; // seriously...
     }
-  unsigned long nfrags = len / FragmentSizeMax;
-  unsigned long lastfrag = len % FragmentSizeMax;
+  size_t nfrags = len / FragmentSizeMax;
+  size_t lastfrag = len % FragmentSizeMax;
 
   SmartPointer<SequenceOfFragments> sq = new SequenceOfFragments;
   // Let's do all complete frag:
-  for(unsigned long i = 0; i < nfrags; ++i)
+  for(size_t i = 0; i < nfrags; ++i)
     {
     Fragment splitfrag;
     splitfrag.SetByteValue( p + i * FragmentSizeMax, FragmentSizeMax);
@@ -77,7 +77,7 @@ bool ImageFragmentSplitter::Split()
   if( lastfrag )
     {
     Fragment splitfrag;
-    splitfrag.SetByteValue( p + nfrags * FragmentSizeMax, lastfrag );
+    splitfrag.SetByteValue( p + nfrags * FragmentSizeMax, (uint32_t)lastfrag );
     assert( nfrags * FragmentSizeMax + lastfrag == len );
     sq->AddFragment( splitfrag );
     }

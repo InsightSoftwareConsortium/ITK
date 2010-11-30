@@ -118,11 +118,11 @@ public:
   /// PixelRepresentation: 0 or 1, see Tag (0028,0103) US Pixel Representation
   unsigned short GetPixelRepresentation() const
     {
-    return PixelRepresentation ? 1 : 0;
+    return (unsigned short)(PixelRepresentation ? 1 : 0);
     }
   void SetPixelRepresentation(unsigned short pr)
     {
-    PixelRepresentation = (pr ? 1 : 0);
+    PixelRepresentation = (unsigned short)(pr ? 1 : 0);
     }
 
   /// ScalarType does not take into account the sample per pixel

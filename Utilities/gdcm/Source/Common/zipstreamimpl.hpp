@@ -472,7 +472,7 @@ basic_unzip_streambuf<charT, traits>::unzip_from_stream(char_type* buffer,
 
     // updating crc
     _crc = crc32(_crc, (byte_buffer_type) buffer,
-                 buffer_size - _zip_stream.avail_out / sizeof(char_type));
+                 (uInt)(buffer_size - _zip_stream.avail_out / sizeof(char_type)));
 
     std::streamsize n_read =
         buffer_size - _zip_stream.avail_out / sizeof(char_type);
@@ -509,7 +509,7 @@ basic_unzip_streambuf<charT, traits>::fill_input_buffer(void)
         }
       }
 
-    return _zip_stream.avail_in = nbytesread;
+    return _zip_stream.avail_in = (uInt)nbytesread;
 }
 
 

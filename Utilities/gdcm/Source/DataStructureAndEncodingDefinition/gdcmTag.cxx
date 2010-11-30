@@ -27,8 +27,8 @@ namespace gdcm
       gdcmDebugMacro( "Problem reading Tag: " << str );
       return false;
       }
-    SetGroup( group );
-    SetElement( element );
+    SetGroup( (uint16_t)group );
+    SetElement( (uint16_t)element );
     return true;
     }
   bool Tag::ReadFromPipeSeparatedString(const char *str)
@@ -39,8 +39,8 @@ namespace gdcm
       gdcmDebugMacro( "Problem reading Tag: " << str );
       return false;
       }
-    SetGroup( group );
-    SetElement( element );
+    SetGroup( (uint16_t)group );
+    SetElement( (uint16_t)element );
     return true;
     }
 

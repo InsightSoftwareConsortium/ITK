@@ -126,7 +126,7 @@ bool Scanner::Scan( Directory::FilenamesType const & filenames )
 
     StringFilter sf;
     Directory::FilenamesType::const_iterator it = Filenames.begin();
-    const double progresstick = 1. / Filenames.size();
+    const double progresstick = 1. / (double)Filenames.size();
     Progress = 0;
     for(; it != Filenames.end(); ++it)
       {

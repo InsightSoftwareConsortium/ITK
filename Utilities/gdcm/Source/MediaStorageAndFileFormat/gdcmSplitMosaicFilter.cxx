@@ -104,7 +104,7 @@ bool SplitMosaicFilter::Split()
 
   const gdcm::Image &inputimage = GetImage();
   //const double *spacing = inputimage.GetSpacing();
-  unsigned long l = inputimage.GetBufferLength();
+  size_t l = inputimage.GetBufferLength();
   std::vector<char> buf;
   buf.resize(l);
   inputimage.GetBuffer( &buf[0] );
@@ -122,7 +122,7 @@ bool SplitMosaicFilter::Split()
   //const gdcm::DataElement & pixeldata = ds.GetDataElement( gdcm::Tag(0x7fe1,0x1010) );
   //const gdcm::DataElement & pixeldata = ds.GetDataElement( gdcm::Tag(0x7fe0,0x0010) );
   //const gdcm::VL &l = pixeldata.GetVL();
-  const int p =  l / (dims[0] * dims[1]);
+  const size_t p =  l / (dims[0] * dims[1]);
   (void)p;
   //std::cout << "VL:" << l << std::endl;
   //std::cout << "pixel:" << p << std::endl;

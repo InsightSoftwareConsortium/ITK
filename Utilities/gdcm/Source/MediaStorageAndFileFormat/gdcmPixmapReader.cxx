@@ -298,7 +298,7 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
         // (0028,1101) US 0\0\16
         // (0028,1102) US 0\0\16
         // (0028,1103) US 0\0\16
-        const Tag tdescriptor(0x0028, (0x1101 + i));
+        const Tag tdescriptor(0x0028, uint16_t(0x1101 + i));
         //const Tag tdescriptor(0x0028, 0x3002);
         Element<VR::US,VM::VM3> el_us3;
         // Now pass the byte array to a DICOMizer:
@@ -309,14 +309,14 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
         // (0028,1201) OW
         // (0028,1202) OW
         // (0028,1203) OW
-        const Tag tlut(0x0028, (0x1201 + i));
+        const Tag tlut(0x0028, uint16_t(0x1201 + i));
         //const Tag tlut(0x0028, 0x3006);
 
         // Segmented LUT
         // (0028,1221) OW
         // (0028,1222) OW
         // (0028,1223) OW
-        const Tag seglut(0x0028, (0x1221 + i));
+        const Tag seglut(0x0028, uint16_t(0x1221 + i));
         if( ds.FindDataElement( tlut ) )
           {
           const ByteValue *lut_raw = ds.GetDataElement( tlut ).GetByteValue();
@@ -587,7 +587,7 @@ void DoCurves(const DataSet& ds, Pixmap& pixeldata)
       else if( de.GetTag().IsPrivate() ) // GEMS owns some 0x5003
         {
         // Move on to the next public one:
-        curve.SetGroup( de.GetTag().GetGroup() + 1 );
+        curve.SetGroup( (uint16_t)(de.GetTag().GetGroup() + 1) );
         curve.SetElement( 0 );
         }
       else
@@ -603,7 +603,7 @@ void DoCurves(const DataSet& ds, Pixmap& pixeldata)
         while( de2.GetTag().GetGroup() == currentcurve )
           {
           ov.Update(de2);
-          curve.SetElement( de2.GetTag().GetElement() + 1 );
+          curve.SetElement( (uint16_t)(de2.GetTag().GetElement() + 1) );
           de2 = ds.FindNextDataElement( curve );
           // Next element:
           //curve.SetElement( curve.GetElement() + 1 );
@@ -639,7 +639,7 @@ void DoOverlays(const DataSet& ds, Pixmap& pixeldata)
       else if( de.GetTag().IsPrivate() ) // GEMS owns some 0x6003
         {
         // Move on to the next public one:
-        overlay.SetGroup( de.GetTag().GetGroup() + 1 );
+        overlay.SetGroup( uint16_t(de.GetTag().GetGroup() + 1) );
         overlay.SetElement( 0 );
         }
       else
@@ -655,7 +655,7 @@ void DoOverlays(const DataSet& ds, Pixmap& pixeldata)
         while( de2.GetTag().GetGroup() == currentoverlay )
           {
           ov.Update(de2);
-          overlay.SetElement( de2.GetTag().GetElement() + 1 );
+          overlay.SetElement( uint16_t(de2.GetTag().GetElement() + 1) );
           de2 = ds.FindNextDataElement( overlay );
           // Next element:
           //overlay.SetElement( overlay.GetElement() + 1 );
@@ -1031,7 +1031,7 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
       // (0028,1101) US 0\0\16
       // (0028,1102) US 0\0\16
       // (0028,1103) US 0\0\16
-      const Tag tdescriptor(0x0028, (0x1101 + i));
+      const Tag tdescriptor(0x0028, uint16_t(0x1101 + i));
       //const Tag tdescriptor(0x0028, 0x3002);
       Element<VR::US,VM::VM3> el_us3 = {{ 0, 0, 0}};
       // Now pass the byte array to a DICOMizer:
@@ -1042,14 +1042,14 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
       // (0028,1201) OW
       // (0028,1202) OW
       // (0028,1203) OW
-      const Tag tlut(0x0028, (0x1201 + i));
+      const Tag tlut(0x0028, uint16_t(0x1201 + i));
       //const Tag tlut(0x0028, 0x3006);
 
       // Segmented LUT
       // (0028,1221) OW
       // (0028,1222) OW
       // (0028,1223) OW
-      const Tag seglut(0x0028, (0x1221 + i));
+      const Tag seglut(0x0028, uint16_t(0x1221 + i));
       if( ds.FindDataElement( tlut ) )
         {
         const ByteValue *lut_raw = ds.GetDataElement( tlut ).GetByteValue();

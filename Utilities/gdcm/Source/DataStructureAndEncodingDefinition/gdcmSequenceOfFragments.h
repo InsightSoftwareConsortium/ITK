@@ -34,6 +34,7 @@ class GDCM_EXPORT SequenceOfFragments : public Value
 public:
   // Typdefs:
   typedef std::vector<Fragment> FragmentVector;
+  typedef FragmentVector::size_type SizeType;
 
 /// \brief constructor (UndefinedLength by default)
   SequenceOfFragments():Table(),SequenceLengthField(0xFFFFFFFF) { }
@@ -61,8 +62,8 @@ public:
   // Get the buffer
   bool GetBuffer(char *buffer, unsigned long length) const;
   bool GetFragBuffer(unsigned int fragNb, char *buffer, unsigned long &length) const;
-  unsigned int GetNumberOfFragments() const;
-  const Fragment& GetFragment(unsigned int num) const;
+  SizeType GetNumberOfFragments() const;
+  const Fragment& GetFragment(SizeType num) const;
 
   // Write the buffer of each fragment (call WriteBuffer on all Fragments, which are
   // ByteValue). No Table information is written.

@@ -35,8 +35,8 @@ public:
   bool Split();
 
   /// FragmentSizeMax needs to be an even number
-  void SetFragmentSizeMax(unsigned int fragsize);
-  unsigned int GetFragmentSizeMax() const { return FragmentSizeMax; }
+  void SetFragmentSizeMax(uint32_t fragsize);
+  uint32_t GetFragmentSizeMax() const { return FragmentSizeMax; }
 
   /// When file already has all it's segment < FragmentSizeMax there is not need to run the filter.
   /// Unless the user explicitly say 'force' recomputation !
@@ -45,7 +45,7 @@ public:
 protected:
 
 private:
-  unsigned int FragmentSizeMax;
+  uint32_t FragmentSizeMax;
   bool Force;
 };
 

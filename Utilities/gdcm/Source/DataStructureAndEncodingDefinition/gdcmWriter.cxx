@@ -116,68 +116,64 @@ if( DS.IsEmpty() )
   if( ts == TransferSyntax::DeflatedExplicitVRLittleEndian )
     {
     //gzostream gzos(os.rdbuf());
-{
-    zlib_stream::zip_ostream gzos( os );
-    assert( ts.GetNegociatedType() == TransferSyntax::Explicit );
-    DS.Write<ExplicitDataElement,SwapperNoOp>(gzos);
-    //gzos.flush();
-}
-
-    return os;
-    }
-
-try
-{
-  if( ts.GetSwapCode() == SwapCode::BigEndian )
-    {
-    //US-RGB-8-epicard.dcm is big endian
-    if( ts.GetNegociatedType() == TransferSyntax::Implicit )
       {
-      // There is no such thing as Implicit Big Endian... oh well
-      // LIBIDO-16-ACR_NEMA-Volume.dcm
-      DS.Write<ImplicitDataElement,SwapperDoOp>(os);
-      }
-    else
-      {
+      zlib_stream::zip_ostream gzos( os );
       assert( ts.GetNegociatedType() == TransferSyntax::Explicit );
-      DS.Write<ExplicitDataElement,SwapperDoOp>(os);
+      DS.Write<ExplicitDataElement,SwapperNoOp>(gzos);
+      //gzos.flush();
       }
     }
-  else // LittleEndian
+
+  try
     {
-    if( ts.GetNegociatedType() == TransferSyntax::Implicit )
+    if( ts.GetSwapCode() == SwapCode::BigEndian )
       {
-      DS.Write<ImplicitDataElement,SwapperNoOp>(os);
+      //US-RGB-8-epicard.dcm is big endian
+      if( ts.GetNegociatedType() == TransferSyntax::Implicit )
+        {
+        // There is no such thing as Implicit Big Endian... oh well
+        // LIBIDO-16-ACR_NEMA-Volume.dcm
+        DS.Write<ImplicitDataElement,SwapperDoOp>(os);
+        }
+      else
+        {
+        assert( ts.GetNegociatedType() == TransferSyntax::Explicit );
+        DS.Write<ExplicitDataElement,SwapperDoOp>(os);
+        }
       }
-    else
+    else // LittleEndian
       {
-      assert( ts.GetNegociatedType() == TransferSyntax::Explicit );
-      DS.Write<ExplicitDataElement,SwapperNoOp>(os);
+      if( ts.GetNegociatedType() == TransferSyntax::Implicit )
+        {
+        DS.Write<ImplicitDataElement,SwapperNoOp>(os);
+        }
+      else
+        {
+        assert( ts.GetNegociatedType() == TransferSyntax::Explicit );
+        DS.Write<ExplicitDataElement,SwapperNoOp>(os);
+        }
       }
     }
-}
-catch(std::exception &ex)
-{
-  (void)ex;
-  gdcmErrorMacro( ex.what() );
-  return false;
-}
-catch(...)
-{
-  gdcmErrorMacro( "what the hell" );
-  return false;
-}
-
-
+  catch(std::exception &ex)
+    {
+    (void)ex;
+    gdcmErrorMacro( ex.what() );
+    return false;
+    }
+  catch(...)
+    {
+    gdcmErrorMacro( "what the hell" );
+    return false;
+    }
 
   // FIXME : call this function twice...
   if (Ofstream)
-  {
-  Ofstream->close();
-  delete Ofstream;
-  Ofstream = NULL;
-  Stream = NULL;
-  }
+    {
+    Ofstream->close();
+    delete Ofstream;
+    Ofstream = NULL;
+    Stream = NULL;
+    }
 
   return true;
 }
