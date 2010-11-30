@@ -182,30 +182,31 @@ if __name__ == '__main__':
   for commit in commitList:
 
     # get the log for the commit
-    logCommand = "git log " + commit + " -n1 --stat"
+    logCommand = "git log -n1 --format=format:%s%n%b " + commit
+    print logCommand
     log = runCommand(logCommand)
 
     descriptionText = descriptionText + "---- " + commit + " ----\n"
 
     for line in log.splitlines():
-
       # commit message lines and change id lines
-      if startsWith(line, "  "):
-        if startsWith(line.strip(), "Change-Id: "):
-          changeId = stripPrefix(line.strip(), "Change-Id: ")
-          changeIdText = changeIdText + changeId + "\n"
-        else:
-          descriptionText = descriptionText + line.strip() + '\n'
+      if startsWith(line.strip(), "Change-Id: "):
+        changeId = stripPrefix(line.strip(), "Change-Id: ")
+        changeIdText = changeIdText + changeId + "\n"
+      else:
+        descriptionText = descriptionText + line.strip() + '\n'
 
+    # get the modified file list for the commit
+    logCommand = "git log -n1 --name-only --format=format: " + commit
+    log = runCommand(logCommand)
+    for line in log.splitlines():
       # changed file lines
-      elif startsWith(line, " "):
-        splits = line.split("|")
-        if len(splits) == 2:
-          filename = splits[0].strip()
-          if not filename in changedFileList:
-            changedFileList.append(filename)
-          if startsWith(filename, "Examples") or startsWith(filename, "Testing"):
-            exampleAndTestChangedFileList.append(filename)
+      filename = line.strip()
+      if filename:
+        if not filename in changedFileList:
+          changedFileList.append(filename)
+        if startsWith(filename, "Examples") or startsWith(filename, "Testing"):
+          exampleAndTestChangedFileList.append(filename)
 
 
   #
