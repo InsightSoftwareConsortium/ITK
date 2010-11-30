@@ -15,11 +15,10 @@ void test_matrix(char const* name, const vnl_matrix<double>& A, double det = 0)
   vnl_qr<double> qr(A);
 
   vcl_string n(name); n+= ": ";
-  testlib_test_assert_near(n+"Q * R residual", (qr.Q() * qr.R() - A).fro_norm());
-  testlib_test_assert(n+"Q * Q = I", (qr.Q().transpose() * qr.Q()).is_identity(1e-12));
+  TEST_NEAR((n+"Q * R residual").c_str(), (qr.Q() * qr.R() - A).fro_norm(), 0.0, 1e-12);
+  TEST((n+"Q * Q = I").c_str(), (qr.Q().transpose() * qr.Q()).is_identity(1e-12), true);
 
-  if (det)
-    testlib_test_assert_near(n+ "Determinant", qr.determinant(), det, 1e-9);
+  if (det) { TEST_NEAR((n+ "Determinant").c_str(), qr.determinant(), det, 1e-9); }
 }
 
 void double_test()
@@ -54,7 +53,7 @@ void double_test()
 
   double res = (A * x - b).magnitude();
 
-  testlib_test_assert_near("Solve residual", res, 37.8841, 1e-3);
+  TEST_NEAR("Solve residual", res, 37.8841, 1e-3);
 
   {
     double S_data[] = {
@@ -104,9 +103,9 @@ void new_test(T *)
   vnl_matlab_print(vcl_cout, QR, "QR");
 
   vnl_matrix<T> I(m, m); I.set_identity();
-  testlib_test_assert_near("||Q'Q - 1||", (Q.conjugate_transpose()*Q - I).fro_norm(), 0, rounding_epsilon(T));
-  testlib_test_assert_near("||A - QR||", (A - QR).fro_norm(), 0, rounding_epsilon(T));
-  testlib_test_assert_near("||Ax - b||", (A*x - b).two_norm(), 0, rounding_epsilon(T));
+  TEST_NEAR("||Q'Q - 1||", (Q.conjugate_transpose()*Q - I).fro_norm(), 0, rounding_epsilon(T));
+  TEST_NEAR("||A - QR||", (A - QR).fro_norm(), 0, rounding_epsilon(T));
+  TEST_NEAR("||Ax - b||", (A*x - b).two_norm(), 0, rounding_epsilon(T));
 }
 
 #define inst(T) \
@@ -155,7 +154,7 @@ void complex_test()
   const vnl_matrix<ct>& Q = qr.Q(); vnl_matlab_print(vcl_cout, Q, "Q");
   const vnl_matrix<ct>& R = qr.R(); vnl_matlab_print(vcl_cout, R, "R");
   vnl_vector<ct> x = qr.solve(b);   vnl_matlab_print(vcl_cout, x, "solve");
-  testlib_test_assert_near("||Ax - b||", (A*x - b).two_norm(), 0, 1e-5);
+  TEST_NEAR("||Ax - b||", (A*x - b).two_norm(), 0, 1e-5);
 }
 
 //--------------------------------------------------------------------------------

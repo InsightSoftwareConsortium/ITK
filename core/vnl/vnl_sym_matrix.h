@@ -8,7 +8,7 @@
 // \file
 // \brief Contains class for symmetric matrices
 // \author Ian Scott (Manchester ISBE)
-// \date   6/12/2001
+// \date   6 Dec 2001
 
 #include <vcl_cassert.h>
 #include <vcl_iosfwd.h>
@@ -28,7 +28,7 @@ class vnl_sym_matrix
   //: Construct an empty symmetric matrix.
   vnl_sym_matrix(): data_(0), index_(0), nn_(0) {}
 
-  //: Construct an symmetric matrix of size nn by nn.
+  //: Construct a symmetric matrix of size nn by nn.
   explicit vnl_sym_matrix(unsigned nn):
   data_(vnl_c_vector<T>::allocate_T(nn * (nn + 1) / 2)),
   index_(vnl_c_vector<T>::allocate_Tptr(nn)),
@@ -48,7 +48,7 @@ class vnl_sym_matrix
 
   //: Copy constructor
   inline vnl_sym_matrix(vnl_sym_matrix<T> const& that);
- 
+
   ~vnl_sym_matrix()
   { vnl_c_vector<T>::deallocate(data_, size());
     vnl_c_vector<T>::deallocate(index_, nn_);}
@@ -143,7 +143,7 @@ class vnl_sym_matrix
 };
 
 //:
-// \relates vnl_sym_matrix
+// \relatesalso vnl_sym_matrix
 template <class T> vcl_ostream& operator<< (vcl_ostream&, vnl_sym_matrix<T> const&);
 
 
@@ -231,7 +231,7 @@ template <class T>
 bool operator==(const vnl_matrix<T> &a, const vnl_sym_matrix<T> &b);
 
 //: Swap the contents of a and b.
-// \relates vnl_sym_matrix
+// \relatesalso vnl_sym_matrix
 template <class T>
 void swap(vnl_sym_matrix<T> &a, vnl_sym_matrix<T> &b)
 { a.swap(b); }

@@ -19,7 +19,7 @@
 #include <vnl/vnl_matrix_fixed.h>
 
 //: Calculate trace of a matrix
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 template <class T>
 T vnl_trace(vnl_matrix<T> const& M)
 {
@@ -31,7 +31,7 @@ T vnl_trace(vnl_matrix<T> const& M)
 }
 
 //: Calculate trace of a matrix
-// \relates vnl_matrix_fixed
+// \relatesalso vnl_matrix_fixed
 template <class T, unsigned int N1, unsigned int N2>
 T vnl_trace(vnl_matrix_fixed<T,N1,N2> const& M)
 {

@@ -512,7 +512,7 @@ text { return ret; }
 
 //#define VCL_DEFAULT_TMPL_ARG(arg) /* no need */
 //#define VCL_DEFAULT_TMPL_ARG(arg) arg
-#define VCL_DEFAULT_TMPL_ARG(arg) 
+#define VCL_DEFAULT_TMPL_ARG(arg)
 
 //
 #define VCL_CAN_DO_COMPLETE_DEFAULT_TYPE_PARAMETER 1
@@ -601,7 +601,7 @@ text { return ret; }
 // infinity issues
 
 //: VCL_NUMERIC_LIMITS_HAS_INFINITY
-// Set to true if there is a numeric_limits and it reports having an floating point infinity.
+// Set to true if there is a numeric_limits and it reports having a floating point infinity.
 #define VCL_NUMERIC_LIMITS_HAS_INFINITY 1
 
 //: VCL_PROCESSOR_HAS_INFINITY

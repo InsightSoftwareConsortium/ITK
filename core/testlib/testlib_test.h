@@ -119,19 +119,28 @@ do { \
 #define TESTMAIN( testname ) \
   int testname ## _main(int,char*[]) { START(#testname); testname(); SUMMARY(); }
 
+//: A simplified version of the main test, just in one line.
+// This (new) variant is to be used with the (new) CMake GENERATE_TEST_DRIVER()
+#define TEST_MAIN( testname ) \
+  int testname(int,char*[]) { START(#testname); testname(); SUMMARY(); }
+
 //: A simplified version of the main test, with parameter passing.
-#undef TESTMAIN_ARGS
-#define TESTMAIN_ARGS( x ) \
-  int x ## _main(int argc, char*argv[]) { START(#x); x(argc,argv); SUMMARY(); }
+#define TESTMAIN_ARGS( testname ) \
+  int testname ## _main(int argc, char*argv[]) { START(#testname); testname(argc,argv); SUMMARY(); }
+
+//: A simplified version of the main test, with parameter passing.
+// This (new) variant is to be used with the (new) CMake GENERATE_TEST_DRIVER()
+#define TEST_MAIN_ARGS( testname ) \
+  int testname(int argc, char*argv[]) { START(#testname); testname(argc,argv); SUMMARY(); }
 
 //: Another simplified main test.  To be used in a standalone executable.
 #undef TESTLIB_DEFINE_MAIN
-#define TESTLIB_DEFINE_MAIN(x) \
-  int main() { START(#x); x(); return testlib_test_summary(); }
+#define TESTLIB_DEFINE_MAIN(testname) \
+  int main() { START(#testname); testname(); return testlib_test_summary(); }
 
 //: A simplified main test with parameter passing.  To be used in a standalone executable.
 #undef TESTLIB_DEFINE_MAIN_ARGS
-#define TESTLIB_DEFINE_MAIN_ARGS(x) \
-  int main(int argc, char * argv[]) { START(#x); x(argc,argv); SUMMARY(); }
+#define TESTLIB_DEFINE_MAIN_ARGS(testname) \
+  int main(int argc, char * argv[]) { START(#testname); testname(argc,argv); SUMMARY(); }
 
 #endif // testlib_test_h_

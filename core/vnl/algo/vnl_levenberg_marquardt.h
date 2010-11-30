@@ -88,9 +88,10 @@ class vnl_levenberg_marquardt : public vnl_nonlinear_minimizer
   //  The cost function must provide a gradient.
   bool minimize_using_gradient  (vnl_vector<double>& x);
 
-  //: Calls minimize_using_gradient() or minimize_without_gradient()
-  // , depending on whether the cost function provides a gradient.
+  //: Calls minimize_using_gradient() or minimize_without_gradient(), 
+  // depending on whether the cost function provides a gradient.
   bool minimize(vnl_vector<double>& x);
+  bool minimize(vnl_vector_fixed<double,1>& x) { vnl_vector<double> y=x.extract(1); bool b=minimize(y); x=y; return b; }
   bool minimize(vnl_vector_fixed<double,2>& x) { vnl_vector<double> y=x.extract(2); bool b=minimize(y); x=y; return b; }
   bool minimize(vnl_vector_fixed<double,3>& x) { vnl_vector<double> y=x.extract(3); bool b=minimize(y); x=y; return b; }
   bool minimize(vnl_vector_fixed<double,4>& x) { vnl_vector<double> y=x.extract(4); bool b=minimize(y); x=y; return b; }

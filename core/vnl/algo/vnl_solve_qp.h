@@ -15,10 +15,10 @@
 //  \param H Hessian of F(x) - must be symmetric
 //  \retval True if successful
 bool vnl_solve_qp_with_equality_constraints(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                const vnl_matrix<double>& A,
-                                const vnl_vector<double>& b,
-                                vnl_vector<double>& x);
+                                            const vnl_vector<double>& g,
+                                            const vnl_matrix<double>& A,
+                                            const vnl_vector<double>& b,
+                                            vnl_vector<double>& x);
 
 //: Solve quadratic programming problem with constraint sum(x)=0
 //  Minimise F(x)=0.5x'Hx + g'x  subject to sum(x)=0
@@ -26,8 +26,8 @@ bool vnl_solve_qp_with_equality_constraints(const vnl_matrix<double>& H,
 //  \param H Hessian of F(x) - must be symmetric
 //  \retval True if successful
 bool vnl_solve_qp_zero_sum(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                vnl_vector<double>& x);
+                           const vnl_vector<double>& g,
+                           vnl_vector<double>& x);
 
 //: Find non-negative solution to a constrained quadratic programming problem
 //  Minimise F(x)=0.5x'Hx + g'x  subject to Ax=b and x(i)>=0 for all i
@@ -42,12 +42,12 @@ bool vnl_solve_qp_zero_sum(const vnl_matrix<double>& H,
 //  \param verbose When true, output error messages to cerr if failed
 //  \retval True if successful
 bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                const vnl_matrix<double>& A,
-                                const vnl_vector<double>& b,
-                                vnl_vector<double>& x,
-                                double con_tol = 1e-8,
-                                bool verbose=true);
+                                           const vnl_vector<double>& g,
+                                           const vnl_matrix<double>& A,
+                                           const vnl_vector<double>& b,
+                                           vnl_vector<double>& x,
+                                           double con_tol = 1e-8,
+                                           bool verbose=true);
 
 //: Find non-negative solution to a constrained quadratic programming problem
 //  Minimise F(x)=0.5x'Hx + g'x  subject to sum(x)=1 and x(i)>=0 for all i
@@ -61,9 +61,9 @@ bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
 //  \param verbose When true, output error messages to cerr if failed
 //  \retval True if successful
 bool vnl_solve_qp_non_neg_sum_one(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                vnl_vector<double>& x,
-                                bool verbose=true);
+                                  const vnl_vector<double>& g,
+                                  vnl_vector<double>& x,
+                                  bool verbose=true);
 
 #endif // vnl_solve_qp_h_
 

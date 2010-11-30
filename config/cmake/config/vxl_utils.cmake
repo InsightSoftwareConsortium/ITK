@@ -1,14 +1,3 @@
-# CMake 2.4 is not currently required, but when it is we can remove
-#   CMakeConfigurableFile.in from config/cmake/Modules/NewCmake
-#   (This is used in GENERATE_TEST_INCLUDE)
-# CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
-IF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER "2.3")
-  MESSAGE(SEND_ERROR
-    "The file CMakeConfigurableFile.in can be removed\n"
-    "from config/cmake/Modules/NewCMake/ now!\n"
-    "It should be available from CMake distribution. (miguelfv)")
-ENDIF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER "2.3")
-
 #
 # INSTALL_NOBASE_HEADER_FILES(prefix file file file ...)
 # Will create install rules for those files of the list
@@ -18,11 +7,11 @@ ENDIF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER "2.3")
 
 MACRO(INSTALL_NOBASE_HEADER_FILES prefix)
 FOREACH(file ${ARGN})
-  IF(${file} MATCHES "\\.(h|txx)(\\.in)?$")
+  IF(${file} MATCHES "\\.(h|hxx|txx)(\\.in)?$")
     STRING(REGEX REPLACE "\\.in$" "" install_file ${file})
     GET_FILENAME_COMPONENT(dir ${install_file} PATH)
     INSTALL_FILES(${prefix}/${dir} FILES ${install_file})
-  ENDIF(${file} MATCHES "\\.(h|txx)(\\.in)?$")
+  ENDIF(${file} MATCHES "\\.(h|hxx|txx)(\\.in)?$")
 ENDFOREACH(file ${filelist})
 ENDMACRO(INSTALL_NOBASE_HEADER_FILES)
 
@@ -91,8 +80,7 @@ MACRO(GENERATE_TEST_INCLUDE LIB SOURCES PREFIX)
   SET(CMAKE_CONFIGURABLE_FILE_CONTENT
       "${CMAKE_CONFIGURABLE_FILE_CONTENT}\n\nint main(){return 0;}\n")
 
-  #CONFIGURE_FILE("${CMAKE_ROOT}/Modules/CMakeConfigurableFile.in"
-  CONFIGURE_FILE("${MODULE_PATH}/NewCMake/CMakeConfigurableFile.in"
+  CONFIGURE_FILE("${CMAKE_ROOT}/Modules/CMakeConfigurableFile.in"
                  "${CMAKE_CURRENT_BINARY_DIR}/test_include.cxx"
                  @ONLY IMMEDIATE)
 

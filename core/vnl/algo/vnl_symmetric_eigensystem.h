@@ -48,6 +48,8 @@
 //   dac (Manchester) 28/03/2001: tidied up documentation
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 //   Jan.2003 - Peter Vanroose - added missing implementation for solve(b,x)
+//   Mar.2010 - Peter Vanroose - also made vnl_symmetric_eigensystem_compute()
+//                               & vnl_symmetric_eigensystem_compute_eigenvals() templated
 // \endverbatim
 
 #include <vnl/vnl_matrix.h>
@@ -60,22 +62,18 @@
 //             M12  M22  M23
 //             M13  M23  M33
 // \endverbatim
+template <class T>
 void vnl_symmetric_eigensystem_compute_eigenvals(
-       double M11, double M12, double M13,
-                   double M22, double M23,
-                               double M33,
-       double &l1, double &l2, double &l3);
+       T M11, T M12, T M13,
+              T M22, T M23,
+                     T M33,
+       T &l1, T &l2, T &l3);
 
 //: Find eigenvalues of a symmetric matrix
-bool vnl_symmetric_eigensystem_compute(vnl_matrix<float> const & A,
-                                       vnl_matrix<float> & V,
-                                       vnl_vector<float> & D);
-
-//: Find eigenvalues of a symmetric matrix
-
-bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A,
-                                       vnl_matrix<double> & V,
-                                       vnl_vector<double> & D);
+template <class T>
+bool vnl_symmetric_eigensystem_compute(vnl_matrix<T> const & A,
+                                       vnl_matrix<T> & V,
+                                       vnl_vector<T> & D);
 
 //: Computes and stores the eigensystem decomposition of a symmetric matrix.
 
@@ -140,5 +138,8 @@ class vnl_symmetric_eigensystem
   //: Solve LS problem M x = b
   void solve(vnl_vector<T> const & b, vnl_vector<T> * x) { *x = solve(b); }
 };
+
+#define VNL_SYMMETRIC_EIGENSYSTEM_INSTANTIATE(T) \
+extern "please include vnl/algo/vnl_symmetric_eigensystem.txx first"
 
 #endif // vnl_symmetric_eigensystem_h_

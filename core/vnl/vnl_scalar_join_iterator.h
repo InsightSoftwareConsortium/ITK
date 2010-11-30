@@ -112,7 +112,7 @@ class vnl_scalar_join_iterator
 
  private:
   // Postfix ++ is private as it would be costly to implement.
-  vnl_scalar_join_iterator<T>& operator ++ (int);
+  vnl_scalar_join_iterator<T> operator++ (int);
 
 #if 0
   T object1() const { return *I1[index1].object; }

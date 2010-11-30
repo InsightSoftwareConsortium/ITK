@@ -6,7 +6,7 @@
 
 #include "vnl_sym_matrix.h"
 #include <vcl_iostream.h>
-
+#include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 
 // ==========================================================================
 //: Replaces the symmetric submatrix of THIS matrix, starting at top left corner, by the elements of matrix m.
@@ -15,13 +15,13 @@ template<class T>
 vnl_sym_matrix<T>& vnl_sym_matrix<T>::update (vnl_sym_matrix<T> const& m,
                                               unsigned diagonal_start)
 {
-  unsigned int end = diagonal_start + m.nn_;
+  unsigned int end_val = diagonal_start + m.nn_;
 #if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
-  if (this->nn_ < end)
+  if (this->nn_ < end_val)
     vnl_error_matrix_dimension ("vnl_sym_matrix::update",
-                                end, end, m.nn_, m.nn_);
+                                end_val, end_val, m.nn_, m.nn_);
 #endif
-  for (unsigned int i = diagonal_start; i < end; i++)
+  for (unsigned int i = diagonal_start; i < end_val; i++)
     for (unsigned int j = diagonal_start; j <= i; j++)
       this->fast(i,j) = m.fast(i-diagonal_start,j-diagonal_start);
   return *this;

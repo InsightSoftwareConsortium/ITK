@@ -10,9 +10,10 @@
 // \author fsm
 //
 // \verbatim
-// Modifications
-// LSB (Manchester) 23/3/01 documentation tidied
+//  Modifications
+//   LSB (Manchester) 23 Mar 2001 documentation tidied
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
+//   21 Apr 2009 Kent Williams - Taking care of the byte ordering of the MAT file
 // \endverbatim
 
 #include <vcl_iosfwd.h>
@@ -81,7 +82,7 @@ fsm_declare_methods(vcl_complex<double>);
   vnl_matlab_header hdr;
   char *varname;
   bool data_read;
-
+  bool need_swap;
   void read_hdr(); // internal work routine
 };
 

@@ -1125,6 +1125,24 @@ int main()
 #endif // VXL_APPLE_HAS_INLINE_ISNAND
 
 //-------------------------------------
+#ifdef VXL_HAS_WIN_WCHAR_T
+
+#ifdef _WCHAR_T_DEFINED
+#include <wchar.h>
+int main()
+{
+  wchar_t buf [10];
+  buf[0] = L'1';
+  buf[1] = L'\0';
+  return 0;
+}
+#else
+  int main() { return 1; }
+#endif
+
+#endif
+
+//-------------------------------------
 
 #ifdef VXL_HAS_MM_MALLOC
 #include <emmintrin.h>
@@ -1174,7 +1192,7 @@ int main()
 
 //-------------------------------------
 
-#ifdef VXL_HAS_SSE2_HARDWARE_SUPPORT
+#if defined(VXL_HAS_SSE2_HARDWARE_SUPPORT) || defined(VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE)
 #include <emmintrin.h>
 int main()
 {
@@ -1182,12 +1200,12 @@ int main()
   double d_a[]  = { 6.75, 3.42 };
   double d_b[]  = { 2.3, 9.2 };
   double res[2] = {0.0};
-  
+
   __m128d z;
   z = _mm_mul_pd(_mm_loadu_pd(d_a),_mm_loadu_pd(d_b));
-  
+
   _mm_storeu_pd(res,z);
-  
+
   return 0;
 }
 #endif

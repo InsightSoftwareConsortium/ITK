@@ -23,6 +23,7 @@
 vnl_T_n_impl(float,2);
 
 //: Cross product of two 2-vectors
+//  \relatesalso vnl_vector_fixed
 inline
 float vnl_cross_2d(vnl_float_2 const& v1, vnl_float_2 const& v2)
 {

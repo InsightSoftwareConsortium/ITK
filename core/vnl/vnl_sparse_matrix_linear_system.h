@@ -32,7 +32,7 @@ class vnl_sparse_matrix_linear_system : public vnl_linear_system
   //::Constructor from vnl_sparse_matrix<double> for system Ax = b
   // Keeps a reference to the original sparse matrix A and vector b so DO NOT DELETE THEM!!
   vnl_sparse_matrix_linear_system(vnl_sparse_matrix<T> const& A, vnl_vector<T> const& b) :
-    vnl_linear_system(A.columns(), A.rows()), A_(A), b_(b) {}
+    vnl_linear_system(A.columns(), A.rows()), A_(A), b_(b), jacobi_precond_() {}
 
   //:  Implementations of the vnl_linear_system virtuals.
   void multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const;

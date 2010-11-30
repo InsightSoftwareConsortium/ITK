@@ -10,14 +10,15 @@ void test_rpoly_roots()
 
   vnl_rpoly_roots roots(a);
 
-  testlib_test_assert("Result sizes", (roots.real().size() == 4) && (roots.imag().size() == 4));
-  testlib_test_assert("Complex size", (roots.roots().size() == 4));
-  //testlib_test_assert("degree", roots.degree() == 4);
+  TEST("Result size (real)", roots.real().size(), 4);
+  TEST("Result size (imag)", roots.imag().size(), 4);
+  TEST("Complex size", roots.roots().size(), 4);
+  //TEST("degree", roots.degree(), 4);
 
   // Evaluate results
   vnl_real_polynomial p(a);
   for (int i = 0; i < p.degree(); ++i)
-    testlib_test_assert("Root residual", vcl_abs(p.evaluate(roots[i])) < 1e-12);
+    TEST_NEAR("Root residual", vcl_abs(p.evaluate(roots[i])), 0.0, 1e-12);
 }
 
 TESTMAIN(test_rpoly_roots);

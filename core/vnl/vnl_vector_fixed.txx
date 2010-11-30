@@ -53,11 +53,12 @@ vnl_vector_fixed<T,n>::update( const vnl_vector<T>& v, unsigned int start )
 }
 
 template <class T, unsigned int n>
-void
+vnl_vector_fixed<T,n>&
 vnl_vector_fixed<T,n>::flip()
 {
   for ( unsigned int i=0; 2*i+1 < n; ++i )
     vcl_swap( data_[i], data_[n-1-i] );
+  return *this;
 }
 
 template <class T, unsigned int n>

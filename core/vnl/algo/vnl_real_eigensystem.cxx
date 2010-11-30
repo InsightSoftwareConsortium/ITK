@@ -16,7 +16,7 @@
 #include <vnl/vnl_fortran_copy.h>
 #include <vnl/algo/vnl_netlib.h> // rg_()
 
-//: Extract eigensystem of unsymmetric matrix M, using the EISPACK routine rg.
+//: Extract eigensystem of non-symmetric matrix M, using the EISPACK routine rg.
 //  Should probably switch to using LAPACK's dgeev to avoid transposing.
 vnl_real_eigensystem::vnl_real_eigensystem(vnl_matrix<double> const & M):
   Vreal(M.rows(), M.columns()),
@@ -59,7 +59,8 @@ vnl_real_eigensystem::vnl_real_eigensystem(vnl_matrix<double> const & M):
       }
 
       ++c;
-    } else
+    }
+    else
       for (int r = 0; r < n; ++r) {
         V(r, c) = vcl_complex<double>(devout(c,r), 0);
         Vreal(r,c) = devout(c,r);

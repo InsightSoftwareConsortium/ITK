@@ -1,6 +1,7 @@
 #include <vcl_cassert.h>
 #ifndef VCL_SGI_CC_720 //SGI7.2.1
 #include <vcl_ciso646.h>
+#include <vcl_atomic_count.h>
 #endif
 #include <vcl_csetjmp.h>
 #include <vcl_cstdio.h>
@@ -9,7 +10,7 @@
 #include <vcl_climits.h>
 #include <vcl_csignal.h>
 #include <vcl_cstdlib.h>
-#ifndef __FreeBSD__ //FreeBSD4 
+#ifndef __FreeBSD__ //FreeBSD4
 #include <vcl_cwchar.h>
 #include <vcl_cwctype.h>
 #endif

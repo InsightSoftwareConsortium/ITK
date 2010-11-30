@@ -3,7 +3,7 @@
 #include <vcl_iostream.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_cholesky.h>
-#include <vnl/algo/vnl_svd.h>
+#include <vnl/vnl_inverse.h>
 #include <vnl/vnl_random.h>
 
 #include "test_util.h"
@@ -20,11 +20,10 @@ void test_cholesky()
 
   {
     vnl_cholesky chol(A);
-    vnl_svd<double> svd(A);
     vcl_cout << "cholesky inverse:\n" << chol.inverse() << '\n'
-             << "svd inverse:\n" << svd.inverse() << '\n';
-    testlib_test_assert_near("svd.inverse() ~= cholesky.inverse()",
-                             (chol.inverse() - svd.inverse()).fro_norm());
+             << "direct inverse:\n" << vnl_inverse(A) << '\n';
+    testlib_test_assert_near("vnl_inverse() ~= cholesky.inverse()",
+                             (chol.inverse() - vnl_inverse(A)).fro_norm());
   }
   {
     vnl_cholesky chol(A);
@@ -45,7 +44,6 @@ void test_cholesky()
     x=chol.solve(b);
     testlib_test_assert_near("Solve Ax=b",(x-x0).one_norm(),0,1e-6);
   }
-
 }
 
 TESTMAIN(test_cholesky);

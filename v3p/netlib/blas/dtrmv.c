@@ -26,7 +26,7 @@ extern "C" {
     /* Local variables */
     integer i__, j, ix, jx, kx=0, info;
     doublereal temp;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
     logical nounit;
     (void)uplo_len;

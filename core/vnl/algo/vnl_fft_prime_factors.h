@@ -64,7 +64,7 @@ public:
 
   // disallow copying
   vnl_fft_prime_factors (vnl_fft_prime_factors<T> const &) { }
-  void operator= (vnl_fft_prime_factors<T> const &) { }
+  vnl_fft_prime_factors<T>& operator= (vnl_fft_prime_factors<T> const &) { return *this; }
 };
 
 #endif // vnl_fft_prime_factors_h_

@@ -8,7 +8,14 @@
 
 #include <vcl_cassert.h>
 #include <vnl/vnl_math.h>
+#undef VNL_USE_OLD_BRENT_MINIMIZER // #define VNL_USE_OLD_BRENT_MINIMIZER
+// This version was deprecated, and the refactoring to the new minimizer was not done correctly with respect to initialisation.
+#ifdef VNL_USE_OLD_BRENT_MINIMIZER
 #include <vnl/algo/vnl_brent.h>
+#else
+#include <vnl/algo/vnl_brent_minimizer.h>
+#include <vnl/algo/vnl_bracket_minimum.h>
+#endif
 #ifdef DEBUG
 #include <vnl/vnl_matlab_print.h>
 #include <vcl_iostream.h>
@@ -23,8 +30,8 @@ class vnl_powell_1dfun : public vnl_cost_function
   vnl_vector<double> x0_;
   vnl_vector<double> dx_;
   vnl_vector<double> tmpx_;
-  vnl_powell_1dfun(int n, vnl_cost_function* f, vnl_powell* p)
-   : vnl_cost_function(1), powell_(p), f_(f), n_(n), x0_(n), dx_(n), tmpx_(n) {}
+  vnl_powell_1dfun(int n, vnl_cost_function* func, vnl_powell* p)
+   : vnl_cost_function(1), powell_(p), f_(func), n_(n), x0_(n), dx_(n), tmpx_(n) {}
 
   void init(vnl_vector<double> const& x0, vnl_vector<double> const& dx)
   {
@@ -51,7 +58,6 @@ class vnl_powell_1dfun : public vnl_cost_function
 
 vnl_nonlinear_minimizer::ReturnCodes
 vnl_powell::minimize(vnl_vector<double>& p)
-  //double p[], double **xi, int n
 {
  // verbose_ = true;
   int n = p.size();
@@ -78,12 +84,27 @@ vnl_powell::minimize(vnl_vector<double>& p)
 
       // 1D minimization along xi
       f1d.init(p, xit);
+#ifdef VNL_USE_OLD_BRENT_MINIMIZER
       vnl_brent brent(&f1d);
+      double ax;
+      double xx = initial_step_;
+      double bx = 0.0;
+      brent.bracket_minimum(&ax, &xx, &bx);
+      fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+#else
+      vnl_brent_minimizer brent(f1d);
       double ax = 0.0;
       double xx = initial_step_;
       double bx;
-      brent.bracket_minimum(&ax, &xx, &bx);
-      fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+      {
+        double fa, fxx, fb;
+        vnl_bracket_minimum(f1d,ax,xx,bx,fa,fxx,fb);
+      }
+      brent.set_x_tolerance (linmin_xtol_);
+      xx=brent.minimize_given_bounds(ax,xx,bx);
+      fret=brent.f_at_last_minimum();
+#endif
+
       f1d.uninit(xx, p);
       // Now p is minimizer along xi
 
@@ -102,7 +123,7 @@ vnl_powell::minimize(vnl_vector<double>& p)
     }
 
     if (num_iterations_ == unsigned(maxfev))
-      return FAILED_TOO_MANY_ITERATIONS;
+      return TOO_MANY_ITERATIONS;
 
     for (int j=0;j<n;++j)
     {
@@ -119,12 +140,26 @@ vnl_powell::minimize(vnl_vector<double>& p)
       if (t < 0.0)
       {
         f1d.init(p, xit);
+#ifdef VNL_USE_OLD_BRENT_MINIMIZER
         vnl_brent brent(&f1d);
+        double ax;
+        double xx = 1.0;
+        double bx = 0.0;
+        brent.bracket_minimum(&ax, &xx, &bx);
+        fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+#else
+        vnl_brent_minimizer brent(f1d);
         double ax = 0.0;
         double xx = 1.0;
         double bx;
-        brent.bracket_minimum(&ax, &xx, &bx);
-        fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+        {
+          double fa, fxx, fb;
+          vnl_bracket_minimum(f1d,ax,xx,bx,fa,fxx,fb);
+        }
+        brent.set_x_tolerance (linmin_xtol_);
+        xx=brent.minimize_given_bounds(ax,xx,bx);
+        fret=brent.f_at_last_minimum();
+#endif
         f1d.uninit(xx, p);
 
         for (int j=0;j<n;j++) {
@@ -133,7 +168,8 @@ vnl_powell::minimize(vnl_vector<double>& p)
         }
       }
     }
-    report_iter();
+    if (report_iter())
+      return FAILED_USER_REQUEST;
   }
-  return FAILED_TOO_MANY_ITERATIONS;
+  return TOO_MANY_ITERATIONS;
 }

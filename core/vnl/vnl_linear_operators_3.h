@@ -24,7 +24,7 @@
 #include <vnl/vnl_double_3x3.h>
 
 //: The binary multiplication operator
-// \relates vnl_matrix_fixed
+// \relatesalso vnl_matrix_fixed
 inline
 vnl_double_3 operator* (const vnl_double_3x3& A, const vnl_double_3& x)
 {
@@ -36,7 +36,7 @@ vnl_double_3 operator* (const vnl_double_3x3& A, const vnl_double_3& x)
 }
 
 //: The binary addition operator
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 inline
 vnl_double_3 operator+ (const vnl_double_3& a, const vnl_double_3& b)
 {

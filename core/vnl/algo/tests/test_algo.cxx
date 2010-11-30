@@ -1,5 +1,5 @@
 // This is core/vnl/algo/tests/test_algo.cxx
-
+#include <testlib/testlib_test.h>
 //:
 // \file
 // \brief test miscellaneous classes and functions in vnl/algo.
@@ -24,7 +24,6 @@
 // \date 20 September 2003
 
 #include <vcl_complex.h>
-#include <testlib/testlib_test.h>
 
 #include <vnl/algo/vnl_adjugate.h>
 #include <vnl/algo/vnl_conjugate_gradient.h>
@@ -85,7 +84,7 @@ static void test_orthogonal_complement()
 
 class F_test_powell : public vnl_cost_function
 {
-public:
+ public:
   // Local min near (0,0) is at (1,1) and has value 1.
   F_test_powell() : vnl_cost_function(2) {}
   double f(vnl_vector<double> const& x)
@@ -133,12 +132,11 @@ static void test_lsqr()
 }
 
 class F_test_discrete_diff : public vnl_least_squares_function
-  {
-   public:
-    F_test_discrete_diff(): vnl_least_squares_function(2, 2, no_gradient) {}
-    void f(vnl_vector<double> const& x, vnl_vector<double>& fx) { fx[0]=x[0]-x[1]*x[1]; fx[1]=x[1]-1; }
-  };
-
+{
+ public:
+  F_test_discrete_diff(): vnl_least_squares_function(2, 2, no_gradient) {}
+  void f(vnl_vector<double> const& x, vnl_vector<double>& fx) { fx[0]=x[0]-x[1]*x[1]; fx[1]=x[1]-1; }
+};
 
 static void test_discrete_diff()
 {
@@ -154,8 +152,8 @@ static void test_discrete_diff()
 
 static void test_generalized_schur()
 {
-  vnl_matrix<float> A(4,4,0.0), B(4,4,0.0), L(4,4,1.0), R(4,4,1.0);
-  vnl_vector<float> ar(4,0.0), ai(4,0.0), b(4,0.0);
+  vnl_matrix<float> A(4,4,0.0f), B(4,4,0.0f), L(4,4,1.0f), R(4,4,1.0f);
+  vnl_vector<float> ar(4,0.0f), ai(4,0.0f), b(4,0.0f);
   vnl_generalized_schur(&A, &B, &ar, &ai, &b, &L, &R);
   TEST("vnl_generalized_schur", true, true);
 }

@@ -27,7 +27,7 @@ extern "C" {
     integer i__, k;
     doublereal s;
     integer ii;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     logical leftv;
     extern /* Subroutine */ int zswap_(integer *, doublecomplex *, integer *, 
             doublecomplex *, integer *), xerbla_(char *, integer *, ftnlen), 

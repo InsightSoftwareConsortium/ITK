@@ -15,15 +15,15 @@
 // \endverbatim
 
 //: Easy conversion between vectors and matrices templated over different types.
-// \relates vnl_matrix
-// \relates vnl_vector
+// \relatesalso vnl_matrix
+// \relatesalso vnl_vector
 template <class S, class T>
 void vnl_copy(S const *src, T *dst, unsigned n);
 
 
 //: Easy conversion between vectors and matrices templated over different types.
-// \relates vnl_matrix
-// \relates vnl_vector
+// \relatesalso vnl_matrix
+// \relatesalso vnl_vector
 template <class S, class T>
 void vnl_copy(S const &, T &);
 

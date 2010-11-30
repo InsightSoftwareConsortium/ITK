@@ -1,7 +1,7 @@
 // This is core/vnl/vnl_vector_fixed_ref.txx
 #ifndef vnl_vector_fixed_ref_txx_
 #define vnl_vector_fixed_ref_txx_
-// Author: Paul P. Smyth, Vicon Motion Systems Ltd. 
+// Author: Paul P. Smyth, Vicon Motion Systems Ltd.
 // Created: 02 May 2001
 //
 #include "vnl_vector_fixed_ref.h"
@@ -55,11 +55,12 @@ vnl_vector_fixed_ref<T,n>::update( const vnl_vector<T>& v, unsigned int start ) 
 }
 
 template <class T, unsigned int n>
-void
+vnl_vector_fixed_ref<T,n> const&
 vnl_vector_fixed_ref<T,n>::flip() const
 {
   for ( unsigned int i=0; 2*i+1 < n; ++i )
     vcl_swap( data_block()[i], data_block()[n-1-i] );
+  return *this;
 }
 
 template <class T, unsigned int n>

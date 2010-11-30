@@ -20,9 +20,8 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-//:   A collection of Matrix operations
-//    mostly declared as static methods.
-//    Highlights include matrix gluing, and type conversions.
+//:   A collection of vnl_matrix operations, provided as static methods.
+//    Highlights include matrix glueing, and type conversions.
 //    matlab_print has been moved to vnl_matlab_print.h.
 class vnl_matops
 {

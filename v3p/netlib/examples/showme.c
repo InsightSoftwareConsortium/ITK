@@ -2258,7 +2258,7 @@ char **argv;
   XSetStandardProperties(display, mainwindow, "Show Me", "showme", None,
                          argv, argc, &hints);
   XChangeProperty(display, mainwindow, XA_WM_CLASS, XA_STRING, 8,
-                  PropModeReplace, "showme\0Archimedes", 18);
+                  PropModeReplace, "showme\0Archimedes", 18U);
   XClearWindow(display, mainwindow);
   XMapWindow(display, mainwindow);
   if ((windowdepth > 1) &&

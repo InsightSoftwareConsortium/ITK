@@ -66,8 +66,8 @@ class vnl_ldl_cholesky
   void update(const vnl_matrix<double>& W);
 
   //:   Compute inverse.  Not efficient.
-  //  Note that you rarely need the inverse - backsubtitution
-  //  is faster and less prone to rounding error.
+  //  Note that you rarely need the inverse - backsubstitution
+  //  is faster and less prone to rounding errors.
   vnl_matrix<double> inverse() const;
 
   //: Return lower-triangular factor.

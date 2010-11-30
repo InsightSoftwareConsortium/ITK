@@ -5,15 +5,15 @@
 #pragma interface
 #endif
 //:
-//  \file
-//  \brief Base class for nonlinear optimization
-//  \author Andrew W. Fitzgibbon, Oxford RRG
-//  \date   22 Aug 99
+// \file
+// \brief  Base class for nonlinear optimization
+// \author Andrew W. Fitzgibbon, Oxford RRG
+// \date   22 Aug 1999
 //
 // \verbatim
 //  Modifications
-//  22/03/2001  dac - added binary io and tidied documentation
-//   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
+//   22 Mar.2001 - dac - added binary io and tidied documentation
+//      Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 // \endverbatim
 
 #include <vcl_string.h>
@@ -98,6 +98,25 @@ class vnl_nonlinear_minimizer
   // Each iteration may have comprised several function evaluations.
   int get_num_iterations() const { return num_iterations_; }
 
+  //:Some generic return codes that apply to all minimizers.
+  enum ReturnCodes {
+    ERROR_FAILURE               =-1,
+    ERROR_DODGY_INPUT           = 0,
+    CONVERGED_FTOL              = 1,
+    CONVERGED_XTOL              = 2,
+    CONVERGED_XFTOL             = 3,
+    CONVERGED_GTOL              = 4,
+    FAILED_TOO_MANY_ITERATIONS  = 5,
+    TOO_MANY_ITERATIONS         = FAILED_TOO_MANY_ITERATIONS,         // for backward-compatibility
+    FAILED_FTOL_TOO_SMALL       = 6,
+    FAILED_XTOL_TOO_SMALL       = 7,
+    FAILED_GTOL_TOO_SMALL       = 8,
+    FAILED_USER_REQUEST         = 9
+  };
+
+  //:Whether the error reduced in the last minimization
+  bool obj_value_reduced() { return failure_code_ != ERROR_FAILURE && failure_code_ != ERROR_DODGY_INPUT && end_error_ < start_error_; }
+
   //:Return the covariance of the estimate at the end.
   virtual vnl_matrix<double> const& get_covariance();
 
@@ -108,21 +127,6 @@ class vnl_nonlinear_minimizer
   //: Return true if the name of the class matches the argument.
   //  Used by polymorphic IO
   virtual bool is_class(vcl_string const& s) const;
-
-  //:Some generic return codes that apply to all minimizers.
-  enum ReturnCodes {
-    ERROR_FAILURE               =-1,
-    ERROR_DODGY_INPUT           = 0,
-    CONVERGED_FTOL              = 1,
-    CONVERGED_XTOL              = 2,
-    CONVERGED_XFTOL             = 3,
-    CONVERGED_GTOL              = 4,
-    FAILED_TOO_MANY_ITERATIONS  = 5,
-    FAILED_FTOL_TOO_SMALL       = 6,
-    FAILED_XTOL_TOO_SMALL       = 7,
-    FAILED_GTOL_TOO_SMALL       = 8,
-    FAILED_USER_REQUEST         = 9
-  };
 
   //:Return the failure code of the last minimization
   ReturnCodes get_failure_code() const { return failure_code_; }

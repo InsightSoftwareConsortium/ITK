@@ -33,7 +33,7 @@ static integer c__1 = 1;
     /* Local variables */
     extern /* Subroutine */ int sger_(integer *, integer *, real *, real *, 
             integer *, real *, integer *, real *, integer *);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int sgemv_(char *, integer *, integer *, real *, 
             real *, integer *, real *, integer *, real *, real *, integer *, 
             ftnlen);

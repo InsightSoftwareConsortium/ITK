@@ -23,7 +23,7 @@ static integer c__1 = 1;
 static real c_b43 = (float)-1.;
 
 /*<    >*/
-/* Subroutine */ int stgsja_(char *jobu, char *jobv, char *jobq, integer *m, 
+/* Subroutine */ int stgsja_(const char *jobu, const char *jobv, const char *jobq, integer *m, 
         integer *p, integer *n, integer *k, integer *l, real *a, integer *lda,
          real *b, integer *ldb, real *tola, real *tolb, real *alpha, real *
         beta, real *u, integer *ldu, real *v, integer *ldv, real *q, integer *
@@ -41,7 +41,7 @@ static real c_b43 = (float)-1.;
     extern /* Subroutine */ int srot_(integer *, real *, integer *, real *, 
             integer *, real *, real *);
     real gamma;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *);
     logical initq, initu, initv, wantq, upper;
     real error, ssmin;

@@ -46,7 +46,7 @@ static doublereal c_b36 = .5;
     doublereal xmax, grow;
     extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
             integer *);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal tscal;
     doublecomplex uscal;
     integer jlast;

@@ -49,7 +49,7 @@ void test_vector_fixed_ref()
 #if 0 // assignment is ambiguous
   ref = other;
   TEST("assign_vf", ref, other);
-  // test different adresses
+  // test different addresses
   TEST("assign_vf address", (ref.begin() != other.begin()), true);
 #endif // 0
 
@@ -59,7 +59,7 @@ void test_vector_fixed_ref()
   vfrc cref(other);
   ref = cref;
   TEST("assign_const_ref", ref, other);
-  // test different adresses
+  // test different addresses
   TEST("assign_const_ref address", (ref.begin() != other.begin()), true);
   }
 
@@ -70,7 +70,7 @@ void test_vector_fixed_ref()
   vfr ref2(other);
   ref = ref2;
   TEST("assign_ref", ref, other);
-  // test different adresses
+  // test different addresses
   TEST("assign_ref address", (ref.begin() != other.begin()), true);
 #endif // 0
   }

@@ -1,6 +1,11 @@
 //:
 // \file
 // converted from COOL/test/test_BigNum.C by Peter Vanroose, 25 April 2002.
+//
+// \verbatim
+//  Modifications:
+//   20 jan 2008 - Peter Vanroose - added tests on "large" divisions
+// \endverbatim
 
 #include <vcl_iostream.h>
 #include <vcl_limits.h> // for vcl_numeric_limits<double>::infinity()
@@ -13,6 +18,29 @@
 #include <vnl/vnl_numeric_traits.h> // for vnl_numeric_traits<double>::maxval
 
 #include <testlib/testlib_test.h>
+
+// Two auxiliary functions, used in multiplication and division tests
+
+// Factorial
+static vnl_bignum factorial(int n)
+{
+  if (n <= 1) return vnl_bignum(1);
+  else        return n * factorial(n-1);
+}
+
+// Combinations (n choose k)
+static vnl_bignum Combinations(int n, int k)
+{ 
+  vnl_bignum CC(1);
+  if (k >= n || k <= 0) return CC;
+  else 
+  {
+    for (int i = n; i > n - k; --i)
+      CC *= i; 
+    CC /= factorial(k);
+    return CC;
+  }
+}
 
 static void run_constructor_tests()
 {
@@ -58,7 +86,7 @@ static void run_constructor_tests()
   {vnl_bignum b("1"); TEST("vnl_bignum b(\"1\");", b, 1L);}
   {vnl_bignum b("123"); TEST("vnl_bignum b(\"123\");", b, 123L);}
   {vnl_bignum b("123e5"); TEST("vnl_bignum b(\"123e5\");", b, 12300000L);}
-  {vnl_bignum b("123e+4"); TEST("vnl_bignum b(\"123e+4\");", b, 1230000L);}
+  {vnl_bignum b("-123e+4"); TEST("vnl_bignum b(\"-123e+4\");", b, -1230000L);}
   {vnl_bignum b("123e12"); TEST("vnl_bignum b(\"123e12\");", (double)b, 123e12);}
 #ifndef __alpha__ // On Alpha, compiler runs out of memory when using <sstream>
   {vnl_bignum b("-1e120"); vcl_stringstream s; s << b; vcl_cout << b << '\n';
@@ -121,13 +149,13 @@ static void run_constructor_tests()
   {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
    is << "0x1aF"; is >> b; TEST("\"0x1aF\" >> b;", b, 0x1af);}
   {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
-   is << "0"; is >> b; TEST("\"0\" >> b;", b, 0L);}
+   is << '0'; is >> b; TEST("\"0\" >> b;", b, 0L);}
   {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
    is << "00"; is >> b; TEST("\"00\" >> b;", b, 0L);}
   {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
    is << "012334567"; is >> b; TEST("\"012334567\" >> b;", b, 012334567);}
   {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
-   is << "9"; is >> b; TEST("\"9\" >> b;", b, 9L);}
+   is << '9'; is >> b; TEST("\"9\" >> b;", b, 9L);}
   {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
    is << " 9"; is >> b; TEST("\" 9\" >> b;", b, 9L);}
 #endif
@@ -386,7 +414,7 @@ static void run_division_tests()
     }
   }
 
-  vcl_cout << "\n";
+  vcl_cout << '\n';
   TEST("(vnl_bignum(i+k)/vnl_bignum(j+l)) == vnl_bignum(long((i+k)/(j+l)))",
        div_errors, 0);
   TEST("(vnl_bignum(i+k)%vnl_bignum(j+l)) == vnl_bignum(long((i+k)%(j+l)))",
@@ -411,6 +439,64 @@ static void run_division_tests()
     vcl_cout << '\n';
   }
 #endif
+}
+
+static void run_large_division_tests()
+{
+  vcl_cout << "\nStarting large division tests:\n";
+
+  vnl_bignum a("10000000"), b("10000001"); b *= a; vnl_bignum c = b/10000001;
+  vcl_cout << b << " / 10000001 = " << c << ", must be 10000000\n";
+  TEST("100000010000000 / 10000001", c, a);
+
+  // these are the same numbers, now written in hexadecimal:
+  a = "0X989680"; b = "0X989681"; b *= a; c = b/vnl_bignum("0X989681");
+  vcl_cout << b << " / 0X989681 = " << c << ", must be " << a << vcl_endl;
+  TEST("0x5AF31112D680 / 0x989681", c, a);
+
+  // an other decimal example:
+  a = "111111"; b = "111111"; b *= a; c = b/111111;
+  vcl_cout << b << " / 111111 = " << c << ", must be 111111\n";
+  TEST("12345654321 / 111111", c, a);
+
+  // these are the same numbers, now written in hexadecimal:
+  a = "0X2B67"; b = "0X2B67"; b *= a; c = b/vnl_bignum("0X2B67");
+  vcl_cout << b << " / 0X2B67 = " << c << ", must be " << a << vcl_endl;
+  TEST("12345654321 / 0X2B67", c, a);
+
+  a = "98789"; b = "98789"; b *= a; c = b/98789;
+  vcl_cout << b << " / 98789 = " << c << ", must be 98789\n";
+  TEST("9759266521 / 98789", c, a);
+
+  a = "1e100"; b = "1e200"; c = b/a;
+  vcl_cout << "1e200 / 1e100 = " << c << ", must be 1e100\n";
+  TEST("1e200 / 1e100", c, a);
+
+  a = "-1e100"; b = "1e200"; c = b/a;
+  vcl_cout << "1e200 / -1e100 = " << c << ", must be -1e100\n";
+  TEST("1e200 / -1e100", c, a);
+
+  a = "1e100"; b = "-1e200"; c = b/a;
+  vcl_cout << "-1e200 / 1e100 = " << c << ", must be -1e100\n";
+  TEST("-1e200 / 1e100", c, -a);
+
+  a = "-1e100"; b = "-1e200"; c = b/a;
+  vcl_cout << "-1e200 / -1e100 = " << c << ", must be 1e100\n";
+  TEST("-1e200 / -1e100", c, -a);
+
+  a = "1e100"; b = "1e200"; c = b%a;
+  vcl_cout << "1e200 % 1e100 = " << c << ", must be 0\n";
+  TEST("1e100^2 % 1e100", c, 0);
+
+  vcl_cout << "C(16,8) = " << Combinations(16,8) << vcl_endl;
+  TEST("16 choose 8 = 12870", Combinations(16,8), 12870);
+  vcl_cout << "C(18,9) = " << Combinations(18,9) << vcl_endl;
+  TEST("18 choose 9 = 48620", Combinations(18,9), 48620);
+  vcl_cout << "C(20,10) = " << Combinations(20,10) << vcl_endl;
+  TEST("20 choose 10 = 184756", Combinations(20,10), 184756);
+  vcl_cout << "C(100,44) = " << Combinations(100,44) << vcl_endl;
+  TEST("100 choose 44 = 49378235797073715747364762200",
+       Combinations(100,44), "49378235797073715747364762200");
 }
 
 static void run_multiplication_division_tests()
@@ -449,18 +535,18 @@ static void run_addition_subtraction_tests()
       bij = vnl_bignum(i+j);
       if (bi + bj != bij) {
         TEST("bi + bj == vnl_bignum(i + j)", false, true);
-        vcl_cout << "i = "<<i<<", j = "<<j<<"\n";
+        vcl_cout << "i = "<<i<<", j = "<<j<<vcl_endl;
         ++add_errors;
       }
       bij = vnl_bignum(i-j);
       if (bi - bj != bij) {
         TEST("bi - bj == vnl_bignum(i - j)", false, true);
-        vcl_cout << "i = "<<i<<", j = "<<j<<"\n";
+        vcl_cout << "i = "<<i<<", j = "<<j<<vcl_endl;
         ++sub_errors;
       }
     }
   }}
-  vcl_cout << "\n";
+  vcl_cout << vcl_endl;
   TEST("bi + bj == vnl_bignum(i + j)", add_errors, 0);
   TEST("bi - bj == vnl_bignum(i - j)", sub_errors, 0);
 
@@ -614,6 +700,11 @@ static void run_multiplication_tests()
   TEST("zillion*-b1000 == b1000*-zillion", zillion*-b1000, b1000*-zillion);
   TEST("p_inf*b1000 == p_inf", p_inf*b1000, p_inf);
   TEST("m_inf*b1000 == m_inf", m_inf*b1000, m_inf);
+
+  TEST("10! = 3628800", factorial(10), 3628800);
+  TEST("15! = 1307674368000", factorial(15), "1307674368000");
+  TEST("44! = 2.65827157478844e54", factorial(44),
+       "2658271574788448768043625811014615890319638528000000000");
 }
 
 static void run_left_shift_tests()
@@ -734,7 +825,7 @@ static void run_shift_tests()
     b = s;
     vcl_cout << "Enter shift amount: ";
     vcl_cin >> sh;
-    vcl_cout << "Shift == " << sh << "\n";
+    vcl_cout << "Shift == " << sh << vcl_endl;
 
     b = b << sh;
   }
@@ -751,6 +842,7 @@ void test_bignum()
   run_multiplication_tests();
   run_division_tests();
   run_multiplication_division_tests();
+  run_large_division_tests();
   run_shift_tests();
   run_logical_comparison_tests();
 }

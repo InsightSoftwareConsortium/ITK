@@ -30,6 +30,11 @@
 //    evaluation of the polynomial $p(x)$ at given values of $x$,
 //    or of its derivative $p'(x)$.
 //
+//    The coefficients (coeffs_) are stored as a vnl_vector, where
+//    coeffs_[n] is the coefficient of the x^(d-n) term,
+//    where d is the degree of the polynomial.  Otherwise said,
+//    the coefficients are stored starting with the highest degree term.
+//
 //    Roots may be extracted using the roots() method.
 class vnl_real_polynomial
 {
@@ -113,11 +118,11 @@ class vnl_real_polynomial
 };
 
 //: Returns polynomial which is sum of two polynomials f1(x)+f2(x)
-// \relates vnl_real_polynomial
+// \relatesalso vnl_real_polynomial
 vnl_real_polynomial operator+(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2);
 
 //: Returns polynomial which is different of two polynomials f1(x)-f2(x)
-// \relates vnl_real_polynomial
+// \relatesalso vnl_real_polynomial
 vnl_real_polynomial operator-(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2);
 
 //: Returns polynomial which is product of two polynomials f1(x)*f2(x)
@@ -125,7 +130,7 @@ vnl_real_polynomial operator*(const vnl_real_polynomial& f1, const vnl_real_poly
 
 //: Returns RMS difference between f1 and f2 over range [x1,x2]
 // $\frac1{\sqrt{|x_2-x_1|}}\,\sqrt{\int_{x_1}^{x_2}\left(f_1(x)-f_2(x)\right)^2\,dx}$
-// \relates vnl_real_polynomial
+// \relatesalso vnl_real_polynomial
 double vnl_rms_difference(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2,
                           double x1, double x2);
 

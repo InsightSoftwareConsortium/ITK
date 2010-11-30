@@ -37,7 +37,7 @@ static integer c__1 = 1;
 
     /* Local variables */
     integer i__, j;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int zgemm_(char *, char *, integer *, integer *, 
             integer *, doublecomplex *, doublecomplex *, integer *, 
             doublecomplex *, integer *, doublecomplex *, doublecomplex *, 

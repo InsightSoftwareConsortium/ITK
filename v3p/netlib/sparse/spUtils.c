@@ -197,7 +197,7 @@ spMNA_Preorder( spMatrix eMatrix )
 {
 MatrixPtr  Matrix = (MatrixPtr)eMatrix;
 register  int  J, Size;
-ElementPtr  pTwin1, pTwin2;
+ElementPtr  pTwin1=0, pTwin2=0;
 int  Twins, StartAt = 1;
 BOOLEAN  Swapped, AnotherPassNeeded;
 

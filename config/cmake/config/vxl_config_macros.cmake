@@ -34,7 +34,7 @@ MACRO(PERFORM_CMAKE_TEST FILE TEST)
     ELSE(${TEST})
       MESSAGE(STATUS "Performing Test ${TEST} - Failed")
       SET(${TEST} 0 CACHE INTERNAL "Test ${FUNCTION}")
-      WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                  "Performing Test ${TEST} failed with the following output:\n"
                  "${OUTPUT}\n" APPEND)
     ENDIF(${TEST})
@@ -45,6 +45,52 @@ MACRO(PERFORM_CMAKE_TEST FILE TEST)
     #ENDFOREACH(tst ${TEST})
   ENDIF("${TEST}" MATCHES "^${TEST}$")
 ENDMACRO(PERFORM_CMAKE_TEST FILE TEST)
+
+#
+# Perform a custom VXL try compile test with status output
+#
+# DIR is the directory containing the test project
+#
+# Sets the TEST to 1 if the corresponding program could be compiled
+# and linked
+#
+
+MACRO(PERFORM_CMAKE_TEST_CUSTOM DIR TEST)
+  IF( VXL_UPDATE_CONFIGURATION )
+    SET( ${TEST} "${TEST}" )
+  ENDIF( VXL_UPDATE_CONFIGURATION )
+  IF("${TEST}" MATCHES "^${TEST}$")
+    # Perform test
+    SET(MACRO_CHECK_FUNCTION_DEFINITIONS
+        "-D${TEST} ${CMAKE_REQUIRED_FLAGS}")
+    IF(CMAKE_REQUIRED_LIBRARIES)
+      SET(TEST_ADD_LIBRARIES
+          "-DLINK_LIBRARIES:STRING=${CMAKE_REQUIRED_LIBRARIES}")
+    ENDIF(CMAKE_REQUIRED_LIBRARIES)
+    MESSAGE(STATUS "Performing Test ${TEST}")
+
+    TRY_COMPILE(${TEST}
+                ${CMAKE_BINARY_DIR}/config/${DIR}
+                ${vxl_config_SOURCE_DIR}/${DIR}
+                ${TEST}
+                CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${MACRO_CHECK_FUNCTION_DEFINITIONS}
+                -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
+                -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
+                "${TEST_ADD_LIBRARIES}"
+                OUTPUT_VARIABLE OUTPUT)
+    IF(${TEST})
+      SET(${TEST} 1 CACHE INTERNAL "VXL test ${FUNCTION}")
+      MESSAGE(STATUS "Performing Test ${TEST} - Success")
+    ELSE(${TEST})
+      MESSAGE(STATUS "Performing Test ${TEST} - Failed")
+      SET(${TEST} 0 CACHE INTERNAL "Test ${FUNCTION}")
+      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+                 "Performing Test ${TEST} failed with the following output:\n"
+                 "${OUTPUT}\n" APPEND)
+    ENDIF(${TEST})
+  ENDIF("${TEST}" MATCHES "^${TEST}$")
+  FILE(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/config/${DIR})
+ENDMACRO(PERFORM_CMAKE_TEST_CUSTOM DIR TEST)
 
 #
 # Perform the VXL specific try-run test with status output
@@ -77,20 +123,20 @@ MACRO(PERFORM_CMAKE_TEST_RUN FILE TEST)
       IF(${TEST})
         MESSAGE(STATUS "Performing Test ${TEST} - Failed")
         SET(${TEST} 0 CACHE INTERNAL "Test ${FUNCTION} (failed to run)")
-        WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+        WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                    "Performing Test ${TEST} failed with the following output:\n"
                    "${OUTPUT}\n" APPEND)
       ELSE(${TEST})
         SET(${TEST} 1 CACHE INTERNAL "VXL test ${FUNCTION} (successful run)")
         MESSAGE(STATUS "Performing Test ${TEST} - Success")
-        WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+        WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                    "Performing Test ${TEST} succeeded with the following output:\n"
                    "${OUTPUT}\n" APPEND)
       ENDIF(${TEST})
     ELSE(${TEST}_COMPILED)
       MESSAGE(STATUS "Performing Try-Run Test ${TEST} - Test Compilation Failed")
       SET(${TEST} 0 CACHE INTERNAL "Test ${FUNCTION} (failed to compile)")
-      WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                  "Performing Try-Run Test ${TEST} failed to compile with the following output:\n"
                  "${OUTPUT}\n" APPEND)
     ENDIF(${TEST}_COMPILED)
@@ -179,7 +225,7 @@ MACRO(CHECK_TYPE_EXISTS TYPE FILES VARIABLE)
     IF(${VARIABLE})
       MESSAGE(STATUS "Looking for ${TYPE} - found")
       SET(${VARIABLE} 1 CACHE INTERNAL "Have symbol ${TYPE}")
-      FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeOutput.log
+      FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
            "Determining if the ${TYPE} "
            "exist passed with the following output:\n"
            "${OUTPUT}\nFile ${CMAKE_BINARY_DIR}/CMakeTmp/CheckTypeExists.cxx:\n"
@@ -187,7 +233,7 @@ MACRO(CHECK_TYPE_EXISTS TYPE FILES VARIABLE)
     ELSE(${VARIABLE})
       MESSAGE(STATUS "Looking for ${TYPE} - not found.")
       SET(${VARIABLE} "" CACHE INTERNAL "Have symbol ${TYPE}")
-      FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeError.log
+      FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
            "Determining if the ${TYPE} "
            "exist failed with the following output:\n"
            "${OUTPUT}\nFile ${CMAKE_BINARY_DIR}/CMakeTmp/CheckTypeExists.c:\n"
@@ -249,12 +295,13 @@ MACRO( DETERMINE_TYPE VAR INTEGRAL_TYPE SIZE TYPE_LIST )
       # line to avoid issues with spaces. (In "long double", for
       # example)
       WRITE_FILE( ${CMAKE_BINARY_DIR}/CMakeTmp/config.h "#define THE_TYPE ${TYPE}\n#define THE_SIZE ${SIZE}\n#define INTEGRAL_TYPE ${INTEGRAL_TYPE}" )
-      SET( MACRO_DETERMINE_TYPE_FLAGS "-DVXL_HAS_TYPE_OF_SIZE -I\"${CMAKE_BINARY_DIR}/CMakeTmp\"" )
+      SET( MACRO_DETERMINE_TYPE_FLAGS "-DVXL_HAS_TYPE_OF_SIZE" )
       MESSAGE( STATUS "${MSG} [Checking ${TYPE}...]" )
       TRY_RUN( RUN_RESULT COMPILE_RESULT
             ${CMAKE_BINARY_DIR}
             ${vxl_config_SOURCE_DIR}/vxl_platform_tests.cxx
             CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${MACRO_DETERMINE_TYPE_FLAGS}
+                        -DINCLUDE_DIRECTORIES:STRING=${CMAKE_BINARY_DIR}/CMakeTmp
                         -DLINK_LIBRARIES:STRING=${CMAKE_REQUIRED_LIBRARIES}
             OUTPUT_VARIABLE OUTPUT )
       IF( COMPILE_RESULT )
@@ -262,12 +309,12 @@ MACRO( DETERMINE_TYPE VAR INTEGRAL_TYPE SIZE TYPE_LIST )
           SET( VXL_${VAR} ${TYPE} )
           SET( VXL_HAS_${VAR} 1 )
         ELSE( NOT RUN_RESULT )
-          WRITE_FILE( ${CMAKE_BINARY_DIR}/CMakeError.log 
+          WRITE_FILE( ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log 
             "${MSG} Failed to run with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n"
             APPEND )
         ENDIF( NOT RUN_RESULT )
       ELSE( COMPILE_RESULT )
-        WRITE_FILE( ${CMAKE_BINARY_DIR}/CMakeError.log 
+        WRITE_FILE( ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log 
           "${MSG} Failed to compile with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n"
           APPEND )
       ENDIF( COMPILE_RESULT )

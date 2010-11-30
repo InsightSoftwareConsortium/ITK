@@ -34,7 +34,7 @@ static integer c__1 = 1;
     doublereal su;
     integer kase, kase1;
     doublereal scale;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int drscl_(integer *, doublereal *, doublereal *, 
             integer *);
     extern doublereal dlamch_(char *, ftnlen);

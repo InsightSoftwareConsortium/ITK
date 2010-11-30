@@ -37,7 +37,8 @@ static void test_random_round_trip()
   {
     // Need to be careful abount wrap around - don't test with angles that are too big
     vnl_vector_fixed<double,3> euler(rng.normal()*vnl_math::pi/18.0,
-      rng.normal()*vnl_math::pi/18.0, rng.normal()*vnl_math::pi/18.0);
+                                     rng.normal()*vnl_math::pi/18.0,
+                                     rng.normal()*vnl_math::pi/18.0);
     vnl_quaternion<double> quat(euler(0), euler(1), euler(2));
     vnl_vector_fixed<double,3> out = quat.rotation_euler_angles();
     double err = vnl_vector_ssd(euler, out);
@@ -61,7 +62,8 @@ static void test_random_euler_near_zero()
   {
     // Need to be careful abount wrap around - don't test with angles that are too big
     vnl_vector_fixed<double,3> euler(rng.normal()*vnl_math::pi/180.0,
-      rng.normal()*vnl_math::pi/180.0, rng.normal()*vnl_math::pi/180.0);
+                                     rng.normal()*vnl_math::pi/180.0,
+                                     rng.normal()*vnl_math::pi/180.0);
     vnl_quaternion<double> quat(euler(0), euler(1), euler(2));
     if (quat.angle() > vnl_math::pi/36.0)
     {
@@ -89,7 +91,7 @@ static void test_random_quat_near_zero()
   for (unsigned i=0;i<1000;++i)
   {
     vnl_quaternion<double> quat(rng.normal()/1000.0, rng.normal()/1000.0, rng.normal()/1000.0,
-      vnl_math_sgn0(rng.normal()) * (1.0+rng.normal()/1000.0) );
+                                vnl_math_sgn0(rng.normal()) * (1.0+rng.normal()/1000.0) );
     quat.normalize();
 
     vnl_vector_fixed<double,3> euler = quat.rotation_euler_angles();
@@ -208,7 +210,7 @@ static void test_rotations()
   vnl_quaternion<double> q1_b(e1(0), e1(1), e1(2));
   vcl_cout << "q1 -> Euler angles: " << q1_b << vcl_endl;
   TEST_NEAR("Euler angles -> q1",
-    vnl_vector_ssd(q1_b, q1), 0.0, 1e-8);
+            vnl_vector_ssd(q1_b, q1), 0.0, 1e-8);
 
   vcl_cout << "Euler angles -> q1: " << q1_b << vcl_endl;
 

@@ -79,7 +79,7 @@ int test_functions()
       double cdf = vnl_chi_squared_cumulative(chisq,n);
       double err = vcl_fabs(cdf - cdf_baseline[idx++]);
       vcl_cout << "vnl_chi_squared_cumulative(" << chisq << ',' << n << ')';
-      testlib_test_assert(" CDF", err < 2e-15);
+      TEST_NEAR(" CDF", err, 0.0, 2e-15);
       if (err >= 2e-15)
         vcl_cout << "Error = " << vcl_setprecision(16) << err << vcl_endl;
     }

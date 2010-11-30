@@ -55,7 +55,8 @@
 #include "vcl_pair.h"
 
 template <class T>
-vcl_pair<T*, vcl_ptrdiff_t> get_temporary_buffer(vcl_ptrdiff_t len, T*) {
+vcl_pair<T*, vcl_ptrdiff_t> get_temporary_buffer(vcl_ptrdiff_t len, T*)
+{
   if (len > vcl_ptrdiff_t(INT_MAX / sizeof(T)))
     len = INT_MAX / sizeof(T);
 
@@ -70,7 +71,8 @@ vcl_pair<T*, vcl_ptrdiff_t> get_temporary_buffer(vcl_ptrdiff_t len, T*) {
 }
 
 template <class T>
-inline void return_temporary_buffer(T* p) {
+inline void return_temporary_buffer(T* p)
+{
   free(p);
 }
 
@@ -82,7 +84,7 @@ inline void return_temporary_buffer(T* p) {
 template <class T, VCL_DFL_TYPE_PARAM_STLDECL(Distance,vcl_ptrdiff_t)>
 struct __stl_tempbuf
 {
-public:
+ public:
     typedef T  value_type;
     typedef T* pointer;
     typedef Distance difference_type;
@@ -106,9 +108,9 @@ public:
     bool   empty()    const                      { return size()==0; }
     difference_type max_size() const             { return buf.second; }
     difference_type capacity() const             { return buf.second; }
-    // reflects change in initalized area
+    // reflects change in initialized area
     void   adjust_size(difference_type len)      { fill_pointer=len; }
-protected:
+ protected:
     vcl_pair<T*, vcl_ptrdiff_t> buf;
     difference_type fill_pointer;
 };

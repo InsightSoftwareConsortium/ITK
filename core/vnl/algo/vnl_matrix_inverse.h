@@ -34,7 +34,7 @@ template <class T>
 struct vnl_matrix_inverse : public vnl_svd<T>
 {
   vnl_matrix_inverse(vnl_matrix<T> const & M): vnl_svd<T>(M) { }
-  ~vnl_matrix_inverse() {};
+  ~vnl_matrix_inverse() {}
 
   operator vnl_matrix<T> () const { return this->inverse(); }
 };

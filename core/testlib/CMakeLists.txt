@@ -1,5 +1,10 @@
 # ./vxl/testlib/CMakeLists.txt
 
+doxygen_add_library(core/testlib
+  PACKAGE core-test
+  DESCRIPTION "Testing Library"
+  )
+
 FIND_FILE(TESTLIB_VCL_WHERE_ROOT_DIR_H
           vcl_where_root_dir.h
           ${vxl_BINARY_DIR}/vcl )

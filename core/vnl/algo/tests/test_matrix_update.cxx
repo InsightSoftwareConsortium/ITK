@@ -20,12 +20,10 @@ extern "C" void test_matrix_update()
   vnl_matrix_update(M,a,b);
   true_M = Ma*Mb;
 
-  testlib_test_assert_near("M = a*b'",
-                           (M-true_M).absolute_value_max(),0.0,1e-6);
+  TEST_NEAR("M = a*b'", (M-true_M).absolute_value_max(),0.0,1e-6);
 
   vnl_matrix_update(M,a,b);
-  testlib_test_assert_near("M2 = 2a*b'",
-                           (M-(true_M*2)).absolute_value_max(),0.0,1e-6);
+  TEST_NEAR("M2 = 2a*b'", (M-(true_M*2)).absolute_value_max(),0.0,1e-6);
 }
 
 TESTMAIN(test_matrix_update);

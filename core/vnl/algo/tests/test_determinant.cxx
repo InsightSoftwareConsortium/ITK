@@ -19,11 +19,11 @@ void test_determinant()
     };
     vnl_matrix<double> m1(&M1[0][0],1,1);
     double d1 = M1[0][0];
-    testlib_test_assert_near("1x1 vnl_determinant(vnl_matrix<double>)", vnl_determinant(m1), d1, eps);
-    testlib_test_assert_near("1x1 qr_det(vnl_matrix<double>)", qr_det(m1), d1, eps);
-    testlib_test_assert_near("1x1 vnl_determinant(double, ...)", vnl_determinant(M1[0]), d1, eps);
+    TEST_NEAR("1x1 vnl_determinant(vnl_matrix<double>)", vnl_determinant(m1), d1, eps);
+    TEST_NEAR("1x1 qr_det(vnl_matrix<double>)", qr_det(m1), d1, eps);
+    TEST_NEAR("1x1 vnl_determinant(double, ...)", vnl_determinant(M1[0]), d1, eps);
     vnl_matrix_fixed<double,1,1> m_1 = m1;
-    testlib_test_assert_near("vnl_det(vnl_matrix_fixed<double,1,1>)", vnl_det(m_1), d1, eps);
+    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,1,1>)", vnl_det(m_1), d1, eps);
   }
 
   {
@@ -32,11 +32,11 @@ void test_determinant()
     };
     vnl_matrix<double> n1(&N1[0][0],1,1);
     double d1 = N1[0][0];
-    testlib_test_assert_near("1x1 vnl_determinant(vnl_matix<double>)", vnl_determinant(n1), d1, eps);
-    testlib_test_assert_near("1x1 qr_det(vnl_matrix<double>)", qr_det(n1), d1, eps);
-    testlib_test_assert_near("1x1 vnl_determinant(double, ...)", vnl_determinant(N1[0]), d1, eps);
+    TEST_NEAR("1x1 vnl_determinant(vnl_matix<double>)", vnl_determinant(n1), d1, eps);
+    TEST_NEAR("1x1 qr_det(vnl_matrix<double>)", qr_det(n1), d1, eps);
+    TEST_NEAR("1x1 vnl_determinant(double, ...)", vnl_determinant(N1[0]), d1, eps);
     vnl_matrix_fixed<double,1,1> n_1 = n1;
-    testlib_test_assert_near("vnl_det(vnl_matrix_fixed<double,1,1>)", vnl_det(n_1), d1, eps);
+    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,1,1>)", vnl_det(n_1), d1, eps);
   }
 #endif
   {
@@ -46,10 +46,10 @@ void test_determinant()
     };
     vnl_matrix<double> m2(&M2[0][0],2,2);
     double d2 = qr_det(m2);
-    testlib_test_assert_near("2x2 vnl_determinant(vnl_matix<double>)", vnl_determinant(m2), d2, eps);
-    testlib_test_assert_near("2x2 vnl_determinant(double, ...)", vnl_determinant(M2[0], M2[1]), d2, eps);
+    TEST_NEAR("2x2 vnl_determinant(vnl_matix<double>)", vnl_determinant(m2), d2, eps);
+    TEST_NEAR("2x2 vnl_determinant(double, ...)", vnl_determinant(M2[0], M2[1]), d2, eps);
     vnl_matrix_fixed<double,2,2> m_2 = m2;
-    testlib_test_assert_near("vnl_det(vnl_matrix_fixed<double,2,2>)", vnl_det(m_2), d2, eps);
+    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,2,2>)", vnl_det(m_2), d2, eps);
   }
 
   {
@@ -59,10 +59,10 @@ void test_determinant()
     };
     vnl_matrix<double> n2(&N2[0][0],2,2);
     double d2 = qr_det(n2);
-    testlib_test_assert_near("2x2 vnl_determinant(vnl_matix<double>)", vnl_determinant(n2), d2, eps);
-    testlib_test_assert_near("2x2 vnl_determinant(double, ...)", vnl_determinant(N2[0], N2[1]), d2, eps);
+    TEST_NEAR("2x2 vnl_determinant(vnl_matix<double>)", vnl_determinant(n2), d2, eps);
+    TEST_NEAR("2x2 vnl_determinant(double, ...)", vnl_determinant(N2[0], N2[1]), d2, eps);
     vnl_matrix_fixed<double,2,2> n_2 = n2;
-    testlib_test_assert_near("vnl_det(vnl_matrix_fixed<double,2,2>)", vnl_det(n_2), d2, eps);
+    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,2,2>)", vnl_det(n_2), d2, eps);
   }
 
   {
@@ -73,10 +73,10 @@ void test_determinant()
     };
     vnl_matrix<double> m3(&M3[0][0],3,3);
     double d3 = qr_det(m3);
-    testlib_test_assert_near("3x3 vnl_determinant(vnl_matix<double>)", vnl_determinant(m3), d3, eps);
-    testlib_test_assert_near("3x3 vnl_determinant(double, ...)", vnl_determinant(M3[0], M3[1], M3[2]), d3, eps);
+    TEST_NEAR("3x3 vnl_determinant(vnl_matix<double>)", vnl_determinant(m3), d3, eps);
+    TEST_NEAR("3x3 vnl_determinant(double, ...)", vnl_determinant(M3[0], M3[1], M3[2]), d3, eps);
     vnl_matrix_fixed<double,3,3> m_3 = m3;
-    testlib_test_assert_near("vnl_det(vnl_matrix_fixed<double,3,3>)", vnl_det(m_3), d3, eps);
+    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,3,3>)", vnl_det(m_3), d3, eps);
   }
 
   {
@@ -87,10 +87,10 @@ void test_determinant()
     };
     vnl_matrix<double> n3(&N3[0][0],3,3);
     double d3 = qr_det(n3);
-    testlib_test_assert_near("3x3 vnl_determinant(vnl_matix<double>)", vnl_determinant(n3), d3, eps);
-    testlib_test_assert_near("3x3 vnl_determinant(double, ...)", vnl_determinant(N3[0], N3[1], N3[2]), d3, eps);
+    TEST_NEAR("3x3 vnl_determinant(vnl_matix<double>)", vnl_determinant(n3), d3, eps);
+    TEST_NEAR("3x3 vnl_determinant(double, ...)", vnl_determinant(N3[0], N3[1], N3[2]), d3, eps);
     vnl_matrix_fixed<double,3,3> n_3 = n3;
-    testlib_test_assert_near("vnl_det(vnl_matrix_fixed<double,3,3>)", vnl_det(n_3), d3, eps);
+    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,3,3>)", vnl_det(n_3), d3, eps);
   }
 
   {
@@ -102,10 +102,10 @@ void test_determinant()
     };
     vnl_matrix<double> m4(&M4[0][0],4,4);
     double d4 = qr_det(m4);
-    testlib_test_assert_near("4x4 vnl_determinant(vnl_matix<double>)", vnl_determinant(m4), d4, eps);
-    testlib_test_assert_near("4x4 vnl_determinant(double, ...)", vnl_determinant(M4[0],M4[1],M4[2],M4[3]), d4, eps);
+    TEST_NEAR("4x4 vnl_determinant(vnl_matix<double>)", vnl_determinant(m4), d4, eps);
+    TEST_NEAR("4x4 vnl_determinant(double, ...)", vnl_determinant(M4[0],M4[1],M4[2],M4[3]), d4, eps);
     vnl_matrix_fixed<double,4,4> m_4 = m4;
-    testlib_test_assert_near("vnl_det(vnl_matrix_fixed<double,4,4>)", vnl_det(m_4), d4, eps);
+    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,4,4>)", vnl_det(m_4), d4, eps);
   }
 
   {
@@ -117,10 +117,10 @@ void test_determinant()
     };
     vnl_matrix<double> n4(&N4[0][0],4,4);
     double d4 = qr_det(n4);
-    testlib_test_assert_near("4x4 vnl_determinant(vnl_matix<double>)", vnl_determinant(n4), d4, eps);
-    testlib_test_assert_near("4x4 vnl_determinant(double, ...)", vnl_determinant(N4[0],N4[1],N4[2],N4[3]), d4, eps);
+    TEST_NEAR("4x4 vnl_determinant(vnl_matix<double>)", vnl_determinant(n4), d4, eps);
+    TEST_NEAR("4x4 vnl_determinant(double, ...)", vnl_determinant(N4[0],N4[1],N4[2],N4[3]), d4, eps);
     vnl_matrix_fixed<double,4,4> n_4 = n4;
-    testlib_test_assert_near("vnl_det(vnl_matrix_fixed<double,4,4>)", vnl_det(n_4), d4, eps);
+    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,4,4>)", vnl_det(n_4), d4, eps);
 
     double N5[5][5] = {
       { 1, 0,        0,         0,        0       },
@@ -131,10 +131,10 @@ void test_determinant()
     };
     vnl_matrix<double> n5(&N5[0][0],5,5);
     double d5 = qr_det(n5);
-    testlib_test_assert_near("5x5 qr_det equals 4x4 one", d5, d4, eps);
-    testlib_test_assert_near("5x5 vnl_determinant(vnl_matix<double>)", vnl_determinant(n5), d5, eps);
+    TEST_NEAR("5x5 qr_det equals 4x4 one", d5, d4, eps);
+    TEST_NEAR("5x5 vnl_determinant(vnl_matix<double>)", vnl_determinant(n5), d5, eps);
     vnl_matrix_fixed<double,5,5> n_5 = n5;
-    testlib_test_assert_near("vnl_determinant(vnl_matrix_fixed<double,5,5>)", vnl_determinant(n_5), d5, eps);
+    TEST_NEAR("vnl_determinant(vnl_matrix_fixed<double,5,5>)", vnl_determinant(n_5), d5, eps);
   }
 
   {
@@ -143,7 +143,7 @@ void test_determinant()
       { 0, 1, 0 },
       { 0, 0, 5 } };
     vnl_matrix<int> m6(&M6[0][0],3,3);
-    testlib_test_assert_near("3x3 vnl_determinant(vnl_matix<int>)", vnl_determinant(m6), 10, eps);
+    TEST_NEAR("3x3 vnl_determinant(vnl_matix<int>)", vnl_determinant(m6), 10, eps);
   }
 
   {
@@ -155,7 +155,7 @@ void test_determinant()
       { 0, 0, 0, 0, 2, 0 },
       { 0, 0, 0, 0, 0, 6 } };
     vnl_matrix<int> m7(&M7[0][0],6,6);
-    testlib_test_assert_near("6x6 vnl_determinant(vnl_matix<int>)", vnl_determinant(m7), 2*1*5*4*2*6, eps);
+    TEST_NEAR("6x6 vnl_determinant(vnl_matix<int>)", vnl_determinant(m7), 2*1*5*4*2*6, eps);
   }
 }
 

@@ -9,10 +9,11 @@
 #include <vsl/vsl_binary_io.h>
 #include <vcl_cassert.h>
 
-//I/O for vnl_sparse_matrix_pair
+// I/O for vnl_sparse_matrix_pair
 //==================================================================================
-//IO Helper functions
+// IO Helper functions
 //==================================================================================
+
 //=================================================================================
 //: Binary save self to stream.
 template<class T>
@@ -48,7 +49,6 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix_pair<T> & p)
   }
 }
 
-//====================================================================================
 //================================================================================
 //: Output a human readable summary to the stream
 template<class T>
@@ -57,7 +57,8 @@ void vsl_print_summary(vcl_ostream& os,const vnl_sparse_matrix_pair<T>& p)
   os<< "Sparse matrix pair ( " << p.first << ',' << p.second << " )\n";
 }
 
-//I/O for vnl_sparse_matrix
+// I/O for vnl_sparse_matrix
+
 //=================================================================================
 //: Binary save self to stream.
 template<class T>
@@ -133,10 +134,10 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix<T> & p)
 
       for (int j=0;j<row_size;j++)
       {
-        pair_t p;
-        vsl_b_read(is, p);
-        indexes[j] = p.first;
-        values[j] = p.second;
+        pair_t q;
+        vsl_b_read(is, q);
+        indexes[j] = q.first;
+        values[j] = q.second;
       }
       p.set_row(i, indexes, values);
     }

@@ -11,11 +11,11 @@
 
 #include "vnl_least_squares_cost_function.h"
 
-vnl_least_squares_cost_function::vnl_least_squares_cost_function(vnl_least_squares_function* f):
-  vnl_cost_function(f->get_number_of_unknowns()),
-  storage_(f->get_number_of_residuals()),
-  jacobian_(f->get_number_of_residuals(), f->get_number_of_unknowns()),
-  f_(f)
+vnl_least_squares_cost_function::vnl_least_squares_cost_function(vnl_least_squares_function* func):
+  vnl_cost_function(func->get_number_of_unknowns()),
+  storage_(func->get_number_of_residuals()),
+  jacobian_(func->get_number_of_residuals(), func->get_number_of_unknowns()),
+  f_(func)
 {
 }
 

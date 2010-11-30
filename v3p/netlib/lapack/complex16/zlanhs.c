@@ -33,7 +33,7 @@ doublereal zlanhs_(char *norm, integer *n, doublecomplex *a, integer *lda,
     /* Local variables */
     integer i__, j;
     doublereal sum, scale;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal value=0;
     extern /* Subroutine */ int zlassq_(integer *, doublecomplex *, integer *,
              doublereal *, doublereal *);

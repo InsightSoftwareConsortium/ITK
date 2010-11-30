@@ -14,7 +14,7 @@
 #include <vcl_cassert.h>
 
 //: Compute the 2-D cross product
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template<class T>
 inline T
 vnl_cross_2d( const vnl_vector<T>& v1, const vnl_vector<T>& v2 )
@@ -24,7 +24,7 @@ vnl_cross_2d( const vnl_vector<T>& v1, const vnl_vector<T>& v2 )
 }
 
 //: Compute the 2-D cross product
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T>
 inline T
 vnl_cross_2d( const vnl_vector_fixed<T,2>& v1, const vnl_vector_fixed<T,2>& v2 )
@@ -33,8 +33,8 @@ vnl_cross_2d( const vnl_vector_fixed<T,2>& v1, const vnl_vector_fixed<T,2>& v2 )
 }
 
 //: Compute the 2-D cross product
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T>
 inline T
 vnl_cross_2d(vnl_vector_fixed<T,2> const& v1, vnl_vector<T> const& v2)
@@ -44,8 +44,8 @@ vnl_cross_2d(vnl_vector_fixed<T,2> const& v1, vnl_vector<T> const& v2)
 }
 
 //: Compute the 2-D cross product
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T>
 inline T
 vnl_cross_2d(vnl_vector<T> const& v1, vnl_vector_fixed<T,2> const& v2)
@@ -55,7 +55,7 @@ vnl_cross_2d(vnl_vector<T> const& v1, vnl_vector_fixed<T,2> const& v2)
 }
 
 //: Compute the 3-D cross product
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template<class T>
 inline vnl_vector<T>
 vnl_cross_3d( const vnl_vector<T>& v1, const vnl_vector<T>& v2 )
@@ -69,7 +69,7 @@ vnl_cross_3d( const vnl_vector<T>& v1, const vnl_vector<T>& v2 )
 }
 
 //: Compute the 3-D cross product
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T>
 inline vnl_vector_fixed<T,3>
 vnl_cross_3d( const vnl_vector_fixed<T,3>& v1, const vnl_vector_fixed<T,3>& v2 )
@@ -82,8 +82,8 @@ vnl_cross_3d( const vnl_vector_fixed<T,3>& v1, const vnl_vector_fixed<T,3>& v2 )
 }
 
 //: Compute the 3-D cross product
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T,unsigned int n>
 inline vnl_vector_fixed<T,n>
 vnl_cross_3d( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
@@ -92,8 +92,8 @@ vnl_cross_3d( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 }
 
 //: Compute the 3-D cross product
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T,unsigned int n>
 inline vnl_vector_fixed<T,n>
 vnl_cross_3d( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )

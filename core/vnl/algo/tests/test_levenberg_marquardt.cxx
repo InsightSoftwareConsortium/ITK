@@ -12,15 +12,15 @@ struct vnl_rosenbrock : public vnl_least_squares_function
   vnl_rosenbrock(bool with_grad): vnl_least_squares_function(2, 2, with_grad ? use_gradient : no_gradient) {}
 
   void f(vnl_vector<double> const& x, vnl_vector<double>& y) {
-    //testlib_test_assert("size of x", x.size() == 2);
-    //testlib_test_assert("size of y", y.size() == 2);
+    TEST("size of x", x.size(), 2);
+    TEST("size of y", y.size(), 2);
     y[0] = 10*(x[1] - x[0]*x[0]);
     y[1] = 1 - x[0];
   }
 
   void gradf(vnl_vector<double> const& x, vnl_matrix<double> &J) {
-    //testlib_test_assert("size of x", x.size() == 2);
-    //testlib_test_assert("size of J", J.rows() == 2 && J.cols() == 2);
+    TEST("size of x", x.size(), 2);
+    TEST("size of J", J.rows() == 2 && J.cols() == 2, true);
     J[0][0] = -20 * x[0]; J[0][1] = 10;
     J[1][0] = -1;         J[1][1] = 0;
   }
@@ -65,7 +65,7 @@ void do_rosenbrock_test(bool with_grad)
 
   double err = vcl_abs(x1[0] - 1) + vcl_abs(x1[1] - 1);
   vcl_cout << "err = " << err << vcl_endl;
-  testlib_test_assert("converged to (1, 1)", err <= 1e-10);
+  TEST_NEAR("converged to (1, 1)", err, 0.0, 1e-10);
 }
 
 static

@@ -202,14 +202,15 @@ void vnl_real_polynomial::print(vcl_ostream& os) const
   int i = 0;
   while (i <= d && coeffs_[i] == 0) ++i;
   if (i > d) { os << "0 "; return; }
-  bool b = (coeffs_[i+1] > 0); // to avoid '+' in front of equation
+  bool b = (coeffs_[i] > 0); // to avoid '+' in front of equation
 
   for (; i <= d; ++i) {
     if (coeffs_[i] == 0) continue;
     if (coeffs_[i] > 0 && !b) os << '+';
     b = false;
-    if (coeffs_[i] == -1)     os << '-';
-    else if (coeffs_[i] != 1) os << coeffs_[i];
+    if (i==d)                  os << coeffs_[i]; // the 0-degree coeff should always be output if not zero
+    else if (coeffs_[i] == -1) os << '-';
+    else if (coeffs_[i] != 1)  os << coeffs_[i];
 
     if (i < d-1)              os << " X^" << d-i << ' ';
     else if (i == d-1)        os << " X ";

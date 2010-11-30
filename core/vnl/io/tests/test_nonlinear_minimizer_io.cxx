@@ -14,7 +14,7 @@ void test_nonlinear_minimizer_io()
   //// test constructors, accessors
   vnl_nonlinear_minimizer minimizer_out, minimizer_in;
 
-  // mininizer settings to be saved
+  // minimizer settings to be saved
   double xtol_out= 0.001;
   double ftol_out= xtol_out*0.01;
   double gtol_out= 0.005;

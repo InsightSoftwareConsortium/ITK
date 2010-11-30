@@ -24,6 +24,8 @@
 //              removed duplicate cross_3d
 //   Jun.2003 - Peter Vanroose - added cross_2d
 //   Oct.2003 - Peter Vanroose - removed deprecated x(), y(), z(), t()
+//   Mar.2009 - Peter Vanroose - added arg_min() and arg_max()
+//   Oct.2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
 
 #include <vcl_cstring.h> // memcpy()
@@ -31,8 +33,9 @@
 #include <vcl_iosfwd.h>
 #include "vnl_vector.h"
 #include "vnl_vector_ref.h"
-#include "vnl_c_vector.h"
-#include "vnl_matrix.h" // outerproduct
+#include <vnl/vnl_c_vector.h>
+#include <vnl/vnl_matrix.h> // outerproduct
+#include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 
 export template <class T, unsigned int n> class vnl_vector_fixed;
 export template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
@@ -81,16 +84,15 @@ export template <class T, unsigned int num_rows, unsigned int num_cols> class vn
 template <class T, unsigned int n>
 class vnl_vector_fixed
 {
- public:
-  typedef vnl_vector_fixed<T,n> self;
-  typedef unsigned int size_type;
-  // Compile-time accessible attribute to get the dimensionality of the vector.
-  enum{ SIZE = n };
-
  protected:
   T data_[n];
 
  public:
+  typedef vnl_vector_fixed<T,n> self;
+  typedef unsigned int size_type;
+  // Compile-time accessible attribute to get the dimensionality of the vector.
+  enum { SIZE = n };
+
   // Don't out-of-line the constructors, as extra the function call
   // adds a significant overhead. (memcpy is often implemented with a
   // couple of assembly instructions.)
@@ -116,7 +118,7 @@ class vnl_vector_fixed
   //: Constructs n-vector with all elements initialised to \a v
   explicit vnl_vector_fixed( const T& v ) { fill( v ); }
 
-  //: Construct an fixed-n-vector initialized from \a datablck
+  //: Construct a fixed-n-vector initialized from \a datablck
   //  The data *must* have enough data. No checks performed.
   explicit vnl_vector_fixed( const T* datablck )
   {
@@ -173,18 +175,20 @@ class vnl_vector_fixed
   T get (unsigned int i) const { return data_[i]; }
 
   //: Set all values to v
-  void fill( T const& v )
+  vnl_vector_fixed& fill( T const& v )
   {
     for ( size_type i = 0; i < n; ++i )
       data_[i] = v;
+    return *this;
   }
 
   //: Sets elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
-  void copy_in( T const * ptr )
+  vnl_vector_fixed& copy_in( T const * ptr )
   {
     for ( size_type i = 0; i < n; ++i )
       data_[i] = ptr[i];
+    return *this;
   }
 
   //: Copy elements to ptr[i]
@@ -197,8 +201,7 @@ class vnl_vector_fixed
 
   //: Sets elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
-  void set( T const *ptr ) { copy_in(ptr); }
-
+  vnl_vector_fixed& set( T const *ptr ) { return copy_in(ptr); }
 
   //: Return reference to the element at specified index.
   // There are assert style boundary checks - #define NDEBUG to turn them off.
@@ -374,6 +377,12 @@ class vnl_vector_fixed
   //: Largest value
   T max_value () const { return vnl_c_vector<T>::max_value(begin(), size()); }
 
+  //: Location of smallest value
+  unsigned arg_min() const { return vnl_c_vector<T>::arg_min(begin(), size()); }
+
+  //: Location of largest value
+  unsigned arg_max() const { return vnl_c_vector<T>::arg_max(begin(), size()); }
+
   //: Mean of values in vector
   T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
 
@@ -382,7 +391,7 @@ class vnl_vector_fixed
 
   //: Reverse the order of the elements
   //  Element i swaps with element size()-1-i
-  void flip();
+  vnl_vector_fixed& flip();
 
   //: Check that size()==sz if not, abort();
   // This function does or tests nothing if NDEBUG is defined
@@ -397,7 +406,7 @@ class vnl_vector_fixed
 #endif
   }
 
-  //: Return true if its finite
+  //: Return true if it's finite
   bool is_finite() const;
 
   //: Return true iff all the entries are zero.
@@ -500,7 +509,7 @@ class vnl_vector_fixed
 // --- Vector-scalar operators ----------------------------------------
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed<T,n>& v, T s )
 {
@@ -510,7 +519,7 @@ inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed<T,n>& v, T s )
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator+( const T& s,
                                         const vnl_vector_fixed<T,n>& v )
@@ -521,7 +530,7 @@ inline vnl_vector_fixed<T,n> operator+( const T& s,
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator-( const vnl_vector_fixed<T,n>& v, T s )
 {
@@ -531,7 +540,7 @@ inline vnl_vector_fixed<T,n> operator-( const vnl_vector_fixed<T,n>& v, T s )
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator-( const T& s,
                                         const vnl_vector_fixed<T,n>& v )
@@ -542,7 +551,7 @@ inline vnl_vector_fixed<T,n> operator-( const T& s,
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator*( const vnl_vector_fixed<T,n>& v, T s )
 {
@@ -552,7 +561,7 @@ inline vnl_vector_fixed<T,n> operator*( const vnl_vector_fixed<T,n>& v, T s )
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator*( const T& s,
                                         const vnl_vector_fixed<T,n>& v )
@@ -563,7 +572,7 @@ inline vnl_vector_fixed<T,n> operator*( const T& s,
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator/( const vnl_vector_fixed<T,n>& v, T s )
 {
@@ -580,7 +589,7 @@ inline vnl_vector_fixed<T,n> operator/( const vnl_vector_fixed<T,n>& v, T s )
 // be automatically converted to a non-fixed-ref. These do it for you.
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -590,8 +599,8 @@ inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed<T,n>& a, const vn
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector<T> operator+( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 {
@@ -599,8 +608,8 @@ inline vnl_vector<T> operator+( const vnl_vector_fixed<T,n>& a, const vnl_vector
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector<T> operator+( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -608,7 +617,7 @@ inline vnl_vector<T> operator+( const vnl_vector<T>& a, const vnl_vector_fixed<T
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator-( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -618,8 +627,8 @@ inline vnl_vector_fixed<T,n> operator-( const vnl_vector_fixed<T,n>& a, const vn
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector<T> operator-( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 {
@@ -627,8 +636,8 @@ inline vnl_vector<T> operator-( const vnl_vector_fixed<T,n>& a, const vnl_vector
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector<T> operator-( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -636,7 +645,7 @@ inline vnl_vector<T> operator-( const vnl_vector<T>& a, const vnl_vector_fixed<T
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> element_product( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -646,8 +655,8 @@ inline vnl_vector_fixed<T,n> element_product( const vnl_vector_fixed<T,n>& a, co
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector<T> element_product( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 {
@@ -658,8 +667,8 @@ inline vnl_vector<T> element_product( const vnl_vector_fixed<T,n>& a, const vnl_
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector<T> element_product( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -670,7 +679,7 @@ inline vnl_vector<T> element_product( const vnl_vector<T>& a, const vnl_vector_f
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> element_quotient( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -680,8 +689,8 @@ inline vnl_vector_fixed<T,n> element_quotient( const vnl_vector_fixed<T,n>& a, c
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector<T> element_quotient( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 {
@@ -692,8 +701,8 @@ inline vnl_vector<T> element_quotient( const vnl_vector_fixed<T,n>& a, const vnl
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector<T> element_quotient( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -704,7 +713,7 @@ inline vnl_vector<T> element_quotient( const vnl_vector<T>& a, const vnl_vector_
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T dot_product( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -712,8 +721,8 @@ inline T dot_product( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T dot_product( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 {
@@ -721,8 +730,8 @@ inline T dot_product( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T dot_product( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -730,8 +739,8 @@ inline T dot_product( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_matrix<T> outer_product( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -739,8 +748,8 @@ inline vnl_matrix<T> outer_product( const vnl_vector<T>& a, const vnl_vector_fix
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_matrix<T> outer_product( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 {
@@ -748,7 +757,7 @@ inline vnl_matrix<T> outer_product( const vnl_vector_fixed<T,n>& a, const vnl_ve
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T angle( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -756,8 +765,8 @@ inline T angle( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T angle( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 {
@@ -765,8 +774,8 @@ inline T angle( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T angle( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -775,7 +784,7 @@ inline T angle( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T vnl_vector_ssd( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -783,8 +792,8 @@ inline T vnl_vector_ssd( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T vnl_vector_ssd( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b )
 {
@@ -792,8 +801,8 @@ inline T vnl_vector_ssd( const vnl_vector_fixed<T,n>& a, const vnl_vector<T>& b 
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned n>
 inline T vnl_vector_ssd( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -802,7 +811,7 @@ inline T vnl_vector_ssd( const vnl_vector<T>& a, const vnl_vector_fixed<T,n>& b 
 
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline bool operator==( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -810,8 +819,8 @@ inline bool operator==( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline bool operator==( vnl_vector_fixed<T,n> const& a, vnl_vector<T> const& b )
 {
@@ -819,8 +828,8 @@ inline bool operator==( vnl_vector_fixed<T,n> const& a, vnl_vector<T> const& b )
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline bool operator==( vnl_vector<T> const& a, vnl_vector_fixed<T,n> const& b )
 {
@@ -828,7 +837,7 @@ inline bool operator==( vnl_vector<T> const& a, vnl_vector_fixed<T,n> const& b )
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline bool operator!=( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T,n>& b )
 {
@@ -836,8 +845,8 @@ inline bool operator!=( const vnl_vector_fixed<T,n>& a, const vnl_vector_fixed<T
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline bool operator!=( vnl_vector_fixed<T,n> const& a, vnl_vector<T> const& b )
 {
@@ -845,8 +854,8 @@ inline bool operator!=( vnl_vector_fixed<T,n> const& a, vnl_vector<T> const& b )
 }
 
 //:
-// \relates vnl_vector
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline bool operator!=( vnl_vector<T> const& a, vnl_vector_fixed<T,n> const& b )
 {
@@ -858,7 +867,7 @@ inline bool operator!=( vnl_vector<T> const& a, vnl_vector_fixed<T,n> const& b )
 
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline
 vcl_ostream& operator<< ( vcl_ostream& ostr, const vnl_vector_fixed<T,n>& v )
@@ -868,7 +877,7 @@ vcl_ostream& operator<< ( vcl_ostream& ostr, const vnl_vector_fixed<T,n>& v )
 }
 
 //:
-// \relates vnl_vector_fixed
+// \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline
 vcl_istream& operator>> ( vcl_istream& ostr, vnl_vector_fixed<T,n>& v )

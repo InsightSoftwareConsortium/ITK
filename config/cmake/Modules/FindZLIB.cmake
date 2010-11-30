@@ -16,7 +16,8 @@
 # If this FORCE variable is unset or is FALSE, try to find a native library.
 IF( VXL_FORCE_V3P_ZLIB )
 ELSE( VXL_FORCE_V3P_ZLIB )
-  INCLUDE( ${CMAKE_ROOT}/Modules/FindZLIB.cmake )
+  # Suppress not found messages
+  FIND_PACKAGE( ZLIB QUIET )
 ENDIF( VXL_FORCE_V3P_ZLIB )
 
   

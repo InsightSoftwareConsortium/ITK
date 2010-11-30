@@ -1,5 +1,11 @@
 # vxl/core/vnl/CMakeLists.txt
 
+doxygen_add_library(core/vnl
+  DEPENDS core/vsl
+  PACKAGE core
+  DESCRIPTION "Numerics Library"
+  )
+
 # Create vnl_config.h
 OPTION(VNL_CONFIG_CHECK_BOUNDS
   "Whether vnl_vector/vnl_matrix accessor methods check index bounds." ON)
@@ -8,19 +14,36 @@ OPTION(VNL_CONFIG_LEGACY_METHODS
 OPTION(VNL_CONFIG_THREAD_SAFE
   "Whether thread-safe vnl implementations are used." ON)
 
- 
+
 #IF( VXL_HAS_EMMINTRIN_H AND VXL_HAS_SSE2_HARDWARE_SUPPORT )
 #  OPTION(VNL_CONFIG_ENABLE_SSE2
 #    "Enable Streaming SIMD Extensions 2 optimisations (hardware dependant)." ON)
 #ELSE ( VXL_HAS_EMMINTRIN_H AND VXL_HAS_SSE2_HARDWARE_SUPPORT )
   OPTION(VNL_CONFIG_ENABLE_SSE2
-    "Enable Streaming SIMD Extensions 2 optimisations (hardware dependant)." OFF)
+    "Enable Streaming SIMD Extensions 2 optimisations (hardware dependant). Currently broken. For use by VNL developers only." OFF)
 #ENDIF( VXL_HAS_EMMINTRIN_H AND VXL_HAS_SSE2_HARDWARE_SUPPORT )
+
+OPTION(VNL_CONFIG_ENABLE_SSE2_ROUNDING
+  "Enable Streaming SIMD Extensions 2 implementation of rounding (hardware dependant)."
+  ${VXL_HAS_SSE2_HARDWARE_SUPPORT} )
+IF( VNL_CONFIG_ENABLE_SSE2_ROUNDING )
+  IF( NOT VXL_HAS_SSE2_HARDWARE_SUPPORT )
+    IF( VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE )
+      MESSAGE( ${VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE_HELP} )
+    ENDIF( VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE )
+    MESSAGE( SEND_ERROR "Cannot have VNL_CONFIG_ENABLE_SSE2_ROUNDING because"
+                        " there is no SSE2 hardware support" )
+    SET(VNL_CONFIG_ENABLE_SSE2_ROUNDING 0)
+  ENDIF( NOT VXL_HAS_SSE2_HARDWARE_SUPPORT )
+ENDIF( VNL_CONFIG_ENABLE_SSE2_ROUNDING )
+
 
 MARK_AS_ADVANCED(
   VNL_CONFIG_CHECK_BOUNDS
   VNL_CONFIG_LEGACY_METHODS
   VNL_CONFIG_THREAD_SAFE
+  VNL_CONFIG_ENABLE_SSE2_ROUNDING
+  VNL_CONFIG_ENABLE_SSE2
   )
 # Need to enforce 1/0 values for configuration.
 IF(VNL_CONFIG_CHECK_BOUNDS)
@@ -38,11 +61,16 @@ IF(VNL_CONFIG_THREAD_SAFE)
 ELSE(VNL_CONFIG_THREAD_SAFE)
   SET(VNL_CONFIG_THREAD_SAFE 0)
 ENDIF(VNL_CONFIG_THREAD_SAFE)
-IF(VNL_CONFIG_ENABLE_SSE2) 
+IF(VNL_CONFIG_ENABLE_SSE2)
   SET(VNL_CONFIG_ENABLE_SSE2 1)
 ELSE(VNL_CONFIG_ENABLE_SSE2)
   SET(VNL_CONFIG_ENABLE_SSE2 0)
 ENDIF(VNL_CONFIG_ENABLE_SSE2)
+IF(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
+  SET(VNL_CONFIG_ENABLE_SSE2_ROUNDING 1)
+ELSE(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
+  SET(VNL_CONFIG_ENABLE_SSE2_ROUNDING 0)
+ENDIF(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
 CONFIGURE_FILE(${vxl_SOURCE_DIR}/core/vnl/vnl_config.h.in
                ${vxl_BINARY_DIR}/core/vnl/vnl_config.h @ONLY IMMEDIATE)
 
@@ -65,6 +93,7 @@ SET( vnl_sources
   vnl_matrix_fixed.txx         vnl_matrix_fixed.h
   vnl_matrix_fixed_ref.txx     vnl_matrix_fixed_ref.h
   vnl_diag_matrix.txx          vnl_diag_matrix.h
+  vnl_diag_matrix_fixed.txx    vnl_diag_matrix_fixed.h
   vnl_sparse_matrix.txx        vnl_sparse_matrix.h
   vnl_matrix_exp.txx           vnl_matrix_exp.h
   vnl_file_matrix.txx          vnl_file_matrix.h
@@ -75,6 +104,7 @@ SET( vnl_sources
   vnl_det.txx                  vnl_det.h
                                vnl_transpose.h
                                vnl_inverse.h
+                               vnl_power.h
                                vnl_trace.h
   vnl_rank.txx                 vnl_rank.h
   vnl_scalar_join_iterator.txx vnl_scalar_join_iterator.h
@@ -83,6 +113,8 @@ SET( vnl_sources
   vnl_alloc.cxx                vnl_alloc.h
   vnl_block.cxx                vnl_block.h
   vnl_math.cxx                 vnl_math.h
+  vnl_na.cxx                   vnl_na.h
+  vnl_c_na_vector.txx          vnl_c_na_vector.h
   vnl_copy.cxx                 vnl_copy.h
                                vnl_complex.h
   vnl_error.cxx                vnl_error.h
@@ -163,6 +195,7 @@ SET( vnl_sources
   vnl_cost_function.cxx               vnl_cost_function.h
   vnl_least_squares_function.cxx      vnl_least_squares_function.h
   vnl_least_squares_cost_function.cxx vnl_least_squares_cost_function.h
+  vnl_sparse_lst_sqr_function.cxx     vnl_sparse_lst_sqr_function.h
   vnl_nonlinear_minimizer.cxx         vnl_nonlinear_minimizer.h
 
   vnl_hungarian_algorithm.cxx         vnl_hungarian_algorithm.h
@@ -176,10 +209,14 @@ SET( vnl_sources
   vnl_cross_product_matrix.h
   vnl_identity_3x3.h
 
+  # indexing of sparse structures
+  vnl_crs_index.cxx            vnl_crs_index.h
+
   # Special functions
   vnl_bessel.cxx               vnl_bessel.h
                                vnl_cross.h
   vnl_gamma.cxx                vnl_gamma.h
+                               vnl_beta.h
   vnl_erf.cxx                  vnl_erf.h
   vnl_sample.cxx               vnl_sample.h
   vnl_unary_function.txx       vnl_unary_function.h
@@ -209,10 +246,15 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_matrix_fixed+vnl_bignum.3.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_vector+vnl_rational-.cxx PROPERTIES COMPILE_FLAGS -O0)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_vector_fixed+vnl_rational.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
+  # with optimisation, the vnl_na etc functions fail on x86_64:
+  SET_SOURCE_FILES_PROPERTIES(vnl_na.cxx PROPERTIES COMPILE_FLAGS -O1)
   # gcc must have -msse2 option to enable sse2 support
   IF(VNL_CONFIG_ENABLE_SSE2)
     ADD_DEFINITIONS( -msse2 )
   ENDIF(VNL_CONFIG_ENABLE_SSE2)
+  IF(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
+    ADD_DEFINITIONS( -msse2 )
+  ENDIF(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 ADD_LIBRARY(vnl ${vnl_sources})

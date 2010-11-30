@@ -28,12 +28,25 @@
 // Note that this function is inlined (except for the call to vnl_det()),
 // which makes it much faster than the vnl_matrix_inverse class in vnl/algo
 // since that one is using svd.
+//
+//  \relatesalso vnl_matrix_fixed
 
 template <class T>
 vnl_matrix_fixed<T,1,1> vnl_inverse(vnl_matrix_fixed<T,1,1> const& m)
 {
   return vnl_matrix_fixed<T,1,1>(T(1)/m(0,0));
 }
+
+//: Calculates inverse of a small vnl_matrix_fixed (not using svd)
+//  This allows you to write e.g.
+//
+//  x = vnl_inverse(A) * b;
+//
+// Note that this function is inlined (except for the call to vnl_det()),
+// which makes it much faster than the vnl_matrix_inverse class in vnl/algo
+// since that one is using svd.
+//
+//  \relatesalso vnl_matrix_fixed
 
 template <class T>
 vnl_matrix_fixed<T,2,2> vnl_inverse(vnl_matrix_fixed<T,2,2> const& m)
@@ -49,6 +62,17 @@ vnl_matrix_fixed<T,2,2> vnl_inverse(vnl_matrix_fixed<T,2,2> const& m)
   d[3] = m(0,0)*det; d[2] = - m(1,0)*det;
   return vnl_matrix_fixed<T,2,2>(d);
 }
+
+//: Calculates inverse of a small vnl_matrix_fixed (not using svd)
+//  This allows you to write e.g.
+//
+//  x = vnl_inverse(A) * b;
+//
+// Note that this function is inlined (except for the call to vnl_det()),
+// which makes it much faster than the vnl_matrix_inverse class in vnl/algo
+// since that one is using svd.
+//
+//  \relatesalso vnl_matrix_fixed
 
 template <class T>
 vnl_matrix_fixed<T,3,3> vnl_inverse(vnl_matrix_fixed<T,3,3> const& m)
@@ -71,6 +95,17 @@ vnl_matrix_fixed<T,3,3> vnl_inverse(vnl_matrix_fixed<T,3,3> const& m)
   d[8] = (m(0,0)*m(1,1)-m(0,1)*m(1,0))*det;
   return vnl_matrix_fixed<T,3,3>(d);
 }
+
+//: Calculates inverse of a small vnl_matrix_fixed (not using svd)
+//  This allows you to write e.g.
+//
+//  x = vnl_inverse(A) * b;
+//
+// Note that this function is inlined (except for the call to vnl_det()),
+// which makes it much faster than the vnl_matrix_inverse class in vnl/algo
+// since that one is using svd.
+//
+//  \relatesalso vnl_matrix_fixed
 
 template <class T>
 vnl_matrix_fixed<T,4,4> vnl_inverse(vnl_matrix_fixed<T,4,4> const& m)
@@ -117,6 +152,17 @@ vnl_matrix_fixed<T,4,4> vnl_inverse(vnl_matrix_fixed<T,4,4> const& m)
   return vnl_matrix_fixed<T,4,4>(d)*det;
 }
 
+//: Calculates inverse of a small vnl_matrix_fixed (not using svd)
+//  This allows you to write e.g.
+//
+//  x = vnl_inverse(A) * b;
+//
+// Note that this function is inlined (except for the call to vnl_det()),
+// which makes it much faster than the vnl_matrix_inverse class in vnl/algo
+// since that one is using svd.
+//
+//  \relatesalso vnl_matrix
+
 template <class T>
 vnl_matrix<T> vnl_inverse(vnl_matrix<T> const& m)
 {
@@ -125,11 +171,11 @@ vnl_matrix<T> vnl_inverse(vnl_matrix<T> const& m)
   if (m.rows() == 1)
     return vnl_matrix<T>(1,1, T(1)/m(0,0));
   else if (m.rows() == 2)
-    return vnl_matrix<T>(vnl_inverse(vnl_matrix_fixed<T,2,2>(m)));
+    return vnl_inverse(vnl_matrix_fixed<T,2,2>(m)).as_ref();
   else if (m.rows() == 3)
-    return vnl_matrix<T>(vnl_inverse(vnl_matrix_fixed<T,3,3>(m)));
+    return vnl_inverse(vnl_matrix_fixed<T,3,3>(m)).as_ref();
   else
-    return vnl_matrix<T>(vnl_inverse(vnl_matrix_fixed<T,4,4>(m)));
+    return vnl_inverse(vnl_matrix_fixed<T,4,4>(m)).as_ref();
 }
 
 //: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)
@@ -142,12 +188,27 @@ vnl_matrix<T> vnl_inverse(vnl_matrix<T> const& m)
 // since that one is using svd.  This is also faster than using
 //
 //  x = vnl_inverse(A).transpose() * b;
+//
+//  \relatesalso vnl_matrix_fixed
 
 template <class T>
 vnl_matrix_fixed<T,1,1> vnl_inverse_transpose(vnl_matrix_fixed<T,1,1> const& m)
 {
   return vnl_matrix_fixed<T,1,1>(T(1)/m(0,0));
 }
+
+//: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)
+//  This allows you to write e.g.
+//
+//  x = vnl_inverse_transpose(A) * b;
+//
+// Note that this function is inlined (except for the call to vnl_det()),
+// which makes it much faster than the vnl_matrix_inverse class in vnl/algo
+// since that one is using svd.  This is also faster than using
+//
+//  x = vnl_inverse(A).transpose() * b;
+//
+//  \relatesalso vnl_matrix_fixed
 
 template <class T>
 vnl_matrix_fixed<T,2,2> vnl_inverse_transpose(vnl_matrix_fixed<T,2,2> const& m)
@@ -163,6 +224,19 @@ vnl_matrix_fixed<T,2,2> vnl_inverse_transpose(vnl_matrix_fixed<T,2,2> const& m)
   d[3] = m(0,0)*det; d[1] = - m(1,0)*det;
   return vnl_matrix_fixed<T,2,2>(d);
 }
+
+//: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)
+//  This allows you to write e.g.
+//
+//  x = vnl_inverse_transpose(A) * b;
+//
+// Note that this function is inlined (except for the call to vnl_det()),
+// which makes it much faster than the vnl_matrix_inverse class in vnl/algo
+// since that one is using svd.  This is also faster than using
+//
+//  x = vnl_inverse(A).transpose() * b;
+//
+//  \relatesalso vnl_matrix_fixed
 
 template <class T>
 vnl_matrix_fixed<T,3,3> vnl_inverse_transpose(vnl_matrix_fixed<T,3,3> const& m)
@@ -185,6 +259,19 @@ vnl_matrix_fixed<T,3,3> vnl_inverse_transpose(vnl_matrix_fixed<T,3,3> const& m)
   d[8] = (m(0,0)*m(1,1)-m(0,1)*m(1,0))*det;
   return vnl_matrix_fixed<T,3,3>(d);
 }
+
+//: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)
+//  This allows you to write e.g.
+//
+//  x = vnl_inverse_transpose(A) * b;
+//
+// Note that this function is inlined (except for the call to vnl_det()),
+// which makes it much faster than the vnl_matrix_inverse class in vnl/algo
+// since that one is using svd.  This is also faster than using
+//
+//  x = vnl_inverse(A).transpose() * b;
+//
+//  \relatesalso vnl_matrix_fixed
 
 template <class T>
 vnl_matrix_fixed<T,4,4> vnl_inverse_transpose(vnl_matrix_fixed<T,4,4> const& m)
@@ -231,6 +318,19 @@ vnl_matrix_fixed<T,4,4> vnl_inverse_transpose(vnl_matrix_fixed<T,4,4> const& m)
   return vnl_matrix_fixed<T,4,4>(d)*det;
 }
 
+//: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)
+//  This allows you to write e.g.
+//
+//  x = vnl_inverse_transpose(A) * b;
+//
+// Note that this function is inlined (except for the call to vnl_det()),
+// which makes it much faster than the vnl_matrix_inverse class in vnl/algo
+// since that one is using svd.  This is also faster than using
+//
+//  x = vnl_inverse(A).transpose() * b;
+//
+//  \relatesalso vnl_matrix
+
 template <class T>
 vnl_matrix<T> vnl_inverse_transpose(vnl_matrix<T> const& m)
 {
@@ -239,11 +339,11 @@ vnl_matrix<T> vnl_inverse_transpose(vnl_matrix<T> const& m)
   if (m.rows() == 1)
     return vnl_matrix<T>(1,1, T(1)/m(0,0));
   else if (m.rows() == 2)
-    return vnl_matrix<T>(vnl_inverse_transpose(vnl_matrix_fixed<T,2,2>(m)));
+    return vnl_inverse_transpose(vnl_matrix_fixed<T,2,2>(m)).as_ref();
   else if (m.rows() == 3)
-    return vnl_matrix<T>(vnl_inverse_transpose(vnl_matrix_fixed<T,3,3>(m)));
+    return vnl_inverse_transpose(vnl_matrix_fixed<T,3,3>(m)).as_ref();
   else
-    return vnl_matrix<T>(vnl_inverse_transpose(vnl_matrix_fixed<T,4,4>(m)));
+    return vnl_inverse_transpose(vnl_matrix_fixed<T,4,4>(m)).as_ref();
 }
 
 #endif // vnl_inverse_h_

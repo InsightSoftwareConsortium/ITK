@@ -6,7 +6,7 @@
 #endif
 //:
 // \file
-// \brief Extract eigensystem of unsymmetric matrix M, using EISPACK
+// \brief Extract eigensystem of non-symmetric matrix M, using EISPACK
 // \author Andrew W. Fitzgibbon, Oxford RRG
 // \date   23 Jan 97
 //

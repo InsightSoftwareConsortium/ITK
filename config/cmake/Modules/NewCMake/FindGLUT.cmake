@@ -10,8 +10,9 @@
 # GLUT_Xmu_LIBRARY, where to find the Xmu library if available.
 # GLUT_Xi_LIBRARY, where to find the Xi Library if available.
 
-IF (WIN32)
 
+IF (WIN32)
+  FIND_PATH( OPENGL_LIBRARY_DIR glut32.lib )
   IF(CYGWIN)
 
     FIND_PATH( GLUT_INCLUDE_DIR GL/glut.h
@@ -117,4 +118,5 @@ MARK_AS_ADVANCED(
   GLUT_glut_LIBRARY
   GLUT_Xmu_LIBRARY
   GLUT_Xi_LIBRARY
+  OPENGL_LIBRARY_DIR
 )

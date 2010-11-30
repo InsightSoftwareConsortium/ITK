@@ -3,8 +3,9 @@
 #define vnl_vector_txx_
 //:
 // \file
-//
-// \date VDN 02/21/92 new lite version adapted from Matrix.h
+// \author VDN
+// \date   Feb 21, 1992
+// \brief new lite version adapted from Matrix.h
 //
 // The parameterized vnl_vector<T> class implements 1D arithmetic vectors of a
 // user specified type. The only constraint placed on the type is that
@@ -57,22 +58,23 @@
 #else
 # define vnl_vector_construct_hack()
 #endif
-  
+
 // This macro allocates the dynamic storage used by a vnl_vector.
 
 #define vnl_vector_alloc_blah(size) \
 do { \
   this->num_elmts = (size); \
-  this->data = vnl_c_vector<T>::allocate_T(size); \
+  this->data = size ? vnl_c_vector<T>::allocate_T(size) : 0; \
 } while (false)
 
 // This macro deallocates the dynamic storage used by a vnl_vector.
 #define vnl_vector_free_blah \
 do { \
-  vnl_c_vector<T>::deallocate(this->data, this->num_elmts); \
+  if (this->data) \
+    vnl_c_vector<T>::deallocate(this->data, this->num_elmts); \
 } while (false)
 
-  
+
 //: Creates a vector with specified length. O(n).
 // Elements are not initialized.
 
@@ -351,19 +353,23 @@ vnl_vector<T> vnl_vector<T>::read(vcl_istream& s)
 //: Sets all elements of a vector to a specified fill value. O(n).
 
 template<class T>
-void vnl_vector<T>::fill (T const& value)
+vnl_vector<T>&
+vnl_vector<T>::fill (T const& value)
 {
   for (unsigned i = 0; i < this->num_elmts; i++)
     this->data[i] = value;
+  return *this;
 }
 
 //: Sets elements of a vector to those in an array. O(n).
 
 template<class T>
-void vnl_vector<T>::copy_in (T const *ptr)
+vnl_vector<T>&
+vnl_vector<T>::copy_in (T const *ptr)
 {
   for (unsigned i = 0; i < num_elmts; ++i)
     data[i] = ptr[i];
+  return *this;
 }
 
 //: Sets elements of an array to those in vector. O(n).
@@ -467,11 +473,10 @@ vnl_vector<T>& vnl_vector<T>::pre_multiply (vnl_matrix<T> const& m)
     vnl_error_vector_dimension ("operator*=", this->num_elmts, m.columns());
 #endif
   T* temp= vnl_c_vector<T>::allocate_T(m.rows()); // Temporary
-  vnl_matrix<T>& mm = (vnl_matrix<T>&) m;       // Drop const for get()
   for (unsigned i = 0; i < m.rows(); i++) {     // For each index
     temp[i] = (T)0;                             // Initialize element value
     for (unsigned k = 0; k < this->num_elmts; k++)      // Loop over column values
-      temp[i] += (mm.get(i,k) * this->data[k]); // Multiply
+      temp[i] += (m.get(i,k) * this->data[k]);  // Multiply
   }
   vnl_c_vector<T>::deallocate(this->data, this->num_elmts); // Free up the data space
   num_elmts = m.rows();                         // Set new num_elmts
@@ -490,11 +495,10 @@ vnl_vector<T>& vnl_vector<T>::post_multiply (vnl_matrix<T> const& m)
     vnl_error_vector_dimension ("operator*=", this->num_elmts, m.rows());
 #endif
   T* temp= vnl_c_vector<T>::allocate_T(m.columns()); // Temporary
-  vnl_matrix<T>& mm = (vnl_matrix<T>&) m;       // Drop const for get()
   for (unsigned i = 0; i < m.columns(); i++) {  // For each index
     temp[i] = (T)0;                             // Initialize element value
     for (unsigned k = 0; k < this->num_elmts; k++) // Loop over column values
-      temp[i] += (this->data[k] * mm.get(k,i)); // Multiply
+      temp[i] += (this->data[k] * m.get(k,i));  // Multiply
   }
   vnl_c_vector<T>::deallocate(this->data, num_elmts); // Free up the data space
   num_elmts = m.columns();                      // Set new num_elmts
@@ -525,11 +529,10 @@ vnl_vector<T> operator* (vnl_matrix<T> const& m, vnl_vector<T> const& v)
     vnl_error_vector_dimension ("operator*", m.columns(), v.size());
 #endif
   vnl_vector<T> result(m.rows());               // Temporary
-  vnl_matrix<T>& mm = (vnl_matrix<T>&) m;       // Drop const for get()
   for (unsigned i = 0; i < m.rows(); i++) {     // For each index
     result[i] = (T)0;                           // Initialize element value
     for (unsigned k = 0; k < v.size(); k++)     // Loop over column values
-      result[i] += (mm.get(i,k) * v[k]);        // Multiply
+      result[i] += (m.get(i,k) * v[k]);         // Multiply
   }
   return result;
 }
@@ -552,11 +555,10 @@ vnl_vector<T> vnl_vector<T>::operator* (vnl_matrix<T> const&m) const
     vnl_error_vector_dimension ("operator*", num_elmts, m.rows());
 #endif
   vnl_vector<T> result(m.columns());            // Temporary
-  vnl_matrix<T>& mm = (vnl_matrix<T>&) m;       // Drop const for get()
   for (unsigned i = 0; i < m.columns(); i++) {  // For each index
     result.data[i] = (T)0;                      // Initialize element value
     for (unsigned k = 0; k < num_elmts; k++)    // Loop over column values
-      result.data[i] += (data[k] * mm.get(k,i)); // Multiply
+      result.data[i] += (data[k] * m.get(k,i)); // Multiply
   }
   return result;
 }
@@ -604,11 +606,11 @@ vnl_vector<T> element_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
   if (v1.size() != v2.size())
     vnl_error_vector_dimension ("element_product", v1.size(), v2.size());
 #endif
-  
+
   vnl_vector<T> result(v1.size());
- 
+
   vnl_sse<T>::element_product(v1.begin(), v2.begin(), result.begin(), v1.size());
-  
+
   return result;
 }
 
@@ -707,13 +709,15 @@ vnl_matrix<T> outer_product (vnl_vector<T> const& v1,
 //--------------------------------------------------------------------------------
 
 template <class T>
-void vnl_vector<T>::flip()
+vnl_vector<T>&
+vnl_vector<T>::flip()
 {
   for (unsigned i=0;i<num_elmts/2;i++) {
     T tmp=data[i];
     data[i]=data[num_elmts-1-i];
     data[num_elmts-1-i]=tmp;
   }
+  return *this;
 }
 
 template <class T>

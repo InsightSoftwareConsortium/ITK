@@ -44,9 +44,10 @@ void test_finite_int(vnl_finite_int<N>)
   vnl_finite_int<N> b5 = 4321; b1 = b5;
   TEST("b1 = b5", b1, b5);
 
+  testlib_test_begin("<<");
   vcl_cout << "b1 = " << b1 << vcl_endl
            << "b5 = " << b5 << vcl_endl;
-  TEST("<<", 1, 1);
+  testlib_test_perform(true);
 
   TEST("unary plus", +b5, b5);
 
@@ -228,8 +229,9 @@ void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s)
   for (int m=0; m<=M; ++m)
     mod_p[m] = vcl_atoi(s.c_str()+2*m);
 
+  testlib_test_begin("Setting modulo polynomial");
   mod_p = vnl_finite_int_poly<N,M>::modulo_polynomial(mod_p);
-  TEST("Setting modulo polynomial", 1, 1);
+  testlib_test_perform(true);
 
   mod_p.pop_back();
   vnl_finite_int_poly<N,M> irred = mod_p;
@@ -237,24 +239,28 @@ void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s)
 
   vcl_vector<vnl_finite_int<N> > v(M);
   for (int m = 0; m < M;  ++m) v[m] = m+1+m*m;
-  vnl_finite_int_poly<N,M> x(v);
-  vcl_cout << "x = " << x << '\n';
+  vnl_finite_int_poly<N,M> f(v);
+  vcl_cout << "f(X) = " << f << '\n';
   for (int m = 0; m < M;  ++m) v[m] = m+1-m*m;
-  vnl_finite_int_poly<N,M> y(v);
-  vcl_cout << "y = " << y << '\n';
-  y *= x;
-  TEST("multiplying y with x", 1, 1);
-  vcl_cout << "y * x = " << y << '\n';
+  vnl_finite_int_poly<N,M> g(v);
+  vcl_cout << "g(X) = " << g << '\n';
+  testlib_test_begin("multiplying g with f");
+  g *= f;
+  testlib_test_perform(true);
+  vcl_cout << "g(X) * f(X) = " << g << vcl_endl;
 
   // Is irred indeed a polynomial of maximal multiplicative order?
+  testlib_test_begin("constructing vnl_finite_int_poly from vnl_finite_int");
   vnl_finite_int_poly<N,M> t = vnl_finite_int<N>(1);
+  testlib_test_perform(true);
   unsigned int order = 1;
+  testlib_test_begin("multiplicative order");
   do t *= irred; while (t != vnl_finite_int<N>(1) && ++order < t.cardinality());
-  TEST("multiplicative order", order != 0 && order < t.cardinality(), true);
+  testlib_test_perform(order != 0 && order < t.cardinality());
   vcl_cout << "Multiplicative order of " << irred << " is " << order << '\n';
   TEST("multiplicative order", irred.multiplicative_order(), order);
   if (order+1 == t.cardinality())
-    vcl_cout << "This is a Galois field of order " << order+1 << '\n';
+    vcl_cout << "This is a Galois field of cardinality " << order+1 << '\n';
   TEST("Field?", t.is_field(), order+1 == t.cardinality());
 
   vcl_cout << vcl_endl;

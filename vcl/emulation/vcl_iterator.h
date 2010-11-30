@@ -538,7 +538,7 @@ inline
 bool operator==(const vcl_istream_iterator<T, Distance>& x,
                 const vcl_istream_iterator<T, Distance>& y) {
     return x.stream == y.stream && x.end_marker == y.end_marker ||
-        x.end_marker == false && y.end_marker == false;
+           ! x.end_marker && ! y.end_marker;
 }
 
 template <class T>

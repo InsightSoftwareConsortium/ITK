@@ -8,7 +8,7 @@
 // \file
 // \brief Calculate inverse of a matrix using QR
 // \author  Andrew W. Fitzgibbon, Oxford RRG
-// \date   08 Dec 96
+// \date   08 Dec 1996
 //
 // \verbatim
 //  Modifications
@@ -70,12 +70,12 @@ class vnl_qr
   vnl_matrix<T> qrdc_out_;
   vnl_vector<T> qraux_;
   vnl_vector<long> jpvt_;
-  vnl_matrix<T>* Q_;
-  vnl_matrix<T>* R_;
+  mutable vnl_matrix<T>* Q_;
+  mutable vnl_matrix<T>* R_;
 
   // Disallow assignment.
   vnl_qr(const vnl_qr<T> &) { }
-  void operator=(const vnl_qr<T> &) { }
+  vnl_qr<T>& operator=(const vnl_qr<T> &) { return *this; }
 };
 
 //: Compute determinant of matrix "M" using QR.

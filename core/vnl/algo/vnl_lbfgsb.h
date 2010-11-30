@@ -22,7 +22,7 @@
 
 //: Limited memory Broyden Fletcher Goldfarb Shannon minimization with constraints.
 //  Lower and upper bounds may be specified for the variables to be optimized.
-//  The algorithm miminizes a nonlinear function f(x) of n variables
+//  The algorithm minimizes a nonlinear function f(x) of n variables
 //  subject to simple bound constraints of l <= x <= u.
 
 class vnl_lbfgsb : public vnl_nonlinear_minimizer
@@ -46,7 +46,7 @@ class vnl_lbfgsb : public vnl_nonlinear_minimizer
     { this->bound_selection_ = nbd; }
 
   //: Get the bounds currently enforced on each variable.
-  long get_bound_selection(vnl_vector<long>& nbd) const
+  void get_bound_selection(vnl_vector<long>& nbd) const
     { nbd = this->bound_selection_; }
 
   //: Set the lower bounds for all variables.
@@ -103,6 +103,10 @@ class vnl_lbfgsb : public vnl_nonlinear_minimizer
   double get_projected_gradient_tolerance() const
     { return this->projected_gradient_tolerance_; }
 
+  //: Get the current infinity norm of the projected gradient.
+  double get_inf_norm_projected_gradient() const
+    { return this->inf_norm_projected_gradient_; }
+
  protected:
 
   vnl_vector<double> lower_bound_;
@@ -111,6 +115,7 @@ class vnl_lbfgsb : public vnl_nonlinear_minimizer
   long max_corrections_;
   double convergence_factor_;
   double projected_gradient_tolerance_;
+  double inf_norm_projected_gradient_;
 
  private:
   void init_parameters();

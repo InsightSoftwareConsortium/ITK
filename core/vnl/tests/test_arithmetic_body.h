@@ -34,37 +34,28 @@
   // reference.
   double tmp1[100];
 
-  testlib_test_begin( "3x2 matrix construction" );
   NewMat( m1, 3, 2, m1_data );
-  testlib_test_perform(
-    m1.rows() == 3 && m1.cols() == 2 &&
-    m1(0,0)==1 && m1(0,1)==2 &&
-    m1(1,0)==3 && m1(1,1)==4 &&
-    m1(2,0)==5 && m1(2,1)==6
-  );
- 
-  testlib_test_begin( "2x3 matrix construction" );
+  TEST( "3x2 matrix construction" ,
+        m1.rows() == 3 && m1.cols() == 2 &&
+        m1(0,0)==1 && m1(0,1)==2 &&
+        m1(1,0)==3 && m1(1,1)==4 &&
+        m1(2,0)==5 && m1(2,1)==6, true);
+
   NewMat( m3, 2, 3, m3_data );
-  testlib_test_perform(
-    m3.rows() == 2 && m3.cols() == 3 &&
-    m3(0,0)==3 && m3(0,1)==4 && m3(0,2)==5 &&
-    m3(1,0)==6 && m3(1,1)==7 && m3(1,2)==8
-  );
+  TEST( "2x3 matrix construction" ,
+        m3.rows() == 2 && m3.cols() == 3 &&
+        m3(0,0)==3 && m3(0,1)==4 && m3(0,2)==5 &&
+        m3(1,0)==6 && m3(1,1)==7 && m3(1,2)==8, true);
 
-  testlib_test_begin( "2 vector construction" );
   NewVec( v1, 2, v1_data );
-  testlib_test_perform(
-    v1.size() == 2 &&
-    v1[0] == 3 && v1[1] == 2
-  );
+  TEST( "2 vector construction" ,
+        v1.size() == 2 &&
+        v1[0] == 3 && v1[1] == 2, true);
 
-  testlib_test_begin( "3 vector construction" );
   NewVec( v3, 3, v3_data );
-  testlib_test_perform(
-    v3.size() == 3 &&
-    v3[0] == 1 && v3[1] == 2 && v3[2] == 3
-  );
-
+  TEST( "3 vector construction" ,
+        v3.size() == 3 &&
+        v3[0] == 1 && v3[1] == 2 && v3[2] == 3, true);
 
   // Assume these will work
   NewMat( m2, 3, 2, m2_data );

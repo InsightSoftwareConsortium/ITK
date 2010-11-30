@@ -26,7 +26,7 @@ void vnl_least_squares_function::gradf(vnl_vector<double> const& /*x*/,
   vcl_cerr << "Warning: gradf() called but not implemented in derived class\n";
 }
 
-//: Compute fd gradient
+//: Compute finite differences gradient using central differences.
 void vnl_least_squares_function::fdgradf(vnl_vector<double> const& x,
                                          vnl_matrix<double>& jacobian,
                                          double stepsize)
@@ -53,6 +53,37 @@ void vnl_least_squares_function::fdgradf(vnl_vector<double> const& x,
     double h = 1.0 / (tplus - tminus);
     for (unsigned int j = 0; j < n; ++j)
       jacobian(j,i) = (fplus[j] - fminus[j]) * h;
+
+    // restore tx
+    tx[i] = x[i];
+  }
+}
+
+
+//: Compute finite differences gradient using forward differences.
+void vnl_least_squares_function::ffdgradf(vnl_vector<double> const& x,
+                                          vnl_matrix<double>& jacobian,
+                                          double stepsize)
+{
+  unsigned int dim = x.size();
+  unsigned int n = jacobian.rows();
+  assert(dim == get_number_of_unknowns());
+  assert(n == get_number_of_residuals());
+  assert(dim == jacobian.columns());
+
+  vnl_vector<double> tx = x;
+  vnl_vector<double> fplus(n);
+  vnl_vector<double> fcentre(n);
+  this->f(x, fcentre);
+  for (unsigned int i = 0; i < dim; ++i)
+  {
+    // calculate f just to the right of x[i]
+    double tplus = tx[i] = x[i] + stepsize;
+    this->f(tx, fplus);
+
+    double h = 1.0 / (tplus - x[i]);
+    for (unsigned int j = 0; j < n; ++j)
+      jacobian(j,i) = (fplus[j] - fcentre[j]) * h;
 
     // restore tx
     tx[i] = x[i];

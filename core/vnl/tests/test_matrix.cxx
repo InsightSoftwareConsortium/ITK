@@ -1,6 +1,7 @@
 // This is core/vnl/tests/test_matrix.cxx
 #include <vcl_iostream.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/vnl_copy.h>
 #include <testlib/testlib_test.h>
 #include <vcl_cmath.h> // sqrt()
 
@@ -47,6 +48,7 @@ void test_int()
   TEST("m2.fill(2)",
        (m2.fill(2),
         (m2.get(0,0)==2 && m2.get(0,1)==2 && m2.get(1,0)==2 && m2.get(1,1)==2)), true);
+  TEST("vnl_matrix<int>(2,2).fill(2)", vnl_matrix<int>(2,2).fill(2), m2);
   int m3values [] = {1,2,3};
   vnl_matrix<int> m3(1,3,3, m3values);
   TEST("m3(1,3,3,{1,2,3})",
@@ -147,6 +149,11 @@ void test_int()
   TEST("m.transpose()",
        ((m1 = m.transpose()),
         (m1(0,0)==0 && m1(0,1)==2 && m1(1,0)==-2 && m1(1,1)==0)), true);
+
+  TEST("m.max_value()", m.max_value(),  2);
+  TEST("m.min_value()", m.min_value(), -2);
+  TEST("m.arg_max()",   m.arg_max(),   2);
+  TEST("m.arg_min()",   m.arg_min(),   1);
 #if 0
   TEST("m.abs()",
        ((m1 = m.abs()),
@@ -226,10 +233,10 @@ void test_float()
   vnl_matrix<float> d1(3,4);
   TEST("vnl_matrix<float> d1(3,4)", (d1.rows()==3 && d1.columns()==4), true);
   vnl_matrix<float> d2(2,2,2.0);
-  TEST("vnl_matrix<float> d2(2,2,2.0)",
-       (d2.get(0,0)==2.0 && d2.get(0,1)==2.0 && d2.get(1,0)==2.0 && d2.get(1,1)==2.0), true);
-  TEST("d0=2.0", (d0=2.0,
-                 (d0.get(0,0)==2.0 && d0.get(0,1)==2.0 && d0.get(1,0)==2.0 && d0.get(1,1)==2.0)), true);
+  TEST("vnl_matrix<float> d2(2,2,2.f)",
+       (d2.get(0,0)==2.f && d2.get(0,1)==2.f && d2.get(1,0)==2.f && d2.get(1,1)==2.f), true);
+  TEST("d0=2.f", (d0=2.f,
+                 (d0.get(0,0)==2.f && d0.get(0,1)==2.f && d0.get(1,0)==2.f && d0.get(1,1)==2.f)), true);
   TEST("d0 == d2", (d0 == d2), true);
   TEST("(d0 == d2)", (d0==d2), true);
   TEST("d2.put(1,1,3.0)", (d2.put(1,1,(float)3.0),d2.get(1,1)), (float)3.0);
@@ -237,12 +244,13 @@ void test_float()
   TEST("d0 == d2", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
   TEST("(d0 == d2)", (d0==d2), false);
-  TEST("d1.fill(3.0)",
-       (d1.fill(3.0),
-        (d1.get(0,0)==3.0 && d1.get(1,1)==3.0 && d1.get(2,2)==3.0 && d1.get(2,3)==3.0)), true);
-  TEST("d2.fill(2.0)",
-       (d2.fill(2.0),
-        (d2.get(0,0)==2.0 && d2.get(0,1)==2.0 && d2.get(1,0)==2.0 && d2.get(1,1)==2.0)), true);
+  TEST("d1.fill(3.f)",
+       (d1.fill(3.f),
+        (d1.get(0,0)==3.f && d1.get(1,1)==3.f && d1.get(2,2)==3.f && d1.get(2,3)==3.f)), true);
+  TEST("d2.fill(2.f)",
+       (d2.fill(2.f),
+        (d2.get(0,0)==2.f && d2.get(0,1)==2.f && d2.get(1,0)==2.f && d2.get(1,1)==2.f)), true);
+  TEST("vnl_matrix<float>(2,2).fill(2.f)", vnl_matrix<float>(2,2).fill(2.f), d2);
   float d3values [] = {1.0,2.0,3.0};
   vnl_matrix<float> d3(1,3,3,d3values);
   TEST("d3(1,3,3,{1.0,2.0,3.0})",
@@ -288,6 +296,11 @@ void test_float()
   TEST("m.transpose()",
        ((m1 = m.transpose()),
         (m1(0,0)==0 && m1(0,1)==2 && m1(1,0)==-2 && m1(1,1)==0)), true);
+
+  TEST("m.max_value()", m.max_value(),  2);
+  TEST("m.min_value()", m.min_value(), -2);
+  TEST("m.arg_max()",   m.arg_max(),   2);
+  TEST("m.arg_min()",   m.arg_min(),   1);
 #if 0
   TEST("m.abs()",
        ((m1 = m.abs()),
@@ -369,6 +382,7 @@ void test_double()
   TEST("d2.fill(3.0)",
        (d2.fill(2.0),
         (d2.get(0,0)==2.0 && d2.get(0,1)==2.0 && d2.get(1,0)==2.0 && d2.get(1,1)==2.0)), true);
+  TEST("vnl_matrix<double>(2,2).fill(2.0)", vnl_matrix<double>(2,2).fill(2.0), d2);
   double d3values [] = {1.0,2.0,3.0};
   vnl_matrix<double> d3(1,3,3,d3values);
   TEST("d3(1,3,3,{1.0,2.0,3.0})",
@@ -421,6 +435,15 @@ void test_double()
   TEST_NEAR("normalize_rows()", d8[1][1], 0.8, 1e-12);
   d8.normalize_columns();
   TEST("normalize_columns()", d8[0][0]==0 && d8[1][0]==1, true);
+
+  vnl_matrix<double> d9(2,2);
+  vnl_copy(d2, d9);
+  TEST("vnl_copy(S, S)", d9==d2, true);
+  vnl_matrix<float> d10(2,2);
+  vnl_copy(d2, d10);
+  d9.fill(-15.0);
+  vnl_copy(d10, d9);
+  TEST("vnl_copy(T, S)", d9==d2, true);
 }
 
 #ifdef LEAK
@@ -435,6 +458,25 @@ void test_leak()   // use top4.1 to watch memory usage.
 }
 #endif
 
+
+namespace {
+  template<class T>
+  void
+  test_extract( T* )
+  {
+    vnl_matrix<T> m( 2, 5 );
+    m(0,0)=1; m(0,1)=2; m(0,2)=3; m(0,3)=4; m(0,4)=5;
+    m(1,0)=6; m(1,1)=7; m(1,2)=8; m(1,3)=9; m(1,4)=0;
+    vcl_cout << "m=\n" << m << '\n';
+
+    vnl_matrix<T> r( 1, 3 );
+    m.extract( r, 1, 2 );
+    vcl_cout << "r=\n" << r << '\n';
+    TEST( "extract into existing matrix", r(0,0)==8 && r(0,1)==9 && r(0,2)==0, true );
+  }
+} // end anonymous namespace
+
+
 static
 void test_matrix()
 {
@@ -444,6 +486,7 @@ void test_matrix()
 #ifdef LEAK
   test_leak();
 #endif
+  test_extract( (double*)0 );
 }
 
 TESTMAIN(test_matrix);

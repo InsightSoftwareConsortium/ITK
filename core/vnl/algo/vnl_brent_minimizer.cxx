@@ -46,7 +46,7 @@ vnl_brent_minimizer::~vnl_brent_minimizer()
 // The tolerance can be set using prior call to set_x_tolerance(tol).
 // Use f_at_last_minimum() to get function evaluation at the returned minima.
 double vnl_brent_minimizer::minimize_golden(double a, double b, double c,
-                               double fa, double fb, double fc)
+                                            double fa, double fb, double fc)
 {
   // Set up object to evaluate function as f(x)
   // Note that *f_ takes a vector input - f converts a scalar to a vector
@@ -253,7 +253,7 @@ double vnl_brent_minimizer::minimize_given_bounds_and_one_f(double ax, double bx
 // The tolerance can be set using prior call to set_x_tolerance(tol).
 // Use f_at_last_minimum() to get function evaluation at the returned minima.
 double vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx, double cx,
-                                       double fa, double fb, double fc)
+                                                            double fa, double fb, double fc)
 {
   // Check that the bracket is valid
   assert(ax<bx);

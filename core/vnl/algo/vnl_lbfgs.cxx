@@ -167,7 +167,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     }
 
     if (this->num_evaluations_ > get_max_function_evals()) {
-      failure_code_ = FAILED_TOO_MANY_ITERATIONS;
+      failure_code_ = TOO_MANY_ITERATIONS;
       ok = false;
       x = best_x;
       break;

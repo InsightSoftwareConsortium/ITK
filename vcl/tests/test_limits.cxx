@@ -49,7 +49,7 @@ void test_static_const_definition()
 #undef TEST_TYPE
 }
 
-#define TEST(m,x,y)    if (x!=y) { vcl_cout<< "FAIL: " << m << '\n'; fail=true; } \
+#define TEST(m,x,y)    if ((x)!=(y)) { vcl_cout<< "FAIL: " << m << '\n'; fail=true; } \
                        else { vcl_cout<< "PASS: " << m << '\n'; }
 
 int test_limits_main(int /*argc*/, char* /*argv*/[])
@@ -98,18 +98,20 @@ int test_limits_main(int /*argc*/, char* /*argv*/[])
            << "u32min  = " << vcl_numeric_limits<unsigned int>::min() << vcl_endl;
 
   TEST("dmax", vcl_numeric_limits<double>::max() > 1e308, true);
-  if (vcl_numeric_limits<double>::has_infinity)
+  if (vcl_numeric_limits<double>::has_infinity) {
     TEST("dinf", vcl_numeric_limits<double>::infinity() >
                  vcl_numeric_limits<double>::max(), true);
+  }
   TEST("dmin", vcl_numeric_limits<double>::min() < 1e-307 &&
                vcl_numeric_limits<double>::min() > 0, true);
   TEST("deps", vcl_numeric_limits<double>::epsilon() < 1e-12 &&
                vcl_numeric_limits<double>::epsilon() > 0, true);
   TEST("rnder",vcl_numeric_limits<double>::round_error() <= 1.0, true);
   TEST("fmax", vcl_numeric_limits<float>::max() > 1e38f, true);
-  if (vcl_numeric_limits<float>::has_infinity)
+  if (vcl_numeric_limits<float>::has_infinity) {
     TEST("finf", vcl_numeric_limits<float>::infinity() >
                  vcl_numeric_limits<float>::max(), true);
+  }
   TEST("fmin", vcl_numeric_limits<float>::min() < 1e-37f &&
                vcl_numeric_limits<float>::min() > 0, true);
   TEST("feps", vcl_numeric_limits<float>::epsilon() < 1e-6f &&
