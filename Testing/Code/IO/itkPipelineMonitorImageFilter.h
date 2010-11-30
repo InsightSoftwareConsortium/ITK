@@ -45,7 +45,14 @@ namespace itk {
    /** Run-time type information (and related methods). */
    itkTypeMacro(PipelineMonitorImageFilter,ImageToImageFilter);
 
-
+   /** Enable/Disable clearing all saved pipeline information when
+   * GenerateOutputInformation is called.
+   *
+   * Defaults to On
+   */
+   itkSetMacro( ClearPipelineOnGenerateOutputInformation, bool );
+   itkGetMacro( ClearPipelineOnGenerateOutputInformation, bool );
+   itkBooleanMacro( ClearPipelineOnGenerateOutputInformation );
 
    bool VerifyDownStreamFilterExecutedPropagation(void)
    {
@@ -210,7 +217,10 @@ namespace itk {
 
    virtual void GenerateOutputInformation(void)
    {
-     ClearPipelineSavedInformation();
+     if ( m_ClearPipelineOnGenerateOutputInformation )
+       {
+       this->ClearPipelineSavedInformation();
+       }
 
      Superclass::GenerateOutputInformation();
 
@@ -275,6 +285,7 @@ namespace itk {
    PipelineMonitorImageFilter(void)
    {
      m_NumberOfClearPipeline = 0;
+     m_ClearPipelineOnGenerateOutputInformation = true;
      this->ClearPipelineSavedInformation();
    }
 
@@ -288,6 +299,8 @@ namespace itk {
      os << indent << "m_NumberOfUpdates: " << m_NumberOfUpdates << std::endl;
 
      os << indent << "m_NumberOfClearPipeline: " << m_NumberOfClearPipeline << std::endl;
+
+     os << indent << "m_ClearPipelineOnGenerateOutputInformation: " << m_ClearPipelineOnGenerateOutputInformation << std::endl;
 
      os << indent << "m_OutputRequestedRegions:"<< std::endl;
      for (typename RegionVectorType::const_iterator i = m_OutputRequestedRegions.begin(); i != m_OutputRequestedRegions.end(); ++i)
@@ -318,6 +331,8 @@ namespace itk {
  private:
    PipelineMonitorImageFilter(const PipelineMonitorImageFilter &); // not implemented
    void operator=(const PipelineMonitorImageFilter &); // not implemented
+
+   bool m_ClearPipelineOnGenerateOutputInformation;
 
    unsigned int m_NumberOfUpdates;
 
