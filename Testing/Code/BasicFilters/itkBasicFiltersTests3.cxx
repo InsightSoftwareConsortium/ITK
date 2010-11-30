@@ -24,7 +24,6 @@
 #include <iostream>
 #include "itkTestMain.h"
 
-
 void RegisterTests()
 {
   REGISTER_TEST(itkAccumulateImageFilterTest );
@@ -46,6 +45,7 @@ void RegisterTests()
   REGISTER_TEST(itkVectorExpandImageFilterTest );
   REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest1 );
   REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest2 );
+  REGISTER_TEST(itkVectorGradientMagnitudeImageFilterTest3 );
   REGISTER_TEST(itkVectorNeighborhoodOperatorImageFilterTest );
   REGISTER_TEST(itkVectorResampleImageFilterTest );
   REGISTER_TEST(itkVectorRescaleIntensityImageFilterTest );
@@ -61,4 +61,3 @@ void RegisterTests()
   REGISTER_TEST(itkZeroCrossingBasedEdgeDetectionImageFilterTest );
   REGISTER_TEST(itkZeroCrossingImageFilterTest );
 }
-
