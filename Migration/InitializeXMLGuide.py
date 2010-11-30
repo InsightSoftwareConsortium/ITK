@@ -158,13 +158,18 @@ if __name__ == '__main__':
     sys.exit()
 
   # grab the commit lines, but ignore ammended ones
-  commitList = []
-  for line in branchLogFile.readlines():
-    if line.find("commit (amend):") == -1:
-      commitList.append(line.split()[1])
-    else:
-      commitList.pop()
-      commitList.append(line.split()[1])
+  logCommand = "git log --format=format:%H origin/master.."
+  print logCommand
+  log = runCommand(logCommand)
+  print log
+  commitList = [l.strip() for l in log.splitlines()]
+
+  # grab the base commit, the one used to create the branch
+  logCommand = "git log -n1 --format=format:%P " + commitList[-1]
+  print logCommand
+  log = runCommand(logCommand)
+  print log
+  baseCommit = log.strip()
 
   #
   # Parse each commit's log
@@ -175,9 +180,6 @@ if __name__ == '__main__':
   sampleCodeNewText = ""
   changedFileList = []
   exampleAndTestChangedFileList = []
-
-  firstCommit = commitList[0];
-  commitList.remove(firstCommit)
 
   for commit in commitList:
 
@@ -220,8 +222,7 @@ if __name__ == '__main__':
 
     # get the log for the commit
     fullPath = baseDir + "/" + filename
-    diffCommand = "git diff " + firstCommit + " " + commitList[len(commitList)-1] \
-      + " -- " + fullPath
+    diffCommand = "git diff " + baseCommit + " -- " + fullPath
     diff = runCommand(diffCommand)
 
     # parse lines into old and new
