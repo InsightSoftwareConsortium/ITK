@@ -248,7 +248,7 @@ if __name__ == '__main__':
   changeElementBody = addXMLElement(changeElementBody, "Title", titleText, True, titleComment)
 
   # <Description> element
-  descriptionComment = "Plain text description of the change\n-->Extracted from git commit messages"
+  descriptionComment = "Plain text description of the change\nExtracted from git commit messages"
   changeElementBody = \
     addXMLElement(changeElementBody, "Description",\
     prepXMLString(descriptionText), True, descriptionComment)
