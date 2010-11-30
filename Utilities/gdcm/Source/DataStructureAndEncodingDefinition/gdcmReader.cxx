@@ -364,7 +364,7 @@ std::istream &is = *Stream;
   if( F->GetHeader().IsEmpty() )
     {
     hasmetaheader = false;
-    gdcmWarningMacro( "no file meta info found" );
+    gdcmDebugMacro( "no file meta info found" );
     }
 
   const TransferSyntax &ts = F->GetHeader().GetDataSetTransferSyntax();
