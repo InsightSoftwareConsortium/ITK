@@ -70,7 +70,7 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
     if( owner && *owner )
       {
       size_t len = strlen(owner); (void)len;
-      PrivateTag ptag(tag.GetGroup(), ((uint16_t)(tag.GetElement() << 8)) >> 8, owner);
+      PrivateTag ptag(tag.GetGroup(), (uint16_t)(((uint16_t)(tag.GetElement() << 8)) >> 8), owner);
       const DictEntry &de = GetPrivateDict().GetDictEntry(ptag);
       return de;
       }

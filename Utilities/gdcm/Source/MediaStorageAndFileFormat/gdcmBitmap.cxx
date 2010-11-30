@@ -206,7 +206,7 @@ bool Bitmap::GetBuffer(char *buffer) const
 }
 #endif
 
-unsigned long Bitmap::GetBufferLength() const
+uint32_t Bitmap::GetBufferLength() const
 {
   if( PF == PixelFormat::UNKNOWN ) return 0;
 
@@ -216,7 +216,7 @@ unsigned long Bitmap::GetBufferLength() const
     {
     assert( Dimensions[2] == 1 );
     }
-  unsigned long len = 0;
+  uint32_t len = 0;
   unsigned int mul = 1;
   // First multiply the dimensions:
   std::vector<unsigned int>::const_iterator it = Dimensions.begin();
@@ -288,7 +288,7 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
   const ByteValue *bv = PixelData.GetByteValue();
   if( bv )
     {
-    unsigned long len = GetBufferLength();
+    uint32_t len = GetBufferLength();
     if( !codec.CanDecode( ts ) ) return false;
     codec.SetPlanarConfiguration( GetPlanarConfiguration() );
     codec.SetPhotometricInterpretation( GetPhotometricInterpretation() );

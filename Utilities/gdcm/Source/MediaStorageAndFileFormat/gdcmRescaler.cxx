@@ -115,8 +115,8 @@ PixelFormat::ScalarType ComputeBestFit(const PixelFormat &pf, double intercept, 
   PixelFormat::ScalarType st = PixelFormat::UNKNOWN;
   assert( slope == (int)slope && intercept == (int)intercept);
 
-  double min = slope * pf.GetMin() + intercept;
-  double max = slope * pf.GetMax() + intercept;
+  double min = slope * (double)pf.GetMin() + intercept;
+  double max = slope * (double)pf.GetMax() + intercept;
   assert( min <= max );
   assert( min == (int64_t)min && max == (int64_t)max );
   if( min >= 0 ) // unsigned

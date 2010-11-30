@@ -128,7 +128,7 @@ public:
   /// Return the length of the image after decompression
   /// WARNING for palette color: It will NOT take into account the Palette Color
   /// thus you need to multiply this length by 3 if computing the size of equivalent RGB image
-  unsigned long GetBufferLength() const;
+  uint32_t GetBufferLength() const;
 
   /// Acces the raw data
   bool GetBuffer(char *buffer) const;

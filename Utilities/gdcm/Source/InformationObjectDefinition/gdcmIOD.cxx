@@ -29,10 +29,10 @@ Type IOD::GetTypeFromTag(const Defs &defs, const Tag& tag) const
   static const Modules &modules = defs.GetModules();
   static const Macros &macros = defs.GetMacros();
 
-  const unsigned int niods = iod.GetNumberOfIODs();
+  const size_t niods = iod.GetNumberOfIODs();
   // Iterate over each iod entry in order:
   bool found = false;
-  for(unsigned int idx = 0; !found && idx < niods; ++idx)
+  for(size_t idx = 0; !found && idx < niods; ++idx)
     {
     const IODEntry &iodentry = iod.GetIODEntry(idx);
     const char *ref = iodentry.GetRef();

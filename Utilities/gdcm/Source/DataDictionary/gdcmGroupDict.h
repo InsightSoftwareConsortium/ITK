@@ -43,7 +43,8 @@ public:
   size_t Size() const
     {
     assert( Names.size() == Abbreviations.size() );
-    return Names.size(); }
+    return Names.size();
+    }
 
   std::string const &GetAbbreviation(uint16_t num) const;
 
@@ -66,8 +67,8 @@ private:
 //-----------------------------------------------------------------------------
 inline std::ostream& operator<<(std::ostream& _os, const GroupDict &_val)
 {
-  size_t size = _val.Size();
-  for(size_t i=0; i<size; ++i)
+  uint16_t size = (uint16_t)_val.Size();
+  for(uint16_t i=0; i<size; ++i)
     {
     _os << std::hex << std::setw(4) << std::setfill( '0' ) << i << ","
       << _val.GetAbbreviation(i) << "," << _val.GetName(i) << "\n";

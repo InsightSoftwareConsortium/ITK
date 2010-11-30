@@ -110,7 +110,7 @@ const char* UIDGenerator::Generate2()
     assert( res );
     (void)res;//warning removal
     char buffer[15]; // 15 is max possible when all node[i] == 255
-    int len = System::EncodeBytes(buffer, node, sizeof(node)); (void)len;
+    size_t len = System::EncodeBytes(buffer, node, sizeof(node)); (void)len;
     assert( strlen(buffer) < 15 );
     EncodedHardwareAddress = buffer;
     if( EncodedHardwareAddress.empty() )
@@ -140,7 +140,7 @@ const char* UIDGenerator::Generate2()
   uuid_t out;
   uuid_generate(out);
   char randbytesbuf[40];
-  res = System::EncodeBytes(randbytesbuf, out, sizeof(out));
+  System::EncodeBytes(randbytesbuf, out, sizeof(out));
   assert( strlen(randbytesbuf) < 40 );
   std::string randbytes = randbytesbuf;
 

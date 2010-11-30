@@ -114,7 +114,7 @@ public:
   const std::ostream &Write16(std::ostream &os) const
     {
     assert( ValueLength <=   65535 /*UINT16_MAX*/ );
-    uint16_t copy = ValueLength;
+    uint16_t copy = (uint16_t)ValueLength;
 #ifndef GDCM_WRITE_ODD_LENGTH
     if( IsOdd() )
       {

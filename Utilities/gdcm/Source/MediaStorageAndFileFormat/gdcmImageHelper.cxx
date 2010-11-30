@@ -239,7 +239,7 @@ bool ComputeZSpacingFromIPP(const DataSet &ds, double &zspacing)
     meanspacing += current;
     prev = distances[i];
     }
-  meanspacing /= (nitems - 1);
+  meanspacing /= double(nitems - 1);
 
   //zspacing = distances[1] - distances[0];
   zspacing = meanspacing;
@@ -1584,9 +1584,9 @@ bool ImageHelper::ComputeSpacingFromImagePositionPatient(const std::vector<doubl
     spacing[2] += z;
     }
   size_t n = imageposition.size() / 3;
-  spacing[0] /= n;
-  spacing[1] /= n;
-  spacing[2] /= n;
+  spacing[0] /= (double)n;
+  spacing[1] /= (double)n;
+  spacing[2] /= (double)n;
 
   return true;
 }

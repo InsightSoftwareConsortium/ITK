@@ -114,7 +114,7 @@ unsigned int LookupTable::GetLUTLength(LookupTableType type) const
 }
 
 void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
-  unsigned int length)
+  size_t length)
 {
   (void)length;
   //if( !Initialized() ) return;
