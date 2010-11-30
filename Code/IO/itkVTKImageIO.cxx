@@ -28,7 +28,7 @@
 #include "itkVTKImageIO.h"
 #include "itkByteSwapper.h"
 
-#include <itksys/ios/sstream>
+#include "itksys/ios/sstream"
 
 #include <stdio.h>
 #include <string.h>

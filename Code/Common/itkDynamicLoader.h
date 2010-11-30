@@ -20,7 +20,7 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include <itksys/DynamicLoader.hxx>
+#include "itksys/DynamicLoader.hxx"
 
 namespace itk
 {
