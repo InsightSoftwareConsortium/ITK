@@ -244,7 +244,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
   ImageType::Pointer randImage2 = ReadImage<ImageType>(argv[1]);
 
   dict = randImage2->GetMetaDataDictionary();
-#if 0 //Rolling out changes due to test failures.  This needs to be fixed in a separate patch.
+
   std::string value("world");
   if(!TestMatch<std::string>(dict,"hello",value))
     {
@@ -307,6 +307,6 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
     {
     return 1; // error
     }
-#endif
+
   return 0;
 }
