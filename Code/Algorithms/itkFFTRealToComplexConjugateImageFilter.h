@@ -24,7 +24,7 @@
 namespace itk
 {
 /** \class FFTRealToComplexConjugateImageFilter
- * \brief TODO
+ * \brief Base class for the Fast Fourier Transform
  *
  * \ingroup FourierTransform
  */

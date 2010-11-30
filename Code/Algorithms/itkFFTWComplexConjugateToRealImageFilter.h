@@ -21,12 +21,26 @@
 #include "itkFFTComplexConjugateToRealImageFilter.h"
 #include "itkFFTWCommon.h"
 
+
 namespace itk
 {
 /** \class FFTWComplexConjugateToRealImageFilter
- * \brief TODO
  *
- * \ingroup FourierTransform
+ * \brief FFTW based reverse Fast Fourier Transform
+ *
+ * This filter computes the reverse Fourier transform of an image. The implementation is
+ * based on the FFTW library.
+ * This filter is multithreaded and supports input images with sizes which are not
+ * a power of two.
+ *
+ * This implementation was taken from the Insight Journal paper:
+ * http://hdl.handle.net/10380/3154
+ * or http://insight-journal.com/browse/publication/717
+ *
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ *
+ * \ingroup FourierTransform, Multithreaded
+ * \sa FFTWLock
  */
 template< typename TPixel, unsigned int VDimension >
 class ITK_EXPORT FFTWComplexConjugateToRealImageFilter:
@@ -37,19 +51,19 @@ public:
   typedef FFTComplexConjugateToRealImageFilter< TPixel, VDimension > Superclass;
   typedef SmartPointer< Self >                                       Pointer;
   typedef SmartPointer< const Self >                                 ConstPointer;
+  //
+  // the proxy type is a wrapper for the fftw API
+  // since the proxy is only defined over double and float,
+  // trying to use any other pixel type is inoperative, as
+  // is trying to use double if only the float FFTW version is
+  // configured in, or float if only double is configured.
+  //
+  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
 
   /** Standard class typedefs. */
   typedef typename Superclass::TInputImageType  TInputImageType;
   typedef typename Superclass::TOutputImageType TOutputImageType;
-
-  /**
-   * the proxy type is a wrapper for the fftw API
-   * since the proxy is only defined over double and float,
-   * trying to use any other pixel type is inoperative, as
-   * is trying to use double if only the float FFTW version is
-   * configured in, or float if only double is configured.
-   */
-  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
+  typedef typename TOutputImageType::RegionType OutputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,45 +78,29 @@ public:
 
   //
   // these should be defined in every FFT filter class
-  virtual void GenerateData();  // generates output from input
-
   virtual bool FullMatrix();
-
 protected:
-  FFTWComplexConjugateToRealImageFilter():m_PlanComputed(false),
-    m_LastImageSize(0),
-    m_InputBuffer(0),
-    m_OutputBuffer(0)
-  {}
-
+  FFTWComplexConjugateToRealImageFilter()
+    {
+    }
   virtual ~FFTWComplexConjugateToRealImageFilter()
-  {
-    if ( m_PlanComputed )
-      {
-      FFTWProxyType::DestroyPlan(m_Plan);
-      delete[] m_InputBuffer;
-      delete[] m_OutputBuffer;
-      }
-  }
+    {
+    }
+
+  virtual void UpdateOutputData(DataObject *output);
+
+  virtual void BeforeThreadedGenerateData();
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
 
 private:
-  FFTWComplexConjugateToRealImageFilter(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
+  FFTWComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  // implemented
+  bool m_CanUseDestructiveAlgorithm;
 
-  bool m_PlanComputed;
-
-  typename FFTWProxyType::PlanType m_Plan;
-
-  unsigned int m_LastImageSize;
-
-  // local storage needed to keep fftw from scribbling on
-  typename FFTWProxyType::ComplexType * m_InputBuffer;
-
-  TPixel *m_OutputBuffer;
 };
+
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

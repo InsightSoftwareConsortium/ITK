@@ -28,9 +28,11 @@
 
 namespace itk
 {
+
 template< typename TPixel, unsigned int VDimension >
 void
-FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateData()
+FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::
+BeforeThreadedGenerateData()
 {
   // get pointers to the input and output
   typename TInputImageType::ConstPointer inputPtr  = this->GetInput();
@@ -55,8 +57,7 @@ FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateData()
     inputPtr->GetLargestPossibleRegion().GetSize();
 
   // figure out sizes
-  // size of input and output aren't the same which is handled in the
-  // superclass,
+  // size of input and output aren't the same which is handled in the superclass,
   // sort of.
   // the input size and output size only differ in the fastest moving dimension
   unsigned int total_outputSize = 1;
@@ -68,73 +69,90 @@ FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateData()
     total_inputSize *= inputSize[i];
     }
 
-  if ( this->m_PlanComputed )            // if we've already computed a plan
+  typename FFTWProxyType::ComplexType * in;
+  // complex to real transform don't have any algorithm which support the FFTW_PRESERVE_INPUT at this time.
+  // So if the input can't be destroyed, we have to copy the input data to a buffer before running
+  // the ifft.
+  if( m_CanUseDestructiveAlgorithm )
     {
-    // if the image sizes aren't the same,
-    // we have to compute the plan again
-    if ( this->m_LastImageSize != total_outputSize )
-      {
-      delete[] this->m_InputBuffer;
-      delete[] this->m_OutputBuffer;
-      FFTWProxyType::DestroyPlan(this->m_Plan);
-      this->m_PlanComputed = false;
-      }
+    // ok, so lets use the input buffer directly, to save some memory
+    in = (typename FFTWProxyType::ComplexType*)inputPtr->GetBufferPointer();
     }
-  // either plan never computed, or need to re-compute
-  if ( !this->m_PlanComputed )
+  else
     {
-    // if we've never computed the plan, or we need to redo it
-    this->m_InputBuffer = new typename FFTWProxyType::ComplexType[total_inputSize];
-    this->m_OutputBuffer = new TPixel[total_outputSize];
-    this->m_LastImageSize = total_outputSize;
-
-    switch ( VDimension )
-      {
-      case 1:
-        this->m_Plan = FFTWProxyType::Plan_dft_c2r_1d(outputSize[0],
-                                                      this->m_InputBuffer, this->m_OutputBuffer,
-                                                      FFTW_ESTIMATE);
-        break;
-      case 2:
-        this->m_Plan = FFTWProxyType::Plan_dft_c2r_2d(outputSize[1], outputSize[0],
-                                                      this->m_InputBuffer, this->m_OutputBuffer,
-                                                      FFTW_ESTIMATE);
-        break;
-      case 3:
-        this->m_Plan = FFTWProxyType::Plan_dft_c2r_3d(outputSize[2], outputSize[1], outputSize[0],
-                                                      this->m_InputBuffer, this->m_OutputBuffer,
-                                                      FFTW_ESTIMATE);
-        break;
-      default:
-        int *sizes = new int[VDimension];
-        for ( unsigned int i = 0; i < VDimension; i++ )
-          {
-          sizes[( VDimension - 1 ) - i] = outputSize[i];
-          }
-        this->m_Plan = FFTWProxyType::Plan_dft_c2r(VDimension, sizes,
-                                                   this->m_InputBuffer,
-                                                   this->m_OutputBuffer, FFTW_ESTIMATE);
-        delete[] sizes;
-      }
-    this->m_PlanComputed = true;
+    // we must use a buffer where fftw can work and destroy what it wants
+    in = new typename FFTWProxyType::ComplexType[total_inputSize];
     }
-  // copy the input, because it may be destroyed by computing the plan
-  memcpy( this->m_InputBuffer,
-          inputPtr->GetBufferPointer(),
-          total_inputSize * sizeof( typename FFTWProxyType::ComplexType ) );
-  fftw::Proxy< TPixel >::Execute(this->m_Plan);
-  // copy the output
-  memcpy( outputPtr->GetBufferPointer(),
-          this->m_OutputBuffer,
-          total_outputSize * sizeof( TPixel ) );
+  TPixel * out = outputPtr->GetBufferPointer();
+  typename FFTWProxyType::PlanType plan;
 
-  typedef ImageRegionIterator< TOutputImageType > IteratorType;
-
-  IteratorType it( outputPtr, outputPtr->GetLargestPossibleRegion() );
-
-  while ( !it.IsAtEnd() )
+  switch(VDimension)
     {
-    it.Set(it.Value() / total_outputSize);
+    case 1:
+      plan = FFTWProxyType::Plan_dft_c2r_1d(outputSize[0],
+                                     in,
+                                     out,
+                                     FFTWLock::GetGlobalOptimizationLevel(),
+                                     this->GetNumberOfThreads(),
+                                     !m_CanUseDestructiveAlgorithm);
+      break;
+    case 2:
+      plan = FFTWProxyType::Plan_dft_c2r_2d(outputSize[1],outputSize[0],
+                                     in,
+                                     out,
+                                     FFTWLock::GetGlobalOptimizationLevel(),
+                                     this->GetNumberOfThreads(),
+                                     !m_CanUseDestructiveAlgorithm);
+      break;
+    case 3:
+      plan = FFTWProxyType::Plan_dft_c2r_3d(outputSize[2],outputSize[1],outputSize[0],
+                                     in,
+                                     out,
+                                     FFTWLock::GetGlobalOptimizationLevel(),
+                                     this->GetNumberOfThreads(),
+                                     !m_CanUseDestructiveAlgorithm);
+      break;
+    default:
+      int *sizes = new int[VDimension];
+      for(unsigned int i = 0; i < VDimension; i++)
+        {
+        sizes[(VDimension - 1) - i] = outputSize[i];
+        }
+      plan = FFTWProxyType::Plan_dft_c2r(VDimension,sizes,
+                                  in,
+                                  out,
+                                  FFTWLock::GetGlobalOptimizationLevel(),
+                                  this->GetNumberOfThreads(),
+                                  !m_CanUseDestructiveAlgorithm);
+      delete [] sizes;
+    }
+  if( !m_CanUseDestructiveAlgorithm )
+    {
+    memcpy(in,
+           inputPtr->GetBufferPointer(),
+           total_inputSize * sizeof(typename FFTWProxyType::ComplexType));
+    }
+  FFTWProxyType::Execute(plan);
+
+  // some cleanup
+  FFTWProxyType::DestroyPlan(plan);
+  if( !m_CanUseDestructiveAlgorithm )
+    {
+    delete [] in;
+    }
+}
+
+template <typename TPixel, unsigned int VDimension>
+void
+FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::
+ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId )
+{
+  typedef ImageRegionIterator< TOutputImageType >   IteratorType;
+  unsigned long total_outputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+  IteratorType it(this->GetOutput(), outputRegionForThread);
+  while( !it.IsAtEnd() )
+    {
+    it.Set( it.Value() / total_outputSize );
     ++it;
     }
 }
@@ -144,6 +162,19 @@ bool
 FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::FullMatrix()
 {
   return false;
+}
+
+
+template< typename TPixel, unsigned int VDimension >
+void
+FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::
+UpdateOutputData(DataObject * output)
+{
+  // we need to catch that information now, because it is changed later
+  // during the pipeline execution, and thus can't be grabbed in
+  // GenerateData().
+  m_CanUseDestructiveAlgorithm = this->GetInput()->GetReleaseDataFlag();
+  Superclass::UpdateOutputData( output );
 }
 } // namespace itk
 #endif // _itkFFTWComplexConjugateToRealImageFilter_txx

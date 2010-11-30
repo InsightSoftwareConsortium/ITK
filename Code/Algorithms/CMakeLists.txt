@@ -5,6 +5,7 @@ add_library(ITKAlgorithms ${ITK_LIBRARY_BUILD_TYPE}
   itkBioGenome.cxx
   itkBioGene.cxx
   itkBioGeneNetwork.cxx
+  itkFFTWLock.cxx
 )
 target_link_libraries(ITKAlgorithms ITKStatistics ITKNumerics)
 if(USE_FFTWD)
