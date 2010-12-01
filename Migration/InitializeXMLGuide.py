@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#
 # InitializeXMLGuide.py
 #
 # This script will parse the Git commits on the current branch and initializes
@@ -156,13 +158,18 @@ if __name__ == '__main__':
     sys.exit()
 
   # grab the commit lines, but ignore ammended ones
-  commitList = []
-  for line in branchLogFile.readlines():
-    if line.find("commit (amend):") == -1:
-      commitList.append(line.split()[1])
-    else:
-      commitList.pop()
-      commitList.append(line.split()[1])
+  logCommand = "git log --format=format:%H origin/master.."
+  print logCommand
+  log = runCommand(logCommand)
+  print log
+  commitList = [l.strip() for l in log.splitlines()]
+
+  # grab the base commit, the one used to create the branch
+  logCommand = "git log -n1 --format=format:%P " + commitList[-1]
+  print logCommand
+  log = runCommand(logCommand)
+  print log
+  baseCommit = log.strip()
 
   #
   # Parse each commit's log
@@ -174,36 +181,34 @@ if __name__ == '__main__':
   changedFileList = []
   exampleAndTestChangedFileList = []
 
-  firstCommit = commitList[0];
-  commitList.remove(firstCommit)
-
   for commit in commitList:
 
     # get the log for the commit
-    logCommand = "git log " + commit + " -n1 --stat"
+    logCommand = "git log -n1 --format=format:%s%n%b " + commit
+    print logCommand
     log = runCommand(logCommand)
 
     descriptionText = descriptionText + "---- " + commit + " ----\n"
 
     for line in log.splitlines():
-
       # commit message lines and change id lines
-      if startsWith(line, "  "):
-        if startsWith(line.strip(), "Change-Id: "):
-          changeId = stripPrefix(line.strip(), "Change-Id: ")
-          changeIdText = changeIdText + changeId + "\n"
-        else:
-          descriptionText = descriptionText + line.strip() + '\n'
+      if startsWith(line.strip(), "Change-Id: "):
+        changeId = stripPrefix(line.strip(), "Change-Id: ")
+        changeIdText = changeIdText + changeId + "\n"
+      else:
+        descriptionText = descriptionText + line.strip() + '\n'
 
+    # get the modified file list for the commit
+    logCommand = "git log -n1 --name-only --format=format: " + commit
+    log = runCommand(logCommand)
+    for line in log.splitlines():
       # changed file lines
-      elif startsWith(line, " "):
-        splits = line.split("|")
-        if len(splits) == 2:
-          filename = splits[0].strip()
-          if not filename in changedFileList:
-            changedFileList.append(filename)
-          if startsWith(filename, "Examples") or startsWith(filename, "Testing"):
-            exampleAndTestChangedFileList.append(filename)
+      filename = line.strip()
+      if filename:
+        if not filename in changedFileList:
+          changedFileList.append(filename)
+        if startsWith(filename, "Examples") or startsWith(filename, "Testing"):
+          exampleAndTestChangedFileList.append(filename)
 
 
   #
@@ -217,8 +222,7 @@ if __name__ == '__main__':
 
     # get the log for the commit
     fullPath = baseDir + "/" + filename
-    diffCommand = "git diff " + firstCommit + " " + commitList[len(commitList)-1] \
-      + " -- " + fullPath
+    diffCommand = "git diff " + baseCommit + " -- " + fullPath
     diff = runCommand(diffCommand)
 
     # parse lines into old and new
@@ -245,7 +249,7 @@ if __name__ == '__main__':
   changeElementBody = addXMLElement(changeElementBody, "Title", titleText, True, titleComment)
 
   # <Description> element
-  descriptionComment = "Plain text description of the change\n-->Extracted from git commit messages"
+  descriptionComment = "Plain text description of the change\nExtracted from git commit messages"
   changeElementBody = \
     addXMLElement(changeElementBody, "Description",\
     prepXMLString(descriptionText), True, descriptionComment)
