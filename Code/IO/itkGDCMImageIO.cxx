@@ -60,8 +60,7 @@
 #include "gdcmDictEntry.h"
 
 #include <fstream>
-#include <math.h>   //for fabs on SGI
-#include <itksys/ios/sstream>
+#include "itksys/ios/sstream"
 
 namespace itk
 {
