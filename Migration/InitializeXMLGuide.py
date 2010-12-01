@@ -307,7 +307,9 @@ if __name__ == '__main__':
   # <Change> element
   changeComment = "\n" + XMLFileName + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nTHIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING\n<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n"
   xmlString = addXMLElement(xmlString, "Change", changeElementBody, False, changeComment)
-  xmlString = xmlString.strip()
+
+  # drop the blanks at the end of the lines to please git's hooks
+  xmlString = "\n".join([l.rstrip() for l in xmlString.splitlines()])
 
   #
   # Save the file
