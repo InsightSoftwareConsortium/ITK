@@ -37,7 +37,7 @@ IF(NETLIB_FOUND)
     test_rnpoly_roots.cxx
     test_sparse_matrix.cxx
     test_svd.cxx
-    test_svd_fixed.cxx
+    #test_svd_fixed.cxx # Removing for ITK: needs vul
     #test_symmetric_eigensystem.cxx # Removing for ITK: needs vul
     test_integral.cxx
     test_solve_qp.cxx
@@ -81,7 +81,7 @@ IF(NETLIB_FOUND)
   ADD_TEST( vnl_algo_test_sparse_lm                ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_sparse_lm               )
   ADD_TEST( vnl_algo_test_sparse_matrix            ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_sparse_matrix           )
   ADD_TEST( vnl_algo_test_svd                      ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_svd                     )
-  ADD_TEST( vnl_algo_test_svd_fixed                ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_svd_fixed               )
+  #ADD_TEST( vnl_algo_test_svd_fixed                ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_svd_fixed               )
   #ADD_TEST( vnl_algo_test_symmetric_eigensystem    ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_symmetric_eigensystem   )
 ENDIF(NETLIB_FOUND)
 
