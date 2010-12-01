@@ -67,6 +67,10 @@ private:
 //-----------------------------------------------------------------------------
 inline std::ostream& operator<<(std::ostream& _os, const GroupDict &_val)
 {
+  if (_val.Size() > std::numeric_limits<uint16_t>::max())
+    {
+    gdcmErrorMacro("Dictionary size exceeds 16 bits.");
+    }
   uint16_t size = (uint16_t)_val.Size();
   for(uint16_t i=0; i<size; ++i)
     {

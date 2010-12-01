@@ -17,6 +17,7 @@
 #include "gdcmTrace.h"
 #include "gdcmDataElement.h"
 #include "gdcmSequenceOfFragments.h"
+#include <limits>
 
 #ifdef OPENJPEG_MAJOR_VERSION
 #if OPENJPEG_MAJOR_VERSION == 1
@@ -95,7 +96,11 @@ OPJ_UINT32 opj_read_from_memory(void * p_buffer, OPJ_UINT32 p_nb_bytes, myfile* 
     }
   else
     {
-    l_nb_read = p_file->mem + p_file->len - p_file->cur;
+      if (p_file->mem + p_file->len - p_file->cur > std::numeric_limits<uint32_t>::max())
+        {
+        gdcmErrorMacro("jpeg2000 reading from memory produced an image larger than 32 bits.");
+        }
+    l_nb_read = p_file->mem + (uint32_t)p_file->len - p_file->cur;
     assert( l_nb_read < p_nb_bytes );
     }
   memcpy(p_buffer,p_file->cur,l_nb_read);
@@ -299,7 +304,11 @@ bool JPEG2000Codec::Decode(DataElement const &in, DataElement &out)
     if(!r) return false;
     out = in;
     std::string str = os.str();
-    out.SetByteValue( &str[0], str.size() );
+    if (str.size() > std::numeric_limits<uint32_t>::max())
+      {
+      gdcmErrorMacro("jpeg2000 decoding produced an image larger than 32 bits.");
+      }
+    out.SetByteValue( &str[0], (uint32_t)str.size() );
     //memcpy(buffer, os.str().c_str(), len);
     return r;
     }
@@ -337,7 +346,11 @@ bool JPEG2000Codec::Decode(DataElement const &in, DataElement &out)
       }
     std::string str = os.str();
     assert( str.size() );
-    out.SetByteValue( &str[0], str.size() );
+    if (str.size() > std::numeric_limits<uint32_t>::max())
+      {
+      gdcmErrorMacro("jpeg2000 decoding produced an image larger than 32 bits.");
+      }
+    out.SetByteValue( &str[0], (uint32_t)str.size() );
 
     return true;
     }
@@ -364,7 +377,7 @@ bool JPEG2000Codec::Decode(std::istream &is, std::ostream &os)
   is.seekg(0, std::ios::beg);
   is.read( dummy_buffer, buf_size);
   unsigned char *src = (unsigned char*)dummy_buffer;
-  uint32_t file_length = buf_size; // 32bits truncation should be ok since DICOM cannot have larger than 2Gb image
+  std::streamoff file_length = buf_size; // 32bits truncation should be ok since DICOM cannot have larger than 2Gb image
 
   // WARNING: OpenJPEG is very picky when there is a trailing 00 at the end of the JPC
   // so we need to make sure to remove it:
@@ -974,7 +987,11 @@ bool JPEG2000Codec::Code(DataElement const &in, DataElement &out)
       opj_stream_destroy(cio);
       return false;
       }
-    codestream_length = mysrc.len;
+    if (mysrc.len > std::numeric_limits<uint32_t>::max())
+      {
+      gdcmErrorMacro("jpeg2000 encoding produced an image larger than 32 bits.");
+      }
+    codestream_length = (uint32_t)mysrc.len;
 #endif // OPENJPEG_MAJOR_VERSION == 1
 
     /* write the buffer to disk */
@@ -1033,7 +1050,11 @@ bool JPEG2000Codec::Code(DataElement const &in, DataElement &out)
       }
     assert( str.size() );
     Fragment frag;
-    frag.SetByteValue( &str[0], str.size() );
+    if (str.size() > std::numeric_limits<uint32_t>::max())
+      {
+      gdcmErrorMacro("jpeg2000 encoding produced an image larger than 32 bits.");
+      }
+    frag.SetByteValue( &str[0], (uint32_t)str.size() );
     sq->AddFragment( frag );
     }
 
@@ -1070,7 +1091,7 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
 #endif // OPENJPEG_MAJOR_VERSION == 1
   opj_image_t *image = NULL;
   unsigned char *src = (unsigned char*)dummy_buffer;
-  int file_length = buf_size;
+  size_t file_length = buf_size;
 
 #if OPENJPEG_MAJOR_VERSION == 1
   /* configure the event callbacks (not required) */

@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "interface.h"
 #include "header.h"
+#include <limits>
 
 
 JLS_ERROR CheckInput(const void* pdataCompressed, size_t cbyteCompressed, const void* pdataUncompressed, size_t cbyteUncompressed, const JlsParamaters* pparams)
@@ -104,7 +105,12 @@ CHARLS_IMEXPORT JLS_ERROR JpegLsEncode(void* pdataCompressed, size_t cbyteBuffer
 
 CHARLS_IMEXPORT JLS_ERROR JpegLsDecode(void* pdataUncompressed, size_t cbyteUncompressed, const void* pdataCompressed, size_t cbyteCompressed, JlsParamaters* info)
 {
-  JLSInputStream reader((BYTE*)pdataCompressed, cbyteCompressed);
+  LONG cbyteCompressed32Bits = (LONG)cbyteCompressed;
+  if (cbyteCompressed >= std::numeric_limits<LONG>::max()){
+    return InvalidCompressedData;//have to return some kind of error code
+  }
+
+  JLSInputStream reader((BYTE*)pdataCompressed, cbyteCompressed32Bits);
 
   if(info != NULL)
   {
@@ -113,7 +119,7 @@ CHARLS_IMEXPORT JLS_ERROR JpegLsDecode(void* pdataUncompressed, size_t cbyteUnco
 
   try
   {
-    reader.Read(pdataUncompressed, cbyteUncompressed);
+    reader.Read(pdataUncompressed, cbyteCompressed32Bits);
     return OK;
   }
   catch (JlsException& e)
@@ -125,13 +131,18 @@ CHARLS_IMEXPORT JLS_ERROR JpegLsDecode(void* pdataUncompressed, size_t cbyteUnco
 
 CHARLS_IMEXPORT JLS_ERROR JpegLsVerifyEncode(const void* pdataUncompressed, size_t cbyteUncompressed, const void* pdataCompressed, size_t cbyteBuffer)
 {
+  LONG cbyteunCompressed32Bits = (LONG)cbyteUncompressed;
+  if (cbyteUncompressed >= std::numeric_limits<LONG>::max()){
+    return InvalidCompressedData;//have to return some kind of error code
+  }
+
   JlsParamaters params = JlsParamaters();
 
   JLS_ERROR error = JpegLsReadHeader(pdataCompressed, cbyteBuffer, &params);
   if (error != OK)
     return error;
 
-  error = CheckInput(pdataCompressed, cbyteBuffer, pdataUncompressed, cbyteUncompressed, &params);
+  error = CheckInput(pdataCompressed, cbyteBuffer, pdataUncompressed, cbyteunCompressed32Bits, &params);
 
   if (error != OK)
     return error;
@@ -171,9 +182,14 @@ CHARLS_IMEXPORT JLS_ERROR JpegLsVerifyEncode(const void* pdataUncompressed, size
 
 CHARLS_IMEXPORT JLS_ERROR JpegLsReadHeader(const void* pdataCompressed, size_t cbyteCompressed, JlsParamaters* pparams)
 {
+  LONG cbyteCompressed32Bits = (LONG)cbyteCompressed;
+  if (cbyteCompressed >= std::numeric_limits<LONG>::max()){
+    return InvalidCompressedData;//have to return some kind of error code
+    //would throw here, but it's extern C and that throws a different warning in windows x64
+  }
   try
   {
-    JLSInputStream reader((BYTE*)pdataCompressed, cbyteCompressed);
+    JLSInputStream reader((BYTE*)pdataCompressed, cbyteCompressed32Bits);
     reader.ReadHeader();
     JlsParamaters info = reader.GetMetadata();
     *pparams = info;
