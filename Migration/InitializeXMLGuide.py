@@ -8,6 +8,7 @@
 import os.path
 import sys
 import subprocess
+import datetime
 
 ####################
 # Helper Functions #
@@ -66,15 +67,21 @@ def prepXMLString(string):
   return out.replace("'", "&apos;")
 
 #
+# add a comment to the XML file string
+def addXMLComment(xmlString, comment, indent=False):
+  # comment
+  xmlString = xmlString + getIndent(indent) + "<!--**\n"
+  for line in comment.splitlines():
+    xmlString = xmlString + getIndent(indent) + "** " + line + "\n"
+  xmlString = xmlString + getIndent(indent) + "**-->\n"
+  return xmlString
+
+#
 # add an element to the XML file string
 def addXMLElement(xmlString, elementName, elementText, indent=False, comment = ""):
   # comment
   if comment != "":
-    xmlString = xmlString + getIndent(indent) + "<!--**\n"
-  for line in comment.splitlines():
-    xmlString = xmlString + getIndent(indent) + "** " + line + "\n"
-  if comment != "":
-    xmlString = xmlString + getIndent(indent) + "**-->\n"
+    xmlString = addXMLComment(xmlString, comment, indent)
   # opening tag
   xmlString = xmlString + getIndent(indent) + "<" + elementName + ">\n"
   # body
@@ -248,6 +255,16 @@ if __name__ == '__main__':
   titleComment = "Title for the online migration page"
   changeElementBody = addXMLElement(changeElementBody, "Title", titleText, True, titleComment)
 
+  # <Author> element
+  authorName = runCommand("git log -n1 --format=format:%an")
+  authorComment = "The author of the change"
+  changeElementBody = addXMLElement(changeElementBody, "Author", authorName, True, authorComment)
+
+  # <Date> element
+  date = datetime.datetime.now().strftime("%Y-%m-%d")
+  dateComment = "Date of creation for the XML document"
+  changeElementBody = addXMLElement(changeElementBody, "Date", date, True, dateComment)
+
   # <Description> element
   descriptionComment = "Plain text description of the change\nExtracted from git commit messages"
   changeElementBody = \
@@ -278,6 +295,14 @@ if __name__ == '__main__':
   changeElementBody = \
     addXMLElement(changeElementBody, "FileList",\
     fileListText, True, fileListComment)
+
+  # <MigrationFix-Automatic> comment
+  autoFixComment = "If the migration can be accomplished by a simple string\nsubstitution, then use the following construct to define\nthe substitution rule.\n\n<MigrationFix-Automatic>\n  <Old>\n    MipsleledName\n  </Old>\n  <New>\n    MisspelledName\n  </New>\n</MigrationFix-Automatic>"
+  changeElementBody = addXMLComment(changeElementBody, autoFixComment, True) +"\n"
+
+  # <MigrationFix-Manual> comment
+  manFixComment = "If the migration can NOT be accomplished by a simple string\nsubstitution, but potential problem spots can be identified,\nuse the following construct to define a migration flag rule.\n\n<MigrationFix-Manual>\n  OldFunctionName\n</MigrationFix-Manual>"
+  changeElementBody = addXMLComment(changeElementBody, manFixComment, True) + "\n"
 
   # <Change> element
   changeComment = "\n" + XMLFileName + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nTHIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING\n<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n"
