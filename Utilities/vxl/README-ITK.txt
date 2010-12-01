@@ -11,7 +11,7 @@ branch, but it is merged into our history.
 Update vxl from upstream as follows.  Create a local branch to
 explicitly reference the upstream snapshot branch head:
 
- git branch vxl-upstream eca98db3
+ git branch vxl-upstream e1954b95
 
 Use a temporary directory to checkout the branch:
 
@@ -24,7 +24,7 @@ Use a temporary directory to checkout the branch:
 Now place the (reduced) vxl content in this directory.  See
 instructions shown by
 
- git log eca98db3
+ git log e1954b95
 
 for help extracting the content from the upstream svn repo.  Then run
 the following commands to commit the new version.  Substitute the
@@ -35,8 +35,8 @@ appropriate date and version number:
 
  GIT_AUTHOR_NAME='VXL Maintainers' \
  GIT_AUTHOR_EMAIL='vxl-maintainers@lists.sourceforge.net' \
- GIT_AUTHOR_DATE='2007-11-09 09:28:49 -0500' \
- git commit -m 'vxl 1.9.0.20071109-r20192 (reduced)' &&
+ GIT_AUTHOR_DATE='2010-11-30 13:12:01 -0500' \
+ git commit -m 'vxl 1.15.0.20101130-r30370 (reduced)' &&
  git commit --amend
 
 Edit the commit message to describe the procedure used to obtain the
