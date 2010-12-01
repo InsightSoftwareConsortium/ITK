@@ -10,14 +10,16 @@
 // \verbatim
 //  Modifications
 //   4/4/01 LSB (Manchester) Tidied Documentation
-//   27 June 2003 - Peter Vanroose - made set() inlined and removed .cxx file.
+//   27 Jun 2003 - Peter Vanroose - made set() inlined and removed .cxx file.
+//   24 Oct 2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
 //
 //-----------------------------------------------------------------------------
 
+#include <vnl/vnl_double_3.h>
 #include <vnl/vnl_double_3x3.h>
 
-//:  Calculates the 3x3 skew symmetric cross product matrix from a vector.
+//: Calculates the 3x3 skew symmetric cross product matrix from a vector.
 //
 // vnl_cross_product_matrix(e) is the matrix [e]_ x:
 // \verbatim
@@ -30,6 +32,7 @@ class vnl_cross_product_matrix : public vnl_double_3x3
  public:
   typedef vnl_double_3x3 base;
 
+  vnl_cross_product_matrix(const vnl_double_3& v) { set(v.data_block()); }
   vnl_cross_product_matrix(const vnl_vector<double>& v) { set(v.data_block()); }
   vnl_cross_product_matrix(const double* v) { set(v); }
   vnl_cross_product_matrix(const vnl_cross_product_matrix& that): base(that) {}
@@ -42,7 +45,7 @@ class vnl_cross_product_matrix : public vnl_double_3x3
 
   //: Construct a vnl_cross_product_matrix from a C-array of 3 doubles.
   //  Overrides a method in vnl_matrix.
-  inline void set(const double* v)
+  inline vnl_cross_product_matrix& set(const double* v)
   {
     double const& e1 = v[0];
     double const& e2 = v[1];
@@ -53,6 +56,8 @@ class vnl_cross_product_matrix : public vnl_double_3x3
     E(0,0) =   0; E(0,1) = -e3; E(0,2) =  e2;
     E(1,0) =  e3; E(1,1) =   0; E(1,2) = -e1;
     E(2,0) = -e2; E(2,1) =  e1; E(2,2) =   0;
+
+    return *this;
   }
 };
 

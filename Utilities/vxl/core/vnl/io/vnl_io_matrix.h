@@ -11,14 +11,17 @@
 #include <vcl_iosfwd.h>
 
 //: Binary save vnl_matrix to stream.
+//  \relatesalso vnl_matrix
 template <class T>
 void vsl_b_write(vsl_b_ostream & os, const vnl_matrix<T> & v);
 
 //: Binary load vnl_matrix from stream.
+//  \relatesalso vnl_matrix
 template <class T>
 void vsl_b_read(vsl_b_istream & is, vnl_matrix<T> & v);
 
 //: Print human readable summary of object to a stream
+//  \relatesalso vnl_matrix
 template <class T>
 void vsl_print_summary(vcl_ostream & os,const vnl_matrix<T> & b);
 

@@ -63,7 +63,7 @@ static integer c__3 = 3;
             doublereal *, doublereal *, doublereal *, doublereal *, 
             doublereal *);
     doublereal temp2, s1inv, scale;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer iiter, ilast, jiter;
     doublereal anorm, bnorm;
     integer maxit;

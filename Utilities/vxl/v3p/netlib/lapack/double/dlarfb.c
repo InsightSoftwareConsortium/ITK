@@ -37,7 +37,7 @@ static doublereal c_b25 = -1.;
     extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
             integer *, doublereal *, doublereal *, integer *, doublereal *, 
             integer *, doublereal *, doublereal *, integer *, ftnlen, ftnlen);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
             doublereal *, integer *), dtrmm_(char *, char *, char *, char *, 
             integer *, integer *, doublereal *, doublereal *, integer *, 

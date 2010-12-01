@@ -52,7 +52,7 @@ static integer c__1 = 1;
     integer j;
     doublecomplex t1, t2, t3, t4, t5, t6, t7, t8, t9, v1, v2, v3, v4, v5, v6, 
             v7, v8, v9, t10, v10, sum;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int zgerc_(integer *, integer *, doublecomplex *, 
             doublecomplex *, integer *, doublecomplex *, integer *, 
             doublecomplex *, integer *), zgemv_(char *, integer *, integer *, 

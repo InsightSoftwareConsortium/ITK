@@ -44,7 +44,7 @@ static integer c__1 = 1;
     doublereal unfl, ovfl, smin;
     logical over;
     doublereal scale;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal remax;
     logical leftv, bothv;
     extern /* Subroutine */ int zgemv_(char *, integer *, integer *, 

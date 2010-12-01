@@ -24,7 +24,7 @@ extern "C" {
 
     /* Local variables */
     integer i__, j;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     (void)uplo_len;
 
 /*  -- LAPACK auxiliary routine (version 3.0) -- */

@@ -123,6 +123,7 @@ SET( vcl_sources
   generic/vcl_locale.h
   generic/vcl_map.h
   generic/vcl_memory.h
+  generic/vcl_memory_tr1.h
   generic/vcl_numeric.h
   generic/vcl_ostream.h
   generic/vcl_queue.h
@@ -179,6 +180,7 @@ SET( vcl_sources
   iso/vcl_limits.h
   iso/vcl_locale.h
   iso/vcl_memory.h
+  iso/vcl_memory_tr1.h
   iso/vcl_new.h
   iso/vcl_numeric.h
   iso/vcl_ostream.h
@@ -320,6 +322,11 @@ SET( vcl_sources
   win32-vc70/vcl_cstdlib.h
   win32-vc70/vcl_valarray.h
 
+  win32-vc8/vcl_cmath.h
+  win32-vc8/vcl_complex.h
+  win32-vc8/vcl_cstdlib.h
+  win32-vc8/vcl_valarray.h
+
   borland55/vcl_cfloat.h
   borland55/vcl_cmath.h
   borland55/vcl_complex.h
@@ -334,6 +341,16 @@ SET( vcl_sources
   stlport/vcl_cmath.h
   stlport/vcl_complex.h
   stlport/vcl_cstdlib.h
+
+  # The following shall not be used other than as reference count for smart pointers
+  vcl_atomic_count.h
+  internal/vcl_atomic_count_gcc.h
+  internal/vcl_atomic_count_gcc_x86.h
+  internal/vcl_atomic_count_pthreads.h
+  internal/vcl_atomic_count_solaris.h
+  internal/vcl_atomic_count_sync.h
+  internal/vcl_atomic_count_win32.h
+  internal/vcl_interlocked.h
 )
 
 # We use implicit instantiation of the standard library now,
@@ -344,11 +361,15 @@ SET( vcl_sources
 
 ADD_LIBRARY(itkvcl ${vcl_sources})
 
-IF(WIN32)
-  IF(NOT CYGWIN)
-    ADD_DEFINITIONS( -DBUILDING_VCL_DLL )
-  ENDIF(NOT CYGWIN)
-ENDIF(WIN32)
+# CMake can automatically figure out the compiler characteristics on
+# Windows too.  No need to do manual config.
+
+# IF(WIN32)
+#   IF(NOT CYGWIN)
+#     ADD_DEFINITIONS( -DBUILDING_VCL_DLL )
+#     INCLUDE_DIRECTORIES( config.win32 )
+#   ENDIF(NOT CYGWIN)
+# ENDIF(WIN32)
 
 IF(UNIX)
   TARGET_LINK_LIBRARIES( itkvcl m )

@@ -51,7 +51,7 @@ static integer c__4 = 4;
     integer maxb;
     doublereal anrm;
     integer ierr, itau, iwrk, nout;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
             doublecomplex *, integer *), dlabad_(doublereal *, doublereal *);
     extern doublereal dznrm2_(integer *, doublecomplex *, integer *);

@@ -130,15 +130,15 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   long ierr = 0;
 
   v3p_netlib_dnlaso_(sse_op_callback, sse_iovect_callback,
-          &dim, &nvals, &nfigures, &nperm,
-          &nmval, &temp_vals[0],
-          &nmvec, &temp_vecs[0],
-          &nblock,
-          &maxop,
-          &maxj,
-          &work[0],
-          &ind[0],
-          &ierr);
+                     &dim, &nvals, &nfigures, &nperm,
+                     &nmval, &temp_vals[0],
+                     &nmvec, &temp_vecs[0],
+                     &nblock,
+                     &maxop,
+                     &maxj,
+                     &work[0],
+                     &ind[0],
+                     &ierr);
   if (ierr > 0)
   {
     if (ierr & 0x1)

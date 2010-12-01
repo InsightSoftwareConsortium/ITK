@@ -26,12 +26,16 @@
 # include "stlport/vcl_complex.h"
 
 // ---------- Visual Studio 6
-#elif defined(VCL_VC60)
+#elif defined(VCL_VC_6)
 # include "win32-vc60/vcl_complex.h"
 
 // ---------- Visual Studio 7.0
-#elif defined(VCL_VC70)
+#elif defined(VCL_VC_70)
 # include "win32-vc70/vcl_complex.h"
+
+// ---------- Visual Studio 8 and 9
+#elif defined(VCL_VC_8) || defined(VCL_VC_9)
+# include "win32-vc8/vcl_complex.h"
 
 // ---------- SunPro compiler
 #elif defined(VCL_SUNPRO_CC)

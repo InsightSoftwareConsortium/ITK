@@ -18,11 +18,11 @@
 template <class T> void vnl_real(vcl_complex<T> const* C, T* R, unsigned int n);
 
 //: Vector of real parts of vnl_vector<vcl_complex<T> >.
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template <class T> vnl_vector<T> vnl_real(vnl_vector<vcl_complex<T> > const& C);
 
 //: Matrix of real parts of vnl_matrix<vcl_complex<T> >.
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 template <class T> vnl_matrix<T> vnl_real(vnl_matrix<vcl_complex<T> > const& C);
 
 #endif // vnl_real_h_

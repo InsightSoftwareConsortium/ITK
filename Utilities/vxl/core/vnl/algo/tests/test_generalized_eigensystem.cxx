@@ -41,7 +41,7 @@ void test_generalized_eigensystem()
   double err = (C * gev.V - S * gev.V * gev.D).fro_norm();
   vcl_cout << "Recomposition residual = " << err << vcl_endl;
 
-  testlib_test_assert("Recomposition residual < 1e-12", err < 1e-12);
+  TEST_NEAR("Recomposition residual < 1e-12", err, 0.0, 1e-12);
 }
 
 TESTMAIN(test_generalized_eigensystem);

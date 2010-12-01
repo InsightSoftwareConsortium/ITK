@@ -60,7 +60,7 @@ IF(VNL_CONFIG_THREAD_SAFE)
 ELSE(VNL_CONFIG_THREAD_SAFE)
   SET(VNL_CONFIG_THREAD_SAFE 0)
 ENDIF(VNL_CONFIG_THREAD_SAFE)
-IF(VNL_CONFIG_ENABLE_SSE2) 
+IF(VNL_CONFIG_ENABLE_SSE2)
   SET(VNL_CONFIG_ENABLE_SSE2 1)
 ELSE(VNL_CONFIG_ENABLE_SSE2)
   SET(VNL_CONFIG_ENABLE_SSE2 0)
@@ -92,6 +92,7 @@ SET( vnl_sources
   vnl_matrix_fixed.txx         vnl_matrix_fixed.h
   vnl_matrix_fixed_ref.txx     vnl_matrix_fixed_ref.h
   vnl_diag_matrix.txx          vnl_diag_matrix.h
+  vnl_diag_matrix_fixed.txx    vnl_diag_matrix_fixed.h
   vnl_sparse_matrix.txx        vnl_sparse_matrix.h
   vnl_matrix_exp.txx           vnl_matrix_exp.h
   vnl_file_matrix.txx          vnl_file_matrix.h
@@ -102,6 +103,7 @@ SET( vnl_sources
   vnl_det.txx                  vnl_det.h
                                vnl_transpose.h
                                vnl_inverse.h
+                               vnl_power.h
                                vnl_trace.h
   vnl_rank.txx                 vnl_rank.h
   vnl_scalar_join_iterator.txx vnl_scalar_join_iterator.h
@@ -110,6 +112,8 @@ SET( vnl_sources
   vnl_alloc.cxx                vnl_alloc.h
   vnl_block.cxx                vnl_block.h
   vnl_math.cxx                 vnl_math.h
+  vnl_na.cxx                   vnl_na.h
+  vnl_c_na_vector.txx          vnl_c_na_vector.h
   vnl_copy.cxx                 vnl_copy.h
                                vnl_complex.h
   vnl_error.cxx                vnl_error.h
@@ -190,6 +194,7 @@ SET( vnl_sources
   vnl_cost_function.cxx               vnl_cost_function.h
   vnl_least_squares_function.cxx      vnl_least_squares_function.h
   vnl_least_squares_cost_function.cxx vnl_least_squares_cost_function.h
+  vnl_sparse_lst_sqr_function.cxx     vnl_sparse_lst_sqr_function.h
   vnl_nonlinear_minimizer.cxx         vnl_nonlinear_minimizer.h
 
   vnl_hungarian_algorithm.cxx         vnl_hungarian_algorithm.h
@@ -203,10 +208,14 @@ SET( vnl_sources
   vnl_cross_product_matrix.h
   vnl_identity_3x3.h
 
+  # indexing of sparse structures
+  vnl_crs_index.cxx            vnl_crs_index.h
+
   # Special functions
   vnl_bessel.cxx               vnl_bessel.h
                                vnl_cross.h
   vnl_gamma.cxx                vnl_gamma.h
+                               vnl_beta.h
   vnl_erf.cxx                  vnl_erf.h
   vnl_sample.cxx               vnl_sample.h
   vnl_unary_function.txx       vnl_unary_function.h
@@ -236,6 +245,15 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_matrix_fixed+vnl_bignum.3.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_vector+vnl_rational-.cxx PROPERTIES COMPILE_FLAGS -O0)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_vector_fixed+vnl_rational.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
+  # with optimisation, the vnl_na etc functions fail on x86_64:
+  SET_SOURCE_FILES_PROPERTIES(vnl_na.cxx PROPERTIES COMPILE_FLAGS -O1)
+  # gcc must have -msse2 option to enable sse2 support
+  IF(VNL_CONFIG_ENABLE_SSE2)
+    ADD_DEFINITIONS( -msse2 )
+  ENDIF(VNL_CONFIG_ENABLE_SSE2)
+  IF(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
+    ADD_DEFINITIONS( -msse2 )
+  ENDIF(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 ADD_LIBRARY(itkvnl ${vnl_sources})

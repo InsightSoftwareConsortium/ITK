@@ -33,7 +33,7 @@ extern "C" {
     integer i__, j, k, info;
     doublecomplex temp;
     logical lside;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer nrowa;
     logical upper;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);

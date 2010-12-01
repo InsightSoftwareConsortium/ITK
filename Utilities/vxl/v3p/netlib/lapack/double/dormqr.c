@@ -42,7 +42,7 @@ static integer c__65 = 65;
     doublereal t[4160]  /* was [65][64] */;
     integer i1, i2, i3, ib, ic=0, jc=0, nb=0, mi, ni, nq, nw, iws;
     logical left;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer nbmin, iinfo;
     extern /* Subroutine */ int dorm2r_(char *, char *, integer *, integer *, 
             integer *, doublereal *, integer *, doublereal *, doublereal *, 

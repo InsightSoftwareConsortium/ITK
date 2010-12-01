@@ -6,12 +6,12 @@
 // \brief Abstract 1D map
 //  vnl_unary_function is an abstract map between two types (read spaces).
 // \author Andrew W. Fitzgibbon, Oxford RRG
-// \date   28 Nov 98
+// \date   28 Nov 1998
 //
 // \verbatim
 //  Modifications
 //   981128 AWF Initial version.
-//   LSB Manchester 19/3/01 Documentation tidied
+//   LSB Manchester 19/Mar/2001 Documentation tidied
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 //   Oct.2003 - Ian Scott - Move the use of vcl_limits out of the .h file, to
 //                          solve stupid MSVC6.0 problems.
@@ -19,8 +19,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vcl_limits.h>
 #include "vnl_unary_function.h"
+#include <vcl_limits.h>
 
 //: Return bounding cube of range (outputs)
 template <class RETURN, class ARGUMENT>

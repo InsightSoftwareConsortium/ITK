@@ -1,7 +1,7 @@
 // This is vcl/vcl_iostream.h
 #ifndef vcl_iostream_h_
 #define vcl_iostream_h_
-//: 
+//:
 // \file
 // \brief Include compiler's <iostream.h> in a uniform way.
 // \author awf@robots.ox.ac.uk
@@ -24,21 +24,20 @@
 // \endcode
 //
 
-// Include this to ensure the two are consistent.
-#include "vcl_iosfwd.h"
+#include "vcl_iosfwd.h" // Include this to ensure the two are consistent.
 
 // Notes to maintainers.
 //   The purpose of this file is to repair broken iostream
-// headers. Thus in conditional logic, the compilers that 
+// headers. Thus in conditional logic, the compilers that
 // behave in a non-standard way should be treated first, as
-// special cases, and the #else arm should contain the 
+// special cases, and the #else arm should contain the
 // appropriate action for an ISO compiler.
-
+//
 // On win32, <iostream.h> contains old crufty iostreams and
 // <iostream> contains new standard ones. There is no iosfwd
 // for the old ones and <string> includes the new iostreams.
 // So we must avoid the old ones at any price.
-
+//
 // ------------------------------------------------------------
 
 #if defined(VCL_SGI_CC_720)
@@ -48,9 +47,9 @@
 # include "iso/vcl_iostream.h"
 #endif
 
-// -------------------- miscellaneous fixes which can go at the end:
+   // -------------------- miscellaneous fixes which can go at the end: -------
 
-// Need std::ios::nocreate to avoid creating an empty file on 
+// Need std::ios::nocreate to avoid creating an empty file on
 // attempts to read a non-existent one. Don't we? -- fsm
 #if defined(VCL_VC50)
 # undef  vcl_ios_in

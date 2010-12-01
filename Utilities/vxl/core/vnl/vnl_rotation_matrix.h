@@ -25,11 +25,11 @@ bool vnl_rotation_matrix(vnl_vector<double> const &axis, vnl_matrix<double>& R);
 bool vnl_rotation_matrix(vnl_vector_fixed<double,3> const& axis, vnl_matrix_fixed<double,3,3>& R);
 
 //: Returns an orthogonal 3x3 matrix which is a rotation about the axis, by an angle equal to ||axis||.
-// \relates vnl_matrix_fixed
+// \relatesalso vnl_matrix_fixed
 vnl_matrix_fixed<double,3,3> vnl_rotation_matrix(vnl_vector_fixed<double,3> const& axis);
 
 //: Returns an orthogonal 3x3 matrix which is a rotation about the axis, by an angle equal to ||axis||.
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 vnl_matrix<double> vnl_rotation_matrix(vnl_vector<double> const& axis);
 
 #endif // vnl_rotation_matrix_h_

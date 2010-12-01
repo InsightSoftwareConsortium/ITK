@@ -36,7 +36,7 @@ void test_symmetric_eigensystem()
     vnl_matrix<double> res = eig.recompose() - S;
     vcl_cout << "V'*D*V - S = " << res << vcl_endl
              << "residual = " << res.fro_norm() << vcl_endl;
-    testlib_test_assert("recompose residual",  res.fro_norm() < 1e-12);
+    TEST_NEAR("recompose residual", res.fro_norm(), 0.0, 1e-12);
 
     vcl_cout<<"Eigenvalues: ";
     for (int i=0;i<6;++i)
@@ -60,7 +60,7 @@ void test_symmetric_eigensystem()
     vnl_matrix<double> res = eig.recompose() - C;
     vcl_cout << "V'*D*V - C = " << res << vcl_endl
              << "residual = " << res.fro_norm() << vcl_endl;
-    testlib_test_assert("recompose residual", res.fro_norm() < 1e-12);
+    TEST_NEAR("recompose residual", res.fro_norm(), 0.0, 1e-12);
 
     vcl_cout<<"Eigenvalues: ";
     for (int i=0;i<6;++i)

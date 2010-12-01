@@ -16,8 +16,8 @@
 //  The centre (maxima or minima) lies at xb + p/q.
 //  If q is near zero, then the parabola is nearly flat
 inline void vnl_fit_parabola(double xa, double xb, double xc,
-                      double fa, double fb, double fc,
-                      double& p, double& q)
+                             double fa, double fb, double fc,
+                             double& p, double& q)
 {
   // Effectively shift origin to (xb,fb)
   // Parabola is then y=a*x*x+b*x

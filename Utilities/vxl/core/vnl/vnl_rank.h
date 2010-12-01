@@ -22,7 +22,7 @@ typedef enum { vnl_rank_pivot_one, vnl_rank_pivot_all } vnl_rank_pivot_type;
 //  By default, the row rank of the matrix is determined.
 //  Specify vnl_rank_column to obtain the column rank.
 //
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 template <class T>
 unsigned int vnl_rank(vnl_matrix<T> const& mat, vnl_rank_type = vnl_rank_both);
 
@@ -39,7 +39,7 @@ unsigned int vnl_rank(vnl_matrix<T> const& mat, vnl_rank_type = vnl_rank_both);
 //  Note that for integer matrices, the resulting matrix is still integer,
 //  and is guaranteed to be row equivalent with the original matrix.
 //
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 //
 template <class T>
 vnl_matrix<T> vnl_rank_row_reduce(vnl_matrix<T> const& mat,
@@ -47,7 +47,7 @@ vnl_matrix<T> vnl_rank_row_reduce(vnl_matrix<T> const& mat,
 
 //: Column reduce a matrix.
 //
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 //
 template <class T>
 vnl_matrix<T> vnl_rank_column_reduce(vnl_matrix<T> const& mat,
@@ -60,7 +60,7 @@ vnl_matrix<T> vnl_rank_column_reduce(vnl_matrix<T> const& mat,
 //  changed, and the number of nonzero elements will be minimal (viz at most
 //  one per row and one per column).
 //
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 //
 template <class T>
 vnl_matrix<T> vnl_rank_row_column_reduce(vnl_matrix<T> const& mat,

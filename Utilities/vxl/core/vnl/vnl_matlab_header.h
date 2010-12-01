@@ -4,10 +4,18 @@
 #ifdef VCL_NEEDS_PRAGMA_INTERFACE
 #pragma interface
 #endif
+
+#undef swap32
+#undef swap64
+
 //:
 //  \file
 //  \brief MATLAB header structure
 //  \author fsm
+// \verbatim
+//  Modifications
+//   21 Apr 2009 Kent Williams - Taking care of the byte ordering of the MAT file
+// \endverbatim
 
 #include <vxl_config.h>
 
@@ -34,47 +42,26 @@ struct vnl_matlab_header
   };
 };
 
-namespace byteswap
+namespace byteswap // byteswap routines, stolen from ITK
 {
-//
-// byteswap routines, stolen from 
-// ITK
-inline void
-swap32(void *ptr)
-{
+ inline void
+ swap32(void *ptr)
+ {
   char one_byte;
   char *p = reinterpret_cast<char *>(ptr);
-
-  one_byte    = p[0];
-  p[0] = p[3];
-  p[3] = one_byte;
-
-  one_byte    = p[1];
-  p[1] = p[2];
-  p[2] = one_byte;
-}
-inline void
-swap64(void *ptr)
-{
+  one_byte = p[0]; p[0] = p[3]; p[3] = one_byte;
+  one_byte = p[1]; p[1] = p[2]; p[2] = one_byte;
+ }
+ inline void
+ swap64(void *ptr)
+ {
   char one_byte;
   char *p = reinterpret_cast<char *>(ptr);
-
-  one_byte    = p[0];
-  p[0] = p[7];
-  p[7] = one_byte;
-
-  one_byte    = p[1];
-  p[1] = p[6];
-  p[6] = one_byte;
-
-  one_byte    = p[2];
-  p[2] = p[5];
-  p[5] = one_byte;
-
-  one_byte    = p[3];
-  p[3] = p[4];
-  p[4] = one_byte;
-}
+  one_byte = p[0]; p[0] = p[7]; p[7] = one_byte;
+  one_byte = p[1]; p[1] = p[6]; p[6] = one_byte;
+  one_byte = p[2]; p[2] = p[5]; p[5] = one_byte;
+  one_byte = p[3]; p[3] = p[4]; p[4] = one_byte;
+ }
 }
 
 #endif // vnl_matlab_header_h_

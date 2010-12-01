@@ -94,7 +94,7 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
       // have trouble doing. For example, gcc can output
       // code in -O2 and static-linked code that causes this problem.
       // One solution to this is to persuade gcc to output slightly different code
-      // by adding and -fPIC option to the command line for v3p\netlib\dsvdc.c. If
+      // by adding and -fPIC option to the command line for v3p/netlib/dsvdc.c. If
       // that doesn't work try adding -ffloat-store, which should fix the problem
       // at the expense of being significantly slower for big problems. Note that
       // if this is the cause, core/vnl/tests/test_svd should have failed.
@@ -137,7 +137,7 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
     typedef typename vnl_numeric_traits<T>::abs_t abs_t;
     abs_t recomposition_residual = vcl_abs((recompose() - M).fro_norm());
     abs_t n = vcl_abs(M.fro_norm());
-    abs_t thresh = m_ * abs_t(vnl_math::eps) * n;
+    abs_t thresh = abs_t(m_) * abs_t(vnl_math::eps) * n;
     if (recomposition_residual > thresh)
     {
       vcl_cerr << "vnl_svd<T>::vnl_svd<T>() -- Warning, recomposition_residual = "
@@ -188,7 +188,8 @@ vnl_svd<T>::zero_out_absolute(double tol)
       Winverse_(k,k) = 0;
       weight = 0;
       --rank_;
-    } else
+    }
+    else
     {
       Winverse_(k,k) = singval_t(1.0)/weight;
     }
@@ -229,12 +230,12 @@ template <class T>
 vnl_matrix<T> vnl_svd<T>::recompose(unsigned int rnk) const
 {
   if (rnk > rank_) rnk=rank_;
-  vnl_matrix<T> W(W_.rows(),W_.columns());
-  W.fill(T(0));
+  vnl_matrix<T> Wmatr(W_.rows(),W_.columns());
+  Wmatr.fill(T(0));
   for (unsigned int i=0;i<rnk;++i)
-    W(i,i)=W_(i,i);
+    Wmatr(i,i)=W_(i,i);
 
-  return U_*W*V_.conjugate_transpose();
+  return U_*Wmatr*V_.conjugate_transpose();
 }
 
 
@@ -243,12 +244,12 @@ template <class T>
 vnl_matrix<T> vnl_svd<T>::pinverse(unsigned int rnk) const
 {
   if (rnk > rank_) rnk=rank_;
-  vnl_matrix<T> Winverse(Winverse_.rows(),Winverse_.columns());
-  Winverse.fill(T(0));
+  vnl_matrix<T> W_inverse(Winverse_.rows(),Winverse_.columns());
+  W_inverse.fill(T(0));
   for (unsigned int i=0;i<rnk;++i)
-    Winverse(i,i)=Winverse_(i,i);
+    W_inverse(i,i)=Winverse_(i,i);
 
-  return V_ * Winverse * U_.conjugate_transpose();
+  return V_ * W_inverse * U_.conjugate_transpose();
 }
 
 
@@ -257,12 +258,12 @@ template <class T>
 vnl_matrix<T> vnl_svd<T>::tinverse(unsigned int rnk) const
 {
   if (rnk > rank_) rnk=rank_;
-  vnl_matrix<T> Winverse(Winverse_.rows(),Winverse_.columns());
-  Winverse.fill(T(0));
+  vnl_matrix<T> W_inverse(Winverse_.rows(),Winverse_.columns());
+  W_inverse.fill(T(0));
   for (unsigned int i=0;i<rnk;++i)
-    Winverse(i,i)=Winverse_(i,i);
+    W_inverse(i,i)=Winverse_(i,i);
 
-  return U_ * Winverse * V_.conjugate_transpose();
+  return U_ * W_inverse * V_.conjugate_transpose();
 }
 
 
@@ -275,11 +276,12 @@ vnl_matrix<T> vnl_svd<T>::solve(vnl_matrix<T> const& B)  const
     vnl_matrix<T> yy(U_.rows(), B.columns(), T(0));     // zeros, so that it matches
     yy.update(B);                                       // cols of u.transpose. ???
     x = U_.conjugate_transpose() * yy;
-  } else
+  }
+  else
     x = U_.conjugate_transpose() * B;
   for (unsigned long i = 0; i < x.rows(); ++i) {        // multiply with diagonal 1/W
     T weight = W_(i, i);
-    if (weight != T(0)) //vnl_numeric_traits<T>::zero)
+    if (weight != T(0)) // vnl_numeric_traits<T>::zero
       weight = T(1) / weight;
     for (unsigned long j = 0; j < x.columns(); ++j)
       x(i, j) *= weight;
@@ -345,7 +347,8 @@ void vnl_svd<T>::solve_preinverted(vnl_vector<T> const& y, vnl_vector<T>* x_out)
     vnl_vector<T> yy(U_.rows(), T(0));     // zeros, so that it match
     yy.update(y);                               // cols of u.transpose. ??
     x = U_.conjugate_transpose() * yy;
-  } else
+  }
+  else
     x = U_.conjugate_transpose() * y;
   for (unsigned i = 0; i < x.size(); i++)  // multiply with diagonal W, assumed inverted
     x[i] *= W_(i, i);

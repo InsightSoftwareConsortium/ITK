@@ -47,7 +47,7 @@ static doublereal c_b34 = 1.;
     doublereal eps, anrm, bnrm;
     integer idum[1], ierr, itau, iwrk;
     doublereal pvsl, pvsr;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer ileft, icols;
     logical cursl, ilvsl, ilvsr;
     integer irows;

@@ -150,16 +150,16 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
   }
 
   vnl_vector<double> fx(m, 0.0);    // W m   Storage for target vector
-  vnl_vector<double> diag(n);  // I     Multiplicative scale factors for variables
+  vnl_vector<double> diag(n, 0);  // I     Multiplicative scale factors for variables
   long user_provided_scale_factors = 1;  // 1 is no, 2 is yes
   double factor = 100;
   long nprint = 1;
 
-  vnl_vector<double> qtf(n);
-  vnl_vector<double> wa1(n);
-  vnl_vector<double> wa2(n);
-  vnl_vector<double> wa3(n);
-  vnl_vector<double> wa4(m);
+  vnl_vector<double> qtf(n, 0);
+  vnl_vector<double> wa1(n, 0);
+  vnl_vector<double> wa2(n, 0);
+  vnl_vector<double> wa3(n, 0);
+  vnl_vector<double> wa4(m, 0);
 
 #ifdef DEBUG
   vcl_cerr << "STATUS: " << failure_code_ << '\n';
@@ -206,7 +206,6 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
   case 4: // gtol
     return true;
   default:
-    if (verbose_) diagnose_outcome();
     return false;
   }
 }
@@ -312,23 +311,51 @@ bool vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double>& x)
   }
 
   vnl_vector<double> fx(m, 0.0);    // W m   Explicitly set target to 0.0
-  vnl_vector<double> wa1(5*n + m);
 
   num_iterations_ = 0;
   set_covariance_ = false;
   long info;
-  long size = wa1.size();
   start_error_ = 0; // Set to 0 so first call to lmder_lsqfun will know to set it.
-  v3p_netlib_lmder1_(
+
+
+  double factor = 100;
+  long nprint = 1;
+  long mode=1, nfev, njev;
+
+  vnl_vector<double> diag(n, 0);
+  vnl_vector<double> qtf(n, 0);
+  vnl_vector<double> wa1(n, 0);
+  vnl_vector<double> wa2(n, 0);
+  vnl_vector<double> wa3(n, 0);
+  vnl_vector<double> wa4(m, 0);
+
+
+  v3p_netlib_lmder_(
           lmder_lsqfun, &m, &n,
           x.data_block(),
           fx.data_block(),
           fdjac_.data_block(), &m,
           &ftol,
+          &xtol,
+          &gtol,
+          &maxfev,
+          diag.data_block(),
+          &mode,
+          &factor,
+          &nprint,
           &info,
+          &nfev, &njev,
           ipvt_.data_block(),
+          qtf.data_block(),
           wa1.data_block(),
-          &size, this);
+          wa2.data_block(),
+          wa3.data_block(),
+          wa4.data_block(),
+          this);
+
+
+
+
   num_evaluations_ = num_iterations_; // for lmder, these are the same.
   if (info<0)
     info = ERROR_FAILURE;
@@ -343,7 +370,6 @@ bool vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double>& x)
   case 4: // gtol
     return true;
   default:
-    if (verbose_) diagnose_outcome();
     return false;
   }
 }
@@ -383,7 +409,7 @@ void vnl_levenberg_marquardt::diagnose_outcome(vcl_ostream& s) const
   case CONVERGED_GTOL:
     s << (whoami ": converged via gtol\n");
     break;
-  case FAILED_TOO_MANY_ITERATIONS:
+  case TOO_MANY_ITERATIONS:
     s << (whoami ": too many iterations\n");
     break;
   case FAILED_FTOL_TOO_SMALL:

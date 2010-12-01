@@ -6,18 +6,26 @@
 #endif
 //:
 // \file
-// \brief Name space for various chi-squared distribution functions.
+// \brief Name space for various (mostly templated) chi-squared distribution functions.
 // \author Rupert Curwen, GE CRD
 // \date   August 18th, 1998
 //
 // \verbatim
-// Modifications
-//  dac (Manchester) 26/03/2001: tidied up documentation
+//  Modifications
+//   26/03/2001   dac (Manchester) tidied up documentation
+//   24 Mar 2010  Peter Vanroose   made vnl_chi_squared_cumulative() templated
 // \endverbatim
 
-
-//: Compute cumulative distribution function value for chi-squared distribution
-extern double vnl_chi_squared_cumulative(double chisq, long dof);
+//: Compute cumulative distribution function value for chi-squared distribution.
+// This subroutine computes the cumulative distribution function
+// value for the chi-squared distribution with integer degrees of
+// freedom parameter = dof.  This distribution is defined for all
+// non-negative chisq.  Thus if a random variable x is drawn from a
+// chi-squared distribution with d degrees of freedom, then
+//  $P(x < X) =$ vnl_chi_squared_cumulative(X,d).
+// Internally, T=double is used.
+template <class T>
+double vnl_chi_squared_cumulative(T chisq, long dof);
 
 //------------------------------------------------------------
 
@@ -53,5 +61,8 @@ double vnl_chi_squared_statistic_2 (T const *A, T const *B,
 template <class T>
 double vnl_chi_squared_statistic_12(T const *A, T const *B,
                                     int n, bool normalize);
+
+#define VNL_CHI_SQUARED_INSTANTIATE(T) \
+extern "please include vnl/algo/vnl_chi_squared.txx first"
 
 #endif // vnl_chi_squared_h_

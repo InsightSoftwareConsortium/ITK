@@ -25,7 +25,7 @@ void test_solve_qp_with_non_neg_constraints1()
   vnl_vector<double> sol(n,1.0/n);
 
   vcl_cout<<"Solution: "<<x<<vcl_endl;
-  testlib_test_assert_near("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
+  TEST_NEAR("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
 }
 
 void test_solve_qp_with_non_neg_constraints2()
@@ -49,7 +49,7 @@ void test_solve_qp_with_non_neg_constraints2()
   sol[1]=0.0;
 
   vcl_cout<<"Solution: "<<x<<vcl_endl;
-  testlib_test_assert_near("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
+  TEST_NEAR("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
 }
 
 void test_solve_qp_non_neg_sum_one1()
@@ -70,7 +70,7 @@ void test_solve_qp_non_neg_sum_one1()
   vnl_vector<double> sol(n,1.0/n);
 
   vcl_cout<<"Solution: "<<x<<vcl_endl;
-  testlib_test_assert_near("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
+  TEST_NEAR("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
 }
 
 void test_solve_qp_non_neg_sum_one2()
@@ -93,7 +93,7 @@ void test_solve_qp_non_neg_sum_one2()
   sol[1]=0.0;
 
   vcl_cout<<"Solution: "<<x<<vcl_endl;
-  testlib_test_assert_near("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
+  TEST_NEAR("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
 }
 
 extern "C" void test_solve_qp()

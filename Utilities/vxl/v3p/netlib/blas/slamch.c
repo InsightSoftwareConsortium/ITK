@@ -81,7 +81,7 @@ doublereal slamch_(char *cmach, ftnlen cmach_len)
     logical lrnd;
     static real rmin, rmax; /* runtime-initialized constant */
     real rmach=0;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     real small;
     static real sfmin; /* runtime-initialized constant */
     extern /* Subroutine */ int slamc2_(integer *, integer *, logical *, real 

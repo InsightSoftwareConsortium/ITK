@@ -42,11 +42,11 @@ class vnl_sparse_lu
 
   //: Make sparse_lu decomposition of M optionally computing the reciprocal condition number.
   vnl_sparse_lu(vnl_sparse_matrix<double> const& M, operation mode = quiet);
- ~vnl_sparse_lu() {}
+ ~vnl_sparse_lu();
 
   //: set the relative pivot threshold should be between 0 and 1
   // If set to one then pivoting is complete and slow
-  // If near zero then roundoff error may be prohibitive but compuation is fast
+  // If near zero then roundoff error may be prohibitive but computation is fast
   // Typical values are between 0.01 and 0.1.
   void set_pivot_thresh(double pivot_thresh){pivot_thresh_=pivot_thresh;}
 

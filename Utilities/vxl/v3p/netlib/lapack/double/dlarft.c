@@ -32,7 +32,7 @@ static doublereal c_b8 = 0.;
     /* Local variables */
     integer i__, j;
     doublereal vii;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
             doublereal *, doublereal *, integer *, doublereal *, integer *, 
             doublereal *, doublereal *, integer *, ftnlen), dtrmv_(char *, 

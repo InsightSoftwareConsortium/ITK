@@ -80,29 +80,30 @@ extern "C" int finite(double);
 
 #if !VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN
 
-// constants
-const double vnl_math::e               VCL_STATIC_CONST_INIT_FLOAT_DEFN( 2.7182818284590452354  );
-const double vnl_math::log2e           VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.4426950408889634074  );
-const double vnl_math::log10e          VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.43429448190325182765 );
-const double vnl_math::ln2             VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.69314718055994530942 );
-const double vnl_math::ln10            VCL_STATIC_CONST_INIT_FLOAT_DEFN( 2.30258509299404568402 );
-const double vnl_math::pi              VCL_STATIC_CONST_INIT_FLOAT_DEFN( 3.14159265358979323846 );
-const double vnl_math::pi_over_2       VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.57079632679489661923 );
-const double vnl_math::pi_over_4       VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.78539816339744830962 );
-const double vnl_math::one_over_pi     VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.31830988618379067154 );
-const double vnl_math::two_over_pi     VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.63661977236758134308 );
-const double vnl_math::two_over_sqrtpi VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.12837916709551257390 );
+//: constants
+const double vnl_math::e                VCL_STATIC_CONST_INIT_FLOAT_DEFN( 2.71828182845904523540 );
+const double vnl_math::log2e            VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.44269504088896340740 );
+const double vnl_math::log10e           VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.43429448190325182765 );
+const double vnl_math::ln2              VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.69314718055994530942 );
+const double vnl_math::ln10             VCL_STATIC_CONST_INIT_FLOAT_DEFN( 2.30258509299404568402 );
+const double vnl_math::pi               VCL_STATIC_CONST_INIT_FLOAT_DEFN( 3.14159265358979323846 );
+const double vnl_math::pi_over_2        VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.57079632679489661923 );
+const double vnl_math::pi_over_4        VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.78539816339744830962 );
+const double vnl_math::one_over_pi      VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.31830988618379067154 );
+const double vnl_math::two_over_pi      VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.63661977236758134308 );
+const double vnl_math::two_over_sqrtpi  VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.12837916709551257390 );
 const double vnl_math::one_over_sqrt2pi VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.39894228040143267794 );
-const double vnl_math::sqrt2           VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.41421356237309504880 );
-const double vnl_math::sqrt1_2         VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.70710678118654752440 );
+const double vnl_math::sqrt2            VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.41421356237309504880 );
+const double vnl_math::sqrt1_2          VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.70710678118654752440 );
+const double vnl_math::euler            VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.57721566490153286061 );
 
-// IEEE double machine precision
-const double vnl_math::eps             VCL_STATIC_CONST_INIT_FLOAT_DEFN( 2.2204460492503131e-16 );
-const double vnl_math::sqrteps         VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.490116119384766e-08  );
+//: IEEE double machine precision
+const double vnl_math::eps              VCL_STATIC_CONST_INIT_FLOAT_DEFN( 2.2204460492503131e-16 );
+const double vnl_math::sqrteps          VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.4901161193847660e-08 );
 
-  //: IEEE single machine precision
-const float vnl_math::float_eps        VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.192092896e-07f );
-const float vnl_math::float_sqrteps    VCL_STATIC_CONST_INIT_FLOAT_DEFN( 3.4526698307e-4f );
+//: IEEE single machine precision
+const float vnl_math::float_eps         VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.1920928960e-7f );
+const float vnl_math::float_sqrteps     VCL_STATIC_CONST_INIT_FLOAT_DEFN( 3.4526698307e-4f );
 
 #endif
 
@@ -163,11 +164,13 @@ static const int sz_l = sizeof(long double)/sizeof(int) -1;
 # endif
 // Assume IEEE floating point number representation
 bool vnl_math_isnan( float x){return bMe(&x,0x7f800000L,sz_f)&&bMp(&x,0x007fffffL,sz_f);}
-bool vnl_math_isnan(double x){return bMe(&x,0x7ff00000L,sz_d)&&bMp(&x,0x000fffffL,sz_d);}
+bool vnl_math_isnan(double x){return bMe(&x,0x7ff00000L,sz_d)&&(bMp(&x,0x000fffffL,sz_d)||bMp(&x,0xffffffffL,1-sz_d));}
 bool vnl_math_isnan(long double x)
 {
-  if (sizeof(long double) == 8) return bMe(&x,0x7ff00000L,sz_l) && bMp(&x,0x000fffffL,sz_l);
-  else if (sizeof(long double) <= 12)
+  if (sizeof(long double) == 8) return bMe(&x,0x7ff00000L,sz_l) && (bMp(&x,0x000fffffL,sz_l)||bMp(&x,0xffffffffL,1-sz_d));
+  else if (sizeof(long double) <= 12) // This code doesn't properly check the less significant
+                                      // bytes for non-zero ness to distinguish inf from nan
+                                      // see http://babbage.cs.qc.cuny.edu/IEEE-754/References.xhtml#tables
 # if defined LDBL_MANT_DIG && LDBL_MANT_DIG<=53
     return bMe(&x,0x4001ffffL,sz_l) && bMp(&x,0x40000000,sz_l-4);
 # else
@@ -223,18 +226,18 @@ bool vnl_math_isfinite(long double x)
 
 #if defined(VCL_BORLAND)
 //: Return true if x is inf
-bool vnl_math_isinf(float x) { return !_finite(x) && !_isnan(x); }
+bool vnl_math_isinf(float x) { return !_finite(x) && !vnl_math_isnan(x); }
 //: Return true if x is inf
-bool vnl_math_isinf(double x) { return !_finite(x) && !_isnan(x); }
+bool vnl_math_isinf(double x) { return !_finite(x) && !vnl_math_isnan(x); }
 //: Return true if x is inf
-bool vnl_math_isinf(long double x) { return !_finitel(x) && !_isnanl(x); }
+bool vnl_math_isinf(long double x) { return !_finitel(x) && !vnl_math_isnan(x); }
 #elif !defined(VNL_HAS_NO_FINITE)
 //: Return true if x is inf
-bool vnl_math_isinf(float x) { return !finitef(x) && !isnan(x); }
+bool vnl_math_isinf(float x) { return !finitef(x) && !vnl_math_isnan(x); }
 //: Return true if x is inf
-bool vnl_math_isinf(double x) { return !finite(x) && !isnan(x); }
+bool vnl_math_isinf(double x) { return !finite(x) && !vnl_math_isnan(x); }
 //: Return true if x is inf
-bool vnl_math_isinf(long double x) { return !finitel(x) && !isnan(x); }
+bool vnl_math_isinf(long double x) { return !finitel(x) && !vnl_math_isnan(x); }
 #else
 // Assume IEEE floating point number representation
 bool vnl_math_isinf(float x) {return(bMe(&x,0x7f800000L,sz_f)&&!bMp(&x,0x007fffffL,sz_f))||bMp(&x,0x7fffffffL,sz_f)==0x7f7fffffL;}
@@ -280,4 +283,26 @@ int    vnl_huge_val(int)    { return 0x7fffffff; }
 short  vnl_huge_val(short)  { return 0x7fff; }
 char   vnl_huge_val(char)   { return 0x7f; }
 
+
 //----------------------------------------------------------------------
+double vnl_math::angle_0_to_2pi(double angle)
+{
+    double a;
+  if (angle>=2*vnl_math::pi)
+    a = vcl_fmod (angle,vnl_math::pi*2);
+  else if (angle < 0)
+    a = (2*vnl_math::pi+ vcl_fmod (angle,2*vnl_math::pi));
+  else 
+    a= angle;
+
+  // added by Nhon: these two lines of code is to fix the bug when
+  // angle = -1.1721201390607859e-016
+  // then after all the computation, we get
+  // a = 6.2831853071795862 == 2*vnl_math::pi !!!!!!!
+  // this situation can happen is when a is very close to zero.
+
+  if (!(a>=0 && a<2*vnl_math::pi)) {
+    a = 0;
+  }
+  return a;
+}

@@ -1,9 +1,9 @@
+#include "vnl_solve_qp.h"
 //:
 // \file
 // \brief Functions to solve various forms of constrained quadratic programming
 // \author  Tim Cootes
 
-#include <vnl/algo/vnl_solve_qp.h>
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_cholesky.h>
 #include <vcl_vector.h>
@@ -29,17 +29,17 @@ static void vnl_solve_symmetric_le(const vnl_matrix<double>& S,
 //  \param H Hessian of F(x) - must be symmetric
 //  \retval True if successful
 bool vnl_solve_qp_with_equality_constraints(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                const vnl_matrix<double>& A,
-                                const vnl_vector<double>& b,
-                                vnl_vector<double>& x)
+                                            const vnl_vector<double>& g,
+                                            const vnl_matrix<double>& A,
+                                            const vnl_vector<double>& b,
+                                            vnl_vector<double>& x)
 {
   // Test inputs
-  unsigned n=H.rows();   // Number of unknowns
+  // unsigned n=H.rows();   // Number of unknowns
   unsigned nc=A.rows();  // Number of equality constraints
-  assert(H.cols()==n);
-  assert(g.size()==n);
-  assert(A.cols()==n);
+  assert(H.cols()==H.rows());
+  assert(g.size()==H.rows());
+  assert(A.cols()==H.rows());
   assert(b.size()==nc);
 
   vnl_matrix<double> H_inv;
@@ -79,9 +79,9 @@ bool vnl_solve_qp_zero_sum(const vnl_matrix<double>& H,
                            vnl_vector<double>& x)
 {
   // Test inputs
-  unsigned n=H.rows();   // Number of unknowns
-  assert(H.cols()==n);
-  assert(g.size()==n);
+  // unsigned n=H.rows();   // Number of unknowns
+  assert(H.cols()==H.rows());
+  assert(g.size()==H.rows());
 
   vnl_matrix<double> H_inv;
   vnl_cholesky Hchol(H,vnl_cholesky::estimate_condition);
@@ -118,10 +118,10 @@ bool vnl_solve_qp_zero_sum(const vnl_matrix<double>& H,
 
 //: Update x, checking inequality constraints and modifying valid where necessary
 static bool vnl_solve_qp_update_x(vnl_vector<double>& x,
-                                const vnl_vector<double>& x1,
-                                vnl_vector<double>& dx,
-                                vcl_vector<bool>& valid,
-                                unsigned& n_valid)
+                                  const vnl_vector<double>& x1,
+                                  vnl_vector<double>& dx,
+                                  vcl_vector<bool>& valid,
+                                  unsigned& n_valid)
 {
   unsigned n=x.size();
   // Check non-negativity constraints
@@ -164,12 +164,12 @@ static bool vnl_solve_qp_update_x(vnl_vector<double>& x,
 //  Used by vnl_non_neg_constrained_qp
 //  Returns true if valid minimum found
 bool vnl_solve_qp_non_neg_step(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                const vnl_matrix<double>& A,
-                                const vnl_vector<double>& b,
-                                vnl_vector<double>& x,
-                                vcl_vector<bool>& valid,
-                                unsigned& n_valid)
+                               const vnl_vector<double>& g,
+                               const vnl_matrix<double>& A,
+                               const vnl_vector<double>& b,
+                               vnl_vector<double>& x,
+                               vcl_vector<bool>& valid,
+                               unsigned& n_valid)
 {
   // Find solution to H1(x+dx)+g1=0, subject to A1(x1+dx)=b
   // H1,A1,g1,x1 contain subsets defined by valid array
@@ -224,10 +224,10 @@ bool vnl_solve_qp_non_neg_step(const vnl_matrix<double>& H,
 //: Solve unconstrained problem and apply one extra constraint if necessary
 //  Returns true if valid minimum found
 bool vnl_solve_qp_non_neg_sum_one_step(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                vnl_vector<double>& x,
-                                vcl_vector<bool>& valid,
-                                unsigned& n_valid)
+                                       const vnl_vector<double>& g,
+                                       vnl_vector<double>& x,
+                                       vcl_vector<bool>& valid,
+                                       unsigned& n_valid)
 {
   // Find solution to H1(x+dx)+g1=0, subject to sum(dx)=0.0
   // H1,g1,x1 contain subsets defined by valid array
@@ -283,20 +283,20 @@ bool vnl_solve_qp_non_neg_sum_one_step(const vnl_matrix<double>& H,
 //  \param verbose When true, output error messages to cerr if failed
 //  \retval True if successful
 bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                const vnl_matrix<double>& A,
-                                const vnl_vector<double>& b,
-                                vnl_vector<double>& x,
-                                double con_tol,
-                                bool verbose)
+                                           const vnl_vector<double>& g,
+                                           const vnl_matrix<double>& A,
+                                           const vnl_vector<double>& b,
+                                           vnl_vector<double>& x,
+                                           double con_tol,
+                                           bool verbose)
 {
   // Test inputs
   unsigned n=H.rows();   // Number of unknowns
-  unsigned nc=A.rows();  // Number of equality constraints
+  //unsigned nc=A.rows();  // Number of equality constraints
   assert(H.cols()==n);
   assert(g.size()==n);
   assert(A.cols()==n);
-  assert(b.size()==nc);
+  assert(b.size()==A.rows());
 
   if (vnl_vector_ssd(A*x,b)>con_tol)
   {
@@ -326,7 +326,8 @@ bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
       vcl_cerr<<"Oops: Final x does not satisfy equality constraints\n";
     return false;
   }
-  return true;
+  else
+    return true;
 }
 
 //: Find non-negative solution to a constrained quadratic programming problem
@@ -341,9 +342,9 @@ bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
 //  \param verbose When true, output error messages to cerr if failed
 //  \retval True if successful
 bool vnl_solve_qp_non_neg_sum_one(const vnl_matrix<double>& H,
-                                const vnl_vector<double>& g,
-                                vnl_vector<double>& x,
-                                bool verbose)
+                                  const vnl_vector<double>& g,
+                                  vnl_vector<double>& x,
+                                  bool verbose)
 {
   // Test inputs
   unsigned n=H.rows();   // Number of unknowns

@@ -6,7 +6,6 @@
 
 
 #include <vcl_iostream.h>
-// not used? #include <vcl_iomanip.h>
 #include <vcl_limits.h>
 
 #include <testlib/testlib_test.h>

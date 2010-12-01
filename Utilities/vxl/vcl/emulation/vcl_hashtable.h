@@ -106,27 +106,35 @@ struct vcl_hash<const char*>
 struct vcl_hash<char> {
   vcl_size_t operator()(char x) const { return x; }
 };
+
 struct vcl_hash<unsigned char> {
   vcl_size_t operator()(unsigned char x) const { return x; }
 };
+
 struct vcl_hash<signed char> {
   vcl_size_t operator()(unsigned char x) const { return x; }
 };
+
 struct vcl_hash<short> {
   vcl_size_t operator()(short x) const { return x; }
 };
+
 struct vcl_hash<unsigned short> {
   vcl_size_t operator()(unsigned short x) const { return x; }
 };
+
 struct vcl_hash<int> {
   vcl_size_t operator()(int x) const { return x; }
 };
+
 struct vcl_hash<unsigned int> {
   vcl_size_t operator()(unsigned int x) const { return x; }
 };
+
 struct vcl_hash<long> {
   vcl_size_t operator()(long x) const { return x; }
 };
+
 struct vcl_hash<unsigned long> {
   vcl_size_t operator()(unsigned long x) const { return x; }
 };
@@ -216,7 +224,7 @@ struct vcl_hashtable_const_iterator
 };
 
 // Note: assumes long is at least 32 bits.
-// fbp: try to avoid intances in every module
+// fbp: try to avoid instances in every module
 enum { VCL_num_primes = 28 };
 
 #if ( __STL_STATIC_TEMPLATE_DATA > 0 ) && ! defined (VCL_WIN32)
@@ -424,8 +432,8 @@ class vcl_hashtable : protected vcl_hashtable_base<Value, Alloc>
       typename node* cur1 = buckets[n];
       typename node* cur2 = ht2.buckets[n];
       for (; cur1 && cur2 && cur1->val == cur2->val;
-            cur1 = cur1->next, cur2 = cur2->next)
-        {}
+           cur1 = cur1->next, cur2 = cur2->next)
+      {}
       if (cur1 || cur2)
         return false;
     }
@@ -437,7 +445,7 @@ class vcl_hashtable : protected vcl_hashtable_base<Value, Alloc>
   size_type bucket_count() const { return buckets.size(); }
 
   size_type max_bucket_count() const
-    { return VCL_prime_list[VCL_num_primes - 1]; }
+  { return VCL_prime_list[VCL_num_primes - 1]; }
 
   size_type elems_in_bucket(size_type bucket) const
   {

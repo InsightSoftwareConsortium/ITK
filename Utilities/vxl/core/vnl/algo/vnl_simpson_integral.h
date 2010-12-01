@@ -10,7 +10,7 @@
 class vnl_simpson_integral : public vnl_definite_integral
 {
  private:
-  //: used to extract integrant functions of the vnl_integrant_fnct.
+  //: used to extract integrand functions of the vnl_integrant_fnct.
   static double int_fnct_(double* x);
 
  public:

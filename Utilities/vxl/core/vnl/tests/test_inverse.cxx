@@ -38,7 +38,7 @@ static void test_inverse()
   residue2 = m2i.transpose()*m2 - id2;
   TEST_NEAR("2x2 vnl_inverse_transpose", residue2.array_inf_norm(), 0.0, eps);
 
-  M = m2;
+  M = vnl_matrix<double>(m2.data_block(), 2, 2);
   Mi = vnl_inverse(M);
   residue2 = m2*Mi - id2;
   TEST_NEAR("2x2 vnl_inverse", residue2.array_inf_norm(), 0.0, eps);
@@ -86,7 +86,7 @@ static void test_inverse()
   residue3 = m3i.transpose()*m3 - id3;
   TEST_NEAR("3x3 vnl_inverse_transpose", residue3.array_inf_norm(), 0.0, eps);
 
-  M = m3;
+  M = vnl_matrix<double>(m3.data_block(), 3, 3);
   Mi = vnl_inverse(M);
   residue3 = m3*Mi - id3;
   TEST_NEAR("3x3 vnl_inverse", residue3.array_inf_norm(), 0.0, eps);
@@ -135,7 +135,7 @@ static void test_inverse()
   residue4 = m4i.transpose()*m4 - id4;
   TEST_NEAR("4x4 vnl_inverse_transpose", residue4.array_inf_norm(), 0.0, eps);
 
-  M = m4;
+  M = vnl_matrix<double>(m4.data_block(), 4, 4);
   Mi = vnl_inverse(M);
   residue4 = m4*Mi - id4;
   TEST_NEAR("4x4 vnl_inverse", residue4.array_inf_norm(), 0.0, eps);

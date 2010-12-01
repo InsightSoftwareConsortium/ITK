@@ -59,8 +59,7 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
   double dsave[29];
 
   // Task communication.
-  char task[61] =
-    "START                                                       ";
+  char task[61]="START                                                       ";
 
   // Verbosity level inside lbfgs implementation.
   // (-1 no o/p, 0 start and end, 1 every iter)
@@ -77,8 +76,8 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
   vnl_vector<double> x_best(x);
 
   bool ok = true;
-  for(;;)
-    {
+  for (;;)
+  {
     // Call the L-BFGS-B code.
     v3p_netlib_setulb_(
       &n,
@@ -98,94 +97,94 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
       );
 
     // Check the current task.
-    if(vcl_strncmp("FG", task, 2) == 0)
-      {
+    if (vcl_strncmp("FG", task, 2) == 0)
+    {
       // Evaluate the function and gradient.
       this->f_->compute(x, &f, &gradient);
 
-      if(this->num_evaluations_ == 0)
-        {
+      if (this->num_evaluations_ == 0)
+      {
         x_best = x;
         this->start_error_ = f;
         this->end_error_ = f;
-        }
-      else if(f < this->end_error_)
-        {
+      }
+      else if (f < this->end_error_)
+      {
         x_best = x;
         this->end_error_ = f;
-        }
-      this->report_eval(f);
       }
-    else if(vcl_strncmp("NEW_X", task, 5) == 0)
-      {
+      this->report_eval(f);
+    }
+    else if (vcl_strncmp("NEW_X", task, 5) == 0)
+    {
       // dsave[12] = the infinity norm of the projected gradient
       this->inf_norm_projected_gradient_ = dsave[12];
 
       // Iteration.a
-      if(this->report_iter())
-        {
+      if (this->report_iter())
+      {
         this->failure_code_ = FAILED_USER_REQUEST;
         ok = false;
         break;
-        }
       }
-    else if(vcl_strncmp("ERROR", task, 5) == 0)
-      {
+    }
+    else if (vcl_strncmp("ERROR", task, 5) == 0)
+    {
       // some error
       this->failure_code_ = ERROR_FAILURE;
       ok = false;
       break;
-      }
-    else if(vcl_strncmp("CONVERGENCE", task, 11) == 0)
-      {
+    }
+    else if (vcl_strncmp("CONVERGENCE", task, 11) == 0)
+    {
       // convergence has been reached
-      if(f < this->end_error_)
-        {
+      if (f < this->end_error_)
+      {
         x_best = x;
         this->end_error_ = f;
-        }
+      }
 
-      if(vcl_strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
-                     task, 47) == 0)
-        {
+      if (vcl_strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
+                      task, 47) == 0)
+      {
         // function tolerance reached
         this->failure_code_ = CONVERGED_FTOL;
-        }
-      else if(vcl_strncmp("CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
-                          task, 48) == 0)
-        {
+      }
+      else if (vcl_strncmp("CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+                           task, 48) == 0)
+      {
         // gradient tolerance reached
         this->failure_code_ = CONVERGED_GTOL;
-        }
-      else
-        {
-        this->failure_code_ = ERROR_FAILURE;
-        if(trace)
-          {
-          vcl_cerr << "Unknown convergence type: " << task << std::endl;
-          }
-        }
-      break;
       }
-    else
+      else
       {
+        this->failure_code_ = ERROR_FAILURE;
+        if (trace)
+        {
+          vcl_cerr << "Unknown convergence type: " << task << vcl_endl;
+        }
+      }
+      break;
+    }
+    else
+    {
       // unknown task
       this->failure_code_ = ERROR_FAILURE;
-      if(trace)
-        {
-        vcl_cerr << "Unknown failure with task: " << task << std::endl;
-        }
-      ok = false;
-      break;
-      }
-
-    if(this->num_evaluations_ > this->get_max_function_evals())
+      if (trace)
       {
-      this->failure_code_ = FAILED_TOO_MANY_ITERATIONS;
+        vcl_cerr << "Unknown failure with task: " << task << vcl_endl;
+      }
       ok = false;
       break;
-      }
     }
+
+    if (this->num_evaluations_ > this->get_max_function_evals())
+    {
+      this->failure_code_ = TOO_MANY_ITERATIONS;
+      ok = false;
+      break;
+    }
+  }
 
   // Store the best known position no matter the outcome.
   x = x_best;

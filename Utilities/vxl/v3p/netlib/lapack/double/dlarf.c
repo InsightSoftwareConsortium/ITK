@@ -34,7 +34,7 @@ static integer c__1 = 1;
     extern /* Subroutine */ int dger_(integer *, integer *, doublereal *, 
             doublereal *, integer *, doublereal *, integer *, doublereal *, 
             integer *);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
             doublereal *, doublereal *, integer *, doublereal *, integer *, 
             doublereal *, doublereal *, integer *, ftnlen);

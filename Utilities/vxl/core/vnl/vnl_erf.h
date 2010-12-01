@@ -13,7 +13,7 @@
 // erf(x) = (2/sqrt(pi)) Integral from 0 to x (exp(-t^2) dt)
 // \note the output ranges from -1 to 1, and vnl_erf(0) = 0.
 inline double vnl_erf(double x)
-{ return (x<0)?-vnl_gamma_p(0.5,x*x):vnl_gamma_p(0.5,x*x); };
+{ return (x<0)?-vnl_gamma_p(0.5,x*x):vnl_gamma_p(0.5,x*x); }
 
 //: The Complementary Error function.
 // erfc(x) = 1 - erf(x) = 1 - (2/sqrt(pi)) Integral from 0 to x (exp(-t^2) dt)

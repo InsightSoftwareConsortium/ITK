@@ -9,42 +9,47 @@
 // set all the elements of v to false.
 static void clear_vector( vcl_vector<bool>& v )
 {
-  typedef vcl_vector<bool>::iterator iter;
-  iter end = v.end();
-  for ( iter i = v.begin(); i != end; ++i ) {
-    *i = false;
-  }
+  v.assign( v.size(), false );
 }
 
 vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in )
 {
-  // The Hungarian algorithm (seems to) only work for NxN cost
-  // matrices. We can solve the NxM case by padding the matrix with a
-  // constant cost.
-
-  unsigned const N = vcl_max( cost_in.rows(), cost_in.cols() );
-
-  vnl_matrix<double> cost( N, N, 0 );
-
-  // Copy in the pieces of the original matrix
-  cost.update( cost_in, 0, 0 );
-
   // The steps of the algorithm described below are taken from
-  // http://www.public.iastate.edu/~ddoty/HungarianAlgorithm.html
+  // http://www.cs.duke.edu/brd/Teaching/Bio/asmb/current/Handouts/munkres.html
 
   // Step 0
-  // Make sure there are at least as many rows as columns
-  // [ This seems to be misleading since the algorithm presented here
-  // seems to only work for NxN matrices.]
+  // Create an nxm matrix called the cost matrix in which each element
+  // represents the cost of assigning one of n workers to one of m
+  // jobs.  Rotate the matrix so that there are at least as many
+  // columns as rows and let k=min(n,m)
+
+  // we make a copy of the cost matrix because this algorithm modifies
+  // the cost as it goes.
+  bool transposed_problem;
+  vnl_matrix<double> cost;
+  if( cost_in.rows() > cost_in.cols() ) {
+    // Avoid copying the transpose temporary.  Can't write this in the
+    // more sensible way
+    //    cost.swap( cost_in.transpose() );
+    // because a temporary cannot bind to non-const reference.
+    cost_in.transpose().swap( cost );
+    transposed_problem = true;
+  } else {
+    cost = cost_in;
+    transposed_problem = false;
+  }
+
+  unsigned const Nr = cost.rows();
+  unsigned const Nc = cost.cols();
 
   // M(i,j) = 1   =>  cost(i,j) is starred
   // M(i,j) = 2   =>  cost(i,j) is primed
-  vnl_matrix<int> M( N, N, 0 );
+  vnl_matrix<vxl_byte> M( Nr, Nc, 0 );
 
   // R_cov[i] = true  => row i is covered
   // C_cov[j] = true  => column j is covered
-  vcl_vector<bool> R_cov( N, false );
-  vcl_vector<bool> C_cov( N, false );
+  vcl_vector<bool> R_cov( Nr, false );
+  vcl_vector<bool> C_cov( Nc, false );
 
   // row and col of the primed zero in step four to pass to step five.
   unsigned Z0_r, Z0_c;
@@ -53,12 +58,12 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
   // For each row of the matrix, find the smallest element and subtract
   // it from every element in its row.  Go to Step 2.
   {
-    for ( unsigned i = 0; i < N; ++i ) {
+    for ( unsigned i = 0; i < Nr; ++i ) {
       double mn = cost(i,0);
-      for ( unsigned j = 1; j < N; ++j ) {
+      for ( unsigned j = 1; j < Nc; ++j ) {
         if ( mn > cost(i,j) ) mn = cost(i,j);
       }
-      for ( unsigned j = 0; j < N; ++j ) {
+      for ( unsigned j = 0; j < Nc; ++j ) {
         cost(i,j) -= mn;
       }
     }
@@ -73,9 +78,9 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
   {
     // We'll use C_cov and R_cov to indicate if there is a starred
     // zero in that column or row, respectively
-    for ( unsigned i = 0; i < N; ++i ) {
+    for ( unsigned i = 0; i < Nr; ++i ) {
       if ( ! R_cov[i] ) {
-        for ( unsigned j = 0; j < N; ++j ) {
+        for ( unsigned j = 0; j < Nc; ++j ) {
           if ( cost(i,j) == 0.0 && ! C_cov[j] ) {
             M(i,j) = 1; // star it
             R_cov[i] = true; // and update the row & col status.
@@ -98,8 +103,8 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
   step_three:
   {
     unsigned count = 0;
-    for ( unsigned j = 0; j < N; ++j ) {
-      for ( unsigned i = 0; i < N; ++i ) {
+    for ( unsigned j = 0; j < Nc; ++j ) {
+      for ( unsigned i = 0; i < Nr; ++i ) {
         if ( M(i,j) == 1 ) {
           C_cov[j] = true;
           ++count;
@@ -107,7 +112,7 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
         }
       }
     }
-    if ( count == N )
+    if ( count == vcl_min(Nc,Nr) )
       goto step_done;
 
     // otherwise, on to step 4.
@@ -126,9 +131,9 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
   while ( true )
   {
     unsigned i, j; // row and column of the uncovered zero, if any.
-    for (i = 0 ; i < N; ++i ) {
+    for (i = 0 ; i < Nr; ++i ) {
       if ( ! R_cov[i] ) {
-        for ( j = 0; j < N; ++j ) {
+        for ( j = 0; j < Nc; ++j ) {
           if ( cost(i,j) == 0.0 && ! C_cov[j] ) {
             M(i,j) = 2; // prime it
             goto exit_loop;
@@ -144,7 +149,7 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
  exit_loop:
     // Check if there is a starred zero in the row.
     bool star_in_row = false;
-    for ( unsigned j2 = 0; j2 < N; ++j2 ) {
+    for ( unsigned j2 = 0; j2 < Nc; ++j2 ) {
       if ( M(i,j2) == 1 ) {
         star_in_row = true;
         // cover the row, uncover the star column
@@ -183,11 +188,11 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
       cols.push_back( j );
 
       // Look for a starred zero in this column
-      for ( i = 0; i < N; ++i ) {
+      for ( i = 0; i < Nr; ++i ) {
         if ( M(i,j) == 1 )  break;
       }
 
-      if ( i == N ) {
+      if ( i == Nr ) {
         // we didn't find a starred zero. Stop the loop
         break;
       }
@@ -197,10 +202,10 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
       cols.push_back( j );
 
       // Look for the primed zero in the row of the starred zero
-      for ( j = 0; j < N; ++j ) {
+      for ( j = 0; j < Nc; ++j ) {
         if ( M(i,j) == 2 )  break;
       }
-      assert( j < N ); // there should always be one
+      assert( j < Nc ); // there should always be one
 
       // go back to the top to mark the primed zero, and repeat.
     }
@@ -219,8 +224,8 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
     }
 
     // Erase all primes.
-    for ( unsigned i = 0; i < N; ++i ) {
-      for ( unsigned j = 0; j < N; ++j ) {
+    for ( unsigned i = 0; i < Nr; ++i ) {
+      for ( unsigned j = 0; j < Nc; ++j ) {
         if ( M(i,j) == 2 )  M(i,j) = 0;
       }
     }
@@ -240,9 +245,9 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
   {
     // The value found in step 4 is the smallest uncovered value. Find it now.
     double minval = vcl_numeric_limits<double>::infinity();
-    for ( unsigned i = 0; i < N; ++i ) {
+    for ( unsigned i = 0; i < Nr; ++i ) {
       if ( ! R_cov[i] ) {
-        for ( unsigned j = 0; j < N; ++j ) {
+        for ( unsigned j = 0; j < Nc; ++j ) {
           if ( ! C_cov[j] && cost(i,j) < minval ) {
             minval = cost(i,j);
           }
@@ -251,8 +256,8 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
     }
 
     // Modify the matrix as instructed.
-    for ( unsigned i = 0; i < N; ++i ) {
-      for ( unsigned j = 0; j < N; ++j ) {
+    for ( unsigned i = 0; i < Nr; ++i ) {
+      for ( unsigned j = 0; j < Nc; ++j ) {
         if ( R_cov[i] )    cost(i,j) += minval;
         if ( ! C_cov[j] )  cost(i,j) -= minval;
       }
@@ -272,10 +277,14 @@ vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost_in 
     // Find the stars and generate the resulting assignment. Only
     // check the sub-matrix of cost that corresponds to the input cost
     // matrix. The remaining rows and columns are unassigned.
-    for ( unsigned j = 0; j < cost_in.cols(); ++j ) {
-      for ( unsigned i = 0; i < cost_in.rows(); ++i ) {
+    for ( unsigned i = 0; i < Nr; ++i ) {
+      for ( unsigned j = 0; j < Nc; ++j ) {
         if ( M(i,j) == 1 ) {
-          assign[i] = j;
+          if( transposed_problem ) {
+            assign[j] = i;
+          } else {
+            assign[i] = j;
+          }
         }
       }
     }

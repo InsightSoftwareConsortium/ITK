@@ -209,8 +209,8 @@ INLINE_LOOP void vcl_destroy(ForwardIterator first, ForwardIterator last)
 
 template <class InputIterator, class ForwardIterator>
 INLINE_LOOP ForwardIterator vcl_uninitialized_copy(InputIterator first,
-                                               InputIterator last,
-                                               ForwardIterator result)
+                                                   InputIterator last,
+                                                   ForwardIterator result)
 {
     __stl_debug_check(__check_range(first, last));
 #  if defined ( __STL_USE_EXCEPTIONS )
@@ -234,7 +234,7 @@ INLINE_LOOP ForwardIterator vcl_uninitialized_copy(InputIterator first,
 template <class ForwardIterator, class T>
 INLINE_LOOP void
 vcl_uninitialized_fill(ForwardIterator first, ForwardIterator last,
-                   const T& x)
+                       const T& x)
 {
     __stl_debug_check(__check_range(first, last));
 #  if defined ( __STL_USE_EXCEPTIONS )
@@ -256,7 +256,7 @@ vcl_uninitialized_fill(ForwardIterator first, ForwardIterator last,
 
 template <class ForwardIterator, class Size, class T>
 INLINE_LOOP ForwardIterator vcl_uninitialized_fill_n(ForwardIterator first, Size n,
-                                                 const T& x)
+                                                     const T& x)
 {
 #  if defined ( __STL_USE_EXCEPTIONS )
     ForwardIterator saveFirst = first;
@@ -361,7 +361,7 @@ __copy(RandomAccessIterator first, RandomAccessIterator last,
 
 template <class InputIterator, class OutputIterator>
 inline OutputIterator vcl_copy(InputIterator first, InputIterator last,
-                           OutputIterator result)
+                               OutputIterator result)
 {
   __stl_debug_check(__check_range(first, last));
   return __copy(first, last, result, iterator_category(first));
@@ -369,8 +369,8 @@ inline OutputIterator vcl_copy(InputIterator first, InputIterator last,
 
 template <class BidirectionalIterator1, class BidirectionalIterator2>
 INLINE_LOOP BidirectionalIterator2 vcl_copy_backward(BidirectionalIterator1 first,
-                                     BidirectionalIterator1 last,
-                                     BidirectionalIterator2 result)
+                                                     BidirectionalIterator1 last,
+                                                     BidirectionalIterator2 result)
 {
   __stl_debug_check(__check_range(first, last));
   while (first != last) *--result = *--last;
@@ -397,8 +397,8 @@ vcl_fill_n(OutputIterator first, Size n, const T& value)
 
 template <class InputIterator1, class InputIterator2>
 INLINE_LOOP vcl_pair<InputIterator1, InputIterator2> vcl_mismatch(InputIterator1 first1,
-                                              InputIterator1 last1,
-                                              InputIterator2 first2)
+                                                                  InputIterator1 last1,
+                                                                  InputIterator2 first2)
 {
   __stl_debug_check(__check_range(first1, last1));
   while (first1 != last1 && *first1 == *first2) { ++first1; ++first2; }
@@ -407,9 +407,9 @@ INLINE_LOOP vcl_pair<InputIterator1, InputIterator2> vcl_mismatch(InputIterator1
 
 template <class InputIterator1, class InputIterator2, class BinaryPredicate>
 INLINE_LOOP vcl_pair<InputIterator1, InputIterator2> vcl_mismatch(InputIterator1 first1,
-                                              InputIterator1 last1,
-                                              InputIterator2 first2,
-                                              BinaryPredicate binary_pred)
+                                                                  InputIterator1 last1,
+                                                                  InputIterator2 first2,
+                                                                  BinaryPredicate binary_pred)
 {
   __stl_debug_check(__check_range(first1, last1));
   while (first1 != last1 && binary_pred(*first1, *first2)) { ++first1; ++first2; }
@@ -418,7 +418,7 @@ INLINE_LOOP vcl_pair<InputIterator1, InputIterator2> vcl_mismatch(InputIterator1
 
 template <class InputIterator1, class InputIterator2>
 INLINE_LOOP bool vcl_equal(InputIterator1 first1, InputIterator1 last1,
-                  InputIterator2 first2)
+                           InputIterator2 first2)
 {
   __stl_debug_check(__check_range(first1, last1));
   for (; first1 != last1; ++first1, ++first2)
@@ -429,7 +429,7 @@ INLINE_LOOP bool vcl_equal(InputIterator1 first1, InputIterator1 last1,
 
 template <class InputIterator1, class InputIterator2, class BinaryPredicate>
 INLINE_LOOP bool vcl_equal(InputIterator1 first1, InputIterator1 last1,
-                  InputIterator2 first2, BinaryPredicate binary_pred)
+                           InputIterator2 first2, BinaryPredicate binary_pred)
 {
   __stl_debug_check(__check_range(first1, last1));
   for (; first1 != last1; ++first1, ++first2)
@@ -441,7 +441,7 @@ INLINE_LOOP bool vcl_equal(InputIterator1 first1, InputIterator1 last1,
 template <class InputIterator1, class InputIterator2>
 INLINE_LOOP bool
 vcl_lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
-                        InputIterator2 first2, InputIterator2 last2)
+                            InputIterator2 first2, InputIterator2 last2)
 {
   __stl_debug_check(__check_range(first1, last1));
   __stl_debug_check(__check_range(first2, last2));
@@ -456,8 +456,8 @@ vcl_lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
 template <class InputIterator1, class InputIterator2, class Compare>
 INLINE_LOOP bool
 vcl_lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
-                        InputIterator2 first2, InputIterator2 last2,
-                        Compare comp)
+                            InputIterator2 first2, InputIterator2 last2,
+                            Compare comp)
 {
   __stl_debug_check(__check_range(first1, last1));
   __stl_debug_check(__check_range(first2, last2));
@@ -471,7 +471,7 @@ vcl_lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
 
 inline bool
 vcl_lexicographical_compare(unsigned char* first1, unsigned char* last1,
-                        unsigned char* first2, unsigned char* last2)
+                            unsigned char* first2, unsigned char* last2)
 {
   __stl_debug_check(__check_range(first1, last1));
   __stl_debug_check(__check_range(first2, last2));
@@ -482,18 +482,18 @@ vcl_lexicographical_compare(unsigned char* first1, unsigned char* last1,
 }
 
 inline bool vcl_lexicographical_compare(char* first1, char* last1,
-                                    char* first2, char* last2)
+                                        char* first2, char* last2)
 {
   __stl_debug_check(__check_range(first1, last1));
   __stl_debug_check(__check_range(first2, last2));
 #if CHAR_MAX == SCHAR_MAX
   return vcl_lexicographical_compare((signed char*) first1, (signed char*) last1,
-                                 (signed char*) first2, (signed char*) last2);
+                                     (signed char*) first2, (signed char*) last2);
 #else
   return vcl_lexicographical_compare((unsigned char*) first1,
-                                 (unsigned char*) last1,
-                                 (unsigned char*) first2,
-                                 (unsigned char*) last2);
+                                     (unsigned char*) last1,
+                                     (unsigned char*) first2,
+                                     (unsigned char*) last2);
 #endif
 }
 

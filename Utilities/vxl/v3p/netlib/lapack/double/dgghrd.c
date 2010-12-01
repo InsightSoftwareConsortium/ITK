@@ -39,7 +39,7 @@ static integer c__1 = 1;
     extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
             doublereal *, integer *, doublereal *, doublereal *);
     integer jrow;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int dlaset_(char *, integer *, integer *, 
             doublereal *, doublereal *, doublereal *, integer *, ftnlen), 
             dlartg_(doublereal *, doublereal *, doublereal *, doublereal *, 

@@ -15,7 +15,7 @@
 #include <vcl_sstream.h>
 
 //: Constructor
-//<PRE>
+// \verbatim
 // coeffs = vnl_vector<double>(nterms)
 // polyn = vnl_matrix<int>(nterms,nvar)
 // Example: A*x^3 + B*x*y + C*y^2 + D*x*y^2
@@ -26,7 +26,7 @@
 //         [1 1]
 //         [0 2]
 //         [1 2];
-//</PRE>
+// \endverbatim
 
 vnl_real_npolynomial::vnl_real_npolynomial(const vnl_vector<double>& c, const vnl_matrix<unsigned int>& p)
   : coeffs_(c)

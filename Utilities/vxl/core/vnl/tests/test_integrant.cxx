@@ -12,7 +12,7 @@ void test_integrant()
 {
   my_test_integrant f;
 
-  TEST_NEAR("test integrant f = x/(1+x^2) when x=1, f is ", f.f_(1), 0.5, 1e-13);
+  TEST_NEAR("test integrand f = x/(1+x^2) when x=1, f is ", f.f_(1), 0.5, 1e-13);
 }
 
 TESTMAIN(test_integrant);

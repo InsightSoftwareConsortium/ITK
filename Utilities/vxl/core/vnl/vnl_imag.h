@@ -18,11 +18,11 @@
 template <class T> void vnl_imag(vcl_complex<T> const* C, T* I, unsigned int n);
 
 //: Vector of imaginary parts of vnl_vector<vcl_complex<T> >.
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template <class T> vnl_vector<T> vnl_imag(vnl_vector<vcl_complex<T> > const& C);
 
 //: Matrix of imaginary parts of vnl_matrix<vcl_complex<T> >.
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 template <class T> vnl_matrix<T> vnl_imag(vnl_matrix<vcl_complex<T> > const& C);
 
 #endif // vnl_imag_h_

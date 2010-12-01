@@ -8,6 +8,13 @@
 #include <vcl_cassert.h>
 #include <vcl_iostream.h>
 
+// destructor - undo the spCreate() from the constructor(s)
+// (memory leak fix of 7 Feb. 2008 by Toon Huysmans)
+vnl_sparse_lu::~vnl_sparse_lu()
+{
+  spDestroy( pmatrix_ );
+}
+
 //: constructor - controls if condition information is computed
 vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode):
   A_(M), factored_(false),condition_computed_(false), mode_(mode),norm_(0), rcond_(0), largest_(0), pivot_thresh_(0),absolute_thresh_(0),diag_pivoting_(1),pmatrix_(0)

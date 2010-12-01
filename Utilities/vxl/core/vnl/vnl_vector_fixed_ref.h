@@ -15,7 +15,9 @@
 //
 // \verbatim
 //  Modifications
-//   4-Jul-2003 Paul Smyth - general cleanup and rewrite; interface now as vnl_vector_fixed
+//    4-Jul-2003 - Paul Smyth - general cleanup and rewrite; interface now as vnl_vector_fixed
+//   30-Mar-2009 - Peter Vanroose - added arg_min() and arg_max()
+//   24-Oct-2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
 
 #include <vcl_cassert.h>
@@ -26,13 +28,12 @@
 template <class T, unsigned int n>
 class vnl_vector_fixed_ref_const
 {
- public:
-  typedef unsigned int size_type;
-
  protected:
   const T* data_;
 
  public:
+  typedef unsigned int size_type;
+
   vnl_vector_fixed_ref_const(vnl_vector_fixed<T,n> const& rhs) : data_(rhs.data_block()) {}
 
   explicit vnl_vector_fixed_ref_const(const T * dataptr) : data_(dataptr) {}
@@ -41,7 +42,6 @@ class vnl_vector_fixed_ref_const
 
   const T * data_block() const { return data_; }
 
- public:
   // Don't out-of-line the constructors, as the extra function call
   // adds a significant overhead. (memcpy is often implemented with a
   // couple of assembly instructions.)
@@ -166,6 +166,12 @@ class vnl_vector_fixed_ref_const
   //: Largest value
   T max_value () const { return vnl_c_vector<T>::max_value(begin(), n); }
 
+  //: Location of smallest value
+  unsigned arg_min() const { return vnl_c_vector<T>::arg_min(begin(), n); }
+
+  //: Location of largest value
+  unsigned arg_max() const { return vnl_c_vector<T>::arg_max(begin(), n); }
+
   //: Mean of values in vector
   T mean() const { return vnl_c_vector<T>::mean(begin(), n); }
 
@@ -185,7 +191,7 @@ class vnl_vector_fixed_ref_const
 #endif
   }
 
-  //: Return true if its finite
+  //: Return true if it's finite
   bool is_finite() const;
 
   //: Return true iff all the entries are zero.
@@ -328,16 +334,23 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
   void put (unsigned int i, T const& v) const { data_block()[i] = v; }
 
   //: Set all values to v
-  void fill( T const& v ) { for ( size_type i = 0; i < n; ++i ) data_block()[i] = v; }
+  vnl_vector_fixed_ref& fill( T const& v )
+  {
+    for ( size_type i = 0; i < n; ++i ) data_block()[i] = v;
+    return *this;
+  }
 
   //: Sets elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
-  void copy_in( T const * ptr ) const { for ( size_type i = 0; i < n; ++i ) data_block()[i] = ptr[i]; }
+  vnl_vector_fixed_ref const& copy_in( T const * ptr ) const
+  {
+    for ( size_type i = 0; i < n; ++i ) data_block()[i] = ptr[i];
+    return *this;
+  }
 
   //: Sets elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
-  void set( T const *ptr ) const { copy_in(ptr); }
-
+  vnl_vector_fixed_ref const& set( T const *ptr ) const { copy_in(ptr); return *this; }
 
   //: Return reference to the element at specified index.
   // There are assert style boundary checks - #define NDEBUG to turn them off.
@@ -368,7 +381,7 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
   //: Read from text stream
   bool read_ascii(vcl_istream& s) const;
 
-  void flip() const;
+  vnl_vector_fixed_ref const& flip() const;
 
   //:
   vnl_vector_fixed_ref<T,n> const & operator+=( T s ) const {
@@ -421,7 +434,7 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
 // --- Vector-scalar operators ----------------------------------------
 
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed_ref_const<T,n>& v, T s )
 {
@@ -430,7 +443,7 @@ inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed_ref_const<T,n>& v
   return r;
 }
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator+( T s, const vnl_vector_fixed_ref_const<T,n>& v )
 {
@@ -439,7 +452,7 @@ inline vnl_vector_fixed<T,n> operator+( T s, const vnl_vector_fixed_ref_const<T,
   return r;
 }
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator-( const vnl_vector_fixed_ref_const<T,n>& v, T s )
 {
@@ -448,7 +461,7 @@ inline vnl_vector_fixed<T,n> operator-( const vnl_vector_fixed_ref_const<T,n>& v
   return r;
 }
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator-( T s, const vnl_vector_fixed_ref_const<T,n>& v )
 {
@@ -457,7 +470,7 @@ inline vnl_vector_fixed<T,n> operator-( T s, const vnl_vector_fixed_ref_const<T,
   return r;
 }
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator*( const vnl_vector_fixed_ref_const<T,n>& v, T s )
 {
@@ -466,7 +479,7 @@ inline vnl_vector_fixed<T,n> operator*( const vnl_vector_fixed_ref_const<T,n>& v
   return r;
 }
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator*( T s, const vnl_vector_fixed_ref_const<T,n>& v )
 {
@@ -475,7 +488,7 @@ inline vnl_vector_fixed<T,n> operator*( T s, const vnl_vector_fixed_ref_const<T,
   return r;
 }
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator/( const vnl_vector_fixed_ref_const<T,n>& v, T s )
 {
@@ -488,7 +501,7 @@ inline vnl_vector_fixed<T,n> operator/( const vnl_vector_fixed_ref_const<T,n>& v
 // --- Vector-vector operators ----------------------------------------
 
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed_ref_const<T,n>& a, const vnl_vector_fixed_ref_const<T,n>& b )
 {
@@ -497,7 +510,7 @@ inline vnl_vector_fixed<T,n> operator+( const vnl_vector_fixed_ref_const<T,n>& a
   return r;
 }
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline vnl_vector_fixed<T,n> operator-( const vnl_vector_fixed_ref_const<T,n>& a, const vnl_vector_fixed_ref_const<T,n>& b )
 {
@@ -653,7 +666,7 @@ inline T vnl_vector_ssd( const vnl_vector<T>& a, const vnl_vector_fixed_ref_cons
 // --- I/O operators -------------------------------------------------
 
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline
 vcl_ostream& operator<<(vcl_ostream& o,const vnl_vector_fixed_ref_const<T,n>& v)
@@ -662,7 +675,7 @@ vcl_ostream& operator<<(vcl_ostream& o,const vnl_vector_fixed_ref_const<T,n>& v)
   return o;
 }
 
-//: \relates vnl_vector_fixed
+//: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline
 vcl_istream& operator>>(vcl_istream& i, const vnl_vector_fixed_ref<T,n>& v)

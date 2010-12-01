@@ -21,7 +21,7 @@ static real c_b12 = (float)0.;
 static real c_b22 = (float)1.;
 
 /*<    >*/
-/* Subroutine */ int sggsvp_(char *jobu, char *jobv, char *jobq, integer *m, 
+/* Subroutine */ int sggsvp_(const char *jobu, const char *jobv, const char *jobq, integer *m, 
         integer *p, integer *n, real *a, integer *lda, real *b, integer *ldb, 
         real *tola, real *tolb, integer *k, integer *l, real *u, integer *ldu,
          real *v, integer *ldv, real *q, integer *ldq, integer *iwork, real *
@@ -35,7 +35,7 @@ static real c_b22 = (float)1.;
 
     /* Local variables */
     integer i__, j;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     logical wantq, wantu, wantv;
     extern /* Subroutine */ int sgeqr2_(integer *, integer *, real *, integer 
             *, real *, real *, integer *), sgerq2_(integer *, integer *, real 

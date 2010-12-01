@@ -7,6 +7,10 @@
 //:
 // \file
 // \brief An ordinary mathematical matrix
+// \verbatim
+//  Modifications
+//   24-Oct-2010 - Peter Vanroose - mutators and filling methods now return *this
+// \endverbatim
 
 #include <vcl_iosfwd.h>
 #include <vnl/vnl_tag.h>
@@ -96,7 +100,7 @@ class vnl_matrix
   // Complexity $O(1)$
   vnl_matrix(unsigned r, unsigned c);                           // r rows, c cols.
 
-  //: Construct a matrix of size r rows by c columns, and all emelemnts equal to v0
+  //: Construct a matrix of size r rows by c columns, and all elements equal to v0
   // Complexity $O(r.c)$
   vnl_matrix(unsigned r, unsigned c, T const& v0);              // r rows, c cols, value v0.
 
@@ -193,29 +197,59 @@ class vnl_matrix
   }
 
 
-// Filling and copying------------------------------------------------
+  // ----------------------- Filling and copying -----------------------
 
-  //: Set all elements of matrix to specified value.
-  // Complexity $O(r.c)$
-  void fill(T const&);
+  //: Sets all elements of matrix to specified value, and returns "*this".
+  //  Complexity $O(r.c)$
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a matrix to a column-normalized all-elements-equal matrix, say
+  //  \code
+  //     M.fill(1).normalize_columns();
+  //  \endcode
+  //  Returning "*this" also allows passing such a matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix<double>(5,5,1.0).normalize_columns());
+  //  \endcode
+  vnl_matrix& fill(T const&);
 
-  //: Set all diagonal elements of matrix to specified value.
-  // Complexity $O(\min(r,c))$
-  void fill_diagonal(T const&);
+  //: Sets all diagonal elements of matrix to specified value; returns "*this".
+  //  Complexity $O(\min(r,c))$
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a 3x3 matrix to [5 0 0][0 10 0][0 0 15], just say
+  //  \code
+  //     M.fill_diagonal(5).scale_row(1,2).scale_column(2,3);
+  //  \endcode
+  //  Returning "*this" also allows passing a diagonal-filled matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix<double>(3,3).fill_diagonal(5));
+  //  \endcode
+  vnl_matrix& fill_diagonal(T const&);
 
-  //: Fill (laminate) this matrix with the given data.
-  // We assume that p points to a contiguous rows*cols array, stored rowwise.
-  void copy_in(T const *);
+  //: Fills (laminates) this matrix with the given data, then returns it.
+  //  We assume that the argument points to a contiguous rows*cols array, stored rowwise.
+  //  No bounds checking on the array.
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to fill a square matrix column-wise, fill it rowwise then transpose:
+  //  \code
+  //     M.copy_in(array).inplace_transpose();
+  //  \endcode
+  //  Returning "*this" also allows passing a filled-in matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix<double>(3,3).copy_in(array));
+  //  \endcode
+  vnl_matrix& copy_in(T const *);
 
-  //: Fill (laminate) this matrix with the given data.
+  //: Fills (laminates) this matrix with the given data, then returns it.
   // A synonym for copy_in()
-  void set(T const *d) { copy_in(d); }
+  vnl_matrix& set(T const *d) { return copy_in(d); }
 
-  //: Fill the given array with this matrix.
-  // We assume that p points to a contiguous rows*cols array, stored rowwise.
+  //: Fills the given array with this matrix.
+  //  We assume that the argument points to a contiguous rows*cols array, stored rowwise.
   // No bounds checking on the array.
   void copy_out(T *) const;
-
 
   //: Set all elements to value v
   // Complexity $O(r.c)$
@@ -225,7 +259,7 @@ class vnl_matrix
   // Complexity $O(\min(r,c))$
   vnl_matrix<T>& operator=(vnl_matrix<T> const&);
 
-// Arithmetic ----------------------------------------------------
+  // ----------------------- Arithmetic --------------------------------
   // note that these functions should not pass scalar as a const&.
   // Look what would happen to A /= A(0,0).
 
@@ -288,31 +322,40 @@ class vnl_matrix
   //: Set values of this matrix to those of M, starting at [top,left]
   vnl_matrix<T>& update(vnl_matrix<T> const&, unsigned top=0, unsigned left=0);
 
-  //: Set the elements of the i'th column to v[j]  (No bounds checking)
-  void set_column(unsigned i, T const * v);
+  //: Set the elements of the i'th column to v[i]  (No bounds checking)
+  vnl_matrix& set_column(unsigned i, T const * v);
 
-  //: Set the elements of the i'th column to value
-  void set_column(unsigned i, T value );
+  //: Set the elements of the i'th column to value, then return *this.
+  vnl_matrix& set_column(unsigned i, T value );
 
-  //: Set j-th column to v
-  void set_column(unsigned j, vnl_vector<T> const& v);
+  //: Set j-th column to v, then return *this.
+  vnl_matrix& set_column(unsigned j, vnl_vector<T> const& v);
 
-  //: Set columns to those in M, starting at starting_column
-  void set_columns(unsigned starting_column, vnl_matrix<T> const& M);
+  //: Set columns to those in M, starting at starting_column, then return *this.
+  vnl_matrix& set_columns(unsigned starting_column, vnl_matrix<T> const& M);
 
-  //: Set the elements of the i'th row to v[j]  (No bounds checking)
-  void set_row(unsigned i, T const * v);
+  //: Set the elements of the i'th row to v[i]  (No bounds checking)
+  vnl_matrix& set_row(unsigned i, T const * v);
 
-  //: Set the elements of the i'th row to value
-  void set_row(unsigned i, T value );
+  //: Set the elements of the i'th row to value, then return *this.
+  vnl_matrix& set_row(unsigned i, T value );
 
   //: Set the i-th row
-  void set_row(unsigned i, vnl_vector<T> const&);
+  vnl_matrix& set_row(unsigned i, vnl_vector<T> const&);
 
   //: Extract a sub-matrix of size r x c, starting at (top,left)
   //  Thus it contains elements  [top,top+r-1][left,left+c-1]
   vnl_matrix<T> extract(unsigned r, unsigned c,
                         unsigned top=0, unsigned left=0) const;
+
+  //: Extract a sub-matrix starting at (top,left)
+  //
+  //  The output is stored in \a sub_matrix, and it should have the
+  //  required size on entry.  Thus the result will contain elements
+  //  [top,top+sub_matrix.rows()-1][left,left+sub_matrix.cols()-1]
+  void extract ( vnl_matrix<T>& sub_matrix,
+                 unsigned top=0, unsigned left=0) const;
+
 
   //: Get a vector equal to the given row
   vnl_vector<T> get_row(unsigned r) const;
@@ -326,33 +369,89 @@ class vnl_matrix
   //: Get n columns beginning at colstart
   vnl_matrix<T> get_n_columns(unsigned colstart, unsigned n) const;
 
-  // mutators
+  // ==== mutators ====
 
-  //: Set this matrix to an identity matrix
-  //  Abort if the matrix is not square
-  void set_identity();
+  //: Sets this matrix to an identity matrix, then returns "*this".
+  //  Returning "*this" allows e.g. passing an identity matrix as argument to
+  //  a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix<double>(5,5).set_identity());
+  //  \endcode
+  //  Returning "*this" also allows "chaining" two or more operations:
+  //  e.g., to set a 3x3 matrix to [3 0 0][0 2 0][0 0 1], one could say
+  //  \code
+  //     M.set_identity().scale_row(0,3).scale_column(1,2);
+  //  \endcode
+  //  If the matrix is not square, anyhow set main diagonal to 1, the rest to 0.
+  vnl_matrix& set_identity();
 
-  //: Transpose this matrix efficiently
-  void inplace_transpose();
+  //: Transposes this matrix efficiently, and returns it.
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to fill a square matrix column-wise, fill it rowwise then transpose:
+  //  \code
+  //     M.copy_in(array).inplace_transpose();
+  //  \endcode
+  vnl_matrix& inplace_transpose();
 
-  //: Reverse order of rows.
-  void flipud();
-  //: Reverse order of columns.
-  void fliplr();
+  //: Reverses the order of rows, and returns "*this".
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to flip both up-down and left-right, one could just say
+  //  \code
+  //     M.flipud().fliplr();
+  //  \endcode
+  vnl_matrix& flipud();
 
-  //: Normalize each row so it is a unit vector
-  //  Zero rows are ignored
-  void normalize_rows();
+  //: Reverses the order of columns, and returns "*this".
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to flip both up-down and left-right, one could just say
+  //  \code
+  //     M.flipud().fliplr();
+  //  \endcode
+  vnl_matrix& fliplr();
 
-  //: Normalize each column so it is a unit vector
-  //  Zero columns are ignored
-  void normalize_columns();
+  //: Normalizes each row so it is a unit vector, and returns "*this".
+  //  Zero rows are not modified
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a matrix to a row-normalized all-elements-equal matrix, say
+  //  \code
+  //     M.fill(1).normalize_rows();
+  //  \endcode
+  //  Returning "*this" also allows passing such a matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix<double>(5,5,1.0).normalize_rows());
+  //  \endcode
+  vnl_matrix& normalize_rows();
 
-  //: Scale elements in given row by a factor of T
-  void scale_row(unsigned row, T value);
+  //: Normalizes each column so it is a unit vector, and returns "*this".
+  //  Zero columns are not modified
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a matrix to a column-normalized all-elements-equal matrix, say
+  //  \code
+  //     M.fill(1).normalize_columns();
+  //  \endcode
+  //  Returning "*this" also allows passing such a matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix<double>(5,5,1.0).normalize_columns());
+  //  \endcode
+  vnl_matrix& normalize_columns();
 
-  //: Scale elements in given column by a factor of T
-  void scale_column(unsigned col, T value);
+  //: Scales elements in given row by a factor T, and returns "*this".
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a 3x3 matrix to [3 0 0][0 2 0][0 0 1], one could say
+  //  \code
+  //     M.set_identity().scale_row(0,3).scale_column(1,2);
+  //  \endcode
+  vnl_matrix& scale_row(unsigned row, T value);
+
+  //: Scales elements in given column by a factor T, and returns "*this".
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a 3x3 matrix to [3 0 0][0 2 0][0 0 1], one could say
+  //  \code
+  //     M.set_identity().scale_row(0,3).scale_column(1,2);
+  //  \endcode
+  vnl_matrix& scale_column(unsigned col, T value);
 
   //: Swap this matrix with that matrix
   void swap(vnl_matrix<T> & that);
@@ -396,6 +495,12 @@ class vnl_matrix
   //: Return maximum value of elements
   T max_value() const { return vnl_c_vector<T>::max_value(begin(), size()); }
 
+  //: Return location of minimum value of elements
+  unsigned arg_min() const { return vnl_c_vector<T>::arg_min(begin(), size()); }
+
+  //: Return location of maximum value of elements
+  unsigned arg_max() const { return vnl_c_vector<T>::arg_max(begin(), size()); }
+
   //: Return mean of all matrix elements
   T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
 
@@ -415,7 +520,10 @@ class vnl_matrix
 
   //: Return true if all elements equal to zero, within given tolerance
   bool is_zero(double tol) const;
-
+ 
+  //:  Return true if all elements of both matrices are equal, within given tolerance
+  bool is_equal(vnl_matrix<T> const& rhs, double tol) const;
+  
   //: Return true if finite
   bool is_finite() const;
 
@@ -592,7 +700,7 @@ inline void vnl_matrix<T>::put(unsigned row, unsigned column, T const& value)
 // non-member arithmetical operators.
 
 //:
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 template<class T>
 inline vnl_matrix<T> operator*(T const& value, vnl_matrix<T> const& m)
 {
@@ -600,7 +708,7 @@ inline vnl_matrix<T> operator*(T const& value, vnl_matrix<T> const& m)
 }
 
 //:
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 template<class T>
 inline vnl_matrix<T> operator+(T const& value, vnl_matrix<T> const& m)
 {
@@ -608,7 +716,7 @@ inline vnl_matrix<T> operator+(T const& value, vnl_matrix<T> const& m)
 }
 
 //: Swap two matrices
-// \relates vnl_matrix
+// \relatesalso vnl_matrix
 template<class T>
 inline void swap(vnl_matrix<T> &A, vnl_matrix<T> &B) { A.swap(B); }
 

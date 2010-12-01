@@ -42,20 +42,20 @@ bool vnl_generalized_schur(vnl_matrix<double> *A,
   A->inplace_transpose();
   B->inplace_transpose();
   v3p_netlib_dgges_ ("V", "V",
-          "N",
-          0,
-          &n,
-          A->data_block(), &n,
-          B->data_block(), &n,
-          &sdim,
-          alphar->data_block(),
-          alphai->data_block(),
-          beta->data_block(),
-          L->data_block(), &n,
-          R->data_block(), &n,
-          &work[0], &lwork,
-          0,
-          &info, 1, 1, 1);
+                     "N",
+                     0,
+                     &n,
+                     A->data_block(), &n,
+                     B->data_block(), &n,
+                     &sdim,
+                     alphar->data_block(),
+                     alphai->data_block(),
+                     beta->data_block(),
+                     L->data_block(), &n,
+                     R->data_block(), &n,
+                     &work[0], &lwork,
+                     0,
+                     &info, 1, 1, 1);
   A->inplace_transpose();
   B->inplace_transpose();
   L->inplace_transpose();

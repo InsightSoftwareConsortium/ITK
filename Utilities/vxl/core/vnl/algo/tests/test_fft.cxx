@@ -35,7 +35,7 @@ void test_fft_1d(unsigned int N)
 
   double err = (tmp - signal).two_norm();
   vcl_cout << "err = " << err << vcl_endl;
-  testlib_test_assert_near("test fwd-bwd", err, 0.0, 1e-10);
+  TEST_NEAR("test fwd-bwd", err, 0.0, 1e-10);
 }
 
 void test_fft_2d(unsigned int M, unsigned int N)
@@ -57,7 +57,7 @@ void test_fft_2d(unsigned int M, unsigned int N)
 
   double err = (tmp - signal).fro_norm();
   vcl_cout << "err = " << err << vcl_endl;
-  testlib_test_assert_near("test fwd-bwd", err, 0.0, 1e-10);
+  TEST_NEAR("test fwd-bwd", err, 0.0, 1e-10);
 }
 
 void test_fft()

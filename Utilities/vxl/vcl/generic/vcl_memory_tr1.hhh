@@ -1,0 +1,10 @@
+// [20.6] lib.memory (additions in 0x draft: 2006-11-06)
+@bad_weak_ptr
+@shared_ptr
+@swap
+@static_pointer_cast
+@dynamic_pointer_cast
+@const_pointer_cast
+@get_deleter
+@weak_ptr
+@enable_shared_from_this

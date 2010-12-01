@@ -37,6 +37,8 @@ int test_sstream_main(int, char*[]);
 int test_vector_main(int, char*[]);
 int test_cstdio_main(int, char*[]);
 int test_preprocessor_main(int, char*[]);
+int test_atomic_count_main(int, char*[]);
+int test_typename_main(int, char*[]); // need not be called: just a compiler test
 
 int passed;
 int failed;
@@ -58,13 +60,12 @@ void testresult( int testresult )
   }
 }
 
-// The else is for a trailing ; after the macro
 #define DO_TEST( Name ) \
   if ( name == "" || name == "test_" #Name ) { \
     testname( #Name ); \
     testresult( test_##Name##_main(argc,argv) ); \
     test_run = 1; \
-  } else
+  }
 
 int main( int argc, char* argv[] )
 {
@@ -104,8 +105,9 @@ int main( int argc, char* argv[] )
   DO_TEST(string);
   DO_TEST(sstream);
   DO_TEST(vector);
-  DO_TEST(preprocessor)
-;
+  DO_TEST(preprocessor);
+  DO_TEST(atomic_count);
+
   if (test_run == 0)
   {
     vcl_cout << "Unsupported test " << name

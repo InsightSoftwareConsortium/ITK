@@ -15,6 +15,10 @@
 # VXL only requires dcmimgle and its dependents, so we only check for
 # these. A more general version may want to check for the rest.
 
+FIND_PATH( DCMTK_ROOT_INCLUDE_DIR dcmtk
+  ${DCMTK_DIR}/include
+)
+
 FIND_PATH( DCMTK_config_INCLUDE_DIR osconfig.h
   ${DCMTK_DIR}/config/include
 )
@@ -51,7 +55,7 @@ FIND_LIBRARY( DCMTK_dcmimgle_LIBRARY dcmimgle
   ${DCMTK_DIR}/dcmimgle/Debug
 )
 
-
+IF( DCMTK_ROOT_INCLUDE_DIR )
 IF( DCMTK_config_INCLUDE_DIR )
 IF( DCMTK_ofstd_INCLUDE_DIR )
 IF( DCMTK_ofstd_LIBRARY )
@@ -62,6 +66,7 @@ IF( DCMTK_dcmimgle_LIBRARY )
 
   SET( DCMTK_FOUND "YES" )
   SET( DCMTK_INCLUDE_DIR
+    ${DCMTK_ROOT_INCLUDE_DIR}
     ${DCMTK_config_INCLUDE_DIR}
     ${DCMTK_ofstd_INCLUDE_DIR}
     ${DCMTK_dcmdata_INCLUDE_DIR}
@@ -86,6 +91,7 @@ ENDIF( DCMTK_dcmdata_INCLUDE_DIR )
 ENDIF( DCMTK_ofstd_LIBRARY )
 ENDIF( DCMTK_ofstd_INCLUDE_DIR )
 ENDIF( DCMTK_config_INCLUDE_DIR )
+ENDIF( DCMTK_ROOT_INCLUDE_DIR )
 
 IF( NOT DCMTK_FOUND )
   SET( DCMTK_DIR "" CACHE PATH "Root of DCMTK source tree (optional)." )

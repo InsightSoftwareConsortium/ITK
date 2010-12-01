@@ -35,7 +35,7 @@ static integer c__1 = 1;
     extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
             doublereal *, integer *, doublereal *, doublereal *, integer *, 
             doublereal *, ftnlen);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
     logical notran;
     (void)side_len;

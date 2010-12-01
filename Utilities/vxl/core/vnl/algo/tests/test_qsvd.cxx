@@ -3,7 +3,7 @@
 #undef printf // to work around a bug in libintl.h
 #include <vcl_cstdio.h>
 
-#include "v3p_netlib.h"
+#include <v3p_netlib.h> // resides in v3p/netlib
 
 static
 void test_qsvd()
@@ -20,8 +20,8 @@ void test_qsvd()
     );
 
   vcl_printf("k = %ld, l = %ld, return = %ld\n", k, l, info);
-  testlib_test_assert("(k,l) must be (0,3)", k==0 && l==3);
-  testlib_test_assert("sggsvd should return 0", info==0);
+  TEST("(k,l) must be (0,3)", k==0 && l==3, true);
+  TEST("sggsvd should return 0", info, 0);
 
   vcl_printf("U = %12.7f %12.7f %12.7f\n    %12.7f %12.7f %12.7f\n    %12.7f %12.7f %12.7f\n",
              U[0], U[3], U[6], U[1], U[4], U[7], U[2], U[5], U[8]);
@@ -34,15 +34,15 @@ void test_qsvd()
   vcl_printf("R = %12.7f %12.7f %12.7f\n    %12.7f %12.7f %12.7f\n    %12.7f %12.7f %12.7f\n",
              AA[0], AA[3], AA[6], AA[1], AA[4], AA[7], AA[2], AA[5], AA[8]);
 
-  testlib_test_assert("D1 must be (0.6,0.8,0.6)",
-                      vnl_math_abs(Alpha[0]-0.6)<1e-6 &&
-                      vnl_math_abs(Alpha[1]-0.8)<1e-6 &&
-                      vnl_math_abs(Alpha[2]-0.6)<1e-6);
+  TEST("D1 must be (0.6,0.8,0.6)",
+       vnl_math_abs(Alpha[0]-0.6)<1e-6 &&
+       vnl_math_abs(Alpha[1]-0.8)<1e-6 &&
+       vnl_math_abs(Alpha[2]-0.6)<1e-6, true);
 
-  testlib_test_assert("D2 must be (0.8,0.6,0.8)",
-                      vnl_math_abs(Beta[0]-0.8)<1e-6 &&
-                      vnl_math_abs(Beta[1]-0.6)<1e-6 &&
-                      vnl_math_abs(Beta[2]-0.8)<1e-6);
+  TEST("D2 must be (0.8,0.6,0.8)",
+       vnl_math_abs(Beta[0]-0.8)<1e-6 &&
+       vnl_math_abs(Beta[1]-0.6)<1e-6 &&
+       vnl_math_abs(Beta[2]-0.8)<1e-6, true);
 }
 
 TESTMAIN(test_qsvd);

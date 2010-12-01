@@ -8,7 +8,7 @@
 // \file
 // \brief Solves for roots of system of real polynomials
 // \author Marc Pollefeys, ESAT-VISICS, K.U.Leuven
-// \date   12-08-97
+// \date   12-Aug-1997
 //
 // \verbatim
 //  Modifications

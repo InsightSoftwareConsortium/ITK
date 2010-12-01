@@ -42,7 +42,7 @@ VNL_COPY_INSTANTIATE0(double, long double);
 VNL_COPY_INSTANTIATE0(long double, double);
 #endif
 
-#define macro(S, D) \
+#define vnl_copy_macro(S, D) \
 VCL_DEFINE_SPECIALIZATION \
 void vnl_copy(vcl_complex<S> const *src, vcl_complex<D> *dst, unsigned n) \
 { \
@@ -50,17 +50,32 @@ void vnl_copy(vcl_complex<S> const *src, vcl_complex<D> *dst, unsigned n) \
     dst[i] = vcl_complex<D>((D)vcl_real(src[i]), (D)vcl_imag(src[i])); \
 }
 
-macro(float, double);
-macro(double, float);
-macro(double, long double);
-macro(long double, double);
-#undef macro
+vnl_copy_macro(float, double);
+vnl_copy_macro(double, float);
+vnl_copy_macro(double, long double);
+vnl_copy_macro(long double, double);
+#undef vnl_copy_macro
+
+#define vnl_copy_dumb(S) \
+VCL_DEFINE_SPECIALIZATION \
+void vnl_copy(S const *src, S *dst, unsigned n) \
+{ \
+  for (unsigned int i=0; i<n; ++i) \
+    dst[i] = src[i]; \
+}
+
+vnl_copy_dumb(float);
+vnl_copy_dumb(double);
+#undef vnl_copy_dumb
 
 // vnl_* containers
 #define VNL_COPY_INSTANTIATE(S, T) \
 template void vnl_copy(vnl_vector<S > const &, vnl_vector<T > &); \
 template void vnl_copy(vnl_matrix<S > const &, vnl_matrix<T > &); \
 template void vnl_copy(vnl_diag_matrix<S > const &, vnl_diag_matrix<T > &)
+
+VNL_COPY_INSTANTIATE(float, float);
+VNL_COPY_INSTANTIATE(double, double);
 
 #define VNL_COPY_INSTANTIATE_twoway(S, T) \
 VNL_COPY_INSTANTIATE(S, T); \

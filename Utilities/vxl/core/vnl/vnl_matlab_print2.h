@@ -67,9 +67,9 @@ vnl_matlab_print(T const &obj,
 
 #define VNL_MATLAB_PRINT2_INSTANTIATE(T) \
 template struct vnl_matlab_print_proxy<T >; \
-VCL_INSTANTIATE_INLINE(vcl_ostream & \
-    operator<<(vcl_ostream &, vnl_matlab_print_proxy<T > const &)); \
+VCL_INSTANTIATE_INLINE(vcl_ostream& \
+                       operator<<(vcl_ostream&, vnl_matlab_print_proxy<T > const&)); \
 VCL_INSTANTIATE_INLINE(vnl_matlab_print_proxy<T > \
-    vnl_matlab_print(T const &, char const *, vnl_matlab_print_format))
+                       vnl_matlab_print(T const&, char const*, vnl_matlab_print_format))
 
 #endif // vnl_matlab_print2_h_

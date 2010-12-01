@@ -30,22 +30,22 @@ template <class T> T vnl_det(T const *row0,
                              T const *row3);
 
 //: Determinant of small size matrices
-// \relates vnl_matrix
+// \relatesalso vnl_matrix_fixed
 template <class T>
 inline T vnl_det(vnl_matrix_fixed<T,1,1> const& m) { return m[0][0]; }
 
 //: Determinant of small size matrices
-// \relates vnl_matrix
+// \relatesalso vnl_matrix_fixed
 template <class T>
 inline T vnl_det(vnl_matrix_fixed<T,2,2> const& m) { return vnl_det(m[0],m[1]); }
 
 //: Determinant of small size matrices
-// \relates vnl_matrix
+// \relatesalso vnl_matrix_fixed
 template <class T>
 inline T vnl_det(vnl_matrix_fixed<T,3,3> const& m) { return vnl_det(m[0],m[1],m[2]); }
 
 //: Determinant of small size matrices
-// \relates vnl_matrix
+// \relatesalso vnl_matrix_fixed
 template <class T>
 inline T vnl_det(vnl_matrix_fixed<T,4,4> const& m) { return vnl_det(m[0],m[1],m[2],m[3]); }
 

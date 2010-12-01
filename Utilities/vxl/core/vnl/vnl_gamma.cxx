@@ -55,7 +55,7 @@ static double vnl_gamma_series(double a, double x)
     return sum*vcl_exp(-x+a*vcl_log(x)-vnl_log_gamma(a));
   }
   else if (x < 0.0)
-    assert(!"vnl_gamma_series : x less than 0");
+    assert(!"vnl_gamma_series - x less than 0");
 
   return 0.0;
 }
@@ -93,7 +93,7 @@ static double vnl_gamma_cont_frac(double a, double x)
 double vnl_gamma_p(double a, double x)
 {
   if (x < 0.0 || a <= 0.0)
-    assert(!"vnl_gamma_p : Invalid arguments.");
+    assert(!"vnl_gamma_p - Invalid arguments.");
 
   if (x < a+1.0)
     return vnl_gamma_series(a,x); // Use series representation
@@ -104,7 +104,7 @@ double vnl_gamma_p(double a, double x)
 double vnl_gamma_q(double a, double x)
 {
   if (x < 0.0 || a <= 0.0)
-    assert(!"vnl_gamma_q : Invalid arguments.");
+    assert(!"vnl_gamma_q - Invalid arguments.");
 
   if (x < a+1.0)
     return 1.0-vnl_gamma_series(a,x); // Use series representation
@@ -112,3 +112,17 @@ double vnl_gamma_q(double a, double x)
     return vnl_gamma_cont_frac(a,x); // Use continued fraction representation
 }
 
+double vnl_digamma(double z)
+{
+  double t0 = (z-0.5)/(z+4.65)-1.0;
+  double tlg = vcl_log(4.65+z);
+  double tc = 2.50662827563479526904;
+  double t1 = 225.525584619175212544/z;
+  double t2 = -268.295973841304927459/(1+z);
+  double t3 = +80.9030806934622512966/(2+z);
+  double t4 = -5.00757863970517583837/(3+z);
+  double t5 = 0.0114684895434781459556/(4+z);
+  double neu = t1/z + t2/(1+z) + t3/(2+z) + t4/(3+z) + t5/(4+z);
+  double den = tc + t1 + t2 + t3 + t4 + t5;
+  return (t0 -(neu/den) + tlg);
+}

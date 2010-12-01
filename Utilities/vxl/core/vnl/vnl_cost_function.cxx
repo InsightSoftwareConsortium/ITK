@@ -5,7 +5,7 @@
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG
-// \date   23 Oct 97
+// \date   23 Oct 1997
 //
 //-----------------------------------------------------------------------------
 
@@ -14,9 +14,9 @@
 
 static bool f_calling_compute;
 
-void vnl_cost_function::compute(vnl_vector<double> const& x, double *f, vnl_vector<double>* g)
+void vnl_cost_function::compute(vnl_vector<double> const& x, double *val, vnl_vector<double>* g)
 {
-  if (f) *f = this->f(x);
+  if (val) *val = this->f(x);
   if (g) this->gradf(x, *g);
 }
 
@@ -26,11 +26,11 @@ double vnl_cost_function::f(vnl_vector<double> const& x)
   // if we get back here from compute, neither vf was implemented.
   if (f_calling_compute)
     assert(!"vnl_cost_function: RECURSION");
-  double f;
+  double val;
   f_calling_compute = true;
-  this->compute(x, &f, 0);
+  this->compute(x, &val, 0);
   f_calling_compute = false;
-  return f;
+  return val;
 }
 
 //: Default implementation of gradf is to call compute
@@ -51,7 +51,6 @@ void vnl_cost_function::fdgradf(vnl_vector<double> const& x,
   vnl_vector<double> tx = x;
   double h = stepsize;
   for (int i = 0; i < dim; ++i) {
-
     double tplus = x[i] + h;
     tx[i] = tplus;
     double fplus = this->f(tx);

@@ -30,7 +30,7 @@ extern "C" {
     logical nota, notb;
     doublereal temp;
     integer ncola;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer nrowa, nrowb;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
     (void)transa_len;

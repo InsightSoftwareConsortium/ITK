@@ -17,12 +17,12 @@ void test_file_matrix()
   TEST("file_matrix 3x3", H.rows(), 3);
   TEST("file_matrix 3x3", H.cols(), 3);
 
-  testlib_test_assert_near("data(1,2)", H(1,2), 0.0185);
+  TEST_NEAR("data(1,2)", H(1,2), 0.0185, 1e-12);
 
   H /= H[0][0];
 
   vnl_matlab_print(vcl_cout, H, "H");
-  testlib_test_assert_near("file_matrix 3x3", H(0,0), 1.0);
+  TEST_NEAR("file_matrix 3x3", H(0,0), 1.0, 1e-12);
 }
 
 TESTMAIN(test_file_matrix);

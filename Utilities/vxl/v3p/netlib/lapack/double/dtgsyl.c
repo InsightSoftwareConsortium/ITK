@@ -50,7 +50,7 @@ static doublereal c_b54 = 1.;
             integer *), dgemm_(char *, char *, integer *, integer *, integer *
             , doublereal *, doublereal *, integer *, doublereal *, integer *, 
             doublereal *, doublereal *, integer *, ftnlen, ftnlen);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer ifunc, linfo;
     extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
             doublereal *, integer *);

@@ -1,3 +1,4 @@
+
 # vxl/config/cmake/VXLConfig_export.cmake.in
 #   also configured by CMake to
 # @vxl_BINARY_DIR@/config/cmake/export/VXLConfig.cmake
@@ -40,10 +41,15 @@ SET(VXL_LIBRARY_DIR "@CMAKE_INSTALL_PREFIX@/lib")
 # Clients projects should not use the Find*.cmake files in this directory.
 SET(VXL_CMAKE_DIR "@CMAKE_INSTALL_PREFIX@/share/vxl/cmake")
 
-# VXL Configuration options.
+# VXL Configuration options. You don't have to build with the same options as VXL, but it often helps.
 SET(VXL_BUILD_SHARED_LIBS "@BUILD_SHARED_LIBS@")
 SET(VXL_BUILD_TESTS "@BUILD_TESTS@")
 SET(VXL_BUILD_EXAMPLES "@BUILD_EXAMPLES@")
+SET(VXL_EXTRA_CMAKE_CXX_FLAGS "@VXL_EXTRA_CMAKE_CXX_FLAGS@")
+SET(VXL_EXTRA_CMAKE_C_FLAGS "@VXL_EXTRA_CMAKE_C_FLAGS@")
+SET(VXL_EXTRA_CMAKE_EXE_LINKER_FLAGS "@VXL_EXTRA_CMAKE_EXE_LINKER_FLAGS@")
+SET(VXL_EXTRA_CMAKE_MODULE_LINKER_FLAGS "@VXL_EXTRA_CMAKE_MODULE_LINKER_FLAGS@")
+SET(VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS "@VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS@")
 
 # VXL has many parts that are optional, depending on selections made
 # when building.  The stanzas below give a consistent (though
@@ -51,8 +57,9 @@ SET(VXL_BUILD_EXAMPLES "@BUILD_EXAMPLES@")
 # determine whether a part was built (_FOUND), where its headers are
 # located (_INCLUDE_DIR) and in some cases what libraries must be
 # linked to use the part (_LIBRARIES).  Most client projects will
-# likely still refer to vcl by hard-wired "vcl" instead of using the
-# variable VXL_VCL_LIBRARIES, but it is there just in case.
+# likely still refer to individual VXL libraries such as vcl, for
+# example, by hard-wired "vcl" instead of using the variable
+# VXL_VCL_LIBRARIES, but it is there just in case.
 
 SET(VXL_VCL_FOUND "YES" ) # VXL vcl is always FOUND.  It is not optional.
 SET(VXL_VCL_INCLUDE_DIR "@VCL_INSTALL_INCLUDE_DIR@")
@@ -62,9 +69,15 @@ SET(VXL_CORE_FOUND "YES" ) # VXL core is always FOUND.  It is not optional.
 SET(VXL_CORE_INCLUDE_DIR "@VXLCORE_INSTALL_INCLUDE_DIR@")
 # VXL core has many libraries
 
+SET(VXL_CORE_VIDEO_FOUND "@CORE_VIDEO_FOUND@" )
+SET(VXL_CORE_VIDEO_INCLUDE_DIR "@VXLCORE_INSTALL_INCLUDE_DIR@")
+SET(VXL_CORE_VIDEO_LIBRARIES "vidl1 vidl_vil1 vidl")
+
 SET(VXL_VGUI_FOUND "@VGUI_FOUND@")
 SET(VXL_VGUI_INCLUDE_DIR "@OPENGL_INCLUDE_DIR@")
 SET(VXL_VGUI_LIBRARIES "vgui")
+
+SET(VXL_VGUI_WX_FOUND "@BUILD_VGUI_WX@")
 
 SET(VXL_CONTRIB_FOUND "@BUILD_CONTRIB@")
 # VXL contrib has subdirectories handled independently below
@@ -101,6 +114,7 @@ SET(VXL_PRIP_INCLUDE_DIR "@PRIP_INSTALL_INCLUDE_DIR@")
 # VXL PRIP has many libraries
 
 SET(VXL_RPL_FOUND "@BUILD_RPL@")
+SET(VXL_RPL_RGTL_FOUND "@BUILD_RPL_RGTL@")
 SET(VXL_RPL_INCLUDE_DIR "@RPL_INSTALL_INCLUDE_DIR@")
 # VXL RPL has many libraries
 
@@ -155,6 +169,16 @@ SET(VXL_MPEG2_LIBRARIES "@MPEG2_LIBRARIES@")
 SET(VXL_COIN3D_FOUND "@COIN3D_FOUND@")
 SET(VXL_COIN3D_INCLUDE_DIR "@COIN3D_INSTALL_INCLUDE_DIR@")
 SET(VXL_COIN3D_LIBRARY "@COIN3D_LIBRARY@")
+
+SET(VXL_PYTHON_FOUND "@PYTHON_FOUND@")
+SET(VXL_PYTHON_INCLUDE_PATH "@PYTHON_INCLUDE_PATH@")
+SET(VXL_PYTHON_PC_INCLUDE_PATH "@PYTHON_PC_INCLUDE_PATH@")
+SET(VXL_PYTHON_LIBRARY "@PYTHON_LIBRARY@")
+SET(VXL_PYTHON_DEBUG_LIBRARY "@PYTHON_DEBUG_LIBRARY@")
+
+SET(VXL_EXPAT_FOUND "@EXPAT_FOUND@")
+SET(VXL_EXPAT_INCLUDE_DIR "@EXPAT_INSTALL_INCLUDE_DIR@")
+SET(VXL_EXPAT_LIBRARIES "@EXPAT_LIBRARIES@")
 
 # Tell UseVXL.cmake that VXLConfig.cmake has been included.
 SET(VXL_CONFIG_CMAKE 1)
