@@ -32,7 +32,7 @@ static void test_sample_uniform()
   sigma_bar = vcl_sqrt(sigma_bar / (N-1));
   TEST_NEAR("sample stddev", sigma_bar, (b-a)/vcl_sqrt(12.0), eps*a);
 
-  int seed; vul_get_timestamp(seed,seed);
+  int seed = static_cast<int>(vcl_time(0));
   vcl_cout << "seed is " << seed << vcl_endl;
   vnl_sample_reseed(seed);
   double uval0 = vnl_sample_uniform(0.0, 1.0);
