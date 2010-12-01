@@ -201,13 +201,12 @@ ExtractImageFilter< TInputImage, TOutputImage >
           }
         }
       }
-    // This is a temporary fix to get over the problems with using the
-    // orientation of Images to
-    // a non-degenerate extracted image to be created.  It still needs to be
-    // determined
-    // how to compute the correct outputDirection from all possible input
-    // directions.
-    if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
+    // if the filter changes from a higher to a lower dimension, or
+    // if, after rebuilding the direction cosines, there's a zero
+    // length cosine vector, reset the directions to identity.
+    if ( (static_cast< unsigned int >( OutputImageDimension ) <
+          static_cast< unsigned int >( InputImageDimension )) ||
+         vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
       {
       outputDirection.SetIdentity();
       }
