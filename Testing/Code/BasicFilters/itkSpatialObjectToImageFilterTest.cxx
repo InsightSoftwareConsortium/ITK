@@ -21,6 +21,17 @@
 
 #include "itkEllipseSpatialObject.h"
 #include "itkSpatialObjectToImageFilter.h"
+#include "itkCommand.h"
+
+class ShowProgressObject
+{
+public:
+  ShowProgressObject(itk::ProcessObject* o)
+    {m_Process = o;}
+  void ShowProgress()
+    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  itk::ProcessObject::Pointer m_Process;
+};
 
 int itkSpatialObjectToImageFilterTest(int, char* [] )
 {
@@ -105,6 +116,14 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
 
   // Testing PrintSelf
   std::cout << imageFilter << std::endl;
+
+  // Test Progress Reporter
+  ShowProgressObject progressWatch( imageFilter );
+  typedef itk::SimpleMemberCommand< ShowProgressObject > CommandType;
+  CommandType::Pointer command = CommandType::New();
+  command->SetCallbackFunction( &progressWatch,
+                                &ShowProgressObject::ShowProgress );
+  imageFilter->AddObserver(itk::ProgressEvent(), command );
 
   //Update the filter
   imageFilter->Update();

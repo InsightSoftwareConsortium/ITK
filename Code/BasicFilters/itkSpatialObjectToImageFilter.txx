@@ -20,6 +20,7 @@
 
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -373,7 +374,10 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   itk::Point< double, ObjectDimension >      objectPoint;
   itk::Point< double, OutputImageDimension > imagePoint;
 
-  while ( !it.IsAtEnd() )
+  ProgressReporter
+    progress(this,0,OutputImage->GetRequestedRegion().GetNumberOfPixels());
+
+  while( !it.IsAtEnd() )
     {
     // ValueAt requires the point to be in physical coordinate i.e
     OutputImage->TransformIndexToPhysicalPoint(it.GetIndex(), imagePoint);
@@ -408,6 +412,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
       it.Set( static_cast< ValueType >( val ) );
       }
     ++it;
+    progress.CompletedPixel();
     }
 
   itkDebugMacro(<< "SpatialObjectToImageFilter::Update() finished");
