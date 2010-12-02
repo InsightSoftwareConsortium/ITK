@@ -27,7 +27,7 @@
  *=========================================================================*/
 #ifndef __itkSpatialOrientationAdapter_h
 #define __itkSpatialOrientationAdapter_h
-#include "itkOrientationAdapter.h"
+#include "itkOrientationAdapterBase.h"
 #include "itkSpatialOrientation.h"
 #include "itkConceptChecking.h"
 
