@@ -85,6 +85,9 @@ int main(int, char *[])
   //  Let's now create a Mesh and insert some points into it. Note that the
   //  dimension of the points matches the dimension of the Mesh. Here we insert
   //  a sequence of points that look like a plot of the $\log()$ function.
+  //  We add the vnl_math::eps values in oder to avoid numerical errors when
+  //  the point id is zero. The value of vnl_math::eps is the smallest floating
+  //  point number that can be represented in the current computer.
   //
   //  \index{itk::Mesh!New()}
   //  \index{itk::Mesh!SetPoint()}
@@ -103,7 +106,7 @@ int main(int, char *[])
   for(unsigned int id=0; id<numberOfPoints; id++)
     {
     point[0] = static_cast<PointType::ValueType>( id ); // x
-    point[1] = vcl_log( static_cast<double>( id ) + 0.1 );    // y
+    point[1] = vcl_log( static_cast<double>( id ) + vnl_math::eps );    // y
     mesh->SetPoint( id, point );
     }
   // Software Guide : EndCodeSnippet
