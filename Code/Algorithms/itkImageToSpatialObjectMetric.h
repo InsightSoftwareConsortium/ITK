@@ -148,13 +148,6 @@ public:
   /** Get the Interpolator. */
   itkGetObjectMacro(Interpolator, InterpolatorType);
 
-  /** Get the Derivatives of the Match Measure */
-  virtual void GetDerivative(const ParametersType & parameters,
-                             DerivativeType & derivative) const = 0;
-
-  /** Get the Value for SingleValue Optimizers */
-  virtual MeasureType    GetValue(const ParametersType & parameters) const = 0;
-
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   virtual void GetValueAndDerivative(const ParametersType & parameters,
                                      MeasureType & Value,
