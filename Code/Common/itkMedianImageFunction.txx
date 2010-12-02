@@ -31,8 +31,10 @@ namespace itk
  */
 template< class TInputImage, class TCoordRep >
 MedianImageFunction< TInputImage, TCoordRep >
-::MedianImageFunction()
-{}
+::MedianImageFunction() : m_NeighborhoodRadius(1)
+{
+}
+
 
 /**
  *
@@ -43,6 +45,7 @@ MedianImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
+  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
 }
 
 /**
@@ -68,7 +71,7 @@ MedianImageFunction< TInputImage, TCoordRep >
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
   typename InputImageType::SizeType kernelSize;
-  kernelSize.Fill(1);
+  kernelSize.Fill( m_NeighborhoodRadius );
 
   ConstNeighborhoodIterator< InputImageType >
   it( kernelSize, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion() );

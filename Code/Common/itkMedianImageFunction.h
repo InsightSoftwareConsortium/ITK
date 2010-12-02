@@ -99,6 +99,11 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
+  /** Get/Set the radius of the neighborhood over which the
+      statistics are evaluated */
+  itkSetMacro( NeighborhoodRadius, unsigned int );
+  itkGetConstReferenceMacro( NeighborhoodRadius, unsigned int );
+
 protected:
   MedianImageFunction();
   ~MedianImageFunction(){}
@@ -107,6 +112,9 @@ protected:
 private:
   MedianImageFunction(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
+
+  unsigned int m_NeighborhoodRadius;
+
 };
 } // end namespace itk
 
