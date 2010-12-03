@@ -1026,6 +1026,11 @@ bool JPEG2000Codec::Code(DataElement const &in, DataElement &out)
     opj_image_destroy(image);
 
     std::string str = os.str();
+    if( str.empty() )
+      {
+      gdcmErrorMacro( "Empty compress J2K" );
+      return false;
+      }
     assert( str.size() );
     Fragment frag;
     frag.SetByteValue( &str[0], str.size() );
