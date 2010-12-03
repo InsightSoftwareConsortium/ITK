@@ -245,8 +245,8 @@ Histogram< TMeasurement, TFrequencyContainer >
     {
     if ( size[i] > 0 )
       {
-      interval = (float)( upperBound[i] - lowerBound[i] )
-                 / static_cast< MeasurementType >( size[i] );
+      interval = static_cast<float>( upperBound[i] - lowerBound[i] )
+        / static_cast< MeasurementType >( size[i] );
 
       // Set the min vector and max vector
       for ( unsigned int j = 0; j < static_cast< unsigned int >( size[i] - 1 ); j++ )

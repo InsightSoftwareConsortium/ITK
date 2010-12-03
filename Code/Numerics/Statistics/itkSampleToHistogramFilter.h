@@ -145,6 +145,25 @@ protected:
 private:
   SampleToHistogramFilter(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented
+  /** SafeAssign -- avoid numeric overflow/underflow */
+  HistogramMeasurementType SafeAssign(MeasurementType from) const
+  {
+    MeasurementType fromMax = static_cast<MeasurementType>
+      (NumericTraits<HistogramMeasurementType>::max());
+    MeasurementType fromMin = static_cast<MeasurementType>
+      (NumericTraits<HistogramMeasurementType>::min());
+
+    if (from >= fromMax)
+      {
+      return NumericTraits<HistogramMeasurementType>::max();
+      }
+    else if (from <= fromMin)
+      {
+      return NumericTraits<HistogramMeasurementType>::min();
+      }
+    return static_cast<HistogramMeasurementType>(from);
+  }
+
 };                                       // end of class
 } // end of namespace Statistics
 } // end of namespace itk

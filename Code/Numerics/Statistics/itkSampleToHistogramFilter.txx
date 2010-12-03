@@ -237,13 +237,11 @@ SampleToHistogramFilter< TSample, THistogram >
           }
         else
           {
-          h_upper[i] = ( static_cast< HistogramMeasurementType >( upper[i] ) )
-                       + NumericTraits< HistogramMeasurementType  >::One;
-
+          h_upper[i] = SafeAssign(upper[i] + NumericTraits<MeasurementType>::One);
           if ( h_upper[i] <= upper[i] )
             {
             // an overflow has occurred therefore set upper to upper
-            h_upper[i] = static_cast< HistogramMeasurementType >( upper[i] );
+            h_upper[i] = SafeAssign( upper[i] );
             // Histogram measurement type would force the clipping the max
             // value.
             // Therefore we must call the following to include the max value:
@@ -253,7 +251,7 @@ SampleToHistogramFilter< TSample, THistogram >
             // computation and clearly the user intended to include min and max.
             }
           }
-        h_lower[i] = static_cast< HistogramMeasurementType >( lower[i] );
+        h_lower[i] = SafeAssign( lower[i] );
         }
       }
     else
@@ -300,7 +298,8 @@ SampleToHistogramFilter< TSample, THistogram >
     lvector = iter.GetMeasurementVector();
     for ( i = 0; i < inputSample->GetMeasurementVectorSize(); i++ )
       {
-      hvector[i] = static_cast< HistogramMeasurementType >( lvector[i] );
+      hvector[i] =
+        SafeAssign(lvector[i]);
       }
 
     outputHistogram->GetIndex(hvector, index);
