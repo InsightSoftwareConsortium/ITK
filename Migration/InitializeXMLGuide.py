@@ -166,22 +166,19 @@ if __name__ == '__main__':
 
   # grab the commit lines, but ignore ammended ones
   logCommand = "git log --format=format:%H origin/master.."
-  print logCommand
   log = runCommand(logCommand)
-  print log
   commitList = [l.strip() for l in log.splitlines()]
 
   # grab the base commit, the one used to create the branch
   logCommand = "git log -n1 --format=format:%P " + commitList[-1]
-  print logCommand
   log = runCommand(logCommand)
-  print log
   baseCommit = log.strip()
 
   #
   # Parse each commit's log
   #
-  descriptionText = ""
+  descriptionText = "---- REMOVE THIS LINE -- This element should contain an English description of what changes were made along with rational for making them. ----\n"
+  descriptionText += "---- REMOVE THIS LINE -- The commit log should help you to fill this field. ----\n"
   changeIdText = ""
   sampleCodeOldText = ""
   sampleCodeNewText = ""
@@ -192,10 +189,9 @@ if __name__ == '__main__':
 
     # get the log for the commit
     logCommand = "git log -n1 --format=format:%s%n%b " + commit
-    print logCommand
     log = runCommand(logCommand)
 
-    descriptionText = descriptionText + "---- " + commit + " ----\n"
+    descriptionText = descriptionText + "---- REMOVE THIS LINE -- Log from commit " + commit + " ----\n"
 
     for line in log.splitlines():
       # commit message lines and change id lines
@@ -221,11 +217,12 @@ if __name__ == '__main__':
   #
   # parse the diff of each Example or Testing file
   #
+  print exampleAndTestChangedFileList
   for filename in exampleAndTestChangedFileList:
 
     # Add filename
-    sampleCodeOldText = sampleCodeOldText + "---- " + filename + " ----\n"
-    sampleCodeNewText = sampleCodeNewText + "---- " + filename + " ----\n"
+    sampleCodeOldText = sampleCodeOldText + "---- REMOVE THIS LINE -- Code from " + filename + " ----\n"
+    sampleCodeNewText = sampleCodeNewText + "---- REMOVE THIS LINE -- Code from " + filename + " ----\n"
 
     # get the log for the commit
     fullPath = baseDir + "/" + filename
@@ -272,8 +269,9 @@ if __name__ == '__main__':
     prepXMLString(descriptionText), True, descriptionComment)
 
   # <SampleCode> element
-  sampleCodeComment = "Sample code snippets\n-->Extracted from git diff of changed files in Examples and Testing"
-  sampleCodeElementBody = ""
+  sampleCodeComment = "Sample code snippets\nExtracted from git diff of changed files in Examples and Testing"
+  sampleCodeElementBody = "---- REMOVE THIS LINE -- This element should contain some code snippet that illustrates how to update the API from the old version to the new version. ----\n"
+  sampleCodeElementBody += "---- REMOVE THIS LINE -- The changes extracted from the Examples and Testing directory should help you to fill this field. ----\n"
   sampleCodeElementBody = \
     addXMLElement(sampleCodeElementBody, "Old", prepXMLString(sampleCodeOldText))
   sampleCodeElementBody = \
@@ -307,7 +305,9 @@ if __name__ == '__main__':
   # <Change> element
   changeComment = "\n" + XMLFileName + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>\nTHIS FILE HAS BEEN AUTOMATICALLY GENERATED. EDIT IT BEFORE COMMITING\n<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n"
   xmlString = addXMLElement(xmlString, "Change", changeElementBody, False, changeComment)
-  xmlString = xmlString.strip()
+
+  # drop the blanks at the end of the lines to please git's hooks
+  xmlString = "\n".join([l.rstrip() for l in xmlString.splitlines()])
 
   #
   # Save the file
