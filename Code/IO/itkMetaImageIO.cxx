@@ -987,6 +987,94 @@ MetaImageIO
     {
     m_MetaImage.AcquisitionDate( metaDataStr.c_str() );
     }
+
+  // Save out the metadatadictionary key/value pairs as part of
+  // the metaio header.
+  std::vector< std::string > keys = metaDict.GetKeys();
+  std::vector< std::string >::const_iterator keyIt;
+  for ( keyIt = keys.begin(); keyIt != keys.end(); ++keyIt )
+    {
+    if(*keyIt == ITK_ExperimentDate ||
+       *keyIt == ITK_VoxelUnits)
+      {
+      continue;
+      }
+    // try for common scalar types
+    std::ostringstream strs;
+    double dval=0.0;
+    float fval=0.0F;
+    long lval=0L;
+    unsigned long ulval=0L;
+    int ival=0;
+    unsigned uval=0;
+    short shval=0;
+    unsigned short ushval=0;
+    char cval=0;
+    unsigned char ucval=0;
+    bool bval=false;
+    std::string value="";
+    if(ExposeMetaData< std::string >(metaDict, *keyIt, value))
+      {
+      strs << value;
+      }
+    else if(ExposeMetaData<double>(metaDict,*keyIt,dval))
+      {
+      strs << dval;
+      }
+    else if(ExposeMetaData<float>(metaDict,*keyIt,fval))
+      {
+      strs << fval;
+      }
+    else if(ExposeMetaData<long>(metaDict,*keyIt,lval))
+      {
+      strs << lval;
+      }
+    else if(ExposeMetaData<unsigned long>(metaDict,*keyIt,ulval))
+      {
+      strs << ulval;
+      }
+    else if(ExposeMetaData<int>(metaDict,*keyIt,ival))
+      {
+      strs << ival;
+      }
+    else if(ExposeMetaData<unsigned int>(metaDict,*keyIt,uval))
+      {
+      strs << uval;
+      }
+    else if(ExposeMetaData<short>(metaDict,*keyIt,shval))
+      {
+      strs << shval;
+      }
+    else if(ExposeMetaData<unsigned short>(metaDict,*keyIt,ushval))
+      {
+      strs << ushval;
+      }
+    else if(ExposeMetaData<char>(metaDict,*keyIt,cval))
+      {
+      strs << cval;
+      }
+    else if(ExposeMetaData<unsigned char>(metaDict,*keyIt,ucval))
+      {
+      strs << ucval;
+      }
+    else if(ExposeMetaData<bool>(metaDict,*keyIt,bval))
+      {
+      strs << bval;
+      }
+    else
+      {
+      itkWarningMacro("Unsupported metaData item "
+        << *keyIt << " of type "
+        << metaDict[*keyIt]->GetMetaDataObjectTypeName()
+        << "found, won't be written to image file");
+      }
+    value = strs.str();
+
+    // Rolling this back out so that the tests pass.
+    // The meta image AddUserField requires control of the memory space.
+    m_MetaImage.AddUserField( (*keyIt).c_str(), MET_STRING, value.size(), value.c_str(), true, -1 );
+    }
+
 }
 
 /**
@@ -1116,7 +1204,6 @@ MetaImageIO
   //Write the image Information
   this->WriteImageInformation();
 
-  itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
   if ( nDims == 3 )
     {
     SpatialOrientation::ValidCoordinateOrientationFlags coordOrient =
@@ -1363,90 +1450,6 @@ MetaImageIO
         }
       }
     }
-  // Save out the metadatadictionary key/value pairs as part of
-  // the metaio header.
-  std::vector< std::string > keys = thisMetaDict.GetKeys();
-  std::vector< std::string >::const_iterator keyIt;
-  for ( keyIt = keys.begin(); keyIt != keys.end(); ++keyIt )
-    {
-    // try for common scalar types
-    std::ostringstream strs;
-    double dval=0.0;
-    float fval=0.0F;
-    long lval=0L;
-    unsigned long ulval=0L;
-    int ival=0;
-    unsigned uval=0;
-    short shval=0;
-    unsigned short ushval=0;
-    char cval=0;
-    unsigned char ucval=0;
-    bool bval=false;
-    std::string value="";
-    if(!ExposeMetaData< std::string >(thisMetaDict, *keyIt, value))
-      {
-      strs << value;
-      }
-    else if(ExposeMetaData<double>(thisMetaDict,*keyIt,dval))
-      {
-      strs << dval;
-      }
-    else if(ExposeMetaData<float>(thisMetaDict,*keyIt,fval))
-      {
-      strs << fval;
-      }
-    else if(ExposeMetaData<long>(thisMetaDict,*keyIt,lval))
-      {
-      strs << lval;
-      }
-    else if(ExposeMetaData<unsigned long>(thisMetaDict,*keyIt,ulval))
-      {
-      strs << ulval;
-      }
-    else if(ExposeMetaData<int>(thisMetaDict,*keyIt,ival))
-      {
-      strs << ival;
-      }
-    else if(ExposeMetaData<unsigned int>(thisMetaDict,*keyIt,uval))
-      {
-      strs << uval;
-      }
-    else if(ExposeMetaData<short>(thisMetaDict,*keyIt,shval))
-      {
-      strs << shval;
-      }
-    else if(ExposeMetaData<unsigned short>(thisMetaDict,*keyIt,ushval))
-      {
-      strs << ushval;
-      }
-    else if(ExposeMetaData<char>(thisMetaDict,*keyIt,cval))
-      {
-      strs << cval;
-      }
-    else if(ExposeMetaData<unsigned char>(thisMetaDict,*keyIt,ucval))
-      {
-      strs << ucval;
-      }
-    else if(ExposeMetaData<bool>(thisMetaDict,*keyIt,bval))
-      {
-      strs << bval;
-      }
-    else
-      {
-      itkWarningMacro("Unsupported metaData item "
-        << *keyIt << " of type "
-        << thisMetaDict[*keyIt]->GetMetaDataObjectTypeName()
-        << "found, won't be written to image file");
-      }
-    value = strs.str();
-
-#if 0
-    // Rolling this back out so that the tests pass.
-    // The meta image AddUserField requires control of the memory space.
-    m_MetaImage.AddUserField( (*keyIt).c_str(), MET_STRING, value.size(), value.c_str(), true, -1 );
-#endif
-    }
-
   // Propagage direction cosine information .
   double *transformMatrix =
     static_cast< double * >( malloc( this->GetNumberOfDimensions()
