@@ -84,10 +84,11 @@ int main(int, char *[])
   //
   //  Let's now create a Mesh and insert some points into it. Note that the
   //  dimension of the points matches the dimension of the Mesh. Here we insert
-  //  a sequence of points that look like a plot of the $\log()$ function.
-  //  We add the vnl_math::eps values in oder to avoid numerical errors when
-  //  the point id is zero. The value of vnl_math::eps is the smallest floating
-  //  point number that can be represented in the current computer.
+  //  a sequence of points that look like a plot of the $\log()$ function.  We
+  //  add the \code{vnl_math::eps} value in oder to avoid numerical errors when
+  //  the point id is zero. The value of \code{vnl_math::eps} is the difference
+  //  between 1.0 and the least value greater than 1.0 that is representable in
+  //  this computer.
   //
   //  \index{itk::Mesh!New()}
   //  \index{itk::Mesh!SetPoint()}
