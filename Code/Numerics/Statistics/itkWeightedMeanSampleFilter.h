@@ -38,7 +38,7 @@ namespace Statistics
  *
  */
 template< class TSample >
-class ITK_EXPORT WeightedMeanSampleFilter:public MeanSampleFilter< TSample >
+class ITK_EXPORT WeightedMeanSampleFilter : public MeanSampleFilter< TSample >
 {
 public:
   /**Standard class typedefs. */
@@ -58,6 +58,8 @@ public:
   itkSuperclassTraitMacro(MeasurementVectorSizeType)
   itkSuperclassTraitMacro(MeasurementVectorDecoratedType)
   itkSuperclassTraitMacro(OutputType)
+  itkSuperclassTraitMacro(MeasurementRealType)
+  itkSuperclassTraitMacro(MeasurementVectorRealType)
 
   /** Array typedef for weights */
   typedef Array< double > WeightArrayType;
@@ -76,6 +78,7 @@ public:
 
   /** Method to set the weighting function */
   itkSetDecoratedObjectInputMacro(WeightingFunction, WeightingFunctionType, 2);
+
 protected:
   WeightedMeanSampleFilter();
   virtual ~WeightedMeanSampleFilter();

@@ -19,47 +19,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkCovarianceSampleFilter.h"
+#include "itkMeanSampleFilter.h"
 #include "itkFixedArray.h"
 #include "itkHistogram.h"
 #include "itkMahalanobisDistanceMetric.h"
 
-namespace itk {
-namespace Statistics {
-template < class TSample >
-class MyCovarianceSampleFilter : public CovarianceSampleFilter< TSample >
-{
-public:
-  typedef MyCovarianceSampleFilter                Self;
-  typedef CovarianceSampleFilter<TSample>         Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
-  typedef TSample                                 SampleType;
-
-  itkNewMacro(Self);
-
-  //method to invoke MakeOutput with index value different
-  //from one or zero. This is to check if an exception will be
-  // thrown
-
-  void CreateInvalidOutput()
-    {
-    unsigned int index=3;
-    Superclass::MakeOutput( index );
-    }
-  unsigned int GetMeasurementVectorSize() const
-    {
-    return this->Superclass::GetMeasurementVectorSize();
-    }
-
-private:
-  MyCovarianceSampleFilter() {}
-  ~MyCovarianceSampleFilter() {}
-};
-}
-}
-
-int itkCovarianceSampleFilterTest3(int, char* [] )
+int itkMeanSampleFilterTest3(int, char* [] )
 {
   std::cout << "CovarianceSampleFilter test \n \n";
   std::string failureMeassage= "";
@@ -144,24 +109,10 @@ int itkCovarianceSampleFilterTest3(int, char* [] )
     }
 
 
-  typedef itk::Statistics::MyCovarianceSampleFilter< SampleType > FilterType;
+  typedef itk::Statistics::MeanSampleFilter< SampleType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
 
-
-  //test if exception is thrown if a derived class tries to create
-  // an invalid output
-  try
-    {
-    filter->CreateInvalidOutput();
-    std::cerr << "Exception should have been thrown: " << std::endl;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
-    }
-
-  filter->ResetPipeline();
   filter->SetInput( histogram );
 
   try
@@ -173,13 +124,9 @@ int itkCovarianceSampleFilterTest3(int, char* [] )
     std::cerr << "Exception caught: " << excp << std::endl;
     }
 
-  const FilterType::MatrixDecoratedType * decorator = filter->GetCovarianceMatrixOutput();
-  FilterType::MatrixType    covarianceOutput  = decorator->Get();
-
   FilterType::MeasurementVectorRealType meanOutput = filter->GetMean();
 
   std::cout << "Mean: "              << meanOutput << std::endl;
-  std::cout << "Covariance Matrix: " << covarianceOutput << std::endl;
 
   std::cout << "GetMeasurementVectorSize = " << filter->GetMeasurementVectorSize() << std::endl;
 
@@ -193,22 +140,6 @@ int itkCovarianceSampleFilterTest3(int, char* [] )
       std::cerr << "computed mean = " << meanOutput << std::endl;
       std::cerr << "expected mean = " << mean << std::endl;
       return EXIT_FAILURE;
-      }
-    }
-
-  epsilon = 35;
-
-  for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
-    {
-    for ( unsigned int j = 0; j < MeasurementVectorSize; j++ )
-      {
-      if ( vcl_fabs( covariance[i][j] - covarianceOutput[i][j] ) > epsilon )
-        {
-        std::cerr << "Computed covariance matrix value is incorrrect:"
-                  << i << "," << j << "=" << covariance[i][j]
-                  << "," << covarianceOutput[i][j] << std::endl;
-        return EXIT_FAILURE;
-        }
       }
     }
 

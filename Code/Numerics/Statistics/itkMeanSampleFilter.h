@@ -59,9 +59,11 @@ public:
   itkNewMacro(Self);
 
   /** Length of a measurement vector */
-  typedef   unsigned int                            MeasurementVectorSizeType;
-  typedef   typename TSample::MeasurementVectorType MeasurementVectorType;
-  typedef   typename TSample::MeasurementType       MeasurementType;
+  typedef unsigned int                                                MeasurementVectorSizeType;
+  typedef typename TSample::MeasurementVectorType                     MeasurementVectorType;
+  typedef typename TSample::MeasurementType                           MeasurementType;
+  typedef typename NumericTraits< MeasurementType >::RealType         MeasurementRealType;
+  typedef typename NumericTraits< MeasurementVectorType >::RealType   MeasurementVectorRealType;
 
   /** Method to set/get the sample */
   void SetInput(const SampleType *sample);
@@ -70,14 +72,16 @@ public:
 
   /** MeasurementVector is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  typedef  SimpleDataObjectDecorator< MeasurementVectorType > MeasurementVectorDecoratedType;
+  typedef  SimpleDataObjectDecorator< MeasurementVectorRealType > MeasurementVectorDecoratedType;
 
   typedef MeasurementVectorDecoratedType OutputType;
 
   /** Get the mean measurement vector */
   const MeasurementVectorDecoratedType * GetOutput() const;
 
-  const MeasurementVectorType            GetMean() const;
+  const MeasurementVectorRealType GetMean() const;
+
+  MeasurementVectorSizeType GetMeasurementVectorSize() const;
 
 protected:
   MeanSampleFilter();

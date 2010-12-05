@@ -59,6 +59,8 @@ public:
   itkSuperclassTraitMacro(MeasurementVectorSizeType)
   itkSuperclassTraitMacro(MeasurementVectorDecoratedType)
   itkSuperclassTraitMacro(OutputType)
+  itkSuperclassTraitMacro(MeasurementRealType)
+  itkSuperclassTraitMacro(MeasurementVectorRealType)
 
   /** Typedef for WeightedCovariance output */
   typedef VariableSizeMatrix< double > MatrixType;
@@ -84,10 +86,8 @@ public:
 
   /** Method to set the weighting function */
   itkSetDecoratedObjectInputMacro(WeightingFunction, WeightingFunctionType, 2);
-protected:
-  WeightedCovarianceSampleFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                 //purposely not implemented
 
+protected:
   WeightedCovarianceSampleFilter();
   virtual ~WeightedCovarianceSampleFilter();
   void PrintSelf(std::ostream & os, Indent indent) const;
@@ -101,6 +101,9 @@ protected:
   void ComputeCovarianceMatrixWithWeights();
 
 private:
+  WeightedCovarianceSampleFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
+
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

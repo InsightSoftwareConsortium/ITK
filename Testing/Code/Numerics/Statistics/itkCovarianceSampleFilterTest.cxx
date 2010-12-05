@@ -133,9 +133,9 @@ int itkCovarianceSampleFilterTest(int, char* [] )
   const CovarianceSampleFilterType::MeasurementVectorDecoratedType * meanDecorator =
                                                 covarianceFilter->GetMeanOutput();
 
-  CovarianceSampleFilterType::MeasurementVectorType    mean  = meanDecorator->Get();
+  CovarianceSampleFilterType::MeasurementVectorRealType    mean  = meanDecorator->Get();
   std::cout << "Mean:   " << mean << std::endl;
-  CovarianceSampleFilterType::MeasurementVectorType    mean2 = covarianceFilter->GetMean();
+  CovarianceSampleFilterType::MeasurementVectorRealType    mean2 = covarianceFilter->GetMean();
 
   if ( ( vcl_fabs( mean[0] - mean2[0]) > epsilon )  ||
        ( vcl_fabs( mean[1] - mean2[1]) > epsilon)  ||
@@ -166,14 +166,16 @@ int itkCovarianceSampleFilterTest(int, char* [] )
     std::cerr << "Exception caught: " << excp << std::endl;
     }
 
-  MeanSampleFilterType::MeasurementVectorType meanCalculatedUsingMeanSampleFilter = meanFilter->GetMean();
+  MeanSampleFilterType::MeasurementVectorRealType meanCalculatedUsingMeanSampleFilter = meanFilter->GetMean();
 
   if ( ( vcl_fabs( meanCalculatedUsingMeanSampleFilter[0] - mean[0]) > epsilon )  ||
        ( vcl_fabs( meanCalculatedUsingMeanSampleFilter[1] - mean[1]) > epsilon)  ||
        ( vcl_fabs( meanCalculatedUsingMeanSampleFilter[2] - mean[2]) > epsilon) )
     {
     std::cerr << "Mean calculated using the MeanSampleFilter is different from\
-                 the once calculated using the covariance filter " << std::endl;
+                 the one calculated using the covariance filter " << std::endl;
+    std::cerr << "Mean computed with covariance filter = " << mean << std::endl;
+    std::cerr << "Mean computed with mean filter = " << meanCalculatedUsingMeanSampleFilter << std::endl;
     return EXIT_FAILURE;
     }
 

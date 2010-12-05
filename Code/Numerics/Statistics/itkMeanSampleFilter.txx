@@ -19,6 +19,7 @@
 #define __itkMeanSampleFilter_txx
 
 #include "itkMeasurementVectorTraits.h"
+#include "itkMeanSampleFilter.h"
 
 namespace itk
 {
@@ -73,7 +74,13 @@ typename MeanSampleFilter< TSample >::DataObjectPointer
 MeanSampleFilter< TSample >
 ::MakeOutput( unsigned int itkNotUsed(idx) )
 {
-  return static_cast< DataObject * >( MeasurementVectorDecoratedType::New().GetPointer() );
+  MeasurementVectorRealType mean;
+  (void)mean; // for complainty pants : valgrind
+  NumericTraits<MeasurementVectorRealType>::SetLength( mean, this->GetMeasurementVectorSize() );
+  mean.Fill( NumericTraits< MeasurementRealType >::Zero );
+  typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
+  decoratedMean->Set( mean );
+  return static_cast< DataObject * >( decoratedMean.GetPointer() );
 }
 
 template< class TSample >
@@ -86,12 +93,40 @@ MeanSampleFilter< TSample >
 }
 
 template< class TSample >
-const typename MeanSampleFilter< TSample >::MeasurementVectorType
+const typename MeanSampleFilter< TSample >::MeasurementVectorRealType
 MeanSampleFilter< TSample >
 ::GetMean() const
 {
-  return this->GetOutput()->Get();
+  const MeasurementVectorDecoratedType * decorator = this->GetOutput();
+  return decorator->Get();
 }
+
+template< class TSample >
+typename MeanSampleFilter< TSample >::MeasurementVectorSizeType
+MeanSampleFilter< TSample >
+::GetMeasurementVectorSize() const
+{
+  const SampleType *input = this->GetInput();
+
+  if ( input )
+    {
+    return input->GetMeasurementVectorSize();
+    }
+
+  // Test if the Vector type knows its length
+  MeasurementVectorType     vector;
+  MeasurementVectorSizeType measurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(vector);
+
+  if ( measurementVectorSize )
+    {
+    return measurementVectorSize;
+    }
+
+  measurementVectorSize = 1; // Otherwise set it to an innocuous value
+
+  return measurementVectorSize;
+}
+
 
 template< class TSample >
 void
@@ -107,39 +142,52 @@ MeanSampleFilter< TSample >
     static_cast< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
-  MeasurementVectorType output = decoratedOutput->Get();
+  MeasurementVectorRealType output = decoratedOutput->Get();
+
+  NumericTraits<MeasurementVectorRealType>::SetLength( output, this->GetMeasurementVectorSize() );
 
   typename TSample::ConstIterator iter = input->Begin();
   typename TSample::ConstIterator end =  input->End();
   double totalFrequency = 0.0;
 
-  for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
-    {
-    output[dim] = itk::NumericTraits< MeasurementType >::Zero;
-    }
+  typedef typename NumericTraits<
+    MeasurementRealType >::AccumulateType MeasurementRealAccumulateType;
+
+  Array< MeasurementRealAccumulateType > sum( measurementVectorSize );
+  sum.Fill( NumericTraits< MeasurementRealAccumulateType >::Zero );
 
   while ( iter != end )
     {
     double frequency = iter.GetFrequency();
     totalFrequency += frequency;
 
+    const MeasurementVectorType & measurement = iter.GetMeasurementVector();
+
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
-      output[dim] += iter.GetMeasurementVector()[dim] * frequency;
+      const MeasurementRealType component =
+        static_cast< MeasurementRealType >( measurement[dim] );
+
+      sum[dim] += static_cast< MeasurementRealAccumulateType >( component * frequency );
       }
+
     ++iter;
     }
 
   // compute the mean if the total frequency is different from zero
-  if ( totalFrequency != 0.0 )
+  if ( totalFrequency > vnl_math::eps )
     {
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
-      output[dim] /= totalFrequency;
+      output[dim] = static_cast< MeasurementRealType >( sum[dim] / totalFrequency );
       }
     }
+  else
+    {
+    itkExceptionMacro("Total frequency was too close to zero: " << totalFrequency );
+    }
 
-  decoratedOutput->Set(output);
+  decoratedOutput->Set( output );
 }
 } // end of namespace Statistics
 } // end of namespace itk
