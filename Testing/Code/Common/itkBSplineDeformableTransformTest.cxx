@@ -32,7 +32,7 @@
 #include "itkBSplineDeformableTransform.h"
 #include "itkBSplineInterpolateImageFunction.h"
 
-#include "itkRigid3DTransform.h"
+#include "itkVersorRigid3DTransform.h"
 
 #include "itkTextOutput.h"
 
@@ -98,8 +98,8 @@ int itkBSplineDeformableTransformTest1()
    * flat array into N images.
    * Initialize by setting all elements to zero
    */
-  typedef ParametersType::ValueType CoefficientType;
-  typedef itk::Image<CoefficientType,SpaceDimension> CoefficientImageType;
+  typedef ParametersType::ValueType                   CoefficientType;
+  typedef itk::Image<CoefficientType,SpaceDimension>  CoefficientImageType;
 
   CoefficientImageType::Pointer coeffImage[SpaceDimension];
   unsigned int numberOfPixels = region.GetNumberOfPixels();
@@ -171,7 +171,7 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Set a bulk transform
    */
-  typedef itk::Rigid3DTransform<CoordinateRepType> BulkTransformType;
+  typedef itk::VersorRigid3DTransform<CoordinateRepType> BulkTransformType;
   BulkTransformType::Pointer bulkTransform = BulkTransformType::New();
 
   // optional: set bulk transform parameters
@@ -240,9 +240,9 @@ int itkBSplineDeformableTransformTest1()
   transform->SetBulkTransform( NULL );
 
   // use the other version of TransformPoint
-  typedef TransformType::WeightsType WeightsType;
-  typedef TransformType::IndexType IndexType;
-  typedef TransformType::ParameterIndexArrayType IndexArrayType;
+  typedef TransformType::WeightsType              WeightsType;
+  typedef TransformType::IndexType                IndexType;
+  typedef TransformType::ParameterIndexArrayType  IndexArrayType;
 
   WeightsType weights( transform->GetNumberOfWeights() );
   IndexArrayType indices( transform->GetNumberOfWeights() );
@@ -286,7 +286,6 @@ int itkBSplineDeformableTransformTest1()
   /**
    * TODO: add test to check the numerical accuarcy of the transform
    */
-
 
 
   /**
@@ -501,6 +500,7 @@ int itkBSplineDeformableTransformTest2()
    */
   const unsigned int Dimension = 2;
   typedef double PixelType;
+
   typedef itk::Image<PixelType,Dimension>  ImageType;
 
   // Set up field spacing, origin, region
@@ -665,8 +665,8 @@ int itkBSplineDeformableTransformTest3()
    * flat array into N images.
    * Initialize by setting all elements to zero
    */
-  typedef ParametersType::ValueType CoefficientType;
-  typedef itk::Image<CoefficientType,SpaceDimension> CoefficientImageType;
+  typedef ParametersType::ValueType                     CoefficientType;
+  typedef itk::Image<CoefficientType,SpaceDimension>    CoefficientImageType;
 
   CoefficientImageType::Pointer coeffImage[SpaceDimension];
   unsigned int numberOfPixels = region.GetNumberOfPixels();
