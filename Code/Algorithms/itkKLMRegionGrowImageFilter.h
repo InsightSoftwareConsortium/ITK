@@ -139,12 +139,12 @@ namespace itk
  * between region \f$ O_i \f$ and \f$ O_j \f$.  It can be shown that
  * \f$ E(u,K)-E(\hat{u},K-\partial(O_i,O_j))=
  * \lambda\cdot{L(\partial(O_i,O_j))}-
- * {(|O_i| \cdot |O_j|)\over (|O_i|+|O_j|)} ||c_i-c_j||^2 \f$.
+ * {\frac{(|O_i| \cdot |O_j|)}{(|O_i|+|O_j|)}} \|c_i-c_j\|^2 \f$.
  *
  * Once two regions are merged the following update equations are used
  * to calculated the constant approximation of the new region:
  *
- * \f$ c_{i,j} = (c_i |O_i| + c_j |O_j|) \over (|O_i| + |O_j|) \f$.
+ * \f$ c_{i,j} = \frac{(c_i |O_i| + c_j |O_j|)}{(|O_i| + |O_j|)} \f$.
  *
  * Again, the merging of regions continues until the desired number of
  * regions has been reached or until the desired coarseness (specified

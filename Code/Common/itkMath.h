@@ -41,7 +41,7 @@ namespace Math
 // are available during compile time ( as opposed to static const
 // member vaiables ).
 
-/** \brief \f[e] The base of the natural logarithm or Euler's number */
+/** \brief \f[e\f] The base of the natural logarithm or Euler's number */
 static const double e                = 2.7182818284590452354;
 /** \brief  \f[ \log_2 e \f] */
 static const double log2e            = 1.4426950408889634074;
@@ -51,7 +51,7 @@ static const double log10e           = 0.43429448190325182765;
 static const double ln2              = 0.69314718055994530942;
 /** \brief \f[ \log_e 10 \f] */
 static const double ln10             = 2.30258509299404568402;
-/** \brief \f[ \pi ]  */
+/** \brief \f[ \pi \f]  */
 static const double pi               = 3.14159265358979323846;
 /** \brief \f[ \frac{\pi}{2} \f]  */
 static const double pi_over_2        = 1.57079632679489661923;

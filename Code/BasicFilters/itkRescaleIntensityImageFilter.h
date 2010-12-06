@@ -92,8 +92,8 @@ private:
  *
  * \par
  * \f[
- *  \[ outputPixel = ( inputPixel - inputMin) \times
- *  \frac{(outputMax - outputMin )}{(inputMax - inputMin)} + outputMin \]
+ *  outputPixel = ( inputPixel - inputMin) \cdot
+ *  \frac{(outputMax - outputMin )}{(inputMax - inputMin)} + outputMin
  * \f]
  *
  * All computations are performed in the precison of the input pixel's
