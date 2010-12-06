@@ -71,7 +71,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
     PlanType plan = fftwf_plan_dft_c2r_1d(n,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -91,9 +91,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_c2r_1d(n,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -106,7 +106,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
     PlanType plan = fftwf_plan_dft_c2r_2d(nx,ny,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -126,9 +126,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_c2r_2d(nx,ny,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -142,7 +142,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
     PlanType plan = fftwf_plan_dft_c2r_3d(nx,ny,nz,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -162,9 +162,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_c2r_3d(nx,ny,nz,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -177,7 +177,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
     PlanType plan = fftwf_plan_dft_c2r(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -202,9 +202,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_c2r(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -217,7 +217,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
     PlanType plan = fftwf_plan_dft_r2c_1d(n,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -237,9 +237,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_r2c_1d(n,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -252,7 +252,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
     PlanType plan = fftwf_plan_dft_r2c_2d(nx,ny,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -272,9 +272,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_r2c_2d(nx,ny,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -288,7 +288,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
     PlanType plan = fftwf_plan_dft_r2c_3d(nx,ny,nz,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -308,9 +308,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_r2c_3d(nx,ny,nz,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -323,7 +323,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
     PlanType plan = fftwf_plan_dft_r2c(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -348,9 +348,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_r2c(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -385,7 +385,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
     PlanType plan = fftw_plan_dft_c2r_1d(n,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -405,9 +405,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_c2r_1d(n,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -420,7 +420,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
     PlanType plan = fftw_plan_dft_c2r_2d(nx,ny,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -440,9 +440,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_c2r_2d(nx,ny,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -456,7 +456,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
     PlanType plan = fftw_plan_dft_c2r_3d(nx,ny,nz,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -476,9 +476,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_c2r_3d(nx,ny,nz,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -491,7 +491,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
     PlanType plan = fftw_plan_dft_c2r(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -516,9 +516,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_c2r(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -531,7 +531,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
     PlanType plan = fftw_plan_dft_r2c_1d(n,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -551,9 +551,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_r2c_1d(n,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -566,7 +566,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
     PlanType plan = fftw_plan_dft_r2c_2d(nx,ny,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -586,9 +586,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_r2c_2d(nx,ny,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -602,7 +602,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
     PlanType plan = fftw_plan_dft_r2c_3d(nx,ny,nz,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -622,9 +622,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_r2c_3d(nx,ny,nz,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -637,7 +637,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::GetInstance()->Lock();
+    FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
     PlanType plan = fftw_plan_dft_r2c(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
     if( plan == NULL )
@@ -662,9 +662,9 @@ public:
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_r2c(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
         }
-      FFTWGlobalConfiguration::GetInstance()->SetNewWisdomAvailable(true);
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::GetInstance()->Unlock();
+    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }

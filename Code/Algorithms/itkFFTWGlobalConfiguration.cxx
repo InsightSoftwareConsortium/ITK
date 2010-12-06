@@ -156,7 +156,6 @@ FFTWGlobalConfiguration
     std::string auto_import_env;
     const bool envITK_FFTW_WRITE_WISDOM_CACHEfound=
       itksys::SystemTools::GetEnv("ITK_FFTW_WRITE_WISDOM_CACHE", auto_import_env);
-    const bool envAffirmativeResponse=isAffirmativeString(auto_import_env);
     if( envITK_FFTW_WRITE_WISDOM_CACHEfound && isAffirmativeString(auto_import_env) )
       {
       this->m_WriteWisdomCache=true;
@@ -172,7 +171,6 @@ FFTWGlobalConfiguration
     std::string auto_import_env;
     const bool envITK_FFTW_READ_WISDOM_CACHEfound=
       itksys::SystemTools::GetEnv("ITK_FFTW_READ_WISDOM_CACHE", auto_import_env);
-    const bool envAffirmativeResponse=isAffirmativeString(auto_import_env);
     if( envITK_FFTW_READ_WISDOM_CACHEfound && isDeclineString(auto_import_env) )
       {
       this->m_ReadWisdomCache=false;
@@ -185,13 +183,14 @@ FFTWGlobalConfiguration
 
   if( this->m_ReadWisdomCache )
     {
+    std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
 #if defined(USE_FFTWF)
     fftwf_import_system_wisdom();
-    ImportDefaultWisdomFileFloat();
+    ImportWisdomFileFloat(cachePath+"f");
 #endif
 #if defined(USE_FFTWD)
     fftw_import_system_wisdom();
-    ImportDefaultWisdomFileDouble();
+    ImportWisdomFileDouble(cachePath);
 #endif
     }
 
@@ -222,11 +221,12 @@ FFTWGlobalConfiguration
   //std::cout << " ==== " << this->m_WriteWisdomCache << std::endl;
   if( this->m_WriteWisdomCache )
     {
+       std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
 #if defined(USE_FFTWF)
       {
       // import the wisdom files again to be sure to not erase the wisdom saved in another process
       char * localWisdomf=fftwf_export_wisdom_to_string();
-      const bool readWisdomSuccessfullyf=ImportDefaultWisdomFileFloat();//TODO:  Determine if this prevents updating of wisdom files.
+      const bool readWisdomSuccessfullyf=ImportWisdomFileFloat(cachePath+"f");//TODO:  Determine if this prevents updating of wisdom files.
       //       i.e. if wisdom is initially created as "FFTW_ESTIMATE"
       //       will subsequent "FFTW_EXHAUSTIVE" wisdom files
       //       ever overwrite the original?
@@ -238,23 +238,23 @@ FFTWGlobalConfiguration
       if(!readWisdomSuccessfullyf /* || wisdom_rigor(fromDisk)  < widsom_rigor(localWisdomf) */ )
         {
         //Reset local wisdom to what was created for this run.
-        const bool import_status=fftwf_import_wisdom_from_string(localWisdomf);
+        fftwf_import_wisdom_from_string(localWisdomf);
         }
-      ExportDefaultWisdomFileFloat();
+      ExportWisdomFileFloat(cachePath+"f");
       }
 #endif
 #if defined(USE_FFTWD)
       {
       // import the wisdom files again to be sure to not erase the wisdom saved in another process
       char * localWisdom=fftw_export_wisdom_to_string();
-      const bool readWisdomSuccessfully=ImportDefaultWisdomFileDouble();
+      const bool readWisdomSuccessfully=ImportWisdomFileDouble(cachePath);
       //TODO:  I don't know how to test for the rigor level from the different options.
       if(!readWisdomSuccessfully /* || wisdom_rigor(fromDisk)  < widsom_rigor(localWisdom) */ )
         {
         //Reset local wisdom to what was created for this run.
-        const bool import_status=fftw_import_wisdom_from_string(localWisdom);
+        fftw_import_wisdom_from_string(localWisdom);
         }
-      ExportDefaultWisdomFileDouble();
+      ExportWisdomFileDouble(cachePath);
       }
 #endif
     }
@@ -272,26 +272,18 @@ FFTWGlobalConfiguration
     }
 }
 
-// void
-// FFTWGlobalConfiguration
-// ::SetWisdomFileDefaultBaseName(std::string s)
-// {
-//   m_WisdomFileDefaultBaseName = s;
-// }
-
-
 void
 FFTWGlobalConfiguration
 ::SetWisdomFilenameGenerator( WisdomFilenameGeneratorBase * wfg)
 {
-  this->m_WisdomFilenameGenerator=wfg;
+  GetInstance()->m_WisdomFilenameGenerator=wfg;
 }
 
 std::string
 FFTWGlobalConfiguration
 ::GetWisdomFileDefaultBaseName()
 {
-  return this->m_WisdomFilenameGenerator->GenerateWisdomFilename(this->m_WisdomCacheBase);
+  return GetInstance()->m_WisdomFilenameGenerator->GenerateWisdomFilename(GetInstance()->m_WisdomCacheBase);
 }
 
 bool
@@ -457,14 +449,14 @@ void
 FFTWGlobalConfiguration
 ::Lock()
 {
-  this->m_Lock.Lock();
+  GetInstance()->m_Lock.Lock();
 }
 
 void
 FFTWGlobalConfiguration
 ::Unlock()
 {
-  this->m_Lock.Unlock();
+  GetInstance()->m_Lock.Unlock();
 }
 
 }//end namespace itk

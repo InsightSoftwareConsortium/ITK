@@ -473,18 +473,18 @@ int itkVnlFFTTest(int, char *[])
 // double.
 int itkFFTWF_FFTTest(int argc, char *argv[])
 {
-  itk::FFTWGlobalConfiguration::GetInstance()->SetPlanRigor(FFTW_EXHAUSTIVE);
-  itk::FFTWGlobalConfiguration::GetInstance()->SetReadWisdomCache(true);
-  itk::FFTWGlobalConfiguration::GetInstance()->SetWriteWisdomCache(true);
+  itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
+  itk::FFTWGlobalConfiguration::SetReadWisdomCache(true);
+  itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);
   if(argc>1)
     {
-    itk::FFTWGlobalConfiguration::GetInstance()->SetWisdomCacheBase(argv[1]);
+    itk::FFTWGlobalConfiguration::SetWisdomCacheBase(argv[1]);
     }
-  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetInstance()->GetWriteWisdomCache() << std::endl;
-  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetInstance()->GetReadWisdomCache() << std::endl;
-  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetInstance()->GetPlanRigor() << std::endl;
-  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetInstance()->GetWisdomCacheBase()  << std::endl;
-  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetInstance()->GetWisdomFileDefaultBaseName() << std::endl;
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
 
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
@@ -531,18 +531,18 @@ int itkFFTWF_FFTTest(int argc, char *argv[])
 // and double.
 int itkVnlFFTWF_FFTTest(int argc, char *argv[])
 {
-  itk::FFTWGlobalConfiguration::GetInstance()->SetPlanRigor(FFTW_EXHAUSTIVE);
-  itk::FFTWGlobalConfiguration::GetInstance()->SetWriteWisdomCache(true);
-  itk::FFTWGlobalConfiguration::GetInstance()->SetReadWisdomCache(true);
+  itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
+  itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);
+  itk::FFTWGlobalConfiguration::SetReadWisdomCache(true);
   if(argc>1)
     {
-    itk::FFTWGlobalConfiguration::GetInstance()->SetWisdomCacheBase(argv[1]);
+    itk::FFTWGlobalConfiguration::SetWisdomCacheBase(argv[1]);
     }
-  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetInstance()->GetWriteWisdomCache() << std::endl;
-  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetInstance()->GetReadWisdomCache() << std::endl;
-  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetInstance()->GetPlanRigor() << std::endl;
-  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetInstance()->GetWisdomCacheBase()  << std::endl;
-  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetInstance()->GetWisdomFileDefaultBaseName() << std::endl;
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
   int rval = 0;
@@ -583,11 +583,11 @@ int itkVnlFFTWF_FFTTest(int argc, char *argv[])
 #if defined(USE_FFTWD)
 int itkFFTWD_FFTTest(int, char *[])
 {
-  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetInstance()->GetWriteWisdomCache() << std::endl;
-  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetInstance()->GetReadWisdomCache() << std::endl;
-  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetInstance()->GetPlanRigor() << std::endl;
-  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetInstance()->GetWisdomCacheBase()  << std::endl;
-  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetInstance()->GetWisdomFileDefaultBaseName() << std::endl;
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
 
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
@@ -634,11 +634,11 @@ int itkFFTWD_FFTTest(int, char *[])
 // and double.
 int itkVnlFFTWD_FFTTest(int, char *[])
 {
-  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetInstance()->GetWriteWisdomCache() << std::endl;
-  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetInstance()->GetReadWisdomCache() << std::endl;
-  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetInstance()->GetPlanRigor() << std::endl;
-  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetInstance()->GetWisdomCacheBase()  << std::endl;
-  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetInstance()->GetWisdomFileDefaultBaseName() << std::endl;
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
 
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };

@@ -265,14 +265,24 @@ public:
    * the program exits. */
   itkFactorylessNewMacro(Self);
 
-  /** Return the singleton instance with no reference counting. */
-  static Pointer GetInstance();
+  /** Lock() must be run before the call to any FFTW unsafe method,
+   * and followed immediatly by a call to Unlock()
+   */
+  static void Lock();
+  static void Unlock();
 
-  void Lock();
-  void Unlock();
-
-  itkSetMacro(NewWisdomAvailable,bool);
-  itkGetConstMacro(NewWisdomAvailable,bool);
+  /** Set/Get wether a new wisdom is available compared to the
+   * initial state. If a new wisdom is available, the wisdoms
+   * may be written to the cache file
+   */
+  static void SetNewWisdomAvailable( const bool & v )
+  {
+    GetInstance()->m_NewWisdomAvailable = v;
+  }
+  static bool GetNewWisdomAvailable()
+  {
+    return GetInstance()->m_NewWisdomAvailable;
+  }
 
   /**
    * SetPlanRigor -- Set the behavior of wisdom plan creation
@@ -282,8 +292,14 @@ public:
    * \param One of the FFTW planner rigor flags FFTW_ESTIMATE, FFTW_MEASURE,
    * FFTW_PATIENT, FFTW_EXHAUSTIVE
    */
-  itkSetMacro(PlanRigor,int);
-  itkGetConstMacro(PlanRigor,int);
+  static void SetPlanRigor( const int & v )
+  {
+    GetInstance()->m_PlanRigor = v;
+  }
+  static int GetPlanRigor()
+  {
+    return GetInstance()->m_PlanRigor;
+  }
 
   /**
    * SetReadWisdomCache -- Set the behavior of wisdom file caching
@@ -292,8 +308,14 @@ public:
    * then the environmental setting overides default settings.
    * \param true will create a wisdom file in the location
    */
-  itkSetMacro(ReadWisdomCache,bool);
-  itkGetConstMacro(ReadWisdomCache,bool);
+  static void SetReadWisdomCache( const bool & v )
+  {
+    GetInstance()->m_ReadWisdomCache = v;
+  }
+  static bool GetReadWisdomCache()
+  {
+    return GetInstance()->m_ReadWisdomCache;
+  }
 
   /**
    * SetWriteWisdomCache -- Set the behavior of wisdom file caching
@@ -302,8 +324,14 @@ public:
    * then the environmental setting overides default settings.
    * \param true will create a wisdom file in the location
    */
-  itkSetMacro(WriteWisdomCache,bool);
-  itkGetConstMacro(WriteWisdomCache,bool);
+  static void SetWriteWisdomCache( const bool & v )
+  {
+    GetInstance()->m_WriteWisdomCache = v;
+  }
+  static bool GetWriteWisdomCache()
+  {
+    return GetInstance()->m_WriteWisdomCache;
+  }
 
   /**
    * SetWisdomCacheBase Define the directory where
@@ -312,8 +340,14 @@ public:
    * will override the default behavior.
    * \param the path to the base directory name
    */
-  itkSetMacro(WisdomCacheBase,std::string);
-  itkGetConstMacro(WisdomCacheBase,std::string);
+  static void SetWisdomCacheBase( const std::string & v )
+  {
+    GetInstance()->m_WisdomCacheBase = v;
+  }
+  static std::string GetWisdomCacheBase()
+  {
+    return GetInstance()->m_WisdomCacheBase;
+  }
 
   /**
    * SetWisdomFilenameGenerator allows application developers
@@ -327,7 +361,7 @@ public:
    * \sa SimpleWisdomFilenameGenerator
    * \sa HostnameWisdomFilenameGenerator
    */
-  void SetWisdomFilenameGenerator( WisdomFilenameGeneratorBase *wfg);
+  static void SetWisdomFilenameGenerator( WisdomFilenameGeneratorBase *wfg);
 
   /**
    * GetWisdomFileDefaultBaseName
@@ -342,21 +376,30 @@ public:
    * by the GetWisdomFileDefaultBaseName(). The default location is the users
    * home account directory.
    */
-  std::string GetWisdomFileDefaultBaseName();
+  static std::string GetWisdomFileDefaultBaseName();
 
-  bool ImportWisdomFileDouble( const std::string &fname );
-  bool ExportWisdomFileDouble( const std::string &fname );
-  bool ImportWisdomFileFloat( const std::string &fname );
-  bool ExportWisdomFileFloat( const std::string &fname );
+  /** Import or export some wisdom for the type double to/from a file */
+  static bool ImportWisdomFileDouble( const std::string &fname );
+  static bool ExportWisdomFileDouble( const std::string &fname );
 
-  bool ImportDefaultWisdomFileDouble();
-  bool ExportDefaultWisdomFileDouble();
-  bool ImportDefaultWisdomFileFloat();
-  bool ExportDefaultWisdomFileFloat();
+  /** Import or export some wisdom for the type float to/from a file */
+  static bool ImportWisdomFileFloat( const std::string &fname );
+  static bool ExportWisdomFileFloat( const std::string &fname );
+
+  /** Import or export some wisdom for the type double to/from the default file */
+  static bool ImportDefaultWisdomFileDouble();
+  static bool ExportDefaultWisdomFileDouble();
+
+  /** Import or export some wisdom for the type float to/from the default file */
+  static bool ImportDefaultWisdomFileFloat();
+  static bool ExportDefaultWisdomFileFloat();
 
 protected:
   FFTWGlobalConfiguration(); //This will process env variables
   ~FFTWGlobalConfiguration(); //This will write cache file if requested.
+
+  /** Return the singleton instance with no reference counting. */
+  static Pointer GetInstance();
 
 private:
   FFTWGlobalConfiguration(const Self &); //purposely not implemented
@@ -368,9 +411,9 @@ private:
   SimpleFastMutexLock           m_Lock;
   bool                          m_NewWisdomAvailable;
   int                           m_PlanRigor;
-  std::string                   m_WisdomCacheBase;
   bool                          m_WriteWisdomCache;
   bool                          m_ReadWisdomCache;
+  std::string                   m_WisdomCacheBase;
   //m_WriteWisdomCache Controls the behavior of default
   //wisdom file creation policies.
   WisdomFilenameGeneratorBase * m_WisdomFilenameGenerator;
