@@ -1,7 +1,7 @@
 extern int v3p_netlib_sggsvp_(
-  char *jobu,
-  char *jobv,
-  char *jobq,
+  const char *jobu,
+  const char *jobv,
+  const char *jobq,
   v3p_netlib_integer *m,
   v3p_netlib_integer *p,
   v3p_netlib_integer *n,

@@ -13,6 +13,8 @@
 // Comments re-written by Tim Cootes, for his sins.
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 //   Mar.2004 - Peter Vanroose - deprecated fixed-size constructors now compile only when VNL_CONFIG_LEGACY_METHODS==1
+//   Mar.2009 - Peter Vanroose - added arg_min() and arg_max()
+//   Oct.2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
 
 #include <vcl_iosfwd.h>
@@ -145,20 +147,19 @@ class vnl_vector
   inline T get(unsigned int i) const;
 
   //: Set all values to v
-  void fill(T const& v);
+  vnl_vector& fill(T const& v);
 
   //: Sets elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
-  void copy_in(T const * ptr);
+  vnl_vector& copy_in(T const * ptr);
 
   //: Copy elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
   void copy_out(T *) const; // from vector to array[].
 
-
   //: Sets elements to ptr[i]
   //  Note: ptr[i] must be valid for i=0..size()-1
-  void set(T const *ptr) { copy_in(ptr); }
+  vnl_vector& set(T const *ptr) { return copy_in(ptr); }
 
   //: Return reference to the element at specified index.
   // There are assert style boundary checks - #define NDEBUG to turn them off.
@@ -194,7 +195,7 @@ class vnl_vector
   vnl_vector<T>& operator+=(T );
 
   //: Subtract scalar value from all elements
-  vnl_vector<T>& operator-=(T value) { return *this += (-value); }
+  vnl_vector<T>& operator-=(T value) { return *this += T(-value); }
 
   //: Multiply all elements by scalar
   vnl_vector<T>& operator*=(T );
@@ -249,6 +250,8 @@ class vnl_vector
 
   //: Type defs for iterators
   typedef T element_type;
+  typedef unsigned  size_type;
+
   //: Type defs for iterators
   typedef T       *iterator;
   //: Iterator pointing to start of data
@@ -306,7 +309,7 @@ class vnl_vector
   vnl_vector<T>& normalize() { vnl_c_vector<T>::normalize(begin(), size()); return *this; }
 
   // These next 6 functions are should really be helper functions since they aren't
-  // really proper functions on a vector in a philosophial sense.
+  // really proper functions on a vector in a philosophical sense.
 
   //: Root Mean Squares of values
   abs_t rms() const { return vnl_c_vector<T>::rms_norm(begin(), size()); }
@@ -317,6 +320,12 @@ class vnl_vector
   //: Largest value
   T max_value() const { return vnl_c_vector<T>::max_value(begin(), size()); }
 
+  //: Location of smallest value
+  unsigned arg_min() const { return vnl_c_vector<T>::arg_min(begin(), size()); }
+
+  //: Location of largest value
+  unsigned arg_max() const { return vnl_c_vector<T>::arg_max(begin(), size()); }
+
   //: Mean of values in vector
   T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
 
@@ -325,7 +334,7 @@ class vnl_vector
 
   //: Reverse the order of the elements
   //  Element i swaps with element size()-1-i
-  void flip();
+  vnl_vector& flip();
 
   //: Set this to that and that to this
   void swap(vnl_vector<T> & that);
@@ -373,7 +382,7 @@ class vnl_vector
 #endif
   }
 
-  //: Return true if its finite
+  //: Return true if it's finite
   bool is_finite() const;
 
   //: Return true iff all the entries are zero.
@@ -398,7 +407,6 @@ class vnl_vector
 
   //: Make the vector as if it had been default-constructed.
   void clear();
-
 
   //: Read from text stream
   bool read_ascii(vcl_istream& s);
@@ -477,8 +485,8 @@ inline void vnl_vector<T>::put(unsigned int index, T const& value)
 }
 
 //: multiply matrix and (column) vector. O(m*n).
-// \relates vnl_vector
-// \relates vnl_matrix
+// \relatesalso vnl_vector
+// \relatesalso vnl_matrix
 template<class T>
 inline vnl_vector<T> operator*(vnl_matrix<T> const& m, vnl_vector<T> const& v)
 {
@@ -486,7 +494,7 @@ inline vnl_vector<T> operator*(vnl_matrix<T> const& m, vnl_vector<T> const& v)
 }
 
 //: add scalar and vector. O(n).
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template<class T>
 inline vnl_vector<T> operator+(T s, vnl_vector<T> const& v)
 {
@@ -494,7 +502,7 @@ inline vnl_vector<T> operator+(T s, vnl_vector<T> const& v)
 }
 
 //: subtract vector from scalar. O(n).
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template<class T>
 inline vnl_vector<T> operator-(T s, vnl_vector<T> const& v)
 {
@@ -502,7 +510,7 @@ inline vnl_vector<T> operator-(T s, vnl_vector<T> const& v)
 }
 
 //: multiply scalar and vector. O(n).
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template<class T>
 inline vnl_vector<T> operator*(T s, vnl_vector<T> const& v)
 {
@@ -510,13 +518,13 @@ inline vnl_vector<T> operator*(T s, vnl_vector<T> const& v)
 }
 
 //: Interchange the two vectors
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template<class T>
 inline void swap(vnl_vector<T> &a, vnl_vector<T> &b) { a.swap(b); }
 
 //: Euclidean Distance between two vectors.
 // Sum of Differences squared.
-// \relates vnl_vector
+// \relatesalso vnl_vector
 template<class T>
 inline T vnl_vector_ssd(vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 {
@@ -530,10 +538,10 @@ inline T vnl_vector_ssd(vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 // Non-vector functions which are nevertheless very useful.
 
 //: Write vector to a vcl_ostream
-// \relates vnl_vector
+// \relatesalso vnl_vector
 export template <class T> vcl_ostream& operator<<(vcl_ostream &, vnl_vector<T> const&);
 //: Read vector from a vcl_istream
-// \relates vnl_vector
+// \relatesalso vnl_vector
 export template <class T> vcl_istream& operator>>(vcl_istream &, vnl_vector<T>      &);
 
 #endif // vnl_vector_h_

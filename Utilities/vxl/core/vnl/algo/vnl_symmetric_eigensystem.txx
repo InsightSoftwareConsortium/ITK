@@ -1,11 +1,14 @@
-// This is core/vnl/algo/vnl_symmetric_eigensystem.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
+// This is core/vnl/algo/vnl_symmetric_eigensystem.txx
+#ifndef vnl_symmetric_eigensystem_txx_
+#define vnl_symmetric_eigensystem_txx_
 //:
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG
-// Created: 29 Aug 96
+// \date Created: 29 Aug 96
+// \verbatim
+//   Modifications
+//    24 Mar 2010  Peter Vanroose  renamed from .cxx to .txx and moved out template instantiations
+// \endverbatim
 //
 //-----------------------------------------------------------------------------
 
@@ -24,64 +27,62 @@
 //             M12  M22  M23
 //             M13  M23  M33
 // \endverbatim
+template <class T>
 void vnl_symmetric_eigensystem_compute_eigenvals(
-  double M11, double M12, double M13,
-              double M22, double M23,
-                          double M33,
-  double &l1, double &l2, double &l3)
+  T M11, T M12, T M13,
+         T M22, T M23,
+                T M33,
+  T &l1, T &l2, T &l3)
 {
   // Characteristic eqtn |M - xI| = 0
   // x^3 + b x^2 + c x + d = 0
-  const double b = -M11-M22-M33;
-  const double c =  M11*M22 +M11*M33 +M22*M33  -M12*M12 -M13*M13 -M23*M23;
-  const double d = M11*M23*M23 +M12*M12*M33 +M13*M13*M22 -2.0*M12*M13*M23 -M11*M22*M33;
-
+  const T b = -M11-M22-M33;
+  const T c =  M11*M22 +M11*M33 +M22*M33  -M12*M12 -M13*M13 -M23*M23;
+  const T d = M11*M23*M23 +M12*M12*M33 +M13*M13*M22 -2*M12*M13*M23 -M11*M22*M33;
 
   // Using a numerically tweaked version of the real cubic solver http://www.1728.com/cubic2.htm
-  const double b_3 = b/3.0;
-  const double f = b_3*b_3 -  c/3.0 ;
-  const double g = b*c/6.0 - b_3*b_3*b_3 - 0.5*d;
+  const T b_3 = b/3;
+  const T f = b_3*b_3 -  c/3 ;
+  const T g = b*c/6 - b_3*b_3*b_3 - d/2;
 
-
-  if (f == 0.0 && g == 0.0)
+  if (f == 0 && g == 0)
   {
     l1 = l2 = l3 = - b_3 ;
     return;
   }
 
-
-  const double f3 = f*f*f;
-  const double g2 = g*g;
-  const double sqrt_f = -vcl_sqrt(f);
+  const T f3 = f*f*f;
+  const T g2 = g*g;
+  const T sqrt_f = -vcl_sqrt(f);
 
   // deal explicitly with repeated root and treat
   // complex conjugate roots as numerically inaccurate repeated roots.
 
-  // first check we are not too numerically innacurate
+  // first check we are not too numerically inaccurate
   assert((g2 - f3) / vnl_math_sqr(vnl_math_cube(b)) < 1e-8);
 
   if (g2 >= f3)
   {
-    if (g < 0.0)
-      {
-        l1 = 2.0 * sqrt_f  - b_3;
-        l2 = l3 = - sqrt_f - b_3;
-      }
+    if (g < 0)
+    {
+      l1 = 2 * sqrt_f  - b_3;
+      l2 = l3 = - sqrt_f - b_3;
+    }
     else
-      {
-        l1 = l2 = sqrt_f  - b_3;
-        l3 = -2.0 * sqrt_f - b_3;
-      }
+    {
+      l1 = l2 = sqrt_f  - b_3;
+      l3 = -2 * sqrt_f - b_3;
+    }
     return;
   }
 
 
-  const double sqrt_f3 = sqrt_f * sqrt_f * sqrt_f;
-  const double k = vcl_acos(g / sqrt_f3) / 3.0;
-  const double j = 2.0 * sqrt_f;
+  const T sqrt_f3 = sqrt_f * sqrt_f * sqrt_f;
+  const T k = vcl_acos(g / sqrt_f3) / 3;
+  const T j = 2 * sqrt_f;
   l1 = j * vcl_cos(k) - b_3;
-  l2 = j * vcl_cos(k + vnl_math::pi * 2.0 / 3.0) - b_3;
-  l3 = j * vcl_cos(k - vnl_math::pi * 2.0 / 3.0) - b_3;
+  l2 = j * vcl_cos(k + T(vnl_math::pi * 2.0 / 3.0)) - b_3;
+  l3 = j * vcl_cos(k - T(vnl_math::pi * 2.0 / 3.0)) - b_3;
 
   if (l2 < l1) vcl_swap(l2, l1);
   if (l3 < l2)
@@ -89,28 +90,12 @@ void vnl_symmetric_eigensystem_compute_eigenvals(
     vcl_swap(l2, l3);
     if (l2 < l1) vcl_swap(l2, l1);
   }
-
-
-
 }
 
-bool vnl_symmetric_eigensystem_compute(vnl_matrix<float> const & A,
-                                       vnl_matrix<float>       & V,
-                                       vnl_vector<float>       & D)
-{
-  vnl_matrix<double> Ad(A.rows(), A.cols());
-  vnl_matrix<double> Vd(V.rows(), V.cols());
-  vnl_vector<double> Dd(D.size());
-  vnl_copy(A, Ad);
-  bool f = vnl_symmetric_eigensystem_compute(Ad, Vd, Dd);
-  vnl_copy(Vd, V);
-  vnl_copy(Dd, D);
-  return f;
-}
-
-bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A,
-                                       vnl_matrix<double>       & V,
-                                       vnl_vector<double>       & D)
+template <class T>
+bool vnl_symmetric_eigensystem_compute(vnl_matrix<T> const & A,
+                                       vnl_matrix<T>       & V,
+                                       vnl_vector<T>       & D)
 {
   A.assert_finite();
   const long n = A.rows();
@@ -119,6 +104,9 @@ bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A,
   if (D.size() != A.rows())
     D.set_size(n);
 
+  // convert to double
+  vnl_matrix<double> Ad(A.rows(), A.cols()); vnl_copy(A, Ad);
+  vnl_vector<double> Dd(D.size());
   vnl_vector<double> work1(n);
   vnl_vector<double> work2(n);
   vnl_vector<double> Vvec(n*n);
@@ -126,9 +114,9 @@ bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A,
   long want_eigenvectors = 1;
   long ierr = 0;
 
-  // No need to transpose A, cos it's symmetric...
-  vnl_matrix<double> B = A; // since A is read-only and rs_ might change its third argument...
-  v3p_netlib_rs_(&n, &n, B.data_block(), &D[0], &want_eigenvectors, &Vvec[0], &work1[0], &work2[0], &ierr);
+  // No need to transpose A, 'cos it's symmetric...
+  v3p_netlib_rs_(&n, &n, Ad.data_block(), &Dd[0], &want_eigenvectors, &Vvec[0], &work1[0], &work2[0], &ierr);
+  vnl_copy(Dd, D);
 
   if (ierr) {
     vcl_cerr << "vnl_symmetric_eigensystem: ierr = " << ierr << vcl_endl;
@@ -141,7 +129,7 @@ bool vnl_symmetric_eigensystem_compute(vnl_matrix<double> const & A,
   double *vptr = &Vvec[0];
   for (int c = 0; c < n; ++c)
     for (int r = 0; r < n; ++r)
-      V(r,c) = *vptr++;
+      V(r,c) = T(*vptr++);
 
   return true;
 }
@@ -245,5 +233,10 @@ vnl_matrix<T> vnl_symmetric_eigensystem<T>::inverse_square_root() const
 
 //--------------------------------------------------------------------------------
 
-template class vnl_symmetric_eigensystem<float>;
-template class vnl_symmetric_eigensystem<double>;
+#undef VNL_SYMMETRIC_EIGENSYSTEM_INSTANTIATE
+#define VNL_SYMMETRIC_EIGENSYSTEM_INSTANTIATE(T) \
+template class vnl_symmetric_eigensystem<T >; \
+template void vnl_symmetric_eigensystem_compute_eigenvals(T,T,T,T,T,T,T&,T&,T&); \
+template bool vnl_symmetric_eigensystem_compute(vnl_matrix<T > const&, vnl_matrix<T > &, vnl_vector<T >&)
+
+#endif // vnl_symmetric_eigensystem_txx_

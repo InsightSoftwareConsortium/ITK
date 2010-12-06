@@ -33,7 +33,7 @@ doublereal slange_(char *norm, integer *m, integer *n, real *a, integer *lda,
     /* Local variables */
     integer i__, j;
     real sum, scale;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     real value=0;
     extern /* Subroutine */ int slassq_(integer *, real *, integer *, real *, 
             real *);

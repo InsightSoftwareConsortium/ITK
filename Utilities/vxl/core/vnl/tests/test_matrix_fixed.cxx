@@ -5,6 +5,7 @@
 #include <vcl_cstdlib.h>
 #include <vcl_cstddef.h> // for vcl_size_t
 #include <vcl_cmath.h> // for sqrt
+#include <vcl_iostream.h>
 
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_vector_fixed.h>
@@ -62,15 +63,14 @@ test_multiply()
   vnl_matrix_fixed<double,2,4> m2( data_m2 );
   vnl_vector_fixed<double,2> v1( data_v1 );
 
-  testlib_test_begin( "Matrix-matrix multiply" );
   vnl_matrix_fixed<double,3,4> mr = m1*m2;
-  testlib_test_perform( mr(0,0) == 14 && mr(0,1) == 17 && mr(0,2) == 20 && mr(0,3) == 23 &&
-                        mr(1,0) == 30 && mr(1,1) == 37 && mr(1,2) == 44 && mr(1,3) == 51 &&
-                        mr(2,0) == 46 && mr(2,1) == 57 && mr(2,2) == 68 && mr(2,3) == 79 );
+  TEST("Matrix-matrix multiply",
+       mr(0,0) == 14 && mr(0,1) == 17 && mr(0,2) == 20 && mr(0,3) == 23 &&
+       mr(1,0) == 30 && mr(1,1) == 37 && mr(1,2) == 44 && mr(1,3) == 51 &&
+       mr(2,0) == 46 && mr(2,1) == 57 && mr(2,2) == 68 && mr(2,3) == 79, true);
 
-  testlib_test_begin( "Matrix-vector multiply" );
   vnl_vector_fixed<double,3> vr = m1*v1;
-  testlib_test_perform( vr(0) == 23 && vr(1) == 53 && vr(2) == 83 );
+  TEST("Matrix-vector multiply", vr(0) == 23 && vr(1) == 53 && vr(2) == 83, true);
 }
 
 static
@@ -106,7 +106,6 @@ void test_int()
   TEST("m2.get(1,1)", m2.get(1,1), 3);
   TEST("m0 == m2", (m0 == m2), false);
   TEST("m0 != m2", (m0 != m2), true);
-  TEST("(m0 == m2)", (m0 == m2), false);
   TEST("m1.fill(3)",
        (m1.fill(3),
         (m1.get(0,0)==3 && m1.get(1,1)==3 && m1.get(2,2)==3 && m1.get(2,3)==3)), true);
@@ -186,6 +185,10 @@ void test_int()
   vnl_matrix<int> m3;
   TEST("m(i,j)",
        (m(0,0)==0 && m(0,1)==-2 && m(1,0)==2 && m(1,1)==0), true);
+  TEST("m.max_value()", m.max_value(),  2);
+  TEST("m.min_value()", m.min_value(), -2);
+  TEST("m.arg_max()",   m.arg_max(),   2);
+  TEST("m.arg_min()",   m.arg_min(),   1);
   TEST("m.transpose()",
        ((m0 = m.transpose()),
         (m0(0,0)==0 && m0(0,1)==2 && m0(1,0)==-2 && m0(1,1)==0)), true);
@@ -223,7 +226,6 @@ void test_float()
   TEST("d2.get(1,1)", d2.get(1,1), (float)3.0);
   TEST("d0 == d2", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
-  TEST("(d0 == d2)", (d0==d2), false);
   TEST("d1.fill(3.0)",
        (d1.fill(3.0),
         (d1.get(0,0)==3.0 && d1.get(1,1)==3.0 && d1.get(2,2)==3.0 && d1.get(2,3)==3.0)), true);
@@ -281,6 +283,10 @@ void test_float()
   vnl_matrix<float> m3;
   TEST("m(i,j)",
        (m(0,0)==0 && m(0,1)==-2 && m(1,0)==2 && m(1,1)==0), true);
+  TEST("m.max_value()", m.max_value(),  2);
+  TEST("m.min_value()", m.min_value(), -2);
+  TEST("m.arg_max()",   m.arg_max(),   2);
+  TEST("m.arg_min()",   m.arg_min(),   1);
   TEST("m.transpose()",
        ((m1 = m.transpose()),
         (m1(0,0)==0 && m1(0,1)==2 && m1(1,0)==-2 && m1(1,1)==0)), true);
@@ -318,7 +324,6 @@ void test_double()
   TEST("d2.get(1,1)", d2.get(1,1), 3.0);
   TEST("d0 == d2", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
-  TEST("(d0 == d2)", (d0==d2), false);
   TEST("d1.fill(3.0)",
        (d1.fill(3.0),
         (d1.get(0,0)==3.0 && d1.get(1,1)==3.0 && d1.get(2,2)==3.0 && d1.get(2,3)==3.0)), true);
@@ -383,6 +388,25 @@ void test_double()
   TEST("normalize_columns()", d8[0][0]==0 && d8[1][0]==1, true);
 }
 
+namespace {
+
+template<class T>
+void
+test_extract( T* )
+{
+  vnl_matrix_fixed<T,2,6> m;
+  m(0,0)=1; m(0,1)=2; m(0,2)=3; m(0,3)=4; m(0,4)=5; m(0,5) = 11;
+  m(1,0)=6; m(1,1)=7; m(1,2)=8; m(1,3)=9; m(1,4)=0; m(1,5) = 12;
+  vcl_cout << "m=\n" << m.as_ref() << '\n';
+
+  vnl_matrix_fixed<T,1,3> r;
+  m.extract( r.as_ref().non_const(), 1, 2 );
+  vcl_cout << "r=\n" << r.as_ref() << '\n';
+  TEST( "extract into existing matrix", r(0,0)==8 && r(0,1)==9 && r(0,2)==0, true );
+}
+
+} // end anonymous namespace
+
 void test_matrix_fixed()
 {
   verbose_malloc = true;
@@ -415,8 +439,8 @@ void test_matrix_fixed()
 #endif
 
   vcl_printf("Now watch the mallocs\n");
-  vnl_matrix_ref<double> CX = X;
-  vnl_vector_ref<double> cv = v;
+  vnl_matrix_ref<double> CX = X.as_ref();
+  vnl_vector_ref<double> cv = v.as_ref();
   vnl_vector<double> Xv = CX * (cv + cv);
   vcl_printf("X v = [ %g %g %g ]\n", Xv[0], Xv[1], Xv[2]);
 
@@ -445,6 +469,8 @@ void test_matrix_fixed()
   test_int();
   test_float();
   test_double();
+
+  test_extract( (double*)0 );
 }
 
 #ifdef TEST_MALLOC

@@ -6,7 +6,7 @@
 //
 // It's much better to determine the compiler automatically here than to depend
 // on command-line flags being set.
-
+//
 // Be careful when modifying this file. In general, you need to make
 // sure that exactly one of the preprocessor flags is defined. For
 // example, if the compiler is GCC 3.4.2, then VCL_GCC should be
@@ -57,6 +57,13 @@
 #   define VCL_SGI_CC_720
 #  endif
 #  define VCL_SGI_CC
+# endif
+#endif
+
+#if defined(__FreeBSD__)
+# define VCL_FREEBSD
+# ifndef _GLIBCXX_USE_C99
+#  define _GLIBCXX_USE_C99 1
 # endif
 #endif
 
@@ -131,15 +138,15 @@
 #  if _MSC_VER >= 1300
 #   define VCL_VC_DOTNET 1 // VC is at least version >= 7.0
 #  endif
-#  if _MSC_VER >= 1400     // .NET 2005 = Version 8.x
-#   ifndef _CRT_SECURE_NO_DEPRECATE
-#    define _CRT_SECURE_NO_DEPRECATE 1
-#   endif
+
+// In future use VCL_VC_13_1 for 13.1, etc.
+#  if _MSC_VER >= 1600     // Visual Studio 2010 = Version 10.x
+#   define VCL_VC_10
+#  elif _MSC_VER >= 1500     // Visual Studio 2008 = Version 9.x
+#   define VCL_VC_9
+#  elif _MSC_VER >= 1400   // .NET 2005 = Version 8.x
 #   define VCL_VC_8
-#   if _MSC_VER >= 1400
-#    define VCL_VC_80 1    // version 8.0
-#    define VCL_VC80       // (deprecated)
-#   endif
+#   define VCL_VC80 1      // (deprecated)
 #  elif _MSC_VER >= 1300   // .NET 2003 = Version 7.x
 #   define VCL_VC_7
 #   if _MSC_VER >= 1310
@@ -188,10 +195,21 @@
 #    pragma warning(disable:4786 4355)
 #    pragma warning(disable:4018 4146 4267)
 #  endif
+
+// Disable warnings about C standard library functions.
+#  if _MSC_VER >= 1400   // .NET 2005 = Version 8.x
+#   ifndef _CRT_SECURE_NO_DEPRECATE
+#    define _CRT_SECURE_NO_DEPRECATE 1
+#   endif
+#  endif
 #endif
 
 #if defined(__KCC) // KAI compiler
 # define VCL_KAI
+#endif
+
+#if defined(__CYGWIN__) // Cygwin GCC Compiler
+# define VCL_CYGWIN_GCC
 #endif
 
 #if defined(__ICC) ||defined(__ECC) // Intel compiler?
@@ -255,7 +273,7 @@
 # define VCL_SUNPRO_ALLOCATOR_HACK(T) T // FIXME
 #endif
 
-//-------------------- template instantiation
+   //-------------------- template instantiation ------------------------------
 
 // if the compiler doesn't understand "export", we just leave it out.
 // gcc and SunPro 5.0 understand it, but they ignore it noisily.
@@ -278,7 +296,7 @@
 # define IUEi_STL_INLINE inline
 #endif
 
-//--------------------------------------------------------------------------------
+   //--------------------------------------------------------------------------
 
 // work-around to deal with some cases where some compilers (and the standard)
 // requires an explicit typename qualifier. MSVC6.0 on the other had cannot cope
@@ -303,7 +321,7 @@ typedef int saw_VCL_FOR_SCOPE_HACK;
 // fix to instantiate template functions
 #define VCL_INSTANTIATE_NONINLINE(fn_decl) template fn_decl
 
-// -------------------- handy macros
+   // -------------------- handy macros ---------------------------------------
 
 //: VCL_COMMA
 //

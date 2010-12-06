@@ -33,11 +33,16 @@ ELSE(GEOTIFF_FOUND)
   #
   
   IF(EXISTS ${vxl_SOURCE_DIR}/v3p/geotiff/geotiff.h)
-
-    SET( GEOTIFF_FOUND "YES" )
-    SET( GEOTIFF_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/geotiff)  
-    SET( GEOTIFF_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_DIR}/include/vxl/v3p/geotiff)
-    SET( GEOTIFF_LIBRARIES geotiff )
+    # Use FIND_PATH here to allow the user to set the path to IGNORE
+    # to disable geotiff support.
+    FIND_PATH(GEOTIFF_INCLUDE_DIR geotiff.h
+      ${vxl_SOURCE_DIR}/v3p/geotiff
+    )
+    IF( GEOTIFF_INCLUDE_DIR )
+      SET( GEOTIFF_FOUND "YES" )
+      SET( GEOTIFF_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_DIR}/include/vxl/v3p/geotiff)
+      SET( GEOTIFF_LIBRARIES geotiff )
+    ENDIF( GEOTIFF_INCLUDE_DIR )
   
   ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/geotiff/geotiff.h)
   

@@ -48,13 +48,14 @@ int test_compiler_main(int /*argc*/,char* /*argv*/[])
   vcl_cout << "Testing static template member..." << vcl_flush;
   if ( X<int>::pl == 0 ) {
     vcl_cout << "  PASSED" << vcl_endl;
-  } else {
+  }
+  else {
     vcl_cout << "**FAILED**" << vcl_endl;
     result = 1;
   }
 
   // If it links, it passed!
-  vcl_cout << "Testing implicit instantation..." << vcl_flush;
+  vcl_cout << "Testing implicit instantiation..." << vcl_flush;
   vcl_test_implicit_instantiation(100);
   vcl_cout << "  PASSED" << vcl_endl;
 
@@ -75,6 +76,7 @@ struct mystery_type
   int a;
   float b;
 };
+
 bool operator==(mystery_type const &, mystery_type const &);
 bool operator< (mystery_type const &, mystery_type const &);
 
@@ -101,15 +103,19 @@ void vcl_test_implicit_instantiation(int n)
 
 mystery_type::mystery_type()
 { }
+
 mystery_type::mystery_type(int a_, float b_)
   : a(a_), b(b_) { }
+
 mystery_type::mystery_type(mystery_type const &that)
   : a(that.a), b(that.b) { }
+
 mystery_type &mystery_type::operator=(mystery_type const &that)
 { a = that.a; b = that.b; return *this; }
 
 bool operator==(mystery_type const &x, mystery_type const &y)
 { return (x.a == y.a) && (x.b == y.b); }
+
 bool operator< (mystery_type const &x, mystery_type const &y)
 { return (x.a <  y.b) || ((x.a == y.a) && (x.b < y.b)); }
 

@@ -34,12 +34,14 @@
 //    (x, y, z) = sin(theta/2) (kx, ky, kz)
 // \endcode
 // where theta and k are respectively the angle and axis of rotation.
-// 3D vectors can be thought of as imaginary quaternions, and so a
+//
+// 3D vectors can be thought of as pure imaginary quaternions, and so a
 // quaternion is represented as a vnl_vector_fixed<T,4> with the imaginary
 // part before the real part for 1-1 alignment.
 //
-// Unit quaternions provide a more efficient representation for
-// rotation, than the usual orthonormal matrix that has nine
+// Unit quaternions (i.e., for which $x^2 + y^2 + z^2 + r^2 = 1$)
+// provide a more efficient representation for rotation
+// than the usual orthonormal matrix that has nine
 // parameters and six orthonormal constraints.  The unit
 // quaternion has only one unit magnitude constraint.  Composing
 // rotations with quaternions results in fewer multiplications
@@ -78,9 +80,9 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
   // However, if you specify an angle in [-2pi, 0], then methods angle() and axis() will return values with opposite signs.
   // \sa vnl_quaternion::angle()
   // \sa vnl_quaternion::axis()
-  vnl_quaternion(vnl_vector_fixed<T,3> const& axis, T angle);
+  vnl_quaternion(vnl_vector_fixed<T,3> const& axis, double angle);
 
-  //: Construct quaternion from from 3x3 row-major matrix
+  //: Construct quaternion from 3x3 row-major matrix
   explicit vnl_quaternion(vnl_matrix_fixed<T,3,3> const& transform);
 
   //: Construct quaternion from a 3D vector
@@ -136,9 +138,10 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
 
   //: Angle of rotation.
   // \note Returned angle lies in [0, 2*pi]
-  T angle() const;
+  double angle() const;
 
   //: 3x3 rotation matrix
+  // The orthonormal vectors are the rows of the matrix, not its columns
   vnl_matrix_fixed<T,3,3> rotation_matrix_transpose() const;
 
   //: 4x4 rotation matrix
@@ -157,7 +160,7 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
   vnl_vector_fixed<T,3> rotate(vnl_vector_fixed<T,3> const&) const;
 
   //: Rotation representation in Euler angles.
-  // The angles raturned will be [theta_X,theta_Y,theta_Z]
+  // The angles returned will be [theta_X,theta_Y,theta_Z]
   // where the final rotation is found be first applying theta_X radians
   // about the X axis, then theta_Y about the Y-axis, etc.
   // The axes stay in a fixed reference frame.
@@ -166,7 +169,7 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
 };
 
 //: operator<<
-// \relates vnl_quaternion
+// \relatesalso vnl_quaternion
 template <class T>
 inline vcl_ostream& operator<< (vcl_ostream& os, vnl_quaternion<T> const& q)
 {

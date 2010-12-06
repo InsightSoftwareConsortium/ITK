@@ -4,8 +4,7 @@
 // \file
 // \author Kongbin Kang
 // \date Jan 12, 2005
-// \brief the abstract class of 1D integrant function used in integral 
-// 
+// \brief the abstract class of 1D integrand function used in integral
 
 class vnl_integrant_fnct
 {

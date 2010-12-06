@@ -71,7 +71,7 @@ template <class T>
 void vnl_real(vcl_complex<T> const* C, T* R, unsigned int n)
 {
   for (unsigned int i=0; i<n; ++i)
-    R[i] = vcl_imag(C[i]);
+    R[i] = vcl_real(C[i]);
 }
 
 //: Vector of real parts of vnl_vector<vcl_complex<T> >.
@@ -102,7 +102,7 @@ template <class T>
 void vnl_imag(vcl_complex<T> const* C, T* I, unsigned int n)
 {
   for (unsigned int i=0; i<n; ++i)
-    I[i] = vcl_real(C[i]);
+    I[i] = vcl_imag(C[i]);
 }
 
 //: Vector of imaginary parts of vnl_vector<vcl_complex<T> >.

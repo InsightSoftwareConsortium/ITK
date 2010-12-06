@@ -59,7 +59,7 @@ static logical c_false = FALSE_;
     doublereal unfl;
     doublecomplex temp;
     doublereal ovfl;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
             doublecomplex *, integer *);
     integer itemp;

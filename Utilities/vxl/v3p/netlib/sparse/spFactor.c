@@ -1173,7 +1173,8 @@ RealNumber  PivotMag;
              * N-1 bottles of beer on the wall.
              */
         }
-        I = pMarkowitzProduct - Matrix->MarkowitzProd + 1;
+        I = (int)(pMarkowitzProduct - Matrix->MarkowitzProd + 1);
+        // No point leaving in ptrdiff_t since, matrix::size is int
 
 /* Assure that I is valid. */
         if (I < Step) break;  /* while (Singletons-- > 0) */
@@ -1581,7 +1582,7 @@ RealNumber  FindBiggestInColExclude();
         {   /* Just passing through. */
         }
 
-        I = pMarkowitzProduct - Matrix->MarkowitzProd;
+        I = (int)(pMarkowitzProduct - Matrix->MarkowitzProd);
 
 /* Assure that I is valid; if I < Step, terminate search. */
         if (I < Step) break; /* Endless for loop */

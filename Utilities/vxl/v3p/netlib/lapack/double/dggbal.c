@@ -53,7 +53,7 @@ static doublereal c_b70 = .5;
     doublereal coef2, coef5, gamma, alpha;
     extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
             integer *);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal sfmin, sfmax;
     extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
             doublereal *, integer *);

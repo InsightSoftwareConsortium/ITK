@@ -21,9 +21,9 @@ MARK_AS_ADVANCED( VXL_UPDATE_CONFIGURATION )
 # to update cached results. Whenever you make a change that makes it
 # necessary for cached values to be updated, increment the serial
 # number. The format follows a DNS-style numbering: the current date
-# followed by a modification time within the day.
+# followed by a modification count within the day.
 #
-SET( VXL_CONFIG_SERIAL_CURRENT "2007-13-09-001" )
+SET( VXL_CONFIG_SERIAL_CURRENT "2009-04-28-001" )
 
 IF( ${VXL_CONFIG_SERIAL_CURRENT} MATCHES "^${VXL_CONFIG_SERIAL_LAST}$" )
   # The configuration is current
@@ -125,6 +125,15 @@ IF(APPLE)
   ENDIF(NOT ${VXL_APPLE_HAS_ISNAND})
 ENDIF(APPLE)
 
+# Check if Windows have wchar_t defined
+IF(WIN32)
+  PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_HAS_WIN_WCHAR_T)
+ENDIF(WIN32)
+
+
+# Test the ability of shared libraries to link to static vxl libriares
+PERFORM_CMAKE_TEST_CUSTOM(vxl_shared_link_test VXL_PIC_COMPATIBLE)
+
 #
 # Find header files
 #
@@ -186,6 +195,29 @@ PERFORM_CHECK_HEADER(ieeefp.h VXL_HAS_IEEEFP_H)
 PERFORM_CHECK_HEADER(iso646.h VCL_CXX_HAS_HEADER_ISO646_H)
 PERFORM_CHECK_HEADER(emmintrin.h VXL_HAS_EMMINTRIN_H)
 
+#
+# Check for new C++0x standard additions (including TR1)
+#
+
+PERFORM_CHECK_HEADER(tr1/memory VCL_CXX_HAS_TR1)
+CHECK_TYPE_EXISTS_ZERO(std::shared_ptr<void> memory VCL_MEMORY_HAS_SHARED_PTR)
+CHECK_TYPE_EXISTS_ZERO(std::tr1::shared_ptr<void> tr1/memory VCL_TR1_MEMORY_HAS_SHARED_PTR)
+
+IF(VCL_MEMORY_HAS_SHARED_PTR OR VCL_TR1_MEMORY_HAS_SHARED_PTR)
+  OPTION(VCL_INCLUDE_CXX_0X "Enable C++0x standard extensions" ${YES_FOR_VXL_DASHBOARD})
+ELSE(VCL_MEMORY_HAS_SHARED_PTR OR VCL_TR1_MEMORY_HAS_SHARED_PTR)
+  SET(VCL_INCLUDE_CXX_0X 0)
+ENDIF(VCL_MEMORY_HAS_SHARED_PTR OR VCL_TR1_MEMORY_HAS_SHARED_PTR)
+
+# Make sure boolean values are (0,1) not (NO,YES)
+IF(VCL_INCLUDE_CXX_0X)
+  SET(VCL_INCLUDE_CXX_0X 1)
+ELSE(VCL_INCLUDE_CXX_0X)
+  SET(VCL_INCLUDE_CXX_0X 0)
+ENDIF(VCL_INCLUDE_CXX_0X)
+
+
+
 # check for hardware support for sse2 with the current compiler flags
 PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VXL_HAS_SSE2_HARDWARE_SUPPORT)
 
@@ -199,11 +231,8 @@ IF(NOT VXL_HAS_SSE2_HARDWARE_SUPPORT)
     SET( VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE_HELP
       "The current compiler flags do not allow the SSE2 instructions to be used. "
       "It looks like if you add the flag '-msse2' you will be able to use the "
-      "SSE2 instructions. If you chose to set VNL_CONFIG_ENABLE_SSE or "
-      "VNL_CONFIG_ENABLE_SSE2_ROUNDING to ON, cmake will put this flag for you. "
-      "You can also add this flag yourself. If you still see this message, after "
-      "the flag change, you may need to set VXL_UPDATE_CONFIGURATION to ON and "
-      "rerun cmake."
+      "SSE2 instructions. If you make this change and still see this message, "
+      " you may need to set VXL_UPDATE_CONFIGURATION to ON."
       CACHE INTERNAL "help string for how to enable SSE2 support" )
     SET(CMAKE_REQUIRED_FLAGS ${VXL_SSE_TEST_FLAG_BACKUP})
   ENDIF(CMAKE_COMPILER_IS_GNUCXX)
@@ -261,6 +290,17 @@ SET_INVERT(VXL_LITTLE_ENDIAN "${VXL_BIG_ENDIAN}")
 SET(VCL_USE_NATIVE_STL 1) # change if no
 SET(VCL_USE_NATIVE_COMPLEX 1)
 SET(VCL_USE_IMPLICIT_TEMPLATES 1) # change if no
+SET(VCL_USE_ATOMIC_COUNT 1)
+#OPTION(VCL_USE_ATOMIC_COUNT
+#  "Whether thread-safe vcl_atomic_count implementations are used." ON)
+#MARK_AS_ADVANCED( VCL_USE_ATOMIC_COUNT )
+## Need to enforce 1/0 values for configuration.
+#IF(VCL_USE_ATOMIC_COUNT)
+#  SET(VCL_USE_ATOMIC_COUNT 1)
+#ELSE(VCL_USE_ATOMIC_COUNT)
+#  SET(VCL_USE_ATOMIC_COUNT 0)
+#ENDIF(VCL_USE_ATOMIC_COUNT)
+
 SET(VXL_TWO_ARG_GETTIME 0) # not used
 
 IF(NOT VCL_CAN_DO_IMPLICIT_TEMPLATES)
@@ -322,6 +362,13 @@ ELSE(HAVE_UNISTD_H)
   SET(VXL_UNISTD_HAS_GETPID 1)
 ENDIF(HAVE_UNISTD_H)
 
+#
+# Check the address model of the build, i.e. 32-bit (4-byte) or 64-bit (8-byte). 
+# The type of size_t is directly related to address model on most machines and compilers.
+# Hence, we detect the size of size_t instead.  
+#
+check_type_size(size_t  VXL_SIZEOF_SIZE_T)
+MATH(EXPR VXL_ADDRESS_BITS 8*${VXL_SIZEOF_SIZE_T} )
 
 #
 # Check numeric_limits infinity stuff

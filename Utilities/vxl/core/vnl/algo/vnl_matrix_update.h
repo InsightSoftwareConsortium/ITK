@@ -1,7 +1,6 @@
 // This is core/vnl/algo/vnl_matrix_update.h
 #ifndef vnl_matrix_update_h_
 #define vnl_matrix_update_h_
-
 //:
 // \file
 // \brief Function to compute M=M+a*b'
@@ -13,6 +12,7 @@
 
 //: Perform rank 1 update of M:   M+=(a*b')
 //  Requires a.size()==M.rows(),  b.size()==M.columns()
+//  \relatesalso vnl_matrix
 template<class T>
 inline void vnl_matrix_update(vnl_matrix<T>& M,
                               const vnl_vector<T>& a,

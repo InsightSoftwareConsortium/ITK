@@ -4,29 +4,27 @@
 // \file
 // \author Kongbin Kang at Brown
 // \date Jan 12, 2005
-// \brief the abstract 1D integrant function used for definite integral
+// \brief the abstract 1D integrand function used for definite integral
 
 #include "vnl_integrant_fnct.h"
 
 class vnl_definite_integral
 {
-  protected:
+ protected:
+  static vnl_integrant_fnct *pfnct_;
 
-    static vnl_integrant_fnct *pfnct_;
-    
-  public:
+ public:
+  vnl_definite_integral() { pfnct_ = 0; }
 
-    vnl_definite_integral() { pfnct_ = 0; }
-
-    void set_fnct(vnl_integrant_fnct* f) { pfnct_ = f; }
+  void set_fnct(vnl_integrant_fnct* f) { pfnct_ = f; }
 
 #if 0
-    //: integration from a to b, in n steps
-    virtual double integral(vnl_integrant_fnct *f, float a, float b, int n)=0;
-#endif 
+  //: integration from a to b, in n steps
+  virtual double integral(vnl_integrant_fnct *f, float a, float b, int n)=0;
+#endif
 
-    //: dector
-    virtual ~vnl_definite_integral() { pfnct_ = 0; }
+  // destructor
+  virtual ~vnl_definite_integral() { pfnct_ = 0; }
 };
 
 #endif

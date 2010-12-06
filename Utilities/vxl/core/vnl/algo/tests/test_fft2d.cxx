@@ -33,9 +33,9 @@ void test_cplx(vnl_fft_prime_factors<double> const &/*prx*/,
 {
   vnl_matrix<vcl_complex<double> > fft_matrix = M;
   vnl_fft_2d<double> fft(M.rows(), M.cols()); fft.transform(fft_matrix, dir);
-  testlib_test_assert ("test rows", fft.rows() == M.rows());
-  testlib_test_assert ("test cols", fft.cols() == M.cols());
-  testlib_test_assert ("test transform", fft_matrix != M);
+  TEST("test rows", fft.rows(), M.rows());
+  TEST("test cols", fft.cols(), M.cols());
+  TEST("test transform", fft_matrix == M, false);
 }
 
 void test_fft2d ()
@@ -93,7 +93,7 @@ void test_fft2d ()
 
   double error = (fft_matrix - vcl_complex<double>(cplx_matrix.size())*cplx_matrix).fro_norm();
   vcl_cout << "error = " << error << vcl_endl;
-  testlib_test_assert ("fwd-bwd error", error < 1e-7); // increase for float
+  TEST_NEAR("fwd-bwd error", error, 0.0, 1e-7); // increase for float
 }
 
 TESTMAIN (test_fft2d);

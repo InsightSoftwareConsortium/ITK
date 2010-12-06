@@ -473,5 +473,4 @@ VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<vcl_complex<long double> const> : public vnl_numeric_traits<vcl_complex<long double> > {};
 #endif
 
-
 #endif // vnl_numeric_traits_h_

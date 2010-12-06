@@ -43,11 +43,13 @@ template <class T> T vnl_determinant(T const *row0,
 int vnl_determinant(vnl_matrix<int> const &M, bool balance = false);
 
 //: evaluation using direct methods for sizes of 2x2, 3x3, and 4x4 or qr decomposition for other matrices.
+//  \relatesalso vnl_matrix
 template <class T>
 T vnl_determinant(vnl_matrix<T> const &M, bool balance = false);
 
-//: convenience overload
-// See other vnl_determinant.
+//: evaluation using direct methods for sizes of 2x2, 3x3, and 4x4 or qr decomposition for other matrices.
+//  convenience overload from vnl_matrix<T> variant
+//  \relatesalso vnl_matrix_fixed
 template <class T, unsigned m, unsigned n>
 inline T vnl_determinant(vnl_matrix_fixed<T,m,n> const &M, bool balance = false)
 {

@@ -72,6 +72,11 @@ void vnl_vector_test_int()
   vnl_vector<int> v(4,4,vvalues);
   v0 = v; v1 = v; v2 = v;
   TEST("v(i)", (v(0)==0 && v(1)==-2 && v(2)==2 && v(3)==0), true);
+
+  TEST("v.max_value()", v.max_value(),  2);
+  TEST("v.min_value()", v.min_value(), -2);
+  TEST("v.arg_max()",   v.arg_max(),   2);
+  TEST("v.arg_min()",   v.arg_min(),   1);
 #if 0
   TEST("v.abs()",
        ((v1 = v.abs()),
@@ -89,9 +94,9 @@ void vnl_vector_test_int()
         (v1(0)==0 && v1(1)==-1 && v1(2)==1 && v1(3)==0)), true);
 #if 0
   TEST("v.update(v.abs())",
-        ((v1 = v.abs()),
-         (v2.update(v1)),
-         (v2==v1)), true);
+       ((v1 = v.abs()),
+        (v2.update(v1)),
+        (v2==v1)), true);
 #endif
   TEST("v.extract(1,3)",
        ((v1 = v.extract(1,3)),
@@ -479,7 +484,7 @@ static void vnl_vector_test_io()
   }
   {
     vcl_stringstream ss;
-    ss << " \n ";
+    ss << "\n ";
     vnl_vector<double> p;
     ss >> p;
     TEST("number of values read from stream, just WS", p.size(), 0);

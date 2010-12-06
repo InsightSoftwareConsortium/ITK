@@ -4,20 +4,24 @@
 #include <vnl/vnl_alloc.h>
 #include <vnl/vnl_analytic_integrant.h>
 #include <vnl/vnl_bessel.h>
+#include <vnl/vnl_beta.h>
 #include <vnl/vnl_bignum.h>
 #include <vnl/vnl_bignum_traits.h>
 #include <vnl/vnl_block.h>
+#include <vnl/vnl_c_na_vector.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_complex.h>
 #include <vnl/vnl_complexify.h>
 #include <vnl/vnl_complex_traits.h>
 #include <vnl/vnl_copy.h>
 #include <vnl/vnl_cross.h>
+#include <vnl/vnl_crs_index.h>
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_cross_product_matrix.h>
 #include <vnl/vnl_definite_integral.h>
 #include <vnl/vnl_det.h>
 #include <vnl/vnl_diag_matrix.h>
+#include <vnl/vnl_diag_matrix_fixed.h>
 #include <vnl/vnl_double_1x1.h>
 #include <vnl/vnl_double_1x2.h>
 #include <vnl/vnl_double_1x3.h>
@@ -53,6 +57,7 @@
 #include <vnl/vnl_float_4x3.h>
 #include <vnl/vnl_float_4x4.h>
 #include <vnl/vnl_fortran_copy.h>
+#include <vnl/vnl_fortran_copy_fixed.h>
 #include <vnl/vnl_gamma.h>
 #include <vnl/vnl_hungarian_algorithm.h>
 #include <vnl/vnl_identity.h>
@@ -85,9 +90,11 @@
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_matrix_ref.h>
 #include <vnl/vnl_matrix_fixed_ref.h>
+#include <vnl/vnl_na.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
 #include <vnl/vnl_numeric_traits.h>
 #include <vnl/vnl_operators.h>
+#include <vnl/vnl_power.h>
 #include <vnl/vnl_quaternion.h>
 #include <vnl/vnl_rank.h>
 #include <vnl/vnl_random.h>
@@ -99,8 +106,10 @@
 #include <vnl/vnl_rotation_matrix.h>
 #include <vnl/vnl_sample.h>
 #include <vnl/vnl_scalar_join_iterator.h>
+#include <vnl/vnl_sparse_lst_sqr_function.h>
 #include <vnl/vnl_sparse_matrix.h>
 #include <vnl/vnl_sparse_matrix_linear_system.h>
+#include <vnl/vnl_sse.h>
 #include <vnl/vnl_sym_matrix.h>
 #include <vnl/vnl_tag.h>
 #include <vnl/vnl_trace.h>
@@ -110,6 +119,13 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector_ref.h>
 #include <vnl/vnl_vector_fixed_ref.h>
+
+#if 0 // ITK does not build vnl_xio
+#include <vnl/xio/vnl_xio_matrix_fixed.h>
+#include <vnl/xio/vnl_xio_quaternion.h>
+#include <vnl/xio/vnl_xio_vector.h>
+#include <vnl/xio/vnl_xio_vector_fixed.h>
+#endif
 
 // Put vnl_config.h at the end, to verify that none of the above implicitly depend on it
 #include <vnl/vnl_config.h>

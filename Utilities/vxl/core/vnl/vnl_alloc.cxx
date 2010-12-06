@@ -43,7 +43,7 @@ vnl_alloc::chunk_alloc(vcl_size_t size, int& nobjs)
       // Try to make do with what we have.  That can't
       // hurt.  We do not try smaller requests, since that tends
       // to result in disaster on multi-process machines.
-      for (unsigned int i = size; i <= VNL_ALLOC_MAX_BYTES; i += VNL_ALLOC_ALIGN)
+      for (vcl_size_t i = size; i <= VNL_ALLOC_MAX_BYTES; i += VNL_ALLOC_ALIGN)
       {
         my_free_list = free_list + FREELIST_INDEX(i);
         p = *my_free_list;

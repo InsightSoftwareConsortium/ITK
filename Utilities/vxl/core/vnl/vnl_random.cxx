@@ -17,7 +17,7 @@ unsigned long vnl_random::linear_congruential_lrand32()
 
 //: Construct with seed
 vnl_random::vnl_random(unsigned long seed)
-  : mz_array_position(0L), mz_borrow(0), mz_previous_normal_flag(0)
+  : linear_congruential_previous(seed), mz_array_position(0L), mz_borrow(0), mz_previous_normal_flag(0)
 {reseed(seed);}
 
 //: Construct with seed

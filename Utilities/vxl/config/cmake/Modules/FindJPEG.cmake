@@ -16,7 +16,7 @@
 # If this FORCE variable is unset or is FALSE, try to find a native library.
 IF( VXL_FORCE_V3P_JPEG )
 ELSE( VXL_FORCE_V3P_JPEG )
-  INCLUDE( ${CMAKE_ROOT}/Modules/FindJPEG.cmake )
+  FIND_PACKAGE( JPEG QUIET )
 ENDIF( VXL_FORCE_V3P_JPEG )
 
 IF(JPEG_FOUND)

@@ -57,6 +57,9 @@ bool vnl_generalized_schur(vnl_matrix<double> *A,
 #include <vcl_algorithm.h>
 
 template <class T>
+T vnl_generalized_schur_convert_cast(double a) { return static_cast<T>(a); }
+
+template <class T>
 inline bool vnl_generalized_schur(vnl_matrix<T> *A,
                                   vnl_matrix<T> *B,
                                   vnl_vector<T> *alphar,
@@ -79,14 +82,23 @@ inline bool vnl_generalized_schur(vnl_matrix<T> *A,
   if (! vnl_generalized_schur/*<double>*/(&A_, &B_, &alphar_, &alphai_, &beta_, &L_, &R_))
     return false;
 
-  vcl_copy(A_.begin(), A_.end(), A->begin());
-  vcl_copy(B_.begin(), B_.end(), B->begin());
+  vcl_transform(A_.begin(), A_.end(), A->begin(), vnl_generalized_schur_convert_cast<T>);
+  vcl_transform(B_.begin(), B_.end(), B->begin(), vnl_generalized_schur_convert_cast<T>);
 
-  alphar->set_size(alphar_.size()); vcl_copy(alphar_.begin(), alphar_.end(), alphar->begin());
-  alphai->set_size(alphai_.size()); vcl_copy(alphai_.begin(), alphai_.end(), alphai->begin());
-  beta  ->set_size(beta_  .size()); vcl_copy(beta_  .begin(), beta_  .end(), beta  ->begin());
-  L->set_size(L_.rows(), L_.cols()); vcl_copy(L_.begin(), L_.end(), L->begin());
-  R->set_size(R_.rows(), R_.cols()); vcl_copy(R_.begin(), R_.end(), R->begin());
+  alphar->set_size(alphar_.size());
+  vcl_transform(alphar_.begin(), alphar_.end(), alphar->begin(), vnl_generalized_schur_convert_cast<T>);
+  
+  alphai->set_size(alphai_.size());
+  vcl_transform(alphai_.begin(), alphai_.end(), alphai->begin(), vnl_generalized_schur_convert_cast<T>);
+  
+  beta  ->set_size(beta_  .size());
+  vcl_transform(beta_  .begin(), beta_  .end(), beta  ->begin(), vnl_generalized_schur_convert_cast<T>);
+  
+  L->set_size(L_.rows(), L_.cols());
+  vcl_transform(L_.begin(), L_.end(), L->begin(), vnl_generalized_schur_convert_cast<T>);
+
+  R->set_size(R_.rows(), R_.cols());
+  vcl_transform(R_.begin(), R_.end(), R->begin(), vnl_generalized_schur_convert_cast<T>);
 
   return true;
 }

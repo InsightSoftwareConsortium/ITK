@@ -71,7 +71,7 @@ class vnl_brent_minimizer : public vnl_nonlinear_minimizer
   // The tolerance can be set using prior call to set_x_tolerance(tol).
   // Use f_at_last_minimum() to get function evaluation at the returned minima.
   double minimize_golden(double ax, double bx, double cx,
-                               double fa, double fb, double fc);
+                         double fa, double fb, double fc);
 
   //: Find the minimum value of f(x) within a<= x <= c.
   // \retval The position,x, of the minimum x.
@@ -87,7 +87,7 @@ class vnl_brent_minimizer : public vnl_nonlinear_minimizer
   // The tolerance can be set using prior call to set_x_tolerance(tol).
   // Use f_at_last_minimum() to get function evaluation at the returned minima.
   double minimize_given_bounds_and_one_f(double ax, double bx, double cx,
-                                                              double fb);
+                                         double fb);
 
   //: Find the minimum value of f(x) within a<= x <= c.
   // \retval The position,x, of the minimum x.
@@ -99,8 +99,7 @@ class vnl_brent_minimizer : public vnl_nonlinear_minimizer
   // The tolerance can be set using prior call to set_x_tolerance(tol).
   // Use f_at_last_minimum() to get function evaluation at the returned minima.
   double minimize_given_bounds_and_all_f(double ax, double bx, double cx,
-                               double fa, double fb, double fc);
-
+                                         double fa, double fb, double fc);
 };
 
 #endif // vnl_brent_minimizer_h_

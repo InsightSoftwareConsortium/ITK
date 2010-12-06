@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<    >*/
-/* Subroutine */ int sggsvd_(char *jobu, char *jobv, char *jobq, integer *m, 
+/* Subroutine */ int sggsvd_(const char *jobu, const char *jobv, const char *jobq, integer *m, 
         integer *n, integer *p, integer *k, integer *l, real *a, integer *lda,
          real *b, integer *ldb, real *alpha, real *beta, real *u, integer *
         ldu, real *v, integer *ldv, real *q, integer *ldq, real *work, 
@@ -38,7 +38,7 @@ static integer c__1 = 1;
     real tola;
     integer isub;
     real tolb, unfl, temp, smax;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     real anorm, bnorm;
     logical wantq;
     extern /* Subroutine */ int scopy_(integer *, real *, integer *, real *, 
@@ -48,11 +48,11 @@ static integer c__1 = 1;
             integer *, real *, integer *, real *, ftnlen);
     integer ncycle;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen), stgsja_(
-            char *, char *, char *, integer *, integer *, integer *, integer *
+            const char *, const char *, const char *, integer *, integer *, integer *, integer *
             , integer *, real *, integer *, real *, integer *, real *, real *,
              real *, real *, real *, integer *, real *, integer *, real *, 
             integer *, real *, integer *, integer *, ftnlen, ftnlen, ftnlen), 
-            sggsvp_(char *, char *, char *, integer *, integer *, integer *, 
+            sggsvp_(const char *, const char *, const char *, integer *, integer *, integer *, 
             real *, integer *, real *, integer *, real *, real *, integer *, 
             integer *, real *, integer *, real *, integer *, real *, integer *
             , integer *, real *, real *, integer *, ftnlen, ftnlen, ftnlen);

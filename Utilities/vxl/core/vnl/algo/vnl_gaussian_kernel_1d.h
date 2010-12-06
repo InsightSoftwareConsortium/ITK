@@ -19,9 +19,6 @@
 #include <vnl/vnl_vector.h>
 
 //: Holds one half of a discretely sampled 1D gaussian distribution
-//  vnl_gaussian_kernel_1d is a class that holds one half of a discretely
-//  sampled 1D gaussian distribution.
-
 class vnl_gaussian_kernel_1d
 {
  public:

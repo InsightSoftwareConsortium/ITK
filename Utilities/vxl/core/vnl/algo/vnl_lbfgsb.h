@@ -22,7 +22,7 @@
 
 //: Limited memory Broyden Fletcher Goldfarb Shannon minimization with constraints.
 //  Lower and upper bounds may be specified for the variables to be optimized.
-//  The algorithm miminizes a nonlinear function f(x) of n variables
+//  The algorithm minimizes a nonlinear function f(x) of n variables
 //  subject to simple bound constraints of l <= x <= u.
 
 class vnl_lbfgsb : public vnl_nonlinear_minimizer

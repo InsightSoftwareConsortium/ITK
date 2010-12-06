@@ -1,5 +1,5 @@
 // This is core/vnl/tests/test_complex.cxx
-
+#include <testlib/testlib_test.h>
 //:
 // \file
 
@@ -9,8 +9,6 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_random.h>
-
-#include <testlib/testlib_test.h>
 
 //: inverse cosine for complex numbers.
 // The implementation is at the bottom of this file.
@@ -53,21 +51,21 @@ static void test_vector()
   vcl_complex<double> i(0,1);
 
   vcl_cout << dot_product(a,b) << '\n';
-  testlib_test_assert_near("inner_product() conjugates correctly",
-                           inner_product(i*a,b), i*inner_product(a,b));
-  testlib_test_assert_near("inner_product() conjugates correctly",
-                           inner_product(a,i*b),-i*inner_product(a,b));
+  TEST_NEAR("inner_product() conjugates correctly",
+            inner_product(i*a,b), i*inner_product(a,b), 1e-12);
+  TEST_NEAR("inner_product() conjugates correctly",
+            inner_product(a,i*b),-i*inner_product(a,b), 1e-12);
 
-  testlib_test_assert_near("dot_product() does not conjugate",
-                           dot_product(i*a,b), i*dot_product(a,b));
-  testlib_test_assert_near("dot_product() does not conjugate",
-                           dot_product(a,i*b), i*dot_product(a,b));
+  TEST_NEAR("dot_product() does not conjugate",
+            dot_product(i*a,b), i*dot_product(a,b), 1e-12);
+  TEST_NEAR("dot_product() does not conjugate",
+            dot_product(a,i*b), i*dot_product(a,b), 1e-12);
 
   double norma=0;
   for (unsigned n=0; n<a.size(); ++n)
     norma += vcl_real(a[n])*vcl_real(a[n]) + vcl_imag(a[n])*vcl_imag(a[n]);
   norma = vcl_sqrt(norma);
-  testlib_test_assert_near("correct magnitude", norma, a.magnitude());
+  TEST_NEAR("correct magnitude", norma, a.magnitude(), 1e-12);
 }
 
 static void test_cosine()
@@ -84,7 +82,7 @@ static void test_cosine()
     vcl_complex<double> d = vcl_cos(c);
     vcl_complex<double> e = tc_acos(d);
     vcl_cout << c << ' ' << d << ' ' << e << '\n';
-    testlib_test_assert_near("acos", c, e, 1e-12);
+    TEST_NEAR("acos", c, e, 1e-12);
   }
 }
 

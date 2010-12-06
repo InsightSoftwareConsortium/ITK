@@ -40,5 +40,8 @@ inline double vnl_cum_prob_chi2(int n_dof, double chi2)
 {
   return vnl_gamma_p( n_dof*0.5 , chi2*0.5 );
 }
+//: approximate digamma function, dLog[gamma[z]]/dz
+// Analytic derivative of the Lanczos approximation. Error < 10^-11  1<z<20.
+double vnl_digamma(double x);
 
 #endif // vnl_gamma_h_

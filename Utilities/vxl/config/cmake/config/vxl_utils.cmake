@@ -7,7 +7,7 @@
 
 MACRO(INSTALL_NOBASE_HEADER_FILES prefix)
 FOREACH(file ${ARGN})
-  IF(${file} MATCHES "\\.(h|txx)(\\.in)?$")
+  IF(${file} MATCHES "\\.(h|hxx|txx)(\\.in)?$")
     STRING(REGEX REPLACE "\\.in$" "" install_file ${file})
     STRING(REGEX REPLACE "^/" "" prefix_cm24 "${prefix}")
     GET_FILENAME_COMPONENT(dir ${install_file} PATH)
@@ -18,7 +18,7 @@ FOREACH(file ${ARGN})
     INSTALL(FILES "${install_prefix}/${install_file}"
       DESTINATION ${prefix_cm24}/${dir}
       COMPONENT Development)
-  ENDIF(${file} MATCHES "\\.(h|txx)(\\.in)?$")
+  ENDIF(${file} MATCHES "\\.(h|hxx|txx)(\\.in)?$")
 ENDFOREACH(file ${filelist})
 ENDMACRO(INSTALL_NOBASE_HEADER_FILES)
 

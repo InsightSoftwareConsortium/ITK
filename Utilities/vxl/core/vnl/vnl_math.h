@@ -54,9 +54,10 @@
 #else
 # define USE_SSE2_IMPL 0
 #endif
-// Turn on fast impl when using GCC on x86 platform with the following exception:
+// Turn on fast impl when using GCC on Intel-based machines with the following exception:
+//   PPC with Mac OS X
 //   GCCXML
-#if defined(__GNUC__) && (!defined(__GCCXML__)) &&  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64))
+#if defined(__GNUC__) && (!defined(__GCCXML__)) &&  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64)) && (!defined(__APPLE__)  || !defined(__ppc__) )
 # define GCC_USE_FAST_IMPL 1
 #else
 # define GCC_USE_FAST_IMPL 0
@@ -97,6 +98,7 @@ class vnl_math
   static VNL_DLL_DATA const double one_over_sqrt2pi VCL_STATIC_CONST_INIT_FLOAT_DECL(0.39894228040143267794);
   static VNL_DLL_DATA const double sqrt2            VCL_STATIC_CONST_INIT_FLOAT_DECL(1.41421356237309504880);
   static VNL_DLL_DATA const double sqrt1_2          VCL_STATIC_CONST_INIT_FLOAT_DECL(0.70710678118654752440);
+  static VNL_DLL_DATA const double euler            VCL_STATIC_CONST_INIT_FLOAT_DECL(0.57721566490153286061);
 
   //: IEEE double machine precision
   static VNL_DLL_DATA const double eps             VCL_STATIC_CONST_INIT_FLOAT_DECL(2.2204460492503131e-16);
@@ -104,6 +106,8 @@ class vnl_math
   //: IEEE single machine precision
   static VNL_DLL_DATA const float float_eps        VCL_STATIC_CONST_INIT_FLOAT_DECL(1.192092896e-07f);
   static VNL_DLL_DATA const float float_sqrteps    VCL_STATIC_CONST_INIT_FLOAT_DECL(3.4526698307e-4f);
+//: Convert an angle to [0, 2Pi) range
+  static double angle_0_to_2pi(double angle);
 };
 
 // We do not want to make assumptions about unknown types that happen
@@ -136,6 +140,9 @@ bool vnl_math_isnan(long double);
 #if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
 template <class T> bool vnl_math_isnan(T);
 #endif
+
+
+
 
 // isinf
 inline bool vnl_math_isinf(char)          { return false; }

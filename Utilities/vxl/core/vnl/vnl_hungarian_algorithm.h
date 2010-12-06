@@ -1,6 +1,5 @@
 #ifndef vnl_hungarian_algorithm_h_
 #define vnl_hungarian_algorithm_h_
-
 //:
 // \file
 // \author Amitha Perera
@@ -19,11 +18,12 @@
 // \param cost An N x M cost matrix. The costs cannot be -Infinity.
 //
 // \returns A vector v of size N such that v[i] = j means that row i
-// should be assigned to column j. \code v[i] = -1u \endcode (= \code
-// unsigned(-1) \endcode ) means that row i was not assigned to any
-// column. If N \> M, then every column will be assigned to some
-// row. If N \< M then every row will be assigned to some column.
+// should be assigned to column j. <tt>v[i] = unsigned(-1)</tt> means
+// that row i was not assigned to any column. If N \> M, then every
+// column will be assigned to some row. If N \< M then every row will
+// be assigned to some column.
 //
+//  \relatesalso vnl_matrix
 vcl_vector<unsigned> vnl_hungarian_algorithm( vnl_matrix<double> const& cost );
 
 #endif // vnl_hungarian_algorithm_h_

@@ -36,7 +36,7 @@ static integer c__1 = 1;
     integer i__, j, k, l, m;
     doublereal r__, s, ca, ra;
     integer ica, ira, iexc;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int zswap_(integer *, doublecomplex *, integer *, 
             doublecomplex *, integer *);
     doublereal sfmin1, sfmin2, sfmax1, sfmax2;

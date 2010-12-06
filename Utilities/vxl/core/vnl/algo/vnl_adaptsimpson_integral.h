@@ -15,18 +15,18 @@ class vnl_adaptsimpson_integral : public vnl_definite_integral
 
  protected:
 
-  //: maximum recursion deepth
-  int deepth_;
+  //: maximum recursion depth
+  int depth_;
 
   //: real computation
   double  adaptivesimpson(double(*f)(double*), double a, double b, double eps, int level, int level_max);
-  
+
  public:
-  vnl_adaptsimpson_integral(int deepth = 32) : deepth_(deepth) {}
+  vnl_adaptsimpson_integral(int depth = 32) : depth_(depth) {}
 
   //: a and b are integral limits respectively.
   // n is the number of intervals used in integral.
-  // accuracy is the accuracy you want to achieve. Norally accuracy > 1e-11)
+  // accuracy is the accuracy you want to achieve. Normally accuracy > 1e-11)
   double integral(vnl_integrant_fnct *f, double a, double b, double accuracy);
 };
 

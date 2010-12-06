@@ -5,130 +5,127 @@
 #pragma interface
 #endif
 //:
-//  \file
-//  \brief Fixed size stack-stored vnl_matrix
+// \file
+// \brief Fixed size stack-stored vnl_matrix
 //
-//  > > From: Amitha Perera [mailto:perera@cs.rpi.edu]
-//  > > Sent: Monday, October 07, 2002 3:18 PM
-//  > > Subject: vnl_vector_fixed_ref
-//  > >
-//  > > I'm working on separating vnl_vector and vnl_vector_fixed in the VXL
-//  > > tree, as I mailed a while ago to the vxl-maintainers list. I noticed
-//  > > that you'd committed a vnl_vector_fixed_ref class which doesn't seem
-//  > > to provide any additional functionality over vnl_vector_ref. May I
-//  > > remove it, or is there some use for it?
-//  > >
-//  > > FYI, the author is listed as "Paul P. Smyth, Vicon Motion
-//  > > Systems Ltd."
-//  > > and the comment is dated 02 May 2001.
+// vnl_matrix_fixed_ref is a fixed-size vnl_matrix for which the data space
+// has been supplied externally.  This is useful for two main tasks:
 //
-//  Paul Smyth <paul.smyth@vicon.com> writes:
-//  > The rationale behind it was that I had some (fast) algorithms for
-//  > matrix/vector operations that made use of compile-time knowledge of the
-//  > vector and matrix sizes.
-//  > This was typically appropriate when trying to interpret a fixed-size
-//  > subvector within a large vector of parameters as e.g. a translation.
-//  >
-//  > As I saw it, the various types of vector possible were: (with their current
-//  > names)
-//  > - pointer to memory, plus compile-time knowledge of vector size ( T*, and enum{size}) = vnl_vector_fixed_ref
-//  > - ownership of memory, plus compile-time size = vnl_vector_fixed
-//  > - pointer to memory, plus run-time only knowledge of size (T* and size()) = vnl_vector_ref
-//  > - ownership of memory, variably sized = vnl_vector
-//  >
-//  > I had a conversation with Andrew Fitzgibbon, where he reckoned that the best
-//  > thing to do with vnl vectors etc. was to create entirely separate types, and
-//  > routines for conversion between them (possibly implicitly), rather that
-//  > trying to establish a class hierarchy, which may add too many burdens in
-//  > terms of object size for small vectors/matrices.
-//  >
-//  > Sorry - I've now found the debate on the maintaners list!
-//  >
-//  > Anyway, I believe that vector_fixed_ref is very necessary, and that you
-//  > should be able to convert from a vector_fixed to a vector_fixed_ref - say
-//  > using an as_ref() member on vector_fixed or standalone function.
-//  > And I believe that for the restructured classes, vector_fixed_ref and
-//  > vector_fixed should not be related by inheritance, as that would place an
-//  > excessive burden on the size of vector_fixed.
-//  >
-//  > ------
-//  > Another issue - do you have a mechanism for dealing with const data safely?
-//  > {
-//  >   template<typename T, int n>
-//  >   vnl_vector_fixed_ref(T* i_Data);
-//  >
-//  >   void MyFunction(const vnl_vector<double> & Input)
-//  >   {
-//  >     // take a reference to the first 3 elements of Input
-//  >     vnl_vector_fixed_ref<double,3> ref(Input.begin());
-//  >     // compiler error - as making vector_fixed_ref from const
-//  > double *
-//  >   }
-//  > }
-//  >
-//  > The options appear to be
-//  > 1) Make a separate class vnl_vector_fixed_ref_const
-//  > 2) Make vnl_vector_fixed_ref so it can be instantiated with
-//  > vnl_vector_fixed_ref<double,n> AND vnl_vector_fixed_ref<const double,n>, and
-//  > gives appropriate behaviour - would probably require a to_const function
-//  > which generates vnl_vector_fixed_ref<const T,n> from
-//  > vnl_vector_fixed_ref<T,n>
-//  >
-//  > ------
-//  > Another note is that a number of routines that use vector_fixed currently
-//  > (e.g. cross_3d) should really use vector_fixed_ref as an input, because they
-//  > should be able to operate on fixed vector references as well as fixed
-//  > vectors.
-//  >
-//  > While I'm at it, has it been decided that the vnl_vector and vnl_vector_ref
-//  > classes are to remain unchanged? Because having vnl_vector as the base, and
-//  > vnl_vector_ref derived from it is a real pain in the backside. A vector
-//  > which may or may not own its own memory is a more general type than one
-//  > which does own it's own memory, and having vnl_vector as the base means that
-//  > all sorts of nastinesses can happen. Simply, a vector_ref Is-not a type of
-//  > vector.
-//  > If anything, it should be the other way round.
-//  >
-//  > void DoAssign(vnl_vector<double> & RefToMemoryIDontOwn, const vnl_vector<double> & NewContents)
-//  > {
-//  >   RefToMemoryIDontOwn = NewContents;
-//  > }
-//  >
-//  > void DeleteTwice()
-//  > {
-//  >   vnl_vector<double> vec1(3, 0); // size 3 - news 3*double
-//  >   vnl_vector<double> vec2(4,1); // size 4 news 4 * double
-//  >   vnl_vector_ref<double> ref_to_1(3,vec1.begin()); // copies pointer
-//  >   DoAssign(ref_to_1, vec2); // deletes memory owned by 1, news 4 * double
-//  >   // vec1 now points to deleted memory, and will crash when goes out of scope
-//  > }
-//  >
-//  > Maybe that issue isn't on your agenda - but it's a bit of a disaster. I know
-//  > that fixing this might break some code.
-//  >
-//  > ---------
-//  > Sorry for rolling all these things into one - I'd be interested to know what
-//  > you think. But please don't kill my vnl_vector_ref!
-//  >
-//  > Paul.
+// (a) Treating some row-based "C" matrix as a vnl_matrix in order to
+// perform vnl_matrix operations on it.
 //
-//    vnl_matrix_fixed_ref is a fixed-size vnl_matrix for which the data space
-//    has been supplied externally.  This is useful for two main tasks:
+// (b) Declaring a vnl_matrix that uses entirely stack-based storage for the
+// matrix.
 //
-//    (a) Treating some row-based "C" matrix as a vnl_matrix in order to
-//    perform vnl_matrix operations on it.
-//
-//    (b) Declaring a vnl_matrix that uses entirely stack-based storage for the
-//    matrix.
-//
-//    The big warning is that returning a vnl_matrix_fixed_ref pointer will free
-//    non-heap memory if deleted through a vnl_matrix pointer.  This should be
-//    very difficult though, as vnl_matrix_fixed_ref objects may not be constructed
-//    using operator new.  This in turn is plausible as the point is to avoid
-//    such calls.
+// The big warning is that returning a vnl_matrix_fixed_ref pointer will free
+// non-heap memory if deleted through a vnl_matrix pointer.  This should be
+// very difficult though, as vnl_matrix_fixed_ref objects may not be constructed
+// using operator new.  This in turn is plausible as the point is to avoid
+// such calls.
 //
 // \author Andrew W. Fitzgibbon, Oxford RRG
-// \date   04 Aug 96
+// \date   04 Aug 1996
+//
+// Additional comments on the vnl_matrix_fixed_ref and vnl_vector_fixed_ref
+// classes, extracted from an email conversation between Paul P. Smyth,
+// Vicon Motion Systems Ltd., from May 02, 2001, and Amitha Perera
+// (who anwers the following on Monday, October 07, 2002):
+//
+// I'm working on separating vnl_vector and vnl_vector_fixed in the VXL
+// tree, as I mailed a while ago to the vxl-maintainers list. I noticed
+// that you'd committed a vnl_vector_fixed_ref class which doesn't seem
+// to provide any additional functionality over vnl_vector_ref. May I
+// remove it, or is there some use for it?
+//
+// Paul Smyth writes:
+// The rationale behind it was that I had some (fast) algorithms for
+// matrix/vector operations that made use of compile-time knowledge of the
+// vector and matrix sizes.
+// This was typically appropriate when trying to interpret a fixed-size
+// subvector within a large vector of parameters as e.g. a translation.
+//
+// As I saw it, the various types of vector possible were: (with their current
+// names)
+// - pointer to memory, plus compile-time knowledge of vector size ( T*, and enum{size}) = vnl_vector_fixed_ref
+// - ownership of memory, plus compile-time size = vnl_vector_fixed
+// - pointer to memory, plus run-time only knowledge of size (T* and size()) = vnl_vector_ref
+// - ownership of memory, variably sized = vnl_vector
+//
+// I had a conversation with Andrew Fitzgibbon, where he reckoned that the best
+// thing to do with vnl vectors etc. was to create entirely separate types, and
+// routines for conversion between them (possibly implicitly), rather that
+// trying to establish a class hierarchy, which may add too many burdens in
+// terms of object size for small vectors/matrices.
+//
+// Sorry - I've now found the debate on the maintainers list!
+//
+// Anyway, I believe that vector_fixed_ref is very necessary, and that you
+// should be able to convert from a vector_fixed to a vector_fixed_ref - say
+// using an as_ref() member on vector_fixed or standalone function.
+// And I believe that for the restructured classes, vector_fixed_ref and
+// vector_fixed should not be related by inheritance, as that would place an
+// excessive burden on the size of vector_fixed.
+//
+// ------
+// Another issue - do you have a mechanism for dealing with const data safely?
+// {
+//   template<typename T, int n>
+//   vnl_vector_fixed_ref(T* i_Data);
+//
+//   void MyFunction(const vnl_vector<double> & Input)
+//   {
+//     // take a reference to the first 3 elements of Input
+//     vnl_vector_fixed_ref<double,3> ref(Input.begin());
+//     // compiler error - as making vector_fixed_ref from const
+// double *
+//   }
+// }
+//
+// The options appear to be
+// 1) Make a separate class vnl_vector_fixed_ref_const
+// 2) Make vnl_vector_fixed_ref so it can be instantiated with
+// vnl_vector_fixed_ref<double,n> AND vnl_vector_fixed_ref<const double,n>, and
+// gives appropriate behaviour - would probably require a to_const function
+// which generates vnl_vector_fixed_ref<const T,n> from
+// vnl_vector_fixed_ref<T,n>
+//
+// ------
+// Another note is that a number of routines that use vector_fixed currently
+// (e.g. cross_3d) should really use vector_fixed_ref as an input, because they
+// should be able to operate on fixed vector references as well as fixed
+// vectors.
+//
+// While I'm at it, has it been decided that the vnl_vector and vnl_vector_ref
+// classes are to remain unchanged? Because having vnl_vector as the base, and
+// vnl_vector_ref derived from it is a real pain in the backside. A vector
+// which may or may not own its own memory is a more general type than one
+// which does own its own memory, and having vnl_vector as the base means that
+// all sorts of nastinesses can happen. Simply, a vector_ref Is-not a type of
+// vector.
+// If anything, it should be the other way round.
+//
+// void DoAssign(vnl_vector<double> & RefToMemoryIDontOwn, const vnl_vector<double> & NewContents)
+// {
+//   RefToMemoryIDontOwn = NewContents;
+// }
+//
+// void DeleteTwice()
+// {
+//   vnl_vector<double> vec1(3, 0); // size 3 - news 3*double
+//   vnl_vector<double> vec2(4,1); // size 4 news 4 * double
+//   vnl_vector_ref<double> ref_to_1(3,vec1.begin()); // copies pointer
+//   DoAssign(ref_to_1, vec2); // deletes memory owned by 1, news 4 * double
+//   // vec1 now points to deleted memory, and will crash when goes out of scope
+// }
+//
+// Maybe that issue isn't on your agenda - but it's a bit of a disaster. I know
+// that fixing this might break some code.
+//
+// ---------
+// Sorry for rolling all these things into one - I'd be interested to know what
+// you think. But please don't kill my vnl_vector_ref!
+//
+// Paul.
 //
 // \verbatim
 //  Modifications:
@@ -136,6 +133,8 @@
 //    4-Jul-2003 Paul Smyth - general cleanup and rewrite; interface now as vnl_matrix_fixed
 //   15-Aug-2003 Peter Vanroose - removed "duplicate" operator=(vnl_matrix_fixed<T,n> const&)
 //    8-Dec-2006 Markus Moll - changed operator>> signature (to const& argument)
+//   30-Mar-2009 Peter Vanroose - added arg_min() and arg_max()
+//   24-Oct-2010 Peter Vanroose - mutators and filling methods now return *this
 // \endverbatim
 //
 //-----------------------------------------------------------------------------
@@ -228,20 +227,19 @@ class vnl_matrix_fixed_ref_const
   T const * operator[] (unsigned r) const { return data_ + num_cols * r; }
 
   //: Return number of rows
-  unsigned rows ()    const { return num_rows; }
+  unsigned rows()    const { return num_rows; }
 
   //: Return number of columns
   // A synonym for cols()
-  unsigned columns ()  const { return num_cols; }
+  unsigned columns()  const { return num_cols; }
 
   //: Return number of columns
   // A synonym for columns()
-  unsigned cols ()    const { return num_cols; }
+  unsigned cols()    const { return num_cols; }
 
   //: Return number of elements
   // This equals rows() * cols()
-  unsigned size ()    const { return num_rows*num_cols; }
-
+  unsigned size()    const { return num_rows*num_cols; }
 
   //: Print matrix to os in some hopefully sensible format
   void print(vcl_ostream& os) const;
@@ -264,7 +262,7 @@ class vnl_matrix_fixed_ref_const
 
   //: Extract a sub-matrix of size rows x cols, starting at (top,left)
   //  Thus it contains elements  [top,top+rows-1][left,left+cols-1]
-  vnl_matrix<T> extract (unsigned rows,  unsigned cols,
+  vnl_matrix<T> extract (unsigned rowz,  unsigned colz,
                          unsigned top=0, unsigned left=0) const;
 
   //: Get n rows beginning at rowstart
@@ -311,6 +309,12 @@ class vnl_matrix_fixed_ref_const
 
   //: Return maximum value of elements
   T max_value() const { return vnl_c_vector<T>::max_value(begin(), size()); }
+
+  //: Return location of minimum value of elements
+  unsigned arg_min() const { return vnl_c_vector<T>::arg_min(begin(), size()); }
+
+  //: Return location of maximum value of elements
+  unsigned arg_max() const { return vnl_c_vector<T>::arg_max(begin(), size()); }
 
   //: Return mean of all matrix elements
   T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
@@ -422,7 +426,6 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   // No boundary checking here.
   T  * operator[] (unsigned r) const { return data_block() + num_cols * r; }
 
-
   //: Access an element for reading or writing
   // There are assert style boundary checks - #define NDEBUG to turn them off.
   T       & operator() (unsigned r, unsigned c) const
@@ -434,34 +437,68 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
     return *(this->data_block() + num_cols * r + c);
   }
 
+  // ----------------------- Filling and copying -----------------------
 
-  // Filling and copying------------------------------------------------
+  //: Sets all elements of matrix to specified value, and returns "*this".
+  //  Complexity $O(r.c)$
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a matrix to a column-normalized all-elements-equal matrix, say
+  //  \code
+  //     M.fill(1).normalize_columns();
+  //  \endcode
+  //  Returning "*this" also allows passing such a matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix_fixed_ref_const<double,5,5>(1.0).normalize_columns());
+  //  \endcode
+  vnl_matrix_fixed_ref const& fill (T) const;
 
-  //: Set all elements of matrix to specified value.
-  // Complexity $O(r.c)$
-  void fill (T) const;
+  //: Sets all diagonal elements of matrix to specified value; returns "*this".
+  //  Complexity $O(\min(r,c))$
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a 3x3 matrix to [5 0 0][0 10 0][0 0 15], just say
+  //  \code
+  //     M.fill_diagonal(5).scale_row(1,2).scale_column(2,3);
+  //  \endcode
+  //  Returning "*this" also allows passing a diagonal-filled matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix_fixed_ref<double,3,3>().fill_diagonal(5));
+  //  \endcode
+  vnl_matrix_fixed_ref const& fill_diagonal (T) const;
 
-  //: Set all diagonal elements of matrix to specified value.
-  // Complexity $O(\min(r,c))$
-  void fill_diagonal (T) const;
+  //: Fills (laminates) this matrix with the given data, then returns it.
+  //  We assume that the argument points to a contiguous rows*cols array, stored rowwise.
+  //  No bounds checking on the array.
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to fill a square matrix column-wise, fill it rowwise then transpose:
+  //  \code
+  //     M.copy_in(array).inplace_transpose();
+  //  \endcode
+  //  Returning "*this" also allows passing a filled-in matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix_fixed_ref<double,3,3>().copy_in(array));
+  //  \endcode
+  vnl_matrix_fixed_ref const& copy_in(T const *) const;
 
-  //: Fill (laminate) this matrix with the given data.
-  // We assume that p points to a contiguous rows*cols array, stored rowwise.
-  void copy_in(T const *) const;
+  //: Fills (laminates) this matrix with the given data, then returns it.
+  //  A synonym for copy_in()
+  vnl_matrix_fixed_ref const& set(T const *d) const { return copy_in(d); }
 
-  //: Fill (laminate) this matrix with the given data.
-  // A synonym for copy_in()
-  void set(T const *d) const { copy_in(d); }
+  //: Fills the given array with this matrix.
+  //  We assume that the argument points to a contiguous rows*cols array, stored rowwise.
+  //  No bounds checking on the array
 
-  //: Fill the given array with this matrix.
-  // We assume that p points to a contiguous rows*cols array, stored rowwise.
-  // No bounds checking on the array
+  //: Transposes this matrix efficiently, if it is square, and returns it.
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to fill a square matrix column-wise, fill it rowwise then transpose:
+  //  \code
+  //     M.copy_in(array).inplace_transpose();
+  //  \endcode
+  vnl_matrix_fixed_ref const& inplace_transpose() const;
 
-  //: Transpose this matrix efficiently, if it is a square matrix
-  void inplace_transpose() const;
-
-
-  // Arithmetic ----------------------------------------------------
+  // ----------------------- Arithmetic --------------------------------
   // note that these functions should not pass scalar as a const&.
   // Look what would happen to A /= A(0,0).
 
@@ -552,64 +589,116 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   }
 #endif
 
-
   //: Set values of this matrix to those of M, starting at [top,left]
   vnl_matrix_fixed_ref const & update (vnl_matrix<T> const&, unsigned top=0, unsigned left=0) const;
 
-  //: Set the elements of the i'th column to v[j]  (No bounds checking)
-  void set_column(unsigned i, T const * v) const;
+  //: Set the elements of the i'th column to v[i]  (No bounds checking)
+  vnl_matrix_fixed_ref const& set_column(unsigned i, T const * v) const;
 
-  //: Set the elements of the i'th column to value
-  void set_column(unsigned i, T value ) const;
+  //: Set the elements of the i'th column to value, then return *this.
+  vnl_matrix_fixed_ref const& set_column(unsigned i, T value ) const;
 
-  //: Set j-th column to v
-  void set_column(unsigned j, vnl_vector<T> const& v) const;
+  //: Set j-th column to v, then return *this.
+  vnl_matrix_fixed_ref const& set_column(unsigned j, vnl_vector<T> const& v) const;
 
-  //: Set columns to those in M, starting at starting_column
-  void set_columns(unsigned starting_column, vnl_matrix<T> const& M) const;
+  //: Set j-th column to v, then return *this.
+  vnl_matrix_fixed_ref const& set_column(unsigned j, vnl_vector_fixed<T, num_rows> const& v) const;
 
-  //: Set the elements of the i'th row to v[j]  (No bounds checking)
-  void set_row   (unsigned i, T const * v) const;
+  //: Set columns to those in M, starting at starting_column, then return *this.
+  vnl_matrix_fixed_ref const& set_columns(unsigned starting_column, vnl_matrix<T> const& M) const;
 
-  //: Set the elements of the i'th row to value
-  void set_row   (unsigned i, T value ) const;
+  //: Set the elements of the i'th row to v[i]  (No bounds checking)
+  vnl_matrix_fixed_ref const& set_row   (unsigned i, T const * v) const;
 
-  //: Set the i-th row
-  void set_row   (unsigned i, vnl_vector<T> const&) const;
+  //: Set the elements of the i'th row to value, then return *this.
+  vnl_matrix_fixed_ref const& set_row   (unsigned i, T value ) const;
 
+  //: Set the i-th row to v, then return *this.
+  vnl_matrix_fixed_ref const& set_row   (unsigned i, vnl_vector<T> const& v) const;
 
-  // mutators
+  //: Set the i-th row to v, then return *this.
+  vnl_matrix_fixed_ref const& set_row   (unsigned i, vnl_vector_fixed<T, num_cols> const& v) const;
 
-  //: Set this matrix to an identity matrix
-  //  Abort if the matrix is not square
-  void set_identity() const;
+  // ==== mutators ====
 
-  //: Reverse order of rows.
-  void flipud() const;
+  //: Sets this matrix to an identity matrix, then returns "*this".
+  //  Returning "*this" allows e.g. passing an identity matrix as argument to
+  //  a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix_fixed_ref<double,5,5>().set_identity());
+  //  \endcode
+  //  Returning "*this" also allows "chaining" two or more operations:
+  //  e.g., to set a 3x3 matrix to [3 0 0][0 2 0][0 0 1], one could say
+  //  \code
+  //     M.set_identity().scale_row(0,3).scale_column(1,2);
+  //  \endcode
+  //  If the matrix is not square, anyhow set main diagonal to 1, the rest to 0.
+  vnl_matrix_fixed_ref const& set_identity() const;
 
-  //: Reverse order of columns.
-  void fliplr() const;
+  //: Reverses the order of rows, and returns "*this".
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to flip both up-down and left-right, one could just say
+  //  \code
+  //     M.flipud().fliplr();
+  //  \endcode
+  vnl_matrix_fixed_ref const& flipud() const;
 
-  //: Normalize each row so it is a unit vector
-  //  Zero rows are ignored
-  void normalize_rows() const;
+  //: Reverses the order of columns, and returns "*this".
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to flip both up-down and left-right, one could just say
+  //  \code
+  //     M.flipud().fliplr();
+  //  \endcode
+  vnl_matrix_fixed_ref const& fliplr() const;
 
-  //: Normalize each column so it is a unit vector
-  //  Zero columns are ignored
-  void normalize_columns() const;
+  //: Normalizes each row so it is a unit vector, and returns "*this".
+  //  Zero rows are not modified
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a matrix to a row-normalized all-elements-equal matrix, say
+  //  \code
+  //     M.fill(1).normalize_rows();
+  //  \endcode
+  //  Returning "*this" also allows passing such a matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix_fixed_ref<double,5,5>(1.0).normalize_rows());
+  //  \endcode
+  vnl_matrix_fixed_ref const& normalize_rows() const;
 
-  //: Scale elements in given row by a factor of T
-  void scale_row   (unsigned row, T value) const;
+  //: Normalizes each column so it is a unit vector, and returns "*this".
+  //  Zero columns are not modified
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a matrix to a column-normalized all-elements-equal matrix, say
+  //  \code
+  //     M.fill(1).normalize_columns();
+  //  \endcode
+  //  Returning "*this" also allows passing such a matrix as argument
+  //  to a function f, without having to name the constructed matrix:
+  //  \code
+  //     f(vnl_matrix_fixed_ref<double,5,5>(1.0).normalize_columns());
+  //  \endcode
+  vnl_matrix_fixed_ref const& normalize_columns() const;
 
-  //: Scale elements in given column by a factor of T
-  void scale_column(unsigned col, T value) const;
+  //: Scales elements in given row by a factor T, and returns "*this".
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a 3x3 matrix to [3 0 0][0 2 0][0 0 1], one could say
+  //  \code
+  //     M.set_identity().scale_row(0,3).scale_column(1,2);
+  //  \endcode
+  vnl_matrix_fixed_ref const& scale_row   (unsigned row, T value) const;
 
+  //: Scales elements in given column by a factor T, and returns "*this".
+  //  Returning "*this" allows "chaining" two or more operations:
+  //  e.g., to set a 3x3 matrix to [3 0 0][0 2 0][0 0 1], one could say
+  //  \code
+  //     M.set_identity().scale_row(0,3).scale_column(1,2);
+  //  \endcode
+  vnl_matrix_fixed_ref const& scale_column(unsigned col, T value) const;
 
   ////----------------------- Input/Output ----------------------------
 
   // : Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
   bool read_ascii(vcl_istream& s) const;
-
 
   //----------------------------------------------------------------------
   // Conversion to vnl_matrix_ref.
@@ -657,7 +746,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //: Return true if *this == rhs
   bool operator_eq (vnl_matrix_fixed_ref_const<T,num_rows,num_cols> const & rhs) const
   {
-    return equal( this->data_block(), rhs.data_block() );
+    return vnl_matrix_fixed_ref<T,num_rows,num_cols>::equal( this->data_block(), rhs.data_block() );
   }
 
   //: Equality operator
@@ -675,10 +764,8 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   // the template parameters. The vector-vector operations are
   // element-wise.
 
-
 // Make the operators below inline because (1) they are small and
 // (2) we then have less explicit instantiation trouble.
-
 
 // --- Matrix-scalar -------------------------------------------------------------
 
@@ -829,8 +916,8 @@ vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed_ref_const<T, M, N>& a,
 // The version for correct compilers
 
 //: Multiply  conformant vnl_matrix_fixed (M x N) and vector_fixed (N)
-// \relates vnl_vector_fixed
-// \relates vnl_matrix_fixed
+// \relatesalso vnl_vector_fixed
+// \relatesalso vnl_matrix_fixed
 template <class T, unsigned M, unsigned N>
 inline
 vnl_vector_fixed<T, M> operator*(const vnl_matrix_fixed_ref_const<T, M, N>& a, const vnl_vector_fixed_ref_const<T, N>& b)
@@ -839,7 +926,7 @@ vnl_vector_fixed<T, M> operator*(const vnl_matrix_fixed_ref_const<T, M, N>& a, c
 }
 
 //: Multiply two conformant vnl_matrix_fixed (M x N) times (N x O)
-// \relates vnl_matrix_fixed
+// \relatesalso vnl_matrix_fixed
 template <class T, unsigned M, unsigned N, unsigned O>
 inline
 vnl_matrix_fixed<T, M, O> operator*(const vnl_matrix_fixed_ref_const<T, M, N>& a, const vnl_matrix_fixed_ref_const<T, N, O>& b)

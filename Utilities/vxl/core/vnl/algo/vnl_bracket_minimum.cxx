@@ -36,8 +36,8 @@ class vnl_bm_func
 //: Given initial values a and b, find bracket a<b<c s.t. f(a)>f(b)<f(c)
 //  Final function values at a,b,c stored in fa,fb,fc
 void vnl_bracket_minimum(vnl_cost_function& fn,
-                        double& a, double& b, double& c,
-                        double& fa, double& fb, double& fc)
+                         double& a, double& b, double& c,
+                         double& fa, double& fb, double& fc)
 {
   // Set up object to evaluate function
   // Note that fn takes a vector input - f converts a scalar to a vector

@@ -6,7 +6,7 @@
 #define VNL_ALGO_DLL_DATA
 
 #if defined(VCL_WIN32) && !defined(BUILDING_VNL_ALGO_DLL)
-// if win32 and not buiding the DLL then you need a dllimport 
+// if win32 and not building the DLL then you need a dllimport
 // Only if you are building a DLL linked application.
 # ifdef BUILD_DLL
 #  undef VNL_ALGO_DLL_DATA

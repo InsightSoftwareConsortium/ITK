@@ -28,7 +28,7 @@ extern "C" {
     doublereal mul, cto1;
     logical done;
     doublereal ctoc;
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer itype;
     doublereal cfrom1;
     extern doublereal dlamch_(char *, ftnlen);

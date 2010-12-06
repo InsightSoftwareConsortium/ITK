@@ -8,17 +8,17 @@
 // core libraries.
 
 //: Major version number.
-// This will only increase after major changes, or an large accumulation of
+// This will only increase after major changes, or a large accumulation of
 // significant smaller ones.
 #define VXL_VERSION_MAJOR 1
 
 //: Minor version number.
 // This increments between versions. There is no
-// "even = release, odd = developement" pattern, or anything like that.
-#define VXL_VERSION_MINOR 9
+// "even = release, odd = development" pattern, or anything like that.
+#define VXL_VERSION_MINOR 15
 
 //: Patch number.
-// This is only likely to be non-zero if an serious bug is found soon after the
+// This is only likely to be non-zero if a serious bug is found soon after the
 // release of x.y.0. The VXL-maintainers do not usually distinguish between bug fixes
 // and feature improvements, so the fix for most known bugs will first be released
 // in x.(y+1).0
@@ -26,15 +26,12 @@
 
 //: Version date.  This is updated every day.
 // Formats are year=CCYY, month=MM, day=DD
-#define VXL_VERSION_DATE_YEAR 2007
+#define VXL_VERSION_DATE_YEAR 2010
 #define VXL_VERSION_DATE_MONTH 11
-#define VXL_VERSION_DATE_DAY 09
+#define VXL_VERSION_DATE_DAY 30
 
 //: ITK Modification: Defined to indicate this vxl is in ITK.
 #define VXL_VERSION_ITK
-
-//: This can either be "RELEASE" or "CVS"
-#define VXL_SOURCE "CVS"
 
 //: Helper macros to create strings with the preprocessor.
 #define VXL_VERSION_TO_STRING(s) VXL_VERSION_TO_STRING0(s)

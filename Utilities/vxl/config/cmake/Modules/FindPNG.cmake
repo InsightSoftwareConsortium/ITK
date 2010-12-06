@@ -18,7 +18,10 @@
 # If this FORCE variable is unset or is FALSE, try to find a native library.
 IF( VXL_FORCE_V3P_PNG )
 ELSE( VXL_FORCE_V3P_PNG )
-  INCLUDE( ${CMAKE_ROOT}/Modules/FindPNG.cmake )
+# Suppress not found messages
+  SET( ZLIB_FIND_QUIETLY "YES" )
+  FIND_PACKAGE( PNG QUIET )
+  SET( ZLIB_FIND_QUIETLY )
 ENDIF( VXL_FORCE_V3P_PNG )
 
 IF(PNG_FOUND)

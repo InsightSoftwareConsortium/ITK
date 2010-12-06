@@ -1,26 +1,25 @@
-// This is core/vnl/algo/vnl_chi_squared.cxx
-#ifdef VCL_NEEDS_PRAGMA_INTERFACE
-#pragma implementation
-#endif
+// This is core/vnl/algo/vnl_chi_squared.txx
+#ifndef vnl_chi_squared_txx_
+#define vnl_chi_squared_txx_
 //:
 // \file
+// \verbatim
+//  Modifications
+//   24 Mar 2010  Peter Vanroose  renamed from .cxx to .txx and moved out template instantiations
+// \endverbatim
 
 #include "vnl_chi_squared.h"
 
-// FORTRAN routine
-#include <vnl/algo/vnl_netlib.h> // dchscdf_()
+//------------------------------------------------------------
 
-//: Compute cumulative distribution function for chi-squared distribution.
-// This subroutine computes the cumulative distribution function
-// value for the chi-squared distribution with integer degrees of
-// freedom parameter = dof.  This distribution is defined for all
-// non-negative chisq.  Thus if a random variable x is drawn from a
-// chi-squared distribution with d degrees of freedom, then P(x < X) =
-// vnl_chi_squared::vnl_chi_squaredCumulative(X,d).
-double vnl_chi_squared_cumulative(double chisq, long dof)
+// FORTRAN routine
+#include <vnl/algo/vnl_netlib.h> // for dchscdf_()
+
+template <class T>
+double vnl_chi_squared_cumulative(T chisq, long dof)
 {
-  double cdf;
-  v3p_netlib_dchscdf_(&chisq,&dof,&cdf);
+  double cdf, chisqr = chisq;
+  v3p_netlib_dchscdf_(&chisqr,&dof,&cdf);
   return cdf;
 }
 
@@ -100,10 +99,11 @@ double vnl_chi_squared_statistic_12(T const *A, T const *B, int n, bool normaliz
   return sum;
 }
 
-#define inst(T) \
+#undef VNL_CHI_SQUARED_INSTANTIATE
+#define VNL_CHI_SQUARED_INSTANTIATE(T) \
+template double vnl_chi_squared_cumulative  (T chisq, long dof); \
 template double vnl_chi_squared_statistic_1 (T const *, T const *, int, bool); \
 template double vnl_chi_squared_statistic_2 (T const *, T const *, int, bool); \
 template double vnl_chi_squared_statistic_12(T const *, T const *, int, bool)
 
-inst(int);
-inst(double);
+#endif // vnl_chi_squared_txx_

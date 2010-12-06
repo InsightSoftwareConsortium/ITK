@@ -69,9 +69,9 @@ class vnl_real_npolynomial
  public:
 
   // Constructor-----------------------------------------------------------------
-  vnl_real_npolynomial() : nvar_(0), nterms_(0), ideg_(0) {} // don't use this: only here for the STL vector class.
+  vnl_real_npolynomial() : coeffs_(), polyn_(), nvar_(0), nterms_(0), ideg_(0) {} // don't use this: only here for the STL vector class.
 
-  //: Construct the poylnomial with coefficients vector c and with exponents matrix p
+  //: Construct the polynomial with coefficients vector c and with exponents matrix p
   vnl_real_npolynomial(const vnl_vector<double>& c, const vnl_matrix<unsigned int>& p);
 
   // Computations--------------------------------------------------------------

@@ -52,7 +52,7 @@ static integer c__0 = 0;
             integer *), dgemm_(char *, char *, integer *, integer *, integer *
             , doublereal *, doublereal *, integer *, doublereal *, integer *, 
             doublereal *, doublereal *, integer *, ftnlen, ftnlen);
-    extern logical lsame_(char *, char *, ftnlen, ftnlen);
+    extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
             doublereal *, doublereal *, integer *, doublereal *, integer *, 
             doublereal *, doublereal *, integer *, ftnlen), dcopy_(integer *, 

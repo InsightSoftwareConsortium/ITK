@@ -12,17 +12,20 @@
 
 //: Default ctor sets verbosity etc.
 vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
+: xtol(1e-8)           // Termination tolerance on X (solution vector)
+, maxfev(2000)         // Termination maximum number of iterations.
+, ftol(xtol * 0.01)    // Termination tolerance on F (sum of squared residuals)
+, gtol(1e-5)           // Termination tolerance on Grad(F)' * F = 0
+, epsfcn(xtol * 0.001) // Step length for FD Jacobian
+, num_iterations_(0)
+, num_evaluations_(0)
+, start_error_(0)
+, end_error_(0)
+, trace(false)
+, verbose_(false)
+, check_derivatives_(0)
+, failure_code_(ERROR_FAILURE)
 {
-  xtol = 1e-8;           // Termination tolerance on X (solution vector)
-  maxfev = 2000; // Termination maximum number of iterations.
-  ftol = xtol * 0.01;    // Termination tolerance on F (sum of squared residuals)
-  gtol = 1e-5;           // Termination tolerance on Grad(F)' * F = 0
-  epsfcn = xtol * 0.001; // Step length for FD Jacobian
-  trace = false;
-  verbose_ = false;
-  check_derivatives_=0;
-  failure_code_ = ERROR_FAILURE;
-  reset();
 }
 
 vnl_nonlinear_minimizer::~vnl_nonlinear_minimizer()

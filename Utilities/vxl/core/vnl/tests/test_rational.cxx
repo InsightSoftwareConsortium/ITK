@@ -10,6 +10,7 @@
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_det.h>
+#include <vxl_config.h> // for VXL_INT_64_IS_LONG
 
 inline vnl_rational vnl_sqrt(vnl_rational x) { return vnl_rational(vcl_sqrt(double(x))); }
 
@@ -76,10 +77,10 @@ static void test_operators()
   a /= b;
   a %= b;
   vcl_cout << vcl_setprecision(20)
-           << "a=" << a << "=" << (double)a << vcl_endl
-           << "b=" << b << "=" << (double)b << vcl_endl
-           << "c=" << c << "=" << (double)c << vcl_endl
-           << "d=" << d << "=" << (double)d << vcl_endl
+           << "a=" << a << '=' << (double)a << vcl_endl
+           << "b=" << b << '=' << (double)b << vcl_endl
+           << "c=" << c << '=' << (double)c << vcl_endl
+           << "d=" << d << '=' << (double)d << vcl_endl
            << "e=" << e << vcl_endl; // (double)d ==> floating exception
   d = -7;
   d = -7L;
@@ -98,11 +99,60 @@ static void test_infinite()
 
 static void test_frac()
 {
-  vnl_rational r(-15,-20);
+  vnl_rational r(-15,-20), s(1234321L,-1111111L), p;
   TEST("vnl_math_isfinite", vnl_math_isfinite(r), true);
   TEST("vnl_math_isnan", vnl_math_isnan(r), false);
   TEST("simplify", r.numerator() == 3 && r.denominator() == 4, true);
+  TEST("sign in numerator", s.numerator() == -1234321L && s.denominator() == 1111111L, true);
+  // All 5-digit numbers below are prime numbers, and small enough so that the multiplications in the constructors do not overflow
+  long p1=46309L, p2=46349L, p3=46327L, p4=46337L, p5=46351L;
+  r = vnl_rational(p1 * p2, p3 * p4);
+  s = vnl_rational(p3 * p4, p1 * p5);
+  p = r * s;
+  TEST("large multiplication without overflow", p.numerator() == p2 && p.denominator() == p5, true);
+  r = vnl_rational(p1 * p2, p3 * p4);
+  s = vnl_rational(p1 * p5, p3 * p4);
+  p = r * s;
+  TEST_NEAR("large multiplication with overflow", p, double(r) * double(s), 1e-12);
+  r = vnl_rational(p1 * p2, p3 * p4);
+  s = vnl_rational(p1 * p5, p3 * p4);
+  p = r / s;
+  TEST("large division without overflow", p.numerator() == p2 && p.denominator() == p5, true);
+  r = vnl_rational(p1 * p2, p3 * p4);
+  s = vnl_rational(p3 * p4, p1 * p5);
+  p = r / s;
+  TEST_NEAR("large division with overflow", p, double(r) / double(s), 1e-12);
 }
+
+#if VXL_INT_64_IS_LONG
+static void test_long_64()
+{
+  long l1 = 1234321234321L, l2 = 2*l1, l3 = 123456787654321L, l4 = l3+1;
+  vnl_rational r(-l1,-l2) /* denom = 2*num */, s(l3,-l4) /* relatively prime */, p;
+  TEST("vnl_math_isfinite", vnl_math_isfinite(r), true);
+  TEST("vnl_math_isnan", vnl_math_isnan(s), false);
+  TEST("simplify", r.numerator() == 1 && r.denominator() == 2, true);
+  TEST("sign in numerator", s.numerator() == -l3 && s.denominator() == l4, true);
+  // The 10-digit numbers below are prime numbers, and small enough so that the multiplications in the constructors do not overflow (at least, on systems where "long" is 64 bit)
+  long p1=1999999117L, p2=1999999121L, p3=1999999151L, p4=1999999171L, p5=1999999207L;
+  r = vnl_rational(p1 * p2, p3 * p4);
+  s = vnl_rational(p4 * p3, p1 * p5);
+  p = r * s;
+  TEST("large multiplication without overflow", p.numerator() == p2 && p.denominator() == p5, true);
+  r = vnl_rational(p1 * p2, p3 * p4);
+  s = vnl_rational(p1 * p5, p4 * p3);
+  p = r * s;
+  TEST_NEAR("large multiplication with overflow", p, double(r) * double(s), 1e-7);
+  r = vnl_rational(p1 * p2, p3 * p4);
+  s = vnl_rational(p1 * p5, p4 * p3);
+  p = r / s;
+  TEST("large division without overflow", p.numerator() == p2 && p.denominator() == p5, true);
+  r = vnl_rational(p1 * p2, p3 * p4);
+  s = vnl_rational(p4 * p3, p1 * p5);
+  p = r / s;
+  TEST_NEAR("large division with overflow", p, double(r) / double(s), 1e-7);
+}
+#endif // VXL_INT_64_IS_LONG
 
 static void test_approx()
 {
@@ -198,6 +248,9 @@ void test_rational()
 #ifdef NEED_COMPLEX_RATIONAL // see vnl_complex.h
   test_complex();
   test_complex_zero_one();
+#endif
+#if VXL_INT_64_IS_LONG
+  test_long_64();
 #endif
 }
 

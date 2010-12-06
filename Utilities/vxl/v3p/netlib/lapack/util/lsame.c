@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       LOGICAL          FUNCTION LSAME( CA, CB ) >*/
-logical lsame_(char *ca, char *cb, ftnlen ca_len, ftnlen cb_len)
+logical lsame_(const char *ca, const char *cb, ftnlen ca_len, ftnlen cb_len)
 {
     /* System generated locals */
     logical ret_val;

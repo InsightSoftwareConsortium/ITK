@@ -45,6 +45,7 @@ vnl_convolve(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
 //  The returned vnl_vector has the same base type T, and is identical to
 //  the return value of the previous function when T1 = T2 = U.
 //
+//  \relatesalso vnl_vector
 template <class T>
 vnl_vector<T>
 vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2,
@@ -67,6 +68,7 @@ vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2,
 //  This will generally be faster for large n, especially if the vectors are
 //  not sparse, and/or if n is a power of 2.
 //
+//  \relatesalso vnl_vector
 template <class T1, class T2, class U>
 vnl_vector<U>
 vnl_convolve_cyclic(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,

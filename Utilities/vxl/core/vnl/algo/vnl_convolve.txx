@@ -79,8 +79,8 @@ vnl_vector<U> vnl_convolve_using_fft(vnl_vector<T1> const& v1, vnl_vector<T2> co
   while (!has_only_primefactors_2_3_5(n)) ++n;
 
   // pad with zeros, so the cyclic convolution is a convolution:
-  vnl_vector<U> w1(n, U(0)); for (unsigned i=0; i<v1.size(); ++i) w1[i]=v1[i];
-  vnl_vector<U> w2(n, U(0)); for (unsigned i=0; i<v2.size(); ++i) w2[i]=v2[i];
+  vnl_vector<U> w1(n, U(0)); for (unsigned i=0; i<v1.size(); ++i) w1[i]=U(v1[i]);
+  vnl_vector<U> w2(n, U(0)); for (unsigned i=0; i<v2.size(); ++i) w2[i]=U(v2[i]);
   // convolve, using n-points FFT:
   w1 = vnl_convolve_cyclic_using_fft(w1, w2, (U*)0);
   // return w1, but possibly drop the last few (zero) entries:

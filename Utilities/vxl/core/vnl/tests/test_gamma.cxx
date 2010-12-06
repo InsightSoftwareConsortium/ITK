@@ -1,6 +1,7 @@
 // This is core/vnl/tests/test_gamma.cxx
 #include <vnl/vnl_gamma.h>
 #include <vnl/vnl_erf.h>
+#include <vnl/vnl_math.h>
 #include <testlib/testlib_test.h>
 
 static void test_gamma()
@@ -38,6 +39,8 @@ static void test_gamma()
   TEST_NEAR("vnl_scaled_erfc(6)",    vnl_scaled_erfc(6.), vcl_exp(36.)*vnl_erfc(6.), 0.01);
   TEST_NEAR("vnl_scaled_erfc(100)",  vnl_scaled_erfc(100.),   0.0056, 0.01);
   TEST_NEAR("vnl_scaled_erfc(-inf)", vnl_scaled_erfc(-1e9),  0.0,  1e-8);
+  TEST_NEAR("vnl_digamma(1)",        vnl_digamma(1), -vnl_math::euler, 1e-10);
+  TEST_NEAR("vnl_digamma(20)",       vnl_digamma(20), 2.970523992242149, 1e-10);
 }
 
 TESTMAIN(test_gamma);

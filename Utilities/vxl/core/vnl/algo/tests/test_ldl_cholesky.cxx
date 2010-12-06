@@ -4,7 +4,7 @@
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
 #include <vnl/algo/vnl_ldl_cholesky.h>
-#include <vnl/algo/vnl_svd.h>
+#include <vnl/vnl_inverse.h>
 #include <vnl/vnl_random.h>
 
 #include "test_util.h"
@@ -22,7 +22,7 @@ void test_ldl_cholesky()
   {
     vnl_ldl_cholesky chol(A);
     vnl_matrix<double> A2 = chol.lower_triangle() * vnl_diag_matrix<double>(chol.diagonal()) * chol.upper_triangle();
-    testlib_test_assert_near("LDL'=A",(A-A2).fro_norm());
+    TEST_NEAR("LDL'=A",(A-A2).fro_norm(), 0.0, 1e-12);
   }
   {
     // Test the rank-1 update
@@ -34,7 +34,7 @@ void test_ldl_cholesky()
     chol.rank1_update(v);
     vnl_matrix<double> A2 = A + Mv*Mv.transpose();
     vnl_matrix<double> A3 = chol.lower_triangle() * vnl_diag_matrix<double>(chol.diagonal()) * chol.upper_triangle();
-    testlib_test_assert_near("Rank 1 update",(A2-A3).fro_norm());
+    TEST_NEAR("Rank 1 update",(A2-A3).fro_norm(), 0.0, 1e-12);
   }
   {
     // Test the rank 2 update
@@ -44,7 +44,7 @@ void test_ldl_cholesky()
     chol.update(W);
     vnl_matrix<double> A2 = A + W*W.transpose();
     vnl_matrix<double> A3 = chol.lower_triangle() * vnl_diag_matrix<double>(chol.diagonal()) * chol.upper_triangle();
-    testlib_test_assert_near("Rank 2 update",(A2-A3).fro_norm());
+    TEST_NEAR("Rank 2 update",(A2-A3).fro_norm(), 0.0, 1e-12);
   }
   {
     // Test the rank 4 update
@@ -55,26 +55,24 @@ void test_ldl_cholesky()
     vcl_cout<<"Adding: "<<W*W.transpose()<<vcl_endl;
     vnl_matrix<double> A2 = A + W*W.transpose();
     vnl_matrix<double> A3 = chol.lower_triangle() * vnl_diag_matrix<double>(chol.diagonal()) * chol.upper_triangle();
-    testlib_test_assert_near("Rank 2 update",(A2-A3).fro_norm());
+    TEST_NEAR("Rank 2 update",(A2-A3).fro_norm(), 0.0, 1e-12);
   }
 
   {
     vnl_ldl_cholesky chol(A);
-    vnl_svd<double> svd(A);
     vcl_cout << "cholesky inverse:\n" << chol.inverse() << '\n'
-             << "svd inverse:\n" << svd.inverse() << '\n';
-    testlib_test_assert_near("svd.inverse() ~= cholesky.inverse()",
-                             (chol.inverse() - svd.inverse()).fro_norm());
+             << "vnl_inverse:\n" << vnl_inverse(A) << '\n';
+    TEST_NEAR("vnl_inverse() ~= cholesky.inverse()", (chol.inverse() - vnl_inverse(A)).fro_norm(), 0.0, 1e-12);
   }
   {
     vnl_ldl_cholesky chol(A);
-    testlib_test_assert_near("Ai * A - I", (chol.inverse() * A - I).fro_norm());
-    testlib_test_assert_near("Ai * A - I", (A * chol.inverse() - I).fro_norm());
+    TEST_NEAR("Ai * A - I", (chol.inverse() * A - I).fro_norm(), 0.0, 1e-12);
+    TEST_NEAR("Ai * A - I", (A * chol.inverse() - I).fro_norm(), 0.0, 1e-12);
   }
   {
     vnl_ldl_cholesky chol(A, vnl_ldl_cholesky::estimate_condition);
-    testlib_test_assert_near("Ai * A - I", (chol.inverse() * A - I).fro_norm());
-    testlib_test_assert_near("Ai * A - I", (A * chol.inverse() - I).fro_norm());
+    TEST_NEAR("Ai * A - I", (chol.inverse() * A - I).fro_norm(), 0.0, 1e-12);
+    TEST_NEAR("Ai * A - I", (A * chol.inverse() - I).fro_norm(), 0.0, 1e-12);
   }
 
   {
@@ -83,7 +81,7 @@ void test_ldl_cholesky()
     b=A*x0;
     vnl_ldl_cholesky chol(A);
     x=chol.solve(b);
-    testlib_test_assert_near("Solve Ax=b",(x-x0).one_norm(),0,1e-6);
+    TEST_NEAR("Solve Ax=b",(x-x0).one_norm(),0,1e-6);
   }
   {
     vnl_vector<double> b(3),x0(3),x;
@@ -92,7 +90,7 @@ void test_ldl_cholesky()
     b=chol.lower_triangle()*x0;
     x=b;
     chol.solve_lx(x);
-    testlib_test_assert_near("Solve Lx=b",(x-x0).one_norm(),0,1e-6);
+    TEST_NEAR("Solve Lx=b",(x-x0).one_norm(),0,1e-6);
   }
   {
     vnl_ldl_cholesky chol(A);
@@ -102,7 +100,7 @@ void test_ldl_cholesky()
     double res1 = chol.xt_m_inv_x(v);
     double res2 = dot_product(v,chol.inverse()*v);
 
-    testlib_test_assert_near("x' * inv(M) * x",res1,res2);
+    TEST_NEAR("x' * inv(M) * x",res1,res2,1e-12);
   }
   {
     vnl_ldl_cholesky chol(A);
@@ -112,9 +110,8 @@ void test_ldl_cholesky()
     double res1 = chol.xt_m_x(v);
     double res2 = dot_product(v,A*v);
 
-    testlib_test_assert_near("x' * M * x",res1,res2);
+    TEST_NEAR("x' * M * x",res1,res2,1e-12);
   }
-
 }
 
 TESTMAIN(test_ldl_cholesky);

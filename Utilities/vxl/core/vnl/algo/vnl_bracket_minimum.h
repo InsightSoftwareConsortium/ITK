@@ -29,7 +29,7 @@
 //  to stop it if it is supplied with a monotonic function - it will just continue
 //  forever.
 void vnl_bracket_minimum(vnl_cost_function& f,
-                        double& a, double& b, double& c,
-                        double& fa, double& fb, double& fc);
+                         double& a, double& b, double& c,
+                         double& fa, double& fb, double& fc);
 
 #endif // vnl_bracket_minimum_h_

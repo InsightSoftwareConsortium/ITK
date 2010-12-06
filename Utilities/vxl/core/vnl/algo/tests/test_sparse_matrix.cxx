@@ -38,8 +38,7 @@ void doTest1()
     vcl_cout << vcl_endl;
   }
 
-  vnl_sparse_matrix<double> prod;
-  m1.mult(m2,prod);
+  vnl_sparse_matrix<double> prod = m1*m2;
 
   vcl_cout << "prod:\n";
   for (unsigned i=0; i<n; i++) {
@@ -48,8 +47,7 @@ void doTest1()
     vcl_cout << vcl_endl;
   }
 
-  vnl_sparse_matrix<double> sum;
-  m1.add(m2,sum);
+  vnl_sparse_matrix<double> sum = m1+m2;
 
   vcl_cout << "sum:\n";
   for (unsigned i=0; i<n; i++) {
@@ -58,8 +56,7 @@ void doTest1()
     vcl_cout << vcl_endl;
   }
 
-  vnl_sparse_matrix<double> diff;
-  m1.subtract(m2,diff);
+  vnl_sparse_matrix<double> diff = m1-m2;
 
   vcl_cout << "diff:\n";
   for (unsigned i=0; i<n; i++) {
@@ -86,8 +83,7 @@ void doTest2()
       m2(i,(i+n-3)%n) = 1.0;
     }
 
-    vnl_sparse_matrix<double> prod;
-    m1.mult(m2,prod);
+    vnl_sparse_matrix<double> prod = m1*m2;
 
     vcl_clock_t tn = vcl_clock();
     vcl_cout << n << ' ' << tn - t << vcl_endl;
