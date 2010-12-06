@@ -41,6 +41,10 @@ namespace itk
  * should contain an integer format string like "%d". Bad formats will
  * cause the series reader to throw an exception.
  *
+ * Warning: returned filenames (which may be full or relative paths)
+ * are not checked against any system-imposed path-length limit, because
+ * of difficulties finding a portable method to do so.
+ *
  * \ingroup IOFilters
  *
  */

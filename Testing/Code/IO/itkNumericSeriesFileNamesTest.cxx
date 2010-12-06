@@ -19,6 +19,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkNumericSeriesFileNames.h"
+#include "itksys/SystemTools.hxx"
 
 int itkNumericSeriesFileNamesTest(int, char* [])
 {
@@ -27,7 +28,7 @@ int itkNumericSeriesFileNamesTest(int, char* [])
   fit->SetStartIndex(10);
   fit->SetEndIndex(20);
   fit->SetIncrementIndex(2);
-  fit->SetSeriesFormat ("foo.%03d.png");
+  fit->SetSeriesFormat ("foo.%0200d.png");
 
   std::vector<std::string> names = fit->GetFileNames();
   std::vector<std::string>::iterator nit;
@@ -36,6 +37,14 @@ int itkNumericSeriesFileNamesTest(int, char* [])
        nit != names.end();
        nit++)
     {
+    // Check for filename truncation
+    if (itksys::SystemTools::GetFilenameLastExtension(*nit) != ".png")
+      {
+      std::cerr << "Generated file name: " << *nit
+                << " does not have the proper extension" << " .png"
+                << " and may have been truncated." << std::endl;
+      return EXIT_FAILURE;
+      }
     std::cout << "File: " << (*nit).c_str() << std::endl;
     }
 
