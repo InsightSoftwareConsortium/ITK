@@ -26,7 +26,7 @@
 #include "gdcmTag.h"
 #include "gdcmVR.h"
 #include "gdcmCodeString.h"
-
+#include <limits>
 
 namespace gdcm
 {
@@ -269,14 +269,19 @@ unsigned int DICOMDIRGenerator::FindLowerLevelDirectoryRecord( unsigned int item
     Attribute<0x4,0x1430> directoryrecordtype;
     directoryrecordtype.Set( ds );
 
+    if (i >= std::numeric_limits<uint32_t>::max())
+      {
+      gdcmErrorMacro("Cannot have more than 32 bits worth of items in a sequence.");
+      }
+    uint32_t index = (uint32_t)i;
     // found a match ?
     if( strcmp( lowerdirectorytype, directoryrecordtype.GetValue() ) == 0 )
       {
       // Need to make sure belong to same parent record:
       MyPair refval1 = GetReferenceValueForDirectoryType(item1);
-      MyPair refval2 = GetReferenceValueForDirectoryType(i);
+      MyPair refval2 = GetReferenceValueForDirectoryType(index);
       bool b = ImageBelongToSeries(refval2.first.c_str(), refval1.first.c_str(), refval2.second, refval1.second);
-      if( b ) return i;
+      if( b ) return index;
       }
     //assert( strncmp( lowerdirectorytype, directoryrecordtype.GetValue(), strlen( lowerdirectorytype ) ) != 0 );
     }
@@ -304,14 +309,20 @@ unsigned int DICOMDIRGenerator::FindNextDirectoryRecord( unsigned int item1, con
     Attribute<0x4,0x1430> directoryrecordtype;
     directoryrecordtype.Set( ds );
 
+    if (i >= std::numeric_limits<uint32_t>::max())
+      {
+      gdcmErrorMacro("Cannot have more than 32 bits worth of items in a sequence.");
+      }
+    uint32_t index = (uint32_t)i;
+
     // found a match ?
     if( strcmp( directorytype, directoryrecordtype.GetValue() ) == 0 )
       {
       // Need to make sure belong to same parent record:
       MyPair refval1 = GetReferenceValueForDirectoryType(item1);
-      MyPair refval2 = GetReferenceValueForDirectoryType(i);
+      MyPair refval2 = GetReferenceValueForDirectoryType(index);
       bool b = ImageBelongToSameSeries(refval1.first.c_str(), refval2.first.c_str(), refval1.second);
-      if( b ) return i;
+      if( b ) return index;
       }
     //assert( strncmp( directorytype, directoryrecordtype.GetValue(), strlen( directorytype ) ) != 0 );
     }
@@ -334,14 +345,19 @@ bool DICOMDIRGenerator::TraverseDirectoryRecords(VL start )
     Attribute<0x4,0x1430> directoryrecordtype;
     directoryrecordtype.Set( ds );
     //std::cout << "FOUND DIRECTORY TYPE:" << directoryrecordtype.GetValue() << std::endl;
-    size_t next = FindNextDirectoryRecord( i, directoryrecordtype.GetValue() );
+    if (i >= std::numeric_limits<uint32_t>::max())
+      {
+      gdcmErrorMacro("Cannot have more than 32 bits worth of items in a sequence.");
+      }
+    uint32_t index = (uint32_t)i;
+    uint32_t next = FindNextDirectoryRecord( index, directoryrecordtype.GetValue() );
     if( next )
       {
       Attribute<0x4,0x1400> offsetofthenextdirectoryrecord = {0};
       offsetofthenextdirectoryrecord.SetValue( Internals->OffsetTable[ next - 1 ] );
       ds.Replace( offsetofthenextdirectoryrecord.GetAsDataElement() );
       }
-    size_t lower = FindLowerLevelDirectoryRecord( i, directoryrecordtype.GetValue() );
+    uint32_t lower = FindLowerLevelDirectoryRecord( index, directoryrecordtype.GetValue() );
     if( lower )
       {
       Attribute<0x4,0x1420> offsetofreferencedlowerleveldirectoryentity = {0};

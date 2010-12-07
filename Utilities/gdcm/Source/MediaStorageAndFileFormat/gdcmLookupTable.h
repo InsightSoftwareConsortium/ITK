@@ -50,7 +50,7 @@ public:
     unsigned short subscript, unsigned short bitsize);
   unsigned int GetLUTLength(LookupTableType type) const;
   virtual void SetLUT(LookupTableType type, const unsigned char *array,
-    size_t length);
+    uint32_t length);
   void GetLUT(LookupTableType type, unsigned char *array, unsigned int &length) const;
   void GetLUTDescriptor(LookupTableType type, unsigned short &length,
     unsigned short &subscript, unsigned short &bitsize) const;
