@@ -117,8 +117,8 @@ class ITKAlgorithms_EXPORT HardwareWisdomFilenameGenerator: public WisdomFilenam
 public:
     HardwareWisdomFilenameGenerator():
       m_UseOSName(true),
-      m_UseOSRelease(true),
-      m_UseOSVersion(true),
+      m_UseOSRelease(false),
+      m_UseOSVersion(false),
       m_UseOSPlatform(true),
       m_UseOSBitSize(true),
       m_UseNumberOfProcessors(true),
