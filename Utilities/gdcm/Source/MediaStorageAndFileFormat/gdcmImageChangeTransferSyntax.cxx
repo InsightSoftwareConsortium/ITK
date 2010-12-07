@@ -351,15 +351,15 @@ bool ImageChangeTransferSyntax::Change()
     {
     // In memory decompression:
     gdcm::DataElement pixeldata( gdcm::Tag(0x7fe0,0x0010) );
-    gdcm::ByteValue *bv = new gdcm::ByteValue();
+    gdcm::ByteValue *bv1= new gdcm::ByteValue();
     uint32_t len = Input->GetBufferLength();
-    bv->SetLength( len );
-    bool b = Input->GetBuffer( (char*)bv->GetPointer() );
+    bv1->SetLength( len );
+    bool b = Input->GetBuffer( const_cast<char*>(bv1->GetPointer()) );
     if( !b )
       {
       return false;
       }
-    pixeldata.SetValue( *bv );
+    pixeldata.SetValue( *bv1 );
 
     bool success = false;
     if( !success ) success = TryRAWCodec(pixeldata, *Input, *Output);
@@ -380,9 +380,9 @@ bool ImageChangeTransferSyntax::Change()
 {
     // same goes for icon
     gdcm::ByteValue *bv = new gdcm::ByteValue();
-    uint32_t len = Input->GetIconImage().GetBufferLength();
-    bv->SetLength( len );
-    bool bb = Input->GetIconImage().GetBuffer( (char*)bv->GetPointer() );
+    uint32_t len1 = Input->GetIconImage().GetBufferLength();
+    bv->SetLength( len1 );
+    bool bb = Input->GetIconImage().GetBuffer( const_cast<char*>(bv->GetPointer()) );
     if( !bb )
       {
       return false;

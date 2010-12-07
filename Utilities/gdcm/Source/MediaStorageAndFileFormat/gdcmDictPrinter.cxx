@@ -501,9 +501,9 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
     for(; it != sqi->Items.end(); ++it)
       {
       const Item &item = *it;
-      const DataSet &ds = item.GetNestedDataSet();
+      const DataSet &ds1 = item.GetNestedDataSet();
       //const DataElement &deitem = item;
-      PrintDataSet2(os, ds);
+      PrintDataSet2(os, ds1);
       }
     }
 }
