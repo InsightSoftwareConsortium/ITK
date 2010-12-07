@@ -148,26 +148,6 @@ Rigid3DTransform< TScalarType >::Translate(const OffsetType & offset, bool)
   this->ComputeTranslation();
 }
 
-// Get an inverse of this transform
-template< class TScalarType >
-bool
-Rigid3DTransform< TScalarType >
-::GetInverse(Self *inverse) const
-{
-  return this->Superclass::GetInverse(inverse);
-}
-
-// Return an inverse of this transform
-template< class TScalarType >
-typename Rigid3DTransform< TScalarType >::InverseTransformBasePointer
-Rigid3DTransform< TScalarType >
-::GetInverseTransform() const
-{
-  Pointer inv = New();
-
-  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
-}
-
 // Back transform a point
 template< class TScalarType >
 typename Rigid3DTransform< TScalarType >::InputPointType

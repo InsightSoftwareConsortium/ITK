@@ -59,9 +59,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(Rigid3DTransform, MatrixOffsetTransformBase);
 
-  /** New macro for creation of through a Smart Pointer */
-  itkNewMacro(Self);
-
   /** Dimension of the space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
   itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
@@ -144,12 +141,6 @@ public:
    * true, and postcomposed otherwise.
    */
   void Translate(const OffsetType & offset, bool pre = false);
-
-  /** Get an inverse of this transform. */
-  bool GetInverse(Self *inverse) const;
-
-  /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /**
    * Back transform by an affine transformation

@@ -461,10 +461,6 @@ int itkCommonPrintTest(int , char* [])
     itk::Rigid3DPerspectiveTransform<double>::New();
   std::cout << "------------Rigid3DPerspectiveTransform" << Rigid3DPerspectiveTransformObj;
 
-  itk::Rigid3DTransform<double>::Pointer Rigid3DTransformObj =
-    itk::Rigid3DTransform<double>::New();
-  std::cout << "------------Rigid3DTransform" << Rigid3DTransformObj;
-
   itk::ScaleTransform<float,3>::Pointer ScaleTransformObj =
     itk::ScaleTransform<float,3>::New();
   std::cout << "------------ScaleTransform" << ScaleTransformObj;

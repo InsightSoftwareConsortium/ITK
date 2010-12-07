@@ -84,7 +84,6 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< QuaternionRigidTransform< double > >::RegisterTransform ();
     TransformFactory< Rigid2DTransform< double > >::RegisterTransform ();
     TransformFactory< Rigid3DPerspectiveTransform< double > >::RegisterTransform ();
-    TransformFactory< Rigid3DTransform< double > >::RegisterTransform ();
     TransformFactory< ScalableAffineTransform< double > >::RegisterTransform ();
     TransformFactory< ScaleLogarithmicTransform< double > >::RegisterTransform ();
     TransformFactory< ScaleVersor3DTransform< double > >::RegisterTransform ();
@@ -130,7 +129,6 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< QuaternionRigidTransform< float > >::RegisterTransform ();
     TransformFactory< Rigid2DTransform< float > >::RegisterTransform ();
     TransformFactory< Rigid3DPerspectiveTransform< float > >::RegisterTransform ();
-    TransformFactory< Rigid3DTransform< float > >::RegisterTransform ();
     TransformFactory< ScalableAffineTransform< float > >::RegisterTransform ();
     TransformFactory< ScaleLogarithmicTransform< float > >::RegisterTransform ();
     TransformFactory< ScaleVersor3DTransform< float > >::RegisterTransform ();

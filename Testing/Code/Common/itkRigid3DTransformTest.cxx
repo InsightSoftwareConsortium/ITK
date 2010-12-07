@@ -27,6 +27,28 @@
 #include "vnl/vnl_math.h"
 #include "itkVector.h"
 
+namespace itk
+{
+template <class TScalarType>
+class Rigid3DTransformSurrogate : public Rigid3DTransform < TScalarType >
+{
+public:
+  /** Standard class typedefs. */
+  typedef Rigid3DTransformSurrogate        Self;
+  typedef Rigid3DTransform< TScalarType >  Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  itkNewMacro(Self);
+
+private:
+  Rigid3DTransformSurrogate() {}
+  ~Rigid3DTransformSurrogate() {}
+
+};
+
+}
+
 namespace
 {
 bool CheckEqual(
@@ -60,16 +82,21 @@ bool TestSettingTranslation(void)
 
 
     itk::Vector< double, 3> T; T[0]=100;T[1]=200;T[2]=300;
-    itk::Rigid3DTransform<double>::Pointer r1=itk::Rigid3DTransform<double>::New();
+
+    typedef itk::Rigid3DTransformSurrogate<double>  TransformType;
+
+    TransformType::Pointer r1 = TransformType::New();
     //r1->SetIdentity();
     r1->SetRotationMatrix( R );
     r1->Translate( T );
-    itk::Rigid3DTransform<double>::ParametersType p1;
-    p1.set_size(12);
-    p1=r1->GetParameters();
 
-    itk::Rigid3DTransform<double>::Pointer r2=itk::Rigid3DTransform<double>::New();
-    itk::Rigid3DTransform<double>::ParametersType p2;
+    TransformType::ParametersType p1;
+    p1.set_size(12);
+    p1 = r1->GetParameters();
+
+    TransformType::Pointer r2 = TransformType::New();
+    TransformType::ParametersType p2;
+
     p2.set_size(12);
     for(int r=0;r<3;r++)
       {
@@ -82,26 +109,26 @@ bool TestSettingTranslation(void)
     p2[10]=T[1];
     p2[11]=T[2];
     r2->SetParameters( p2 );
-    itk::Rigid3DTransform<double>::Pointer r3=itk::Rigid3DTransform<double>::New();
+    TransformType::Pointer r3 = TransformType::New();
     r3->SetFixedParameters( r1->GetFixedParameters() );
     r3->SetParameters( r1->GetParameters() );
 
-    itk::Rigid3DTransform<double>::ParametersType p3;
+    TransformType::ParametersType p3;
     p3.set_size(12);
-    p3=r3->GetParameters();
+    p3 = r3->GetParameters();
     if( (p1 == p2)  && (p1 == p3))
-    {
+      {
       return true;
-    }
+      }
     else
-    {
+      {
       std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
       std::cout << "r1\n" << r1 << std::endl;
       std::cout << "r2\n" << r2 << std::endl;
       std::cout << "r3\n" << r3 << std::endl;
       std::cout << p1 << "\n" << p2 << "\n" << p3 << std::endl;
       std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
-    }
+      }
 
   return false;
 }
@@ -110,7 +137,7 @@ int itkRigid3DTransformTest(int ,char * [] )
 {
 
 
-  typedef itk::Rigid3DTransform<double>  TransformType;
+  typedef itk::Rigid3DTransformSurrogate<double>  TransformType;
   typedef TransformType::ParametersType  ParametersType;
 
   const double epsilon = 1e-10;
@@ -128,18 +155,18 @@ int itkRigid3DTransformTest(int ,char * [] )
     std::cout << offset << std::endl;
 
     for(unsigned int i=0; i<N; i++)
-    {
-      if( vcl_fabs( offset[i]-0.0 ) > epsilon )
       {
+      if( vcl_fabs( offset[i]-0.0 ) > epsilon )
+        {
         Ok = false;
         break;
+        }
       }
-    }
     if( !Ok )
-    {
+      {
       std::cerr << "Identity doesn't have a null offset" << std::endl;
       return EXIT_FAILURE;
-    }
+      }
   }
 
 
@@ -152,42 +179,23 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     translation->SetOffset( ioffset );
 
-    TransformType::Pointer translationInverse = TransformType::New();
-    if(!translation->GetInverse(translationInverse))
-      {
-      std::cout << "Cannot compute inverse" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "translation: " << translation;
-    std::cout << "translationInverse: " << translationInverse;
-
-    translationInverse = dynamic_cast<TransformType*>(translation->GetInverseTransform().GetPointer());
-    if(!translationInverse)
-      {
-      std::cout << "Cannot compute inverse" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "translation: " << translation;
-    std::cout << "translationInverse: " << translationInverse;
-
-
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
     std::cout << offset << std::endl;
 
     for(unsigned int i=0; i<N; i++)
-    {
-      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
       {
+      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
+        {
         Ok = false;
         break;
+        }
       }
-    }
     if( !Ok )
-    {
+      {
       std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
       return EXIT_FAILURE;
-    }
+      }
 
     {
       // Translate an itk::Point
@@ -198,24 +206,24 @@ int itkRigid3DTransformTest(int ,char * [] )
       TransformType::OutputPointType r;
       r = translation->TransformPoint( p );
       for(unsigned int i=0; i<N; i++)
-      {
-        if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
+        if( vcl_fabs( q[i]- r[i] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
-      }
       if( !Ok )
-      {
+        {
         std::cerr << "Error translating point: " << p << std::endl;
         std::cerr << "Result should be       : " << q << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
-      }
+        }
       else
-      {
+        {
         std::cout << "Ok translating an itk::Point " << std::endl;
-      }
+        }
     }
 
     {
@@ -225,23 +233,23 @@ int itkRigid3DTransformTest(int ,char * [] )
       TransformType::OutputVectorType q;
       q = translation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
-      {
-        if( vcl_fabs( q[i]- p[i] ) > epsilon )
         {
+        if( vcl_fabs( q[i]- p[i] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
-      }
       if( !Ok )
-      {
+        {
         std::cerr << "Error translating vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
-      }
+        }
       else
-      {
+        {
         std::cout << "Ok translating an itk::Vector " << std::endl;
-      }
+        }
     }
 
     {
@@ -251,23 +259,23 @@ int itkRigid3DTransformTest(int ,char * [] )
       TransformType::OutputCovariantVectorType q;
       q = translation->TransformCovariantVector( p );
       for(unsigned int i=0; i<N; i++)
-      {
-        if( vcl_fabs( q[i]- p[i] ) > epsilon )
         {
+        if( vcl_fabs( q[i]- p[i] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
-      }
       if( !Ok )
-      {
+        {
         std::cerr << "Error translating covariant vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
-      }
+        }
       else
-      {
+        {
         std::cout << "Ok translating an itk::CovariantVector " << std::endl;
-      }
+        }
     }
 
 
@@ -280,23 +288,23 @@ int itkRigid3DTransformTest(int ,char * [] )
       TransformType::OutputVnlVectorType q;
       q = translation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
-      {
-        if( vcl_fabs( q[i] - p[i] ) > epsilon )
         {
+        if( vcl_fabs( q[i] - p[i] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
-      }
       if( !Ok )
-      {
+        {
         std::cerr << "Error translating vnl_vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
-      }
+        }
       else
-      {
+        {
         std::cout << "Ok translating an vnl_Vector " << std::endl;
-      }
+        }
     }
 
 
@@ -330,43 +338,24 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     rotation->SetOffset( ioffset );
 
-    TransformType::Pointer rotationInverse = TransformType::New();
-    if(!rotation->GetInverse(rotationInverse))
-      {
-      std::cout << "Cannot compute inverse" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "rotation: " << rotation;
-    std::cout << "rotationInverse: " << rotationInverse;
-
-    rotationInverse = dynamic_cast<TransformType*>(rotation->GetInverseTransform().GetPointer());
-    if(!rotationInverse)
-      {
-      std::cout << "Cannot compute inverse" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "rotation: " << rotation;
-    std::cout << "rotationInverse: " << rotationInverse;
-
-
     // Verify the Offset content
     TransformType::OffsetType offset = rotation->GetOffset();
     std::cout << "pure Rotation test:  " << std::endl;
     std::cout << "Offset = " << offset << std::endl;
 
     for(unsigned int i=0; i<N; i++)
-    {
-      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
       {
+      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
+        {
         Ok = false;
         break;
+        }
       }
-    }
     if( !Ok )
-    {
+      {
       std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
       return EXIT_FAILURE;
-    }
+      }
 
     // Verify the Matrix content
     TransformType::MatrixType matrix0 = rotation->GetRotationMatrix();
@@ -374,22 +363,22 @@ int itkRigid3DTransformTest(int ,char * [] )
     std::cout << matrix0 << std::endl;
 
     for(unsigned int i=0; i<N; i++)
-    {
-      for(unsigned int j=0; j<N; j++)
       {
-        if( vcl_fabs( matrix0[i][j]- mrotation[i][j] ) > epsilon )
+      for(unsigned int j=0; j<N; j++)
         {
+        if( vcl_fabs( matrix0[i][j]- mrotation[i][j] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
       }
-    }
     if( !Ok )
-    {
+      {
       std::cerr << "Get Rotation Matrix  differs " << std::endl;
       std::cerr << "from SetRotationMatrix value " << std::endl;
       return EXIT_FAILURE;
-    }
+      }
 
     {
       // Rotate an itk::Point
@@ -404,24 +393,24 @@ int itkRigid3DTransformTest(int ,char * [] )
       TransformType::OutputPointType r;
       r = rotation->TransformPoint( p );
       for(unsigned int i=0; i<N; i++)
-      {
-        if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
+        if( vcl_fabs( q[i]- r[i] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
-      }
       if( !Ok )
-      {
+        {
         std::cerr << "Error rotating point   : " << p << std::endl;
         std::cerr << "Result should be       : " << q << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
-      }
+        }
       else
-      {
+        {
         std::cout << "Ok translating an itk::Point " << std::endl;
-      }
+        }
     }
 
     {
@@ -437,25 +426,25 @@ int itkRigid3DTransformTest(int ,char * [] )
       TransformType::OutputVectorType r;
       r = rotation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
-      {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
+        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
-      }
       if( !Ok )
-      {
+        {
         std::cerr << "Error rotating vector  : " << p << std::endl;
         std::cerr << "Result should be       : " << q << std::endl;
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
-      }
+        }
       else
-      {
+        {
         std::cout << "Ok rotating an itk::Vector " << std::endl;
+        }
       }
-    }
 
     {
       // Rotate an itk::CovariantVector
@@ -471,24 +460,24 @@ int itkRigid3DTransformTest(int ,char * [] )
       r = rotation->TransformCovariantVector( p );
 
       for(unsigned int i=0; i<N; i++)
-      {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
+        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
-      }
       if( !Ok )
-      {
+        {
         std::cerr << "Error Rotating covariant vector: " << p << std::endl;
         std::cerr << "Result should be               : " << q << std::endl;
         std::cerr << "Reported Result is             : " << r << std::endl;
         return EXIT_FAILURE;
-      }
+        }
       else
-      {
+        {
         std::cout << "Ok translating an itk::CovariantVector " << std::endl;
-      }
+        }
     }
 
 
@@ -509,24 +498,24 @@ int itkRigid3DTransformTest(int ,char * [] )
       TransformType::OutputVnlVectorType r;
       r = rotation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
-      {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
+        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+          {
           Ok = false;
           break;
+          }
         }
-      }
       if( !Ok )
-      {
+        {
         std::cerr << "Error translating vnl_vector : " << p << std::endl;
         std::cerr << "Result should be             : " << q << std::endl;
         std::cerr << "Reported Result is           : " << r << std::endl;
         return EXIT_FAILURE;
-      }
+        }
       else
-      {
+        {
         std::cout << "Ok translating an vnl_Vector " << std::endl;
-      }
+        }
     }
 
 
@@ -740,5 +729,3 @@ int itkRigid3DTransformTest(int ,char * [] )
   return EXIT_SUCCESS;
 
 }
-
-
