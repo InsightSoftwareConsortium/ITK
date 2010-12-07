@@ -294,12 +294,24 @@ public:
    */
   static void SetPlanRigor( const int & v )
   {
+    // use that method to check the value
+    GetPlanRigorName( v );
     GetInstance()->m_PlanRigor = v;
   }
   static int GetPlanRigor()
   {
     return GetInstance()->m_PlanRigor;
   }
+  static void SetPlanRigor( const std::string & name )
+  {
+    SetPlanRigor( GetPlanRigorValue( name ) );
+  }
+
+  /** Translate plan rigor name to value. An exception is sent if the name is not valid. */
+  static int GetPlanRigorValue( const std::string & name );
+
+  /** Translate plan rigor value to name. An exception is sent if the value is not valid. */
+  static std::string GetPlanRigorName( const int & value );
 
   /**
    * SetReadWisdomCache -- Set the behavior of wisdom file caching

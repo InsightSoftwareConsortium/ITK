@@ -35,6 +35,48 @@
 namespace itk
 {
 
+int
+FFTWGlobalConfiguration
+::GetPlanRigorValue( const std::string & name )
+{
+  if( name == "FFTW_ESTIMATE" )
+    {
+    return FFTW_ESTIMATE;
+    }
+  else if( name == "FFTW_MEASURE" )
+    {
+    return FFTW_MEASURE;
+    }
+  else if( name == "FFTW_PATIENT" )
+    {
+    return FFTW_PATIENT;
+    }
+  else if( name == "FFTW_EXHAUSTIVE" )
+    {
+    return FFTW_EXHAUSTIVE;
+    }
+  itkGenericExceptionMacro(<< "Unknown plan rigor: " << name );
+}
+
+std::string
+FFTWGlobalConfiguration
+::GetPlanRigorName( const int & value )
+{
+  switch( value )
+    {
+    case FFTW_ESTIMATE:
+      return "FFTW_ESTIMATE";
+    case FFTW_MEASURE:
+      return "FFTW_MEASURE";
+    case FFTW_PATIENT:
+      return "FFTW_PATIENT";
+    case FFTW_EXHAUSTIVE:
+      return "FFTW_EXHAUSTIVE";
+    default:
+      itkGenericExceptionMacro(<< "Unknown plan rigor: " << value );
+    }
+}
+
 static bool isAffirmativeString(std::string response)
 {
   std::for_each(response.begin(),response.end(),::toupper);
@@ -116,19 +158,11 @@ FFTWGlobalConfiguration
     std::string fftwEnvOptimiztionString;
     if( itksys::SystemTools::GetEnv("ITK_FFTW_PLAN_RIGOR", fftwEnvOptimiztionString) )
       {
-      if( fftwEnvOptimiztionString == "FFTW_MEASURE" )
+      try
         {
-        this->m_PlanRigor = FFTW_MEASURE;
+        this->m_PlanRigor = GetPlanRigorValue( fftwEnvOptimiztionString );
         }
-      if( fftwEnvOptimiztionString == "FFTW_PATIENT" )
-        {
-        this->m_PlanRigor = FFTW_PATIENT;
-        }
-      else if( fftwEnvOptimiztionString == "FFTW_EXHAUSTIVE" )
-        {
-        this->m_PlanRigor = FFTW_EXHAUSTIVE;
-        }
-      else
+      catch(...)
         {
         itkWarningMacro( "Warning: Unkown FFTW PLAN RIGOR type: " << fftwEnvOptimiztionString );
         }

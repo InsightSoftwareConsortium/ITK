@@ -104,6 +104,7 @@ int test_fft(unsigned int *SizeOfDimensions)
   typename C2RType::Pointer C2R = C2RType::New();
   /*Set the real image created as the input to the forwar FFT filter*/
   R2C->SetInput(realimage);
+  R2C->Print( std::cout );
   R2C->Update();
   /*Get the size and the pointer to the complex image.*/
   typename ComplexImageType::Pointer complexImage = R2C->GetOutput();
@@ -141,6 +142,7 @@ int test_fft(unsigned int *SizeOfDimensions)
   // newer method to inform filter that there's an odd # of pixels in the x dimension.
   const bool dimensionIsOdd = SizeOfDimensions[0] & 1;
   C2R->SetActualXDimensionIsOdd( dimensionIsOdd );
+  C2R->Print( std::cout );
   C2R->Update();
   typename RealImageType::Pointer imageafterInverseFFT = C2R->GetOutput();
    /*The Inverse FFT image iterator is the resultant iterator after we
@@ -473,6 +475,10 @@ int itkVnlFFTTest(int, char *[])
 // double.
 int itkFFTWF_FFTTest(int argc, char *argv[])
 {
+  // exercise the name-value conversion methods
+  itk::FFTWGlobalConfiguration::GetPlanRigorValue("FFTW_EXHAUSTIVE");
+  itk::FFTWGlobalConfiguration::GetPlanRigorName(FFTW_EXHAUSTIVE);
+
   itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
   itk::FFTWGlobalConfiguration::SetReadWisdomCache(true);
   itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);

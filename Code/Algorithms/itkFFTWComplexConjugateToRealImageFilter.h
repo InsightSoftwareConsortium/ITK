@@ -79,9 +79,35 @@ public:
   //
   // these should be defined in every FFT filter class
   virtual bool FullMatrix();
+
+  /**
+   * Set/Get the behavior of wisdom plan creation. The default is
+   * provided by FFTWGlobalConfiguration::GetPlanRigor().
+   *
+   * The parameter is one of the FFTW planner rigor flags FFTW_ESTIMATE, FFTW_MEASURE,
+   * FFTW_PATIENT, FFTW_EXHAUSTIVE provided by FFTWGlobalConfiguration.
+   * /sa FFTWGlobalConfiguration
+   */
+  virtual void SetPlanRigor( const int & value )
+  {
+    // use that method to check the value
+    FFTWGlobalConfiguration::GetPlanRigorName( value );
+    if( m_PlanRigor != value )
+      {
+      m_PlanRigor = value;
+      this->Modified();
+      }
+  }
+  itkGetConstReferenceMacro( PlanRigor, int );
+  void SetPlanRigor( const std::string & name )
+  {
+    this->SetPlanRigor( FFTWGlobalConfiguration::GetPlanRigorValue( name ) );
+  }
+
 protected:
   FFTWComplexConjugateToRealImageFilter()
     {
+    m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
     }
   virtual ~FFTWComplexConjugateToRealImageFilter()
     {
@@ -92,11 +118,15 @@ protected:
   virtual void BeforeThreadedGenerateData();
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
 
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
   FFTWComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   bool m_CanUseDestructiveAlgorithm;
+
+  int m_PlanRigor;
 
 };
 

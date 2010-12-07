@@ -74,7 +74,7 @@ FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >::GenerateData()
   typename FFTWProxyType::PlanType plan;
   TPixel * in = const_cast<TPixel*>(inputPtr->GetBufferPointer());
   typename FFTWProxyType::ComplexType * out = (typename FFTWProxyType::ComplexType*) outputPtr->GetBufferPointer();
-  int flags = FFTWGlobalConfiguration::GetPlanRigor();
+  int flags = m_PlanRigor;
   if( !m_CanUseDestructiveAlgorithm )
     {
     // if the input is about to be destroyed, there is no need to force fftw
@@ -143,6 +143,16 @@ UpdateOutputData(DataObject * output)
   // GenerateData().
   m_CanUseDestructiveAlgorithm = this->GetInput()->GetReleaseDataFlag();
   Superclass::UpdateOutputData( output );
+}
+
+template< typename TPixel, unsigned int VDimension >
+void
+FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")" << std::endl;
 }
 
 } // namespace itk

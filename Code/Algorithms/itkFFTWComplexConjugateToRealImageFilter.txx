@@ -92,7 +92,7 @@ BeforeThreadedGenerateData()
       plan = FFTWProxyType::Plan_dft_c2r_1d(outputSize[0],
                                      in,
                                      out,
-                                     FFTWGlobalConfiguration::GetPlanRigor(),
+                                     m_PlanRigor,
                                      this->GetNumberOfThreads(),
                                      !m_CanUseDestructiveAlgorithm);
       break;
@@ -100,7 +100,7 @@ BeforeThreadedGenerateData()
       plan = FFTWProxyType::Plan_dft_c2r_2d(outputSize[1],outputSize[0],
                                      in,
                                      out,
-                                     FFTWGlobalConfiguration::GetPlanRigor(),
+                                     m_PlanRigor,
                                      this->GetNumberOfThreads(),
                                      !m_CanUseDestructiveAlgorithm);
       break;
@@ -108,7 +108,7 @@ BeforeThreadedGenerateData()
       plan = FFTWProxyType::Plan_dft_c2r_3d(outputSize[2],outputSize[1],outputSize[0],
                                      in,
                                      out,
-                                     FFTWGlobalConfiguration::GetPlanRigor(),
+                                     m_PlanRigor,
                                      this->GetNumberOfThreads(),
                                      !m_CanUseDestructiveAlgorithm);
       break;
@@ -121,7 +121,7 @@ BeforeThreadedGenerateData()
       plan = FFTWProxyType::Plan_dft_c2r(VDimension,sizes,
                                   in,
                                   out,
-                                  FFTWGlobalConfiguration::GetPlanRigor(),
+                                  m_PlanRigor,
                                   this->GetNumberOfThreads(),
                                   !m_CanUseDestructiveAlgorithm);
       delete [] sizes;
@@ -176,5 +176,16 @@ UpdateOutputData(DataObject * output)
   m_CanUseDestructiveAlgorithm = this->GetInput()->GetReleaseDataFlag();
   Superclass::UpdateOutputData( output );
 }
+
+template< typename TPixel, unsigned int VDimension >
+void
+FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")" << std::endl;
+}
+
 } // namespace itk
 #endif // _itkFFTWComplexConjugateToRealImageFilter_txx

@@ -72,21 +72,44 @@ public:
   itkTypeMacro(FFTWRealToComplexConjugateImageFilter,
                FFTRealToComplexConjugateImageFilter);
 
-  //
-  // these should be defined in every FFT filter class
-  virtual void GenerateData();  // generates output from input
+  /**
+   * Set/Get the behavior of wisdom plan creation. The default is
+   * provided by FFTWGlobalConfiguration::GetPlanRigor().
+   *
+   * The parameter is one of the FFTW planner rigor flags FFTW_ESTIMATE, FFTW_MEASURE,
+   * FFTW_PATIENT, FFTW_EXHAUSTIVE provided by FFTWGlobalConfiguration.
+   * /sa FFTWGlobalConfiguration
+   */
+  virtual void SetPlanRigor( const int & value )
+  {
+    // use that method to check the value
+    FFTWGlobalConfiguration::GetPlanRigorName( value );
+    if( m_PlanRigor != value )
+      {
+      m_PlanRigor = value;
+      this->Modified();
+      }
+  }
+  itkGetConstReferenceMacro( PlanRigor, int );
 
 protected:
   FFTWRealToComplexConjugateImageFilter()
     {
+    m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
     }
   ~FFTWRealToComplexConjugateImageFilter()
     {
     }
 
+  //
+  // these should be defined in every FFT filter class
+  virtual void GenerateData();  // generates output from input
+
   virtual bool FullMatrix();
 
   virtual void UpdateOutputData(DataObject *output);
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   FFTWRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
@@ -94,6 +117,7 @@ private:
 
   bool m_CanUseDestructiveAlgorithm;
 
+  int m_PlanRigor;
 };
 } // namespace itk
 
