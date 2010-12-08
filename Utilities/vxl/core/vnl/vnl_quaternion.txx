@@ -153,9 +153,9 @@ vnl_quaternion<T>::vnl_quaternion(vnl_matrix_fixed<T,3,3> const& rot)
 template <class T>
 vnl_quaternion<T>::vnl_quaternion(T theta_X, T theta_Y, T theta_Z)
 {
-  vnl_quaternion<T> Rx(T(vcl_sin(double(theta_X)*0.5)), 0, 0, T(vcl_cos(double(theta_X)*0.5)));
-  vnl_quaternion<T> Ry(0, T(vcl_sin(double(theta_Y)*0.5)), 0, T(vcl_cos(double(theta_Y)*0.5)));
-  vnl_quaternion<T> Rz(0, 0, T(vcl_sin(double(theta_Z)*0.5)), T(vcl_cos(double(theta_Z)*0.5)));
+  vnl_quaternion<T> Rx(static_cast<T>(vcl_sin(double(theta_X)*0.5)), 0, 0, static_cast<T>(vcl_cos(double(theta_X)*0.5)));
+  vnl_quaternion<T> Ry(0, static_cast<T>(vcl_sin(double(theta_Y)*0.5)), 0, static_cast<T>(vcl_cos(double(theta_Y)*0.5)));
+  vnl_quaternion<T> Rz(0, 0, static_cast<T>(vcl_sin(double(theta_Z)*0.5)), static_cast<T>(vcl_cos(double(theta_Z)*0.5)));
   *this = Rz * Ry * Rx;
 }
 
