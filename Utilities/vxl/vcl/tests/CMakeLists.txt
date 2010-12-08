@@ -32,7 +32,7 @@ ADD_EXECUTABLE( vcl_test_all
      test_vector.cxx
      test_cstdio.cxx
      test_preprocessor.cxx
-     test_atomic_count.cxx
+     #test_atomic_count.cxx # ITK tests compilers this does not support
      test_typename.cxx
 )
 TARGET_LINK_LIBRARIES( vcl_test_all itkvcl )
