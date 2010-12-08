@@ -82,46 +82,18 @@ FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >::GenerateData()
     // we must be careful to not destroy it.
     flags = flags | FFTW_PRESERVE_INPUT;
     }
-  switch(VDimension)
+  int *sizes = new int[VDimension];
+  for(unsigned int i = 0; i < VDimension; i++)
     {
-    case 1:
-      plan = FFTWProxyType::Plan_dft_r2c_1d(inputSize[0],
-                                           in,
-                                           out,
-                                           flags,
-                                           this->GetNumberOfThreads());
-      break;
-    case 2:
-      plan = FFTWProxyType::Plan_dft_r2c_2d(inputSize[1],
-                                           inputSize[0],
-                                           in,
-                                           out,
-                                           flags,
-                                           this->GetNumberOfThreads());
-      break;
-    case 3:
-      plan = FFTWProxyType::Plan_dft_r2c_3d(inputSize[2],
-                                           inputSize[1],
-                                           inputSize[0],
-                                           in,
-                                           out,
-                                           flags,
-                                           this->GetNumberOfThreads());
-      break;
-    default:
-      int *sizes = new int[VDimension];
-      for(unsigned int i = 0; i < VDimension; i++)
-        {
-        sizes[(VDimension - 1) - i] = inputSize[i];
-        }
-
-      plan = FFTWProxyType::Plan_dft_r2c(VDimension,sizes,
-                                        in,
-                                        out,
-                                        flags,
-                                        this->GetNumberOfThreads());
-      delete [] sizes;
+    sizes[(VDimension - 1) - i] = inputSize[i];
     }
+
+  plan = FFTWProxyType::Plan_dft_r2c(VDimension,sizes,
+                                    in,
+                                    out,
+                                    flags,
+                                    this->GetNumberOfThreads());
+  delete [] sizes;
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 }
