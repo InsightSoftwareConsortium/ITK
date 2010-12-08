@@ -70,7 +70,7 @@ template<class TRANSFORM, class SAMPLE>
 void TransformQuadToLine(const Quad<SAMPLE>* pbyteInput, LONG pixelStrideIn, SAMPLE* ptypeBuffer, LONG pixelStride, TRANSFORM& transform)
 {
   int cpixel = MIN(pixelStride, pixelStrideIn);
-  const Quad<SAMPLE>* ptypeBufferIn = (Quad<SAMPLE>*)pbyteInput;
+  const Quad<SAMPLE>* ptypeBufferIn = pbyteInput;
 
   for (int x = 0; x < cpixel; ++x)
   {
@@ -121,7 +121,7 @@ template<class TRANSFORM, class SAMPLE>
 void TransformTripletToLine(const Triplet<SAMPLE>* pbyteInput, LONG pixelStrideIn, SAMPLE* ptypeBuffer, LONG pixelStride, TRANSFORM& transform)
 {
   int cpixel = MIN(pixelStride, pixelStrideIn);
-  const Triplet<SAMPLE>* ptypeBufferIn = (Triplet<SAMPLE>*)pbyteInput;
+  const Triplet<SAMPLE>* ptypeBufferIn = pbyteInput;
 
   for (int x = 0; x < cpixel; ++x)
   {
@@ -170,7 +170,7 @@ public:
       }
       else
       {
-        TransformTripletToLine((const Triplet<SAMPLE>*)pLine, pixelCount, (SAMPLE*)pDst, byteStride, _transform);
+       TransformTripletToLine((const Triplet<SAMPLE>*)pLine, pixelCount, (SAMPLE*)pDst, byteStride, _transform);
       }
     }
     else if (_info.components == 4 && _info.ilv == ILV_LINE)

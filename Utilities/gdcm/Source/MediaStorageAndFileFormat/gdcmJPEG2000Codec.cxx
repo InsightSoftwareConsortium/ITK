@@ -96,7 +96,7 @@ OPJ_UINT32 opj_read_from_memory(void * p_buffer, OPJ_UINT32 p_nb_bytes, myfile* 
     }
   else
     {
-      if (p_file->mem + p_file->len - p_file->cur > std::numeric_limits<uint32_t>::max())
+    if (static_cast<uint32_t>(p_file->mem + p_file->len - p_file->cur) > std::numeric_limits<uint32_t>::max())
         {
         gdcmErrorMacro("jpeg2000 reading from memory produced an image larger than 32 bits.");
         }
@@ -915,7 +915,7 @@ bool JPEG2000Codec::Code(DataElement const &in, DataElement &out)
     /* decode the source image */
     /* ----------------------- */
 
-    image = rawtoimage((char*)inputdata, &parameters,
+  image = rawtoimage(const_cast<char*>(inputdata), &parameters,
       static_cast<int>( inputlength ),
       image_width, image_height,
       sample_pixel, bitsallocated, bitsstored, sign, quality, this->GetPlanarConfiguration() );

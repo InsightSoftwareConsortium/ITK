@@ -198,7 +198,7 @@ void SegmentedPaletteColorLookupTable::SetLUT(LookupTableType type, const unsign
     palette.reserve(num_entries);
     assert( length % 2 == 0 );
     // FIXME: inplace byteswapping (BAD!)
-    SwapperNoOp::SwapArray((uint16_t*)segment_values,length/2);
+    SwapperNoOp::SwapArray(const_cast<uint16_t*>(segment_values),length/2);
     ExpandPalette(segment_values, length, palette);
 
     if (palette.size() * 2 > std::numeric_limits<uint32_t>::max())

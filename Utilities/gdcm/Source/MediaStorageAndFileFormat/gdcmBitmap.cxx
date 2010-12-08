@@ -299,7 +299,7 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
     DataElement out;
     bool r = codec.Decode(PixelData, out);
     if( !r ) return false;
-    const ByteValue *outbv = out.GetByteValue();
+    ByteValue *outbv = out.GetByteValue();
     assert( outbv );
     if( len != bv->GetLength() )
       {
@@ -313,7 +313,7 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
       }
     if ( GetPixelFormat() != codec.GetPixelFormat() )
       {
-      gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+      gdcm::Bitmap *i = const_cast<gdcm::Bitmap*>(this);
       i->SetPixelFormat( codec.GetPixelFormat() );
       }
 
@@ -353,7 +353,7 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
       // we need to know the actual pixeltype after ::Read
       if( codec.GetPixelFormat() != GetPixelFormat() )
         {
-        gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+        gdcm::Bitmap *i = const_cast<gdcm::Bitmap*>(this);
         i->SetPixelFormat( codec.GetPixelFormat() );
         }
 
@@ -380,7 +380,7 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
     // Did PI change or not ?
     if ( GetPlanarConfiguration() != codec.GetPlanarConfiguration() )
       {
-      gdcm::Bitmap *i = (gdcm::Bitmap*)this; (void)i;
+      gdcm::Bitmap *i = const_cast<gdcm::Bitmap*>(this); (void)i;
       //i->SetPlanarConfiguration( codec.GetPlanarConfiguration() );
       }
     // I cannot re-activate the following since I would loose the palette color information
@@ -394,7 +394,7 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
     //  }
     if ( GetPixelFormat() != codec.GetPixelFormat() )
       {
-      gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+        gdcm::Bitmap *i = const_cast<gdcm::Bitmap*>(this);
       i->SetPixelFormat( codec.GetPixelFormat() );
       }
     //if ( GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422
@@ -557,7 +557,7 @@ bool Bitmap::TryJPEGLSCodec(char *buffer, bool &lossyflag) const
       // we need to know the actual pixeltype after ::Read
       if( codec.GetPixelFormat() != GetPixelFormat() )
         {
-        gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+        gdcm::Bitmap *i = const_cast<gdcm::Bitmap*>(this);
         i->SetPixelFormat( codec.GetPixelFormat() );
         }
 
@@ -645,7 +645,7 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
       // we need to know the actual pixeltype after ::Read
       if( codec.GetPixelFormat() != GetPixelFormat() )
         {
-        gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+        gdcm::Bitmap *i = const_cast<gdcm::Bitmap*>(this);
         i->SetPixelFormat( codec.GetPixelFormat() );
         }
 
@@ -683,7 +683,7 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
       }
     if( codec.GetPixelFormat() != GetPixelFormat() )
       {
-      gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+      gdcm::Bitmap *i = const_cast<gdcm::Bitmap*>(this);
       i->SetPixelFormat( codec.GetPixelFormat() );
       }
     return r;
