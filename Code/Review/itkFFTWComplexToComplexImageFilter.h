@@ -18,10 +18,9 @@
 #ifndef __itkFFTWComplexToComplexImageFilter_h
 #define __itkFFTWComplexToComplexImageFilter_h
 
-#if defined( USE_FFTWF ) || defined( USE_FFTWD )
-
 #include "itkFFTComplexToComplexImageFilter.h"
-#include "fftw3.h"
+#include "itkFFTWCommon.h"
+
 
 namespace itk
 {
@@ -29,8 +28,11 @@ namespace itk
  *  \brief Implements an API to enable the Fourier transform or the inverse
  *  Fourier transform of images with complex valued voxels to be computed using
  *  either FFTW from MIT or the FFTW interface in Intel MKL.
+ * This filter is multithreaded and supports input images with sizes which are not
+ * a power of two.
  *
- * \ingroup FourierTransform
+ * \ingroup FourierTransform, Multithreaded
+ * \sa FFTWGlobalConfiguration
  *
  * \author Simon K. Warfield simon.warfield@childrens.harvard.edu
  *
@@ -42,31 +44,28 @@ namespace itk
  * official view of NCRR or NIH.
  *
  */
-
-template< typename TPixel, unsigned int NDimension = 3 >
-class FFTWComplexToComplexImageFilter:
-  public FFTComplexToComplexImageFilter< TPixel, NDimension >
+template< typename TPixel, unsigned int VDimension >
+class ITK_EXPORT FFTWComplexToComplexImageFilter:
+  public FFTComplexToComplexImageFilter< TPixel, VDimension >
 {
-//#error Invalid Type Listed for TPixel
-};
-
-template< unsigned int NDimension >
-class FFTWComplexToComplexImageFilter< float, NDimension > :
-  public FFTComplexToComplexImageFilter< float, NDimension >
-{
-// TODO:  There should be compile time type checks so that
-//        if only USE_FFTWF is defined, then only floats are valid.
-//        and if USE_FFTWD is defined, then only doubles are valid.
 public:
-  typedef float                                                TPixel;
   typedef FFTWComplexToComplexImageFilter                      Self;
-  typedef FFTComplexToComplexImageFilter< TPixel, NDimension > Superclass;
+  typedef FFTComplexToComplexImageFilter< TPixel, VDimension > Superclass;
   typedef SmartPointer< Self >                                 Pointer;
   typedef SmartPointer< const Self >                           ConstPointer;
+  //
+  // the proxy type is a wrapper for the fftw API
+  // since the proxy is only defined over double and float,
+  // trying to use any other pixel type is inoperative, as
+  // is trying to use double if only the float FFTW version is
+  // configured in, or float if only double is configured.
+  //
+  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
 
   /** Standard class typedefs. */
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,100 +75,68 @@ public:
                FFTComplexToComplexImageFilter);
 
   /** Image type typedef support. */
-  typedef InputImageType               ImageType;
+  typedef InputImageType              ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
-protected:
-
-  FFTWComplexToComplexImageFilter()
-  {
-    this->m_PlanComputed = false;
-  }
-
-  virtual ~FFTWComplexToComplexImageFilter()
-  {
-    if ( m_PlanComputed )
-      {
-      fftwf_destroy_plan(m_Plan);
-      }
-  }
-
-  /**
-   * these methods should be defined in every FFT filter class
-   */
-  virtual void GenerateData();  // generates output from input
-
-  virtual bool FullMatrix();
-
-private:
-  FFTWComplexToComplexImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                  //purposely not implemented
-
-  bool       m_PlanComputed;
-  fftwf_plan m_Plan;
-};
-
-template< unsigned int NDimension >
-class FFTWComplexToComplexImageFilter< double, NDimension > :
-  public FFTComplexToComplexImageFilter< double, NDimension >
-{
-// TODO:  There should be compile time type checks so that
-//        if only USE_FFTWF is defined, then only floats are valid.
-//        and if USE_FFTWD is defined, then only doubles are valid.
-public:
-  typedef double                                               TPixel;
-  typedef FFTWComplexToComplexImageFilter                      Self;
-  typedef FFTComplexToComplexImageFilter< TPixel, NDimension > Superclass;
-  typedef SmartPointer< Self >                                 Pointer;
-  typedef SmartPointer< const Self >                           ConstPointer;
-
-  /** Standard class typedefs. */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(FFTWComplexToComplexImageFilter,
-               FFTComplexToComplexImageFilter);
-
-  /** Image type typedef support. */
-  typedef InputImageType               ImageType;
-  typedef typename ImageType::SizeType ImageSizeType;
-protected:
-
-  FFTWComplexToComplexImageFilter()
-  {
-    m_PlanComputed = false;
-  }
-
-  virtual ~FFTWComplexToComplexImageFilter()
-  {
-    if ( this->m_PlanComputed )
-      {
-      fftw_destroy_plan(this->m_Plan);
-      }
-  }
 
   //
   // these should be defined in every FFT filter class
-  virtual void GenerateData();  // generates output from input
-
   virtual bool FullMatrix();
 
-private:
-  FFTWComplexToComplexImageFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);                  //purposely not implemented
+  /**
+   * Set/Get the behavior of wisdom plan creation. The default is
+   * provided by FFTWGlobalConfiguration::GetPlanRigor().
+   *
+   * The parameter is one of the FFTW planner rigor flags FFTW_ESTIMATE, FFTW_MEASURE,
+   * FFTW_PATIENT, FFTW_EXHAUSTIVE provided by FFTWGlobalConfiguration.
+   * /sa FFTWGlobalConfiguration
+   */
+  virtual void SetPlanRigor( const int & value )
+  {
+    // use that method to check the value
+    FFTWGlobalConfiguration::GetPlanRigorName( value );
+    if( m_PlanRigor != value )
+      {
+      m_PlanRigor = value;
+      this->Modified();
+      }
+  }
+  itkGetConstReferenceMacro( PlanRigor, int );
+  void SetPlanRigor( const std::string & name )
+  {
+    this->SetPlanRigor( FFTWGlobalConfiguration::GetPlanRigorValue( name ) );
+  }
 
-  bool      m_PlanComputed;
-  fftw_plan m_Plan;
+protected:
+  FFTWComplexToComplexImageFilter()
+    {
+    m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
+    }
+  virtual ~FFTWComplexToComplexImageFilter()
+    {
+    }
+
+  virtual void UpdateOutputData(DataObject *output);
+
+  virtual void BeforeThreadedGenerateData();
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
+private:
+  FFTWComplexToComplexImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  bool m_CanUseDestructiveAlgorithm;
+
+  int m_PlanRigor;
+
 };
+
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFFTWComplexToComplexImageFilter.txx"
 #endif
-
-#endif // defined(USE_FFTWF) || defined(USE_FFTWD)
 
 #endif //__itkFFTWComplexToComplexImageFilter_h

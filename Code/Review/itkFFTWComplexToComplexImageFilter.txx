@@ -15,42 +15,24 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/**
- *
- * Attribution Notice. This research work was made possible by
- * Grant Number R01 RR021885 (PI Simon K. Warfield, Ph.D.) from
- * the National Center for Research Resources (NCRR), a component of the
- * National Institutes of Health (NIH).  Its contents are solely the
- * responsibility of the authors and do not necessarily represent the
- * official view of NCRR or NIH.
- *
- * This class was taken from the Insight Journal paper:
- * http://insight-journal.org/midas/handle.php?handle=1926/326
- *
- */
-
 #ifndef __itkFFTWComplexToComplexImageFilter_txx
 #define __itkFFTWComplexToComplexImageFilter_txx
 
-#if defined( USE_FFTWF ) || defined( USE_FFTWD )
-
 #include "itkFFTWComplexToComplexImageFilter.h"
+#include "itkFFTComplexToComplexImageFilter.txx"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkImageRegionIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
-/** TODO:  There should be compile time type checks so that
-           if only USE_FFTWF is defined, then only floats are valid.
-           and if USE_FFTWD is defined, then only doubles are valid.
-*/
 
-#if defined( USE_FFTWF )
-template< unsigned int NDimension >
+template< typename TPixel, unsigned int VDimension >
 void
-FFTWComplexToComplexImageFilter< float, NDimension >::GenerateData()
+FFTWComplexToComplexImageFilter< TPixel, VDimension >::
+BeforeThreadedGenerateData()
 {
   // get pointers to the input and output
   typename InputImageType::ConstPointer inputPtr  = this->GetInput();
@@ -61,206 +43,149 @@ FFTWComplexToComplexImageFilter< float, NDimension >::GenerateData()
     return;
     }
 
-  const typename InputImageType::SizeType &   outputSize =
-    outputPtr->GetLargestPossibleRegion().GetSize();
-  const unsigned int num_dims = outputPtr->GetImageDimension();
-
-  if ( num_dims != outputPtr->GetImageDimension() )
-    {
-    return;
-    }
+  // we don't have a nice progress to report, but at least this simple line
+  // reports the begining and the end of the process
+  ProgressReporter progress(this, 0, 1);
 
   // allocate output buffer memory
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  std::complex< TPixel > *in =
-    const_cast< std::complex< TPixel > * >( inputPtr->GetBufferPointer() );
+  const typename InputImageType::SizeType &   outputSize =
+    outputPtr->GetLargestPossibleRegion().GetSize();
+  const typename OutputImageType::SizeType & inputSize =
+    inputPtr->GetLargestPossibleRegion().GetSize();
 
-  unsigned int total_size = 1;
+  // figure out sizes
+  // size of input and output aren't the same which is handled in the superclass,
+  // sort of.
+  // the input size and output size only differ in the fastest moving dimension
+  unsigned int total_outputSize = 1;
+  unsigned int total_inputSize = 1;
 
+  for ( unsigned i = 0; i < VDimension; i++ )
     {
-    // This reinterpret_cast only makes sense if TPixel is float...
-    fftwf_complex *dptr = reinterpret_cast< fftwf_complex * >( in );
-    fftwf_complex *out = reinterpret_cast< fftwf_complex * >( outputPtr->GetBufferPointer() );
-
-    int transformDirection = 1;
-    if ( this->GetTransformDirection() == Superclass::INVERSE )
-      {
-      transformDirection = -1;
-      }
-
-    switch ( num_dims )
-      {
-      case 1:
-        this->m_Plan = fftwf_plan_dft_1d(outputSize[0],
-                                         dptr, out,
-                                         transformDirection, FFTW_ESTIMATE);
-        total_size = outputSize[0];
-        break;
-      case 2:
-        this->m_Plan = fftwf_plan_dft_2d(outputSize[1], outputSize[0],
-                                         dptr, out,
-                                         transformDirection, FFTW_ESTIMATE);
-        total_size = outputSize[0] * outputSize[1];
-        break;
-      case 3:
-        this->m_Plan = fftwf_plan_dft_3d(outputSize[2], outputSize[1], outputSize[0],
-                                         dptr, out,
-                                         transformDirection, FFTW_ESTIMATE);
-        total_size = outputSize[0] * outputSize[1] * outputSize[2];
-        break;
-      default:
-        int *sizes = new int[num_dims];
-        for ( unsigned int i = 0; i < num_dims; i++ )
-          {
-          sizes[( num_dims - 1 ) - i] = outputSize[i];
-          total_size *= outputSize[i];
-          }
-        this->m_Plan = fftwf_plan_dft(num_dims, sizes,
-                                      dptr, out, transformDirection, FFTW_ESTIMATE);
-        delete[] sizes;
-      }
-    this->m_PlanComputed = true;
-    fftwf_execute(this->m_Plan);
+    total_outputSize *= outputSize[i];
+    total_inputSize *= inputSize[i];
     }
 
-  typedef ImageRegionIterator< OutputImageType > IteratorType;
-
-  IteratorType it( outputPtr, outputPtr->GetLargestPossibleRegion() );
-
-  //
-  // Normalize the output if backward transform
-  //
+  int transformDirection = 1;
   if ( this->GetTransformDirection() == Superclass::INVERSE )
     {
-    std::complex< TPixel > val;
-    while ( !it.IsAtEnd() )
-      {
-      val = it.Value();
-      val /= total_size;
-      it.Set(val);
-      ++it;
-      }
+    transformDirection = -1;
     }
+
+  typename FFTWProxyType::PlanType plan;
+  typename FFTWProxyType::ComplexType * in = (typename FFTWProxyType::ComplexType*) inputPtr->GetBufferPointer();
+  typename FFTWProxyType::ComplexType * out = (typename FFTWProxyType::ComplexType*) outputPtr->GetBufferPointer();
+  int flags = m_PlanRigor;
+  if( !m_CanUseDestructiveAlgorithm )
+    {
+    // if the input is about to be destroyed, there is no need to force fftw
+    // to use an non destructive algorithm. If it is not released however,
+    // we must be careful to not destroy it.
+    flags = flags | FFTW_PRESERVE_INPUT;
+    }
+  switch(VDimension)
+    {
+    case 1:
+      plan = FFTWProxyType::Plan_dft_1d(inputSize[0],
+                                           in,
+                                           out,
+                                           transformDirection,
+                                           flags,
+                                           this->GetNumberOfThreads());
+      break;
+    case 2:
+      plan = FFTWProxyType::Plan_dft_2d(inputSize[1],
+                                           inputSize[0],
+                                           in,
+                                           out,
+                                           transformDirection,
+                                           flags,
+                                           this->GetNumberOfThreads());
+      break;
+    case 3:
+      plan = FFTWProxyType::Plan_dft_3d(inputSize[2],
+                                           inputSize[1],
+                                           inputSize[0],
+                                           in,
+                                           out,
+                                           transformDirection,
+                                           flags,
+                                           this->GetNumberOfThreads());
+      break;
+    default:
+      int *sizes = new int[VDimension];
+      for(unsigned int i = 0; i < VDimension; i++)
+        {
+        sizes[(VDimension - 1) - i] = inputSize[i];
+        }
+
+      plan = FFTWProxyType::Plan_dft(VDimension,sizes,
+                                        in,
+                                        out,
+                                        transformDirection,
+                                        flags,
+                                        this->GetNumberOfThreads());
+      delete [] sizes;
+    }
+  FFTWProxyType::Execute(plan);
+  FFTWProxyType::DestroyPlan(plan);
 }
 
-template< unsigned int NDimension >
-bool
-FFTWComplexToComplexImageFilter< float, NDimension >::FullMatrix()
-{
-  return false;
-}
-
-#endif // defined(USE_FFTWF)
-
-#if defined( USE_FFTWD )
-template< unsigned int NDimension >
+template <typename TPixel, unsigned int VDimension>
 void
-FFTWComplexToComplexImageFilter< double, NDimension >::GenerateData()
+FFTWComplexToComplexImageFilter< TPixel, VDimension >::
+ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId )
 {
-  // get pointers to the input and output
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
-
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-
-  const typename InputImageType::SizeType &   outputSize =
-    outputPtr->GetLargestPossibleRegion().GetSize();
-
-  const unsigned int num_dims = outputPtr->GetImageDimension();
-
-  if ( num_dims != outputPtr->GetImageDimension() )
-    {
-    return;
-    }
-
-  // allocate output buffer memory
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-  outputPtr->Allocate();
-
-  std::complex< TPixel > *in = const_cast< std::complex< TPixel > * >
-                               ( inputPtr->GetBufferPointer() );
-
-  unsigned int total_size = 1;
-
-    {
-    // This reinterpret_cast only makes sense if TPixel is double...
-    fftw_complex *dptr = reinterpret_cast< fftw_complex * >( in );
-    fftw_complex *out  = reinterpret_cast< fftw_complex * >( outputPtr->GetBufferPointer() );
-
-    int transformDirection = 1;
-    if ( this->GetTransformDirection() == Superclass::INVERSE )
-      {
-      transformDirection = -1;
-      }
-
-    switch ( num_dims )
-      {
-      case 1:
-        this->m_Plan = fftw_plan_dft_1d(outputSize[0],
-                                        dptr, out,
-                                        transformDirection, FFTW_ESTIMATE);
-        total_size = outputSize[0];
-        break;
-      case 2:
-        this->m_Plan = fftw_plan_dft_2d(outputSize[1], outputSize[0],
-                                        dptr, out,
-                                        transformDirection, FFTW_ESTIMATE);
-        total_size = outputSize[0] * outputSize[1];
-        break;
-      case 3:
-        this->m_Plan = fftw_plan_dft_3d(outputSize[2], outputSize[1], outputSize[0],
-                                        dptr, out,
-                                        transformDirection, FFTW_ESTIMATE);
-        total_size = outputSize[0] * outputSize[1] * outputSize[2];
-        break;
-      default:
-        int *sizes = new int[num_dims];
-        for ( unsigned int i = 0; i < num_dims; i++ )
-          {
-          sizes[( num_dims - 1 ) - i] = outputSize[i];
-          total_size *= outputSize[i];
-          }
-        this->m_Plan = fftw_plan_dft(num_dims, sizes,
-                                     dptr, out, transformDirection, FFTW_ESTIMATE);
-        delete[] sizes;
-      }
-    this->m_PlanComputed = true;
-    fftw_execute(this->m_Plan);
-    }
-
-  ImageRegionIterator< OutputImageType > it( outputPtr, outputPtr->GetLargestPossibleRegion() );
-
   //
   // Normalize the output if backward transform
   //
   if ( this->GetTransformDirection() == Superclass::INVERSE )
     {
-    std::complex< TPixel > val;
-    while ( !it.IsAtEnd() )
+    typedef ImageRegionIterator< OutputImageType >   IteratorType;
+    unsigned long total_outputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+    IteratorType it(this->GetOutput(), outputRegionForThread);
+    while( !it.IsAtEnd() )
       {
-      val = it.Value();
-      val /= total_size;
+      std::complex< TPixel > val = it.Value();
+      val /= total_outputSize;
       it.Set(val);
       ++it;
       }
     }
 }
 
-template< unsigned int NDimension >
+template< typename TPixel, unsigned int VDimension >
 bool
-FFTWComplexToComplexImageFilter< double, NDimension >::FullMatrix()
+FFTWComplexToComplexImageFilter< TPixel, VDimension >::FullMatrix()
 {
   return false;
 }
 
-#endif // defined(USE_FFTWD)
+
+template< typename TPixel, unsigned int VDimension >
+void
+FFTWComplexToComplexImageFilter< TPixel, VDimension >::
+UpdateOutputData(DataObject * output)
+{
+  // we need to catch that information now, because it is changed later
+  // during the pipeline execution, and thus can't be grabbed in
+  // GenerateData().
+  m_CanUseDestructiveAlgorithm = this->GetInput()->GetReleaseDataFlag();
+  Superclass::UpdateOutputData( output );
+}
+
+template< typename TPixel, unsigned int VDimension >
+void
+FFTWComplexToComplexImageFilter< TPixel, VDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "PlanRigor: " << FFTWGlobalConfiguration::GetPlanRigorName(m_PlanRigor) << " (" << m_PlanRigor << ")" << std::endl;
+}
+
 } // namespace itk
-
-#endif // defined(USE_FFTWF) || defined(USE_FFTWD)
-
 #endif // _itkFFTWComplexToComplexImageFilter_txx

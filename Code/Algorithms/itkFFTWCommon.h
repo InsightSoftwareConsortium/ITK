@@ -355,6 +355,156 @@ public:
     return plan;
   }
 
+  static PlanType Plan_dft_1d(int n,
+                                  ComplexType *in,
+                                  ComplexType *out,
+                                  int sign,
+                                  unsigned flags,
+                                  int threads=1,
+                                  bool canDestroyInput=false)
+  {
+    FFTWGlobalConfiguration::Lock();
+    fftwf_plan_with_nthreads(threads);
+    PlanType plan = fftwf_plan_dft_1d(n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    if( plan == NULL )
+      {
+      // no wisdom available for that plan
+      if( canDestroyInput )
+        {
+        // just create the plan
+        plan = fftwf_plan_dft_1d(n,in,out,sign,flags);
+        }
+      else
+        {
+        // lets create a plan with a fake input to generate the wisdom
+        ComplexType * din = new ComplexType[n];
+        fftwf_plan_dft_1d(n,din,out,sign,flags);
+        delete [] din;
+        // and then create the final plan - this time it shouldn't fail
+        plan = fftwf_plan_dft_1d(n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        }
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+      }
+    FFTWGlobalConfiguration::Unlock();
+    assert( plan != NULL );
+    return plan;
+  }
+
+  static PlanType Plan_dft_2d(int nx,
+                                  int ny,
+                                  ComplexType *in,
+                                  ComplexType *out,
+                                  int sign,
+                                  unsigned flags,
+                                  int threads=1,
+                                  bool canDestroyInput=false)
+  {
+    FFTWGlobalConfiguration::Lock();
+    fftwf_plan_with_nthreads(threads);
+    PlanType plan = fftwf_plan_dft_2d(nx,ny,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    if( plan == NULL )
+      {
+      // no wisdom available for that plan
+      if( canDestroyInput )
+        {
+        // just create the plan
+        plan = fftwf_plan_dft_2d(nx,ny,in,out,sign,flags);
+        }
+      else
+        {
+        // lets create a plan with a fake input to generate the wisdom
+        ComplexType * din = new ComplexType[nx*ny];
+        fftwf_plan_dft_2d(nx,ny,din,out,sign,flags);
+        delete [] din;
+        // and then create the final plan - this time it shouldn't fail
+        plan = fftwf_plan_dft_2d(nx,ny,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        }
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+      }
+    FFTWGlobalConfiguration::Unlock();
+    assert( plan != NULL );
+    return plan;
+  }
+
+  static PlanType Plan_dft_3d(int nx,
+                                  int ny,
+                                  int nz,
+                                  ComplexType *in,
+                                  ComplexType *out,
+                                  int sign,
+                                  unsigned flags,
+                                  int threads=1,
+                                  bool canDestroyInput=false)
+  {
+    FFTWGlobalConfiguration::Lock();
+    fftwf_plan_with_nthreads(threads);
+    PlanType plan = fftwf_plan_dft_3d(nx,ny,nz,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    if( plan == NULL )
+      {
+      // no wisdom available for that plan
+      if( canDestroyInput )
+        {
+        // just create the plan
+        plan = fftwf_plan_dft_3d(nx,ny,nz,in,out,sign,flags);
+        }
+      else
+        {
+        // lets create a plan with a fake input to generate the wisdom
+        ComplexType * din = new ComplexType[nx*ny*nz];
+        fftwf_plan_dft_3d(nx,ny,nz,din,out,sign,flags);
+        delete [] din;
+        // and then create the final plan - this time it shouldn't fail
+        plan = fftwf_plan_dft_3d(nx,ny,nz,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        }
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+      }
+    FFTWGlobalConfiguration::Unlock();
+    assert( plan != NULL );
+    return plan;
+  }
+
+  static PlanType Plan_dft(int rank,
+                               const int *n,
+                               ComplexType *in,
+                               ComplexType *out,
+                               int sign,
+                               unsigned flags,
+                               int threads=1,
+                               bool canDestroyInput=false)
+  {
+    FFTWGlobalConfiguration::Lock();
+    fftwf_plan_with_nthreads(threads);
+    PlanType plan = fftwf_plan_dft(rank,n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    if( plan == NULL )
+      {
+      // no wisdom available for that plan
+      if( canDestroyInput )
+        {
+        // just create the plan
+        plan = fftwf_plan_dft(rank,n,in,out,sign,flags);
+        }
+      else
+        {
+        // lets create a plan with a fake input to generate the wisdom
+        int total = 0;
+        for( int i=0; i<rank; i++ )
+          {
+          total += n[i];
+          }
+        ComplexType * din = new ComplexType[total];
+        fftwf_plan_dft(rank,n,din,out,sign,flags);
+        delete [] din;
+        // and then create the final plan - this time it shouldn't fail
+        plan = fftwf_plan_dft(rank,n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        }
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+      }
+    FFTWGlobalConfiguration::Unlock();
+    assert( plan != NULL );
+    return plan;
+  }
+
+
   static void Execute(PlanType p)
   {
     fftwf_execute(p);
@@ -668,6 +818,156 @@ public:
     assert( plan != NULL );
     return plan;
   }
+
+  static PlanType Plan_dft_1d(int n,
+                                  ComplexType *in,
+                                  ComplexType *out,
+                                  int sign,
+                                  unsigned flags,
+                                  int threads=1,
+                                  bool canDestroyInput=false)
+  {
+    FFTWGlobalConfiguration::Lock();
+    fftw_plan_with_nthreads(threads);
+    PlanType plan = fftw_plan_dft_1d(n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    if( plan == NULL )
+      {
+      // no wisdom available for that plan
+      if( canDestroyInput )
+        {
+        // just create the plan
+        plan = fftw_plan_dft_1d(n,in,out,sign,flags);
+        }
+      else
+        {
+        // lets create a plan with a fake input to generate the wisdom
+        ComplexType * din = new ComplexType[n];
+        fftw_plan_dft_1d(n,din,out,sign,flags);
+        delete [] din;
+        // and then create the final plan - this time it shouldn't fail
+        plan = fftw_plan_dft_1d(n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        }
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+      }
+    FFTWGlobalConfiguration::Unlock();
+    assert( plan != NULL );
+    return plan;
+  }
+
+  static PlanType Plan_dft_2d(int nx,
+                                  int ny,
+                                  ComplexType *in,
+                                  ComplexType *out,
+                                  int sign,
+                                  unsigned flags,
+                                  int threads=1,
+                                  bool canDestroyInput=false)
+  {
+    FFTWGlobalConfiguration::Lock();
+    fftw_plan_with_nthreads(threads);
+    PlanType plan = fftw_plan_dft_2d(nx,ny,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    if( plan == NULL )
+      {
+      // no wisdom available for that plan
+      if( canDestroyInput )
+        {
+        // just create the plan
+        plan = fftw_plan_dft_2d(nx,ny,in,out,sign,flags);
+        }
+      else
+        {
+        // lets create a plan with a fake input to generate the wisdom
+        ComplexType * din = new ComplexType[nx*ny];
+        fftw_plan_dft_2d(nx,ny,din,out,sign,flags);
+        delete [] din;
+        // and then create the final plan - this time it shouldn't fail
+        plan = fftw_plan_dft_2d(nx,ny,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        }
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+      }
+    FFTWGlobalConfiguration::Unlock();
+    assert( plan != NULL );
+    return plan;
+  }
+
+  static PlanType Plan_dft_3d(int nx,
+                                  int ny,
+                                  int nz,
+                                  ComplexType *in,
+                                  ComplexType *out,
+                                  int sign,
+                                  unsigned flags,
+                                  int threads=1,
+                                  bool canDestroyInput=false)
+  {
+    FFTWGlobalConfiguration::Lock();
+    fftw_plan_with_nthreads(threads);
+    PlanType plan = fftw_plan_dft_3d(nx,ny,nz,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    if( plan == NULL )
+      {
+      // no wisdom available for that plan
+      if( canDestroyInput )
+        {
+        // just create the plan
+        plan = fftw_plan_dft_3d(nx,ny,nz,in,out,sign,flags);
+        }
+      else
+        {
+        // lets create a plan with a fake input to generate the wisdom
+        ComplexType * din = new ComplexType[nx*ny*nz];
+        fftw_plan_dft_3d(nx,ny,nz,din,out,sign,flags);
+        delete [] din;
+        // and then create the final plan - this time it shouldn't fail
+        plan = fftw_plan_dft_3d(nx,ny,nz,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        }
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+      }
+    FFTWGlobalConfiguration::Unlock();
+    assert( plan != NULL );
+    return plan;
+  }
+
+  static PlanType Plan_dft(int rank,
+                               const int *n,
+                               ComplexType *in,
+                               ComplexType *out,
+                               int sign,
+                               unsigned flags,
+                               int threads=1,
+                               bool canDestroyInput=false)
+  {
+    FFTWGlobalConfiguration::Lock();
+    fftw_plan_with_nthreads(threads);
+    PlanType plan = fftw_plan_dft(rank,n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    if( plan == NULL )
+      {
+      // no wisdom available for that plan
+      if( canDestroyInput )
+        {
+        // just create the plan
+        plan = fftw_plan_dft(rank,n,in,out,sign,flags);
+        }
+      else
+        {
+        // lets create a plan with a fake input to generate the wisdom
+        int total = 0;
+        for( int i=0; i<rank; i++ )
+          {
+          total += n[i];
+          }
+        ComplexType * din = new ComplexType[total];
+        fftw_plan_dft(rank,n,din,out,sign,flags);
+        delete [] din;
+        // and then create the final plan - this time it shouldn't fail
+        plan = fftw_plan_dft(rank,n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        }
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+      }
+    FFTWGlobalConfiguration::Unlock();
+    assert( plan != NULL );
+    return plan;
+  }
+
 
   static void Execute(PlanType p)
   {
