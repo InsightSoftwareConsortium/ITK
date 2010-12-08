@@ -7,7 +7,10 @@
 // certainly in those cases where b is relatively small.
 // Negative exponents make of course no sense since the result must be int.
 // Beware of overflow!
-inline static int int_pow(int a, unsigned int b)
+#if !(defined(__GNUC__) && defined(__OPTIMIZE__))
+inline // breaks test "Power of 2 with overflow" with gcc -O3
+#endif
+static int int_pow(int a, unsigned int b)
 {
   if (b==0) return 1;
   else if (b==1) return a;
