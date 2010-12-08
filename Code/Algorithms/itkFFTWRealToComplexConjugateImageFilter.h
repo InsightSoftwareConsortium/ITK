@@ -21,12 +21,26 @@
 #include "itkFFTRealToComplexConjugateImageFilter.h"
 #include "itkFFTWCommon.h"
 
+
 namespace itk
 {
 /** \class FFTWRealToComplexConjugateImageFilter
- * \brief TODO
  *
- * \ingroup FourierTransform
+ * \brief FFTW based Fast Fourier Transform
+ *
+ * This filter computes the Fourier transform of an image. The implementation is
+ * based on the FFTW library.
+ * This filter is multithreaded and supports input images with sizes which are not
+ * a power of two.
+ *
+ * This implementation was taken from the Insight Journal paper:
+ * http://hdl.handle.net/10380/3154
+ * or http://insight-journal.com/browse/publication/717
+ *
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ *
+ * \ingroup FourierTransform, Multithreaded
+ * \sa FFTWLock
  */
 template< class TPixel, unsigned int VDimension = 3 >
 class ITK_EXPORT FFTWRealToComplexConjugateImageFilter:
@@ -63,40 +77,23 @@ public:
   virtual void GenerateData();  // generates output from input
 
 protected:
-  FFTWRealToComplexConjugateImageFilter():m_PlanComputed(false),
-    m_LastImageSize(0),
-    m_InputBuffer(0),
-    m_OutputBuffer(0)
-  {}
-
+  FFTWRealToComplexConjugateImageFilter()
+    {
+    }
   ~FFTWRealToComplexConjugateImageFilter()
-  {
-    if ( m_PlanComputed )
-      {
-      FFTWProxyType::DestroyPlan(this->m_Plan);
-      delete[] this->m_InputBuffer;
-      delete[] this->m_OutputBuffer;
-      }
-  }
+    {
+    }
 
   virtual bool FullMatrix();
 
+  virtual void UpdateOutputData(DataObject *output);
+
 private:
-  FFTWRealToComplexConjugateImageFilter(const Self &); //purposely not
-                                                       // implemented
-  void operator=(const Self &);                        //purposely not
+  FFTWRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  // implemented
+  bool m_CanUseDestructiveAlgorithm;
 
-  bool m_PlanComputed;
-
-  typename FFTWProxyType::PlanType m_Plan;
-
-  unsigned int m_LastImageSize;
-
-  TPixel *m_InputBuffer;
-
-  typename FFTWProxyType::ComplexType * m_OutputBuffer;
 };
 } // namespace itk
 

@@ -23,7 +23,7 @@ namespace itk
 {
 /** \class VnlFFTComplexConjugateToRealImageFilter
  *
- * \brief TODO
+ * \brief VNL-based reverse Fast Fourier Transform
  */
 template< class TPixel, unsigned int VDimension = 3 >
 class VnlFFTComplexConjugateToRealImageFilter:

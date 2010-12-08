@@ -59,8 +59,7 @@ FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >::GenerateData()
     outputPtr->GetLargestPossibleRegion().GetSize();
 
   // figure out sizes
-  // size of input and output aren't the same which is handled in the
-  // superclass,
+  // size of input and output aren't the same which is handled in the superclass,
   // sort of.
   // the input size and output size only differ in the fastest moving dimension
   unsigned int total_inputSize = 1;
@@ -72,69 +71,59 @@ FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >::GenerateData()
     total_outputSize *= outputSize[i];
     }
 
-  if ( this->m_PlanComputed )            // if we've already computed a plan
+  typename FFTWProxyType::PlanType plan;
+  TPixel * in = const_cast<TPixel*>(inputPtr->GetBufferPointer());
+  typename FFTWProxyType::ComplexType * out = (typename FFTWProxyType::ComplexType*) outputPtr->GetBufferPointer();
+  int flags = FFTWLock::GetGlobalOptimizationLevel();
+  if( !m_CanUseDestructiveAlgorithm )
     {
-    // if the image sizes aren't the same,
-    // we have to compute the plan again
-    if ( this->m_LastImageSize != total_inputSize )
-      {
-      delete[] this->m_InputBuffer;
-      delete[] this->m_OutputBuffer;
-      FFTWProxyType::DestroyPlan(this->m_Plan);
-      this->m_PlanComputed = false;
-      }
+    // if the input is about to be destroyed, there is no need to force fftw
+    // to use an non destructive algorithm. If it is not released however,
+    // we must be careful to not destroy it.
+    flags = flags | FFTW_PRESERVE_INPUT;
     }
-  if ( !this->m_PlanComputed )
+  switch(VDimension)
     {
-    this->m_InputBuffer = new TPixel[total_inputSize];
-    this->m_OutputBuffer =
-      new typename FFTWProxyType::ComplexType[total_outputSize];
-    this->m_LastImageSize = total_inputSize;
-    switch ( VDimension )
-      {
-      case 1:
-        this->m_Plan = FFTWProxyType::Plan_dft_r2c_1d(inputSize[0],
-                                                      this->m_InputBuffer,
-                                                      this->m_OutputBuffer,
-                                                      FFTW_ESTIMATE);
-        break;
-      case 2:
-        this->m_Plan = FFTWProxyType::Plan_dft_r2c_2d(inputSize[1],
-                                                      inputSize[0],
-                                                      this->m_InputBuffer,
-                                                      this->m_OutputBuffer,
-                                                      FFTW_ESTIMATE);
-        break;
-      case 3:
-        this->m_Plan = FFTWProxyType::Plan_dft_r2c_3d(inputSize[2],
-                                                      inputSize[1],
-                                                      inputSize[0],
-                                                      this->m_InputBuffer,
-                                                      this->m_OutputBuffer,
-                                                      FFTW_ESTIMATE);
-        break;
-      default:
-        int *sizes = new int[VDimension];
-        for ( unsigned int i = 0; i < VDimension; i++ )
-          {
-          sizes[( VDimension - 1 ) - i] = inputSize[i];
-          }
+    case 1:
+      plan = FFTWProxyType::Plan_dft_r2c_1d(inputSize[0],
+                                           in,
+                                           out,
+                                           flags,
+                                           this->GetNumberOfThreads());
+      break;
+    case 2:
+      plan = FFTWProxyType::Plan_dft_r2c_2d(inputSize[1],
+                                           inputSize[0],
+                                           in,
+                                           out,
+                                           flags,
+                                           this->GetNumberOfThreads());
+      break;
+    case 3:
+      plan = FFTWProxyType::Plan_dft_r2c_3d(inputSize[2],
+                                           inputSize[1],
+                                           inputSize[0],
+                                           in,
+                                           out,
+                                           flags,
+                                           this->GetNumberOfThreads());
+      break;
+    default:
+      int *sizes = new int[VDimension];
+      for(unsigned int i = 0; i < VDimension; i++)
+        {
+        sizes[(VDimension - 1) - i] = inputSize[i];
+        }
 
-        this->m_Plan = FFTWProxyType::Plan_dft_r2c(VDimension, sizes,
-                                                   this->m_InputBuffer,
-                                                   this->m_OutputBuffer,
-                                                   FFTW_ESTIMATE);
-        delete[] sizes;
-      }
-    this->m_PlanComputed = true;
+      plan = FFTWProxyType::Plan_dft_r2c(VDimension,sizes,
+                                        in,
+                                        out,
+                                        flags,
+                                        this->GetNumberOfThreads());
+      delete [] sizes;
     }
-  memcpy( this->m_InputBuffer,
-          inputPtr->GetBufferPointer(),
-          total_inputSize * sizeof( TPixel ) );
-  FFTWProxyType::Execute(this->m_Plan);
-  memcpy( outputPtr->GetBufferPointer(),
-          this->m_OutputBuffer,
-          total_outputSize * sizeof( typename FFTWProxyType::ComplexType ) );
+  FFTWProxyType::Execute(plan);
+  FFTWProxyType::DestroyPlan(plan);
 }
 
 template< typename TPixel, unsigned int VDimension >
@@ -143,6 +132,19 @@ FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >::FullMatrix()
 {
   return false;
 }
+
+template< typename TPixel, unsigned int VDimension >
+void
+FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >::
+UpdateOutputData(DataObject * output)
+{
+  // we need to catch that information now, because it is changed later
+  // during the pipeline execution, and thus can't be grabbed in
+  // GenerateData().
+  m_CanUseDestructiveAlgorithm = this->GetInput()->GetReleaseDataFlag();
+  Superclass::UpdateOutputData( output );
+}
+
 } // namespace itk
 
 #endif //_itkFFTWRealToComplexConjugateImageFilter_txx
