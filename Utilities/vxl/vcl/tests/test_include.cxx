@@ -1,7 +1,7 @@
 #include <vcl_cassert.h>
 #ifndef VCL_SGI_CC_720 //SGI7.2.1
 #include <vcl_ciso646.h>
-#include <vcl_atomic_count.h>
+//#include <vcl_atomic_count.h> // ITK tests compilers this does not support
 #endif
 #include <vcl_csetjmp.h>
 #include <vcl_cstdio.h>

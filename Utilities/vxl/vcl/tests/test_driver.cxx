@@ -37,7 +37,7 @@ int test_sstream_main(int, char*[]);
 int test_vector_main(int, char*[]);
 int test_cstdio_main(int, char*[]);
 int test_preprocessor_main(int, char*[]);
-int test_atomic_count_main(int, char*[]);
+//int test_atomic_count_main(int, char*[]); // ITK tests compilers this does not support
 int test_typename_main(int, char*[]); // need not be called: just a compiler test
 
 int passed;
@@ -106,7 +106,7 @@ int main( int argc, char* argv[] )
   DO_TEST(sstream);
   DO_TEST(vector);
   DO_TEST(preprocessor);
-  DO_TEST(atomic_count);
+  //DO_TEST(atomic_count); // ITK tests compilers this does not support
 
   if (test_run == 0)
   {

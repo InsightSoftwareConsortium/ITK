@@ -81,19 +81,38 @@
 # define vxl_uint_32 void
 #endif
 
-#define VXL_HAS_INT_64 @VXL_HAS_INT_64@
-#define VXL_INT_64_STRING "@VXL_INT_64@"
-#if @VXL_HAS_INT_64@
+/* Mac OS X Universal binary support requires a preprocessor test.  */
+#if defined(__APPLE__)
+# define VXL_HAS_INT_64 1
+# if __LONG_MAX__ == 0x7fffffff
+#  define VXL_INT_64_STRING "long long"
+  typedef          long long vxl_int_64;
+  typedef   signed long long vxl_sint_64;
+  typedef unsigned long long vxl_uint_64;
+#  define VXL_INT_64_IS_LONG 0
+# elif __LONG_MAX__>>32 == 0x7fffffff
+#  define VXL_INT_64_STRING "long"
+  typedef          long vxl_int_64;
+  typedef   signed long vxl_sint_64;
+  typedef unsigned long vxl_uint_64;
+#  define VXL_INT_64_IS_LONG 1
+# else
+#  error "Cannot determine sizeof(long) from __LONG_MAX__."
+# endif
+#else
+# define VXL_HAS_INT_64 @VXL_HAS_INT_64@
+# define VXL_INT_64_STRING "@VXL_INT_64@"
+# if @VXL_HAS_INT_64@
   typedef          @VXL_INT_64@ vxl_int_64;
   typedef   signed @VXL_INT_64@ vxl_sint_64;
   typedef unsigned @VXL_INT_64@ vxl_uint_64;
-#else
-# define vxl_int_64  void
-# define vxl_sint_64 void
-# define vxl_uint_64 void
+# else
+#  define vxl_int_64  void
+#  define vxl_sint_64 void
+#  define vxl_uint_64 void
+# endif
+# define VXL_INT_64_IS_LONG @VXL_INT_64_IS_LONG@
 #endif
-
-#define VXL_INT_64_IS_LONG @VXL_INT_64_IS_LONG@
 
 #define VXL_HAS_IEEE_32 @VXL_HAS_IEEE_32@
 #define VXL_IEEE_32_STRING "@VXL_IEEE_32@"
