@@ -223,12 +223,20 @@ add_test(itkSphereMeshSourceTest ${ALGORITHMS_TESTS3} itkSphereMeshSourceTest)
 add_test(itkUnsharpMaskLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkUnsharpMaskLevelSetImageFilterTest)
 add_test(itkVnlFFTTest ${ALGORITHMS_TESTS4} itkVnlFFTTest)
 if(USE_FFTWF)
-       add_test(itkFFTWF_FFTTest ${ALGORITHMS_TESTS4} itkFFTWF_FFTTest)
-       add_test(itkVnlFFTWF_FFTTest ${ALGORITHMS_TESTS4} itkVnlFFTWF_FFTTest)
+       add_test(itkFFTWF_FFTTest ${ALGORITHMS_TESTS4} itkFFTWF_FFTTest ${ITK_TEST_OUTPUT_DIR} )
+
+       add_test(itkVnlFFTWF_FFTTest ${ALGORITHMS_TESTS4} itkVnlFFTWF_FFTTest )
+       set_tests_properties(itkVnlFFTWF_FFTTest PROPERTIES ENVIRONMENT
+         "ITK_FFTW_READ_WISDOM_CACHE=oN;ITK_FFTW_WRITE_WISDOM_CACHE=oN;ITK_FFTW_WISDOM_CACHE_FILE=${ITK_TEST_OUTPUT_DIR}/.wisdom_from_ITK_FFTW_WISDOM_CACHE_FILE;ITK_FFTW_PLAN_RIGOR=FFTW_EXHAUSTIVE"
+         )
+
 endif(USE_FFTWF)
 if(USE_FFTWD)
-       add_test(itkFFTWD_FFTTest ${ALGORITHMS_TESTS4} itkFFTWD_FFTTest)
+       add_test(itkFFTWD_FFTTest ${ALGORITHMS_TESTS4} itkFFTWD_FFTTest ${ITK_TEST_OUTPUT_DIR} )
+
        add_test(itkVnlFFTWD_FFTTest ${ALGORITHMS_TESTS4} itkVnlFFTWD_FFTTest)
+       set_tests_properties(itkVnlFFTWD_FFTTest PROPERTIES ENVIRONMENT
+         "ITK_FFTW_READ_WISDOM_CACHE=oN;ITK_FFTW_WISDOM_CACHE_BASE=${ITK_TEST_OUTPUT_DIR};ITK_FFTW_PLAN_RIGOR=FFTW_EXHAUSTIVE;ITK_FFTW_WRITE_WISDOM_CACHE=oN")
 endif(USE_FFTWD)
 if(USE_FFTWD)
        add_test(itkCurvatureRegistrationFilterTest ${ALGORITHMS_TESTS4} itkCurvatureRegistrationFilterTest)

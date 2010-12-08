@@ -104,6 +104,7 @@ int test_fft(unsigned int *SizeOfDimensions)
   typename C2RType::Pointer C2R = C2RType::New();
   /*Set the real image created as the input to the forwar FFT filter*/
   R2C->SetInput(realimage);
+  R2C->Print( std::cout );
   R2C->Update();
   /*Get the size and the pointer to the complex image.*/
   typename ComplexImageType::Pointer complexImage = R2C->GetOutput();
@@ -141,6 +142,7 @@ int test_fft(unsigned int *SizeOfDimensions)
   // newer method to inform filter that there's an odd # of pixels in the x dimension.
   const bool dimensionIsOdd = SizeOfDimensions[0] & 1;
   C2R->SetActualXDimensionIsOdd( dimensionIsOdd );
+  C2R->Print( std::cout );
   C2R->Update();
   typename RealImageType::Pointer imageafterInverseFFT = C2R->GetOutput();
    /*The Inverse FFT image iterator is the resultant iterator after we
@@ -471,8 +473,25 @@ int itkVnlFFTTest(int, char *[])
 // test function based on the second template argument   and  the size of these
 // dimensions are taken from the array.The data types used are float and
 // double.
-int itkFFTWF_FFTTest(int, char *[])
+int itkFFTWF_FFTTest(int argc, char *argv[])
 {
+  // exercise the name-value conversion methods
+  itk::FFTWGlobalConfiguration::GetPlanRigorValue("FFTW_EXHAUSTIVE");
+  itk::FFTWGlobalConfiguration::GetPlanRigorName(FFTW_EXHAUSTIVE);
+
+  itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
+  itk::FFTWGlobalConfiguration::SetReadWisdomCache(true);
+  itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);
+  if(argc>1)
+    {
+    itk::FFTWGlobalConfiguration::SetWisdomCacheBase(argv[1]);
+    }
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
+
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
   int rval = 0;
@@ -516,8 +535,20 @@ int itkFFTWF_FFTTest(int, char *[])
 // in the test function based on the second template argument   and  the size
 // of these dimensions are taken from the array.The data types used are float
 // and double.
-int itkVnlFFTWF_FFTTest(int, char *[])
+int itkVnlFFTWF_FFTTest(int argc, char *argv[])
 {
+  itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
+  itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);
+  itk::FFTWGlobalConfiguration::SetReadWisdomCache(true);
+  if(argc>1)
+    {
+    itk::FFTWGlobalConfiguration::SetWisdomCacheBase(argv[1]);
+    }
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
   int rval = 0;
@@ -558,6 +589,12 @@ int itkVnlFFTWF_FFTTest(int, char *[])
 #if defined(USE_FFTWD)
 int itkFFTWD_FFTTest(int, char *[])
 {
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
+
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
   int rval = 0;
@@ -603,6 +640,12 @@ int itkFFTWD_FFTTest(int, char *[])
 // and double.
 int itkVnlFFTWD_FFTTest(int, char *[])
 {
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase()  << std::endl;
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
+
   unsigned int SizeOfDimensions1[] = { 4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };
   int rval = 0;

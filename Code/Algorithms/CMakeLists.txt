@@ -1,11 +1,11 @@
 add_library(ITKAlgorithms ${ITK_LIBRARY_BUILD_TYPE}
+  itkFFTWGlobalConfiguration.cxx
   itkWatershedMiniPipelineProgressCommand.cxx
   itkBioCellBase.cxx
   itkBioCellularAggregateBase.cxx
   itkBioGenome.cxx
   itkBioGene.cxx
   itkBioGeneNetwork.cxx
-  itkFFTWLock.cxx
 )
 target_link_libraries(ITKAlgorithms ITKStatistics ITKNumerics)
 if(USE_FFTWD)
