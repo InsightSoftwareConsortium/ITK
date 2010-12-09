@@ -74,8 +74,10 @@ void RegisterTests()
   REGISTER_TEST( itkImageReadMagnitudeAndPhaseWriteComplexTest );
   REGISTER_TEST( itkImageReadRealAndImaginaryWriteComplexTest );
 
+#if defined( USE_FFTWF ) || defined( USE_FFTWD )
   REGISTER_TEST( itkFFTComplexToComplexImageFilterTest01 );
   REGISTER_TEST( itkFFTComplexToComplexImageFilterTest02 );
+#endif
 
   REGISTER_TEST(
     itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest );

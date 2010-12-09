@@ -85,8 +85,8 @@ set(ReviewTest_SRCS
   itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
   itkImageReadRealAndImaginaryWriteComplexTest.cxx
 
-  itkFFTComplexToComplexImageFilterTest01.cxx
-  itkFFTComplexToComplexImageFilterTest02.cxx
+#  itkFFTComplexToComplexImageFilterTest01.cxx
+#  itkFFTComplexToComplexImageFilterTest02.cxx
 
   itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
   itkVectorCentralDifferenceImageFunctionTest.cxx
@@ -142,6 +142,15 @@ set(ReviewTest_SRCS
   itkHessianToObjectnessMeasureImageFilterTest.cxx
   itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 )
+
+# temporary
+IF( ITK_USE_FFTW )
+  SET( ReviewTest_SRCS
+    ${ReviewTest_SRCS}
+    itkFFTComplexToComplexImageFilterTest01.cxx
+    itkFFTComplexToComplexImageFilterTest02.cxx
+    )
+ENDIF( ITK_USE_FFTW )
 
 SET(ReviewTest2_SRCS
   itkAtanRegularizedHeavisideStepFunctionTest1.cxx
