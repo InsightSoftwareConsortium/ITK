@@ -237,10 +237,19 @@ SampleToHistogramFilter< TSample, THistogram >
           }
         else
           {
-          h_upper[i] = SafeAssign(upper[i] + NumericTraits<MeasurementType>::One);
-          if ( h_upper[i] <= upper[i] )
+          // h_upper[i] = SafeAssign(upper[i] + NumericTraits<MeasurementType>::One);
+          // if ( h_upper[i] <= upper[i] )
+          if(upper[i] <
+             (static_cast<MeasurementType>
+              (NumericTraits<HistogramMeasurementType>::max()) -
+              NumericTraits<MeasurementType>::One))
             {
-            // an overflow has occurred therefore set upper to upper
+            h_upper[i] = static_cast<HistogramMeasurementType>
+              (upper[i] + NumericTraits<MeasurementType>::One);
+            }
+          else
+            {
+            // an overflow would have occurred, therefore set upper to upper
             h_upper[i] = SafeAssign( upper[i] );
             // Histogram measurement type would force the clipping the max
             // value.
