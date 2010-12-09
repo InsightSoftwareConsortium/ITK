@@ -28,6 +28,7 @@ void RegisterTests()
   REGISTER_TEST(itkLabelGeometryImageFilterTest);
   REGISTER_TEST(itkMRCImageIOTest);
   REGISTER_TEST(itkVTKImageIO2Test);
+  REGISTER_TEST(itkVTKImageIO2Test2);
   REGISTER_TEST(itkJPEG2000ImageIOFactoryTest01);
   REGISTER_TEST(itkJPEG2000ImageIOTest00);
   REGISTER_TEST(itkJPEG2000ImageIOTest01);

@@ -258,6 +258,7 @@ set(ReviewTest5_SRCS
   itkLabelGeometryImageFilterTest.cxx
   itkMRCImageIOTest.cxx
   itkVTKImageIO2Test.cxx
+  itkVTKImageIO2Test2.cxx
   itkJPEG2000ImageIOFactoryTest01.cxx
   itkJPEG2000ImageIOTest00.cxx
   itkJPEG2000ImageIOTest01.cxx
@@ -2476,6 +2477,7 @@ add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${REVIEW_TESTS6}
 
 add_test(itkMRCImageIOTest ${REVIEW_TESTS5} itkMRCImageIOTest ${TEMP})
 add_test(itkVTKImageIO2Test ${REVIEW_TESTS5} itkVTKImageIO2Test ${TEMP})
+add_test(itkVTKImageIO2Test2 ${REVIEW_TESTS5} itkVTKImageIO2Test2 ${TEMP}/itkVTKImageIO2Test2.vtk)
 
 add_test(itkJPEG2000Test00
   ${REVIEW_TESTS5} itkJPEG2000ImageIORegionOfInterest
