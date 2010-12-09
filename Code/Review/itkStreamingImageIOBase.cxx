@@ -312,7 +312,15 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfReq
                                                         const ImageIORegion & pasteRegion,
                                                         const ImageIORegion & largestPossibleRegion)
 {
-  if ( !itksys::SystemTools::FileExists( m_FileName.c_str() ) )
+  if ( !const_cast<StreamingImageIOBase*>(this)->CanStreamWrite() )
+    {
+    // ImageIOs may not always be able to stream,
+    // fall back to super classses non-streaming implementation
+    return ImageIOBase::GetActualNumberOfSplitsForWriting( numberOfRequestedSplits,
+                                                           pasteRegion,
+                                                           largestPossibleRegion );
+    }
+  else if ( !itksys::SystemTools::FileExists( m_FileName.c_str() ) )
     {
     // file doesn't exits so we don't have potential problems
     }
@@ -414,17 +422,13 @@ ImageIORegion StreamingImageIOBase::GenerateStreamableReadRegionFromRequestedReg
   const ImageIORegion & requestedRegion) const
 {
   // This implementation returns the requestedRegion if
-  // "UseStreamedReading" is enabled
+  // streaming is enabled and we are capable
 
   ImageIORegion streamableRegion(this->m_NumberOfDimensions);
 
-  if ( !m_UseStreamedReading )
+  if ( !m_UseStreamedReading || !const_cast<StreamingImageIOBase*>(this)->CanStreamRead() )
     {
-    for ( unsigned int i = 0; i < this->m_NumberOfDimensions; i++ )
-      {
-      streamableRegion.SetSize(i, this->m_Dimensions[i]);
-      streamableRegion.SetIndex(i, 0);
-      }
+    return ImageIOBase::GenerateStreamableReadRegionFromRequestedRegion( requestedRegion );
     }
   else
     {

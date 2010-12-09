@@ -98,13 +98,11 @@ public:
    * now...
    */
   virtual bool CanStreamWrite( void );
-  virtual unsigned int GetActualNumberOfSplitsForWriting( unsigned int numberOfRequestedSplits,
-                                                          const ImageIORegion &pasteRegion,
-                                                          const ImageIORegion &largestPossibleRegion );
 
 protected:
   JPEG2000ImageIO();
   ~JPEG2000ImageIO();
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 

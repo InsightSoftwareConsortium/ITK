@@ -290,8 +290,10 @@ public:
    * file specified. */
   virtual bool CanReadFile(const char *) = 0;
 
-  /** Determine if the ImageIO can stream reading from this
-      file. Default is false. */
+  /** Determine if the ImageIO can stream reading from the
+      current settings. Default is false. If this is queried after
+      the header of the file has been read then it will indicate if
+      that file can be streamed */
   virtual bool CanStreamRead()
   {
     return false;
@@ -310,10 +312,11 @@ public:
    * file specified. */
   virtual bool CanWriteFile(const char *)  = 0;
 
-  /** Determine if the ImageIO can stream writing to this file. Default is false.
+  /** Determine if the ImageIO can stream write from the
+   *  current settings.
    *
    * There are two types of non exclusive streaming: pasteing subregions, and iterative
-   * If true then
+   *
    */
   virtual bool CanStreamWrite()
   {
