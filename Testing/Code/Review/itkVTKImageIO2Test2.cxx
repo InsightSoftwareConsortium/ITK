@@ -114,7 +114,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
 
  bool passed = true;
 
- if( !monitor->VerifyAllIputCanNotStream() )
+ if( !monitor->VerifyAllInputCanNotStream() )
    {
    passed = false;
    }
@@ -154,7 +154,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
 
  bool passed = true;
 
- if( !monitor->VerifyAllIputCanNotStream() )
+ if( !monitor->VerifyAllInputCanNotStream() )
    {
    passed = false;
    }
