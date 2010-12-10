@@ -99,7 +99,7 @@ LaplacianImageFilter< TInputImage, TOutputImage >
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
 
-  ZeroFluxNeumannBoundaryCondition< TOutputImage > nbc;
+  ZeroFluxNeumannBoundaryCondition< TInputImage > nbc;
 
   // Create the Laplacian operator
   LaplacianOperator< OutputPixelType, ImageDimension > oper;

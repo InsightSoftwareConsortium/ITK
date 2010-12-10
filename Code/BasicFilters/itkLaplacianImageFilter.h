@@ -119,10 +119,6 @@ public:
   /** Begin concept checking */
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
-  itkConceptMacro( InputPixelTypeIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< InputPixelType > ) );
-  itkConceptMacro( OutputPixelTypeIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< OutputPixelType > ) );
   /** End concept checking */
 #endif
 protected:
