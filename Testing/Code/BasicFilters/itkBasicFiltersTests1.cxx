@@ -50,6 +50,7 @@ void RegisterTests()
   REGISTER_TEST(itkRGBToLuminanceImageFilterAndAdaptorTest );
   REGISTER_TEST(itkRecursiveGaussianImageFiltersTest );
   REGISTER_TEST(itkRecursiveGaussianImageFiltersOnTensorsTest );
+  REGISTER_TEST(itkRecursiveGaussianImageFiltersOnVectorImageTest );
   REGISTER_TEST(itkReflectImageFilterTest );
   REGISTER_TEST(itkReflectiveImageRegionIteratorTest );
   REGISTER_TEST(itkRegionOfInterestImageFilterTest );
