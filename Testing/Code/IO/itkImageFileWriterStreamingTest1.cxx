@@ -72,7 +72,7 @@ int itkImageFileWriterStreamingTest1(int argc, char* argv[])
   if ( forceNoStreamingInput )
     {
     monitor->UpdateLargestPossibleRegion();
-    monitor->VerifyAllIputCanNotStream();
+    monitor->VerifyAllInputCanNotStream();
     }
 
   // Setup the writer

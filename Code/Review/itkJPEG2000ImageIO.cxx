@@ -965,11 +965,7 @@ JPEG2000ImageIO
 
   if ( !m_UseStreamedReading )
     {
-    for ( unsigned int i = 0; i < this->m_NumberOfDimensions; i++ )
-      {
-      streamableRegion.SetSize(i, this->m_Dimensions[i]);
-      streamableRegion.SetIndex(i, 0);
-      }
+    return ImageIOBase::GenerateStreamableReadRegionFromRequestedRegion( requestedRegion );
     }
   else
     {
@@ -1024,17 +1020,5 @@ JPEG2000ImageIO
   return false;
 }
 
-unsigned int
-JPEG2000ImageIO
-::GetActualNumberOfSplitsForWriting( unsigned int numberOfRequestedSplits,
-                                                          const ImageIORegion &pasteRegion,
-                                                          const ImageIORegion &largestPossibleRegion )
-{
-  // just use the default implementation form ImageIOBase which checks
-  // CanStreamWrite, and take the correct action.
-  return ImageIOBase::GetActualNumberOfSplitsForWriting( numberOfRequestedSplits,
-                                                         pasteRegion,
-                                                         largestPossibleRegion );
-}
 
 } // end namespace itk

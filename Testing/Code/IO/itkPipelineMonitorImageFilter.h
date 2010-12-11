@@ -178,7 +178,7 @@ namespace itk {
        VerifyInputFilterMatchedUpdateOutputInformation();
    }
 
-   bool VerifyAllIputCanNotStream(void)
+   bool VerifyAllInputCanNotStream(void)
    {
      return VerifyDownStreamFilterExecutedPropagation() &&
        VerifyInputFilterRequestedLargestRegion() &&

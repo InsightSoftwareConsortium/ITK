@@ -22,6 +22,7 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkImageRegionIterator.h"
+#include "itkSymmetricSecondRankTensor.h"
 #include "itkTestingMacros.h"
 
 #include <cstring>
@@ -728,6 +729,51 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     }
   std::cout << "[PASSED] reading (Vector<double> - binary)" << std::endl;
 
+  // SymmetricSecondRankTensor< double, 2 > - ascii
+  if (!(VTKImageIO2Tester< itk::SymmetricSecondRankTensor<double, 2>, 3 >::Write( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] writing (SymmetricSecondRankTensor<double, 2> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (SymmetricSecondRankTensor<double, 2> - ascii)" << std::endl;
+  // Writing a 2 dimension tensor is possible, but reading is not.
+
+  // SymmetricSecondRankTensor< double, 3 > - ascii
+  if (!(VTKImageIO2Tester< itk::SymmetricSecondRankTensor<double, 3>, 3 >::Write( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] writing (SymmetricSecondRankTensor<double, 3> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (SymmetricSecondRankTensor<double, 3> - ascii)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::SymmetricSecondRankTensor<double, 3>, 3 >::Read( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] reading (SymmetricSecondRankTensor<double, 3> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (SymmetricSecondRankTensor<double, 3> - ascii)" << std::endl;
+
+  // SymmetricSecondRankTensor< double, 2 > - binary
+  if (!(VTKImageIO2Tester< itk::SymmetricSecondRankTensor<double, 2>, 3 >::Write( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] writing (SymmetricSecondRankTensor<double, 2> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (SymmetricSecondRankTensor<double, 2> - binary)" << std::endl;
+  // Writing a 2 dimension tensor is possible, but reading is not.
+
+  // SymmetricSecondRankTensor< double, 3 > - binary
+  if (!(VTKImageIO2Tester< itk::SymmetricSecondRankTensor<double, 3>, 3 >::Write( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] writing (SymmetricSecondRankTensor<double, 3> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (SymmetricSecondRankTensor<double, 3> - binary)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::SymmetricSecondRankTensor<double, 3>, 3 >::Read( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] reading (SymmetricSecondRankTensor<double, 3> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (SymmetricSecondRankTensor<double, 3> - binary)" << std::endl;
 
   //
   // Test bad paths

@@ -152,7 +152,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     }
 
 
-  if (!monitor->VerifyAllIputCanNotStream())
+  if (!monitor->VerifyAllInputCanNotStream())
     {
     std::cout << "pipeline did not execute as expected!" << std::endl;
     return EXIT_FAILURE;

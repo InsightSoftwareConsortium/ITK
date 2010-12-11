@@ -101,7 +101,7 @@ int itkImageFileReaderStreamingTest(int argc, char* argv[])
     }
   else
     {
-    if( !monitor->VerifyAllIputCanNotStream() )
+    if( !monitor->VerifyAllInputCanNotStream() )
       {
       passed = false;
       }
