@@ -19,6 +19,7 @@
 #define __itkCustomColormapFunctor_txx
 
 #include "itkCustomColormapFunctor.h"
+#include "itkMath.h"
 
 namespace itk
 {

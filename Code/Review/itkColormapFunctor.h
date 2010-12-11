@@ -18,7 +18,8 @@
 #ifndef __itkColormapFunctor_h
 #define __itkColormapFunctor_h
 
-#include "itkLightObject.h"
+#include "itkObject.h"
+#include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include "itkRGBPixel.h"
 
