@@ -143,14 +143,13 @@ set(ReviewTest_SRCS
   itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 )
 
-# temporary
-IF( ITK_USE_FFTW )
+IF( USE_FFTWD OR USE_FFTWF )
   SET( ReviewTest_SRCS
     ${ReviewTest_SRCS}
     itkFFTComplexToComplexImageFilterTest01.cxx
     itkFFTComplexToComplexImageFilterTest02.cxx
     )
-ENDIF( ITK_USE_FFTW )
+ENDIF( USE_FFTWD OR USE_FFTWF )
 
 SET(ReviewTest2_SRCS
   itkAtanRegularizedHeavisideStepFunctionTest1.cxx
