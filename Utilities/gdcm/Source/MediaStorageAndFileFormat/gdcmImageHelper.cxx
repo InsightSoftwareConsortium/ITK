@@ -1119,7 +1119,7 @@ void ImageHelper::SetSpacingValue(DataSet & ds, const std::vector<double> & spac
           assert( entry.GetVM() == VM::VM2 );
           for( unsigned int i = 0; i < entry.GetVM().GetLength(); ++i)
             {
-            el.SetValue( spacing[i], i );
+            el.SetValue( static_cast<int>(spacing[i]), i );//as per Mathieu's directive
             }
           //assert( el.GetValue(0) == spacing[0] && el.GetValue(1) == spacing[1] );
           std::stringstream os;
