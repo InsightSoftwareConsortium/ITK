@@ -75,7 +75,7 @@ public:
                FFTComplexToComplexImageFilter);
 
   /** Image type typedef support. */
-  typedef InputImageType              ImageType;
+  typedef InputImageType               ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
 
   //

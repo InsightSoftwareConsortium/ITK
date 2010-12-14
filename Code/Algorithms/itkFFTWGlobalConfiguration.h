@@ -136,7 +136,7 @@ public:
       hardwareInfo.RunCPUCheck();
       hardwareInfo.RunOSCheck();
       hardwareInfo.RunMemoryCheck();
-      std::stringstream OSD("") ;
+      std::stringstream OSD("");
 
       if( this->m_UseOSName )
         {
@@ -185,12 +185,12 @@ public:
         }
       if( this->m_UseSteppingCode )
         {
-        OSD << hardwareInfo.GetSteppingCode() ;
+        OSD << hardwareInfo.GetSteppingCode();
         }
       OSD << ".wisdom";
       std::string noSpaceStr=OSD.str();
       //Now remove spaces
-      noSpaceStr.erase(std::remove_if(noSpaceStr.begin(), noSpaceStr.end(), ::isspace), noSpaceStr.end());
+      noSpaceStr.erase(std::remove_if(noSpaceStr.begin(), noSpaceStr.end(),::isspace), noSpaceStr.end());
       return baseCacheDirectory + FFTWPathSep + ".itkwisdomfftw" + FFTWPathSep + noSpaceStr;
       }
     void SetUseOSName(const bool flag) { this->m_UseOSName=flag; }
@@ -232,6 +232,7 @@ private:
 };
 
 /**
+ * \class FFTWGlobalConfiguration
  * A class to contain all the global configuration options for
  * FFTW.
  *
