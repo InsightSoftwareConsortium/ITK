@@ -45,7 +45,7 @@ struct Dispatch_C2R_New<TSelfPointer, VDimension, double>
   static TSelfPointer apply()
     {
       return FFTWComplexConjugateToRealImageFilter< double, VDimension >
-        ::New().GePointer();
+        ::New().GetPointer();
     }
 };
 #endif
@@ -71,7 +71,7 @@ FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
 
   if ( smartPtr.IsNull() )
     {
-    smartPtr = Dispatch_C2R_New<Self*, VDimension, TPixel>::apply();
+    smartPtr = Dispatch_C2R_New<Pointer, VDimension, TPixel>::apply();
     }
 
   return smartPtr;

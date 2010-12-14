@@ -71,7 +71,7 @@ FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
 
   if ( smartPtr.IsNull() )
     {
-    smartPtr = DispatchFFTW_R2C_New<Self*, VDimension, TPixel>::apply();
+    smartPtr = DispatchFFTW_R2C_New<Pointer, VDimension, TPixel>::apply();
     }
 
   return smartPtr;
