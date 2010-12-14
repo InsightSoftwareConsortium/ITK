@@ -1,0 +1,132 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef __itkConfigure_h
+#define __itkConfigure_h
+
+/*
+ * here is where system computed values get stored these values should only
+ * change when the target compile platform changes
+ */
+
+/* what byte order */
+/* All compilers that support Mac OS X define either __BIG_ENDIAN__ or
+   __LITTLE_ENDIAN__ to match the endianness of the architecture being
+   compiled for. This is not necessarily the same as the architecture of
+   the machine doing the building. In order to support Universal Binaries on
+   Mac OS X, we prefer those defines to decide the endianness.
+   On other platform, we use the result of the TRY_RUN. */
+#if !defined(__APPLE__)
+  #cmakedefine CMAKE_WORDS_BIGENDIAN
+  #ifdef CMAKE_WORDS_BIGENDIAN
+    #define ITK_WORDS_BIGENDIAN
+  #endif
+#elif defined(__BIG_ENDIAN__)
+  #define CMAKE_WORDS_BIGENDIAN
+  #define ITK_WORDS_BIGENDIAN
+#endif
+
+/* what threading system are we using */
+#cmakedefine CMAKE_USE_PTHREADS
+#ifdef CMAKE_USE_PTHREADS
+#define ITK_USE_PTHREADS
+#endif
+
+#cmakedefine CMAKE_HP_PTHREADS
+#ifdef CMAKE_HP_PTHREADS
+#define ITK_HP_PTHREADS
+#endif
+
+#cmakedefine CMAKE_USE_WIN32_THREADS
+#ifdef CMAKE_USE_WIN32_THREADS
+#define ITK_USE_WIN32_THREADS
+#endif
+
+#cmakedefine ITK_BUILD_SHARED_LIBS
+#ifdef ITK_BUILD_SHARED_LIBS
+#define ITKDLL
+#else
+#define ITKSTATIC
+#endif
+
+#cmakedefine CMAKE_NO_STD_NAMESPACE
+#cmakedefine CMAKE_NO_ANSI_FOR_SCOPE
+#cmakedefine ITK_CPP_FUNCTION
+#cmakedefine ITK_LEGACY_REMOVE
+#cmakedefine ITK_LEGACY_SILENT
+#cmakedefine ITK_USE_CONCEPT_CHECKING
+#cmakedefine ITK_USE_STRICT_CONCEPT_CHECKING
+#cmakedefine ITK_EXPLICIT_INSTANTIATION
+#cmakedefine USE_FFTWF
+#cmakedefine USE_FFTWD
+#cmakedefine ITK_USE_MINC2
+#cmakedefine ITK_USE_TRANSFORM_IO_FACTORIES
+#cmakedefine ITK_USE_REVIEW
+#cmakedefine ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_TEMPLATE_ARGUMENTS
+#cmakedefine ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_EMPTY_BRACKETS
+#cmakedefine ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_NULL_STRING
+#cmakedefine ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO
+#cmakedefine ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS
+#cmakedefine ITK_SUPPORTS_FDSTREAM_HPP
+
+/*
+ * TODO: this should be changed to a compile time test for the needed
+ * feature and then defined as a cmake variable
+ */
+#if !(defined( _MSC_VER ) && ( _MSC_VER < 1310 ))
+#define ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+#endif
+
+/*
+ * The @HAVE_INCLUDE_H@ gets replaced with "1" or "", this define is
+ * to remap these values to 0 and 1
+ */
+#define ITK_CMAKEDEFINE_VAR_1 1
+#define ITK_CMAKEDEFINE_VAR_ 0
+
+/*
+ * Check Include files defines. We use the CMake standard names in the
+ * cmake files to reduce extra calls for checking header, but then
+ * conditionally defined them here with an ITK_ prefix to prevent
+ * collisions and re defined warnings.
+ */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_FENV_H@
+# define ITK_HAVE_FENV_H
+#endif /* HAVE_FENV_H */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_SYS_TYPES_H@
+# define ITK_HAVE_SYS_TYPES_H
+#endif  /* HAVE_SYS_TYPES_H */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_STDINT_H@
+# define ITK_HAVE_STDINT_H
+#endif  /* HAVE_STDINT_H */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_STDDEF_H@
+# define ITK_HAVE_STDDEF_H
+#endif /* HAVE_STDDEF_H */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_UNISTD_H@
+# define ITK_HAVE_UNISTD_H
+#endif /* HAVE_UNISTD_H */
+
+#undef ITK_CMAKEDEFINE_VAR_1
+#undef ITK_CMAKEDEFINE_VAR_
+
+
+#define ITK_VERSION_MAJOR @ITK_VERSION_MAJOR@
+#define ITK_VERSION_MINOR @ITK_VERSION_MINOR@
+#define ITK_VERSION_PATCH @ITK_VERSION_PATCH@
+#define ITK_VERSION_STRING "@ITK_VERSION_STRING@"
+
+#endif //__itkConfigure_h
