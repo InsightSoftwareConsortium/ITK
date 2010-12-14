@@ -24,6 +24,7 @@
 #include "gdcmGlobal.h"
 #include "gdcmAttribute.h"
 #include "gdcmDataSetHelper.h"
+#include <limits.h>
 
 #include "gdcmDataSet.h"
 
@@ -1041,8 +1042,12 @@ void Printer::PrintDataSet(const DataSet &ds, std::ostream &out, std::string con
       const BasicOffsetTable & table = sqf->GetTable();
       //os << nextindent  << table.GetTag() << "\n";
       PrintDataElement(os,dicts,ds,table,out,nextindent);
-      unsigned int numfrag = sqf->GetNumberOfFragments();
-      for(unsigned int i = 0; i < numfrag; ++i)
+      size_t numFragUncast = sqf->GetNumberOfFragments();
+      if (numFragUncast > std::numeric_limits<uint32_t>::max()){
+        gdcmErrorMacro("Number of fragments exceeds 32 bits.  That is not DICOM compliant.");
+      }
+      uint32_t numfrag = (uint32_t)numFragUncast;
+      for(uint32_t i = 0; i < numfrag; ++i)
         {
         const Fragment& frag = sqf->GetFragment(i);
         //os << nextindent<< frag << "\n";
