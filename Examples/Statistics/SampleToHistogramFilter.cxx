@@ -21,35 +21,34 @@
 
 // Software Guide : BeginLatex
 //
-// \index{Statistics!Convert ListSample to Histogram}
-// \index{itk::Statistics::List\-Sample\-To\-Histogram\-Generator}
+// \index{Statistics!Importing ListSample to Histogram}
+// \index{itk::Statistics::List\-Sample\-To\-Histogram\-Filter}
 //
-// In previous sections (Section~\ref{sec:ListSampleToHistogramFilter} we
-// described how to import data from a \subdoxygen{Statistics}{ListSample} to
-// a \subdoxygen{Statistics}{Histogram}. An alternative way of creating a
-// histogram is to use
-// \subdoxygen{Statistics}{ListSampleToHistogramGenerator}.  With this
-// generator, we only provide the size of the histogram and the type of the
-// measurement vectors in the histogram. The generator will automatically
-// find the lower and upper space bound and create equal interval bins in the
-// histogram.
+// Sometimes we want to work with a histogram instead of a list of
+// measurement vectors (e.g. \subdoxygen{Statistics}{ListSample},
+// \subdoxygen{Statistics}{ImageToListAdaptor}, or
+// \subdoxygen{Statistics}{PointSetToListSample}) to use less memory or to
+// perform a particular type od analysis. In such cases, we can import data
+// from a sample type to a \subdoxygen{Statistics}{Histogram} object
+// using the \subdoxygen{Statistics}{SampleToHistogramFiler}.
 //
 // We use a ListSample object as the input for the filter. We include the
-// header files for the ListSample, Histogram, and the filter itself.
+// header files for the ListSample and Histogram classes, as well as the
+// filter.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkListSample.h"
 #include "itkHistogram.h"
-#include "itkListSampleToHistogramGenerator.h"
+#include "itkSampleToHistogramFilter.h"
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// We need another header for measurement vectors. We are going to use
-// the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
-// in this example.
+// We need another header for the type of the measurement vectors. We are
+// going to use the \doxygen{Vector} class which is a subclass of the
+// \doxygen{FixedArray} in this example.
 //
 // Software Guide : EndLatex
 
@@ -61,10 +60,10 @@ int main()
 {
   // Software Guide : BeginLatex
   //
-  // The following code snippet will create a ListSample object
-  // with two-component int measurement vectors and put the measurement
-  // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] -
-  // 4 times, [5,5] - 5 times into the ListSample.
+  // The following code snippet creates a ListSample object with
+  // two-component \code{int} measurement vectors and put the measurement
+  // vectors: [1,1] - 1 time, [2,2] - 2 times, [3,3] - 3 times, [4,4] - 4
+  // times, [5,5] - 5 times into the \code{listSample}.
   //
   // Software Guide : EndLatex
 
@@ -91,56 +90,75 @@ int main()
     }
   // Software Guide : EndCodeSnippet
 
+
   // Software Guide : BeginLatex
   //
-  // The ListSampleToHistogramGenerator will find the lower and upper bound
-  // from the input sample and create equal interval bins. Since a Histogram
-  // object does not include the upper bound value and we want to include
-  // [5,5] measurement vector, we increase the upper-bound by the calculated
-  // bin interval/10.0 (divider). The divider is set by the
-  // \code{SetMarginalScale(float)} method. If you want to create a
-  // non-uniform histogram, you should use the ListSampleToHistogramFilter
-  // (see Section~\ref{sec:ListSampleToHistogramFilter}). The filter does not
-  // create a Histogram object. Instead, users should create a
-  // Histogram object with varying intervals and use the filter to
-  // fill the Histogram objects with the measurement vectors from a
-  // ListSample object.
+  // Here, we set up the size and bound of the output histogram.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float HistogramMeasurementType;
-  typedef itk::Statistics::ListSampleToHistogramGenerator< ListSampleType,
-          HistogramMeasurementType,
-          itk::Statistics::DenseFrequencyContainer,
-          MeasurementVectorLength >             GeneratorType;
-  GeneratorType::Pointer generator = GeneratorType::New();
+  const unsigned int numberOfComponents = 2;
+  typedef itk::Statistics::Histogram< HistogramMeasurementType >
+    HistogramType;
 
-  GeneratorType::HistogramType::SizeType size;
+  HistogramType::SizeType size( numberOfComponents );
   size.Fill(5);
 
-  generator->SetListSample( listSample );
-  generator->SetNumberOfBins( size );
-  generator->SetMarginalScale( 10.0 );
-  generator->Update();
+  HistogramType::MeasurementVectorType lowerBound( numberOfComponents );
+  HistogramType::MeasurementVectorType upperBound( numberOfComponents );
+
+  lowerBound[0] = 0.5;
+  lowerBound[1] = 0.5;
+
+  upperBound[0] = 5.5;
+  upperBound[1] = 5.5;
   // Software Guide : EndCodeSnippet
+
 
   // Software Guide : BeginLatex
   //
-  // The following code prints out the content of the resulting
-  // histogram.
+  // Now, we set up the \code{SampleToHistogramFilter} object by passing
+  // \code{listSample} as the input and initializing the histogram size
+  // and bounds with the \code{SetHistogramSize()},
+  // \code{SetHistogramBinMinimum()}, and \code{SetHistogramBinMaximum()}
+  // methods. We execute the filter by calling the \code{Update()}
+  // method.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GeneratorType::HistogramType::ConstPointer histogram = generator->GetOutput();
-  GeneratorType::HistogramType::ConstIterator iter = histogram->Begin();
+  typedef itk::Statistics::SampleToHistogramFilter< ListSampleType,
+                           HistogramType > FilterType;
+  FilterType::Pointer filter = FilterType::New();
+
+  filter->SetInput( listSample );
+  filter->SetHistogramSize( size );
+  filter->SetHistogramBinMinimum( lowerBound );
+  filter->SetHistogramBinMaximum( upperBound );
+  filter->Update();
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginLatex
+  //
+  // The \code{Size()} and \code{GetTotalFrequency()} methods return the same
+  // values as the \code{sample} does.
+  //
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+
+  const HistogramType* histogram = filter->GetOutput();
+
+  HistogramType::ConstIterator iter = histogram->Begin();
   while ( iter != histogram->End() )
     {
     std::cout << "Measurement vectors = " << iter.GetMeasurementVector()
               << " frequency = " << iter.GetFrequency() << std::endl;
     ++iter;
     }
+
   std::cout << "Size = " << histogram->Size() << std::endl;
   std::cout << "Total frequency = "
             << histogram->GetTotalFrequency() << std::endl;

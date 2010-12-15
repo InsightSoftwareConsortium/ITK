@@ -22,7 +22,7 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::Statistics::MeanCalculator}
-// \index{itk::Statistics::CovarianceCalculator}
+// \index{itk::Statistics::CovarianceSampleFilter}
 // \index{Statistics!Mean}
 // \index{Statistics!Covariance}
 //
@@ -49,8 +49,8 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMeanCalculator.h"
-#include "itkCovarianceCalculator.h"
+#include "itkMeanSampleFilter.h"
+#include "itkCovarianceSampleFilter.h"
 // Software Guide : EndCodeSnippet
 
 int main()
@@ -100,62 +100,50 @@ int main()
   // Software Guide : BeginLatex
   //
   // To calculate the mean (vector) of a sample, we instantiate the
-  // \subdoxygen{Statistics}{MeanCalculator} class that implements the mean
+  // \subdoxygen{Statistics}{MeanSampleFilter} class that implements the mean
   // algorithm and plug in the sample using the
   // \code{SetInputSample(sample*)} method.  By calling the \code{Update()}
   // method, we run the algorithm. We get the mean vector using the
-  // \code{GetOutput()} method. The output from the \code{GetOutput()} method
+  // \code{GetMean()} method. The output from the \code{GetOutput()} method
   // is the pointer to the mean vector.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::MeanCalculator< SampleType > MeanAlgorithmType;
+  typedef itk::Statistics::MeanSampleFilter< SampleType > MeanAlgorithmType;
 
   MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New();
 
-  meanAlgorithm->SetInputSample( sample );
+  meanAlgorithm->SetInput( sample );
   meanAlgorithm->Update();
 
-  std::cout << "Sample mean = " << *(meanAlgorithm->GetOutput()) << std::endl;
+  std::cout << "Sample mean = " << meanAlgorithm->GetMean() << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // To use the covariance calculation algorithm, we have two options.  Since
-  // we already have the mean calculated by the MeanCalculator, we can
-  // plug-in its output to an instance of
-  // \subdoxygen{Statistics}{CovarianceCalculator} using the \code{SetMean()}
-  // method. The other option is not to set the mean at all and just call the
-  // \code{Update()} method. The covariance calculation algorithm will
-  // compute the mean and covariance together in one pass. If you have
-  // already set the mean as in this example and you want to run one pass
-  // algorithm, simply pass a null pointer as the mean vector.
+  // The covariance calculation algorithm will also calculate the mean while
+  // performing the covariance matrix calculation. The mean can be accessed
+  // using the \code{GetMean()} method while the covariance can be accessed
+  // using the \code{GetCovarianceMatrix()} method.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::CovarianceCalculator< SampleType >
+  typedef itk::Statistics::CovarianceSampleFilter< SampleType >
     CovarianceAlgorithmType;
   CovarianceAlgorithmType::Pointer covarianceAlgorithm =
     CovarianceAlgorithmType::New();
 
-  covarianceAlgorithm->SetInputSample( sample );
-  covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() );
+  covarianceAlgorithm->SetInput( sample );
   covarianceAlgorithm->Update();
 
-  std::cout << "Sample covariance = " << std::endl ;
-  std::cout << *(covarianceAlgorithm->GetOutput()) << std::endl;
+  std::cout << "Mean = " << std::endl;
+  std::cout << covarianceAlgorithm->GetMean() << std::endl;
 
-  covarianceAlgorithm->SetMean( 0 );
-  covarianceAlgorithm->Update();
-
-  std::cout << "Using the one pass algorithm:" << std::endl;
-  std::cout << "Mean = " << std::endl ;
-  std::cout << *(covarianceAlgorithm->GetMean()) << std::endl;
-
-  std::cout << "Covariance = " << std::endl ;
-  std::cout << *(covarianceAlgorithm->GetOutput()) << std::endl;
+  std::cout << "Covariance = " << std::endl ; 
+  std::cout << covarianceAlgorithm->GetCovarianceMatrix() << std::endl;
   // Software Guide : EndCodeSnippet
+
   return 0;
 }

@@ -24,25 +24,25 @@
 // We will describe how to use \doxygen{PointSet} as a
 // \subdoxygen{Statistics}{Sample} using an adaptor in this example.
 //
-// \index{itk::Statistics::PointSetToListAdaptor}
+// \index{itk::Statistics::PointSetToListSampleAdaptor}
 //
-// The \subdoxygen{Statistics}{PointSetToListAdaptor} class requires a
+// The \subdoxygen{Statistics}{PointSetToListSampleAdaptor} class requires a
 // PointSet as input. The PointSet class is an associative data
 // container. Each point in a PointSet object can have an associated
 // optional data value. For the statistics subsystem, the current
-// implementation of PointSetToListAdaptor takes only the point part
+// implementation of PointSetToListSampleAdaptor takes only the point part
 // into consideration. In other words, the measurement vectors from a
-// PointSetToListAdaptor object are points from the PointSet
+// PointSetToListSampleAdaptor object are points from the PointSet
 // object that is plugged into the adaptor object.
 //
-// To use an PointSetToListAdaptor class, we include the header file for the
+// To use an PointSetToListSampleAdaptor class, we include the header file for the
 // class.
 //
 // Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkPointSetToListAdaptor.h"
+#include "itkPointSetToListSampleAdaptor.h"
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -86,7 +86,7 @@ int main()
   // template argument, we can change the coordinate value type of a point.
   // By specifying the \code{VPointDimension} template argument, we can
   // change the dimension of the point. As mentioned earlier, a
-  // \code{PointSetToListAdaptor} object cares only about the points, and the
+  // \code{PointSetToListSampleAdaptor} object cares only about the points, and the
   // type of measurement vectors is the type of points. Therefore, we can
   // define the measurement vector type as in the following code snippet.
   //
@@ -122,20 +122,19 @@ int main()
   //
   // Now we have a PointSet object that has two points in it. And the
   // pointSet is ready to be plugged into the adaptor.
-  // First, we create an instance of the PointSetToListAdaptor class
+  // First, we create an instance of the PointSetToListSampleAdaptor class
   // with the type of the input PointSet object.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::PointSetToListAdaptor< PointSetType > SampleType;
+  typedef itk::Statistics::PointSetToListSampleAdaptor< PointSetType > SampleType;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // Second, just as we did with the ImageToListAdaptor example in
-  // Section~\ref{sec:ImageToListAdaptor}, all we have to do is to
+  // Second, all we have to do is to
   // plug in the PointSet object to the adaptor.  After that,
   // we can use the common methods and iterator interfaces shown in
   // Section~\ref{sec:SampleInterface}.
@@ -144,6 +143,20 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   sample->SetPointSet( pointSet );
+
+  SampleType::Iterator iter = sample->Begin();
+
+  while( iter != sample->End() )
+    {
+    std::cout << "id = " << iter.GetInstanceIdentifier()
+              << "\t measurement vector = "
+              << iter.GetMeasurementVector()
+              << "\t frequency = "
+              << iter.GetFrequency()
+              << std::endl;
+    ++iter;
+    }
+
   // Software Guide : EndCodeSnippet
 
   return 0;

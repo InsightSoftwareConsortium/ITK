@@ -59,7 +59,8 @@
 // Software Guide : BeginLatex
 //
 // The sorting and selecting related functions are in the include file
-// \code{itkStatisticsAlgorithm.h}.
+// \code{itkStatisticsAlgorithm.h}. Note that all functions in this file
+// are in the \code{itk::Statistics::Algorithm} namespace.
 //
 // Software Guide : EndLatex
 
@@ -120,7 +121,7 @@ void printSubsample(SubsampleType* subsample, const char* header)
   while ( iter != subsample->End() )
     {
     std::cout << "instance identifier = " << iter.GetInstanceIdentifier()
-              << "\t measurement vector = "
+              << " \t measurement vector = "
               << iter.GetMeasurementVector()
               << std::endl;
     ++iter;
@@ -190,9 +191,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  int activeDimension = 0 ;
-  itk::Statistics::InsertSort< SubsampleType >( subsample, activeDimension,
-                                                0, subsample->Size() );
+  int activeDimension = 0 ; 
+  itk::Statistics::Algorithm::InsertSort< SubsampleType >( subsample,
+                              activeDimension, 0, subsample->Size() );
   printSubsample(subsample, "InsertSort");
   // Software Guide : EndCodeSnippet
 
@@ -206,8 +207,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   initializeSubsample(subsample, sample);
-  itk::Statistics::HeapSort< SubsampleType >( subsample, activeDimension,
-                                              0, subsample->Size() );
+  itk::Statistics::Algorithm::HeapSort< SubsampleType >( subsample,
+                              activeDimension, 0, subsample->Size() );
   printSubsample(subsample, "HeapSort");
   // Software Guide : EndCodeSnippet
 
@@ -225,7 +226,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   initializeSubsample(subsample, sample);
-  itk::Statistics::IntrospectiveSort< SubsampleType >
+  itk::Statistics::Algorithm::IntrospectiveSort< SubsampleType >
                       ( subsample, activeDimension, 0, subsample->Size(), 16 );
   printSubsample(subsample, "IntrospectiveSort");
   // Software Guide : EndCodeSnippet
@@ -243,8 +244,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   initializeSubsample(subsample, sample);
-  SubsampleType::MeasurementType median =
-          itk::Statistics::QuickSelect< SubsampleType >( subsample,
+  SubsampleType::MeasurementType median = 
+          itk::Statistics::Algorithm::QuickSelect< SubsampleType >( subsample,
                                                          activeDimension,
                                                          0, subsample->Size(),
                                                          subsample->Size()/2 );

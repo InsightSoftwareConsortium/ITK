@@ -20,9 +20,9 @@
 #endif
 
 // Software Guide : BeginLatex
-// \index{itk::Statistics::MinimumDecisionRule}
+// \index{itk::Statistics::MinimumDecisionRule2}
 //
-// The \code{Evaluate()} method of the \doxygen{MinimumDecisionRule}
+// The \code{Evaluate()} method of the \doxygen{MinimumDecisionRule2}
 // returns the index of the smallest discriminant score among the
 // vector of discriminant scores that it receives as input.
 //
@@ -33,7 +33,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMinimumDecisionRule.h"
+#include "itkMinimumDecisionRule2.h"
 #include <vector>
 // Software Guide : EndCodeSnippet
 
@@ -47,7 +47,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
@@ -66,7 +66,7 @@ int main(int, char*[])
   discriminantScores.push_back( 0.3 );
   discriminantScores.push_back( 0.6 );
 
-  std::cout << "MinimumDecisionRule: The index of the chosen = "
+  std::cout << "MinimumDecisionRule2: The index of the chosen = "
             << decisionRule->Evaluate( discriminantScores )
             << std::endl;
   // Software Guide : EndCodeSnippet

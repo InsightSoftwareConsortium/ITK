@@ -33,13 +33,13 @@ REGISTER_TEST( MaximumRatioDecisionRuleTest );
 
 #undef main
 #define main MinimumDecisionRuleTest
-#include "MinimumDecisionRule.cxx"
+#include "MinimumDecisionRule2.cxx"
 
 #undef main
 #define main MaximumDecisionRuleTest
-#include "MaximumDecisionRule.cxx"
+#include "MaximumDecisionRule2.cxx"
 
 #undef main
 #define main MaximumRatioDecisionRuleTest
-#include "MaximumRatioDecisionRule.cxx"
+#include "MaximumRatioDecisionRule2.cxx"
 

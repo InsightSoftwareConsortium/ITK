@@ -64,20 +64,20 @@ int main( int argc, char * argv [] )
 
 
 
-// Software Guide : BeginLatex
-//
-// The image type must be defined using the typical pair of pixel type and
-// dimension specification.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The image type must be defined using the typical pair of pixel type and
+  // dimension specification.
+  //
+  // Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef unsigned char       PixelType;
   const unsigned int          Dimension = 2;
 
   typedef itk::Image<PixelType, Dimension > ImageType;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
 
@@ -101,89 +101,89 @@ int main( int argc, char * argv [] )
 
 
 
-// Software Guide : BeginLatex
-//
-// We use now the image type in order to instantiate the type of the
-// corresponding histogram generator class, and invoke its \code{New()} method
-// in order to construct one.
-//
-// \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!header}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We use now the image type in order to instantiate the type of the
+  // corresponding histogram generator class, and invoke its \code{New()} method
+  // in order to construct one.
+  //
+  // \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!header}
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::ScalarImageToHistogramGenerator<
                                  ImageType >   HistogramGeneratorType;
 
   HistogramGeneratorType::Pointer histogramGenerator =
                                         HistogramGeneratorType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
 
 
 
-// Software Guide : BeginLatex
-//
-// The image to be passed as input to the histogram generator is taken in this
-// case from the output of an image reader.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The image to be passed as input to the histogram generator is taken in this
+  // case from the output of an image reader.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   histogramGenerator->SetInput(  reader->GetOutput() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
 
 
 
-// Software Guide : BeginLatex
-//
-// We define also the typical parameters that specify the characteristics of
-// the histogram to be computed.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We define also the typical parameters that specify the characteristics of
+  // the histogram to be computed.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   histogramGenerator->SetNumberOfBins( 256 );
   histogramGenerator->SetMarginalScale( 10.0 );
 
   histogramGenerator->SetHistogramMin(  -0.5 );
   histogramGenerator->SetHistogramMax( 255.5 );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Finally we trigger the computation of the histogram by invoking the
-// \code{Compute()} method of the generator. Note again, that a generator is
-// not a pipeline object and therefore it is up to you to make sure that the
-// filters providing the input image have been updated.
-//
-// \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!Compute()}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Finally we trigger the computation of the histogram by invoking the
+  // \code{Compute()} method of the generator. Note again, that a generator is
+  // not a pipeline object and therefore it is up to you to make sure that the
+  // filters providing the input image have been updated.
+  //
+  // \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!Compute()}
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   histogramGenerator->Compute();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
 
-// Software Guide : BeginLatex
-//
-// The resulting histogram can be obtained from the generator by invoking its
-// \code{GetOutput()} method. It is also convenient to get the Histogram type
-// from the traits of the generator type itself as shown in the code below.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The resulting histogram can be obtained from the generator by invoking its
+  // \code{GetOutput()} method. It is also convenient to get the Histogram type
+  // from the traits of the generator type itself as shown in the code below.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef HistogramGeneratorType::HistogramType  HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
 
@@ -201,16 +201,16 @@ int main( int argc, char * argv [] )
 
 
 
-// Software Guide : BeginLatex
-//
-// In this case we simply print out the frequency values of the histogram.
-// These values can be accessed by using iterators.
-//
-// \index{itk::Statistics::Histogram!Iterators}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // In this case we simply print out the frequency values of the histogram.
+  // These values can be accessed by using iterators.
+  //
+  // \index{itk::Statistics::Histogram!Iterators}
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   HistogramType::ConstIterator itr = histogram->Begin();
   HistogramType::ConstIterator end = histogram->End();
 
@@ -222,7 +222,7 @@ int main( int argc, char * argv [] )
     ++itr;
     ++binNumber;
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
   return 0;

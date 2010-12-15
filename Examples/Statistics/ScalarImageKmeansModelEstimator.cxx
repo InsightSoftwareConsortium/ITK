@@ -25,7 +25,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example shows how to compute the KMeans model of an Scalar Image.
+// This example shows how to compute the KMeans model of a Scalar Image.
 //
 // The  \subdoxygen{Statistics}{KdTreeBasedKmeansEstimator} is used for taking
 // a scalar image and applying the K-Means algorithm in order to define classes
@@ -44,12 +44,7 @@
 #include "itkKdTree.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
-
-#include "itkMinimumDecisionRule.h"
-#include "itkEuclideanDistance.h"
-#include "itkSampleClassifier.h"
-
-#include "itkScalarImageToListAdaptor.h"
+#include "itkImageToListSampleAdaptor.h"
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
@@ -92,7 +87,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
 
   // Create a List from the scalar image
-  typedef itk::Statistics::ScalarImageToListAdaptor< ImageType >   AdaptorType;
+  typedef itk::Statistics::ImageToListSampleAdaptor< ImageType >   AdaptorType;
 
   AdaptorType::Pointer adaptor = AdaptorType::New();
 
@@ -144,7 +139,7 @@ int main( int argc, char * argv [] )
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
     }
 
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //

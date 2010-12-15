@@ -254,7 +254,7 @@ int main()
     std::cout << "         " << (components[i])->GetFullParameters()
               << std::endl;
     std::cout << "    Proportion: ";
-    std::cout << "         " << (*estimator->GetProportions())[i] << std::endl;
+    std::cout << "         " << estimator->GetProportions()[i] << std::endl;
     }
   // Software Guide : EndCodeSnippet
 

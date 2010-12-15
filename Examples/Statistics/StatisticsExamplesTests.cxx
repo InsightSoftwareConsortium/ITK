@@ -37,8 +37,8 @@ REGISTER_TEST( GaussianDensityFunctionTest );
 
 #undef main
 #define main EuclideanDistanceTest
-#include "EuclideanDistance.cxx"
+#include "EuclideanDistanceMetric.cxx"
 
 #undef main
 #define main GaussianDensityFunctionTest
-#include "GaussianDensityFunction.cxx"
+#include "GaussianMembershipFunction.cxx"

@@ -105,18 +105,17 @@
 // Software Guide : BeginLatex
 //
 // To generate the clusters, we must create k instances of
-// \subdoxygen{Statistics}{EuclideanDistance} function as the membership
+// \subdoxygen{Statistics}{DistanceToCentroidMembershipFunction} function as the membership
 // functions for each cluster and plug that---along with a sample---into an
-// \subdoxygen{Statistics}{SampleClassifier} object to get a
+// \subdoxygen{Statistics}{SampleClassifierFilter} object to get a
 // \subdoxygen{Statistics}{MembershipSample} that stores pairs of measurement
 // vectors and their associated class labels (k labels).
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMinimumDecisionRule.h"
-#include "itkEuclideanDistance.h"
-#include "itkSampleClassifier.h"
+#include "itkMinimumDecisionRule2.h"
+#include "itkSampleClassifierFilter.h"
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -280,44 +279,54 @@ int main()
   //
   // Since the k-means algorithm is an minimum distance classifier using
   // the estimated k means and the measurement vectors. We use the
-  // EuclideanDistance class as membership functions. Our choice
-  // for the decision rule is the
-  // \subdoxygen{Statistics}{MinimumDecisionRule} that returns the
+  // DistanceToCentroidMembershipFunction class as membership functions.
+  // Our choice for the decision rule is the
+  // \subdoxygen{Statistics}{MinimumDecisionRule2} that returns the
   // index of the membership functions that have the smallest value for
   // a measurement vector.
   //
-  // After creating a SampleClassifier object and a MinimumDecisionRule
-  // object, we plug-in the \code{decisionRule} and the \code{sample} to the
-  // classifier. Then, we must specify the number of classes that will be
-  // considered using the \code{SetNumberOfClasses()} method.
+  // After creating a SampleClassifier filter object and a
+  // MinimumDecisionRule object, we plug-in the \code{decisionRule} and
+  // the \code{sample} to the classifier filter. Then, we must specify
+  // the number of classes that will be considered using the
+  // \code{SetNumberOfClasses()} method.
   //
   // The remainder of the following code snippet shows how to use
-  // user-specified class labels. The classification result will be stored in
-  // a MembershipSample object, and for each measurement vector, its
+  // user-specified class labels. The classification result will be stored
+  // in a MembershipSample object, and for each measurement vector, its
   // class label will be one of the two class labels, 100 and 200
   // (\code{unsigned int}).
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType >
+  typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >
     MembershipFunctionType;
-  typedef itk::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  typedef itk::Statistics::SampleClassifier< SampleType > ClassifierType;
+  typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
   ClassifierType::Pointer classifier = ClassifierType::New();
 
-  classifier->SetDecisionRule( (itk::DecisionRuleBase::Pointer) decisionRule);
-  classifier->SetSample( sample );
+  classifier->SetDecisionRule( decisionRule );
+  classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
 
-  std::vector< unsigned int > classLabels;
-  classLabels.resize( 2 );
-  classLabels[0] = 100;
-  classLabels[1] = 200;
+  typedef ClassifierType::ClassLabelVectorObjectType
+    ClassLabelVectorObjectType;
+  typedef ClassifierType::ClassLabelVectorType ClassLabelVectorType;
+  typedef ClassifierType::ClassLabelType ClassLabelType;
 
-  classifier->SetMembershipFunctionClassLabels( classLabels );
+  ClassLabelVectorObjectType::Pointer classLabelsObject =
+    ClassLabelVectorObjectType::New();
+  ClassLabelVectorType& classLabelsVector = classLabelsObject->Get();
+
+  ClassLabelType class1 = 200;
+  classLabelsVector.push_back( class1 );
+  ClassLabelType class2 = 100;
+  classLabelsVector.push_back( class2 );
+
+  classifier->SetClassLabels( classLabelsObject );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -328,27 +337,39 @@ int main()
   //
   // In this example, the two clusters are modeled by two Euclidean distance
   // functions. The distance function (model) has only one parameter, its mean
-  // (centroid) set by the \code{SetOrigin()} method. To plug-in two distance
-  // functions, we call the \code{AddMembershipFunction()} method. Then
-  // invocation of the \code{Update()} method will perform the
-  // classification.
+  // (centroid) set by the \code{SetCentroid()} method. To plug-in two distance
+  // functions, we create a MembershipFunctionVectorObject that contains a
+  // MembershipFunctionVector with two components and add it using the
+  // \code{SetMembershipFunctions} method. Then invocation of the
+  // \code{Update()} method will perform the classification.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::vector< MembershipFunctionType::Pointer > membershipFunctions;
-  MembershipFunctionType::OriginType origin( sample->GetMeasurementVectorSize() );
+
+  typedef ClassifierType::MembershipFunctionVectorObjectType
+    MembershipFunctionVectorObjectType;
+  typedef ClassifierType::MembershipFunctionVectorType
+    MembershipFunctionVectorType;
+
+  MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
+    MembershipFunctionVectorObjectType::New();
+  MembershipFunctionVectorType& membershipFunctionVector =
+    membershipFunctionVectorObject->Get();
+
   int index = 0;
   for ( unsigned int i = 0 ; i < 2 ; i++ )
     {
-    membershipFunctions.push_back( MembershipFunctionType::New() );
+    MembershipFunctionType::Pointer membershipFunction = MembershipFunctionType::New();
+    MembershipFunctionType::CentroidType centroid( sample->GetMeasurementVectorSize() );
     for ( unsigned int j = 0 ; j < sample->GetMeasurementVectorSize(); j++ )
       {
-      origin[j] = estimatedMeans[index++];
+      centroid[j] = estimatedMeans[index++];
       }
-    membershipFunctions[i]->SetOrigin( origin );
-    classifier->AddMembershipFunction( membershipFunctions[i].GetPointer() );
+    membershipFunction->SetCentroid( centroid );
+    membershipFunctionVector.push_back( membershipFunction.GetPointer() );
     }
+  classifier->SetMembershipFunctions( membershipFunctionVectorObject );
 
   classifier->Update();
   // Software Guide : EndCodeSnippet
@@ -361,24 +382,18 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ClassifierType::OutputType* membershipSample = classifier->GetOutput();
-  ClassifierType::OutputType::ConstIterator iter = membershipSample->Begin();
+  const ClassifierType::MembershipSampleType* membershipSample =
+    classifier->GetOutput();
+  ClassifierType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
 
   while ( iter != membershipSample->End() )
     {
     std::cout << "measurement vector = " << iter.GetMeasurementVector()
-              << "class label = " << iter.GetClassLabel()
+              << " class label = " << iter.GetClassLabel()
               << std::endl;
     ++iter;
     }
   // Software Guide : EndCodeSnippet
-
   return 0;
 }
-
-
-
-
-
-
 

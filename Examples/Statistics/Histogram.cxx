@@ -48,23 +48,32 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkHistogram.h"
+#include "itkDenseFrequencyContainer2.h"
 // Software Guide : EndCodeSnippet
 
 int main()
 {
   // Software Guide : BeginLatex
   //
-  // Here we create a histogram with 2-component measurement
-  // vectors.
+  // Here we create a histogram with dense frequency containers. In
+  // this example we will not have any zero frequency measurements,
+  // so the dense frequency container is the appropriate choice. If
+  // the histogram is expected to have many empty (zero) bins, a sparse
+  // frequency container would be the better option. Here we also set
+  // the size of the measurement vectors to be 2 components.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float MeasurementType ;
-  typedef itk::Statistics::Histogram< MeasurementType, 2 > HistogramType ;
-  HistogramType::Pointer histogram = HistogramType::New() ;
-  // Software Guide : EndCodeSnippet
+  typedef itk::Statistics::DenseFrequencyContainer2 FrequencyContainerType;
+  const unsigned int numberOfComponents = 2 ;
+  typedef itk::Statistics::Histogram< MeasurementType,
+    FrequencyContainerType > HistogramType ;
 
+  HistogramType::Pointer histogram = HistogramType::New() ;
+  histogram->SetMeasurementVectorSize( numberOfComponents ) ;
+  // Software Guide : EndCodeSnippet
   // Software Guide : BeginLatex
   //
   // We initialize it as a $3\times3$ histogram with equal size intervals.
@@ -72,10 +81,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  HistogramType::SizeType size ;
+  HistogramType::SizeType size( numberOfComponents ) ;
   size.Fill(3) ;
-  HistogramType::MeasurementVectorType lowerBound ;
-  HistogramType::MeasurementVectorType upperBound ;
+  HistogramType::MeasurementVectorType lowerBound( numberOfComponents ) ;
+  HistogramType::MeasurementVectorType upperBound( numberOfComponents ) ;
   lowerBound[0] = 1.1 ;
   lowerBound[1] = 2.6 ;
   upperBound[0] = 7.1 ;
@@ -122,7 +131,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  HistogramType::IndexType index ;
+  HistogramType::IndexType index( numberOfComponents ) ;
   index[0] = 0 ;
   index[1] = 2 ;
   std::cout << "Frequency of the bin at index  " << index
@@ -139,7 +148,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  HistogramType::MeasurementVectorType mv ;
+  HistogramType::MeasurementVectorType mv( numberOfComponents ) ;
   mv[0] = 4.1 ;
   mv[1] = 5.6 ;
   index.Fill(1) ;
@@ -196,7 +205,7 @@ int main()
   index.Fill(100) ;
   if ( histogram->IsIndexOutOfBounds(index) )
     {
-    std::cout << "Index " << index << "is out of bounds." << std::endl ;
+    std::cout << "Index " << index << " is out of bounds." << std::endl ;
     }
   // Software Guide : EndCodeSnippet
 
@@ -228,9 +237,6 @@ int main()
   std::cout << "50th percentile along the first dimension = "
             << histogram->Quantile(0, 0.5) << std::endl ;
   // Software Guide : EndCodeSnippet
-
   return 0 ;
 }
-
-
 
