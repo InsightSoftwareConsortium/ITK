@@ -95,7 +95,7 @@ int itkAddImageAdaptorTest(int, char* [] )
 
   AdaptorType::Pointer addAdaptor = AdaptorType::New();
 
-  PixelType additiveConstant = 19.0;
+  PixelType additiveConstant = 19;
 
   addAdaptor->SetImage( inputImage );
   addAdaptor->SetValue( additiveConstant );
@@ -163,7 +163,7 @@ int itkAddImageAdaptorTest(int, char* [] )
   addAdaptor->SetPixel( index, newValue );
 
   PixelType  p2 = addAdaptor->GetPixel( index );
-  std::cout << " Now Pixel " << index << " had value = " << p2 << std::endl;
+  std::cout << " Now Pixel " << index << " has value = " << p2 << std::endl;
 
   if( p2 != newValue )
     {
