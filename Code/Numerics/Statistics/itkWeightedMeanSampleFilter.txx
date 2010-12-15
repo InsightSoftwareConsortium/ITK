@@ -19,6 +19,7 @@
 #define __itkWeightedMeanSampleFilter_txx
 
 #include "itkMeasurementVectorTraits.h"
+#include "itkWeightedMeanSampleFilter.h"
 
 namespace itk
 {
@@ -92,13 +93,22 @@ WeightedMeanSampleFilter< TSample >
     static_cast< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
-  MeasurementVectorType output = decoratedOutput->Get();
+  MeasurementVectorRealType output = decoratedOutput->Get();
+
+  NumericTraits<MeasurementVectorRealType>::SetLength( output, this->GetMeasurementVectorSize() );
 
   //reset the output
   for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
     {
-    output[dim] = NumericTraits< MeasurementType >::Zero;
+    output[dim] = NumericTraits< MeasurementRealType >::Zero;
     }
+
+  typedef typename NumericTraits<
+    MeasurementRealType >::AccumulateType MeasurementRealAccumulateType;
+
+  Array< MeasurementRealAccumulateType > sum( measurementVectorSize );
+  sum.Fill( NumericTraits< MeasurementRealAccumulateType >::Zero );
+
 
   typename TSample::ConstIterator iter = input->Begin();
   typename TSample::ConstIterator end =  input->End();
@@ -120,18 +130,23 @@ WeightedMeanSampleFilter< TSample >
 
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
-      output[dim] += measurements[dim] * weight;
+      const MeasurementRealType component = static_cast< MeasurementRealType >( measurements[dim] );
+      sum[dim] += static_cast< MeasurementRealAccumulateType >( component * weight );
       }
     ++measurementVectorIndex;
     ++iter;
     }
 
-  if ( totalWeight != 0.0 )
+  if ( totalWeight > vnl_math::eps )
     {
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
-      output[dim] /= totalWeight;
+      output[dim] = static_cast< MeasurementRealType >( sum[dim] / totalWeight );
       }
+    }
+  else
+    {
+    itkExceptionMacro("Total weight was too close to zero. Value = " << totalWeight );
     }
 
   decoratedOutput->Set(output);
@@ -151,12 +166,14 @@ WeightedMeanSampleFilter< TSample >
     static_cast< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
-  MeasurementVectorType output = decoratedOutput->Get();
+  MeasurementVectorRealType output = decoratedOutput->Get();
+
+  NumericTraits<MeasurementVectorRealType>::SetLength( output, this->GetMeasurementVectorSize() );
 
   //reset the output
   for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
     {
-    output[dim] = NumericTraits< MeasurementType >::Zero;
+    output[dim] = NumericTraits< MeasurementRealType >::Zero;
     }
 
   typename TSample::ConstIterator iter = input->Begin();

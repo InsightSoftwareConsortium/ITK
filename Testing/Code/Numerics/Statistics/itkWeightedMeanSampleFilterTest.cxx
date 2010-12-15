@@ -148,9 +148,9 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
     }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
-  FilterType::MeasurementVectorType    meanOutput  = decorator->Get();
+  FilterType::MeasurementVectorRealType    meanOutput  = decorator->Get();
 
-  FilterType::MeasurementVectorType mean;
+  FilterType::MeasurementVectorRealType mean;
 
   mean[0] = 2.0;
   mean[1] = 2.0;

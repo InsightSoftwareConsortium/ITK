@@ -104,9 +104,9 @@ int itkWeightedCovarianceSampleFilterTest(int, char* [] )
  typedef itk::Statistics::ListSample<
     MeasurementVectorType >                    SampleType;
 
-  typedef itk::Statistics::MyWeightedCovarianceSampleFilter< SampleType >
-    FilterType;
+  typedef itk::Statistics::MyWeightedCovarianceSampleFilter< SampleType > FilterType;
 
+  typedef FilterType::MeasurementVectorRealType  MeasurementVectorRealType;
   typedef FilterType::MatrixType                 CovarianceMatrixType;
 
   FilterType::Pointer filter = FilterType::New();
@@ -193,7 +193,7 @@ int itkWeightedCovarianceSampleFilterTest(int, char* [] )
     std::cout << "Expected exception caught: " << excp << std::endl;
     }
 
-  MeasurementVectorType  mean = filter->GetMean();
+  MeasurementVectorRealType  mean = filter->GetMean();
   CovarianceMatrixType matrix = filter->GetCovarianceMatrix();
 
   std::cout << "Mean: "              << mean << std::endl;
@@ -203,9 +203,11 @@ int itkWeightedCovarianceSampleFilterTest(int, char* [] )
 
   double epsilon = 1e-2;
 
-  float value33[3] = {4.10, 2.08, 0.604};
-
-  MeasurementVectorType  meanExpected33( value33 );
+  MeasurementVectorRealType  meanExpected33;
+  itk::NumericTraits< MeasurementVectorRealType >::SetLength( meanExpected33, MeasurementVectorSize );
+  meanExpected33[0] = 4.10;
+  meanExpected33[1] = 2.08;
+  meanExpected33[2] = 0.604;
 
   for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
     {
@@ -265,9 +267,12 @@ int itkWeightedCovarianceSampleFilterTest(int, char* [] )
   std::cout << "Mean: "              << mean << std::endl;
   std::cout << "Covariance Matrix: " << matrix << std::endl;
 
-  float value3[3] = {4.10, 2.08, 0.604};
+  MeasurementVectorRealType  meanExpected3;
 
-  MeasurementVectorType  meanExpected3( value3 );
+  itk::NumericTraits< MeasurementVectorRealType >::SetLength( meanExpected3, MeasurementVectorSize );
+  meanExpected3[0] = 4.10;
+  meanExpected3[1] = 2.08;
+  meanExpected3[2] = 0.604;
 
   for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
     {

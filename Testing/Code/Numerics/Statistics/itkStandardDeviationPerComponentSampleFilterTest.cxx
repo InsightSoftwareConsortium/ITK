@@ -173,7 +173,7 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
     std::cerr << "Exception caught: " << excp << std::endl;
     }
 
-  CovarianceSampleFilterType::MeasurementVectorType meanCalculatedUsingCovarianceSampleFilter = covarianceFilter->GetMean();
+  CovarianceSampleFilterType::MeasurementVectorRealType meanCalculatedUsingCovarianceSampleFilter = covarianceFilter->GetMean();
 
   if ( ( vnl_math_abs( meanCalculatedUsingCovarianceSampleFilter[0] - mean[0]) > epsilon )  ||
        ( vnl_math_abs( meanCalculatedUsingCovarianceSampleFilter[1] - mean[1]) > epsilon )  ||

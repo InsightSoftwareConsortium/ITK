@@ -81,12 +81,16 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
   std::cout << "Covariance Matrix: " << covarianceOutput << std::endl;
 
   const FilterType::MeasurementVectorDecoratedType * meanDecorator  = filter->GetMeanOutput();
-  FilterType::MeasurementVectorType    mean = meanDecorator->Get();
+  FilterType::MeasurementVectorRealType    mean = meanDecorator->Get();
 
   //Check the results
-  float value[3] = {1.0, 1.0, 1.0};
 
-  MeasurementVectorType  meanExpected( value );
+  typedef FilterType::MeasurementVectorRealType   MeasurementVectorRealType;
+  MeasurementVectorRealType  meanExpected;
+
+  itk::NumericTraits<MeasurementVectorRealType>::SetLength( meanExpected, MeasurementVectorSize );
+
+  meanExpected.Fill( 1.0 );
 
   const double epsilon = 1e-4;
 
@@ -171,9 +175,11 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
   CovarianceMatrixType matrix = filter->GetCovarianceMatrix();
 
   //Check the results
-  float value2[3] = {0.333333, 0.333333, 0.3333333};
 
-  MeasurementVectorType  meanExpected2( value2 );
+  MeasurementVectorRealType  meanExpected2;
+  itk::NumericTraits<MeasurementVectorRealType>::SetLength( meanExpected2, MeasurementVectorSize );
+
+  meanExpected2.Fill( 0.333333 );
 
   for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
     {
@@ -263,9 +269,12 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
 
   //Check the results
 
-  float value3[3] = {4.10, 2.08, 0.604};
+  MeasurementVectorRealType  meanExpected3;
+  itk::NumericTraits<MeasurementVectorRealType>::SetLength( meanExpected3, MeasurementVectorSize );
 
-  MeasurementVectorType  meanExpected3( value3 );
+  meanExpected3[0] = 4.10;
+  meanExpected3[1] = 2.08;
+  meanExpected3[2] = 0.604;
 
   for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
     {

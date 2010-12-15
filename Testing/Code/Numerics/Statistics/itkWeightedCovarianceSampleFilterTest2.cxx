@@ -195,7 +195,9 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
     std::cout << "Expected exception caught: " << excp << std::endl;
     }
 
-  MeasurementVectorType2  mean = filter->GetMean();
+  typedef FilterType::MeasurementVectorRealType   MeasurementVectorRealType;
+
+  MeasurementVectorRealType  mean = filter->GetMean();
   CovarianceMatrixType matrix = filter->GetCovarianceMatrix();
 
   std::cout << "Mean: "              << mean << std::endl;
@@ -207,7 +209,7 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
 
   float value33[3] = {4.10, 2.08, 0.604};
 
-  MeasurementVectorType2  meanExpected33( MeasurementVectorSize2 );
+  MeasurementVectorRealType  meanExpected33( MeasurementVectorSize2 );
   for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
     {
     meanExpected33[i] = value33[i];
@@ -273,7 +275,7 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
 
   float value3[3] = {4.10, 2.08, 0.604};
 
-  MeasurementVectorType2  meanExpected3( MeasurementVectorSize2 );
+  MeasurementVectorRealType  meanExpected3( MeasurementVectorSize2 );
   for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
     {
     meanExpected3[i] = value3[i];

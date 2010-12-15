@@ -22,20 +22,19 @@
 #include "itkMeanSampleFilter.h"
 #include "itkListSample.h"
 
-int itkMeanSampleFilterTest(int, char* [] )
+int itkMeanSampleFilterTest2(int, char* [] )
 {
   std::cout << "MeanSampleFilter test \n \n";
   bool pass = true;
   std::string failureMeassage= "";
 
   const unsigned int                  MeasurementVectorSize = 2;
-  const unsigned int                  numberOfMeasurementVectors = 5;
+  const unsigned int                  numberOfMeasurementVectors = 2;
   unsigned int                        counter;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >             MeasurementVectorType;
-  typedef itk::Statistics::ListSample<
-    MeasurementVectorType >                    SampleType;
+  typedef itk::FixedArray< int, MeasurementVectorSize >  MeasurementVectorType;
+
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
 
   SampleType::Pointer sample = SampleType::New();
 
@@ -43,15 +42,16 @@ int itkMeanSampleFilterTest(int, char* [] )
 
   MeasurementVectorType               measure;
 
-  //reset counter
   counter = 0;
 
+  std::cout << "Input sample values " << std::endl;
   while ( counter < numberOfMeasurementVectors )
     {
     for( unsigned int i=0; i<MeasurementVectorSize; i++)
       {
       measure[i] = counter;
       }
+    std::cout << counter << " : " << measure << std::endl;
     sample->PushBack( measure );
     counter++;
     }
@@ -60,31 +60,6 @@ int itkMeanSampleFilterTest(int, char* [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  std::cout << filter->GetNameOfClass() << std::endl;
-  filter->Print(std::cout);
-
-  //Invoke update before adding an input. An exception should be
-  //thrown.
-  try
-    {
-    filter->Update();
-    failureMeassage = "Exception should have been thrown since \
-                    Update() is invoked without setting an input ";
-    pass = false;
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception caught: " << excp << std::endl;
-    }
-
-  if ( filter->GetInput() != NULL )
-    {
-    pass = false;
-    failureMeassage = "GetInput() should return NULL if the input \
-                     has not been set";
-    }
-
-  filter->ResetPipeline();
   filter->SetInput( sample );
 
   try
@@ -97,20 +72,20 @@ int itkMeanSampleFilterTest(int, char* [] )
     }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
-  FilterType::MeasurementVectorType    meanOutput  = decorator->Get();
+  FilterType::MeasurementVectorRealType meanOutput  = decorator->Get();
 
-  FilterType::MeasurementVectorType mean;
+  FilterType::MeasurementVectorRealType expectedMean;
 
-  mean[0] = 2.0;
-  mean[1] = 2.0;
+  expectedMean[0] = 0.5;
+  expectedMean[1] = 0.5;
 
-  std::cout << meanOutput[0] << " " << mean[0] << " "
-            << meanOutput[1] << " " << mean[1] << " " << std::endl;
+  std::cout << meanOutput[0] << " " << expectedMean[0] << " "
+            << meanOutput[1] << " " << expectedMean[1] << " " << std::endl;
 
   FilterType::MeasurementVectorType::ValueType    epsilon = 1e-6;
 
-  if ( ( vcl_fabs( meanOutput[0] - mean[0]) > epsilon )  ||
-       ( vcl_fabs( meanOutput[1] - mean[1]) > epsilon ))
+  if ( ( vcl_fabs( meanOutput[0] - expectedMean[0]) > epsilon )  ||
+       ( vcl_fabs( meanOutput[1] - expectedMean[1]) > epsilon ))
     {
     pass = false;
     failureMeassage = "The result is not what is expected";
