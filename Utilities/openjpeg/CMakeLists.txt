@@ -65,6 +65,9 @@ ENDIF(BUILD_SHARED_LIBS)
 CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/openjpegDllConfig.h.in
                ${ITKOpenJPEG_BINARY_DIR}/openjpegDllConfig.h)
 
+CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/opj_configure.h.in
+               ${ITKOpenJPEG_BINARY_DIR}/opj_configure.h)
+
 INCLUDE_DIRECTORIES("${ITKOpenJPEG_BINARY_DIR}")
 
 # Create the library
