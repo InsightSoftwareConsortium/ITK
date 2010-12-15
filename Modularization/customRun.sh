@@ -5,6 +5,8 @@
 
 HeadOfMonolithicITKTree=/media/work/src/ITK
 HeadOfModularITKTree=/media/work/src/ModularITK/modularITK
+logs=$HeadOfModularITKTree/logs
+
 # modify according to your paths
 ./modulizer.py  $HeadOfMonolithicITKTree $HeadOfModularITKTree y
 
@@ -14,10 +16,10 @@ HeadOfModularITKTree=/media/work/src/ModularITK/modularITK
 #cat ManifestOfITKTests.txt  >> Manifest.txt
 
 #dealing with itk-common
-./specialModuleFix.py   ./modulizer.py  $HeadOfMonolithicITKTree $HeadOfModularITKTree
+./specialModuleFix.py  $HeadOfMonolithicITKTree $HeadOfModularITKTree
 
 
-grep -v Wrapping logs/newFiles.log | \
+grep -v Wrapping $logs/newFiles.log | \
 grep -v Utilities | \
 grep -v Validation | \
 grep -v Examples | \
@@ -25,8 +27,9 @@ grep -v Testing | \
 grep -v Review | \
 grep -v CMake | \
 grep -v Documentation | \
-tee  logs/filesToClassify.log
+grep -v Modularization | \
+tee  $logs/filesToClassify.log
 
 wc Manifest.txt
-wc logs/filesToClassify.log
-wc logs/missingFiles.log
+wc $logs/filesToClassify.log
+wc $logs/missingFiles.log

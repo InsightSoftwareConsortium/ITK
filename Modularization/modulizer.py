@@ -57,17 +57,6 @@ HeadOfModularITKTree = sys.argv[2];
 if (HeadOfModularITKTree[-1] ==  '/'):
     HeadOfModularITKTree = HeadOfModularITKTree[0:-1]
 
-# copy the whole ITK tree over to a tempery dir
-HeadOfTempTree ="./ITK_remaining"
-
-if os.path.isdir(HeadOfTempTree):
-    shutil.rmtree(HeadOfTempTree)
-
-print("Start to copy" + HeadOfITKTree + " to  ./ITK_remaining ...")
-shutil.copytree(HeadOfITKTree,HeadOfTempTree, ignore = shutil.ignore_patterns('.git','.git*'))
-print("Done copying!")
-
-
 # clean up the dirs first
 if os.path.isdir(HeadOfModularITKTree):
    if  len(sys.argv) > 3:
@@ -85,13 +74,22 @@ if os.path.isdir(HeadOfModularITKTree):
        print('please choose another directory for modularized ITK')
        exit(-1)
 
-if not os.path.isdir('./logs'):
-  os.makedirs('./logs')
+
+# copy the whole ITK tree over to a tempery dir
+HeadOfTempTree = HeadOfModularITKTree+'/ITK_remaining'
+
+print("Start to copy" + HeadOfITKTree + " to " + HeadOfTempTree + "   ...")
+shutil.copytree(HeadOfITKTree,HeadOfTempTree, ignore = shutil.ignore_patterns('.git','.git*'))
+print("Done copying!")
+
+LogDir=HeadOfModularITKTree+'/logs'
+if not os.path.isdir(LogDir):
+  os.makedirs(LogDir)
 
 # read the manifest file
-print ("moving files from ./ITK_remaining into modules in {0}".format(HeadOfModularITKTree))
+print ("moving files from "+HeadOfTempTree+" into modules in {0}".format(HeadOfModularITKTree))
 numOfMissingFiles = 0;
-missingf =  open('./logs/missingFiles.log','w')
+missingf =  open(LogDir+'/missingFiles.log','w')
 moduleList=[];
 for line in open("./Manifest.txt",'r'):
    # parse the string
@@ -123,11 +121,12 @@ for line in open("./Manifest.txt",'r'):
     if  os.path.isfile(inputfile):
        shutil.move(inputfile, outputPath)
     else:
-       missingf.write(inputfile+'\n')
+       missingFileName = inputfile.split(HeadOfTempTree+'/')[1]
+       missingf.write(missingFileName + '\n')
        numOfMissingFiles = numOfMissingFiles + 1
 
 missingf.close()
-print ("listed {0} missing files to ./logs/missingFiles.log").format(numOfMissingFiles)
+print ("listed {0} missing files to "+LogDir+"/missingFiles.log").format(numOfMissingFiles)
 
 # find the unique module names
 def unique(seq):
@@ -141,12 +140,14 @@ moduleList = unique(moduleList)
 
 
 # list the new files
-newf =  open('./logs/newFiles.log','w')
+newf =  open(LogDir+'/newFiles.log','w')
 for (root, subDirs, files) in os.walk(HeadOfTempTree):
    for afile in files:
-     newf.write(os.path.join(root, afile)+'\n')
+     newFilePath = os.path.join(root, afile)
+     newFileName = newFilePath.split(HeadOfTempTree+'/')[1]
+     newf.write(newFileName+'\n')
 newf.close()
-print ("listed new files to ./logs/newFiles.log")
+print ("listed new files to"+LogDir+"/newFiles.log")
 
 ###########################################################################
 
