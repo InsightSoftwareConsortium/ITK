@@ -97,6 +97,7 @@ add_test(itkCommonHeaderTest ${COMMON_HEADER_TEST})
 add_test(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
 add_test(itkIdentityTransformTest ${COMMON_TESTS} itkIdentityTransformTest)
 add_test(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
+add_test(itkAddImageAdaptorTest ${COMMON_TESTS} itkAddImageAdaptorTest)
 add_test(itkOrientedImageAdaptorTest ${COMMON_TESTS} itkOrientedImageAdaptorTest)
 add_test(itkImageAdaptorInterpolateImageFunctionTest ${COMMON_TESTS} itkImageAdaptorInterpolateImageFunctionTest)
 
@@ -546,6 +547,7 @@ itkGaussianSpatialFunctionTest.cxx
 itkHashTableTest.cxx
 itkIdentityTransformTest.cxx
 itkImageAdaptorTest.cxx
+itkAddImageAdaptorTest.cxx
 itkOrientedImageAdaptorTest.cxx
 itkImageAdaptorInterpolateImageFunctionTest.cxx
 itkImageDuplicatorTest.cxx

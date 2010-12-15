@@ -84,6 +84,7 @@ REGISTER_TEST(itkGaussianSpatialFunctionTest);
 REGISTER_TEST(itkHashTableTest );
 REGISTER_TEST(itkIdentityTransformTest );
 REGISTER_TEST(itkImageAdaptorTest );
+REGISTER_TEST(itkAddImageAdaptorTest );
 REGISTER_TEST(itkOrientedImageAdaptorTest );
 REGISTER_TEST(itkImageAdaptorInterpolateImageFunctionTest );
 REGISTER_TEST(itkImageDuplicatorTest );
