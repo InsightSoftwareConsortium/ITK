@@ -508,13 +508,15 @@ void PhilipsRECImageIO::Read(void *buffer)
     }
 
   // read image a slice at a time (sorted).
-  const SizeType numberOfPixelsInOneSlice = this->m_Dimensions[2] * this->m_Dimensions[3]; //
-                                                                                           // BUG
-                                                                                           // ?
+  SizeType numberOfSlices = this->m_Dimensions[2];
+  if ( dimensions > 3 )
+    {
+    numberOfSlices *= this->m_Dimensions[3];
+    }
 
-  SizeType imageSliceSizeInBytes = this->GetImageSizeInBytes() / numberOfPixelsInOneSlice;
+  SizeType imageSliceSizeInBytes = this->GetImageSizeInBytes() / numberOfSlices;
 
-  for ( IndexValueType slice = 0; slice < numberOfPixelsInOneSlice; slice++ )
+  for ( IndexValueType slice = 0; slice < numberOfSlices; slice++ )
     {
     IndexValueType realIndex = this->GetSliceIndex( (int)slice );
     if ( realIndex < 0 )
@@ -679,6 +681,16 @@ void PhilipsRECImageIO::ReadImageInformation()
   // by block and the different types of images
   // stored in the blocks may be determined using the
   // MetaDataDictionary.
+  // NOTE: ImageFileReader checks the number of dimensions to see if they
+  // are larger than the template dimensions.  If so, it sets the direction
+  // cosines to the default value.  In my view this is a bug, but in order
+  // to get around this problem I need to set the number of dimensions to 3
+  // if the number of image blocks is less than 2.
+  if ( par.image_blocks < 2 )
+    {
+    numberOfDimensions = 3;
+    }
+
   this->SetNumberOfDimensions(numberOfDimensions);
 
   // As far as I know, Philips REC files are only
@@ -708,12 +720,15 @@ void PhilipsRECImageIO::ReadImageInformation()
   this->SetDimensions(0, par.dim[0]);
   this->SetDimensions(1, par.dim[1]);
   this->SetDimensions(2, par.slice);
-  this->SetDimensions(3, par.image_blocks);
   this->SetSpacing(0, par.vox[0]);
   this->SetSpacing(1, par.vox[1]);
   this->SetSpacing(2, par.vox[2]);
-  // Just 1 for the fourth dimension.
-  this->SetSpacing(3, 1.0f);
+  if ( numberOfDimensions > 3 )
+    {
+    this->SetDimensions(3,par.image_blocks);
+    // Just 1 for the fourth dimension.
+    this->SetSpacing(3,1.0f);
+    }
 
   //
   // figure out re-orientation required if not in Coronal
@@ -751,6 +766,10 @@ void PhilipsRECImageIO::ReadImageInformation()
   EncapsulateMetaData< std::string >( thisDic, ITK_FileNotes,
                                       std::string(par.series_type, 32) );
 
+  typedef Matrix< double, 4, 4 > AffineMatrix;
+  AffineMatrix spacing;
+  spacing.SetIdentity();
+
   SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
 
   switch ( par.sliceorient )
@@ -760,12 +779,18 @@ void PhilipsRECImageIO::ReadImageInformation()
       // anterior-posterior, and inferior-superior.
       // Verified using a marker on right side of brain.
       coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
+      spacing[0][0] = par.vox[0];
+      spacing[1][1] = par.vox[1];
+      spacing[2][2] = par.vox[2];
       break;
     case PAR_SLICE_ORIENTATION_SAGITTAL:
       // Sagittal - the REC data appears to be stored as anterior-posterior,
       // superior-inferior, and right-left.
       // Verified using marker on right side of brain.
       coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL;
+      spacing[0][0] = par.vox[2];
+      spacing[1][1] = par.vox[0];
+      spacing[2][2] = par.vox[1];
       break;
     case PAR_SLICE_ORIENTATION_CORONAL:
     // Coronal - the REC data appears to be stored as right-left,
@@ -774,30 +799,122 @@ void PhilipsRECImageIO::ReadImageInformation()
     // fall thru
     default:
       coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA;
+      spacing[0][0] = par.vox[0];
+      spacing[1][1] = par.vox[2];
+      spacing[2][2] = par.vox[1];
     }
 
   typedef SpatialOrientationAdapter OrientAdapterType;
   SpatialOrientationAdapter::DirectionType dir =
     OrientAdapterType().ToDirectionCosines(coord_orient);
 
-  std::vector< double > dirx(numberOfDimensions, 0),
-  diry(numberOfDimensions, 0), dirz(numberOfDimensions, 0),
-  dirBlock(numberOfDimensions, 0);
-  dirBlock[numberOfDimensions - 1] = 1;
-  dirx[0] = dir[0][0];
-  dirx[1] = dir[1][0];
-  dirx[2] = dir[2][0];
-  diry[0] = dir[0][1];
-  diry[1] = dir[1][1];
-  diry[2] = dir[2][1];
-  dirz[0] = dir[0][2];
-  dirz[1] = dir[1][2];
-  dirz[2] = dir[2][2];
+  AffineMatrix direction;
+  direction.SetIdentity();
+  int rows, columns;
+  for(rows=0; rows<3; rows++)
+    {
+    for(columns=0; columns<3; columns++)
+      {
+      direction[columns][rows] = dir[columns][rows];
+      }
+    }
+//#define DEBUG_ORIENTATION
+#ifdef DEBUG_ORIENTATION
+  std::cout << "Direction cosines = " << direction << std::endl;
+  std::cout << "Spacing = " << spacing << std::endl;
+#endif
+  // Create right/left rotation matrix (about x axis).
+  AffineMatrix r1;
+  r1.SetIdentity();
+  r1[1][1] = cos(par.angRL*Math::pi/180.0);
+  r1[2][1] = -sin(par.angRL*Math::pi/180.0);
+  r1[1][2] = sin(par.angRL*Math::pi/180.0);
+  r1[2][2] = cos(par.angRL*Math::pi/180.0);
+  // Create anterior/posterior rotation matrix (about y axis).
+  AffineMatrix r2;
+  r2.SetIdentity();
+  r2[0][0] = cos(par.angAP*Math::pi/180.0);
+  r2[2][0] = sin(par.angAP*Math::pi/180.0);
+  r2[0][2] = -sin(par.angAP*Math::pi/180.0);
+  r2[2][2] = cos(par.angAP*Math::pi/180.0);
+  // Create foot/head rotation matrix (about z axis).
+  AffineMatrix r3;
+  r3.SetIdentity();
+  r3[0][0] = cos(par.angFH*Math::pi/180.0);
+  r3[1][0] = -sin(par.angFH*Math::pi/180.0);
+  r3[0][1] = sin(par.angFH*Math::pi/180.0);
+  r3[1][1] = cos(par.angFH*Math::pi/180.0);
+  // Total rotation matrix.
+  AffineMatrix rtotal = r1*r2*r3;
+#ifdef DEBUG_ORIENTATION
+  std::cout << "Right-Left rotation = " << r1 << std::endl;
+  std::cout << "Anterior-Posterior rotation = " << r2 << std::endl;
+  std::cout << "Foot-Head rotation = " << r3 << std::endl;
+  std::cout << "Total = " << rtotal << std::endl;
+#endif
 
-  this->SetDirection(0, dirx);
-  this->SetDirection(1, diry);
-  this->SetDirection(2, dirz);
-  this->SetDirection(3, dirBlock);
+  // Find and set origin
+  AffineMatrix final = rtotal*spacing*direction;
+#ifdef DEBUG_ORIENTATION
+  std::cout << "Final transformation = " << final << std::endl;
+#endif
+  typedef Vector< double, 4 > PointVector;
+  PointVector center;
+  center[0] = (par.dim[0]-1)/2.0;
+  center[1] = (par.dim[0]-1)/2.0;
+  center[2] = (par.slice-1)/2.0;
+  center[3] = 1;
+  PointVector origin = final*center;
+  origin = -origin;
+#ifdef DEBUG_ORIENTATION
+  std::cout << "Origin before offset = " << origin << std::endl;
+#endif
+  PointVector offset;
+  offset[0] = par.offRL;
+  offset[1] = par.offAP;
+  offset[2] = par.offFH;
+  offset[3] = 1;
+#ifdef DEBUG_ORIENTATION
+  std::cout << "Offset = " << offset << std::endl;
+#endif
+  origin[0] = origin[0]+offset[0];
+  origin[1] = origin[1]+offset[1];
+  origin[2] = origin[2]+offset[2];
+#ifdef DEBUG_ORIENTATION
+  std::cout << "Origin after offset = " << origin << std::endl;
+#endif
+
+  this->SetOrigin(0, origin[0]);
+  this->SetOrigin(1, origin[1]);
+  this->SetOrigin(2, origin[2]);
+
+  // Find true direction cosines after taking rotations into account.
+  direction = rtotal*direction;
+#ifdef DEBUG_ORIENTATION
+  std::cout << "Final direction cosines after rotation = " << direction << std::endl;
+#endif
+
+  std::vector<double> dirx(numberOfDimensions,0),
+  diry(numberOfDimensions,0),dirz(numberOfDimensions,0),
+  dirBlock(numberOfDimensions,0);
+  dirBlock[numberOfDimensions-1] = 1;
+  dirx[0] = direction[0][0];
+  dirx[1] = direction[1][0];
+  dirx[2] = direction[2][0];
+  diry[0] = direction[0][1];
+  diry[1] = direction[1][1];
+  diry[2] = direction[2][1];
+  dirz[0] = direction[0][2];
+  dirz[1] = direction[1][2];
+  dirz[2] = direction[2][2];
+
+  this->SetDirection(0,dirx);
+  this->SetDirection(1,diry);
+  this->SetDirection(2,dirz);
+  if ( numberOfDimensions > 3 )
+    {
+    this->SetDirection(3,dirBlock);
+    }
 
   EncapsulateMetaData< std::string >( thisDic, ITK_PatientID,
                                       std::string(par.patient_name, 32) );
