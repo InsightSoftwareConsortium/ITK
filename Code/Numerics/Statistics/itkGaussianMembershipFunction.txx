@@ -28,8 +28,12 @@ template< class TMeasurementVector >
 GaussianMembershipFunction< TMeasurementVector >
 ::GaussianMembershipFunction()
 {
-  m_PreFactor = 0.0;
-  m_Covariance.SetIdentity();
+  for( unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++ )
+    {
+    this->m_Mean[i] = 0;
+    }
+  this->m_PreFactor = 0.0;
+  this->m_Covariance.SetIdentity();
 }
 
 template< class TMeasurementVector >
