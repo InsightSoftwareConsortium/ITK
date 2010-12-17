@@ -49,11 +49,8 @@ if (HeadOfModularITKTree[-1] ==  '/'):
 
 moduleName = 'itk-common'
 if os.path.isdir(HeadOfModularITKTree+'/'+moduleName):
-   #  shutil.copy('./templateModule/'+moduleName+'/CMakeLists.txt', HeadOfModularITKTree+'/'+moduleName)
-   #  shutil.copy('./templateModule/'+moduleName+'/src/itkConfigure.h.in', HeadOfModularITKTree+'/'+moduleName+'/src')
-    # shutil.copy('./templateModule/'+moduleName+'/itk-module.cmake', HeadOfModularITKTree+'/'+moduleName)
 
-#/src /CMakeLists.txt
+     #/src /CMakeLists.txt
      cxxFiles = glob.glob(HeadOfModularITKTree+'/'+moduleName+'/src/*.cxx')
      cxxFileList='';
      for cxxf in cxxFiles:
