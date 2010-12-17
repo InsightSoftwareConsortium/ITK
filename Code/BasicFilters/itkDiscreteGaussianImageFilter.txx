@@ -47,7 +47,8 @@ throw( InvalidRequestedRegionError )
     }
 
   // Build an operator so that we can determine the kernel size
-  GaussianOperator< OutputPixelType, ImageDimension > oper;
+  GaussianOperator< OutputPixelValueType, ImageDimension > oper;
+
   typename TInputImage::SizeType radius;
 
   for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
@@ -156,20 +157,25 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
   typedef typename NumericTraits< OutputPixelType >::RealType RealOutputPixelType;
   typedef Image< OutputPixelType, ImageDimension >            RealOutputImageType;
 
+  typedef typename NumericTraits<RealOutputPixelType>::ValueType RealOutputPixelValueType;
+
   // Type definition for the internal neighborhood filter
   //
   // First filter convolves and changes type from input type to real type
   // Middle filters convolves from real to real
   // Last filter convolves and changes type from real type to output type
   // Streaming filter forces the mini-pipeline to run in chunks
+
+
   typedef NeighborhoodOperatorImageFilter< InputImageType,
-                                           RealOutputImageType, RealOutputPixelType > FirstFilterType;
+                                           RealOutputImageType, RealOutputPixelValueType > FirstFilterType;
   typedef NeighborhoodOperatorImageFilter< RealOutputImageType,
-                                           RealOutputImageType, RealOutputPixelType > IntermediateFilterType;
+                                           RealOutputImageType, RealOutputPixelValueType > IntermediateFilterType;
   typedef NeighborhoodOperatorImageFilter< RealOutputImageType,
-                                           OutputImageType, RealOutputPixelType > LastFilterType;
+                                           OutputImageType, RealOutputPixelValueType > LastFilterType;
   typedef NeighborhoodOperatorImageFilter< InputImageType,
-                                           OutputImageType, RealOutputPixelType > SingleFilterType;
+                                           OutputImageType, RealOutputPixelValueType > SingleFilterType;
+
   typedef StreamingImageFilter< OutputImageType, OutputImageType >
   StreamingFilterType;
 
@@ -180,7 +186,8 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
   typedef typename StreamingFilterType::Pointer    StreamingFilterPointer;
 
   // Create a series of operators
-  typedef GaussianOperator< RealOutputPixelType, ImageDimension > OperatorType;
+  typedef GaussianOperator< RealOutputPixelValueType, ImageDimension > OperatorType;
+
   std::vector< OperatorType > oper;
   oper.resize(filterDimensionality);
 

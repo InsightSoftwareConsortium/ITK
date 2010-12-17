@@ -205,7 +205,7 @@ public:
   RealValueType GetSquaredNorm(void) const;
 
   /** Returns the number of components in this vector type */
-  static unsigned int GetNumberOfComponents(){ return NVectorDimension; }
+  static unsigned int GetNumberOfComponents() { return NVectorDimension; }
 
   /** Divides the vector componets by the vector norm */
   void Normalize(void);
@@ -223,6 +223,18 @@ public:
       ( *this )[i] = static_cast< T >( pa[i] );
       }
   }
+
+  template<typename TCoordRepB>
+  operator Vector< TCoordRepB, NVectorDimension >()
+  {
+    Vector<TCoordRepB, NVectorDimension> r;
+    for (unsigned int i = 0; i < NVectorDimension; i++)
+    {
+      r[i] = static_cast<TCoordRepB> ((*this)[i]);
+    }
+    return r;
+  }
+
 };
 
 /** Premultiply Operator for product of a vector and a scalar.

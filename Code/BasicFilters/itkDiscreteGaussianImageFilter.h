@@ -81,6 +81,10 @@ public:
   typedef typename TInputImage::PixelType          InputPixelType;
   typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
 
+  /** Pixel value type for Vector pixel types **/
+  typedef typename NumericTraits<InputPixelType>::ValueType InputPixelValueType;
+  typedef typename NumericTraits<OutputPixelType>::ValueType OutputPixelValueType;
+
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -212,8 +216,10 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
+
   itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelType > ) );
+                   ( Concept::HasNumericTraits< OutputPixelValueType > ) );
+
   /** End concept checking */
 #endif
 protected:
