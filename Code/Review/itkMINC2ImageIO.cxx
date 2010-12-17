@@ -1200,7 +1200,7 @@ void MINC2ImageIO::SetSliceScalingFromLocalScaling(mihandle_t volume)
   //find out min of mins and max of maxs for slices
   unsigned int   i;
   unsigned int   j;
-  unsigned long *coords = new ( unsigned long[this->m_NDims] );
+  unsigned long *coords = new unsigned long[this->m_NDims];
   double         slice_max, slice_min;
   double         max = -1e300, min = 1e300;
   double         valid_max, valid_min;
