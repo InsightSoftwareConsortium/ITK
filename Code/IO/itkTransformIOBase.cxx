@@ -57,6 +57,8 @@ TransformIOBase::CreateTransform(TransformPointer & ptr,
       }
     itkExceptionMacro ( << msg.str() );
     }
+  // Correct extra reference count from CreateInstance()
+  ptr->UnRegister();
 }
 
 void

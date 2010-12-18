@@ -45,7 +45,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   LightObject::Pointer i;
   std::string          value = source->GetSpatialObjectTypeAsString();
 
-  i = ObjectFactoryBase::CreateInstance ( value.c_str() );
+  i = ObjectFactoryBase::CreateInstance( value.c_str() );
 
   typedef itk::SpatialObject< TInputSpatialObject::ObjectDimension > SOType;
 
@@ -65,6 +65,10 @@ SpatialObjectDuplicator< TInputSpatialObject >
       }
     return;
     }
+
+
+  // Correct for extra reference count from CreateInstance().
+  newSO->UnRegister();
 
   // We make the copy
   newSO->CopyInformation(source);
@@ -111,7 +115,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   // Create the new Spatial Object using the SpatialObjectFactory
   LightObject::Pointer i;
   std::string          value = m_Input->GetSpatialObjectTypeAsString();
-  i = ObjectFactoryBase::CreateInstance ( value.c_str() );
+  i = ObjectFactoryBase::CreateInstance( value.c_str() );
 
   m_Output = dynamic_cast< SpatialObjectType * >( i.GetPointer() );
   if ( m_Output.IsNull() )
@@ -129,6 +133,9 @@ SpatialObjectDuplicator< TInputSpatialObject >
       }
     return;
     }
+
+  // Correct for extra reference count from CreateInstance().
+  m_Output->UnRegister();
 
   m_Output->CopyInformation(m_Input);
 
