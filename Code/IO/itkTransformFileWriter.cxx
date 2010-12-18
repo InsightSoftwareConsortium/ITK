@@ -27,7 +27,8 @@ namespace itk
 TransformFileWriter
 ::TransformFileWriter()
 {
-  m_FileName = "";
+  this->m_FileName = "";
+  this->m_Precision = 7;
   this->m_AppendMode = false;
   TransformFactoryBase::RegisterDefaultTransforms();
 }
