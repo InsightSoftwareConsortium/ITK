@@ -87,7 +87,7 @@ public:
   typedef FixedArray<unsigned,
                      itkGetStaticConstMacro( ParametricDimension )>    ArrayType;
 
-  /**
+  /*
    * Define the parameters of the B-spline object.
    */
 
@@ -164,6 +164,7 @@ public:
 protected:
   ParameterCostFunction();
   virtual ~ParameterCostFunction();
+  void PrintSelf(std::ostream & os, Indent indent) const;
 private:
   ParameterCostFunction(const Self&); //purposely not implemented
   void operator=(const Self&);        //purposely not implemented
