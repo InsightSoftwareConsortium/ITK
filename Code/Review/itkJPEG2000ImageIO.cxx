@@ -340,6 +340,11 @@ void JPEG2000ImageIO::ReadImageInformation()
     opj_destroy_codec(this->m_Internal->m_Dinfo);
     this->m_Internal->m_Dinfo = NULL;
     }
+
+  if( l_image )
+    {
+    opj_image_destroy( l_image );
+    }
 }
 
 void JPEG2000ImageIO::Read(void *buffer)
@@ -634,6 +639,16 @@ void JPEG2000ImageIO::Read(void *buffer)
     {
     opj_destroy_codec(this->m_Internal->m_Dinfo);
     this->m_Internal->m_Dinfo = NULL;
+    }
+
+  if( l_image )
+    {
+    opj_image_destroy( l_image );
+    }
+
+  if( l_data )
+    {
+    free( l_data );
     }
 
   itkDebugMacro(<< "JPEG2000ImageIO::Read() End");
