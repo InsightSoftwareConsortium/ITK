@@ -29,7 +29,7 @@
 namespace itk
 {
 
-/**
+/*
  * ParameterCostFunction class definitions
  */
 template<class TControlPointLattice>
@@ -43,6 +43,22 @@ template<class TControlPointLattice>
 ParameterCostFunction<TControlPointLattice>
 ::~ParameterCostFunction()
 {
+}
+
+template<class TControlPointLattice>
+void
+ParameterCostFunction<TControlPointLattice>
+::PrintSelf( std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "ControlPointLattice: "  << m_ControlPointLattice << std::endl;
+  os << indent << "Origin" << m_Origin << std::endl;
+  os << indent << "Spacing" << m_Spacing << std::endl;
+  os << indent << "Size" << m_Size << std::endl;
+  os << indent << "Direction" << m_Direction << std::endl;
+  os << indent << "SplineOrder" << m_SplineOrder << std::endl;
+  os << indent << "CloseDimension" << m_CloseDimension << std::endl;
+  os << indent << "DataPoint" << m_DataPoint << std::endl;
 }
 
 template<class TControlPointLattice>
@@ -152,7 +168,7 @@ ParameterCostFunction<TControlPointLattice>
   return ParametricDimension;
 }
 
-/**
+/*
  * BSplineControlPointImageFilter class definitions
  */
 
@@ -304,7 +320,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   this->GetOutput()->SetDirection( this->m_Direction );
   this->GetOutput()->Allocate();
 
-  /**
+  /*
    * Calculate the appropriate epsilon value.
    */
   unsigned int maximumNumberOfSpans = 0;
@@ -914,7 +930,7 @@ template<class InputImage, class TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::EvaluateHessian( PointType params, GradientType &hessian,
-                   unsigned int component = 0 )
+                   unsigned int component )
 {
   vnl_vector<RealType> p( ImageDimension );
 
@@ -1015,7 +1031,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   costFunction->SetCloseDimension( this->m_CloseDimension );
   costFunction->SetDataPoint( point );
 
-  /**
+  /*
    * Scale parameters between [0, 1)
    */
   typename LBFGSBOptimizer::ParametersType initialParameters;
@@ -1063,7 +1079,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   typename LBFGSBOptimizer::ParametersType finalParameters =
     optimizer->GetCurrentPosition();
 
-  /**
+  /*
    * Rescale parameters back to original space.
    */
   for( unsigned int d = 0; d < ImageDimension; d++ )
@@ -1073,7 +1089,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     }
 }
 
-/**
+/*
  * Standard "PrintSelf" method
  */
 template<class InputImage, class TOutputImage>

@@ -65,6 +65,10 @@ namespace itk {
  *  5. The 'Z' parameter in Sled's 1998 paper is the square root
  *     of the class variable 'm_WeinerFilterNoise'.
  *
+ * The basic algorithm iterates between sharpening the intensity histogram of
+ * the corrected input image and spatially smoothing those results with a
+ * B-spline scalar field estimate of the bias field.
+ *
  * \author Nicholas J. Tustison
  *
  * Contributed by Nicholas J. Tustison, James C. Gee
@@ -172,7 +176,6 @@ public:
    * been done in the literature) as an alternative strategy to estimating the
    * bias field.
    */
-
   const RealImageType* GetConfidenceImage() const
   {
     return static_cast<RealImageType*>( const_cast<DataObject *>
@@ -216,6 +219,7 @@ public:
    * Set the noise estimate defining the Weiner filter.  Default = 0.01.
    */
   itkSetMacro( WeinerFilterNoise, RealType );
+
   /**
    * Get the noise estimate defining the Weiner filter.  Default = 0.01.
    */
@@ -226,22 +230,24 @@ public:
    * the Gaussian deconvolution.  Default = 0.15.
    */
   itkSetMacro( BiasFieldFullWidthAtHalfMaximum, RealType );
+
   /**
    * Get the full width at half maximum parameter characterizing the width of
    * the Gaussian deconvolution.  Default = 0.15.
    */
   itkGetConstMacro( BiasFieldFullWidthAtHalfMaximum, RealType );
 
-  /**
+  /*
    * B-spline parameters governing the fitting routine
    */
 
   /**
-   * Get the spline order defining the bias field estimate.  Default = 3.
+   * Set the spline order defining the bias field estimate.  Default = 3.
    */
   itkSetMacro( SplineOrder, unsigned int );
+
   /**
-   * Set the spline order defining the bias field estimate.  Default = 3.
+   * Get the spline order defining the bias field estimate.  Default = 3.
    */
   itkGetConstMacro( SplineOrder, unsigned int );
 
@@ -253,6 +259,7 @@ public:
    * dimension.
    */
   itkSetMacro( NumberOfControlPoints, ArrayType );
+
   /**
    * Get the control point grid size definining the B-spline estimate of the
    * scalar bias field.  In each dimension, the B-spline mesh size is equal
@@ -269,6 +276,7 @@ public:
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
   itkSetMacro( NumberOfFittingLevels, ArrayType );
+
   /**
    * Set the number of fitting levels.  One of the contributions of N4 is the
    * introduction of a multi-scale approach to fitting. This allows one to
@@ -347,6 +355,7 @@ public:
    * reporting observations.
    */
   itkGetConstMacro( CurrentLevel, unsigned int );
+
 protected:
   N4MRIBiasFieldCorrectionImageFilter();
   ~N4MRIBiasFieldCorrectionImageFilter() {
@@ -356,13 +365,10 @@ protected:
   void GenerateData();
 
 private:
-  N4MRIBiasFieldCorrectionImageFilter( const Self& ); //purposely not
-                                                      // implemented
-  void operator=( const Self& );                      //purposely not
+  N4MRIBiasFieldCorrectionImageFilter( const Self& ); //purposely not implemented
+  void operator=( const Self& );                      //purposely not implemented
 
-  // implemented
-
-  /**
+  /*
    * N4 algorithm functions:  The basic algorithm iterates between sharpening
    * the intensity histogram of the corrected input image and spatially
    * smoothing those results with a B-spline scalar field estimate of the
