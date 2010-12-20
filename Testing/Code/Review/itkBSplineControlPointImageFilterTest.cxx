@@ -21,7 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkVector.h"
 
-template <unsigned int ImageDimension>
+template<unsigned int ImageDimension>
 int BSpline( int argc, char *argv[] )
 {
   typedef float                    RealType;
@@ -31,8 +31,16 @@ int BSpline( int argc, char *argv[] )
 
   typedef itk::ImageFileReader<ScalarFieldType> ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[2] );
-  reader->Update();
+  if( argc > 2 )
+    {
+    reader->SetFileName( argv[2] );
+    reader->Update();
+    }
+  else
+    {
+    std::cerr << "No input image specified." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   /**
    * Reconstruction of the scalar field from the control points.
@@ -81,7 +89,8 @@ int BSpline( int argc, char *argv[] )
   typename BSplinerType::ArrayType numberOfRefinementLevels;
   numberOfRefinementLevels.Fill( 3 );
 
-  typename BSplinerType::ControlPointLatticeType::Pointer refinedControlPointLattice =
+  typename BSplinerType::ControlPointLatticeType::Pointer
+  refinedControlPointLattice =
     bspliner->RefineControlPointLattice( numberOfRefinementLevels );
 
   typename BSplinerType::Pointer bspliner2 = BSplinerType::New();
@@ -117,9 +126,6 @@ int BSpline( int argc, char *argv[] )
     typename BSplinerType::PointDataType pointData;
     pointData[0] = -0.287013;
 
-    // the real point is (46,53) so we start with an initial guess that is
-    // close.
-    //
     typename BSplinerType::PointType point;
     point[0] = 50.0;
     point[1] = 50.0;
@@ -151,8 +157,8 @@ int itkBSplineControlPointImageFilterTest( int argc, char *argv[] )
 {
   if ( argc < 5 )
     {
-    std::cerr << "Usage: " << argv[0] << " imageDimension inputControlPointImage "
-              << "outputSampledBSplineObject outputSampledBSplineObjectRefined"
+    std::cerr << "Usage: " << argv[0] << " imageDimension inputControlPointImage"
+              << " outputSampledBSplineObject outputSampledBSplineObjectRefined"
               << std::endl;
     exit( EXIT_FAILURE );
     }

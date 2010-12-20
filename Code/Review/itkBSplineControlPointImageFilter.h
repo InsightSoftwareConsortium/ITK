@@ -87,7 +87,7 @@ public:
   typedef FixedArray<unsigned,
                      itkGetStaticConstMacro( ParametricDimension )>    ArrayType;
 
-  /*
+  /**
    * Define the parameters of the B-spline object.
    */
 
@@ -165,6 +165,7 @@ protected:
   ParameterCostFunction();
   virtual ~ParameterCostFunction();
   void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
   ParameterCostFunction(const Self&); //purposely not implemented
   void operator=(const Self&);        //purposely not implemented
@@ -174,6 +175,7 @@ private:
   typename TControlPointLattice::SpacingType     m_Spacing;
   typename TControlPointLattice::SizeType        m_Size;
   typename TControlPointLattice::DirectionType   m_Direction;
+
   ArrayType m_SplineOrder;
   ArrayType m_CloseDimension;
 
@@ -510,7 +512,8 @@ public:
    * of refinement levels to all 1's, the control point lattice is not increased
    * in resolution.  Doubling the resolution starts at 2 refinement levels.
    */
-  typename ControlPointLatticeType::Pointer RefineControlPointLattice( ArrayType );
+  typename ControlPointLatticeType::Pointer
+  RefineControlPointLattice( ArrayType );
 protected:
   BSplineControlPointImageFilter();
   virtual ~BSplineControlPointImageFilter();

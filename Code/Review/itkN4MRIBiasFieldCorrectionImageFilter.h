@@ -29,7 +29,8 @@
 
 namespace itk {
 
-/** \class N4MRIBiasFieldCorrectionImageFilter.h
+/**
+ * \class N4MRIBiasFieldCorrectionImageFilter.h
  * \brief Implementation of the N4 MRI bias field correction algorithm.
  *
  * The nonparametric nonuniform intensity normalization (N4) algorithm
@@ -85,8 +86,8 @@ namespace itk {
  * IEEE Transactions on Medical Imaging, 29(6):1310-1320, June 2010.
  */
 
-template<class TInputImage, class TMaskImage = Image<unsigned char,
-                                                     ::itk::GetImageDimension<TInputImage>::ImageDimension>,
+template<class TInputImage, class TMaskImage =
+           Image<unsigned char, ::itk::GetImageDimension<TInputImage>::ImageDimension>,
          class TOutputImage = TInputImage>
 class ITK_EXPORT N4MRIBiasFieldCorrectionImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
@@ -237,7 +238,7 @@ public:
    */
   itkGetConstMacro( BiasFieldFullWidthAtHalfMaximum, RealType );
 
-  /*
+  /**
    * B-spline parameters governing the fitting routine
    */
 
@@ -333,7 +334,8 @@ public:
    * version of the input, the user will probably want to apply the bias
    * field correction to the full resolution image.  This can be done by
    * using the LogBiasFieldControlPointLattice to reconstruct the bias field
-   * at the full image resolution (using the class BSplineControlPointImageFilter)
+   * at the full image resolution (using the class
+   * BSplineControlPointImageFilter).
    */
   itkGetConstMacro( LogBiasFieldControlPointLattice,
                     typename BiasFieldControlPointLatticeType::Pointer );
@@ -355,20 +357,21 @@ public:
    * reporting observations.
    */
   itkGetConstMacro( CurrentLevel, unsigned int );
-
 protected:
   N4MRIBiasFieldCorrectionImageFilter();
   ~N4MRIBiasFieldCorrectionImageFilter() {
-  };
+  }
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   void GenerateData();
 
 private:
-  N4MRIBiasFieldCorrectionImageFilter( const Self& ); //purposely not implemented
-  void operator=( const Self& );                      //purposely not implemented
+  N4MRIBiasFieldCorrectionImageFilter( const Self& ); //purposely not
+                                                      // implemented
+  void operator=( const Self& );                      //purposely not
+                                                      // implemented
 
-  /*
+  /**
    * N4 algorithm functions:  The basic algorithm iterates between sharpening
    * the intensity histogram of the corrected input image and spatially
    * smoothing those results with a B-spline scalar field estimate of the
@@ -425,11 +428,12 @@ private:
    */
   typename
   BiasFieldControlPointLatticeType::Pointer m_LogBiasFieldControlPointLattice;
+
   unsigned int m_SplineOrder;
   ArrayType    m_NumberOfControlPoints;
   ArrayType    m_NumberOfFittingLevels;
 
-};  // end of class
+};
 
 } // end namespace itk
 
