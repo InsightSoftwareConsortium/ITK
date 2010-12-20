@@ -225,6 +225,19 @@ BayesianClassifierInitializationImageFilter< TInputImage,
                                                   dynamic_cast< MembershipFunctionType * >( gaussianDensityFunction.
                                                                                             GetPointer() ) );
     }
+
+  // delete allocated elements in meanEstimators
+  while ( !meanEstimatorsContainer->empty() )
+    {
+    delete meanEstimatorsContainer->back();
+    meanEstimatorsContainer->pop_back();
+    }
+  // delete allocated elements in covarianceEstimators
+  while ( !covarianceEstimatorsContainer->empty() )
+    {
+    delete covarianceEstimatorsContainer->back();
+    covarianceEstimatorsContainer->pop_back();
+    }
 }
 
 template< class TInputImage, class TProbabilityPrecisionType >
