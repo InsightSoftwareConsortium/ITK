@@ -35,6 +35,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   m_MembershipFunctionsWeightArrayObject =
     MembershipFunctionsWeightsArrayObjectType::New();
   m_Sample = 0;
+  m_MaxIteration = 100;
 }
 
 template< class TSample >
