@@ -18,7 +18,6 @@
 #ifndef __itkTransformFileReader_h
 #define __itkTransformFileReader_h
 
-#include "metaTransform.h"
 #include "itkTransformIOBase.h"
 
 namespace itk

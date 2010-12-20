@@ -18,7 +18,6 @@
 #ifndef __itkTransformFileWriter_h
 #define __itkTransformFileWriter_h
 
-#include "metaTransform.h"
 #include "itkTransformIOBase.h"
 #include <iostream>
 #include <fstream>
