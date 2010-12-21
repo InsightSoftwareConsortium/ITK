@@ -360,7 +360,6 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   unsigned int notes;
   memcpy(&notes,h.notes,sizeof(notes));
   ByteSwapper< unsigned int >::SwapFromSystemToLittleEndian(&notes);
-
   if(notes != 0)
     {
     // do it the recommended way
@@ -387,7 +386,7 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.type);
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.x);
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.y);
-      note.text[sizeof(note.text)-1] = '0'; // make sure terminated
+      note.text[sizeof(note.text)-1] = '\0'; // make sure terminated
       if(note.type == NOTE_TYPE_VARIABLE)
         {
         punt = false;
