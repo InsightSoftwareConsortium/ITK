@@ -299,13 +299,13 @@ add_test(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
         1.0   1.0  0.0
 )
 
-if(ITK_BRAINWEB_DATA_ROOT)
-add_test(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
+if(ITK_USE_BRAINWEB_DATA)
+midas_add_test(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/ImageRegistration8RegisteredSlice.png
             ${TEMP}/ImageRegistration8RegisteredSlice.png
   ImageRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
+        MIDAS{brainweb1e1a10f20Rot10Tx15.mha.md5}
         ${TEMP}/ImageRegistration8Output.mhd
         ${TEMP}/ImageRegistration8DifferenceBefore.mhd
         ${TEMP}/ImageRegistration8DifferenceAfter.mhd
@@ -318,10 +318,10 @@ add_test(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
 if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
   # This test is computationally demanding.
   # Therefore we only run it in a Release build
-  add_test(ImageRegistration20Test
+  midas_add_test(ImageRegistration20Test
     ${CXX_TEST_PATH}/ImageRegistration20
-      ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
-      ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
+      MIDAS{brainweb1e1a10f20.mha.md5}
+      MIDAS{brainweb1e1a10f20Rot10Tx15.mha.md5}
       ${TEMP}/ImageRegistration20Output.mhd
       ${TEMP}/ImageRegistration20DifferenceBefore.mhd
       ${TEMP}/ImageRegistration20DifferenceAfter.mhd
@@ -331,7 +331,7 @@ if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
   set_tests_properties(ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
 endif( ${CMAKE_BUILD_TYPE} MATCHES "Release")
 
-endif(ITK_BRAINWEB_DATA_ROOT)
+endif(ITK_USE_BRAINWEB_DATA)
 
 add_test(ImageRegistration9Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/ImageRegistration9TestPixelCentered.png
@@ -702,13 +702,13 @@ add_test(DeformableRegistration13Test4 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration13Test4FinalTransformParameters.txt
 )
 
-if(ITK_BRAINWEB_DATA_ROOT)
+if(ITK_USE_BRAINWEB_DATA)
 
-add_test(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
+midas_add_test(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
   BSplineWarping2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements2.txt
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/BSplineWarping2TestDeformationField.mhd
         ${TEMP}/BSplineWarping2TestTransform.txt
@@ -718,13 +718,13 @@ set(NUMBER_OF_BSPLINE_GRID_NODES 5)
 
 if( DART_TESTING_TIMEOUT GREATER 3000 )
 
-add_test(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration8Test1.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test1.mhd
         ${TEMP}/DeformableRegistration8Test1DifferenceAfter.mhd
@@ -736,13 +736,13 @@ add_test(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-add_test(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration8Test2.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test2.mhd
         ${TEMP}/DeformableRegistration8Test2DifferenceAfter.mhd
@@ -754,13 +754,13 @@ add_test(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-add_test(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration8Test3.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test3.mhd
         ${TEMP}/DeformableRegistration8Test3DifferenceAfter.mhd
@@ -772,13 +772,13 @@ add_test(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-add_test(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration8Test4.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test4.mhd
         ${TEMP}/DeformableRegistration8Test4DifferenceAfter.mhd
@@ -790,13 +790,13 @@ add_test(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-add_test(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration14Test1.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   DeformableRegistration14Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration14Test1.mhd
         ${TEMP}/DeformableRegistration14Test1DifferenceAfter.mhd
@@ -809,13 +809,13 @@ add_test(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
         10.0 50
 )
 
-add_test(DeformableRegistration14Test2 ${REGISTRATION_EXAMPLES12}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration14Test2 ${REGISTRATION_EXAMPLES12}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration14Test2.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   DeformableRegistration14Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration14Test2.mhd
         ${TEMP}/DeformableRegistration14Test2DifferenceAfter.mhd
@@ -828,13 +828,13 @@ add_test(DeformableRegistration14Test2 ${REGISTRATION_EXAMPLES12}
         10.0 50
 )
 
-add_test(DeformableRegistration14Test3 ${REGISTRATION_EXAMPLES12}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration14Test3 ${REGISTRATION_EXAMPLES12}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration14Test3.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   DeformableRegistration14Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration14Test3.mhd
         ${TEMP}/DeformableRegistration14Test3DifferenceAfter.mhd
@@ -847,13 +847,13 @@ add_test(DeformableRegistration14Test3 ${REGISTRATION_EXAMPLES12}
         10.0 50
 )
 
-add_test(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration14Test4.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
   DeformableRegistration14Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration14Test4.mhd
         ${TEMP}/DeformableRegistration14Test4DifferenceAfter.mhd
@@ -867,9 +867,9 @@ add_test(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
 )
 endif( DART_TESTING_TIMEOUT GREATER 3000 )
 
-add_test(ChangeInformationTest1
+midas_add_test(ChangeInformationTest1
         ${CXX_TEST_PATH}/ChangeInformationImageFilter
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
         1.05
         1.0 2.0 0.0
@@ -877,13 +877,13 @@ add_test(ChangeInformationTest1
 )
 
 if( DART_TESTING_TIMEOUT GREATER 10000 )
-add_test(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES14}
-    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+midas_add_test(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES14}
+    --compare MIDAS{brainweb1e1a10f20.mha.md5}
               ${TEMP}/DeformableRegistration15Test1.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
         DeformableRegistration15Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
         ${TEMP}/DeformableRegistration15Test1.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceAfter.mhd
@@ -899,9 +899,9 @@ endif( DART_TESTING_TIMEOUT GREATER 10000 )
 if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
 
 set(NUMBER_OF_BSPLINE_GRID_NODES 32)
-add_test(DeformableRegistration8Test5 ${REGISTRATION_EXAMPLES12}
+midas_add_test(DeformableRegistration8Test5 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test5.mhd
         ${TEMP}/DeformableRegistration8Test5DifferenceAfter.mhd
@@ -912,9 +912,9 @@ add_test(DeformableRegistration8Test5 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-add_test(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
+midas_add_test(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test6.mhd
         ${TEMP}/DeformableRegistration8Test6DifferenceAfter.mhd
@@ -925,9 +925,9 @@ add_test(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-add_test(DeformableRegistration8Test7 ${REGISTRATION_EXAMPLES12}
+midas_add_test(DeformableRegistration8Test7 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test7.mhd
         ${TEMP}/DeformableRegistration8Test7DifferenceAfter.mhd
@@ -938,9 +938,9 @@ add_test(DeformableRegistration8Test7 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-add_test(DeformableRegistration8Test8 ${REGISTRATION_EXAMPLES12}
+midas_add_test(DeformableRegistration8Test8 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test8.mhd
         ${TEMP}/DeformableRegistration8Test8DifferenceAfter.mhd
@@ -952,9 +952,9 @@ add_test(DeformableRegistration8Test8 ${REGISTRATION_EXAMPLES12}
 )
 
 set(NUMBER_OF_BSPLINE_GRID_NODES 100)
-add_test(DeformableRegistration8Test9 ${REGISTRATION_EXAMPLES12}
+midas_add_test(DeformableRegistration8Test9 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test9.mhd
         ${TEMP}/DeformableRegistration8Test9DifferenceAfter.mhd
@@ -965,9 +965,9 @@ add_test(DeformableRegistration8Test9 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-add_test(DeformableRegistration8Test10 ${REGISTRATION_EXAMPLES12}
+midas_add_test(DeformableRegistration8Test10 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test10.mhd
         ${TEMP}/DeformableRegistration8Test10DifferenceAfter.mhd
@@ -992,9 +992,9 @@ set_tests_properties(
 
 if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
 
-add_test(DeformableRegistration8Test11 ${REGISTRATION_EXAMPLES12}
+midas_add_test(DeformableRegistration8Test11 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test11.mhd
         ${TEMP}/DeformableRegistration8Test11DifferenceAfter.mhd
@@ -1005,9 +1005,9 @@ add_test(DeformableRegistration8Test11 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-add_test(DeformableRegistration8Test12 ${REGISTRATION_EXAMPLES12}
+midas_add_test(DeformableRegistration8Test12 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test12.mhd
         ${TEMP}/DeformableRegistration8Test12DifferenceAfter.mhd
@@ -1029,7 +1029,7 @@ endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
 
 endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
 
-endif(ITK_BRAINWEB_DATA_ROOT)
+endif(ITK_USE_BRAINWEB_DATA)
 
 
 if(ITK_MRI_UNC_DATABASE_DATA_ROOT)
