@@ -69,7 +69,7 @@ if os.path.isdir(HeadOfModularITKTree):
    if (answer == 'y'):
        shutil.rmtree(HeadOfModularITKTree)
        print('removed {0}'.format(HeadOfModularITKTree))
-       cmd ='git clone git@kwsource.kitwarein.com:itk/modularITK.git  '+HeadOfModularITKTree
+       cmd ='git clone git@www.kitware.com:itk/modularITKSupport.git  '+HeadOfModularITKTree
        os.system(cmd)
    else:
        print('please choose another directory for modularized ITK')
