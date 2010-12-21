@@ -263,10 +263,8 @@ protected:
    */
   void ComputeCellParameters();
 
-  /**
-   * Create new cells
-   */
-  void InsertNewCells();
+  /** Copy Geometry data from the input mesh to the output mesh. */
+  void CopyInputMeshToOutputMeshGeometryData();
 
   /**
    * Update topology neighbor relations for all cells

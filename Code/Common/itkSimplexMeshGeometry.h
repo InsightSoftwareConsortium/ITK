@@ -53,7 +53,12 @@ public:
   typedef std::set< unsigned long >           NeighborSetType;
 
   SimplexMeshGeometry();
+
   ~SimplexMeshGeometry();
+
+  void CopyFrom( const SimplexMeshGeometry & input );
+
+  void CopyNeigborSet( const NeighborSetType * nset );
 
   /** Definition of some attributes for
    * faster deformable model computation
