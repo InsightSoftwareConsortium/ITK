@@ -102,6 +102,7 @@ void RegisterTests()
   REGISTER_TEST( itkTransformToDeformationFieldSourceTest );
   REGISTER_TEST( itkTransformToDeformationFieldSourceTest1 );
 
+  REGISTER_TEST( itkGaussianDerivativeOperatorTest );
   REGISTER_TEST( itkDiscreteGaussianDerivativeImageFunctionTest );
   REGISTER_TEST( itkDiscreteGradientMagnitudeGaussianImageFunctionTest );
   REGISTER_TEST( itkDiscreteHessianGaussianImageFunctionTest );

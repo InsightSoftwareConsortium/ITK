@@ -118,6 +118,7 @@ set(ReviewTest_SRCS
   itkMapMaskedRankImageFilterTest.cxx
   itkFastApproximateRankImageFilterTest.cxx
 
+  itkGaussianDerivativeOperatorTest.cxx
   itkDiscreteGaussianDerivativeImageFunctionTest.cxx
   itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
   itkDiscreteHessianGaussianImageFunctionTest.cxx
@@ -1304,6 +1305,10 @@ add_test(itkMapOptGrayscaleErodeImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkMapOptGrayscaleErodeImageFilterTestHisto.png
   ${TEMP}/itkMapOptGrayscaleErodeImageFilterTestVHGW.png
   ${TEMP}/itkMapOptGrayscaleErodeImageFilterTestAnchor.png
+)
+
+add_test(itkGaussianDerivativeOperatorTest ${REVIEW_TESTS}
+  itkGaussianDerivativeOperatorTest
 )
 
 add_test(itkDiscreteGaussianDerivativeImageFunctionTest01 ${REVIEW_TESTS}
