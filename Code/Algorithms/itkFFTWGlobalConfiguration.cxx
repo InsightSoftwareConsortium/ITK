@@ -185,18 +185,37 @@ FFTWGlobalConfiguration
 #endif
 
     {
+    //If the environmental variable is set, then use it, else
+    //use the requested directory
+    std::string envSetPath;
+    const bool WisdomCacheBaseEnvSet=itksys::SystemTools::GetEnv("ITK_FFTW_WISDOM_CACHE_BASE", envSetPath);
+    if( WisdomCacheBaseEnvSet ) //The environment variable overrides application settings.
+      {
+      this->m_WisdomCacheBase=envSetPath;
+      }
+    else if( this->m_WisdomCacheBase.size() < 1 ) //Use home account if nothing specified
+      {
+#ifdef _WIN32
+      this->m_WisdomCacheBase = std::string(itksys::SystemTools::GetEnv("HOMEPATH"));
+#else
+      this->m_WisdomCacheBase = std::string(itksys::SystemTools::GetEnv("HOME"));
+#endif
+      }
+    }
+
+    {
     //Default library behavior should be to NOT write
     //cache files in the default home account
     std::string auto_import_env;
     const bool envITK_FFTW_WRITE_WISDOM_CACHEfound=
       itksys::SystemTools::GetEnv("ITK_FFTW_WRITE_WISDOM_CACHE", auto_import_env);
-    if( envITK_FFTW_WRITE_WISDOM_CACHEfound && isAffirmativeString(auto_import_env) )
+    if( envITK_FFTW_WRITE_WISDOM_CACHEfound && isDeclineString(auto_import_env) )
       {
-      this->m_WriteWisdomCache=true;
+      this->m_WriteWisdomCache=false;
       }
     else
       {
-      this->m_WriteWisdomCache=false;
+      this->m_WriteWisdomCache=true;
       }
     }
     {
@@ -228,24 +247,6 @@ FFTWGlobalConfiguration
 #endif
     }
 
-    {
-    //If the environmental variable is set, then use it, else
-    //use the requested directory
-    std::string envSetPath;
-    const bool WisdomCacheBaseEnvSet=itksys::SystemTools::GetEnv("ITK_FFTW_WISDOM_CACHE_BASE", envSetPath);
-    if( WisdomCacheBaseEnvSet ) //The environment variable overrides application settings.
-      {
-      this->m_WisdomCacheBase=envSetPath;
-      }
-    else if( this->m_WisdomCacheBase.size() < 1 ) //Use home account if nothing specified
-      {
-#ifdef _WIN32
-      this->m_WisdomCacheBase = std::string(itksys::SystemTools::GetEnv("HOMEPATH"));
-#else
-      this->m_WisdomCacheBase = std::string(itksys::SystemTools::GetEnv("HOME"));
-#endif
-      }
-    }
 }
 
 FFTWGlobalConfiguration
@@ -253,7 +254,7 @@ FFTWGlobalConfiguration
 {
   //std::cout << "======== cleanup fftw stuff =========" << std::endl;
   //std::cout << " ==== " << this->m_WriteWisdomCache << std::endl;
-  if( this->m_WriteWisdomCache )
+  if( this->m_WriteWisdomCache && this->m_NewWisdomAvailable )
     {
        std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
 #if defined(USE_FFTWF)
