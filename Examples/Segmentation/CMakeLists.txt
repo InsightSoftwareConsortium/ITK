@@ -364,16 +364,16 @@ add_test(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES9}
         ${TEMP}/CellularSegmentation1Test.vtk
 )
 
-if( ITK_BRAINWEB_DATA_ROOT )
+if( ITK_USE_BRAINWEB_DATA )
 
-add_test(CellularSegmentation2Test ${SEGMENTATION_EXAMPLES9}
+midas_add_test(CellularSegmentation2Test ${SEGMENTATION_EXAMPLES9}
   CellularSegmentation2Test
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        MIDAS{brainweb1e1a10f20.mha.md5}
         81 113 96 220 255 2000
         ${TEMP}/CellularSegmentation2Test.vtk
 )
 
-endif( ITK_BRAINWEB_DATA_ROOT )
+endif( ITK_USE_BRAINWEB_DATA )
 
 add_test(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected1.png

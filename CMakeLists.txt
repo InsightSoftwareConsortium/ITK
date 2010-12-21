@@ -66,6 +66,12 @@ include(${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
 include(${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
 
 #-----------------------------------------------------------------------------
+# Load macro to manage data download from MIDAS
+include(${ITK_SOURCE_DIR}/CMake/MIDAS.cmake)
+set(MIDAS_REST_URL "http://midas.kitware.com/api/rest")
+set(MIDAS_KEY_DIR "${PROJECT_SOURCE_DIR}/Testing/MIDAS_Keys")
+
+#-----------------------------------------------------------------------------
 # Configure Dart testing support.  This should be done before any
 # message(FATAL_ERROR ...) commands are invoked.
 include(${CMAKE_ROOT}/Modules/Dart.cmake)
@@ -618,11 +624,10 @@ endif()
 mark_as_advanced(ITK_DATA_ROOT)
 
 #-----------------------------------------------------------------------------
-# Configure the default ITK_BRAINWEB_DATA_ROOT for the location of ITK Data.
+# Enable the download and use of BrainWeb datasets.
 # When this data is available, additional 3D tests are enabled.
-find_path(ITK_BRAINWEB_DATA_ROOT brainweb165a10f17.mha
-  DOC "Directory with data taken from http://public.kitware.com/pub/itk/Data/BrainWeb/")
-mark_as_advanced(ITK_BRAINWEB_DATA_ROOT)
+option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)
+mark_as_advanced(ITK_USE_BRAINWEB_DATA)
 
 #-----------------------------------------------------------------------------
 # Configure the default ITK_MRI_UNC_DATABASE_DATA_ROOT for the location of the
