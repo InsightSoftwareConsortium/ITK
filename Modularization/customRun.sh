@@ -4,7 +4,7 @@
 # It is for the developer's convinience of running the modularization scripts repeatly.
 
 HeadOfMonolithicITKTree=/media/work/src/ITK
-HeadOfModularITKTree=/media/work/src/ModularITK/modularITK
+HeadOfModularITKTree=/media/work/src/modularITKSupport
 logs=$HeadOfModularITKTree/logs
 
 # modify according to your paths
