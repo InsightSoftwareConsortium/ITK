@@ -87,8 +87,8 @@ namespace itk {
  */
 
 template<class TInputImage, class TMaskImage =
-           Image<unsigned char, ::itk::GetImageDimension<TInputImage>::ImageDimension>,
-         class TOutputImage = TInputImage>
+  Image<unsigned char, ::itk::GetImageDimension<TInputImage>::ImageDimension>,
+  class TOutputImage = TInputImage>
 class ITK_EXPORT N4MRIBiasFieldCorrectionImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -137,9 +137,9 @@ public:
    * to m_MaskLabel are used in estimating the bias field.
    */
   void SetMaskImage( const MaskImageType *mask )
-  {
+    {
     this->SetNthInput( 1, const_cast<MaskImageType *>( mask ) );
-  }
+    }
 
   /**
    * Get mask image function.  If a binary mask image is specified, only
@@ -147,10 +147,10 @@ public:
    * to m_MaskLabel are used in estimating the bias field.
    */
   const MaskImageType* GetMaskImage() const
-  {
+    {
     return static_cast<MaskImageType*>( const_cast<DataObject *>
                                         ( this->ProcessObject::GetInput( 1 ) ) );
-  }
+    }
 
   /**
    * Set confidence image function.  If a confidence image is specified,
@@ -163,9 +163,9 @@ public:
    * bias field.
    */
   void SetConfidenceImage( const RealImageType *image )
-  {
+    {
     this->SetNthInput( 2, const_cast<RealImageType *>( image ) );
-  }
+    }
 
   /**
    * Get confidence image function.  If a confidence image is specified,
@@ -178,10 +178,10 @@ public:
    * bias field.
    */
   const RealImageType* GetConfidenceImage() const
-  {
+    {
     return static_cast<RealImageType*>( const_cast<DataObject *>
                                         ( this->ProcessObject::GetInput( 2 ) ) );
-  }
+    }
 
   /**
    * Set mask label function.  If a binary mask image is specified, only those
@@ -197,12 +197,10 @@ public:
    */
   itkGetConstMacro( MaskLabel, MaskPixelType );
 
-  /**
-   * Sharpen histogram parameters: in estimating the bias field, the
-   * first step is to sharpen the intensity histogram by Weiner deconvolution
-   * with a 1-D Gaussian.  The following parameters define this operation.
-   * These default values in N4 match the default values in N3.
-   */
+  // Sharpen histogram parameters: in estimating the bias field, the
+  // first step is to sharpen the intensity histogram by Weiner deconvolution
+  // with a 1-D Gaussian.  The following parameters define this operation.
+  // These default values in N4 match the default values in N3.
 
   /**
    * Set number of bins defining the log input intensity histogram.
@@ -238,9 +236,7 @@ public:
    */
   itkGetConstMacro( BiasFieldFullWidthAtHalfMaximum, RealType );
 
-  /**
-   * B-spline parameters governing the fitting routine
-   */
+  // B-spline parameters governing the fitting routine
 
   /**
    * Set the spline order defining the bias field estimate.  Default = 3.
@@ -285,12 +281,12 @@ public:
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
   void SetNumberOfFittingLevels( unsigned int n )
-  {
+    {
     ArrayType nlevels;
 
     nlevels.Fill( n );
     this->SetNumberOfFittingLevels( nlevels );
-  }
+    }
 
   /**
    * Get the number of fitting levels.  One of the contributions of N4 is the
@@ -305,6 +301,7 @@ public:
    * Default = 50.
    */
   itkSetMacro( MaximumNumberOfIterations, VariableSizeArrayType );
+
   /**
    * Get the maximum number of iterations specified at each fitting level.
    * Default = 50.
@@ -319,6 +316,7 @@ public:
    * terminates if it is at the last level.
    */
   itkSetMacro( ConvergenceThreshold, RealType );
+
   /**
    * Get the convergence threshold.  Convergence is determined by the
    * coefficient of variation of the difference image between the current bias
@@ -357,10 +355,10 @@ public:
    * reporting observations.
    */
   itkGetConstMacro( CurrentLevel, unsigned int );
+
 protected:
   N4MRIBiasFieldCorrectionImageFilter();
-  ~N4MRIBiasFieldCorrectionImageFilter() {
-  }
+  ~N4MRIBiasFieldCorrectionImageFilter() {}
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   void GenerateData();
@@ -371,15 +369,13 @@ private:
   void operator=( const Self& );                      //purposely not
                                                       // implemented
 
-  /**
-   * N4 algorithm functions:  The basic algorithm iterates between sharpening
-   * the intensity histogram of the corrected input image and spatially
-   * smoothing those results with a B-spline scalar field estimate of the
-   * bias field.  The former is handled by the function SharpenImage()
-   * whereas the latter is handled by the function UpdateBiasFieldEstimate().
-   * Convergence is determined by the coefficient of variation of the difference
-   * image between the current bias field estimate and the previous estimate.
-   */
+  // N4 algorithm functions:  The basic algorithm iterates between sharpening
+  // the intensity histogram of the corrected input image and spatially
+  // smoothing those results with a B-spline scalar field estimate of the
+  // bias field.  The former is handled by the function SharpenImage()
+  // whereas the latter is handled by the function UpdateBiasFieldEstimate().
+  // Convergence is determined by the coefficient of variation of the difference
+  // image between the current bias field estimate and the previous estimate.
 
   /**
    * Sharpen the intensity histogram of the current estimate of the corrected
@@ -401,31 +397,25 @@ private:
    */
   RealType CalculateConvergenceMeasurement( RealImageType *, RealImageType * );
 
-  /**
-   * ivars
-   */
 
   MaskPixelType m_MaskLabel;
 
-  /**
-   * Parameters for deconvolution with Weiner filter
-   */
+  // Parameters for deconvolution with Weiner filter
+
   unsigned int m_NumberOfHistogramBins;
   RealType     m_WeinerFilterNoise;
   RealType     m_BiasFieldFullWidthAtHalfMaximum;
 
-  /**
-   * Convergence parameters
-   */
+  // Convergence parameters
+
   VariableSizeArrayType m_MaximumNumberOfIterations;
   unsigned int          m_ElapsedIterations;
   RealType              m_ConvergenceThreshold;
   RealType              m_CurrentConvergenceMeasurement;
   unsigned int          m_CurrentLevel;
 
-  /**
-   * B-spline fitting parameters
-   */
+  // B-spline fitting parameters
+
   typename
   BiasFieldControlPointLatticeType::Pointer m_LogBiasFieldControlPointLattice;
 

@@ -34,17 +34,16 @@ public:
   typedef itk::SmartPointer<Self> Pointer;
   itkNewMacro( Self );
 protected:
-  CommandIterationUpdate() {
-  }
+  CommandIterationUpdate() {}
 public:
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
-  {
+    {
     Execute( (const itk::Object *) caller, event);
-  }
+    }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
-  {
+    {
     const TFilter * filter =
       dynamic_cast< const TFilter * >( object );
 
@@ -64,7 +63,7 @@ public:
               << filter->GetCurrentConvergenceMeasurement()
               << " (threshold = " << filter->GetConvergenceThreshold()
               << ")" << std::endl;
-  }
+    }
 
 };
 
@@ -135,9 +134,7 @@ int N4( int argc, char *argv[] )
   inputImage->Update();
   inputImage->DisconnectPipeline();
 
-  /**
-   * handle the mask image
-   */
+  // handle the mask image
   typedef itk::Image<unsigned char, ImageDimension> MaskImageType;
   typename MaskImageType::Pointer maskImage = NULL;
 
@@ -174,9 +171,7 @@ int N4( int argc, char *argv[] )
     maskImage->DisconnectPipeline();
     }
 
-  /**
-   * instantiate N4 and assign variables not exposed to the user in this test.
-   */
+  // instantiate N4 and assign variables not exposed to the user in this test.
   typedef itk::N4MRIBiasFieldCorrectionImageFilter<ImageType, MaskImageType,
                                                    ImageType> CorrecterType;
   typename CorrecterType::Pointer correcter = CorrecterType::New();
@@ -186,9 +181,7 @@ int N4( int argc, char *argv[] )
   correcter->SetBiasFieldFullWidthAtHalfMaximum( 0.15 );
   correcter->SetConvergenceThreshold( 0.0000001 );
 
-  /**
-   * handle the number of iterations
-   */
+  // handle the number of iterations
   std::vector<unsigned int> numIters = ConvertVector<unsigned int>(
       std::string( "100x50x50" ) );
   if( argc > 5 )
@@ -207,8 +200,7 @@ int N4( int argc, char *argv[] )
   numberOfFittingLevels.Fill( numIters.size() );
   correcter->SetNumberOfFittingLevels( numberOfFittingLevels );
 
-  /**
-   * B-spline options -- we place this here to take care of the case where
+  /* B-spline options -- we place this here to take care of the case where
    * the user wants to specify things in terms of the spline distance.
    *  1. need to pad the images to get as close to possible to the
    *     requested domain size.
@@ -238,13 +230,12 @@ int N4( int argc, char *argv[] )
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
     float domain = static_cast<RealType>( inputImage->
-                                          GetLargestPossibleRegion().GetSize()[d] - 1 ) *
+      GetLargestPossibleRegion().GetSize()[d] - 1 ) *
       inputImage->GetSpacing()[d];
     unsigned int numberOfSpans = static_cast<unsigned int>(
-        vcl_ceil( domain / splineDistance ) );
-    unsigned long extraPadding =
-      static_cast<unsigned long>( ( numberOfSpans *
-                                    splineDistance - domain ) / inputImage->GetSpacing()[d] + 0.5 );
+      vcl_ceil( domain / splineDistance ) );
+    unsigned long extraPadding = static_cast<unsigned long>( ( numberOfSpans *
+      splineDistance - domain ) / inputImage->GetSpacing()[d] + 0.5 );
     lowerBound[d] = static_cast<unsigned long>( 0.5 * extraPadding );
     upperBound[d] = extraPadding - lowerBound[d];
     newOrigin[d] -= ( static_cast<RealType>( lowerBound[d] ) *
@@ -277,9 +268,7 @@ int N4( int argc, char *argv[] )
 
   correcter->SetNumberOfControlPoints( numberOfControlPoints );
 
-  /**
-   * handle the shrink factor
-   */
+  // handle the shrink factor
   typedef itk::ShrinkImageFilter<ImageType, ImageType> ShrinkerType;
   typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
   shrinker->SetInput( reader->GetOutput() );
@@ -304,9 +293,7 @@ int N4( int argc, char *argv[] )
   maskImage = maskshrinker->GetOutput();
   maskImage->DisconnectPipeline();
 
-  /**
-   * set the input image and mask image
-   */
+  // set the input image and mask image
   correcter->SetInput( inputImage );
   correcter->SetMaskImage( maskImage );
 
@@ -327,9 +314,7 @@ int N4( int argc, char *argv[] )
 
   correcter->Print( std::cout, 3 );
 
-  /**
-   * Test the reconstruction of the log bias field;
-   */
+  // Test the reconstruction of the log bias field
   typedef itk::BSplineControlPointImageFilter
   <typename CorrecterType::BiasFieldControlPointLatticeType, typename
    CorrecterType::ScalarImageType> BSplinerType;
@@ -343,9 +328,8 @@ int N4( int argc, char *argv[] )
   bspliner->SetSpacing( reader->GetOutput()->GetSpacing() );
   bspliner->Update();
 
-  /**
-   * output the log bias field control point lattice
-   */
+
+  // output the log bias field control point lattice
   typedef itk::ImageFileWriter<
     typename CorrecterType::BiasFieldControlPointLatticeType> WriterType;
   typename WriterType::Pointer writer = WriterType::New();

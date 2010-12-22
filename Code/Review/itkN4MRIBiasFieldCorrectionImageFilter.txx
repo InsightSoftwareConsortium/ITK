@@ -65,9 +65,9 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   this->AllocateOutputs();
 
-  /**
-   * Calculate the log of the input image.
-   */
+
+  // Calculate the log of the input image.
+
   typename RealImageType::Pointer logInputImage = RealImageType::New();
   logInputImage->Graft( this->GetInput() );
   logInputImage->Allocate();
@@ -90,10 +90,8 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       }
     }
 
-  /**
-   * Duplicate logInputImage since we reuse the original at
-   * each iteration.
-   */
+  // Duplicate logInputImage since we reuse the original at each iteration.
+
   typedef ImageDuplicator<RealImageType> DuplicatorType;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( logInputImage );
@@ -101,17 +99,15 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   typename RealImageType::Pointer logUncorrectedImage = duplicator->GetOutput();
 
-  /**
-   * Provide an initial log bias field of zeros
-   */
+  // Provide an initial log bias field of zeros
+
   typename RealImageType::Pointer logBiasField = RealImageType::New();
   logBiasField->Graft( this->GetInput() );
   logBiasField->Allocate();
   logBiasField->FillBuffer( 0.0 );
 
-  /**
-   * Iterate until convergence or iterative exhaustion.
-   */
+
+  // Iterate until convergence or iterative exhaustion.
   unsigned int maximumNumberOfLevels = 1;
   for( unsigned int d = 0; d < this->m_NumberOfFittingLevels.Size(); d++ )
     {
@@ -137,9 +133,9 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
            this->m_MaximumNumberOfIterations[this->m_CurrentLevel] &&
            this->m_CurrentConvergenceMeasurement > this->m_ConvergenceThreshold )
       {
-      /**
-       * Sharpen the current estimate of the uncorrected image.
-       */
+
+      // Sharpen the current estimate of the uncorrected image.
+
       typename RealImageType::Pointer logSharpenedImage =
         SharpenImage( logUncorrectedImage );
 
@@ -150,10 +146,9 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       subtracter1->SetInput2( logSharpenedImage );
       subtracter1->Update();
 
-      /**
-       * Smooth the residual bias field estimate and add the resulting
-       * control point grid to get the new total bias field estimate.
-       */
+      // Smooth the residual bias field estimate and add the resulting
+      // control point grid to get the new total bias field estimate.
+
       typename RealImageType::Pointer newLogBiasField =
         this->UpdateBiasFieldEstimate( subtracter1->GetOutput() );
 
@@ -201,9 +196,9 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   expFilter->SetInput( logBiasField );
   expFilter->Update();
 
-  /**
-   * Divide the input image by the bias field to get the final image.
-   */
+
+  // Divide the input image by the bias field to get the final image.
+
   typedef DivideImageFilter<InputImageType, RealImageType, OutputImageType>
   DividerType;
   typename DividerType::Pointer divider = DividerType::New();
@@ -221,12 +216,11 @@ typename N4MRIBiasFieldCorrectionImageFilter
 N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::SharpenImage( RealImageType *unsharpenedImage )
 {
-  /**
-   * Build the histogram for the uncorrected image.  Store copy
-   * in a vnl_vector to utilize vnl FFT routines.  Note that variables
-   * in real space are denoted by a single uppercase letter whereas their
-   * frequency counterparts are indicated by a trailing lowercase 'f'.
-   */
+  // Build the histogram for the uncorrected image.  Store copy
+  // in a vnl_vector to utilize vnl FFT routines.  Note that variables
+  // in real space are denoted by a single uppercase letter whereas their
+  // frequency counterparts are indicated by a trailing lowercase 'f'.
+
   RealType binMaximum = NumericTraits<RealType>::NonpositiveMin();
   RealType binMinimum = NumericTraits<RealType>::max();
 
@@ -254,10 +248,9 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealType histogramSlope = ( binMaximum - binMinimum ) /
     static_cast<RealType>( this->m_NumberOfHistogramBins - 1 );
 
-  /**
-   * Create the intensity profile (within the masked region, if applicable)
-   * using a triangular parzen windowing scheme.
-   */
+  // Create the intensity profile (within the masked region, if applicable)
+  // using a triangular parzen windowing scheme.
+
   vnl_vector<RealType> H( this->m_NumberOfHistogramBins, 0.0 );
 
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )
@@ -286,18 +279,16 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       }
     }
 
-  /**
-   * Determine information about the intensity histogram and zero-pad
-   * histogram to a power of 2.
-   */
+  // Determine information about the intensity histogram and zero-pad
+  // histogram to a power of 2.
 
   RealType exponent =
     vcl_ceil( vcl_log( static_cast<RealType>( this->m_NumberOfHistogramBins ) ) /
               vcl_log( 2.0 ) ) + 1;
   unsigned int paddedHistogramSize = static_cast<unsigned int>(
-      vcl_pow( static_cast<RealType>( 2.0 ), exponent ) + 0.5 );
+    vcl_pow( static_cast<RealType>( 2.0 ), exponent ) + 0.5 );
   unsigned int histogramOffset = static_cast<unsigned int>( 0.5 *
-                                                            ( paddedHistogramSize - this->m_NumberOfHistogramBins ) );
+    ( paddedHistogramSize - this->m_NumberOfHistogramBins ) );
 
   vnl_vector< vcl_complex<RealType> > V( paddedHistogramSize,
                                          vcl_complex<RealType>( 0.0, 0.0 ) );
@@ -307,18 +298,16 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
     V[n+histogramOffset] = H[n];
     }
 
-  /**
-   * Instantiate the 1-d vnl fft routine
-   */
+  // Instantiate the 1-d vnl fft routine.
+
   vnl_fft_1d<RealType> fft( paddedHistogramSize );
 
   vnl_vector< vcl_complex<RealType> > Vf( V );
 
   fft.fwd_transform( Vf );
 
-  /**
-   * Create the Gaussian filter.
-   */
+  // Create the Gaussian filter.
+
   RealType scaledFWHM = this->m_BiasFieldFullWidthAtHalfMaximum / histogramSlope;
   RealType expFactor = 4.0 * vcl_log( 2.0 ) / vnl_math_sqr( scaledFWHM );
   RealType scaleFactor = 2.0 * vcl_sqrt( vcl_log( 2.0 )
@@ -332,25 +321,22 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       0.5 * paddedHistogramSize );
   for( unsigned int n = 1; n <= halfSize; n++ )
     {
-    F[n] = F[paddedHistogramSize - n] = vcl_complex<RealType>(
-          scaleFactor * vcl_exp( -vnl_math_sqr( static_cast<RealType>( n ) )
-                                 * expFactor ), 0.0 );
+    F[n] = F[paddedHistogramSize - n] = vcl_complex<RealType>( scaleFactor *
+      vcl_exp( -vnl_math_sqr( static_cast<RealType>( n ) ) * expFactor ), 0.0 );
     }
   if( paddedHistogramSize % 2 == 0 )
     {
-    F[halfSize] =
-      vcl_complex<RealType>( scaleFactor * vcl_exp(
-                               0.25 * -vnl_math_sqr(
-                                 static_cast<RealType>( paddedHistogramSize ) ) * expFactor ), 0.0 );
+    F[halfSize] = vcl_complex<RealType>( scaleFactor * vcl_exp( 0.25 *
+      -vnl_math_sqr( static_cast<RealType>( paddedHistogramSize ) ) *
+      expFactor ), 0.0 );
     }
 
   vnl_vector< vcl_complex<RealType> > Ff( F );
 
   fft.fwd_transform( Ff );
 
-  /**
-   * Create the Weiner deconvolution filter.
-   */
+  // Create the Weiner deconvolution filter.
+
   vnl_vector< vcl_complex<RealType> > Gf( paddedHistogramSize );
 
   for( unsigned int n = 0; n < paddedHistogramSize; n++ )
@@ -373,12 +359,11 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( unsigned int n = 0; n < paddedHistogramSize; n++ )
     {
     U[n] = vcl_complex<RealType>( vnl_math_max( U[n].real(),
-                                                static_cast<RealType>( 0.0 ) ), 0.0 );
+      static_cast<RealType>( 0.0 ) ), 0.0 );
     }
 
-  /**
-   * Compute mapping E(u|v)
-   */
+  // Compute mapping E(u|v).
+
   vnl_vector< vcl_complex<RealType> > numerator( paddedHistogramSize );
 
   for( unsigned int n = 0; n < paddedHistogramSize; n++ )
@@ -417,14 +402,11 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       }
     }
 
-  /**
-   * Remove the zero-padding from the mapping
-   */
+  // Remove the zero-padding from the mapping.
+
   E = E.extract( this->m_NumberOfHistogramBins, histogramOffset );
 
-  /**
-   * Sharpen the image with the new mapping, E(u|v)
-   */
+  // Sharpen the image with the new mapping, E(u|v)
   typename RealImageType::Pointer sharpenedImage = RealImageType::New();
   sharpenedImage->Graft( this->GetInput() );
   sharpenedImage->Allocate();
@@ -466,10 +448,9 @@ typename N4MRIBiasFieldCorrectionImageFilter
 N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::UpdateBiasFieldEstimate( RealImageType* fieldEstimate )
 {
-  /**
-   * Get original direction and change to identity temporarily for the
-   * b-spline fitting.
-   */
+  // Get original direction and change to identity temporarily for the
+  // b-spline fitting.
+
   typename RealImageType::DirectionType direction
     = fieldEstimate->GetDirection();
   typename RealImageType::DirectionType identity;
@@ -553,9 +534,8 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   bspliner->SetPointWeights( weights );
   bspliner->Update();
 
-  /**
-   * Add the bias field control points to the current estimate.
-   */
+  // Add the bias field control points to the current estimate.
+
   if( !this->m_LogBiasFieldControlPointLattice )
     {
     this->m_LogBiasFieldControlPointLattice = bspliner->GetPhiLattice();
@@ -615,9 +595,9 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   subtracter->SetInput2( fieldEstimate2 );
   subtracter->Update();
 
-  /**
-   * Calculate statistics over the mask region
-   */
+
+  // Calculate statistics over the mask region
+
   RealType mu = 0.0;
   RealType sigma = 0.0;
   RealType N = 0.0;
@@ -681,4 +661,5 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 }
 
 } // end namespace itk
+
 #endif
