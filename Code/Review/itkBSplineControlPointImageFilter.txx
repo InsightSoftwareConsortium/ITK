@@ -37,6 +37,13 @@ ParameterCostFunction<TControlPointLattice>
 
   this->m_DataPoint = NumericTraits<
       typename TControlPointLattice::PixelType >::Zero;
+
+  this->m_Origin.Fill( 0.0 );
+  this->m_Spacing.Fill( 1.0 );
+  this->m_Size.Fill( 0 );
+  this->m_Direction.SetIdentity();
+  this->m_CloseDimension.Fill( 0 );
+  this->m_SplineOrder.Fill( 3 );
 }
 
 template<class TControlPointLattice>
