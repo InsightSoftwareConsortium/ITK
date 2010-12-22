@@ -371,8 +371,6 @@ void DoDebugTest( FixedImageReaderType* fixedImageReader,
   std::cout << "-------------------------------------------------------------------" << std::endl;
   std::cout << std::endl;
 
-  int result = EXIT_SUCCESS;
-
   // connect the interpolator
   metric->SetInterpolator( interpolator );
 
