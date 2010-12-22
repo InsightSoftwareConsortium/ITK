@@ -29,9 +29,6 @@
 namespace itk
 {
 
-/**
- * ParameterCostFunction class definitions
- */
 template<class TControlPointLattice>
 ParameterCostFunction<TControlPointLattice>
 ::ParameterCostFunction()
@@ -330,9 +327,6 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   this->GetOutput()->SetDirection( this->m_Direction );
   this->GetOutput()->Allocate();
 
-  /**
-   * Calculate the appropriate epsilon value.
-   */
   unsigned int maximumNumberOfSpans = 0;
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
@@ -771,9 +765,8 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     typename RealImageType::IndexType idx = Itw.GetIndex();
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      RealType u = p[i] -
-        static_cast<RealType>( static_cast<unsigned>( p[i] ) +
-                               idx[i] ) + 0.5*static_cast<RealType>( this->m_SplineOrder[i] - 1 );
+      RealType u = p[i] - static_cast<RealType>( static_cast<unsigned>( p[i] ) +
+        idx[i] ) + 0.5*static_cast<RealType>( this->m_SplineOrder[i] - 1 );
       switch( this->m_SplineOrder[i] )
         {
         case 0:
@@ -906,9 +899,8 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
       typename RealImageType::IndexType idx = Itw.GetIndex();
       for( unsigned int i = 0; i < ImageDimension; i++ )
         {
-        RealType u = p[i] -
-          static_cast<RealType>( static_cast<unsigned>( p[i] )
-                                 + idx[i] ) + 0.5*static_cast<RealType>( this->m_SplineOrder[i] - 1 );
+        RealType u = p[i] - static_cast<RealType>( static_cast<unsigned>( p[i] )
+          + idx[i] ) + 0.5*static_cast<RealType>( this->m_SplineOrder[i] - 1 );
         if( j == i )
           {
           B *= this->m_Kernel[i]->EvaluateDerivative( u );
@@ -960,8 +952,8 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
       params[i] = 1.0 - this->m_BSplineEpsilon;
       }
     p[i] = static_cast<RealType>( params[i] ) * static_cast<RealType>(
-        this->GetInput()->GetLargestPossibleRegion().GetSize()[i] -
-        this->m_SplineOrder[i] );
+      this->GetInput()->GetLargestPossibleRegion().GetSize()[i] -
+      this->m_SplineOrder[i] );
     }
 
   typename RealImageType::RegionType::SizeType size;
@@ -1103,9 +1095,6 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     }
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template<class InputImage, class TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>

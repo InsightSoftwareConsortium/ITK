@@ -42,7 +42,7 @@ int BSpline( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  /**
+  /*
    * Reconstruction of the scalar field from the control points.
    */
 
@@ -81,7 +81,7 @@ int BSpline( int argc, char *argv[] )
   writer->SetInput( bspliner->GetOutput() );
   writer->Update();
 
-  /**
+  /*
    * Test out additional functionality by refining the control point lattice
    * and seeing if the output is the same.  In this example we double the
    * resolution twice as the refinement is doubled at every level.
@@ -118,7 +118,7 @@ int BSpline( int argc, char *argv[] )
   writer2->SetInput( bspliner2->GetOutput() );
   writer2->Update();
 
-  /**
+  /*
    * Now test finding the parameters given a data point for the 2D case
    */
   if( ImageDimension == 2 )
