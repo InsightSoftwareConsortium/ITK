@@ -241,14 +241,15 @@ public:
   virtual const ParametersType & GetFixedParameters(void) const;
 
   /** Parameters as SpaceDimension number of images. */
-  typedef typename ParametersType::ValueType                         PixelType;
-  typedef Image< PixelType, itkGetStaticConstMacro(SpaceDimension) > ImageType;
+  typedef typename ParametersType::ValueType                         ParametersValueType;
+  typedef Image< ParametersValueType, itkGetStaticConstMacro(SpaceDimension) > ImageType;
   typedef typename ImageType::Pointer                                ImagePointer;
+  typedef typename itk::FixedArray<ImagePointer,NDimensions>         CoefficientImageArray;
 
   /** Get the array of coefficient images. */
-  virtual ImagePointer * GetCoefficientImage()
+  virtual CoefficientImageArray GetCoefficientImage()
   { return m_CoefficientImage; }
-  virtual const ImagePointer * GetCoefficientImage() const
+  virtual const CoefficientImageArray GetCoefficientImage() const
   { return m_CoefficientImage; }
 
   /** Set the array of coefficient images.
@@ -263,9 +264,9 @@ public:
    * API. Mixing the two modes may results in unexpected results.
    *
    */
-  virtual void SetCoefficientImage(ImagePointer images[]);
+  virtual void SetCoefficientImage(const CoefficientImageArray & images);
 
-  /** Typedefs for specifying the extend to the grid. */
+  /** Typedefs for specifying the extent of the grid. */
   typedef ImageRegion< itkGetStaticConstMacro(SpaceDimension) > RegionType;
 
   typedef typename RegionType::IndexType    IndexType;
@@ -401,25 +402,21 @@ protected:
   /** Wrap flat array into images of coefficients. */
   void WrapAsImages();
 
-  /** Convert an input point to a continuous index inside the BSpline grid */
-  void TransformPointToContinuousIndex(
-    const InputPointType & point, ContinuousIndexType & index) const;
-
 private:
+  void SetFixedParametersRegionFromCoefficientImageInformation() const;
+  void SetFixedParametersOriginFromCoefficientImageInformation() const;
+  void SetFixedParametersSpacingFromCoefficientImageInformation() const;
+  void SetFixedParametersDirectionFromCoefficientImageInformation() const;
+  void SetFixedParametersFromCoefficientImageInformation() const;
+  void SetCoefficientImageInformationFromFixedParameters();
+
   BSplineDeformableTransform(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented
 
+  CoefficientImageArray ArrayOfImagePointerGeneratorHelper(void) const;
+
   /** The bulk transform. */
   BulkTransformPointer m_BulkTransform;
-
-  /** Variables defining the coefficient grid extend. */
-  RegionType    m_GridRegion;
-  SpacingType   m_GridSpacing;
-  DirectionType m_GridDirection;
-  OriginType    m_GridOrigin;
-
-  DirectionType m_PointToIndex;
-  DirectionType m_IndexToPoint;
 
   RegionType m_ValidRegion;
 
@@ -430,30 +427,53 @@ private:
   IndexType     m_ValidRegionLast;
   IndexType     m_ValidRegionFirst;
 
-  /** Array holding images wrapped from the flat parameters. */
-  ImagePointer m_WrappedImage[NDimensions];
-
+  //NOTE:  There is a natural duality between the
+  //       two representations of of the coefficients
+  //       whereby the m_InternalParametersBuffer is
+  //       needed to fit into the optimization framework
+  //       and the m_CoefficientImage is needed for
+  //       the Jacobian computations.  This implementation
+  //       is an attempt to remove as much redundancy as possible
+  //       and share as much information between the two
+  //       instances as possible.
+  //
   /** Array of images representing the B-spline coefficients
-   *  in each dimension. */
-  ImagePointer m_CoefficientImage[NDimensions];
-
-  /** Jacobian as SpaceDimension number of images. */
-  typedef typename JacobianType::ValueType JacobianPixelType;
-  typedef Image< JacobianPixelType,
-                 itkGetStaticConstMacro(SpaceDimension) > JacobianImageType;
-
-  typename JacobianImageType::Pointer m_JacobianImage[NDimensions];
-
-  /** Keep track of last support region used in computing the Jacobian
-   * for fast resetting of Jacobian to zero.
+   *  in each dimension wrapped from the flat parameters in
+   *  m_InternalParametersBuffer
    */
-  mutable IndexType m_LastJacobianIndex;
+  CoefficientImageArray m_CoefficientImage;
+
+  /** The variables defining the coefficient grid domain for the
+   * InternalParametersBuffer are taken from the m_CoefficientImage[0]
+   * image, and must be kept in sync with them. by using
+   * references to that instance, this is more naturally enforced
+   * and does not introduce a speed penalty of dereferencing
+   * through the pointers (although it does enforce some
+   * internal class syncronization).
+   */
+  const RegionType    & m_GridRegion;
+  const OriginType    & m_GridOrigin;
+  const SpacingType   & m_GridSpacing;
+  const DirectionType & m_GridDirection;
 
   /** Keep a pointer to the input parameters. */
   const ParametersType *m_InputParametersPointer;
 
   /** Internal parameters buffer. */
   ParametersType m_InternalParametersBuffer;
+
+  /** Jacobian as SpaceDimension number of images. */
+  typedef typename JacobianType::ValueType JacobianPixelType;
+  typedef Image< JacobianPixelType,
+                 itkGetStaticConstMacro(SpaceDimension) > JacobianImageType;
+  typedef typename itk::FixedArray<typename JacobianImageType::Pointer,NDimensions> JacobianImageArrayType;
+
+  JacobianImageArrayType m_JacobianImage;
+
+  /** Keep track of last support region used in computing the Jacobian
+   * for fast resetting of Jacobian to zero.
+   */
+  mutable IndexType m_LastJacobianIndex;
 
   /** Pointer to function used to compute Bspline interpolation weights. */
   typename WeightsFunctionType::Pointer m_WeightsFunction;

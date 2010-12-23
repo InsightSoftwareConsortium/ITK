@@ -454,7 +454,6 @@ int itkBSplineDeformableTransformTest1()
     return EXIT_FAILURE;
     }
 
-
   /**
    * Exercise the SetIdentity() Method
    */

@@ -26,68 +26,56 @@
 
 namespace itk
 {
+
+// This helper class is used to work around a race condition where the dynamically
+// generated images must exist before the references to the sub-sections are created.
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+typename BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >::CoefficientImageArray
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::ArrayOfImagePointerGeneratorHelper(void) const
+{
+  CoefficientImageArray tempArrayOfPointers;
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
+    {
+    tempArrayOfPointers[j] = ImageType::New();
+    }
+  return tempArrayOfPointers;
+}
+
 // Constructor with default arguments
 template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
-::BSplineDeformableTransform():Superclass(SpaceDimension, 0)
+::BSplineDeformableTransform():Superclass(SpaceDimension, 0),
+  m_CoefficientImage(this->ArrayOfImagePointerGeneratorHelper()),
+  m_GridRegion(this->m_CoefficientImage[0]->GetLargestPossibleRegion()),
+  m_GridOrigin(this->m_CoefficientImage[0]->GetOrigin()),
+  m_GridSpacing(this->m_CoefficientImage[0]->GetSpacing()),
+  m_GridDirection(this->m_CoefficientImage[0]->GetDirection())
 {
   // Instantiate a weights function
-  m_WeightsFunction = WeightsFunctionType::New();
-  m_SupportSize = m_WeightsFunction->GetSupportSize();
+  this->m_WeightsFunction = WeightsFunctionType::New();
+  this->m_SupportSize = this->m_WeightsFunction->GetSupportSize();
 
   // Instantiate an identity transform
   typedef IdentityTransform< ScalarType, SpaceDimension > IdentityTransformType;
   typename IdentityTransformType::Pointer id = IdentityTransformType::New();
-  m_BulkTransform = id;
+  this->m_BulkTransform = id;
 
-  // Default grid size is zero
-  typename RegionType::SizeType size;
-  typename RegionType::IndexType index;
-  size.Fill(0);
-  index.Fill(0);
-  m_GridRegion.SetSize(size);
-  m_GridRegion.SetIndex(index);
-
-  m_GridOrigin.Fill(0.0);        // default origin is all zeros
-  m_GridSpacing.Fill(1.0);       // default spacing is all ones
-  m_GridDirection.SetIdentity(); // default spacing is all ones
-
-  m_InternalParametersBuffer = ParametersType(0);
+  this->m_InternalParametersBuffer = ParametersType(0);
   // Make sure the parameters pointer is not NULL after construction.
-  m_InputParametersPointer = &m_InternalParametersBuffer;
-
-  // Initialize coeffient images
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
-    {
-    m_WrappedImage[j] = ImageType::New();
-    m_WrappedImage[j]->SetRegions(m_GridRegion);
-    m_WrappedImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
-    m_WrappedImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
-    m_WrappedImage[j]->SetDirection(m_GridDirection);
-    m_CoefficientImage[j] = NULL;
-    }
+  this->m_InputParametersPointer = &(this->m_InternalParametersBuffer);
 
   // Setup variables for computing interpolation
-  m_Offset = SplineOrder / 2;
+  this->m_Offset = SplineOrder / 2;
   if ( SplineOrder % 2 )
     {
-    m_SplineOrderOdd = true;
+    this->m_SplineOrderOdd = true;
     }
   else
     {
-    m_SplineOrderOdd = false;
+    this->m_SplineOrderOdd = false;
     }
-  m_ValidRegion = m_GridRegion;
-
-  // Initialize jacobian images
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
-    {
-    m_JacobianImage[j] = ImageType::New();
-    m_JacobianImage[j]->SetRegions(m_GridRegion);
-    m_JacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
-    m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
-    m_JacobianImage[j]->SetDirection(m_GridDirection);
-    }
+  this->m_ValidRegion = this->m_GridRegion; //HACK:  Perhaps this->m_ValidRegion is redundant also.
 
   /** Fixed Parameters store the following information:
    *     Grid Size
@@ -96,30 +84,26 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
    *     Grid Direction
    *  The size of these is equal to the  NInputDimensions
    */
-  this->m_FixedParameters.SetSize ( NDimensions * ( NDimensions + 3 ) );
-  this->m_FixedParameters.Fill (0.0);
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    this->m_FixedParameters[2 * NDimensions + i] = m_GridSpacing[i];
-    }
-  for ( unsigned int di = 0; di < NDimensions; di++ )
-    {
-    for ( unsigned int dj = 0; dj < NDimensions; dj++ )
-      {
-      this->m_FixedParameters[3 * NDimensions + ( di * NDimensions + dj )] = m_GridDirection[di][dj];
-      }
-    }
+  //ForExmplae 3D image has FixedParameters of:
+  //[size[0],size[1],size[2],
+  //origin[0],origin[1],origin[2],
+  //spacing[0],spacing[1],spacing[2],
+  //dir[0][0],dir[1][0],dir[2][0],
+  //dir[0][1],dir[1][1],dir[2][1],
+  //dir[0][2],dir[1][2],dir[2][2]]
 
-  DirectionType scale;
-  for ( unsigned int i = 0; i < SpaceDimension; i++ )
+  this->SetFixedParametersFromCoefficientImageInformation();
+
+  // Initialize jacobian images
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    scale[i][i] = m_GridSpacing[i];
+    this->m_JacobianImage[j]=JacobianImageType::New();
+    this->m_JacobianImage[j]->SetRegions(this->m_GridRegion);
+    this->m_JacobianImage[j]->SetOrigin( this->m_GridOrigin );
+    this->m_JacobianImage[j]->SetSpacing( this->m_GridSpacing );
+    this->m_JacobianImage[j]->SetDirection(this->m_GridDirection);
     }
-
-  m_IndexToPoint = m_GridDirection * scale;
-  m_PointToIndex = m_IndexToPoint.GetInverse();
-
-  m_LastJacobianIndex = m_ValidRegion.GetIndex();
+  this->m_LastJacobianIndex = this->m_ValidRegion.GetIndex();
 }
 
 // Destructor
@@ -171,7 +155,7 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
   // The number of parameters equal SpaceDimension * number of
   // of pixels in the grid region.
   return ( static_cast< unsigned int >( SpaceDimension )
-           * static_cast< unsigned int >( m_GridRegion.GetNumberOfPixels() ) );
+           * static_cast< unsigned int >( this->m_GridRegion.GetNumberOfPixels() ) );
 }
 
 // Get the number of parameters per dimension
@@ -182,7 +166,7 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 {
   // The number of parameters per dimension equal number of
   // of pixels in the grid region.
-  return ( static_cast< unsigned int >( m_GridRegion.GetNumberOfPixels() ) );
+  return ( static_cast< unsigned int >( this->m_GridRegion.GetNumberOfPixels() ) );
 }
 
 // Set the grid region
@@ -191,15 +175,18 @@ void
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::SetGridRegion(const RegionType & region)
 {
-  if ( m_GridRegion != region )
+  if ( this->m_GridRegion != region )
     {
-    m_GridRegion = region;
-
-    // set regions for each coefficient and jacobian image
+    this->m_CoefficientImage[0]->SetRegions(region);
+    // set regions for each coefficient image
+    for ( unsigned int j = 1; j < SpaceDimension; j++ )
+      {
+      this->m_CoefficientImage[j]->SetRegions(region);
+      }
+    // set regions for each jacobian image
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_WrappedImage[j]->SetRegions(m_GridRegion);
-      m_JacobianImage[j]->SetRegions(m_GridRegion);
+      this->m_JacobianImage[j]->SetRegions(region);
       }
 
     // Set the valid region
@@ -211,17 +198,17 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
     // Where offset = floor(spline / 2 ).
     // Note that the last pixel is not included in the valid region
     // with odd spline orders.
-    typename RegionType::SizeType size = m_GridRegion.GetSize();
-    typename RegionType::IndexType index = m_GridRegion.GetIndex();
+    typename RegionType::SizeType size = region.GetSize();
+    typename RegionType::IndexType index = region.GetIndex();
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      index[j] += static_cast< typename RegionType::IndexValueType >( m_Offset );
-      size[j] -= static_cast< typename RegionType::SizeValueType >( 2 * m_Offset );
-      m_ValidRegionFirst[j] = index[j];
-      m_ValidRegionLast[j] = index[j] + static_cast< typename RegionType::IndexValueType >( size[j] ) - 1;
+      index[j] += static_cast< typename RegionType::IndexValueType >( this->m_Offset );
+      size[j] -= static_cast< typename RegionType::SizeValueType >( 2 * this->m_Offset );
+      this->m_ValidRegionFirst[j] = index[j];
+      this->m_ValidRegionLast[j] = index[j] + static_cast< typename RegionType::IndexValueType >( size[j] ) - 1;
       }
-    m_ValidRegion.SetSize(size);
-    m_ValidRegion.SetIndex(index);
+    this->m_ValidRegion.SetSize(size);
+    this->m_ValidRegion.SetIndex(index);
 
     //
     // If we are using the default parameters, update their size and set to
@@ -229,17 +216,17 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
     //
 
     // Input parameters point to internal buffer => using default parameters.
-    if ( m_InputParametersPointer == &m_InternalParametersBuffer )
+    if ( this->m_InputParametersPointer == &(this->m_InternalParametersBuffer) )
       {
       // Check if we need to resize the default parameter buffer.
-      if ( m_InternalParametersBuffer.GetSize() != this->GetNumberOfParameters() )
+      if ( this->m_InternalParametersBuffer.GetSize() != this->GetNumberOfParameters() )
         {
-        m_InternalParametersBuffer.SetSize( this->GetNumberOfParameters() );
+        this->m_InternalParametersBuffer.SetSize( this->GetNumberOfParameters() );
         // Fill with zeros for identity.
-        m_InternalParametersBuffer.Fill(0);
+        this->m_InternalParametersBuffer.Fill(0);
         }
       }
-
+    this->SetFixedParametersRegionFromCoefficientImageInformation();
     this->Modified();
     }
 }
@@ -250,26 +237,20 @@ void
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::SetGridSpacing(const SpacingType & spacing)
 {
-  if ( m_GridSpacing != spacing )
+  if ( this->m_GridSpacing != spacing )
     {
-    m_GridSpacing = spacing;
-
-    // set spacing for each coefficient and jacobian image
+    this->m_CoefficientImage[0]->SetSpacing(spacing);
+    // set spacing for each coefficient image
+    for ( unsigned int j = 1; j < SpaceDimension; j++ )
+      {
+      this->m_CoefficientImage[j]->SetSpacing( spacing );
+      }
+    // set spacing for each jacobian image
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_WrappedImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
-      m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+      this->m_JacobianImage[j]->SetSpacing( spacing );
       }
-
-    DirectionType scale;
-    for ( unsigned int i = 0; i < SpaceDimension; i++ )
-      {
-      scale[i][i] = m_GridSpacing[i];
-      }
-
-    m_IndexToPoint = m_GridDirection * scale;
-    m_PointToIndex = m_IndexToPoint.GetInverse();
-
+    this->SetFixedParametersSpacingFromCoefficientImageInformation();
     this->Modified();
     }
 }
@@ -280,26 +261,21 @@ void
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::SetGridDirection(const DirectionType & direction)
 {
-  if ( m_GridDirection != direction )
+  if ( this->m_GridDirection != direction )
     {
-    m_GridDirection = direction;
+    this->m_CoefficientImage[0]->SetDirection(direction);
 
-    // set direction for each coefficient and jacobian image
+    // set direction for each coefficient image
+    for ( unsigned int j = 1; j < SpaceDimension; j++ )
+      {
+      this->m_CoefficientImage[j]->SetDirection(direction);
+      }
+    // set direction for each jacobian image
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_WrappedImage[j]->SetDirection(m_GridDirection);
-      m_JacobianImage[j]->SetDirection(m_GridDirection);
+      this->m_JacobianImage[j]->SetDirection(direction);
       }
-
-    DirectionType scale;
-    for ( unsigned int i = 0; i < SpaceDimension; i++ )
-      {
-      scale[i][i] = m_GridSpacing[i];
-      }
-
-    m_IndexToPoint = m_GridDirection * scale;
-    m_PointToIndex = m_IndexToPoint.GetInverse();
-
+    this->SetFixedParametersDirectionFromCoefficientImageInformation();
     this->Modified();
     }
 }
@@ -310,17 +286,21 @@ void
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::SetGridOrigin(const OriginType & origin)
 {
-  if ( m_GridOrigin != origin )
+  if ( this->m_GridOrigin != origin )
     {
-    m_GridOrigin = origin;
+    this->m_CoefficientImage[0]->SetOrigin( origin );
 
-    // set spacing for each coefficient and jacobianimage
+    // set spacing for each coefficient image
+    for ( unsigned int j = 1; j < SpaceDimension; j++ )
+      {
+      this->m_CoefficientImage[j]->SetOrigin( origin );
+      }
+    // set spacing for each jacobian image
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_WrappedImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
-      m_JacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
+      this->m_JacobianImage[j]->SetOrigin( origin );
       }
-
+    this->SetFixedParametersOriginFromCoefficientImageInformation();
     this->Modified();
     }
 }
@@ -331,18 +311,20 @@ void
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::SetIdentity()
 {
-  if ( m_InputParametersPointer )
+  if ( this->m_InputParametersPointer == &(this->m_InternalParametersBuffer) )
     {
-    ParametersType *parameters =
-      const_cast< ParametersType * >( m_InputParametersPointer );
-    parameters->Fill(0.0);
-    this->Modified();
+    //If this->m_InternalParametersBuffer is the this->m_InputParametersPointer
+    this->m_InternalParametersBuffer.Fill(0.0);
     }
   else
     {
-    itkExceptionMacro(<< "Input parameters for the spline haven't been set ! "
-                      << "Set them using the SetParameters or SetCoefficientImage method first.");
+    //Should not be allowed to modify a const parameter set, so
+    //make an internal representation that is an identity mapping
+    this->m_InternalParametersBuffer.SetSize(this->GetNumberOfParameters());
+    this->m_InternalParametersBuffer.Fill(0.0);
     }
+  this->SetParameters(this->m_InternalParametersBuffer);
+  this->Modified();
 }
 
 // Set the parameters
@@ -359,16 +341,24 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
                        << parameters.Size()
                        << " and expected number of parameters "
                        << this->GetNumberOfParameters()
-                       << ( m_GridRegion.GetNumberOfPixels() == 0 ?
+                       << ( this->m_GridRegion.GetNumberOfPixels() == 0 ?
                             ". \nSince the size of the grid region is 0, perhaps you forgot to SetGridRegion or SetFixedParameters before setting the Parameters."
                             : "" ) );
     }
 
-  // Clean up buffered parameters
-  m_InternalParametersBuffer = ParametersType(0);
+  if ( &parameters != &(this->m_InternalParametersBuffer) )
+    {
+    // Clean up this->m_InternalParametersBuffer becasue we will
+    // use an externally supplied set of parameters as the buffer
+    this->m_InternalParametersBuffer = ParametersType(0);
+    }
 
   // Keep a reference to the input parameters
-  m_InputParametersPointer = &parameters;
+  // directly from the calling environment.
+  // this requires that the parameters persist
+  // in the calling evironment while being used
+  // here.
+  this->m_InputParametersPointer = &parameters;
 
   // Wrap flat array as images of coefficients
   this->WrapAsImages();
@@ -376,133 +366,6 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
   // Modified is always called since we just have a pointer to the
   // parameters and cannot know if the parameters have changed.
   this->Modified();
-}
-
-// Set the Fixed Parameters
-template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
-void
-BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
-::SetFixedParameters(const ParametersType & passedParameters)
-{
-  ParametersType parameters( NDimensions * ( 3 + NDimensions ) );
-
-  // check if the number of parameters match the
-  // expected number of parameters
-  if ( passedParameters.Size() == NDimensions * 3 )
-    {
-    parameters.Fill(0.0);
-    for ( unsigned int i = 0; i < 3 * NDimensions; i++ )
-      {
-      parameters[i] = passedParameters[i];
-      }
-    for ( unsigned int di = 0; di < NDimensions; di++ )
-      {
-      parameters[3 * NDimensions + ( di * NDimensions + di )] = 1;
-      }
-    }
-  else if ( passedParameters.Size() != NDimensions * ( 3 + NDimensions ) )
-    {
-    itkExceptionMacro( << "Mismatched between parameters size "
-                       << passedParameters.size()
-                       << " and number of fixed parameters "
-                       << NDimensions * ( 3 + NDimensions ) );
-    }
-  else
-    {
-    for ( unsigned int i = 0; i < NDimensions * ( 3 + NDimensions ); i++ )
-      {
-      parameters[i] = passedParameters[i];
-      }
-    }
-
-  /*********************************************************
-    Fixed Parameters store the following information:
-        Grid Size
-        Grid Origin
-        Grid Spacing
-        Grid Direction
-     The size of these is equal to the  NInputDimensions
-  *********************************************************/
-
-  /** Set the Grid Parameters */
-  SizeType gridSize;
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    gridSize[i] = static_cast< int >( parameters[i] );
-    }
-  RegionType bsplineRegion;
-  bsplineRegion.SetSize(gridSize);
-
-  /** Set the Origin Parameters */
-  OriginType origin;
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    origin[i] = parameters[NDimensions + i];
-    }
-
-  /** Set the Spacing Parameters */
-  SpacingType spacing;
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    spacing[i] = parameters[2 * NDimensions + i];
-    }
-
-  /** Set the Direction Parameters */
-  DirectionType direction;
-  for ( unsigned int di = 0; di < NDimensions; di++ )
-    {
-    for ( unsigned int dj = 0; dj < NDimensions; dj++ )
-      {
-      direction[di][dj] = parameters[3 * NDimensions + ( di * NDimensions + dj )];
-      }
-    }
-
-  this->SetGridSpacing(spacing);
-  this->SetGridDirection(direction);
-  this->SetGridOrigin(origin);
-  this->SetGridRegion(bsplineRegion);
-
-  this->Modified();
-}
-
-// Wrap flat parameters as images
-template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
-void
-BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
-::WrapAsImages()
-{
-  /**
-   * Wrap flat parameters array into SpaceDimension number of ITK images
-   * NOTE: For efficiency, parameters are not copied locally. The parameters
-   * are assumed to be maintained by the caller.
-   */
-  PixelType *dataPointer =
-    const_cast< PixelType * >( ( m_InputParametersPointer->data_block() ) );
-  unsigned int numberOfPixels = m_GridRegion.GetNumberOfPixels();
-
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
-    {
-    m_WrappedImage[j]->GetPixelContainer()->
-    SetImportPointer(dataPointer, numberOfPixels);
-    dataPointer += numberOfPixels;
-    m_CoefficientImage[j] = m_WrappedImage[j];
-    }
-
-  /**
-   * Allocate memory for Jacobian and wrap into SpaceDimension number
-   * of ITK images
-   */
-  this->m_Jacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
-  this->m_Jacobian.Fill(NumericTraits< JacobianPixelType >::Zero);
-  m_LastJacobianIndex = m_ValidRegion.GetIndex();
-  JacobianPixelType *jacobianDataPointer = this->m_Jacobian.data_block();
-
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
-    {
-    m_JacobianImage[j]->GetPixelContainer()->
-    SetImportPointer(jacobianDataPointer, numberOfPixels);
-    jacobianDataPointer += this->GetNumberOfParameters() + numberOfPixels;
-    }
 }
 
 // Set the parameters by value
@@ -518,20 +381,227 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
     itkExceptionMacro( << "Mismatched between parameters size "
                        << parameters.size()
                        << " and region size "
-                       << m_GridRegion.GetNumberOfPixels() );
+                       << this->m_GridRegion.GetNumberOfPixels() );
     }
 
-  // copy it
-  m_InternalParametersBuffer = parameters;
-  m_InputParametersPointer = &m_InternalParametersBuffer;
+  // copy parameters to this->m_InternalParametersBuffer
+  this->m_InternalParametersBuffer = parameters;
+  this->SetParameters(this->m_InternalParametersBuffer);
+}
 
-  // wrap flat array as images of coefficients
-  this->WrapAsImages();
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+void
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::SetCoefficientImageInformationFromFixedParameters()
+{
+  /*********************************************************
+    Fixed Parameters store the following information:
+    Grid Size
+    Grid Origin
+    Grid Spacing
+    Grid Direction
+    The size of these is equal to the  NInputDimensions
+   *********************************************************/
+    {
+    /** Set the Grid Parameters */
+    SizeType gridSize;
+    for ( unsigned int i = 0; i < NDimensions; i++ )
+      {
+      gridSize[i] = static_cast< int >( this->m_FixedParameters[i] );
+      }
+    RegionType bsplineRegion;
+    bsplineRegion.SetSize(gridSize);
+    this->SetGridRegion(bsplineRegion);
+    }
 
-  // Modified is always called since we just have a pointer to the
-  // parameters and cannot know if the parameters have changed.
+    {
+    /** Set the Origin Parameters */
+    OriginType origin;
+    for ( unsigned int i = 0; i < NDimensions; i++ )
+      {
+      origin[i] = this->m_FixedParameters[NDimensions + i];
+      }
+    this->SetGridOrigin(origin);
+    }
+
+    {
+    /** Set the Spacing Parameters */
+    SpacingType spacing;
+    for ( unsigned int i = 0; i < NDimensions; i++ )
+      {
+      spacing[i] = this->m_FixedParameters[2 * NDimensions + i];
+      }
+    this->SetGridSpacing(spacing);
+    }
+
+    {
+    /** Set the Direction Parameters */
+    DirectionType direction;
+    for ( unsigned int di = 0; di < NDimensions; di++ )
+      {
+      for ( unsigned int dj = 0; dj < NDimensions; dj++ )
+        {
+        direction[di][dj] = this->m_FixedParameters[3 * NDimensions + ( di * NDimensions + dj )];
+        }
+      }
+    this->SetGridDirection(direction);
+    }
+}
+
+
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+void
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::SetFixedParametersRegionFromCoefficientImageInformation() const
+{
+  /** Set the Grid Parameters */
+  const SizeType &gridSize=this->m_CoefficientImage[0]->GetLargestPossibleRegion().GetSize();
+  for ( unsigned int i = 0; i < NDimensions; i++ )
+    {
+    this->m_FixedParameters[i] = static_cast<ParametersValueType>(gridSize[i]);
+    }
+}
+
+
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+void
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::SetFixedParametersOriginFromCoefficientImageInformation() const
+{
+  /** Set the Origin Parameters */
+  const OriginType &origin=this->m_CoefficientImage[0]->GetOrigin();
+  for ( unsigned int i = 0; i < NDimensions; i++ )
+    {
+    this->m_FixedParameters[NDimensions + i]=static_cast<ParametersValueType>(origin[i]);
+    }
+}
+
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+void
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::SetFixedParametersSpacingFromCoefficientImageInformation() const
+{
+  /** Set the Spacing Parameters */
+  const SpacingType &spacing=this->m_CoefficientImage[0]->GetSpacing();
+  for ( unsigned int i = 0; i < NDimensions; i++ )
+    {
+    this->m_FixedParameters[2 * NDimensions + i]=static_cast<ParametersValueType>(spacing[i]);
+    }
+}
+
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+void
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::SetFixedParametersDirectionFromCoefficientImageInformation() const
+{
+  /** Set the Direction Parameters */
+  const DirectionType &direction=this->m_CoefficientImage[0]->GetDirection();
+  for ( unsigned int di = 0; di < NDimensions; di++ )
+    {
+    for ( unsigned int dj = 0; dj < NDimensions; dj++ )
+      {
+      this->m_FixedParameters[3 * NDimensions + ( di * NDimensions + dj )]=static_cast<ParametersValueType>(direction[di][dj]);
+      }
+    }
+}
+
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+void
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::SetFixedParametersFromCoefficientImageInformation() const
+{
+  this->m_FixedParameters.SetSize ( NDimensions * ( NDimensions + 3 ) );
+  /*********************************************************
+    Fixed Parameters store the following information:
+    Grid Size
+    Grid Origin
+    Grid Spacing
+    Grid Direction
+    The size of these is equal to the  NInputDimensions
+   *********************************************************/
+  this->SetFixedParametersRegionFromCoefficientImageInformation();
+  this->SetFixedParametersOriginFromCoefficientImageInformation();
+  this->SetFixedParametersSpacingFromCoefficientImageInformation();
+  this->SetFixedParametersDirectionFromCoefficientImageInformation();
   this->Modified();
 }
+
+// Set the Fixed Parameters
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+void
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::SetFixedParameters(const ParametersType & passedParameters)
+{
+    // check if the number of passedParameters match the
+    // expected number of this->m_FixedParameters
+    if ( passedParameters.Size() == this->m_FixedParameters.Size() )
+      {
+      for ( unsigned int i = 0; i < NDimensions * ( 3 + NDimensions ); i++ )
+        {
+        this->m_FixedParameters[i] = passedParameters[i];
+        }
+      }
+    else if ( passedParameters.Size() == NDimensions * 3 )
+      {
+      //This option was originally valid for backwards compatibilty
+      //with BSplines saved to disk from before image orientation was used.
+      //Those transforms would no longer be valid with respect to images
+      //with explicit directions.
+      itkExceptionMacro( << "Mismatched between parameters size "
+        << passedParameters.size()
+        << " and required number of fixed parameters "
+        << this->m_FixedParameters.Size() <<
+        ".  Implicit setting of identity direction is no longer supported." );
+      }
+    else
+      {
+      itkExceptionMacro( << "Mismatched between parameters size "
+        << passedParameters.size()
+        << " and the required number of fixed parameters "
+        << this->m_FixedParameters.Size() );
+      }
+    this->SetCoefficientImageInformationFromFixedParameters();
+}
+
+// Wrap flat parameters as images
+template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
+void
+BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
+::WrapAsImages()
+{
+  /**
+   * Wrap flat parameters array into SpaceDimension number of ITK images
+   * NOTE: For efficiency, parameters are not copied locally. The parameters
+   * are assumed to be maintained by the caller.
+   */
+  ParametersValueType *dataPointer =
+    const_cast< ParametersValueType * >( ( this->m_InputParametersPointer->data_block() ) );
+  unsigned int numberOfPixels = this->m_GridRegion.GetNumberOfPixels();
+
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
+    {
+    this->m_CoefficientImage[j]->GetPixelContainer()->
+    SetImportPointer(dataPointer, numberOfPixels);
+    dataPointer += numberOfPixels;
+    }
+
+  /**
+   * Allocate memory for Jacobian and wrap into SpaceDimension number
+   * of ITK images
+   */
+  this->m_Jacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
+  this->m_Jacobian.Fill(NumericTraits< JacobianPixelType >::Zero);
+  this->m_LastJacobianIndex = this->m_ValidRegion.GetIndex();
+  JacobianPixelType *jacobianDataPointer = this->m_Jacobian.data_block();
+
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
+    {
+    this->m_JacobianImage[j]->GetPixelContainer()->
+    SetImportPointer(jacobianDataPointer, numberOfPixels);
+    jacobianDataPointer += this->GetNumberOfParameters() + numberOfPixels;
+    }
+}
+
 
 // Get the parameters
 template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
@@ -544,14 +614,13 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
   /** NOTE: For efficiency, this class does not keep a copy of the parameters -
    * it just keeps pointer to input parameters.
    */
-  if ( NULL == m_InputParametersPointer )
+  if ( this->m_InputParametersPointer == NULL )
     {
     itkExceptionMacro(
       <<
-      "Cannot GetParameters() because m_InputParametersPointer is NULL. Perhaps SetCoefficientImage() has been called causing the NULL pointer.");
+      "Cannot GetParameters() because this->m_InputParametersPointer is NULL." );
     }
-
-  return ( *m_InputParametersPointer );
+  return ( *(this->m_InputParametersPointer) );
 }
 
 // Get the parameters
@@ -562,28 +631,9 @@ typename BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::GetFixedParameters(void) const
 {
-  RegionType resRegion = this->GetGridRegion();
-
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    this->m_FixedParameters[i] = ( resRegion.GetSize() )[i];
-    }
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    this->m_FixedParameters[NDimensions + i] = ( this->GetGridOrigin() )[i];
-    }
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    this->m_FixedParameters[2 * NDimensions + i] =  ( this->GetGridSpacing() )[i];
-    }
-  for ( unsigned int di = 0; di < NDimensions; di++ )
-    {
-    for ( unsigned int dj = 0; dj < NDimensions; dj++ )
-      {
-      this->m_FixedParameters[3 * NDimensions + ( di * NDimensions + dj )] = ( this->GetGridDirection() )[di][dj];
-      }
-    }
-
+  //HACK:  This should not be necessary if the
+  //       class is kept in a consistent state
+  //  this->SetFixedParametersFromCoefficientImageInformation();
   return ( this->m_FixedParameters );
 }
 
@@ -591,23 +641,49 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
 void
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
-::SetCoefficientImage(ImagePointer images[])
+::SetCoefficientImage(const CoefficientImageArray & images)
 {
-  if ( images[0] )
+
+  bool validArrayOfImage=true;
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    this->SetGridRegion( images[0]->GetBufferedRegion() );
+    validArrayOfImage &= (images[0].IsNotNull());
+    }
+
+  if ( validArrayOfImage )
+    {
+    //The BufferedRegion MUST equal the LargestPossibleRegion.
+    this->SetGridRegion( images[0]->GetLargestPossibleRegion() );
     this->SetGridOrigin( images[0]->GetOrigin() );
     this->SetGridSpacing( images[0]->GetSpacing() );
     this->SetGridDirection( images[0]->GetDirection() );
 
+    const size_t totalParameters=this->GetNumberOfParameters();
+    this->m_InternalParametersBuffer.SetSize(totalParameters);
+
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_CoefficientImage[j] = images[j];
+      const size_t numberOfPixels = images[j]->GetLargestPossibleRegion().GetNumberOfPixels();
+      if(numberOfPixels*SpaceDimension != totalParameters)
+        {
+        itkExceptionMacro( <<
+          "SetCoefficientImage() has array of images that are not the correct size. "
+          << numberOfPixels * SpaceDimension << " != " << totalParameters << " for image at index "
+          << j << "  \n" << images[j]
+          );
+        }
+    const ParametersValueType * const baseImagePointer = images[j]->GetBufferPointer();
+    ParametersValueType *dataPointer = this->m_InternalParametersBuffer.data_block();
+      ::memcpy(dataPointer,
+        baseImagePointer,
+        sizeof(ParametersValueType)*numberOfPixels);
       }
-
-    // Clean up buffered parameters
-    m_InternalParametersBuffer = ParametersType(0);
-    m_InputParametersPointer  = NULL;
+    this->SetParameters(this->m_InternalParametersBuffer);
+    }
+  else
+    {
+    itkExceptionMacro( <<
+      "SetCoefficientImage() requires that an array of correctly sized images be supplied.");
     }
 }
 
@@ -617,44 +693,33 @@ void
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  unsigned int j;
-
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "GridRegion: " << m_GridRegion << std::endl;
-  os << indent << "GridOrigin: " << m_GridOrigin << std::endl;
-  os << indent << "GridSpacing: " << m_GridSpacing << std::endl;
-  os << indent << "GridDirection: " << m_GridDirection << std::endl;
-  os << indent << "IndexToPoint: " << m_IndexToPoint << std::endl;
-  os << indent << "PointToIndex: " << m_PointToIndex << std::endl;
+  os << indent << "GridRegion: " << this->m_GridRegion << std::endl;
+  os << indent << "GridOrigin: " << this->m_GridOrigin << std::endl;
+  os << indent << "GridSpacing: " << this->m_GridSpacing << std::endl;
+  os << indent << "GridDirection: " << this->m_GridDirection << std::endl;
 
   os << indent << "CoefficientImage: [ ";
-  for ( j = 0; j < SpaceDimension - 1; j++ )
+  for ( unsigned int j = 0; j < SpaceDimension - 1; j++ )
     {
-    os << m_CoefficientImage[j].GetPointer() << ", ";
+    os << this->m_CoefficientImage[j].GetPointer() << ", ";
     }
-  os << m_CoefficientImage[j].GetPointer() << " ]" << std::endl;
-
-  os << indent << "WrappedImage: [ ";
-  for ( j = 0; j < SpaceDimension - 1; j++ )
-    {
-    os << m_WrappedImage[j].GetPointer() << ", ";
-    }
-  os << m_WrappedImage[j].GetPointer() << " ]" << std::endl;
+  os << this->m_CoefficientImage[SpaceDimension - 1].GetPointer() << " ]" << std::endl;
 
   os << indent << "InputParametersPointer: "
-     << m_InputParametersPointer << std::endl;
-  os << indent << "ValidRegion: " << m_ValidRegion << std::endl;
-  os << indent << "LastJacobianIndex: " << m_LastJacobianIndex << std::endl;
+     << this->m_InputParametersPointer << std::endl;
+  os << indent << "ValidRegion: " << this->m_ValidRegion << std::endl;
+  os << indent << "LastJacobianIndex: " << this->m_LastJacobianIndex << std::endl;
   os << indent << "BulkTransform: ";
-  os << m_BulkTransform.GetPointer() << std::endl;
+  os << this->m_BulkTransform.GetPointer() << std::endl;
   os << indent << "WeightsFunction: ";
-  os << m_WeightsFunction.GetPointer() << std::endl;
+  os << this->m_WeightsFunction.GetPointer() << std::endl;
 
-  if ( m_BulkTransform )
+  if ( this->m_BulkTransform )
     {
     os << indent << "BulkTransformType: "
-       << m_BulkTransform->GetNameOfClass() << std::endl;
+       << this->m_BulkTransform->GetNameOfClass() << std::endl;
     }
 }
 
@@ -667,17 +732,17 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 {
   bool inside = true;
 
-  if ( inside && m_SplineOrderOdd )
+  if ( inside && this->m_SplineOrderOdd )
     {
     typedef typename ContinuousIndexType::ValueType ValueType;
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      if ( index[j] >= static_cast< ValueType >( m_ValidRegionLast[j] ) )
+      if ( index[j] >= static_cast< ValueType >( this->m_ValidRegionLast[j] ) )
         {
         inside = false;
         break;
         }
-      if ( index[j] < static_cast< ValueType >( m_ValidRegionFirst[j] ) )
+      if ( index[j] < static_cast< ValueType >( this->m_ValidRegionFirst[j] ) )
         {
         inside = false;
         break;
@@ -699,26 +764,22 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
   ParameterIndexArrayType & indices,
   bool & inside) const
 {
-  unsigned int j;
-  IndexType    supportIndex;
-
   inside = true;
 
   InputPointType transformedPoint;
-  if ( m_BulkTransform )
+  if ( this->m_BulkTransform )
     {
-    transformedPoint = m_BulkTransform->TransformPoint(point);
+    transformedPoint = this->m_BulkTransform->TransformPoint(point);
     }
   else
     {
     transformedPoint = point;
     }
 
-  if ( m_CoefficientImage[0] )
+  if ( this->m_CoefficientImage[0] )
     {
     ContinuousIndexType index;
-
-    this->TransformPointToContinuousIndex(point, index);
+    this->m_CoefficientImage[0]->TransformPhysicalPointToContinuousIndex(point,index);
 
     // NOTE: if the support region does not lie totally within the grid
     // we assume zero displacement and return the input point
@@ -729,48 +790,49 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
       return;
       }
 
+    IndexType    supportIndex;
     // Compute interpolation weights
-    m_WeightsFunction->Evaluate(index, weights, supportIndex);
+    this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
     // For each dimension, correlate coefficient with weights
     RegionType supportRegion;
-    supportRegion.SetSize(m_SupportSize);
+    supportRegion.SetSize(this->m_SupportSize);
     supportRegion.SetIndex(supportIndex);
 
     outputPoint.Fill(NumericTraits< ScalarType >::Zero);
 
     typedef ImageRegionConstIterator< ImageType > IteratorType;
-    IteratorType     m_Iterator[SpaceDimension];
+    IteratorType     coeffIterator[SpaceDimension];
     unsigned long    counter = 0;
-    const PixelType *basePointer = m_CoefficientImage[0]->GetBufferPointer();
+    const ParametersValueType *basePointer = this->m_CoefficientImage[0]->GetBufferPointer();
 
-    for ( j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_Iterator[j] = IteratorType(m_CoefficientImage[j], supportRegion);
+      coeffIterator[j] = IteratorType(this->m_CoefficientImage[j], supportRegion);
       }
 
-    while ( !m_Iterator[0].IsAtEnd() )
+    while ( !coeffIterator[0].IsAtEnd() )
       {
       // multiply weigth with coefficient
-      for ( j = 0; j < SpaceDimension; j++ )
+      for ( unsigned int j = 0; j < SpaceDimension; j++ )
         {
         outputPoint[j] += static_cast< ScalarType >(
-          weights[counter] * m_Iterator[j].Get() );
+          weights[counter] * coeffIterator[j].Get() );
         }
 
       // populate the indices array
-      indices[counter] = &( m_Iterator[0].Value() ) - basePointer;
+      indices[counter] = &( coeffIterator[0].Value() ) - basePointer;
 
       // go to next coefficient in the support region
       ++counter;
-      for ( j = 0; j < SpaceDimension; j++ )
+      for ( unsigned int j = 0; j < SpaceDimension; j++ )
         {
-        ++( m_Iterator[j] );
+        ++( coeffIterator[j] );
         }
       }
 
     // return results
-    for ( j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       outputPoint[j] += transformedPoint[j];
       }
@@ -778,8 +840,7 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
   else
     {
     itkWarningMacro(<< "B-spline coefficients have not been set");
-
-    for ( j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       outputPoint[j] = transformedPoint[j];
       }
@@ -793,8 +854,8 @@ typename BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::TransformPoint(const InputPointType & point) const
 {
-  WeightsType             weights( m_WeightsFunction->GetNumberOfWeights() );
-  ParameterIndexArrayType indices( m_WeightsFunction->GetNumberOfWeights() );
+  WeightsType             weights( this->m_WeightsFunction->GetNumberOfWeights() );
+  ParameterIndexArrayType indices( this->m_WeightsFunction->GetNumberOfWeights() );
   OutputPointType         outputPoint;
   bool                    inside;
 
@@ -811,83 +872,70 @@ typename BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::GetJacobian(const InputPointType & point) const
 {
-  // Can only compute Jacobian if parameters are set via
-  // SetParameters or SetParametersByValue
-  if ( m_InputParametersPointer == NULL )
-    {
-    itkExceptionMacro(<< "Cannot compute Jacobian: parameters not set");
-    }
-
   // Zero all components of jacobian
   // NOTE: for efficiency, we only need to zero out the coefficients
   // that got fill last time this method was called.
-  RegionType supportRegion;
-  supportRegion.SetSize(m_SupportSize);
-  supportRegion.SetIndex(m_LastJacobianIndex);
-
   typedef ImageRegionIterator< JacobianImageType > IteratorType;
-  IteratorType m_Iterator[SpaceDimension];
-  unsigned int j;
-
-  for ( j = 0; j < SpaceDimension; j++ )
+  IteratorType jacobianIterators[SpaceDimension];
+  RegionType supportRegion;
+  supportRegion.SetSize(this->m_SupportSize);
     {
-    m_Iterator[j] = IteratorType(m_JacobianImage[j], supportRegion);
-    }
+    supportRegion.SetIndex(this->m_LastJacobianIndex);
 
-  while ( !m_Iterator[0].IsAtEnd() )
-    {
-    // zero out jacobian elements
-    for ( j = 0; j < SpaceDimension; j++ )
+    //Make an array of jacobian image iterators
+    for (unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_Iterator[j].Set(NumericTraits< JacobianPixelType >::Zero);
-      }
-
-    for ( j = 0; j < SpaceDimension; j++ )
-      {
-      ++( m_Iterator[j] );
+      jacobianIterators[j] = IteratorType(this->m_JacobianImage[j], supportRegion);
+      while ( !jacobianIterators[j].IsAtEnd() )
+        {
+        // zero out jacobian elements
+        jacobianIterators[j].Set(NumericTraits< JacobianPixelType >::Zero);
+        ++( jacobianIterators[j] );
+        }
       }
     }
 
   ContinuousIndexType index;
-
-  this->TransformPointToContinuousIndex(point, index);
+  this->m_CoefficientImage[0]->TransformPhysicalPointToContinuousIndex(point,index);
 
   // NOTE: if the support region does not lie totally within the grid
-  // we assume zero displacement and return the input point
+  // we assume zero displacement and do no computations beyond zeroing out the value
+  // return the input point
   if ( !this->InsideValidRegion(index) )
     {
     return this->m_Jacobian;
     }
 
   // Compute interpolation weights
-  WeightsType weights( m_WeightsFunction->GetNumberOfWeights() );
-  IndexType   supportIndex;
+  WeightsType weights( this->m_WeightsFunction->GetNumberOfWeights() );
 
-  m_WeightsFunction->Evaluate(index, weights, supportIndex);
-  m_LastJacobianIndex = supportIndex;
-
-  // For each dimension, copy the weight to the support region
-  supportRegion.SetIndex(supportIndex);
-  unsigned long counter = 0;
-
-  for ( j = 0; j < SpaceDimension; j++ )
     {
-    m_Iterator[j] = IteratorType(m_JacobianImage[j], supportRegion);
+    IndexType   supportIndex;
+    this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
+    this->m_LastJacobianIndex = supportIndex;
+    // For each dimension, copy the weight to the support region
+    supportRegion.SetIndex(supportIndex);
+
+    //Reset iterators now that the support region has changed
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
+      {
+      jacobianIterators[j] = IteratorType(this->m_JacobianImage[j], supportRegion);
+      }
     }
 
-  while ( !m_Iterator[0].IsAtEnd() )
+  unsigned long counter = 0;
+  while ( !jacobianIterators[0].IsAtEnd() )
     {
     // copy weight to jacobian image
-    for ( j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      m_Iterator[j].Set( static_cast< JacobianPixelType >( weights[counter] ) );
+      jacobianIterators[j].Set( static_cast< JacobianPixelType >( weights[counter] ) );
       }
-
     // go to next coefficient in the support region
     ++counter;
-    for ( j = 0; j < SpaceDimension; j++ )
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      ++( m_Iterator[j] );
+      ++( jacobianIterators[j] );
       }
     }
 
@@ -901,14 +949,8 @@ void
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::GetJacobian(const InputPointType & point, WeightsType & weights, ParameterIndexArrayType & indexes) const
 {
-  RegionType supportRegion;
-
-  supportRegion.SetSize(m_SupportSize);
-  const PixelType *basePointer = m_CoefficientImage[0]->GetBufferPointer();
-
   ContinuousIndexType index;
-
-  this->TransformPointToContinuousIndex(point, index);
+  this->m_CoefficientImage[0]->TransformPhysicalPointToContinuousIndex(point,index);
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
@@ -921,48 +963,25 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 
   // Compute interpolation weights
   IndexType supportIndex;
-
-  m_WeightsFunction->Evaluate(index, weights, supportIndex);
+  this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
   // For each dimension, copy the weight to the support region
+  RegionType supportRegion;
+  supportRegion.SetSize(this->m_SupportSize);
   supportRegion.SetIndex(supportIndex);
   unsigned long counter = 0;
 
   typedef ImageRegionIterator< JacobianImageType > IteratorType;
 
-  IteratorType m_Iterator = IteratorType(m_CoefficientImage[0], supportRegion);
-
-  while ( !m_Iterator.IsAtEnd() )
+  IteratorType coeffIterator = IteratorType(this->m_CoefficientImage[0], supportRegion);
+  const ParametersValueType *basePointer = this->m_CoefficientImage[0]->GetBufferPointer();
+  while ( !coeffIterator.IsAtEnd() )
     {
-    indexes[counter] = &( m_Iterator.Value() ) - basePointer;
+    indexes[counter] = &( coeffIterator.Value() ) - basePointer;
 
     // go to next coefficient in the support region
     ++counter;
-    ++m_Iterator;
-    }
-}
-
-template< class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder >
-void
-BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
-::TransformPointToContinuousIndex(const InputPointType & point, ContinuousIndexType & index) const
-{
-  unsigned int j;
-
-  Vector< double, SpaceDimension > tvector;
-
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    tvector[j] = point[j] - this->m_GridOrigin[j];
-    }
-
-  Vector< double, SpaceDimension > cvector;
-
-  cvector = m_PointToIndex * tvector;
-
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    index[j] = static_cast< typename ContinuousIndexType::CoordRepType >( cvector[j] );
+    ++coeffIterator;
     }
 }
 
@@ -971,7 +990,7 @@ unsigned int
 BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
 ::GetNumberOfAffectedWeights() const
 {
-  return m_WeightsFunction->GetNumberOfWeights();
+  return this->m_WeightsFunction->GetNumberOfWeights();
 }
 } // namespace
 
