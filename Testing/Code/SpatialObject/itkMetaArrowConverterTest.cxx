@@ -50,8 +50,8 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   typedef itk::GroupSpatialObject<Dimensions> SpatialObjectParentType;
   typedef itk::MetaArrowConverter<Dimensions> ConverterType;
 
-  // instantiate new converter and object (I don't think I'm supposed to do it like this in ITK!!!)
-  ConverterType* converter = new ConverterType();
+  // instantiate new converter and object
+  ConverterType::Pointer converter = ConverterType::New();
 
 
   //
@@ -182,6 +182,10 @@ int itkMetaArrowConverterTest(int ac, char* av[])
     }
   std::cout << "[PASSED] SpatialObject -> MetaObject: direction" << std::endl;
 
+  // newMetaArrow had served its purpose,
+  // must now return to the emptiness of the universe
+  delete newMetaArrow;
+
 
   //
   // test metaArrow to itk
@@ -195,6 +199,10 @@ int itkMetaArrowConverterTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: length" << std::endl;
+
+  // metaArrow had served its purpose,
+  // must now return to the emptiness of the universe
+  delete metaArrow;
 
   // check color
   if (newItkArrow->GetProperty()->GetRed() != color[0] ||

@@ -191,9 +191,10 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 
     if ( !strncmp( ( *it )->ObjectTypeName(), "Arrow", 5 ) )
       {
-      MetaArrowConverter< NDimensions > arrowConverter;
+      typedef MetaArrowConverter< NDimensions > MetaArrowConverterType;
+      typename MetaArrowConverterType::Pointer arrowConverter = MetaArrowConverterType::New();
       typename itk::ArrowSpatialObject< NDimensions >::Pointer so =
-        arrowConverter.MetaArrowToArrowSpatialObject( (MetaArrow *)*it );
+        arrowConverter->MetaArrowToArrowSpatialObject( (MetaArrow *)*it );
       this->SetTransform(so, *it);
       soScene->AddSpatialObject(so);
       }
@@ -404,8 +405,9 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 
     if ( !strncmp( ( *it )->GetTypeName(), "ArrowSpatialObject", 18 ) )
       {
-      MetaArrowConverter< NDimensions > converter;
-      MetaArrow *                       arrow = converter.ArrowSpatialObjectToMetaArrow(
+      typedef MetaArrowConverter< NDimensions > MetaArrowConverterType;
+      typename MetaArrowConverterType::Pointer arrowConverter = MetaArrowConverterType::New();
+      MetaArrow * arrow = arrowConverter->ArrowSpatialObjectToMetaArrow(
         dynamic_cast< itk::ArrowSpatialObject< NDimensions > * >(
           ( *it ).GetPointer() ) );
 
