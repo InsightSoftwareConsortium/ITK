@@ -90,7 +90,7 @@ BSplineScatteredDataPointSetToImageFilter< TInputPointSet, TOutputImage >
 template< class TInputPointSet, class TOutputImage >
 void
 BSplineScatteredDataPointSetToImageFilter< TInputPointSet, TOutputImage >
-::SetSplineOrder(ArrayType order)
+::SetSplineOrder(const ArrayType & order)
 {
   itkDebugMacro("Setting m_SplineOrder to " << order);
 
@@ -155,7 +155,7 @@ BSplineScatteredDataPointSetToImageFilter< TInputPointSet, TOutputImage >
 template< class TInputPointSet, class TOutputImage >
 void
 BSplineScatteredDataPointSetToImageFilter< TInputPointSet, TOutputImage >
-::SetNumberOfLevels(ArrayType levels)
+::SetNumberOfLevels(const ArrayType & levels)
 {
   this->m_NumberOfLevels = levels;
   this->m_MaximumNumberOfLevels = 1;
