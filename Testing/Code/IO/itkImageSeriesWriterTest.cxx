@@ -18,10 +18,10 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkDICOMImageIO2Factory.h"
-#include "itkDICOMImageIO2.h"
+#include "itkGDCMImageIOFactory.h"
+#include "itkGDCMImageIO.h"
 #include "itkImageSeriesReader.h"
-#include "itkDICOMSeriesFileNames.h"
+#include "itkGDCMSeriesFileNames.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageSeriesWriter.h"
 #include "itkNumericSeriesFileNames.h"
@@ -39,17 +39,19 @@ int itkImageSeriesWriterTest(int ac, char* av[])
   typedef itk::Image<short,3> ImageNDType;
   typedef itk::ImageSeriesReader<ImageNDType> ReaderType;
 
-  itk::DICOMImageIO2::Pointer io = itk::DICOMImageIO2::New();
+  itk::GDCMImageIO::Pointer io = itk::GDCMImageIO::New();
 
   // Get the DICOM filenames from the directory
-  itk::DICOMSeriesFileNames::Pointer names = itk::DICOMSeriesFileNames::New();
-  names->SetDirectory(av[1]);
-  names->SetFileNameSortingOrderToSortByImageNumber();
+  itk::GDCMSeriesFileNames::Pointer nameGenerator = itk::GDCMSeriesFileNames::New();
+  nameGenerator->SetDirectory(av[1]);
+
+  typedef std::vector< std::string >    SeriesIdContainer;
+  const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
+  std::string seriesIdentifier = seriesUID.begin()->c_str();
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileNames(names->GetFileNames());
-  reader->SetImageIO(io);
-  std::cout << names;
+  reader->SetFileNames( nameGenerator->GetFileNames( seriesIdentifier ) );
+  reader->SetImageIO( io );
 
   FilterWatcher watcher(reader);
 

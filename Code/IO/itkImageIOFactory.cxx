@@ -23,8 +23,10 @@
 #include "itkBioRadImageIOFactory.h"
 #include "itkBMPImageIOFactory.h"
 #include "itkGDCMImageIOFactory.h"
-#include "itkDICOMImageIO2Factory.h"
 #include "itkNiftiImageIOFactory.h"
+#if !defined(ITK_USE_MODULAR_BUILD)
+#include "itkDICOMImageIO2Factory.h"
+#endif
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkNiftiImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
@@ -124,7 +126,9 @@ ImageIOFactory::RegisterBuiltInFactories()
       ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( NrrdImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( BMPImageIOFactory::New() );
+#if !defined(ITK_USE_MODULAR_BUILD)
       ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() );
+#endif
       firstTime = false;
       }
     }

@@ -142,6 +142,10 @@ endif( ITK_USE_MINC2 )
 
 
 #-----------------------------------------------------------------------------
+option(ITK_USE_MODULAR_BUILD "Whether ITK is built from the modularized tree. This should be ON when building the modularized ITK." OFF)
+mark_as_advanced(ITK_USE_MODULAR_BUILD)
+
+#-----------------------------------------------------------------------------
 # ITK build configuration options.
 option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})

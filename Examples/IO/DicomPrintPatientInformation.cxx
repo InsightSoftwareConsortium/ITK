@@ -26,28 +26,58 @@
 //
 //  Software Guide : EndLatex
 
-
-#include "itkDICOMImageIO2.h"
+#include "itkGDCMImageIO.h"
 #include "itkImageFileReader.h"
+#include "itkMetaDataObject.h"
+
+std::string FindDicomTag( const std::string & entryId, const itk::GDCMImageIO::Pointer dicomIO )
+{
+  typedef itk::MetaDataDictionary   DictionaryType;
+  const  DictionaryType & dictionary = dicomIO->GetMetaDataDictionary();
+  DictionaryType::ConstIterator tagItr = dictionary.Find( entryId );
+
+  if( tagItr == dictionary.End() )
+    {
+    return "NOT FOUND";
+    }
+
+  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+
+  MetaDataStringType::ConstPointer entryvalue = dynamic_cast<const MetaDataStringType *>( tagItr->second.GetPointer() );
+
+  if( entryvalue )
+    {
+    std::string tagvalue = entryvalue->GetMetaDataObjectValue();
+    return tagvalue;
+    }
+  else
+    {
+    return "NOT FOUND";
+    }
+}
+
 
 int main( int argc, char* argv[] )
 {
-
   if( argc < 2 )
     {
     std::cerr << "Usage: " << argv[0] << " DicomFile " << std::endl;
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<signed short,2>              ImageType;
-  typedef itk::ImageFileReader< ImageType >       ReaderType;
+  typedef signed short       PixelType;
+  const unsigned int         Dimension = 2;
 
-  itk::DICOMImageIO2::Pointer dicomIO = itk::DICOMImageIO2::New();
+  typedef itk::Image< PixelType, Dimension >      ImageType;
+  typedef itk::ImageFileReader< ImageType >       ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( argv[1] );
+  typedef itk::GDCMImageIO       ImageIOType;
+  ImageIOType::Pointer dicomIO = ImageIOType::New();
+  dicomIO->SetMaxSizeLoadEntry(0xffff);
 
+  reader->SetFileName( argv[1] );
   reader->SetImageIO( dicomIO );
 
   try
@@ -61,27 +91,16 @@ int main( int argc, char* argv[] )
     }
 
 
-  const unsigned int length = 2048;
+  std::string patientName  = FindDicomTag("0010|0010", dicomIO);
+  std::string patientID    = FindDicomTag("0010|0020", dicomIO);
+  std::string patientSex   = FindDicomTag("0010|0040", dicomIO);
+  std::string patientAge   = FindDicomTag("0010|1010", dicomIO);
+  std::string studyDate    = FindDicomTag("0008|0020", dicomIO);
+  std::string modality     = FindDicomTag("0008|0060", dicomIO);
+  std::string manufacturer = FindDicomTag("0008|0070", dicomIO);
+  std::string institution  = FindDicomTag("0008|0080", dicomIO);
+  std::string model        = FindDicomTag("0008|1090", dicomIO);
 
-  char patientName[  length ];
-  char patientID[    length ];
-  char patientSex[   length ];
-  char patientAge[   length ];
-  char studyDate[    length ];
-  char modality[     length ];
-  char manufacturer[ length ];
-  char institution[  length ];
-  char model[        length ];
-
-  dicomIO->GetPatientName(  patientName  );
-  dicomIO->GetPatientID(    patientID    );
-  dicomIO->GetPatientSex(   patientSex   );
-  dicomIO->GetPatientAge(   patientAge   );
-  dicomIO->GetStudyDate(    studyDate    );
-  dicomIO->GetModality(     modality     );
-  dicomIO->GetManufacturer( manufacturer );
-  dicomIO->GetInstitution(  institution  );
-  dicomIO->GetModel(        model        );
 
   std::cout << "Patient Name : " << patientName  << std::endl;
   std::cout << "Patient ID   : " << patientID    << std::endl;

@@ -42,8 +42,10 @@ target_link_libraries(ImageSeriesReadWrite2  ITKIO)
 add_executable(ImageReadImageSeriesWrite ImageReadImageSeriesWrite.cxx )
 target_link_libraries(ImageReadImageSeriesWrite  ITKIO)
 
-add_executable(DicomSeriesReadImageWrite DicomSeriesReadImageWrite.cxx )
-target_link_libraries(DicomSeriesReadImageWrite  ITKIO)
+if(NOT ITK_USE_MODULAR_BUILD)
+  add_executable(DicomSeriesReadImageWrite DicomSeriesReadImageWrite.cxx )
+  target_link_libraries(DicomSeriesReadImageWrite  ITKIO)
+endif()
 
 add_executable(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx )
 target_link_libraries(DicomSeriesReadImageWrite2  ITKIO)

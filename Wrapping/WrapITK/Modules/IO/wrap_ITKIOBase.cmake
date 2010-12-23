@@ -14,9 +14,7 @@ set(io_classes
   AnalyzeImageIO
   BioRadImageIO
   BMPImageIO
-  DICOMImageIO2
   GDCMImageIO
-  DicomImageIO
   GE4ImageIO
   GE5ImageIO
   GEAdwImageIO
@@ -32,6 +30,10 @@ set(io_classes
   StimulateImageIO
   VTKImageIO
 )
+
+if(NOT ITK_USE_MODULAR_BUILD)
+  set(io_classes ${io_classes} DICOMImageIO2 DicomImageIO)
+endif()
 
 foreach(c ${io_classes})
   WRAP_NON_TEMPLATE_CLASS("itk::${c}" POINTER)
