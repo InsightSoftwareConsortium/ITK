@@ -24,25 +24,40 @@
 namespace itk
 {
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaArrowConverter
+class ITK_EXPORT MetaArrowConverter : public Object
 {
 public:
+ /** Standard class typedefs */
+  typedef MetaArrowConverter           Self;
+  typedef Object                       Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer< const Self >   ConstPointer;
 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaArrowConverter, Object);
+
+  typedef ArrowSpatialObject< NDimensions >     SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer   SpatialObjectPointer;
+
+  static SpatialObjectPointer ReadMeta(const char *name);
+
+  static bool WriteMeta(const SpatialObjectType *spatialObject, const char *name);
+
+  static SpatialObjectPointer MetaArrowToArrowSpatialObject( const MetaArrow *arrow );
+
+  static MetaArrow * ArrowSpatialObjectToMetaArrow(const SpatialObjectType *spatialObject);
+
+protected:
   MetaArrowConverter();
   ~MetaArrowConverter() {}
 
-  typedef itk::ArrowSpatialObject< NDimensions >    SpatialObjectType;
-  typedef typename SpatialObjectType::TransformType TransformType;
+private:
+  MetaArrowConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
-
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaArrowToArrowSpatialObject(MetaArrow *arrow);
-
-  MetaArrow * ArrowSpatialObjectToMetaArrow(SpatialObjectType *spatialObject);
 };
 } // end namespace itk
 
