@@ -82,7 +82,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
-::GetInput(void)
+::GetInput(void) const
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
@@ -99,7 +99,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
-::GetInput(unsigned int idx)
+::GetInput(unsigned int idx) const
 {
   return static_cast< const TInputImage * >
          ( this->ProcessObject::GetInput(idx) );

@@ -117,19 +117,21 @@ public:
 
   typedef float                           RealType;
   typedef Image<RealType, ImageDimension> RealImageType;
+  typedef typename RealImageType::Pointer RealImagePointer;
+  typedef Array<unsigned int>             VariableSizeArrayType;
 
-  /** B-spline smoothing filter typedefs */
-  typedef Vector<RealType, 1> ScalarType;
-  typedef PointSet<ScalarType,
-                   itkGetStaticConstMacro( ImageDimension )>   PointSetType;
-  typedef Image<ScalarType,
-                itkGetStaticConstMacro( ImageDimension )>   ScalarImageType;
-  typedef BSplineScatteredDataPointSetToImageFilter
-  <PointSetType, ScalarImageType>             BSplineFilterType;
-  typedef typename
-  BSplineFilterType::PointDataImageType       BiasFieldControlPointLatticeType;
-  typedef typename BSplineFilterType::ArrayType ArrayType;
-  typedef Array<unsigned int>                   VariableSizeArrayType;
+  /** B-spline smoothing filter argument typedefs */
+  typedef Vector<RealType, 1>                                             ScalarType;
+  typedef PointSet<ScalarType, itkGetStaticConstMacro( ImageDimension )>  PointSetType;
+  typedef Image<ScalarType, itkGetStaticConstMacro( ImageDimension )>     ScalarImageType;
+  typedef typename PointSetType::Pointer                                  PointSetPointer;
+  typedef typename PointSetType::PointType                                PointType;
+
+  /** B-sline filter typedefs */
+  typedef BSplineScatteredDataPointSetToImageFilter<
+    PointSetType, ScalarImageType>                          BSplineFilterType;
+  typedef typename BSplineFilterType::PointDataImageType    BiasFieldControlPointLatticeType;
+  typedef typename BSplineFilterType::ArrayType             ArrayType;
 
   /**
    * Set mask image function.  If a binary mask image is specified, only
@@ -382,20 +384,20 @@ private:
    * image and map those results to a new estimate of the unsmoothed corrected
    * image.
    */
-  typename RealImageType::Pointer SharpenImage( RealImageType * );
+  RealImagePointer SharpenImage( const RealImageType * ) const;
 
   /**
    * Given the unsmoothed estimate of the bias field, this function smooths
    * the estimate and adds the resulting control point values to the total
    * bias field estimate.
    */
-  typename RealImageType::Pointer UpdateBiasFieldEstimate( RealImageType * );
+  RealImagePointer UpdateBiasFieldEstimate( RealImageType * );
 
   /**
    * Convergence is determined by the coefficient of variation of the difference
    * image between the current bias field estimate and the previous estimate.
    */
-  RealType CalculateConvergenceMeasurement( RealImageType *, RealImageType * );
+  RealType CalculateConvergenceMeasurement( const RealImageType *, const RealImageType * ) const;
 
 
   MaskPixelType m_MaskLabel;

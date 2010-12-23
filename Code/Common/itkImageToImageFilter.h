@@ -101,9 +101,9 @@ public:
 
   virtual void SetInput(unsigned int, const TInputImage *image);
 
-  const InputImageType * GetInput(void);
+  const InputImageType * GetInput(void) const;
 
-  const InputImageType * GetInput(unsigned int idx);
+  const InputImageType * GetInput(unsigned int idx) const;
 
   /** Push/Pop the input of this process object. These methods allow a
    * filter to model its input vector as a queue or stack.  These

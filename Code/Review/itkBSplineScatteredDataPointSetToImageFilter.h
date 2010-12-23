@@ -95,21 +95,21 @@ public:
 
   /** PointSet typedef support. */
   typedef typename PointSetType::PointType          PointType;
+  typedef typename PointSetType::Pointer            PointSetPointer;
   typedef typename PointSetType::PixelType          PointDataType;
   typedef typename PointSetType::PointDataContainer PointDataContainerType;
 
   /** Other typedef */
-  typedef float                                 RealType;
-  typedef VectorContainer< unsigned, RealType > WeightsContainerType;
-  typedef Image< PointDataType,
-                 itkGetStaticConstMacro(ImageDimension) >        PointDataImageType;
-  typedef typename PointDataImageType::Pointer PointDataImagePointer;
-  typedef Image< RealType,
-                 itkGetStaticConstMacro(ImageDimension) >        RealImageType;
-  typedef typename RealImageType::Pointer RealImagePointer;
-  typedef FixedArray< unsigned,
-                      itkGetStaticConstMacro(ImageDimension) >        ArrayType;
-  typedef VariableSizeMatrix< RealType > GradientType;
+  typedef float                                       RealType;
+  typedef VariableSizeMatrix< RealType >              GradientType;
+  typedef VectorContainer< unsigned, RealType >       WeightsContainerType;
+
+  /** Image types */
+  typedef Image< PointDataType, itkGetStaticConstMacro(ImageDimension) >  PointDataImageType;
+  typedef Image< RealType, itkGetStaticConstMacro(ImageDimension) >       RealImageType;
+  typedef typename RealImageType::Pointer                                 RealImagePointer;
+  typedef typename PointDataImageType::Pointer                            PointDataImagePointer;
+  typedef FixedArray< unsigned, itkGetStaticConstMacro(ImageDimension) >  ArrayType;
 
   /**
    * Interpolation kernel type (default spline order = 3)
@@ -124,12 +124,12 @@ public:
 
   void SetNumberOfLevels(unsigned int);
 
-  void SetNumberOfLevels(ArrayType);
+  void SetNumberOfLevels(const ArrayType & );
   itkGetConstReferenceMacro(NumberOfLevels, ArrayType);
 
   void SetSplineOrder(unsigned int);
 
-  void SetSplineOrder(ArrayType);
+  void SetSplineOrder(const ArrayType & );
   itkGetConstReferenceMacro(SplineOrder, ArrayType);
 
   itkSetMacro(NumberOfControlPoints, ArrayType);
