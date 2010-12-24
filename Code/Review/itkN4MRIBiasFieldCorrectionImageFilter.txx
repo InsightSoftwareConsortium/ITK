@@ -27,7 +27,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkIterationReporter.h"
-#include "itkLogImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 
@@ -65,15 +64,31 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   this->AllocateOutputs();
 
+  const InputImageType * inputImage = this->GetInput();
+  typedef typename InputImageType::RegionType RegionType;
+  const RegionType inputRegion = inputImage->GetBufferedRegion();
+
 
   // Calculate the log of the input image.
-
   RealImagePointer logInputImage = RealImageType::New();
-  logInputImage->Graft( this->GetInput() );
+  logInputImage->CopyInformation( inputImage );
+  logInputImage->SetRegions( inputRegion );
   logInputImage->Allocate();
 
-  ImageRegionIteratorWithIndex<RealImageType> It(
-    logInputImage, logInputImage->GetRequestedRegion() );
+  ImageRegionConstIterator<InputImageType> inpItr( inputImage, inputRegion );
+  ImageRegionIterator<RealImageType> outItr( logInputImage, inputRegion );
+
+  inpItr.GoToBegin();
+  outItr.GoToBegin();
+
+  while( !inpItr.IsAtEnd() )
+    {
+    outItr.Set( static_cast< RealType >( inpItr.Get() ) );
+    ++inpItr;
+    ++outItr;
+    }
+
+  ImageRegionIteratorWithIndex<RealImageType> It( logInputImage, inputRegion );
 
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
@@ -101,7 +116,8 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   // Provide an initial log bias field of zeros
 
   RealImagePointer logBiasField = RealImageType::New();
-  logBiasField->Graft( this->GetInput() );
+  logBiasField->CopyInformation( inputImage );
+  logBiasField->SetRegions( inputImage->GetLargestPossibleRegion() );
   logBiasField->Allocate();
   logBiasField->FillBuffer( 0.0 );
 
@@ -199,7 +215,7 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   typedef DivideImageFilter<InputImageType, RealImageType, OutputImageType>
   DividerType;
   typename DividerType::Pointer divider = DividerType::New();
-  divider->SetInput1( this->GetInput() );
+  divider->SetInput1( inputImage );
   divider->SetInput2( expFilter->GetOutput() );
   divider->GraftOutput( this->GetOutput() );
   divider->Update();
@@ -403,10 +419,12 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   E = E.extract( this->m_NumberOfHistogramBins, histogramOffset );
 
+  const InputImageType * inputImage = this->GetInput();
+
   // Sharpen the image with the new mapping, E(u|v)
   RealImagePointer sharpenedImage = RealImageType::New();
-  sharpenedImage->CopyInformation( this->GetInput() );
-  sharpenedImage->SetRegions( this->GetInput()->GetLargestPossibleRegion() );
+  sharpenedImage->CopyInformation( inputImage );
+  sharpenedImage->SetRegions( inputImage->GetLargestPossibleRegion() );
   sharpenedImage->Allocate();
   sharpenedImage->FillBuffer( 0.0 );
 
@@ -562,18 +580,20 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   reconstructer->SetSize( fieldEstimate->GetLargestPossibleRegion().GetSize() );
   reconstructer->Update();
 
+  const InputImageType * inputImage = this->GetInput();
+
   typedef VectorIndexSelectionCastImageFilter<ScalarImageType, RealImageType>
   SelectorType;
   typename SelectorType::Pointer selector = SelectorType::New();
   selector->SetInput( reconstructer->GetOutput() );
   selector->SetIndex( 0 );
   selector->Update();
-  selector->GetOutput()->SetRegions( this->GetInput()->GetRequestedRegion() );
+  selector->GetOutput()->SetRegions( inputImage->GetRequestedRegion() );
 
   RealImagePointer smoothField = selector->GetOutput();
   smoothField->Update();
   smoothField->DisconnectPipeline();
-  smoothField->SetRegions( this->GetInput()->GetRequestedRegion() );
+  smoothField->SetRegions( inputImage->GetRequestedRegion() );
 
   return smoothField;
 }

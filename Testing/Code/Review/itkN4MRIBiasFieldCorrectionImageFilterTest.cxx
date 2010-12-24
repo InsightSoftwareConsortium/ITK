@@ -122,16 +122,15 @@ int N4( int argc, char *argv[] )
 {
   typedef float RealType;
 
-  typedef itk::Image<RealType, ImageDimension> ImageType;
-  typename ImageType::Pointer inputImage = NULL;
+  typedef itk::Image<RealType, ImageDimension>  ImageType;
+  typedef typename ImageType::Pointer           ImagePointer;
 
   typedef itk::ImageFileReader<ImageType> ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
   reader->Update();
 
-  inputImage = reader->GetOutput();
-  inputImage->Update();
+  ImagePointer inputImage = reader->GetOutput();
   inputImage->DisconnectPipeline();
 
   // handle the mask image
@@ -145,8 +144,8 @@ int N4( int argc, char *argv[] )
     maskreader->SetFileName( argv[6] );
     try
       {
+      maskreader->Update();
       maskImage = maskreader->GetOutput();
-      maskImage->Update();
       maskImage->DisconnectPipeline();
       }
     catch( ... )
@@ -166,8 +165,8 @@ int N4( int argc, char *argv[] )
     otsu->SetInsideValue( 0 );
     otsu->SetOutsideValue( 1 );
 
+    otsu->Update();
     maskImage = otsu->GetOutput();
-    maskImage->Update();
     maskImage->DisconnectPipeline();
     }
 
@@ -205,15 +204,6 @@ int N4( int argc, char *argv[] )
    *  1. need to pad the images to get as close to possible to the
    *     requested domain size.
    */
-  typename ImageType::IndexType inputImageIndex =
-    inputImage->GetLargestPossibleRegion().GetIndex();
-  typename ImageType::SizeType inputImageSize =
-    inputImage->GetLargestPossibleRegion().GetSize();
-  typename ImageType::IndexType maskImageIndex =
-    maskImage->GetLargestPossibleRegion().GetIndex();
-  typename ImageType::SizeType maskImageSize =
-    maskImage->GetLargestPossibleRegion().GetSize();
-
   typename ImageType::PointType newOrigin = inputImage->GetOrigin();
 
   typename CorrecterType::ArrayType numberOfControlPoints;
@@ -315,6 +305,7 @@ int N4( int argc, char *argv[] )
   correcter->Print( std::cout, 3 );
 
   // Test the reconstruction of the log bias field
+  ImagePointer originalInputImage = reader->GetOutput();
   typedef itk::BSplineControlPointImageFilter
   <typename CorrecterType::BiasFieldControlPointLatticeType, typename
    CorrecterType::ScalarImageType> BSplinerType;
@@ -322,10 +313,10 @@ int N4( int argc, char *argv[] )
   bspliner->SetInput( correcter->GetLogBiasFieldControlPointLattice() );
   bspliner->SetSplineOrder( correcter->GetSplineOrder() );
   bspliner->SetSize(
-    reader->GetOutput()->GetLargestPossibleRegion().GetSize() );
-  bspliner->SetOrigin( reader->GetOutput()->GetOrigin() );
-  bspliner->SetDirection( reader->GetOutput()->GetDirection() );
-  bspliner->SetSpacing( reader->GetOutput()->GetSpacing() );
+    originalInputImage->GetLargestPossibleRegion().GetSize() );
+  bspliner->SetOrigin( originalInputImage->GetOrigin() );
+  bspliner->SetDirection( originalInputImage->GetDirection() );
+  bspliner->SetSpacing( originalInputImage->GetSpacing() );
   bspliner->Update();
 
 

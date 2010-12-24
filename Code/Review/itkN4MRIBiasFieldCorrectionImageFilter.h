@@ -150,8 +150,7 @@ public:
    */
   const MaskImageType* GetMaskImage() const
     {
-    return static_cast<MaskImageType*>( const_cast<DataObject *>
-                                        ( this->ProcessObject::GetInput( 1 ) ) );
+    return static_cast<const MaskImageType*>( this->ProcessObject::GetInput( 1 ) );
     }
 
   /**
@@ -181,8 +180,7 @@ public:
    */
   const RealImageType* GetConfidenceImage() const
     {
-    return static_cast<RealImageType*>( const_cast<DataObject *>
-                                        ( this->ProcessObject::GetInput( 2 ) ) );
+    return static_cast<const RealImageType*>( this->ProcessObject::GetInput( 2 ) );
     }
 
   /**
