@@ -406,6 +406,7 @@ N4MRIBiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   // Sharpen the image with the new mapping, E(u|v)
   RealImagePointer sharpenedImage = RealImageType::New();
   sharpenedImage->CopyInformation( this->GetInput() );
+  sharpenedImage->SetRegions( this->GetInput()->GetLargestPossibleRegion() );
   sharpenedImage->Allocate();
   sharpenedImage->FillBuffer( 0.0 );
 
