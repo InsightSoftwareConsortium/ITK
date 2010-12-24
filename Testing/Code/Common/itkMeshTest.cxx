@@ -398,6 +398,15 @@ int itkMeshTest(int, char* [] )
    * Create a higher order  test cell.
    */
   { // Create a local scope
+
+    // In this block, we overwrite a cell at a particular id.
+    // To avoid a memory leak, we must first grab ownership of the
+    // current cell at that id so that the memory for the original
+    // cell will be deleted when we leave this scope
+    CellAutoPointer cellToDelete;
+    mesh->GetCell(2, cellToDelete);
+    cellToDelete.TakeOwnership();
+
     testCell.TakeOwnership( new QuadraticEdgeCellType ); // polymorphism
     unsigned long quadraticEdgePoints[3] = {0,1,2};
     testCell->SetPointIds(quadraticEdgePoints);
