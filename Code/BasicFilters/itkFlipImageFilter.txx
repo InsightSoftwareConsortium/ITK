@@ -230,6 +230,10 @@ FlipImageFilter< TImage >
       offset[j] = 2 * outputLargestPossibleIndex[j]
                   + static_cast< IndexValueType >( outputLargestPossibleSize[j] ) - 1;
       }
+    else
+      {
+      offset[j] = 0;
+      }
     }
 
   // walk the output region, and sample the input image
