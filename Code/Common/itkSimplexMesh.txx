@@ -240,7 +240,13 @@ unsigned long
 SimplexMesh< TPixelType, VDimension, TMeshTraits >
 ::ReplaceFace(unsigned long replaceIndex, CellAutoPointer & cellPointer)
 {
-  this->GetCells()->DeleteIndex(replaceIndex);
+  // Release previous cell, if any.
+  // See documentation of Mesh::SetCell().
+  CellAutoPointer cellToDelete;
+  this->GetCell(replaceIndex, cellToDelete);
+  cellToDelete.TakeOwnership();
+
+  // Now place the new cell and its cell data.
   this->SetCell(replaceIndex, cellPointer);
   this->SetCellData(replaceIndex, (PixelType)1.0);
   return replaceIndex;

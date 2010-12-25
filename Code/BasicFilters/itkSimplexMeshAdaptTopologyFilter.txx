@@ -54,7 +54,6 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 {
   this->Initialize();
   this->ComputeCellParameters();
-  this->InsertNewCells();
 }
 
 //
@@ -63,26 +62,65 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 ::Initialize()
 {
   m_ModifiedCount = 0;
+  this->CopyInputMeshToOutputMeshPoints();
+  this->CopyInputMeshToOutputMeshPointData();
+  this->CopyInputMeshToOutputMeshCellData();
+  this->CopyInputMeshToOutputMeshCells();
+  this->CopyInputMeshToOutputMeshGeometryData();
 }
+
+
+template< typename TInputMesh, typename TOutputMesh >
+void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
+::CopyInputMeshToOutputMeshGeometryData()
+{
+  const InputMeshType *inputMesh   =  this->GetInput();
+  OutputMeshPointer    outputMesh  =  this->GetOutput();
+
+  typedef typename InputMeshType::PointIdentifier  PointIdentifier;
+
+  const PointIdentifier numberOfPoints = inputMesh->GetNumberOfPoints();
+
+  typedef typename InputMeshType::GeometryMapType           GeometryMapType;
+  typedef typename InputMeshType::GeometryMapPointer        GeometryMapPointer;
+  typedef typename InputMeshType::GeometryMapConstIterator  GeometryMapConstIterator;
+
+  GeometryMapPointer inputGeometryData = inputMesh->GetGeometryData();
+
+  GeometryMapPointer outputGeometryData = GeometryMapType::New();
+
+  outputGeometryData->Reserve( numberOfPoints );
+
+  GeometryMapConstIterator inputGeometryItr = inputGeometryData->Begin();
+
+  for( PointIdentifier pointId = 0; pointId < numberOfPoints; pointId++ )
+    {
+    SimplexMeshGeometry * outputGeometryDataItem = new SimplexMeshGeometry;
+    SimplexMeshGeometry * inputGeometryDataItem = inputGeometryItr.Value();
+    outputGeometryDataItem->CopyFrom( *inputGeometryDataItem );
+    outputGeometryData->InsertElement( pointId, outputGeometryDataItem );
+    ++inputGeometryItr;
+    }
+
+  outputMesh->SetGeometryData( outputGeometryData );
+  outputMesh->SetLastCellId( inputMesh->GetLastCellId() );
+}
+
 
 template< typename TInputMesh, typename TOutputMesh >
 void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 ::ComputeCellParameters()
 {
-  const InputMeshType *inputMesh = this->GetInput(0);
-
-  // A filter shouldn't modify its input.
-  // There is a design flaw here...
-  InputMeshType *nonConstInput = const_cast< InputMeshType * >( inputMesh );
+  OutputMeshPointer    outputMesh  =  this->GetOutput();
 
   // Ensure that cells will be deallocated by the Mesh.
-  nonConstInput->SetCellsAllocationMethod(TInputMesh::CellsAllocatedDynamicallyCellByCell);
+  outputMesh->SetCellsAllocationMethod( TInputMesh::CellsAllocatedDynamicallyCellByCell );
 
   SimplexVisitorInterfacePointer simplexVisitor = SimplexVisitorInterfaceType::New();
-  simplexVisitor->mesh = nonConstInput;
+  simplexVisitor->mesh = outputMesh;
   CellMultiVisitorPointer mv = CellMultiVisitorType::New();
   mv->AddVisitor(simplexVisitor);
-  this->GetInput(0)->Accept(mv);
+  outputMesh->Accept(mv);
 
   DoubleValueMapType::Pointer areas = simplexVisitor->GetAreaMap();
   DoubleContainerIterator     areaIt = areas->Begin();
@@ -129,7 +167,7 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       m_ModifiedCount++;
 
       InputCellAutoPointer poly;
-      inputMesh->GetCell(curvatureIt.Index(), poly);
+      outputMesh->GetCell(curvatureIt.Index(), poly);
 
       InputPointType cellCenter = this->ComputeCellCenter(poly);
 
@@ -150,7 +188,7 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       pointIds++;
       unsigned long lineTwoSecondIdx = *pointIds;
 
-      unsigned long newPointId = inputMesh->GetNumberOfPoints();
+      unsigned long newPointId = outputMesh->GetNumberOfPoints();
       unsigned long firstNewIndex = newPointId;
       unsigned long secondNewIndex = newPointId + 1;
 
@@ -159,44 +197,44 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       InputPointType p1, p2;
       p1.Fill(0);
       p2.Fill(0);
-      inputMesh->GetPoint(lineOneFirstIdx, &p1);
-      inputMesh->GetPoint(lineOneSecondIdx, &p2);
+      outputMesh->GetPoint(lineOneFirstIdx, &p1);
+      outputMesh->GetPoint(lineOneSecondIdx, &p2);
 
       helperPoint.SetToMidPoint(p1, p2);
       newMidPoint.SetToMidPoint(helperPoint, cellCenter);
 
-      nonConstInput->SetPoint(firstNewIndex, newMidPoint);
-      nonConstInput->SetGeometryData( firstNewIndex, new itk::SimplexMeshGeometry() );
+      outputMesh->SetPoint(firstNewIndex, newMidPoint);
+      outputMesh->SetGeometryData( firstNewIndex, new itk::SimplexMeshGeometry() );
 
-      nonConstInput->ReplaceNeighbor(lineOneFirstIdx, lineOneSecondIdx, firstNewIndex);
-      nonConstInput->ReplaceNeighbor(lineOneSecondIdx, lineOneFirstIdx, firstNewIndex);
+      outputMesh->ReplaceNeighbor(lineOneFirstIdx, lineOneSecondIdx, firstNewIndex);
+      outputMesh->ReplaceNeighbor(lineOneSecondIdx, lineOneFirstIdx, firstNewIndex);
 
       //create second new point
-      inputMesh->GetPoint(lineTwoFirstIdx, &p1);
-      inputMesh->GetPoint(lineTwoSecondIdx, &p2);
+      outputMesh->GetPoint(lineTwoFirstIdx, &p1);
+      outputMesh->GetPoint(lineTwoSecondIdx, &p2);
 
       helperPoint.SetToMidPoint(p1, p2);
       newMidPoint.SetToMidPoint(helperPoint, cellCenter);
 
-      nonConstInput->SetPoint(secondNewIndex, newMidPoint);
-      nonConstInput->SetGeometryData( secondNewIndex, new itk::SimplexMeshGeometry() );
+      outputMesh->SetPoint(secondNewIndex, newMidPoint);
+      outputMesh->SetGeometryData( secondNewIndex, new itk::SimplexMeshGeometry() );
 
-      nonConstInput->ReplaceNeighbor(lineTwoFirstIdx, lineTwoSecondIdx, secondNewIndex);
-      nonConstInput->ReplaceNeighbor(lineTwoSecondIdx, lineTwoFirstIdx, secondNewIndex);
+      outputMesh->ReplaceNeighbor(lineTwoFirstIdx, lineTwoSecondIdx, secondNewIndex);
+      outputMesh->ReplaceNeighbor(lineTwoSecondIdx, lineTwoFirstIdx, secondNewIndex);
 
-      nonConstInput->AddNeighbor(firstNewIndex, secondNewIndex);
-      nonConstInput->AddNeighbor(firstNewIndex, lineOneFirstIdx);
-      nonConstInput->AddNeighbor(firstNewIndex, lineOneSecondIdx);
+      outputMesh->AddNeighbor(firstNewIndex, secondNewIndex);
+      outputMesh->AddNeighbor(firstNewIndex, lineOneFirstIdx);
+      outputMesh->AddNeighbor(firstNewIndex, lineOneSecondIdx);
 
-      nonConstInput->AddNeighbor(secondNewIndex, lineTwoSecondIdx);
-      nonConstInput->AddNeighbor(secondNewIndex, firstNewIndex);
-      nonConstInput->AddNeighbor(secondNewIndex, lineTwoFirstIdx);
+      outputMesh->AddNeighbor(secondNewIndex, lineTwoSecondIdx);
+      outputMesh->AddNeighbor(secondNewIndex, firstNewIndex);
+      outputMesh->AddNeighbor(secondNewIndex, lineTwoFirstIdx);
 
-      CovariantVectorType lineOneFirstNormal = inputMesh->ComputeNormal(lineOneFirstIdx);
-      CovariantVectorType firstNewNormal = inputMesh->ComputeNormal(firstNewIndex);
+      CovariantVectorType lineOneFirstNormal = outputMesh->ComputeNormal(lineOneFirstIdx);
+      CovariantVectorType firstNewNormal = outputMesh->ComputeNormal(firstNewIndex);
 
-      CovariantVectorType lineTwoFirstNormal = inputMesh->ComputeNormal(lineTwoFirstIdx);
-      CovariantVectorType secondNewNormal = inputMesh->ComputeNormal(secondNewIndex);
+      CovariantVectorType lineTwoFirstNormal = outputMesh->ComputeNormal(lineTwoFirstIdx);
+      CovariantVectorType secondNewNormal = outputMesh->ComputeNormal(secondNewIndex);
 
       double prod;
 
@@ -204,94 +242,84 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 
       if ( prod < 0 )
         {
-        nonConstInput->SwapNeighbors(firstNewIndex, lineOneFirstIdx, lineOneSecondIdx);
-        firstNewNormal = inputMesh->ComputeNormal(firstNewIndex);
+        outputMesh->SwapNeighbors(firstNewIndex, lineOneFirstIdx, lineOneSecondIdx);
+        firstNewNormal = outputMesh->ComputeNormal(firstNewIndex);
         }
 
       prod = dot_product( secondNewNormal.GetVnlVector(), lineTwoFirstNormal.GetVnlVector() );
       if ( prod < 0 )
         {
-        nonConstInput->SwapNeighbors(secondNewIndex, lineTwoFirstIdx, lineTwoSecondIdx);
-        secondNewNormal = inputMesh->ComputeNormal(secondNewIndex);
+        outputMesh->SwapNeighbors(secondNewIndex, lineTwoFirstIdx, lineTwoSecondIdx);
+        secondNewNormal = outputMesh->ComputeNormal(secondNewIndex);
         }
 
-      nonConstInput->AddEdge(firstNewIndex, secondNewIndex);
+      outputMesh->AddEdge(firstNewIndex, secondNewIndex);
 
       // splitting cell
       unsigned long      newPointIndex = 0;
       OutputPolygonType *polygon = new OutputPolygonType;
-      m_NewSimplexCellPointer.TakeOwnership(polygon);
+      InputCellAutoPointer newPolygonPointer1;
+      newPolygonPointer1.TakeOwnership(polygon);
 
       pointIds = poly->PointIdsBegin();
+
       unsigned long firstPointId = *pointIds++;
 
       while ( *pointIds != lineTwoSecondIdx )
         {
-        m_NewSimplexCellPointer->SetPointId(newPointIndex++, *pointIds++);
+        newPolygonPointer1->SetPointId(newPointIndex++, *pointIds++);
         }
 
-      m_NewSimplexCellPointer->SetPointId(newPointIndex++, secondNewIndex);
-      m_NewSimplexCellPointer->SetPointId(newPointIndex++, firstNewIndex);
-      nonConstInput->ReplaceFace(curvatureIt.Index(), m_NewSimplexCellPointer);
+      newPolygonPointer1->SetPointId(newPointIndex++, secondNewIndex);
+      newPolygonPointer1->SetPointId(newPointIndex++, firstNewIndex);
 
       OutputPolygonType *polygon2 = new OutputPolygonType;
-      m_NewSimplexCellPointer.TakeOwnership(polygon2);
       newPointIndex = 0;
 
       while ( pointIds != poly->PointIdsEnd() )
         {
-        m_NewSimplexCellPointer->SetPointId(newPointIndex++, *pointIds++);
+        polygon2->SetPointId(newPointIndex++, *pointIds++);
         }
-      m_NewSimplexCellPointer->SetPointId(newPointIndex++, firstPointId);
-      m_NewSimplexCellPointer->SetPointId(newPointIndex++, firstNewIndex);
-      m_NewSimplexCellPointer->SetPointId(newPointIndex++, secondNewIndex);
-      nonConstInput->AddFace(m_NewSimplexCellPointer);
 
-      nonConstInput->BuildCellLinks();
+      InputCellAutoPointer newPolygonPointer2;
+      newPolygonPointer2.TakeOwnership( polygon2 );
+
+      newPolygonPointer2->SetPointId(newPointIndex++, firstPointId);
+      newPolygonPointer2->SetPointId(newPointIndex++, firstNewIndex);
+      newPolygonPointer2->SetPointId(newPointIndex++, secondNewIndex);
+
+      outputMesh->ReplaceFace(curvatureIt.Index(), newPolygonPointer1);
+      outputMesh->AddFace(newPolygonPointer2);
+
+      outputMesh->BuildCellLinks();
 
       this->ModifyNeighborCells(lineOneFirstIdx, lineOneSecondIdx, firstNewIndex);
       this->ModifyNeighborCells(lineTwoFirstIdx, lineTwoSecondIdx, secondNewIndex);
 
-      if ( inputMesh->GetCellsAllocationMethod() == TInputMesh::CellsAllocatedDynamicallyCellByCell )
+      if ( outputMesh->GetCellsAllocationMethod() == TInputMesh::CellsAllocatedDynamicallyCellByCell )
         {
-        delete poly.GetPointer();
+        // delete poly.GetPointer();
         }
+
       } // end if cell must be modified
     areaIt++;
     curvatureIt++;
     }
 }
 
-template< typename TInputMesh, typename TOutputMesh >
-void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
-::InsertNewCells()
-{
-  typename TOutputMesh::Pointer output = TOutputMesh::New();
-  this->CopyInputMeshToOutputMeshPoints();
-  this->CopyInputMeshToOutputMeshPointData();
-  this->CopyInputMeshToOutputMeshCellData();
-  this->CopyInputMeshToOutputMeshCells();
-  output->SetGeometryData( this->GetInput(0)->GetGeometryData() );
-  output->SetLastCellId( this->GetInput(0)->GetLastCellId() );
-  this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
-}
 
 template< typename TInputMesh, typename TOutputMesh >
 void
 SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 ::ModifyNeighborCells(unsigned long id1, unsigned long id2, unsigned long insertPointId)
 {
-  std::set< unsigned long >           cells1 =   this->GetInput(0)->GetCellLinks()->GetElement(id1);
-  std::set< unsigned long >           cells2 =   this->GetInput(0)->GetCellLinks()->GetElement(id2);
+  OutputMeshPointer    outputMesh  =  this->GetOutput();
+
+  std::set< unsigned long >           cells1 =   outputMesh->GetCellLinks()->GetElement(id1);
+  std::set< unsigned long >           cells2 =   outputMesh->GetCellLinks()->GetElement(id2);
   std::set< unsigned long >::iterator cellIt = cells1.begin();
 
   std::set< unsigned long > result;
-
-  const InputMeshType *inputMesh = this->GetInput(0);
-
-  // A filter shouldn't modify its input.
-  // There is a design flaw here...
-  InputMeshType *nonConstInput = const_cast< InputMeshType * >( inputMesh );
 
   while ( cellIt != cells1.end() )
     {
@@ -308,7 +336,7 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
   while ( cellIt != result.end() )
     {
     InputCellAutoPointer nextCell;
-    this->GetInput(0)->GetCell(*cellIt, nextCell);
+    outputMesh->GetCell(*cellIt, nextCell);
 
     if ( nextCell->GetNumberOfPoints() == 2 )
       {
@@ -316,9 +344,13 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       unsigned long            first = *lineIt++;
       unsigned long            second = *lineIt;
 
-      nonConstInput->AddEdge(first, insertPointId);
-      nonConstInput->AddEdge(insertPointId, second);
-      nonConstInput->GetCells()->DeleteIndex(*cellIt);
+      outputMesh->AddEdge(first, insertPointId);
+      outputMesh->AddEdge(insertPointId, second);
+
+      // Take over the cell and release its memory
+      outputMesh->GetCells()->DeleteIndex(*cellIt);
+      nextCell.TakeOwnership();
+      nextCell.Reset();
       }
     else if ( nextCell->GetNumberOfPoints() > 3 )
       {
@@ -349,12 +381,12 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
         m_NewSimplexCellPointer->SetPointId(cnt++,  insertPointId);
         }
 
-      nonConstInput->ReplaceFace(*cellIt, m_NewSimplexCellPointer);
+      outputMesh->ReplaceFace(*cellIt, m_NewSimplexCellPointer);
       }
     cellIt++;
     }
 
-  this->GetInput(0)->BuildCellLinks();
+  outputMesh->BuildCellLinks();
 }
 
 /* PrintSelf. */
@@ -374,6 +406,7 @@ typename SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >::InputPointTy
 SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 ::ComputeCellCenter(InputCellAutoPointer & simplexCell)
 {
+  OutputMeshPointer    outputMesh  =  this->GetOutput();
   InputPolygonPointIdIterator pointIt =  simplexCell->PointIdsBegin();
 
   InputVectorType tmp;
@@ -385,7 +418,7 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
   // compute the cell center first
   while ( pointIt != simplexCell->PointIdsEnd() )
     {
-    this->GetInput(0)->GetPoint(*pointIt, &p1);
+    outputMesh->GetPoint(*pointIt, &p1);
     cellCenter += p1.GetVectorFromOrigin();
     pointIt++;
     }

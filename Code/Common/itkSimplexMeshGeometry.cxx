@@ -50,11 +50,18 @@ SimplexMeshGeometry
   neighborIndices.Fill( (unsigned long)NumericTraits< unsigned long >::max() );
   neighbors.Fill(p);
   meanCurvature = c;
+
+  neighborSet = NULL;
 }
 
 SimplexMeshGeometry
 ::~SimplexMeshGeometry()
-{}
+{
+  if( this->neighborSet )
+    {
+    delete this->neighborSet;
+    }
+}
 
 void
 SimplexMeshGeometry
@@ -110,4 +117,54 @@ SimplexMeshGeometry
     sphereRadius = -1 * sphereRadius;
     }
 }
+
+void
+SimplexMeshGeometry::
+CopyFrom( const SimplexMeshGeometry & input )
+{
+  for( unsigned int i = 0; i < 3; i++ )
+    {
+    this->neighborIndices[i] = input.neighborIndices[i];
+    this->neighbors[i] = input.neighbors[i];
+    }
+  this->meanCurvature = input.meanCurvature;
+  this->pos = input.pos;
+  this->oldPos = input.oldPos;
+  this->eps = input.eps;
+  this->referenceMetrics = input.referenceMetrics;
+  this->normal = input.normal;
+  this->externalForce = input.externalForce;
+  this->internalForce = input.internalForce;
+  this->closestAttractor = input.closestAttractor;
+  this->closestAttractorIndex = input.closestAttractorIndex;
+  this->circleRadius = input.circleRadius;
+  this->circleCenter = input.circleCenter;
+  this->sphereRadius = input.sphereRadius;
+  // this->sphereCenter = input.sphereCenter;
+  this->distance = input.distance;
+  this->phi = input.phi;
+  this->multiplier = input.multiplier;
+  this->forceIndex = input.forceIndex;
+  this->CopyNeigborSet( input.neighborSet );
+}
+
+void
+SimplexMeshGeometry
+::CopyNeigborSet( const NeighborSetType * nset )
+{
+  if( this->neighborSet )
+    {
+    delete this->neighborSet;
+    }
+  if( nset )
+    {
+    this->neighborSet = new NeighborSetType;
+    this->neighborSet->insert( nset->begin(), nset->end() );
+    }
+  else
+    {
+    this->neighborSet = NULL;
+    }
+}
+
 }  // end namespace itk

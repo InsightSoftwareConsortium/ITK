@@ -102,7 +102,8 @@ public:
   typedef typename GeometryMapType::Pointer GeometryMapPointer;
 
   /** iterator definition for iterating over a geometry map */
-  typedef typename GeometryMapType::Iterator GeometryMapIterator;
+  typedef typename GeometryMapType::Iterator        GeometryMapIterator;
+  typedef typename GeometryMapType::ConstIterator   GeometryMapConstIterator;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -159,7 +160,7 @@ public:
 
   /**
    * Replaces the cell specified by replaceIndex with the new cell passed by its
-   * AutoPopinter
+   * AutoPointer
    */
   unsigned long ReplaceFace(unsigned long replaceIndex, CellAutoPointer & cellPointer);
 
