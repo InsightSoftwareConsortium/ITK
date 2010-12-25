@@ -937,6 +937,11 @@ JPEG2000ImageIO
     itkExceptionMacro("no file stream opened");
     }
 
+  if( parameters.cp_comment )
+    {
+    free( parameters.cp_comment );
+    }
+
   bSuccess = opj_start_compress(cinfo, l_image, cio);
   bSuccess = bSuccess && opj_encode(cinfo, cio);
   bSuccess = bSuccess && opj_end_compress(cinfo, cio);
