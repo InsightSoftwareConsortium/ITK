@@ -99,7 +99,7 @@ VTKPolyDataWriter< TInputMesh >
     }
 
   outputFile.imbue( std::locale::classic() );
-  outputFile << "#vtk DataFile Version 2.0" << std::endl;
+  outputFile << "# vtk DataFile Version 2.0" << std::endl;
   outputFile << "File written by itkVTKPolyDataWriter" << std::endl;
   outputFile << "ASCII" << std::endl;
   outputFile << "DATASET POLYDATA" << std::endl;
