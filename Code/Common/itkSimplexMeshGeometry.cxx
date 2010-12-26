@@ -60,6 +60,7 @@ SimplexMeshGeometry
   if( this->neighborSet )
     {
     delete this->neighborSet;
+    this->neighborSet = NULL;
     }
 }
 
