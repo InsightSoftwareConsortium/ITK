@@ -180,8 +180,7 @@ SimplexMeshVolumeCalculator< TInputMesh >
     }
   else
     {
-    itkWarningMacro(<< "Unpredicted situation...!");
-    std::cout << "absu: " << absu[0] << ", " << absu[1] << ", " << absu[2] << std::endl;
+    itkWarningMacro(<< "Unpredicted situation...!" << "absu: " << absu[0] << ", " << absu[1] << ", " << absu[2] );
     return;
     }
 

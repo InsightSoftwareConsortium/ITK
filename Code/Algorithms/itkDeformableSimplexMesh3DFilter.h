@@ -144,12 +144,12 @@ public:
   /**
    *  Setter for gradient image
    */
-  itkSetMacro(Gradient, GradientImagePointer);
+  void SetGradient( const GradientImageType * gradientImage );
 
   /**
    *  Getter for gradient image
    */
-  itkGetConstMacro(Gradient, GradientImagePointer);
+  const GradientImageType * GetGradient() const;
 
   /**
    * Set number of iterations for deformation process
@@ -311,8 +311,6 @@ protected:
    */
   GeometryMapPointer m_Data;
 
-  /* gradient image pointer */
-  GradientImagePointer m_Gradient;
 }; // end of class
 } // end namespace itk
 

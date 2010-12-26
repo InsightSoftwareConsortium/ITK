@@ -82,8 +82,8 @@ public:
  */
 
 template< class TInputMesh, class TOutputMesh >
-class ITK_EXPORT DeformableSimplexMesh3DGradientConstraintForceFilter:public DeformableSimplexMesh3DFilter< TInputMesh,
-                                                                                                            TOutputMesh >
+class ITK_EXPORT DeformableSimplexMesh3DGradientConstraintForceFilter :
+  public DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Standard "Self" typedefs. */
@@ -109,6 +109,8 @@ public:
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::GradientIndexType      GradientIndexType;
   typedef typename Superclass::GradientIndexValueType GradientIndexValueType;
+  typedef typename Superclass::GradientType           GradientType;
+  typedef typename Superclass::GradientImageType      GradientImageType;
 
   /* Mesh pointer definition. */
   typedef typename InputMeshType::Pointer  InputMeshPointer;

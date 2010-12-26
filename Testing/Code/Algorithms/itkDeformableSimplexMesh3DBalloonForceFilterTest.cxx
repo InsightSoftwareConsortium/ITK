@@ -141,7 +141,3 @@ int itkDeformableSimplexMesh3DBalloonForceFilterTest(int , char * [] )
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;
 }
-
-
-
-

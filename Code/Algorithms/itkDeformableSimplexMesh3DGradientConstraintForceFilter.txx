@@ -366,6 +366,8 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
     m_StartVoxel = 0;
     }
 
+  const GradientImageType * gradientImage = this->GetGradient();
+
   // now fun begins try to use all the above
   std::vector< ImageVoxel * >::iterator it;
   double                                mag, max = 0;
@@ -377,9 +379,11 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
     coord3[1] = static_cast< GradientIndexValueType >( ( *it )->GetY() );
     coord3[2] = static_cast< GradientIndexValueType >( ( *it )->GetZ() );
 
-    vec_for[0] = this->m_Gradient->GetPixel(coord3)[0];
-    vec_for[1] = this->m_Gradient->GetPixel(coord3)[1];
-    vec_for[2] = this->m_Gradient->GetPixel(coord3)[2];
+    const GradientType & gradient3 = gradientImage->GetPixel(coord3);
+
+    vec_for[0] = gradient3[0];
+    vec_for[1] = gradient3[1];
+    vec_for[2] = gradient3[2];
     // check magnitude
 
     mag = vcl_sqrt( dot_product( vec_for.Get_vnl_vector(), vec_for.Get_vnl_vector() ) );
@@ -389,18 +393,22 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
       coord2 = coord3;
       }
     }
-  vec_for[0] = this->m_Gradient->GetPixel(coord2)[0];
-  vec_for[1] = this->m_Gradient->GetPixel(coord2)[1];
-  vec_for[2] = this->m_Gradient->GetPixel(coord2)[2];
+
+  const GradientType & gradient0 = gradientImage->GetPixel(coord);
+  const GradientType & gradient2 = gradientImage->GetPixel(coord2);
+
+  vec_for[0] = gradient2[0];
+  vec_for[1] = gradient2[1];
+  vec_for[2] = gradient2[2];
 
   // now check highest gradient magnitude direction
   mag = dot_product( vec_for.Get_vnl_vector(), data->normal.Get_vnl_vector() );
 
   if ( mag > 0 )
     {
-    vec_for[0] -= this->m_Gradient->GetPixel(coord)[0];
-    vec_for[1] -= this->m_Gradient->GetPixel(coord)[1];
-    vec_for[2] -= this->m_Gradient->GetPixel(coord)[2];
+    vec_for[0] -= gradient0[0];
+    vec_for[1] -= gradient0[1];
+    vec_for[2] -= gradient0[2];
     }
   else
     {

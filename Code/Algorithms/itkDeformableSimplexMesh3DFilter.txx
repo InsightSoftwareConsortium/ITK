@@ -88,9 +88,12 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   os << indent << "Iterations = " << this->GetIterations() << std::endl;
   os << indent << "Step = " << this->GetStep() << std::endl;
   os << indent << "ImageDepth = " << this->GetImageDepth() << std::endl;
-  if ( this->GetGradient().IsNotNull() )
+
+  const GradientImageType * gradientImage = this->GetGradient();
+
+  if ( gradientImage )
     {
-    os << indent << "Gradient = " << this->GetGradient() << std::endl;
+    os << indent << "Gradient = " << gradientImage << std::endl;
     }
   else
     {
@@ -146,9 +149,14 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     SimplexMeshGeometry *data;
     unsigned long        idx = pointItr.Index();
     data = this->m_Data->GetElement(idx);
-    delete data->neighborSet;
+    if( data->neighborSet )
+      {
+      delete data->neighborSet;
+      data->neighborSet = NULL;
+      }
     pointItr++;
     }
+
   this->ComputeOutput();
 }
 
@@ -163,9 +171,11 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   const InputPointsContainer *      points = inputMesh->GetPoints();
   InputPointsContainerConstIterator pointItr = points->Begin();
 
-  if ( this->m_Gradient.IsNotNull() )
+  const GradientImageType * gradientImage = this->GetGradient();
+
+  if ( gradientImage )
     {
-    GradientImageSizeType imageSize = this->m_Gradient->GetBufferedRegion().GetSize();
+    GradientImageSizeType imageSize = gradientImage->GetBufferedRegion().GetSize();
 
     m_ImageWidth  = imageSize[0];
     m_ImageHeight = imageSize[1];
@@ -215,6 +225,28 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     }
 
   OutputMeshPointer outputMesh = this->GetOutput();
+}
+
+/* Set the gradient image as an input */
+template< typename TInputMesh, typename TOutputMesh >
+void
+DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
+::SetGradient( const GradientImageType * gradientImage )
+{
+  this->SetNthInput( 1, const_cast< GradientImageType * >( gradientImage ) );
+}
+
+/* Get the gradient image as an input */
+template< typename TInputMesh, typename TOutputMesh >
+const typename
+DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >::GradientImageType *
+DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
+::GetGradient() const
+{
+  const GradientImageType *gradientImage =
+    dynamic_cast< const GradientImageType * >( this->ProcessObject::GetInput(1) );
+
+  return gradientImage;
 }
 
 /* Compute normals. */
@@ -389,6 +421,8 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   PointType         vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
   GradientIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
 
+  const GradientImageType * gradientImage = this->GetGradient();
+
   coord[0] = static_cast< GradientIndexValueType >( data->pos[0] );
   coord[1] = static_cast< GradientIndexValueType >( data->pos[1] );
   coord[2] = static_cast< GradientIndexValueType >( data->pos[2] );
@@ -412,19 +446,24 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   if ( ( coord[0] >= 0 ) && ( coord[1] >= 0 ) && ( coord[2] >= 0 )
        && ( coord2[0] < m_ImageWidth ) && ( coord2[1] < m_ImageHeight ) && ( coord2[2] < m_ImageDepth ) )
     {
-    vec_for[0] = m_Gradient->GetPixel(coord)[0];
-    vec_for[1] = m_Gradient->GetPixel(coord)[1];
-    vec_for[2] = m_Gradient->GetPixel(coord)[2];
+    const GradientType & gradient0 = gradientImage->GetPixel(coord);
+    const GradientType & gradient1 = gradientImage->GetPixel(tmp_co_1);
+    const GradientType & gradient2 = gradientImage->GetPixel(tmp_co_2);
+    const GradientType & gradient3 = gradientImage->GetPixel(tmp_co_3);
 
-    tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
-    tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
-    tmp_vec_1[2] = m_Gradient->GetPixel(tmp_co_1)[2] - m_Gradient->GetPixel(coord)[2];
-    tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
-    tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
-    tmp_vec_2[2] = m_Gradient->GetPixel(tmp_co_2)[2] - m_Gradient->GetPixel(coord)[2];
-    tmp_vec_3[0] = m_Gradient->GetPixel(tmp_co_3)[0] - m_Gradient->GetPixel(coord)[0];
-    tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
-    tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
+    vec_for[0] = gradient0[0];
+    vec_for[1] = gradient0[1];
+    vec_for[2] = gradient0[2];
+
+    tmp_vec_1[0] = gradient1[0] - gradient0[0];
+    tmp_vec_1[1] = gradient1[1] - gradient0[1];
+    tmp_vec_1[2] = gradient1[2] - gradient0[2];
+    tmp_vec_2[0] = gradient2[0] - gradient0[0];
+    tmp_vec_2[1] = gradient2[1] - gradient0[1];
+    tmp_vec_2[2] = gradient2[2] - gradient0[2];
+    tmp_vec_3[0] = gradient3[0] - gradient0[0];
+    tmp_vec_3[1] = gradient3[1] - gradient0[1];
+    tmp_vec_3[2] = gradient3[2] - gradient0[2];
 
     vec_for[0] = vec_for[0] + ( ( data->pos )[0] - coord[0] ) * tmp_vec_1[0]
                  + ( ( data->pos )[1] - coord[1] ) * tmp_vec_2[0] + ( ( data->pos )[2] - coord[2] ) * tmp_vec_3[0];
