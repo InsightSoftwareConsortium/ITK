@@ -135,8 +135,9 @@ public:
    *  controls the requested region. Therefore, changing the buffered region
    *  may mean the filter cannot produce the requested region.
    */
+  itkSetMacro(OutputOffset, OutputImageOffsetType);
+  itkGetConstReferenceMacro(OutputOffset, OutputImageOffsetType);
   itkSetVectorMacro(OutputOffset, long, ImageDimension);
-  itkGetVectorMacro(OutputOffset, const long, ImageDimension);
 
   /** Change the origin, spacing and region of the output image. */
   void ChangeAll()
@@ -231,7 +232,7 @@ private:
   PointType     m_OutputOrigin;
   DirectionType m_OutputDirection;
 
-  long                  m_OutputOffset[ImageDimension];
+  OutputImageOffsetType m_OutputOffset;
   OutputImageOffsetType m_Shift;
 };
 } // end namespace itk

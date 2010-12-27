@@ -75,7 +75,7 @@ int itkImportImageTest(int, char* [] )
   const float data2[2] = {1.0,1.0};
   import->SetSpacing(data2);
 
-  const double * spacingValue = import->GetSpacing();
+  const double * spacingValue = import->GetSpacing().GetDataPointer();
   std::cout << "import->GetSpacing(): " << spacingValue << std::endl;
 
   const double data3[2] = {1.0,1.0};
@@ -84,7 +84,7 @@ int itkImportImageTest(int, char* [] )
   const float data4[2] = {1.0,1.0};
   import->SetOrigin(data4);
 
-  const double * originValue = import->GetOrigin();
+  const double * originValue = import->GetOrigin().GetDataPointer();
   std::cout << "import->GetOrigin(): " << originValue << std::endl;
 
   //

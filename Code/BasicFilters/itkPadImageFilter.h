@@ -65,6 +65,7 @@ public:
   typedef typename TInputImage::IndexType     InputImageIndexType;
   typedef typename TOutputImage::SizeType     OutputImageSizeType;
   typedef typename TInputImage::SizeType      InputImageSizeType;
+  typedef typename TInputImage::SizeType      SizeType;
   typedef typename TInputImage::SizeValueType SizeValueType;
 
   /** Run-time type information (and related methods). */
@@ -76,20 +77,12 @@ public:
 
   /** Set/Get the output image padding.  Default is no padding
    *  (same as input). */
+  itkSetMacro(PadLowerBound, SizeType);
+  itkSetMacro(PadUpperBound, SizeType);
+  itkGetConstReferenceMacro(PadLowerBound, SizeType);
+  itkGetConstReferenceMacro(PadUpperBound, SizeType);
   itkSetVectorMacro(PadLowerBound, const SizeValueType, ImageDimension);
   itkSetVectorMacro(PadUpperBound, const SizeValueType, ImageDimension);
-  itkGetVectorMacro(PadLowerBound, const SizeValueType, ImageDimension);
-  itkGetVectorMacro(PadUpperBound, const SizeValueType, ImageDimension);
-
-  void SetPadLowerBound(const InputImageSizeType & bound)
-  {
-    this->SetPadLowerBound(bound.m_Size);
-  }
-
-  void SetPadUpperBound(const InputImageSizeType & bound)
-  {
-    this->SetPadUpperBound(bound.m_Size);
-  }
 
   void SetPadBound(const InputImageSizeType & bound)
   {
@@ -121,8 +114,8 @@ private:
   PadImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
-  SizeValueType m_PadLowerBound[ImageDimension];
-  SizeValueType m_PadUpperBound[ImageDimension];
+  SizeType m_PadLowerBound;
+  SizeType m_PadUpperBound;
 };
 } // end namespace itk
 

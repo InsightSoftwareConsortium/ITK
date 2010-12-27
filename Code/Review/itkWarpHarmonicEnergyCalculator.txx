@@ -50,23 +50,6 @@ WarpHarmonicEnergyCalculator< TInputImage >
 template< class TInputImage >
 void
 WarpHarmonicEnergyCalculator< TInputImage >
-::SetDerivativeWeights(double data[])
-{
-  m_UseImageSpacing = false;
-
-  for ( unsigned int i = 0; i < ImageDimension; ++i )
-    {
-    if ( m_DerivativeWeights[i] != data[i] )
-      {
-      this->Modified();
-      m_DerivativeWeights[i] = data[i];
-      }
-    }
-}
-
-template< class TInputImage >
-void
-WarpHarmonicEnergyCalculator< TInputImage >
 ::SetUseImageSpacing(bool f)
 {
   if ( m_UseImageSpacing == f )

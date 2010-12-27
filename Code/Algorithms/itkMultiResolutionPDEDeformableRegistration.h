@@ -22,8 +22,7 @@
 #include "itkDemonsRegistrationFilter.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkVectorResampleImageFilter.h"
-
-#include <vector>
+#include "itkArray.h"
 
 namespace itk
 {
@@ -135,6 +134,8 @@ public:
   typedef VectorResampleImageFilter< DeformationFieldType, DeformationFieldType > FieldExpanderType;
   typedef typename FieldExpanderType::Pointer                                     FieldExpanderPointer;
 
+  typedef Array< unsigned int > NumberOfIterationsType;
+
   /** Set the fixed image. */
   virtual void SetFixedImage(const FixedImageType *ptr);
 
@@ -201,18 +202,18 @@ public:
   /** Get the current resolution level being processed. */
   itkGetConstReferenceMacro(CurrentLevel, unsigned int);
 
-  /** Set number of iterations per multi-resolution levels. */
-  itkSetVectorMacro(NumberOfIterations, unsigned int, m_NumberOfLevels);
-
   /** Set the moving image pyramid. */
   itkSetObjectMacro(FieldExpander, FieldExpanderType);
 
   /** Get the moving image pyramid. */
   itkGetObjectMacro(FieldExpander, FieldExpanderType);
 
+  /** Set number of iterations per multi-resolution levels. */
+  itkSetMacro(NumberOfIterations, NumberOfIterationsType);
+  itkSetVectorMacro(NumberOfIterations, unsigned int, m_NumberOfLevels);
+
   /** Get number of iterations per multi-resolution levels. */
-  virtual const unsigned int * GetNumberOfIterations() const
-  { return &( m_NumberOfIterations[0] ); }
+  itkGetConstReferenceMacro(NumberOfIterations, NumberOfIterationsType);
 
   /** Stop the registration after the current iteration. */
   virtual void StopRegistration();
@@ -263,7 +264,7 @@ private:
 
   unsigned int                m_NumberOfLevels;
   unsigned int                m_CurrentLevel;
-  std::vector< unsigned int > m_NumberOfIterations;
+  NumberOfIterationsType      m_NumberOfIterations;
 
   /** Flag to indicate user stop registration request. */
   bool m_StopRegistrationFlag;

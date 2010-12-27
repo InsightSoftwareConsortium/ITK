@@ -150,7 +150,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
   typename GaussianImageSource< GaussianImageType >::ArrayType sigma;
 
   gaussianImage = GaussianImageSource< GaussianImageType >::New();
-  gaussianImage->SetSize( domainKernelSize.GetSize() );
+  gaussianImage->SetSize( domainKernelSize );
   gaussianImage->SetSpacing(inputSpacing);
   gaussianImage->SetOrigin(inputOrigin);
   gaussianImage->SetScale(1.0);

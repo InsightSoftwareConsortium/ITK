@@ -99,23 +99,15 @@ public:
 
   /** Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing() */
-  itkSetVectorMacro(Spacing, const double, VImageDimension);
+  itkSetMacro(Spacing, SpacingType);
+  itkGetConstReferenceMacro(Spacing, SpacingType);
   itkSetVectorMacro(Spacing, const float, VImageDimension);
-
-  /** Get the spacing (size of a pixel) of the image.
-   * \sa SetSpacing() */
-  itkGetVectorMacro(Spacing, const double, VImageDimension);
-  void SetSpacing(const SpacingType & spacing);
 
   /** Set the origin of the image.
    * \sa GetOrigin() */
-  itkSetVectorMacro(Origin, const double, VImageDimension);
+  itkSetMacro(Origin, OriginType);
+  itkGetConstReferenceMacro(Origin, OriginType);
   itkSetVectorMacro(Origin, const float, VImageDimension);
-  void SetOrigin(const OriginType & origin);
-
-  /** Get the origin of the image.
-   * \sa SetOrigin() */
-  itkGetVectorMacro(Origin, const double, VImageDimension);
 
   typedef Matrix< double, VImageDimension, VImageDimension > DirectionType;
 
@@ -154,8 +146,8 @@ private:
   void operator=(const ImportImageFilter &);    //purposely not implemented
 
   RegionType    m_Region;
-  double        m_Spacing[VImageDimension];
-  double        m_Origin[VImageDimension];
+  SpacingType   m_Spacing;
+  OriginType    m_Origin;
   DirectionType m_Direction;
 
   TPixel *      m_ImportPointer;

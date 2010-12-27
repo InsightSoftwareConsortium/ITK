@@ -82,37 +82,12 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 }
 
 /**
- * Set expand factors from an array of unsigned int.
- */
-template< class TInputImage, class TOutputImage >
-void
-VectorExpandImageFilter< TInputImage, TOutputImage >
-::SetExpandFactors(const ExpandFactorsType factors[])
-{
-  unsigned int j;
-
-  for ( j = 0; j < ImageDimension; j++ )
-    {
-    if ( factors[j] != m_ExpandFactors[j] ) { break; }
-    }
-  if ( j < ImageDimension )
-    {
-    this->Modified();
-    for ( j = 0; j < ImageDimension; j++ )
-      {
-      m_ExpandFactors[j] = factors[j];
-      if ( m_ExpandFactors[j] < 1 ) { m_ExpandFactors[j] = 1; }
-      }
-    }
-}
-
-/**
  * Set expand factors from a single unsigned int
  */
 template< class TInputImage, class TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
-::SetExpandFactors(const ExpandFactorsType factor)
+::SetExpandFactors(const float factor)
 {
   unsigned int j;
 
@@ -126,31 +101,6 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
     for ( j = 0; j < ImageDimension; j++ )
       {
       m_ExpandFactors[j] = factor;
-      if ( m_ExpandFactors[j] < 1 ) { m_ExpandFactors[j] = 1; }
-      }
-    }
-}
-
-/**
- * Set expand factors from an array of unsigned int.
- */
-template< class TInputImage, class TOutputImage >
-void
-VectorExpandImageFilter< TInputImage, TOutputImage >
-::SetExpandFactors(const unsigned int factors[])
-{
-  unsigned int j;
-
-  for ( j = 0; j < ImageDimension; j++ )
-    {
-    if ( factors[j] != m_ExpandFactors[j] ) { break; }
-    }
-  if ( j < ImageDimension )
-    {
-    this->Modified();
-    for ( j = 0; j < ImageDimension; j++ )
-      {
-      m_ExpandFactors[j] = (ExpandFactorsType)factors[j];
       if ( m_ExpandFactors[j] < 1 ) { m_ExpandFactors[j] = 1; }
       }
     }
@@ -388,11 +338,11 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
     {
     outputSpacing[i] = inputSpacing[i] / (float)m_ExpandFactors[i];
     outputSize[i] = (unsigned long)
-                    ( (ExpandFactorsType)inputSize[i] * m_ExpandFactors[i]
-                      + (ExpandFactorsType)0.5 );
+                    ( (float)inputSize[i] * m_ExpandFactors[i]
+                      + 0.5f );
     outputStartIndex[i] = (long)
-                          ( (ExpandFactorsType)inputStartIndex[i] * m_ExpandFactors[i]
-                            + (ExpandFactorsType)0.5 );
+                          ( (float)inputStartIndex[i] * m_ExpandFactors[i]
+                            + 0.5f );
     const double fraction = (double)( m_ExpandFactors[i] - 1 ) / (double)m_ExpandFactors[i];
     inputOriginShift[i] = -( inputSpacing[i] / 2.0 ) * fraction;
     }

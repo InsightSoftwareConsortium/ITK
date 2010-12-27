@@ -106,15 +106,16 @@ public:
   /** Get a pointer to the interpolator function. */
   itkGetObjectMacro(Interpolator, InterpolatorType);
 
+  /** The type of the expand factors representation */
+  typedef FixedArray< unsigned int, ImageDimension > ExpandFactorsType;
+
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
-  virtual void SetExpandFactors(const unsigned int factors[]);
-
+  itkSetMacro(ExpandFactors, ExpandFactorsType);
   virtual void SetExpandFactors(const unsigned int factor);
 
   /** Get the expand factors. */
-  virtual const unsigned int * GetExpandFactors() const
-  { return m_ExpandFactors; }
+  itkGetConstReferenceMacro(ExpandFactors, ExpandFactorsType);
 
 //TEST_RMV20100728   /** Set the edge padding value. The default is zero. */
 //TEST_RMV20100728   itkSetMacro( EdgePaddingValue, OutputPixelType );
@@ -171,7 +172,7 @@ private:
   ExpandImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
 
-  unsigned int        m_ExpandFactors[ImageDimension];
+  ExpandFactorsType   m_ExpandFactors;
   InterpolatorPointer m_Interpolator;
 //TEST_RMV20100728 * \warning: The following is valid only when the flag
 //TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON

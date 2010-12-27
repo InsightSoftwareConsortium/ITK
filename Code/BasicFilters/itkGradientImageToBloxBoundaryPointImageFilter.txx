@@ -42,31 +42,6 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 template< typename TInputImage >
 void
 GradientImageToBloxBoundaryPointImageFilter< TInputImage >
-::SetBloxResolution(float bloxResolution[])
-{
-  unsigned int j = 0;
-
-  for ( j = 0; j < NDimensions; j++ )
-    {
-    if ( bloxResolution[j] != m_BloxResolution[j] ) { break; }
-    }
-  if ( j < NDimensions )
-    {
-    this->Modified();
-    for ( j = 0; j < Superclass::ImageDimension; j++ )
-      {
-      m_BloxResolution[j] = bloxResolution[j];
-      if ( m_BloxResolution[j] < 1 )
-        {
-        m_BloxResolution[j] = 1;
-        }
-      }
-    }
-}
-
-template< typename TInputImage >
-void
-GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 ::SetBloxResolution(float bloxResolution)
 {
   unsigned int j = 0;
@@ -302,6 +277,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold level: " << m_Threshold << std::endl;
+  os << indent << "BloxResolution: " << m_BloxResolution << std::endl;
 }
 } // end namespace
 

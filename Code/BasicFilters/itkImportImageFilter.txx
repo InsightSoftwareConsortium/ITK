@@ -198,40 +198,6 @@ ImportImageFilter< TPixel, VImageDimension >
                                                    m_Size, false);
 }
 
-/**
- *
- */
-template< class TPixel, unsigned int VImageDimension >
-void
-ImportImageFilter< TPixel, VImageDimension >
-::SetSpacing(const SpacingType & spacing)
-{
-  double dspacing[VImageDimension];
-
-  for ( unsigned int i = 0; i < VImageDimension; i++ )
-    {
-    dspacing[i] = spacing[i];
-    }
-  this->SetSpacing(dspacing);
-}
-
-/**
- *
- */
-template< class TPixel, unsigned int VImageDimension >
-void
-ImportImageFilter< TPixel, VImageDimension >
-::SetOrigin(const OriginType & origin)
-{
-  double dorigin[VImageDimension];
-
-  for ( unsigned int i = 0; i < VImageDimension; i++ )
-    {
-    dorigin[i] = origin[i];
-    }
-  this->SetOrigin(dorigin);
-}
-
 //----------------------------------------------------------------------------
 template< class TPixel, unsigned int VImageDimension >
 void

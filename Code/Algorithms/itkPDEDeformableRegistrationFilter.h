@@ -151,16 +151,17 @@ public:
   itkGetConstMacro(SmoothDeformationField, bool);
   itkBooleanMacro(SmoothDeformationField);
 
+  typedef FixedArray< double, ImageDimension > StandardDeviationsType;
+
   /** Set the Gaussian smoothing standard deviations for the
    * deformation field. The values are set with respect to pixel
    * coordinates. */
-  itkSetVectorMacro(StandardDeviations, double, ImageDimension);
+  itkSetMacro(StandardDeviations, StandardDeviationsType);
   virtual void SetStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations use for smoothing
    * the deformation field. */
-  const double * GetStandardDeviations(void)
-  { return (double *)m_StandardDeviations; }
+  itkGetConstReferenceMacro(StandardDeviations, StandardDeviationsType);
 
   /** Set/Get whether the update field is smoothed
    * (regularized). Smoothing the update field yields a solution
@@ -173,13 +174,12 @@ public:
 
   /** Set the Gaussian smoothing standard deviations for the update
    * field. The values are set with respect to pixel coordinates. */
-  itkSetVectorMacro(UpdateFieldStandardDeviations, double, ImageDimension);
+  itkSetMacro(UpdateFieldStandardDeviations, StandardDeviationsType);
   virtual void SetUpdateFieldStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations used for
    * smoothing the update field. */
-  const double * GetUpdateFieldStandardDeviations(void)
-  { return (double *)m_UpdateFieldStandardDeviations; }
+  itkGetConstReferenceMacro(UpdateFieldStandardDeviations, StandardDeviationsType);
 
   /** Stop the registration after the current iteration. */
   virtual void StopRegistration()
@@ -255,8 +255,8 @@ private:
   void operator=(const Self &);                  //purposely not implemented
 
   /** Standard deviation for Gaussian smoothing */
-  double m_StandardDeviations[ImageDimension];
-  double m_UpdateFieldStandardDeviations[ImageDimension];
+  StandardDeviationsType m_StandardDeviations;
+  StandardDeviationsType m_UpdateFieldStandardDeviations;
 
   /** Modes to control smoothing of the update and deformation fields */
   bool m_SmoothDeformationField;

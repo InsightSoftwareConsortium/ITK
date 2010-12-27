@@ -46,7 +46,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDeformatio
   m_InitialDeformationField = NULL;
 
   m_NumberOfLevels = 3;
-  m_NumberOfIterations.resize(m_NumberOfLevels);
+  m_NumberOfIterations.SetSize(m_NumberOfLevels);
   m_FixedImagePyramid->SetNumberOfLevels(m_NumberOfLevels);
   m_MovingImagePyramid->SetNumberOfLevels(m_NumberOfLevels);
 
@@ -146,7 +146,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDeformatio
     {
     this->Modified();
     m_NumberOfLevels = num;
-    m_NumberOfIterations.resize(m_NumberOfLevels);
+    m_NumberOfIterations.SetSize(m_NumberOfLevels);
     }
 
   if ( m_MovingImagePyramid && m_MovingImagePyramid->GetNumberOfLevels() != num )

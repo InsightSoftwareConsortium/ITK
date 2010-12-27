@@ -161,8 +161,8 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       {
       typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
       typename PadType::Pointer pad = PadType::New();
-      pad->SetPadLowerBound(this->GetKernel().GetRadius().m_Size);
-      pad->SetPadUpperBound(this->GetKernel().GetRadius().m_Size);
+      pad->SetPadLowerBound(this->GetKernel().GetRadius());
+      pad->SetPadUpperBound(this->GetKernel().GetRadius());
       pad->SetConstant( NumericTraits< ITK_TYPENAME InputImageType::PixelType >::NonpositiveMin() );
       pad->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(pad, 0.1f);
@@ -204,8 +204,8 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       {
       typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
       typename PadType::Pointer pad = PadType::New();
-      pad->SetPadLowerBound(this->GetKernel().GetRadius().m_Size);
-      pad->SetPadUpperBound(this->GetKernel().GetRadius().m_Size);
+      pad->SetPadLowerBound(this->GetKernel().GetRadius());
+      pad->SetPadUpperBound(this->GetKernel().GetRadius());
       pad->SetConstant( NumericTraits< ITK_TYPENAME InputImageType::PixelType >::NonpositiveMin() );
       pad->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(pad, 0.1f);
@@ -247,8 +247,8 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       {
       typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
       typename PadType::Pointer pad = PadType::New();
-      pad->SetPadLowerBound(this->GetKernel().GetRadius().m_Size);
-      pad->SetPadUpperBound(this->GetKernel().GetRadius().m_Size);
+      pad->SetPadLowerBound(this->GetKernel().GetRadius());
+      pad->SetPadUpperBound(this->GetKernel().GetRadius());
       pad->SetConstant( NumericTraits< ITK_TYPENAME InputImageType::PixelType >::NonpositiveMin() );
       pad->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(pad, 0.1f);
@@ -290,8 +290,8 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       {
       typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
       typename PadType::Pointer pad = PadType::New();
-      pad->SetPadLowerBound(this->GetKernel().GetRadius().m_Size);
-      pad->SetPadUpperBound(this->GetKernel().GetRadius().m_Size);
+      pad->SetPadLowerBound(this->GetKernel().GetRadius());
+      pad->SetPadUpperBound(this->GetKernel().GetRadius());
       pad->SetConstant( NumericTraits< ITK_TYPENAME InputImageType::PixelType >::NonpositiveMin() );
       pad->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(pad, 0.1f);

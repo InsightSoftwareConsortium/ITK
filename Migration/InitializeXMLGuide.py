@@ -227,6 +227,7 @@ if __name__ == '__main__':
     # get the log for the commit
     fullPath = baseDir + "/" + filename
     diffCommand = "git diff " + baseCommit + " -- " + fullPath
+    print diffCommand
     diff = runCommand(diffCommand)
 
     # parse lines into old and new

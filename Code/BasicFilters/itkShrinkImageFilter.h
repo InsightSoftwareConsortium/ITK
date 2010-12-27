@@ -95,19 +95,19 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
+  typedef FixedArray< unsigned int, ImageDimension > ShrinkFactorsType;
+
   /** Set the shrink factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
-  void SetShrinkFactors(unsigned int factors[]);
+  itkSetMacro(ShrinkFactors, ShrinkFactorsType);
   void SetShrinkFactors(unsigned int factor);
-
   void SetShrinkFactor(unsigned int i, unsigned int factor)
   {
     m_ShrinkFactors[i] = factor;
   }
 
   /** Get the shrink factors. */
-  const unsigned int * GetShrinkFactors() const
-  { return m_ShrinkFactors; }
+  itkGetConstReferenceMacro(ShrinkFactors, ShrinkFactorsType);
 
   /** ShrinkImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input
@@ -155,7 +155,7 @@ private:
   ShrinkImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
 
-  unsigned int m_ShrinkFactors[ImageDimension];
+  ShrinkFactorsType m_ShrinkFactors;
 };
 } // end namespace itk
 

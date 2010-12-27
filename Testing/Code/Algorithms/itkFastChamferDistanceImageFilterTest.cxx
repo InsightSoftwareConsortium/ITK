@@ -168,7 +168,7 @@ int itkFastChamferDistanceImageFilterTest(int, char* [] )
   inweights[1]=1.34;
   const float *outweights;
   filter->SetWeights(inweights);
-  outweights =  filter->GetWeights();
+  outweights =  filter->GetWeights().GetDataPointer();
 
   std::cout << "outweights = " << outweights << std::endl;
 

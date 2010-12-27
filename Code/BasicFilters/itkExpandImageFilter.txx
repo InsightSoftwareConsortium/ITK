@@ -80,32 +80,6 @@ ExpandImageFilter< TInputImage, TOutputImage >
 }
 
 /**
- * Set expand factors from an array of unsigned int.
- */
-template< class TInputImage, class TOutputImage >
-void
-ExpandImageFilter< TInputImage, TOutputImage >
-::SetExpandFactors(
-  const unsigned int factors[])
-{
-  unsigned int j;
-
-  for ( j = 0; j < ImageDimension; j++ )
-    {
-    if ( factors[j] != m_ExpandFactors[j] ) { break; }
-    }
-  if ( j < ImageDimension )
-    {
-    this->Modified();
-    for ( j = 0; j < ImageDimension; j++ )
-      {
-      m_ExpandFactors[j] = factors[j];
-      if ( m_ExpandFactors[j] < 1 ) { m_ExpandFactors[j] = 1; }
-      }
-    }
-}
-
-/**
  * Set expand factors from a single unsigned int
  */
 template< class TInputImage, class TOutputImage >
