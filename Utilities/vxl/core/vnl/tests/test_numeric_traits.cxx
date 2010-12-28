@@ -3,6 +3,7 @@
 #include <testlib/testlib_test.h>
 #include <vcl_complex.h>
 #include <vcl_iostream.h>
+#include <vcl_cstring.h>
 #include <vxl_config.h> // for VXL_BIG_ENDIAN
 
 static
@@ -208,10 +209,7 @@ void test_numeric_traits()
   longdoublewithbackup ldwb;
 
   // initialize the full set of bytes under the long double type
-  for(unsigned int jj = 0; jj < sizeof(long double); jj++)
-    {
-    ldwb.lc[jj] = 0;
-    }
+  vcl_memset( ldwb.lc, 0, sizeof(long double) );
 
   ldwb.ld = ldm;
 
