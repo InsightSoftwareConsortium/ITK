@@ -54,7 +54,7 @@ int itkMetaImageStreamingWriterIOTest(int argc, char*  argv[])
   ImageType::SizeType fullsize;
   ImageType::IndexType index;
 
-  unsigned int m_NumberOfPieces = 10;
+  unsigned int numberOfPieces = 10;
 
   // We decide how we want to read the image and we split accordingly
   // The image is read slice by slice
@@ -66,36 +66,41 @@ int itkMetaImageStreamingWriterIOTest(int argc, char*  argv[])
   size[1] = fullsize[1];
   size[2] = 0;
 
-  if (m_NumberOfPieces > fullsize[2])
+  if (numberOfPieces > fullsize[2])
     {
-    m_NumberOfPieces = fullsize[2];
+    numberOfPieces = fullsize[2];
     }
-  unsigned int zsize = fullsize[2]/m_NumberOfPieces;
+  unsigned int zsize = fullsize[2] / numberOfPieces;
 
   // Setup the writer
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2]);
 
-  for(unsigned int i=0;i<m_NumberOfPieces;i++)
+  for( unsigned int i = 0; i < numberOfPieces; i++ )
     {
-    std::cout << "Reading piece " << i+1 << " of " << m_NumberOfPieces << std::endl;
+    std::cout << "Reading piece " << i+1 << " of " << numberOfPieces << std::endl;
 
     index[2] += size[2];
 
     // At the end we need to adjust the size to make sure
     // we are reading everything
-    if(i == m_NumberOfPieces-1)
+    if(i == numberOfPieces-1)
       {
-      size[2] = fullsize[2]-index[2];
+      size[2] = fullsize[2] - index[2];
       }
     else
       {
       size[2] = zsize;
       }
 
-    region.SetIndex(index);
-    region.SetSize(size);
+    region.SetIndex( index );
+    region.SetSize( size );
+
     reader->GetOutput()->SetRequestedRegion(region);
+
+    std::cout << "Requested region = " << std::endl;
+    std::cout << region << std::endl;
+
     try
       {
       reader->Update();
@@ -108,18 +113,23 @@ int itkMetaImageStreamingWriterIOTest(int argc, char*  argv[])
 
     // Write the image
     itk::ImageIORegion  ioregion(3);
+
     itk::ImageIORegion::IndexType index2;
-    index2.push_back(region.GetIndex()[0]);
-    index2.push_back(region.GetIndex()[1]);
-    index2.push_back(region.GetIndex()[2]);
+    index2.push_back( index[0] );
+    index2.push_back( index[1] );
+    index2.push_back( index[2] );
+
     itk::ImageIORegion::SizeType size2;
-    size2.push_back(region.GetSize()[0]);
-    size2.push_back(region.GetSize()[1]);
-    size2.push_back(region.GetSize()[2]);
+
+    size2.push_back( size[0] );
+    size2.push_back( size[1] );
+    size2.push_back( size[2] );
+
     ioregion.SetIndex(index2);
     ioregion.SetSize(size2);
-    writer->SetIORegion(ioregion);
-    writer->SetInput(reader->GetOutput());
+
+    writer->SetIORegion( ioregion );
+    writer->SetInput( reader->GetOutput() );
 
     try
       {
