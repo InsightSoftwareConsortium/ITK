@@ -686,10 +686,9 @@ add_test(itkMetaImageStreamingWriterIOTest ${IO_TESTS}
   itkMetaImageStreamingWriterIOTest
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha)
-# This test is failing to produce correct output
 add_test(itkMetaImageStreamingWriterIOTest2 ${IO_TESTS}
-#  --compare ${ITK_DATA_ROOT}/Input/mri3D.mhd
-#            ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
+  --compare ${ITK_DATA_ROOT}/Input/mri3D.mhd
+            ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
   itkMetaImageStreamingWriterIOTest
             ${ITK_DATA_ROOT}/Input/mri3D.mhd
             ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha)
