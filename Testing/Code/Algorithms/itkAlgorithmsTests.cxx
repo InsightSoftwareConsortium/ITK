@@ -38,6 +38,7 @@ REGISTER_TEST(itkBioCellularAggregateTest  );
 REGISTER_TEST(itkBioGeneTest  );
 REGISTER_TEST(itkBioGenomeTest  );
 REGISTER_TEST(itkBioGeneNetworkTest  );
+REGISTER_TEST(itkBresenhamLineTest);
 REGISTER_TEST(itkCannySegmentationLevelSetImageFilterTest );
 REGISTER_TEST(itkCorrelationCoefficientHistogramImageToImageMetricTest );
 REGISTER_TEST(itkCurvatureFlowTest );

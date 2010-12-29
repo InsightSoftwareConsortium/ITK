@@ -38,6 +38,7 @@ public:
   typedef Offset< VDimension >        OffsetType;
   typedef Index< VDimension >         IndexType;
   typedef std::vector< OffsetType >   OffsetArray;
+  typedef std::vector< IndexType >   IndexArray;
 
   typedef typename IndexType::IndexValueType IndexValueType;
 
@@ -45,7 +46,11 @@ public:
   BresenhamLine(){}
   ~BresenhamLine(){}
 
+  /** Build a line in a specified Direction. */
   OffsetArray BuildLine(LType Direction, unsigned int length);
+
+  /** Build a line between two pixels. */
+  IndexArray BuildLine(IndexType p0, IndexType p1);
 };
 }
 

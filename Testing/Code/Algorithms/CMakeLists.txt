@@ -38,6 +38,7 @@ add_test(itkBioCellularAggregateTest ${ALGORITHMS_TESTS} itkBioCellularAggregate
 add_test(itkBioGeneTest ${ALGORITHMS_TESTS} itkBioGeneTest )
 add_test(itkBioGenomeTest ${ALGORITHMS_TESTS} itkBioGenomeTest )
 add_test(itkBioGeneNetworkTest ${ALGORITHMS_TESTS} itkBioGeneNetworkTest )
+add_test(itkBresenhamLineTest ${ALGORITHMS_TESTS} itkBresenhamLineTest )
 add_test(itkCannySegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkCannySegmentationLevelSetImageFilterTest)
 add_test(itkCorrelationCoefficientHistogramImageToImageMetricTest ${ALGORITHMS_TESTS} itkCorrelationCoefficientHistogramImageToImageMetricTest)
 add_test(itkCompareHistogramImageToImageMetricTest ${ALGORITHMS_TESTS2} itkCompareHistogramImageToImageMetricTest)
@@ -353,6 +354,7 @@ itkBioCellularAggregateTest.cxx
 itkBioGeneNetworkTest.cxx
 itkBioGeneTest.cxx
 itkBioGenomeTest.cxx
+itkBresenhamLineTest.cxx
 itkCannySegmentationLevelSetImageFilterTest.cxx
 itkCorrelationCoefficientHistogramImageToImageMetricTest.cxx
 itkCurvatureFlowTest.cxx
