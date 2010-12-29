@@ -409,6 +409,7 @@ private:
   void SetFixedParametersDirectionFromCoefficientImageInformation() const;
   void SetFixedParametersFromCoefficientImageInformation() const;
   void SetCoefficientImageInformationFromFixedParameters();
+  void UpdateValidGridRegion();
 
   BSplineDeformableTransform(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented
