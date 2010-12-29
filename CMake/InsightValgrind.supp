@@ -1372,3 +1372,17 @@
    fun:exit
    fun:(below main)
 }
+{
+   CrazyTclError brian.jouy.inra.fr
+   Memcheck:Leak
+   fun:realloc
+   fun:Tcl_Realloc
+   obj:/usr/lib64/libtcl8.6.so.0
+   fun:Tcl_GetUnicodeFromObj
+   obj:/usr/lib64/libtcl8.6.so.0
+   fun:TclNRRunCallbacks
+   obj:/usr/lib64/libtcl8.6.so.0
+   fun:Tcl_FSEvalFileEx
+   fun:Tcl_Main
+   fun:main
+}
