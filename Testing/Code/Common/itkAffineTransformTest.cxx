@@ -30,10 +30,10 @@
 typedef  itk::Matrix<double,2,2>   Matrix2Type;
 typedef  itk::Vector<double,2>     Vector2Type;
 
-const double epsilon = 1e-10;
-
 namespace
 {
+
+const double epsilon = 1e-10;
 
 void PrintVector( const Vector2Type & v )
   {
@@ -575,7 +575,6 @@ int itkAffineTransformTest(int, char *[])
     TransformType::ParametersType expectedParameters;
     expectedParameters.SetSize( transform->GetNumberOfParameters() );
 
-    double epsilon = 1e-10;
 
     // check the returned parameters
 
