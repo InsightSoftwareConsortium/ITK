@@ -26,6 +26,7 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
 
+  REGISTER_TEST(itkObjectToObjectMetricTest);
   REGISTER_TEST(itkDeformationFieldTransformTest);
   REGISTER_TEST(itkBSplineControlPointImageFilterTest);
   REGISTER_TEST(itkN4MRIBiasFieldCorrectionImageFilterTest);

@@ -52,7 +52,8 @@ public:
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType ParametersType;
+  typedef Superclass::ParametersType      ParametersType;
+  typedef Superclass::ParametersValueType ParametersValueType;
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.    */

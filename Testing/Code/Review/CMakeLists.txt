@@ -270,6 +270,7 @@ set(ReviewTest5_SRCS
 )
 
 set(ReviewTest6_SRCS
+  itkObjectToObjectMetricTest.cxx
   itkDeformationFieldTransformTest.cxx
   itkBSplineControlPointImageFilterTest.cxx
   itkN4MRIBiasFieldCorrectionImageFilterTest.cxx
@@ -282,6 +283,7 @@ set(ReviewTest6_SRCS
   itkScalarChanAndVeseSparseLevelSetImageFilterTest1.cxx
   itkScalarChanAndVeseSparseLevelSetImageFilterTest2.cxx
 )
+
 
 add_test(itkOptImageToImageMetricsTest01
   ${REVIEW_TESTS} itkOptImageToImageMetricsTest
@@ -2410,6 +2412,8 @@ add_test(itkLabelGeometryImageFilterTest2
   ${INPUTDATA}/GrayscaleImageWithVariousShapes01.png
   )
 
+add_test(itkObjectToObjectMetricTest ${REVIEW_TESTS6}
+         itkObjectToObjectMetricTest)
 add_test(itkDeformationFieldTransformTest ${REVIEW_TESTS6}
   itkDeformationFieldTransformTest)
 
@@ -2647,7 +2651,7 @@ set(ReviewTest6_LIBS
   ITKNumerics
   ITKStatistics
   )
-target_link_libraries(itkReviewTests6 ${ReviewTest6_LIBS})
+target_link_libraries(itkReviewTests6 ${ReviewTest6_LIBS} ITKNumerics)
 
 if(ITK_USE_MINC2 AND MINC2_FOUND)
   set(ReviewTest_LIBS ${ReviewTest_LIBS} ITKIOMINC2)
