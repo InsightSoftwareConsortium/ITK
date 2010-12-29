@@ -69,11 +69,15 @@ if os.path.isdir(HeadOfModularITKTree):
    if (answer == 'y'):
        shutil.rmtree(HeadOfModularITKTree)
        print('removed {0}'.format(HeadOfModularITKTree))
-       cmd ='git clone git@www.kitware.com:itk/modularITKSupport.git  '+HeadOfModularITKTree
-       os.system(cmd)
+
    else:
        print('please choose another directory for modularized ITK')
        exit(-1)
+
+
+# get the supporting modules and cmake packaing files
+cmd ='git clone git@www.kitware.com:itk/modularITKSupport.git  '+HeadOfModularITKTree
+os.system(cmd)
 
 
 # copy the whole ITK tree over to a tempery dir

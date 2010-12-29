@@ -1,19 +1,27 @@
 #!/bin/bash
 
-# This script needs customization to run.
-# It is for the developer's convinience of running the modularization scripts repeatly.
+# Excute the modularization python scripts.
+# This scripts is only for developer's convinience of running modularization repteatly.
 
-HeadOfMonolithicITKTree=/media/work/src/ITK
-HeadOfModularITKTree=/media/work/src/modularITKSupport
+# To run the script, first modify the following two variables:  HeadOfModularITKTree
+# and HeadOfMonolithicITKTree.
+
+
+################ path variables needs to be modified  ###############
+
+HeadOfMonolithicITKTree='..' # This is the origin ITK dir
+HeadOfModularITKTree=/tmp/src/modularITK  # This dir will be cleaned up every time running the script, so be carful not setting it to wrong dirs.
+
+######################################################################
+
+
+
+
 logs=$HeadOfModularITKTree/logs
 
-# modify according to your paths
+# excute the modulizer.py with the default "clean up  the modular ITK tree" option: 'y'
 ./modulizer.py  $HeadOfMonolithicITKTree $HeadOfModularITKTree y
 
-#./testFinder.py    \
-#/media/work/src/ITK
-
-#cat ManifestOfITKTests.txt  >> Manifest.txt
 
 #dealing with itk-common
 ./specialModuleFix.py  $HeadOfMonolithicITKTree $HeadOfModularITKTree

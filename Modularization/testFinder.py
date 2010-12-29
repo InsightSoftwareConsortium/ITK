@@ -55,7 +55,7 @@ for line in open("./Manifest.txt",'r'):
     group = words[1]
     module = words[2]
     destinationSubdir = words[3]
-    if destinationSubdir == 'src':
+    if destinationSubdir == 'src' or destinationSubdir == 'include':
       basepath, basefilename = os.path.split(inputfile)
       basename, extension = os.path.splitext(basefilename)
       basenametest = basename+'Test'
