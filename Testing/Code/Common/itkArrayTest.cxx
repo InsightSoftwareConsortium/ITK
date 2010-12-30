@@ -102,6 +102,18 @@ int itkArrayTest(int, char* [] )
   // Exercise operator=( VnlVectorType& )
   test2 = test1;
 
+  // Test the case where we construct an array that points
+  // to a user allocated buffer where the user wants to
+  // maintain responsibility for deleting the array.
+  FloatArrayType objectToCopy(10);
+  float* data = new float[10];
+  objectToCopy.SetData(data); // This implictly means LetArrayManageMemory=false
+
+  // Make a copy of the array which is not managing its own memory.
+  FloatArrayType copy(objectToCopy);
+
+  delete [] data;
+
   return EXIT_SUCCESS;
 
 }
