@@ -198,16 +198,20 @@ for  moduleName in moduleList:
        filepath = HeadOfModularITKTree+'/'+moduleName+'/test/CMakeLists.txt'
        if not os.path.isfile(filepath):
            o = open(filepath,'w')
-           for line in open('./templateModule/itk-template-module/test/CMakeLists.txt','r'):
-              words= moduleName.split('-')
-              moduleNameMod='';
-              for word in words:
-                 moduleNameMod=moduleNameMod + word.capitalize()
-              line = line.replace('itkTemplateModule',moduleNameMod)
-              line = line.replace('itk-template-module',moduleName)
-              line = line.replace('LIST_OF_CXX_FILES',cxxFileList[0:-1]) #get rid of the last \n
-              o.write(line);
-           o.close()
+           line = 'create_Test_sourcelist(Tests {0}-tests.cxx\n{1})\n\n'.format(moduleName, cxxFileList)
+           o.write(line)
+
+           line = 'add_executable({0}-tests  ${{Tests}} )\n'.format(moduleName)
+           o.write(line)
+
+           line = 'set (TestsTorun ${{Tests}})\nremove(TestsToRun {0}Tests.cxx)\n\n'.format(moduleName)
+           o.write(line)
+
+       for cxxf in cxxFiles:
+            cxxFileName = cxxf.split('/')[-1]
+            line = 'add_test(NAME     ' + cxxFileName[0:-4]+ '\n         COMMAND  ' + cxxFileName[0:-4] +')\n'
+            o.write(line)
+       o.close()
 
 
     # write CTestConfig.cmake
