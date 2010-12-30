@@ -69,15 +69,12 @@ int main( int argc, char * argv [] )
     return -1;
     }
 
-
-
   // Software Guide : BeginLatex
   //
   // The image type must be defined using the typical pair of pixel type and
   // dimension specification.
   //
   // Software Guide : EndLatex
-
 
   // Software Guide : BeginCodeSnippet
   typedef unsigned char       PixelType;
@@ -86,15 +83,12 @@ int main( int argc, char * argv [] )
   typedef itk::Image<PixelType, Dimension > ImageType;
   // Software Guide : EndCodeSnippet
 
-
-
   // Software Guide : BeginLatex
   //
   // Using the same image type we instantiate the type of the image reader that
   // will provide the image source for our example.
   //
   // Software Guide : EndLatex
-
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType > ReaderType;
@@ -103,7 +97,6 @@ int main( int argc, char * argv [] )
 
   reader->SetFileName( argv[1] );
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -118,7 +111,6 @@ int main( int argc, char * argv [] )
   //
   // Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::ImageToListSampleAdaptor< ImageType >   AdaptorType;
 
@@ -126,9 +118,6 @@ int main( int argc, char * argv [] )
 
   adaptor->SetImage(  reader->GetOutput() );
   // Software Guide : EndCodeSnippet
-
-
-
 
   // Software Guide : BeginLatex
   //
@@ -154,8 +143,6 @@ int main( int argc, char * argv [] )
     }
   // Software Guide : EndCodeSnippet
 
-
-
   // Software Guide : BeginLatex
   //
   // At this point, we are ready for instantiating the type of the histogram
@@ -168,7 +155,6 @@ int main( int argc, char * argv [] )
   //
   // Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   typedef PixelType HistogramMeasurementType;
   typedef itk::Statistics::Histogram< HistogramMeasurementType >
@@ -180,8 +166,6 @@ int main( int argc, char * argv [] )
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
-
-
 
   // Software Guide : BeginLatex
   //
@@ -196,7 +180,6 @@ int main( int argc, char * argv [] )
   //
   // Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfComponents = 1;
   HistogramType::SizeType size( numberOfComponents );
@@ -204,22 +187,19 @@ int main( int argc, char * argv [] )
 
   filter->SetInput( adaptor );
   filter->SetHistogramSize( size );
-  filter->SetMarginalScale( 10.0 );
+  filter->SetMarginalScale( 10 );
 
   HistogramType::MeasurementVectorType min( numberOfComponents );
   HistogramType::MeasurementVectorType max( numberOfComponents );
 
-  min.Fill(   -0.5 );
-  max.Fill(  255.5 );
+  min.Fill( 0 );
+  max.Fill( 255 );
 
   filter->SetHistogramBinMinimum( min );
   filter->SetHistogramBinMaximum( max );
 
   filter->Update();
   // Software Guide : EndCodeSnippet
-
-
-
 
   // Software Guide : BeginLatex
   //
@@ -229,12 +209,9 @@ int main( int argc, char * argv [] )
   //
   // Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   HistogramType::ConstPointer histogram = filter->GetOutput();
   // Software Guide : EndCodeSnippet
-
-
 
   // Software Guide : BeginLatex
   //
@@ -242,7 +219,6 @@ int main( int argc, char * argv [] )
   // bins in the image histogram.
   //
   // Software Guide : EndLatex
-
 
   // Software Guide : BeginCodeSnippet
   const unsigned int histogramSize = histogram->Size();
@@ -257,5 +233,4 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
   return 0;
-
 }

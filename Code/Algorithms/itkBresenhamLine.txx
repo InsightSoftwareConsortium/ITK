@@ -20,6 +20,7 @@
 
 #include "itkBresenhamLine.h"
 #include "itkPoint.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -121,8 +122,8 @@ typename BresenhamLine< VDimension >::IndexArray BresenhamLine< VDimension >
     point0[i] = p0[i];
     point1[i] = p1[i];
     }
-  float distance = point0.EuclideanDistanceTo(point1);
 
+  const unsigned int distance = itk::Math::RoundHalfIntegerToEven<unsigned int, float>( point0.EuclideanDistanceTo(point1) );
   OffsetArray offsets = this->BuildLine(point1-point0, distance);
 
   IndexArray indices(offsets.size());
