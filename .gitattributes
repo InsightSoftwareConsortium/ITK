@@ -26,10 +26,10 @@ remove_ext       crlf=input
 vxl_doxy.pl      crlf=input
 zap.pl           crlf=input
 
-*.c              whitespace=tab-in-indent
-*.h              whitespace=tab-in-indent
-*.cxx            whitespace=tab-in-indent
-*.hxx            whitespace=tab-in-indent
-*.txx            whitespace=tab-in-indent
-*.txt            whitespace=tab-in-indent
-*.cmake          whitespace=tab-in-indent
+*.c              whitespace=tab-in-indent,no-lf-at-eof
+*.h              whitespace=tab-in-indent,no-lf-at-eof
+*.cxx            whitespace=tab-in-indent,no-lf-at-eof
+*.hxx            whitespace=tab-in-indent,no-lf-at-eof
+*.txx            whitespace=tab-in-indent,no-lf-at-eof
+*.txt            whitespace=tab-in-indent,no-lf-at-eof
+*.cmake          whitespace=tab-in-indent,no-lf-at-eof
