@@ -77,16 +77,6 @@ FFTWGlobalConfiguration
     }
 }
 
-static bool isAffirmativeString(std::string response)
-{
-  std::for_each(response.begin(),response.end(),::toupper);
-  if(response == "YES" || response == "ON" || response=="1")
-    {
-    return true;
-    }
-  return false;
-}
-
 static bool isDeclineString(std::string response)
 {
   std::for_each(response.begin(),response.end(),::toupper);
