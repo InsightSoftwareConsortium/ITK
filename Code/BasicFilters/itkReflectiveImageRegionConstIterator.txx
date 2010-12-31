@@ -26,8 +26,6 @@ template< class TImage >
 ReflectiveImageRegionConstIterator< TImage >
 ::ReflectiveImageRegionConstIterator():ImageConstIteratorWithIndex< TImage >()
 {
-  int i;
-
   m_BeginOffset.Fill(0);
   m_EndOffset.Fill(0);
   this->GoToBegin();
