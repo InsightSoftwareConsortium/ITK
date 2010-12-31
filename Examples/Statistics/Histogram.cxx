@@ -65,8 +65,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                                     MeasurementType;
-  typedef itk::Statistics::DenseFrequencyContainer2 FrequencyContainerType;
+  typedef float                                         MeasurementType;
+  typedef itk::Statistics::DenseFrequencyContainer2     FrequencyContainerType;
+  typedef FrequencyContainerType::AbsoluteFrequencyType FrequencyType;
+
   const unsigned int numberOfComponents = 2;
   typedef itk::Statistics::Histogram< MeasurementType,
     FrequencyContainerType > HistogramType;
@@ -111,15 +113,15 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  histogram->SetFrequency(0UL, 0.0F);
-  histogram->SetFrequency(1UL, 2.0F);
-  histogram->SetFrequency(2UL, 3.0F);
-  histogram->SetFrequency(3UL, 2.0F);
-  histogram->SetFrequency(4UL, 0.5F);
-  histogram->SetFrequency(5UL, 1.0F);
-  histogram->SetFrequency(6UL, 5.0F);
-  histogram->SetFrequency(7UL, 2.5F);
-  histogram->SetFrequency(8UL, 0.0F);
+  histogram->SetFrequency(0UL, static_cast<FrequencyType>(0.0));
+  histogram->SetFrequency(1UL, static_cast<FrequencyType>(2.0));
+  histogram->SetFrequency(2UL, static_cast<FrequencyType>(3.0));
+  histogram->SetFrequency(3UL, static_cast<FrequencyType>(2.0f));
+  histogram->SetFrequency(4UL, static_cast<FrequencyType>(0.5f));
+  histogram->SetFrequency(5UL, static_cast<FrequencyType>(1.0f));
+  histogram->SetFrequency(6UL, static_cast<FrequencyType>(5.0f));
+  histogram->SetFrequency(7UL, static_cast<FrequencyType>(2.5f));
+  histogram->SetFrequency(8UL, static_cast<FrequencyType>(0.0f));
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
