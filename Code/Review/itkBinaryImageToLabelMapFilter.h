@@ -50,7 +50,7 @@ namespace itk
 
 template< class TInputImage,
           class TOutputImage =
-            LabelMap< LabelObject< unsigned long, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >
+            LabelMap< LabelObject< SizeValueType, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >
 class ITK_EXPORT BinaryImageToLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -90,6 +90,8 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
 
+  typedef SizeValueType   LabelType;
+
   /**
    * Image typedef support
    */
@@ -118,7 +120,7 @@ public:
   itkBooleanMacro(FullyConnected);
 
   // only set after completion
-  itkGetConstReferenceMacro(NumberOfObjects, unsigned long);
+  itkGetConstReferenceMacro(NumberOfObjects, SizeValueType);
 
   /**
    * Set/Get the value used as "background" in the output image.
@@ -174,11 +176,11 @@ private:
   // types to support the run length encoding of lines
   class runLength
   {
-public:
+  public:
     // run length information - may be a more type safe way of doing this
-    long int length;
+    SizeValueType length;
     typename InputImageType::IndexType where; // Index of the start of the run
-    unsigned long int label;                  // the initial label of the run
+    LabelType label;                  // the initial label of the run
   };
 
   typedef std::vector< runLength > lineEncoding;
@@ -186,25 +188,25 @@ public:
   // the map storing lines
   typedef std::vector< lineEncoding > LineMapType;
 
-  typedef std::vector< long > OffsetVectorType;
+  typedef std::vector< OffsetValueType > OffsetVectorType;
 
   // the types to support union-find operations
-  typedef std::vector< unsigned long int > UnionFindType;
+  typedef std::vector< LabelType > UnionFindType;
   UnionFindType m_UnionFind;
   UnionFindType m_Consecutive;
   // functions to support union-find operations
-  void InitUnion(const unsigned long int size)
+  void InitUnion(const LabelType size)
   {
     m_UnionFind = UnionFindType(size + 1);
   }
 
-  void InsertSet(const unsigned long int label);
+  void InsertSet(const LabelType label);
 
-  unsigned long int LookupSet(const unsigned long int label);
+  LabelType LookupSet(const LabelType label);
 
-  void LinkLabels(const unsigned long int lab1, const unsigned long int lab2);
+  void LinkLabels(const LabelType lab1, const LabelType lab2);
 
-  unsigned long int CreateConsecutive();
+  LabelType CreateConsecutive();
 
   //////////////////
   bool CheckNeighbors(const OutputIndexType & A,

@@ -270,12 +270,12 @@ public:
     m_PhysicalSize = v;
   }
 
-  const unsigned long & GetNumberOfPixels() const
+  const SizeValueType & GetNumberOfPixels() const
   {
     return m_NumberOfPixels;
   }
 
-  void SetNumberOfPixels(const unsigned long & v)
+  void SetNumberOfPixels(const SizeValueType & v)
   {
     m_NumberOfPixels = v;
   }
@@ -310,12 +310,12 @@ public:
     m_SizeRegionRatio = v;
   }
 
-  const unsigned long & GetNumberOfPixelsOnBorder() const
+  const SizeValueType & GetNumberOfPixelsOnBorder() const
   {
     return m_NumberOfPixelsOnBorder;
   }
 
-  void SetNumberOfPixelsOnBorder(const unsigned long & v)
+  void SetNumberOfPixelsOnBorder(const SizeValueType & v)
   {
     m_NumberOfPixelsOnBorder = v;
   }
@@ -582,12 +582,12 @@ private:
   void operator=(const Self &);   //purposely not implemented
 
   RegionType    m_BoundingBox;
-  unsigned long m_NumberOfPixels;
+  SizeValueType m_NumberOfPixels;
   double        m_PhysicalSize;
   CentroidType  m_Centroid;
   double        m_RegionElongation;
   double        m_SizeRegionRatio;
-  unsigned long m_NumberOfPixelsOnBorder;
+  SizeValueType m_NumberOfPixelsOnBorder;
   double        m_PerimeterOnBorder;
   double        m_FeretDiameter;
   VectorType    m_PrincipalMoments;

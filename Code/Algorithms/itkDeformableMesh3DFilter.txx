@@ -188,7 +188,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
     j++;
     }
 
-  const unsigned long *tp;
+  const typename InputMeshType::PointIdentifier *tp;
   PixelType            x = 0.0;
   PixelType *          x_pt;
   x_pt = &x;
@@ -300,8 +300,7 @@ void
 DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::ComputeDt()
 {
-  int                  i;
-  const unsigned long *tp;
+  const typename InputMeshType::PointIdentifier *tp;
 
   InputMeshConstPointer            inputMesh = this->GetInput(0);
   InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
@@ -315,7 +314,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 
   double p = 1.0;
 
-  i = 0;
+  int i = 0;
   InputPointType v1, v2, v3;
   v1.Fill(0.);
   v2.Fill(0.);
@@ -455,8 +454,8 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
   int i;
 
   typename TriCell::CellAutoPointer insertCell;
-  unsigned long        tripoints[3];
-  const unsigned long *tp;
+  typename OutputMeshType::PointIdentifier      tripoints[3];
+  const typename InputMeshType::PointIdentifier *tp;
   double               x;
 
   OutputMeshType *output = this->GetOutput();
@@ -767,7 +766,7 @@ void
 DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::ComputeNormals()
 {
-  const unsigned long *tp;
+  const typename InputMeshType::PointIdentifier *tp;
   InputPointType       v1, v2, v3, v4, d;
 
   v1.Fill(0.);

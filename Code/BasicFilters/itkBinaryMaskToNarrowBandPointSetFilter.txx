@@ -118,7 +118,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 
   NodeContainerPointer nodes =  m_DistanceFilter->GetOutputNarrowBand();
 
-  unsigned long    numberOfPixels    = nodes->Size();
+  typename std::vector< NodeType >::size_type numberOfPixels = nodes->Size();
   ProgressReporter progress(this, 0, numberOfPixels);
 
   typename NodeContainer::ConstIterator nodeItr   = nodes->Begin();

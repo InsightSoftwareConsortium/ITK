@@ -27,7 +27,7 @@ namespace itk
  * plus the [const] modifier. Since everything is const, there is no need to call
  * AdapteeType::Modified() in the destructor.
  * Here's a usage example of STLContainerAdaptor
- *     itk::STLConstContainerAdaptor<itk::VectorContainer<unsigned long, ElementType>> vecAdaptor(aContainer);
+ *     itk::STLConstContainerAdaptor<itk::VectorContainer<SizeValueType, ElementType>> vecAdaptor(aContainer);
  *     const std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
  *     // do things with vec ...
  */

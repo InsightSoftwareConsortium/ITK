@@ -77,9 +77,9 @@ template< class PixelType, class TFunction >
 void FillReverseExt(std::vector<PixelType> & pixbuffer, std::vector<PixelType> & rExtBuffer,
                     const unsigned int KernLen, unsigned len)
 {
-  long      size = (long)( len );
-  long      blocks = size / (int)KernLen;
-  long      i = size - 1;
+  IndexValueType      size = (IndexValueType)( len );
+  IndexValueType      blocks = size / (int)KernLen;
+  IndexValueType      i = size - 1;
   TFunction m_TF;
 
   if ( ( i > ( blocks * (int)KernLen - 1 ) ) )

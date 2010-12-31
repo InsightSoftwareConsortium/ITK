@@ -20,6 +20,7 @@
 
 #include "itkRGBPixel.h"
 #include "itkPoint.h"
+#include "itkIntTypes.h"
 #include "itkBioGenome.h"
 
 namespace itk
@@ -34,7 +35,7 @@ class ITKAlgorithms_EXPORT CellBase
 {
 public:
   typedef   itk::RGBPixel< float > ColorType;
-  typedef   unsigned long int      IdentifierType;
+  typedef   itk::IdentifierType    IdentifierType;
   typedef   itk::bio::Genome       GenomeType;
   typedef   GenomeType::GeneIdType GeneIdType;
 
@@ -93,9 +94,9 @@ protected:
   static GeneIdType Pressurin;       // signal from micro-tubules subject to
                                      // stress
 
-  static unsigned long MaximumGenerationLimit;
-  static unsigned long GrowthMaximumLatencyTime;
-  static unsigned long DivisionMaximumLatencyTime;
+  static SizeValueType MaximumGenerationLimit;
+  static SizeValueType GrowthMaximumLatencyTime;
+  static SizeValueType DivisionMaximumLatencyTime;
 
   static double EnergySelfRepairLevel;
   static double NutrientSelfRepairLevel;
@@ -103,7 +104,7 @@ protected:
   static double DefaultEnergyIntake;
   static double DefaultNutrientsIntake;
 
-  static unsigned long Counter;
+  static SizeValueType Counter;
 
   static ColorType WellNourishedColor;
   static ColorType HopefullColor;
@@ -138,17 +139,17 @@ public:
 
   static void SetChemoAttractantLowThreshold(double);
 
-  static void SetGrowthMaximumLatencyTime(unsigned long latency);
+  static void SetGrowthMaximumLatencyTime(SizeValueType latency);
 
-  static unsigned long GetGrowthMaximumLatencyTime(void);
+  static SizeValueType GetGrowthMaximumLatencyTime(void);
 
   static double GetGrowthRadiusLimit(void);
 
-  static void SetMaximumGenerationLimit(unsigned long);
+  static void SetMaximumGenerationLimit(SizeValueType);
 
-  static void SetDivisionMaximumLatencyTime(unsigned long);
+  static void SetDivisionMaximumLatencyTime(SizeValueType);
 
-  static unsigned long GetDivisionMaximumLatencyTime(void);
+  static SizeValueType GetDivisionMaximumLatencyTime(void);
 
   static void ResetCounter(void);
 
@@ -163,17 +164,17 @@ protected:
   double m_EnergyReserveLevel;
   double m_NutrientsReserveLevel;
 
-  unsigned long m_GrowthLatencyTime;
+  SizeValueType m_GrowthLatencyTime;
 
   IdentifierType m_ParentIdentifier;
   IdentifierType m_SelfIdentifier;
 
-  unsigned long m_Generation;
+  SizeValueType m_Generation;
 
   CellCycleState m_CycleState;
 
   bool          m_MarkedForRemoval;
-  unsigned long m_DivisionLatencyTime;
+  SizeValueType m_DivisionLatencyTime;
 
   bool   m_ScheduleApoptosis;
   double m_ChemoAttractantLevel;

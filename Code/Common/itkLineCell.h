@@ -95,7 +95,7 @@ public:
   {
     for ( unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++ )
       {
-      m_PointIds[i] = NumericTraits< unsigned long >::max();
+      m_PointIds[i] = NumericTraits< PointIdentifier >::max();
       }
   }
 

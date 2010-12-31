@@ -37,7 +37,7 @@ IterativeSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 
 template<class TSample, class TTargetVector, class ScalarType>
 void IterativeSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
-::SetNumOfIterations(long i)
+::SetNumOfIterations(SizeValueType i)
 {
   this->SetIterations(i);
   this->Modified();
@@ -66,9 +66,9 @@ void IterativeSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
   outfile.open("output.txt");
 #endif
 
-  const long num_iterations = this->GetIterations();
+  const SizeValueType num_iterations = this->GetIterations();
   m_Stop = false;
-  long i = 0;
+  SizeValueType i = 0;
   while (!m_Stop)
     {
     int temp = rand() % (this->m_InputSamples.size());

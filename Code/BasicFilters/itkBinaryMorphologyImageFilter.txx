@@ -60,7 +60,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
   std::vector< unsigned int > kernelOnElements;
 
-  unsigned long i, k;
+  IndexValueType i, k;
 
   // **************************
   // Structuring element ( SE ) coding
@@ -68,8 +68,8 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
   // Get symmetrical structuring element in order to satisfy
   // our definition of binary dilation
-//   unsigned long kernelSize      = this->GetKernel().Size();
-//   unsigned long kernelCenter    = kernelSize / 2;
+//   InputSizeValueType kernelSize      = this->GetKernel().Size();
+//   InputSizeValueType kernelCenter    = kernelSize / 2;
 //
 //   for( i = kernelCenter + 1, k = kernelCenter - 1; i < kernelSize; ++i, --k )
 //     {
@@ -151,7 +151,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   NeighborhoodIterator< BoolImageType >
   SEoNeighbIt( padBy, tmpSEImage, tmpSEImage->GetRequestedRegion() );
   SEoNeighbIt.OverrideBoundaryCondition(&cbc);
-  unsigned int neighborhoodSize = SEoNeighbIt.Size();
+  SizeValueType neighborhoodSize = SEoNeighbIt.Size();
 
   // Use a FIFO queue in order to perform the burning process
   // which allows to identify the connected components of SE
@@ -192,17 +192,17 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
         SEoNeighbIt.GoToBegin();
         SEoNeighbIt.SetLocation(currentIndex);
 
-        for ( i = 0; i < neighborhoodSize; ++i )
+        for ( SizeValueType ii = 0; ii < neighborhoodSize; ++ii )
           {
           // If current neighb pixel is ON, mark it and push it into queue
-          if ( SEoNeighbIt.GetPixel(i) )
+          if ( SEoNeighbIt.GetPixel(ii) )
             {
             // Mark it
             bool bIsBounds;
-            SEoNeighbIt.SetPixel(i, false, bIsBounds);
+            SEoNeighbIt.SetPixel(ii, false, bIsBounds);
 
             // Push
-            propagQueue.push( SEoNeighbIt.GetIndex(i) );
+            propagQueue.push( SEoNeighbIt.GetIndex(ii) );
             }
           }
         } // while ( !propagQueue.empty() )
@@ -235,9 +235,9 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
   // For each direction of the connectivity, look for difference set
   // in this direction
-  for ( i = 0; i < adjNeigh.Size(); ++i )
+  for ( SizeValueType ii = 0; ii < adjNeigh.Size(); ++ii )
     {
-    m_KernelDifferenceSets[i].clear();
+    m_KernelDifferenceSets[ii].clear();
     // For each element of the kernel wich index is k, see if they
     // belong to this difference set treat only "ON" elements of SE
     std::vector< unsigned int >::const_iterator kernelOnElementsIt;
@@ -256,13 +256,13 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
       // Add to current element position the offset corresponding the
       // current adj direction
-      currentShiftedPosition += adjNeigh.GetOffset(i);
+      currentShiftedPosition += adjNeigh.GetOffset(ii);
 
       // now currentShiftedPosition is the position of the current
-      // "pixel" ( SE element ) shifted in the direction i. Check if it
+      // "pixel" ( SE element ) shifted in the direction ii. Check if it
       // is outside the structuring element. If it is the case, we
       // know that the current SE element is in the difference set of
-      // the current direction i (this works only for boundary pixels!).
+      // the current direction ii (this works only for boundary pixels!).
       bool bIsOutside   = false;
       for ( unsigned int dimCount = 0;
             dimCount < TInputImage::ImageDimension; ++dimCount )
@@ -279,23 +279,23 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
       if ( bIsOutside )
         {
         // The current SE element, which index is hence k, belongs to
-        // the difference set in the direction i.  Add it to
-        // difference set in dir i
-        m_KernelDifferenceSets[i].push_back(currentOffset);
+        // the difference set in the direction ii.  Add it to
+        // difference set in dir ii
+        m_KernelDifferenceSets[ii].push_back(currentOffset);
         }
       else
         {
         // The current shifted SE element doesn't belong to SE
         // boundaries. In order to see if it belongs to difference set
-        // in direction i, the value of kernel at the position of the
-        // current SE element SHIFTED in direction i must be OFF ( i.e
+        // in direction ii, the value of kernel at the position of the
+        // current SE element SHIFTED in direction ii must be OFF ( i.e
         // = 0 ) In order to access to shifted value we must compute a
         // neighbourhood index
 
         // retrieve the index offset relatively to the current NOT
         // shifted SE element
         unsigned int currentRelativeIndexOffset =
-          this->GetKernel().GetNeighborhoodIndex( adjNeigh.GetOffset(i) )
+          this->GetKernel().GetNeighborhoodIndex( adjNeigh.GetOffset(ii) )
           - this->GetKernel().GetCenterNeighborhoodIndex();
 
         // Now thanks to this relative offset, we can get the absolute
@@ -308,12 +308,12 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
         // elements of SE + dir is OFF.
         if ( !this->GetKernel()[currentShiftedIndex] )
           {
-          // Add it to difference set in dir i
-          m_KernelDifferenceSets[i].push_back(currentOffset);
+          // Add it to difference set in dir ii
+          m_KernelDifferenceSets[ii].push_back(currentOffset);
           }
         }
       } // for( kernelOnElementsIt = kernelOnElements.begin(); ...
-    }   // for( i = 0; i < adjNeigh.Size(); ++i )
+    }   // for( ii = 0; ii < adjNeigh.Size(); ++ii )
 
   // For the particular case of the m_KernelDifferenceSets at the
   // center of the kernel ( the difference set is theoretically empty

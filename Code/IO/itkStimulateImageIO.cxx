@@ -220,25 +220,25 @@ void StimulateImageIO::Read(void *buffer)
     {
     case CHAR:
       ByteSwapper< char >::SwapRangeFromSystemToBigEndian( (char *)buffer,
-                                                           static_cast< unsigned long >( this->GetImageSizeInComponents() ) );
+                                                           static_cast< SizeValueType >( this->GetImageSizeInComponents() ) );
       break;
     case SHORT:
       ByteSwapper< short >::SwapRangeFromSystemToBigEndian( (short *)buffer,
-                                                            static_cast< unsigned long >( this->
+                                                            static_cast< SizeValueType >( this->
                                                                                           GetImageSizeInComponents() ) );
       break;
     case INT:
       ByteSwapper< int >::SwapRangeFromSystemToBigEndian( (int *)buffer,
-                                                          static_cast< unsigned long >( this->GetImageSizeInComponents() ) );
+                                                          static_cast< SizeValueType >( this->GetImageSizeInComponents() ) );
       break;
     case FLOAT:
       ByteSwapper< float >::SwapRangeFromSystemToBigEndian( (float *)buffer,
-                                                            static_cast< unsigned long >( this->
+                                                            static_cast< SizeValueType >( this->
                                                                                           GetImageSizeInComponents() ) );
       break;
     case DOUBLE:
       ByteSwapper< double >::SwapRangeFromSystemToBigEndian( (double *)buffer,
-                                                             static_cast< unsigned long >( this->
+                                                             static_cast< SizeValueType >( this->
                                                                                            GetImageSizeInComponents() ) );
       break;
     default:
@@ -605,8 +605,8 @@ void StimulateImageIO::Write(const void *buffer)
     }
 
   //preparation for writing buffer:
-  const unsigned long numberOfBytes      = static_cast< unsigned long >( this->GetImageSizeInBytes() );
-  const unsigned long numberOfComponents = static_cast< unsigned long >( this->GetImageSizeInComponents() );
+  const SizeValueType numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
+  const SizeValueType numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
 
   file << "\ndataType: ";
     {

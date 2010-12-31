@@ -28,7 +28,7 @@ namespace itk
  * Define the number of neighbors
  */
 template< class TInputImage, class TCoordRep >
-const unsigned long
+const unsigned int
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
 

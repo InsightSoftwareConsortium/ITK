@@ -66,7 +66,8 @@ public:
    * binary value 0 or 1 indicating the LOW face or the HIGH face,
    * respectively.    */
   typedef std::pair< unsigned, unsigned >                        IndexType;
-  typedef typename Image< unsigned long, TDimension >::IndexType ImageIndexType;
+  typedef Image< IdentifierType, TDimension >                    ImageType;
+  typedef typename ImageType::IndexType                          ImageIndexType;
   typedef TScalarType                                            ScalarType;
 
   /** Data type stored at each pixel in a face.   */
@@ -88,7 +89,7 @@ public:
     short flow;
 
     /** The label associated with this pixel.     */
-    unsigned long label;
+    IdentifierType label;
   };
 
   /**    */
@@ -96,7 +97,7 @@ public:
     /** Indicies into the associated Face containing boundary pixels.  These
      * give access to spatial information, label and flow associated with
      * this boundary pixel connection.     */
-    std::list< unsigned long > offset_list;
+    std::list< IdentifierType > offset_list;
 
     /** The value of the lowest point (indicating the steepest descent) along
      * the boundary of the flat region of which this pixel is a member.     */
@@ -104,7 +105,7 @@ public:
 
     /** The label associated with the lowest point
      * point along this flat region boundary.     */
-    unsigned long min_label;
+    IdentifierType min_label;
 
     /** The value of this flat region     */
     ScalarType value;
@@ -114,8 +115,8 @@ public:
       types. */
   typedef Image< face_pixel_t, TDimension > face_t;
   /** A hash table holding flat region data structures.   */
-  typedef itk::hash_map< unsigned long,             flat_region_t,
-                         itk::hash< unsigned long > > flat_hash_t;
+  typedef itk::hash_map< IdentifierType,             flat_region_t,
+                         itk::hash< IdentifierType > > flat_hash_t;
   typedef typename flat_hash_t::value_type FlatHashValueType;
 
   /** Itk typedefs and macros defining smart pointer and type identification.

@@ -70,8 +70,8 @@ public:
   const OutputType & GetOutput();
 
   /** Set/Get the number of thresholds. */
-  itkSetClampMacro( NumberOfThresholds, unsigned long, 1, NumericTraits< unsigned long >::max() );
-  itkGetConstMacro(NumberOfThresholds, unsigned long);
+  itkSetClampMacro( NumberOfThresholds, SizeValueType, 1, NumericTraits< SizeValueType >::max() );
+  itkGetConstMacro(NumberOfThresholds, SizeValueType);
 protected:
   OtsuMultipleThresholdsCalculator();
   virtual ~OtsuMultipleThresholdsCalculator() {}
@@ -88,7 +88,7 @@ protected:
 
 private:
   /** Internal thresholds storage */
-  unsigned long m_NumberOfThresholds;
+  SizeValueType m_NumberOfThresholds;
   OutputType    m_Output;
 }; // end of class
 } // end of namespace itk

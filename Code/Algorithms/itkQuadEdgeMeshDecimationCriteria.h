@@ -18,6 +18,7 @@
 #ifndef __itkQuadEdgeMeshDecimationCriteria_h
 #define __itkQuadEdgeMeshDecimationCriteria_h
 
+#include "itkIntTypes.h"
 #include "itkPriorityQueueContainer.h"
 
 namespace itk
@@ -27,7 +28,7 @@ namespace itk
  * \brief
  */
 template< class TMesh,
-          typename TElement  = unsigned long,
+          typename TElement  = IdentifierType,
           typename TMeasure = double,
           class TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< typename TMesh::QEType *,
@@ -49,7 +50,7 @@ public:
   typedef TPriorityQueueWrapper                                  PriorityQueueWrapperType;
   typedef typename PriorityQueueWrapperType::ElementPriorityType PriorityType;
 
-  void SetNumberOfElements(const unsigned long & numberOfElements)
+  void SetNumberOfElements(const SizeValueType & numberOfElements)
   {
     this->m_SizeCriterion = true;
     this->m_NumberOfElements = numberOfElements;
@@ -98,7 +99,7 @@ protected:
   bool m_TopologicalChange;
   bool m_SizeCriterion;
 
-  unsigned long m_NumberOfElements;
+  SizeValueType m_NumberOfElements;
 
   MeasureType m_MeasureBound;
 private:
@@ -111,7 +112,7 @@ private:
  * \brief
  */
 template< class TMesh,
-          typename TElement = unsigned long,
+          typename TElement = IdentifierType,
           typename TMeasure = double,
           class TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< typename TMesh::QEType *,
@@ -159,7 +160,7 @@ private:
  * \brief
  */
 template< class TMesh,
-          typename TElement = unsigned long,
+          typename TElement = IdentifierType,
           typename TMeasure = double,
           class TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< ITK_TYPENAME TMesh::QEType *,
@@ -208,7 +209,7 @@ private:
  * \brief
  */
 template< class TMesh,
-          typename TElement = unsigned long,
+          typename TElement = IdentifierType,
           typename TMeasure = double,
           class TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< typename TMesh::QEType *,
@@ -257,7 +258,7 @@ private:
  * \brief
  */
 template< class TMesh,
-          typename TElement = unsigned long,
+          typename TElement = IdentifierType,
           typename TMeasure = double,
           class TPriorityQueueWrapper =
             MaxPriorityQueueElementWrapper< typename TMesh::QEType *,

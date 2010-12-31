@@ -37,7 +37,7 @@ TDistribution
 
 void
 TDistribution
-::SetDegreesOfFreedom(long dof)
+::SetDegreesOfFreedom(SizeValueType dof)
 {
   bool modified = false;
 
@@ -62,7 +62,7 @@ TDistribution
     }
 }
 
-long
+SizeValueType
 TDistribution
 ::GetDegreesOfFreedom() const
 {
@@ -73,12 +73,12 @@ TDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-  return static_cast< long >( m_Parameters[0] );
+  return static_cast< SizeValueType >( m_Parameters[0] );
 }
 
 double
 TDistribution
-::PDF(double x, long degreesOfFreedom)
+::PDF(double x, SizeValueType degreesOfFreedom)
 {
   double dof = static_cast< double >( degreesOfFreedom );
   double dofplusoneon2 = 0.5 * ( dof + 1.0 );
@@ -102,12 +102,12 @@ TDistribution
       << p.size()
       << " parameters.");
     }
-  return TDistribution::PDF( x, static_cast< long >( p[0] ) );
+  return TDistribution::PDF( x, static_cast< SizeValueType >( p[0] ) );
 }
 
 double
 TDistribution
-::CDF(double x, long degreesOfFreedom)
+::CDF(double x, SizeValueType degreesOfFreedom)
 {
   double bx;
   double pin, qin;
@@ -163,12 +163,12 @@ TDistribution
       << p.size()
       << " parameters.");
     }
-  return TDistribution::CDF( x, static_cast< long >( p[0] ) );
+  return TDistribution::CDF( x, static_cast< SizeValueType >( p[0] ) );
 }
 
 double
 TDistribution
-::InverseCDF(double p, long degreesOfFreedom)
+::InverseCDF(double p, SizeValueType degreesOfFreedom)
 {
   if ( p <= 0.0 )
     {
@@ -251,7 +251,7 @@ TDistribution
       << params.size()
       << " parameters.");
     }
-  return TDistribution::InverseCDF( p, static_cast< long >( params[0] ) );
+  return TDistribution::InverseCDF( p, static_cast< SizeValueType >( params[0] ) );
 }
 
 double
@@ -265,7 +265,7 @@ TDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-  return TDistribution::PDF( x, static_cast< long >( m_Parameters[0] ) );
+  return TDistribution::PDF( x, static_cast< SizeValueType >( m_Parameters[0] ) );
 }
 
 double
@@ -279,12 +279,12 @@ TDistribution
       << p.size()
       << " parameters.");
     }
-  return TDistribution::PDF( x, static_cast< long >( p[0] ) );
+  return TDistribution::PDF( x, static_cast< SizeValueType >( p[0] ) );
 }
 
 double
 TDistribution
-::EvaluatePDF(double x, long degreesOfFreedom) const
+::EvaluatePDF(double x, SizeValueType degreesOfFreedom) const
 {
   return TDistribution::PDF(x, degreesOfFreedom);
 }
@@ -300,7 +300,7 @@ TDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-  return TDistribution::CDF( x, static_cast< long >( m_Parameters[0] ) );
+  return TDistribution::CDF( x, static_cast< SizeValueType >( m_Parameters[0] ) );
 }
 
 double
@@ -314,12 +314,12 @@ TDistribution
       << p.size()
       << " parameters.");
     }
-  return TDistribution::CDF( x, static_cast< long >( p[0] ) );
+  return TDistribution::CDF( x, static_cast< SizeValueType >( p[0] ) );
 }
 
 double
 TDistribution
-::EvaluateCDF(double x, long degreesOfFreedom) const
+::EvaluateCDF(double x, SizeValueType degreesOfFreedom) const
 {
   return TDistribution::CDF(x, degreesOfFreedom);
 }
@@ -335,7 +335,7 @@ TDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-  return TDistribution::InverseCDF( p, static_cast< long >( m_Parameters[0] ) );
+  return TDistribution::InverseCDF( p, static_cast< SizeValueType >( m_Parameters[0] ) );
 }
 
 double
@@ -349,12 +349,12 @@ TDistribution
       << params.size()
       << " parameters.");
     }
-  return TDistribution::InverseCDF( p, static_cast< long >( params[0] ) );
+  return TDistribution::InverseCDF( p, static_cast< SizeValueType >( params[0] ) );
 }
 
 double
 TDistribution
-::EvaluateInverseCDF(double p, long degreesOfFreedom) const
+::EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const
 {
   return TDistribution::InverseCDF(p, degreesOfFreedom);
 }
@@ -425,7 +425,7 @@ TDistribution
   if ( m_Parameters.GetSize() > 0 )
     {
     os << indent << "Degrees of freedom: "
-       << static_cast< long >( m_Parameters[0] ) << std::endl;
+       << static_cast< SizeValueType >( m_Parameters[0] ) << std::endl;
     }
   else
     {

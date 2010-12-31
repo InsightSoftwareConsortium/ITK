@@ -107,7 +107,7 @@ public:
   SelfAutoPointer New();
 
   /** TCellInterface abstract methods definition. */
-  virtual void Accept(unsigned long cellId, MultiVisitor *mv);
+  virtual void Accept(CellIdentifier cellId, MultiVisitor *mv);
 
   virtual CellGeometry GetType() const { return ( Superclass::POLYGON_CELL ); }
 
@@ -133,13 +133,13 @@ public:
   /** Useless methods. */
   virtual void MakeCopy(CellAutoPointer & cell) const
   {
-    const unsigned long numberOfPoints = this->GetNumberOfPoints();
-    Self *              newPolygonCell = new Self(numberOfPoints);
+    const PointIdentifier numberOfPoints = this->GetNumberOfPoints();
+    Self *                newPolygonCell = new Self(numberOfPoints);
 
     cell.TakeOwnership(newPolygonCell);
     if ( numberOfPoints )
       {
-      for ( unsigned long i = 0; i < numberOfPoints; i++ )
+      for ( PointIdentifier i = 0; i < numberOfPoints; i++ )
         {
         newPolygonCell->SetPointId( i, this->GetPointId(i) );
         }

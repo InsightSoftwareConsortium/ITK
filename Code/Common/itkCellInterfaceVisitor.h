@@ -47,17 +47,18 @@ class CellInterfaceVisitor:public LightObject
 {
 public:
   /** Standard class typedefs. */
-  typedef CellInterfaceVisitor       Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef CellInterfaceVisitor                  Self;
+  typedef LightObject                           Superclass;
+  typedef SmartPointer< Self >                  Pointer;
+  typedef SmartPointer< const Self >            ConstPointer;
+  typedef typename TCellTraits::CellIdentifier  CellIdentifier;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CellInterfaceVisitor, LightObject);
 
   /** This method is called by each cell as it visits this visitor. */
-  virtual void VisitFromCell(unsigned long cellId, CellInterface< TPixelType,
-                                                                  TCellTraits > *) = 0;
+  virtual void VisitFromCell(CellIdentifier cellId, CellInterface< TPixelType,
+                                                                   TCellTraits > *) = 0;
 
   /**  Return the index of the CellTopology. */
   virtual int GetCellTopologyId() = 0;
@@ -104,8 +105,9 @@ class CellInterfaceVisitorImplementation:
 {
 public:
   /** Standard class typedefs. */
-  typedef CellInterfaceVisitorImplementation Self;
-  typedef SmartPointer< Self >               Pointer;
+  typedef CellInterfaceVisitorImplementation    Self;
+  typedef SmartPointer< Self >                  Pointer;
+  typedef typename TCellTraits::CellIdentifier  CellIdentifier;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -119,8 +121,8 @@ public:
 
   /** Call the method Visit from the UserVisitor template parameter that
    * this class inherits from.  I am my own gradpa... */
-  void VisitFromCell(unsigned long cellId, CellInterface< TPixelType,
-                                                          TCellTraits > *c)
+  void VisitFromCell(CellIdentifier cellId, CellInterface< TPixelType,
+                                                           TCellTraits > *c)
   {
     this->UserVisitor::Visit(cellId, (CellTopology *)c);
   }

@@ -188,7 +188,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
           }
         }
 
-      if ( static_cast< long >( m_ReachedTargetPoints->Size() ) == m_NumberOfTargets )
+      if ( static_cast< SizeValueType >( m_ReachedTargetPoints->Size() ) == m_NumberOfTargets )
         {
         targetReached = true;
         }

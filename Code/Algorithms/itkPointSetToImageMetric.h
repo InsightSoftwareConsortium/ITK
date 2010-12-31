@@ -145,7 +145,7 @@ public:
   itkGetConstObjectMacro(GradientImage, GradientImageType);
 
   /** Get the number of pixels considered in the computation. */
-  itkGetConstReferenceMacro(NumberOfPixelsCounted, unsigned long);
+  itkGetConstReferenceMacro(NumberOfPixelsCounted, SizeValueType);
 
   /** Set the parameters defining the Transform. */
   void SetTransformParameters(const ParametersType & parameters) const;
@@ -174,7 +174,7 @@ protected:
   virtual ~PointSetToImageMetric() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  mutable unsigned long m_NumberOfPixelsCounted;
+  mutable SizeValueType m_NumberOfPixelsCounted;
 
   FixedPointSetConstPointer m_FixedPointSet;
 

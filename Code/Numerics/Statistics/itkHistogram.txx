@@ -306,12 +306,12 @@ bool Histogram< TMeasurement, TFrequencyContainer >
       // its ok if we extend the bins to infinity.. not ok if we don't
       if ( !m_ClipBinsAtEnds )
         {
-        index[dim] = (long)0;
+        index[dim] = (IndexValueType)0;
         continue;
         }
       else
         {   // set an illegal value and return 0
-        index[dim] = (long)m_Size[dim];
+        index[dim] = (IndexValueType)m_Size[dim];
         return false;
         }
       }
@@ -323,12 +323,12 @@ bool Histogram< TMeasurement, TFrequencyContainer >
       // its ok if we extend the bins to infinity.. not ok if we don't
       if ( !m_ClipBinsAtEnds )
         {
-        index[dim] = (long)m_Size[dim] - 1;
+        index[dim] = (IndexValueType)m_Size[dim] - 1;
         continue;
         }
       else
         {   // set an illegal value and return 0
-        index[dim] = (long)m_Size[dim];
+        index[dim] = (IndexValueType)m_Size[dim];
         return false;
         }
       }
@@ -548,7 +548,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 template< class TMeasurement, class TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
-::SetFrequency(const IndexType & index, const AbsoluteFrequencyType value)
+::SetFrequencyOfIndex(const IndexType & index, const AbsoluteFrequencyType value)
 {
   return this->SetFrequency(this->GetInstanceIdentifier(index), value);
 }
@@ -556,7 +556,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 template< class TMeasurement, class TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
-::SetFrequency(const MeasurementVectorType & measurement, const AbsoluteFrequencyType value)
+::SetFrequencyOfMeasurement(const MeasurementVectorType & measurement, const AbsoluteFrequencyType value)
 {
   return this->SetFrequency(this->GetInstanceIdentifier( GetIndex(measurement) ), value);
 }
@@ -564,7 +564,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 template< class TMeasurement, class TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
-::IncreaseFrequency(const IndexType & index, const AbsoluteFrequencyType value)
+::IncreaseFrequencyOfIndex(const IndexType & index, const AbsoluteFrequencyType value)
 {
   const bool result =
     this->IncreaseFrequency(this->GetInstanceIdentifier(index), value);
@@ -575,7 +575,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 template< class TMeasurement, class TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
-::IncreaseFrequency(const MeasurementVectorType & measurement, const AbsoluteFrequencyType value)
+::IncreaseFrequencyOfMeasurement(const MeasurementVectorType & measurement, const AbsoluteFrequencyType value)
 {
   IndexType index;
 

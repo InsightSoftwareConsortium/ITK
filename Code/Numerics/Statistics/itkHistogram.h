@@ -119,12 +119,12 @@ public:
   typedef typename FrequencyContainerType::TotalRelativeFrequencyType TotalRelativeFrequencyType;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Array< long >                 IndexType;
-  typedef typename IndexType::ValueType IndexValueType;
+  typedef Array< ::itk::IndexValueType > IndexType;
+  typedef typename IndexType::ValueType  IndexValueType;
 
   /** size array type */
-  typedef Array< unsigned long >       SizeType;
-  typedef typename SizeType::ValueType SizeValueType;
+  typedef Array< ::itk::SizeValueType > SizeType;
+  typedef typename SizeType::ValueType  SizeValueType;
 
   /** bin min max value storage types */
   typedef std::vector< MeasurementType >  BinMinVectorType;
@@ -247,13 +247,13 @@ public:
 
   /** Set the frequency of an index. Returns false if the bin is
    * out of bounds. */
-  bool SetFrequency(const IndexType & index,
+  bool SetFrequencyOfIndex(const IndexType & index,
                     AbsoluteFrequencyType value);
 
   /** Set the frequency of a measurement. Returns false if the bin is
    * out of bounds. */
-  bool SetFrequency(const MeasurementVectorType & measurement,
-                    AbsoluteFrequencyType value);
+  bool SetFrequencyOfMeasurement(const MeasurementVectorType & measurement,
+                                  AbsoluteFrequencyType value);
 
   /** Increase the frequency of an instance identifier.
    * Frequency is increased by the specified value. Returns false if
@@ -263,13 +263,15 @@ public:
   /** Increase the frequency of an index.  Frequency is
    * increased by the specified value. Returns false if the bin is out
    * of bounds. */
-  bool IncreaseFrequency(const IndexType & index, AbsoluteFrequencyType value);
+  bool IncreaseFrequencyOfIndex(const IndexType & index,
+                                 AbsoluteFrequencyType value);
 
   /** Increase the frequency of a measurement.  Frequency is
    * increased by the specified value. Returns false if the
    * measurement is outside the bounds of the histogram. */
-  bool IncreaseFrequency(const MeasurementVectorType & measurement,
-                         AbsoluteFrequencyType value);
+  bool IncreaseFrequencyOfMeasurement(
+         const MeasurementVectorType & measurement,
+         AbsoluteFrequencyType value);
 
   /** Get the measurement of an instance identifier. This is the
    * centroid of the bin.

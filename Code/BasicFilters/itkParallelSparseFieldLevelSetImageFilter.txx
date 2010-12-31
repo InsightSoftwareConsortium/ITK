@@ -380,7 +380,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     m_OutputImage->GetRequestedRegion().GetSize();
   typename OutputImageType::IndexType startIndex =
     m_OutputImage->GetRequestedRegion().GetIndex();
-  typedef typename OutputImageType::IndexType::IndexValueType StartIndexValueType;
+  typedef IndexValueType StartIndexValueType;
 
   for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt )
     {
@@ -1607,7 +1607,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   IndexType centerIndex;
   PixelType centerValue;
 
-  unsigned long int counter = 0;
+  typename TOutputImage::SizeValueType counter = 0;
   float             new_value;
   float             rms_change_accumulator = m_ValueZero;
 
@@ -2255,13 +2255,14 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_BoundaryChanged = false;
 
   // work load division based on the nodes on the active layer (layer-0)
-  long int min = NumericTraits< long int >::max();
-  long int max = 0;
-  long int total = 0; // the total nodes in the active layer of the surface
+  typedef IndexValueType NodeCounterType;
+  NodeCounterType min = NumericTraits< NodeCounterType >::max();
+  NodeCounterType max = 0;
+  NodeCounterType total = 0; // the total nodes in the active layer of the surface
 
   for ( i = 0; i < m_NumOfThreads; i++ )
     {
-    long int count = m_Data[i].m_Layers[0]->Size();
+    NodeCounterType count = m_Data[i].m_Layers[0]->Size();
     total += count;
     if ( min > count ) { min = count; }
     if ( max < count ) { max = count; }

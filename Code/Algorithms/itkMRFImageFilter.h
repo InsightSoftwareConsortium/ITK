@@ -260,9 +260,9 @@ public:
   /** Sets the radius for the neighborhood, calculates size from the
    * radius, and allocates storage. */
 
-  void SetNeighborhoodRadius(const unsigned long);
+  void SetNeighborhoodRadius(const SizeValueType);
 
-  void SetNeighborhoodRadius(const unsigned long *radiusArray);
+  void SetNeighborhoodRadius(const SizeValueType *radiusArray);
 
   /** Get the neighborhood radius */
   const NeighborhoodRadiusType GetNeighborhoodRadius() const

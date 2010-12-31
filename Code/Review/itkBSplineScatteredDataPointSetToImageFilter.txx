@@ -491,7 +491,7 @@ BSplineScatteredDataPointSetToImageFilter< TInputPointSet, TOutputImage >
    * Determine which points should be handled by this particular thread.
    */
   int           numberOfThreads = this->GetNumberOfThreads();
-  unsigned long numberOfPointsPerThread = static_cast< unsigned long >(
+  SizeValueType numberOfPointsPerThread = static_cast< SizeValueType >(
     this->GetInput()->GetNumberOfPoints() / numberOfThreads );
 
   unsigned int start = threadId * numberOfPointsPerThread;

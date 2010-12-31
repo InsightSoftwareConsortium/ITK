@@ -83,7 +83,6 @@ public:
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index< VImageDimension >           IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
 
   /** Size typedef support. A size is used to define region bounds. */
   typedef Size< VImageDimension >          SizeType;

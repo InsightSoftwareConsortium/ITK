@@ -292,7 +292,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
   inputRegionForThread.SetSize(inputSizeForThread);
   inputRegionForThread.SetIndex(inputIndexForThread);
 
-  unsigned long projectionSize = inputSize[m_ProjectionDimension];
+  SizeValueType projectionSize = inputSize[m_ProjectionDimension];
 
   // create the iterators for input and output image
   typedef ImageLinearConstIteratorWithIndex< TInputImage > InputIteratorType;
@@ -362,7 +362,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 
 template< class TInputImage, class TOutputImage, class TAccumulator >
 TAccumulator
-ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >::NewAccumulator(unsigned long size) const
+ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >::NewAccumulator(SizeValueType size) const
 {
   return TAccumulator(size);
 }

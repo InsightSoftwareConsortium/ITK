@@ -61,9 +61,7 @@ struct ITK_EXPORT ImageBoundaryFacesCalculator {
   typedef typename NeighborhoodIterator< TImage >::RadiusType RadiusType;
   typedef typename TImage::RegionType                         RegionType;
   typedef typename TImage::IndexType                          IndexType;
-  typedef typename IndexType::IndexValueType                  IndexValueType;
   typedef typename TImage::SizeType                           SizeType;
-  typedef typename SizeType::SizeValueType                    SizeValueType;
   typedef std::list< RegionType >                             FaceListType;
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 

@@ -49,10 +49,10 @@ void
 Image< TPixel, VImageDimension >
 ::Allocate()
 {
-  unsigned long num;
+  SizeValueType num;
 
   this->ComputeOffsetTable();
-  num = this->GetOffsetTable()[VImageDimension];
+  num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
 
   m_Buffer->Reserve(num);
 }

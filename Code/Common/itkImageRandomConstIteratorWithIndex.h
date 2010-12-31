@@ -117,29 +117,20 @@ public:
   typedef ImageRandomConstIteratorWithIndex     Self;
   typedef ImageConstIteratorWithIndex< TImage > Superclass;
 
-  /** Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType IndexType;
-
-  /** Region typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index. */
-  typedef typename TImage::RegionType RegionType;
-
-  /** Image typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef TImage ImageType;
-
-  /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer  PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  /** Inherit types from the superclass */
+  typedef typename Superclass::IndexType             IndexType;
+  typedef typename Superclass::SizeType              SizeType;
+  typedef typename Superclass::OffsetType            OffsetType;
+  typedef typename Superclass::RegionType            RegionType;
+  typedef typename Superclass::ImageType             ImageType;
+  typedef typename Superclass::PixelContainer        PixelContainer;
+  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType     InternalPixelType;
+  typedef typename Superclass::PixelType             PixelType;
+  typedef typename Superclass::AccessorType          AccessorType;
+  typedef typename Superclass::IndexValueType        IndexValueType;
+  typedef typename Superclass::OffsetValueType       OffsetValueType;
+  typedef typename Superclass::SizeValueType         SizeValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomConstIteratorWithIndex();
@@ -199,9 +190,9 @@ public:
   }
 
   /** Set/Get number of random samples to get from the image region */
-  void SetNumberOfSamples(unsigned long number);
+  void SetNumberOfSamples(SizeValueType number);
 
-  unsigned long GetNumberOfSamples(void) const;
+  SizeValueType GetNumberOfSamples(void) const;
 
   /** Reinitialize the seed of the random number generator  */
   void ReinitializeSeed();
@@ -213,9 +204,9 @@ private:
 
   typedef Statistics::MersenneTwisterRandomVariateGenerator::Pointer GeneratorPointer;
   GeneratorPointer m_Generator;
-  unsigned long    m_NumberOfSamplesRequested;
-  unsigned long    m_NumberOfSamplesDone;
-  unsigned long    m_NumberOfPixelsInRegion;
+  SizeValueType    m_NumberOfSamplesRequested;
+  SizeValueType    m_NumberOfSamplesDone;
+  SizeValueType    m_NumberOfPixelsInRegion;
 };
 } // end namespace itk
 

@@ -45,10 +45,9 @@ ImageDuplicator< TInputImage >
     }
 
   // Update only if the input image has been modified
-  unsigned long t, t1, t2;
-  t1 = m_InputImage->GetPipelineMTime();
-  t2 = m_InputImage->GetMTime();
-  t = ( t1 > t2 ? t1 : t2 );
+  const unsigned long t1 = m_InputImage->GetPipelineMTime();
+  const unsigned long t2 = m_InputImage->GetMTime();
+  const unsigned long t = ( t1 > t2 ? t1 : t2 );
 
   if ( t == m_InternalImageTime )
     {
@@ -69,7 +68,7 @@ ImageDuplicator< TInputImage >
   m_Output->Allocate();
 
   // Do the copy
-  unsigned long size = 1;
+  SizeValueType size = 1;
   for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
     {
     size *= m_InputImage->GetBufferedRegion().GetSize()[i];

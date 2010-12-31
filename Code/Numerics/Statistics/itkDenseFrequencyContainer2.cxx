@@ -30,7 +30,7 @@ DenseFrequencyContainer2
 
 void
 DenseFrequencyContainer2
-::Initialize(unsigned long length)
+::Initialize(SizeValueType length)
 {
   m_FrequencyContainer->Reserve(length);
   this->SetToZero();

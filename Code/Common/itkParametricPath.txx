@@ -45,7 +45,7 @@ ParametricPath< VDimension >
   // Round each coordinate to the nearest integer value
   for ( unsigned int i = 0; i < VDimension; i++ )
     {
-    index[i] = ( typename IndexType::IndexValueType )(continuousIndex[i] + 0.5);
+    index[i] = static_cast< IndexValueType >( continuousIndex[i] + 0.5 );
     }
 
   return index;

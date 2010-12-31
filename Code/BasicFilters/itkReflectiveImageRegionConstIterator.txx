@@ -83,7 +83,7 @@ ReflectiveImageRegionConstIterator< TImage >
   this->m_Remaining = false;
   for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
     {
-    unsigned long size = this->m_Region.GetSize()[i];
+    SizeValueType size = this->m_Region.GetSize()[i];
     if ( size > 0 ) { this->m_Remaining = true; }
     }
 

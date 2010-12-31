@@ -173,7 +173,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
       }
 
     // Calculate next grid index
-    long tmpVal = 1;
+    IndexValueType tmpVal = 1;
     for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
       {
       tmpIndex[idim]++;
@@ -259,7 +259,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
       }
 
     // Calculate next grid index
-    long tmpVal = 1;
+    IndexValueType tmpVal = 1;
     for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
       {
       tmpIndex[idim]++;
@@ -383,7 +383,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
                                                    m_InitialRegionArea, iregion + 1);
 
     // Calculate next grid index
-    long tmpVal = 1;
+    IndexValueType tmpVal = 1;
     for ( unsigned int idim = 0; idim < InputImageDimension; idim++ )
       {
       tmpIndex[idim]++;
@@ -480,7 +480,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 
       unsigned int intRegion1Index = 0;
       unsigned int intRegion2Index = 0;
-      long         tmpVal = 1;
+      IndexValueType        tmpVal = 1;
       for ( unsigned int jdim = 0; jdim < InputImageDimension; jdim++ )
         {
         intRegion1Index += indexRegion1[jdim] * tmpVal;

@@ -132,13 +132,13 @@ public:
 
   /** Use this method to set the starting index of the series.
    * The default value is 1. */
-  itkSetMacro(StartIndex, unsigned long);
-  itkGetConstMacro(StartIndex, unsigned long);
+  itkSetMacro(StartIndex, SizeValueType);
+  itkGetConstMacro(StartIndex, SizeValueType);
 
   /** Set the increment of the index of the series. The
    * default value is 1.  */
-  itkSetMacro(IncrementIndex, unsigned long);
-  itkGetConstMacro(IncrementIndex, unsigned long);
+  itkSetMacro(IncrementIndex, SizeValueType);
+  itkGetConstMacro(IncrementIndex, SizeValueType);
 
   /** The format string used to generate each filename in the
    * series. The filename is built with sprintf(filename, SeriesFormat,
@@ -217,8 +217,8 @@ private:
    * to use additional SeriesFileNames such as the DICOM filenames generators.
    * */
   std::string   m_SeriesFormat;
-  unsigned long m_StartIndex;
-  unsigned long m_IncrementIndex;
+  SizeValueType m_StartIndex;
+  SizeValueType m_IncrementIndex;
 
   bool m_UseCompression;
 

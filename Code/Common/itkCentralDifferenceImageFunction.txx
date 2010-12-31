@@ -70,8 +70,8 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep >
   for ( unsigned int dim = 0; dim < MaxDims; dim++ )
     {
     // bounds checking
-    if ( index[dim] < static_cast< long >( start[dim] ) + 1
-         || index[dim] > ( start[dim] + static_cast< long >( size[dim] ) - 2 ) )
+    if ( index[dim] < start[dim] + 1
+         || index[dim] > ( start[dim] + static_cast< OffsetValueType >( size[dim] ) - 2 ) )
       {
       derivative[dim] = 0.0;
       continue;

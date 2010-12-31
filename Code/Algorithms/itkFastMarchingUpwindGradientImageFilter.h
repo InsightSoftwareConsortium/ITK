@@ -151,7 +151,7 @@ public:
   { this->SetTargetReachedMode(NoTargets); }
   void SetTargetReachedModeToOneTarget()
   { this->SetTargetReachedMode(OneTarget); }
-  void SetTargetReachedModeToSomeTargets(long numberOfTargets)
+  void SetTargetReachedModeToSomeTargets(SizeValueType numberOfTargets)
   {
     this->SetTargetReachedMode(SomeTargets);
     m_NumberOfTargets = numberOfTargets;
@@ -161,7 +161,7 @@ public:
   { this->SetTargetReachedMode(AllTargets); }
 
   /** Get the number of targets. */
-  itkGetConstReferenceMacro(NumberOfTargets, long);
+  itkGetConstReferenceMacro(NumberOfTargets, SizeValueType);
 
   /** Get the arrival time corresponding to the last reached target.
    *  If TargetReachedMode is set to NoTargets, TargetValue contains
@@ -218,7 +218,7 @@ private:
 
   double m_TargetValue;
 
-  long m_NumberOfTargets;
+  SizeValueType m_NumberOfTargets;
 };
 } // namespace itk
 

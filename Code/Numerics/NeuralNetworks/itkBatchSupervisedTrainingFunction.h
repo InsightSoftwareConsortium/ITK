@@ -46,7 +46,7 @@ public:
   typedef typename Superclass::InternalVectorType InternalVectorType;
 
   /** Set the number of iterations */
-  void SetNumOfIterations(long i);
+  void SetNumOfIterations(SizeValueType i);
 
   virtual void Train(NetworkType* net, TSample* samples, TTargetVector* targets);
 

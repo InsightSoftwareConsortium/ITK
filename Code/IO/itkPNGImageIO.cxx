@@ -232,7 +232,7 @@ void PNGImageIO::Read(void *buffer)
   // update the info now that we have defined the filters
   png_read_update_info(png_ptr, info_ptr);
 
-  unsigned long  rowbytes = png_get_rowbytes(png_ptr, info_ptr);
+  SizeValueType  rowbytes = png_get_rowbytes(png_ptr, info_ptr);
   unsigned char *tempImage = static_cast< unsigned char * >( buffer );
   png_bytep *    row_pointers = new png_bytep[height];
   for ( unsigned int ui = 0; ui < height; ++ui )

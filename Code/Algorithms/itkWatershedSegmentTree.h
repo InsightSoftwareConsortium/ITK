@@ -56,11 +56,11 @@ public:
   typedef TScalarType ScalarType;
 
   /** Elements of the list (nodes of the tree).  A record of a merge
-   * between two segments (unsigned long labels) at a particular
+   * between two segments (IdentifierType labels) at a particular
    * saliency.   */
   struct merge_t {
-    unsigned long from;
-    unsigned long to;
+    IdentifierType from;
+    IdentifierType to;
     ScalarType saliency;
   };
 

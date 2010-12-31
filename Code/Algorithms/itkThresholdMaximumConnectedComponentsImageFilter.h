@@ -126,7 +126,7 @@ public:
    * Returns the number of objects in the image. This information is
    * only valid after the filter has executed. Useful if your counting
    * something */
-  itkGetConstMacro(NumberOfObjects, unsigned long);
+  itkGetConstMacro(NumberOfObjects, SizeValueType);
 
   /**
    * Returns the automatic threshold setpoint. This information is
@@ -157,7 +157,7 @@ protected:
    * Runs a series of filters that thresholds the image,
    * dilates/erodes  for edge enhancement, and counts the number of
    * relabeled connected components */
-  unsigned long int ComputeConnectedComponents(void);
+  SizeValueType ComputeConnectedComponents(void);
 
 private:
 
@@ -221,7 +221,7 @@ private:
 
   // Filter variables
   PixelType     m_ThresholdValue;
-  unsigned long m_NumberOfObjects;
+  SizeValueType m_NumberOfObjects;
 };
 } // end namespace itk
 

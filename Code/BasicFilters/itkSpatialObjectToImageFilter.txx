@@ -303,7 +303,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   InputObject->ComputeBoundingBox();
   for ( i = 0; i < ObjectDimension; i++ )
     {
-    size[i] = (long unsigned int)( InputObject->GetBoundingBox()->GetMaximum()[i]
+    size[i] = static_cast<SizeValueType>( InputObject->GetBoundingBox()->GetMaximum()[i]
                                    - InputObject->GetBoundingBox()->GetMinimum()[i] );
     }
 

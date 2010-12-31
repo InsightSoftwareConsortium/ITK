@@ -97,7 +97,7 @@ LandmarkSpatialObject< TDimension >
   os << indent << "LandmarkSpatialObject(" << this << ")" << std::endl;
   os << indent << "ID: " << this->GetId() << std::endl;
   os << indent << "nb of points: "
-     << static_cast< unsigned long >( m_Points.size() ) << std::endl;
+     << static_cast< SizeValueType >( m_Points.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 

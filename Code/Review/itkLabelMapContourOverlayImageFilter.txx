@@ -189,8 +189,8 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   m_TempImage->DisconnectPipeline();
 
 
-  long nbOfThreads = this->GetNumberOfThreads();
-  if( MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
+  int nbOfThreads = this->GetNumberOfThreads();
+  if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = std::min( this->GetNumberOfThreads(), MultiThreader::GetGlobalMaximumNumberOfThreads() );
     }
@@ -198,7 +198,6 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   // to get the real number of threads which will be used
   typename TOutputImage::RegionType splitRegion;  // dummy region - just to call the following method
   nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
-  // std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
 
   m_Barrier = Barrier::New();
   m_Barrier->Initialize( nbOfThreads );
@@ -257,12 +256,13 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   // the user want the mask to be the background of the label collection image
   typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
   typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
+  typedef typename InputImageType::LabelObjectType::LengthType  LengthType;
 
   for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
     IndexType idx = lit->GetIndex();
-    unsigned long length = lit->GetLength();
-    for( unsigned int i=0; i<length; i++)
+    LengthType length = lit->GetLength();
+    for( LengthType i = 0; i < length; i++)
       {
       output->SetPixel( idx, function( input2->GetPixel(idx), label ) );
       idx[0]++;

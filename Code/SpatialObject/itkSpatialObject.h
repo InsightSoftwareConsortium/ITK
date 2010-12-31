@@ -18,7 +18,7 @@
 #ifndef __itkSpatialObject_h
 #define __itkSpatialObject_h
 
-// Disable warning for long symbol names in this file only
+// Disable warning for lengthy symbol names in this file only
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
@@ -95,10 +95,10 @@ public:
   typedef typename TransformType::Pointer               TransformPointer;
   typedef const TransformType *                         TransformConstPointer;
 
-  typedef VectorContainer< unsigned long int, PointType > VectorContainerType;
+  typedef VectorContainer< IdentifierType, PointType >  VectorContainerType;
 
-  typedef BoundingBox< unsigned long int, TDimension, ScalarType, VectorContainerType > BoundingBoxType;
-  typedef typename BoundingBoxType::Pointer                                             BoundingBoxPointer;
+  typedef BoundingBox< IdentifierType, TDimension, ScalarType, VectorContainerType > BoundingBoxType;
+  typedef typename BoundingBoxType::Pointer                                          BoundingBoxPointer;
 
   typedef AffineGeometryFrame< double, TDimension > AffineGeometryFrameType;
   typedef typename AffineGeometryFrameType::Pointer AffineGeometryFramePointer;
@@ -109,12 +109,10 @@ public:
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index< TDimension >                IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
 
   /** Offset typedef support. An offset represent relative position
    * between indices. */
   typedef Offset< TDimension >                 OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
   typedef ImageRegion< TDimension >            RegionType;
   typedef Size< TDimension >                   SizeType;
   typedef SpatialObjectProperty< float >       PropertyType;

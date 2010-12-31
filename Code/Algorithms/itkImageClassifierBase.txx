@@ -128,9 +128,9 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
   unsigned int classIndex;
 
   // support progress methods/callbacks
-  unsigned long totalPixels =
+  SizeValueType totalPixels =
     inputImage->GetBufferedRegion().GetNumberOfPixels();
-  unsigned long updateVisits = totalPixels / 10;
+  SizeValueType updateVisits = totalPixels / 10;
   if ( updateVisits < 1 )
     {
     updateVisits = 1;

@@ -44,22 +44,22 @@ class ITK_EXPORT TubeSpatialObject:
 {
 public:
 
-  typedef TubeSpatialObject                           Self;
-  typedef PointBasedSpatialObject< TDimension >       Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef double                                      ScalarType;
-  typedef TTubePointType                              TubePointType;
-  typedef std::vector< TubePointType >                PointListType;
-  typedef PointListType *                             PointListPointer;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::SpatialObjectPointType SpatialObjectPointType;
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >          PointContainerPointer;
-  typedef typename Superclass::VectorType             VectorType;
-  typedef typename Superclass::CovariantVectorType    CovariantVectorType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
+  typedef TubeSpatialObject                             Self;
+  typedef PointBasedSpatialObject< TDimension >         Superclass;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
+  typedef double                                        ScalarType;
+  typedef TTubePointType                                TubePointType;
+  typedef std::vector< TubePointType >                  PointListType;
+  typedef PointListType *                               PointListPointer;
+  typedef typename Superclass::PointType                PointType;
+  typedef typename Superclass::TransformType            TransformType;
+  typedef typename Superclass::SpatialObjectPointType   SpatialObjectPointType;
+  typedef VectorContainer< IdentifierType, PointType >  PointContainerType;
+  typedef SmartPointer< PointContainerType >            PointContainerPointer;
+  typedef typename Superclass::VectorType               VectorType;
+  typedef typename Superclass::CovariantVectorType      CovariantVectorType;
+  typedef typename Superclass::BoundingBoxType          BoundingBoxType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,23 +77,23 @@ public:
   virtual void SetPoints(PointListType & newPoints);
 
   /** Return a point in the list given the index. */
-  virtual const SpatialObjectPointType * GetPoint(unsigned long ind) const
+  virtual const SpatialObjectPointType * GetPoint(IdentifierType ind) const
   { return &( m_Points[ind] ); }
 
   /** Return a point in the list given the index */
-  virtual SpatialObjectPointType * GetPoint(unsigned long ind)
+  virtual SpatialObjectPointType * GetPoint(IdentifierType ind)
   { return &( m_Points[ind] ); }
 
   /** Set a point in the list at the specified index */
-  virtual void SetPoint(unsigned long ind, const TubePointType & pnt)
+  virtual void SetPoint(IdentifierType ind, const TubePointType & pnt)
   { m_Points[ind] = pnt; }
 
   /** Remove a point in the list given the index */
-  virtual void RemovePoint(unsigned long ind)
+  virtual void RemovePoint(IdentifierType ind)
   { m_Points.erase(m_Points.begin() + ind); }
 
   /** Return the number of points in the list */
-  virtual unsigned long GetNumberOfPoints(void) const
+  virtual SizeValueType GetNumberOfPoints(void) const
   { return m_Points.size(); }
 
   /** Set the type of tube end-type: 0 = flat, 1 = rounded */

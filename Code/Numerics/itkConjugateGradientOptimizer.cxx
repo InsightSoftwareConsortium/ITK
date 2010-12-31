@@ -152,7 +152,7 @@ ConjugateGradientOptimizer
  * In vnl this is used instead of a maximum number of iterations
  * given that an iteration could imply several evaluations.
  */
-unsigned long
+SizeValueType
 ConjugateGradientOptimizer
 ::GetNumberOfIterations(void) const
 {
@@ -162,7 +162,7 @@ ConjugateGradientOptimizer
 /**
  * Get the number of iterations in the last optimization.
  */
-unsigned long
+SizeValueType
 ConjugateGradientOptimizer
 ::GetCurrentIteration(void) const
 {

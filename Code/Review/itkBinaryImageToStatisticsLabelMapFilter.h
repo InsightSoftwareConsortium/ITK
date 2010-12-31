@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage =
-            LabelMap< StatisticsLabelObject< unsigned long, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >
+            LabelMap< StatisticsLabelObject< SizeValueType, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >
 class ITK_EXPORT BinaryImageToStatisticsLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

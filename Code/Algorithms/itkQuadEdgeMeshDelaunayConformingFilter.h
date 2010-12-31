@@ -18,6 +18,7 @@
 #ifndef __itkQuadEdgeMeshDelaunayConformingFilter_h
 #define __itkQuadEdgeMeshDelaunayConformingFilter_h
 
+#include "itkIntTypes.h"
 #include "itkPriorityQueueContainer.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
@@ -89,7 +90,7 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(QuadEdgeMeshDelaunayConformingFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
-  itkGetConstMacro(NumberOfEdgeFlips, unsigned long);
+  itkGetConstMacro(NumberOfEdgeFlips, SizeValueType);
 public:
   typedef std::list< OutputEdgeCellType * >         OutputEdgeCellListType;
   typedef typename OutputEdgeCellListType::iterator OutputEdgeCellListIterator;
@@ -127,7 +128,7 @@ protected:
   PriorityQueuePointer   m_PriorityQueue;
   QueueMapType           m_QueueMapper;
 
-  unsigned long           m_NumberOfEdgeFlips;
+  SizeValueType           m_NumberOfEdgeFlips;
   FlipEdgeFunctionPointer m_FlipEdge;
 
   void GenerateData();

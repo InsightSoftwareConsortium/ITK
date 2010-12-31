@@ -98,10 +98,10 @@ namespace itk
  * gradients or curvature.
  *
  * \par Description of the output of this filter
- * This filter will produce an itk::Image of unsigned long integer type and of
- * the same dimensionality as the input image.  The unsigned long output image
+ * This filter will produce an itk::Image of IdentifierType integer type and of
+ * the same dimensionality as the input image.  The IdentifierType output image
  * is referred to as the ``labeled image'' in this documentation.  Each pixel
- * in the image is assigned an unsigned long integer label that groups it
+ * in the image is assigned an IdentifierType integer label that groups it
  * within a connected region.
  *
  * \par Some notes on filter parameters
@@ -149,7 +149,7 @@ namespace itk
  * \ingroup WatershedSegmentation  */
 template< class TInputImage >
 class ITK_EXPORT WatershedImageFilter:
-  public ImageToImageFilter< TInputImage, Image< unsigned long,
+  public ImageToImageFilter< TInputImage, Image< IdentifierType,
                                                  ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 {
 public:
@@ -164,7 +164,7 @@ public:
                        TInputImage::ImageDimension);
 
   /** The type of output image.   */
-  typedef Image< unsigned long, itkGetStaticConstMacro(ImageDimension) > OutputImageType;
+  typedef Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) > OutputImageType;
 
   /** Other convenient typedefs   */
   typedef typename InputImageType::RegionType RegionType;

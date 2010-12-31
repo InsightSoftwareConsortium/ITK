@@ -170,7 +170,7 @@ private:
   double               m_NarrowBandwidth;
   NodeContainerPointer m_InputNarrowBand;
 
-  signed long m_ImageSize[SetDimension];
+  SizeValueType m_ImageSize[SetDimension];
   typename LevelSetImageType::PixelType m_LargeValue;
 
   std::vector< NodeType > m_NodesUsed;

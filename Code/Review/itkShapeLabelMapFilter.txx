@@ -97,14 +97,14 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   // Init the vars
-  unsigned long                             nbOfPixels = 0;
+  SizeValueType                             nbOfPixels = 0;
   ContinuousIndex< double, ImageDimension > centroid;
   centroid.Fill(0);
   IndexType mins;
-  mins.Fill( NumericTraits< long >::max() );
+  mins.Fill( NumericTraits< IndexValueType >::max() );
   IndexType maxs;
-  maxs.Fill( NumericTraits< long >::NonpositiveMin() );
-  unsigned long nbOfPixelsOnBorder = 0;
+  maxs.Fill( NumericTraits< IndexValueType >::NonpositiveMin() );
+  SizeValueType nbOfPixelsOnBorder = 0;
   double        perimeterOnBorder = 0;
   MatrixType    centralMoments;
   centralMoments.Fill(0);
@@ -112,11 +112,13 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   typename LabelObjectType::LineContainerType::const_iterator lit;
   typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
 
+  typedef typename LabelObjectType::LengthType  LengthType;
+
   // Iterate over all the lines
   for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
     const IndexType & idx = lit->GetIndex();
-    unsigned long     length = lit->GetLength();
+    LengthType     length = lit->GetLength();
 
     // Update the nbOfPixels
     nbOfPixels += length;
@@ -125,10 +127,10 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     // First, update the axes that are not 0
     for ( unsigned int i = 1; i < ImageDimension; i++ )
       {
-      centroid[i] += (long)length * idx[i];
+      centroid[i] += (OffsetValueType)length * idx[i];
       }
     // Then, update the axis 0
-    centroid[0] += idx[0] * (long)length + ( length * ( length - 1 ) ) / 2.0;
+    centroid[0] += idx[0] * (OffsetValueType)length + ( length * ( length - 1 ) ) / 2.0;
 
     // Update the mins and maxs
     for ( unsigned int i = 0; i < ImageDimension; i++ )
@@ -143,7 +145,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
         }
       }
     // Must fix the max for the axis 0
-    if ( idx[0] + (long)length > maxs[0] )
+    if ( idx[0] + (OffsetValueType)length > maxs[0] )
       {
       maxs[0] = idx[0] + length - 1;
       }
@@ -177,7 +179,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       if ( !isOnBorder0 || length > 1 )
         {
         // We can check for the end of the line
-        if ( idx[0] + (long)length - 1 == borderMax[0] )
+        if ( idx[0] + (OffsetValueType)length - 1 == borderMax[0] )
           {
           // One more pixel on the border
           nbOfPixelsOnBorder++;
@@ -192,7 +194,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       // Fhe beginning of the line
       perimeterOnBorder += sizePerPixelPerDimension[0];
       }
-    if ( idx[0] + (long)length - 1 == borderMax[0] )
+    if ( idx[0] + (OffsetValueType)length - 1 == borderMax[0] )
       {
       // And the end of the line
       perimeterOnBorder += sizePerPixelPerDimension[0];
@@ -218,7 +220,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 // give the same result in a much efficient way, by using expended formulae
 // allowed by the binary case instead of loops.
 // ****************************************************************
-//     long endIdx0 = idx[0] + length;
+//     IndexValueType endIdx0 = idx[0] + length;
 //     for( IndexType iidx = idx; iidx[0]<endIdx0; iidx[0]++)
 //       {
 //       typename LabelObjectType::CentroidType pP;
@@ -408,6 +410,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   typename LabelObjectType::LineContainerType::const_iterator lit;
   typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
 
+  typedef typename LabelObjectType::LengthType LengthType;
+
   typedef typename itk::ConstNeighborhoodIterator< LabelImageType > NeighborIteratorType;
   SizeType neighborHoodRadius;
   neighborHoodRadius.Fill(1);
@@ -422,16 +426,16 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
     const IndexType & firstIdx = lit->GetIndex();
-    unsigned long     length = lit->GetLength();
+    LengthType     length = lit->GetLength();
 
-    long endIdx0 = firstIdx[0] + length;
+    IndexValueType endIdx0 = firstIdx[0] + (OffsetValueType)length;
     for ( IndexType idx = firstIdx; idx[0] < endIdx0; idx[0]++ )
       {
       // Move the iterator to the new location
       it += idx - it.GetIndex();
 
       // Push the pixel in the list if it is on the border of the object
-      for ( unsigned i = 0; i < it.Size(); i++ )
+      for ( OffsetValueType i = 0; i < it.Size(); i++ )
         {
         if ( it.GetPixel(i) != label )
           {
@@ -445,8 +449,6 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   ImageType *output = this->GetOutput();
 
   const typename ImageType::SpacingType & spacing = output->GetSpacing();
-
-  typedef typename ImageType::OffsetValueType OffsetValueType;
 
   // We can now search the feret diameter
   double feretDiameter = 0;
@@ -525,8 +527,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   // a data structure to store the number of intercepts on each direction
-  typedef typename std::map<OffsetType, unsigned long, typename OffsetType::LexicographicCompare>
-    MapInterceptType;
+  typedef typename std::map<OffsetType, SizeValueType, typename OffsetType::LexicographicCompare> MapInterceptType;
   MapInterceptType intercepts;
   // int nbOfDirections = (int)vcl_pow( 2.0, (int)ImageDimension ) - 1;
   // intecepts.resize(nbOfDirections + 1);  // code begins at position 1
@@ -558,7 +559,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       no[0] = 0;
       for( int i=0; i<ImageDimension-1; i++ )
         {
-        no[i+1] = vcl_abs(lno[i]);
+        no[i+1] = vnl_math_abs(lno[i]);
         }
       OffsetType dno = no; // offset for the diagonal
       dno[0] = 1;
@@ -585,16 +586,17 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       else
         {
         // std::cout << "else" << std::endl;
-        // TODO - fix the code when the line starts at  NumericTraits<long int>::NonpositiveMin()
-        // or end at  NumericTraits<long int>::max()
+        // TODO - fix the code when the line starts at  NumericTraits<IndexValueType>::NonpositiveMin()
+        // or end at  NumericTraits<IndexValueType>::max()
         typename VectorLineType::const_iterator li = ls.begin();
         typename VectorLineType::const_iterator ni = ns.begin();
 
-        long int lMin = 0;
-        long int lMax = 0;
+        IndexValueType lZero = 0;
+        IndexValueType lMin = 0;
+        IndexValueType lMax = 0;
 
-        long int nMin = NumericTraits<long int>::NonpositiveMin() + 1;
-        long int nMax = ni->GetIndex()[0] - 1;
+        IndexValueType nMin = NumericTraits<IndexValueType>::NonpositiveMin() + 1;
+        IndexValueType nMax = ni->GetIndex()[0] - 1;
 
         while( li!=ls.end() )
           {
@@ -603,16 +605,17 @@ ShapeLabelMapFilter< TImage, TLabelImage >
           lMax = lMin + li->GetLength() - 1;
 
           // add as much intercepts as intersections of the 2 lines
-          intercepts[no] += std::max( 0l, std::min(lMax, nMax) - std::max(lMin, nMin) + 1 );
+          intercepts[no] += vnl_math_max( lZero, vnl_math_min(lMax, nMax) - vnl_math_max(lMin, nMin) + 1 );
           // std::cout << "============" << std::endl;
-          // std::cout << "  lMin:" << lMin << " lMax:" << lMax << " nMin:" << nMin << " nMax:" << nMax << " count: " << std::max( 0l, std::min(lMax, nMax) - std::max(lMin, nMin) + 1 ) << std::endl;
+          // std::cout << "  lMin:" << lMin << " lMax:" << lMax << " nMin:" << nMin << " nMax:" << nMax;
+          // std::cout << " count: " << vnl_math_max( 0l, vnl_math_min(lMax, nMax) - vnl_math_max(lMin, nMin) + 1 ) << std::endl;
           // std::cout << "  " << no << ": " << intercepts[no] << std::endl;
-          // std::cout << std::max( 0l, std::min(lMax, nMax+1) - std::max(lMin, nMin+1) + 1 ) << std::endl;
-          // std::cout << std::max( 0l, std::min(lMax, nMax-1) - std::max(lMin, nMin-1) + 1 ) << std::endl;
+          // std::cout << vnl_math_max( lZero, vnl_math_min(lMax, nMax+1) - vnl_math_max(lMin, nMin+1) + 1 ) << std::endl;
+          // std::cout << vnl_math_max( lZero, vnl_math_min(lMax, nMax-1) - vnl_math_max(lMin, nMin-1) + 1 ) << std::endl;
           // left diagonal intercepts
-          intercepts[dno] += std::max( 0l, std::min(lMax, nMax+1) - std::max(lMin, nMin+1) + 1 );
+          intercepts[dno] += vnl_math_max( lZero, vnl_math_min(lMax, nMax+1) - vnl_math_max(lMin, nMin+1) + 1 );
           // right diagonal intercepts
-          intercepts[dno] += std::max( 0l, std::min(lMax, nMax-1) - std::max(lMin, nMin-1) + 1 );
+          intercepts[dno] += vnl_math_max( lZero, vnl_math_min(lMax, nMax-1) - vnl_math_max(lMin, nMin-1) + 1 );
 
           // go to the next line or the next neighbor depending on where we are
           if(nMax <= lMax )
@@ -627,7 +630,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
               }
             else
               {
-              nMax = NumericTraits<long int>::max() - 1;
+              nMax = NumericTraits<IndexValueType>::max() - 1;
               }
             }
           else

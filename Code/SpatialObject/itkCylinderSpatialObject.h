@@ -33,17 +33,17 @@ class ITKSpatialObject_EXPORT CylinderSpatialObject:
 {
 public:
 
-  typedef CylinderSpatialObject                       Self;
-  typedef double                                      ScalarType;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef SpatialObject< 3 >                          Superclass;
-  typedef SmartPointer< Superclass >                  SuperclassPointer;
-  typedef Superclass::PointType                       PointType;
-  typedef Superclass::TransformType                   TransformType;
-  typedef Superclass::BoundingBoxType                 BoundingBoxType;
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >          PointContainerPointer;
+  typedef CylinderSpatialObject                        Self;
+  typedef double                                       ScalarType;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
+  typedef SpatialObject< 3 >                           Superclass;
+  typedef SmartPointer< Superclass >                   SuperclassPointer;
+  typedef Superclass::PointType                        PointType;
+  typedef Superclass::TransformType                    TransformType;
+  typedef Superclass::BoundingBoxType                  BoundingBoxType;
+  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
+  typedef SmartPointer< PointContainerType >           PointContainerPointer;
 
   itkStaticConstMacro(NumberOfDimension, unsigned int,
                       3);

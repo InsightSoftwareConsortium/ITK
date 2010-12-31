@@ -23,6 +23,7 @@
 #endif
 
 #include "itkNonUniformBSpline.h"
+#include "itkIntTypes.h"
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
@@ -189,7 +190,9 @@ NonUniformBSpline< TDimension >
   double              total_chord_length = 0.0;
   ChordLengthListType temp;
 
-  for ( ::size_t i = 0; i < m_Points.size() - 1; i++ )
+  const SizeValueType numberOfPoints = static_cast< SizeValueType >( m_Points.size() );
+
+  for ( SizeValueType i = 0; i <  numberOfPoints - 1; i++ )
     {
     PointType pt = m_Points[i];
     PointType pt2 = m_Points[i + 1];

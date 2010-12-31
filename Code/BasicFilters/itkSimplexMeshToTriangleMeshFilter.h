@@ -63,6 +63,8 @@ public:
   typedef typename InputMeshType::PointType              InputPointType;
   typedef typename InputMeshType::PixelType              InputPixelType;
   typedef typename InputMeshType::MeshTraits::CellTraits InputCellTraitsType;
+  typedef typename InputMeshType::PointIdentifier        PointIdentifier;
+  typedef typename InputMeshType::CellIdentifier         CellIdentifier;
 
   typedef typename InputMeshType::PointsContainer InputPointsContainer;
   typedef typename InputPointsContainer::Pointer  InputPointsContainerPointer;
@@ -77,8 +79,8 @@ public:
   typedef          itk::PolygonCell< SimplexCellType > SimplexPolygonType;
 
   // stores the center for each simplex mesh cell, key is the point id
-  typedef          itk::MapContainer< unsigned long, InputPointType > PointMapType;
-  typedef typename PointMapType::Pointer                              PointMapPointer;
+  typedef          itk::MapContainer< PointIdentifier, InputPointType > PointMapType;
+  typedef typename PointMapType::Pointer                                PointMapPointer;
 
   /** \class SimplexCellVisitor
    * This class provides methods for visiting
@@ -100,7 +102,7 @@ public:
     /**
      * \brief visits all polygon cells and compute the cell centers
      */
-    void Visit(unsigned long cellId, SimplexPolygonType *poly)
+    void Visit(CellIdentifier cellId, SimplexPolygonType *poly)
     {
       typedef typename SimplexPolygonType::PointIdIterator PointIdIterator;
       PointIdIterator it =  poly->PointIdsBegin();
@@ -165,7 +167,7 @@ protected:
   void CreateTriangles();
 
   /** part of algorithm */
-  unsigned long FindCellId(unsigned long id1, unsigned long id2, unsigned long id3);
+  CellIdentifier FindCellId(CellIdentifier id1, CellIdentifier id2, CellIdentifier id3);
 
   /** attribute stores the result of the simplex cell visitor */
   PointMapPointer m_Centers;

@@ -310,7 +310,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
         sample.SetSize(2);
         sample[0] = fixedValue;
         sample[1] = movingValue;
-        histogram.IncreaseFrequency(sample, 1);
+        histogram.IncreaseFrequencyOfMeasurement(sample, 1);
         }
       }
 

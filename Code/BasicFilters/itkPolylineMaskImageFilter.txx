@@ -240,7 +240,6 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   // Generate a 2D image with the viewing polygon as a mask
   typedef Image< PixelType, 2 >                        ProjectionImageType;
   typedef typename ProjectionImageType::IndexType      ProjectionImageIndexType;
-  typedef typename ProjectionImageType::IndexValueType ProjectionImageIndexValueType;
   typedef typename ProjectionImageType::PointType      ProjectionImagePointType;
   typedef typename ProjectionImageType::SpacingType    ProjectionImageSpacingType;
   typedef typename ProjectionImageType::PixelType      ProjectionImagePixelType;
@@ -364,12 +363,12 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   projectionStart[1] = 0;
 
   ProjectionImageSizeType       projectionSize;
-  ProjectionImageIndexValueType pad;
+  IndexValueType pad;
 
   pad = 5;
 
-  projectionSize[0] = (ProjectionImageIndexValueType)( bounds[1] - bounds[0] ) + pad;
-  projectionSize[1] = (ProjectionImageIndexValueType)( bounds[3] - bounds[2] ) + pad;
+  projectionSize[0] = (IndexValueType)( bounds[1] - bounds[0] ) + pad;
+  projectionSize[1] = (IndexValueType)( bounds[3] - bounds[2] ) + pad;
 
   projectionRegion.SetIndex(projectionStart);
   projectionRegion.SetSize(projectionSize);
@@ -434,8 +433,6 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   ProjectionImageIndexType startImageIndex;
   ProjectionImageIndexType endImageIndex;
   ProjectionImageIndexType projectionImageIndex;
-
-  typedef typename ProjectionImageIndexType::IndexValueType IndexValueType;
 
   typedef LineIterator< ProjectionImageType >                 LineIteratorType;
   typedef ImageLinearIteratorWithIndex< ProjectionImageType > ImageLineIteratorType;

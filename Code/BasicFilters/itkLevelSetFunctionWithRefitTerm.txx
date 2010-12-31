@@ -24,7 +24,7 @@
 namespace itk
 {
 template< class TImageType, class TSparseImageType >
-const unsigned long
+const typename LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >::NeighborhoodSizeValueType
 LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
 ::m_NumVertex = 1 << TImageType::ImageDimension;
 
@@ -81,10 +81,11 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
 {
   unsigned int  j, k;
   unsigned int  counterN, counterP;
-  unsigned long positionN,  positionP,
+  NeighborhoodSizeValueType positionN,  positionP,
                 stride[TImageType::ImageDimension], indicator[TImageType::ImageDimension];
 
-  const unsigned long center = neighborhood.Size() / 2;
+  const NeighborhoodSizeValueType one = 1;
+  const NeighborhoodSizeValueType center = neighborhood.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
@@ -94,7 +95,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
   for ( j = 0; j < TImageType::ImageDimension; j++ )
     {
     stride[j] = neighborhood.GetStride(j);
-    indicator[j] = 1 << j;
+    indicator[j] = one << j;
     }
   curvature = NumericTraits< ScalarValueType >::Zero;
 

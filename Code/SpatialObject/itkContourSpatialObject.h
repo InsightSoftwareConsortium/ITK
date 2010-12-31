@@ -50,12 +50,12 @@ public:
   typedef std::vector< ControlPointType >         ControlPointListType;
   typedef std::vector< InterpolatedPointType >    InterpolatedPointListType;
 
-  typedef typename Superclass::SpatialObjectPointType SpatialObjectPointType;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >          PointContainerPointer;
+  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
+  typedef typename Superclass::PointType               PointType;
+  typedef typename Superclass::TransformType           TransformType;
+  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
+  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
+  typedef SmartPointer< PointContainerType >           PointContainerPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,15 +73,15 @@ public:
   void SetControlPoints(ControlPointListType & newPoints);
 
   /** Return a control point in the list given the index */
-  const ControlPointType * GetControlPoint(unsigned long id) const
+  const ControlPointType * GetControlPoint(IdentifierType id) const
   { return &( m_ControlPoints[id] ); }
 
   /** Return a control point in the list given the index */
-  ControlPointType * GetControlPoint(unsigned long id)
+  ControlPointType * GetControlPoint(IdentifierType id)
   { return &( m_ControlPoints[id] ); }
 
   /** Return the number of control points in the list */
-  unsigned long GetNumberOfControlPoints(void) const
+  SizeValueType GetNumberOfControlPoints(void) const
   { return m_ControlPoints.size(); }
 
   /** Returns a reference to the list of the interpolated points. */
@@ -94,15 +94,15 @@ public:
   void SetInterpolatedPoints(InterpolatedPointListType & newPoints);
 
   /** Return a interpolated point in the list given the index */
-  const InterpolatedPointType * GetInterpolatedPoint(unsigned long id) const
+  const InterpolatedPointType * GetInterpolatedPoint(IdentifierType id) const
   { return &( m_InterpolatedPoints[id] ); }
 
   /** Return a interpolated point in the list given the index */
-  InterpolatedPointType * GetInterpolatedPoint(unsigned long id)
+  InterpolatedPointType * GetInterpolatedPoint(IdentifierType id)
   { return &( m_InterpolatedPoints[id] ); }
 
   /** Return the number of interpolated points in the list */
-  unsigned long GetNumberOfInterpolatedPoints(void) const
+  SizeValueType GetNumberOfInterpolatedPoints(void) const
   { return m_InterpolatedPoints.size(); }
 
   enum InterpolationType { NO_INTERPOLATION = 0,
@@ -164,7 +164,7 @@ protected:
   InterpolationType         m_InterpolationType;
   bool                      m_Closed;
   int                       m_DisplayOrientation;
-  long int                  m_AttachedToSlice;
+  int                       m_AttachedToSlice;
 
   ContourSpatialObject();
   virtual ~ContourSpatialObject();

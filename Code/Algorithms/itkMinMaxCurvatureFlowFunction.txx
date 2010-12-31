@@ -83,7 +83,7 @@ MinMaxCurvatureFlowFunction< TImage >
   Iterator opIter;
   Iterator opEnd  = m_StencilOperator.End();
 
-  unsigned long numPixelsInSphere = 0;
+  SizeValueType numPixelsInSphere = 0;
 
   for ( opIter = m_StencilOperator.Begin(); opIter < opEnd; ++opIter )
     {
@@ -93,8 +93,8 @@ MinMaxCurvatureFlowFunction< TImage >
     for ( j = 0; j < ImageDimension; j++ )
       {
       length += static_cast< RadiusValueType >(
-        vnl_math_sqr( static_cast< signed long >( counter[j] )
-                      - static_cast< signed long >( m_StencilRadius ) ) );
+        vnl_math_sqr( static_cast< IndexValueType >( counter[j] )
+                      - static_cast< IndexValueType >( m_StencilRadius ) ) );
       }
     if ( length <= sqrRadius )
       {
@@ -138,8 +138,8 @@ MinMaxCurvatureFlowFunction< TImage >
   // Compute gradient
   PixelType     gradient[ImageDimension];
   PixelType     gradMagnitude;
-  unsigned long stride;
-  unsigned long center;
+  SizeValueType stride;
+  SizeValueType center;
   unsigned int  j;
 
   center = it.Size() / 2;
@@ -147,7 +147,7 @@ MinMaxCurvatureFlowFunction< TImage >
   gradMagnitude = NumericTraits< PixelType >::Zero;
   for ( j = 0; j < ImageDimension; j++ )
     {
-    stride = it.GetStride( (unsigned long)j );
+    stride = it.GetStride( (SizeValueType)j );
     gradient[j] = 0.5 * ( it.GetPixel(center + stride)
                           - it.GetPixel(center - stride) );
     gradient[j] *= this->m_ScaleCoefficients[j];
@@ -173,8 +173,8 @@ MinMaxCurvatureFlowFunction< TImage >
   Iterator neighIter;
   Iterator neighEnd  = it.End();
 
-  unsigned long i = 0;
-  unsigned long numPixels = 0;
+  SizeValueType i = 0;
+  SizeValueType numPixels = 0;
 
   for ( neighIter = it.Begin(); neighIter < neighEnd; ++neighIter, ++i )
     {
@@ -183,8 +183,8 @@ MinMaxCurvatureFlowFunction< TImage >
 
     for ( j = 0; j <  ImageDimension; j++ )
       {
-      signed long diff = static_cast< signed long >( counter[j] )
-                         - static_cast< signed long >( m_StencilRadius );
+      IndexValueType diff = static_cast< IndexValueType >( counter[j] )
+                         - static_cast< IndexValueType >( m_StencilRadius );
 
       dotProduct += static_cast< PixelType >( diff ) * gradient[j];
       vectorMagnitude += static_cast< PixelType >( vnl_math_sqr(diff) );
@@ -242,9 +242,9 @@ MinMaxCurvatureFlowFunction< TImage >
   // Compute gradient
   PixelType     gradient[imageDimension];
   PixelType     gradMagnitude;
-  unsigned long stride;
-  unsigned long center;
-  unsigned long position[imageDimension];
+  SizeValueType stride;
+  SizeValueType center;
+  SizeValueType position[imageDimension];
   int           j, k;
 
   center = it.Size() / 2;
@@ -273,14 +273,14 @@ MinMaxCurvatureFlowFunction< TImage >
     }
 
   // Compute first perpendicular point
-  position[0] = Math::Round< unsigned long >( (double)( m_StencilRadius - gradient[1] ) );
-  position[1] = Math::Round< unsigned long >( (double)( m_StencilRadius + gradient[0] ) );
+  position[0] = Math::Round< SizeValueType >( (double)( m_StencilRadius - gradient[1] ) );
+  position[1] = Math::Round< SizeValueType >( (double)( m_StencilRadius + gradient[0] ) );
 
   threshold = it.GetPixel(position[0] + stride * position[1]);
 
   // Compute second perpendicular point
-  position[0] = Math::Round< unsigned long >( (double)( m_StencilRadius + gradient[1] ) );
-  position[1] = Math::Round< unsigned long >( (double)( m_StencilRadius - gradient[0] ) );
+  position[0] = Math::Round< SizeValueType >( (double)( m_StencilRadius + gradient[1] ) );
+  position[1] = Math::Round< SizeValueType >( (double)( m_StencilRadius - gradient[0] ) );
 
   threshold += it.GetPixel(position[0] + stride * position[1]);
   threshold *= 0.5;
@@ -306,9 +306,9 @@ MinMaxCurvatureFlowFunction< TImage >
   // Compute gradient
   PixelType     gradient[imageDimension];
   PixelType     gradMagnitude;
-  unsigned long strideY, strideZ;
-  unsigned long center;
-  unsigned long position[imageDimension];
+  SizeValueType strideY, strideZ;
+  SizeValueType center;
+  SizeValueType position[imageDimension];
   int           j, k;
 
   center  = it.Size() / 2;
@@ -375,32 +375,32 @@ MinMaxCurvatureFlowFunction< TImage >
   double rCosPhi         = m_StencilRadius * cosPhi;
 
   // Point 1: angle = 0;
-  position[0] = Math::Round< unsigned long >(m_StencilRadius + rCosThetaCosPhi);
-  position[1] = Math::Round< unsigned long >(m_StencilRadius + rCosThetaSinPhi);
-  position[2] = Math::Round< unsigned long >(m_StencilRadius - rSinTheta);
+  position[0] = Math::Round< SizeValueType >(m_StencilRadius + rCosThetaCosPhi);
+  position[1] = Math::Round< SizeValueType >(m_StencilRadius + rCosThetaSinPhi);
+  position[2] = Math::Round< SizeValueType >(m_StencilRadius - rSinTheta);
 
   threshold += it.GetPixel(position[0]
                            + strideY * position[1] + strideZ * position[2]);
 
   // Point 2: angle = 90;
-  position[0] = Math::Round< unsigned long >(m_StencilRadius - rSinPhi);
-  position[1] = Math::Round< unsigned long >(m_StencilRadius + rCosPhi);
+  position[0] = Math::Round< SizeValueType >(m_StencilRadius - rSinPhi);
+  position[1] = Math::Round< SizeValueType >(m_StencilRadius + rCosPhi);
   position[2] = m_StencilRadius;
 
   threshold += it.GetPixel(position[0]
                            + strideY * position[1] + strideZ * position[2]);
 
   // Point 3: angle = 180;
-  position[0] = Math::Round< unsigned long >(m_StencilRadius - rCosThetaCosPhi);
-  position[1] = Math::Round< unsigned long >(m_StencilRadius - rCosThetaSinPhi);
-  position[2] = Math::Round< unsigned long >(m_StencilRadius + rSinTheta);
+  position[0] = Math::Round< SizeValueType >(m_StencilRadius - rCosThetaCosPhi);
+  position[1] = Math::Round< SizeValueType >(m_StencilRadius - rCosThetaSinPhi);
+  position[2] = Math::Round< SizeValueType >(m_StencilRadius + rSinTheta);
 
   threshold += it.GetPixel(position[0]
                            + strideY * position[1] + strideZ * position[2]);
 
   // Point 4: angle = 270;
-  position[0] = Math::Round< unsigned long >(m_StencilRadius + rSinPhi);
-  position[1] = Math::Round< unsigned long >(m_StencilRadius - rCosPhi);
+  position[0] = Math::Round< SizeValueType >(m_StencilRadius + rSinPhi);
+  position[1] = Math::Round< SizeValueType >(m_StencilRadius - rCosPhi);
   position[2] = m_StencilRadius;
 
   threshold += it.GetPixel(position[0]

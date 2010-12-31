@@ -78,7 +78,7 @@ ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
  *
  */
 template< class TInputImage, class TOutputImage >
-unsigned long int
+SizeValueType
 ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 ::ComputeConnectedComponents()
 {
@@ -138,19 +138,19 @@ void ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
   PixelType midpointR = ( upperBound - ( upperBound - midpoint ) / 2 );
 
 #ifndef NDEBUG
-  unsigned long iterationCounter = 0;
+  SizeValueType iterationCounter = 0;
 #endif
 
   while ( ( upperBound - lowerBound ) > 2 )
     {
     m_ThresholdValue = midpointR;
 
-    const unsigned long connectedComponentsRight =
+    const SizeValueType connectedComponentsRight =
       this->ComputeConnectedComponents();
 
     m_ThresholdValue = midpointL;
 
-    const unsigned long connectedComponentsLeft =
+    const SizeValueType connectedComponentsLeft =
       this->ComputeConnectedComponents();
 
     // If the two thresholds give equal number of connected

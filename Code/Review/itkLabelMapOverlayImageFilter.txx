@@ -64,7 +64,7 @@ void
 LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
-  long nbOfThreads = this->GetNumberOfThreads();
+  int nbOfThreads = this->GetNumberOfThreads();
   if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -136,8 +136,8 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
     IndexType idx = lit->GetIndex();
-    unsigned long length = lit->GetLength();
-    for( unsigned int i=0; i<length; i++)
+    LengthType length = lit->GetLength();
+    for( LengthType i=0; i<length; i++)
       {
       output->SetPixel( idx, function( input2->GetPixel(idx), label ) );
       idx[0]++;

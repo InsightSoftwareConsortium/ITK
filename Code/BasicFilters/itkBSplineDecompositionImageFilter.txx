@@ -183,14 +183,15 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
   /* See Unser, 1999, Box 2 for explaination */
   CoeffType     sum;
   double        zn, z2n, iz;
-  unsigned long horizon;
+  typename TInputImage::SizeValueType horizon;
 
   /* this initialization corresponds to mirror boundaries */
   horizon = m_DataLength[m_IteratorDirection];
   zn = z;
   if ( m_Tolerance > 0.0 )
     {
-    horizon = (long)vcl_ceil( vcl_log(m_Tolerance) / vcl_log( vcl_fabs(z) ) );
+    horizon = (typename TInputImage::SizeValueType)
+      vcl_ceil( vcl_log(m_Tolerance) / vcl_log( vcl_fabs(z) ) );
     }
   if ( horizon < m_DataLength[m_IteratorDirection] )
     {
@@ -311,7 +312,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::CopyScratchToCoefficients(OutputLinearIterator & Iter)
 {
   typedef typename TOutputImage::PixelType OutputPixelType;
-  unsigned long j = 0;
+  typename TOutputImage::SizeValueType j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {
     Iter.Set( static_cast< OutputPixelType >( m_Scratch[j] ) );
@@ -328,7 +329,7 @@ void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::CopyCoefficientsToScratch(OutputLinearIterator & Iter)
 {
-  unsigned long j = 0;
+  typename TOutputImage::SizeValueType j = 0;
 
   while ( !Iter.IsAtEndOfLine() )
     {
@@ -389,7 +390,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 
   m_DataLength = inputPtr->GetBufferedRegion().GetSize();
 
-  unsigned long maxLength = 0;
+  typename TOutputImage::SizeValueType maxLength = 0;
   for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
     if ( m_DataLength[n] > maxLength )

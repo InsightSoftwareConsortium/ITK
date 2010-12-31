@@ -616,7 +616,7 @@ void GiplImageIO::ReadImageInformation()
 
 void
 GiplImageIO
-::SwapBytesIfNecessary(void *buffer, unsigned long numberOfPixels)
+::SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels)
 {
   switch ( m_ComponentType )
     {
@@ -1056,8 +1056,8 @@ GiplImageIO
     }
   else //binary
     {
-    const unsigned long numberOfBytes      = static_cast< unsigned long >( this->GetImageSizeInBytes() );
-    const unsigned long numberOfComponents = static_cast< unsigned long >( this->GetImageSizeInComponents() );
+    const SizeValueType numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
+    const SizeValueType numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
 
     // Swap bytes if necessary
     if ( m_ByteOrder == LittleEndian )

@@ -96,8 +96,8 @@ public:
   /**
    * Set/Get the number of objects to keep
    */
-  itkSetMacro( NumberOfObjects, unsigned long );
-  itkGetConstReferenceMacro( NumberOfObjects, unsigned long );
+  itkSetMacro( NumberOfObjects, SizeValueType );
+  itkGetConstReferenceMacro( NumberOfObjects, SizeValueType );
 
 protected:
   AttributeKeepNObjectsLabelMapFilter();
@@ -135,8 +135,8 @@ private:
   AttributeKeepNObjectsLabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool          m_ReverseOrdering;
-  unsigned long m_NumberOfObjects;
+  bool           m_ReverseOrdering;
+  SizeValueType  m_NumberOfObjects;
 
 }; // end of class
 

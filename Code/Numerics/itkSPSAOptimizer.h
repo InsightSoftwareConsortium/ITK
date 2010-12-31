@@ -98,11 +98,11 @@ public:
    * Syst. 34(3), 817-823.
    */
   virtual void GuessParameters(
-    unsigned long numberOfGradientEstimates,
+    SizeValueType numberOfGradientEstimates,
     double initialStepSize);
 
   /** Get the current iteration number. */
-  itkGetConstMacro(CurrentIteration, unsigned long);
+  itkGetConstMacro(CurrentIteration, SizeValueType);
 
   /** Get Stop condition. */
   itkGetConstMacro(StopCondition, StopConditionType);
@@ -160,8 +160,8 @@ public:
    * q = NumberOfPerturbations
    * g_k = 1/q sum_{j=1..q} g^(j)_k
    */
-  itkSetMacro(NumberOfPerturbations, unsigned long);
-  itkGetConstMacro(NumberOfPerturbations, unsigned long);
+  itkSetMacro(NumberOfPerturbations, SizeValueType);
+  itkGetConstMacro(NumberOfPerturbations, SizeValueType);
 
   /**
    * Get the state of convergence in the last iteration. When the
@@ -181,12 +181,12 @@ public:
   itkGetConstMacro(StateOfConvergenceDecayRate, double);
 
   /** Set/Get the minimum number of iterations */
-  itkSetMacro(MinimumNumberOfIterations, unsigned long);
-  itkGetConstMacro(MinimumNumberOfIterations, unsigned long);
+  itkSetMacro(MinimumNumberOfIterations, SizeValueType);
+  itkGetConstMacro(MinimumNumberOfIterations, SizeValueType);
 
   /** Set/Get the maximum number of iterations. */
-  itkSetMacro(MaximumNumberOfIterations, unsigned long);
-  itkGetConstMacro(MaximumNumberOfIterations, unsigned long);
+  itkSetMacro(MaximumNumberOfIterations, SizeValueType);
+  itkGetConstMacro(MaximumNumberOfIterations, SizeValueType);
 
   /** Set/Get Tolerance */
   itkSetMacro(Tolerance, double);
@@ -216,19 +216,19 @@ protected:
 
   double m_StateOfConvergence;
 
-  unsigned long m_CurrentIteration;
+  SizeValueType m_CurrentIteration;
 
   /** Random number generator */
   Statistics::MersenneTwisterRandomVariateGenerator::Pointer m_Generator;
 
   /** Method to compute the learning rate at iteration k (a_k). */
-  virtual double Compute_a(unsigned long k) const;
+  virtual double Compute_a(SizeValueType k) const;
 
   /**
    * Method to compute the gain factor for the perturbation
    * at iteration k (c_k).
    */
-  virtual double Compute_c(unsigned long k) const;
+  virtual double Compute_c(SizeValueType k) const;
 
   /** Method to generate a perturbation vector. Takes scales into account. */
   virtual void GenerateDelta(const unsigned int spaceDimension);
@@ -247,13 +247,13 @@ private:
   void operator=(const Self &);   // purposely not implemented
 
   /** Settings.*/
-  unsigned long m_MinimumNumberOfIterations;
-  unsigned long m_MaximumNumberOfIterations;
+  SizeValueType m_MinimumNumberOfIterations;
+  SizeValueType m_MaximumNumberOfIterations;
   double        m_StateOfConvergenceDecayRate;
   double        m_Tolerance;
   bool          m_Maximize;
   double        m_GradientMagnitude;
-  unsigned long m_NumberOfPerturbations;
+  SizeValueType m_NumberOfPerturbations;
 
   /** Parameters, as described by Spall.*/
   double m_Sa;

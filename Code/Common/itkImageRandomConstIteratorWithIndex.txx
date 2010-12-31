@@ -50,14 +50,14 @@ ImageRandomConstIteratorWithIndex< TImage >
 template< class TImage >
 void
 ImageRandomConstIteratorWithIndex< TImage >
-::SetNumberOfSamples(unsigned long number)
+::SetNumberOfSamples(SizeValueType number)
 {
   m_NumberOfSamplesRequested = number;
 }
 
 /**  Set the number of samples to extract from the region */
 template< class TImage >
-unsigned long
+typename ImageRandomConstIteratorWithIndex< TImage >::SizeValueType
 ImageRandomConstIteratorWithIndex< TImage >
 ::GetNumberOfSamples(void) const
 {
@@ -88,20 +88,22 @@ void
 ImageRandomConstIteratorWithIndex< TImage >
 ::RandomJump()
 {
-  const unsigned long randomPosition =
-    static_cast< unsigned long >( m_Generator->GetVariateWithOpenRange (static_cast< double >( m_NumberOfPixelsInRegion )
+  typedef IndexValueType PositionValueType;
+
+  const PositionValueType randomPosition =
+    static_cast< PositionValueType >( m_Generator->GetVariateWithOpenRange (static_cast< double >( m_NumberOfPixelsInRegion )
                                                                         - 0.5) );
   /*
       vnl_sample_uniform(0.0f,
       static_cast<double>(m_NumberOfPixelsInRegion)-0.5) );
   */
 
-  unsigned long position = randomPosition;
-  unsigned long residual;
+  PositionValueType position = randomPosition;
+  PositionValueType residual;
 
   for ( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
     {
-    const unsigned long sizeInThisDimension = this->m_Region.GetSize()[dim];
+    const SizeValueType sizeInThisDimension = this->m_Region.GetSize()[dim];
     residual = position % sizeInThisDimension;
     this->m_PositionIndex[dim] =  residual + this->m_BeginIndex[dim];
     position -= residual;

@@ -77,7 +77,7 @@ public:
   typedef typename LineType::LengthType      LengthType;
   typedef typename std::deque< LineType >    LineContainerType;
   typedef unsigned int                       AttributeType;
-  typedef unsigned long                      SizeValueType;
+  typedef itk::SizeValueType                 SizeValueType;
 
   itkStaticConstMacro(LABEL, AttributeType, 0);
 

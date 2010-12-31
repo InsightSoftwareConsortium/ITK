@@ -116,9 +116,9 @@ public:
 public:
   TetrahedronCell()
   {
-    for ( unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++ )
+    for ( PointIdentifier i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++ )
       {
-      m_PointIds[i] = NumericTraits< unsigned long >::max();
+      m_PointIds[i] = NumericTraits< PointIdentifier >::max();
       }
   }
 

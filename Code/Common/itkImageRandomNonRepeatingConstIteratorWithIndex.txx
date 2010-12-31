@@ -50,7 +50,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 template< class TImage >
 void
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
-::SetNumberOfSamples(unsigned long number)
+::SetNumberOfSamples(SizeValueType number)
 {
   m_NumberOfSamplesRequested = number;
   if ( number > m_NumberOfPixelsInRegion ) { m_NumberOfSamplesRequested = m_NumberOfPixelsInRegion; }
@@ -58,7 +58,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 
 /**  Set the number of samples to extract from the region */
 template< class TImage >
-unsigned long
+typename ImageRandomNonRepeatingConstIteratorWithIndex< TImage >::SizeValueType
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::GetNumberOfSamples(void) const
 {
@@ -92,17 +92,16 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 {
   // should probably do error checking to be sure that the priority
   // image is the right size
-  IndexType     positionIndex;
-  unsigned long position, pixel;
-  unsigned long residual;
+  typedef SizeValueType PositionValueType;
 
-  for ( pixel = 0; pixel < m_NumberOfPixelsInRegion; pixel++ )
+  for (PositionValueType pixel = 0; pixel < m_NumberOfPixelsInRegion; pixel++ )
     {
-    position = pixel;
+    PositionValueType position = pixel;
+    IndexType              positionIndex;
     for ( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
       {
-      const unsigned long sizeInThisDimension = this->m_Region.GetSize()[dim];
-      residual = position % sizeInThisDimension;
+      const SizeValueType sizeInThisDimension = this->m_Region.GetSize()[dim];
+      const PositionValueType residual = position % sizeInThisDimension;
       positionIndex[dim] =  residual + this->m_BeginIndex[dim];
       position -= residual;
       position /= sizeInThisDimension;
@@ -120,13 +119,13 @@ void
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::UpdatePosition()
 {
-  unsigned long position = ( *( this->m_Permutation ) )[m_NumberOfSamplesDone % m_NumberOfSamplesRequested];
-  unsigned long residual;
+  typedef IndexValueType PositionValueType;
 
+  PositionValueType position = ( *( this->m_Permutation ) )[m_NumberOfSamplesDone % m_NumberOfSamplesRequested];
   for ( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
     {
-    const unsigned long sizeInThisDimension = this->m_Region.GetSize()[dim];
-    residual = position % sizeInThisDimension;
+    const SizeValueType sizeInThisDimension = this->m_Region.GetSize()[dim];
+    const PositionValueType residual = position % sizeInThisDimension;
     this->m_PositionIndex[dim] =  residual + this->m_BeginIndex[dim];
     position -= residual;
     position /= sizeInThisDimension;

@@ -246,11 +246,11 @@ VectorContainer< TElementIdentifier, TElement >
  * Get the number of elements currently stored in the vector.
  */
 template< typename TElementIdentifier, typename TElement >
-unsigned long
+typename VectorContainer< TElementIdentifier, TElement >::VectorContainerSizeType
 VectorContainer< TElementIdentifier, TElement >
 ::Size(void) const
 {
-  return static_cast< unsigned long >( this->VectorType::size() );
+  return this->VectorType::size();
 }
 
 /**

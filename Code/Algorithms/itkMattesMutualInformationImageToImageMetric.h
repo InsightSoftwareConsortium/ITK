@@ -181,9 +181,9 @@ public:
    * windowing with a cubic-BSpline kernel. Note that even if the metric
    * is used on binary images, the number of bins should at least be
    * equal to five. */
-  itkSetClampMacro( NumberOfHistogramBins, unsigned long,
-                    5, NumericTraits< unsigned long >::max() );
-  itkGetConstReferenceMacro(NumberOfHistogramBins, unsigned long);
+  itkSetClampMacro( NumberOfHistogramBins, SizeValueType,
+                    5, NumericTraits< SizeValueType >::max() );
+  itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
   /** This variable selects the method to be used for computing the Metric
    * derivatives with respect to the Transform parameters. Two modes of
@@ -259,14 +259,14 @@ private:
   /** The joint PDF and PDF derivatives. */
   typename JointPDFType::Pointer m_JointPDF;
 
-  unsigned long m_JointPDFBufferSize;
+  SizeValueType m_JointPDFBufferSize;
 
   typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives;
 
-  unsigned long m_JointPDFDerivativesBufferSize;
+  SizeValueType m_JointPDFDerivativesBufferSize;
 
   /** Variables to define the marginal and joint histograms. */
-  unsigned long m_NumberOfHistogramBins;
+  SizeValueType m_NumberOfHistogramBins;
   double        m_MovingImageNormalizedMin;
   double        m_FixedImageNormalizedMin;
   double        m_FixedImageTrueMin;
@@ -317,7 +317,7 @@ private:
                                                bool withinSampleThread) const;
 
   virtual inline bool GetValueThreadProcessSample(unsigned int threadID,
-                                                  unsigned long fixedImageSample,
+                                                  SizeValueType fixedImageSample,
                                                   const MovingImagePointType & mappedPoint,
                                                   double movingImageValue) const;
 
@@ -329,7 +329,7 @@ private:
     bool withinSampleThread) const;
 
   virtual inline bool GetValueAndDerivativeThreadProcessSample(unsigned int threadID,
-                                                               unsigned long fixedImageSample,
+                                                               SizeValueType fixedImageSample,
                                                                const MovingImagePointType & mappedPoint,
                                                                double movingImageValue,
                                                                const ImageDerivativesType &

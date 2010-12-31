@@ -54,7 +54,7 @@ namespace watershed
  * There are three potential outputs of this algorithm described below.
  *
  * \par
- * The first output is a labeled image of unsigned long integers.  This is an
+ * The first output is a labeled image of IdentifierType integers.  This is an
  * initial segmentation and labeling that is fed into successive components of
  * the watershed algorithm.
  *
@@ -98,7 +98,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef Image< unsigned long, itkGetStaticConstMacro(ImageDimension) >
+  typedef Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) >
   OutputImageType;
   typedef typename InputImageType::RegionType ImageRegionType;
   typedef typename InputImageType::PixelType  InputPixelType;
@@ -124,7 +124,7 @@ public:
   typedef typename BoundaryType::Pointer     BoundaryTypePointer;
 
   /** A constant used in the labeling algorithm.  */
-  static unsigned long NULL_LABEL;
+  static IdentifierType NULL_LABEL;
 
   /** A constant used in the labeling algorithm.  */
   static short NULL_FLOW;
@@ -140,7 +140,7 @@ public:
   {  this->ProcessObject::SetNthInput(0, img); }
 
   /** Get/Set the labeled output image.  The output image is always of
-    unsigned long integers. */
+    IdentifierType integers. */
   OutputImageType * GetOutputImage(void)
   {
     return static_cast< OutputImageType * >
@@ -200,10 +200,10 @@ public:
   /** Standard itk::ProcessObject subclass method. */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
-  /** Gets/Sets the initial label (unsigned long integer value) used
+  /** Gets/Sets the initial label (IdentifierType integer value) used
    * by the labeling algorithm.  Only necessary for streaming applications. */
-  itkSetMacro(CurrentLabel, unsigned long);
-  itkGetConstMacro(CurrentLabel, unsigned long);
+  itkSetMacro(CurrentLabel, IdentifierType);
+  itkGetConstMacro(CurrentLabel, IdentifierType);
 
   /** Gets/Sets the input threshold. Threshold is specified as a percentage
    * (0.0 - 1.0) of the maximum height of the image. This filter thresholds the
@@ -234,7 +234,7 @@ protected:
   /** Structure storing information about image flat regions.
    * Flat regions are connected pixels of the same value.  */
   struct flat_region_t {
-    unsigned long *min_label_ptr;
+    IdentifierType *min_label_ptr;
     InputPixelType bounds_min;
     //    InputPixelType  bounds_max; // <-- may not be necc.
     InputPixelType value;
@@ -243,7 +243,7 @@ protected:
   };
 
   /** Table for storing flat region information.  */
-  typedef itk::hash_map< unsigned long, flat_region_t, itk::hash< unsigned long > >
+  typedef itk::hash_map< IdentifierType, flat_region_t, itk::hash< IdentifierType > >
   flat_region_table_t;
 
   struct connectivity_t {
@@ -256,10 +256,10 @@ protected:
    * generating the segment table,  even though the edge tables
    * are stored as ordered lists.  An ``edge'' in this context
    * is synonymous with a segment ``adjacency''.   */
-  typedef itk::hash_map< unsigned long, InputPixelType, itk::hash< unsigned long >
+  typedef itk::hash_map< IdentifierType, InputPixelType, itk::hash< IdentifierType >
                          > edge_table_t;
 
-  typedef itk::hash_map< unsigned long, edge_table_t, itk::hash< unsigned long >
+  typedef itk::hash_map< IdentifierType, edge_table_t, itk::hash< IdentifierType >
                          > edge_table_hash_t;
 
   Segmenter();
@@ -350,7 +350,7 @@ protected:
 
   static void SetOutputImageValues(OutputImageTypePointer img,
                                    const ImageRegionType region,
-                                   unsigned long value);
+                                   IdentifierType value);
 
   /** This is a debugging method.  Will be removed. 11/14/01 jc   */
   //  bool CheckLabeledBoundaries();
@@ -367,11 +367,11 @@ private:
    *  streaming applications*/
   ImageRegionType m_LargestPossibleRegion;
 
-  bool          m_SortEdgeLists;
-  bool          m_DoBoundaryAnalysis;
-  double        m_Threshold;
-  double        m_MaximumFloodLevel;
-  unsigned long m_CurrentLabel;
+  bool            m_SortEdgeLists;
+  bool            m_DoBoundaryAnalysis;
+  double          m_Threshold;
+  double          m_MaximumFloodLevel;
+  IdentifierType  m_CurrentLabel;
 };
 } // end namespace watershed
 } // end namespace itk

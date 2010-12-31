@@ -130,7 +130,7 @@ public:
 
   virtual void Remove(CellBase *cell);
 
-  virtual void GetVoronoi(unsigned long int cellId, VoronoiRegionAutoPointer &) const;
+  virtual void GetVoronoi(IdentifierType cellId, VoronoiRegionAutoPointer &) const;
 
   void DumpContent(std::ostream & os) const;
 
@@ -138,7 +138,7 @@ public:
 
   virtual SubstratesVector & GetSubstrates(void);
 
-  virtual SubstrateValueType GetSubstrateValue(unsigned long int cellId,
+  virtual SubstrateValueType GetSubstrateValue(IdentifierType cellId,
                                                unsigned int substrateId) const;
 
   virtual void KillAll(void);
@@ -164,8 +164,8 @@ private:
   MeshPointer      m_Mesh;
   SubstratesVector m_Substrates;
   double           m_FrictionForce;
-  unsigned long    m_Iteration;
-  unsigned long    m_ClosestPointComputationInterval;
+  SizeValueType    m_Iteration;
+  SizeValueType    m_ClosestPointComputationInterval;
 };
 } // end namespace bio
 } // end namespace itk

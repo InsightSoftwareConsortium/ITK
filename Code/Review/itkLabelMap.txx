@@ -191,9 +191,9 @@ LabelMap< TLabelObject >
 template< class TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
-::GetNthLabelObject(const unsigned long & pos)
+::GetNthLabelObject(const SizeValueType & pos)
 {
-  unsigned long i = 0;
+  SizeValueType i = 0;
 
   for ( typename LabelObjectContainerType::iterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
@@ -215,9 +215,9 @@ LabelMap< TLabelObject >
 template< class TLabelObject >
 const typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
-::GetNthLabelObject(const unsigned long & pos) const
+::GetNthLabelObject(const SizeValueType & pos) const
 {
-  unsigned long i = 0;
+  SizeValueType i = 0;
 
   for ( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
         it != m_LabelObjectContainer.end();
@@ -267,7 +267,7 @@ LabelMap< TLabelObject >
 template< class TLabelObject >
 void
 LabelMap< TLabelObject >
-::SetLine(const IndexType & idx, const unsigned long & length, const LabelType & label)
+::SetLine(const IndexType & idx, const LengthType & length, const LabelType & label)
 {
   if ( label == m_BackgroundValue )
     {
@@ -436,7 +436,7 @@ LabelMap< TLabelObject >
 }
 
 template< class TLabelObject >
-unsigned long
+typename LabelMap< TLabelObject >::SizeValueType
 LabelMap< TLabelObject >
 ::GetNumberOfLabelObjects() const
 {

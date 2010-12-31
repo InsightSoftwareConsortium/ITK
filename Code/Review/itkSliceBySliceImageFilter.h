@@ -153,7 +153,7 @@ public:
    * used with the IterationEvent sent before the processing of each object. It contains
    * a relevant value only during the filter update.
    */
-  itkGetConstMacro(SliceIndex, long);
+  itkGetConstMacro(SliceIndex, IndexValueType);
 protected:
   SliceBySliceImageFilter();
   ~SliceBySliceImageFilter() {}
@@ -175,7 +175,7 @@ private:
 
   typename OutputFilterType::Pointer m_OutputFilter;
 
-  long m_SliceIndex;
+  IndexValueType m_SliceIndex;
 };
 }
 

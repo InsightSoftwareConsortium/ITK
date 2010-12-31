@@ -50,8 +50,7 @@ ImageConstIteratorWithIndex< TImage >
   m_EndIndex          = it.m_EndIndex;
   m_Region            = it.m_Region;
 
-  memcpy( m_OffsetTable, it.m_OffsetTable,
-          ( ImageDimension + 1 ) * sizeof( unsigned long ) );
+  memcpy( m_OffsetTable, it.m_OffsetTable, sizeof( m_OffsetTable ) );
 
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
@@ -86,11 +85,10 @@ ImageConstIteratorWithIndex< TImage >
                            "Region " << m_Region << " is outside of buffered region " << bufferedRegion );
     }
 
-  memcpy( m_OffsetTable, m_Image->GetOffsetTable(),
-          ( ImageDimension + 1 ) * sizeof( unsigned long ) );
+  memcpy( m_OffsetTable, m_Image->GetOffsetTable(), sizeof( m_OffsetTable ) );
 
   // Compute the start position
-  long offs =  m_Image->ComputeOffset(m_BeginIndex);
+  OffsetValueType offs =  m_Image->ComputeOffset(m_BeginIndex);
   m_Begin = buffer + offs;
   m_Position = m_Begin;
 
@@ -99,13 +97,13 @@ ImageConstIteratorWithIndex< TImage >
   IndexType pastEnd;
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    unsigned long size = region.GetSize()[i];
+    SizeValueType size = region.GetSize()[i];
     if ( size > 0 )
       {
       m_Remaining = true;
       }
-    m_EndIndex[i] = m_BeginIndex[i] + static_cast< long >( size );
-    pastEnd[i]    = m_BeginIndex[i] + static_cast< long >( size ) - 1;
+    m_EndIndex[i] = m_BeginIndex[i] + static_cast< OffsetValueType >( size );
+    pastEnd[i]    = m_BeginIndex[i] + static_cast< OffsetValueType >( size ) - 1;
     }
   m_End = buffer + m_Image->ComputeOffset(pastEnd);
 
@@ -131,8 +129,7 @@ ImageConstIteratorWithIndex< TImage >
   m_PositionIndex     = it.m_PositionIndex;
   m_Region            = it.m_Region;
 
-  memcpy( m_OffsetTable, it.m_OffsetTable,
-          ( ImageDimension + 1 ) * sizeof( unsigned long ) );
+  memcpy( m_OffsetTable, it.m_OffsetTable, sizeof( m_OffsetTable ) );
 
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
@@ -221,7 +218,7 @@ ImageConstIteratorWithIndex< TImage >
 
   // Set the position at the end
   const InternalPixelType *buffer   = m_Image->GetBufferPointer();
-  const unsigned long      offset   = m_Image->ComputeOffset(m_PositionIndex);
+  const OffsetValueType    offset   = m_Image->ComputeOffset(m_PositionIndex);
   m_Position = buffer + offset;
 }
 } // end namespace itk

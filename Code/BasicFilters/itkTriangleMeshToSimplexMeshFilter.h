@@ -88,18 +88,22 @@ public:
   typedef          itk::TriangleCell< InputCellType > TriangleType;
   typedef          itk::VertexCell< InputCellType >   VertexType;
 
-  typedef          std::pair< unsigned long, unsigned long > EdgeIdentifierType;
-  typedef          std::set< unsigned long >                 IndexSetType;
+  typedef typename TOutputMesh::CellIdentifier        CellIdentifier;
+  typedef typename TOutputMesh::PointIdentifier       PointIdentifier;
+  typedef typename TOutputMesh::CellFeatureIdentifier CellFeatureIdentifier;
 
-  typedef          itk::MapContainer< unsigned long, EdgeIdentifierType > EdgeNeighborListType;
-  typedef          itk::MapContainer< EdgeIdentifierType, unsigned long > LineCellIndexType;
+  typedef          std::pair< CellIdentifier, CellIdentifier >     EdgeIdentifierType;
+  typedef          std::set< CellIdentifier >                      IndexSetType;
 
-  typedef          itk::MapContainer< unsigned long, IndexSetType >       VertexNeighborListType;
-  typedef          itk::MapContainer< EdgeIdentifierType, unsigned long > EdgeMapType;
-  typedef typename EdgeMapType::Pointer                                   EdgeMapPointer;
+  typedef          itk::MapContainer< CellIdentifier, EdgeIdentifierType > EdgeNeighborListType;
+  typedef          itk::MapContainer< EdgeIdentifierType, CellIdentifier > LineCellIndexType;
 
-  typedef          itk::VectorContainer< unsigned long, unsigned long > IdVectorType;
-  typedef typename IdVectorType::Pointer                                IdVectorPointer;
+  typedef          itk::MapContainer< PointIdentifier, IndexSetType >       VertexNeighborListType;
+  typedef          itk::MapContainer< EdgeIdentifierType, CellIdentifier >  EdgeMapType;
+  typedef typename EdgeMapType::Pointer                                     EdgeMapPointer;
+
+  typedef          itk::VectorContainer< CellIdentifier, CellIdentifier >   IdVectorType;
+  typedef typename IdVectorType::Pointer                                    IdVectorPointer;
 
   typedef typename TOutputMesh::CellType              OutputCellType;
   typedef typename TOutputMesh::CellAutoPointer       OutputCellAutoPointer;
@@ -135,7 +139,7 @@ protected:
    * two neighboring triangles of the input mesh over the
    * edge the both triangles have in common.
    */
-  void CreateEdgeForTrianglePair(unsigned long pointIndex, unsigned long boundaryId);
+  void CreateEdgeForTrianglePair(CellIdentifier pointIndex, CellIdentifier boundaryId);
 
   /**
    * Constructs the neighborhood relations for all simplex mesh points
@@ -151,13 +155,13 @@ protected:
   /**
    * \brief add edge cells to the input mesh
    */
-  void CreateNewEdge(unsigned long currentCellId, unsigned int featureId,
-                     unsigned long startPointId, unsigned long endPointId);
+  void CreateNewEdge(CellIdentifier currentCellId, CellFeatureIdentifier featureId,
+                     PointIdentifier startPointId, PointIdentifier endPointId);
 
   /**
    *  Computes the center of a face
    */
-  InputPointType ComputeFaceCenter(unsigned long faceId);
+  InputPointType ComputeFaceCenter(CellIdentifier faceId);
 
   /**
    * \brief stores all faces (triangles) of the input mesh
@@ -175,32 +179,32 @@ protected:
   /**
    * \brief stores the two neighboring cells (faces) of an edge
    */
-  EdgeNeighborListType::Pointer m_EdgeNeighborList;
+  typename EdgeNeighborListType::Pointer m_EdgeNeighborList;
 
   /**
    * \brief stores all edges starting from a vertex
    */
-  VertexNeighborListType::Pointer m_VertexNeighborList;
+  typename VertexNeighborListType::Pointer m_VertexNeighborList;
 
   /**
    * stores line indices for conversion algorithm
    */
-  LineCellIndexType::Pointer m_LineCellIndices;
+  typename LineCellIndexType::Pointer m_LineCellIndices;
 
   /**
    * offset for ids of new simplex polygon cells
    */
-  unsigned long m_CellIdxOffset;
+  CellIdentifier m_CellIdxOffset;
 
   /**
    * offset for point ids
    */
-  unsigned long m_IdOffset;
+  PointIdentifier m_IdOffset;
 
   /**
    * offset for edge cell ids
    */
-  unsigned long m_EdgeCellId;
+  CellIdentifier m_EdgeCellId;
 
   /**
    * stores algorithmic data

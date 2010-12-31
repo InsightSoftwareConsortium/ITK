@@ -274,7 +274,7 @@ LabelObject< TLabel, VImageDimension >::Optimize()
     // then check the lines consistancy
     // we'll proceed line index by line index
     IndexType currentIdx = lineContainer.begin()->GetIndex();
-    long int  currentLength = lineContainer.begin()->GetLength();
+    LengthType  currentLength = lineContainer.begin()->GetLength();
 
     typename LineContainerType::const_iterator it = lineContainer.begin();
 
@@ -282,7 +282,7 @@ LabelObject< TLabel, VImageDimension >::Optimize()
       {
       const LineType & line = *it;
       IndexType        idx = line.GetIndex();
-      unsigned long    length = line.GetLength();
+      LengthType    length = line.GetLength();
 
       // check the index to be sure that we are still in the same line idx
       bool sameIdx = true;
@@ -295,10 +295,10 @@ LabelObject< TLabel, VImageDimension >::Optimize()
         }
 
       // try to extend the current line idx, or create a new line
-      if ( sameIdx && currentIdx[0] + currentLength >= idx[0] )
+      if ( sameIdx && currentIdx[0] + (OffsetValueType)currentLength >= idx[0] )
         {
         // we may expand the line
-        long int newLength = idx[0] + length - currentIdx[0];
+        LengthType newLength = idx[0] + (OffsetValueType)length - currentIdx[0];
         currentLength = vnl_math_max(newLength, currentLength);
         }
       else

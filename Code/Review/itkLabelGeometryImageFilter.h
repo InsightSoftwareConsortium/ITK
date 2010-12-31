@@ -213,10 +213,10 @@ public:
     RealType                                                    m_Sum;
     LabelPointType                                              m_Centroid;
     LabelPointType                                              m_WeightedCentroid;
-    unsigned long                                               m_ZeroOrderMoment;
+    SizeValueType                                               m_ZeroOrderMoment;
     IndexArrayType                                              m_FirstOrderRawMoments;
     IndexArrayType                                              m_FirstOrderWeightedRawMoments;
-    unsigned long                                               m_FirstOrderRawCrossMoment;
+    SizeValueType                                               m_FirstOrderRawCrossMoment;
     RealType                                                    m_FirstOrderCentralCrossMoment;
     MatrixType                                                  m_SecondOrderRawMoments;
     MatrixType                                                  m_SecondOrderCentralMoments;
@@ -348,12 +348,12 @@ public:
   }
 
   /** Get the number of labels used */
-  unsigned long GetNumberOfObjects() const
+  SizeValueType GetNumberOfObjects() const
   {
     return m_LabelGeometryMapper.size();
   }
 
-  unsigned long GetNumberOfLabels() const
+  SizeValueType GetNumberOfLabels() const
   {
     return this->GetNumberOfObjects();
   }
@@ -369,10 +369,10 @@ public:
 
   /** Return the number of pixels for a label.  This is the same as
    * the volume and the zero order moment */
-  unsigned long GetVolume(LabelPixelType label) const;
+  SizeValueType GetVolume(LabelPixelType label) const;
 
   /** Return the number of pixels for all labels. */
-  //std::vector<unsigned long> GetAllCounts() const;
+  //std::vector< SizeValueType > GetAllCounts() const;
 
   /** Return the computed integrated pixel intensity for a label. */
   RealType GetIntegratedIntensity(LabelPixelType label) const;

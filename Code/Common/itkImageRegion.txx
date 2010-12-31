@@ -56,7 +56,7 @@ typename ImageRegion< VImageDimension >::SizeValueType
 ImageRegion< VImageDimension >
 ::GetNumberOfPixels() const
 {
-  unsigned long numPixels = 1;
+  SizeValueType numPixels = 1;
 
   for ( unsigned int i = 0; i < VImageDimension; i++ )
     {
@@ -81,7 +81,7 @@ ImageRegion< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageRegion< VImageDimension >
-::PadByRadius(IndexValueType radius)
+::PadByRadius(OffsetValueType radius)
 {
   SizeType radiusVector;
 
@@ -101,7 +101,7 @@ ImageRegion< VImageDimension >
   for ( unsigned int i = 0; i < VImageDimension; i++ )
     {
     m_Size[i] += 2 * radius[i];
-    m_Index[i] -= static_cast< IndexValueType >( radius[i] );
+    m_Index[i] -= static_cast< OffsetValueType >( radius[i] );
     }
 }
 
@@ -113,7 +113,7 @@ ImageRegion< VImageDimension >
   for ( unsigned int i = 0; i < VImageDimension; i++ )
     {
     m_Size[i] += 2 * radius[i];
-    m_Index[i] -= static_cast< IndexValueType >( radius[i] );
+    m_Index[i] -= static_cast< OffsetValueType >( radius[i] );
     }
 }
 
@@ -122,9 +122,9 @@ bool
 ImageRegion< VImageDimension >
 ::Crop(const Self & region)
 {
-  long         crop;
-  unsigned int i;
-  bool         cropPossible = true;
+  OffsetValueType crop;
+  unsigned int    i;
+  bool            cropPossible = true;
 
   // Can we crop?
   for ( i = 0; i < VImageDimension && cropPossible; i++ )
@@ -132,13 +132,13 @@ ImageRegion< VImageDimension >
     // Is left edge of current region to the right of the right edge
     // of the region to crop with? (if so, we cannot crop)
     if ( m_Index[i] >= region.GetIndex()[i]
-         + static_cast< IndexValueType >( region.GetSize()[i] ) )
+         + static_cast< OffsetValueType >( region.GetSize()[i] ) )
       {
       cropPossible = false;
       }
     // If right edge of the current region to the left of the left
     // edge of the region to crop with? (if so, we cannot crop)
-    if ( m_Index[i] + static_cast< IndexValueType >( m_Size[i] ) <= region.GetIndex()[i] )
+    if ( m_Index[i] + static_cast< OffsetValueType >( m_Size[i] ) <= region.GetIndex()[i] )
       {
       cropPossible = false;
       }
@@ -161,18 +161,18 @@ ImageRegion< VImageDimension >
 
       // adjust the start index and the size of the current region
       m_Index[i] += crop;
-      m_Size[i] -= static_cast< unsigned long >( crop );
+      m_Size[i] -= static_cast< SizeValueType >( crop );
       }
     // now check the final size
-    if ( m_Index[i] + static_cast< long >( m_Size[i] )
-         > region.GetIndex()[i] + static_cast< long >( region.GetSize()[i] ) )
+    if ( m_Index[i] + static_cast< OffsetValueType >( m_Size[i] )
+         > region.GetIndex()[i] + static_cast< OffsetValueType >( region.GetSize()[i] ) )
       {
       // how much do we need to adjust
-      crop = m_Index[i] + static_cast< long >( m_Size[i] )
-             - region.GetIndex()[i] - static_cast< long >( region.GetSize()[i] );
+      crop = m_Index[i] + static_cast< OffsetValueType >( m_Size[i] )
+             - region.GetIndex()[i] - static_cast< OffsetValueType >( region.GetSize()[i] );
 
       // adjust the size
-      m_Size[i] -= static_cast< unsigned long >( crop );
+      m_Size[i] -= static_cast< SizeValueType >( crop );
       }
     }
 

@@ -228,22 +228,22 @@ public:
   // declare the hash function we are using for the hash_map.
   struct VertexHash {
     typedef typename VertexType::CoordRepType CoordinateType;
-    inline size_t operator()(const VertexType & k) const
+    inline SizeValueType operator()(const VertexType & k) const
     {
       // Xor the hashes of the vertices together, after multiplying the
       // first by some number, so that identical (x,y) vertex indices
       // don't all hash to the same bucket. This is a decent if not
       // optimal hash.
-      const size_t hashVertex1 = this->float_hash(k[0] * 0xbeef);
-      const size_t hashVertex2 = this->float_hash(k[1]);
-      const size_t hashValue = hashVertex1 ^ hashVertex2;
+      const SizeValueType hashVertex1 = this->float_hash(k[0] * 0xbeef);
+      const SizeValueType hashVertex2 = this->float_hash(k[1]);
+      const SizeValueType hashValue = hashVertex1 ^ hashVertex2;
 
       return hashValue;
     }
 
     // Define hash function for floats. Based on method from
     // http://www.brpreiss.com/books/opus4/html/page217.html
-    inline size_t float_hash(const CoordinateType & k) const
+    inline SizeValueType float_hash(const CoordinateType & k) const
     {
       if ( k == 0 )
         {
@@ -251,7 +251,7 @@ public:
         }
       int            exponent;
       CoordinateType mantissa = vcl_frexp(k, &exponent);
-      size_t         value = static_cast< size_t >( vcl_fabs(mantissa) );
+      SizeValueType  value = static_cast< SizeValueType >( vcl_fabs(mantissa) );
       value = ( 2 * value - 1 ) * ~0U;
       return value;
     }

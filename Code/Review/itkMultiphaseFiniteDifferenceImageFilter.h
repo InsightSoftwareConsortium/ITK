@@ -177,17 +177,18 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** Input and output image types. */
-  typedef TInputImage                             InputImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::PointType      InputPointType;
-  typedef typename InputPointType::CoordRepType   InputCoordRepType;
-  typedef typename InputImageType::IndexType      InputIndexType;
-  typedef typename InputIndexType::IndexValueType InputIndexValueType;
-  typedef typename InputImageType::SizeType       InputSizeType;
-  typedef typename InputSizeType::SizeValueType   InputSizeValueType;
-  typedef typename InputImageType::RegionType     InputRegionType;
-  typedef typename InputImageType::PixelType      InputPixelType;
-  typedef typename InputImageType::SpacingType    InputSpacingType;
+  typedef TInputImage                               InputImageType;
+  typedef typename InputImageType::Pointer          InputImagePointer;
+  typedef typename InputImageType::PointType        InputPointType;
+  typedef typename InputPointType::CoordRepType     InputCoordRepType;
+  typedef typename InputImageType::IndexType        InputIndexType;
+  typedef typename InputIndexType::IndexValueType   InputIndexValueType;
+  typedef typename InputImageType::SizeType         InputSizeType;
+  typedef typename InputSizeType::SizeValueType     InputSizeValueType;
+  typedef typename InputImageType::RegionType       InputRegionType;
+  typedef typename InputImageType::PixelType        InputPixelType;
+  typedef typename InputImageType::SpacingType      InputSpacingType;
+  typedef typename InputImageType::OffsetValueType  InputOffsetValueType;
 
   typedef TFeatureImage                          FeatureImageType;
   typedef typename FeatureImageType::Pointer     FeatureImagePointer;

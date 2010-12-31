@@ -40,20 +40,20 @@ class ITK_EXPORT SurfaceSpatialObject:
 {
 public:
 
-  typedef SurfaceSpatialObject                        Self;
-  typedef PointBasedSpatialObject< TDimension >       Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef double                                      ScalarType;
-  typedef SurfaceSpatialObjectPoint< TDimension >     SurfacePointType;
-  typedef std::vector< SurfacePointType >             PointListType;
-  typedef typename Superclass::SpatialObjectPointType SpatialObjectPointType;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >          PointContainerPointer;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
-  typedef typename Superclass::CovariantVectorType    CovariantVectorType;
+  typedef SurfaceSpatialObject                         Self;
+  typedef PointBasedSpatialObject< TDimension >        Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
+  typedef double                                       ScalarType;
+  typedef SurfaceSpatialObjectPoint< TDimension >      SurfacePointType;
+  typedef std::vector< SurfacePointType >              PointListType;
+  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
+  typedef typename Superclass::PointType               PointType;
+  typedef typename Superclass::TransformType           TransformType;
+  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
+  typedef SmartPointer< PointContainerType >           PointContainerPointer;
+  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
+  typedef typename Superclass::CovariantVectorType     CovariantVectorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,16 +65,16 @@ public:
   PointListType & GetPoints(void);
 
   /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(unsigned long id) const
+  const SpatialObjectPointType * GetPoint(IdentifierType id) const
   {
     return &( m_Points[id] );
   }
 
   /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(unsigned long id) { return &( m_Points[id] ); }
+  SpatialObjectPointType * GetPoint(IdentifierType id) { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
-  unsigned long GetNumberOfPoints(void) const { return m_Points.size(); }
+  SizeValueType GetNumberOfPoints(void) const { return m_Points.size(); }
 
   /** Set the list of Surface points. */
   void SetPoints(PointListType & newPoints);

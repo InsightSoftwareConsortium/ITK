@@ -113,7 +113,7 @@ protected:
    * \return The number of common vertices in the 0-ring of e->GetOrigin() and
    * e->GetDestination()
    */
-  size_t CommonVertexNeighboor(QEType *e);
+  PointIdentifier CommonVertexNeighboor(QEType *e);
 
   /**
    * \brief

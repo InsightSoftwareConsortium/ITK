@@ -337,8 +337,8 @@ protected:
   unsigned int m_FunctionId;
 
   std::slice x_slice[itkGetStaticConstMacro(ImageDimension)];
-  ::size_t m_Center;
-  ::size_t m_xStride[itkGetStaticConstMacro(ImageDimension)];
+  OffsetValueType m_Center;
+  OffsetValueType m_xStride[itkGetStaticConstMacro(ImageDimension)];
   double m_InvSpacing[itkGetStaticConstMacro(ImageDimension)];
 
   static double m_WaveDT;

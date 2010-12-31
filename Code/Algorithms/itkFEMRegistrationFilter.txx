@@ -1214,14 +1214,14 @@ FEMRegistrationFilter< TMovingImage, TFixedImage >::InterpolateVectorField(Solve
               Gpt[f] = posval;
 
               Float    x = Gpt[f];
-              long int temp;
-              if ( x != 0 ) { temp = (long int)( ( x ) + 0.5 ); }else
+              IndexValueType temp;
+              if ( x != 0 ) { temp = (IndexValueType)( ( x ) + 0.5 ); }else
                 {
                 temp = 0;                                        // round
                 }
               rindex[f] = temp;
               disp[f] = (Float)1.0 * Sol[f];
-              if ( temp < 0 || temp > (long int)m_FieldSize[f] - 1 ) { inimage = false; }
+              if ( temp < 0 || temp > (IndexValueType)m_FieldSize[f] - 1 ) { inimage = false; }
               }
             if ( inimage ) { field->SetPixel(rindex, disp); }
             }
@@ -1793,7 +1793,7 @@ void FEMRegistrationFilter< TMovingImage, TFixedImage >::MultiResSolve()
           if ( nextscale < 1 ) { nextscale = 1; }
           SizeReductionMoving[0][jj] = scale;
           SizeReductionFixed[0][jj] = scale;
-          nextLevelSize[jj] = (long int)( (float)m_FullImageSize[jj] / (float)nextscale );
+          nextLevelSize[jj] = (SizeValueType)( (float)m_FullImageSize[jj] / (float)nextscale );
           }
 
         m_MovingPyramid->SetSchedule(SizeReductionMoving);

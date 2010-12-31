@@ -106,7 +106,7 @@ struct KdTreeNode {
   virtual void GetCentroid(CentroidType & centroid) = 0;
 
   /** Retuns the instance identifier of the index-th measurement vector */
-  virtual InstanceIdentifier GetInstanceIdentifier(size_t index) const = 0;
+  virtual InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier index) const = 0;
 
   /** Add an instance to this node */
   virtual void AddInstanceIdentifier(InstanceIdentifier id) = 0;
@@ -186,7 +186,7 @@ struct KdTreeNonterminalNode:public KdTreeNode< TSample > {
   // Returns the identifier of the only MeasurementVector associated with
   // this node in the tree. This MeasurementVector will be used later during
   // the distance computation when querying the tree.
-  InstanceIdentifier GetInstanceIdentifier(size_t) const
+  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const
   { return this->m_InstanceIdentifier; }
 
   void AddInstanceIdentifier(InstanceIdentifier valueId)
@@ -278,7 +278,7 @@ struct KdTreeWeightedCentroidNonterminalNode:public KdTreeNode< TSample > {
     centroid = m_Centroid;
   }
 
-  InstanceIdentifier GetInstanceIdentifier(size_t) const
+  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const
   {
     return this->m_InstanceIdentifier;
   }
@@ -368,7 +368,7 @@ struct KdTreeTerminalNode:public KdTreeNode< TSample > {
     /* do nothing */
   }
 
-  InstanceIdentifier GetInstanceIdentifier(size_t index) const
+  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier index) const
   {
     return m_InstanceIdentifiers[index];
   }
@@ -479,7 +479,7 @@ public:
     void resize(unsigned int k)
     {
       m_Identifiers.clear();
-      m_Identifiers.resize( k, NumericTraits< unsigned long >::max() );
+      m_Identifiers.resize( k, NumericTraits< IdentifierType >::max() );
       m_Distances.clear();
       m_Distances.resize( k, NumericTraits< double >::max() );
       m_FarthestNeighborIndex = 0;
@@ -554,7 +554,7 @@ private:
     return m_Sample;
   }
 
-  unsigned long Size() const
+  SizeValueType Size() const
   {
     return m_Sample->Size();
   }

@@ -198,16 +198,17 @@ public:
   typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Information derived from the image types. */
-  typedef typename Superclass::InputImageType      InputImageType;
-  typedef typename Superclass::InputImagePointer   InputImagePointer;
-  typedef typename Superclass::InputRegionType     InputRegionType;
-  typedef typename Superclass::InputSizeType       InputSizeType;
-  typedef typename Superclass::InputSizeValueType  InputSizeValueType;
-  typedef typename Superclass::InputIndexType      InputIndexType;
-  typedef typename Superclass::InputIndexValueType InputIndexValueType;
-  typedef typename Superclass::InputPixelType      InputPixelType;
-  typedef typename Superclass::InputPointType      InputPointType;
-  typedef typename Superclass::InputSpacingType    InputSpacingType;
+  typedef typename Superclass::InputImageType         InputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::InputRegionType        InputRegionType;
+  typedef typename Superclass::InputSizeType          InputSizeType;
+  typedef typename Superclass::InputSizeValueType     InputSizeValueType;
+  typedef typename Superclass::InputIndexType         InputIndexType;
+  typedef typename Superclass::InputIndexValueType    InputIndexValueType;
+  typedef typename Superclass::InputPixelType         InputPixelType;
+  typedef typename Superclass::InputPointType         InputPointType;
+  typedef typename Superclass::InputSpacingType       InputSpacingType;
+  typedef typename Superclass::InputOffsetValueType   InputOffsetValueType;
 
   typedef typename Superclass::FeatureImageType    FeatureImageType;
   typedef typename Superclass::FeatureSizeType     FeatureSizeType;

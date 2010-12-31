@@ -274,7 +274,7 @@ private:
   /**
    * Get the number of elements currently stored in the vector.
    */
-  unsigned long Size(void) const;
+  VectorContainerSizeType Size(void) const;
 
   /**
    * Tell the container to allocate enough memory to allow at least as many

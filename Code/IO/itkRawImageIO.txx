@@ -59,7 +59,7 @@ void RawImageIO< TPixel, VImageDimension >::PrintSelf(std::ostream & os, Indent 
 }
 
 template< class TPixel, unsigned int VImageDimension >
-unsigned long RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
+SizeValueType RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
 {
   std::ifstream file;
 
@@ -82,8 +82,8 @@ unsigned long RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
     // Get the size of the header from the size of the image
     file.seekg(0, std::ios::end);
 
-    m_HeaderSize = (unsigned long)( (unsigned long)file.tellg()
-                                    - (unsigned long)m_Strides[m_FileDimensionality + 1] );
+    m_HeaderSize = static_cast<SizeValueType>(
+      file.tellg() - m_Strides[m_FileDimensionality + 1] );
     }
 
   return m_HeaderSize;
@@ -148,7 +148,7 @@ void RawImageIO< TPixel, VImageDimension >::OpenFileForWriting(std::ofstream & o
 
 template< class TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >
-::SetHeaderSize(unsigned long size)
+::SetHeaderSize(SizeValueType size)
 {
   if ( size != m_HeaderSize )
     {
@@ -169,15 +169,15 @@ void RawImageIO< TPixel, VImageDimension >
   this->ComputeStrides();
 
   // Offset into file
-  unsigned long streamStart = this->GetHeaderSize();
-  file.seekg( (long)streamStart, std::ios::beg );
+  SizeValueType streamStart = this->GetHeaderSize();
+  file.seekg( (OffsetValueType)streamStart, std::ios::beg );
   if ( file.fail() )
     {
     itkExceptionMacro(<< "File seek failed");
     }
 
-  const unsigned long numberOfBytesToBeRead =
-    static_cast< unsigned long >( this->GetImageSizeInBytes() );
+  const SizeValueType numberOfBytesToBeRead =
+    static_cast< SizeValueType >( this->GetImageSizeInBytes() );
 
   itkDebugMacro(<< "Reading " << numberOfBytesToBeRead << " bytes");
 
@@ -264,8 +264,8 @@ void RawImageIO< TPixel, VImageDimension >
     }
   else //binary
     {
-    const unsigned long numberOfBytes      = this->GetImageSizeInBytes();
-    const unsigned long numberOfComponents = this->GetImageSizeInComponents();
+    const SizeValueType numberOfBytes      = this->GetImageSizeInBytes();
+    const SizeValueType numberOfComponents = this->GetImageSizeInComponents();
 
 #define itkWriteRawBytesAfterSwappingMacro(StrongType, WeakType)        \
   ( this->GetComponentType() == WeakType )                              \

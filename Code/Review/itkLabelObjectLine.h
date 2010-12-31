@@ -44,7 +44,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
   typedef Index< VImageDimension > IndexType;
-  typedef unsigned long            LengthType;
+  typedef SizeValueType            LengthType;
 
   LabelObjectLine() {}
   virtual ~LabelObjectLine() {}

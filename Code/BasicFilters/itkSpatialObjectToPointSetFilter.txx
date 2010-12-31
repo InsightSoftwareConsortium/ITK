@@ -97,12 +97,16 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
   const InputSpatialObjectType *inputObject  = this->GetInput();
   typename OutputPointSetType::Pointer outputPointSet = this->GetOutput();
 
+  typedef typename OutputPointSetType::PointIdentifier  PointIdentifier;
+
+  const PointBasedSpatialObjectType * inputPointSO =
+    dynamic_cast< const PointBasedSpatialObjectType * >( inputObject );
+
   // Look for the number of points to allocate
-  unsigned long numberOfPoints = 0;
-  if ( dynamic_cast< const PointBasedSpatialObjectType * >( inputObject ) )
+  PointIdentifier numberOfPoints = 0;
+  if ( inputPointSO )
     {
-    numberOfPoints = dynamic_cast< const PointBasedSpatialObjectType * >( inputObject )->GetNumberOfPoints()
-                     / m_SamplingFactor;
+    numberOfPoints = inputPointSO->GetNumberOfPoints() / m_SamplingFactor;
     }
 
   ChildrenListType *children = inputObject->GetChildren(m_ChildrenDepth);
@@ -110,11 +114,11 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 
   for (; it != children->end(); it++ )
     {
-    if ( dynamic_cast< const PointBasedSpatialObjectType * >( ( *it ).GetPointer() ) )
+    const PointBasedSpatialObjectType * pointSO =
+      dynamic_cast< const PointBasedSpatialObjectType * >( it->GetPointer() );
+    if ( pointSO )
       {
-      numberOfPoints +=
-        dynamic_cast< const PointBasedSpatialObjectType * >( ( *it ).GetPointer() )->GetNumberOfPoints()
-        / m_SamplingFactor;
+      numberOfPoints += pointSO->GetNumberOfPoints() / m_SamplingFactor;
       }
     }
 
@@ -124,19 +128,19 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
   outputPointSet->GetPoints()->Reserve(numberOfPoints);
   outputPointSet->GetPointData()->Reserve(numberOfPoints);
 
-  typename OutputPointSetType::PointIdentifier pointId = 0;
+  PointIdentifier pointId = 0;
   typename OutputPointSetType::PointType point;
 
   // add the object it itself
-  unsigned long n;
-  if ( dynamic_cast< const PointBasedSpatialObjectType * >( inputObject ) )
+  PointIdentifier n;
+  if ( inputPointSO )
     {
-    n = dynamic_cast< const PointBasedSpatialObjectType * >( inputObject )->GetNumberOfPoints();
+    n = inputPointSO->GetNumberOfPoints();
     for ( unsigned int i = 0; i < n; i += m_SamplingFactor )
       {
       typename InputSpatialObjectType::PointType transformedPoint =
         inputObject->GetIndexToWorldTransform()->TransformPoint(
-          dynamic_cast< const PointBasedSpatialObjectType * >( inputObject )->GetPoint(i)->GetPosition() );
+          inputPointSO->GetPoint(i)->GetPosition() );
 
       for ( unsigned int j = 0; j < itkGetStaticConstMacro(ObjectDimension); j++ )
         {
@@ -151,19 +155,15 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 
   for (; it != children->end(); it++ )
     {
-    if ( dynamic_cast< const PointBasedSpatialObjectType * >( ( *it ).GetPointer() ) )
+    const PointBasedSpatialObjectType * pointSO =
+      dynamic_cast< const PointBasedSpatialObjectType * >( it->GetPointer() );
+    if ( pointSO )
       {
-      n = dynamic_cast< const PointBasedSpatialObjectType * >( ( *it ).GetPointer() )->GetNumberOfPoints();
+      n = pointSO->GetNumberOfPoints();
       for ( unsigned int i = 0; i < n; i += m_SamplingFactor )
         {
         typename InputSpatialObjectType::PointType transformedPoint =
-          inputObject->GetIndexToWorldTransform()->TransformPoint( dynamic_cast< const PointBasedSpatialObjectType * >( (
-                                                                                                                          *
-                                                                                                                          it )
-                                                                                                                        .
-                                                                                                                        GetPointer(
-                                                                                                                          ) )
-                                                                   ->GetPoint(i)->GetPosition() );
+          inputObject->GetIndexToWorldTransform()->TransformPoint( pointSO->GetPoint(i)->GetPosition() );
 
         for ( unsigned int j = 0; j < itkGetStaticConstMacro(ObjectDimension); j++ )
           {

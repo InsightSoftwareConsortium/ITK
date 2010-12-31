@@ -301,7 +301,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       typename HistogramType::MeasurementVectorType meas;
       meas.SetSize(1);
       meas[0] = value;
-      ( *mapIt ).second.m_Histogram->IncreaseFrequency(meas, 1);
+      ( *mapIt ).second.m_Histogram->IncreaseFrequencyOfMeasurement(meas, 1);
       }
 
     ++it;
@@ -481,7 +481,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 }
 
 template< class TInputImage, class TLabelImage >
-unsigned long
+typename LabelStatisticsImageFilter< TInputImage, TLabelImage >::MapSizeType
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::GetCount(LabelPixelType label) const
 {

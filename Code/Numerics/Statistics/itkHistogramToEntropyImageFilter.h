@@ -82,25 +82,25 @@ public:
       }
   }
 
-  void SetTotalFrequency(const unsigned long n)
+  void SetTotalFrequency(const SizeValueType n)
   {
     m_TotalFrequency = n;
   }
 
-  unsigned long GetTotalFrequency() const
+  SizeValueType GetTotalFrequency() const
   {
     return m_TotalFrequency;
   }
 
 private:
-  unsigned long m_TotalFrequency;
+  SizeValueType m_TotalFrequency;
 };
 }
 
 template< class THistogram, unsigned int NDimension, class TOutputPixel = double >
 class ITK_EXPORT HistogramToEntropyImageFilter:
   public HistogramToImageFilter< THistogram, NDimension,
-                                 Function::HistogramEntropyFunction< unsigned long, TOutputPixel > >
+                                 Function::HistogramEntropyFunction< SizeValueType, TOutputPixel > >
 {
 public:
 
@@ -109,7 +109,7 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, NDimension,
-                                  Function::HistogramEntropyFunction< unsigned long, TOutputPixel > >
+                                  Function::HistogramEntropyFunction< SizeValueType, TOutputPixel > >
   Superclass;
 
   typedef SmartPointer< Self >       Pointer;

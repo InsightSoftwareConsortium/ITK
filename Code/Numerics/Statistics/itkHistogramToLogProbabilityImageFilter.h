@@ -77,25 +77,25 @@ public:
       }
   }
 
-  void SetTotalFrequency(unsigned long n)
+  void SetTotalFrequency(SizeValueType n)
   {
     m_TotalFrequency = n;
   }
 
-  unsigned long GetTotalFrequency() const
+  SizeValueType GetTotalFrequency() const
   {
     return m_TotalFrequency;
   }
 
 private:
-  unsigned long m_TotalFrequency;
+  SizeValueType m_TotalFrequency;
 };
 }
 
 template< class THistogram, unsigned int NDimension, class TOutputPixel = double >
 class ITK_EXPORT HistogramToLogProbabilityImageFilter:
   public HistogramToImageFilter< THistogram, NDimension,
-                                 Function::HistogramLogProbabilityFunction< unsigned long, TOutputPixel > >
+                                 Function::HistogramLogProbabilityFunction< SizeValueType, TOutputPixel > >
 {
 public:
 
@@ -104,7 +104,7 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, NDimension,
-                                  Function::HistogramLogProbabilityFunction< unsigned long, TOutputPixel > >
+                                  Function::HistogramLogProbabilityFunction< SizeValueType, TOutputPixel > >
   Superclass;
 
   typedef SmartPointer< Self >       Pointer;

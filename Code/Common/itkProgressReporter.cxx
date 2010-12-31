@@ -22,8 +22,8 @@ namespace itk
 {
 //----------------------------------------------------------------------------
 ProgressReporter::ProgressReporter(ProcessObject *filter, int threadId,
-                                   unsigned long numberOfPixels,
-                                   unsigned long numberOfUpdates,
+                                   SizeValueType numberOfPixels,
+                                   SizeValueType numberOfUpdates,
                                    float initialProgress,
                                    float progressWeight):
   m_Filter(filter),
@@ -48,7 +48,7 @@ ProgressReporter::ProgressReporter(ProcessObject *filter, int threadId,
     }
 
   // Calculate the interval for updates.
-  m_PixelsPerUpdate = static_cast< unsigned long >( numPixels / numUpdates );
+  m_PixelsPerUpdate = static_cast< SizeValueType >( numPixels / numUpdates );
   m_InverseNumberOfPixels = 1.0f / numPixels;
 
   // Only thread 0 should update progress. (But all threads need to

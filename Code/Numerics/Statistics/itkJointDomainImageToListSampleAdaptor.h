@@ -40,7 +40,6 @@ struct ImageJointDomainTraits {
   typedef ImageJointDomainTraits                     Self;
   typedef PixelTraits< typename TImage::PixelType >  PixelTraitsType;
   typedef typename PixelTraitsType::ValueType        RangeDomainMeasurementType;
-  typedef typename TImage::IndexType::IndexValueType IndexValueType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
   itkStaticConstMacro(Dimension,
@@ -145,7 +144,6 @@ public:
   typedef typename ImageType::PixelType                  PixelType;
   typedef typename ImageType::PixelContainerConstPointer PixelContainerConstPointer;
   typedef typename ImageType::IndexType                  ImageIndexType;
-  typedef typename ImageType::IndexType::IndexValueType  ImageIndexValueType;
   typedef typename ImageType::SizeType                   ImageSizeType;
   typedef typename ImageType::RegionType                 ImageRegionType;
   typedef MeasurementVectorType                          ValueType;

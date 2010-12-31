@@ -258,14 +258,16 @@ protected:
   ShapedNeighborhoodIterator(const ShapedNeighborhoodIterator & o);
   // purposely not implemented
 
-  void ActivateIndex(const unsigned int n)
+  typedef typename Superclass::NeighborIndexType NeighborIndexType;
+
+  void ActivateIndex(NeighborIndexType n)
   {
     Superclass::ActivateIndex(n);
     m_EndIterator.GoToEnd();
     m_BeginIterator.GoToBegin();
   }
 
-  void DeactivateIndex(const unsigned int n)
+  void DeactivateIndex(NeighborIndexType n)
   {
     Superclass::DeactivateIndex(n);
     m_EndIterator.GoToEnd();

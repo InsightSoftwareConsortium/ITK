@@ -37,7 +37,7 @@ namespace watershed
  *
  * \par
  * This is a hash table that holds information about labeled segments in an
- * image.  Keys in the table are label values (unsigned long). Each entry in
+ * image.  Keys in the table are label values (IdentifierType). Each entry in
  * the table records the minimum value in the segment region and a list of all the
  * adjacent segments in the image.  The adjacency (edge) list also holds a
  * saliency value (likelihood of merge) for each adjacency.
@@ -61,8 +61,8 @@ public:
       entry */
   struct edge_pair_t {
     edge_pair_t() {}
-    edge_pair_t(unsigned long l, ScalarType s):label(l), height(s) {}
-    unsigned long label;
+    edge_pair_t(IdentifierType l, ScalarType s):label(l), height(s) {}
+    IdentifierType label;
     ScalarType height;
 
     /** Necessary operator for sorting the adjacency lists */
@@ -90,7 +90,7 @@ public:
   };
 
   /** Define the container type for the table */
-  typedef itk::hash_map< unsigned long, segment_t, itk::hash< unsigned long > >
+  typedef itk::hash_map< IdentifierType, segment_t, itk::hash< IdentifierType > >
   HashMapType;
   typedef typename HashMapType::iterator       Iterator;
   typedef typename HashMapType::const_iterator ConstIterator;
@@ -98,7 +98,7 @@ public:
   typedef typename HashMapType::data_type      DataType;
 
   /** Inserts a segment into the table  */
-  bool Add(unsigned long a, const segment_t & t);
+  bool Add(IdentifierType a, const segment_t & t);
 
   /** Iterates through the table and removes edges
    * in every edge list whose saliencies are above the
@@ -108,7 +108,7 @@ public:
 
   /** Lookup a segment in the table.  Returns a pointer to the
    * entry.  On failure, returns a null pointer.   */
-  segment_t * Lookup(const unsigned long a)
+  segment_t * Lookup(const IdentifierType a)
   {
     Iterator result = m_HashMap.find(a);
 
@@ -118,7 +118,7 @@ public:
 
   /** Lookup a segment in the table.  Returns a const pointer
    * to the entry.  On failure, returns a null pointer.   */
-  const segment_t * Lookup(const unsigned long a) const
+  const segment_t * Lookup(const IdentifierType a) const
   {
     ConstIterator result = m_HashMap.find(a);
 
@@ -128,14 +128,14 @@ public:
 
   /** Returns TRUE if the entry key is found in the table.  FALSE if the key is
    * not found in the table.   */
-  bool IsEntry(const unsigned long a) const
+  bool IsEntry(const IdentifierType a) const
   {
     if ( m_HashMap.find(a) == m_HashMap.end() ) { return false; }
     else { return true; }
   }
 
   /** Deletes an entry from the table.   */
-  void Erase(const unsigned long a)
+  void Erase(const IdentifierType a)
   {  m_HashMap.erase(a); }
 
   /** Removes all the entries in the table.   */
@@ -156,7 +156,7 @@ public:
   {      return m_HashMap.size();     }
 
   /** Merges two entries of the table.  from->to  */
-  //  void Merge(const unsigned long from, const unsigned long to);
+  //  void Merge(const IdentifierType from, const IdentifierType to);
 
   /** Returns an iterator pointing to the first element in the (unordered)
       table. */

@@ -20,6 +20,7 @@
 
 #include "itkResourceProbe.h"
 #include "itkMemoryUsageObserver.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -35,7 +36,7 @@ namespace itk
  *
  */
 class ITKCommon_EXPORT MemoryProbe:
-  public ResourceProbe< long, double >
+  public ResourceProbe< SizeValueType, double >
 {
 public:
 
@@ -43,7 +44,7 @@ public:
   ~MemoryProbe();
 
   /** Type for measuring memory. */
-  typedef long MemoryLoadType;
+  typedef SizeValueType MemoryLoadType;
 
   /** Type for measuring the average memory. */
   typedef double MeanMemoryLoadType;

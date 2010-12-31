@@ -18,6 +18,7 @@
 #ifndef __itkQuadEdgeMeshCleanFilter_h
 #define __itkQuadEdgeMeshCleanFilter_h
 
+#include "itkIntTypes.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkBoundingBox.h"
 

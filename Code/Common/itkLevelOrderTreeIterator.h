@@ -35,6 +35,7 @@ public:
   typedef TTreeType                         TreeType;
   typedef typename TTreeType::ValueType     ValueType;
   typedef typename Superclass::TreeNodeType TreeNodeType;
+  typedef typename Superclass::NodeType     NodeType;
 
   /** Constructors */
   LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = NULL);
@@ -43,7 +44,7 @@ public:
   virtual ~LevelOrderTreeIterator() {}
 
   /** Get the type of the iterator */
-  int GetType() const;
+  NodeType GetType() const;
 
   /** Get the start level */
   int GetStartLevel() const;
@@ -138,7 +139,7 @@ LevelOrderTreeIterator< TTreeType >
 
 /** Return the type of iterator */
 template< class TTreeType >
-int
+typename LevelOrderTreeIterator< TTreeType >::NodeType
 LevelOrderTreeIterator< TTreeType >::GetType() const
 {
   return TreeIteratorBase< TTreeType >::LEVELORDER;

@@ -160,9 +160,9 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
   ImageRegionIterator< ITK_TYPENAME WatershedType::OutputImageType > it =
     ImageRegionIterator< ITK_TYPENAME WatershedType::OutputImageType >(m_Watershed->GetOutput(), region);
 
-  unsigned long seed1Label = m_Watershed->GetOutput()->GetPixel(m_Seed1);
-  unsigned long seed2Label = m_Watershed->GetOutput()->GetPixel(m_Seed2);
-  unsigned long value;
+  IdentifierType seed1Label = m_Watershed->GetOutput()->GetPixel(m_Seed1);
+  IdentifierType seed2Label = m_Watershed->GetOutput()->GetPixel(m_Seed2);
+  IdentifierType value;
 
   it.GoToBegin();
   ot.GoToBegin();

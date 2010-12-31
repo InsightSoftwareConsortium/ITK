@@ -233,10 +233,10 @@ public:
   /** the expected number of bytes in the extended header, this is only
    * valid after a successful call to SetHeader.
    */
-  size_t GetExtendedHeaderSize(void) const;
+  SizeValueType GetExtendedHeaderSize(void) const;
 
   /** the expected number of bytes in the header */
-  size_t GetHeaderSize(void) const { return sizeof( Header ); }
+  SizeValueType GetHeaderSize(void) const { return sizeof( Header ); }
 
   /** returns true if the original header from SetHeader was big
    * endian.
@@ -261,8 +261,8 @@ private:
   MRCHeaderObject(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented
 
-  size_t m_ExtendedHeaderSize;
-  void * m_ExtendedHeader;
+  SizeValueType m_ExtendedHeaderSize;
+  void        * m_ExtendedHeader;
 
   FeiExtendedHeader *m_ExtendedFeiHeader;
 

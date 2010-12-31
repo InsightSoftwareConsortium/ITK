@@ -158,7 +158,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 
   for ( i = 0; i < InputPointSetDimension; i++ )
     {
-    size[i] = (unsigned long)( bb->GetBounds()[2 * i + 1] - bb->GetBounds()[2 * i] );
+    size[i] = static_cast<SizeValueType>( bb->GetBounds()[2 * i + 1] - bb->GetBounds()[2 * i] );
     origin[i] = 0; //bb->GetBounds()[2*i];
     }
 

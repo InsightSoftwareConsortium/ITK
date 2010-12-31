@@ -166,12 +166,12 @@ public:
   itkGetConstObjectMacro(Interpolator, InterpolatorType);
 
   /** Get the number of pixels considered in the computation. */
-  unsigned long GetNumberOfMovingImageSamples(void)
+  SizeValueType GetNumberOfMovingImageSamples(void)
   {
     return this->GetNumberOfPixelsCounted();
   }
 
-  itkGetConstReferenceMacro(NumberOfPixelsCounted, unsigned long);
+  itkGetConstReferenceMacro(NumberOfPixelsCounted, SizeValueType);
 
   /** Set the region over which the metric will be computed */
   void SetFixedImageRegion(const FixedImageRegionType reg);
@@ -233,18 +233,18 @@ public:
 
   /** Number of spatial samples to used to compute metric
    *   This sets the number of samples.  */
-  virtual void SetNumberOfFixedImageSamples(unsigned long numSamples);
+  virtual void SetNumberOfFixedImageSamples(SizeValueType numSamples);
 
-  itkGetConstReferenceMacro(NumberOfFixedImageSamples, unsigned long);
+  itkGetConstReferenceMacro(NumberOfFixedImageSamples, SizeValueType);
 
   /** Number of spatial samples to used to compute metric
    *   This sets the number of samples.  */
-  void SetNumberOfSpatialSamples(unsigned long num)
+  void SetNumberOfSpatialSamples(SizeValueType num)
   {
     this->SetNumberOfFixedImageSamples(num);
   }
 
-  unsigned long GetNumberOfSpatialSamples(void)
+  SizeValueType GetNumberOfSpatialSamples(void)
   {
     return this->GetNumberOfFixedImageSamples();
   }
@@ -375,14 +375,14 @@ public:
   /** Container to store a set of points and fixed image values. */
   FixedImageSampleContainer m_FixedImageSamples;
 
-  unsigned long          m_NumberOfParameters;
+  SizeValueType          m_NumberOfParameters;
   mutable ParametersType m_Parameters;
 
-  unsigned long m_NumberOfFixedImageSamples;
+  SizeValueType m_NumberOfFixedImageSamples;
   //m_NumberOfPixelsCounted must be mutable because the const
   //thread consolidation functions merge each threads valus
   //onto this accumulator variable.
-  mutable unsigned long m_NumberOfPixelsCounted;
+  mutable SizeValueType m_NumberOfPixelsCounted;
 
   FixedImageConstPointer  m_FixedImage;
   MovingImageConstPointer m_MovingImage;
@@ -421,7 +421,7 @@ public:
 
   /** The number of BSpline transform weights is the number of
     * of parameter in the support region (per dimension ). */
-  unsigned long m_NumBSplineWeights;
+  SizeValueType m_NumBSplineWeights;
 
   itkStaticConstMacro(DeformationSplineOrder, unsigned int, 3);
 
@@ -440,7 +440,7 @@ public:
 
   typedef          std::vector< MovingImagePointType > MovingImagePointArrayType;
   typedef          std::vector< bool >                 BooleanArrayType;
-  typedef          FixedArray< unsigned long,
+  typedef          FixedArray< SizeValueType,
                                ::itk::GetImageDimension< FixedImageType >
                                ::ImageDimension >            BSplineParametersOffsetType;
   /**
@@ -541,7 +541,7 @@ public:
   {}
   virtual inline bool       GetValueThreadProcessSample(
     unsigned int itkNotUsed(threadID),
-    unsigned long itkNotUsed(fixedImageSample),
+    SizeValueType itkNotUsed(fixedImageSample),
     const MovingImagePointType & itkNotUsed(mappedPoint),
     double itkNotUsed(movingImageValue) ) const
   { return false; }
@@ -570,7 +570,7 @@ public:
   {}
   virtual inline bool  GetValueAndDerivativeThreadProcessSample(
     unsigned int itkNotUsed(threadID),
-    unsigned long itkNotUsed(fixedImageSample),
+    SizeValueType itkNotUsed(fixedImageSample),
     const MovingImagePointType & itkNotUsed(mappedPoint),
     double itkNotUsed(movingImageValue),
     const ImageDerivativesType & itkNotUsed(movingImageGradientValue) ) const

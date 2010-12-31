@@ -80,7 +80,7 @@ public:
    * buffer retains the responsibility of freeing the memory for this image
    * data.  If "LetFilterManageMemory" is true, then this class
    * will free the memory when this object is destroyed. */
-  void SetImportPointer(TPixel *ptr, unsigned long num,
+  void SetImportPointer(TPixel *ptr, SizeValueType num,
                         bool LetFilterManageMemory);
 
   /** Set the region object that defines the size and starting index
@@ -152,7 +152,7 @@ private:
 
   TPixel *      m_ImportPointer;
   bool          m_FilterManageMemory;
-  unsigned long m_Size;
+  SizeValueType m_Size;
 };
 } // end namespace itk
 

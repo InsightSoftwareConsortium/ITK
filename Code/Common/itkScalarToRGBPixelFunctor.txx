@@ -28,11 +28,13 @@ template< class TScalar >
 ScalarToRGBPixelFunctor< TScalar >
 ::ScalarToRGBPixelFunctor()
 {
-  m_Index[0] = m_Index[1] = m_Index[2] = 0;
-  const::size_t l = sizeof( ScalarType );
-  for ( unsigned int i = 0; i < l && i < 3; ++i )
+  m_ColorIndex[0] = 0;
+  m_ColorIndex[1] = 0;
+  m_ColorIndex[2] = 0;
+  const unsigned int scalarSize = static_cast< unsigned int >( sizeof( ScalarType ) );
+  for ( unsigned int i = 0; i < scalarSize && i < 3; ++i )
     {
-    m_Index[i] = i;
+    m_ColorIndex[i] = i;
     }
 
 #ifdef ITK_WORDS_BIGENDIAN
@@ -65,9 +67,9 @@ ScalarToRGBPixelFunctor< TScalar >
     buf = tmp;
     }
 
-  ans[0] = static_cast< RGBComponentType >( bytes[m_Index[0]] * 3 );
-  ans[1] = static_cast< RGBComponentType >( ( bytes[m_Index[0]] + bytes[m_Index[1]] ) * 5 );
-  ans[2] = static_cast< RGBComponentType >( ( bytes[m_Index[0]] + bytes[m_Index[2]] ) );
+  ans[0] = static_cast< RGBComponentType >( bytes[m_ColorIndex[0]] * 3 );
+  ans[1] = static_cast< RGBComponentType >( ( bytes[m_ColorIndex[0]] + bytes[m_ColorIndex[1]] ) * 5 );
+  ans[2] = static_cast< RGBComponentType >( ( bytes[m_ColorIndex[0]] + bytes[m_ColorIndex[2]] ) );
 
   return ans;
 }

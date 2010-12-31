@@ -181,7 +181,7 @@ private:
   {
 public:
     // run length information - may be a more type safe way of doing this
-    long int length;
+    SizeValueType length;
     typename InputImageType::IndexType where; // Index of the start of the run
     InputImagePixelType label;
   };
@@ -191,10 +191,10 @@ public:
   // the map storing lines
   typedef std::vector< lineEncoding > LineMapType;
 
-  typedef std::vector< long > OffsetVec;
+  typedef std::vector< OffsetValueType > OffsetVec;
 
   // the types to support union-find operations
-  typedef std::vector< unsigned long int > UnionFindType;
+  typedef std::vector< SizeValueType > UnionFindType;
 
   bool CheckNeighbors(const OutputIndexType & A,
                       const OutputIndexType & B);
@@ -214,7 +214,7 @@ public:
   typename Barrier::Pointer m_Barrier;
 
   LineMapType m_LineMap;
-  long        m_NumberOfThreads;
+  int         m_NumberOfThreads;
 };
 } // end namespace itk
 

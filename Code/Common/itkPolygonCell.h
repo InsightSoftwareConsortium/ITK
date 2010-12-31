@@ -122,11 +122,11 @@ public:
 
   /** Constructor and destructor */
   PolygonCell() {}
-  PolygonCell(unsigned int NumberOfPoints)
+  PolygonCell(PointIdentifier NumberOfPoints)
   {
-    for ( unsigned int i = 0; i < NumberOfPoints; i++ )
+    for ( PointIdentifier i = 0; i < NumberOfPoints; i++ )
       {
-      m_PointIds.push_back( NumericTraits< unsigned long >::max() );
+      m_PointIds.push_back( NumericTraits< PointIdentifier >::max() );
       }
     this->BuildEdges();
   }

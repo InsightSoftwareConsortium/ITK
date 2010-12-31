@@ -268,14 +268,17 @@ MersenneTwisterRandomVariateGenerator::hash(vcl_time_t t, vcl_clock_t c)
   IntegerType    h1 = 0;
   unsigned char *p = (unsigned char *)&t;
 
-  for ( size_t i = 0; i < sizeof( t ); ++i )
+  const unsigned int sizeOfT = static_cast< unsigned int >( sizeof(t) );
+  for ( unsigned int i = 0; i < sizeOfT; ++i )
     {
     h1 *= UCHAR_MAX + 2U;
     h1 += p[i];
     }
   IntegerType h2 = 0;
   p = (unsigned char *)&c;
-  for ( size_t j = 0; j < sizeof( c ); ++j )
+
+  const unsigned int sizeOfC = static_cast< unsigned int >( sizeof(c) );
+  for ( unsigned int j = 0; j < sizeOfC; ++j )
     {
     h2 *= UCHAR_MAX + 2U;
     h2 += p[j];

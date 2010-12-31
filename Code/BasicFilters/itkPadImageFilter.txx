@@ -85,8 +85,6 @@ void
 PadImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  long sizeTemp;
-
   // call the superclass' implementation of this method
   // Superclass::GenerateInputRequestedRegion();
 
@@ -114,6 +112,8 @@ PadImageFilter< TInputImage, TOutputImage >
   typename TInputImage::SizeType inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
+  OffsetValueType sizeTemp;
+
   for ( i = 0; i < TInputImage::ImageDimension; i++ )
     {
     if ( outputRequestedRegionStartIndex[i] <= inputWholeRegionStartIndex[i] )
@@ -126,15 +126,15 @@ PadImageFilter< TInputImage, TOutputImage >
         outputRequestedRegionStartIndex[i];
       }
 
-    if ( ( inputWholeRegionStartIndex[i] + static_cast< long >( inputWholeRegionSize[i] ) ) <=
-         ( outputRequestedRegionStartIndex[i] + static_cast< long >( outputRequestedRegionSize[i] ) ) )
+    if ( ( inputWholeRegionStartIndex[i] + static_cast< OffsetValueType >( inputWholeRegionSize[i] ) ) <=
+         ( outputRequestedRegionStartIndex[i] + static_cast< OffsetValueType >( outputRequestedRegionSize[i] ) ) )
       {
-      sizeTemp = static_cast< long >( inputWholeRegionSize[i] )
+      sizeTemp = static_cast< OffsetValueType >( inputWholeRegionSize[i] )
                  + inputWholeRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
       }
     else
       {
-      sizeTemp = static_cast< long >( outputRequestedRegionSize[i] )
+      sizeTemp = static_cast< OffsetValueType >( outputRequestedRegionSize[i] )
                  + outputRequestedRegionStartIndex[i] - inputRequestedRegionStartIndex[i];
       }
 
@@ -202,8 +202,8 @@ PadImageFilter< TInputImage, TOutputImage >
 
   for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
-    outputSize[i] = static_cast< long >( inputSize[i] ) + m_PadLowerBound[i] + m_PadUpperBound[i];
-    outputStartIndex[i] = inputStartIndex[i] - static_cast< long >( m_PadLowerBound[i] );
+    outputSize[i] = inputSize[i] + m_PadLowerBound[i] + m_PadUpperBound[i];
+    outputStartIndex[i] = inputStartIndex[i] - static_cast< OffsetValueType >( m_PadLowerBound[i] );
     }
 
   typename TOutputImage::RegionType outputLargestPossibleRegion;

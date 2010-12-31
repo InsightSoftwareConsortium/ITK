@@ -202,7 +202,7 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 ::ComputeVariance(void) const
 {
   unsigned int           iDimension;
-  unsigned long          nPixels;
+  SizeValueType          nPixels;
   FixedGradientPixelType mean[FixedImageDimension];
   FixedGradientPixelType gradient;
 

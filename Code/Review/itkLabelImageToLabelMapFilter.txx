@@ -105,7 +105,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
         {
         // We've hit the start of a run
         IndexType idx = it.GetIndex();
-        long      length = 1;
+        LengthType      length = 1;
         ++it;
         while ( !it.IsAtEndOfLine() && it.Get() == v )
           {

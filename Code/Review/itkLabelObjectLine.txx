@@ -66,7 +66,7 @@ bool LabelObjectLine< VImageDimension >::HasIndex(const IndexType idx) const
       return false;
       }
     }
-  return ( idx[0] >= m_Index[0] && idx[0] < m_Index[0] + (long)m_Length );
+  return ( idx[0] >= m_Index[0] && idx[0] < m_Index[0] + (OffsetValueType)m_Length );
 }
 
 template< unsigned int VImageDimension >
@@ -80,7 +80,7 @@ bool LabelObjectLine< VImageDimension >::IsNextIndex(const IndexType & idx) cons
       return false;
       }
     }
-  return idx[0] == m_Index[0] + (long)m_Length;
+  return idx[0] == m_Index[0] + (OffsetValueType)m_Length;
 }
 
 /**

@@ -95,6 +95,8 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
+  typedef typename NeighborhoodType::SizeValueType NeighborhoodSizeValueType;
+
   /** Inherit some parameters from the superclass type. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
@@ -139,8 +141,8 @@ private:
   /** */
   static double m_MIN_NORM;
 
-  unsigned long m_Center;
-  unsigned long m_Stride[ImageDimension];
+  NeighborhoodSizeValueType m_Center;
+  NeighborhoodSizeValueType m_Stride[ImageDimension];
 };
 } // end namespace itk
 

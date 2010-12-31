@@ -79,7 +79,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
      << m_InputImageNeighborhoodRadius << std::endl;
 
   os << indent << " Number of elements in MRF neighborhood :"
-     << static_cast< unsigned long >( m_MRFNeighborhoodWeight.size() ) << std::endl;
+     << static_cast< SizeValueType >( m_MRFNeighborhoodWeight.size() ) << std::endl;
 
   os << indent << " Neighborhood weight : [";
   const unsigned int neighborhoodWeightSize =
@@ -227,7 +227,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 template< class TInputImage, class TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
-::SetNeighborhoodRadius(const unsigned long radiusValue)
+::SetNeighborhoodRadius(const SizeValueType radiusValue)
 {
   //Set up the neighbor hood
   NeighborhoodRadiusType radius;
@@ -242,7 +242,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 template< class TInputImage, class TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
-::SetNeighborhoodRadius(const unsigned long *radiusArray)
+::SetNeighborhoodRadius(const SizeValueType *radiusArray)
 {
   NeighborhoodRadiusType radius;
 

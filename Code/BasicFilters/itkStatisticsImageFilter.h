@@ -163,11 +163,11 @@ private:
   StatisticsImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented
 
-  Array< RealType >  m_ThreadSum;
-  Array< RealType >  m_SumOfSquares;
-  Array< long >      m_Count;
-  Array< PixelType > m_ThreadMin;
-  Array< PixelType > m_ThreadMax;
+  Array< RealType >       m_ThreadSum;
+  Array< RealType >       m_SumOfSquares;
+  Array< SizeValueType >  m_Count;
+  Array< PixelType >      m_ThreadMin;
+  Array< PixelType >      m_ThreadMax;
 }; // end of class
 } // end namespace itk
 

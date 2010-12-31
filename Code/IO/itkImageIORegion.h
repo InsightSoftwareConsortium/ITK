@@ -19,6 +19,7 @@
 #define __itkImageIORegion_h
 
 #include <algorithm>
+#include "itkIntTypes.h"
 #include "itkObjectFactory.h"
 #include "itkImageRegion.h"
 
@@ -56,9 +57,9 @@ public:
 
   /** these types correspond to those of itk::Size, itk::Offset and itk::Index
     */
-  typedef size_t    SizeValueType;
-  typedef ptrdiff_t IndexValueType;
-  typedef ptrdiff_t OffsetValueType;
+  typedef ::itk::SizeValueType    SizeValueType;
+  typedef ::itk::IndexValueType   IndexValueType;
+  typedef ::itk::OffsetValueType  OffsetValueType;
 
   /** Index typedef support. An index is used to access pixel values. */
   typedef std::vector< IndexValueType > IndexType;

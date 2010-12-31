@@ -112,7 +112,8 @@ public:
   /** Kernel typedef. */
   typedef
   Neighborhood< double, itkGetStaticConstMacro(ImageDimension) > KernelType;
-  typedef typename KernelType::SizeType SizeType;
+  typedef typename KernelType::SizeType      SizeType;
+  typedef typename KernelType::SizeValueType SizeValueType;
 
   /** Kernel iterator. */
   typedef typename KernelType::Iterator      KernelIteratorType;
@@ -150,7 +151,7 @@ public:
 
   /** Set/Get the kernel radius, specified in pixels.  This parameter
    * is used only when AutomaticNeighborhoodSize is "off". */
-  void SetRadius(const unsigned long);
+  void SetRadius(const SizeValueType);
 
   itkSetMacro(Radius, SizeType);
   itkGetConstReferenceMacro(Radius, SizeType);

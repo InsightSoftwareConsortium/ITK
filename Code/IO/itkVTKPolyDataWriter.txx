@@ -219,18 +219,19 @@ VTKPolyDataWriter< TInputMesh >
       // mesh can be saved.
       cellIterator = cells->Begin();
 
-      unsigned long n(0);
+      PointIdentifier totalNumberOfPointsInPolygons = NumericTraits<PointIdentifier>::Zero;
       while ( cellIterator != cells->End() )
         {
         CellType *cellPointer = cellIterator.Value();
         if ( cellPointer->GetType() != CellType::VERTEX_CELL
              && cellPointer->GetType() != CellType::LINE_CELL )
           {
-          n += cellPointer->GetNumberOfPoints();
+          totalNumberOfPointsInPolygons += cellPointer->GetNumberOfPoints();
           }
         cellIterator++;
         }
-      outputFile << "POLYGONS " << numberOfPolygons << " " << n + numberOfPolygons;
+      outputFile << "POLYGONS " << numberOfPolygons << " ";
+      outputFile << totalNumberOfPointsInPolygons + numberOfPolygons; // FIXME: Is this right ?
       outputFile << std::endl;
 
       cellIterator = cells->Begin();

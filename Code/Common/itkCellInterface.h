@@ -32,7 +32,7 @@
     {                                                                                                \
     return TopologyId;                                                                               \
     }                                                                                                \
-  virtual void Accept(unsigned long cellid, typename CellInterface< PixelType,                       \
+  virtual void Accept(CellIdentifier cellid, typename CellInterface< PixelType,                      \
                                                                     CellTraits >::MultiVisitor * mv) \
     {                                                                                                \
     typename CellInterfaceVisitor< PixelType, CellTraits >::Pointer v =                              \
@@ -232,7 +232,7 @@ protected:
   };
 
   /** This must be implemented by all sub-classes of CellInterface */
-  virtual void Accept(unsigned long cellId, MultiVisitor *) = 0;
+  virtual void Accept(CellIdentifier cellId, MultiVisitor *) = 0;
 
   /**  Return the type of the cell (one of the CellGeometry enums
    *   listed above). */

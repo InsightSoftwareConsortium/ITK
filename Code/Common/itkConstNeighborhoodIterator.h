@@ -63,10 +63,8 @@ public:
 
   /** Inherit typedefs from superclass */
   typedef typename Superclass::OffsetType      OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
   typedef typename Superclass::RadiusType      RadiusType;
   typedef typename Superclass::SizeType        SizeType;
-  typedef typename Superclass::SizeValueType   SizeValueType;
   typedef typename Superclass::Iterator        Iterator;
   typedef typename Superclass::ConstIterator   ConstIterator;
 
@@ -74,7 +72,6 @@ public:
   typedef TImage                                     ImageType;
   typedef typename TImage::RegionType                RegionType;
   typedef Index< itkGetStaticConstMacro(Dimension) > IndexType;
-  typedef typename IndexType::IndexValueType         IndexValueType;
   typedef Neighborhood< PixelType, itkGetStaticConstMacro(Dimension) >
   NeighborhoodType;
 
@@ -131,7 +128,7 @@ public:
 
   /** Returns the loop bound used to define the edge of a single
    * dimension in the itk::Image region. */
-  long GetBound(unsigned int n) const
+  IndexValueType GetBound(unsigned int n) const
   {    return m_Bound[n];  }
 
   /** Returns the pointer to the center pixel of the neighborhood. */

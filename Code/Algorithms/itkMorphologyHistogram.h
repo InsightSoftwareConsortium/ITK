@@ -29,7 +29,7 @@ class MorphologyHistogram
 {
 public:
 
-  typedef typename std::map< TInputPixel, unsigned long, TCompare > MapType;
+  typedef typename std::map< TInputPixel, IdentifierType, TCompare > MapType;
 
   MorphologyHistogram(){}
 
@@ -178,12 +178,12 @@ public:
     return true;
   }
 
-  std::vector< unsigned long > m_Vector;
-  TInputPixel                  m_InitValue;
-  TInputPixel                  m_CurrentValue;
-  TCompare                     m_Compare;
-  signed int                   m_Direction;
-  TInputPixel                  m_Boundary;
+  std::vector< IdentifierType >   m_Vector;
+  TInputPixel                     m_InitValue;
+  TInputPixel                     m_CurrentValue;
+  TCompare                        m_Compare;
+  signed int                      m_Direction;
+  TInputPixel                     m_Boundary;
 };
 
 

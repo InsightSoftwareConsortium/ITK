@@ -141,7 +141,7 @@ public:
 private:
   //This is made private to force the use of the
   // MetaDataObject<MetaDataObjectType>::New() operator!
-  //void * operator new(size_t nothing) {};//purposefully not implemented
+  //void * operator new(SizeValueType nothing) {};//purposefully not implemented
   /**
    * \author Hans J. Johnson
    * A variable to store this derived type.

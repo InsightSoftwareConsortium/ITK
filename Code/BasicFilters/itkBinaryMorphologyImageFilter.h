@@ -141,10 +141,12 @@ public:
   typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
   typedef typename InputImageType::OffsetType                OffsetType;
   typedef typename InputImageType::IndexType                 IndexType;
+  typedef typename InputImageType::IndexValueType            IndexValueType;
 
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename InputImageType::SizeType    InputSizeType;
+  typedef typename InputImageType::RegionType    InputImageRegionType;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename InputImageType::SizeType      InputSizeType;
+  typedef typename InputImageType::SizeValueType InputSizeValueType;
 
   /** Input and output images must be the same dimension. */
   itkConceptMacro( ImageDimensionCheck,

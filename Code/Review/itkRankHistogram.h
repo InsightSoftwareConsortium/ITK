@@ -122,8 +122,8 @@ public:
 
   TInputPixel GetValueBruteForce()
   {
-    unsigned long count = 0;
-    unsigned long target = (int)( m_Rank * ( m_Entries - 1 ) ) + 1;
+    SizeValueType count = 0;
+    SizeValueType target = (int)( m_Rank * ( m_Entries - 1 ) ) + 1;
     for( typename MapType::iterator it=m_Map.begin(); it != m_Map.end(); it++ )
       {
       count += it->second;
@@ -137,9 +137,9 @@ public:
 
   TInputPixel GetValue(const TInputPixel &)
   {
-    unsigned long target = (unsigned long)( m_Rank * ( m_Entries - 1 ) ) + 1;
-    unsigned long total = m_Below;
-    unsigned long ThisBin;
+    SizeValueType target = (SizeValueType)( m_Rank * ( m_Entries - 1 ) ) + 1;
+    SizeValueType total = m_Below;
+    SizeValueType ThisBin;
     bool          eraseFlag = false;
 
     if ( total < target )
@@ -227,11 +227,11 @@ protected:
   float m_Rank;
 
 private:
-  typedef typename std::map< TInputPixel, unsigned long, TCompare > MapType;
+  typedef typename std::map< TInputPixel, SizeValueType, TCompare > MapType;
 
   MapType       m_Map;
-  unsigned long m_Below;
-  unsigned long m_Entries;
+  SizeValueType m_Below;
+  SizeValueType m_Entries;
   TInputPixel   m_RankValue;
   TInputPixel   m_InitVal;
   TCompare      m_Compare;
@@ -245,12 +245,11 @@ template< class TInputPixel >
 class VectorRankHistogram
 {
 public:
-
   typedef std::less< TInputPixel > TCompare;
 
   VectorRankHistogram()
   {
-    m_Size = (long)NumericTraits< TInputPixel >::max() - (long)NumericTraits< TInputPixel >::NonpositiveMin() + 1;
+    m_Size = (OffsetValueType)NumericTraits< TInputPixel >::max() - (OffsetValueType)NumericTraits< TInputPixel >::NonpositiveMin() + 1;
     m_Vec.resize(m_Size, 0);
     if ( m_Compare( NumericTraits< TInputPixel >::max(),
                     NumericTraits< TInputPixel >::NonpositiveMin() ) )
@@ -275,9 +274,9 @@ public:
 
   TInputPixel GetValueBruteForce()
   {
-    unsigned long count = 0;
-    unsigned long target = (unsigned long)( m_Rank * ( m_Entries - 1 ) ) + 1;
-    for( unsigned long i=0; i<m_Size; i++ )
+    SizeValueType count = 0;
+    SizeValueType target = (SizeValueType)( m_Rank * ( m_Entries - 1 ) ) + 1;
+    for( SizeValueType i=0; i<m_Size; i++ )
       {
       count += m_Vec[i];
       if( count >= target )
@@ -291,9 +290,9 @@ public:
   TInputPixel GetValue(const TInputPixel &)
   {
     return GetValueBruteForce();
-    unsigned long     target = (unsigned long)( this->m_Rank * ( m_Entries - 1 ) ) + 1;
-    unsigned long     total = m_Below;
-    unsigned long     pos = (long)m_RankValue - NumericTraits< TInputPixel >::NonpositiveMin();
+    SizeValueType     target = (SizeValueType)( this->m_Rank * ( m_Entries - 1 ) ) + 1;
+    SizeValueType     total = m_Below;
+    SizeValueType     pos = (OffsetValueType)m_RankValue - NumericTraits< TInputPixel >::NonpositiveMin();
 
     if ( total < target )
       {
@@ -311,7 +310,7 @@ public:
       {
       while ( pos > 0 )
         {
-        unsigned long tbelow = total - m_Vec[pos];
+        SizeValueType tbelow = total - m_Vec[pos];
         if ( tbelow < target ) // we've overshot
           {
           break;
@@ -330,7 +329,7 @@ public:
 
   void AddPixel(const TInputPixel & p)
   {
-    long q = (long)p - NumericTraits< TInputPixel >::NonpositiveMin();
+    OffsetValueType q = (OffsetValueType)p - NumericTraits< TInputPixel >::NonpositiveMin();
 
     m_Vec[q]++;
     if ( m_Compare(p, m_RankValue) || p == m_RankValue )
@@ -342,7 +341,7 @@ public:
 
   void RemovePixel(const TInputPixel & p)
   {
-    const long q = (long)p - NumericTraits< TInputPixel >::NonpositiveMin();
+    const OffsetValueType q = (OffsetValueType)p - NumericTraits< TInputPixel >::NonpositiveMin();
 
     itkAssertInDebugAndIgnoreInReleaseMacro( q >= 0 );
     itkAssertInDebugAndIgnoreInReleaseMacro( q < (int)m_Vec.size() );
@@ -376,15 +375,15 @@ protected:
   float m_Rank;
 
 private:
-  typedef typename std::vector< unsigned long > VecType;
+  typedef typename std::vector< SizeValueType > VecType;
 
-  VecType      m_Vec;
-  unsigned int m_Size;
-  TCompare     m_Compare;
-  TInputPixel  m_RankValue;
-  TInputPixel  m_InitVal;
-  int          m_Below;
-  int          m_Entries;
+  VecType       m_Vec;
+  SizeValueType m_Size;
+  TCompare      m_Compare;
+  TInputPixel   m_RankValue;
+  TInputPixel   m_InitVal;
+  int           m_Below;
+  int           m_Entries;
 };
 
 // now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram

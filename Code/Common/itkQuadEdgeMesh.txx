@@ -1216,7 +1216,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     {
     typename PointIdList::const_iterator itr = points.begin();
     typename PointIdList::const_iterator end = points.end();
-    typename PointIdList::size_type count = 0;
+    PointIdentifier count = NumericTraits< PointIdentifier >::Zero;
     const PointIdentifier pointId = points[i];
     while ( itr != end )
       {
@@ -1286,8 +1286,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   typedef std::vector< QEPrimal * > QEList;
   QEList FaceQEList;
 
+  const PointIdentifier numberOfPoints = static_cast< PointIdentifier >( points.size() );
+
   // Now create edge list and create missing edges if needed.
-  for ( size_t i = 0; i < points.size(); i++ )
+  for ( PointIdentifier i = 0; i < numberOfPoints; i++ )
     {
     PointIdentifier pid0 = points[i];
     PointIdentifier pid1 = points[( i + 1 ) % points.size()];
@@ -1450,7 +1452,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
  * understanding is not usefull at first contact with the class.
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-unsigned long
+typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeNumberOfPoints() const
 {
@@ -1462,7 +1464,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return ( 0 );
     }
 
-  unsigned long                numberOfPoints = 0;
+  PointIdentifier  numberOfPoints = NumericTraits<PointIdentifier>::Zero;
   PointsContainerConstIterator pointIterator = points->Begin();
 
   while ( pointIterator != points->End() )
@@ -1484,11 +1486,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
  * understanding is not usefull at first contact with the class.
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-unsigned long
+typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CellIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeNumberOfFaces() const
 {
-  unsigned long               numberOfFaces = 0;
+  CellIdentifier  numberOfFaces = NumericTraits<CellIdentifier>::Zero;
   CellsContainerConstIterator cellIterator = this->GetCells()->Begin();
   CellsContainerConstIterator cellEnd      = this->GetCells()->End();
 
@@ -1514,11 +1516,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
  *       understanding is not usefull at first contact with the class.
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-unsigned long
+typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CellIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeNumberOfEdges() const
 {
-  unsigned long numberOfEdges = this->GetEdgeCells()->size();
+  CellIdentifier numberOfEdges = this->GetEdgeCells()->size();
 
   return ( numberOfEdges );
 }

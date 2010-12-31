@@ -609,7 +609,7 @@ void BMPImageIO::ReadImageInformation()
 
 void
 BMPImageIO
-::SwapBytesIfNecessary(void *buffer, unsigned long numberOfPixels)
+::SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels)
 {
   switch ( m_ComponentType )
     {

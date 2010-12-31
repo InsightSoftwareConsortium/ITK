@@ -245,7 +245,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
     }
 
   //Get Stride information to move across dimension
-  ::size_t stride[ImageDimension];
+  OffsetValueType stride[ImageDimension];
   unsigned int center;
 
   for ( n = 0; n < ImageDimension; n++ )
@@ -381,7 +381,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
     vs_2[n] = 2 * vs[n];
     }
   //Get Stride information to move across dimension
-  ::size_t stride[ImageDimension];
+  OffsetValueType stride[ImageDimension];
   unsigned int center;
 
   for ( n = 0; n < ImageDimension; n++ )

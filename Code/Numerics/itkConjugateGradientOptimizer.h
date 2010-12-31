@@ -18,6 +18,7 @@
 #ifndef __itkConjugateGradientOptimizer_h
 #define __itkConjugateGradientOptimizer_h
 
+#include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_conjugate_gradient.h"
 
@@ -61,9 +62,9 @@ public:
   virtual void SetCostFunction(SingleValuedCostFunction *costFunction);
 
   /** Return the number of iterations performed so far */
-  unsigned long GetNumberOfIterations(void) const;
+  SizeValueType GetNumberOfIterations(void) const;
 
-  unsigned long GetCurrentIteration(void) const;
+  SizeValueType GetCurrentIteration(void) const;
 
   /** Return Current Value */
   MeasureType GetValue() const;

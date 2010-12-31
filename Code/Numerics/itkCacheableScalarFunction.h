@@ -19,6 +19,7 @@
 #define __itkCacheableScalarFunction_h
 
 #include "itkArray.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -68,7 +69,7 @@ public:
 
   /** Get the number of samples between the lower-bound and upper-bound
    * of the cache table. */
-  long GetNumberOfSamples() { return m_NumberOfSamples; }
+  SizeValueType GetNumberOfSamples() { return m_NumberOfSamples; }
 
   /** Check if the internal cache table and its values are valid. */
   bool IsCacheAvailable() { return m_CacheAvailable; }
@@ -108,12 +109,12 @@ public:
 protected:
   /** Create the internal cache table and fill it with
    * pre-evaluated values. */
-  void CreateCache(double lowerBound, double upperBound, long sampleSize);
+  void CreateCache(double lowerBound, double upperBound, SizeValueType sampleSize);
 
 private:
   /** The number of samples will be precalcualted and saved in the
    * cache table. */
-  long m_NumberOfSamples;
+  SizeValueType m_NumberOfSamples;
 
   /** Storage for the precalcualted function values. */
   MeasureArrayType m_CacheTable;

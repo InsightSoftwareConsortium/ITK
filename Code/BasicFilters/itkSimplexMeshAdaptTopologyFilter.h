@@ -74,6 +74,8 @@ public:
   typedef typename InputMeshType::PixelType                         InputPixelType;
   typedef typename InputMeshType::MeshTraits::CellTraits            InputCellTraitsType;
   typedef typename InputMeshType::CellType                          InputCellType;
+  typedef typename InputMeshType::PointIdentifier                   PointIdentifier;
+  typedef typename InputMeshType::CellIdentifier                    CellIdentifier;
   typedef typename InputCellType::PointIdIterator                   InputCellPointIdIterator;
   typedef typename InputCellType::CellAutoPointer                   InputCellAutoPointer;
   typedef typename InputMeshType::CellAutoPointer                   CellAutoPointer;
@@ -85,8 +87,8 @@ public:
   typedef typename OutputMeshType::CellType                         OutputCellType;
   typedef          itk::PolygonCell< OutputCellType >               OutputPolygonType;
 
-  typedef          itk::MapContainer< unsigned long, double > DoubleValueMapType;
-  typedef typename DoubleValueMapType::Iterator               DoubleContainerIterator;
+  typedef typename itk::MapContainer< CellIdentifier, double > DoubleValueMapType;
+  typedef typename DoubleValueMapType::Iterator                DoubleContainerIterator;
 
   /** \class SimplexCellVisitor
    * class for visiting all polygonal cells.
@@ -102,8 +104,8 @@ public:
     double                      totalCurvature;
     double                      minCellSize;
     double                      maxCellSize;
-    DoubleValueMapType::Pointer areaMap;
-    DoubleValueMapType::Pointer curvatureMap;
+    typename DoubleValueMapType::Pointer areaMap;
+    typename DoubleValueMapType::Pointer curvatureMap;
 
     double minCurvature;
     double maxCurvature;
@@ -123,20 +125,20 @@ public:
     /** \brief visits all polygon cells and computes the area,
      *  NOTE: works for convex polygons only!!!
      */
-    void Visit(unsigned long cellId, InputPolygonType *poly)
+    void Visit(CellIdentifier cellId, InputPolygonType *poly)
     {
       typename InputPolygonType::PointIdIterator it =  poly->PointIdsBegin();
 
       double        meanCurvature = 0;
-      unsigned long refPoint = *it;
+      PointIdentifier refPoint = *it;
       double        val = mesh->GetMeanCurvature(*it++);
       meanCurvature += vcl_abs(val);
 
-      unsigned long id1 = *it;
+      PointIdentifier id1 = *it;
       val = mesh->GetMeanCurvature(*it++);
       meanCurvature += vcl_abs(val);
 
-      unsigned long id2;
+      PointIdentifier id2;
 
       double area = 0;
 
@@ -166,7 +168,7 @@ public:
       if ( meanCurvature < minCurvature ) { minCurvature = meanCurvature; }
     }
 
-    double ComputeArea(unsigned long p1, unsigned long p2, unsigned long p3)
+    double ComputeArea(PointIdentifier p1, PointIdentifier p2, PointIdentifier p3)
     {
       InputPointType v1, v2, v3;
 
@@ -180,12 +182,12 @@ public:
       return vcl_abs (itk_cross_3d( ( v2 - v1 ).GetVnlVector(), ( v3 - v1 ).GetVnlVector() ).two_norm() / 2.0);
     }
 
-    DoubleValueMapType::Pointer GetAreaMap()
+    typename DoubleValueMapType::Pointer GetAreaMap()
     {
       return areaMap;
     }
 
-    DoubleValueMapType::Pointer GetCurvatureMap()
+    typename DoubleValueMapType::Pointer GetCurvatureMap()
     {
       return curvatureMap;
     }
@@ -271,7 +273,7 @@ protected:
    * which are were influenced by he insertion of new
    * points.
    */
-  void ModifyNeighborCells(unsigned long id1, unsigned long id2, unsigned long insertPointId);
+  void ModifyNeighborCells(CellIdentifier id1, CellIdentifier id2, PointIdentifier insertPointId);
 
   /**
    * Compute the center of a cell
@@ -279,9 +281,9 @@ protected:
   InputPointType ComputeCellCenter(InputCellAutoPointer & simplexCell);
 
   /**
-   * class member stoing cell id offset
+   * class member storing cell id offset
    */
-  unsigned long m_IdOffset;
+  CellIdentifier m_IdOffset;
 
   /**
    * threshold controls the percentage of cells

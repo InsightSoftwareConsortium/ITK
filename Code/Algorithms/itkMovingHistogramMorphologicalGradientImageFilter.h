@@ -39,7 +39,7 @@ public:
 
   inline void RemoveBoundary() {}
 
-  typedef std::map< TInputPixel, unsigned long > MapType;
+  typedef std::map< TInputPixel, SizeValueType > MapType;
 
   inline void AddPixel(const TInputPixel & p)
   {
@@ -173,10 +173,10 @@ public:
     return true;
   }
 
-  std::vector< unsigned long > m_Vector;
+  std::vector< SizeValueType > m_Vector;
   TInputPixel                  m_Min;
   TInputPixel                  m_Max;
-  unsigned long                m_Count;
+  SizeValueType                m_Count;
 };
 
 // now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram

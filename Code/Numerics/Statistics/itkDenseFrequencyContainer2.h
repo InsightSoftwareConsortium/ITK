@@ -76,7 +76,7 @@ public:
 
   /** Calls the Initialize method of superclass to generate the offset table
    * and prepare the frequency container */
-  void Initialize(unsigned long length);
+  void Initialize(SizeValueType length);
 
   /** Calls the SetToZero method of superclass to initialize all the bins to Zero.
    *  This should be done before starting to call the IncreaseFrequency method. */

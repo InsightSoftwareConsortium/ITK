@@ -112,8 +112,6 @@ void BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension,
   WeightsType & weights,
   IndexType & startIndex) const
 {
-  typedef typename IndexType::IndexValueType IndexValueType;
-
   unsigned int j, k;
 
   // Find the starting index of the support region

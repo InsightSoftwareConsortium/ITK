@@ -1100,10 +1100,10 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
       }
     free (m_CurrentRow);
     }
-  m_CurrentRow = (unsigned long **)malloc( 200 * sizeof( unsigned long * ) );
+  m_CurrentRow = (IdentifierType **)malloc( 200 * sizeof( IdentifierType * ) );
   for ( i = 0; i < 200; i++ )
     {
-    m_CurrentRow[i] = (unsigned long *)malloc( 2 * sizeof( unsigned long ) );
+    m_CurrentRow[i] = (IdentifierType *)malloc( 2 * sizeof( IdentifierType ) );
     }
 
   if ( m_CurrentFrame )
@@ -1115,11 +1115,11 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     free (m_CurrentFrame);
     }
 
-  m_CurrentFrame = (unsigned long **)malloc( 2000 * sizeof( unsigned short * ) );
+  m_CurrentFrame = (IdentifierType **)malloc( 2000 * sizeof( IdentifierType * ) );
 
   for ( i = 0; i < 2000; i++ )
     {
-    m_CurrentFrame[i] = (unsigned long *)malloc( 2 * sizeof( unsigned long ) );
+    m_CurrentFrame[i] = (IdentifierType *)malloc( 2 * sizeof( IdentifierType ) );
     }
 
   i = 0;
@@ -1184,20 +1184,20 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::AddCells(unsigned char celltype, unsigned char celltran, int index)
 {
   int             i;
-  unsigned long **currentrowtmp;
-  unsigned long **currentframetmp;
+  IdentifierType **currentrowtmp;
+  IdentifierType **currentframetmp;
 
-  currentrowtmp = (unsigned long **)malloc( 4 * sizeof( unsigned long * ) );
+  currentrowtmp = (IdentifierType **)malloc( 4 * sizeof( IdentifierType * ) );
   for ( i = 0; i < 4; i++ )
     {
-    currentrowtmp[i] = (unsigned long *)malloc( 2 * sizeof( unsigned long ) );
+    currentrowtmp[i] = (IdentifierType *)malloc( 2 * sizeof( IdentifierType ) );
     currentrowtmp[i][0] = 0;
     currentrowtmp[i][1] = 0;
     }
-  currentframetmp = (unsigned long **)malloc( 4 * sizeof( unsigned long * ) );
+  currentframetmp = (IdentifierType **)malloc( 4 * sizeof( IdentifierType * ) );
   for ( i = 0; i < 4; i++ )
     {
-    currentframetmp[i] = (unsigned long *)malloc( 2 * sizeof( unsigned long ) );
+    currentframetmp[i] = (IdentifierType *)malloc( 2 * sizeof( IdentifierType ) );
     currentframetmp[i][0] = 0;
     currentframetmp[i][1] = 0;
     }
@@ -1242,7 +1242,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
       {
       if ( m_LastRowNum == 0 )
         {
-        m_LastRow = (unsigned long **)malloc( m_CurrentRowIndex * sizeof( unsigned long * ) );
+        m_LastRow = (IdentifierType **)malloc( m_CurrentRowIndex * sizeof( IdentifierType * ) );
         }
       else
         {
@@ -1253,13 +1253,13 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
             free(m_LastRow[i]);
             }
           }
-        m_LastRow = (unsigned long **)realloc( m_LastRow, m_CurrentRowIndex * sizeof( unsigned long * ) );
+        m_LastRow = (IdentifierType **)realloc( m_LastRow, m_CurrentRowIndex * sizeof( IdentifierType * ) );
         }
       for ( i = 0; i < m_CurrentRowIndex; i++ )
         {
         if ( i > m_LastRowNum - 1 )
           {
-          m_LastRow[i] = (unsigned long *)malloc( 2 * sizeof( unsigned long ) );
+          m_LastRow[i] = (IdentifierType *)malloc( 2 * sizeof( IdentifierType ) );
           }
         m_LastRow[i][0] = m_CurrentRow[i][0];
         m_LastRow[i][1] = m_CurrentRow[i][1];
@@ -1291,7 +1291,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
       {
       if ( m_LastFrameNum == 0 )
         {
-        m_LastFrame = (unsigned long **)malloc( m_CurrentFrameIndex * sizeof( unsigned long * ) );
+        m_LastFrame = (IdentifierType **)malloc( m_CurrentFrameIndex * sizeof( IdentifierType * ) );
         }
       else
         {
@@ -1302,13 +1302,13 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
             free(m_LastFrame[i]);
             }
           }
-        m_LastFrame = (unsigned long **)realloc( m_LastFrame, m_CurrentFrameIndex * sizeof( unsigned long * ) );
+        m_LastFrame = (IdentifierType **)realloc( m_LastFrame, m_CurrentFrameIndex * sizeof( IdentifierType * ) );
         }
       for ( i = 0; i < m_CurrentFrameIndex; i++ )
         {
         if ( i > m_LastFrameNum - 1 )
           {
-          m_LastFrame[i] = (unsigned long *)malloc( 2 * sizeof( unsigned long ) );
+          m_LastFrame[i] = (IdentifierType *)malloc( 2 * sizeof( IdentifierType ) );
           }
         m_LastFrame[i][0] = m_CurrentFrame[i][0];
         m_LastFrame[i][1] = m_CurrentFrame[i][1];
@@ -1373,12 +1373,12 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 
   typename TriCell::CellAutoPointer insertCell;
-  unsigned long  tripoints[3];
+  typename OutputMeshType::PointIdentifier  tripoints[3];
   unsigned char *tp;
   tp = (unsigned char *)malloc( 3 * sizeof( unsigned char ) );
 
-  unsigned long *tpl;
-  tpl = (unsigned long *)malloc( 3 * sizeof( unsigned long ) );
+  IdentifierType *tpl;
+  tpl = (IdentifierType *)malloc( 3 * sizeof( IdentifierType ) );
 
   switch ( (int)celltype )
     {
@@ -2311,10 +2311,10 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
       if ( m_CurrentRowIndex == m_CurrentRowNum )
         {
         m_CurrentRowNum += 100;
-        m_CurrentRow = (unsigned long **)realloc(m_CurrentRow, sizeof( unsigned long * ) * m_CurrentRowNum);
+        m_CurrentRow = (IdentifierType **)realloc(m_CurrentRow, sizeof( IdentifierType * ) * m_CurrentRowNum);
         for ( j = m_CurrentRowIndex; j < m_CurrentRowNum; j++ )
           {
-          m_CurrentRow[j] = (unsigned long *)malloc(sizeof( unsigned long ) * 2);
+          m_CurrentRow[j] = (IdentifierType *)malloc(sizeof( IdentifierType ) * 2);
           }
         }
       }
@@ -2326,10 +2326,10 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
       if ( m_CurrentFrameIndex == m_CurrentFrameNum )
         {
         m_CurrentFrameNum += 1000;
-        m_CurrentFrame = (unsigned long **)realloc(m_CurrentFrame, sizeof( unsigned long * ) * m_CurrentFrameNum);
+        m_CurrentFrame = (IdentifierType **)realloc(m_CurrentFrame, sizeof( IdentifierType * ) * m_CurrentFrameNum);
         for ( j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++ )
           {
-          m_CurrentFrame[j] = (unsigned long *)malloc(sizeof( unsigned long ) * 2);
+          m_CurrentFrame[j] = (IdentifierType *)malloc(sizeof( IdentifierType ) * 2);
           }
         }
       }
@@ -2368,9 +2368,9 @@ void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::AddNodes(int index,
            unsigned char *nodesid,
-           unsigned long *globalnodesid,
-           unsigned long **currentrowtmp,
-           unsigned long **currentframetmp)
+           IdentifierType *globalnodesid,
+           IdentifierType **currentrowtmp,
+           IdentifierType **currentframetmp)
 {
   int        i;
   OPointType new_p;
@@ -2555,12 +2555,12 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 }
 
 template< class TInputImage, class TOutputMesh >
-unsigned long
+IdentifierType
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::SearchThroughLastRow(int index, int start, int end)
 {
-  int           mid;
-  unsigned long lindex = static_cast< unsigned long >( index );
+  int            mid;
+  IdentifierType lindex = static_cast< IdentifierType >( index );
 
   if ( ( end - start ) > 1 )
     {
@@ -2599,13 +2599,13 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 }
 
 template< class TInputImage, class TOutputMesh >
-unsigned long
+IdentifierType
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::SearchThroughLastFrame(int index, int start, int end)
 {
-  int           mid;
-  unsigned long lindex = static_cast< unsigned long >( index );
-  unsigned long result = 0;
+  int            mid;
+  IdentifierType lindex = static_cast< IdentifierType >( index );
+  IdentifierType result = 0;
 
   if ( ( end - start ) > 1 )
     {

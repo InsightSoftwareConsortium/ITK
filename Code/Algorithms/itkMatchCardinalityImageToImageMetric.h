@@ -169,7 +169,7 @@ private:
 
   bool                         m_MeasureMatches;
   std::vector< MeasureType >   m_ThreadMatches;
-  std::vector< unsigned long > m_ThreadCounts;
+  std::vector< SizeValueType > m_ThreadCounts;
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */

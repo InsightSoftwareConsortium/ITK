@@ -18,6 +18,7 @@
 #ifndef __itkSimplexMeshVolumeCalculator_h
 #define __itkSimplexMeshVolumeCalculator_h
 
+#include "itkIntTypes.h"
 #include "itkPolygonCell.h"
 #include "itkVector.h"
 #include "itkSimplexMesh.h"
@@ -83,8 +84,8 @@ public:
   typedef          itk::PolygonCell< SimplexCellType > SimplexPolygonType;
 
   // stores the center for each simplex mesh cell, key is the point id
-  typedef          itk::MapContainer< unsigned long, InputPointType > PointMapType;
-  typedef typename PointMapType::Pointer                              PointMapPointer;
+  typedef          itk::MapContainer< IdentifierType, InputPointType > PointMapType;
+  typedef typename PointMapType::Pointer                               PointMapPointer;
 
   typedef typename InputPointType::VectorType VectorType;
   typedef CovariantVector<
@@ -110,7 +111,7 @@ public:
     /**
      * \brief visits all polygon cells and compute the cell centers
      */
-    void Visit(unsigned long cellId, SimplexPolygonType *poly)
+    void Visit(IdentifierType cellId, SimplexPolygonType *poly)
     {
       typedef typename SimplexPolygonType::PointIdIterator PointIdIterator;
       PointIdIterator it =  poly->PointIdsBegin();
@@ -188,7 +189,7 @@ private:
   void CalculateTriangleVolume(InputPointType p1, InputPointType p2, InputPointType p3);
 
   /** part of algorithm */
-  unsigned long FindCellId(unsigned long id1, unsigned long id2, unsigned long id3);
+  IdentifierType FindCellId(IdentifierType id1, IdentifierType id2, IdentifierType id3);
 
   /** attribute stores the result of the simplex cell visitor */
   PointMapPointer m_Centers;
@@ -207,11 +208,12 @@ private:
   double m_Wxy;
   double m_Wxz;
   double m_Wyz;
-  long   m_Muncx;
-  long   m_Muncy;
-  long   m_Muncz;
 
-  long m_NumberOfTriangles;
+  IndexValueType   m_Muncx;
+  IndexValueType   m_Muncy;
+  IndexValueType   m_Muncz;
+
+  SizeValueType m_NumberOfTriangles;
 };
 } //end of namespace
 

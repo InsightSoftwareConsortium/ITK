@@ -45,7 +45,7 @@ BoxImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 BoxImageFilter< TInputImage, TOutputImage >
-::SetRadius(const unsigned long & radius)
+::SetRadius(const RadiusValueType & radius)
 {
   RadiusType rad;
 

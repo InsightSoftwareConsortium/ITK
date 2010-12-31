@@ -798,8 +798,8 @@ void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::CorrectInterSliceIntensityInhomogeneity(InputImageRegionType region)
 {
-  long lastSlice = region.GetIndex()[m_SlicingDirection]
-                   + static_cast< long >( region.GetSize()[m_SlicingDirection] );
+  IndexValueType lastSlice = region.GetIndex()[m_SlicingDirection]
+                   + static_cast< IndexValueType >( region.GetSize()[m_SlicingDirection] );
   InputImageRegionType sliceRegion;
   InputImageIndexType  index = region.GetIndex();
   InputImageSizeType   size = region.GetSize();
@@ -862,7 +862,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 
   this->AdjustSlabRegions( m_Slabs, this->GetOutput()->GetRequestedRegion() );
   itkDebugMacro(<< "After adjustment, there are "
-                << static_cast< unsigned long >( m_Slabs.size() )
+                << static_cast< SizeValueType >( m_Slabs.size() )
                 << " slabs.");
 
   SlabRegionVectorIteratorType iter = m_Slabs.begin();
@@ -968,8 +968,8 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
                            const Array< double > & sigmas)
 throw ( ExceptionObject )
 {
-  size_t meanSize = means.Size();
-  size_t sigmaSize = sigmas.Size();
+  const SizeValueType meanSize = means.Size();
+  const SizeValueType sigmaSize = sigmas.Size();
 
   if ( meanSize == 0 )
     {
@@ -1113,17 +1113,17 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   OutputImageSizeType  size = requestedRegion.GetSize();
   OutputImageIndexType indexLast = indexFirst;
 
-  for ( unsigned long i = 0; i < ImageDimension; i++ )
+  for ( SizeValueType i = 0; i < ImageDimension; i++ )
     {
-    indexLast[i] = indexFirst[i] + static_cast< long >( size[i] ) - 1;
+    indexLast[i] = indexFirst[i] + static_cast< IndexValueType >( size[i] ) - 1;
     }
 
-  long coordFirst = indexFirst[m_SlicingDirection];
-  long coordLast = indexLast[m_SlicingDirection];
-  long coordFirst2;
-  long coordLast2;
-  long tempCoordFirst;
-  long tempCoordLast;
+  IndexValueType coordFirst = indexFirst[m_SlicingDirection];
+  IndexValueType coordLast = indexLast[m_SlicingDirection];
+  IndexValueType coordFirst2;
+  IndexValueType coordLast2;
+  IndexValueType tempCoordFirst;
+  IndexValueType tempCoordLast;
 
   OutputImageRegionType tempRegion;
   OutputImageSizeType   tempSize = size;
@@ -1134,7 +1134,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     {
     coordFirst2 = ( *iter ).GetIndex()[m_SlicingDirection];
     coordLast2 = coordFirst2
-                 + static_cast< long >( ( *iter ).GetSize()[m_SlicingDirection] ) - 1;
+                 + static_cast< IndexValueType >( ( *iter ).GetSize()[m_SlicingDirection] ) - 1;
 
     if ( coordFirst > coordFirst2 )
       {

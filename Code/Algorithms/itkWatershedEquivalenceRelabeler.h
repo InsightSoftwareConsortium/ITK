@@ -35,13 +35,13 @@ namespace watershed
  * any values found in the equivalency table.
  *
  * \par Inputs
- * There are two inputs to this filter, an unsigned long itk::Image of
+ * There are two inputs to this filter, an IdentifierType itk::Image of
  * arbitrary dimension, and an itk::EquivalencyTable.  The input
  * image is the image to be relabeled and copied to the output, and the
  * EquivalencyTable identifies  how to relabel the values.
  *
  * \par Output
- * The output of this filter is the relabeled unsigned long itk::Image of same
+ * The output of this filter is the relabeled IdentifierType itk::Image of same
  * dimension and size as the input.
  *
  * \ingroup WatershedSegmentation
@@ -56,7 +56,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TImageDimension);
 
   /**  Some convenient typedefs.   */
-  typedef Image< unsigned long, TImageDimension >           ImageType;
+  typedef Image< IdentifierType, TImageDimension >          ImageType;
   typedef EquivalenceRelabeler                              Self;
   typedef ProcessObject                                     Superclass;
   typedef TScalarType                                       ScalarType;

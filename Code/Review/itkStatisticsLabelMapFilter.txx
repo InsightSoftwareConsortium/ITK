@@ -110,16 +110,16 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
     const IndexType & firstIdx = lit->GetIndex();
-    unsigned long     length = lit->GetLength();
+    OffsetValueType     length = lit->GetLength();
 
     typename HistogramType::MeasurementVectorType mv;
     mv.SetSize(1);
-    long endIdx0 = firstIdx[0] + length;
+    IndexValueType endIdx0 = firstIdx[0] + length;
     for ( IndexType idx = firstIdx; idx[0] < endIdx0; idx[0]++ )
       {
       const FeatureImagePixelType & v = featureImage->GetPixel(idx);
       mv[0] = v;
-      histogram->IncreaseFrequency(mv, 1);
+      histogram->IncreaseFrequencyOfMeasurement(mv, 1);
 
       // update min and max
       if ( v <= min )
@@ -186,7 +186,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   // the median
   double median = 0;
   double count = 0;  // will not be fully set, so do not use later !
-  for ( unsigned long i = 0; i < histogram->Size(); i++ )
+  for ( SizeValueType i = 0; i < histogram->Size(); i++ )
     {
     count += histogram->GetFrequency(i);
 

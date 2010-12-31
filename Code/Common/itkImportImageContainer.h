@@ -87,14 +87,12 @@ public:
   { return m_ImportPointer; }
 
   /** Get the capacity of the container. */
-  unsigned long Capacity(void) const
-  {
-    return (unsigned long)m_Capacity; \
-  }
+  ElementIdentifier Capacity(void) const
+  { return m_Capacity; }
 
   /** Get the number of elements currently stored in the container. */
-  unsigned long Size(void) const
-  { return (unsigned long)m_Size; }
+  ElementIdentifier Size(void) const
+  { return m_Size; }
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  If new memory

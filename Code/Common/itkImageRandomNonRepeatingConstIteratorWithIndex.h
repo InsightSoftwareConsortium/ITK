@@ -37,8 +37,8 @@ namespace itk
 class NodeOfPermutation
 {
 public:
-  unsigned long m_Priority;
-  unsigned long m_Index;
+  SizeValueType m_Priority;
+  SizeValueType m_Index;
   double        m_Value;
 
   NodeOfPermutation ()
@@ -68,9 +68,9 @@ public:
   typedef Statistics::MersenneTwisterRandomVariateGenerator::Pointer GeneratorPointer;
   NodeOfPermutation *m_Permutation;
   GeneratorPointer   m_Generator;
-  unsigned long      m_Size;
+  SizeValueType      m_Size;
 
-  RandomPermutation(unsigned long sz)
+  RandomPermutation(SizeValueType sz)
   {
     m_Size = sz;
     m_Permutation = new NodeOfPermutation[m_Size];
@@ -80,7 +80,7 @@ public:
 
   void Dump()
   {
-    for ( unsigned int i = 0; i < m_Size; i++ )
+    for ( SizeValueType i = 0; i < m_Size; i++ )
       {
       std::cout << m_Permutation[i].m_Value << " " << m_Permutation[i].m_Priority
                 << " " << m_Permutation[i].m_Index << ";";
@@ -88,7 +88,7 @@ public:
       }
   }
 
-  void SetPriority(unsigned long i, unsigned long priority)
+  void SetPriority(SizeValueType i, SizeValueType priority)
   {
     if ( i > m_Size )
       {
@@ -102,7 +102,7 @@ public:
 
   void Shuffle()
   {
-    for ( unsigned int i = 0; i < m_Size; i++ )
+    for ( SizeValueType i = 0; i < m_Size; i++ )
       {
       m_Permutation[i].m_Value = m_Generator->GetVariateWithClosedRange (1.0);
       m_Permutation[i].m_Index = i;
@@ -110,7 +110,7 @@ public:
     std::sort(m_Permutation, m_Permutation + m_Size);
   }
 
-  unsigned long operator[](unsigned long i)
+  SizeValueType operator[](SizeValueType i)
   {
     return m_Permutation[i].m_Index;
   }
@@ -207,29 +207,20 @@ public:
   typedef ImageRandomNonRepeatingConstIteratorWithIndex Self;
   typedef ImageConstIteratorWithIndex< TImage >         Superclass;
 
-  /** Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType IndexType;
-
-  /** Region typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index. */
-  typedef typename TImage::RegionType RegionType;
-
-  /** Image typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef TImage ImageType;
-
-  /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer  PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  /** Inherit types from the superclass */
+  typedef typename Superclass::IndexType             IndexType;
+  typedef typename Superclass::SizeType              SizeType;
+  typedef typename Superclass::OffsetType            OffsetType;
+  typedef typename Superclass::RegionType            RegionType;
+  typedef typename Superclass::ImageType             ImageType;
+  typedef typename Superclass::PixelContainer        PixelContainer;
+  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType     InternalPixelType;
+  typedef typename Superclass::PixelType             PixelType;
+  typedef typename Superclass::AccessorType          AccessorType;
+  typedef typename Superclass::IndexValueType        IndexValueType;
+  typedef typename Superclass::OffsetValueType       OffsetValueType;
+  typedef typename Superclass::SizeValueType         SizeValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingConstIteratorWithIndex();
@@ -288,7 +279,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, ::itk::GetImageDimension< TImage >::ImageDimension);
 
   /** Image with priorities */
-  typedef itk::Image< unsigned long, itkGetStaticConstMacro(ImageDimension) > PriorityImageType;
+  typedef itk::Image< SizeValueType, itkGetStaticConstMacro(ImageDimension) > PriorityImageType;
 
   /** Set the priority image.  The priority image controls the order
       of the random selection.  Pixels of the same priority will be
@@ -316,9 +307,9 @@ public:
   }
 
   /** Set/Get number of random samples to get from the image region */
-  void SetNumberOfSamples(unsigned long number);
+  void SetNumberOfSamples(SizeValueType number);
 
-  unsigned long GetNumberOfSamples(void) const;
+  SizeValueType GetNumberOfSamples(void) const;
 
   /** Reinitialize the seed of the random number generator  */
   void ReinitializeSeed();
@@ -330,9 +321,9 @@ public:
 private:
   void UpdatePosition();
 
-  unsigned long      m_NumberOfSamplesRequested;
-  unsigned long      m_NumberOfSamplesDone;
-  unsigned long      m_NumberOfPixelsInRegion;
+  SizeValueType      m_NumberOfSamplesRequested;
+  SizeValueType      m_NumberOfSamplesDone;
+  SizeValueType      m_NumberOfPixelsInRegion;
   RandomPermutation *m_Permutation;
 };
 } // end namespace itk

@@ -117,7 +117,7 @@ void
 KernelTransform< TScalarType, NDimensions >::ComputeDeformationContribution(const InputPointType  & thisPoint,
                                                                             OutputPointType & result) const
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
                                     ->GetNumberOfPoints();
 
   PointsIterator sp  = this->m_SourceLandmarks->GetPoints()->Begin();
@@ -145,7 +145,7 @@ template< class TScalarType, unsigned int NDimensions >
 void KernelTransform< TScalarType, NDimensions >
 ::ComputeD(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
                                     ->GetNumberOfPoints();
 
   PointsIterator sp  = this->m_SourceLandmarks->GetPoints()->Begin();
@@ -187,7 +187,7 @@ void KernelTransform< TScalarType, NDimensions >
 template< class TScalarType, unsigned int NDimensions >
 void KernelTransform< TScalarType, NDimensions >::ComputeL(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
                                     ->GetNumberOfPoints();
 
   vnl_matrix< TScalarType > O2(NDimensions * ( NDimensions + 1 ),
@@ -216,7 +216,7 @@ void KernelTransform< TScalarType, NDimensions >::ComputeL(void)
 template< class TScalarType, unsigned int NDimensions >
 void KernelTransform< TScalarType, NDimensions >::ComputeK(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
                                     ->GetNumberOfPoints();
   GMatrixType G;
 
@@ -266,7 +266,7 @@ void KernelTransform< TScalarType, NDimensions >::ComputeK(void)
 template< class TScalarType, unsigned int NDimensions >
 void KernelTransform< TScalarType, NDimensions >::ComputeP()
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
                                     ->GetNumberOfPoints();
   IMatrixType    I;
   IMatrixType    temp;
@@ -295,7 +295,7 @@ void KernelTransform< TScalarType, NDimensions >::ComputeP()
 template< class TScalarType, unsigned int NDimensions >
 void KernelTransform< TScalarType, NDimensions >::ComputeY(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
                                     ->GetNumberOfPoints();
 
   typename VectorSetType::ConstIterator displacement =
@@ -328,7 +328,7 @@ void
 KernelTransform< TScalarType, NDimensions >
 ::ReorganizeW(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+  PointIdentifier numberOfLandmarks = this->m_SourceLandmarks
                                     ->GetNumberOfPoints();
 
   // The deformable (non-affine) part of the registration goes here

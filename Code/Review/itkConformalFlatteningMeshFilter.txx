@@ -109,14 +109,10 @@ void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData(void)
 {
-  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
-  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
-
-  typedef typename TInputMesh::PointsContainerConstPointer
-  InputPointsContainerConstPointer;
-
-  typedef typename TOutputMesh::PointsContainerPointer
-  OutputPointsContainerPointer;
+  typedef typename TInputMesh::PointsContainer              InputPointsContainer;
+  typedef typename TOutputMesh::PointsContainer             OutputPointsContainer;
+  typedef typename TInputMesh::PointsContainerConstPointer  InputPointsContainerConstPointer;
+  typedef typename TOutputMesh::PointsContainerPointer      OutputPointsContainerPointer;
 
   InputMeshConstPointer inputMesh      =  this->GetInput();
   OutputMeshPointer     outputMesh     =  this->GetOutput();
@@ -435,7 +431,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
     // Jacobi preconditioner
     VectorCoordType Dinv(numberOfPoints);
-    for ( unsigned long ip = 0; ip < numberOfPoints; ++ip )
+    for ( PointIdentifier ip = 0; ip < numberOfPoints; ++ip )
       {
       Dinv[ip] = 1.0 / ( D(ip, ip) + DBL_MIN );
 
@@ -487,7 +483,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
         break;
         }
 
-      for ( unsigned long id = 0; id < numberOfPoints; ++id )
+      for ( PointIdentifier id = 0; id < numberOfPoints; ++id )
         {
         zx[id] = rx[id] * Dinv[id];
         zy[id] = ry[id] * Dinv[id];

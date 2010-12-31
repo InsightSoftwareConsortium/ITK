@@ -37,12 +37,12 @@ namespace itk
 
 namespace Function
 {
-template< class TInput, class TOutput = unsigned long >
+template< class TInput, class TOutput = SizeValueType >
 class HistogramIntensityFunction
 {
 public:
 
-  //Intensity function returns pixels of unsigned long..
+  //Intensity function returns pixels of SizeValueType.
   typedef TOutput OutputPixelType;
 
   HistogramIntensityFunction():
@@ -55,25 +55,25 @@ public:
     return static_cast< OutputPixelType >( A );
   }
 
-  void SetTotalFrequency(unsigned long n)
+  void SetTotalFrequency(SizeValueType n)
   {
     m_TotalFrequency = n;
   }
 
-  unsigned long GetTotalFrequency() const
+  SizeValueType GetTotalFrequency() const
   {
     return m_TotalFrequency;
   }
 
 private:
-  unsigned long m_TotalFrequency;
+  SizeValueType m_TotalFrequency;
 };
 }
 
-template< class THistogram, unsigned int NDimension, class TOutputPixel = unsigned long >
+template< class THistogram, unsigned int NDimension, class TOutputPixel = SizeValueType >
 class ITK_EXPORT HistogramToIntensityImageFilter:
   public HistogramToImageFilter< THistogram, NDimension,
-                                 Function::HistogramIntensityFunction< unsigned long, TOutputPixel > >
+                                 Function::HistogramIntensityFunction< SizeValueType, TOutputPixel > >
 {
 public:
 
@@ -82,7 +82,7 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, NDimension,
-                                  Function::HistogramIntensityFunction< unsigned long, TOutputPixel > >
+                                  Function::HistogramIntensityFunction< SizeValueType, TOutputPixel > >
   Superclass;
 
   //typedef typename Function::HistogramIntensityFunction  FunctorType;

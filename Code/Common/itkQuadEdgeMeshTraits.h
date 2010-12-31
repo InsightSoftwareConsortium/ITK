@@ -55,8 +55,9 @@ public:
   itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
                       VPointDimension);
 
-  typedef unsigned long PointIdentifier;
-  typedef unsigned long CellIdentifier;
+  typedef ::itk::IdentifierType   PointIdentifier;
+  typedef ::itk::IdentifierType   CellIdentifier;
+
   typedef unsigned char CellFeatureIdentifier; // made small in purpose
 
   typedef std::set< CellIdentifier > UsingCellsContainer;

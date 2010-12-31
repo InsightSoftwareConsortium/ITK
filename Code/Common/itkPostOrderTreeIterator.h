@@ -33,12 +33,13 @@ public:
   typedef TTreeType                         TreeType;
   typedef typename TTreeType::ValueType     ValueType;
   typedef typename Superclass::TreeNodeType TreeNodeType;
+  typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor */
   PostOrderTreeIterator(TreeType *tree);
 
   /** Get the type of the iterator */
-  int GetType() const;
+  NodeType GetType() const;
 
   /** Clone function */
   TreeIteratorBase< TTreeType > * Clone();
@@ -79,7 +80,7 @@ PostOrderTreeIterator< TTreeType >::PostOrderTreeIterator(TTreeType *tree):
 
 /** Return the type of the iterator */
 template< class TTreeType >
-int
+typename PostOrderTreeIterator< TTreeType >::NodeType
 PostOrderTreeIterator< TTreeType >::GetType() const
 {
   return TreeIteratorBase< TTreeType >::POSTORDER;

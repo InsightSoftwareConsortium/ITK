@@ -18,6 +18,7 @@
 #ifndef __itkMultivariateLegendrePolynomial_h
 #define __itkMultivariateLegendrePolynomial_h
 
+#include "itkIntTypes.h"
 #include "itkIndent.h"
 #include <vector>
 #include "itkArray.h"
@@ -289,8 +290,8 @@ private:
   CoefficientArrayType m_CachedZCoef;
 
   DoubleArrayType m_NormFactor;
-  long            m_PrevY;
-  long            m_PrevZ;
+  IndexValueType  m_PrevY;
+  IndexValueType  m_PrevZ;
 }; // end of class
 
 ITKNumerics_EXPORT std::ostream & operator<<(std::ostream & os,

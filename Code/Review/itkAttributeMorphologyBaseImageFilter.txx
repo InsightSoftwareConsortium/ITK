@@ -78,7 +78,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
 
   TFunction compare;
 
-  unsigned long buffsize = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType buffsize = output->GetRequestedRegion().GetNumberOfPixels();
 
   SizeType kernelRadius;
   kernelRadius.Fill(1);
@@ -93,7 +93,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   fit = faceList.begin();
 
   m_SortPixels = new GreyAndPos[buffsize];
-  m_Parent = new long[buffsize];
+  m_Parent = new OffsetValueType[buffsize];
 #ifndef PAMI
   m_Processed = new bool[buffsize];
 #endif
@@ -105,7 +105,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   typedef ImageRegionConstIteratorWithIndex< TInputImage > CRegionIteratorType;
   CRegionIteratorType RegIt( input, output->GetRequestedRegion() );
   //IndexType Origin = RegIt.GetIndex();
-  long int pos = 0;
+  OffsetValueType pos = 0;
 
   for ( RegIt.GoToBegin(); !RegIt.IsAtEnd(); ++RegIt, ++pos )
     {
@@ -135,11 +135,11 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
 #ifdef PAMI
   MakeSet(m_SortPixels[0].Pos);
   //m_Processed[0] = true;
-  for ( unsigned long k = 1; k < buffsize; k++ )
+  for ( SizeValueType k = 1; k < buffsize; k++ )
     {
-    long           ThisPos = m_SortPixels[k].Pos;
-    IndexType      ThisWhere = input->ComputeIndex(ThisPos);
-    InputPixelType ThisPix = m_SortPixels[k].Val;
+    OffsetValueType   ThisPos = m_SortPixels[k].Pos;
+    IndexType         ThisWhere = input->ComputeIndex(ThisPos);
+    InputPixelType    ThisPix = m_SortPixels[k].Val;
     MakeSet(ThisPos);
     // Some optimization of bounds check
     if ( fit->IsInside(ThisWhere) )
@@ -147,7 +147,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
       // no need for bounds check on neighbours
       for ( unsigned i = 0; i < TheseDirectOffsets.size(); i++ )
         {
-        long           NeighInd = ThisPos + TheseDirectOffsets[i];
+        OffsetValueType           NeighInd = ThisPos + TheseDirectOffsets[i];
         InputPixelType NeighPix = m_Raw[NeighInd];
         if ( compare(NeighPix, ThisPix) || ( ( ThisPix == NeighPix ) && ( NeighInd < ThisPos ) ) )
           {
@@ -162,7 +162,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
         {
         if ( output->GetRequestedRegion().IsInside(ThisWhere + TheseOffsets[i]) )
           {
-          long           NeighInd = ThisPos + TheseDirectOffsets[i];
+          OffsetValueType           NeighInd = ThisPos + TheseDirectOffsets[i];
           InputPixelType NeighPix = m_Raw[NeighInd];
           if ( compare(NeighPix, ThisPix) || ( ( ThisPix == NeighPix ) && ( NeighInd < ThisPos ) ) )
             {
@@ -176,20 +176,18 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
 #else
   MakeSet(m_SortPixels[0].Pos);
   m_Processed[0] = true;
-  for ( long k = 1; k < buffsize; k++ )
+  for ( SizeValueType k = 1; k < buffsize; k++ )
     {
-    long           ThisPos, PrevPos;
-    InputPixelType ThisPix, PrevPix;
-    ThisPos = m_SortPixels[k].Pos;
-    PrevPos = m_SortPixels[k - 1].Pos;
-    ThisPix = m_Raw[ThisPos];
-    PrevPix = m_Raw[PrevPos];
+    OffsetValueType ThisPos = m_SortPixels[k].Pos;
+    OffsetValueType PrevPos = m_SortPixels[k - 1].Pos;
+    InputPixelType ThisPix = m_Raw[ThisPos];
+    InputPixelType PrevPix = m_Raw[PrevPos];
     IndexType ThisWhere = input->ComputeIndex(ThisPos);
     if ( ThisPix != PrevPix )
       {
-      for ( long QPos = k - 1; QPos >= 0; --QPos )
+      for ( OffsetValueType QPos = k - 1; QPos >= 0; --QPos )
         {
-        long QLoc = m_SortPixels[QPos].Pos;
+        OffsetValueType QLoc = m_SortPixels[QPos].Pos;
         if ( m_Raw[QLoc] != PrevPix )
           {
           break;
@@ -209,7 +207,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
       // no need for neighbor bounds check
       for ( unsigned i = 0; i < TheseDirectOffsets.size(); i++ )
         {
-        long NeighInd = ThisPos + TheseDirectOffsets[i];
+        OffsetValueType NeighInd = ThisPos + TheseDirectOffsets[i];
         if ( m_Processed[NeighInd] )
           {
           Union(NeighInd, ThisPos);
@@ -222,7 +220,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
         {
         if ( output->GetRequestedRegion().IsInside(ThisWhere + TheseOffsets[i]) )
           {
-          long NeighInd = ThisPos + TheseDirectOffsets[i];
+          OffsetValueType NeighInd = ThisPos + TheseDirectOffsets[i];
           if ( m_Processed[NeighInd] )
             {
             Union(NeighInd, ThisPos);
@@ -250,7 +248,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   // result in parent
   for ( pos = buffsize - 1; pos >= 0; --pos )
     {
-    long RPos = m_SortPixels[pos].Pos;
+    OffsetValueType RPos = m_SortPixels[pos].Pos;
     if ( m_Parent[RPos] >= 0 )
       {
       m_Raw[RPos] = m_Raw[m_Parent[RPos]];
@@ -263,7 +261,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
 #endif
     progress.CompletedPixel();
     }
-  for ( unsigned long ppos = 0; ppos < buffsize; ++ppos, ++ORegIt )
+  for ( SizeValueType ppos = 0; ppos < buffsize; ++ppos, ++ORegIt )
     {
     ORegIt.Set( static_cast< OutputPixelType >( m_Raw[ppos] ) );
     progress.CompletedPixel();
@@ -273,10 +271,10 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   // the version from the paper
   for ( pos = buffsize - 1; pos >= 0; --pos )
     {
-    long RPos = m_SortPixels[pos].Pos;
+    OffsetValueType RPos = m_SortPixels[pos].Pos;
     if ( m_Parent[RPos] < 0 )
       {
-      m_Parent[RPos] = (long)m_Raw[RPos];
+      m_Parent[RPos] = (OffsetValueType)m_Raw[RPos];
       }
     else
       {
@@ -316,7 +314,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
 
   OffsetList = It.GetActiveIndexList();
   IndexType idx = this->GetOutput()->GetRequestedRegion().GetIndex();
-  long      offset = this->GetOutput()->ComputeOffset(idx);
+  OffsetValueType offset = this->GetOutput()->ComputeOffset(idx);
 
   for ( LIt = OffsetList.begin(); LIt != OffsetList.end(); LIt++ )
     {

@@ -101,7 +101,7 @@ const char *const ACQ_INVERSION_TIME = "##$ACQ_inversion_time";
 
 void
 Bruker2DSEQImageIO::SwapBytesIfNecessary(void *buffer,
-                                         unsigned long numberOfPixels)
+                                         SizeValueType numberOfPixels)
 {
   if ( m_ByteOrder == LittleEndian )
     {
@@ -314,8 +314,8 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
   std::string            readFileBufferString = "";
   char                   readFileBuffer[512] = "";
   std::string::size_type index;
-  unsigned long          length2DSEQ = 0;
-  unsigned long          calcLength = 1;
+  SizeValueType          length2DSEQ = 0;
+  SizeValueType          calcLength = 1;
 
   // Does the '2dseq' file exist?
   if ( !itksys::SystemTools::FileExists( file2Dseq.c_str() ) )
@@ -350,23 +350,23 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
         readFileBufferString.substr( index + tempString.length() );
       if ( dattypeString.find(BRUKER_SIGNED_CHAR) != std::string::npos )
         {
-        calcLength *= (unsigned long)sizeof( char );
+        calcLength *= (SizeValueType)sizeof( char );
         }
       else if ( dattypeString.find(BRUKER_UNSIGNED_CHAR) != std::string::npos )
         {
-        calcLength *= (unsigned long)sizeof( unsigned char );
+        calcLength *= (SizeValueType)sizeof( unsigned char );
         }
       else if ( dattypeString.find(BRUKER_SIGNED_SHORT) != std::string::npos )
         {
-        calcLength *= (unsigned long)sizeof( short );
+        calcLength *= (SizeValueType)sizeof( short );
         }
       else if ( dattypeString.find(BRUKER_SIGNED_INT) != std::string::npos )
         {
-        calcLength *= (unsigned long)sizeof( int );
+        calcLength *= (SizeValueType)sizeof( int );
         }
       else if ( dattypeString.find(BRUKER_FLOAT) != std::string::npos )
         {
-        calcLength *= (unsigned long)sizeof( float );
+        calcLength *= (SizeValueType)sizeof( float );
         }
       else
         {
@@ -434,7 +434,7 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
     index = readFileBufferString.find(IM_SIX);
     if ( index != std::string::npos )
       {
-      unsigned long      xDim = 0;
+      SizeValueType      xDim = 0;
       std::string        tempString = IM_SIX;
       std::istringstream im_sixString( readFileBufferString.substr(
                                          index + tempString.length() ) );
@@ -453,7 +453,7 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
     index = readFileBufferString.find(IM_SIY);
     if ( index != std::string::npos )
       {
-      unsigned long      yDim = 0;
+      SizeValueType      yDim = 0;
       std::string        tempString = IM_SIY;
       std::istringstream im_siyString( readFileBufferString.substr(
                                          index + tempString.length() ) );
@@ -472,7 +472,7 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
     index = readFileBufferString.find(IM_SIZ);
     if ( index != std::string::npos )
       {
-      unsigned long      zDim = 0;
+      SizeValueType      zDim = 0;
       std::string        tempString = IM_SIZ;
       std::istringstream im_sizString( readFileBufferString.substr(
                                          index + tempString.length() ) );

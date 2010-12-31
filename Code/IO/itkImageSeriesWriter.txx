@@ -149,7 +149,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
   // We need two regions. One for the input, one for the output.
   ImageRegion< TInputImage::ImageDimension > inRegion = inputImage->GetRequestedRegion();
 
-  unsigned long fileNumber = this->m_StartIndex;
+  SizeValueType fileNumber = this->m_StartIndex;
   char          fileName[IOCommon::ITK_MAXPATHLEN + 1];
 
   // Compute the number of files to be generated
@@ -248,7 +248,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
   Index< TInputImage::ImageDimension > inIndex;
   Size< TInputImage::ImageDimension >  inSize;
 
-  unsigned long pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
 
   inSize.Fill(1);
   for ( unsigned int ns = 0; ns < TOutputImage::ImageDimension; ns++ )

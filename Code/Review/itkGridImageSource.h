@@ -89,7 +89,7 @@ public:
   typedef FixedArray< bool, itkGetStaticConstMacro(ImageDimension) >
   BoolArrayType;
   typedef vnl_vector< RealType >                           PixelArrayType;
-  typedef VectorContainer< unsigned long, PixelArrayType > PixelArrayContainerType;
+  typedef VectorContainer< SizeValueType, PixelArrayType > PixelArrayContainerType;
 
   /** Gets and sets for the output image. */
   itkSetMacro(Spacing, SpacingType);

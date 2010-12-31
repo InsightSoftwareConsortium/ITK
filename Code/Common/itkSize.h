@@ -19,6 +19,7 @@
 #define __itkSize_h
 
 #include "itkMacro.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -51,7 +52,7 @@ public:
 
   /** Compatible Size and value typedef */
   typedef   Size< VDimension > SizeType;
-  typedef   unsigned long      SizeValueType;
+  typedef   itk::SizeValueType SizeValueType;
 
   /** Get the dimension of the size object. */
   static unsigned int GetSizeDimension(void) { return VDimension; }

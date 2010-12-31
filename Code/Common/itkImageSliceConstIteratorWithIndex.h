@@ -116,26 +116,17 @@ public:
   typedef ImageSliceConstIteratorWithIndex      Self;
   typedef ImageConstIteratorWithIndex< TImage > Superclass;
 
-  /** Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType IndexType;
-
-  /** Image typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
-   * confused with ImageIterator::Index. */
-  typedef TImage ImageType;
-
-  /** Region typedef support. */
-  typedef typename TImage::RegionType RegionType;
-
-  /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer  PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  /** Inherit types from the superclass */
+  typedef typename Superclass::IndexType             IndexType;
+  typedef typename Superclass::SizeType              SizeType;
+  typedef typename Superclass::OffsetType            OffsetType;
+  typedef typename Superclass::RegionType            RegionType;
+  typedef typename Superclass::ImageType             ImageType;
+  typedef typename Superclass::PixelContainer        PixelContainer;
+  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType     InternalPixelType;
+  typedef typename Superclass::PixelType             PixelType;
+  typedef typename Superclass::AccessorType          AccessorType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageSliceConstIteratorWithIndex():ImageConstIteratorWithIndex< TImage >() {}
@@ -207,8 +198,8 @@ public:
   inline Self & operator--();
 
 private:
-  unsigned long m_PixelJump;
-  unsigned long m_LineJump;
+  SizeValueType m_PixelJump;
+  SizeValueType m_LineJump;
   unsigned int  m_Direction_A;
   unsigned int  m_Direction_B;
 };

@@ -323,7 +323,7 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
           }
         currentKernelRegion.SetIndex(kernelRegionIdx);
         currentKernelRegion.Crop(inputRegion);
-        long       edgepixelscount = currentKernelRegion.GetNumberOfPixels();
+        OffsetValueType edgepixelscount = currentKernelRegion.GetNumberOfPixels();
         AccPixType Sum = 0;
         // rules are : for each corner,
         //               for each dimension
@@ -512,7 +512,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
           }
         currentKernelRegion.SetIndex(kernelRegionIdx);
         currentKernelRegion.Crop(inputRegion);
-        long       edgepixelscount = currentKernelRegion.GetNumberOfPixels();
+        SizeValueType edgepixelscount = currentKernelRegion.GetNumberOfPixels();
         AccPixType Sum = 0;
         AccPixType SquareSum = 0;
         // rules are : for each corner,

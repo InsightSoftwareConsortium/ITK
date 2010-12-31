@@ -53,7 +53,7 @@ NumericSeriesFileNames
   m_FileNames.clear();
 
   char temp[4096];
-  for ( unsigned long i = m_StartIndex; i <= m_EndIndex; i += m_IncrementIndex )
+  for ( SizeValueType i = m_StartIndex; i <= m_EndIndex; i += m_IncrementIndex )
     {
     sprintf (temp, m_SeriesFormat.c_str(), i);
     std::string fileName(temp);

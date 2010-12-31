@@ -320,7 +320,7 @@ SampleToHistogramFilter< TSample, THistogram >
       // bin value.
       // If the index isn't valid, we don't increase the frequency.
       // See the comments in Histogram->GetIndex() for more info.
-      outputHistogram->IncreaseFrequency(index, 1);
+      outputHistogram->IncreaseFrequencyOfIndex(index, 1);
       }
     ++iter;
     }

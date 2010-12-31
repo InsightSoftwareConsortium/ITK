@@ -83,6 +83,8 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
+  typedef SizeValueType NeighborhoodSizeValueType;
+
   /** Inherit some parameters from the superclass type. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
@@ -117,8 +119,8 @@ protected:
   /** Modified global average gradient magnitude term. */
   PixelType m_K;
 
-  unsigned long m_Center;
-  unsigned long m_Stride[ImageDimension];
+  NeighborhoodSizeValueType m_Center;
+  NeighborhoodSizeValueType m_Stride[ImageDimension];
 
   static double m_MIN_NORM;
 private:

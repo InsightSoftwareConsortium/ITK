@@ -137,7 +137,7 @@ ContourSpatialObject< TDimension >
   os << indent << "ContourSpatialObject(" << this << ")" << std::endl;
   os << indent << "ID: " << this->GetId() << std::endl;
   os << indent << "#Control Points: "
-     << static_cast< unsigned long >( m_ControlPoints.size() ) << std::endl;
+     << static_cast< SizeValueType >( m_ControlPoints.size() ) << std::endl;
   os << indent << "Interpolation type: " << m_InterpolationType << std::endl;
   os << indent << "Contour closed: " << m_Closed << std::endl;
   os << indent << "Display Orientation : " << m_DisplayOrientation << std::endl;

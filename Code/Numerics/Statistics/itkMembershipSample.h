@@ -72,7 +72,7 @@ public:
   typedef typename SampleType::AbsoluteFrequencyType      AbsoluteFrequencyType;
   typedef typename SampleType::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
 
-  typedef unsigned long ClassLabelType;
+  typedef IdentifierType ClassLabelType;
   /** vector of unique class labels that will be used for mapping internal
    * continuous class label with real class labels */
   typedef std::vector< ClassLabelType > UniqueClassLabelsType;

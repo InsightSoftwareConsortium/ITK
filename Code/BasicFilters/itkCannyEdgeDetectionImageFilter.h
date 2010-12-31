@@ -97,9 +97,10 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Define pixel types. */
-  typedef typename TInputImage::PixelType  InputImagePixelType;
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
-  typedef typename TInputImage::IndexType  IndexType;
+  typedef typename TInputImage::PixelType     InputImagePixelType;
+  typedef typename TOutputImage::PixelType    OutputImagePixelType;
+  typedef typename TInputImage::IndexType     IndexType;
+  typedef typename TInputImage::SizeValueType SizeValueType;
 
   /** The default boundary condition is used unless overridden
    *in the Evaluate() method. */
@@ -343,8 +344,8 @@ private:
 
   std::slice m_ComputeCannyEdgeSlice[ImageDimension];
 
-  unsigned long m_Stride[ImageDimension];
-  unsigned long m_Center;
+  SizeValueType m_Stride[ImageDimension];
+  SizeValueType m_Center;
 
   typename ListNodeStorageType::Pointer m_NodeStore;
   ListPointerType m_NodeList;

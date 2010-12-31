@@ -22,6 +22,7 @@
 #include "itkMacro.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkIntTypes.h"
 
 #if defined( WIN32 ) || defined( _WIN32 )
   #include <windows.h>
@@ -45,7 +46,7 @@ class ITKCommon_EXPORT MemoryUsageObserverBase
 {
 public:
   /** Define the type for the memory usage */
-  typedef unsigned long MemoryLoadType;
+  typedef SizeValueType MemoryLoadType;
 
   /** destructor */
   virtual ~MemoryUsageObserverBase();

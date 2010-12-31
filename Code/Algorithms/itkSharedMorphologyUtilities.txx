@@ -59,8 +59,8 @@ bool NeedToDoFace(const TRegion AllImage,
       break;
       }
     }
-  long startI = ISt[smallDim];
-  long facePos = FSt[smallDim] + FSz[smallDim] - 1;
+  IndexValueType startI = ISt[smallDim];
+  IndexValueType facePos = FSt[smallDim] + FSz[smallDim] - 1;
   if ( facePos == startI )
     {
     // at the start of dimension - vector must be positive

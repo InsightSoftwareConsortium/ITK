@@ -55,14 +55,16 @@ ThresholdLabelerImageFilter< TInputImage, TOutputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Thresholds: ";
-  for ( unsigned long j = 0; j < m_Thresholds.size(); j++ )
+  SizeValueType thresholdsSize = m_Thresholds.size();
+  for ( SizeValueType j = 0; j < thresholdsSize; j++ )
     {
     os << m_Thresholds[j] << " ";
     }
   os << std::endl;
 
   os << indent << "Real Thresholds: ";
-  for ( unsigned long i = 0; i < m_RealThresholds.size(); i++ )
+  SizeValueType realThresholdsSize = m_RealThresholds.size();
+  for ( SizeValueType i = 0; i < realThresholdsSize; i++ )
     {
     os << m_RealThresholds[i] << " ";
     }

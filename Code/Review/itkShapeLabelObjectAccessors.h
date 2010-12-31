@@ -28,7 +28,7 @@ class ITK_EXPORT NumberOfPixelsLabelObjectAccessor
 {
 public:
   typedef TLabelObject  LabelObjectType;
-  typedef unsigned long AttributeValueType;
+  typedef SizeValueType AttributeValueType;
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
@@ -93,7 +93,7 @@ class ITK_EXPORT NumberOfPixelsOnBorderLabelObjectAccessor
 {
 public:
   typedef TLabelObject  LabelObjectType;
-  typedef unsigned long AttributeValueType;
+  typedef SizeValueType AttributeValueType;
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {

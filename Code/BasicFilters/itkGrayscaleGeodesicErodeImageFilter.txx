@@ -297,6 +297,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
   // restrict the access to face connected neighbors. This iterator
   // will be applied to the marker image.
   typedef ConstShapedNeighborhoodIterator< TInputImage > NeighborhoodIteratorType;
+  typedef typename NeighborhoodIteratorType::NeighborIndexType NeighborIndexType;
 
   // iterator for the marker image
   // NeighborhoodIteratorType markerIt;
@@ -311,7 +312,6 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< MarkerImageType >::FaceListType::iterator fit;
 
-  unsigned int d;
   typename NeighborhoodIteratorType::OffsetValueType i;
   typename NeighborhoodIteratorType::OffsetType offset;
 
@@ -334,7 +334,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
       // neighbors and the center pixel
       offset.Fill(0);
       markerIt.ActivateOffset(offset); // center pixel
-      for ( d = 0; d < TInputImage::ImageDimension; ++d )
+      for ( unsigned int d = 0; d < TInputImage::ImageDimension; ++d )
         {
         for ( i = -1; i <= 1; i += 2 )
           {
@@ -347,9 +347,9 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
     else
       {
       // activate all pixels excepted center pixel
-      for ( d = 0; d < markerIt.GetCenterNeighborhoodIndex() * 2 + 1; ++d )
+      for ( NeighborIndexType nd = 0; nd < markerIt.GetCenterNeighborhoodIndex() * 2 + 1; ++nd )
         {
-        markerIt.ActivateOffset( markerIt.GetOffset(d) );
+        markerIt.ActivateOffset( markerIt.GetOffset(nd) );
         }
       offset.Fill(0);
       markerIt.DeactivateOffset(offset);

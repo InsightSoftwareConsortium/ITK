@@ -666,12 +666,12 @@ BSplineDeformableTransform< TScalarType, NDimensions, VSplineOrder >
     this->SetGridSpacing( images[0]->GetSpacing() );
     this->SetGridDirection( images[0]->GetDirection() );
 
-    const size_t totalParameters=this->GetNumberOfParameters();
+    const SizeValueType totalParameters=this->GetNumberOfParameters();
     this->m_InternalParametersBuffer.SetSize(totalParameters);
 
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      const size_t numberOfPixels = images[j]->GetLargestPossibleRegion().GetNumberOfPixels();
+      const SizeValueType numberOfPixels = images[j]->GetLargestPossibleRegion().GetNumberOfPixels();
       if(numberOfPixels*SpaceDimension != totalParameters)
         {
         itkExceptionMacro( <<

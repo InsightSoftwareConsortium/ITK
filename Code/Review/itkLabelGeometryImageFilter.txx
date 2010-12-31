@@ -624,7 +624,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
 }
 
 template< class TLabelImage, class TIntensityImage >
-unsigned long
+SizeValueType
 LabelGeometryImageFilter< TLabelImage, TIntensityImage >
 ::GetVolume(LabelPixelType label) const
 {
@@ -1098,7 +1098,8 @@ LabelGeometryImageFilter< TImage, TLabelImage >
   MapConstIterator mapIt;
   for ( mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); mapIt++ )
     {
-    os << indent << "Label[" << (unsigned long)( ( *mapIt ).second.m_Label ) << "]: ";
+    typedef typename NumericTraits< LabelPixelType >::PrintType  LabelPrintType;
+    os << indent << "Label[" << (LabelPrintType)( ( *mapIt ).second.m_Label ) << "]: ";
     os << "\t Volume: " << ( *mapIt ).second.m_ZeroOrderMoment;
     os << "\t Integrated Intensity: " << ( *mapIt ).second.m_Sum;
     os << "\t Centroid: " << ( *mapIt ).second.m_Centroid;

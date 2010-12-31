@@ -227,8 +227,8 @@ PathToImageFilter< TInputPath, TOutputImage >
   for ( i = 0; i < OutputImageDimension; i++ )
     {
     // Set Image size to the size of the path's bounding box
-    //size[i] = (long unsigned
-    // int)(InputObject->GetBoundingBox()->GetMaximum()[i]
+    //size[i] = (SizeValueType)
+    // (InputObject->GetBoundingBox()->GetMaximum()[i]
     //                              -
     // InputObject->GetBoundingBox()->GetMinimum()[i]);
     size[i] = 0;

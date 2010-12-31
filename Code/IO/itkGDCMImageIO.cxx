@@ -219,7 +219,7 @@ void GDCMImageIO::Read(void *pointer)
   gdcm::Image & image = reader.GetImage();
   gdcm::PixelFormat pixeltype_debug = image.GetPixelFormat();
   itkAssertInDebugAndIgnoreInReleaseMacro(image.GetNumberOfDimensions() == 2 || image.GetNumberOfDimensions() == 3);
-  unsigned long len = image.GetBufferLength();
+  SizeValueType len = image.GetBufferLength();
 
   // I think ITK only allow RGB image by pixel (and not by plane)
   if ( image.GetPlanarConfiguration() == 1 )
@@ -264,8 +264,8 @@ void GDCMImageIO::Read(void *pointer)
   // \postcondition
   // Now that len was updated (after unpacker 12bits -> 16bits, rescale...) ,
   // can now check compat:
-  const unsigned long numberOfBytesToBeRead =
-    static_cast< unsigned long >( this->GetImageSizeInBytes() );
+  const SizeValueType numberOfBytesToBeRead =
+    static_cast< SizeValueType >( this->GetImageSizeInBytes() );
   itkAssertInDebugAndIgnoreInReleaseMacro(numberOfBytesToBeRead == len);   // programmer error
 #endif
 }
@@ -442,7 +442,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
         const gdcm::ByteValue *bv = ref.GetByteValue();
         if ( bv )
           {
-          // base64 streams have to be a multiple of 4 bytes long
+          // base64 streams have to be a multiple of 4 bytes in length
           int encodedLengthEstimate = 2 * bv->GetLength();
           encodedLengthEstimate = ( ( encodedLengthEstimate / 4 ) + 1 ) * 4;
 
@@ -450,7 +450,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
           unsigned int encodedLengthActual = static_cast< unsigned int >(
             itksysBase64_Encode(
               (const unsigned char *)bv->GetPointer(),
-              static_cast< unsigned long >( bv->GetLength() ),
+              static_cast< SizeValueType >( bv->GetLength() ),
               (unsigned char *)bin,
               static_cast< int >( 0 ) ) );
           std::string encodedValue(bin, encodedLengthActual);
@@ -602,9 +602,9 @@ void GDCMImageIO::Write(const void *buffer)
         unsigned int decodedLengthActual = static_cast< unsigned int >(
           itksysBase64_Decode(
             (const unsigned char *)value.c_str(),
-            static_cast< unsigned long >( 0 ),
+            static_cast< SizeValueType >( 0 ),
             (unsigned char *)bin,
-            static_cast< unsigned long >( value.size() ) ) );
+            static_cast< SizeValueType >( value.size() ) ) );
         if ( /*tag.GetGroup() != 0 ||*/ tag.GetElement() != 0 ) // ?
           {
           gdcm::DataElement de(tag);
@@ -859,7 +859,7 @@ void GDCMImageIO::Write(const void *buffer)
     {
     image.SetPixelFormat(pixeltype);
     }
-  unsigned long len = image.GetBufferLength();
+  SizeValueType len = image.GetBufferLength();
 
   size_t numberOfBytes = this->GetImageSizeInBytes();
 

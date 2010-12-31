@@ -111,6 +111,9 @@ private:
                                                         // implemented
   void operator=(const Self &);                         //purposely not
 
+  typedef typename TInputImage::IndexValueType    IndexValueType;
+  typedef typename TInputImage::SizeValueType     SizeValueType;
+
   // implemented
 };
 } // namespace itk

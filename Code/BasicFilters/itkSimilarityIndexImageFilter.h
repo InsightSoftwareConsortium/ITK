@@ -152,9 +152,9 @@ private:
 
   RealType m_SimilarityIndex;
 
-  Array< unsigned long > m_CountOfImage1;
-  Array< unsigned long > m_CountOfImage2;
-  Array< unsigned long > m_CountOfIntersection;
+  Array< SizeValueType > m_CountOfImage1;
+  Array< SizeValueType > m_CountOfImage2;
+  Array< SizeValueType > m_CountOfIntersection;
 }; // end of class
 } // end namespace itk
 

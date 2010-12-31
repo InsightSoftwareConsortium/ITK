@@ -278,7 +278,7 @@ VTKImageImport< TOutputImage >
     OutputIndexType index;
     OutputSizeType  size;
 
-    unsigned long importSize = 1;
+    SizeValueType importSize = 1;
     for ( unsigned int i = 0; i < OutputImageDimension; ++i )
       {
       index[i] = extent[i * 2];

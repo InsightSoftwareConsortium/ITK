@@ -495,8 +495,8 @@ QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::ProcessWit
 }
 
 template< class TInput, class TOutput, class TCriterion >
-size_t
-QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::NumberOfCommonVerticesIn0Ring()
+SizeValueType
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::NumberOfCommonVerticesIn0Ring() const
 {
   OutputQEType *qe = m_Element;
   OutputQEType *e_it  = qe->GetOnext();
@@ -526,7 +526,7 @@ QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::NumberOfCo
                          sym_list.begin(), sym_list.end(),
                          std::back_inserter(intersection_list) );
 
-  return intersection_list.size();
+  return static_cast< SizeValueType >( intersection_list.size() );
 }
 
 template< class TInput, class TOutput, class TCriterion >

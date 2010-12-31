@@ -253,8 +253,10 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
     }
   else
     {
+    typedef unsigned int NumberOfNeighborsType;
+
     unsigned int  dim; // index over dimension
-    unsigned long neighbors = 1 << ImageDimension2;
+    NumberOfNeighborsType neighbors = 1 << ImageDimension2;
 
     // Compute base index = closet index below point
     // Compute distance from point to base index
@@ -273,10 +275,10 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
     TOutput value = NumericTraits< TOutput >::Zero;
     TOutput totalOverlap = NumericTraits< TOutput >::Zero;
 
-    for ( unsigned int counter = 0; counter < neighbors; counter++ )
+    for ( NumberOfNeighborsType counter = 0; counter < neighbors; counter++ )
       {
       double       overlap = 1.0;    // fraction overlap
-      unsigned int upper = counter;  // each bit indicates upper/lower neighbour
+      NumberOfNeighborsType upper = counter;  // each bit indicates upper/lower neighbour
       IndexType    neighIndex;
 
       // get neighbor index and overlap fraction

@@ -114,8 +114,8 @@ private:
 
   static double m_MIN_NORM;
 
-  unsigned long int m_Stride[ImageDimension];
-  unsigned long int m_Center;
+  SizeValueType m_Stride[ImageDimension];
+  SizeValueType m_Center;
 };
 } // end namespace itk
 

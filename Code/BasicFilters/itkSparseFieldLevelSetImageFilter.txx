@@ -721,8 +721,8 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
       // then activate bounds checking.
       for ( i = 0; i < ImageDimension; i++ )
         {
-        if ( center_index[i] + static_cast< long >( m_NumberOfLayers ) >= ( upperBounds[i] - 1 )
-             || center_index[i] - static_cast< long >( m_NumberOfLayers ) <= lowerBounds[i] )
+        if ( center_index[i] + static_cast< OffsetValueType >( m_NumberOfLayers ) >= ( upperBounds[i] - 1 )
+             || center_index[i] - static_cast< OffsetValueType >( m_NumberOfLayers ) <= lowerBounds[i] )
           {
           m_BoundsCheckingActive = true;
           }
@@ -1205,8 +1205,8 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
        << m_Layers[i]->Size() << std::endl;
     os << indent << m_Layers[i];
     }
-  os << indent << "m_UpdateBuffer: size=" << static_cast< unsigned long >( m_UpdateBuffer.size() )
-     << " capacity=" << static_cast< unsigned long >( m_UpdateBuffer.capacity() ) << std::endl;
+  os << indent << "m_UpdateBuffer: size=" << static_cast< SizeValueType >( m_UpdateBuffer.size() )
+     << " capacity=" << static_cast< SizeValueType >( m_UpdateBuffer.capacity() ) << std::endl;
 }
 } // end namespace itk
 

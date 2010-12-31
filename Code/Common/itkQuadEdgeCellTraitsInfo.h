@@ -36,11 +36,11 @@ namespace itk
 template< int VPointDimension,
           typename TCoordRep = float,
           typename TInterpolationWeight = float,
-          typename TPointIdentifier = unsigned long,
-          typename TCellIdentifier = unsigned long,
+          typename TPointIdentifier = IdentifierType,
+          typename TCellIdentifier = IdentifierType,
           typename TCellFeatureIdentifier = unsigned char,
           typename TPoint = QuadEdgeMeshPoint< TCoordRep, VPointDimension >,
-          typename TPointsContainer = MapContainer< unsigned long, TPoint >,
+          typename TPointsContainer = MapContainer< TPointIdentifier, TPoint >,
           typename TUsingCellsContainer = std::set< TPointIdentifier >,
           typename TQE = GeometricalQuadEdge< unsigned long, unsigned long, bool, bool, true > >
 class QuadEdgeMeshCellTraitsInfo

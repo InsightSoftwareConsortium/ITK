@@ -18,6 +18,7 @@
 #ifndef __itkExhaustiveOptimizer_h
 #define __itkExhaustiveOptimizer_h
 
+#include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 
 namespace itk
@@ -87,7 +88,7 @@ public:
   typedef SmartPointer< Self >           Pointer;
   typedef SmartPointer< const Self >     ConstPointer;
 
-  typedef Array< unsigned long > StepsType;
+  typedef Array< SizeValueType > StepsType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -112,7 +113,7 @@ public:
   itkGetConstReferenceMacro(MinimumMetricValuePosition, ParametersType);
   itkGetConstReferenceMacro(MaximumMetricValuePosition, ParametersType);
   itkGetConstReferenceMacro(CurrentIndex, ParametersType);
-  itkGetConstReferenceMacro(MaximumNumberOfIterations, unsigned long);
+  itkGetConstReferenceMacro(MaximumNumberOfIterations, SizeValueType);
 
   /** Get the reason for termination */
   const std::string GetStopConditionDescription() const;
@@ -132,7 +133,7 @@ protected:
 
   StepsType m_NumberOfSteps;
 
-  unsigned long m_CurrentIteration;
+  SizeValueType m_CurrentIteration;
 
   bool m_Stop;
 
@@ -142,7 +143,7 @@ protected:
 
   ParametersType m_CurrentIndex;
 
-  unsigned long m_MaximumNumberOfIterations;
+  SizeValueType m_MaximumNumberOfIterations;
 
   MeasureType m_MaximumMetricValue;
 

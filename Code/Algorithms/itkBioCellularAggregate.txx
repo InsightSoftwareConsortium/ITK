@@ -166,7 +166,7 @@ CellularAggregate< NSpaceDimension >
 template< unsigned int NSpaceDimension >
 void
 CellularAggregate< NSpaceDimension >
-::GetVoronoi(unsigned long int cellId, VoronoiRegionAutoPointer & voronoiPointer) const
+::GetVoronoi(IdentifierType cellId, VoronoiRegionAutoPointer & voronoiPointer) const
 {
   typename MeshType::CellAutoPointer cellPointer;
 
@@ -612,7 +612,7 @@ CellularAggregate< NSpaceDimension >
 template< unsigned int NSpaceDimension >
 typename CellularAggregate< NSpaceDimension >::SubstrateValueType
 CellularAggregate< NSpaceDimension >
-::GetSubstrateValue(unsigned long int cellId, unsigned int substrateId) const
+::GetSubstrateValue(IdentifierType cellId, unsigned int substrateId) const
 {
   PointType cellPosition;
   bool      cellPositionExists = m_Mesh->GetPoint(cellId, &cellPosition);

@@ -181,12 +181,12 @@ public:
   itkGetConstMacro(MovingImagePyramidSchedule, ScheduleType);
 
   /** Set/Get the number of multi-resolution levels. */
-  void SetNumberOfLevels(unsigned long numberOfLevels);
+  void SetNumberOfLevels(SizeValueType numberOfLevels);
 
-  itkGetConstMacro(NumberOfLevels, unsigned long);
+  itkGetConstMacro(NumberOfLevels, SizeValueType);
 
   /** Get the current resolution level being processed. */
-  itkGetConstMacro(CurrentLevel, unsigned long);
+  itkGetConstMacro(CurrentLevel, SizeValueType);
 
   /** Set/Get the initial transformation parameters. */
   itkSetMacro(InitialTransformParameters, ParametersType);
@@ -233,7 +233,7 @@ protected:
   void PreparePyramids(void);
 
   /** Set the current level to be processed */
-  itkSetMacro(CurrentLevel, unsigned long);
+  itkSetMacro(CurrentLevel, SizeValueType);
 private:
   MultiResolutionImageRegistrationMethod(const Self &); //purposely not
                                                         // implemented
@@ -260,8 +260,8 @@ private:
   FixedImageRegionType                m_FixedImageRegion;
   std::vector< FixedImageRegionType > m_FixedImageRegionPyramid;
 
-  unsigned long m_NumberOfLevels;
-  unsigned long m_CurrentLevel;
+  SizeValueType m_NumberOfLevels;
+  SizeValueType m_CurrentLevel;
 
   bool m_Stop;
 

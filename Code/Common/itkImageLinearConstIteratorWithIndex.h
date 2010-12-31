@@ -209,8 +209,8 @@ public:
   }
 
 private:
-  unsigned long m_Jump;
-  unsigned int  m_Direction;
+  OffsetValueType m_Jump;
+  unsigned int    m_Direction;
 };
 
 //----------------------------------------------------------------------

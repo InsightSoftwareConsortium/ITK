@@ -18,6 +18,7 @@
 #ifndef __itkVTKPolyDataReader_h
 #define __itkVTKPolyDataReader_h
 
+#include "itkIntTypes.h"
 #include "itkMesh.h"
 #include "itkMeshSource.h"
 #include "itkTriangleCell.h"
@@ -72,9 +73,9 @@ public:
 
   typedef typename TriangleCellType::SelfAutoPointer TriangleCellAutoPointer;
 
-  typedef std::pair< unsigned long, unsigned long >    IndexPairType;
-  typedef MapContainer< IndexPairType, unsigned long > PointMapType;
-  typedef typename PointType::VectorType               VectorType;
+  typedef std::pair< IdentifierType, IdentifierType >    IndexPairType;
+  typedef MapContainer< IndexPairType, IdentifierType >  PointMapType;
+  typedef typename PointType::VectorType                 VectorType;
 
   /** Set the resolution level to be used for generating cells in the
    * Sphere. High values of this parameter will produce sphere with more

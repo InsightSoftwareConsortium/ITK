@@ -78,7 +78,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 
       outputFile << "LOOKUP_TABLE default" << std::endl;
 
-      unsigned long k(0);
+      SizeValueType k(0);
 
       CellsContainerConstPointer  cells = this->m_Input->GetCells();
       CellsContainerConstIterator it = cells->Begin();
@@ -131,7 +131,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 
     outputFile << "LOOKUP_TABLE default" << std::endl;
 
-    unsigned long k = 0;
+    SizeValueType k = 0;
 
     PointDataContainerIterator c_it = pointdata->Begin();
 

@@ -76,7 +76,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   output->SetBackgroundValue(this->m_OutputBackgroundValue);
 
-  long nbOfThreads = this->GetNumberOfThreads();
+  SizeValueType nbOfThreads = this->GetNumberOfThreads();
   if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -111,7 +111,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
 
-  long nbOfThreads = this->m_NumberOfLabels.size();
+  SizeValueType nbOfThreads = this->m_NumberOfLabels.size();
 
   // create a line iterator
   typedef itk::ImageLinearConstIteratorWithIndex< InputImageType >
@@ -148,7 +148,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   OffsetVectorType LineOffsets;
   this->SetupLineOffsets(LineOffsets);
 
-  long nbOfLabels = 0;
+  SizeValueType nbOfLabels = 0;
   for ( inLineIt.GoToBegin();
         !inLineIt.IsAtEnd();
         inLineIt.NextLine() )
@@ -163,7 +163,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
         {
         // We've hit the start of a run
         runLength thisRun;
-        long      length = 0;
+        SizeValueType length = 0;
         IndexType thisIndex;
         thisIndex = inLineIt.GetIndex();
         //std::cout << thisIndex << std::endl;
@@ -199,7 +199,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   // compute the total number of labels
   nbOfLabels = 0;
-  for ( int i = 0; i < nbOfThreads; i++ )
+  for ( SizeValueType i = 0; i < nbOfThreads; i++ )
     {
     nbOfLabels += this->m_NumberOfLabels[i];
     }
@@ -214,7 +214,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     MapBegin = m_LineMap.begin();
     MapEnd = m_LineMap.end();
     LineIt = MapBegin;
-    unsigned long label = 1;
+    LabelType label = 1;
     for ( LineIt = MapBegin; LineIt != MapEnd; ++LineIt )
       {
       typename lineEncoding::iterator cIt;
@@ -238,8 +238,8 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   OffsetValueType linecount = pixelcount / xsize;
 
   SizeValueType lastLineIdForThread =  linecount;
-  long          nbOfLineIdToJoin = 0;
-  if ( threadId != nbOfThreads - 1 )
+  OffsetValueType nbOfLineIdToJoin = 0;
+  if ( static_cast<SizeValueType>( threadId ) + 1 != nbOfThreads )
     {
     SizeType localRegionSize = outputRegionForThreadSize;
     localRegionSize[splitAxis] -= 1;
@@ -256,7 +256,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     {
     if ( !m_LineMap[ThisIdx].empty() )
       {
-      OffsetVectorType::const_iterator I = LineOffsets.begin();
+      typename OffsetVectorType::const_iterator I = LineOffsets.begin();
       while ( I != LineOffsets.end() )
         {
         OffsetValueType NeighIdx = ThisIdx + ( *I );
@@ -290,7 +290,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
         {
         if ( !m_LineMap[ThisIdx].empty() )
           {
-          OffsetVectorType::const_iterator I = LineOffsets.begin();
+          typename OffsetVectorType::const_iterator I = LineOffsets.begin();
           while ( I != LineOffsets.end() )
             {
             OffsetValueType NeighIdx = ThisIdx + ( *I );
@@ -339,10 +339,10 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   SizeValueType     pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType     xsize = output->GetRequestedRegion().GetSize()[0];
   SizeValueType     linecount = pixelcount / xsize;
-  unsigned long int totalLabs = CreateConsecutive();
+  LabelType totalLabs = CreateConsecutive();
   ProgressReporter  progress(this, 0, linecount, 25, 0.75f, 0.25f);
   // check for overflow exception here
-  if ( totalLabs > static_cast< unsigned long int >(
+  if ( totalLabs > static_cast< LabelType >(
          NumericTraits< OutputPixelType >::max() ) )
     {
     itkExceptionMacro(
@@ -384,10 +384,10 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
   typename TOutputImage::Pointer output = this->GetOutput();
-  typedef Image< long, TOutputImage::ImageDimension - 1 >     PretendImageType;
-  typedef typename PretendImageType::RegionType::SizeType     PretendSizeType;
-  typedef typename PretendImageType::RegionType::IndexType    PretendIndexType;
-  typedef ConstShapedNeighborhoodIterator< PretendImageType > LineNeighborhoodType;
+  typedef Image< OffsetValueType, TOutputImage::ImageDimension - 1 >      PretendImageType;
+  typedef typename PretendImageType::RegionType::SizeType                 PretendSizeType;
+  typedef typename PretendImageType::RegionType::IndexType                PretendIndexType;
+  typedef ConstShapedNeighborhoodIterator< PretendImageType >             LineNeighborhoodType;
 
   typename PretendImageType::Pointer fakeImage;
   fakeImage = PretendImageType::New();
@@ -399,7 +399,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   PretendSizeType PretendSize;
   // The first dimension has been collapsed
-  for ( unsigned int i = 0; i < PretendSize.GetSizeDimension(); i++ )
+  for ( SizeValueType i = 0; i < PretendSize.GetSizeDimension(); i++ )
     {
     PretendSize[i] = OutSize[i + 1];
     }
@@ -445,7 +445,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   for ( unsigned i = 1; i < OutputImageDimension; i++ )
     {
-    if ( abs(Off[i]) > 1 )
+    if ( vnl_math_abs(Off[i]) > 1 )
       {
       return ( false );
       }
@@ -541,23 +541,23 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
-::InsertSet(const unsigned long int label)
+::InsertSet(const LabelType label)
 {
   m_UnionFind[label] = label;
 }
 
 template< class TInputImage, class TOutputImage >
-unsigned long int
+typename BinaryImageToLabelMapFilter< TInputImage, TOutputImage >::LabelType
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::CreateConsecutive()
 {
   m_Consecutive = UnionFindType( m_UnionFind.size() );
   m_Consecutive[this->m_OutputBackgroundValue] = this->m_OutputBackgroundValue;
-  unsigned long int CLab = 0;
-  unsigned long int count = 0;
-  for ( unsigned long int I = 1; I < m_UnionFind.size(); I++ )
+  LabelType CLab = 0;
+  SizeValueType count = 0;
+  for ( SizeValueType I = 1; I < m_UnionFind.size(); I++ )
     {
-    unsigned long int L = m_UnionFind[I];
+    SizeValueType L = m_UnionFind[I];
     if ( L == I )
       {
       if ( CLab == this->m_OutputBackgroundValue )
@@ -573,9 +573,9 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 }
 
 template< class TInputImage, class TOutputImage >
-unsigned long int
+typename BinaryImageToLabelMapFilter< TInputImage, TOutputImage >::LabelType
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
-::LookupSet(const unsigned long int label)
+::LookupSet(const LabelType label)
 {
   // recursively set the equivalence if necessary
   if ( label != m_UnionFind[label] )
@@ -588,10 +588,10 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
-::LinkLabels(const unsigned long int lab1, const unsigned long int lab2)
+::LinkLabels(const LabelType lab1, const LabelType lab2)
 {
-  unsigned long E1 = this->LookupSet(lab1);
-  unsigned long E2 = this->LookupSet(lab2);
+  LabelType E1 = this->LookupSet(lab1);
+  LabelType E2 = this->LookupSet(lab2);
 
   if ( E1 < E2 )
     {

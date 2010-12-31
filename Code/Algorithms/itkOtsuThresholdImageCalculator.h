@@ -80,9 +80,9 @@ public:
   itkGetConstMacro(Threshold, PixelType);
 
   /** Set/Get the number of histogram bins. Default is 128. */
-  itkSetClampMacro( NumberOfHistogramBins, unsigned long, 1,
-                    NumericTraits< unsigned long >::max() );
-  itkGetConstMacro(NumberOfHistogramBins, unsigned long);
+  itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 1,
+                    NumericTraits< SizeValueType >::max() );
+  itkGetConstMacro(NumberOfHistogramBins, SizeValueType);
 
   /** Set the region over which the values will be computed */
   void SetRegion(const RegionType & region);
@@ -97,7 +97,7 @@ private:
   void operator=(const Self &);               //purposely not implemented
 
   PixelType         m_Threshold;
-  unsigned long     m_NumberOfHistogramBins;
+  SizeValueType     m_NumberOfHistogramBins;
   ImageConstPointer m_Image;
   RegionType        m_Region;
   bool              m_RegionSetByUser;

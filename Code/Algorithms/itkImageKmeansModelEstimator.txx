@@ -132,7 +132,7 @@ void
 ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 ::Allocate()
 {
-  unsigned long initCodebookSize, finalCodebookSize;
+  SizeValueType initCodebookSize, finalCodebookSize;
 
   m_VectorDimension = InputImagePixelType::GetVectorDimension();
 
@@ -158,8 +158,8 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 
     // Set the initial and final codebook size
 
-    initCodebookSize = (unsigned long)1;
-    finalCodebookSize = (unsigned long)m_NumberOfCodewords;
+    initCodebookSize = (SizeValueType)1;
+    finalCodebookSize = (SizeValueType)m_NumberOfCodewords;
 
     m_Codebook.set_size(initCodebookSize, m_VectorDimension);
 
@@ -480,7 +480,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   unsigned int totalNumVecsInInput = 1;
   for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
     {
-    totalNumVecsInInput *= (unsigned long)size[i];
+    totalNumVecsInInput *= (SizeValueType)size[i];
     }
 
   //-----------------------------------------------------------------
@@ -680,7 +680,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
     // split the codewords
 
     // increase size of codebook
-    const unsigned long oldSize = m_Codebook.rows();
+    const SizeValueType oldSize = m_Codebook.rows();
     Reallocate(oldSize, j);
 
     // initialize the new codewords
@@ -702,7 +702,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 
   // done with all iterations
 
-  const unsigned long codebookSize = m_Codebook.rows();
+  const SizeValueType codebookSize = m_Codebook.rows();
   if ( m_NumberOfCodewords != codebookSize )
     {
     itkDebugMacro(<< "Returning fewer codewords than requested");

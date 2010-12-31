@@ -255,7 +255,7 @@ void BioRadImageIO::Read(void *buffer)
     {
     ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
       reinterpret_cast< unsigned short * >( buffer ),
-      static_cast< unsigned long >( this->GetImageSizeInComponents() ) );
+      static_cast< SizeValueType >( this->GetImageSizeInComponents() ) );
     }
 
   //closing file:
@@ -339,14 +339,15 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     // sometime the file set an erronous value for byte_format, check the size
     // of the file in this case, since byte_format = 1 seems to be the default
     file.seekg(0, std::ios::end);
-    long gcount = static_cast< long >( file.tellg() ) - BIORAD_HEADER_LENGTH;
-    if ( gcount == h.nx * h.ny * h.npic )
+    const SizeValueType gcount = static_cast< SizeValueType >( file.tellg() ) - BIORAD_HEADER_LENGTH;
+    const SizeValueType hsize = static_cast< SizeValueType >( h.nx * h.ny * h.npic );
+    if ( gcount == hsize )
       {
       itkWarningMacro(
         << "File is declared as two bytes but really is only one byte");
       SetComponentType(UCHAR);
       }
-    else if ( gcount == h.nx * h.ny * h.npic * 2 )
+    else if ( gcount == hsize * 2 )
       {
       SetComponentType(USHORT);
       }
@@ -564,8 +565,8 @@ void BioRadImageIO::Write(const void *buffer)
   file.write( (char *)p, BIORAD_HEADER_LENGTH );
 
   //preparation for writing buffer:
-  const unsigned long numberOfBytes      = static_cast< unsigned long >( this->GetImageSizeInBytes() );
-  const unsigned long numberOfComponents = static_cast< unsigned long >( this->GetImageSizeInComponents() );
+  const SizeValueType numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
+  const SizeValueType numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
 
   char *tempmemory = new char[numberOfBytes];
   memcpy(tempmemory, buffer, numberOfBytes);

@@ -20,6 +20,7 @@
 
 #include "itkObjectFactory.h"
 #include "itkObject.h"
+#include "itkIntTypes.h"
 #include <vector>
 
 namespace itk
@@ -92,12 +93,12 @@ public:
 
   /** Returns the size of the container.  This is not the number of objects
    *  available, but the total number of objects allocated. */
-  itkGetConstMacro(Size, ::size_t);
+  itkGetConstMacro(Size, SizeValueType);
 
   /** Ensures that there are at least n elements allocated in the storage
    *  container.  Will not shrink the container, but may enlarge the
    *   container. */
-  void Reserve(::size_t n);
+  void Reserve(SizeValueType n);
 
   /** Attempts to free memory that is not in use and shrink the size of the
    *  container.  Not guaranteed to do anything. */
@@ -107,8 +108,8 @@ public:
   void Clear();
 
   /** Set/Get the linear growth size */
-  itkSetMacro(LinearGrowthSize, ::size_t);
-  itkGetConstMacro(LinearGrowthSize, ::size_t);
+  itkSetMacro(LinearGrowthSize, SizeValueType);
+  itkGetConstMacro(LinearGrowthSize, SizeValueType);
 
   /** Set/Get the growth strategy. */
   itkSetMacro(GrowthStrategy, GrowthStrategyType);
@@ -127,12 +128,12 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Returns a new size to grow. */
-  ::size_t GetGrowthSize();
+  SizeValueType GetGrowthSize();
 
   struct MemoryBlock {
     MemoryBlock():Size(0), Begin(0) {}
 
-    MemoryBlock(::size_t n):Size(n)
+    MemoryBlock(SizeValueType n):Size(n)
     { Begin = new ObjectType[n];  }
 
     ~MemoryBlock()  {}   // Purposely does *not* free memory
@@ -141,7 +142,7 @@ protected:
     { if ( Begin != 0 ) { delete[] Begin; } }
 
     ObjectType *Begin;
-    ::size_t Size;
+    SizeValueType Size;
   };
 private:
   ObjectStore(const Self &);    //purposely not implemented
@@ -149,8 +150,8 @@ private:
 
   GrowthStrategyType m_GrowthStrategy;
 
-  ::size_t m_Size;
-  ::size_t m_LinearGrowthSize;
+  SizeValueType m_Size;
+  SizeValueType m_LinearGrowthSize;
 
   /** Pointers to objects available for borrowing. */
   FreeListType m_FreeList;

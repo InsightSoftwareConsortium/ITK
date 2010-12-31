@@ -110,9 +110,13 @@ add_library(itkvnl_inst
   vnl_c_vector+short-.cxx
   vnl_c_vector+ushort-.cxx
   vnl_c_vector+char-.cxx
+  vnl_c_vector+longlong-.cxx
+  vnl_c_vector+ulonglong-.cxx
   vnl_matrix+ushort-.cxx
   vnl_matrix+short-.cxx
   vnl_matrix+char-.cxx
+  vnl_matrix+longlong-.cxx
+  vnl_matrix+ulonglong-.cxx
   vnl_matrix_fixed+double.3.12-.cxx
   vnl_matrix_fixed_ref+double.2.2-.cxx
   vnl_matrix_fixed_ref+double.2.3-.cxx
@@ -122,7 +126,8 @@ add_library(itkvnl_inst
   vnl_vector+short-.cxx
   vnl_vector+ushort-.cxx
   vnl_vector+char-.cxx
-  vnl_vector+size_t-.cxx
+  vnl_vector+longlong-.cxx
+  vnl_vector+ulonglong-.cxx
   vnl_fft_base+double.3-.cxx
   vnl_fft_base+float.3-.cxx
   )

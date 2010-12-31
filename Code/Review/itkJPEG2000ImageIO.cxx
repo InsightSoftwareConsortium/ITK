@@ -562,22 +562,22 @@ void JPEG2000ImageIO::Read(void *buffer)
 
       OPJ_BYTE *l_data_ptr = l_data;
 
-      unsigned int       tsizex = l_current_tile_x1 - l_current_tile_x0;
-      unsigned int       tsizey = l_current_tile_y1 - l_current_tile_y0;
-      const size_t       numberOfPixels = tsizex * tsizey;
-      const unsigned int numberOfComponents = this->GetNumberOfComponents();
-      const unsigned int sizePerComponentInBytes = l_data_size / ( numberOfPixels * numberOfComponents );
-      const unsigned int sizePerChannelInBytes = l_data_size / ( numberOfComponents );
+      const SizeValueType tsizex = l_current_tile_x1 - l_current_tile_x0;
+      const SizeValueType tsizey = l_current_tile_y1 - l_current_tile_y0;
+      const SizeValueType numberOfPixels = tsizex * tsizey;
+      const SizeValueType numberOfComponents = this->GetNumberOfComponents();
+      const SizeValueType sizePerComponentInBytes = l_data_size / ( numberOfPixels * numberOfComponents );
+      const SizeValueType sizePerChannelInBytes = l_data_size / ( numberOfComponents );
 
       itkDebugMacro(<< "sizePerComponentInBytes: " << sizePerComponentInBytes);
       itkDebugMacro(<< "sizePerChannelInBytes:   " << sizePerChannelInBytes);
 
-      const unsigned int sizePerStrideXInBytes = sizePerChannelInBytes / tsizey;
-      const unsigned int initialStrideInBytes =
+      const SizeValueType sizePerStrideXInBytes = sizePerChannelInBytes / tsizey;
+      const SizeValueType initialStrideInBytes =
         ( l_current_tile_y0 - p_start_y ) * sizex * sizePerComponentInBytes * numberOfComponents;
-      const unsigned int priorStrideInBytes =
+      const SizeValueType priorStrideInBytes =
         ( l_current_tile_x0 - p_start_x ) * sizePerComponentInBytes * numberOfComponents;
-      const unsigned int postStrideInBytes =
+      const SizeValueType postStrideInBytes =
         ( p_end_x - l_current_tile_x1 ) * sizePerComponentInBytes * numberOfComponents;
 
       itkDebugMacro(<< "sizePerStrideYInBytes:   " << sizePerChannelInBytes / tsizex );
@@ -595,10 +595,10 @@ void JPEG2000ImageIO::Read(void *buffer)
 
         charBuffer += initialStrideInBytes;
 
-        for ( size_t m = 0; m < tsizey; m++ )
+        for ( SizeValueType m = 0; m < tsizey; m++ )
           {
           charBuffer += priorStrideInBytes;
-          for ( size_t j = 0; j < sizePerStrideXInBytes; j++ )
+          for ( SizeValueType j = 0; j < sizePerStrideXInBytes; j++ )
             {
             *charBuffer = (unsigned char)( *l_data_ptr++ );
             charBuffer += numberOfComponents;
@@ -751,7 +751,7 @@ JPEG2000ImageIO
   if ( parameters.cp_comment == NULL )
     {
     const char   comment[] = "Created by OpenJPEG version ";
-    const size_t clen = strlen(comment);
+    const SizeValueType clen = strlen(comment);
     const char * version = opj_version();
 
     /* UniPG>> */
@@ -868,13 +868,13 @@ JPEG2000ImageIO
   l_image->y1 = !l_image->y0 ? ( h - 1 ) * subsampling_dy + 1 : l_image->y0 + ( h - 1 ) * subsampling_dy + 1;
 
   // HERE, copy the buffer
-  size_t index = 0;
-  size_t numberOfPixels = size_t(w) * size_t(h);
+  SizeValueType index = 0;
+  SizeValueType numberOfPixels = SizeValueType(w) * SizeValueType(h);
   itkDebugMacro(<< " START COPY BUFFER");
   if ( this->GetComponentType() == UCHAR )
     {
     unsigned char *charBuffer = (unsigned char *)buffer;
-    for ( size_t j = 0; j < numberOfPixels; j++ )
+    for ( SizeValueType j = 0; j < numberOfPixels; j++ )
       {
       for ( unsigned int k = 0; k < this->GetNumberOfComponents(); k++ )
         {
@@ -887,7 +887,7 @@ JPEG2000ImageIO
   if ( this->GetComponentType() == USHORT )
     {
     unsigned short *shortBuffer = (unsigned short *)buffer;
-    for ( size_t j = 0; j < numberOfPixels; j++ )
+    for ( SizeValueType j = 0; j < numberOfPixels; j++ )
       {
       for ( unsigned int k = 0; k < this->GetNumberOfComponents(); k++ )
         {

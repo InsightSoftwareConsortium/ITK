@@ -64,7 +64,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
 
-  long nbOfThreads = this->GetNumberOfThreads();
+  int nbOfThreads = this->GetNumberOfThreads();
   if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -78,9 +78,9 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 
   m_Barrier = Barrier::New();
   m_Barrier->Initialize(nbOfThreads);
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount / xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  SizeValueType linecount = pixelcount / xsize;
   m_ForegroundLineMap.clear();
   m_ForegroundLineMap.resize(linecount);
   m_BackgroundLineMap.clear();
@@ -109,9 +109,9 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   outLineIt.SetDirection(0);
 
   // set the progress reporter to deal with the number of lines
-  long             pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
-  long             xsizeForThread = outputRegionForThread.GetSize()[0];
-  long             linecountForThread = pixelcountForThread / xsizeForThread;
+  SizeValueType    pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
+  SizeValueType    xsizeForThread = outputRegionForThread.GetSize()[0];
+  SizeValueType    linecountForThread = pixelcountForThread / xsizeForThread;
   ProgressReporter progress(this, threadId, linecountForThread * 2);
 
   // find the split axis
@@ -129,8 +129,8 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   // compute the number of pixels before that thread
   SizeType outputRegionSize = output->GetRequestedRegion().GetSize();
   outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
-  long firstLineIdForThread = RegionType(outputRegionIdx, outputRegionSize).GetNumberOfPixels() / xsizeForThread;
-  long lineId = firstLineIdForThread;
+  SizeValueType firstLineIdForThread = RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
+  SizeValueType lineId = firstLineIdForThread;
 
   OffsetVec LineOffsets;
   SetupLineOffsets(LineOffsets);
@@ -152,7 +152,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
         {
         // We've hit the start of a run
         runLength thisRun;
-        long      length = 0;
+        SizeValueType length = 0;
         IndexType thisIndex;
         thisIndex = inLineIt.GetIndex();
 
@@ -177,7 +177,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
         {
         // We've hit the start of a run
         runLength thisRun;
-        long      length = 0;
+        SizeValueType length = 0;
         IndexType thisIndex;
         thisIndex = inLineIt.GetIndex();
 
@@ -210,26 +210,26 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   this->Wait();
 
   // now process the map and make appropriate entries in an equivalence table
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount / xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  OffsetValueType linecount = pixelcount / xsize;
 
-  long lastLineIdForThread =  linecount;
-  if ( threadId != m_NumberOfThreads - 1 )
+  SizeValueType lastLineIdForThread =  linecount;
+  if ( threadId != (int)m_NumberOfThreads - 1 )
     {
     lastLineIdForThread = firstLineIdForThread
                           + RegionType( outputRegionIdx,
                                         outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread;
     }
 
-  for ( long ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx )
+  for ( SizeValueType ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx )
     {
     if ( !m_ForegroundLineMap[ThisIdx].empty() )
       {
-      for ( OffsetVec::const_iterator I = LineOffsets.begin();
+      for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
             I != LineOffsets.end(); ++I )
         {
-        long NeighIdx = ThisIdx + ( *I );
+        OffsetValueType NeighIdx = ThisIdx + ( *I );
         // check if the neighbor is in the map
         if ( NeighIdx >= 0 && NeighIdx < linecount && !m_BackgroundLineMap[NeighIdx].empty() )
           {
@@ -269,7 +269,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
   typename TOutputImage::Pointer output = this->GetOutput();
-  typedef Image< long, TOutputImage::ImageDimension - 1 >     PretendImageType;
+  typedef Image< OffsetValueType, TOutputImage::ImageDimension - 1 >     PretendImageType;
   typedef typename PretendImageType::RegionType::SizeType     PretendSizeType;
   typedef typename PretendImageType::RegionType::IndexType    PretendIndexType;
   typedef ConstShapedNeighborhoodIterator< PretendImageType > LineNeighborhoodType;
@@ -303,7 +303,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   typename LineNeighborhoodType::IndexListType::const_iterator LI;
 
   PretendIndexType idx = LineRegion.GetIndex();
-  long             offset = fakeImage->ComputeOffset(idx);
+  OffsetValueType  offset = fakeImage->ComputeOffset(idx);
 
   for ( LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); LI++ )
     {
@@ -326,7 +326,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 
   for ( unsigned i = 1; i < OutputImageDimension; i++ )
     {
-    if ( abs(Off[i]) > 1 )
+    if ( vnl_math_abs(Off[i]) > 1 )
       {
       return ( false );
       }
@@ -350,7 +350,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  long offset = 0;
+  OffsetValueType offset = 0;
   if ( m_FullyConnected || sameLine )
     {
     offset = 1;
@@ -366,14 +366,14 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   for ( cIt = current.begin(); cIt != current.end(); ++cIt )
     {
     //runLength cL = *cIt;
-    long cStart = cIt->where[0];  // the start x position
-    long cLast = cStart + cIt->length - 1;
+    OffsetValueType cStart = cIt->where[0];  // the start x position
+    OffsetValueType cLast = cStart + cIt->length - 1;
     bool lineCompleted = false;
     for ( nIt = mIt; nIt != Neighbour.end() && !lineCompleted; ++nIt )
       {
       //runLength nL = *nIt;
-      long nStart = nIt->where[0];
-      long nLast = nStart + nIt->length - 1;
+      OffsetValueType nStart = nIt->where[0];
+      OffsetValueType nLast = nStart + nIt->length - 1;
       // there are a few ways that neighbouring lines might overlap
       //   neighbor      S------------------E
       //   current    S------------------------E
@@ -387,13 +387,11 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
       //   neighbor      S------------------E
       //   current             S-------E
       //-------------
-      long ss1 = nStart - offset;
-      // long ss2 = nStart + offset;
-      // long ee1 = nLast - offset;
-      long ee2 = nLast + offset;
+      OffsetValueType ss1 = nStart - offset;
+      OffsetValueType ee2 = nLast + offset;
       bool eq = false;
-      long oStart = 0;
-      long oLast = 0;
+      OffsetValueType oStart = 0;
+      OffsetValueType oLast = 0;
       // the logic here can probably be improved a lot
       if ( ( ss1 >= cStart ) && ( ee2 <= cLast ) )
         {

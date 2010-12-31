@@ -124,9 +124,6 @@ public:
    * the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  /** Container used to store pixels in the image. */
-  typedef ImportImageContainer< unsigned long, InternalPixelType > PixelContainer;
-
   /** Index typedef support. An index is used to access pixel values. */
   typedef typename Superclass::IndexType      IndexType;
   typedef typename Superclass::IndexValueType IndexValueType;
@@ -135,7 +132,10 @@ public:
   typedef typename Superclass::OffsetType OffsetType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeType      SizeType;
+
+  /** Container used to store pixels in the image. */
+  typedef ImportImageContainer< SizeValueType, InternalPixelType > PixelContainer;
 
   /** Direction typedef support. A matrix of direction cosines. */
   typedef typename Superclass::DirectionType DirectionType;

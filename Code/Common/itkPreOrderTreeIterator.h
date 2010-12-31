@@ -31,12 +31,13 @@ public:
   typedef typename TTreeType::ValueType     ValueType;
   typedef TreeIteratorBase< TTreeType >     Superclass;
   typedef typename Superclass::TreeNodeType TreeNodeType;
+  typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor */
   PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start = NULL);
 
   /** Get the type of the iterator */
-  int GetType() const;
+  NodeType GetType() const;
 
   /** Clone function */
   TreeIteratorBase< TTreeType > * Clone();
@@ -62,7 +63,7 @@ PreOrderTreeIterator< TTreeType >::PreOrderTreeIterator(const TTreeType *tree, c
 
 /** Return the type of the iterator */
 template< class TTreeType >
-int
+typename PreOrderTreeIterator< TTreeType >::NodeType
 PreOrderTreeIterator< TTreeType >::GetType() const
 {
   return TreeIteratorBase< TTreeType >::PREORDER;

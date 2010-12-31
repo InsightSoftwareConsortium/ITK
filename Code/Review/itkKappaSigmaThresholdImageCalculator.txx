@@ -77,7 +77,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
 
     // compute the mean
     iIt.GoToBegin();
-    unsigned long count = 0;
+    SizeValueType count = 0;
     double        mean = 0;
     while ( !iIt.IsAtEnd() )
       {

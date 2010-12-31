@@ -43,19 +43,19 @@ class ITK_EXPORT BlobSpatialObject:
 {
 public:
 
-  typedef BlobSpatialObject                           Self;
-  typedef PointBasedSpatialObject< TDimension >       Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef double                                      ScalarType;
-  typedef SpatialObjectPoint< TDimension >            BlobPointType;
-  typedef std::vector< BlobPointType >                PointListType;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::SpatialObjectPointType SpatialObjectPointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >          PointContainerPointer;
+  typedef BlobSpatialObject                            Self;
+  typedef PointBasedSpatialObject< TDimension >        Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
+  typedef double                                       ScalarType;
+  typedef SpatialObjectPoint< TDimension >             BlobPointType;
+  typedef std::vector< BlobPointType >                 PointListType;
+  typedef typename Superclass::PointType               PointType;
+  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
+  typedef typename Superclass::TransformType           TransformType;
+  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
+  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
+  typedef SmartPointer< PointContainerType >           PointContainerPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,16 +73,16 @@ public:
   void SetPoints(PointListType & newPoints);
 
   /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(unsigned long id) const
+  const SpatialObjectPointType * GetPoint(IdentifierType id) const
   {
     return &( m_Points[id] );
   }
 
   /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(unsigned long id) { return &( m_Points[id] ); }
+  SpatialObjectPointType * GetPoint(IdentifierType id) { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
-  unsigned long GetNumberOfPoints(void) const { return m_Points.size(); }
+  SizeValueType GetNumberOfPoints(void) const { return m_Points.size(); }
 
   /** Returns true if the Blob is evaluable at the requested point,
    *  false otherwise. */

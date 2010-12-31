@@ -125,7 +125,7 @@ public:
   itkBooleanMacro(FullyConnected);
 
   /** Type used as identifier of the different component labels. */
-  typedef unsigned long int LabelType;
+  typedef IdentifierType   LabelType;
 
   // only set after completion
   itkGetConstReferenceMacro(ObjectCount, LabelType);
@@ -195,9 +195,9 @@ private:
   {
 public:
     // run length information - may be a more type safe way of doing this
-    long int length;
-    typename InputImageType::IndexType where;   // Index of the start of the run
-    LabelType label;                            // the initial label of the run
+    typename TInputImage::OffsetValueType   length;
+    typename TInputImage::IndexType         where;   // Index of the start of the run
+    LabelType                               label;   // the initial label of the run
   };
 
   typedef std::vector< runLength > lineEncoding;
@@ -205,7 +205,7 @@ public:
   // the map storing lines
   typedef std::vector< lineEncoding > LineMapType;
 
-  typedef std::vector< long > OffsetVec;
+  typedef std::vector< typename TInputImage::OffsetValueType > OffsetVec;
 
   // the types to support union-find operations
   typedef std::vector< LabelType > UnionFindType;
@@ -213,18 +213,18 @@ public:
   UnionFindType m_Consecutive;
 
   // functions to support union-find operations
-  void InitUnion(const unsigned long int size)
+  void InitUnion( SizeValueType size )
   {
     m_UnionFind = UnionFindType(size + 1);
   }
 
-  void InsertSet(const unsigned long int label);
+  void InsertSet(const LabelType label);
 
-  unsigned long int LookupSet(const LabelType label);
+  SizeValueType LookupSet(const LabelType label);
 
   void LinkLabels(const LabelType lab1, const LabelType lab2);
 
-  unsigned long int CreateConsecutive();
+  SizeValueType CreateConsecutive();
 
   //////////////////
   bool CheckNeighbors(const OutputIndexType & A,
@@ -246,8 +246,8 @@ public:
       }
   }
 
-  typename std::vector< long >       m_NumberOfLabels;
-  typename std::vector< long >       m_FirstLineIdToJoin;
+  typename std::vector< IdentifierType > m_NumberOfLabels;
+  typename std::vector< IdentifierType > m_FirstLineIdToJoin;
 
   typename Barrier::Pointer m_Barrier;
 

@@ -111,12 +111,12 @@ public:
   const InputImageType * GetReferenceImage(void);
 
   /** Set/Get the number of histogram levels used. */
-  itkSetMacro(NumberOfHistogramLevels, unsigned long);
-  itkGetConstMacro(NumberOfHistogramLevels, unsigned long);
+  itkSetMacro(NumberOfHistogramLevels, SizeValueType);
+  itkGetConstMacro(NumberOfHistogramLevels, SizeValueType);
 
   /** Set/Get the number of match points used. */
-  itkSetMacro(NumberOfMatchPoints, unsigned long);
-  itkGetConstMacro(NumberOfMatchPoints, unsigned long);
+  itkSetMacro(NumberOfMatchPoints, SizeValueType);
+  itkGetConstMacro(NumberOfMatchPoints, SizeValueType);
 
   /** Set/Get the threshold at mean intensity flag.
    * If true, only source (reference) pixels which are greater
@@ -182,8 +182,8 @@ private:
   HistogramMatchingImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented
 
-  unsigned long m_NumberOfHistogramLevels;
-  unsigned long m_NumberOfMatchPoints;
+  SizeValueType m_NumberOfHistogramLevels;
+  SizeValueType m_NumberOfMatchPoints;
   bool          m_ThresholdAtMeanIntensity;
 
   InputPixelType  m_SourceIntensityThreshold;

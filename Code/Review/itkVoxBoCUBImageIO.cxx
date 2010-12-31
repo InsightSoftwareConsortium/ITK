@@ -232,8 +232,8 @@ public:
       throw exception;
       }
 
-    const size_t numberOfBytesToRead =  Math::CastWithRangeCheck< size_t, SizeType >(bytes);
-    SizeType     bread = fread(data, NumericTraits< size_t >::One, numberOfBytesToRead, m_File);
+    const SizeValueType numberOfBytesToRead =  Math::CastWithRangeCheck< SizeValueType, SizeType >(bytes);
+    SizeType     bread = fread(data, NumericTraits< SizeValueType >::One, numberOfBytesToRead, m_File);
     if ( bread != bytes )
       {
       itksys_ios::ostringstream oss;
@@ -256,8 +256,8 @@ public:
       throw exception;
       }
 
-    const size_t numberOfBytesToWrite =  Math::CastWithRangeCheck< size_t, SizeType >(bytes);
-    SizeType     bwritten = fwrite(data, NumericTraits< size_t >::One, numberOfBytesToWrite, m_File);
+    const SizeValueType numberOfBytesToWrite =  Math::CastWithRangeCheck< SizeValueType, SizeType >(bytes);
+    SizeType     bwritten = fwrite(data, NumericTraits< SizeValueType >::One, numberOfBytesToWrite, m_File);
     if ( bwritten != bytes )
       {
       ExceptionObject exception;
@@ -721,7 +721,7 @@ VoxBoCUBImageIO
   MetaDataDictionary & dic = GetMetaDataDictionary();
   std::vector< std::string > keys = dic.GetKeys();
   std::string                word;
-  for ( size_t i = 0; i < keys.size(); i++ )
+  for ( SizeValueType i = 0; i < keys.size(); i++ )
     {
     // The following local, key, was required to avoid Borland compiler errors
     // Using const reference should avoid extra copy while still please bcc32

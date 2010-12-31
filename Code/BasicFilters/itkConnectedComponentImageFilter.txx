@@ -104,9 +104,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   m_NumberOfLabels.resize(nbOfThreads, 0);
   m_Barrier = Barrier::New();
   m_Barrier->Initialize(nbOfThreads);
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount / xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  SizeValueType linecount = pixelcount / xsize;
   m_LineMap.resize(linecount);
   m_FirstLineIdToJoin.resize(nbOfThreads - 1);
 }
@@ -129,9 +129,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   inLineIt.SetDirection(0);
 
   // set the progress reporter to deal with the number of lines
-  long             pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
-  long             xsizeForThread = outputRegionForThread.GetSize()[0];
-  long             linecountForThread = pixelcountForThread / xsizeForThread;
+  SizeValueType    pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
+  SizeValueType    xsizeForThread = outputRegionForThread.GetSize()[0];
+  SizeValueType    linecountForThread = pixelcountForThread / xsizeForThread;
   ProgressReporter progress(this, threadId, linecountForThread * 2);
 
   // find the split axis
@@ -150,13 +150,14 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 
   // compute the number of pixels before that threads
   outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
-  long firstLineIdForThread = RegionType(outputRegionIdx, outputRegionSize).GetNumberOfPixels() / xsizeForThread;
-  long lineId = firstLineIdForThread;
+  typedef SizeValueType LineIdType;
+  LineIdType firstLineIdForThread = RegionType(outputRegionIdx, outputRegionSize).GetNumberOfPixels() / xsizeForThread;
+  LineIdType lineId = firstLineIdForThread;
 
   OffsetVec LineOffsets;
   SetupLineOffsets(LineOffsets);
 
-  long nbOfLabels = 0;
+  LineIdType nbOfLabels = 0;
   for ( inLineIt.GoToBegin();
         !inLineIt.IsAtEnd();
         inLineIt.NextLine() )
@@ -171,7 +172,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
         {
         // We've hit the start of a run
         runLength thisRun;
-        long      length = 0;
+        SizeValueType length = 0;
         IndexType thisIndex;
         thisIndex = inLineIt.GetIndex();
         //std::cout << thisIndex << std::endl;
@@ -222,7 +223,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     MapBegin = m_LineMap.begin();
     MapEnd = m_LineMap.end();
     LineIt = MapBegin;
-    unsigned long label = 1;
+    SizeValueType label = 1;
     for ( LineIt = MapBegin; LineIt != MapEnd; ++LineIt )
       {
       typename lineEncoding::iterator cIt;
@@ -241,12 +242,12 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   // now process the map and make appropriate entries in an equivalence
   // table
   // itkAssertInDebugAndIgnoreInReleaseMacro( linecount == m_LineMap.size() );
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount / xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  SizeValueType linecount = pixelcount / xsize;
 
-  long lastLineIdForThread =  linecount;
-  long nbOfLineIdToJoin = 0;
+  SizeValueType lastLineIdForThread =  linecount;
+  SizeValueType nbOfLineIdToJoin = 0;
   if ( threadId != nbOfThreads - 1 )
     {
     outputRegionForThreadSize = outputRegionForThread.GetSize();
@@ -260,14 +261,14 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
       - RegionType(outputRegionIdx, outputRegionForThreadSize).GetNumberOfPixels() / xsizeForThread;
     }
 
-  for ( long ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx )
+  for ( SizeValueType ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx )
     {
     if ( !m_LineMap[ThisIdx].empty() )
       {
-      for ( OffsetVec::const_iterator I = LineOffsets.begin();
+      for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
             I != LineOffsets.end(); ++I )
         {
-        long NeighIdx = ThisIdx + ( *I );
+        SizeValueType NeighIdx = ThisIdx + ( *I );
         // check if the neighbor is in the map
         if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() )
           {
@@ -291,16 +292,16 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     {
     if ( threadId * 2 < (int)m_FirstLineIdToJoin.size() )
       {
-      for ( long ThisIdx = m_FirstLineIdToJoin[threadId * 2];
+      for ( SizeValueType ThisIdx = m_FirstLineIdToJoin[threadId * 2];
             ThisIdx < m_FirstLineIdToJoin[threadId * 2] + nbOfLineIdToJoin;
             ++ThisIdx )
         {
         if ( !m_LineMap[ThisIdx].empty() )
           {
-          for ( OffsetVec::const_iterator I = LineOffsets.begin();
+          for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
                 I != LineOffsets.end(); ++I )
             {
-            long NeighIdx = ThisIdx + ( *I );
+            SizeValueType NeighIdx = ThisIdx + ( *I );
             // check if the neighbor is in the map
             if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() )
               {
@@ -323,7 +324,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     if ( threadId == 0 )
       {
       // remove the region already joined
-      typename std::vector< long > newFirstLineIdToJoin;
+      typename std::vector< SizeValueType > newFirstLineIdToJoin;
       for ( unsigned int i = 1; i < m_FirstLineIdToJoin.size(); i += 2 )
         {
         newFirstLineIdToJoin.push_back(m_FirstLineIdToJoin[i]);
@@ -342,7 +343,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   this->Wait();
 
   // check for overflow exception here
-  if ( m_ObjectCount > static_cast< unsigned long int >(
+  if ( m_ObjectCount > static_cast< SizeValueType >(
          NumericTraits< OutputPixelType >::max() ) )
     {
     if ( threadId == 0 )
@@ -376,14 +377,14 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
                         + RegionType( outputRegionIdx,
                                       outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread;
 
-  for ( long ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ThisIdx++ )
+  for ( SizeValueType ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ThisIdx++ )
     {
     // now fill the labelled sections
     typename lineEncoding::const_iterator cIt;
 
     for ( cIt = m_LineMap[ThisIdx].begin(); cIt != m_LineMap[ThisIdx].end(); ++cIt )
       {
-      unsigned long   Ilab = LookupSet(cIt->label);
+      SizeValueType   Ilab = LookupSet(cIt->label);
       OutputPixelType lab = m_Consecutive[Ilab];
       oit.SetIndex(cIt->where);
       // initialize the non labelled pixels
@@ -391,7 +392,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
         {
         fstart.Set(m_BackgroundValue);
         }
-      for ( long i = 0; i < cIt->length; ++i, ++oit )
+      for ( SizeValueType i = 0; i < (SizeValueType) cIt->length; ++i, ++oit )
         {
         oit.Set(lab);
         }
@@ -429,11 +430,10 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
   typename TOutputImage::Pointer output = this->GetOutput();
-  typedef Image< long, TOutputImage::ImageDimension - 1 >  PretendImageType;
-  typedef typename PretendImageType::RegionType::SizeType  PretendSizeType;
-  typedef typename PretendImageType::RegionType::IndexType PretendIndexType;
-  typedef ConstShapedNeighborhoodIterator< PretendImageType >
-  LineNeighborhoodType;
+  typedef Image< OffsetValueType, TOutputImage::ImageDimension - 1 >  PretendImageType;
+  typedef typename PretendImageType::RegionType::SizeType             PretendSizeType;
+  typedef typename PretendImageType::RegionType::IndexType            PretendIndexType;
+  typedef ConstShapedNeighborhoodIterator< PretendImageType >         LineNeighborhoodType;
 
   typename PretendImageType::Pointer fakeImage;
   fakeImage = PretendImageType::New();
@@ -468,7 +468,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   typename LineNeighborhoodType::IndexListType::const_iterator LI;
 
   PretendIndexType idx = LineRegion.GetIndex();
-  long             offset = fakeImage->ComputeOffset(idx);
+  OffsetValueType offset = fakeImage->ComputeOffset(idx);
 
   for ( LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); LI++ )
     {
@@ -491,7 +491,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 
   for ( unsigned i = 1; i < OutputImageDimension; i++ )
     {
-    if ( abs(Off[i]) > 1 )
+    if ( vnl_math_abs(Off[i]) > 1 )
       {
       return ( false );
       }
@@ -519,14 +519,14 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   for ( cIt = current.begin(); cIt != current.end(); ++cIt )
     {
     //runLength cL = *cIt;
-    long cStart = cIt->where[0];  // the start x position
-    long cLast = cStart + cIt->length - 1;
+    IndexValueType cStart = cIt->where[0];  // the start x position
+    IndexValueType cLast = cStart + cIt->length - 1;
 
     for ( nIt = mIt; nIt != Neighbour.end(); ++nIt )
       {
       //runLength nL = *nIt;
-      long nStart = nIt->where[0];
-      long nLast = nStart + nIt->length - 1;
+      IndexValueType nStart = nIt->where[0];
+      IndexValueType nLast = nStart + nIt->length - 1;
       // there are a few ways that neighbouring lines might overlap
       //   neighbor      S                  E
       //   current    S                        E
@@ -540,10 +540,10 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
       //   neighbor      S                  E
       //   current             S       E
       //------------------------------------------
-      long ss1 = nStart - offset;
-      // long ss2 = nStart + offset;
-      long ee1 = nLast - offset;
-      long ee2 = nLast + offset;
+      IndexValueType ss1 = nStart - offset;
+      // IndexValueType ss2 = nStart + offset;
+      IndexValueType ee1 = nLast - offset;
+      IndexValueType ee2 = nLast + offset;
       bool eq = false;
       // the logic here can probably be improved a lot
       if ( ( ss1 >= cStart ) && ( ee2 <= cLast ) )
@@ -595,13 +595,13 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 template< class TInputImage, class TOutputImage, class TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
-::InsertSet(const unsigned long int label)
+::InsertSet(const LabelType label)
 {
   m_UnionFind[label] = label;
 }
 
 template< class TInputImage, class TOutputImage, class TMaskImage >
-unsigned long int
+SizeValueType
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::CreateConsecutive()
 {
@@ -611,14 +611,14 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 
   m_Consecutive[background] = background;
 
-  unsigned long int CLab = 0;
-  unsigned long int count = 0;
-  for ( unsigned long int I = 1; I < m_UnionFind.size(); I++ )
+  SizeValueType CLab = 0;
+  SizeValueType count = 0;
+  for ( SizeValueType I = 1; I < m_UnionFind.size(); I++ )
     {
-    unsigned long int L = m_UnionFind[I];
+    SizeValueType L = m_UnionFind[I];
     if ( L == I )
       {
-      if ( CLab == static_cast< unsigned long int >( m_BackgroundValue ) )
+      if ( CLab == static_cast< SizeValueType >( m_BackgroundValue ) )
         {
         ++CLab;
         }
@@ -631,7 +631,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 }
 
 template< class TInputImage, class TOutputImage, class TMaskImage >
-unsigned long int
+SizeValueType
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::LookupSet(const LabelType label)
 {
@@ -648,8 +648,8 @@ void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::LinkLabels(const LabelType lab1, const LabelType lab2)
 {
-  unsigned long E1 = this->LookupSet(lab1);
-  unsigned long E2 = this->LookupSet(lab2);
+  SizeValueType E1 = this->LookupSet(lab1);
+  SizeValueType E2 = this->LookupSet(lab2);
 
   if ( E1 < E2 )
     {

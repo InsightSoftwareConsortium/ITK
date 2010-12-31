@@ -112,8 +112,8 @@ public:
   /**
    * Set/Get the number of objects to keep
    */
-  itkGetConstMacro(NumberOfObjects, unsigned long);
-  itkSetMacro(NumberOfObjects, unsigned long);
+  itkGetConstMacro(NumberOfObjects, SizeValueType);
+  itkSetMacro(NumberOfObjects, SizeValueType);
 
   /**
    * Set/Get the ordering of the objects. By default, the ones with the
@@ -157,7 +157,7 @@ private:
   void operator=(const Self &);                    //purposely not implemented
 
   OutputImagePixelType m_BackgroundValue;
-  unsigned long        m_NumberOfObjects;
+  SizeValueType        m_NumberOfObjects;
   bool                 m_ReverseOrdering;
   AttributeType        m_Attribute;
 }; // end of class

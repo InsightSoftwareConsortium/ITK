@@ -73,6 +73,9 @@ public:
 
   typedef typename LabelObjectType::Pointer LabelObjectPointerType;
 
+  typedef typename Superclass::SizeValueType SizeValueType;
+  typedef SizeValueType                      LengthType;
+
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
    * and dimension) when they need compile time access to the dimension of
@@ -167,9 +170,9 @@ public:
    * inefficient.
    * This method thorws an exception if the index doesn't exist in this image.
    */
-  LabelObjectType * GetNthLabelObject(const unsigned long & pos);
+  LabelObjectType * GetNthLabelObject(const SizeValueType & pos);
 
-  const LabelObjectType * GetNthLabelObject(const unsigned long & pos) const;
+  const LabelObjectType * GetNthLabelObject(const SizeValueType & pos) const;
 
   /**
    * Return the pixel value at a given index in the image. This method
@@ -195,7 +198,7 @@ public:
    * contain several time the same pixel after have run that method.
    * This method runs in constant time.
    */
-  void SetLine(const IndexType & idx, const unsigned long & length, const LabelType & label);
+  void SetLine(const IndexType & idx, const LengthType & length, const LabelType & label);
 
   /**
    * Return the label object at a given index. This method
@@ -241,7 +244,7 @@ public:
   /**
    * Return the numbner of label objects in the image
    */
-  unsigned long GetNumberOfLabelObjects() const;
+  SizeValueType GetNumberOfLabelObjects() const;
 
   /**
    * Return the labels of the label objects available in the label map

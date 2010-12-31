@@ -19,6 +19,7 @@
 #define __itkVoronoiDiagram2DGenerator_txx
 #include "itkVoronoiDiagram2DGenerator.h"
 
+#include "itkIntTypes.h"
 #include <algorithm>
 #include "vnl/vnl_sample.h"
 
@@ -288,7 +289,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
 
   unsigned char                frontbnd;
   unsigned char                backbnd;
-  std::vector< unsigned long > cellPoints;
+  std::vector< IdentifierType > cellPoints;
   for ( unsigned int i = 0; i < m_NumberOfSeeds; i++ )
     {
     buildEdges.clear();

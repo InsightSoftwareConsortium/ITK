@@ -33,11 +33,11 @@ double CellBase:: DefaultRadius         =        1.00;            // microns
 double CellBase:: GrowthRadiusIncrement =        0.01;            // microns
 double CellBase:: GrowthRadiusLimit     =        2.00;            // microns
 
-unsigned long CellBase:: MaximumGenerationLimit =        30L;     // 30th
+SizeValueType CellBase:: MaximumGenerationLimit =        30L;     // 30th
                                                                   // generation
 
-unsigned long CellBase:: GrowthMaximumLatencyTime    =   50;
-unsigned long CellBase:: DivisionMaximumLatencyTime  =   50;
+SizeValueType CellBase:: GrowthMaximumLatencyTime    =   50;
+SizeValueType CellBase:: DivisionMaximumLatencyTime  =   50;
 
 double CellBase:: NutrientSelfRepairLevel  =       0;
 double CellBase:: EnergySelfRepairLevel    =       0;
@@ -45,7 +45,7 @@ double CellBase:: EnergySelfRepairLevel    =       0;
 double CellBase:: DefaultEnergyIntake      =       1;
 double CellBase:: DefaultNutrientsIntake   =       1;
 
-unsigned long CellBase:: Counter = 0;     // number of cells created
+SizeValueType CellBase:: Counter = 0;     // number of cells created
 
 CellBase::GeneIdType CellBase:: RedGene   = "Red";
 CellBase::GeneIdType CellBase:: GreenGene = "Green";
@@ -89,11 +89,11 @@ CellBase
   m_EnergyReserveLevel    = EnergySelfRepairLevel   + DefaultEnergyIntake;
 
   // delay before starting to grow after Mitosis
-  m_GrowthLatencyTime   = static_cast< unsigned long >(
-    vnl_sample_uniform( 0UL, this->GetGrowthMaximumLatencyTime() ) );
+  m_GrowthLatencyTime   = static_cast< SizeValueType >(
+    vnl_sample_uniform( 0, this->GetGrowthMaximumLatencyTime() ) );
 
   // add a random time before starting to grow
-  m_DivisionLatencyTime = static_cast< unsigned long >(
+  m_DivisionLatencyTime = static_cast< SizeValueType >(
     vnl_sample_uniform( 0, this->GetDivisionMaximumLatencyTime() ) );
 
   m_ScheduleApoptosis    = false;
@@ -345,7 +345,7 @@ CellBase
  */
 void
 CellBase
-::SetGrowthMaximumLatencyTime(unsigned long latency)
+::SetGrowthMaximumLatencyTime(SizeValueType latency)
 {
   CellBase::GrowthMaximumLatencyTime = latency;
 }
@@ -353,7 +353,7 @@ CellBase
 /**
  *    Get Growth Latency Time
  */
-unsigned long
+SizeValueType
 CellBase
 ::GetGrowthMaximumLatencyTime(void)
 {
@@ -455,7 +455,7 @@ CellBase
  */
 void
 CellBase
-::SetMaximumGenerationLimit(unsigned long generationLimit)
+::SetMaximumGenerationLimit(SizeValueType generationLimit)
 {
   MaximumGenerationLimit = generationLimit;
 }
@@ -603,7 +603,7 @@ CellBase
  */
 void
 CellBase
-::SetDivisionMaximumLatencyTime(unsigned long latency)
+::SetDivisionMaximumLatencyTime(SizeValueType latency)
 {
   CellBase::DivisionMaximumLatencyTime = latency;
 }
@@ -611,7 +611,7 @@ CellBase
 /**
  *    Get Division Latency Time
  */
-unsigned long
+SizeValueType
 CellBase
 ::GetDivisionMaximumLatencyTime(void)
 {
