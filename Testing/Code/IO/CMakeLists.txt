@@ -48,15 +48,10 @@ itkArchetypeSeriesFileNamesTest.cxx
 itkBMPImageIOTest.cxx
 itkBMPImageIOTest2.cxx
 itkBioRadImageIOTest.cxx
+itkDicomImageIODirection2DTest.cxx
 itkLSMImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkConvertBufferTest2.cxx
-itkDICOMImageIO2Test.cxx
-itkDICOMImageSeriesTest.cxx
-itkDICOMImageSeriesTest2.cxx
-itkDICOMSeriesFileNamesTest.cxx
-itkDicomImageIOTest.cxx
-itkDicomImageIODirection2DTest.cxx
 itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkImageIOBaseTest.cxx
@@ -145,6 +140,17 @@ testMetaArray.cxx
 testMetaCommand.cxx
 itkImageFileWriterUpdateLargestPossibleRegionTest.cxx
 )
+
+
+if( NOT ITK_USE_MODULAR_BUILD )
+  set(IOTest_SRCS ${IOTest_SRCS}
+     itkDICOMImageIO2Test.cxx
+     itkDicomImageIOTest.cxx
+     itkDICOMImageSeriesTest.cxx
+     itkDICOMImageSeriesTest2.cxx
+     itkDICOMSeriesFileNamesTest.cxx
+      )
+endif()
 
 set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
@@ -775,24 +781,31 @@ add_test(itkJPEGImageIOTest2 ${IO_TESTS}
   itkJPEGImageIOTest
             ${ITK_DATA_ROOT}/Input/cthead1.jpg
             ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg)
-add_test(itkDicomImageIOTest ${IO_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/IO/itkDicomImageIOTest.png
-            ${ITK_TEST_OUTPUT_DIR}/itkDicomImageIOTest.png
-  itkDicomImageIOTest
-            ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkDicomImageIOTest.png)
-add_test(itkDICOMImageIO2Test ${IO_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/IO/itkDICOMImageIO2Test.png
-            ${ITK_TEST_OUTPUT_DIR}/itkDICOMImageIO2Test.png
-  itkDICOMImageIO2Test
-            ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
-            ${ITK_TEST_OUTPUT_DIR}/itkDICOMImageIO2Test.png)
+
+if(NOT ITK_USE_MODULAR_BUILD)
+    add_test(itkDicomImageIOTest ${IO_TESTS}
+    --compare ${ITK_DATA_ROOT}/Baseline/IO/itkDicomImageIOTest.png
+              ${ITK_TEST_OUTPUT_DIR}/itkDicomImageIOTest.png
+    itkDicomImageIOTest
+              ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
+              ${ITK_TEST_OUTPUT_DIR}/itkDicomImageIOTest.png)
+
+    add_test(itkDICOMImageIO2Test ${IO_TESTS}
+    --compare ${ITK_DATA_ROOT}/Baseline/IO/itkDICOMImageIO2Test.png
+              ${ITK_TEST_OUTPUT_DIR}/itkDICOMImageIO2Test.png
+    itkDICOMImageIO2Test
+              ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
+              ${ITK_TEST_OUTPUT_DIR}/itkDICOMImageIO2Test.png)
+endif()
+
 add_test(itkDicomImageIODirection2DTest ${IO_TESTS}
   itkDicomImageIODirection2DTest
   ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.dcm
   ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.mhd
   ${ITK_TEST_OUTPUT_DIR}/itkDicomImage2DIODirection2DTest.mhd
   )
+
+
 add_test(itkStimulateImageIOTest2 ${IO_TESTS}
   itkStimulateImageIOTest2
             ${ITK_DATA_ROOT}/Input/BigEndian.spr)
@@ -925,17 +938,24 @@ add_test(itkTIFFImageIOMultiPagesTest2 ${IO_TESTS}
             3
             )
 
-add_test(itkDICOMImageSeriesTest ${IO_TESTS}
-  itkDICOMImageSeriesTest
-            ${ITK_DATA_ROOT}/Input/DicomSeries 0)
 
-add_test(itkDICOMImageSeriesTest2 ${IO_TESTS}
-  itkDICOMImageSeriesTest2
-            ${ITK_DATA_ROOT}/Input/DicomSeries )
+if (NOT ITK_USE_MODULAR_BUILD)
+  add_test(itkDICOMImageSeriesTest ${IO_TESTS}
+    itkDICOMImageSeriesTest
+              ${ITK_DATA_ROOT}/Input/DicomSeries 0)
 
-add_test(itkDICOMSeriesFileNamesTest ${IO_TESTS}
-  itkDICOMSeriesFileNamesTest
-            ${ITK_DATA_ROOT}/Input/DicomSeries)
+  add_test(itkDICOMImageSeriesTest2 ${IO_TESTS}
+    itkDICOMImageSeriesTest2
+              ${ITK_DATA_ROOT}/Input/DicomSeries )
+
+  add_test(itkDICOMSeriesFileNamesTest ${IO_TESTS}
+    itkDICOMSeriesFileNamesTest
+              ${ITK_DATA_ROOT}/Input/DicomSeries)
+
+  add_test(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
+           ${ITK_DATA_ROOT}/Input/012345.002.050
+           ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
+endif()
 
 
 add_test(itkImageSeriesReaderDimensionsTest1 ${IO_TESTS}
@@ -963,9 +983,6 @@ add_test(itkImageSeriesWriterTest ${IO_TESTS}
 add_test(itkNumericSeriesFileNamesTest ${IO_TESTS}
   itkNumericSeriesFileNamesTest)
 
-add_test(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
-         ${ITK_DATA_ROOT}/Input/012345.002.050
-         ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
 
 add_test(itkPNGRGBAIOTest ${IO_TESTS} itkPNGRGBAIOTest
         ${ITK_DATA_ROOT}/Input/PNGRGBAImageIOTestInput.png
@@ -980,11 +997,11 @@ add_test(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
          ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
          ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest2.png)
 
+
 add_test(itkImageReadDICOMSeriesWriteTest ${IO_TESTS}
   itkImageReadDICOMSeriesWriteTest
   ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolume)
-
 
 #
 # Testing reading and writing of DICOM series with non-trivial directions.
@@ -1001,7 +1018,6 @@ add_test(itkImageReadDICOMSeriesWriteWithDirection003Test ${IO_TESTS}
   itkImageReadDICOMSeriesWriteTest
   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection003)
-
 
 ##Analyze Test Suite
   add_test(itkAnalyzeIOBigEndianCompressed.hdr ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}

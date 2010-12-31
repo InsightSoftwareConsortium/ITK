@@ -33,8 +33,10 @@
 #include "itkBioRadImageIOFactory.h"
 #include "itkConvertPixelBuffer.txx"
 #include "itkDefaultConvertPixelTraits.h"
-#include "itkDicomImageIO.h"
-#include "itkDicomImageIOFactory.h"
+#if !defined(ITK_USE_MODULAR_BUILD)
+  #include "itkDicomImageIO.h"
+  #include "itkDicomImageIOFactory.h"
+#endif
 #include "itkGDCMImageIOFactory.h"
 #include "itkGDCMSeriesFileNames.h"
 #include "itkGE4ImageIO.h"
@@ -94,4 +96,3 @@ int main ( int , char * [] )
 
   return EXIT_SUCCESS;
 }
-
