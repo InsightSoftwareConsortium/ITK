@@ -81,7 +81,7 @@ void
 LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
-  typedef typename itk::ObjectByObjectLabelMapFilter< InputImageType, InputImageType > OBOType;
+  typedef ObjectByObjectLabelMapFilter< InputImageType, InputImageType > OBOType;
   typename OBOType::Pointer obo = OBOType::New();
   obo->SetInput( this->GetInput() );
   SizeType rad = m_DilationRadius;
@@ -94,41 +94,42 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 
   // dilate the image
   typedef typename OBOType::InternalInputImageType InternalImageType;
-  typedef typename itk::FlatStructuringElement< ImageDimension > KernelType;
-  typedef typename itk::BinaryDilateImageFilter< InternalImageType, InternalImageType, KernelType > DilateType;
+  typedef FlatStructuringElement< ImageDimension > KernelType;
+  typedef BinaryDilateImageFilter< InternalImageType, InternalImageType, KernelType > DilateType;
   typename DilateType::Pointer dilate = DilateType::New();
   dilate->SetKernel( KernelType::Ball( m_DilationRadius ) );
   obo->SetInputFilter( dilate );
 
-//   typedef typename itk::CastImageFilter< InternalImageType, InternalImageType, KernelType > CastType;
+//   typedef typename CastImageFilter< InternalImageType, InternalImageType, KernelType > CastType;
 //   typename CastType::Pointer cast = CastType::New();
 //   cast->SetInPlace( false );
 
-  typedef typename itk::BinaryErodeImageFilter< InternalImageType, InternalImageType, KernelType > ErodeType;
+  typedef BinaryErodeImageFilter< InternalImageType, InternalImageType, KernelType > ErodeType;
   typename ErodeType::Pointer erode = ErodeType::New();
   erode->SetKernel( KernelType::Ball( m_ContourThickness ) );
   erode->SetInput( dilate->GetOutput() );
 
-  typedef typename itk::SubtractImageFilter< InternalImageType, InternalImageType > SubtractType;
+  typedef SubtractImageFilter< InternalImageType, InternalImageType > SubtractType;
   typename SubtractType::Pointer sub = SubtractType::New();
   sub->SetInput( 0, dilate->GetOutput() );
   sub->SetInput( 1, erode->GetOutput() );
 
 
-  typedef typename itk::SliceBySliceImageFilter< InternalImageType, InternalImageType > SliceType;
+  typedef SliceBySliceImageFilter< InternalImageType, InternalImageType > SliceType;
   typedef typename SliceType::InternalInputImageType SliceInternalImageType;
   typename SliceType::Pointer slice = SliceType::New();
 
-  typedef typename itk::CastImageFilter< SliceInternalImageType, SliceInternalImageType > SliceCastType;
+  typedef CastImageFilter< SliceInternalImageType, SliceInternalImageType > SliceCastType;
   typename SliceCastType::Pointer scast = SliceCastType::New();
   scast->SetInPlace( false );
   slice->SetInputFilter( scast );
 
-  typedef typename itk::FlatStructuringElement< ImageDimension - 1 > SliceKernelType;
-  typedef typename itk::BinaryErodeImageFilter< SliceInternalImageType, SliceInternalImageType, SliceKernelType > SliceErodeType;
+  typedef FlatStructuringElement< ImageDimension - 1 > SliceKernelType;
+  typedef BinaryErodeImageFilter< SliceInternalImageType, SliceInternalImageType, SliceKernelType > SliceErodeType;
   typename SliceErodeType::Pointer serode = SliceErodeType::New();
-  typename SliceKernelType::RadiusType srad;
-  srad.Fill(0.0);
+  typedef typename SliceKernelType::RadiusType RadiusType;
+  RadiusType srad;
+  srad.Fill(NumericTraits<typename RadiusType::SizeValueType>::Zero);
   int j=0;
   for( int i=0; i<ImageDimension; i++ )
     {
@@ -141,7 +142,7 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   serode->SetKernel( SliceKernelType::Ball( srad ) );
   serode->SetInput( scast->GetOutput() );
 
-  typedef typename itk::SubtractImageFilter< SliceInternalImageType, SliceInternalImageType > SliceSubtractType;
+  typedef SubtractImageFilter< SliceInternalImageType, SliceInternalImageType > SliceSubtractType;
   typename SliceSubtractType::Pointer ssub = SliceSubtractType::New();
   ssub->SetInput( 0, scast->GetOutput() );
   ssub->SetInput( 1, serode->GetOutput() );
@@ -155,7 +156,7 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
     }
   else if( m_Type == CONTOUR )
     {
-//     typedef typename itk::BinaryContourImageFilter< InternalImageType, InternalImageType > ContourType;
+//     typedef BinaryContourImageFilter< InternalImageType, InternalImageType > ContourType;
 //     typename ContourType::Pointer contour = ContourType::New();
 //     contour->SetInput( dilate->GetOutput() );
 //     obo->SetOutputFilter( contour );
@@ -168,7 +169,7 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
     obo->SetOutputFilter( slice );
 
 //     typedef typename SliceType::InternalInputImageType SliceInternalType;
-//     typedef typename itk::BinaryContourImageFilter< SliceInternalType, SliceInternalType > SliceContourType;
+//     typedef BinaryContourImageFilter< SliceInternalType, SliceInternalType > SliceContourType;
 //     typename SliceContourType::Pointer slice_contour = SliceContourType::New();
 //     slice->SetFilter( slice_contour );
     }
@@ -178,7 +179,7 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
     }
 
   // choose which labels will be on top of the oters
-  typedef typename itk::LabelUniqueLabelMapFilter< InputImageType > UniqueType;
+  typedef LabelUniqueLabelMapFilter< InputImageType > UniqueType;
   typename UniqueType::Pointer uniq = UniqueType::New();
   uniq->SetInput( obo->GetOutput() );
   uniq->SetReverseOrdering( m_Priority == LOW_LABEL_ON_TOP );
@@ -189,9 +190,9 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 
 
   long nbOfThreads = this->GetNumberOfThreads();
-  if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
+  if( MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = std::min( this->GetNumberOfThreads(), MultiThreader::GetGlobalMaximumNumberOfThreads() );
     }
   // number of threads can be constrained by the region size, so call the SplitRequestedRegion
   // to get the real number of threads which will be used
