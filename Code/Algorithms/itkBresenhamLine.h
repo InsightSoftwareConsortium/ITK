@@ -38,7 +38,7 @@ public:
   typedef Offset< VDimension >        OffsetType;
   typedef Index< VDimension >         IndexType;
   typedef std::vector< OffsetType >   OffsetArray;
-  typedef std::vector< IndexType >   IndexArray;
+  typedef std::vector< IndexType >    IndexArray;
 
   typedef typename IndexType::IndexValueType IndexValueType;
 
