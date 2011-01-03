@@ -69,7 +69,11 @@ typename BresenhamLine< VDimension >::OffsetArray BresenhamLine< VDimension >
   unsigned int   maxDistanceDimension = 0;
   for ( unsigned i = 0; i < VDimension; i++ )
     {
-    IndexValueType distance = vcl_abs(LastIndex[i]);
+    IndexValueType distance = LastIndex[i];
+    if (distance < 0)
+      {
+      distance = -distance;
+      }
     if ( distance > maxDistance )
       {
       maxDistance = distance;
