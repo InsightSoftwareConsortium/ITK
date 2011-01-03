@@ -21,16 +21,82 @@
 
 #include <iostream>
 #include "itkSimpleFilterWatcher.h"
-#include "itkInvertIntensityImageFilter.h"
 #include "itkImage.h"
+#include "itkUnaryFunctorImageFilter.h"
 
+namespace itk
+{
+  namespace Function
+  {
+    template< class TInput, class TOutput >
+    class TanHelper
+    {
+    public:
+      TanHelper() {}
+      ~TanHelper() {}
+      bool operator!=(const TanHelper &) const
+      {
+        return false;
+      }
+
+      bool operator==(const TanHelper & other) const
+      {
+        return !( *this != other );
+      }
+
+      inline TOutput operator()(const TInput & A) const
+      { return (TOutput)vcl_tan( (double)A ); }
+    };
+  }
+
+  template< class TInputImage, class TOutputImage >
+  class ITK_EXPORT TanHelperImageFilter:
+    public UnaryFunctorImageFilter< TInputImage, TOutputImage,
+                             Function::TanHelper< typename TInputImage::PixelType,
+                                            typename TOutputImage::PixelType >   >
+  {
+  public:
+    /** Standard class typedefs. */
+    typedef TanHelperImageFilter Self;
+    typedef UnaryFunctorImageFilter<
+      TInputImage, TOutputImage,
+      Function::TanHelper< typename TInputImage::PixelType,
+                     typename TOutputImage::PixelType > >  Superclass;
+
+    typedef SmartPointer< Self >       Pointer;
+    typedef SmartPointer< const Self > ConstPointer;
+
+    /** Method for creation through the object factory. */
+    itkNewMacro(Self);
+
+    /** Runtime information support. */
+    itkTypeMacro(TanHelperImageFilter,
+                 UnaryFunctorImageFilter);
+
+  #ifdef ITK_USE_CONCEPT_CHECKING
+    /** Begin concept checking */
+    itkConceptMacro( InputConvertibleToDoubleCheck,
+                     ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
+    itkConceptMacro( DoubleConvertibleToOutputCheck,
+                     ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+    /** End concept checking */
+  #endif
+  protected:
+    TanHelperImageFilter() {}
+    virtual ~TanHelperImageFilter() {}
+  private:
+    TanHelperImageFilter(const Self &); //purposely not implemented
+    void operator=(const Self &); //purposely not implemented
+  };
+
+}
 
 int itkSimpleFilterWatcherTest (int, char*[])
 {
   // Test out the code
   typedef itk::SimpleFilterWatcher        WatcherType;
   typedef itk::Image<char,3>              ImageType;
-  typedef itk::InvertIntensityImageFilter<
+  typedef itk::TanHelperImageFilter<
     ImageType, ImageType>                 FilterType;
   FilterType::Pointer filter = FilterType::New();
   const char * comment = "comment";
