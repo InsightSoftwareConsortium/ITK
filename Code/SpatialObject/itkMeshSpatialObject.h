@@ -53,8 +53,8 @@ public:
   typedef typename Superclass::PointType       PointType;
   typedef typename Superclass::BoundingBoxType BoundingBoxType;
 
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
-  typedef typename PointContainerType::Pointer        PointContainerPointer;
+  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
+  typedef typename PointContainerType::Pointer         PointContainerPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

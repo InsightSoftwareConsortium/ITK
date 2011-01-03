@@ -259,7 +259,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
   IndexType centerIndex;
   for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
     {
-    centerIndex[i] = (unsigned long)( (float)m_InternalImage->GetBufferedRegion().GetSize()[i] / 2.0 );
+    centerIndex[i] = (IndexValueType)( (float)m_InternalImage->GetBufferedRegion().GetSize()[i] / 2.0 );
     }
 
   // first direction
@@ -365,15 +365,13 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 {
   for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension); direction++ )
     {
-    NeighborhoodType gaussianNeighborhood;
-    typename GaussianFunctionType::InputType pt;
     typename NeighborhoodType::SizeType size;
     size.Fill(0);
-    size[direction] = (unsigned long)( m_Sigma[direction] * m_Extent[direction] );
+    size[direction] = static_cast<SizeValueType>( m_Sigma[direction] * m_Extent[direction] );
 
+    NeighborhoodType gaussianNeighborhood;
     gaussianNeighborhood.SetRadius(size);
 
-    typename NeighborhoodType::Iterator it = gaussianNeighborhood.Begin();
 
     itk::FixedArray< double, 1 > s;
     s[0] = m_Sigma[direction];
@@ -381,8 +379,10 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 
     unsigned int i = 0;
     float        sum = 0;
+    typename NeighborhoodType::Iterator it = gaussianNeighborhood.Begin();
     while ( it != gaussianNeighborhood.End() )
       {
+      typename GaussianFunctionType::InputType pt;
       pt[0] = gaussianNeighborhood.GetOffset(i)[direction] - offset[direction];
       if ( ( m_UseImageSpacing == true ) && ( this->GetInputImage() ) )
         {

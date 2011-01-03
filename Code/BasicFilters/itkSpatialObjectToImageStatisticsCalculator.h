@@ -102,7 +102,7 @@ public:
   AccumulateType GetSum() const { return m_Sum; }
 
   /** Get the number of pixels inside the object */
-  itkGetConstMacro(NumberOfPixels, unsigned long);
+  itkGetConstMacro(NumberOfPixels, SizeValueType);
 
   /** Compute of the input image. */
   void Update(void);
@@ -125,7 +125,7 @@ private:
   SpatialObjectPointer m_SpatialObject;
   VectorType           m_Mean;
   AccumulateType       m_Sum;
-  unsigned long        m_NumberOfPixels;
+  SizeValueType        m_NumberOfPixels;
   MatrixType           m_CovarianceMatrix;
   unsigned int         m_SampleDirection;
   unsigned long        m_InternalImageTime;

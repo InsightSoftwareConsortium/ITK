@@ -47,7 +47,7 @@ public:
       precision). Using double type will also ultimately fall into the same problem.
       Hence in the new statistics framework, InstanceIdentifier/FrequencyTypes are
       set to the the largest possible integer on the machine */
-  typedef size_t InstanceIdentifier;
+  typedef IdentifierType  InstanceIdentifier;
 
   /** Type defined for representing the frequency of measurement vectors */
   typedef InstanceIdentifier                                     AbsoluteFrequencyType;

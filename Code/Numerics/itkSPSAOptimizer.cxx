@@ -290,7 +290,7 @@ SPSAOptimizer
  */
 
 double SPSAOptimizer
-::Compute_a(unsigned long k) const
+::Compute_a(SizeValueType k) const
 {
   return static_cast< double >(
            m_Sa / vcl_pow(m_A + k + 1, m_Alpha) );
@@ -304,7 +304,7 @@ double SPSAOptimizer
  */
 
 double SPSAOptimizer
-::Compute_c(unsigned long k) const
+::Compute_c(SizeValueType k) const
 {
   return static_cast< double >(
            m_Sc / vcl_pow(k + 1, m_Gamma) );
@@ -375,7 +375,7 @@ SPSAOptimizer::ComputeGradient(
   /** Compute the gradient as an average of q estimates, where
    * q = m_NumberOfPerturbations
    */
-  for ( unsigned long perturbation = 1;
+  for ( SizeValueType perturbation = 1;
         perturbation <= this->GetNumberOfPerturbations();
         ++perturbation )
     {
@@ -455,7 +455,7 @@ SPSAOptimizer::ComputeGradient(
  */
 void
 SPSAOptimizer::GuessParameters(
-  unsigned long numberOfGradientEstimates,
+  SizeValueType numberOfGradientEstimates,
   double initialStepSize)
 {
   /** Guess A */
@@ -481,7 +481,7 @@ SPSAOptimizer::GuessParameters(
   DerivativeType averageAbsoluteGradient(spaceDimension);
   averageAbsoluteGradient.Fill(0.0);
   m_CurrentIteration = 0;
-  for ( unsigned long n = 1; n <= numberOfGradientEstimates; ++n )
+  for ( SizeValueType n = 1; n <= numberOfGradientEstimates; ++n )
     {
     this->ComputeGradient(initialPosition, m_Gradient);
     for ( unsigned int j = 0; j < spaceDimension; j++ )

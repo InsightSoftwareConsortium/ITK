@@ -332,6 +332,32 @@ class vnl_numeric_traits<size_t const> : public vnl_numeric_traits<size_t> {};
 
 #endif   // _WIN64
 
+#ifdef _WIN64
+VCL_DEFINE_SPECIALIZATION
+class vnl_numeric_traits<long long>
+{
+ public:
+  //: Additive identity
+  static const long long zero VCL_STATIC_CONST_INIT_INT_DECL(0);
+  //: Multiplicative identity
+  static const long long one VCL_STATIC_CONST_INIT_INT_DECL(1);
+  //: Maximum value which this type can assume
+  static const long long maxval; // = 0x7fffffff;
+  //: Return value of abs()
+  typedef unsigned long long abs_t;
+  //: Name of a type twice as long as this one for accumulators and products.
+  typedef long long double_t;
+  //: Name of type which results from multiplying this type with a double
+  typedef double real_t;
+};
+
+#if !VCL_CANNOT_SPECIALIZE_CV
+VCL_DEFINE_SPECIALIZATION
+class vnl_numeric_traits<long long const> : public vnl_numeric_traits<long long> {};
+#endif
+
+#endif   // _WIN64
+
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<float>
 {

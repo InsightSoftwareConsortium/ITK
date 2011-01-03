@@ -266,11 +266,11 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
       cooccur[0] = centerPixelIntensity;
       cooccur[1] = pixelIntensity;
-      output->IncreaseFrequency(cooccur, 1);
+      output->IncreaseFrequencyOfMeasurement(cooccur, 1);
 
       cooccur[1] = centerPixelIntensity;
       cooccur[0] = pixelIntensity;
-      output->IncreaseFrequency(cooccur, 1);
+      output->IncreaseFrequencyOfMeasurement(cooccur, 1);
       }
     }
 }
@@ -345,11 +345,11 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
       cooccur[0] = centerPixelIntensity;
       cooccur[1] = pixelIntensity;
-      output->IncreaseFrequency(cooccur, 1);
+      output->IncreaseFrequencyOfMeasurement(cooccur, 1);
 
       cooccur[1] = centerPixelIntensity;
       cooccur[0] = pixelIntensity;
-      output->IncreaseFrequency(cooccur, 1);
+      output->IncreaseFrequencyOfMeasurement(cooccur, 1);
       }
     }
 }

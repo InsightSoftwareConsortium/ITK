@@ -103,11 +103,16 @@ protected:
     IndexType idx;
     if( physical )
       {
-      Point< double, ImageDimension > point;
+      typedef double CoordinateType;
+      Point< CoordinateType, ImageDimension > point;
       // copy the position to a point, required by TransformPhysicalPointToIndex
       for( int i=0; i<ImageDimension; i++ )
         {
-        point[i] = (long)position[i];
+        // FIXME: This is a bug. The cast should be as in the following line
+        // where CoordinateType is used as the type to cast to. We are temporarily
+        // keeping this original line here to avoid confusing the patch for 64 bits.
+        point[i] = static_cast<OffsetValueType>( position[i] ); // FIXME: use next line instead.
+        // point[i] = static_cast<CoordinateType>( position[i] );
         }
       this->GetOutput()->TransformPhysicalPointToIndex( point, idx );
       }
@@ -116,7 +121,7 @@ protected:
       // copy the position to the index, to avoid warnings
       for( int i=0; i<ImageDimension; i++ )
         {
-        idx[i] = (long)position[i];
+        idx[i] = static_cast<IndexValueType>( position[i] );
         }
       }
     // clear the label object

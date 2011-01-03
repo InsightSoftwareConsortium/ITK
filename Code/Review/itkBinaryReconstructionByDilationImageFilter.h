@@ -81,7 +81,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef AttributeLabelObject<unsigned long, ImageDimension, bool>                        LabelObjectType;
+  typedef AttributeLabelObject< SizeValueType, ImageDimension, bool>                       LabelObjectType;
   typedef typename itk::LabelMap< LabelObjectType >                                        LabelMapType;
   typedef typename itk::BinaryImageToLabelMapFilter< InputImageType, LabelMapType >        LabelizerType;
   typedef typename itk::BinaryReconstructionLabelMapFilter< LabelMapType, InputImageType > ReconstructionType;

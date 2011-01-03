@@ -172,15 +172,15 @@ public:
    * to criteria specific to this algorithm.   */
   static void MergeSegments(SegmentTableTypePointer,
                             OneWayEquivalencyTableTypePointer,
-                            const unsigned long,
-                            const unsigned long);
+                            const IdentifierType,
+                            const IdentifierType);
 
   /** This method should not be used.  It will be removed in future versions
    * of this filter. */
   static void PruneMergeSegments(SegmentTableTypePointer,
                                  OneWayEquivalencyTableTypePointer,
-                                 const unsigned long,
-                                 const unsigned long,
+                                 const IdentifierType,
+                                 const IdentifierType,
                                  ScalarType);
 
   /** Standard itk::ProcessObject subclass method. */
@@ -212,6 +212,8 @@ private:
   bool   m_Merge;
   double m_FloodLevel;
   bool   m_ConsumeInput;
+
+  typedef itk::hash_map< IdentifierType, bool, itk::hash< IdentifierType > >  HashMapType;
 
   OneWayEquivalencyTableType::Pointer m_MergedSegmentsTable;
 

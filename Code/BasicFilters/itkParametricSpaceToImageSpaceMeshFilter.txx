@@ -112,7 +112,7 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
   // support progress methods/callbacks
   ProgressReporter progress( this, 0, inPoints->Size() );
 
-  const unsigned long OutputDimension = TOutputMesh::PointDimension;
+  const unsigned int OutputDimension = TOutputMesh::PointDimension;
 
   typename TOutputMesh::PointType point;
 

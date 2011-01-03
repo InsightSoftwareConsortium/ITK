@@ -108,7 +108,7 @@ template< class TFixedImage, class TMovingImage  >
 inline bool
 MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueThreadProcessSample(unsigned int threadID,
-                              unsigned long fixedImageSample,
+                              SizeValueType fixedImageSample,
                               const MovingImagePointType & itkNotUsed(mappedPoint),
                               double movingImageValue) const
 {
@@ -171,7 +171,7 @@ template< class TFixedImage, class TMovingImage  >
 inline bool
 MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeThreadProcessSample(unsigned int threadID,
-                                           unsigned long fixedImageSample,
+                                           SizeValueType fixedImageSample,
                                            const MovingImagePointType & itkNotUsed(mappedPoint),
                                            double movingImageValue,
                                            const ImageDerivativesType &

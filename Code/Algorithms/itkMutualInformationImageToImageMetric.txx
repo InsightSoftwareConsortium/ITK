@@ -124,8 +124,8 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 
   // Number of random picks made from the portion of fixed image within the
   // fixed mask
-  unsigned long numberOfFixedImagePixelsVisited = 0;
-  unsigned long dryRunTolerance = this->GetFixedImageRegion().GetNumberOfPixels();
+  SizeValueType numberOfFixedImagePixelsVisited = 0;
+  SizeValueType dryRunTolerance = this->GetFixedImageRegion().GetNumberOfPixels();
 
   for ( iter = samples.begin(); iter != end; ++iter )
     {

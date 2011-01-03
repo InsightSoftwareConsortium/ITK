@@ -105,7 +105,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
 
   drfp->SetDeformationField( this->GetDeformationField() );
 
-  const size_t numberOfPixels = this->GetFixedImage()->GetLargestPossibleRegion().GetNumberOfPixels();
+  const SizeValueType numberOfPixels = this->GetFixedImage()->GetLargestPossibleRegion().GetNumberOfPixels();
 
   // allocate temporary storage for DCT, potentially aligned for SIMD processing
   if ( m_DeformationFieldComponentImage )
@@ -240,7 +240,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
   fixedImageIteratorWithIndex = ImageRegionConstIteratorWithIndex< FixedImageType >
                                   ( this->GetFixedImage(), this->GetFixedImage()->GetLargestPossibleRegion() );
 
-  const size_t numberOfPixels = this->GetFixedImage()->GetLargestPossibleRegion().GetNumberOfPixels();
+  const SizeValueType numberOfPixels = this->GetFixedImage()->GetLargestPossibleRegion().GetNumberOfPixels();
 
   RealTypeDFT normFactorDCT =
 #ifdef SLOW_DCT
@@ -258,7 +258,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
     // extract l-th component of deformation field.
     itInDeformation.GoToBegin();
     itInUpdate.GoToBegin();
-    for ( size_t offset1 = 0;
+    for ( SizeValueType offset1 = 0;
           ( offset1 < numberOfPixels ) && !itInDeformation.IsAtEnd() && !itInUpdate.IsAtEnd();
           ++offset1 )
       {
@@ -273,7 +273,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
 
     // multiply matrix diagonal elements
     fixedImageIteratorWithIndex.GoToBegin();
-    size_t offset = 0;
+    SizeValueType offset = 0;
     while ( !fixedImageIteratorWithIndex.IsAtEnd() )
       {
       typename TFixedImage::IndexType index = fixedImageIteratorWithIndex.GetIndex();
@@ -293,7 +293,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
 
     // update deformation field
     itOutDeformation.GoToBegin();
-    for ( size_t offset1 = 0; ( offset1 < numberOfPixels ) && !itOutDeformation.IsAtEnd(); ++offset1 )
+    for ( SizeValueType offset1 = 0; ( offset1 < numberOfPixels ) && !itOutDeformation.IsAtEnd(); ++offset1 )
       {
       itOutDeformation.Value()[l] = this->m_DeformationFieldComponentImage[offset1] * normFactorDCT;
       ++itOutDeformation;

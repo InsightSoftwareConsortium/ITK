@@ -171,7 +171,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
     // considering them.
     for ( unsigned int i = 0; i < itkGetStaticConstMacro(ObjectDimension); i++ )
       {
-      index[i] = (long int)( ( pt[i] - m_Image->GetOrigin()[i] ) / m_Image->GetSpacing()[i] );
+      index[i] = (IndexValueType)( ( pt[i] - m_Image->GetOrigin()[i] ) / m_Image->GetSpacing()[i] );
       }
 
     IteratorType it = IteratorType(m_Image, m_SpatialObject, index);

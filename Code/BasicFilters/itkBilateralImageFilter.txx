@@ -31,7 +31,7 @@ namespace itk
 template< class TInputImage, class TOutputImage >
 void
 BilateralImageFilter< TInputImage, TOutputImage >
-::SetRadius(const unsigned long i)
+::SetRadius(const SizeValueType i)
 {
   m_Radius.Fill(i);
 }
@@ -237,7 +237,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
 {
   typename TInputImage::ConstPointer input = this->GetInput();
   typename TOutputImage::Pointer output = this->GetOutput();
-  unsigned long i;
+  typename TInputImage::IndexValueType i;
   const double  rangeDistanceThreshold = m_DynamicRangeUsed;
 
   // Now we are ready to bilateral filter!
@@ -306,7 +306,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
           {
           // look up the range gaussian in a table
           tableArg = rangeDistance * distanceToTableIndex;
-          rangeGaussian = m_RangeGaussianTable[Math::Floor < size_t > ( tableArg )];
+          rangeGaussian = m_RangeGaussianTable[Math::Floor < SizeValueType > ( tableArg )];
 
           // normalization factor so filter integrates to one
           // (product of the domain and the range gaussian)

@@ -76,7 +76,6 @@ public:
 
   /** Additional typedefs */
   typedef typename Superclass::SizeType      SizeType;
-  typedef typename Superclass::SizeValueType SizeValueType;
   typedef typename Superclass::OffsetType    OffsetType;
   typedef Vector< double, TDimension >       SpacingType;
 

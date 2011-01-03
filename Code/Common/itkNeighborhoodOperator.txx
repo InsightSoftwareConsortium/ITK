@@ -19,6 +19,7 @@
 #define __itkNeighborhoodOperator_txx
 
 #include "itkNeighborhoodOperator.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -60,7 +61,7 @@ void
 NeighborhoodOperator< TPixel, VDimension, TAllocator >
 ::CreateDirectional()
 {
-  unsigned long     k[VDimension];
+  SizeValueType     k[VDimension];
   CoefficientVector coefficients;
 
   coefficients = this->GenerateCoefficients();
@@ -68,7 +69,7 @@ NeighborhoodOperator< TPixel, VDimension, TAllocator >
     {
     if ( i == this->GetDirection() )
       {
-      k[i] = static_cast< unsigned long >( coefficients.size() ) >> 1;
+      k[i] = static_cast< SizeValueType >( coefficients.size() ) >> 1;
       }
     else
       {
@@ -94,7 +95,7 @@ NeighborhoodOperator< TPixel, VDimension, TAllocator >
 template< class TPixel, unsigned int VDimension, class TAllocator >
 void
 NeighborhoodOperator< TPixel, VDimension, TAllocator >
-::CreateToRadius(const unsigned long sz)
+::CreateToRadius(const SizeValueType sz)
 {
   SizeType k;
 

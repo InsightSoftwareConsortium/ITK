@@ -62,6 +62,7 @@ public:
   typedef typename InputImageType::PixelType       InputImagePixelType;
   typedef typename InputImageType::LabelObjectType LabelObjectType;
   typedef typename LabelObjectType::LabelType      LabelType;
+  typedef typename LabelObjectType::LengthType     LengthType;
 
   typedef typename OutputImageType::Pointer        OutputImagePointer;
   typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
@@ -70,6 +71,7 @@ public:
   typedef typename OutputImageType::IndexType      IndexType;
   typedef typename OutputImageType::SizeType       SizeType;
   typedef typename OutputImageType::RegionType     RegionType;
+
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,

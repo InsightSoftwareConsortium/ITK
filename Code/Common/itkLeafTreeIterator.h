@@ -28,11 +28,12 @@ class LeafTreeIterator:public TreeIteratorBase< TTreeType >
 public:
 
   /** Typedefs */
-  typedef LeafTreeIterator              Self;
-  typedef TreeIteratorBase< TTreeType > Superclass;
-  typedef TTreeType                     TreeType;
-  typedef typename TreeType::ValueType  ValueType;
-  typedef TreeNode< ValueType >         TreeNodeType;
+  typedef LeafTreeIterator                    Self;
+  typedef TreeIteratorBase< TTreeType >       Superclass;
+  typedef TTreeType                           TreeType;
+  typedef typename TreeType::ValueType        ValueType;
+  typedef typename Superclass::TreeNodeType   TreeNodeType;
+  typedef typename Superclass::NodeType       NodeType;
 
   /** Constructor */
   LeafTreeIterator(const TreeType *tree);
@@ -44,7 +45,7 @@ public:
   virtual ~LeafTreeIterator();
 
   /** Return the type of iterator */
-  int GetType() const;
+  NodeType GetType() const;
 
   /** Clone function */
   TreeIteratorBase< TTreeType > * Clone();
@@ -104,7 +105,8 @@ LeafTreeIterator< TTreeType >::~LeafTreeIterator()
 
 /** Return the type of iterator */
 template< class TTreeType >
-int LeafTreeIterator< TTreeType >::GetType() const
+typename LeafTreeIterator< TTreeType >::NodeType
+LeafTreeIterator< TTreeType >::GetType() const
 {
   return TreeIteratorBase< TTreeType >::LEAF;
 }

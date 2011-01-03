@@ -63,7 +63,7 @@ void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  unsigned long numberOfThreads = this->GetNumberOfThreads();
+  int numberOfThreads = this->GetNumberOfThreads();
 
   if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
@@ -146,7 +146,8 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 {
   OutputImageType *output = this->GetOutput();
 
-  typedef typename LabelObjectType::LineContainerType LineContainerType;
+  typedef typename LabelObjectType::LineContainerType   LineContainerType;
+  typedef typename LabelObjectType::LengthType          LengthType;
 
   typename LineContainerType::const_iterator lit;
   LineContainerType & lineContainer = labelObject->GetLineContainer();
@@ -155,9 +156,9 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
     {
     IndexType idx = lit->GetIndex();
 
-    unsigned long length = lit->GetLength();
+    LengthType length = lit->GetLength();
 
-    for ( unsigned int i = 0; i < length; i++ )
+    for ( LengthType i = 0; i < length; i++ )
       {
       output->SetPixel(idx, this->m_ForegroundValue);
       idx[0]++;

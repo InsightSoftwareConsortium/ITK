@@ -113,7 +113,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl;
   os << indent << "ID: " << this->GetId() << std::endl;
   os << indent << "nb of points: "
-     << static_cast< unsigned long >( m_Points.size() ) << std::endl;
+     << static_cast< SizeValueType >( m_Points.size() ) << std::endl;
   os << indent << "End Type : " << m_EndType << std::endl;
   os << indent << "Parent Point : " << m_ParentPoint << std::endl;
   os << indent << "Root : " << m_Root << std::endl;

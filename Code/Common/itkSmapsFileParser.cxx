@@ -294,7 +294,7 @@ struct MapRecordPlusor {
 
   TFirstType operator()(TFirstType first, const MapRecord *const & second)
   {
-    std::map< std::string, unsigned int >::const_iterator it = second->m_Tokens.find(m_Token);
+    std::map< std::string, MapRecord::MemoryLoadType >::const_iterator it = second->m_Tokens.find(m_Token);
     return first + ( ( it != second->m_Tokens.end() ) ? it->second : 0 );
   }
 
@@ -334,13 +334,16 @@ MapData::~MapData()
 MapData::MemoryLoadType
 MapData::GetTotalMemoryUsage()
 {
-  return std::accumulate( this->m_Records.begin(), this->m_Records.end(), 0, MapRecordPlusor< MemoryLoadType >() );
+  return std::accumulate( this->m_Records.begin(), this->m_Records.end(),
+                          MapData::MemoryLoadType(0),
+                          MapRecordPlusor< MemoryLoadType >() );
 }
 
 MapData::MemoryLoadType
 MapData::GetMemoryUsage(const char *filter, const char *token)
 {
-  return std::accumulate( this->m_Records.begin(), this->m_Records.end(), 0,
+  return std::accumulate( this->m_Records.begin(), this->m_Records.end(),
+                          MapData::MemoryLoadType(0),
                           MapRecordConditionalPlusor< MemoryLoadType >(filter, token) );
 }
 

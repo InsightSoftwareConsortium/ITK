@@ -18,6 +18,7 @@
 #ifndef __itkLBFGSBOptimizer_h
 #define __itkLBFGSBOptimizer_h
 
+#include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 
 namespace itk

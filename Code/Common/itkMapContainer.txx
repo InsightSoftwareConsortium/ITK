@@ -211,11 +211,11 @@ MapContainer< TElementIdentifier, TElement >
  * Get the number of elements currently stored in the map.
  */
 template< typename TElementIdentifier, typename TElement >
-unsigned long
+typename MapContainer< TElementIdentifier, TElement >::ElementIdentifier
 MapContainer< TElementIdentifier, TElement >
 ::Size(void) const
 {
-  return static_cast< unsigned long >( this->MapType::size() );
+  return static_cast< ElementIdentifier >( this->MapType::size() );
 }
 
 /**

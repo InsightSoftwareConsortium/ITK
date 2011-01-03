@@ -70,7 +70,7 @@ public:
 
   /** Return the number of parameters.  For a univariate Gaussian,
    * this is 2 (mean, variance). */
-  virtual unsigned long GetNumberOfParameters() const { return 2; }
+  virtual SizeValueType GetNumberOfParameters() const { return 2; }
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */

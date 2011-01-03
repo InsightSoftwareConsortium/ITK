@@ -82,7 +82,7 @@ public:
   typedef typename
   MembershipFunctionsWeightsArrayObjectType::Pointer MembershipFunctionsWeightsArrayPointer;
 
-  typedef unsigned long                 ClassLabelType;
+  typedef IdentifierType                ClassLabelType;
   typedef std::vector< ClassLabelType > ClassLabelVectorType;
   typedef SimpleDataObjectDecorator<
     ClassLabelVectorType >                            ClassLabelVectorObjectType;

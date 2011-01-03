@@ -31,6 +31,7 @@
 #include "itkRegion.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -69,31 +70,31 @@ public:
   { return Superclass::ITK_UNSTRUCTURED_REGION; }
 
   /** Get the number of regions. */
-  unsigned long GetNumberOfRegions() const
+  SizeValueType GetNumberOfRegions() const
   { return m_NumberOfRegions; }
 
   /** Set the number of regions. */
-  void SetNumberOfRegions(unsigned long num)
+  void SetNumberOfRegions(SizeValueType num)
   {
-    if ( ( num >= 1 ) && ( num <= NumericTraits< unsigned long >::max() ) )
+    if ( ( num >= 1 ) && ( num <= NumericTraits< SizeValueType >::max() ) )
               { m_NumberOfRegions = num; } }
 
   /** Get the current region. */
-  unsigned long GetRegion() const
+  SizeValueType GetRegion() const
   { return m_Region; }
 
   /** Set the number of regions. */
-  void SetRegion(unsigned long region)
+  void SetRegion(SizeValueType region)
   {
-    if ( ( region >= 1 ) && ( region <= NumericTraits< unsigned long >::max() ) )
+    if ( ( region >= 1 ) && ( region <= NumericTraits< SizeValueType >::max() ) )
               { m_Region = region; } }
 
 private:
   // The maximum number of regions possible.
-  unsigned long int m_NumberOfRegions;
+  SizeValueType m_NumberOfRegions;
 
   // The specified region.
-  unsigned long int m_Region;
+  SizeValueType m_Region;
 };
 } // end namespace itk
 

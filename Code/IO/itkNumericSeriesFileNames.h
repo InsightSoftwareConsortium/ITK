@@ -24,6 +24,7 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkIntTypes.h"
 #include "itkMacro.h"
 #include <vector>
 
@@ -61,17 +62,17 @@ public:
 
   /** Use this method to set the starting index of the numeric series.
    * The default value is 1. */
-  itkSetMacro(StartIndex, unsigned long);
-  itkGetConstMacro(StartIndex, unsigned long);
+  itkSetMacro(StartIndex, SizeValueType);
+  itkGetConstMacro(StartIndex, SizeValueType);
 
   /** Set the end index of the numeric series. The default is 1. */
-  itkSetMacro(EndIndex, unsigned long);
-  itkGetConstMacro(EndIndex, unsigned long);
+  itkSetMacro(EndIndex, SizeValueType);
+  itkGetConstMacro(EndIndex, SizeValueType);
 
   /** Set the increment of the index of the numeric series. The
    * default value is 1.  */
-  itkSetMacro(IncrementIndex, unsigned long);
-  itkGetConstMacro(IncrementIndex, unsigned long);
+  itkSetMacro(IncrementIndex, SizeValueType);
+  itkGetConstMacro(IncrementIndex, SizeValueType);
 
   /** The format string used to generate the series. Different subclasses
    * require different characteristics of this string. For example, the
@@ -93,9 +94,9 @@ private:
   NumericSeriesFileNames(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
-  unsigned long m_StartIndex;
-  unsigned long m_EndIndex;
-  unsigned long m_IncrementIndex;
+  SizeValueType m_StartIndex;
+  SizeValueType m_EndIndex;
+  SizeValueType m_IncrementIndex;
 
   /** A string for formatting the names of files in the series. */
   std::string m_SeriesFormat;

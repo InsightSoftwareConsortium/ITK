@@ -25,7 +25,7 @@ namespace itk
  * and enables access to the underlying data structure. When the STLContainerAdaptor
  * is destroyed, it automatically calls XxxContainer::Modified().
  * Here's a usage example of STLContainerAdaptor
- *     itk::STLContainerAdaptor<itk::VectorContainer<unsigned long, ElementType>> vecAdaptor(aContainer);
+ *     itk::STLContainerAdaptor<itk::VectorContainer<size_t, ElementType>> vecAdaptor(aContainer);
  *     std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
  *     // do things with vec ...
  *     // upon return from function, vecAdaptor is destroyed and aContainer is Modified()

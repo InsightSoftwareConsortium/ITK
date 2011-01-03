@@ -52,7 +52,7 @@ CompositeValleyFunction
 void CompositeValleyFunction
 ::Initialize()
 {
-  long i, low, high;
+  SizeValueType i, low, high;
 
   // build table
   // when using valley-func then the table values run from
@@ -60,7 +60,7 @@ void CompositeValleyFunction
 
   low = 0; high = 0;
 
-  int noOfClasses = static_cast< int >( m_Targets.size() );
+  SizeValueType noOfClasses = static_cast< SizeValueType >( m_Targets.size() );
 
   for ( i = 0; i < noOfClasses; i++ )
     {

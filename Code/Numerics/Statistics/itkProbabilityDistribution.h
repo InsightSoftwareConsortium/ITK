@@ -18,6 +18,7 @@
 #ifndef __itkProbabilityDistribution_h
 #define __itkProbabilityDistribution_h
 
+#include "itkIntTypes.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkArray.h"
@@ -85,7 +86,7 @@ public:
   /** Return the number of parameters that describe the
    * distribution. For nonparametric distributions, this will be a
    * function of the number of samples. */
-  virtual unsigned long GetNumberOfParameters() const = 0;
+  virtual SizeValueType GetNumberOfParameters() const = 0;
 
   /** Get the parameters of the distribution. See concrete subclasses
    * for the order of parameters. Subclasses may provide convenience

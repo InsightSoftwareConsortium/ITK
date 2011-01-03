@@ -71,7 +71,7 @@ public:
   typedef Neighborhood< TPixel, VDimension, TAllocator > Superclass;
 
   /** Size object typedef support */
-  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeType      SizeType;
 
   /** External support for pixel type */
   typedef TPixel PixelType;
@@ -120,7 +120,7 @@ public:
    * on each side). The spatial location of the coefficients within the
    * operator is defined by the subclass implementation of the Fill method.
    * \sa CreateDirectional \sa Fill */
-  virtual void CreateToRadius(const unsigned long);
+  virtual void CreateToRadius(const SizeValueType);
 
   /** Reverses the direction of all axes of the operator by reversing the order
     * of the coefficients. */

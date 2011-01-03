@@ -174,8 +174,7 @@ ChangeInformationImageFilter< TInputImage >
     typename TInputImage::RegionType region;
     region.SetSize( this->GetOutput()->GetRequestedRegion().GetSize() );
     region.SetIndex(this->GetOutput()->GetRequestedRegion().GetIndex() - m_Shift);
-    InputImagePointer input =
-      const_cast< TInputImage * >( this->GetInput() );
+    InputImageType * input = const_cast< InputImageType * >( this->GetInput() );
     input->SetRequestedRegion (region);
     }
 }
@@ -186,17 +185,18 @@ ChangeInformationImageFilter< TInputImage >
 ::GenerateData()
 {
   // Get pointers to the input and output
-  InputImagePointer output = this->GetOutput();
-  InputImagePointer input =
-    const_cast< TInputImage * >( this->GetInput() );
+  OutputImageType * output = this->GetOutput();
+  const InputImageType * input = this->GetInput();
+
+  InputImageType * nonConstInput = const_cast< InputImageType * >( input );
 
   // No need to copy the bulk data
-  output->SetPixelContainer( input->GetPixelContainer() );
+  output->SetPixelContainer( nonConstInput->GetPixelContainer() );
 
   // Shift the output's buffer region
   typename TInputImage::RegionType region;
-  region.SetSize( this->GetInput()->GetBufferedRegion().GetSize() );
-  region.SetIndex(this->GetInput()->GetBufferedRegion().GetIndex() + m_Shift);
+  region.SetSize( input->GetBufferedRegion().GetSize() );
+  region.SetIndex(input->GetBufferedRegion().GetIndex() + m_Shift);
 
   output->SetBufferedRegion(region);
 }

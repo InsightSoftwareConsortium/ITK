@@ -217,13 +217,13 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
                   const std::vector< bool > & valid)
 {
   TimeStepType oMin = NumericTraits< TimeStepType >::Zero;
-  size_t       size = timeStepList.size();
+  const SizeValueType size = timeStepList.size();
 
   if ( size == valid.size() )
     {
     bool   flag = false;
-    size_t k = 0;
-    size_t i;
+    SizeValueType k = 0;
+    SizeValueType i;
 
     for ( i = 0; i < size; ++i )
       {

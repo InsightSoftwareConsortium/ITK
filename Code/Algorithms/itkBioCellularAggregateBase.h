@@ -18,6 +18,7 @@
 #ifndef __itkBioCellularAggregateBase_h
 #define __itkBioCellularAggregateBase_h
 
+#include "itkIntTypes.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
@@ -54,7 +55,7 @@ public:
 
   virtual void Remove(CellBase *cell);
 
-  virtual SubstrateValueType GetSubstrateValue(unsigned long int cellId,
+  virtual SubstrateValueType GetSubstrateValue(IdentifierType cellId,
                                                unsigned int substrateId) const;
 
 protected:

@@ -779,9 +779,9 @@ SpatialObject< TDimension >
   for ( i = 0; i < m_Dimension; i++ )
     {
     if ( ( requestedRegionIndex[i] < bufferedRegionIndex[i] )
-         || ( ( requestedRegionIndex[i] + static_cast< long >( requestedRegionSize[i] ) )
+         || ( ( requestedRegionIndex[i] + static_cast< OffsetValueType >( requestedRegionSize[i] ) )
               > ( bufferedRegionIndex[i]
-                  + static_cast< long >( bufferedRegionSize[i] ) ) ) )
+                  + static_cast< OffsetValueType >( bufferedRegionSize[i] ) ) ) )
       {
       return true;
       }
@@ -823,9 +823,9 @@ SpatialObject< TDimension >
   for ( i = 0; i < m_Dimension; i++ )
     {
     if ( ( requestedRegionIndex[i] < largestPossibleRegionIndex[i] )
-         || ( ( requestedRegionIndex[i] + static_cast< long >( requestedRegionSize[i] ) )
+         || ( ( requestedRegionIndex[i] + static_cast< OffsetValueType >( requestedRegionSize[i] ) )
               > ( largestPossibleRegionIndex[i]
-                  + static_cast< long >( largestPossibleRegionSize[i] ) ) ) )
+                  + static_cast< OffsetValueType >( largestPossibleRegionSize[i] ) ) ) )
       {
       retval = false;
       }
@@ -876,11 +876,11 @@ SpatialObject< TDimension >
   OffsetValueType  num = 1;
   const SizeType & bufferSize = m_BufferedRegion.GetSize();
 
-  m_OffsetTable[0] = static_cast< long int >( num );
+  m_OffsetTable[0] = static_cast< OffsetValueType >( num );
   for ( unsigned int i = 0; i < m_Dimension; i++ )
     {
     num *= bufferSize[i];
-    m_OffsetTable[i + 1] = static_cast< long int >( num );
+    m_OffsetTable[i + 1] = static_cast< OffsetValueType >( num );
     }
 }
 

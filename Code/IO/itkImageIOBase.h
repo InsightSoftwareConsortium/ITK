@@ -77,8 +77,8 @@ public:
   itkGetStringMacro(FileName);
 
   /** Types for managing image size and image index components. */
-  typedef   long          IndexValueType;
-  typedef   unsigned long SizeValueType;
+  typedef ::itk::IndexValueType  IndexValueType;
+  typedef ::itk::SizeValueType   SizeValueType;
 
   /**
    * \class UnknownType
@@ -258,7 +258,7 @@ public:
 
   /** Type for representing size of bytes, and or positions along a memory
     buffer */
-  typedef size_t BufferSizeType;
+  typedef ::itk::OffsetValueType   BufferSizeType;
 
   /** Convenient method for accessing the number of bytes to get to
    * the next pixel. Returns m_Strides[1];

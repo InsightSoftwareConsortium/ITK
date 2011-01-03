@@ -38,7 +38,7 @@ BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>//,f>
 
 template<class TSample, class TTargetVector, class ScalarType>
 void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
-::SetNumOfIterations(long i)
+::SetNumOfIterations(SizeValueType i)
 {
   this->SetIterations(i);
 }
@@ -61,13 +61,13 @@ void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
   typename Superclass::OutputVectorType targetvector;
   //typename Superclass::OutputVectorType errorvector;
 
-  long num_iterations = this->GetIterations();
+  SizeValueType num_iterations = this->GetIterations();
   m_Stop = false;
-  long count = 0;
+  SizeValueType count = 0;
 
   while (!m_Stop)
     {
-    for (unsigned long i = 0; i < this->m_InputSamples.size(); i++)
+    for (SizeValueType i = 0; i < this->m_InputSamples.size(); i++)
       {
       inputvector = this->m_InputSamples[i];
       targetvector = this->m_Targets[i];

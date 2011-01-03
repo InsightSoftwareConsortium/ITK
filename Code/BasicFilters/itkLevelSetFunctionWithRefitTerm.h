@@ -73,6 +73,8 @@ public:
   typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
   typedef typename Superclass::TimeStepType           TimeStepType;
 
+  typedef typename NeighborhoodType::SizeValueType    NeighborhoodSizeValueType;
+
   /** Index type derived from the ImageType. */
   typedef typename ImageType::IndexType IndexType;
 
@@ -156,8 +158,8 @@ private:
   ScalarValueType m_MinVectorNorm;
 
   /** Constants used in computations. */
-  static const unsigned long   m_NumVertex;
-  static const ScalarValueType m_DimConst;
+  static const NeighborhoodSizeValueType    m_NumVertex;
+  static const ScalarValueType              m_DimConst;
 };
 } // end namespace itk
 

@@ -48,7 +48,7 @@
 #include "itkExtractImageFilter.h"
 #include "itkDifferenceImageFilter.h"
 #include "itksys/SystemTools.hxx"
-
+#include "itkIntTypes.h"
 #include "itkFloatingPointExceptions.h"
 
 #define ITK_TEST_DIMENSION_MAX 6
@@ -63,8 +63,8 @@ std::map< std::string, MainFuncPointer > StringToTestFunctionMap;
 int RegressionTestImage(const char *testImageFilename,
                         const char *baselineImageFilename,
                         int reportErrors,
-                        double intensityTolerance = 2.0,
-                        unsigned int numberOfPixelsTolerance = 0,
+                        double intensityTolerance,
+                        ::itk::SizeValueType numberOfPixelsTolerance = 0,
                         unsigned int radiusTolerance = 0);
 
 std::map< std::string, int > RegressionTestBaselines(char *);
@@ -251,7 +251,7 @@ int RegressionTestImage(const char *testImageFilename,
                         const char *baselineImageFilename,
                         int reportErrors,
                         double intensityTolerance,
-                        unsigned int numberOfPixelsTolerance,
+                        ::itk::SizeValueType numberOfPixelsTolerance,
                         unsigned int radiusTolerance)
 {
   // Use the factory mechanism to read the test and baseline files and convert
@@ -312,7 +312,7 @@ int RegressionTestImage(const char *testImageFilename,
   diff->SetToleranceRadius(radiusTolerance);
   diff->UpdateLargestPossibleRegion();
 
-  unsigned long status = 0;
+  itk::SizeValueType status = itk::NumericTraits< itk::SizeValueType >::Zero;
   status = diff->GetNumberOfPixelsWithDifferences();
 
   // if there are discrepencies, create an diff image

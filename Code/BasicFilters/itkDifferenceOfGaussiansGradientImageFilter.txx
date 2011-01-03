@@ -112,8 +112,8 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
           {
           if ( j == i )
             {
-            upperIndex[j] = outputIndex[j] + static_cast< typename TOutputImage::IndexValueType >( m_Width );
-            lowerIndex[j] = outputIndex[j] - static_cast< typename TOutputImage::IndexValueType >( m_Width );
+            upperIndex[j] = outputIndex[j] + static_cast< IndexValueType >( m_Width );
+            lowerIndex[j] = outputIndex[j] - static_cast< IndexValueType >( m_Width );
             }
           else
             {

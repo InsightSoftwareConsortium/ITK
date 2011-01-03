@@ -63,8 +63,8 @@ public:
   }
 
 private:
-  bool m_IsBigEndian;
-  ::size_t m_Index[3];
+  bool          m_IsBigEndian;
+  unsigned int  m_ColorIndex[3];
 };
 } // end namespace functor
 } // end namespace itk

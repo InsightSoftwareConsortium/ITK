@@ -51,7 +51,7 @@ template< class TInputPixel, class TOutputPixel >
 class BinaryAccumulator
 {
 public:
-  BinaryAccumulator(unsigned long) {}
+  BinaryAccumulator( SizeValueType ) {}
   ~BinaryAccumulator(){}
 
   inline void Initialize()
@@ -177,7 +177,7 @@ protected:
        << std::endl;
   }
 
-  virtual AccumulatorType NewAccumulator(unsigned long size) const
+  virtual AccumulatorType NewAccumulator( SizeValueType size ) const
   {
     AccumulatorType accumulator(size);
 

@@ -64,7 +64,7 @@ public:
 
   /** Compatible offset typedefs. */
   typedef   Offset< VOffsetDimension > OffsetType;
-  typedef   long                       OffsetValueType;
+  typedef   itk::OffsetValueType       OffsetValueType;
 
   /** Lexicographic ordering functor type.  */
   typedef Functor::OffsetLexicographicCompare< VOffsetDimension > LexicographicCompare;

@@ -33,13 +33,14 @@ public:
   typedef TTreeType                         TreeType;
   typedef typename TTreeType::ValueType     ValueType;
   typedef typename Superclass::TreeNodeType TreeNodeType;
+  typedef typename Superclass::NodeType     NodeType;
 
   /** Constructors */
   InOrderTreeIterator(TreeType & start);
   InOrderTreeIterator(TreeType *tree, TreeNodeType *start = NULL);
 
   /** Get the type of iterator */
-  int GetType() const;
+  NodeType GetType() const;
 
   /** Clone function */
   TreeIteratorBase< TTreeType > * Clone();
@@ -72,7 +73,7 @@ InOrderTreeIterator< TTreeType >::InOrderTreeIterator(TTreeType *tree, TreeNodeT
 
 /** Get the type of the iterator */
 template< class TTreeType >
-int
+typename InOrderTreeIterator< TTreeType >::NodeType
 InOrderTreeIterator< TTreeType >::GetType() const
 {
   return TreeIteratorBase< TTreeType >::INORDER;

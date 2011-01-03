@@ -113,8 +113,8 @@ private:
                                            // threads to wake up and
                                            // release the semaphore
 
-  size_t m_WasBroadcast;                   // Keeps track of whether we
-                                           // were broadcasting or signaling
+  int m_WasBroadcast;                      // Used as boolean. Keeps track of whether
+                                           // we were broadcasting or signaling
 #endif
 #endif
 };

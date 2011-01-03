@@ -825,7 +825,7 @@ FlatStructuringElement< NDimension >
   for ( unsigned int i = 0; i < NDimension; i++ )
     {
     axesOuter[i] = result.GetSize(i);
-    axesInner[i] = std::max(2 * (long)radius[i] + 1 - 2 * (long)thickness, (long)1);
+    axesInner[i] = std::max(2 * (OffsetValueType)radius[i] + 1 - 2 * (OffsetValueType)thickness, (OffsetValueType)1);
     }
   ellipsoidOuter->SetAxes(axesOuter);
   ellipsoidInner->SetAxes(axesInner);

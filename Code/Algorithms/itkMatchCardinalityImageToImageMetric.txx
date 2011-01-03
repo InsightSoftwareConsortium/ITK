@@ -78,7 +78,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   m_ThreadCounts.resize( this->GetNumberOfThreads() );
 
   typename std::vector< MeasureType >::iterator mIt;
-  std::vector< unsigned long >::iterator cIt;
+  std::vector< SizeValueType >::iterator cIt;
   for ( mIt = m_ThreadMatches.begin(), cIt = m_ThreadCounts.begin();
         mIt != m_ThreadMatches.end(); ++mIt, ++cIt )
     {
@@ -143,7 +143,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   FixedIteratorType ti(fixedImage, regionForThread);
 
   MeasureType   threadMeasure = NumericTraits< MeasureType >::Zero;
-  unsigned long threadNumberOfPixelsCounted = 0;
+  SizeValueType threadNumberOfPixelsCounted = 0;
 
   while ( !ti.IsAtEnd() )
     {

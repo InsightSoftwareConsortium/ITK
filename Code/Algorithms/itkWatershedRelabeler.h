@@ -76,7 +76,7 @@ public:
 
   /** Some convenient typedefs */
   typedef TScalarType                                       ScalarType;
-  typedef Image< unsigned long, TImageDimension >           ImageType;
+  typedef Image< IdentifierType, TImageDimension >          ImageType;
   typedef SegmentTree< ScalarType >                         SegmentTreeType;
   typedef Segmenter< Image< ScalarType, TImageDimension > > SegmenterType;
   typedef DataObject::Pointer                               DataObjectPointer;

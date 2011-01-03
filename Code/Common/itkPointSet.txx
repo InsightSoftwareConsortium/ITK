@@ -261,7 +261,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
  * Get the number of points in the PointsContainer.
  */
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
-unsigned long
+typename PointSet< TPixelType, VDimension, TMeshTraits >::PointIdentifier
 PointSet< TPixelType, VDimension, TMeshTraits >
 ::GetNumberOfPoints(void) const
 {

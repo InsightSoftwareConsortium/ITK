@@ -55,7 +55,7 @@ void Neighborhood< TPixel, VDimension, TContainer >
   unsigned int i, j;
   for ( j = 0; j < VDimension; j++ )
     {
-    o[j] = -( static_cast< long >( this->GetRadius(j) ) );
+    o[j] = -( static_cast< OffsetValueType >( this->GetRadius(j) ) );
     }
 
   for ( i = 0; i < this->Size(); ++i )
@@ -64,9 +64,9 @@ void Neighborhood< TPixel, VDimension, TContainer >
     for ( j = 0; j < VDimension; j++ )
       {
       o[j] = o[j] + 1;
-      if ( o[j] > static_cast< long >( this->GetRadius(j) ) )
+      if ( o[j] > static_cast< OffsetValueType >( this->GetRadius(j) ) )
         {
-        o[j] = -( static_cast< long >( this->GetRadius(j) ) );
+        o[j] = -( static_cast< OffsetValueType >( this->GetRadius(j) ) );
         }
       else { break; }
       }
@@ -76,7 +76,7 @@ void Neighborhood< TPixel, VDimension, TContainer >
 template< class TPixel, unsigned int VDimension, class TContainer >
 void
 Neighborhood< TPixel, VDimension, TContainer >
-::SetRadius(const unsigned long s)
+::SetRadius(const SizeValueType s)
 {
   SizeType k;
 
@@ -92,7 +92,7 @@ void
 Neighborhood< TPixel, VDimension, TContainer >
 ::SetRadius(const SizeType & r)
 {
-  memcpy(m_Radius.m_Size, r.m_Size, sizeof( const unsigned long ) * VDimension);
+  memcpy(m_Radius.m_Size, r.m_Size, sizeof( const SizeValueType ) * VDimension);
   this->SetSize();
 
   unsigned int cumul = 1;
@@ -113,7 +113,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   m_Radius     = other.m_Radius;
   m_Size       = other.m_Size;
   m_DataBuffer = other.m_DataBuffer;
-  ::memcpy(m_StrideTable, other.m_StrideTable, sizeof( unsigned int ) * VDimension);
+  ::memcpy(m_StrideTable, other.m_StrideTable, sizeof( OffsetValueType ) * VDimension);
   m_OffsetTable = other.m_OffsetTable;
 }
 
@@ -125,7 +125,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   m_Radius     = other.m_Radius;
   m_Size       = other.m_Size;
   m_DataBuffer = other.m_DataBuffer;
-  ::memcpy(m_StrideTable, other.m_StrideTable, sizeof( unsigned int ) * VDimension);
+  ::memcpy(m_StrideTable, other.m_StrideTable, sizeof( OffsetValueType ) * VDimension);
   m_OffsetTable = other.m_OffsetTable;
   return *this;
 }
@@ -145,14 +145,15 @@ std::slice Neighborhood< TPixel, VDimension, TContainer >
 }
 
 template< class TPixel, unsigned int VDimension, class TContainer >
-unsigned int Neighborhood< TPixel, VDimension, TContainer >
+typename Neighborhood< TPixel, VDimension, TContainer >::NeighborIndexType
+Neighborhood< TPixel, VDimension, TContainer >
 ::GetNeighborhoodIndex(const OffsetType & o) const
 {
   unsigned int idx = ( this->Size() / 2 );
 
   for ( unsigned i = 0; i < VDimension; ++i )
     {
-    idx += o[i] * static_cast< long >( m_StrideTable[i] );
+    idx += o[i] * static_cast< OffsetValueType >( m_StrideTable[i] );
     }
   return idx;
 }

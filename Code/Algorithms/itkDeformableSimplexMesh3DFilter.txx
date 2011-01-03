@@ -147,7 +147,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   while ( pointItr != points->End() )
     {
     SimplexMeshGeometry *data;
-    unsigned long        idx = pointItr.Index();
+    IdentifierType       idx = pointItr.Index();
     data = this->m_Data->GetElement(idx);
     if( data->neighborSet )
       {
@@ -196,7 +196,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   while ( pointItr != points->End() )
     {
     SimplexMeshGeometry *data;
-    unsigned long        idx = pointItr.Index();
+    IdentifierType       idx = pointItr.Index();
 
     data = this->m_Data->GetElement(idx);
     data->pos = pointItr.Value();
@@ -259,7 +259,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   CovariantVectorType normal;
   CovariantVectorType z;
   VectorType          tmp;
-  //   unsigned long idx = 0;
+  //   IdentifierType idx = 0;
 
   const InputMeshType *       inputMesh = this->GetInput(0);
   const InputPointsContainer *points  = inputMesh->GetPoints();
@@ -406,7 +406,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   data->internalForce.Fill(0.0);
 
   // quick hack fixing for div by zero error
-  if ( L_Ref != (double)NumericTraits< unsigned long >::max() && L != (double)NumericTraits< unsigned long >::max() )
+  if ( L_Ref != (double)NumericTraits< IdentifierType >::max() && L != (double)NumericTraits< IdentifierType >::max() )
     {
     data->internalForce += tangentForce + normalForce;
     }
@@ -606,13 +606,13 @@ double DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
       }
     else
       {
-      L = (double)NumericTraits< unsigned long >::max();
+      L = (double)NumericTraits< IdentifierType >::max();
       //          L = 0.0;
       }
     }
   else
     {
-    L = (double)NumericTraits< unsigned long >::max();
+    L = (double)NumericTraits< IdentifierType >::max();
     }
   return L;
 }

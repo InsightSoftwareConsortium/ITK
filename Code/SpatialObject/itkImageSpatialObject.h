@@ -60,8 +60,8 @@ public:
   typedef NearestNeighborInterpolateImageFunction< ImageType >
   NNInterpolatorType;
 
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
-  typedef typename PointContainerType::Pointer        PointContainerPointer;
+  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
+  typedef typename PointContainerType::Pointer         PointContainerPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

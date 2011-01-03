@@ -18,6 +18,7 @@
 #ifndef __itkGradientDescentOptimizer_h
 #define __itkGradientDescentOptimizer_h
 
+#include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include <string>
 namespace itk
@@ -101,13 +102,13 @@ public:
   itkGetConstReferenceMacro(LearningRate, double);
 
   /** Set the number of iterations. */
-  itkSetMacro(NumberOfIterations, unsigned long);
+  itkSetMacro(NumberOfIterations, SizeValueType);
 
   /** Get the number of iterations. */
-  itkGetConstReferenceMacro(NumberOfIterations, unsigned long);
+  itkGetConstReferenceMacro(NumberOfIterations, SizeValueType);
 
   /** Get the current iteration number. */
-  itkGetConstMacro(CurrentIteration, unsigned long);
+  itkGetConstMacro(CurrentIteration, SizeValueType);
 
   /** Get the current value. */
   itkGetConstReferenceMacro(Value, double);
@@ -136,8 +137,8 @@ private:
   bool               m_Stop;
   double             m_Value;
   StopConditionType  m_StopCondition;
-  unsigned long      m_NumberOfIterations;
-  unsigned long      m_CurrentIteration;
+  SizeValueType      m_NumberOfIterations;
+  SizeValueType      m_CurrentIteration;
   std::ostringstream m_StopConditionDescription;
 };
 } // end namespace itk

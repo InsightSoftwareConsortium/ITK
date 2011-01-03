@@ -71,7 +71,7 @@ public:
 
   /** Return the number of parameters.  For a univariate Student-t
    * distribution, the number of parameters is 1 (degrees of freedom) */
-  virtual unsigned long GetNumberOfParameters() const { return 1; }
+  virtual SizeValueType GetNumberOfParameters() const { return 1; }
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
@@ -84,7 +84,7 @@ public:
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are passed as separate parameters. */
-  virtual double EvaluatePDF(double x, long degreesOfFreedom) const;
+  virtual double EvaluatePDF(double x, SizeValueType degreesOfFreedom) const;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
@@ -97,7 +97,7 @@ public:
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are passed as separate parameters. */
-  virtual double EvaluateCDF(double x, long degreesOfFreedom) const;
+  virtual double EvaluateCDF(double x, SizeValueType degreesOfFreedom) const;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0. The parameters
@@ -113,15 +113,15 @@ public:
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * of the distribution are passed as separate parameters. */
-  virtual double EvaluateInverseCDF(double p, long degreesOfFreedom) const;
+  virtual double EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const;
 
   /** Set the number of degrees of freedom in the Student-t distribution.
    * Defaults to 1 */
-  virtual void SetDegreesOfFreedom(long);
+  virtual void SetDegreesOfFreedom(SizeValueType);
 
   /** Get the number of degrees of freedom in the t
    * distribution. Defaults to 1 */
-  virtual long GetDegreesOfFreedom() const;
+  virtual SizeValueType GetDegreesOfFreedom() const;
 
   /** Does the Student-t distribution have a mean? */
   virtual bool HasMean() const { return true; }
@@ -148,7 +148,7 @@ public:
    * of a Student-t with a specified number of degrees of freedom. The
    * static method provides optimized access without requiring an
    * instance of the class. */
-  static double PDF(double x, long degreesOfFreedom);
+  static double PDF(double x, SizeValueType degreesOfFreedom);
 
   /** Static method to evaluate the cumulative distribution function
    * (cdf) of a Student-t with a specified number of degrees of
@@ -169,7 +169,7 @@ public:
    * This is based on Abramowitz and Stegun 26.7.1. Accuracy is
    * approximately 10^-14.
    */
-  static double CDF(double x, long degreesOfFreedom);
+  static double CDF(double x, SizeValueType degreesOfFreedom);
 
   /** Static method to evaluate the inverse cumulative distribution
    * function of a Student-t with a specified number of degrees of
@@ -193,7 +193,7 @@ public:
    * Newton iterations to improve the precision at low degrees of
    * freedom. Accuracy is approximately 10^-10.
    **/
-  static double InverseCDF(double p, long degreesOfFreedom);
+  static double InverseCDF(double p, SizeValueType degreesOfFreedom);
 
 protected:
   TDistribution(void);

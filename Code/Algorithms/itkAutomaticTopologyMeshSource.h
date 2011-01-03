@@ -22,6 +22,7 @@
 #include "itkDefaultStaticMeshTraits.h"
 #include "itk_hash_map.h"
 #include "itkHexahedronCell.h"
+#include "itkIntTypes.h"
 #include "itkMesh.h"
 #include "itkMeshSource.h"
 #include "itkStructHashFunction.h"
@@ -132,9 +133,9 @@ public:
   typedef::itk::TetrahedronCell< CellType >   TetrahedronCell;
   typedef::itk::HexahedronCell< CellType >    HexahedronCell;
 
-  /** This class requires that the mesh being built use unsigned long
+  /** This class requires that the mesh being built use ::itk::IdentifierType
    * as the identifier type for all its elements. */
-  typedef unsigned long IdentifierType;
+  typedef ::itk::IdentifierType IdentifierType;
 
   /** Array of IdentifierType objects used to specify cells. */
   typedef Array< IdentifierType > IdentifierArrayType;
@@ -332,16 +333,16 @@ public:
   class IdentifierArrayHashFunction
   {
 public:
-    unsigned long operator()(Array< unsigned long > identifierArray) const
+    IdentifierType operator()(Array< IdentifierType > identifierArray) const
     {
-      typedef unsigned long Ulong;
+      typedef IdentifierType IdType;
 
-      Ulong size = identifierArray.Size();
+      IdType size = identifierArray.Size();
 
       std::sort( identifierArray.begin(), identifierArray.end() );
 
-      Ulong  hash = 0;
-      Ulong *id = &identifierArray[0];
+      IdType  hash = 0;
+      IdType *id = &identifierArray[0];
 
       while ( size-- )
         {
@@ -357,14 +358,14 @@ public:
   {
 public:
     bool operator()(
-      Array< unsigned long > identifierArray1,
-      Array< unsigned long > identifierArray2
+      Array< IdentifierType > identifierArray1,
+      Array< IdentifierType > identifierArray2
       ) const
     {
-      typedef unsigned long Ulong;
+      typedef IdentifierType IdType;
 
-      Ulong size1 = identifierArray1.Size();
-      Ulong size2 = identifierArray2.Size();
+      IdType size1 = identifierArray1.Size();
+      IdType size2 = identifierArray2.Size();
 
       if ( size1 != size2 )
         {

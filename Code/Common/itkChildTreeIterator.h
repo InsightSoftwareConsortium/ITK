@@ -28,11 +28,13 @@ class ChildTreeIterator:public TreeIteratorBase< TTreeType >
 public:
 
   /** Typedefs */
-  typedef ChildTreeIterator                 Self;
-  typedef TreeIteratorBase< TTreeType >     Superclass;
-  typedef TTreeType                         TreeType;
-  typedef typename TTreeType::ValueType     ValueType;
-  typedef typename Superclass::TreeNodeType TreeNodeType;
+  typedef ChildTreeIterator                       Self;
+  typedef TreeIteratorBase< TTreeType >           Superclass;
+  typedef TTreeType                               TreeType;
+  typedef typename TTreeType::ValueType           ValueType;
+  typedef typename Superclass::TreeNodeType       TreeNodeType;
+  typedef typename TreeNodeType::ChildIdentifier  ChildIdentifier;
+  typedef typename Superclass::NodeType           NodeType;
 
   /** Constructor */
   ChildTreeIterator(TreeType *tree, const TreeNodeType *start = NULL);
@@ -41,10 +43,10 @@ public:
   ChildTreeIterator(const TreeIteratorBase< TTreeType > & iterator);
 
   /** Get the type of the iterator */
-  int GetType() const;
+  NodeType GetType() const;
 
   /** Go to a specific child node */
-  virtual bool GoToChild(int number = 0);
+  virtual bool GoToChild(ChildIdentifier number = 0);
 
   /** Go to a parent node */
   virtual bool GoToParent();
@@ -73,8 +75,8 @@ protected:
 
 private:
 
-  mutable int            m_ListPosition;
-  TreeNode< ValueType > *m_ParentNode;
+  mutable ChildIdentifier  m_ListPosition;
+  TreeNodeType *           m_ParentNode;
 };
 
 /** Constructor */
@@ -102,7 +104,7 @@ ChildTreeIterator< TTreeType >::ChildTreeIterator(
 /** Go to a specific child */
 template< class TTreeType >
 bool
-ChildTreeIterator< TTreeType >::GoToChild(int number)
+ChildTreeIterator< TTreeType >::GoToChild(ChildIdentifier number)
 {
   if ( m_ParentNode->GetChild(number) == NULL )
     {
@@ -121,7 +123,7 @@ template< class TTreeType >
 bool
 ChildTreeIterator< TTreeType >::GoToParent()
 {
-  TreeNode< ValueType > *parent =  m_ParentNode->GetParent();
+  TreeNodeType *parent =  m_ParentNode->GetParent();
 
   if ( parent == NULL )
     {
@@ -137,7 +139,7 @@ ChildTreeIterator< TTreeType >::GoToParent()
 
 /** Return the type of the iterator */
 template< class TTreeType >
-int
+typename ChildTreeIterator< TTreeType >::NodeType
 ChildTreeIterator< TTreeType >::GetType() const
 {
   return TreeIteratorBase< TTreeType >::CHILD;

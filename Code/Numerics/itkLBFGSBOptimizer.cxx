@@ -18,6 +18,7 @@
 #ifndef __itkLBFGSBOptimizer_txx
 #define __itkLBFGSBOptimizer_txx
 
+#include "itkIntTypes.h"
 #include "itkLBFGSBOptimizer.h"
 #include "vnl/algo/vnl_lbfgsb.h"
 #include "vnl/vnl_math.h"

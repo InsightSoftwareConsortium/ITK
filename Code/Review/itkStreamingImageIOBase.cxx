@@ -60,7 +60,7 @@ bool StreamingImageIOBase
     {
     // calculate the position to seek to in the file
     std::streampos seekPos = 0;
-    size_t         subDimensionQuantity = 1;
+    SizeValueType  subDimensionQuantity = 1;
     for ( unsigned int i = 0; i < m_IORegion.GetImageDimension(); ++i )
       {
       seekPos = seekPos + static_cast< std::streamoff >( subDimensionQuantity
@@ -193,7 +193,7 @@ bool StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const 
     {
     // calculate the position to seek to in the file
     std::streampos seekPos = 0;
-    size_t         subDimensionQuantity = 1;
+    SizeValueType  subDimensionQuantity = 1;
     for ( unsigned int i = 0; i < m_IORegion.GetImageDimension(); ++i )
       {
       seekPos = seekPos + static_cast< std::streamoff >( subDimensionQuantity

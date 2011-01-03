@@ -33,7 +33,6 @@ template< typename TItemType, int VCliqueSize >
 class SecondaryNodeList:public std::list< TItemType >
 {
 public:
-
   /** Pointer to the medial node. */
   TItemType *ItemPointer;
 
@@ -41,7 +40,7 @@ public:
   void SetNodePointer(TItemType *itemPointer) { ItemPointer = itemPointer; }
 
   /** Get the number of items stored in the list. */
-  unsigned long int GetSize() { return this->size(); }
+  SizeValueType GetSize() { return this->size(); }
 
   //return the index of the base node in the clique
   int GetIndex() { return m_Index; }

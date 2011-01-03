@@ -264,15 +264,15 @@ private:
   double m_OffsetMultiply;
   int    m_MaxSplitAttempts;
 
-  //unsigned long       m_NumberOfModels;
+  //SizeValueType       m_NumberOfModels;
   bool   m_ValidInCodebook;
   double m_DoubleMaximum;
   double m_OutputDistortion;
   int    m_OutputNumberOfEmptyCells;
 
-  unsigned long m_VectorDimension;
-  unsigned long m_NumberOfCodewords;
-  unsigned long m_CurrentNumberOfCodewords;
+  SizeValueType m_VectorDimension;
+  SizeValueType m_NumberOfCodewords;
+  SizeValueType m_CurrentNumberOfCodewords;
 
   CodebookMatrixOfIntegerType m_CodewordHistogram;
   CodebookMatrixOfDoubleType  m_CodewordDistortion;

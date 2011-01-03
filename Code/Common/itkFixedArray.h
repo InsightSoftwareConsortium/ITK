@@ -206,6 +206,10 @@ public:
   const_reference operator[](long index) const { return m_InternalArray[index]; }
   reference operator[](unsigned long index)        { return m_InternalArray[index]; }
   const_reference operator[](unsigned long index) const { return m_InternalArray[index]; }
+  reference operator[](long long index)                 { return m_InternalArray[index]; }
+  const_reference operator[](long long index) const { return m_InternalArray[index]; }
+  reference operator[](unsigned long long index)        { return m_InternalArray[index]; }
+  const_reference operator[](unsigned long long index) const { return m_InternalArray[index]; }
 
   /** Set/Get element methods are more convenient in wrapping languages */
   void SetElement(unsigned short index, const_reference value)

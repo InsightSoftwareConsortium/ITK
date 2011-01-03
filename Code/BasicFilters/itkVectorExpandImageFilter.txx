@@ -259,11 +259,11 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   for ( i = 0; i < TInputImage::ImageDimension; i++ )
     {
     inputRequestedRegionSize[i] =
-      (long)vcl_ceil( (double)outputRequestedRegionSize[i]
+      (SizeValueType)vcl_ceil( (double)outputRequestedRegionSize[i]
                       / (double)m_ExpandFactors[i] ) + 1;
 
     inputRequestedRegionStartIndex[i] =
-      (long)vcl_floor( (double)outputRequestedRegionStartIndex[i]
+      (IndexValueType)vcl_floor( (double)outputRequestedRegionStartIndex[i]
                        / (double)m_ExpandFactors[i] );
     }
 
@@ -337,10 +337,10 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
     {
     outputSpacing[i] = inputSpacing[i] / (float)m_ExpandFactors[i];
-    outputSize[i] = (unsigned long)
+    outputSize[i] = (SizeValueType)
                     ( (float)inputSize[i] * m_ExpandFactors[i]
                       + 0.5f );
-    outputStartIndex[i] = (long)
+    outputStartIndex[i] = (IndexValueType)
                           ( (float)inputStartIndex[i] * m_ExpandFactors[i]
                             + 0.5f );
     const double fraction = (double)( m_ExpandFactors[i] - 1 ) / (double)m_ExpandFactors[i];

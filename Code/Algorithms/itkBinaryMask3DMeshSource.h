@@ -117,10 +117,13 @@ public:
 
   typedef ImageRegionConstIterator< InputImageType > InputImageIterator;
 
+  typedef itk::IdentifierType                   IdentifierType;
+  typedef itk::SizeValueType                    SizeValueType;
+
   itkSetMacro(ObjectValue, InputPixelType);
 
-  itkGetConstMacro(NumberOfNodes, unsigned long);
-  itkGetConstMacro(NumberOfCells, unsigned long);
+  itkGetConstMacro(NumberOfNodes, SizeValueType);
+  itkGetConstMacro(NumberOfCells, SizeValueType);
 
   /** accept the input image */
   virtual void SetInput(const InputImageType *inputImage);
@@ -162,25 +165,25 @@ private:
 
   void AddNodes(int index,
                 unsigned char *nodesid,
-                unsigned long *globalnodesid,
-                unsigned long **currentrowtmp,
-                unsigned long **currentframetmp);
+                IdentifierType *globalnodesid,
+                IdentifierType **currentrowtmp,
+                IdentifierType **currentframetmp);
 
   void CellTransfer(unsigned char *nodesid, unsigned char celltran);
 
-  unsigned long SearchThroughLastRow(int index, int start, int end);
+  IdentifierType SearchThroughLastRow(int index, int start, int end);
 
-  unsigned long SearchThroughLastFrame(int index, int start, int end);
+  IdentifierType SearchThroughLastFrame(int index, int start, int end);
 
   unsigned char m_LUT[256][2]; // the two lookup tables
 
-  unsigned long m_LastVoxel[14];
-  unsigned long m_CurrentVoxel[14];
+  IdentifierType m_LastVoxel[14];
+  IdentifierType m_CurrentVoxel[14];
 
-  unsigned long **m_LastRow;
-  unsigned long **m_LastFrame;
-  unsigned long **m_CurrentRow;
-  unsigned long **m_CurrentFrame;
+  IdentifierType **m_LastRow;
+  IdentifierType **m_LastFrame;
+  IdentifierType **m_CurrentRow;
+  IdentifierType **m_CurrentFrame;
 
   unsigned short m_CurrentRowIndex;
   unsigned short m_CurrentFrameIndex;
@@ -192,8 +195,8 @@ private:
 
   double m_LocationOffset[14][3];
 
-  unsigned long m_NumberOfNodes;
-  unsigned long m_NumberOfCells;
+  SizeValueType m_NumberOfNodes;
+  SizeValueType m_NumberOfCells;
 
   int m_NodeLimit;
   int m_CellLimit;

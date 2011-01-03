@@ -42,7 +42,7 @@ PolygonCell< TCellInterface >
   Self *newPolygonCell = new Self;
 
   cellPointer.TakeOwnership(newPolygonCell);
-  const unsigned long numberOfPoints = this->GetNumberOfPoints();
+  const PointIdentifier numberOfPoints = this->GetNumberOfPoints();
   if ( numberOfPoints )
     {
     newPolygonCell->SetPointIds( 0, numberOfPoints, this->GetPointIds() );

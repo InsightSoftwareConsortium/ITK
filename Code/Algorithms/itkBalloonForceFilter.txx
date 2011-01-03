@@ -267,20 +267,18 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     }
 
   typename TriCell::CellAutoPointer insertCell;
-  unsigned long        tripoints[3];
-  const unsigned long *tp;
-  float                x;
+  typename InputMeshType::PointIdentifier        tripoints[3];
 
   for ( unsigned int i = 0; i < m_NumberOfCells; i++ )
     {
-    tp = cells.Value()->GetPointIds();
+    const typename InputMeshType::PointIdentifier *tp = cells.Value()->GetPointIds();
     tripoints[0] = tp[0];
     tripoints[1] = tp[1];
     tripoints[2] = tp[2];
     insertCell.TakeOwnership(new TriCell);
     insertCell->SetPointIds(tripoints);
     m_Locations->SetCell(i, insertCell);
-    x = celldata.Value();
+    const float x = celldata.Value();
     m_Locations->SetCellData(i, (PixelType)x);
     ++cells;
     ++celldata;
@@ -307,7 +305,6 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     free (m_K);
     }
   m_K = ( vnl_matrix_fixed< double, 4, 4 > ** )malloc(sizeof( vnl_matrix_fixed< double, 4, 4 > * ) * m_NumberOfCells);
-  float x;
 
   float us = vnl_math::pi / 1;
   float vs = 2.0 * vnl_math::pi / m_Resolution;
@@ -389,9 +386,8 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   int j = 0;
   while ( celldata != myCellData->End() )
     {
-    x = celldata.Value();
-    ++celldata;
-    switch ( (int)( x ) )
+    const int  x = (int)celldata.Value();
+    switch ( x )
       {
       case 1:
         m_K[j] = &m_SStiffness;
@@ -404,6 +400,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
         break;
       }
     ++j;
+    ++celldata;
     }
 }
 
@@ -418,7 +415,6 @@ void
 BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ComputeForce()
 {
-  unsigned int i;
   IndexType    coord; coord.Fill(0);
 
   IndexType   extend; extend.Fill(0);
@@ -445,7 +441,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   InputPointDataContainerPointer  myPointData = m_Locations->GetPointData();
   InputPointDataContainerIterator pointstatus = myPointData->Begin();
 
-  i = 0;
+  unsigned int i = 0;
 
   while ( i != m_NumberOfNodes - 2 )
     {
@@ -598,7 +594,7 @@ void
 BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ComputeDt()
 {
-  const unsigned long *tp;
+  const typename InputMeshType::PointIdentifier *tp;
 
   InputCellsContainerPointer  myCells = m_Locations->GetCells();
   InputCellsContainerIterator cells_it = myCells->Begin();
@@ -615,7 +611,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     }
   typename IPixelType::VectorType u[3];
 
-  unsigned long i = 0; // arnaud: I guess i an InputCellIdentifier?
+  typename InputMeshType::CellIdentifier i = 0;
   for (; cells_it != myCells->End(); ++cells_it, i++ )
     {
     tp = cells_it.Value()->GetPointIds();
@@ -672,9 +668,9 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   IPixelType *y_PixelType;
 
   x_PixelType = &x;
-  const unsigned long *tp;
+  const typename TInputMesh::PointIdentifier *tp;
 
-  unsigned long tripoints[3];
+  typename TInputMesh::PointIdentifier tripoints[3];
 
   if ( m_NumNewNodes == 0 ) { return; }
   else { cell = 1; }
@@ -783,7 +779,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     {
     tp = cells.Value()->GetPointIds();
 
-    if ( tp[0] > (unsigned long)m_NewNodes[j][3] )
+    if ( tp[0] > (typename TInputMesh::PointIdentifier)m_NewNodes[j][3] )
             {}
     else
       {
@@ -935,8 +931,8 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ComputeOutput()
 {
   typename TriCell::CellAutoPointer insertCell;
-  unsigned long        tripoints[3];
-  const unsigned long *tp;
+  typename InputMeshType::PointIdentifier    tripoints[3];
+  const typename InputMeshType::PointIdentifier *tp;
   double               x;
 
   m_Output = this->GetOutput();
@@ -1034,7 +1030,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   z_PixelType = &z;
   float gap, dis[3] = { 0, 0, 0 }, st, *st_PixelType;
   st_PixelType = &st;
-  const unsigned long *tp;
+  const typename TInputMesh::PointIdentifier *tp;
 
   i = 0;
   while ( i != m_NumberOfNodes - 2 )
@@ -1197,7 +1193,7 @@ void
 BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ComputeNormals()
 {
-  const unsigned long *tp;
+  const typename InputMeshType::PointIdentifier *tp;
   IPixelType           v1, v2, v3, v4;
 
   v1.Fill(0.);

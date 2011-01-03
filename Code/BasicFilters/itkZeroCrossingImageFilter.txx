@@ -47,7 +47,7 @@ throw( InvalidRequestedRegionError )
     }
 
   // Build an operator so that we can determine the kernel size
-  unsigned long radius = 1;
+  SizeValueType radius = NumericTraits< SizeValueType >::Zero;
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -115,7 +115,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   InputImagePixelType this_one, that, abs_this_one, abs_that;
   InputImagePixelType zero = NumericTraits< InputImagePixelType >::Zero;
 
-  FixedArray< long, 2 *ImageDimension > offset;
+  FixedArray< OffsetValueType, 2 *ImageDimension > offset;
 
   bit = ConstNeighborhoodIterator< InputImageType >( radius,
                                                      input,
@@ -123,7 +123,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
   //Set the offset of the neighbors to the center pixel.
   for ( i = 0; i < ImageDimension; i++ )
     {
-    offset[i] = -1 * static_cast< long >( bit.GetStride(i) );
+    offset[i] = -1 * static_cast< OffsetValueType >( bit.GetStride(i) );
     offset[i + ImageDimension] =  bit.GetStride(i);
     }
 
@@ -137,7 +137,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    const unsigned long center = bit.Size() / 2;
+    const SizeValueType center = bit.Size() / 2;
     while ( !bit.IsAtEnd() )
       {
       this_one = bit.GetPixel(center);

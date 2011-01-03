@@ -35,8 +35,11 @@ class CorrespondingList:public std::list< TItemType >
 {
 public:
 
+  typedef typename std::list< TItemType >   SuperClass;
+  typedef typename SuperClass::size_type    SizeType;
+
   /** Get the number of items stored in the blox. */
-  unsigned long int GetSize()
+  SizeType GetSize()
   { return this->size(); }
 
   /** Set and Get functions for thesecondary indices in the base node clique. */

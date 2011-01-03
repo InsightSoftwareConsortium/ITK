@@ -61,8 +61,8 @@ public:
 
   ValueType GetLearningRate();
 
-  itkSetMacro(Iterations, long);
-  itkGetConstReferenceMacro(Iterations, long);
+  itkSetMacro(Iterations, SizeValueType);
+  itkGetConstReferenceMacro(Iterations, SizeValueType);
 
   void SetPerformanceFunction(PerformanceFunctionType* f);
 
@@ -106,7 +106,7 @@ protected:
   TTargetVector*          m_SampleTargets;  // original samples
   InputSampleVectorType   m_InputSamples;   // itk::vectors
   OutputSampleVectorType  m_Targets;        // itk::vectors
-  long                    m_Iterations;
+  SizeValueType           m_Iterations;
   ValueType               m_LearningRate;
 
   typename PerformanceFunctionType::Pointer m_PerformanceFunction;

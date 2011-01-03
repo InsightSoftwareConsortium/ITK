@@ -240,7 +240,7 @@ public:
     SizeType  size = region.GetSize();
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      endCorner[i] = beginCorner[i] + size[i] - 1;
+      endCorner[i] = beginCorner[i] + static_cast< OffsetValueType >( size[i] ) - 1;
       }
     if ( !this->IsInside(endCorner) )
       {
@@ -256,7 +256,7 @@ public:
   /** Pad an image region by the specified radius. Region can be padded
    * uniformly in all dimensions or can be padded by different amounts
    * in each dimension. */
-  void PadByRadius(IndexValueType radius);
+  void PadByRadius(OffsetValueType radius);
 
   void PadByRadius(const IndexValueArrayType radius);
 

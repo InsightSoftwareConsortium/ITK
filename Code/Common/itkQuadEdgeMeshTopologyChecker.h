@@ -51,20 +51,24 @@ public:
   typedef typename MeshType::EdgeCellType                   EdgeCellType;
   typedef typename MeshType::CellsContainerConstIterator    CellsContainerConstIterator;
   typedef QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType > BoundaryEdges;
+
+  typedef typename MeshType::PointIdentifier                PointIdentifier;
+  typedef typename MeshType::CellIdentifier                 CellIdentifier;
+
 public:
   itkNewMacro(Self);
   itkTypeMacro(QuadEdgeMeshTopologyChecker, Object);
 
   itkSetConstObjectMacro(Mesh, MeshType);
 
-  // FIXME this probably should be taken from the traits of the Mesh
-  typedef unsigned long IdentifierType;
+  typedef ::itk::IdentifierType     IdentifierType;
+  typedef ::itk::OffsetValueType    OffsetValueType;
 
-  itkSetMacro(ExpectedNumberOfPoints, IdentifierType);
-  itkSetMacro(ExpectedNumberOfEdges, IdentifierType);
-  itkSetMacro(ExpectedNumberOfFaces, IdentifierType);
-  itkSetMacro(ExpectedNumberOfBoundaries, IdentifierType);
-  itkSetMacro(ExpectedGenus, IdentifierType);
+  itkSetMacro(ExpectedNumberOfPoints, PointIdentifier);
+  itkSetMacro(ExpectedNumberOfEdges, CellIdentifier);
+  itkSetMacro(ExpectedNumberOfFaces, CellIdentifier);
+  itkSetMacro(ExpectedNumberOfBoundaries, CellIdentifier);
+  itkSetMacro(ExpectedGenus, OffsetValueType);
 
   bool ValidateEulerCharacteristic() const;
 
@@ -81,11 +85,11 @@ private:
 
   MeshPointer m_Mesh;
 
-  IdentifierType m_ExpectedNumberOfPoints;
-  IdentifierType m_ExpectedNumberOfEdges;
-  IdentifierType m_ExpectedNumberOfFaces;
-  IdentifierType m_ExpectedNumberOfBoundaries;
-  IdentifierType m_ExpectedGenus;
+  PointIdentifier  m_ExpectedNumberOfPoints;
+  CellIdentifier   m_ExpectedNumberOfEdges;
+  CellIdentifier   m_ExpectedNumberOfFaces;
+  CellIdentifier   m_ExpectedNumberOfBoundaries;
+  OffsetValueType  m_ExpectedGenus;
 };
 }
 

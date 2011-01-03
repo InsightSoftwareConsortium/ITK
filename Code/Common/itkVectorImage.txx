@@ -54,7 +54,7 @@ VectorImage< TPixel, VImageDimension >
     itkExceptionMacro(<< "Cannot allocate VectorImage with VectorLength = 0");
     }
 
-  unsigned long num;
+  SizeValueType num;
   this->ComputeOffsetTable();
   num = this->GetOffsetTable()[VImageDimension];
 
@@ -85,12 +85,12 @@ void
 VectorImage< TPixel, VImageDimension >
 ::FillBuffer(const PixelType & value)
 {
-  const unsigned long numberOfPixels =
+  const SizeValueType numberOfPixels =
     this->GetBufferedRegion().GetNumberOfPixels();
 
-  unsigned long ctr = 0;
+  SizeValueType ctr = 0;
 
-  for ( unsigned int i = 0; i < numberOfPixels; i++ )
+  for ( SizeValueType i = 0; i < numberOfPixels; i++ )
     {
     for ( VectorLengthType j = 0; j < m_VectorLength; j++ )
       {

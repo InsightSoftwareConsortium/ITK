@@ -113,7 +113,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {
-    m_ImageSize[j] = (signed long)size[j];
+    m_ImageSize[j] = size[j];
     }
 }
 
@@ -160,12 +160,12 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 
   IndexType inputIndex;
 
-  unsigned long totalPixels  =
+  SizeValueType totalPixels  =
     m_InputLevelSet->GetBufferedRegion().GetNumberOfPixels();
-  unsigned long updateVisits = totalPixels / 10;
+  SizeValueType updateVisits = totalPixels / 10;
   if ( updateVisits < 1 ) { updateVisits = 1; }
 
-  unsigned long i;
+  SizeValueType i;
   for ( i = 0; !inIt.IsAtEnd(); ++inIt, ++i )
     {
     // update progress
@@ -200,8 +200,8 @@ LevelSetNeighborhoodExtractor< TLevelSet >
   NodeType node;
   double   maxValue = m_NarrowBandwidth / 2.0;
 
-  unsigned long totalPixels  = m_InputNarrowBand->Size();
-  unsigned long updateVisits = totalPixels / 10;
+  SizeValueType totalPixels  = m_InputNarrowBand->Size();
+  SizeValueType updateVisits = totalPixels / 10;
   if ( updateVisits < 1 ) { updateVisits = 1; }
 
   unsigned int i;
@@ -267,7 +267,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
       {
       neighIndex[j] = index[j] + s;
 
-      if ( neighIndex[j] > m_ImageSize[j] - 1
+      if ( neighIndex[j] > static_cast< OffsetValueType >( m_ImageSize[j] ) - 1
            || neighIndex[j] < 0 )
         {
         continue;

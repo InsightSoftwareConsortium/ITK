@@ -132,8 +132,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
           do
             {
-            index[0] = (long int)( point[0] - i * ( Vx * vcl_cos(angle) + Vy * vcl_sin(angle) ) );
-            index[1] = (long int)( point[1] - i * ( Vx * vcl_sin(angle) + Vy * vcl_cos(angle) ) );
+            index[0] = (IndexValueType)( point[0] - i * ( Vx * vcl_cos(angle) + Vy * vcl_sin(angle) ) );
+            index[1] = (IndexValueType)( point[1] - i * ( Vx * vcl_sin(angle) + Vy * vcl_cos(angle) ) );
 
             distance = vcl_sqrt( ( index[1] - point[1] ) * ( index[1] - point[1] )
                                  + ( index[0] - point[0] ) * ( index[0] - point[0] ) );
@@ -225,7 +225,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
   Index< 2 > index;
 
-  unsigned int circles = 0;
+  CirclesListSizeType circles = 0;
   bool         found;
 
   const double nPI = 4.0 * vcl_atan(1.0);
@@ -260,8 +260,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
           {
           for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
             {
-            index[0] = (long int)( it_input.GetIndex()[0] + length * vcl_cos(angle) );
-            index[1] = (long int)( it_input.GetIndex()[1] + length * vcl_sin(angle) );
+            index[0] = (IndexValueType)( it_input.GetIndex()[0] + length * vcl_cos(angle) );
+            index[1] = (IndexValueType)( it_input.GetIndex()[1] + length * vcl_sin(angle) );
             if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
               {
               postProcessImage->SetPixel(index, 0);

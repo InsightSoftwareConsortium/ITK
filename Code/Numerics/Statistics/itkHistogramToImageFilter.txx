@@ -105,7 +105,7 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
 template< class THistogram, unsigned int NDimension, class TFunction >
 void
 HistogramToImageFilter< THistogram, NDimension, TFunction >
-::SetTotalFrequency(unsigned long n)
+::SetTotalFrequency(SizeValueType n)
 {
   if ( n < 1 )
     {
@@ -168,7 +168,7 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
   OutputImageType *    outputImage    = this->GetOutput();
 
   // Set the TotalFrequency in the functor
-  this->SetTotalFrequency( static_cast< unsigned long >(
+  this->SetTotalFrequency( static_cast< SizeValueType >(
                              inputHistogram->GetTotalFrequency() ) );
 
   ProgressReporter progress( this, 0,
@@ -186,7 +186,7 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
     {
     const AbsoluteFrequencyType & value = hitr.GetFrequency();
 
-    iter.Set( m_Functor( static_cast< unsigned long >( value ) ) );
+    iter.Set( m_Functor( static_cast< SizeValueType >( value ) ) );
 
     ++iter;
     ++hitr;

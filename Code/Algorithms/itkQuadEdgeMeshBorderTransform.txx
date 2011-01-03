@@ -133,8 +133,8 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >::ComputeLargestBorder()
 
   InputEdgeListType *list = boundaryRepresentativeEdges->Evaluate(*input);
 
-  unsigned long max_id = 0L;
-  unsigned long k = 0L;
+  SizeValueType max_id = 0L;
+  SizeValueType k = 0L;
 
   InputEdgeListIterator oborder_it = list->begin();
 
@@ -170,7 +170,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 {
   InputMeshConstPointer input = this->GetInput();
 
-  size_t NbBoundaryPt = this->m_BoundaryPtMap.size();
+  InputPointIdentifier NbBoundaryPt = this->m_BoundaryPtMap.size();
 
   InputCoordRepType r = this->RadiusMaxSquare();
 
@@ -342,7 +342,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
   InputQEType *bdryEdge = ( *list->begin() );
 
-  size_t NbBoundaryPt = this->m_BoundaryPtMap.size();
+  InputPointIdentifier NbBoundaryPt = this->m_BoundaryPtMap.size();
 
   std::vector< InputCoordRepType > Length(NbBoundaryPt + 1, 0.0);
 

@@ -144,7 +144,7 @@ throw ( ExceptionObject )
         sample.SetSize(2);
         sample[0] = TrainingFixedValue;
         sample[1] = TrainingMovingValue;
-        this->m_TrainingHistogram->IncreaseFrequency(sample, 1);
+        this->m_TrainingHistogram->IncreaseFrequencyOfMeasurement(sample, 1);
         }
       }
 

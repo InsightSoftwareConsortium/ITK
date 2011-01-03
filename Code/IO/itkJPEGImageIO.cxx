@@ -243,7 +243,7 @@ void JPEGImageIO::Read(void *buffer)
   // prepare to read the bulk data
   jpeg_start_decompress(&cinfo);
 
-  unsigned long rowbytes = cinfo.output_components * cinfo.output_width;
+  SizeValueType rowbytes = cinfo.output_components * cinfo.output_width;
   JSAMPLE *     tempImage = static_cast< JSAMPLE * >( buffer );
 
   JSAMPROW *row_pointers = new JSAMPROW[cinfo.output_height];

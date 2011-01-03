@@ -62,7 +62,7 @@ void ConditionVariable::Signal()
 #else
 #ifdef WIN32
   EnterCriticalSection(&m_NumberOfWaitersLock);
-  int haveWaiters = m_NumberOfWaiters > 0;
+  bool haveWaiters = ( m_NumberOfWaiters > 0 );
   LeaveCriticalSection(&m_NumberOfWaitersLock);
 
   // if there were not any waiters, then this is a no-op
@@ -83,7 +83,7 @@ void ConditionVariable::Broadcast()
   // This is needed to ensure that m_NumberOfWaiters and m_WasBroadcast are
   // consistent
   EnterCriticalSection(&m_NumberOfWaitersLock);
-  int haveWaiters = 0;
+  bool haveWaiters = false;
 
   if ( m_NumberOfWaiters > 0 )
     {
@@ -91,7 +91,7 @@ void ConditionVariable::Broadcast()
     // Record that we are broadcasting, which helps optimize Wait()
     // for the non-broadcast case
     m_WasBroadcast = 1;
-    haveWaiters = 1;
+    haveWaiters = true;
     }
 
   if ( haveWaiters )

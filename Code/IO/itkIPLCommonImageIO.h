@@ -59,8 +59,8 @@ public:
   typedef signed short   S16;
   typedef unsigned int   U32;
   typedef signed int     S32;
-  typedef unsigned long  U64;
-  typedef signed long    S64;
+  typedef uint64_t       U64;
+  typedef int64_t        S64;
   typedef float          F32;
   typedef double         F64;
 

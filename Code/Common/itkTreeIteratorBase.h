@@ -49,6 +49,18 @@ public:
   typedef typename TTreeType::ValueType    ValueType;
   typedef typename TTreeType::TreeNodeType TreeNodeType;
 
+  /** Enumerations */
+  typedef enum {
+    UNDEFIND   = 0,
+    PREORDER   = 1,
+    INORDER    = 2,
+    POSTORDER  = 3,
+    LEVELORDER = 4,
+    CHILD   = 5,
+    ROOT     = 6,
+    LEAF     = 7
+    } NodeType;
+
   /** Add an element to the tree */
   virtual bool Add(ValueType element);
 
@@ -71,7 +83,7 @@ public:
   virtual bool IsRoot() const;
 
   /** Get the type of iterator */
-  virtual int GetType() const = 0;
+  virtual NodeType GetType() const = 0;
 
   /** Go to the specified child */
   virtual bool GoToChild(int number = 0);
@@ -158,18 +170,6 @@ public:
 
   /** Clone the iterator */
   virtual TreeIteratorBase< TTreeType > * Clone() = 0;
-
-  /** Enumerations */
-  enum {
-    UNDEFIND   = 0,
-    PREORDER   = 1,
-    INORDER    = 2,
-    POSTORDER  = 3,
-    LEVELORDER = 4,
-    CHILD   = 5,
-    ROOT     = 6,
-    LEAF     = 7
-    };
 
   /** operator++ */
   Self &

@@ -70,7 +70,9 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef ShapeLabelObject< unsigned long, itkGetStaticConstMacro(ImageDimension) > LabelObjectType;
+  typedef SizeValueType LabelType;
+
+  typedef ShapeLabelObject< LabelType, itkGetStaticConstMacro(ImageDimension) >     LabelObjectType;
   typedef LabelMap< LabelObjectType >                                               LabelMapType;
   typedef BinaryImageToLabelMapFilter< InputImageType, LabelMapType >               LabelizerType;
   typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension) >

@@ -86,16 +86,16 @@ public:
 
   /** The type to be used to identify a point.  This should be the index type
    * to the PointsContainer. */
-  typedef unsigned long PointIdentifier;
+  typedef IdentifierType PointIdentifier;
 
   /** The type to be used to identify a cell.  This should be the index type
    * to the CellsContainer. */
-  typedef unsigned long CellIdentifier;
+  typedef IdentifierType CellIdentifier;
 
   /** A type that can be used to identifiy individual boundary features on
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting. */
-  typedef unsigned long CellFeatureIdentifier;
+  typedef IdentifierType CellFeatureIdentifier;
 
   /** The container type that will be used to store boundary links
    * back to cells.  This must conform to the STL "set" interface. */

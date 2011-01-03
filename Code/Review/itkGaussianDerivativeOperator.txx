@@ -135,7 +135,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
         {
         itkWarningMacro("Kernel size has exceeded the specified maximum width of "
                         << m_MaximumKernelWidth << " and has been truncated to "
-                        << static_cast< unsigned long >( coeff.size() ) << " elements.  You can raise "
+                        << static_cast< unsigned int >( coeff.size() ) << " elements.  You can raise "
                                                                            "the maximum width using the SetMaximumKernelWidth method.");
         break;
         }

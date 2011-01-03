@@ -367,8 +367,8 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
 
   // Each pixel is visited 2^InputImageDimension times, and the number
   // of visits per pixel needs to be computed for progress reporting.
-  unsigned long visitsPerPixel = ( 1 << InputImageDimension );
-  unsigned long updateVisits, i = 0;
+  SizeValueType visitsPerPixel = ( 1 << InputImageDimension );
+  SizeValueType updateVisits, i = 0;
   updateVisits = region.GetNumberOfPixels() * visitsPerPixel / 10;
   if ( updateVisits < 1 )
     {

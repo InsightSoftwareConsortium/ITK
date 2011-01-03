@@ -124,9 +124,6 @@ public:
    * the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  /** Container used to store pixels in the image. */
-  typedef ImportImageContainer< unsigned long, PixelType > PixelContainer;
-
   /** Index typedef support. An index is used to access pixel values. */
   typedef typename Superclass::IndexType      IndexType;
   typedef typename Superclass::IndexValueType IndexValueType;
@@ -137,6 +134,9 @@ public:
   /** Size typedef support. A size is used to define region bounds. */
   typedef typename Superclass::SizeType      SizeType;
   typedef typename Superclass::SizeValueType SizeValueType;
+
+  /** Container used to store pixels in the image. */
+  typedef ImportImageContainer< SizeValueType, PixelType > PixelContainer;
 
   /** Direction typedef support. A matrix of direction cosines. */
   typedef typename Superclass::DirectionType DirectionType;
@@ -198,7 +198,7 @@ public:
    * allocated yet. */
   void SetPixel(const IndexType & index, const TPixel & value)
   {
-    typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->ComputeOffset(index);
     ( *m_Buffer )[offset] = value;
   }
 
@@ -208,7 +208,7 @@ public:
    * image has actually been allocated yet. */
   const TPixel & GetPixel(const IndexType & index) const
   {
-    typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->ComputeOffset(index);
     return ( ( *m_Buffer )[offset] );
   }
 
@@ -218,7 +218,7 @@ public:
    * image has actually been allocated yet. */
   TPixel & GetPixel(const IndexType & index)
   {
-    typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
+    OffsetValueType offset = this->ComputeOffset(index);
     return ( ( *m_Buffer )[offset] );
   }
 

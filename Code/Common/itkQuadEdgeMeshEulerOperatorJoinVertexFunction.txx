@@ -381,7 +381,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CheckStatus(QETyp
     return QUADEDGE_ISOLATED;
     }
 
-  size_t number_common_vertices = CommonVertexNeighboor(e);
+  PointIdentifier number_common_vertices = CommonVertexNeighboor(e);
   if ( number_common_vertices > 2 )
     {
     itkDebugMacro("The 2 vertices have more than 2 common neighboor vertices.");
@@ -529,7 +529,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsEye(QEType *e)
 
 //--------------------------------------------------------------------------
 template< class TMesh, class TQEType >
-size_t
+typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::PointIdentifier
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CommonVertexNeighboor(QEType *e)
 {
   QEType *qe = e;

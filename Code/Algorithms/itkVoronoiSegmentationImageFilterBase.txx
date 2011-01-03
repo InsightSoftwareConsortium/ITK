@@ -475,11 +475,11 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 
   if ( m_Steps == 0 )
     {
-    unsigned long count = 1;
+    SizeValueType count = 1;
     this->RunSegmentOneStep();
     // guess at a progress
     this->UpdateProgress( static_cast< float >( count )
-                          / static_cast< float >( NumericTraits< unsigned long >::max() ) );
+                          / static_cast< float >( NumericTraits< SizeValueType >::max() ) );
     if ( m_NumberOfBoundary == 0 )
       {
       ok = 0;
@@ -493,7 +493,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
       this->RunSegmentOneStep();
       // guess at a progress
       this->UpdateProgress( static_cast< float >( count )
-                            / static_cast< float >( NumericTraits< unsigned long >::max() ) );
+                            / static_cast< float >( NumericTraits< SizeValueType >::max() ) );
       }
     }
   else if ( m_Steps == 1 )

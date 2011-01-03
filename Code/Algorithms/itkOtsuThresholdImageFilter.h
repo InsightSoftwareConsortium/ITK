@@ -92,9 +92,9 @@ public:
   itkGetConstMacro(InsideValue, OutputPixelType);
 
   /** Set/Get the number of histogram bins. Defaults is 128. */
-  itkSetClampMacro( NumberOfHistogramBins, unsigned long, 1,
-                    NumericTraits< unsigned long >::max() );
-  itkGetConstMacro(NumberOfHistogramBins, unsigned long);
+  itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 1,
+                    NumericTraits< SizeValueType >::max() );
+  itkGetConstMacro(NumberOfHistogramBins, SizeValueType);
 
   /** Get the computed threshold. */
   itkGetConstMacro(Threshold, InputPixelType);
@@ -125,7 +125,7 @@ private:
   InputPixelType  m_Threshold;
   OutputPixelType m_InsideValue;
   OutputPixelType m_OutsideValue;
-  unsigned long   m_NumberOfHistogramBins;
+  SizeValueType   m_NumberOfHistogramBins;
 }; // end of class
 } // end namespace itk
 

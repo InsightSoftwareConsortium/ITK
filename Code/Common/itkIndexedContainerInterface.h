@@ -150,7 +150,7 @@ public:
   ConstIterator End() const;
 
   /** Get the number of elements currently stored in the container. */
-  unsigned long Size(void) const;
+  ElementIdentifier Size(void) const;
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT

@@ -21,6 +21,7 @@
 #include "itkCellInterface.h"
 #include "itkMapContainer.h"
 #include "itkPoint.h"
+#include "itkIntTypes.h"
 #include <set>
 
 namespace itk
@@ -81,16 +82,16 @@ public:
 
   /** The type to be used to identify a point.  This should be the index type
    * to the PointsContainer. */
-  typedef unsigned long PointIdentifier;
+  typedef IdentifierType PointIdentifier;
 
   /** The type to be used to identify a cell.  This should be the index type
    * to the CellsContainer. */
-  typedef unsigned long CellIdentifier;
+  typedef IdentifierType CellIdentifier;
 
   /** A type that can be used to identifiy individual boundary features on
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting. */
-  typedef unsigned long CellFeatureIdentifier;
+  typedef IdentifierType CellFeatureIdentifier;
 
   /** The type of point used by the mesh. */
   typedef Point< CoordRepType, VPointDimension > PointType;

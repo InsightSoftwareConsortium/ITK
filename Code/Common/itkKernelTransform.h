@@ -115,10 +115,11 @@ public:
   typedef typename PointSetType::PointsContainer              PointsContainer;
   typedef typename PointSetType::PointsContainerIterator      PointsIterator;
   typedef typename PointSetType::PointsContainerConstIterator PointsConstIterator;
+  typedef typename PointSetType::PointIdentifier              PointIdentifier;
 
   /** VectorSet typedef. */
-  typedef itk::VectorContainer< unsigned long, InputVectorType > VectorSetType;
-  typedef typename VectorSetType::Pointer                        VectorSetPointer;
+  typedef itk::VectorContainer< SizeValueType, InputVectorType >  VectorSetType;
+  typedef typename VectorSetType::Pointer                         VectorSetPointer;
 
   /** Get the source landmarks list, which we will denote \f$ p \f$. */
   itkGetObjectMacro(SourceLandmarks, PointSetType);
@@ -343,9 +344,12 @@ protected:
 
   /** The list of target landmarks, denoted 'q'. */
   PointSetPointer m_TargetLandmarks;
+
 private:
+
   KernelTransform(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented
+
 };
 } // end namespace itk
 

@@ -41,7 +41,7 @@ ObjectStore< TObjectType >
 template< class TObjectType >
 void
 ObjectStore< TObjectType >
-::Reserve(::size_t n)
+::Reserve(SizeValueType n)
 {
   // No need to grow? Do nothing.
   if ( n <= m_Size ) { return; }
@@ -103,7 +103,7 @@ ObjectStore< TObjectType >
 }
 
 template< class TObjectType >
-::size_t
+SizeValueType
 ObjectStore< TObjectType >
 ::GetGrowthSize()
 {
@@ -160,10 +160,10 @@ ObjectStore< TObjectType >
 
   os << indent << "m_GrowthStrategy: " << m_GrowthStrategy << std::endl;
   os << indent << "m_Size: " << m_Size << std::endl;
-  os << indent << "m_LinearGrowthSize: " << static_cast< unsigned long >( m_LinearGrowthSize ) << std::endl;
-  os << indent << "Free list size: " << static_cast< unsigned long >( m_FreeList.size() ) << std::endl;
-  os << indent << "Free list capacity: " << static_cast< unsigned long >( m_FreeList.capacity() ) << std::endl;
-  os << indent << "Number of blocks in store: " << static_cast< unsigned long >( m_Store.size() ) << std::endl;
+  os << indent << "m_LinearGrowthSize: " << static_cast< SizeValueType >( m_LinearGrowthSize ) << std::endl;
+  os << indent << "Free list size: " << static_cast< SizeValueType >( m_FreeList.size() ) << std::endl;
+  os << indent << "Free list capacity: " << static_cast< SizeValueType >( m_FreeList.capacity() ) << std::endl;
+  os << indent << "Number of blocks in store: " << static_cast< SizeValueType >( m_Store.size() ) << std::endl;
 }
 } // end namespace itk
 

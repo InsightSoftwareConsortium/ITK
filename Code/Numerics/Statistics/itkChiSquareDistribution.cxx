@@ -37,7 +37,7 @@ ChiSquareDistribution
 
 void
 ChiSquareDistribution
-::SetDegreesOfFreedom(long dof)
+::SetDegreesOfFreedom(SizeValueType dof)
 {
   bool modified = false;
 
@@ -62,7 +62,7 @@ ChiSquareDistribution
     }
 }
 
-long
+SizeValueType
 ChiSquareDistribution
 ::GetDegreesOfFreedom() const
 {
@@ -73,12 +73,12 @@ ChiSquareDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-  return static_cast< long >( m_Parameters[0] );
+  return static_cast< SizeValueType >( m_Parameters[0] );
 }
 
 double
 ChiSquareDistribution
-::PDF(double x, long degreesOfFreedom)
+::PDF(double x, SizeValueType degreesOfFreedom)
 {
   double dof = static_cast< double >( degreesOfFreedom );
   double dofon2 = 0.5 * dof;
@@ -104,12 +104,12 @@ ChiSquareDistribution
       << p.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::PDF( x, static_cast< long >( p[0] ) );
+  return ChiSquareDistribution::PDF( x, static_cast< SizeValueType >( p[0] ) );
 }
 
 double
 ChiSquareDistribution
-::CDF(double x, long degreesOfFreedom)
+::CDF(double x, SizeValueType degreesOfFreedom)
 {
   // Based on Abramowitz and Stegun 26.4.19 which relates the
   // cumulative of the chi-square to incomplete (and complete) gamma
@@ -136,12 +136,12 @@ ChiSquareDistribution
       << p.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::CDF(x, (long)p[0]);
+  return ChiSquareDistribution::CDF(x, (SizeValueType)p[0]);
 }
 
 double
 ChiSquareDistribution
-::InverseCDF(double p, long degreesOfFreedom)
+::InverseCDF(double p, SizeValueType degreesOfFreedom)
 {
   if ( p <= 0.0 )
     {
@@ -214,7 +214,7 @@ ChiSquareDistribution
       << params.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::InverseCDF( p, static_cast< long >( params[0] ) );
+  return ChiSquareDistribution::InverseCDF( p, static_cast< SizeValueType >( params[0] ) );
 }
 
 double
@@ -228,7 +228,7 @@ ChiSquareDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::PDF( x, static_cast< long >( m_Parameters[0] ) );
+  return ChiSquareDistribution::PDF( x, static_cast< SizeValueType >( m_Parameters[0] ) );
 }
 
 double
@@ -242,12 +242,12 @@ ChiSquareDistribution
       << p.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::PDF( x, static_cast< long >( p[0] ) );
+  return ChiSquareDistribution::PDF( x, static_cast< SizeValueType >( p[0] ) );
 }
 
 double
 ChiSquareDistribution
-::EvaluatePDF(double x, long degreesOfFreedom) const
+::EvaluatePDF(double x, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::PDF(x, degreesOfFreedom);
 }
@@ -263,7 +263,7 @@ ChiSquareDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::CDF( x, static_cast< long >( m_Parameters[0] ) );
+  return ChiSquareDistribution::CDF( x, static_cast< SizeValueType >( m_Parameters[0] ) );
 }
 
 double
@@ -277,12 +277,12 @@ ChiSquareDistribution
       << p.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::CDF( x, static_cast< long >( p[0] ) );
+  return ChiSquareDistribution::CDF( x, static_cast< SizeValueType >( p[0] ) );
 }
 
 double
 ChiSquareDistribution
-::EvaluateCDF(double x, long degreesOfFreedom) const
+::EvaluateCDF(double x, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::CDF(x, degreesOfFreedom);
 }
@@ -298,7 +298,7 @@ ChiSquareDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::InverseCDF( p, static_cast< long >( m_Parameters[0] ) );
+  return ChiSquareDistribution::InverseCDF( p, static_cast< SizeValueType >( m_Parameters[0] ) );
 }
 
 double
@@ -312,12 +312,12 @@ ChiSquareDistribution
       << params.size()
       << " parameters.");
     }
-  return ChiSquareDistribution::InverseCDF( p, static_cast< long >( params[0] ) );
+  return ChiSquareDistribution::InverseCDF( p, static_cast< SizeValueType >( params[0] ) );
 }
 
 double
 ChiSquareDistribution
-::EvaluateInverseCDF(double p, long degreesOfFreedom) const
+::EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::InverseCDF(p, degreesOfFreedom);
 }
@@ -359,7 +359,7 @@ ChiSquareDistribution
   if ( m_Parameters.GetSize() > 0 )
     {
     os << indent << "Degrees of freedom: "
-       << static_cast< long >( m_Parameters[0] ) << std::endl;
+       << static_cast< SizeValueType >( m_Parameters[0] ) << std::endl;
     }
   else
     {

@@ -37,10 +37,10 @@ public:
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
-  typedef ScalableAffineTransform< TScalarType, NDimensions >    TransformType;
-  typedef BoundingBox< unsigned long, NDimensions, TScalarType > BoundingBoxType;
-  typedef typename BoundingBoxType::BoundsArrayType              BoundsArrayType;
-  typedef typename BoundingBoxType::Pointer                      BoundingBoxPointer;
+  typedef ScalableAffineTransform< TScalarType, NDimensions >     TransformType;
+  typedef BoundingBox< IdentifierType, NDimensions, TScalarType > BoundingBoxType;
+  typedef typename BoundingBoxType::BoundsArrayType               BoundsArrayType;
+  typedef typename BoundingBoxType::Pointer                       BoundingBoxPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

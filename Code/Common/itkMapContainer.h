@@ -258,7 +258,7 @@ private:
   /**
    * Get the number of elements currently stored in the map.
    */
-  unsigned long Size(void) const;
+  ElementIdentifier Size(void) const;
 
   /**
    * Tell the container to allocate enough memory to allow at least

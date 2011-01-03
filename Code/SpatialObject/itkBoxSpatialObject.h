@@ -37,17 +37,17 @@ class ITK_EXPORT BoxSpatialObject:
 {
 public:
 
-  typedef BoxSpatialObject                            Self;
-  typedef double                                      ScalarType;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef SpatialObject< TDimension >                 Superclass;
-  typedef SmartPointer< Superclass >                  SuperclassPointer;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
-  typedef FixedArray< double, TDimension >            SizeType;
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
+  typedef BoxSpatialObject                             Self;
+  typedef double                                       ScalarType;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
+  typedef SpatialObject< TDimension >                  Superclass;
+  typedef SmartPointer< Superclass >                   SuperclassPointer;
+  typedef typename Superclass::PointType               PointType;
+  typedef typename Superclass::TransformType           TransformType;
+  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
+  typedef FixedArray< double, TDimension >             SizeType;
+  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
 
   itkNewMacro(Self);
   itkTypeMacro(BoxSpatialObject, SpatialObject);

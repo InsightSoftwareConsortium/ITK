@@ -110,12 +110,12 @@ private:
   void operator=(const Self &);
 
   inline bool GetValueThreadProcessSample(unsigned int threadID,
-                                          unsigned long fixedImageSample,
+                                          SizeValueType fixedImageSample,
                                           const MovingImagePointType & mappedPoint,
                                           double movingImageValue) const;
 
   inline bool GetValueAndDerivativeThreadProcessSample(unsigned int threadID,
-                                                       unsigned long fixedImageSample,
+                                                       SizeValueType fixedImageSample,
                                                        const MovingImagePointType & mappedPoint,
                                                        double movingImageValue,
                                                        const ImageDerivativesType &

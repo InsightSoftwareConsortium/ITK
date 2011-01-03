@@ -49,10 +49,10 @@ void
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::Allocate()
 {
-  unsigned long num;
+  SizeValueType num;
 
   this->ComputeOffsetTable();
-  num = this->GetOffsetTable()[VImageDimension];
+  num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
 
   m_Buffer->Reserve(num);
 }
@@ -81,7 +81,7 @@ void
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::FillBuffer(const TPixel & value)
 {
-  const unsigned long numberOfPixels =
+  const SizeValueType numberOfPixels =
     this->GetBufferedRegion().GetNumberOfPixels();
 
   for ( unsigned int i = 0; i < numberOfPixels; i++ )

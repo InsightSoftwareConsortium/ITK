@@ -85,7 +85,7 @@ public:
   /** Get parameters of the difference image after execution.  */
   itkGetConstMacro(MeanDifference, RealType);
   itkGetConstMacro(TotalDifference, AccumulateType);
-  itkGetConstMacro(NumberOfPixelsWithDifferences, unsigned long);
+  itkGetConstMacro(NumberOfPixelsWithDifferences, SizeValueType);
 protected:
   DifferenceImageFilter();
   virtual ~DifferenceImageFilter() {}
@@ -116,12 +116,13 @@ protected:
 
   AccumulateType m_TotalDifference;
 
-  unsigned long m_NumberOfPixelsWithDifferences;
+  SizeValueType m_NumberOfPixelsWithDifferences;
 
   int m_ToleranceRadius;
 
   Array< AccumulateType >    m_ThreadDifferenceSum;
-  Array< unsigned long >     m_ThreadNumberOfPixels;
+  Array< SizeValueType >     m_ThreadNumberOfPixels;
+
 private:
   DifferenceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

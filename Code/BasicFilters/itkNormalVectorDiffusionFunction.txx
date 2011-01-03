@@ -69,14 +69,15 @@ NormalVectorDiffusionFunction< TSparseImageType >
 
   Vector< NodeValueType, ImageDimension > gradient[ImageDimension];
   NormalVectorType                        PositiveSidePixel[2], NegativeSidePixel[2], flux;
-  unsigned long                           stride[ImageDimension];
-  unsigned long                           center;
+
+  SizeValueType                           stride[ImageDimension];
+  SizeValueType                           center;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
   for ( j = 0; j < ImageDimension; j++ )
     {
-    stride[j] = it.GetStride( (unsigned long)j );
+    stride[j] = it.GetStride( j );
     }
   center =  it.Size() / 2;
 

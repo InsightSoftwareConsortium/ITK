@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 template< class TInputImage, class TOutputImage =
-            LabelMap< ShapeLabelObject< unsigned long, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >
+            LabelMap< ShapeLabelObject< SizeValueType, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >
 class ITK_EXPORT BinaryImageToShapeLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

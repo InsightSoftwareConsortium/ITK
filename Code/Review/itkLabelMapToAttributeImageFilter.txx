@@ -77,17 +77,20 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
   const typename InputImageType::LabelObjectContainerType & labelObjectContainer = input->GetLabelObjectContainer();
   for( it = labelObjectContainer.begin(); it != labelObjectContainer.end(); it++ )
     {
-    const typename InputImageType::LabelObjectType * labeObject = it->second;
+    typedef typename InputImageType::LabelObjectType  LabelObjectType;
+    const LabelObjectType * labeObject = it->second;
     const AttributeValueType & attribute = accessor( labeObject );
 
-    typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
-    const typename InputImageType::LabelObjectType::LineContainerType & lineContainer = labeObject->GetLineContainer();
+    typename LabelObjectType::LineContainerType::const_iterator lit;
+    const typename LabelObjectType::LineContainerType & lineContainer = labeObject->GetLineContainer();
+
+    typedef typename LabelObjectType::LengthType LengthType;
 
     for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
       {
       IndexType idx = lit->GetIndex();
-      unsigned long length = lit->GetLength();
-      for( unsigned int i=0; i<length; i++)
+      LengthType length = lit->GetLength();
+      for( LengthType i=0; i<length; i++)
         {
         output->SetPixel( idx, static_cast<OutputImagePixelType>( attribute ) );
         idx[0]++;

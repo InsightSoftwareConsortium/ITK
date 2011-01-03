@@ -32,12 +32,13 @@ public:
   typedef TTreeType                         TreeType;
   typedef typename TTreeType::ValueType     ValueType;
   typedef typename Superclass::TreeNodeType TreeNodeType;
+  typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor */
   RootTreeIterator(TreeType *tree, const TreeNodeType *start = NULL);
 
   /** Return the type of the iterator */
-  int GetType() const;
+  NodeType GetType() const;
 
   /** Clone function */
   TreeIteratorBase< TTreeType > * Clone();
@@ -71,7 +72,7 @@ RootTreeIterator< TTreeType >::RootTreeIterator(TTreeType *tree, const TreeNodeT
 
 /** Return the type of the iterator */
 template< class TTreeType >
-int
+typename RootTreeIterator< TTreeType >::NodeType
 RootTreeIterator< TTreeType >::GetType() const
 {
   return TreeIteratorBase< TTreeType >::ROOT;

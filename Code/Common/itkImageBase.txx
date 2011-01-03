@@ -44,7 +44,7 @@ template< unsigned int VImageDimension >
 ImageBase< VImageDimension >
 ::ImageBase()
 {
-  memset( m_OffsetTable, 0, ( VImageDimension + 1 ) * sizeof( unsigned long ) );
+  memset(m_OffsetTable, 0, sizeof(m_OffsetTable));
   m_Spacing.Fill(1.0);
   m_Origin.Fill(0.0);
   m_Direction.SetIdentity();
@@ -71,7 +71,7 @@ ImageBase< VImageDimension >
   Superclass::Initialize();
 
   // Clear the offset table
-  memset( m_OffsetTable, 0, ( VImageDimension + 1 ) * sizeof( unsigned long ) );
+  memset(m_OffsetTable, 0, sizeof(m_OffsetTable));
 
   // Clear the BufferedRegion ivar
   this->InitializeBufferedRegion();
@@ -418,8 +418,8 @@ ImageBase< VImageDimension >
   for ( i = 0; i < VImageDimension; i++ )
     {
     if ( ( requestedRegionIndex[i] < largestPossibleRegionIndex[i] )
-         || ( ( requestedRegionIndex[i] + static_cast< long >( requestedRegionSize[i] ) )
-              > ( largestPossibleRegionIndex[i] + static_cast< long >( largestPossibleRegionSize[i] ) ) ) )
+         || ( ( requestedRegionIndex[i] + static_cast< OffsetValueType >( requestedRegionSize[i] ) )
+              > ( largestPossibleRegionIndex[i] + static_cast< OffsetValueType >( largestPossibleRegionSize[i] ) ) ) )
       {
       retval = false;
       }

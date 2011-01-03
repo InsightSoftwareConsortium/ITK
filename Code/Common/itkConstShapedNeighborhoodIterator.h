@@ -88,7 +88,7 @@ public:
   typedef typename OffsetType::OffsetValueType OffsetValueType;
   typedef typename Superclass::RadiusType      RadiusType;
   typedef typename Superclass::SizeType        SizeType;
-  typedef typename Superclass::SizeValueType   SizeValueType;
+  typedef typename SizeType::SizeValueType     SizeValueType;
 
   /** Typedef support for common objects */
   typedef TImage                                     ImageType;
@@ -98,9 +98,14 @@ public:
   typedef Neighborhood< PixelType, itkGetStaticConstMacro(Dimension) >
   NeighborhoodType;
 
+  typedef typename NeighborhoodType::NeighborIndexType  NeighborIndexType;
+
   /** An stl storage container type that can be sorted.  The type used for
    *  the list of active offsets in the neighborhood. */
-  typedef std::list< unsigned int > IndexListType;
+  typedef std::list< NeighborIndexType >             IndexListType;
+
+  typedef typename IndexListType::iterator        IndexListIterator;
+  typedef typename IndexListType::const_iterator  IndexListConstIterator;
 
   /** Typedef for boundary condition type. */
   typedef TBoundaryCondition BoundaryConditionType;
@@ -350,9 +355,9 @@ protected:
       argument is an index location calculated as an offset into a linear
       array which represents the image region defined by the radius of this
       iterator, with the smallest dimension as the fastest increasing index. */
-  virtual void ActivateIndex(const unsigned int);
+  virtual void ActivateIndex( NeighborIndexType );
 
-  virtual void DeactivateIndex(const unsigned int);
+  virtual void DeactivateIndex( NeighborIndexType );
 
   bool          m_CenterIsActive;
   IndexListType m_ActiveIndexList;

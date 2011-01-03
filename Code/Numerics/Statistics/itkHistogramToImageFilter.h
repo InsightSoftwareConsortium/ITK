@@ -135,7 +135,7 @@ public:
   FunctorType & GetFunctor() { return m_Functor; }
   const FunctorType & GetFunctor() const { return m_Functor; }
 
-  void SetTotalFrequency(unsigned long n);
+  void SetTotalFrequency(SizeValueType n);
 
 protected:
   HistogramToImageFilter();

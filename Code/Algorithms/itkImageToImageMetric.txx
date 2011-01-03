@@ -149,7 +149,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< class TFixedImage, class TMovingImage >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::SetNumberOfFixedImageSamples(unsigned long numSamples)
+::SetNumberOfFixedImageSamples(SizeValueType numSamples)
 {
   if ( numSamples != m_NumberOfFixedImageSamples )
     {
@@ -541,7 +541,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 {
   typename FixedImageSampleContainer::iterator iter;
 
-  unsigned long len = m_FixedImageIndexes.size();
+  SizeValueType len = m_FixedImageIndexes.size();
   if ( len != m_NumberOfFixedImageSamples
        || samples.size() != m_NumberOfFixedImageSamples )
     {
@@ -550,7 +550,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     }
 
   iter = samples.begin();
-  for ( unsigned long i = 0; i < len; i++ )
+  for ( SizeValueType i = 0; i < len; i++ )
     {
     // Get sampled index
     FixedImageIndexType index = m_FixedImageIndexes[i];
@@ -592,7 +592,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     InputPointType inputPoint;
 
     iter = samples.begin();
-    unsigned long int samplesFound = 0;
+    SizeValueType samplesFound = 0;
     randIter.SetNumberOfSamples(m_NumberOfFixedImageSamples * 1000);
     randIter.GoToBegin();
     while ( iter != end )
@@ -603,7 +603,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
         // have enough to fill the desired number.   So, we will replicate
         // the samples we've found so far to fill-in the desired number
         // of samples
-        unsigned long int count = 0;
+        SizeValueType count = 0;
         while ( iter != end )
           {
           ( *iter ).point = samples[count].point;
@@ -870,14 +870,14 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   typename FixedImageSampleContainer::const_iterator fiter;
   typename FixedImageSampleContainer::const_iterator fend =
     m_FixedImageSamples.end();
-  unsigned long counter = 0;
+  SizeValueType counter = 0;
 
   for ( fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter, counter++ )
     {
     m_BSplineTransform->TransformPoint(m_FixedImageSamples[counter].point,
                                        mappedPoint, weights, indices, valid);
 
-    for ( unsigned long k = 0; k < m_NumBSplineWeights; k++ )
+    for ( SizeValueType k = 0; k < m_NumBSplineWeights; k++ )
       {
       m_BSplineTransformWeightsArray[counter][k] = weights[k];
       m_BSplineTransformIndicesArray[counter][k] = indices[k];

@@ -88,12 +88,12 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Set/Get the number of histogram bins. Default is 128. */
-  itkSetClampMacro( NumberOfHistogramBins, unsigned long, 1, NumericTraits< unsigned long >::max() );
-  itkGetConstMacro(NumberOfHistogramBins, unsigned long);
+  itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 1, NumericTraits< SizeValueType >::max() );
+  itkGetConstMacro(NumberOfHistogramBins, SizeValueType);
 
   /** Set/Get the number of thresholds. Default is 1. */
-  itkSetClampMacro( NumberOfThresholds, unsigned long, 1, NumericTraits< unsigned long >::max() );
-  itkGetConstMacro(NumberOfThresholds, unsigned long);
+  itkSetClampMacro( NumberOfThresholds, SizeValueType, 1, NumericTraits< SizeValueType >::max() );
+  itkGetConstMacro(NumberOfThresholds, SizeValueType);
 
   /** Set/Get the offset which labels have to start from. Default is 0. */
   itkSetClampMacro( LabelOffset, OutputPixelType, NumericTraits< OutputPixelType >::Zero,
@@ -127,8 +127,8 @@ private:
   OtsuMultipleThresholdsImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented
 
-  unsigned long       m_NumberOfHistogramBins;
-  unsigned long       m_NumberOfThresholds;
+  SizeValueType       m_NumberOfHistogramBins;
+  SizeValueType       m_NumberOfThresholds;
   OutputPixelType     m_LabelOffset;
   ThresholdVectorType m_Thresholds;
 }; // end of class

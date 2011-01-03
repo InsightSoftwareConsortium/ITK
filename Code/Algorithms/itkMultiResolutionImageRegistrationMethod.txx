@@ -167,7 +167,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void
 MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
-::SetNumberOfLevels(unsigned long numberOfLevels)
+::SetNumberOfLevels(SizeValueType numberOfLevels)
 {
   if ( m_ScheduleSpecified )
     {
@@ -257,7 +257,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
   SizeType  inputSize  = m_FixedImageRegion.GetSize();
   IndexType inputStart = m_FixedImageRegion.GetIndex();
 
-  const unsigned long numberOfLevels =
+  const SizeValueType numberOfLevels =
     m_FixedImagePyramid->GetNumberOfLevels();
 
   m_FixedImageRegionPyramid.reserve(numberOfLevels);

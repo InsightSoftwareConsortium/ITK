@@ -43,7 +43,7 @@ void
 ImageLinearConstIteratorWithIndex< TImage >
 ::GoToReverseBeginOfLine(void)
 {
-  long distanceToEnd =
+  OffsetValueType distanceToEnd =
     this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction] - 1;
 
   this->m_Position += m_Jump * distanceToEnd;
@@ -58,7 +58,7 @@ void
 ImageLinearConstIteratorWithIndex< TImage >
 ::GoToBeginOfLine(void)
 {
-  long distanceToBegin =
+  OffsetValueType distanceToBegin =
     this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction];
 
   this->m_Position -= m_Jump * distanceToBegin;
@@ -74,7 +74,7 @@ void
 ImageLinearConstIteratorWithIndex< TImage >
 ::GoToEndOfLine(void)
 {
-  long distanceToEnd =
+  OffsetValueType distanceToEnd =
     this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction];
 
   this->m_Position += m_Jump * distanceToEnd;

@@ -30,6 +30,7 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -77,7 +78,7 @@ public:
 
   /** Type for representing large buffers, including those in 64bits
    * architectures */
-  typedef::size_t BufferSizeType;
+  typedef SizeValueType BufferSizeType;
 
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping

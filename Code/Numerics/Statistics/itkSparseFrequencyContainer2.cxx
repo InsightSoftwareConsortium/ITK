@@ -29,7 +29,7 @@ SparseFrequencyContainer2
 
 void
 SparseFrequencyContainer2
-::Initialize(unsigned long)
+::Initialize(SizeValueType)
 {
   this->SetToZero();
 }

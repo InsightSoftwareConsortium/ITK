@@ -142,7 +142,7 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
 
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    size[i]    =  static_cast< typename InputSizeType::SizeValueType >( size[i] / m_SubsamplingFactor );
+    size[i]    =  static_cast< SizeValueType >( size[i] / m_SubsamplingFactor );
     spacing[i] *= m_SubsamplingFactor;
     }
 
@@ -158,7 +158,7 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
 
   // allocate a landmark pair for each
   // pixel in the subsampled field
-  const unsigned long numberOfLandmarks = subsampledRegion.GetNumberOfPixels();
+  const SizeValueType numberOfLandmarks = subsampledRegion.GetNumberOfPixels();
   source->Reserve(numberOfLandmarks);
   target->Reserve(numberOfLandmarks);
 

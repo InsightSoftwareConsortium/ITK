@@ -194,7 +194,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     typename GaussianDerivativeFunctionType::InputType pt;
     typename NeighborhoodType::SizeType size;
     size.Fill(0);
-    size[direction] = (unsigned long)( m_Sigma[direction] * m_Extent[direction] );
+    size[direction] = static_cast<SizeValueType>( m_Sigma[direction] * m_Extent[direction] );
     dogNeighborhood.SetRadius(size);
 
     typename GaussianDerivativeFunctionType::ArrayType s;
@@ -330,7 +330,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     typename GaussianDerivativeFunctionType::InputType pt;
     typename OperatorNeighborhoodType::SizeType size;
     size.Fill(0);
-    size[direction] = (unsigned long)( m_Sigma[direction] * m_Extent[direction] );
+    size[direction] = static_cast<SizeValueType>( m_Sigma[direction] * m_Extent[direction] );
     dogNeighborhood.SetRadius(size);
 
     typename GaussianDerivativeFunctionType::ArrayType s;

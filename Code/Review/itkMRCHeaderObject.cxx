@@ -116,7 +116,7 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
   this->m_ExtendedHeader = 0;
   this->m_ExtendedFeiHeader = 0;
 
-  size_t extendedHeaderBytes = 0;
+  SizeValueType extendedHeaderBytes = 0;
   if ( this->m_Header.nreal & 1   ) { extendedHeaderBytes += 2; }
   if ( this->m_Header.nreal & 2   ) { extendedHeaderBytes += 6; }
   if ( this->m_Header.nreal & 4   ) { extendedHeaderBytes += 3; }
@@ -129,7 +129,7 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
   if ( this->m_Header.nreal & 512 ) { extendedHeaderBytes += 4; }
   if ( this->m_Header.nreal & 1024 ) { extendedHeaderBytes += 2; }
 
-  if ( extendedHeaderBytes != size_t(this->m_Header.nint) )
+  if ( extendedHeaderBytes != SizeValueType(this->m_Header.nint) )
     {
     // FEI/Agard format
 
@@ -168,7 +168,7 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
   return true;
 }
 
-size_t MRCHeaderObject::GetExtendedHeaderSize(void) const
+SizeValueType MRCHeaderObject::GetExtendedHeaderSize(void) const
 {
   return this->m_ExtendedHeaderSize;
 }

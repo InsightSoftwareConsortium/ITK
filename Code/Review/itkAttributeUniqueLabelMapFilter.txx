@@ -114,10 +114,10 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
       }
     else
       {
-      unsigned long prevLength = prev.line.GetLength();
-      unsigned long length = l.line.GetLength();
+      OffsetValueType prevLength = prev.line.GetLength();
+      OffsetValueType length = l.line.GetLength();
 
-      if ( prevIdx[0] + (long)prevLength >= idx[0] )
+      if ( prevIdx[0] + prevLength >= idx[0] )
         {
         // the lines are overlapping. We need to choose which line to keep.
         // the label, the only "attribute" to be guarenteed to be unique, is
@@ -167,7 +167,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
             // add it to the priority queue
             IndexType newIdx = idx;
             newIdx[0] = idx[0] + length;
-            unsigned long newLength = prevIdx[0] + prevLength - newIdx[0];
+            OffsetValueType newLength = prevIdx[0] + prevLength - newIdx[0];
             pq.push( LineOfLabelObject(LineType(newIdx, newLength), prev.labelObject) );
             }
           // truncate the previous line to let some place for the current one
@@ -197,7 +197,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
             {
             IndexType newIdx = idx;
             newIdx[0] = prevIdx[0] + prevLength;
-            unsigned long newLength = idx[0] + length - newIdx[0];
+            OffsetValueType newLength = idx[0] + length - newIdx[0];
             l.line.SetIndex(newIdx);
             l.line.SetLength(newLength);
             lines.push_back(l);

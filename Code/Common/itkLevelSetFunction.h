@@ -309,10 +309,10 @@ protected:
   std::slice x_slice[itkGetStaticConstMacro(ImageDimension)];
 
   /** The offset of the center pixel in the neighborhood. */
-  ::size_t m_Center;
+  OffsetValueType m_Center;
 
   /** Stride length along the y-dimension. */
-  ::size_t m_xStride[itkGetStaticConstMacro(ImageDimension)];
+  OffsetValueType m_xStride[itkGetStaticConstMacro(ImageDimension)];
 
   bool m_UseMinimalCurvature;
 

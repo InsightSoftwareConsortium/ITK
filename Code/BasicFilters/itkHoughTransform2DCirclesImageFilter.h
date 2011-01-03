@@ -89,6 +89,8 @@ public:
   typedef typename CircleType::Pointer CirclePointer;
   typedef std::list< CirclePointer >   CirclesListType;
 
+  typedef typename CirclesListType::size_type CirclesListSizeType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(HoughTransform2DCirclesImageFilter, ImageToImageFilter);
 
@@ -183,13 +185,14 @@ private:
   double m_Threshold;
   double m_SigmaGradient;
 
-  OutputImagePointer m_RadiusImage;
-  CirclesListType    m_CirclesList;
-  unsigned int       m_NumberOfCircles;
-  float              m_DiscRadiusRatio;
-  float              m_Variance;
-  unsigned long      m_OldModifiedTime;
-  unsigned long      m_OldNumberOfCircles;
+  OutputImagePointer    m_RadiusImage;
+  CirclesListType       m_CirclesList;
+  CirclesListSizeType   m_NumberOfCircles;
+  float                 m_DiscRadiusRatio;
+  float                 m_Variance;
+  unsigned long         m_OldModifiedTime;
+
+  CirclesListSizeType m_OldNumberOfCircles;
 };
 } // end namespace itk
 

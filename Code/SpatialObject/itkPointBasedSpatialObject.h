@@ -57,7 +57,7 @@ public:
 
   /** Return a SpatialObjectPoint given its position in the list */
   virtual const SpatialObjectPointType *
-  GetPoint( unsigned long itkNotUsed(id) ) const
+  GetPoint( IdentifierType itkNotUsed(id) ) const
   {
     itkWarningMacro(<< "PointBasedSpatialObject::GetPoint() is not implemented"
                     << " in the base class" << std::endl);
@@ -65,7 +65,7 @@ public:
   }
 
   virtual SpatialObjectPointType *
-  GetPoint( unsigned long itkNotUsed(id) )
+  GetPoint( IdentifierType itkNotUsed(id) )
   {
     itkWarningMacro(<< "PointBasedSpatialObject::GetPoint() is not implemented"
                     << " in the base class" << std::endl);
@@ -73,7 +73,7 @@ public:
   }
 
   /** Return the number of points in the list */
-  virtual unsigned long GetNumberOfPoints(void) const
+  virtual SizeValueType GetNumberOfPoints(void) const
   {
     itkWarningMacro(<< "PointBasedSpatialObject::GetNumberOfPoints() is not"
                     << " implemented in the base class" << std::endl);

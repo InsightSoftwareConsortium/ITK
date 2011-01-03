@@ -62,6 +62,9 @@ public:
    * or other operations. */
   typedef TPixel PixelType;
 
+  /** Type used for counting elements. */
+  typedef Superclass::SizeValueType    SizeValueType;
+
   /** this type is used in case the pixel has several components */
   typedef typename PixelTraits< PixelType >::ValueType ComponentType;
 
@@ -70,9 +73,9 @@ public:
 
   /** If the data is in the tail end of the file, you want to
    * explicitly set the header size. */
-  void SetHeaderSize(unsigned long size);
+  void SetHeaderSize(SizeValueType size);
 
-  unsigned long GetHeaderSize();
+  SizeValueType GetHeaderSize();
 
   /** The number of dimensions stored in a file. Defaults to two. If two,
    * each file contains one "slice". If three, each file will contain one
@@ -145,7 +148,7 @@ private:
 
   unsigned long  m_FileDimensionality;
   bool           m_ManualHeaderSize;
-  unsigned long  m_HeaderSize;
+  SizeValueType  m_HeaderSize;
   unsigned short m_ImageMask;
 };
 

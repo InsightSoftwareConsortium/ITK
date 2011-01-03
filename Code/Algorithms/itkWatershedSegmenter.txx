@@ -28,7 +28,7 @@ namespace itk
 namespace watershed
 {
 template< class TInputImage >
-unsigned long Segmenter< TInputImage >::NULL_LABEL = 0;
+IdentifierType Segmenter< TInputImage >::NULL_LABEL = 0;
 
 template< class TInputImage >
 short Segmenter< TInputImage >::NULL_FLOW = -1;
@@ -838,8 +838,8 @@ void Segmenter< TInputImage >
   InputPixelType minVal;
   unsigned int   i, nPos;
   typename InputImageType::OffsetType moveIndex;
-  unsigned long                 newLabel;
-  std::stack< unsigned long * > updateStack;
+  IdentifierType                 newLabel;
+  std::stack< IdentifierType * > updateStack;
 
   //
   // Set up our iterators.
@@ -936,7 +936,7 @@ void Segmenter< TInputImage >
   typename NeighborhoodIterator< OutputImageType >::RadiusType hoodRadius;
   typename SegmentTableType::segment_t * segment_ptr;
   typename SegmentTableType::segment_t temp_segment;
-  unsigned long segment_label;
+  IdentifierType segment_label;
 
   InputPixelType lowest_edge;
 
@@ -952,7 +952,7 @@ void Segmenter< TInputImage >
   ConstNeighborhoodIterator< InputImageType > searchIt(hoodRadius, input, region);
   NeighborhoodIterator< OutputImageType >     labelIt(hoodRadius, output, region);
 
-  unsigned long hoodCenter = searchIt.Size() >> 1;
+  IdentifierType hoodCenter = searchIt.Size() >> 1;
 
   for ( searchIt.GoToBegin(), labelIt.GoToBegin(); !searchIt.IsAtEnd();
         ++searchIt, ++labelIt )
@@ -1018,7 +1018,7 @@ void Segmenter< TInputImage >
   // Copy all of the edge tables into the edge lists of the
   // segment table.
   //
-  unsigned long listsz;
+  IdentifierType listsz;
   typename SegmentTableType::edge_list_t::iterator list_ptr;
   for ( edge_table_entry_ptr = edgeHash.begin();
         edge_table_entry_ptr != edgeHash.end();
@@ -1032,7 +1032,7 @@ void Segmenter< TInputImage >
       }
 
     // Copy into the segment list
-    listsz = static_cast< unsigned long >( ( *edge_table_entry_ptr ).second.size() );
+    listsz = static_cast< IdentifierType >( ( *edge_table_entry_ptr ).second.size() );
     segment_ptr->edge_list.resize(listsz);
     edge_ptr = ( *edge_table_entry_ptr ).second.begin();
     list_ptr = segment_ptr->edge_list.begin();
@@ -1100,7 +1100,7 @@ template< class TInputImage >
 void Segmenter< TInputImage >
 ::SetOutputImageValues(OutputImageTypePointer img,
                        ImageRegionType region,
-                       unsigned long value)
+                       IdentifierType value)
 {
   ImageRegionIterator< OutputImageType > it(img, region);
   it = it.Begin();
@@ -1168,7 +1168,7 @@ void Segmenter< TInputImage >
 {
   eqTable->Flatten();
 
-  unsigned long                          temp;
+  IdentifierType                         temp;
   ImageRegionIterator< OutputImageType > it(img, region);
 
   it = it.Begin();

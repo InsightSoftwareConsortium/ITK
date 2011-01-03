@@ -147,7 +147,7 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 {
   RegionType ans;
 
-  typename IndexType::IndexValueType zero = 0;
+  IndexValueType zero = NumericTraits< IndexValueType >::Zero;
   ans.SetIndex( this->GetIndex(zero) );
   ans.SetSize( this->GetSize() );
 
@@ -235,7 +235,7 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
     {
     m_EndIndex = m_Region.GetIndex();
     m_EndIndex[Dimension - 1] = m_Region.GetIndex()[Dimension - 1]
-                                + static_cast< long >( m_Region.GetSize()[Dimension - 1] );
+                                + static_cast< OffsetValueType >( m_Region.GetSize()[Dimension - 1] );
     }
   else
     {
@@ -382,14 +382,15 @@ void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   const IndexType rStart = region.GetIndex();
   const SizeType  rSize  = region.GetSize();
 
-  long overlapLow, overlapHigh;
+  OffsetValueType overlapLow;
+  OffsetValueType overlapHigh;
 
   m_NeedToUseBoundaryCondition = false;
-  for ( unsigned long i = 0; i < Dimension; ++i )
+  for ( unsigned int i = 0; i < Dimension; ++i )
     {
-    overlapLow = static_cast< long >( ( rStart[i] - radius[i] ) - bStart[i] );
-    overlapHigh = static_cast< long >( ( bStart[i] + bSize[i] )
-                                       - ( rStart[i] + rSize[i] + radius[i] ) );
+    overlapLow = static_cast< OffsetValueType >( ( rStart[i] - static_cast<OffsetValueType>( radius[i] ) ) - bStart[i] );
+    overlapHigh = static_cast< OffsetValueType >( ( bStart[i] + bSize[i] )
+                                       - ( rStart[i] + rSize[i] + static_cast<OffsetValueType>( radius[i] ) ) );
 
     if ( overlapLow < 0 ) // out of bounds condition, define a region of
       {
@@ -606,12 +607,12 @@ void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   // buffered region.
   for ( unsigned int i = 0; i < Dimension; ++i )
     {
-    m_Bound[i] = m_BeginIndex[i] + static_cast< IndexValueType >( size[i] );
+    m_Bound[i] = m_BeginIndex[i] + static_cast< OffsetValueType >( size[i] );
     m_InnerBoundsHigh[i] = static_cast< IndexValueType >( imageBRStart[i]
-                                                          + ( imageBRSize[i] )
-                                                          - static_cast< SizeValueType >( radius[i] ) );
+                                                          + static_cast< OffsetValueType >( imageBRSize[i] )
+                                                          - static_cast< OffsetValueType >( radius[i] ) );
     m_InnerBoundsLow[i] = static_cast< IndexValueType >( imageBRStart[i]
-                                                         + radius[i] );
+                                                         + static_cast< OffsetValueType >( radius[i] ) );
     m_WrapOffset[i]     = ( static_cast< OffsetValueType >( imageBRSize[i] )
                             - ( m_Bound[i] - m_BeginIndex[i] ) ) * offset[i];
     }
@@ -658,7 +659,7 @@ void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
       if ( loop[i] == size[i] )
         {
         if ( i == Dimension - 1 ) { break; }
-        Iit += OffsetTable[i + 1] - OffsetTable[i] * static_cast< long >( size[i] );
+        Iit += OffsetTable[i + 1] - OffsetTable[i] * static_cast< OffsetValueType >( size[i] );
         loop[i] = 0;
         }
       else { break; }

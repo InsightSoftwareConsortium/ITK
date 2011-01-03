@@ -47,18 +47,18 @@ public:
   typedef DTITubeSpatialObject Self;
   typedef TubeSpatialObject< TDimension,
                              DTITubeSpatialObjectPoint< TDimension > >    Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef DTITubeSpatialObjectPoint< TDimension >     TubePointType;
-  typedef typename Superclass::PointListType          PointListType;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::SpatialObjectPointType SpatialObjectPointType;
-  typedef VectorContainer< unsigned long, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >          PointContainerPointer;
-  typedef typename Superclass::VectorType             VectorType;
-  typedef typename Superclass::CovariantVectorType    CovariantVectorType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
+  typedef DTITubeSpatialObjectPoint< TDimension >      TubePointType;
+  typedef typename Superclass::PointListType           PointListType;
+  typedef typename Superclass::PointType               PointType;
+  typedef typename Superclass::TransformType           TransformType;
+  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
+  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
+  typedef SmartPointer< PointContainerType >           PointContainerPointer;
+  typedef typename Superclass::VectorType              VectorType;
+  typedef typename Superclass::CovariantVectorType     CovariantVectorType;
+  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

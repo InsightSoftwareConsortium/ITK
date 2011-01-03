@@ -52,7 +52,7 @@ class StandardDeviationAccumulator
 public:
   typedef typename NumericTraits< TInputPixel >::RealType RealType;
 
-  StandardDeviationAccumulator(unsigned long size)
+  StandardDeviationAccumulator( SizeValueType size )
   {
     m_Size = size;
     m_Values.reserve(size);
@@ -92,7 +92,7 @@ public:
   }
 
   TAccumulate                m_Sum;
-  unsigned long              m_Size;
+  SizeValueType              m_Size;
   std::vector< TInputPixel > m_Values;
 };
 } // end namespace Function

@@ -112,8 +112,8 @@ private:
   double m_K;
 
   static double m_MIN_NORM;
-  unsigned long m_Center;
-  unsigned long m_Stride[ImageDimension];
+  SizeValueType m_Center;
+  SizeValueType m_Stride[ImageDimension];
 };
 } // end namespace itk
 

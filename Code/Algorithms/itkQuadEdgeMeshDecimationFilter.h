@@ -18,6 +18,7 @@
 #ifndef __itkQuadEdgeMeshDecimationFilter_h
 #define __itkQuadEdgeMeshDecimationFilter_h
 
+#include "itkIntTypes.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 
 namespace itk
@@ -61,7 +62,7 @@ protected:
   ~QuadEdgeMeshDecimationFilter() {}
 
   CriterionPointer m_Criterion;
-  unsigned long    m_Iteration;
+  SizeValueType    m_Iteration;
 
   void GenerateData()
   {

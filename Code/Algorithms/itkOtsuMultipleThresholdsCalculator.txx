@@ -52,8 +52,8 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
 {
   typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
-  unsigned long numberOfHistogramBins = histogram->Size();
-  unsigned long numberOfClasses = classMean.size();
+  SizeValueType numberOfHistogramBins = histogram->Size();
+  SizeValueType numberOfClasses = classMean.size();
 
   MeanType      meanOld;
   FrequencyType freqOld;
@@ -173,12 +173,12 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
     }
   globalMean /= static_cast< MeanType >( globalFrequency );
 
-  unsigned long numberOfClasses = m_NumberOfThresholds + 1;
+  SizeValueType numberOfClasses = m_NumberOfThresholds + 1;
 
   // initialize thresholds
   InstanceIdentifierVectorType thresholdIndexes(m_NumberOfThresholds);
 
-  unsigned long j;
+  SizeValueType j;
   for ( j = 0; j < m_NumberOfThresholds; j++ )
     {
     thresholdIndexes[j] = j;
@@ -267,7 +267,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
   os << indent << "NumberOfThresholds: " << m_NumberOfThresholds;
 
   os << indent << "Output: ";
-  for ( unsigned long j = 0; j < m_NumberOfThresholds; j++ )
+  for ( SizeValueType j = 0; j < m_NumberOfThresholds; j++ )
     {
     os << m_Output[j] << " ";
     }

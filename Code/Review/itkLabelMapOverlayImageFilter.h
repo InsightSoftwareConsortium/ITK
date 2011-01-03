@@ -62,6 +62,7 @@ public:
   typedef typename InputImageType::PixelType       InputImagePixelType;
   typedef typename InputImageType::LabelObjectType LabelObjectType;
   typedef typename LabelObjectType::LabelType      LabelType;
+  typedef typename LabelObjectType::LengthType     LengthType;
 
   typedef TFeatureImage                             FeatureImageType;
   typedef typename FeatureImageType::Pointer        FeatureImagePointer;

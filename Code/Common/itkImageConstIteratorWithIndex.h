@@ -285,7 +285,7 @@ protected: //made protected so other iterators can access
 
   RegionType m_Region;              // region to iterate over
 
-  unsigned long m_OffsetTable[ImageDimension + 1];
+  OffsetValueType m_OffsetTable[ImageDimension + 1];
 
   const InternalPixelType *m_Position;
   const InternalPixelType *m_Begin;

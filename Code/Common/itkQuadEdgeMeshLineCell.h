@@ -104,7 +104,7 @@ public:
   CellIdentifier GetIdent();
 
   /** TCellInterface abstract methods definition. */
-  virtual void Accept(unsigned long cellId, MultiVisitor *mv);
+  virtual void Accept(CellIdentifier cellId, MultiVisitor *mv);
 
   virtual CellGeometry GetType() const;
 

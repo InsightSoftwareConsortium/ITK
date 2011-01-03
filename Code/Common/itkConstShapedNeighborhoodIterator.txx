@@ -27,7 +27,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 {
   os << indent <<  "ConstShapedNeighborhoodIterator {this = " << this;
   os << " m_ActiveIndexList = [";
-  for ( IndexListType::const_iterator it = m_ActiveIndexList.begin();
+  for ( IndexListConstIterator it = m_ActiveIndexList.begin();
         it != m_ActiveIndexList.end();
         ++it )
     {
@@ -42,12 +42,12 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 template< class TImage, class TBoundaryCondition >
 void
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
-::ActivateIndex(const unsigned int n)
+::ActivateIndex(NeighborIndexType n)
 {
   const OffsetValueType *OffsetTable = this->m_ConstImage->GetOffsetTable();
 
   // Insert so that the list remains ordered.
-  IndexListType::iterator it   = m_ActiveIndexList.begin();
+  IndexListIterator it = m_ActiveIndexList.begin();
 
   if ( m_ActiveIndexList.empty() )
     {
@@ -94,9 +94,9 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 template< class TImage, class TBoundaryCondition >
 void
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
-::DeactivateIndex(const unsigned int n)
+::DeactivateIndex(NeighborIndexType n)
 {
-  IndexListType::iterator it = m_ActiveIndexList.begin();
+  IndexListIterator it = m_ActiveIndexList.begin();
 
   if ( m_ActiveIndexList.empty() )
     {
@@ -131,8 +131,8 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator++()
 {
-  unsigned int                  i;
-  IndexListType::const_iterator it;
+  unsigned int           i;
+  IndexListConstIterator it;
 
   // Repositioning neighborhood, previous bounds check on neighborhood
   // location is invalid.
@@ -193,7 +193,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator--()
 {
   unsigned int                  i;
-  IndexListType::const_iterator it;
+  IndexListConstIterator        it;
 
   // Repositioning neighborhood, previous bounds check on neighborhood
   // location is invalid.
@@ -257,7 +257,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator+=(const OffsetType & idx)
 {
   unsigned int                  i;
-  IndexListType::const_iterator it;
+  IndexListConstIterator        it;
   OffsetValueType               accumulator = 0;
   const OffsetValueType *       stride = this->GetImagePointer()->GetOffsetTable();
 
@@ -314,7 +314,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator-=(const OffsetType & idx)
 {
   unsigned int                  i;
-  IndexListType::const_iterator it;
+  IndexListConstIterator        it;
   OffsetValueType               accumulator = 0;
   const OffsetValueType *       stride = this->GetImagePointer()->GetOffsetTable();
 

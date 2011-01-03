@@ -61,7 +61,7 @@ throw( InvalidRequestedRegionError )
   oper.SetDirection(0);
   oper.SetOrder(1);
   oper.CreateDirectional();
-  unsigned long radius = oper.GetRadius()[0];
+  SizeValueType radius = oper.GetRadius()[0];
 
   // get a copy of the input requested region (should equal the output
   // requested region)
@@ -160,7 +160,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
   nit = ConstNeighborhoodIterator< TInputImage >(radius, input, *fit);
 
   std::slice          x_slice[ImageDimension];
-  const unsigned long center = nit.Size() / 2;
+  const SizeValueType center = nit.Size() / 2;
   for ( i = 0; i < ImageDimension; ++i )
     {
     x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],

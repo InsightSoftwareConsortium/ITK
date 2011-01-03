@@ -239,13 +239,13 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 ::Reduce1DImage(const std::vector< double > & in, OutputImageIterator & out,
                 unsigned int inTraverseSize, ProgressReporter & progress)
 {
-  long i1, i2;
+  IndexValueType i1, i2;
 
-  unsigned long outK, inK;
-  unsigned long outTraverseSize = inTraverseSize / 2;
+  SizeValueType outK, inK;
+  SizeValueType outTraverseSize = inTraverseSize / 2;
 
   inTraverseSize = outTraverseSize * 2; // ensures that an even number is used.
-  unsigned long inModK;                 // number for modulus math of in
+  SizeValueType inModK;  // number for modulus math of in
   inModK = 2L * inTraverseSize;
 
   // TODO:  Need to allocate this once as a scratch variable instead of each
@@ -266,16 +266,16 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
       if ( i1 < 0 )
         {
         i1 = ( 2L * inTraverseSize - 1L - i1 ) % inModK;
-        if ( i1 >= (long)inTraverseSize )
+        if ( i1 >= (IndexValueType)inTraverseSize )
           {
           i1 = inModK - i1 - 1L;
           }
         }
-      if ( i2 >= (long)inTraverseSize ) // originally (i2 > (inTraverseSize - 1)
+      if ( i2 >= (IndexValueType)inTraverseSize ) // originally (i2 > (inTraverseSize - 1)
                                         // )
         {
         i2 = i2 % inModK;
-        if ( i2 >= (long)inTraverseSize )
+        if ( i2 >= (IndexValueType)inTraverseSize )
           {
           i2 = inModK - i2 - 1L;
           }
@@ -303,19 +303,19 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 ::Expand1DImage(const std::vector< double > & in, OutputImageIterator & out,
                 unsigned int inTraverseSize, ProgressReporter & progress)
 {
-  long i1, i2;
+  IndexValueType i1, i2;
 
-  long          inK;
-  unsigned long outTraverseSize = inTraverseSize * 2;
+  IndexValueType          inK;
+  SizeValueType outTraverseSize = inTraverseSize * 2;
   //inTraverseSize = outTraverseSize/2;  // ensures that an even number is used.
-  long inModK; // number for modulus math of in
+  IndexValueType inModK; // number for modulus math of in
 
   inModK = outTraverseSize;
-  long k0 = ( this->m_HSize / 2 ) * 2 - 1L;
+  IndexValueType k0 = ( this->m_HSize / 2 ) * 2 - 1L;
 
   double outVal, outVal2;
 
-  for ( inK = 0; inK < (long)inTraverseSize; inK++ )
+  for ( inK = 0; inK < (IndexValueType)inTraverseSize; inK++ )
     {
     //outK = inK * 2L;
     outVal = in[inK] * this->m_H[0];
@@ -327,17 +327,17 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
         {                                                      // provide
                                                                // correct border
                                                                // condition
-        i1 = ( 2L * (long)inTraverseSize - 1L - i1 ) % inModK; // pseudo mirror
+        i1 = ( 2L * (IndexValueType)inTraverseSize - 1L - i1 ) % inModK; // pseudo mirror
                                                                // image
-        if ( i1 >= (long)inTraverseSize )
+        if ( i1 >= (IndexValueType)inTraverseSize )
           {
           i1 = outTraverseSize - i1 - 1L;
           }
         }
-      if ( i2 >= (long)inTraverseSize )
+      if ( i2 >= (IndexValueType)inTraverseSize )
         {
         i2 = i2 % inModK;
-        if ( i2 >= (long)inTraverseSize )
+        if ( i2 >= (IndexValueType)inTraverseSize )
           {
           i2 = outTraverseSize - i2 - 1L;
           }
@@ -347,22 +347,22 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
     out.Set( static_cast< OutputImagePixelType >( outVal ) );
     ++out;
     outVal2 = 0;
-    for ( long k = -k0; k < this->m_HSize; k += 2L )
+    for ( IndexValueType k = -k0; k < this->m_HSize; k += 2L )
       {
-      long kk = vcl_abs( static_cast< int >( k ) );
+      IndexValueType kk = vcl_abs( static_cast< int >( k ) );
       i1 = inK + ( k + 1L ) / 2L;
       if ( i1 < 0L )
         {
         i1 = ( 2 * inTraverseSize - 1 - i1 ) % inModK;
-        if ( i1 > (long)inTraverseSize - 1L )
+        if ( i1 > (IndexValueType)inTraverseSize - 1L )
           {
           i1 = outTraverseSize - i1 - 1L;
           }
         }
-      if ( i1 >= (long)inTraverseSize )
+      if ( i1 >= (IndexValueType)inTraverseSize )
         {
         i1 = i1 % inModK;
-        if ( i1 >= (long)inTraverseSize )
+        if ( i1 >= (IndexValueType)inTraverseSize )
           {
           i1 = outTraverseSize - i1 - 1;
           }
@@ -375,7 +375,7 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 
   // Now apply the Haar[-x]
   --out;
-  for ( long j = outTraverseSize - 1; j > 0L; j-- )
+  for ( IndexValueType j = outTraverseSize - 1; j > 0L; j-- )
     {
     // out[j] = (out[j] + out[j-1]/2.0;
     outVal = out.Get();

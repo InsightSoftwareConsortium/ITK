@@ -104,7 +104,6 @@ public:
   typedef typename Superclass::PixelContainer PixelContainer;
   typedef typename Superclass::SizeType       SizeType;
   typedef typename Superclass::IndexType      IndexType;
-  typedef typename IndexType::IndexValueType  IndexValueType;
   typedef typename Superclass::OffsetType     OffsetType;
   typedef typename Superclass::RegionType     RegionType;
 

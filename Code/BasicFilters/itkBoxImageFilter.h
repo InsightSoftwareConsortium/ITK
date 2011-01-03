@@ -69,11 +69,12 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   /** n-dimensional Kernel radius. */
-  typedef typename TInputImage::SizeType RadiusType;
+  typedef typename TInputImage::SizeType      RadiusType;
+  typedef typename TInputImage::SizeValueType RadiusValueType;
 
   virtual void SetRadius(const RadiusType & radius);
 
-  virtual void SetRadius(const unsigned long & radius);
+  virtual void SetRadius(const RadiusValueType & radius);
 
   itkGetConstReferenceMacro(Radius, RadiusType);
 

@@ -85,7 +85,7 @@ public:
   /** Set the kernel to a box kernel of given radius. */
   virtual void SetRadius(const RadiusType & radius);
 
-  virtual void SetRadius(const unsigned long & radius)
+  virtual void SetRadius(const SizeValueType & radius)
   {
     // needed because of the overloading of the method
     Superclass::SetRadius(radius);

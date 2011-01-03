@@ -84,6 +84,8 @@ public:
   typedef std::list< LinePointer >   LinesListType;
   typedef LineType::LinePointType    LinePointType;
 
+  typedef typename LinesListType::size_type LinesListSizeType;
+
   /** Standard "Superclass" typedef. */
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
 
@@ -184,11 +186,11 @@ private:
   float              m_Threshold;
   OutputImagePointer m_SimplifyAccumulator;
   LinesListType      m_LinesList;
-  unsigned int       m_NumberOfLines;
+  LinesListSizeType  m_NumberOfLines;
   float              m_DiscRadius;
   float              m_Variance;
   unsigned long      m_OldModifiedTime;
-  unsigned long      m_OldNumberOfLines;
+  LinesListSizeType  m_OldNumberOfLines;
 };
 } // end namespace itk
 

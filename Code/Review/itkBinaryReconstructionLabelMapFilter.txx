@@ -49,9 +49,9 @@ BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
   for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
     const IndexType & firstIdx = lit->GetIndex();
-    unsigned long length = lit->GetLength();
+    SizeValueType length = lit->GetLength();
 
-    long endIdx0 = firstIdx[0] + length;
+    IndexValueType endIdx0 = firstIdx[0] + length;
     for( IndexType idx = firstIdx; idx[0]<endIdx0; idx[0]++ )
       {
       const MarkerImagePixelType & v = maskImage->GetPixel( idx );

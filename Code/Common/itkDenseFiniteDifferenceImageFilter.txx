@@ -238,9 +238,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
   typedef typename OutputImageType::RegionType                    RegionType;
   typedef typename OutputImageType::SizeType                      SizeType;
-  typedef typename OutputImageType::SizeValueType                 SizeValueType;
   typedef typename OutputImageType::IndexType                     IndexType;
-  typedef typename OutputImageType::IndexValueType                IndexValueType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType NeighborhoodIteratorType;
 
   typedef ImageRegionIterator< UpdateBufferType > UpdateIteratorType;

@@ -102,7 +102,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
       }
     else
       {
-      this->m_Position -= this->m_OffsetTable[in] * ( static_cast< long >( this->m_Region.GetSize()[in] ) - 1 );
+      this->m_Position -= this->m_OffsetTable[in] * ( static_cast< OffsetValueType >( this->m_Region.GetSize()[in] ) - 1 );
       this->m_PositionIndex[in] = this->m_BeginIndex[in];
       }
     }
@@ -144,7 +144,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
     else
       {
       this->m_PositionIndex[in]--;
-      this->m_Position += this->m_OffsetTable[in] * ( static_cast< long >( this->m_Region.GetSize()[in] ) - 1 );
+      this->m_Position += this->m_OffsetTable[in] * ( static_cast< OffsetValueType >( this->m_Region.GetSize()[in] ) - 1 );
       this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
       }
     }

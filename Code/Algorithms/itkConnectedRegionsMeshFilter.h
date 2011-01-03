@@ -28,6 +28,7 @@
 #ifndef __itkConnectedRegionsMeshFilter_h
 #define __itkConnectedRegionsMeshFilter_h
 
+#include "itkIntTypes.h"
 #include "itkMeshToMeshFilter.h"
 
 namespace itk
@@ -161,7 +162,7 @@ public:
   /**
    * Add a seed id (point or cell id). Note: ids are 0-offset.
    */
-  void AddSeed(unsigned long id)
+  void AddSeed(IdentifierType id)
   {
     this->Modified();
     m_SeedList.push_back(id);
@@ -170,7 +171,7 @@ public:
   /**
    * Delete a seed id (point or cell id). Note: ids are 0-offset.
    */
-  void DeleteSeed(unsigned long id);
+  void DeleteSeed(IdentifierType id);
 
   /**
    * Initialize list of region ids to extract.
@@ -184,7 +185,7 @@ public:
   /**
    * Add a region id to extract. Note: ids are 0-offset.
    */
-  void AddSpecifiedRegion(unsigned long id)
+  void AddSpecifiedRegion(IdentifierType id)
   {
     this->Modified();
     m_RegionList.push_back(id);
@@ -193,7 +194,7 @@ public:
   /**
    * Delete a region id to extract. Note: ids are 0-offset.
    */
-  void DeleteSpecifiedRegion(unsigned long id);
+  void DeleteSpecifiedRegion(IdentifierType id);
 
   /**
    * Use to specify x-y-z point coordinates when extracting the region
@@ -216,7 +217,7 @@ public:
   /**
    * Obtain the number of connected regions.
    */
-  unsigned long GetNumberOfExtractedRegions()
+  SizeValueType GetNumberOfExtractedRegions()
   {
     return m_RegionList.size();
   }
@@ -237,17 +238,17 @@ private:
   ConnectedRegionsMeshFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented
 
-  int                          m_ExtractionMode;
-  InputMeshPointType           m_ClosestPoint;
-  std::vector< unsigned long > m_SeedList;
-  std::vector< unsigned long > m_RegionList;
-  std::vector< unsigned long > m_RegionSizes;
+  int                            m_ExtractionMode;
+  InputMeshPointType             m_ClosestPoint;
+  std::vector< IdentifierType >  m_SeedList;
+  std::vector< IdentifierType >  m_RegionList;
+  std::vector< SizeValueType >   m_RegionSizes;
 
-  std::vector< long >           m_Visited;
-  unsigned long                 m_NumberOfCellsInRegion;
-  unsigned long                 m_RegionNumber;
-  std::vector< unsigned long > *m_Wave;
-  std::vector< unsigned long > *m_Wave2;
+  std::vector< IdentifierType >  m_Visited;
+  SizeValueType                  m_NumberOfCellsInRegion;
+  IdentifierType                 m_RegionNumber;
+  std::vector< IdentifierType > *m_Wave;
+  std::vector< IdentifierType > *m_Wave2;
 }; // class declaration
 } // end namespace itk
 

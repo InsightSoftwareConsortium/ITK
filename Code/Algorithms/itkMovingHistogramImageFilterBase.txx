@@ -68,7 +68,7 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
     centerIndex[axis] = kernel.GetSize()[axis] / 2;
     }
 
-  unsigned long count = 0;
+  SizeValueType count = 0;
   while ( !kernelImageIt.IsAtEnd() )
     {
     // TODO: be sure that removing that comparison doesn't break backward
@@ -112,7 +112,7 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
   // store the kernel offset list
   m_KernelOffsets = kernelOffsets;
 
-  FixedArray< unsigned long, ImageDimension > axisCount;
+  FixedArray< SizeValueType, ImageDimension > axisCount;
   axisCount.Fill(0);
 
   for ( unsigned axis = 0; axis < ImageDimension; axis++ )

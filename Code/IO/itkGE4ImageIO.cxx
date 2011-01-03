@@ -337,7 +337,7 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
   //    hdr->offset = statBuf.st_size - (hdr->imageXsize * hdr->imageYsize * 2);
   //
   // find file length in line ...
-  unsigned long file_length = itksys::SystemTools::FileLength(FileNameToRead);
+  SizeValueType file_length = itksys::SystemTools::FileLength(FileNameToRead);
 
   hdr->offset = file_length
                 - ( hdr->imageXsize * hdr->imageYsize * 2 );

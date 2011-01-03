@@ -47,7 +47,6 @@ ImageMetricLoad<TMoving , TFixed>
   typename FixedType::RegionType requestedRegion;
   typename FixedType::SizeType  size;
   typename FixedType::IndexType tindex;
-//  typename MovingType::IndexType rindex;
   // initialize the offset/vector part
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
@@ -212,19 +211,21 @@ ImageMetricLoad<TMoving , TFixed>::Fe
   typename MovingType::IndexType rindex;
   OutVec.set_size(ImageDimension);
 
-  int lobordercheck=0,hibordercheck=0;
+  OffsetValueType lobordercheck=0;
+  OffsetValueType hibordercheck=0;
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
     //Set the size of the image region
     parameters[k]= Gsol[k]; // this gives the translation by the vector field
-    rindex[k] =(long)(Gpos[k]+Gsol[k]+0.5);  // where the piece of reference image currently lines up under the above translation
-    tindex[k]= (long)(Gpos[k]+0.5)-(long)m_MetricRadius[k]/2;  // position in reference image
-    hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
-    lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
-    if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
-    else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
-    else regionRadius[k]=m_MetricRadius[k];
-    tindex[k]= (long)(Gpos[k]+0.5)-(long)regionRadius[k]/2;  // position in reference image
+    const OffsetValueType radius = static_cast<OffsetValueType>( m_MetricRadius[k] );
+    rindex[k] =(IndexValueType)(Gpos[k]+Gsol[k]+0.5);  // where the piece of reference image currently lines up under the above translation
+    tindex[k]= (IndexValueType)(Gpos[k]+0.5) - radius/2;  // position in reference image
+    hibordercheck = tindex[k] + radius - (OffsetValueType)m_TarSize[k];
+    lobordercheck = tindex[k] - radius;
+    if (hibordercheck >= 0) regionRadius[k] = radius - hibordercheck - 1;
+    else if (lobordercheck < 0) regionRadius[k] = radius + lobordercheck;
+    else regionRadius[k] = radius;
+    tindex[k]= (IndexValueType)(Gpos[k]+0.5) - radius/2;  // position in reference image
     }
 
   // Set the associated region
@@ -301,16 +302,17 @@ ImageMetricLoad<TMoving , TFixed>::GetMetric
   // initialize the offset/vector part
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
+    const OffsetValueType radius = static_cast<OffsetValueType>( m_MetricRadius[k] );
     //Set the size of the image region
     parameters[k]= InVec[k+ImageDimension]; // this gives the translation by the vector field
-    rindex[k] =(long)(InVec[k]+InVec[k+ImageDimension]+0.5);  // where the piece of reference image currently lines up under the above translation
-    tindex[k]= (long)(InVec[k]+0.5)-(long)m_MetricRadius[k]/2;  // position in reference image
-    int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
-    int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
-    if (hibordercheck > 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
-    else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
-    else regionRadius[k]=m_MetricRadius[k];
-    tindex[k]= (long)(InVec[k]+0.5)-(long)regionRadius[k]/2;  // position in reference image
+    rindex[k] =(IndexValueType)(InVec[k]+InVec[k+ImageDimension]+0.5);  // where the piece of reference image currently lines up under the above translation
+    tindex[k]= (IndexValueType)(InVec[k]+0.5) - radius/2;  // position in reference image
+    OffsetValueType hibordercheck = tindex[k] + radius - (OffsetValueType)m_TarSize[k];
+    OffsetValueType lobordercheck = tindex[k] - radius;
+    if (hibordercheck > 0) regionRadius[k] = radius - hibordercheck - 1;
+    else if (lobordercheck < 0) regionRadius[k] = radius + lobordercheck;
+    else regionRadius[k] = radius;
+    tindex[k]= (IndexValueType)(InVec[k]+0.5) - radius/2;  // position in reference image
     }
 
   // Set the associated region
@@ -359,14 +361,15 @@ ImageMetricLoad<TMoving , TFixed>::MetricFiniteDiff
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
     parameters[k]= Gsol[k]; // this gives the translation by the vector field
-    tindex[k]= (long)(Gpos[k]+0.5)-(long)m_MetricRadius[k]/2;  // position in reference image
-    if (tindex[k] > m_TarSize[k]-1 || tindex[k] < 0) tindex[k]=(long)(Gpos[k]+0.5);
-    int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
-    int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
-    if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
-    else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
-    else regionRadius[k]=m_MetricRadius[k];
-    tindex[k]= (long)(Gpos[k]+0.5)-(long)regionRadius[k]/2;  // position in reference image
+    const OffsetValueType radius = static_cast<OffsetValueType>( m_MetricRadius[k] );
+    tindex[k]= (IndexValueType)(Gpos[k]+0.5) - radius/2;  // position in reference image
+    if (tindex[k] > m_TarSize[k]-1 || tindex[k] < 0) tindex[k]=(IndexValueType)(Gpos[k]+0.5);
+    OffsetValueType hibordercheck = (OffsetValueType)tindex[k] + radius - (OffsetValueType)m_TarSize[k];
+    OffsetValueType lobordercheck = (OffsetValueType)tindex[k] - radius;
+    if (hibordercheck >= 0) regionRadius[k] = radius - hibordercheck-1;
+    else if (lobordercheck < 0) regionRadius[k] = radius + lobordercheck;
+    else regionRadius[k] = radius;
+    tindex[k]= (IndexValueType)(Gpos[k]+0.5) - radius/2;  // position in reference image
     }
 
   unsigned int row;
@@ -456,14 +459,15 @@ ImageMetricLoad<TMoving , TFixed>::GetPolynomialFitToMetric
       }
     chebycoefs[k]=0.0;
     parameters[k]= Gsol[k]; // this gives the translation by the vector field
-    tindex[k]= (long)(Gpos[k]+0.5)-(long)m_MetricRadius[k]/2;  // position in reference image
-    if (tindex[k] > m_TarSize[k]-1 || tindex[k] < 0) tindex[k]=(long)(Gpos[k]+0.5);
-    int hibordercheck=(int)tindex[k]+(int)m_MetricRadius[k]-(int)m_TarSize[k];
-    int lobordercheck=(int)tindex[k]-(int)m_MetricRadius[k];
-    if (hibordercheck >= 0) regionRadius[k]=m_MetricRadius[k]-(long)hibordercheck-1;
-    else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
-    else regionRadius[k]=m_MetricRadius[k];
-    tindex[k]= (long)(Gpos[k]+0.5)-(long)regionRadius[k]/2;  // position in reference image
+    const OffsetValueType radius = static_cast<OffsetValueType>( m_MetricRadius[k] );
+    tindex[k]= (IndexValueType)(Gpos[k]+0.5) - radius/2;  // position in reference image
+    if (tindex[k] > m_TarSize[k]-1 || tindex[k] < 0) tindex[k]=(IndexValueType)(Gpos[k]+0.5);
+    OffsetValueType hibordercheck = tindex[k] + radius -(OffsetValueType)m_TarSize[k];
+    OffsetValueType lobordercheck = tindex[k] - radius;
+    if (hibordercheck >= 0) regionRadius[k] = radius - hibordercheck - 1;
+    else if (lobordercheck < 0) regionRadius[k] = radius + lobordercheck;
+    else regionRadius[k] = radius;
+    tindex[k]= (IndexValueType)(Gpos[k]+0.5) - radius/2;  // position in reference image
     }
 
 
@@ -471,13 +475,13 @@ ImageMetricLoad<TMoving , TFixed>::GetPolynomialFitToMetric
     {
 
     double measure[3][3];
-    for(int row=-1; row< 2; row++)
+    for(OffsetValueType row=-1; row< 2; row++)
       {
-      for(int col=-1; col< 2; col++)
+      for(OffsetValueType col=-1; col< 2; col++)
         {
 
-        temp[0]=tindex[0]+(long)row;
-        temp[1]=tindex[1]+(long)col;
+        temp[0] = tindex[0] + row;
+        temp[1] = tindex[1] + col;
 
         for (unsigned int i=0; i<ImageDimension; i++)
           {
@@ -525,16 +529,16 @@ ImageMetricLoad<TMoving , TFixed>::GetPolynomialFitToMetric
     {
 
     double measure3D[3][3][3];
-    for(int row=-1; row< 2; row++)
+    for(OffsetValueType row=-1; row< 2; row++)
       {
-      for(int col=-1; col< 2; col++)
+      for(OffsetValueType col=-1; col< 2; col++)
         {
-        for(int z=-1; z< 2; z++)
+        for(OffsetValueType z=-1; z< 2; z++)
           {
 
-          temp[0]=tindex[0]+(long)row;
-          temp[1]=tindex[1]+(long)col;
-          temp[2]=tindex[2]+(long)z;
+          temp[0] = tindex[0] + row;
+          temp[1] = tindex[1] + col;
+          temp[2] = tindex[2] + z;
 
           for (unsigned int i=0; i<ImageDimension; i++)
             {

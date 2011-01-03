@@ -287,7 +287,7 @@ protected:
   BoundaryAssignmentsContainerVector m_BoundaryAssignmentsContainers;
 public:
   /** Mesh-level operation interface. */
-  unsigned long GetNumberOfCells() const;
+  CellIdentifier GetNumberOfCells() const;
 
   void PassStructure(Self *inputMesh);
 
@@ -368,7 +368,7 @@ public:
    * boundaryId must be specified by \a dimension, and a unique
    * CellFeatureIdentifier \a featureId must be assigned for each
    * distinct boundary feature of a given dimension.
-   * CellFeatureIdentifier is equivalent to <tt>unsigned long</tt> by
+   * CellFeatureIdentifier is equivalent to <tt>IdentifierType</tt> by
    * default, and this typedef will not typically need to be changed.
    * The UsingCells list of \a boundaryId is automatically updated to
    * include \a cellId.
@@ -406,7 +406,7 @@ public:
    * feature.  Returns the number of neighbors found.  If cellSet is not NULL,
    * the set of cell pointers is filled in with identifiers of the neighboring
    * cells. */
-  unsigned long GetCellBoundaryFeatureNeighbors(
+  CellIdentifier GetCellBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
     std::set< CellIdentifier > *cellSet);
 
@@ -414,7 +414,7 @@ public:
    *  boundary.  Returns the number of neighbors found.  If cellSet is
    *  not NULL, the set of cell pointers is filled in with identifiers
    *  of the neighboring cells. */
-  unsigned long GetCellNeighbors(CellIdentifier cellId,
+  CellIdentifier GetCellNeighbors(CellIdentifier cellId,
                                  std::set< CellIdentifier > *cellSet);
 
 #ifndef CABLE_CONFIGURATION

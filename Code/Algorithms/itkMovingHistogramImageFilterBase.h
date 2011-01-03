@@ -134,7 +134,7 @@ public:
   /** Set kernel (structuring element). */
   void SetKernel(const KernelType & kernel);
 
-  itkGetConstMacro(PixelsPerTranslation, unsigned long);
+  itkGetConstMacro(PixelsPerTranslation, SizeValueType);
 
 protected:
   MovingHistogramImageFilterBase();
@@ -157,7 +157,7 @@ protected:
 
   FixedArray< int, itkGetStaticConstMacro(ImageDimension) > m_Axes;
 
-  unsigned long m_PixelsPerTranslation;
+  SizeValueType m_PixelsPerTranslation;
 private:
   MovingHistogramImageFilterBase(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

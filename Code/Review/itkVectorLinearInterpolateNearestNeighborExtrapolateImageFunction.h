@@ -143,7 +143,7 @@ private:
                                                                                 // implemented
 
   /** Number of neighbors used in the interpolation */
-  static const unsigned long m_Neighbors;
+  static const unsigned int m_Neighbors;
 };
 } // end namespace itk
 

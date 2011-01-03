@@ -227,7 +227,6 @@ PermuteAxesImageFilter< TImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
-  unsigned long i;
   unsigned int  j;
 
   // Get the input and output pointers
@@ -245,7 +244,7 @@ PermuteAxesImageFilter< TImage >
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // walk the output region, and sample the input image
-  for ( i = 0; !outIt.IsAtEnd(); ++outIt, i++ )
+  for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
     {
     // determine the index of the output pixel
     outputIndex = outIt.GetIndex();

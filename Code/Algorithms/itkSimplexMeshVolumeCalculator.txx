@@ -79,18 +79,22 @@ void SimplexMeshVolumeCalculator< TInputMesh >
 }
 
 template< typename TInputMesh >
-unsigned long SimplexMeshVolumeCalculator< TInputMesh >
-::FindCellId(unsigned long id1, unsigned long id2, unsigned long id3)
+IdentifierType SimplexMeshVolumeCalculator< TInputMesh >
+::FindCellId(IdentifierType id1, IdentifierType id2, IdentifierType id3)
 {
-  std::set< unsigned long >           cells1 =  m_SimplexMesh->GetCellLinks()->GetElement(id1);
-  std::set< unsigned long >           cells2 =  m_SimplexMesh->GetCellLinks()->GetElement(id2);
-  std::set< unsigned long >           cells3 =  m_SimplexMesh->GetCellLinks()->GetElement(id3);
-  std::set< unsigned long >::iterator cellIt = cells1.begin();
+  typedef std::set< typename InputMeshType::PointIdentifier > PointSetType;
+  typedef typename PointSetType::iterator                     PointSetIterator;
+
+  PointSetType cells1 =  m_SimplexMesh->GetCellLinks()->GetElement(id1);
+  PointSetType cells2 =  m_SimplexMesh->GetCellLinks()->GetElement(id2);
+  PointSetType cells3 =  m_SimplexMesh->GetCellLinks()->GetElement(id3);
+
+  PointSetIterator cellIt = cells1.begin();
 
   while ( cellIt != cells1.end() )
     {
-    std::set< unsigned long >::iterator found2 = std::find(cells2.begin(), cells2.end(), *cellIt);
-    std::set< unsigned long >::iterator found3 = std::find(cells3.begin(), cells3.end(), *cellIt);
+    PointSetIterator found2 = std::find(cells2.begin(), cells2.end(), *cellIt);
+    PointSetIterator found3 = std::find(cells3.begin(), cells3.end(), *cellIt);
 
     if ( found2 != cells2.end() && found3 != cells3.end() )
       {
@@ -232,9 +236,9 @@ void SimplexMeshVolumeCalculator< TInputMesh >
     {
     typename InputMeshType::IndexArray n = m_SimplexMesh->GetNeighbors( pointsIt.Index() );
 
-    unsigned long newId1 = FindCellId(n[0], pointsIt.Index(), n[1]);
-    unsigned long newId2 = FindCellId(n[1], pointsIt.Index(), n[2]);
-    unsigned long newId3 = FindCellId(n[2], pointsIt.Index(), n[0]);
+    IdentifierType newId1 = FindCellId(n[0], pointsIt.Index(), n[1]);
+    IdentifierType newId2 = FindCellId(n[1], pointsIt.Index(), n[2]);
+    IdentifierType newId3 = FindCellId(n[2], pointsIt.Index(), n[0]);
 
     bool b1 = m_Centers->GetElementIfIndexExists(newId1, &p1);
     bool b2 = m_Centers->GetElementIfIndexExists(newId2, &p2);

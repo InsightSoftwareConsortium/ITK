@@ -77,7 +77,7 @@ public:
   virtual TElement * GetBufferPointer() = 0;
 
   /** Get the number of elements currently stored in the container. */
-  virtual unsigned long Size(void) const = 0;
+  virtual ElementIdentifier Size(void) const = 0;
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT

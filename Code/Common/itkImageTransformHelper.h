@@ -33,7 +33,6 @@ class ImageTransformHelper
 public:
   typedef ImageBase< NImageDimension >                          ImageType;
   typedef typename ImageType::IndexType                         IndexType;
-  typedef typename ImageBase< NImageDimension >::IndexValueType IndexValueType;
   typedef typename ImageType::SpacingType                       SpacingType;
   typedef Matrix< double, NImageDimension, NImageDimension >    MatrixType;
   typedef typename ImageType::PointType                         OriginType;

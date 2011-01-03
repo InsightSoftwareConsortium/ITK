@@ -298,7 +298,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     typename NumericTraits< ITK_TYPENAME InputImageType::PixelType >::RealType sum, sumOfSquares;
     sum = NumericTraits< InputRealType >::Zero;
     sumOfSquares = NumericTraits< InputRealType >::Zero;
-    unsigned long numberOfSamples = 0;
+    typename TOutputImage::SizeValueType numberOfSamples = 0;
 
     SecondIteratorType sit =
       SecondIteratorType (inputImage, secondFunction, m_Seeds);

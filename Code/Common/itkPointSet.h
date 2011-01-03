@@ -164,7 +164,7 @@ public:
 
   virtual void Initialize(void);
 
-  unsigned long GetNumberOfPoints(void) const;
+  PointIdentifier GetNumberOfPoints(void) const;
 
   /** Define Set/Get access routines for each internal container.
    * Methods also exist to add points, cells, etc. one at a time

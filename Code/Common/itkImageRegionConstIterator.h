@@ -114,36 +114,21 @@ public:
   itkStaticConstMacro(ImageIteratorDimension, unsigned int,
                       Superclass::ImageIteratorDimension);
 
-  /** Index typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::IndexType IndexType;
-
-  /** Size typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::SizeType SizeType;
-
-  /** Region typedef support. */
-  typedef typename Superclass::RegionType RegionType;
-
-  /** Image typedef support. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::ImageType ImageType;
-
-  /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
+  /**
+   * Index typedef support. While these were already typdef'ed in the superclass
+   * they need to be redone here for this subclass to compile properly with gcc.
+   */
+  /** Types inherited from the Superclass */
+  typedef typename Superclass::IndexType             IndexType;
+  typedef typename Superclass::SizeType              SizeType;
+  typedef typename Superclass::OffsetType            OffsetType;
+  typedef typename Superclass::RegionType            RegionType;
+  typedef typename Superclass::ImageType             ImageType;
   typedef typename Superclass::PixelContainer        PixelContainer;
   typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
-
-  /** Internal Pixel Type */
-  typedef typename Superclass::InternalPixelType InternalPixelType;
-
-  /** External Pixel Type */
-  typedef typename Superclass::PixelType PixelType;
-
-  /**  Accessor type that convert data between internal and external
-   *  representations. */
-  typedef typename Superclass::AccessorType AccessorType;
+  typedef typename Superclass::InternalPixelType     InternalPixelType;
+  typedef typename Superclass::PixelType             PixelType;
+  typedef typename Superclass::AccessorType          AccessorType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageRegionConstIterator, ImageIterator);
@@ -162,7 +147,7 @@ public:
     ImageConstIterator< TImage >(ptr, region)
   {
     m_SpanBeginOffset = this->m_BeginOffset;
-    m_SpanEndOffset   = this->m_BeginOffset + static_cast< long >( this->m_Region.GetSize()[0] );
+    m_SpanEndOffset   = this->m_BeginOffset + static_cast< OffsetValueType >( this->m_Region.GetSize()[0] );
   }
 
   /** Constructor that can be used to cast from an ImageIterator to an
@@ -176,10 +161,10 @@ public:
     this->ImageConstIterator< TImage >::operator=(it);
 
     IndexType ind = this->GetIndex();
-    m_SpanEndOffset = this->m_Offset + static_cast< long >( this->m_Region.GetSize()[0] )
+    m_SpanEndOffset = this->m_Offset + static_cast< OffsetValueType >( this->m_Region.GetSize()[0] )
                       - ( ind[0] - this->m_Region.GetIndex()[0] );
     m_SpanBeginOffset = m_SpanEndOffset
-                        - static_cast< long >( this->m_Region.GetSize()[0] );
+                        - static_cast< OffsetValueType >( this->m_Region.GetSize()[0] );
   }
 
   /** Constructor that can be used to cast from an ImageConstIterator to an
@@ -193,10 +178,10 @@ public:
     this->ImageConstIterator< TImage >::operator=(it);
 
     IndexType ind = this->GetIndex();
-    m_SpanEndOffset = this->m_Offset + static_cast< long >( this->m_Region.GetSize()[0] )
+    m_SpanEndOffset = this->m_Offset + static_cast< OffsetValueType >( this->m_Region.GetSize()[0] )
                       - ( ind[0] - this->m_Region.GetIndex()[0] );
     m_SpanBeginOffset = m_SpanEndOffset
-                        - static_cast< long >( this->m_Region.GetSize()[0] );
+                        - static_cast< OffsetValueType >( this->m_Region.GetSize()[0] );
   }
 
   /** Move an iterator to the beginning of the region. "Begin" is
@@ -207,7 +192,7 @@ public:
 
     // reset the span offsets
     m_SpanBeginOffset = this->m_BeginOffset;
-    m_SpanEndOffset   = this->m_BeginOffset + static_cast< long >( this->m_Region.GetSize()[0] );
+    m_SpanEndOffset   = this->m_BeginOffset + static_cast< OffsetValueType >( this->m_Region.GetSize()[0] );
   }
 
   /** Move an iterator to the end of the region. "End" is defined as
@@ -218,7 +203,7 @@ public:
 
     // reset the span offsets
     m_SpanEndOffset = this->m_EndOffset;
-    m_SpanBeginOffset = m_SpanEndOffset - static_cast< long >( this->m_Region.GetSize()[0] );
+    m_SpanBeginOffset = m_SpanEndOffset - static_cast< OffsetValueType >( this->m_Region.GetSize()[0] );
   }
 
   /** Return an iterator for the beginning of the region. "Begin"
@@ -237,9 +222,9 @@ public:
   void SetIndex(const IndexType & ind)
   {
     Superclass::SetIndex(ind);
-    m_SpanEndOffset = this->m_Offset + static_cast< long >( this->m_Region.GetSize()[0] )
+    m_SpanEndOffset = this->m_Offset + static_cast< OffsetValueType >( this->m_Region.GetSize()[0] )
                       - ( ind[0] - this->m_Region.GetIndex()[0] );
-    m_SpanBeginOffset = m_SpanEndOffset - static_cast< long >( this->m_Region.GetSize()[0] );
+    m_SpanBeginOffset = m_SpanEndOffset - static_cast< OffsetValueType >( this->m_Region.GetSize()[0] );
   }
 
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
@@ -276,9 +261,10 @@ public:
   }
 
 protected:
-  unsigned long m_SpanBeginOffset; // one pixel before the beginning of the span
+  OffsetValueType m_SpanBeginOffset; // one pixel before the beginning of the span
                                    // (row)
-  unsigned long m_SpanEndOffset;   // one pixel past the end of the span (row)
+  OffsetValueType m_SpanEndOffset;   // one pixel past the end of the span (row)
+
 private:
   void Increment(); // advance in a direction other than the fastest moving
 

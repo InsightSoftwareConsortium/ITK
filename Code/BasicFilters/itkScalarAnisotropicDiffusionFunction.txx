@@ -39,7 +39,7 @@ ScalarAnisotropicDiffusionFunction< TImage >
   ZeroFluxNeumannBoundaryCondition< TImage > bc;
   AccumulateType                             accumulator;
   PixelRealType                              val;
-  size_t                                     counter;
+  SizeValueType                              counter;
   BFC_type                                   bfc;
   typename BFC_type::FaceListType faceList;
   typename RNI_type::RadiusType radius;
@@ -50,8 +50,8 @@ ScalarAnisotropicDiffusionFunction< TImage >
   DerivativeOperator< PixelType,
                       ImageDimension > operator_list[ImageDimension];
 
-  unsigned long Stride[ImageDimension];
-  unsigned long Center[ImageDimension];
+  SizeValueType Stride[ImageDimension];
+  SizeValueType Center[ImageDimension];
 
   // Set up the derivative operators, one for each dimension
   for ( i = 0; i < ImageDimension; ++i )
@@ -68,7 +68,7 @@ ScalarAnisotropicDiffusionFunction< TImage >
 
   // Now do the actual processing
   accumulator = NumericTraits< AccumulateType >::Zero;
-  counter     = 0;
+  counter     = NumericTraits< SizeValueType >::Zero;
 
   // First process the non-boundary region
 

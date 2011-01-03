@@ -1249,10 +1249,10 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
         // then activate bounds checking.
         for ( unsigned int i = 0; i < ImageDimension; i++ )
           {
-          if ( ( center_index[i] + static_cast< long >(
-                   this->m_NumberOfLayers ) >= static_cast< long >( upperBounds[i] - 1 ) )
-               || center_index[i] - static_cast< long >(
-                 this->m_NumberOfLayers ) <= static_cast< long >( lowerBounds[i] ) )
+          if ( ( center_index[i] + static_cast< InputOffsetValueType >(
+                   this->m_NumberOfLayers ) >= ( static_cast< InputIndexValueType >( upperBounds[i] ) - 1 ) )
+               || center_index[i] - static_cast< InputOffsetValueType >(
+                 this->m_NumberOfLayers ) <= static_cast< InputIndexValueType >( lowerBounds[i] ) )
             {
             m_BoundsCheckingActive = true;
             }
@@ -1432,9 +1432,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
       }
 
     os << indent << "m_UpdateBuffer: size="
-       << static_cast< unsigned long >( sparsePtr->m_UpdateBuffer.size() )
+       << static_cast< InputSizeValueType >( sparsePtr->m_UpdateBuffer.size() )
        << " capacity = "
-       << static_cast< unsigned long >( sparsePtr->m_UpdateBuffer.capacity() )
+       << static_cast< InputSizeValueType >( sparsePtr->m_UpdateBuffer.capacity() )
        << std::endl;
     }
 

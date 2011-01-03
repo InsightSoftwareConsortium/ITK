@@ -233,7 +233,7 @@ StatisticsImageFilter< TInputImage >
   m_ThreadMax.SetSize(numberOfThreads);
 
   // Initialize the temporaries
-  m_Count.Fill(NumericTraits< long >::Zero);
+  m_Count.Fill(NumericTraits< SizeValueType >::Zero);
   m_ThreadSum.Fill(NumericTraits< RealType >::Zero);
   m_SumOfSquares.Fill(NumericTraits< RealType >::Zero);
   m_ThreadMin.Fill( NumericTraits< PixelType >::max() );
@@ -245,9 +245,9 @@ void
 StatisticsImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
 {
-  int      i;
-  long     count;
-  RealType sumOfSquares;
+  int             i;
+  SizeValueType   count;
+  RealType        sumOfSquares;
 
   int numberOfThreads = this->GetNumberOfThreads();
 

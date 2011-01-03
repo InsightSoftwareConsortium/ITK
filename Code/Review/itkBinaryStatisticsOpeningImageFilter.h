@@ -74,7 +74,9 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef StatisticsLabelObject< unsigned long, itkGetStaticConstMacro(ImageDimension) > LabelObjectType;
+  typedef SizeValueType LabelType;
+
+  typedef StatisticsLabelObject< LabelType, itkGetStaticConstMacro(ImageDimension) >     LabelObjectType;
   typedef LabelMap< LabelObjectType >                                                    LabelMapType;
   typedef BinaryImageToLabelMapFilter< InputImageType, LabelMapType >                    LabelizerType;
   typedef StatisticsLabelMapFilter< LabelMapType, FeatureImageType >                     LabelObjectValuatorType;

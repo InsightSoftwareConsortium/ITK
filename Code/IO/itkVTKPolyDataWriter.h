@@ -18,6 +18,7 @@
 #ifndef __itkVTKPolyDataWriter_h
 #define __itkVTKPolyDataWriter_h
 
+#include "itkIntTypes.h"
 #include "itkMesh.h"
 #include "itkTriangleCell.h"
 

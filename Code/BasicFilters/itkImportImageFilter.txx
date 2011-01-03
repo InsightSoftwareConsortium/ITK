@@ -103,7 +103,7 @@ ImportImageFilter< TPixel, VImageDimension >
 template< class TPixel, unsigned int VImageDimension >
 void
 ImportImageFilter< TPixel, VImageDimension >
-::SetImportPointer(TPixel *ptr, unsigned long num, bool LetFilterManageMemory)
+::SetImportPointer(TPixel *ptr, SizeValueType num, bool LetFilterManageMemory)
 {
   if ( ptr != m_ImportPointer )
     {

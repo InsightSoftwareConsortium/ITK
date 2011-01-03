@@ -167,7 +167,7 @@ protected:
   /**
   * \brief
   */
-  size_t NumberOfCommonVerticesIn0Ring();
+  SizeValueType NumberOfCommonVerticesIn0Ring() const;
 
   /**
   * \brief

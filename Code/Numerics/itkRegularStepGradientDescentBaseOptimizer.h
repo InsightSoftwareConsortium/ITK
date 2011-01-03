@@ -18,6 +18,7 @@
 #ifndef __itkRegularStepGradientDescentBaseOptimizer_h
 #define __itkRegularStepGradientDescentBaseOptimizer_h
 
+#include "itkIntTypes.h"
 #include "itkSingleValuedNonLinearOptimizer.h"
 
 namespace itk
@@ -82,13 +83,13 @@ public:
   itkSetMacro(MaximumStepLength, double);
   itkSetMacro(MinimumStepLength, double);
   itkSetMacro(RelaxationFactor, double);
-  itkSetMacro(NumberOfIterations, unsigned long);
+  itkSetMacro(NumberOfIterations, SizeValueType);
   itkSetMacro(GradientMagnitudeTolerance, double);
   itkGetConstReferenceMacro(CurrentStepLength, double);
   itkGetConstReferenceMacro(MaximumStepLength, double);
   itkGetConstReferenceMacro(MinimumStepLength, double);
   itkGetConstReferenceMacro(RelaxationFactor, double);
-  itkGetConstReferenceMacro(NumberOfIterations, unsigned long);
+  itkGetConstReferenceMacro(NumberOfIterations, SizeValueType);
   itkGetConstReferenceMacro(GradientMagnitudeTolerance, double);
   itkGetConstMacro(CurrentIteration, unsigned int);
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
@@ -143,8 +144,8 @@ protected:
   double             m_CurrentStepLength;
   double             m_RelaxationFactor;
   StopConditionType  m_StopCondition;
-  unsigned long      m_NumberOfIterations;
-  unsigned long      m_CurrentIteration;
+  SizeValueType      m_NumberOfIterations;
+  SizeValueType      m_CurrentIteration;
   std::ostringstream m_StopConditionDescription;
 };
 } // end namespace itk

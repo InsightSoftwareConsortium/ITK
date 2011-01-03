@@ -161,28 +161,28 @@ private:
   AttributeType m_Lambda;
 
   // some constants used several times in the code
-  itkStaticConstMacro(INACTIVE, long, -1);
-  itkStaticConstMacro(ACTIVE, long, -2);
-  itkStaticConstMacro(ROOT, long, -3);
+  itkStaticConstMacro(INACTIVE, OffsetValueType, -1);
+  itkStaticConstMacro(ACTIVE, OffsetValueType, -2);
+  itkStaticConstMacro(ROOT, OffsetValueType, -3);
 
   // Just used for area/volume openings at the moment
   AttributeType *m_AuxData;
 
   typedef std::vector< OffsetType > OffsetVecType;
   // offset in the linear array.
-  typedef std::vector< long > OffsetDirectVecType;
+  typedef std::vector< OffsetValueType > OffsetDirectVecType;
 
   void SetupOffsetVec(OffsetDirectVecType & PosOffsets, OffsetVecType & Offsets);
 
   class GreyAndPos
   {
 public:
-    InputPixelType Val;
-    long           Pos;
+    InputPixelType  Val;
+    OffsetValueType Pos;
   };
 
-  GreyAndPos *m_SortPixels;
-  long *      m_Parent;
+  GreyAndPos        * m_SortPixels;
+  OffsetValueType   * m_Parent;
 #ifndef PAMI
   bool *m_Processed;
 #endif
@@ -210,13 +210,13 @@ public:
 #ifdef PAMI
   // version from PAMI. Note - using the AuxData array rather than the
   // parent array to store area
-  void MakeSet(long x)
+  void MakeSet(OffsetValueType x)
   {
     m_Parent[x] = ACTIVE;
     m_AuxData[x] = m_AttributeValuePerPixel;
   }
 
-  long FindRoot(long x)
+  OffsetValueType FindRoot(OffsetValueType x)
   {
     if ( m_Parent[x] >= 0 )
       {
@@ -229,14 +229,14 @@ public:
       }
   }
 
-  bool Criterion(long x, long y)
+  bool Criterion(OffsetValueType x, OffsetValueType y)
   {
     return ( ( m_Raw[x] == m_Raw[y] ) || ( m_AuxData[x] < m_Lambda ) );
   }
 
-  void Union(long n, long p)
+  void Union(OffsetValueType n, OffsetValueType p)
   {
-    long r = FindRoot(n);
+    OffsetValueType r = FindRoot(n);
 
     if ( r != p )
       {
@@ -254,13 +254,13 @@ public:
 
 #else
   // version from ISMM paper
-  void MakeSet(long x)
+  void MakeSet(OffsetValueType x)
   {
     m_Parent[x] = ACTIVE;
     m_AuxData[x] = m_AttributeValuePerPixel;
   }
 
-  void Link(long x, long y)
+  void Link(OffsetValueType x, OffsetValueType y)
   {
     if ( ( m_Parent[y] == ACTIVE ) && ( m_Parent[x] == ACTIVE ) )
       {
@@ -280,7 +280,7 @@ public:
     m_Parent[x] = y;
   }
 
-  long FindRoot(long x)
+  OffsetValueType FindRoot(OffsetValueType x)
   {
     if ( m_Parent[x] >= 0 )
       {
@@ -293,14 +293,14 @@ public:
       }
   }
 
-  bool Equiv(long x, long y)
+  bool Equiv(OffsetValueType x, OffsetValueType y)
   {
     return ( ( m_Raw[x] == m_Raw[y] ) || ( m_Parent[x] == ACTIVE ) );
   }
 
-  void Union(long n, long p)
+  void Union(OffsetValueType n, OffsetValueType p)
   {
-    long r = FindRoot(n);
+    OffsetValueType r = FindRoot(n);
 
     if ( r != p )
       {

@@ -83,8 +83,8 @@ CurvatureFlowFunction< TImage >
   PixelRealType firstderiv[ImageDimension];
   PixelRealType secderiv[ImageDimension];
   PixelRealType crossderiv[ImageDimension][ImageDimension];
-  unsigned long center;
-  unsigned long stride[ImageDimension];
+  IdentifierType center;
+  IdentifierType stride[ImageDimension];
   unsigned int  i, j;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
@@ -95,7 +95,7 @@ CurvatureFlowFunction< TImage >
   // cache the stride for each dimension
   for ( i = 0; i < ImageDimension; i++ )
     {
-    stride[i] = it.GetStride( (unsigned long)i );
+    stride[i] = it.GetStride( (IdentifierType)i );
     }
 
   PixelRealType magnitudeSqr = 0.0;

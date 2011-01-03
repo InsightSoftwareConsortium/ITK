@@ -18,6 +18,7 @@
 #ifndef __itkProgressReporter_h
 #define __itkProgressReporter_h
 
+#include "itkIntTypes.h"
 #include "itkProcessObject.h"
 
 namespace itk
@@ -60,8 +61,8 @@ class ITKCommon_EXPORT ProgressReporter
 public:
   /** Constructor sets progress to 0 because the filter is starting.  */
   ProgressReporter(ProcessObject *filter, int threadId,
-                   unsigned long numberOfPixels,
-                   unsigned long numberOfUpdates = 100,
+                   SizeValueType numberOfPixels,
+                   SizeValueType numberOfUpdates = 100,
                    float initialProgress = 0.0f,
                    float progressWeight  = 1.0f);
 
@@ -98,9 +99,9 @@ protected:
   ProcessObject *m_Filter;
   int            m_ThreadId;
   float          m_InverseNumberOfPixels;
-  unsigned long  m_CurrentPixel;
-  unsigned long  m_PixelsPerUpdate;
-  unsigned long  m_PixelsBeforeUpdate;
+  SizeValueType  m_CurrentPixel;
+  SizeValueType  m_PixelsPerUpdate;
+  SizeValueType  m_PixelsBeforeUpdate;
   float          m_InitialProgress;
   float          m_ProgressWeight;
 private:

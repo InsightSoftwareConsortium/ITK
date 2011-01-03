@@ -147,7 +147,7 @@ private:
   InputImageConstPointer  m_Image;
   BasisMatrixType         m_BasisMatrix;
   bool                    m_BasisMatrixCalculated;
-  unsigned long           m_NumPixels;
+  SizeValueType           m_NumPixels;
 };
 } // end namespace itk
 
