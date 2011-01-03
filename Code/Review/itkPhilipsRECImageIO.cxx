@@ -33,6 +33,7 @@
 #include "itkSpatialOrientationAdapter.h"
 #include "itksys/SystemTools.hxx"
 #include "itk_zlib.h"
+#include "vnl/vnl_math.h"
 #include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -826,24 +827,24 @@ void PhilipsRECImageIO::ReadImageInformation()
   // Create right/left rotation matrix (about x axis).
   AffineMatrix r1;
   r1.SetIdentity();
-  r1[1][1] = cos(par.angRL*Math::pi/180.0);
-  r1[2][1] = -sin(par.angRL*Math::pi/180.0);
-  r1[1][2] = sin(par.angRL*Math::pi/180.0);
-  r1[2][2] = cos(par.angRL*Math::pi/180.0);
+  r1[1][1] = vcl_cos(par.angRL*Math::pi/180.0);
+  r1[2][1] = -vcl_sin(par.angRL*Math::pi/180.0);
+  r1[1][2] = vcl_sin(par.angRL*Math::pi/180.0);
+  r1[2][2] = vcl_cos(par.angRL*Math::pi/180.0);
   // Create anterior/posterior rotation matrix (about y axis).
   AffineMatrix r2;
   r2.SetIdentity();
-  r2[0][0] = cos(par.angAP*Math::pi/180.0);
-  r2[2][0] = sin(par.angAP*Math::pi/180.0);
-  r2[0][2] = -sin(par.angAP*Math::pi/180.0);
-  r2[2][2] = cos(par.angAP*Math::pi/180.0);
+  r2[0][0] = vcl_cos(par.angAP*Math::pi/180.0);
+  r2[2][0] = vcl_sin(par.angAP*Math::pi/180.0);
+  r2[0][2] = -vcl_sin(par.angAP*Math::pi/180.0);
+  r2[2][2] = vcl_cos(par.angAP*Math::pi/180.0);
   // Create foot/head rotation matrix (about z axis).
   AffineMatrix r3;
   r3.SetIdentity();
-  r3[0][0] = cos(par.angFH*Math::pi/180.0);
-  r3[1][0] = -sin(par.angFH*Math::pi/180.0);
-  r3[0][1] = sin(par.angFH*Math::pi/180.0);
-  r3[1][1] = cos(par.angFH*Math::pi/180.0);
+  r3[0][0] = vcl_cos(par.angFH*Math::pi/180.0);
+  r3[1][0] = -vcl_sin(par.angFH*Math::pi/180.0);
+  r3[0][1] = vcl_sin(par.angFH*Math::pi/180.0);
+  r3[1][1] = vcl_cos(par.angFH*Math::pi/180.0);
   // Total rotation matrix.
   AffineMatrix rtotal = r1*r2*r3;
 #ifdef DEBUG_ORIENTATION
