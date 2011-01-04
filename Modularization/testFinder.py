@@ -42,7 +42,6 @@ if (HeadOfITKTree[-1] == '/'):
 
 
 testFiles = glob.glob(HeadOfITKTree+'/Testing/Code/*/*.cxx')
-
 testmanifest =  open('./ManifestOfITKTests.txt','w')
 print('created ./ManifestOfITKTests.txt')
 
@@ -55,7 +54,7 @@ for line in open("./Manifest.txt",'r'):
     group = words[1]
     module = words[2]
     destinationSubdir = words[3]
-    if destinationSubdir == 'src' or destinationSubdir == 'include':
+    if inputfile[-2:] == '.h': # find all the classes
       basepath, basefilename = os.path.split(inputfile)
       basename, extension = os.path.splitext(basefilename)
       basenametest = basename+'Test'
@@ -63,6 +62,6 @@ for line in open("./Manifest.txt",'r'):
         index = testfilename.find( basenametest )
         if index != -1:
           testFileSplit=testfilename.split(HeadOfITKTree)
-          testmanifest.write('.'+testFileSplit[1]+'\t'+group+'\t'+module+'\t'+'test'+'\n')
+          testmanifest.write('.'+testFileSplit[1]+' '+group+' '+module+' '+'test'+'\n')
 
 testmanifest.close()
