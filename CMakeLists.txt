@@ -116,18 +116,26 @@ set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake)
 include(itkCheckSourceTree)
 
 # Deal with FFT v3 Options
+#
+#
+# USE_FFTWD -- use double precision fftw
+option(USE_FFTWD "Use double precision fftw if found" OFF)
 mark_as_advanced(USE_FFTWD)
-option(USE_FFTWD "Use double precision FFTW if found" OFF)
+#
+# USE_FFTWF -- use single precision fftw
+option(USE_FFTWF "Use single precision fftw if found" OFF)
 mark_as_advanced(USE_FFTWF)
-option(USE_FFTWF "Use single precision FFTW if found" OFF)
+
+# USE_SYSTEM_FFTW -- locate a readybuilt fftw installation
+option(USE_SYSTEM__FFTW "Use an installed version of fftw" OFF)
+mark_as_advanced(USE_SYSTEM_FFTW)
+
 if( USE_FFTWD OR USE_FFTWF )
-  set(msg "ATTENTION: You have enabled the use of FFTW,")
-  set(msg "${msg} this library is distributed under a GPL license.")
-  set(msg "${msg} By enabling this option, the binary of the ITK libraries")
-  set(msg "${msg} that you are going to build will be covered by a GPL license,")
-  set(msg "${msg} and so it will be any executable that you link against these libraries.")
-  message("${msg}")
-  find_package( FFTW )
+  #
+  # use ExternalProject
+  include(ExternalProject)
+
+  include(itkExternal_FFTW)
 endif( USE_FFTWD OR USE_FFTWF )
 
 # Deal with MINC2 options
@@ -798,4 +806,3 @@ endif(BUILD_TESTING)
 if(BUILD_EXAMPLES)
   add_subdirectory(Examples)
 endif(BUILD_EXAMPLES)
-
