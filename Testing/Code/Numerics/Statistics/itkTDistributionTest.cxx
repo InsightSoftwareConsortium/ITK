@@ -349,7 +349,7 @@ int itkTDistributionTest(int, char* [] )
     {
     x = static_cast<double>(i);
 
-    value = distributionFunction->EvaluateCDF( x, (long)params[0] );
+    value = distributionFunction->EvaluateCDF( x, params[0] );
 
     diff = vcl_fabs(value - expected11[i+5]);
 
@@ -388,8 +388,7 @@ int itkTDistributionTest(int, char* [] )
   for (i = -5; i <= 5; ++i)
     {
 
-    value = distributionFunction->EvaluateInverseCDF( expected11[i+5],
-                                                      (long) params[0] );
+    value = distributionFunction->EvaluateInverseCDF( expected11[i+5], params[0] );
 
     diff = vcl_fabs(value - double(i));
 
@@ -423,7 +422,7 @@ int itkTDistributionTest(int, char* [] )
   parameters[0] = 5.0;
   distributionFunction->SetParameters(parameters);
 
-  long dof = 5;
+  unsigned long dof = 5;
 
   std::cout << "Variance() = " <<  distributionFunction->GetVariance() << std::endl;
   std::cout << "PDF(x,p) = " <<  distributionFunction->PDF( x, parameters ) << std::endl;
@@ -488,7 +487,7 @@ int itkTDistributionTest(int, char* [] )
   std::cout << "Exercise negative argument " << std::endl;
   std::cout << "InverseCDF(x,p) = " <<  distributionFunction->InverseCDF( -1.0, dof ) << std::endl;
 
-  long newdof = 17;
+  unsigned long newdof = 17;
   distributionFunction->SetDegreesOfFreedom( newdof );
   TEST_SET_GET_VALUE( newdof, distributionFunction->GetDegreesOfFreedom() );
 
