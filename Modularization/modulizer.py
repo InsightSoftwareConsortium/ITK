@@ -198,7 +198,7 @@ for  moduleName in moduleList:
        filepath = HeadOfModularITKTree+'/'+moduleName+'/test/CMakeLists.txt'
        if not os.path.isfile(filepath):
            o = open(filepath,'w')
-           line = 'create_Test_sourcelist(Tests {0}-tests.cxx\n{1})\n\n'.format(moduleName, cxxFileList)
+           line = 'create_test_sourcelist(Tests {0}-tests.cxx\n{1})\n\n'.format(moduleName, cxxFileList)
            o.write(line)
 
            line = 'add_executable({0}-tests  ${{Tests}} )\n'.format(moduleName)
