@@ -87,12 +87,19 @@ public:
   /** External slice iterator type typedef support. */
   typedef SliceIterator< TPixel, Self > SliceIteratorType;
 
+  /** Type used to refer to space dimensions */
+  typedef unsigned int                  DimensionValueType;
+
+  /** Type used to refer to the elements of the pixel list
+   * that are part of the neighborhood. */
+  typedef unsigned int                  NeighborIndexType;
+
   /** Default constructor. */
   Neighborhood()
   {
     m_Radius.Fill(0);
     m_Size.Fill(0);
-    for ( unsigned int i = 0; i < VDimension; i++ )
+    for ( DimensionValueType i = 0; i < VDimension; i++ )
       {
       m_StrideTable[i] = 0;
       }
@@ -130,12 +137,12 @@ public:
 
   /** Returns the radius of the neighborhood along a specified
    * dimension. */
-  SizeValueType GetRadius(unsigned int n) const
+  SizeValueType GetRadius(DimensionValueType n) const
   { return m_Radius[n]; }
 
   /** Returns the size (total length) of the neighborhood along
    * a specified dimension. */
-  SizeValueType GetSize(unsigned int n) const
+  SizeValueType GetSize(DimensionValueType n) const
   { return m_Size[n]; }
 
   /** Returns the size (total length of sides) of the neighborhood. */
@@ -145,7 +152,7 @@ public:
   /** Returns the stride length for the specified dimension. Stride
    * length is the number of pixels between adjacent pixels along the
    * given dimension. */
-  OffsetValueType GetStride(const unsigned axis) const
+  OffsetValueType GetStride(DimensionValueType axis) const
   {     return m_StrideTable[axis];  }
 
   /** STL-style iterator support. */
@@ -157,8 +164,6 @@ public:
   { return m_DataBuffer.end(); }
   ConstIterator Begin() const
   { return m_DataBuffer.begin(); }
-
-  typedef unsigned int  NeighborIndexType;
 
   /** More STL-style support. */
   NeighborIndexType Size() const
@@ -229,14 +234,14 @@ protected:
   /** Sets the length along each dimension. */
   void SetSize()
   {
-    for ( unsigned int i = 0; i < VDimension; ++i )
+    for ( DimensionValueType i = 0; i < VDimension; ++i )
       {
       m_Size[i] = m_Radius[i] * 2 + 1;
       }
   }
 
   /** Allocates the neighborhood's memory buffer. */
-  virtual void Allocate(unsigned int i)
+  virtual void Allocate(NeighborIndexType i)
   { m_DataBuffer.set_size(i); }
 
   /** Standard itk object method. */

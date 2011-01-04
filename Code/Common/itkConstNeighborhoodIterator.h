@@ -56,6 +56,9 @@ public:
   /** Save the image dimension. */
   itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
 
+  /** Type used to refer to space dimensions */
+  typedef unsigned int                  DimensionValueType;
+
   /** Standard class typedefs. */
   typedef ConstNeighborhoodIterator Self;
   typedef Neighborhood< InternalPixelType *,
@@ -74,6 +77,9 @@ public:
   typedef Index< itkGetStaticConstMacro(Dimension) > IndexType;
   typedef Neighborhood< PixelType, itkGetStaticConstMacro(Dimension) >
   NeighborhoodType;
+
+  /** Type used to refer to the elements in the list of neighbor pixels. */
+  typedef typename NeighborhoodType::NeighborIndexType  NeighborIndexType;
 
   /** Typedef for the functor used to access neighborhoods of pixel pointers.
    * This is obtained as a trait from the image and is different for Image
@@ -120,7 +126,7 @@ public:
 
   /** Computes the internal, N-d offset of a pixel array position n from
    * (0,0, ..., 0) in the "upper-left" corner of the neighborhood. */
-  OffsetType ComputeInternalIndex(unsigned int n) const;
+  OffsetType ComputeInternalIndex(NeighborIndexType n) const;
 
   /** Returns the array of upper loop bounds used during iteration. */
   IndexType GetBound() const
@@ -128,7 +134,7 @@ public:
 
   /** Returns the loop bound used to define the edge of a single
    * dimension in the itk::Image region. */
-  IndexValueType GetBound(unsigned int n) const
+  IndexValueType GetBound(NeighborIndexType n) const
   {    return m_Bound[n];  }
 
   /** Returns the pointer to the center pixel of the neighborhood. */
@@ -154,7 +160,7 @@ public:
   virtual NeighborhoodType GetNeighborhood() const;
 
   /** Returns the pixel value located at a linear array location i. */
-  virtual PixelType GetPixel(const unsigned i) const
+  virtual PixelType GetPixel(NeighborIndexType i) const
   {
     if ( !m_NeedToUseBoundaryCondition )
       {
@@ -169,7 +175,7 @@ public:
    * image and the pixel value returned is an actual pixel in the
    * image. Sets "IsInBounds" to false if the location is outside the
    * image and the pixel value returned is a boundary condition. */
-  virtual PixelType GetPixel(const unsigned i, bool & IsInBounds) const;
+  virtual PixelType GetPixel(NeighborIndexType i, bool & IsInBounds) const;
 
   /** Returns the pixel value located at the itk::Offset o from the center of
       the neighborhood. */
@@ -192,7 +198,7 @@ public:
   /** Returns the pixel value located i pixels distant from the neighborhood
    *  center in the positive specified ``axis'' direction. No bounds checking
    *  is done on the size of the neighborhood. */
-  virtual PixelType GetNext(const unsigned axis, const unsigned i) const
+  virtual PixelType GetNext(const unsigned axis, NeighborIndexType i) const
   {
     return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
                              + ( i * this->GetStride(axis) ) ) );
@@ -210,7 +216,7 @@ public:
   /** Returns the pixel value located i pixels distant from the neighborhood
    *  center in the negative specified ``axis'' direction. No bounds checking
    *  is done on the size of the neighborhood. */
-  virtual PixelType GetPrevious(const unsigned axis, const unsigned i) const
+  virtual PixelType GetPrevious(const unsigned axis, NeighborIndexType i) const
   {
     return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
                              - ( i * this->GetStride(axis) ) ) );
@@ -232,7 +238,7 @@ public:
 
   /** Returns the image index for neighbor pixel at index i in the
       neighborhood. */
-  virtual IndexType GetIndex(const unsigned i) const
+  virtual IndexType GetIndex(NeighborIndexType i) const
   { return ( this->GetIndex() + this->GetOffset(i) ); }
 
   /**  Returns the region of iteration. */
@@ -257,7 +263,7 @@ public:
    * dimension is necessary to shift pointers when wrapping around region
    * edges because region memory is not necessarily contiguous within the
    * buffer. */
-  OffsetValueType GetWrapOffset(unsigned int n) const
+  OffsetValueType GetWrapOffset(NeighborIndexType n) const
   {    return m_WrapOffset[n];   }
 
   /** Virtual method for rewinding the iterator to its beginning pixel.

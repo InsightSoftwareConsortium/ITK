@@ -422,6 +422,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   it.OverrideBoundaryCondition(&lcbc);
   it.GoToBegin();
 
+  typedef typename NeighborIteratorType::NeighborIndexType   NeighborIndexType;
+
   // Iterate over all the lines
   for ( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
@@ -435,7 +437,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       it += idx - it.GetIndex();
 
       // Push the pixel in the list if it is on the border of the object
-      for ( OffsetValueType i = 0; i < it.Size(); i++ )
+      for ( NeighborIndexType i = 0; i < it.Size(); i++ )
         {
         if ( it.GetPixel(i) != label )
           {

@@ -19,6 +19,7 @@
 #define __itkNeighborhood_txx
 
 #include "itkNeighborhood.h"
+#include "itkNumericTraits.h"
 #include <cstring>
 
 namespace itk
@@ -28,14 +29,12 @@ void
 Neighborhood< TPixel, VDimension, TContainer >
 ::ComputeNeighborhoodStrideTable()
 {
-  unsigned stride, accum;
-
-  for ( unsigned int dim = 0; dim < VDimension; ++dim )
+  for ( DimensionValueType dim = 0; dim < VDimension; ++dim )
     {
-    stride = 0;
-    accum = 1;
+    OffsetValueType stride = 0;
+    OffsetValueType accum = 1;
 
-    for ( unsigned int i = 0; i < VDimension; ++i )
+    for ( DimensionValueType i = 0; i < VDimension; ++i )
       {
       if ( i == dim ) { stride = accum; }
       accum *= m_Size[i];
@@ -52,7 +51,7 @@ void Neighborhood< TPixel, VDimension, TContainer >
   m_OffsetTable.clear();
   m_OffsetTable.reserve( this->Size() );
   OffsetType   o;
-  unsigned int i, j;
+  DimensionValueType i, j;
   for ( j = 0; j < VDimension; j++ )
     {
     o[j] = -( static_cast< OffsetValueType >( this->GetRadius(j) ) );
@@ -80,7 +79,7 @@ Neighborhood< TPixel, VDimension, TContainer >
 {
   SizeType k;
 
-  for ( unsigned int i = 0; i < VDimension; i++ )
+  for ( DimensionValueType i = 0; i < VDimension; i++ )
     {
     k[i] = s;
     }
@@ -95,8 +94,8 @@ Neighborhood< TPixel, VDimension, TContainer >
   memcpy(m_Radius.m_Size, r.m_Size, sizeof( const SizeValueType ) * VDimension);
   this->SetSize();
 
-  unsigned int cumul = 1;
-  for ( unsigned int i = 0; i < VDimension; i++ )
+  SizeValueType cumul = NumericTraits< SizeValueType >::One;
+  for ( DimensionValueType i = 0; i < VDimension; i++ )
     {
     cumul *= m_Size[i];
     }
@@ -134,14 +133,15 @@ template< class TPixel, unsigned int VDimension, class TContainer >
 std::slice Neighborhood< TPixel, VDimension, TContainer >
 ::GetSlice(unsigned int d) const
 {
-  unsigned int n = this->Size() / 2;
+  OffsetValueType n = this->Size() / 2;
+  OffsetValueType t = this->GetStride(d);
+  OffsetValueType s = static_cast< OffsetValueType >( this->GetSize()[d] );
 
-  n = n - ( static_cast< unsigned >( this->GetStride(d) )
-            * ( static_cast< unsigned >( this->GetSize()[d] / 2 ) ) );
+  n -= t * s / 2;
 
   return std::slice( static_cast< size_t >( n ),
-                     static_cast< size_t >( this->GetSize()[d] ),
-                     static_cast< size_t >( this->GetStride(d) ) );
+                     static_cast< size_t >( s ),
+                     static_cast< size_t >( t ) );
 }
 
 template< class TPixel, unsigned int VDimension, class TContainer >
@@ -153,7 +153,7 @@ Neighborhood< TPixel, VDimension, TContainer >
 
   for ( unsigned i = 0; i < VDimension; ++i )
     {
-    idx += o[i] * static_cast< OffsetValueType >( m_StrideTable[i] );
+    idx += o[i] * m_StrideTable[i];
     }
   return idx;
 }
@@ -162,7 +162,7 @@ template< class TPixel, unsigned int VDimension, class TContainer >
 void Neighborhood< TPixel, VDimension, TContainer >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  unsigned int i;
+  DimensionValueType i;
 
   os << indent << "m_Size: [ ";
   for ( i = 0; i < VDimension; ++i )
