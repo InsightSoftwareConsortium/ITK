@@ -10,7 +10,7 @@ endif(WIN32)
 ### genearting libraries
 add_library(itk-common ${itk-common_SRCS})
 
-target_link_libraries(itk-common  itksys itk-vnl-install )
+target_link_libraries(itk-common  itksys itk-vnl-instantiation )
 
 if(UNIX)
   target_link_libraries(itk-common ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
