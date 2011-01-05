@@ -250,12 +250,7 @@ add_test(itkIteratorTests ${COMMON_TESTS} itkIteratorTests)
 add_test(itkLandmarkBasedTransformInitializerTest ${COMMON_TESTS} itkLandmarkBasedTransformInitializerTest)
 add_test(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
 add_test(itkLinearInterpolateImageFunctionTest ${COMMON_TESTS2} itkLinearInterpolateImageFunctionTest)
-add_test(itkLineIteratorTest ${COMMON_TESTS}
-  --compare ${BASELINE}/itkLineIteratorTest.png
-            ${TEMP}/itkLineIteratorTest.png
-  itkLineIteratorTest
-            ${TEMP}/itkLineIteratorTest.png
-)
+add_test(itkLineIteratorTest ${COMMON_TESTS} itkLineIteratorTest ${BASELINE}/itkLineIteratorTest.txt)
 add_test(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
 add_test(itkLoggerTest ${COMMON_TESTS} itkLoggerTest ${TEMP}/test_logger.txt)
 #Needs to be added to SRCS when this works across platforms.  itkLoggerThreadWrapperTest.cxx

@@ -29,7 +29,6 @@
 #define __itkSpecialCoordinatesImage_txx
 #include "itkSpecialCoordinatesImage.h"
 #include "itkProcessObject.h"
-#include "itkAffineTransform.h"
 
 namespace itk
 {
