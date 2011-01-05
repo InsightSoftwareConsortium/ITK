@@ -253,6 +253,7 @@ LabelMap< TLabelObject >
     {
     // the label already exist - add the pixel to it
     ( *it ).second->AddIndex(idx);
+    this->Modified();
     }
   else
     {
@@ -260,6 +261,7 @@ LabelMap< TLabelObject >
     LabelObjectPointerType labelObject = LabelObjectType::New();
     labelObject->SetLabel(label);
     labelObject->AddIndex(idx);
+    // Modified() is called in AddLabelObject()
     this->AddLabelObject(labelObject);
     }
 }
@@ -281,6 +283,7 @@ LabelMap< TLabelObject >
     {
     // the label already exist - add the pixel to it
     ( *it ).second->AddLine(idx, length);
+    this->Modified();
     }
   else
     {
@@ -288,6 +291,7 @@ LabelMap< TLabelObject >
     LabelObjectPointerType labelObject = LabelObjectType::New();
     labelObject->SetLabel(label);
     labelObject->AddLine(idx, length);
+    // Modified() is called in AddLabelObject()
     this->AddLabelObject(labelObject);
     }
 }
@@ -315,10 +319,10 @@ void
 LabelMap< TLabelObject >
 ::AddLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != NULL ), "LabelObject Null" );
-  itkAssertOrThrowMacro( ( !this->HasLabel( labelObject->GetLabel() ) ), "Label Not Found" );
+  itkAssertOrThrowMacro( ( labelObject != NULL ), "Input LabelObject can't be Null" );
 
   m_LabelObjectContainer[labelObject->GetLabel()] = labelObject;
+  this->Modified();
 }
 
 template< class TLabelObject >
@@ -326,7 +330,7 @@ void
 LabelMap< TLabelObject >
 ::PushLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != NULL ), "LabelObject Null" );
+  itkAssertOrThrowMacro( ( labelObject != NULL ), "Input LabelObject can't be Null" );
 
   if ( m_LabelObjectContainer.empty() )
     {
@@ -365,7 +369,7 @@ LabelMap< TLabelObject >
             it != m_LabelObjectContainer.end();
             it++, label++ )
         {
-        itkAssertOrThrowMacro( ( it->second.IsNotNull() ), "Null label" );
+        assert( ( it->second.IsNotNull() ) );
         if ( label == m_BackgroundValue )
           {
           label++;
@@ -382,6 +386,7 @@ LabelMap< TLabelObject >
         }
       }
     }
+  // modified is called in AddLabelObject()
   this->AddLabelObject(labelObject);
 }
 
@@ -390,7 +395,8 @@ void
 LabelMap< TLabelObject >
 ::RemoveLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != NULL ), "LabelObject Null" );
+  itkAssertOrThrowMacro( ( labelObject != NULL ), "Input LabelObject can't be Null" );
+  // modified is called in RemoveLabel()
   this->RemoveLabel( labelObject->GetLabel() );
 }
 
@@ -399,12 +405,14 @@ void
 LabelMap< TLabelObject >
 ::RemoveLabel(const LabelType & label)
 {
-  if ( label == m_BackgroundValue )
+  if ( m_BackgroundValue == label )
     {
-    // just do nothing
-    return;
+    itkExceptionMacro(<< "Label "
+                      << static_cast< typename NumericTraits< LabelType >::PrintType >( label )
+                      << " is the background label.");
     }
   m_LabelObjectContainer.erase(label);
+  this->Modified();
 }
 
 template< class TLabelObject >
@@ -486,7 +494,7 @@ LabelMap< TLabelObject >
         it != m_LabelObjectContainer.end();
         it++ )
     {
-    itkAssertOrThrowMacro( ( it->second.IsNotNull() ), "Null label" );
+    assert( ( it->second.IsNotNull() ) );
     it->second->Print(os);
     os << std::endl;
     }
@@ -501,9 +509,10 @@ LabelMap< TLabelObject >
         it != m_LabelObjectContainer.end();
         it++ )
     {
-    itkAssertOrThrowMacro( ( it->second.IsNotNull() ), "Null label" );
+    assert( ( it->second.IsNotNull() ) );
     it->second->Optimize();
     }
+  this->Modified();
 }
 } // end namespace itk
 
