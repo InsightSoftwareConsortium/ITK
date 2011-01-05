@@ -54,6 +54,10 @@ public:
    *  it has to be allocated later by assignment              */
   Array();
 
+  /** Copy constructor.  Uses VNL copy construtor with correct
+   *  setting for memory management.                          */
+  Array(const Array&);
+
   /** Constructor with size. Size can only be changed by assignment */
   explicit Array(unsigned int dimension);
 
