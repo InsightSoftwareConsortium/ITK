@@ -359,11 +359,10 @@ ObjectFactoryBase
           }
         else
           {
-          // We would really like to close the lib if it does not
-          // contain the itkLoad symbol. Unfortuantely, it seems that
-          // some systems crash on the call
+          // In the past, some platforms crashed on the call
           // DynamicLoader::CloseLibrary(lib) if the lib has symbols
           // that the current executable is using.
+          DynamicLoader::CloseLibrary(lib);
           }
         }
       }
