@@ -268,9 +268,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
       for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
             I != LineOffsets.end(); ++I )
         {
-        SizeValueType NeighIdx = ThisIdx + ( *I );
+        OffsetValueType NeighIdx = ( *I ) + ThisIdx;
         // check if the neighbor is in the map
-        if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() )
+        if ( NeighIdx >= 0 && NeighIdx < static_cast<OffsetValueType>( linecount ) && !m_LineMap[NeighIdx].empty() )
           {
           // Now check whether they are really neighbors
           bool areNeighbors =
@@ -301,9 +301,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
           for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
                 I != LineOffsets.end(); ++I )
             {
-            SizeValueType NeighIdx = ThisIdx + ( *I );
+            OffsetValueType NeighIdx = ( *I ) + ThisIdx;
             // check if the neighbor is in the map
-            if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() )
+            if ( NeighIdx >= 0 && NeighIdx < static_cast<OffsetValueType>( linecount ) && !m_LineMap[NeighIdx].empty() )
               {
               // Now check whether they are really neighbors
               bool areNeighbors =
