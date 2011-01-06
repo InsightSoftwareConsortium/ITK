@@ -244,7 +244,7 @@ private:
   std::vector< IdentifierType >  m_RegionList;
   std::vector< SizeValueType >   m_RegionSizes;
 
-  std::vector< IdentifierType >  m_Visited;
+  std::vector< OffsetValueType > m_Visited;
   SizeValueType                  m_NumberOfCellsInRegion;
   IdentifierType                 m_RegionNumber;
   std::vector< IdentifierType > *m_Wave;
