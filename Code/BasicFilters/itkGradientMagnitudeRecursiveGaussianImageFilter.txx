@@ -36,7 +36,7 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder(DerivativeFilterType::FirstOrder);
   m_DerivativeFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-
+  m_DerivativeFilter->InPlaceOff();
   m_DerivativeFilter->ReleaseDataFlagOn();
 
   for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
@@ -44,7 +44,7 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     m_SmoothingFilters[i] = GaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(GaussianFilterType::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-    m_SmoothingFilters[i]->ReleaseDataFlagOn();
+    m_SmoothingFilters[i]->InPlaceOn();
     }
 
   m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
@@ -56,14 +56,13 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   m_SqrSpacingFilter = SqrSpacingFilterType::New();
   m_SqrSpacingFilter->SetInput( 1, m_SmoothingFilters[ImageDimension - 2]->GetOutput() );
   // run that filter in place for much efficiency
-  m_SqrSpacingFilter->SetInPlace(true);
+  m_SqrSpacingFilter->InPlaceOn();
 
   // input of SqrtFilter is the cumulative image - we can't set it now
   m_SqrtFilter = SqrtFilterType::New();
-  m_SqrtFilter->SetInPlace(false);
+  m_SqrtFilter->InPlaceOn();
 
   this->SetSigma(1.0);
-
   this->InPlaceOff();
 }
 
@@ -200,6 +199,14 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
+  // If the last filter is running in-place then this bulk data is not
+  // needed, release it to save memory
+  if ( m_SqrtFilter->CanRunInPlace() )
+    {
+    outputImage->ReleaseData();
+    }
+
+
   typename CumulativeImageType::Pointer cumulativeImage = CumulativeImageType::New();
   cumulativeImage->SetRegions( inputImage->GetBufferedRegion() );
   cumulativeImage->Allocate();
@@ -254,7 +261,7 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     }
   m_SqrtFilter->SetInput(cumulativeImage);
   m_SqrtFilter->GraftOutput( this->GetOutput() );
-  m_SqrtFilter->Update();
+  m_SqrtFilter->UpdateLargestPossibleRegion();
   this->GraftOutput( m_SqrtFilter->GetOutput() );
 }
 } // end namespace itk

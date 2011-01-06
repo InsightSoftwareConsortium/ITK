@@ -41,12 +41,14 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     m_SmoothingFilters[i]->SetOrder(GaussianFilterType::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     m_SmoothingFilters[i]->ReleaseDataFlagOn();
+    m_SmoothingFilters[i]->InPlaceOn();
     }
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder(DerivativeFilterType::SecondOrder);
   m_DerivativeFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
   m_DerivativeFilter->ReleaseDataFlagOn();
+  m_DerivativeFilter->InPlaceOff();
 
   m_DerivativeFilter->SetInput( this->GetInput() );
 
@@ -149,10 +151,22 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer outputImage( this->GetOutput() );
   //outputImage->Allocate(); let the CasterImageFilter allocate the image
 
-
   //  Auxiliary image for accumulating the second-order derivatives
   typedef Image< InternalRealType, itkGetStaticConstMacro(ImageDimension) > CumulativeImageType;
   typedef typename CumulativeImageType::Pointer CumulativeImagePointer;
+
+  // The CastImageFilter is used because it is multithreaded and
+  // it may perform no operation if the two images types are the same
+  typedef itk::CastImageFilter< CumulativeImageType, OutputImageType > CastFilterType;
+  typename CastFilterType::Pointer caster = CastFilterType::New();
+
+  // If the last filter is running in-place then this bulk data is not
+  // needed, release it to save memory
+  if ( caster->CanRunInPlace() )
+    {
+    outputImage->ReleaseData();
+    }
+
 
   CumulativeImagePointer cumulativeImage = CumulativeImageType::New();
   cumulativeImage->SetRegions( outputImage->GetRequestedRegion() );
@@ -206,16 +220,18 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
     }
 
-  // Becayse the output of this filter is not pipelined the data must
-  // be manually released
-  m_SmoothingFilters[ImageDimension - 2]->GetOutput()->ReleaseData();
+  // Because the output of last filter in the mini-pipeline is not
+  // pipelined the data must be manually released
+  if ( ImageDimension > 1 )
+    {
+    m_SmoothingFilters[ImageDimension - 2]->GetOutput()->ReleaseData();
+    }
+  else
+    {
+    m_DerivativeFilter->GetOutput()->ReleaseData();
+    }
 
-  // Finally convert the cumulated image to the output
-
-  // The CastImageFilter is used here because it is multithreaded and
-  // it may perform no operation if the two images types are the same
-  typedef itk::CastImageFilter< CumulativeImageType, OutputImageType > CastFilterType;
-  typename CastFilterType::Pointer caster = CastFilterType::New();
+  // Finally convert the cumulated image to the output with a caster
   caster->SetInput( cumulativeImage );
 
   // register with progress accumulator

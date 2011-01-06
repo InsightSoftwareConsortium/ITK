@@ -35,17 +35,25 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   m_FirstSmoothingFilter = FirstGaussianFilterType::New();
   m_FirstSmoothingFilter->SetOrder(FirstGaussianFilterType::ZeroOrder);
-  m_FirstSmoothingFilter->SetDirection(0);
+  // NB: The first filter will not run in-place, because we can not
+  // steal the inputs bulk data. As this provides the least amount of
+  // cache coherency, it will provide the least  amount of performance
+  // gain from running in-place, infact some performance tests
+  // indicate that in the 3rd dimesions, the  performance is actually
+  // less. However this approach still saves memory.
+  m_FirstSmoothingFilter->SetDirection(ImageDimension - 1);
   m_FirstSmoothingFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
   m_FirstSmoothingFilter->ReleaseDataFlagOn();
+  m_FirstSmoothingFilter->InPlaceOff();
 
   for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
     {
     m_SmoothingFilters[i] = InternalGaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(InternalGaussianFilterType::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-    m_SmoothingFilters[i]->SetDirection(i + 1);
+    m_SmoothingFilters[i]->SetDirection(i);
     m_SmoothingFilters[i]->ReleaseDataFlagOn();
+    m_SmoothingFilters[i]->InPlaceOn();
     }
 
   m_SmoothingFilters[0]->SetInput( m_FirstSmoothingFilter->GetOutput() );
@@ -57,6 +65,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   m_CastingFilter = CastingFilterType::New();
   m_CastingFilter->SetInput( m_SmoothingFilters[ImageDimension - 2]->GetOutput() );
+  m_CastingFilter->InPlaceOn();
 
   //
   // NB: We must call SetSigma in order to initialize the smoothing
@@ -104,9 +113,9 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     this->m_Sigma = sigma;
     for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
       {
-      m_SmoothingFilters[i]->SetSigma(m_Sigma[i + 1]);
+      m_SmoothingFilters[i]->SetSigma(m_Sigma[i]);
       }
-    m_FirstSmoothingFilter->SetSigma(m_Sigma[0]);
+    m_FirstSmoothingFilter->SetSigma(m_Sigma[ImageDimension-1]);
 
     this->Modified();
     }
@@ -215,6 +224,13 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
       }
     }
 
+  // If the last filter is running in-place then this bulk data is not
+  // needed, release it to save memory
+  if ( m_CastingFilter->CanRunInPlace() )
+    {
+    this->GetOutput()->ReleaseData();
+    }
+
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
@@ -228,6 +244,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   progress->RegisterInternalFilter( m_FirstSmoothingFilter, 1.0 / ( ImageDimension ) );
   m_FirstSmoothingFilter->SetInput(inputImage);
+
   // graft our output to the internal filter to force the proper regions
   // to be generated
   m_CastingFilter->GraftOutput( this->GetOutput() );

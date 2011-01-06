@@ -33,6 +33,8 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
   m_Direction = 0;
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
+
+  this->InPlaceOff();
 }
 
 /**
