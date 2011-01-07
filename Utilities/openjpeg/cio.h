@@ -134,9 +134,10 @@ typedef struct opj_stream_private
   bool (* m_opj_seek) (struct opj_stream_private * , OPJ_SIZE_T , struct opj_event_mgr *);
 
   /**
-   * number of bytes containing in the buffer.
+   * Number of bytes containing in the buffer.
+   * It is unsigned because -1 is used as an error value.
    */
-  OPJ_UINT32      m_bytes_in_buffer;
+  OPJ_INT32      m_bytes_in_buffer;
 
   /**
    * The number of bytes read/written.
@@ -257,7 +258,7 @@ void opj_write_float_BE(OPJ_BYTE * p_buffer, OPJ_FLOAT32 p_value);
  * @param    p_event_mgr  the user event manager to be notified of special events.
  * @return    the number of bytes read, or -1 if an error occured or if the stream is at the end.
  */
-OPJ_UINT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_buffer, OPJ_UINT32 p_size, struct opj_event_mgr * p_event_mgr);
+OPJ_INT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_buffer, OPJ_UINT32 p_size, struct opj_event_mgr * p_event_mgr);
 
 /**
  * Writes some bytes to the stream.
@@ -267,7 +268,7 @@ OPJ_UINT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_bu
  * @param    p_event_mgr  the user event manager to be notified of special events.
  * @return    the number of bytes writtent, or -1 if an error occured.
  */
-OPJ_UINT32 opj_stream_write_data (opj_stream_private_t * p_stream,const OPJ_BYTE * p_buffer, OPJ_UINT32 p_size, struct opj_event_mgr * p_event_mgr);
+OPJ_INT32 opj_stream_write_data (opj_stream_private_t * p_stream,const OPJ_BYTE * p_buffer, OPJ_UINT32 p_size, struct opj_event_mgr * p_event_mgr);
 
 /**
  * Writes the content of the stream buffer to the stream.

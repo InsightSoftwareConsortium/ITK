@@ -953,7 +953,7 @@ bool jp2_write_ftyp(
     opj_write_bytes(l_current_data_ptr, jp2->cl[i],4);  /* CL */
   }
 
-  l_result = (opj_stream_write_data(cio,l_ftyp_data,l_ftyp_size,p_manager) == l_ftyp_size);
+  l_result = (opj_stream_write_data(cio,l_ftyp_data,l_ftyp_size,p_manager) == (OPJ_INT32)l_ftyp_size);
   if
     (! l_result)
   {
@@ -1067,7 +1067,7 @@ bool jp2_write_jp2h(
       (i=0;i<l_nb_pass;++i)
     {
       if
-        (opj_stream_write_data(cio,l_current_writer->m_data,l_current_writer->m_size,p_manager) != l_current_writer->m_size)
+        (opj_stream_write_data(cio,l_current_writer->m_data,l_current_writer->m_size,p_manager) != (OPJ_INT32)(l_current_writer->m_size) )
       {
         opj_event_msg(p_manager, EVT_ERROR, "Stream error while writting JP2 Header box\n");
         l_result = false;

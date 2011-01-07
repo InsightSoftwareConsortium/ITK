@@ -213,8 +213,8 @@ typedef struct opj_poc
   OPJ_PROG_ORDER prg1,prg;
   /** Progression order string*/
   OPJ_CHAR progorder[5];
-  /** Tile number */
-  OPJ_UINT32 tile;
+  /** Tile number. It is signed because j2k.c use -1 as possible error code. */
+  OPJ_INT32 tile;
   /** Start and end values for Tile width and height*/
   OPJ_INT32 tx0,tx1,ty0,ty1;
   /** Start value, initialised in pi_initialise_encode*/

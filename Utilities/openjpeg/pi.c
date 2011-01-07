@@ -309,7 +309,7 @@ static bool pi_next_rpcl(opj_pi_iterator_t * pi) {
     for (compno = 0; compno < pi->numcomps; compno++) {
       comp = &pi->comps[compno];
       for (resno = 0; resno < comp->numresolutions; resno++) {
-        OPJ_UINT32 dx, dy;
+        OPJ_INT32 dx, dy; // comp->dx is signed, so dx,dy must be as well.
         res = &comp->resolutions[resno];
         dx = comp->dx * (1 << (res->pdx + comp->numresolutions - 1 - resno));
         dy = comp->dy * (1 << (res->pdy + comp->numresolutions - 1 - resno));
@@ -393,7 +393,7 @@ static bool pi_next_pcrl(opj_pi_iterator_t * pi) {
     for (compno = 0; compno < pi->numcomps; compno++) {
       comp = &pi->comps[compno];
       for (resno = 0; resno < comp->numresolutions; resno++) {
-        OPJ_UINT32 dx, dy;
+        OPJ_INT32 dx, dy; // comp->dx is signed, so dx,dy must be as well.
         res = &comp->resolutions[resno];
         dx = comp->dx * (1 << (res->pdx + comp->numresolutions - 1 - resno));
         dy = comp->dy * (1 << (res->pdy + comp->numresolutions - 1 - resno));
@@ -477,7 +477,7 @@ static bool pi_next_cprl(opj_pi_iterator_t * pi) {
     pi->dx = 0;
     pi->dy = 0;
     for (resno = 0; resno < comp->numresolutions; resno++) {
-      OPJ_UINT32 dx, dy;
+      OPJ_INT32 dx, dy; // comp->dx is signed, so dx,dy must be as well.
       res = &comp->resolutions[resno];
       dx = comp->dx * (1 << (res->pdx + comp->numresolutions - 1 - resno));
       dy = comp->dy * (1 << (res->pdy + comp->numresolutions - 1 - resno));

@@ -2023,7 +2023,7 @@ bool j2k_write_siz(
     ++l_img_comp;
   }
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_size_len,p_manager) != l_size_len)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_size_len,p_manager) != (OPJ_INT32)l_size_len)
   {
     return false;
   }
@@ -2421,7 +2421,7 @@ bool j2k_write_com(
   l_current_ptr+=2,
   memcpy(  l_current_ptr,l_comment,l_comment_size);
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_total_com_size,p_manager) != l_total_com_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_total_com_size,p_manager) != (OPJ_INT32)l_total_com_size)
   {
     return false;
   }
@@ -2810,7 +2810,7 @@ bool j2k_write_cod(
   }
 
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_code_size,p_manager) != l_code_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_code_size,p_manager) != (OPJ_INT32)l_code_size)
   {
     return false;
   }
@@ -2958,7 +2958,7 @@ bool j2k_write_coc(
   j2k_write_coc_in_memory(p_j2k,p_comp_no,p_j2k->m_specific_param.m_encoder.m_header_tile_data,&l_remaining_size,p_manager);
 
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_coc_size,p_manager) != l_coc_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_coc_size,p_manager) != (OPJ_INT32)l_coc_size)
   {
     return false;
   }
@@ -3535,7 +3535,7 @@ bool j2k_write_qcd(
   }
 
   if
-    (opj_stream_write_data(p_stream, p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_qcd_size,p_manager) != l_qcd_size)
+    (opj_stream_write_data(p_stream, p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_qcd_size,p_manager) != (OPJ_INT32)l_qcd_size)
   {
     return false;
   }
@@ -3619,7 +3619,7 @@ bool j2k_write_qcc(
   j2k_write_qcc_in_memory(p_j2k,p_comp_no,p_j2k->m_specific_param.m_encoder.m_header_tile_data,&l_remaining_size,p_manager);
 
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_qcc_size,p_manager) != l_qcc_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_qcc_size,p_manager) != (OPJ_INT32)l_qcc_size)
   {
     return false;
   }
@@ -3835,7 +3835,7 @@ bool j2k_write_cbd(
     ++l_comp;
   }
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_cbd_size,p_manager) != l_cbd_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_cbd_size,p_manager) != (OPJ_INT32)l_cbd_size)
   {
     return false;
   }
@@ -3999,7 +3999,7 @@ bool j2k_write_mcc_record(
   opj_write_bytes(l_current_data,l_tmcc,3);  /* Tmcci : use MCT defined as number 1 and irreversible array based. */
   l_current_data+=3;
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_mcc_size,p_manager) != l_mcc_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_mcc_size,p_manager) != (OPJ_INT32)l_mcc_size)
   {
     return false;
   }
@@ -4305,7 +4305,7 @@ bool j2k_write_mct_record(
 
   memcpy(l_current_data,p_mct_record->m_data,p_mct_record->m_data_size);
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_mct_size,p_manager) != l_mct_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_mct_size,p_manager) != (OPJ_INT32)l_mct_size)
   {
     return false;
   }
@@ -4628,7 +4628,7 @@ bool j2k_write_mco(
   }
 
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_mco_size,p_manager) != l_mco_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_mco_size,p_manager) != (OPJ_INT32)l_mco_size)
   {
     return false;
   }
@@ -4920,7 +4920,7 @@ bool j2k_write_poc(
   j2k_write_poc_in_memory(p_j2k,p_j2k->m_specific_param.m_encoder.m_header_tile_data,&l_written_size,p_manager);
 
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_poc_size,p_manager) != l_poc_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_poc_size,p_manager) != (OPJ_INT32)l_poc_size)
   {
     return false;
   }
@@ -5229,7 +5229,7 @@ bool j2k_write_rgn(
   ++l_current_data;
 
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_rgn_size,p_manager) != l_rgn_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_rgn_size,p_manager) != (OPJ_INT32)l_rgn_size)
   {
     return false;
   }
@@ -5365,7 +5365,7 @@ bool j2k_write_tlm(
   /* do nothing on the 5 * l_j2k->m_specific_param.m_encoder.m_total_tile_parts remaining data */
 
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_tlm_size,p_manager) != l_tlm_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_header_tile_data,l_tlm_size,p_manager) != (OPJ_INT32)l_tlm_size)
   {
     return false;
   }
@@ -6695,7 +6695,7 @@ bool j2k_write_updated_tlm(
     return false;
   }
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_tlm_sot_offsets_buffer,l_tlm_size,p_manager) != l_tlm_size)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_tlm_sot_offsets_buffer,l_tlm_size,p_manager) != (OPJ_INT32)l_tlm_size)
   {
     return false;
   }
@@ -7763,7 +7763,9 @@ void j2k_setup_decoder(
 }
 
 void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_image_t *image, struct opj_event_mgr * p_manager) {
-  OPJ_UINT32 i, j, tileno, numpocs_tile;
+  OPJ_UINT32 j, numpocs_tile;
+  OPJ_INT32 i;
+  OPJ_INT32 tileno; // must be signed because -1 is a potential error code
   OPJ_INT32 jk;
   opj_cp_t *cp = 00;
   bool l_res;
@@ -7838,7 +7840,6 @@ void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_imag
   */
 
   if (parameters->jpwl_epc_on) {
-    OPJ_INT32 i;
 
     /* set JPWL on */
     cp->epc_on = true;
@@ -7899,7 +7900,7 @@ void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_imag
     l_res = j2k_check_poc_val(parameters->POC,parameters->numpocs, parameters->numresolution, image->numcomps, parameters->tcp_numlayers, p_manager);
     // TODO
   }
-  for (tileno = 0; tileno < cp->tw * cp->th; tileno++) {
+  for (tileno = 0; tileno < (OPJ_INT32)(cp->tw * cp->th); tileno++) {
     opj_tcp_t *tcp = &cp->tcps[tileno];
     tcp->numlayers = parameters->tcp_numlayers;
     for (j = 0; j < tcp->numlayers; j++) {
@@ -7930,7 +7931,7 @@ void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_imag
       /* initialisation of POC */
       tcp->POC = 1;
       // TODO
-      for (i = 0; i < (unsigned int) parameters->numpocs; i++) {
+      for (i = 0; i < parameters->numpocs; i++) {
         if((tileno == parameters->POC[i].tile - 1) || (parameters->POC[i].tile == -1)) {
           opj_poc_t *tcp_poc = &tcp->pocs[numpocs_tile];
           tcp_poc->resno0    = parameters->POC[numpocs_tile].resno0;
@@ -7966,20 +7967,20 @@ void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_imag
       opj_calculate_norms(tcp->mct_norms,image->numcomps,tcp->m_mct_decoding_matrix);
       opj_free(lTmpBuf);
       for
-        (i = 0; i < image->numcomps; i++)
+        (j = 0; j < image->numcomps; j++)
       {
-        opj_tccp_t *tccp = &tcp->tccps[i];
-        tccp->m_dc_level_shift = l_dc_shift[i];
+        opj_tccp_t *tccp = &tcp->tccps[j];
+        tccp->m_dc_level_shift = l_dc_shift[j];
       }
       j2k_setup_mct_encoding(tcp,image);
     }
     else
     {
       for
-        (i = 0; i < image->numcomps; i++)
+        (j = 0; j < image->numcomps; j++)
       {
-        opj_tccp_t *tccp = &tcp->tccps[i];
-        opj_image_comp_t * l_comp = &(image->comps[i]);
+        opj_tccp_t *tccp = &tcp->tccps[j];
+        opj_image_comp_t * l_comp = &(image->comps[j]);
         if
           (! l_comp->sgnd)
         {
@@ -7989,7 +7990,7 @@ void j2k_setup_encoder(opj_j2k_t *p_j2k, opj_cparameters_t *parameters, opj_imag
     }
 
 
-    for (i = 0; i < image->numcomps; i++) {
+    for (i = 0; i < (OPJ_INT32)(image->numcomps); i++) {
       opj_tccp_t *tccp = &tcp->tccps[i];
       tccp->csty = parameters->csty & 0x01;  /* 0 => one precinct || 1 => custom precinct  */
       tccp->numresolutions = parameters->numresolution;
@@ -8384,7 +8385,7 @@ bool j2k_post_write_tile (
   l_nb_bytes_written = l_tile_size - l_available_data;
 
   if
-    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_encoded_tile_data,l_nb_bytes_written,p_manager) != l_nb_bytes_written)
+    (opj_stream_write_data(p_stream,p_j2k->m_specific_param.m_encoder.m_encoded_tile_data,l_nb_bytes_written,p_manager) != (OPJ_INT32)l_nb_bytes_written)
   {
     return false;
   }
@@ -8476,7 +8477,7 @@ bool j2k_read_tile_header (
 
       }
       if
-        (opj_stream_read_data(p_stream,p_j2k->m_specific_param.m_decoder.m_header_data,l_marker_size,p_manager) != l_marker_size)
+        (opj_stream_read_data(p_stream,p_j2k->m_specific_param.m_decoder.m_header_data,l_marker_size,p_manager) != (OPJ_INT32)l_marker_size)
       {
         opj_event_msg(p_manager, EVT_ERROR, "Stream too short\n");
         return false;
@@ -8815,7 +8816,7 @@ bool j2k_read_header_procedure(
       p_j2k->m_specific_param.m_decoder.m_header_data_size = l_marker_size;
     }
     if
-      (opj_stream_read_data(p_stream,p_j2k->m_specific_param.m_decoder.m_header_data,l_marker_size,p_manager) != l_marker_size)
+      (opj_stream_read_data(p_stream,p_j2k->m_specific_param.m_decoder.m_header_data,l_marker_size,p_manager) != (OPJ_INT32)l_marker_size)
     {
       opj_event_msg(p_manager, EVT_ERROR, "Stream too short\n");
       return false;
@@ -9329,7 +9330,7 @@ bool j2k_set_decode_area(
 }
 
 void j2k_dump_image(FILE *fd, opj_image_t * img) {
-  int compno;
+  OPJ_UINT32 compno;
   fprintf(fd, "image {\n");
   fprintf(fd, "  x0=%d, y0=%d, x1=%d, y1=%d\n", img->x0, img->y0, img->x1, img->y1);
   fprintf(fd, "  numcomps=%d\n", img->numcomps);
