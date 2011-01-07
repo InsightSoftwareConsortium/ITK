@@ -371,6 +371,8 @@ class vnl_vector
   void assert_size(unsigned sz) const {
 #ifndef NDEBUG
     assert_size_internal(sz);
+#else
+    (void)sz;
 #endif
   }
 
