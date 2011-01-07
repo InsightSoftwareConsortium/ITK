@@ -33,7 +33,8 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   m_NormalizeAcrossScale = false;
 
-  const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+  // note: this is not constant to suppress a warning
+  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
   for ( unsigned int i = 0; i < numberOfSmoothingFilters; i++ )
     {
@@ -176,7 +177,8 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   const double weight =
     1.0 / ( ImageDimension * ( ImageDimension * ( ImageDimension + 1 ) / 2 ) );
 
-  const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+  // note: this is not constant to suppress a warning
+  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
   for ( unsigned int i = 0; i < numberOfSmoothingFilters; i++ )
     {
