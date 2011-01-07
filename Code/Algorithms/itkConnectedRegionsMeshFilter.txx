@@ -373,7 +373,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
           cell != inCells->End();
           ++cell, ++cellId )
       {
-      if ( m_Visited[cellId] == static_cast< IdentifierType >( largestRegionId ) )
+      if ( m_Visited[cellId] == static_cast< OffsetValueType >( largestRegionId ) )
         {
         cell->Value()->MakeCopy(cellCopy);
         outCells->InsertElement( cellId, cellCopy.GetPointer() );
@@ -434,7 +434,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
       cellId = *i;
       if ( m_Visited[cellId] < 0 )
         {
-        m_Visited[cellId] = m_RegionNumber;
+        m_Visited[cellId] = static_cast< OffsetValueType >( m_RegionNumber );
         m_NumberOfCellsInRegion++;
 
         //now get the cell points, and then cells using these points
