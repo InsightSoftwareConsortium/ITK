@@ -111,3 +111,4 @@ itkNormalVariateGenerator.h InternalVariables Disable
 itkStatisticsTypesTest.cxx Typedefs Disable
 itkLabelStatisticsImageFilter.h Indent Disable
 itkIntTypes.h Typedefs Disable
+itkv3Rigid3DTransform.h Namespace Disable

@@ -361,6 +361,7 @@ add_test(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS2} itkRGBInterpolateIm
 add_test(itkRGBToVectorImageAdaptorTest ${COMMON_TESTS2} itkRGBToVectorImageAdaptorTest)
 add_test(itkRigid2DTransformTest ${COMMON_TESTS2} itkRigid2DTransformTest)
 add_test(itkRigid3DTransformTest ${COMMON_TESTS2} itkRigid3DTransformTest)
+add_test(itkv3Rigid3DTransformTest ${COMMON_TESTS2} itkv3Rigid3DTransformTest)
 add_test(itkRigid3DPerspectiveTransformTest ${COMMON_TESTS2} itkRigid3DPerspectiveTransformTest)
 add_test(itkScalarToRGBPixelFunctorTest ${COMMON_TESTS2} itkScalarToRGBPixelFunctorTest)
 add_test(itkScatterMatrixImageFunctionTest ${COMMON_TESTS2} itkScatterMatrixImageFunctionTest)
@@ -664,6 +665,7 @@ itkRGBInterpolateImageFunctionTest.cxx
 itkRGBToVectorImageAdaptorTest.cxx
 itkRigid2DTransformTest.cxx
 itkRigid3DTransformTest.cxx
+itkv3Rigid3DTransformTest.cxx
 itkRigid3DPerspectiveTransformTest.cxx
 itkScalarToRGBPixelFunctorTest.cxx
 itkScatterMatrixImageFunctionTest.cxx
