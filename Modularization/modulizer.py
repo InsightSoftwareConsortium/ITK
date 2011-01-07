@@ -196,8 +196,8 @@ for  moduleName in moduleList:
        for cxxf in cxxFiles:
             cxxFileList = cxxFileList+cxxf.split('/')[-1]+'\n'
        filepath = HeadOfModularITKTree+'/'+moduleName+'/test/CMakeLists.txt'
+       o = open(filepath,'w')
        if not os.path.isfile(filepath):
-           o = open(filepath,'w')
            line = 'create_test_sourcelist(Tests {0}-tests.cxx\n{1})\n\n'.format(moduleName, cxxFileList)
            o.write(line)
 
