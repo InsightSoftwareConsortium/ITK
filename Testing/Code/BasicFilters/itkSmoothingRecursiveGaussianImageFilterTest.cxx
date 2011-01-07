@@ -26,6 +26,118 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkFilterWatcher.h"
 
+namespace
+{
+
+int InPlaceTest( void )
+{
+// Define the dimension of the images
+  const unsigned int myDimension = 2;
+
+  // Declare the types of the images
+  typedef itk::Image<float, myDimension>           myImageType;
+
+  // Declare the type of the index to access images
+  typedef itk::Index<myDimension>             myIndexType;
+
+  // Declare the type of the size
+  typedef itk::Size<myDimension>              mySizeType;
+
+  // Declare the type of the Region
+  typedef itk::ImageRegion<myDimension>        myRegionType;
+
+
+
+  // Define their size, and start index
+  mySizeType size;
+  size[0] = 11;
+  size[1] = 11;
+
+  myIndexType start;
+  start.Fill(0);
+
+  myRegionType region;
+  region.SetIndex( start );
+  region.SetSize( size );
+
+  // Create the image
+  myImageType::Pointer inputImage  = myImageType::New();
+
+  // Initialize Image
+  inputImage->SetRegions( region );
+  inputImage->Allocate();
+
+  inputImage->FillBuffer( 0.0 );
+
+
+  myIndexType index;
+  index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
+  index[1] = ( size[1] - 1 ) / 2;  // the middle pixel
+
+  inputImage->SetPixel( index, 1.0 );
+
+  typedef itk::SmoothingRecursiveGaussianImageFilter<myImageType >  myFilterType;
+
+
+  // Create a  Filter
+  myFilterType::Pointer filter = myFilterType::New();
+  filter->SetInput( inputImage );
+  filter->SetSigma( 1.0 );
+
+  filter->Update();
+
+  myImageType::Pointer outputImage1 = filter->GetOutput();
+  outputImage1->DisconnectPipeline();
+
+
+  filter->InPlaceOn();
+  filter->Update();
+
+  myImageType::Pointer outputImage2 = filter->GetOutput();
+  outputImage2->DisconnectPipeline();
+
+  typedef itk::ImageRegionConstIterator< myImageType > IteratorType;
+  IteratorType  it1( outputImage1, outputImage1->GetBufferedRegion() );
+  IteratorType  it2( outputImage2, outputImage2->GetBufferedRegion() );
+
+
+  // check value of the in-place and not in-place executions are the same
+  it1.GoToBegin();
+  it2.GoToBegin();
+  while( ! it1.IsAtEnd() )
+    {
+    if ( it1.Get() - it2.Get() > itk::NumericTraits<double>::epsilon() )
+      {
+      std::cout << "ERROR at " << it1.GetIndex() << " " << it1.Get() << " "
+                << it2.Get() << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << it1.Get() << std::endl;
+    ++it1;
+    ++it2;
+    }
+
+  std::cout << "CanRunInPlace: " << filter->CanRunInPlace() << std::endl;
+  std::cout << "input buffer region: " << inputImage->GetBufferedRegion() << std::endl;
+  std::cout << "output buffer region: " << outputImage2->GetBufferedRegion() << std::endl;
+
+  if ( inputImage->GetBufferedRegion().GetNumberOfPixels() != 0 )
+    {
+    std::cerr << "Failure for filter to run in-place!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if ( !filter->CanRunInPlace() )
+    {
+    std::cerr << "expected CanRunInPlace to be true!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS;
+}
+
+}
+
 int itkSmoothingRecursiveGaussianImageFilterTest(int, char* [] )
 {
 
@@ -152,6 +264,14 @@ int itkSmoothingRecursiveGaussianImageFilterTest(int, char* [] )
     std::cout << itg.Get() << std::endl;
     ++itg;
   }
+
+
+
+  if ( InPlaceTest() == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+
 
 
   // All objects should be automatically destroyed at this point
