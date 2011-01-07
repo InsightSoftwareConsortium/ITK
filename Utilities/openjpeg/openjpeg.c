@@ -117,9 +117,9 @@ void set_default_event_handler(opj_event_mgr_t * p_manager)
   p_manager->warning_handler = opj_default_callback;
 }
 
-OPJ_UINT32 opj_read_from_file (void * p_buffer, OPJ_UINT32 p_nb_bytes, FILE * p_file)
+OPJ_INT32 opj_read_from_file (void * p_buffer, OPJ_UINT32 p_nb_bytes, FILE * p_file)
 {
-  OPJ_UINT32 l_nb_read = fread(p_buffer,1,p_nb_bytes,p_file);
+  OPJ_INT32 l_nb_read = fread(p_buffer,1,p_nb_bytes,p_file);
   return l_nb_read ? l_nb_read : -1;
 }
 

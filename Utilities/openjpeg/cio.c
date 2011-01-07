@@ -368,11 +368,11 @@ OPJ_API void OPJ_CALLCONV opj_stream_set_user_data(opj_stream_t* p_stream, void 
  * @param    p_event_mgr  the user event manager to be notified of special events.
  * @return    the number of bytes read, or -1 if an error occured or if the stream is at the end.
  */
-OPJ_UINT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_buffer, OPJ_UINT32 p_size, opj_event_mgr_t * p_event_mgr)
+OPJ_INT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_buffer, OPJ_UINT32 p_size, opj_event_mgr_t * p_event_mgr)
 {
-  OPJ_UINT32 l_read_nb_bytes = 0;
+  OPJ_INT32 l_read_nb_bytes = 0;
   if
-    (p_stream->m_bytes_in_buffer >= p_size)
+    (p_stream->m_bytes_in_buffer >= (OPJ_INT32)p_size)
   {
     memcpy(p_buffer,p_stream->m_current_data,p_size);
     p_stream->m_current_data += p_size;
@@ -435,7 +435,7 @@ OPJ_UINT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_bu
         return l_read_nb_bytes ? l_read_nb_bytes : -1;
       }
       else if
-        (p_stream->m_bytes_in_buffer < p_size)
+        (p_stream->m_bytes_in_buffer < (OPJ_INT32)p_size)
       {
         // not enough data
         l_read_nb_bytes += p_stream->m_bytes_in_buffer;
@@ -471,7 +471,7 @@ OPJ_UINT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_bu
         return l_read_nb_bytes ? l_read_nb_bytes : -1;
       }
       else if
-        (p_stream->m_bytes_in_buffer < p_size)
+        (p_stream->m_bytes_in_buffer < (OPJ_INT32)p_size)
       {
         // not enough data
         l_read_nb_bytes += p_stream->m_bytes_in_buffer;
@@ -502,7 +502,7 @@ OPJ_UINT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_bu
  * @param    p_event_mgr  the user event manager to be notified of special events.
  * @return    the number of bytes writtent, or -1 if an error occured.
  */
-OPJ_UINT32 opj_stream_write_data (opj_stream_private_t * p_stream,const OPJ_BYTE * p_buffer,OPJ_UINT32 p_size, opj_event_mgr_t * p_event_mgr)
+OPJ_INT32 opj_stream_write_data (opj_stream_private_t * p_stream,const OPJ_BYTE * p_buffer,OPJ_UINT32 p_size, opj_event_mgr_t * p_event_mgr)
 {
   OPJ_UINT32 l_remaining_bytes = 0;
   OPJ_UINT32 l_write_nb_bytes = 0;
@@ -559,7 +559,8 @@ OPJ_UINT32 opj_stream_write_data (opj_stream_private_t * p_stream,const OPJ_BYTE
 bool opj_stream_flush (opj_stream_private_t * p_stream, opj_event_mgr_t * p_event_mgr)
 {
   // the number of bytes written on the media.
-  OPJ_UINT32 l_current_write_nb_bytes = 0;
+  // must be signed becuse "-1" is used to indicate an error in return values.
+  OPJ_INT32 l_current_write_nb_bytes = 0;
   p_stream->m_current_data = p_stream->m_stored_data;
 
   while
@@ -594,7 +595,7 @@ OPJ_SIZE_T opj_stream_read_skip (opj_stream_private_t * p_stream, OPJ_SIZE_T p_s
   OPJ_SIZE_T l_current_skip_nb_bytes = 0;
 
   if
-    (p_stream->m_bytes_in_buffer >= p_size)
+    (p_stream->m_bytes_in_buffer >= (OPJ_INT32)p_size)
   {
     p_stream->m_current_data += p_size;
     p_stream->m_bytes_in_buffer -= p_size;

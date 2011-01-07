@@ -197,6 +197,7 @@ bool opj_lupDecompose(OPJ_FLOAT32 * matrix,OPJ_UINT32 * permutations, OPJ_FLOAT3
 void opj_lupSolve (OPJ_FLOAT32 * pResult, OPJ_FLOAT32 * pMatrix, OPJ_FLOAT32 * pVector, OPJ_UINT32* pPermutations, OPJ_UINT32 n,OPJ_FLOAT32 * p_intermediate_data)
 {
   OPJ_UINT32 i,j;
+  OPJ_INT32 k;
   OPJ_FLOAT32 sum;
   OPJ_FLOAT32 u;
     OPJ_UINT32 lStride = n+1;
@@ -237,19 +238,19 @@ void opj_lupSolve (OPJ_FLOAT32 * pResult, OPJ_FLOAT32 * pMatrix, OPJ_FLOAT32 * p
   lDestPtr = pResult + n;
 
   for
-    (i = n - 1; i != -1 ; --i)
+    (k = n - 1; k != -1 ; --k)
   {
     sum = 0.0;
     lTmpMatrix = lLineMatrix;
         u = *(lTmpMatrix++);
     lCurrentPtr = lDestPtr--;
         for
-      (j = i + 1; j < n; ++j)
+      (j = k + 1; j < n; ++j)
     {
-      // sum += matrix[i][j] * x[j]
+      // sum += matrix[k][j] * x[j]
           sum += (*(lTmpMatrix++)) * (*(lCurrentPtr++));
     }
-    //x[i] = (y[i] - sum) / u;
+    //x[k] = (y[k] - sum) / u;
         *(lBeginPtr--) = (*(lGeneratedData--) - sum) / u;
     lLineMatrix -= lStride;
   }

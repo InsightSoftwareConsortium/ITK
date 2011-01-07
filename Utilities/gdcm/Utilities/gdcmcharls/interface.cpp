@@ -7,6 +7,7 @@
 #include "header.h"
 #include <limits>
 
+#define gdcmNotUsed(x)
 
 JLS_ERROR CheckInput(const void* pdataCompressed, size_t cbyteCompressed, const void* pdataUncompressed, size_t cbyteUncompressed, const JlsParamaters* pparams)
 {
@@ -103,7 +104,7 @@ CHARLS_IMEXPORT JLS_ERROR JpegLsEncode(void* pdataCompressed, size_t cbyteBuffer
   return OK;
 }
 
-CHARLS_IMEXPORT JLS_ERROR JpegLsDecode(void* pdataUncompressed, size_t cbyteUncompressed, const void* pdataCompressed, size_t cbyteCompressed, JlsParamaters* info)
+CHARLS_IMEXPORT JLS_ERROR JpegLsDecode(void* pdataUncompressed, size_t gdcmNotUsed(cbyteUncompressed), const void* pdataCompressed, size_t cbyteCompressed, JlsParamaters* info)
 {
   LONG cbyteCompressed32Bits = (LONG)cbyteCompressed;
   if (static_cast<LONG>(cbyteCompressed) >= std::numeric_limits<LONG>::max()){

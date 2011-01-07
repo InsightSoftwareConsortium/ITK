@@ -114,9 +114,10 @@ static bool t2_decode_packet(
 
 static void t2_putcommacode(opj_bio_t *bio, OPJ_UINT32 n) {
   while
-    (--n != -1)
+    (n != 0)
   {
     bio_write(bio, 1, 1);
+    n--;
   }
   bio_write(bio, 0, 1);
 }

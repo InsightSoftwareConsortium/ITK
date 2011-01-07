@@ -903,7 +903,7 @@ static void t1_encode_cblk(
       pass->term = 1;
     } else {
       if (((bpno < ((OPJ_INT32) (cblk->numbps) - 4) && (passtype > 0))
-        || ((bpno == (cblk->numbps - 4)) && (passtype == 2))) && (cblksty & J2K_CCP_CBLKSTY_LAZY)) {
+        || ((bpno == (OPJ_INT32)(cblk->numbps - 4)) && (passtype == 2))) && (cblksty & J2K_CCP_CBLKSTY_LAZY)) {
         if (type == T1_TYPE_RAW) {
           mqc_flush(mqc);
           correction = 1;
