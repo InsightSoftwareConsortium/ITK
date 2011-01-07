@@ -92,7 +92,7 @@ int main( int argc, char *argv[] )
   typedef itk::Image<RGBPixelType, 2>    RGBImageType;
   typedef itk::Vector<float, 3>          VectorPixelType;
   typedef itk::Image<VectorPixelType, 2> VectorImageType;
-  typedef itk::Image<unsigned long, 2>   LabeledImageType;
+  typedef itk::Image< itk::IdentifierType, 2>   LabeledImageType;
   typedef itk::Image<float, 2>           ScalarImageType;
   // Software Guide : EndCodeSnippet
 

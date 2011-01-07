@@ -123,7 +123,7 @@ int itkTriangleCellTest(int, char* [] )
   /**
    * List the points that the polygon will use from the mesh.
    */
-  unsigned long polygon1Points1[3] = {2,0,1};
+  MeshType::PointIdentifier polygon1Points1[3] = {2,0,1};
 
   /**
    * Assign the points to the tetrahedron through their identifiers.

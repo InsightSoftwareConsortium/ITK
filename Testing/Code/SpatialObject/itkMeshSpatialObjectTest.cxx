@@ -42,7 +42,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   MeshType::CoordRepType testPointCoords[4][3]
     = { {0,0,0}, {9,0,0}, {9,9,0}, {0,0,9} };
 
-  unsigned long tetraPoints[4] = {0,1,2,3};
+  MeshType::PointIdentifier tetraPoints[4] = {0,1,2,3};
 
   int i;
   for(i=0; i < 4 ; ++i)
@@ -146,14 +146,14 @@ int itkMeshSpatialObjectTest(int, char * [] )
   MeshType::CoordRepType testTrianglePointCoords[4][3]
     = { {50,50,64}, {50,100,64}, {100,50,64} , {100,100,64}};
 
-  unsigned long trianglePoint1[3] = {0,1,2};
+  MeshType::PointIdentifier trianglePoint1[3] = {0,1,2};
 
   for(i=0; i < 4 ; ++i)
     {
     meshTriangle->SetPoint(i, PointType(testTrianglePointCoords[i]));
     }
 
-  unsigned long trianglePoint2[] = {1,2,3};
+  MeshType::PointIdentifier trianglePoint2[] = {1,2,3};
 
   meshTriangle->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
   CellAutoPointer testCell3;

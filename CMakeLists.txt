@@ -196,6 +196,11 @@ mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
 option(ITK_USE_FLAT_DIRECTORY_INSTALL  "When ON, ITK will install all the header files in a single directory. This reduces the number of directories that must be searched for headers in projects based on ITK" OFF)
 mark_as_advanced(ITK_USE_FLAT_DIRECTORY_INSTALL)
 
+if(NOT ITKV3_COMPATIBILITY)
+  option(ITK_USE_64BITS_IDS "When ON, ITK will use 64 bits integers to index pixels. This is needed for managing images larger than 4Gb in some platforms." OFF)
+  mark_as_advanced(ITK_USE_64BITS_IDS)
+endif()
+
 set(ITK_VERSIONED_INSTALL_DIRECTORY "InsightToolkit-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
 
 if(NOT ITK_INSTALL_BIN_DIR)

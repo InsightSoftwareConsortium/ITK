@@ -131,7 +131,7 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef std::vector< unsigned long > SizesInPixelsType;
+  typedef std::vector< itk::SizeValueType > SizesInPixelsType;
 
   const SizesInPixelsType &  sizesInPixels = relabeler->GetSizeOfObjectsInPixels();
 

@@ -31,7 +31,7 @@ inline void println(const char *s) { std::cout << s << std::endl; }
 int itkWatershedImageFilterTest(int, char* [] )
 {
   typedef itk::Image<float, 2> ImageType2D;
-  typedef itk::Image<unsigned long, 2> LongImageType2D;
+  typedef itk::Image<itk::IdentifierType, 2> LongImageType2D;
 
   println("Creating some images");
   itk::ImageRegion<2> Region2D;
