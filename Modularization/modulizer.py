@@ -76,7 +76,7 @@ if os.path.isdir(HeadOfModularITKTree):
 
 
 # get the supporting modules and cmake packaing files
-cmd ='git clone git@www.kitware.com:itk/modularITKSupport.git  '+HeadOfModularITKTree
+cmd ='git clone git://www.kitware.com/itk/modularITKSupport.git  '+HeadOfModularITKTree
 os.system(cmd)
 
 
