@@ -65,7 +65,7 @@ private:
 
 }
 
-int itkObjectToObjectMetricTest(int argc,char* argv[])
+int itkObjectToObjectMetricTest(int ,char * [])
 {
   typedef itk::Image< unsigned char, 3 > ImageType;
   typedef itkObjectToObjectMetricTestHelpers::ObjectToObjectMetricSurrogate<
