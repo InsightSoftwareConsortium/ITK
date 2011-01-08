@@ -67,7 +67,7 @@ public:
 
     for ( unsigned int i = 0; i < B.size(); i++ )
       {
-      sum += static_cast< TOutput >( B[i] );
+      sum += static_cast< AccumulatorType >( B[i] );
       }
     return static_cast< TOutput >( sum );
   }
