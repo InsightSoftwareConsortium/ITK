@@ -55,7 +55,7 @@ if os.path.isdir(HeadOfModularITKTree+'/'+moduleName):
      cxxFileList='';
      for cxxf in cxxFiles:
           filename=cxxf.split('/')[-1]
-          if filename[:3] !='vnl':
+          if filename[:3] !='vnl' and filename != 'itkWin32OutputWindow.cxx':
              cxxFileList = cxxFileList+filename+'\n'
 
      o = open( HeadOfModularITKTree+'/'+moduleName+'/src/CMakeLists.txt','w')
