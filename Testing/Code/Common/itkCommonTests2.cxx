@@ -81,6 +81,7 @@ REGISTER_TEST(itkRGBInterpolateImageFunctionTest );
 REGISTER_TEST(itkRGBToVectorImageAdaptorTest );
 REGISTER_TEST(itkRigid2DTransformTest );
 REGISTER_TEST(itkRigid3DTransformTest );
+REGISTER_TEST(itkv3Rigid3DTransformTest );
 REGISTER_TEST(itkRigid3DPerspectiveTransformTest );
 REGISTER_TEST(itkScalarToRGBPixelFunctorTest );
 REGISTER_TEST(itkScatterMatrixImageFunctionTest );

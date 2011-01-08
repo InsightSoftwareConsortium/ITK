@@ -56,6 +56,11 @@ public:
   typedef SmartPointer< Self >                           Pointer;
   typedef SmartPointer< const Self >                     ConstPointer;
 
+#ifdef ITKV3_COMPATIBILITY
+  /** Run-time type information (and related methods).   */
+  itkNewMacro(Self);
+#endif
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(Rigid3DTransform, MatrixOffsetTransformBase);
 
@@ -141,6 +146,21 @@ public:
    * true, and postcomposed otherwise.
    */
   void Translate(const OffsetType & offset, bool pre = false);
+
+#ifdef ITKV3_COMPATIBILITY
+/** Get an inverse of this transform. */
+  bool GetInverse(Self *inverse) const
+  {
+  return this->Superclass::GetInverse(inverse);
+  }
+
+/** Return an inverse of this transform. */
+virtual InverseTransformBasePointer GetInverseTransform() const
+  {
+  Pointer inv = New();
+  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
+  }
+#endif
 
   /**
    * Back transform by an affine transformation

@@ -66,6 +66,7 @@
 #cmakedefine CMAKE_NO_STD_NAMESPACE
 #cmakedefine CMAKE_NO_ANSI_FOR_SCOPE
 #cmakedefine ITK_CPP_FUNCTION
+#cmakedefine ITKV3_COMPATIBILITY
 #cmakedefine ITK_LEGACY_REMOVE
 #cmakedefine ITK_LEGACY_SILENT
 #cmakedefine ITK_USE_CONCEPT_CHECKING

@@ -161,9 +161,10 @@ endif(NOT ITK_NO_LIBRARY_VERSION)
 
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
+option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
 option(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
 option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
-mark_as_advanced(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT)
+mark_as_advanced(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT ITK_V3_COMPATIBILITY)
 
 #-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
