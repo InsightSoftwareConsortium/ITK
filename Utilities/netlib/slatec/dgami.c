@@ -28,10 +28,10 @@ doublereal dgami_(doublereal *a, doublereal *x)
     double log(doublereal), exp(doublereal);
 
     /* Local variables */
-    extern doublereal dlngam_(doublereal *), dgamit_(doublereal *, doublereal 
+    extern doublereal dlngam_(doublereal *), dgamit_(doublereal *, doublereal
             *);
     doublereal factor;
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  DGAMI */

@@ -33,7 +33,7 @@ doublereal dgamr_(doublereal *x)
     doublereal sgngx;
 //    extern /* Subroutine */ int xsetf_(integer *);
     extern doublereal dgamma_(doublereal *);
-    extern /* Subroutine */ int dlgams_(doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlgams_(doublereal *, doublereal *,
             doublereal *), xerclr_(void);
 
 /* ***BEGIN PROLOGUE  DGAMR */

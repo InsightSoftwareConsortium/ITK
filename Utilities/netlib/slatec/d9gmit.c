@@ -24,7 +24,7 @@ static integer c__2 = 2;
 static doublereal c_b19 = 1.;
 
 /* DECK D9GMIT */
-doublereal d9gmit_(doublereal *a, doublereal *x, doublereal *algap1, 
+doublereal d9gmit_(doublereal *a, doublereal *x, doublereal *algap1,
         doublereal *sgngam, doublereal *alx)
 {
     /* Initialized data */
@@ -47,7 +47,7 @@ doublereal d9gmit_(doublereal *a, doublereal *x, doublereal *algap1,
     /* static */ doublereal bot, eps;
     doublereal alg2, algs = 0.0, aeps, sgng2;
     extern doublereal d1mach_(integer *), dlngam_(doublereal *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  D9GMIT */

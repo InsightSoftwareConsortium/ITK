@@ -13,7 +13,7 @@
 #endif
 
 #ifdef KR_headers
-void sig_die(s, kill) register char *s; int kill;
+void sig_die(s, killsignal) register char *s; int killsignal;
 #else
 #include "stdlib.h"
 #ifdef __cplusplus
@@ -23,13 +23,13 @@ extern "C" {
 extern "C" {
 #endif
 
-void sig_die(register char *s, int kill)
+void sig_die(register char *s, int killsignal)
 #endif
 {
         /* print error message, then clear buffers */
         fprintf(stderr, "%s\n", s);
 
-        if(kill)
+        if(killsignal)
                 {
                 abort();
                 }

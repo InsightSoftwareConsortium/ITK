@@ -5824,7 +5824,7 @@ L1000:
     double sqrt(doublereal);
 
     /* Local variables */
-    doublereal p, q, r__, s, sgnd, stpc, stpf, stpq, gamma, theta;
+    doublereal p, q, r__, s, sgnd, stpc, stpf, stpq, gammavalue, theta;
 
 /*<       logical brackt >*/
 /*<       double precision stx,fx,dx,sty,fy,dy,stp,fp,dp,stpmin,stpmax >*/
@@ -5922,7 +5922,7 @@ L1000:
 /*     ********** */
 /*<       double precision zero,p66,two,three >*/
 /*<       parameter(zero=0.0d0,p66=0.66d0,two=2.0d0,three=3.0d0) >*/
-/*<       double precision gamma,p,q,r,s,sgnd,stpc,stpf,stpq,theta >*/
+/*<       double precision gammavalue,p,q,r,s,sgnd,stpc,stpf,stpq,theta >*/
 /*<       sgnd = dp*(dx/abs(dx)) >*/
     sgnd = *dp * (*dx / abs(*dx));
 /*     First case: A higher function value. The minimum is bracketed. */
@@ -5938,18 +5938,18 @@ L1000:
         d__1 = abs(theta), d__2 = abs(*dx), d__1 = max(d__1,d__2), d__2 = abs(
                 *dp);
         s = max(d__1,d__2);
-/*<          gamma = s*sqrt((theta/s)**2 - (dx/s)*(dp/s)) >*/
+/*<          gammavalue = s*sqrt((theta/s)**2 - (dx/s)*(dp/s)) >*/
 /* Computing 2nd power */
         d__1 = theta / s;
-        gamma = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
-/*<          if (stp .lt. stx) gamma = -gamma >*/
+        gammavalue = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
+/*<          if (stp .lt. stx) gammavalue = -gammavalue >*/
         if (*stp < *stx) {
-            gamma = -gamma;
+            gammavalue = -gammavalue;
         }
-/*<          p = (gamma - dx) + theta >*/
-        p = gamma - *dx + theta;
-/*<          q = ((gamma - dx) + gamma) + dp >*/
-        q = gamma - *dx + gamma + *dp;
+/*<          p = (gammavalue - dx) + theta >*/
+        p = gammavalue - *dx + theta;
+/*<          q = ((gammavalue - dx) + gammavalue) + dp >*/
+        q = gammavalue - *dx + gammavalue + *dp;
 /*<          r = p/q >*/
         r__ = p / q;
 /*<          stpc = stx + r*(stp - stx) >*/
@@ -5983,18 +5983,18 @@ L1000:
         d__1 = abs(theta), d__2 = abs(*dx), d__1 = max(d__1,d__2), d__2 = abs(
                 *dp);
         s = max(d__1,d__2);
-/*<          gamma = s*sqrt((theta/s)**2 - (dx/s)*(dp/s)) >*/
+/*<          gammavalue = s*sqrt((theta/s)**2 - (dx/s)*(dp/s)) >*/
 /* Computing 2nd power */
         d__1 = theta / s;
-        gamma = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
-/*<          if (stp .gt. stx) gamma = -gamma >*/
+        gammavalue = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
+/*<          if (stp .gt. stx) gammavalue = -gammavalue >*/
         if (*stp > *stx) {
-            gamma = -gamma;
+            gammavalue = -gammavalue;
         }
-/*<          p = (gamma - dp) + theta >*/
-        p = gamma - *dp + theta;
-/*<          q = ((gamma - dp) + gamma) + dx >*/
-        q = gamma - *dp + gamma + *dx;
+/*<          p = (gammavalue - dp) + theta >*/
+        p = gammavalue - *dp + theta;
+/*<          q = ((gammavalue - dp) + gammavalue) + dx >*/
+        q = gammavalue - *dp + gammavalue + *dx;
 /*<          r = p/q >*/
         r__ = p / q;
 /*<          stpc = stp + r*(stx - stp) >*/
@@ -6029,26 +6029,26 @@ L1000:
         d__1 = abs(theta), d__2 = abs(*dx), d__1 = max(d__1,d__2), d__2 = abs(
                 *dp);
         s = max(d__1,d__2);
-/*        The case gamma = 0 only arises if the cubic does not tend */
+/*        The case gammavalue = 0 only arises if the cubic does not tend */
 /*        to infinity in the direction of the step. */
-/*<          gamma = s*sqrt(max(zero,(theta/s)**2-(dx/s)*(dp/s))) >*/
+/*<          gammavalue = s*sqrt(max(zero,(theta/s)**2-(dx/s)*(dp/s))) >*/
 /* Computing MAX */
 /* Computing 2nd power */
         d__3 = theta / s;
         d__1 = 0., d__2 = d__3 * d__3 - *dx / s * (*dp / s);
-        gamma = s * sqrt((max(d__1,d__2)));
-/*<          if (stp .gt. stx) gamma = -gamma >*/
+        gammavalue = s * sqrt((max(d__1,d__2)));
+/*<          if (stp .gt. stx) gammavalue = -gammavalue >*/
         if (*stp > *stx) {
-            gamma = -gamma;
+            gammavalue = -gammavalue;
         }
-/*<          p = (gamma - dp) + theta >*/
-        p = gamma - *dp + theta;
-/*<          q = (gamma + (dx - dp)) + gamma >*/
-        q = gamma + (*dx - *dp) + gamma;
+/*<          p = (gammavalue - dp) + theta >*/
+        p = gammavalue - *dp + theta;
+/*<          q = (gammavalue + (dx - dp)) + gammavalue >*/
+        q = gammavalue + (*dx - *dp) + gammavalue;
 /*<          r = p/q >*/
         r__ = p / q;
-/*<          if (r .lt. zero .and. gamma .ne. zero) then >*/
-        if (r__ < 0. && gamma != 0.) {
+/*<          if (r .lt. zero .and. gammavalue .ne. zero) then >*/
+        if (r__ < 0. && gammavalue != 0.) {
 /*<             stpc = stp + r*(stx - stp) >*/
             stpc = *stp + r__ * (*stx - *stp);
 /*<          else if (stp .gt. stx) then >*/
@@ -6130,18 +6130,18 @@ L1000:
             d__1 = abs(theta), d__2 = abs(*dy), d__1 = max(d__1,d__2), d__2 = 
                     abs(*dp);
             s = max(d__1,d__2);
-/*<             gamma = s*sqrt((theta/s)**2 - (dy/s)*(dp/s)) >*/
+/*<             gammavalue = s*sqrt((theta/s)**2 - (dy/s)*(dp/s)) >*/
 /* Computing 2nd power */
             d__1 = theta / s;
-            gamma = s * sqrt(d__1 * d__1 - *dy / s * (*dp / s));
-/*<             if (stp .gt. sty) gamma = -gamma >*/
+            gammavalue = s * sqrt(d__1 * d__1 - *dy / s * (*dp / s));
+/*<             if (stp .gt. sty) gammavalue = -gammavalue >*/
             if (*stp > *sty) {
-                gamma = -gamma;
+                gammavalue = -gammavalue;
             }
-/*<             p = (gamma - dp) + theta >*/
-            p = gamma - *dp + theta;
-/*<             q = ((gamma - dp) + gamma) + dy >*/
-            q = gamma - *dp + gamma + *dy;
+/*<             p = (gammavalue - dp) + theta >*/
+            p = gammavalue - *dp + theta;
+/*<             q = ((gammavalue - dp) + gammavalue) + dy >*/
+            q = gammavalue - *dp + gammavalue + *dy;
 /*<             r = p/q >*/
             r__ = p / q;
 /*<             stpc = stp + r*(sty - stp) >*/

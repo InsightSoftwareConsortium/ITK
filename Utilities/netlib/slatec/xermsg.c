@@ -8,8 +8,8 @@
 /* Table of constant values */
 
 /* DECK XERMSG */
-/* Subroutine */ int xermsg_(char *librar, char *subrou, char *messg, integer 
-        *nerr, integer *level, ftnlen librar_len, ftnlen subrou_len, ftnlen 
+/* Subroutine */ int xermsg_(const char *librar, const char *subrou, const char *messg, integer
+        *nerr, integer *level, ftnlen librar_len, ftnlen subrou_len, ftnlen
         messg_len)
 {
 

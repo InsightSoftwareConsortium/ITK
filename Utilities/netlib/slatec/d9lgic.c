@@ -39,7 +39,7 @@ doublereal d9lgic_(doublereal *a, doublereal *x, doublereal *alx)
     integer k;
     doublereal p, r__, s, t, fk, xma, xpa;
     extern doublereal d1mach_(integer *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  D9LGIC */
@@ -68,9 +68,9 @@ doublereal d9lgic_(doublereal *a, doublereal *x, doublereal *alx)
 /*   900720  Routine changed from user-callable to subsidiary.  (WRB) */
 /* ***END PROLOGUE  D9LGIC */
 /* ***FIRST EXECUTABLE STATEMENT  D9LGIC */
-    
+
     // d1mach has been made thread safe, so there is no need for the
-    // statics in determining eps 
+    // statics in determining eps
 //     if (eps == 0.) {
 //      eps = .5 * d1mach_(&c__3);
 //     }

@@ -92,7 +92,7 @@ doublereal dgamma_(doublereal *x)
     extern /* Subroutine */ int dgamlm_(doublereal *, doublereal *);
     extern doublereal dcsevl_(doublereal *, doublereal *, integer *);
     extern integer initds_(doublereal *, integer *, real *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
     doublereal sinpiy;
 
@@ -206,7 +206,7 @@ L30:
 
 L50:
     if (*x > xmax) {
-        xermsg_("SLATEC", "DGAMMA", "X SO BIG GAMMA OVERFLOWS", &c__3, &c__2, 
+        xermsg_("SLATEC", "DGAMMA", "X SO BIG GAMMA OVERFLOWS", &c__3, &c__2,
                 (ftnlen)6, (ftnlen)6, (ftnlen)24);
     }
 

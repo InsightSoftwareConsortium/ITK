@@ -28,7 +28,7 @@ integer initds_(doublereal *os, integer *nos, real *eta)
     /* Local variables */
     integer i__ = 0, ii;
     real err;
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  INITDS */

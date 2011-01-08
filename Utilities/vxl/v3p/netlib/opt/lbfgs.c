@@ -1447,7 +1447,7 @@ L45:
     double sqrt(doublereal);
 
     /* Local variables */
-    doublereal p, q, r__, s, sgnd, stpc, stpf, stpq, gamma, theta;
+    doublereal p, q, r__, s, sgnd, stpc, stpf, stpq, gammavalue, theta;
     logical mcbound;
 
 /*<       INTEGER INFOC >*/
@@ -1548,15 +1548,15 @@ L45:
 /*<          GAMMA = S*SQRT((THETA/S)**2 - (DX/S)*(DP/S)) >*/
 /* Computing 2nd power */
         d__1 = theta / s;
-        gamma = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
+        gammavalue = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
 /*<          IF (STP .LT. STX) GAMMA = -GAMMA >*/
         if (stp < stx) {
-            gamma = -gamma;
+            gammavalue = -gammavalue;
         }
 /*<          P = (GAMMA - DX) + THETA >*/
-        p = gamma - *dx + theta;
+        p = gammavalue - *dx + theta;
 /*<          Q = ((GAMMA - DX) + GAMMA) + DP >*/
-        q = gamma - *dx + gamma + *dp;
+        q = gammavalue - *dx + gammavalue + *dp;
 /*<          R = P/Q >*/
         r__ = p / q;
 /*<          STPC = STX + R*(STP - STX) >*/
@@ -1599,15 +1599,15 @@ L45:
 /*<          GAMMA = S*SQRT((THETA/S)**2 - (DX/S)*(DP/S)) >*/
 /* Computing 2nd power */
         d__1 = theta / s;
-        gamma = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
+        gammavalue = s * sqrt(d__1 * d__1 - *dx / s * (*dp / s));
 /*<          IF (STP .GT. STX) GAMMA = -GAMMA >*/
         if (stp > stx) {
-            gamma = -gamma;
+            gammavalue = -gammavalue;
         }
 /*<          P = (GAMMA - DP) + THETA >*/
-        p = gamma - *dp + theta;
+        p = gammavalue - *dp + theta;
 /*<          Q = ((GAMMA - DP) + GAMMA) + DX >*/
-        q = gamma - *dp + gamma + *dx;
+        q = gammavalue - *dp + gammavalue + *dx;
 /*<          R = P/Q >*/
         r__ = p / q;
 /*<          STPC = STP + R*(STX - STP) >*/
@@ -1659,19 +1659,19 @@ L45:
 /* Computing 2nd power */
         d__3 = theta / s;
         d__1 = 0., d__2 = d__3 * d__3 - *dx / s * (*dp / s);
-        gamma = s * sqrt((max(d__1,d__2)));
+        gammavalue = s * sqrt((max(d__1,d__2)));
 /*<          IF (STP .GT. STX) GAMMA = -GAMMA >*/
         if (stp > stx) {
-            gamma = -gamma;
+            gammavalue = -gammavalue;
         }
 /*<          P = (GAMMA - DP) + THETA >*/
-        p = gamma - *dp + theta;
+        p = gammavalue - *dp + theta;
 /*<          Q = (GAMMA + (DX - DP)) + GAMMA >*/
-        q = gamma + (*dx - *dp) + gamma;
+        q = gammavalue + (*dx - *dp) + gammavalue;
 /*<          R = P/Q >*/
         r__ = p / q;
 /*<          IF (R .LT. 0.0 .AND. GAMMA .NE. 0.0) THEN >*/
-        if (r__ < (float)0. && gamma != (float)0.) {
+        if (r__ < (float)0. && gammavalue != (float)0.) {
 /*<             STPC = STP + R*(STX - STP) >*/
             stpc = stp + r__ * (stx - stp);
 /*<          ELSE IF (STP .GT. STX) THEN >*/
@@ -1738,15 +1738,15 @@ L45:
 /*<             GAMMA = S*SQRT((THETA/S)**2 - (DY/S)*(DP/S)) >*/
 /* Computing 2nd power */
             d__1 = theta / s;
-            gamma = s * sqrt(d__1 * d__1 - *dy / s * (*dp / s));
+            gammavalue = s * sqrt(d__1 * d__1 - *dy / s * (*dp / s));
 /*<             IF (STP .GT. STY) GAMMA = -GAMMA >*/
             if (stp > sty) {
-                gamma = -gamma;
+                gammavalue = -gammavalue;
             }
 /*<             P = (GAMMA - DP) + THETA >*/
-            p = gamma - *dp + theta;
+            p = gammavalue - *dp + theta;
 /*<             Q = ((GAMMA - DP) + GAMMA) + DY >*/
-            q = gamma - *dp + gamma + *dy;
+            q = gammavalue - *dp + gammavalue + *dy;
 /*<             R = P/Q >*/
             r__ = p / q;
 /*<             STPC = STP + R*(STY - STP) >*/
