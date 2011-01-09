@@ -85,7 +85,7 @@ public:
 
   /** Specify the size of the output image. */
   itkSetMacro(Size, SizeType);
-  itkSetVectorMacro(Size, unsigned long, NDimensions);
+  itkSetVectorMacro(Size, SizeValueType, NDimensions);
 
   /** Get the size of the output image. */
   itkGetConstReferenceMacro(Size, SizeType);

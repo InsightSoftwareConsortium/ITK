@@ -164,12 +164,12 @@ int itkMeshTest(int, char* [] )
   /**
    * List the points that the tetrahedron will use from the mesh.
    */
-  unsigned long tetraPoints[4] = {0,1,2,4};
+  MeshType::PointIdentifier tetraPoints[4] = {0,1,2,4};
 
   /**
    * List the points that the hexahedron will use from the mesh.
    */
-  unsigned long hexaPoints[8] = {0,1,2,3,4,5,6,7};
+  MeshType::PointIdentifier hexaPoints[8] = {0,1,2,3,4,5,6,7};
 
 
   /**
@@ -408,7 +408,8 @@ int itkMeshTest(int, char* [] )
     cellToDelete.TakeOwnership();
 
     testCell.TakeOwnership( new QuadraticEdgeCellType ); // polymorphism
-    unsigned long quadraticEdgePoints[3] = {0,1,2};
+
+    MeshType::PointIdentifier quadraticEdgePoints[3] = {0,1,2};
     testCell->SetPointIds(quadraticEdgePoints);
     mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh
 
@@ -482,7 +483,7 @@ int itkMeshTest(int, char* [] )
 
     // Now we can construct a new cell and overwrite the id
     testCell.TakeOwnership(new QuadraticTriangleCellType); // polymorphism;
-    unsigned long quadraticTrianglePoints[3] = {0,1,2};
+    MeshType::PointIdentifier quadraticTrianglePoints[3] = {0,1,2};
     testCell->SetPointIds(quadraticTrianglePoints);
     mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh
     std::cout << "QuadraticTriangleCell pointer = " << (void*)testCell.GetPointer() << std::endl;

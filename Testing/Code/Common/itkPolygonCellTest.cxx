@@ -102,7 +102,7 @@ int itkPolygonCellTest(int, char* [] )
   /**
    * List the points that the polygon will use from the mesh.
    */
-  unsigned long polygon1Points[4] = {0,1,2,3};
+  MeshType::PointIdentifier polygon1Points[4] = {0,1,2,3};
 
   /**
    * Assign the points to the tetrahedron through their identifiers.

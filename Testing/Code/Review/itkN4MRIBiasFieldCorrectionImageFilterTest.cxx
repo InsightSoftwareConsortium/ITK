@@ -214,8 +214,8 @@ int N4( int argc, char *argv[] )
     splineDistance = atof( argv[7] );
     }
 
-  unsigned long lowerBound[ImageDimension];
-  unsigned long upperBound[ImageDimension];
+  itk::SizeValueType lowerBound[ImageDimension];
+  itk::SizeValueType upperBound[ImageDimension];
 
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {

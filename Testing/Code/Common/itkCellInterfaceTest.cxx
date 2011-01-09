@@ -85,7 +85,11 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
 
   // Add point ids
   std::cout << "    SetPointIds" << std::endl;
-  unsigned long *pointIds = new unsigned long[cell->GetNumberOfPoints() * 2];
+
+  typedef typename TCell::PointIdentifier   PointIdentifier;
+
+  PointIdentifier *pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
+
   for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; i++)
     {
     pointIds[i] = i;
