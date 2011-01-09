@@ -1024,7 +1024,7 @@
    Memcheck:Leak
    fun:calloc
    obj:/lib64/libdl-2.?.?.so
-   fun:dlopen*
+   fun:dlopen
 }
 {
    <insert_a_suppression_name_here>
