@@ -127,7 +127,12 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   // <tt>n==num_rows</tt> and <tt>m==num_cols</tt>.
   vnl_matrix_fixed( unsigned n, unsigned m )
   {
+#ifdef NDEBUG
+    (void)n;
+    (void)m;
+#else
     assert( n == num_rows && m == num_cols );
+#endif
   }
 
   //: Construct an m*n matrix and fill with value

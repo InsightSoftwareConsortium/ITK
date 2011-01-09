@@ -232,7 +232,7 @@ these issues:
 */
 
 static void
-fhdl ( int sig, siginfo_t *sip, void *scp)
+fhdl ( int sig, siginfo_t *sip, void * )
 {
   std::cout << "FPE Signal Caught" << std::endl;
   std::cout.flush();
