@@ -32,7 +32,7 @@ static integer c__2 = 2;
     doublereal xln, xold;
     extern doublereal d1mach_(integer *);
     doublereal alnbig, alnsml;
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  DGAMLM */

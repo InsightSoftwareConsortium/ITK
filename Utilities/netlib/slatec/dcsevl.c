@@ -41,7 +41,7 @@ doublereal dcsevl_(doublereal *x, doublereal *cs, integer *n)
     doublereal twox;
     /* static */ doublereal onepl;
     extern doublereal d1mach_(integer *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  DCSEVL */

@@ -34,7 +34,7 @@ doublereal dgamit_(doublereal *a, doublereal *x)
     doublereal ret_val, d__1, d__2;
 
     /* Builtin functions */
-    double log(doublereal), sqrt(doublereal), d_sign(doublereal *, doublereal 
+    double log(doublereal), sqrt(doublereal), d_sign(doublereal *, doublereal
             *), d_int(doublereal *), exp(doublereal);
 
     /* Local variables */
@@ -46,16 +46,16 @@ doublereal dgamit_(doublereal *a, doublereal *x)
     /* static */ doublereal sqeps;
     extern doublereal d1mach_(integer *);
     doublereal algap1;
-    extern doublereal d9lgic_(doublereal *, doublereal *, doublereal *), 
+    extern doublereal d9lgic_(doublereal *, doublereal *, doublereal *),
             d9lgit_(doublereal *, doublereal *, doublereal *), d9gmit_(
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *), dlngam_(doublereal *);
-    extern /* Subroutine */ int dlgams_(doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlgams_(doublereal *, doublereal *,
             doublereal *);
     doublereal sgngam;
     /* static */ doublereal alneps;
 //    extern /* Subroutine */ int xerclr_(void);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *,
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *,
              integer *, integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  DGAMIT */
@@ -121,7 +121,7 @@ doublereal dgamit_(doublereal *a, doublereal *x)
     bot = log(d1mach_(&c__1));
 
     if (*x < 0.) {
-        xermsg_("SLATEC", "DGAMIT", "X IS NEGATIVE", &c__2, &c__2, (ftnlen)6, 
+        xermsg_("SLATEC", "DGAMIT", "X IS NEGATIVE", &c__2, &c__2, (ftnlen)6,
                 (ftnlen)6, (ftnlen)13);
     }
 

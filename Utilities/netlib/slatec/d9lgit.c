@@ -43,7 +43,7 @@ doublereal d9lgit_(doublereal *a, doublereal *x, doublereal *algap1)
     doublereal hstar;
     /* static */ doublereal sqeps;
     extern doublereal d1mach_(integer *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  D9LGIT */
@@ -111,7 +111,7 @@ doublereal d9lgit_(doublereal *a, doublereal *x, doublereal *algap1)
 L30:
     hstar = 1. - *x * s / a1x;
     if (hstar < sqeps) {
-        xermsg_("SLATEC", "D9LGIT", "RESULT LESS THAN HALF PRECISION", &c__1, 
+        xermsg_("SLATEC", "D9LGIT", "RESULT LESS THAN HALF PRECISION", &c__1,
                 &c__1, (ftnlen)6, (ftnlen)6, (ftnlen)31);
     }
 

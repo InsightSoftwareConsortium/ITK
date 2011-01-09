@@ -47,7 +47,7 @@ doublereal dbetai_(doublereal *x, doublereal *pin, doublereal *qin)
     extern doublereal d1mach_(integer *), dlbeta_(doublereal *, doublereal *);
     /* static */ doublereal alneps, alnsml;
     doublereal finsum;
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  DBETAI */

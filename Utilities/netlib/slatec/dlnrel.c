@@ -83,11 +83,11 @@ doublereal dlnrel_(doublereal *x)
 
     /* Local variables */
     /* static */ doublereal xmin;
-    extern doublereal d1mach_(integer *), dcsevl_(doublereal *, doublereal *, 
+    extern doublereal d1mach_(integer *), dcsevl_(doublereal *, doublereal *,
             integer *);
     /* static */ integer nlnrel;
     extern integer initds_(doublereal *, integer *, real *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  DLNREL */

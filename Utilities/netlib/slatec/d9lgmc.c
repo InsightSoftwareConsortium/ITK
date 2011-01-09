@@ -54,10 +54,10 @@ doublereal d9lgmc_(doublereal *x)
     /* Local variables */
     /* static */ doublereal xbig, xmax;
     /* static */ integer nalgm;
-    extern doublereal d1mach_(integer *), dcsevl_(doublereal *, doublereal *, 
+    extern doublereal d1mach_(integer *), dcsevl_(doublereal *, doublereal *,
             integer *);
     extern integer initds_(doublereal *, integer *, real *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  D9LGMC */
@@ -111,7 +111,7 @@ doublereal d9lgmc_(doublereal *x)
     /* Computing MIN */
     d__1 = log(d1mach_(&c__2) / 12.), d__2 = -log(d1mach_(&c__1) * 12.);
     xmax = exp((min(d__1,d__2)));
-    
+
     if (*x < 10.) {
         xermsg_("SLATEC", "D9LGMC", "X MUST BE GE 10", &c__1, &c__2, (ftnlen)
                 6, (ftnlen)6, (ftnlen)15);

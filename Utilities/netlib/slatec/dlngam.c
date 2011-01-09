@@ -45,7 +45,7 @@ doublereal dlngam_(doublereal *x)
     /* static */ doublereal xmax, dxrel;
     extern doublereal d1mach_(integer *), d9lgmc_(doublereal *), dgamma_(
             doublereal *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
     doublereal sinpiy;
 

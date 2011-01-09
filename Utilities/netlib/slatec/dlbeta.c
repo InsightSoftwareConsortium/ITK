@@ -35,7 +35,7 @@ doublereal dlbeta_(doublereal *a, doublereal *b)
     doublereal p, q, corr;
     extern doublereal d9lgmc_(doublereal *), dgamma_(doublereal *), dlngam_(
             doublereal *), dlnrel_(doublereal *);
-    extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
+    extern /* Subroutine */ int xermsg_(const char *, const char *, const char *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  DLBETA */
