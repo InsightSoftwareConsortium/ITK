@@ -69,7 +69,7 @@ public:
   typedef VectorContainer< unsigned, double >    OrthogonalCorrectionTableType;
   typedef OrthogonalCorrectionTableType::Pointer OrthogonalCorrectionTablePointer;
 
-  typedef OrthogonalCorrectionTableType::VectorContainerSizeType OrthogonalCorrectionTableSizeType;
+  typedef OrthogonalCorrectionTableType::ElementIdentifier  OrthogonalCorrectionTableSizeType;
 
   /** Return the location of the parametric path at the specified location. */
   virtual OutputType Evaluate(const InputType & input) const;
