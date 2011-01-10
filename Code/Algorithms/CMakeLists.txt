@@ -11,12 +11,14 @@ target_link_libraries(ITKAlgorithms ITKStatistics ITKNumerics)
 if(USE_FFTWD)
         #If FFTW is desired, then fftw3 and fftw3f will be required by any
         #application using the ITKAlgorithms lib
-        target_link_libraries(ITKAlgorithms ${FFTWD_LIB} )
+        add_dependencies(ITKAlgorithms fftwd)
+        target_link_libraries(ITKAlgorithms fftw3 fftw3_threads)
 endif(USE_FFTWD)
 if(USE_FFTWF)
         #If FFTW single precision is desired, then fftw3f will be required by any
         #application using the ITKAlgorithms lib
-        target_link_libraries(ITKAlgorithms ${FFTWF_LIB} )
+        add_dependencies(ITKAlgorithms fftwf)
+        target_link_libraries(ITKAlgorithms fftw3f fftw3f_threads )
 endif(USE_FFTWF)
 
 if(ITK_LIBRARY_PROPERTIES)
