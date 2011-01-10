@@ -393,8 +393,84 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     }
 
 
+
   }
 
+  {
+  std::cout << "Test InPlace filtering using a 1-D image" << std::endl;
+
+  typedef float                         PixelType;
+  typedef itk::Image< PixelType, 1 >    ImageType;
+
+  typedef ImageType::SizeType           SizeType;
+  typedef ImageType::IndexType          IndexType;
+  typedef ImageType::RegionType         RegionType;
+  typedef ImageType::SpacingType        SpacingType;
+
+  typedef itk::NumericTraits< PixelType >::RealType    PixelRealType;
+
+  SizeType size;
+  size[0] = 21;
+
+  IndexType start;
+  start[0] = 0;
+
+  RegionType region;
+  region.SetIndex( start );
+  region.SetSize( size );
+
+  SpacingType spacing;
+  spacing[0] = 1.0;
+
+  ImageType::Pointer inputImage = ImageType::New();
+  inputImage->SetRegions( region );
+  inputImage->Allocate();
+  inputImage->SetSpacing( spacing );
+  inputImage->FillBuffer( itk::NumericTraits< PixelType >::Zero );
+
+  IndexType index;
+  index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
+
+  inputImage->SetPixel( index, static_cast< PixelType >( 1.0 ) );
+
+  typedef itk::RecursiveGaussianImageFilter< ImageType, ImageType > FilterType;
+  FilterType::Pointer filter = FilterType::New();
+  filter->SetInput( inputImage );
+  filter->SetSigma( 1 );
+
+  // coverage for set/get methods
+  filter->SetOrder( FilterType::ZeroOrder );
+  if ( FilterType::ZeroOrder  != filter->GetOrder() )
+    {
+    std::cerr << "SetOrder/GetOrder failure!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // Check behavior of InPlace
+  filter->InPlaceOn();
+  filter->Update();
+
+  ImageType::ConstPointer outputImage = filter->GetOutput();
+  typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+  IteratorType  it( outputImage, outputImage->GetBufferedRegion() );
+
+  it.GoToBegin();
+  while( ! it.IsAtEnd() )
+    {
+    std::cout << it.Get() << std::endl;
+    ++it;
+    }
+
+  std::cout << "input buffer region: " << inputImage->GetBufferedRegion() << std::endl;
+  std::cout << "output buffer region: " << outputImage->GetBufferedRegion() << std::endl;
+
+  if ( inputImage->GetBufferedRegion().GetNumberOfPixels() != 0 )
+    {
+    std::cerr << "Failure for filter to run in-place!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
