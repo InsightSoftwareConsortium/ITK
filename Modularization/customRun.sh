@@ -4,20 +4,24 @@
 # This scripts is only for developer's convinience of running the modularization.
 
 # Run the scripts from the Modularization directory of the monolithic ITK.
-# Need to set the path variable:  HeadOfModularITKTree.
+# Need to feed the path variable:  HeadOfModularITKTree.
 
-################   output path needs to be specified   ###############
-# This directory will be cleaned up first (if exisits) when running the script,
-# so be carful not setting it to wrong dirs.
-HeadOfModularITKTree=/media/work/src/modularITK
+
+HeadOfModularITKTree=$1
+
+
+if [ $# -ne 1 ]
+then
+  echo "Usage: ./customRun.sh  [path of modular ITK] "
+  exit
+fi
+
 ######################################################################
-
 HeadOfMonolithicITKTree='..' # This is the origin ITK dir
 logs=$HeadOfModularITKTree/logs
 
-
 # excute the modulizer.py with the default "clean up  the modular ITK tree" option: 'y'
-./modulizer.py  $HeadOfMonolithicITKTree $HeadOfModularITKTree y
+./modulizer.py  $HeadOfMonolithicITKTree $HeadOfModularITKTree
 
 
 # dealing with itk-common
