@@ -96,15 +96,28 @@ InPlaceImageFilter< TInputImage, TOutputImage >
       outputPtr->Allocate();
       }
 
+    typedef ImageBase< OutputImageDimension > ImageBaseType;
+    typename ImageBaseType::Pointer outputPtr;
+
     // If there are more than one outputs, allocate the remaining outputs
     for ( unsigned int i = 1; i < this->GetNumberOfOutputs(); i++ )
       {
-      OutputImagePointer outputPtr;
+      // Check whether the output is an image of the appropriate
+      // dimension (use ProcessObject's version of the GetInput()
+      // method since it returns the input as a pointer to a
+      // DataObject as opposed to the subclass version which
+      // static_casts the input to an TInputImage).
+      outputPtr = dynamic_cast< ImageBaseType * >( this->ProcessObject::GetOutput(i) );
 
-      outputPtr = this->GetOutput(i);
-      outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-      outputPtr->Allocate();
+      if ( outputPtr )
+        {
+        outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+        outputPtr->Allocate();
+        }
+      // if the output is not of simular type then it is assumed the
+      // the derived class allocated the output if needed.
       }
+
     }
   else
     {
