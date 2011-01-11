@@ -19,6 +19,7 @@
 #define __itkFastMarchingImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkLevelSet.h"
 #include "vnl/vnl_math.h"
 
@@ -122,6 +123,7 @@ public:
   typedef typename LevelSetType::LevelSetPointer      LevelSetPointer;
   typedef typename LevelSetType::PixelType            PixelType;
   typedef typename LevelSetType::NodeType             NodeType;
+  typedef typename NodeType::IndexType                NodeIndexType;
   typedef typename LevelSetType::NodeContainer        NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
   typedef typename LevelSetImageType::SizeType        OutputSizeType;
@@ -161,13 +163,53 @@ private:
    * away points; TrialPoints represent points within a narrowband of the
    * propagating front; and AlivePoints represent points which have already
    * been processed. */
-  enum LabelType { FarPoint, AlivePoint, TrialPoint, InitialTrialPoint };
+  enum LabelType { FarPoint = 0, AlivePoint,
+                   TrialPoint, InitialTrialPoint, OutsidePoint };
 
   /** LabelImage typedef support. */
   typedef Image< unsigned char, itkGetStaticConstMacro(SetDimension) > LabelImageType;
 
   /** LabelImagePointer typedef support. */
   typedef typename LabelImageType::Pointer LabelImagePointer;
+
+  template< typename TPixel >
+  void SetBinaryMask( Image< TPixel, SetDimension >* iImage )
+    {
+    typedef Image< TPixel, SetDimension > InternalImageType;
+    typedef ImageRegionConstIteratorWithIndex< InternalImageType >
+        InternalRegionIterator;
+    InternalRegionIterator b_it( iImage, iImage->GetLargestPossibleRegion() );
+    b_it.GoToBegin();
+
+    TPixel zero_value = NumericTraits< TPixel >::Zero;
+    size_t NumberOfPoints = 0;
+
+    NodeType node;
+    node.SetValue( 0. );
+
+    while( !b_it.IsAtEnd() )
+      {
+      if( b_it.Get() == zero_value )
+        {
+        if( NumberOfPoints == 0 )
+          {
+          m_OutsidePoints = NodeContainer::New();
+          }
+        node.SetIndex( b_it.GetIndex() );
+        m_OutsidePoints->InsertElement( NumberOfPoints++, node );
+
+        }
+      ++b_it;
+      }
+    this->Modified();
+    }
+
+  /** Set the container of points that are not meant to be evaluated. */
+  void SetOutsidePoints(NodeContainer *points)
+  {
+    m_OutsidePoints = points;
+    this->Modified();
+  }
 
   /** Set the container of Alive Points representing the initial front.
    * Alive points are represented as a VectorContainer of LevelSetNodes. */
@@ -326,6 +368,7 @@ private:
 
   NodeContainerPointer m_AlivePoints;
   NodeContainerPointer m_TrialPoints;
+  NodeContainerPointer m_OutsidePoints;
 
   LabelImagePointer m_LabelImage;
 
