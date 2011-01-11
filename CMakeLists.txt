@@ -127,7 +127,7 @@ option(USE_FFTWF "Use single precision fftw if found" OFF)
 mark_as_advanced(USE_FFTWF)
 
 # USE_SYSTEM_FFTW -- locate a readybuilt fftw installation
-option(USE_SYSTEM__FFTW "Use an installed version of fftw" OFF)
+option(USE_SYSTEM_FFTW "Use an installed version of fftw" OFF)
 mark_as_advanced(USE_SYSTEM_FFTW)
 
 if( USE_FFTWD OR USE_FFTWF )
