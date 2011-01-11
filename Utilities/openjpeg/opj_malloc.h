@@ -109,7 +109,12 @@ Allocate memory aligned to a 16 byte boundry
 
   static INLINE void* __attribute__ ((malloc)) opj_aligned_malloc(size_t size){
     void* mem = NULL;
-    posix_memalign(&mem, 16, size);
+    int ret = posix_memalign(&mem, 16, size);
+    if( ret != 0 )
+      {
+      printf("The alignment argument was not a power of two, or was not a multiple of sizeof(void *),"
+        " or there was insufficient memory to fulfill the allocation request, code %d",ret);
+      }
     return mem;
   }
   #undef opj_aligned_free
