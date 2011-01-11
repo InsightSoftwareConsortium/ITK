@@ -165,6 +165,23 @@ vcl_complex_headers = {"D": """ class vcl_complexD {
 """
 }
 
+def getType(v):
+  if hasattr(v, "type"):
+    return getType(v.type)
+  if hasattr(v, "declaration"):
+    return getType(v.declaration)
+  return v
+
+def getDeclarationString(t):
+  t = getType(t)
+  if isinstance(t, pygccxml.declarations.cpptypes.pointer_t):
+    return getDeclarationString(getType(t.base)) + " *"
+  elif isinstance(t, pygccxml.declarations.cpptypes.const_t):
+    return getDeclarationString(getType(t.base)) + " const"
+  elif isinstance(t, pygccxml.declarations.cpptypes.reference_t):
+    return getDeclarationString(getType(t.base)) + " &"
+  return t.decl_string
+
 def renameTypesInSTL( s ):
   if s.startswith( "std::" ) and pygccxml.declarations.templates.is_instantiation(s):
     args = []
@@ -376,7 +393,7 @@ def generate_constructor( typedef, constructor, indent, w ):
   # iterate over the arguments
   args = []
   for arg in constructor.arguments:
-    s = "%s %s" % (get_alias(arg.type.decl_string, w), arg.name)
+    s = "%s %s" % (get_alias(getDeclarationString(arg), w), arg.name)
     # append the default value if it exists
     if arg.default_value:
       s += " = %s" % arg.default_value
@@ -424,7 +441,7 @@ def generate_method( typedef, method, indent, w ):
   # iterate over the arguments
   args = []
   for arg in method.arguments:
-    s = "%s %s" % (get_alias(arg.type.decl_string, w), arg.name)
+    s = "%s %s" % (get_alias(getDeclarationString(arg), w), arg.name)
     if "(" in s:
       warn( 1, "ignoring method not supported by swig '%s::%s'." % (typedef.name, method.name), w )
       return
@@ -446,7 +463,7 @@ def generate_method( typedef, method, indent, w ):
   if method.virtuality == "pure virtual":
     const += " = 0"
 
-  print >> outputFile, "  "*indent, "    %s%s %s(%s)%s;" % (static, get_alias(method.return_type.decl_string, w), method.name, ", ".join( args), const )
+  print >> outputFile, "  "*indent, "    %s%s %s(%s)%s;" % (static, get_alias(getDeclarationString(method.return_type), w), method.name, ", ".join( args), const )
 
 
 
