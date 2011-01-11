@@ -196,21 +196,25 @@ for  moduleName in moduleList:
        for cxxf in cxxFiles:
             cxxFileList = cxxFileList+cxxf.split('/')[-1]+'\n'
        filepath = HeadOfModularITKTree+'/'+moduleName+'/test/CMakeLists.txt'
-       o = open(filepath,'w')
-       if not os.path.isfile(filepath):
-           line = 'create_test_sourcelist(Tests {0}-tests.cxx\n{1})\n\n'.format(moduleName, cxxFileList)
-           o.write(line)
 
-           line = 'add_executable({0}-tests  ${{Tests}} )\n'.format(moduleName)
+       if not os.path.isfile(filepath):
+           o = open(filepath,'w')
+           line = 'create_test_sourcelist(Tests {0}-tests.cxx\n{1})\n\n'.format(moduleName, cxxFileList)
            o.write(line)
 
            line = 'set (TestsTorun ${{Tests}})\nremove(TestsToRun {0}Tests.cxx)\n\n'.format(moduleName)
            o.write(line)
 
-       for cxxf in cxxFiles:
-            cxxFileName = cxxf.split('/')[-1]
-            line = 'add_test(NAME     ' + cxxFileName[0:-4]+ '\n         COMMAND  ' + cxxFileName[0:-4] +')\n'
-            o.write(line)
+           line = 'add_executable({0}-tests  ${{Tests}} )\n'.format(moduleName)
+           o.write(line)
+
+           line = 'target_link_libraries({0}-tests  {1} )\n'.format(moduleName, moduleName)
+           o.write(line)
+
+           for cxxf in cxxFiles:
+              cxxFileName = cxxf.split('/')[-1]
+              line = 'add_test(NAME     ' + cxxFileName[0:-4]+ '\n         COMMAND  ' + cxxFileName[0:-4] +')\n'
+           o.write(line)
        o.close()
 
 
