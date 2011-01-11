@@ -260,12 +260,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTWGlobalConfiguration, Object);
 
-  /** This is a singleton pattern New.  There will only be ONE
-   * reference to a FFTWGlobalConfiguration object per process.
-   * The single instance will be unreferenced when
-   * the program exits. */
-  itkFactorylessNewMacro(Self);
-
   /** Lock() must be run before the call to any FFTW unsafe method,
    * and followed immediatly by a call to Unlock()
    */
@@ -407,14 +401,19 @@ public:
   static bool ImportDefaultWisdomFileFloat();
   static bool ExportDefaultWisdomFileFloat();
 
-protected:
+private:
   FFTWGlobalConfiguration(); //This will process env variables
   ~FFTWGlobalConfiguration(); //This will write cache file if requested.
 
   /** Return the singleton instance with no reference counting. */
   static Pointer GetInstance();
 
-private:
+  /** This is a singleton pattern New.  There will only be ONE
+   * reference to a FFTWGlobalConfiguration object per process.
+   * The single instance will be unreferenced when
+   * the program exits. */
+  itkFactorylessNewMacro(Self);
+
   FFTWGlobalConfiguration(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
