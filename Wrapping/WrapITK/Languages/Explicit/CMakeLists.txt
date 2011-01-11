@@ -140,7 +140,7 @@ macro(END_WRAP_LIBRARY_EXPLICIT)
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
       target_link_libraries(${WRAPPER_LIBRARY_NAME}Explicit ${dep}Explicit)
     endforeach(dep)
-    target_link_libraries(${WRAPPER_LIBRARY_NAME}Explicit ITKCommon )
+    target_link_libraries(${WRAPPER_LIBRARY_NAME}Explicit ${WRAPPER_LIBRARY_LINK_LIBRARIES} )
 
     install(TARGETS ${WRAPPER_LIBRARY_NAME}Explicit DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/lib")
   endif(EXPLICIT_EXPLICITS_FILES)
