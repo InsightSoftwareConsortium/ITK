@@ -17,20 +17,23 @@
  *=========================================================================*/
 #include "vnl/vnl_random.h"
 #include "itkPriorityQueueContainer.h"
+#include "itkIntTypes.h"
 
 int itkPriorityQueueTest( int, char * [] )
 {
-  typedef itk::MinPriorityQueueElementWrapper< int, double, int > MinPQElementType;
-  typedef itk::MaxPriorityQueueElementWrapper< int, double, int > MaxPQElementType;
+  typedef itk::IdentifierType    ElementIdentifier;
+
+  typedef itk::MinPriorityQueueElementWrapper< int, double, ElementIdentifier > MinPQElementType;
+  typedef itk::MaxPriorityQueueElementWrapper< int, double, ElementIdentifier > MaxPQElementType;
 
   typedef itk::PriorityQueueContainer<
-    MinPQElementType, MinPQElementType, double, int > MinPQType;
+    MinPQElementType, MinPQElementType, double, ElementIdentifier > MinPQType;
   MinPQType::Pointer min_priority_queue = MinPQType::New( );
 
   std::cout << min_priority_queue->GetNameOfClass() << std::endl;
 
   typedef itk::PriorityQueueContainer<
-    MaxPQElementType, MaxPQElementType, double, int > MaxPQType;
+    MaxPQElementType, MaxPQElementType, double, ElementIdentifier > MaxPQType;
   MaxPQType::Pointer max_priority_queue = MaxPQType::New( );
 
   std::list< double > sequence;
@@ -49,7 +52,7 @@ int itkPriorityQueueTest( int, char * [] )
   sequence.push_back( -1. );
 
   std::list< double >::const_iterator it = sequence.begin();
-  unsigned int i = 0;
+  ElementIdentifier i = 0;
   for(; it != sequence.end(); ++it, i++ )
     {
     min_priority_queue->Push( MinPQElementType( i, *it ) );
