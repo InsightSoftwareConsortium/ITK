@@ -46,7 +46,7 @@ if opts.exclude:
 headers = []
 for d in args:
   headers += sum([ f for p,d,f in os.walk(d) ], [])
-classes = set([f[len('itk'):-len('.h')] for f in headers if f.startswith("itk") and f.endswith(opts.base+".h")]) - excluded
+classes = set([f[len('itk'):-len('.h')] for f in headers if f.startswith("itk") and not f.startswith("itkv3") and f.endswith(opts.base+".h")]) - excluded
 
 # get filter from wrapper files
 # remove classes which are not in the toolkit (external projects, PyImageFilter, ...)
