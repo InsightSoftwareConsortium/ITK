@@ -3,8 +3,8 @@
 find_program(ITK_TEST_DRIVER itkTestDriver)
 
 set(TCL_DRIVER "${ITK_TEST_DRIVER}"
-  --add-before-env TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages/Tcl/\${CTEST_CONFIGURATION_TYPE}"
-  --add-before-env TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages"
+  --add-before-env-with-sep TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages/Tcl/\${CTEST_CONFIGURATION_TYPE}" " "
+  --add-before-env-with-sep TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages" " "
   --add-before-libpath "${WrapITK_BINARY_DIR}/lib/\${CTEST_CONFIGURATION_TYPE}"
   --add-before-libpath "${ITK_DIR}/bin/\${CTEST_CONFIGURATION_TYPE}"
   --add-before-libpath "${ITK_DIR}"
