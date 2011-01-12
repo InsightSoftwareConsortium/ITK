@@ -38,11 +38,11 @@ if(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
 endif(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
 
 enable_testing()
-include(CTest)
-if(BUILD_TESTING)
-  set(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
-  mark_as_advanced(BUILDNAME)
-endif(BUILD_TESTING)
+# include(CTest)
+# if(BUILD_TESTING)
+#   set(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
+#   mark_as_advanced(BUILDNAME)
+# endif(BUILD_TESTING)
 
 ###############################################################################
 # Config ITKWrap
