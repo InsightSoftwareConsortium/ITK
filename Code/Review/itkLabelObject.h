@@ -72,6 +72,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
   typedef Index< VImageDimension >           IndexType;
+  typedef Offset< VImageDimension >          OffsetType;
   typedef TLabel                             LabelType;
   typedef LabelObjectLine< VImageDimension > LineType;
   typedef typename LineType::LengthType      LengthType;
@@ -143,6 +144,9 @@ public:
    * pixel is covered by two lines
    */
   void Optimize();
+
+  /** Shift the object position */
+  void Shift( OffsetType offset );
 
 protected:
   LabelObject();

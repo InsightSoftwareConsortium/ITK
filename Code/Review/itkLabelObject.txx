@@ -320,6 +320,20 @@ LabelObject< TLabel, VImageDimension >::Optimize()
 
 template< class TLabel, unsigned int VImageDimension >
 void
+LabelObject< TLabel, VImageDimension >
+::Shift( OffsetType offset )
+{
+  for( typename LineContainerType::iterator it = m_LineContainer.begin();
+       it != m_LineContainer.end();
+       it++ )
+    {
+    LineType & line = *it;
+    line.SetIndex( line.GetIndex() + offset );
+    }
+}
+
+template< class TLabel, unsigned int VImageDimension >
+void
 LabelObject< TLabel, VImageDimension >::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
