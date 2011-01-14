@@ -81,12 +81,6 @@ public:
   /** \brief Compute Area.*/
   static CoordRepType ComputeArea(const PointType & iP1, const PointType & iP2, const PointType & iP3);
 
-protected:
-  TriangleHelper();
-  virtual ~TriangleHelper();
-
-  void PrintSelf(std::ostream & os, Indent indent) const;
-
 private:
   TriangleHelper(const Self &);  // purposely not implemented
   void operator=(const Self &);  // purposely not implemented
