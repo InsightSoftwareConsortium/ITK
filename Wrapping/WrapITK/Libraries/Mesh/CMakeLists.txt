@@ -20,6 +20,7 @@ set(WRAPPER_LIBRARY_GROUPS
   itkImageToMeshFilter
   itkVertexCell
   itkLineCell
+  itkMeshToMeshFilter
 )
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon)
