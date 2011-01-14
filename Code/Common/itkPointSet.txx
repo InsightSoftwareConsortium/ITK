@@ -194,6 +194,31 @@ PointSet< TPixelType, VDimension, TMeshTraits >
   return m_PointsContainer->GetElementIfIndexExists(ptId, point);
 }
 
+template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
+typename PointSet< TPixelType, VDimension, TMeshTraits >::PointType
+PointSet< TPixelType, VDimension, TMeshTraits >
+::GetPoint(PointIdentifier ptId) const
+{
+  /**
+   * If the points container doesn't exist, then the point doesn't either.
+   */
+  if ( !m_PointsContainer )
+    {
+    itkExceptionMacro("Point container doesn't exist.");
+    }
+
+  /**
+   * Ask the container if the point identifier exists.
+   */
+  PointType point;
+  bool exist = m_PointsContainer->GetElementIfIndexExists(ptId, &point);
+  if( ! exist )
+    {
+    itkExceptionMacro("Point id doesn't exist: " << ptId);
+    }
+  return point;
+}
+
 /**
  * Assign data to a point identifier.  If a spot for the point identifier
  * does not exist, it will be created automatically.  There is no check if

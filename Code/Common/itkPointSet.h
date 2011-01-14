@@ -185,6 +185,7 @@ public:
    * from it. */
   void SetPoint(PointIdentifier, PointType);
   bool GetPoint(PointIdentifier, PointType *) const;
+  PointType GetPoint(PointIdentifier) const;
 
   /** Access routines to fill the PointData container, and get information
    * from it. */
