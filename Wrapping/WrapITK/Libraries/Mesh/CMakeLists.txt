@@ -18,6 +18,8 @@ set(WRAPPER_LIBRARY_GROUPS
   itkQuadEdgeMesh
   itkMeshSource
   itkImageToMeshFilter
+  itkVertexCell
+  itkLineCell
 )
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon)
