@@ -29,9 +29,13 @@ logs=$HeadOfModularITKTree/logs
 
 
 # handling data ( Testing/data and Examples/data)
-cp -r ../Testing/Data $HeadOfModularITKTree/data
-cp -r ../Examples  $HeadOfModularITKTree/Examples
+if [ ! -d $HeadOfModularITKTree/data ];then
+  cp -r ../Testing/Data $HeadOfModularITKTree/data
+fi
 
+if [ ! -d $HeadOfModularITKTree/Examples ];then
+  cp -r ../Examples  $HeadOfModularITKTree/Examples
+fi
 
 grep -v Wrapping $logs/newFiles.log | \
 grep -v Utilities | \

@@ -55,6 +55,7 @@ HeadOfModularITKTree = sys.argv[2];
 if (HeadOfModularITKTree[-1] ==  '/'):
     HeadOfModularITKTree = HeadOfModularITKTree[0:-1]
 
+
 # clean up the dirs first
 if os.path.isdir(HeadOfModularITKTree):
    if  len(sys.argv) > 3:
@@ -62,22 +63,29 @@ if os.path.isdir(HeadOfModularITKTree):
          answer = 'y'
    else:
       print('Warning: The directory '+HeadOfModularITKTree+' exists! It needs to be wiped out first.')
-      answer = raw_input("Do you want to clean up this directory? [y/n]: " )
+      answer = raw_input("Do you really want to clean up this directory? [y/n]: " )
 
    if (answer == 'y'):
        os.system("rm -Rf "+ HeadOfModularITKTree)
        print('removed '+HeadOfModularITKTree)
+       # get the supporting modules and cmake packaing files
+       cmd ='git clone git://www.kitware.com/itk/modularITKSupport.git  '+HeadOfModularITKTree
+       os.system(cmd)
+       print("modularITKSupport repository cloned into " + HeadOfModularITKTree)
+   if (answer =='n'):
+       print("Please rerun the program with a different directory.")
+       exsit(-1)
+   if (answer =='a'): #advanced
+       print('Advanced Option Warning: This is only for developer\'s convinience.\nThe git clone step will be kipped; Old files in the directory will be overwritten.')
+else:
+   # get the supporting modules and cmake packaing files
+   cmd ='git clone git://www.kitware.com/itk/modularITKSupport.git  '+HeadOfModularITKTree
+   os.system(cmd)
+   print("modularITKSupport repository cloned into " + HeadOfModularITKTree)
 
-   else:
-       print('please choose another directory for modularized ITK')
-       exit(-1)
 
-# get the supporting modules and cmake packaing files
-cmd ='git clone git://www.kitware.com/itk/modularITKSupport.git  '+HeadOfModularITKTree
-os.system(cmd)
-print("modularITKSupport repository cloned into " + HeadOfModularITKTree)
 
-# copy the whole ITK tree over to a tempery dir
+# copy the whole ITK tree over to a tempery dir, except the data
 HeadOfTempTree = HeadOfModularITKTree+'/ITK_remaining'
 
 def copy_directory(source, target):
@@ -86,6 +94,8 @@ def copy_directory(source, target):
     for root, dirs, files in os.walk(source):
         if '.git' in dirs:
             dirs.remove('.git')
+        if 'Data' in dirs:
+            dirs.remove('Data')
         for file in files:
             if os.path.splitext(file)[-1] in ('.git*'):
                continue
@@ -211,23 +221,25 @@ for  moduleName in moduleList:
 
        if not os.path.isfile(filepath):
            o = open(filepath,'w')
-           line = 'create_test_sourcelist(Tests '+moduleName+'-tests.cxx\n'+cxxFileList+'})\n\n'
+           line = 'create_test_sourcelist(Tests '+moduleName+'-tests.cxx\n'+cxxFileList+')\n\n'
            o.write(line)
 
-           line = 'set (TestsTorun ${{Tests}})\nremove(TestsToRun '+moduleName+'Tests.cxx)\n\n'
+           line = 'set (TestsTorun ${Tests})\nremove(TestsToRun '+moduleName+'Tests.cxx)\n\n'
            o.write(line)
 
-           line = 'add_executable('+moduleName+'-tests  ${{Tests}} )\n'
+           line = 'add_executable('+moduleName+'-tests  ${Tests} )\n'
            o.write(line)
 
-           line = 'target_link_libraries('+moduleName+'-tests  '+moduleName+' )\n'
+           line = 'target_link_libraries('+moduleName+'-tests  '+moduleName+' )\n\n'
            o.write(line)
 
+           line = 'set('+ moduleName+'_TESTS'+ '  ${ITK_EXECUTABLE_PATH}/'+moduleName+'-tests)\n'
+           o.write(line)
            for cxxf in cxxFiles:
               cxxFileName = cxxf.split('/')[-1]
-              line = 'add_test(NAME     ' + cxxFileName[0:-4]+ '\n         COMMAND  ' + cxxFileName[0:-4] +')\n'
+              line = 'add_test('+cxxFileName[0:-4]+ ' ${'+moduleName+'_TESTS}\n  ' + cxxFileName[0:-4] +')\n'
            o.write(line)
-       o.close()
+           o.close()
 
 
     # write CTestConfig.cmake
