@@ -304,7 +304,6 @@ public:
    * cell identifiers */
   void SetCellLinks(CellLinksContainer *);
 
-#ifndef CABLE_CONFIGURATION
   CellLinksContainer * GetCellLinks();
 
   const CellLinksContainer * GetCellLinks() const;
@@ -317,7 +316,6 @@ public:
 
   const CellsContainer * GetCells() const;
 
-#endif
   /** Access m_CellDataContainer, which contains data associated with
    *  the mesh's cells.  Optionally, this can be NULL, indicating that
    *  no data are associated with the cells.  The data for a cell can
@@ -328,6 +326,7 @@ public:
 
   const CellDataContainer * GetCellData() const;
 
+#if !defined( CABLE_CONFIGURATION )
   /**
    * Set/get the BoundaryAssignmentsContainer for a given dimension.
    * The BoundaryAssignmentsContainer is a MapContainer indexed by a
@@ -336,17 +335,15 @@ public:
    * feature identifier distinguishes different boundary features for
    * a given cell at a given dimension.
    */
-#if !defined( CABLE_CONFIGURATION )
   void SetBoundaryAssignments(int dimension,
                               BoundaryAssignmentsContainer *);
 
-#endif
 
-#ifndef CABLE_CONFIGURATION
   BoundaryAssignmentsContainerPointer GetBoundaryAssignments(int dimension);
 
   const BoundaryAssignmentsContainerPointer GetBoundaryAssignments(
     int dimension) const;
+#endif
 
   /** Access routines to fill the Cells container (m_CellsContainer),
    *  and get information from it.  If SetCell is used to overwrite a
@@ -355,7 +352,6 @@ public:
    *  position prior to calling SetCell. */
   void SetCell(CellIdentifier, CellAutoPointer &);
   bool GetCell(CellIdentifier, CellAutoPointer &) const;
-#endif
   /** Access routines to fill the CellData container, and get information
    *  from it.  */
   void SetCellData(CellIdentifier, CellPixelType);
@@ -396,12 +392,10 @@ public:
   CellFeatureCount GetNumberOfCellBoundaryFeatures(int dimension,
                                                    CellIdentifier) const;
 
-#ifndef CABLE_CONFIGURATION
   /** Get the boundary feature of the given dimension of the given cell
    * corresponding to the given feature identifier. */
   bool GetCellBoundaryFeature(int dimension, CellIdentifier,
                               CellFeatureIdentifier, CellAutoPointer &) const;
-#endif
   /** Get the set of cells neighboring the given cell across the given boundary
    * feature.  Returns the number of neighbors found.  If cellSet is not NULL,
    * the set of cell pointers is filled in with identifiers of the neighboring
@@ -417,7 +411,6 @@ public:
   CellIdentifier GetCellNeighbors(CellIdentifier cellId,
                                  std::set< CellIdentifier > *cellSet);
 
-#ifndef CABLE_CONFIGURATION
   /**
    * Check if there is an explicitly assigned boundary feature for the
    * given dimension and cell- and cell-feature-identifiers.  If there
@@ -428,12 +421,10 @@ public:
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
                                           CellFeatureIdentifier,
                                           CellAutoPointer &) const;
-#endif
   /** Dynamically build the links from points back to their using cells.  This
    * information is stored in the cell links container, not in the points. */
   void BuildCellLinks() const;
 
-#ifndef CABLE_CONFIGURATION
   /** Get the bounding box of a cell in the mesh. The user
    *  must supply the bounding box. The methods return a pointer to
    *  the user-supplied bounding box as a convenience. */
@@ -445,7 +436,6 @@ public:
    *  information.  (Note, this follows the Visitor Design Pattern.) */
   virtual void Accept(CellMultiVisitorType *mv) const;
 
-#endif
   /** Set/Get the identification of the method used to allocate cells
       \warning Failure to call this method correctly will lead to memory leaks
       and/or segmentation faults because the cell memory will not be erased or
