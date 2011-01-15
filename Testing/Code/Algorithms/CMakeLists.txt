@@ -259,49 +259,49 @@ add_test(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
 # Metric fails when centered pixel coordinates not in use
 add_test(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
 
-add_test( itkQuadEdgeMeshQuadricDecimationTest ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshQuadricDecimationTest
+add_test( itkQuadricDecimationQuadEdgeMeshFilterTest ${ALGORITHMS_TESTS4}
+  itkQuadricDecimationQuadEdgeMeshFilterTest
   ${INPUTDATA}/mushroom.vtk
   100
   ${TEMP}/temp_QuadricDecimationResult1.vtk
   )
-add_test( itkQuadEdgeMeshQuadricDecimationTetrahedronTest ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshQuadricDecimationTest
+add_test( itkQuadricDecimationQuadEdgeMeshFilterTetrahedronTest ${ALGORITHMS_TESTS4}
+  itkQuadricDecimationQuadEdgeMeshFilterTest
   ${INPUTDATA}/tetrahedron.vtk
   2
   ${TEMP}/temp_QuadricDecimationTetrahedron.vtk
   )
-add_test( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshSquaredEdgeLengthDecimationTest
+add_test( itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest ${ALGORITHMS_TESTS4}
+  itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest
   ${INPUTDATA}/mushroom.vtk
   20
   ${TEMP}/temp_SquaredEdgeLengthDecimationResult1.vtk
   )
-add_test( itkQuadEdgeMeshCleanFilterTest
+add_test( itkCleanQuadEdgeMeshFilterTest
   ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshCleanFilterTest
+  itkCleanQuadEdgeMeshFilterTest
   ${INPUTDATA}/mushroom.vtk
   0.1
   ${TEMP}/temp_CleanResult1.vtk
   )
-add_test( itkQuadEdgeMeshNormalFilterTest0 ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshNormalFilterTest
+add_test( itkNormalQuadEdgeMeshFilterTest0 ${ALGORITHMS_TESTS4}
+  itkNormalQuadEdgeMeshFilterTest
   ${INPUTDATA}/mushroom.vtk
   0
 )
-add_test( itkQuadEdgeMeshNormalFilterTest1 ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshNormalFilterTest
+add_test( itkNormalQuadEdgeMeshFilterTest1 ${ALGORITHMS_TESTS4}
+  itkNormalQuadEdgeMeshFilterTest
   ${INPUTDATA}/mushroom.vtk
   1
 )
-add_test( itkQuadEdgeMeshNormalFilterTest2 ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshNormalFilterTest
+add_test( itkNormalQuadEdgeMeshFilterTest2 ${ALGORITHMS_TESTS4}
+  itkNormalQuadEdgeMeshFilterTest
   ${INPUTDATA}/mushroom.vtk
   2
 )
 
-add_test( itkQuadEdgeMeshSmoothingTest0 ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshSmoothingTest
+add_test( itkSmoothingQuadEdgeMeshFilterTest0 ${ALGORITHMS_TESTS4}
+  itkSmoothingQuadEdgeMeshFilterTest
   ${INPUTDATA}/genusZeroSurface01.vtk
   10
   0.1
@@ -309,8 +309,8 @@ add_test( itkQuadEdgeMeshSmoothingTest0 ${ALGORITHMS_TESTS4}
   ${TEMP}/temp_SmoothResult0.vtk
   )
 
-add_test( itkQuadEdgeMeshSmoothingTest1 ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshSmoothingTest
+add_test( itkSmoothingQuadEdgeMeshFilterTest1 ${ALGORITHMS_TESTS4}
+  itkSmoothingQuadEdgeMeshFilterTest
   ${INPUTDATA}/genusZeroSurface01.vtk
   10
   0.1
@@ -318,28 +318,28 @@ add_test( itkQuadEdgeMeshSmoothingTest1 ${ALGORITHMS_TESTS4}
   ${TEMP}/temp_SmoothResult1.vtk
   )
 
-set( CURV_TESTS Gaussian Max Mean Min )
+set( CURV_TESTS Gaussian Maximum Mean Minimum )
 foreach( loop_var ${CURV_TESTS} )
-  add_test( itkQuadEdgeMesh${loop_var}CurvatureTest
+  add_test( itkDiscrete${loop_var}CurvatureQuadEdgeMeshFilterTest
     ${ALGORITHMS_TESTS4}
-    itkQuadEdgeMesh${loop_var}CurvatureTest
+    itkDiscrete${loop_var}CurvatureQuadEdgeMeshFilterTest
     ${INPUTDATA}/mushroom.vtk
     )
 endforeach( loop_var )
 
 foreach( border 0 1 )
   foreach( coeff 0 1 2 3 4 )
-    add_test( itkQuadEdgeMeshLinearParameterizationTest${border}_${coeff}
+    add_test( itkParameterizationQuadEdgeMeshFilterTest${border}_${coeff}
     ${ALGORITHMS_TESTS4}
-    itkQuadEdgeMeshLinearParameterizationTest
+    itkParameterizationQuadEdgeMeshFilterTest
     ${INPUTDATA}/mushroom.vtk ${border} ${coeff}
     ${TEMP}/param_border${border}_coeff${coeff}.vtk
     )
   endforeach( coeff )
 endforeach( border )
 
-add_test( itkQuadEdgeMeshDelaunayConformingFilterTest ${ALGORITHMS_TESTS4}
-  itkQuadEdgeMeshDelaunayConformingFilterTest
+add_test( itkDelaunayConformingQuadEdgeMeshFilterTest ${ALGORITHMS_TESTS4}
+  itkDelaunayConformingQuadEdgeMeshFilterTest
   ${INPUTDATA}/mushroom.vtk
   ${TEMP}/mushrom_delaunay.vtk
   )
@@ -495,17 +495,17 @@ itkVoronoiSegmentationRGBImageFilterTest.cxx
 itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
 itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
 itkRegularSphereQuadEdgeMeshSourceTest.cxx
-itkQuadEdgeMeshLinearParameterizationTest.cxx
-itkQuadEdgeMeshSquaredEdgeLengthDecimationTest.cxx
-itkQuadEdgeMeshQuadricDecimationTest.cxx
-itkQuadEdgeMeshCleanFilterTest.cxx
-itkQuadEdgeMeshGaussianCurvatureTest.cxx
-itkQuadEdgeMeshMaxCurvatureTest.cxx
-itkQuadEdgeMeshMeanCurvatureTest.cxx
-itkQuadEdgeMeshMinCurvatureTest.cxx
-itkQuadEdgeMeshDelaunayConformingFilterTest.cxx
-itkQuadEdgeMeshNormalFilterTest.cxx
-itkQuadEdgeMeshSmoothingTest.cxx
+itkParameterizationQuadEdgeMeshFilterTest.cxx
+itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest.cxx
+itkQuadricDecimationQuadEdgeMeshFilterTest.cxx
+itkCleanQuadEdgeMeshFilterTest.cxx
+itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest.cxx
+itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest.cxx
+itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest.cxx
+itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest.cxx
+itkDelaunayConformingQuadEdgeMeshFilterTest.cxx
+itkNormalQuadEdgeMeshFilterTest.cxx
+itkSmoothingQuadEdgeMeshFilterTest.cxx
 )
 
 add_executable(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)

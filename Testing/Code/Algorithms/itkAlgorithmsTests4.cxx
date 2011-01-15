@@ -59,17 +59,17 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest);
   REGISTER_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest);
   REGISTER_TEST(itkRegularSphereQuadEdgeMeshSourceTest);
-  REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
-  REGISTER_TEST(itkQuadEdgeMeshCleanFilterTest);
-  REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
-  REGISTER_TEST(itkQuadEdgeMeshSquaredEdgeLengthDecimationTest);
-  REGISTER_TEST(itkQuadEdgeMeshQuadricDecimationTest);
-  REGISTER_TEST(itkQuadEdgeMeshGaussianCurvatureTest);
-  REGISTER_TEST(itkQuadEdgeMeshMeanCurvatureTest);
-  REGISTER_TEST(itkQuadEdgeMeshMaxCurvatureTest);
-  REGISTER_TEST(itkQuadEdgeMeshMinCurvatureTest);
-  REGISTER_TEST(itkQuadEdgeMeshDelaunayConformingFilterTest);
-  REGISTER_TEST(itkQuadEdgeMeshNormalFilterTest);
-  REGISTER_TEST(itkQuadEdgeMeshSmoothingTest);
+  REGISTER_TEST(itkParameterizationQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkCleanQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkParameterizationQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkQuadricDecimationQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkDelaunayConformingQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkNormalQuadEdgeMeshFilterTest);
+  REGISTER_TEST(itkSmoothingQuadEdgeMeshFilterTest);
 }
 
