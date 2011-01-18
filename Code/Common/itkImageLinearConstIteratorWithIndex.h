@@ -190,6 +190,12 @@ public:
     m_Jump = this->m_OffsetTable[m_Direction];
   }
 
+  /** get the direction of movement */
+  unsigned int GetDirection()
+  {
+    return m_Direction;
+  }
+
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
   inline Self & operator++()
