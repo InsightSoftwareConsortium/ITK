@@ -30,8 +30,6 @@ void
 ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
 ::Learn( LayerInterfaceType * layer, ValueType lr )
 {
-  int num_nodes = layer->GetNumberOfNodes();
-
   typename LayerInterfaceType::WeightSetType::Pointer outputweightset;
   typename LayerInterfaceType::WeightSetType::Pointer inputweightset;
 
