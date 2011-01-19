@@ -1312,12 +1312,8 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
 {
   int numPixels = this->Dimensions[0] * this->Dimensions[1] * this->GetNumberOfComponents();
 
-  // if length was undefined, i.e. 0xffff, then use numpixels
-  if (len == 0xffff)
-    {
-    numPixels = numPixels;
-    }
-  else
+  // if length was undefined, i.e. 0xffff, then use numpixels, otherwise...
+  if (len != 0xffff)
     {
     // length was specified, but only read up to len bytes (as
     // opposed to the image size times number of components)
