@@ -200,7 +200,7 @@ public:
   TransformTypePointer GetNthTransform( size_t n ) const
   {
     return this->m_TransformQueue[n];
-  };
+  }
 
   /** Active Transform state manipulation */
 
@@ -269,13 +269,11 @@ public:
     return this->m_TransformQueue.empty();
   }
 
-  const
   size_t GetNumberOfTransforms() const
   {
     return this->m_TransformQueue.size();
   }
 
-  const
   void ClearTransformQueue()
   {
     this->m_TransformQueue.clear();
@@ -305,7 +303,9 @@ public:
   * the back of the queue, and thus, DF then Affine.
   */
 
-  virtual OutputPointType TransformPoint( const InputPointType &inputPoint ) const
+  virtual OutputPointType
+    TransformPoint( const InputPointType &inputPoint ) const;
+  /* Note: why was the 'isInsideTransformRegion' flag used below?
   {
     bool isInside = true;
 
@@ -314,7 +314,7 @@ public:
 
   virtual OutputPointType TransformPoint( const InputPointType& thisPoint,
                                           bool &isInsideTransformRegion ) const;
-
+  */
   /**  Method to transform a vector. */
   virtual OutputVectorType TransformVector(const InputVectorType &) const
   {
