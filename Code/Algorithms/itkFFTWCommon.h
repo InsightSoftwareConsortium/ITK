@@ -118,7 +118,14 @@ public:
   {
     FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
-    PlanType plan = fftwf_plan_dft_c2r(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
+    // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
+    // because FFTW_ESTIMATE guarantee to not destroy the input
+    unsigned roflags = flags;
+    if( ! (flags & FFTW_ESTIMATE) )
+      {
+      roflags = flags | FFTW_WISDOM_ONLY;
+      }
+    PlanType plan = fftwf_plan_dft_c2r(rank,n,in,out,roflags);
     if( plan == NULL )
       {
       // no wisdom available for that plan
@@ -139,7 +146,7 @@ public:
         fftwf_plan_dft_c2r(rank,n,din,out,flags);
         delete [] din;
         // and then create the final plan - this time it shouldn't fail
-        plan = fftwf_plan_dft_c2r(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
+        plan = fftwf_plan_dft_c2r(rank,n,in,out,roflags);
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
@@ -203,7 +210,14 @@ public:
   {
     FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
-    PlanType plan = fftwf_plan_dft_r2c(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
+    // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
+    // because FFTW_ESTIMATE guarantee to not destroy the input
+    unsigned roflags = flags;
+    if( ! (flags & FFTW_ESTIMATE) )
+      {
+      roflags = flags | FFTW_WISDOM_ONLY;
+      }
+    PlanType plan = fftwf_plan_dft_r2c(rank,n,in,out,roflags);
     if( plan == NULL )
       {
       // no wisdom available for that plan
@@ -224,7 +238,7 @@ public:
         fftwf_plan_dft_r2c(rank,n,din,out,flags);
         delete [] din;
         // and then create the final plan - this time it shouldn't fail
-        plan = fftwf_plan_dft_r2c(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
+        plan = fftwf_plan_dft_r2c(rank,n,in,out,roflags);
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
@@ -291,7 +305,14 @@ public:
   {
     FFTWGlobalConfiguration::Lock();
     fftwf_plan_with_nthreads(threads);
-    PlanType plan = fftwf_plan_dft(rank,n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
+    // because FFTW_ESTIMATE guarantee to not destroy the input
+    unsigned roflags = flags;
+    if( ! (flags & FFTW_ESTIMATE) )
+      {
+      roflags = flags | FFTW_WISDOM_ONLY;
+      }
+    PlanType plan = fftwf_plan_dft(rank,n,in,out,sign,roflags);
     if( plan == NULL )
       {
       // no wisdom available for that plan
@@ -312,7 +333,7 @@ public:
         fftwf_plan_dft(rank,n,din,out,sign,flags);
         delete [] din;
         // and then create the final plan - this time it shouldn't fail
-        plan = fftwf_plan_dft(rank,n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        plan = fftwf_plan_dft(rank,n,in,out,sign,roflags);
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
@@ -399,7 +420,14 @@ public:
   {
     FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
-    PlanType plan = fftw_plan_dft_c2r(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
+    // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
+    // because FFTW_ESTIMATE guarantee to not destroy the input
+    unsigned roflags = flags;
+    if( ! (flags & FFTW_ESTIMATE) )
+      {
+      roflags = flags | FFTW_WISDOM_ONLY;
+      }
+    PlanType plan = fftw_plan_dft_c2r(rank,n,in,out,roflags);
     if( plan == NULL )
       {
       // no wisdom available for that plan
@@ -420,7 +448,7 @@ public:
         fftw_plan_dft_c2r(rank,n,din,out,flags);
         delete [] din;
         // and then create the final plan - this time it shouldn't fail
-        plan = fftw_plan_dft_c2r(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
+        plan = fftw_plan_dft_c2r(rank,n,in,out,roflags);
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
@@ -484,7 +512,14 @@ public:
   {
     FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
-    PlanType plan = fftw_plan_dft_r2c(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
+    // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
+    // because FFTW_ESTIMATE guarantee to not destroy the input
+    unsigned roflags = flags;
+    if( ! (flags & FFTW_ESTIMATE) )
+      {
+      roflags = flags | FFTW_WISDOM_ONLY;
+      }
+    PlanType plan = fftw_plan_dft_r2c(rank,n,in,out,roflags);
     if( plan == NULL )
       {
       // no wisdom available for that plan
@@ -505,7 +540,7 @@ public:
         fftw_plan_dft_r2c(rank,n,din,out,flags);
         delete [] din;
         // and then create the final plan - this time it shouldn't fail
-        plan = fftw_plan_dft_r2c(rank,n,in,out,flags | FFTW_WISDOM_ONLY);
+        plan = fftw_plan_dft_r2c(rank,n,in,out,roflags);
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
@@ -572,7 +607,14 @@ public:
   {
     FFTWGlobalConfiguration::Lock();
     fftw_plan_with_nthreads(threads);
-    PlanType plan = fftw_plan_dft(rank,n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+    // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
+    // because FFTW_ESTIMATE guarantee to not destroy the input
+    unsigned roflags = flags;
+    if( ! (flags & FFTW_ESTIMATE) )
+      {
+      roflags = flags | FFTW_WISDOM_ONLY;
+      }
+    PlanType plan = fftw_plan_dft(rank,n,in,out,sign,roflags);
     if( plan == NULL )
       {
       // no wisdom available for that plan
@@ -593,7 +635,7 @@ public:
         fftw_plan_dft(rank,n,din,out,sign,flags);
         delete [] din;
         // and then create the final plan - this time it shouldn't fail
-        plan = fftw_plan_dft(rank,n,in,out,sign,flags | FFTW_WISDOM_ONLY);
+        plan = fftw_plan_dft(rank,n,in,out,sign,roflags);
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
