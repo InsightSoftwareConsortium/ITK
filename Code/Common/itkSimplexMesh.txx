@@ -147,7 +147,6 @@ double
 SimplexMesh< TPixelType, VDimension, TMeshTraits >
 ::GetPhi(PointIdentifier idx) const
 {
-  SimplexMeshGeometry *geometry = m_GeometryData->GetElement(idx);
   PointType            test;
 
   this->GetPoint(idx, &test);
