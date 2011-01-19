@@ -48,6 +48,7 @@ REGISTER_TEST(itkExtensionVelocitiesImageFilterTest );
 REGISTER_TEST(itkExtractMeshConnectedRegionsTest );
 REGISTER_TEST(itkFastChamferDistanceImageFilterTest );
 REGISTER_TEST(itkFastMarchingTest );
+REGISTER_TEST(itkFastMarchingTest2 );
 REGISTER_TEST(itkFastMarchingExtensionImageFilterTest );
 REGISTER_TEST(itkFEMRegistrationFilterTest );
 REGISTER_TEST(itkGeodesicActiveContourLevelSetImageFilterTest );

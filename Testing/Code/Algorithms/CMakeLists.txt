@@ -48,6 +48,7 @@ add_test(itkExtensionVelocitiesImageFilterTest ${ALGORITHMS_TESTS} itkExtensionV
 add_test(itkExtractMeshConnectedRegionsTest ${ALGORITHMS_TESTS} itkExtractMeshConnectedRegionsTest)
 add_test(itkFastChamferDistanceImageFilterTest ${ALGORITHMS_TESTS} itkFastChamferDistanceImageFilterTest)
 add_test(itkFastMarchingTest ${ALGORITHMS_TESTS} itkFastMarchingTest)
+add_test(itkFastMarchingTest2 ${ALGORITHMS_TESTS} itkFastMarchingTest2)
 add_test(itkFastMarchingExtensionImageFilterTest ${ALGORITHMS_TESTS} itkFastMarchingExtensionImageFilterTest)
 add_test(itkFastMarchingUpwindGradientTest ${ALGORITHMS_TESTS4} itkFastMarchingUpwindGradientTest)
 
@@ -366,6 +367,7 @@ itkFEMRegistrationFilterTest.cxx
 itkFastChamferDistanceImageFilterTest.cxx
 itkFastMarchingExtensionImageFilterTest.cxx
 itkFastMarchingTest.cxx
+itkFastMarchingTest2.cxx
 itkGeodesicActiveContourLevelSetImageFilterTest.cxx
 itkGeodesicActiveContourShapePriorLevelSetImageFilterTest.cxx
 itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx

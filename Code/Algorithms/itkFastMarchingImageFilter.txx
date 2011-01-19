@@ -47,6 +47,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   m_OverrideOutputInformation = false;
 
   m_AlivePoints = NULL;
+  m_OutsidePoints = NULL;
   m_TrialPoints = NULL;
   m_ProcessedPoints = NULL;
 
@@ -160,9 +161,12 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   PixelType outputPixel;
   outputPixel = m_LargeValue;
 
-  for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
+  outIt.GoToBegin();
+
+  while( !outIt.IsAtEnd() )
     {
     outIt.Set(outputPixel);
+    ++outIt;
     }
 
   // set all points type to FarPoint
@@ -171,35 +175,65 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   LabelIterator typeIt( m_LabelImage,
                         m_LabelImage->GetBufferedRegion() );
 
-  for ( typeIt.GoToBegin(); !typeIt.IsAtEnd(); ++typeIt )
+
+  typeIt.GoToBegin();
+  while( !typeIt.IsAtEnd() )
     {
     typeIt.Set(FarPoint);
+    ++typeIt;
     }
 
   // process input alive points
   AxisNodeType node;
+  NodeIndexType idx;
 
   if ( m_AlivePoints )
     {
     typename NodeContainer::ConstIterator pointsIter = m_AlivePoints->Begin();
     typename NodeContainer::ConstIterator pointsEnd = m_AlivePoints->End();
 
-    for (; pointsIter != pointsEnd; ++pointsIter )
+    while( pointsIter != pointsEnd )
       {
       // get node from alive points container
       node = pointsIter.Value();
+      idx = node.GetIndex();
 
       // check if node index is within the output level set
-      if ( !m_BufferedRegion.IsInside( node.GetIndex() ) )
+      if ( m_BufferedRegion.IsInside( idx ) )
         {
-        continue;
+        // make this an alive point
+        m_LabelImage->SetPixel(idx, AlivePoint);
+
+        outputPixel = node.GetValue();
+        output->SetPixel(idx, outputPixel);
         }
 
-      // make this an alive point
-      m_LabelImage->SetPixel(node.GetIndex(), AlivePoint);
+      ++pointsIter;
+      }
+    }
 
-      outputPixel = node.GetValue();
-      output->SetPixel(node.GetIndex(), outputPixel);
+  if( m_OutsidePoints )
+    {
+    typename NodeContainer::ConstIterator pointsIter = m_OutsidePoints->Begin();
+    typename NodeContainer::ConstIterator pointsEnd = m_OutsidePoints->End();
+
+    while( pointsIter != pointsEnd )
+      {
+      // get node from alive points container
+      node = pointsIter.Value();
+      idx = node.GetIndex();
+
+      // check if node index is within the output level set
+      if ( m_BufferedRegion.IsInside( idx ) )
+        {
+        // make this an alive point
+        m_LabelImage->SetPixel(idx, OutsidePoint );
+
+        outputPixel = node.GetValue();
+        output->SetPixel(idx, outputPixel);
+        }
+
+      ++pointsIter;
       }
     }
 
@@ -215,24 +249,24 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     typename NodeContainer::ConstIterator pointsIter = m_TrialPoints->Begin();
     typename NodeContainer::ConstIterator pointsEnd = m_TrialPoints->End();
 
-    for (; pointsIter != pointsEnd; ++pointsIter )
+    while( pointsIter != pointsEnd )
       {
       // get node from trial points container
       node = pointsIter.Value();
+      idx = node.GetIndex();
 
       // check if node index is within the output level set
-      if ( !m_BufferedRegion.IsInside( node.GetIndex() ) )
+      if ( m_BufferedRegion.IsInside( idx ) )
         {
-        continue;
+        // make this an initial trial point
+        m_LabelImage->SetPixel(idx, InitialTrialPoint);
+
+        outputPixel = node.GetValue();
+        output->SetPixel(idx, outputPixel);
+
+        m_TrialHeap.push(node);
         }
-
-      // make this an initial trial point
-      m_LabelImage->SetPixel(node.GetIndex(), InitialTrialPoint);
-
-      outputPixel = node.GetValue();
-      output->SetPixel(node.GetIndex(), outputPixel);
-
-      m_TrialHeap.push(node);
+      ++pointsIter;
       }
     }
 }
@@ -242,6 +276,14 @@ void
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::GenerateData()
 {
+  if( m_NormalizationFactor < vnl_math::eps )
+    {
+    ExceptionObject err(__FILE__, __LINE__);
+    err.SetLocation(ITK_LOCATION);
+    err.SetDescription("Normalization Factor is null or negative");
+    throw err;
+    }
+
   LevelSetPointer        output      = this->GetOutput();
   SpeedImageConstPointer speedImage  = this->GetInput();
 
@@ -266,50 +308,46 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     m_TrialHeap.pop();
 
     // does this node contain the current value ?
-    currentValue = (double)output->GetPixel( node.GetIndex() );
+    currentValue = static_cast< double >( output->GetPixel( node.GetIndex() ) );
 
-    if ( node.GetValue() != currentValue )
+    if ( node.GetValue() == currentValue )
       {
-      continue;
-      }
-
-    // is this node already alive ?
-    if ( m_LabelImage->GetPixel( node.GetIndex() ) == AlivePoint )
-      {
-      continue;
-      }
-
-    if ( currentValue > m_StoppingValue )
-      {
-      this->UpdateProgress(1.0);
-      break;
-      }
-
-    if ( m_CollectPoints )
-      {
-      m_ProcessedPoints->InsertElement(m_ProcessedPoints->Size(), node);
-      }
-
-    // set this node as alive
-    m_LabelImage->SetPixel(node.GetIndex(), AlivePoint);
-
-    // update its neighbors
-    this->UpdateNeighbors(node.GetIndex(), speedImage, output);
-
-    // Send events every certain number of points.
-    const double newProgress = currentValue / m_StoppingValue;
-    if ( newProgress - oldProgress > 0.01 )  // update every 1%
-      {
-      this->UpdateProgress(newProgress);
-      oldProgress = newProgress;
-      if ( this->GetAbortGenerateData() )
+      // is this node already alive ?
+      if ( m_LabelImage->GetPixel( node.GetIndex() ) != AlivePoint )
         {
-        this->InvokeEvent( AbortEvent() );
-        this->ResetPipeline();
-        ProcessAborted e(__FILE__, __LINE__);
-        e.SetDescription("Process aborted.");
-        e.SetLocation(ITK_LOCATION);
-        throw e;
+        if ( currentValue > m_StoppingValue )
+          {
+          this->UpdateProgress(1.0);
+          break;
+          }
+
+        if ( m_CollectPoints )
+          {
+          m_ProcessedPoints->InsertElement(m_ProcessedPoints->Size(), node);
+          }
+
+        // set this node as alive
+        m_LabelImage->SetPixel(node.GetIndex(), AlivePoint);
+
+        // update its neighbors
+        this->UpdateNeighbors(node.GetIndex(), speedImage, output);
+
+        // Send events every certain number of points.
+        const double newProgress = currentValue / m_StoppingValue;
+        if ( newProgress - oldProgress > 0.01 )  // update every 1%
+          {
+          this->UpdateProgress(newProgress);
+          oldProgress = newProgress;
+          if ( this->GetAbortGenerateData() )
+            {
+            this->InvokeEvent( AbortEvent() );
+            this->ResetPipeline();
+            ProcessAborted e(__FILE__, __LINE__);
+            e.SetDescription("Process aborted.");
+            e.SetLocation(ITK_LOCATION);
+            throw e;
+            }
+          }
         }
       }
     }
@@ -324,6 +362,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   LevelSetImageType *output)
 {
   IndexType neighIndex = index;
+  unsigned char label;
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {
@@ -332,8 +371,12 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
       {
       neighIndex[j] = index[j] - 1;
       }
-    unsigned char label = m_LabelImage->GetPixel(neighIndex);
-    if ( label != AlivePoint && label != InitialTrialPoint )
+
+    label = m_LabelImage->GetPixel(neighIndex);
+
+    if ( ( label != AlivePoint ) &&
+         ( label != InitialTrialPoint ) &&
+         ( label != OutsidePoint ) )
       {
       this->UpdateValue(neighIndex, speedImage, output);
       }
@@ -343,8 +386,12 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
       {
       neighIndex[j] = index[j] + 1;
       }
+
     label = m_LabelImage->GetPixel(neighIndex);
-    if ( label != AlivePoint && label != InitialTrialPoint )
+
+    if ( ( label != AlivePoint ) &&
+         ( label != InitialTrialPoint ) &&
+         ( label != OutsidePoint ) )
       {
       this->UpdateValue(neighIndex, speedImage, output);
       }
@@ -364,9 +411,11 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
 {
   IndexType neighIndex = index;
 
-  typename TLevelSet::PixelType neighValue;
-  PixelType    outputPixel;
+  PixelType neighValue;
+
+  // just to make sure the index is initialized (really cautious)
   AxisNodeType node;
+  node.SetIndex( index );
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {
@@ -377,17 +426,18 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
       {
       neighIndex[j] = index[j] + s;
 
-      if ( neighIndex[j] > m_LastIndex[j]
-           || neighIndex[j] < m_StartIndex[j] )
+      // make sure neighIndex is not outside from the image
+      if ( ( neighIndex[j] > m_LastIndex[j] ) ||
+           ( neighIndex[j] < m_StartIndex[j] ) )
         {
         continue;
         }
 
-      if ( m_LabelImage->GetPixel(neighIndex) == AlivePoint )
+      if ( m_LabelImage->GetPixel( neighIndex ) == AlivePoint )
         {
-        outputPixel = output->GetPixel(neighIndex);
-        neighValue = outputPixel;
+        neighValue = static_cast< PixelType >( output->GetPixel(neighIndex) );
 
+        // let's find the minimum value given a direction j
         if ( node.GetValue() > neighValue )
           {
           node.SetValue(neighValue);
@@ -408,20 +458,16 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   std::sort(m_NodesUsed, m_NodesUsed + SetDimension);
 
   // solve quadratic equation
-  double aa, bb, cc;
-  double solution = m_LargeValue;
+  double solution = static_cast< double >( m_LargeValue );
 
-  aa = 0.0;
-  bb = 0.0;
+  double aa( 0.0 );
+  double bb( 0.0 );
+  double cc( m_InverseSpeed );
+
   if ( speedImage )
     {
-    typedef typename SpeedImageType::PixelType SpeedPixelType;
-    cc = (double)speedImage->GetPixel(index) / m_NormalizationFactor;
+    cc = static_cast< double >( speedImage->GetPixel(index)  ) / m_NormalizationFactor;
     cc = -1.0 * vnl_math_sqr(1.0 / cc);
-    }
-  else
-    {
-    cc = m_InverseSpeed;
     }
 
   OutputSpacingType spacing = this->GetOutput()->GetSpacing();
@@ -431,12 +477,13 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {
     node = m_NodesUsed[j];
+    const double value = static_cast< double >( node.GetValue() );
 
-    if ( solution >= node.GetValue() )
+    if ( solution >= value )
       {
       const int    axis = node.GetAxis();
+      // spaceFactor = \frac{1}{spacing[axis]^2}
       const double spaceFactor = vnl_math_sqr(1.0 / spacing[axis]);
-      const double value = double( node.GetValue() );
       aa += spaceFactor;
       bb += value * spaceFactor;
       cc += vnl_math_sqr(value) * spaceFactor;
@@ -462,13 +509,13 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   if ( solution < m_LargeValue )
     {
     // write solution to m_OutputLevelSet
-    outputPixel = static_cast< PixelType >( solution );
+    PixelType outputPixel = static_cast< PixelType >( solution );
     output->SetPixel(index, outputPixel);
 
     // insert point into trial heap
     m_LabelImage->SetPixel(index, TrialPoint);
-    node.SetValue( static_cast< PixelType >( solution ) );
-    node.SetIndex(index);
+    node.SetValue( outputPixel );
+    node.SetIndex( index );
     m_TrialHeap.push(node);
     }
 
