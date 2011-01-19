@@ -21,7 +21,6 @@
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianOperator.h"
 #include "itkGaussianSpatialFunction.h"
-#include "itkCastImageFilter.h"
 
 namespace itk
 {
@@ -72,14 +71,16 @@ public:
 
   typedef GaussianSpatialFunction< TOutput, 1 >                        GaussianFunctionType;
   typedef typename GaussianFunctionType::Pointer                       GaussianFunctionPointer;
-  typedef itk::Image< double, itkGetStaticConstMacro(ImageDimension) > InternalImageType;
+  typedef typename NumericTraits< InputPixelType >::RealType           InputPixelRealType;
+  typedef itk::Image<
+    InputPixelRealType, itkGetStaticConstMacro(ImageDimension) >       InternalImageType;
   typedef typename InternalImageType::Pointer                          InternalImagePointer;
 
-  typedef NeighborhoodOperatorImageFunction< InternalImageType, TOutput > OperatorImageFunctionType;
+  typedef NeighborhoodOperatorImageFunction< InputImageType, TOutput >    OperatorImageFunctionType;
   typedef typename OperatorImageFunctionType::Pointer                     OperatorImageFunctionPointer;
 
-  typedef itk::CastImageFilter< InputImageType, InternalImageType > CastImageFilterType;
-  typedef typename CastImageFilterType::Pointer                     CastImageFilterPointer;
+  typedef NeighborhoodOperatorImageFunction< InternalImageType, TOutput > OperatorInternalImageFunctionType;
+  typedef typename OperatorInternalImageFunctionType::Pointer             OperatorInternalImageFunctionPointer;
 
   typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ErrorArrayType;
   typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ExtentArrayType;
@@ -168,12 +169,12 @@ private:
   virtual TOutput EvaluateAtIndex(
     const IndexType & index, const OperatorArrayType & operatorArray) const;
 
-  SigmaArrayType               m_Sigma;
-  OperatorImageFunctionPointer m_OperatorImageFunction;
-  mutable OperatorArrayType    m_OperatorArray;
-  mutable OperatorArrayType    m_ContinuousOperatorArray;
-  InternalImagePointer         m_InternalImage;
-  CastImageFilterPointer       m_Caster;
+  SigmaArrayType                        m_Sigma;
+  OperatorImageFunctionPointer          m_OperatorImageFunction;
+  OperatorInternalImageFunctionPointer  m_OperatorInternalImageFunction;
+  mutable OperatorArrayType             m_OperatorArray;
+  mutable OperatorArrayType             m_ContinuousOperatorArray;
+  InternalImagePointer                  m_InternalImage;
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
