@@ -763,9 +763,6 @@ void DICOMAppHelper::OutputSeries()
 }
 
 
-
-
-
 void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
                                    doublebyte group,
                                    doublebyte element,
@@ -1593,7 +1590,7 @@ void DICOMAppHelper::NumberOfContourPointsCallback( DICOMParser *,
     }
   
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicom_stream::cout << "NumberOfContourPoints : " ;
+  dicom_stream::cout << "NumberOfContourPoints : ";
   dicom_stream::cout << n << dicom_stream::endl;
 #endif
 
@@ -2439,4 +2436,3 @@ void DICOMAppHelper::Clear()
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif
-
