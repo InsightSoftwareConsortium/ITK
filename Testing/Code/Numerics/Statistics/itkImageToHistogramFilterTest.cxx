@@ -128,9 +128,8 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   filter->SetHistogramBinMinimum( histogramBinMinimum2 );
 
-  returnedHistogramBinMinimumObject = filter->GetHistogramBinMinimumInput();
-
-  returnedHistogramBinMinimum = returnedHistogramBinMinimumObject->Get();
+  // exercise the Get method which hides the decorator
+  returnedHistogramBinMinimum = filter->GetHistogramBinMinimum();
 
   for( unsigned int k2 = 0; k2 < MeasurementVectorSize; k2++ )
     {
