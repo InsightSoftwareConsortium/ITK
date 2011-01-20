@@ -38,26 +38,50 @@
 #include <fenv.h> // should this be cfenv?
 #endif /* ITK_HAVE_FENV_H */
 
-// Figure out when the fast implementations can be used
-//
-// Turn on 32-bit sse2 impl if asked for
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && defined( __SSE2__ ) && ( !defined( __GCCXML__ ) )
-#define USE_SSE2_32IMPL 1
-#else
-#define USE_SSE2_32IMPL 0
-#endif
-// Turn on 64-bit sse2 impl only on 64-bit architectures and if asked for
+#ifdef ITK_HAVE_EMMINTRIN_H
+#include <emmintrin.h> // sse 2 intrinsics
+#endif /* ITK_HAVE_EMMINTRIN_H */
+
+// assume no SSE2:
 #define USE_SSE2_64IMPL 0
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && defined( __SSE2__ ) \
-  && ( defined( __x86_64 ) || defined( __x86_64__ ) || defined( _M_X64 ) ) && ( !defined( __GCCXML__ ) )
-// _mm_cvtsd_si64 and _mm_cvtss_si64 are not defined in gcc prior to 4.0
-// of gcc, we have opted not to use a compile test for this due to
-// complication with universal binaries on apple
-#if ( !defined( __GNUC__ ) || ( defined( __GNUC__ ) && ( __GNUC__ >= 4 )  ) )
-#undef USE_SSE2_64IMPL
-#define USE_SSE2_64IMPL 1
+#define USE_SSE2_32IMPL 0
+
+// For apple assume sse2 is on for all intel builds, check for 64 and 32
+// bit versions
+#if defined(__APPLE__) && defined( __SSE2__ )
+
+#  if defined( __i386__ )
+#    undef  USE_SSE2_32IMPL
+#    define USE_SSE2_32IMPL 1
+#  endif
+
+#  if defined(  __x86_64 )
+//   Turn on the 64 bits implementation
+#    undef  USE_SSE2_64IMPL
+#    define USE_SSE2_64IMPL 1
+//   Turn on also the 32 bits implementation
+//   since it is available in 64 bits versions.
+#    undef  USE_SSE2_32IMPL
+#    define USE_SSE2_32IMPL 1
+#  endif
+
+#else
+
+// For non-apple (no universal binary possible) just use the
+// try-compile set ITK_COMPILER_SUPPORTS_SSE2_32 and
+// ITK_COMPILER_SUPPORTS_SSE2_64 to set values:
+
+#  if defined(ITK_COMPILER_SUPPORTS_SSE2_32)
+#    undef  USE_SSE2_32IMPL
+#    define USE_SSE2_32IMPL 1
+#  endif
+#  if defined(ITK_COMPILER_SUPPORTS_SSE2_64)
+#    undef  USE_SSE2_64IMPL
+#    define USE_SSE2_64IMPL 1
+#  endif
+
 #endif
-#endif
+
 
 // Turn on 32-bit and 64-bit asm impl when using GCC on x86 platform with the
 // following exception:
