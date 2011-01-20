@@ -428,7 +428,7 @@ TriangleCell< TCellInterface >::ComputeCenterOfGravity(
   PointsContainer *iPoints)
 {
   std::vector< CoordRepType > weights(3, 1. / 3.);
-  return ComputeBarycenter(weights.begin(), iPoints);
+  return ComputeBarycenter(& weights[0], iPoints);
 }
 
 template< typename TCellInterface >
