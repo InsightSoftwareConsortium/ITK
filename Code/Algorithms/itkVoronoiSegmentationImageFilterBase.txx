@@ -595,7 +595,6 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
         if ( ( ( *nit ) > i ) && ( m_Label[*nit] == 2 ) )
           {
           drawLine( m_WorkingVD->GetSeed(i), m_WorkingVD->GetSeed(*nit) );
-          i = i;
           }
         }
       }

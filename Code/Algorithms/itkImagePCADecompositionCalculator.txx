@@ -153,7 +153,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
   unsigned int            nImages = model->GetNumberOfPrincipalComponentsRequired();
 
   images.reserve(nImages);
-  for ( int i = 1; i <= nImages; i++ )
+  for ( unsigned int i = 1; i <= nImages; i++ )
     {
     images.push_back( model->GetOutput(i) );
     }
