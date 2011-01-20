@@ -49,9 +49,9 @@ namespace gdcm
     std::ostringstream _os;
     const Tag &_val = *this;
     _os.setf( std::ios::right);
-    _os << std::hex << '(' << std::setw( 4 ) << std::setfill( '0' )
+    _os << std::hex << std::setw( 4 ) << std::setfill( '0' )
       << _val[0] << '|' << std::setw( 4 ) << std::setfill( '0' )
-      << _val[1] << ')' << std::setfill( ' ' ) << std::dec;
+      << _val[1] << std::setfill( ' ' ) << std::dec;
     return _os.str();
     }
 
