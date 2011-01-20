@@ -25,9 +25,9 @@
 #include "itkImage.h"
 #include "itkImageLinearIteratorWithIndex.h"
 
-
-
-
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
 
 
 // Helper class for reading a file and checking the content

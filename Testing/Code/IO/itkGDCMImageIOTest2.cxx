@@ -21,6 +21,10 @@
 #include "itkImageSeriesWriter.h"
 #include "itkNumericSeriesFileNames.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 // Take as input any kind of image (typically RAW) and will create a valid
 // DICOM MR image out of the raw image.
 int main(int argc, char *argv[] )

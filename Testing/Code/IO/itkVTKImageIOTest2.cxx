@@ -26,6 +26,10 @@
 #include "itkImageFileReader.h"
 #include "itkVTKImageIO.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 int itkVTKImageIOTest2(int argc, char* argv[] )
 {
 

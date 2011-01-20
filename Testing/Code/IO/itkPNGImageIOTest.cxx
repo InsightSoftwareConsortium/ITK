@@ -26,6 +26,10 @@
 #include "itkRGBAPixel.h"
 #include "itkImageRegionConstIterator.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 int itkPNGRGBAIOTest(int argc, char * argv[])
 {
   if( argc < 3)
@@ -46,14 +50,22 @@ int itkPNGRGBAIOTest(int argc, char * argv[])
     // actually reading a RGBA image;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(argv[1]);
+
+    // Read in the image
+    itk::PNGImageIO::Pointer io;
+    io = itk::PNGImageIO::New();
+    reader->SetImageIO(io);
+
     reader->Update();
     readResult = reader->GetOutput();
     //
     // writing grayscale image
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput(readResult);
+    writer->SetImageIO(io);
     writer->SetFileName(argv[2]);
     writer->Update();
+
     // read the baseline
     reader = ReaderType::New(); // reinit, maybe necessary
     reader->SetFileName(argv[3]);
@@ -149,6 +161,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   typedef itk::ImageFileWriter< ImageType3D > WriterType3D;
   WriterType3D::Pointer writer3D = WriterType3D::New();
   writer3D->SetFileName( argv[2] );
+  writer3D->SetImageIO(io);
   writer3D->SetInput( volume );
   try
     {
@@ -171,6 +184,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   degenerateVolume->FillBuffer( 0 );
 
   writer3D->SetFileName( argv[2] );
+  writer3D->SetImageIO(io);
   writer3D->SetInput( degenerateVolume );
   try
     {
@@ -200,6 +214,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   typedef itk::ImageFileWriter< ImageType2D > WriterType2D;
   WriterType2D::Pointer writer2D = WriterType2D::New();
   writer2D->SetFileName( argv[2] );
+  writer2D->SetImageIO(io);
   writer2D->SetInput( image );
   try
     {
@@ -222,6 +237,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   degenerateImage->FillBuffer( 0 );
 
   writer2D->SetFileName( argv[2] );
+  writer2D->SetImageIO(io);
   writer2D->SetInput( degenerateImage );
   try
     {
@@ -250,6 +266,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   typedef itk::ImageFileWriter< ImageType1D > WriterType1D;
   WriterType1D::Pointer writer1D = WriterType1D::New();
   writer1D->SetFileName( argv[2] );
+  writer1D->SetImageIO(io);
   writer1D->SetInput( line );
   try
     {

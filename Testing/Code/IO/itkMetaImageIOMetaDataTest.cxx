@@ -26,6 +26,10 @@
 #include "itkMetaDataObject.h"
 #include "itkMetaDataDictionary.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 /** read an image using ITK -- image-based template */
 template <typename TImage>
 typename TImage::Pointer ReadImage( const std::string &fileName )

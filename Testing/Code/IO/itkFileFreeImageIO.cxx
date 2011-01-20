@@ -20,6 +20,10 @@
 #include <string.h>
 #include <stdlib.h>
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 namespace itk {
 
 FileFreeImageIO

@@ -22,6 +22,10 @@
 #include "itkNiftiImageIOTest.h"
 #include "itkNumericTraits.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 template <class RGBPixelType>
 int RGBTest(int ac, char *av[])
 {

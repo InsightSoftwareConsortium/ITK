@@ -23,6 +23,10 @@
 #include "itkImageFileReader.h"
 #include "itkImage.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 //
 // This class tests that we can create a 3D image, with a specific direction
 // matrix, save it as 3D image and read it back as a 3D image or as a 2D image.

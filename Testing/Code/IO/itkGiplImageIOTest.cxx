@@ -23,6 +23,10 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 int itkGiplImageIOTest( int ac, char* av[] )
 {
 

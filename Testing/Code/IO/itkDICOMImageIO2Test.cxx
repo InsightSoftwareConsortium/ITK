@@ -26,6 +26,10 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkDICOMImageIO2Factory.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 int itkDICOMImageIO2Test(int ac, char* av[])
 {
 

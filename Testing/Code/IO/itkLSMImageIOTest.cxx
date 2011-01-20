@@ -21,6 +21,10 @@
 #include "itkRGBPixel.h"
 #include "itkImage.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 int itkLSMImageIOTest(int argc, char* argv[])
 {
   if(argc < 3)

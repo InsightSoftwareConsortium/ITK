@@ -22,6 +22,10 @@
 // some compilers have trouble with the size of this test
 #define ITK_LEAN_AND_MEAN
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 #include "itkNrrdImageIOTest.h"
 
 

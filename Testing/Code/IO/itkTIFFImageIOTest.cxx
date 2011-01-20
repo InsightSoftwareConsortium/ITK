@@ -20,6 +20,10 @@
 #include "itkImage.h"
 #include <fstream>
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 template<class T> int DoIt( int, char * argv[], typename T::Pointer)
 {
   typename itk::ImageFileReader<T>::Pointer reader
