@@ -763,9 +763,6 @@ void DICOMAppHelper::OutputSeries()
 }
 
 
-
-
-
 void DICOMAppHelper::ArrayCallback(DICOMParser *parser,
                                    doublebyte group,
                                    doublebyte element,
@@ -1312,12 +1309,8 @@ void DICOMAppHelper::PixelDataCallback( DICOMParser *,
 {
   int numPixels = this->Dimensions[0] * this->Dimensions[1] * this->GetNumberOfComponents();
 
-  // if length was undefined, i.e. 0xffff, then use numpixels
-  if (len == 0xffff)
-    {
-    numPixels = numPixels;
-    }
-  else
+  // if length was undefined, i.e. 0xffff, then use numpixels, otherwise...
+  if (len != 0xffff)
     {
     // length was specified, but only read up to len bytes (as
     // opposed to the image size times number of components)
@@ -1553,7 +1546,7 @@ void DICOMAppHelper::ContourDataCallback( DICOMParser *,
 #ifdef DEBUG_DICOM_APP_HELPER
   DICOMAppHelperImplementation::ContourType contour = this->Implementation->SeriesUIDToContoursMap[this->CurrentSeriesUID].back();
   dicom_stream::cout << "Contour with " << contour.size() / 3 << " points." << dicom_stream::endl;
-  for (unsigned int i=0; i < contour.size(); i+=3)
+  for (unsigned int i = 0; i < contour.size(); i+=3)
     {
     dicom_stream::cout << "[" << contour[i] << ", " << contour[i+1] << ", " << contour[i+2] << "]"
                       << dicom_stream::endl;
@@ -1597,7 +1590,7 @@ void DICOMAppHelper::NumberOfContourPointsCallback( DICOMParser *,
     }
   
 #ifdef DEBUG_DICOM_APP_HELPER
-  dicom_stream::cout << "NumberOfContourPoints : " ;
+  dicom_stream::cout << "NumberOfContourPoints : ";
   dicom_stream::cout << n << dicom_stream::endl;
 #endif
 
@@ -2367,7 +2360,7 @@ void DICOMAppHelper::GetSeriesDescriptions(dicom_stl::vector<dicom_stl::string> 
     DICOMAppHelperImplementation::SeriesUIDToSeriesDescriptionMapType::iterator iiter = this->Implementation->SeriesUIDToSeriesDescriptionMap.find((*miter).first);
     if ( iiter != this->Implementation->SeriesUIDToSeriesDescriptionMap.end()) // if found we insert
       {
-      v.push_back( (*iiter).second ); 
+      v.push_back( (*iiter).second );
       }
     else
       {
@@ -2390,7 +2383,7 @@ void DICOMAppHelper::GetBodyParts(dicom_stl::vector<dicom_stl::string> &v)
     DICOMAppHelperImplementation::SeriesUIDToBodyPartMapType::iterator iiter = this->Implementation->SeriesUIDToBodyPartMap.find((*miter).first);
     if ( iiter != this->Implementation->SeriesUIDToBodyPartMap.end()) // if found we insert
       {
-      v.push_back( (*iiter).second ); 
+      v.push_back( (*iiter).second );
       }
     else
       {
@@ -2413,7 +2406,7 @@ void DICOMAppHelper::GetScanOptions(dicom_stl::vector<dicom_stl::string> &v)
     DICOMAppHelperImplementation::SeriesUIDToScanOptionsMapType::iterator iiter = this->Implementation->SeriesUIDToScanOptionsMap.find((*miter).first);
     if ( iiter != this->Implementation->SeriesUIDToScanOptionsMap.end()) // if found we insert
       {
-      v.push_back( (*iiter).second ); 
+      v.push_back( (*iiter).second );
       }
     else
       {
@@ -2422,7 +2415,6 @@ void DICOMAppHelper::GetScanOptions(dicom_stl::vector<dicom_stl::string> &v)
       }
    }
 }
-
 
 
 void DICOMAppHelper::Clear()
@@ -2443,4 +2435,3 @@ void DICOMAppHelper::Clear()
 #ifdef _MSC_VER
 #pragma warning ( pop )
 #endif
-

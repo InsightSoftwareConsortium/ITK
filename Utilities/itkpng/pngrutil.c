@@ -525,7 +525,7 @@ png_handle_IEND(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    {
       png_error(png_ptr, "No image in file");
 
-      info_ptr = info_ptr; /* quiet compiler warnings about unused info_ptr */
+      (void)info_ptr; /* quiet compiler warnings about unused info_ptr */
    }
 
    png_ptr->mode |= (PNG_AFTER_IDAT | PNG_HAVE_IEND);
@@ -1403,7 +1403,7 @@ png_handle_hIST(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
       return;
    }
 
-   num = (int)length / 2 ;
+   num = (int)length / 2;
    if (num != png_ptr->num_palette)
    {
       png_warning(png_ptr, "Incorrect hIST chunk length");
@@ -1600,7 +1600,7 @@ png_handle_pCAL(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 
    png_debug(3, "Allocating pCAL parameters array\n");
    params = (png_charpp)png_malloc(png_ptr, (png_uint_32)(nparams
-      *sizeof(png_charp))) ;
+      *sizeof(png_charp)));
 
    /* Get pointers to the start of each parameter string. */
    for (i = 0; i < (int)nparams; i++)
@@ -2102,7 +2102,7 @@ png_handle_unknown(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
    png_crc_finish(png_ptr, skip);
 
 #if !defined(PNG_READ_USER_CHUNKS_SUPPORTED)
-   info_ptr = info_ptr; /* quiet compiler warnings about unused info_ptr */
+   (void)info_ptr; /* quiet compiler warnings about unused info_ptr */
 #endif
 }
 
