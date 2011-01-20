@@ -44,16 +44,17 @@ public:
   typedef SmartPointer< Self >                 Pointer;
   typedef SmartPointer< const Self >           ConstPointer;
 
-  typedef typename Superclass::ScalarType      ScalarType;
-  typedef typename Superclass::PixelType       PixelType;
-  typedef typename Superclass::ImageType       ImageType;
-  typedef typename Superclass::ImagePointer    ImagePointer;
-  typedef typename Superclass::IndexType       IndexType;
-  typedef typename Superclass::RegionType      RegionType;
-  typedef typename Superclass::SizeType        SizeType;
-  typedef typename Superclass::TransformType   TransformType;
-  typedef typename Superclass::PointType       PointType;
-  typedef typename Superclass::BoundingBoxType BoundingBoxType;
+  typedef typename Superclass::ScalarType       ScalarType;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::ImageType        ImageType;
+  typedef typename Superclass::ImagePointer     ImagePointer;
+  typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::RegionType       RegionType;
+  typedef typename Superclass::SizeType         SizeType;
+  typedef typename Superclass::TransformType    TransformType;
+  typedef typename Superclass::PointType        PointType;
+  typedef typename Superclass::BoundingBoxType  BoundingBoxType;
+  typedef typename Superclass::InterpolatorType InterpolatorType;
 
   typedef itk::ImageSliceConstIteratorWithIndex< ImageType >
   SliceIteratorType;
