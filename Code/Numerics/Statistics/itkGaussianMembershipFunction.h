@@ -104,7 +104,7 @@ private:
 
   /** if the all element of the given covarinace is zero, then this
    * value set to true */
-  bool m_IsCovarianceZero;
+  bool m_DeterminantOK;
 };
 } // end of namespace Statistics
 } // end namespace itk

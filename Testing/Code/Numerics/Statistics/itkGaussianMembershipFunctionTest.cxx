@@ -47,13 +47,15 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
 
   //Test if an exception will be thrown if we try to resize the measurement vector
   //size
+  std::cout << "***" << std::endl;
+  std::cout << "Exception TEST: " << std::endl;
   try
     {
     MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
     function->SetMeasurementVectorSize( measurementVector2 );
     std::cerr << "Exception should have been thrown since we are trying to resize\
                   non-resizeable measurement vector type " << std::endl;
-    return EXIT_FAILURE;
+    //return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & excp )
     {

@@ -93,7 +93,7 @@ public:
         {
         itkExceptionMacro(
           "Attempting to change the measurement \
-                           vector size of a non-resizable vector type"                                                  );
+           vector size of a non-resizable vector type" );
         }
       }
   }

@@ -158,13 +158,14 @@ bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::CalculateDensities()
 {
-  bool componentModified  = false;
+  bool componentModified = false;
 
-  for ( unsigned int i = 0; i < m_ComponentVector.size(); i++ )
+  for ( size_t i = 0; i < m_ComponentVector.size(); i++ )
     {
     if ( ( m_ComponentVector[i] )->AreParametersModified() )
       {
       componentModified = true;
+      break;
       }
     }
 
@@ -174,13 +175,13 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
     }
 
   double                temp;
-  int                   numberOfComponents = static_cast< int >( m_ComponentVector.size() );
-  std::vector< double > tempWeights(numberOfComponents);
+  size_t                numberOfComponents = m_ComponentVector.size();
+  std::vector< double > tempWeights(numberOfComponents, 0. );
 
   typename TSample::ConstIterator iter = m_Sample->Begin();
   typename TSample::ConstIterator last = m_Sample->End();
 
-  int componentIndex;
+  size_t componentIndex;
 
   typedef typename TSample::AbsoluteFrequencyType FrequencyType;
   FrequencyType frequency;
@@ -188,7 +189,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   typename TSample::MeasurementVectorType mvector;
   double density;
   double densitySum;
-  double minDouble = NumericTraits< double >::NonpositiveMin();
+  double minDouble = NumericTraits<double>::epsilon();
 
   SizeValueType measurementVectorIndex = 0;
 
@@ -200,19 +201,22 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
     if ( frequency > zeroFrequency )
       {
       for ( componentIndex = 0; componentIndex < numberOfComponents;
-            componentIndex++ )
+            ++componentIndex )
         {
-        density = m_Proportions[componentIndex]
-                  * m_ComponentVector[componentIndex]->Evaluate(mvector);
+        double t_prop = m_Proportions[componentIndex];
+        double t_value = m_ComponentVector[componentIndex]->Evaluate(mvector);
+        density = t_prop * t_value;
         tempWeights[componentIndex] = density;
         densitySum += density;
         }
 
       for ( componentIndex = 0; componentIndex < numberOfComponents;
-            componentIndex++ )
+            ++componentIndex )
         {
         temp = tempWeights[componentIndex];
-        if ( densitySum != 0 )
+
+        // just to make sure temp does not blow up!
+        if ( densitySum > NumericTraits<double>::epsilon() )
           {
           temp /= densitySum;
           }
@@ -223,7 +227,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
     else
       {
       for ( componentIndex = 0; componentIndex < numberOfComponents;
-            componentIndex++ )
+            ++componentIndex )
         {
         m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
                                                      minDouble);
@@ -246,22 +250,41 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
   if ( m_Sample )
     {
-    unsigned int  componentIndex, measurementVectorIndex;
+    unsigned int  measurementVectorIndex;
     SizeValueType size = m_Sample->Size();
     double        logProportion;
     double        temp;
-    for ( componentIndex = 0; componentIndex < m_ComponentVector.size();
-          componentIndex++ )
+    for ( size_t componentIndex = 0;
+          componentIndex < m_ComponentVector.size();
+          ++componentIndex )
       {
-      logProportion = vcl_log(m_Proportions[componentIndex]);
+      temp = m_Proportions[componentIndex];
+
+      // if temp is below the smallest positive double number
+      // the log may blow up
+      if( temp > NumericTraits<double>::epsilon() )
+        {
+        logProportion = vcl_log( temp );
+        }
+      else
+        {
+        logProportion = NumericTraits< double >::NonpositiveMin();
+        }
       for ( measurementVectorIndex = 0; measurementVectorIndex < size;
             measurementVectorIndex++ )
         {
         temp = m_ComponentVector[componentIndex]->
                GetWeight(measurementVectorIndex);
-        sum += temp * ( logProportion
-                        + vcl_log( m_ComponentVector[componentIndex]->
-                                   GetWeight(measurementVectorIndex) ) );
+        if( temp > NumericTraits<double>::epsilon() )
+          {
+          sum += temp * ( logProportion + vcl_log( temp ) );
+          }
+        else
+          {
+          // let's throw an exception
+          itkExceptionMacro( << "temp is null" );
+          }
+        //m_ComponentVector[componentIndex]->GetWeight(measurementVectorIndex) ) );
         }
       }
     }
@@ -273,18 +296,17 @@ bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::UpdateComponentParameters()
 {
-  unsigned int   componentIndex;
   bool           updated = false;
   ComponentType *component;
 
-  for ( componentIndex = 0; componentIndex < m_ComponentVector.size();
-        componentIndex++ )
+  for ( size_t componentIndex = 0; componentIndex < m_ComponentVector.size();
+        ++componentIndex )
     {
     component = m_ComponentVector[componentIndex];
     component->Update();
     if ( component->AreParametersModified() )
       {
-      updated = true;
+      return true;
       }
     }
 
@@ -296,22 +318,27 @@ bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::UpdateProportions()
 {
-  SizeValueType numberOfComponents = m_ComponentVector.size();
-  SizeValueType sampleSize = m_Sample->Size();
-  double totalFrequency = (double)( m_Sample->GetTotalFrequency() );
+  size_t numberOfComponents = m_ComponentVector.size();
+  size_t sampleSize = m_Sample->Size();
+  double totalFrequency = static_cast< double >( m_Sample->GetTotalFrequency() );
+  size_t   i, j;
   double tempSum;
   bool   updated = false;
 
-  for ( SizeValueType i = 0; i < numberOfComponents; i++ )
+  for ( i = 0; i < numberOfComponents; ++i )
     {
-    tempSum = 0.0;
-    for ( SizeValueType j = 0; j < sampleSize; j++ )
-      {
-      tempSum += ( m_ComponentVector[i]->GetWeight(j)
-                   * m_Sample->GetFrequency(j) );
-      }
+    tempSum = 0.;
 
-    tempSum /= totalFrequency;
+    if( totalFrequency > NumericTraits<double>::epsilon() )
+      {
+      for ( j = 0; j < sampleSize; ++j )
+        {
+        tempSum += ( m_ComponentVector[i]->GetWeight(j)
+                     * m_Sample->GetFrequency(j) );
+        }
+
+      tempSum /= totalFrequency;
+      }
 
     if ( tempSum != m_Proportions[i] )
       {
@@ -356,7 +383,7 @@ const typename ExpectationMaximizationMixtureModelEstimator< TSample >::Membersh
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetOutput() const
 {
-  unsigned int                   numberOfComponents = m_ComponentVector.size();
+  size_t                   numberOfComponents = m_ComponentVector.size();
   MembershipFunctionVectorType & membershipFunctionsVector = m_MembershipFunctionsObject->Get();
 
   typename SampleType::MeasurementVectorSizeType measurementVectorSize =
@@ -371,7 +398,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
   typename ComponentType::ParametersType parameters;
 
-  for ( unsigned int i = 0; i < numberOfComponents; i++ )
+  for ( size_t i = 0; i < numberOfComponents; ++i )
     {
     parameters = m_ComponentVector[i]->GetFullParameters();
     typename GaussianMembershipFunctionType::Pointer membershipFunction =
@@ -384,9 +411,9 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
       ++parameterIndex;
       }
 
-    for ( unsigned int ii = 0; ii < measurementVectorSize; ii++ )
+    for ( unsigned int ii = 0; ii < measurementVectorSize; ++ii )
       {
-      for ( unsigned int jj = 0; jj < measurementVectorSize; jj++ )
+      for ( unsigned int jj = 0; jj < measurementVectorSize; ++jj )
         {
         covariance.GetVnlMatrix().put(ii, jj, parameters[parameterIndex]);
         ++parameterIndex;
@@ -407,12 +434,12 @@ const typename ExpectationMaximizationMixtureModelEstimator< TSample
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetMembershipFunctionsWeightsArray() const
 {
-  unsigned int           numberOfComponents = m_ComponentVector.size();
+  size_t           numberOfComponents = m_ComponentVector.size();
   ProportionVectorType & membershipFunctionsWeightVector =
     m_MembershipFunctionsWeightArrayObject->Get();
 
   membershipFunctionsWeightVector.SetSize(numberOfComponents);
-  for ( unsigned int i = 0; i < numberOfComponents; i++ )
+  for ( size_t i = 0; i < numberOfComponents; ++i )
     {
     membershipFunctionsWeightVector[i] = m_Proportions[i];
     }
