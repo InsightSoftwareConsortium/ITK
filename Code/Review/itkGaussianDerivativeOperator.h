@@ -49,6 +49,7 @@ namespace itk
  * be taken not to make this value too small relative to the variance
  * lest the operator size become unreasonably large.
  *
+ *
  * References:
  * The Gaussian kernel contained in this operator was described
  * by Tony Lindeberg  (Discrete Scale-Space Theory and the Scale-Space
@@ -90,17 +91,15 @@ public:
   /** Assignment operator */
   Self & operator=(const Self & other);
 
-  /** Set/Get the flag for choosing the implementation. If we choose
-   * to use itk::DerivativeOperator, then the derivative Gaussian kernel
-   * is calculated as a convolution with the itk::DerivativeOperator of
-   * the desired order. Otherwise a polynomial is computed analitically
-   * for the derivative of the Gaussian. */
-  void SetUseDerivativeOperator(bool flag) { m_UseDerivativeOperator = flag; }
-  bool GetUseDerivativeOperator() const { return m_UseDerivativeOperator; }
-  itkBooleanMacro(UseDerivativeOperator);
 
-  /** Set/Get the flag for calculating scale-space normalized derivatives.
-    * Normalized derivatives are obtained multiplying by the scale parameter t. */
+  /** Set/Get the flag for calculating scale-space normalized
+   * derivatives.
+   *
+   * Normalized derivatives are obtained multiplying by the scale
+   * parameter $t^1/order$. This use useful for scale-space selection
+   * algorithms such as blob detection. The scaling results in the
+   * value of the derivatives being independent of the size of an
+   * object. */
   void SetNormalizeAcrossScale(bool flag) { m_NormalizeAcrossScale = flag; }
   bool GetNormalizeAcrossScale() const { return m_NormalizeAcrossScale; }
   itkBooleanMacro(NormalizeAcrossScale);
@@ -177,9 +176,6 @@ private:
   {
     return "itkGaussianDerivativeOperator";
   }
-
-  /** Flag to set if the implementation uses the itk::DerivativeOperator. */
-  bool m_UseDerivativeOperator;
 
   /** Normalize derivatives across scale space */
   bool m_NormalizeAcrossScale;

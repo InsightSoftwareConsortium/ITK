@@ -35,7 +35,6 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   m_Spacing = 1.0;
   m_MaximumError = 0.005;
   m_MaximumKernelWidth = 30;
-  m_UseDerivativeOperator = false;
   m_NormalizeAcrossScale = true;
 }
 
@@ -45,7 +44,6 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::GaussianDerivativeOperator(const Self & other)
   : NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
 {
-  m_UseDerivativeOperator = other.m_UseDerivativeOperator;
   m_NormalizeAcrossScale = other.m_NormalizeAcrossScale;
   m_Spacing = other.m_Spacing;
   m_Order = other.m_Order;
@@ -61,7 +59,6 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::operator=(const Self & other)
 {
   Superclass::operator=(other);
-  m_UseDerivativeOperator = other.m_UseDerivativeOperator;
   m_NormalizeAcrossScale = other.m_NormalizeAcrossScale;
   m_Spacing = other.m_Spacing;
   m_Order = other.m_Order;
@@ -86,9 +83,6 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
     return coeff;
     }
 
-  // Use image spacing to modify variance
-  const double pixelVariance = m_Variance / ( m_Spacing * m_Spacing );
-
 
   // Calculate scale-space normalization factor for derivatives
   double norm = (m_NormalizeAcrossScale && m_Order ? vcl_pow(m_Variance, m_Order / 2.0) : 1.0 );
@@ -96,147 +90,46 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   // additional normalization for spacing
   norm /= vcl_pow( m_Spacing, static_cast< int >( m_Order ) );
 
-  if ( !this->GetUseDerivativeOperator() )
+  DerivativeOperatorType derivOp;
+  derivOp.SetDirection( this->GetDirection() );
+  derivOp.SetOrder( m_Order );
+  derivOp.CreateDirectional();
+
+  // The input gaussian kernel needs to be padded with a clamped
+  // boundary condition. If N is the radius of the derivative
+  // operator, then the output kernel needs to be padded by N-1. For
+  // these values to be computed the input kernel needs to be padded
+  // by 2N-1 on both sides.
+  unsigned int N = ( derivOp.Size() - 1 ) / 2;
+
+  // copy the gaussian operator adding clamped boundary condition
+  CoefficientVector paddedCoeff( coeff.size() + 4*N - 2);
+
+  // copy the whole gaussuan operator in coeff to paddedCoef
+  // starting after the padding
+  std::copy( coeff.begin(), coeff.end(), paddedCoeff.begin() + 2*N - 1);
+
+  // padd paddedCoeff with 2*N-1 number of boundary conditions
+  std::fill( paddedCoeff.begin(),  paddedCoeff.begin() + 2*N, coeff.front() );
+  std::fill( paddedCoeff.rbegin(), paddedCoeff.rbegin() + 2*N, coeff.back() );
+
+  // clear for output kernel/coeffs
+  coeff = CoefficientVector();
+
+  // Now perform convolution between derivative operators and padded gaussian
+  for ( unsigned int i = N; i < paddedCoeff.size() - N; ++i )
     {
-    // Coefficient of the polynomial that multiplies the gaussian
-    // Gaussian derivatives always take the form
-    // G'(n)(x,t) = P(n)(x,t) * G(x,t)
-    // where P(n)(x,sigma) is a polynomial of the same order as the derivative.
-    // For first order derivatives the polynomial simply corresponds to
-    // multiplying
-    // the gaussian by -x/t.
+    double conv = 0.0;
 
-    std::vector< int > polyCoeffs;
-
-    if ( m_Order == 1 ) // -x/t
+    // current index in derivative op
+    for ( unsigned int j = 0; j < derivOp.Size(); ++j )
       {
-      polyCoeffs.push_back(0);
-      polyCoeffs.push_back(-1);
-      }
-    else if ( m_Order == 2 ) // ( x^2-t )/t^2
-      {
-      polyCoeffs.push_back(-1);
-      polyCoeffs.push_back(0);
-      polyCoeffs.push_back(1);
-      }
-    else if ( m_Order == 3 ) // (-x^3+3xt)/t^3
-      {
-      polyCoeffs.push_back(0);
-      polyCoeffs.push_back(3);
-      polyCoeffs.push_back(0);
-      polyCoeffs.push_back(-1);
-      }
-    else if ( m_Order > 3 ) // recursively calculate derivative of polynomial
-      {
-      polyCoeffs.push_back(0);
-      polyCoeffs.push_back(3);
-      polyCoeffs.push_back(0);
-      polyCoeffs.push_back(-1);
-
-      unsigned int i, j;
-      for ( i = 4; i <= m_Order; ++i )
-        {
-        if ( i % 2 == 0 ) // even order
-          {
-          for ( j = 1; j < polyCoeffs.size(); j += 2 )
-            {
-            polyCoeffs[j - 1] += j * polyCoeffs[j];
-            if ( j < polyCoeffs.size() - 1 )
-              {
-              polyCoeffs[j + 1] -= polyCoeffs[j];
-              }
-            polyCoeffs[j] = 0;
-            }
-          polyCoeffs.push_back(1); // add highest order new element
-          }
-        else // odd order
-          {
-          polyCoeffs[1] = -polyCoeffs[0];
-          polyCoeffs[0] = 0;
-          for ( j = 2; j < polyCoeffs.size(); j += 2 )
-            {
-            polyCoeffs[j - 1] += j * polyCoeffs[j];
-            polyCoeffs[j + 1] -= polyCoeffs[j];
-            polyCoeffs[j] = 0;
-            }
-          polyCoeffs.push_back(-1); // add highest order new element
-          }
-        }
+      unsigned int k = i + j - derivOp.Size() / 2;
+      conv += paddedCoeff[k] * derivOp[derivOp.Size() - 1 - j];
       }
 
-    // Multiply modify the coefficients of the 0-order gaussian by
-    // taking into account the derivative polynomial and order.
-    typename CoefficientVector::iterator it = coeff.begin();
-    const int halfSize = static_cast<int>( coeff.size() ) / 2;
-    for ( int i = -halfSize; i <= halfSize; ++i )
-      {
-      double sum = 0.0;
-      if ( m_Order % 2 == 0 ) // even
-        {
-        for ( unsigned int j = 0, k = m_Order / 2; j < polyCoeffs.size(); j += 2, k-- )
-          {
-          sum += polyCoeffs[j] * vcl_pow(pixelVariance, (int)k) * vcl_pow( (double)i , (int)j);
-          }
-        }
-      else // odd
-        {
-          for ( unsigned int j = 1, k = ( m_Order - 1 ) / 2; j < polyCoeffs.size(); j += 2, k-- )
-            {
-            sum += polyCoeffs[j] * vcl_pow(pixelVariance, (int)k) * vcl_pow( (double)i , (int)j);
-            }
-        }
-      sum *= norm * vcl_pow( m_Variance, (int)-m_Order );
-      // normalize for scale-space and spacing
-      ( *it ) *= sum;
-      ++it;
-      }
-
-    }
-  else // m_UseDerivativeOperator = true
-    {
-    DerivativeOperatorType derivOp;
-    derivOp.SetDirection( this->GetDirection() );
-    derivOp.SetOrder( m_Order );
-    derivOp.CreateDirectional();
-
-    // The input gaussian kernel needs to be padded with a clamped
-    // boundary condition. If N is the radius of the derivative
-    // operator, then the output kernel needs to be padded by N-1. For
-    // these values to be computed the input kernel needs to be padded
-    // by 2N-1 on both sides.
-    unsigned int N = ( derivOp.Size() - 1 ) / 2;
-
-    // allocate the gaussian operator adding space clamped boundary condition
-    CoefficientVector paddedCoeff( coeff.size() + 4*N - 2);
-
-    // copy the whole gaussuan operator in coeff to paddedCoef
-    // starting after the padding
-    std::copy( coeff.begin(), coeff.end(), paddedCoeff.begin() + 2*N - 1);
-
-    // padd paddedCoeff with 2*N-1 number of boundary conditions
-    std::fill( paddedCoeff.begin(),  paddedCoeff.begin() + 2*N, coeff.front() );
-    std::fill( paddedCoeff.rbegin(), paddedCoeff.rbegin() + 2*N, coeff.back() );
-
-
-    // clear for output kernel/coeffs
-    coeff = CoefficientVector();
-
-    // Now perform convolution between derivative operators and padded gaussian
-    for ( unsigned int i = N; i < paddedCoeff.size() - N; ++i )
-      {
-      double conv = 0.0;
-
-      // current index in derivative op
-      for ( unsigned int j = 0; j < derivOp.Size(); ++j )
-        {
-        unsigned int k = i + j - derivOp.Size() / 2;
-        conv += paddedCoeff[k] * derivOp[derivOp.Size() - 1 - j];
-        }
-
-      // normalize for scale-space and spacing
-      coeff.push_back(norm * conv);
-      }
-
+    // normalize for scale-space and spacing
+    coeff.push_back(norm * conv);
     }
 
   return coeff;
@@ -273,7 +166,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
       // if the coeff is less then this value then the value of cap
       // will not change, and it's will not contribute to the operator
       itkWarningMacro( "Kernel failed to accumulate to approximately one with current remainder "
-                       << cap << " and current coefficient " << coeff[i] << "." );
+                       << cap-sum << " and current coefficient " << coeff[i] << "." );
 
       break;
       }
@@ -376,7 +269,7 @@ double
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::ModifiedBesselI(int n, double y)
 {
-  const double DIGITS = 8.0;
+  const double DIGITS = 10.0;
   int          j;
   double       qim, qi, qip, toy;
   double       accumulator;
@@ -418,7 +311,6 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::PrintSelf(std::ostream & os, Indent i) const
 {
   os << i << "GaussianDerivativeOperator { this=" << this
-     << ", m_UseDerivativeOperator = " << m_UseDerivativeOperator
      << ", m_NormalizeAcrossScale = " << m_NormalizeAcrossScale
      << ", m_Order = " << m_Order
      << ", m_Spacing = " << m_Spacing
