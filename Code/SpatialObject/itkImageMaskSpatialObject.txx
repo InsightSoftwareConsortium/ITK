@@ -58,21 +58,24 @@ ImageMaskSpatialObject< TDimension >
 
   PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
 
-  IndexType index;
+  typename Superclass::InterpolatorType::ContinuousIndexType index;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    index[i] = static_cast< int >( p[i] );
+    index[i] = p[i];
     }
 
-  const bool insideBuffer = this->GetImage()->GetBufferedRegion().IsInside(index);
+  const bool insideBuffer =
+    this->GetImage()->GetBufferedRegion().IsInside(index);
 
   if ( !insideBuffer )
     {
     return false;
     }
 
-  const bool insideMask = ( this->GetImage()->GetPixel(index) != NumericTraits< PixelType >::Zero );
-
+  typedef typename InterpolatorType::OutputType InterpolatorOutputType;
+  const bool insideMask = (
+    DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(this->m_Interpolator->EvaluateAtContinuousIndex(index))
+    != NumericTraits<PixelType>::Zero);
   return insideMask;
 }
 
