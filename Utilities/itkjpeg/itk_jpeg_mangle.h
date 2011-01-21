@@ -10,7 +10,9 @@ itk.
 
 The following command was used to obtain the symbol list:
 
-nm libitkjpeg.a |grep " [TR] "
+nm libitkjpeg.a |grep " [TRD] "
+
+nm libitkjpeg.a |grep " [TRD] " | awk '{ print "#define "$3" itk_jpeg_"$3 }'
 
 */
 
@@ -167,6 +169,7 @@ nm libitkjpeg.a |grep " [TR] "
 #define jpeg_start_decompress        itk_jpeg_jpeg_start_decompress
 #define jpeg_start_output            itk_jpeg_jpeg_start_output
 #define jpeg_std_error               itk_jpeg_jpeg_std_error
+#define jpeg_std_message_table       itk_jpeg_jpeg_std_message_table
 #define jpeg_stdio_dest              itk_jpeg_jpeg_stdio_dest
 #define jpeg_stdio_src               itk_jpeg_jpeg_stdio_src
 #define jpeg_suppress_tables         itk_jpeg_jpeg_suppress_tables
