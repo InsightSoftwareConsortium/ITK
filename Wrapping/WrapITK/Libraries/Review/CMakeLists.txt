@@ -1,6 +1,6 @@
 WRAP_LIBRARY(Review)
 
-set(WRAPPER_LIBRARY_DEPENDS VXLNumerics Base)
+set(WRAPPER_LIBRARY_DEPENDS VXLNumerics Base Transforms)
 
 set(WRAPPER_LIBRARY_GROUPS
   itkMovingHistogramImageFilterBase
