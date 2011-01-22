@@ -166,10 +166,11 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
 
   // Traverse along the line that goes through mask boundaries and
   // check if the value and the mask is consistent
-  const int numberOfSteps =
+  const int numberOfSteps = static_cast<int> (
     vcl_sqrt(double(insideSize[0]*insideSize[0]+
                     insideSize[1]*insideSize[1]+
-                    insideSize[2]*insideSize[2]))*100;
+                    insideSize[2]*insideSize[2]))*100.0
+    );
   const ImageType::SpacingType incrementVector =
     (endPoint-startPoint)/static_cast<double>(numberOfSteps);
   ImageType::PointType point=startPoint;

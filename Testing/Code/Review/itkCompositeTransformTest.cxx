@@ -634,14 +634,18 @@ int itkCompositeTransformTest(int ,char *[] )
   catch( itk::ExceptionObject & err )
     {
     caught = true;
+    std::cout << "Caught expected exception." << std::endl;
+    (&err)->Print(std::cout);
     }
   if( !caught )
     {
     std::cout << "Expected exception calling SetParameters with wrong size"
               << std::endl;
+
     return EXIT_FAILURE;
     }
 
+  compositeTransform->Print(std::cout);
   return EXIT_SUCCESS;
 
 }
