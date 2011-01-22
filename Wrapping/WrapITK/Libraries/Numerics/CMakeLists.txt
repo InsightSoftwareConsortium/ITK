@@ -2,10 +2,8 @@ WRAP_LIBRARY(Numerics)
 
 set(WRAPPER_LIBRARY_GROUPS
   ITKCostFunctions
-  itkDenseFrequencyContainer
   itkSample
   itkHistogram
-  itkListSampleBase
   itkListSample
   itkMembershipFunctionBase
 )

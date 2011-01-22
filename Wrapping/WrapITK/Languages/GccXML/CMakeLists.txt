@@ -63,7 +63,7 @@ macro(END_WRAP_MODULE_GCCXML module)
 #   message("${GCC_XML_INCLUDES}${GCC_XML_TYPEDEFS}")
 
   # Create the cxx file.
-  set(file_name "wrap_${module}.cxx")
+  set(file_name "${module}.cxx")
   set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${file_name}")
   set(CONFIG_WRAPPER_INCLUDES "${GCC_XML_INCLUDES}")
   set(CONFIG_WRAPPER_MODULE_NAME "${WRAPPER_MODULE_NAME}")
@@ -74,7 +74,7 @@ macro(END_WRAP_MODULE_GCCXML module)
 
   # generate the xml file
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
-  set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${module}.xml")
+  set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
 
   if(WRAP_ITK_USE_CCACHE)
     add_custom_command(

@@ -158,7 +158,6 @@ macro(END_WRAP_LIBRARY_TCL)
   # the .i input file.
   foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
     get_filename_component(base_name ${source} NAME_WE)
-    string(REPLACE "wrap_" "" base_name "${base_name}")
     WRAP_MODULE_TCL("${base_name}")
     END_WRAP_MODULE_TCL("${base_name}")
   endforeach(source)
@@ -237,10 +236,10 @@ endmacro(END_WRAP_LIBRARY_TCL)
 
 macro(END_WRAP_MODULE_TCL group_name)
 
-  set(base_name wrap_${group_name})
+  set(base_name ${group_name})
 
   # the default typemaps, exception handler, and includes
-  set(WRAP_ITK_TCL_SWIG_EXT "%import wrap_tclBase.i\n\n${WRAP_ITK_TCL_SWIG_EXT}")
+  set(WRAP_ITK_TCL_SWIG_EXT "%import tclBase.i\n\n${WRAP_ITK_TCL_SWIG_EXT}")
 
 
   # create the swig interface for all the groups in the module
@@ -251,9 +250,9 @@ macro(END_WRAP_MODULE_TCL group_name)
 
   # create the tcl customization for that wrap_*.cmake file.
   configure_file("${WRAP_ITK_TCL_SOURCE_DIR}/module_ext.i.in"
-  "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/wrap_${group_name}_ext.i"
+  "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${group_name}_ext.i"
   @ONLY IMMEDIATE)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/tcl" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/wrap_${group_name}_ext.i"
+  WRAP_ITK_INSTALL("/Configuration/Typedefs/tcl" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${group_name}_ext.i"
   )
 
   # prepare dependencies

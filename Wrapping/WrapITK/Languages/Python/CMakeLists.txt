@@ -301,7 +301,6 @@ macro(END_WRAP_LIBRARY_PYTHON)
   set(WRAP_ITK_PYTHON_PROCCESS_SWIG_INPUTS ON)
   foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
     get_filename_component(base_name ${source} NAME_WE)
-    string(REPLACE "wrap_" "" base_name "${base_name}")
     WRAP_MODULE_PYTHON("${base_name}")
     END_WRAP_MODULE_PYTHON("${base_name}")
   endforeach(source)
@@ -395,7 +394,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
     -outdir ${LIBRARY_OUTPUT_PATH}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
-    DEPENDS ${DEPS} ${WRAP_ITK_PYTHON_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/wrap_pyBase.i ${SWIG_EXECUTABLE}
+    DEPENDS ${DEPS} ${WRAP_ITK_PYTHON_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${SWIG_EXECUTABLE}
   )
   WRAP_ITK_INSTALL("/lib" "${python_file}")
 
@@ -445,7 +444,7 @@ endmacro(END_WRAP_LIBRARY_PYTHON)
 
 macro(END_WRAP_MODULE_PYTHON group_name)
 
-  set(base_name wrap_${group_name})
+  set(base_name ${group_name})
 
   if("${group_name}" STREQUAL "itkVectorContainer")
     # add a template definition for the superclass which is not in ITK
@@ -511,15 +510,15 @@ macro(END_WRAP_MODULE_PYTHON group_name)
   # is there a docstring file?
   if(WRAP_ITK_DOC AND NOT WRAP_ITK_PYTHON_PROCCESS_SWIG_INPUTS)
     # yes. Include the docstring file
-    set(doc_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/wrap_${WRAPPER_MODULE_NAME}_doc.i")
-    set(WRAP_ITK_PYTHON_SWIG_EXT "%include wrap_${WRAPPER_MODULE_NAME}_doc.i\n\n${WRAP_ITK_PYTHON_SWIG_EXT}")
+    set(doc_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_MODULE_NAME}_doc.i")
+    set(WRAP_ITK_PYTHON_SWIG_EXT "%include ${WRAPPER_MODULE_NAME}_doc.i\n\n${WRAP_ITK_PYTHON_SWIG_EXT}")
   else(WRAP_ITK_DOC AND NOT WRAP_ITK_PYTHON_PROCCESS_SWIG_INPUTS)
     # no. Clear the doc_file var
     set(doc_file "")
   endif(WRAP_ITK_DOC AND NOT WRAP_ITK_PYTHON_PROCCESS_SWIG_INPUTS)
 
   # the default typemaps, exception handler, and includes
-  set(WRAP_ITK_PYTHON_SWIG_EXT "%import wrap_pyBase.i\n\n${WRAP_ITK_PYTHON_SWIG_EXT}")
+  set(WRAP_ITK_PYTHON_SWIG_EXT "%import pyBase.i\n\n${WRAP_ITK_PYTHON_SWIG_EXT}")
 
   # create the swig interface for all the groups in the module
   #
@@ -530,9 +529,9 @@ macro(END_WRAP_MODULE_PYTHON group_name)
 
   # create the python customization for that wrap_*.cmake file.
   configure_file("${WRAP_ITK_PYTHON_SOURCE_DIR}/module_ext.i.in"
-  "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/wrap_${group_name}_ext.i"
+  "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${group_name}_ext.i"
   @ONLY IMMEDIATE)
-  WRAP_ITK_INSTALL("/Configuration/Typedefs/python" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/wrap_${group_name}_ext.i"
+  WRAP_ITK_INSTALL("/Configuration/Typedefs/python" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${group_name}_ext.i"
   )
 
   # prepare dependencies
@@ -564,7 +563,7 @@ macro(END_WRAP_MODULE_PYTHON group_name)
     -outdir ${LIBRARY_OUTPUT_PATH}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
-    DEPENDS ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/wrap_pyBase.i ${doc_file} ${SWIG_EXECUTABLE}
+    DEPENDS ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${doc_file} ${SWIG_EXECUTABLE}
     # ${WRAP_ITK_PYTHON_LIBRARY_DEPS}
   )
   WRAP_ITK_INSTALL("/lib" "${python_file}")

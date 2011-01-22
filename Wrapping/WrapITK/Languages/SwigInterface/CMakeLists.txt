@@ -131,9 +131,9 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
   set(idx_files )
   foreach(module ${SWIG_INTERFACE_MODULES})
     # create the swig interface
-    set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/wrap_${module}.i")
-    set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${module}.xml")
-    set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/wrap_${module}.idx")
+    set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.i")
+    set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
+    set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
     set(idx_files ${idx_files} ${idx_file})
     set(includes_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.includes")
     set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
@@ -173,7 +173,7 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
         --mdx ${mdx_file}
         --include ${WRAPPER_LIBRARY_NAME}.includes
 #        --import ${module_interface_file}
-        --swig-include wrap_${module}_ext.i
+        --swig-include ${module}_ext.i
         -w1 -w3 -w51 -w52 -w53 -w54 #--warning-error
         -A protected -A private
         # --verbose
@@ -271,7 +271,7 @@ macro(END_WRAP_MODULE_SWIG_INTERFACE module)
   set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
 
   # generate the idx file for all the groups of the module
-  set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/wrap_${module}.idx")
+  set(idx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
   add_custom_command(
     OUTPUT ${idx_file}
     COMMAND ${CABLE_INDEX}
@@ -282,14 +282,14 @@ macro(END_WRAP_MODULE_SWIG_INTERFACE module)
 #   add_custom_target(${module}Idx DEPENDS ${idx_file})
 
   # store the path of the idx file to store it in the mdx file
-  set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}wrap_${module}.idx\n")
+  set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}${module}.idx\n")
   set(SWIG_INTERFACE_IDX_FILES ${SWIG_INTERFACE_IDX_FILES} ${idx_file})
 
-  set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import wrap_${module}.i\n")
+  set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${module}.i\n")
 
   set(SWIG_INTERFACE_MODULES ${SWIG_INTERFACE_MODULES} ${module})
 
-#  set(interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/wrap_${module}_ext.i")
+#  set(interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}_ext.i")
 #  set(WRAP_ITK_FILE_CONTENT )
 #  configure_file("${WRAP_ITK_CONFIG_DIR}/empty.in" "${interface_ext_file}"
 #    @ONLY IMMEDIATE )

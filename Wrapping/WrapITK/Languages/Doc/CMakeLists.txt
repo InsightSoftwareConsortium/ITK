@@ -140,7 +140,7 @@ macro(END_WRAP_MODULE_DOC)
 
     # run itk_doxy2swig
     set(itk_doxy2swig_py "${WRAP_ITK_DOC_SOURCE_DIR}/itk_doxy2swig.py")
-    set(swig_doc_interface_file ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/wrap_${WRAPPER_MODULE_NAME}_doc.i)
+    set(swig_doc_interface_file ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_MODULE_NAME}_doc.i)
     add_custom_command(
     OUTPUT ${swig_doc_interface_file}
     COMMAND ${PYTHON_EXECUTABLE} ${itk_doxy2swig_py} ${doxy2swig_config_file} ${swig_doc_interface_file}

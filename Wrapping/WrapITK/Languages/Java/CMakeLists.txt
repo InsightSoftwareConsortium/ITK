@@ -110,7 +110,6 @@ macro(END_WRAP_LIBRARY_JAVA)
   # the .i input file.
   foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
     get_filename_component(base_name ${source} NAME_WE)
-    string(REPLACE "wrap_" "" base_name "${base_name}")
     WRAP_MODULE_JAVA("${base_name}")
     END_WRAP_MODULE_JAVA("${base_name}")
   endforeach(source)
@@ -270,7 +269,7 @@ macro(END_WRAP_MODULE_JAVA group_name)
     set(java_file ${java_file} ${java_package_path}/${class_name}.java)
   endforeach(class_name ${WRAP_ITK_JAVA_CLASS_NAMES})
 
-  set(base_name wrap_${group_name})
+  set(base_name ${group_name})
 
   # create the swig interface for all the groups in the module
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${base_name}.i" )
@@ -330,11 +329,11 @@ macro(END_WRAP_MODULE_JAVA group_name)
   # ${WRAP_ITK_JAVA_LIBRARY_DEPS}
 
   configure_file("${WRAP_ITK_JAVA_SOURCE_DIR}/module_ext.i.in"
-    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/wrap_${group_name}_ext.i"
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${group_name}_ext.i"
     @ONLY IMMEDIATE)
 
   WRAP_ITK_INSTALL("/Configuration/Typedefs/java"
-   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/wrap_${group_name}_ext.i")
+   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${group_name}_ext.i")
 
   set(WRAP_ITK_JAVA_LIBRARY_DEPS ${WRAP_ITK_JAVA_LIBRARY_DEPS} "${java_file}" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i")
 

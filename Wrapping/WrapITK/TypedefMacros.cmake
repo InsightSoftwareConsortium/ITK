@@ -181,14 +181,36 @@ macro(AUTO_INCLUDE_MODULES)
   # Next, include modules already in WRAPPER_LIBRARY_GROUPS, because those are
   # guaranteed to be processed first.
   foreach(module ${WRAPPER_LIBRARY_GROUPS})
-    # EXISTS test is to allow groups to be declared in WRAPPER_LIBRARY_GROUPS
-    # which aren't represented by cmake files: e.g. groups that are created in
-    # custom cableswig cxx inputs stored in WRAPPER_LIBRARY_CABLESWIG_INPUTS.
-    # TODO: rather test for the presence in WRAPPER_LIBRARY_CABLESWIG_INPUTS, so an error message can be sent to help the develper if the file doesn't exist
-    if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
-        INCLUDE_MODULE("${module}")
-    endif(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
+    INCLUDE_MODULE("${module}")
   endforeach(module)
+
+  # Now search for other *.wrap files to include
+  file(GLOB wrap_cmake_files "${WRAPPER_LIBRARY_SOURCE_DIR}/*.wrap")
+  # sort the list of files so we are sure to always get the same order on all system
+  # and for all builds. That's important for several reasons:
+  # - the order is important for the order of creation of python template
+  # - the typemaps files are always the same, and the rebuild can be avoided
+  SORT(sorted_cmake_files "${wrap_cmake_files}")
+  foreach(file ${sorted_cmake_files})
+    # get the module name from module.wrap
+    get_filename_component(module "${file}" NAME_WE)
+
+    # if the module is already in the list, it means that it is already included
+    # ... and do not include excluded modules
+    set(will_include 1)
+    foreach(already_included ${WRAPPER_LIBRARY_GROUPS})
+      if("${already_included}" STREQUAL "${module}")
+        set(will_include 0)
+      endif("${already_included}" STREQUAL "${module}")
+    endforeach(already_included)
+
+    if(${will_include})
+      # Add the module name to the list. WRITE_MODULE_FILES uses this list
+      # to create the master library wrapper file.
+      set(WRAPPER_LIBRARY_GROUPS ${WRAPPER_LIBRARY_GROUPS} "${module}")
+      INCLUDE_MODULE("${module}")
+    endif(${will_include})
+  endforeach(file)
 
   # Now search for other wrap_*.cmake files to include
   file(GLOB wrap_cmake_files "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_*.cmake")
@@ -240,7 +262,16 @@ macro(INCLUDE_MODULE module)
   WRAP_MODULE(${module})
 
   # Now include the file.
-  include("${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
+  if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap")
+      include("${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap")
+  else()
+    # for backward compatibility
+    if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
+        include("${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
+    else()
+      message(SEND_ERROR "Module ${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap or ${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake not found.")
+    endif()
+  endif()
 
   END_WRAP_MODULE()
 
