@@ -80,6 +80,7 @@ add_test(itkConstShapedNeighborhoodIteratorTest2 ${COMMON_TESTS} itkConstShapedN
 add_test(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
 add_test(itkCovarianceImageFunctionTest ${COMMON_TESTS} itkCovarianceImageFunctionTest)
 add_test(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)
+add_test(itkDataObjectTest ${COMMON_TESTS} itkDataObjectTest)
 add_test(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
 add_test(itkDiffusionTensor3DTest ${COMMON_TESTS} itkDiffusionTensor3DTest)
 add_test(itkEuler2DTransformTest ${COMMON_TESTS} itkEuler2DTransformTest ${TEMP}/testEulerTransform.txt)
@@ -356,6 +357,8 @@ add_test(itkPolyLineParametricPathTest ${COMMON_TESTS2} itkPolyLineParametricPat
 add_test(itkPolygonCellTest ${COMMON_TESTS2} itkPolygonCellTest)
 add_test(itkQuaternionRigidTransformTest ${COMMON_TESTS2} itkQuaternionRigidTransformTest)
 add_test(itkRealTimeClockTest ${COMMON_TESTS2} itkRealTimeClockTest)
+add_test(itkRealTimeStampTest ${COMMON_TESTS2} itkRealTimeStampTest)
+add_test(itkRealTimeIntervalTest ${COMMON_TESTS2} itkRealTimeIntervalTest)
 add_test(itkRGBPixelTest ${COMMON_TESTS2} itkRGBPixelTest)
 add_test(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS2} itkRGBInterpolateImageFunctionTest)
 add_test(itkRGBToVectorImageAdaptorTest ${COMMON_TESTS2} itkRGBToVectorImageAdaptorTest)
@@ -521,6 +524,7 @@ itkConstShapedNeighborhoodIteratorTest.cxx
 itkCovariantVectorGeometryTest.cxx
 itkCovarianceImageFunctionTest.cxx
 itkDataTypeTest.cxx
+itkDataObjectTest.cxx
 itkDecoratorTest.cxx
 itkDerivativeOperatorTest.cxx
 itkDirectoryTest.cxx
@@ -660,6 +664,8 @@ itkPolyLineParametricPathTest.cxx
 itkPolygonCellTest.cxx
 itkQuaternionRigidTransformTest.cxx
 itkRealTimeClockTest.cxx
+itkRealTimeStampTest.cxx
+itkRealTimeIntervalTest.cxx
 itkRGBPixelTest.cxx
 itkRGBInterpolateImageFunctionTest.cxx
 itkRGBToVectorImageAdaptorTest.cxx

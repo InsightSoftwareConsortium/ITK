@@ -24,6 +24,8 @@
 #include <sys/time.h>
 #endif  // defined(WIN32) || defined(_WIN32)
 
+#include "vnl/vnl_math.h"
+
 namespace itk
 {
 /** Constructor */
@@ -34,7 +36,7 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
   ::QueryPerformanceFrequency(&frequency);
 
   this->m_Frequency =
-    static_cast< FrequencyType >( (__int64)frequency.QuadPart );
+    static_cast< FrequencyType >( static_cast<__int64>( frequency.QuadPart ) );
 
   SYSTEMTIME st1;
   SYSTEMTIME st2;
@@ -75,7 +77,7 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
   memcpy( &intTime, &currentTime, sizeof( intTime ) );
 
   this->m_Origin = static_cast< TimeStampType >( intTime.QuadPart ) / static_cast< TimeStampType >( 1e7 );
-  this->m_Origin -= static_cast< TimeStampType >( (__int64)tick.QuadPart ) / this->m_Frequency;
+  this->m_Origin -= static_cast< TimeStampType >( static_cast<__int64>( tick.QuadPart ) ) / this->m_Frequency;
   this->m_Origin += this->m_Difference;
 #else
   this->m_Frequency = 1e6;
@@ -93,7 +95,7 @@ RealTimeClock::GetTimeStamp() const
   LARGE_INTEGER tick;
   ::QueryPerformanceCounter(&tick);
 
-  TimeStampType value = static_cast< TimeStampType >( (__int64)tick.QuadPart ) / this->m_Frequency;
+  TimeStampType value = static_cast< TimeStampType >( static_cast<__int64>( tick.QuadPart ) ) / this->m_Frequency;
   value += this->m_Origin;
   return value;
 #else
@@ -102,6 +104,34 @@ RealTimeClock::GetTimeStamp() const
 
   TimeStampType value = static_cast< TimeStampType >( tval.tv_sec ) + static_cast< TimeStampType >( tval.tv_usec )
                         / this->m_Frequency;
+  return value;
+#endif  // defined(WIN32) || defined(_WIN32)
+}
+
+/** Returns a timestamp in a RealTimeStamp data structure */
+RealTimeStamp
+RealTimeClock::GetRealTimeStamp() const
+{
+#if defined( WIN32 ) || defined( _WIN32 )
+  LARGE_INTEGER tick;
+  ::QueryPerformanceCounter(&tick);
+
+  TimeStampType seconds = static_cast< TimeStampType >( static_cast<__int64>( tick.QuadPart ) ) / this->m_Frequency;
+  seconds += this->m_Origin;
+
+  typedef RealTimeStamp::SecondsCounterType       SecondsCounterType;
+  typedef RealTimeStamp::MicroSecondsCounterType  MicroSecondsCounterType;
+
+  SecondsCounterType iseconds = vcl_floor( seconds );
+  MicroSecondsCounterType useconds = vcl_floor( ( seconds - iseconds ) * 1e6 );
+
+  RealTimeStamp value( iseconds, useconds );
+  return value;
+#else
+  struct timeval tval;
+  ::gettimeofday(&tval, 0);
+
+  RealTimeStamp value( tval.tv_sec, tval.tv_usec );
   return value;
 #endif  // defined(WIN32) || defined(_WIN32)
 }

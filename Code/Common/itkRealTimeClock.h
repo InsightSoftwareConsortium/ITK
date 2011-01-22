@@ -21,6 +21,7 @@
 #include "itkMacro.h"
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkRealTimeStamp.h"
 
 namespace itk
 {
@@ -57,16 +58,12 @@ public:
   /** Returns a timestamp in seconds   e.g. 52.341243 seconds */
   TimeStampType GetTimeStamp() const;
 
-  TimeStampType GetTimestamp() const
-  {
-    itkWarningMacro("This call is deprecated. "
-                    "Its naming was not conforming to ITK Style. "
-                    "Please use GetTimeStamp() instead. Note the capital S");
-    return this->GetTimeStamp();
-  }
-
   /** Returns the frequency of a clock */
   itkGetConstMacro(Frequency, FrequencyType);
+
+  /** Get the time as a RealTimeStamp type. */
+  RealTimeStamp GetRealTimeStamp() const;
+
 protected:
 
   /** constructor */

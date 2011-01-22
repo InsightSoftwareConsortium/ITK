@@ -62,6 +62,7 @@ REGISTER_TEST(itkConstShapedNeighborhoodIteratorTest2);
 REGISTER_TEST(itkCovariantVectorGeometryTest );
 REGISTER_TEST(itkCovarianceImageFunctionTest );
 REGISTER_TEST(itkDataTypeTest );
+REGISTER_TEST(itkDataObjectTest );
 REGISTER_TEST(itkDecoratorTest );
 REGISTER_TEST(itkDirectoryTest );
 REGISTER_TEST(itkDerivativeOperatorTest );
