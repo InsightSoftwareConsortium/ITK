@@ -26,6 +26,7 @@ namespace itk
 {
 
 /** \class DeformationFieldTransform
+ * \brief TODO
  *
  * \ingroup Transforms
  *
