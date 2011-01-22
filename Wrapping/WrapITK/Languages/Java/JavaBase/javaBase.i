@@ -1,6 +1,6 @@
 %module javaBaseJava
 
-%include wrap_javaBase_ext.i
+%include javaBase_ext.i
 
 
 %typemap(javacode) itkJavaLibraryLoader %{
