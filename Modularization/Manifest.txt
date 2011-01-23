@@ -2398,6 +2398,8 @@ Code/Common/itkv3Rigid3DTransform.h core itk-transform include
 ./Testing/Code/Common/itkFixedArrayTest2.cxx core itk-common test
 ./Testing/Code/Common/itkFixedArrayTest.cxx core itk-common test
 ./Testing/Code/Common/itkFloatingPointExceptionsTest.cxx core itk-common test
+./Testing/Code/Common/itkFactoryTestLib.h core itk-common test
+./Testing/Code/Common/itkFactoryTestLib.cxx core itk-common test
 ./Testing/Code/Common/itkGaussianBlurImageFunctionTest.cxx core itk-image-function test
 ./Testing/Code/Common/itkGaussianDerivativeImageFunctionTest.cxx core itk-image-function test
 ./Testing/Code/Common/itkGaussianSpatialFunctionTest.cxx core itk-common test
