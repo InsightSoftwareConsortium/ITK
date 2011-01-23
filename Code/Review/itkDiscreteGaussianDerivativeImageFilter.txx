@@ -47,7 +47,7 @@ throw( InvalidRequestedRegionError )
 
   // Build an operator so that we can determine the kernel size
   GaussianDerivativeOperator< OutputPixelType, ImageDimension > oper;
-  typename TInputImage::SizeType radius;
+  typename TInputImage::SizeType                                radius;
 
   for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
     {
@@ -194,6 +194,7 @@ DiscreteGaussianDerivativeImageFilter< TInputImage, TOutputImage >
 
     oper[reverse_i].SetMaximumKernelWidth(m_MaximumKernelWidth);
     oper[reverse_i].SetMaximumError(m_MaximumError[i]);
+    oper[reverse_i].SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     oper[reverse_i].CreateDirectional();
     }
 
@@ -305,7 +306,9 @@ DiscreteGaussianDerivativeImageFilter< TInputImage, TOutputImage >
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
   os << indent << "InternalNumberOfStreamDivisions: " << m_InternalNumberOfStreamDivisions << std::endl;
+  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
 }
+
 } // end namespace itk
 
 #endif

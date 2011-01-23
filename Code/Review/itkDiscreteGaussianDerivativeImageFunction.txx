@@ -178,6 +178,8 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 
   m_OperatorImageFunction->SetOperator(m_DerivativeKernel);
   derivative = m_OperatorImageFunction->EvaluateAtIndex(index);
+
+
   return derivative;
 }
 

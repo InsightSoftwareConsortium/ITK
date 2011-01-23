@@ -56,7 +56,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT DiscreteGaussianDerivativeImageFilter:
+class ITK_EXPORT DiscreteGaussianDerivativeImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -168,6 +168,13 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
 
+  /** Set/Get the flag for calculating scale-space normalized derivatives.
+    * Normalized derivatives are obtained multiplying by the scale
+    * parameter t. */
+  itkSetMacro(NormalizeAcrossScale, bool);
+  itkGetConstMacro(NormalizeAcrossScale, bool);
+  itkBooleanMacro(NormalizeAcrossScale);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( OutputHasNumericTraitsCheck,
@@ -183,6 +190,7 @@ protected:
     m_MaximumError.Fill(0.01);
     m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
+    m_NormalizeAcrossScale = false;
     m_InternalNumberOfStreamDivisions = ImageDimension * ImageDimension;
   }
 
@@ -230,6 +238,9 @@ private:
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;
+
+  /** Flag for scale-space normalization of derivatives. */
+  bool m_NormalizeAcrossScale;
 
   /** Number of pieces to divide the input on the internal composite
   pipeline. The upstream pipeline will not be effected. */
