@@ -22,7 +22,7 @@ import ItkVtkGlue
 names = [name for name in dir(ItkVtkGlue) if not name.startswith("__")]
 for name in names :
     setattr(itk, name, ItkVtkGlue.__dict__[name])
-    
+
 # some cleanup
 del itk, vtk, ItkVtkGlue, names, name
 

@@ -15,15 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkImageToVTKImageFilter_txx
-#define _itkImageToVTKImageFilter_txx
+
+#ifndef __itkImageToVTKImageFilter_txx
+#define __itkImageToVTKImageFilter_txx
 
 #include "itkImageToVTKImageFilter.h"
 
 namespace itk
 {
-
-
 
 /**
  * Constructor
@@ -52,9 +51,6 @@ ImageToVTKImageFilter<TInputImage>
 
 }
 
-
-
-
 /**
  * Destructor
  */
@@ -69,8 +65,6 @@ ImageToVTKImageFilter<TInputImage>
     }
 }
 
-
-
 /**
  * Set an itk::Image as input
  */
@@ -81,8 +75,6 @@ ImageToVTKImageFilter<TInputImage>
 {
   m_Exporter->SetInput( inputImage );
 }
-
-
 
 /**
  * Get a vtkImage as output
@@ -95,9 +87,6 @@ ImageToVTKImageFilter<TInputImage>
   return m_Importer->GetOutput();
 }
 
-
-
-
 /**
  * Get the importer filter
  */
@@ -108,8 +97,6 @@ ImageToVTKImageFilter<TInputImage>
 {
   return m_Importer;
 }
-
-
 
 /**
  * Get the exporter filter
@@ -122,8 +109,6 @@ ImageToVTKImageFilter<TInputImage>
   return m_Exporter.GetPointer();
 }
 
-
-
 /**
  * Delegate the Update to the importer
  */
@@ -135,11 +120,6 @@ ImageToVTKImageFilter<TInputImage>
   m_Importer->Update();
 }
 
-
-
-
-
 } // end namespace itk
 
 #endif
-

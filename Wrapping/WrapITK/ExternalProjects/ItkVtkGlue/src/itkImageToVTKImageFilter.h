@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkImageToVTKImageFilter_h
 #define __itkImageToVTKImageFilter_h
 
@@ -43,7 +44,7 @@ class ITK_EXPORT ImageToVTKImageFilter : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToVTKImageFilter       Self;
+  typedef ImageToVTKImageFilter     Self;
   typedef ProcessObject             Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
@@ -55,9 +56,9 @@ public:
   itkTypeMacro(ImageToVTKImageFilter, ProcessObject);
 
   /** Some typedefs. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage                                 InputImageType;
   typedef typename    InputImageType::ConstPointer    InputImagePointer;
-  typedef VTKImageExport< InputImageType>            ExporterFilterType;
+  typedef VTKImageExport< InputImageType>             ExporterFilterType;
   typedef typename ExporterFilterType::Pointer        ExporterFilterPointer;
 
   /** Get the output in the form of a vtkImage.
@@ -80,35 +81,6 @@ public:
   /** This call delegate the update to the importer */
   void Update();
 
-   const std::vector<double>& getvtest() const
-     {
-  return m_vtest;
-     }
-
-   int testsize()
-     {
-  return m_vtest.size();
-     }
-
-   std::vector<double> addvector(const std::vector<double>& v) {
-          for (unsigned int i=0; i<v.size(); i++)
-          m_vtest.push_back(v[i]);
-          return m_vtest;
-      }
-
-   const std::vector<double>& addtest(double toto)
-          {
-       m_vtest.push_back(toto);
-               return m_vtest;
-            }
-   std::vector<double> tralala()
-     {
-  std::vector<double> w;
-      for (double i=0; i<10; i++)
-            w.push_back(i);
-      return w;
-
-     }
 
 protected:
   ImageToVTKImageFilter();
@@ -120,7 +92,7 @@ private:
 
   ExporterFilterPointer       m_Exporter;
   vtkImageImport            * m_Importer;
-   std::vector<double> m_vtest;
+
 };
 
 } // end namespace itk
@@ -130,6 +102,3 @@ private:
 #endif
 
 #endif
-
-
-

@@ -1,0 +1,67 @@
+
+import argparser.*;
+import java.io.*;
+import java.util.Vector;
+
+class javaTestDriver {
+
+   public static void exec(String command) throws Exception {
+      System.out.println( "+ "+command );
+      Process p = Runtime.getRuntime().exec( command );
+      String line;
+      BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+      while ((line = input.readLine()) != null) {
+         System.out.println(line);
+      }
+      input.close();
+      input = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+      while ((line = input.readLine()) != null) {
+         System.err.println(line);
+      }
+      input.close();
+      // to be sure the process have exited
+      p.waitFor();
+      int exitValue = p.exitValue();
+      if( exitValue != 0 ) {
+         System.exit( exitValue );
+      }
+   }
+
+
+
+
+   public static void main(String[] argv) throws Exception {
+
+      String itk_jar = "@JAVA_TEST_ITK_JAR@";
+      String java_bin = "@JAVA_RUNTIME@";
+      String image_compare = "@IMAGE_COMPARE@";
+
+      Vector compare = new Vector();
+
+      ArgParser parser = new ArgParser("javaTestDriver [--compare image1 image2] test [arg1 [arg2 [...]]]");
+      parser.addOption ("--compare %sX2 #compare IMAGE1 and IMAGE2 and exit with an error if the images are different. This options can appear several times to compare several images.", compare);
+      String[] args = parser.matchAllArgs (argv, 0, parser.EXIT_ON_ERROR);
+
+      if( args == null || args.length == 0 ) {
+         System.err.println( "you must give a command to run" );
+         System.exit( 1 );
+      }
+
+
+
+      String command = java_bin+" -cp .:"+itk_jar;
+      for( int i=0; i<args.length; i++ ) {
+         command += " "+args[i];
+      }
+      exec( command );
+
+
+      for( int i=0; i<compare.size(); i++) {
+         String [] r = (String [])compare.elementAt(i);
+
+         command = image_compare+" "+r[0]+" "+r[1];
+         exec( command );
+      }
+
+   }
+}

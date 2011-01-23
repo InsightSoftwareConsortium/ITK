@@ -19,7 +19,7 @@
 # This file demonstrates how to connect VTK and ITK pipelines together
 # in scripted languages with the new ConnectVTKITK wrapping functionality.
 # Data is loaded in with VTK, processed with ITK and written back to disc
-# with  
+# with
 #
 # For this to work, you have to build InsightApplications/ConnectVTKITK
 # as well.

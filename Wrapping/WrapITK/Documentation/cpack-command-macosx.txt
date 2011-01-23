@@ -1,0 +1,1 @@
+cpack -D CPACK_PACKAGING_INSTALL_PREFIX=/usr/local -G PackageMaker

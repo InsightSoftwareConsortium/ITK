@@ -70,6 +70,11 @@ void usage()
   std::cerr << std::endl;
   std::cerr << "  --add-before-env NAME VALUE" << std::endl;
   std::cerr << "      Add a VALUE to the variable name in the environment." << std::endl;
+  std::cerr << "      The seperator used is the default one on the system." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --add-before-env-with-sep NAME VALUE SEP" << std::endl;
+  std::cerr << "      Add a VALUE to the variable name in the environment using the provided separator." << std::endl;
   std::cerr << "      This option can be used several times." << std::endl;
   std::cerr << std::endl;
   std::cerr << "  --compare TEST BASELINE" << std::endl;
@@ -398,6 +403,25 @@ int main(int ac, char *av[])
         }
       itksys::SystemTools::PutEnv( env.c_str() );
       i += 3;
+      }
+    else if ( !skip && strcmp(av[i], "--add-before-env-with-sep") == 0 )
+      {
+      if ( i + 3 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      std::string env = av[i + 1];
+      env += "=";
+      env += av[i + 2];
+      char *oldenv = getenv(av[i + 1]);
+      if ( oldenv )
+        {
+        env += av[i + 3];
+        env += oldenv;
+        }
+      itksys::SystemTools::PutEnv( env.c_str() );
+      i += 4;
       }
     else if ( !skip && strcmp(av[i], "--compare") == 0 )
       {

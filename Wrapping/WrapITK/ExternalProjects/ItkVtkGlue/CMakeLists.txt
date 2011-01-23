@@ -1,9 +1,6 @@
-cmake_minimum_required(VERSION 2.4)
-if(COMMAND CMAKE_POLICY)
-  cmake_policy(SET CMP0003 NEW)
-endif(COMMAND CMAKE_POLICY)
-
 project(ItkVtkGlue)
+include(CPack)
+
 
 option(BUILD_WRAPPERS "Wrap library" OFF)
 option(INSTALL_DEVEL_FILES "Install C++ headers" ON)
@@ -15,7 +12,7 @@ include_directories(${VTK_INCLUDE_DIRS} ${ITK_INCLUDE_DIRS} ${ItkVtkGlue_SOURCE_
 link_directories(${VTK_LIBRARY_DIRS} ${ITK_LIBRARY_DIRS})
 
 if(BUILD_WRAPPERS)
-   add_subdirectory(Wrapping)
+   subdirs(Wrapping)
 endif(BUILD_WRAPPERS)
 
 # install devel files
@@ -26,4 +23,3 @@ if(INSTALL_DEVEL_FILES)
 endif(INSTALL_DEVEL_FILES)
 
 enable_testing()
-
