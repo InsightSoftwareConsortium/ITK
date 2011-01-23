@@ -442,12 +442,12 @@ PrintSelf( std::ostream& os, Indent indent ) const
   os << std::endl;
 
   os << indent <<  "Transforms in queue, from begin to end:" << std::endl;
-  typename TransformQueueType::const_iterator it;
-  for( it = this->m_TransformQueue.begin();
-       it != this->m_TransformQueue.end(); ++it )
+  typename TransformQueueType::const_iterator cit;
+  for( cit = this->m_TransformQueue.begin();
+       cit != this->m_TransformQueue.end(); ++cit )
     {
     os << indent << ">>>>>>>>>" << std::endl;
-    (*it)->Print( os, indent );
+    (*cit)->Print( os, indent );
     }
   os << indent <<  "End of Transforms." << std::endl << "<<<<<<<<<<" << std::endl;
 }

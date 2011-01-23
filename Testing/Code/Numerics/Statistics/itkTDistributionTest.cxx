@@ -349,7 +349,8 @@ int itkTDistributionTest(int, char* [] )
     {
     x = static_cast<double>(i);
 
-    value = distributionFunction->EvaluateCDF( x, params[0] );
+    value = distributionFunction->EvaluateCDF(
+      x, static_cast< itk::SizeValueType >(params[0]) );
 
     diff = vcl_fabs(value - expected11[i+5]);
 
@@ -388,8 +389,8 @@ int itkTDistributionTest(int, char* [] )
   for (i = -5; i <= 5; ++i)
     {
 
-    value = distributionFunction->EvaluateInverseCDF( expected11[i+5], params[0] );
-
+    value = distributionFunction->EvaluateInverseCDF(
+      expected11[i+5], static_cast< itk::SizeValueType > (params[0]) );
     diff = vcl_fabs(value - double(i));
 
     std::cout << "Student-t cdf at ";
