@@ -285,7 +285,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
     toy = 2.0 / vcl_fabs(y);
     qip = accumulator = 0.0;
     qi = 1.0;
-    for ( j = 2 * ( n + (int)(DIGITS*vcl_sqrt(n) ) ); j > 0; j-- )
+    for ( j = 2 * ( n + (int)(DIGITS*vcl_sqrt((double)n) ) ); j > 0; j-- )
       {
       qim = qip + j * toy * qi;
       qip = qi;
