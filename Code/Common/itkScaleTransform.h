@@ -110,6 +110,9 @@ public:
    */
   virtual void SetFixedParameters(const ParametersType &) {}
 
+  /** Get the fixed parameters */
+  virtual const ParametersType & GetFixedParameters(void) const;
+
   /** Get the Jacobian matrix. */
   const JacobianType & GetJacobian(const InputPointType & point) const;
 
@@ -202,7 +205,8 @@ private:
 
   ScaleType m_Scale;    // Scales of the transformation
 
-  InputPointType m_Center; // Scaling center
+  InputPointType         m_Center; // Scaling center
+  mutable ParametersType m_FixedParameters;
 };                         //class ScaleTransform
 
 // Back transform a point

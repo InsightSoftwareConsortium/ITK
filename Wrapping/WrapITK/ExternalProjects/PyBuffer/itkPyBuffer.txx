@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPyBuffer_txx
-#define _itkPyBuffer_txx
+#ifndef __itkPyBuffer_txx
+#define __itkPyBuffer_txx
 
 #include "itkPyBuffer.h"
 #include "itkPixelTraits.h"
@@ -44,8 +44,6 @@ PyBuffer<TImage>
 
   image->Update();
 
-  import_array1(0);
-
   PixelType * buffer = const_cast < PixelType * > ( image->GetBufferPointer() );
 
   char * data = (char *)( buffer );
@@ -62,20 +60,16 @@ PyBuffer<TImage>
   int item_type = GetPyType();  // TODO find a way of doing this through pixel traits
   // figure out an appropriate type
 
-  PyObject * obj = PyArray_SimpleNewFromData( ImageDimension, dimensions, item_type, data );
+  PyObject * obj = PyArray_FromDimsAndData( ImageDimension, dimensions, item_type, data );
 
   return obj;
 }
-
-
 
 template<class TImage>
 const typename PyBuffer<TImage>::ImagePointer
 PyBuffer<TImage>
 ::GetImageFromArray( PyObject *obj )
 {
-
-  import_array1(0);
 
     int element_type = GetPyType();  ///PyArray_DOUBLE;  // change this with pixel traits.
 
@@ -199,4 +193,3 @@ PyBuffer<TImage>
 } // namespace itk
 
 #endif
-

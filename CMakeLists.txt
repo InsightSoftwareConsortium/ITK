@@ -404,6 +404,9 @@ if(BUILD_DOXYGEN)
   find_package(Doxygen)
 endif(BUILD_DOXYGEN)
 
+#-----------------------------------------------------------------------------
+# Check if this platform support the sse2 rounding functions for 32 and 64 bits
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CheckSupportForSSERounding.cmake)
 
 #-----------------------------------------------------------------------------
 # ITK requires special compiler flags on some platforms.
@@ -436,10 +439,6 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 
   endif(APPLE)
 
-  # gcc must have -msse2 option to enable sse2 support
-  if(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
-    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -msse2")
-  endif(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 if(UNIX)

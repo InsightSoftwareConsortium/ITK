@@ -1023,7 +1023,7 @@
    dlopen leak3
    Memcheck:Leak
    fun:calloc
-   obj:/lib64/libdl-2.?.?.so
+   obj:/lib64/libdl-2.?.so
    fun:dlopen
 }
 {

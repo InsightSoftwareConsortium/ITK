@@ -1,0 +1,7 @@
+WRAP_CLASS("itk::DiffusionTensor3D")
+  FILTER_DIMS(d 3)
+  if(d)
+    WRAP_TEMPLATE("${ITKM_F}" "${ITKT_F}")
+    WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
+  endif(d)
+END_WRAP_CLASS()

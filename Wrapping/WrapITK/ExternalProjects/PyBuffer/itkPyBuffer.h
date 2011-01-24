@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPyBuffer_h
-#define _itkPyBuffer_h
+#ifndef __itkPyBuffer_h
+#define __itkPyBuffer_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -32,7 +32,7 @@
 namespace itk
 {
 
-/** \Class PyBuffer
+/** \class PyBuffer
  *  \brief Helper class for converting C buffers into python arrays.
  *
  *  This class will receive a C buffer and create the equivalen python
@@ -96,4 +96,3 @@ protected:
 #endif
 
 #endif // _itkPyBuffer_h
-

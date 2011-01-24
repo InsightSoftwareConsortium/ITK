@@ -18,5 +18,3 @@ add_test(SimpleItkVtkPipeline
 INTERSECTION(WRAP_2 2 "${WRAP_ITK_DIMS}")
 if(WRAP_unsigned_short AND WRAP_2)
 endif(WRAP_unsigned_short AND WRAP_2)
-
-

@@ -77,7 +77,13 @@ int itkScaleTransformTest(int ,char * [] )
     TransformType::ScaleType  iscale = iscaleInit;
 
     scaleTransform->SetScale( iscale );
-
+    if (scaleTransform->GetFixedParameters().Size() != 0)
+      {
+      std::cout <<
+        "ScaleTransform has 0 fixed parameters, yet GetFixedParameters.Size() reports: "
+                << scaleTransform->GetFixedParameters().Size() << std::endl;
+      return EXIT_FAILURE;
+      }
     TransformType::ScaleType scale = scaleTransform->GetScale();
     std::cout << "scale initialization  test:  ";
     for(unsigned int j=0; j<N; j++)

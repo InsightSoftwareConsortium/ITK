@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #ifndef __itkVTKImageToImageFilter_h
 #define __itkVTKImageToImageFilter_h
 
@@ -42,30 +43,24 @@ namespace itk
  * \ingroup   ImageFilters
  */
 template <class TOutputImage >
-class ITK_EXPORT VTKImageToImageFilter : public ProcessObject
+class ITK_EXPORT VTKImageToImageFilter : public VTKImageImport< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageToImageFilter       Self;
-  typedef ProcessObject             Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef VTKImageToImageFilter             Self;
+  typedef VTKImageImport< TOutputImage >    Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKImageToImageFilter, ProcessObject);
+  itkTypeMacro(VTKImageToImageFilter, VTKImageImport);
 
   /** Some typedefs. */
-  typedef TOutputImage OutputImageType;
-  typedef typename    OutputImageType::ConstPointer    OutputImagePointer;
-  typedef VTKImageImport< OutputImageType >   ImporterFilterType;
-  typedef typename ImporterFilterType::Pointer         ImporterFilterPointer;
-
-  /** Get the output in the form of a vtkImage.
-      This call is delegated to the internal vtkImageImporter filter  */
-  const OutputImageType *  GetOutput() const;
+  typedef TOutputImage                              OutputImageType;
+  typedef typename    OutputImageType::ConstPointer OutputImagePointer;
 
   /** Set the input in the form of a vtkImageData */
   void SetInput( vtkImageData * );
@@ -77,11 +72,10 @@ public:
 
   /** Return the internal ITK image importer filter.
       This is intended to facilitate users the access
-      to methods in the importer */
-  ImporterFilterType * GetImporter() const;
-
-  /** This call delegate the update to the importer */
-  void Update();
+      to methods in the importer.
+      Deprecated - the method now return 'this'.
+      */
+  const Superclass * GetImporter() const;
 
 protected:
   VTKImageToImageFilter();
@@ -91,7 +85,6 @@ private:
   VTKImageToImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  ImporterFilterPointer       m_Importer;
   vtkImageExport            * m_Exporter;
 
 };
@@ -103,6 +96,3 @@ private:
 #endif
 
 #endif
-
-
-

@@ -37,7 +37,7 @@
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkAffineTransform.h"
-
+#include "vnl/vnl_math.h"
 #include "itkImageMaskSpatialObject.h"
 
 
@@ -46,15 +46,15 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   const unsigned int NDimensions = 3;
   int retval=EXIT_SUCCESS;
 
-  typedef double ScalarType;
+  typedef double                                   ScalarType;
   typedef itk::ImageMaskSpatialObject<NDimensions> ImageMaskSpatialObject;
-  typedef ImageMaskSpatialObject::PixelType  PixelType;
-  typedef itk::Image<PixelType,NDimensions>  ImageType;
-  typedef itk::Image<PixelType,NDimensions>  ImageType2;
-  typedef ImageMaskSpatialObject::BoundingBoxType BoundingBox;
-  typedef itk::ImageRegionIterator<ImageType> Iterator;
-  typedef itk::ImageRegionIterator<ImageType2> Iterator2;
-  typedef itk::Point<ScalarType,NDimensions> Point;
+  typedef ImageMaskSpatialObject::PixelType        PixelType;
+  typedef itk::Image<PixelType,NDimensions>        ImageType;
+  typedef itk::Image<PixelType,NDimensions>        ImageType2;
+  typedef ImageMaskSpatialObject::BoundingBoxType  BoundingBox;
+  typedef itk::ImageRegionIterator<ImageType>      Iterator;
+  typedef itk::ImageRegionIterator<ImageType2>     Iterator2;
+  typedef itk::Point<ScalarType,NDimensions>       Point;
 
   // Direction was not taken into account in the image spatial object
   // explicitly test using images with directions set.
@@ -148,6 +148,54 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
     {
     std::cout<<"Test with "<<image->GetNameOfClass()<<" passed."<<std::endl;
     }
+
+  // Check if insideregion is properly computed at the image boundary
+  {
+  ImageType::IndexType startPointIndex =
+    {{ insideIndex[0]-2,
+       insideIndex[1]-2,
+       insideIndex[2]-2 }};
+  ImageType::IndexType endPointIndex =
+    {{ insideIndex[0]+insideSize[0]+2,
+       insideIndex[1]+insideSize[1]+2,
+       insideIndex[2]+insideSize[2]+2 }};
+  ImageType::PointType startPoint;
+  ImageType::PointType endPoint;
+  image->TransformIndexToPhysicalPoint( startPointIndex, startPoint );
+  image->TransformIndexToPhysicalPoint( endPointIndex, endPoint );
+
+  // Traverse along the line that goes through mask boundaries and
+  // check if the value and the mask is consistent
+  const int numberOfSteps = static_cast<int> (
+    vcl_sqrt(double(insideSize[0]*insideSize[0]+
+                    insideSize[1]*insideSize[1]+
+                    insideSize[2]*insideSize[2]))*100.0
+    );
+  const ImageType::SpacingType incrementVector =
+    (endPoint-startPoint)/static_cast<double>(numberOfSteps);
+  ImageType::PointType point=startPoint;
+  for (int i=0; i<numberOfSteps; i++)
+    {
+    point += incrementVector;
+    const bool isInside = maskSO->IsInside( point );
+    double value = itk::NumericTraits< PixelType >::Zero;
+    maskSO->ValueAt( point, value );
+    const bool isZero = (value == itk::NumericTraits< PixelType >::Zero);
+    if( (isInside && isZero) || (!isInside && !isZero) )
+      {
+      ImageType::IndexType pointIndex;
+      image->TransformPhysicalPointToIndex( point, pointIndex );
+      std::cerr << "Error in the evaluation ValueAt and IsInside (all the points inside the mask shall have non-zero value) " << std::endl;
+      std::cerr << "isInside = " << isInside << std::endl;
+      std::cerr << "value = " << value << std::endl;
+      std::cerr << "Index failed = " << pointIndex << std::endl;
+      std::cerr << "Point failed = " << point << std::endl;
+      std::cerr << "Image is a: "<< image->GetNameOfClass()<<std::endl;
+      retval= EXIT_FAILURE;
+      break;
+      }
+    }
+  }
   }
 
   {
@@ -229,7 +277,6 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
       }
       ++itr;
     }
-
   if(retval==EXIT_SUCCESS)
     {
     std::cout<<"Test with "<<image->GetNameOfClass()<<" passed."<<std::endl;
@@ -238,4 +285,3 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
 
   return retval;
 }
-
