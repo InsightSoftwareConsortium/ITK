@@ -542,6 +542,25 @@ int itkCompositeTransformTest(int ,char *[] )
       return EXIT_FAILURE;
       }
 
+  /* Test accessors */
+  CompositeType::TransformQueueType transformQueue =
+    compositeTransform->GetTransformQueue();
+  if( transformQueue.size() != 3 )
+    {
+    std::cout << "Failed getting transform queue." << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "Got TransformQueue." << std::endl;
+
+  CompositeType::TransformsToOptimizeFlagsType flagsQueue =
+    compositeTransform->GetTransformsToOptimizeFlags();
+  if( flagsQueue.size() != 3 )
+    {
+    std::cout << "Failed getting optimize flags queue." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
   /* Get inverse and check TransformsToOptimize flags are correct */
   CompositeType::ConstPointer inverseTransform3;
   inverseTransform3 = dynamic_cast<const CompositeType *>
@@ -634,7 +653,7 @@ int itkCompositeTransformTest(int ,char *[] )
   catch( itk::ExceptionObject & err )
     {
     caught = true;
-    std::cout << "Caught expected exception." << std::endl;
+    std::cout << "\nCaught expected exception:" << std::endl;
     (&err)->Print(std::cout);
     }
   if( !caught )

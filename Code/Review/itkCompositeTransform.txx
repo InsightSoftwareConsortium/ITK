@@ -1,6 +1,6 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolki
+  Program:   Insight Segmentation & Registration Toolkit
   Module:    $RCSfile: itkCompositeTransform.txx,v $
   Language:  C++
   Date:      $Date: $
