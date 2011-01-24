@@ -215,6 +215,16 @@ ScaleTransform< ScalarType, NDimensions >
     }
   return this->m_Jacobian;
 }
+
+template< class ScalarType, unsigned int NDimensions >
+const typename ScaleTransform< ScalarType, NDimensions >::ParametersType &
+ScaleTransform< ScalarType, NDimensions >
+::GetFixedParameters(void) const
+  {
+    m_FixedParameters.SetSize(0);
+    return m_FixedParameters;
+  }
+
 } // namespace
 
 #endif
