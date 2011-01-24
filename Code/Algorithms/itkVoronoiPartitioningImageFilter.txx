@@ -126,7 +126,6 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
       if ( ( *nit ) > i )
         {
         this->drawLine( this->m_WorkingVD->GetSeed(i), this->m_WorkingVD->GetSeed(*nit) );
-        i = i;
         }
       }
     }
