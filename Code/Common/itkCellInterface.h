@@ -293,6 +293,11 @@ protected:
    * by the cell. */
   virtual PointIdConstIterator PointIdsEnd(void) const = 0;
 
+  /** Get/Set the point id list used by the cell */
+  typedef itk::Array<PointIdentifier> PointIdentifierContainerType;
+  PointIdentifierContainerType GetPointIdsContainer() const;
+  void SetPointIdsContainer( const PointIdentifierContainerType & );
+
   /** Given the parametric coordinates of a point in the cell
    * (pCoords[CellDimension]), get the closest cell boundary feature of
    * topological dimension CellDimension-1.  If the "inside" pointer is not
