@@ -21,6 +21,10 @@
 
 #include "itkNiftiImageIOTest.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 static void RemoveByteSwapTestFiles(std::string prefix)
 {
   Remove((prefix+"NiftiLittleEndian.hdr").c_str());

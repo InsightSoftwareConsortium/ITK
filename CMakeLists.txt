@@ -138,6 +138,11 @@ if( USE_FFTWD OR USE_FFTWF )
   include(itkExternal_FFTW)
 endif( USE_FFTWD OR USE_FFTWF )
 
+
+#-----------------------------------------------------------------------------
+# Options for enabling specific file formats
+include(${ITK_SOURCE_DIR}/CMake/EnablePreregisteredImageIOFactories.cmake)
+
 # Deal with MINC2 options
 mark_as_advanced(ITK_USE_MINC2)
 option(ITK_USE_MINC2 "Use MINC2 File Format" OFF)

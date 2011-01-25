@@ -33,6 +33,10 @@
 #include "itkImage.h"
 #include "itksys/SystemTools.hxx"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 typedef itk::Image<signed short, 3> ImageType ;
 typedef ImageType::Pointer ImagePointer ;
 typedef itk::ImageFileReader< ImageType > ImageReaderType ;

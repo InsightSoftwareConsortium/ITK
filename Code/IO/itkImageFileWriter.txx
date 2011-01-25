@@ -128,6 +128,7 @@ ImageFileWriter< TInputImage >
     itkExceptionMacro(<< "No filename was specified");
     }
 
+#if !defined(SPECIFIC_IMAGEIO_MODULE_TEST)
   if ( m_ImageIO.IsNull() ) //try creating via factory
     {
     itkDebugMacro(<< "Attempting factory creation of ImageIO for file: "
@@ -149,6 +150,7 @@ ImageFileWriter< TInputImage >
       m_FactorySpecifiedImageIO = true;
       }
     }
+#endif
 
   if ( m_ImageIO.IsNull() )
     {

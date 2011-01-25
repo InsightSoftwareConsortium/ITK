@@ -31,6 +31,10 @@
 #include <fstream>
 #include <iostream>
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 template<class TScalar, unsigned int TDimension>
 int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
 {

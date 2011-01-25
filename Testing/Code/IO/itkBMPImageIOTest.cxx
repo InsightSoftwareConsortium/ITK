@@ -20,6 +20,10 @@
 #include "itkImage.h"
 #include <fstream>
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 int itkBMPImageIOTest( int ac, char* av[] )
 {
 

@@ -25,6 +25,10 @@
 #include "itkImage.h"
 #include "itkMetaImageIO.h"
 
+#if defined(ITK_USE_MODULAR_BUILD)
+  #define SPECIFIC_IMAGEIO_MODULE_TEST
+#endif
+
 int itkMetaImageIOTest(int ac, char* av[])
 {
   if(ac < 3)
