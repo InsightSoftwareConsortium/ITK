@@ -3,6 +3,8 @@ WrapITK README
 
 WrapITK is a project designed to allow classes from ITK (and custom, classes that interact with ITK) to be "wrapped" for use with scripting languages like Python, Tcl, and Java.
 
+Currently, WrapITK only supports Python properly; Java and Tcl libraries build correctly but the Java and Tcl support classes for loading these libraries needs some updating.
+
 Note that ITK already has a wrapping infrastructure. This project aims to be address the following deficits of the existing wrappers (and others):
 - The ITK wrapping system is difficult to understand and maintain. WrapITK was written -- and thoroughly documented -- to be as easy as possible to understand, maintain, and extend.
 - It is non-trivial to add wrappers for different ITK classes to the system. In WrapITK, adding a wrapper can be as simple as adding a single file containing a few well-documented cmake macros.
@@ -40,7 +42,7 @@ WrapITK will work properly with a CVS checkout of ITK from 2006-1-31 or later, o
 
 After CableSwig and ITK have been (possibly patched) and built, building WrapITK with cmake is simple. Run ccmake in a new directory with the path to the WrapITK source tree as the first argument, and provide the locations of the ITK and CableSwig build trees if ccmake so requests. Build options are relatively self-explanatory.
 
-Note that each individual filter that is wrapped can declare which dimensions it should be wrapped for, and what image types it can accept. For example, a filter could declare that it should only be wrapped for 3D images with floating-point typed pixels. In this case, then wrappers will only be created if the user has selected to build 3-dimensional image wrappers and has selected one or more floating point types (e.g. double or float) in ccmake. Thus, the ccmake configuration specifies the maximum possible range of image and filter types to be created, and each filter is wrapped for some subset of that range. 
+Note that each individual filter that is wrapped can declare which dimensions it should be wrapped for, and what image types it can accept. For example, a filter could declare that it should only be wrapped for 3D images with floating-point typed pixels. In this case, then wrappers will only be created if the user has selected to build 3-dimensional image wrappers and has selected one or more floating point types (e.g. double or float) in ccmake. Thus, the ccmake configuration specifies the maximum possible range of image and filter types to be created, and each filter is wrapped for some subset of that range.
 
 INSTALLING
 ----------
@@ -66,7 +68,7 @@ If WrapITK has not been installed, then you will either need to set the PYTHONPA
 
 (1) Basic Usage
 Most class in the itk python module are "template proxy classes" that encapsulate all of the template instantiations that were created at build time. If three-dimensional unsigned char and unsigned short image types were created, they can be accessed as follows:
-itk.Image[itk.UC, 3]  -or-  itk.Image.UC3 
+itk.Image[itk.UC, 3]  -or-  itk.Image.UC3
 itk.Image[itk.US, 3]  -or-  itk.Image.US3
 
 Filters templated on images can be similarly accessed:
@@ -141,8 +143,8 @@ WRAPPER_LIBRARY_CREATE_WRAP_FILES()
 WRAPPER_LIBRARY_CREATE_LIBRARY()
 
 BEGIN_WRAPPER_LIBRARY() sets up the environment to wrap a set of classes into a library with a given name. This macro is defined in ConfigureWrapping.cmake.
-WRAPPER_LIBRARY_DEPENDS stores the list of WrapITK libraries on which the current library depends (e.g. which libraries wrap classes like Image or SpatialObject, that are going to be used in the current library). Every project should at least depend on Base. 
-WRAPPER_LIBRARY_LINK_LIBRARIES stores a set of other libraries to add at link time. This can be 3rd party libraries that you will use (be sure to properly set LINK_DIRECTORIES in this case), or more commonly, the ITK libraries that need to be linked in, like ITKCommon, ITKIO, or other. 
+WRAPPER_LIBRARY_DEPENDS stores the list of WrapITK libraries on which the current library depends (e.g. which libraries wrap classes like Image or SpatialObject, that are going to be used in the current library). Every project should at least depend on Base.
+WRAPPER_LIBRARY_LINK_LIBRARIES stores a set of other libraries to add at link time. This can be 3rd party libraries that you will use (be sure to properly set LINK_DIRECTORIES in this case), or more commonly, the ITK libraries that need to be linked in, like ITKCommon, ITKIO, or other.
 WRAPPER_LIBRARY_CREATE_WRAP_FILES() scans all of the wrap_XXX.cmake files in the current directory and uses the directives within to create CableSwig input files for these classes. Information about template instantiations is also recorded for the language support files that are created next. This macro is defined in CreateCableSwigInputs.cmake, and calls language support macros from CreateLanguageSupport.cmake.
 Finally, WRAPPER_LIBRARY_CREATE_LIBRARY() creates rules to parse the CalbeSwig inputs and compile a wrapper library. This macro also causes various language support files to be created (python only currently) which make it easy to load that library in python, and which know about the template instances defined. This macro is defined in CreateWrapperLibrary.cmake, and calls language support macros from CreateLanguageSupport.cmake.
 
@@ -153,7 +155,7 @@ A wrap_XXX.cmake file defines a group of classes and/or template instantiations 
 
 Within such a file, directives are issued to wrap classes and particular template instances. All of the available directives are defined and documented in CreateCableSwigInputs.cmake. The basics are presented here:
 
-- WRAP_INCLUDE("header.h") -- causes the named header to be #included in the generated files. 
+- WRAP_INCLUDE("header.h") -- causes the named header to be #included in the generated files.
 
 - WRAP_CLASS("fully_qualified::ClassName" [POINTER|POINTER_WITH_SUPERCLASS]) -- causes a templated class to be wrapped. All namespaces must be included in the class name, and note that no template instantiation is given. Template instantiations are created with various WRAP directives, described below, between invocations of WRAP_CLASS() and END_WRAP_CLASS().
 
@@ -163,7 +165,7 @@ The final optional parameter to WRAP_CLASS is POINTER or POINTER_WITH_SUPERCLASS
 
 - WRAP_TEMPLATE("mangled_suffix" "template parameters") -- When issued between WRAP_CLASS and END_WRAP_CLASS, this command causes a particular template instantiation of the current class to be wrapped. The parameter "mangled_suffix" is a suffix to append to the class's name that uniquely identifies this particular template instantiation, and "template parameters" are whatever should go between the < > template instantiation brackets. (Do not include the brackets.) If you are wrapping a filter, there are simpler macros to use, which are defined at the bottom of CreateCableSwigInputs and described below.
 
-- WRAP_type(size) (where 'type' is INT, SIGN_INT, REAL, VECTOR_REAL, COV_VECTOR_REAL or RGB) -- create a template instantiation with 'size' itk::Image parameters of the given pixel type. So if you are wrapping a filter which should take two images with integral pixel types, write WRAP_IMAGE_FILTER_USIGN_INT(2). The specific integral data type(s) (char, long, or short in the WRAP_IMAGE_FILTER_USIGN_INT case) will be determined by the user-selected build parameters (e.g. WRAP_long, and WRAP_short). 
+- WRAP_type(size) (where 'type' is INT, SIGN_INT, REAL, VECTOR_REAL, COV_VECTOR_REAL or RGB) -- create a template instantiation with 'size' itk::Image parameters of the given pixel type. So if you are wrapping a filter which should take two images with integral pixel types, write WRAP_IMAGE_FILTER_USIGN_INT(2). The specific integral data type(s) (char, long, or short in the WRAP_IMAGE_FILTER_USIGN_INT case) will be determined by the user-selected build parameters (e.g. WRAP_long, and WRAP_short).
 
 - WRAP_type_DIMS(size dims) (with 'type' as above) -- Wrap a filter for certain dimensions only. Dims should be either a semicolon-separated list of valid dimensions, or something of the form '3+' to specify that the filter can be instantiated only for three- and higher-dimensional images. Note that if the user has not selected to wrap a given dimension at build time, a filter wrapped with WRAP_type_DIMS will not be instantiated: the final dimensions wrapped are the *intersection* of the user-selected dimensions and the valid dimensions declared with WRAP_type_DIMS.
 

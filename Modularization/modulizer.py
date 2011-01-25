@@ -230,7 +230,7 @@ for  moduleName in moduleList:
            line = 'add_executable('+moduleName+'-tests  ${Tests} )\n'
            o.write(line)
 
-           line = 'target_link_libraries('+moduleName+'-tests  '+moduleName+' )\n\n'
+           line = 'target_link_libraries('+moduleName+'-tests  ${'+moduleName+'_LIBRARIES} )\n\n'
            o.write(line)
 
            line = 'set('+ moduleName+'_TESTS'+ '  ${ITK_EXECUTABLE_PATH}/'+moduleName+'-tests)\n'

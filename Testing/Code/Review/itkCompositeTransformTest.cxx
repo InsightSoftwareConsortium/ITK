@@ -21,7 +21,6 @@
 #include <iostream>
 
 #include "itkAffineTransform.h"
-#include "itkScaleTransform.h"
 #include "itkCompositeTransform.h"
 #include "itkArray2D.h"
 
@@ -287,15 +286,17 @@ int itkCompositeTransformTest(int ,char *[] )
   /*
    * Create and add 2nd transform
    */
+  AffineType::Pointer affine2 = AffineType::New();
+  matrix2[0][0] = 11;
+  matrix2[0][1] = 22;
+  matrix2[1][0] = 33;
+  matrix2[1][1] = 44;
+  vector2[0] = 55;
+  vector2[1] = 65;
+  affine2->SetMatrix(matrix2);
+  affine2->SetOffset(vector2);
 
-  typedef itk::ScaleTransform<double, NDimensions>  ScaleTransformType;
-  ScaleTransformType::Pointer scaleTransform = ScaleTransformType::New();
-
-  ScaleTransformType::ScaleType::ValueType iscaleInit[2] = {2,-0.5};
-  ScaleTransformType::ScaleType            iscale = iscaleInit;
-  scaleTransform->SetScale( iscale );
-
-  compositeTransform->AddTransform( scaleTransform );
+  compositeTransform->AddTransform( affine2 );
 
   std::cout << std::endl << "Two-component Composite Transform:"
             << std::endl << compositeTransform;
@@ -312,7 +313,7 @@ int itkCompositeTransformTest(int ,char *[] )
   /* Transform a point with both transforms. Remember that transforms
    * are applied in *reverse* queue order, with most-recently added transform first. */
   CompositeType::OutputPointType compositeTruth;
-  compositeTruth = scaleTransform->TransformPoint( inputPoint );
+  compositeTruth = affine2->TransformPoint( inputPoint );
   compositeTruth = affine->TransformPoint( compositeTruth );
 
   outputPoint = compositeTransform->TransformPoint( inputPoint );
@@ -401,27 +402,27 @@ int itkCompositeTransformTest(int ,char *[] )
 
   /* Test GetNumberOfParameters */
   unsigned int affineParamsN = affine->GetNumberOfParameters();
-  unsigned int scaleParamsN = scaleTransform->GetNumberOfParameters();
+  unsigned int affine2ParamsN = affine2->GetNumberOfParameters();
   unsigned int nParameters = compositeTransform->GetNumberOfParameters();
   std::cout << "Number of parameters: " << nParameters << std::endl;
-  if( nParameters != affineParamsN + scaleParamsN )
+  if( nParameters != affineParamsN + affine2ParamsN )
     {
     std::cout << "GetNumberOfParameters failed for multi-transform."
-              << std::endl << "Expected " << affineParamsN+scaleParamsN
+              << std::endl << "Expected " << affineParamsN+affine2ParamsN
               << std::endl;
     }
 
   /* Get parameters with multi-transform. They're filled from transforms in
    * same order as transforms are applied, from back of queue to front. */
   parametersTest = compositeTransform->GetParameters();
-  parametersTruth.SetSize( scaleParamsN + affineParamsN );
+  parametersTruth.SetSize( affine2ParamsN + affineParamsN );
   /* Fill using different method than is used in the class.
-     Remember we added scaleTransform 2nd, so it's at front of queue */
-  for( unsigned int n=0; n < scaleParamsN; n++)
+     Remember we added affine2 2nd, so it's at front of queue */
+  for( unsigned int n=0; n < affine2ParamsN; n++)
     parametersTruth.SetElement(
-      n, scaleTransform->GetParameters().GetElement( n ) );
+      n, affine2->GetParameters().GetElement( n ) );
   for( unsigned int n=0; n < affineParamsN; n++)
-    parametersTruth.SetElement( n + scaleParamsN,
+    parametersTruth.SetElement( n + affine2ParamsN,
       affine->GetParameters().GetElement( n ) );
   std::cout << "Get Multi-transform Parameters: " << std::endl
             << "parametersTruth: " << std::endl << parametersTruth
@@ -456,13 +457,14 @@ int itkCompositeTransformTest(int ,char *[] )
   /* Test get fixed parameters with multi-transform */
   parametersTest = compositeTransform->GetFixedParameters();
   affineParamsN = affine->GetFixedParameters().Size();
-  scaleParamsN = scaleTransform->GetFixedParameters().Size();
-  parametersTruth.SetSize( scaleParamsN + affineParamsN );
-  for( unsigned int n=0; n < scaleParamsN; n++)
+  affine2ParamsN = affine2->GetFixedParameters().Size();
+  parametersTruth.SetSize( affine2ParamsN + affineParamsN );
+  parametersTruth.Fill(0); //Try this to quiet valgrind
+  for( unsigned int n=0; n < affine2ParamsN; n++)
     parametersTruth.SetElement(
-      n, scaleTransform->GetFixedParameters().GetElement( n ) );
+      n, affine2->GetFixedParameters().GetElement( n ) );
   for( unsigned int n=0; n < affineParamsN; n++)
-    parametersTruth.SetElement( n + scaleParamsN,
+    parametersTruth.SetElement( n + affine2ParamsN,
       affine->GetFixedParameters().GetElement( n ) );
   std::cout << "Get Multi-transform Fixed Parameters: " << std::endl
             << "parametersTruth: " << std::endl << parametersTruth
@@ -477,24 +479,15 @@ int itkCompositeTransformTest(int ,char *[] )
     }
 
   /* Test set fixed parameters with multi-transform */
-  /* NOTE that ScaleTransform doesn't have any fixed transforms. 'Get' returns
-   * something, but 'Set' does nothing, just an empty function */
-
-  parametersNew = parametersTruth;
-  /* Leave the ScaleTransform part of this as-is since the set func
-   * doesn't do anything. */
-  parametersNew[ scaleParamsN ] = 123;
-  parametersNew[ parametersTruth.Size() - 1 ] = 246;
-
   std::cout << "Set Multi-transform Fixed Parameters: " << std::endl;
-  compositeTransform->SetFixedParameters( parametersNew );
+  compositeTransform->SetFixedParameters( parametersTruth );
   std::cout << "retrieving... " << std::endl;
   parametersReturned = compositeTransform->GetFixedParameters();
-  std::cout << "parametersNew: " << std::endl << parametersNew << std::endl
+  std::cout << "parametersTruth: " << std::endl << parametersTruth << std::endl
             << "parametersReturned: " << std::endl << parametersReturned
             << std::endl;
   //std::cout << "Composite Transform: " << std::endl << compositeTransform;
-  if( !testVectorArray( parametersNew, parametersReturned ) )
+  if( !testVectorArray( parametersTruth, parametersReturned ) )
     {
     std::cout << "Failed SetFixedParameters() for multi transform." << std::endl;
     return EXIT_FAILURE;
@@ -504,18 +497,18 @@ int itkCompositeTransformTest(int ,char *[] )
    * Add a third transform
    */
 
-  /* Add another affine transform */
-  AffineType::Pointer affine2 = AffineType::New();
+  /* Add yet another affine transform */
+  AffineType::Pointer affine3 = AffineType::New();
   matrix2[0][0] = 1.1;
   matrix2[0][1] = 2.2;
   matrix2[1][0] = 3.3;
   matrix2[1][1] = 4.4;
   vector2[0] = 5.5;
   vector2[1] = 6.5;
-  affine2->SetMatrix(matrix2);
-  affine2->SetOffset(vector2);
+  affine3->SetMatrix(matrix2);
+  affine3->SetOffset(vector2);
 
-  compositeTransform->AddTransform( affine2 );
+  compositeTransform->AddTransform( affine3 );
   //std::cout << "compositeTransform with 3 subs: "
   //          << std::endl << compositeTransform << std::endl;
 
@@ -570,7 +563,7 @@ int itkCompositeTransformTest(int ,char *[] )
   /* Test get params with only 1st and last transforms set to optimize.
    * This implicitly tests the m_PreviousTransformsToOptimizeUpdateTime mechanism
    * for updating m_TransformsToOptimizeQueue.
-   * This includes the affine and affine2 transforms */
+   * This includes the affine and affine3 transforms */
 
   compositeTransform->SetNthTransformToOptimize(0, true);
   if( ! compositeTransform->GetNthTransformToOptimize(0) ||
@@ -585,13 +578,13 @@ int itkCompositeTransformTest(int ,char *[] )
 
   parametersTest = compositeTransform->GetParameters();
   affineParamsN = affine->GetNumberOfParameters();
-  unsigned int affine2ParamsN = affine2->GetNumberOfParameters();
-  parametersTruth.SetSize( affineParamsN + affine2ParamsN );
-  for( unsigned int n=0; n < affine2ParamsN; n++)
+  unsigned int affine3ParamsN = affine3->GetNumberOfParameters();
+  parametersTruth.SetSize( affineParamsN + affine3ParamsN );
+  for( unsigned int n=0; n < affine3ParamsN; n++)
     parametersTruth.SetElement(
-      n, affine2->GetParameters().GetElement( n ) );
+      n, affine3->GetParameters().GetElement( n ) );
   for( unsigned int n=0; n < affineParamsN; n++)
-    parametersTruth.SetElement( n + affine2ParamsN,
+    parametersTruth.SetElement( n + affine3ParamsN,
       affine->GetParameters().GetElement( n ) );
   std::cout << "Get 1st and 3rd transform Parameters: " << std::endl
             << "parametersTruth: " << std::endl << parametersTruth
@@ -608,21 +601,21 @@ int itkCompositeTransformTest(int ,char *[] )
   /* Test GetJacobian with three transforms, two of which (1st and 3rd) are active.
    * Remember that the point gets transformed by preceding transforms
    * before its used for individual Jacobian. */
-  CompositeType::JacobianType jacTruth, jacComposite2, jacAffine, jacAffine2;
+  CompositeType::JacobianType jacTruth, jacComposite2, jacAffine, jacAffine3;
   CompositeType::InputPointType jacPoint2;
   jacPoint2[0]=1;
   jacPoint2[1]=2;
   jacComposite2 = compositeTransform->GetJacobian( jacPoint2 );
-  jacAffine2 = affine2->GetJacobian( jacPoint2 );
+  jacAffine3 = affine3->GetJacobian( jacPoint2 );
+  jacPoint2 = affine3->TransformPoint( jacPoint2 );
   jacPoint2 = affine2->TransformPoint( jacPoint2 );
-  jacPoint2 = scaleTransform->TransformPoint( jacPoint2 );
   jacAffine = affine->GetJacobian( jacPoint2 );
-  jacTruth.SetSize( jacAffine2.rows(), jacAffine.cols()+jacAffine2.cols() );
-  jacTruth.update( jacAffine2, 0, 0 );
-  jacTruth.update( jacAffine, 0, jacAffine2.cols() );
+  jacTruth.SetSize( jacAffine3.rows(), jacAffine.cols()+jacAffine3.cols() );
+  jacTruth.update( jacAffine3, 0, 0 );
+  jacTruth.update( jacAffine, 0, jacAffine3.cols() );
   std::cout << "transformed jacPoint: " << jacPoint2 << std::endl;
   std::cout << "Affine jacobian:" << std::endl << jacAffine;
-  std::cout << "Affine2 jacobian:" << std::endl << jacAffine2;
+  std::cout << "affine3 jacobian:" << std::endl << jacAffine3;
   std::cout << "Truth jacobian:" << std::endl << jacTruth;
   std::cout << "Composite jacobian:" << std::endl << jacComposite2;
   if( !testJacobian( jacComposite2, jacTruth ) )
@@ -641,14 +634,18 @@ int itkCompositeTransformTest(int ,char *[] )
   catch( itk::ExceptionObject & err )
     {
     caught = true;
+    std::cout << "Caught expected exception." << std::endl;
+    (&err)->Print(std::cout);
     }
   if( !caught )
     {
     std::cout << "Expected exception calling SetParameters with wrong size"
               << std::endl;
+
     return EXIT_FAILURE;
     }
 
+  compositeTransform->Print(std::cout);
   return EXIT_SUCCESS;
 
 }

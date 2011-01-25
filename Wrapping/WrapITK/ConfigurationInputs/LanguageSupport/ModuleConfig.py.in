@@ -1,3 +1,0 @@
-depends = (@CONFIG_DEPENDS@)
-templates = (
-@CONFIG_TEMPLATES@)

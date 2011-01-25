@@ -250,35 +250,14 @@ FFTWGlobalConfiguration
 #if defined(USE_FFTWF)
       {
       // import the wisdom files again to be sure to not erase the wisdom saved in another process
-      char * localWisdomf=fftwf_export_wisdom_to_string();
-      const bool readWisdomSuccessfullyf=ImportWisdomFileFloat(cachePath+"f");//TODO:  Determine if this prevents updating of wisdom files.
-      //       i.e. if wisdom is initially created as "FFTW_ESTIMATE"
-      //       will subsequent "FFTW_EXHAUSTIVE" wisdom files
-      //       ever overwrite the original?
-      //       My reading of http://www.fftw.org/fftw3_doc/Wisdom-Import.html
-      //       indicates that importing will replace the currently accumulated
-      //       wisdom, and will, therefore, simply write out the
-      //       same wisdom file that was just read from disk.
-      //TODO:  I don't know how to test for the rigor level from the different options.
-      if(!readWisdomSuccessfullyf /* || wisdom_rigor(fromDisk)  < widsom_rigor(localWisdomf) */ )
-        {
-        //Reset local wisdom to what was created for this run.
-        fftwf_import_wisdom_from_string(localWisdomf);
-        }
+      ImportWisdomFileFloat(cachePath+"f");
       ExportWisdomFileFloat(cachePath+"f");
       }
 #endif
 #if defined(USE_FFTWD)
       {
       // import the wisdom files again to be sure to not erase the wisdom saved in another process
-      char * localWisdom=fftw_export_wisdom_to_string();
-      const bool readWisdomSuccessfully=ImportWisdomFileDouble(cachePath);
-      //TODO:  I don't know how to test for the rigor level from the different options.
-      if(!readWisdomSuccessfully /* || wisdom_rigor(fromDisk)  < widsom_rigor(localWisdom) */ )
-        {
-        //Reset local wisdom to what was created for this run.
-        fftw_import_wisdom_from_string(localWisdom);
-        }
+      ImportWisdomFileDouble(cachePath);
       ExportWisdomFileDouble(cachePath);
       }
 #endif

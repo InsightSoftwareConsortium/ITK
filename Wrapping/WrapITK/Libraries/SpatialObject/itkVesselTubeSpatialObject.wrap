@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::VesselTubeSpatialObject" POINTER_WITH_SUPERCLASS)
+  foreach(d ${WRAP_ITK_DIMS})
+    WRAP_TEMPLATE(${d} ${d})
+  endforeach(d)
+END_WRAP_CLASS()

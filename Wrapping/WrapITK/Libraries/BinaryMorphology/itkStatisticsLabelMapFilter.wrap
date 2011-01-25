@@ -1,0 +1,7 @@
+WRAP_CLASS("itk::StatisticsLabelMapFilter" POINTER)
+  foreach(d ${WRAP_ITK_DIMS})
+    foreach(t2 ${WRAP_ITK_SCALAR})
+      WRAP_TEMPLATE("${ITKM_LM${d}}${ITKM_I${t2}${d}}" "${ITKT_LM${d}}, ${ITKT_I${t2}${d}}")
+    endforeach(t2)
+  endforeach(d)
+END_WRAP_CLASS()

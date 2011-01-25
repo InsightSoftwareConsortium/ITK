@@ -84,6 +84,8 @@
 #cmakedefine ITK_SUPPORTS_FDSTREAM_HPP
 #cmakedefine ITK_USE_MODULAR_BUILD
 #cmakedefine ITK_USE_64BITS_IDS
+#cmakedefine ITK_COMPILER_SUPPORTS_SSE2_32
+#cmakedefine ITK_COMPILER_SUPPORTS_SSE2_64
 
 /*
  *  Enable the pre-registration of factories for specific image file formats
@@ -132,6 +134,10 @@
 #if ITK_CMAKEDEFINE_VAR_@HAVE_UNISTD_H@
 # define ITK_HAVE_UNISTD_H
 #endif /* HAVE_UNISTD_H */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_EMMINTRIN_H@
+# define ITK_HAVE_EMMINTRIN_H
+#endif /* HAVE_EMMINTRIN_H */
+
 
 #undef ITK_CMAKEDEFINE_VAR_1
 #undef ITK_CMAKEDEFINE_VAR_
