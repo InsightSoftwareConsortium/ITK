@@ -48,17 +48,17 @@ if (HeadOfModularITKTree[-1] ==  '/'):
 
 
 moduleName = 'itk-common'
-if os.path.isdir(HeadOfModularITKTree+'/'+moduleName):
+if os.path.isdir(HeadOfModularITKTree+'/modules/'+moduleName):
 
      #/src /CMakeLists.txt
-     cxxFiles = glob.glob(HeadOfModularITKTree+'/'+moduleName+'/src/*.cxx')
+     cxxFiles = glob.glob(HeadOfModularITKTree+'/modules/'+moduleName+'/src/*.cxx')
      cxxFileList='';
      for cxxf in cxxFiles:
           filename=cxxf.split('/')[-1]
           if filename[:3] !='vnl' and filename != 'itkWin32OutputWindow.cxx':
              cxxFileList = cxxFileList+filename+'\n'
 
-     o = open( HeadOfModularITKTree+'/'+moduleName+'/src/CMakeLists.txt','w')
+     o = open( HeadOfModularITKTree+'/modules/'+moduleName+'/src/CMakeLists.txt','w')
      for line in open('./templateModule/'+moduleName+'/src/CMakeLists.txt','r'):
             line = line.replace('LIST_OF_CXX_FILES',cxxFileList[0:-1]) #get rid of the last \n
             o.write(line);
