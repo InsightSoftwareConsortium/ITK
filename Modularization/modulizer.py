@@ -74,7 +74,7 @@ if os.path.isdir(HeadOfModularITKTree):
        print("modularITKSupport repository cloned into " + HeadOfModularITKTree)
    if (answer =='n'):
        print("Please rerun the program with a different directory.")
-       exsit(-1)
+       exit(-1)
    if (answer =='a'): #advanced
        print('Advanced Option Warning: This is only for developer\'s convinience.\nThe git clone step will be kipped; Old files in the directory will be overwritten.')
 else:
@@ -134,7 +134,7 @@ for line in open("./Manifest.txt",'r'):
 
 
     inputfile = HeadOfTempTree+'/'+words[0]
-    outputPath = HeadOfModularITKTree+'/'+ moduleName+'/'+subdirName
+    outputPath = HeadOfModularITKTree+'/modules/'+ moduleName+'/'+subdirName
     if len(moduleList) == 0:
        moduleList.append(moduleName)
     elif moduleName != moduleList[-1]:
@@ -181,13 +181,13 @@ print ("listed new files to"+LogDir+"/newFiles.log")
 print ('creating cmake files for each module (from the template module)')
 #moduleList = os.listdir(HeadOfModularITKTree)
 for  moduleName in moduleList:
-  if os.path.isdir(HeadOfModularITKTree+'/'+moduleName):
+  if os.path.isdir(HeadOfModularITKTree+'/modules/'+moduleName):
      # cooy the LICENSE and NOTICE
-     os.system('cp ./templateModule/itk-template-module/LICENSE'+'  '+ HeadOfModularITKTree+'/'+moduleName)
-     os.system('cp ./templateModule/itk-template-module/NOTICE'+'  '+ HeadOfModularITKTree+'/'+moduleName)
+     os.system('cp ./templateModule/itk-template-module/LICENSE'+'  '+ HeadOfModularITKTree+'/modules/'+moduleName)
+     os.system('cp ./templateModule/itk-template-module/NOTICE'+'  '+ HeadOfModularITKTree+'/modules/'+moduleName)
 
      # write CMakeLists.txt
-     filepath = HeadOfModularITKTree+'/'+moduleName+'/CMakeLists.txt'
+     filepath = HeadOfModularITKTree+'/modules/'+moduleName+'/CMakeLists.txt'
      if not os.path.isfile(filepath):
        o = open(filepath,'w')
        for line in open('./templateModule/itk-template-module/CMakeLists.txt','r'):
@@ -197,12 +197,12 @@ for  moduleName in moduleList:
 
      # write src/CMakeLists.txt
      # list of CXX files
-     if os.path.isdir(HeadOfModularITKTree+'/'+moduleName+'/src'):
-       cxxFiles = glob.glob(HeadOfModularITKTree+'/'+moduleName+'/src/*.cxx')
+     if os.path.isdir(HeadOfModularITKTree+'/modules/'+moduleName+'/src'):
+       cxxFiles = glob.glob(HeadOfModularITKTree+'/modules/'+moduleName+'/src/*.cxx')
        cxxFileList='';
        for cxxf in cxxFiles:
             cxxFileList = cxxFileList+cxxf.split('/')[-1]+'\n'
-       filepath = HeadOfModularITKTree+'/'+moduleName+'/src/CMakeLists.txt'
+       filepath = HeadOfModularITKTree+'/modules/'+moduleName+'/src/CMakeLists.txt'
        if not os.path.isfile(filepath):
          o = open(filepath,'w')
          for line in open('./templateModule/itk-template-module/src/CMakeLists.txt','r'):
@@ -212,12 +212,12 @@ for  moduleName in moduleList:
          o.close()
 
      # write  test/CMakeLists.txt
-     if os.path.isdir(HeadOfModularITKTree+'/'+moduleName+'/test'):
-       cxxFiles = glob.glob(HeadOfModularITKTree+'/'+moduleName+'/test/*.cxx')
+     if os.path.isdir(HeadOfModularITKTree+'/modules/'+moduleName+'/test'):
+       cxxFiles = glob.glob(HeadOfModularITKTree+'/modules/'+moduleName+'/test/*.cxx')
        cxxFileList='';
        for cxxf in cxxFiles:
             cxxFileList = cxxFileList+cxxf.split('/')[-1]+'\n'
-       filepath = HeadOfModularITKTree+'/'+moduleName+'/test/CMakeLists.txt'
+       filepath = HeadOfModularITKTree+'/modules/'+moduleName+'/test/CMakeLists.txt'
 
        if not os.path.isfile(filepath):
            o = open(filepath,'w')
@@ -243,7 +243,7 @@ for  moduleName in moduleList:
 
 
     # write CTestConfig.cmake
-     filepath = HeadOfModularITKTree+'/'+moduleName+'/CTestConfig.cmake'
+     filepath = HeadOfModularITKTree+'/modules/'+moduleName+'/CTestConfig.cmake'
      if not os.path.isfile(filepath):
         o = open(filepath,'w')
         for line in open('./templateModule/itk-template-module/CTestConfig.cmake','r'):
@@ -252,7 +252,7 @@ for  moduleName in moduleList:
         o.close()
 
    # write itk-module.cmake, which contains dependency info
-     filepath = HeadOfModularITKTree+'/'+moduleName+'/itk-module.cmake'
+     filepath = HeadOfModularITKTree+'/modules/'+moduleName+'/itk-module.cmake'
      if not os.path.isfile(filepath):
         o = open(filepath,'w')
         for line in open('./templateModule/itk-template-module/itk-module.cmake','r'):
