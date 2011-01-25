@@ -27,26 +27,6 @@
 #include "vnl/vnl_math.h"
 #include "itkVector.h"
 
-namespace
-{
-bool CheckEqual(
- itk::Point<double,2> p1,
- itk::Point<double,2> p2 )
-{
-  const double epsilon = 1e-10;
-  for( unsigned int i = 0; i < 2; i++ )
-    {
-    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
-      {
-      std::cout << p1 << " != " << p2 << ": FAILED" << std::endl;
-      return false;
-      }
-    }
-  //std::cout << p1 << " == " << p2 << ": PASSED" << std::endl;
-  return true;
-}
-}
-
 static bool TestSettingTranslation(void)
 {
 

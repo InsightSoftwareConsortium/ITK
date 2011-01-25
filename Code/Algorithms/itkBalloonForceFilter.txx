@@ -661,8 +661,8 @@ void
 BalloonForceFilter< TInputMesh, TOutputMesh >
 ::Reset()
 {
-  int         i, j, cell = 0, slice, numnewnodes, res;
-  float       status, d[3] = { 0, 0, 0 }, w;
+  int         i, j, cell = 0, res;
+  float       d[3] = { 0, 0, 0 }, w;
   IPixelType  x, y, z;
   IPixelType *x_PixelType;
   IPixelType *y_PixelType;
