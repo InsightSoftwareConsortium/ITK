@@ -25,11 +25,29 @@
 namespace itk
 {
 /** \class FFTComplexConjugateToRealImageFilter
- * \brief TODO
  *
- * \ingroup
+ * \brief Base class for "Inverse" Fast Fourier Transform.
+ *
+ * This is a base class for the "inverse" or "reverse" discrete Fourier
+ * Transform.  This is an abstract base class: the actual implementation is
+ * provided by the best child available on the the system when the object is
+ * created via the object factory system.
+ *
+ * This class transforms a complex conjugate symmetric image into its real
+ * spatial domain representation.  If the input in not complex conjugate symmetric, the
+ * imaginary component is discarded.  The transform of a real input image has
+ * complex conjugate symmetry.  That is, values in the second half of the
+ * transform are the complex conjugates of values in the first half.  Some
+ * implementations, e.g. FFTW, may take advantage of this property and reduce
+ * the size of the output in one direction during the forward transform  to
+ * N/2+1, where N is the size of the input.  If this occurs, FullMatrix()
+ * returns 'false'.  If this was the case, the size of the inverse output image
+ * will be larger than the input.
+ *
+ * \ingroup FourierTransform
+ *
+ * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter
  */
-
 template< class TPixel, unsigned int VDimension = 3 >
 class ITK_EXPORT FFTComplexConjugateToRealImageFilter:
   public ImageToImageFilter< Image< std::complex< TPixel >, VDimension >,
@@ -62,13 +80,20 @@ public:
   /** Image type typedef support. */
   typedef TInputImageType              ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
+
+  /** The output may be a different size from the input if complex conjugate
+   * symmetry is implicit. */
   virtual void GenerateOutputInformation(); // figure out allocation for output
                                             // image
 
+  /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion();
 
+  /** Returns true if the outputs size is the same size as the input, i.e.
+   * we do not take advantage of complex conjugate symmetry. */
   virtual bool FullMatrix() = 0; // must be implemented in child
 
+  /** Was the original truncated dimension size odd? */
   void SetActualXDimensionIsOdd(bool isodd)
   {
     m_ActualXDimensionIsOdd = isodd;

@@ -33,6 +33,10 @@ namespace itk
  * This filter is multithreaded and supports input images with sizes which are not
  * a power of two.
  *
+ * In order to use this class, USE_FFTWF must be set to ON in the CMake
+ * configuration to support float images, and USE_FFTWD must set to ON to
+ * support double images.
+ *
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/10380/3154
  * or http://insight-journal.com/browse/publication/717
@@ -40,7 +44,7 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup FourierTransform, Multithreaded
- * \sa FFTWGlobalConfiguration
+ * \sa FFTWGlobalConfiguration, FFTRealToComplexConjugateImageFilter
  */
 template< class TPixel, unsigned int VDimension = 3 >
 class ITK_EXPORT FFTWRealToComplexConjugateImageFilter:

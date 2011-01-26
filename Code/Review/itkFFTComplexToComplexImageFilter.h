@@ -42,6 +42,9 @@ namespace itk
  * This class was taken from the Insight Journal paper:
  * http://insight-journal.org/midas/handle.php?handle=1926/326
  *
+ * \ingroup FourierTransform
+ *
+ * \sa FFTRealToComplexConjugateImageFilter
  */
 template< class TPixel, unsigned int NDimension = 3 >
 class FFTComplexToComplexImageFilter:
