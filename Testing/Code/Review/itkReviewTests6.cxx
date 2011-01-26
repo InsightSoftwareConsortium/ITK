@@ -29,6 +29,7 @@ void RegisterTests()
   REGISTER_TEST(itkObjectToObjectMetricTest);
   REGISTER_TEST(itkDeformationFieldTransformTest);
   REGISTER_TEST(itkBSplineControlPointImageFilterTest);
+  REGISTER_TEST(itkBSplineControlPointImageFilterTest1);
   REGISTER_TEST(itkN4MRIBiasFieldCorrectionImageFilterTest);
   REGISTER_TEST(itkCompositeTransformTest);
   REGISTER_TEST(itkScalarChanAndVeseLevelSetFunctionTest1);

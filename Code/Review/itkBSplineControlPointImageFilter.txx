@@ -162,7 +162,7 @@ ParameterCostFunction<TControlPointLattice>
     for( unsigned int j = 0; j < gradient.Cols(); j++ )
       {
       derivative[j] += ( 2.0 * ( value[i] - this->m_DataPoint[i] ) *
-                         gradient(i, j) );
+        gradient(i, j) );
       }
     }
 }
@@ -193,9 +193,11 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    this->m_NumberOfControlPoints[i] = ( this->m_SplineOrder[i]+1 );
+    this->m_NumberOfControlPoints[i] = ( this->m_SplineOrder[i] + 1 );
     this->m_Kernel[i] = KernelType::New();
     this->m_Kernel[i]->SetSplineOrder( this->m_SplineOrder[i] );
+
+    this->m_BSplineWeights[i].set_size( this->m_SplineOrder[i] + 1 );
     }
   this->m_KernelOrder0 = KernelOrder0Type::New();
   this->m_KernelOrder1 = KernelOrder1Type::New();
@@ -204,6 +206,8 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
 
   this->m_NumberOfLevels.Fill( 1 );
   this->m_CloseDimension.Fill( 0 );
+
+  this->m_NeighborhoodWeightImage = NULL;
 
   this->m_BSplineEpsilon = vcl_numeric_limits<RealType>::epsilon();
 }
@@ -234,10 +238,9 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
       }
     }
 
-  itkDebugMacro( "Setting m_NumberOfLevels to " <<
-                 this->m_NumberOfLevels );
-  itkDebugMacro( "Setting m_MaximumNumberOfLevels to " <<
-                 this->m_MaximumNumberOfLevels );
+  itkDebugMacro( "Setting m_NumberOfLevels to " <<  this->m_NumberOfLevels );
+  itkDebugMacro( "Setting m_MaximumNumberOfLevels to " << this->
+    m_MaximumNumberOfLevels );
 
   if( this->m_MaximumNumberOfLevels > 1 )
     {
@@ -279,6 +282,8 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
     this->m_Kernel[i] = KernelType::New();
     this->m_Kernel[i]->SetSplineOrder( this->m_SplineOrder[i] );
 
+    this->m_BSplineWeights[i].set_size( this->m_SplineOrder[i] + 1 );
+
     if( this->m_DoMultilevel )
       {
       typename KernelType::MatrixType C;
@@ -319,7 +324,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 template<class InputImage, class TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
-::GenerateData()
+::BeforeThreadedGenerateData()
 {
   for( unsigned int i = 0; i < ImageDimension; i++)
     {
@@ -347,7 +352,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     }
   this->m_BSplineEpsilon = 100 * vcl_numeric_limits<RealType>::epsilon();
   while( static_cast<RealType>( maximumNumberOfSpans ) ==
-         static_cast<RealType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
+    static_cast<RealType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
     {
     this->m_BSplineEpsilon *= 10;
     }
@@ -357,8 +362,208 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     this->m_NumberOfControlPoints[i] =
       this->GetInput()->GetLargestPossibleRegion().GetSize()[i];
     }
+}
 
-  this->GenerateOutputImageFast();
+template<class InputImage, class TOutputImage>
+void
+BSplineControlPointImageFilter<InputImage, TOutputImage>
+::ThreadedGenerateData( const OutputImageRegionType & region, int threadId )
+{
+  typename PointDataImageType::Pointer collapsedPhiLattices[ImageDimension + 1];
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    collapsedPhiLattices[i] = PointDataImageType::New();
+    collapsedPhiLattices[i]->CopyInformation( this->GetInput() );
+
+    typename PointDataImageType::SizeType size;
+    size.Fill(1);
+    for( unsigned int j = 0; j < i; j++ )
+      {
+      size[j] = this->GetInput()->GetLargestPossibleRegion().GetSize()[j];
+      }
+    collapsedPhiLattices[i]->SetRegions(size);
+    collapsedPhiLattices[i]->Allocate();
+    }
+  typedef ImageDuplicator<ControlPointLatticeType> ImageDuplicatorType;
+  typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
+  duplicator->SetInputImage( this->GetInput() );
+  duplicator->Update();
+
+  collapsedPhiLattices[ImageDimension] = duplicator->GetOutput();
+
+  ArrayType totalNumberOfSpans;
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    if( this->m_CloseDimension[i] )
+      {
+      totalNumberOfSpans[i] =
+        this->GetInput()->GetLargestPossibleRegion().GetSize()[i];
+      }
+    else
+      {
+      totalNumberOfSpans[i] =
+        this->GetInput()->GetLargestPossibleRegion().GetSize()[i] -
+        this->m_SplineOrder[i];
+      }
+    }
+  FixedArray<RealType, ImageDimension> U;
+  FixedArray<RealType, ImageDimension> currentU;
+  currentU.Fill( -1 );
+
+  typename OutputImageType::IndexType startIndex =
+    this->GetOutput()->GetRequestedRegion().GetIndex();
+  typename PointDataImageType::IndexType startPhiIndex =
+    this->GetInput()->GetLargestPossibleRegion().GetIndex();
+
+  ImageRegionIteratorWithIndex<OutputImageType> It( this->GetOutput(), region );
+  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
+    {
+    typename OutputImageType::IndexType idx = It.GetIndex();
+    for( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
+        static_cast<RealType>( idx[i] - startIndex[i] ) /
+        static_cast<RealType>( this->m_Size[i] - 1 );
+      if( vnl_math_abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
+        <= this->m_BSplineEpsilon )
+        {
+        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
+          this->m_BSplineEpsilon;
+        }
+      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
+        {
+        itkExceptionMacro( "The collapse point component " << U[i]
+          << " is outside the corresponding parametric domain of [0, "
+          << totalNumberOfSpans[i] << "]." );
+        }
+      }
+    for( int i = ImageDimension - 1; i >= 0; i-- )
+      {
+      if( U[i] != currentU[i] )
+        {
+        for( int j = i; j >= 0; j-- )
+          {
+          this->CollapsePhiLattice( collapsedPhiLattices[j + 1],
+            collapsedPhiLattices[j], U[j], j );
+          currentU[j] = U[j];
+          }
+        break;
+        }
+      }
+    It.Set( collapsedPhiLattices[0]->GetPixel( startPhiIndex ) );
+    }
+}
+
+template<class InputImage, class TOutputImage>
+void
+BSplineControlPointImageFilter<InputImage, TOutputImage>
+::CollapsePhiLattice( PointDataImageType *lattice,
+  PointDataImageType *collapsedLattice, RealType u, unsigned int dimension )
+{
+  ImageRegionIteratorWithIndex< PointDataImageType > It(
+    collapsedLattice, collapsedLattice->GetLargestPossibleRegion() );
+
+  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
+    {
+    PointDataType data;
+    data.Fill( 0.0 );
+    typename PointDataImageType::IndexType idx = It.GetIndex();
+    for( unsigned int i = 0; i < this->m_SplineOrder[dimension] + 1; i++ )
+      {
+      idx[dimension] = static_cast<unsigned int>( u ) + i;
+      RealType v = u - idx[dimension] + 0.5 * static_cast<RealType>(
+        this->m_SplineOrder[dimension] - 1 );
+
+      RealType B = 0.0;
+      switch( this->m_SplineOrder[dimension] )
+        {
+        case 0:
+          {
+          B = this->m_KernelOrder0->Evaluate( v );
+          break;
+          }
+        case 1:
+          {
+          B = this->m_KernelOrder1->Evaluate( v );
+          break;
+          }
+        case 2:
+          {
+          B = this->m_KernelOrder2->Evaluate( v );
+          break;
+          }
+        case 3:
+          {
+          B = this->m_KernelOrder3->Evaluate( v );
+          break;
+          }
+        default:
+          {
+          B = this->m_Kernel[dimension]->Evaluate( v );
+          break;
+          }
+        }
+      if( this->m_CloseDimension[dimension] )
+        {
+        idx[dimension] %=
+          lattice->GetLargestPossibleRegion().GetSize()[dimension];
+        }
+      data += ( lattice->GetPixel( idx ) * B );
+      }
+    It.Set( data );
+    }
+}
+
+template<class TInputImage, class TOutputImage>
+int
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::SplitRequestedRegion( int i, int num, OutputImageRegionType &splitRegion )
+{
+  // Get the output pointer
+  OutputImageType *outputPtr = this->GetOutput();
+
+  const SizeType requestedRegionSize =
+    outputPtr->GetRequestedRegion().GetSize();
+
+  int splitAxis;
+  typename TOutputImage::IndexType splitIndex;
+  typename TOutputImage::SizeType splitSize;
+
+  // Initialize the splitRegion to the output requested region
+  splitRegion = outputPtr->GetRequestedRegion();
+  splitIndex = splitRegion.GetIndex();
+  splitSize = splitRegion.GetSize();
+
+  // split on the outermost dimension
+  splitAxis = outputPtr->GetImageDimension() - 1;
+
+  // determine the actual number of pieces that will be generated
+  typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
+  int valuesPerThread = static_cast<int>( vcl_ceil(
+    range / static_cast<double>( num ) ) );
+  int maxThreadIdUsed = static_cast<int>( vcl_ceil(
+    range / static_cast<double>( valuesPerThread ) ) - 1 );
+
+  // Split the region
+  if ( i < maxThreadIdUsed )
+    {
+    splitIndex[splitAxis] += i * valuesPerThread;
+    splitSize[splitAxis] = valuesPerThread;
+    }
+  if ( i == maxThreadIdUsed )
+    {
+    splitIndex[splitAxis] += i * valuesPerThread;
+    // last thread needs to process the "rest" dimension being split
+    splitSize[splitAxis] = splitSize[splitAxis] - i * valuesPerThread;
+    }
+
+  // set the split region ivars
+  splitRegion.SetIndex( splitIndex );
+  splitRegion.SetSize( splitSize );
+
+  itkDebugMacro( "Split piece: " << splitRegion );
+
+  return maxThreadIdUsed + 1;
 }
 
 template<class TInputPointImage, class TOutputImage>
@@ -416,23 +621,23 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
     refinedLattice->FillBuffer( data );
 
     typename ControlPointLatticeType::IndexType            idx;
-    typename ControlPointLatticeType::IndexType            idx_Psi;
+    typename ControlPointLatticeType::IndexType            idxPsi;
     typename ControlPointLatticeType::IndexType            tmp;
-    typename ControlPointLatticeType::IndexType            tmp_Psi;
+    typename ControlPointLatticeType::IndexType            tmpPsi;
     typename ControlPointLatticeType::IndexType            off;
-    typename ControlPointLatticeType::IndexType            off_Psi;
-    typename ControlPointLatticeType::RegionType::SizeType size_Psi;
+    typename ControlPointLatticeType::IndexType            offPsi;
+    typename ControlPointLatticeType::RegionType::SizeType sizePsi;
 
     size.Fill( 2 );
     unsigned int N = 1;
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
       N *= ( this->m_SplineOrder[i] + 1 );
-      size_Psi[i] = this->m_SplineOrder[i] + 1;
+      sizePsi[i] = this->m_SplineOrder[i] + 1;
       }
 
-    ImageRegionIteratorWithIndex<ControlPointLatticeType>
-    It( refinedLattice, refinedLattice->GetLargestPossibleRegion() );
+    ImageRegionIteratorWithIndex<ControlPointLatticeType> It(
+      refinedLattice, refinedLattice->GetLargestPossibleRegion() );
 
     It.GoToBegin();
     while( !It.IsAtEnd() )
@@ -442,11 +647,11 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
         {
         if( m < this->m_NumberOfLevels[i] )
           {
-          idx_Psi[i] = static_cast<unsigned int>( 0.5*idx[i] );
+          idxPsi[i] = static_cast<unsigned int>( 0.5*idx[i] );
           }
         else
           {
-          idx_Psi[i] = static_cast<unsigned int>( idx[i] );
+          idxPsi[i] = static_cast<unsigned int>( idx[i] );
           }
         }
       for( unsigned int i = 0; i < ( 2 << ( ImageDimension - 1 ) ); i++ )
@@ -478,22 +683,22 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 
         for( unsigned int j = 0; j < N; j++ )
           {
-          off_Psi = this->NumberToIndex( j, size_Psi );
+          offPsi = this->NumberToIndex( j, sizePsi );
 
           bool outOfBoundary2 = false;
           for( unsigned int k = 0; k < ImageDimension; k++ )
             {
-            tmp_Psi[k] = idx_Psi[k] + off_Psi[k];
-            if( tmp_Psi[k] >= static_cast<int>(
-                  this->GetInput()->GetLargestPossibleRegion().GetSize()[k] ) &&
-                !this->m_CloseDimension[k] )
+            tmpPsi[k] = idxPsi[k] + offPsi[k];
+            if( tmpPsi[k] >= static_cast<int>(
+              this->GetInput()->GetLargestPossibleRegion().GetSize()[k] ) &&
+              !this->m_CloseDimension[k] )
               {
               outOfBoundary2 = true;
               break;
               }
             if( this->m_CloseDimension[k] )
               {
-              tmp_Psi[k] %= psiLattice->GetLargestPossibleRegion().GetSize()[k];
+              tmpPsi[k] %= psiLattice->GetLargestPossibleRegion().GetSize()[k];
               }
             }
           if( outOfBoundary2 )
@@ -504,9 +709,9 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
           for( unsigned int k = 0; k < ImageDimension; k++ )
             {
             coeff *=
-              this->m_RefinedLatticeCoefficients[k]( off[k], off_Psi[k] );
+              this->m_RefinedLatticeCoefficients[k]( off[k], offPsi[k] );
             }
-          val = psiLattice->GetPixel( tmp_Psi );
+          val = psiLattice->GetPixel( tmpPsi );
           val *= coeff;
           sum += val;
           }
@@ -528,9 +733,8 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
           }
         }
       }
-
-    typename ImageDuplicatorType::Pointer duplicator2
-      = ImageDuplicatorType::New();
+    typename ImageDuplicatorType::Pointer duplicator2 =
+      ImageDuplicatorType::New();
     duplicator2->SetInputImage( refinedLattice );
     duplicator2->Update();
     psiLattice = duplicator2->GetOutput();
@@ -538,177 +742,24 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
   return psiLattice;
 }
 
-template<class InputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
-::GenerateOutputImageFast()
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::EvaluateAtPoint( PointType point, PointDataType &data )
 {
-  typename ControlPointLatticeType::Pointer
-    collapsedPhiLattices[ImageDimension+1];
-
-  for( int i = 0; i < ImageDimension; i++ )
-    {
-    collapsedPhiLattices[i] = ControlPointLatticeType::New();
-    collapsedPhiLattices[i]->SetOrigin( this->GetInput()->GetOrigin() );
-    collapsedPhiLattices[i]->SetSpacing( this->GetInput()->GetSpacing() );
-    typename ControlPointLatticeType::SizeType size;
-    size.Fill( 1 );
-    for( int j = 0; j < i; j++ )
-      {
-      size[j] = this->GetInput()->GetLargestPossibleRegion().GetSize()[j];
-      }
-    collapsedPhiLattices[i]->SetRegions( size );
-    collapsedPhiLattices[i]->Allocate();
-    }
-  typedef ImageDuplicator<ControlPointLatticeType> DuplicatorType;
-  typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
-  duplicator->SetInputImage( this->GetInput() );
-  duplicator->Update();
-
-  collapsedPhiLattices[ImageDimension] = duplicator->GetOutput();
-  ArrayType totalNumberOfSpans;
   for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    if( this->m_CloseDimension[i] )
-      {
-      totalNumberOfSpans[i] =
-        this->GetInput()->GetLargestPossibleRegion().GetSize()[i];
-      }
-    else
-      {
-      totalNumberOfSpans[i] =
-        this->GetInput()->GetLargestPossibleRegion().GetSize()[i] -
-        this->m_SplineOrder[i];
-      }
-    }
-  FixedArray<RealType, ImageDimension> U;
-  FixedArray<RealType, ImageDimension> currentU;
-  currentU.Fill( -1 );
-  typename ImageType::IndexType startIndex =
-    this->GetOutput()->GetRequestedRegion().GetIndex();
-  typename ControlPointLatticeType::IndexType startPhiIndex =
-    this->GetInput()->GetLargestPossibleRegion().GetIndex();
-
-  ImageRegionIteratorWithIndex<ImageType>
-  It( this->GetOutput(), this->GetOutput()->GetRequestedRegion() );
-
-  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
-    {
-    typename ImageType::IndexType idx = It.GetIndex();
-    for( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
-        static_cast<RealType>( idx[i] - startIndex[i] ) /
-        static_cast<RealType>( this->m_Size[i] - 1 );
-      if( vnl_math_abs( U[i] - static_cast<RealType>(
-                          totalNumberOfSpans[i] ) ) <= this->m_BSplineEpsilon )
-        {
-        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
-          this->m_BSplineEpsilon;
-        }
-      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
-        {
-        itkExceptionMacro(
-          "The collapse point component " << U[i] <<
-          " is outside the corresponding parametric domain of [0, " <<
-          totalNumberOfSpans[i] << "]." );
-        }
-      }
-    for( int i = ImageDimension-1; i >= 0; i-- )
-      {
-      if( U[i] != currentU[i] )
-        {
-        for( int j = i; j >= 0; j-- )
-          {
-          this->CollapsePhiLattice( collapsedPhiLattices[j+1],
-                                    collapsedPhiLattices[j], U[j], j );
-          currentU[j] = U[j];
-          }
-        break;
-        }
-      }
-    It.Set( collapsedPhiLattices[0]->GetPixel( startPhiIndex ) );
-    }
-}
-
-template<class InputImage, class TOutputImage>
-void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
-::CollapsePhiLattice( ControlPointLatticeType *lattice,
-                      ControlPointLatticeType *collapsedLattice,
-                      RealType u, unsigned int dimension )
-{
-  ImageRegionIteratorWithIndex<ControlPointLatticeType> It
-    ( collapsedLattice, collapsedLattice->GetLargestPossibleRegion() );
-
-  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
-    {
-    PointDataType data;
-    data.Fill( 0.0 );
-    typename ControlPointLatticeType::IndexType idx = It.GetIndex();
-    for( unsigned int i = 0; i < this->m_SplineOrder[dimension] + 1; i++ )
-      {
-      idx[dimension] = static_cast<unsigned int>( u ) + i;
-      RealType v = u - idx[dimension]
-        + 0.5*static_cast<RealType>( this->m_SplineOrder[dimension] - 1 );
-      RealType B = 0.0;
-      switch( this->m_SplineOrder[dimension] )
-        {
-        case 0:
-          {
-          B = this->m_KernelOrder0->Evaluate( v );
-          break;
-          }
-        case 1:
-          {
-          B = this->m_KernelOrder1->Evaluate( v );
-          break;
-          }
-        case 2:
-          {
-          B = this->m_KernelOrder2->Evaluate( v );
-          break;
-          }
-        case 3:
-          {
-          B = this->m_KernelOrder3->Evaluate( v );
-          break;
-          }
-        default:
-          {
-          B = this->m_Kernel[dimension]->Evaluate( v );
-          break;
-          }
-        }
-      if( this->m_CloseDimension[dimension] )
-        {
-        idx[dimension] %=
-          lattice->GetLargestPossibleRegion().GetSize()[dimension];
-        }
-      data += ( lattice->GetPixel( idx ) * B );
-      }
-    It.Set( data );
-    }
-}
-
-template<class InputImage, class TOutputImage>
-void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
-::EvaluateAtPoint( PointType point, PixelType &data )
-{
-  for( unsigned int i = 0; i < ImageDimension; i++)
     {
     point[i] -= this->m_Origin[i];
     point[i] /=
-      ( static_cast<RealType>( this->m_Size[i]-1 ) * this->m_Spacing[i] );
+      ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
     }
   this->Evaluate( point, data );
 }
 
-template<class InputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
-::EvaluateAtIndex( IndexType idx, PixelType &data )
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::EvaluateAtIndex( IndexType idx, PointDataType &data )
 {
   PointType point;
 
@@ -716,10 +767,10 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   this->EvaluateAtPoint( point, data );
 }
 
-template<class InputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
-::EvaluateAtContinuousIndex( ContinuousIndexType idx, PixelType &data )
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::EvaluateAtContinuousIndex( ContinuousIndexType idx, PointDataType &data )
 {
   PointType point;
 
@@ -727,13 +778,12 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   this->EvaluateAtPoint( point, data );
 }
 
-template<class InputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
-::Evaluate( PointType params, PixelType &data )
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::Evaluate( PointType params, PointDataType &data )
 {
-  vnl_vector<RealType> p( ImageDimension );
-
+  vnl_vector<RealType> p(ImageDimension);
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     if( params[i] == NumericTraits<RealType>::One )
@@ -742,69 +792,83 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
       }
     if( params[i] < 0.0 || params[i] >= 1.0 )
       {
-      itkExceptionMacro( "The specified point " << params <<
-                         " is outside the reparameterized domain [0, 1)." );
+      itkExceptionMacro( "The specified point " << params
+        << " is outside the reparameterized domain [0, 1]." );
       }
-    p[i] = static_cast<RealType>( params[i] ) * static_cast<RealType>(
-        this->GetInput()->GetLargestPossibleRegion().GetSize()[i] -
-        this->m_SplineOrder[i] );
+    RealType numberOfSpans = static_cast<RealType>(
+      this->GetInput()->GetLargestPossibleRegion().GetSize()[i] );
+    if( !this->m_CloseDimension[i] )
+      {
+      numberOfSpans -= static_cast<RealType>( this->m_SplineOrder[i] );
+      }
+    p[i] = static_cast<RealType>( params[i] ) * numberOfSpans;
     }
 
-  typename RealImageType::RegionType::SizeType size;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    size[i] = this->m_SplineOrder[i] + 1;
-    }
-  typename RealImageType::Pointer w;
-  w = RealImageType::New();
-  w->SetRegions( size );
-  w->Allocate();
-
-  PointDataType val;
-  data.Fill( 0.0 );
-
-  ImageRegionIteratorWithIndex<RealImageType>
-  Itw( w, w->GetLargestPossibleRegion() );
-
-  for( Itw.GoToBegin(); !Itw.IsAtEnd(); ++Itw )
-    {
-    RealType                          B = 1.0;
-    typename RealImageType::IndexType idx = Itw.GetIndex();
-    for( unsigned int i = 0; i < ImageDimension; i++ )
+    for( unsigned int j = 0; j < this->m_BSplineWeights[i].size(); j++ )
       {
-      RealType u = p[i] - static_cast<RealType>( static_cast<unsigned>( p[i] ) +
-        idx[i] ) + 0.5*static_cast<RealType>( this->m_SplineOrder[i] - 1 );
+      RealType u = p[i] - static_cast<RealType>( static_cast<unsigned>( p[i] )
+        + j ) + 0.5 * static_cast<RealType>( this->m_SplineOrder[i] - 1 );
+
+      RealType B = 1.0;
       switch( this->m_SplineOrder[i] )
         {
         case 0:
           {
-          B *= this->m_KernelOrder0->Evaluate( u );
+          B = this->m_KernelOrder0->Evaluate( u );
           break;
           }
         case 1:
           {
-          B *= this->m_KernelOrder1->Evaluate( u );
+          B = this->m_KernelOrder1->Evaluate( u );
           break;
           }
         case 2:
           {
-          B *= this->m_KernelOrder2->Evaluate( u );
+          B = this->m_KernelOrder2->Evaluate( u );
           break;
           }
         case 3:
           {
-          B *= this->m_KernelOrder3->Evaluate( u );
+          B = this->m_KernelOrder3->Evaluate( u );
           break;
           }
         default:
           {
-          B *= this->m_Kernel[i]->Evaluate( u );
+          B = this->m_Kernel[i]->Evaluate( u );
           break;
           }
         }
+      this->m_BSplineWeights[i].put( j, B );
       }
+    }
+
+  PointDataType val;
+  data.Fill( 0.0 );
+
+  if( !this->m_NeighborhoodWeightImage )
+    {
+    typename RealImageType::SizeType size;
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
+      size[i] = this->m_SplineOrder[i] + 1;
+      }
+    this->m_NeighborhoodWeightImage = RealImageType::New();
+    this->m_NeighborhoodWeightImage->SetRegions( size );
+    this->m_NeighborhoodWeightImage->Allocate();
+    }
+  ImageRegionIteratorWithIndex<RealImageType> ItW(
+    this->m_NeighborhoodWeightImage,
+    this->m_NeighborhoodWeightImage->GetLargestPossibleRegion() );
+  for( ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW )
+    {
+    RealType B = 1.0;
+    typename RealImageType::IndexType idx = ItW.GetIndex();
+    for( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      B *= this->m_BSplineWeights[i].get( idx[i] );
+
       idx[i] += static_cast<unsigned int>( p[i] );
       if( this->m_CloseDimension[i] )
         {
@@ -820,23 +884,24 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     }
 }
 
-template<class InputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::EvaluateGradientAtPoint( PointType point, GradientType &gradient )
 {
-  for( unsigned int i = 0; i < ImageDimension; i++)
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     point[i] -= this->m_Origin[i];
-    point[i] /= ( static_cast<RealType>( this->m_Size[i] - 1 ) *
-                  this->m_Spacing[i] );
+    point[i] /=
+      ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
     }
+
   this->EvaluateGradient( point, gradient );
 }
 
-template<class InputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::EvaluateGradientAtIndex( IndexType idx, GradientType &gradient )
 {
   PointType point;
@@ -845,11 +910,11 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   this->EvaluateGradientAtPoint( point, gradient );
 }
 
-template<class InputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
-::EvaluateGradientAtContinuousIndex( ContinuousIndexType idx,
-                                     GradientType &gradient )
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::EvaluateGradientAtContinuousIndex(
+  ContinuousIndexType idx, GradientType &gradient)
 {
   PointType point;
 
@@ -857,68 +922,108 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   this->EvaluateGradientAtPoint( point, gradient );
 }
 
-template<class InputImage, class TOutputImage>
+template<class TInputImage, class TOutputImage>
 void
-BSplineControlPointImageFilter<InputImage, TOutputImage>
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::EvaluateGradient( PointType params, GradientType &gradient )
 {
   vnl_vector<RealType> p( ImageDimension );
-
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    if( params[i] < 0.0 || params[i] > 1.0 )
+    if( params[i] == NumericTraits<RealType>::One )
       {
-      itkExceptionMacro(
-        "The specified point " << params <<
-        " is outside the reparameterized image domain [0, 1)." );
+      params[i] = NumericTraits<RealType>::One - this->m_BSplineEpsilon;
       }
-    if( params[i] == 1.0 )
+    if( params[i] < 0.0 || params[i] >= 1.0 )
       {
-      params[i] -= this->m_BSplineEpsilon;
+      itkExceptionMacro( "The specified point " << params
+        << " is outside the reparameterized domain [0, 1]." );
       }
-    p[i] = static_cast<RealType>( params[i] ) * static_cast<RealType>(
-        this->GetInput()->GetLargestPossibleRegion().GetSize()[i] -
-        this->m_SplineOrder[i] );
+    RealType numberOfSpans = static_cast<RealType>(
+      this->GetInput()->GetLargestPossibleRegion().GetSize()[i] );
+    if( !this->m_CloseDimension[i] )
+      {
+      numberOfSpans -= static_cast<RealType>( this->m_SplineOrder[i] );
+      }
+    p[i] = static_cast<RealType>( params[i] ) * numberOfSpans;
     }
 
-  typename RealImageType::RegionType::SizeType size;
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    size[i] = this->m_SplineOrder[i] + 1;
-    }
-  typename RealImageType::Pointer w;
-  w = RealImageType::New();
-  w->SetRegions( size );
-  w->Allocate();
-
-  PixelType val;
+  PointDataType val;
   gradient.SetSize( val.Size(), ImageDimension );
   gradient.Fill( 0.0 );
 
-  ImageRegionIteratorWithIndex<RealImageType>
-  Itw( w, w->GetLargestPossibleRegion() );
-
-  for( unsigned int j = 0; j < gradient.Cols(); j++ )
+  if( !this->m_NeighborhoodWeightImage )
     {
-    for( Itw.GoToBegin(); !Itw.IsAtEnd(); ++Itw )
+    typename RealImageType::SizeType size;
+    for( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      RealType                          B = 1.0;
-      typename RealImageType::IndexType idx = Itw.GetIndex();
-      for( unsigned int i = 0; i < ImageDimension; i++ )
+      size[i] = this->m_SplineOrder[i] + 1;
+      }
+    this->m_NeighborhoodWeightImage = RealImageType::New();
+    this->m_NeighborhoodWeightImage->SetRegions( size );
+    this->m_NeighborhoodWeightImage->Allocate();
+    }
+  ImageRegionIteratorWithIndex<RealImageType> ItW(
+    this->m_NeighborhoodWeightImage,
+    this->m_NeighborhoodWeightImage->GetLargestPossibleRegion() );
+
+  for( unsigned int k = 0; k < gradient.Cols(); k++ )
+    {
+    for( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      for( unsigned int j = 0; j < this->m_BSplineWeights[i].size(); j++ )
         {
         RealType u = p[i] - static_cast<RealType>( static_cast<unsigned>( p[i] )
-          + idx[i] ) + 0.5*static_cast<RealType>( this->m_SplineOrder[i] - 1 );
-        if( j == i )
+          + j ) + 0.5 * static_cast<RealType>( this->m_SplineOrder[i] - 1 );
+
+        RealType B = 1.0;
+        if( i == k )
           {
-          B *= this->m_Kernel[i]->EvaluateDerivative( u );
+          B = this->m_Kernel[i]->EvaluateDerivative( u );
           }
         else
           {
-          B *= this->m_Kernel[i]->Evaluate( u );
+          switch( this->m_SplineOrder[i] )
+            {
+            case 0:
+              {
+              B = this->m_KernelOrder0->Evaluate( u );
+              break;
+              }
+            case 1:
+              {
+              B = this->m_KernelOrder1->Evaluate( u );
+              break;
+              }
+            case 2:
+              {
+              B = this->m_KernelOrder2->Evaluate( u );
+              break;
+              }
+            case 3:
+              {
+              B = this->m_KernelOrder3->Evaluate( u );
+              break;
+              }
+            default:
+              {
+              B = this->m_Kernel[i]->Evaluate( u );
+              break;
+              }
+            }
           }
+        this->m_BSplineWeights[i].put( j, B );
         }
+      }
+
+    for( ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW )
+      {
+      RealType B = 1.0;
+      typename RealImageType::IndexType idx = ItW.GetIndex();
       for( unsigned int i = 0; i < ImageDimension; i++ )
         {
+        B *= this->m_BSplineWeights[i].get( idx[i] );
+
         idx[i] += static_cast<unsigned int>( p[i] );
         if( this->m_CloseDimension[i] )
           {
@@ -931,18 +1036,57 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
         val *= B;
         for( unsigned int i = 0; i < val.Size(); i++ )
           {
-          gradient( i, j ) += val[i];
+          gradient(i, k) += val[i];
           }
         }
       }
     }
 }
 
+template<class TInputImage, class TOutputImage>
+void
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::EvaluateHessianAtPoint( PointType point, GradientType &hessian,
+  unsigned int component )
+{
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    point[i] -= this->m_Origin[i];
+    point[i] /=
+      ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
+    }
+  this->EvaluateHessian( point, hessian, component );
+}
+
+template<class TInputImage, class TOutputImage>
+void
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::EvaluateHessianAtIndex( IndexType idx, GradientType &hessian,
+  unsigned int component )
+{
+  PointType point;
+
+  this->GetOutput()->TransformIndexToPhysicalPoint( idx, point );
+  this->EvaluateHessianAtPoint( point, hessian, component );
+}
+
+template<class TInputImage, class TOutputImage>
+void
+BSplineControlPointImageFilter<TInputImage, TOutputImage>
+::EvaluateHessianAtContinuousIndex( ContinuousIndexType idx,
+  GradientType &hessian, unsigned int component )
+{
+  PointType point;
+
+  this->GetOutput()->TransformContinuousIndexToPhysicalPoint( idx, point );
+  this->EvaluateHessianAtPoint( point, hessian, component );
+}
+
 template<class InputImage, class TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::EvaluateHessian( PointType params, GradientType &hessian,
-                   unsigned int component )
+  unsigned int component )
 {
   vnl_vector<RealType> p( ImageDimension );
 
@@ -958,9 +1102,13 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
       {
       params[i] = 1.0 - this->m_BSplineEpsilon;
       }
-    p[i] = static_cast<RealType>( params[i] ) * static_cast<RealType>(
-      this->GetInput()->GetLargestPossibleRegion().GetSize()[i] -
-      this->m_SplineOrder[i] );
+    RealType numberOfSpans = static_cast<RealType>(
+      this->GetInput()->GetLargestPossibleRegion().GetSize()[i] );
+    if( !this->m_CloseDimension[i] )
+      {
+      numberOfSpans -= static_cast<RealType>( this->m_SplineOrder[i] );
+      }
+    p[i] = static_cast<RealType>( params[i] ) * numberOfSpans;
     }
 
   typename RealImageType::RegionType::SizeType size;
@@ -968,46 +1116,89 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     {
     size[i] = this->m_SplineOrder[i] + 1;
     }
-  typename RealImageType::Pointer w;
-  w = RealImageType::New();
-  w->SetRegions( size );
-  w->Allocate();
+
+  if( !this->m_NeighborhoodWeightImage )
+    {
+    typename RealImageType::SizeType size;
+    for( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      size[i] = this->m_SplineOrder[i] + 1;
+      }
+    this->m_NeighborhoodWeightImage = RealImageType::New();
+    this->m_NeighborhoodWeightImage->SetRegions( size );
+    this->m_NeighborhoodWeightImage->Allocate();
+    }
 
   RealType val;
   hessian.SetSize( ImageDimension, ImageDimension );
   hessian.Fill( 0.0 );
 
-  ImageRegionIteratorWithIndex<RealImageType>
-  Itw( w, w->GetLargestPossibleRegion() );
+  ImageRegionIteratorWithIndex<RealImageType> ItW(
+    this->m_NeighborhoodWeightImage,
+    this->m_NeighborhoodWeightImage->GetLargestPossibleRegion() );
 
   for( unsigned int j = 0; j < hessian.Rows(); j++ )
     {
     for( unsigned int k = j; k < hessian.Cols(); k++ )
       {
-      for( Itw.GoToBegin(); !Itw.IsAtEnd(); ++Itw )
+      for( unsigned int i = 0; i < ImageDimension; i++ )
         {
-        RealType                          B = 1.0;
-        typename RealImageType::IndexType idx = Itw.GetIndex();
-        for( unsigned int i = 0; i < ImageDimension; i++ )
+        for( unsigned int h = 0; h < this->m_BSplineWeights[i].size(); h++ )
           {
-          RealType u = p[i] - static_cast<RealType>(
-              static_cast<unsigned>( p[i] ) + idx[i] ) + 0.5 *
-            static_cast<RealType>( this->m_SplineOrder[i] - 1 );
+          RealType u = p[i] - static_cast<RealType>( static_cast<unsigned>( p[i] )
+            + h ) + 0.5 * static_cast<RealType>( this->m_SplineOrder[i] - 1 );
+
+          RealType B = 1.0;
           if( i == j && j == k )
             {
-            B *= this->m_Kernel[i]->EvaluateNthDerivative( u, 2 );
+            B = this->m_Kernel[i]->EvaluateNthDerivative( u, 2 );
             }
           else if( ( i == j || i == k ) && j != k )
             {
-            B *= this->m_Kernel[i]->EvaluateDerivative( u );
+            B = this->m_Kernel[i]->EvaluateDerivative( u );
             }
           else
             {
-            B *= this->m_Kernel[i]->Evaluate( u );
+            switch( this->m_SplineOrder[i] )
+              {
+              case 0:
+                {
+                B = this->m_KernelOrder0->Evaluate( u );
+                break;
+                }
+              case 1:
+                {
+                B = this->m_KernelOrder1->Evaluate( u );
+                break;
+                }
+              case 2:
+                {
+                B = this->m_KernelOrder2->Evaluate( u );
+                break;
+                }
+              case 3:
+                {
+                B = this->m_KernelOrder3->Evaluate( u );
+                break;
+                }
+              default:
+                {
+                B = this->m_Kernel[i]->Evaluate( u );
+                break;
+                }
+              }
             }
+          this->m_BSplineWeights[i].put( h, B );
           }
+        }
+      for( ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW )
+        {
+        RealType B = 1.0;
+        typename RealImageType::IndexType idx = ItW.GetIndex();
         for( unsigned int i = 0; i < ImageDimension; i++ )
           {
+          B *= this->m_BSplineWeights[i].get( idx[i] );
+
           idx[i] += static_cast<unsigned int>( p[i] );
           if( this->m_CloseDimension[i] )
             {
@@ -1018,10 +1209,18 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
           {
           val = this->GetInput()->GetPixel( idx )[component];
           val *= B;
-          hessian( j, k ) += val;
-          hessian( k, j ) += val;
+          hessian(k, j) += val;
           }
         }
+      }
+    }
+
+  // Due to continuity properties, the hessian is symmetric
+  for( unsigned int j = 0; j < hessian.Rows(); j++ )
+    {
+    for( unsigned int k = j; k < hessian.Cols(); k++ )
+      {
+      hessian(j, k) = hessian(k, j);
       }
     }
 }

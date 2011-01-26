@@ -275,6 +275,7 @@ set(ReviewTest6_SRCS
   itkObjectToObjectMetricTest.cxx
   itkDeformationFieldTransformTest.cxx
   itkBSplineControlPointImageFilterTest.cxx
+  itkBSplineControlPointImageFilterTest1.cxx
   itkN4MRIBiasFieldCorrectionImageFilterTest.cxx
   itkCompositeTransformTest.cxx
   itkScalarChanAndVeseLevelSetFunctionTest1.cxx
@@ -2465,6 +2466,11 @@ add_test(itkBSplineControlPointImageFilterTest2
   ${BASELINE}/N4ControlPoints_3D.nii.gz                       # control point lattice
   ${TEMP}/N4ControlPoints_3D_output.nii.gz
   ${TEMP}/N4ControlPoints_3D_outputRefined.nii.gz
+  )
+
+add_test(itkBSplineControlPointImageFilterTest3
+  ${REVIEW_TESTS6}
+  itkBSplineControlPointImageFilterTest1
   )
 
 add_test(itkN4MRIBiasFieldCorrectionImageFilterTest1
