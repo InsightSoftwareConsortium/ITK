@@ -224,8 +224,8 @@ for  moduleName in moduleList:
            line = 'create_test_sourcelist(Tests '+moduleName+'-tests.cxx\n'+cxxFileList+')\n\n'
            o.write(line)
 
-           line = 'set (TestsTorun ${Tests})\nremove(TestsToRun '+moduleName+'Tests.cxx)\n\n'
-           o.write(line)
+           #line = 'set (TestsTorun ${Tests})\nremove(TestsToRun '+moduleName+'-tests.cxx)\n\n'
+           #o.write(line)
 
            line = 'add_executable('+moduleName+'-tests  ${Tests} )\n'
            o.write(line)
@@ -233,12 +233,12 @@ for  moduleName in moduleList:
            line = 'target_link_libraries('+moduleName+'-tests  ${'+moduleName+'_LIBRARIES} )\n\n'
            o.write(line)
 
-           line = 'set('+ moduleName+'_TESTS'+ '  ${ITK_EXECUTABLE_PATH}/'+moduleName+'-tests)\n'
-           o.write(line)
-           for cxxf in cxxFiles:
-              cxxFileName = cxxf.split('/')[-1]
-              line = 'add_test('+cxxFileName[0:-4]+ ' ${'+moduleName+'_TESTS}\n  ' + cxxFileName[0:-4] +')\n'
-           o.write(line)
+           #line = 'set('+ moduleName+'_TESTS'+ '  ${ITK_EXECUTABLE_PATH}/'+moduleName+'-tests)\n'
+           #o.write(line)
+           #for cxxf in cxxFiles:
+           #   cxxFileName = cxxf.split('/')[-1]
+           #   line = 'add_test('+cxxFileName[0:-4]+ ' ${'+moduleName+'_TESTS}\n  ' + cxxFileName[0:-4] +')\n'
+           #   o.write(line)
            o.close()
 
 
