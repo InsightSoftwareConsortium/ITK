@@ -36,6 +36,8 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter, Log10ImageFilter, RescaleIntensityImageFilter
+ *
+ * \ingroup FourierTransform
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT FFTShiftImageFilter:

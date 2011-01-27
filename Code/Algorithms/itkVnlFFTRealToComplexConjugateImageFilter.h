@@ -23,7 +23,16 @@ namespace itk
 {
 /** \class VnlFFTRealToComplexConjugateImageFilter
  *
- * \brief VNL based Fast Fourier Transform
+ * \brief VNL based forward Fast Fourier Transform.
+ *
+ * Input image must be a power of two in all directions.
+ *
+ * \sa ConstantPadImageFilter
+ * \sa CropImageFilter
+ *
+ * \ingroup FourierTransform
+ *
+ * \sa FFTRealToComplexConjugateImageFilter
  */
 template< class TPixel, unsigned int VDimension = 3 >
 class VnlFFTRealToComplexConjugateImageFilter:

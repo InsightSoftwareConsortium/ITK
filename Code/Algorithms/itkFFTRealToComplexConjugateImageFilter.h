@@ -24,9 +24,25 @@
 namespace itk
 {
 /** \class FFTRealToComplexConjugateImageFilter
- * \brief Base class for the Fast Fourier Transform
+ *
+ * \brief Base class for "Forward" Fast Fourier Transform.
+ *
+ * This is a base class for the "forward" or "direct" discrete Fourier
+ * Transform.  This is an abstract base class: the actual implementation is
+ * provided by the best child available on the the system when the object is
+ * created via the object factory system.
+ *
+ * This class transforms a real input image into its complex Fourier Transform.
+ * The transform of a real input image has complex conjugate symmetry.  That is,
+ * values in the second half of the transform are the complex conjugates of
+ * values in the first half.  Some implementations, e.g. FFTW, may take
+ * advantage of this property and reduce the size of the output in one direction
+ * to N/2+1, where N is the size of the input.  If this occurs, FullMatrix()
+ * returns 'false'.
  *
  * \ingroup FourierTransform
+ *
+ * \sa FFTComplexConjugateToRealImageFilter, FFTComplexToComplexImageFilter
  */
 template< class TPixel, unsigned int VDimension = 3 >
 class ITK_EXPORT FFTRealToComplexConjugateImageFilter:
@@ -60,13 +76,20 @@ protected:
   FFTRealToComplexConjugateImageFilter() {}
   virtual ~FFTRealToComplexConjugateImageFilter(){}
 
+  /** The output may be a different size from the input if complex conjugate
+   * symmetry is implicit. */
   virtual void GenerateOutputInformation(); // figure out allocation for output
                                             // image
 
+
+  /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion();
 
+  /** This class produces the entire output. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
+  /** Returns true if the outputs size is the same size as the input, i.e.
+   * we do not take advantage of complex conjugate symmetry. */
   virtual bool FullMatrix() = 0; // must be implemented in child
 
 private:
