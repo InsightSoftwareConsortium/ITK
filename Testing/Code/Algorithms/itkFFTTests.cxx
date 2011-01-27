@@ -19,20 +19,24 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-// some compilers have trouble with the size of this test
-#define ITK_LEAN_AND_MEAN
-
-#include <iostream>
+#include "itkConfigure.h"
+#include "vnl/vnl_sample.h"
 #include "itkTestMain.h"
 
 
-void
-RegisterTests()
+void RegisterTests()
 {
-  REGISTER_TEST(NNetClassifierTest1);
-  REGISTER_TEST(NNetClassifierTest2);
-  REGISTER_TEST(NNetClassifierTest3);
-  REGISTER_TEST(NNetClassifierTest4);
+  vnl_sample_reseed(8775070);
+  REGISTER_TEST(itkVnlFFTTest);
+#if defined(USE_FFTWF)
+  REGISTER_TEST(itkFFTWF_FFTTest);
+  REGISTER_TEST(itkVnlFFTWF_FFTTest);
+#endif
+#if defined(USE_FFTWD)
+  REGISTER_TEST(itkFFTWD_FFTTest);
+  REGISTER_TEST(itkVnlFFTWD_FFTTest);
+#endif
+#if defined(USE_FFTWD)
+  REGISTER_TEST(itkCurvatureRegistrationFilterTest);
+#endif
 }
-
-

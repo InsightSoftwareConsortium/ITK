@@ -34,7 +34,6 @@
 #include "vnl/vnl_sample.h"
 #include <math.h>
 
-
 // test_fft is the test function and it is templated over the pixel, Image
 // dimensions and the  FFT library to be used.
 template <class TPixel,unsigned int VImageDimensions,

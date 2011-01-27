@@ -10,146 +10,327 @@ endif(TCL_TCLSH)
 if( NOT ITK_DISABLE_CXX_TESTING )
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-set(STATISTICS_TESTS ${EXECUTABLE_OUTPUT_PATH}/itkStatisticsTests)
+set(KIT Statistics)
+set(KIT_LIBS ITKIO ITKCommon ITKNumerics  ITKStatistics)
+set(KitTests
+  itkChiSquareDistributionTest
+  itkCovarianceSampleFilterTest
+  itkCovarianceSampleFilterTest2
+  itkCovarianceSampleFilterTest3
+  itkDecisionRuleTest
+  itkDenseFrequencyContainer2Test
+  itkDistanceMetricTest
+  itkDistanceMetricTest2
+  itkDistanceToCentroidMembershipFunctionTest
+  itkEuclideanDistanceMetricTest
+  itkEuclideanSquareDistanceMetricTest
+  itkExpectationMaximizationMixtureModelEstimatorTest
+  itkGaussianDistributionTest
+  itkGaussianMembershipFunctionTest
+  itkGaussianMixtureModelComponentTest
+  itkHistogramTest
+  itkHistogramToEntropyImageFilterTest1
+  itkHistogramToEntropyImageFilterTest2
+  itkHistogramToIntensityImageFilterTest1
+  itkHistogramToIntensityImageFilterTest2
+  itkHistogramToLogProbabilityImageFilterTest1
+  itkHistogramToLogProbabilityImageFilterTest2
+  itkHistogramToProbabilityImageFilterTest1
+  itkHistogramToProbabilityImageFilterTest2
+  itkHistogramToTextureFeaturesFilterTest
+  itkImageClassifierFilterTest
+  itkImageToHistogramFilterTest
+  itkImageToHistogramFilterTest2
+  itkImageToHistogramFilterTest3
+  itkImageToListSampleAdaptorTest
+  itkImageToListSampleAdaptorTest2
+  itkImageToListSampleFilterTest
+  itkImageToListSampleFilterTest2
+  itkImageToListSampleFilterTest3
+  itkJointDomainImageToListSampleAdaptorTest
+  itkKdTreeBasedKmeansEstimatorTest
+  itkKdTreeGeneratorTest
+  itkKdTreeTest1
+  itkKdTreeTest2
+  itkKdTreeTestSamplePoints
+  itkListSampleTest
+  itkMahalanobisDistanceMetricTest
+  itkManhattanDistanceMetricTest
+  itkMaximumDecisionRuleTest
+  itkMaximumRatioDecisionRuleTest
+  itkMeanSampleFilterTest
+  itkMeanSampleFilterTest2
+  itkMeanSampleFilterTest3
+  itkMeasurementVectorTraitsTest
+  itkMembershipFunctionBaseTest
+  itkMembershipFunctionBaseTest2
+  itkMembershipSampleTest1
+  itkMembershipSampleTest2
+  itkMembershipSampleTest3
+  itkMembershipSampleTest4
+  itkMinimumDecisionRuleTest
+  itkMixtureModelComponentBaseTest
+  itkNeighborhoodSamplerTest1
+  itkNormalVariateGeneratorTest1
+  itkPointSetToListSampleAdaptorTest
+  itkProbabilityDistributionTest
+  itkRandomVariateGeneratorBaseTest
+  itkSampleClassifierFilterTest1
+  itkSampleClassifierFilterTest2
+  itkSampleClassifierFilterTest3
+  itkSampleClassifierFilterTest4
+  itkSampleClassifierFilterTest5
+  itkSampleClassifierFilterTest6
+  itkSampleClassifierFilterTest7
+  itkSampleTest
+  itkSampleTest2
+  itkSampleTest3
+  itkSampleTest4
+  itkSampleToHistogramFilterTest
+  itkSampleToHistogramFilterTest2
+  itkSampleToHistogramFilterTest3
+  itkSampleToHistogramFilterTest4
+  itkSampleToHistogramFilterTest5
+  itkSampleToHistogramFilterTest6
+  itkSampleToHistogramFilterTest7
+  itkSampleToSubsampleFilterTest1
+  itkScalarImageToCooccurrenceListSampleFilterTest
+  itkScalarImageToCooccurrenceMatrixFilterTest
+  itkScalarImageToCooccurrenceMatrixFilterTest2
+  itkScalarImageToTextureFeaturesFilterTest
+  itkSparseFrequencyContainer2Test
+  itkStandardDeviationPerComponentSampleFilterTest
+  itkStatisticsAlgorithmTest
+  itkStatisticsAlgorithmTest2
+  itkStatisticsPrintTest
+  itkStatisticsTypesTest
+  itkSubsampleTest
+  itkSubsampleTest2
+  itkSubsampleTest3
+  itkTDistributionTest
+  itkWeightedCentroidKdTreeGeneratorTest1
+  itkWeightedCentroidKdTreeGeneratorTest8
+  itkWeightedCentroidKdTreeGeneratorTest9
+  itkWeightedCovarianceSampleFilterTest
+  itkWeightedCovarianceSampleFilterTest2
+  itkWeightedMeanSampleFilterTest
+  )
+
+# Given KIT, KIT_LIBS and KitTests, build TestDriver
+CreateTestDriver(${KIT} "${KIT_LIBS}" "${KitTests}" TestDriver)
+
 set(STATISTICS_HEADER_TESTS ${EXECUTABLE_OUTPUT_PATH}/itkStatisticsHeaderTest)
+add_executable(itkStatisticsHeaderTest itkStatisticsHeaderTest.cxx)
+target_link_libraries(itkStatisticsHeaderTest ${KIT_LIBS})
 
 add_test(itkStatisticsHeaderTest ${STATISTICS_HEADER_TESTS})
-add_test(itkStatisticsPrintTest ${STATISTICS_TESTS} itkStatisticsPrintTest)
-add_test(itkStatisticsTypesTest ${STATISTICS_TESTS} itkStatisticsTypesTest)
+add_test(itkStatisticsPrintTest ${TestDriver} itkStatisticsPrintTest)
+add_test(itkStatisticsTypesTest ${TestDriver} itkStatisticsTypesTest)
 
-add_test(itkCovarianceSampleFilterTest ${STATISTICS_TESTS} itkCovarianceSampleFilterTest)
-add_test(itkCovarianceSampleFilterTest2 ${STATISTICS_TESTS} itkCovarianceSampleFilterTest2)
-add_test(itkCovarianceSampleFilterTest3 ${STATISTICS_TESTS} itkCovarianceSampleFilterTest3)
-add_test(itkHistogramToTextureFeaturesFilterTest ${STATISTICS_TESTS} itkHistogramToTextureFeaturesFilterTest)
-add_test(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
-add_test(itkHistogramToEntropyImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToEntropyImageFilterTest1
-   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
-   ${TEMP}/itkHistogramToEntropyImageFilterTest1.mhd)
-add_test(itkHistogramToEntropyImageFilterTest2 ${STATISTICS_TESTS} itkHistogramToEntropyImageFilterTest2
-   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-   ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
-   ${TEMP}/itkHistogramToEntropyImageFilterTest2.mhd)
-add_test(itkHistogramToIntensityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToIntensityImageFilterTest1
-   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
-   ${TEMP}/itkHistogramToIntensityImageFilterTest1.mhd)
-add_test(itkHistogramToIntensityImageFilterTest2 ${STATISTICS_TESTS} itkHistogramToIntensityImageFilterTest2
-   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-   ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
-   ${TEMP}/itkHistogramToIntensityImageFilterTest2.mhd)
-add_test(itkHistogramToLogProbabilityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToLogProbabilityImageFilterTest1
-   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
-   ${TEMP}/itkHistogramToLogProbabilityImageFilterTest1.mhd)
-add_test(itkHistogramToLogProbabilityImageFilterTest2 ${STATISTICS_TESTS} itkHistogramToLogProbabilityImageFilterTest2
-   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-   ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
-   ${TEMP}/itkHistogramToLogProbabilityImageFilterTest2.mhd)
-add_test(itkHistogramToProbabilityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToProbabilityImageFilterTest1
-   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
-   ${TEMP}/itkHistogramToProbabilityImageFilterTest1.mhd)
-add_test(itkHistogramToProbabilityImageFilterTest2 ${STATISTICS_TESTS} itkHistogramToProbabilityImageFilterTest2
-   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-   ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
-   ${TEMP}/itkHistogramToProbabilityImageFilterTest2.mhd)
-add_test(itkImageToHistogramFilterTest ${STATISTICS_TESTS} itkImageToHistogramFilterTest)
-add_test(itkImageToHistogramFilterTest2 ${STATISTICS_TESTS} itkImageToHistogramFilterTest2
-   ${ITK_SOURCE_DIR}/Testing/Data/Input/VisibleWomanEyeSlice.png
-   ${TEMP}/itkImageToHistogramFilterTest2.txt)
-add_test(itkImageToHistogramFilterTest3 ${STATISTICS_TESTS} itkImageToHistogramFilterTest3
-   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
-   ${TEMP}/itkImageToHistogramFilterTest3.txt)
-add_test(itkImageToListSampleFilterTest ${STATISTICS_TESTS} itkImageToListSampleFilterTest)
-add_test(itkImageToListSampleFilterTest2 ${STATISTICS_TESTS} itkImageToListSampleFilterTest2)
-add_test(itkImageToListSampleFilterTest3 ${STATISTICS_TESTS} itkImageToListSampleFilterTest3)
-add_test(itkListSampleTest1 ${STATISTICS_TESTS} itkListSampleTest 1)
-add_test(itkListSampleTest2 ${STATISTICS_TESTS} itkListSampleTest 5)
-add_test(itkListSampleTest3 ${STATISTICS_TESTS} itkListSampleTest 10)
-add_test(itkListSampleTest4 ${STATISTICS_TESTS} itkListSampleTest 100)
-add_test(itkSampleToHistogramFilterTest ${STATISTICS_TESTS} itkSampleToHistogramFilterTest)
-add_test(itkSampleToHistogramFilterTest2 ${STATISTICS_TESTS} itkSampleToHistogramFilterTest2)
-add_test(itkSampleToHistogramFilterTest3 ${STATISTICS_TESTS} itkSampleToHistogramFilterTest3)
-add_test(itkSampleToHistogramFilterTest4 ${STATISTICS_TESTS} itkSampleToHistogramFilterTest4)
-add_test(itkSampleToHistogramFilterTest5 ${STATISTICS_TESTS} itkSampleToHistogramFilterTest5
-   ${ITK_SOURCE_DIR}/Testing/Data/Input/VisibleWomanEyeSlice.png
-   )
-add_test(itkSampleToHistogramFilterTest6 ${STATISTICS_TESTS} itkSampleToHistogramFilterTest6)
-add_test(itkSampleToHistogramFilterTest7 ${STATISTICS_TESTS} itkSampleToHistogramFilterTest7)
-add_test(itkStandardDeviationPerComponentSampleFilterTest ${STATISTICS_TESTS} itkStandardDeviationPerComponentSampleFilterTest)
-add_test(itkMeanSampleFilterTest ${STATISTICS_TESTS} itkMeanSampleFilterTest)
-add_test(itkMeanSampleFilterTest2 ${STATISTICS_TESTS} itkMeanSampleFilterTest2)
-add_test(itkMeanSampleFilterTest3 ${STATISTICS_TESTS} itkMeanSampleFilterTest3)
-add_test(itkMeasurementVectorTraitsTest ${STATISTICS_TESTS} itkMeasurementVectorTraitsTest)
-add_test(itkMembershipSampleTest1 ${STATISTICS_TESTS} itkMembershipSampleTest1)
-add_test(itkMembershipSampleTest2 ${STATISTICS_TESTS} itkMembershipSampleTest2)
-add_test(itkMembershipSampleTest3 ${STATISTICS_TESTS} itkMembershipSampleTest3)
-add_test(itkMembershipSampleTest4 ${STATISTICS_TESTS} itkMembershipSampleTest4)
-add_test(itkMixtureModelComponentBaseTest ${STATISTICS_TESTS} itkMixtureModelComponentBaseTest)
-add_test(itkNeighborhoodSamplerTest1 ${STATISTICS_TESTS} itkNeighborhoodSamplerTest1)
-add_test(itkNormalVariateGeneratorTest1 ${STATISTICS_TESTS} itkNormalVariateGeneratorTest1)
-add_test(itkRandomVariateGeneratorBaseTest ${STATISTICS_TESTS} itkRandomVariateGeneratorBaseTest)
-add_test(itkScalarImageToCooccurrenceMatrixFilterTest ${STATISTICS_TESTS} itkScalarImageToCooccurrenceMatrixFilterTest)
-add_test(itkScalarImageToCooccurrenceMatrixFilterTest2 ${STATISTICS_TESTS} itkScalarImageToCooccurrenceMatrixFilterTest2)
-add_test(itkScalarImageToCooccurrenceListSampleFilterTest ${STATISTICS_TESTS} itkScalarImageToCooccurrenceListSampleFilterTest)
-add_test(itkSampleTest ${STATISTICS_TESTS} itkSampleTest)
-add_test(itkSampleTest2 ${STATISTICS_TESTS} itkSampleTest2)
-add_test(itkSampleTest3 ${STATISTICS_TESTS} itkSampleTest3)
-add_test(itkSampleTest4 ${STATISTICS_TESTS} itkSampleTest4)
-add_test(itkSampleClassifierFilterTest1 ${STATISTICS_TESTS} itkSampleClassifierFilterTest1)
-add_test(itkSampleClassifierFilterTest2 ${STATISTICS_TESTS} itkSampleClassifierFilterTest2)
-add_test(itkSampleClassifierFilterTest3 ${STATISTICS_TESTS} itkSampleClassifierFilterTest3)
-add_test(itkSampleClassifierFilterTest4 ${STATISTICS_TESTS} itkSampleClassifierFilterTest4)
-add_test(itkSampleClassifierFilterTest5 ${STATISTICS_TESTS} itkSampleClassifierFilterTest5)
-add_test(itkSampleClassifierFilterTest6 ${STATISTICS_TESTS} itkSampleClassifierFilterTest6)
-add_test(itkSampleClassifierFilterTest7 ${STATISTICS_TESTS}
-        itkSampleClassifierFilterTest7
-        ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat
-        ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussianTesting.dat )
+add_test(itkCovarianceSampleFilterTest ${TestDriver}
+         itkCovarianceSampleFilterTest)
+add_test(itkCovarianceSampleFilterTest2 ${TestDriver}
+         itkCovarianceSampleFilterTest2)
+add_test(itkCovarianceSampleFilterTest3 ${TestDriver}
+         itkCovarianceSampleFilterTest3)
+add_test(itkHistogramToTextureFeaturesFilterTest ${TestDriver}
+         itkHistogramToTextureFeaturesFilterTest)
+add_test(itkHistogramTest ${TestDriver}
+         itkHistogramTest)
+add_test(itkHistogramToEntropyImageFilterTest1 ${TestDriver}
+         itkHistogramToEntropyImageFilterTest1
+         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+         ${TEMP}/itkHistogramToEntropyImageFilterTest1.mhd)
+add_test(itkHistogramToEntropyImageFilterTest2 ${TestDriver}
+         itkHistogramToEntropyImageFilterTest2
+         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+         ${TEMP}/itkHistogramToEntropyImageFilterTest2.mhd)
+add_test(itkHistogramToIntensityImageFilterTest1 ${TestDriver}
+         itkHistogramToIntensityImageFilterTest1
+         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+         ${TEMP}/itkHistogramToIntensityImageFilterTest1.mhd)
+add_test(itkHistogramToIntensityImageFilterTest2 ${TestDriver}
+         itkHistogramToIntensityImageFilterTest2
+         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+         ${TEMP}/itkHistogramToIntensityImageFilterTest2.mhd)
+add_test(itkHistogramToLogProbabilityImageFilterTest1 ${TestDriver}
+         itkHistogramToLogProbabilityImageFilterTest1
+         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+         ${TEMP}/itkHistogramToLogProbabilityImageFilterTest1.mhd)
+add_test(itkHistogramToLogProbabilityImageFilterTest2 ${TestDriver}
+         itkHistogramToLogProbabilityImageFilterTest2
+         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+         ${TEMP}/itkHistogramToLogProbabilityImageFilterTest2.mhd)
+add_test(itkHistogramToProbabilityImageFilterTest1 ${TestDriver}
+         itkHistogramToProbabilityImageFilterTest1
+         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+         ${TEMP}/itkHistogramToProbabilityImageFilterTest1.mhd)
+add_test(itkHistogramToProbabilityImageFilterTest2 ${TestDriver}
+         itkHistogramToProbabilityImageFilterTest2
+         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+         ${TEMP}/itkHistogramToProbabilityImageFilterTest2.mhd)
+add_test(itkImageToHistogramFilterTest ${TestDriver}
+         itkImageToHistogramFilterTest)
+add_test(itkImageToHistogramFilterTest2 ${TestDriver}
+         itkImageToHistogramFilterTest2
+         ${ITK_SOURCE_DIR}/Testing/Data/Input/VisibleWomanEyeSlice.png
+         ${TEMP}/itkImageToHistogramFilterTest2.txt)
+add_test(itkImageToHistogramFilterTest3 ${TestDriver}
+         itkImageToHistogramFilterTest3
+         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+         ${TEMP}/itkImageToHistogramFilterTest3.txt)
+add_test(itkImageToListSampleFilterTest ${TestDriver}
+         itkImageToListSampleFilterTest)
+add_test(itkImageToListSampleFilterTest2 ${TestDriver}
+         itkImageToListSampleFilterTest2)
+add_test(itkImageToListSampleFilterTest3 ${TestDriver}
+         itkImageToListSampleFilterTest3)
+add_test(itkListSampleTest1 ${TestDriver}
+         itkListSampleTest 1)
+add_test(itkListSampleTest2 ${TestDriver}
+         itkListSampleTest 5)
+add_test(itkListSampleTest3 ${TestDriver}
+         itkListSampleTest 10)
+add_test(itkListSampleTest4 ${TestDriver}
+         itkListSampleTest 100)
+add_test(itkSampleToHistogramFilterTest ${TestDriver}
+         itkSampleToHistogramFilterTest)
+add_test(itkSampleToHistogramFilterTest2 ${TestDriver}
+         itkSampleToHistogramFilterTest2)
+add_test(itkSampleToHistogramFilterTest3 ${TestDriver}
+         itkSampleToHistogramFilterTest3)
+add_test(itkSampleToHistogramFilterTest4 ${TestDriver}
+         itkSampleToHistogramFilterTest4)
+add_test(itkSampleToHistogramFilterTest5 ${TestDriver}
+         itkSampleToHistogramFilterTest5
+         ${ITK_SOURCE_DIR}/Testing/Data/Input/VisibleWomanEyeSlice.png)
+add_test(itkSampleToHistogramFilterTest6 ${TestDriver}
+         itkSampleToHistogramFilterTest6)
+add_test(itkSampleToHistogramFilterTest7 ${TestDriver}
+         itkSampleToHistogramFilterTest7)
+add_test(itkStandardDeviationPerComponentSampleFilterTest ${TestDriver}
+         itkStandardDeviationPerComponentSampleFilterTest)
+add_test(itkMeanSampleFilterTest ${TestDriver}
+         itkMeanSampleFilterTest)
+add_test(itkMeanSampleFilterTest2 ${TestDriver}
+         itkMeanSampleFilterTest2)
+add_test(itkMeanSampleFilterTest3 ${TestDriver}
+         itkMeanSampleFilterTest3)
+add_test(itkMeasurementVectorTraitsTest ${TestDriver}
+         itkMeasurementVectorTraitsTest)
+add_test(itkMembershipSampleTest1 ${TestDriver}
+         itkMembershipSampleTest1)
+add_test(itkMembershipSampleTest2 ${TestDriver}
+         itkMembershipSampleTest2)
+add_test(itkMembershipSampleTest3 ${TestDriver}
+         itkMembershipSampleTest3)
+add_test(itkMembershipSampleTest4 ${TestDriver}
+         itkMembershipSampleTest4)
+add_test(itkMixtureModelComponentBaseTest ${TestDriver}
+         itkMixtureModelComponentBaseTest)
+add_test(itkNeighborhoodSamplerTest1 ${TestDriver}
+         itkNeighborhoodSamplerTest1)
+add_test(itkNormalVariateGeneratorTest1 ${TestDriver}
+         itkNormalVariateGeneratorTest1)
+add_test(itkRandomVariateGeneratorBaseTest ${TestDriver}
+         itkRandomVariateGeneratorBaseTest)
+add_test(itkScalarImageToCooccurrenceMatrixFilterTest ${TestDriver}
+         itkScalarImageToCooccurrenceMatrixFilterTest)
+add_test(itkScalarImageToCooccurrenceMatrixFilterTest2 ${TestDriver}
+         itkScalarImageToCooccurrenceMatrixFilterTest2)
+add_test(itkScalarImageToCooccurrenceListSampleFilterTest ${TestDriver}
+         itkScalarImageToCooccurrenceListSampleFilterTest)
+add_test(itkSampleTest ${TestDriver}
+         itkSampleTest)
+add_test(itkSampleTest2 ${TestDriver}
+         itkSampleTest2)
+add_test(itkSampleTest3 ${TestDriver}
+         itkSampleTest3)
+add_test(itkSampleTest4 ${TestDriver}
+         itkSampleTest4)
+add_test(itkSampleClassifierFilterTest1 ${TestDriver}
+         itkSampleClassifierFilterTest1)
+add_test(itkSampleClassifierFilterTest2 ${TestDriver}
+         itkSampleClassifierFilterTest2)
+add_test(itkSampleClassifierFilterTest3 ${TestDriver}
+         itkSampleClassifierFilterTest3)
+add_test(itkSampleClassifierFilterTest4 ${TestDriver}
+         itkSampleClassifierFilterTest4)
+add_test(itkSampleClassifierFilterTest5 ${TestDriver}
+         itkSampleClassifierFilterTest5)
+add_test(itkSampleClassifierFilterTest6 ${TestDriver}
+         itkSampleClassifierFilterTest6)
+add_test(itkSampleClassifierFilterTest7 ${TestDriver}
+         itkSampleClassifierFilterTest7
+         ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat
+         ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussianTesting.dat )
 
-add_test(itkSampleToSubsampleFilterTest1 ${STATISTICS_TESTS} itkSampleToSubsampleFilterTest1)
-add_test(itkSubsampleTest ${STATISTICS_TESTS} itkSubsampleTest)
-add_test(itkSubsampleTest2 ${STATISTICS_TESTS} itkSubsampleTest2)
-add_test(itkSubsampleTest3 ${STATISTICS_TESTS} itkSubsampleTest3)
-add_test(itkStatisticsAlgorithmTest ${STATISTICS_TESTS} itkStatisticsAlgorithmTest)
-add_test(itkStatisticsAlgorithmTest2 ${STATISTICS_TESTS} itkStatisticsAlgorithmTest2)
-add_test(itkWeightedMeanSampleFilterTest ${STATISTICS_TESTS} itkWeightedMeanSampleFilterTest)
-add_test(itkWeightedCovarianceSampleFilterTest ${STATISTICS_TESTS} itkWeightedCovarianceSampleFilterTest)
-add_test(itkWeightedCovarianceSampleFilterTest2 ${STATISTICS_TESTS} itkWeightedCovarianceSampleFilterTest2)
-add_test(itkImageToListSampleAdaptorTest ${STATISTICS_TESTS} itkImageToListSampleAdaptorTest)
-add_test(itkImageToListSampleAdaptorTest2 ${STATISTICS_TESTS} itkImageToListSampleAdaptorTest2)
-add_test(itkJointDomainImageToListSampleAdaptorTest ${STATISTICS_TESTS} itkJointDomainImageToListSampleAdaptorTest)
-add_test(itkPointSetToListSampleAdaptorTest ${STATISTICS_TESTS} itkPointSetToListSampleAdaptorTest)
-add_test(itkProbabilityDistributionTest ${STATISTICS_TESTS} itkProbabilityDistributionTest)
-add_test(itkDenseFrequencyContainer2Test ${STATISTICS_TESTS} itkDenseFrequencyContainer2Test)
-add_test(itkSparseFrequencyContainer2Test ${STATISTICS_TESTS} itkSparseFrequencyContainer2Test)
-add_test(itkScalarImageToTextureFeaturesFilterTest ${STATISTICS_TESTS} itkScalarImageToTextureFeaturesFilterTest)
+add_test(itkSampleToSubsampleFilterTest1 ${TestDriver}
+         itkSampleToSubsampleFilterTest1)
+add_test(itkSubsampleTest ${TestDriver}
+         itkSubsampleTest)
+add_test(itkSubsampleTest2 ${TestDriver}
+         itkSubsampleTest2)
+add_test(itkSubsampleTest3 ${TestDriver}
+         itkSubsampleTest3)
+add_test(itkStatisticsAlgorithmTest ${TestDriver}
+         itkStatisticsAlgorithmTest)
+add_test(itkStatisticsAlgorithmTest2 ${TestDriver}
+         itkStatisticsAlgorithmTest2)
+add_test(itkWeightedMeanSampleFilterTest ${TestDriver}
+         itkWeightedMeanSampleFilterTest)
+add_test(itkWeightedCovarianceSampleFilterTest ${TestDriver}
+         itkWeightedCovarianceSampleFilterTest)
+add_test(itkWeightedCovarianceSampleFilterTest2 ${TestDriver}
+         itkWeightedCovarianceSampleFilterTest2)
+add_test(itkImageToListSampleAdaptorTest ${TestDriver}
+         itkImageToListSampleAdaptorTest)
+add_test(itkImageToListSampleAdaptorTest2 ${TestDriver}
+         itkImageToListSampleAdaptorTest2)
+add_test(itkJointDomainImageToListSampleAdaptorTest ${TestDriver}
+         itkJointDomainImageToListSampleAdaptorTest)
+add_test(itkPointSetToListSampleAdaptorTest ${TestDriver}
+         itkPointSetToListSampleAdaptorTest)
+add_test(itkProbabilityDistributionTest ${TestDriver}
+         itkProbabilityDistributionTest)
+add_test(itkDenseFrequencyContainer2Test ${TestDriver}
+         itkDenseFrequencyContainer2Test)
+add_test(itkSparseFrequencyContainer2Test ${TestDriver}
+         itkSparseFrequencyContainer2Test)
+add_test(itkScalarImageToTextureFeaturesFilterTest ${TestDriver} itkScalarImageToTextureFeaturesFilterTest)
 
 
-add_test(itkMembershipFunctionBaseTest ${STATISTICS_TESTS} itkMembershipFunctionBaseTest)
-add_test(itkMembershipFunctionBaseTest2 ${STATISTICS_TESTS} itkMembershipFunctionBaseTest2)
-add_test(itkDistanceToCentroidMembershipFunctionTest ${STATISTICS_TESTS} itkDistanceToCentroidMembershipFunctionTest)
-add_test(itkGaussianMembershipFunctionTest ${STATISTICS_TESTS}
+add_test(itkMembershipFunctionBaseTest ${TestDriver} itkMembershipFunctionBaseTest)
+add_test(itkMembershipFunctionBaseTest2 ${TestDriver} itkMembershipFunctionBaseTest2)
+add_test(itkDistanceToCentroidMembershipFunctionTest ${TestDriver} itkDistanceToCentroidMembershipFunctionTest)
+add_test(itkGaussianMembershipFunctionTest ${TestDriver}
 itkGaussianMembershipFunctionTest)
-add_test(itkDistanceMetricTest ${STATISTICS_TESTS} itkDistanceMetricTest)
-add_test(itkDistanceMetricTest2 ${STATISTICS_TESTS} itkDistanceMetricTest2)
-add_test(itkEuclideanDistanceMetricTest ${STATISTICS_TESTS} itkEuclideanDistanceMetricTest)
-add_test(itkEuclideanSquareDistanceMetricTest ${STATISTICS_TESTS} itkEuclideanSquareDistanceMetricTest)
-add_test(itkMahalanobisDistanceMetricTest ${STATISTICS_TESTS} itkMahalanobisDistanceMetricTest)
-add_test(itkManhattanDistanceMetricTest ${STATISTICS_TESTS} itkManhattanDistanceMetricTest)
-add_test(itkDecisionRuleTest ${STATISTICS_TESTS} itkDecisionRuleTest)
-add_test(itkMaximumDecisionRuleTest ${STATISTICS_TESTS} itkMaximumDecisionRuleTest)
-add_test(itkMaximumRatioDecisionRuleTest ${STATISTICS_TESTS} itkMaximumRatioDecisionRuleTest)
-add_test(itkMinimumDecisionRuleTest ${STATISTICS_TESTS} itkMinimumDecisionRuleTest)
+add_test(itkDistanceMetricTest ${TestDriver} itkDistanceMetricTest)
+add_test(itkDistanceMetricTest2 ${TestDriver} itkDistanceMetricTest2)
+add_test(itkEuclideanDistanceMetricTest ${TestDriver} itkEuclideanDistanceMetricTest)
+add_test(itkEuclideanSquareDistanceMetricTest ${TestDriver} itkEuclideanSquareDistanceMetricTest)
+add_test(itkMahalanobisDistanceMetricTest ${TestDriver} itkMahalanobisDistanceMetricTest)
+add_test(itkManhattanDistanceMetricTest ${TestDriver} itkManhattanDistanceMetricTest)
+add_test(itkDecisionRuleTest ${TestDriver} itkDecisionRuleTest)
+add_test(itkMaximumDecisionRuleTest ${TestDriver} itkMaximumDecisionRuleTest)
+add_test(itkMaximumRatioDecisionRuleTest ${TestDriver} itkMaximumRatioDecisionRuleTest)
+add_test(itkMinimumDecisionRuleTest ${TestDriver} itkMinimumDecisionRuleTest)
 
-add_test(itkKdTreeBasedKmeansEstimatorTest ${STATISTICS_TESTS}
+add_test(itkKdTreeBasedKmeansEstimatorTest ${TestDriver}
          itkKdTreeBasedKmeansEstimatorTest
          ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat
          1 28.54746 0.07)
-add_test(itkKdTreeGeneratorTest ${STATISTICS_TESTS}
+add_test(itkKdTreeGeneratorTest ${TestDriver}
          itkKdTreeGeneratorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
-add_test(itkKdTreeTest1 ${STATISTICS_TESTS} itkKdTreeTest1 100 100 1 ${TEMP}/itkKdTreeTest1_100.dot)
-add_test(itkKdTreeTestSamplePoints ${STATISTICS_TESTS} itkKdTreeTestSamplePoints )
-add_test(itkKdTreeTest2 ${STATISTICS_TESTS} itkKdTreeTest2
+add_test(itkKdTreeTest1 ${TestDriver} itkKdTreeTest1 100 100 1 ${TEMP}/itkKdTreeTest1_100.dot)
+add_test(itkKdTreeTestSamplePoints ${TestDriver} itkKdTreeTestSamplePoints )
+add_test(itkKdTreeTest2 ${TestDriver} itkKdTreeTest2
          ${ITK_DATA_ROOT}/Input/pointsForKdTree.txt 1 ${TEMP}/itkKdTreeTest2.dot)
-add_test(itkKdTreeTest3 ${STATISTICS_TESTS} itkKdTreeTest2
+add_test(itkKdTreeTest3 ${TestDriver} itkKdTreeTest2
          ${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt 1 ${TEMP}/itkKdTreeTest3.dot)
 if(DOXYGEN_DOT_EXECUTABLE)
 add_test(itkKdTreeTest1Plot ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${TEMP}/itkKdTreeTest1_100.png ${TEMP}/itkKdTreeTest1_100.dot)
@@ -159,173 +340,53 @@ set_tests_properties( itkKdTreeTest2Plot PROPERTIES DEPENDS itkKdTreeTest2 )
 add_test(itkKdTreeTest3Plot ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${TEMP}/itkKdTreeTest3.png ${TEMP}/itkKdTreeTest3.dot)
 set_tests_properties( itkKdTreeTest3Plot PROPERTIES DEPENDS itkKdTreeTest3 )
 endif(DOXYGEN_DOT_EXECUTABLE)
-add_test(itkKdTreeTest4 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 1 )
-add_test(itkKdTreeTest5 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 2 )
-add_test(itkKdTreeTest6 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 3 )
-add_test(itkKdTreeTest7 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 5 )
-add_test(itkKdTreeTest7 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 10 )
-add_test(itkKdTreeTest8 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 20 )
-add_test(itkKdTreeTest9 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 100 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest1 ${STATISTICS_TESTS}
+add_test(itkKdTreeTest4 ${TestDriver} itkKdTreeTest1 1000 1000 1 )
+add_test(itkKdTreeTest5 ${TestDriver} itkKdTreeTest1 1000 1000 2 )
+add_test(itkKdTreeTest6 ${TestDriver} itkKdTreeTest1 1000 1000 3 )
+add_test(itkKdTreeTest7 ${TestDriver} itkKdTreeTest1 1000 1000 5 )
+add_test(itkKdTreeTest7 ${TestDriver} itkKdTreeTest1 1000 1000 10 )
+add_test(itkKdTreeTest8 ${TestDriver} itkKdTreeTest1 1000 1000 20 )
+add_test(itkKdTreeTest9 ${TestDriver} itkKdTreeTest1 1000 1000 100 )
+add_test(itkWeightedCentroidKdTreeGeneratorTest1 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 1 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest2 ${STATISTICS_TESTS}
+add_test(itkWeightedCentroidKdTreeGeneratorTest2 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 2 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest3 ${STATISTICS_TESTS}
+add_test(itkWeightedCentroidKdTreeGeneratorTest3 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 3 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest4 ${STATISTICS_TESTS}
+add_test(itkWeightedCentroidKdTreeGeneratorTest4 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 5 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest5 ${STATISTICS_TESTS}
+add_test(itkWeightedCentroidKdTreeGeneratorTest5 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 10 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest6 ${STATISTICS_TESTS}
+add_test(itkWeightedCentroidKdTreeGeneratorTest6 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 20 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest7 ${STATISTICS_TESTS}
+add_test(itkWeightedCentroidKdTreeGeneratorTest7 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 100 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest8 ${STATISTICS_TESTS}
+add_test(itkWeightedCentroidKdTreeGeneratorTest8 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest8 1000 1000 1 )
-add_test(itkWeightedCentroidKdTreeGeneratorTest9 ${STATISTICS_TESTS}
+add_test(itkWeightedCentroidKdTreeGeneratorTest9 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest9 1000 1000 1 )
 
-
 add_test(itkGaussianMixtureModelComponentTest
-         ${STATISTICS_TESTS}
+         ${TestDriver}
          itkGaussianMixtureModelComponentTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 
 add_test(itkExpectationMaximizationMixtureModelEstimatorTest
-         ${STATISTICS_TESTS}
+         ${TestDriver}
          itkExpectationMaximizationMixtureModelEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 
 add_test(itkImageClassifierFilterTest
-         ${STATISTICS_TESTS}
+         ${TestDriver}
         --compare ${ITK_DATA_ROOT}/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png
          ${TEMP}/ImageClassifierFilterTestClassifiedImage.png
          itkImageClassifierFilterTest
          ${TEMP}/ImageClassifierFilterTestClassifiedImage.png)
 
-add_test(itkChiSquareDistributionTest ${STATISTICS_TESTS}
+add_test(itkChiSquareDistributionTest ${TestDriver}
   itkChiSquareDistributionTest
   )
-add_test(itkGaussianDistributionTest ${STATISTICS_TESTS}
+add_test(itkGaussianDistributionTest ${TestDriver}
   itkGaussianDistributionTest
   )
-add_test(itkTDistributionTest ${STATISTICS_TESTS} itkTDistributionTest)
-
-
-set(Statistics_SRCS
-  itkCovarianceSampleFilterTest.cxx
-  itkCovarianceSampleFilterTest2.cxx
-  itkCovarianceSampleFilterTest3.cxx
-  itkHistogramTest.cxx
-  itkHistogramToTextureFeaturesFilterTest.cxx
-  itkHistogramToEntropyImageFilterTest1.cxx
-  itkHistogramToEntropyImageFilterTest2.cxx
-  itkHistogramToIntensityImageFilterTest1.cxx
-  itkHistogramToIntensityImageFilterTest2.cxx
-  itkHistogramToLogProbabilityImageFilterTest1.cxx
-  itkHistogramToLogProbabilityImageFilterTest2.cxx
-  itkHistogramToProbabilityImageFilterTest1.cxx
-  itkHistogramToProbabilityImageFilterTest2.cxx
-  itkImageToHistogramFilterTest.cxx
-  itkImageToHistogramFilterTest2.cxx
-  itkImageToHistogramFilterTest3.cxx
-  itkImageToListSampleFilterTest.cxx
-  itkImageToListSampleFilterTest2.cxx
-  itkImageToListSampleFilterTest3.cxx
-  itkListSampleTest.cxx
-  itkSampleToHistogramFilterTest.cxx
-  itkSampleToHistogramFilterTest2.cxx
-  itkSampleToHistogramFilterTest3.cxx
-  itkSampleToHistogramFilterTest4.cxx
-  itkSampleToHistogramFilterTest5.cxx
-  itkSampleToHistogramFilterTest6.cxx
-  itkSampleToHistogramFilterTest7.cxx
-  itkStandardDeviationPerComponentSampleFilterTest.cxx
-  itkMeanSampleFilterTest.cxx
-  itkMeanSampleFilterTest2.cxx
-  itkMeanSampleFilterTest3.cxx
-  itkMeasurementVectorTraitsTest.cxx
-  itkMembershipSampleTest1.cxx
-  itkMembershipSampleTest2.cxx
-  itkMembershipSampleTest3.cxx
-  itkMembershipSampleTest4.cxx
-  itkMixtureModelComponentBaseTest.cxx
-  itkNeighborhoodSamplerTest1.cxx
-  itkNormalVariateGeneratorTest1.cxx
-  itkRandomVariateGeneratorBaseTest.cxx
-  itkScalarImageToCooccurrenceMatrixFilterTest.cxx
-  itkScalarImageToCooccurrenceMatrixFilterTest2.cxx
-  itkScalarImageToCooccurrenceListSampleFilterTest.cxx
-  itkStatisticsPrintTest.cxx
-  itkStatisticsTypesTest.cxx
-  itkStatisticsAlgorithmTest.cxx
-  itkStatisticsAlgorithmTest2.cxx
-  itkSampleTest.cxx
-  itkSampleTest2.cxx
-  itkSampleTest3.cxx
-  itkSampleTest4.cxx
-  itkSampleClassifierFilterTest1.cxx
-  itkSampleClassifierFilterTest2.cxx
-  itkSampleClassifierFilterTest3.cxx
-  itkSampleClassifierFilterTest4.cxx
-  itkSampleClassifierFilterTest5.cxx
-  itkSampleClassifierFilterTest6.cxx
-  itkSampleClassifierFilterTest7.cxx
-  itkSampleToSubsampleFilterTest1.cxx
-  itkSubsampleTest.cxx
-  itkSubsampleTest2.cxx
-  itkSubsampleTest3.cxx
-  itkWeightedMeanSampleFilterTest.cxx
-  itkWeightedCovarianceSampleFilterTest.cxx
-  itkWeightedCovarianceSampleFilterTest2.cxx
-  itkImageToListSampleAdaptorTest.cxx
-  itkImageToListSampleAdaptorTest2.cxx
-  itkJointDomainImageToListSampleAdaptorTest.cxx
-  itkPointSetToListSampleAdaptorTest.cxx
-  itkProbabilityDistributionTest.cxx
-  itkDenseFrequencyContainer2Test.cxx
-  itkSparseFrequencyContainer2Test.cxx
-  itkScalarImageToTextureFeaturesFilterTest.cxx
-
-
-  itkMembershipFunctionBaseTest.cxx
-  itkMembershipFunctionBaseTest2.cxx
-  itkDistanceToCentroidMembershipFunctionTest.cxx
-  itkGaussianMembershipFunctionTest.cxx
-  itkDistanceMetricTest.cxx
-  itkDistanceMetricTest2.cxx
-  itkEuclideanDistanceMetricTest.cxx
-  itkEuclideanSquareDistanceMetricTest.cxx
-  itkMahalanobisDistanceMetricTest.cxx
-  itkManhattanDistanceMetricTest.cxx
-  itkDecisionRuleTest.cxx
-  itkMaximumDecisionRuleTest.cxx
-  itkMaximumRatioDecisionRuleTest.cxx
-  itkMinimumDecisionRuleTest.cxx
-
-  itkKdTreeBasedKmeansEstimatorTest.cxx
-  itkKdTreeGeneratorTest.cxx
-  itkKdTreeTest1.cxx
-  itkKdTreeTestSamplePoints.cxx
-  itkKdTreeTest2.cxx
-  itkWeightedCentroidKdTreeGeneratorTest1.cxx
-  itkWeightedCentroidKdTreeGeneratorTest8.cxx
-  itkWeightedCentroidKdTreeGeneratorTest9.cxx
-
-  itkGaussianMixtureModelComponentTest.cxx
-  itkExpectationMaximizationMixtureModelEstimatorTest.cxx
-
-  itkImageClassifierFilterTest.cxx
-
-  itkGaussianDistributionTest.cxx
-  itkChiSquareDistributionTest.cxx
-  itkTDistributionTest.cxx
-  )
-
-add_executable(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
-target_link_libraries(itkStatisticsTests ITKIO ITKCommon ITKNumerics ITKStatistics)
-
-add_executable(itkStatisticsHeaderTest itkStatisticsHeaderTest.cxx)
-target_link_libraries(itkStatisticsHeaderTest ITKIO ITKCommon ITKNumerics  ITKStatistics)
-
-
+add_test(itkTDistributionTest ${TestDriver} itkTDistributionTest)
 
 endif( NOT ITK_DISABLE_CXX_TESTING )
