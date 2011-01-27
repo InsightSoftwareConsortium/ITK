@@ -366,9 +366,9 @@ add_test(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES9}
 
 if( ITK_USE_BRAINWEB_DATA )
 
-midas_add_test(CellularSegmentation2Test ${SEGMENTATION_EXAMPLES9}
+itk_add_test(CellularSegmentation2Test ${SEGMENTATION_EXAMPLES9}
   CellularSegmentation2Test
-        MIDAS{brainweb1e1a10f20.mha.md5}
+        DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
         81 113 96 220 255 2000
         ${TEMP}/CellularSegmentation2Test.vtk
 )

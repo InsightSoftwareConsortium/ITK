@@ -10,6 +10,7 @@ endif(COMMAND CMAKE_POLICY)
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/PreventInSourceBuilds.cmake)
 
 project(ITK)
+set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake)
 include_regular_expression("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|v3p|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib|gdcm).*$")
 source_group("XML Files" REGULAR_EXPRESSION "[.]xml$")
 
@@ -66,10 +67,14 @@ include(${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
 include(${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
 
 #-----------------------------------------------------------------------------
-# Load macro to manage data download from MIDAS
-include(${ITK_SOURCE_DIR}/CMake/MIDAS.cmake)
-set(MIDAS_REST_URL "http://midas.kitware.com/api/rest")
-set(MIDAS_KEY_DIR "${PROJECT_SOURCE_DIR}/Testing/MIDAS_Keys")
+# Load macros to manage data download
+include(ExternalData)
+list(APPEND ExternalData_URL_TEMPLATES
+  "http://midas.kitware.com/api/rest/midas.bitstream.by.hash?hash=%(hash)&algorithm=%(algo)"
+  )
+macro(itk_add_test)
+  ExternalData_add_test(ITKData ${ARGN})
+endmacro()
 
 #-----------------------------------------------------------------------------
 # Configure Dart testing support.  This should be done before any
@@ -110,8 +115,6 @@ mark_as_advanced(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
 set(ITK_LIBRARY_PATH "${LIBRARY_OUTPUT_PATH}")
 set(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
 set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
-
-set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake)
 
 include(itkCheckSourceTree)
 
@@ -816,3 +819,5 @@ endif(BUILD_TESTING)
 if(BUILD_EXAMPLES)
   add_subdirectory(Examples)
 endif(BUILD_EXAMPLES)
+
+ExternalData_Add_Target(ITKData)
