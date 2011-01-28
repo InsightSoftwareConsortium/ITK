@@ -1,15 +1,12 @@
 ###############################################################################
-# Load the CableSwig settings used by ITK, or find CableSwig otherwise.
-#set(CableSwig_DIR ${ITK_CableSwig_DIR})
-find_package(CableSwig REQUIRED)
-set(CABLE_INDEX ${CableSwig_cableidx_EXE} CACHE INTERNAL "cableidx path")
-
 # find swig
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
 
 # find python
 find_package(PythonInterp REQUIRED)
+
+set(CABLE_INDEX ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "cableidx path")
 
 if("${CMAKE_VERSION}" STRLESS "2.6")
     # cmake 2.4 doesn't provied VERSION
