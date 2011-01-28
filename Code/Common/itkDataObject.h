@@ -31,6 +31,7 @@
 #include "itkObject.h"
 #include "itkSmartPointerForwardReference.h"
 #include "itkMacro.h"
+#include "itkRealTimeStamp.h"
 
 namespace itk
 {
@@ -384,6 +385,14 @@ public:
   /** MTime for the last time this DataObject was generated. */
   virtual unsigned long GetUpdateMTime() const;
 
+  /** RealTime stamp for the last time this DataObject was generated.
+   *  By default, the real time stamp is initialized to the origin of
+   *  the Unix epoch. That is the time 00:00:00 UTC on 1 January 1970
+   *  (or 1970-01-01T00:00:00Z ISO 8601)
+   */
+  itkSetMacro( RealTimeStamp, RealTimeStamp );
+  itkGetConstReferenceMacro( RealTimeStamp, RealTimeStamp );
+
   /** Setup a DataObject to receive new data.  This method is called
    * by the pipeline mechanism on each output of filter that needs
    * to execute.  The default implementation is to return a DataObject
@@ -472,8 +481,14 @@ private:
   mutable WeakPointer< ProcessObject > m_Source;
   mutable unsigned int                 m_SourceOutputIndex;
 
-  /** When was this data last generated? */
+  /** When was this data last generated?
+   *  This time stap is an integer number and it is intended to synchronize the
+   *  activities of the pipeline. It doesn't relates to the clock time of
+   *  acquiring or processing the data. */
   TimeStamp m_UpdateMTime;
+
+  /** When, in real time, this data was generated. */
+  RealTimeStamp m_RealTimeStamp;
 
   bool m_ReleaseDataFlag; //Data will release after use by a filter if on
   bool m_DataReleased;    //Keep track of data release during pipeline execution

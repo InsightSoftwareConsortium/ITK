@@ -27,6 +27,7 @@
  *=========================================================================*/
 #include "itkProcessObject.h"
 #include "itkSmartPointerForwardReference.txx"
+#include "itkRealTimeClock.h"
 
 // Manual instantiation is necessary to prevent link errors
 template class itk::SmartPointerForwardReference< itk::ProcessObject >;
@@ -318,6 +319,7 @@ DataObject
 
   os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
   os << indent << "UpdateMTime: " << m_UpdateMTime << std::endl;
+  os << indent << "RealTimeStamp: " << m_RealTimeStamp << std::endl;
 }
 
 // The following methods are used for updating the data processing pipeline.
@@ -415,9 +417,11 @@ void
 DataObject
 ::DataHasBeenGenerated()
 {
-  m_DataReleased = 0;
+  this->m_DataReleased = 0;
   this->Modified();
-  m_UpdateMTime.Modified();
+  this->m_UpdateMTime.Modified();
+  RealTimeClock::Pointer clock = RealTimeClock::New();
+  this->m_RealTimeStamp = clock->GetRealTimeStamp();
 }
 
 //----------------------------------------------------------------------------
@@ -427,4 +431,5 @@ DataObject
 {
   return m_UpdateMTime.GetMTime();
 }
+
 } // end namespace itk

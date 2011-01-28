@@ -60,6 +60,8 @@ set(ITKCommon_SRCS
   itkQuadraticTriangleCellTopology.cxx
   itkQuadrilateralCellTopology.cxx
   itkRealTimeClock.cxx
+  itkRealTimeStamp.cxx
+  itkRealTimeInterval.cxx
   itkRegion.cxx
   itkProgressAccumulator.cxx
   itkSemaphore.cxx
