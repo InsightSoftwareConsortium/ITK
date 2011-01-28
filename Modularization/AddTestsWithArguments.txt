@@ -439,8 +439,6 @@ itkLoggerManagerTest;${ITK_BINARY_DIR}/bin/itkCommonTests;itkLoggerManagerTest;$
 itkMatrixTest;${ITK_BINARY_DIR}/bin/itkCommonTests;itkMatrixTest
 itkMapContainerTest;${ITK_BINARY_DIR}/bin/itkCommonTests;itkMapContainerTest
 itkMahalanobisDistanceThresholdImageFunctionTest;${ITK_BINARY_DIR}/bin/itkCommonTests;itkMahalanobisDistanceThresholdImageFunctionTest
-itkMaximumDecisionRuleTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMaximumDecisionRuleTest
-itkMaximumRatioDecisionRuleTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMaximumRatioDecisionRuleTest
 itkMeanImageFunctionTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMeanImageFunctionTest
 itkDifferenceImageFilterTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;--compare;${ITK_DATA_ROOT}/Baseline/Common/itkDifferenceImageFilterTest.png;${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png;itkDifferenceImageFilterTest;${ITK_DATA_ROOT}/Input/cake_easy.png;${ITK_DATA_ROOT}/Input/cake_hard.png;${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png;10;1
 itkOrientedImage2DTest01;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkOrientedImage2DTest;${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20DirectionPlus30.mhd;0.000;0.000;191.392;110.500;-128.500;222.569;4.000;-8.000;7.4641;-4.9282
@@ -459,7 +457,6 @@ itkMeshTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMeshTest
 itkMeshFstreamTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMeshFstreamTest;${ITK_TEST_OUTPUT_DIR}/testMeshFstream.txt
 itkMeshSourceGraftOutputTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMeshSourceGraftOutputTest
 itkMetaDataDictionaryTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMetaDataDictionaryTest
-itkMinimumDecisionRuleTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMinimumDecisionRuleTest
 itkMultiThreaderTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkMultiThreaderTest
 itkNearestNeighborExtrapolateImageFunctionTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkNearestNeighborExtrapolateImageFunctionTest
 itkNeighborhoodAlgorithmTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkNeighborhoodAlgorithmTest

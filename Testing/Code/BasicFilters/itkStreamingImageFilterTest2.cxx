@@ -26,7 +26,7 @@
 #include "itkStreamingImageFilter.h"
 #include "itkImageRegionMultidimensionalSplitter.h"
 #include "itkXMLFileOutputWindow.h"
-#include "../IO/itkPipelineMonitorImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 
 
 int itkStreamingImageFilterTest2(int, char* [] )

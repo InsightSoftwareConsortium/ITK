@@ -23,7 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
 #include "itkFileOutputWindow.h"
-#include "../IO/itkPipelineMonitorImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
 int itkShrinkImageStreamingTest(int, char* [] )

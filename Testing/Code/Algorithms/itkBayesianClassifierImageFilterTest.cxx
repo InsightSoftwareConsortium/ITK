@@ -27,7 +27,7 @@
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
-#include "../IO/itkPipelineMonitorImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 
 int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 {
@@ -42,7 +42,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
   // setup reader
   const unsigned int Dimension = 2;
-  typedef unsigned char InputPixelType;
+  typedef unsigned char                           InputPixelType;
   typedef itk::Image< InputPixelType, Dimension > InputImageType;
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
 
@@ -180,7 +180,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     typedef unsigned char  TestLabelType;
     typedef float          TestPosteriorType;
 
-    typedef float          TestPriorType;
+    typedef float                                            TestPriorType;
     typedef itk::VectorImage< TestPriorType ,TestDimension > TestInitialLabelImageType;
 
     typedef itk::BayesianClassifierImageFilter<

@@ -26,7 +26,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
-#include "../IO/itkPipelineMonitorImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 
 int itkReleaseDataFilterTest(int, char* [] )
 {
@@ -34,7 +34,7 @@ int itkReleaseDataFilterTest(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
 
-  typedef itk::Image<float,2> ImageType;
+  typedef itk::Image<float,2>                        ImageType;
   typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
 
 
@@ -100,7 +100,6 @@ int itkReleaseDataFilterTest(int, char* [] )
   StreamingImageFilterType::Pointer streamer = StreamingImageFilterType::New();
   streamer->SetInput( monitor2b->GetOutput() );
   streamer->SetNumberOfStreamDivisions( 4 );
-
 
 
   ImageType::SizeType zeroSize;

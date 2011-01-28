@@ -20,7 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 
-#include "../IO/itkPipelineMonitorImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
 

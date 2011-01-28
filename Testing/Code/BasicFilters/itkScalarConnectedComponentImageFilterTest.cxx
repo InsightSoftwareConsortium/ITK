@@ -22,7 +22,6 @@
 #include "itkScalarConnectedComponentImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkVTKImageIO.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkSimpleFilterWatcher.h"
@@ -40,18 +39,18 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
     }
 
   typedef   unsigned short  InternalPixelType;
-  typedef   bool  MaskPixelType;
+  typedef   bool            MaskPixelType;
   const     unsigned int    Dimension = 2;
 
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
-  typedef itk::Image< MaskPixelType, Dimension >  MaskImageType;
-  typedef itk::Image<unsigned short,Dimension> OutputImageType;
+  typedef itk::Image< MaskPixelType, Dimension >      MaskImageType;
+  typedef itk::Image<unsigned short,Dimension>        OutputImageType;
 
-  typedef itk::RGBPixel<unsigned char>   RGBPixelType;
+  typedef itk::RGBPixel<unsigned char>           RGBPixelType;
   typedef itk::Image<RGBPixelType, Dimension>    RGBImageType;
 
   typedef itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef itk::ImageFileWriter<  RGBImageType  > WriterType;
+  typedef itk::ImageFileWriter<  RGBImageType  >    WriterType;
 
 
   typedef itk::ScalarConnectedComponentImageFilter< InternalImageType, OutputImageType, MaskImageType > FilterType;
