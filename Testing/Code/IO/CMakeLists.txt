@@ -67,6 +67,7 @@ itkImageFileWriterTest.cxx
 itkImageFileWriterTest2.cxx
 itkImageFileWriterPastingTest1.cxx
 itkImageFileWriterPastingTest2.cxx
+itkImageFileWriterPastingTest3.cxx
 itkImageFileWriterStreamingTest1.cxx
 itkImageFileWriterStreamingTest2.cxx
 itkImageFileWriterStreamingPastingCompressingTest1.cxx
@@ -581,6 +582,12 @@ add_test(itkImageFileWriterPastingTest1 ${IO_TESTS}
   itkImageFileWriterPastingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha)
+
+
+add_test(itkImageFileWriterPastingTest3 ${IO_TESTS}
+  itkImageFileWriterPastingTest3
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest3_01.mha)
 
 
 add_test(itkImageFileWriterUpdateLargestPossibleRegionTest ${IO_TESTS}
