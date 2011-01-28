@@ -333,10 +333,7 @@ include(CPack)
 
 #-----------------------------------------------------------------------------
 # Perform a setup of ITK Wrapping. This will provide CMake options for
-# individual wrapping as well as determine if CableSwig is required. If it is,
-# ITK_NEED_CableSwig will be set. This file also tries to locate CableSwig by
-# searching first in the source tree of ITK, and if that fails, it searches
-# for a binary built of CableSwig.
+# individual wrapping.
 #
 include(${ITK_SOURCE_DIR}/Wrapping/itkWrapSetup.cmake)
 

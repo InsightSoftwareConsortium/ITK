@@ -5,17 +5,17 @@
 # If SWIG needs to include any files in nonstandard locations, the directories
 # must be added to with INCLUDE_DIRECTORIES().
 
-# Be careful setting up the paths to the ITK and CableSwig dirs that WrapITK
+# Be careful setting up the paths to the ITK and gccxml dirs that WrapITK
 # already found -- they might not be valid.
 SET(possible_itk_dir "@ITK_DIR@")
 IF(EXISTS "${possible_itk_dir}")
 SET(ITK_DIR "${possible_itk_dir}" CACHE PATH "Path to ITK build or install.")
 ENDIF(EXISTS "${possible_itk_dir}")
 
-SET(possible_cableswig_dir "@CableSwig_DIR@")
-IF(EXISTS "${possible_cableswig_dir}")
-SET(CableSwig_DIR "${possible_cableswig_dir}"  CACHE PATH "Path to CableSwig build or install")
-ENDIF(EXISTS "${possible_cableswig_dir}")
+SET(possible_gccxml "@GCCXML@")
+IF(EXISTS "${possible_gccxml}")
+SET(GCCXML "${possible_gccxml}"  CACHE FILEPATH "Path to gccxml.")
+ENDIF(EXISTS "${possible_gccxml}")
 
 SET(possible_swig_dir "@SWIG_DIR@")
 IF(EXISTS "${possible_swig_dir}")
@@ -48,7 +48,7 @@ SET(WRAP_ITK_DIMS "@WRAP_ITK_DIMS@" CACHE STRING "dimensions available separated
 
 @CONFIG_WRAP_ITK_MORE_OPTIONS@
 
-FOREACH(var ITK_DIR CableSwig_DIR
+FOREACH(var ITK_DIR GCCXML
     WRAP_unsigned_char WRAP_unsigned_short WRAP_unsigned_long WRAP_signed_char
     WRAP_signed_short WRAP_signed_long WRAP_float WRAP_double WRAP_vector_float
     WRAP_vector_double WRAP_covariant_vector_float WRAP_covariant_vector_double

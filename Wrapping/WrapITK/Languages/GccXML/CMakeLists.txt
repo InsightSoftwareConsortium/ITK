@@ -1,9 +1,5 @@
 ###############################################################################
-# Load the CableSwig settings used by ITK, or find CableSwig otherwise.
-#set(CableSwig_DIR ${ITK_CableSwig_DIR})
-find_package(CableSwig REQUIRED)
-
-set(GCCXML ${CableSwig_gccxml_EXE} CACHE INTERNAL "gccxml path" FORCE)
+find_package(GCCXML REQUIRED)
 
 ###############################################################################
 # install the files requires for gccxml
@@ -18,7 +14,7 @@ endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
 # hide cable swig dir in external projects - it is safer to use the same as the
 # one used to build wrapitk
 if(EXTERNAL_WRAP_ITK_PROJECT)
-  mark_as_advanced(CableSwig_DIR)
+  mark_as_advanced(GCCXML)
 endif(EXTERNAL_WRAP_ITK_PROJECT)
 
 

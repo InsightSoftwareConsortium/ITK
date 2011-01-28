@@ -1,17 +1,9 @@
 ###############################################################################
 # install the files requires for explicit
-if(NOT EXPLICITAL_WRAP_ITK_PROJECT)
+if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   WRAP_ITK_INSTALL(/Configuration/Languages/Explicit CMakeLists.txt)
   WRAP_ITK_INSTALL(/Configuration/Languages/Explicit explicit.in)
-endif(NOT EXPLICITAL_WRAP_ITK_PROJECT)
-
-
-###############################################################################
-# hide cable swig dir in explicital projects - it is safer to use the same as the
-# one used to build wrapitk
-if(EXPLICITAL_WRAP_ITK_PROJECT)
-  mark_as_advanced(CableSwig_DIR)
-endif(EXPLICITAL_WRAP_ITK_PROJECT)
+endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
 
 ###############################################################################
@@ -21,7 +13,6 @@ set(WRAP_ITK_EXPLICIT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "e
 
 
 set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs")
-set(WRAPPER_SWIG_LIBRARY_OUTPUT_DIR "${PROJECT_BINARY_DIR}/SWIG")
 
 
 

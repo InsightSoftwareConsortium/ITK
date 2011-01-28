@@ -34,9 +34,8 @@ for typedef in wrappers_ns.typedefs():
 content = outputFile.getvalue()
 
 if sys.argv[2] != '-':
-  if not (os.path.exists( sys.argv[2] ) and file( sys.argv[2] ).read() == content):
-    f = file(sys.argv[2], "w")
-    f.write( content )
-    f.close()
+  f = file( sys.argv[2], "w" )
+  f.write( content )
+  f.close()
 else:
   sys.stdout.write( content )
