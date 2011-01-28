@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
-sys.path.append('@PYGCCXML_PATH@')
+import sys, os
+sys.path.append(sys.path[0]+os.sep+'pygccxml-1.0.0')
 
 import pygccxml, sys, re, cStringIO, time, os
 from optparse import OptionParser
@@ -475,7 +475,7 @@ pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
 pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
 # pass a fake gccxml path: it is not used here, but is required by
 # pygccxml
-pygccxml_config = pygccxml.parser.config.config_t("I:/dev/itk/CableSwig-ITK-3.6.0-bin-windows/bin/Release/gccxml.exe")
+pygccxml_config = pygccxml.parser.config.config_t()
 #pygccxml_config = pygccxml.parser.config.config_t("gccxml")
 # create a reader
 pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(pygccxml_config)

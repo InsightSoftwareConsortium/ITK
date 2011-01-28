@@ -47,23 +47,12 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     PATTERN "unittests" EXCLUDE
   )
 
-  # create the igenerator.py with the pygccxml path in it
-  set(PYGCCXML_PATH "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/Configuration/Languages/SwigInterface/pygccxml-1.0.0/")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/igenerator.py"
-    @ONLY IMMEDIATE)
-
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/igenerator.py"
+  # igenerator stuff
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py"
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Languages/SwigInterface"
   )
 
-  # create the igenerator.py with the pygccxml path in it
-  set(PYGCCXML_PATH "${CMAKE_CURRENT_SOURCE_DIR}/pygccxml-1.0.0/")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/igenerator.py"
-    @ONLY IMMEDIATE)
-
-  set(IGENERATOR  "${CMAKE_CURRENT_BINARY_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path")
+  set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path")
 
 endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
