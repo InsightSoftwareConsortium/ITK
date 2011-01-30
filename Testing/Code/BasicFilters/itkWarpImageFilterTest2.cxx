@@ -21,9 +21,9 @@
 #include "itkWarpImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
-#include "../IO/itkPipelineMonitorImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 
-typedef itk::Image<float,3> ImageType;
+typedef itk::Image<float,3>                    ImageType;
 typedef itk::Image<itk::Vector<double,3> , 3 > DeformationFieldType;
 typedef itk::WarpImageFilter<ImageType,
                              ImageType,

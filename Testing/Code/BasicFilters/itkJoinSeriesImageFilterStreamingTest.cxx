@@ -26,17 +26,17 @@
 #include "itkJoinSeriesImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "../IO/itkPipelineMonitorImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 
 int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
 {
   typedef itk::Image< unsigned char, 3> ImageType;
   typedef itk::Image< unsigned char, 2> SliceImageType;
 
-  typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
-  typedef itk::ExtractImageFilter<ImageType,SliceImageType> SliceExtractorFilterType;
+  typedef itk::ImageFileReader<ImageType>                       ImageFileReaderType;
+  typedef itk::ExtractImageFilter<ImageType,SliceImageType>     SliceExtractorFilterType;
   typedef itk::JoinSeriesImageFilter<SliceImageType, ImageType> JoinSeriesFilterType;
-  typedef itk::ImageFileWriter<ImageType> ImageFileWriterType;
+  typedef itk::ImageFileWriter<ImageType>                       ImageFileWriterType;
 
 
   if ( argc < 3 )
@@ -58,7 +58,7 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
 
 
   itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor1 = itk::PipelineMonitorImageFilter<ImageType>::New();
-  monitor1->SetInput( reader->GetOutput() ) ;
+  monitor1->SetInput( reader->GetOutput() );
 
   std::vector<itk::ProcessObject::Pointer> savedPointers;
 
@@ -87,7 +87,7 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
 
 
   itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor2 = itk::PipelineMonitorImageFilter<ImageType>::New();
-  monitor2->SetInput( joinSeries->GetOutput() ) ;
+  monitor2->SetInput( joinSeries->GetOutput() );
 
   ImageFileWriterType::Pointer writer = ImageFileWriterType::New();
   writer->SetInput( monitor2->GetOutput() );
@@ -126,5 +126,3 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
 
   return EXIT_SUCCESS;
 }
-
-

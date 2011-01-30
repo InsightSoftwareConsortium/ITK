@@ -21,7 +21,6 @@
 
 #include <fstream>
 #include "itkVectorGradientMagnitudeImageFilter.h"
-#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
@@ -33,15 +32,15 @@
 
 int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
 {
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef itk::Image<RGBPixelType, 3> RGBImageType;
-  typedef itk::Image<unsigned char, 3> CharImage3Type;
-  typedef itk::Image<unsigned char, 2> CharImage2Type;
+  typedef itk::RGBPixel<unsigned char>                          RGBPixelType;
+  typedef itk::Image<RGBPixelType, 3>                           RGBImageType;
+  typedef itk::Image<unsigned char, 3>                          CharImage3Type;
+  typedef itk::Image<unsigned char, 2>                          CharImage2Type;
   typedef itk::VectorGradientMagnitudeImageFilter<RGBImageType> FilterType;
-  typedef itk::ImageFileReader<RGBImageType> ReaderType;
-  typedef itk::RescaleIntensityImageFilter<FilterType::OutputImageType,
-    CharImage3Type> RescaleFilterType;
-  typedef itk::ImageFileWriter<CharImage2Type> WriterType;
+  typedef itk::ImageFileReader<RGBImageType>                    ReaderType;
+  typedef itk::RescaleIntensityImageFilter<FilterType::OutputImageType, CharImage3Type>
+                                                                RescaleFilterType;
+  typedef itk::ImageFileWriter<CharImage2Type>                  WriterType;
 
 
   if(ac < 5)
@@ -128,4 +127,3 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
 
   return EXIT_SUCCESS;
 }
-

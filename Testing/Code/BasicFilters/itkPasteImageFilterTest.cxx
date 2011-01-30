@@ -23,7 +23,6 @@
 #include "itkPasteImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkImageRegionMultidimensionalSplitter.h"
-#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
@@ -36,8 +35,8 @@ int itkPasteImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef unsigned char PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
+  typedef unsigned char             PixelType;
+  typedef itk::Image<PixelType, 2>  myImage;
   itk::ImageFileReader<myImage>::Pointer dest
     = itk::ImageFileReader<myImage>::New();
   dest->SetFileName(av[1]);

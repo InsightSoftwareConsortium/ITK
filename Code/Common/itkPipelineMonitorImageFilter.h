@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkPipelineMonitorImageFilter_h
+#define __itkPipelineMonitorImageFilter_h
+
 #include "itkInPlaceImageFilter.h"
 
 namespace itk {
@@ -343,10 +346,12 @@ namespace itk {
    RegionVectorType m_UpdatedBufferedRegions;
    RegionVectorType m_UpdatedRequestedRegions;
 
-   PointType m_UpdatedOutputOrigin;
-   DirectionType m_UpdatedOutputDirection;
-   SpacingType m_UpdatedOutputSpacing;
+   PointType       m_UpdatedOutputOrigin;
+   DirectionType   m_UpdatedOutputDirection;
+   SpacingType     m_UpdatedOutputSpacing;
    ImageRegionType m_UpdatedOutputLargestPossibleRegion;
  };
 
 }
+
+#endif
