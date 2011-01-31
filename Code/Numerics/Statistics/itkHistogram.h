@@ -272,6 +272,24 @@ public:
   bool IncreaseFrequencyOfMeasurement(
          const MeasurementVectorType & measurement,
          AbsoluteFrequencyType value);
+#ifdef ITKV3_COMPATIBILITY
+  //In ITKv4 the member functions are given unique names to dis-ambiguate
+  //the intended behavior.  Make aliases of the overloaded calls
+  //for ITKv3 backwards compatibility.
+  bool IncreaseFrequency(const IndexType & index,
+                                 AbsoluteFrequencyType value)
+    {
+    return IncreaseFrequencyOfIndex(index,value);
+    }
+
+  bool IncreaseFrequency(
+         const MeasurementVectorType & measurement,
+         AbsoluteFrequencyType value)
+    {
+    return IncreaseFrequencyOfMeasurement(measurement,value);
+    }
+
+#endif
 
   /** Get the measurement of an instance identifier. This is the
    * centroid of the bin.

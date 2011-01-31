@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Change>
+  <!--
+  ** English language description of what was changed and why
+  **-->
+  <Description>
+  Disambiguate how histogram frequencies are incremented by making explicit unique
+  function names for each of the different increment methods.
+  </Description>
+
+  <!--
+  ** Sample code to illustrate the fix process
+  **-->
+  <SampleCode>
+    <OldCode>
+      typename HistogramType::IndexType index;
+      typename HistogramType::MeasurementVectorType measurement;
+      measurement.SetSize(1);
+      measurement[0] = value;
+      histogram->IncreaseFrequency(measurement, 1.0F);
+      histogram->IncreaseFrequency(index, 1.0F);
+    </OldCode>
+
+    <NewCode>
+      typename HistogramType::IndexType index;
+      typename HistogramType::MeasurementVectorType measurement;
+      measurement.SetSize(1);
+      measurement[0] = value;
+#if  ITK_VERSION_MAJOR >=4
+      histogram->IncreaseFrequencyOfMeasurement(measurement, 1.0F);
+      histogram->IncreaseFrequencyOfIndex(Index, 1.0F);
+#else
+      histogram->IncreaseFrequency(measurement, 1.0F);
+      histogram->IncreaseFrequency(index, 1.0F);
+#endif
+    </NewCode>
+  </SampleCode>
+
+  <!--
+  ** List of all files that were changed (might be automatically populated by
+  ** git hook?)
+  **-->
+  <FileList>
+  Code/Numerics/Statistics/itkHistogram.h
+  Code/Numerics/Statistics/itkHistogram.txx
+  </FileList>
+
+  <!--
+  ** The asociated Gerrit entry for this API change
+  **-->
+  <Gerrit-ChangeId>
+  I352eda4d0941940cd2dbc89b441e9dde28ebd8fd
+  </Gerrit-ChangeId>
+
+
+  <!--
+  ** Migration guide rules
+  **-->
+  <MigrationFix-Manual type="MethodRefactor">
+    <Old>
+    IncreaseFrequency
+    </Old>
+    <!--
+    Based on signature, perhaps replace with
+    IncreaseFrequencyOfMeasurement
+    IncreaseFrequencyOfIndex
+    >
+  </MigrationFix-Manual>
+
+
+</Change>
