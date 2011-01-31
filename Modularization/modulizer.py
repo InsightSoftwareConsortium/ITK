@@ -69,7 +69,7 @@ if os.path.isdir(HeadOfModularITKTree):
        os.system("rm -Rf "+ HeadOfModularITKTree)
        print('removed '+HeadOfModularITKTree)
        # get the supporting modules and cmake packaing files
-       cmd ='git clone git://www.kitware.com/itk/modularITKSupport.git  '+HeadOfModularITKTree
+       cmd ='git clone http://itk.org/tmp/modularITKSupport.git '+HeadOfModularITKTree
        os.system(cmd)
        print("modularITKSupport repository cloned into " + HeadOfModularITKTree)
    if (answer =='n'):
