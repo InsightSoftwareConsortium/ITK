@@ -41,8 +41,15 @@ else(ITK_BINARY_DIR)
   endif(BUILD_TESTING)
 
   # Find the data directory.
-  find_path(ITK_DATA_ROOT ITKData.readme ${ITKTesting_SOURCE_DIR}/Data $ENV{ITK_DATA_ROOT})
-  mark_as_advanced(ITK_DATA_ROOT)
+  if(EXISTS ${ITKTesting_SOURCE_DIR}/Data/ITKData.readme)
+    set(ITK_DATA_ROOT ${ITKTesting_SOURCE_DIR}/Data)
+  else()
+    set(ITK_DATA_ROOT "")
+    message(FATAL_ERROR
+      "The Testing/Data submodule is not available.  "
+      "Run\n  git submodule update --init\n"
+      "from the top of the source tree to get it!")
+  endif()
 
   # Find ITK and load its settings.
   find_package(ITK)
