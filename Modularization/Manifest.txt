@@ -2482,7 +2482,7 @@ Testing/Code/Common/itkVariableLengthVectorTest.cxx core itk-common test
 Testing/Code/Common/itkVariableSizeMatrixTest.cxx core itk-common test
 Testing/Code/Common/itkVarianceImageFunctionTest.cxx core itk-image-function test
 Testing/Code/Common/itkVectorTest.cxx core itk-common test
-Testing/Code/Common/itkVectorImageTest.cxx filtering itk-intensity-math test
+Testing/Code/Common/itkVectorImageTest.cxx filtering itk-integrated-test code
 Testing/Code/Common/itkVectorInterpolateImageFunctionTest.cxx core itk-image-function test
 Testing/Code/Common/itkVectorMeanImageFunctionTest.cxx core itk-image-function test
 Testing/Code/Common/itkVersorTest.cxx core itk-common test
@@ -2768,7 +2768,7 @@ Testing/Code/IO/itkVTKImageIOTest.cxx io itk-io-vtk test
 Testing/Code/IO/itkNrrdImageIOTest.cxx io itk-io-nrrd test
 Testing/Code/IO/itkNrrdImageIOTest.h io itk-io-nrrd test
 Testing/Code/IO/itkTIFFImageIOTest.cxx io itk-io-tiff test
-Testing/Code/IO/itkGDCMImageIOTest.cxx io itk-io-gdcm test
+Testing/Code/IO/itkGDCMImageIOTest.cxx io itk-integrated-test code
 Testing/Code/IO/itkGDCMImageIOTest2.cxx io itk-io-gdcm test
 Testing/Code/IO/itkNiftiImageIOTest.cxx io itk-io-nifti test
 Testing/Code/IO/itkNiftiImageIOTest.h io itk-io-nifti test
@@ -2803,7 +2803,7 @@ Testing/Code/Algorithms/itkBioGeneNetworkTest.cxx segmentation itk-bio-cell test
 Testing/Code/Algorithms/itkBioCellularAggregateTest.cxx segmentation itk-bio-cell test
 Testing/Code/Algorithms/itkBioGeneTest.cxx segmentation itk-bio-cell test
 Testing/Code/BasicFilters/itkGradientMagnitudeImageFilterTest.cxx filtering itk-intensity-math test
-Testing/Code/BasicFilters/itkVectorGradientMagnitudeImageFilterTest3.cxx filtering itk-intensity-math test
+Testing/Code/BasicFilters/itkVectorGradientMagnitudeImageFilterTest3.cxx filtering itk-integrated-test code
 Testing/Code/BasicFilters/itkVectorGradientMagnitudeImageFilterTest2.cxx filtering itk-intensity-math test
 Testing/Code/BasicFilters/itkVectorGradientMagnitudeImageFilterTest1.cxx filtering itk-intensity-math test
 Testing/Code/BasicFilters/itkGradientImageFilterTest.cxx filtering itk-intensity-math test
@@ -2832,7 +2832,7 @@ Testing/Code/BasicFilters/itkParallelSparseFieldLevelSetImageFilterTest.cxx segm
 Testing/Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkFastMarchingExtensionImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkCollidingFrontsImageFilterTest.cxx segmentation itk-level-sets test
-Testing/Code/Algorithms/itkIsolatedWatershedImageFilterTest.cxx segmentation itk-watersheds test
+Testing/Code/Algorithms/itkIsolatedWatershedImageFilterTest.cxx segmentation itk-integrated-test code
 Testing/Code/Algorithms/itkWatershedImageFilterTest.cxx segmentation itk-integrated-test code
 Testing/Code/Common/itkQuaternionOrientationAdapterTest.cxx external itk-deprecated code
 Testing/Code/BasicFilters/itkOrientImageFilterTest.cxx core  itk-integrated-test code
@@ -2863,7 +2863,7 @@ Testing/Code/BasicFilters/itkSobelEdgeDetectionImageFilterTest.cxx filtering itk
 Testing/Code/BasicFilters/itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx filtering itk-edge-detection test
 Testing/Code/BasicFilters/itkZeroCrossingImageFilterTest.cxx filtering itk-edge-detection test
 Testing/Code/BasicFilters/itkConfidenceConnectedImageFilterTest.cxx segmentation itk-integrated-test code
-Testing/Code/BasicFilters/itkConnectedThresholdImageFilterTest.cxx segmentation itk-region-growing test
+Testing/Code/BasicFilters/itkConnectedThresholdImageFilterTest.cxx segmentation itk-integrated-test code
 Testing/Code/BasicFilters/itkIsolatedConnectedImageFilterTest.cxx segmentation itk-region-growing test
 Testing/Code/BasicFilters/itkNeighborhoodConnectedImageFilterTest.cxx segmentation itk-region-growing test
 Testing/Code/BasicFilters/itkVectorConfidenceConnectedImageFilterTest.cxx segmentation itk-integrated-test code
