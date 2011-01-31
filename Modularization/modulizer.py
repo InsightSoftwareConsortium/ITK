@@ -183,23 +183,29 @@ def ModularITKAddTest(executableSearch, moduleName):
       if(line[0] != '#'):
         argns=""
         words = line[0:-1].split(";")
-        if (len(words)< 3):
-            #print( "No test driver warining!"+ line +"\n")
+        if (len(words) < 3):
+            # No test driver , no arguments
             testName = words[0]
-            executableName = words[1]
+            # parse the executableName from the path
+            executableName = words[1].split("/")[-1]
         else:
             testName = words[0]
             testDriver = words[1]
             if (words[2] == "--compare"):
                #ignore now, TO DO
-               executableName = words[3]
+               executableName = "--";
             else:
                executableName = words[2]
+               argns =' '.join(words[3:])
+            if (executableName != executableSearch):
+                # try again , assuming no test driver
+               executableName = words[1].split("/")[-1]
+               argns =' '.join(words[2:])
+
         if (executableName == executableSearch):
             addTestLines = addTestLines + "add_test(NAME "+ testName+ "\n      COMMAND "+moduleName+'-tests  ' + executableName
-            if (len(words)>3):
-                argns =' '.join(words[3:])
-                addTestLines = addTestLines + "\n              "+argns
+            if (argns !=""):
+               addTestLines = addTestLines + "\n              "+argns
             addTestLines = addTestLines +")\n"
     return  addTestLines
 
