@@ -21,7 +21,6 @@
 
 #include <fstream>
 #include "itkVectorGradientMagnitudeImageFilter.h"
-#include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"

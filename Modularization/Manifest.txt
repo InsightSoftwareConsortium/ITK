@@ -449,7 +449,7 @@ Code/Common/itkSymmetricEllipsoidInteriorExteriorSpatialFunction.txx core itk-co
 Code/Common/itkSymmetricSecondRankTensor.h core itk-common include
 Code/Common/itkSymmetricSecondRankTensor.txx core itk-common include
 Code/Common/itkTestingMacros.h core itk-common include
-Code/Common/itkTestMain.h core itk-test-kernel include
+#TO DO: will create itkModularTestMain.h for modulaized ITK
 Testing/Code/BasicFilters/itkNullImageToImageFilterDriver.txx  core itk-image-filter-base include
 Testing/Code/BasicFilters/itkFilterWatcher.h  core itk-image-filter-base include
 Code/Common/itkTetrahedronCell.h core itk-common include
@@ -701,8 +701,8 @@ Code/SpatialObject/itkLineSpatialObject.h core itk-spatial-objects include
 Code/SpatialObject/itkLineSpatialObjectPoint.h core itk-spatial-objects include
 Code/SpatialObject/itkLineSpatialObjectPoint.txx core itk-spatial-objects include
 Code/SpatialObject/itkLineSpatialObject.txx core itk-spatial-objects include
-Code/SpatialObject/itkMeshSpatialObject.h core itk-meta-spatial-objects include
-Code/SpatialObject/itkMeshSpatialObject.txx core itk-meta-spatial-objects include
+Code/SpatialObject/itkMeshSpatialObject.h core itk-spatial-objects include
+Code/SpatialObject/itkMeshSpatialObject.txx core itk-spatial-objects include
 Code/SpatialObject/itkMetaArrowConverter.h core itk-meta-spatial-objects include
 Code/SpatialObject/itkMetaArrowConverter.txx core itk-meta-spatial-objects include
 Code/SpatialObject/itkMetaBlobConverter.h core itk-meta-spatial-objects include
@@ -1187,7 +1187,7 @@ Code/BasicFilters/itkMaskNegatedImageFilter.h filtering itk-intensity-math inclu
 Code/BasicFilters/itkMatrixIndexSelectionImageFilter.h filtering itk-intensity-math include
 Code/BasicFilters/itkMaximumImageFilter.h filtering itk-intensity-math include
 Code/BasicFilters/itkMinimumImageFilter.h filtering itk-intensity-math include
-Code/BasicFilters/itkModulusImageFilter.h filtering itk-intensity-math include
+Code/BasicFilters/itkModulusImageFilter.h filtering itk-integrated-test code
 Code/BasicFilters/itkMultiplyImageFilter.h filtering itk-intensity-math include
 Code/BasicFilters/itkNaryFunctorImageFilter.h filtering itk-intensity-math include
 Code/BasicFilters/itkNaryFunctorImageFilter.txx filtering itk-intensity-math include
@@ -2372,7 +2372,7 @@ Testing/Code/BasicFilters/itkExpNegativeImageFilterAndAdaptorTest.cxx filtering 
 Testing/Code/BasicFilters/itkLogImageFilterAndAdaptorTest.cxx filtering itk-intensity-math test
 Testing/Code/BasicFilters/itkRGBToLuminanceImageFilterAndAdaptorTest.cxx filtering itk-intensity-math test
 Testing/Code/BasicFilters/itkRGBToVectorAdaptImageFilterTest.cxx  filtering itk-intensity-math test
-Testing/Code/Common/itkImageAdaptorInterpolateImageFunctionTest.cxx filtering itk-intensity-math test
+Testing/Code/Common/itkImageAdaptorInterpolateImageFunctionTest.cxx filtering itk-image-function test
 Testing/Code/Common/itkAnnulusOperatorTest.cxx core itk-common test
 Testing/Code/Common/itkArray2DTest.cxx core itk-common test
 Testing/Code/Common/itkArrayTest.cxx core itk-common test
@@ -2528,17 +2528,12 @@ Testing/Code/SpatialObject/itkImageSpatialObjectTest.cxx core itk-spatial-object
 Testing/Code/SpatialObject/itkLandmarkSpatialObjectTest.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkLineSpatialObjectTest.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkMeshSpatialObjectTest.cxx core itk-spatial-objects test
-Testing/Code/SpatialObject/itkMetaArrowConverterTest.cxx core itk-spatial-objects test
+Testing/Code/SpatialObject/itkMetaArrowConverterTest.cxx core itk-meta-spatial-objects test
 Testing/Code/SpatialObject/itkPlaneSpatialObjectTest.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkPolygonGroupSpatialObjectTest.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkPolygonSpatialObjectTest.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkSceneSpatialObjectTest.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkSpatialObjectDuplicatorTest.cxx core itk-spatial-objects test
-Testing/Code/SpatialObject/itkSpatialObjectTests4.cxx core itk-spatial-objects test
-Testing/Code/SpatialObject/itkSpatialObjectTests3.cxx core itk-spatial-objects test
-Testing/Code/SpatialObject/itkSpatialObjectTests2.cxx core itk-spatial-objects test
-Testing/Code/SpatialObject/itkSpatialObjectTests5.cxx core itk-spatial-objects test
-Testing/Code/SpatialObject/itkSpatialObjectTests.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkSpatialObjectTreeContainerTest.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkSurfaceSpatialObjectTest.cxx core itk-spatial-objects test
 Testing/Code/SpatialObject/itkTubeSpatialObjectTest.cxx core itk-spatial-objects test
@@ -2601,6 +2596,7 @@ Testing/Code/BasicFilters/itkMaskNegatedImageFilterTest.cxx filtering itk-intens
 Testing/Code/BasicFilters/itkMatrixIndexSelectionImageFilterTest.cxx filtering itk-intensity-math test
 Testing/Code/BasicFilters/itkMaximumImageFilterTest.cxx filtering itk-intensity-math test
 Testing/Code/BasicFilters/itkMinimumImageFilterTest.cxx filtering itk-intensity-math test
+# requires itk-distance-map, causing cyclic dependency between itk-intensity-math and itk-distancemap
 Testing/Code/BasicFilters/itkModulusImageFilterTest.cxx filtering itk-intensity-math test
 Testing/Code/BasicFilters/itkMultiplyImageFilterTest.cxx filtering itk-intensity-math test
 Testing/Code/BasicFilters/itkNotImageFilterTest.cxx filtering itk-intensity-math test
@@ -2817,7 +2813,7 @@ Testing/Code/Algorithms/itkReinitializeLevelSetImageFilterTest.cxx segmentation 
 Testing/Code/Algorithms/itkShapeDetectionLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkIsotropicFourthOrderLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkLevelSetVelocityNeighborhoodExtractorTest.cxx segmentation itk-level-sets test
-Testing/Code/Algorithms/itkLevelSetMotionRegistrationFilterTest.cxx segmentation itk-level-sets test
+Testing/Code/Algorithms/itkLevelSetMotionRegistrationFilterTest.cxx registration itk-pde-deformable-registration  test
 Testing/Code/Algorithms/itkThresholdSegmentationLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkCannySegmentationLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx segmentation itk-level-sets test
