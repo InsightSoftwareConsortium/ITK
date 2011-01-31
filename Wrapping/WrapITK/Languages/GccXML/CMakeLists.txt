@@ -5,13 +5,14 @@ if(WRAP_ITK_USE_SYSTEM_GCCXML)
   find_package(GCCXML REQUIRED)
   set(GCCXML ${GCCXML} CACHE INTERNAL "gccxml executable.")
 else()
+  include(ExternalProject)
   # build gccxml as an external project
-ExternalProject_add(GCC_XML
+  ExternalProject_add(GCC_XML
   CVS_REPOSITORY ":pserver:anoncvs@www.gccxml.org:/cvsroot/GCC_XML"
   CVS_MODULE "gccxml"
 #  CVS_TAG -r ITK-3-20
   UPDATE_COMMAND ""
-  PREFIX GCC_XML
+  PREFIX gccxml
   CMAKE_ARGS
     -DCMAKE_CXX_COMPILER:STRING=${CMAKE_CXX_COMPILER}
     -DCMAKE_CXX_COMPILER_ARG1:STRING=${CMAKE_CXX_COMPILER_ARG1}
@@ -20,11 +21,11 @@ ExternalProject_add(GCC_XML
     -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
     -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-    -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR}/GCC_XML/
+    -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR}/gccxml/
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
   )
-  set(GCCXML ${CMAKE_CURRENT_BINARY_DIR}/GCC_XML/bin/gccxml CACHE INTERNAL "gccxml executable.")
+  set(GCCXML ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml CACHE INTERNAL "gccxml executable.")
 endif()
 
 ###############################################################################
