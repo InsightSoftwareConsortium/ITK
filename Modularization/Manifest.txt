@@ -1745,9 +1745,9 @@ Code/IO/itkTransformFileWriter.cxx io itk-transform src
 Code/IO/itkTransformFileReader.h io itk-transform include
 Code/IO/itkTransformFileReader.cxx io itk-transform src
 Code/IO/itkVTKPolyDataReader.h io itk-io-mesh include
-Code/IO/itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h io itk-io-mesh include
+Code/IO/itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h io itk-quad-edge-mesh include
 Code/IO/itkVTKPolyDataWriter.h io itk-io-mesh include
-Code/IO/itkQuadEdgeMeshScalarDataVTKPolyDataWriter.txx io itk-io-mesh include
+Code/IO/itkQuadEdgeMeshScalarDataVTKPolyDataWriter.txx io itk-quad-edge-mesh include
 Code/IO/itkVTKPolyDataReader.txx io itk-io-mesh include
 Code/IO/itkVTKPolyDataWriter.txx io itk-io-mesh include
 Code/Numerics/NeuralNetworks/itkLogSigmoidTransferFunction.h numerics itk-neural-networks include
@@ -2688,6 +2688,10 @@ Testing/Code/Common/itkEuler2DTransformTest.cxx core itk-transform test
 Testing/Code/Common/itkEuler3DTransformTest.cxx core itk-transform test
 Testing/Code/Common/itkFixedCenterOfRotationAffineTransformTest.cxx core itk-transform test
 Testing/Code/Common/itkIdentityTransformTest.cxx core itk-transform test
+Testing/Code/Algorithms/itkSimpleMultiResolutionImageRegistrationUI.h registration itk-registration-common include
+Testing/Code/Algorithms/itkCommandIterationUpdate.h registration itk-registration-common include
+Testing/Code/Algorithms/itkCommandVnlIterationUpdate.h registration itk-registration-common include
+Testing/Code/Algorithms/itkImageRegistrationMethodImageSource.h registration itk-registration-common include
 Testing/Code/Algorithms/itkImageRegistrationMethodTest_6.cxx registration itk-registration-common test
 Testing/Code/Algorithms/itkImageRegistrationMethodTest_16.cxx registration itk-registration-common test
 Testing/Code/Algorithms/itkImageRegistrationMethodTest_2.cxx registration itk-registration-common test
@@ -2740,6 +2744,10 @@ Testing/Code/BasicFilters/itkBloxBoundaryProfileImageToBloxCoreAtomImageFilterTe
 Testing/Code/BasicFilters/itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx segmentation itk-blox test
 Testing/Code/Algorithms/itkBinaryMedialNodeMetricTest.cxx segmentation itk-blox test
 Testing/Code/IO/itkIOCommonTest.cxx core itk-io-base test
+Testing/Code/IO/BigEndian_hdr.h core itk-io-base include
+Testing/Code/IO/BigEndian_img.h core itk-io-base include
+Testing/Code/IO/LittleEndian_hdr.h core itk-io-base include
+Testing/Code/IO/LittleEndian_img.h core itk-io-base include
 Testing/Code/IO/itkImageIOBaseTest.cxx core itk-integrated-test code
 Testing/Code/IO/itkImageFileWriterTest2.cxx core itk-io-base test
 Testing/Code/IO/itkImageFileWriterTest.cxx core itk-io-base test
@@ -2763,6 +2771,7 @@ Testing/Code/IO/itkTIFFImageIOTest.cxx io itk-io-tiff test
 Testing/Code/IO/itkGDCMImageIOTest.cxx io itk-io-gdcm test
 Testing/Code/IO/itkGDCMImageIOTest2.cxx io itk-io-gdcm test
 Testing/Code/IO/itkNiftiImageIOTest.cxx io itk-io-nifti test
+Testing/Code/IO/itkNiftiImageIOTest.h io itk-io-nifti test
 Testing/Code/IO/itkNiftiImageIOTest2.cxx io itk-io-nifti test
 Testing/Code/IO/itkLSMImageIOTest.cxx io itk-io-lsm test
 Testing/Code/IO/itkBMPImageIOTest.cxx io itk-io-bmp test
@@ -2780,7 +2789,7 @@ Testing/Code/IO/itkDICOMImageIO2Test.cxx io itk-io-deprecated code
 Testing/Code/IO/itkDICOMSeriesFileNamesTest.cxx io itk-io-deprecated code
 Testing/Code/IO/itkDicomImageIOTest.cxx io itk-io-deprecated code
 Testing/Code/IO/itkVTKPolyDataReaderTest.cxx io itk-io-mesh test
-Testing/Code/IO/itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx io itk-io-mesh test
+Testing/Code/IO/itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx io itk-quad-edge-mesh test
 Testing/Code/IO/itkVTKPolyDataWriterTest02.cxx io itk-io-mesh test
 Testing/Code/IO/itkVTKPolyDataWriterTest01.cxx io itk-io-mesh test
 Testing/Code/Algorithms/itkFEMRegistrationFilterTest.cxx registration itk-fem-registration test
@@ -2817,7 +2826,7 @@ Testing/Code/Algorithms/itkLevelSetMotionRegistrationFilterTest.cxx registration
 Testing/Code/Algorithms/itkThresholdSegmentationLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkCannySegmentationLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx segmentation itk-level-sets test
-Testing/Code/Algorithms/itkCurvesLevelSetImageFilterTest.cxx segmentation itk-integrated-test test
+Testing/Code/Algorithms/itkCurvesLevelSetImageFilterTest.cxx segmentation itk-integrated-test code
 Testing/Code/Algorithms/itkShapePriorSegmentationLevelSetFunctionTest.cxx segmentation itk-level-sets test
 Testing/Code/BasicFilters/itkParallelSparseFieldLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx segmentation itk-level-sets test
