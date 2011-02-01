@@ -1940,7 +1940,7 @@ Code/BasicFilters/itkLevelSetFunctionWithRefitTerm.h segmentation itk-level-sets
 Code/BasicFilters/itkParallelSparseFieldLevelSetImageFilter.h segmentation itk-level-sets include
 Code/BasicFilters/itkParallelSparseFieldLevelSetImageFilter.txx segmentation itk-level-sets include
 Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilter.h segmentation itk-level-sets include
-Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilter.txx segmentation itk-level-sets include
+Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilter.txx segmentation itk-integrated-test  code
 Code/Algorithms/itkFastMarchingUpwindGradientImageFilter.h segmentation itk-level-sets include
 Code/Algorithms/itkFastMarchingUpwindGradientImageFilter.txx segmentation itk-level-sets include
 Code/Algorithms/itkFastMarchingExtensionImageFilter.h segmentation itk-level-sets include
@@ -2811,7 +2811,7 @@ Testing/Code/BasicFilters/itkDerivativeImageFilterTest.cxx filtering itk-intensi
 Testing/Code/Common/itkLevelSetFunctionTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkGeodesicActiveContourLevelSetImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx segmentation itk-level-sets test
-Testing/Code/Algorithms/itkUnsharpMaskLevelSetImageFilterTest.cxx segmentation itk-level-sets test
+Testing/Code/Algorithms/itkUnsharpMaskLevelSetImageFilterTest.cxx segmentation itk-integrated-test code
 Testing/Code/Algorithms/itkLevelSetNeighborhoodExtractorTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkGeodesicActiveContourShapePriorLevelSetImageFilterTest.cxx segmentation itk-level-sets test
@@ -2856,7 +2856,7 @@ Testing/Code/Algorithms/itkLabelVotingImageFilterTest.cxx segmentation itk-label
 Testing/Code/Algorithms/itkDemonsRegistrationFilterTest.cxx registration itk-pde-deformable-registration test
 Testing/Code/Algorithms/itkMultiResolutionPDEDeformableRegistrationTest.cxx registration itk-pde-deformable-registration test
 Testing/Code/Algorithms/itkSymmetricForcesDemonsRegistrationFilterTest.cxx registration itk-pde-deformable-registration test
-Testing/Code/Algorithms/itkCurvatureRegistrationFilterTest.cxx registration itk-pde-deformable-registration test
+Testing/Code/Algorithms/itkCurvatureRegistrationFilterTest.cxx registration itk-integrated-test code
 Testing/Code/Common/itkConditionVariableTest.cxx core itk-common test
 Testing/Code/Common/itkNonUniformBSplineTest.cxx external itk-deprecated code
 Testing/Code/BasicFilters/itkSobelEdgeDetectionImageFilterTest.cxx filtering itk-edge-detection test
