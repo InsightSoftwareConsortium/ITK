@@ -1940,7 +1940,7 @@ Code/BasicFilters/itkLevelSetFunctionWithRefitTerm.h segmentation itk-level-sets
 Code/BasicFilters/itkParallelSparseFieldLevelSetImageFilter.h segmentation itk-level-sets include
 Code/BasicFilters/itkParallelSparseFieldLevelSetImageFilter.txx segmentation itk-level-sets include
 Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilter.h segmentation itk-level-sets include
-Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilter.txx segmentation itk-integrated-test  code
+Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilter.txx segmentation itk-level-sets  include
 Code/Algorithms/itkFastMarchingUpwindGradientImageFilter.h segmentation itk-level-sets include
 Code/Algorithms/itkFastMarchingUpwindGradientImageFilter.txx segmentation itk-level-sets include
 Code/Algorithms/itkFastMarchingExtensionImageFilter.h segmentation itk-level-sets include
@@ -2829,7 +2829,7 @@ Testing/Code/Algorithms/itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx seg
 Testing/Code/Algorithms/itkCurvesLevelSetImageFilterTest.cxx segmentation itk-integrated-test code
 Testing/Code/Algorithms/itkShapePriorSegmentationLevelSetFunctionTest.cxx segmentation itk-level-sets test
 Testing/Code/BasicFilters/itkParallelSparseFieldLevelSetImageFilterTest.cxx segmentation itk-level-sets test
-Testing/Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx segmentation itk-level-sets test
+Testing/Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx segmentation itk-integrated-test code
 Testing/Code/Algorithms/itkFastMarchingExtensionImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkCollidingFrontsImageFilterTest.cxx segmentation itk-level-sets test
 Testing/Code/Algorithms/itkIsolatedWatershedImageFilterTest.cxx segmentation itk-integrated-test code
