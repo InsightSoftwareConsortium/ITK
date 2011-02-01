@@ -59,10 +59,7 @@ ImageDuplicator< TInputImage >
 
   // Allocate the image
   m_Output = ImageType::New();
-  m_Output->SetOrigin( m_InputImage->GetOrigin() );
-  m_Output->SetSpacing( m_InputImage->GetSpacing() );
-  m_Output->SetDirection( m_InputImage->GetDirection() );
-  m_Output->SetLargestPossibleRegion( m_InputImage->GetLargestPossibleRegion() );
+  m_Output->CopyInformation( m_InputImage );
   m_Output->SetRequestedRegion( m_InputImage->GetRequestedRegion() );
   m_Output->SetBufferedRegion( m_InputImage->GetBufferedRegion() );
   m_Output->Allocate();
