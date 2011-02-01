@@ -79,7 +79,7 @@ if os.path.isdir(HeadOfModularITKTree):
        print('Advanced Option Warning: This is only for developer\'s convinience.\nThe git clone step will be skipped; Old files in the directory will be overwritten.')
 else:
    # get the supporting modules and cmake packaing files
-   cmd ='git clone git://www.kitware.com/itk/modularITKSupport.git  '+HeadOfModularITKTree
+   cmd ='git clone http://itk.org/tmp/modularITKSupport.git '+HeadOfModularITKTree
    os.system(cmd)
    print("modularITKSupport repository cloned into " + HeadOfModularITKTree)
 
