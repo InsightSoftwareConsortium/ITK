@@ -30,7 +30,6 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa ConstantPadImageFilter
- * \sa CropImageFilter
  */
 template< class TPixel, unsigned int VDimension = 3 >
 class VnlFFTComplexConjugateToRealImageFilter:

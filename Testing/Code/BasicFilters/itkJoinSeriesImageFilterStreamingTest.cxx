@@ -70,6 +70,7 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
     {
 
     SliceExtractorFilterType::Pointer extractor = SliceExtractorFilterType::New();
+    extractor->SetDirectionCollapseToSubmatrix();
 
     SliceExtractorFilterType::InputImageRegionType slice( reader->GetOutput()->GetLargestPossibleRegion() );
     slice.SetSize( 2, 0 );

@@ -20,7 +20,6 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkMaximumProjectionImageFilter.h"
-#include "itkExtractImageFilter.h"
 
 
 int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])

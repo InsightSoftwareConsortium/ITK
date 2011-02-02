@@ -18,7 +18,6 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {brainweb1e1a10f20.mha}
 //    INPUTS: {brainweb1e1a10f20Rot10Tx15.mha}
@@ -30,7 +29,6 @@
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration8RegisteredSlice.png}
 //  Software Guide : EndCommandLineArgs
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{VersorRigid3DTransform}
@@ -48,10 +46,8 @@
 //
 //
 // Software Guide : EndLatex
-
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-
 
 //  Software Guide : BeginLatex
 //
@@ -61,12 +57,10 @@
 //  \index{itk::Centered\-Transform\-Initializer!header}
 //
 //  Software Guide : EndLatex
-
 // Software Guide : BeginCodeSnippet
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 // Software Guide : EndCodeSnippet
-
 //  Software Guide : BeginLatex
 //
 //  The parameter space of the \code{VersorRigid3DTransform} is not a vector
@@ -83,20 +77,16 @@
 //  \index{itk::Versor\-Rigid3D\-Transform\-Optimizer!header}
 //
 //  Software Guide : EndLatex
-
 // Software Guide : BeginCodeSnippet
 #include "itkVersorRigid3DTransformOptimizer.h"
 // Software Guide : EndCodeSnippet
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkExtractImageFilter.h"
-
 
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
@@ -114,12 +104,10 @@ protected:
 public:
   typedef itk::VersorRigid3DTransformOptimizer OptimizerType;
   typedef   const OptimizerType *              OptimizerPointer;
-
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
     Execute( (const itk::Object *)caller, event);
     }
-
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
     OptimizerPointer optimizer =
@@ -133,7 +121,6 @@ public:
     std::cout << optimizer->GetCurrentPosition() << std::endl;
     }
 };
-
 
 int main( int argc, char *argv[] )
 {
@@ -150,13 +137,10 @@ int main( int argc, char *argv[] )
     std::cerr << " [sliceAfterRegistration] " << std::endl;
     return EXIT_FAILURE;
     }
-
-  const    unsigned int    Dimension = 3;
-  typedef  float           PixelType;
-
+  const unsigned int                          Dimension = 3;
+  typedef  float                              PixelType;
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
-
 
   //  Software Guide : BeginLatex
   //
@@ -167,35 +151,22 @@ int main( int argc, char *argv[] )
   //  \index{itk::Versor\-Rigid3D\-Transform!Instantiation}
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   typedef itk::VersorRigid3DTransform< double > TransformType;
   // Software Guide : EndCodeSnippet
-
-  typedef itk::VersorRigid3DTransformOptimizer           OptimizerType;
-
-  typedef itk::MeanSquaresImageToImageMetric<
-                                    FixedImageType,
-                                    MovingImageType >    MetricType;
-
-  typedef itk:: LinearInterpolateImageFunction<
-                                    MovingImageType,
-                                    double          >    InterpolatorType;
-
-  typedef itk::ImageRegistrationMethod<
-                                    FixedImageType,
-                                    MovingImageType >    RegistrationType;
+  typedef itk::VersorRigid3DTransformOptimizer                                  OptimizerType;
+  typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
+  typedef itk:: LinearInterpolateImageFunction< MovingImageType, double >       InterpolatorType;
+  typedef itk::ImageRegistrationMethod< FixedImageType, MovingImageType >       RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
-
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetInterpolator(  interpolator  );
-
 
   //  Software Guide : BeginLatex
   //
@@ -207,28 +178,21 @@ int main( int argc, char *argv[] )
   //  \index{itk::Registration\-Method!SetTransform()}
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
-
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
-
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
-
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
-
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
   fixedImageReader->Update();
-
   registration->SetFixedImageRegion(
      fixedImageReader->GetOutput()->GetBufferedRegion() );
-
 
   //  Software Guide : BeginLatex
   //
@@ -246,17 +210,14 @@ int main( int argc, char *argv[] )
   // \index{itk::Centered\-Transform\-Initializer!SmartPointer}
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer< TransformType,
                                              FixedImageType,
                                              MovingImageType
                                                  >  TransformInitializerType;
-
   TransformInitializerType::Pointer initializer =
                                           TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -265,13 +226,11 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
-
   //  Software Guide : BeginLatex
   //
   //  The use of the geometrical centers is selected by calling
@@ -282,11 +241,9 @@ int main( int argc, char *argv[] )
   //  \index{Centered\-Transform\-Initializer!GeometryOn()}
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   initializer->MomentsOn();
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -296,11 +253,9 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   initializer->InitializeTransform();
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -313,25 +268,18 @@ int main( int argc, char *argv[] )
   //  rotation axis and an angle.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   typedef TransformType::VersorType  VersorType;
   typedef VersorType::VectorType     VectorType;
-
   VersorType     rotation;
   VectorType     axis;
-
   axis[0] = 0.0;
   axis[1] = 0.0;
   axis[2] = 1.0;
-
   const double angle = 0;
-
   rotation.Set(  axis, angle  );
-
   transform->SetRotation( rotation );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -339,35 +287,27 @@ int main( int argc, char *argv[] )
   //  parameters to be used when the registration process starts.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
-
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
-
   optimizerScales[0] = 1.0;
   optimizerScales[1] = 1.0;
   optimizerScales[2] = 1.0;
   optimizerScales[3] = translationScale;
   optimizerScales[4] = translationScale;
   optimizerScales[5] = translationScale;
-
   optimizer->SetScales( optimizerScales );
-
   optimizer->SetMaximumStepLength( 0.2000  );
   optimizer->SetMinimumStepLength( 0.0001 );
-
   optimizer->SetNumberOfIterations( 200 );
-
 
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
 
   try
     {
@@ -382,10 +322,8 @@ int main( int argc, char *argv[] )
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
-
   OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
-
 
   const double versorX              = finalParameters[0];
   const double versorY              = finalParameters[1];
@@ -393,11 +331,8 @@ int main( int argc, char *argv[] )
   const double finalTranslationX    = finalParameters[3];
   const double finalTranslationY    = finalParameters[4];
   const double finalTranslationZ    = finalParameters[5];
-
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-
   const double bestValue = optimizer->GetValue();
-
 
   // Print out results
   //
@@ -411,7 +346,6 @@ int main( int argc, char *argv[] )
   std::cout << " Translation Z = " << finalTranslationZ  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-
 
   //  Software Guide : BeginLatex
   //
@@ -460,17 +394,13 @@ int main( int argc, char *argv[] )
   //  rotation matrix and offset resulting form the $6$ parameters.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
-
   TransformType::MatrixType matrix = transform->GetRotationMatrix();
   TransformType::OffsetType offset = transform->GetOffset();
-
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -493,7 +423,6 @@ int main( int argc, char *argv[] )
   //  $\arcsin{(0.173722)}$ which is very close to 10 degrees, as we expected.
   //
   //  Software Guide : EndLatex
-
 
   //  Software Guide : BeginLatex
   //
@@ -569,80 +498,55 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-
   typedef itk::ResampleImageFilter<
                             MovingImageType,
                             FixedImageType >    ResampleFilterType;
-
   TransformType::Pointer finalTransform = TransformType::New();
-
   finalTransform->SetCenter( transform->GetCenter() );
-
   finalTransform->SetParameters( finalParameters );
   finalTransform->SetFixedParameters( transform->GetFixedParameters() );
-
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
-
   resampler->SetTransform( finalTransform );
   resampler->SetInput( movingImageReader->GetOutput() );
-
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
-
   resampler->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 100 );
 
-  typedef  unsigned char  OutputPixelType;
-
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-
-  typedef itk::CastImageFilter<
-                        FixedImageType,
-                        OutputImageType > CastFilterType;
-
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-
+  typedef  unsigned char                                          OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension >                OutputImageType;
+  typedef itk::CastImageFilter< FixedImageType, OutputImageType > CastFilterType;
+  typedef itk::ImageFileWriter< OutputImageType >                 WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
-
   writer->SetFileName( argv[3] );
-
 
   caster->SetInput( resampler->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
 
-
   typedef itk::SubtractImageFilter<
                                   FixedImageType,
                                   FixedImageType,
                                   FixedImageType > DifferenceFilterType;
-
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
-
 
   typedef itk::RescaleIntensityImageFilter<
                                   FixedImageType,
                                   OutputImageType >   RescalerType;
-
   RescalerType::Pointer intensityRescaler = RescalerType::New();
-
   intensityRescaler->SetInput( difference->GetOutput() );
   intensityRescaler->SetOutputMinimum(   0 );
   intensityRescaler->SetOutputMaximum( 255 );
-
   difference->SetInput1( fixedImageReader->GetOutput() );
   difference->SetInput2( resampler->GetOutput() );
-
   resampler->SetDefaultPixelValue( 1 );
-
   WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput( intensityRescaler->GetOutput() );
-
 
   // Compute the difference image between the
   // fixed and resampled moving image.
@@ -652,10 +556,8 @@ int main( int argc, char *argv[] )
     writer2->Update();
     }
 
-
   typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
   IdentityTransformType::Pointer identity = IdentityTransformType::New();
-
   // Compute the difference image between the
   // fixed and moving image before registration.
   if( argc > 4 )
@@ -664,44 +566,33 @@ int main( int argc, char *argv[] )
     writer2->SetFileName( argv[4] );
     writer2->Update();
     }
-
   //
   //  Here we extract slices from the input volume, and the difference volumes
   //  produced before and after the registration.  These slices are presented as
   //  figures in the Software Guide.
   //
   //
-
   typedef itk::Image< OutputPixelType, 2 > OutputSliceType;
-
   typedef itk::ExtractImageFilter<
                           OutputImageType,
                           OutputSliceType > ExtractFilterType;
-
   ExtractFilterType::Pointer extractor = ExtractFilterType::New();
-
+  extractor->SetDirectionCollapseToSubmatrix();
 
   FixedImageType::RegionType inputRegion =
                                fixedImage->GetLargestPossibleRegion();
-
   FixedImageType::SizeType  size  = inputRegion.GetSize();
   FixedImageType::IndexType start = inputRegion.GetIndex();
-
   // Select one slice as output
   size[2]  =  0;
   start[2] = 90;
-
   FixedImageType::RegionType desiredRegion;
   desiredRegion.SetSize(  size  );
   desiredRegion.SetIndex( start );
-
   extractor->SetExtractionRegion( desiredRegion );
-
   typedef itk::ImageFileWriter< OutputSliceType > SliceWriterType;
   SliceWriterType::Pointer sliceWriter = SliceWriterType::New();
-
   sliceWriter->SetInput( extractor->GetOutput() );
-
   if( argc > 6 )
     {
     extractor->SetInput( caster->GetOutput() );
@@ -709,7 +600,6 @@ int main( int argc, char *argv[] )
     sliceWriter->SetFileName( argv[6] );
     sliceWriter->Update();
     }
-
   if( argc > 7 )
     {
     extractor->SetInput( intensityRescaler->GetOutput() );
@@ -717,14 +607,12 @@ int main( int argc, char *argv[] )
     sliceWriter->SetFileName( argv[7] );
     sliceWriter->Update();
     }
-
   if( argc > 8 )
     {
     resampler->SetTransform( finalTransform );
     sliceWriter->SetFileName( argv[8] );
     sliceWriter->Update();
     }
-
   if( argc > 9 )
     {
     extractor->SetInput( caster->GetOutput() );
@@ -732,7 +620,5 @@ int main( int argc, char *argv[] )
     sliceWriter->SetFileName( argv[9] );
     sliceWriter->Update();
     }
-
-
   return EXIT_SUCCESS;
 }
