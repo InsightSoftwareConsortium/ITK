@@ -696,7 +696,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 template<class TInputPointSet, class TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::ThreadedGenerateDataForReconstruction( const RegionType &region, int threadId )
+::ThreadedGenerateDataForReconstruction( const RegionType &region, int
+  itkNotUsed( threadId ) )
 {
   typename PointDataImageType::Pointer collapsedPhiLattices[ImageDimension + 1];
   for( unsigned int i = 0; i < ImageDimension; i++ )
