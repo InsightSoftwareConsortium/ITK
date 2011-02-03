@@ -29,6 +29,7 @@
 #include "itkVectorContainer.h"
 
 #include "vnl/vnl_matrix.h"
+#include "vnl/vnl_vector.h"
 
 namespace itk
 {
@@ -85,7 +86,7 @@ public:
   typedef Superclass::ParametersType ParametersType;
 
   typedef FixedArray<unsigned,
-                     itkGetStaticConstMacro( ParametricDimension )>    ArrayType;
+    itkGetStaticConstMacro( ParametricDimension )>    ArrayType;
 
   /*
    * Define the parameters of the B-spline object.
@@ -242,34 +243,39 @@ public:
                        TInputImage::ImageDimension );
 
   typedef TInputImage  ControlPointLatticeType;
-  typedef TOutputImage ImageType;
+  typedef TOutputImage OutputImageType;
 
   /** Image typedef support. */
-  typedef typename ImageType::PixelType  PixelType;
-  typedef typename ImageType::RegionType RegionType;
-  typedef typename ImageType::IndexType  IndexType;
-  typedef typename ImageType::PointType  PointType;
-  typedef typename ImageType::PointType  ContinuousIndexType;
+  typedef typename OutputImageType::PixelType  PixelType;
+  typedef typename OutputImageType::RegionType RegionType;
+  typedef typename OutputImageType::IndexType  IndexType;
+  typedef typename OutputImageType::PointType  PointType;
+  typedef typename OutputImageType::PointType  ContinuousIndexType;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
 
-  typedef typename TOutputImage::SpacingType   SpacingType;
-  typedef typename TOutputImage::PointType     OriginType;
-  typedef typename TOutputImage::SizeType      SizeType;
-  typedef typename TOutputImage::DirectionType DirectionType;
+  typedef typename OutputImageType::SpacingType   SpacingType;
+  typedef typename OutputImageType::PointType     OriginType;
+  typedef typename OutputImageType::SizeType      SizeType;
+  typedef typename OutputImageType::DirectionType DirectionType;
 
   /** Other typedef */
   typedef float RealType;
   typedef Image<RealType,
-                itkGetStaticConstMacro( ImageDimension )>          RealImageType;
+    itkGetStaticConstMacro( ImageDimension )>       RealImageType;
+  typedef typename RealImageType::Pointer           RealImagePointer;
+
   typedef FixedArray<unsigned,
-                     itkGetStaticConstMacro( ImageDimension )>     ArrayType;
-  typedef VariableSizeMatrix<RealType> GradientType;
-  typedef RealImageType                HessianType;
+    itkGetStaticConstMacro( ImageDimension )>       ArrayType;
+  typedef VariableSizeMatrix<RealType>              GradientType;
 
   /** PointSet typedef support. */
   typedef PointSet<PixelType,
-                   itkGetStaticConstMacro( ImageDimension )>       PointSetType;
+    itkGetStaticConstMacro( ImageDimension )>       PointSetType;
   typedef typename PointSetType::PixelType          PointDataType;
   typedef typename PointSetType::PointDataContainer PointDataContainerType;
+  typedef Image<PointDataType,
+    itkGetStaticConstMacro( ImageDimension )>       PointDataImageType;
+  typedef typename PointDataImageType::Pointer      PointDataImagePointer;
 
   /** Interpolation kernel type (default spline order = 3) */
   typedef CoxDeBoorBSplineKernelFunction<3> KernelType;
@@ -373,26 +379,26 @@ public:
    * Evaluate the resulting B-spline object at a specified point in the
    * parametric domain.
    */
-  void EvaluateAtPoint( PointType, PixelType & );
+  void EvaluateAtPoint( PointType, PointDataType & );
 
   /**
    * Evaluate the resulting B-spline object at a specified index in the
    * parametric domain.
    */
-  void EvaluateAtIndex( IndexType, PixelType & );
+  void EvaluateAtIndex( IndexType, PointDataType & );
 
   /**
    * Evaluate the resulting B-spline object at a specified continuous index in
    * the parametric domain.
    */
-  void EvaluateAtContinuousIndex( ContinuousIndexType, PixelType & );
+  void EvaluateAtContinuousIndex( ContinuousIndexType, PointDataType & );
 
   /**
    * Evaluate the resulting B-spline object at a specified internal parameteric
    * point.  Note that the internal parameterization over each dimension of the
    * B-spline object is [0, 1).
    */
-  void Evaluate( PointType, PixelType & );
+  void Evaluate( PointType, PointDataType & );
 
   /**
    * Evaluate the gradient of the resulting B-spline object at a specified point
@@ -474,14 +480,14 @@ public:
    * point within the parametric domain.  Since the Hessian for a vector
    * function is a 3-tensor, one must specify the component.
    */
-  void EvaluateHessianAtPoint( PointType, HessianType &, unsigned int );
+  void EvaluateHessianAtPoint( PointType, GradientType &, unsigned int );
 
   /**
    * Evaluate the Hessian of the resulting B-spline object at a specified
    * index within the parametric domain.  Since the Hessian for a vector
    * function is a 3-tensor, one must specify the component.
    */
-  void EvaluateHessianAtIndex( IndexType, HessianType &, unsigned int );
+  void EvaluateHessianAtIndex( IndexType, GradientType &, unsigned int );
 
   /**
    * Evaluate the Hessian of the resulting B-spline object at a specified con-
@@ -513,44 +519,72 @@ public:
    * in resolution.  Doubling the resolution starts at 2 refinement levels.
    */
   typename ControlPointLatticeType::Pointer
-  RefineControlPointLattice( ArrayType );
+    RefineControlPointLattice( ArrayType );
+
 protected:
   BSplineControlPointImageFilter();
   virtual ~BSplineControlPointImageFilter();
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  void GenerateData();
+  /**
+   * Multithreaded function which generates the output sampled B-spline object.
+   */
+  void ThreadedGenerateData( const OutputImageRegionType &, int );
 
 private:
   BSplineControlPointImageFilter( const Self& ); //purposely not implemented
   void operator=( const Self& );                 //purposely not implemented
 
-  void GenerateOutputImageFast();
 
-  void CollapsePhiLattice( ControlPointLatticeType *, ControlPointLatticeType *,
-                           RealType, unsigned int );
+  /**
+   * Before splitting, we need to allocate memory for the output sampled
+   * B-spline object based on the multi-threading functionality
+   */
+  void BeforeThreadedGenerateData();
+
+  /**
+   * Based on the way CollapsePhiLattice() is written, we want to split on the
+   * the last dimension.
+   */
+  int SplitRequestedRegion( int, int, OutputImageRegionType & );
+
+  /**
+   * Sub-function used by GenerateOutputImageFast() to generate the sampled
+   * B-spline object quickly.
+   */
+  void CollapsePhiLattice( PointDataImageType *, PointDataImageType *,
+    RealType, unsigned int );
+
+  /**
+   * Private function to handle the internal ivars.
+   */
   void SetNumberOfLevels( ArrayType );
 
   /** Parameters for the output image. */
+  SizeType                                     m_Size;
+  SpacingType                                  m_Spacing;
+  OriginType                                   m_Origin;
+  DirectionType                                m_Direction;
 
-  SizeType      m_Size;
-  SpacingType   m_Spacing;
-  OriginType    m_Origin;
-  DirectionType m_Direction;
+  bool                                         m_DoMultilevel;
+  bool                                         m_GenerateOutputImage;
+  unsigned int                                 m_MaximumNumberOfLevels;
+  unsigned int                                 m_CurrentLevel;
+  ArrayType                                    m_NumberOfControlPoints;
+  ArrayType                                    m_CloseDimension;
+  ArrayType                                    m_SplineOrder;
+  ArrayType                                    m_NumberOfLevels;
 
-  ArrayType            m_NumberOfLevels;
-  bool                 m_DoMultilevel;
-  unsigned int         m_MaximumNumberOfLevels;
-  vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension];
-  ArrayType            m_CloseDimension;
-  ArrayType            m_SplineOrder;
-  ArrayType            m_NumberOfControlPoints;
+  vnl_matrix<RealType>       m_RefinedLatticeCoefficients[ImageDimension];
 
-  typename KernelType::Pointer                   m_Kernel[ImageDimension];
-  typename KernelOrder0Type::Pointer             m_KernelOrder0;
-  typename KernelOrder1Type::Pointer             m_KernelOrder1;
-  typename KernelOrder2Type::Pointer             m_KernelOrder2;
-  typename KernelOrder3Type::Pointer             m_KernelOrder3;
+  vnl_vector<RealType>                         m_BSplineWeights[ImageDimension];
+  RealImagePointer                             m_NeighborhoodWeightImage;
+
+  typename KernelType::Pointer                 m_Kernel[ImageDimension];
+  typename KernelOrder0Type::Pointer           m_KernelOrder0;
+  typename KernelOrder1Type::Pointer           m_KernelOrder1;
+  typename KernelOrder2Type::Pointer           m_KernelOrder2;
+  typename KernelOrder3Type::Pointer           m_KernelOrder3;
 
   RealType m_BSplineEpsilon;
 

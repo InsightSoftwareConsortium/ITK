@@ -16,9 +16,12 @@
  *
  *=========================================================================*/
 #include "itkBSplineControlPointImageFilter.h"
+
+#include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkPointSet.h"
 #include "itkVector.h"
 
 template<unsigned int ImageDimension>
@@ -62,7 +65,6 @@ int BSpline( int argc, char *argv[] )
   bspliner->SetOrigin( origin );
   bspliner->SetSpacing( spacing );
   bspliner->SetDirection( reader->GetOutput()->GetDirection() );
-  bspliner->Update();
 
   try
     {
@@ -100,7 +102,6 @@ int BSpline( int argc, char *argv[] )
   bspliner2->SetOrigin( origin );
   bspliner2->SetSpacing( spacing );
   bspliner2->SetDirection( reader->GetOutput()->GetDirection() );
-  bspliner2->Update();
 
   try
     {
@@ -118,38 +119,6 @@ int BSpline( int argc, char *argv[] )
   writer2->SetInput( bspliner2->GetOutput() );
   writer2->Update();
 
-  /*
-   * Now test finding the parameters given a data point for the 2D case
-   */
-  if( ImageDimension == 2 )
-    {
-    typename BSplinerType::PointDataType pointData;
-    pointData[0] = -0.287013;
-
-    typename BSplinerType::PointType point;
-    point[0] = 50.0;
-    point[1] = 50.0;
-
-    try
-      {
-      bspliner->CalculateParametersClosestToDataPoint( pointData, point );
-      }
-    catch( itk::ExceptionObject &excep )
-      {
-      std::cerr << "Exception caught !" << std::endl;
-      std::cerr << excep << std::endl;
-      return EXIT_FAILURE;
-      }
-
-    typename BSplinerType::PointDataType value;
-    bspliner->EvaluateAtPoint( point, value );
-
-    if( vnl_math_abs( value[0] - pointData[0] ) > 1e-5 )
-      {
-      return EXIT_FAILURE;
-      }
-    }
-
   return EXIT_SUCCESS;
 }
 
@@ -163,17 +132,19 @@ int itkBSplineControlPointImageFilterTest( int argc, char *argv[] )
     exit( EXIT_FAILURE );
     }
 
+  int successOrFailure = EXIT_FAILURE;
+
   switch( atoi( argv[1] ) )
     {
     case 2:
-      BSpline<2>( argc, argv );
+      successOrFailure = BSpline<2>( argc, argv );
       break;
     case 3:
-      BSpline<3>( argc, argv );
+      successOrFailure = BSpline<3>( argc, argv );
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       exit( EXIT_FAILURE );
     }
-  return EXIT_SUCCESS;
+  return successOrFailure;
 }
