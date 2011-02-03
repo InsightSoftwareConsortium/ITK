@@ -367,7 +367,8 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
 template<class InputImage, class TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType & region, int threadId )
+::ThreadedGenerateData( const OutputImageRegionType & region,
+  int itkNotUsed( threadId ) )
 {
   typename PointDataImageType::Pointer collapsedPhiLattices[ImageDimension + 1];
   for( unsigned int i = 0; i < ImageDimension; i++ )
@@ -1109,12 +1110,6 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
       numberOfSpans -= static_cast<RealType>( this->m_SplineOrder[i] );
       }
     p[i] = static_cast<RealType>( params[i] ) * numberOfSpans;
-    }
-
-  typename RealImageType::RegionType::SizeType size;
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    size[i] = this->m_SplineOrder[i] + 1;
     }
 
   if( !this->m_NeighborhoodWeightImage )

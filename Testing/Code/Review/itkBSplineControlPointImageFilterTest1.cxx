@@ -23,7 +23,7 @@
 #include "itkPointSet.h"
 #include "itkVector.h"
 
-int itkBSplineControlPointImageFilterTest1( int argc, char *argv[] )
+int itkBSplineControlPointImageFilterTest1( int, char * [] )
 {
 
 
