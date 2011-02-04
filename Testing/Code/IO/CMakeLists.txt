@@ -52,6 +52,10 @@ set(KitTests
   itkConvertBufferTest
   itkConvertBufferTest2
   itkDicomImageIODirection2DTest
+  itkGDCMImageIOTest
+  itkGDCMImageIOTest2
+  itkGDCMSeriesReadImageWrite
+  itkGDCMSeriesStreamReadImageWrite
   itkGiplImageIOTest
   itkIOCommonTest
   itkIOPluginTest
@@ -1026,47 +1030,39 @@ add_test(itkGiplImageIOTest2 ${TestDriver} itkGiplImageIOTest
     ${ITK_DATA_ROOT}/Input/Archetype/image.001
     ${ITK_DATA_ROOT}/Input/Archetype/image.010)
 
-add_executable(itkGDCMImageIOTest itkGDCMImageIOTest.cxx)
-target_link_libraries(itkGDCMImageIOTest ITKIO)
-add_test(itkGDCMImageIOTest1 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+add_test(itkGDCMImageIOTest1 ${TestDriver} itkGDCMImageIOTest
         ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest.dcm)
-add_test(itkGDCMImageIOTest2 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+add_test(itkGDCMImageIOTest2 ${TestDriver} itkGDCMImageIOTest
         ${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest2.dcm)
-add_test(itkGDCMImageIOTest3 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+add_test(itkGDCMImageIOTest3 ${TestDriver} itkGDCMImageIOTest
         ${ITK_DATA_ROOT}/Input/012345.002.050
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest3.dcm)
-add_test(itkGDCMImageIOTest4 ${CXX_TEST_PATH}/itkGDCMImageIOTest
+add_test(itkGDCMImageIOTest4 ${TestDriver} itkGDCMImageIOTest
         ${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest3.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
-add_executable(itkGDCMImageIOTest2 itkGDCMImageIOTest2.cxx)
-target_link_libraries(itkGDCMImageIOTest2 ITKIO)
-add_test(itkGDCMImageIOTest5 ${CXX_TEST_PATH}/itkGDCMImageIOTest2
+add_test(itkGDCMImageIOTest5 ${TestDriver} itkGDCMImageIOTest2
         ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest5)
-add_executable(itkGDCMSeriesReadImageWrite itkGDCMSeriesReadImageWrite.cxx)
-target_link_libraries(itkGDCMSeriesReadImageWrite ITKIO)
-add_test(itkGDCMSeriesReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesReadImageWrite
+add_test(itkGDCMSeriesReadImageWrite ${TestDriver} itkGDCMSeriesReadImageWrite
         ${ITK_DATA_ROOT}/Input/DicomSeries
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk
         ${ITK_TEST_OUTPUT_DIR} )
-add_executable(itkGDCMSeriesStreamReadImageWrite itkGDCMSeriesStreamReadImageWrite.cxx)
-target_link_libraries(itkGDCMSeriesStreamReadImageWrite ITKIO)
-add_test(itkGDCMSeriesStreamReadImageWrite1 ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
+add_test(itkGDCMSeriesStreamReadImageWrite1 ${TestDriver} itkGDCMSeriesStreamReadImageWrite
   ${ITK_DATA_ROOT}/Input/DicomSeries
   ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite1.mhd
   0.859375 0.85939 1.60016
   0 )
-add_test(itkGDCMSeriesStreamReadImageWrite2 ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
+add_test(itkGDCMSeriesStreamReadImageWrite2 ${TestDriver} itkGDCMSeriesStreamReadImageWrite
   ${ITK_DATA_ROOT}/Input/DicomSeries
   ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite2.mhd
   0.859375 0.85939 1.60016

@@ -32,7 +32,7 @@
   #define SPECIFIC_IMAGEIO_MODULE_TEST
 #endif
 
-int main(int ac, char* av[])
+int itkGDCMImageIOTest(int ac, char* av[])
 {
 
   if(ac < 5)
