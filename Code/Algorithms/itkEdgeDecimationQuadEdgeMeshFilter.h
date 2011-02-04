@@ -78,6 +78,7 @@ public:
   typedef typename PriorityQueueType::Pointer PriorityQueuePointer;
 
   typedef std::map< OutputQEType *, PriorityQueueItemType * > QueueMapType;
+  typedef typename QueueMapType::const_iterator               QueueMapConstIterator;
   typedef typename QueueMapType::iterator                     QueueMapIterator;
 
   typedef QuadEdgeMeshEulerOperatorJoinVertexFunction< OutputMeshType, OutputQEType > OperatorType;
