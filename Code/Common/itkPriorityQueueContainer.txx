@@ -476,21 +476,21 @@ DeleteElement(const  ElementWrapperType & element)
     {
     // m_Interface.SetLocation(element, m_ElementNotFound);
 
-    ElementIdentifierType size = this->Size();
+    ElementIdentifierType tsize = this->Size();
 
-    if( location >= size )
+    if( location >= tsize )
       {
       itkGenericExceptionMacro( <<" ElementWrapperType location is out of range" );
       }
     else
       {
-      if ( location == size - 1 )
+      if ( location == tsize - 1 )
         {
         this->pop_back();
         }
       else
         {
-        SetElementAtLocation( location, GetElementAtLocation( size - 1 ) );
+        SetElementAtLocation( location, GetElementAtLocation( tsize - 1 ) );
         this->pop_back();
         UpdateDownTree(location);
         UpdateUpTree(location);
