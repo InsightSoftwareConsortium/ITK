@@ -45,6 +45,7 @@ bool SameRegionImage( ImageConstPointer test, ImageConstPointer baseline )
 
   typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilter;
   ExtractImageFilter::Pointer extractor = ExtractImageFilter::New();
+  extractor->SetDirectionCollapseToSubmatrix();
   extractor->SetExtractionRegion( test->GetLargestPossibleRegion() );
   extractor->SetInput( baseline );
 
@@ -97,6 +98,7 @@ int itkImageFileReaderStreamingTest2(int argc, char* argv[])
 
   typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilter;
   ExtractImageFilter::Pointer extractor = ExtractImageFilter::New();
+  extractor->SetDirectionCollapseToSubmatrix();
   extractor->SetInput( monitor->GetOutput() );
 
 

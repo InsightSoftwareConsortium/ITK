@@ -81,6 +81,7 @@ int itkExtractImageTest(int, char* [] )
   // Create a filter
   itk::ExtractImageFilter< ShortImage, ShortImage >::Pointer extract;
   extract = itk::ExtractImageFilter< ShortImage, ShortImage >::New();
+  extract->SetDirectionCollapseToSubmatrix();
   extract->SetInput( if2 );
 
   // fill in an image
@@ -242,6 +243,7 @@ int itkExtractImageTest(int, char* [] )
   //Case 3: Try extracting a single row
   itk::ExtractImageFilter<ShortImage, LineImage>::Pointer lineExtract;
   lineExtract = itk::ExtractImageFilter<ShortImage, LineImage>::New();
+  lineExtract->SetDirectionCollapseToGuess();
   lineExtract->SetInput( if2 );
 
   extractIndex[0] = 2;
@@ -317,6 +319,7 @@ int itkExtractImage3Dto2DTest(int, char* [] )
   im3d->SetDirection(dir);
 
   ExtractType::Pointer extract = ExtractType::New();
+  extract->SetDirectionCollapseToIdentity();
   Image3DType::RegionType extractRegion = im3d->GetLargestPossibleRegion();
   Image3DType::SizeType extractSize = extractRegion.GetSize();
 

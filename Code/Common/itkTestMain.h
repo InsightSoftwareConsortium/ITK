@@ -347,6 +347,7 @@ int RegressionTestImage(const char *testImageFilename,
     region.SetSize(size);
 
     ExtractType::Pointer extract = ExtractType::New();
+    extract->SetDirectionCollapseToSubmatrix();
     extract->SetInput( rescale->GetOutput() );
     extract->SetExtractionRegion(region);
 

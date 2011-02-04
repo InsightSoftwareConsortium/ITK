@@ -28,7 +28,6 @@ namespace itk
  * Input image must be a power of two in all directions.
  *
  * \sa ConstantPadImageFilter
- * \sa CropImageFilter
  *
  * \ingroup FourierTransform
  *

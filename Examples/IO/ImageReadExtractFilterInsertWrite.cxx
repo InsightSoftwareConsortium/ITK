@@ -18,7 +18,6 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
 //  Software Guide : BeginLatex
 //
 //  This example illustrates the common task of extracting a 2D slice from a
@@ -28,12 +27,10 @@
 //  In this example we start by including the appropriate header files.
 //
 //  Software Guide : EndLatex
-
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 // Software Guide : EndCodeSnippet
-
 
 //  Software Guide : BeginLatex
 //
@@ -44,11 +41,9 @@
 //  \index{itk::ExtractImageFilter!header}
 //
 //  Software Guide : EndLatex
-
 // Software Guide : BeginCodeSnippet
 #include "itkExtractImageFilter.h"
 // Software Guide : EndCodeSnippet
-
 
 //  Software Guide : BeginLatex
 //
@@ -60,19 +55,12 @@
 //  \index{itk::PasteImageFilter!header}
 //
 //  Software Guide : EndLatex
-
 // Software Guide : BeginCodeSnippet
 #include "itkPasteImageFilter.h"
 // Software Guide : EndCodeSnippet
-
-
 // Software Guide : BeginCodeSnippet
 #include "itkMedianImageFilter.h"
 // Software Guide : EndCodeSnippet
-
-
-
-
 int main( int argc, char ** argv )
 {
   // Verify the number of parameters in the command line
@@ -84,24 +72,20 @@ int main( int argc, char ** argv )
     return EXIT_FAILURE;
     }
 
-
   //  Software Guide : BeginLatex
   //
   //  Image types are defined below. Note that the input image type is $3D$ and
   //  the output image type is a $3D$ image as well.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char        InputPixelType;
-  typedef unsigned char        MiddlePixelType;
-  typedef unsigned char        OutputPixelType;
-
+  typedef unsigned char                       InputPixelType;
+  typedef unsigned char                       MiddlePixelType;
+  typedef unsigned char                       OutputPixelType;
   typedef itk::Image< InputPixelType,  3 >    InputImageType;
   typedef itk::Image< MiddlePixelType, 3 >    MiddleImageType;
   typedef itk::Image< OutputPixelType, 3 >    OutputImageType;
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -109,18 +93,15 @@ int main( int argc, char ** argv )
   //  are instantiated using the image types.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   // Software Guide : EndCodeSnippet
 
-
   // Here we recover the file names from the command line arguments
   //
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
-
 
   //  Software Guide : BeginLatex
   //
@@ -133,12 +114,10 @@ int main( int argc, char ** argv )
   //  \index{itk::ImageFileWriter!SmartPointer}
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -151,12 +130,10 @@ int main( int argc, char ** argv )
   //  \index{SetFileName()!itk::ImageFileWriter}
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   reader->SetFileName( inputFilename  );
   writer->SetFileName( outputFilename );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -165,12 +142,11 @@ int main( int argc, char ** argv )
   //  method and assigned to a SmartPointer.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   typedef itk::ExtractImageFilter< InputImageType, MiddleImageType > ExtractFilterType;
   ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
+  extractFilter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -186,13 +162,11 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   reader->Update();
   const InputImageType * inputImage = reader->GetOutput();
   InputImageType::RegionType inputRegion = inputImage->GetBufferedRegion();
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -200,12 +174,10 @@ int main( int argc, char ** argv )
   //  component by setting its value to $1$.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   InputImageType::SizeType size = inputRegion.GetSize();
   size[2] = 1;
   // Software Guide : EndCodeSnippet
-
   //  Software Guide : BeginLatex
   //
   //  Note that in this case we are extracting a $Z$ slice, and for that
@@ -216,7 +188,6 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
 
-
   //  Software Guide : BeginLatex
   //
   //  Then, we take the index from the region and set its $Z$ value to the
@@ -224,13 +195,11 @@ int main( int argc, char ** argv )
   //  number from the command line arguments.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   InputImageType::IndexType start = inputRegion.GetIndex();
   const unsigned int sliceNumber = atoi( argv[3] );
   start[2] = sliceNumber;
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -238,13 +207,11 @@ int main( int argc, char ** argv )
   //  the start and size we just prepared using the slice information.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   InputImageType::RegionType desiredRegion;
   desiredRegion.SetSize(  size  );
   desiredRegion.SetIndex( start );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -255,50 +222,39 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   extractFilter->SetExtractionRegion( desiredRegion );
   // Software Guide : EndCodeSnippet
-
   // Software Guide : BeginCodeSnippet
   typedef itk::PasteImageFilter< MiddleImageType, OutputImageType > PasteFilterType;
   PasteFilterType::Pointer pasteFilter = PasteFilterType::New();
   // Software Guide : EndCodeSnippet
-
   // Software Guide : BeginCodeSnippet
   typedef itk::MedianImageFilter< MiddleImageType, MiddleImageType > MedianFilterType;
   MedianFilterType::Pointer medianFilter = MedianFilterType::New();
   // Software Guide : EndCodeSnippet
-
   //  Software Guide : BeginLatex
   //
   //  Below we connect the reader, filter and writer to form the data
   //  processing pipeline.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   extractFilter->SetInput( inputImage );
   medianFilter->SetInput( extractFilter->GetOutput() );
   pasteFilter->SetSourceImage( medianFilter->GetOutput() );
   pasteFilter->SetDestinationImage( inputImage );
   pasteFilter->SetDestinationIndex( start );
-
   MiddleImageType::SizeType indexRadius;
-
   indexRadius[0] = 1; // radius along x
   indexRadius[1] = 1; // radius along y
   indexRadius[2] = 0; // radius along z
-
   medianFilter->SetRadius( indexRadius );
   medianFilter->UpdateLargestPossibleRegion();
-
   const MiddleImageType * medianImage = medianFilter->GetOutput();
-
   pasteFilter->SetSourceRegion( medianImage->GetBufferedRegion() );
   writer->SetInput( pasteFilter->GetOutput() );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -307,7 +263,6 @@ int main( int argc, char ** argv )
   //  thrown.
   //
   //  Software Guide : EndLatex
-
   // Software Guide : BeginCodeSnippet
   try
     {
@@ -320,7 +275,6 @@ int main( int argc, char ** argv )
     return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
-
 
   return EXIT_SUCCESS;
 }

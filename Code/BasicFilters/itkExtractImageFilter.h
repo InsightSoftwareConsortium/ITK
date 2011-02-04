@@ -46,12 +46,28 @@ namespace itk
  * InputImageDimension.  The number of non-zero dimensions in
  * ExtractionRegion.Size must = OutputImageDimension.
  *
- * The output image produced by this filter will have the same origin than the
+ * The output image produced by this filter will have the same origin as the
  * input image, while the ImageRegion of the output image will start at the
  * starting index value provided in the ExtractRegion parameter.  If you are
  * looking for a filter that will re-compute the origin of the output image,
  * and provide an output image region whose index is set to zeros, then you may
- * want to use the RegionOfInterestImageFilter.
+ * want to use the RegionOfInterestImageFilter.  The output spacing is is
+ * simply the collapsed version of the input spacing.
+ *
+ * Determining the direction of the collapsed output image from an larger
+ * dimensional input space is an ill defined problem in general.  It is
+ * required that the application developer select the desired transformation
+ * strategy for collapsing direction cosigns.  It is REQUIRED that a strategy
+ * be explicitly requested (i.e. there is no working default).
+ * Direction Collapsing Strategies:
+ *    1)  DirectionCollapseToUnknown();
+ *            This is the default and the filter can not run when this is set.
+ *            The reason is to explicitly force the application developer to
+ *            define their desired behavior.
+ *    1)  DirectionCollapseToIdentity();
+ *            Output has identity direction no matter what
+ *    2)  DirectionCollaspeToSubmatrix();
+ *            Output direction is the sub-matrix if it is positive definite, else throw an exception.
  *
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
@@ -59,6 +75,7 @@ namespace itk
  * \sa CropImageFilter
  * \ingroup GeometricTransforms
  */
+
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExtractImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
@@ -93,6 +110,88 @@ public:
   typedef typename TInputImage::IndexType  InputImageIndexType;
   typedef typename TOutputImage::SizeType  OutputImageSizeType;
   typedef typename TInputImage::SizeType   InputImageSizeType;
+
+  typedef enum DirectionCollaspeStrategyEnum {
+    DIRECTIONCOLLAPSETOUNKOWN=0,
+    DIRECTIONCOLLASPETOIDENTITY=1,
+    DIRECTIONCOLLASPETOSUBMATRIX=2,
+    DIRECTIONCOLLASPETOGUESS=3
+  } DIRECTIONCOLLASPESTRATEGY;
+
+
+
+  /**
+   * Set the strategy to be used to collapse pysical space dimensions.
+   *
+   * itk::itkExtractImageFilter::DIRECTIONCOLLASPETOIDENTITY
+   * Set the strategy so that all collapsed images have an identity direction.
+   * Use this strategy when you know that retention of the physical space
+   * orientation of the collapsed image is not important.
+   *
+   * itk::itkExtractImageFilter::DIRECTIONCOLLASPETOGUESS
+   * Set the strategy so that all collapsed images where
+   * output direction is the sub-matrix it it is positive definite, else
+   * return identity. This is backwards compatible with ITKv3, but
+   * is highly discouraged because the results are difficult to
+   * anticipate under differing data scenerios.
+   *
+   * itk::itkExtractImageFilter::DIRECTIONCOLLASPETOSUBMATRIX
+   * Set the strategy so that all collapsed images where
+   * output direction is the sub-matrix it it is positive definite,
+   * else throw an exception.  Use this strategy when it is known
+   * that properly identified physical space sub-volumes can be
+   * reliably extracted from a higher dimensional space.  For
+   * example when the applicaiton programmer knows that a 4D image
+   * is 3D+time, and that the 3D sub-space is properly defined.
+   */
+  void SetDirectionCollapseToStrategy(const DIRECTIONCOLLASPESTRATEGY choosenStrategy)
+    {
+    switch(choosenStrategy)
+      {
+    case DIRECTIONCOLLASPETOGUESS:
+    case DIRECTIONCOLLASPETOIDENTITY:
+    case DIRECTIONCOLLASPETOSUBMATRIX:
+      break;
+    case DIRECTIONCOLLAPSETOUNKOWN:
+    default:
+      itkExceptionMacro( << "Invalid Strategy Choosen for itk::ExtractImageFilter" );
+      }
+
+    this->m_DirectionCollaspeStrategy=choosenStrategy;
+    this->Modified();
+    }
+
+  /** NOTE:  The SetDirectionCollapseToUknown is explicitly not defined.
+   * It is a state that a filter can be in only when it is first instantiate
+   * prior to being initialized.
+   */
+
+  /**
+   * Get the currently set strategy for collapsing directions of physical space.
+   */
+  DIRECTIONCOLLASPESTRATEGY GetDirectionCollapseToStrategy() const
+    {
+    return this->m_DirectionCollaspeStrategy;
+    }
+
+  /** \sa SetDirectionCollapseToStrategy */
+  void SetDirectionCollapseToGuess()
+    {
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOGUESS);
+    }
+
+  /** \sa SetDirectionCollapseToStrategy */
+  void SetDirectionCollapseToIdentity()
+    {
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOIDENTITY);
+    }
+
+  /** \sa SetDirectionCollapseToStrategy */
+  void SetDirectionCollapseToSubmatrix()
+    {
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOSUBMATRIX);
+    }
+
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -164,6 +263,8 @@ protected:
 private:
   ExtractImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
+
+  DIRECTIONCOLLASPESTRATEGY m_DirectionCollaspeStrategy;
 };
 } // end namespace itk
 
