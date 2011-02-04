@@ -34,11 +34,11 @@ class ITK_EXPORT DiscretePrincipalCurvaturesQuadEdgeMeshFilter:
   public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  typedef DiscretePrincipalCurvaturesQuadEdgeMeshFilter Self;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  typedef DiscretePrincipalCurvaturesQuadEdgeMeshFilter     Self;
+  typedef SmartPointer< Self >                              Pointer;
+  typedef SmartPointer< const Self >                        ConstPointer;
   typedef DiscreteCurvatureQuadEdgeMeshFilter<
-    TInputMesh, TOutputMesh >                                   Superclass;
+    TInputMesh, TOutputMesh >                               Superclass;
 
   typedef typename Superclass::InputMeshType                 InputMeshType;
   typedef typename Superclass::InputMeshPointer              InputMeshPointer;

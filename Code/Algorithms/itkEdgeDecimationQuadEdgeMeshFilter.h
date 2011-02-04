@@ -41,10 +41,10 @@ class ITK_EXPORT EdgeDecimationQuadEdgeMeshFilter:
 {
 public:
   typedef EdgeDecimationQuadEdgeMeshFilter Self;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
   typedef DecimationQuadEdgeMeshFilter<
-    TInput, TOutput, TCriterion >                           Superclass;
+    TInput, TOutput, TCriterion >          Superclass;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(EdgeDecimationQuadEdgeMeshFilter, DecimationQuadEdgeMeshFilter);

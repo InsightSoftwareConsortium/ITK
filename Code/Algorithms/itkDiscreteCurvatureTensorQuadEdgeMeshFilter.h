@@ -31,10 +31,10 @@ class ITK_EXPORT DiscreteCurvatureTensorQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  typedef DiscreteCurvatureTensorQuadEdgeMeshFilter Self;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter             Superclass;
+  typedef DiscreteCurvatureTensorQuadEdgeMeshFilter     Self;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
+  typedef QuadEdgeMeshToQuadEdgeMeshFilter              Superclass;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(DiscreteCurvatureTensorQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
