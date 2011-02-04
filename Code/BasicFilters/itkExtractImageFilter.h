@@ -119,7 +119,6 @@ public:
   } DIRECTIONCOLLASPESTRATEGY;
 
 
-
   /**
    * Set the strategy to be used to collapse pysical space dimensions.
    *
