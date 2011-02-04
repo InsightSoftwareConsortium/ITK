@@ -140,13 +140,11 @@ for line in open("./Manifest.txt",'r'):
     elif moduleName != moduleList[-1]:
        moduleList.append(moduleName)
 
-    # creat the path
-    if not os.path.isdir(outputPath):
-       os.makedirs(outputPath)
-
-
     # copying files to the destination
     if  os.path.isfile(inputfile):
+       # creat the path
+       if not os.path.isdir(outputPath):
+          os.makedirs(outputPath)
        os.system('mv ' +inputfile+'  '+ outputPath)
     else:
        missingFileName = inputfile.split(HeadOfTempTree+'/')[1]
