@@ -253,6 +253,7 @@ set(ReviewTest4_SRCS
   itkStatisticsRelabelImageFilterTest1.cxx
   itkStatisticsUniqueLabelMapFilterTest1.cxx
   itkAttributeLabelObjectAccessorsTest1.cxx
+  itkShiftLabelObjectTest.cxx
 )
 
 set(ReviewTest5_SRCS
@@ -2426,6 +2427,11 @@ add_test(itkLabelImageToStatisticsLabelMapFilterTest1
   1     # Compute Perimeter (bool)
   1     # Compute Histogram (bool)
   128   # Number Of Bins
+  )
+
+add_test(itkShiftLabelObjectTest
+  ${REVIEW_TESTS4}
+  itkShiftLabelObjectTest
   )
 
 add_test(itkLabelGeometryImageFilterTest2
