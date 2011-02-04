@@ -83,7 +83,7 @@ class ITKAlgorithms_EXPORT ManualWisdomFilenameGenerator: public WisdomFilenameG
       {
       this->m_WisdomFilename=wfn;
       }
-    virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const
+    virtual std::string GenerateWisdomFilename(const std::string itkNotUsed(baseCacheDirectory) ) const
       {
        return this->m_WisdomFilename;
       }
