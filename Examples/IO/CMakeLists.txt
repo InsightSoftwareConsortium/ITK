@@ -106,9 +106,13 @@ if(ITK_VISIBLEHUMAN_DATA_ROOT)
   # this test must be run sequentially, be cause the output of the first is used by the second
   set_tests_properties(
     VisibleHumanStreamReadWriteTest
-    VisibleHumanPasteWriteTest
     PROPERTIES
     RUN_SERIAL 1
+    )
+  set_tests_properties(
+    VisibleHumanPasteWrite
+    PROPERTIES
+    DEPENDS VisibleHumanStreamReadWriteTest
     )
 endif(ITK_VISIBLEHUMAN_DATA_ROOT)
 
