@@ -8,102 +8,85 @@ if(ITK_BINARY_DIR)
 endif(ITK_BINARY_DIR)
 
 
-set(SPATIAL_OBJECT_TESTS        ${CXX_TEST_PATH}/itkSpatialObjectTests)
-set(SPATIAL_OBJECT_TESTS2       ${CXX_TEST_PATH}/itkSpatialObjectTests2)
-set(SPATIAL_OBJECT_TESTS3       ${CXX_TEST_PATH}/itkSpatialObjectTests3)
-set(SPATIAL_OBJECT_TESTS4       ${CXX_TEST_PATH}/itkSpatialObjectTests4)
-set(SPATIAL_OBJECT_TESTS5       ${CXX_TEST_PATH}/itkSpatialObjectTests5)
-set(SPATIAL_OBJECT_HEADER_TEST  ${CXX_TEST_PATH}/itkSpatialObjectHeaderTest)
+############################################################
+# CXX Testing
+#
+set(KIT SpatialObject)
+set(KIT_LIBS ITKIO ITKSpatialObject)
+set(KitTests
+  itkAffineGeometryFrameTest
+  itkArrowSpatialObjectTest
+  itkBlobSpatialObjectTest
+  itkBoxSpatialObjectTest
+  itkContourSpatialObjectTest
+  itkCylinderSpatialObjectTest
+  itkEllipseSpatialObjectTest
+  itkGaussianSpatialObjectTest
+  itkImageMaskSpatialObjectTest
+  itkImageMaskSpatialObjectTest2
+  itkImageSpatialObjectTest
+  itkLandmarkSpatialObjectTest
+  itkLineSpatialObjectTest
+  itkMeshSpatialObjectTest
+  itkMetaArrowConverterTest
+  itkPlaneSpatialObjectTest
+  itkPolygonGroupSpatialObjectTest
+  itkPolygonSpatialObjectTest
+  itkSceneSpatialObjectTest
+  itkSpatialObjectDuplicatorTest
+  itkSpatialObjectPrintTest
+  itkSpatialObjectTreeContainerTest
+  itkSurfaceSpatialObjectTest
+  itkTubeSpatialObjectTest
+)
+# Given KIT, KIT_LIBS and KitTests, build TestDriver
+CreateTestDriver(${KIT} "${KIT_LIBS}" "${KitTests}" TestDriver)
 
-add_test( itkAffineGeometryFrameTest ${SPATIAL_OBJECT_TESTS} itkAffineGeometryFrameTest )
-add_test( itkArrowSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkArrowSpatialObjectTest )
 
-add_test( itkBoxSpatialObjectTest ${SPATIAL_OBJECT_TESTS3}
+#############################################################
+# Tests that use the Test Driver
+#
+add_test( itkAffineGeometryFrameTest ${TestDriver} itkAffineGeometryFrameTest )
+add_test( itkArrowSpatialObjectTest ${TestDriver} itkArrowSpatialObjectTest )
+
+add_test( itkBoxSpatialObjectTest ${TestDriver}
   --compare ${ITK_DATA_ROOT}/Baseline/SpatialObjects/BoxSpatialObjectTest.png
             ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png
   itkBoxSpatialObjectTest
             ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png)
 
-add_test( itkBlobSpatialObjectTest ${SPATIAL_OBJECT_TESTS} itkBlobSpatialObjectTest )
-add_test( itkCylinderSpatialObjectTest ${SPATIAL_OBJECT_TESTS5} itkCylinderSpatialObjectTest )
-add_test( itkEllipseSpatialObjectTest ${SPATIAL_OBJECT_TESTS5} itkEllipseSpatialObjectTest)
-add_test( itkGaussianSpatialObjectTest ${SPATIAL_OBJECT_TESTS5} itkGaussianSpatialObjectTest)
-add_test( itkImageMaskSpatialObjectTest ${SPATIAL_OBJECT_TESTS4} itkImageMaskSpatialObjectTest )
-add_test( itkImageMaskSpatialObjectTest2 ${SPATIAL_OBJECT_TESTS4} itkImageMaskSpatialObjectTest2 )
-add_test( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS4} itkImageSpatialObjectTest )
+add_test( itkBlobSpatialObjectTest ${TestDriver} itkBlobSpatialObjectTest )
+add_test( itkCylinderSpatialObjectTest ${TestDriver} itkCylinderSpatialObjectTest )
+add_test( itkEllipseSpatialObjectTest ${TestDriver} itkEllipseSpatialObjectTest)
+add_test( itkGaussianSpatialObjectTest ${TestDriver} itkGaussianSpatialObjectTest)
+add_test( itkImageMaskSpatialObjectTest ${TestDriver} itkImageMaskSpatialObjectTest )
+add_test( itkImageMaskSpatialObjectTest2 ${TestDriver} itkImageMaskSpatialObjectTest2 )
+add_test( itkImageSpatialObjectTest ${TestDriver} itkImageSpatialObjectTest )
 
-add_test( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkMeshSpatialObjectTest )
-add_test( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPlaneSpatialObjectTest )
-add_test( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonGroupSpatialObjectTest )
-add_test( itkPolygonSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonSpatialObjectTest )
-add_test( itkSceneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSceneSpatialObjectTest )
-add_test( itkSpatialObjectTreeContainerTest ${SPATIAL_OBJECT_TESTS2} itkSpatialObjectTreeContainerTest )
-add_test( itkSurfaceSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSurfaceSpatialObjectTest )
-add_test( itkTubeSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkTubeSpatialObjectTest )
+add_test( itkMeshSpatialObjectTest ${TestDriver} itkMeshSpatialObjectTest )
+add_test( itkPlaneSpatialObjectTest ${TestDriver} itkPlaneSpatialObjectTest )
+add_test( itkPolygonGroupSpatialObjectTest ${TestDriver} itkPolygonGroupSpatialObjectTest )
+add_test( itkPolygonSpatialObjectTest ${TestDriver} itkPolygonSpatialObjectTest )
+add_test( itkSceneSpatialObjectTest ${TestDriver} itkSceneSpatialObjectTest )
+add_test( itkSpatialObjectTreeContainerTest ${TestDriver} itkSpatialObjectTreeContainerTest )
+add_test( itkSurfaceSpatialObjectTest ${TestDriver} itkSurfaceSpatialObjectTest )
+add_test( itkTubeSpatialObjectTest ${TestDriver} itkTubeSpatialObjectTest )
 
-add_test( itkLandmarkSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLandmarkSpatialObjectTest )
-add_test( itkLineSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkLineSpatialObjectTest )
-add_test( itkSpatialObjectDuplicatorTest ${SPATIAL_OBJECT_TESTS3} itkSpatialObjectDuplicatorTest )
-add_test( itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS3} itkSpatialObjectPrintTest)
-add_test( itkSpatialObjectHeaderTest ${SPATIAL_OBJECT_HEADER_TEST})
+add_test( itkLandmarkSpatialObjectTest ${TestDriver} itkLandmarkSpatialObjectTest )
+add_test( itkLineSpatialObjectTest ${TestDriver} itkLineSpatialObjectTest )
+add_test( itkSpatialObjectDuplicatorTest ${TestDriver} itkSpatialObjectDuplicatorTest )
+add_test( itkSpatialObjectPrintTest ${TestDriver} itkSpatialObjectPrintTest)
 
-add_test( itkMetaArrowConverterTest ${SPATIAL_OBJECT_TESTS5} itkMetaArrowConverterTest
+add_test( itkMetaArrowConverterTest ${TestDriver} itkMetaArrowConverterTest
   ${ITK_TEST_OUTPUT_DIR}/MetaArrowConverterTestFile.mha)
-add_test( itkContourSpatialObjectTest ${SPATIAL_OBJECT_TESTS5} itkContourSpatialObjectTest)
+add_test( itkContourSpatialObjectTest ${TestDriver} itkContourSpatialObjectTest)
 
-set(SpatialObject_SRCS
-  itkAffineGeometryFrameTest.cxx
-  itkArrowSpatialObjectTest.cxx
-  itkBlobSpatialObjectTest.cxx
-)
 
-set(SpatialObject_SRCS5
-  itkCylinderSpatialObjectTest.cxx
-  itkEllipseSpatialObjectTest.cxx
-  itkGaussianSpatialObjectTest.cxx
-  itkMetaArrowConverterTest.cxx
-  itkContourSpatialObjectTest.cxx
-)
-
-set(SpatialObject_SRCS4
-  itkImageMaskSpatialObjectTest.cxx
-  itkImageMaskSpatialObjectTest2.cxx
-  itkImageSpatialObjectTest.cxx
-)
-
-set(SpatialObject_SRCS2
-  itkPlaneSpatialObjectTest.cxx
-  itkPolygonGroupSpatialObjectTest.cxx
-  itkPolygonSpatialObjectTest.cxx
-  itkSceneSpatialObjectTest.cxx
-  itkSpatialObjectTreeContainerTest.cxx
-  itkSurfaceSpatialObjectTest.cxx
-  itkTubeSpatialObjectTest.cxx
-)
-
-set(SpatialObject_SRCS3
-  itkBoxSpatialObjectTest.cxx
-  itkLandmarkSpatialObjectTest.cxx
-  itkLineSpatialObjectTest.cxx
-  itkMeshSpatialObjectTest.cxx
-  itkSpatialObjectPrintTest.cxx
-  itkSpatialObjectDuplicatorTest.cxx
-)
-
-add_executable(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_SRCS})
-target_link_libraries(itkSpatialObjectTests ITKIO ITKSpatialObject)
-
-add_executable(itkSpatialObjectTests2 itkSpatialObjectTests2.cxx ${SpatialObject_SRCS2})
-target_link_libraries(itkSpatialObjectTests2 ITKIO)
-
-add_executable(itkSpatialObjectTests3 itkSpatialObjectTests3.cxx ${SpatialObject_SRCS3})
-target_link_libraries(itkSpatialObjectTests3 ITKIO ITKSpatialObject)
-
-add_executable(itkSpatialObjectTests4 itkSpatialObjectTests4.cxx ${SpatialObject_SRCS4})
-target_link_libraries(itkSpatialObjectTests4 ITKIO ITKSpatialObject)
-
-add_executable(itkSpatialObjectTests5 itkSpatialObjectTests5.cxx ${SpatialObject_SRCS5})
-target_link_libraries(itkSpatialObjectTests5 ITKIO ITKSpatialObject)
+############################################################
+# Tests that have their own executable
+#
+set(SPATIAL_OBJECT_HEADER_TEST  ${CXX_TEST_PATH}/itkSpatialObjectHeaderTest)
+add_test( itkSpatialObjectHeaderTest ${SPATIAL_OBJECT_HEADER_TEST})
 
 add_executable(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
 target_link_libraries(itkSpatialObjectHeaderTest ITKCommon)

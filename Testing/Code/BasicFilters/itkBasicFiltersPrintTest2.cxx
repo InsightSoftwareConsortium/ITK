@@ -32,6 +32,7 @@
 #include "itkInterpolateImagePointsFilter.h"
 #include "itkIsolatedConnectedImageFilter.h"
 #include "itkJoinImageFilter.h"
+#include "itkJoinSeriesImageFilter.h"
 #include "itkLaplacianImageFilter.h"
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 #include "itkLog10ImageFilter.h"
@@ -174,6 +175,12 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::JoinImageFilter<InputType,OutputType>::Pointer JoinImageFilterObj =
     itk::JoinImageFilter<InputType,OutputType>::New();
   std::cout << "-------------JoinImageFilter" << JoinImageFilterObj;
+
+  // NOTE: A compile error should be here (by extending itk::Concept?),
+  // because InputImageDimension must be less than OutputImageDimension.
+  itk::JoinSeriesImageFilter<InputType,OutputType>::Pointer JoinSeriesImageFilterObj =
+    itk::JoinSeriesImageFilter<InputType,OutputType>::New();
+  std::cout << "-------------JoinSeriesImageFilter" << JoinSeriesImageFilterObj;
 
   itk::LaplacianImageFilter<InputType,OutputType>::Pointer LaplacianImageFilterObj =
     itk::LaplacianImageFilter<InputType,OutputType>::New();

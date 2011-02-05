@@ -2,9 +2,6 @@ if(ITK_CSWIG_TCL)
   add_test(itkBasicClasses ${ITKWISH_EXECUTABLE}
            ${ITKTesting_SOURCE_DIR}/Code/Common/itkBasicClasses.tcl)
 endif(ITK_CSWIG_TCL)
-#-----------------------------------------------------------------------------
-# Setup the system information test.  Write out some basic failsafe
-# information in case the test doesn't run.
 
 if( NOT ITK_DISABLE_CXX_TESTING )
 if(ITK_BINARY_DIR)
@@ -16,13 +13,8 @@ if(ITK_BINARY_DIR)
 endif(ITK_BINARY_DIR)
 
 
-set(COMMON_TESTS ${CXX_TEST_PATH}/itkCommonTests)
-set(COMMON_TESTS2 ${CXX_TEST_PATH}/itkCommonTests2)
-set(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
-set(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
-set(SYSTEM_INFORMATION ${CXX_TEST_PATH}/itkSystemInformation)
+# Define some convenient locations
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Common)
-
 set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 set(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
@@ -32,135 +24,375 @@ if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
 endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
 
 
-#-----------------------------------------------------------------------------
+############################################################
+# CXX Testing
 #
+set(KIT Common)
+set(KIT_LIBS ITKIO ITKCommon)
+set(KitTests
+  itkAdaptorComparisonTest
+  itkAddImageAdaptorTest
+  itkAffineTransformTest
+  itkAnnulusOperatorTest
+  itkArray2DTest
+  itkArrayTest
+  itkAutoPointerTest
+  itkAzimuthElevationToCartesianTransformTest
+  itkBSplineDeformableTransformTest
+  itkBSplineDeformableTransformTest2
+  itkBSplineDeformableTransformTest3
+  itkBSplineInterpolationWeightFunctionTest
+  itkBSplineKernelFunctionTest
+  itkBarrierTest
+  itkBinaryThresholdImageFunctionTest
+  itkBinaryThresholdSpatialFunctionTest
+  itkBoundaryConditionTest
+  itkBoundingBoxTest
+  itkByteSwapTest
+  itkCellInterfaceTest
+  itkCenteredAffineTransformTest
+  itkCenteredEuler3DTransformTest
+  itkCenteredRigid2DTransformTest
+  itkCenteredTransformInitializerTest
+  itkCenteredVersorTransformInitializerTest
+  itkCentralDifferenceImageFunctionTest
+  itkChainCodePath2DTest
+  itkChainCodePathTest
+  itkColorTableTest
+  itkCommonPrintTest
+  itkConditionVariableTest
+  itkConstNeighborhoodIteratorTest
+  itkConstShapedNeighborhoodIteratorTest
+  itkConstShapedNeighborhoodIteratorTest2
+  itkCovarianceImageFunctionTest
+  itkCovariantVectorGeometryTest
+  itkCrossHelperTest
+  itkDataObjectTest
+  itkDataTypeTest
+  itkDecoratorTest
+  itkDerivativeOperatorTest
+  itkDifferenceImageFilterTest
+  itkDiffusionTensor3DTest
+  itkDirectoryTest
+  itkDynamicMeshTest
+  itkDynamicQuadEdgeMeshTest
+  itkEllipsoidInteriorExteriorSpatialFunctionTest
+  itkEuler2DTransformTest
+  itkEuler3DTransformTest
+  itkEventObjectTest
+  itkExceptionObjectTest
+  itkFileOutputWindowTest
+  itkFiniteCylinderSpatialFunctionTest
+  itkFixedArrayTest
+  itkFixedArrayTest2
+  itkFixedCenterOfRotationAffineTransformTest
+  itkFloatingPointExceptionsTest
+  itkFloodFilledSpatialFunctionTest
+  itkFourierSeriesPathTest
+  itkGaussianBlurImageFunctionTest
+  itkGaussianDerivativeImageFunctionTest
+  itkGaussianSpatialFunctionTest
+  itkGeometricalQuadEdgeTest1
+  itkHashTableTest
+  itkIdentityTransformTest
+  itkImageAdaptorInterpolateImageFunctionTest
+  itkImageAdaptorTest
+  itkImageComputeOffsetAndIndexTest
+  itkImageDuplicatorTest
+  itkImageFillBufferTest
+  itkImageIteratorTest
+  itkImageIteratorWithIndexTest
+  itkImageIteratorsForwardBackwardTest
+  itkImageLinearIteratorTest
+  itkImageRandomIteratorTest
+  itkImageRandomIteratorTest2
+  itkImageRandomNonRepeatingIteratorWithIndexTest
+  itkImageRandomNonRepeatingIteratorWithIndexTest2
+  itkImageRegionExclusionIteratorWithIndexTest
+  itkImageRegionIteratorTest
+  itkImageRegionTest
+  itkImageReverseIteratorTest
+  itkImageSliceIteratorTest
+  itkImageTest
+  itkImageToImageFilterTest
+  itkImageTransformTest
+  itkImportContainerTest
+  itkIntTypesTest
+  itkIteratorTests
+  itkLandmarkBasedTransformInitializerTest
+  itkLevelSetFunctionTest
+  itkLightObjectTest
+  itkLineIteratorTest
+  itkLinearInterpolateImageFunctionTest
+  itkLoggerManagerTest
+  itkLoggerOutputTest
+  itkLoggerTest
+  itkMahalanobisDistanceThresholdImageFunctionTest
+  itkMapContainerTest
+  itkMathCastWithRangeCheckTest
+  itkMathRoundProfileTest1
+  itkMathRoundTest
+  itkMathRoundTest2
+  itkMatrixTest
+  itkMaximumDecisionRuleTest
+  itkMaximumRatioDecisionRuleTest
+  itkMeanImageFunctionTest
+  itkMedialNodeCorrespondencesTest
+  itkMedianImageFunctionTest
+  itkMemoryLeakTest
+  itkMeshFstreamTest
+  itkMeshSourceGraftOutputTest
+  itkMeshTest
+  itkMetaDataDictionaryTest
+  itkMinimumDecisionRuleTest
+  itkModifiedTimeTest
+  itkMultiThreaderTest
+  itkMultipleLogOutputTest
+  itkNearestNeighborExtrapolateImageFunctionTest
+  itkNeighborhoodAlgorithmTest
+  itkNeighborhoodIteratorTest
+  itkNeighborhoodOperatorImageFunctionTest
+  itkNeighborhoodOperatorTest
+  itkNeighborhoodTest
+  itkNonUniformBSplineTest
+  itkNumericTraitsTest
+  itkObjectFactoryTest
+  itkObjectFactoryTest2
+  itkObjectStoreTest
+  itkOctreeTest
+  itkOrientedImage2DTest
+  itkOrientedImage3DTest
+  itkOrientedImageAdaptorTest
+  itkOrientedImageProfileTest1
+  itkOrientedImageProfileTest2
+  itkOrientedImageProfileTest3
+  itkOrthogonallyCorrected2DParametricPathTest
+  itkPCAShapeSignedDistanceFunctionTest
+  itkPathFunctionsTest
+  itkPathIteratorTest
+  itkPeriodicBoundaryConditionTest
+  itkPhasedArray3DSpecialCoordinatesImageTest
+  itkPixelAccessTest
+  itkPointGeometryTest
+  itkPointSetTest
+  itkPolyLineParametricPathTest
+  itkPolygonCellTest
+  itkPriorityQueueTest
+  itkQuadEdgeMeshAddFaceTest1
+  itkQuadEdgeMeshAddFaceTest2
+  itkQuadEdgeMeshBasicLayerTest
+  itkQuadEdgeMeshCellInterfaceTest
+  itkQuadEdgeMeshCountingCellsTest
+  itkQuadEdgeMeshDeleteEdgeTest
+  itkQuadEdgeMeshDeletePointAndReorderIDsTest
+  itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest
+  itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest
+  itkQuadEdgeMeshEulerOperatorFlipTest
+  itkQuadEdgeMeshEulerOperatorJoinFacetTest
+  itkQuadEdgeMeshEulerOperatorJoinVertexTest
+  itkQuadEdgeMeshEulerOperatorSplitEdgeTest
+  itkQuadEdgeMeshEulerOperatorSplitFaceTest
+  itkQuadEdgeMeshEulerOperatorSplitVertexTest
+  itkQuadEdgeMeshFrontIteratorTest
+  itkQuadEdgeMeshIteratorTest
+  itkQuadEdgeMeshNoPointConstTest
+  itkQuadEdgeMeshPointTest1
+  itkQuadEdgeMeshPolygonCellTest
+  itkQuadEdgeMeshTest1
+  itkQuadEdgeMeshTest2
+  itkQuadEdgeMeshTest3
+  itkQuadEdgeTest1
+  itkQuaternionRigidTransformTest
+  itkRGBInterpolateImageFunctionTest
+  itkRGBPixelTest
+  itkRGBToVectorImageAdaptorTest
+  itkRealTimeClockTest
+  itkRealTimeIntervalTest
+  itkRealTimeStampTest
+  itkRigid2DTransformTest
+  itkRigid3DPerspectiveTransformTest
+  itkRigid3DTransformTest
+  itkSTLContainerAdaptorTest
+  itkSTLThreadTest
+  itkScalarToRGBPixelFunctorTest
+  itkScaleLogarithmicTransformTest
+  itkScaleSkewVersor3DTransformTest
+  itkScaleTransformTest
+  itkScaleVersor3DTransformTest
+  itkScatterMatrixImageFunctionTest
+  itkSemaphoreTest
+  itkShapedNeighborhoodIteratorTest
+  itkSimilarity2DTransformTest
+  itkSimilarity3DTransformTest
+  itkSimpleFilterWatcherTest
+  itkSimplexMeshTest
+  itkSizeTest
+  itkSliceIteratorTest
+  itkSmartPointerTest
+  itkSparseImageTest
+  itkSpatialFunctionTest
+  itkSphereSignedDistanceFunctionTest
+  itkSplineKernelTransformTest
+  itkStdStreamLogOutputTest
+  itkSymmetricEigenAnalysisTest
+  itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest
+  itkSymmetricSecondRankTensorTest
+  itkThreadDefsTest
+  itkThreadLoggerTest
+  itkTimeProbesTest
+  itkTimeStampTest
+  itkTransformFactoryBaseTest
+  itkTransformTest
+  itkTransformsSetParametersTest
+  itkTranslationTransformTest
+  itkTreeContainerTest
+  itkTreeContainerTest2
+  itkTriangleCellTest
+  itkTriangleHelperTest
+  itkVNLRoundProfileTest1
+  itkVariableLengthVectorTest
+  itkVariableSizeMatrixTest
+  itkVarianceImageFunctionTest
+  itkVectorGeometryTest
+  itkVectorImageTest
+  itkVectorInterpolateImageFunctionTest
+  itkVectorMeanImageFunctionTest
+  itkVectorTest
+  itkVectorToRGBImageAdaptorTest
+  itkVersorRigid3DTransformTest
+  itkVersorTest
+  itkVersorTransformTest
+  itkWindowedSincInterpolateImageFunctionTest
+  itkZeroFluxBoundaryConditionTest
+  itkv3Rigid3DTransformTest
+)
 
-add_test(itkAnnulusOperatorTest ${COMMON_TESTS} itkAnnulusOperatorTest)
-add_test(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
-add_test(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
-add_test(itkColorTableTest ${COMMON_TESTS} itkColorTableTest)
-add_test(itkCommonPrintTest ${COMMON_TESTS} itkCommonPrintTest)
-add_test(itkDecoratorTest ${COMMON_TESTS} itkDecoratorTest)
-add_test(itkDirectoryTest ${COMMON_TESTS} itkDirectoryTest ${TEMP})
-add_test(itkDerivativeOperatorTest ${COMMON_TESTS} itkDerivativeOperatorTest)
-add_test(itkModifiedTimeTest ${COMMON_TESTS} itkModifiedTimeTest)
-add_test(itkMultipleLogOutputTest ${COMMON_TESTS} itkMultipleLogOutputTest ${TEMP}/test_multi.txt)
-add_test(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
-add_test(itkAffineTransformTest ${COMMON_TESTS} itkAffineTransformTest)
-add_test(itkFixedCenterOfRotationAffineTransformTest ${COMMON_TESTS} itkFixedCenterOfRotationAffineTransformTest)
-add_test(itkFixedArrayTest ${COMMON_TESTS} itkFixedArrayTest)
-add_test(itkFixedArrayTest2 ${COMMON_TESTS} itkFixedArrayTest2)
-add_test(itkArrayTest ${COMMON_TESTS} itkArrayTest)
-add_test(itkArray2DTest ${COMMON_TESTS} itkArray2DTest)
-add_test(itkAutoPointerTest ${COMMON_TESTS} itkAutoPointerTest)
-add_test(itkAzimuthElevationToCartesianTransformTest ${COMMON_TESTS} itkAzimuthElevationToCartesianTransformTest)
-if(NOT MINGW)
-add_test(itkBarrierTest ${COMMON_TESTS} itkBarrierTest)
-add_test(itkConditionVariableTest ${COMMON_TESTS} itkConditionVariableTest)
-add_test(itkSemaphoreTest ${COMMON_TESTS2} itkSemaphoreTest)
-endif(NOT MINGW)
-add_test(itkTimeStampTest ${COMMON_TESTS2} itkTimeStampTest)
-add_test(itkBinaryThresholdImageFunctionTest ${COMMON_TESTS} itkBinaryThresholdImageFunctionTest)
-add_test(itkBinaryThresholdSpatialFunctionTest ${COMMON_TESTS} itkBinaryThresholdSpatialFunctionTest)
-add_test(itkBoundingBoxTest ${COMMON_TESTS} itkBoundingBoxTest)
-add_test(itkBSplineDeformableTransformTest ${COMMON_TESTS} itkBSplineDeformableTransformTest)
-add_test(itkBSplineInterpolationWeightFunctionTest ${COMMON_TESTS} itkBSplineInterpolationWeightFunctionTest)
-add_test(itkBSplineKernelFunctionTest ${COMMON_TESTS} itkBSplineKernelFunctionTest)
-add_test(itkBoundaryConditionTest ${COMMON_TESTS} itkBoundaryConditionTest)
-add_test(itkByteSwapTest ${COMMON_TESTS} itkByteSwapTest)
-add_test(itkCenteredRigid2DTransformTest ${COMMON_TESTS} itkCenteredRigid2DTransformTest ${TEMP}/testCenteredTransform.txt)
-add_test(itkCenteredAffineTransformTest ${COMMON_TESTS} itkCenteredAffineTransformTest)
-add_test(itkCenteredTransformInitializerTest ${COMMON_TESTS} itkCenteredTransformInitializerTest)
-add_test(itkCenteredVersorTransformInitializerTest ${COMMON_TESTS} itkCenteredVersorTransformInitializerTest)
-add_test(itkCentralDifferenceImageFunctionTest ${COMMON_TESTS} itkCentralDifferenceImageFunctionTest)
-add_test(itkCenteredEuler3DTransformTest ${COMMON_TESTS} itkCenteredEuler3DTransformTest)
-add_test(itkConstNeighborhoodIteratorTest ${COMMON_TESTS} itkConstNeighborhoodIteratorTest)
-add_test(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest)
-add_test(itkConstShapedNeighborhoodIteratorTest2 ${COMMON_TESTS} itkConstShapedNeighborhoodIteratorTest2)
-add_test(itkCovariantVectorGeometryTest ${COMMON_TESTS} itkCovariantVectorGeometryTest)
-add_test(itkCovarianceImageFunctionTest ${COMMON_TESTS} itkCovarianceImageFunctionTest)
-add_test(itkDataTypeTest ${COMMON_TESTS} itkDataTypeTest)
-add_test(itkDataObjectTest ${COMMON_TESTS} itkDataObjectTest)
-add_test(itkDynamicMeshTest ${COMMON_TESTS} itkDynamicMeshTest)
-add_test(itkDiffusionTensor3DTest ${COMMON_TESTS} itkDiffusionTensor3DTest)
-add_test(itkEuler2DTransformTest ${COMMON_TESTS} itkEuler2DTransformTest ${TEMP}/testEulerTransform.txt)
-add_test(itkEuler3DTransformTest ${COMMON_TESTS} itkEuler3DTransformTest)
-add_test(itkEventObjectTest ${COMMON_TESTS} itkEventObjectTest)
-add_test(itkExceptionObjectTest ${COMMON_TESTS} itkExceptionObjectTest)
-add_test(itkFileOutputWindowTest ${COMMON_TESTS} itkFileOutputWindowTest)
-add_test(itkFiniteCylinderSpatialFunctionTest ${COMMON_TESTS} itkFiniteCylinderSpatialFunctionTest)
-add_test(itkFloodFilledSpatialFunctionTest ${COMMON_TESTS} itkFloodFilledSpatialFunctionTest)
-add_test(itkFourierSeriesPathTest ${COMMON_TESTS} itkFourierSeriesPathTest)
-add_test(itkGaussianBlurImageFunctionTest ${COMMON_TESTS} itkGaussianBlurImageFunctionTest)
-add_test(itkGaussianDerivativeImageFunctionTest ${COMMON_TESTS} itkGaussianDerivativeImageFunctionTest)
-add_test(itkGaussianSpatialFunctionTest ${COMMON_TESTS} itkGaussianSpatialFunctionTest)
-add_test(itkCommonHeaderTest ${COMMON_HEADER_TEST})
-add_test(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
-add_test(itkIdentityTransformTest ${COMMON_TESTS} itkIdentityTransformTest)
-add_test(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
-add_test(itkAddImageAdaptorTest ${COMMON_TESTS} itkAddImageAdaptorTest)
-add_test(itkOrientedImageAdaptorTest ${COMMON_TESTS} itkOrientedImageAdaptorTest)
-add_test(itkImageAdaptorInterpolateImageFunctionTest ${COMMON_TESTS} itkImageAdaptorInterpolateImageFunctionTest)
+# Given KIT, KIT_LIBS and KitTests, build TestDriver
+CreateTestDriver(${KIT} "${KIT_LIBS}" "${KitTests}" TestDriver)
 
-add_test(itkDynamicQuadEdgeMeshTest ${COMMON_TESTS2}
+#############################################################
+# Tests that use the Test Driver
+#
+add_test(itkAnnulusOperatorTest ${TestDriver} itkAnnulusOperatorTest)
+add_test(itkChainCodePath2DTest ${TestDriver} itkChainCodePath2DTest)
+add_test(itkChainCodePathTest ${TestDriver} itkChainCodePathTest)
+add_test(itkColorTableTest ${TestDriver} itkColorTableTest)
+add_test(itkCommonPrintTest ${TestDriver} itkCommonPrintTest)
+add_test(itkDecoratorTest ${TestDriver} itkDecoratorTest)
+add_test(itkDirectoryTest ${TestDriver} itkDirectoryTest ${TEMP})
+add_test(itkDerivativeOperatorTest ${TestDriver} itkDerivativeOperatorTest)
+add_test(itkModifiedTimeTest ${TestDriver} itkModifiedTimeTest)
+add_test(itkMultipleLogOutputTest ${TestDriver} itkMultipleLogOutputTest ${TEMP}/test_multi.txt)
+add_test(itkAdaptorComparisonTest ${TestDriver} itkAdaptorComparisonTest)
+add_test(itkAffineTransformTest ${TestDriver} itkAffineTransformTest)
+add_test(itkFixedCenterOfRotationAffineTransformTest ${TestDriver} itkFixedCenterOfRotationAffineTransformTest)
+add_test(itkFixedArrayTest ${TestDriver} itkFixedArrayTest)
+add_test(itkFixedArrayTest2 ${TestDriver} itkFixedArrayTest2)
+add_test(itkArrayTest ${TestDriver} itkArrayTest)
+add_test(itkArray2DTest ${TestDriver} itkArray2DTest)
+add_test(itkAutoPointerTest ${TestDriver} itkAutoPointerTest)
+add_test(itkAzimuthElevationToCartesianTransformTest ${TestDriver} itkAzimuthElevationToCartesianTransformTest)
+add_test(itkTimeStampTest ${TestDriver} itkTimeStampTest)
+add_test(itkBinaryThresholdImageFunctionTest ${TestDriver} itkBinaryThresholdImageFunctionTest)
+add_test(itkBinaryThresholdSpatialFunctionTest ${TestDriver} itkBinaryThresholdSpatialFunctionTest)
+add_test(itkBoundingBoxTest ${TestDriver} itkBoundingBoxTest)
+add_test(itkBSplineDeformableTransformTest ${TestDriver} itkBSplineDeformableTransformTest)
+add_test(itkBSplineInterpolationWeightFunctionTest ${TestDriver} itkBSplineInterpolationWeightFunctionTest)
+add_test(itkBSplineKernelFunctionTest ${TestDriver} itkBSplineKernelFunctionTest)
+add_test(itkBoundaryConditionTest ${TestDriver} itkBoundaryConditionTest)
+add_test(itkByteSwapTest ${TestDriver} itkByteSwapTest)
+add_test(itkCenteredRigid2DTransformTest ${TestDriver} itkCenteredRigid2DTransformTest ${TEMP}/testCenteredTransform.txt)
+add_test(itkCenteredAffineTransformTest ${TestDriver} itkCenteredAffineTransformTest)
+add_test(itkCenteredTransformInitializerTest ${TestDriver} itkCenteredTransformInitializerTest)
+add_test(itkCenteredVersorTransformInitializerTest ${TestDriver} itkCenteredVersorTransformInitializerTest)
+add_test(itkCentralDifferenceImageFunctionTest ${TestDriver} itkCentralDifferenceImageFunctionTest)
+add_test(itkCenteredEuler3DTransformTest ${TestDriver} itkCenteredEuler3DTransformTest)
+add_test(itkConstNeighborhoodIteratorTest ${TestDriver} itkConstNeighborhoodIteratorTest)
+add_test(itkConstShapedNeighborhoodIteratorTest ${TestDriver} itkConstShapedNeighborhoodIteratorTest)
+add_test(itkConstShapedNeighborhoodIteratorTest2 ${TestDriver} itkConstShapedNeighborhoodIteratorTest2)
+add_test(itkCovariantVectorGeometryTest ${TestDriver} itkCovariantVectorGeometryTest)
+add_test(itkCovarianceImageFunctionTest ${TestDriver} itkCovarianceImageFunctionTest)
+add_test(itkDataTypeTest ${TestDriver} itkDataTypeTest)
+add_test(itkDataObjectTest ${TestDriver} itkDataObjectTest)
+add_test(itkDynamicMeshTest ${TestDriver} itkDynamicMeshTest)
+add_test(itkDiffusionTensor3DTest ${TestDriver} itkDiffusionTensor3DTest)
+add_test(itkEuler2DTransformTest ${TestDriver} itkEuler2DTransformTest ${TEMP}/testEulerTransform.txt)
+add_test(itkEuler3DTransformTest ${TestDriver} itkEuler3DTransformTest)
+add_test(itkEventObjectTest ${TestDriver} itkEventObjectTest)
+add_test(itkExceptionObjectTest ${TestDriver} itkExceptionObjectTest)
+add_test(itkFileOutputWindowTest ${TestDriver} itkFileOutputWindowTest)
+add_test(itkFiniteCylinderSpatialFunctionTest ${TestDriver} itkFiniteCylinderSpatialFunctionTest)
+add_test(itkFloodFilledSpatialFunctionTest ${TestDriver} itkFloodFilledSpatialFunctionTest)
+add_test(itkFourierSeriesPathTest ${TestDriver} itkFourierSeriesPathTest)
+add_test(itkGaussianBlurImageFunctionTest ${TestDriver} itkGaussianBlurImageFunctionTest)
+add_test(itkGaussianDerivativeImageFunctionTest ${TestDriver} itkGaussianDerivativeImageFunctionTest)
+add_test(itkGaussianSpatialFunctionTest ${TestDriver} itkGaussianSpatialFunctionTest)
+add_test(itkHashTableTest ${TestDriver} itkHashTableTest)
+add_test(itkIdentityTransformTest ${TestDriver} itkIdentityTransformTest)
+add_test(itkImageAdaptorTest ${TestDriver} itkImageAdaptorTest)
+add_test(itkAddImageAdaptorTest ${TestDriver} itkAddImageAdaptorTest)
+add_test(itkOrientedImageAdaptorTest ${TestDriver} itkOrientedImageAdaptorTest)
+add_test(itkImageAdaptorInterpolateImageFunctionTest ${TestDriver} itkImageAdaptorInterpolateImageFunctionTest)
+
+add_test(itkDynamicQuadEdgeMeshTest ${TestDriver}
   itkDynamicQuadEdgeMeshTest)
-add_test(itkQuadEdgeMeshNoPointConstTest ${COMMON_TESTS2} itkQuadEdgeMeshNoPointConstTest)
-add_test(itkQuadEdgeTest1 ${COMMON_TESTS2} itkQuadEdgeTest1)
-add_test(itkGeometricalQuadEdgeTest1 ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshNoPointConstTest ${TestDriver} itkQuadEdgeMeshNoPointConstTest)
+add_test(itkQuadEdgeTest1 ${TestDriver} itkQuadEdgeTest1)
+add_test(itkGeometricalQuadEdgeTest1 ${TestDriver}
   itkGeometricalQuadEdgeTest1)
-add_test(itkQuadEdgeMeshPointTest1 ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshPointTest1 ${TestDriver}
   itkQuadEdgeMeshPointTest1)
-add_test(itkPriorityQueueTest ${COMMON_TESTS2}
+add_test(itkPriorityQueueTest ${TestDriver}
   itkPriorityQueueTest)
 
 FOREACH( index 0 1 2 3 4 5 )
-  add_test(itkQuadEdgeMeshAddFaceTest1_${index} ${COMMON_TESTS2}
+  add_test(itkQuadEdgeMeshAddFaceTest1_${index} ${TestDriver}
     itkQuadEdgeMeshAddFaceTest1 ${index} )
 ENDFOREACH( index )
-add_test(itkQuadEdgeMeshAddFaceTest2 ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshAddFaceTest2 ${TestDriver}
   itkQuadEdgeMeshAddFaceTest2)
-add_test(itkQuadEdgeMeshDeleteEdgeTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshDeleteEdgeTest ${TestDriver}
   itkQuadEdgeMeshDeleteEdgeTest)
-add_test(itkQuadEdgeMeshFrontIteratorTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshFrontIteratorTest ${TestDriver}
   itkQuadEdgeMeshFrontIteratorTest)
-add_test(itkQuadEdgeMeshTest1 ${COMMON_TESTS2} itkQuadEdgeMeshTest1)
-add_test(itkQuadEdgeMeshTest2 ${COMMON_TESTS2} itkQuadEdgeMeshTest2)
-add_test(itkQuadEdgeMeshTest3 ${COMMON_TESTS2} itkQuadEdgeMeshTest3)
-add_test(itkQuadEdgeMeshEulerOperatorFlipTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshTest1 ${TestDriver} itkQuadEdgeMeshTest1)
+add_test(itkQuadEdgeMeshTest2 ${TestDriver} itkQuadEdgeMeshTest2)
+add_test(itkQuadEdgeMeshTest3 ${TestDriver} itkQuadEdgeMeshTest3)
+add_test(itkQuadEdgeMeshEulerOperatorFlipTest ${TestDriver}
   itkQuadEdgeMeshEulerOperatorFlipTest)
-add_test(itkQuadEdgeMeshEulerOperatorJoinFacetTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshEulerOperatorJoinFacetTest ${TestDriver}
   itkQuadEdgeMeshEulerOperatorJoinFacetTest)
 FOREACH( arguments 0 1 2 3 4 )
   add_test( itkQuadEdgeMeshEulerOperatorJoinVertexTest${arguments}
-    ${COMMON_TESTS2}
+    ${TestDriver}
     itkQuadEdgeMeshEulerOperatorJoinVertexTest ${arguments} )
 ENDFOREACH( arguments )
-add_test(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${TestDriver}
   itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
-add_test(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${TestDriver}
   itkQuadEdgeMeshEulerOperatorSplitVertexTest)
-add_test( itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest ${COMMON_TESTS2}
+add_test( itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest ${TestDriver}
   itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest)
-add_test( itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest ${COMMON_TESTS2}
+add_test( itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest ${TestDriver}
   itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest)
-add_test(itkQuadEdgeMeshCellInterfaceTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshCellInterfaceTest ${TestDriver}
   itkQuadEdgeMeshCellInterfaceTest)
-add_test(itkQuadEdgeMeshIteratorTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshIteratorTest ${TestDriver}
   itkQuadEdgeMeshIteratorTest)
-add_test(itkQuadEdgeMeshPolygonCellTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshPolygonCellTest ${TestDriver}
   itkQuadEdgeMeshPolygonCellTest)
-add_test(itkQuadEdgeMeshCountingCellsTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshCountingCellsTest ${TestDriver}
   itkQuadEdgeMeshCountingCellsTest)
-add_test(itkQuadEdgeMeshDeletePointAndReorderIDsTest ${COMMON_TESTS2}
+add_test(itkQuadEdgeMeshDeletePointAndReorderIDsTest ${TestDriver}
   itkQuadEdgeMeshDeletePointAndReorderIDsTest)
-add_test(itkTriangleHelperTest ${COMMON_TESTS2}
+add_test(itkTriangleHelperTest ${TestDriver}
   itkTriangleHelperTest)
-add_test(itkCrossHelperTest ${COMMON_TESTS2}
+add_test(itkCrossHelperTest ${TestDriver}
   itkCrossHelperTest)
 
 
 
-add_test(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2}
+add_test(itkBSplineDeformableTransformTest2 ${TestDriver}
   --compare ${BASELINE}/itkBSplineDeformableTransformTest2PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest2PixelCentered.png
   itkBSplineDeformableTransformTest2
@@ -171,7 +403,7 @@ add_test(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.mhd 1
   )
 
-add_test(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2}
+add_test(itkBSplineDeformableTransformTest3 ${TestDriver}
   --compare ${BASELINE}/itkBSplineDeformableTransformTest3PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest3PixelCentered.png
   itkBSplineDeformableTransformTest2
@@ -182,7 +414,7 @@ add_test(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.mhd 2
   )
 
-add_test(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2}
+add_test(itkBSplineDeformableTransformTest4 ${TestDriver}
   --compare ${BASELINE}/itkBSplineDeformableTransformTest4PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest4PixelCentered.png
   itkBSplineDeformableTransformTest2
@@ -193,7 +425,7 @@ add_test(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.mhd 3
   )
 
-add_test(itkBSplineDeformableTransformTest5 ${COMMON_TESTS2}
+add_test(itkBSplineDeformableTransformTest5 ${TestDriver}
   --compare ${BASELINE}/itkBSplineDeformableTransformTest5PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest5PixelCentered.png
   itkBSplineDeformableTransformTest3
@@ -204,7 +436,7 @@ add_test(itkBSplineDeformableTransformTest5 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest5DeformationFieldPixelCentered.mhd 0
   )
 
-add_test(itkBSplineDeformableTransformTest6 ${COMMON_TESTS2}
+add_test(itkBSplineDeformableTransformTest6 ${TestDriver}
   --compare ${BASELINE}/itkBSplineDeformableTransformTest5PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest6PixelCentered.png
   itkBSplineDeformableTransformTest3
@@ -215,7 +447,7 @@ add_test(itkBSplineDeformableTransformTest6 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest6DeformationFieldPixelCentered.mhd 1
   )
 
-add_test(itkBSplineDeformableTransformTest7 ${COMMON_TESTS2}
+add_test(itkBSplineDeformableTransformTest7 ${TestDriver}
   --compare ${BASELINE}/itkBSplineDeformableTransformTest5PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest7PixelCentered.png
   itkBSplineDeformableTransformTest3
@@ -226,48 +458,48 @@ add_test(itkBSplineDeformableTransformTest7 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.mhd 2
   )
 
-add_test(itkCellInterfaceTest ${COMMON_TESTS2} itkCellInterfaceTest)
-add_test(itkImageTransformTest ${COMMON_TESTS2} itkImageTransformTest)
-add_test(itkImageToImageFilterTest ${COMMON_TESTS2} itkImageToImageFilterTest)
-add_test(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS2} itkRGBInterpolateImageFunctionTest)
-add_test(itkImageDuplicatorTest ${COMMON_TESTS} itkImageDuplicatorTest)
-add_test(itkImageIteratorTest ${COMMON_TESTS} itkImageIteratorTest)
-add_test(itkImageIteratorsForwardBackwardTest ${COMMON_TESTS} itkImageIteratorsForwardBackwardTest)
-add_test(itkImageIteratorWithIndexTest ${COMMON_TESTS} itkImageIteratorWithIndexTest)
-add_test(itkImageRegionIteratorTest ${COMMON_TESTS} itkImageRegionIteratorTest)
-add_test(itkImageLinearIteratorTest ${COMMON_TESTS} itkImageLinearIteratorTest)
-add_test(itkImageRandomIteratorTest ${COMMON_TESTS} itkImageRandomIteratorTest)
-add_test(itkImageRandomIteratorTest2 ${COMMON_TESTS} itkImageRandomIteratorTest2
+add_test(itkCellInterfaceTest ${TestDriver} itkCellInterfaceTest)
+add_test(itkImageTransformTest ${TestDriver} itkImageTransformTest)
+add_test(itkImageToImageFilterTest ${TestDriver} itkImageToImageFilterTest)
+add_test(itkRGBInterpolateImageFunctionTest ${TestDriver} itkRGBInterpolateImageFunctionTest)
+add_test(itkImageDuplicatorTest ${TestDriver} itkImageDuplicatorTest)
+add_test(itkImageIteratorTest ${TestDriver} itkImageIteratorTest)
+add_test(itkImageIteratorsForwardBackwardTest ${TestDriver} itkImageIteratorsForwardBackwardTest)
+add_test(itkImageIteratorWithIndexTest ${TestDriver} itkImageIteratorWithIndexTest)
+add_test(itkImageRegionIteratorTest ${TestDriver} itkImageRegionIteratorTest)
+add_test(itkImageLinearIteratorTest ${TestDriver} itkImageLinearIteratorTest)
+add_test(itkImageRandomIteratorTest ${TestDriver} itkImageRandomIteratorTest)
+add_test(itkImageRandomIteratorTest2 ${TestDriver} itkImageRandomIteratorTest2
       ${TEMP}/itkImageRandomIteratorTest2Output.mha)
-add_test(itkImageRandomNonRepeatingIteratorWithIndexTest ${COMMON_TESTS} itkImageRandomNonRepeatingIteratorWithIndexTest)
+add_test(itkImageRandomNonRepeatingIteratorWithIndexTest ${TestDriver} itkImageRandomNonRepeatingIteratorWithIndexTest)
 add_test(itkImageRandomNonRepeatingIteratorWithIndexTest2
-  ${COMMON_TESTS} itkImageRandomNonRepeatingIteratorWithIndexTest2)
-add_test(itkImageRegionTest ${COMMON_TESTS} itkImageRegionTest)
-add_test(itkImageRegionExclusionIteratorWithIndexTest ${COMMON_TESTS} itkImageRegionExclusionIteratorWithIndexTest)
-add_test(itkImageReverseIteratorTest ${COMMON_TESTS} itkImageReverseIteratorTest)
-add_test(itkImageSliceIteratorTest ${COMMON_TESTS} itkImageSliceIteratorTest)
-add_test(itkImageTest ${COMMON_TESTS} itkImageTest)
-add_test(itkIteratorTests ${COMMON_TESTS} itkIteratorTests)
-add_test(itkLandmarkBasedTransformInitializerTest ${COMMON_TESTS} itkLandmarkBasedTransformInitializerTest)
-add_test(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
-add_test(itkLinearInterpolateImageFunctionTest ${COMMON_TESTS2} itkLinearInterpolateImageFunctionTest)
-add_test(itkLineIteratorTest ${COMMON_TESTS} itkLineIteratorTest ${BASELINE}/itkLineIteratorTest.txt)
-add_test(itkLevelSetFunctionTest ${COMMON_TESTS} itkLevelSetFunctionTest)
-add_test(itkLoggerTest ${COMMON_TESTS} itkLoggerTest ${TEMP}/test_logger.txt)
+  ${TestDriver} itkImageRandomNonRepeatingIteratorWithIndexTest2)
+add_test(itkImageRegionTest ${TestDriver} itkImageRegionTest)
+add_test(itkImageRegionExclusionIteratorWithIndexTest ${TestDriver} itkImageRegionExclusionIteratorWithIndexTest)
+add_test(itkImageReverseIteratorTest ${TestDriver} itkImageReverseIteratorTest)
+add_test(itkImageSliceIteratorTest ${TestDriver} itkImageSliceIteratorTest)
+add_test(itkImageTest ${TestDriver} itkImageTest)
+add_test(itkIteratorTests ${TestDriver} itkIteratorTests)
+add_test(itkLandmarkBasedTransformInitializerTest ${TestDriver} itkLandmarkBasedTransformInitializerTest)
+add_test(itkLightObjectTest ${TestDriver} itkLightObjectTest)
+add_test(itkLinearInterpolateImageFunctionTest ${TestDriver} itkLinearInterpolateImageFunctionTest)
+add_test(itkLineIteratorTest ${TestDriver} itkLineIteratorTest ${BASELINE}/itkLineIteratorTest.txt)
+add_test(itkLevelSetFunctionTest ${TestDriver} itkLevelSetFunctionTest)
+add_test(itkLoggerTest ${TestDriver} itkLoggerTest ${TEMP}/test_logger.txt)
 #Needs to be added to SRCS when this works across platforms.  itkLoggerThreadWrapperTest.cxx
-#add_test(itkLoggerThreadWrapperTest ${COMMON_TESTS} itkLoggerThreadWrapperTest ${TEMP}/test_logger.txt)
-add_test(itkLoggerOutputTest ${COMMON_TESTS} itkLoggerOutputTest ${TEMP}/test_loggerOutput.txt)
-add_test(itkLoggerManagerTest ${COMMON_TESTS} itkLoggerManagerTest ${TEMP}/test_LoggerManager.txt)
-add_test(itkMatrixTest ${COMMON_TESTS} itkMatrixTest)
-add_test(itkMapContainerTest ${COMMON_TESTS} itkMapContainerTest)
-add_test(itkMahalanobisDistanceThresholdImageFunctionTest ${COMMON_TESTS} itkMahalanobisDistanceThresholdImageFunctionTest)
+#add_test(itkLoggerThreadWrapperTest ${TestDriver} itkLoggerThreadWrapperTest ${TEMP}/test_logger.txt)
+add_test(itkLoggerOutputTest ${TestDriver} itkLoggerOutputTest ${TEMP}/test_loggerOutput.txt)
+add_test(itkLoggerManagerTest ${TestDriver} itkLoggerManagerTest ${TEMP}/test_LoggerManager.txt)
+add_test(itkMatrixTest ${TestDriver} itkMatrixTest)
+add_test(itkMapContainerTest ${TestDriver} itkMapContainerTest)
+add_test(itkMahalanobisDistanceThresholdImageFunctionTest ${TestDriver} itkMahalanobisDistanceThresholdImageFunctionTest)
 
-add_test(itkMaximumDecisionRuleTest ${COMMON_TESTS2} itkMaximumDecisionRuleTest)
-add_test(itkMaximumRatioDecisionRuleTest ${COMMON_TESTS2} itkMaximumRatioDecisionRuleTest)
-add_test(itkMeanImageFunctionTest ${COMMON_TESTS2} itkMeanImageFunctionTest)
+add_test(itkMaximumDecisionRuleTest ${TestDriver} itkMaximumDecisionRuleTest)
+add_test(itkMaximumRatioDecisionRuleTest ${TestDriver} itkMaximumRatioDecisionRuleTest)
+add_test(itkMeanImageFunctionTest ${TestDriver} itkMeanImageFunctionTest)
 
 if(ITK_DATA_ROOT)
-  add_test(itkDifferenceImageFilterTest ${COMMON_TESTS2}
+  add_test(itkDifferenceImageFilterTest ${TestDriver}
        --compare ${BASELINE}/itkDifferenceImageFilterTest.png
                  ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png
      itkDifferenceImageFilterTest
@@ -275,7 +507,7 @@ if(ITK_DATA_ROOT)
                  ${ITK_DATA_ROOT}/Input/cake_hard.png
                  ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png 10 1)
 
-    add_test(itkOrientedImage2DTest01 ${COMMON_TESTS2}
+    add_test(itkOrientedImage2DTest01 ${TestDriver}
        itkOrientedImage2DTest
                    ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
 
@@ -287,7 +519,7 @@ if(ITK_DATA_ROOT)
                        7.4641  -4.9282
                     )
 
-    add_test(itkOrientedImage3DTest01 ${COMMON_TESTS2}
+    add_test(itkOrientedImage3DTest01 ${TestDriver}
        itkOrientedImage3DTest
                    ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd
                       0.000      0.000     0.000
@@ -300,127 +532,136 @@ if(ITK_DATA_ROOT)
                    )
 endif(ITK_DATA_ROOT)
 
-add_test(itkOrientedImageProfileTest1 ${COMMON_TESTS2} itkOrientedImageProfileTest1)
-add_test(itkOrientedImageProfileTest2 ${COMMON_TESTS2} itkOrientedImageProfileTest2)
-add_test(itkOrientedImageProfileTest3 ${COMMON_TESTS2} itkOrientedImageProfileTest3)
+add_test(itkOrientedImageProfileTest1 ${TestDriver} itkOrientedImageProfileTest1)
+add_test(itkOrientedImageProfileTest2 ${TestDriver} itkOrientedImageProfileTest2)
+add_test(itkOrientedImageProfileTest3 ${TestDriver} itkOrientedImageProfileTest3)
 
-add_test(itkMathRoundTest ${COMMON_TESTS2} itkMathRoundTest)
-add_test(itkMathRoundTest2 ${COMMON_TESTS2} itkMathRoundTest2)
+add_test(itkMathRoundTest ${TestDriver} itkMathRoundTest)
+add_test(itkMathRoundTest2 ${TestDriver} itkMathRoundTest2)
 
-add_test(itkVNLRoundProfileTest1 ${COMMON_TESTS2} itkVNLRoundProfileTest1)
-add_test(itkMathRoundProfileTest1 ${COMMON_TESTS2} itkMathRoundProfileTest1)
+add_test(itkVNLRoundProfileTest1 ${TestDriver} itkVNLRoundProfileTest1)
+add_test(itkMathRoundProfileTest1 ${TestDriver} itkMathRoundProfileTest1)
 
-add_test(itkMathCastWithRangeCheckTest ${COMMON_TESTS2} itkMathCastWithRangeCheckTest )
+add_test(itkMathCastWithRangeCheckTest ${TestDriver} itkMathCastWithRangeCheckTest )
 
-add_test(itkMedianImageFunctionTest ${COMMON_TESTS2} itkMedianImageFunctionTest)
-add_test(itkMedialNodeCorrespondencesTest ${COMMON_TESTS2} itkMedialNodeCorrespondencesTest)
+add_test(itkMedianImageFunctionTest ${TestDriver} itkMedianImageFunctionTest)
+add_test(itkMedialNodeCorrespondencesTest ${TestDriver} itkMedialNodeCorrespondencesTest)
 
 #
 # This test should be enabled if you suspect that the memory leak detector
 # is not working
 if(0)
-  add_test(itkMemoryLeakTest ${COMMON_TESTS2} itkMemoryLeakTest)
+  add_test(itkMemoryLeakTest ${TestDriver} itkMemoryLeakTest)
 endif(0)
 
-add_test(itkMeshTest ${COMMON_TESTS2} itkMeshTest)
-add_test(itkMeshFstreamTest ${COMMON_TESTS2} itkMeshFstreamTest ${TEMP}/testMeshFstream.txt)
-add_test(itkMeshSourceGraftOutputTest ${COMMON_TESTS2} itkMeshSourceGraftOutputTest)
-add_test(itkMetaDataDictionaryTest ${COMMON_TESTS2} itkMetaDataDictionaryTest)
-add_test(itkMinimumDecisionRuleTest ${COMMON_TESTS2} itkMinimumDecisionRuleTest)
-add_test(itkMultiThreaderTest ${COMMON_TESTS2} itkMultiThreaderTest)
-add_test(itkNearestNeighborExtrapolateImageFunctionTest ${COMMON_TESTS2} itkNearestNeighborExtrapolateImageFunctionTest)
-add_test(itkNeighborhoodAlgorithmTest ${COMMON_TESTS2} itkNeighborhoodAlgorithmTest)
-add_test(itkNeighborhoodTest ${COMMON_TESTS2} itkNeighborhoodTest)
-add_test(itkNeighborhoodIteratorTest ${COMMON_TESTS2} itkNeighborhoodIteratorTest)
-add_test(itkNeighborhoodOperatorImageFunctionTest ${COMMON_TESTS2} itkNeighborhoodOperatorImageFunctionTest)
-add_test(itkNeighborhoodOperatorTest ${COMMON_TESTS2} itkNeighborhoodOperatorTest)
-add_test(itkNumericTraitsTest ${COMMON_TESTS2} itkNumericTraitsTest)
-add_test(itkIntTypesTest ${COMMON_TESTS2} itkIntTypesTest)
-add_test(itkOctreeTest ${COMMON_TESTS2} itkOctreeTest)
-add_test(itkObjectFactoryTest ${COMMON_TESTS2} itkObjectFactoryTest)
-if(ITK_BUILD_SHARED_LIBS)
-add_test(itkObjectFactoryTest2 ${COMMON_TESTS2} itkObjectFactoryTest2 ${ITK_TEST_OUTPUT_DIR})
-set_tests_properties(itkObjectFactoryTest2 PROPERTIES RUN_SERIAL 1)
+add_test(itkMeshTest ${TestDriver} itkMeshTest)
+add_test(itkMeshFstreamTest ${TestDriver} itkMeshFstreamTest ${TEMP}/testMeshFstream.txt)
+add_test(itkMeshSourceGraftOutputTest ${TestDriver} itkMeshSourceGraftOutputTest)
+add_test(itkMetaDataDictionaryTest ${TestDriver} itkMetaDataDictionaryTest)
+add_test(itkMinimumDecisionRuleTest ${TestDriver} itkMinimumDecisionRuleTest)
+add_test(itkMultiThreaderTest ${TestDriver} itkMultiThreaderTest)
+add_test(itkNearestNeighborExtrapolateImageFunctionTest ${TestDriver} itkNearestNeighborExtrapolateImageFunctionTest)
+add_test(itkNeighborhoodAlgorithmTest ${TestDriver} itkNeighborhoodAlgorithmTest)
+add_test(itkNeighborhoodTest ${TestDriver} itkNeighborhoodTest)
+add_test(itkNeighborhoodIteratorTest ${TestDriver} itkNeighborhoodIteratorTest)
+add_test(itkNeighborhoodOperatorImageFunctionTest ${TestDriver} itkNeighborhoodOperatorImageFunctionTest)
+add_test(itkNeighborhoodOperatorTest ${TestDriver} itkNeighborhoodOperatorTest)
+add_test(itkNumericTraitsTest ${TestDriver} itkNumericTraitsTest)
+add_test(itkIntTypesTest ${TestDriver} itkIntTypesTest)
+add_test(itkOctreeTest ${TestDriver} itkOctreeTest)
+add_test(itkObjectFactoryTest ${TestDriver} itkObjectFactoryTest)
+add_test(itkOrthogonallyCorrected2DParametricPathTest ${TestDriver} itkOrthogonallyCorrected2DParametricPathTest)
+add_test(itkPathFunctionsTest ${TestDriver} itkPathFunctionsTest)
+add_test(itkNonUniformBSplineTest ${TestDriver} itkNonUniformBSplineTest)
+add_test(itkPathIteratorTest ${TestDriver} itkPathIteratorTest)
+add_test(itkPCAShapeSignedDistanceFunctionTest ${TestDriver} itkPCAShapeSignedDistanceFunctionTest)
+add_test(itkPeriodicBoundaryConditionTest ${TestDriver} itkPeriodicBoundaryConditionTest)
+add_test(itkPhasedArray3DSpecialCoordinatesImageTest ${TestDriver} itkPhasedArray3DSpecialCoordinatesImageTest)
+add_test(itkPixelAccessTest ${TestDriver} itkPixelAccessTest)
+add_test(itkPointGeometryTest ${TestDriver} itkPointGeometryTest)
+add_test(itkPointSetTest ${TestDriver} itkPointSetTest)
+add_test(itkPolyLineParametricPathTest ${TestDriver} itkPolyLineParametricPathTest)
+add_test(itkPolygonCellTest ${TestDriver} itkPolygonCellTest)
+add_test(itkQuaternionRigidTransformTest ${TestDriver} itkQuaternionRigidTransformTest)
+add_test(itkRealTimeClockTest ${TestDriver} itkRealTimeClockTest)
+add_test(itkRealTimeStampTest ${TestDriver} itkRealTimeStampTest)
+add_test(itkRealTimeIntervalTest ${TestDriver} itkRealTimeIntervalTest)
+add_test(itkRGBPixelTest ${TestDriver} itkRGBPixelTest)
+add_test(itkRGBInterpolateImageFunctionTest ${TestDriver} itkRGBInterpolateImageFunctionTest)
+add_test(itkRGBToVectorImageAdaptorTest ${TestDriver} itkRGBToVectorImageAdaptorTest)
+add_test(itkRigid2DTransformTest ${TestDriver} itkRigid2DTransformTest)
+add_test(itkRigid3DTransformTest ${TestDriver} itkRigid3DTransformTest)
+add_test(itkv3Rigid3DTransformTest ${TestDriver} itkv3Rigid3DTransformTest)
+add_test(itkRigid3DPerspectiveTransformTest ${TestDriver} itkRigid3DPerspectiveTransformTest)
+add_test(itkScalarToRGBPixelFunctorTest ${TestDriver} itkScalarToRGBPixelFunctorTest)
+add_test(itkScatterMatrixImageFunctionTest ${TestDriver} itkScatterMatrixImageFunctionTest)
+add_test(itkScaleSkewVersor3DTransformTest ${TestDriver} itkScaleSkewVersor3DTransformTest)
+add_test(itkScaleVersor3DTransformTest ${TestDriver} itkScaleVersor3DTransformTest)
+add_test(itkScaleTransformTest ${TestDriver} itkScaleTransformTest)
+add_test(itkScaleLogarithmicTransformTest ${TestDriver} itkScaleLogarithmicTransformTest)
+add_test(itkShapedNeighborhoodIteratorTest ${TestDriver} itkShapedNeighborhoodIteratorTest)
+add_test(itkSimilarity2DTransformTest ${TestDriver} itkSimilarity2DTransformTest)
+add_test(itkSimilarity3DTransformTest ${TestDriver} itkSimilarity3DTransformTest)
+add_test(itkSimpleFilterWatcherTest ${TestDriver} itkSimpleFilterWatcherTest)
+add_test(itkSimplexMeshTest ${TestDriver} itkSimplexMeshTest)
+add_test(itkSizeTest ${TestDriver} itkSizeTest)
+add_test(itkSliceIteratorTest ${TestDriver} itkSliceIteratorTest)
+add_test(itkSmartPointerTest ${TestDriver} itkSmartPointerTest)
+add_test(itkSparseImageTest ${TestDriver} itkSparseImageTest)
+add_test(itkSpatialFunctionTest ${TestDriver} itkSpatialFunctionTest)
+add_test(itkSphereSignedDistanceFunctionTest ${TestDriver} itkSphereSignedDistanceFunctionTest)
+add_test(itkSplineKernelTransformTest ${TestDriver} itkSplineKernelTransformTest)
+add_test(itkSTLContainerAdaptorTest ${TestDriver} itkSTLContainerAdaptorTest)
+add_test(itkStdStreamLogOutputTest ${TestDriver} itkStdStreamLogOutputTest ${TEMP}/testStreamLogOutput.txt)
+add_test(itkThreadDefsTest ${TestDriver} itkThreadDefsTest)
+add_test(itkThreadLoggerTest ${TestDriver} itkThreadLoggerTest ${TEMP}/test_threadLogger.txt)
+add_test(itkTimeProbesTest ${TestDriver} itkTimeProbesTest)
+add_test(itkTransformTest ${TestDriver} itkTransformTest)
+add_test(itkTransformFactoryBaseTest ${TestDriver} itkTransformFactoryBaseTest)
+add_test(itkTransformsSetParametersTest ${TestDriver} itkTransformsSetParametersTest)
+add_test(itkTranslationTransformTest ${TestDriver} itkTranslationTransformTest)
+add_test(itkTreeContainerTest ${TestDriver} itkTreeContainerTest)
+add_test(itkTreeContainerTest2 ${TestDriver} itkTreeContainerTest2)
+add_test(itkTriangleCellTest ${TestDriver} itkTriangleCellTest)
+add_test(itkVarianceImageFunctionTest ${TestDriver} itkVarianceImageFunctionTest)
+add_test(itkVectorGeometryTest ${TestDriver} itkVectorGeometryTest)
+add_test(itkVectorImageTest ${TestDriver} itkVectorImageTest ${TEMP}/VectorImage.nrrd ${TEMP}/VectorImage.mhd)
+add_test(itkVectorMeanImageFunctionTest ${TestDriver} itkVectorMeanImageFunctionTest)
+add_test(itkVersorTransformTest ${TestDriver} itkVersorTransformTest)
+add_test(itkVersorTest ${TestDriver} itkVersorTest)
+add_test(itkVersorRigid3DTransformTest ${TestDriver} itkVersorRigid3DTransformTest)
+add_test(itkVectorTest ${TestDriver} itkVectorTest)
+add_test(itkVectorInterpolateImageFunctionTest ${TestDriver} itkVectorInterpolateImageFunctionTest)
+add_test(itkVectorToRGBImageAdaptorTest ${TestDriver} itkVectorToRGBImageAdaptorTest)
+add_test(itkWindowedSincInterpolateImageFunctionTest ${TestDriver} itkWindowedSincInterpolateImageFunctionTest)
+add_test(itkEllipsoidInteriorExteriorSpatialFunctionTest ${TestDriver} itkEllipsoidInteriorExteriorSpatialFunctionTest)
+add_test(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${TestDriver} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
+add_test(itkSymmetricSecondRankTensorTest ${TestDriver} itkSymmetricSecondRankTensorTest)
+add_test(itkSymmetricEigenAnalysisTest ${TestDriver} itkSymmetricEigenAnalysisTest)
+add_test(itkSTLThreadTest ${TestDriver} itkSTLThreadTest)
+add_test(itkVariableLengthVectorTest ${TestDriver} itkVariableLengthVectorTest)
+add_test(itkVariableSizeMatrixTest ${TestDriver} itkVariableSizeMatrixTest)
+add_test(itkImportContainerTest ${TestDriver} itkImportContainerTest)
+#add_test(itkQuaternionOrientationAdapterTest ${TestDriver} itkQuaternionOrientationAdapterTest)
+add_test(itkZeroFluxBoundaryConditionTest ${TestDriver} itkZeroFluxBoundaryConditionTest)
 
+#
+# Tests that are run based on a particular cmake setting
+#
+
+if(ITK_BUILD_SHARED_LIBS)
+  add_test(itkObjectFactoryTest2 ${TestDriver} itkObjectFactoryTest2 ${ITK_TEST_OUTPUT_DIR})
+  set_tests_properties(itkObjectFactoryTest2 PROPERTIES RUN_SERIAL 1)
 endif(ITK_BUILD_SHARED_LIBS)
-add_test(itkOrthogonallyCorrected2DParametricPathTest ${COMMON_TESTS2} itkOrthogonallyCorrected2DParametricPathTest)
-add_test(itkPathFunctionsTest ${COMMON_TESTS2} itkPathFunctionsTest)
-add_test(itkNonUniformBSplineTest ${COMMON_TESTS2} itkNonUniformBSplineTest)
-add_test(itkPathIteratorTest ${COMMON_TESTS2} itkPathIteratorTest)
-add_test(itkPCAShapeSignedDistanceFunctionTest ${COMMON_TESTS2} itkPCAShapeSignedDistanceFunctionTest)
-add_test(itkPeriodicBoundaryConditionTest ${COMMON_TESTS2} itkPeriodicBoundaryConditionTest)
-add_test(itkPhasedArray3DSpecialCoordinatesImageTest ${COMMON_TESTS2} itkPhasedArray3DSpecialCoordinatesImageTest)
-add_test(itkPixelAccessTest ${COMMON_TESTS2} itkPixelAccessTest)
-add_test(itkPointGeometryTest ${COMMON_TESTS2} itkPointGeometryTest)
-add_test(itkPointSetTest ${COMMON_TESTS2} itkPointSetTest)
-add_test(itkPolyLineParametricPathTest ${COMMON_TESTS2} itkPolyLineParametricPathTest)
-add_test(itkPolygonCellTest ${COMMON_TESTS2} itkPolygonCellTest)
-add_test(itkQuaternionRigidTransformTest ${COMMON_TESTS2} itkQuaternionRigidTransformTest)
-add_test(itkRealTimeClockTest ${COMMON_TESTS2} itkRealTimeClockTest)
-add_test(itkRealTimeStampTest ${COMMON_TESTS2} itkRealTimeStampTest)
-add_test(itkRealTimeIntervalTest ${COMMON_TESTS2} itkRealTimeIntervalTest)
-add_test(itkRGBPixelTest ${COMMON_TESTS2} itkRGBPixelTest)
-add_test(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS2} itkRGBInterpolateImageFunctionTest)
-add_test(itkRGBToVectorImageAdaptorTest ${COMMON_TESTS2} itkRGBToVectorImageAdaptorTest)
-add_test(itkRigid2DTransformTest ${COMMON_TESTS2} itkRigid2DTransformTest)
-add_test(itkRigid3DTransformTest ${COMMON_TESTS2} itkRigid3DTransformTest)
-add_test(itkv3Rigid3DTransformTest ${COMMON_TESTS2} itkv3Rigid3DTransformTest)
-add_test(itkRigid3DPerspectiveTransformTest ${COMMON_TESTS2} itkRigid3DPerspectiveTransformTest)
-add_test(itkScalarToRGBPixelFunctorTest ${COMMON_TESTS2} itkScalarToRGBPixelFunctorTest)
-add_test(itkScatterMatrixImageFunctionTest ${COMMON_TESTS2} itkScatterMatrixImageFunctionTest)
-add_test(itkScaleSkewVersor3DTransformTest ${COMMON_TESTS2} itkScaleSkewVersor3DTransformTest)
-add_test(itkScaleVersor3DTransformTest ${COMMON_TESTS2} itkScaleVersor3DTransformTest)
-add_test(itkScaleTransformTest ${COMMON_TESTS2} itkScaleTransformTest)
-add_test(itkScaleLogarithmicTransformTest ${COMMON_TESTS2} itkScaleLogarithmicTransformTest)
-add_test(itkShapedNeighborhoodIteratorTest ${COMMON_TESTS2} itkShapedNeighborhoodIteratorTest)
-add_test(itkSimilarity2DTransformTest ${COMMON_TESTS2} itkSimilarity2DTransformTest)
-add_test(itkSimilarity3DTransformTest ${COMMON_TESTS2} itkSimilarity3DTransformTest)
-add_test(itkSimpleFilterWatcherTest ${COMMON_TESTS2} itkSimpleFilterWatcherTest)
-add_test(itkSimplexMeshTest ${COMMON_TESTS2} itkSimplexMeshTest)
-add_test(itkSizeTest ${COMMON_TESTS2} itkSizeTest)
-add_test(itkSliceIteratorTest ${COMMON_TESTS2} itkSliceIteratorTest)
-add_test(itkSmartPointerTest ${COMMON_TESTS2} itkSmartPointerTest)
-add_test(itkSparseImageTest ${COMMON_TESTS2} itkSparseImageTest)
-add_test(itkSpatialFunctionTest ${COMMON_TESTS2} itkSpatialFunctionTest)
-add_test(itkSphereSignedDistanceFunctionTest ${COMMON_TESTS2} itkSphereSignedDistanceFunctionTest)
-add_test(itkSplineKernelTransformTest ${COMMON_TESTS2} itkSplineKernelTransformTest)
-add_test(itkSTLContainerAdaptorTest ${COMMON_TESTS2} itkSTLContainerAdaptorTest)
-add_test(itkStdStreamLogOutputTest ${COMMON_TESTS2} itkStdStreamLogOutputTest ${TEMP}/testStreamLogOutput.txt)
-add_test(itkThreadDefsTest ${COMMON_TESTS2} itkThreadDefsTest)
-add_test(itkThreadLoggerTest ${COMMON_TESTS2} itkThreadLoggerTest ${TEMP}/test_threadLogger.txt)
-add_test(itkTimeProbesTest ${COMMON_TESTS2} itkTimeProbesTest)
-add_test(itkTransformTest ${COMMON_TESTS2} itkTransformTest)
-add_test(itkTransformFactoryBaseTest ${COMMON_TESTS2} itkTransformFactoryBaseTest)
-add_test(itkTransformsSetParametersTest ${COMMON_TESTS2} itkTransformsSetParametersTest)
-add_test(itkTranslationTransformTest ${COMMON_TESTS2} itkTranslationTransformTest)
-add_test(itkTreeContainerTest ${COMMON_TESTS2} itkTreeContainerTest)
-add_test(itkTreeContainerTest2 ${COMMON_TESTS2} itkTreeContainerTest2)
-add_test(itkTriangleCellTest ${COMMON_TESTS2} itkTriangleCellTest)
-add_test(itkVarianceImageFunctionTest ${COMMON_TESTS2} itkVarianceImageFunctionTest)
-add_test(itkVectorGeometryTest ${COMMON_TESTS2} itkVectorGeometryTest)
-add_test(itkVectorImageTest ${COMMON_TESTS2} itkVectorImageTest ${TEMP}/VectorImage.nrrd ${TEMP}/VectorImage.mhd)
-add_test(itkVectorMeanImageFunctionTest ${COMMON_TESTS2} itkVectorMeanImageFunctionTest)
-add_test(itkVersorTransformTest ${COMMON_TESTS2} itkVersorTransformTest)
-add_test(itkVersorTest ${COMMON_TESTS2} itkVersorTest)
-add_test(itkVersorRigid3DTransformTest ${COMMON_TESTS2} itkVersorRigid3DTransformTest)
-add_test(itkVectorTest ${COMMON_TESTS2} itkVectorTest)
-add_test(itkVectorInterpolateImageFunctionTest ${COMMON_TESTS2} itkVectorInterpolateImageFunctionTest)
-add_test(itkVectorToRGBImageAdaptorTest ${COMMON_TESTS2} itkVectorToRGBImageAdaptorTest)
-add_test(itkWindowedSincInterpolateImageFunctionTest ${COMMON_TESTS2} itkWindowedSincInterpolateImageFunctionTest)
-add_test(itkEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS2} itkEllipsoidInteriorExteriorSpatialFunctionTest)
-add_test(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest ${COMMON_TESTS2} itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
-add_test(itkSymmetricSecondRankTensorTest ${COMMON_TESTS2} itkSymmetricSecondRankTensorTest)
-add_test(itkSymmetricEigenAnalysisTest ${COMMON_TESTS2} itkSymmetricEigenAnalysisTest)
-add_test(itkSTLThreadTest ${COMMON_TESTS2} itkSTLThreadTest)
-add_test(itkVariableLengthVectorTest ${COMMON_TESTS2} itkVariableLengthVectorTest)
-add_test(itkVariableSizeMatrixTest ${COMMON_TESTS2} itkVariableSizeMatrixTest)
-add_test(itkImportContainerTest ${COMMON_TESTS2} itkImportContainerTest)
-#add_test(itkQuaternionOrientationAdapterTest ${COMMON_TESTS2} itkQuaternionOrientationAdapterTest)
-add_test(itkZeroFluxBoundaryConditionTest ${COMMON_TESTS2} itkZeroFluxBoundaryConditionTest)
-add_test(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
-add_test(SystemInformation ${SYSTEM_INFORMATION})
+
+if(NOT MINGW)
+  add_test(itkBarrierTest ${TestDriver} itkBarrierTest)
+  add_test(itkConditionVariableTest ${TestDriver} itkConditionVariableTest)
+  add_test(itkSemaphoreTest ${TestDriver} itkSemaphoreTest)
+endif(NOT MINGW)
+
 if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
-  add_test(itkImageFillBufferTest4.1 ${COMMON_TESTS2} itkImageFillBufferTest 4.1)
+  add_test(itkImageFillBufferTest4.1 ${TestDriver} itkImageFillBufferTest 4.1)
 endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
 
 #
@@ -429,19 +670,19 @@ endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
 # works properly
 if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
 
-  add_test(itkFloatingPointExceptionsTest1 ${COMMON_TESTS2}
+  add_test(itkFloatingPointExceptionsTest1 ${TestDriver}
     itkFloatingPointExceptionsTest DivByZero)
 
-  add_test(itkFloatingPointExceptionsTest2 ${COMMON_TESTS2}
+  add_test(itkFloatingPointExceptionsTest2 ${TestDriver}
     itkFloatingPointExceptionsTest ZeroDivByZero)
 
-  add_test(itkFloatingPointExceptionsTest3 ${COMMON_TESTS2}
+  add_test(itkFloatingPointExceptionsTest3 ${TestDriver}
     itkFloatingPointExceptionsTest FPOverFlow)
 
-  add_test(itkFloatingPointExceptionsTest4 ${COMMON_TESTS2}
+  add_test(itkFloatingPointExceptionsTest4 ${TestDriver}
     itkFloatingPointExceptionsTest FPUnderFlow)
 
-  add_test(itkFloatingPointExceptionsTest5 ${COMMON_TESTS2}
+  add_test(itkFloatingPointExceptionsTest5 ${TestDriver}
     itkFloatingPointExceptionsTest IntDivByZero)
 
   set_tests_properties(
@@ -487,254 +728,16 @@ write_file(
   "</BuildNameNotes>\n"
   "</Site>\n"
 )
-#-----------------------------------------------------------------------------
-set(BasicTests_SRCS
-itkImageComputeOffsetAndIndexTest.cxx
-itkCommonPrintTest.cxx
-itkConditionVariableTest.cxx
-itkModifiedTimeTest.cxx
-itkMultipleLogOutputTest.cxx
-itkAdaptorComparisonTest.cxx
-itkAffineTransformTest.cxx
-itkAnnulusOperatorTest.cxx
-itkArrayTest.cxx
-itkArray2DTest.cxx
-itkAutoPointerTest.cxx
-itkAzimuthElevationToCartesianTransformTest.cxx
-itkBarrierTest.cxx
-itkBinaryThresholdImageFunctionTest.cxx
-itkBinaryThresholdSpatialFunctionTest.cxx
-itkBoundingBoxTest.cxx
-itkBSplineDeformableTransformTest.cxx
-itkBSplineInterpolationWeightFunctionTest.cxx
-itkBSplineKernelFunctionTest.cxx
-itkBoundaryConditionTest.cxx
-itkByteSwapTest.cxx
-itkCenteredRigid2DTransformTest.cxx
-itkCenteredAffineTransformTest.cxx
-itkCentralDifferenceImageFunctionTest.cxx
-itkCenteredEuler3DTransformTest.cxx
-itkCenteredTransformInitializerTest.cxx
-itkCenteredVersorTransformInitializerTest.cxx
-itkChainCodePath2DTest.cxx
-itkChainCodePathTest.cxx
-itkColorTableTest.cxx
-itkConstNeighborhoodIteratorTest.cxx
-itkConstShapedNeighborhoodIteratorTest.cxx
-itkCovariantVectorGeometryTest.cxx
-itkCovarianceImageFunctionTest.cxx
-itkDataTypeTest.cxx
-itkDataObjectTest.cxx
-itkDecoratorTest.cxx
-itkDerivativeOperatorTest.cxx
-itkDirectoryTest.cxx
-itkDynamicMeshTest.cxx
-itkDiffusionTensor3DTest.cxx
-itkEuler2DTransformTest.cxx
-itkEuler3DTransformTest.cxx
-itkEventObjectTest.cxx
-itkExceptionObjectTest.cxx
-itkFileOutputWindowTest.cxx
-itkFiniteCylinderSpatialFunctionTest.cxx
-itkFixedArrayTest.cxx
-itkFixedArrayTest2.cxx
-itkFixedCenterOfRotationAffineTransformTest.cxx
-itkFloodFilledSpatialFunctionTest.cxx
-itkFourierSeriesPathTest.cxx
-itkGaussianBlurImageFunctionTest.cxx
-itkGaussianDerivativeImageFunctionTest.cxx
-itkGaussianSpatialFunctionTest.cxx
-itkHashTableTest.cxx
-itkIdentityTransformTest.cxx
-itkImageAdaptorTest.cxx
-itkAddImageAdaptorTest.cxx
-itkOrientedImageAdaptorTest.cxx
-itkImageAdaptorInterpolateImageFunctionTest.cxx
-itkImageDuplicatorTest.cxx
-itkImageIteratorTest.cxx
-itkImageIteratorsForwardBackwardTest.cxx
-itkImageIteratorWithIndexTest.cxx
-itkImageRegionIteratorTest.cxx
-itkImageLinearIteratorTest.cxx
-itkImageRandomIteratorTest.cxx
-itkImageRandomIteratorTest2.cxx
-itkImageRandomNonRepeatingIteratorWithIndexTest.cxx
-itkImageRegionTest.cxx
-itkImageRegionExclusionIteratorWithIndexTest.cxx
-itkImageReverseIteratorTest.cxx
-itkImageSliceIteratorTest.cxx
-itkImageTest.cxx
-itkIteratorTests.cxx
-itkLandmarkBasedTransformInitializerTest.cxx
-itkLevelSetFunctionTest.cxx
-itkLightObjectTest.cxx
-itkLineIteratorTest.cxx
-itkLoggerTest.cxx
-itkLoggerOutputTest.cxx
-itkLoggerManagerTest.cxx
-itkMatrixTest.cxx
-itkMapContainerTest.cxx
-itkMahalanobisDistanceThresholdImageFunctionTest.cxx
-)
-
-
-#-----------------------------------------------------------------------------
-SET(BasicTests2_SRCS
-itkQuadEdgeMeshNoPointConstTest.cxx
-itkQuadEdgeTest1.cxx
-itkGeometricalQuadEdgeTest1.cxx
-itkQuadEdgeMeshAddFaceTest1.cxx
-itkQuadEdgeMeshAddFaceTest2.cxx
-itkQuadEdgeMeshBasicLayerTest.cxx
-itkQuadEdgeMeshDeleteEdgeTest.cxx
-itkQuadEdgeMeshFrontIteratorTest.cxx
-itkQuadEdgeMeshIteratorTest.cxx
-itkQuadEdgeMeshPointTest1.cxx
-itkQuadEdgeMeshTest1.cxx
-itkQuadEdgeMeshTest2.cxx
-itkQuadEdgeMeshTest3.cxx
-itkQuadEdgeMeshEulerOperatorFlipTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorJoinVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
-itkQuadEdgeMeshCellInterfaceTest.cxx
-itkQuadEdgeMeshPolygonCellTest.cxx
-itkDynamicQuadEdgeMeshTest.cxx
-itkQuadEdgeMeshCountingCellsTest.cxx
-itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
-itkTriangleHelperTest.cxx
-itkCrossHelperTest.cxx
-itkPriorityQueueTest.cxx
-itkBSplineDeformableTransformTest2.cxx
-itkBSplineDeformableTransformTest3.cxx
-itkCellInterfaceTest.cxx
-itkImageTransformTest.cxx
-itkImageToImageFilterTest.cxx
-itkLinearInterpolateImageFunctionTest.cxx
-itkMaximumDecisionRuleTest.cxx
-itkMaximumRatioDecisionRuleTest.cxx
-itkDifferenceImageFilterTest.cxx
-itkMeanImageFunctionTest.cxx
-itkMedialNodeCorrespondencesTest.cxx
-itkMedianImageFunctionTest.cxx
-itkMemoryLeakTest.cxx
-itkMeshTest.cxx
-itkMeshFstreamTest.cxx
-itkMeshSourceGraftOutputTest.cxx
-itkMetaDataDictionaryTest.cxx
-itkMinimumDecisionRuleTest.cxx
-itkMultiThreaderTest.cxx
-itkNearestNeighborExtrapolateImageFunctionTest.cxx
-itkNeighborhoodAlgorithmTest.cxx
-itkNeighborhoodTest.cxx
-itkNeighborhoodIteratorTest.cxx
-itkNeighborhoodOperatorImageFunctionTest.cxx
-itkNeighborhoodOperatorTest.cxx
-itkNumericTraitsTest.cxx
-itkIntTypesTest.cxx
-itkObjectFactoryTest.cxx
-itkObjectFactoryTest2.cxx
-itkObjectStoreTest.cxx
-itkOctreeTest.cxx
-itkOrthogonallyCorrected2DParametricPathTest.cxx
-itkOrientedImage2DTest.cxx
-itkOrientedImage3DTest.cxx
-itkOrientedImageProfileTest1.cxx
-itkOrientedImageProfileTest2.cxx
-itkOrientedImageProfileTest3.cxx
-itkVNLRoundProfileTest1.cxx
-itkMathRoundTest.cxx
-itkMathRoundTest2.cxx
-itkMathRoundProfileTest1.cxx
-itkMathCastWithRangeCheck.cxx
-itkNonUniformBSplineTest.cxx
-itkPathFunctionsTest.cxx
-itkPathIteratorTest.cxx
-itkPCAShapeSignedDistanceFunctionTest.cxx
-itkPeriodicBoundaryConditionTest.cxx
-itkPhasedArray3DSpecialCoordinatesImageTest.cxx
-itkPixelAccessTest.cxx
-itkPointGeometryTest.cxx
-itkPointSetTest.cxx
-itkPolyLineParametricPathTest.cxx
-itkPolygonCellTest.cxx
-itkQuaternionRigidTransformTest.cxx
-itkRealTimeClockTest.cxx
-itkRealTimeStampTest.cxx
-itkRealTimeIntervalTest.cxx
-itkRGBPixelTest.cxx
-itkRGBInterpolateImageFunctionTest.cxx
-itkRGBToVectorImageAdaptorTest.cxx
-itkRigid2DTransformTest.cxx
-itkRigid3DTransformTest.cxx
-itkv3Rigid3DTransformTest.cxx
-itkRigid3DPerspectiveTransformTest.cxx
-itkScalarToRGBPixelFunctorTest.cxx
-itkScatterMatrixImageFunctionTest.cxx
-itkScaleSkewVersor3DTransformTest.cxx
-itkScaleVersor3DTransformTest.cxx
-itkScaleTransformTest.cxx
-itkScaleLogarithmicTransformTest.cxx
-itkSemaphoreTest.cxx
-itkShapedNeighborhoodIteratorTest.cxx
-itkSimilarity2DTransformTest.cxx
-itkSimilarity3DTransformTest.cxx
-itkSimpleFilterWatcherTest.cxx
-itkSimplexMeshTest.cxx
-itkSizeTest.cxx
-itkSliceIteratorTest.cxx
-itkSmartPointerTest.cxx
-itkSparseImageTest.cxx
-itkSpatialFunctionTest.cxx
-itkSphereSignedDistanceFunctionTest.cxx
-itkSplineKernelTransformTest.cxx
-itkSTLContainerAdaptorTest.cxx
-itkStdStreamLogOutputTest.cxx
-itkThreadDefsTest.cxx
-itkThreadLoggerTest.cxx
-itkTimeProbesTest.cxx
-itkTimeStampTest.cxx
-itkTransformTest.cxx
-itkTransformFactoryBaseTest.cxx
-itkTransformsSetParametersTest.cxx
-itkTranslationTransformTest.cxx
-itkTreeContainerTest.cxx
-itkTreeContainerTest2.cxx
-itkTriangleCellTest.cxx
-itkVarianceImageFunctionTest.cxx
-itkVectorGeometryTest.cxx
-itkVectorImageTest.cxx
-itkVectorMeanImageFunctionTest.cxx
-itkVersorTransformTest.cxx
-itkVersorTest.cxx
-itkVersorRigid3DTransformTest.cxx
-itkVectorTest.cxx
-itkVectorInterpolateImageFunctionTest.cxx
-itkVectorToRGBImageAdaptorTest.cxx
-itkWindowedSincInterpolateImageFunctionTest.cxx
-itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
-itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
-itkSymmetricSecondRankTensorTest.cxx
-itkSymmetricEigenAnalysisTest.cxx
-itkSTLThreadTest.cxx
-itkVariableLengthVectorTest.cxx
-itkVariableSizeMatrixTest.cxx
-itkImportContainerTest.cxx
-itkZeroFluxBoundaryConditionTest.cxx
-itkImageFillBufferTest.cxx
-itkFloatingPointExceptionsTest.cxx
-)
-# itkQuaternionOrientationAdapterTest.cxx
 
 ###
 # will be moved to a common test driver after the file is determined to be portable and the rounding has been fully migrated
 add_executable( itkMathTest itkMathTest.cxx )
 add_test( itkMathTest  ${CXX_TEST_PATH}/itkMathTest )
 ###
+
+#-----------------------------------------------------------------------------
+# Setup the system information test.  Write out some basic failsafe
+# information in case the test doesn't run.
 
 configure_file(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
                ${ITKTesting_BINARY_DIR}/Code/Common/itkSystemInformationTest.h
@@ -748,24 +751,29 @@ if(ITK_OBJCXX_COMPILER_WORKS)
   target_link_libraries(itkCommonHeaderObjCxxTest ITKCommon)
 endif(ITK_OBJCXX_COMPILER_WORKS)
 
+############################################################
+# Tests that have their own executable
+#
+set(COMMON_HEADER_TEST ${CXX_TEST_PATH}/itkCommonHeaderTest)
+set(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
+set(SYSTEM_INFORMATION ${CXX_TEST_PATH}/itkSystemInformation)
+
+add_test(itkCommonHeaderTest ${COMMON_HEADER_TEST})
+add_test(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
+add_test(SystemInformation ${SYSTEM_INFORMATION})
+
 add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
-add_executable(itkSystemInformation itkSystemInformation.cxx)
 add_executable(itkCommonHeaderTest itkCommonHeaderTest.cxx)
-add_executable(itkCommonTests itkCommonTests.cxx ${BasicTests_SRCS})
-add_executable(itkCommonTests2 itkCommonTests2.cxx ${BasicTests2_SRCS})
 target_link_libraries(itkCommonHeaderTest ITKCommon)
-target_link_libraries(itkCommonTests ITKIO)
-target_link_libraries(itkCommonTests2 ITKIO)
-set_target_properties(itkCommonTests2 PROPERTIES ENABLE_EXPORTS 1)
+add_executable(itkSystemInformation itkSystemInformation.cxx)
 target_link_libraries(itkSystemInformation itksys)
 
 if(ITK_BUILD_SHARED_LIBS)
-## Create a library to test ITK loadable factories
-set(FactoryTest_Source itkFactoryTestLib.cxx)
-set(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
-add_library(FactoryTestLib SHARED ${FactoryTest_Source})
-target_link_libraries(FactoryTestLib ITKCommon)
-add_dependencies(itkCommonTests2 FactoryTestLib)
-endif(ITK_BUILD_SHARED_LIBS)
+  ## Create a library to test ITK loadable factories
+  set(FactoryTest_Source itkFactoryTestLib.cxx)
+  set(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
+  add_library(FactoryTestLib SHARED ${FactoryTest_Source})
+  target_link_libraries(FactoryTestLib ITKCommon)
+  add_dependencies(CommonCxxTests FactoryTestLib)
+  endif(ITK_BUILD_SHARED_LIBS)
 endif( NOT ITK_DISABLE_CXX_TESTING )
-

@@ -30,21 +30,6 @@
 #include <iostream>
 #include <vector>
 
-int itkJoinSeriesImageFilterPrintTest(int, char* [])
-{
-  typedef itk::Image<float,2> InputType;
-  typedef itk::Image<float,2> OutputType;
-
-  // NOTE: A compile error should be here (by extending itk::Concept?),
-  // because InputImageDimension must be less than OutputImageDimension.
-  itk::JoinSeriesImageFilter<InputType,OutputType>::Pointer JoinSeriesImageFilterObj =
-    itk::JoinSeriesImageFilter<InputType,OutputType>::New();
-  std::cout << "-------------JoinSeriesImageFilter" << JoinSeriesImageFilterObj;
-
-  return EXIT_SUCCESS;
-}
-
-
 class ShowProgressObject
 {
 public:

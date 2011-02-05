@@ -8,17 +8,12 @@ if(ITK_BINARY_DIR)
 endif(ITK_BINARY_DIR)
 
 
-set(REVIEW_TESTS ${CXX_TEST_PATH}/itkReviewTests)
-set(REVIEW_TESTS2 ${CXX_TEST_PATH}/itkReviewTests2)
-set(REVIEW_TESTS3 ${CXX_TEST_PATH}/itkReviewTests3)
-set(REVIEW_TESTS4 ${CXX_TEST_PATH}/itkReviewTests4)
-set(REVIEW_TESTS5 ${CXX_TEST_PATH}/itkReviewTests5)
-set(REVIEW_TESTS6 ${CXX_TEST_PATH}/itkReviewTests6)
 set(REVIEW_PRINT_TEST ${CXX_TEST_PATH}/itkReviewPrintTest)
 set(REVIEW_HEADER_TESTS ${CXX_TEST_PATH}/itkReviewHeaderTest)
 
 add_test(itkReviewPrintTest ${REVIEW_PRINT_TEST})
 
+# Define some convenient locations
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
@@ -33,271 +28,291 @@ include_directories(
   ${ITK_SOURCE_DIR}/Utilities/openjpeg
   )
 
+############################################################
+# CXX Testing
 #
-#  List of Tests in this directory
-#
-
-set(ReviewTest_SRCS
-  itkFlatStructuringElementTest.cxx
-
-  itkLabelToRGBImageFilterTest.cxx
-  itkLabelOverlayImageFilterTest.cxx
-
-  itkValuedRegionalMinimaImageFilterTest.cxx
-  itkValuedRegionalMaximaImageFilterTest.cxx
-  itkRegionalMaximaImageFilterTest.cxx
-  itkRegionalMaximaImageFilterTest2.cxx
-  itkRegionalMinimaImageFilterTest.cxx
-  itkRegionalMinimaImageFilterTest2.cxx
-
-  itkNeuralNetworkIOTest.cxx
-
-  itkConformalFlatteningMeshFilterTest.cxx
-  itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
-
-  itkMorphologicalWatershedImageFilterTest.cxx
-  itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
-
-  itkBinaryMorphologicalClosingImageFilterTest.cxx
-  itkBinaryMorphologicalOpeningImageFilterTest.cxx
-
-  itkOptImageToImageMetricsTest.cxx
-  itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
-
-  itkTimeAndMemoryProbeTest.cxx
-
-  itkBruker2DSEQImageIOTest.cxx
-  itkPhilipsRECImageIOTest.cxx
-
-  itkVoxBoCUBImageIOTest.cxx
-
-  itkSliceBySliceImageFilterTest.cxx
-
-  itkDiffeomorphicDemonsRegistrationFilterTest.cxx
-  itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
-
-  itkMultiplyByConstantImageFilterTest.cxx
-  itkDivideByConstantImageFilterTest.cxx
-  itkAddConstantToImageFilterTest.cxx
-  itkSubtractConstantFromImageFilterTest.cxx
-
-  itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx
-  itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
-  itkImageReadRealAndImaginaryWriteComplexTest.cxx
-
-#  itkFFTComplexToComplexImageFilterTest01.cxx
-#  itkFFTComplexToComplexImageFilterTest02.cxx
-
-  itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
-  itkVectorCentralDifferenceImageFunctionTest.cxx
-  itkExponentialDeformationFieldImageFilterTest.cxx
-  itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
-  itkGridForwardWarpImageFilterTest.cxx
-  itkWarpHarmonicEnergyCalculatorTest.cxx
-
-  itkBSplineScatteredDataPointSetToImageFilterTest.cxx
-  itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
-  itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
-
-  itkCoxDeBoorBSplineKernelFunctionTest.cxx
-  itkCoxDeBoorBSplineKernelFunctionTest2.cxx
-
-  itkKappaSigmaThresholdImageCalculatorTest.cxx
-  itkKappaSigmaThresholdImageFilterTest.cxx
-
-  itkComposeRGBAImageFilterTest.cxx
-
-  itkTransformToDeformationFieldSourceTest.cxx
-  itkTransformToDeformationFieldSourceTest1.cxx
-
-  itkBoxMeanImageFilterTest.cxx
-  itkBoxSigmaImageFilterTest.cxx
-  itkRankImageFilterTest.cxx
-  itkMapRankImageFilterTest.cxx
-  itkMaskedRankImageFilterTest.cxx
-  itkMapMaskedRankImageFilterTest.cxx
-  itkFastApproximateRankImageFilterTest.cxx
-
-  itkGaussianDerivativeOperatorTest.cxx
-  itkDiscreteGaussianDerivativeImageFunctionTest.cxx
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
-  itkDiscreteHessianGaussianImageFunctionTest.cxx
-
-  itkBinaryContourImageFilterTest.cxx
-  itkLabelContourImageFilterTest.cxx
-
-  itkFFTShiftImageFilterTest.cxx
-
-  itkConvolutionImageFilterTest.cxx
-  itkConvolutionImageFilterTestInt.cxx
-
-  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1.cxx
-  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2.cxx
-  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
-
-  itkRobustAutomaticThresholdImageFilterTest.cxx
-
-  itkAreaOpeningImageFilterTest.cxx
-  itkAreaClosingImageFilterTest.cxx
-
-  itkHessianToObjectnessMeasureImageFilterTest.cxx
-  itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
+set(KIT Review)
+set(KIT_LIBS
+  ITKAlgorithms
+  ITKFEM
+  ITKStatistics
+  ITKCommon
+  ITKReview
+  ITKIOReview
+  ITKIO
 )
+if(ITK_USE_MINC2 AND MINC2_FOUND)
+  set(KIT_LIBS ${KIT_LIBS} ITKIOMINC2)
+endif(ITK_USE_MINC2 AND MINC2_FOUND)
 
-IF( USE_FFTWD OR USE_FFTWF )
-  SET( ReviewTest_SRCS
-    ${ReviewTest_SRCS}
-    itkFFTComplexToComplexImageFilterTest01.cxx
-    itkFFTComplexToComplexImageFilterTest02.cxx
-    )
-ENDIF( USE_FFTWD OR USE_FFTWF )
+set(KitTests
+  itkFlatStructuringElementTest
 
-SET(ReviewTest2_SRCS
-  itkAtanRegularizedHeavisideStepFunctionTest1.cxx
-  itkDirectFourierReconstructionImageToImageFilterTest.cxx
-  itkBSplineDeformableTransformInitializerTest1.cxx
-  itkBSplineDeformableTransformInitializerTest2.cxx
-  itkContourExtractor2DImageFilterTest.cxx
-  itkHeavisideStepFunctionTest1.cxx
-  itkLabelImageToLabelMapFilterTest.cxx
-  itkLabelMapFilterTest.cxx
-  itkLabelMapTest.cxx
-  itkLabelMapToLabelImageFilterTest.cxx
-  itkLabelObjectLineComparatorTest.cxx
-  itkLabelObjectLineTest.cxx
-  itkLabelObjectTest.cxx
-  itkMultiphaseFiniteDifferenceImageFilterTest.cxx
-  itkMultiphaseDenseFiniteDifferenceImageFilterTest.cxx
-  itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx
-  itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
-  itkRegionBasedLevelSetFunctionTest.cxx
-  itkScalarRegionBasedLevelSetFunctionTest.cxx
-  itkScalarToRGBColormapImageFilterTest.cxx
-  itkStochasticFractalDimensionImageFilterTest.cxx
-  itkSinRegularizedHeavisideStepFunctionTest1.cxx
-)
+  itkLabelToRGBImageFilterTest
+  itkLabelOverlayImageFilterTest
 
-set(ReviewTest3_SRCS
-  itkAggregateLabelMapFilterTest.cxx
-  itkGridImageSourceTest.cxx
-  itkTriangleMeshToBinaryImageFilterTest3.cxx
+  itkRegionalMaximaImageFilterTest
+  itkRegionalMaximaImageFilterTest2
+  itkRegionalMinimaImageFilterTest
+  itkRegionalMinimaImageFilterTest2
+  itkValuedRegionalMaximaImageFilterTest
+  itkValuedRegionalMinimaImageFilterTest
 
-  itkBinaryImageToLabelMapFilterTest.cxx
-  itkLabelMapToBinaryImageFilterTest.cxx
-  itkChangeLabelLabelMapFilterTest.cxx
-  itkRelabelLabelMapFilterTest1.cxx
-  itkShiftScaleLabelMapFilterTest1.cxx
-  itkAutoCropLabelMapFilterTest1.cxx
-  itkChangeRegionLabelMapFilterTest1.cxx
+  itkNeuralNetworkIOTest
 
-  itkMergeLabelMapFilterTest1.cxx
-  itkCropLabelMapFilterTest1.cxx
-  itkPadLabelMapFilterTest1.cxx
-  itkRegionFromReferenceLabelMapFilterTest1.cxx
+  itkConformalFlatteningMeshFilterTest
+  itkConformalFlatteningQuadEdgeMeshFilterTest
 
-  itkBinaryImageToShapeLabelMapFilterTest1.cxx
-  itkLabelImageToShapeLabelMapFilterTest1.cxx
+  itkMorphologicalWatershedImageFilterTest
+  itkMorphologicalWatershedFromMarkersImageFilterTest
 
-  itkShapeKeepNObjectsLabelMapFilterTest1.cxx
-  itkShapeOpeningLabelMapFilterTest1.cxx
-  itkShapeRelabelLabelMapFilterTest1.cxx
-  itkBinaryShapeOpeningImageFilterTest1.cxx
-  itkShapeLabelObjectAccessorsTest1.cxx
-  itkBinaryShapeKeepNObjectsImageFilterTest1.cxx
-  itkShapeRelabelImageFilterTest1.cxx
-  itkLabelShapeKeepNObjectsImageFilterTest1.cxx
-  itkLabelShapeOpeningImageFilterTest1.cxx
-  itkShapeUniqueLabelMapFilterTest1.cxx
+  itkBinaryMorphologicalClosingImageFilterTest
+  itkBinaryMorphologicalOpeningImageFilterTest
 
-  itkGaborImageSourceTest.cxx
+  itkOptImageToImageMetricsTest
+  itkOptMattesMutualInformationImageToImageMetricThreadsTest1
 
-  itkDiscreteGaussianDerivativeImageFilterTest.cxx
-  itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest.cxx
+  itkTimeAndMemoryProbeTest
 
-  itkAttributeLabelObjectAccessorsTest1.cxx
-  itkAttributeOpeningLabelMapFilterTest1.cxx
-  itkAttributeKeepNObjectsLabelMapFilterTest1.cxx
-  itkAttributeRelabelLabelMapFilterTest1.cxx
-  itkLabelSelectionLabelMapFilterTest.cxx
-  itkLabelMapMaskImageFilterTest.cxx
-  itkObjectByObjectLabelMapFilterTest.cxx
-  itkAttributeUniqueLabelMapFilterTest1.cxx
-  itkLabelUniqueLabelMapFilterTest1.cxx
-  itkLabelMapToAttributeImageFilterTest1.cxx
-  itkLabelMapToRGBImageFilterTest1.cxx
-  itkLabelMapOverlayImageFilterTest1.cxx
-  itkLabelMapContourOverlayImageFilterTest1.cxx
-  itkShapePositionLabelMapFilterTest1.cxx
-  itkStatisticsPositionLabelMapFilterTest1.cxx
-  itkAttributePositionLabelMapFilterTest1.cxx
-  itkBinaryReconstructionLabelMapFilterTest.cxx
+  itkBruker2DSEQImageIOTest
+  itkPhilipsRECImageIOTest
 
-  itkBinaryFillholeImageFilterTest1.cxx
-  itkBinaryGrindPeakImageFilterTest1.cxx
-  itkBinaryReconstructionByDilationImageFilterTest.cxx
-  itkBinaryReconstructionByErosionImageFilterTest.cxx
-  itkBinaryClosingByReconstructionImageFilterTest.cxx
-  itkBinaryOpeningByReconstructionImageFilterTest.cxx
-)
+  itkVoxBoCUBImageIOTest
 
-set(ReviewTest4_SRCS
-  itkBinaryImageToStatisticsLabelMapFilterTest1.cxx
-  itkLabelImageToStatisticsLabelMapFilterTest1.cxx
-  itkStatisticsOpeningLabelMapFilterTest1.cxx
-  itkStatisticsKeepNObjectsLabelMapFilterTest1.cxx
-  itkStatisticsRelabelLabelMapFilterTest1.cxx
-  itkBinaryStatisticsOpeningImageFilterTest1.cxx
-  itkBinaryStatisticsKeepNObjectsImageFilterTest1.cxx
-  itkLabelStatisticsKeepNObjectsImageFilterTest1.cxx
-  itkLabelStatisticsOpeningImageFilterTest1.cxx
-  itkStatisticsRelabelImageFilterTest1.cxx
-  itkStatisticsUniqueLabelMapFilterTest1.cxx
-  itkAttributeLabelObjectAccessorsTest1.cxx
-  itkShiftLabelObjectTest.cxx
-)
+  itkSliceBySliceImageFilterTest
 
-set(ReviewTest5_SRCS
-  itkLabelGeometryImageFilterTest.cxx
-  itkMRCImageIOTest.cxx
-  itkVTKImageIO2Test.cxx
-  itkVTKImageIO2Test2.cxx
-  itkJPEG2000ImageIOFactoryTest01.cxx
-  itkJPEG2000ImageIOTest00.cxx
-  itkJPEG2000ImageIOTest01.cxx
-  itkJPEG2000ImageIOTest02.cxx
-  itkJPEG2000ImageIOTest03.cxx
-  itkJPEG2000ImageIOTest04.cxx
-  itkJPEG2000ImageIOTest05.cxx
-  itkJPEG2000ImageIOTest06.cxx
-  itkJPEG2000ImageIORegionOfInterest.cxx
-)
+  itkDiffeomorphicDemonsRegistrationFilterTest
+  itkDiffeomorphicDemonsRegistrationFilterTest2
 
-set(ReviewTest6_SRCS
-  itkObjectToObjectMetricTest.cxx
-  itkDeformationFieldTransformTest.cxx
-  itkBSplineControlPointImageFilterTest.cxx
+  itkAddConstantToImageFilterTest
+  itkDivideByConstantImageFilterTest
+  itkMultiplyByConstantImageFilterTest
+  itkSubtractConstantFromImageFilterTest
+
+  itkImageReadComplexWriteMagnitudeAndPhaseTest
+  itkImageReadMagnitudeAndPhaseWriteComplexTest
+  itkImageReadRealAndImaginaryWriteComplexTest
+
+  itkExponentialDeformationFieldImageFilterTest
+  itkFastSymmetricForcesDemonsRegistrationFilterTest
+  itkGridForwardWarpImageFilterTest
+  itkVectorCentralDifferenceImageFunctionTest
+  itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
+  itkWarpHarmonicEnergyCalculatorTest
+
+  itkBSplineScatteredDataPointSetToImageFilterTest
+  itkBSplineScatteredDataPointSetToImageFilterTest2
+  itkBSplineScatteredDataPointSetToImageFilterTest3
+
+  itkCoxDeBoorBSplineKernelFunctionTest
+  itkCoxDeBoorBSplineKernelFunctionTest2
+
+  itkKappaSigmaThresholdImageCalculatorTest
+  itkKappaSigmaThresholdImageFilterTest
+
+  itkComposeRGBAImageFilterTest
+
+  itkTransformToDeformationFieldSourceTest
+  itkTransformToDeformationFieldSourceTest1
+
+  itkBoxMeanImageFilterTest
+  itkBoxSigmaImageFilterTest
+  itkFastApproximateRankImageFilterTest
+  itkMapMaskedRankImageFilterTest
+  itkMapRankImageFilterTest
+  itkMaskedRankImageFilterTest
+  itkRankImageFilterTest
+
+  itkDiscreteGaussianDerivativeImageFunctionTest
+  itkDiscreteGradientMagnitudeGaussianImageFunctionTest
+  itkDiscreteHessianGaussianImageFunctionTest
+  itkGaussianDerivativeOperatorTest
+
+  itkBinaryContourImageFilterTest
+  itkLabelContourImageFilterTest
+
+  itkFFTShiftImageFilterTest
+
+  itkConvolutionImageFilterTest
+  itkConvolutionImageFilterTestInt
+
+  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1
+  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2
+  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3
+
+  itkRobustAutomaticThresholdImageFilterTest
+
+  itkAreaOpeningImageFilterTest
+  itkAreaClosingImageFilterTest
+
+  itkAggregateLabelMapFilterTest
+  itkAtanRegularizedHeavisideStepFunctionTest1
+  itkBSplineDeformableTransformInitializerTest1
+  itkBSplineDeformableTransformInitializerTest2
+  itkContourExtractor2DImageFilterTest
+  itkDirectFourierReconstructionImageToImageFilterTest
+  itkGridImageSourceTest
+  itkHeavisideStepFunctionTest1
+  itkHessianToObjectnessMeasureImageFilterTest
+  itkLabelImageToLabelMapFilterTest
+  itkLabelMapFilterTest
+  itkLabelMapTest
+  itkLabelMapToLabelImageFilterTest
+  itkLabelObjectLineComparatorTest
+  itkLabelObjectLineTest
+  itkLabelObjectTest
+  itkMultiScaleHessianBasedMeasureImageFilterTest
+  itkMultiScaleHessianBasedMeasureImageFilterTest
+  itkMultiphaseDenseFiniteDifferenceImageFilterTest
+  itkMultiphaseFiniteDifferenceImageFilterTest
+  itkMultiphaseSparseFiniteDifferenceImageFilterTest
+  itkRegionBasedLevelSetFunctionTest
+  itkScalarRegionBasedLevelSetFunctionTest
+  itkScalarToRGBColormapImageFilterTest
+  itkSinRegularizedHeavisideStepFunctionTest1
+  itkStochasticFractalDimensionImageFilterTest
+  itkTriangleMeshToBinaryImageFilterTest3
+
+  itkAutoCropLabelMapFilterTest1
+  itkBinaryImageToLabelMapFilterTest
+  itkChangeLabelLabelMapFilterTest
+  itkChangeRegionLabelMapFilterTest1
+  itkLabelMapToBinaryImageFilterTest
+  itkRelabelLabelMapFilterTest1
+  itkShiftScaleLabelMapFilterTest1
+
+  itkCropLabelMapFilterTest1
+  itkMergeLabelMapFilterTest1
+  itkPadLabelMapFilterTest1
+  itkRegionFromReferenceLabelMapFilterTest1
+
+  itkBinaryImageToShapeLabelMapFilterTest1
+  itkLabelImageToShapeLabelMapFilterTest1
+
+  itkBinaryShapeKeepNObjectsImageFilterTest1
+  itkBinaryShapeOpeningImageFilterTest1
+  itkLabelShapeKeepNObjectsImageFilterTest1
+  itkLabelShapeOpeningImageFilterTest1
+  itkShapeKeepNObjectsLabelMapFilterTest1
+  itkShapeLabelObjectAccessorsTest1
+  itkShapeOpeningLabelMapFilterTest1
+  itkShapeRelabelImageFilterTest1
+  itkShapeRelabelLabelMapFilterTest1
+  itkShapeUniqueLabelMapFilterTest1
+
+  itkGaborImageSourceTest
+
+  itkDiscreteGaussianDerivativeImageFilterTest
+  itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest
+
+  itkAttributeKeepNObjectsLabelMapFilterTest1
+  itkAttributeLabelObjectAccessorsTest1
+  itkAttributeOpeningLabelMapFilterTest1
+  itkAttributePositionLabelMapFilterTest1
+  itkAttributeRelabelLabelMapFilterTest1
+  itkAttributeUniqueLabelMapFilterTest1
+  itkBinaryReconstructionLabelMapFilterTest
+  itkLabelMapContourOverlayImageFilterTest1
+  itkLabelMapMaskImageFilterTest
+  itkLabelMapOverlayImageFilterTest1
+  itkLabelMapToAttributeImageFilterTest1
+  itkLabelMapToRGBImageFilterTest1
+  itkLabelSelectionLabelMapFilterTest
+  itkLabelUniqueLabelMapFilterTest1
+  itkObjectByObjectLabelMapFilterTest
+  itkShapePositionLabelMapFilterTest1
+  itkShiftLabelObjectTest
+  itkStatisticsPositionLabelMapFilterTest1
+
+  itkAttributeLabelObjectAccessorsTest1
+  itkBinaryClosingByReconstructionImageFilterTest
+  itkBinaryFillholeImageFilterTest1
+  itkBinaryGrindPeakImageFilterTest1
+  itkBinaryImageToStatisticsLabelMapFilterTest1
+  itkBinaryOpeningByReconstructionImageFilterTest
+  itkBinaryReconstructionByDilationImageFilterTest
+  itkBinaryReconstructionByErosionImageFilterTest
+  itkBinaryStatisticsKeepNObjectsImageFilterTest1
+  itkBinaryStatisticsOpeningImageFilterTest1
+  itkLabelGeometryImageFilterTest
+  itkLabelImageToStatisticsLabelMapFilterTest1
+  itkLabelStatisticsKeepNObjectsImageFilterTest1
+  itkLabelStatisticsOpeningImageFilterTest1
+  itkStatisticsKeepNObjectsLabelMapFilterTest1
+  itkStatisticsOpeningLabelMapFilterTest1
+  itkStatisticsRelabelImageFilterTest1
+  itkStatisticsRelabelLabelMapFilterTest1
+  itkStatisticsUniqueLabelMapFilterTest1
+
+  itkMRCImageIOTest
+  itkVTKImageIO2Test
+  itkVTKImageIO2Test2
+
+  itkJPEG2000ImageIOFactoryTest01
+  itkJPEG2000ImageIOTest00
+  itkJPEG2000ImageIOTest01
+  itkJPEG2000ImageIOTest02
+  itkJPEG2000ImageIOTest03
+  itkJPEG2000ImageIOTest04
+  itkJPEG2000ImageIOTest05
+  itkJPEG2000ImageIOTest06
+  itkJPEG2000ImageIORegionOfInterest
+
+  itkObjectToObjectMetricTest
+  itkDeformationFieldTransformTest
+  itkBSplineControlPointImageFilterTest
   itkBSplineControlPointImageFilterTest1.cxx
-  itkN4MRIBiasFieldCorrectionImageFilterTest.cxx
-  itkCompositeTransformTest.cxx
-  itkScalarChanAndVeseLevelSetFunctionTest1.cxx
-  itkScalarChanAndVeseLevelSetFunctionTest2.cxx
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest2.cxx
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest3.cxx
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest4.cxx
-  itkScalarChanAndVeseSparseLevelSetImageFilterTest1.cxx
-  itkScalarChanAndVeseSparseLevelSetImageFilterTest2.cxx
+  itkN4MRIBiasFieldCorrectionImageFilterTest
+  itkCompositeTransformTest
+
+  itkScalarChanAndVeseLevelSetFunctionTest1
+  itkScalarChanAndVeseLevelSetFunctionTest2
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest1
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest3
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest4
+  itkScalarChanAndVeseSparseLevelSetImageFilterTest1
+  itkScalarChanAndVeseSparseLevelSetImageFilterTest2
+
+  itkOptImageToImageMetricsTest2
+  itkOptGrayscaleMorphologicalClosingImageFilterTest
+  itkOptGrayscaleMorphologicalOpeningImageFilterTest
+  itkOptGrayscaleDilateImageFilterTest
+  itkOptGrayscaleErodeImageFilterTest
+  itkMapOptGrayscaleMorphologicalClosingImageFilterTest
+  itkMapOptGrayscaleMorphologicalOpeningImageFilterTest
+  itkMapOptGrayscaleDilateImageFilterTest
+  itkMapOptGrayscaleErodeImageFilterTest
 )
 
 
+if(ITK_USE_MINC2 AND MINC2_FOUND)
+  set(KitTests ${KitTests} itkMINC2ImageIOTest)
+endif(ITK_USE_MINC2 AND MINC2_FOUND)
+
+
+if( USE_FFTWD OR USE_FFTWF )
+  set( KitTests
+    ${KitTests}
+    itkFFTComplexToComplexImageFilterTest01
+    itkFFTComplexToComplexImageFilterTest02
+    )
+endif( USE_FFTWD OR USE_FFTWF )
+
+# Given KIT, KIT_LIBS and KitTests, build TestDriver
+CreateTestDriver(${KIT} "${KIT_LIBS}" "${KitTests}" TestDriver)
+
+#############################################################
+# Tests that use the Test Driver
+#
 add_test(itkOptImageToImageMetricsTest01
-  ${REVIEW_TESTS} itkOptImageToImageMetricsTest
+  ${TestDriver} itkOptImageToImageMetricsTest
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )
 
 add_test(itkOptImageToImageMetricsTest02
-  ${REVIEW_TESTS}
+  ${TestDriver}
   --with-threads 2
   itkOptImageToImageMetricsTest
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
@@ -305,22 +320,21 @@ add_test(itkOptImageToImageMetricsTest02
   )
 
 add_test(itkOptImageToImageMetricsTest03
-  ${REVIEW_TESTS}
+  ${TestDriver}
   --without-threads
   itkOptImageToImageMetricsTest
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )
 
-set(ReviewTest_SRCS ${ReviewTest_SRCS} itkOptImageToImageMetricsTest2.cxx)
 add_test(itkOptImageToImageMetricsTest04
-  ${REVIEW_TESTS} itkOptImageToImageMetricsTest2
+  ${TestDriver} itkOptImageToImageMetricsTest2
   ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
   ${ITK_SOURCE_DIR}/Testing/Data/Baseline/Common/itkBSplineDeformableTransformTest4.png
   )
 
 add_test(itkOptMattesImageToImageMetricsTest01
-  ${REVIEW_TESTS} itkOptMattesMutualInformationImageToImageMetricThreadsTest1
+  ${TestDriver} itkOptMattesMutualInformationImageToImageMetricThreadsTest1
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   0
@@ -328,16 +342,13 @@ add_test(itkOptMattesImageToImageMetricsTest01
   )
 
 
-if(ITK_USE_MINC2 AND MINC2_FOUND)
-  set(ReviewTest_SRCS ${ReviewTest_SRCS} itkMINC2ImageIOTest.cxx)
-endif(ITK_USE_MINC2 AND MINC2_FOUND)
 
-add_test(itkFlatStructuringElementTest ${REVIEW_TESTS}
+add_test(itkFlatStructuringElementTest ${TestDriver}
   itkFlatStructuringElementTest
   )
 
 add_test(itkDirectFourierReconstructionImageToImageFilterTest
-  ${REVIEW_TESTS2}
+  ${TestDriver}
   --compare ${BASELINE}/reconstruct.mha
             ${TEMP}/reconstruct.mha
   itkDirectFourierReconstructionImageToImageFilterTest
@@ -361,7 +372,7 @@ add_test(itkDirectFourierReconstructionImageToImageFilterTest
   )
 
 add_test(itkBSplineDeformableTransformInitializerTest1
-  ${REVIEW_TESTS2}
+  ${TestDriver}
   itkBSplineDeformableTransformInitializerTest1
   ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
@@ -371,7 +382,7 @@ add_test(itkBSplineDeformableTransformInitializerTest1
 )
 
 add_test(itkBSplineDeformableTransformInitializerTest2
-  ${REVIEW_TESTS2}
+  ${TestDriver}
   itkBSplineDeformableTransformInitializerTest2
   ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
@@ -380,11 +391,11 @@ add_test(itkBSplineDeformableTransformInitializerTest2
   ${TEMP}/itkBSplineDeformableTransformInitializerTest2DeformationField.mhd
 )
 
-add_test(itkRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
+add_test(itkRegionBasedLevelSetFunctionTest ${TestDriver}
   itkRegionBasedLevelSetFunctionTest)
-add_test(itkScalarRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
+add_test(itkScalarRegionBasedLevelSetFunctionTest ${TestDriver}
   itkScalarRegionBasedLevelSetFunctionTest)
-add_test( itkTriangleMeshToBinaryImageFilterTest3 ${REVIEW_TESTS3}
+add_test( itkTriangleMeshToBinaryImageFilterTest3 ${TestDriver}
   itkTriangleMeshToBinaryImageFilterTest3
   ${INPUTDATA}/genusZeroSurface01.vtk
   ${TEMP}/itkTriangleMeshToBinaryImageFilterTest3.mha
@@ -395,7 +406,7 @@ add_test( itkTriangleMeshToBinaryImageFilterTest3 ${REVIEW_TESTS3}
 
 foreach(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   string(REGEX REPLACE "\\." "_" op ${opacity})
-  add_test(itkLabelOverlayImageFilterTest-Opacity-${op} ${REVIEW_TESTS}
+  add_test(itkLabelOverlayImageFilterTest-Opacity-${op} ${TestDriver}
         --compare ${BASELINE}/cthead1-${op}Overlay.png
                   ${TEMP}/cthead1-${op}Overlay.png
                   itkLabelOverlayImageFilterTest
@@ -405,70 +416,70 @@ foreach(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
                   ${TEMP}/cthead1-${op}Overlay.png)
 endforeach(opacity)
 
-add_test(itkLabelToRGBImageFilterTest ${REVIEW_TESTS}
+add_test(itkLabelToRGBImageFilterTest ${TestDriver}
       --compare ${BASELINE}/cthead1Label-color.png
                 ${TEMP}/cthead1Label-color.png
                 itkLabelToRGBImageFilterTest
                 ${INPUTDATA}/cthead1Label.png
                 ${TEMP}/cthead1Label-color.png)
 
-add_test(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS2}
+add_test(itkContourExtractor2DImageFilterTest ${TestDriver}
                                   itkContourExtractor2DImageFilterTest
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
-add_test(itkHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
+add_test(itkHeavisideStepFunctionTest1 ${TestDriver}
   itkHeavisideStepFunctionTest1
   )
 
-add_test(itkLabelImageToLabelMapFilterTest ${REVIEW_TESTS2}
+add_test(itkLabelImageToLabelMapFilterTest ${TestDriver}
   itkLabelImageToLabelMapFilterTest
   )
 
-add_test(itkLabelMapFilterTest ${REVIEW_TESTS2}
+add_test(itkLabelMapFilterTest ${TestDriver}
   itkLabelMapFilterTest
   )
 
-add_test(itkLabelMapTest ${REVIEW_TESTS2}
+add_test(itkLabelMapTest ${TestDriver}
   itkLabelMapTest
   )
 
-add_test(itkLabelMapToLabelImageFilterTest ${REVIEW_TESTS2}
+add_test(itkLabelMapToLabelImageFilterTest ${TestDriver}
   itkLabelMapToLabelImageFilterTest
   )
 
-add_test(itkLabelObjectLineComparatorTest ${REVIEW_TESTS2}
+add_test(itkLabelObjectLineComparatorTest ${TestDriver}
   itkLabelObjectLineComparatorTest
   )
 
-add_test(itkLabelObjectLineTest ${REVIEW_TESTS2}
+add_test(itkLabelObjectLineTest ${TestDriver}
   itkLabelObjectLineTest
   )
 
-add_test(itkLabelObjectTest ${REVIEW_TESTS2}
+add_test(itkLabelObjectTest ${TestDriver}
   itkLabelObjectTest
   )
 
-add_test(itkMultiphaseFiniteDifferenceImageFilterTest ${REVIEW_TESTS2}
+add_test(itkMultiphaseFiniteDifferenceImageFilterTest ${TestDriver}
   itkMultiphaseFiniteDifferenceImageFilterTest
   )
 
-add_test(itkMultiphaseDenseFiniteDifferenceImageFilterTest ${REVIEW_TESTS2}
+add_test(itkMultiphaseDenseFiniteDifferenceImageFilterTest ${TestDriver}
   itkMultiphaseDenseFiniteDifferenceImageFilterTest
   )
 
-add_test(itkMultiphaseSparseFiniteDifferenceImageFilterTest ${REVIEW_TESTS2}
+add_test(itkMultiphaseSparseFiniteDifferenceImageFilterTest ${TestDriver}
   itkMultiphaseSparseFiniteDifferenceImageFilterTest
   )
 
-add_test(itkAtanRegularizedHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
+add_test(itkAtanRegularizedHeavisideStepFunctionTest1 ${TestDriver}
   itkAtanRegularizedHeavisideStepFunctionTest1
   )
 
-add_test(itkSinRegularizedHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
+add_test(itkSinRegularizedHeavisideStepFunctionTest1 ${TestDriver}
   itkSinRegularizedHeavisideStepFunctionTest1
   )
 
-add_test(itkStochasticFractalDimensionImageFilterTest1 ${REVIEW_TESTS2}
+add_test(itkStochasticFractalDimensionImageFilterTest1 ${TestDriver}
   --compare ${BASELINE}/itkStochasticFractalDimensionImageFilterTest1.mha
             ${TEMP}/itkStochasticFractalDimensionImageFilterTest1.mha
   itkStochasticFractalDimensionImageFilterTest
@@ -478,7 +489,7 @@ add_test(itkStochasticFractalDimensionImageFilterTest1 ${REVIEW_TESTS2}
   2                                                         # radius
   )
 
-add_test(itkStochasticFractalDimensionImageFilterTest2 ${REVIEW_TESTS2}
+add_test(itkStochasticFractalDimensionImageFilterTest2 ${TestDriver}
   --compare ${BASELINE}/itkStochasticFractalDimensionImageFilterTest2.mha
             ${TEMP}/itkStochasticFractalDimensionImageFilterTest2.mha
   itkStochasticFractalDimensionImageFilterTest
@@ -491,21 +502,21 @@ add_test(itkStochasticFractalDimensionImageFilterTest2 ${REVIEW_TESTS2}
   )
 
 
-add_test(itkNeuralNetworkIOTest ${REVIEW_TESTS}
+add_test(itkNeuralNetworkIOTest ${TestDriver}
                   itkNeuralNetworkIOTest
                   ${INPUTDATA}/xornet.txt
                   ${INPUTDATA}/xortest.txt
                   ${TEMP}
                   )
 
-add_test(itkConformalFlatteningMeshFilterTest1 ${REVIEW_TESTS}
+add_test(itkConformalFlatteningMeshFilterTest1 ${TestDriver}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  ${TEMP}/genusZeroMesh01ConformalFlattenedToSphere.vtk
                  1
                  )
 
-add_test(itkConformalFlatteningQuadEdgeMeshFilterTest1 ${REVIEW_TESTS}
+add_test(itkConformalFlatteningQuadEdgeMeshFilterTest1 ${TestDriver}
                  itkConformalFlatteningQuadEdgeMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  ${TEMP}/genusZeroQuadEdgeMesh01ConformalFlattenedToSphere.vtk
@@ -514,14 +525,14 @@ add_test(itkConformalFlatteningQuadEdgeMeshFilterTest1 ${REVIEW_TESTS}
                  1
                  )
 
-add_test(itkConformalFlatteningMeshFilterTest2 ${REVIEW_TESTS}
+add_test(itkConformalFlatteningMeshFilterTest2 ${TestDriver}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  ${TEMP}/genusZeroMesh01ConformalFlattenedToPlane.vtk
                  0
                  )
 
-add_test(itkConformalFlatteningQuadEdgeMeshFilterTest2 ${REVIEW_TESTS}
+add_test(itkConformalFlatteningQuadEdgeMeshFilterTest2 ${TestDriver}
                  itkConformalFlatteningQuadEdgeMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  ${TEMP}/genusZeroQuadEdgeMesh01ConformalFlattenedToPlane.vtk
@@ -530,7 +541,7 @@ add_test(itkConformalFlatteningQuadEdgeMeshFilterTest2 ${REVIEW_TESTS}
                  0
                  )
 
-add_test(itkValuedRegionalMinimaImageFilterTest ${REVIEW_TESTS}
+add_test(itkValuedRegionalMinimaImageFilterTest ${TestDriver}
         --compare ${BASELINE}/cthead1ValuedRegionalMinimal-ref.png
                   ${TEMP}/cthead1ValuedRegionalMinimal.png
                   itkValuedRegionalMinimaImageFilterTest
@@ -540,7 +551,7 @@ add_test(itkValuedRegionalMinimaImageFilterTest ${REVIEW_TESTS}
                   ${TEMP}/cthead1ValuedRegionalMinimal-ref.png
                   )
 
-add_test(itkValuedRegionalMinimaImageFilterTest2 ${REVIEW_TESTS}
+add_test(itkValuedRegionalMinimaImageFilterTest2 ${TestDriver}
         --compare ${BASELINE}/cthead1ValuedRegionalMinimal-ref2.png
                   ${TEMP}/cthead1ValuedRegionalMinimal2.png
                   itkValuedRegionalMinimaImageFilterTest
@@ -550,7 +561,7 @@ add_test(itkValuedRegionalMinimaImageFilterTest2 ${REVIEW_TESTS}
                   ${TEMP}/cthead1ValuedRegionalMinimal-ref2.png
                   )
 
-add_test(itkValuedRegionalMaximaImageFilterTest ${REVIEW_TESTS}
+add_test(itkValuedRegionalMaximaImageFilterTest ${TestDriver}
         --compare ${BASELINE}/cthead1ValuedRegionalMaximal-ref.png
                   ${TEMP}/cthead1ValuedRegionalMaximal.png
                   itkValuedRegionalMaximaImageFilterTest
@@ -560,7 +571,7 @@ add_test(itkValuedRegionalMaximaImageFilterTest ${REVIEW_TESTS}
                   ${TEMP}/cthead1ValuedRegionalMaximal-ref.png
                   )
 
-add_test(itkValuedRegionalMaximaImageFilterTest2 ${REVIEW_TESTS}
+add_test(itkValuedRegionalMaximaImageFilterTest2 ${TestDriver}
         --compare ${BASELINE}/cthead1ValuedRegionalMaximal-ref2.png
                   ${TEMP}/cthead1ValuedRegionalMaximal2.png
                   itkValuedRegionalMaximaImageFilterTest
@@ -570,7 +581,7 @@ add_test(itkValuedRegionalMaximaImageFilterTest2 ${REVIEW_TESTS}
                   ${TEMP}/cthead1ValuedRegionalMaximal-ref2.png
                   )
 
-add_test(itkRegionalMinimaImageFilterTest2_1 ${REVIEW_TESTS}
+add_test(itkRegionalMinimaImageFilterTest2_1 ${TestDriver}
         --compare ${BASELINE}/cthead1RegionalMinimal-ref2_1.png
                   ${TEMP}/cthead1RegionalMinimal2_1.png
                   itkRegionalMaximaImageFilterTest2
@@ -580,7 +591,7 @@ add_test(itkRegionalMinimaImageFilterTest2_1 ${REVIEW_TESTS}
                   ${TEMP}/cthead1RegionalMinimal2_1.png
                   ${TEMP}/cthead1RegionalMinimal-ref2_1.png
                   )
-add_test(itkRegionalMinimaImageFilterTest2_2 ${REVIEW_TESTS}
+add_test(itkRegionalMinimaImageFilterTest2_2 ${TestDriver}
         --compare ${BASELINE}/cthead1RegionalMinimal-ref2_2.png
                   ${TEMP}/cthead1RegionalMinimal2_2.png
                   itkRegionalMaximaImageFilterTest2
@@ -591,7 +602,7 @@ add_test(itkRegionalMinimaImageFilterTest2_2 ${REVIEW_TESTS}
                   ${TEMP}/cthead1RegionalMinimal-ref2_2.png
                   )
 
-add_test(itkRegionalMaximaImageFilterTest2_1 ${REVIEW_TESTS}
+add_test(itkRegionalMaximaImageFilterTest2_1 ${TestDriver}
         --compare ${BASELINE}/cthead1RegionalMaximal-ref2_1.png
                   ${TEMP}/cthead1RegionalMaximal2_1.png
                   itkRegionalMaximaImageFilterTest2
@@ -601,7 +612,7 @@ add_test(itkRegionalMaximaImageFilterTest2_1 ${REVIEW_TESTS}
                   ${TEMP}/cthead1RegionalMaximal2_1.png
                   ${TEMP}/cthead1RegionalMaximal-ref2_1.png
                   )
-add_test(itkRegionalMaximaImageFilterTest2_2 ${REVIEW_TESTS}
+add_test(itkRegionalMaximaImageFilterTest2_2 ${TestDriver}
         --compare ${BASELINE}/cthead1RegionalMaximal-ref2_2.png
                   ${TEMP}/cthead1RegionalMaximal2_2.png
                   itkRegionalMaximaImageFilterTest2
@@ -614,7 +625,7 @@ add_test(itkRegionalMaximaImageFilterTest2_2 ${REVIEW_TESTS}
 
 foreach(M 0 1)
   foreach(F 0 1)
-    add_test(itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F} ${REVIEW_TESTS}
+    add_test(itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F} ${TestDriver}
             --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F}.png
                       itkMorphologicalWatershedImageFilterTest
@@ -623,7 +634,7 @@ foreach(M 0 1)
                       ${M} ${F} 0
                       )
 
-    add_test(itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F} ${REVIEW_TESTS}
+    add_test(itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F} ${TestDriver}
             --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F}.png
                       itkMorphologicalWatershedImageFilterTest
@@ -632,7 +643,7 @@ foreach(M 0 1)
                       ${M} ${F} 0
                       )
 
-    add_test(itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F} ${REVIEW_TESTS}
+    add_test(itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F} ${TestDriver}
             --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F}.png
                       itkMorphologicalWatershedImageFilterTest
@@ -641,7 +652,7 @@ foreach(M 0 1)
                       ${M} ${F} 0
                       )
 
-    add_test(itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F} ${REVIEW_TESTS}
+    add_test(itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F} ${TestDriver}
             --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F}.png
                       itkMorphologicalWatershedImageFilterTest
@@ -650,7 +661,7 @@ foreach(M 0 1)
                       ${M} ${F} 0
                       )
 
-    add_test(itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F} ${REVIEW_TESTS}
+    add_test(itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F} ${TestDriver}
             --compare ${BASELINE}/itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F}.png
                       itkMorphologicalWatershedFromMarkersImageFilterTest
@@ -663,7 +674,7 @@ foreach(M 0 1)
 endforeach(M)
 
 foreach(level 00 10 20 30 40 50)
-  add_test(itkMorphologicalWatershedImageFilterTestLevel${level} ${REVIEW_TESTS}
+  add_test(itkMorphologicalWatershedImageFilterTestLevel${level} ${TestDriver}
           --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestLevel${level}.png
                     ${TEMP}/itkMorphologicalWatershedImageFilterTestLevel${level}.png
                     itkMorphologicalWatershedImageFilterTest
@@ -673,7 +684,7 @@ foreach(level 00 10 20 30 40 50)
                     )
 endforeach(level)
 
-add_test(itkBinaryMorphologicalClosingImageFilterTest$ ${REVIEW_TESTS}
+add_test(itkBinaryMorphologicalClosingImageFilterTest$ ${TestDriver}
         --compare ${BASELINE}/itkBinaryMorphologicalClosingImageFilterTest.png
                   ${TEMP}/itkBinaryMorphologicalClosingImageFilterTest.png
                   itkBinaryMorphologicalClosingImageFilterTest
@@ -682,7 +693,7 @@ add_test(itkBinaryMorphologicalClosingImageFilterTest$ ${REVIEW_TESTS}
                   40 1 200
                   )
 
-add_test(itkBinaryMorphologicalClosingImageFilterTestUnsafe$ ${REVIEW_TESTS}
+add_test(itkBinaryMorphologicalClosingImageFilterTestUnsafe$ ${TestDriver}
         --compare ${BASELINE}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
                   ${TEMP}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
                   itkBinaryMorphologicalClosingImageFilterTest
@@ -691,7 +702,7 @@ add_test(itkBinaryMorphologicalClosingImageFilterTestUnsafe$ ${REVIEW_TESTS}
                   40 0 200
                   )
 
-add_test(itkBinaryMorphologicalOpeningImageFilterTest$ ${REVIEW_TESTS}
+add_test(itkBinaryMorphologicalOpeningImageFilterTest$ ${TestDriver}
         --compare ${BASELINE}/itkBinaryMorphologicalOpeningImageFilterTest.png
                   ${TEMP}/itkBinaryMorphologicalOpeningImageFilterTest.png
                   itkBinaryMorphologicalOpeningImageFilterTest
@@ -699,53 +710,53 @@ add_test(itkBinaryMorphologicalOpeningImageFilterTest$ ${REVIEW_TESTS}
                   ${TEMP}/itkBinaryMorphologicalOpeningImageFilterTest.png
                   8 150 200
                   )
-add_test(itkTimeAndMemoryProbeTest1 ${REVIEW_TESTS}
+add_test(itkTimeAndMemoryProbeTest1 ${TestDriver}
         itkTimeAndMemoryProbeTest
         )
 
-add_test(itkBruker2DSEQImageIOTest1 ${REVIEW_TESTS}
+add_test(itkBruker2DSEQImageIOTest1 ${TestDriver}
         itkBruker2DSEQImageIOTest
         ${ITK_DATA_ROOT}/Input/DCB120604.t61/11/pdata/1/2dseq
         ${ITK_TEST_OUTPUT_DIR}/itkBruker2DSEQImageIOTest1.mha
         )
 
-add_test(itkPhilipsRECImageIOTest1 ${REVIEW_TESTS}
+add_test(itkPhilipsRECImageIOTest1 ${TestDriver}
         itkPhilipsRECImageIOTest
         ${ITK_DATA_ROOT}/Input/T1_MEASUREMENT_4_1.PAR
         ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest1.mha
         )
 
-add_test(itkVoxBoCUBImageIOTest1 ${REVIEW_TESTS}
+add_test(itkVoxBoCUBImageIOTest1 ${TestDriver}
         itkVoxBoCUBImageIOTest
         ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.cub
         )
 
-add_test(itkVoxBoCUBImageIOTest2 ${REVIEW_TESTS}
+add_test(itkVoxBoCUBImageIOTest2 ${TestDriver}
         itkVoxBoCUBImageIOTest
         ${ITK_DATA_ROOT}/Input/HeadMRVolume.cub
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub
         )
 
-add_test(itkVoxBoCUBImageIOTest3 ${REVIEW_TESTS}
+add_test(itkVoxBoCUBImageIOTest3 ${TestDriver}
         itkVoxBoCUBImageIOTest
         ${ITK_DATA_ROOT}/Input/HeadMRVolume1.cub
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub.gz
         )
 
-add_test(itkVoxBoCUBImageIOTest4 ${REVIEW_TESTS}
+add_test(itkVoxBoCUBImageIOTest4 ${TestDriver}
         itkVoxBoCUBImageIOTest
         ${ITK_DATA_ROOT}/Input/HeadMRVolume1.cub.gz
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub.gz
         )
 
-add_test(itkVoxBoCUBImageIOTest5 ${REVIEW_TESTS}
+add_test(itkVoxBoCUBImageIOTest5 ${TestDriver}
         itkVoxBoCUBImageIOTest
         ${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub
         )
 
-add_test(itkVoxBoCUBImageIOTest6 ${REVIEW_TESTS}
+add_test(itkVoxBoCUBImageIOTest6 ${TestDriver}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB2.mha
         itkVoxBoCUBImageIOTest
@@ -753,7 +764,7 @@ add_test(itkVoxBoCUBImageIOTest6 ${REVIEW_TESTS}
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB2.mha
         )
 
-add_test(itkVoxBoCUBImageIOTest7 ${REVIEW_TESTS}
+add_test(itkVoxBoCUBImageIOTest7 ${TestDriver}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
         itkVoxBoCUBImageIOTest
@@ -761,43 +772,43 @@ add_test(itkVoxBoCUBImageIOTest7 ${REVIEW_TESTS}
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
         )
 
-add_test(itkSliceBySliceImageFilterTest ${REVIEW_TESTS}
+add_test(itkSliceBySliceImageFilterTest ${TestDriver}
         itkSliceBySliceImageFilterTest
         ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
         ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest01 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest01 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest 0  0  0.001  20.0
         200   0.01   0.08   5 10
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest02 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest02 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest 1  0  0.01  3.0
         400   0.2   0.9   10 70
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest03 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest03 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest 2  0  0.001  20.0
         200   0.01   0.08   5   10
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest04 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest04 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest 3  0  0.01  3.0
         200   0.2   0.8   5   70
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest05 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest05 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest 0  1  0.01  3.0
         400   0.2   0.08   5  70
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest06 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest06 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest 0  0  0.005  20.0
         200   0.01   0.08   5  10
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest07 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest07 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest2
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
@@ -805,7 +816,7 @@ add_test(itkDiffeomorphicDemonsRegistrationFilterTest07 ${REVIEW_TESTS}
         0  0  0.001  0.1
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest08 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest08 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest2
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
@@ -813,7 +824,7 @@ add_test(itkDiffeomorphicDemonsRegistrationFilterTest08 ${REVIEW_TESTS}
         1  0  0.001  0.1
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest09 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest09 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest2
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
@@ -821,7 +832,7 @@ add_test(itkDiffeomorphicDemonsRegistrationFilterTest09 ${REVIEW_TESTS}
         2  0  0.001  0.1
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest10 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest10 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest2
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
@@ -829,7 +840,7 @@ add_test(itkDiffeomorphicDemonsRegistrationFilterTest10 ${REVIEW_TESTS}
         3  0  0.001  0.1
         )
 
-add_test(itkDiffeomorphicDemonsRegistrationFilterTest11 ${REVIEW_TESTS}
+add_test(itkDiffeomorphicDemonsRegistrationFilterTest11 ${TestDriver}
         itkDiffeomorphicDemonsRegistrationFilterTest2
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
@@ -837,31 +848,31 @@ add_test(itkDiffeomorphicDemonsRegistrationFilterTest11 ${REVIEW_TESTS}
         0  1  0.001  0.1
         )
 
-add_test(itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest ${REVIEW_TESTS}
+add_test(itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest ${TestDriver}
         itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
         )
 
-add_test(itkVectorCentralDifferenceImageFunctionTest ${REVIEW_TESTS}
+add_test(itkVectorCentralDifferenceImageFunctionTest ${TestDriver}
         itkVectorCentralDifferenceImageFunctionTest
         )
 
-add_test(itkExponentialDeformationFieldImageFilterTest ${REVIEW_TESTS}
+add_test(itkExponentialDeformationFieldImageFilterTest ${TestDriver}
         itkExponentialDeformationFieldImageFilterTest
         )
 
-add_test(itkFastSymmetricForcesDemonsRegistrationFilterTest ${REVIEW_TESTS}
+add_test(itkFastSymmetricForcesDemonsRegistrationFilterTest ${TestDriver}
         itkFastSymmetricForcesDemonsRegistrationFilterTest
         )
 
-add_test(itkGridForwardWarpImageFilterTest ${REVIEW_TESTS}
+add_test(itkGridForwardWarpImageFilterTest ${TestDriver}
         itkGridForwardWarpImageFilterTest
         )
 
-add_test(itkWarpHarmonicEnergyCalculatorTest ${REVIEW_TESTS}
+add_test(itkWarpHarmonicEnergyCalculatorTest ${TestDriver}
         itkWarpHarmonicEnergyCalculatorTest
         )
 
-add_test(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
+add_test(itkBSplineScatteredDataPointSetToImageFilterTest01 ${TestDriver}
         --compare
           ${BASELINE}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
           ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
@@ -870,89 +881,89 @@ add_test(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
         ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
         )
 
-add_test(itkBSplineScatteredDataPointSetToImageFilterTest02 ${REVIEW_TESTS}
+add_test(itkBSplineScatteredDataPointSetToImageFilterTest02 ${TestDriver}
         itkBSplineScatteredDataPointSetToImageFilterTest2
         ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsTestOutput2.txt
         )
 
-add_test(itkBSplineScatteredDataPointSetToImageFilterTest03 ${REVIEW_TESTS}
+add_test(itkBSplineScatteredDataPointSetToImageFilterTest03 ${TestDriver}
         itkBSplineScatteredDataPointSetToImageFilterTest3
         ${ITK_SOURCE_DIR}/Testing/Data/Input/BSplineScatteredApproximationDataPointsInput.txt
         ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsTestOutput3.txt
         )
 
-add_test(itkCoxDeBoorBSplineKernelFunctionTest01 ${REVIEW_TESTS}
+add_test(itkCoxDeBoorBSplineKernelFunctionTest01 ${TestDriver}
         itkCoxDeBoorBSplineKernelFunctionTest
         )
 
-add_test(itkCoxDeBoorBSplineKernelFunctionTest02 ${REVIEW_TESTS}
+add_test(itkCoxDeBoorBSplineKernelFunctionTest02 ${TestDriver}
         itkCoxDeBoorBSplineKernelFunctionTest2
         )
 
-add_test(itkKappaSigmaThresholdImageCalculatorTest01 ${REVIEW_TESTS}
+add_test(itkKappaSigmaThresholdImageCalculatorTest01 ${TestDriver}
         itkKappaSigmaThresholdImageCalculatorTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence1.png
         10 3.5 19
         )
 
-add_test(itkKappaSigmaThresholdImageCalculatorTest02 ${REVIEW_TESTS}
+add_test(itkKappaSigmaThresholdImageCalculatorTest02 ${TestDriver}
         itkKappaSigmaThresholdImageCalculatorTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence2.png
         10 3.0 19
         )
 
-add_test(itkKappaSigmaThresholdImageFilterTest01 ${REVIEW_TESTS}
+add_test(itkKappaSigmaThresholdImageFilterTest01 ${TestDriver}
         itkKappaSigmaThresholdImageFilterTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence1.png
         ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest01.mha
         10 3.5
         )
 
-add_test(itkKappaSigmaThresholdImageFilterTest02 ${REVIEW_TESTS}
+add_test(itkKappaSigmaThresholdImageFilterTest02 ${TestDriver}
         itkKappaSigmaThresholdImageFilterTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence2.png
         ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest02.mha
         10 3.0
         )
 
-add_test(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}
+add_test(itkMultiplyByConstantImageFilterTest ${TestDriver}
         itkMultiplyByConstantImageFilterTest
         )
 
-add_test(itkDivideByConstantImageFilterTest ${REVIEW_TESTS}
+add_test(itkDivideByConstantImageFilterTest ${TestDriver}
         itkDivideByConstantImageFilterTest
         )
 
-add_test(itkAddConstantToImageFilterTest ${REVIEW_TESTS}
+add_test(itkAddConstantToImageFilterTest ${TestDriver}
         itkAddConstantToImageFilterTest
         )
 
-add_test(itkSubtractConstantFromImageFilterTest ${REVIEW_TESTS}
+add_test(itkSubtractConstantFromImageFilterTest ${TestDriver}
         itkSubtractConstantFromImageFilterTest
         )
 
-add_test(itkImageReadRealAndImaginaryWriteComplexTest ${REVIEW_TESTS}
+add_test(itkImageReadRealAndImaginaryWriteComplexTest ${TestDriver}
         itkImageReadRealAndImaginaryWriteComplexTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
         )
 
-add_test(itkImageReadComplexWriteMagnitudeAndPhaseTest ${REVIEW_TESTS}
+add_test(itkImageReadComplexWriteMagnitudeAndPhaseTest ${TestDriver}
         itkImageReadComplexWriteMagnitudeAndPhaseTest
         ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplex.mha
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha
         )
 
-add_test(itkImageReadMagnitudeAndPhaseWriteComplexTest ${REVIEW_TESTS}
+add_test(itkImageReadMagnitudeAndPhaseWriteComplexTest ${TestDriver}
         itkImageReadMagnitudeAndPhaseWriteComplexTest
         ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplexMagnitude.mha
         ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplexPhase.mha
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
         )
 
-add_test(itkComposeRGBAImageFilterTest ${REVIEW_TESTS}
+add_test(itkComposeRGBAImageFilterTest ${TestDriver}
     itkComposeRGBAImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkComposeRGBAImageFilterTestOutput.png
     ${ITK_SOURCE_DIR}/Testing/Data/Input/Number1inText.png
@@ -961,14 +972,14 @@ add_test(itkComposeRGBAImageFilterTest ${REVIEW_TESTS}
     ${ITK_SOURCE_DIR}/Testing/Data/Input/IntensityRamp64.png
 )
 
-add_test(itkTransformToDeformationFieldSourceTest01 ${REVIEW_TESTS}
+add_test(itkTransformToDeformationFieldSourceTest01 ${TestDriver}
     itkTransformToDeformationFieldSourceTest
     Affine
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField01.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage01.mha
 )
 
-add_test(itkTransformToDeformationFieldSourceTest02 ${REVIEW_TESTS}
+add_test(itkTransformToDeformationFieldSourceTest02 ${TestDriver}
     itkTransformToDeformationFieldSourceTest
     BSpline
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha
@@ -976,7 +987,7 @@ add_test(itkTransformToDeformationFieldSourceTest02 ${REVIEW_TESTS}
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha
 )
 
-add_test(itkTransformToDeformationFieldSourceTest03 ${REVIEW_TESTS}
+add_test(itkTransformToDeformationFieldSourceTest03 ${TestDriver}
    --compare ${TEMP}/transformedImage.nii
              ${TEMP}/warpedImage.nii
   --compareNumberOfPixelsTolerance 20
@@ -985,7 +996,7 @@ add_test(itkTransformToDeformationFieldSourceTest03 ${REVIEW_TESTS}
      ${TEMP}/warpedImage.nii
 )
 
-add_test(itkBoxMeanImageFilterTest3 ${REVIEW_TESTS}
+add_test(itkBoxMeanImageFilterTest3 ${TestDriver}
   --compare ${BASELINE}/itkBoxMeanImageFilter3.png
             ${TEMP}/itkBoxMeanImageFilter3.png
   itkBoxMeanImageFilterTest
@@ -994,7 +1005,7 @@ add_test(itkBoxMeanImageFilterTest3 ${REVIEW_TESTS}
   3
 )
 
-add_test(itkBoxMeanImageFilterTest10 ${REVIEW_TESTS}
+add_test(itkBoxMeanImageFilterTest10 ${TestDriver}
   --compare ${BASELINE}/itkBoxMeanImageFilter10.png
             ${TEMP}/itkBoxMeanImageFilter10.png
   itkBoxMeanImageFilterTest
@@ -1004,7 +1015,7 @@ add_test(itkBoxMeanImageFilterTest10 ${REVIEW_TESTS}
 )
 
 
-add_test(itkBoxSigmaImageFilterTest3 ${REVIEW_TESTS}
+add_test(itkBoxSigmaImageFilterTest3 ${TestDriver}
   --compare ${BASELINE}/itkBoxSigmaImageFilter3.png
             ${TEMP}/itkBoxSigmaImageFilter3.png
   itkBoxSigmaImageFilterTest
@@ -1013,7 +1024,7 @@ add_test(itkBoxSigmaImageFilterTest3 ${REVIEW_TESTS}
   3
 )
 
-add_test(itkBoxSigmaImageFilterTest10 ${REVIEW_TESTS}
+add_test(itkBoxSigmaImageFilterTest10 ${TestDriver}
   --compare ${BASELINE}/itkBoxSigmaImageFilter10.png
             ${TEMP}/itkBoxSigmaImageFilter10.png
   itkBoxSigmaImageFilterTest
@@ -1023,7 +1034,7 @@ add_test(itkBoxSigmaImageFilterTest10 ${REVIEW_TESTS}
 )
 
 
-add_test(itkRankImageFilterTest3 ${REVIEW_TESTS}
+add_test(itkRankImageFilterTest3 ${TestDriver}
   --compare ${BASELINE}/itkRankImageFilter3.png
             ${TEMP}/itkRankImageFilter3.png
   itkRankImageFilterTest
@@ -1032,7 +1043,7 @@ add_test(itkRankImageFilterTest3 ${REVIEW_TESTS}
   3
 )
 
-add_test(itkRankImageFilterTest10 ${REVIEW_TESTS}
+add_test(itkRankImageFilterTest10 ${TestDriver}
   --compare ${BASELINE}/itkRankImageFilter10.png
             ${TEMP}/itkRankImageFilter10.png
   itkRankImageFilterTest
@@ -1042,7 +1053,7 @@ add_test(itkRankImageFilterTest10 ${REVIEW_TESTS}
 )
 
 
-add_test(itkMapRankImageFilterTest3 ${REVIEW_TESTS}
+add_test(itkMapRankImageFilterTest3 ${TestDriver}
   --compare ${BASELINE}/itkRankImageFilter3.png
             ${TEMP}/itkMapRankImageFilter3.png
   itkMapRankImageFilterTest
@@ -1051,7 +1062,7 @@ add_test(itkMapRankImageFilterTest3 ${REVIEW_TESTS}
   3
 )
 
-add_test(itkMapRankImageFilterTest10 ${REVIEW_TESTS}
+add_test(itkMapRankImageFilterTest10 ${TestDriver}
   --compare ${BASELINE}/itkRankImageFilter10.png
             ${TEMP}/itkMapRankImageFilter10.png
   itkMapRankImageFilterTest
@@ -1061,7 +1072,7 @@ add_test(itkMapRankImageFilterTest10 ${REVIEW_TESTS}
 )
 
 
-add_test(itkMaskedRankImageFilterTest3 ${REVIEW_TESTS}
+add_test(itkMaskedRankImageFilterTest3 ${TestDriver}
   --compare ${BASELINE}/itkMaskedRankImageFilter3.png
             ${TEMP}/itkMaskedRankImageFilter3.png
   itkMaskedRankImageFilterTest
@@ -1071,7 +1082,7 @@ add_test(itkMaskedRankImageFilterTest3 ${REVIEW_TESTS}
   3
 )
 
-add_test(itkMaskedRankImageFilterTest10 ${REVIEW_TESTS}
+add_test(itkMaskedRankImageFilterTest10 ${TestDriver}
   --compare ${BASELINE}/itkMaskedRankImageFilter10.png
             ${TEMP}/itkMaskedRankImageFilter10.png
   itkMaskedRankImageFilterTest
@@ -1082,7 +1093,7 @@ add_test(itkMaskedRankImageFilterTest10 ${REVIEW_TESTS}
 )
 
 
-add_test(itkMapMaskedRankImageFilterTest3 ${REVIEW_TESTS}
+add_test(itkMapMaskedRankImageFilterTest3 ${TestDriver}
   --compare ${BASELINE}/itkMaskedRankImageFilter3.png
             ${TEMP}/itkMapMaskedRankImageFilter3.png
   itkMapMaskedRankImageFilterTest
@@ -1092,7 +1103,7 @@ add_test(itkMapMaskedRankImageFilterTest3 ${REVIEW_TESTS}
   3
 )
 
-add_test(itkMapMaskedRankImageFilterTest10 ${REVIEW_TESTS}
+add_test(itkMapMaskedRankImageFilterTest10 ${TestDriver}
   --compare ${BASELINE}/itkMaskedRankImageFilter10.png
             ${TEMP}/itkMapMaskedRankImageFilter10.png
   itkMapMaskedRankImageFilterTest
@@ -1103,7 +1114,7 @@ add_test(itkMapMaskedRankImageFilterTest10 ${REVIEW_TESTS}
 )
 
 
-add_test(itkFastApproximateRankImageFilterTest3 ${REVIEW_TESTS}
+add_test(itkFastApproximateRankImageFilterTest3 ${TestDriver}
   --compare ${BASELINE}/itkFastApproximateRankImageFilter3.png
             ${TEMP}/itkFastApproximateRankImageFilter3.png
   itkFastApproximateRankImageFilterTest
@@ -1112,7 +1123,7 @@ add_test(itkFastApproximateRankImageFilterTest3 ${REVIEW_TESTS}
   3
 )
 
-add_test(itkFastApproximateRankImageFilterTest10 ${REVIEW_TESTS}
+add_test(itkFastApproximateRankImageFilterTest10 ${TestDriver}
   --compare ${BASELINE}/itkFastApproximateRankImageFilter10.png
             ${TEMP}/itkFastApproximateRankImageFilter10.png
   itkFastApproximateRankImageFilterTest
@@ -1121,18 +1132,7 @@ add_test(itkFastApproximateRankImageFilterTest10 ${REVIEW_TESTS}
   10
 )
 
-set(ReviewTest_SRCS
-  ${ReviewTest_SRCS}
-  itkOptGrayscaleMorphologicalClosingImageFilterTest.cxx
-  itkOptGrayscaleMorphologicalOpeningImageFilterTest.cxx
-  itkOptGrayscaleDilateImageFilterTest.cxx
-  itkOptGrayscaleErodeImageFilterTest.cxx
-  itkMapOptGrayscaleMorphologicalClosingImageFilterTest.cxx
-  itkMapOptGrayscaleMorphologicalOpeningImageFilterTest.cxx
-  itkMapOptGrayscaleDilateImageFilterTest.cxx
-  itkMapOptGrayscaleErodeImageFilterTest.cxx
-)
-add_test(itkOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
+add_test(itkOptGrayscaleMorphologicalClosingImageFilterTest ${TestDriver}
   --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
             ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
   --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
@@ -1147,7 +1147,7 @@ add_test(itkOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
   0
 )
-add_test(itkOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder ${REVIEW_TESTS}
+add_test(itkOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder ${TestDriver}
   --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
             ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
   --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
@@ -1162,7 +1162,7 @@ add_test(itkOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder ${REVIEW_T
   ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
   1
 )
-add_test(itkOptGrayscaleMorphologicalOpeningImageFilterTest ${REVIEW_TESTS}
+add_test(itkOptGrayscaleMorphologicalOpeningImageFilterTest ${TestDriver}
   --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
             ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
   --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
@@ -1177,7 +1177,7 @@ add_test(itkOptGrayscaleMorphologicalOpeningImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
   0
 )
-add_test(itkOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder ${REVIEW_TESTS}
+add_test(itkOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder ${TestDriver}
   --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
             ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
   --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
@@ -1192,7 +1192,7 @@ add_test(itkOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder ${REVIEW_T
   ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
   1
 )
-add_test(itkOptGrayscaleDilateImageFilterTest ${REVIEW_TESTS}
+add_test(itkOptGrayscaleDilateImageFilterTest ${TestDriver}
   --compare ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
             ${TEMP}/itkOptGrayscaleDilateImageFilterTestHisto.png
   --compare ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
@@ -1206,7 +1206,7 @@ add_test(itkOptGrayscaleDilateImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkOptGrayscaleDilateImageFilterTestVHGW.png
   ${TEMP}/itkOptGrayscaleDilateImageFilterTestAnchor.png
 )
-add_test(itkOptGrayscaleErodeImageFilterTest ${REVIEW_TESTS}
+add_test(itkOptGrayscaleErodeImageFilterTest ${TestDriver}
   --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
             ${TEMP}/itkOptGrayscaleErodeImageFilterTestHisto.png
   --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
@@ -1221,7 +1221,7 @@ add_test(itkOptGrayscaleErodeImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkOptGrayscaleErodeImageFilterTestAnchor.png
 )
 
-add_test(itkMapOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
+add_test(itkMapOptGrayscaleMorphologicalClosingImageFilterTest ${TestDriver}
   --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
             ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
   --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
@@ -1236,7 +1236,7 @@ add_test(itkMapOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
   0
 )
-add_test(itkMapOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder ${REVIEW_TESTS}
+add_test(itkMapOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder ${TestDriver}
   --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
             ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
   --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
@@ -1251,7 +1251,7 @@ add_test(itkMapOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder ${REVIE
   ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
   1
 )
-add_test(itkMapOptGrayscaleMorphologicalOpeningImageFilterTest ${REVIEW_TESTS}
+add_test(itkMapOptGrayscaleMorphologicalOpeningImageFilterTest ${TestDriver}
   --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
             ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
   --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
@@ -1266,7 +1266,7 @@ add_test(itkMapOptGrayscaleMorphologicalOpeningImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
   0
 )
-add_test(itkMapOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder ${REVIEW_TESTS}
+add_test(itkMapOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder ${TestDriver}
   --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
             ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
   --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
@@ -1281,7 +1281,7 @@ add_test(itkMapOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder ${REVIE
   ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
   1
 )
-add_test(itkMapOptGrayscaleDilateImageFilterTest ${REVIEW_TESTS}
+add_test(itkMapOptGrayscaleDilateImageFilterTest ${TestDriver}
   --compare ${TEMP}/itkMapOptGrayscaleDilateImageFilterTestBasic.png
             ${TEMP}/itkMapOptGrayscaleDilateImageFilterTestHisto.png
   --compare ${TEMP}/itkMapOptGrayscaleDilateImageFilterTestBasic.png
@@ -1295,7 +1295,7 @@ add_test(itkMapOptGrayscaleDilateImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkMapOptGrayscaleDilateImageFilterTestVHGW.png
   ${TEMP}/itkMapOptGrayscaleDilateImageFilterTestAnchor.png
 )
-add_test(itkMapOptGrayscaleErodeImageFilterTest ${REVIEW_TESTS}
+add_test(itkMapOptGrayscaleErodeImageFilterTest ${TestDriver}
   --compare ${TEMP}/itkMapOptGrayscaleErodeImageFilterTestBasic.png
             ${TEMP}/itkMapOptGrayscaleErodeImageFilterTestHisto.png
   --compare ${TEMP}/itkMapOptGrayscaleErodeImageFilterTestBasic.png
@@ -1310,11 +1310,11 @@ add_test(itkMapOptGrayscaleErodeImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkMapOptGrayscaleErodeImageFilterTestAnchor.png
 )
 
-add_test(itkGaussianDerivativeOperatorTest ${REVIEW_TESTS}
+add_test(itkGaussianDerivativeOperatorTest ${TestDriver}
   itkGaussianDerivativeOperatorTest
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFunctionTest01 ${REVIEW_TESTS}
+add_test(itkDiscreteGaussianDerivativeImageFunctionTest01 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
   itkDiscreteGaussianDerivativeImageFunctionTest
@@ -1326,7 +1326,7 @@ add_test(itkDiscreteGaussianDerivativeImageFunctionTest01 ${REVIEW_TESTS}
   32
 )
 
-add_test(itkDiscreteGradientMagnitudeGaussianImageFunctionTest01 ${REVIEW_TESTS}
+add_test(itkDiscreteGradientMagnitudeGaussianImageFunctionTest01 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
             ${TEMP}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
   itkDiscreteGradientMagnitudeGaussianImageFunctionTest
@@ -1337,7 +1337,7 @@ add_test(itkDiscreteGradientMagnitudeGaussianImageFunctionTest01 ${REVIEW_TESTS}
   32
 )
 
-add_test(itkDiscreteHessianGaussianImageFunctionTest01 ${REVIEW_TESTS}
+add_test(itkDiscreteHessianGaussianImageFunctionTest01 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest01_0.mha
             ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest01_0.mha
   --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest01_1.mha
@@ -1352,7 +1352,7 @@ add_test(itkDiscreteHessianGaussianImageFunctionTest01 ${REVIEW_TESTS}
   20
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest01 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest01 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest01.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest01.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1363,7 +1363,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest01 ${REVIEW_TESTS3}
   3.0  # sigma
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest10 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest10 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest10.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest10.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1374,7 +1374,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest10 ${REVIEW_TESTS3}
   3.0  # sigma
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest11 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest11 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest11.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest11.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1385,7 +1385,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest11 ${REVIEW_TESTS3}
   3.0  # sigma
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest20 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest20 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest20.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest20.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1396,7 +1396,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest20 ${REVIEW_TESTS3}
   3.0  # sigma
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest02 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest02 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest02.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest02.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1407,7 +1407,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest02 ${REVIEW_TESTS3}
   3.0  # sigma
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest21 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest21 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest21.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest21.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1418,7 +1418,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest21 ${REVIEW_TESTS3}
   3.0  # sigma
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest12 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest12 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest12.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest12.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1429,7 +1429,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest12 ${REVIEW_TESTS3}
   3.0  # sigma
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest30 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest30 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest30.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest30.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1441,7 +1441,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest30 ${REVIEW_TESTS3}
 )
 
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest03 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest03 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest03.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest03.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1452,7 +1452,7 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest03 ${REVIEW_TESTS3}
   3.0  # sigma
 )
 
-add_test(itkDiscreteGaussianDerivativeImageFilterTest01 ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterTest01 ${TestDriver}
   --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest01.png
             ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest01.png
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -1464,12 +1464,12 @@ add_test(itkDiscreteGaussianDerivativeImageFilterTest01 ${REVIEW_TESTS3}
 )
 
 
-add_test(itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest ${REVIEW_TESTS3}
+add_test(itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest ${TestDriver}
   itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest
 )
 
 
-add_test(itkBinaryContourImageFilterTest0 ${REVIEW_TESTS}
+add_test(itkBinaryContourImageFilterTest0 ${TestDriver}
   --compare ${BASELINE}/itkBinaryContourImageFilterTest0.png
             ${TEMP}/itkBinaryContourImageFilterTest0.png
    itkBinaryContourImageFilterTest
@@ -1478,7 +1478,7 @@ add_test(itkBinaryContourImageFilterTest0 ${REVIEW_TESTS}
    0 200 0
 )
 
-add_test(itkBinaryContourImageFilterTest1 ${REVIEW_TESTS}
+add_test(itkBinaryContourImageFilterTest1 ${TestDriver}
   --compare ${BASELINE}/itkBinaryContourImageFilterTest1.png
             ${TEMP}/itkBinaryContourImageFilterTest1.png
    itkBinaryContourImageFilterTest
@@ -1487,7 +1487,7 @@ add_test(itkBinaryContourImageFilterTest1 ${REVIEW_TESTS}
    1 200 0
 )
 
-add_test(itkLabelContourImageFilterTest0 ${REVIEW_TESTS}
+add_test(itkLabelContourImageFilterTest0 ${TestDriver}
   --compare ${BASELINE}/itkLabelContourImageFilterTest0.png
             ${TEMP}/itkLabelContourImageFilterTest0.png
    itkLabelContourImageFilterTest
@@ -1496,7 +1496,7 @@ add_test(itkLabelContourImageFilterTest0 ${REVIEW_TESTS}
    0 0
 )
 
-add_test(itkLabelContourImageFilterTest1 ${REVIEW_TESTS}
+add_test(itkLabelContourImageFilterTest1 ${TestDriver}
   --compare ${BASELINE}/itkLabelContourImageFilterTest1.png
             ${TEMP}/itkLabelContourImageFilterTest1.png
    itkLabelContourImageFilterTest
@@ -1505,7 +1505,7 @@ add_test(itkLabelContourImageFilterTest1 ${REVIEW_TESTS}
    1 0
 )
 
-add_test(itkFFTShiftImageFilterTestOdd0 ${REVIEW_TESTS}
+add_test(itkFFTShiftImageFilterTestOdd0 ${TestDriver}
   --compare ${BASELINE}/itkFFTShiftImageFilterTest0.png
             ${TEMP}/itkFFTShiftImageFilterTest0.png
    itkFFTShiftImageFilterTest
@@ -1514,7 +1514,7 @@ add_test(itkFFTShiftImageFilterTestOdd0 ${REVIEW_TESTS}
    0
 )
 
-add_test(itkFFTShiftImageFilterTestOdd1 ${REVIEW_TESTS}
+add_test(itkFFTShiftImageFilterTestOdd1 ${TestDriver}
   --compare ${INPUTDATA}/BrainSliceBinary.png
             ${TEMP}/itkFFTShiftImageFilterTest1.png
    itkFFTShiftImageFilterTest
@@ -1523,7 +1523,7 @@ add_test(itkFFTShiftImageFilterTestOdd1 ${REVIEW_TESTS}
    1
 )
 
-add_test(itkFFTShiftImageFilterTestEven0 ${REVIEW_TESTS}
+add_test(itkFFTShiftImageFilterTestEven0 ${TestDriver}
   --compare ${BASELINE}/itkFFTShiftImageFilterTestEven0.png
             ${TEMP}/itkFFTShiftImageFilterTestEven0.png
    itkFFTShiftImageFilterTest
@@ -1532,7 +1532,7 @@ add_test(itkFFTShiftImageFilterTestEven0 ${REVIEW_TESTS}
    0
 )
 
-add_test(itkFFTShiftImageFilterTestEven1 ${REVIEW_TESTS}
+add_test(itkFFTShiftImageFilterTestEven1 ${TestDriver}
   --compare ${INPUTDATA}/cthead1.png
             ${TEMP}/itkFFTShiftImageFilterTestEven1.png
    itkFFTShiftImageFilterTest
@@ -1541,7 +1541,7 @@ add_test(itkFFTShiftImageFilterTestEven1 ${REVIEW_TESTS}
    1
 )
 
-add_test(itkConvolutionImageFilterTest5x5Mean ${REVIEW_TESTS}
+add_test(itkConvolutionImageFilterTest5x5Mean ${TestDriver}
   --compare ${BASELINE}/itkConvolutionImageFilterTest5x5Mean.png
             ${TEMP}/itkConvolutionImageFilterTest5x5Mean.png
    itkConvolutionImageFilterTestInt
@@ -1551,7 +1551,7 @@ add_test(itkConvolutionImageFilterTest5x5Mean ${REVIEW_TESTS}
    1
 )
 
-add_test(itkConvolutionImageFilterTestSobelX ${REVIEW_TESTS}
+add_test(itkConvolutionImageFilterTestSobelX ${TestDriver}
   --compare ${BASELINE}/itkConvolutionImageFilterTestSobelX.nii.gz
             ${TEMP}/itkConvolutionImageFilterTestSobelX.nii.gz
    itkConvolutionImageFilterTest
@@ -1560,7 +1560,7 @@ add_test(itkConvolutionImageFilterTestSobelX ${REVIEW_TESTS}
    ${TEMP}/itkConvolutionImageFilterTestSobelX.nii.gz
 )
 
-add_test(itkConvolutionImageFilterTestSobelY ${REVIEW_TESTS}
+add_test(itkConvolutionImageFilterTestSobelY ${TestDriver}
   --compare ${BASELINE}/itkConvolutionImageFilterTestSobelY.nii.gz
             ${TEMP}/itkConvolutionImageFilterTestSobelY.nii.gz
    itkConvolutionImageFilterTest
@@ -1569,7 +1569,7 @@ add_test(itkConvolutionImageFilterTestSobelY ${REVIEW_TESTS}
    ${TEMP}/itkConvolutionImageFilterTestSobelY.nii.gz
 )
 
-add_test(itkRobustAutomaticThresholdImageFilterTest ${REVIEW_TESTS}
+add_test(itkRobustAutomaticThresholdImageFilterTest ${TestDriver}
   --compare ${BASELINE}/itkRobustAutomaticThresholdImageFilterTest.png
             ${TEMP}/itkRobustAutomaticThresholdImageFilterTest.png
   itkRobustAutomaticThresholdImageFilterTest
@@ -1578,17 +1578,17 @@ add_test(itkRobustAutomaticThresholdImageFilterTest ${REVIEW_TESTS}
   2
 )
 
-add_test( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1 ${REVIEW_TESTS}
+add_test( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1 ${TestDriver}
    itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1
    ${INPUTDATA}/8ConnectedImage.bmp )
 add_test( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2
-          ${REVIEW_TESTS}
+          ${TestDriver}
           itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2 )
 add_test( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3
-          ${REVIEW_TESTS}
+          ${TestDriver}
           itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3 )
 
-add_test(itkAreaOpeningImageFilterTest0 ${REVIEW_TESTS}
+add_test(itkAreaOpeningImageFilterTest0 ${TestDriver}
   --compare ${BASELINE}/itkAreaOpeningImageFilterTest0.png
             ${TEMP}/itkAreaOpeningImageFilterTest0.png
   itkAreaOpeningImageFilterTest
@@ -1597,7 +1597,7 @@ add_test(itkAreaOpeningImageFilterTest0 ${REVIEW_TESTS}
   1000 0 1
 )
 
-add_test(itkAreaClosingImageFilterTest0 ${REVIEW_TESTS}
+add_test(itkAreaClosingImageFilterTest0 ${TestDriver}
   --compare ${BASELINE}/itkAreaClosingImageFilterTest0.png
             ${TEMP}/itkAreaClosingImageFilterTest0.png
   itkAreaClosingImageFilterTest
@@ -1606,7 +1606,7 @@ add_test(itkAreaClosingImageFilterTest0 ${REVIEW_TESTS}
   1000 0 0
 )
 
-add_test(itkHessianToObjectnessMeasureImageFilterTest ${REVIEW_TESTS}
+add_test(itkHessianToObjectnessMeasureImageFilterTest ${TestDriver}
   --compare ${BASELINE}/itkHessianToObjectnessMeasureImageFilterTest.mha
             ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
             --compareIntensityTolerance .01
@@ -1615,7 +1615,7 @@ add_test(itkHessianToObjectnessMeasureImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
   1 0)
 
-add_test(itkHessianToObjectnessMeasureImageFilterTest2 ${REVIEW_TESTS}
+add_test(itkHessianToObjectnessMeasureImageFilterTest2 ${TestDriver}
   --compare ${BASELINE}/itkHessianToObjectnessMeasureImageFilterTest2.mha
             ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
             --compareIntensityTolerance .01
@@ -1625,7 +1625,7 @@ add_test(itkHessianToObjectnessMeasureImageFilterTest2 ${REVIEW_TESTS}
   0 0)
 
 
-add_test(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
+add_test(itkMultiScaleHessianBasedMeasureImageFilterTest ${TestDriver}
   itkMultiScaleHessianBasedMeasureImageFilterTest
   ${INPUTDATA}/DSA.png
   ${TEMP}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha
@@ -1639,7 +1639,7 @@ add_test(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
   )
 
 add_test(itkAggregateLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-labelAggregate.mha
             ${TEMP}/cthead1-labelAggregate.mha
   itkAggregateLabelMapFilterTest
@@ -1648,7 +1648,7 @@ add_test(itkAggregateLabelMapFilterTest1
   )
 
 add_test(itkBinaryImageToLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-labeled.mha
             ${TEMP}/cthead1-labeled.mha
   itkBinaryImageToLabelMapFilterTest
@@ -1661,7 +1661,7 @@ add_test(itkBinaryImageToLabelMapFilterTest1
   )
 
 add_test(itkBinaryImageToLabelMapFilterTest2
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/connected0lines-0.png
             ${TEMP}/connected0lines-0.png
   itkBinaryImageToLabelMapFilterTest
@@ -1674,7 +1674,7 @@ add_test(itkBinaryImageToLabelMapFilterTest2
   )
 
 add_test(itkBinaryImageToLabelMapFilterTest3
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/connected0lines-1.png
             ${TEMP}/connected0lines-1.png
   itkBinaryImageToLabelMapFilterTest
@@ -1687,7 +1687,7 @@ add_test(itkBinaryImageToLabelMapFilterTest3
   )
 
 add_test(itkBinaryImageToLabelMapFilterTest4
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   itkBinaryImageToLabelMapFilterTest
   ${INPUTDATA}/289.png
   ${TEMP}/tooManyObjects.png
@@ -1698,7 +1698,7 @@ add_test(itkBinaryImageToLabelMapFilterTest4
   )
 
 add_test(itkBinaryImageToLabelMapFilterTest5
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/nonConnected3DLines-0.tif
             ${TEMP}/nonConnected3DLines-0.tif
   itkBinaryImageToLabelMapFilterTest
@@ -1711,7 +1711,7 @@ add_test(itkBinaryImageToLabelMapFilterTest5
   )
 
 add_test(itkLabelMapToBinaryImageFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-binary.mha
             ${TEMP}/cthead1-label-binary.mha
   itkLabelMapToBinaryImageFilterTest
@@ -1722,7 +1722,7 @@ add_test(itkLabelMapToBinaryImageFilterTest1
   )
 
 add_test(itkChangeLabelLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-changed.mha
             ${TEMP}/cthead1-label-changed.mha
   itkChangeLabelLabelMapFilterTest
@@ -1734,7 +1734,7 @@ add_test(itkChangeLabelLabelMapFilterTest1
   )
 
 add_test(itkChangeLabelLabelMapFilterTest2
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-changed2.mha
             ${TEMP}/cthead1-label-changed2.mha
   itkChangeLabelLabelMapFilterTest
@@ -1746,7 +1746,7 @@ add_test(itkChangeLabelLabelMapFilterTest2
   )
 
 add_test(itkChangeLabelLabelMapFilterTest3
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-changed3.png
             ${TEMP}/cthead1-label-changed3.png
   itkChangeLabelLabelMapFilterTest
@@ -1756,7 +1756,7 @@ add_test(itkChangeLabelLabelMapFilterTest3
   )
 
 add_test(itkRelabelLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-relabeled.mha
             ${TEMP}/cthead1-label-relabeled.mha
   itkRelabelLabelMapFilterTest1
@@ -1765,7 +1765,7 @@ add_test(itkRelabelLabelMapFilterTest1
   )
 
 add_test(itkShiftScaleLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-shiftscaled.mha
             ${TEMP}/cthead1-label-shiftscaled.mha
   itkShiftScaleLabelMapFilterTest1
@@ -1777,7 +1777,7 @@ add_test(itkShiftScaleLabelMapFilterTest1
   )
 
 add_test(itkAutoCropLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-autocrop.mha
             ${TEMP}/cthead1-label-autocrop.mha
   itkAutoCropLabelMapFilterTest1
@@ -1789,7 +1789,7 @@ add_test(itkAutoCropLabelMapFilterTest1
   )
 
 add_test(itkChangeRegionLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-changeregion.mha
             ${TEMP}/cthead1-label-changeregion.mha
   itkChangeRegionLabelMapFilterTest1
@@ -1800,7 +1800,7 @@ add_test(itkChangeRegionLabelMapFilterTest1
   )
 
 add_test(itkMergeLabelMapFilterTest1a
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/simple-label-merge-keep.mha
             ${TEMP}/simple-label-merge-keep.mha
   itkMergeLabelMapFilterTest1
@@ -1814,7 +1814,7 @@ add_test(itkMergeLabelMapFilterTest1a
   )
 
 add_test(itkMergeLabelMapFilterTest1b
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/simple-label-merge-aggregate.mha
             ${TEMP}/simple-label-merge-aggregate.mha
   itkMergeLabelMapFilterTest1
@@ -1828,7 +1828,7 @@ add_test(itkMergeLabelMapFilterTest1b
   )
 
 add_test(itkMergeLabelMapFilterTest1c
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/simple-label-merge-pack.mha
             ${TEMP}/simple-label-merge-pack.mha
   itkMergeLabelMapFilterTest1
@@ -1843,7 +1843,7 @@ add_test(itkMergeLabelMapFilterTest1c
 
 
 add_test(itkMergeLabelMapFilterTest1d
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   itkMergeLabelMapFilterTest1
   ${INPUTDATA}/simple-label-c.png
   ${INPUTDATA}/simple-label-d.png
@@ -1855,7 +1855,7 @@ add_test(itkMergeLabelMapFilterTest1d
   )
 
 add_test(itkMergeLabelMapFilterTest1e
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/simple-label-merge-strict.mha
             ${TEMP}/simple-label-merge-strict.mha
   itkMergeLabelMapFilterTest1
@@ -1869,7 +1869,7 @@ add_test(itkMergeLabelMapFilterTest1e
   )
 
 add_test(itkMergeLabelMapFilterTest1f
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   itkMergeLabelMapFilterTest1
   ${INPUTDATA}/simple-label-e.png
   ${INPUTDATA}/simple-label-d.png
@@ -1882,7 +1882,7 @@ add_test(itkMergeLabelMapFilterTest1f
 
 
 add_test(itkLabelImageToShapeLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/simple-label-to-shapelabelmap.mha
             ${TEMP}/simple-label-to-shapelabelmap.mha
   itkLabelImageToShapeLabelMapFilterTest1
@@ -1894,7 +1894,7 @@ add_test(itkLabelImageToShapeLabelMapFilterTest1
   )
 
 add_test(itkCropLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-crop.mha
             ${TEMP}/cthead1-label-crop.mha
   itkCropLabelMapFilterTest1
@@ -1905,7 +1905,7 @@ add_test(itkCropLabelMapFilterTest1
   )
 
 add_test(itkPadLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-pad.mha
             ${TEMP}/cthead1-label-pad.mha
   itkPadLabelMapFilterTest1
@@ -1916,7 +1916,7 @@ add_test(itkPadLabelMapFilterTest1
   )
 
 add_test(itkRegionFromReferenceLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-label-regionreference.mha
             ${TEMP}/cthead1-label-regionreference.mha
   itkRegionFromReferenceLabelMapFilterTest1
@@ -1926,7 +1926,7 @@ add_test(itkRegionFromReferenceLabelMapFilterTest1
   )
 
 add_test(itkBinaryImageToShapeLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/Spots-binaryimage-to-shapelabel.mha
             ${TEMP}/Spots-binaryimage-to-shapelabel.mha
   itkBinaryImageToShapeLabelMapFilterTest1
@@ -1940,7 +1940,7 @@ add_test(itkBinaryImageToShapeLabelMapFilterTest1
   )
 
 add_test(itkShapeKeepNObjectsLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-keep-n-objects.mha
             ${TEMP}/cthead1-shape-keep-n-objects.mha
   itkShapeKeepNObjectsLabelMapFilterTest1
@@ -1952,7 +1952,7 @@ add_test(itkShapeKeepNObjectsLabelMapFilterTest1
   )
 
 add_test(itkShapeOpeningLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-shape-opening.mha
             ${TEMP}/cthead1-shape-opening.mha
   itkShapeOpeningLabelMapFilterTest1
@@ -1964,7 +1964,7 @@ add_test(itkShapeOpeningLabelMapFilterTest1
   )
 
 add_test(itkBinaryShapeOpeningImageFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-binary-shape-opening.mha
             ${TEMP}/cthead1-binary-shape-opening.mha
   itkBinaryShapeOpeningImageFilterTest1
@@ -1979,7 +1979,7 @@ add_test(itkBinaryShapeOpeningImageFilterTest1
   )
 
 add_test(itkShapeRelabelLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/cthead1-shape-relabel-labelmap.mha
             ${TEMP}/cthead1-shape-relabel-labelmap.mha
   itkShapeRelabelLabelMapFilterTest1
@@ -1990,56 +1990,56 @@ add_test(itkShapeRelabelLabelMapFilterTest1
   )
 
 add_test(itkShapeLabelObjectAccessorsTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   itkShapeLabelObjectAccessorsTest1
   ${INPUTDATA}/cthead1Label.png
   )
 
 add_test(itkGridImageSourceTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkGridImageSourceTest1.nhdr
             ${TEMP}/itkGridImageSourceTest1.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest1.nhdr 0)
 
 add_test(itkGridImageSourceTest2
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkGridImageSourceTest2.nhdr
             ${TEMP}/itkGridImageSourceTest2.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest2.nhdr 1)
 
 add_test(itkGridImageSourceTest3
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkGridImageSourceTest3.nhdr
             ${TEMP}/itkGridImageSourceTest3.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest3.nhdr 2)
 
 add_test(itkGridImageSourceTest4
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkGridImageSourceTest4.nhdr
   ${TEMP}/itkGridImageSourceTest4.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest4.nhdr 3)
 
 add_test(itkGaborImageSourceTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/GaborImageSourceTest0.mha
   ${TEMP}/GaborImageSourceTest0.mha
   itkGaborImageSourceTest ${TEMP}/GaborImageSourceTest0.mha 0)
 
 add_test(itkGaborImageSourceTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/GaborImageSourceTest1.mha
   ${TEMP}/GaborImageSourceTest1.mha
   itkGaborImageSourceTest ${TEMP}/GaborImageSourceTest1.mha 1)
 
 add_test(itkAttributeLabelObjectAccessorsTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   itkAttributeLabelObjectAccessorsTest1
   ${INPUTDATA}/cthead1Label.png
   ${INPUTDATA}/cthead1.png
   )
 
 add_test(itkAttributeOpeningLabelMapFilterTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributeOpeningLabelMapFilterTest0.png
             ${TEMP}/itkAttributeOpeningLabelMapFilterTest0.png
   itkAttributeOpeningLabelMapFilterTest1
@@ -2050,7 +2050,7 @@ add_test(itkAttributeOpeningLabelMapFilterTest0
   )
 
 add_test(itkAttributeOpeningLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributeOpeningLabelMapFilterTest1.png
             ${TEMP}/itkAttributeOpeningLabelMapFilterTest1.png
   itkAttributeOpeningLabelMapFilterTest1
@@ -2061,7 +2061,7 @@ add_test(itkAttributeOpeningLabelMapFilterTest1
   )
 
 add_test(itkAttributeKeepNObjectsLabelMapFilterTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributeKeepNObjectsLabelMapFilterTest0.png
             ${TEMP}/itkAttributeKeepNObjectsLabelMapFilterTest0.png
   itkAttributeKeepNObjectsLabelMapFilterTest1
@@ -2072,7 +2072,7 @@ add_test(itkAttributeKeepNObjectsLabelMapFilterTest0
   )
 
 add_test(itkAttributeKeepNObjectsLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
             ${TEMP}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
   itkAttributeKeepNObjectsLabelMapFilterTest1
@@ -2083,7 +2083,7 @@ add_test(itkAttributeKeepNObjectsLabelMapFilterTest1
   )
 
 add_test(itkAttributeRelabelLabelMapFilterTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributeRelabelLabelMapFilterTest0.png
             ${TEMP}/itkAttributeRelabelLabelMapFilterTest0.png
   itkAttributeRelabelLabelMapFilterTest1
@@ -2093,7 +2093,7 @@ add_test(itkAttributeRelabelLabelMapFilterTest0
   )
 
 add_test(itkAttributeRelabelLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributeRelabelLabelMapFilterTest1.png
             ${TEMP}/itkAttributeRelabelLabelMapFilterTest1.png
   itkAttributeRelabelLabelMapFilterTest1
@@ -2103,7 +2103,7 @@ add_test(itkAttributeRelabelLabelMapFilterTest1
   )
 
 add_test(itkLabelSelectionLabelMapFilterTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelSelectionLabelMapFilterTest0.png
             ${TEMP}/itkLabelSelectionLabelMapFilterTest0.png
   itkLabelSelectionLabelMapFilterTest
@@ -2114,7 +2114,7 @@ add_test(itkLabelSelectionLabelMapFilterTest0
   )
 
 add_test(itkLabelSelectionLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelSelectionLabelMapFilterTest1.png
             ${TEMP}/itkLabelSelectionLabelMapFilterTest1.png
   itkLabelSelectionLabelMapFilterTest
@@ -2128,7 +2128,7 @@ FOREACH(label 0 100)
   FOREACH(bg 0 1)
     FOREACH(neg 0 1)
       ADD_TEST(itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}
-        ${REVIEW_TESTS3}
+        ${TestDriver}
         --compare ${TEMP}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
                   ${BASELINE}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
         itkLabelMapMaskImageFilterTest
@@ -2139,7 +2139,7 @@ FOREACH(label 0 100)
 
       FOREACH(border 0 10)
         ADD_TEST(itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}
-          ${REVIEW_TESTS3}
+          ${TestDriver}
           --compare ${TEMP}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
                     ${BASELINE}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
           itkLabelMapMaskImageFilterTest
@@ -2153,7 +2153,7 @@ FOREACH(label 0 100)
 ENDFOREACH(label)
 
 add_test(itkObjectByObjectLabelMapFilterTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkObjectByObjectLabelMapFilterTest0.png
             ${TEMP}/itkObjectByObjectLabelMapFilterTest0.png
   itkObjectByObjectLabelMapFilterTest
@@ -2163,7 +2163,7 @@ add_test(itkObjectByObjectLabelMapFilterTest0
   )
 
 add_test(itkObjectByObjectLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkObjectByObjectLabelMapFilterTest1.png
             ${TEMP}/itkObjectByObjectLabelMapFilterTest1.png
   itkObjectByObjectLabelMapFilterTest
@@ -2173,7 +2173,7 @@ add_test(itkObjectByObjectLabelMapFilterTest1
   )
 
 add_test(itkAttributeUniqueLabelMapFilterTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributeUniqueLabelMapFilterTest0.png
             ${TEMP}/itkAttributeUniqueLabelMapFilterTest0.png
   itkAttributeUniqueLabelMapFilterTest1
@@ -2183,7 +2183,7 @@ add_test(itkAttributeUniqueLabelMapFilterTest0
   )
 
 add_test(itkAttributeUniqueLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributeUniqueLabelMapFilterTest1.png
             ${TEMP}/itkAttributeUniqueLabelMapFilterTest1.png
   itkAttributeUniqueLabelMapFilterTest1
@@ -2193,7 +2193,7 @@ add_test(itkAttributeUniqueLabelMapFilterTest1
   )
 
 add_test(itkLabelUniqueLabelMapFilterTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelUniqueLabelMapFilterTest0.png
             ${TEMP}/itkLabelUniqueLabelMapFilterTest0.png
   itkLabelUniqueLabelMapFilterTest1
@@ -2203,7 +2203,7 @@ add_test(itkLabelUniqueLabelMapFilterTest0
   )
 
 add_test(itkLabelUniqueLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelUniqueLabelMapFilterTest1.png
             ${TEMP}/itkLabelUniqueLabelMapFilterTest1.png
   itkLabelUniqueLabelMapFilterTest1
@@ -2213,7 +2213,7 @@ add_test(itkLabelUniqueLabelMapFilterTest1
   )
 
 add_test(itkLabelMapToAttributeImageFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelMapToAttributeImageFilterTest1.png
             ${TEMP}/itkLabelMapToAttributeImageFilterTest1.png
   itkLabelMapToAttributeImageFilterTest1
@@ -2222,7 +2222,7 @@ add_test(itkLabelMapToAttributeImageFilterTest1
   )
 
 add_test(itkLabelMapToRGBImageFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelMapToRGBImageFilterTest1.png
             ${TEMP}/itkLabelMapToRGBImageFilterTest1.png
   itkLabelMapToRGBImageFilterTest1
@@ -2231,7 +2231,7 @@ add_test(itkLabelMapToRGBImageFilterTest1
   )
 
 add_test(itkLabelMapOverlayImageFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelMapOverlayImageFilterTest1.png
             ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
   itkLabelMapOverlayImageFilterTest1
@@ -2242,7 +2242,7 @@ add_test(itkLabelMapOverlayImageFilterTest1
   )
 
 add_test(itkLabelMapContourOverlayImageFilterTest0
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest0.png
             ${TEMP}/itkLabelMapContourOverlayImageFilterTest0.png
   itkLabelMapContourOverlayImageFilterTest1
@@ -2257,7 +2257,7 @@ add_test(itkLabelMapContourOverlayImageFilterTest0
   )
 
 add_test(itkLabelMapContourOverlayImageFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest1.png
             ${TEMP}/itkLabelMapContourOverlayImageFilterTest1.png
   itkLabelMapContourOverlayImageFilterTest1
@@ -2272,7 +2272,7 @@ add_test(itkLabelMapContourOverlayImageFilterTest1
   )
 
 add_test(itkLabelMapContourOverlayImageFilterTest2
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest2.png
             ${TEMP}/itkLabelMapContourOverlayImageFilterTest2.png
   itkLabelMapContourOverlayImageFilterTest1
@@ -2287,7 +2287,7 @@ add_test(itkLabelMapContourOverlayImageFilterTest2
   )
 
 add_test(itkBinaryFillholeImageFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkBinaryFillholeImageFilterTest1.png
             ${TEMP}/itkBinaryFillholeImageFilterTest1.png
   itkBinaryFillholeImageFilterTest1
@@ -2298,7 +2298,7 @@ add_test(itkBinaryFillholeImageFilterTest1
   )
 
 add_test(itkBinaryGrindPeakImageFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkBinaryGrindPeakImageFilterTest1.png
             ${TEMP}/itkBinaryGrindPeakImageFilterTest1.png
   itkBinaryGrindPeakImageFilterTest1
@@ -2309,7 +2309,7 @@ add_test(itkBinaryGrindPeakImageFilterTest1
   )
 
 add_test(itkShapePositionLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkShapePositionLabelMapFilterTest1.png
             ${TEMP}/itkShapePositionLabelMapFilterTest1.png
   itkShapePositionLabelMapFilterTest1
@@ -2319,7 +2319,7 @@ add_test(itkShapePositionLabelMapFilterTest1
   )
 
 add_test(itkStatisticsPositionLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkShapePositionLabelMapFilterTest1.png
             ${TEMP}/itkStatisticsPositionLabelMapFilterTest1.png
   itkStatisticsPositionLabelMapFilterTest1
@@ -2330,7 +2330,7 @@ add_test(itkStatisticsPositionLabelMapFilterTest1
   )
 
 add_test(itkAttributePositionLabelMapFilterTest1
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkAttributePositionLabelMapFilterTest1.png
             ${TEMP}/itkAttributePositionLabelMapFilterTest1.png
   itkAttributePositionLabelMapFilterTest1
@@ -2339,7 +2339,7 @@ add_test(itkAttributePositionLabelMapFilterTest1
   )
 
 add_test(itkBinaryReconstructionLabelMapFilterTest
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkBinaryReconstructionLabelMapFilterTest.png
             ${TEMP}/itkBinaryReconstructionLabelMapFilterTest.png
   itkBinaryReconstructionLabelMapFilterTest
@@ -2350,7 +2350,7 @@ add_test(itkBinaryReconstructionLabelMapFilterTest
   )
 
 add_test(itkBinaryReconstructionByDilationImageFilterTest
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkBinaryReconstructionByDilationImageFilterTest.png
             ${TEMP}/itkBinaryReconstructionByDilationImageFilterTest.png
   itkBinaryReconstructionByDilationImageFilterTest
@@ -2362,7 +2362,7 @@ add_test(itkBinaryReconstructionByDilationImageFilterTest
   )
 
 add_test(itkBinaryReconstructionByErosionImageFilterTest
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkBinaryReconstructionByErosionImageFilterTest.png
             ${TEMP}/itkBinaryReconstructionByErosionImageFilterTest.png
   itkBinaryReconstructionByErosionImageFilterTest
@@ -2374,7 +2374,7 @@ add_test(itkBinaryReconstructionByErosionImageFilterTest
   )
 
 add_test(itkBinaryClosingByReconstructionImageFilterTest
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkBinaryClosingByReconstructionImageFilterTest.png
             ${TEMP}/itkBinaryClosingByReconstructionImageFilterTest.png
   itkBinaryClosingByReconstructionImageFilterTest
@@ -2386,7 +2386,7 @@ add_test(itkBinaryClosingByReconstructionImageFilterTest
   )
 
 add_test(itkBinaryOpeningByReconstructionImageFilterTest
-  ${REVIEW_TESTS3}
+  ${TestDriver}
   --compare ${BASELINE}/itkBinaryOpeningByReconstructionImageFilterTest.png
             ${TEMP}/itkBinaryOpeningByReconstructionImageFilterTest.png
   itkBinaryOpeningByReconstructionImageFilterTest
@@ -2398,7 +2398,7 @@ add_test(itkBinaryOpeningByReconstructionImageFilterTest
   )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
-  ${REVIEW_TESTS4}
+  ${TestDriver}
   --compare ${BASELINE}/Spots-binaryimage-to-statisticslabel.mha
             ${TEMP}/Spots-binaryimage-to-statisticslabel.mha
   itkBinaryImageToStatisticsLabelMapFilterTest1
@@ -2415,7 +2415,7 @@ add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
   )
 
 add_test(itkLabelImageToStatisticsLabelMapFilterTest1
-  ${REVIEW_TESTS4}
+  ${TestDriver}
   --compare ${INPUTDATA}/Spots.png
             ${TEMP}/Spots-labelimage-to-statisticslabel.png
   itkLabelImageToStatisticsLabelMapFilterTest1
@@ -2430,12 +2430,12 @@ add_test(itkLabelImageToStatisticsLabelMapFilterTest1
   )
 
 add_test(itkShiftLabelObjectTest
-  ${REVIEW_TESTS4}
+  ${TestDriver}
   itkShiftLabelObjectTest
   )
 
 add_test(itkLabelGeometryImageFilterTest2
-  ${REVIEW_TESTS5}
+  ${TestDriver}
   --compare ${BASELINE}/itkLabelGeometryImageFilterTest2Image.png
             ${TEMP}/itkLabelGeometryImageFilterTest2Image.png
   itkLabelGeometryImageFilterTest
@@ -2444,14 +2444,14 @@ add_test(itkLabelGeometryImageFilterTest2
   ${INPUTDATA}/GrayscaleImageWithVariousShapes01.png
   )
 
-add_test(itkObjectToObjectMetricTest ${REVIEW_TESTS6}
+add_test(itkObjectToObjectMetricTest ${TestDriver}
          itkObjectToObjectMetricTest)
-add_test(itkDeformationFieldTransformTest ${REVIEW_TESTS6}
+add_test(itkDeformationFieldTransformTest ${TestDriver}
   itkDeformationFieldTransformTest)
-add_test(itkCompositeTransformTest ${REVIEW_TESTS6} itkCompositeTransformTest)
+add_test(itkCompositeTransformTest ${TestDriver} itkCompositeTransformTest)
 
 add_test(itkBSplineControlPointImageFilterTest1
-  ${REVIEW_TESTS6}
+  ${TestDriver}
   --compare
   ${TEMP}/N4ControlPoints_2D_output.nii.gz
   ${TEMP}/N4ControlPoints_2D_outputRefined.nii.gz
@@ -2463,7 +2463,7 @@ add_test(itkBSplineControlPointImageFilterTest1
   )
 
 add_test(itkBSplineControlPointImageFilterTest2
-  ${REVIEW_TESTS6}
+  ${TestDriver}
   --compare
   ${TEMP}/N4ControlPoints_3D_output.nii.gz
   ${TEMP}/N4ControlPoints_3D_outputRefined.nii.gz
@@ -2474,13 +2474,8 @@ add_test(itkBSplineControlPointImageFilterTest2
   ${TEMP}/N4ControlPoints_3D_outputRefined.nii.gz
   )
 
-add_test(itkBSplineControlPointImageFilterTest3
-  ${REVIEW_TESTS6}
-  itkBSplineControlPointImageFilterTest1
-  )
-
 add_test(itkN4MRIBiasFieldCorrectionImageFilterTest1
-  ${REVIEW_TESTS6}
+  ${TestDriver}
   --compare
   ${BASELINE}/N4ControlPoints_2D.nii.gz
   ${TEMP}/N4ControlPoints_2D.nii.gz
@@ -2495,7 +2490,7 @@ add_test(itkN4MRIBiasFieldCorrectionImageFilterTest1
   )
 
 add_test(itkN4MRIBiasFieldCorrectionImageFilterTest2
-  ${REVIEW_TESTS6}
+  ${TestDriver}
   --compare
   ${BASELINE}/N4ControlPoints_3D.nii.gz
   ${TEMP}/N4ControlPoints_3D.nii.gz
@@ -2509,15 +2504,15 @@ add_test(itkN4MRIBiasFieldCorrectionImageFilterTest2
   150                                                                # spline distance
   )
 
-add_test(itkScalarChanAndVeseLevelSetFunctionTest1 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseLevelSetFunctionTest1 ${TestDriver}
   itkScalarChanAndVeseLevelSetFunctionTest1)
-add_test(itkScalarChanAndVeseLevelSetFunctionTest2 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseLevelSetFunctionTest2 ${TestDriver}
   itkScalarChanAndVeseLevelSetFunctionTest2)
-add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest1 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest1 ${TestDriver}
   itkScalarChanAndVeseDenseLevelSetImageFilterTest1)
-add_test(itkScalarChanAndVeseSparseLevelSetImageFilterTest1 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseSparseLevelSetImageFilterTest1 ${TestDriver}
   itkScalarChanAndVeseSparseLevelSetImageFilterTest1)
-add_test(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${TestDriver}
   --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
             ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
   itkScalarChanAndVeseSparseLevelSetImageFilterTest2
@@ -2525,7 +2520,7 @@ add_test(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${REVIEW_TESTS6}
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
 )
-add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0 ${TestDriver}
   --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
             ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
   itkScalarChanAndVeseDenseLevelSetImageFilterTest2
@@ -2534,7 +2529,7 @@ add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0 ${REVIEW_TESTS6}
   ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
   1 1 0 0 0
 )
-add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1 ${TestDriver}
   --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
             ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
   itkScalarChanAndVeseDenseLevelSetImageFilterTest2
@@ -2543,7 +2538,7 @@ add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1 ${REVIEW_TESTS6}
   ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
   1 1 1 1 200
 )
-add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2 ${TestDriver}
   --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
             ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
   itkScalarChanAndVeseDenseLevelSetImageFilterTest2
@@ -2552,7 +2547,7 @@ add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2 ${REVIEW_TESTS6}
   ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
   0 0 1 0 0
 )
-add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3 ${TestDriver}
   itkScalarChanAndVeseDenseLevelSetImageFilterTest2
   ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -2560,10 +2555,10 @@ add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3 ${REVIEW_TESTS6}
   0 0 0 0 0
 )
 
-add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest3 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest3 ${TestDriver}
   itkScalarChanAndVeseDenseLevelSetImageFilterTest3)
 
-add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${REVIEW_TESTS6}
+add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${TestDriver}
   --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
             ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha
   itkScalarChanAndVeseDenseLevelSetImageFilterTest4
@@ -2573,12 +2568,12 @@ add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${REVIEW_TESTS6}
   1 1 0 0 0
 )
 
-add_test(itkMRCImageIOTest ${REVIEW_TESTS5} itkMRCImageIOTest ${TEMP})
-add_test(itkVTKImageIO2Test ${REVIEW_TESTS5} itkVTKImageIO2Test ${TEMP})
-add_test(itkVTKImageIO2Test2 ${REVIEW_TESTS5} itkVTKImageIO2Test2 ${TEMP}/itkVTKImageIO2Test2.vtk)
+add_test(itkMRCImageIOTest ${TestDriver} itkMRCImageIOTest ${TEMP})
+add_test(itkVTKImageIO2Test ${TestDriver} itkVTKImageIO2Test ${TEMP})
+add_test(itkVTKImageIO2Test2 ${TestDriver} itkVTKImageIO2Test2 ${TEMP}/itkVTKImageIO2Test2.vtk)
 
 add_test(itkJPEG2000Test00
-  ${REVIEW_TESTS5} itkJPEG2000ImageIORegionOfInterest
+  ${TestDriver} itkJPEG2000ImageIORegionOfInterest
   ${INPUTDATA}/Bretagne1.j2k
   ${TEMP}/Bretagne1_RegionTest01.tif
   160 120
@@ -2586,17 +2581,17 @@ add_test(itkJPEG2000Test00
   )
 
 # tests for reading 3 component data with 8bits per component
-add_test(itkJPEG2000Test01  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest03 ${INPUTDATA}/Bretagne1.j2k ${TEMP}/Bretagne1_01.png )
-add_test(itkJPEG2000Test02  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest03 ${INPUTDATA}/Cevennes2.jp2 ${TEMP}/Cevennes2_01.png )
+add_test(itkJPEG2000Test01  ${TestDriver} itkJPEG2000ImageIOTest03 ${INPUTDATA}/Bretagne1.j2k ${TEMP}/Bretagne1_01.png )
+add_test(itkJPEG2000Test02  ${TestDriver} itkJPEG2000ImageIOTest03 ${INPUTDATA}/Cevennes2.jp2 ${TEMP}/Cevennes2_01.png )
 
 # tests for writing 3 component data with 8bits per component
-add_test(itkJPEG2000Test03  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest03 ${TEMP}/Bretagne1_RegionTest01.tif ${TEMP}/Bretagne1_02.j2k )
+add_test(itkJPEG2000Test03  ${TestDriver} itkJPEG2000ImageIOTest03 ${TEMP}/Bretagne1_RegionTest01.tif ${TEMP}/Bretagne1_02.j2k )
 set_tests_properties( itkJPEG2000Test03 PROPERTIES DEPENDS itkJPEG2000Test00 )
 
-add_test(itkJPEG2000Test05  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest05 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+add_test(itkJPEG2000Test05  ${TestDriver} itkJPEG2000ImageIOTest05 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
   ${ITK_TEST_OUTPUT_DIR} jp2 )
 
-add_test(itkJPEG2000Test06 ${REVIEW_TESTS5}
+add_test(itkJPEG2000Test06 ${TestDriver}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif
             ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
   itkJPEG2000ImageIOTest06
@@ -2609,7 +2604,7 @@ add_test(itkJPEG2000Test06 ${REVIEW_TESTS5}
 #
 foreach( COLORMAP red green blue hot cool spring summer autumn winter copper hot hsv jet overunder )
   add_test( RGBColormapTest_${COLORMAP}
-     ${REVIEW_TESTS2}
+     ${TestDriver}
      --compare ${TEMP}/RGBColormapTest_${COLORMAP}.png ${BASELINE}/RGBColormapTest_${COLORMAP}.png
      itkScalarToRGBColormapImageFilterTest
      ${INPUTDATA}/Colormap_Grey.png ${TEMP}/RGBColormapTest_${COLORMAP}.png ${COLORMAP} )
@@ -2631,70 +2626,5 @@ target_link_libraries(itkReviewHeaderTest
   )
 
 add_test(itkReviewHeaderTest ${REVIEW_HEADER_TESTS})
-
-add_executable(itkReviewTests itkReviewTests.cxx ${ReviewTest_SRCS})
-
-set(ReviewTest_LIBS
-  ITKAlgorithms
-  ITKFEM
-  ITKStatistics
-  ITKCommon
-  ITKIOReview
-  ITKIO
-  )
-
-add_executable(itkReviewTests2 itkReviewTests2.cxx ${ReviewTest2_SRCS})
-
-set(ReviewTest2_LIBS
-  ITKAlgorithms
-  ITKFEM
-  ITKStatistics
-  ITKCommon
-  ITKIOReview
-  ITKIO
-  )
-target_link_libraries(itkReviewTests2 ${ReviewTest2_LIBS})
-
-add_executable(itkReviewTests3 itkReviewTests3.cxx ${ReviewTest3_SRCS})
-
-set(ReviewTest3_LIBS
-  ITKIOReview
-  ITKReview
-  ITKIO
-  ITKStatistics
-  )
-target_link_libraries(itkReviewTests3 ${ReviewTest3_LIBS})
-
-add_executable(itkReviewTests4 itkReviewTests4.cxx ${ReviewTest4_SRCS})
-
-set(ReviewTest4_LIBS
-  ITKIO
-  ITKStatistics
-  ITKReview
-  )
-target_link_libraries(itkReviewTests4 ${ReviewTest4_LIBS})
-
-add_executable(itkReviewTests5 itkReviewTests5.cxx ${ReviewTest5_SRCS})
-
-set(ReviewTest5_LIBS
-  ITKStatistics
-  ITKIOReview
-  )
-target_link_libraries(itkReviewTests5 ${ReviewTest5_LIBS})
-
-add_executable(itkReviewTests6 itkReviewTests6.cxx ${ReviewTest6_SRCS})
-
-set(ReviewTest6_LIBS
-  ITKIO
-  ITKNumerics
-  ITKStatistics
-  )
-target_link_libraries(itkReviewTests6 ${ReviewTest6_LIBS} ITKNumerics)
-
-if(ITK_USE_MINC2 AND MINC2_FOUND)
-  set(ReviewTest_LIBS ${ReviewTest_LIBS} ITKIOMINC2)
-endif(ITK_USE_MINC2 AND MINC2_FOUND)
-
-target_link_libraries(itkReviewTests ${ReviewTest_LIBS})
 
 endif(NOT ITK_DISABLE_CXX_TESTING)

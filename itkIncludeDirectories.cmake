@@ -41,6 +41,12 @@ set(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
   ${ITK_SOURCE_DIR}/Utilities
 )
 
+# These directories are needed if Testing is on
+if(BUILD_TESTING)
+  set(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
+      ${ITK_SOURCE_DIR}/Testing/Utilities
+  )
+endif(BUILD_TESTING)
 
 set( ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE} ${ITK_SOURCE_DIR}/Code/Numerics/Statistics )
 
