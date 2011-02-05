@@ -110,7 +110,7 @@ if(ITK_VISIBLEHUMAN_DATA_ROOT)
     RUN_SERIAL 1
     )
   set_tests_properties(
-    VisibleHumanPasteWrite
+    VisibleHumanPasteWriteTest
     PROPERTIES
     DEPENDS VisibleHumanStreamReadWriteTest
     )
