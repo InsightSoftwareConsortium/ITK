@@ -165,11 +165,13 @@ int itkImageFileWriterPastingTest3(int argc, char* argv[])
   typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
   ExtractImageFilterType::Pointer extractTestImage = ExtractImageFilterType::New();
   extractTestImage->SetInput(readerTestImage->GetOutput());
+  extractTestImage->SetDirectionCollapseToSubmatrix();
   extractTestImage->SetExtractionRegion( image->GetBufferedRegion() );
 
   typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
   ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
   extractBaselineImage->SetInput(reader->GetOutput());
+  extractBaselineImage->SetDirectionCollapseToSubmatrix();
   extractBaselineImage->SetExtractionRegion( image->GetBufferedRegion() );
 
 
