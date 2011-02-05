@@ -450,6 +450,18 @@ PrintSelf( std::ostream& os, Indent indent ) const
     (*cit)->Print( os, indent );
     }
   os << indent <<  "End of Transforms." << std::endl << "<<<<<<<<<<" << std::endl;
+
+  os << indent <<  "TransformsToOptimize in queue, from begin to end:" << std::endl;
+  for( cit = this->m_TransformsToOptimizeQueue.begin();
+       cit != this->m_TransformsToOptimizeQueue.end(); ++cit )
+    {
+    os << indent << ">>>>>>>>>" << std::endl;
+    (*cit)->Print( os, indent );
+    }
+  os << indent <<  "End of Transforms." << std::endl << "<<<<<<<<<<" << std::endl;
+
+  os << indent << "PreviousTransformsToOptimizeUpdateTime: "
+     <<  m_PreviousTransformsToOptimizeUpdateTime << std::endl;
 }
 
 } // namespace itk

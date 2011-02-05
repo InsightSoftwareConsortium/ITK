@@ -240,11 +240,13 @@ public:
   }
 
   /** Access transform queue */
-  itkGetConstReferenceMacro( TransformQueue, TransformQueueType );
+  const TransformQueueType & GetTransformQueue() const
+  { return this->m_TransformQueue; }
+
 
   /** Access optimize flags */
-  itkGetConstReferenceMacro(
-    TransformsToOptimizeFlags, TransformsToOptimizeFlagsType );
+  const TransformsToOptimizeFlagsType & GetTransformsToOptimizeFlags() const
+  { return this->m_TransformsToOptimizeFlags; }
 
   /** Misc. functionality */
   bool IsTransformQueueEmpty()
