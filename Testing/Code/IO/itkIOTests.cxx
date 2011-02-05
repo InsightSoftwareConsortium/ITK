@@ -54,6 +54,7 @@ void RegisterTests()
   REGISTER_TEST(itkImageFileWriterTest2);
   REGISTER_TEST(itkImageFileWriterPastingTest1);
   REGISTER_TEST(itkImageFileWriterPastingTest2);
+  REGISTER_TEST(itkImageFileWriterPastingTest3);
   REGISTER_TEST(itkImageFileWriterStreamingTest1);
   REGISTER_TEST(itkImageFileWriterStreamingTest2);
   REGISTER_TEST(itkImageFileWriterStreamingPastingCompressingTest1);
