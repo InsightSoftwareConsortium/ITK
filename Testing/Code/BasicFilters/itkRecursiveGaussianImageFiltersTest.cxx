@@ -26,6 +26,9 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 
+#include <algorithm>
+#include <numeric>
+
 
 int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 {
@@ -220,14 +223,19 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
     const PixelType valueA = filter->GetOutput()->GetPixel( index );
 
-    const double sigmaB = 4.0;
+
+    filter->SetNormalizeAcrossScale( false );
+    const double sigmaB = 2.0;
     filter->SetSigma( sigmaB );
 
     filter->Update();
 
     const PixelType valueB = filter->GetOutput()->GetPixel( index );
 
-    if( vcl_fabs( (valueB - valueA) / valueA ) > 1e-4 )
+    // note: for scale space normalization, no scaling should occour
+    // The addtional scale-space testing is performed in a separate
+    // test.
+    if( vcl_fabs( valueB - valueA  ) > 1e-4 )
       {
       std::cout << "FAILED !" << std::endl;
       std::cerr << "Error, Normalization across scales is failing" << std::endl;
@@ -241,6 +249,55 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
       }
 
     } // end of test for normalization across scales
+
+  std::cout << "Testing normalization...  ";
+  { // begin of test for normalization
+
+    filter->SetNormalizeAcrossScale( true );
+
+    // size of image is 21, so a sigma of 2 gives up 5 std-devs and
+    // an expected error of >1e-5 due to truncation
+    const double sigmaA = 2.0;
+    filter->SetSigma( sigmaA );
+    filter->Update();
+
+    // the input is an impulse with a value of 1000
+    // the resulting convolution should aproximatly sum to the same
+
+    typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+    IteratorType  it( filter->GetOutput(), filter->GetOutput()->GetBufferedRegion() );
+
+    std::vector<double> values;
+
+    while ( !it.IsAtEnd() )
+      {
+      values.push_back( it.Get() );
+      ++it;
+      }
+
+    // sort from smallest to largest for best numerical precision
+    std::sort( values.begin(), values.end() );
+
+    double total = std::accumulate( values.begin(), values.end(), 0.0 );
+
+    // 1000.0 is the value of the impulse
+    // compute absolute normalized error
+    double error = vcl_fabs( total - 1000.0 )/1000.0;
+    if ( error > 1e-3)
+      {
+      std::cout << "FAILED !" << std::endl;
+      std::cerr << "Error, Normalization  is failing" << std::endl;
+      std::cerr << "Value of impulse is 1000.0" << std::endl;
+      std::cerr << "Total value after convolution is " << total << std::endl;
+      std::cout << "error: " << error << std::endl;
+      return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "PASSED !" << std::endl;
+      }
+
+    } // end of test for normalization
 
     std::cout << "Testing derivatives normalization " << std::endl;
 
