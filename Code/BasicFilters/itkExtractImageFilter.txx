@@ -236,7 +236,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
     default:
         {
         itkExceptionMacro( << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "
-          << "Set either myfilter->DirectionCollapseToIdentity() or myfilter->DirectionCollapseToSubmatrix() "
+          << "Set with either myfilter->SetDirectionCollapseToIdentity() or myfilter->SetDirectionCollapseToSubmatrix() "
           << typeid( ImageBase< InputImageDimension > * ).name() );
         }
       }
