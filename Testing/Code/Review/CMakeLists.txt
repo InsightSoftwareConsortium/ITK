@@ -2129,8 +2129,8 @@ FOREACH(label 0 100)
     FOREACH(neg 0 1)
       ADD_TEST(itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}
         ${TestDriver}
-        --compare ${TEMP}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
-                  ${BASELINE}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
+        --compare ${BASELINE}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
+                  ${TEMP}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
         itkLabelMapMaskImageFilterTest
         ${INPUTDATA}/2th_cthead1.png ${INPUTDATA}/cthead1.png
         ${TEMP}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
@@ -2140,8 +2140,8 @@ FOREACH(label 0 100)
       FOREACH(border 0 10)
         ADD_TEST(itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}
           ${TestDriver}
-          --compare ${TEMP}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
-                    ${BASELINE}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
+          --compare ${BASELINE}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
+                    ${TEMP}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
           itkLabelMapMaskImageFilterTest
           ${INPUTDATA}/2th_cthead1.png ${INPUTDATA}/cthead1.png
           ${TEMP}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
@@ -2605,7 +2605,7 @@ add_test(itkJPEG2000Test06 ${TestDriver}
 foreach( COLORMAP red green blue hot cool spring summer autumn winter copper hot hsv jet overunder )
   add_test( RGBColormapTest_${COLORMAP}
      ${TestDriver}
-     --compare ${TEMP}/RGBColormapTest_${COLORMAP}.png ${BASELINE}/RGBColormapTest_${COLORMAP}.png
+     --compare ${BASELINE}/RGBColormapTest_${COLORMAP}.png ${TEMP}/RGBColormapTest_${COLORMAP}.png
      itkScalarToRGBColormapImageFilterTest
      ${INPUTDATA}/Colormap_Grey.png ${TEMP}/RGBColormapTest_${COLORMAP}.png ${COLORMAP} )
 endforeach(COLORMAP)
