@@ -33,25 +33,24 @@ namespace itk {
  * \class N4MRIBiasFieldCorrectionImageFilter.h
  * \brief Implementation of the N4 MRI bias field correction algorithm.
  *
- * The nonparametric nonuniform intensity normalization (N4) algorithm
- * is a method for correcting nonuniformity associated with MR images.
- * The algorithm assumes a simple parametric model (Gaussian) for the bias field
- * but does not require tissue class segmentation.  In addition, there are
- * only a couple of parameters to tune with the default values performing
- * quite well.
+ * The nonparametric nonuniform intensity normalization (N3) algorithm, as
+ * introduced by Sled et al. in 1998 is a method for correcting nonuniformity
+ * associated with MR images. The algorithm assumes a simple parametric model
+ * (Gaussian) for the bias field and does not require tissue class segmentation.
+ * In addition, there are only a couple of parameters to tune with the default
+ * values performing quite well. N3 has been publicly available as a set of
+ * perl scripts (http://www.bic.mni.mcgill.ca/software/N3/)
  *
- * N4 has been publicly available as a set of perl scripts
- * (http://www.bic.mni.mcgill.ca/software/N4/) but, with this class, has been
- * reimplemented for the ITK library with only one minor variation involving
- * the b-spline fitting routine.  We replaced the original fitting approach
- * with the itkBSplineScatteredDataPointSetToImageFilter which is not
- * susceptible to ill-conditioned matrix calculation as is the original proposed
- * fitting component.
+ * The N4 algorithm, encapsulated with this class, is a variation of the original
+ * N3 algorithm with the additional benefits of an improved B-spline fitting
+ * routine which allows for multiple resolutions to be used during the correction
+ * process.  We also modify the iterative update component of algorithm such
+ * that the residual bias field is continually updated
  *
  * Notes for the user:
  *  1. Since much of the image manipulation is done in the log space of the
- *     intensities, input images with negative and small values (< 1) are
- *     discouraged.
+ *     intensities, input images with negative and small values (< 1) can
+ *     produce poor results.
  *  2. The original authors recommend performing the bias field correction
  *      on a downsampled version of the original image.
  *  3. A binary mask or a weighted image can be supplied.  If a binary mask
@@ -64,7 +63,7 @@ namespace itk {
  *     can reconstruct it using the class itkBSplineControlPointImageFilter.
  *     See the IJ article and the test file for an example.
  *  5. The 'Z' parameter in Sled's 1998 paper is the square root
- *     of the class variable 'm_WeinerFilterNoise'.
+ *     of the class variable 'm_WienerFilterNoise'.
  *
  * The basic algorithm iterates between sharpening the intensity histogram of
  * the corrected input image and spatially smoothing those results with a
@@ -72,8 +71,8 @@ namespace itk {
  *
  * \author Nicholas J. Tustison
  *
- * Contributed by Nicholas J. Tustison, James C. Gee
- * in the Insight Journal paper:
+ * Contributed by Nicholas J. Tustison, James C. Gee in the Insight Journal
+ * paper: http://hdl.handle.net/10380/3053
  *
  * \par REFERENCE
  *
@@ -198,7 +197,7 @@ public:
   itkGetConstMacro( MaskLabel, MaskPixelType );
 
   // Sharpen histogram parameters: in estimating the bias field, the
-  // first step is to sharpen the intensity histogram by Weiner deconvolution
+  // first step is to sharpen the intensity histogram by Wiener deconvolution
   // with a 1-D Gaussian.  The following parameters define this operation.
   // These default values in N4 match the default values in N3.
 
@@ -215,14 +214,14 @@ public:
   itkGetConstMacro( NumberOfHistogramBins, unsigned int );
 
   /**
-   * Set the noise estimate defining the Weiner filter.  Default = 0.01.
+   * Set the noise estimate defining the Wiener filter.  Default = 0.01.
    */
-  itkSetMacro( WeinerFilterNoise, RealType );
+  itkSetMacro( WienerFilterNoise, RealType );
 
   /**
-   * Get the noise estimate defining the Weiner filter.  Default = 0.01.
+   * Get the noise estimate defining the Wiener filter.  Default = 0.01.
    */
-  itkGetConstMacro( WeinerFilterNoise, RealType );
+  itkGetConstMacro( WienerFilterNoise, RealType );
 
   /**
    * Set the full width at half maximum parameter characterizing the width of
@@ -400,10 +399,10 @@ private:
 
   MaskPixelType m_MaskLabel;
 
-  // Parameters for deconvolution with Weiner filter
+  // Parameters for deconvolution with Wiener filter
 
   unsigned int m_NumberOfHistogramBins;
-  RealType     m_WeinerFilterNoise;
+  RealType     m_WienerFilterNoise;
   RealType     m_BiasFieldFullWidthAtHalfMaximum;
 
   // Convergence parameters

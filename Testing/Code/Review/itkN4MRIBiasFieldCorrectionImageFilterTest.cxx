@@ -176,7 +176,7 @@ int N4( int argc, char *argv[] )
   typename CorrecterType::Pointer correcter = CorrecterType::New();
   correcter->SetMaskLabel( 1 );
   correcter->SetSplineOrder( 3 );
-  correcter->SetWeinerFilterNoise( 0.01 );
+  correcter->SetWienerFilterNoise( 0.01 );
   correcter->SetBiasFieldFullWidthAtHalfMaximum( 0.15 );
   correcter->SetConvergenceThreshold( 0.0000001 );
 
