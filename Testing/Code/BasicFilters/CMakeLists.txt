@@ -1300,8 +1300,8 @@ add_test(itkDerivativeImageFilterTest2y ${TestDriver}
             ${INPUTDATA}/cthead1.png
             ${TEMP}/itkDerivativeImageFilterTest2y.png 2 1)
 add_test(itkDiscreteGaussianImageFilterTest2 ${TestDriver}
-  --compare ${TEMP}/DiscreteGaussianImageFilterTest2_OutputA.mha
-            ${BASELINE}/DiscreteGaussianImageFilterTest2_OutputA.mha
+  --compare ${BASELINE}/DiscreteGaussianImageFilterTest2_OutputA.mha
+            ${TEMP}/DiscreteGaussianImageFilterTest2_OutputA.mha
   itkDiscreteGaussianImageFilterTest2 2 3
   ${INPUTDATA}/RGBTestImage.tif 3.5
   ${TEMP}/DiscreteGaussianImageFilterTest2_OutputA.mha
