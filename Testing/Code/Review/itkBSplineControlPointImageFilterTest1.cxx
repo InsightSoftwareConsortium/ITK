@@ -166,6 +166,7 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
 
   data[0] = 0.05276717;
   BSplinerType::PointType bsplinePoint;
+  bsplinePoint.Fill( 0.0 );
 
   try
     {
