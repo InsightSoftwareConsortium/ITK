@@ -101,7 +101,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
       {
       const InputImagePixelType & v = it.Get();
 
-      if ( v != m_BackgroundValue )
+      if ( v != static_cast< InputImagePixelType >( m_BackgroundValue ) )
         {
         // We've hit the start of a run
         IndexType idx = it.GetIndex();
