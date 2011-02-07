@@ -72,6 +72,8 @@ include(ExternalData)
 list(APPEND ExternalData_URL_TEMPLATES
   "http://midas.kitware.com/api/rest/midas.bitstream.by.hash?hash=%(hash)&algorithm=%(algo)"
   )
+
+# Helper macro to add ITK tests with data in the ITKData group.
 macro(itk_add_test)
   ExternalData_add_test(ITKData ${ARGN})
 endmacro()
@@ -827,4 +829,6 @@ if(BUILD_EXAMPLES)
   add_subdirectory(Examples)
 endif(BUILD_EXAMPLES)
 
+# Create target to download data from the ITKData group.  This must come after
+# all tests have been added that reference the group, so we put it last.
 ExternalData_Add_Target(ITKData)
