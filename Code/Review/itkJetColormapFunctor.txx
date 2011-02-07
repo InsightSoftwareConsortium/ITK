@@ -33,16 +33,16 @@ JetColormapFunctor< TScalar, TRGBPixel >
   RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
-  RealType red = -vnl_math_abs( 3.75 * ( value - 0.75 ) ) + 1.625;
+  RealType red = -vnl_math_abs( 3.95 * ( value - 0.7460 ) ) + 1.5;
 
   red = vnl_math_min(red, 1.0);
   red = vnl_math_max(0.0, red);
 
-  RealType green = -vnl_math_abs( 3.75 * ( value - 0.5 ) ) + 1.625;
+  RealType green = -vnl_math_abs( 3.95 * ( value - 0.492 ) ) + 1.5;
   green = vnl_math_min(green, 1.0);
   green = vnl_math_max(0.0, green);
 
-  RealType blue = -vnl_math_abs( 3.75 * ( value - 0.25 ) ) + 1.625;
+  RealType blue = -vnl_math_abs( 3.95 * ( value - 0.2385 ) ) + 1.5;
   blue = vnl_math_min(blue, 1.0);
   blue = vnl_math_max(0.0, blue);
 
