@@ -24,6 +24,15 @@
 #include <string>
 #include <list>
 
+#define CHECK_FOR_VALUE(a,b) \
+  { \
+  if( a != b ) \
+    { \
+    std::cerr << "Error in "#a << " expected " << b << " but got " << a << std::endl; \
+    return EXIT_FAILURE; \
+    } \
+  }
+
 template<class TPixel, unsigned int VImageDimension=2>
 class TestImage : public itk::Image< TPixel, VImageDimension >
 {
@@ -237,6 +246,18 @@ int itkObjectFactoryTest(int, char *[])
     {
     status = EXIT_FAILURE;
     }
+
+  itk::ObjectFactoryBase::SetStrictVersionChecking( false );
+  CHECK_FOR_VALUE( itk::ObjectFactoryBase::GetStrictVersionChecking() , false );
+
+  itk::ObjectFactoryBase::SetStrictVersionChecking( true );
+  CHECK_FOR_VALUE( itk::ObjectFactoryBase::GetStrictVersionChecking() , true );
+
+  itk::ObjectFactoryBase::StrictVersionCheckingOff();
+  CHECK_FOR_VALUE( itk::ObjectFactoryBase::GetStrictVersionChecking() , false );
+
+  itk::ObjectFactoryBase::StrictVersionCheckingOn();
+  CHECK_FOR_VALUE( itk::ObjectFactoryBase::GetStrictVersionChecking() , true );
 
   return status;
 }

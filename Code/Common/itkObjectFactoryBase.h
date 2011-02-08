@@ -103,6 +103,16 @@ public:
    * This is critical to determine possible incompatible dynamic factory loads. */
   virtual const char * GetITKSourceVersion(void) const = 0;
 
+  /** Require the ITK version of this application to exactly match the ITK
+   * version used to compile a dynamic library. When this is set to true, if the
+   * versions do not match, an exception will be thrown. When this is false, and
+   * the versions do not match, only a warning message is printed out in the
+   * console, and the factory is still registered. */
+  static void SetStrictVersionChecking( bool );
+  static void StrictVersionCheckingOn();
+  static void StrictVersionCheckingOff();
+  static bool GetStrictVersionChecking();
+
   /** Return a descriptive string describing the factory. */
   virtual const char * GetDescription(void) const = 0;
 
@@ -193,6 +203,8 @@ private:
   void *        m_LibraryHandle;
   unsigned long m_LibraryDate;
   std::string   m_LibraryPath;
+
+  static  bool  m_StrictVersionChecking;
 };
 } // end namespace itk
 
