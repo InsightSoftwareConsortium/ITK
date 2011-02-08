@@ -33,7 +33,7 @@
 #include "itkGDCMSeriesFileNames.h"
 #include <vector>
 
-int main( int argc, char* argv[] )
+int itkGDCMSeriesReadImageWrite( int argc, char* argv[] )
 {
   if( argc < 3 )
     {
