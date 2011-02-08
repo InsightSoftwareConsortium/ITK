@@ -15,18 +15,21 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAutumnColormapFunctor_h
-#define __itkAutumnColormapFunctor_h
+#ifndef __itkCustomColormapFunction_h
+#define __itkCustomColormapFunction_h
 
-#include "itkColormapFunctor.h"
+#include "itkColormapFunction.h"
+
+#include <vector>
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 /**
- * \class AutumnColormapFunctor
+ * \class CustomColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
+ *
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and James C. Gee
  *
@@ -38,13 +41,13 @@ namespace Functor
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT AutumnColormapFunctor:
-  public ColormapFunctor< TScalar, TRGBPixel >
+class ITK_EXPORT CustomColormapFunction:
+  public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
 
-  typedef AutumnColormapFunctor                 Self;
-  typedef ColormapFunctor< TScalar, TRGBPixel > Superclass;
+  typedef CustomColormapFunction                 Self;
+  typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
 
@@ -55,20 +58,56 @@ public:
   typedef typename Superclass::ScalarType   ScalarType;
   typedef typename Superclass::RealType     RealType;
 
+  typedef std::vector< RealType > ChannelType;
+
   virtual RGBPixelType operator()(const TScalar &) const;
 
+  void SetRedChannel(ChannelType red)
+  {
+    m_RedChannel = red;
+  }
+
+  ChannelType GetRedChannel() const
+  {
+    return m_RedChannel;
+  }
+
+  void SetGreenChannel(ChannelType green)
+  {
+    m_GreenChannel = green;
+  }
+
+  ChannelType GetGreenChannel() const
+  {
+    return m_GreenChannel;
+  }
+
+  void SetBlueChannel(ChannelType blue)
+  {
+    m_BlueChannel = blue;
+  }
+
+  ChannelType GetBlueChannel() const
+  {
+    return m_BlueChannel;
+  }
+
 protected:
-  AutumnColormapFunctor() {}
-  ~AutumnColormapFunctor() {}
+  CustomColormapFunction() {}
+  ~CustomColormapFunction() {}
 private:
-  AutumnColormapFunctor(const Self &); //purposely not implemented
+  CustomColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented
+
+  ChannelType m_RedChannel;
+  ChannelType m_GreenChannel;
+  ChannelType m_BlueChannel;
 };
 } // end namespace functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAutumnColormapFunctor.txx"
+#include "itkCustomColormapFunction.txx"
 #endif
 
 #endif

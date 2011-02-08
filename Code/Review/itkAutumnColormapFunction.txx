@@ -15,29 +15,29 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkWinterColormapFunctor_txx
-#define __itkWinterColormapFunctor_txx
+#ifndef __itkAutumnColormapFunction_txx
+#define __itkAutumnColormapFunction_txx
 
-#include "itkWinterColormapFunctor.h"
+#include "itkAutumnColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 template< class TScalar, class TRGBPixel >
-typename WinterColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
-WinterColormapFunctor< TScalar, TRGBPixel >
+typename AutumnColormapFunction< TScalar, TRGBPixel >::RGBPixelType
+AutumnColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
 
-  // Apply the color map.
-  RealType red = 0.0;
+  // Apply the color mapping.
+  RealType red = 1.0;
 
   RealType green = value;
 
-  RealType blue = 1.0 - 0.5 * value;
+  RealType blue = 0.0;
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
@@ -48,7 +48,7 @@ WinterColormapFunctor< TScalar, TRGBPixel >
 
   return pixel;
 }
-} // end namespace Functor
+} // end namespace Function
 } // end namespace itk
 
 #endif

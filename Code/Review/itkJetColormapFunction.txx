@@ -15,31 +15,36 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCopperColormapFunctor_txx
-#define __itkCopperColormapFunctor_txx
+#ifndef __itkJetColormapFunction_txx
+#define __itkJetColormapFunction_txx
 
-#include "itkCopperColormapFunctor.h"
+#include "itkJetColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 template< class TScalar, class TRGBPixel >
-typename CopperColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
-CopperColormapFunctor< TScalar, TRGBPixel >
+typename JetColormapFunction< TScalar, TRGBPixel >::RGBPixelType
+JetColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
 
-  // Apply the color map.
-  RealType red = 1.2 * value;
+  // Apply the color mapping.
+  RealType red = -vnl_math_abs( 3.95 * ( value - 0.7460 ) ) + 1.5;
 
-  red = vnl_math_min(1.0, red);
+  red = vnl_math_min(red, 1.0);
+  red = vnl_math_max(0.0, red);
 
-  RealType green = 0.8 * value;
+  RealType green = -vnl_math_abs( 3.95 * ( value - 0.492 ) ) + 1.5;
+  green = vnl_math_min(green, 1.0);
+  green = vnl_math_max(0.0, green);
 
-  RealType blue = 0.5 * value;
+  RealType blue = -vnl_math_abs( 3.95 * ( value - 0.2385 ) ) + 1.5;
+  blue = vnl_math_min(blue, 1.0);
+  blue = vnl_math_max(0.0, blue);
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
@@ -50,7 +55,7 @@ CopperColormapFunctor< TScalar, TRGBPixel >
 
   return pixel;
 }
-} // end namespace Functor
+} // end namespace Function
 } // end namespace itk
 
 #endif

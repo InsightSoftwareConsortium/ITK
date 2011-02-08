@@ -15,18 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSummerColormapFunctor_txx
-#define __itkSummerColormapFunctor_txx
+#ifndef __itkSummerColormapFunction_txx
+#define __itkSummerColormapFunction_txx
 
-#include "itkSummerColormapFunctor.h"
+#include "itkSummerColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 template< class TScalar, class TRGBPixel >
-typename SummerColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
-SummerColormapFunctor< TScalar, TRGBPixel >
+typename SummerColormapFunction< TScalar, TRGBPixel >::RGBPixelType
+SummerColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
@@ -48,7 +48,7 @@ SummerColormapFunctor< TScalar, TRGBPixel >
 
   return pixel;
 }
-} // end namespace Functor
+} // end namespace Function
 } // end namespace itk
 
 #endif

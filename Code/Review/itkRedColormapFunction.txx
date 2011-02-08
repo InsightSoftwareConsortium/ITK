@@ -15,40 +15,33 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCoolColormapFunctor_txx
-#define __itkCoolColormapFunctor_txx
+#ifndef __itkRedColormapFunction_txx
+#define __itkRedColormapFunction_txx
 
-#include "itkCoolColormapFunctor.h"
+#include "itkRedColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 template< class TScalar, class TRGBPixel >
-typename CoolColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
-CoolColormapFunctor< TScalar, TRGBPixel >
+typename RedColormapFunction< TScalar, TRGBPixel >::RGBPixelType
+RedColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
 
-  // Apply the color mapping.
-  RealType red = value;
-
-  RealType green = 1.0 - value;
-
-  RealType blue = 1.0;
-
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
 
-  pixel[0] = this->RescaleRGBComponentValue(red);
-  pixel[1] = this->RescaleRGBComponentValue(green);
-  pixel[2] = this->RescaleRGBComponentValue(blue);
+  pixel[0] = this->RescaleRGBComponentValue(value);
+  pixel[1] = 0;
+  pixel[2] = 0;
 
   return pixel;
 }
-} // end namespace Functor
+} // end namespace Function
 } // end namespace itk
 
 #endif

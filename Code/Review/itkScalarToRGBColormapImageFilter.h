@@ -20,7 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 
-#include "itkColormapFunctor.h"
+#include "itkColormapFunction.h"
 
 namespace itk
 {
@@ -32,7 +32,7 @@ namespace itk
  *
  * ScalarToRGBColormapImageFilter
  *
- * \sa BinaryFunctorImageFilter TernaryFunctorImageFilter
+ * \sa BinaryFunctionImageFilter TernaryFunctionImageFilter
  *
  * \ingroup   IntensityImageFilters     Multithreaded
  */
@@ -63,7 +63,7 @@ public:
   typedef typename OutputImageType::RegionType  OutputImageRegionType;
   typedef typename OutputImageType::PixelType   OutputImagePixelType;
 
-  typedef Functor::ColormapFunctor< InputImagePixelType,
+  typedef Function::ColormapFunction< InputImagePixelType,
                                     OutputImagePixelType >                                ColormapType;
 
   /**

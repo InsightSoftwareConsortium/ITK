@@ -2600,7 +2600,7 @@ add_test(itkJPEG2000Test06 ${TestDriver}
 
 
 #
-# Functor colormaps
+# Function colormaps
 #
 foreach( COLORMAP red green blue hot cool spring summer autumn winter copper hot hsv jet overunder )
   add_test( RGBColormapTest_${COLORMAP}

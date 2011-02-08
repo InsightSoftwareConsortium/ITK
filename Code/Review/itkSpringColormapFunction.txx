@@ -15,37 +15,29 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHSVColormapFunctor_txx
-#define __itkHSVColormapFunctor_txx
+#ifndef __itkSpringColormapFunction_txx
+#define __itkSpringColormapFunction_txx
 
-#include "itkHSVColormapFunctor.h"
+#include "itkSpringColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 template< class TScalar, class TRGBPixel >
-typename HSVColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
-HSVColormapFunctor< TScalar, TRGBPixel >
+typename SpringColormapFunction< TScalar, TRGBPixel >::RGBPixelType
+SpringColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
-  // Apply the color mapping.
-  RealType red = vnl_math_abs( 5.0 * ( value - 0.5 ) ) - 5.0 / 6.0;
+  RealType red = 1.0;
 
-  red = vnl_math_min(red, 1.0);
-  red = vnl_math_max(0.0, red);
+  RealType green = value;
 
-  RealType green = -vnl_math_abs( 5.0 * ( value - 11.0 / 30.0 ) ) + 11.0 / 6.0;
-  green = vnl_math_min(green, 1.0);
-  green = vnl_math_max(0.0, green);
-
-  RealType blue = -vnl_math_abs( 5.0 * ( value - 19.0 / 30.0 ) ) + 11.0 / 6.0;
-  blue = vnl_math_min(blue, 1.0);
-  blue = vnl_math_max(0.0, blue);
+  RealType blue = 1.0 - value;
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
@@ -56,7 +48,7 @@ HSVColormapFunctor< TScalar, TRGBPixel >
 
   return pixel;
 }
-} // end namespace Functor
+} // end namespace Function
 } // end namespace itk
 
 #endif
