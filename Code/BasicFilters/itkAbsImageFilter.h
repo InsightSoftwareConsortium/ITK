@@ -48,7 +48,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)( ( A > 0 ) ? A : -A );
+    return static_cast<TOutput>( vnl_math_abs( A ) );
   }
 };
 }
@@ -77,13 +77,15 @@ public:
   itkTypeMacro(AbsImageFilter,
                UnaryFunctorImageFilter);
 
+  typedef typename TInputImage::PixelType     InputPixelType;
+  typedef typename TOutputImage::PixelType    OutputPixelType;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( ConvertibleCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType > ) );
+                   ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
   itkConceptMacro( InputGreaterThanIntCheck,
-                   ( Concept::GreaterThanComparable< typename TInputImage::PixelType, int > ) );
+                   ( Concept::GreaterThanComparable< InputPixelType, InputPixelType > ) );
   /** End concept checking */
 #endif
 protected:
