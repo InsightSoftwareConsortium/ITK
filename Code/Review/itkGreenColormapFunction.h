@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpringColormapFunctor_h
-#define __itkSpringColormapFunctor_h
+#ifndef __itkGreenColormapFunction_h
+#define __itkGreenColormapFunction_h
 
-#include "itkColormapFunctor.h"
+#include "itkColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 /**
- * \class SpringColormapFunctor
+ * \class GreenColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and James C. Gee
@@ -38,13 +38,13 @@ namespace Functor
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT SpringColormapFunctor:
-  public ColormapFunctor< TScalar, TRGBPixel >
+class ITK_EXPORT GreenColormapFunction:
+  public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
 
-  typedef SpringColormapFunctor                 Self;
-  typedef ColormapFunctor< TScalar, TRGBPixel > Superclass;
+  typedef GreenColormapFunction                  Self;
+  typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
 
@@ -58,17 +58,17 @@ public:
   virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  SpringColormapFunctor() {}
-  ~SpringColormapFunctor() {}
+  GreenColormapFunction() {}
+  ~GreenColormapFunction() {}
 private:
-  SpringColormapFunctor(const Self &); //purposely not implemented
-  void operator=(const Self &);        //purposely not implemented
+  GreenColormapFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 };
 } // end namespace functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpringColormapFunctor.txx"
+#include "itkGreenColormapFunction.txx"
 #endif
 
 #endif

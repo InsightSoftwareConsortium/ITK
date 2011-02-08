@@ -15,33 +15,48 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGreyColormapFunctor_txx
-#define __itkGreyColormapFunctor_txx
+#ifndef __itkHSVColormapFunction_txx
+#define __itkHSVColormapFunction_txx
 
-#include "itkGreyColormapFunctor.h"
+#include "itkHSVColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 template< class TScalar, class TRGBPixel >
-typename GreyColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
-GreyColormapFunctor< TScalar, TRGBPixel >
+typename HSVColormapFunction< TScalar, TRGBPixel >::RGBPixelType
+HSVColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
 
+  // Apply the color mapping.
+  // Apply the color mapping.
+  RealType red = vnl_math_abs( 5.0 * ( value - 0.5 ) ) - 5.0 / 6.0;
+
+  red = vnl_math_min(red, 1.0);
+  red = vnl_math_max(0.0, red);
+
+  RealType green = -vnl_math_abs( 5.0 * ( value - 11.0 / 30.0 ) ) + 11.0 / 6.0;
+  green = vnl_math_min(green, 1.0);
+  green = vnl_math_max(0.0, green);
+
+  RealType blue = -vnl_math_abs( 5.0 * ( value - 19.0 / 30.0 ) ) + 11.0 / 6.0;
+  blue = vnl_math_min(blue, 1.0);
+  blue = vnl_math_max(0.0, blue);
+
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
 
-  pixel[0] = this->RescaleRGBComponentValue(value);
-  pixel[1] = pixel[0];
-  pixel[2] = pixel[0];
+  pixel[0] = this->RescaleRGBComponentValue(red);
+  pixel[1] = this->RescaleRGBComponentValue(green);
+  pixel[2] = this->RescaleRGBComponentValue(blue);
 
   return pixel;
 }
-} // end namespace Functor
+} // end namespace Function
 } // end namespace itk
 
 #endif

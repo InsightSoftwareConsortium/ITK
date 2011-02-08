@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBlueColormapFunctor_h
-#define __itkBlueColormapFunctor_h
+#ifndef __itkAutumnColormapFunction_h
+#define __itkAutumnColormapFunction_h
 
-#include "itkColormapFunctor.h"
+#include "itkColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 /**
- * \class BlueColormapFunctor
+ * \class AutumnColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and James C. Gee
@@ -38,13 +38,13 @@ namespace Functor
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT BlueColormapFunctor:
-  public ColormapFunctor< TScalar, TRGBPixel >
+class ITK_EXPORT AutumnColormapFunction:
+  public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
 
-  typedef BlueColormapFunctor                   Self;
-  typedef ColormapFunctor< TScalar, TRGBPixel > Superclass;
+  typedef AutumnColormapFunction                 Self;
+  typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
 
@@ -58,17 +58,17 @@ public:
   virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  BlueColormapFunctor() {}
-  ~BlueColormapFunctor() {}
+  AutumnColormapFunction() {}
+  ~AutumnColormapFunction() {}
 private:
-  BlueColormapFunctor(const Self &); //purposely not implemented
-  void operator=(const Self &);      //purposely not implemented
+  AutumnColormapFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 };
 } // end namespace functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBlueColormapFunctor.txx"
+#include "itkAutumnColormapFunction.txx"
 #endif
 
 #endif

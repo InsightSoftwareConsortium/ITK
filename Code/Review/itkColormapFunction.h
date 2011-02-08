@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkColormapFunctor_h
-#define __itkColormapFunctor_h
+#ifndef __itkColormapFunction_h
+#define __itkColormapFunction_h
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
@@ -25,10 +25,10 @@
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 /**
- * \class ColormapFunctor
+ * \class ColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  *
@@ -42,17 +42,17 @@ namespace Functor
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT ColormapFunctor:public Object
+class ITK_EXPORT ColormapFunction:public Object
 {
 public:
 
-  typedef ColormapFunctor            Self;
+  typedef ColormapFunction            Self;
   typedef Object                     Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ColormapFunctor, Object);
+  itkTypeMacro(ColormapFunction, Object);
 
   typedef TRGBPixel                                      RGBPixelType;
   typedef typename TRGBPixel::ComponentType              RGBComponentType;
@@ -71,12 +71,12 @@ public:
   itkSetMacro(MaximumInputValue, ScalarType);
   itkGetConstMacro(MaximumInputValue, ScalarType);
 
-  virtual bool operator!=(const ColormapFunctor &) const
+  virtual bool operator!=(const ColormapFunction &) const
   {
     return false;
   }
 
-  virtual bool operator==(const ColormapFunctor & other) const
+  virtual bool operator==(const ColormapFunction & other) const
   {
     return !( *this != other );
   }
@@ -84,7 +84,7 @@ public:
   virtual RGBPixelType operator()(const ScalarType &) const = 0;
 
 protected:
-  ColormapFunctor()
+  ColormapFunction()
   {
     this->m_MinimumInputValue = NumericTraits< TScalar >::min();
     this->m_MaximumInputValue = NumericTraits< TScalar >::max();
@@ -92,7 +92,7 @@ protected:
     this->m_MaximumRGBComponentValue = NumericTraits< RGBComponentType >::max();
   }
 
-  ~ColormapFunctor() {}
+  ~ColormapFunction() {}
 
   /**
    * Map [min, max] input values to [0, 1].
@@ -139,7 +139,7 @@ protected:
   }
 
 private:
-  ColormapFunctor(const Self &); //purposely not implemented
+  ColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented
 
   ScalarType m_MinimumInputValue;

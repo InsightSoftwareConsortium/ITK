@@ -26,21 +26,21 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 
-#include "itkRedColormapFunctor.h"
-#include "itkGreenColormapFunctor.h"
-#include "itkBlueColormapFunctor.h"
-#include "itkGreyColormapFunctor.h"
-#include "itkHotColormapFunctor.h"
-#include "itkCoolColormapFunctor.h"
-#include "itkSpringColormapFunctor.h"
-#include "itkSummerColormapFunctor.h"
-#include "itkAutumnColormapFunctor.h"
-#include "itkWinterColormapFunctor.h"
-#include "itkCopperColormapFunctor.h"
-#include "itkHSVColormapFunctor.h"
-#include "itkJetColormapFunctor.h"
-#include "itkCustomColormapFunctor.h"
-#include "itkOverUnderColormapFunctor.h"
+#include "itkRedColormapFunction.h"
+#include "itkGreenColormapFunction.h"
+#include "itkBlueColormapFunction.h"
+#include "itkGreyColormapFunction.h"
+#include "itkHotColormapFunction.h"
+#include "itkCoolColormapFunction.h"
+#include "itkSpringColormapFunction.h"
+#include "itkSummerColormapFunction.h"
+#include "itkAutumnColormapFunction.h"
+#include "itkWinterColormapFunction.h"
+#include "itkCopperColormapFunction.h"
+#include "itkHSVColormapFunction.h"
+#include "itkJetColormapFunction.h"
+#include "itkCustomColormapFunction.h"
+#include "itkOverUnderColormapFunction.h"
 
 #include "itkScalarToRGBColormapImageFilter.h"
 
@@ -128,7 +128,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     }
   else if ( colormapString == "jet"  )
     {
-    typedef itk::Functor::JetColormapFunctor<
+    typedef itk::Function::JetColormapFunction<
       ImageType::PixelType, RGBImageType::PixelType> ColormapType;
 
     ColormapType::Pointer colormap = ColormapType::New();
@@ -137,7 +137,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     }
   else if ( colormapString == "hsv"  )
     {
-    typedef itk::Functor::HSVColormapFunctor<
+    typedef itk::Function::HSVColormapFunction<
       ImageType::PixelType, RGBImageType::PixelType> ColormapType;
 
     ColormapType::Pointer colormap = ColormapType::New();
@@ -149,7 +149,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     }
   else if ( colormapString == "custom"  )
     {
-    typedef itk::Functor::CustomColormapFunctor<
+    typedef itk::Function::CustomColormapFunction<
       ImageType::PixelType, RGBImageType::PixelType> ColormapType;
 
     ColormapType::Pointer colormap = ColormapType::New();

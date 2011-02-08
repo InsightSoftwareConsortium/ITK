@@ -15,29 +15,42 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkSpringColormapFunctor_txx
-#define __itkSpringColormapFunctor_txx
+#ifndef __itkOverUnderColormapFunction_txx
+#define __itkOverUnderColormapFunction_txx
 
-#include "itkSpringColormapFunctor.h"
+#include "itkOverUnderColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 template< class TScalar, class TRGBPixel >
-typename SpringColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
-SpringColormapFunctor< TScalar, TRGBPixel >
+typename OverUnderColormapFunction< TScalar, TRGBPixel >::RGBPixelType
+OverUnderColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
-  RealType red = 1.0;
-
+  RealType red = value;
   RealType green = value;
+  RealType blue = value;
 
-  RealType blue = 1.0 - value;
+  if ( value == 0.0 )
+    {
+    // pixel is saturated in the dark
+    red = 0.0;
+    green = 0.0;
+    blue = 1.0;
+    }
+  else if ( value == 1.0 )
+    {
+    // pixel is saturated in the white
+    red = 1.0;
+    green = 0.0;
+    blue = 0.0;
+    }
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
@@ -48,7 +61,7 @@ SpringColormapFunctor< TScalar, TRGBPixel >
 
   return pixel;
 }
-} // end namespace Functor
+} // end namespace Function
 } // end namespace itk
 
 #endif

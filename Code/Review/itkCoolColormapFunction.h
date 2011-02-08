@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCoolColormapFunctor_h
-#define __itkCoolColormapFunctor_h
+#ifndef __itkCoolColormapFunction_h
+#define __itkCoolColormapFunction_h
 
-#include "itkColormapFunctor.h"
+#include "itkColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 /**
- * \class CoolColormapFunctor
+ * \class CoolColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  *
@@ -39,13 +39,13 @@ namespace Functor
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT CoolColormapFunctor:
-  public ColormapFunctor< TScalar, TRGBPixel >
+class ITK_EXPORT CoolColormapFunction:
+  public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
 
-  typedef CoolColormapFunctor                   Self;
-  typedef ColormapFunctor< TScalar, TRGBPixel > Superclass;
+  typedef CoolColormapFunction                   Self;
+  typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
 
@@ -59,17 +59,17 @@ public:
   virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  CoolColormapFunctor() {}
-  ~CoolColormapFunctor() {}
+  CoolColormapFunction() {}
+  ~CoolColormapFunction() {}
 private:
-  CoolColormapFunctor(const Self &); //purposely not implemented
+  CoolColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
 };
 } // end namespace functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCoolColormapFunctor.txx"
+#include "itkCoolColormapFunction.txx"
 #endif
 
 #endif

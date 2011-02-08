@@ -15,19 +15,19 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCustomColormapFunctor_txx
-#define __itkCustomColormapFunctor_txx
+#ifndef __itkCustomColormapFunction_txx
+#define __itkCustomColormapFunction_txx
 
-#include "itkCustomColormapFunctor.h"
+#include "itkCustomColormapFunction.h"
 #include "itkMath.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 template< class TScalar, class TRGBPixel >
-typename CustomColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
-CustomColormapFunctor< TScalar, TRGBPixel >
+typename CustomColormapFunction< TScalar, TRGBPixel >::RGBPixelType
+CustomColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
@@ -92,7 +92,7 @@ CustomColormapFunctor< TScalar, TRGBPixel >
 
   return pixel;
 }
-} // end namespace Functor
+} // end namespace Function
 } // end namespace itk
 
 #endif

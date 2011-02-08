@@ -15,18 +15,19 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkOverUnderColormapFunctor_h
-#define __itkOverUnderColormapFunctor_h
+#ifndef __itkCopperColormapFunction_h
+#define __itkCopperColormapFunction_h
 
-#include "itkColormapFunctor.h"
+#include "itkColormapFunction.h"
 
 namespace itk
 {
-namespace Functor
+namespace Function
 {
 /**
- * \class OverUnderColormapFunctor
+ * \class CopperColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
+ *
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and James C. Gee
  *
@@ -38,13 +39,13 @@ namespace Functor
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT OverUnderColormapFunctor:
-  public ColormapFunctor< TScalar, TRGBPixel >
+class ITK_EXPORT CopperColormapFunction:
+  public ColormapFunction< TScalar, TRGBPixel >
 {
 public:
 
-  typedef OverUnderColormapFunctor              Self;
-  typedef ColormapFunctor< TScalar, TRGBPixel > Superclass;
+  typedef CopperColormapFunction                 Self;
+  typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
 
@@ -58,17 +59,17 @@ public:
   virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  OverUnderColormapFunctor() {}
-  ~OverUnderColormapFunctor() {}
+  CopperColormapFunction() {}
+  ~CopperColormapFunction() {}
 private:
-  OverUnderColormapFunctor(const Self &); //purposely not implemented
-  void operator=(const Self &);           //purposely not implemented
+  CopperColormapFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 };
 } // end namespace functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkOverUnderColormapFunctor.txx"
+#include "itkCopperColormapFunction.txx"
 #endif
 
 #endif
