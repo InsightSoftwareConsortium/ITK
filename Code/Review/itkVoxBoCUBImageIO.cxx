@@ -723,8 +723,6 @@ VoxBoCUBImageIO
   std::string                word;
   for ( SizeValueType i = 0; i < keys.size(); i++ )
     {
-    // The following local, key, was required to avoid Borland compiler errors
-    // Using const reference should avoid extra copy while still please bcc32
     const std::string & key = keys[i];
     ExposeMetaData< std::string >(dic, key, word);
     if ( !strcmp(key.c_str(), "resample_date") )

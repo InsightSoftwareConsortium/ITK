@@ -330,15 +330,9 @@ protected:
    *  out of its assigned region will produce undefined results. */
   Self & operator-=(const OffsetType &);
 
-  //This looks like a borland work-around
-  //warning: access declarations are deprecated; use using declarations instead
-
-
-  // Should be protected, but Borland compiler will not allow it.  A workaround
-  // must be found.
+protected:
   using Superclass::SetPixel;
   using Superclass::SetCenterPixel;
-protected:
   /** Copy constructor */
   ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &);
   // purposely not implemented

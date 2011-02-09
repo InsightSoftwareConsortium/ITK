@@ -33,9 +33,7 @@
 bool checkAlphaExists()
 {
 #if LOCAL_USE_WIN32_WOPEN
-  // cygwin has NO _wfopen but mingw has
-  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
-  // Borland does not understand L"\u03B1.txt"
+  // mingw has _wfopen
   std::wstring wstr;
   wstr.push_back((wchar_t)(0x03B1));
   wstr += L".txt";
@@ -61,24 +59,19 @@ bool checkAlphaExists()
 bool removeAlpha()
 {
 #if LOCAL_USE_WIN32_WOPEN
-  // cygwin has NO _wunlink but mingw has
-  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
-  // Borland does not understand L"\u03B1.txt"
+  // mingw has _wunlink
   std::wstring wstr;
   wstr.push_back((wchar_t)(0x03B1));
   wstr += L".txt";
-  return (_wunlink(wstr.c_str())!=-1);
+  return (_wunlink(wstr.c_str()) != -1);
 #else
   std::string utf8_str;
   utf8_str.append(1,(char)(0xCE));
   utf8_str.append(1,(char)(0xB1));
   utf8_str += ".txt";
-  return (unlink(utf8_str.c_str())!=-1);
+  return (unlink(utf8_str.c_str()) != -1);
 #endif
 }
-
-
-
 
 // Temporarily use its own main to start by sorting out compilation problems
 // without too much annoyance to the rest of the world
@@ -105,7 +98,6 @@ int main( int , char * [] )
 
 #if LOCAL_USE_WIN32_WOPEN
   // Check that the string to wide string conversion works
-  // Borland does not understand L"\u03B1.txt"
   std::wstring utf16_str;
   utf16_str.push_back((wchar_t)(0x03B1));
   utf16_str += L".txt";
@@ -131,11 +123,8 @@ int main( int , char * [] )
     }
 #endif
 
-
-
   // Start by removing alpha.txt if it exists
   removeAlpha();
-
 
   // Create alpha.txt using utf8fopen
   FILE * wfile = itk::i18n::I18nFopen(utf8_str, "wb");

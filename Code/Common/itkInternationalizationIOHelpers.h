@@ -31,7 +31,6 @@
 #include <io.h>
 #endif
 
-#include <stdio.h> // Borland needs this (cstdio does not work easy)
 #include <fcntl.h>
 #include <iostream>
 #include <string>
@@ -40,15 +39,7 @@
 // Find out how to handle unicode filenames on windows:
 // * VS>=8.0 has _wopen and _wfopen and can open a (i/o)fstream using a wide
 // string
-// * cygwin has NO _wopen an NO _wfopen. If you really need unicode
-//   filenames on cygwin, just use cygwin >= 1.7 for now, it works with utf8
-//   natively. Alternatively, we could try and use pure win32 functions such as
-//   CreateFileW and convert the win32 file handle using _open_osfhandle and
-// _fdopen
-// * VS6.0 has _wopen and _wfopen but cannot open a (i/o)fstream using a wide
-// string
-//   nor can it compile fdstream => disable unicode filename support
-// * Borland c++, VS7.x and MinGW have _wopen and _wfopen but cannot open a
+// * VS7.x and MinGW have _wopen and _wfopen but cannot open a
 //   (i/o)fstream using a wide string. They can however compile fdstream
 
 #if defined( ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO ) \
@@ -123,8 +114,7 @@ inline std::wstring Utf8StringToWString(const std::string & str)
 inline int I18nOpen(const std::string & str, const int & flags)
 {
 #if LOCAL_USE_WIN32_WOPEN
-  // cygwin has NO _wopen but mingw has
-  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
+  // mingw has _wopen
   // Convert to utf16
   const std::wstring str_utf16 = Utf8StringToWString(str);
   return _wopen(str_utf16.c_str(), flags);
@@ -138,8 +128,7 @@ inline int I18nOpen(const std::string & str, const int & flags)
 inline int I18nOpen(const std::string & str, const int & flags, const int & mode)
 {
 #if LOCAL_USE_WIN32_WOPEN
-  // cygwin has NO _wopen but mingw has
-  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
+  // mingw has _wopen
   // Convert to utf16
   const std::wstring str_utf16 = Utf8StringToWString(str);
   return _wopen(str_utf16.c_str(), flags, mode);
@@ -154,7 +143,6 @@ inline int I18nOpenForReading(const std::string & str)
 #if LOCAL_USE_WIN32_WOPEN
   return I18nOpen(str, _O_RDONLY | _O_BINARY);
 #else
-  ///\todo check if cygwin has and needs the O_BINARY flag
   return I18nOpen(str, O_RDONLY);
 #endif
 }
@@ -166,7 +154,6 @@ inline int I18nOpenForWritting(const std::string & str, const bool append = fals
   if ( !append ) { return I18nOpen(str, _O_WRONLY | _O_CREAT | _O_BINARY, _S_IREAD | _S_IWRITE); }
   else { return I18nOpen(str, _O_WRONLY | _O_CREAT | _O_APPEND | _O_BINARY, _S_IREAD | _S_IWRITE); }
 #else
-  ///\todo check if cygwin has and needs the O_BINARY flag
   if ( !append ) { return I18nOpen(str, O_WRONLY | O_CREAT, S_IREAD | S_IWRITE); }
   else { return I18nOpen(str, O_WRONLY | O_CREAT | O_APPEND, S_IREAD | S_IWRITE); }
 #endif
@@ -177,8 +164,6 @@ inline int I18nOpenForWritting(const std::string & str, const bool append = fals
 inline FILE * I18nFopen(const std::string & str, const std::string & mode)
 {
 #if LOCAL_USE_WIN32_WOPEN
-  // cygwin has NO _wfopen but mingw has
-  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
   // Convert to utf16
   const std::wstring str_utf16 = Utf8StringToWString(str);
   const std::wstring mode_utf16 = Utf8StringToWString(mode);

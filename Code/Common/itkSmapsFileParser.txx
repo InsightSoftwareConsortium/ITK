@@ -20,7 +20,7 @@
 
 #include "itkSmapsFileParser.h"
 
-#if defined( _WIN32 ) && !defined( __CYGWIN__ )
+#if defined( _WIN32 )
 #include <io.h>
 #include <process.h>
 #else

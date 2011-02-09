@@ -301,15 +301,6 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   while ( ( file.getline(line, 255), file.gcount() > 0 ) )
     {
     text = line;
-#ifdef __CYGWIN__
-    // If terminated with \r\n, getline only removes \n. Explictly
-    // strip \r.
-    if ( text.size() > 0
-         && ( text[text.size() - 1] == '\r' ) )
-      {
-      text.resize(text.size() - 1);
-      }
-#endif
 
     if ( text.find("numDim") < text.length() )
       {

@@ -183,14 +183,12 @@ source_group("Source Files Template" REGULAR_EXPRESSION ./*.txx)
 include_directories(${VXL_NETLIB_INCLUDE_DIR}) # Some .cxx files need f2c.h.
 
 # Build the library
-# For cygwin and mingw, there are issues with the ITKFEM shared library
+# For mingw, there are issues with the ITKFEM shared library
 # Force ITKFEM on these platforms to be static until these issues are resolved
 #
 if(WIN32)
   if(CMAKE_COMPILER_IS_GNUCXX)
     if(MINGW)
-      add_library(ITKFEM STATIC ${FEM_SRCS})
-    elseif(CYGWIN)
       add_library(ITKFEM STATIC ${FEM_SRCS})
     else(MINGW)
       add_library(ITKFEM ${FEM_SRCS})

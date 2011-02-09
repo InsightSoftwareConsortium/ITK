@@ -21,6 +21,7 @@
 #include "vnl/vnl_sample.h"
 
 /**
+ * \class
  *  The objective function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
@@ -39,17 +40,17 @@ class SPSACostFunction : public itk::SingleValuedCostFunction
 {
  public:
 
-  typedef SPSACostFunction                     Self;
-  typedef itk::SingleValuedCostFunction      Superclass;
-  typedef itk::SmartPointer<Self>            Pointer;
-  typedef itk::SmartPointer<const Self>      ConstPointer;
+  typedef SPSACostFunction               Self;
+  typedef itk::SingleValuedCostFunction  Superclass;
+  typedef itk::SmartPointer<Self>        Pointer;
+  typedef itk::SmartPointer<const Self>  ConstPointer;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
   typedef Superclass::ParametersType      ParametersType;
   typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType ;
+  typedef Superclass::MeasureType         MeasureType;
 
 
   SPSACostFunction()
@@ -63,7 +64,7 @@ class SPSACostFunction : public itk::SingleValuedCostFunction
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "GetValue( " ;
+    std::cout << "GetValue( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -81,7 +82,7 @@ class SPSACostFunction : public itk::SingleValuedCostFunction
     double x = parameters[0];
     double y = parameters[1];
 
-    std::cout << "GetDerivative( " ;
+    std::cout << "GetDerivative( ";
     std::cout << x << " ";
     std::cout << y << ") = ";
 
@@ -97,21 +98,11 @@ class SPSACostFunction : public itk::SingleValuedCostFunction
     return SpaceDimension;
   }
 
-
-
  private:
-
-
 };
-
-
 
 int itkSPSAOptimizerTest(int, char* [] )
 {
-#if __CYGWIN__
-  vnl_sample_reseed(0x1234abcd);
-#endif
-
   std::cout << "SPSAOptimizer Test ";
   std::cout << std::endl << std::endl;
 
@@ -183,7 +174,7 @@ int itkSPSAOptimizerTest(int, char* [] )
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
+  std::cout << finalPosition[0] << ",";
   std::cout << finalPosition[1] << ")" << std::endl;
 
   std::cout
@@ -233,6 +224,3 @@ int itkSPSAOptimizerTest(int, char* [] )
 
 
 }
-
-
-

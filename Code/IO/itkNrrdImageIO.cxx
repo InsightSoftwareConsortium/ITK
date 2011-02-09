@@ -940,7 +940,7 @@ void NrrdImageIO::Write(const void *buffer)
         if ( 1 == sscanf(keyField + strlen(field), "[%d]", &axi)
              && axi + baseDim < nrrd->dim )
           {
-          double thickness = 0.0;  // local for Borland
+          double thickness = 0.0;
           ExposeMetaData< double >(thisDic, *keyIt, thickness);
           nrrd->axis[axi + baseDim].thickness = thickness;
           }
@@ -951,7 +951,7 @@ void NrrdImageIO::Write(const void *buffer)
         if ( 1 == sscanf(keyField + strlen(field), "[%d]", &axi)
              && axi + baseDim < nrrd->dim )
           {
-          std::string value;  // local for Borland
+          std::string value;
           ExposeMetaData< std::string >(thisDic, *keyIt, value);
           nrrd->axis[axi + baseDim].center = airEnumVal( nrrdCenter,
                                                          value.c_str() );
@@ -963,7 +963,7 @@ void NrrdImageIO::Write(const void *buffer)
         if ( 1 == sscanf(keyField + strlen(field), "[%d]", &axi)
              && axi + baseDim < nrrd->dim )
           {
-          std::string value;  // local for Borland
+          std::string value;
           ExposeMetaData< std::string >(thisDic, *keyIt, value);
           nrrd->axis[axi + baseDim].kind = airEnumVal( nrrdKind,
                                                        value.c_str() );
@@ -975,7 +975,7 @@ void NrrdImageIO::Write(const void *buffer)
         if ( 1 == sscanf(keyField + strlen(field), "[%d]", &axi)
              && axi + baseDim < nrrd->dim )
           {
-          std::string value;  // local for Borland
+          std::string value;
           ExposeMetaData< std::string >(thisDic, *keyIt, value);
           nrrd->axis[axi + baseDim].label = airStrdup( value.c_str() );
           }
@@ -995,7 +995,7 @@ void NrrdImageIO::Write(const void *buffer)
       if ( !strncmp( keyField, field, strlen(field) ) )
         {
         int         space;
-        std::string value;  // local for Borland
+        std::string value;
         ExposeMetaData< std::string >(thisDic, *keyIt, value);
         space = airEnumVal( nrrdSpace, value.c_str() );
         if ( nrrdSpaceDimension(space) == nrrd->spaceDim )
@@ -1008,7 +1008,7 @@ void NrrdImageIO::Write(const void *buffer)
       field = airEnumStr(nrrdField, nrrdField_content);
       if ( !strncmp( keyField, field, strlen(field) ) )
         {
-        std::string value;  // local for Borland
+        std::string value;
         ExposeMetaData< std::string >(thisDic, *keyIt, value);
         nrrd->content = airStrdup( value.c_str() );
         }
@@ -1045,7 +1045,7 @@ void NrrdImageIO::Write(const void *buffer)
     else
       {
       // not a NRRD field packed into meta data; just a regular key/value
-      std::string value;  // local for Borland
+      std::string value;
       ExposeMetaData< std::string >(thisDic, *keyIt, value);
       nrrdKeyValueAdd( nrrd, ( *keyIt ).c_str(), value.c_str() );
       }
