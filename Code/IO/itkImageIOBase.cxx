@@ -175,6 +175,36 @@ void ImageIOBase::SetDirection(unsigned int i, vnl_vector< double > & direction)
   m_Direction[i] = v;
 }
 
+const std::type_info & ImageIOBase::GetComponentTypeInfo() const
+{
+  switch ( m_ComponentType )
+    {
+    case UCHAR:
+      return typeid( unsigned char );
+    case CHAR:
+      return typeid( char );
+    case USHORT:
+      return typeid( unsigned short );
+    case SHORT:
+      return typeid( short );
+    case UINT:
+      return typeid( unsigned int );
+    case INT:
+      return typeid( int );
+    case ULONG:
+      return typeid( unsigned long );
+    case LONG:
+      return typeid( long );
+    case FLOAT:
+      return typeid( float );
+    case DOUBLE:
+      return typeid( double );
+    case UNKNOWNCOMPONENTTYPE:
+    default:
+      itkExceptionMacro ("Unknown component type: " << m_ComponentType);
+    }
+  return typeid( ImageIOBase::UnknownType );
+}
 
 void ImageIOBase::ComputeStrides()
 {
