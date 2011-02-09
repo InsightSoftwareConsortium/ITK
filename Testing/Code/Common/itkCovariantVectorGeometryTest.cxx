@@ -36,8 +36,6 @@
   //  Vector type
   typedef    itk::CovariantVector< ValueType, N >    VectorType;
 
-
-
 //-------------------------
 //
 //   Main code
@@ -87,11 +85,9 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   std::cout << "vh   =  vb      = ";
   std::cout << vh << std::endl;
 
-
   VectorType   vg( va );
   std::cout << "vg( va )        = ";
   std::cout << vg << std::endl;
-
 
   ValueType norm2 = vg.GetSquaredNorm();
   std::cout << "vg squared norm = ";
@@ -100,7 +96,6 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   ValueType norm  = vg.GetNorm();
   std::cout << "vg norm = ";
   std::cout << norm << std::endl;
-
 
   // Test for vnl interface
 
@@ -137,7 +132,6 @@ int itkCovariantVectorGeometryTest(int, char* [] )
     std::cout << vf.Begin() << std::endl;
   }
 
-
   // Test for CastFrom() method
   {
   std::cout << "Test for CastFrom() method... ";
@@ -158,7 +152,6 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   fp[1] = 0.0;
   fp[2] = 0.0;
 
-
   fp.CastFrom( dp );
 
   std::cout << std::endl;
@@ -178,7 +171,6 @@ int itkCovariantVectorGeometryTest(int, char* [] )
         return EXIT_FAILURE;
       }
     }
-
 
   std::cout << " PASSED ! " << std::endl;
 
@@ -221,9 +213,28 @@ int itkCovariantVectorGeometryTest(int, char* [] )
       }
 
   }
-
+  //
+  // test that the ComponentType is present
+  {
+  typedef itk::CovariantVector<double, 3>  CovariantVectorType;
+  CovariantVectorType::ComponentType comp(1.0);
+  double x(1.0);
+  if(sizeof(comp) != sizeof(double))
+    {
+    std::cerr << "error -- CovariantVectorType::ComponentType size != sizeof(double)"
+              << std::endl;
+    return EXIT_FAILURE;
+    }
+  char *compp = reinterpret_cast<char *>(&comp);
+  char *xp = reinterpret_cast<char *>(&x);
+  for(unsigned i = 0; i < sizeof(CovariantVectorType::ComponentType); i++)
+    {
+    if(compp[i] != xp[i])
+      {
+      std::cerr << "error -- bit pattern for CovariantVectorType::ComponentType doesnt match "
+                << " double with same value" << std::endl;
+      }
+    }
+  }
   return EXIT_SUCCESS;
 }
-
-
-

@@ -70,6 +70,9 @@ public:
   typedef T                                             ValueType;
   typedef typename NumericTraits< ValueType >::RealType RealValueType;
 
+  /** Component value type */
+  typedef T ComponentType;
+
   /** Dimension of the Space */
   itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
 
