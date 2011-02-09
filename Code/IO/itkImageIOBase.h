@@ -169,6 +169,7 @@ public:
    * type. */
   itkSetEnumMacro(ComponentType, IOComponentType);
   itkGetEnumMacro(ComponentType, IOComponentType);
+  virtual const std::type_info & GetComponentTypeInfo() const;
 
   /** Set/Get the number of components per pixel in the image. This may
    * be set by the reading process. For SCALAR pixel types,
