@@ -225,6 +225,27 @@ for  moduleName in moduleList:
            o.write(line);
        o.close()
 
+     # write itk-module.cmake, which contains dependency info
+     filepath = HeadOfModularITKTree+'/modules/'+moduleName+'/itk-module.cmake'
+     if not os.path.isfile(filepath):
+        o = open(filepath,'w')
+        for line in open('./templateModule/itk-template-module/itk-module.cmake','r'):
+            line = line.replace('itk-template-module',moduleName)
+            o.write(line);
+        o.close()
+        dependsModuleLibrariesList = "${itk-common_LIBRARIES}"
+     else:
+        # read dependency list from  itk-module.cmake
+        o = open(filepath,'r')
+        line = o.read()
+        # parse the syntax, e.g. itk_module(itk-io-tiff DEPENDS itk-tiff itk-io-base)
+        dependsModuleList = (((line.split('(')[1]).split(')')[0]).split())[2:]
+
+        dependsModuleLibrariesList =""
+        for dependsModule in dependsModuleList:
+            dependsModuleLibrariesList = dependsModuleLibrariesList+ " ${"+dependsModule+"_LIBRARIES}"
+
+
      # write src/CMakeLists.txt
      # list of CXX files
      if os.path.isdir(HeadOfModularITKTree+'/modules/'+moduleName+'/src'):
@@ -238,6 +259,7 @@ for  moduleName in moduleList:
          for line in open('./templateModule/itk-template-module/src/CMakeLists.txt','r'):
             line = line.replace('itk-template-module',moduleName)
             line = line.replace('LIST_OF_CXX_FILES',cxxFileList[0:-1]) #get rid of the last \n
+            line = line.replace('@DEPEND_MODULE_LIBRARIES@',dependsModuleLibrariesList) #get rid of the last \n
             o.write(line);
          o.close()
 
@@ -283,11 +305,8 @@ for  moduleName in moduleList:
             o.write(line);
         o.close()
 
-   # write itk-module.cmake, which contains dependency info
-     filepath = HeadOfModularITKTree+'/modules/'+moduleName+'/itk-module.cmake'
-     if not os.path.isfile(filepath):
-        o = open(filepath,'w')
-        for line in open('./templateModule/itk-template-module/itk-module.cmake','r'):
-            line = line.replace('itk-template-module',moduleName)
-            o.write(line);
-        o.close()
+
+
+#clean up the temporary  directory
+if os.path.isdir(HeadOfTempTree):
+   os.system("rm -Rf "+ HeadOfTempTree)
