@@ -169,6 +169,11 @@ public:
    * type. */
   itkSetEnumMacro(ComponentType, IOComponentType);
   itkGetEnumMacro(ComponentType, IOComponentType);
+  /** get the type_info for the current pixel component type.
+   * This function is DEPRECATED and only provided for backwards
+   * compatibility.  There is no use for this method that can't
+   * be satisfied by calling GetComponentType.
+   */
   virtual const std::type_info & GetComponentTypeInfo() const;
 
   /** Set/Get the number of components per pixel in the image. This may
