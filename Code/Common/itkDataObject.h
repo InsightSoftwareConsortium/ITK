@@ -408,7 +408,7 @@ public:
    * method is called by ProcessObject::UpdateOutputData() once the
    * process object has finished generating its data. This essentially
    * marks the DataObject as being updated and ready for use. */
-  void DataHasBeenGenerated();
+  virtual void DataHasBeenGenerated();
 
   /** Set the RequestedRegion to the LargestPossibleRegion.  This
    * forces a filter to produce all of the output in one execution

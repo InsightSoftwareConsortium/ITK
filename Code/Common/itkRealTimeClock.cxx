@@ -89,7 +89,7 @@ RealTimeClock::~RealTimeClock() {}
 
 /** Returns a timestamp in seconds */
 RealTimeClock::TimeStampType
-RealTimeClock::GetTimeStamp() const
+RealTimeClock::GetTimeInSeconds() const
 {
 #if defined( WIN32 ) || defined( _WIN32 )
   LARGE_INTEGER tick;
@@ -106,6 +106,13 @@ RealTimeClock::GetTimeStamp() const
                         / this->m_Frequency;
   return value;
 #endif  // defined(WIN32) || defined(_WIN32)
+}
+
+/** Returns a timestamp in a TimeStamp data structure */
+const TimeStamp &
+RealTimeClock::GetTimeStamp() const
+{
+  return this->Superclass::GetTimeStamp();
 }
 
 /** Returns a timestamp in a RealTimeStamp data structure */

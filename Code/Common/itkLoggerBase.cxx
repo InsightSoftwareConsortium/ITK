@@ -72,7 +72,7 @@ LoggerBase
     case REALVALUE:
       {
       s.precision(30);
-      s << m_Clock->GetTimeStamp();
+      s << m_Clock->GetTimeInSeconds();
       break;
       }
     case HUMANREADABLE:

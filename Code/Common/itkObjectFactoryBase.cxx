@@ -135,6 +135,7 @@ ObjectFactoryBase::GetStrictVersionChecking()
   return ObjectFactoryBase::m_StrictVersionChecking;
 }
 
+
 /**
  * Create an instance of a named itk object using the loaded
  * factories

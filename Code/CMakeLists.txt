@@ -11,3 +11,7 @@ endif( ITK_USE_REVIEW )
 ## There should be no library dependances on IO, but IO may depend on other
 ## libraries, so build it last
 add_subdirectory(IO)
+
+if(ITK_USE_GPU)
+  add_subdirectory(GPU)
+endif(ITK_USE_GPU)

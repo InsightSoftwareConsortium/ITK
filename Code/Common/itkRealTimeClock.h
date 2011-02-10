@@ -56,7 +56,7 @@ public:
   typedef double FrequencyType;
 
   /** Returns a timestamp in seconds   e.g. 52.341243 seconds */
-  TimeStampType GetTimeStamp() const;
+  TimeStampType GetTimeInSeconds() const;
 
   /** Returns the frequency of a clock */
   itkGetConstMacro(Frequency, FrequencyType);
@@ -79,6 +79,11 @@ private:
   FrequencyType m_Frequency;
   TimeStampType m_Difference;
   TimeStampType m_Origin;
+
+  // We hide this method in the private section, because it returns the
+  // Modified time of the itk::Object.  That modified time is ambiguous with
+  // the role of the RealTimeStamp.
+  virtual const TimeStamp & GetTimeStamp() const;
 };
 } // end of namespace itk
 

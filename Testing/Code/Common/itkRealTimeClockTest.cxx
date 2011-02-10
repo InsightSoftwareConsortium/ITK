@@ -39,20 +39,18 @@ int itkRealTimeClockTest( int, char * [] )
 
     unsigned int i;
 
-    typedef itk::RealTimeClock::TimeStampType  TimeStampType;
-
-    TimeStampType timestamps[5];
+    itk::RealTimeStamp timestamps[5];
 
     std::cout << "Printing timestamps got one by one" << std::endl;
 
     for( i = 0; i < 5; ++i )
       {
-      std::cout << clock->GetTimeStamp() << std::endl;
+      std::cout << clock->GetRealTimeStamp() << std::endl;
       }
 
     for( i = 0; i < 5; ++i )
       {
-      timestamps[i] = clock->GetTimeStamp();
+      timestamps[i] = clock->GetRealTimeStamp();
       }
 
     std::cout << "Printing timestamps buffered" << std::endl;

@@ -164,6 +164,10 @@ option(ITK_USE_MODULAR_BUILD "Whether ITK is built from the modularized tree. Th
 mark_as_advanced(ITK_USE_MODULAR_BUILD)
 
 #-----------------------------------------------------------------------------
+option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
+mark_as_advanced(ITK_USE_GPU)
+
+#-----------------------------------------------------------------------------
 # ITK build configuration options.
 option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
