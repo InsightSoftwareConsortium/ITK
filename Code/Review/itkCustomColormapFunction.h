@@ -30,8 +30,8 @@ namespace Function
  * \class CustomColormapFunction
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
- *
- * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and James C. Gee
+ * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich
+ * and James C. Gee
  *
  * This code was contributed in the Insight Journal paper:
  *
@@ -48,8 +48,8 @@ public:
 
   typedef CustomColormapFunction                 Self;
   typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,34 +63,34 @@ public:
   virtual RGBPixelType operator()(const TScalar &) const;
 
   void SetRedChannel(ChannelType red)
-  {
+    {
     m_RedChannel = red;
-  }
+    }
 
   ChannelType GetRedChannel() const
-  {
+    {
     return m_RedChannel;
-  }
+    }
 
   void SetGreenChannel(ChannelType green)
-  {
+    {
     m_GreenChannel = green;
-  }
+    }
 
   ChannelType GetGreenChannel() const
-  {
+    {
     return m_GreenChannel;
-  }
+    }
 
   void SetBlueChannel(ChannelType blue)
-  {
+    {
     m_BlueChannel = blue;
-  }
+    }
 
   ChannelType GetBlueChannel() const
-  {
+    {
     return m_BlueChannel;
-  }
+    }
 
 protected:
   CustomColormapFunction() {}
