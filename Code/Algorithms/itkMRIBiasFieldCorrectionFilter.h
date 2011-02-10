@@ -25,7 +25,7 @@
 #include "itkMRASlabIdentifier.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkMultivariateLegendrePolynomial.h"
-#include "Statistics/itkNormalVariateGenerator.h"
+#include "itkNormalVariateGenerator.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkImageRegionIterator.h"
 

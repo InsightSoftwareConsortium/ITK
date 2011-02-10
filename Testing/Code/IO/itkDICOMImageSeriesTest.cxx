@@ -22,7 +22,7 @@
 #include "itkDICOMImageIO2.h"
 #include "itkImageSeriesReader.h"
 #include "itkDICOMSeriesFileNames.h"
-#include "../BasicFilters/itkFilterWatcher.h"
+#include "itkFilterWatcher.h"
 
 int itkDICOMImageSeriesTest(int ac, char* av[])
 {

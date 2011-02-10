@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkFilterWatcher_h
-#define _itkFilterWatcher_h
+#ifndef __itkFilterWatcher_h
+#define __itkFilterWatcher_h
 
 #include "itkCommand.h"
 #include "itkProcessObject.h"
@@ -122,18 +122,19 @@ public:
       }
     }
 
-  void QuietOn() {m_Quiet = true;};
-  void QuietOff() {m_Quiet = false;};
-  void TestAbortOn() {m_TestAbort = true;};
-  void TestAbortOff() {m_TestAbort = false;};
+  void QuietOn() {m_Quiet = true;}
+  void QuietOff() {m_Quiet = false;}
+  void TestAbortOn() {m_TestAbort = true;}
+  void TestAbortOff() {m_TestAbort = false;}
 protected:
   clock_t m_Start;
   clock_t m_End;
-  int m_Steps;
-  int m_Iterations;
-  bool m_Quiet;
-  bool m_TestAbort;
-  std::string m_Comment;
+  int     m_Steps;
+  int     m_Iterations;
+  bool    m_Quiet;
+  bool    m_TestAbort;
+
+  std::string                 m_Comment;
   itk::ProcessObject::Pointer m_Process;
 private:
   FilterWatcher(); // Purposely not implemented

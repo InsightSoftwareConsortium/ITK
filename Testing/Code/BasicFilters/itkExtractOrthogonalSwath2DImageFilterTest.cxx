@@ -27,7 +27,6 @@
 #include "itkPathToChainCodePathFilter.h"
 #include "itkChainCodeToFourierSeriesPathFilter.h"
 #include "itkExtractOrthogonalSwath2DImageFilter.h"
-#include "itkPNGImageIO.h"
 #include "itkImageFileWriter.h"
 
 int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])

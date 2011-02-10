@@ -335,7 +335,7 @@ add_test( MetaCommandRequiredOptionsWithMultipleStrings ${TestDriver} testMetaCo
 add_test( MetaCommandRequiredOptionsWithMultipleStringsAtEnd ${TestDriver} testMetaCommand -ExpectedFailStatus 0 -sum 7 -r2_ri 7 -r1c_rs StringValue1 StringValue2 StringValue3)
 add_test( MetaCommandOptionalWithRequired  ${TestDriver} testMetaCommand -ExpectedFailStatus 0 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99)
 add_test( MetaCommandOptionalOptoinsWithOutArguments  ${TestDriver} testMetaCommand -ExpectedFailStatus 0 -sum 207 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_oi   -o2_oi )
-add_test( MetaCommandOptionalOptoinsWithOutArguments  ${TestDriver} testMetaCommand -ExpectedFailStatus 0 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_oi 1  -o2_oi 99)
+add_test( MetaCommandOptionalOptoinsWithOutArguments1  ${TestDriver} testMetaCommand -ExpectedFailStatus 0 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_oi 1  -o2_oi 99)
 add_test( MetaCommandRequiredAndOptionalOptoinsWithArguments ${TestDriver} testMetaCommand -ExpectedFailStatus 0 -sum 207 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50 50)
 add_test( MetaCommandRequiredAndOptionalOptoinsWithOutArguments ${TestDriver}  testMetaCommand -ExpectedFailStatus 0 -sum 257 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50)
 add_test( MetaCommandRequiredAndOptionalOptoinsWithOutArguments-1 ${TestDriver} testMetaCommand -ExpectedFailStatus 0 -sum 457 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50 -o1_oi -o2_oi )

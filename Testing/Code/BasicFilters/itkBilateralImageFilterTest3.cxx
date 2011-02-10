@@ -22,8 +22,6 @@
 #include "itkBilateralImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkPNGImageIO.h"
-#include "itkPNGImageIOFactory.h"
 #include "itkImageRegionIterator.h"
 
 

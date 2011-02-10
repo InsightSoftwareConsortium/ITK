@@ -25,8 +25,6 @@
 #include "itkCastImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkPNGImageIOFactory.h"
-#include "itkPNGImageIO.h"
 #include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
 
