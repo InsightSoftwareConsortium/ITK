@@ -1,15 +1,12 @@
 ###############################################################################
-# Load the CableSwig settings used by ITK, or find CableSwig otherwise.
-#set(CableSwig_DIR ${ITK_CableSwig_DIR})
-find_package(CableSwig REQUIRED)
-set(CABLE_INDEX ${CableSwig_cableidx_EXE} CACHE INTERNAL "cableidx path")
-
 # find swig
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
 
 # find python
 find_package(PythonInterp REQUIRED)
+
+set(CABLE_INDEX ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/idx.py CACHE INTERNAL "cableidx path")
 
 if("${CMAKE_VERSION}" STRLESS "2.6")
     # cmake 2.4 doesn't provied VERSION
@@ -47,23 +44,12 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     PATTERN "unittests" EXCLUDE
   )
 
-  # create the igenerator.py with the pygccxml path in it
-  set(PYGCCXML_PATH "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/Configuration/Languages/SwigInterface/pygccxml-1.0.0/")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/igenerator.py"
-    @ONLY IMMEDIATE)
-
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/igenerator.py"
+  # igenerator stuff
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py"
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Languages/SwigInterface"
   )
 
-  # create the igenerator.py with the pygccxml path in it
-  set(PYGCCXML_PATH "${CMAKE_CURRENT_SOURCE_DIR}/pygccxml-1.0.0/")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/igenerator.py"
-    @ONLY IMMEDIATE)
-
-  set(IGENERATOR  "${CMAKE_CURRENT_BINARY_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path")
+  set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path")
 
 endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
@@ -229,6 +215,7 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
   WRAP_ITK_INSTALL("/Configuration/Typedefs/" "${includes_file}")
 
   add_custom_target(${WRAPPER_LIBRARY_NAME}Idx DEPENDS ${SWIG_INTERFACE_IDX_FILES})
+  add_dependencies(${WRAPPER_LIBRARY_NAME}Idx ${WRAPPER_LIBRARY_NAME}GccXML)
   set(${WRAPPER_LIBRARY_NAME}IdxFiles ${SWIG_INTERFACE_IDX_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Idx file list.")
 
   add_custom_target(${WRAPPER_LIBRARY_NAME}Swig DEPENDS ${SWIG_INTERFACE_FILES})

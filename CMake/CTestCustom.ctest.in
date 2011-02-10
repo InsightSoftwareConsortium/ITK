@@ -57,7 +57,6 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "libtool:.*file:.*has no symbols"
   "vxl.core.vnl.algo"
   "vxl.core.vnl"
-  "CableSwig"
   "vxl.v3p.netlib"
   "itkjpeg"
   "usr.include.stdint.h"
