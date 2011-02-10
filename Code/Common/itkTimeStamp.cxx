@@ -66,6 +66,16 @@ TimeStamp
 }
 
 /**
+ * Make this timestamp to be the same as another one.
+ */
+const TimeStamp &
+TimeStamp::operator=( const Self & other )
+{
+  this->m_ModifiedTime = other.m_ModifiedTime;
+  return *this;
+}
+
+/**
  * Make sure the new time stamp is greater than all others so far.
  */
 void

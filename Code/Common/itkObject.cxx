@@ -286,6 +286,25 @@ Object
 }
 
 /**
+ * Return the modification for this object.
+ */
+const TimeStamp &
+Object
+::GetTimeStamp() const
+{
+  return m_MTime;
+}
+
+/** Set the time stamp of this object. To be used very carefully !!!.
+ * Most mortals will never need to call this method. */
+void
+Object
+::SetTimeStamp( const TimeStamp & timeStamp )
+{
+  this->m_MTime = timeStamp;
+}
+
+/**
  * Make sure this object's modified time is greater than all others.
  */
 void

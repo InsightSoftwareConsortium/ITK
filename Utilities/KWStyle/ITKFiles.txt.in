@@ -28,6 +28,6 @@
 @ITK_SOURCE_DIR@/Code/SpatialObject/itk*.h
 @ITK_SOURCE_DIR@/Code/SpatialObject/itk*.txx
 @ITK_SOURCE_DIR@/Code/SpatialObject/itk*.cxx
-@ITK_SOURCE_DIR@/Code/Patented/itk*.h
-@ITK_SOURCE_DIR@/Code/Patented/itk*.txx
-@ITK_SOURCE_DIR@/Code/Patented/itk*.cxx
+@ITK_SOURCE_DIR@/Code/GPU/itk*.h
+@ITK_SOURCE_DIR@/Code/GPU/itk*.txx
+@ITK_SOURCE_DIR@/Code/GPU/itk*.cxx

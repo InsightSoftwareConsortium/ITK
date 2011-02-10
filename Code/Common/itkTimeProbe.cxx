@@ -40,6 +40,6 @@ TimeProbe::TimeStampType
 TimeProbe
 ::GetInstantValue(void) const
 {
-  return m_RealTimeClock->GetTimeStamp();
+  return m_RealTimeClock->GetTimeInSeconds();
 }
 } // end namespace itk

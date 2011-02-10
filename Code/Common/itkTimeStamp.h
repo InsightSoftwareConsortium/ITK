@@ -98,6 +98,11 @@ public:
   /** Allow for typcasting to unsigned long.  */
   operator unsigned long() const
         { return m_ModifiedTime; }
+
+  /** Assignment operator, allows to initialize one time stamp by copying from
+   * another. */
+  const Self & operator=( const Self & other );
+
 private:
   unsigned long m_ModifiedTime;
 };

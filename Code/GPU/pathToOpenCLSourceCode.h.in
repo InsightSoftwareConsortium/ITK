@@ -1,0 +1,6 @@
+#ifndef __pathToOpenCLSourceCode_h
+#define __pathToOpenCLSourceCode_h
+
+char itk_root_path[] = "@ITK_BINARY_DIR@";
+
+#endif
