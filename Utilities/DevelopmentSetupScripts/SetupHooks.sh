@@ -62,8 +62,9 @@ git config hooks.KWStyle.overwriteRulesConf "Utilities/KWStyle/ITKOverwrite.txt"
 git config hooks.KWStyle true
 
 # Set up hook chaining.
-echo "Setting up ITK hook chaining: prepare-commit-msg, commit-msg"
+echo "Setting up ITK hook chaining: prepare-commit-msg, commit-msg, pre-commit"
 git config hooks.chain-prepare-commit-msg Utilities/Hooks/prepare-commit-msg
 git config hooks.chain-commit-msg Utilities/Hooks/commit-msg
+git config hooks.chain-pre-commit Utilities/Hooks/pre-commit
 
 echo "Done."
