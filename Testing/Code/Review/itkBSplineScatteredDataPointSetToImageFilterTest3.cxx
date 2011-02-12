@@ -25,6 +25,8 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkPointSet.h"
+
+#include "itkBSplineControlPointImageFunction.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 
 /**
@@ -115,20 +117,28 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
     {
     filter->Update();
 
+    typedef itk::BSplineControlPointImageFunction<ImageType> BSplinerType;
+    BSplinerType::Pointer bspliner = BSplinerType::New();
+    bspliner->SetSplineOrder( filter->GetSplineOrder() );
+    bspliner->SetSize( filter->GetSize() );
+    bspliner->SetSpacing( filter->GetSpacing() );
+    bspliner->SetOrigin( filter->GetOrigin() );
+    bspliner->SetInputImage( filter->GetPhiLattice() );
+
     std::ofstream outputFile;
 
     outputFile.open( argv[2] );
 
     PointSetType::PointType parameterPosition2;
     VectorType P2;
-    FilterType::GradientType G;
+    BSplinerType::GradientType G;
 
     for ( RealType t2 = 0.0; t2 <= 1.0+1e-10; t2 += 0.01 )
       {
       parameterPosition2[0] = t2;
 
-      filter->Evaluate( parameterPosition2, P2 );
-      filter->EvaluateGradient( parameterPosition2, G );
+      P2 = bspliner->Evaluate( parameterPosition2 );
+      G = bspliner->EvaluateGradient( parameterPosition2 );
 
       outputFile << P2[0] << " " << P2[1] << " " << P2[2];
       outputFile << " : ";
@@ -137,7 +147,6 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
       }
 
     outputFile.close();
-
     }
   catch ( itk::ExceptionObject & excp )
     {

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkBSplineControlPointImageFilter.h"
+#include "itkBSplineControlPointImageFunction.h"
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
@@ -23,7 +23,7 @@
 #include "itkPointSet.h"
 #include "itkVector.h"
 
-int itkBSplineControlPointImageFilterTest1( int, char * [] )
+int itkBSplineControlPointImageFunctionTest( int, char * [] )
 {
 
 
@@ -67,7 +67,7 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
   value.Fill( 1.0 );
   phiLattice->SetPixel( index, value );
 
-  typedef itk::BSplineControlPointImageFilter<VectorImageType, VectorImageType>
+  typedef itk::BSplineControlPointImageFunction<VectorImageType>
     BSplinerType;
   BSplinerType::Pointer bspliner = BSplinerType::New();
 
@@ -80,12 +80,12 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
   bspliner->SetSpacing( spacing );
   bspliner->SetSize( size );
   bspliner->SetSplineOrder( 3 );
-  bspliner->SetInput( phiLattice );
+  bspliner->SetInputImage( phiLattice );
 
   BSplinerType::PointType point;
   BSplinerType::GradientType gradient;
   BSplinerType::GradientType hessianComponent;
-  BSplinerType::PointDataType data;
+  BSplinerType::OutputType data;
 
   // f(0) = 1/6;
   // f'(u) = u - 0.5 so f'(0) should be -0.5.
@@ -94,7 +94,7 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
     {
     point[0] = 0.0;
 
-    bspliner->EvaluateAtPoint( point, data );
+    data = bspliner->EvaluateAtParametricPoint( point );
     if( vnl_math_abs( data[0] - 0.166666666667 ) > 1e-5 )
       {
       std::cerr << "Evaluate1: data is further away from the expected value."
@@ -102,7 +102,7 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
       return EXIT_FAILURE;
       }
 
-    bspliner->EvaluateGradientAtPoint( point, gradient );
+    gradient = bspliner->EvaluateGradientAtParametricPoint( point );
     if( vnl_math_abs( gradient(0, 0) + 0.5 ) > 1e-5 )
       {
       std::cerr << "Evaluate1: gradient is further away from the expected value."
@@ -110,7 +110,7 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
       return EXIT_FAILURE;
       }
 
-    bspliner->EvaluateHessianAtPoint( point, hessianComponent, 0 );
+    hessianComponent = bspliner->EvaluateHessianAtParametricPoint( point, 0 );
 
     if( vnl_math_abs( hessianComponent(0, 0) - 1.0 ) > 1e-5 )
       {
@@ -131,7 +131,7 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
     {
     point[0] = 0.351;
 
-    bspliner->EvaluateAtPoint( point, data );
+    data = bspliner->EvaluateAtParametricPoint( point );
     if( vnl_math_abs( data[0] - 0.05276717 ) > 1e-5 )
       {
       std::cerr << "Evaluate2: data is further away from the expected value."
@@ -139,7 +139,7 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
       return EXIT_FAILURE;
       }
 
-    bspliner->EvaluateGradientAtPoint( point, gradient );
+    gradient = bspliner->EvaluateGradientAtParametricPoint( point );
     if( vnl_math_abs( gradient(0, 0) + 0.149 ) > 1e-5 )
       {
       std::cerr << "Evaluate2: gradient is further away from the expected value."
@@ -147,7 +147,7 @@ int itkBSplineControlPointImageFilterTest1( int, char * [] )
       return EXIT_FAILURE;
       }
 
-    bspliner->EvaluateHessianAtPoint( point, hessianComponent, 0 );
+    hessianComponent = bspliner->EvaluateHessianAtParametricPoint( point, 0 );
     if( vnl_math_abs( hessianComponent(0, 0) - 1.0 ) > 1e-5 )
       {
       std::cerr << "Evaluate2: hessian is further away from the expected value."
