@@ -25,7 +25,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageSeriesWriter.h"
 #include "itkNumericSeriesFileNames.h"
-#include "../BasicFilters/itkFilterWatcher.h"
+#include "itkFilterWatcher.h"
 
 int itkImageSeriesWriterTest(int ac, char* av[])
 {

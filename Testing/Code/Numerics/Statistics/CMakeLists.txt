@@ -344,9 +344,9 @@ add_test(itkKdTreeTest4 ${TestDriver} itkKdTreeTest1 1000 1000 1 )
 add_test(itkKdTreeTest5 ${TestDriver} itkKdTreeTest1 1000 1000 2 )
 add_test(itkKdTreeTest6 ${TestDriver} itkKdTreeTest1 1000 1000 3 )
 add_test(itkKdTreeTest7 ${TestDriver} itkKdTreeTest1 1000 1000 5 )
-add_test(itkKdTreeTest7 ${TestDriver} itkKdTreeTest1 1000 1000 10 )
-add_test(itkKdTreeTest8 ${TestDriver} itkKdTreeTest1 1000 1000 20 )
-add_test(itkKdTreeTest9 ${TestDriver} itkKdTreeTest1 1000 1000 100 )
+add_test(itkKdTreeTest8 ${TestDriver} itkKdTreeTest1 1000 1000 10 )
+add_test(itkKdTreeTest9 ${TestDriver} itkKdTreeTest1 1000 1000 20 )
+add_test(itkKdTreeTest10 ${TestDriver} itkKdTreeTest1 1000 1000 100 )
 add_test(itkWeightedCentroidKdTreeGeneratorTest1 ${TestDriver}
   itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 1 )
 add_test(itkWeightedCentroidKdTreeGeneratorTest2 ${TestDriver}

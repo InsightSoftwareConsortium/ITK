@@ -24,7 +24,7 @@
 #include "itkWatershedImageFilter.h"
 #include "itkWatershedEquivalenceRelabeler.h"
 #include "itkWatershedBoundaryResolver.h"
-#include "../BasicFilters/itkFilterWatcher.h"
+#include "itkFilterWatcher.h"
 
 inline void println(const char *s) { std::cout << s << std::endl; }
 

@@ -209,9 +209,9 @@ itkKdTreeTest4;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000
 itkKdTreeTest5;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;2
 itkKdTreeTest6;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;3
 itkKdTreeTest7;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;5
-itkKdTreeTest7;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;10
-itkKdTreeTest8;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;20
-itkKdTreeTest9;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;100
+itkKdTreeTest8;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;10
+itkKdTreeTest9;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;20
+itkKdTreeTest10;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkKdTreeTest1;1000;1000;100
 itkWeightedCentroidKdTreeGeneratorTest1;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkWeightedCentroidKdTreeGeneratorTest1;1000;1000;1
 itkWeightedCentroidKdTreeGeneratorTest2;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkWeightedCentroidKdTreeGeneratorTest1;1000;1000;2
 itkWeightedCentroidKdTreeGeneratorTest3;${ITK_BINARY_DIR}/bin/itkStatisticsTests;itkWeightedCentroidKdTreeGeneratorTest1;1000;1000;3
@@ -484,7 +484,6 @@ itkPolygonCellTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkPolygonCellTest
 itkQuaternionRigidTransformTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkQuaternionRigidTransformTest
 itkRealTimeClockTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkRealTimeClockTest
 itkRGBPixelTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkRGBPixelTest
-itkRGBInterpolateImageFunctionTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkRGBInterpolateImageFunctionTest
 itkRGBToVectorImageAdaptorTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkRGBToVectorImageAdaptorTest
 itkRigid2DTransformTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkRigid2DTransformTest
 itkRigid3DTransformTest;${ITK_BINARY_DIR}/bin/itkCommonTests2;itkRigid3DTransformTest
@@ -1087,7 +1086,7 @@ MetaCommandRequiredOptionsWithMultipleStrings;${ITK_BINARY_DIR}/bin/itkIOTests;t
 MetaCommandRequiredOptionsWithMultipleStringsAtEnd;${ITK_BINARY_DIR}/bin/itkIOTests;testMetaCommand;-ExpectedFailStatus;0;-sum;7;-r2_ri;7;-r1c_rs;StringValue1;StringValue2;StringValue3
 MetaCommandOptionalWithRequired;${ITK_BINARY_DIR}/bin/itkIOTests;testMetaCommand;-ExpectedFailStatus;0;-sum;107;-r1c_rs;StringValue1;StringValue2;StringValue3;-r2_ri;7;-o1_ri;1;-o2_ri;99
 MetaCommandOptionalOptoinsWithOutArguments;${ITK_BINARY_DIR}/bin/itkIOTests;testMetaCommand;-ExpectedFailStatus;0;-sum;207;-r1c_rs;StringValue1;StringValue2;StringValue3;-r2_ri;7;-o1_oi;-o2_oi
-MetaCommandOptionalOptoinsWithOutArguments;${ITK_BINARY_DIR}/bin/itkIOTests;testMetaCommand;-ExpectedFailStatus;0;-sum;107;-r1c_rs;StringValue1;StringValue2;StringValue3;-r2_ri;7;-o1_oi;1;-o2_oi;99
+MetaCommandOptionalOptoinsWithOutArguments1;${ITK_BINARY_DIR}/bin/itkIOTests;testMetaCommand;-ExpectedFailStatus;0;-sum;107;-r1c_rs;StringValue1;StringValue2;StringValue3;-r2_ri;7;-o1_oi;1;-o2_oi;99
 MetaCommandRequiredAndOptionalOptoinsWithArguments;${ITK_BINARY_DIR}/bin/itkIOTests;testMetaCommand;-ExpectedFailStatus;0;-sum;207;-r1c_rs;StringValue1;StringValue2;StringValue3;-r2_ri;7;-o1_ri;1;-o2_ri;99;-o3_ri_oi;50;50
 MetaCommandRequiredAndOptionalOptoinsWithOutArguments;${ITK_BINARY_DIR}/bin/itkIOTests;testMetaCommand;-ExpectedFailStatus;0;-sum;257;-r1c_rs;StringValue1;StringValue2;StringValue3;-r2_ri;7;-o1_ri;1;-o2_ri;99;-o3_ri_oi;50
 MetaCommandRequiredAndOptionalOptoinsWithOutArguments-1;${ITK_BINARY_DIR}/bin/itkIOTests;testMetaCommand;-ExpectedFailStatus;0;-sum;457;-r1c_rs;StringValue1;StringValue2;StringValue3;-r2_ri;7;-o1_ri;1;-o2_ri;99;-o3_ri_oi;50;-o1_oi;-o2_oi
