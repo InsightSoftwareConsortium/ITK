@@ -2500,7 +2500,6 @@ Testing/Code/IO/testMetaMesh.cxx NonUnit itk-integrated-test test
 Testing/Code/IO/itkNrrdVectorImageReadWriteTest.cxx NonUnit itk-integrated-test test
 Testing/Code/IO/itkFileFreeImageIOFactory.h NonUnit itk-integrated-test test
 Testing/Code/IO/itkConvertBufferTest2.cxx NonUnit itk-integrated-test test
-Testing/Code/IO/itkFileFreeImageIO.cxx NonUnit itk-integrated-test test
 Testing/Code/IO/itkImageFileWriterStreamingPastingCompressingTest1 NonUnit itk-integrated-test test.cxx
 Testing/Code/Numerics/itkOptimizersHierarchyTest.cxx NonUnit itk-integrated-test test
 Testing/Code/Numerics/itkNumericsTest.cxx NonUnit itk-integrated-test test
@@ -3127,7 +3126,7 @@ Testing/Code/IO/itkMetaImageIOTest.cxx io itk-io-meta test
 Testing/Code/IO/itkMetaImageIOMetaDataTest.cxx io itk-io-meta test
 Testing/Code/IO/itkMetaImageIOGzTest.cxx io itk-io-meta test
 # itkAnalyzeImageIOTest.h requires itkNiftiImageIOTest.h
-Testing/Code/IO/itkAnalyzeImageIOTest.cxx external itk-deprecated test
+Testing/Code/IO/itkAnalyzeImageIOTest.cxx external itk-deprecated code
 Testing/Code/IO/itkGiplImageIOTest.cxx io itk-io-gipl test
 Testing/Code/IO/itkVTKImageIOTest2.cxx io itk-io-vtk test
 Testing/Code/IO/itkVTKImageIOTest.cxx io itk-io-vtk test
@@ -3259,7 +3258,7 @@ Testing/Code/BasicFilters/itkCheckerBoardImageFilterTest.cxx filtering itk-image
 Testing/Code/BasicFilters/itkGetAverageSliceImageFilterTest.cxx NonUnit itk-integrated-test test
 Testing/Code/BasicFilters/itkDiscreteGaussianImageFilterTest.cxx filtering itk-smoothing test
 Testing/Code/BasicFilters/itkDiscreteGaussianImageFilterTest2.cxx filtering itk-smoothing test
-Testing/Code/BasicFilters/itkTwoOutputExampleImageFilterTest.cxx external itk-deprecated test
+Testing/Code/BasicFilters/itkTwoOutputExampleImageFilterTest.cxx external itk-deprecated code
 Testing/Code/BasicFilters/itkReflectiveImageRegionIteratorTest.cxx filtering itk-distance-map test
 Testing/Code/BasicFilters/itkSimplexMeshAdaptTopologyFilterTest.cxx core itk-mesh test
 Testing/Code/BasicFilters/itkBSplineUpsampleImageFilterTest.cxx filtering itk-image-grid test
@@ -3301,7 +3300,7 @@ Testing/Code/BasicFilters/itkBSplineDownsampleImageFilterTest.cxx filtering itk-
 Testing/Code/BasicFilters/itkTransformMeshFilterTest.cxx core itk-mesh test
 Testing/Code/BasicFilters/itkSimilarityIndexImageFilterTest.cxx core itk-image-compare test
 Testing/Code/BasicFilters/itkPermuteAxesImageFilterTest.cxx core itk-image-grid test
-Testing/Code/BasicFilters/itkLaplacianRecursiveGaussianImageFilterTest.cxx NonUnit  itk-integrated test
+Testing/Code/BasicFilters/itkLaplacianRecursiveGaussianImageFilterTest.cxx NonUnit  itk-integrated-test test
 Testing/Code/BasicFilters/itkTernaryMagnitudeImageFilterTest.cxx core itk-intensity-math test
 Testing/Code/BasicFilters/itkDeformationFieldSourceTest.cxx core itk-deformation-field test
 Testing/Code/BasicFilters/itkNormalizedCorrelationImageFilterTest.cxx NonUnit itk-integrated-test test
@@ -3329,7 +3328,7 @@ Testing/Code/Algorithms/itkPointSetToSpatialObjectDemonsRegistrationTest.cxx cor
 Testing/Code/Algorithms/itkMeanReciprocalSquareDifferencePointSetToImageMetricTest.cxx core itk-registration-common test
 Testing/Code/Algorithms/itkBresenhamLineTest.cxx core itk-common test
 Testing/Code/Algorithms/itkKalmanLinearEstimatorTest.cxx numerics itk-statistics test
-Testing/Code/Algorithms/itkIsoContourDistanceImageFilterTest.cxx NonUnit itk-integrated test
+Testing/Code/Algorithms/itkIsoContourDistanceImageFilterTest.cxx NonUnit itk-integrated-test test
 Testing/Code/Algorithms/itkAutomaticTopologyMeshSourceTest.cxx core itk-mesh test
 Testing/Code/Algorithms/itkSTAPLEImageFilterTest.cxx core itk-image-compare test
 Testing/Code/Algorithms/itkImagePCAShapeModelEstimatorTest.cxx core itk-image-statistics test
