@@ -7,6 +7,14 @@ if(WRAP_ITK_USE_SYSTEM_GCCXML)
 else()
   include(ExternalProject)
   # build gccxml as an external project
+  if(WIN32)
+    # windows build requires an extra step after the install. We use the test to run that step
+    set(test TEST_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml_vcconfig.bat)
+    set(ext .exe)
+  else()
+    set(test )
+    set(ext )
+  endif()
   ExternalProject_add(GCC_XML
   CVS_REPOSITORY ":pserver:anoncvs@www.gccxml.org:/cvsroot/GCC_XML"
   CVS_MODULE "gccxml"
@@ -24,8 +32,9 @@ else()
     -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR}/gccxml/
     -DBUILD_EXAMPLES:BOOL=OFF
     -DBUILD_TESTING:BOOL=OFF
+  ${test}
   )
-  set(GCCXML ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml CACHE INTERNAL "gccxml executable.")
+  set(GCCXML ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml${ext} CACHE INTERNAL "gccxml executable." FORCE)
 endif()
 
 ###############################################################################
