@@ -244,7 +244,7 @@ public:
   /**
    * Return the numbner of label objects in the image
    */
-  SizeValueType GetNumberOfLabelObjects() const;
+  typename Self::SizeValueType GetNumberOfLabelObjects() const;
 
   /**
    * Return the labels of the label objects available in the label map
