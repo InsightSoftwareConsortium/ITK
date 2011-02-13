@@ -23,6 +23,7 @@ itkSparseFieldFourthOrderLevelSetImageFilter.h InternalVariables Disable
 itkSparseFieldLevelSetImageFilter.h InternalVariables Disable
 itkWindowedSincInterpolateImageFunction.h DeclarationOrder Disable
 itkCommand.h Typedefs Disable
+itkFilterWatcher.h Namespace Disable
 itkFixedArray.h Typedefs Disable
 itkQuadEdgeMeshMacro.h Indent Disable
 itkExceptionObject.h Indent Disable
