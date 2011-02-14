@@ -119,19 +119,15 @@ const double b3[npoints] = {
   TEST_BSPLINE_KERNEL(2);
   TEST_BSPLINE_KERNEL(3);
 
-  // Testing derivative
+  // Testing derivative spline order = 0
  {
-  const unsigned int SplineOrder = 3;
+  const unsigned int SplineOrder = 0;
   typedef itk::BSplineDerivativeKernelFunction<SplineOrder> DerivativeFunctionType;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
   derivFunction->Print( std::cout );
 
-  typedef itk::BSplineKernelFunction<SplineOrder - 1> FunctionType;
-  FunctionType::Pointer function = FunctionType::New();
-
   double xx = -0.25;
-  double expectedValue = function->Evaluate( xx + 0.5 ) -
-    function->Evaluate( xx - 0.5 );
+  double expectedValue = 0.0;
   double results = derivFunction->Evaluate( xx );
 
   if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
@@ -146,6 +142,88 @@ const double b3[npoints] = {
 
  }
 
+  // Testing derivative spline order = 1
+ {
+  const unsigned int SplineOrder = 1;
+  typedef itk::BSplineDerivativeKernelFunction<SplineOrder> DerivativeFunctionType;
+  DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
+
+  typedef itk::BSplineKernelFunction<SplineOrder - 1> FunctionType;
+  FunctionType::Pointer function = FunctionType::New();
+
+  for( double xx = -3.0; xx <= 3.0; xx += 0.1 )
+    {
+    double expectedValue = function->Evaluate( xx + 0.5 ) -
+      function->Evaluate( xx - 0.5 );
+    double results = derivFunction->Evaluate( xx );
+
+    if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
+      {
+      std::cout << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction"
+        << std::endl;
+      std::cout << "Expected: " << expectedValue << " but got " << results;
+      std::cout << " at x = " << xx << std::endl;
+      std::cout << "Test failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+ }
+
+  // Testing derivative spline order = 2
+ {
+  const unsigned int SplineOrder = 2;
+  typedef itk::BSplineDerivativeKernelFunction<SplineOrder> DerivativeFunctionType;
+  DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
+  derivFunction->Print( std::cout );
+
+  typedef itk::BSplineKernelFunction<SplineOrder - 1> FunctionType;
+  FunctionType::Pointer function = FunctionType::New();
+
+  for( double xx = -3.0; xx <= 3.0; xx += 0.1 )
+    {
+    double expectedValue = function->Evaluate( xx + 0.5 ) -
+      function->Evaluate( xx - 0.5 );
+    double results = derivFunction->Evaluate( xx );
+
+    if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
+      {
+      std::cout << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction"
+        << std::endl;
+      std::cout << "Expected: " << expectedValue << " but got " << results;
+      std::cout << " at x = " << xx << std::endl;
+      std::cout << "Test failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+ }
+
+  // Testing derivative spline order = 3
+ {
+  const unsigned int SplineOrder = 3;
+  typedef itk::BSplineDerivativeKernelFunction<SplineOrder> DerivativeFunctionType;
+  DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
+  derivFunction->Print( std::cout );
+
+  typedef itk::BSplineKernelFunction<SplineOrder - 1> FunctionType;
+  FunctionType::Pointer function = FunctionType::New();
+
+  for( double xx = -3.0; xx <= 3.0; xx += 0.1 )
+    {
+    double expectedValue = function->Evaluate( xx + 0.5 ) -
+      function->Evaluate( xx - 0.5 );
+    double results = derivFunction->Evaluate( xx );
+
+    if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
+      {
+      std::cout << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction"
+        << std::endl;
+      std::cout << "Expected: " << expectedValue << " but got " << results;
+      std::cout << " at x = " << xx << std::endl;
+      std::cout << "Test failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+ }
 
   // Testing case of unimplemented spline order
   {
@@ -205,4 +283,3 @@ const double b3[npoints] = {
   std::cout << "Test passed. " << std::endl;
  return EXIT_SUCCESS;
 }
-

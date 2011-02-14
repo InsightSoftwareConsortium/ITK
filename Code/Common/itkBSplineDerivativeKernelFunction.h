@@ -56,34 +56,120 @@ public:
   itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
-  inline double Evaluate(const double & u) const
-  {
-    return ( m_KernelFunction->Evaluate(u + 0.5)
-             - m_KernelFunction->Evaluate(u - 0.5) );
-  }
+  inline double Evaluate( const double & u ) const
+    {
+    return this->Evaluate( Dispatch< VSplineOrder >(), u );
+    }
 
 protected:
-
-  typedef BSplineKernelFunction< itkGetStaticConstMacro(SplineOrder) - 1 >
-  KernelType;
-
-  BSplineDerivativeKernelFunction()
-  {
-    m_KernelFunction = KernelType::New();
-  }
-
+  BSplineDerivativeKernelFunction() {}
   ~BSplineDerivativeKernelFunction(){}
+
   void PrintSelf(std::ostream & os, Indent indent) const
-  {
+    {
     Superclass::PrintSelf(os, indent);
     os << indent  << "Spline Order: " << SplineOrder << std::endl;
-  }
+    }
 
 private:
   BSplineDerivativeKernelFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented
 
-  typename KernelType::Pointer m_KernelFunction;
+  /** Structures to control overloaded versions of Evaluate */
+  struct DispatchBase {};
+  template< unsigned int >
+  struct Dispatch: DispatchBase {};
+
+  /** Evaluate the function:  zeroth order spline. */
+  inline double Evaluate( const Dispatch<0>&, const double & itkNotUsed( u ) )
+    const
+    {
+    return 0.0;
+    }
+
+  /** Evaluate the function:  first order spline */
+  inline double Evaluate( const Dispatch<1>&, const double& u ) const
+    {
+    if( u == -1.0 )
+      {
+      return 0.5;
+      }
+    else if( ( u > -1.0 ) && ( u < 0.0 ) )
+      {
+      return 1.0;
+      }
+    else if( u == 0.0 )
+      {
+      return 0.0;
+      }
+    else if( ( u > 0.0 ) && ( u < 1.0 ) )
+      {
+      return -1.0;
+      }
+    else if( u == 1.0 )
+      {
+      return -0.5;
+      }
+    else
+      {
+      return 0.0;
+      }
+    }
+
+  /** Evaluate the function:  second order spline. */
+  inline double Evaluate( const Dispatch<2>&, const double& u) const
+    {
+    if( ( u > -0.5 ) && ( u < 0.5 ) )
+      {
+      return ( -2.0 * u );
+      }
+    else if( ( u >= 0.5 ) && ( u < 1.5 ) )
+      {
+      return ( -1.5 + u );
+      }
+    else if( ( u > -1.5 ) && ( u <= -0.5 ) )
+      {
+      return ( 1.5 + u );
+      }
+    else
+      {
+      return 0.0;
+      }
+    }
+
+  /** Evaluate the function:  third order spline. */
+  inline double Evaluate( const Dispatch<3>&, const double& u ) const
+    {
+    if( ( u >= 0.0 ) && ( u < 1.0 ) )
+      {
+      return ( -2.0* u + 1.5 * u * u );
+      }
+    else if( ( u > -1.0 ) && ( u < 0.0 ) )
+      {
+      return ( -2.0 * u - 1.5 * u * u );
+      }
+    else if( ( u >= 1.0 ) && ( u < 2.0 ) )
+      {
+      return ( -2.0 + 2.0 * u - 0.5 * u * u );
+      }
+    else if( ( u > -2.0 ) && ( u <= -1.0 ) )
+      {
+      return ( 2.0 + 2.0 * u + 0.5 * u * u );
+      }
+    else
+      {
+      return 0.0;
+      }
+    }
+
+  /** Evaluate the function:  unimplemented spline order */
+  inline double Evaluate( const DispatchBase&, const double& ) const
+    {
+    itkExceptionMacro( "Evaluate not implemented for spline order "
+      << SplineOrder );
+    return 0.0; // This is to avoid compiler warning about missing
+    // return statement. It should never be evaluated.
+    }
 };
 } // end namespace itk
 
