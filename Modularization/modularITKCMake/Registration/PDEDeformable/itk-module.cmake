@@ -1,0 +1,1 @@
+itk_module(ITK-PDEDeformableRegistration DEPENDS ITK-RegistrationCommon ITK-FiniteDifference)

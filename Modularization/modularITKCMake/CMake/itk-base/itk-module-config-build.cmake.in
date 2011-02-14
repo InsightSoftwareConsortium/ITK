@@ -1,0 +1,6 @@
+if(@itk-module@-config-INCLUDED)
+  return()
+endif()
+set(@itk-module@-config-INCLUDED 1)
+
+@itk-module-config-build@
