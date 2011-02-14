@@ -17,10 +17,53 @@
  *=========================================================================*/
 #include "itkSemaphore.h"
 
-#if defined(ITK_USE_PTHREADS)
-#include "itkSemaphorePThreads.cxx"
-#elif defined(ITK_USE_WIN32_THREADS)
-#include "itkSemaphoreWinThreads.cxx"
-#else
-#include "itkSemaphoreNoThreads.cxx"
-#endif
+namespace itk
+{
+Semaphore::Semaphore ()
+{
+  m_Sema = 0;
+}
+
+void Semaphore::Initialize(unsigned int value)
+{
+  m_Sema = CreateSemaphore(0, value, 0x7FFFFFFF, 0);
+  if ( m_Sema == 0 )
+    {
+    itkExceptionMacro(<< "CreateSemaphore call failed");
+    }
+}
+
+void Semaphore::Up()
+{
+  if ( !ReleaseSemaphore ( (HANDLE)m_Sema, 1, 0 ) )
+    {
+    itkExceptionMacro(<< "Semaphore post call failed.");
+    }
+}
+
+void Semaphore::Down()
+{
+  if ( WaitForSingleObject(m_Sema, INFINITE) == WAIT_FAILED )
+    {
+    itkExceptionMacro(<< "WaitForSingleObject call failed. ");
+    }
+}
+
+Semaphore::~Semaphore()
+{
+  if ( m_Sema != 0 )
+    {
+    this->Remove();
+    }
+}
+
+void Semaphore::Remove()
+{
+  if ( m_Sema != 0 )
+    {
+    CloseHandle(m_Sema);
+    }
+  m_Sema = 0;
+}
+
+} //end if namespace itk

@@ -17,10 +17,30 @@
  *=========================================================================*/
 #include "itkSemaphore.h"
 
-#if defined(ITK_USE_PTHREADS)
-#include "itkSemaphorePThreads.cxx"
-#elif defined(ITK_USE_WIN32_THREADS)
-#include "itkSemaphoreWinThreads.cxx"
-#else
-#include "itkSemaphoreNoThreads.cxx"
-#endif
+namespace itk
+{
+Semaphore::Semaphore ()
+{
+}
+
+void Semaphore::Initialize(unsigned int value)
+{
+}
+
+void Semaphore::Up()
+{
+}
+
+void Semaphore::Down()
+{
+}
+
+Semaphore::~Semaphore()
+{
+}
+
+void Semaphore::Remove()
+{
+}
+
+} //end if namespace itk

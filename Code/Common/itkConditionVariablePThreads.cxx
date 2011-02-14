@@ -15,12 +15,34 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkSemaphore.h"
+#include "itkConditionVariable.h"
 
-#if defined(ITK_USE_PTHREADS)
-#include "itkSemaphorePThreads.cxx"
-#elif defined(ITK_USE_WIN32_THREADS)
-#include "itkSemaphoreWinThreads.cxx"
-#else
-#include "itkSemaphoreNoThreads.cxx"
-#endif
+namespace itk
+{
+ConditionVariable::ConditionVariable()
+{
+  pthread_mutex_init(&m_ConditionVariable.m_Mutex, NULL);
+  pthread_cond_init(&m_ConditionVariable.m_ConditionVariable, NULL);
+}
+
+ConditionVariable::~ConditionVariable()
+{
+  pthread_mutex_destroy(&m_ConditionVariable.m_Mutex);
+  pthread_cond_destroy(&m_ConditionVariable.m_ConditionVariable);
+}
+
+void ConditionVariable::Signal()
+{
+  pthread_cond_signal(&m_ConditionVariable.m_ConditionVariable);
+}
+
+void ConditionVariable::Broadcast()
+{
+  pthread_cond_broadcast(&m_ConditionVariable.m_ConditionVariable);
+}
+
+void ConditionVariable::Wait(SimpleMutexLock *mutex)
+{
+  pthread_cond_wait( &m_ConditionVariable.m_ConditionVariable, &mutex->GetMutexLock() );
+}
+} //end of namespace itk
