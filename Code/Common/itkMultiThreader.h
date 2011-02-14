@@ -238,6 +238,9 @@ private:
    */
   static int m_GlobalDefaultNumberOfThreads;
 
+  /**  Platform specific number of threads */
+  static int  GetGlobalDefaultNumberOfThreadsByPlatform();
+
   /** The number of threads to use.
    *  The m_NumberOfThreads must always be less than or equal to
    *  the m_GlobalMaximumNumberOfThreads before it is used during the execution
