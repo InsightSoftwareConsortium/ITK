@@ -297,6 +297,9 @@ Code/Common/itkMultipleLogOutput.cxx core itk-common src
 Code/Common/itkMultipleLogOutput.h core itk-common include
 Code/Common/itkMultiThreader.cxx core itk-common src
 Code/Common/itkMultiThreader.h core itk-common include
+Code/Common/itkMultiThreaderPThreads.cxx core itk-common src
+Code/Common/itkMultiThreaderNoThreads.cxx core itk-common src
+Code/Common/itkMultiThreaderWinThreads.cxx core itk-common src
 Code/Common/itkMutexLock.cxx core itk-common src
 Code/Common/itkMutexLock.h core itk-common include
 Code/Common/itkMutexLockHolder.h core itk-common include
@@ -2125,6 +2128,9 @@ Migration/MoveGetSetLengthMeasurementVectorTraits.xml utilities itk-migration co
 Migration/CArrayRemoval.xml utilities itk-migration code
 Migration/LabelObjectImproveAttributes.xml utilities itk-migration code
 Migration/InitializeXMLGuide.py utilities itk-migration code
+Migration/HistogramIncreaseFrequencyDisambiguation.xml utilities itk-migration code
+Migration/BRAINS2MaskImageIORemoved.xml utilities itk-migration code
+Migration/ExtractImageFilterForceStrategy.xml utilities itk-migration code
 Code/BasicFilters/itkSpatialFunctionImageEvaluatorFilter.txx filtering itk-spatial-function include
 Code/BasicFilters/itkSpatialFunctionImageEvaluatorFilter.h filtering itk-spatial-function include
 Code/BasicFilters/itkInverseDeformationFieldImageFilter.h filtering itk-deformation-field include
