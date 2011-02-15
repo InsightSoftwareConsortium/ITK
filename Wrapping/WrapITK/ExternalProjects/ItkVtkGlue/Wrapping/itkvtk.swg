@@ -73,3 +73,11 @@
 }
 
 #endif
+
+#ifdef SWIGJAVA
+%{
+#include "vtkJavaUtil.h"
+%}
+
+// TODO: The java typemaps seem to only work in java.i, they are harmless in that file but misplaces.
+#endif

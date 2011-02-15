@@ -82,6 +82,7 @@ macro(WRAP_LIBRARY_JAVA library_name)
 
   set(WRAP_ITK_JAVA_LIBRARY_DEPS )
   set(WRAP_ITK_JAVA_CXX_FILES )
+  set(WRAP_ITK_JAVA_EXTENDED_JAVAIMPORTS )
 
   string(TOLOWER ${WRAPPER_LIBRARY_NAME} _java_package_name)
 
@@ -280,7 +281,7 @@ macro(END_WRAP_MODULE_JAVA group_name)
 
   # prepare dependencies
   set(DEPS )
-  set(WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS )
+  set(WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS ${WRAP_ITK_JAVA_EXTENDED_JAVAIMPORTS})
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS} ITKJavaBase)
     # library dependencies
     set(DEPS ${DEPS} ${${dep}SwigFiles})
