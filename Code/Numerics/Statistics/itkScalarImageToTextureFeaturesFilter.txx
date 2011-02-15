@@ -117,6 +117,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
   // For each offset, calculate each feature
   typename OffsetVector::ConstIterator offsetIt;
   int offsetNum, featureNum;
+  typedef typename TextureFeaturesFilterType::TextureFeatureName InternalTextureFeatureName;
 
   for ( offsetIt = m_Offsets->Begin(), offsetNum = 0;
         offsetIt != m_Offsets->End(); offsetIt++, offsetNum++ )
@@ -131,7 +132,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
     for ( fnameIt = m_RequestedFeatures->Begin(), featureNum = 0;
           fnameIt != m_RequestedFeatures->End(); fnameIt++, featureNum++ )
       {
-      features[offsetNum][featureNum] = glcmCalc->GetFeature( fnameIt.Value() );
+      features[offsetNum][featureNum] = glcmCalc->GetFeature( (InternalTextureFeatureName)fnameIt.Value() );
       }
     }
 
@@ -212,13 +213,14 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Fast
   glcmCalc->SetInput( m_GLCMGenerator->GetOutput() );
   glcmCalc->Update();
 
+  typedef typename TextureFeaturesFilterType::TextureFeatureName InternalTextureFeatureName;
   m_FeatureMeans->clear();
   m_FeatureStandardDeviations->clear();
   typename FeatureNameVector::ConstIterator fnameIt;
   for ( fnameIt = m_RequestedFeatures->Begin();
         fnameIt != m_RequestedFeatures->End(); fnameIt++ )
     {
-    m_FeatureMeans->push_back( glcmCalc->GetFeature( fnameIt.Value() ) );
+    m_FeatureMeans->push_back( glcmCalc->GetFeature( (InternalTextureFeatureName)fnameIt.Value() ) );
     m_FeatureStandardDeviations->push_back(0.0);
     }
 
