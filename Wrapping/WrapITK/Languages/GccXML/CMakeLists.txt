@@ -1,19 +1,26 @@
 ###############################################################################
 option(WRAP_ITK_USE_SYSTEM_GCCXML "Use system gccxml. If OFF, gccxml is built as an external project." OFF)
 
+set(gccxml_ep ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml)
+if(WIN32)
+  set(gccxml_ep "${gccxml_ep}.exe")
+endif()
+
 if(WRAP_ITK_USE_SYSTEM_GCCXML)
+  # the path set for the EP build prevents find_package to do its job
+  if("${GCCXML}" STREQUAL "${gccxml_ep}")
+    unset(GCCXML CACHE)
+  endif()
   find_package(GCCXML REQUIRED)
-  set(GCCXML ${GCCXML} CACHE INTERNAL "gccxml executable.")
+  set(GCCXML ${GCCXML} CACHE FILEPATH "gccxml executable." FORCE)
 else()
   include(ExternalProject)
   # build gccxml as an external project
   if(WIN32)
     # windows build requires an extra step after the install. We use the test to run that step
     set(test TEST_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml_vcconfig.bat)
-    set(ext .exe)
   else()
     set(test )
-    set(ext )
   endif()
   ExternalProject_add(GCC_XML
   CVS_REPOSITORY ":pserver:anoncvs@www.gccxml.org:/cvsroot/GCC_XML"
@@ -34,7 +41,7 @@ else()
     -DBUILD_TESTING:BOOL=OFF
   ${test}
   )
-  set(GCCXML ${CMAKE_CURRENT_BINARY_DIR}/gccxml/bin/gccxml${ext} CACHE INTERNAL "gccxml executable." FORCE)
+  set(GCCXML ${gccxml_ep} CACHE FILEPATH "gccxml executable." FORCE)
 endif()
 
 ###############################################################################
