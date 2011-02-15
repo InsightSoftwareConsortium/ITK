@@ -29,7 +29,7 @@ namespace itk
  * \brief  FIXME   add documentation here
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT DiscretePrincipalCurvaturesQuadEdgeMeshFilter:
   public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {

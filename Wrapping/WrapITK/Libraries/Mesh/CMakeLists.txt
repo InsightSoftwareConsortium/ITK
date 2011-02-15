@@ -21,6 +21,8 @@ set(WRAPPER_LIBRARY_GROUPS
   itkVertexCell
   itkLineCell
   itkMeshToMeshFilter
+  itkQuadEdgeMeshToQuadEdgeMeshFilter
+  itkDiscretePrincipalCurvaturesQuadEdgeMeshFilter
 )
 
 set(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon)

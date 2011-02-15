@@ -18,6 +18,8 @@
 #ifndef __itkDiscreteCurvatureTensorQuadEdgeMeshFilter_h
 #define __itkDiscreteCurvatureTensorQuadEdgeMeshFilter_h
 
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
+
 namespace itk
 {
 /**
@@ -26,7 +28,7 @@ namespace itk
  * \brief FIXME Add documentation here
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT DiscreteCurvatureTensorQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
@@ -34,7 +36,8 @@ public:
   typedef DiscreteCurvatureTensorQuadEdgeMeshFilter     Self;
   typedef SmartPointer< Self >                          Pointer;
   typedef SmartPointer< const Self >                    ConstPointer;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter              Superclass;
+  typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+                                                        Superclass;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(DiscreteCurvatureTensorQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
@@ -44,8 +47,8 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro( OutputIsFloatingPointCheck,
-                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
+//  itkConceptMacro( OutputIsFloatingPointCheck,
+//                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
   /** End concept checking */
 #endif
 

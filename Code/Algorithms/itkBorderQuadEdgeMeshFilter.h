@@ -31,7 +31,7 @@ namespace itk
  *
  * To Write.
  */
-template< class TInputMesh, class TOutputMesh >
+template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT BorderQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
