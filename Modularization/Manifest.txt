@@ -1175,7 +1175,7 @@ Code/BasicFilters/itkEdgePotentialImageFilter.h filtering itk-image-intensity in
 Code/BasicFilters/itkExpImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkExpNegativeImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkGradientToMagnitudeImageFilter.h filtering itk-image-gradient include
-Code/BasicFilters/itkIntensityWindowingImageFilter.h filtering itk-image-gradient include
+Code/BasicFilters/itkIntensityWindowingImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkIntensityWindowingImageFilter.txx filtering itk-image-intensity include
 Code/BasicFilters/itkInvertIntensityImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkInvertIntensityImageFilter.txx filtering itk-image-intensity include
@@ -1217,13 +1217,13 @@ Code/BasicFilters/itkSquareImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkSubtractImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkSymmetricEigenAnalysisImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkTanImageFilter.h filtering itk-image-intensity include
-Code/BasicFilters/itkTensorFractionalAnisotropyImageFilter.h filtering itk-image-intensity include
-Code/BasicFilters/itkTensorRelativeAnisotropyImageFilter.h filtering itk-image-intensity include
+Code/BasicFilters/itkTensorFractionalAnisotropyImageFilter.h filtering itk-image-feature include
+Code/BasicFilters/itkTensorRelativeAnisotropyImageFilter.h filtering itk-image-feature include
 Code/BasicFilters/itkTernaryFunctorImageFilter.h filtering itk-image-filter-base include
 Code/BasicFilters/itkTernaryFunctorImageFilter.txx filtering itk-image-filter-base include
 Code/BasicFilters/itkUnaryFunctorImageFilter.h core itk-image-filter-base include
 Code/BasicFilters/itkUnaryFunctorImageFilter.txx core itk-image-filter-base include
-Code/BasicFilters/itkVectorCastImageFilter.h filtering itk-image-intensity include
+Code/BasicFilters/itkVectorCastImageFilter.h filtering itk-image-filter-base include
 Code/BasicFilters/itkVectorIndexSelectionCastImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkVectorRescaleIntensityImageFilter.h filtering itk-image-intensity include
 Code/BasicFilters/itkVectorRescaleIntensityImageFilter.txx filtering itk-image-intensity include
@@ -2143,8 +2143,8 @@ Code/BasicFilters/itkAdaptiveHistogramEqualizationImageFilter.h filtering itk-im
 Code/BasicFilters/itkAdaptiveHistogramEqualizationImageFilter.txx filtering itk-image-statistics include
 Code/BasicFilters/itkExtractOrthogonalSwath2DImageFilter.h filtering itk-path include
 Code/BasicFilters/itkExtractOrthogonalSwath2DImageFilter.txx filtering itk-path include
-Code/BasicFilters/itkHessianRecursiveGaussianImageFilter.h filtering itk-image-intensity include
-Code/BasicFilters/itkHessianRecursiveGaussianImageFilter.txx filtering itk-image-intensity include
+Code/BasicFilters/itkHessianRecursiveGaussianImageFilter.h filtering itk-image-feature include
+Code/BasicFilters/itkHessianRecursiveGaussianImageFilter.txx filtering itk-image-feature include
 Code/BasicFilters/itkBinaryMedianImageFilter.h filtering itk-label-voting include
 Code/BasicFilters/itkBinaryMedianImageFilter.txx filtering itk-label-voting include
 Code/BasicFilters/itkBoxImageFilter.txx core itk-image-filter-base include
@@ -2262,8 +2262,8 @@ Code/BasicFilters/itkNoiseImageFilter.txx core itk-image-filter-base include
 Code/BasicFilters/itkNaryAddImageFilter.h core itk-image-intensity include
 Code/BasicFilters/itkVTKImageExport.h bridge itk-vtk include
 Code/BasicFilters/itkVTKImageExport.txx bridge itk-vtk include
-Code/BasicFilters/itkHessian3DToVesselnessMeasureImageFilter.txx core itk-image-intensity include
-Code/BasicFilters/itkHessian3DToVesselnessMeasureImageFilter.h core itk-image-intensity include
+Code/BasicFilters/itkHessian3DToVesselnessMeasureImageFilter.txx core itk-image-feature include
+Code/BasicFilters/itkHessian3DToVesselnessMeasureImageFilter.h core itk-image-feature include
 Code/BasicFilters/itkReflectiveImageRegionConstIterator.h filtering itk-distance-map include
 Code/BasicFilters/itkReflectiveImageRegionConstIterator.txx filtering itk-distance-map include
 Code/BasicFilters/itkSmoothingRecursiveGaussianImageFilter.h core itk-smoothing include
@@ -2970,8 +2970,8 @@ Testing/Code/BasicFilters/itkSquaredDifferenceImageFilterTest.cxx filtering itk-
 Testing/Code/BasicFilters/itkSquareImageFilterTest.cxx filtering itk-image-intensity test
 Testing/Code/BasicFilters/itkSubtractImageFilterTest.cxx filtering itk-image-intensity test
 Testing/Code/BasicFilters/itkSymmetricEigenAnalysisImageFilterTest.cxx filtering itk-image-intensity test
-Testing/Code/BasicFilters/itkTensorFractionalAnisotropyImageFilterTest.cxx filtering itk-image-intensity test
-Testing/Code/BasicFilters/itkTensorRelativeAnisotropyImageFilterTest.cxx filtering itk-image-intensity test
+Testing/Code/BasicFilters/itkTensorFractionalAnisotropyImageFilterTest.cxx filtering itk-image-feature test
+Testing/Code/BasicFilters/itkTensorRelativeAnisotropyImageFilterTest.cxx filtering itk-image-feature test
 Testing/Code/BasicFilters/itkVectorIndexSelectionCastImageFilterTest.cxx filtering itk-image-intensity test
 Testing/Code/BasicFilters/itkVectorRescaleIntensityImageFilterTest.cxx filtering itk-image-intensity test
 Testing/Code/BasicFilters/itkWeightedAddImageFilterTest.cxx filtering itk-image-intensity test
@@ -3307,7 +3307,7 @@ Testing/Code/BasicFilters/itkNormalizedCorrelationImageFilterTest.cxx NonUnit it
 Testing/Code/BasicFilters/itkImageToParametricSpaceFilterTest.cxx core itk-mesh test
 Testing/Code/BasicFilters/itkNoiseImageFilterTest.cxx core itk-image-filter-base test
 Testing/Code/BasicFilters/itkNaryAddImageFilterTest.cxx core itk-image-intensity test
-Testing/Code/BasicFilters/itkHessian3DToVesselnessMeasureImageFilterTest.cxx core itk-image-intensity test
+Testing/Code/BasicFilters/itkHessian3DToVesselnessMeasureImageFilterTest.cxx core itk-image-feature test
 Testing/Code/BasicFilters/itkSmoothingRecursiveGaussianImageFilterTest.cxx core itk-smoothing test
 Testing/Code/BasicFilters/itkNarrowBandTest.cxx numerics itk-narrow-band test
 Testing/Code/BasicFilters/itkCompose3DCovariantVectorImageFilterTest.cxx core itk-image-compose test
