@@ -46,7 +46,7 @@ ErodeObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 
   for ( i = 0, kernel_it = kernel.Begin(); kernel_it < kernelEnd; ++kernel_it, ++i )
     {
-    if ( *kernel_it > 0 )
+    if ( *kernel_it )
       {
       nit.SetPixel(i, m_BackgroundValue, valid);
       }
