@@ -69,6 +69,12 @@ void TransformFileWriter::SetInput(const TransformType *transform)
   m_TransformList.push_back( ConstTransformPointer(transform) );
 }
 
+const TransformFileWriter::TransformType * TransformFileWriter::GetInput()
+{
+  ConstTransformPointer res = *(m_TransformList.begin());
+  return res.GetPointer();
+}
+
 /** Add a transform to be written */
 void TransformFileWriter::AddTransform(const TransformType *transform)
 {
