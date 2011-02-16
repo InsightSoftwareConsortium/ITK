@@ -20,62 +20,10 @@
 
 # include "itkObjectFactory.h"
 #include <string>
-
-#ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-#include "itkMutexLock.h"
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/sem.h>
-#include <errno.h>
-#endif
-
-#ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-#ifdef ITK_USE_PTHREADS
-#ifdef sun
-#include <synch.h>
-#else
-#include <semaphore.h>
-#endif
-#endif
-#endif
-
-#ifdef ITK_USE_WIN32_THREADS
-# include "itkWindows.h"
-#endif
+#include "itkThreadSupport.h"
 
 namespace itk
 {
-#ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-typedef int SemaphoreType;
-#endif
-
-#ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-#ifdef ITK_USE_PTHREADS
-#ifdef sun
-typedef sema_t SemaphoreType;
-#else
-#ifdef __APPLE__
-typedef sem_t *SemaphoreType;
-#else
-typedef sem_t SemaphoreType;
-#endif
-#endif
-#endif
-#endif
-
-#ifdef ITK_USE_WIN32_THREADS
-typedef HANDLE SemaphoreType;
-#endif
-
-#ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-#ifndef ITK_USE_PTHREADS
-#ifndef ITK_USE_WIN32_THREADS
-typedef int SemaphoreType;
-#endif
-#endif
-#endif
-
 /** \class Semaphore
  * \brief The semaphore class is used to synchronize execution between threads.
  *
@@ -135,37 +83,11 @@ protected:
   ~Semaphore();
 private:
 
-#ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-  /** Every IPC semaphore must be created with a unique key. This variable
-   * increments with each new ITK Semaphore created to give a unique key. */
-  static int m_IPCSemaphoreKey;
-  /** Mutex to lock increment operation on m_IPCSemaphoreKey */
-  static SimpleMutexLock m_Mutex;
-
-  int  UnixIpcSemaphoreCreate(int unix_semaphore_key);
-
-  void UnixIpcSemaphoreRemove(int sid);
-
-  void UnixIpcSemaphoreCall(int sid, int op);
-
-  void UnixIpcSemaphoreDown(int sid);
-
-  void UnixIpcSemaphoreUp(int sid);
-
-#endif
-
   char Pad1[128]; // to avoid false sharing in case of shared memory
                   // multiprocessor systems
   SemaphoreType m_Sema;
   char          Pad2[128]; // to avoid false sharing in case of shared memory
                            // multiprocessor systems
-
-#ifdef __APPLE__
-  std::string GetUniqueName();
-
-  static int  m_SemaphoreCount;
-  std::string m_SemaphoreName;
-#endif
 
 /** When using pthread the semaphore cannot be removed twice so we use a flag */
 #ifdef ITK_USE_PTHREADS

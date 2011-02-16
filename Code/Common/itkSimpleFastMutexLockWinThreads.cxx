@@ -27,10 +27,30 @@
  *=========================================================================*/
 #include "itkSimpleFastMutexLock.h"
 
-#if defined(ITK_USE_PTHREADS)
-#include "itkSimpleFastMutexLockPThreads.cxx"
-#elif defined(ITK_USE_WIN32_THREADS)
-#include "itkSimpleFastMutexLockWinThreads.cxx"
-#else
-#include "itkSimpleFastMutexLockNoThreads.cxx"
-#endif
+namespace itk
+{
+// Construct a new SimpleMutexLock
+SimpleFastMutexLock::SimpleFastMutexLock()
+{
+  //this->MutexLock = CreateMutex( NULL, FALSE, NULL );
+  InitializeCriticalSection(&m_FastMutexLock);
+}
+
+// Destruct the SimpleMutexVariable
+SimpleFastMutexLock::~SimpleFastMutexLock()
+{
+  DeleteCriticalSection(&m_FastMutexLock);
+}
+
+// Lock the FastMutexLock
+void SimpleFastMutexLock::Lock() const
+{
+  EnterCriticalSection(&m_FastMutexLock);
+}
+
+// Unlock the FastMutexLock
+void SimpleFastMutexLock::Unlock() const
+{
+  LeaveCriticalSection(&m_FastMutexLock);
+}
+} //end namespace itk

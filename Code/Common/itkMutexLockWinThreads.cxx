@@ -25,12 +25,33 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkSimpleFastMutexLock.h"
+#include "itkMutexLock.h"
 
-#if defined(ITK_USE_PTHREADS)
-#include "itkSimpleFastMutexLockPThreads.cxx"
-#elif defined(ITK_USE_WIN32_THREADS)
-#include "itkSimpleFastMutexLockWinThreads.cxx"
-#else
-#include "itkSimpleFastMutexLockNoThreads.cxx"
-#endif
+namespace itk
+{
+
+// Construct a new MutexLock
+SimpleMutexLock::SimpleMutexLock()
+{
+  m_MutexLock = CreateMutex(NULL, FALSE, NULL);
+}
+
+// Destruct the MutexVariable
+SimpleMutexLock::~SimpleMutexLock()
+{
+  CloseHandle(m_MutexLock);
+}
+
+// Lock the MutexLock
+void SimpleMutexLock::Lock()
+{
+  WaitForSingleObject(m_MutexLock, INFINITE);
+}
+
+// Unlock the MutexLock
+void SimpleMutexLock::Unlock()
+{
+  ReleaseMutex(m_MutexLock);
+}
+
+} //end namespace itk

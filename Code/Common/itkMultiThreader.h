@@ -29,10 +29,7 @@
 #define __itkMultiThreader_h
 
 #include "itkMutexLock.h"
-
-#ifdef ITK_USE_PTHREADS
-#include <pthread.h>
-#endif
+#include "itkThreadSupport.h"
 
 namespace itk
 {
@@ -50,57 +47,6 @@ namespace itk
  * pthread_create() will be used to create multiple threads (on
  * a sun, for example).
  */
-
-#ifdef ITK_USE_PTHREADS
-#define ITK_MAX_THREADS              128
-#endif
-
-#ifdef ITK_USE_WIN32_THREADS
-#define ITK_MAX_THREADS              128
-#endif
-
-// cygwin threads are unreliable
-#ifdef __CYGWIN__
-#undef ITK_MAX_THREADS
-#define ITK_MAX_THREADS 128
-#endif
-
-// at one point, mingw threads caused crashes so limit was set to 1
-// as of July 2009, all tests are passing with threads enabled
-#if defined( __MINGW32__ )
-#undef ITK_MAX_THREADS
-#define ITK_MAX_THREADS 128
-#endif
-
-#ifndef ITK_MAX_THREADS
-#define ITK_MAX_THREADS 1
-#endif
-
-/** \par Note
- * If ITK_USE_PTHREADS is defined, then the multithreaded
- * function is of type void *, and returns NULL
- * Otherwise the type is void which is correct for WIN32
- */
-#ifdef ITK_USE_PTHREADS
-typedef void *( * ThreadFunctionType )(void *);
-typedef pthread_t ThreadProcessIDType;
-#define ITK_THREAD_RETURN_VALUE  NULL
-#define ITK_THREAD_RETURN_TYPE   void *
-#endif
-
-#ifdef ITK_USE_WIN32_THREADS
-typedef LPTHREAD_START_ROUTINE ThreadFunctionType;
-typedef HANDLE                 ThreadProcessIDType;
-#define ITK_THREAD_RETURN_VALUE 0
-#define ITK_THREAD_RETURN_TYPE DWORD __stdcall
-#endif
-
-#ifndef ITK_THREAD_RETURN_VALUE
-typedef void ( *ThreadFunctionType )(void *);
-typedef int     ThreadProcessIDType;
-#define ITK_THREAD_RETURN_VALUE
-#define ITK_THREAD_RETURN_TYPE void
-#endif
 
 class ITKCommon_EXPORT MultiThreader:public Object
 {

@@ -19,16 +19,6 @@
 #define  __itkConditionVariable_h
 
 #include "itkConfigure.h"
-
-// This implementation uses a routine called SignalObjectAndWait()
-// which is only defined on WinNT 4.0 or greater systems.  We need to
-// define this symbol in order to get the prototype for the
-// routine. This needs to be done before we load any system headers.
-#ifdef ITK_USE_WIN32_THREADS
-#undef _WIN32_WINNT
-#define _WIN32_WINNT 0x0400
-#endif
-
 #include "itkMutexLock.h"
 #include "itkLightObject.h"
 
@@ -97,26 +87,8 @@ private:
   ConditionVariable(const Self & other);
   const Self & operator=(const Self &);
 
-#ifdef ITK_USE_PTHREADS
-  pthread_cond_t m_ConditionVariable;
-  MutexType      m_Mutex;
-#else
-  int m_NumberOfWaiters;                   // number of waiting threads
-#ifdef WIN32
-  CRITICAL_SECTION m_NumberOfWaitersLock;  // Serialize access to
-                                           // m_NumberOfWaiters
+  ConditionVariableType m_ConditionVariable;
 
-  HANDLE m_Semaphore;                      // Semaphore to queue threads
-  HANDLE m_WaitersAreDone;                 // Auto-reset event used by the
-                                           // broadcast/signal thread to
-                                           // wait for all the waiting
-                                           // threads to wake up and
-                                           // release the semaphore
-
-  int m_WasBroadcast;                      // Used as boolean. Keeps track of whether
-                                           // we were broadcasting or signaling
-#endif
-#endif
 };
 } // end namespace itk
 

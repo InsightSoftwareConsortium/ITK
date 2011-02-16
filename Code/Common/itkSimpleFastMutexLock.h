@@ -29,32 +29,10 @@
 #define __itkSimpleFastMutexLock_h
 
 #include "itkMacro.h"
-
-#ifdef ITK_USE_PTHREADS
-#include <pthread.h>
-#endif
-
-#if defined( _WIN32 ) && !defined( ITK_USE_PTHREADS )
-#include "itkWindows.h"
-#endif
+#include "itkThreadSupport.h"
 
 namespace itk
 {
-#ifdef ITK_USE_PTHREADS
-#include <pthread.h>
-typedef pthread_mutex_t FastMutexType;
-#endif
-
-#if defined( _WIN32 ) && !defined( ITK_USE_PTHREADS )
-#include <winbase.h>
-typedef CRITICAL_SECTION FastMutexType;
-#endif
-
-#ifndef ITK_USE_PTHREADS
-#ifndef _WIN32
-typedef int FastMutexType;
-#endif
-#endif
 
 /** \class SimpleFastMutexLock
  * \brief Critical section locking class that can be allocated on the stack.

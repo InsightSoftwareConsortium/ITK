@@ -30,30 +30,10 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-
-#ifdef ITK_USE_PTHREADS
-#include <pthread.h>
-#endif
-
-#ifdef ITK_USE_WIN32_THREADS
-#include "itkWindows.h"
-#endif
+#include "itkThreadSupport.h"
 
 namespace itk
 {
-#ifdef ITK_USE_PTHREADS
-typedef pthread_mutex_t MutexType;
-#endif
-
-#ifdef ITK_USE_WIN32_THREADS
-typedef HANDLE MutexType;
-#endif
-
-#ifndef ITK_USE_PTHREADS
-#ifndef ITK_USE_WIN32_THREADS
-typedef int MutexType;
-#endif
-#endif
 
 /** \class SimpleMutexLock
  * \brief Simple mutual exclusion locking class.
