@@ -48,6 +48,7 @@ if (HeadOfModularITKTree[-1] ==  '/'):
 
 
 moduleName = 'itk-common'
+excludeList = ['vnl', 'itkWin32OutputWindow.cxx', 'itkMultiThreaderPThreads.cxx','itkMultiThreaderWinThreads.cxx','itkMultiThreaderNoThreads.cxx']
 if os.path.isdir(HeadOfModularITKTree+'/modules/'+moduleName):
 
      #/src /CMakeLists.txt
@@ -55,7 +56,7 @@ if os.path.isdir(HeadOfModularITKTree+'/modules/'+moduleName):
      cxxFileList='';
      for cxxf in cxxFiles:
           filename=cxxf.split('/')[-1]
-          if filename[:3] !='vnl' and filename != 'itkWin32OutputWindow.cxx':
+          if filename not in excludeList:
              cxxFileList = cxxFileList+filename+'\n'
 
      o = open( HeadOfModularITKTree+'/modules/'+moduleName+'/src/CMakeLists.txt','w')
