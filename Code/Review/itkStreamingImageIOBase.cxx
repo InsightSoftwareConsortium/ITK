@@ -55,7 +55,7 @@ bool StreamingImageIOBase
   sizeOfChunk *= this->GetPixelSize();
 
   ImageIORegion::IndexType currentIndex = m_IORegion.GetIndex();
-  std::streamsize          gcount = 0;
+
   while ( m_IORegion.IsInside(currentIndex) )
     {
     // calculate the position to seek to in the file
@@ -74,11 +74,14 @@ bool StreamingImageIOBase
       + seekPos << " position in file");
 
     file.seekg(dataPos + seekPos, std::ios::beg);
-    this->ReadBufferAsBinary(file, buffer, sizeOfChunk);
+
+    if ( ! this->ReadBufferAsBinary(file, buffer, sizeOfChunk) )
+      {
+      tkExceptionMacro( "Error reading in ReadBufferAsBinary!" );
+      }
 
     // increment the buffer pointer
     buffer += sizeOfChunk;
-    gcount += file.gcount();
 
     if ( file.fail() )
       {
@@ -103,12 +106,6 @@ bool StreamingImageIOBase
         ++currentIndex[i + 1];
         }
       }
-    }
-
-  if ( gcount != sizeOfRegion )
-    {
-    itkExceptionMacro(
-      "Data not read completely. Expected = " << sizeOfRegion << ", but only read " <<  gcount <<  " bytes.");
     }
 
   return true;
@@ -203,7 +200,10 @@ bool StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const 
       }
 
     file.seekp(dataPos + seekPos, std::ios::beg);
-    this->WriteBufferAsBinary(file, buffer, sizeOfChunk);
+    if ( !this->WriteBufferAsBinary(file, buffer, sizeOfChunk) )
+      {
+      itkExceptionMacro( "Error reading in WriteBufferAsBinary!" );
+      }
 
     // increment the buffer pointer
     buffer += sizeOfChunk;
