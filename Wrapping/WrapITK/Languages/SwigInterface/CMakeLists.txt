@@ -49,8 +49,6 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Languages/SwigInterface"
   )
 
-  set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path")
-
 endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
 
@@ -60,6 +58,7 @@ set(WRAP_ITK_SWIGINTERFACE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERN
 set(WRAP_ITK_SWIGINTERFACE_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "swig interface binary dir")
 
 set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs" CACHE INTERNAL "typedefs dir")
+set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igenerator.py path" FORCE)
 
 macro(WRAP_LIBRARY_SWIG_INTERFACE library_name)
   # store the content of the mdx file

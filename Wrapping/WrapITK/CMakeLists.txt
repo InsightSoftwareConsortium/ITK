@@ -218,7 +218,6 @@ set(CONFIG_WRAP_ITK_MODULES "${WRAP_ITK_MODULES}")
 set(CONFIG_WRAP_ITK_PYTHON_MODULE "${WrapITK_BINARY_DIR}/Python/\\\${CTEST_CONFIGURATION_TYPE}")
 set(CONFIG_WRAP_ITK_PYTHON_LIBS "${LIBRARY_OUTPUT_PATH}/\\\${CTEST_CONFIGURATION_TYPE}")
 set(CONFIG_WRAP_ITK_LIB_DIR  "${LIBRARY_OUTPUT_PATH}")
-set(CONFIG_WRAP_ITK_IGENERATOR  "${WrapITK_BINARY_DIR}/Languages/SwigInterface/igenerator.py")
 configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
                "${WrapITK_BINARY_DIR}/WrapITKConfig.cmake"
                @ONLY IMMEDIATE)
@@ -238,7 +237,6 @@ set(CONFIG_WRAP_ITK_INSTALL_LOCATION "\${WrapITK_DIR}")
 set(CONFIG_WRAP_ITK_PYTHON_MODULE "\${WrapITK_DIR}/Python/")
 set(CONFIG_WRAP_ITK_PYTHON_LIBS "\${WrapITK_DIR}/lib")
 set(CONFIG_WRAP_ITK_LIB_DIR  "\${WrapITK_DIR}/lib")
-set(CONFIG_WRAP_ITK_IGENERATOR  "\${WrapITK_DIR}/Configuration/Languages/SwigInterface/igenerator.py")
 configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
                "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
                @ONLY IMMEDIATE)
