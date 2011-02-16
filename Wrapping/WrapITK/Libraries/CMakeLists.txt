@@ -17,10 +17,6 @@ else(USE_FFTWD OR USE_FFTWF)
   option(WRAP_FFTW "Build FFTW library." OFF)
 endif(USE_FFTWD OR USE_FFTWF)
 
-# ItkVtk is very optional, it MUST be OFF by default
-# TODO: move it to external project
-option(WRAP_ItkVtk "Build ITK-VTK glue library." OFF)
-
 set(optional_libraries
   Numerics
   Transforms
@@ -51,7 +47,6 @@ set(optional_libraries
   SegmentationValidation
   SimpleFilters
   UnaryPixelMath
-  ItkVtk
 )
 
 foreach(library ${optional_libraries})
