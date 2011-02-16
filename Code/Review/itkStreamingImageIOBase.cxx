@@ -77,7 +77,7 @@ bool StreamingImageIOBase
 
     if ( ! this->ReadBufferAsBinary(file, buffer, sizeOfChunk) )
       {
-      tkExceptionMacro( "Error reading in ReadBufferAsBinary!" );
+      itkExceptionMacro( "Error reading in ReadBufferAsBinary!" );
       }
 
     // increment the buffer pointer
