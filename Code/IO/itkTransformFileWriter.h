@@ -65,7 +65,7 @@ public:
   /** Set/Get the input transform to write */
   void SetInput(const TransformType *transform);
 
-  ConstTransformPointer GetInput() { return *( m_TransformList.begin() ); }
+  const TransformType * GetInput();
 
   /** Add a transform to be written */
   void AddTransform(const TransformType *transform);
