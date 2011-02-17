@@ -1,0 +1,22 @@
+SET (CTEST_CUSTOM_MAXIMUM_NUMBER_OF_ERRORS   50)
+SET (CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 50)
+
+SET(CTEST_CUSTOM_COVERAGE_EXCLUDE
+ ${CTEST_CUSTOM_COVERAGE_EXCLUDE}
+ ".*/test/.*"
+ ".*/itk-vnl/.*"
+ ".*/itsys/.*"
+ ".*/itk-jpeg/.*"
+ ".*/itk-png/.*"
+ ".*/itk-openjpeg/.*"
+ ".*/itk-nrrd/.*"
+ ".*/itk-ge/.*"
+ ".*/itk-bmp/.*"
+ ".*/itk-gipl/.*"
+ ".*/itk-biorad/.*"
+ ".*/itk-nifti/.*"
+ ".*/itk-tiff/.*"
+ ".*/itk-xml/.*"
+ ".*/itk-expat/.*"
+ ".*/itk-expat/.*"
+ )

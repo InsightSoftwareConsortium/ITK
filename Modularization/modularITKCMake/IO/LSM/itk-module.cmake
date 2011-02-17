@@ -1,0 +1,1 @@
+itk_module(ITK-IO-LSM DEPENDS ITK-IO-TIFF)

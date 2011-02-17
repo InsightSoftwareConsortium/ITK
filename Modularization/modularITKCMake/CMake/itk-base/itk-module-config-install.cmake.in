@@ -1,0 +1,9 @@
+if(@itk-module@-config-INCLUDED)
+  return()
+endif()
+set(@itk-module@-config-INCLUDED 1)
+
+# Compute installation prefix relative to this file.
+get_filename_component(_dir  "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(_prefix "${_dir}/../../.." ABSOLUTE)
+@itk-module-config-install@

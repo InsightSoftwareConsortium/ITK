@@ -47,20 +47,18 @@ if (HeadOfModularITKTree[-1] ==  '/'):
     HeadOfModularITKTree = HeadOfModularITKTree[0:-1]
 
 
-moduleName = 'itk-common'
 excludeList = ['vnl', 'itkWin32OutputWindow.cxx', 'itkMultiThreaderPThreads.cxx','itkMultiThreaderWinThreads.cxx','itkMultiThreaderNoThreads.cxx']
-if os.path.isdir(HeadOfModularITKTree+'/modules/'+moduleName):
 
-     #/src /CMakeLists.txt
-     cxxFiles = glob.glob(HeadOfModularITKTree+'/modules/'+moduleName+'/src/*.cxx')
-     cxxFileList='';
-     for cxxf in cxxFiles:
-          filename=cxxf.split('/')[-1]
-          if filename not in excludeList:
-             cxxFileList = cxxFileList+filename+'\n'
+# ITK-Common: create src/CMakeLists.txt
+cxxFiles = glob.glob(HeadOfModularITKTree+'/Core/Common/src/*.cxx')
+cxxFileList='';
+for cxxf in cxxFiles:
+  filename=cxxf.split('/')[-1]
+  if filename not in excludeList:
+     cxxFileList = cxxFileList+filename+'\n'
 
-     o = open( HeadOfModularITKTree+'/modules/'+moduleName+'/src/CMakeLists.txt','w')
-     for line in open('./templateModule/'+moduleName+'/src/CMakeLists.txt','r'):
-            line = line.replace('LIST_OF_CXX_FILES',cxxFileList[0:-1]) #get rid of the last \n
-            o.write(line);
-     o.close()
+o = open( HeadOfModularITKTree+'/Core/Common/src/CMakeLists.txt','w')
+for line in open('./templateModule/Core/Common/src/CMakeLists.txt','r'):
+    line = line.replace('LIST_OF_CXX_FILES',cxxFileList[0:-1]) #get rid of the last \n
+    o.write(line);
+o.close()
