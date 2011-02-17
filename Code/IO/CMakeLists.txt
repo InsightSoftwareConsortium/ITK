@@ -23,6 +23,7 @@ set(ITKIO_SRCS
   itkIPLCommonImageIO.cxx
   itkIPLFileNameList.cxx
   itkImageIOBase.cxx
+  itkStreamingImageIOBase.cxx
   itkImageIOFactory.cxx
   itkImageIORegion.cxx
   itkJPEGImageIO.cxx

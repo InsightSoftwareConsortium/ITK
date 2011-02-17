@@ -33,7 +33,7 @@
 #endif
 
 #include <fstream>
-#include "itkImageIOBase.h"
+#include "itkStreamingImageIOBase.h"
 
 namespace itk
 {
@@ -41,22 +41,38 @@ namespace itk
  *
  *  \brief ImageIO class for reading VTK images
  *
+ * This implementation was taken fron the Insight Joural:
+ * http://hdl.handle.net/10380/3171
+ *
  * \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT VTKImageIO:public ImageIOBase
+class ITKIO_EXPORT VTKImageIO:
+  public StreamingImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageIO           Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  typedef VTKImageIO                Self;
+  typedef StreamingImageIOBase       Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKImageIO, Superclass);
+  itkTypeMacro(VTKImageIO, StreamingImageIOBase);
+
+// see super class for documentation
+  //
+  // overidden to return true only when supported
+  virtual bool CanStreamWrite(void);
+
+  // see super class for documentation
+  //
+  // overidden to return true only when supported
+  virtual bool CanStreamRead(void);
+
 
   /*-------- This part of the interface deals with reading data. ------ */
 
@@ -84,20 +100,50 @@ public:
    * that the IORegion has been set properly. */
   virtual void Write(const void *buffer);
 
+  /** returns the header size, if it is unknown it will return 0 */
+  virtual SizeType GetHeaderSize() const { return this->m_HeaderSize; }
+
 protected:
   VTKImageIO();
   ~VTKImageIO();
+
   void PrintSelf(std::ostream & os, Indent indent) const;
-
-  bool OpenVTKFileForReading(std::ifstream & os, const char *filename);
-
-  bool OpenVTKFileForWriting(std::ofstream & os, const char *filename);
 
   void InternalReadImageInformation(std::ifstream & file);
 
+  void WriteImageInformation(const void *buffer);
+
+  void ReadHeaderSize(std::ifstream & file);
+
+  /** Convenient method to read a buffer as ASCII text. */
+  virtual void ReadBufferAsASCII(std::istream & os, void *buffer,
+                         IOComponentType ctype,
+                         SizeType numberOfBytesToBeRead);
+
+  /** Convenient method to write a buffer as ASCII text. */
+  virtual void WriteBufferAsASCII(std::ostream & os, const void *buffer,
+                          IOComponentType ctype,
+                          SizeType numberOfBytesToWrite);
+
+  /** We have a special method to read symmetric second rank tensors because
+   * the VTK file format expands the symmetry and only supports 3D tensors. */
+  virtual void ReadSymmetricTensorBufferAsBinary(std::istream& os,
+    void *buffer,
+    StreamingImageIOBase::SizeType num);
+
+  /** We have a special method to write symmetric second rank tensors because
+   * the VTK file format expands the symmetry and only supports 3D tensors. */
+  virtual void WriteSymmetricTensorBufferAsBinary(std::ostream& os,
+    const void *buffer,
+    StreamingImageIOBase::SizeType num);
+
 private:
-  VTKImageIO(const Self &);     //purposely not implemented
+  VTKImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented
+
+  void SetPixelTypeFromString(const std::string & pixelType);
+
+  SizeType m_HeaderSize;
 };
 } // end namespace itk
 

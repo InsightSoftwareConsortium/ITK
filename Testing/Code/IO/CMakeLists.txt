@@ -124,6 +124,8 @@ set(KitTests
   itkTransformIOTest
   itkVTKImageIOTest
   itkVTKImageIOTest2
+  itkVTKImageIO2Test
+  itkVTKImageIO2Test2
   itkVTKPolyDataIOQuadEdgeMeshTest
   itkVTKPolyDataReaderQuadEdgeMeshTest
   itkVTKPolyDataReaderTest
@@ -385,6 +387,11 @@ add_test(itkVTKImageIOTest ${TestDriver} itkVTKImageIOTest
 add_test(itkVTKImageIOTest2 ${TestDriver} itkVTKImageIOTest2
                            ${ITK_DATA_ROOT}/Input/VHFColor.mhd
                            ${TEMP}/testVector.vtk)
+add_test(itkVTKImageIO2Test ${TestDriver}
+                            itkVTKImageIO2Test ${TEMP})
+add_test(itkVTKImageIO2Test2 ${TestDriver}
+                             itkVTKImageIO2Test2 ${TEMP}/itkVTKImageIO2Test2.vtk)
+
 add_test(itkRawImageIOTest ${TestDriver} itkRawImageIOTest
                            ${TEMP}/raw1.raw ${TEMP}/raw2.raw
 )
@@ -498,6 +505,8 @@ add_test(itkImageFileWriterTest2_2 ${TestDriver}
 add_test(itkImageFileWriterTest2_3 ${TestDriver}
   itkImageFileWriterTest2 ${ITK_TEST_OUTPUT_DIR}/test.vtk)
 
+
+
 add_test( itkImageFileReaderTest1 ${TestDriver}
   itkImageFileReaderTest1 )
 
@@ -515,6 +524,7 @@ add_test( itkImageFileReaderDimensionsTest_NRRD ${TestDriver}
   nrrd
   )
 
+# TODO add Dimensions test for VTK
 
 add_test(itkImageFileReaderStreamingTest_1 ${TestDriver}
   itkImageFileReaderStreamingTest
@@ -531,10 +541,14 @@ add_test(itkImageFileReaderStreamingTest_3 ${TestDriver}
      ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd 0 0
   )
 
+# TODO add itkImageFileReaderStreamingTest_4 for VTK
+
 add_test(itkImageFileReaderStreamingTest2_MHD ${TestDriver}
   itkImageFileReaderStreamingTest2
      ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
   )
+
+# TODO Add StreamingTest2 for VTK
 
 add_test(itkImageFileWriterStreamingPastingCompressingTest_MHA ${TestDriver}
   itkImageFileWriterStreamingPastingCompressingTest1
@@ -548,7 +562,6 @@ add_test(itkImageFileWriterStreamingPastingCompressingTest_NRRD ${TestDriver}
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest nrrd 0 0 1 1 0 0 1 1
             )
 
-
 add_test(itkImageFileWriterStreamingPastingCompressingTest_NHDR ${TestDriver}
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
@@ -561,7 +574,7 @@ add_test(itkImageFileWriterStreamingPastingCompressingTest_VTK ${TestDriver}
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest000.vtk
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest  vtk 0 0 1 1 0 0 1 1
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest  vtk 0 0 0 0 0 0 0 0
             )
 
 add_test(itkImageFileWriterStreamingPastingCompressingTest_DCM ${TestDriver}
@@ -569,7 +582,6 @@ add_test(itkImageFileWriterStreamingPastingCompressingTest_DCM ${TestDriver}
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest dcm 0 0 1 1 0 0 1 1
             )
-
 
 add_test(itkImageFileWriterStreamingPastingCompressingTest_IMG ${TestDriver}
   itkImageFileWriterStreamingPastingCompressingTest1
@@ -591,6 +603,8 @@ add_test(itkImageFileWriterPastingTest3 ${TestDriver}
   itkImageFileWriterPastingTest3
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest3_01.mha)
+
+# TODO add pasting test for VTK
 
 add_test(itkImageFileWriterUpdateLargestPossibleRegionTest ${TestDriver}
   --compare ${ITK_DATA_ROOT}/Input/cthead1.png
@@ -667,7 +681,7 @@ macro(ITK_IOTEST_PASTINGSTREAMING_MACRO InputFileName BaselineFileName Different
 endmacro(ITK_IOTEST_PASTINGSTREAMING_MACRO)
 
 ITK_IOTEST_PASTINGSTREAMING_MACRO( ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha)
-
+# TODO use macro for VTK file format
 
 add_test(itkMetaImageIOTest ${TestDriver}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd

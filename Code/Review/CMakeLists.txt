@@ -13,9 +13,6 @@ set(ITKIOReview_SRCS
   itkMRCHeaderObject.cxx
   itkMRCImageIO.cxx
   itkMRCImageIOFactory.cxx
-  itkStreamingImageIOBase.cxx
-  itkVTKImageIO2.cxx
-  itkVTKImageIO2Factory.cxx
   itkJPEG2000ImageIO.cxx
   itkJPEG2000ImageIOFactory.cxx
   )

@@ -245,8 +245,6 @@ set(KitTests
   itkStatisticsUniqueLabelMapFilterTest1
 
   itkMRCImageIOTest
-  itkVTKImageIO2Test
-  itkVTKImageIO2Test2
 
   itkJPEG2000ImageIOFactoryTest01
   itkJPEG2000ImageIOTest00
@@ -2569,8 +2567,6 @@ add_test(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${TestDriver}
 )
 
 add_test(itkMRCImageIOTest ${TestDriver} itkMRCImageIOTest ${TEMP})
-add_test(itkVTKImageIO2Test ${TestDriver} itkVTKImageIO2Test ${TEMP})
-add_test(itkVTKImageIO2Test2 ${TestDriver} itkVTKImageIO2Test2 ${TEMP}/itkVTKImageIO2Test2.vtk)
 
 add_test(itkJPEG2000Test00
   ${TestDriver} itkJPEG2000ImageIORegionOfInterest

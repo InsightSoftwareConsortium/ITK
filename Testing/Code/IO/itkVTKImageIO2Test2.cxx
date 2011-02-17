@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkVTKImageIO2.h"
+#include "itkVTKImageIO.h"
 
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
@@ -31,7 +31,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
 {
   //
   // This test is designed to test the non-streaming capabilities of
-  // VTKImageIO2 with tensors
+  // VTKImageIO with tensors
   //
 
 
@@ -80,7 +80,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
     ++i;
     }
 
-  typedef itk::VTKImageIO2 IOType;
+  typedef itk::VTKImageIO IOType;
   IOType::Pointer vtkIO = IOType::New();
 
   WriterType::Pointer writer = WriterType::New();
@@ -92,7 +92,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
 
   // check that a request to stream is not
   {
-  typedef itk::VTKImageIO2 IOType;
+  typedef itk::VTKImageIO IOType;
   IOType::Pointer vtkIO = IOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -130,7 +130,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
   // request to stream write but is should be denied
   {
 
-  typedef itk::VTKImageIO2 IOType;
+  typedef itk::VTKImageIO IOType;
   IOType::Pointer vtkIO = IOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
