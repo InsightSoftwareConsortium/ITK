@@ -39,6 +39,8 @@ endmacro()
 include(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
 include(${ITK_SOURCE_DIR}/CMake/ITKPlatformSpecificChecks.cmake)
 
+set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake)
+
 include(CTest)
 
 # Setup build locations.

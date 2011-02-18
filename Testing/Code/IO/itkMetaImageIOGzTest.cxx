@@ -23,6 +23,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
+#include "itkMetaImageIO.h"
 #include "itk_zlib.h"
 
 #if defined(ITK_USE_MODULAR_BUILD)
@@ -70,6 +71,10 @@ int itkMetaImageIOGzTest(int ac, char* av[])
   itk::ImageFileReader<myImage>::Pointer reader
     = itk::ImageFileReader<myImage>::New();
   reader->SetFileName(headerName.c_str());
+
+  itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
+  reader->SetImageIO(io);
+
   try
     {
     reader->Update();

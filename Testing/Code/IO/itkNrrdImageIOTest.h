@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkNrrdImageIO.h"
 #include "itkImage.h"
 #include "itkRandomImageSource.h"
 
@@ -64,12 +65,17 @@ int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
   typename itk::ImageFileWriter<ImageType>::Pointer writer
     = itk::ImageFileWriter<ImageType>::New();
 
+  itk::NrrdImageIO::Pointer io = itk::NrrdImageIO::New();
+  reader->SetImageIO(io);
+  writer->SetImageIO(io);
+
   typename ImageType::Pointer image;
 
   if (inputFile != "null")
     {
     typename itk::ImageFileReader<ImageType>::Pointer tmpReader
       = itk::ImageFileReader<ImageType>::New();
+    tmpReader->SetImageIO(io);
     tmpReader->SetFileName(inputFile.c_str());
     try
       {

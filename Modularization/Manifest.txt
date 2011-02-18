@@ -1,5 +1,6 @@
 # [Monolithic ITK file name] [Group name ] [Module name] [Subdir]
 itkConfigure.h.in                                                                Core            ITK-Common                     Common
+Code/Common/VNLSparseLUSolverTraits.h                                            Core            ITK-Common                     Common
 Code/Common/itkAddPixelAccessor.h                                                Core            ITK-ImageAdaptors              ImageAdaptors
 Code/Common/itk_alloc.h                                                          Core            ITK-Common                     Common
 Code/Common/itkAnnulusOperator.h                                                 Core            ITK-Common                     Common
@@ -2342,7 +2343,6 @@ Code/Algorithms/itkEuclideanDistancePointMetric.txx                             
 Code/Algorithms/itkEuclideanDistancePointMetric.h                                Registration    ITK-RegistrationCommon         Common
 Code/Common/itkv3Rigid3DTransform.h                                              Core            ITK-Transform                  Transform
 Code/Common/itkConditionVariableNoThreads.cxx                                    Core            ITK-Common                     Common
-Code/Common/itkConditionVariablePThreads.cx                                      Core            ITK-Common                     Common
 Code/Common/itkConditionVariableWinThreads.cxx                                   Core            ITK-Common                     Common
 Code/Common/itkMutexLockNoThreads.cxx                                            Core            ITK-Common                     Common
 Code/Common/itkMutexLockPThreads.cxx                                             Core            ITK-Common                     Common
@@ -2522,7 +2522,7 @@ Testing/Code/IO/testMetaMesh.cxx                                                
 Testing/Code/IO/itkNrrdVectorImageReadWriteTest.cxx                              Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkFileFreeImageIOFactory.h                                      Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkConvertBufferTest2.cxx                                        Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/IO/itkImageFileWriterStreamingPastingCompressingTest1               Nonunit         ITK-IntegratedTest             IntegratedTest
+Testing/Code/IO/itkImageFileWriterStreamingPastingCompressingTest1.cxx           Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/itkOptimizersHierarchyTest.cxx                             Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/itkNumericsTest.cxx                                        Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkSampleClassifierFilterTest4.cxx              Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -2722,9 +2722,6 @@ Testing/Code/Algorithms/itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx          
 Testing/Code/Algorithms/itkNormalQuadEdgeMeshFilterTest.cxx                      Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkSmoothingQuadEdgeMeshFilterTest.cxx                   Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest.cxx       Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
-Testing/Code/Algorithms/itkDelaunayConformingQuadEdgeMeshFilterTest.cxx          Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
-Testing/Code/Algorithms/itkQuadricDecimationQuadEdgeMeshFilterTest.cxx           Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
-Testing/Code/Algorithms/itkCleanQuadEdgeMeshFilterTest.cxx                       Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkBinaryMask3DQuadEdgeMeshSourceTest.cxx                Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest.cxx    Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest.cxx Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
@@ -3021,18 +3018,9 @@ Testing/Code/Algorithms/itkBinaryThinningImageFilterTest.cxx                    
 Testing/Code/BasicFilters/itkBSplineResampleImageFunctionTest.cxx                Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/BasicFilters/itkVectorResampleImageFilterTest.cxx                   Filtering       ITK-ImageGrid                  ImageGrid
 Testing/Code/BasicFilters/itkCropImageFilterTest.cxx                             Filtering       ITK-ImageGrid                  ImageGrid
-Testing/Code/Algorithms/itkSmoothingQuadEdgeMeshFilterTest.cxx                   Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
-Testing/Code/Algorithms/itkNormalQuadEdgeMeshFilterTest.cxx                      Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkDelaunayConformingQuadEdgeMeshFilterTest.cxx          Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
-Testing/Code/Algorithms/itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest.cxx    Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkCleanQuadEdgeMeshFilterTest.cxx                       Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
-Testing/Code/Algorithms/itkParameterizationQuadEdgeMeshFilterTest.cxx            Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
-Testing/Code/Algorithms/itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest.cxx   Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkQuadricDecimationQuadEdgeMeshFilterTest.cxx           Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
-Testing/Code/BasicFilters/itkBSplineResampleImageFunctionTest.cxx                Core            ITK-ImageFunction              ImageFunction
-Testing/Code/BasicFilters/itkVectorResampleImageFilterTest.cxx                   Filtering       ITK-ImageGrid                  ImageGrid
-Testing/Code/BasicFilters/itkCropImageFilterTest.cxx                             Filtering       ITK-ImageGrid                  ImageGrid
-Testing/Code/BasicFilters/itkFlipImageFilterTest.cxx                             Filtering       ITK-ImageGrid                  ImageGrid
 Testing/Code/BasicFilters/itkFlipImageFilterTest.cxx                             Filtering       ITK-ImageGrid                  ImageGrid
 Testing/Code/BasicFilters/itkReflectImageFilterTest.cxx                          External        ITK-Deprecated                 Deprecated
 Testing/Code/BasicFilters/itkChangeInformationImageFilterTest.cxx                Filtering       ITK-ImageGrid                  ImageGrid
@@ -3051,7 +3039,6 @@ Testing/Code/BasicFilters/itkExpandImageFilterTest.cxx                          
 Testing/Code/BasicFilters/itkBinaryThresholdImageFilterTest2.cxx                 Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/BasicFilters/itkBinaryThresholdImageFilterTest.cxx                  Filtering       ITK-Thresholding               Thresholding
 Testing/Code/BasicFilters/itkBinaryThresholdProjectionImageFilterTest.cxx        Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/BasicFilters/itkNarrowBandTest.cxx                                  Numerics        ITK-NarrowBand                 NarrowBand
 Testing/Code/BasicFilters/itkDoubleThresholdImageFilterTest.cxx                  Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkOtsuMultipleThresholdsCalculatorTest.cxx              Filtering       ITK-Thresholding               Thresholding
 Testing/Code/Algorithms/itkOtsuMultipleThresholdsImageFilterTest.cxx             Filtering       ITK-Thresholding               Thresholding
@@ -3149,16 +3136,16 @@ Testing/Code/IO/itkMetaImageIOMetaDataTest.cxx                                  
 Testing/Code/IO/itkMetaImageIOGzTest.cxx                                         IO              ITK-IO-Meta                    Meta
 # itkAnalyzeImageIOTest.h requires itkNiftiImageIOTest.h
 Testing/Code/IO/itkAnalyzeImageIOTest.cxx                                        External        ITK-Deprecated                 Deprecated
-Testing/Code/IO/itkGiplImageIOTest.cxx                                           IO              ITK-IO-GIPL                    GIPL
+Testing/Code/IO/itkGiplImageIOTest.cxx                                           Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkVTKImageIO2Test.cxx                                           IO              ITK-IO-VTK                     VTK
 Testing/Code/IO/itkVTKImageIO2Test2.cxx                                          Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/IO/itkVTKImageIOTest2.cxx                                           IO              ITK-IO-VTK                     VTK
+Testing/Code/IO/itkVTKImageIOTest2.cxx                                           Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkVTKImageIOTest.cxx                                            IO              ITK-IO-VTK                     VTK
 Testing/Code/IO/itkNrrdImageIOTest.cxx                                           IO              ITK-IO-NRRD                    NRRD
 Testing/Code/IO/itkNrrdImageIOTest.h                                             IO              ITK-IO-NRRD                    NRRD
 Testing/Code/IO/itkTIFFImageIOTest.cxx                                           IO              ITK-IO-TIFF                    TIFF
 Testing/Code/IO/itkGDCMImageIOTest.cxx                                           Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/IO/itkGDCMImageIOTest2.cxx                                          IO              ITK-IO-GDCM                    GDCM
+Testing/Code/IO/itkGDCMImageIOTest2.cxx                                          Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkNiftiImageIOTest.cxx                                          IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest.h                                            IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest2.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
@@ -3361,4 +3348,3 @@ Testing/Code/Algorithms/itkFastChamferDistanceImageFilterTest.cxx               
 Testing/Code/Algorithms/itkExtensionVelocitiesImageFilterTest.cxx                Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkMeanSquaresPointSetToImageMetricTest.cxx              Registration    ITK-RegistrationCommon         Common
 Testing/Code/Common/itkv3Rigid3DTransformTest.cxx                                Core            ITK-Transform                  Transform
-Testing/Code/BasicFilters/itkMaximumProjectionImageFilterTest2.cxx               Filtering       ITK-ImageStatistics            ImageStatistics

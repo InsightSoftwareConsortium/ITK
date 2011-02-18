@@ -64,6 +64,7 @@ typename TImage::Pointer ReadImage( const std::string &fileName,
   typename ReaderType::Pointer reader = ReaderType::New();
   {
   reader->SetFileName( fileName.c_str() );
+  reader->SetImageIO(itk::NiftiImageIO::New());
   try
     {
     reader->Update();
@@ -101,6 +102,8 @@ WriteImage(typename ImageType::Pointer &image ,
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   typename  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetImageIO(itk::NiftiImageIO::New());
 
   writer->SetFileName(filename.c_str());
 

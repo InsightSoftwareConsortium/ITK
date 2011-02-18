@@ -23,6 +23,27 @@ endif(WIN32)
 
 
 #-----------------------------------------------------------------------------
+# Find platform-specific differences in the handling of IEEE floating point
+# special values.
+include(${ITK_SOURCE_DIR}/CMake/CheckBigBitfield.cmake)
+CHECK_BIG_BITFIELD(BIGBITFIELD_VALUE ${ITK_SOURCE_DIR}/CMake)
+if(BIGBITFIELD_VALUE)
+   set(BIGBITFIELD 1 CACHE INTERNAL "System handles bit-fields larger than 32 bits.")
+else(BIGBITFIELD_VALUE)
+   set(BIGBITFIELD 0 CACHE INTERNAL "System handles bit-fields larger than 32 bits.")
+endif(BIGBITFIELD_VALUE)
+
+include(${ITK_SOURCE_DIR}/CMake/TestQnanhibit.cmake)
+TEST_QNANHIBIT(QNANHIBIT_VALUE ${ITK_SOURCE_DIR}/CMake)
+if(QNANHIBIT_VALUE)
+   set(QNANHIBIT 1 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
+else(QNANHIBIT_VALUE)
+   set(QNANHIBIT 0 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
+endif(QNANHIBIT_VALUE)
+
+
+
+#-----------------------------------------------------------------------------
 #ITK requires special compiler flags on some platforms.
 if(CMAKE_COMPILER_IS_GNUCXX)
  set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -Wall -Wno-uninitialized -Wn o-unused-parameter")
