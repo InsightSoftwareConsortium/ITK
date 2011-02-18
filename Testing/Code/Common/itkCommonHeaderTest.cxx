@@ -292,7 +292,6 @@
 #include "itkSecondaryNodeList.txx"
 #include "itkSegmentationBorder.h"
 #include "itkSegmentationLevelSetFunction.txx"
-#include "itkSemaphore.h"
 #include "itkShapeSignedDistanceFunction.h"
 #include "itkShapedNeighborhoodIterator.txx"
 #include "itkSimilarity2DTransform.txx"
