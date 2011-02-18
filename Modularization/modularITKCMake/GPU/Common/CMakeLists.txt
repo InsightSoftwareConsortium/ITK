@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-GPUCommon)
+find_package(itk-base 4.0 EXACT REQUIRED)
+
+
+IF (ITK_USE_GPU)
+  message("GPU acceleration using OpenCL is ON.")
+
+  FIND_PACKAGE ( OpenCL REQUIRED )
+  IF ( NOT ${OPENCL_FOUND} )
+     MESSAGE ( FATAL "Could not find OpenCL" )
+  ENDIF ()
+
+
+  FILE(GLOB itkGPUSRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/src *.cl)
+  FILE(GLOB itkGPUHDR RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/include *.h)
+  FILE(GLOB itkTxxSRC  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/include *.txx)
+
+  SOURCE_GROUP("OpenCL Source Files" FILES ${itkGPUSRC})
+
+  FILE(COPY ${itkGPUSRC} DESTINATION ${ITK_BINARY_DIR}/GPU/Common)
+  MESSAGE( "OpenCL files to copy " ${itkGPUSRC} )
+
+  configure_file(
+    src/pathToOpenCLSourceCode.h.in
+    pathToOpenCLSourceCode.h)
+
+ itk_module_impl()
+
+ENDIF(ITK_USE_GPU)
