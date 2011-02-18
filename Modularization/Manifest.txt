@@ -530,7 +530,7 @@ Code/Common/itkXMLFileOutputWindow.h                                            
 Code/Common/itkXMLFilterWatcher.h                                                Core            ITK-Common                     Common
 Code/Common/vcl_alloc.h                                                          Core            ITK-Common                     Common
 Code/Common/VNLIterativeSparseSolverTraits.h                                     Core            ITK-Common                     Common
-ode/BasicFilters/itkImportImageFilter.h                                          Core            ITK-Common                     Common
+Code/BasicFilters/itkImportImageFilter.h                                         Core            ITK-Common                     Common
 Code/BasicFilters/itkImportImageFilter.txx                                       Core            ITK-Common                     Common
 Code/BasicFilters/itkStreamingImageFilter.h                                      Core            ITK-Common                     Common
 Code/BasicFilters/itkStreamingImageFilter.txx                                    Core            ITK-Common                     Common
