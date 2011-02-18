@@ -59,52 +59,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itkTclConfigure.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/itkTclConfigure.h
                @ONLY IMMEDIATE)
 
-
-# Configure itkTclModules.h with the names of the initializer functions for the
-# selected modules. For some pathological reason, the names are in the format:
-# Modulename_Init
-# where the first character is uppercase and the rest of the module name is
-# lower case. Which will entail some amount of pain to create in CMake.
-set(module_init_names )
-foreach(module ${WRAP_ITK_LIBRARIES})
-  string(REGEX REPLACE "^(.)(.+)$" "\\1" first "${module}")
-  string(REGEX REPLACE "^(.)(.+)$" "\\2" rest "${module}")
-  string(TOUPPER "${first}" first)
-  string(TOLOWER "${rest}" rest)
-  set(module_init_names ${module_init_names} "${first}${rest}tcl_Init")
-endforeach(module)
-
-# Now take those init functions and make a list of symbol declarations like:
-# int Modulename_Init(Tcl_Interp*);
-set(WRAP_ITK_TCL_LIBRARIES_INIT_DECLARATIONS )
-foreach(module ${module_init_names})
-  set(WRAP_ITK_TCL_LIBRARIES_INIT_DECLARATIONS "${WRAP_ITK_TCL_LIBRARIES_INIT_DECLARATIONS}  int ${module}(Tcl_Interp*);\n")
-endforeach(module)
-
-# Now we pack the addresses of the init function names into a comma-separated
-# string, to be used in an array initializer
-set(initializer )
-foreach(module ${module_init_names})
-  set(initializer "${initializer}  &${module},\n")
-endforeach(module)
-# Let's trim off that last ',\n':
-string(REGEX REPLACE ",\n$" "" WRAP_ITK_TCL_LIBRARIES_ARRAY_INITIALIZER "${initializer}")
-
-# Let's get the number of modules configured.
-list(LENGTH WRAP_ITK_LIBRARIES WRAP_ITK_TCL_LIBRARIES_COUNT)
-
-# And finally configure the file
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itkTclModules.h.in
-               ${CMAKE_CURRENT_BINARY_DIR}/itkTclModules.h
-               @ONLY IMMEDIATE)
-
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-add_executable(itkwish itkTclAppInit.cxx)
-foreach(module ${WRAP_ITK_LIBRARIES})
-  target_link_libraries(itkwish ${module}Tcl)
-endforeach(module)
-
-target_link_libraries(itkwish ${TCL_LIBRARY} ${TK_LIBRARY})
 
 # configure and install the driver itkwish script
 set(WRAP_ITK_TCL_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/Tcl")
@@ -131,7 +86,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itkwish.in
 
 
 #install the actual executable
-install(TARGETS itkwish DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/bin")
 install(FILES itkinteraction.tcl itktesting.tcl itkdata.tcl itkutils.tcl
   DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Tcl"
 )
@@ -424,12 +378,55 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   subdirs(Tests)
 
   macro(END_WRAP_LIBRARIES_TCL)
-#    add_subdirectory(${WRAP_ITK_TCL_SOURCE_DIR}/TclUtils)
+    # Configure itkTclModules.h with the names of the initializer functions for the
+    # selected modules. For some pathological reason, the names are in the format:
+    # Modulename_Init
+    # where the first character is uppercase and the rest of the module name is
+    # lower case. Which will entail some amount of pain to create in CMake.
+    set(module_init_names )
+    foreach(module ${WRAP_ITK_LIBRARIES})
+      string(REGEX REPLACE "^(.)(.+)$" "\\1" first "${module}")
+      string(REGEX REPLACE "^(.)(.+)$" "\\2" rest "${module}")
+      string(TOUPPER "${first}" first)
+      string(TOLOWER "${rest}" rest)
+      set(module_init_names ${module_init_names} "${first}${rest}tcl_Init")
+    endforeach(module)
+
+    # Now take those init functions and make a list of symbol declarations like:
+    # int Modulename_Init(Tcl_Interp*);
+    set(WRAP_ITK_TCL_LIBRARIES_INIT_DECLARATIONS )
+    foreach(module ${module_init_names})
+      set(WRAP_ITK_TCL_LIBRARIES_INIT_DECLARATIONS "${WRAP_ITK_TCL_LIBRARIES_INIT_DECLARATIONS}  int ${module}(Tcl_Interp*);\n")
+    endforeach(module)
+
+    # Now we pack the addresses of the init function names into a comma-separated
+    # string, to be used in an array initializer
+    set(initializer )
+    foreach(module ${module_init_names})
+      set(initializer "${initializer}  &${module},\n")
+    endforeach(module)
+    # Let's trim off that last ',\n':
+    string(REGEX REPLACE ",\n$" "" WRAP_ITK_TCL_LIBRARIES_ARRAY_INITIALIZER "${initializer}")
+
+    # Let's get the number of modules configured.
+    list(LENGTH WRAP_ITK_LIBRARIES WRAP_ITK_TCL_LIBRARIES_COUNT)
+
+    # And finally configure the file
+    configure_file(${WRAP_ITK_TCL_SOURCE_DIR}/itkTclModules.h.in
+                  ${WRAP_ITK_TCL_BINARY_DIR}/itkTclModules.h
+                  @ONLY IMMEDIATE)
   endmacro(END_WRAP_LIBRARIES_TCL)
 
   macro(WRAP_LIBRARIES_TCL)
     add_subdirectory(${WRAP_ITK_TCL_SOURCE_DIR}/TclBase)
   endmacro(WRAP_LIBRARIES_TCL)
+
+  add_executable(itkwish itkTclAppInit.cxx)
+  foreach(module ${WRAP_ITK_LIBRARIES})
+    target_link_libraries(itkwish ${module}Tcl)
+  endforeach(module)
+  target_link_libraries(itkwish ${TCL_LIBRARY} ${TK_LIBRARY})
+  install(TARGETS itkwish DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/bin")
 
 else(NOT EXTERNAL_WRAP_ITK_PROJECT)
   macro(END_WRAP_LIBRARIES_TCL)
