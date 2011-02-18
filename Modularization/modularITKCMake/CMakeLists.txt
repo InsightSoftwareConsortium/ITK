@@ -69,6 +69,11 @@ set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
 set(ITK_USE_MODULAR_BUILD ON)
 
+
+option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
+mark_as_advanced(ITK_USE_GPU)
+
+
 set(EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
 set(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
 

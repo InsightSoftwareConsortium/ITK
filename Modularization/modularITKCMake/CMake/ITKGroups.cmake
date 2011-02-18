@@ -15,9 +15,7 @@ ITK-MetaSpatialObjects
 ITK-QuadEdgeMesh
 ITK-SpatialObjects
 ITK-TestKernel
-ITK-TestKernle
 ITK-Transform
-ITK-VnlInstantiation
 )
 
 
@@ -123,6 +121,7 @@ itk-gdcm
 itk-openjpeg
 itk-vml
 itk-zlib
+itk-vnl-instantiation
 itk-tiff
 )
 #------------------------------------------------

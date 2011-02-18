@@ -87,7 +87,7 @@ for line in open("./Manifest.txt",'r'):
     fileExt = itkFileName.split('.')[-1]
     if fileExt == 'h' or fileExt == 'txx' or fileExt == 'inc':
        subdir = 'include'
-    elif fileExt == 'cxx' or fileExt =='c' or fileExt == 'in' :
+    elif fileExt == 'cxx' or fileExt =='c' or fileExt == 'in' or fileExt == 'cl' :
         if 'Test' in itkFileName or 'test' in itkFileName:
             if moduleName != 'ITK-TestKernel':
                 subdir = 'test'
@@ -122,7 +122,8 @@ missingf.close()
 
 # generate the modules list
 moduleList = modulizerHelper.unique(moduleList)
-
+moduleList.remove('ITK-Deprecated')
+moduleList.remove('ITK-IO-Deprecated')
 
 # list the new files
 newf =  open(LogDir+'/newFiles.log','w')

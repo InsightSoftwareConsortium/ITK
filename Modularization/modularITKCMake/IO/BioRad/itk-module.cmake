@@ -1,1 +1,1 @@
-itk_module(itk-io-biorad DEPENDS ITK-IO-Base)
+itk_module(ITK-IO-BioRad DEPENDS ITK-IO-Base)
