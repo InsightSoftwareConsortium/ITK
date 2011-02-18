@@ -803,11 +803,10 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   static const float SAFETY_FACTOR = 4.0;
   unsigned int       i, j;
 
-  // create semaphores
-  m_Data[ThreadId].m_Semaphore[0] = Semaphore::New ();
-  m_Data[ThreadId].m_Semaphore[1] = Semaphore::New ();
-  m_Data[ThreadId].m_Semaphore[0]->Initialize(0);
-  m_Data[ThreadId].m_Semaphore[1]->Initialize(0);
+  m_Data[ThreadId].m_Condition[0] = ConditionVariable::New();
+  m_Data[ThreadId].m_Condition[1] = ConditionVariable::New();
+  m_Data[ThreadId].m_Semaphore[0] = 0;
+  m_Data[ThreadId].m_Semaphore[1] = 0;
 
   // Allocate the layers for the sparse field.
   m_Data[ThreadId].m_Layers.reserve(2 * m_NumberOfLayers + 1);
@@ -1024,9 +1023,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     // Deallocate the thread local data structures.
     for ( unsigned int ThreadId = 0; ThreadId < m_NumOfThreads; ThreadId++ )
       {
-      // Remove semaphores from the system.
-      m_Data[ThreadId].m_Semaphore[0]->Remove();
-      m_Data[ThreadId].m_Semaphore[1]->Remove();
+
 
       delete[] m_Data[ThreadId].m_ZHistogram;
 
@@ -2628,7 +2625,11 @@ void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::SignalNeighbor(unsigned int SemaphoreArrayNumber, unsigned int ThreadId)
 {
-  m_Data[ThreadId].m_Semaphore[SemaphoreArrayNumber]->Up();
+  ThreadData &td = m_Data[ThreadId];
+  td.m_Lock[SemaphoreArrayNumber].Lock();
+  ++td.m_Semaphore[SemaphoreArrayNumber];
+  td.m_Condition[SemaphoreArrayNumber]->Signal();
+  td.m_Lock[SemaphoreArrayNumber].Unlock();
 }
 
 template< class TInputImage, class TOutputImage >
@@ -2636,7 +2637,14 @@ void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::WaitForNeighbor(unsigned int SemaphoreArrayNumber, unsigned int ThreadId)
 {
-  m_Data[ThreadId].m_Semaphore[SemaphoreArrayNumber]->Down();
+  ThreadData &td = m_Data[ThreadId];
+  td.m_Lock[SemaphoreArrayNumber].Lock();
+  if ( td.m_Semaphore[SemaphoreArrayNumber] == 0 )
+    {
+    td.m_Condition[SemaphoreArrayNumber]->Wait( & td.m_Lock[SemaphoreArrayNumber]);
+    }
+  --td.m_Semaphore[SemaphoreArrayNumber];
+  td.m_Lock[SemaphoreArrayNumber].Unlock();
 }
 
 template< class TInputImage, class TOutputImage >
