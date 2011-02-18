@@ -356,7 +356,7 @@ TreeIteratorBase< TTreeType > *TreeIteratorBase< TTreeType >::Parents()
 
 /** Go to a child */
 template< class TTreeType >
-bool TreeIteratorBase< TTreeType >::GoToChild(int number)
+bool TreeIteratorBase< TTreeType >::GoToChild(ChildIdentifier number)
 {
   if ( m_Position == NULL )
     {
