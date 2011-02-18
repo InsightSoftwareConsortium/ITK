@@ -289,7 +289,7 @@ endmacro()
 # Build all modules.
 foreach(itk-module ${ITK_MODULES_ENABLED})
   init_module_vars()
-  add_subdirectory("${${itk-module}_SOURCE_DIR}" "${${itk-module}_BINARY_DIR}")
+  add_subdirectory("${${itk-module}_SOURCE_DIR}" "${${itk-module}_DIR}")
   add_module_target()
 endforeach()
 

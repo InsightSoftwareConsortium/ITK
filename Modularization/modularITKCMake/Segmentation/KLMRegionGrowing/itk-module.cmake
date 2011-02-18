@@ -1,0 +1,1 @@
+itk_module(ITK-KLMRegionGrowing DEPENDS ITK-Common)

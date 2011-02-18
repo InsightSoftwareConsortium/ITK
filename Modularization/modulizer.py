@@ -122,8 +122,6 @@ missingf.close()
 
 # generate the modules list
 moduleList = modulizerHelper.unique(moduleList)
-moduleList.remove('ITK-Deprecated')
-moduleList.remove('ITK-IO-Deprecated')
 
 # list the new files
 newf =  open(LogDir+'/newFiles.log','w')
@@ -142,13 +140,20 @@ print ("listed new files to"+LogDir+"/newFiles.log")
 # create CMake codes for each module
 print ('creating cmake files for each module (from the template module)')
 for  moduleName in moduleList:
-   modulePath = modulizerHelper.searchModulePathTable(moduleName)
-   if os.path.isdir(HeadOfModularITKTree +'/'+ modulePath):
-     # cooy the LICENSE and NOTICE
-     os.system('cp ./templateModule/itk-template-module/LICENSE'+'  '+ HeadOfModularITKTree + '/'+ modulePath )
-     os.system('cp ./templateModule/itk-template-module/NOTICE'+'  '+ HeadOfModularITKTree + '/'+ modulePath )
+  modulePath = modulizerHelper.searchModulePathTable(moduleName)
+  filepath = HeadOfModularITKTree + '/'+ modulePath +'/itk-module.cmake'
+  if os.path.isfile(filepath):
+     # read dependency list from  itk-module.cmake
+     o = open(filepath,'r')
+     line = o.read()
+     # parse the syntax, e.g. itk_module(itk-io-tiff DEPENDS itk-tiff itk-io-base)
+     dependsModuleList = (((line.split('(')[1]).split(')')[0]).split())[2:]
 
-     # write CMakeLists.txt
+     dependsModuleLibrariesList =""
+     for dependsModule in dependsModuleList:
+         dependsModuleLibrariesList = dependsModuleLibrariesList+ " ${"+dependsModule+"_LIBRARIES}"
+
+      # write CMakeLists.txt
      filepath = HeadOfModularITKTree + '/'+ modulePath +'/CMakeLists.txt'
      if not os.path.isfile(filepath):
        o = open(filepath,'w')
@@ -161,30 +166,12 @@ for  moduleName in moduleList:
        o.close()
 
 
-     filepath = HeadOfModularITKTree + '/'+ modulePath +'/itk-module.cmake'
-     if not os.path.isfile(filepath):
-     # write itk-module.cmake, which contains dependency info
-        o = open(filepath,'w')
-        line = 'itk_module('+moduleName +' DEPENDS ITK-Common)'
-        o.write(line);
-        o.close()
-        dependsModuleLibrariesList = "${ITK-Common_LIBRARIES}"
-     else:
-        # read dependency list from  itk-module.cmake
-        o = open(filepath,'r')
-        line = o.read()
-        # parse the syntax, e.g. itk_module(itk-io-tiff DEPENDS itk-tiff itk-io-base)
-        dependsModuleList = (((line.split('(')[1]).split(')')[0]).split())[2:]
-
-        dependsModuleLibrariesList =""
-        for dependsModule in dependsModuleList:
-            dependsModuleLibrariesList = dependsModuleLibrariesList+ " ${"+dependsModule+"_LIBRARIES}"
-
-
      # write src/CMakeLists.txt
      # list of CXX files
      if os.path.isdir(HeadOfModularITKTree + '/'+ modulePath +'/src'):
+       cxxFiles = []
        cxxFiles = glob.glob(HeadOfModularITKTree + '/'+ modulePath +'/src/*.cxx')
+       cxxFiles.extend(glob.glob(HeadOfModularITKTree + '/'+ modulePath +'/src/*.c'))
        cxxFileList='';
        for cxxf in cxxFiles:
             cxxFileList = cxxFileList+cxxf.split('/')[-1]+'\n'
@@ -197,6 +184,7 @@ for  moduleName in moduleList:
             line = line.replace('@DEPEND_MODULE_LIBRARIES@',dependsModuleLibrariesList) #get rid of the last \n
             o.write(line);
          o.close()
+
 
      # write  test/CMakeLists.txt
      if os.path.isdir(HeadOfModularITKTree + '/'+ modulePath +'/test'):
@@ -231,7 +219,7 @@ for  moduleName in moduleList:
          o.close()
 
 
-    # write CTestConfig.cmake
+     # write CTestConfig.cmake
      filepath = HeadOfModularITKTree + '/'+ modulePath +'/CTestConfig.cmake'
      if not os.path.isfile(filepath):
         o = open(filepath,'w')
@@ -240,8 +228,9 @@ for  moduleName in moduleList:
             o.write(line);
         o.close()
 
-
-
+     # copy the LICENSE and NOTICE
+     os.system('cp ./templateModule/itk-template-module/LICENSE'+'  '+ HeadOfModularITKTree + '/'+ modulePath )
+     os.system('cp ./templateModule/itk-template-module/NOTICE'+'  '+ HeadOfModularITKTree + '/'+ modulePath )
 
 #----------------------------------------------------------------------------------------------------
 #clean up the temporary  directory

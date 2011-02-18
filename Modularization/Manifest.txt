@@ -1589,6 +1589,8 @@ Code/Algorithms/itkMedialNodeTripletCorrespondenceProcess.txx                   
 Code/Algorithms/itkMedialNodePairCorrespondenceProcess.h                         Segmentation    ITK-Blox                       Blox
 Code/Algorithms/itkMedialNodePairCorrespondenceProcess.txx                       Segmentation    ITK-Blox                       Blox
 Code/Common/itkInternationalizationIOHelpers.h                                   IO              ITK-IO-Base                    Base
+Code/IO/itkStreamingImageIOBase.h                                                IO              ITK-IO-Base                    Base
+Code/IO/itkStreamingImageIOBase.cxx                                              IO              ITK-IO-Base                    Base
 Code/IO/itkConvertPixelBuffer.h                                                  IO              ITK-IO-Base                    Base
 Code/IO/itkConvertPixelBuffer.txx                                                IO              ITK-IO-Base                    Base
 Code/IO/itkIOCommon.h                                                            IO              ITK-IO-Base                    Base
@@ -3148,6 +3150,8 @@ Testing/Code/IO/itkMetaImageIOGzTest.cxx                                        
 # itkAnalyzeImageIOTest.h requires itkNiftiImageIOTest.h
 Testing/Code/IO/itkAnalyzeImageIOTest.cxx                                        External        ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkGiplImageIOTest.cxx                                           IO              ITK-IO-GIPL                    GIPL
+Testing/Code/IO/itkVTKImageIO2Test.cxx                                           IO              ITK-IO-VTK                     VTK
+Testing/Code/IO/itkVTKImageIO2Test2.cxx                                          Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkVTKImageIOTest2.cxx                                           IO              ITK-IO-VTK                     VTK
 Testing/Code/IO/itkVTKImageIOTest.cxx                                            IO              ITK-IO-VTK                     VTK
 Testing/Code/IO/itkNrrdImageIOTest.cxx                                           IO              ITK-IO-NRRD                    NRRD
