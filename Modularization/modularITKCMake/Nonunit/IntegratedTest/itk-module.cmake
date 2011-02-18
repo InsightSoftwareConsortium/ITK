@@ -11,11 +11,7 @@ ITK-MetaSpatialObjects
 ITK-QuadEdgeMesh
 ITK-SpatialObjects
 ITK-TestKernel
-ITK-TestKernle
 ITK-Transform
-ITK-VnlInstantiation
-ITK-Deprecated
-ITK-IO-Deprecated
 ITK-AnisotropicSmoothing
 ITK-AntiAlias
 ITK-BiasCorrection
@@ -63,7 +59,6 @@ ITK-IO-Stimulate
 ITK-IO-TIFF
 ITK-IO-VTK
 ITK-IO-XML
-ITK-IntegratedTest
 ITK-Eigen
 ITK-FEM
 ITK-NarrowBand
@@ -82,7 +77,7 @@ ITK-DeformableMesh
 ITK-KLMRegionGrowing
 ITK-LabelVoting
 ITK-LevelSets
-ITK-MarkovRandomFieldsClassifie
+ITK-MarkovRandomFieldsClassifiers
 ITK-RegionGrowing
 ITK-SignedDistanceFunction
 ITK-Voronoi

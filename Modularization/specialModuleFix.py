@@ -47,7 +47,21 @@ if (HeadOfModularITKTree[-1] ==  '/'):
     HeadOfModularITKTree = HeadOfModularITKTree[0:-1]
 
 
-excludeList = ['vnl', 'itkWin32OutputWindow.cxx', 'itkMultiThreaderPThreads.cxx','itkMultiThreaderWinThreads.cxx','itkMultiThreaderNoThreads.cxx']
+excludeList = ['vnl', 'itkWin32OutputWindow.cxx', 'itkMultiThreaderPThreads.cxx','itkMultiThreaderWinThreads.cxx','itkMultiThreaderNoThreads.cxx',
+'itkConditionVariableNoThreads.cxx',
+'itkConditionVariablePThreads.cxx',
+'itkConditionVariableWinThreads.cxx',
+'itkMutexLockNoThreads.cxx',
+'itkMutexLockPThreads.cxx',
+'itkMutexLockWinThreads.cxx',
+'itkSemaphoreNoThreads.cxx',
+'itkSemaphorePThreads.cxx',
+'itkSemaphoreWinThreads.cxx',
+'itkSimpleFastMutexLockNoThreads.cxx',
+'itkSimpleFastMutexLockPThreads.cxx',
+'itkSimpleFastMutexLockWinThreads.cxx',
+'itkThreadSupport.h']
+
 
 # ITK-Common: create src/CMakeLists.txt
 cxxFiles = glob.glob(HeadOfModularITKTree+'/Core/Common/src/*.cxx')

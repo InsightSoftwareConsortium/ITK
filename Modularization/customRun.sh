@@ -63,6 +63,7 @@ grep -v Review | \
 grep -v CMake | \
 grep -v Documentation | \
 grep -v Modularization | \
+grep -v vnl | \
 tee  $logs/filesToClassify.log
 
 wc Manifest.txt
