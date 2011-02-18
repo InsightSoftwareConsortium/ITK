@@ -52,7 +52,7 @@ class ITKIO_EXPORT VTKImageIO:
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageIO                Self;
+  typedef VTKImageIO                 Self;
   typedef StreamingImageIOBase       Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
