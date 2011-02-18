@@ -45,9 +45,10 @@ class TreeIteratorBase
 public:
 
   /** Typedefs */
-  typedef TreeIteratorBase                 Self;
-  typedef typename TTreeType::ValueType    ValueType;
-  typedef typename TTreeType::TreeNodeType TreeNodeType;
+  typedef TreeIteratorBase                       Self;
+  typedef typename TTreeType::ValueType          ValueType;
+  typedef typename TTreeType::TreeNodeType       TreeNodeType;
+  typedef typename TreeNodeType::ChildIdentifier ChildIdentifier;
 
   /** Enumerations */
   typedef enum {
@@ -86,7 +87,7 @@ public:
   virtual NodeType GetType() const = 0;
 
   /** Go to the specified child */
-  virtual bool GoToChild(int number = 0);
+  virtual bool GoToChild(ChildIdentifier number = 0);
 
   /** Go to the parent */
   virtual bool GoToParent();
