@@ -65,13 +65,20 @@ ImageDuplicator< TInputImage >
   m_Output->Allocate();
 
   // Do the copy
-  SizeValueType size = 1;
-  for ( unsigned int i = 0; i < itkGetStaticConstMacro(ImageDimension); i++ )
-    {
-    size *= m_InputImage->GetBufferedRegion().GetSize()[i];
-    }
+  typedef typename TInputImage::PixelContainer   PixelContainer;
+  const PixelContainer * pixelContainer = m_InputImage->GetPixelContainer();
 
-  memcpy( m_Output->GetBufferPointer(), m_InputImage->GetBufferPointer(), size * sizeof( PixelType ) );
+  // This is the number of pixels times the number of components per pixel
+  const SizeValueType sizeInNumberOfComponents = pixelContainer->Size();
+
+  // This must be the internal pixel type, which is the one that we actually
+  // use for allocating internal buffers.
+  typedef typename TInputImage::InternalPixelType   InternalPixelType;
+
+  const SizeValueType sizeOfComponentInBytes = sizeof( InternalPixelType );
+  const SizeValueType sizeInNumberOfBytes = sizeInNumberOfComponents * sizeOfComponentInBytes;
+
+  memcpy( m_Output->GetBufferPointer(), m_InputImage->GetBufferPointer(), sizeInNumberOfBytes );
 }
 
 template< class TInputImage >
