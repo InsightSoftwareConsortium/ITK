@@ -181,8 +181,10 @@ add_test(itkAutomaticTopologyMeshSourceTest ${TestDriver}
          itkAutomaticTopologyMeshSourceTest)
 add_test(itkBinaryMinMaxCurvatureFlowImageFilterTest ${TestDriver}
          itkBinaryMinMaxCurvatureFlowImageFilterTest )
-add_test(itkBinaryMask3DMeshSourceTest ${TestDriver}
-         itkBinaryMask3DMeshSourceTest )
+add_test(itkBinaryMask3DMeshSourceTest0 ${TestDriver}
+         itkBinaryMask3DMeshSourceTest 0 )
+add_test(itkBinaryMask3DMeshSourceTest1 ${TestDriver}
+         itkBinaryMask3DMeshSourceTest 1 )
 add_test(itkBioCellTest ${TestDriver}
          itkBioCellTest )
 add_test(itkBioCellularAggregateTest ${TestDriver}
