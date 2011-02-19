@@ -82,10 +82,6 @@ int itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char* [] )
   niter[0] = 100; niter[1] = 100;
   radii[0] = 1; radii[1] = 3;
 
-#if __CYGWIN__
-  vnl_sample_reseed(0x1234abcd);
-#endif
-
   int err2D = testBinaryMinMaxCurvatureFlow( size2D, 127.5, radius, numberOfRuns,
     niter, radii );
 
@@ -111,9 +107,10 @@ int testBinaryMinMaxCurvatureFlow(
 
   typedef float PixelType;
   enum { ImageDimension = VImageDimension };
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-  typedef itk::ImageRegionIterator<ImageType> IteratorType;
+  typedef itk::Image<PixelType, ImageDimension>                          ImageType;
+  typedef itk::ImageRegionIterator<ImageType>                            IteratorType;
   typedef itk::BinaryMinMaxCurvatureFlowImageFilter<ImageType,ImageType> DenoiserType;
+
   typename DenoiserType::Pointer denoiser = DenoiserType::New();
 
   int j;
@@ -138,9 +135,8 @@ int testBinaryMinMaxCurvatureFlow(
   circleImage->SetBufferedRegion( region );
   circleImage->Allocate();
 
-  IteratorType circleIter( circleImage, circleImage->GetBufferedRegion() );
-
-  for ( ; !circleIter.IsAtEnd() ; ++circleIter )
+  for ( IteratorType circleIter( circleImage, circleImage->GetBufferedRegion() );
+    !circleIter.IsAtEnd(); ++circleIter )
     {
     typename ImageType::IndexType index = circleIter.GetIndex();
     float value;
@@ -164,9 +160,7 @@ int testBinaryMinMaxCurvatureFlow(
       value = vnl_sample_uniform( vnl_math_min(foreground,background),
         vnl_math_max(foreground,background) );
       }
-
     circleIter.Set( value );
-
     }
 
   /**
@@ -222,17 +216,12 @@ int testBinaryMinMaxCurvatureFlow(
    * pixels is less than the original noise fraction.
    */
   std::cout << "Checking the output..." << std::endl;
-
-  IteratorType outIter( swapPointer,
-    swapPointer->GetBufferedRegion() );
-
-  PixelType tolerance = vnl_math_abs( foreground - background ) * 0.1;
+  const PixelType tolerance = vnl_math_abs( foreground - background ) * 0.1;
 
   unsigned long numPixelsWrong = 0;
-
-  for ( ; !outIter.IsAtEnd(); ++outIter )
+  for (IteratorType outIter( swapPointer, swapPointer->GetBufferedRegion() );
+    !outIter.IsAtEnd(); ++outIter )
     {
-
     typename ImageType::IndexType index = outIter.GetIndex();
     PixelType value = outIter.Get();
 
@@ -254,7 +243,7 @@ int testBinaryMinMaxCurvatureFlow(
       }
     }
 
-  double fractionWrong = (double) numPixelsWrong /
+  const double fractionWrong = (double) numPixelsWrong /
     (double) region.GetNumberOfPixels();
 
   std::cout << "Noise reduced from " << fractionNoise << " to ";
@@ -266,7 +255,6 @@ int testBinaryMinMaxCurvatureFlow(
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
    }
-
 
   /**
    * Exercise other member functions here
@@ -301,5 +289,4 @@ int testBinaryMinMaxCurvatureFlow(
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

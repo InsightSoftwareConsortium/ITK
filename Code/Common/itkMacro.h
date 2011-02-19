@@ -76,6 +76,9 @@ namespace itk
 #if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x590 )
 #error "__SUNPRO_CC < 0x590 not supported under ITKv4"
 #endif
+#if defined( __CYGWIN__ )
+#error "The Cygwin compiler is not supported in ITKv4 and above"
+#endif
 #if defined( __BORLANDC__ )
 #error "The Borland C compiler is not supported in ITKv4 and above"
 #endif
@@ -553,7 +556,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 #endif
 
 #if defined( ITK_CPP_FUNCTION )
-  #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( __CYGWIN__ ) && !defined( CABLE_CONFIGURATION ) \
+  #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( CABLE_CONFIGURATION ) \
   && !defined( CSWIG )
     #define ITK_LOCATION __FUNCSIG__
   #elif defined( __GNUC__ )

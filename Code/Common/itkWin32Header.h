@@ -30,17 +30,6 @@
 
 #include "itkConfigure.h"
 
-// add in the Windows variants
-
-#if defined( __CYGWIN__ )
-#ifndef WIN32
-#define WIN32 1
-#endif
-#ifndef _WIN32
-#define _WIN32 1
-#endif
-#endif
-
 /** Disable some common warnings in MS VC++ */
 #if defined( _MSC_VER )
 

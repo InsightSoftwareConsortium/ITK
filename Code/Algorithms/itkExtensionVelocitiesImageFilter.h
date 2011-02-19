@@ -125,9 +125,7 @@ private:
   ExtensionVelocitiesImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented
 
-  /** Internal typedefs. SpeedImageType defined to work around the Borland
-   * compiler's improper handling of default template parameters that use
-   * dependent non-type templates. */
+  /** Internal typedefs. */
   typedef Image< float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
 
   typedef LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension > LocatorType;

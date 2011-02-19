@@ -208,11 +208,8 @@ inline bool ExposeMetaData(MetaDataDictionary & Dictionary, const std::string ke
   return true;
 }
 
-//This is only necessary to make the borland compiler happy.  It should not be
-// necesary for most compilers.
-//This should not change the behavior, it just adds an extra level of complexity
-// to using the ExposeMetaData
-//with const char * keys.
+// This should not change the behavior, it just adds an extra level of complexity
+// to using the ExposeMetaData with const char * keys.
 template< class T >
 inline bool ExposeMetaData(MetaDataDictionary & Dictionary, const char *const key, T & outval)
 {

@@ -145,13 +145,10 @@ class ITK_EXPORT SegmentationLevelSetImageFilter:
                                                              ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 {
 public:
-  /** Inherited typedef from the superclass. Needs to be placed befroe
-      the next macro. */
+  /** Inherited typedef from the superclass. Needs to be placed before the next macro. */
   typedef SegmentationLevelSetImageFilter Self;
 
-  /** Repeat definition from Superclass to satisfy Borland compiler
-      quirks */
-  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
+  //itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Output image type typedefs */
   typedef Image< TOutputPixelType, itkGetStaticConstMacro(InputImageDimension) > OutputImageType;

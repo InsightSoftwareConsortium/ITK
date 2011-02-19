@@ -133,9 +133,7 @@ protected:
   ~ReinitializeLevelSetImageFilter(){}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** Internal typedefs. SpeedImageType defined to work around the Borland
-   * compiler's improper handling of default template parameters that use
-   * dependent non-type templates. */
+  /** Internal typedefs. */
   typedef Image< float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
   typedef LevelSetNeighborhoodExtractor< TLevelSet >           LocatorType;
   typedef FastMarchingImageFilter< TLevelSet, SpeedImageType > FastMarchingImageFilterType;

@@ -97,18 +97,18 @@ struct node_type
 
 int itkBasicFiltersPrintTest(int , char* [])
 {
-  typedef itk::Image<float,2> InputType;
-  typedef itk::Image<float,2> OutputType;
+  typedef itk::Image<float,2>         InputType;
+  typedef itk::Image<float,2>         OutputType;
   typedef itk::Image<unsigned char,2> CharType;
   typedef itk::Image<unsigned char,3> CharType3D;
 
-  typedef itk::Point<float,2> MeshPixelType;
+  typedef itk::Point<float,2>       MeshPixelType;
   typedef itk::Mesh<MeshPixelType>  MeshType;
 
-  typedef itk::Vector<float,2> VectorType;
+  typedef itk::Vector<float,2>     VectorType;
   typedef itk::Image<VectorType,2> VectorImageType;
 
-  typedef itk::CovariantVector<float,2> CovariantVectorType;
+  typedef itk::CovariantVector<float,2>     CovariantVectorType;
   typedef itk::Image<CovariantVectorType,2> CovariantVectorImageType;
 
   //typedef itk::Neighborhood<unsigned short,2> KernelType;
@@ -134,10 +134,7 @@ int itkBasicFiltersPrintTest(int , char* [])
 
   // Used for BloxBoundaryProfileImageToBloxCoreAtomImageFilter
   typedef itk::BloxBoundaryProfileImage<3> BloxProfileImageType;
-  typedef itk::BloxCoreAtomImage<3> CoreAtomImageType;
-
-  // cygwin linker just can't handle this much code
-#ifndef __CYGWIN__
+  typedef itk::BloxCoreAtomImage<3>        CoreAtomImageType;
 
   itk::AcosImageFilter<InputType,OutputType>::Pointer AcosImageFilterObj =
     itk::AcosImageFilter<InputType,OutputType>::New();
@@ -395,6 +392,5 @@ int itkBasicFiltersPrintTest(int , char* [])
     itk::HausdorffDistanceImageFilter<InputType,OutputType>::New();
   std::cout << "-------------HausdorffDistanceImageFilter" << HausdorffDistanceImageFilterObj;
 
-#endif
   return EXIT_SUCCESS;
 }

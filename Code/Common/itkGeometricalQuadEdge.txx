@@ -546,7 +546,6 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Re
   //                            p-------p                            //
   //
   Self *first = this;
-  Self *bsplice; // Does not require initialisation (says borland compiler)
 
   // Making sure point adjacency is correct:
   if ( first->GetOrigin() != second->GetOrigin() )
@@ -572,6 +571,7 @@ bool GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::Re
     return ( false );
     }
 
+  Self *bsplice; // Does not require initialisation;
   // Disconnect the triangles containing second:
   if ( second->IsLeftSet() )
     {
