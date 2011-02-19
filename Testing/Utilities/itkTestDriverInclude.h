@@ -45,10 +45,9 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkSubtractImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
-#include "itkExtractImageFilter.h"
-#include "itkDifferenceImageFilter.h"
+#include "itkTestingStretchIntensityImageFilter.h"
+#include "itkTestingExtractSliceImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 #include "itksys/SystemTools.hxx"
 #include "itkIntTypes.h"
 #include "itkFloatingPointExceptions.h"
@@ -205,7 +204,7 @@ int RegressionTestImage(const char *testImageFilename,
     }
 
   // Now compare the two images
-  typedef itk::DifferenceImageFilter< ImageType, ImageType > DiffType;
+  typedef itk::Testing::ComparisonImageFilter< ImageType, ImageType > DiffType;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput( baselineReader->GetOutput() );
   diff->SetTestInput( testReader->GetOutput() );
@@ -219,10 +218,10 @@ int RegressionTestImage(const char *testImageFilename,
   // if there are discrepencies, create an diff image
   if ( ( status > numberOfPixelsTolerance ) && reportErrors )
     {
-    typedef itk::RescaleIntensityImageFilter< ImageType, OutputType > RescaleType;
-    typedef itk::ExtractImageFilter< OutputType, DiffOutputType >     ExtractType;
-    typedef itk::ImageFileWriter< DiffOutputType >                    WriterType;
-    typedef itk::ImageRegion< ITK_TEST_DIMENSION_MAX >                RegionType;
+    typedef itk::Testing::StretchIntensityImageFilter< ImageType, OutputType >     RescaleType;
+    typedef itk::Testing::ExtractSliceImageFilter< OutputType, DiffOutputType >    ExtractType;
+    typedef itk::ImageFileWriter< DiffOutputType >                        WriterType;
+    typedef itk::ImageRegion< ITK_TEST_DIMENSION_MAX >                    RegionType;
     OutputType::SizeType size; size.Fill(0);
 
     RescaleType::Pointer rescale = RescaleType::New();
@@ -407,6 +406,6 @@ std::map< std::string, int > RegressionTestBaselines(char *baselineFilename)
 }
 
 // Needed for explicit instantiation
-#include "itkDifferenceImageFilter.txx"
+#include "itkTestingComparisonImageFilter.txx"
 
 #endif
