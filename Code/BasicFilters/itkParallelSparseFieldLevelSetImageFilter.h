@@ -25,7 +25,6 @@
 #include "itkNeighborhoodIterator.h"
 #include "itkMultiThreader.h"
 #include "itkBarrier.h"
-#include "itkSemaphore.h"
 
 namespace itk
 {
@@ -718,10 +717,14 @@ protected:
     /** Local histogram with each thread */
     int *m_ZHistogram;
 
-    /** Semaphores used for signalling and waiting neighbor threads.
-     *  Strictly speaking the semaphores are NOT just accessed by the thread that owns them
+    /** pseudo-Semaphores used for signalling and waiting neighbor
+     *  threads. Strictly speaking the semaphores are NOT just
+     *  accessed by the thread that owns them
      *  BUT also by the thread's neighbors. So they are NOT truly "local" data. */
-    typename Semaphore::Pointer m_Semaphore[2];
+    int m_Semaphore[2];
+
+    SimpleMutexLock            m_Lock[2];
+    ConditionVariable::Pointer m_Condition[2];
 
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for
       signalling/waiting */

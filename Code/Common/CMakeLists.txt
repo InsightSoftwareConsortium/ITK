@@ -64,7 +64,6 @@ set(ITKCommon_SRCS
   itkRealTimeInterval.cxx
   itkRegion.cxx
   itkProgressAccumulator.cxx
-  itkSemaphore.cxx
   itkSegmentationBorder.cxx
   itkSegmentationRegion.cxx
   itkSimpleFastMutexLock.cxx

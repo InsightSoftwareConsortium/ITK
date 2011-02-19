@@ -220,7 +220,6 @@ set(KitTests
   itkScaleTransformTest
   itkScaleVersor3DTransformTest
   itkScatterMatrixImageFunctionTest
-  itkSemaphoreTest
   itkShapedNeighborhoodIteratorTest
   itkSimilarity2DTransformTest
   itkSimilarity3DTransformTest
@@ -656,7 +655,6 @@ endif(ITK_BUILD_SHARED_LIBS)
 if(NOT MINGW)
   add_test(itkBarrierTest ${TestDriver} itkBarrierTest)
   add_test(itkConditionVariableTest ${TestDriver} itkConditionVariableTest)
-  add_test(itkSemaphoreTest ${TestDriver} itkSemaphoreTest)
 endif(NOT MINGW)
 
 if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
