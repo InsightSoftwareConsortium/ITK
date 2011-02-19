@@ -27,30 +27,6 @@ file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl)
 
 
 ###############################################################################
-# Configure pkgIndex.tcl for the build tree.
-if(CMAKE_CONFIGURATION_TYPES)
-  foreach(config ${CMAKE_CONFIGURATION_TYPES})
-    set(WRAP_ITK_TCL_PACKAGE_DIR "${LIBRARY_OUTPUT_PATH}/${config}")
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/pkgIndex.tcl.in"
-                   "${CMAKE_CURRENT_BINARY_DIR}/${config}/pkgIndex.tcl"
-                   @ONLY IMMEDIATE)
-  endforeach(config)
-else(CMAKE_CONFIGURATION_TYPES)
-  set(WRAP_ITK_TCL_PACKAGE_DIR "${LIBRARY_OUTPUT_PATH}")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/pkgIndex.tcl.in"
-                 "${CMAKE_CURRENT_BINARY_DIR}/pkgIndex.tcl"
-                 @ONLY IMMEDIATE)
-endif(CMAKE_CONFIGURATION_TYPES)
-
-# configure pkgIndex.tcl for the installed tree
-set(WRAP_ITK_TCL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/lib")
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/pkgIndex.tcl.in"
-               "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl"
-               @ONLY IMMEDIATE)
-WRAP_ITK_INSTALL(/Tcl "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl")
-
-
-###############################################################################
 # Configure itkwish
 set(WRAP_ITK_TCL_EXE_DIR_BUILD "${ITK_EXECUTABLE_PATH}")
 set(WRAP_ITK_TCL_EXE_NAME_ROOT "itkwish")
@@ -415,18 +391,44 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     configure_file(${WRAP_ITK_TCL_SOURCE_DIR}/itkTclModules.h.in
                   ${WRAP_ITK_TCL_BINARY_DIR}/itkTclModules.h
                   @ONLY IMMEDIATE)
+
+    add_executable(itkwish ${WRAP_ITK_TCL_SOURCE_DIR}/itkTclAppInit.cxx)
+    message("@@${WRAP_ITK_LIBRARIES}@@")
+    foreach(module ${WRAP_ITK_LIBRARIES})
+      message("===${module}===")
+      target_link_libraries(itkwish ${module}Tcl)
+    endforeach(module)
+    target_link_libraries(itkwish ${TCL_LIBRARY} ${TK_LIBRARY})
+    install(TARGETS itkwish DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/bin")
+
+    ###############################################################################
+    # Configure pkgIndex.tcl for the build tree.
+    if(CMAKE_CONFIGURATION_TYPES)
+      foreach(config ${CMAKE_CONFIGURATION_TYPES})
+        set(WRAP_ITK_TCL_PACKAGE_DIR "${LIBRARY_OUTPUT_PATH}/${config}")
+        configure_file("${WRAP_ITK_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
+                       "${WRAP_ITK_TCL_BINARY_DIR}/${config}/pkgIndex.tcl"
+                       @ONLY IMMEDIATE)
+      endforeach(config)
+    else(CMAKE_CONFIGURATION_TYPES)
+      set(WRAP_ITK_TCL_PACKAGE_DIR "${LIBRARY_OUTPUT_PATH}")
+      configure_file("${WRAP_ITK_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
+                     "${WRAP_ITK_TCL_BINARY_DIR}/pkgIndex.tcl"
+                     @ONLY IMMEDIATE)
+    endif(CMAKE_CONFIGURATION_TYPES)
+
+    # configure pkgIndex.tcl for the installed tree
+    set(WRAP_ITK_TCL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/lib")
+    configure_file("${WRAP_ITK_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
+                   "${WRAP_ITK_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl"
+                  @ONLY IMMEDIATE)
+    WRAP_ITK_INSTALL(/Tcl "${WRAP_ITK_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl")
+
   endmacro(END_WRAP_LIBRARIES_TCL)
 
   macro(WRAP_LIBRARIES_TCL)
     add_subdirectory(${WRAP_ITK_TCL_SOURCE_DIR}/TclBase)
   endmacro(WRAP_LIBRARIES_TCL)
-
-  add_executable(itkwish itkTclAppInit.cxx)
-  foreach(module ${WRAP_ITK_LIBRARIES})
-    target_link_libraries(itkwish ${module}Tcl)
-  endforeach(module)
-  target_link_libraries(itkwish ${TCL_LIBRARY} ${TK_LIBRARY})
-  install(TARGETS itkwish DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/bin")
 
 else(NOT EXTERNAL_WRAP_ITK_PROJECT)
   macro(END_WRAP_LIBRARIES_TCL)
