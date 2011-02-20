@@ -87,7 +87,7 @@ cl_device_id OclGetMaxFlopsDev(cl_context cxGPUContext)
   while( current_device < device_count )
     {
       // CL_DEVICE_MAX_COMPUTE_UNITS
-      cl_uint compute_units;
+    //cl_uint compute_units;
       clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, NULL);
 
       // CL_DEVICE_MAX_CLOCK_FREQUENCY
@@ -121,7 +121,7 @@ void OclPrintDeviceName(cl_device_id device)
 //
 // Find the OpenCL platform that matches the "name"
 //
-cl_platform_id OclSelectPlatform(char* name)
+cl_platform_id OclSelectPlatform(const char* name)
 {
   char chBuffer[1024];
   cl_uint num_platforms;
