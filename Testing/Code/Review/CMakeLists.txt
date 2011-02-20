@@ -259,7 +259,7 @@ set(KitTests
   itkObjectToObjectMetricTest
   itkDeformationFieldTransformTest
   itkBSplineControlPointImageFilterTest
-  itkBSplineControlPointImageFilterTest1.cxx
+  itkBSplineControlPointImageFunctionTest
   itkN4MRIBiasFieldCorrectionImageFilterTest
   itkCompositeTransformTest
 
@@ -2470,6 +2470,11 @@ add_test(itkBSplineControlPointImageFilterTest2
   ${BASELINE}/N4ControlPoints_3D.nii.gz                       # control point lattice
   ${TEMP}/N4ControlPoints_3D_output.nii.gz
   ${TEMP}/N4ControlPoints_3D_outputRefined.nii.gz
+  )
+
+add_test(itkBSplineControlPointImageFunctionTest
+  ${TestDriver}
+  itkBSplineControlPointImageFunctionTest
   )
 
 add_test(itkN4MRIBiasFieldCorrectionImageFilterTest1

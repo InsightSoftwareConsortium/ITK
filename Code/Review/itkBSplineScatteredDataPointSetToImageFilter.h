@@ -92,7 +92,6 @@ public:
   typedef typename ImageType::RegionType            RegionType;
   typedef typename ImageType::SizeType              SizeType;
   typedef typename ImageType::IndexType             IndexType;
-  typedef typename ImageType::PointType             ContinuousIndexType;
 
   /** PointSet typedef support. */
   typedef typename PointSetType::PointType          PointType;
@@ -102,7 +101,6 @@ public:
 
   /** Other typedef */
   typedef float                                     RealType;
-  typedef VariableSizeMatrix<RealType >             GradientType;
   typedef VectorContainer<unsigned, RealType>       WeightsContainerType;
 
   /** Image types */
@@ -257,66 +255,14 @@ public:
   itkBooleanMacro( GenerateOutputImage );
 
   /**
-   * Set the control point lattice produced by a previous fitting process.  This
-   * can be used to call the Evaluate() functions below.
+   * Set the control point lattice produced by a previous fitting process.
    */
   itkSetMacro( PhiLattice, PointDataImagePointer );
 
   /**
-   * Get the control point lattice produced by the fitting process.  This
-   * can be used to call the Evaluate() functions below.
+   * Get the control point lattice produced by the fitting process.
    */
   itkGetConstMacro( PhiLattice, PointDataImagePointer );
-
-  /**
-   * Evaluate the resulting B-spline object at a specified point within the
-   * parametric domain.
-   */
-  void EvaluateAtPoint( PointType, PointDataType & );
-
-  /**
-   * Evaluate the resulting B-spline object at a specified index within the
-   * parametric domain.
-   */
-  void EvaluateAtIndex( IndexType, PointDataType & );
-
-  /**
-   * Evaluate the resulting B-spline object at a specified continuous index
-   * within the parametric domain.
-   */
-  void EvaluateAtContinuousIndex( ContinuousIndexType, PointDataType & );
-
-  /**
-   * Evaluate the resulting B-spline object at a specified parametric point
-   * assuming that the parameterization over each dimension of the B-spline
-   * object is [0, 1).
-   */
-  void Evaluate( PointType, PointDataType & );
-
-  /**
-   * Evaluate the gradient of the resulting B-spline object at a specified
-   * point within the image domain.
-   */
-  void EvaluateGradientAtPoint( PointType, GradientType & );
-
-  /**
-   * Evaluate the gradient of the resulting B-spline object at a specified
-   * index within the image domain.
-   */
-  void EvaluateGradientAtIndex( IndexType, GradientType & );
-
-  /**
-   * Evaluate the gradient of the resulting B-spline object at a specified
-   * continuous index within the image domain.
-   */
-  void EvaluateGradientAtContinuousIndex( ContinuousIndexType, GradientType & );
-
-  /**
-   * Evaluate the gradient of the resulting B-spline object at a specified
-   * parametric point assuming that the parameterization over each dimension
-   * of the B-spline object is [0, 1).
-   */
-  void EvaluateGradient(PointType, GradientType &);
 
 protected:
   BSplineScatteredDataPointSetToImageFilter();
@@ -372,7 +318,7 @@ private:
    * B-spline object quickly.
    */
   void CollapsePhiLattice( PointDataImageType *, PointDataImageType *,
-    RealType, unsigned int );
+    const RealType, const unsigned int );
 
   /**
    * Set the grid parametric domain parameters such as the origin, size,
@@ -397,9 +343,6 @@ private:
   typename PointDataImageType::Pointer         m_PsiLattice;
 
   vnl_matrix<RealType>     m_RefinedLatticeCoefficients[ImageDimension];
-
-  vnl_vector<RealType>                         m_BSplineWeights[ImageDimension];
-  RealImagePointer                             m_NeighborhoodWeightImage;
 
   typename PointDataContainerType::Pointer     m_InputPointData;
   typename PointDataContainerType::Pointer     m_OutputPointData;

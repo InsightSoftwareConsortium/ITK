@@ -15,13 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBSplineControlPointImageFilter_h
-#define __itkBSplineControlPointImageFilter_h
+#ifndef __itkBSplineControlPointImageFunction_h
+#define __itkBSplineControlPointImageFunction_h
 
-#include "itkImageToImageFilter.h"
+#include "itkImageFunction.h"
+
 #include "itkBSplineKernelFunction.h"
 #include "itkCoxDeBoorBSplineKernelFunction.h"
 #include "itkFixedArray.h"
+#include "itkImage.h"
 #include "itkPointSet.h"
 #include "itkSingleValuedCostFunction.h"
 #include "itkVariableSizeMatrix.h"
@@ -35,7 +37,7 @@ namespace itk
 {
 
 /**
- * \class ParameterCostFunction
+ * \class BSplineParametricDistanceCostFunction
  *
  * \brief Used to estimate the parameters of a B-spline object given an initial
  * guess
@@ -62,21 +64,22 @@ namespace itk
  * to get this parametric point on the curve.
  */
 template<class TControlPointLattice>
-class ITK_EXPORT ParameterCostFunction
+class ITK_EXPORT BSplineParametricDistanceCostFunction
   : public SingleValuedCostFunction
 {
 public:
-  typedef ParameterCostFunction    Self;
-  typedef SingleValuedCostFunction Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef BSplineParametricDistanceCostFunction    Self;
+  typedef SingleValuedCostFunction                 Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** Extract parametric dimension from input image. */
   itkStaticConstMacro( ParametricDimension, unsigned int,
                        TControlPointLattice::ImageDimension );
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ParameterCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( BSplineParametricDistanceCostFunction,
+    SingleValuedCostFunction );
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -88,9 +91,9 @@ public:
   typedef FixedArray<unsigned,
     itkGetStaticConstMacro( ParametricDimension )>    ArrayType;
 
-  /*
-   * Define the parameters of the B-spline object.
-   */
+  //
+  // Define the parameters of the B-spline object.
+  //
 
   /**
    * Set the control point lattice defining the B-spline object.
@@ -111,11 +114,6 @@ public:
    * Set the parametric size of the B-spline object domain.
    */
   itkSetMacro( Size, typename TControlPointLattice::SizeType );
-
-  /**
-   * Set the parametric direction of the B-spline object domain.
-   */
-  itkSetMacro( Direction, typename TControlPointLattice::DirectionType );
 
   /**
    * Set the spline order of the B-spline object.
@@ -163,19 +161,18 @@ public:
   virtual unsigned int GetNumberOfParameters() const;
 
 protected:
-  ParameterCostFunction();
-  virtual ~ParameterCostFunction();
+  BSplineParametricDistanceCostFunction();
+  virtual ~BSplineParametricDistanceCostFunction();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ParameterCostFunction(const Self&); //purposely not implemented
+  BSplineParametricDistanceCostFunction(const Self&); //purposely not implemented
   void operator=(const Self&);        //purposely not implemented
 
   typename TControlPointLattice::Pointer         m_ControlPointLattice;
   typename TControlPointLattice::PointType       m_Origin;
   typename TControlPointLattice::SpacingType     m_Spacing;
   typename TControlPointLattice::SizeType        m_Size;
-  typename TControlPointLattice::DirectionType   m_Direction;
 
   ArrayType m_SplineOrder;
   ArrayType m_CloseDimension;
@@ -184,28 +181,40 @@ private:
 };
 
 /**
- * \class BSplineControlPointImageFilter
+ * \class BSplineControlPointImageFunction
  *
- * \brief Process a given a B-spline grid of control points.
+ * \brief Evaluate a B-spline object given a grid of control points.
  *
  * \par  The output of the class itkBSplineScatteredDataPointSetToImageFilter
  * is a control point grid defining a B-spline object.  This class is used to
  * hold various routines meant to operate on that control point grid.  In
  * addition to specifying the control point grid as the input, the user
  * must also supply the spline order and the parametric domain (i.e. size,
- * domain, origin, direction, spacing).  The output of the filter is the sampled
- * B-spline object.
+ * domain, origin, spacing).
+ *
+ * Operations include
+ *   1. Evaluation of the B-spline object at any point in the domain.
+ *   2. Evaluation of the gradient of the B-spline object at any point in the
+ *      domain.
+ *   3. Evaluation of the Hessian of the B-spline object at any point in the
+ *      domain.
+ *   4. Inverse estimation.  Given a user-specified data point, one can
+ *      find the parameters which minimize the "distance" between the evaluated
+ *      data point and the B-spline object evaluated at those parameters.
+ *      This is useful, for example, in determining the parametric values of
+ *      a point on the curve closest to a user-specified point.
  *
  * \author Nicholas J. Tustison
+ *
  */
-
-template <class TInputImage, class TOutputImage = TInputImage>
-class BSplineControlPointImageFilter
-  : public ImageToImageFilter<TInputImage, TOutputImage>
+template <class TInputImage, class TCoordRep = double>
+class BSplineControlPointImageFunction
+  : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
 {
 public:
-  typedef BSplineControlPointImageFilter                Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef BSplineControlPointImageFunction              Self;
+  typedef ImageFunction<TInputImage,
+    typename TInputImage::PixelType, TCoordRep>         Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 
@@ -216,38 +225,33 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int,
                        TInputImage::ImageDimension );
 
-  typedef TInputImage  ControlPointLatticeType;
-  typedef TOutputImage OutputImageType;
 
-  /** Image typedef support. */
-  typedef typename OutputImageType::PixelType  PixelType;
-  typedef typename OutputImageType::RegionType RegionType;
-  typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename OutputImageType::PointType  PointType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  /** Image typedef support */
+  typedef TInputImage                         ControlPointLatticeType;
+  typedef TInputImage                         InputImageType;
+  typedef TCoordRep                           CoordRepType;
+  typedef typename InputImageType::PixelType  PixelType;
+  typedef typename InputImageType::RegionType RegionType;
+  typedef typename InputImageType::IndexType  IndexType;
+  typedef typename InputImageType::PointType  PointType;
+  typedef typename InputImageType::RegionType InputImageRegionType;
 
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::PointType     OriginType;
-  typedef typename OutputImageType::SizeType      SizeType;
-  typedef typename OutputImageType::DirectionType DirectionType;
+  typedef typename InputImageType::SpacingType   SpacingType;
+  typedef typename InputImageType::PointType     OriginType;
+  typedef typename InputImageType::SizeType      SizeType;
+
+  /** Output typedef support */
+  typedef PixelType                           OutputType;
+  typedef VariableSizeMatrix<CoordRepType>    GradientType;
+  typedef VariableSizeMatrix<CoordRepType>    HessianComponentType;
 
   /** Other typedef */
-  typedef float RealType;
-  typedef Image<RealType,
-    itkGetStaticConstMacro( ImageDimension )>       RealImageType;
-  typedef typename RealImageType::Pointer           RealImagePointer;
-
   typedef FixedArray<unsigned,
     itkGetStaticConstMacro( ImageDimension )>       ArrayType;
-
-  /** PointSet typedef support. */
-  typedef PointSet<PixelType,
-    itkGetStaticConstMacro( ImageDimension )>       PointSetType;
-  typedef typename PointSetType::PixelType          PointDataType;
-  typedef typename PointSetType::PointDataContainer PointDataContainerType;
-  typedef Image<PointDataType,
-    itkGetStaticConstMacro( ImageDimension )>       PointDataImageType;
-  typedef typename PointDataImageType::Pointer      PointDataImagePointer;
+  typedef Image<CoordRepType,
+    itkGetStaticConstMacro( ImageDimension )>       RealImageType;
+  typedef typename RealImageType::Pointer           RealImagePointer;
+  typedef typename Superclass::ContinuousIndexType  ContinuousIndexType;
 
   /** Interpolation kernel type (default spline order = 3) */
   typedef CoxDeBoorBSplineKernelFunction<3> KernelType;
@@ -257,16 +261,22 @@ public:
   typedef BSplineKernelFunction<3>          KernelOrder3Type;
 
   /**
+   * Set the input image.  Note that the size, spacing, origin, and spline
+   * order must be called prior to setting the input image.
+   */
+  virtual void SetInputImage( const InputImageType * );
+
+  /**
    * Set the spline order of the B-spline object for all parametric dimensions.
    * Default = 3.
    */
-  void SetSplineOrder( unsigned int );
+  void SetSplineOrder( const unsigned int );
 
   /**
    * Set the spline order array where each element of the array corresponds to
    * a single parametric dimension of the B-spline object.  Default = 3.
    */
-  void SetSplineOrder( ArrayType );
+  void SetSplineOrder( const ArrayType & );
 
   /**
    * Get the spline order array of the B-spline object.  Default = 3.
@@ -327,91 +337,116 @@ public:
   itkGetConstMacro( Size, SizeType );
 
   /**
-   * Set the sampled object direction.  Note that this is not used in any of the
-   * calculations in this class.  The only reason why it is included is due
-   * to the fact that we use the image class to represent the B-spline
-   * parametric domain (due to the maturity of the image class and the
-   * wealth of helper functions associated with it).  This is where the
-   * incongruence between the B-spline parametric domain and the concept of an
-   * image is most obvious.  An ITK image is a representation of a physical
-   * object thus it also exists in physical space which includes orientation.
-   * However, it can be argued that the parametric domain, per se, does not
-   * exist in physical space and it is only a parametric mapping which allows
-   * us to go from the parametric space to the physical space.  Therefore,
-   * the direction is not used.
+   * Evaluate the resulting B-spline object at a specified point in the
+   * parametric domain.
    */
-  itkSetMacro( Direction, DirectionType );
+  OutputType EvaluateAtParametricPoint( const PointType & ) const;
 
   /**
-   * Get the sampled B-spline object direction.
+   * Evaluate the resulting B-spline object at a specified index in the
+   * parametric domain.
    */
-  itkGetConstMacro( Direction, DirectionType );
+  virtual OutputType EvaluateAtIndex( const IndexType & ) const;
 
   /**
-   * Generate a refined control point lattice from the input control point
-   * lattice such that the resolution is doubled for each level.  This is
-   * further described in the references.  Note that if one sets the number
-   * of refinement levels to all 1's, the control point lattice is not increased
-   * in resolution.  Doubling the resolution starts at 2 refinement levels.
+   * Evaluate the resulting B-spline object at a specified continuous index in
+   * the parametric domain.
    */
-  typename ControlPointLatticeType::Pointer
-    RefineControlPointLattice( ArrayType );
+  virtual OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & ) const;
+
+  /**
+   * Evaluate the resulting B-spline object at a specified internal parameteric
+   * point.  Note that the internal parameterization over each dimension of the
+   * B-spline object is [0, 1).
+   */
+  virtual OutputType Evaluate( const PointType & ) const;
+
+  /**
+   * Evaluate the gradient of the resulting B-spline object at a specified point
+   * in the parametric domain.
+   */
+  GradientType EvaluateGradientAtParametricPoint( const PointType & ) const;
+
+  /**
+   * Evaluate the gradient of the resulting B-spline object at a specified index
+   * in the parametric domain.
+   */
+  GradientType EvaluateGradientAtIndex( const IndexType & ) const;
+
+  /**
+   * Evaluate the gradient of the resulting B-spline object at a specified
+   * continuous index in the parametric domain.
+   */
+  GradientType EvaluateGradientAtContinuousIndex(
+    const ContinuousIndexType & ) const;
+
+  /**
+   * Evaluate the gradient of the resulting B-spline object at a specified
+   * internal parameteric point.  Note that the internal parameterization over
+   * each dimension of the B-spline object is [0, 1).
+   */
+  GradientType EvaluateGradient( const PointType & ) const;
+
+  /**
+   * Evaluate the Hessian of the resulting B-spline object at a specified
+   * point within the parametric domain.  Since the Hessian for a vector
+   * function is a 3-tensor, one must specify the component.
+   */
+  HessianComponentType EvaluateHessianAtParametricPoint(
+    const PointType &, const unsigned int ) const;
+
+  /**
+   * Evaluate the Hessian of the resulting B-spline object at a specified
+   * index within the parametric domain.  Since the Hessian for a vector
+   * function is a 3-tensor, one must specify the component.
+   */
+  HessianComponentType EvaluateHessianAtIndex(
+    const IndexType &, const unsigned int ) const;
+
+  /**
+   * Evaluate the Hessian of the resulting B-spline object at a specified con-
+   * tinuous index within the parametric domain.  Since the Hessian for a vector
+   * function is a 3-tensor, one must specify the component.
+   */
+  HessianComponentType EvaluateHessianAtContinuousIndex(
+    const ContinuousIndexType &, const unsigned int ) const;
+
+  /**
+   * Evaluate the hessian of the resulting B-spline object at a specified
+   * internal parameteric point.  Note that the internal parameterization over
+   * each dimension of the B-spline object is [0, 1).
+   */
+  HessianComponentType EvaluateHessian(
+    const PointType &, const unsigned int ) const;
+
+  /**
+   * Given a B-spline object value and an initial parametric guess, use
+   * bounded optimization (LBFGSB) to find the parameters corresponding to the
+   * B-spline object value.
+   */
+  void CalculateParametersClosestToDataPoint(
+    const OutputType, PointType & ) const;
 
 protected:
-  BSplineControlPointImageFilter();
-  virtual ~BSplineControlPointImageFilter();
+  BSplineControlPointImageFunction();
+  virtual ~BSplineControlPointImageFunction();
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  /**
-   * Multithreaded function which generates the output sampled B-spline object.
-   */
-  void ThreadedGenerateData( const OutputImageRegionType &, int );
-
 private:
-  BSplineControlPointImageFilter( const Self& ); //purposely not implemented
+  BSplineControlPointImageFunction( const Self& ); //purposely not implemented
   void operator=( const Self& );                 //purposely not implemented
 
-
-  /**
-   * Before splitting, we need to allocate memory for the output sampled
-   * B-spline object based on the multi-threading functionality
-   */
-  void BeforeThreadedGenerateData();
-
-  /**
-   * Based on the way CollapsePhiLattice() is written, we want to split on the
-   * the last dimension.
-   */
-  int SplitRequestedRegion( int, int, OutputImageRegionType & );
-
-  /**
-   * Sub-function used by GenerateOutputImageFast() to generate the sampled
-   * B-spline object quickly.
-   */
-  void CollapsePhiLattice( PointDataImageType *, PointDataImageType *,
-    const RealType, const unsigned int );
-
-  /**
-   * Private function to handle the internal ivars.
-   */
-  void SetNumberOfLevels( ArrayType );
-
-  /** Parameters for the output image. */
+  /** Parameters for the B-spline object domain */
   SizeType                                     m_Size;
   SpacingType                                  m_Spacing;
   OriginType                                   m_Origin;
-  DirectionType                                m_Direction;
 
-  bool                                         m_DoMultilevel;
-  bool                                         m_GenerateOutputImage;
-  unsigned int                                 m_MaximumNumberOfLevels;
-  unsigned int                                 m_CurrentLevel;
   ArrayType                                    m_NumberOfControlPoints;
   ArrayType                                    m_CloseDimension;
   ArrayType                                    m_SplineOrder;
-  ArrayType                                    m_NumberOfLevels;
 
-  vnl_matrix<RealType>       m_RefinedLatticeCoefficients[ImageDimension];
+  RealImagePointer                             m_NeighborhoodWeightImage;
 
   typename KernelType::Pointer                 m_Kernel[ImageDimension];
   typename KernelOrder0Type::Pointer           m_KernelOrder0;
@@ -419,34 +454,14 @@ private:
   typename KernelOrder2Type::Pointer           m_KernelOrder2;
   typename KernelOrder3Type::Pointer           m_KernelOrder3;
 
-  RealType m_BSplineEpsilon;
-
-  inline typename RealImageType::IndexType
-  NumberToIndex( unsigned int number, typename RealImageType::SizeType size )
-    {
-    typename RealImageType::IndexType k;
-    k[0] = 1;
-
-    for ( unsigned int i = 1; i < ImageDimension; i++ )
-      {
-      k[i] = size[ImageDimension-i-1]*k[i-1];
-      }
-    typename RealImageType::IndexType index;
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      index[ImageDimension-i-1]
-        = static_cast<unsigned int>( number/k[ImageDimension-i-1] );
-      number %= k[ImageDimension-i-1];
-      }
-    return index;
-    }
+  CoordRepType                                 m_BSplineEpsilon;
 
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBSplineControlPointImageFilter.txx"
+#include "itkBSplineControlPointImageFunction.txx"
 #endif
 
 #endif
