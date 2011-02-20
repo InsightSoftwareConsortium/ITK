@@ -172,7 +172,7 @@ int itkFastMarchingTest(int, char* [] )
 
     outputValue = (float) iterator.Get();
 
-    if (distance == 0)
+    if (distance < itk::NumericTraits<double>::epsilon() )
       {
       continue;
       }
