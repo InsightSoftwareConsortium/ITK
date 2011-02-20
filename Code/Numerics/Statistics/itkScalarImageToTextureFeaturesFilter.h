@@ -137,7 +137,7 @@ public:
   typedef HistogramToTextureFeaturesFilter< HistogramType >
   TextureFeaturesFilterType;
 
-  typedef typename TextureFeaturesFilterType::TextureFeatureName TextureFeatureName;
+  typedef short                                                  TextureFeatureName;
   typedef VectorContainer< unsigned char, TextureFeatureName >   FeatureNameVector;
 
   typedef typename FeatureNameVector::Pointer      FeatureNameVectorPointer;
