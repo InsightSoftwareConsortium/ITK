@@ -1,5 +1,7 @@
 #
 # Encapsulates building FFTW as an External Project.
+include(CheckCCompilerFlag)
+
 
 set(msg "ATTENTION: You have enabled the use of fftw,")
 set(msg "${msg} this library is distributed under a GPL license.")
@@ -7,6 +9,29 @@ set(msg "${msg} By enabling this option, the binary of the ITK libraries")
 set(msg "${msg} that you are going to build will be covered by a GPL license,")
 set(msg "${msg} and so it will be any executable that you link against these libraries.")
 message("${msg}")
+
+#--check_c_compiler_flag(-fopenmp C_HAS_fopenmp)
+#--if(${C_HAS_fopenmp} AND FALSE)
+#--    set(FFTW_THREADS_CONFIGURATION --enable-openmp)
+#--    set(OPENMP_FLAG "-fopenmp")
+#--  else()
+    set(FFTW_THREADS_CONFIGURATION --enable-threads)
+    set(OPENMP_FLAG "")
+#--endif()
+
+#--Some influential environment variables:
+#--  CC          C compiler command
+#--  CFLAGS      C compiler flags
+#--  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+#--              nonstandard directory <lib dir>
+#--  LIBS        libraries to pass to the linker, e.g. -l<library>
+#--  CPPFLAGS    C/C++/Objective C preprocessor flags, e.g. -I<include dir> if
+#--              you have headers in a nonstandard directory <include dir>
+#-- set(ENV{CC}       "${CMAKE_C_COMPILER}")
+#-- set(ENV{CFLAGS}   "${CMAKE_C_FLAGS} ${OPENMP_FLAG}")
+#-- set(ENV{LDFLAGS}  "${CMAKE_C_FLAGS} ${OPENMP_FLAG}")
+#-- set(ENV{LIBS}     "${CMAKE_EXE_LINKER_FLAGS} ${OPENMP_FLAG}")
+#-- set(ENV{CPPFLAGS} "${CMAKE_C_FLAGS} ${OPENMP_FLAG}")
 
 ## Perhaps in the future a set of TryCompiles could be used here.
 set(FFTW_OPTIMIZATION_CONFIGURATION "" CACHE INTERNAL "architecture flags: --enable-sse --enable-sse2 --enable-altivec --enable-mips-ps --enable-cell")
@@ -38,8 +63,9 @@ else(USE_SYSTEM_FFTW)
         CONFIGURE_COMMAND ${ITK_BINARY_DIR}/fftwf/src/fftwf/configure
         ${FFTW_SHARED_FLAG}
         ${FFTW_OPTIMIZATION_CONFIGURATION}
+        ${FFTW_THREADS_CONFIGURATION}
+        --disable-fortran
         --enable-float
-        --enable-threads
         --prefix=${ITK_BINARY_DIR}/fftw
         )
     endif(USE_FFTWF)
@@ -52,7 +78,9 @@ else(USE_SYSTEM_FFTW)
         CONFIGURE_COMMAND ${ITK_BINARY_DIR}/fftwd/src/fftwd/configure
         ${FFTW_SHARED_FLAG}
         ${FFTW_OPTIMIZATION_CONFIGURATION}
-        --enable-threads
+        ${FFTW_THREADS_CONFIGURATION}
+        --disable-fortran
+        --disable-float
         --prefix=${ITK_BINARY_DIR}/fftw
         )
     endif(USE_FFTWD)
