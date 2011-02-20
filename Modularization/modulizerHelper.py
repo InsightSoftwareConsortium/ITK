@@ -68,7 +68,7 @@ def ModularITKAddTest(executableSearch, moduleName):
                argns =' '.join(words[2:])
 
         if (executableName == executableSearch):
-            addTestLines = addTestLines + "add_test(NAME "+ testName+ "\n      COMMAND "+moduleName+'-tests  ' + executableName
+            addTestLines = addTestLines + "add_test(NAME "+ testName+ "\n      COMMAND "+moduleName+'TestDriver  ' + executableName
             if (argns !=""):
                addTestLines = addTestLines + "\n              "+argns
             addTestLines = addTestLines +")\n"

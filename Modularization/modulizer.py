@@ -196,16 +196,11 @@ for  moduleName in moduleList:
 
        if not os.path.isfile(filepath):
          o = open(filepath,'w')
-         line = 'create_test_sourcelist(Tests '+moduleName+'-tests.cxx\n'+cxxFileList+')\n\n'
+
+         line ='set('+moduleName+'Tests\n'+cxxFileList+')\n\n'
          o.write(line)
 
-         #line = 'set (TestsTorun ${Tests})\nremove(TestsToRun '+moduleName+'-tests.cxx)\n\n'
-         #o.write(line)
-
-         line = 'add_executable('+moduleName+'-tests  ${Tests} )\n'
-         o.write(line)
-
-         line = 'target_link_libraries('+moduleName+'-tests  ${'+moduleName+'_LIBRARIES} )\n\n'
+         line = 'CreateTestDriver('+moduleName+'  "${'+moduleName+'_LIBRARIES}" "${'+moduleName+'Tests}")\n\n'
          o.write(line)
 
          #line = 'set('+ moduleName+'_TESTS'+ '  ${ITK_EXECUTABLE_PATH}/'+moduleName+'-tests)\n'

@@ -1,1 +1,1 @@
-itk_module(ITK-ImageAdaptors DEPENDS ITK-Common)
+itk_module(ITK-ImageAdaptors DEPENDS ITK-TestKernel)
