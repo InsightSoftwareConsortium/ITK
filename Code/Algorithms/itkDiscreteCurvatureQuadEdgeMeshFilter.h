@@ -30,7 +30,7 @@ namespace itk
  * \brief FIXME
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT DiscreteCurvatureQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {

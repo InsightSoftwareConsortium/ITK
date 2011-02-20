@@ -31,7 +31,7 @@ namespace itk
  * \class CleanQuadEdgeMeshFilter
  * \brief
  */
-template< class TInput, class TOutput >
+template< class TInput, class TOutput=TInput >
 class ITK_EXPORT CleanQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInput, TOutput >
 {

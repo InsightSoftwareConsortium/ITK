@@ -34,7 +34,7 @@ namespace itk
  * location: Berlin (Germany)
  * \author: Arnaud Gelas, Alexandre Gouaillard
  */
-template< class TInputMesh, class TOutputMesh >
+template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT DiscreteGaussianCurvatureQuadEdgeMeshFilter:
   public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
