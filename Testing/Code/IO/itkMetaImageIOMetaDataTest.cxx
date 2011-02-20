@@ -25,6 +25,7 @@
 #include "itkNumericTraits.h"
 #include "itkMetaDataObject.h"
 #include "itkMetaDataDictionary.h"
+#include "itkMetaImageIO.h"
 
 #if defined(ITK_USE_MODULAR_BUILD)
   #define SPECIFIC_IMAGEIO_MODULE_TEST
@@ -38,6 +39,10 @@ typename TImage::Pointer ReadImage( const std::string &fileName )
   typedef itk::ImageFileReader<TImage> ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( fileName.c_str() );
+
+  itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
+  reader->SetImageIO(io);
+
   try
     {
     reader->Update();
@@ -67,6 +72,9 @@ WriteImage(typename ImageType::Pointer &image,
   typename  WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( fileName.c_str() );
+
+  itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
+  writer->SetImageIO(io);
 
   writer->SetInput(image);
 
