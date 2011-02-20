@@ -407,8 +407,6 @@ Code/Common/itkScalarToRGBPixelFunctor.h                                        
 Code/Common/itkScalarToRGBPixelFunctor.txx                                       Core            ITK-Common                     Common
 Code/Common/itkScatterMatrixImageFunction.h                                      Core            ITK-ImageFunction              ImageFunction
 Code/Common/itkScatterMatrixImageFunction.txx                                    Core            ITK-ImageFunction              ImageFunction
-Code/Common/itkSemaphore.cxx                                                     Core            ITK-Common                     Common
-Code/Common/itkSemaphore.h                                                       Core            ITK-Common                     Common
 Code/Common/itkShapedNeighborhoodIterator.h                                      Core            ITK-Common                     Common
 Code/Common/itkShapedNeighborhoodIterator.txx                                    Core            ITK-Common                     Common
 Code/Common/itkShapeSignedDistanceFunction.h                                     Segmentation    ITK-SignedDistanceFunction     SignedDistanceFunction
@@ -2347,9 +2345,6 @@ Code/Common/itkConditionVariableWinThreads.cxx                                  
 Code/Common/itkMutexLockNoThreads.cxx                                            Core            ITK-Common                     Common
 Code/Common/itkMutexLockPThreads.cxx                                             Core            ITK-Common                     Common
 Code/Common/itkMutexLockWinThreads.cxx                                           Core            ITK-Common                     Common
-Code/Common/itkSemaphoreNoThreads.cxx                                            Core            ITK-Common                     Common
-Code/Common/itkSemaphorePThreads.cxx                                             Core            ITK-Common                     Common
-Code/Common/itkSemaphoreWinThreads.cxx                                           Core            ITK-Common                     Common
 Code/Common/itkSimpleFastMutexLockNoThreads.cxx                                  Core            ITK-Common                     Common
 Code/Common/itkSimpleFastMutexLockPThreads.cxx                                   Core            ITK-Common                     Common
 Code/Common/itkSimpleFastMutexLockWinThreads.cxx                                 Core            ITK-Common                     Common
@@ -2836,7 +2831,6 @@ Testing/Code/Common/itkRealTimeIntervalTest.cxx                                 
 Testing/Code/Common/itkRGBPixelTest.cxx                                          Core            ITK-Common                     Common
 Testing/Code/Common/itkScalarToRGBPixelFunctorTest.cxx                           Core            ITK-Common                     Common
 Testing/Code/Common/itkScatterMatrixImageFunctionTest.cxx                        Core            ITK-ImageFunction              ImageFunction
-Testing/Code/Common/itkSemaphoreTest.cxx                                         Core            ITK-Common                     Common
 Testing/Code/Common/itkShapedNeighborhoodIteratorTest.cxx                        Core            ITK-Common                     Common
 Testing/Code/Common/itkSimpleFilterWatcherTest.cxx                               Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkSimplexMeshTest.cxx                                       Core            ITK-Common                     Common

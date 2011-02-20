@@ -27,7 +27,6 @@ itkLineIteratorTest.cxx
 itkGaussianSpatialFunctionTest.cxx
 itkRealTimeClockTest.cxx
 itkIntTypesTest.cxx
-itkSemaphoreTest.cxx
 itkBSplineKernelFunctionTest.cxx
 itkArrayTest.cxx
 itkImageIteratorTest.cxx
@@ -173,7 +172,6 @@ add_test(itkAutoPointerTest ${COMMON_TESTS2} itkAutoPointerTest)
 if(NOT MINGW)
 add_test(itkBarrierTest ${COMMON_TESTS2} itkBarrierTest)
 add_test(itkConditionVariableTest ${COMMON_TESTS1} itkConditionVariableTest)
-add_test(itkSemaphoreTest ${COMMON_TESTS1} itkSemaphoreTest)
 endif(NOT MINGW)
 add_test(itkTimeStampTest ${COMMON_TESTS2} itkTimeStampTest)
 add_test(itkBoundingBoxTest ${COMMON_TESTS1} itkBoundingBoxTest)
