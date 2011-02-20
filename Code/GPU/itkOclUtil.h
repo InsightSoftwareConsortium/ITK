@@ -38,7 +38,7 @@ void OclPrintDeviceName(cl_device_id device);
 //
 // Find the OpenCL platform that matches the "name"
 //
-cl_platform_id OclSelectPlatform(char* name);
+cl_platform_id OclSelectPlatform(const char* name);
 
 //
 // Check OpenCL error
