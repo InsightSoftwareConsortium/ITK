@@ -167,8 +167,10 @@ int itkFastMarchingTest2(int, char* [] )
   // turn on debugging
   marcher->DebugOn();
 
+
   // update the marcher
   marcher->Update();
+
 
   // check the results
   FloatImage::Pointer output = marcher->GetOutput();
@@ -176,7 +178,6 @@ int itkFastMarchingTest2(int, char* [] )
     iterator( output, output->GetBufferedRegion() );
 
   bool passed = true;
-
   for(; !iterator.IsAtEnd(); ++iterator )
     {
     double distance;
@@ -195,10 +196,11 @@ int itkFastMarchingTest2(int, char* [] )
         }
       distance = vcl_sqrt( distance );
 
-      if (distance != 0)
+      if (distance < itk::NumericTraits<double>::epsilon() )
         {
         continue;
         }
+
       if ( vnl_math_abs( outputValue ) / distance > 1.42 )
         {
         std::cout << iterator.GetIndex() << " ";
