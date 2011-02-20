@@ -31,6 +31,7 @@
 #include <io.h>
 #endif
 
+#include <stdio.h>
 #include <fcntl.h>
 #include <iostream>
 #include <string>
