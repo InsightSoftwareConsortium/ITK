@@ -448,6 +448,7 @@ add_test(ImageRegistration16Test2 ${REGISTRATION_EXAMPLES8}
 add_test(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration17TestPixelCentered.png
             ${TEMP}/ImageRegistration17TestPixelCentered.png
+  --compareNumberOfPixelsTolerance 5
   ImageRegistration17Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
