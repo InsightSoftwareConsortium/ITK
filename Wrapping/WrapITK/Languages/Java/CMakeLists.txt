@@ -315,6 +315,7 @@ macro(END_WRAP_MODULE_JAVA group_name)
     -w467 # overloaded functions (with typemaps)
     -w401 -w503 -w516 #!
     -w303 # extend itklightobject
+    -w350 -w394 -w395  # operator new/new[]/delete[] ignored
     -o ${cpp_file}
     -I${LANGUAGES_SRC_DIR}
     -I${WRAP_ITK_JAVA_SOURCE_DIR}
