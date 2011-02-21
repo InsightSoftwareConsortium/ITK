@@ -16,9 +16,10 @@
 *
 *=========================================================================*/
 
-//
-// Test program for itkGPUImage class
-//
+/**
+ * Test program for itkGPUImage class.
+ * This program shows how to use GPU image and GPU program.
+ */
 #include "pathToOpenCLSourceCode.h"
 #include "itkGPUImage.h"
 #include "itkGPUKernelManager.h"
@@ -43,9 +44,11 @@ int main()
   ItkImage1f::Pointer srcA, srcB, dest;
 
   ItkImage1f::IndexType start;
-  start[0] = 0; start[1] = 0;
+  start[0] = 0;
+  start[1] = 0;
   ItkImage1f::SizeType size;
-  size[0] = width; size[1] = height;
+  size[0] = width;
+  size[1] = height;
   ItkImage1f::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
@@ -68,7 +71,8 @@ int main()
 
   // check pixel value
   ItkImage1f::IndexType idx;
-  idx[0] = idx[1] = 0;
+  idx[0] = 0;
+  idx[1] = 0;
 
 
   unsigned int nElem = width*height;
