@@ -1,1 +1,1 @@
-itk_module(ITK-Statistics DEPENDS ITK-Common itk-netlib)
+itk_module(ITK-Statistics DEPENDS ITK-TestKernel itk-netlib)

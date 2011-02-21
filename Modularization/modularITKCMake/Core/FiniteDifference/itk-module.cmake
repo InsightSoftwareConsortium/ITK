@@ -1,1 +1,1 @@
-itk_module(ITK-FiniteDifference DEPENDS ITK-Common)
+itk_module(ITK-FiniteDifference DEPENDS ITK-TestKernel)

@@ -1,1 +1,1 @@
-itk_module(ITK-FEM DEPENDS ITK-Common)
+itk_module(ITK-FEM DEPENDS ITK-TestKernel)

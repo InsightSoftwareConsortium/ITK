@@ -1,1 +1,1 @@
-itk_module(ITK-Polynomials DEPENDS ITK-Common)
+itk_module(ITK-Polynomials DEPENDS ITK-TestKernel)
