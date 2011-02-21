@@ -187,7 +187,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
         }
       }
 
-    if( min_dist < result_dist )
+    if( vcl_fabs(min_dist - result_dist) > 10.0*itk::NumericTraits<double>::epsilon()*min_dist )
       {
       std::cerr << "Problem found " << std::endl;
       std::cerr << "Query point " << queryPoint << std::endl;
