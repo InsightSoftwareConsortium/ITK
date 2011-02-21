@@ -18,11 +18,13 @@
 
 #include <iostream>
 #include <cstdlib>
+#include "vcl_cmath.h"
 #include "itkRealTimeInterval.h"
+#include "itkNumericTraits.h"
 
 #define CHECK_FOR_VALUE(a,b) \
   { \
-  if( a != b ) \
+  if( vcl_fabs( a - b ) > 2.0*itk::NumericTraits<double>::epsilon() )     \
     { \
     std::cerr << "Error in "#a << " expected " << b << " but got " << a << std::endl; \
     return EXIT_FAILURE; \
