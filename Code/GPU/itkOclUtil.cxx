@@ -91,7 +91,7 @@ cl_device_id OclGetMaxFlopsDev(cl_context cxGPUContext)
       clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, NULL);
 
       // CL_DEVICE_MAX_CLOCK_FREQUENCY
-      cl_uint clock_frequency;
+      //cl_uint clock_frequency;
       clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_CLOCK_FREQUENCY, sizeof(clock_frequency), &clock_frequency, NULL);
 
       int flops = compute_units * clock_frequency;
@@ -127,21 +127,19 @@ cl_platform_id OclSelectPlatform(const char* name)
   cl_uint num_platforms;
   cl_platform_id* clPlatformIDs;
   cl_int ciErrNum;
-  cl_platform_id clSelectedPlatformID;
+  cl_platform_id clSelectedPlatformID = NULL;
 
   // Get OpenCL platform count
   ciErrNum = clGetPlatformIDs (0, NULL, &num_platforms);
   if (ciErrNum != CL_SUCCESS)
     {
       printf(" Error %i in clGetPlatformIDs Call !!!\n\n", ciErrNum);
-      clSelectedPlatformID = NULL;
     }
   else
     {
       if(num_platforms == 0)
         {
           printf("No OpenCL platform found!\n\n");
-          clSelectedPlatformID = NULL;
         }
       else
         {
@@ -149,7 +147,6 @@ cl_platform_id OclSelectPlatform(const char* name)
           if ((clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id))) == NULL)
             {
               printf("Failed to allocate memory for cl_platform ID's!\n\n");
-              clSelectedPlatformID =  NULL;
             }
           else
             {
