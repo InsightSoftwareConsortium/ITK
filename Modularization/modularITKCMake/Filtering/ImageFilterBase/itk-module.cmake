@@ -1,1 +1,1 @@
-itk_module(ITK-ImageFilterBase DEPENDS ITK-IO-Base)
+itk_module(ITK-ImageFilterBase DEPENDS ITK-TestKernel)

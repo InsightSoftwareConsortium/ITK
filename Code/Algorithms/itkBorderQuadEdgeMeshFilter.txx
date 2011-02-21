@@ -85,6 +85,7 @@ void BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
 
 // ----------------------------------------------------------------------------
 // *** under testing ***
+#if !defined( CABLE_CONFIGURATION )
 template< class TInputMesh, class TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputEdgeListIterator
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
@@ -120,8 +121,10 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
     }
   return oborder_it;
 }
+#endif
 
 // ----------------------------------------------------------------------------
+#if !defined( CABLE_CONFIGURATION )
 template< class TInputMesh, class TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputEdgeListIterator
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()
@@ -161,6 +164,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()
   delete list;
   return oborder_it;
 }
+#endif
 
 // ----------------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >

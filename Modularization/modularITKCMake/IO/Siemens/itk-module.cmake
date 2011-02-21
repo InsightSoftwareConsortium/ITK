@@ -1,1 +1,1 @@
-itk_module(ITK-IO-Siemens DEPENDS ITK-Common ITK-IO-IPL ITK-IO-GE)
+itk_module(ITK-IO-Siemens DEPENDS ITK-IO-IPL ITK-IO-GE)

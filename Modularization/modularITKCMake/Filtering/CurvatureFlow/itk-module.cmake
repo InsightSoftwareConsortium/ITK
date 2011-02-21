@@ -1,1 +1,1 @@
-itk_module(ITK-CurvatureFlow DEPENDS ITK-Common)
+itk_module(ITK-CurvatureFlow DEPENDS ITK-TestKernel)

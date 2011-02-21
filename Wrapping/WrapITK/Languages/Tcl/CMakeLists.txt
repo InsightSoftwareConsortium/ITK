@@ -134,6 +134,7 @@ macro(END_WRAP_LIBRARY_TCL)
     ### TODO: remove that once the bug for std::vector is fixed ###
     -w401 # Maybe you forgot to instantiate 'XXX' using %template.
     ###
+    -w350 -w394 -w395  # operator new/new[]/delete[] ignored
     -o ${cpp_file}
     -I${LANGUAGES_SRC_DIR}
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/tcl
@@ -212,6 +213,7 @@ macro(END_WRAP_MODULE_TCL group_name)
     ### TODO: remove that once the bug for std::vector is fixed ###
     -w401 # Maybe you forgot to instantiate 'XXX' using %template.
     ###
+    -w350 -w394 -w395  # operator new/new[]/delete[] ignored
     -o ${cpp_file}
     -I${LANGUAGES_SRC_DIR}
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/tcl

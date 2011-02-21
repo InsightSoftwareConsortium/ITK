@@ -211,9 +211,9 @@ Code/Common/itkImageSliceIteratorWithIndex.h                                    
 Code/Common/itkImageSliceIteratorWithIndex.txx                                   Core            ITK-Common                     Common
 Code/Common/itkImageSource.h                                                     Core            ITK-Common                     Common
 Code/Common/itkImageSource.txx                                                   Core            ITK-Common                     Common
-Code/Common/itkImageToImageFilterDetail.h                                        Filtering       ITK-ImageFilterBase            ImageFilterBase
-Code/Common/itkImageToImageFilter.h                                              Filtering       ITK-ImageFilterBase            ImageFilterBase
-Code/Common/itkImageToImageFilter.txx                                            Filtering       ITK-ImageFilterBase            ImageFilterBase
+Code/Common/itkImageToImageFilterDetail.h                                        Core            ITK-Common                     Common
+Code/Common/itkImageToImageFilter.h                                              Core            ITK-Common                     Common
+Code/Common/itkImageToImageFilter.txx                                            Core            ITK-Common                     Common
 Code/Common/itkImage.txx                                                         Core            ITK-Common                     Common
 Code/Common/itkImportImageContainer.h                                            Core            ITK-Common                     Common
 Code/Common/itkImportImageContainer.txx                                          Core            ITK-Common                     Common
@@ -223,8 +223,8 @@ Code/Common/itkIndexedContainerInterface.h                                      
 Code/Common/itkIndex.h                                                           Core            ITK-Common                     Common
 Code/Common/itkInOrderTreeIterator.h                                             Core            ITK-Common                     Common
 Code/Common/itkPipelineMonitorImageFilter.h                                      Filtering       ITK-ImageFilterBase            ImageFilterBase
-Code/Common/itkInPlaceImageFilter.h                                              Filtering       ITK-ImageFilterBase            ImageFilterBase
-Code/Common/itkInPlaceImageFilter.txx                                            Filtering       ITK-ImageFilterBase            ImageFilterBase
+Code/Common/itkInPlaceImageFilter.h                                              Core            ITK-Common                     Common
+Code/Common/itkInPlaceImageFilter.txx                                            Core            ITK-Common                     Common
 Code/Common/itkInteriorExteriorSpatialFunction.h                                 Core            ITK-Common                     Common
 Code/Common/itkInteriorExteriorSpatialFunction.txx                               Core            ITK-Common                     Common
 Code/Common/itkInterpolateImageFunction.h                                        Core            ITK-ImageFunction              ImageFunction
@@ -1199,8 +1199,8 @@ Code/BasicFilters/itkTensorFractionalAnisotropyImageFilter.h                    
 Code/BasicFilters/itkTensorRelativeAnisotropyImageFilter.h                       Filtering       ITK-ImageFeature               ImageFeature
 Code/BasicFilters/itkTernaryFunctorImageFilter.h                                 Filtering       ITK-ImageFilterBase            ImageFilterBase
 Code/BasicFilters/itkTernaryFunctorImageFilter.txx                               Filtering       ITK-ImageFilterBase            ImageFilterBase
-Code/BasicFilters/itkUnaryFunctorImageFilter.h                                   Filtering       ITK-ImageFilterBase            ImageFilterBase
-Code/BasicFilters/itkUnaryFunctorImageFilter.txx                                 Filtering       ITK-ImageFilterBase            ImageFilterBase
+Code/BasicFilters/itkUnaryFunctorImageFilter.h                                   Core            ITK-Common                     Common
+Code/BasicFilters/itkUnaryFunctorImageFilter.txx                                 Core            ITK-Common                     Common
 Code/BasicFilters/itkVectorCastImageFilter.h                                     Filtering       ITK-ImageFilterBase            ImageFilterBase
 Code/BasicFilters/itkVectorIndexSelectionCastImageFilter.h                       Filtering       ITK-ImageIntensity             ImageIntensity
 Code/BasicFilters/itkVectorRescaleIntensityImageFilter.h                         Filtering       ITK-ImageIntensity             ImageIntensity
@@ -2207,6 +2207,12 @@ Code/BasicFilters/itkRandomImageSource.txx                                      
 Testing/Utilities/itkTestDriverAfterTest.inc                                     Core            ITK-TestKernel                 TestKernel
 Testing/Utilities/itkTestDriverBeforeTest.inc                                    Core            ITK-TestKernel                 TestKernel
 Testing/Utilities/itkTestDriverInclude.h                                         Core            ITK-TestKernel                 TestKernel
+Testing/Utilities/itkTestingComparisonImageFilter.h                              Core            ITK-TestKernel                 TestKernel
+Testing/Utilities/itkTestingComparisonImageFilter.txx                            Core            ITK-TestKernel                 TestKernel
+Testing/Utilities/itkTestingExtractSliceImageFilter.h                            Core            ITK-TestKernel                 TestKernel
+Testing/Utilities/itkTestingExtractSliceImageFilter.txx                          Core            ITK-TestKernel                 TestKernel
+Testing/Utilities/itkTestingStretchIntensityImageFilter.h                        Core            ITK-TestKernel                 TestKernel
+Testing/Utilities/itkTestingStretchIntensityImageFilter.txx                      Core            ITK-TestKernel                 TestKernel
 Code/BasicFilters/itkHoughTransform2DCirclesImageFilter.h                        Filtering       ITK-ImageFeature               ImageFeature
 Code/BasicFilters/itkHoughTransform2DCirclesImageFilter.txx                      Filtering       ITK-ImageFeature               ImageFeature
 Code/BasicFilters/itkNarrowBandImageFilterBase.txx                               Numerics        ITK-NarrowBand                 NarrowBand
