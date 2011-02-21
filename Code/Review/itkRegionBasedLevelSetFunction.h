@@ -170,10 +170,12 @@ public:
       }
   }
 
+#if !defined( CABLE_CONFIGURATION )
   void SetSharedData(SharedDataPointer sharedDataIn)
   {
     this->m_SharedData = sharedDataIn;
   }
+#endif
 
   void UpdateSharedData(bool forceUpdate);
 

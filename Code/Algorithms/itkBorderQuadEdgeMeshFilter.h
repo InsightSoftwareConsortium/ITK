@@ -129,9 +129,11 @@ protected:
 
   void ComputeBoundary();
 
+#if !defined( CABLE_CONFIGURATION )
   InputEdgeListIterator ComputeLongestBorder();
 
   InputEdgeListIterator ComputeLargestBorder();
+#endif
 
   void DiskTransform();
 
