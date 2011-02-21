@@ -19,6 +19,7 @@
 #define __itkVTKPolyDataReader_txx
 
 #include "itkVTKPolyDataReader.h"
+#include "itkMath.h"
 #include <fstream>
 #include <stdio.h>
 #include <string.h>
@@ -130,9 +131,10 @@ VTKPolyDataReader< TOutputMesh >
   std::string pointLine( line, strlen("POINTS "), line.length() );
   itkDebugMacro("pointLine " << pointLine);
 
-  PointIdentifier numberOfPoints = NumericTraits<PointIdentifier>::Zero;
+  // we must use long long here because this is the exact type specified by scanf
+  long long int numberOfPoints = NumericTraits<PointIdentifier>::Zero;
 
-  if ( sscanf(pointLine.c_str(), "%ld", &numberOfPoints) != 1 )
+  if ( sscanf(pointLine.c_str(), "%lld", &numberOfPoints) != 1 )
     {
     itkExceptionMacro(<< "Error reading file: " << m_FileName
                       << "\nFailed to read numberOfPoints.\n"
@@ -148,7 +150,7 @@ VTKPolyDataReader< TOutputMesh >
                       << "       numberOfPoints line= " << numberOfPoints);
     }
 
-  outputMesh->GetPoints()->Reserve(numberOfPoints);
+  outputMesh->GetPoints()->Reserve(itk::Math::CastWithRangeCheck<PointIdentifier>(numberOfPoints));
 
   //
   // Load the point coordinates into the itk::Mesh
@@ -156,7 +158,7 @@ VTKPolyDataReader< TOutputMesh >
 
   PointType point;
 
-  for ( PointIdentifier i = 0; i < numberOfPoints; i++ )
+  for ( PointIdentifier i = 0; i < itk::Math::CastWithRangeCheck< PointIdentifier>(numberOfPoints); i++ )
     {
     inputFile >> point;
     if ( inputFile.eof() )
@@ -199,10 +201,11 @@ VTKPolyDataReader< TOutputMesh >
   // Read the number of polygons
   //
 
-  CellIdentifier numberOfPolygons = NumericTraits< CellIdentifier >::Zero;
-  CellIdentifier numberOfIndices = NumericTraits< CellIdentifier >::Zero;
+  // we must use long long here because this is the exact type specified by scanf
+  long long int numberOfPolygons = NumericTraits< CellIdentifier >::Zero;
+  long long int numberOfIndices = NumericTraits< CellIdentifier >::Zero;
 
-  if ( sscanf(polygonLine.c_str(), "%ld %ld", &numberOfPolygons,
+  if ( sscanf(polygonLine.c_str(), "%lld %lld", &numberOfPolygons,
               &numberOfIndices) != 2 )
     {
     itkExceptionMacro(<< "Error reading file: " << m_FileName
@@ -232,10 +235,10 @@ VTKPolyDataReader< TOutputMesh >
   // Load the polygons into the itk::Mesh
   //
 
-  PointIdentifier numberOfCellPoints;
-  OffsetValueType ids[3]; // need a signed type on input.
+  long long int numberOfCellPoints;
+  long long int ids[3]; // need a signed type on input.
 
-  for ( CellIdentifier i = 0; i < static_cast<CellIdentifier>( numberOfPolygons ); i++ )
+  for ( CellIdentifier i = 0; i < itk::Math::CastWithRangeCheck<CellIdentifier>( numberOfPolygons ); i++ )
     {
     std::getline(inputFile, line, '\n');
     if ( inputFile.eof() )
@@ -253,7 +256,7 @@ VTKPolyDataReader< TOutputMesh >
       }
 
     int got;
-    if ( ( got = sscanf(line.c_str(), "%ld %ld %ld %ld", &numberOfCellPoints,
+    if ( ( got = sscanf(line.c_str(), "%lld %lld %lld %lld", &numberOfCellPoints,
                         &ids[0], &ids[1], &ids[2]) ) != 4 )
       {
       itkExceptionMacro(<< "Error reading file: " << m_FileName
@@ -277,7 +280,8 @@ VTKPolyDataReader< TOutputMesh >
                            "ids=" << ids[0] << " " << ids[1] << " " << ids[2]);
       }
 
-    const OffsetValueType signedNumberOfPoints = static_cast<OffsetValueType>( numberOfPoints );
+    const OffsetValueType signedNumberOfPoints
+      = itk::Math::CastWithRangeCheck<OffsetValueType>( numberOfPoints );
     if ( ids[0] >= signedNumberOfPoints ||
          ids[1] >= signedNumberOfPoints ||
          ids[2] >= signedNumberOfPoints )
@@ -290,7 +294,7 @@ VTKPolyDataReader< TOutputMesh >
 
     CellAutoPointer   cell;
     TriangleCellType *triangleCell = new TriangleCellType;
-    for ( PointIdentifier k = 0; k < static_cast<PointIdentifier>( numberOfCellPoints ); k++ )
+    for ( PointIdentifier k = 0; k < itk::Math::CastWithRangeCheck<PointIdentifier>( numberOfCellPoints ); k++ )
       {
       triangleCell->SetPointId(k, ids[k]);
       }
@@ -317,7 +321,7 @@ VTKPolyDataReader< TOutputMesh >
     typedef typename OutputMeshType::PointDataContainer PointDataContainer;
 
     outputMesh->SetPointData( PointDataContainer::New() );
-    outputMesh->GetPointData()->Reserve(numberOfPoints);
+    outputMesh->GetPointData()->Reserve(itk::Math::CastWithRangeCheck<PointIdentifier>(numberOfPoints) );
 
     itkDebugMacro("POINT_DATA line" << line);
 
@@ -343,7 +347,7 @@ VTKPolyDataReader< TOutputMesh >
 
     double pointData;
 
-    for ( PointIdentifier pid = 0; pid < numberOfPoints; pid++ )
+    for ( PointIdentifier pid = 0; pid < itk::Math::CastWithRangeCheck<PointIdentifier>(numberOfPoints); pid++ )
       {
       if ( inputFile.eof() )
         {
