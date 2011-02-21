@@ -199,8 +199,10 @@ for  moduleName in moduleList:
 
          line ='set('+moduleName+'Tests\n'+cxxFileList+')\n\n'
          o.write(line)
-
-         line = 'CreateTestDriver('+moduleName+'  "${'+moduleName+'_LIBRARIES}" "${'+moduleName+'Tests}")\n\n'
+         if (moduleName == 'ITK-IntegratedTest'):
+             line = 'CreateTestDriver_SupportBuildInIOFactories('+moduleName+'  "${'+moduleName+'_LIBRARIES}" "${'+moduleName+'Tests}")\n\n'
+         else:
+             line = 'CreateTestDriver('+moduleName+'  "${'+moduleName+'_LIBRARIES}" "${'+moduleName+'Tests}")\n\n'
          o.write(line)
 
          #line = 'set('+ moduleName+'_TESTS'+ '  ${ITK_EXECUTABLE_PATH}/'+moduleName+'-tests)\n'
