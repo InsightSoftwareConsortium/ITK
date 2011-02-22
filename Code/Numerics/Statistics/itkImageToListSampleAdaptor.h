@@ -121,7 +121,7 @@ public:
 
   //  PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** \class ListSample::ConstIterator */
+  /** \class ConstIterator */
   class ConstIterator
   {
     friend class ImageToListSampleAdaptor;
@@ -196,7 +196,7 @@ private:
     InstanceIdentifier            m_InstanceIdentifier;
   };
 
-  /** \class ImageToListSampleAdaptor::Iterator */
+  /** \class Iterator */
   class Iterator:public ConstIterator
   {
     friend class ImageToListSampleAdaptor;

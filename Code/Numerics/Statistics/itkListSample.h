@@ -115,7 +115,7 @@ public:
   /** Method to graft another sample */
   virtual void Graft(const DataObject *thatObject);
 
-  /** \class ListSample::ConstIterator */
+  /** \class ConstIterator */
   class ConstIterator
   {
     friend class ListSample;
@@ -189,7 +189,7 @@ private:
     InstanceIdentifier m_InstanceIdentifier;
   };
 
-  /** \class ListSample::Iterator */
+  /** \class Iterator */
   class Iterator:public ConstIterator
   {
     friend class ListSample;

@@ -191,7 +191,7 @@ public:
 
   //  void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** \class ListSample::ConstIterator */
+  /** \class ConstIterator */
   class ConstIterator
   {
     friend class JointDomainImageToListSampleAdaptor;
@@ -264,6 +264,7 @@ private:
     const JointDomainImageToListSampleAdaptor *m_Adaptor;
   };
 
+  /** \class Iterator */
   class Iterator:public ConstIterator
   {
     friend class JointDomainImageToListSampleAdaptor;

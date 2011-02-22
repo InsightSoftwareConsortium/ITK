@@ -29,12 +29,10 @@
 namespace itk
 {
 /** \class CoreAtomImageToUnaryCorrespondenceMatrixProcess
- * \brief
- *
- * This process takes in two itkBloxCoreAtomImages and runs the itkUnaryMedialNodeMetric on them.
- * It returns a unary correspondence matrix for the images in the form of an itkMatrixResizeableDataObject.
- *
- * \ingroup
+ * \brief This process takes in two itkBloxCoreAtomImages and runs the
+ * UnaryMedialNodeMetric on them.
+ * It returns a unary correspondence matrix for the images in the form of a
+ * MatrixResizeableDataObject.
  */
 template< typename TSourceImage >
 class ITK_EXPORT CoreAtomImageToUnaryCorrespondenceMatrixProcess:public ProcessObject
