@@ -22,9 +22,7 @@ namespace itk
 {
 /** \class CorrespondenceDataStructureIterator
  * \brief An iterator designed to easily traverse an
- *        itkCorrespondenceDataStructure.
- *
- * \ingroup
+ *        CorrespondenceDataStructure.
  */
 template< class TStructureType >
 class CorrespondenceDataStructureIterator

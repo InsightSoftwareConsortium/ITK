@@ -336,8 +336,9 @@ protected:
 
 public:
 
-  /** \class Histogram::ConstIterator class that walks through the elements of
-   * the histogram */
+  /** \class ConstIterator
+   * \brief class that walks through the elements of the histogram.
+   */
   class ConstIterator
   {
 public:
@@ -414,7 +415,7 @@ protected:
     const Self *m_Histogram;
   };   // end of iterator class
 
-  /** \class Histogram::Iterator */
+  /** \class Iterator */
   class Iterator:public ConstIterator
   {
 public:

@@ -93,84 +93,10 @@ private:
   void operator=(const Self &);        //purposely not implemented
 };
 
-/** Constructor */
-template< unsigned int TDimension >
-SpatialObjectTreeNode< TDimension >
-::SpatialObjectTreeNode():TreeNode< SpatialObject< TDimension > * >()
-{
-  m_NodeToParentNodeTransform = TransformType::New();
-  m_NodeToParentNodeTransform->SetIdentity();
-  m_NodeToWorldTransform = TransformType::New();
-  m_NodeToWorldTransform->SetIdentity();
-  this->m_Parent = NULL;
-}
-
-/** Set the data */
-template< unsigned int TDimension >
-void
-SpatialObjectTreeNode< TDimension >
-::SetData(SpatialObjectType *data)
-{
-  Superclass::Set(data);
-  data->SetTreeNode(this); // give the pointer to the node to the spatial object
-}
-
-/** Compute the NodeToWorld transform based on the parent */
-template< unsigned int TDimension >
-void SpatialObjectTreeNode< TDimension >
-::ComputeNodeToWorldTransform()
-{
-  m_NodeToWorldTransform->SetMatrix( m_NodeToParentNodeTransform->GetMatrix() );
-  m_NodeToWorldTransform->SetOffset( m_NodeToParentNodeTransform->GetOffset() );
-  if ( this->HasParent() )
-    {
-    static_cast< Self * >( this->GetParent() )->ComputeNodeToWorldTransform();
-    m_NodeToWorldTransform->Compose(static_cast< Self * >( this->GetParent() )
-                                    ->GetNodeToWorldTransform(), false);
-    }
-}
-
-/** Get children given a name and a depth */
-#if !defined( CABLE_CONFIGURATION )
-template< unsigned int TDimension >
-typename SpatialObjectTreeNode< TDimension >::ChildrenListType *
-SpatialObjectTreeNode< TDimension >
-::GetChildren(unsigned int depth, char *name) const
-{
-  ChildrenListType *children = new ChildrenListType;
-
-  typename ChildrenListType::const_iterator childrenListIt =
-    this->m_Children.begin();
-  typename ChildrenListType::const_iterator childrenListEnd =
-    this->m_Children.end();
-
-  while ( childrenListIt != childrenListEnd )
-    {
-    if ( name == NULL || strstr(typeid( *( ( *childrenListIt )->Get() ) ).name(),
-                                name) )
-      {
-      children->push_back(*childrenListIt);
-      }
-    if ( depth > 0 )
-      {
-      ChildrenListType *nextchildren =
-        ( **childrenListIt ).GetChildren(depth - 1, name);
-      // Add the child to the current list
-      typename ChildrenListType::const_iterator nextIt = nextchildren->begin();
-      while ( nextIt != nextchildren->end() )
-        {
-        children->push_back(*nextIt);
-        nextIt++;
-        }
-      delete nextchildren;
-      }
-    childrenListIt++;
-    }
-
-  return children;
-}
-
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkSpatialObjectTreeNode.txx"
 #endif
+
 } // end namespace itk
 
 #endif

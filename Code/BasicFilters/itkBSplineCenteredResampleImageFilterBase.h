@@ -33,6 +33,9 @@
 
 namespace itk
 {
+
+class ProgressReporter;
+
 /** \class BSplineCenteredResampleImageFilterBase
  * \brief Evaluates the Centered B-Spline interpolation of an image.  Spline order may be from 0 to 5.
  *
@@ -56,11 +59,7 @@ namespace itk
  *               Spline order must be set before setting the image.
  *               Uses mirror boundary conditions.
  *               Requires the same order of Spline for each dimension.
- *
- * \ingroup
  */
-class ProgressReporter;
-
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT BSplineCenteredResampleImageFilterBase:
   public BSplineResampleImageFilterBase< TInputImage, TOutputImage >

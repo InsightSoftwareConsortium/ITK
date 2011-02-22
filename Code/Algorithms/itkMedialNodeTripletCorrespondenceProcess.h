@@ -34,10 +34,8 @@ namespace itk
 /** \class MedialNodeTripletCorrespondenceProcess
  * \brief This process takes as inputs two core atom images, a pair correspondence
  * data structure for the two images, and the distance matrices of the two images
- * in order to produce an itkCorrespondenceDataStructure containing correspondences
+ * in order to produce an CorrespondenceDataStructure containing correspondences
  * between triplets (node cliques of size 3) in the images.
- *
- * \ingroup
  */
 template< typename TSourceImage >
 class ITK_EXPORT MedialNodeTripletCorrespondenceProcess:public ProcessObject
