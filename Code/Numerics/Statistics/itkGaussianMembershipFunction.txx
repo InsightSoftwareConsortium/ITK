@@ -61,7 +61,7 @@ GaussianMembershipFunction< TMeasurementVector >
     MeasurementVectorTraits::Assert(mean,
                                     this->GetMeasurementVectorSize(),
                                     "GaussianMembershipFunction::SetMean Size of measurement vectors in \
-    the sample must the same as the size of the mean."                                                                                                          );
+    the sample must the same as the size of the mean." );
     }
   else
     {
@@ -100,20 +100,30 @@ GaussianMembershipFunction< TMeasurementVector >
 
   m_Covariance = cov;
 
-  m_IsCovarianceZero = m_Covariance.GetVnlMatrix().is_zero();
+  // the inverse of the covariance matrix is first computed by SVD
+  vnl_matrix_inverse< double > inv_cov( m_Covariance.GetVnlMatrix() );
 
-  if ( !m_IsCovarianceZero )
+  // the determinant is then costless this way
+  double det = inv_cov.determinant_magnitude();
+
+  if( det < 0.)
+    {
+    itkExceptionMacro( << "det( m_Covariance ) < 0" );
+    }
+
+  // 1e-6 is an arbitrary value!!!
+  m_DeterminantOK = ( det > 1e-6 );
+
+  if( m_DeterminantOK )
     {
     // allocate the memory for m_InverseCovariance matrix
-    m_InverseCovariance.GetVnlMatrix() =
-      vnl_matrix_inverse< double >( m_Covariance.GetVnlMatrix() );
-
-    // the determinant of the covaraince matrix
-    double det = vnl_determinant( m_Covariance.GetVnlMatrix() );
+    m_InverseCovariance.GetVnlMatrix() = inv_cov.inverse();
 
     // calculate coefficient C of multivariate gaussian
-    m_PreFactor = 1.0 / ( vcl_sqrt(det)
-                          * vcl_pow( vcl_sqrt(2.0 * vnl_math::pi), double( this->GetMeasurementVectorSize() ) ) );
+    m_PreFactor =
+      1.0 / ( vcl_sqrt(det) *
+        vcl_pow( vcl_sqrt(2.0 * vnl_math::pi),
+               static_cast< double >( this->GetMeasurementVectorSize() ) ) );
     }
 }
 
@@ -122,51 +132,35 @@ inline double
 GaussianMembershipFunction< TMeasurementVector >
 ::Evaluate(const MeasurementVectorType & measurement) const
 {
-  double temp;
-
   const MeasurementVectorSizeType measurementVectorSize =
     this->GetMeasurementVectorSize();
-  MeanType tempVector;
 
-  NumericTraits<MeanType>::SetLength(tempVector, measurementVectorSize);
-  MeanType tempVector2;
-  NumericTraits<MeanType>::SetLength(tempVector2, measurementVectorSize);
-
-  if ( !m_IsCovarianceZero )
+  //if ( !m_IsCovarianceZero )
+  if( m_DeterminantOK )
     {
-    // Compute |y - mean |
-    for ( unsigned int i = 0; i < measurementVectorSize; i++ )
+    // Compute ( y - mean )
+    vnl_vector< double > tempVector( measurementVectorSize );
+
+    for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
       {
       tempVector[i] = measurement[i] - m_Mean[i];
       }
 
-    // Compute |y - mean | * inverse(cov)
-    for ( unsigned int i = 0; i < measurementVectorSize; i++ )
-      {
-      temp = 0;
-      for ( unsigned int j = 0; j < measurementVectorSize; j++ )
-        {
-        temp += tempVector[j] * m_InverseCovariance.GetVnlMatrix().get(j, i);
-        }
-      tempVector2[i] = temp;
-      }
+    // temp = ( y - mean )^t * InverseCovariance * ( y - mean )
+    double temp = dot_product( tempVector,
+                               m_InverseCovariance.GetVnlMatrix() * tempVector );
 
-    // Compute |y - mean | * inverse(cov) * |y - mean|^T
-    temp = 0;
-    for ( unsigned int i = 0; i < measurementVectorSize; i++ )
-      {
-      temp += tempVector2[i] * tempVector[i];
-      }
+    temp = vcl_exp(-0.5 * temp);
 
-    return m_PreFactor * vcl_exp(-0.5 * temp);
+    return m_PreFactor * temp;
     }
   else
     {
-    for ( unsigned int i = 0; i < measurementVectorSize; i++ )
+    for ( MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i )
       {
-      if ( m_Mean[i] != (double)measurement[i] )
+      if ( m_Mean[i] != static_cast< double >( measurement[i] ) )
         {
-        return 0;
+        return 0.;
         }
       }
     return NumericTraits< double >::max();
