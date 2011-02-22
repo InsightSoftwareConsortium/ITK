@@ -1,4 +1,4 @@
-itk_module(ITK-IntegratedTest DEPENDS
+itk_module(ITK-IntegratedTest TEST_DEPENDS
 ITK-VTK
 ITK-Common
 ITK-FiniteDifference

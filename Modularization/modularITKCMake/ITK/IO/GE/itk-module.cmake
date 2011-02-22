@@ -1,1 +1,1 @@
-itk_module(ITK-IO-GE DEPENDS ITK-IO-IPL)
+itk_module(ITK-IO-GE DEPENDS ITK-IO-IPL TEST_DEPENDS ITK-TestKernel)

@@ -1,3 +1,4 @@
+itk_module_test()
 create_test_sourcelist(TESTS1 ITK-Common-tests1.cxx
 itkMapContainerTest.cxx
 itkImageReverseIteratorTest.cxx

@@ -12,11 +12,11 @@ macro(CreateTestDriver KIT KIT_LIBS KitTests)
   set(CMAKE_TESTDRIVER_AFTER_TESTMAIN "#include \"itkTestDriverAfterTest.inc\"")
   create_test_sourcelist(Tests ${KIT}TestDriver.cxx
     ${KitTests}
-    EXTRA_INCLUDE itkTestDriverInclude.h
-    FUNCTION ProcessArguments
+    EXTRA_INCLUDE itkTestDriverIncludeRequiredIOFactories.h
+    FUNCTION  ProcessArgumentsAndRegisterRequiredFactories
     )
   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests})
-  target_link_libraries(${KIT}TestDriver ${KIT_LIBS})
+  target_link_libraries(${KIT}TestDriver ${KIT_LIBS} ${ITK-TestKernel_LIBRARIES})
 endmacro(CreateTestDriver)
 
 
@@ -29,5 +29,5 @@ macro(CreateTestDriver_SupportBuildInIOFactories KIT KIT_LIBS KitTests)
      FUNCTION  ProcessArgumentsAndRegisterBuiltInFactories
      )
    add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests})
-   target_link_libraries(${KIT}TestDriver ${KIT_LIBS})
+   target_link_libraries(${KIT}TestDriver ${KIT_LIBS} ${ITK-TestKernel_LIBRARIES})
 endmacro(CreateTestDriver_SupportBuildInIOFactories)

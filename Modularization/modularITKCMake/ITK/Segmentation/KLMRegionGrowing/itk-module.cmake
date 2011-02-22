@@ -1,1 +1,1 @@
-itk_module(ITK-KLMRegionGrowing DEPENDS ITK-TestKernel)
+itk_module(ITK-KLMRegionGrowing DEPENDS ITK-Common TEST_DEPENDS ITK-TestKernel)

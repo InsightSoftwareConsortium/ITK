@@ -1,3 +1,4 @@
+itk_module_test()
 set(ITK-ReviewTests
 itkAddConstantToImageFilterTest.cxx
 itkAggregateLabelMapFilterTest.cxx
