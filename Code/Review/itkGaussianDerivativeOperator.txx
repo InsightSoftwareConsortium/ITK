@@ -21,6 +21,7 @@
 #include "itkGaussianDerivativeOperator.h"
 #include "itkOutputWindow.h"
 #include "itkMacro.h"
+#include <numeric>
 
 namespace itk
 {
@@ -179,6 +180,11 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
       break;
       }
     }
+
+  // re-accumulate from smallest number to largest for maximum precision
+  sum = std::accumulate( coeff.rbegin(), coeff.rend() - 1, 0.0 );
+  sum *= 2.0;
+  sum += coeff[0]; // the first is only needed once
 
   // Normalize the coefficients so they sum one
   for ( typename CoefficientVector::iterator it = coeff.begin(); it != coeff.end(); ++it )
