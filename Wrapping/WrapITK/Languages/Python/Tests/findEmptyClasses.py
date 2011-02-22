@@ -79,6 +79,16 @@ excluded = set([
   "FFTComplexToComplexImageFilter",
   "QuadEdgeMeshCellTraitsInfo",
   "QuadEdgeMeshTraits",
+  "OnesMatrixCoefficients",
+  "ConformalMatrixCoefficients",
+  "InverseEuclideanDistanceMatrixCoefficients",
+  "AuthalicMatrixCoefficients",
+  "IntrinsicMatrixCoefficients",
+  "InverseEuclideanDistanceMatrixCoefficients",
+  "OnesMatrixCoefficients",
+  "ConformalMatrixCoefficients",
+  "AuthalicMatrixCoefficients",
+  "MatrixCoefficients",
   ])
 
 
