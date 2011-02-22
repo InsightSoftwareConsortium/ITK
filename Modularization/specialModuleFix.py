@@ -64,14 +64,14 @@ excludeList = ['vnl', 'itkWin32OutputWindow.cxx', 'itkMultiThreaderPThreads.cxx'
 
 
 # ITK-Common: create src/CMakeLists.txt
-cxxFiles = glob.glob(HeadOfModularITKTree+'/Core/Common/src/*.cxx')
+cxxFiles = glob.glob(HeadOfModularITKTree+'/ITK/Core/Common/src/*.cxx')
 cxxFileList='';
 for cxxf in cxxFiles:
   filename=cxxf.split('/')[-1]
   if filename not in excludeList:
      cxxFileList = cxxFileList+filename+'\n'
 
-o = open( HeadOfModularITKTree+'/Core/Common/src/CMakeLists.txt','w')
+o = open( HeadOfModularITKTree+'/ITK/Core/Common/src/CMakeLists.txt','w')
 for line in open('./templateModule/Core/Common/src/CMakeLists.txt','r'):
     line = line.replace('LIST_OF_CXX_FILES',cxxFileList[0:-1]) #get rid of the last \n
     o.write(line);
