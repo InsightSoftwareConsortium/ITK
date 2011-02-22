@@ -41,37 +41,62 @@ def copy_directory(source, target):
             shutil.copyfile(from_, to_)
 
 
+def formAddTestCMD( testName, testDriverName, executableName, argns):
+      line = "add_test(NAME "+ testName+ "\n      COMMAND "+testDriverName+' ' +executableName
+
+      if (argns !=""):
+           line = line + "\n              "+argns
+
+      line = line +")\n"
+      return line
+
+
 
 def ModularITKAddTest(executableSearch, moduleName):
     addTestLines="";
+    testDriverName = moduleName+'TestDriver'
     for line in  open("./AddTestsWithArguments.txt",'r'):
+      addTestCmd =""
       if(line[0] != '#'):
         argns=""
         words = line[0:-1].split(";")
         if (len(words) < 3):
-            # No test driver , no arguments
+            # No test driver, no arguments
             testName = words[0]
-            # parse the executableName from the path
             executableName = words[1].split("/")[-1]
+            argns=''
+            if (executableName == executableSearch):
+               addTestCmd =  formAddTestCMD(testName, testDriverName, executableName, argns)
         else:
+            # test driver used
             testName = words[0]
-            testDriver = words[1]
             if (words[2] == "--compare"):
-               #ignore now, TO DO
-               executableName = "--";
+               # regression test
+               baselineFileName = words[3]
+               compareFileName = words[4]
+               executableName = words[5]
+               argns =' '.join(words[6:])
+               if (executableName == executableSearch):
+                    addTestLines = addTestLines + 'add_test(NAME '+ testName+ '\n      COMMAND '+testDriverName+'\n' + '    --compare ' + baselineFileName + '\n' + '              '+compareFileName +'\n' +'    '+ executableName
+                    if (argns !=""):
+                         addTestLines = addTestLines + ' '+argns
+
+                    addTestLines = addTestLines +")\n"
             else:
-               executableName = words[2]
-               argns =' '.join(words[3:])
-            if (executableName != executableSearch):
-                # try again , assuming no test driver
+                # non regression test
+                executableName = words[2]
+                argns =' '.join(words[3:])
+                if (executableName == executableSearch):
+                   addTestCmd = formAddTestCMD(testName, testDriverName, executableName, argns)
+
+
+            if (addTestCmd == ""):
+            # try again, assume no test driver, but with arguments
                executableName = words[1].split("/")[-1]
                argns =' '.join(words[2:])
-
-        if (executableName == executableSearch):
-            addTestLines = addTestLines + "add_test(NAME "+ testName+ "\n      COMMAND "+moduleName+'TestDriver  ' + executableName
-            if (argns !=""):
-               addTestLines = addTestLines + "\n              "+argns
-            addTestLines = addTestLines +")\n"
+               if (executableName == executableSearch):
+                   addTestCmd = formAddTestCMD(testName, testDriverName, executableName, argns)
+      addTestLines = addTestLines + addTestCmd
     return  addTestLines
 
 

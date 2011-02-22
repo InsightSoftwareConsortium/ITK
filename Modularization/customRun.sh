@@ -26,7 +26,7 @@ cat Manifest.txt |grep -v '^#' |sed 's/[^ ]* * *//' |sort|uniq|sort -k 1 >Module
 
 # copy the utility modules to desitnation
 if [ ! -d $HeadOfModularITKTree/Utilities ];then
-  git clone http://itk.org/tmp/modularITKSupport.git $HeadOfModularITKTree/Utilities
+  git clone http://itk.org/tmp/modularITKSupport.git $HeadOfModularITKTree/ITK/Utilities
 fi
 # copy the cmake codes to destnation
 if [ ! -d $HeadOfModularITKTree ];then

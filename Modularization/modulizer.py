@@ -100,7 +100,7 @@ for line in open("./Manifest.txt",'r'):
 
 
     inputfile = HeadOfTempTree+'/'+words[0]
-    outputPath = HeadOfModularITKTree+'/'+desPath
+    outputPath = HeadOfModularITKTree+'/ITK/'+desPath
     if len(moduleList) == 0:
        moduleList.append(moduleName)
     elif moduleName != moduleList[-1]:
@@ -140,7 +140,7 @@ print ("listed new files to"+LogDir+"/newFiles.log")
 # create CMake codes for each module
 print ('creating cmake files for each module (from the template module)')
 for  moduleName in moduleList:
-  modulePath = modulizerHelper.searchModulePathTable(moduleName)
+  modulePath = 'ITK/'+modulizerHelper.searchModulePathTable(moduleName)
   filepath = HeadOfModularITKTree + '/'+ modulePath +'/itk-module.cmake'
   if os.path.isfile(filepath):
      # read dependency list from  itk-module.cmake
@@ -199,8 +199,10 @@ for  moduleName in moduleList:
 
          line ='set('+moduleName+'Tests\n'+cxxFileList+')\n\n'
          o.write(line)
-
-         line = 'CreateTestDriver('+moduleName+'  "${'+moduleName+'_LIBRARIES}" "${'+moduleName+'Tests}")\n\n'
+         if (moduleName == 'ITK-IntegratedTest'):
+             line = 'CreateTestDriver_SupportBuildInIOFactories('+moduleName+'  "${'+moduleName+'_LIBRARIES}" "${'+moduleName+'Tests}")\n\n'
+         else:
+             line = 'CreateTestDriver('+moduleName+'  "${'+moduleName+'_LIBRARIES}" "${'+moduleName+'Tests}")\n\n'
          o.write(line)
 
          #line = 'set('+ moduleName+'_TESTS'+ '  ${ITK_EXECUTABLE_PATH}/'+moduleName+'-tests)\n'
