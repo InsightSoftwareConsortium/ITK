@@ -236,3 +236,5 @@ for  moduleName in moduleList:
 #clean up the temporary  directory
 if os.path.isdir(HeadOfTempTree):
    os.system("rm -Rf "+ HeadOfTempTree)
+
+os.system("rm -f ./ModulePathTable.txt")
