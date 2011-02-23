@@ -1241,6 +1241,7 @@ Code/Common/itkLaplacianOperator.h                                              
 Code/Common/itkLaplacianOperator.txx                                             Core            ITK-Common                     Common
 Code/Common/itkLeafTreeIterator.h                                                Core            ITK-Common                     Common
 Code/Common/itkLevelOrderTreeIterator.h                                          Core            ITK-Common                     Common
+Code/Common/itkLevelOrderTreeIterator.txx                                        Core            ITK-Common                     Common
 Code/Common/itkLevelSet.h                                                        Segmentation    ITK-LevelSets                  LevelSets
 Code/Common/itkLevelSetFunction.h                                                Segmentation    ITK-LevelSets                  LevelSets
 Code/Common/itkLevelSetFunction.txx                                              Segmentation    ITK-LevelSets                  LevelSets
@@ -2719,6 +2720,7 @@ Code/SpatialObject/itkSpatialObjectProperty.txx                                 
 Code/SpatialObject/itkSpatialObjectTreeContainer.h                               Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkSpatialObjectTreeContainer.txx                             Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkSpatialObjectTreeNode.h                                    Core            ITK-SpatialObjects             SpatialObjects
+Code/SpatialObject/itkSpatialObjectTreeNode.txx                                  Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkSurfaceSpatialObject.h                                     Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkSurfaceSpatialObject.txx                                   Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkSurfaceSpatialObjectPoint.h                                Core            ITK-SpatialObjects             SpatialObjects
@@ -2733,13 +2735,17 @@ Code/SpatialObject/itkVesselTubeSpatialObjectPoint.h                            
 Code/SpatialObject/itkVesselTubeSpatialObjectPoint.txx                           Core            ITK-SpatialObjects             SpatialObjects
 Migration/BRAINS2MaskImageIORemoved.xml                                          Utilities       ITK-Migration                  Migration
 Migration/CArrayRemoval.xml                                                      Utilities       ITK-Migration                  Migration
+Migration/ColorTableDeprecatedMethods.xml                                        Utilities       ITK-Migration                  Migration
 Migration/ExtractImageFilterForceStrategy.xml                                    Utilities       ITK-Migration                  Migration
 Migration/HistogramIncreaseFrequencyDisambiguation.xml                           Utilities       ITK-Migration                  Migration
 Migration/InitializeXMLGuide.py                                                  Utilities       ITK-Migration                  Migration
 Migration/LabelObjectImproveAttributes.xml                                       Utilities       ITK-Migration                  Migration
 Migration/MetaArrowFixMemoryLeaksAndConvertToITKObject.xml                       Utilities       ITK-Migration                  Migration
 Migration/MoveGetSetLengthMeasurementVectorTraits.xml                            Utilities       ITK-Migration                  Migration
+Migration/OStringStreamRemoved.xml                                               Utilities       ITK-Migration                  Migration
 Migration/OrientationAdapterBaseRename.xml                                       Utilities       ITK-Migration                  Migration
+Migration/QuadEdgeMesh-Changes.xml                                               Utilities       ITK-Migration                  Migration
+Migration/RealTimeClockAPIChanges.xml                                            Utilities       ITK-Migration                  Migration
 Testing/Code/Algorithms/itk2DDeformableTest.cxx                                  External        ITK-Deprecated                 Deprecated
 Testing/Code/Algorithms/itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx     Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkAntiAliasBinaryImageFilterTest.cxx                    Filtering       ITK-AntiAlias                  AntiAlias
