@@ -145,8 +145,6 @@ itkRegionalMinimaImageFilterTest2.cxx
 itkRegionBasedLevelSetFunctionTest.cxx
 itkRegionFromReferenceLabelMapFilterTest1.cxx
 itkRelabelLabelMapFilterTest1.cxx
-itkReviewHeaderTest.cxx
-itkReviewPrintTest.cxx
 itkRobustAutomaticThresholdImageFilterTest.cxx
 itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
 itkScalarChanAndVeseDenseLevelSetImageFilterTest2.cxx
@@ -1250,10 +1248,6 @@ add_test(NAME itkRelabelLabelMapFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-relabeled.mha
               ${ITK_TEST_OUTPUT_DIR}/cthead1-label-relabeled.mha
     itkRelabelLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-relabeled.mha)
-add_test(NAME itkReviewHeaderTest
-      COMMAND ITK-ReviewTestDriver itkReviewHeaderTest)
-add_test(NAME itkReviewPrintTest
-      COMMAND ITK-ReviewTestDriver itkReviewPrintTest)
 add_test(NAME itkRobustAutomaticThresholdImageFilterTest
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkRobustAutomaticThresholdImageFilterTest.png
