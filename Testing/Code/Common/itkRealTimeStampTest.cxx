@@ -20,14 +20,18 @@
 #include <cstdlib>
 #include "itkRealTimeStamp.h"
 #include "itkRealTimeInterval.h"
+#include "itkNumericTraits.h"
+#include "vcl_cmath.h"
 
-#define CHECK_FOR_VALUE(a,b) \
-  { \
-  if( a != b ) \
-    { \
-    std::cerr << "Error in "#a << " expected " << b << " but got " << a << std::endl; \
-    return EXIT_FAILURE; \
-    } \
+#define CHECK_FOR_VALUE(a,b)                                            \
+  {                                                                     \
+    double eps = 4.0*itk::NumericTraits<double>::epsilon();             \
+    eps = ( b == 0.0 ) ? eps : vcl_fabs( b*eps );                       \
+    if( vcl_fabs( a - b ) >  eps)                                       \
+      {                                                                 \
+      std::cerr << "Error in "#a << " expected " << b << " but got " << a << std::endl; \
+      return EXIT_FAILURE;                                              \
+      }                                                                 \
   }
 
 #define CHECK_FOR_BOOLEAN( x, expected ) \

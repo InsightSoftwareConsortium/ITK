@@ -198,6 +198,7 @@ GaussianMixtureModelComponent< TSample >
 
   typename TSample::MeasurementVectorType measurements;
 
+  // why these lines???
   while ( iter != end )
     {
     measurements = iter.GetMeasurementVector();
@@ -207,32 +208,31 @@ GaussianMixtureModelComponent< TSample >
   m_MeanEstimator->SetWeights(weights);
   m_MeanEstimator->Update();
 
-  unsigned int   i, j;
+  MeasurementVectorSizeType   i, j;
   double         temp;
   double         changes;
   bool           changed = false;
   ParametersType parameters = this->GetFullParameters();
-  int            paramIndex  = 0;
+  MeasurementVectorSizeType            paramIndex  = 0;
 
   typename MeanEstimatorType::MeasurementVectorType meanEstimate = m_MeanEstimator->GetMean();
   for ( i = 0; i < measurementVectorSize; i++ )
     {
-    temp = m_Mean[i] - meanEstimate[i];
-    changes = temp * temp;
-    changes = vcl_sqrt(changes);
+    changes = vnl_math_abs( m_Mean[i] - meanEstimate[i] );
+
     if ( changes > this->GetMinimalParametersChange() )
       {
       changed = true;
+      break;
       }
     }
 
   if ( changed )
     {
     m_Mean = meanEstimate;
-    for ( i = 0; i < measurementVectorSize; i++ )
+    for ( paramIndex = 0; paramIndex < measurementVectorSize; paramIndex++ )
       {
-      parameters[paramIndex] = meanEstimate[i];
-      ++paramIndex;
+      parameters[paramIndex] = meanEstimate[paramIndex];
       }
     this->AreParametersModified(true);
     }
@@ -249,15 +249,18 @@ GaussianMixtureModelComponent< TSample >
   changed = false;
   for ( i = 0; i < measurementVectorSize; i++ )
     {
-    for ( j = 0; j < measurementVectorSize; j++ )
+    if( !changed )
       {
-      temp = m_Covariance.GetVnlMatrix().get(i, j)
-             - covEstimate.GetVnlMatrix().get(i, j);
-      changes = temp * temp;
-      changes = vcl_sqrt(changes);
-      if ( changes > this->GetMinimalParametersChange() )
+      for ( j = 0; j < measurementVectorSize; j++ )
         {
-        changed = true;
+        temp = m_Covariance.GetVnlMatrix().get(i, j)
+               - covEstimate.GetVnlMatrix().get(i, j);
+        changes = vnl_math_abs( temp );
+        if ( changes > this->GetMinimalParametersChange() )
+          {
+          changed = true;
+          break;
+          }
         }
       }
     }

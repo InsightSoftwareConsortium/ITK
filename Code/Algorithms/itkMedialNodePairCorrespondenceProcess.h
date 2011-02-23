@@ -33,10 +33,8 @@ namespace itk
 /** \class MedialNodePairCorrespondenceProcess
  * \brief This process takes as inputs two core atom images, the distance matrices
  * of the two images, and the unary correspondence matrix between the two images
- * in order to produce an itkCorrespondenceDataStructure containing
+ * in order to produce an CorrespondenceDataStructure containing
  * correspondences between pairs (node cliques of size 2) in the images.
- *
- * \ingroup
  */
 template< typename TSourceImage >
 class ITK_EXPORT MedialNodePairCorrespondenceProcess:public ProcessObject

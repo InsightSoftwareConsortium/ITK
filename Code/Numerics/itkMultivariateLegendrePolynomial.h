@@ -118,7 +118,9 @@ public:
   const DomainSizeType & GetDomainSize(void) const
   { return m_DomainSize; }
 
-  /** \class CoefficientVectorSizeMismatch Exception object. */
+  /** \class CoefficientVectorSizeMismatch
+   * \brief Exception object.
+   */
   class CoefficientVectorSizeMismatch
   {
 public:

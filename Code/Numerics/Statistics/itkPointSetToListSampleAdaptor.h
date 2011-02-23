@@ -103,7 +103,7 @@ public:
   /** returns the size of this container */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
-  /** \class ListSample::ConstIterator */
+  /** \class ConstIterator */
   class ConstIterator
   {
     friend class PointSetToListSampleAdaptor;
@@ -176,7 +176,7 @@ private:
     InstanceIdentifier               m_InstanceIdentifier;
   };
 
-  /** \class PointSetToListSampleAdaptor::Iterator */
+  /** \class Iterator */
   class Iterator:public ConstIterator
   {
     friend class PointSetToListSampleAdaptor;

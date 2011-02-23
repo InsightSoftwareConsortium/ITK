@@ -1,4 +1,3 @@
-#
 # Create source code, compile and link a test driver
 # Two variables must be defined before including this file.
 #   KIT should define a unique name for the test driver.
@@ -19,3 +18,16 @@ macro(CreateTestDriver KIT KIT_LIBS KitTests)
   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests})
   target_link_libraries(${KIT}TestDriver ${KIT_LIBS})
 endmacro(CreateTestDriver)
+
+
+macro(CreateTestDriver_SupportBuildInIOFactories KIT KIT_LIBS KitTests)
+   set(CMAKE_TESTDRIVER_BEFORE_TESTMAIN  "#include \"itkTestDriverBeforeTest.inc\"")
+   set(CMAKE_TESTDRIVER_AFTER_TESTMAIN "#include \"itkTestDriverAfterTest.inc\"")
+   create_test_sourcelist(Tests ${KIT}TestDriver.cxx
+     ${KitTests}
+     EXTRA_INCLUDE  itkTestDriverIncludeBuiltInIOFactories.h
+     FUNCTION  ProcessArgumentsAndRegisterBuiltInFactories
+     )
+   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests})
+   target_link_libraries(${KIT}TestDriver ${KIT_LIBS})
+endmacro(CreateTestDriver_SupportBuildInIOFactories)

@@ -131,10 +131,10 @@ VTKPolyDataReader< TOutputMesh >
   std::string pointLine( line, strlen("POINTS "), line.length() );
   itkDebugMacro("pointLine " << pointLine);
 
-  // we must use long long here because this is the exact type specified by scanf
-  long long int numberOfPoints = NumericTraits<PointIdentifier>::Zero;
+  // we must use long here because this is the exact type specified by scanf
+  long int numberOfPoints = NumericTraits<PointIdentifier>::Zero;
 
-  if ( sscanf(pointLine.c_str(), "%lld", &numberOfPoints) != 1 )
+  if ( sscanf(pointLine.c_str(), "%ld", &numberOfPoints) != 1 )
     {
     itkExceptionMacro(<< "Error reading file: " << m_FileName
                       << "\nFailed to read numberOfPoints.\n"
@@ -201,11 +201,11 @@ VTKPolyDataReader< TOutputMesh >
   // Read the number of polygons
   //
 
-  // we must use long long here because this is the exact type specified by scanf
-  long long int numberOfPolygons = NumericTraits< CellIdentifier >::Zero;
-  long long int numberOfIndices = NumericTraits< CellIdentifier >::Zero;
+  // we must use long here because this is the exact type specified by scanf
+  long int numberOfPolygons = NumericTraits< CellIdentifier >::Zero;
+  long int numberOfIndices = NumericTraits< CellIdentifier >::Zero;
 
-  if ( sscanf(polygonLine.c_str(), "%lld %lld", &numberOfPolygons,
+  if ( sscanf(polygonLine.c_str(), "%ld %ld", &numberOfPolygons,
               &numberOfIndices) != 2 )
     {
     itkExceptionMacro(<< "Error reading file: " << m_FileName
@@ -235,8 +235,8 @@ VTKPolyDataReader< TOutputMesh >
   // Load the polygons into the itk::Mesh
   //
 
-  long long int numberOfCellPoints;
-  long long int ids[3]; // need a signed type on input.
+  long int numberOfCellPoints;
+  long int ids[3]; // need a signed type on input.
 
   for ( CellIdentifier i = 0; i < itk::Math::CastWithRangeCheck<CellIdentifier>( numberOfPolygons ); i++ )
     {
@@ -256,7 +256,7 @@ VTKPolyDataReader< TOutputMesh >
       }
 
     int got;
-    if ( ( got = sscanf(line.c_str(), "%lld %lld %lld %lld", &numberOfCellPoints,
+    if ( ( got = sscanf(line.c_str(), "%ld %ld %ld %ld", &numberOfCellPoints,
                         &ids[0], &ids[1], &ids[2]) ) != 4 )
       {
       itkExceptionMacro(<< "Error reading file: " << m_FileName

@@ -119,8 +119,7 @@ mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
 # Load the module DAG.
 set(ITK_MODULES_ALL)
 file(GLOB meta RELATIVE "${ITK_SOURCE_DIR}"
-  "${ITK_SOURCE_DIR}/*/*/itk-module.cmake"
-  # "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
+   "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
   )
 foreach(f ${meta})
   include(${ITK_SOURCE_DIR}/${f})

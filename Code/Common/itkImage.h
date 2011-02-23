@@ -72,7 +72,6 @@ namespace itk
  *
  * \example DataRepresentation/Image/Image1.cxx
  * \example DataRepresentation/Image/Image2.cxx
- * \example DataRepresentation/Image/Image2.cxx
  * \example DataRepresentation/Image/RGBImage.cxx
  * \example DataRepresentation/Image/VectorImage.cxx
  *
