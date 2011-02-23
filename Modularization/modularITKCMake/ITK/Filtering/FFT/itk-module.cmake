@@ -1,1 +1,1 @@
-itk_module(ITK-FFT DEPENDS ITK-TestKernel)
+itk_module(ITK-FFT DEPENDS ITK-Common TEST_DEPENDS ITK-TestKernel)

@@ -1,1 +1,1 @@
-itk_module(ITK-BiasCorrection DEPENDS ITK-ImageFilterBase ITK-Polynomials ITK-Statistics)
+itk_module(ITK-BiasCorrection DEPENDS ITK-ImageFilterBase ITK-Polynomials ITK-Statistics TEST_DEPENDS ITK-TestKernel)

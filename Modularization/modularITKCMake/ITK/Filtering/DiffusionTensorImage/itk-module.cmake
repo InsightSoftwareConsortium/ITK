@@ -1,1 +1,1 @@
-itk_module(ITK-DiffusionTensorImage DEPENDS ITK-ImageFilterBase)
+itk_module(ITK-DiffusionTensorImage DEPENDS ITK-ImageFilterBase TEST_DEPENDS ITK-TestKernel)

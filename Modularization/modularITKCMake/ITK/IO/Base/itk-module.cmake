@@ -1,1 +1,1 @@
-itk_module(ITK-IO-Base DEPENDS ITK-Common)
+itk_module(ITK-IO-Base DEPENDS ITK-Common TEST_DEPENDS ITK-TestKernel)

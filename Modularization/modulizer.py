@@ -85,7 +85,9 @@ for line in open("./Manifest.txt",'r'):
     groupName   = words[1]
     moduleName  = words[2]
     fileExt = itkFileName.split('.')[-1]
-    if fileExt == 'h' or fileExt == 'txx' or fileExt == 'inc':
+    if moduleName ==  "ITK-IntegratedTest":
+       subdir = 'test'
+    elif fileExt == 'h' or fileExt == 'txx' or fileExt == 'inc':
        subdir = 'include'
     elif fileExt == 'cxx' or fileExt =='c' or fileExt == 'in' or fileExt == 'cl' :
         if 'Test' in itkFileName or 'test' in itkFileName:
@@ -196,7 +198,8 @@ for  moduleName in moduleList:
 
        if not os.path.isfile(filepath):
          o = open(filepath,'w')
-
+         line = 'itk_module_test()\n'
+         o.write(line)
          line ='set('+moduleName+'Tests\n'+cxxFileList+')\n\n'
          o.write(line)
          if (moduleName == 'ITK-IntegratedTest' or moduleName == 'ITK-Review'):

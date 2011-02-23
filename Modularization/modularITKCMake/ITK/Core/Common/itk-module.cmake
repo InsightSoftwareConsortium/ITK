@@ -1,1 +1,1 @@
-itk_module(ITK-Common DEPENDS itk-vnl-instantiation itksys DEFAULT ON)
+itk_module(ITK-Common DEPENDS itk-vnl-instantiation itksys TEST_DEPENDS ITK-TestKernel DEFAULT ON)

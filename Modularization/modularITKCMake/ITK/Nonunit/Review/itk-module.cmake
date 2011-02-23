@@ -1,4 +1,4 @@
-itk_module(ITK-IntegratedTest DEPENDS
+itk_module(ITK-Review DEPENDS
 ITK-VTK
 ITK-Common
 ITK-FiniteDifference
@@ -10,7 +10,6 @@ ITK-Mesh
 ITK-MetaSpatialObjects
 ITK-QuadEdgeMesh
 ITK-SpatialObjects
-ITK-TestKernel
 ITK-Transform
 ITK-AnisotropicSmoothing
 ITK-AntiAlias
@@ -82,4 +81,4 @@ ITK-RegionGrowing
 ITK-SignedDistanceFunction
 ITK-Voronoi
 ITK-Watersheds
-)
+TEST_DEPENDS ITK-TestKernel)
