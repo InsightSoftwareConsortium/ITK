@@ -17,11 +17,7 @@ set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs")
 
 
 macro(WRAP_INCLUDE_EXPLICIT include_file)
-  if("${include_file}" MATCHES "<.*>")
-    set(EXPLICIT_EXPLICITS "${EXPLICIT_EXPLICITS}#include ${include_file}\n")
-  else("${include_file}" MATCHES "<.*>")
-    set(EXPLICIT_EXPLICITS "${EXPLICIT_EXPLICITS}#include \"${include_file}\"\n")
-  endif("${include_file}" MATCHES "<.*>")
+  list(APPEND EXPLICIT_INCLUDES ${include_file})
 endmacro(WRAP_INCLUDE_EXPLICIT)
 
 
@@ -36,13 +32,16 @@ endmacro(ADD_SIMPLE_TYPEDEF_EXPLICIT)
 macro(WRAP_MODULE_EXPLICIT module)
   # clear the typedefs and the includes
   set(EXPLICIT_INSTANTIATES )
+  set(EXPLICIT_EXPLICITS "${EXPLICIT_EXPLICITS}#ifndef __${module}Explicit\n")
 endmacro(WRAP_MODULE_EXPLICIT)
 
 macro(END_WRAP_MODULE_EXPLICIT module)
+  set(EXPLICIT_EXPLICITS "${EXPLICIT_EXPLICITS}#endif\n\n")
   # Create the cxx file.
   set(file_name "${module}.explicit.cxx")
   set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${file_name}")
-  set(CONFIG_EXPLICIT_CONTENT "#include \"${WRAPPER_LIBRARY_NAME}.explicit.h\"\n")
+  set(CONFIG_EXPLICIT_CONTENT "#define __${module}Explicit\n")
+  set(CONFIG_EXPLICIT_CONTENT "${CONFIG_EXPLICIT_CONTENT}#include \"${WRAPPER_LIBRARY_NAME}.explicit.h\"\n")
   set(CONFIG_EXPLICIT_CONTENT "${CONFIG_EXPLICIT_CONTENT}${EXPLICIT_INSTANTIATES}")
   configure_file("${WRAP_ITK_EXPLICIT_SOURCE_DIR}/explicit.in"
     "${cxx_file}" @ONLY IMMEDIATE)
@@ -51,9 +50,6 @@ endmacro(END_WRAP_MODULE_EXPLICIT)
 
 
 macro(ADD_ONE_TYPEDEF_EXPLICIT  wrap_method wrap_class swig_name template_params)
-  # insert a blank line to separate the classes
-  set(EXPLICIT_EXPLICITS "${EXPLICIT_EXPLICITS}\n")
-  set(EXPLICIT_INSTANTIATES "${EXPLICIT_INSTANTIATES}\n")
   # Add one  typedef to WRAPPER_TYPEDEFS
   # 'wrap_method' is the one of the valid WRAPPER_WRAP_METHODS from WRAP_CLASS,
   # 'wrap_class' is the fully-qualified C++ name of the class
@@ -113,9 +109,23 @@ endmacro(ADD_ONE_TYPEDEF_EXPLICIT)
 macro(WRAP_LIBRARY_EXPLICIT library_name)
   set(EXPLICIT_EXPLICITS )
   set(EXPLICIT_EXPLICITS_FILES )
+  set(EXPLICIT_INCLUDES )
 endmacro(WRAP_LIBRARY_EXPLICIT)
 
 macro(END_WRAP_LIBRARY_EXPLICIT)
+  if(EXPLICIT_INCLUDES)
+    list(REMOVE_DUPLICATES EXPLICIT_INCLUDES)
+  endif()
+  set(includes )
+  foreach(include_file ${EXPLICIT_INCLUDES})
+    if("${include_file}" MATCHES "<.*>")
+      set(includes "${includes}#include ${include_file}\n")
+    else()
+      set(includes "${includes}#include \"${include_file}\"\n")
+    endif()
+  endforeach()
+  set(EXPLICIT_EXPLICITS "${includes}\n${EXPLICIT_EXPLICITS}")
+
   set(file_name "${WRAPPER_LIBRARY_NAME}.explicit.h")
   set(cxx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${file_name}")
   set(CONFIG_EXPLICIT_CONTENT )
