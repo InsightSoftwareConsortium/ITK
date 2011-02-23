@@ -20,6 +20,9 @@
 
 # This script makes optional suggestions for working with git.
 
+egrep-q() {
+  egrep "$@" >/dev/null 2>/dev/null
+}
 
 if test "$(git config color.ui)" != "auto"; then
   cat << EOF
@@ -31,7 +34,7 @@ You may want to enable color output from Git commands with
 EOF
 fi
 
-if ! bash -i -c 'echo $PS1' | grep -q '__git_ps1'; then
+if ! bash -i -c 'echo $PS1' | egrep-q '__git_ps1'; then
   cat << EOF
 
 A dynamic, informative Git shell prompt can be obtained by sourcing the git

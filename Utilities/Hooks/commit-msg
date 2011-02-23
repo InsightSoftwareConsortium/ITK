@@ -17,6 +17,10 @@
 #
 #==========================================================================*/
 
+egrep-q() {
+  egrep "$@" >/dev/null 2>/dev/null
+}
+
 # Prepare a copy of the message:
 #  - strip comment lines
 #  - stop at "diff --git" (git commit -v)
@@ -43,7 +47,7 @@ while IFS='' read line; do
   if test $len -gt 0; then
     # Look for valid prefixes.
     echo "$line" |
-    grep -q '^\(Merge\|Revert\|BUG:\|COMP:\|DOC:\|ENH:\|PERF:\|STYLE:\|WIP:\) ' ||
+    egrep-q '^(Merge|Revert|BUG:|COMP:|DOC:|ENH:|PERF:|STYLE:|WIP:) ' ||
     die 'Start ITK commit messages with a standard prefix (and a space):
   BUG:    - fix for runtime crash or incorrect result
   COMP:   - compiler error or warning fix
@@ -56,7 +60,7 @@ To reference Mantis issue XY, add " (#XY)" to the END of the FIRST line.'
 
     # Reject bug number reference that CDash rejects.
     echo "$line" |
-    grep -q '^BUG: [0-9][0-9]*\.' &&
+    egrep-q '^BUG: [0-9][0-9]*\.' &&
     die 'Do not put a "." after the bug number:
 
   '"$line"
