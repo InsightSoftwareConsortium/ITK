@@ -76,14 +76,7 @@ protected:
   /** Constructor */
   SpatialObjectTreeNode();
   virtual ~SpatialObjectTreeNode(){}
-  void PrintSelf(std::ostream & os, Indent indent) const
-  {
-    this->Superclass::PrintSelf(os, indent);
-    os << indent << "NodeToParentNodeTransform: "
-       << m_NodeToParentNodeTransform << std::endl;
-    os << indent << "NodeToWorldTransform: "
-       << m_NodeToWorldTransform << std::endl;
-  }
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   TransformPointer m_NodeToParentNodeTransform;
   TransformPointer m_NodeToWorldTransform;
