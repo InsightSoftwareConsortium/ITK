@@ -90,8 +90,9 @@ macro(ADD_ONE_TYPEDEF_EXPLICIT  wrap_method wrap_class swig_name template_params
 #     ADD_SIMPLE_TYPEDEF_EXPLICIT("${full_class_name}::Superclass::Pointer::SmartPointer" "${swig_name}_Superclass_Pointer")
 #   endif("${wrap_method}" MATCHES "SUPERCLASS")
 
-  # the same output with or without FORCE_INSTANTIATE
-  ADD_SIMPLE_TYPEDEF_EXPLICIT("${full_class_name}" "${swig_name}")
+  if(NOT "${wrap_method}" STREQUAL "EXPLICIT_SPECIALIZATION")
+    ADD_SIMPLE_TYPEDEF_EXPLICIT("${full_class_name}" "${swig_name}")
+  endif()
 
 # don't do pointers for now
 

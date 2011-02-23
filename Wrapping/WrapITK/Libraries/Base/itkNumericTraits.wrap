@@ -10,13 +10,13 @@ WRAP_INCLUDE("itkNumericTraitsVectorPixel.h")
 WRAP_INCLUDE("itkNumericTraitsCovariantVectorPixel.h")
 
 if(WIN32)
-  WRAP_NON_TEMPLATE_CLASS("std::_Num_base" FORCE_INSTANTIATE)
-  WRAP_NON_TEMPLATE_CLASS("std::_Num_int_base" FORCE_INSTANTIATE)
-  WRAP_NON_TEMPLATE_CLASS("std::_Num_float_base" FORCE_INSTANTIATE)
+  WRAP_NON_TEMPLATE_CLASS("std::_Num_base")
+  WRAP_NON_TEMPLATE_CLASS("std::_Num_int_base")
+  WRAP_NON_TEMPLATE_CLASS("std::_Num_float_base")
 endif(WIN32)
 
 # the superclass
-WRAP_CLASS(vcl_numeric_limits FORCE_INSTANTIATE)
+WRAP_CLASS(vcl_numeric_limits EXPLICIT_SPECIALIZATION)
   # the basic types
   foreach(t UC US UI UL SC SS SI SL F D LD B)
     WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
@@ -24,7 +24,7 @@ WRAP_CLASS(vcl_numeric_limits FORCE_INSTANTIATE)
 END_WRAP_CLASS()
 
 
-WRAP_CLASS("itk::NumericTraits")
+WRAP_CLASS("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   # the basic types
   foreach(t UC US UI UL SC SS SI SL F D LD B)
     WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")

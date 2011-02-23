@@ -83,6 +83,7 @@ endmacro(WRAP_INCLUDE_GCCXML)
 
 macro(ADD_SIMPLE_TYPEDEF_GCCXML wrap_class swig_name)
   set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}      typedef ${wrap_class} ${swig_name};\n")
+  set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}  sizeof(${swig_name});\n")
 endmacro(ADD_SIMPLE_TYPEDEF_GCCXML)
 
 
@@ -152,10 +153,8 @@ endmacro(END_WRAP_MODULE_GCCXML)
 macro(ADD_ONE_TYPEDEF_GCCXML  wrap_method wrap_class swig_name template_params)
   # insert a blank line to separate the classes
   set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}\n")
-  if("${wrap_method}" MATCHES "FORCE_INSTANTIATE")
-    # add a peace of code for type instantiation
-    set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}  sizeof(${swig_name});\n")
-  endif("${wrap_method}" MATCHES "FORCE_INSTANTIATE")
+  # add a peace of code for type instantiation
+  set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}\n")
 endmacro(ADD_ONE_TYPEDEF_GCCXML)
 
 macro(WRAP_LIBRARY_GCCXML library_name)

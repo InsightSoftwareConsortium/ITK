@@ -408,13 +408,13 @@ macro(WRAP_NAMED_CLASS class swig_name)
   if("${ARGC}" EQUAL 3)
     set(WRAPPER_WRAP_METHOD "${ARGV2}")
     set(ok 0)
-    foreach(opt POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES FORCE_INSTANTIATE ENUM AUTOPOINTER)
+    foreach(opt POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER)
       if("${opt}" STREQUAL "${WRAPPER_WRAP_METHOD}")
         set(ok 1)
       endif("${opt}" STREQUAL "${WRAPPER_WRAP_METHOD}")
     endforeach(opt)
     if(ok EQUAL 0)
-      message(SEND_ERROR "WRAP_CLASS: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are POINTER, POINTER_WITH_SUPERCLASS, POINTER_WITH_2_SUPERCLASSES, FORCE_INSTANTIATE, ENUM and AUTOPOINTER")
+      message(SEND_ERROR "WRAP_CLASS: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are POINTER, POINTER_WITH_SUPERCLASS, POINTER_WITH_2_SUPERCLASSES, EXPLICIT_SPECIALIZATION, ENUM and AUTOPOINTER")
     endif(ok EQUAL 0)
   endif("${ARGC}" EQUAL 3)
 
@@ -559,29 +559,24 @@ macro(ADD_ONE_TYPEDEF wrap_method wrap_class swig_name)
   # and thus wouldn't create XML for any of the methods, etc.
 
   if("${wrap_method}" MATCHES "2_SUPERCLASSES")
-    ADD_SIMPLE_TYPEDEF("${full_class_name}::Superclass::Superclass::Self" "${swig_name}_Superclass_Superclass")
-    ADD_SIMPLE_TYPEDEF("${full_class_name}::Superclass::Superclass::Pointer::SmartPointer" "${swig_name}_Superclass_Superclass_Pointer")
+    ADD_SIMPLE_TYPEDEF("${full_class_name}::Superclass::Superclass" "${swig_name}_Superclass_Superclass")
+    ADD_SIMPLE_TYPEDEF("${full_class_name}::Superclass::Superclass::Pointer" "${swig_name}_Superclass_Superclass_Pointer")
   endif("${wrap_method}" MATCHES "2_SUPERCLASSES")
 
   if("${wrap_method}" MATCHES "SUPERCLASS")
-    ADD_SIMPLE_TYPEDEF("${full_class_name}::Superclass::Self" "${swig_name}_Superclass")
-    ADD_SIMPLE_TYPEDEF("${full_class_name}::Superclass::Pointer::SmartPointer" "${swig_name}_Superclass_Pointer")
+    ADD_SIMPLE_TYPEDEF("${full_class_name}::Superclass" "${swig_name}_Superclass")
+    ADD_SIMPLE_TYPEDEF("${full_class_name}::Superclass::Pointer" "${swig_name}_Superclass_Pointer")
   endif("${wrap_method}" MATCHES "SUPERCLASS")
 
-  if("${wrap_method}" MATCHES "FORCE_INSTANTIATE" OR "${wrap_method}" MATCHES "ENUM")
-    ADD_SIMPLE_TYPEDEF("${full_class_name}" "${swig_name}")
-    # cable swig part will add a peace of code for type instantiation
-  else("${wrap_method}" MATCHES "FORCE_INSTANTIATE" OR "${wrap_method}" MATCHES "ENUM")
-    ADD_SIMPLE_TYPEDEF("${full_class_name}::${base_name}" "${swig_name}")
-  endif("${wrap_method}" MATCHES "FORCE_INSTANTIATE" OR "${wrap_method}" MATCHES "ENUM")
+  ADD_SIMPLE_TYPEDEF("${full_class_name}" "${swig_name}")
 
   if("${wrap_method}" MATCHES "POINTER")
     if("${wrap_method}" STREQUAL "AUTOPOINTER")
       # add a pointer typedef if we are so asked
-      ADD_SIMPLE_TYPEDEF("${full_class_name}::SelfAutoPointer::AutoPointer" "${swig_name}_AutoPointer")
+      ADD_SIMPLE_TYPEDEF("${full_class_name}::SelfAutoPointer" "${swig_name}_AutoPointer")
     else("${wrap_method}" STREQUAL "AUTOPOINTER")
       # add a pointer typedef if we are so asked
-      ADD_SIMPLE_TYPEDEF("${full_class_name}::Pointer::SmartPointer" "${swig_name}_Pointer")
+      ADD_SIMPLE_TYPEDEF("${full_class_name}::Pointer" "${swig_name}_Pointer")
     endif("${wrap_method}" STREQUAL "AUTOPOINTER")
   endif("${wrap_method}" MATCHES "POINTER")
 

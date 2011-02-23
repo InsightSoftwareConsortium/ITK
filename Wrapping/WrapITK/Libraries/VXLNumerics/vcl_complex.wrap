@@ -1,4 +1,4 @@
-WRAP_CLASS("vcl_complex" FORCE_INSTANTIATE)
+WRAP_CLASS("vcl_complex" EXPLICIT_SPECIALIZATION)
 
   foreach(t F D LD)
     WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
