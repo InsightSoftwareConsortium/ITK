@@ -205,7 +205,7 @@ if( USE_FFTWD OR USE_FFTWF )
 endif( USE_FFTWD OR USE_FFTWF )
 
 
-CreateTestDriver_SupportBuildInIOFactories(ITK-Review  "${ITK-Review_LIBRARIES}" "${ITK-ReviewTests}")
+CreateTestDriver_SupportBuildInIOFactories(ITK-Review  "${ITK-Review-Test_LIBRARIES}" "${ITK-ReviewTests}")
 
 add_test(NAME itkAddConstantToImageFilterTest
       COMMAND ITK-ReviewTestDriver itkAddConstantToImageFilterTest)
