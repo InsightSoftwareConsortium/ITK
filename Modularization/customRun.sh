@@ -25,7 +25,7 @@ logs=$HeadOfModularITKTree/logs
 cat Manifest.txt |grep -v '^#' |sed 's/[^ ]* * *//' |sort|uniq|sort -k 1 >ModulePathTable.txt
 
 # copy the utility modules to desitnation
-if [ ! -d $HeadOfModularITKTree/Utilities ];then
+if [ ! -d $HeadOfModularITKTree/ITK/Utilities ];then
   git clone http://itk.org/tmp/modularITKSupport.git $HeadOfModularITKTree/ITK/Utilities
 fi
 # copy the cmake codes to destnation
