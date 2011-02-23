@@ -32,6 +32,18 @@ SpatialObjectTreeNode< TDimension >
   this->m_Parent = NULL;
 }
 
+template< unsigned int TDimension >
+void
+SpatialObjectTreeNode< TDimension >
+::PrintSelf( std::ostream & os, Indent indent ) const
+{
+  Superclass::PrintSelf(os, indent );
+  os << indent << "NodeToParentNodeTransform: "
+     << m_NodeToParentNodeTransform << std::endl;
+  os << indent << "NodeToWorldTransform: "
+     << m_NodeToWorldTransform << std::endl;
+}
+
 /** Set the data */
 template< unsigned int TDimension >
 void
