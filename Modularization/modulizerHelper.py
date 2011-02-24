@@ -103,7 +103,7 @@ def searchModulePathTable(ModuleName):
         w = line.split()
         if (w[1] == ModuleName):
              return  (w[0]+'/'+w[2])
-   return ('Not Found'+ModuleName+'and'+ w[1])
+   return ('Not Found'+ModuleName)
 
 # find the unique module names
 def unique(seq):
