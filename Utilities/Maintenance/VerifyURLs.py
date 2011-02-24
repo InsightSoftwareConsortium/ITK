@@ -21,7 +21,8 @@ for arg in sys.argv[1:]:
 
     f.close()
 
-print "Found ", len( http_dict ), " unique URLS."
+if len( http_dict ) > 1:
+    print "Found ", len( http_dict ), " unique URLS."
 
 # compile regular expression to pull out the server address and path
 server_re = re.compile( "http://([^/]+)(/?[^\s]*)" )
