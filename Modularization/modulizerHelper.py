@@ -28,8 +28,6 @@ def copy_directory(source, target):
     for root, dirs, files in os.walk(source):
         if '.git' in dirs:
             dirs.remove('.git')
-        if 'Data' in dirs:
-            dirs.remove('Data')
         for file in files:
             if os.path.splitext(file)[-1] in ('.git*'):
                continue

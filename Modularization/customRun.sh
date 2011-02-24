@@ -44,28 +44,7 @@ cp -r ./modularITKCMake/* $HeadOfModularITKTree/
 # dealing with itk-common
 ./specialModuleFix.py  $HeadOfMonolithicITKTree $HeadOfModularITKTree
 
-
-# handling data ( Testing/data and Examples/Data)
-if [ ! -d $HeadOfModularITKTree/Data ];then
-  cp -r ../Testing/Data $HeadOfModularITKTree/Data
-fi
-
-if [ ! -d $HeadOfModularITKTree/Examples ];then
-  cp -r ../Examples  $HeadOfModularITKTree/Examples
-fi
-
-grep -v Wrapping $logs/newFiles.log | \
-grep -v Utilities | \
-grep -v Validation | \
-grep -v Examples | \
-grep -v Testing | \
-grep -v Review | \
-grep -v CMake | \
-grep -v Documentation | \
-grep -v Modularization | \
-grep -v vnl | \
-tee  $logs/filesToClassify.log
-
+cat $logs/newFiles.log  |grep -v Utilities |grep -v CMakeLists.txt |grep -v Modularization |grep -v Header  >$logs/filesNeedsClassify.txt
 wc Manifest.txt
-wc $logs/filesToClassify.log
 wc $logs/missingFiles.log
+wc $logs/newFiles.log

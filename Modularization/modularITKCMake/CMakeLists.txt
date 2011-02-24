@@ -85,7 +85,7 @@ configure_file(${ITK_SOURCE_DIR}/CTestCustom.cmake.in  ${ITK_BINARY_DIR}/CTestCu
 set(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
 
 # Find the data directory.
-find_path(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Data $ENV{ITK_DATA_ROOT})
+find_path(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
 if(NOT ITK_DATA_ROOT)
   if(BUILD_TESTING)
     message(WARNING "ITK_DATA_ROOT was not found.  ctest will not run properly.")
