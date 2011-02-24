@@ -33,8 +33,7 @@
 
 #ifdef LINUX
 /* BEGIN quote
-http://graphviz.sourcearchive.com/documentation/
-2.16/gvrender__pango_8c-source.html
+http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.html
 */
 /* _GNU_SOURCE is needed (supposedly) for the feenableexcept
  * prototype to be defined in fenv.h on GNU systems.

@@ -37,7 +37,7 @@ namespace itk
  *    Details of this implementation can be found in the book
  *      "Medical Image Registration" by Hajnal, Hill and Hawkes.
  *      The book is available online at
- *               http://www-ipg.umds.ac.uk/d.hill/hhh/
+ *               http://books.google.com/books?id=2dtQNsk-qBQC
  *    The implementation of this class corresponds to equation (30) in
  *    Chapter 3 of this book. Note that by slightly changing this class
  *    it will be trivial to compute the Normalized Mutual Information

@@ -43,7 +43,7 @@ namespace itk
  * algorithm (Lorensen, William and Harvey E. Cline. Marching Cubes: A High
  * Resolution 3D Surface Construction Algorithm. Computer Graphics (SIGGRAPH 87
  * Proceedings) 21(4) July 1987, p. 163-170). A simple explanation is available
- * here: http://www.essi.fr/~lingrand/MarchingCubes/algo.html
+ * here: http://users.polytech.unice.fr/~lingrand/MarchingCubes/algo.html
  *
  * There is a single ambiguous case in the marching squares algorithm: if a
  * given 2x2-pixel square has two high-valued and two low-valued pixels, each
