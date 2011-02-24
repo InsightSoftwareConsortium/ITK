@@ -705,10 +705,10 @@ macro(ADD_SIMPLE_TYPEDEF_PYTHON wrap_class swig_name)
 #  message("${cpp_name} -- ${template_params} -- ${ext_def}")
 
   # must be done first so the typemap are used in the %template commands
-  if("${wrap_class}" MATCHES "SmartPointer$")
+  if("${swig_name}" MATCHES "_Pointer$")
     string(REGEX REPLACE "_Pointer$" "" smart_pointed "${swig_name}")
     ADD_PYTHON_POINTER_TYPEMAP("${smart_pointed}")
-  endif("${wrap_class}" MATCHES "SmartPointer$")
+  endif()
 
 
   # and now, generate the typemaps and other customizations
@@ -1048,10 +1048,10 @@ macro(ADD_SIMPLE_TYPEDEF_PYTHON wrap_class swig_name)
     ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
   endif("${cpp_name}" STREQUAL "itk::SurfaceSpatialObjectPoint")
 
-  if("${cpp_name}" STREQUAL "itk::SpatialObject" AND NOT "${ext_def}" MATCHES "SmartPointer")
+  if("${cpp_name}" STREQUAL "itk::SpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
     set(WRAP_ITK_PYTHON_SWIG_EXT "${WRAP_ITK_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
     ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
-  endif("${cpp_name}" STREQUAL "itk::SpatialObject" AND NOT "${ext_def}" MATCHES "SmartPointer")
+  endif()
 
 endmacro(ADD_SIMPLE_TYPEDEF_PYTHON)
 

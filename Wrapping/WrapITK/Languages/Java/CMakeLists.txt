@@ -357,10 +357,10 @@ endmacro(WRAP_MODULE_JAVA)
 ###############################################################################
 macro(ADD_SIMPLE_TYPEDEF_JAVA wrap_class swig_name)
 
-  if("${wrap_class}" MATCHES "SmartPointer$")
+  if("${swig_name}" MATCHES "_Pointer$")
     string(REGEX REPLACE "_Pointer$" "" smart_pointed "${swig_name}")
     ADD_JAVA_POINTER_TYPEMAP("${smart_pointed}")
-  endif("${wrap_class}" MATCHES "SmartPointer$")
+  endif()
 
 endmacro(ADD_SIMPLE_TYPEDEF_JAVA wrap_class swig_name)
 
