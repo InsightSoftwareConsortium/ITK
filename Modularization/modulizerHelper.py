@@ -53,7 +53,8 @@ def formAddTestCMD( testName, testDriverName, executableName, argns):
 def ModularITKAddTest(executableSearch, moduleName):
     addTestLines="";
     testDriverName = moduleName+'TestDriver'
-    for line in  open("./AddTestsWithArguments.txt",'r'):
+    o = open ("./tmp.txt",'w')
+    for line in  open("./RemainingTests.txt",'r'):
       addTestCmd =""
       if(line[0] != '#'):
         argns=""
@@ -75,11 +76,11 @@ def ModularITKAddTest(executableSearch, moduleName):
                executableName = words[5]
                argns =' '.join(words[6:])
                if (executableName == executableSearch):
-                    addTestLines = addTestLines + 'add_test(NAME '+ testName+ '\n      COMMAND '+testDriverName+'\n' + '    --compare ' + baselineFileName + '\n' + '              '+compareFileName +'\n' +'    '+ executableName
+                    addTestCmd = 'add_test(NAME '+ testName+ '\n      COMMAND '+testDriverName+'\n' + '    --compare ' + baselineFileName + '\n' + '              '+compareFileName +'\n' +'    '+ executableName
                     if (argns !=""):
-                         addTestLines = addTestLines + ' '+argns
+                         addTestCmd = addTestCmd + ' '+argns
 
-                    addTestLines = addTestLines +")\n"
+                    addTestCmd = addTestCmd +")\n"
             else:
                 # non regression test
                 executableName = words[2]
@@ -94,7 +95,12 @@ def ModularITKAddTest(executableSearch, moduleName):
                argns =' '.join(words[2:])
                if (executableName == executableSearch):
                    addTestCmd = formAddTestCMD(testName, testDriverName, executableName, argns)
-      addTestLines = addTestLines + addTestCmd
+        if addTestCmd == "":
+            o.write(line)
+        else: # found
+            addTestLines = addTestLines + addTestCmd
+    o.close()
+    os.system('mv -f ./tmp.txt ./RemainingTests.txt')
     return  addTestLines
 
 
