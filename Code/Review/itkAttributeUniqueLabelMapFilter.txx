@@ -95,6 +95,13 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
     {
     LineOfLabelObject l = pq.top();
     IndexType         idx = l.line.GetIndex();
+    // NOTE: VS 7,8,9 seem to contain a bug where if the next line is
+    // accessed with l.labelObject, the results will be erroneous. I
+    // have not been able to find anly reason for this.
+    //
+    // EXERCISE EXTREME CAUTION WHEN EDITING THE NEXT 2 LINES
+    const typename LabelObjectType::LabelType             lLabel = pq.top().labelObject->GetLabel();
+    const typename TAttributeAccessor::AttributeValueType attr = accessor(l.labelObject);
     pq.pop();
 
     bool newMainLine = false;
@@ -126,13 +133,13 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
         // part of a label is over
         // a second label, and below in another part of the image.
         bool keepCurrent;
-        typename TAttributeAccessor::AttributeValueType prevAttr = accessor(prev.labelObject);
-        typename TAttributeAccessor::AttributeValueType attr = accessor(l.labelObject);
+        const typename TAttributeAccessor::AttributeValueType prevAttr = accessor(prev.labelObject);
+        const typename LabelObjectType::LabelType             prevLabel = prev.labelObject->GetLabel();
         // this may be changed to a single boolean expression, but may become
         // quite difficult to read
         if ( attr == prevAttr  )
           {
-          if ( l.labelObject->GetLabel() > prev.labelObject->GetLabel() )
+          if ( lLabel > prevLabel )
             {
             keepCurrent = !m_ReverseOrdering;
             }
