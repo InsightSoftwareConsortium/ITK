@@ -32,7 +32,7 @@
  *         permission of the authors, Milan Sonka, Joseph Reinhardt,
  *         Ryan Long, Hans Johnson, Gary Christensen, and others.
  *         The specification for this file format is taken from the
- *         web site http://www.mayo.edu/bir/PDF/ANALYZE75.pdf.
+ *         web site http://analyzedirect.com/support/10.0Documents/Analyze_Resource_01.pdf
  * \author Kent Williams
  *         The University of Iowa 2003
  * \brief This file was written as a modification to the itkMetaImageIO

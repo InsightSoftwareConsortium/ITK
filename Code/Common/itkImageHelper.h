@@ -40,7 +40,7 @@ namespace itk
  * Computing (NAMIC), funded by the National Institutes of Health
  * through the NIH Roadmap for Medical Research, Grant U54 EB005149.
  * Information on the National Centers for Biomedical Computing
- * can be obtained from http://nihroadmap.nih.gov/bioinformatics.
+ * can be obtained from http://commonfund.nih.gov/bioinformatics.
  *
  */
 

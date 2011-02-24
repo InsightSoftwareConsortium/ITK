@@ -42,10 +42,10 @@ namespace itk
  *  This class is only an adaptor to the gdcm library (currently gdcm 1.2.x is used by default):
  *
  * GDCM 1.2 can be found at:
- *  http://creatis-www.insa-lyon.fr/Public/Gdcm/
+ *   http://www.creatis.insa-lyon.fr/software/public/Gdcm/
  *
  *  CREATIS INSA - Lyon 2003-2008
- *    http://www.creatis.insa-lyon.fr
+ *    http://www.creatis.insa-lyon.fr/site/en
  *
  * Using the CMake variable: ITK_USE_SYSTEM_GDCM it is now possible to use a system installed
  * GDCM 2.x release. GDCM 2.x is now being developped on sourceforge.net :
@@ -53,8 +53,12 @@ namespace itk
  *         http://gdcm.sourceforge.net
  *
  * Documentation:
- * - http://apps.sourceforge.net/mediawiki/gdcm/index.php?title=ITK_USE_SYSTEM_GDCM
- * - http://apps.sourceforge.net/mediawiki/gdcm/index.php?title=GDCM_Release_2.0
+ * -
+ *
+ * http://sourceforge.net/apps/mediawiki/gdcm/index.php?title=ITK_USE_SYSTEM_GDCM
+ * -
+ *
+ * http://sourceforge.net/apps/mediawiki/gdcm/index.php?title=GDCM_Release_2.0
  *
  *  \warning There are several restrictions to this current writer:
  *           -  Eventhough during the writing process you pass in a DICOM file as input

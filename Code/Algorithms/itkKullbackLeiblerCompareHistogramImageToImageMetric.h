@@ -59,7 +59,7 @@ namespace itk
  *  \par SUPPORT
  *  This work was supported by the Functional Imaging Research in
  *  Schizophrenia Testbed (FIRST) Biomedical Informatics Research
- *  Network (BIRN, http://www.nbirn.net), which is funded by the
+ *  Network (BIRN, http://www.birncommunity.org/), which is funded by the
  *  National Center for Research Resources at the National
  *  Institutes of Health (NIH).  This work is also funded by the
  *  Neuroimage Analysis Center (P41 RR13218).

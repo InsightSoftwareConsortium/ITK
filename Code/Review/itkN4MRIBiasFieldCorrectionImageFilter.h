@@ -39,7 +39,7 @@ namespace itk {
  * (Gaussian) for the bias field and does not require tissue class segmentation.
  * In addition, there are only a couple of parameters to tune with the default
  * values performing quite well. N3 has been publicly available as a set of
- * perl scripts (http://www.bic.mni.mcgill.ca/software/N3/)
+ * perl scripts (http://www.bic.mni.mcgill.ca/ServicesSoftwareAdvancedImageProcessingTools/HomePage)
  *
  * The N4 algorithm, encapsulated with this class, is a variation of the original
  * N3 algorithm with the additional benefits of an improved B-spline fitting

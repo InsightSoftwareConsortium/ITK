@@ -17,7 +17,7 @@
  *=========================================================================*/
 /**
  *         The specification for this file format is taken from the
- *         web site http://www.bic.mni.mcgill.ca/software/minc
+ *         web site http://www.bic.mni.mcgill.ca/ServicesSoftware/MINC
  * \author Leila Baghdadi
  *         Mouse Imaging Centre, Toronto, Canada 2005.
  */
