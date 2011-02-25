@@ -596,7 +596,7 @@ TestDegenerateHeaderFiles()
     error++;
     }
   RemoveByteSwapTestFiles(AugmentName);
-  return error ? 1 : 0;
+  return error ? 0 : 1;
 }
 int itkAnalyzeImageIOBadHeader(int ac, char* av[])
 {

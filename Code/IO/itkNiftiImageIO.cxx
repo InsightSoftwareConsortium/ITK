@@ -1235,6 +1235,9 @@ NiftiImageIO
     case 1:
       this->SetDimensions(0, this->m_NiftiImage->nx);
       this->SetSpacing(0, this->m_NiftiImage->dx * spacingscale);
+      break;
+    default:
+      itkExceptionMacro( << this->GetFileName() << " has " << dims << " dimensions, and is not supported or invalid!" );
     }
 
   this->ComputeStrides();
@@ -1659,7 +1662,11 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
         break;
       }
     dir =  OrientAdapterType().ToDirectionCosines(orient);
-    m_Origin[0] = m_Origin[1] = 0;
+    m_Origin[0] = 0;
+    if ( dims > 1 )
+      {
+      m_Origin[1] = 0;
+      }
     if ( dims > 2 )
       {
       m_Origin[2] = 0;
