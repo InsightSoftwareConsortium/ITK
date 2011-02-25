@@ -3,7 +3,7 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 WRAP_INCLUDE("vnl/vnl_file_matrix.h")
 
-WRAP_CLASS("vnl_file_matrix")
+WRAP_CLASS("vnl_file_matrix" EXPLICIT_SPECIALIZATION)
   WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
   WRAP_TEMPLATE("${ITKM_F}" "${ITKT_F}")
 END_WRAP_CLASS()

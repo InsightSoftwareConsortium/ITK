@@ -5,7 +5,7 @@ WRAP_INCLUDE("vcl_complex.h")
 WRAP_INCLUDE("vnl/vnl_matrix.h")
 WRAP_INCLUDE("vnl/vnl_vector.h")
 
-WRAP_CLASS("vnl_vector")
+WRAP_CLASS("vnl_vector" EXPLICIT_SPECIALIZATION)
   UNIQUE(vector_types "D;F;SI;SL;LD;SC;UC;US;UI;UL;${WRAP_ITK_SCALAR}")
   foreach(t ${vector_types})
     WRAP_TEMPLATE("${ITKM_${t}}"  "${ITKT_${t}}")

@@ -3,4 +3,4 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 WRAP_INCLUDE("vnl/vnl_least_squares_function.h")
 
-WRAP_NON_TEMPLATE_CLASS("vnl_least_squares_function")
+WRAP_NON_TEMPLATE_CLASS("vnl_least_squares_function" EXPLICIT_SPECIALIZATION)

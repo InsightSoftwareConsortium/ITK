@@ -1,4 +1,4 @@
-WRAP_CLASS("itk::ParametricPath" POINTER)
+WRAP_CLASS("itk::ParametricPath" POINTER_WITH_EXPLICIT_SPECIALIZATION)
   foreach(d ${WRAP_ITK_DIMS})
     WRAP_TEMPLATE("${d}" "${d}")
   endforeach(d)

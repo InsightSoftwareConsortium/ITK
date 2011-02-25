@@ -1,0 +1,11 @@
+#define __@WRAPPER_LIBRARY_NAME@Explicit_@module@
+#include "@WRAPPER_LIBRARY_NAME@Explicit.h"
+
+@EXPLICIT_INSTANTIATES@
+
+// a dummy export to make sure to export something
+// VXLNumerics exports nothing without that
+extern "C" WRAP_ITK_@WRAPPER_LIBRARY_NAME@_EXPORT int dummy_export_@WRAPPER_LIBRARY_NAME@Explicit_@module@()
+{
+  return 0;
+}

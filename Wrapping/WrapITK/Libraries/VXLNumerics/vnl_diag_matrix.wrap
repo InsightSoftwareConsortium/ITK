@@ -4,7 +4,7 @@ set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 WRAP_INCLUDE("vcl_complex.h")
 WRAP_INCLUDE("vnl/vnl_diag_matrix.h")
 
-WRAP_CLASS("vnl_diag_matrix")
+WRAP_CLASS("vnl_diag_matrix" EXPLICIT_SPECIALIZATION)
   WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
   WRAP_TEMPLATE("_vcl_complex${ITKM_D}" "vcl_complex<${ITKT_D}>")
   WRAP_TEMPLATE("${ITKM_F}" "${ITKT_F}")

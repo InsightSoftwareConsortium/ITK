@@ -3,7 +3,7 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 WRAP_INCLUDE("vnl/vnl_fortran_copy.h")
 
-WRAP_CLASS("vnl_fortran_copy")
+WRAP_CLASS("vnl_fortran_copy" EXPLICIT_SPECIALIZATION)
   WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
   WRAP_TEMPLATE("_vcl_complex${ITKM_D}" "vcl_complex<${ITKT_D}>")
   WRAP_TEMPLATE("${ITKM_F}" "${ITKT_F}")
