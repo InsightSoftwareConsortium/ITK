@@ -106,12 +106,12 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
     {
     length = 0.;
 
-    for ( InputIteratorGeom e_it = b_it->BeginGeomLnext();
-          e_it != b_it->EndGeomLnext();
+    for ( InputIteratorGeom e_it = (*b_it)->BeginGeomLnext();
+          e_it != (*b_it)->EndGeomLnext();
           ++e_it )
       {
-      length += e_it->GetOrigin().EuclideanDistanceTo(
-        e_it->GetDestinationination() );
+//      length += e_it->GetOrigin().EuclideanDistanceTo(
+//        e_it->GetDestinationination() );
       }
     if ( length > max_length )
       {
@@ -147,8 +147,8 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()
     {
     k = 0;
 
-    for ( InputIteratorGeom e_it = b_it->BeginGeomLnext();
-          e_it != b_it->EndGeomLnext();
+    for ( InputIteratorGeom e_it = (*b_it)->BeginGeomLnext();
+          e_it != (*b_it)->EndGeomLnext();
           ++e_it )
       {
       k++;
