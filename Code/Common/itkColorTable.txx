@@ -87,32 +87,32 @@ ColorTable< TPixel >
     }
 
   m_Color[0].Set((TPixel)(0.9 * scale + shift),
-                 (TPixel)(0.0 * scale + shift),
-                 (TPixel)(0.0 * scale + shift) );
+                 (TPixel)(              shift),
+                 (TPixel)(              shift) );
   m_ColorName[0] = "Red";
 
   m_Color[1].Set((TPixel)(0.8 * scale + shift),
-                 (TPixel)(0.0 * scale + shift),
+                 (TPixel)(              shift),
                  (TPixel)(0.8 * scale + shift));
   m_ColorName[1] = "Purple";
 
-  m_Color[2].Set((TPixel)(0.0 * scale + shift),
+  m_Color[2].Set((TPixel)(              shift),
                  (TPixel)(0.8 * scale + shift),
                  (TPixel)(0.8 * scale + shift));
   m_ColorName[2] = "Aqua";
 
   m_Color[3].Set((TPixel)(0.8 * scale + shift),
                  (TPixel)(0.8 * scale + shift),
-                 (TPixel)(0.0 * scale + shift));
+                 (TPixel)(              shift));
   m_ColorName[3] = "Yellow";
 
-  m_Color[4].Set((TPixel)(0.0 * scale + shift),
+  m_Color[4].Set((TPixel)(              shift),
                  (TPixel)(0.9 * scale + shift),
-                 (TPixel)(0.0 * scale + shift));
+                 (TPixel)(              shift));
   m_ColorName[4] = "Green";
 
-  m_Color[5].Set((TPixel)(0.0 * scale + shift),
-                 (TPixel)(0.0 * scale + shift),
+  m_Color[5].Set((TPixel)(              shift),
+                 (TPixel)(              shift),
                  (TPixel)(0.9 * scale + shift));
   m_ColorName[5] = "Blue";
 
@@ -232,8 +232,8 @@ ColorTable< TPixel >
       {
       r = static_cast< TPixel >(realR);
       }
-    TPixel g(static_cast<TPixel>(0 * scale + shift));
-    TPixel b(static_cast<TPixel>(0 * scale + shift));
+    TPixel g(static_cast<TPixel>( shift));
+    TPixel b(static_cast<TPixel>( shift));
     m_Color[i].Set(r,g,b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2)
