@@ -146,7 +146,7 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
   #   )
 
     if(WRAP_ITK_EXPLICIT)
-      set(opts ${opts} --include "${WRAPPER_LIBRARY_NAME}.explicit.h")
+      set(opts ${opts} --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
     endif(WRAP_ITK_EXPLICIT)
 
     add_custom_command(
