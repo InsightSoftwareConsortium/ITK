@@ -1,7 +1,6 @@
 #include "itkBioRadImageIOFactory.h"
 #include "itkBMPImageIOFactory.h"
 #include "itkGDCMImageIOFactory.h"
-#include "itkAnalyzeImageIOFactory.h"
 #include "itkNiftiImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
@@ -24,7 +23,6 @@ void ProcessArgumentsAndRegisterBuiltInFactories(int *ac, ArgumentStringType *av
   itk::ObjectFactoryBase::RegisterFactory( itk::VTKImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::GiplImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::LSMImageIOFactory::New() );
-  itk::ObjectFactoryBase::RegisterFactory( itk::AnalyzeImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::NiftiImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::StimulateImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );

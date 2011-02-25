@@ -26,6 +26,7 @@ if [ -d $HeadOfModularITKTree ]; then
 fi
 
 # create an index table for searching modules, used by search function in modulizerHelpers.py
+export PATH=/usr/bin:$PATH # for  using sort in cygwin
 cat Manifest.txt |grep -v '^#' |sed 's/[^ ]* * *//' |sort|uniq|sort -k 1 >ModulePathTable.txt
 
 # copy the utility modules to desitnation

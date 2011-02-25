@@ -37,7 +37,6 @@ ITK-QuadEdgeMeshFiltering
 ITK-Smoothing
 ITK-SpatialFunction
 ITK-Thresholding
-ITK-IO-Analyze
 ITK-IO-Base
 ITK-IO-BioRad
 ITK-IO-BMP
