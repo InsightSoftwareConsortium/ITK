@@ -2807,11 +2807,6 @@ Migration/OrientationAdapterBaseRename.xml                                      
 Migration/QuadEdgeMesh-Changes.xml                                               Utilities       ITK-Migration                  Migration
 Migration/RealTimeClockAPIChanges.xml                                            Utilities       ITK-Migration                  Migration
 Testing/Code/Algorithms/itk2DDeformableTest.cxx                                  External        ITK-Deprecated                 Deprecated
-Testing/Code/Algorithms/itkAlgorithmsPrintTest.cxx                               Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Algorithms/itkAlgorithmsPrintTest2.cxx                              Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Algorithms/itkAlgorithmsPrintTest3.cxx                              Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Algorithms/itkAlgorithmsPrintTest4.cxx                              Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Algorithms/itkAlgorithmsPrintTests.cxx                              Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx     Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkAntiAliasBinaryImageFilterTest.cxx                    Filtering       ITK-AntiAlias                  AntiAlias
 Testing/Code/Algorithms/itkAutomaticTopologyMeshSourceTest.cxx                   Core            ITK-Mesh                       Mesh
@@ -2990,8 +2985,6 @@ Testing/Code/BasicFilters/itkBSplineResampleImageFilterTest.cxx                 
 Testing/Code/BasicFilters/itkBSplineResampleImageFunctionTest.cxx                Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/BasicFilters/itkBSplineUpsampleImageFilterTest.cxx                  Filtering       ITK-ImageGrid                  ImageGrid
 Testing/Code/BasicFilters/itkBasicArchitectureTest.cxx                           Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/BasicFilters/itkBasicFiltersPrintTest.cxx                           Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/BasicFilters/itkBasicFiltersPrintTest2.cxx                          Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/BasicFilters/itkBilateralImageFilterTest.cxx                        Filtering       ITK-ImageFeature               ImageFeature
 Testing/Code/BasicFilters/itkBilateralImageFilterTest2.cxx                       Filtering       ITK-ImageFeature               ImageFeature
 Testing/Code/BasicFilters/itkBilateralImageFilterTest3.cxx                       Filtering       ITK-ImageFeature               ImageFeature
@@ -3285,7 +3278,6 @@ Testing/Code/Common/itkCentralDifferenceImageFunctionTest.cxx                   
 Testing/Code/Common/itkChainCodePath2DTest.cxx                                   Filtering       ITK-Path                       Path
 Testing/Code/Common/itkChainCodePathTest.cxx                                     Filtering       ITK-Path                       Path
 Testing/Code/Common/itkColorTableTest.cxx                                        Core            ITK-Common                     Common
-Testing/Code/Common/itkCommonPrintTest.cxx                                       Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkConditionVariableTest.cxx                                 Core            ITK-Common                     Common
 Testing/Code/Common/itkConstNeighborhoodIteratorTest.cxx                         Core            ITK-Common                     Common
 Testing/Code/Common/itkConstShapedNeighborhoodIteratorTest.cxx                   Core            ITK-Common                     Common
@@ -3534,7 +3526,6 @@ Testing/Code/IO/itkGEImageIOTest.cxx                                            
 Testing/Code/IO/itkGiplImageIOTest.cxx                                           Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkIOCommonTest.cxx                                              IO              ITK-IO-Base                    Base
 Testing/Code/IO/itkIOPluginTest.cxx                                              Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/IO/itkIOPrintTest.cxx                                               Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkIOTests.cxx                                                   External        ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkImageFileReaderDimensionsTest.cxx                             Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkImageFileReaderStreamingTest.cxx                              Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -3650,7 +3641,6 @@ Testing/Code/Numerics/NeuralNetworks/QPropXORTest1.cxx                          
 Testing/Code/Numerics/NeuralNetworks/RBFTest1.cxx                                Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/NeuralNetworks/XORTest1.cxx                                Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/NeuralNetworks/XORTest2.cxx                                Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Numerics/NeuralNetworks/itkNeuralNetworksPrintTest.cxx              Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkChiSquareDistributionTest.cxx                Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkCovarianceSampleFilterTest.cxx               Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkCovarianceSampleFilterTest2.cxx              Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -3740,7 +3730,6 @@ Testing/Code/Numerics/Statistics/itkSparseFrequencyContainer2Test.cxx           
 Testing/Code/Numerics/Statistics/itkStandardDeviationPerComponentSampleFilterTest.cxx Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkStatisticsAlgorithmTest.cxx                  Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkStatisticsAlgorithmTest2.cxx                 Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Numerics/Statistics/itkStatisticsPrintTest.cxx                      Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkStatisticsTypesTest.cxx                      Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkSubsampleTest.cxx                            Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/Statistics/itkSubsampleTest2.cxx                           Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -3763,7 +3752,6 @@ Testing/Code/Numerics/itkLBFGSBOptimizerTest.cxx                                
 Testing/Code/Numerics/itkLBFGSOptimizerTest.cxx                                  Numerics        ITK-Optimizers                 Optimizers
 Testing/Code/Numerics/itkLevenbergMarquardtOptimizerTest.cxx                     Numerics        ITK-Optimizers                 Optimizers
 Testing/Code/Numerics/itkMultivariateLegendrePolynomialTest.cxx                  Numerics        ITK-Polynomials                Polynomials
-Testing/Code/Numerics/itkNumericsPrintTest.cxx                                   Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/itkNumericsTest.cxx                                        Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/itkOptimizersHierarchyTest.cxx                             Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/itkPowellOptimizerTest.cxx                                 Numerics        ITK-Optimizers                 Optimizers
@@ -3991,7 +3979,6 @@ Testing/Code/SpatialObject/itkPolygonGroupSpatialObjectTest.cxx                 
 Testing/Code/SpatialObject/itkPolygonSpatialObjectTest.cxx                       Core            ITK-SpatialObjects             SpatialObjects
 Testing/Code/SpatialObject/itkSceneSpatialObjectTest.cxx                         Core            ITK-SpatialObjects             SpatialObjects
 Testing/Code/SpatialObject/itkSpatialObjectDuplicatorTest.cxx                    Core            ITK-SpatialObjects             SpatialObjects
-Testing/Code/SpatialObject/itkSpatialObjectPrintTest.cxx                         Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/SpatialObject/itkSpatialObjectTreeContainerTest.cxx                 Core            ITK-SpatialObjects             SpatialObjects
 Testing/Code/SpatialObject/itkSurfaceSpatialObjectTest.cxx                       Core            ITK-SpatialObjects             SpatialObjects
 Testing/Code/SpatialObject/itkTubeSpatialObjectTest.cxx                          Core            ITK-SpatialObjects             SpatialObjects

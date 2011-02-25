@@ -132,7 +132,7 @@ missingf.close()
 moduleList = modulizerHelper.unique(moduleList)
 
 
-
+os.system('cp ./AddTestsWithArguments.txt ./RemainingTests.txt')
 
 #----------------------------------------------------------------------------------------------------
 # create CMake codes for each module
@@ -229,9 +229,6 @@ for  moduleName in moduleList:
      os.system('cp ./templateModule/itk-template-module/NOTICE'+'  '+ HeadOfModularITKTree + '/'+ modulePath )
 
 #----------------------------------------------------------------------------------------------------
-#clean up the temporary file
-os.system("rm -f ./ModulePathTable.txt")
-
 
 # clean up remaining  directories
 copyDirList = ['Testing/Data', 'Examples', 'Validation', 'Documentation', 'Wrapping', 'Testing/HTML']
@@ -255,3 +252,7 @@ for (root, subDirs, files) in os.walk(HeadOfTempTree):
      newf.write(newFileName+'\n')
 newf.close()
 print ("listed new files to"+LogDir+"/newFiles.log")
+
+#clean up the temporary file
+os.system('rm -f ./ModulePathTable.txt')
+os.system('mv -f ./RemainingTests.txt   '+LogDir +'/RemainingTests.txt')
