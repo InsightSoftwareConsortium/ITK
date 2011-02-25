@@ -281,6 +281,7 @@ set(KitTests
   itkMapOptGrayscaleMorphologicalOpeningImageFilterTest
   itkMapOptGrayscaleDilateImageFilterTest
   itkMapOptGrayscaleErodeImageFilterTest
+  itkImageFunctionTest
 )
 
 
@@ -299,6 +300,14 @@ endif( USE_FFTWD OR USE_FFTWF )
 
 # Given KIT, KIT_LIBS and KitTests, build TestDriver
 CreateTestDriver(${KIT} "${KIT_LIBS}" "${KitTests}" TestDriver)
+
+# Quick WIP build target
+# Call using 'make ReviewWIPCxxTests'
+set(KIT_WIP ReviewWIP)
+set(KitTests_WIP
+  )
+CreateTestDriver(${KIT_WIP} "${KIT_LIBS}" "${KitTests_WIP}" TestDriver_WIP)
+
 
 #############################################################
 # Tests that use the Test Driver
@@ -2599,6 +2608,7 @@ add_test(itkJPEG2000Test06 ${TestDriver}
             ${ITK_DATA_ROOT}/Input/cthead1.j2k
             ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
 
+add_test(itkImageFunctionTest ${TestDriver} itkImageFunctionTest)
 
 #
 # Function colormaps
