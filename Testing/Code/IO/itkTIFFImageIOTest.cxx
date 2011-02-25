@@ -19,6 +19,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include <fstream>
+#include "itkTIFFImageIO.h"
 
 #if defined(ITK_USE_MODULAR_BUILD)
   #define SPECIFIC_IMAGEIO_MODULE_TEST
@@ -32,7 +33,9 @@ template<class T> int DoIt( int, char * argv[], typename T::Pointer)
   typename itk::ImageFileWriter<T>::Pointer writer
     = itk::ImageFileWriter<T>::New();
 
+  itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetFileName(argv[1]);
+  reader->SetImageIO(io);
 
   try
     {
@@ -55,6 +58,7 @@ template<class T> int DoIt( int, char * argv[], typename T::Pointer)
   // Generate test image
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName(argv[2]);
+  writer->SetImageIO(io);
   try
     {
     writer->Update();
