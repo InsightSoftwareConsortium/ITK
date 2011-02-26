@@ -179,9 +179,9 @@ public:
 
   /** Method to define the Exclusion region. The iterator will skip pixels
    * inside this region.
-   * \warning The exclusion region must be completly containe inside the
-   * normal region used to construct the iterator. A border of at least on
-   * pixels should exist between the normal region and the exclusion region.
+   * \warning The exclusion region must be completly contained inside the
+   * normal region used to construct the iterator. A border of at least one
+   * pixel should exist between the normal region and the exclusion region.
    */
   void SetExclusionRegion(const RegionType & region);
 
