@@ -20,7 +20,6 @@ ITK-Transform
 
 
 set(IO_module_list
-ITK-IO-Analyze
 ITK-IO-Base
 ITK-IO-BioRad
 ITK-IO-BMP
