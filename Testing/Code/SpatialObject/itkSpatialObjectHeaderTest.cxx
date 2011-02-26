@@ -60,7 +60,6 @@
 #include "itkMetaVesselTubeConverter.txx"
 #include "itkPlaneSpatialObject.txx"
 #include "itkPointBasedSpatialObject.txx"
-#include "itkPolygonGroupOrientation.h"
 #include "itkPolygonGroupSpatialObject.txx"
 #include "itkPolygonSpatialObject.txx"
 #include "itkSceneSpatialObject.txx"
