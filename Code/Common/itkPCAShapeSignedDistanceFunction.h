@@ -49,7 +49,7 @@ namespace itk
  *
  * \f[ s = M(T(x)) + \sum_i^{q} p[i] * \sigma[i] * P_i(T(x)) \f]
  *
- * Where \sigma[i] are the square root of the eigenvalues. These are defined using
+ * Where \f$\sigma[i]\f$ are the square root of the eigenvalues. These are defined using
  * method SetPrincipalComponentStandardDeviations().
  *
  * This class is templated over the coordinate representation type

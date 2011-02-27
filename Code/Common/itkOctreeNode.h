@@ -35,26 +35,24 @@ class OctreeBase;
  * \author Hans J. Johnson
  * This class is the basic building block of an octree.  It is rarely used by itself, and commonly
  * used by the Octree class.
+ * \todo FIXME copy & paste documentation in all methods.
  */
 class ITKCommon_EXPORT OctreeNode
 {
 public:
   /**
    * Default constructor
-   * \author Hans J. Johnson
    * \post After construction, it is assumed all children of this node are colored
    * with values of 0.
    */
   OctreeNode(void);
   /**
    * Default destructor
-   * \author Hans J. Johnson
    */
   virtual ~OctreeNode(void);
 
   /**
    * Returns the value of the specified Child for for this OctreeNode
-   * \author Hans J. Johnson
    * \param ChildID The numerical identifier of the desired child.
    * \return A pointer to the Disired child. NOTE: This is always an
    * instance of an OctreeNode.
@@ -67,7 +65,6 @@ public:
   /** @} */
   /**
    * Determines the color value of the specified Child for for this OctreeNode
-   * \author Hans J. Johnson
    * \param ChildID The numerical identifier of the desired child.
    * \return A value between 0 and 255 to indicate the color of the Disired child.
    * \pre Must determine that the specified node is colored (Use IsNodeColored()
@@ -77,7 +74,6 @@ public:
 
   /**
    * Sets the color value of the specified Child for for this OctreeNode
-   * \author Hans J. Johnson
    * \param ChildID The numerical identifier of the desired child.
    * \param NodeColor The disired color of this node.
    * \post All children of the specified child are removed, and the child is set to
@@ -87,7 +83,6 @@ public:
 
   /**
    * Sets the color value of the specified Child for for this OctreeNode
-   * \author Hans J. Johnson
    * \param ChildID The numerical identifier of the desired child.
    * \param NodeColor The disired color of this node.
    * \post All children of the specified child are removed, and the child is set to
@@ -97,7 +92,6 @@ public:
 
   /**
    * Determines if the child is a leaf node (colored), or a branch node (uncolored)
-   * \author Hans J. Johnson
    * \param ChildID The numerical identifier of the desired child.
    * \return true if it is colored, false if it is not
    */
@@ -113,7 +107,6 @@ private:
   /**
    * Removes all children from this node down, and sets the value
    * value of the children to background.
-   * \author Hans J. Johnson
    */
   void RemoveChildren(void);
 

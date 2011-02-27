@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/** \fixme This is a very easy way to declare a string constant */
+/** \todo FIXME: This is a very easy way to declare a string constant */
 const char *const magicMAP = "MAP ";
 
 /** \class MRCHeaderObject

@@ -280,12 +280,12 @@ public:
   }
 
   /**
-   * SetPlanRigor -- Set the behavior of wisdom plan creation
+   * \brief Set the behavior of wisdom plan creation
    *
    * If the environmental variable "ITK_FFTW_PLAN_RIGOR", is set,
    * then the environmental setting overides default settings.
-   * \param One of the FFTW planner rigor flags FFTW_ESTIMATE, FFTW_MEASURE,
-   * FFTW_PATIENT, FFTW_EXHAUSTIVE
+   * \param v One of the FFTW planner rigor flags FFTW_ESTIMATE,
+   * FFTW_MEASURE, FFTW_PATIENT, FFTW_EXHAUSTIVE
    */
   static void SetPlanRigor( const int & v )
   {
@@ -309,11 +309,11 @@ public:
   static std::string GetPlanRigorName( const int & value );
 
   /**
-   * SetReadWisdomCache -- Set the behavior of wisdom file caching
+   * \brief Set the behavior of wisdom file caching
    *
    * If the environmental variable "ITK_FFTW_WRITE_WISDOM_CACHE", is set,
    * then the environmental setting overides default settings.
-   * \param true will create a wisdom file in the location
+   * \param v true will create a wisdom file in the location
    */
   static void SetReadWisdomCache( const bool & v )
   {
@@ -325,11 +325,11 @@ public:
   }
 
   /**
-   * SetWriteWisdomCache -- Set the behavior of wisdom file caching
+   * \brief Set the behavior of wisdom file caching
    *
    * If the environmental variable "ITK_FFTW_WRITE_WISDOM_CACHE", is set,
    * then the environmental setting overides default settings.
-   * \param true will create a wisdom file in the location
+   * \param v true will create a wisdom file in the location
    */
   static void SetWriteWisdomCache( const bool & v )
   {
@@ -341,11 +341,11 @@ public:
   }
 
   /**
-   * SetWisdomCacheBase Define the directory where
+   * \brief Define the directory where
    * the wisdom cache will be placed.
    * The environmental variable ITK_FFTW_WISDOM_CACHE_BASE
    * will override the default behavior.
-   * \param the path to the base directory name
+   * \param v the path to the base directory name
    */
   static void SetWisdomCacheBase( const std::string & v )
   {
@@ -357,7 +357,7 @@ public:
   }
 
   /**
-   * SetWisdomFilenameGenerator allows application developers
+   * \brief allows application developers
    * to create arbitrary rules for auto-generating
    * cache file names.  A default cache strategy is set
    * to generate separate cache files for each unique
@@ -371,7 +371,7 @@ public:
   static void SetWisdomFilenameGenerator( WisdomFilenameGeneratorBase *wfg);
 
   /**
-   * GetWisdomFileDefaultBaseName
+   * \brief
    * \return Returns the full path for the file to be written
    * if WriteWisdomCache is set to true.
    * The file name is based on the naming strategy set

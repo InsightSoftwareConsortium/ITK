@@ -100,7 +100,8 @@ public:
 
   virtual const double * GetOrigin() const;
 
-  /** Set the size of the swath image.  The #of rows (size[1]) MUST be odd */
+  /** Set the size of the swath image.
+   * The number of rows (size[1]) MUST be odd */
   itkSetMacro(Size, SizeType)
 
   /** Set the default pixel value of the swath image, to be used if the swath

@@ -242,7 +242,7 @@ public:
     return m_Solution;
   }
 
-  // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
+  /** \todo FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT */
   Float GetSolution(unsigned int i, unsigned int which = 0)
   {
     return m_Solution->GetSolutionValue(i, which);

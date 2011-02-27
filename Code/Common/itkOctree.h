@@ -89,7 +89,7 @@ public:
    *
    * Returns color table pointer for this tree.
    *
-   * Each Octree has an array of char whose size = the #of color table
+   * Each Octree has an array of char whose size = the number of color table
    * entries. Each Node in the Octree points either to 8 sub-nodes, or
    * into the ColorTable;  The color table isn't actually used to hold
    * data; it simply provides a range of unique addresses that are distinct
@@ -105,8 +105,8 @@ public:
  * \class Octree
  * \brief represent a 3D Image with an Octree data structure.
  *
- * Parameterized on Pixel type of the image, #of colors in color table,
- * and a Mapping function, derived from itk::FunctionBase
+ * Parameterized on Pixel type of the image, number of colors in color
+ * table, and a Mapping function, derived from itk::FunctionBase
  */
 template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
 class Octree:public OctreeBase

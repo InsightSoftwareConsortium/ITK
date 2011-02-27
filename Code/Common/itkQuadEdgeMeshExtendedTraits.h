@@ -27,32 +27,32 @@ namespace itk
  * \class QuadEdgeMeshExtendedTraits
  * \ingroup QEMeshObjects
  *
- * \brief Extended traits for a \ref itkQE::Mesh.
+ * \brief Extended traits for a QuadEdgeMesh.
  *
  * QuadEdgeMeshExtendedTraits is a simple structure that holds type information
- * for a \ref itkQE::Mesh and its cells. It is used to avoid the passing
+ * for a QuadEdgeMesh and its cells. It is used to avoid the passing
  * of many template parameters while still enjoying the benefits of generic
  * programming.
  *
- * @param TCoordRep
+ * \tparam TCoordRep
  *    Numerical type with which to represent each coordinate value.
  *
- * @param VPointDimension
+ * \tparam VPointDimension
  *    Geometric dimension of space.
  *
- * @param VMaxTopologicalDimension
+ * \tparam VMaxTopologicalDimension
  *    Max topological dimension of a cell that can be inserted into this mesh.
  *
- * @param TPixelType
+ * \tparam TPixelType
  *    The type stored as data for vertices.
  *
- * @param TPData
+ * \tparam TPData
  *    The type stored as data for the primal edges.
  *
- * @param TDData
+ * \tparam TDData
  *    The type stored as data for the dual edges.
  *
- * @param TCellPixelType
+ * \tparam TCellPixelType
  *     The type associated with every cell.
  *
  */

@@ -33,14 +33,14 @@ namespace itk
  * each side of the physical edge.
  *
  * The only purpose of the last paramater of the template is to guarantee that
- * the two types GeometricalQuadEdge<...> and GeometricalQuadEdge<...>::Dual
- * are always different (in the sense that their typeid() are different).  If
+ * the two types GeometricalQuadEdge and GeometricalQuadEdge::Dual
+ * are always different (in the sense that their typeid() are different). If
  * we only had the four first parameters and assume that
- * GeometricalQuadEdge<...> gets instantiated with types such that TVRef =
+ * GeometricalQuadEdge gets instantiated with types such that TVRef =
  * TFRef and TPrimalData = TDualData then this instantiation
- * GeometricalQuadEdge<...> and GeometricalQuadEdge<...>::Dual would be the
+ * GeometricalQuadEdge and GeometricalQuadEdge::Dual would be the
  * same types (this is simply due to the very definition of
- * GeometricalQuadEdge<...>::Dual). This would in turn make the types QEType
+ * GeometricalQuadEdge::Dual). This would in turn make the types QEType
  * and QEDual of \ref QuadEdgeMesh identical and would prevent any algorithm
  * requiring to distinguish those types (e.g. by relying on a
  * dynamic_cast<QEType*>) to be effective.  This justifies the existence of
@@ -50,7 +50,6 @@ namespace itk
  *
  * This implementation was contributed as a paper to the Insight Journal
  * http://insight-journal.org/midas/handle.php?handle=1926/306
-
  *
  * \sa QuadEdge
  *

@@ -36,7 +36,7 @@ namespace NeighborhoodAlgorithm
 * from the boundary, where $d$ is the radius of the neighborhood stencil used
 * for the numerical calculations. In other words, faces are those regions
 * where a neighborhood iterator of radius $d$ will always overlap the boundary
-* of the image. The face calculator also returns the single \emph{inner}
+* of the image. The face calculator also returns the single \em inner
 * region, in which out-of-bounds values are never required and bounds checking
 * is not necessary.
 *

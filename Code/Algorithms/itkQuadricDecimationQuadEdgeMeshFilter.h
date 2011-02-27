@@ -171,9 +171,8 @@ protected:
   }
 
   /**
-  * \brief
-  * \param[in]
-  * \return
+  * \param[in] iEdge
+  * \return the optimal point location
   */
   OutputPointType Relocate(OutputQEType *iEdge)
   {

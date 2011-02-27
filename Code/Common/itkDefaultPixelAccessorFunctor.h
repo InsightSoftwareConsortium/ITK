@@ -27,10 +27,10 @@ namespace itk
  * The pixel accessor is set with the SetPixelAccessor method. This accessor is
  * meant to be used for Image and not for VectorImage.
  *
- * \thanks
+ * \note
  * This work is part of the National Alliance for Medical Image Computing
- * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
- * for Medical Research, Grant U54 EB005149.
+ * (NAMIC), funded by the National Institutes of Health through the NIH
+ * Roadmap for Medical Research, Grant U54 EB005149.
  *
  * \ingroup ImageAdaptors
  *

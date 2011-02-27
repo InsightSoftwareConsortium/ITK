@@ -35,9 +35,11 @@ namespace fem {
  * specifying an ID of a derived class. Before the objects can be created by
  * object factory, you should first call the Register method for each class:
  *
+ * \code
  * int ID_Derived=FEMObjectFactory<BaseClass>.Register( NewDerivedClass,
  *                                                      "NewDerivedClassName"
  *                                                    );
+ * \endcode
  *
  *  - BaseClass: Base class from which the registered classes are derived
  *
@@ -50,8 +52,10 @@ namespace fem {
  *                     to the base class. Normally you should define this
  *                     function as:
  *
+ * \code
  *                        - BaseClass* NewDerivedClass()
  *                              { return new DerivedClass; }
+ * \endcode
  *
  *  - NewDerivedClassname: String with a name of a derived class.
  *
@@ -59,9 +63,10 @@ namespace fem {
  * and make it static. So a complete registration of a derived class
  * looks like:
  *
+ * \code
  *  - namespace { static Base* NewDerivedClass() { return new DerivedClass; } }
  *    const int OF_Derived=FEMObjectFactory<BaseClass>::Register( NewDerivedClass, "NewDerivedObjectName" );
- *
+ * \endcode
  */
 template<class T>
 class FEMObjectFactory

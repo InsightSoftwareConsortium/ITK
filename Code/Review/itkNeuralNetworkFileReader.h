@@ -43,7 +43,7 @@ namespace itk
  * This class will enable the user to load neural network and define
  * weights and other network parameters from a text file.
  *
- * This class was contributed to the Insight Journal by  Raghu Venkatram.
+ * This class was contributed to the Insight Journal by Raghu Venkatram.
  * The original paper can be found at
  *  http://insight-journal.org/midas/handle.php?handle=1926/203
  *
