@@ -46,6 +46,30 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
   m_Permutation = new RandomPermutation(m_NumberOfPixelsInRegion);
 }
 
+
+//----------------------------------------------------------------------
+//    Assignment Operator
+//----------------------------------------------------------------------
+template< class TImage >
+ImageRandomNonRepeatingConstIteratorWithIndex< TImage > &
+ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
+::operator=(const Self & it)
+{
+  this->ImageConstIteratorWithIndex< TImage >::operator=(it);
+  if(m_Permutation)
+    {
+    memcpy( m_Permutation, it.m_Permutation, sizeof( m_Permutation ) );
+    }
+  else
+    {
+    m_NumberOfPixelsInRegion   = it.GetRegion().GetNumberOfPixels();
+    m_NumberOfSamplesRequested = 0L;
+    m_NumberOfSamplesDone      = 0L;
+    m_Permutation = new RandomPermutation(m_NumberOfPixelsInRegion);
+    }
+  return *this;
+}
+
 /**  Set the number of samples to extract from the region */
 template< class TImage >
 void

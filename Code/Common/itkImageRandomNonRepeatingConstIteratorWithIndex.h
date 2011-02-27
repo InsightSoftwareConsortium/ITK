@@ -249,6 +249,9 @@ public:
     m_Permutation = NULL;
   }
 
+  /** operator= is provided to deep copy m_Permutation. */
+  Self & operator=(const Self & it);
+
   /** Move an iterator to the beginning of the region. */
   void GoToBegin(void)
   {
