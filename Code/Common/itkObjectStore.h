@@ -50,12 +50,12 @@ namespace itk
  * mutex locks if the same container is used across multiple threads. One (or
  * more) ObjectStore's can be safely be created for each thread -- and may even
  * be more efficient in terms of memory use than sharing a single ObjectStore
- * across threads. Calls to \em{new} and \em{delete} have been placed in
+ * across threads. Calls to \em new and \em delete have been placed in
  * critical sections in case a compiler's implementation of new/delete is not
  * thread-safe.
  *
- * Warnings:  For efficiency reasons, the ObjectStore does not guard against the
- * same pointer being Returned() more than once.  Doing this could result in
+ * \warning  For efficiency reasons, the ObjectStore does not guard against the
+ * same pointer being Returned() more than once. Doing this could result in
  * serious problems.
  */
 template< class TObjectType >

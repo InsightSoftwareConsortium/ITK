@@ -60,14 +60,14 @@ namespace itk
  *
  * The different ways of specifying a cell are
  *
- *  -#An IdentifierArrayType (= itk::Array<IdentifierType>) of point
+ *  \li An IdentifierArrayType (= itk::Array<IdentifierType>) of point
  *     identifiers.  These point identifiers are the ones returned by
  *     calls to AddPoint().
- *  -#A parameter list of point identifiers (for instance,
+ *  \li A parameter list of point identifiers (for instance,
  *     <tt>this->AddLine(0, 1)</tt>, if 0 and 1 are point identifiers).
- *  -#A parameter list of itk::Point objects (the function then
+ *  \li A parameter list of itk::Point objects (the function then
  *     generates the identifiers).
- *  -#A parameter list of C-style arrays, with each such array giving
+ *  \li A parameter list of C-style arrays, with each such array giving
  *     the coordinates of one point.  This form is useful for copying
  *     in geometry from foreign data structures.
  *

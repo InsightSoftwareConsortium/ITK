@@ -33,13 +33,14 @@ namespace itk
  *
  * \brief Collapse a given edge by joining its dest and its org.
  *
- * Collapse the argument edge e of \ref Evaluate by joining the two vertices
- * incident to e (i.e. its endpoints). The destination vertex of e is set
- * aside (i.e. disconneted from its edge entry and no edge has this vertex
- * as endpoint). Note that the vertex itself is not removed from the container
- * (and hence there is no loss of geometrical information). On success
- * JoinVertex returns the Id of the disconected vertex (i.e. the destination
- * of e) and it is up to the caller to "take care" of it.
+ * Collapse the argument edge e of EulerOperatorJoinVertexFunction::Evaluate
+ * by joining the two vertices incident to e (i.e. its endpoints).
+ * The destination vertex of e is set aside (i.e. disconneted from its
+ * edge entry and no edge has this vertex as endpoint). Note that the
+ * vertex itself is not removed from the container (and hence there is no
+ * loss of geometrical information). On success JoinVertex returns the Id
+ * of the disconected vertex (i.e. the destination of e) and it is up to
+ * the caller to "take care" of it.
  * Precondition: the edge should be adjacent at least to an other edge
  * (i.e. not be isolated at both endpoints).
  * \warning JoinVertex.Evaluate( h) and JoinVertex.Evaluate( h->GetSym() )
@@ -125,9 +126,9 @@ protected:
 
   /**
    * \brief
-   * \param[in]
-   * \param[in]
-   * \param[out]
+   * \param[in] e
+   * \param[in] iWasLeftFace
+   * \param[out] oToBeDeleted
    * \return true if the face is isolated
    * \return false else
    */

@@ -25,8 +25,9 @@ namespace itk {
 namespace fem {
 
 /**
- * \function Generate2DRectilinearMesh
+ * \fn Generate2DRectilinearMesh
  * \brief Use this function to generate 2D meshes in Solver.
+ * Generate a rectangular mesh of quadrilateral elements.
  *
  * This function uses the generic quadrilateral elements
  * to build meshes that can be used with specific elements for solving
@@ -42,15 +43,11 @@ namespace fem {
  *
  * \sa Generate3DRectilinearMesh
  */
-
-/**
- * Generate a rectangular mesh of quadrilateral elements
- */
 void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver& S, vnl_vector<double>& orig, vnl_vector<double>& size, vnl_vector<double>& Nel);
 
 
 /**
- * Generate3DRectilinearMesh
+ * \fn Generate3DRectilinearMesh
  * \brief Use this function to generate 3D meshes in Solver.
  *
  * Generate a rectangular mesh of hexahedron elements.

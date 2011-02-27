@@ -32,7 +32,7 @@ namespace itk
  * the point set and transformed point set pixels in the moving image
  * after passing the difference through a function of type
  * \f$ \frac{1}{1+ \frac{ difference^2 }{ \lambda^2 } }\f$.
- * $\lambda$ controls the capture radius of the metric. The term capture
+ * \f$\lambda\f$ controls the capture radius of the metric. The term capture
  * radius used here is in terms of intensity domain and not in the spatial
  * domain.
  *

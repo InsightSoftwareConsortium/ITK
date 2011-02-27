@@ -88,7 +88,7 @@ namespace itk
  * \li<a href="splweb.bwh.harvard.edu:8000/pages/papers/westin/ISMRM2002.pdf">[2]</a>
  * <em>A Dual Tensor Basis Solution to the Stejskal-Tanner Equations for DT-MRI</em>
  *
- * \par WARNING:
+ * \warning
  * Although this filter has been written to support multiple threads, please
  * set the number of threads to 1.
  * \code
@@ -97,9 +97,9 @@ namespace itk
  * This is due to buggy code in netlib/dsvdc, that is called by vnl_svd.
  * (used to compute the psudo-inverse to find the dual tensor basis).
  *
- * \author Thanks to Xiaodong Tao, GE, for contributing parts of this class. Also
- * thanks to Casey Goodlet, UNC for patches to support multiple baseline images
- * and other improvements.
+ * \author Xiaodong Tao, GE, for contributing parts of this class.
+ * \author Casey Goodlet, UNC for patches to support multiple baseline
+ * images and other improvements.
  *
  * \note
  * This work is part of the National Alliance for Medical image Computing
@@ -107,15 +107,15 @@ namespace itk
  * for Medical Research, Grant U54 EB005149.
  *
  * \par Examples and Datasets
- * See Examples/Filtering/DiffusionTensor3DReconstructionImageFilter.cxx
+ * \example Examples/Filtering/DiffusionTensor3DReconstructionImageFilter.cxx
  * Sample DTI datasets may be obtained from
- \begin verbatim
-     ftp://public.kitware.com/pub/namic/DTI/Data/dwi.nhdr
-     ftp://public.kitware.com/pub/namic/DTI/Data/dwi.img.gz ( gunzip this )
- \end verbatim
+ * \verbatim
+ *   \li ftp://public.kitware.com/pub/namic/DTI/Data/dwi.nhdr
+ *   \li ftp://public.kitware.com/pub/namic/DTI/Data/dwi.img.gz ( gunzip this )
+ * \endverbatim
  *
  * \sa DiffusionTensor3D SymmetricSecondRankTensor
- * \ingroup Multithreaded  TensorObjects
+ * \ingroup Multithreaded TensorObjects
  */
 
 template< class TReferenceImagePixelType,

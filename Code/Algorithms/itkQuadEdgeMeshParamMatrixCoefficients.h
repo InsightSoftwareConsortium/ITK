@@ -62,8 +62,6 @@ public:
   OnesMatrixCoefficients() {}
 
   /**
-   * \param[in] iMesh
-   * \param[in] iEdge
    * \return \f$ 1 \f$
    */
   InputCoordRepType operator()( const InputMeshType *itkNotUsed(iMesh),

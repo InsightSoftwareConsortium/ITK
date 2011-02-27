@@ -357,15 +357,13 @@ protected:
   /** \brief Compute the internal term
   \param[in] iValue Feature Image Value
   \param[in] iIdx Feature Image Index
-  \param[in] fId Index of the LevelSet Function  */
+  */
   virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType & iValue,
                                               const FeatureIndexType & iIdx) = 0;
 
   /** \brief Compute the external term
   \param[in] iValue Feature Image Value
-  \param[in] iIdx Feature Image Index
-  \param[in] pr Product of Heaviside Functions
-  \note after discussion with kishore, pr is not and unsigned int */
+  \param[in] iIdx Feature Image Index */
   virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType & iValue,
                                               const FeatureIndexType & iIdx) = 0;
 

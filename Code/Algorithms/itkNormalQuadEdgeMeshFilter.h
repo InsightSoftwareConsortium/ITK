@@ -30,9 +30,9 @@ namespace itk
  * the output mesh.
  * Normals to face are first computed, then normals to vertices are computed
  * as linear combination of neighbor face normals, i.e.
- * $f[
+ * \f[
  * n_v = \frac{\sum_{i=0}^{#f} \omega_i \cdot n_i}{\| \sum_{k=0}^{#f} \omega_x \cdot n_k\|}
- * $f]
+ * \f]
  *
  * The difference between each method relies in the definition of the weight
  * \f$ \omega_i \f$ that you can specify by the method SetWeight.

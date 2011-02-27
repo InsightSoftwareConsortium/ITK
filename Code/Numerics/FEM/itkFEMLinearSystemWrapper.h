@@ -101,6 +101,7 @@ public:
    * \param maxNonZeros maximum number of entries allowed in matrix
    * \note in general this function does nothing, however it may
    *       redefined by the derived wrapper if necessary
+   * \todo Should we keep the documentation if the method is commented?
    */
   //virtual void SetMaximumNonZeroValuesInMatrix(unsigned int maxNonZeroValues) = 0;
 
