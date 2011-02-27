@@ -474,9 +474,72 @@ int main(int ac, char *av[])
 
   delete[] argv;
 
+  int state = itksysProcess_GetState(process);
+  switch( state )
+    {
+//     case kwsysProcess_State_Starting:
+//       {
+//       // this is not a possible state after itksysProcess_WaitForExit
+//       std::cerr << "itkTestDriver: Internal error: process can't be in Starting State." << std::endl;
+//       return 1;
+//       break;
+//       }
+    case itksysProcess_State_Error:
+      {
+      std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Exception:
+      {
+      std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Executing:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Exited:
+      {
+      // this is the normal case - it is treated later
+      break;
+      }
+    case itksysProcess_State_Expired:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Killed:
+      {
+      std::cerr << "itkTestDriver: The process has been killed." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Disowned:
+      {
+      std::cerr << "itkTestDriver: Process disowned." << std::endl;
+      return 1;
+      break;
+      }
+    default:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: unknown State." << std::endl;
+      return 1;
+      break;
+      }
+    }
+
   int retCode = itksysProcess_GetExitValue(process);
   if ( retCode != 0 )
     {
+    std::cerr << "itkTestDriver: Process exited with return value: " << retCode << std::endl;
     // no need to compare the images: the test has failed
     return retCode;
     }
