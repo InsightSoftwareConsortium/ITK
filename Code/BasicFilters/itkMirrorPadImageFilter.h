@@ -35,6 +35,9 @@ namespace itk
  * left boundary of the LargestPossibleRegion</b>.  The image bounds of
  * the output must be specified.
  *
+ *
+ * \image html MirrorPadImageFilter.png "Visual explanation of padding regions."
+ *
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
