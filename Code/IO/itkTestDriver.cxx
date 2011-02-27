@@ -47,6 +47,8 @@
 #include "itkExtractImageFilter.h"
 #include "itkDifferenceImageFilter.h"
 #include "itksys/SystemTools.hxx"
+#include "itkIntTypes.h"
+#include "itkFloatingPointExceptions.h"
 // include SharedForward to avoid duplicating the code which find the library
 // path variable
 // name and the path separator
@@ -80,6 +82,21 @@ void usage()
   std::cerr << "  --compare TEST BASELINE" << std::endl;
   std::cerr << "      Compare the TEST image to the BASELINE one." << std::endl;
   std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << "  --with-threads THREADS" << std::endl;
+  std::cerr << "      Use at most THREADS threads." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --without-threads" << std::endl;
+  std::cerr << "      Use at most one thread." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareNumberOfPixelsTolerance TOLERANCE" << std::endl;
+  std::cerr << "      When comparing images with --compare, allow TOLERANCE pixels to differ." << std::endl;
+  std::cerr << "      Default is 0." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareRadiusTolerance TOLERANCE" << std::endl;
+  std::cerr << "      Default is 0." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareIntensityTolerance TOLERANCE" << std::endl;
+  std::cerr << "      Default is 2.0." << std::endl;
   std::cerr << std::endl;
   std::cerr << "  --" << std::endl;
   std::cerr << "      The options after -- are not interpreted by this program and passed" << std::endl;
@@ -92,7 +109,358 @@ void usage()
 
 // Regression Testing Code
 
-int RegressionTestImage(const char *testImageFilename, const char *baselineImageFilename, int reportErrors)
+int RegressionTestImage(const char *testImageFilename,
+                        const char *baselineImageFilename,
+                        int reportErrors,
+                        double intensityTolerance,
+                        ::itk::SizeValueType numberOfPixelsTolerance = 0,
+                        unsigned int radiusTolerance = 0);
+
+std::map< std::string, int > RegressionTestBaselines(char *);
+
+int main(int ac, char *av[])
+{
+  itk::FloatingPointExceptions::Enable();
+
+  double intensityTolerance  = 2.0;
+  unsigned int numberOfPixelsTolerance = 0;
+  unsigned int radiusTolerance = 0;
+
+  std::vector< char * > args;
+  typedef std::pair< char *, char * > ComparePairType;
+  std::vector< ComparePairType > compareList;
+
+  // parse the command line
+  int  i = 1;
+  bool skip = false;
+  while ( i < ac )
+    {
+    if ( !skip && strcmp(av[i], "--add-before-libpath") == 0 )
+      {
+      if ( i + 1 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      std::string libpath = KWSYS_SHARED_FORWARD_LDPATH;
+      libpath += "=";
+      libpath += av[i + 1];
+      char *oldenv = getenv(KWSYS_SHARED_FORWARD_LDPATH);
+      if ( oldenv )
+        {
+        libpath += KWSYS_SHARED_FORWARD_PATH_SEP;
+        libpath += oldenv;
+        }
+      itksys::SystemTools::PutEnv( libpath.c_str() );
+      // on some 64 bit systems, LD_LIBRARY_PATH_64 is used before
+      // LD_LIBRARY_PATH if it is set. It can lead the test to load
+      // the system library instead of the expected one, so this
+      // var must also be set
+      if ( std::string(KWSYS_SHARED_FORWARD_LDPATH) == "LD_LIBRARY_PATH" )
+        {
+        std::string libpath = "LD_LIBRARY_PATH_64";
+        libpath += "=";
+        libpath += av[i + 1];
+        char *oldenv = getenv("LD_LIBRARY_PATH_64");
+        if ( oldenv )
+          {
+          libpath += KWSYS_SHARED_FORWARD_PATH_SEP;
+          libpath += oldenv;
+          }
+        itksys::SystemTools::PutEnv( libpath.c_str() );
+        }
+      i += 2;
+      }
+    else if ( !skip && strcmp(av[i], "--add-before-env") == 0 )
+      {
+      if ( i + 2 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      std::string env = av[i + 1];
+      env += "=";
+      env += av[i + 2];
+      char *oldenv = getenv(av[i + 1]);
+      if ( oldenv )
+        {
+        env += KWSYS_SHARED_FORWARD_PATH_SEP;
+        env += oldenv;
+        }
+      itksys::SystemTools::PutEnv( env.c_str() );
+      i += 3;
+      }
+    else if ( !skip && strcmp(av[i], "--add-before-env-with-sep") == 0 )
+      {
+      if ( i + 3 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      std::string env = av[i + 1];
+      env += "=";
+      env += av[i + 2];
+      char *oldenv = getenv(av[i + 1]);
+      if ( oldenv )
+        {
+        env += av[i + 3];
+        env += oldenv;
+        }
+      itksys::SystemTools::PutEnv( env.c_str() );
+      i += 4;
+      }
+    else if ( !skip && strcmp(av[i], "--compare") == 0 )
+      {
+      if ( i + 2 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      compareList.push_back( ComparePairType(av[i + 1], av[i + 2]) );
+      i += 3;
+      }
+    else if ( !skip && strcmp(av[i], "--") == 0 )
+      {
+      skip = true;
+      i += 1;
+      }
+    else if ( !skip && strcmp(av[i], "--help") == 0 )
+      {
+      usage();
+      return 0;
+      }
+    else if ( !skip && strcmp(av[i], "--with-threads") == 0 )
+      {
+      if ( i + 1 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      // set the environment which will be read by the subprocess
+      std::string threadEnv = "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=";
+      threadEnv += av[i + 1];
+      itksys::SystemTools::PutEnv( threadEnv.c_str() );
+      // and set the number of threads locally for the comparison
+      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(atoi(av[i + 1]));
+      i += 2;
+      }
+    else if ( !skip && strcmp(av[i], "--without-threads") == 0 )
+      {
+      itksys::SystemTools::PutEnv( "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1" );
+      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
+      i += 1;
+      }
+    else if ( !skip && strcmp(av[i], "--compareNumberOfPixelsTolerance") == 0 )
+      {
+      if ( i + 1 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      numberOfPixelsTolerance = atoi(av[i + 1]);
+      i += 2;
+      }
+    else if ( !skip && strcmp(av[i], "--compareRadiusTolerance") == 0 )
+      {
+      if ( i + 1 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      radiusTolerance = atoi(av[i + 1]);
+      av += 2;
+      ac -= 2;
+      }
+    else if ( !skip && strcmp(av[i], "--compareIntensityTolerance") == 0 )
+      {
+      if ( i + 1 >= ac )
+        {
+        usage();
+        return 1;
+        }
+      intensityTolerance = atof(av[i + 1]);
+      av += 2;
+      ac -= 2;
+      }
+    else
+      {
+      args.push_back(av[i]);
+      i += 1;
+      }
+    }
+
+  if ( args.empty() )
+    {
+    usage();
+    return 1;
+    }
+
+  // a NULL is required at the end of the table
+  char **argv = new char *[args.size() + 1];
+  for ( i = 0; i < static_cast< int >( args.size() ); i++ )
+    {
+    argv[i] = args[i];
+    }
+  argv[args.size()] = NULL;
+
+  itksysProcess *process = itksysProcess_New();
+  itksysProcess_SetCommand(process, argv);
+  itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDOUT, true);
+  itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDERR, true);
+  itksysProcess_Execute(process);
+  itksysProcess_WaitForExit(process, NULL);
+
+  delete[] argv;
+
+  int state = itksysProcess_GetState(process);
+  switch( state )
+    {
+//     case kwsysProcess_State_Starting:
+//       {
+//       // this is not a possible state after itksysProcess_WaitForExit
+//       std::cerr << "itkTestDriver: Internal error: process can't be in Starting State." << std::endl;
+//       return 1;
+//       break;
+//       }
+    case itksysProcess_State_Error:
+      {
+      std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Exception:
+      {
+      std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Executing:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Exited:
+      {
+      // this is the normal case - it is treated later
+      break;
+      }
+    case itksysProcess_State_Expired:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Killed:
+      {
+      std::cerr << "itkTestDriver: The process has been killed." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Disowned:
+      {
+      std::cerr << "itkTestDriver: Process disowned." << std::endl;
+      return 1;
+      break;
+      }
+    default:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: unknown State." << std::endl;
+      return 1;
+      break;
+      }
+    }
+
+  int retCode = itksysProcess_GetExitValue(process);
+  if ( retCode != 0 )
+    {
+    std::cerr << "itkTestDriver: Process exited with return value: " << retCode << std::endl;
+    // no need to compare the images: the test has failed
+    return retCode;
+    }
+
+  // now compare the images
+  try
+    {
+    for ( i = 0; i < static_cast< int >( compareList.size() ); i++ )
+      {
+        char *                                 baselineFilename = compareList[i].first;
+        char *                                 testFilename = compareList[i].second;
+        std::map< std::string, int >           baselines = RegressionTestBaselines(baselineFilename);
+        std::map< std::string, int >::iterator baseline = baselines.begin();
+        std::string                            bestBaseline;
+        int                                    bestBaselineStatus = itk::NumericTraits< int >::max();
+        while ( baseline != baselines.end() )
+          {
+          baseline->second = RegressionTestImage(testFilename,
+                                                 ( baseline->first ).c_str(),
+                                                 0,
+                                                 intensityTolerance,
+                                                 numberOfPixelsTolerance,
+                                                 radiusTolerance);
+          if ( baseline->second < bestBaselineStatus )
+            {
+            bestBaseline = baseline->first;
+            bestBaselineStatus = baseline->second;
+            }
+          if ( baseline->second == 0 )
+            {
+            break;
+            }
+          ++baseline;
+          }
+        // if the best we can do still has errors, generate the error images
+        if ( bestBaselineStatus )
+          {
+          RegressionTestImage(testFilename,
+                              bestBaseline.c_str(),
+                              1,
+                              intensityTolerance,
+                              numberOfPixelsTolerance,
+                              radiusTolerance);
+          }
+
+        // output the matching baseline
+        std::cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">";
+        std::cout << itksys::SystemTools::GetFilenameName(bestBaseline);
+        std::cout << "</DartMeasurement>" << std::endl;
+
+        return bestBaselineStatus;
+        }
+    }
+  catch ( const itk::ExceptionObject & e )
+    {
+    std::cerr << "ITK test driver caught an ITK exception:\n";
+    std::cerr << e.GetFile() << ":" << e.GetLine() << ":\n"
+              << e.GetDescription() << "\n";
+    return -1;
+    }
+  catch ( const std::exception & e )
+    {
+    std::cerr << "ITK test driver caught an exception:\n";
+    std::cerr << e.what() << "\n";
+    return -1;
+    }
+  catch ( ... )
+    {
+    std::cerr << "ITK test driver caught an unknown exception!!!\n";
+    return -1;
+    }
+
+  return 0;
+}
+
+// Regression Testing Code
+
+int RegressionTestImage(const char *testImageFilename,
+                        const char *baselineImageFilename,
+                        int reportErrors,
+                        double intensityTolerance,
+                        ::itk::SizeValueType numberOfPixelsTolerance,
+                        unsigned int radiusTolerance)
 {
   // Use the factory mechanism to read the test and baseline files and convert
   // them to double
@@ -148,36 +516,42 @@ int RegressionTestImage(const char *testImageFilename, const char *baselineImage
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput( baselineReader->GetOutput() );
   diff->SetTestInput( testReader->GetOutput() );
-  diff->SetDifferenceThreshold(2.0);
+  diff->SetDifferenceThreshold(intensityTolerance);
+  diff->SetToleranceRadius(radiusTolerance);
   diff->UpdateLargestPossibleRegion();
 
-  double status = diff->GetTotalDifference();
+  itk::SizeValueType status = itk::NumericTraits< itk::SizeValueType >::Zero;
+  status = diff->GetNumberOfPixelsWithDifferences();
 
   // if there are discrepencies, create an diff image
-  if ( status && reportErrors )
+  if ( ( status > numberOfPixelsTolerance ) && reportErrors )
     {
     typedef itk::RescaleIntensityImageFilter< ImageType, OutputType > RescaleType;
     typedef itk::ExtractImageFilter< OutputType, DiffOutputType >     ExtractType;
     typedef itk::ImageFileWriter< DiffOutputType >                    WriterType;
     typedef itk::ImageRegion< ITK_TEST_DIMENSION_MAX >                RegionType;
-
-    OutputType::IndexType index; index.Fill(0);
-    OutputType::SizeType  size; size.Fill(0);
+    OutputType::SizeType size; size.Fill(0);
 
     RescaleType::Pointer rescale = RescaleType::New();
     rescale->SetOutputMinimum( itk::NumericTraits< unsigned char >::NonpositiveMin() );
     rescale->SetOutputMaximum( itk::NumericTraits< unsigned char >::max() );
     rescale->SetInput( diff->GetOutput() );
     rescale->UpdateLargestPossibleRegion();
+    size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
+
+    //Get the center slice of the image,  In 3D, the first slice
+    //is often a black slice with little debugging information.
+    OutputType::IndexType index; index.Fill(0);
+    for ( unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++ )
+      {
+      index[i] = size[i] / 2; //NOTE: Integer Divide used to get approximately
+                              // the center slice
+      size[i] = 0;
+      }
 
     RegionType region;
     region.SetIndex(index);
 
-    size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
-    for ( unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++ )
-      {
-      size[i] = 0;
-      }
     region.SetSize(size);
 
     ExtractType::Pointer extract = ExtractType::New();
@@ -297,7 +671,7 @@ int RegressionTestImage(const char *testImageFilename, const char *baselineImage
     std::cout << testName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
     }
-  return ( status != 0 ) ? 1 : 0;
+  return ( status > numberOfPixelsTolerance ) ? 1 : 0;
 }
 
 //
@@ -337,280 +711,4 @@ std::map< std::string, int > RegressionTestBaselines(char *baselineFilename)
     filestream.close();
     }
   return baselines;
-}
-
-int main(int ac, char *av[])
-{
-  std::vector< char * > args;
-  typedef std::pair< char *, char * > ComparePairType;
-  std::vector< ComparePairType > compareList;
-
-  // parse the command line
-  int  i = 1;
-  bool skip = false;
-  while ( i < ac )
-    {
-    if ( !skip && strcmp(av[i], "--add-before-libpath") == 0 )
-      {
-      if ( i + 1 >= ac )
-        {
-        usage();
-        return 1;
-        }
-      std::string libpath = KWSYS_SHARED_FORWARD_LDPATH;
-      libpath += "=";
-      libpath += av[i + 1];
-      char *oldenv = getenv(KWSYS_SHARED_FORWARD_LDPATH);
-      if ( oldenv )
-        {
-        libpath += KWSYS_SHARED_FORWARD_PATH_SEP;
-        libpath += oldenv;
-        }
-      itksys::SystemTools::PutEnv( libpath.c_str() );
-      // on some 64 bit systems, LD_LIBRARY_PATH_64 is used before
-      // LD_LIBRARY_PATH if it is set. It can lead the test to load
-      // the system library instead of the expected one, so this
-      // var must also be set
-      if ( std::string(KWSYS_SHARED_FORWARD_LDPATH) == "LD_LIBRARY_PATH" )
-        {
-        std::string libpath = "LD_LIBRARY_PATH_64";
-        libpath += "=";
-        libpath += av[i + 1];
-        char *oldenv = getenv("LD_LIBRARY_PATH_64");
-        if ( oldenv )
-          {
-          libpath += KWSYS_SHARED_FORWARD_PATH_SEP;
-          libpath += oldenv;
-          }
-        itksys::SystemTools::PutEnv( libpath.c_str() );
-        }
-      i += 2;
-      }
-    else if ( !skip && strcmp(av[i], "--add-before-env") == 0 )
-      {
-      if ( i + 2 >= ac )
-        {
-        usage();
-        return 1;
-        }
-      std::string env = av[i + 1];
-      env += "=";
-      env += av[i + 2];
-      char *oldenv = getenv(av[i + 1]);
-      if ( oldenv )
-        {
-        env += KWSYS_SHARED_FORWARD_PATH_SEP;
-        env += oldenv;
-        }
-      itksys::SystemTools::PutEnv( env.c_str() );
-      i += 3;
-      }
-    else if ( !skip && strcmp(av[i], "--add-before-env-with-sep") == 0 )
-      {
-      if ( i + 3 >= ac )
-        {
-        usage();
-        return 1;
-        }
-      std::string env = av[i + 1];
-      env += "=";
-      env += av[i + 2];
-      char *oldenv = getenv(av[i + 1]);
-      if ( oldenv )
-        {
-        env += av[i + 3];
-        env += oldenv;
-        }
-      itksys::SystemTools::PutEnv( env.c_str() );
-      i += 4;
-      }
-    else if ( !skip && strcmp(av[i], "--compare") == 0 )
-      {
-      if ( i + 2 >= ac )
-        {
-        usage();
-        return 1;
-        }
-      compareList.push_back( ComparePairType(av[i + 1], av[i + 2]) );
-      i += 3;
-      }
-    else if ( !skip && strcmp(av[i], "--") == 0 )
-      {
-      skip = true;
-      i += 1;
-      }
-    else if ( !skip && strcmp(av[i], "--help") == 0 )
-      {
-      usage();
-      return 0;
-      }
-    else
-      {
-      args.push_back(av[i]);
-      i += 1;
-      }
-    }
-
-  if ( args.empty() )
-    {
-    usage();
-    return 1;
-    }
-
-  // a NULL is required at the end of the table
-  char **argv = new char *[args.size() + 1];
-  for ( i = 0; i < static_cast< int >( args.size() ); i++ )
-    {
-    argv[i] = args[i];
-    }
-  argv[args.size()] = NULL;
-
-  itksysProcess *process = itksysProcess_New();
-  itksysProcess_SetCommand(process, argv);
-  itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDOUT, true);
-  itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDERR, true);
-  itksysProcess_Execute(process);
-  itksysProcess_WaitForExit(process, NULL);
-
-  delete[] argv;
-
-  int state = itksysProcess_GetState(process);
-  switch( state )
-    {
-//     case kwsysProcess_State_Starting:
-//       {
-//       // this is not a possible state after itksysProcess_WaitForExit
-//       std::cerr << "itkTestDriver: Internal error: process can't be in Starting State." << std::endl;
-//       return 1;
-//       break;
-//       }
-    case itksysProcess_State_Error:
-      {
-      std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Exception:
-      {
-      std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Executing:
-      {
-      // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Exited:
-      {
-      // this is the normal case - it is treated later
-      break;
-      }
-    case itksysProcess_State_Expired:
-      {
-      // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Killed:
-      {
-      std::cerr << "itkTestDriver: The process has been killed." << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Disowned:
-      {
-      std::cerr << "itkTestDriver: Process disowned." << std::endl;
-      return 1;
-      break;
-      }
-    default:
-      {
-      // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: unknown State." << std::endl;
-      return 1;
-      break;
-      }
-    }
-
-  int retCode = itksysProcess_GetExitValue(process);
-  if ( retCode != 0 )
-    {
-    std::cerr << "itkTestDriver: Process exited with return value: " << retCode << std::endl;
-    // no need to compare the images: the test has failed
-    return retCode;
-    }
-
-  // now compare the images
-  try
-    {
-    for ( i = 0; i < static_cast< int >( compareList.size() ); i++ )
-      {
-      char *testFilename = compareList[i].first;
-      char *baselineFilename = compareList[i].second;
-      std::cout << "testFilename: " << testFilename << "  baselineFilename: " << baselineFilename << std::endl;
-
-      // Make a list of possible baselines
-      std::map< std::string, int >           baselines = RegressionTestBaselines(baselineFilename);
-      std::map< std::string, int >::iterator baseline = baselines.begin();
-      std::string                            bestBaseline;
-      int                                    bestBaselineStatus = itk::NumericTraits< int >::max();
-      while ( baseline != baselines.end() )
-        {
-        baseline->second = RegressionTestImage(testFilename,
-                                               ( baseline->first ).c_str(),
-                                               0);
-        if ( baseline->second < bestBaselineStatus )
-          {
-          bestBaseline = baseline->first;
-          bestBaselineStatus = baseline->second;
-          }
-        if ( baseline->second == 0 )
-          {
-          break;
-          }
-        ++baseline;
-        }
-      // if the best we can do still has errors, generate the error images
-      if ( bestBaselineStatus )
-        {
-        baseline->second = RegressionTestImage(testFilename,
-                                               bestBaseline.c_str(),
-                                               1);
-        }
-
-      // output the matching baseline
-      std::cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">";
-      std::cout << itksys::SystemTools::GetFilenameName(bestBaseline);
-      std::cout << "</DartMeasurement>" << std::endl;
-
-      if ( bestBaselineStatus != 0 )
-        {
-        return bestBaselineStatus;
-        }
-      }
-    }
-  catch ( const itk::ExceptionObject & e )
-    {
-    std::cerr << "ITK test driver caught an ITK exception:\n";
-    std::cerr << e.GetFile() << ":" << e.GetLine() << ":\n"
-              << e.GetDescription() << "\n";
-    return -1;
-    }
-  catch ( const std::exception & e )
-    {
-    std::cerr << "ITK test driver caught an exception:\n";
-    std::cerr << e.what() << "\n";
-    return -1;
-    }
-  catch ( ... )
-    {
-    std::cerr << "ITK test driver caught an unknown exception!!!\n";
-    return -1;
-    }
-
-  return 0;
 }
