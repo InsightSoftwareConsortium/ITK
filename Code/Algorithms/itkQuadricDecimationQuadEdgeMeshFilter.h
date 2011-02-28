@@ -160,6 +160,10 @@ protected:
     return static_cast< MeasureType >( Q.ComputeError(p) );
   }
 
+  /** \brief
+   * \param[in] iIdToBeDeleted
+   * \param[in] iRemaining
+   */
   virtual void DeletePoint(const OutputPointIdentifier & iIdToBeDeleted,
                            const OutputPointIdentifier & iRemaining)
   {

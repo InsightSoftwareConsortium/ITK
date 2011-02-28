@@ -293,6 +293,7 @@ public:
     GetPlanRigorName( v );
     GetInstance()->m_PlanRigor = v;
   }
+
   static int GetPlanRigor()
   {
     return GetInstance()->m_PlanRigor;
@@ -319,6 +320,7 @@ public:
   {
     GetInstance()->m_ReadWisdomCache = v;
   }
+
   static bool GetReadWisdomCache()
   {
     return GetInstance()->m_ReadWisdomCache;
@@ -335,6 +337,7 @@ public:
   {
     GetInstance()->m_WriteWisdomCache = v;
   }
+
   static bool GetWriteWisdomCache()
   {
     return GetInstance()->m_WriteWisdomCache;
@@ -351,6 +354,7 @@ public:
   {
     GetInstance()->m_WisdomCacheBase = v;
   }
+
   static std::string GetWisdomCacheBase()
   {
     return GetInstance()->m_WisdomCacheBase;

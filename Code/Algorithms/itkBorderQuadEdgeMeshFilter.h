@@ -26,10 +26,10 @@ namespace itk
 {
 /**
  * \class BorderQuadEdgeMeshFilter
- * \brief Transform the mandatoryly unique border of an \ref itkQE::Mesh
- * into either a circle (conformal) or a square (arclenght-wise).
+ * \brief Transform the unique border of a QuadEdgeMesh
+ * into either a circle (conformal) or a square (arclength-wise).
  *
- * To Write.
+ * \todo This class needs a more detailed documentation...
  */
 template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT BorderQuadEdgeMeshFilter:
@@ -37,11 +37,12 @@ class ITK_EXPORT BorderQuadEdgeMeshFilter:
 {
 public:
   /** Basic types. */
-  typedef BorderQuadEdgeMeshFilter Self;
+  typedef BorderQuadEdgeMeshFilter    Self;
   typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh,
-                                            TOutputMesh >                                       Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                            TOutputMesh >
+                                      Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   typedef TInputMesh                                  InputMeshType;
   typedef typename InputMeshType::ConstPointer        InputMeshConstPointer;

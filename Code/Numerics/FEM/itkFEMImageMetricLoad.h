@@ -227,6 +227,7 @@ public:
    *  This method returns the total metric evaluated over the image with respect to the current solution.
    */
   Float GetMetric (VectorType  InVec);
+
   VectorType GetPolynomialFitToMetric(VectorType PositionInElement, VectorType SolutionAtPosition);
 
   VectorType MetricFiniteDiff(VectorType PositionInElement, VectorType SolutionAtPosition);

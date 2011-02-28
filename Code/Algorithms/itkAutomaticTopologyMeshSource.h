@@ -76,7 +76,7 @@ namespace itk
  * for four points in R^3, then (a, b, c, d) and (a, c, d, b)
  * determine two different quadrilaterals (at least one of which is
  * either degenerate or nonplanar).  If you call
- * \begincode
+ * \code
  *   AddQuadrilateral(a, b, c, d);
  *   AddQuadrilateral(a, c, d, b);
  * \endcode
