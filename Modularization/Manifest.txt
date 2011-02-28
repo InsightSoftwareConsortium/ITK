@@ -3518,7 +3518,7 @@ Testing/Code/IO/itkAnalyzeImageIOTest.cxx                                       
 Testing/Code/IO/itkArchetypeSeriesFileNamesTest.cxx                              Nonunit         ITK-IO-Base                    Base
 Testing/Code/IO/itkBMPImageIOTest.cxx                                            IO              ITK-IO-BMP                     BMP
 Testing/Code/IO/itkBMPImageIOTest2.cxx                                           IO              ITK-IO-BMP                     BMP
-Testing/Code/IO/itkBioRadImageIOTest.cxx                                         IO              ITK-IO-BioRad                  BioRad
+Testing/Code/IO/itkBioRadImageIOTest.cxx                                         Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkConvertBufferTest.cxx                                         Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkConvertBufferTest2.cxx                                        Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkDICOMImageIO2Test.cxx                                         Nonunit         ITK-Deprecated                 Deprecated

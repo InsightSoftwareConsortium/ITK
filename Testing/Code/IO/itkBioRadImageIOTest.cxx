@@ -61,6 +61,7 @@ int itkBioRadImageIOTest(int argc, char* argv[])
   //
   typedef itk::ImageFileWriter< InputImageType >  WriterType;
   WriterType::Pointer writer = WriterType::New();
+  writer->SetImageIO( bioradImageIO );
   writer->SetFileName( outfilename );
   writer->SetInput( reader->GetOutput() );
 

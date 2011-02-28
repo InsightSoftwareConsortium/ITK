@@ -61,9 +61,9 @@ if (HeadOfModularITKTree[-1] ==  '/'):
 HeadOfTempTree = HeadOfModularITKTree+'/ITK_remaining'
 
 print("Start to copy" + HeadOfITKTree + " to " + HeadOfTempTree + "   ...")
-modulizerHelper.copy_directory(HeadOfITKTree, HeadOfTempTree)
+os.system('cp -r '+HeadOfITKTree + '  ' + HeadOfTempTree)
+os.system('rm -rf '+HeadOfTempTree+'/.git')
 print("Done copying!")
-
 LogDir=HeadOfModularITKTree+'/logs'
 if not os.path.isdir(LogDir):
   os.makedirs(LogDir)

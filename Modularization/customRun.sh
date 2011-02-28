@@ -53,4 +53,3 @@ cat $logs/newFiles.log  |grep -v Utilities |grep -v CMakeLists.txt |grep -v Modu
 wc Manifest.txt
 wc $logs/missingFiles.log
 wc $logs/newFiles.log
-cat $logs/RemainingTests.txt |grep -v Common| grep -v Review |grep -v vnl |grep -v vcl |grep -v netlib |grep -v Examples |grep -v Header |grep -v Print > $logs/testsNeedsClassify.txt

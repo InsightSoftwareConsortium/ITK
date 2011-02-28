@@ -331,7 +331,7 @@ itkSparseFrequencyContainer2Test.cxx
 itkSparseImageTest.cxx
 #itkSpatialObjectHeaderTest.cxx
 #itkSpatialObjectPrintTest.cxx
-#itkSpatialObjectToImageRegistrationTest.cxx
+itkSpatialObjectToImageRegistrationTest.cxx
 itkSplineKernelTransformTest.cxx
 itkStandardDeviationPerComponentSampleFilterTest.cxx
 itkStatisticsAlgorithmTest.cxx
@@ -1107,9 +1107,22 @@ add_test(NAME itkInterpolateTest
       COMMAND ITK-IntegratedTestTestDriver itkInterpolateTest)
 #add_test(NAME itkIOHeaderTest
 #      COMMAND ITK-IntegratedTestTestDriver itkIOHeaderTest)
-add_test(NAME itkIOPluginTest
-      COMMAND ITK-IntegratedTestTestDriver itkIOPluginTest
-              ${ITK_TEST_OUTPUT_DIR} FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1 ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png)
+
+if(ITK_BUILD_SHARED_LIBS)
+  add_test(itkIOPluginTest ${TestDriver} itkIOPluginTest
+    ${ITK_TEST_OUTPUT_DIR}
+    "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
+    ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
+    )
+  ## Create a library to test ITK IO plugins
+  set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
+  #set(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
+  add_library(FileFreeTestLib SHARED ${FileFreeTest_Source})
+  target_link_libraries(FileFreeTestLib ITKIO)
+  #add_dependencies(IOCxxTests FileFreeTestLib)
+endif(ITK_BUILD_SHARED_LIBS)
+
+
 #add_test(NAME itkIOPrintTest
 #      COMMAND ITK-IntegratedTestTestDriver itkIOPrintTest)
 add_test(NAME itkIsoContourDistanceImageFilterTest
