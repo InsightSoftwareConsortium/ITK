@@ -387,11 +387,11 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
   {
     // Exercise assignment operator
     std::cout << "Exercising assignment operator... " << std::endl;
-    RandomConstIteratorType it;
-    it = RandomConstIteratorType( myImage, region0 );
-    it.SetNumberOfSamples(myImage->GetLargestPossibleRegion().GetNumberOfPixels());
-    it.GoToBegin();
-    std::cout << "Finished exercising assignment operator... " << std::endl;
+    RandomConstIteratorType iteratorAssignment;
+    iteratorAssignment = RandomConstIteratorType( myImage, myImage->GetLargestPossibleRegion() );
+    iteratorAssignment.SetNumberOfSamples(myImage->GetLargestPossibleRegion().GetNumberOfPixels());
+    iteratorAssignment.GoToBegin();
+    std::cout << "Finished exercising assignment operator!" << std::endl;
   }
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
