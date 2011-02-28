@@ -11,7 +11,6 @@ ITK-ImageFunction
 ITK-ImageGrid
 ITK-ImageStatistics
 ITK-Mesh
-ITK-MetaSpatialObjects
 ITK-QuadEdgeMesh
 ITK-SpatialObjects
 ITK-TestKernel

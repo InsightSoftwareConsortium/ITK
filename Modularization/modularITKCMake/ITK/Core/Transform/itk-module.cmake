@@ -1,1 +1,1 @@
-itk_module(ITK-Transform DEPENDS ITK-Common TEST_DEPENDS ITK-TestKernel)
+itk_module(ITK-Transform DEPENDS ITK-ImageStatistics TEST_DEPENDS ITK-TestKernel)

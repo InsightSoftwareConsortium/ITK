@@ -34,7 +34,7 @@ print "*************************************************************************
 print "WARNINGs! This modularization script is still in its experimental stage."
 print "Current ITK users should not run this script."
 print "*************************************************************************"
-
+import string
 import re
 import sys
 import os
@@ -183,6 +183,22 @@ for  moduleName in moduleList:
             o.write(line);
          o.close()
 
+     #write HeadTest.cxx
+     filePath = HeadOfModularITKTree + '/'+ modulePath +'/include'
+     moduleCamelCaseName = string.join(moduleName[4:].split('-'),'')
+     headerTestFileName = HeadOfModularITKTree + '/'+ modulePath +'/test/itk'+moduleCamelCaseName +'HeaderTest.cxx'
+     if os.path.isdir(filePath) and os.path.isdir(HeadOfModularITKTree + '/'+ modulePath +'/test') and (not os.path.isfile(headerTestFileName)):
+        o = open(headerTestFileName,'w')
+        fileList =  glob.glob(filePath +'/*.*')
+        includeList = ''
+        for fileName in fileList:
+            includeList =  includeList +  '#include "'+fileName.split('/')[-1] + '"\n'
+        for line in open('./templateModule/itk-template-module/itkModuleHeaderTest.cxx','r'):
+            line = line.replace('@LIST_OF_INCLUDE_FILES@',includeList)
+            line = line.replace('@HeaderTestName@','itk'+moduleCamelCaseName +'HeaderTest')
+            o.write(line);
+        o.close()
+
 
      # write  test/CMakeLists.txt
      if os.path.isdir(HeadOfModularITKTree + '/'+ modulePath +'/test'):
@@ -204,18 +220,21 @@ for  moduleName in moduleList:
              line = 'CreateTestDriver('+moduleName+'  "${'+moduleName+'-Test_LIBRARIES}" "${'+moduleName+'Tests}")\n\n'
          o.write(line)
 
-         #line = 'set('+ moduleName+'_TESTS'+ '  ${ITK_EXECUTABLE_PATH}/'+moduleName+'-tests)\n'
-         #o.write(line)
+         # add HeaderTest
+         if os.path.isfile(headerTestFileName):
+            testDriverName = moduleName+'TestDriver'
+            headerTestFN = headerTestFileName.split('/')[-1]
+            line = 'add_test(NAME '+ headerTestFN[:-4]+ '\n      COMMAND '+testDriverName+' ' +headerTestFN[:-4] +')\n'
+            o.write(line)
+
          for cxxf in cxxFiles:
             cxxFileName = cxxf.split('/')[-1]
             executableName = cxxFileName[0:-4];
             line = modulizerHelper.ModularITKAddTest(executableName, moduleName)
-            #line = 'add_test(NAME ' +  '\n      COMMAND '+moduleName+'-tests  ' + executbaleName +')\n\n'
             o.write(line)
          o.close()
 
-
-     # write CTestConfig.cmake
+         # write CTestConfig.cmake
      filepath = HeadOfModularITKTree + '/'+ modulePath +'/CTestConfig.cmake'
      if not os.path.isfile(filepath):
         o = open(filepath,'w')

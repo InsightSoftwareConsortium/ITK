@@ -9,7 +9,6 @@ itkAdaptorComparisonTest.cxx
 #itkAlgorithmsPrintTest4.cxx
 #itkAlgorithmsPrintTests.cxx
 itkBasicArchitectureTest.cxx
-#itkBasicFiltersHeaderTest.cxx
 #itkBasicFiltersPrintTest.cxx
 #itkBasicFiltersPrintTest2.cxx
 itkBayesianClassifierImageFilterTest.cxx
@@ -29,7 +28,6 @@ itkByteSwapTest.cxx
 itkCenteredTransformInitializerTest.cxx
 itkCenteredVersorTransformInitializerTest.cxx
 itkChiSquareDistributionTest.cxx
-#itkCommonHeaderTest.cxx
 #itkCommonPrintTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
 itkConnectedComponentImageFilterTooManyObjectsTest.cxx
@@ -164,7 +162,6 @@ itkImageTransformTest.cxx
 itkImportContainerTest.cxx
 itkImportImageTest.cxx
 itkInterpolateTest.cxx
-#itkIOHeaderTest.cxx
 itkIOPluginTest.cxx
 #itkIOPrintTest.cxx
 itkIsoContourDistanceImageFilterTest.cxx
@@ -221,7 +218,6 @@ itkModulusImageFilterTest.cxx
 itkMRIBiasFieldCorrectionFilterTest.cxx
 itkMutualInformationMetricTest.cxx
 itkNeighborhoodSamplerTest1.cxx
-#itkNeuralNetworksHeaderTest.cxx
 #itkNeuralNetworksPrintTest.cxx
 itkNewTest.cxx
 itkNoiseImageFilterTest.cxx
@@ -240,7 +236,6 @@ itkNrrdRGBAImageReadWriteTest.cxx
 itkNrrdRGBImageReadWriteTest.cxx
 itkNrrdVectorImageReadTest.cxx
 itkNrrdVectorImageReadWriteTest.cxx
-#itkNumericsHeaderTest.cxx
 itkNumericsPrintTest.cxx
 itkNumericsTest.cxx
 itkOptimizersHierarchyTest.cxx
@@ -329,14 +324,12 @@ itkSimplexMeshWithFloatCoordRepTest.cxx
 #itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx
 itkSparseFrequencyContainer2Test.cxx
 itkSparseImageTest.cxx
-#itkSpatialObjectHeaderTest.cxx
 #itkSpatialObjectPrintTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
 itkSplineKernelTransformTest.cxx
 itkStandardDeviationPerComponentSampleFilterTest.cxx
 itkStatisticsAlgorithmTest.cxx
 itkStatisticsAlgorithmTest2.cxx
-#itkStatisticsHeaderTest.cxx
 #itkStatisticsPrintTest.cxx
 itkStatisticsTypesTest.cxx
 itkSTLThreadTest.cxx
@@ -436,8 +429,6 @@ add_test(NAME itkAdaptorComparisonTest
 #      COMMAND ITK-IntegratedTestTestDriver itkAlgorithmsPrintTest4)
 add_test(NAME itkBasicArchitectureTest
       COMMAND ITK-IntegratedTestTestDriver itkBasicArchitectureTest)
-#add_test(NAME itkBasicFiltersHeaderTest
-#      COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersHeaderTest)
 #add_test(NAME itkBasicFiltersPrintTest
 #      COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrintTest)
 #add_test(NAME itkBasicFiltersPrintTest2
@@ -519,8 +510,6 @@ add_test(NAME itkCenteredVersorTransformInitializerTest
       COMMAND ITK-IntegratedTestTestDriver itkCenteredVersorTransformInitializerTest)
 add_test(NAME itkChiSquareDistributionTest
       COMMAND ITK-IntegratedTestTestDriver itkChiSquareDistributionTest)
-#add_test(NAME itkCommonHeaderTest
-#      COMMAND ITK-IntegratedTestTestDriver itkCommonHeaderTest)
 #add_test(NAME itkCommonPrintTest
 #      COMMAND ITK-IntegratedTestTestDriver itkCommonPrintTest)
 add_test(NAME itkConfidenceConnectedImageFilterTest
@@ -1105,8 +1094,6 @@ add_test(NAME itkImportImageTest
       COMMAND ITK-IntegratedTestTestDriver itkImportImageTest)
 add_test(NAME itkInterpolateTest
       COMMAND ITK-IntegratedTestTestDriver itkInterpolateTest)
-#add_test(NAME itkIOHeaderTest
-#      COMMAND ITK-IntegratedTestTestDriver itkIOHeaderTest)
 
 if(ITK_BUILD_SHARED_LIBS)
   add_test(itkIOPluginTest ${TestDriver} itkIOPluginTest
@@ -1308,8 +1295,6 @@ add_test(NAME itkMutualInformationMetricTest
       COMMAND ITK-IntegratedTestTestDriver itkMutualInformationMetricTest)
 add_test(NAME itkNeighborhoodSamplerTest1
       COMMAND ITK-IntegratedTestTestDriver itkNeighborhoodSamplerTest1)
-#add_test(NAME itkNeuralNetworksHeaderTest
-#      COMMAND ITK-IntegratedTestTestDriver itkNeuralNetworksHeaderTest)
 #add_test(NAME itkNeuralNetworksPrintTest
  #     COMMAND ITK-IntegratedTestTestDriver itkNeuralNetworksPrintTest)
 add_test(NAME itkNewTest
@@ -1451,8 +1436,6 @@ add_test(NAME itkNrrdVectorImageReadWriteTest
     --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-vector.nrrd
               ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd
     itkNrrdVectorImageReadWriteTest ${ITK_DATA_ROOT}/Input/mini-vector-slow.nrrd ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd)
-#add_test(NAME itkNumericsHeaderTest
-#      COMMAND ITK-IntegratedTestTestDriver itkNumericsHeaderTest)
 #add_test(NAME itkNumericsPrintTest
  #     COMMAND ITK-IntegratedTestTestDriver itkNumericsPrintTest)
 add_test(NAME itkNumericsTest
@@ -1687,8 +1670,6 @@ add_test(NAME itkSparseFrequencyContainer2Test
       COMMAND ITK-IntegratedTestTestDriver itkSparseFrequencyContainer2Test)
 add_test(NAME itkSparseImageTest
       COMMAND ITK-IntegratedTestTestDriver itkSparseImageTest)
-#add_test(NAME itkSpatialObjectHeaderTest
- #     COMMAND ITK-IntegratedTestTestDriver itkSpatialObjectHeaderTest)
 #add_test(NAME itkSpatialObjectPrintTest
  #     COMMAND ITK-IntegratedTestTestDriver itkSpatialObjectPrintTest)
 add_test(NAME itkSpatialObjectToImageRegistrationTest
@@ -1701,8 +1682,6 @@ add_test(NAME itkStatisticsAlgorithmTest
       COMMAND ITK-IntegratedTestTestDriver itkStatisticsAlgorithmTest)
 add_test(NAME itkStatisticsAlgorithmTest2
       COMMAND ITK-IntegratedTestTestDriver itkStatisticsAlgorithmTest2)
-#add_test(NAME itkStatisticsHeaderTest
- #     COMMAND ITK-IntegratedTestTestDriver itkStatisticsHeaderTest)
 #add_test(NAME itkStatisticsPrintTest
 #      COMMAND ITK-IntegratedTestTestDriver itkStatisticsPrintTest)
 add_test(NAME itkStatisticsTypesTest

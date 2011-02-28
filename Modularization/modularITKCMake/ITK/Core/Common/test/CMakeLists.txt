@@ -42,6 +42,7 @@ itkMultipleLogOutputTest.cxx
 itkVectorTest.cxx
 itkImageTest.cxx
 itkConditionVariableTest.cxx
+itkCommonHeaderTest.cxx
 )
 
 
@@ -160,6 +161,7 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITK-Common-tests2 FactoryTestLib)
 endif(ITK_BUILD_SHARED_LIBS)
 
+add_test(itkCommonHeaderTest ${COMMON_TESTS1} itkCommonHeaderTest)
 add_test(itkAnnulusOperatorTest ${COMMON_TESTS1} itkAnnulusOperatorTest)
 add_test(itkColorTableTest ${COMMON_TESTS1} itkColorTableTest)
 add_test(itkDirectoryTest ${COMMON_TESTS1} itkDirectoryTest ${TEMP})

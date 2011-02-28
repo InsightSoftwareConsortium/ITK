@@ -1,9 +1,6 @@
 itk_module_test()
 set(ITK-MeshTests
 itkAutomaticTopologyMeshSourceTest.cxx
-itkBinaryMask3DMeshSourceTest.cxx
-itkBinaryMaskToNarrowBandPointSetFilterTest.cxx
-itkImageToMeshFilterTest.cxx
 itkImageToParametricSpaceFilterTest.cxx
 itkInteriorExteriorMeshFilterTest.cxx
 itkParametricSpaceToImageSpaceMeshFilterTest.cxx
@@ -21,18 +18,17 @@ itkVTKPolyDataReaderTest.cxx
 itkVTKPolyDataWriterTest01.cxx
 itkVTKPolyDataWriterTest02.cxx
 itkWarpMeshFilterTest.cxx
+itkMeshHeaderTest.cxx
 )
 
 CreateTestDriver(ITK-Mesh  "${ITK-Mesh-Test_LIBRARIES}" "${ITK-MeshTests}")
 
+add_test(NAME itkMeshHeaderTest
+      COMMAND ITK-MeshTestDriver itkMeshHeaderTest)
 add_test(NAME itkAutomaticTopologyMeshSourceTest
       COMMAND ITK-MeshTestDriver itkAutomaticTopologyMeshSourceTest)
 add_test(NAME itkBinaryMask3DMeshSourceTest
       COMMAND ITK-MeshTestDriver itkBinaryMask3DMeshSourceTest)
-add_test(NAME itkBinaryMaskToNarrowBandPointSetFilterTest
-      COMMAND ITK-MeshTestDriver itkBinaryMaskToNarrowBandPointSetFilterTest)
-add_test(NAME itkImageToMeshFilterTest
-      COMMAND ITK-MeshTestDriver itkImageToMeshFilterTest)
 add_test(NAME itkImageToParametricSpaceFilterTest
       COMMAND ITK-MeshTestDriver itkImageToParametricSpaceFilterTest)
 add_test(NAME itkInteriorExteriorMeshFilterTest
