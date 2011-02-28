@@ -180,6 +180,7 @@ set(KitTests
   itkLabelMapToBinaryImageFilterTest
   itkRelabelLabelMapFilterTest1
   itkShiftScaleLabelMapFilterTest1
+  itkConvertLabelMapFilterTest1
 
   itkCropLabelMapFilterTest1
   itkMergeLabelMapFilterTest1
@@ -1769,6 +1770,15 @@ add_test(itkRelabelLabelMapFilterTest1
   itkRelabelLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
   ${TEMP}/cthead1-label-relabeled.mha
+  )
+
+add_test(itkConvertLabelMapFilterTest1
+  ${TestDriver}
+  --compare ${INPUTDATA}/cthead1Label.png
+            ${TEMP}/cthead1-convert.png
+  itkConvertLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-convert.png
   )
 
 add_test(itkShiftScaleLabelMapFilterTest1
