@@ -190,5 +190,5 @@ int main()
   std::cout << "Des  : " << dest->GetPixel( idx ) << std::endl;
   std::cout << "======================" << std::endl;
 
-  return 1;
+  return EXIT_SUCCESS;
 }
