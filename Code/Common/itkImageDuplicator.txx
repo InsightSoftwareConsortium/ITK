@@ -19,13 +19,11 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkImageDuplicator.h"
 
-
 namespace itk
 {
-
 /** Constructor */
-template<class TInputImage>
-ImageDuplicator<TInputImage>
+template< class TInputImage >
+ImageDuplicator< TInputImage >
 ::ImageDuplicator()
 {
   m_InputImage = NULL;
@@ -34,24 +32,23 @@ ImageDuplicator<TInputImage>
 }
 
 /** */
-template<class TInputImage>
+template< class TInputImage >
 void
-ImageDuplicator<TInputImage>
+ImageDuplicator< TInputImage >
 ::Update(void)
 {
-  if(!m_InputImage )
+  if ( !m_InputImage )
     {
-    itkExceptionMacro(<<"Input image has not been connected");
+    itkExceptionMacro(<< "Input image has not been connected");
     return;
     }
 
   // Update only if the input image has been modified
-  unsigned long t, t1, t2;
-  t1 = m_InputImage->GetPipelineMTime();
-  t2 = m_InputImage->GetMTime();
-  t = (t1 > t2 ? t1 : t2);
+  const unsigned long t1 = m_InputImage->GetPipelineMTime();
+  const unsigned long t2 = m_InputImage->GetMTime();
+  const unsigned long t = ( t1 > t2 ? t1 : t2 );
 
-  if(t == m_InternalImageTime)
+  if ( t == m_InternalImageTime )
     {
     return; // No need to update
     }
@@ -61,36 +58,38 @@ ImageDuplicator<TInputImage>
 
   // Allocate the image
   m_Output = ImageType::New();
-  m_Output->SetOrigin(m_InputImage->GetOrigin());
-  m_Output->SetSpacing(m_InputImage->GetSpacing());
-  m_Output->SetDirection(m_InputImage->GetDirection());
-  m_Output->SetLargestPossibleRegion(m_InputImage->GetLargestPossibleRegion());
-  m_Output->SetRequestedRegion(m_InputImage->GetRequestedRegion());
-  m_Output->SetBufferedRegion(m_InputImage->GetBufferedRegion());
+  m_Output->CopyInformation( m_InputImage );
+  m_Output->SetRequestedRegion( m_InputImage->GetRequestedRegion() );
+  m_Output->SetBufferedRegion( m_InputImage->GetBufferedRegion() );
   m_Output->Allocate();
 
   // Do the copy
-  unsigned long size = 1;
-  for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension);i++)
-    {
-    size *= m_InputImage->GetBufferedRegion().GetSize()[i];
-    }
+  typedef typename TInputImage::PixelContainer   PixelContainer;
+  const PixelContainer * pixelContainer = m_InputImage->GetPixelContainer();
 
-  memcpy(m_Output->GetBufferPointer(),m_InputImage->GetBufferPointer(),size*sizeof(PixelType));
+  // This is the number of pixels times the number of components per pixel
+  const typename TInputImage::SizeValueType sizeInNumberOfComponents = pixelContainer->Size();
 
+  // This must be the internal pixel type, which is the one that we actually
+  // use for allocating internal buffers.
+  typedef typename TInputImage::InternalPixelType   InternalPixelType;
+
+  const typename TInputImage::SizeValueType sizeOfComponentInBytes = sizeof( InternalPixelType );
+  const typename TInputImage::SizeValueType sizeInNumberOfBytes = sizeInNumberOfComponents * sizeOfComponentInBytes;
+
+  memcpy( m_Output->GetBufferPointer(), m_InputImage->GetBufferPointer(), sizeInNumberOfBytes );
 }
 
-template<class TInputImage>
+template< class TInputImage >
 void
-ImageDuplicator<TInputImage>
-::PrintSelf( std::ostream& os, Indent indent ) const
+ImageDuplicator< TInputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Input Image: " << m_InputImage << std::endl;
   os << indent << "Output Image: " << m_Output << std::endl;
   os << indent << "Internal Image Time: " << m_InternalImageTime << std::endl;
 }
-
 } // end namespace itk
 
 #endif

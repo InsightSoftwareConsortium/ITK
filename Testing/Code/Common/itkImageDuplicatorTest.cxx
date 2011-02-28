@@ -19,18 +19,15 @@
 #endif
 
 #include <iostream>
-#include <itkImageRegionIterator.h>
+#include "itkImageRegionIterator.h"
 #include "itkImageDuplicator.h"
-#include <itkRGBPixel.h>
+#include "itkRGBPixel.h"
+#include "itkVectorImage.h"
 #include "itkShiftScaleImageFilter.h"
 
 int itkImageDuplicatorTest(int, char* [] )
 {
-
-  /** Create an image image */
   typedef itk::Image<float,3> ImageType;
-  std::cout << "Creating simulated image: ";
-  ImageType::Pointer m_Image = ImageType::New();
   ImageType::RegionType region;
   ImageType::SizeType size;
   size[0] = 10;
@@ -40,6 +37,11 @@ int itkImageDuplicatorTest(int, char* [] )
   index.Fill(0);
   region.SetSize(size);
   region.SetIndex(index);
+
+  {
+  /** Create an image image */
+  std::cout << "Creating simulated image: ";
+  ImageType::Pointer m_Image = ImageType::New();
   m_Image->SetRegions( region );
   m_Image->Allocate();
   m_Image->FillBuffer(0);
@@ -61,7 +63,7 @@ int itkImageDuplicatorTest(int, char* [] )
   shift->SetShift( 0.0 );
   shift->SetScale( 1.0 );
   shift->Update(); // need to update before duplicator can run
-  
+
   std::cout << "[DONE]" << std::endl;
 
   // Test the duplicator
@@ -97,7 +99,7 @@ int itkImageDuplicatorTest(int, char* [] )
   shift->Update(); // need to update before duplicator
   duplicator->Update();
   ImageCopy = duplicator->GetOutput();
-  
+
   itk::ImageRegionIterator<ImageType> it2b(ImageCopy,ImageCopy->GetLargestPossibleRegion());
   it2b.GoToBegin();
   i = 0;
@@ -119,7 +121,7 @@ int itkImageDuplicatorTest(int, char* [] )
   shift->Update(); // need to update before duplicator
   duplicator->Update();
   ImageCopy = duplicator->GetOutput();
-  
+
   itk::ImageRegionIterator<ImageType> it2c(ImageCopy,ImageCopy->GetLargestPossibleRegion());
   it2c.GoToBegin();
   i = 0;
@@ -135,7 +137,9 @@ int itkImageDuplicatorTest(int, char* [] )
     }
 
   std::cout << "[DONE]" << std::endl;
+  }
 
+  {
   /** Create an RGB image image */
   typedef itk::Image<itk::RGBPixel<unsigned char>,3> RGBImageType;
   std::cout << "Creating simulated image: ";
@@ -149,7 +153,7 @@ int itkImageDuplicatorTest(int, char* [] )
   unsigned char r = 0;
   unsigned char g = 1;
   unsigned char b = 2;
-  
+
   while(!it3.IsAtEnd())
     {
     itk::RGBPixel<unsigned char> pixel;
@@ -178,6 +182,7 @@ int itkImageDuplicatorTest(int, char* [] )
   std::cout << "[DONE]" << std::endl;
 
   // Test the duplicator
+
 
   std::cout << "Testing duplicator with RGB images: ";
   typedef itk::ImageDuplicator<RGBImageType> RGBDuplicatorType;
@@ -233,9 +238,50 @@ int itkImageDuplicatorTest(int, char* [] )
     }
 
   std::cout << "[DONE]" << std::endl;
+  }
 
 
+  {
+  const unsigned int Dimension    = 3;
+  const unsigned int VectorLength = 2 * Dimension;
+  typedef float PixelType;
+  typedef itk::VectorImage< PixelType, Dimension >   VectorImageType;
 
+  VectorImageType::Pointer vectorImage = VectorImageType::New();
+  itk::VariableLengthVector< PixelType > f( VectorLength );
+  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
+  vectorImage->SetVectorLength( VectorLength );
+  vectorImage->SetRegions( region );
+  vectorImage->Allocate();
+  vectorImage->FillBuffer( f );
+
+  // Test the duplicator
+  std::cout << "Testing duplicator with Vector images: ";
+  typedef itk::ImageDuplicator<VectorImageType> VectorDuplicatorType;
+  VectorDuplicatorType::Pointer Vectorduplicator = VectorDuplicatorType::New();
+
+  Vectorduplicator->SetInputImage(vectorImage);
+  Vectorduplicator->Update();
+  VectorImageType::Pointer vectorImageCopy = Vectorduplicator->GetOutput();
+
+  itk::ImageRegionIterator<VectorImageType> it3(vectorImage,vectorImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<VectorImageType> it4(vectorImageCopy,vectorImageCopy->GetLargestPossibleRegion());
+  it3.GoToBegin();
+  it4.GoToBegin();
+
+  while(!it4.IsAtEnd())
+    {
+    itk::VariableLengthVector< PixelType > pixel4 = it4.Get();
+    itk::VariableLengthVector< PixelType > pixel3 = it3.Get();
+    if(pixel4 != pixel3 )
+      {
+      return EXIT_FAILURE;
+      }
+    ++it4;
+    ++it3;
+    }
+
+  std::cout << "[DONE]" << std::endl;
+  }
   return EXIT_SUCCESS;
-
 }
