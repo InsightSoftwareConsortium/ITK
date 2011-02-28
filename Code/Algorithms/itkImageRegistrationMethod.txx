@@ -199,7 +199,6 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   // Setup the metric
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-  this->m_Metric->SetNumberOfThreads( this->GetNumberOfThreads() );
 #endif
   m_Metric->SetMovingImage( m_MovingImage );
   m_Metric->SetFixedImage( m_FixedImage );
