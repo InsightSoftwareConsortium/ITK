@@ -3,14 +3,7 @@ set(ITK-IntegratedTestTests
 itkAccumulateImageFilterTest.cxx
 itkAdaptiveHistogramEqualizationImageFilterTest.cxx
 itkAdaptorComparisonTest.cxx
-#itkAlgorithmsPrintTest.cxx
-#itkAlgorithmsPrintTest2.cxx
-#itkAlgorithmsPrintTest3.cxx
-#itkAlgorithmsPrintTest4.cxx
-#itkAlgorithmsPrintTests.cxx
 itkBasicArchitectureTest.cxx
-#itkBasicFiltersPrintTest.cxx
-#itkBasicFiltersPrintTest2.cxx
 itkBayesianClassifierImageFilterTest.cxx
 itkBinaryProjectionImageFilterTest.cxx
 itkBinaryThresholdImageFilterTest2.cxx
@@ -28,7 +21,6 @@ itkByteSwapTest.cxx
 itkCenteredTransformInitializerTest.cxx
 itkCenteredVersorTransformInitializerTest.cxx
 itkChiSquareDistributionTest.cxx
-#itkCommonPrintTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
 itkConnectedComponentImageFilterTooManyObjectsTest.cxx
 itkConnectedThresholdImageFilterTest.cxx
@@ -163,7 +155,6 @@ itkImportContainerTest.cxx
 itkImportImageTest.cxx
 itkInterpolateTest.cxx
 itkIOPluginTest.cxx
-#itkIOPrintTest.cxx
 itkIsoContourDistanceImageFilterTest.cxx
 itkIsolatedWatershedImageFilterTest.cxx
 itkIteratorTests.cxx
@@ -218,7 +209,6 @@ itkModulusImageFilterTest.cxx
 itkMRIBiasFieldCorrectionFilterTest.cxx
 itkMutualInformationMetricTest.cxx
 itkNeighborhoodSamplerTest1.cxx
-#itkNeuralNetworksPrintTest.cxx
 itkNewTest.cxx
 itkNoiseImageFilterTest.cxx
 itkNormalizedCorrelationImageFilterTest.cxx
@@ -324,13 +314,11 @@ itkSimplexMeshWithFloatCoordRepTest.cxx
 #itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx
 itkSparseFrequencyContainer2Test.cxx
 itkSparseImageTest.cxx
-#itkSpatialObjectPrintTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
 itkSplineKernelTransformTest.cxx
 itkStandardDeviationPerComponentSampleFilterTest.cxx
 itkStatisticsAlgorithmTest.cxx
 itkStatisticsAlgorithmTest2.cxx
-#itkStatisticsPrintTest.cxx
 itkStatisticsTypesTest.cxx
 itkSTLThreadTest.cxx
 itkStreamingImageFilterTest.cxx
@@ -350,8 +338,8 @@ itkTransformFileReaderWriterTest.cxx
 itkTransformIOTest.cxx
 itkTransformsSetParametersTest.cxx
 itkTriangleMeshToSimplexMeshFilter2Test.cxx
-#itkUnicodeIOTest.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
+#itkUnicodeIOtest.cxx
 itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkVectorConfidenceConnectedImageFilterTest.cxx
 itkVectorGeometryTest.cxx
@@ -402,6 +390,42 @@ XORTest2.cxx
 
 CreateTestDriver_SupportBuildInIOFactories(ITK-IntegratedTest  "${ITK-IntegratedTest-Test_LIBRARIES}" "${ITK-IntegratedTestTests}")
 
+# temporary solution for all print tests. Each module should have its own print test later.
+set(AlgorithmPrintTests
+itkAlgorithmsPrintTest.cxx
+itkAlgorithmsPrintTest2.cxx
+itkAlgorithmsPrintTest3.cxx
+itkAlgorithmsPrintTest4.cxx
+)
+CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmPrint ${ITK-IntegratedTest-Test_LIBRARIES} ${AlgorithmPrintTests})
+CreateTestDriver_SupportBuildInIOFactories(itkCommonPrint ${ITK-IntegratedTest-Test_LIBRARIES} itkCommonPrintTest.cxx)
+CreateTestDriver_SupportBuildInIOFactories(itkIOPrint ${ITK-IntegratedTest-Test_LIBRARIES} itkIOPrintTest.cxx)
+CreateTestDriver_SupportBuildInIOFactories(itkNeuralNetworksPrint ${ITK-IntegratedTest-Test_LIBRARIES} itkNeuralNetworksPrintTest.cxx)
+CreateTestDriver_SupportBuildInIOFactories(itkBasicFiltersPrint ${ITK-IntegratedTest-Test_LIBRARIES} "itkBasicFiltersPrintTest.cxx;itkBasicFiltersPrintTest2.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkStatisticsPrint ${ITK-IntegratedTest-Test_LIBRARIES}  itkStatisticsPrintTest.cxx)
+CreateTestDriver_SupportBuildInIOFactories(itkSpatialObjectPrint ${ITK-IntegratedTest-Test_LIBRARIES}   itkSpatialObjectPrintTest.cxx)
+
+add_test(NAME itkAlgorithmsPrintTest
+      COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest)
+add_test(NAME itkAlgorithmsPrintTest2
+      COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest2)
+add_test(NAME itkAlgorithmsPrintTest3
+      COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest3)
+add_test(NAME itkAlgorithmsPrintTest4
+      COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest4)
+add_test(NAME itkSpatialObjectPrintTest
+     COMMAND  itkSpatialObjectPrintTestDriver itkSpatialObjectPrintTest)
+add_test(NAME itkStatisticsPrintTest
+      COMMAND itkStatisticsPrintTestDriver itkStatisticsPrintTest)
+add_test(NAME itkBasicFiltersPrintTest
+      COMMAND itkBasicFiltersPrintTestDriver itkBasicFiltersPrintTest)
+add_test(NAME itkBasicFiltersPrintTest2
+      COMMAND itkBasicFiltersPrintTestDriver itkBasicFiltersPrintTest2)
+add_test(NAME itkCommonPrintTest
+      COMMAND itkCommonPrintTestDriver itkCommonPrintTest)
+
+
+#-------------------------------------------------------------------------
 add_test(NAME itkAccumulateImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
@@ -419,20 +443,8 @@ add_test(NAME itkAdaptiveHistogramEqualizationImageFilterTest2
     itkAdaptiveHistogramEqualizationImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png 10 1.0 0.25)
 add_test(NAME itkAdaptorComparisonTest
       COMMAND ITK-IntegratedTestTestDriver itkAdaptorComparisonTest)
-#add_test(NAME itkAlgorithmsPrintTest
-#      COMMAND ITK-IntegratedTestTestDriver itkAlgorithmsPrintTest)
-#add_test(NAME itkAlgorithmsPrintTest2
-#      COMMAND ITK-IntegratedTestTestDriver itkAlgorithmsPrintTest2)
-#add_test(NAME itkAlgorithmsPrintTest3
-#      COMMAND ITK-IntegratedTestTestDriver itkAlgorithmsPrintTest3)
-#add_test(NAME itkAlgorithmsPrintTest4
-#      COMMAND ITK-IntegratedTestTestDriver itkAlgorithmsPrintTest4)
 add_test(NAME itkBasicArchitectureTest
       COMMAND ITK-IntegratedTestTestDriver itkBasicArchitectureTest)
-#add_test(NAME itkBasicFiltersPrintTest
-#      COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrintTest)
-#add_test(NAME itkBasicFiltersPrintTest2
-#      COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrintTest2)
 add_test(NAME itkBayesianClassifierImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkBayesianClassifierImageFilterTestLabelMap.png
@@ -510,8 +522,6 @@ add_test(NAME itkCenteredVersorTransformInitializerTest
       COMMAND ITK-IntegratedTestTestDriver itkCenteredVersorTransformInitializerTest)
 add_test(NAME itkChiSquareDistributionTest
       COMMAND ITK-IntegratedTestTestDriver itkChiSquareDistributionTest)
-#add_test(NAME itkCommonPrintTest
-#      COMMAND ITK-IntegratedTestTestDriver itkCommonPrintTest)
 add_test(NAME itkConfidenceConnectedImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConfidenceConnectedImageFilterTest.png
@@ -1670,8 +1680,6 @@ add_test(NAME itkSparseFrequencyContainer2Test
       COMMAND ITK-IntegratedTestTestDriver itkSparseFrequencyContainer2Test)
 add_test(NAME itkSparseImageTest
       COMMAND ITK-IntegratedTestTestDriver itkSparseImageTest)
-#add_test(NAME itkSpatialObjectPrintTest
- #     COMMAND ITK-IntegratedTestTestDriver itkSpatialObjectPrintTest)
 add_test(NAME itkSpatialObjectToImageRegistrationTest
       COMMAND ITK-IntegratedTestTestDriver itkSpatialObjectToImageRegistrationTest)
 add_test(NAME itkSplineKernelTransformTest
@@ -1682,8 +1690,6 @@ add_test(NAME itkStatisticsAlgorithmTest
       COMMAND ITK-IntegratedTestTestDriver itkStatisticsAlgorithmTest)
 add_test(NAME itkStatisticsAlgorithmTest2
       COMMAND ITK-IntegratedTestTestDriver itkStatisticsAlgorithmTest2)
-#add_test(NAME itkStatisticsPrintTest
-#      COMMAND ITK-IntegratedTestTestDriver itkStatisticsPrintTest)
 add_test(NAME itkStatisticsTypesTest
       COMMAND ITK-IntegratedTestTestDriver itkStatisticsTypesTest)
 add_test(NAME itkSTLThreadTest
