@@ -112,7 +112,7 @@
 #include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 
 
-int itkReviewHeaderTest ( int , char ** )
+int itkReviewHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;

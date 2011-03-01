@@ -66,7 +66,7 @@
 #include "itkWarpMeshFilter.txx"
 
 
-int itkMeshHeaderTest ( int , char ** )
+int itkMeshHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;

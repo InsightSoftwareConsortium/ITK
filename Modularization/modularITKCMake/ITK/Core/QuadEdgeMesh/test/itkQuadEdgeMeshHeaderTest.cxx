@@ -66,7 +66,7 @@
 
 
 
-int itkQuadEdgeMeshHeaderTest ( int , char ** )
+int itkQuadEdgeMeshHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;

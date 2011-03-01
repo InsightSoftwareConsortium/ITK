@@ -57,7 +57,7 @@
 
 
 
-int itkImageStatisticsHeaderTest ( int , char ** )
+int itkImageStatisticsHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;

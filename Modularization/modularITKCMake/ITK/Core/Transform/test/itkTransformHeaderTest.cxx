@@ -107,7 +107,7 @@
 
 
 
-int itkTransformHeaderTest ( int , char ** )
+int itkTransformHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;

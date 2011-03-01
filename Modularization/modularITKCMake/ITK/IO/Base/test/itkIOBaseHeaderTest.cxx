@@ -48,7 +48,7 @@
 
 
 
-int itkIOBaseHeaderTest ( int , char ** )
+int itkIOBaseHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;

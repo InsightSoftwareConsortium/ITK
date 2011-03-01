@@ -428,7 +428,7 @@
 #include "vcl_alloc.h"
 #include "VNLIterativeSparseSolverTraits.h"
 
-int itkCommonHeaderTest ( int , char ** )
+int itkCommonHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;
