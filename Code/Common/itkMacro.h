@@ -429,8 +429,16 @@ namespace itk
  * These routines assigns the raw pointer to a smart pointer and then call
  * UnRegister() on the rawPtr to compensate for LightObject's constructor
  * initializing an object's reference count to 1 (needed for proper
- * initialization of process objects and data objects cycles). */
+ * initialization of process objects and data objects cycles).
+ *
+ * Break the methods into itkSimpleNewMacro and itkCreateAnotherMacro
+ * so we can selectively overload CreateAnother() without having to
+ * provide a definition for New(). */
 #define itkNewMacro(x)                                         \
+  itkSimpleNewMacro(x)                                         \
+  itkCreateAnotherMacro(x)
+
+#define itkSimpleNewMacro(x)                                   \
   static Pointer New(void)                                     \
     {                                                          \
     Pointer smartPtr = ::itk::ObjectFactory< x >::Create();    \
@@ -440,7 +448,9 @@ namespace itk
       }                                                        \
     smartPtr->UnRegister();                                    \
     return smartPtr;                                           \
-    }                                                          \
+    }
+
+#define itkCreateAnotherMacro(x)                               \
   virtual::itk::LightObject::Pointer CreateAnother(void) const \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
