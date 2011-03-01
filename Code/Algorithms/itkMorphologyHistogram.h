@@ -19,6 +19,9 @@
 #define __itkMorphologyHistogram_h
 
 #include <map>
+#include <vector>
+#include "itkIntTypes.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {

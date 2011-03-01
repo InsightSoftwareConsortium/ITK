@@ -20,6 +20,7 @@
 
 #include "itkNCCRegistrationFunction.h"
 #include "itkMacro.h"
+#include "itkNeighborhoodIterator.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

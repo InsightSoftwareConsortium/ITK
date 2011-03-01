@@ -24,7 +24,7 @@
 #include "itkGeometricalQuadEdge.h"
 #include "itkGeometricalQuadEdge.txx"
 #include "itkQuadEdge.h"
-//#include "itkQuadEdgeCellTraitsInfo.h"  BUG: 11906
+#include "itkQuadEdgeCellTraitsInfo.h"
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMesh.txx"
 #include "itkQuadEdgeMeshBaseIterator.h"

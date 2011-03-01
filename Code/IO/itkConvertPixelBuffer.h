@@ -19,6 +19,7 @@
 #define __itkConvertPixelBuffer_h
 
 #include "itkObject.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
