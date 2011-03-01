@@ -24,7 +24,7 @@
 @LIST_OF_INCLUDE_FILES@
 
 
-int @HeaderTestName@ ( int , char ** )
+int @HeaderTestName@ ( int , char * [] )
 {
 
   return EXIT_SUCCESS;

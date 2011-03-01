@@ -41,7 +41,7 @@
 
 
 
-int itkThresholdingHeaderTest ( int , char ** )
+int itkThresholdingHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;

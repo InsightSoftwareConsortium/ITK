@@ -71,7 +71,7 @@
 
 
 
-int itkImageFunctionHeaderTest ( int , char ** )
+int itkImageFunctionHeaderTest ( int , char * [] )
 {
 
   return EXIT_SUCCESS;
