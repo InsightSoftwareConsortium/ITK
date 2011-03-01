@@ -24,8 +24,6 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkBinaryThresholdImageFilter.txx"
 #include "itkBinaryThresholdProjectionImageFilter.h"
-#include "itkDoubleThresholdImageFilter.h"
-#include "itkDoubleThresholdImageFilter.txx"
 #include "itkOtsuMultipleThresholdsCalculator.h"
 #include "itkOtsuMultipleThresholdsCalculator.txx"
 #include "itkOtsuMultipleThresholdsImageFilter.h"
