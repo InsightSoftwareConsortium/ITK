@@ -128,20 +128,14 @@ if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
     COMPILE_FLAGS -DITK_USE_FPE)
 endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
 
-configure_file(itkSystemInformationTest.h.in
-               "${ITKTesting_BINARY_DIR}/Code/Common/itkSystemInformationTest.h"
-               @ONLY IMMEDIATE)
-include_directories("${ITKTesting_BINARY_DIR}")
-
 add_executable( itkMathTest itkMathTest.cxx )
 add_test( itkMathTest  "${ITK_EXECUTABLE_PATH}/itkMathTest" )
 target_link_libraries(itkMathTest ${ITK-Common_LIBRARIES})
 
-add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
 add_executable(itkSystemInformation itkSystemInformation.cxx)
 target_link_libraries(itkSystemInformation ${ITK-Common_LIBRARIES})
-target_link_libraries(itkSystemInformationTest ${ITK-Common_LIBRARIES})
-
+set(SYSTEM_INFORMATION ${ITK_EXECUTABLE_PATH}/itkSystemInformation)
+add_test(SystemInformation ${SYSTEM_INFORMATION})
 
 
 if(ITK_OBJCXX_COMPILER_WORKS)
@@ -310,3 +304,9 @@ write_file(
   "</BuildNameNotes>\n"
   "</Site>\n"
 )
+
+configure_file(itkSystemInformationTest.h.in  ${ITK-Common_BINARY_DIR}/itkSystemInformationTest.h)
+set(SYSTEM_INFORMATION_TEST ${ITK_EXECUTABLE_PATH}/itkSystemInformationTest)
+add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
+target_link_libraries(itkSystemInformationTest  ${ITK-Common_LIBRARIES})
+add_test(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
