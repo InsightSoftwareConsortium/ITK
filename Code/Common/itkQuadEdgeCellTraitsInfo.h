@@ -20,6 +20,7 @@
 
 #include "itkQuadEdgeMeshPoint.h"
 #include "itkMapContainer.h"
+#include "itkIntTypes.h"
 #include <set>
 
 namespace itk
