@@ -24,8 +24,8 @@
 #include "BigEndian_hdr.h"
 #include "BigEndian_img.h"
 #include "itkArchetypeSeriesFileNames.h"
-//#include "itkConvertPixelBuffer.h"  BUG:11904
-//#include "itkConvertPixelBuffer.txx"
+#include "itkConvertPixelBuffer.h"
+#include "itkConvertPixelBuffer.txx"
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileReader.txx"
