@@ -35,7 +35,11 @@
 #include <string>
 #include <cstdlib>
 #include <cstring>
-#include <Code/Common/itkSystemInformationTest.h>
+#if defined (ITK_USE_MODULAR_BUILD)
+  #include <Code/Common/itkSystemInformationTest.h>
+#else
+  #include "itkSystemInformationTest.h"
+#endif
 #include <sys/stat.h>
 #include <time.h>
 #include <string.h>

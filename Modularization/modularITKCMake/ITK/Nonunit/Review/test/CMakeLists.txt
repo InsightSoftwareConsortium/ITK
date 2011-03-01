@@ -1195,6 +1195,16 @@ add_test(NAME itkObjectToObjectMetricTest
       COMMAND ITK-ReviewTestDriver itkObjectToObjectMetricTest)
 add_test(NAME itkOptImageToImageMetricsTest01
       COMMAND ITK-ReviewTestDriver itkOptImageToImageMetricsTest
+              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
+add_test(NAME itkOptImageToImageMetricsTest02
+      COMMAND ITK-ReviewTestDriver --with-thread 2
+              itkOptImageToImageMetricsTest
+              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
+add_test(NAME itkOptImageToImageMetricsTest03
+      COMMAND ITK-ReviewTestDriver --without-threads
+              itkOptImageToImageMetricsTest
               ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
 add_test(NAME itkOptImageToImageMetricsTest04
       COMMAND ITK-ReviewTestDriver itkOptImageToImageMetricsTest2
@@ -1478,3 +1488,91 @@ add_test(NAME itkVoxBoCUBImageIOTest7
     itkVoxBoCUBImageIOTest ${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha)
 add_test(NAME itkWarpHarmonicEnergyCalculatorTest
       COMMAND ITK-ReviewTestDriver itkWarpHarmonicEnergyCalculatorTest)
+add_test(NAME itkOptGrayscaleMorphologicalClosingImageFilterTest
+      COMMAND ITK-ReviewTestDriver
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+    itkOptGrayscaleMorphologicalClosingImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+    0)
+add_test(NAME itkOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder
+      COMMAND ITK-ReviewTestDriver
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGWSafeBorder.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
+    itkOptGrayscaleMorphologicalClosingImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGWSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
+    1)
+add_test(NAME itkOptGrayscaleMorphologicalOpeningImageFilterTest
+      COMMAND ITK-ReviewTestDriver
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
+    itkOptGrayscaleMorphologicalOpeningImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
+    0)
+add_test(NAME itkOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder
+      COMMAND ITK-ReviewTestDriver
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
+    itkOptGrayscaleMorphologicalOpeningImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
+    1)
+add_test(NAME itkOptGrayscaleDilateImageFilterTest
+      COMMAND ITK-ReviewTestDriver
+    --compare ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleDilateImageFilterTestHisto.png
+    --compare ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleDilateImageFilterTestVHGW.png
+    --compare ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleDilateImageFilterTestAnchor.png
+    itkOptGrayscaleDilateImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
+    ${TEMP}/itkOptGrayscaleDilateImageFilterTestHisto.png
+    ${TEMP}/itkOptGrayscaleDilateImageFilterTestVHGW.png
+    ${TEMP}/itkOptGrayscaleDilateImageFilterTestAnchor.png)
+add_test(itkOptGrayscaleErodeImageFilterTest
+      COMMAND ITK-ReviewTestDriver
+    --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleErodeImageFilterTestHisto.png
+    --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleErodeImageFilterTestVHGW.png
+    --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleErodeImageFilterTestAnchor.png
+    itkOptGrayscaleErodeImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
+    ${TEMP}/itkOptGrayscaleErodeImageFilterTestHisto.png
+    ${TEMP}/itkOptGrayscaleErodeImageFilterTestVHGW.png
+    ${TEMP}/itkOptGrayscaleErodeImageFilterTestAnchor.png)
