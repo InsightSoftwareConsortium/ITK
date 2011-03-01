@@ -49,9 +49,6 @@ namespace itk
  * \sa NeuralNetworkFileReader
  * \sa MultilayerNeuralNetworkBase
  *
- *
- * \group IOFilter
- *
  */
 template< class TNetwork >
 class NeuralNetworkFileWriter:public Object

@@ -22,17 +22,18 @@ namespace itk
 {
 //////////////////////////////////////////////////////////////////////////////
 /** \def itkQEMeshForAllPointsMacro
- * \brief Iterate on all the itkQE::Points of a given itkQE::Mesh instance.
+ * \brief Iterate on all the itk::QuadEdgeMeshPoint of a given
+ * itk::QuadEdgeMesh instance.
  *
- * @param MeshType      The type of the itkQE::MeshType
+ * @param MeshType      The type of the itk::QuadEdgeMesh
  * @param MeshInstance  The instance of the above MeshType we are considering
  * @param PointVariable The name of the variable the caller wants to use to
  *        designate the MeshType::PointType at current stage of iteration.
- *        The variable PointVariable is of type itkQE::Mesh::PointType.
+ *        The variable PointVariable is of type itk::QuadEdgeMesh::PointType.
  * @param PointIndex    The name of the variable the caller wants to use to
  *        designate the index within the MeshType::PointContainer container
  *        and corresponding to PointVariable at current stage of iteration.
- *        The variable PointIndex is of type itkQE::Mesh::PointIdentifier .
+ *        The variable PointIndex is of type itk::QuadEdgeMesh::PointIdentifier .
  *
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
@@ -40,8 +41,8 @@ namespace itk
  * http://insight-journal.org/midas/handle.php?handle=1926/306
  *
  * \warning Don't forget to close the opened block with the corresponding
- *          itkQE::itkQEMeshForAllPointsMacro macro.
- * \example itkQE::MeshExtractComponentFilter::GetOutput().
+ *          itk::itkQEMeshForAllPointsMacro macro.
+ * \example itk::MeshExtractComponentFilter::GetOutput().
  */
 #define itkQEMeshForAllPointsMacro(MeshType,                               \
                                    MeshInstance,                           \
@@ -70,9 +71,9 @@ namespace itk
 
 /** \def itkQEMeshForAllPointsEndMacro
  * \brief Terminates a block of code started with the macro
- *        itkQE::itkQEMeshForAllPointsMacro
+ *        itk::itkQEMeshForAllPointsMacro
  * \warning Should only be used with the corresponding
- *          itkQE::itkQEMeshForAllPointsMacro
+ *          itk::itkQEMeshForAllPointsMacro
  */
 #define itkQEMeshForAllPointsEndMacro \
   pointIterator++;                    \
@@ -82,9 +83,9 @@ namespace itk
 
 //////////////////////////////////////////////////////////////////////////////
 /** \def itkQEMeshForAllCellsMacro
- * \brief Iterate on all the MeshType::Cells of a given itkQE::Mesh instance.
+ * \brief Iterate on all the MeshType::Cells of a given itk::QuadEdgeMesh instance.
  *
- * @param MeshType      The type of the itkQE::MeshType
+ * @param MeshType      The type of the itk::QuadEdgeMesh
  * @param MeshInstance  The instance of the above MeshType we are considering
  * @param cellIterator  The name of the variable the caller wants to use to
  *        designate the MeshType::CellContainerIterator at current stage of
@@ -97,8 +98,8 @@ namespace itk
  *
 
  * \warning Don't forget to close the opened block with the corresponding
- *          itkQE::itkQEMeshForAllCellsEndMacro macro.
- * \example itkQE::itkQEMeshForAllPrimalEdgesMacro
+ *          itk::itkQEMeshForAllCellsEndMacro macro.
+ * \example itk::itkQEMeshForAllPrimalEdgesMacro
  */
 #define itkQEMeshForAllCellsMacro(MeshType,                                    \
                                   MeshInstance,                                \
@@ -121,9 +122,9 @@ namespace itk
 
 /** \def itkQEMeshForAllCellsEndMacro
  * \brief Terminates a block of code started with the macro
- *        itkQE::itkQEMeshForAllCellsMacro
+ *        itk::itkQEMeshForAllCellsMacro
  * \warning Should only be used with the corresponding
- *          itkQE::itkQEMeshForAllCellsMacro
+ *          itk::itkQEMeshForAllCellsMacro
  */
 #define itkQEMeshForAllCellsEndMacro(cellIterator) \
   cellIterator++;                                  \
@@ -133,9 +134,9 @@ namespace itk
 
 //////////////////////////////////////////////////////////////////////////////
 /** \def itkQEMeshForAllPrimalEdgesMacro
- * \brief Iterate on all the MeshType::QEPrimal* of a given itkQE::Mesh instance
+ * \brief Iterate on all the MeshType::QEPrimal* of a given itk::QuadEdgeMesh instance
  *
- * @param MeshType      The type of the itkQE::MeshType
+ * @param MeshType      The type of the itk::QuadEdgeMesh
  * @param MeshInstance  The instance of the above MeshType we are considering
  * @param EdgeVariable  The name of the variable the caller wants to use to
  *        designate the MeshType::QEPrimal* at current stage of iteration.
@@ -146,7 +147,7 @@ namespace itk
  * http://insight-journal.org/midas/handle.php?handle=1926/306
  *
  * \warning Don't forget to close the opened block with the corresponding
- *          itkQE::itkQEMeshForAllPrimalEdgesMacro macro.
+ *          itk::itkQEMeshForAllPrimalEdgesMacro macro.
  */
 #define itkQEMeshForAllPrimalEdgesMacro(MeshType,                   \
                                         MeshInstance,               \
@@ -163,9 +164,9 @@ namespace itk
 
 /** \def itkQEMeshForAllPrimalEdgesEndMacro
  * \brief Terminates a block of code started with the macro
- *        itkQE::itkQEMeshForAllPrimalEdgesMacro
+ *        itk::itkQEMeshForAllPrimalEdgesMacro
  * \warning Should only be used with the corresponding
- *          itkQE::itkQEMeshForAllPrimalEdgesMacro
+ *          itk::itkQEMeshForAllPrimalEdgesMacro
  */
 #define itkQEMeshForAllPrimalEdgesEndMacro \
   }     /* fi */                           \

@@ -57,8 +57,11 @@ namespace Statistics
  *
  *                C.S.Wallace, Monash University, 1994
  *
- * To use this code, files needing to call the generator should #include the
- * file "FastNorm.h" and be linked with the maths library (-lm)
+ * To use this code, files needing to call the generator should include:
+ * \code
+ * #include "FastNorm.h"
+ * \endcode
+ * and be linked with the maths library (-lm)
  *        FastNorm.h contains declaration of the initialization routine
  * 'initnorm()', definition of a macro 'FastGauss' used to generate variates,
  * and three variables used in the macro.
@@ -69,8 +72,8 @@ namespace Statistics
  * SHIFT, DISCARDING THE SIGN DIGIT AND SHIFTING IN ZEROS ON THE RIGHT, SO
  * " X << 1" IS EQUIVALENT TO " X+X ".   IT ALSO ASSUMES THE RIGHT-SHIFT
  * OPERATOR ">>" IS SIGN-PRESERVING, SO ( -2 >> 1) = -1,  ( -1>>1) = -1.
-
-
+ *
+ *
  *
  *         A fast generator of pseudo-random variates from the unit Normal
  * distribution. It keeps a pool of about 1000 variates, and generates new
