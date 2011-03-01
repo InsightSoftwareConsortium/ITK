@@ -189,6 +189,7 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
 itkVoxBoCUBImageIOTest.cxx
 itkWarpHarmonicEnergyCalculatorTest.cxx
 itkWarpJacobianDeterminantFilterTest.cxx
+itkReviewHeaderTest.cxx
 )
 
 if(ITK_USE_MINC2 AND MINC2_FOUND)
@@ -207,6 +208,8 @@ endif( USE_FFTWD OR USE_FFTWF )
 
 CreateTestDriver_SupportBuildInIOFactories(ITK-Review  "${ITK-Review-Test_LIBRARIES}" "${ITK-ReviewTests}")
 
+add_test(NAME itkReviewHeaderTest
+      COMMAND ITK-ReviewTestDriver itkReviewHeaderTest)
 add_test(NAME itkAddConstantToImageFilterTest
       COMMAND ITK-ReviewTestDriver itkAddConstantToImageFilterTest)
 add_test(NAME itkAggregateLabelMapFilterTest1
