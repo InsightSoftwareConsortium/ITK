@@ -420,6 +420,7 @@ if(WRAP_float AND WRAP_2)
 
   add_test(PythonCannyEdgeDetectionImageFilterTest
     ${PYTHON_DRIVER}
+    --compareNumberOfPixelsTolerance 1
     --compare CannyEdgeDetectionImageFilter.png
               ${WrapITK_SOURCE_DIR}/images/CannyEdgeDetectionImageFilter.png
     ${CMAKE_CURRENT_SOURCE_DIR}/CannyEdgeDetectionImageFilter.py
