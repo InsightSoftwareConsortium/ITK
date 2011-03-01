@@ -28,14 +28,14 @@ ADD_LIBRARY( ITKGPU ${itkCxxSRC} ${itkTxxSRC} ${itkGPUHDR} )
 TARGET_LINK_LIBRARIES( ITKGPU ITKCommon ${OPENCL_LIBRARIES} )
 
 # Test Executable
-ADD_EXECUTABLE( test_itkGPUImage test_itkGPUImage.cxx )
-TARGET_LINK_LIBRARIES( test_itkGPUImage ITKCommon ITKGPU ${OPENCL_LIBRARIES} )
+ADD_EXECUTABLE( itkGPUImageTest itkGPUImageTest.cxx )
+TARGET_LINK_LIBRARIES( itkGPUImageTest ITKCommon ITKGPU ${OPENCL_LIBRARIES} )
 
-ADD_EXECUTABLE( test_itkGPUImageFilter test_itkGPUImageFilter.cxx )
-TARGET_LINK_LIBRARIES( test_itkGPUImageFilter ITKIO ITKCommon ITKGPU ${OPENCL_LIBRARIES} )
+ADD_EXECUTABLE( itkGPUImageFilterTest itkGPUImageFilterTest.cxx )
+TARGET_LINK_LIBRARIES( itkGPUImageFilterTest ITKIO ITKCommon ITKGPU ${OPENCL_LIBRARIES} )
 
 # ADD Test Executable to Testing
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
-ADD_TEST(gpuImageFilterTest ${EXECUTABLE_OUTPUT_PATH}/test_itkGPUImageFilter
+ADD_TEST(gpuImageFilterTest ${EXECUTABLE_OUTPUT_PATH}/itkGPUImageFilterTest
    ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
    ${TEMP}/gpuImageFilterTest.png)
