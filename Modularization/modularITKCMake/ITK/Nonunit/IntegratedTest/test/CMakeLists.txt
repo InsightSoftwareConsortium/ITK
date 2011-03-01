@@ -397,13 +397,13 @@ itkAlgorithmsPrintTest2.cxx
 itkAlgorithmsPrintTest3.cxx
 itkAlgorithmsPrintTest4.cxx
 )
-CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmPrint ${ITK-IntegratedTest-Test_LIBRARIES} ${AlgorithmPrintTests})
-CreateTestDriver_SupportBuildInIOFactories(itkCommonPrint ${ITK-IntegratedTest-Test_LIBRARIES} itkCommonPrintTest.cxx)
-CreateTestDriver_SupportBuildInIOFactories(itkIOPrint ${ITK-IntegratedTest-Test_LIBRARIES} itkIOPrintTest.cxx)
-CreateTestDriver_SupportBuildInIOFactories(itkNeuralNetworksPrint ${ITK-IntegratedTest-Test_LIBRARIES} itkNeuralNetworksPrintTest.cxx)
-CreateTestDriver_SupportBuildInIOFactories(itkBasicFiltersPrint ${ITK-IntegratedTest-Test_LIBRARIES} "itkBasicFiltersPrintTest.cxx;itkBasicFiltersPrintTest2.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkStatisticsPrint ${ITK-IntegratedTest-Test_LIBRARIES}  itkStatisticsPrintTest.cxx)
-CreateTestDriver_SupportBuildInIOFactories(itkSpatialObjectPrint ${ITK-IntegratedTest-Test_LIBRARIES}   itkSpatialObjectPrintTest.cxx)
+CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "${AlgorithmPrintTests}")
+CreateTestDriver_SupportBuildInIOFactories(itkCommonPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkCommonPrintTest.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkIOPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkIOPrintTest.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkNeuralNetworksPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkNeuralNetworksPrintTest.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkBasicFiltersPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkBasicFiltersPrintTest.cxx;itkBasicFiltersPrintTest2.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkStatisticsPrint "${ITK-IntegratedTest-Test_LIBRARIES}"  "itkStatisticsPrintTest.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkSpatialObjectPrint "${ITK-IntegratedTest-Test_LIBRARIES}"   "itkSpatialObjectPrintTest.cxx")
 
 add_test(NAME itkAlgorithmsPrintTest
       COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest)
