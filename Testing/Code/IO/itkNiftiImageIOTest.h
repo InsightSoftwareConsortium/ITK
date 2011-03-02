@@ -275,5 +275,359 @@ CORDirCosines()
   return dir;
 }
 
+/* common code for DTi and sym matrix tests
+ *
+ * Could probably be made to fo the image of vector test as well
+ */
+
+template <class PixelType, unsigned Dimension>
+int
+TestImageOfSymMats(const std::string &fname)
+{
+
+  const int dimsize = 2;
+  /** Deformation field pixel type. */
+//  typedef typename itk::DiffusionTenor3D<ScalarType>    PixelType;
+
+  /** Deformation field type. */
+  typedef typename itk::Image<PixelType,Dimension>      DtiImageType;
+
+  //
+  // swizzle up a random vector image.
+  typename DtiImageType::Pointer vi;
+  typename DtiImageType::RegionType imageRegion;
+  typename DtiImageType::SizeType size;
+  typename DtiImageType::IndexType index;
+  typename DtiImageType::SpacingType spacing;
+  typename DtiImageType::PointType origin;
+  typename DtiImageType::DirectionType myDirection;
+  myDirection.Fill(0.0);
+  // original test case was destined for failure.  NIfTI always writes out 3D
+  // orientation.  The only sensible matrices you could pass in would be of the form
+  // A B C 0
+  // D E F 0
+  // E F G 0
+  // 0 0 0 1
+  // anything in the 4th dimension that didn't follow that form would just come up scrambled.
+  //NOTE: Nifti only reports upto 3D images correctly for direction cosigns.  It is implicitly assumed
+  //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the
+  //      direction matrix.
+  switch(Dimension)
+    {
+    case 1:
+      myDirection[0][0] = -1.0;
+      break;
+    case 2:
+      myDirection[0][1] = 1.0;
+      myDirection[1][0] = -1.0;
+      break;
+    case 3:
+      myDirection[0][2] = 1.0;
+      myDirection[1][0] = -1.0;
+      myDirection[2][1] = 1.0;
+      break;
+    case 4:
+      myDirection[0][2] = 1.0;
+      myDirection[1][0] = -1.0;
+      myDirection[2][1] = 1.0;
+      myDirection[3][3] = 1.0;
+      break;
+    }
+
+  std::cout << " === Testing DtiImageType:  Image Dimension " << static_cast<int>(Dimension) << std::endl;
+  std::cout << "======================== Initialized Direction" << std::endl;
+  std::cout << myDirection << std::endl;
+
+  for(unsigned i = 0; i < Dimension; i++)
+    {
+    size[i] = dimsize;
+    index[i] = 0;
+    spacing[i] = 1.0;
+    origin[i] = 0;
+    }
+
+  imageRegion.SetSize(size);
+  imageRegion.SetIndex(index);
+  AllocateImageFromRegionAndSpacing(DtiImageType, vi, imageRegion, spacing);
+  vi->SetOrigin(origin);
+  vi->SetDirection(myDirection);
+
+  typedef itk::ImageRegionIterator<DtiImageType> IteratorType;
+  typedef itk::ImageRegionConstIterator<DtiImageType> ConstIteratorType;
+
+  int dims[7];
+  int _index[7];
+  for(unsigned i = 0; i < Dimension; i++)
+    {
+    dims[i] = size[i];
+    }
+  for(unsigned i = Dimension; i < 7; i++)
+      {
+    dims[i] = 1;
+    }
+
+  int incr_value=0;
+  //  for(fillIt.GoToBegin(); !fillIt.IsAtEnd(); ++fillIt)
+  for(int l = 0; l < dims[6]; l++)
+    {
+    _index[6] = l;
+    for(int m = 0; m < dims[5]; m++)
+      {
+      _index[5] = m;
+      for(int n = 0; n < dims[4]; n++)
+        {
+        _index[4] = n;
+        for(int p = 0; p < dims[3]; p++)
+          {
+          _index[3] = p;
+          for(int i = 0; i < dims[2]; i++)
+            {
+            _index[2] = i;
+            for(int j = 0; j < dims[1]; j++)
+              {
+              _index[1] = j;
+              for(int k = 0; k < dims[0]; k++)
+                {
+                _index[0] = k;
+                PixelType pixel;
+                float lowrange(100.00),highrange(200.00);
+                for(unsigned int q = 0; q < pixel.Size(); q++)
+                  {
+                  //pixel[q] = randgen.drand32(lowrange,highrange);
+                  pixel[q] = incr_value++;
+                  lowrange += 100.0;
+                  highrange += 100.0;
+                  }
+                for(unsigned int q = 0; q < Dimension; q++)
+                  {
+                  index[q] = _index[q];
+                  }
+                vi->SetPixel(index,pixel);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  try
+    {
+    WriteImage<DtiImageType>(vi,fname);
+    }
+  catch(itk::ExceptionObject &ex)
+    {
+    std::string message;
+    message = "Problem found while writing image ";
+    message += fname; message += "\n";
+    message += ex.GetLocation(); message += "\n";
+    message += ex.GetDescription(); std::cout << message << std::endl;
+    Remove(fname.c_str());
+    return EXIT_FAILURE;
+    }
+  //
+  // read it back in.
+  typename DtiImageType::Pointer readback;
+  try
+    {
+    readback = ReadImage<DtiImageType>(fname);
+    }
+  catch(itk::ExceptionObject &ex)
+      {
+    std::string message;
+    message = "Problem found while reading image ";
+    message += fname; message += "\n";
+    message += ex.GetLocation(); message += "\n";
+    message += ex.GetDescription(); std::cout << message << std::endl;
+    Remove(fname.c_str());
+    return EXIT_FAILURE;
+      }
+  bool same = true;
+  if(readback->GetOrigin() != vi->GetOrigin() )
+    {
+    std::cout << "Origin is different: " << readback->GetOrigin() << " != " << vi->GetOrigin()  << std::endl;
+    same = false;
+    }
+  if(readback->GetSpacing() != vi->GetSpacing() )
+    {
+    std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing()  << std::endl;
+    same = false;
+    }
+  for(unsigned int r=0;r<Dimension;r++)
+    {
+    for(unsigned int c=0;c<Dimension;c++)
+      {
+      if(vcl_abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7 )
+        {
+        std::cout << "Direction is different:\n " << readback->GetDirection() << "\n != \n" << vi->GetDirection()  << std::endl;
+        same = false;
+        break;
+      }
+    }
+    }
+  std::cout << "Original Image  ?=   Image read from disk " << std::endl;
+  for(int l = 0; l < dims[6]; l++)
+    {
+    _index[6] = l;
+    for(int m = 0; m < dims[5]; m++)
+      {
+      _index[5] = m;
+      for(int n = 0; n < dims[4]; n++)
+        {
+        _index[4] = n;
+        for(int p = 0; p < dims[3]; p++)
+          {
+          _index[3] = p;
+          for(int i = 0; i < dims[2]; i++)
+            {
+            _index[2] = i;
+            for(int j = 0; j < dims[1]; j++)
+              {
+              _index[1] = j;
+              for(int k = 0; k < dims[0]; k++)
+                {
+                _index[0] = k;
+                PixelType p1,p2;
+                for(unsigned int q = 0; q < Dimension; q++)
+                  {
+                  index[q] = _index[q];
+    }
+                p1 = vi->GetPixel(index);
+                p2 = readback->GetPixel(index);
+                if(p1 != p2)
+    {
+                  same = false;
+                  std::cout << p1 << " != " << p2 <<  "    ERROR! " << std::endl;
+    }
+                else
+    {
+                  std::cout << p1 << " == " << p2 << std::endl;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  if(same)
+      {
+    Remove(fname.c_str());
+      }
+  else
+    {
+    std::cout << "Failing image can be found at: " << fname << std::endl;
+    }
+  return same ? 0 : EXIT_FAILURE;
+}
+
+namespace
+{
+bool Equal(double a, double b)
+{
+  // actual equality
+  double diff = a - b;
+  if(diff == 0.0)
+    {
+    return true;
+    }
+  // signs match?
+  if((a < 0.00 && b >= 0.0) ||
+     (b < 0.0 && a >= 0.0))
+    {
+    return false;
+    }
+  if(diff < 0.0)
+    {
+    diff = -diff;
+    }
+  double avg = (a+b)/2.0;
+  if(avg < 0.0)
+    {
+    avg = - avg;
+    }
+  if(diff > avg/1000.0)
+    {
+    return false;
+    }
+  return true;
+}
+
+}
+
+template <class RGBPixelType>
+int RGBTest(int ac, char *av[])
+{
+  if(ac > 2)
+    {
+    char *testdir = *++av;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  char * tmpImage = *++av;
+  int success(EXIT_SUCCESS);
+  typedef typename itk::Image<RGBPixelType,3> RGBImageType;
+  typename RGBImageType::RegionType imageRegion;
+  typename RGBImageType::SizeType size;
+  typename RGBImageType::IndexType index;
+  typename RGBImageType::SpacingType spacing;
+  typename RGBImageType::PointType origin;
+  typename RGBImageType::DirectionType myDirection;
+  for(unsigned i = 0; i < 3; i++)
+    {
+    size[i] = 5;
+    index[i] = 0;
+    spacing[i] = 1.0;
+    origin[i] = 0;
+    }
+  imageRegion.SetSize(size);
+  imageRegion.SetIndex(index);
+  typename RGBImageType::Pointer im;
+  AllocateImageFromRegionAndSpacing(RGBImageType,im,imageRegion,spacing);
+  vnl_random randgen(12345678);
+  itk::ImageRegionIterator<RGBImageType> it(im,im->GetLargestPossibleRegion());
+  for(it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+    RGBPixelType pix;
+    for(unsigned int i = 0; i < RGBPixelType::Dimension; i++)
+      {
+      pix[i] = randgen.lrand32(255);
+      }
+    it.Set(pix);
+    }
+  typename RGBImageType::Pointer im2;
+  try
+    {
+    WriteImage<RGBImageType>(im,std::string(tmpImage));
+    im2 = ReadImage<RGBImageType>(std::string(tmpImage));
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    std::cout << "itkNiftiImageIOTest9" << std::endl
+              << "Exception Object caught: " << std::endl
+              << err << std::endl;
+    return EXIT_FAILURE;
+    }
+  itk::ImageRegionIterator<RGBImageType> it2(im2,im2->GetLargestPossibleRegion());
+  for(it.GoToBegin(),it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it,++it2)
+    {
+    if(it.Value() != it2.Value())
+      {
+      std::cout << "Original Pixel (" << it.Value()
+                << ") doesn't match read-in Pixel ("
+                << it2.Value() << std::endl;
+      success = EXIT_FAILURE;
+      break;
+      }
+    }
+  Remove(tmpImage);
+  return success;
+}
+
+int WriteNiftiTestFiles(const std::string & prefix);
+int TestNiftiByteSwap(const std::string & prefix);
+void RemoveNiftiByteSwapTestFiles(const std::string & prefix);
 
 #endif
