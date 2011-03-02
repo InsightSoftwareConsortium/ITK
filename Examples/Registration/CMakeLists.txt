@@ -4,6 +4,8 @@ include_regular_expression("^.*$")
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
+message("ITK_LIBRARIES ${ITK_LIBRARIES}")
+
 set(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
 set(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
 set(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
@@ -20,175 +22,171 @@ set(REGISTRATION_EXAMPLES13 ${CXX_TEST_PATH}/RegistrationExamples13)
 set(REGISTRATION_EXAMPLES14 ${CXX_TEST_PATH}/RegistrationExamples14)
 
 add_executable(ImageRegistration3 ImageRegistration3.cxx )
-target_link_libraries(ImageRegistration3 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration3 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration5 ImageRegistration5.cxx )
-target_link_libraries(ImageRegistration5 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration5 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration6 ImageRegistration6.cxx )
-target_link_libraries(ImageRegistration6 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration6 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration8 ImageRegistration8.cxx )
-target_link_libraries(ImageRegistration8 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration8 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration9 ImageRegistration9.cxx )
-target_link_libraries(ImageRegistration9 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration9 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration10 ImageRegistration10.cxx )
-target_link_libraries(ImageRegistration10 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration10 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration4 DeformableRegistration4.cxx )
-target_link_libraries(DeformableRegistration4 ITKNumerics ITKIO)
+target_link_libraries(DeformableRegistration4 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration4 ImageRegistration4.cxx )
-target_link_libraries(ImageRegistration4 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration4 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration7 ImageRegistration7.cxx )
-target_link_libraries(ImageRegistration7 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration7 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration11 ImageRegistration11.cxx )
-target_link_libraries(ImageRegistration11 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration11 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration12 ImageRegistration12.cxx )
-target_link_libraries(ImageRegistration12 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration12 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration13 ImageRegistration13.cxx )
-target_link_libraries(ImageRegistration13 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration13 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration14 ImageRegistration14.cxx )
-target_link_libraries(ImageRegistration14 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration14 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration15 ImageRegistration15.cxx )
-target_link_libraries(ImageRegistration15 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration15 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration16 ImageRegistration16.cxx )
-target_link_libraries(ImageRegistration16 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration16 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration18 ImageRegistration18.cxx )
-target_link_libraries(ImageRegistration18 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration18 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration19 ImageRegistration19.cxx )
-target_link_libraries(ImageRegistration19 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration19 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration20 ImageRegistration20.cxx )
-target_link_libraries(ImageRegistration20 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration20 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration6 DeformableRegistration6.cxx )
-target_link_libraries(DeformableRegistration6 ITKIO ITKNumerics)
+target_link_libraries(DeformableRegistration6 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration7 DeformableRegistration7.cxx )
-target_link_libraries(DeformableRegistration7 ITKIO ITKNumerics)
+target_link_libraries(DeformableRegistration7 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration8 DeformableRegistration8.cxx )
-target_link_libraries(DeformableRegistration8 ITKIO ITKNumerics)
+target_link_libraries(DeformableRegistration8 ${ITK_LIBRARIES})
 
 if( USE_FFTWD )
   add_executable(DeformableRegistration9 DeformableRegistration9.cxx )
-  target_link_libraries(DeformableRegistration9
-      ITKIO ITKAlgorithms ITKNumerics)
+  target_link_libraries(DeformableRegistration9 ${ITK_LIBRARIES})
 
   add_executable(DeformableRegistration10 DeformableRegistration10.cxx )
-  target_link_libraries(DeformableRegistration10
-                        ITKIO ITKAlgorithms ITKNumerics)
+  target_link_libraries(DeformableRegistration10 ${ITK_LIBRARIES})
 endif( USE_FFTWD )
 
 add_executable(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
-target_link_libraries(MultiResImageRegistration1 ITKIO ITKNumerics)
+target_link_libraries(MultiResImageRegistration1 ${ITK_LIBRARIES})
 
 add_executable(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
-target_link_libraries(MultiResImageRegistration2 ITKIO ITKNumerics)
+target_link_libraries(MultiResImageRegistration2 ${ITK_LIBRARIES})
 
 add_executable(MultiResImageRegistration3 MultiResImageRegistration3.cxx )
-target_link_libraries(MultiResImageRegistration3 ITKIO ITKNumerics)
+target_link_libraries(MultiResImageRegistration3 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples7 RegistrationExamples7.cxx )
-target_link_libraries(RegistrationExamples7 ITKFEM ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples7 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration1 DeformableRegistration1.cxx )
-target_link_libraries(DeformableRegistration1 ITKFEM ITKIO
-                                              ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration1 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration2 DeformableRegistration2.cxx )
-target_link_libraries(DeformableRegistration2 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration2 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration3 DeformableRegistration3.cxx )
-target_link_libraries(DeformableRegistration3 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration3 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration5 DeformableRegistration5.cxx )
-target_link_libraries(DeformableRegistration5 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration5 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration11 DeformableRegistration11.cxx )
-target_link_libraries(DeformableRegistration11 ITKFEM ITKIO
-                                              ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration11 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration12 DeformableRegistration12.cxx )
-target_link_libraries(DeformableRegistration12 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration12 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration13 DeformableRegistration13.cxx )
-target_link_libraries(DeformableRegistration13 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration13 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration14 DeformableRegistration14.cxx )
-target_link_libraries(DeformableRegistration14 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration14 ${ITK_LIBRARIES})
 
 add_executable(ChangeInformationImageFilter ChangeInformationImageFilter.cxx )
-target_link_libraries(ChangeInformationImageFilter ITKIO )
+target_link_libraries(ChangeInformationImageFilter ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration15 DeformableRegistration15.cxx )
-target_link_libraries(DeformableRegistration15 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration15 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration16 DeformableRegistration16.cxx )
-target_link_libraries(DeformableRegistration16 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration16 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration17 DeformableRegistration17.cxx )
-target_link_libraries(DeformableRegistration17 ITKIO ITKStatistics ITKNumerics)
+target_link_libraries(DeformableRegistration17 ${ITK_LIBRARIES})
 
 add_executable(DeformationFieldInitialization DeformationFieldInitialization.cxx )
-target_link_libraries(DeformationFieldInitialization ITKIO)
+target_link_libraries(DeformationFieldInitialization ${ITK_LIBRARIES})
 
 add_executable(LandmarkWarping2 LandmarkWarping2.cxx )
-target_link_libraries(LandmarkWarping2 ITKIO)
+target_link_libraries(LandmarkWarping2 ${ITK_LIBRARIES})
 
 add_executable(BSplineWarping1 BSplineWarping1.cxx )
-target_link_libraries(BSplineWarping1 ITKIO)
+target_link_libraries(BSplineWarping1 ${ITK_LIBRARIES})
 
 add_executable(BSplineWarping2 BSplineWarping2.cxx )
-target_link_libraries(BSplineWarping2 ITKIO)
+target_link_libraries(BSplineWarping2 ${ITK_LIBRARIES})
 
 add_executable(ThinPlateSplineWarp ThinPlateSplineWarp.cxx )
-target_link_libraries(ThinPlateSplineWarp ITKIO)
+target_link_libraries(ThinPlateSplineWarp ${ITK_LIBRARIES})
 
 add_executable(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
-target_link_libraries(ModelToImageRegistration1 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ModelToImageRegistration1 ${ITK_LIBRARIES})
 
 add_executable(ModelToImageRegistration2 ModelToImageRegistration2.cxx )
-target_link_libraries(ModelToImageRegistration2 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ModelToImageRegistration2 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration1 ImageRegistration1.cxx )
-target_link_libraries(ImageRegistration1 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration1 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration2 ImageRegistration2.cxx )
-target_link_libraries(ImageRegistration2 ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration2 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration17 ImageRegistration17.cxx )
-target_link_libraries(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
+target_link_libraries(ImageRegistration17 ${ITK_LIBRARIES})
 
 #TODO needs updating to new statistics  add_executable(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
-#TODO needs updating to new statistics  target_link_libraries(ImageRegistrationHistogramPlotter ITKIO ITKStatistics ITKNumerics)
+#TODO needs updating to new statistics  target_link_libraries(ImageRegistrationHistogramPlotter ${ITK_LIBRARIES})
 
 add_executable(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
-target_link_libraries(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(MeanSquaresImageMetric1 ${ITK_LIBRARIES})
 
 add_executable(DeformationFieldJacobian DeformationFieldJacobian.cxx )
-target_link_libraries(DeformationFieldJacobian ITKIO)
+target_link_libraries(DeformationFieldJacobian ${ITK_LIBRARIES})
 
 add_executable(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
-target_link_libraries(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(IterativeClosestPoint1 ${ITK_LIBRARIES})
 
 add_executable(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
-target_link_libraries(IterativeClosestPoint2 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(IterativeClosestPoint2 ${ITK_LIBRARIES})
 
 add_executable(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
-target_link_libraries(IterativeClosestPoint3 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(IterativeClosestPoint3 ${ITK_LIBRARIES})
 
 
 if( NOT ITK_DISABLE_CXX_TESTING )
@@ -1100,43 +1098,43 @@ add_test(IterativeClosestPoint3Test ${REGISTRATION_EXAMPLES14}
 
 
 add_executable(RegistrationExamples RegistrationExamples.cxx )
-target_link_libraries(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples2 RegistrationExamples2.cxx )
-target_link_libraries(RegistrationExamples2 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples2 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples3 RegistrationExamples3.cxx )
-target_link_libraries(RegistrationExamples3 ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples3 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples4 RegistrationExamples4.cxx )
-target_link_libraries(RegistrationExamples4 ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples4 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples5 RegistrationExamples5.cxx )
-target_link_libraries(RegistrationExamples5 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples5 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples6 RegistrationExamples6.cxx )
-target_link_libraries(RegistrationExamples6 ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples6 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples8 RegistrationExamples8.cxx )
-target_link_libraries(RegistrationExamples8 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples8 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples9 RegistrationExamples9.cxx )
-target_link_libraries(RegistrationExamples9 ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples9 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples10 RegistrationExamples10.cxx )
-target_link_libraries(RegistrationExamples10 ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples10 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples11 RegistrationExamples11.cxx )
-target_link_libraries(RegistrationExamples11 ITKFEM ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples11 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples12 RegistrationExamples12.cxx )
-target_link_libraries(RegistrationExamples12 ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples12 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples13 RegistrationExamples13.cxx )
-target_link_libraries(RegistrationExamples13 ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples13 ${ITK_LIBRARIES})
 
 add_executable(RegistrationExamples14 RegistrationExamples14.cxx )
-target_link_libraries(RegistrationExamples14 ITKIO ITKBasicFilters ITKNumerics)
+target_link_libraries(RegistrationExamples14 ${ITK_LIBRARIES})
 
 endif(BUILD_TESTING)
 

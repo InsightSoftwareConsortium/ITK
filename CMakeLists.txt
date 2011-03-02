@@ -118,6 +118,10 @@ set(ITK_LIBRARY_PATH "${LIBRARY_OUTPUT_PATH}")
 set(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
 set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
+# A list of all libraries for ITK.  Those listed here should
+# automatically pull in their dependencies.
+set(ITK_LIBRARIES ITKAlgorithms ITKStatistics ITKFEM)
+
 include(itkCheckSourceTree)
 
 # Deal with FFT v3 Options
