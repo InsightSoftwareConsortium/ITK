@@ -1,8 +1,6 @@
 itk_module_test()
 set(ITK-DeprecatedTests
 itk2DDeformableTest.cxx
-#itkAnalyzeImageIODirectionsTest.cxx
-#itkAnalyzeImageIOTest.cxx
 itkDeformableTest.cxx
 #itkDICOMImageIO2Test.cxx
 #itkDicomImageIOTest.cxx
@@ -23,8 +21,61 @@ itkTwoOutputExampleImageFilterTest.cxx
 )
 
 
-CreateTestDriver(ITK-Deprecated  "${ITK-Deprecated-Test_LIBRARIES}" "${ITK-DeprecatedTests}")
+CreateTestDriver_SupportBuildInIOFactories(ITK-Deprecated  "${ITK-Deprecated-Test_LIBRARIES}" "${ITK-DeprecatedTests}")
 
+
+#create_test_sourcelist(AnalyzeIOTests  AnalyzeIOTestDriver.cxx
+#        itkAnalyzeImageIODirectionsTest.cxx
+#        itkAnalyzeImageIOTest.cxx
+#        EXTRA_INCLUDE itkTestDriverIncludeAnalyzeIOFactory.h
+#        FUNCTION  ProcessArgumentsAndRegisterAnalyzeIOFactory
+#)
+#add_executable(AnalyzeIOTestDriver AnalyzeIOTestDriver.cxx  ${AnalyzeIOTests})
+#target_link_libraries(AnalyzeIOTestDriver ${ITK-Deprecated-Test_LIBRARIES})
+#
+###Analyze Test Suite
+#add_test(NAME itkAnalyzeIOBigEndianCompressed.hdr
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+#         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
+#add_test(NAME itkAnalyzeIOBigEndianCompressed.img
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+#         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img)
+#add_test(NAME itkAnalyzeIOBigEndianCompressed.img.gz
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+#         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz)
+#add_test(NAME itkAnalyzeIOBigEndian
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+#         ${ITK_DATA_ROOT}/Input/BigEndian.hdr)
+#add_test(NAME itkAnalyzeIOLittleEndianCompressed
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+#         ${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr)
+#add_test(NAME itkAnalyzeIOLittleEndian
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+#         ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+#add_test(NAME itkAnalyzeIOInternalTests
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR} )
+#add_test(NAME itkAnalyzeIOShouldFail
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+#                                false ${ITK_DATA_ROOT}/Input/ramp.gipl)
+#add_test(NAME itkAnalyzeIOShouldSucceed
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+#                                true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+#add_test(NAME itkAnalyzeIOShouldSucceedZ
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+#                                true ${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr)
+#add_test(NAME itkAnalyzeImageIODirectionsTest
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIODirectionsTest
+#                                ${ITK_TEST_OUTPUT_DIR})
+#add_test(NAME itkAnalyzeImageIOBadHeader
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOBadHeader
+#                                ${ITK_TEST_OUTPUT_DIR})
+#add_test(NAME itkAnalyzeImageIORGBImageTest
+#      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIORGBImageTest
+#                                       ${ITK_TEST_OUTPUT_DIR})
+#add_test(NAME itkAnalyzeDimensionLimitsTest
+#      COMMAND AnalyzeIOTestDriver itkNiftiImageIOTest11
+#                                ${ITK_TEST_OUTPUT_DIR} SizeFailure.img.gz )
+#
 add_test(NAME itk2DDeformableTest
       COMMAND ITK-DeprecatedTestDriver itk2DDeformableTest)
 add_test(NAME itkDeformableTest
