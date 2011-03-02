@@ -386,43 +386,43 @@ testMetaTube.cxx
 testMetaUtils.cxx
 XORTest1.cxx
 XORTest2.cxx
+itkCommonPrintTest.cxx
+itkIOPrintTest.cxx
+itkBasicFiltersPrintTest.cxx
+itkNeuralNetworksPrintTest.cxx
+itkSpatialObjectPrintTest.cxx
 )
 
 CreateTestDriver_SupportBuildInIOFactories(ITK-IntegratedTest  "${ITK-IntegratedTest-Test_LIBRARIES}" "${ITK-IntegratedTestTests}")
 
 # temporary solution for all print tests. Each module should have its own print test later.
-CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmsPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkAlgorithmsPrintTest.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmsPrint2 "${ITK-IntegratedTest-Test_LIBRARIES}" "itkAlgorithmsPrintTest2.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmsPrint3 "${ITK-IntegratedTest-Test_LIBRARIES}" "itkAlgorithmsPrintTest3.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmsPrint4 "${ITK-IntegratedTest-Test_LIBRARIES}" "itkAlgorithmsPrintTest4.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkCommonPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkCommonPrintTest.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkIOPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkIOPrintTest.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkNeuralNetworksPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkNeuralNetworksPrintTest.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkBasicFiltersPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkBasicFiltersPrintTest.cxx;itkBasicFiltersPrintTest2.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkStatisticsPrint "${ITK-IntegratedTest-Test_LIBRARIES}"  "itkStatisticsPrintTest.cxx")
-CreateTestDriver_SupportBuildInIOFactories(itkSpatialObjectPrint "${ITK-IntegratedTest-Test_LIBRARIES}"   "itkSpatialObjectPrintTest.cxx")
+add_executable(itkAlgorithmsPrintTest  itkAlgorithmsPrintTest.cxx)
+target_link_libraries(itkAlgorithmsPrintTest ${ITK-IntegratedTest-Test_LIBRARIES})
+add_test(NAME itkAlgorithmsPrintTest COMMAND ${ITK_EXECUTABLE_PATH}/itkAlgorithmsPrintTest)
 
-add_test(NAME itkAlgorithmsPrintTest
-      COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest)
-add_test(NAME itkAlgorithmsPrintTest2
-      COMMAND itkAlgorithmsPrintTest2Driver itkAlgorithmsPrintTest2)
-add_test(NAME itkAlgorithmsPrintTest3
-      COMMAND itkAlgorithmsPrintTest3Driver itkAlgorithmsPrintTest3)
-add_test(NAME itkAlgorithmsPrintTest4
-      COMMAND itkAlgorithmsPrintTest4Driver itkAlgorithmsPrintTest4)
-add_test(NAME itkSpatialObjectPrintTest
-     COMMAND  itkSpatialObjectPrintTestDriver itkSpatialObjectPrintTest)
-add_test(NAME itkStatisticsPrintTest
-      COMMAND itkStatisticsPrintTestDriver itkStatisticsPrintTest)
-add_test(NAME itkBasicFiltersPrintTest
-      COMMAND itkBasicFiltersPrintTestDriver itkBasicFiltersPrintTest)
-add_test(NAME itkBasicFiltersPrintTest2
-      COMMAND itkBasicFiltersPrintTestDriver itkBasicFiltersPrintTest2)
-add_test(NAME itkCommonPrintTest
-      COMMAND itkCommonPrintTestDriver itkCommonPrintTest)
+add_executable(itkAlgorithmsPrintTest2  itkAlgorithmsPrintTest2.cxx)
+target_link_libraries(itkAlgorithmsPrintTest2 ${ITK-IntegratedTest-Test_LIBRARIES})
+add_test(NAME itkAlgorithmsPrintTest2 COMMAND ${ITK_EXECUTABLE_PATH}/itkAlgorithmsPrintTest)
 
+add_executable(itkAlgorithmsPrintTest3  itkAlgorithmsPrintTest3.cxx)
+target_link_libraries(itkAlgorithmsPrintTest3 ${ITK-IntegratedTest-Test_LIBRARIES})
+add_test(NAME itkAlgorithmsPrintTest3 COMMAND ${ITK_EXECUTABLE_PATH}/itkAlgorithmsPrintTest)
+
+add_executable(itkAlgorithmsPrintTest4  itkAlgorithmsPrintTest4.cxx)
+target_link_libraries(itkAlgorithmsPrintTest4 ${ITK-IntegratedTest-Test_LIBRARIES})
+add_test(NAME itkAlgorithmsPrintTest4 COMMAND ${ITK_EXECUTABLE_PATH}/itkAlgorithmsPrintTest)
 
 #-------------------------------------------------------------------------
+add_test(NAME itkStatisticsPrintTest
+      COMMAND ITK-IntegratedTestTestDriver itkStatisticsPrintTest)
+add_test(NAME itkSpatialObjectPrintTest
+      COMMAND ITK-IntegratedTestTestDriver itkSpatialObjectPrintTest)
+add_test(NAME itkIOPrintTest
+      COMMAND ITK-IntegratedTestTestDriver itkIOPrintTest)
+add_test(NAME itkCommonPrintTest
+      COMMAND ITK-IntegratedTestTestDriver itkCommonPrintTest)
+add_test(NAME itkBasicFiltersPrintTest
+      COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrint)
 add_test(NAME itkAccumulateImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
@@ -1302,8 +1302,8 @@ add_test(NAME itkMutualInformationMetricTest
       COMMAND ITK-IntegratedTestTestDriver itkMutualInformationMetricTest)
 add_test(NAME itkNeighborhoodSamplerTest1
       COMMAND ITK-IntegratedTestTestDriver itkNeighborhoodSamplerTest1)
-#add_test(NAME itkNeuralNetworksPrintTest
- #     COMMAND ITK-IntegratedTestTestDriver itkNeuralNetworksPrintTest)
+add_test(NAME itkNeuralNetworksPrintTest
+      COMMAND ITK-IntegratedTestTestDriver itkNeuralNetworksPrintTest)
 add_test(NAME itkNewTest
       COMMAND ITK-IntegratedTestTestDriver itkNewTest)
 add_test(NAME itkNoiseImageFilterTest
@@ -1443,8 +1443,8 @@ add_test(NAME itkNrrdVectorImageReadWriteTest
     --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-vector.nrrd
               ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd
     itkNrrdVectorImageReadWriteTest ${ITK_DATA_ROOT}/Input/mini-vector-slow.nrrd ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd)
-#add_test(NAME itkNumericsPrintTest
- #     COMMAND ITK-IntegratedTestTestDriver itkNumericsPrintTest)
+add_test(NAME itkNumericsPrintTest
+     COMMAND ITK-IntegratedTestTestDriver itkNumericsPrintTest)
 add_test(NAME itkNumericsTest
       COMMAND ITK-IntegratedTestTestDriver itkNumericsTest)
 add_test(NAME itkOptimizersHierarchyTest
