@@ -18,24 +18,13 @@
 #ifndef __itkWatershedSegmentTree_txx
 #define __itkWatershedSegmentTree_txx
 
+#include "itkWatershedSegmentTree.h"
+
 namespace itk
 {
 namespace watershed
 {
-//template <class TScalarType>
-//void  SegmentTree<TScalarType>
-//::PrintDeque()
-//{
-//  std::cout << "Deque has " << this->Size() << " entries. " << std::endl;
-//  Iterator it = this->Begin();
-//  while ( it != this->End() )
-//    {
-//      std::cout << (*it).from << " -> "
-//                << (*it).to << " " << (*it).saliency
-//                << std::endl;
-//      ++it;
-//    }
-//}
+
 
 template< class TScalarType >
 void
