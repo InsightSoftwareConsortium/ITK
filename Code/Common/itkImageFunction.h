@@ -151,11 +151,9 @@ public:
   {
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      if ( index[j] < m_StartContinuousIndex[j] )
-        {
-        return false;
-        }
-      if ( index[j] >= m_EndContinuousIndex[j] )
+      /* Test for negative of a positive so we can catch NaN's. */
+      if ( ! (index[j] >= m_StartContinuousIndex[j] &&
+             index[j] < m_EndContinuousIndex[j] ) )
         {
         return false;
         }
@@ -169,9 +167,12 @@ public:
   virtual bool IsInsideBuffer(const PointType & point) const
   {
     ContinuousIndexType index;
-
     m_Image->TransformPhysicalPointToContinuousIndex(point, index);
-    return this->IsInsideBuffer(index);
+    /* Call IsInsideBuffer to test against BufferedRegion bounds.
+     * TransformPhysicalPointToContinuousIndex tests against
+     * LargestPossibleRegion */
+    bool isInside = IsInsideBuffer( index );
+    return isInside;
   }
 
   /** Convert point to nearest index. */
@@ -188,10 +189,12 @@ public:
   void ConvertPointToContinousIndex(const PointType & point,
                                     ContinuousIndexType & cindex) const
   {
-    itkWarningMacro("Please change your code to use ConvertPointToContinuousIndex "
-                    << "rather than ConvertPointToContinousIndex. The latter method name was "
-                    << "mispelled and the ITK developers failed to correct it before it was released."
-                    << "The mispelled method name is retained in order to maintain backward compatibility.");
+    itkWarningMacro(
+      "Please change your code to use ConvertPointToContinuousIndex "
+      << "rather than ConvertPointToContinousIndex. The latter method name was "
+      << "mispelled and the ITK developers failed to correct it before it was "
+      << "released. The mispelled method name is retained in order to "
+      << "maintain backward compatibility.");
     this->ConvertPointToContinuousIndex(point, cindex);
   }
 
@@ -203,8 +206,9 @@ public:
   }
 
   /** Convert continuous index to nearest index. */
-  inline void ConvertContinuousIndexToNearestIndex(const ContinuousIndexType & cindex,
-                                                   IndexType & index) const
+  inline void ConvertContinuousIndexToNearestIndex(
+                                  const ContinuousIndexType & cindex,
+                                  IndexType &                 index) const
   {
     index.CopyWithRound(cindex);
   }
