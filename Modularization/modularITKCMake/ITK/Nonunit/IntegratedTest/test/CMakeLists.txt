@@ -71,7 +71,6 @@ itkFEMLinearSystemWrapperItpackTest.cxx
 itkFEMLinearSystemWrapperItpackTest2.cxx
 itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMPArrayTest.cxx
-#itkFFTTest.cxx
 #itkFileFreeImageIO.cxx
 #itkFileFreeImageIOFactory.cxx
 itkFilterDispatchTest.cxx
