@@ -19,59 +19,31 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+
 #include "itksys/SystemTools.hxx"
 #include "itkNiftiImageIO.h"
 #include "itkNiftiImageIOTest.h"
 
-int itkNiftiImageIOTest2(int ac, char* av[])
+/** Test writing and reading a Vector Image
+ */
+int itkNiftiImageIOTest7(int ac, char* av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1) {
+  if(ac > 1)
+    {
     char *testdir = *++av;
-    --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
-  }
-  if(ac != 4)
-    return EXIT_FAILURE;
-  char *arg1 = av[1];
-  char *arg2 = av[2];
-  char *prefix = av[3];
-  int test_success = 0;
-  typedef itk::Image<signed short, 3> ImageType ;
-  typedef ImageType::Pointer ImagePointer ;
-
-  if((strcmp(arg1, "true") == 0) && WriteNiftiTestFiles(prefix) == -1)
-    {
-      return EXIT_FAILURE;
-    }
-
-
-
-  ImagePointer input;
-  try
-    {
-    typedef itk::ImageFileReader<ImageType> ImageReaderType;
-    itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
-    ImageReaderType::Pointer imageReader = ImageReaderType::New();
-    imageReader->SetImageIO(io);
-    imageReader->SetFileName(arg2);
-    imageReader->Update();
-    input = imageReader->GetOutput();
-    input = ReadImage<ImageType>(std::string(arg2));
-    }
-  catch (itk::ExceptionObject &)
-    {
-      test_success = 1;
-    }
-
-  if(strcmp(arg1, "true") == 0)
-    {
-      return test_success;
     }
   else
     {
-      return !test_success;
+    return EXIT_FAILURE;
     }
-
+  int success(0);
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,1>( std::string("testDtiImage_float_1.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,2>( std::string("testDtiImage_float_2.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,3>( std::string("testDtiImage_float_3.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,4>( std::string("testDtiImage_float_4.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<double>,3>(std::string("testDtiImage_double_3.nii.gz"));
+  return success;
 }

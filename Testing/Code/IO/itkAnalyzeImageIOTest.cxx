@@ -43,7 +43,7 @@
 #endif
 
 
-static int WriteTestFiles(const std::string AugmentName)
+int WriteAnalyzeTestFiles(const std::string & AugmentName)
 {
 #include "LittleEndian_hdr.h"
 #include "LittleEndian_img.h"
@@ -108,7 +108,8 @@ static int WriteTestFiles(const std::string AugmentName)
   big_img.close();
   return EXIT_SUCCESS;
 }
-static void RemoveByteSwapTestFiles(const std::string & itkNotUsed(AugmentName) )
+
+static void RemoveAnalyzeByteSwapTestFiles(const std::string & itkNotUsed(AugmentName) )
 {
 //--//  Remove(AugmentName+"LittleEndian.hdr");
 //--//  Remove(AugmentName+"LittleEndian.img");
@@ -116,13 +117,13 @@ static void RemoveByteSwapTestFiles(const std::string & itkNotUsed(AugmentName) 
 //--//  Remove(AugmentName+"BigEndian.img");
 }
 
-static int TestByteSwap(const std::string & AugmentName)
+int TestAnalyzeByteSwap(const std::string & AugmentName)
 {
   int rval;
   typedef itk::Image<double, 3>               ImageType;
   typedef itk::ImageFileReader< ImageType >   ImageReaderType;
 
-  if(WriteTestFiles(AugmentName) == -1)
+  if(WriteAnalyzeTestFiles(AugmentName) == -1)
     {
     return EXIT_FAILURE;
     }
@@ -153,7 +154,7 @@ static int TestByteSwap(const std::string & AugmentName)
   catch (itk::ExceptionObject &e)
     {
     e.Print(std::cerr);
-    RemoveByteSwapTestFiles(AugmentName);
+    RemoveAnalyzeByteSwapTestFiles(AugmentName);
     return EXIT_FAILURE;
     }
 
@@ -186,7 +187,7 @@ static int TestByteSwap(const std::string & AugmentName)
     std::cerr << "Error filling array" << ex << std::endl;
     rval= -1;
     }
-  RemoveByteSwapTestFiles(AugmentName);
+  RemoveAnalyzeByteSwapTestFiles(AugmentName);
   return rval;
 }
 
@@ -507,7 +508,7 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
         std::cerr << "Error writing Analyze file type double" << std::endl;
         rval += cur_return;
         }
-      rval += TestByteSwap(AugmentName);
+      rval += TestAnalyzeByteSwap(AugmentName);
       }
     }
   return rval;
@@ -567,7 +568,7 @@ int
 TestDegenerateHeaderFiles()
 {
   std::string AugmentName("DegenerateHeaderTest");
-  if(WriteTestFiles(AugmentName) == -1)
+  if(WriteAnalyzeTestFiles(AugmentName) == -1)
     {
     return EXIT_FAILURE;
     }
@@ -595,7 +596,7 @@ TestDegenerateHeaderFiles()
     std::cout << err << " " << __FILE__ << " " << __LINE__ << std::endl;
     error++;
     }
-  RemoveByteSwapTestFiles(AugmentName);
+  RemoveAnalyzeByteSwapTestFiles(AugmentName);
   return error ? 0 : 1;
 }
 int itkAnalyzeImageIOBadHeader(int ac, char* av[])

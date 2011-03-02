@@ -1447,6 +1447,16 @@ set(IOTest_SRCS
   itkAnalyzeImageIODirectionsTest
   itkNiftiImageIOTest
   itkNiftiImageIOTest2
+  itkNiftiImageIOTest3
+  itkNiftiImageIOTest4
+  itkNiftiImageIOTest5
+  itkNiftiImageIOTest6
+  itkNiftiImageIOTest7
+  itkNiftiImageIOTest8
+  itkNiftiImageIOTest9
+  itkNiftiImageIOTest10
+  itkNiftiImageIOTest11
+  itkNiftiImageIOTestHelper
   itkPNGImageIOTest
   itkGEImageIOTest
 )
