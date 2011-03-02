@@ -24,7 +24,7 @@
 namespace itk
 {
 template< unsigned int TDimension >
-PolygonGroupOrientation
+typename PolygonSpatialObject< TDimension >::PolygonGroupOrientation
 PolygonSpatialObject< TDimension >
 ::Plane() const
 {

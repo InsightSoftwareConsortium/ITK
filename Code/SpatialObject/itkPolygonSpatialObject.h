@@ -18,7 +18,6 @@
 #ifndef __itkPolygonSpatialObject_h
 #define __itkPolygonSpatialObject_h
 #include "itkBlobSpatialObject.h"
-#include "itkPolygonGroupOrientation.h"
 
 namespace itk
 {
@@ -44,6 +43,18 @@ public:
 
   /** Method for creation through the object factory. */
   itkTypeMacro(PolygonSpatialObject, BlobSpatialObject);
+
+  /**
+   * \enum PolygonGroupOrientation
+   * \brief enumerates the possible spatial orientations
+   */
+  typedef enum {
+        Axial = 0,
+        Coronal = 1,
+        Sagittal = 2,
+        UserPlane = 3,
+        Unknown = 4
+        } PolygonGroupOrientation;
 
   /** Method returning plane alignment of strand */
   PolygonGroupOrientation Plane() const;
