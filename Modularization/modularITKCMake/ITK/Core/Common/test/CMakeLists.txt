@@ -305,8 +305,8 @@ write_file(
   "</Site>\n"
 )
 
-configure_file(itkSystemInformationTest.h.in  ${ITK-Common_BINARY_DIR}/itkSystemInformationTest.h)
-set(SYSTEM_INFORMATION_TEST ${ITK_EXECUTABLE_PATH}/itkSystemInformationTest)
-add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
-target_link_libraries(itkSystemInformationTest  ${ITK-Common_LIBRARIES})
-add_test(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
+#configure_file(itkSystemInformationTest.h.in  ${ITK-Common_BINARY_DIR}/itkSystemInformationTest.h)
+#set(SYSTEM_INFORMATION_TEST ${ITK_EXECUTABLE_PATH}/itkSystemInformationTest)
+#add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
+#target_link_libraries(itkSystemInformationTest  ${ITK-Common_LIBRARIES})
+#add_test(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
