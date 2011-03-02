@@ -4,49 +4,49 @@ include_regular_expression("^.*$")
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 add_executable(Image1 Image1.cxx )
-target_link_libraries(Image1 ITKCommon)
+target_link_libraries(Image1 ${ITK_LIBRARIES})
 
 add_executable(Image2 Image2.cxx )
-target_link_libraries(Image2 ITKIO)
+target_link_libraries(Image2 ${ITK_LIBRARIES})
 
 add_executable(Image3 Image3.cxx )
-target_link_libraries(Image3 ITKCommon)
+target_link_libraries(Image3 ${ITK_LIBRARIES})
 
 add_executable(Image4 Image4.cxx )
-target_link_libraries(Image4 ITKCommon)
+target_link_libraries(Image4 ${ITK_LIBRARIES})
 
 add_executable(VectorImage VectorImage.cxx )
-target_link_libraries(VectorImage ITKCommon)
+target_link_libraries(VectorImage ${ITK_LIBRARIES})
 
 add_executable(ImageAdaptor2 ImageAdaptor2.cxx )
-target_link_libraries(ImageAdaptor2 ITKIO)
+target_link_libraries(ImageAdaptor2 ${ITK_LIBRARIES})
 
 add_executable(ImageAdaptor3 ImageAdaptor3.cxx )
-target_link_libraries(ImageAdaptor3 ITKIO)
+target_link_libraries(ImageAdaptor3 ${ITK_LIBRARIES})
 
 add_executable(ImageAdaptor4 ImageAdaptor4.cxx )
-target_link_libraries(ImageAdaptor4 ITKIO)
+target_link_libraries(ImageAdaptor4 ${ITK_LIBRARIES})
 
 add_executable(ImageExamples2 ImageExamples2.cxx )
-target_link_libraries(ImageExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+target_link_libraries(ImageExamples2 ${ITK_LIBRARIES})
 
 add_executable(ImageExamples3 ImageExamples3.cxx )
-target_link_libraries(ImageExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+target_link_libraries(ImageExamples3 ${ITK_LIBRARIES})
 
 add_executable(Image5 Image5.cxx )
-target_link_libraries(Image5 ITKIO)
+target_link_libraries(Image5 ${ITK_LIBRARIES})
 
 add_executable(ImageAdaptor1 ImageAdaptor1.cxx )
-target_link_libraries(ImageAdaptor1 ITKIO)
+target_link_libraries(ImageAdaptor1 ${ITK_LIBRARIES})
 
 add_executable(RGBImage RGBImage.cxx )
-target_link_libraries(RGBImage ITKIO)
+target_link_libraries(RGBImage ${ITK_LIBRARIES})
 
 add_executable(ImageExamples ImageExamples.cxx )
-target_link_libraries(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+target_link_libraries(ImageExamples ${ITK_LIBRARIES})
 
 add_executable(ImageExamples4 ImageExamples4.cxx )
-target_link_libraries(ImageExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+target_link_libraries(ImageExamples4 ${ITK_LIBRARIES})
 
 
 set(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)

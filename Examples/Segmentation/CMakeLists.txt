@@ -6,78 +6,77 @@ project(ImageSegmentation)
 include_regular_expression("^.*$")
 
 add_executable(ConfidenceConnected ConfidenceConnected.cxx )
-target_link_libraries(ConfidenceConnected ITKNumerics ITKIO)
+target_link_libraries(ConfidenceConnected ${ITK_LIBRARIES})
 
 add_executable(ConfidenceConnected3D ConfidenceConnected3D.cxx )
-target_link_libraries(ConfidenceConnected3D ITKNumerics ITKIO)
+target_link_libraries(ConfidenceConnected3D ${ITK_LIBRARIES})
 
 add_executable(NeighborhoodConnectedImageFilter NeighborhoodConnectedImageFilter.cxx )
-target_link_libraries(NeighborhoodConnectedImageFilter ITKNumerics ITKIO)
+target_link_libraries(NeighborhoodConnectedImageFilter ${ITK_LIBRARIES})
 
 add_executable(IsolatedConnectedImageFilter IsolatedConnectedImageFilter.cxx )
-target_link_libraries(IsolatedConnectedImageFilter ITKNumerics ITKIO)
+target_link_libraries(IsolatedConnectedImageFilter ${ITK_LIBRARIES})
 
 add_executable(ConnectedThresholdImageFilter ConnectedThresholdImageFilter.cxx )
-target_link_libraries(ConnectedThresholdImageFilter ITKNumerics ITKIO)
+target_link_libraries(ConnectedThresholdImageFilter ${ITK_LIBRARIES})
 
 add_executable(FastMarchingImageFilter FastMarchingImageFilter.cxx )
-target_link_libraries(FastMarchingImageFilter ITKNumerics ITKIO)
+target_link_libraries(FastMarchingImageFilter ${ITK_LIBRARIES})
 
 add_executable(GeodesicActiveContourShapePriorLevelSetImageFilter
 GeodesicActiveContourShapePriorLevelSetImageFilter.cxx )
-target_link_libraries(GeodesicActiveContourShapePriorLevelSetImageFilter
-ITKNumerics ITKIO ITKStatistics)
+target_link_libraries(GeodesicActiveContourShapePriorLevelSetImageFilter ${ITK_LIBRARIES})
 
 add_executable(DeformableModel2 DeformableModel2.cxx )
-target_link_libraries(DeformableModel2 ITKAlgorithms ITKIO)
+target_link_libraries(DeformableModel2 ${ITK_LIBRARIES})
 
 add_executable(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
-target_link_libraries(GibbsPriorImageFilter1 ITKAlgorithms ITKIO)
+target_link_libraries(GibbsPriorImageFilter1 ${ITK_LIBRARIES})
 
 add_executable(HoughTransform2DCirclesImageFilter HoughTransform2DCirclesImageFilter.cxx )
-target_link_libraries(HoughTransform2DCirclesImageFilter ITKBasicFilters ITKIO)
+target_link_libraries(HoughTransform2DCirclesImageFilter ${ITK_LIBRARIES})
 
 add_executable(HoughTransform2DLinesImageFilter HoughTransform2DLinesImageFilter.cxx )
-target_link_libraries(HoughTransform2DLinesImageFilter ITKBasicFilters ITKIO)
+target_link_libraries(HoughTransform2DLinesImageFilter ${ITK_LIBRARIES})
 
 add_executable(VectorConfidenceConnected VectorConfidenceConnected.cxx )
-target_link_libraries(VectorConfidenceConnected ITKNumerics ITKIO)
+target_link_libraries(VectorConfidenceConnected ${ITK_LIBRARIES})
 
 add_executable(RelabelComponentImageFilter RelabelComponentImageFilter.cxx )
-target_link_libraries(RelabelComponentImageFilter ITKNumerics ITKIO)
+target_link_libraries(RelabelComponentImageFilter ${ITK_LIBRARIES})
 
 add_executable(CannySegmentationLevelSetImageFilter CannySegmentationLevelSetImageFilter.cxx )
-target_link_libraries(CannySegmentationLevelSetImageFilter ITKNumerics ITKIO)
+target_link_libraries(CannySegmentationLevelSetImageFilter ${ITK_LIBRARIES})
 
 add_executable(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
-target_link_libraries(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
+target_link_libraries(GeodesicActiveContourImageFilter ${ITK_LIBRARIES})
 
 add_executable(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
-target_link_libraries(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
+target_link_libraries(ShapeDetectionLevelSetFilter ${ITK_LIBRARIES})
 
 add_executable(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
-target_link_libraries(CurvesLevelSetImageFilter ITKNumerics ITKIO)
+target_link_libraries(CurvesLevelSetImageFilter ${ITK_LIBRARIES})
 
 add_executable(WatershedSegmentation1 WatershedSegmentation1.cxx )
-target_link_libraries(WatershedSegmentation1 ITKAlgorithms ITKIO)
+target_link_libraries(WatershedSegmentation1 ${ITK_LIBRARIES})
 
 add_executable(WatershedSegmentation2 WatershedSegmentation2.cxx )
-target_link_libraries(WatershedSegmentation2 ITKAlgorithms ITKIO)
+target_link_libraries(WatershedSegmentation2 ${ITK_LIBRARIES})
 
 add_executable(CellularSegmentation1 CellularSegmentation1.cxx )
-target_link_libraries(CellularSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
+target_link_libraries(CellularSegmentation1 ${ITK_LIBRARIES})
 
 add_executable(CellularSegmentation2 CellularSegmentation2.cxx )
-target_link_libraries(CellularSegmentation2 ITKAlgorithms ITKNumerics ITKIO)
+target_link_libraries(CellularSegmentation2 ${ITK_LIBRARIES})
 
 add_executable(DeformableModel1 DeformableModel1.cxx )
-target_link_libraries(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
+target_link_libraries(DeformableModel1 ${ITK_LIBRARIES})
 
 add_executable(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
-target_link_libraries(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
+target_link_libraries(LaplacianSegmentationLevelSetImageFilter ${ITK_LIBRARIES})
 
 add_executable(ThresholdSegmentationLevelSetImageFilter ThresholdSegmentationLevelSetImageFilter.cxx )
-target_link_libraries(ThresholdSegmentationLevelSetImageFilter ITKNumerics ITKIO)
+target_link_libraries(ThresholdSegmentationLevelSetImageFilter ${ITK_LIBRARIES})
 
 
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
@@ -99,74 +98,31 @@ set(SEGMENTATION_EXAMPLES8 ${CXX_TEST_PATH}/SegmentationExamples8)
 set(SEGMENTATION_EXAMPLES9 ${CXX_TEST_PATH}/SegmentationExamples9)
 
 add_executable(SegmentationExamples SegmentationExamples.cxx )
-target_link_libraries(SegmentationExamples
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-)
+target_link_libraries(SegmentationExamples ${ITK_LIBRARIES})
 
 add_executable(SegmentationExamples2 SegmentationExamples2.cxx )
-target_link_libraries(SegmentationExamples2
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-)
+target_link_libraries(SegmentationExamples2 ${ITK_LIBRARIES})
 
 add_executable(SegmentationExamples3 SegmentationExamples3.cxx )
-target_link_libraries(SegmentationExamples3
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-ITKNumerics
-)
+target_link_libraries(SegmentationExamples3 ${ITK_LIBRARIES})
 
 add_executable(SegmentationExamples4 SegmentationExamples4.cxx )
-target_link_libraries(SegmentationExamples4
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-ITKStatistics
-)
+target_link_libraries(SegmentationExamples4 ${ITK_LIBRARIES})
 
 add_executable(SegmentationExamples5 SegmentationExamples5.cxx )
-target_link_libraries(SegmentationExamples5
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-ITKStatistics
-)
+target_link_libraries(SegmentationExamples5 ${ITK_LIBRARIES})
 
 add_executable(SegmentationExamples6 SegmentationExamples6.cxx )
-target_link_libraries(SegmentationExamples6
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-ITKStatistics
-)
+target_link_libraries(SegmentationExamples6 ${ITK_LIBRARIES})
 
 add_executable(SegmentationExamples7 SegmentationExamples7.cxx )
-target_link_libraries(SegmentationExamples7
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-ITKStatistics
-)
+target_link_libraries(SegmentationExamples7 ${ITK_LIBRARIES})
 
 add_executable(SegmentationExamples8 SegmentationExamples8.cxx )
-target_link_libraries(SegmentationExamples8
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-ITKStatistics
-)
+target_link_libraries(SegmentationExamples8 ${ITK_LIBRARIES})
 
 add_executable(SegmentationExamples9 SegmentationExamples9.cxx )
-target_link_libraries(SegmentationExamples9
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-ITKStatistics
-)
+target_link_libraries(SegmentationExamples9 ${ITK_LIBRARIES})
 
 add_test(ConfidenceConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConfidenceConnectedWhiteTest.png
