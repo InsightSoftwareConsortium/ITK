@@ -132,8 +132,10 @@ static int TestByteSwap(const std::string & AugmentName)
   ImageType::Pointer big;
 
   itk::ImageFileReader<ImageType>::Pointer imageReader =
-    itk::ImageFileReader<ImageType>::New();
+  itk::ImageFileReader<ImageType>::New();
 
+  itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+  imageReader->SetImageIO(io);
   try
     {
     imageReader->SetFileName(AugmentName+"LittleEndian.hdr");
@@ -311,6 +313,8 @@ MakeImage(const std::string & AugmentName)
 
   //Set the output filename
   ImageWriterPointer->SetFileName(filename);
+  itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+  ImageWriterPointer->SetImageIO(io);
 
   //Attach input image to the writer.
   ImageWriterPointer->SetInput( img );
@@ -338,6 +342,7 @@ MakeImage(const std::string & AugmentName)
   typename itk::ImageFileReader<ImageType>::Pointer imageReader =
     itk::ImageFileReader<ImageType>::New();
 
+  imageReader->SetImageIO(io);
   try
     {
     imageReader->SetFileName(filename);
@@ -401,6 +406,9 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
       ImageType::Pointer input;
       itk::ImageFileReader<ImageType>::Pointer imageReader =
         itk::ImageFileReader<ImageType>::New();
+
+      itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+      imageReader->SetImageIO(io);
       for(int imagenameindex=1; imagenameindex < ac2; imagenameindex++)
         {
         //std::cout << "Attempting to read " << av2[imagenameindex] << std::endl;

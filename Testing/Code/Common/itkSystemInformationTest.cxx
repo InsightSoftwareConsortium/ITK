@@ -35,6 +35,7 @@
 #include <string>
 #include <cstdlib>
 #include <cstring>
+#include "itkConfigure.h"
 #if defined (ITK_USE_MODULAR_BUILD)
   #include "itkSystemInformationTest.h"
 #else

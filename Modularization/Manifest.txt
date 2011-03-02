@@ -2856,8 +2856,7 @@ Testing/Code/Algorithms/itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest.cxx   
 Testing/Code/Algorithms/itkExtensionVelocitiesImageFilterTest.cxx                Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkExtractMeshConnectedRegionsTest.cxx                   Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkFEMRegistrationFilterTest.cxx                         Registration    ITK-FEMRegistration            FEM
-Testing/Code/Algorithms/itkFFTTest.cxx                                           Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Algorithms/itkFFTTests.cxx                                          Nonunit         ITK-Deprecated                 Deprecated
+Testing/Code/Algorithms/itkFFTTest.cxx                                           Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkFastChamferDistanceImageFilterTest.cxx                Filtering       ITK-DistanceMap                DistanceMap
 Testing/Code/Algorithms/itkFastMarchingExtensionImageFilterTest.cxx              Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkFastMarchingTest.cxx                                  Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -3278,7 +3277,7 @@ Testing/Code/Common/itkBinaryThresholdSpatialFunctionTest.cxx                   
 Testing/Code/Common/itkBoundaryConditionTest.cxx                                 Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkBoundingBoxTest.cxx                                       Core            ITK-Common                     Common
 Testing/Code/Common/itkByteSwapTest.cxx                                          Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Common/itkCellInterfaceTest.cxx                                     Core            ITK-Common                     Common
+Testing/Code/Common/itkCellInterfaceTest.cxx                                     Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkCenteredAffineTransformTest.cxx                           Core            ITK-Transform                  Transform
 Testing/Code/Common/itkCenteredEuler3DTransformTest.cxx                          Core            ITK-Transform                  Transform
 Testing/Code/Common/itkCenteredRigid2DTransformTest.cxx                          Core            ITK-Transform                  Transform
@@ -3488,8 +3487,8 @@ Testing/Code/Common/itkTransformsSetParametersTest.cxx                          
 Testing/Code/Common/itkTranslationTransformTest.cxx                              Core            ITK-Transform                  Transform
 Testing/Code/Common/itkTreeContainerTest.cxx                                     Core            ITK-Common                     Common
 Testing/Code/Common/itkTreeContainerTest2.cxx                                    Core            ITK-Common                     Common
-Testing/Code/Common/itkTriangleCellTest.cxx                                      Core            ITK-Common                     Common
-Testing/Code/Common/itkTriangleHelperTest.cxx                                    Core            ITK-Common                     Common
+Testing/Code/Common/itkTriangleCellTest.cxx                                      Nonunit         ITK-IntegratedTest             IntegratedTest
+Testing/Code/Common/itkTriangleHelperTest.cxx                                    Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkVNLRoundProfileTest1.cxx                                  Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkVariableLengthVectorTest.cxx                              Core            ITK-Common                     Common
 Testing/Code/Common/itkVariableSizeMatrixTest.cxx                                Core            ITK-Common                     Common

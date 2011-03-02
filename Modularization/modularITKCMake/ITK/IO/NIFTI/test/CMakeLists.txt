@@ -36,6 +36,8 @@ add_test(NAME itkNiftiIOShouldFail
 add_test(NAME itkNiftiIOShouldSucceed
       COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest2
               ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldSucceed true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+add_test(NAME itkDirCosinesTest
+      COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest4 ${ITK_TEST_OUTPUT_DIR} )
 add_test(NAME itkNiftiSlopeInterceptTest
       COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest5 ${ITK_TEST_OUTPUT_DIR})
 add_test(NAME itkNiftiVectorImageTest2

@@ -15,10 +15,11 @@
  # If a namespace is not specified, use "dicomparser". This should be
  # the case only when dicom is not included inside another project
  #
-SET(DICOMPARSER_NAMESPACE dicomparser)
 SET(DICOMPARSER_LIBRARY dicomparser)
 SET(DICOMPARSER_STANDALONE 1)
 
+#-----------------------------------------------------------------------------
+# The project name is that of the specified namespace.
 
 IF(WIN32)
   IF(BUILD_SHARED_LIBS)
@@ -28,15 +29,12 @@ IF(WIN32)
   ENDIF(BUILD_SHARED_LIBS)
 ENDIF(WIN32)
 
-IF(ITK_SOURCE_DIR)
-   # Inside ITK, use its setting.
-   SET(DICOM_ANSI_STDLIB 1)
-ELSE(ITK_SOURCE_DIR)
-   # Not inside ITK, use ANSI streams.
-   SET(DICOM_ANSI_STDLIB 1)
-ENDIF(ITK_SOURCE_DIR)
+#INCLUDE(${CMAKE_ROOT}/Modules/TestForSTDNamespace.cmake)
+#SET(DICOM_NO_STD_NAMESPACE ${CMAKE_NO_STD_NAMESPACE})
 
-
+# Inside ITK, use its setting.
+SET(DICOM_ANSI_STDLIB 1)
+configure_file(DICOMCMakeConfig.h.in ${ITK-DICOMParser_BINARY_DIR}/DICOMCMakeConfig.h)
 set(ITK-DICOMParser_SRC
 DICOMAppHelper.cxx
 DICOMBuffer.cxx
@@ -45,6 +43,8 @@ DICOMParser.cxx
 DICOMSource.cxx
 )
 
-add_library(ITK-DICOMParser ${ITK-DICOMParser_SRC})
-target_link_libraries(ITK-DICOMParser )
-itk_module_target(ITK-DICOMParser)
+add_library(${DICOMPARSER_LIBRARY}  ${ITK-DICOMParser_SRC})
+itk_module_target(${DICOMPARSER_LIBRARY})
+
+install(FILES ${ITK-DICOMParser_BINARY_DIR}/DICOMCMakeConfig.h
+DESTINATION ${ITK-DICOMParser_INSTALL_INCLUDE_DIR})
