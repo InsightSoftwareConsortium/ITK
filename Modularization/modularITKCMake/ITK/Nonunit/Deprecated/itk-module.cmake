@@ -79,4 +79,5 @@ ITK-RegionGrowing
 ITK-SignedDistanceFunction
 ITK-Voronoi
 ITK-Watersheds
+ITK-DICOMParser
 TEST_DEPENDS ITK-TestKernel)

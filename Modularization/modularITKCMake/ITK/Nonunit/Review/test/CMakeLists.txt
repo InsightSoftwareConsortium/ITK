@@ -127,6 +127,7 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx
 itkMultiplyByConstantImageFilterTest.cxx
 itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 itkNeuralNetworkIOTest.cxx
+#itkN4MRIBiasFieldCorrectionImageFilterTest
 itkObjectByObjectLabelMapFilterTest.cxx
 itkObjectToObjectMetricTest.cxx
 itkOptGrayscaleDilateImageFilterTest.cxx
@@ -191,6 +192,12 @@ itkWarpHarmonicEnergyCalculatorTest.cxx
 itkWarpJacobianDeterminantFilterTest.cxx
 itkReviewHeaderTest.cxx
 )
+
+set(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
+set(INPUTDATA ${ITK_DATA_ROOT}/Input)
+set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
+set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
+
 
 if(ITK_USE_MINC2 AND MINC2_FOUND)
   set(ITK-ReviewTests ${ITK-ReviewTests} itkMINC2ImageIOTest.cxx)
@@ -415,12 +422,20 @@ add_test(NAME itkBSplineControlPointImageFilterTest2
     --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz
               ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz
     itkBSplineControlPointImageFilterTest 3 ${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_3D.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz)
+add_test(NAME itkBSplineControlPointImageFunctionTest
+      COMMAND ITK-ReviewTestDriver itkBSplineControlPointImageFunctionTest)
 add_test(NAME itkBSplineDeformableTransformInitializerTest1
       COMMAND ITK-ReviewTestDriver itkBSplineDeformableTransformInitializerTest1
               ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest1.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest1DeformationField.mhd)
 add_test(NAME itkBSplineDeformableTransformInitializerTest2
       COMMAND ITK-ReviewTestDriver itkBSplineDeformableTransformInitializerTest2
               ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest2.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest2DeformationField.mhd)
+add_test(NAME itkTransformToDeformationFieldSourceTest03
+      COMMAND ITK-ReviewTestDriver
+    --compare ${TEMP}/transformedImage.nii
+              ${TEMP}/warpedImage.nii
+  --compareNumberOfPixelsTolerance 20
+   itkTransformToDeformationFieldSourceTest1 ${TEMP}/transformedImage.nii ${TEMP}/warpedImage.nii)
 add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest01
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
@@ -1180,6 +1195,31 @@ add_test(NAME itkMultiplyByConstantImageFilterTest
 add_test(NAME itkMultiScaleHessianBasedMeasureImageFilterTest
       COMMAND ITK-ReviewTestDriver itkMultiScaleHessianBasedMeasureImageFilterTest
               ${ITK_DATA_ROOT}/Input/DSA.png ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestScalesOutput.mha 5 10 10 1 0 ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha)
+#add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest1
+#      COMMAND ITK-ReviewTestDriver
+#    --compare ${BASELINE}/N4ControlPoints_2D.nii.gz
+#              ${TEMP}/N4ControlPoints_2D.nii.gz
+#    itkN4MRIBiasFieldCorrectionImageFilterTest 2
+#    ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png    # input
+#    ${TEMP}/N4ControlPoints_2D.nii.gz                           # control point lattice
+#    4                                                           # shrink factor
+#    20x20                                                       # number of iterations
+#    none                                                        # mask
+#    200                                                         # spline distance
+#    )
+#add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest2
+#      COMMAND ITK-ReviewTestDriver
+#    --compare ${BASELINE}/N4ControlPoints_3D.nii.gz
+#              ${TEMP}/N4ControlPoints_3D.nii.gz
+#    itkN4MRIBiasFieldCorrectionImageFilterTest
+#    3
+#    ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolumeCompressed.mha    # input
+#    ${TEMP}/N4ControlPoints_3D.nii.gz                                  # control point lattice
+#    3                                                                  # shrink factor
+#    10x10x10                                                           # number of iterations
+#    none                                                               # mask
+#    150                                                                # spline distance
+#    )
 add_test(NAME itkNeuralNetworkIOTest
       COMMAND ITK-ReviewTestDriver itkNeuralNetworkIOTest
               ${ITK_DATA_ROOT}/Input/xornet.txt ${ITK_DATA_ROOT}/Input/xortest.txt ${ITK_TEST_OUTPUT_DIR})

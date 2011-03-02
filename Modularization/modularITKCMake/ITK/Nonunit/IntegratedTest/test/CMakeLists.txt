@@ -32,7 +32,7 @@ itkCovarianceSampleFilterTest2.cxx
 itkCovarianceSampleFilterTest3.cxx
 itkCovariantVectorGeometryTest.cxx
 itkCurvatureFlowTest.cxx
-#itkCurvatureRegistrationFilterTest.cxx
+itkCurvatureRegistrationFilterTest.cxx
 itkCurvesLevelSetImageFilterTest.cxx
 itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
 itkCyclicReferences.cxx
@@ -311,7 +311,7 @@ itkShrinkImageStreamingTest.cxx
 itkShrinkImageTest.cxx
 itkSimpleFilterWatcherTest.cxx
 itkSimplexMeshWithFloatCoordRepTest.cxx
-#itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx
+itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx
 itkSparseFrequencyContainer2Test.cxx
 itkSparseImageTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
@@ -337,9 +337,10 @@ itkTopHatImageFilterTest.cxx
 itkTransformFileReaderWriterTest.cxx
 itkTransformIOTest.cxx
 itkTransformsSetParametersTest.cxx
+itkTriangleCellTest.cxx
 itkTriangleMeshToSimplexMeshFilter2Test.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
-#itkUnicodeIOtest.cxx
+itkUnicodeIOTest.cxx
 itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkVectorConfidenceConnectedImageFilterTest.cxx
 itkVectorGeometryTest.cxx
@@ -387,6 +388,7 @@ testMetaUtils.cxx
 XORTest1.cxx
 XORTest2.cxx
 itkCommonPrintTest.cxx
+itkCellInterfaceTest.cxx
 itkIOPrintTest.cxx
 itkBasicFiltersPrintTest.cxx
 itkNeuralNetworksPrintTest.cxx
@@ -421,6 +423,8 @@ add_test(NAME itkIOPrintTest
       COMMAND ITK-IntegratedTestTestDriver itkIOPrintTest)
 add_test(NAME itkCommonPrintTest
       COMMAND ITK-IntegratedTestTestDriver itkCommonPrintTest)
+add_test(NAME itkCellInterfaceTest
+      COMMAND ITK-IntegratedTestTestDriver itkCellInterfaceTest)
 add_test(NAME itkBasicFiltersPrintTest
       COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrint)
 add_test(NAME itkAccumulateImageFilterTest
@@ -531,6 +535,13 @@ add_test(NAME itkConnectedThresholdImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png
     itkConnectedThresholdImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png 165 165 0 150)
+add_test(NAME itkConnectedThresholdImageFilterTest2
+      COMMAND ITK-IntegratedTestTestDriver
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest2.png
+   itkConnectedThresholdImageFilterTest ${ITK_DATA_ROOT}/Input/8ConnectedImage.bmp
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest2.png
+            29 47 200 255 1)
 add_test(NAME itkConstantPadImageTest
       COMMAND ITK-IntegratedTestTestDriver itkConstantPadImageTest)
 add_test(NAME itkConvertBufferTest
@@ -919,6 +930,11 @@ add_test(NAME itkImageFileWriterPastingTest2_6
 add_test(NAME itkImageFileWriterPastingTest2_7
       COMMAND ITK-IntegratedTestTestDriver itkImageFileWriterPastingTest2
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_7.mha ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha)
+add_test(itkImageFileWriterPastingTest3
+      COMMAND ITK-IntegratedTestTestDriver
+    itkImageFileWriterPastingTest3
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest3_01.mha)
 add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_MHA
       COMMAND ITK-IntegratedTestTestDriver itkImageFileWriterStreamingPastingCompressingTest1
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest mha 0 0 0 1 0 0 0 1)
@@ -1117,8 +1133,6 @@ if(ITK_BUILD_SHARED_LIBS)
 endif(ITK_BUILD_SHARED_LIBS)
 
 
-#add_test(NAME itkIOPrintTest
-#      COMMAND ITK-IntegratedTestTestDriver itkIOPrintTest)
 add_test(NAME itkIsoContourDistanceImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver itkIsoContourDistanceImageFilterTest)
 add_test(NAME itkIsolatedWatershedImageFilterTest
@@ -1671,8 +1685,8 @@ add_test(NAME itkSimpleFilterWatcherTest
       COMMAND ITK-IntegratedTestTestDriver itkSimpleFilterWatcherTest)
 add_test(NAME itkSimplexMeshWithFloatCoordRepTest
       COMMAND ITK-IntegratedTestTestDriver itkSimplexMeshWithFloatCoordRepTest)
-#add_test(NAME itkSparseFieldFourthOrderLevelSetImageFilterTest
-#      COMMAND ITK-IntegratedTestTestDriver itkSparseFieldFourthOrderLevelSetImageFilterTest)
+add_test(NAME itkSparseFieldFourthOrderLevelSetImageFilterTest
+      COMMAND ITK-IntegratedTestTestDriver itkSparseFieldFourthOrderLevelSetImageFilterTest)
 add_test(NAME itkSparseFrequencyContainer2Test
       COMMAND ITK-IntegratedTestTestDriver itkSparseFrequencyContainer2Test)
 add_test(NAME itkSparseImageTest
@@ -1752,10 +1766,12 @@ add_test(NAME itkTransformIOTest
               ${ITK_TEST_OUTPUT_DIR})
 add_test(NAME itkTransformsSetParametersTest
       COMMAND ITK-IntegratedTestTestDriver itkTransformsSetParametersTest)
+add_test(NAME itkTriangleCellTest
+      COMMAND ITK-IntegratedTestTestDriver itkTriangleCellTest)
 add_test(NAME itkTriangleMeshToSimplexMeshFilter2Test
       COMMAND ITK-IntegratedTestTestDriver itkTriangleMeshToSimplexMeshFilter2Test)
-#add_test(NAME itkUnicodeIOTest
-#      COMMAND ITK-IntegratedTestTestDriver itkUnicodeIOTest)
+add_test(NAME itkUnicodeIOTest
+      COMMAND ITK-IntegratedTestTestDriver itkUnicodeIOTest)
 add_test(NAME itkUnsharpMaskLevelSetImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver itkUnsharpMaskLevelSetImageFilterTest)
 add_test(NAME itkVectorAnisotropicDiffusionImageFilterTest
