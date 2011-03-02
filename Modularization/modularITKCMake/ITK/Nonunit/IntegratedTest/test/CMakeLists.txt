@@ -391,13 +391,10 @@ XORTest2.cxx
 CreateTestDriver_SupportBuildInIOFactories(ITK-IntegratedTest  "${ITK-IntegratedTest-Test_LIBRARIES}" "${ITK-IntegratedTestTests}")
 
 # temporary solution for all print tests. Each module should have its own print test later.
-set(AlgorithmPrintTests
-itkAlgorithmsPrintTest.cxx
-itkAlgorithmsPrintTest2.cxx
-itkAlgorithmsPrintTest3.cxx
-itkAlgorithmsPrintTest4.cxx
-)
-CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "${AlgorithmPrintTests}")
+CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmsPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkAlgorithmsPrintTest.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmsPrint2 "${ITK-IntegratedTest-Test_LIBRARIES}" "itkAlgorithmsPrintTest2.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmsPrint3 "${ITK-IntegratedTest-Test_LIBRARIES}" "itkAlgorithmsPrintTest3.cxx")
+CreateTestDriver_SupportBuildInIOFactories(itkAlgorithmsPrint4 "${ITK-IntegratedTest-Test_LIBRARIES}" "itkAlgorithmsPrintTest4.cxx")
 CreateTestDriver_SupportBuildInIOFactories(itkCommonPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkCommonPrintTest.cxx")
 CreateTestDriver_SupportBuildInIOFactories(itkIOPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkIOPrintTest.cxx")
 CreateTestDriver_SupportBuildInIOFactories(itkNeuralNetworksPrint "${ITK-IntegratedTest-Test_LIBRARIES}" "itkNeuralNetworksPrintTest.cxx")
@@ -408,11 +405,11 @@ CreateTestDriver_SupportBuildInIOFactories(itkSpatialObjectPrint "${ITK-Integrat
 add_test(NAME itkAlgorithmsPrintTest
       COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest)
 add_test(NAME itkAlgorithmsPrintTest2
-      COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest2)
+      COMMAND itkAlgorithmsPrintTest2Driver itkAlgorithmsPrintTest2)
 add_test(NAME itkAlgorithmsPrintTest3
-      COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest3)
+      COMMAND itkAlgorithmsPrintTest3Driver itkAlgorithmsPrintTest3)
 add_test(NAME itkAlgorithmsPrintTest4
-      COMMAND itkAlgorithmsPrintTestDriver itkAlgorithmsPrintTest4)
+      COMMAND itkAlgorithmsPrintTest4Driver itkAlgorithmsPrintTest4)
 add_test(NAME itkSpatialObjectPrintTest
      COMMAND  itkSpatialObjectPrintTestDriver itkSpatialObjectPrintTest)
 add_test(NAME itkStatisticsPrintTest
