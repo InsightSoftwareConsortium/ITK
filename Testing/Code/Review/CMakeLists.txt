@@ -215,8 +215,10 @@ set(KitTests
   itkLabelMapContourOverlayImageFilterTest1
   itkLabelMapMaskImageFilterTest
   itkLabelMapOverlayImageFilterTest1
+  itkLabelMapOverlayImageFilterTest2
   itkLabelMapToAttributeImageFilterTest1
   itkLabelMapToRGBImageFilterTest1
+  itkLabelMapToRGBImageFilterTest2
   itkLabelSelectionLabelMapFilterTest
   itkLabelUniqueLabelMapFilterTest1
   itkObjectByObjectLabelMapFilterTest
@@ -2228,11 +2230,32 @@ add_test(itkLabelMapToRGBImageFilterTest1
   ${TEMP}/itkLabelMapToRGBImageFilterTest1.png
   )
 
+add_test(itkLabelMapToRGBImageFilterTest2
+  ${TestDriver}
+  --compare ${BASELINE}/itkLabelMapToRGBImageFilterTest1.png
+            ${TEMP}/itkLabelMapToRGBImageFilterTest1.png
+  itkLabelMapToRGBImageFilterTest2
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkLabelMapToRGBImageFilterTest1.png
+  )
+
+
 add_test(itkLabelMapOverlayImageFilterTest1
   ${TestDriver}
   --compare ${BASELINE}/itkLabelMapOverlayImageFilterTest1.png
             ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
   itkLabelMapOverlayImageFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
+  0.3
+  )
+
+add_test(itkLabelMapOverlayImageFilterTest2
+  ${TestDriver}
+  --compare ${BASELINE}/itkLabelMapOverlayImageFilterTest1.png
+            ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
+  itkLabelMapOverlayImageFilterTest2
   ${INPUTDATA}/cthead1Label.png
   ${INPUTDATA}/cthead1.png
   ${TEMP}/itkLabelMapOverlayImageFilterTest1.png

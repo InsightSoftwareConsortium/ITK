@@ -146,6 +146,26 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 
 }
 
+template<class TInputImage, class TFeatureImage, class TOutputImage>
+void
+LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
+::GenerateOutputInformation()
+{
+  // this methods is overloaded so that if the output image is a
+  // VectorImage then the correct number of components are set.
+
+  Superclass::GenerateOutputInformation();
+  OutputImageType* output = this->GetOutput();
+
+  if ( !output )
+    {
+    return;
+    }
+  if ( output->GetNumberOfComponentsPerPixel() != 3 )
+    {
+    output->SetNumberOfComponentsPerPixel( 3 );
+    }
+}
 
 template<class TInputImage, class TFeatureImage, class TOutputImage>
 void

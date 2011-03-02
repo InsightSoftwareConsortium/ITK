@@ -95,6 +95,7 @@ public:
     // provide some default value for external use (outside
     // LabelToRGBImageFilter)
     // Inside LabelToRGBImageFilter, the values are always initialized
+    NumericTraits<TRGBPixel>::SetLength( m_BackgroundColor, 3);
     m_BackgroundColor.Fill(NumericTraits< ValueType >::Zero);
     m_BackgroundValue = NumericTraits< TLabel >::Zero;
   }
@@ -115,14 +116,15 @@ public:
   void AddColor(unsigned char r, unsigned char g, unsigned char b)
   {
     TRGBPixel rgbPixel;
+    NumericTraits<TRGBPixel>::SetLength(rgbPixel, 3);
 
     typedef typename TRGBPixel::ValueType ValueType;
 
-    ValueType m = NumericTraits< ValueType >::max();
+    ValueType m = NumericTraits<ValueType>::max();
 
-    rgbPixel.Set( static_cast< ValueType >( static_cast< double >( r ) / 255 * m ),
-                  static_cast< ValueType >( static_cast< double >( g ) / 255 * m ),
-                  static_cast< ValueType >( static_cast< double >( b ) / 255 * m ) );
+    rgbPixel[0] = static_cast< ValueType >( static_cast< double >( r ) / 255 * m );
+    rgbPixel[1] = static_cast< ValueType >( static_cast< double >( g ) / 255 * m );
+    rgbPixel[2] = static_cast< ValueType >( static_cast< double >( b ) / 255 * m );
     m_Colors.push_back(rgbPixel);
   }
 
