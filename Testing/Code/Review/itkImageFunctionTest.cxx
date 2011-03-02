@@ -76,22 +76,21 @@ public:
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /** Evaluate the function at specified Point position.*/
-  virtual OutputType Evaluate(const PointType & point) const
+  virtual OutputType Evaluate(const PointType & itkNotUsed(point) ) const
     {
     OutputType result(0);
     return result;
     }
 
   /** Evaluate the function at specified Index position. */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const
+  virtual OutputType EvaluateAtIndex(const IndexType & itkNotUsed(index) ) const
     {
     OutputType result(0);
     return result;
     }
 
   /** Evaluate the function at specified ContinuousIndex position. */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const
+  virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & itkNotUsed(index) ) const
     {
     OutputType result(0);
     return result;
@@ -181,7 +180,7 @@ int itkImageFunctionTest( int , char*[] )
           endIndex[j]    !=
             static_cast<IndexType::IndexValueType>(start[0]+size[j] -1) ||
           startIndexC[j] != start[0]-0.5        ||
-          endIndexC[j]   != start[0]+size[j] -0.5 )
+            endIndexC[j] != start[0]+size[j] -0.5 )
         {
         std::cout << "Error in SetInputImage with index bounds." << std::endl;
         return EXIT_FAILURE;
