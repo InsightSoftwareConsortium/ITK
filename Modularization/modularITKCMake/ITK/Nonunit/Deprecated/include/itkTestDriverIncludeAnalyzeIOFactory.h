@@ -1,0 +1,13 @@
+#include "itkAnalyzeImageIOFactory.h"
+#include "itkNiftiImageIOFactory.h"
+#include "itkTestDriverInclude.h"
+#include "itkObjectFactoryBase.h"
+
+void ProcessArgumentsAndRegisterAnalyzeIOFactory(int *ac, ArgumentStringType *av)
+{
+  itk::ObjectFactoryBase::RegisterFactory( itk::AnalyzeImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::NiftiImageIOFactory::New() );
+
+  ProcessArguments( ac, av );
+
+}

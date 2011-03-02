@@ -1945,3 +1945,18 @@ add_test(NAME XORTest1
 add_test(NAME XORTest2
       COMMAND ITK-IntegratedTestTestDriver XORTest2
               ${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt)
+add_test(NAME itkRecursiveGaussianScaleSpaceTest1
+      COMMAND ITK-IntegratedTestTestDriver
+              itkRecursiveGaussianScaleSpaceTest1)
+add_test(NAME itkDoubleThresholdImageFilterTest
+      COMMAND ITK-IntegratedTestTestDriver
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png itkDoubleThresholdImageFilterTest
+            ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png 217 246 255 255)
+add_test(NAME itkDoubleThresholdImageFilterTest2
+      COMMAND ITK-IntegratedTestTestDriver
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png itkDoubleThresholdImageFilterTest
+            ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png 150 164 164 180)

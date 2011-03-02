@@ -1784,7 +1784,7 @@ Code/IO/itkAnalyzeImageIO.cxx                                                   
 Code/IO/itkAnalyzeImageIO.h                                                      Nonunit         ITK-Deprecated                 Deprecated
 Code/IO/itkAnalyzeImageIOFactory.cxx                                             Nonunit         ITK-Deprecated                 Deprecated
 Code/IO/itkAnalyzeImageIOFactory.h                                               Nonunit         ITK-Deprecated                 Deprecated
-Code/IO/itkArchetypeSeriesFileNames.cxx                                          Nonunit         ITK-IO-Base                    Base
+Code/IO/itkArchetypeSeriesFileNames.cxx                                          IO              ITK-IO-Base                    Base
 Code/IO/itkArchetypeSeriesFileNames.h                                            IO              ITK-IO-Base                    Base
 Code/IO/itkBMPImageIO.cxx                                                        IO              ITK-IO-BMP                     BMP
 Code/IO/itkBMPImageIO.h                                                          IO              ITK-IO-BMP                     BMP
@@ -2821,14 +2821,14 @@ Testing/Code/Algorithms/itkBayesianClassifierImageFilterTest.cxx                
 Testing/Code/Algorithms/itkBinaryMask3DMeshSourceTest.cxx                        Core            ITK-Mesh                       Mesh
 Testing/Code/Algorithms/itkBinaryMask3DQuadEdgeMeshSourceTest.cxx                Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkBinaryMedialNodeMetricTest.cxx                        Segmentation    ITK-Blox                       Blox
-Testing/Code/Algorithms/itkBinaryMinMaxCurvatureFlowImageFilterTest.cxx          Filtering       ITK-AnisotropicSmoothing       AnisotropicSmoothing
+Testing/Code/Algorithms/itkBinaryMinMaxCurvatureFlowImageFilterTest.cxx          Filtering       ITK-CurvatureFlow              CurvatureFlow
 Testing/Code/Algorithms/itkBinaryThinningImageFilterTest.cxx                     Filtering       ITK-MathematicalMorphology     MathematicalMorphology
 Testing/Code/Algorithms/itkBioCellTest.cxx                                       Segmentation    ITK-BioCell                    BioCell
 Testing/Code/Algorithms/itkBioCellularAggregateTest.cxx                          Segmentation    ITK-BioCell                    BioCell
 Testing/Code/Algorithms/itkBioGeneNetworkTest.cxx                                Segmentation    ITK-BioCell                    BioCell
 Testing/Code/Algorithms/itkBioGeneTest.cxx                                       Segmentation    ITK-BioCell                    BioCell
 Testing/Code/Algorithms/itkBioGenomeTest.cxx                                     Segmentation    ITK-BioCell                    BioCell
-Testing/Code/Algorithms/itkBresenhamLineTest.cxx                                 Core            ITK-Common                     Common
+Testing/Code/Algorithms/itkBresenhamLineTest.cxx                                Core             ITK-Common                     Common
 Testing/Code/Algorithms/itkCannySegmentationLevelSetImageFilterTest.cxx          Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkCleanQuadEdgeMeshFilterTest.cxx                       Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkCollidingFrontsImageFilterTest.cxx                    Segmentation    ITK-LevelSets                  LevelSets
@@ -3377,7 +3377,7 @@ Testing/Code/Common/itkMedianImageFunctionTest.cxx                              
 Testing/Code/Common/itkMemoryLeakTest.cxx                                        Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkMeshFstreamTest.cxx                                       Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkMeshSourceGraftOutputTest.cxx                             Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Common/itkMeshTest.cxx                                              Core            ITK-Common                     Common
+Testing/Code/Common/itkMeshTest.cxx                                              Core            ITK-Mesh                       Mesh
 Testing/Code/Common/itkMetaDataDictionaryTest.cxx                                Core            ITK-Common                     Common
 Testing/Code/Common/itkMinimumDecisionRuleTest.cxx                               Numerics        ITK-Statistics                 Statistics
 Testing/Code/Common/itkModifiedTimeTest.cxx                                      Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -3412,7 +3412,7 @@ Testing/Code/Common/itkPixelAccessTest.cxx                                      
 Testing/Code/Common/itkPointGeometryTest.cxx                                     Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkPointSetTest.cxx                                          Core            ITK-Common                     Common
 Testing/Code/Common/itkPolyLineParametricPathTest.cxx                            Filtering       ITK-Path                       Path
-Testing/Code/Common/itkPolygonCellTest.cxx                                       Core            ITK-Common                     Common
+Testing/Code/Common/itkPolygonCellTest.cxx                                       Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkPriorityQueueTest.cxx                                     Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkQuadEdgeMeshAddFaceTest1.cxx                              Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Common/itkQuadEdgeMeshAddFaceTest2.cxx                              Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -3515,7 +3515,7 @@ Testing/Code/IO/LittleEndian_hdr.h                                              
 Testing/Code/IO/LittleEndian_img.h                                               IO              ITK-IO-Base                    Base
 Testing/Code/IO/itkAnalyzeImageIODirectionsTest.cxx                              Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkAnalyzeImageIOTest.cxx                                        Nonunit         ITK-Deprecated                 Deprecated
-Testing/Code/IO/itkArchetypeSeriesFileNamesTest.cxx                              Nonunit         ITK-IO-Base                    Base
+Testing/Code/IO/itkArchetypeSeriesFileNamesTest.cxx                              IO              ITK-IO-Base                    Base
 Testing/Code/IO/itkBMPImageIOTest.cxx                                            IO              ITK-IO-BMP                     BMP
 Testing/Code/IO/itkBMPImageIOTest2.cxx                                           IO              ITK-IO-BMP                     BMP
 Testing/Code/IO/itkBioRadImageIOTest.cxx                                         Nonunit         ITK-IntegratedTest             IntegratedTest
