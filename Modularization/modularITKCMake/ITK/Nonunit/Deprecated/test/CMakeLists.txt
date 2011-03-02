@@ -8,7 +8,6 @@ itkDICOMImageSeriesTest.cxx
 itkDICOMImageSeriesTest2.cxx
 itkDICOMSeriesFileNamesTest.cxx
 itkFEMLandmarkLoadImplementationTest.cxx
-itkFFTTests.cxx
 itkImageReadDICOMSeriesWriteTest.cxx
 itkNonThreadedShrinkImageTest.cxx
 itkNonUniformBSplineTest.cxx
