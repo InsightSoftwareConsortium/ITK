@@ -22,6 +22,8 @@
 #include "itkLevelSetFunction.h"
 #include "itkDenseFiniteDifferenceImageFilter.h"
 
+#include "itkImageFileWriter.h"
+
 /*
  * This test exercises the dense p.d.e. solver framework
  * itkDenseFiniteDifferenceImageFilter and the two-dimensional level
@@ -67,11 +69,11 @@ float square(unsigned x, unsigned y)
 }
 
 // Evaluates a function at each pixel in the itk image
-void evaluate_function(itk::Image<float, 2> *im,
+void evaluate_function(::itk::Image<float, 2> *im,
                        float (*f)(unsigned int, unsigned int) )
 
 {
-  itk::Image<float, 2>::IndexType idx;
+  ::itk::Image<float, 2>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
     {
     idx[0] = x;
@@ -83,10 +85,6 @@ void evaluate_function(itk::Image<float, 2> *im,
     }
 }
 
-} // end of namespace LSFT
-
-
-namespace itk {
 
 /**
  * \class MorphFunction
@@ -94,23 +92,23 @@ namespace itk {
  *
  * See LevelSetFunction for more information.
  */
-class MorphFunction : public LevelSetFunction< Image<float, 2> >
+class MorphFunction : public ::itk::LevelSetFunction< ::itk::Image<float, 2> >
 {
 public:
-  void SetDistanceTransform (Image<float, 2> *d)
+  void SetDistanceTransform (::itk::Image<float, 2> *d)
     { m_DistanceTransform = d; }
 
   typedef MorphFunction Self;
 
-  typedef LevelSetFunction< Image<float, 2> > Superclass;
+  typedef ::itk::LevelSetFunction< ::itk::Image<float, 2> > Superclass;
   typedef Superclass::RadiusType RadiusType;
   typedef Superclass::GlobalDataStruct GlobalDataStruct;
 
    /**
    * Smart pointer support for this class.
    */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ::itk::SmartPointer<Self> Pointer;
+  typedef ::itk::SmartPointer<const Self> ConstPointer;
 
   /**
    * Run-time type information (and related methods)
@@ -133,21 +131,21 @@ protected:
     }
 
 private:
-  Image<float, 2>::Pointer m_DistanceTransform;
+  ::itk::Image<float, 2>::Pointer m_DistanceTransform;
   virtual ScalarValueType PropagationSpeed(
                             const NeighborhoodType& neighborhood,
                             const FloatOffsetType &,
                             GlobalDataStruct *
                           ) const
     {
-      Index<2> idx = neighborhood.GetIndex();
+      ::itk::Index<2> idx = neighborhood.GetIndex();
       return m_DistanceTransform->GetPixel(idx);
     }
 };
 
 
 class MorphFilter : public
-DenseFiniteDifferenceImageFilter< Image<float, 2>, Image<float, 2> >
+::itk::DenseFiniteDifferenceImageFilter< ::itk::Image<float, 2>, ::itk::Image<float, 2> >
 {
 public:
   typedef MorphFilter Self;
@@ -155,13 +153,13 @@ public:
   /**
    * Smart pointer support for this class.
    */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ::itk::SmartPointer<Self> Pointer;
+  typedef ::itk::SmartPointer<const Self> ConstPointer;
 
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( MorphFunction, LevelSetFunction );
+  itkTypeMacro( MorphFilter, DenseFiniteDifferenceImageFilter );
 
   /**
    * Method for creation through the object factory.
@@ -170,7 +168,7 @@ public:
 
   itkSetMacro(Iterations, unsigned int);
 
-  void SetDistanceTransform(Image<float, 2> *im)
+  void SetDistanceTransform(::itk::Image<float, 2> *im)
     {
       ((MorphFunction *)(this->GetDifferenceFunction().GetPointer()))
         ->SetDistanceTransform(im);
@@ -200,10 +198,11 @@ private:
     }
 };
 
-} // end namespace itk
+} // end of namespace LSFT
+
 int itkLevelSetFunctionTest(int, char* [] )
 {
-  typedef itk::Image<float, 2> ImageType;
+  typedef ::itk::Image<float, 2> ImageType;
 
   const int n = 100;  // Number of iterations
 
@@ -240,7 +239,7 @@ int itkLevelSetFunctionTest(int, char* [] )
 
     }
 
-  itk::MorphFilter::Pointer mf = itk::MorphFilter::New();
+  LSFT::MorphFilter::Pointer mf = LSFT::MorphFilter::New();
   mf->SetDistanceTransform(im_target);
   mf->SetIterations(n);
   mf->SetInput(im_init);
