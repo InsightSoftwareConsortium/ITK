@@ -15,7 +15,7 @@
  # If a namespace is not specified, use "dicomparser". This should be
  # the case only when dicom is not included inside another project
  #
-SET(DICOMPARSER_LIBRARY dicomparser)
+SET(DICOMPARSER_LIBRARY itkdicomparser)
 SET(DICOMPARSER_STANDALONE 1)
 
 #-----------------------------------------------------------------------------

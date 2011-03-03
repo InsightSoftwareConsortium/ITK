@@ -1444,6 +1444,10 @@ endif(ITK_BUILD_SHARED_LIBS)
 # They cannot use the cmake test driver
 set(IOTest_SRCS
   itkAnalyzeImageIOTest
+  itkAnalyzeImageIOTest2
+  itkAnalyzeImageIOBadHeader
+  itkAnalyzeImageIORGBImageTest
+  itkAnalyzeImageIOTestHelper
   itkAnalyzeImageIODirectionsTest
   itkNiftiImageIOTest
   itkNiftiImageIOTest2

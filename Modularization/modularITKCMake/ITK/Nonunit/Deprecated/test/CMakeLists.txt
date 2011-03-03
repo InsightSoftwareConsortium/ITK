@@ -2,78 +2,15 @@ itk_module_test()
 set(ITK-DeprecatedTests
 itk2DDeformableTest.cxx
 itkDeformableTest.cxx
-itkDICOMImageIO2Test.cxx
-itkDicomImageIOTest.cxx
-itkDICOMImageSeriesTest.cxx
-itkDICOMImageSeriesTest2.cxx
-itkDICOMSeriesFileNamesTest.cxx
-itkFEMLandmarkLoadImplementationTest.cxx
-itkImageReadDICOMSeriesWriteTest.cxx
 itkNonThreadedShrinkImageTest.cxx
 itkNonUniformBSplineTest.cxx
-itkQuaternionOrientationAdapterTest.cxx
 itkReflectImageFilterTest.cxx
-# itkScalarTest.cxx (itkScalar.h is missing)
 itkShiftScaleInPlaceImageFilterTest.cxx
 itkTwoOutputExampleImageFilterTest.cxx
-#itkVOLImageIOTest.cxx (itkVOLImageIOFactory.h is missing)
 )
 
 
 CreateTestDriver_SupportBuildInIOFactories(ITK-Deprecated  "${ITK-Deprecated-Test_LIBRARIES}" "${ITK-DeprecatedTests}")
-
-
-create_test_sourcelist(AnalyzeIOTests  AnalyzeIOTestDriver.cxx
-        itkAnalyzeImageIODirectionsTest.cxx
-        itkAnalyzeImageIOTest.cxx
-        EXTRA_INCLUDE itkTestDriverIncludeAnalyzeIOFactory.h
-        FUNCTION  ProcessArgumentsAndRegisterAnalyzeIOFactory
-)
-add_executable(AnalyzeIOTestDriver AnalyzeIOTestDriver.cxx  ${AnalyzeIOTests})
-target_link_libraries(AnalyzeIOTestDriver ${ITK-Deprecated-Test_LIBRARIES})
-
-##Analyze Test Suite
-add_test(NAME itkAnalyzeIOBigEndianCompressed.hdr
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
-add_test(NAME itkAnalyzeIOBigEndianCompressed.img
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img)
-add_test(NAME itkAnalyzeIOBigEndianCompressed.img.gz
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz)
-add_test(NAME itkAnalyzeIOBigEndian
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/BigEndian.hdr)
-add_test(NAME itkAnalyzeIOLittleEndianCompressed
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr)
-add_test(NAME itkAnalyzeIOLittleEndian
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
-         ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
-add_test(NAME itkAnalyzeIOInternalTests
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR} )
-add_test(NAME itkAnalyzeIOShouldFail
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                false ${ITK_DATA_ROOT}/Input/ramp.gipl)
-add_test(NAME itkAnalyzeIOShouldSucceed
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
-add_test(NAME itkAnalyzeIOShouldSucceedZ
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                true ${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr)
-add_test(NAME itkAnalyzeImageIODirectionsTest
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIODirectionsTest
-                                ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME itkAnalyzeImageIOBadHeader
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIOBadHeader
-                                ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME itkAnalyzeImageIORGBImageTest
-      COMMAND AnalyzeIOTestDriver itkAnalyzeImageIORGBImageTest
-                                       ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME itkAnalyzeDimensionLimitsTest
-      COMMAND AnalyzeIOTestDriver itkNiftiImageIOTest11
-                                ${ITK_TEST_OUTPUT_DIR} SizeFailure.img.gz )
 
 add_test(NAME itk2DDeformableTest
       COMMAND ITK-DeprecatedTestDriver itk2DDeformableTest)
@@ -90,27 +27,93 @@ add_test(NAME itkShiftScaleInPlaceImageFilterTest
 add_test(NAME itkTwoOutputExampleImageFilterTest
       COMMAND ITK-DeprecatedTestDriver itkTwoOutputExampleImageFilterTest)
 
+create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
+        itkDICOMImageIO2Test.cxx
+        itkDicomImageIOTest.cxx
+        itkDICOMImageSeriesTest.cxx
+        itkDICOMImageSeriesTest2.cxx
+        itkDICOMSeriesFileNamesTest.cxx
+        itkImageReadDICOMSeriesWriteTest.cxx
+        itkAnalyzeImageIODirectionsTest.cxx
+        itkAnalyzeImageIOTest.cxx
+        itkAnalyzeImageIOTest2
+        itkAnalyzeImageIOBadHeader
+        itkAnalyzeImageIORGBImageTest
+
+        itkAnalyzeImageIODirectionsTest
+
+        EXTRA_INCLUDE itkTestDriverIncludeDeprecatedIOFactories.h
+        FUNCTION  ProcessArgumentsAndRegisterDeprecatedIOFactories
+)
+add_library(ITK-AnalyzeIO-TestHelper itkAnalyzeImageIOTestHelper.cxx)
+target_link_libraries(ITK-AnalyzeIO-TestHelper  ${ITK-Deprecated_LIBRARIES}
+
+list(APPEND ITK-Deprecated-Test_LIBRARIES ITK-AnalyzeIO-TestHelper)
+add_executable(DeprecatedIOTestDriver DeprecatedIOTestDriver.cxx  ${DeprecatedIOTests})
+target_link_libraries(DeprecatedIOTestDriver ${ITK-Deprecated-Test_LIBRARIES})
+
+
+##Analyze Test Suite
+add_test(NAME itkAnalyzeIOBigEndianCompressed.hdr
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
+add_test(NAME itkAnalyzeIOBigEndianCompressed.img
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img)
+add_test(NAME itkAnalyzeIOBigEndianCompressed.img.gz
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+         ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz)
+add_test(NAME itkAnalyzeIOBigEndian
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+         ${ITK_DATA_ROOT}/Input/BigEndian.hdr)
+add_test(NAME itkAnalyzeIOLittleEndianCompressed
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+         ${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr)
+add_test(NAME itkAnalyzeIOLittleEndian
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
+         ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+add_test(NAME itkAnalyzeIOInternalTests
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR} )
+add_test(NAME itkAnalyzeIOShouldFail
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+                                false ${ITK_DATA_ROOT}/Input/ramp.gipl)
+add_test(NAME itkAnalyzeIOShouldSucceed
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+                                true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+add_test(NAME itkAnalyzeIOShouldSucceedZ
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+                                true ${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr)
+add_test(NAME itkAnalyzeImageIODirectionsTest
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIODirectionsTest
+                                ${ITK_TEST_OUTPUT_DIR})
+add_test(NAME itkAnalyzeImageIOBadHeader
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIOBadHeader
+                                ${ITK_TEST_OUTPUT_DIR})
+add_test(NAME itkAnalyzeImageIORGBImageTest
+      COMMAND DeprecatedIOTestDriver itkAnalyzeImageIORGBImageTest
+                                       ${ITK_TEST_OUTPUT_DIR})
+# DICOM
 add_test(NAME itkDICOMImageSeriesTest
-     COMMAND ITK-DeprecatedTestDriver itkDICOMImageSeriesTest
+     COMMAND DeprecatedIOTestDriver itkDICOMImageSeriesTest
               ${ITK_DATA_ROOT}/Input/DicomSeries 0)
 add_test(NAME itkDICOMImageSeriesTest2
-       COMMAND ITK-DeprecatedTestDriver  itkDICOMImageSeriesTest2
+       COMMAND DeprecatedIOTestDriver  itkDICOMImageSeriesTest2
             ${ITK_DATA_ROOT}/Input/DicomSeries )
 add_test(NAME itkDICOMSeriesFileNamesTest
-       COMMAND ITK-DeprecatedTestDriver itkDICOMSeriesFileNamesTest ${ITK_DATA_ROOT}/Input/DicomSeries)
+       COMMAND DeprecatedIOTestDriver itkDICOMSeriesFileNamesTest ${ITK_DATA_ROOT}/Input/DicomSeries)
 add_test(NAME itkDicomDifficultFile
-     COMMAND ITK-DeprecatedTestDriver
+     COMMAND DeprecatedIOTestDriver
     itkDicomImageIOTest ${ITK_DATA_ROOT}/Input/012345.002.050
          ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
 add_test(NAME itkImageReadDICOMSeriesWriteTest
-     COMMAND ITK-DeprecatedTestDriver
+     COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolume)
 add_test(NAME itkImageReadDICOMSeriesWriteWithDirection002Test
-       COMMAND ITK-DeprecatedTestDriver
+       COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection002)
 add_test(NAME itkImageReadDICOMSeriesWriteWithDirection003Test
-       COMMAND ITK-DeprecatedTestDriver
+       COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection003)
