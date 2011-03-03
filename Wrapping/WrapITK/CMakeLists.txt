@@ -48,12 +48,13 @@ enable_testing()
 # Config ITKWrap
 ###############################################################################
 
-# on visual studio 2005 and later, we need to use /bigobj as the
-# generated wrappings take up more than 65535 sections in some
-# objects.
-if(CMAKE_COMPILER_2005)
-  add_definitions(/bigobj)
-endif(CMAKE_COMPILER_2005)
+# With MS compilers on Win64, we need the /bigobj switch, else generated
+# code results in objects with number of sections exceeding object file
+# format.
+# see http://msdn.microsoft.com/en-us/library/ms173499.aspx
+IF(CMAKE_CL_64)
+ ADD_DEFINITIONS(/bigobj)
+ENDIF(CMAKE_CL_64)
 
 
 # Set up options needed for ConfigureWrapping
