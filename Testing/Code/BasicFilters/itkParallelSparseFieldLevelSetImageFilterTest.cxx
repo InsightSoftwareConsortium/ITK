@@ -77,10 +77,10 @@ float cube(unsigned int x, unsigned int y, unsigned int z)
 }
 
 // Evaluates a function at each pixel in the itk volume
-void evaluate_function(itk::Image<float, 3> *im,
+void evaluate_function(::itk::Image<float, 3> *im,
                        float (*f)(unsigned int, unsigned int, unsigned int) )
 {
-  itk::Image<float, 3>::IndexType idx;
+  ::itk::Image<float, 3>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
     {
     idx[0] = x;
@@ -96,35 +96,31 @@ void evaluate_function(itk::Image<float, 3> *im,
     }
 }
 
-} // end namespace PSFLSIFT
-
-namespace itk {
-
 /**
  * \class MorphFunction
  * Subclasses LevelSetFunction, supplying the ``PropagationSpeed'' term.
  *
  * See LevelSetFunction for more information.
  */
-class MorphFunction : public LevelSetFunction< Image<float, 3> >
+class MorphFunction : public ::itk::LevelSetFunction< ::itk::Image<float, 3> >
 {
 public:
-  void SetDistanceTransform (Image<float, 3> *d)
+  void SetDistanceTransform ( ::itk::Image<float, 3> *d )
   {
     m_DistanceTransform = d;
   }
 
   typedef MorphFunction Self;
 
-  typedef LevelSetFunction< Image<float, 3> > Superclass;
+  typedef ::itk::LevelSetFunction< ::itk::Image<float, 3> > Superclass;
   typedef Superclass::RadiusType RadiusType;
   typedef Superclass::GlobalDataStruct GlobalDataStruct;
 
   /**
    * Smart pointer support for this class.
    */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ::itk::SmartPointer<Self> Pointer;
+  typedef ::itk::SmartPointer<const Self> ConstPointer;
 
   /**
    * Run-time type information (and related methods)
@@ -147,20 +143,20 @@ protected:
   }
 
 private:
-  Image<float, 3>::Pointer m_DistanceTransform;
+  ::itk::Image<float, 3>::Pointer m_DistanceTransform;
   virtual ScalarValueType PropagationSpeed(
     const NeighborhoodType& neighborhood,
     const FloatOffsetType &,
     GlobalDataStruct *
     ) const
   {
-    Index<3> idx = neighborhood.GetIndex();
+    ::itk::Index<3> idx = neighborhood.GetIndex();
     return m_DistanceTransform->GetPixel(idx);
   }
 };
 
 class MorphFilter : public
-ParallelSparseFieldLevelSetImageFilter< Image<float, 3>, Image<float, 3> >
+::itk::ParallelSparseFieldLevelSetImageFilter< ::itk::Image<float, 3>, ::itk::Image<float, 3> >
 {
 public:
   typedef MorphFilter Self;
@@ -168,13 +164,13 @@ public:
   /**
    * Smart pointer support for this class.
    */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ::itk::SmartPointer<Self> Pointer;
+  typedef ::itk::SmartPointer<const Self> ConstPointer;
 
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro( MorphFunction, LevelSetFunction );
+  itkTypeMacro( MorphFilter, ParallelSparseFieldLevelSetImageFilter );
 
   /**
    * Method for creation through the object factory.
@@ -183,7 +179,7 @@ public:
 
   itkSetMacro(Iterations, unsigned int);
 
-  void SetDistanceTransform(Image<float, 3> *im)
+  void SetDistanceTransform(::itk::Image<float, 3> *im)
   {
     ((MorphFunction *)(this->GetDifferenceFunction().GetPointer()))
       ->SetDistanceTransform(im);
@@ -212,7 +208,7 @@ private:
   }
 };
 
-} // end namespace itk
+} // end namespace PSFLSIFT
 
 int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
 {
@@ -222,7 +218,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<float, 3> ImageType;
+  typedef ::itk::Image<float, 3> ImageType;
 
   const int n = 100;  // Number of iterations
   const int numOfThreads= 3; // Number of threads to be used
@@ -289,7 +285,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
     itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
     }
 
-  itk::MorphFilter::Pointer mf = itk::MorphFilter::New();
+  PSFLSIFT::MorphFilter::Pointer mf = PSFLSIFT::MorphFilter::New();
   mf->SetDistanceTransform(im_target);
   mf->SetIterations(n);
   mf->SetInput(im_init);
