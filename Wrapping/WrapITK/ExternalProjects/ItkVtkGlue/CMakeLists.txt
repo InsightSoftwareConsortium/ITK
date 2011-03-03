@@ -1,6 +1,6 @@
 project(ItkVtkGlue)
 include(CPack)
-
+cmake_minimum_required(VERSION 2.8)
 
 option(BUILD_WRAPPERS "Wrap library" OFF)
 option(INSTALL_DEVEL_FILES "Install C++ headers" ON)
