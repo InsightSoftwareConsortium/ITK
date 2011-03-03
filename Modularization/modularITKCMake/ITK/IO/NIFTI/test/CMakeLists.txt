@@ -1,8 +1,16 @@
 itk_module_test()
 set(ITK-IO-NIFTITests
-itkNiftiImageIOTest.cxx
 itkIONIFTIHeaderTest.cxx
+itkNiftiImageIOTest.cxx
 itkNiftiImageIOTest2.cxx
+itkNiftiImageIOTest3.cxx
+itkNiftiImageIOTest4.cxx
+itkNiftiImageIOTest5.cxx
+itkNiftiImageIOTest6.cxx
+itkNiftiImageIOTest8.cxx
+itkNiftiImageIOTest9.cxx
+itkNiftiImageIOTest10.cxx
+itkNiftiImageIOTest11.cxx
 )
 
 CreateTestDriver(ITK-IO-NIFTI  "${ITK-IO-NIFTI-Test_LIBRARIES}" "${ITK-IO-NIFTITests}")
