@@ -3,7 +3,21 @@ set(ITK-IO-NIFTITests
 itkNiftiImageIOTest.cxx
 itkIONIFTIHeaderTest.cxx
 itkNiftiImageIOTest2.cxx
+itkNiftiImageIOTest3.cxx
+itkNiftiImageIOTest4.cxx
+itkNiftiImageIOTest5.cxx
+itkNiftiImageIOTest6.cxx
+itkNiftiImageIOTest7.cxx
+itkNiftiImageIOTest8.cxx
+itkNiftiImageIOTest9.cxx
+itkNiftiImageIOTest10.cxx
+itkNiftiImageIOTest11.cxx
 )
+
+add_library(ITK-IO-NIFTI-TestSupport  itkNiftiImageIOTestHelper.cxx)
+target_link_libraries(ITK-IO-NIFTI-TestSupport ${ITK-IO-NIFTI})
+
+list(APPEND ITK-IO-NIFTI-Test_LIBRARIES ITK-IO-NIFTI-TestSupport)
 
 CreateTestDriver(ITK-IO-NIFTI  "${ITK-IO-NIFTI-Test_LIBRARIES}" "${ITK-IO-NIFTITests}")
 
@@ -44,7 +58,7 @@ add_test(NAME itkNiftiVectorImageTest2
       COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest6 ${ITK_TEST_OUTPUT_DIR})
 add_test(NAME itkNiftiDiffusionTensor3dImageTest
       COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest7 ${ITK_TEST_OUTPUT_DIR})
-add_test(itkNiftiSymmetricSecondRankTensorImageTest
+add_test(NAME itkNiftiSymmetricSecondRankTensorImageTest
       COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest8 ${ITK_TEST_OUTPUT_DIR})
 add_test(NAME itkNiftiRGBImageTest
       COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest9 ${ITK_TEST_OUTPUT_DIR} RGBImage.nii.gz)

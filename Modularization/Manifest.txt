@@ -3575,6 +3575,16 @@ Testing/Code/IO/itkMetaImageStreamingWriterIOTest.cxx                           
 Testing/Code/IO/itkNiftiImageIOTest.cxx                                          IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest.h                                            IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest2.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest3.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest4.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest5.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest6.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest7.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest8.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest9.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest10.cxx                                        IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest11.cxx                                        IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTestHelper.cxx                                    IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNrrdComplexImageReadTest.cxx                                  Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkNrrdComplexImageReadWriteTest.cxx                             Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkNrrdCovariantVectorImageReadTest.cxx                          Nonunit         ITK-IntegratedTest             IntegratedTest
