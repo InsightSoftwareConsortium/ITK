@@ -34,6 +34,9 @@
  * is the square distance transform.
  *
  */
+
+namespace LSFT { // local namespace for helper test functions
+
 const unsigned int HEIGHT = (256);
 const unsigned int WIDTH  = (256);
 
@@ -79,6 +82,9 @@ void evaluate_function(itk::Image<float, 2> *im,
       }
     }
 }
+
+} // end of namespace LSFT
+
 
 namespace itk {
 
@@ -205,7 +211,7 @@ int itkLevelSetFunctionTest(int, char* [] )
   ImageType::Pointer im_target = ImageType::New();
 
   ImageType::RegionType r;
-  ImageType::SizeType   sz = {{HEIGHT, WIDTH}};
+  ImageType::SizeType   sz = {{LSFT::HEIGHT, LSFT::WIDTH}};
   ImageType::IndexType  idx = {{0,0}};
   r.SetSize(sz);
   r.SetIndex(idx);
@@ -221,8 +227,8 @@ int itkLevelSetFunctionTest(int, char* [] )
   im_init->Allocate();
   im_target->Allocate();
 
-  evaluate_function(im_init, circle);
-  evaluate_function(im_target, square);
+  LSFT::evaluate_function(im_init, LSFT::circle);
+  LSFT::evaluate_function(im_target, LSFT::square);
 
   itk::ImageRegionIterator<ImageType> itr(im_target,
                                           im_target->GetRequestedRegion());

@@ -41,6 +41,8 @@
  *
  */
 
+namespace SFFOLSIFT {  // local namespace for helper functions
+
 const unsigned int HEIGHT = (128);
 const unsigned int WIDTH  = (128);
 
@@ -76,6 +78,8 @@ void evaluate_function(itk::Image<float, 2> *im,
         }
     }
 }
+
+} // end namespace
 
 namespace itk {
 template <class TInputImage, class TOutputImage>
@@ -134,7 +138,7 @@ int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
   ImageType::Pointer im_init = ImageType::New();
 
   ImageType::RegionType r;
-  ImageType::SizeType   sz = {{HEIGHT, WIDTH}};
+  ImageType::SizeType   sz = {{SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH}};
   ImageType::IndexType  idx = {{0,0}};
   r.SetSize(sz);
   r.SetIndex(idx);
@@ -144,7 +148,7 @@ int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
   im_init->SetRequestedRegion(r);
   im_init->Allocate();
 
-  evaluate_function(im_init, square);
+  SFFOLSIFT::evaluate_function(im_init, SFFOLSIFT::square);
   typedef itk::IsotropicDiffusionLevelSetFilter<ImageType, ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
