@@ -44,8 +44,8 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     PATTERN "unittests" EXCLUDE
   )
 
-  # igenerator stuff
-  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py"
+  install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/idx.py"
+                "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py"
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Languages/SwigInterface"
   )
 
