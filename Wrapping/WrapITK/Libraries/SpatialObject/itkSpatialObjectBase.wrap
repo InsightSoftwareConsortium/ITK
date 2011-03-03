@@ -1,6 +1,6 @@
 WRAP_NON_TEMPLATE_CLASS("itk::MetaEvent")
 
-WRAP_CLASS("itk::SpatialObject" POINTER)
+WRAP_CLASS("itk::SpatialObject" POINTER_WITH_EXPLICIT_SPECIALIZATION)
   foreach(d ${WRAP_ITK_DIMS})
     WRAP_TEMPLATE("${d}" "${d}")
   endforeach(d)
