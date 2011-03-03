@@ -36,6 +36,9 @@
  * is the cube distance transform.
  *
  */
+
+namespace PSFLSIFT {  // local namespace for helper functions
+
 const unsigned int HEIGHT = (64);
 const unsigned int WIDTH  = (64);
 const unsigned int DEPTH  = (64);
@@ -92,6 +95,8 @@ void evaluate_function(itk::Image<float, 3> *im,
       }
     }
 }
+
+} // end namespace PSFLSIFT
 
 namespace itk {
 
@@ -226,7 +231,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
   ImageType::Pointer im_target = ImageType::New();
 
   ImageType::RegionType r;
-  ImageType::SizeType   sz = {{HEIGHT, WIDTH, DEPTH}};
+  ImageType::SizeType   sz = {{PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH}};
   ImageType::IndexType  idx = {{0,0,0}};
   r.SetSize(sz);
   r.SetIndex(idx);
@@ -258,8 +263,8 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
   im_init->Allocate();
   im_target->Allocate();
 
-  evaluate_function(im_init, sphere);
-  evaluate_function(im_target, cube);
+  PSFLSIFT::evaluate_function(im_init, PSFLSIFT::sphere);
+  PSFLSIFT::evaluate_function(im_target, PSFLSIFT::cube);
 
   typedef  itk::ImageFileWriter<  ImageType  > WriterType;
   WriterType::Pointer writer = WriterType::New();
