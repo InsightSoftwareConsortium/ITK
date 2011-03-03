@@ -1,7 +1,7 @@
 itk_module_test()
 set(ITK-IO-NIFTITests
-itkNiftiImageIOTest.cxx
 itkIONIFTIHeaderTest.cxx
+itkNiftiImageIOTest.cxx
 itkNiftiImageIOTest2.cxx
 itkNiftiImageIOTest3.cxx
 itkNiftiImageIOTest4.cxx

@@ -657,7 +657,11 @@ if(USE_FFTWD)
   set(CURVATUREREGISTRATION_SRCS itkCurvatureRegistrationFilterTest)
 endif(USE_FFTWD)
 set(FFTTest_SRCS
-  itkFFTTest.cxx
+  itkFFTWD_FFTTest.cxx
+  itkFFTWF_FFTTEST.cxx
+  itkVnlFFTTest.cxx
+  itkVnlFFTWD_FFTTest.cxx
+  itkVnlFFTWF_FFTTest.cxx
   ${CURVATUREREGISTRATION_SRCS}
 )
 add_executable(itkFFTTests itkFFTTests.cxx ${FFTTest_SRCS})

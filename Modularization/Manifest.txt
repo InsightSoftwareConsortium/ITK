@@ -2856,7 +2856,12 @@ Testing/Code/Algorithms/itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest.cxx   
 Testing/Code/Algorithms/itkExtensionVelocitiesImageFilterTest.cxx                Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkExtractMeshConnectedRegionsTest.cxx                   Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkFEMRegistrationFilterTest.cxx                         Registration    ITK-FEMRegistration            FEM
-Testing/Code/Algorithms/itkFFTTest.cxx                                           Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkFFTTest.h                                             Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkFFTWD_FFTTest.cxx                                     Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkFFTWF_FFTTest.cxx                                    Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkVnlFFTTest.cxx                                        Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkVnlFFTWD_FFTTest.cxx                                  Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkVnlFFTWF_FFTTest.cxx                                  Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkFastChamferDistanceImageFilterTest.cxx                Filtering       ITK-DistanceMap                DistanceMap
 Testing/Code/Algorithms/itkFastMarchingExtensionImageFilterTest.cxx              Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkFastMarchingTest.cxx                                  Nonunit         ITK-IntegratedTest             IntegratedTest
