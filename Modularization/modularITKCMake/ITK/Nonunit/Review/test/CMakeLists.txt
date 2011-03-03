@@ -127,7 +127,7 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx
 itkMultiplyByConstantImageFilterTest.cxx
 itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 itkNeuralNetworkIOTest.cxx
-#itkN4MRIBiasFieldCorrectionImageFilterTest
+itkN4MRIBiasFieldCorrectionImageFilterTest
 itkObjectByObjectLabelMapFilterTest.cxx
 itkObjectToObjectMetricTest.cxx
 itkOptGrayscaleDilateImageFilterTest.cxx
@@ -1195,31 +1195,31 @@ add_test(NAME itkMultiplyByConstantImageFilterTest
 add_test(NAME itkMultiScaleHessianBasedMeasureImageFilterTest
       COMMAND ITK-ReviewTestDriver itkMultiScaleHessianBasedMeasureImageFilterTest
               ${ITK_DATA_ROOT}/Input/DSA.png ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestScalesOutput.mha 5 10 10 1 0 ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha)
-#add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest1
-#      COMMAND ITK-ReviewTestDriver
-#    --compare ${BASELINE}/N4ControlPoints_2D.nii.gz
-#              ${TEMP}/N4ControlPoints_2D.nii.gz
-#    itkN4MRIBiasFieldCorrectionImageFilterTest 2
-#    ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png    # input
-#    ${TEMP}/N4ControlPoints_2D.nii.gz                           # control point lattice
-#    4                                                           # shrink factor
-#    20x20                                                       # number of iterations
-#    none                                                        # mask
-#    200                                                         # spline distance
-#    )
-#add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest2
-#      COMMAND ITK-ReviewTestDriver
-#    --compare ${BASELINE}/N4ControlPoints_3D.nii.gz
-#              ${TEMP}/N4ControlPoints_3D.nii.gz
-#    itkN4MRIBiasFieldCorrectionImageFilterTest
-#    3
-#    ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolumeCompressed.mha    # input
-#    ${TEMP}/N4ControlPoints_3D.nii.gz                                  # control point lattice
-#    3                                                                  # shrink factor
-#    10x10x10                                                           # number of iterations
-#    none                                                               # mask
-#    150                                                                # spline distance
-#    )
+add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest1
+      COMMAND ITK-ReviewTestDriver
+    --compare ${BASELINE}/N4ControlPoints_2D.nii.gz
+              ${TEMP}/N4ControlPoints_2D.nii.gz
+    itkN4MRIBiasFieldCorrectionImageFilterTest 2
+    ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png    # input
+    ${TEMP}/N4ControlPoints_2D.nii.gz                           # control point lattice
+    4                                                           # shrink factor
+    20x20                                                       # number of iterations
+    none                                                        # mask
+    200                                                         # spline distance
+    )
+add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest2
+      COMMAND ITK-ReviewTestDriver
+    --compare ${BASELINE}/N4ControlPoints_3D.nii.gz
+              ${TEMP}/N4ControlPoints_3D.nii.gz
+    itkN4MRIBiasFieldCorrectionImageFilterTest
+    3
+    ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolumeCompressed.mha    # input
+    ${TEMP}/N4ControlPoints_3D.nii.gz                                  # control point lattice
+    3                                                                  # shrink factor
+    10x10x10                                                           # number of iterations
+    none                                                               # mask
+    150                                                                # spline distance
+    )
 add_test(NAME itkNeuralNetworkIOTest
       COMMAND ITK-ReviewTestDriver itkNeuralNetworkIOTest
               ${ITK_DATA_ROOT}/Input/xornet.txt ${ITK_DATA_ROOT}/Input/xortest.txt ${ITK_TEST_OUTPUT_DIR})

@@ -2840,7 +2840,7 @@ Testing/Code/Algorithms/itkCurvatureFlowTest.cxx                                
 Testing/Code/Algorithms/itkCurvatureFlowTestPython2.py                           Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkCurvatureFlowTestTcl.tcl                              Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkCurvatureFlowTestTcl2.tcl                             Nonunit         ITK-IntegratedTest             IntegratedTest
-Testing/Code/Algorithms/itkCurvatureRegistrationFilterTest.cxx                   Nonunit         ITK-IntegratedTest             IntegratedTest
+Testing/Code/Algorithms/itkCurvatureRegistrationFilterTest.cxx                   Registration    ITK-PDEDeformableRegistration  PDEDeformable
 Testing/Code/Algorithms/itkCurvesLevelSetImageFilterTest.cxx                     Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkCurvesLevelSetImageFilterZeroSigmaTest.cxx            Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkDeformableSimplexMesh3DBalloonForceFilterTest.cxx     Segmentation    ITK-DeformableMesh             DeformableMesh
@@ -3201,7 +3201,7 @@ Testing/Code/BasicFilters/itkSimplexMeshWithFloatCoordRepTest.cxx               
 Testing/Code/BasicFilters/itkSinImageFilterAndAdaptorTest.cxx                    Filtering       ITK-ImageIntensity             ImageIntensity
 Testing/Code/BasicFilters/itkSmoothingRecursiveGaussianImageFilterTest.cxx       Filtering       ITK-Smoothing                  Smoothing
 Testing/Code/BasicFilters/itkSobelEdgeDetectionImageFilterTest.cxx               Filtering       ITK-ImageFeature               ImageFeature
-Testing/Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx   Nonunit         ITK-IntegratedTest             IntegratedTest
+Testing/Code/BasicFilters/itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx   Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/BasicFilters/itkSparseFieldLayerTest.cxx                            Core            ITK-Common                     Common
 Testing/Code/BasicFilters/itkSpatialFunctionImageEvaluatorFilterTest.cxx         Filtering       ITK-SpatialFunction            SpatialFunction
 Testing/Code/BasicFilters/itkSpatialObjectToImageFilterTest.cxx                  Core            ITK-SpatialObjects             SpatialObjects
