@@ -2828,7 +2828,7 @@ Testing/Code/Algorithms/itkBioCellularAggregateTest.cxx                         
 Testing/Code/Algorithms/itkBioGeneNetworkTest.cxx                                Segmentation    ITK-BioCell                    BioCell
 Testing/Code/Algorithms/itkBioGeneTest.cxx                                       Segmentation    ITK-BioCell                    BioCell
 Testing/Code/Algorithms/itkBioGenomeTest.cxx                                     Segmentation    ITK-BioCell                    BioCell
-Testing/Code/Algorithms/itkBresenhamLineTest.cxx                                Core             ITK-Common                     Common
+Testing/Code/Algorithms/itkBresenhamLineTest.cxx                                 Core            ITK-Common                     Common
 Testing/Code/Algorithms/itkCannySegmentationLevelSetImageFilterTest.cxx          Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkCleanQuadEdgeMeshFilterTest.cxx                       Filtering       ITK-QuadEdgeMeshFiltering      QuadEdgeMeshFiltering
 Testing/Code/Algorithms/itkCollidingFrontsImageFilterTest.cxx                    Segmentation    ITK-LevelSets                  LevelSets
@@ -2858,7 +2858,7 @@ Testing/Code/Algorithms/itkExtractMeshConnectedRegionsTest.cxx                  
 Testing/Code/Algorithms/itkFEMRegistrationFilterTest.cxx                         Registration    ITK-FEMRegistration            FEM
 Testing/Code/Algorithms/itkFFTTest.h                                             Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkFFTWD_FFTTest.cxx                                     Filtering       ITK-FFT                        FFT
-Testing/Code/Algorithms/itkFFTWF_FFTTest.cxx                                    Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkFFTWF_FFTTest.cxx                                     Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkVnlFFTTest.cxx                                        Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkVnlFFTWD_FFTTest.cxx                                  Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkVnlFFTWF_FFTTest.cxx                                  Filtering       ITK-FFT                        FFT
@@ -3519,6 +3519,11 @@ Testing/Code/IO/LittleEndian_hdr.h                                              
 Testing/Code/IO/LittleEndian_img.h                                               IO              ITK-IO-Base                    Base
 Testing/Code/IO/itkAnalyzeImageIODirectionsTest.cxx                              Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkAnalyzeImageIOTest.cxx                                        Nonunit         ITK-Deprecated                 Deprecated
+Testing/Code/IO/itkAnalyzeImageIOTest.h                                          Nonunit         ITK-Deprecated                 Deprecated
+Testing/Code/IO/itkAnalyzeImageIOTest2.cxx                                       Nonunit         ITK-Deprecated                 Deprecated
+Testing/Code/IO/itkAnalyzeImageIORGBImageTest.cxx                                Nonunit         ITK-Deprecated                 Deprecated
+Testing/Code/IO/itkAnalyzeImageIOTestHelper.cxx                                  Nonunit         ITK-Deprecated                 Deprecated
+Testing/Code/IO/itkAnalyzeImageIOBadHeader.cxx                                   Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkArchetypeSeriesFileNamesTest.cxx                              IO              ITK-IO-Base                    Base
 Testing/Code/IO/itkBMPImageIOTest.cxx                                            IO              ITK-IO-BMP                     BMP
 Testing/Code/IO/itkBMPImageIOTest2.cxx                                           IO              ITK-IO-BMP                     BMP
