@@ -29,7 +29,7 @@ namespace itk
 {
 /**
  * \class CleanQuadEdgeMeshFilter
- * \brief
+ * \brief TODO
  */
 template< class TInput, class TOutput=TInput >
 class ITK_EXPORT CleanQuadEdgeMeshFilter:
