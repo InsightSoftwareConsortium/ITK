@@ -91,13 +91,13 @@ template< class TInputImage, class TOutputImage >
 ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_ValueOne = NumericTraits< ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage,
-                                                                                   TOutputImage >::ValueType >::One;
+                                                                                   TOutputImage >::ValueType >::OneValue();
 
 template< class TInputImage, class TOutputImage >
 ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_ValueZero = NumericTraits< ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage,
-                                                                                    TOutputImage >::ValueType >::Zero;
+                                                                                    TOutputImage >::ValueType >::ZeroValue();
 
 template< class TInputImage, class TOutputImage >
 ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
