@@ -80,50 +80,70 @@ for line in open("./Manifest.txt",'r'):
     if len(words) != 4:
         print "Missing entries at: "+line
         exit(-1)
-
-    itkFileName = words[0]
-    groupName   = words[1]
-    moduleName  = words[2]
-    fileExt = itkFileName.split('.')[-1]
-
-    subdir = ""
-    if moduleName ==  "ITK-IntegratedTest":
-       subdir = 'test'
-    elif fileExt == 'h' or fileExt == 'txx' or fileExt == 'inc':
-       subdir = 'include'
-    elif fileExt == 'cxx' or fileExt =='c' or fileExt == 'in' or fileExt == 'cl' :
-        if 'Test' in itkFileName or 'test' in itkFileName:
-            if moduleName != 'ITK-TestKernel':
-                subdir = 'test'
-            else:
-                subdir =  'include'
-        else:
-            subdir = 'src'
-
-
-    if groupName == '-':
-            outputPath = HeadOfModularITKTree+ '/'+words[3]
-    else:
-            desPath = groupName + '/'+words[3] + '/'+subdir
+    inputPath = HeadOfTempTree+'/'+words[0]
+    if os.path.isdir(inputPath):
+     # directly copy the entire dir (utility modules)
+            itkDirName = words[0]
+            groupName  = words[1]
+            moduleName = words[2]
+            desPath = groupName + '/'+words[3]
             outputPath = HeadOfModularITKTree+'/ITK/'+desPath
 
+            # copying files to the destination
+            if not  os.path.isdir(outputPath):
+                os.makedirs(outputPath)
+            os.system('mv -f ' +inputPath+'  '+ outputPath)
 
-    inputfile = HeadOfTempTree+'/'+words[0]
-    if len(moduleList) == 0:
-       moduleList.append(moduleName)
-    elif moduleName != moduleList[-1]:
-       moduleList.append(moduleName)
+            if len(moduleList) == 0:
+               moduleList.append(moduleName)
+            elif moduleName != moduleList[-1]:
+               moduleList.append(moduleName)
+    elif os.path.isfile(inputPath): # copy a file
+            itkFileName = words[0]
+            groupName   = words[1]
+            moduleName  = words[2]
+            fileExt = itkFileName.split('.')[-1]
 
-    # copying files to the destination
-    if  os.path.isfile(inputfile):
-       # creat the path
-       if not os.path.isdir(outputPath):
-          os.makedirs(outputPath)
-       os.system('mv  ' +inputfile+'  '+ outputPath)
+            #decide  subdir
+            subdir = "/"  # default on the top
+            #in general
+            if fileExt == 'h' or fileExt == 'txx' or fileExt == 'inc':
+               subdir = '/include'
+            elif fileExt == 'cxx' or fileExt =='c' or fileExt == 'in' or fileExt == 'cl' :
+               subdir = '/src'
+            if 'Test' in itkFileName or 'test' in itkFileName:
+               if fileExt =='h':
+                  subdir ='/include'
+               else:
+                  subdir = '/test'
+
+            # special modules
+            if moduleName ==  "ITK-IntegratedTest":
+               subdir = '/test'
+            if moduleName == 'ITK-TestKernel':
+               subdir = '/include'
+
+            if groupName == '-' :
+                    outputPath = HeadOfModularITKTree+ '/'+words[3]
+            elif groupName == "Utilities":
+                    outputPath =  HeadOfModularITKTree+'/ITK/'+ groupName + '/' +words[3]
+            else: #general
+                    outputPath = HeadOfModularITKTree+'/ITK/'+groupName + '/'+words[3] +  subdir
+
+
+            if len(moduleList) == 0:
+               moduleList.append(moduleName)
+            elif moduleName != moduleList[-1]:
+               moduleList.append(moduleName)
+
+            # copying files to the destination
+            if not  os.path.isdir(outputPath):
+                os.makedirs(outputPath)
+            os.system('mv  ' +inputPath+'  '+ outputPath)
     else:
-       missingFileName = inputfile.split(HeadOfTempTree+'/')[1]
-       missingf.write(missingFileName + '\n')
-       numOfMissingFiles = numOfMissingFiles + 1
+            missingFileName = inputPath.split(HeadOfTempTree+'/')[1]
+            missingf.write(missingFileName + '\n')
+            numOfMissingFiles = numOfMissingFiles + 1
 
 missingf.close()
 

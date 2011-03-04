@@ -111,7 +111,7 @@ itksys
 itk-vnl
 itk-png
 itk-jpeg
-itk-expat
+ITK-Expat
 itk-nrrd
 itk-nifti
 itk-meta
