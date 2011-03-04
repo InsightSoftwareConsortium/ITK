@@ -135,6 +135,7 @@ endif(ITK_USE_LIBXML2)
 
 #------------------------------------------------------------------------------
 # Other utilities libraries
+set(METAIO_FOR_ITK 1)
 add_subdirectory(MetaIO)
 add_subdirectory(NrrdIO)
 add_subdirectory(nifti)
