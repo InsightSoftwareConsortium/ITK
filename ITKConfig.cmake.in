@@ -57,6 +57,11 @@ set(ITK_USE_LIBXML2 "@ITK_USE_LIBXML2@")
 set(ITK_USE_SYSTEM_LIBXML2 "@ITK_USE_SYSTEM_LIBXML2@")
 set(ITK_USE_REVIEW "@ITK_USE_REVIEW@")
 
+if(ITK_USE_REVIEW)
+  set(ITK_LIBRARIES ${ITK_LIBRARIES} ITKReview ITKIOReview)
+endif()
+
+
 # The VXL_DIR setting used to build ITK.  Set if ITK_USE_SYSTEM_VXL is true.
 # same for gdcm
 set(ITK_VXL_DIR "@ITK_VXL_DIR@")

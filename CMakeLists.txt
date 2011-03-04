@@ -197,6 +197,10 @@ mark_as_advanced(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT ITK_V3_COMPATIBILITY)
 option(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, nor the Copyright Policy of ITK." OFF)
 mark_as_advanced(ITK_USE_REVIEW)
 
+if(ITK_USE_REVIEW)
+  set(ITK_LIBRARIES ${ITK_LIBRARIES} ITKReview ITKIOReview)
+endif()
+
 #-----------------------------------------------------------------------------
 # ITK uses KWStyle for checking the coding style
 include(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
