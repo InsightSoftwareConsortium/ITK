@@ -20,6 +20,7 @@
 #define __itkPriorityQueueContainer_txx
 
 #include "itkNumericTraits.h"
+#include "itkPriorityQueueContainer.h"
 
 namespace itk
 {

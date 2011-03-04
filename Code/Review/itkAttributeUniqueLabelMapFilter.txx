@@ -20,7 +20,7 @@
 
 #include "itkAttributeUniqueLabelMapFilter.h"
 #include "itkProgressReporter.h"
-
+#include  <queue>
 
 namespace itk {
 

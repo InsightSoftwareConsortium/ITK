@@ -191,8 +191,16 @@ for  moduleName in moduleList:
         o = open(headerTestFileName,'w')
         fileList =  glob.glob(filePath +'/*.*')
         includeList = ''
-        for fileName in fileList:
-            includeList =  includeList +  '#include "'+fileName.split('/')[-1] + '"\n'
+        # only keep the .txx, if both .txx and .h exsit
+        for filePath in fileList:
+            fileName = filePath.split('/')[-1];
+            if fileName[-4:] == '.txx' :
+                  hfilepath = filePath[:-4]+'.h'
+                  if hfilepath in fileList:
+                        fileList.remove(hfilepath)
+        for filePath in fileList:
+            fileName = filePath.split('/')[-1];
+            includeList =  includeList +  '#include "'+fileName + '"\n'
         for line in open('./templateModule/itk-template-module/itkModuleHeaderTest.cxx','r'):
             line = line.replace('@LIST_OF_INCLUDE_FILES@',includeList)
             line = line.replace('@HeaderTestName@','itk'+moduleCamelCaseName +'HeaderTest')
