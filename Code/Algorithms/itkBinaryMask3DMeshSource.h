@@ -111,6 +111,8 @@ public:
   typedef typename InputImageType::PixelType    InputPixelType;
   typedef typename InputImageType::SpacingType  SpacingType;
   typedef typename InputImageType::PointType    OriginType;
+  typedef typename InputImageType::RegionType   RegionType;
+  typedef typename InputImageType::SizeType     SizeType;
 
   /** Type definition for the classified image index type. */
   typedef typename InputImageType::IndexType InputImageIndexType;
@@ -128,12 +130,28 @@ public:
   /** accept the input image */
   virtual void SetInput(const InputImageType *inputImage);
 
+  void SetRegionOfInterest( const RegionType & iRegion )
+    {
+    if( iRegion != m_RegionOfInterest )
+      {
+      this->m_RegionOfInterest = iRegion;
+      this->m_RegionOfInterestProvidedByUser = true;
+      this->Modified();
+      }
+    }
+
+  itkGetConstReferenceMacro(RegionOfInterest, RegionType);
+
 protected:
   BinaryMask3DMeshSource();
   ~BinaryMask3DMeshSource();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
+
+
+  bool       m_RegionOfInterestProvidedByUser;
+  RegionType m_RegionOfInterest;
 
   virtual void GenerateOutputInformation(){}  // do nothing
 private:
