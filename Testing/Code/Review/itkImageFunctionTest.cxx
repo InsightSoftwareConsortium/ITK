@@ -26,8 +26,7 @@
 #include "vcl_limits.h"
 #include "itkMath.h"
 
-using namespace itk;
-namespace {
+namespace itk {
 
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT TestImageFunction:
@@ -121,24 +120,24 @@ int itkImageFunctionTest( int , char*[] )
 
   const   unsigned int                                  Dimension = 3;
   typedef float                                         PixelType;
-  typedef Image< PixelType, Dimension >                 ImageType;
+  typedef itk::Image< PixelType, Dimension >            ImageType;
   typedef ImageType::RegionType                         RegionType;
   typedef RegionType::SizeType                          SizeType;
   typedef ImageType::IndexType                          IndexType;
 
   typedef float                                         CoordRepType;
-  typedef ContinuousIndex<CoordRepType, Dimension>      ContinuousIndexType;
-  typedef Point<CoordRepType, Dimension>                PointType;
+  typedef itk::ContinuousIndex<CoordRepType, Dimension> ContinuousIndexType;
+  typedef itk::Point<CoordRepType, Dimension>           PointType;
 
-  typedef NumericTraits<IndexType::IndexValueType>
+  typedef itk::NumericTraits<IndexType::IndexValueType>
                                               IndexNumericTraits;
-  typedef NumericTraits<ContinuousIndexType::ValueType>
+  typedef itk::NumericTraits<ContinuousIndexType::ValueType>
                                               ContinuousIndexNumericTraits;
-  typedef NumericTraits<PointType::ValueType>
+  typedef itk::NumericTraits<PointType::ValueType>
                                               PointNumericTraits;
 
 
-  typedef TestImageFunction< ImageType, CoordRepType >  FunctionType;
+  typedef itk::TestImageFunction< ImageType, CoordRepType >  FunctionType;
 
   ImageType::Pointer image = ImageType::New();
 
@@ -391,19 +390,19 @@ int itkImageFunctionTest( int , char*[] )
 
   float NaN = ContinuousIndexNumericTraits::quiet_NaN();
   std::cout << "Math::RoundHalfIntegerUp< float >(NaN) < static_cast<float> (1): "
-    << ( Math::RoundHalfIntegerUp< float >(NaN) < static_cast<float> (1) )
+    << ( itk::Math::RoundHalfIntegerUp< float >(NaN) < static_cast<float> (1) )
     << std::endl;
   std::cout << "Math::RoundHalfIntegerUp< float >(NaN) > static_cast<float> (1): "
-    << ( Math::RoundHalfIntegerUp< float >(NaN) > static_cast<float> (1) )
+    << ( itk::Math::RoundHalfIntegerUp< float >(NaN) > static_cast<float> (1) )
     << std::endl;
-  std::cout << "RoundHalfIntegerUp(Nan): " << Math::RoundHalfIntegerUp< CoordRepType >(NaN) << std::endl;
-  CoordRepType rf = Math::RoundHalfIntegerUp< CoordRepType >(NaN);
+  std::cout << "RoundHalfIntegerUp(Nan): " << itk::Math::RoundHalfIntegerUp< CoordRepType >(NaN) << std::endl;
+  CoordRepType rf = itk::Math::RoundHalfIntegerUp< CoordRepType >(NaN);
   std::cout << "CoordRepType = RoundHalfIntegerUp(NaN): " << rf << std::endl;
-  long rl = Math::RoundHalfIntegerUp< CoordRepType >(NaN);
+  long rl = itk::Math::RoundHalfIntegerUp< CoordRepType >(NaN);
   std::cout << "long type = RoundHalfIntegerUp(NaN): " << rl << std::endl;
   std::cout << "static_cast<long>( NaN ): " << static_cast<long> (NaN) << std::endl;
   std::cout << "NumericTraits<ImageType::RegionType::IndexValueType>::min(): "
-    << NumericTraits<ImageType::RegionType::IndexValueType>::min() << std::endl;
+    << itk::NumericTraits<ImageType::RegionType::IndexValueType>::min() << std::endl;
   std::cout << "CoordRepType min(): " << ContinuousIndexNumericTraits::min() << std::endl;
   std::cout << "...end NaN tests." << std::endl << std::endl;
 
