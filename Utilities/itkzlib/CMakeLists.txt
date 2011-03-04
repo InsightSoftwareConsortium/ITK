@@ -24,8 +24,6 @@ if(WIN32)
   endif(BUILD_SHARED_LIBS)
 endif(WIN32)
 
-configure_file(${ITKZLIB_SOURCE_DIR}/.NoDartCoverage
-               ${ITKZLIB_BINARY_DIR}/.NoDartCoverage)
 configure_file(${ITKZLIB_SOURCE_DIR}/zlibDllConfig.h.in
                ${ITKZLIB_BINARY_DIR}/zlibDllConfig.h)
 

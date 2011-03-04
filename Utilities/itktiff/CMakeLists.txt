@@ -126,9 +126,6 @@ endif("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
 CHECK_TYPE_SIZE("int" SIZEOF_INT)
 CHECK_TYPE_SIZE("long" SIZEOF_LONG)
 
-
-configure_file(${ITKTIFF_SOURCE_DIR}/.NoDartCoverage
-  ${ITKTIFF_BINARY_DIR}/.NoDartCoverage)
 configure_file(${ITKTIFF_SOURCE_DIR}/tiffDllConfig.h.in
   ${ITKTIFF_BINARY_DIR}/tiffDllConfig.h)
 configure_file(${ITKTIFF_SOURCE_DIR}/tif_config.h.in

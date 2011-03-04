@@ -20,8 +20,6 @@ CONFIGURE_FILE(${ITKEXPAT_SOURCE_DIR}/expatConfig.h.in
                ${ITKEXPAT_BINARY_DIR}/expatConfig.h)
 CONFIGURE_FILE(${ITKEXPAT_SOURCE_DIR}/expatDllConfig.h.in
                ${ITKEXPAT_BINARY_DIR}/expatDllConfig.h)
-CONFIGURE_FILE(${ITKEXPAT_SOURCE_DIR}/.NoDartCoverage
-               ${ITKEXPAT_BINARY_DIR}/.NoDartCoverage)
 
 ADD_LIBRARY(ITKEXPAT ${expat_SRCS})
 

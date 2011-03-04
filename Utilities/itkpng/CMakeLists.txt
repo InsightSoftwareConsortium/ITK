@@ -20,8 +20,6 @@ if(WIN32)
   endif(BUILD_SHARED_LIBS)
 endif(WIN32)
 
-configure_file(${ITKPNG_SOURCE_DIR}/.NoDartCoverage
-               ${ITKPNG_BINARY_DIR}/.NoDartCoverage)
 configure_file(${ITKPNG_SOURCE_DIR}/pngDllConfig.h.in
                ${ITKPNG_BINARY_DIR}/pngDllConfig.h)
 

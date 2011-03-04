@@ -16,12 +16,6 @@ FIND_PACKAGE(SWIG REQUIRED)
 MARK_AS_ADVANCED(SWIG_DIR SWIG_EXECUTABLE SWIG_VERSION)
 INCLUDE(${SWIG_USE_FILE})
 
-#
-# Do not cover this lib
-#
-CONFIGURE_FILE (${CMAKE_CURRENT_SOURCE_DIR}/.NoDartCoverage
-                ${CMAKE_CURRENT_BINARY_DIR}/.NoDartCoverage)
-
 # Note:
 # python -c "from struct import pack; print  pack('5b', (41*len('99')), pow(8,2)+20, 4900**0.5, range(78)[-1], 10)"
 
