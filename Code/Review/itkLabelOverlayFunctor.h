@@ -51,6 +51,7 @@ public:
   inline TRGBPixel operator()(const TInputPixel & p1, const TLabel & p2) const
   {
     TRGBPixel rgbPixel;
+    NumericTraits<TRGBPixel>::SetLength(rgbPixel, 3);
 
     if ( p2 == m_BackgroundValue )
       {

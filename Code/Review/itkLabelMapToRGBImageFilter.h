@@ -87,6 +87,8 @@ protected:
 
   virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
 
+  virtual void GenerateOutputInformation();
+
 private:
   LabelMapToRGBImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

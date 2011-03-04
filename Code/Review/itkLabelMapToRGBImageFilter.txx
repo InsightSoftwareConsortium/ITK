@@ -76,5 +76,27 @@ LabelMapToRGBImageFilter<TInputImage, TOutputImage>
     }
 }
 
+template<class TInputImage, class TOutputImage>
+void
+LabelMapToRGBImageFilter<TInputImage, TOutputImage>
+::GenerateOutputInformation()
+{
+  // this methods is overloaded so that if the output image is a
+  // VectorImage then the correct number of components are set.
+
+  Superclass::GenerateOutputInformation();
+  OutputImageType* output = this->GetOutput();
+
+  if ( !output )
+    {
+    return;
+    }
+  if ( output->GetNumberOfComponentsPerPixel() != 3 )
+    {
+    output->SetNumberOfComponentsPerPixel( 3 );
+    }
+}
+
+
 }// end namespace itk
 #endif
