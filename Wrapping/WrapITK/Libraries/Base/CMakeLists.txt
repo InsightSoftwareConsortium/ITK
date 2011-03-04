@@ -1,5 +1,5 @@
 WRAP_LIBRARY(Base)
-message("=======${ITK_LIBRARIES}=======")
+
 set(WRAPPER_LIBRARY_GROUPS
   itkEventObjects
   ITKCommonBase
