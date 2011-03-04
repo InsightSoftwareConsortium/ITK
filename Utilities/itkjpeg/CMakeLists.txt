@@ -47,8 +47,6 @@ if(WIN32)
   endif(BUILD_SHARED_LIBS)
 endif(WIN32)
 
-configure_file(${ITKJPEG_SOURCE_DIR}/.NoDartCoverage
-               ${ITKJPEG_BINARY_DIR}/.NoDartCoverage)
 configure_file(${ITKJPEG_SOURCE_DIR}/jpegDllConfig.h.in
                ${ITKJPEG_BINARY_DIR}/jpegDllConfig.h)
 

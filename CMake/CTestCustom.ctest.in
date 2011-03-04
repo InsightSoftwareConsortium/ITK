@@ -42,11 +42,17 @@ SET(CTEST_CUSTOM_COVERAGE_EXCLUDE
  # Exclude try_compile sources from coverage results:
  "/CMakeFiles/CMakeTmp/"
 
+ # Exclude files from the Examples directories
+ ".*/Examples/.*"
+
  # Exclude files from the Testing directories
  ".*/Testing/.*"
 
  # Exclude files from the Wrapping directories
  ".*/Wrapping/.*"
+
+ # Exclude files from the Utilities directories
+ ".*/Utilities/.*"
  )
 
 SET(CTEST_CUSTOM_WARNING_EXCEPTION

@@ -48,10 +48,6 @@ SET(OpenJPEG_SRCS
   function_list.h
 )
 
-CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/.NoDartCoverage
-               ${ITKOpenJPEG_BINARY_DIR}/.NoDartCoverage)
-
-
 # Pass proper definition to preprocessor to generate shared lib
 IF(BUILD_SHARED_LIBS)
   SET(OPJ_STATIC 0)
