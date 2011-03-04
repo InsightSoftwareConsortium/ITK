@@ -7,7 +7,7 @@ set(WRAPPER_LIBRARY_GROUPS
   vnl_unary_function
 )
 
-set(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon )
+set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
 
 # still include the default include, to avoid a compilation error
 # with exceptions on sun studio

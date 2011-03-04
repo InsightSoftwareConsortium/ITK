@@ -3,7 +3,7 @@ WRAP_LIBRARY(FFT)
 set(WRAPPER_LIBRARY_DEPENDS VXLNumerics Base)
 
 # find needed libs
-set(libs ITKCommon ITKAlgorithms)
+set(libs ${ITK_LIBRARIES})
 
 if(WRAP_complex_float AND WRAP_float)
   if(FFTWF_LIB)
@@ -17,7 +17,7 @@ if(WRAP_complex_double AND WRAP_double)
   endif(FFTWD_LIB)
 endif(WRAP_complex_double AND WRAP_double)
 
-set(WRAPPER_LIBRARY_LINK_LIBRARIES ${libs})
+set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
 
 AUTO_INCLUDE_MODULES()
 END_WRAP_LIBRARY()

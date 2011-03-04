@@ -23,7 +23,7 @@ if(WRAP_complex_double AND WRAP_double)
   endif(FFTWD_LIB)
 endif(WRAP_complex_double AND WRAP_double)
 
-set(WRAPPER_LIBRARY_LINK_LIBRARIES ${libs})
+set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
 
 AUTO_INCLUDE_MODULES()
 END_WRAP_LIBRARY()
