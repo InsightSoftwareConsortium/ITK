@@ -23,6 +23,7 @@
 #include "itkImageRegion.h"
 #include "itkContinuousIndex.h"
 #include "vcl_limits.h"
+#include "itkFloatingPointExceptions.h"
 
 int itkImageRegionTest(int, char* [] )
 {
@@ -171,47 +172,62 @@ int itkImageRegionTest(int, char* [] )
               << startA << " " << sizeA << std::endl;
     passed = false;
     }
-  indexC[0] = ContinuousIndexNumericTraits::max();
-  if( regionA.IsInside( indexC ) )
-    {
-    std::cout << "Error with IsInside 4C. Expected false." << std::endl;
-    passed = false;
-    }
+  std::cout << "Testing ContinuousIndexNumericTraits::min()." << std::endl;
   indexC[0] = ContinuousIndexNumericTraits::min();
   if( regionA.IsInside( indexC ) )
     {
     std::cout << "Error with IsInside 5C. Expected false." << std::endl;
     passed = false;
     }
-  /* Note for NaN. IsInside doesn't properly catch NaN. It gets cast to integer
-   * which means it becomes a large negative number so it falls outside of
-   * region bounds. In this way the test returns false appropriately, but for
-   * the wrong reasons. If this test fails, then the compiler is handling a
-   * cast of NaN to integer differently. */
-  if( ContinuousIndexNumericTraits::has_quiet_NaN )
+  /* Some tests cause floating point exceptions, so
+   * only run them when FPE are not enabled. */
+  if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
+    /* Generates overflow exception */
+    std::cout << "Testing ContinuousIndexNumericTraits::max()." << std::endl;
+    indexC[0] = ContinuousIndexNumericTraits::max();
     if( regionA.IsInside( indexC ) )
       {
-      std::cout << "Error with IsInside 6C. Expected false." << std::endl;
+      std::cout << "Error with IsInside 4C. Expected false." << std::endl;
       passed = false;
       }
-    }
-  /* Note that signaling_NaN seems to simply wrap quiet_NaN */
-  if( ContinuousIndexNumericTraits::has_signaling_NaN )
-    {
-    indexC[0] = ContinuousIndexNumericTraits::signaling_NaN();
+    /* Note for NaN. IsInside doesn't properly catch NaN. It gets cast to integer
+     * which means it becomes a large negative number so it falls outside of
+     * region bounds. In this way the test returns false appropriately, but for
+     * the wrong reasons. If this test fails, then the compiler is handling a
+     * cast of NaN to integer differently. */
+    if( ContinuousIndexNumericTraits::has_quiet_NaN )
+      {
+      std::cout << "Testing quiet NaN behavior." << std::endl;
+      indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
+      if( regionA.IsInside( indexC ) )
+        {
+        std::cout << "Error with IsInside 6C. Expected false." << std::endl;
+        passed = false;
+        }
+      }
+    /* Note that signaling_NaN seems to simply wrap quiet_NaN */
+    if( ContinuousIndexNumericTraits::has_signaling_NaN )
+      {
+      std::cout << "Testing signaling NaN behavior." << std::endl;
+      indexC[0] = ContinuousIndexNumericTraits::signaling_NaN();
+      if( regionA.IsInside( indexC ) )
+        {
+        std::cout << "Error with IsInside 7C. Expected false." << std::endl;
+        passed = false;
+        }
+      }
+    std::cout << "Testing infinity behavior." << std::endl;
+    indexC[0] = ContinuousIndexNumericTraits::infinity();
     if( regionA.IsInside( indexC ) )
       {
-      std::cout << "Error with IsInside 7C. Expected false." << std::endl;
+      std::cout << "Error with IsInside 8C. Expected false." << std::endl;
       passed = false;
       }
-    }
-  indexC[0] = ContinuousIndexNumericTraits::infinity();
-  if( regionA.IsInside( indexC ) )
+    }// ! FPE::GetEnabled()
+  else
     {
-    std::cout << "Error with IsInside 8C. Expected false." << std::endl;
-    passed = false;
+    std::cout << "Not testing behavior that triggers FPE." << std::endl;
     }
 
   //Test IsInside( region )
