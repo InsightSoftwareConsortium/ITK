@@ -204,7 +204,7 @@ RealTimeInterval::operator+( const RealTimeInterval & other ) const
 /*
  * Add a time interval to this time stamp and update it.
  */
-const RealTimeInterval &
+const RealTimeInterval::Self &
 RealTimeInterval::operator+=( const RealTimeInterval & other )
 {
   SecondsDifferenceType       seconds       = this->m_Seconds      + other.m_Seconds;
@@ -221,7 +221,7 @@ RealTimeInterval::operator+=( const RealTimeInterval & other )
 /*
  * Subtract a time interval from this time stamp and update it.
  */
-const RealTimeInterval &
+const RealTimeInterval::Self &
 RealTimeInterval::operator-=( const RealTimeInterval & other )
 {
   SecondsDifferenceType       seconds       = this->m_Seconds      - other.m_Seconds;
