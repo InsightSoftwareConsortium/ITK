@@ -25,6 +25,7 @@
 #include "itkImageFunction.h"
 #include "vcl_limits.h"
 #include "itkMath.h"
+#include "itkFloatingPointExceptions.h"
 
 namespace itk {
 
@@ -273,30 +274,42 @@ int itkImageFunctionTest( int , char*[] )
     std::cout << "Error with IsInsideBuffer 5C. Expected false." << std::endl;
     result = EXIT_FAILURE;
     }
-  if( ContinuousIndexNumericTraits::has_quiet_NaN )
+  /* Some tests cause floating point exceptions, so
+   * only run them when FPE are not enabled. */
+  if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
+    std::cout << "FPE's disabled." << std::endl;
+    if( ContinuousIndexNumericTraits::has_quiet_NaN )
+      {
+      indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
+      if( function->IsInsideBuffer( indexC ) )
+        {
+        std::cout << "Error with IsInsideBuffer 6C. Expected false."
+                  << std::endl;
+        result = EXIT_FAILURE;
+        }
+      }
+    /* Note that signaling_NaN seems to simply wrap quiet_NaN */
+    if( ContinuousIndexNumericTraits::has_signaling_NaN )
+      {
+      indexC[0] = ContinuousIndexNumericTraits::signaling_NaN();
+      if( function->IsInsideBuffer( indexC ) )
+        {
+        std::cout << "Error with IsInsideBuffer 7C. Expected false."
+                  << std::endl;
+        result = EXIT_FAILURE;
+        }
+      }
+    indexC[0] = ContinuousIndexNumericTraits::infinity();
     if( function->IsInsideBuffer( indexC ) )
       {
-      std::cout << "Error with IsInsideBuffer 6C. Expected false." << std::endl;
+      std::cout << "Error with IsInsideBuffer 8C. Expected false." << std::endl;
       result = EXIT_FAILURE;
       }
     }
-  /* Note that signaling_NaN seems to simply wrap quiet_NaN */
-  if( ContinuousIndexNumericTraits::has_signaling_NaN )
+  else
     {
-    indexC[0] = ContinuousIndexNumericTraits::signaling_NaN();
-    if( function->IsInsideBuffer( indexC ) )
-      {
-      std::cout << "Error with IsInsideBuffer 7C. Expected false." << std::endl;
-      result = EXIT_FAILURE;
-      }
-    }
-  indexC[0] = ContinuousIndexNumericTraits::infinity();
-  if( function->IsInsideBuffer( indexC ) )
-    {
-    std::cout << "Error with IsInsideBuffer 8C. Expected false." << std::endl;
-    result = EXIT_FAILURE;
+    std::cout << "FPE's enabled. Skipping tests that throw FPE's." << std::endl;
     }
 
   /* IsInsideBuffer with Point type */
@@ -333,78 +346,41 @@ int itkImageFunctionTest( int , char*[] )
     std::cout << "Error with IsInsideBuffer 5P. Expected false." << std::endl;
     result = EXIT_FAILURE;
     }
-  if( PointNumericTraits::has_quiet_NaN )
+  if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    std::cout << "Testing IsInsideBuffer(point) with quiet_NaN." << std::endl;
-    point[0] = PointNumericTraits::quiet_NaN();
+    std::cout << "FPE's disabled." << std::endl;
+    if( PointNumericTraits::has_quiet_NaN )
+      {
+      std::cout << "Testing IsInsideBuffer(point) with quiet_NaN." << std::endl;
+      point[0] = PointNumericTraits::quiet_NaN();
+      if( function->IsInsideBuffer( point ) )
+        {
+        std::cout << "Error with IsInsideBuffer 6P. Expected false." << std::endl;
+        result = EXIT_FAILURE;
+        }
+      }
+    if( PointNumericTraits::has_signaling_NaN )
+      {
+      std::cout << "Testing IsInsideBuffer(point) with signaling_NaN."
+                << std::endl;
+      point[0] = PointNumericTraits::signaling_NaN();
+      if( function->IsInsideBuffer( point ) )
+        {
+        std::cout << "Error with IsInsideBuffer 7P. Expected false." << std::endl;
+        result = EXIT_FAILURE;
+        }
+      }
+    point[0] = PointNumericTraits::infinity();
     if( function->IsInsideBuffer( point ) )
       {
-      std::cout << "Error with IsInsideBuffer 6P. Expected false." << std::endl;
+      std::cout << "Error with IsInsideBuffer 8P. Expected false." << std::endl;
       result = EXIT_FAILURE;
       }
     }
-  if( PointNumericTraits::has_signaling_NaN )
-    {
-    std::cout << "Testing IsInsideBuffer(point) with signaling_NaN."
-              << std::endl;
-    point[0] = PointNumericTraits::signaling_NaN();
-    if( function->IsInsideBuffer( point ) )
-      {
-      std::cout << "Error with IsInsideBuffer 7P. Expected false." << std::endl;
-      result = EXIT_FAILURE;
-      }
-    }
-  point[0] = PointNumericTraits::infinity();
-  if( function->IsInsideBuffer( point ) )
-    {
-    std::cout << "Error with IsInsideBuffer 8P. Expected false." << std::endl;
-    result = EXIT_FAILURE;
-    }
-
-  /* NaN behavior
-   * Experimenting. Can be removed before final merge.
-   * Issue with ImageRegion::IsInside is that it's casting to integer and
-   * rounding, and thus NaN's get converted to a large negative int and
-   * are only caught indirectly. */
-
-  //GetLargestPossibleRegion().IsInside(indexC) seems to be catching the NaN with
-  // the same logic as old ImageFunction::IsInsideBuffer...why?
-  std::cout << "NaN test..." << std::endl;
-  indexC.Fill(1);
-  //NOTE that 0,0,0 is NOT inside.
-  if( image->GetLargestPossibleRegion().IsInside(indexC) )
-    std::cout << "1,1,1 IsInside" << std::endl;
   else
-    std::cout << "1,1,1 Is not inside !" << std::endl;
-
-  indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
-  if( image->GetLargestPossibleRegion().IsInside(indexC) )
-    std::cout << "NaN,1,1 IsInside" << std::endl;
-  else
-    std::cout << "NaN,1,1 Is not inside" << std::endl;
-
-  std::cout << "NaN < -1 = " << (indexC[0] < -1.0) << std::endl;
-  std::cout << "NaN > -1 = " << (indexC[0] > -1.0) << std::endl;
-  std::cout << "!(NaN < 1) = " << !(indexC[0] < 1.0) << std::endl;
-  std::cout << "!(NaN > 1) = " << !(indexC[0] > 1.0) << std::endl;
-
-  float NaN = ContinuousIndexNumericTraits::quiet_NaN();
-  std::cout << "Math::RoundHalfIntegerUp< float >(NaN) < static_cast<float> (1): "
-    << ( itk::Math::RoundHalfIntegerUp< float >(NaN) < static_cast<float> (1) )
-    << std::endl;
-  std::cout << "Math::RoundHalfIntegerUp< float >(NaN) > static_cast<float> (1): "
-    << ( itk::Math::RoundHalfIntegerUp< float >(NaN) > static_cast<float> (1) )
-    << std::endl;
-  std::cout << "RoundHalfIntegerUp(Nan): " << itk::Math::RoundHalfIntegerUp< CoordRepType >(NaN) << std::endl;
-  CoordRepType rf = itk::Math::RoundHalfIntegerUp< CoordRepType >(NaN);
-  std::cout << "CoordRepType = RoundHalfIntegerUp(NaN): " << rf << std::endl;
-  long rl = itk::Math::RoundHalfIntegerUp< CoordRepType >(NaN);
-  std::cout << "long type = RoundHalfIntegerUp(NaN): " << rl << std::endl;
-  std::cout << "static_cast<long>( NaN ): " << static_cast<long> (NaN) << std::endl;
-  std::cout << "NumericTraits<ImageType::RegionType::IndexValueType>::min(): "
-    << itk::NumericTraits<ImageType::RegionType::IndexValueType>::min() << std::endl;
-  std::cout << "CoordRepType min(): " << ContinuousIndexNumericTraits::min() << std::endl;
-  std::cout << "...end NaN tests." << std::endl << std::endl;
+    {
+    std::cout << "FPE's enabled. Skipping tests that throw FPE's." << std::endl;
+    }
 
   /* ConvertPointToNearestIndex
    * With region origin of 0,0,0 and spacing of 1,1,1,
@@ -421,22 +397,28 @@ int itkImageFunctionTest( int , char*[] )
     }
 
   /* Test with NaN to see what happens */
-  if( PointNumericTraits::has_quiet_NaN )
+  if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    point[0] = PointNumericTraits::quiet_NaN();
-    //NOTE: this calls Image::TransformPhysicalPointToContinuousIndex
-    // but doesn't check return for true/false, and doesn't return
-    // true or false.
-    function->ConvertPointToNearestIndex( point, index );
-    std::cout << "ConvertPointToNearestIndex with quiet_NaN: "
-              << index << std::endl;
+    if( PointNumericTraits::has_quiet_NaN )
+      {
+      point[0] = PointNumericTraits::quiet_NaN();
+      //NOTE: this calls Image::TransformPhysicalPointToContinuousIndex
+      // but doesn't check return for true/false, and doesn't return
+      // true or false.
+      function->ConvertPointToNearestIndex( point, index );
+      std::cout << "ConvertPointToNearestIndex with quiet_NaN: "
+                << index << std::endl;
+      }
     }
 
   /* Test with infinity to see what happens */
-  point[0] = PointNumericTraits::infinity();
-  function->ConvertPointToNearestIndex( point, index );
-  std::cout << "ConvertPointToNearestIndex with infinity: "
-            << index << std::endl;
+  if( ! itk::FloatingPointExceptions::GetEnabled() )
+    {
+    point[0] = PointNumericTraits::infinity();
+    function->ConvertPointToNearestIndex( point, index );
+    std::cout << "ConvertPointToNearestIndex with infinity: "
+              << index << std::endl;
+    }
 
   /* ConvertPointToContinuousIndex */
   point[0]=1.1;
@@ -465,13 +447,16 @@ int itkImageFunctionTest( int , char*[] )
     }
 
   /* Test with NaN to see what happens */
-  if( ContinuousIndexNumericTraits::has_quiet_NaN )
+  if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
-    function->ConvertContinuousIndexToNearestIndex( indexC, index );
-    std::cout << "ConvertContinuousIndexToNearestIndex with quiet_NaN:" << std::endl
-              << "  indexC: " << indexC << " index: " << index << std::endl;
+    if( ContinuousIndexNumericTraits::has_quiet_NaN )
+      {
+      indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
+      function->ConvertContinuousIndexToNearestIndex( indexC, index );
+      std::cout << "ConvertContinuousIndexToNearestIndex with quiet_NaN:"
+                << std::endl
+                << "  indexC: " << indexC << " index: " << index << std::endl;
+      }
     }
-
   return result;
 }
