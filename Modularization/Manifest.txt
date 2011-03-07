@@ -29,7 +29,6 @@ CMake/itkTestFriendTemplatedFunction.cmake                                      
 CMake/itkTestFriendTemplatedFunction.cxx                                         -               -                              CMake
 CMake/itkTestIOStreamsWCharFilenameConstructors.cxx                              -               -                              CMake
 CMake/itkTestObjCxxCompiler.mm                                                   -               -                              CMake
-CMake/itkTestTemplatePartialSpecialization.cmake                                 -               -                              CMake
 CMake/itkTestTemplatePartialSpecialization.cxx                                   -               -                              CMake
 Code/Algorithms/itkAnchorCloseImageFilter.h                                      Filtering       ITK-MathematicalMorphology     MathematicalMorphology
 Code/Algorithms/itkAnchorDilateImageFilter.h                                     Filtering       ITK-MathematicalMorphology     MathematicalMorphology
@@ -1775,11 +1774,11 @@ Code/GPU/itkGPUKernelManager.cxx                                                
 Code/GPU/itkGPUKernelManager.h                                                   GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUMeanImageFilter.h                                                 GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUMeanImageFilter.txx                                               GPU             ITK-GPUCommon                  Common
+Code/GPU/itkGPUImageFilterTest.cxx  GPU             ITK-GPUCommon                  Common
+Code/GPU/itkGPUImageTest.cxx  GPU             ITK-GPUCommon                  Common
 Code/GPU/itkOclUtil.cxx                                                          GPU             ITK-GPUCommon                  Common
 Code/GPU/itkOclUtil.h                                                            GPU             ITK-GPUCommon                  Common
 Code/GPU/pathToOpenCLSourceCode.h.in                                             GPU             ITK-GPUCommon                  Common
-Code/GPU/test_itkGPUImage.cxx                                                    GPU             ITK-GPUCommon                  Common
-Code/GPU/test_itkGPUImageFilter.cxx                                              GPU             ITK-GPUCommon                  Common
 Code/IO/itkAnalyzeImageIO.cxx                                                    Nonunit         ITK-Deprecated                 Deprecated
 Code/IO/itkAnalyzeImageIO.h                                                      Nonunit         ITK-Deprecated                 Deprecated
 Code/IO/itkAnalyzeImageIOFactory.cxx                                             Nonunit         ITK-Deprecated                 Deprecated
@@ -2757,7 +2756,6 @@ Code/SpatialObject/itkPlaneSpatialObject.h                                      
 Code/SpatialObject/itkPlaneSpatialObject.txx                                     Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkPointBasedSpatialObject.h                                  Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkPointBasedSpatialObject.txx                                Core            ITK-SpatialObjects             SpatialObjects
-Code/SpatialObject/itkPolygonGroupOrientation.h                                  Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkPolygonGroupSpatialObject.h                                Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkPolygonGroupSpatialObject.txx                              Core            ITK-SpatialObjects             SpatialObjects
 Code/SpatialObject/itkPolygonSpatialObject.h                                     Core            ITK-SpatialObjects             SpatialObjects
@@ -4042,7 +4040,6 @@ Utilities/DICOMParser/DICOMAppHelper.h                                          
 Utilities/DICOMParser/DICOMBuffer.cxx                                            Utilities       ITK-DICOMParser                DICOMParser
 Utilities/DICOMParser/DICOMBuffer.h                                              Utilities       ITK-DICOMParser                DICOMParser
 Utilities/DICOMParser/DICOMCMakeConfig.h.in                                      Utilities       ITK-DICOMParser                DICOMParser
-Utilities/DICOMParser/DICOMCMakeConfig.h.in                                      Utilities       ITK-DICOMParser                DICOMParser
 Utilities/DICOMParser/DICOMCallback.h                                            Utilities       ITK-DICOMParser                DICOMParser
 Utilities/DICOMParser/DICOMConfig.h                                              Utilities       ITK-DICOMParser                DICOMParser
 Utilities/DICOMParser/DICOMFile.cxx                                              Utilities       ITK-DICOMParser                DICOMParser
@@ -4057,3 +4054,12 @@ Utilities/itkExtHdrs/Ge4xHdr.h                                                  
 Utilities/itkExtHdrs/Ge5xHdr.h                                                   IO              ITK-IO-GE                      GE
 Utilities/itkExtHdrs/itkAnalyzeDbh.h                                             Nonunit         ITK-Deprecated                 Deprecated
 itkConfigure.h.in                                                                Core            ITK-Common                     Common
+Code/Review/itkConvertLabelMapFilter.h  Nonunit ITK-Review Review
+Code/Review/itkConvertLabelMapFilter.txx  Nonunit ITK-Review Review
+Code/Review/README.txt  Nonunit ITK-Review Review
+Migration/PolygonGroupOrientationMovedToPolygonSpatialObject.xml   Utilities       ITK-Migration                  Migration
+Testing/Code/Numerics/FEM/README  Numerics ITK-FEM FEM
+Testing/Code/Review/itkConvertLabelMapFilterTest1.cxx  Nonunit ITK-Review Review
+Testing/Code/Review/itkImageFunctionTest.cxx  Nonunit ITK-Review Review
+Testing/Code/Review/itkLabelMapOverlayImageFilterTest2.cxx  Nonunit ITK-Review Review
+Testing/Code/Review/itkLabelMapToRGBImageFilterTest2.cxx  Nonunit ITK-Review Review
