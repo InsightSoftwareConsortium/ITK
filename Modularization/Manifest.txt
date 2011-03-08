@@ -4077,10 +4077,10 @@ Utilities/itkExtHdrs/Ge4xHdr.h                                                  
 Utilities/itkExtHdrs/Ge5xHdr.h                                                   IO              ITK-IO-GE                      GE
 Utilities/itkExtHdrs/fdstream.hpp                                                Utilities       ITK-Hooks                      Hooks
 Utilities/itkExtHdrs/itkAnalyzeDbh.h                                             Nonunit         ITK-Deprecated                 Deprecated
-Utilities/itk_jpeg.h                                                             Utilities       ITK-JPEG                       JPEG/src
-Utilities/itk_png.h                                                              Utilities       ITK-PNG                        PNG/src
-Utilities/itk_tiff.h                                                             Utilities       ITK-TIFF                       TIFF/src
-Utilities/itk_zlib.h                                                             Utilities       ITK-ZLIB                       ZLIB/src
+Utilities/itk_jpeg.h.in                                                          Utilities       ITK-JPEG                       JPEG/src
+Utilities/itk_png.h.in                                                           Utilities       ITK-PNG                        PNG/src
+Utilities/itk_tiff.h.in                                                          Utilities       ITK-TIFF                       TIFF/src
+Utilities/itk_zlib.h.in                                                          Utilities       ITK-ZLIB                       ZLIB/src
 Utilities/itkjpeg                                                                Utilities       ITK-JEPG                       JPEG/src/itkjpeg
 Utilities/itkpng                                                                 Utilities       ITK-PNG                        PNG/src/itkpng
 Utilities/itktiff                                                                Utilities       ITK-TIFF                       TIFF/src/itktiff

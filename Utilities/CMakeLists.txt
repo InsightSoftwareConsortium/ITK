@@ -6,8 +6,16 @@ set(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
 
 # Create a header to hold the options for use of third party
 # utilities.
-configure_file(${ITK_SOURCE_DIR}/Utilities/itkThirdParty.h.in
-               ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h @ONLY IMMEDIATE)
+foreach(h
+    itkThirdParty.h
+    itk_jpeg.h
+    itk_png.h
+    itk_tiff.h
+    itk_zlib.h
+    )
+  configure_file(${ITK_SOURCE_DIR}/Utilities/${h}.in
+                 ${ITK_BINARY_DIR}/Utilities/${h} @ONLY IMMEDIATE)
+endforeach()
 
 #-----------------------------------------------------------------------------
 # Create the kwsys library for ITK.
@@ -195,10 +203,10 @@ endif(ITK_USE_FLAT_DIRECTORY_INSTALL)
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
     ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h
-    ${ITK_SOURCE_DIR}/Utilities/itk_zlib.h
-    ${ITK_SOURCE_DIR}/Utilities/itk_tiff.h
-    ${ITK_SOURCE_DIR}/Utilities/itk_jpeg.h
-    ${ITK_SOURCE_DIR}/Utilities/itk_png.h
+    ${ITK_BINARY_DIR}/Utilities/itk_zlib.h
+    ${ITK_BINARY_DIR}/Utilities/itk_tiff.h
+    ${ITK_BINARY_DIR}/Utilities/itk_jpeg.h
+    ${ITK_BINARY_DIR}/Utilities/itk_png.h
     ${ITK_SOURCE_DIR}/Utilities/metaIOConfig.h
     ${ITK_BINARY_DIR}/Utilities/NrrdIO/NrrdConfigure.h
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES}

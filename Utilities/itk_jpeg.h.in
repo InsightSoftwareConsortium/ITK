@@ -26,15 +26,17 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_zlib_h
-#define __itk_zlib_h
+#ifndef __itk_jpeg_h
+#define __itk_jpeg_h
 
-/* Use the zlib library configured for ITK.  */
-#include "itkThirdParty.h"
-#ifdef ITK_USE_SYSTEM_ZLIB
-# include <zlib.h>
+/* Use the jpeg library configured for ITK.  */
+#cmakedefine  ITK_USE_SYSTEM_JPEG
+#ifdef ITK_USE_SYSTEM_JPEG
+# include <jpeglib.h>
+# include <jerror.h>
 #else
-# include "itkzlib/zlib.h"
+# include <itkjpeg/jpeglib.h>
+# include <itkjpeg/jerror.h>
 #endif
 
 #endif

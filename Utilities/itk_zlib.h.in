@@ -26,15 +26,15 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_tiff_h
-#define __itk_tiff_h
+#ifndef __itk_zlib_h
+#define __itk_zlib_h
 
-/* Use the tiff library configured for ITK.  */
-#include "itkThirdParty.h"
-#ifdef ITK_USE_SYSTEM_TIFF
-# include <tiffio.h>
+/* Use the zlib library configured for ITK.  */
+#cmakedefine ITK_USE_SYSTEM_ZLIB
+#ifdef ITK_USE_SYSTEM_ZLIB
+# include <zlib.h>
 #else
-# include "itktiff/tiffio.h"
+# include "itkzlib/zlib.h"
 #endif
 
 #endif
