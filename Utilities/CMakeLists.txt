@@ -40,6 +40,11 @@ add_subdirectory(kwsys)
 #------------------------------------------------------------------------------
 # Build third-party utilities.
 
+set(ITK3P_INSTALL_EXPORT_NAME "ITKTargets")
+set(ITK3P_INSTALL_INCLUDE_DIR "${ITK_INSTALL_INCLUDE_DIR_CM24}")
+set(ITK3P_INSTALL_RUNTIME_DIR "${ITK_INSTALL_BIN_DIR_CM24}")
+set(ITK3P_INSTALL_LIBRARY_DIR "${ITK_INSTALL_LIB_DIR_CM24}")
+set(ITK3P_INSTALL_ARCHIVE_DIR "${ITK_INSTALL_LIB_DIR_CM24}")
 
 ITK_THIRD_PARTY_SUBDIR(ZLIB itkzlib)
 ITK_THIRD_PARTY_SUBDIR(PNG  itkpng)
