@@ -93,13 +93,6 @@ if(NOT ITK_USE_SYSTEM_GDCM)
   endif(MSVC)
 endif(NOT ITK_USE_SYSTEM_GDCM)
 
-# LIBXML2 include directories.
-if(ITK_USE_LIBXML2)
-  set(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
-    ${ITK_BINARY_DIR}/Utilities/itklibxml2
-    )
-endif(ITK_USE_LIBXML2)
-
 # Patended include directories added only if the user explicitly enabled the
 # ITK_USE_PATENTED option. Users are responsible for getting a license from the
 # patent holders in order to use any of those methods.
@@ -202,6 +195,3 @@ ITK_THIRD_PARTY_INCLUDE2(JPEG)
 ITK_THIRD_PARTY_INCLUDE2(PNG)
 ITK_THIRD_PARTY_INCLUDE2(TIFF)
 ITK_THIRD_PARTY_INCLUDE2(ZLIB)
-if(ITK_USE_SYSTEM_LIBXML2 OR ITK_USE_LIBXML2)
-  ITK_THIRD_PARTY_INCLUDE(LIBXML2 libxml2)
-endif(ITK_USE_SYSTEM_LIBXML2 OR ITK_USE_LIBXML2)

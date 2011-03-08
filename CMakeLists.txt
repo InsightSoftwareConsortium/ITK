@@ -412,10 +412,6 @@ ITK_THIRD_PARTY_OPTION(JPEG jpeg)
 ITK_THIRD_PARTY_OPTION(OpenJPEG openjpeg)
 ITK_THIRD_PARTY_OPTION(TIFF tiff)
 
-option(ITK_USE_LIBXML2 "Use LIBXML2." OFF)
-mark_as_advanced(ITK_USE_LIBXML2)
-ITK_THIRD_PARTY_OPTION(LIBXML2 libxml2)
-
 #-----------------------------------------------------------------------------
 # If choose to build documentation, then search for Doxygen executables.
 option(BUILD_DOXYGEN "Build Doxygen Documentation" OFF)
