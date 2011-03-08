@@ -4071,7 +4071,7 @@ Utilities/MetaIO                                                                
 Utilities/NrrdIO                                                                 Utilities       ITK-NrrdIO                     NrrdIO/src/NrrdIO
 Utilities/README.kwsys                                                           Utilities       ITK-KWSys                      KWSys
 Utilities/README.vxl                                                             Utilities       ITK-VNL                        VNL
-Utilities/expat                                                                  Utilities       ITK-Expat                      Expat/src
+Utilities/expat                                                                  Utilities       ITK-Expat                      Expat/src/expat
 Utilities/gdcm                                                                   Utilities       ITK-GDCM                       GDCM/src/gdcm
 Utilities/itkExtHdrs/Ge4xHdr.h                                                   IO              ITK-IO-GE                      GE
 Utilities/itkExtHdrs/Ge5xHdr.h                                                   IO              ITK-IO-GE                      GE
