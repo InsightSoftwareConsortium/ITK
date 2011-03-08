@@ -156,6 +156,12 @@ endif(ITK_DISABLE_CXX_TESTING)
 #------------------------------------------------------------------------------
 # Configure vxl/vnl as needed
 if(NOT ITK_USE_SYSTEM_VXL)
+  set(VXL_INSTALL_INCLUDE_DIR "${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities/vxl")
+  set(VXL_INSTALL_RUNTIME_DIR "${ITK_INSTALL_BIN_DIR_CM24}")
+  set(VXL_INSTALL_LIBRARY_DIR "${ITK_INSTALL_LIB_DIR_CM24}")
+  set(VXL_INSTALL_ARCHIVE_DIR "${ITK_INSTALL_LIB_DIR_CM24}")
+  set(VXL_INSTALL_NO_DEVELOPMENT ${ITK_INSTALL_NO_DEVELOPMENT})
+  set(VXL_INSTALL_NO_LIBRARIES ${ITK_INSTALL_NO_LIBRARIES})
   add_subdirectory(vxl)
 endif(NOT ITK_USE_SYSTEM_VXL)
 
