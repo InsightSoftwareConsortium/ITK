@@ -21,37 +21,25 @@
 
 #include <iostream>
 
-#include "itkAccumulateImageFilter.h"
 #include "itkAccumulateImageFilter.txx"
-#include "itkAdaptiveHistogramEqualizationImageFilter.h"
 #include "itkAdaptiveHistogramEqualizationImageFilter.txx"
 #include "itkBinaryProjectionImageFilter.h"
-#include "itkGetAverageSliceImageFilter.h"
 #include "itkGetAverageSliceImageFilter.txx"
-#include "itkHistogramAlgorithmBase.h"
 #include "itkHistogramAlgorithmBase.txx"
-//#include "itkImageMomentsCalculator.h"  BUG  11909
+//BUG  11909
 //#include "itkImageMomentsCalculator.txx"
-#include "itkImagePCADecompositionCalculator.h"
 #include "itkImagePCADecompositionCalculator.txx"
-#include "itkImagePCAShapeModelEstimator.h"
 #include "itkImagePCAShapeModelEstimator.txx"
-#include "itkImageShapeModelEstimatorBase.h"
 #include "itkImageShapeModelEstimatorBase.txx"
-#include "itkLabelStatisticsImageFilter.h"
 #include "itkLabelStatisticsImageFilter.txx"
 #include "itkMaximumProjectionImageFilter.h"
 #include "itkMeanProjectionImageFilter.h"
 #include "itkMedianProjectionImageFilter.h"
-#include "itkMinimumMaximumImageFilter.h"
 #include "itkMinimumMaximumImageFilter.txx"
 #include "itkMinimumProjectionImageFilter.h"
-#include "itkNormalizedCorrelationImageFilter.h"
 #include "itkNormalizedCorrelationImageFilter.txx"
-#include "itkProjectionImageFilter.h"
 #include "itkProjectionImageFilter.txx"
 #include "itkStandardDeviationProjectionImageFilter.h"
-#include "itkStatisticsImageFilter.h"
 #include "itkStatisticsImageFilter.txx"
 #include "itkSumProjectionImageFilter.h"
 

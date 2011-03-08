@@ -18,6 +18,8 @@
 #ifndef __itkMembershipSample_txx
 #define __itkMembershipSample_txx
 
+#include "itkMembershipSample.h"
+
 namespace itk
 {
 namespace Statistics

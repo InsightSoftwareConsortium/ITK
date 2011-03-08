@@ -18,6 +18,8 @@
 #ifndef __itkManhattanDistanceMetric_txx
 #define __itkManhattanDistanceMetric_txx
 
+#include "itkManhattanDistanceMetric.h"
+
 namespace itk
 {
 namespace Statistics

@@ -18,6 +18,8 @@
 #ifndef __itkKdTreeGenerator_txx
 #define __itkKdTreeGenerator_txx
 
+#include  "itkKdTreeGenerator.h"
+
 namespace itk
 {
 namespace Statistics

@@ -18,6 +18,8 @@
 #ifndef __itkScalarImageToCooccurrenceListSampleFilter_txx
 #define __itkScalarImageToCooccurrenceListSampleFilter_txx
 
+#include "itkScalarImageToCooccurrenceListSampleFilter.h"
+
 namespace itk
 {
 namespace Statistics

@@ -18,6 +18,8 @@
 #ifndef __itkWeightedCentroidKdTreeGenerator_txx
 #define __itkWeightedCentroidKdTreeGenerator_txx
 
+#include "itkWeightedCentroidKdTreeGenerator.h"
+
 namespace itk
 {
 namespace Statistics

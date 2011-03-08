@@ -19,7 +19,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMahalanobisDistanceMetric.h"
+#include "itkMahalanobisDistanceMetric.txx"
 
 int itkMahalanobisDistanceMetricTest(int, char* [] )
 {
