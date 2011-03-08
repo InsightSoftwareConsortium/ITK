@@ -92,7 +92,7 @@ for line in open("./Manifest.txt",'r'):
             # copying files to the destination
             if not  os.path.isdir(outputPath):
                 os.makedirs(outputPath)
-            os.system('mv -f ' +inputPath+'  '+ outputPath)
+            os.system('mv -f ' +inputPath+'/*  '+ outputPath)
 
             if len(moduleList) == 0:
                moduleList.append(moduleName)
