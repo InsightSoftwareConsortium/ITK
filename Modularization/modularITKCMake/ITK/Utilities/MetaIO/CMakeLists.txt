@@ -24,7 +24,6 @@ list(APPEND ITK-MetaIO_INCLUDE_DIRS \"${ITK-MetaIO_INCLUDE_DIRS}\")
 else()
   set(ITK-MetaIO-target ITKMetaIO)
   set(ITK-MetaIO_INCLUDE_DIRS
-    ${ITK-MetaIO_BINARY_DIR}
     ${ITK-MetaIO_SOURCE_DIR}/src/MetaIO
     )
   set(ITK-MetaIO_LIBRARIES ITKMetaIO)
