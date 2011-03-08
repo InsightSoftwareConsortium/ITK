@@ -23,6 +23,7 @@
 #endif
 
 #include "itkBinaryMask3DMeshSource.h"
+#include "itkContinuousIndex.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -2397,7 +2398,10 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
       {
       m_PointFound = 1;
 
-      OPointType indTemp;
+      typedef typename OPointType::ValueType    PointValueType;
+      typedef ContinuousIndex<PointValueType,3> ContinuousIndexType;
+
+      ContinuousIndexType indTemp;
       indTemp[0] = m_LocationOffset[nodesid[i]][0]
                    + ( index % m_ImageWidth )
                    + m_RegionOfInterest.GetIndex()[0];
@@ -2408,19 +2412,11 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
                    + ( index / ( m_ImageWidth * m_ImageHeight ) )
                    + m_RegionOfInterest.GetIndex()[2];
 
-      InputImageIndexType temp_index;
-      typedef typename InputImageIndexType::IndexValueType IndexValueType;
-
-      for( int dim = 0; dim < 3; dim++ )
-        {
-        temp_index[dim] = static_cast< IndexValueType >( indTemp[dim] );
-        }
 
       // We transform the point to the physical space since the mesh does not
       // have the notion
       // of spacing and origin
-      this->GetInput(0)->TransformIndexToPhysicalPoint(temp_index,new_p);
-
+      this->GetInput()->TransformContinuousIndexToPhysicalPoint(indTemp,new_p);
       this->GetOutput()->SetPoint(m_NumberOfNodes, new_p);
 
       switch ( nodesid[i] )

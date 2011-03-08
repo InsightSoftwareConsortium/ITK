@@ -115,7 +115,7 @@ public:
   typedef typename InputImageType::SizeType     SizeType;
 
   /** Type definition for the classified image index type. */
-  typedef typename InputImageType::IndexType InputImageIndexType;
+  typedef typename InputImageType::IndexType           InputImageIndexType;
 
   typedef ImageRegionConstIterator< InputImageType > InputImageIterator;
 
