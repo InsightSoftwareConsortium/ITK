@@ -24,15 +24,15 @@ list(APPEND ITK-JPEG_LIBRARY_DIRS \"${ITK-JPEG_LIBRARY_DIR}\")
 else()
   set(ITK-JPEG-target itkjpeg)
   set(ITK-JPEG_INCLUDE_DIRS
-    ${ITK-JPEG_BINARY_DIR}
-    ${ITK-JPEG_SOURCE_DIR}/include/itkjpeg
+    ${ITK-JPEG_BINARY_DIR}/src
+    ${ITK-JPEG_SOURCE_DIR}/src
     )
   set(ITK-JPEG_LIBRARIES itkjpeg)
 endif()
 
-configure_file(src/itk_jpeg.h.in itk_jpeg.h)
+configure_file(src/itk_jpeg.h.in src/itk_jpeg.h)
 
 itk_module_impl()
 
-install(FILES ${ITK-JPEG_BINARY_DIR}/itk_jpeg.h
+install(FILES ${ITK-JPEG_BINARY_DIR}/src/itk_jpeg.h
   DESTINATION ${ITK-JPEG_INSTALL_INCLUDE_DIR})
