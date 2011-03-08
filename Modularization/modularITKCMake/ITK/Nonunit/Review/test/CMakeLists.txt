@@ -46,6 +46,7 @@ itkCompositeTransformTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 itkContourExtractor2DImageFilterTest.cxx
+itkConvertLabelMapFilterTest1.cxx
 itkConvolutionImageFilterTest.cxx
 itkConvolutionImageFilterTestInt.cxx
 itkCoxDeBoorBSplineKernelFunctionTest.cxx
@@ -74,6 +75,7 @@ itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx
 itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
 itkImageReadRealAndImaginaryWriteComplexTest.cxx
+itkImageFunctionTest.cxx
 itkJPEG2000ImageIOFactoryTest01.cxx
 itkJPEG2000ImageIORegionOfInterest.cxx
 itkJPEG2000ImageIOTest00.cxx
@@ -94,11 +96,13 @@ itkLabelMapContourOverlayImageFilterTest1.cxx
 itkLabelMapFilterTest.cxx
 itkLabelMapMaskImageFilterTest.cxx
 itkLabelMapOverlayImageFilterTest1.cxx
+itkLabelMapOverlayImageFilterTest2.cxx
 itkLabelMapTest.cxx
 itkLabelMapToAttributeImageFilterTest1.cxx
 itkLabelMapToBinaryImageFilterTest.cxx
 itkLabelMapToLabelImageFilterTest.cxx
 itkLabelMapToRGBImageFilterTest1.cxx
+itkLabelMapToRGBImageFilterTest2.cxx
 itkLabelObjectLineComparatorTest.cxx
 itkLabelObjectLineTest.cxx
 itkLabelObjectTest.cxx
@@ -487,6 +491,12 @@ add_test(NAME itkConformalFlatteningQuadEdgeMeshFilterTest2
 add_test(NAME itkContourExtractor2DImageFilterTest
       COMMAND ITK-ReviewTestDriver itkContourExtractor2DImageFilterTest
               ${ITK_DATA_ROOT}/Input/ContourExtractor2DTest.tif)
+add_test(NAME itkConvertLabelMapFilterTest1
+      COMMAND ITK-ReviewTestDriver
+  --compare ${INPUTDATA}/cthead1Label.png
+            ${TEMP}/cthead1-convert.png
+  itkConvertLabelMapFilterTest1 ${INPUTDATA}/cthead1Label.png ${TEMP}/cthead1-convert.png
+  )
 add_test(NAME itkConvolutionImageFilterTestSobelX
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTestSobelX.nii.gz
@@ -689,6 +699,8 @@ add_test(NAME itkImageReadMagnitudeAndPhaseWriteComplexTest
 add_test(NAME itkImageReadRealAndImaginaryWriteComplexTest
       COMMAND ITK-ReviewTestDriver itkImageReadRealAndImaginaryWriteComplexTest
               ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
+add_test(NAME itkImageFunctionTest
+      COMMAND ITK-ReviewTestDriver itkImageFunctionTest)
 add_test(NAME itkJPEG2000Test00
       COMMAND ITK-ReviewTestDriver itkJPEG2000ImageIORegionOfInterest
               ${ITK_DATA_ROOT}/Input/Bretagne1.j2k ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif 160 120 320 240)
@@ -890,6 +902,11 @@ add_test(NAME itkLabelMapOverlayImageFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapOverlayImageFilterTest1.png
               ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest1.png
     itkLabelMapOverlayImageFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest1.png 0.3)
+add_test(NAME y$itkLabelMapOverlayImageFilterTest2
+      COMMAND ITK-ReviewTestDriver
+  --compare ${BASELINE}/itkLabelMapOverlayImageFilterTest1.png
+            ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
+  itkLabelMapOverlayImageFilterTest2 ${INPUTDATA}/cthead1Label.png ${INPUTDATA}/cthead1.png ${TEMP}/itkLabelMapOverlayImageFilterTest1.png 0.3)
 add_test(NAME itkLabelMapTest
       COMMAND ITK-ReviewTestDriver itkLabelMapTest)
 add_test(NAME itkLabelMapToAttributeImageFilterTest1
@@ -909,6 +926,11 @@ add_test(NAME itkLabelMapToRGBImageFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapToRGBImageFilterTest1.png
               ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest1.png
     itkLabelMapToRGBImageFilterTest1 ${ITK_DATA_ROOT}/Input/SpotsLabeled.png ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest1.png)
+add_test(NAME itkLabelMapToRGBImageFilterTest2
+      COMMAND ITK-ReviewTestDriver
+  --compare ${BASELINE}/itkLabelMapToRGBImageFilterTest1.png
+            ${TEMP}/itkLabelMapToRGBImageFilterTest1.png
+  itkLabelMapToRGBImageFilterTest2 ${INPUTDATA}/SpotsLabeled.png ${TEMP}/itkLabelMapToRGBImageFilterTest1.png)
 add_test(NAME itkLabelObjectLineComparatorTest
       COMMAND ITK-ReviewTestDriver itkLabelObjectLineComparatorTest)
 add_test(NAME itkLabelObjectLineTest
