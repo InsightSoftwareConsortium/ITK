@@ -1,0 +1,15 @@
+This code is inteded to perform a registration between 3D images using the
+Insight Toolkit ITK.
+
+The driving scenario for this registration is the alignment of 3D mouse brain
+images with a 3D atlas.
+
+See
+
+http://www.incf.org
+http://www.itk.org
+http://www.alleninstitute.org
+
+
+This code is copyrighted by the Insight Software Consortium
+and it is distributed under the Apache 2 license.
