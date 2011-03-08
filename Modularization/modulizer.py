@@ -112,7 +112,7 @@ for line in open("./Manifest.txt",'r'):
             elif fileExt == 'cxx' or fileExt =='c' or fileExt == 'in' or fileExt == 'cl' :
                subdir = '/src'
             if 'Test' in itkFileName or 'test' in itkFileName:
-               if fileExt =='h':
+               if fileExt =='h' or fileExt == 'txx':
                   subdir ='/include'
                else:
                   subdir = '/test'

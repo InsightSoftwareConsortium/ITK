@@ -19,6 +19,7 @@
 #define __itkWatershedRelabeler_txx
 
 #include "itkImageRegionIterator.h"
+#include "itkWatershedRelabeler.h"
 
 namespace itk
 {

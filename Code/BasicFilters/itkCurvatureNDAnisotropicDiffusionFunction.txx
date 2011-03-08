@@ -18,6 +18,8 @@
 #ifndef __itkCurvatureNDAnisotropicDiffusionFunction_txx
 #define __itkCurvatureNDAnisotropicDiffusionFunction_txx
 
+#include "itkCurvatureNDAnisotropicDiffusionFunction.h"
+
 namespace itk
 {
 template< class TImage >

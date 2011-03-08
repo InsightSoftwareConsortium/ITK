@@ -18,6 +18,8 @@
 #ifndef __itkQuadEdgeMeshPolygonCell_h
 #define __itkQuadEdgeMeshPolygonCell_h
 
+#include "itkTriangleCell.h"
+#include "itkQuadEdgeMeshLineCell.h"
 namespace itk
 {
 /** \class QuadEdgeMeshPolygonCell
