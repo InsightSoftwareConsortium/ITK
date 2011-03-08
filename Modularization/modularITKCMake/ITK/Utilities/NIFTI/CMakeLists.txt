@@ -22,7 +22,6 @@ list(APPEND ITK-NIFTI_INCLUDE_DIRS \"${ITK-NIFTI_INCLUDE_DIRS}\")
 else()
   set(ITK-NIFTI-target ITKniftiio)
   set(ITK-NIFTI_INCLUDE_DIRS
-    ${ITK-NIFTI_BINARY_DIR}
     ${ITK-NIFTI_SOURCE_DIR}/src/nifti/niftilib
     ${ITK-NIFTI_SOURCE_DIR}/src/nifti/znzlib
     )
@@ -30,10 +29,3 @@ else()
 endif()
 
 itk_module_impl()
-
-if (NOT ITK_USE_SYSTEM_NIFTI)
-  itk_module_target_name(ITKznz)
-  itk_module_target_export(ITKznz)
-  itk_module_target_name(ITKniftiio)
-  itk_module_target_export(ITKniftiio)
-endif()
