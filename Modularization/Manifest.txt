@@ -1768,14 +1768,14 @@ Code/GPU/itkGPUImage.h                                                          
 Code/GPU/itkGPUImage.txx                                                         GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUImageDataManager.h                                                GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUImageDataManager.txx                                              GPU             ITK-GPUCommon                  Common
+Code/GPU/itkGPUImageFilterTest.cxx                                               GPU             ITK-GPUCommon                  Common
+Code/GPU/itkGPUImageTest.cxx                                                     GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUImageToImageFilter.h                                              GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUImageToImageFilter.txx                                            GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUKernelManager.cxx                                                 GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUKernelManager.h                                                   GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUMeanImageFilter.h                                                 GPU             ITK-GPUCommon                  Common
 Code/GPU/itkGPUMeanImageFilter.txx                                               GPU             ITK-GPUCommon                  Common
-Code/GPU/itkGPUImageFilterTest.cxx  GPU             ITK-GPUCommon                  Common
-Code/GPU/itkGPUImageTest.cxx  GPU             ITK-GPUCommon                  Common
 Code/GPU/itkOclUtil.cxx                                                          GPU             ITK-GPUCommon                  Common
 Code/GPU/itkOclUtil.h                                                            GPU             ITK-GPUCommon                  Common
 Code/GPU/pathToOpenCLSourceCode.h.in                                             GPU             ITK-GPUCommon                  Common
@@ -2305,6 +2305,7 @@ Code/Numerics/itkVersorRigid3DTransformOptimizer.cxx                            
 Code/Numerics/itkVersorRigid3DTransformOptimizer.h                               Numerics        ITK-Optimizers                 Optimizers
 Code/Numerics/itkVersorTransformOptimizer.cxx                                    Numerics        ITK-Optimizers                 Optimizers
 Code/Numerics/itkVersorTransformOptimizer.h                                      Numerics        ITK-Optimizers                 Optimizers
+Code/Review/README.txt                                                           Nonunit         ITK-Review                     Review
 Code/Review/itkAddConstantToImageFilter.h                                        Nonunit         ITK-Review                     Review
 Code/Review/itkAggregateLabelMapFilter.h                                         Nonunit         ITK-Review                     Review
 Code/Review/itkAggregateLabelMapFilter.txx                                       Nonunit         ITK-Review                     Review
@@ -2399,6 +2400,8 @@ Code/Review/itkConformalFlatteningMeshFilter.txx                                
 Code/Review/itkConstrainedRegionBasedLevelSetFunctionSharedData.h                Nonunit         ITK-Review                     Review
 Code/Review/itkContourExtractor2DImageFilter.h                                   Nonunit         ITK-Review                     Review
 Code/Review/itkContourExtractor2DImageFilter.txx                                 Nonunit         ITK-Review                     Review
+Code/Review/itkConvertLabelMapFilter.h                                           Nonunit         ITK-Review                     Review
+Code/Review/itkConvertLabelMapFilter.txx                                         Nonunit         ITK-Review                     Review
 Code/Review/itkConvolutionImageFilter.h                                          Nonunit         ITK-Review                     Review
 Code/Review/itkConvolutionImageFilter.txx                                        Nonunit         ITK-Review                     Review
 Code/Review/itkCoolColormapFunction.h                                            Nonunit         ITK-Review                     Review
@@ -2802,6 +2805,7 @@ Migration/MetaArrowFixMemoryLeaksAndConvertToITKObject.xml                      
 Migration/MoveGetSetLengthMeasurementVectorTraits.xml                            Utilities       ITK-Migration                  Migration
 Migration/OStringStreamRemoved.xml                                               Utilities       ITK-Migration                  Migration
 Migration/OrientationAdapterBaseRename.xml                                       Utilities       ITK-Migration                  Migration
+Migration/PolygonGroupOrientationMovedToPolygonSpatialObject.xml                 Utilities       ITK-Migration                  Migration
 Migration/QuadEdgeMesh-Changes.xml                                               Utilities       ITK-Migration                  Migration
 Migration/RealTimeClockAPIChanges.xml                                            Utilities       ITK-Migration                  Migration
 Testing/Code/Algorithms/itk2DDeformableTest.cxx                                  Nonunit         ITK-Deprecated                 Deprecated
@@ -2857,9 +2861,6 @@ Testing/Code/Algorithms/itkFEMRegistrationFilterTest.cxx                        
 Testing/Code/Algorithms/itkFFTTest.h                                             Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkFFTWD_FFTTest.cxx                                     Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkFFTWF_FFTTest.cxx                                     Filtering       ITK-FFT                        FFT
-Testing/Code/Algorithms/itkVnlFFTTest.cxx                                        Filtering       ITK-FFT                        FFT
-Testing/Code/Algorithms/itkVnlFFTWD_FFTTest.cxx                                  Filtering       ITK-FFT                        FFT
-Testing/Code/Algorithms/itkVnlFFTWF_FFTTest.cxx                                  Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkFastChamferDistanceImageFilterTest.cxx                Filtering       ITK-DistanceMap                DistanceMap
 Testing/Code/Algorithms/itkFastMarchingExtensionImageFilterTest.cxx              Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkFastMarchingTest.cxx                                  Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -2968,6 +2969,9 @@ Testing/Code/Algorithms/itkThresholdMaximumConnectedComponentsImageFilterTest.cx
 Testing/Code/Algorithms/itkThresholdSegmentationLevelSetImageFilterTest.cxx      Segmentation    ITK-LevelSets                  LevelSets
 Testing/Code/Algorithms/itkUnsharpMaskLevelSetImageFilterTest.cxx                Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx Segmentation    ITK-LevelSets                  LevelSets
+Testing/Code/Algorithms/itkVnlFFTTest.cxx                                        Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkVnlFFTWD_FFTTest.cxx                                  Filtering       ITK-FFT                        FFT
+Testing/Code/Algorithms/itkVnlFFTWF_FFTTest.cxx                                  Filtering       ITK-FFT                        FFT
 Testing/Code/Algorithms/itkVoronoiDiagram2DTest.cxx                              Segmentation    ITK-Voronoi                    Voronoi
 Testing/Code/Algorithms/itkVoronoiPartitioningImageFilterTest.cxx                Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Algorithms/itkVoronoiSegmentationImageFilterTest.cxx                Segmentation    ITK-Voronoi                    Voronoi
@@ -3513,13 +3517,13 @@ Testing/Code/IO/ImageCompareCommand.cxx                                         
 Testing/Code/IO/ImageCopy.cxx                                                    Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/LittleEndian_hdr.h                                               IO              ITK-IO-Base                    Base
 Testing/Code/IO/LittleEndian_img.h                                               IO              ITK-IO-Base                    Base
+Testing/Code/IO/itkAnalyzeImageIOBadHeader.cxx                                   Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkAnalyzeImageIODirectionsTest.cxx                              Nonunit         ITK-Deprecated                 Deprecated
+Testing/Code/IO/itkAnalyzeImageIORGBImageTest.cxx                                Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkAnalyzeImageIOTest.cxx                                        Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkAnalyzeImageIOTest.h                                          Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkAnalyzeImageIOTest2.cxx                                       Nonunit         ITK-Deprecated                 Deprecated
-Testing/Code/IO/itkAnalyzeImageIORGBImageTest.cxx                                Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkAnalyzeImageIOTestHelper.cxx                                  Nonunit         ITK-Deprecated                 Deprecated
-Testing/Code/IO/itkAnalyzeImageIOBadHeader.cxx                                   Nonunit         ITK-Deprecated                 Deprecated
 Testing/Code/IO/itkArchetypeSeriesFileNamesTest.cxx                              IO              ITK-IO-Base                    Base
 Testing/Code/IO/itkBMPImageIOTest.cxx                                            IO              ITK-IO-BMP                     BMP
 Testing/Code/IO/itkBMPImageIOTest2.cxx                                           IO              ITK-IO-BMP                     BMP
@@ -3579,6 +3583,8 @@ Testing/Code/IO/itkMetaImageStreamingIOTest.cxx                                 
 Testing/Code/IO/itkMetaImageStreamingWriterIOTest.cxx                            Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkNiftiImageIOTest.cxx                                          IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest.h                                            IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest10.cxx                                        IO              ITK-IO-NIFTI                   NIFTI
+Testing/Code/IO/itkNiftiImageIOTest11.cxx                                        IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest2.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest3.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest4.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
@@ -3587,8 +3593,6 @@ Testing/Code/IO/itkNiftiImageIOTest6.cxx                                        
 Testing/Code/IO/itkNiftiImageIOTest7.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest8.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTest9.cxx                                         IO              ITK-IO-NIFTI                   NIFTI
-Testing/Code/IO/itkNiftiImageIOTest10.cxx                                        IO              ITK-IO-NIFTI                   NIFTI
-Testing/Code/IO/itkNiftiImageIOTest11.cxx                                        IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNiftiImageIOTestHelper.cxx                                    IO              ITK-IO-NIFTI                   NIFTI
 Testing/Code/IO/itkNrrdComplexImageReadTest.cxx                                  Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/itkNrrdComplexImageReadWriteTest.cxx                             Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -3648,6 +3652,7 @@ Testing/Code/IO/testMetaScene.cxx                                               
 Testing/Code/IO/testMetaSurface.cxx                                              Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/testMetaTube.cxx                                                 Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/IO/testMetaUtils.cxx                                                Nonunit         ITK-IntegratedTest             IntegratedTest
+Testing/Code/Numerics/FEM/README                                                 Numerics        ITK-FEM                        FEM
 Testing/Code/Numerics/FEM/itkFEMElement2DMembraneTest.cxx                        Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/FEM/itkFEMElement2DQuadraticTriangularTest.cxx             Nonunit         ITK-IntegratedTest             IntegratedTest
 Testing/Code/Numerics/FEM/itkFEMElement2DStrainTest.cxx                          Nonunit         ITK-IntegratedTest             IntegratedTest
@@ -3841,6 +3846,7 @@ Testing/Code/Review/itkCompositeTransformTest.cxx                               
 Testing/Code/Review/itkConformalFlatteningMeshFilterTest.cxx                     Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkConformalFlatteningQuadEdgeMeshFilterTest.cxx             Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkContourExtractor2DImageFilterTest.cxx                     Nonunit         ITK-Review                     Review
+Testing/Code/Review/itkConvertLabelMapFilterTest1.cxx                            Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkConvolutionImageFilterTest.cxx                            Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkConvolutionImageFilterTestInt.cxx                         Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkCoxDeBoorBSplineKernelFunctionTest.cxx                    Nonunit         ITK-Review                     Review
@@ -3869,6 +3875,7 @@ Testing/Code/Review/itkGridForwardWarpImageFilterTest.cxx                       
 Testing/Code/Review/itkGridImageSourceTest.cxx                                   Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkHeavisideStepFunctionTest1.cxx                            Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkHessianToObjectnessMeasureImageFilterTest.cxx             Nonunit         ITK-Review                     Review
+Testing/Code/Review/itkImageFunctionTest.cxx                                     Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx            Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx            Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkImageReadRealAndImaginaryWriteComplexTest.cxx             Nonunit         ITK-Review                     Review
@@ -3892,11 +3899,13 @@ Testing/Code/Review/itkLabelMapContourOverlayImageFilterTest1.cxx               
 Testing/Code/Review/itkLabelMapFilterTest.cxx                                    Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelMapMaskImageFilterTest.cxx                           Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelMapOverlayImageFilterTest1.cxx                       Nonunit         ITK-Review                     Review
+Testing/Code/Review/itkLabelMapOverlayImageFilterTest2.cxx                       Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelMapTest.cxx                                          Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelMapToAttributeImageFilterTest1.cxx                   Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelMapToBinaryImageFilterTest.cxx                       Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelMapToLabelImageFilterTest.cxx                        Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelMapToRGBImageFilterTest1.cxx                         Nonunit         ITK-Review                     Review
+Testing/Code/Review/itkLabelMapToRGBImageFilterTest2.cxx                         Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelObjectLineComparatorTest.cxx                         Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelObjectLineTest.cxx                                   Nonunit         ITK-Review                     Review
 Testing/Code/Review/itkLabelObjectTest.cxx                                       Nonunit         ITK-Review                     Review
@@ -4047,12 +4056,3 @@ Utilities/itkExtHdrs/Ge4xHdr.h                                                  
 Utilities/itkExtHdrs/Ge5xHdr.h                                                   IO              ITK-IO-GE                      GE
 Utilities/itkExtHdrs/itkAnalyzeDbh.h                                             Nonunit         ITK-Deprecated                 Deprecated
 itkConfigure.h.in                                                                Core            ITK-Common                     Common
-Code/Review/itkConvertLabelMapFilter.h  Nonunit ITK-Review Review
-Code/Review/itkConvertLabelMapFilter.txx  Nonunit ITK-Review Review
-Code/Review/README.txt  Nonunit ITK-Review Review
-Migration/PolygonGroupOrientationMovedToPolygonSpatialObject.xml   Utilities       ITK-Migration                  Migration
-Testing/Code/Numerics/FEM/README  Numerics ITK-FEM FEM
-Testing/Code/Review/itkConvertLabelMapFilterTest1.cxx  Nonunit ITK-Review Review
-Testing/Code/Review/itkImageFunctionTest.cxx  Nonunit ITK-Review Review
-Testing/Code/Review/itkLabelMapOverlayImageFilterTest2.cxx  Nonunit ITK-Review Review
-Testing/Code/Review/itkLabelMapToRGBImageFilterTest2.cxx  Nonunit ITK-Review Review
