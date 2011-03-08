@@ -191,7 +191,7 @@ for  moduleName in moduleList:
         o = open(headerTestFileName,'w')
         fileList =  glob.glob(filePath +'/*.*')
         includeList = ''
-        # only keep the .txx, if both .txx and .h exsit
+        # only keep the .txx, if both .txx and .h exist
         for filePath in fileList:
             fileName = filePath.split('/')[-1];
             if fileName[-4:] == '.txx' :
