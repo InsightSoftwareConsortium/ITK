@@ -26,17 +26,15 @@
  *
  *=========================================================================*/
 
-#ifndef __itk_jpeg_h
-#define __itk_jpeg_h
+#ifndef __itk_tiff_h
+#define __itk_tiff_h
 
-/* Use the jpeg library configured for ITK.  */
-#include "itkThirdParty.h"
-#ifdef ITK_USE_SYSTEM_JPEG
-# include <jpeglib.h>
-# include <jerror.h>
+/* Use the tiff library configured for ITK.  */
+#cmakedefine ITK_USE_SYSTEM_TIFF
+#ifdef ITK_USE_SYSTEM_TIFF
+# include <tiffio.h>
 #else
-# include <itkjpeg/jpeglib.h>
-# include <itkjpeg/jerror.h>
+# include "itktiff/tiffio.h"
 #endif
 
 #endif

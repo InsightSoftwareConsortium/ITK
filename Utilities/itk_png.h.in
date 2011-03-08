@@ -30,7 +30,7 @@
 #define __itk_png_h
 
 /* Use the png library configured for ITK.  */
-#include "itkThirdParty.h"
+#cmakedefine ITK_USE_SYSTEM_PNG
 #ifdef ITK_USE_SYSTEM_PNG
 # include <png.h>
 #else
