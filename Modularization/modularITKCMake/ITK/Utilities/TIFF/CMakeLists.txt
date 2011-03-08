@@ -24,14 +24,15 @@ list(APPEND ITK-TIFF_INCLUDE_DIRS \"${ITK-TIFF_INCLUDE_DIRS}\")
 else()
   set(ITK-TIFF-target itktiff)
   set(ITK-TIFF_INCLUDE_DIRS
-    ${ITK-TIFF_BINARY_DIR}
+    ${ITK-TIFF_BINARY_DIR}/src
+    ${ITK-TIFF_SOURCE_DIR}/src
     )
   set(ITK-TIFF_LIBRARIES itktiff)
 endif()
 
-configure_file(src/itk_tiff.h.in itk_tiff.h)
+configure_file(src/itk_tiff.h.in src/itk_tiff.h)
 
 itk_module_impl()
 
-install(FILES ${ITK-TIFF_BINARY_DIR}/itk_tiff.h
+install(FILES ${ITK-TIFF_BINARY_DIR}/src/itk_tiff.h
   DESTINATION ${ITK-TIFF_INSTALL_INCLUDE_DIR})
