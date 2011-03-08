@@ -660,7 +660,7 @@ if(USE_FFTWD)
 endif(USE_FFTWD)
 set(FFTTest_SRCS
   itkFFTWD_FFTTest.cxx
-  itkFFTWF_FFTTEST.cxx
+  itkFFTWF_FFTTest.cxx
   itkVnlFFTTest.cxx
   itkVnlFFTWD_FFTTest.cxx
   itkVnlFFTWF_FFTTest.cxx
