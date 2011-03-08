@@ -24,12 +24,13 @@ list(APPEND ITK-VNL_LIBRARY_DIRS \"${VXL_LIBRARY_DIR}\")
 else()
   set(ITK-VNL-target itkvnl)
   set(ITK-VNL_INCLUDE_DIRS
-    ${ITK-VNL_SOURCE_DIR}/src/v3p/netlib
-    ${ITK-VNL_SOURCE_DIR}/src/vcl
-    ${ITK-VNL_SOURCE_DIR}/src/core
-    ${ITK-VNL_BINARY_DIR}/src/v3p/netlib
-    ${ITK-VNL_BINARY_DIR}/src/vcl
-    ${ITK-VNL_BINARY_DIR}/src/core
+    ${ITK-VNL_SOURCE_DIR}/src/vxl/v3p/netlib
+    ${ITK-VNL_SOURCE_DIR}/src/vxl/vcl
+    ${ITK-VNL_SOURCE_DIR}/src/vxl/core
+    ${ITK-VNL_BINARY_DIR}/src/vxl/v3p/netlib
+    ${ITK-VNL_BINARY_DIR}/src/vxl/vcl
+    ${ITK-VNL_BINARY_DIR}/src/vxl/core
+
     )
   set(ITK-VNL_LIBRARIES itkvnl_algo itkvnl itkv3p_netlib)
 endif()
