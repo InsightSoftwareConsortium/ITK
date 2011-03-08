@@ -78,6 +78,8 @@ int main( int argc, char * argv [] )
   changer->SetInput( reader->GetOutput() );
   writer->SetInput( changer->GetOutput() );
 
+  writer->UseCompressionOn();
+
   try
     {
     writer->Update();
