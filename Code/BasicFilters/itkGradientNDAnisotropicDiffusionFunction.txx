@@ -19,6 +19,7 @@
 #define __itkGradientNDAnisotropicDiffusionFunction_txx
 
 #include "itkNumericTraits.h"
+#include "itkGradientNDAnisotropicDiffusionFunction.h"
 
 namespace itk
 {

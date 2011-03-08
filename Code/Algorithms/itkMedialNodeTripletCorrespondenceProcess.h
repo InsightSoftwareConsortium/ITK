@@ -28,6 +28,7 @@
 
 #include "itkCorrespondenceDataStructure.h"
 #include "itkCorrespondenceDataStructureIterator.h"
+#include "itkCorrespondingMedialNodeClique.h"
 
 namespace itk
 {
