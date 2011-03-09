@@ -265,16 +265,18 @@ for  moduleName in moduleList:
 #----------------------------------------------------------------------------------------------------
 
 # clean up remaining  directories
-copyDirList = ['Testing/Data', 'Examples', 'Validation', 'Documentation', 'Wrapping', 'Testing/HTML']
+copyDirList = ['Testing/Data', 'Examples', 'Validation', 'Documentation', 'Wrapping', 'Testing/HTML', 'Migration']
 if not os.path.isdir(HeadOfModularITKTree+'/Testing'):
      os.system('mkdir  '+ HeadOfModularITKTree+'/Testing')
 for copyDir in copyDirList:
      os.system('mv -f '+HeadOfTempTree+'/'+copyDir+ '  '+ HeadOfModularITKTree +'/'+copyDir)
 
 # clean up utilities
-copyDirList= ['Dart',  'DevelopmentSetupScripts','KWStyle','SetupForDevelopment.sh','Doxygen','Maintenance']
+copyDirList= ['Dart', 'Hooks', 'DevelopmentSetupScripts','KWStyle','SetupForDevelopment.sh','Doxygen','Maintenance']
 for copyDir in  copyDirList:
-      os.system('mv -f '+HeadOfTempTree+'/Utilities/'+copyDir+ '  '+ HeadOfModularITKTree +'/ITK/Utilities/'+copyDir)
+      if not os.path.isdir(HeadOfModularITKTree+'/Utilities'):
+           os.system('mkdir  '+ HeadOfModularITKTree+'/Utilities')
+      os.system('mv -f '+HeadOfTempTree+'/Utilities/'+copyDir+ '  '+ HeadOfModularITKTree +'/Utilities/'+copyDir)
 
 
 # list the new files
