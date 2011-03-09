@@ -23,7 +23,8 @@ list(APPEND ITK-Expat_INCLUDE_DIRS \"${ITK-Expat_INCLUDE_DIRS}\")
 else()
   set(ITK-Expat-target ITKEXPAT)
   set(ITK-Expat_INCLUDE_DIRS
-    ${ITK-Expat_BINARY_DIR}
+    ${ITK-Expat_BINARY_DIR}/src/expat
+    ${ITK-Expat_SOURCE_DIR}/src/expat
     )
   set(ITK-Expat_LIBRARIES ITKEXPAT)
 endif()
