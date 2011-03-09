@@ -150,10 +150,10 @@ endif()
 
   configure_file(${_itk_base_dir}/itk-module-config-build.cmake.in ${itk-module}Config.cmake @ONLY)
   configure_file(${_itk_base_dir}/itk-module-config-install.cmake.in CMakeFiles/${itk-module}Config.cmake @ONLY)
-  configure_file(${_itk_base_dir}/itk-module-config-version.cmake.in ${itk-module}Config-version.cmake @ONLY)
+  configure_file(${_itk_base_dir}/itk-module-config-version.cmake.in ${itk-module}ConfigVersion.cmake @ONLY)
   install(FILES
     ${${itk-module}_BINARY_DIR}/CMakeFiles/${itk-module}Config.cmake
-    ${${itk-module}_BINARY_DIR}/${itk-module}-Config-version.cmake
+    ${${itk-module}_BINARY_DIR}/${itk-module}ConfigVersion.cmake
     DESTINATION lib/cmake/${itk-module}-${itk-version}
     )
   if(${itk-module}-STANDALONE AND itk-module-export-targets)
