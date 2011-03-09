@@ -4022,6 +4022,7 @@ Testing/Code/SpatialObject/itkSpatialObjectPrintTest.cxx                        
 Testing/Code/SpatialObject/itkSpatialObjectTreeContainerTest.cxx                 Core            ITK-SpatialObjects             SpatialObjects
 Testing/Code/SpatialObject/itkSurfaceSpatialObjectTest.cxx                       Core            ITK-SpatialObjects             SpatialObjects
 Testing/Code/SpatialObject/itkTubeSpatialObjectTest.cxx                          Core            ITK-SpatialObjects             SpatialObjects
+Testing/Utilities/CreateTestDriver.cmake                                         -               -                              CMake
 Testing/Utilities/itkTestDriverAfterTest.inc                                     Core            ITK-TestKernel                 TestKernel
 Testing/Utilities/itkTestDriverBeforeTest.inc                                    Core            ITK-TestKernel                 TestKernel
 Testing/Utilities/itkTestDriverInclude.h                                         Core            ITK-TestKernel                 TestKernel
