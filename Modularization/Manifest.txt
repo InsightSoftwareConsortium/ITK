@@ -4040,6 +4040,7 @@ Utilities/expat                                                                 
 Utilities/gdcm                                                                   Utilities       ITK-GDCM                       GDCM/src/gdcm
 Utilities/itkExtHdrs/Ge4xHdr.h                                                   IO              ITK-IO-GE                      GE
 Utilities/itkExtHdrs/Ge5xHdr.h                                                   IO              ITK-IO-GE                      GE
+Utilities/itkExtHdrs/fdstream.hpp                                                IO              ITK-IO-Base                    Base/include/itkfdstream
 Utilities/itkExtHdrs/itkAnalyzeDbh.h                                             Nonunit         ITK-Deprecated                 Deprecated
 Utilities/itk_jpeg.h.in                                                          Utilities       ITK-JPEG                       JPEG/src
 Utilities/itk_png.h.in                                                           Utilities       ITK-PNG                        PNG/src
