@@ -18,6 +18,7 @@
 #ifndef __itkMetaEvent_h
 #define __itkMetaEvent_h
 
+#include "itkMacro.h"
 #include "metaEvent.h"
 
 namespace itk
@@ -25,7 +26,7 @@ namespace itk
 /** \class MetaEvent
  * \brief Event abstract class
  */
-class ITK_EXPORT MetaEvent:public::MetaEvent
+class ITK_EXPORT MetaEvent : public :: MetaEvent
 {
 public:
 
