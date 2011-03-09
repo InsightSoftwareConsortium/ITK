@@ -7,7 +7,6 @@ set(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
 # Create a header to hold the options for use of third party
 # utilities.
 foreach(h
-    itkThirdParty.h
     itk_jpeg.h
     itk_png.h
     itk_tiff.h
@@ -95,52 +94,6 @@ mark_as_advanced(
   OpenJPEG_DIR
   )
 
-#
-# Handle the special case of building libxml2
-#  Fetch libxml2 using subversion if requested
-if(ITK_USE_LIBXML2)
-  if(NOT ITK_USE_SYSTEM_LIBXML2)
-    if(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
-      add_subdirectory( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
-    else(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
-      if(NOT SVNCOMMAND)
-        if(Subversion_SVN_EXECUTABLE)
-          set(SVNCOMMAND ${Subversion_SVN_EXECUTABLE})
-        else(Subversion_SVN_EXECUTABLE)
-          find_package(Subversion REQUIRED)
-          if(Subversion_SVN_FOUND)
-            set(SVNCOMMAND ${Subversion_SVN_EXECUTABLE})
-          else(Subversion_SVN_FOUND)
-            message(FATAL_ERROR "Subversion is required to install itklibxml2.  Point SVNCOMMAND to your svn executable.")
-          endif(Subversion_SVN_FOUND)
-        endif(Subversion_SVN_EXECUTABLE)
-      endif(NOT SVNCOMMAND)
-      set(svnCmd "co")
-      set(svnRevFlag "-r")
-      set(svnRevNum  "188")
-      set(svnSite "https://www.kitware.com:8443/svn/KWPublic/trunk/libxml2")
-      set(svnDir "${ITK_BINARY_DIR}/Utilities")
-      file(WRITE ${ITK_BINARY_DIR}/Utilities/t "t\n")
-      execute_process(
-            COMMAND "${SVNCOMMAND}" ${svnCmd} ${svnRevFlag} ${svnRevNum} ${svnSite} ${svnDir}
-            INPUT_FILE ${ITK_BINARY_DIR}/Utilities/t
-            OUTPUT_VARIABLE svnOutput
-            ERROR_VARIABLE svnError
-            RESULT_VARIABLE svnResult
-            )
-      # Result should be 0 on success
-      if(NOT svnResult)
-        add_subdirectory( "${ITK_BINARY_DIR}/Utilities/itklibxml2"
-                          "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
-      else(NOT svnResult)
-        message(FATAL_ERROR "SVN checkout of itklibxml2 failed with error = ${svnError}")
-      endif(NOT svnResult)
-    endif(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
-  else(NOT ITK_USE_SYSTEM_LIBXML2)
-    message(FATAL_ERROR "You cannot enable both ITK_USE_SYSTEM_LIBXML2 and ITK_USE_LIBXML2.  Enable the SYSTEM variable if libxml2 is already installed outside of the Insight build directory.")
-  endif(NOT ITK_USE_SYSTEM_LIBXML2)
-endif(ITK_USE_LIBXML2)
-
 #------------------------------------------------------------------------------
 # Other utilities libraries
 set(METAIO_FOR_ITK 1)
@@ -202,7 +155,6 @@ endif(ITK_USE_FLAT_DIRECTORY_INSTALL)
 
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
-    ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h
     ${ITK_BINARY_DIR}/Utilities/itk_zlib.h
     ${ITK_BINARY_DIR}/Utilities/itk_tiff.h
     ${ITK_BINARY_DIR}/Utilities/itk_jpeg.h
@@ -212,11 +164,4 @@ if(NOT ITK_INSTALL_NO_DEVELOPMENT)
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES}
     COMPONENT Development
     )
-  if(ITK_USE_LIBXML2)
-    install(FILES
-      "${ITK_BINARY_DIR}/Utilities/itk_libxml2.h"
-      DESTINATION "${ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES}"
-      COMPONENT Development
-      )
-  endif(ITK_USE_LIBXML2)
 endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
