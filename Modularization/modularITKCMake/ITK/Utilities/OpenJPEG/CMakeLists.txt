@@ -24,8 +24,8 @@ list(APPEND ITK-OpenJPEG_INCLUDE_DIRS \"${ITK-OpenJPEG_INCLUDE_DIRS}\")
 else()
   set(ITK-OpenJPEG-target itkopenjpeg)
   set(ITK-OpenJPEG_INCLUDE_DIRS
-    ${ITK-OpenJPEG_BINARY_DIR}
-    ${ITK-OpenJPEG_SOURCE_DIR}/src
+    ${ITK-OpenJPEG_BINARY_DIR}/src/openjpeg
+    ${ITK-OpenJPEG_SOURCE_DIR}/src/openjpeg
     )
   set(ITK-OpenJPEG_LIBRARIES itkopenjpeg)
 endif()

@@ -25,5 +25,5 @@ vnl_matrix+ushort-.cxx
 )
 
 add_library(ITK-VNLInstantiation ${ITK-VNLInstantiation_SRC})
-target_link_libraries(ITK-VNLInstantiation ${itk-vnl_LIBRARIES})
+target_link_libraries(ITK-VNLInstantiation ${ITK-VNL_LIBRARIES})
 itk_module_target(ITK-VNLInstantiation)

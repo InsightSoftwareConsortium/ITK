@@ -24,14 +24,15 @@ list(APPEND ITK-ZLIB_INCLUDE_DIRS \"${ITK-ZLIB_INCLUDE_DIRS}\")
 else()
   set(ITK-ZLIB-target itkzlib)
   set(ITK-ZLIB_INCLUDE_DIRS
-    ${ITK-ZLIB_BINARY_DIR}
+    ${ITK-ZLIB_BINARY_DIR}/src
+    ${ITK-ZLIB_SOURCE_DIR}/src
     )
   set(ITK-ZLIB_LIBRARIES itkzlib)
 endif()
 
-configure_file(src/itk_zlib.h.in itk_zlib.h)
+configure_file(src/itk_zlib.h.in src/itk_zlib.h)
 
 itk_module_impl()
 
-install(FILES ${ITK-ZLIB_BINARY_DIR}/itk_zlib.h
+install(FILES ${ITK-ZLIB_BINARY_DIR}/src/itk_zlib.h
   DESTINATION ${ITK-ZLIB_INSTALL_INCLUDE_DIR})

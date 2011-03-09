@@ -24,16 +24,15 @@ list(APPEND ITK-PNG_INCLUDE_DIRS \"${ITK-PNG_INCLUDE_DIRS}\")
 else()
   set(ITK-PNG-target itkpng)
   set(ITK-PNG_INCLUDE_DIRS
-    ${ITK-PNG_BINARY_DIR}
+    ${ITK-PNG_BINARY_DIR}/src
     ${ITK-PNG_SOURCE_DIR}/src
-    ${ITK-PNG_SOURCE_DIR}/include/itkpng
     )
   set(ITK-PNG_LIBRARIES itkpng)
 endif()
 
-configure_file(src/itk_png.h.in itk_png.h)
+configure_file(src/itk_png.h.in src/itk_png.h)
 
 itk_module_impl()
 
-install(FILES ${ITK-PNG_BINARY_DIR}/itk_png.h
+install(FILES ${ITK-PNG_BINARY_DIR}/src/itk_png.h
   DESTINATION ${ITK-PNG_INSTALL_INCLUDE_DIR})

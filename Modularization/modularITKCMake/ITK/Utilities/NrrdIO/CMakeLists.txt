@@ -22,12 +22,12 @@ list(APPEND ITK-NrrdIO_INCLUDE_DIRS \"${ITK-NrrdIO_INCLUDE_DIRS}\")
   set(itk-module-no-include 1)
   set(itk-module-no-src 1)
 else()
-  set(ITK-NrrdIO-target itknrrd)
+  set(ITK-NrrdIO-target ITKNrrdIO)
   set(ITK-NrrdIO_INCLUDE_DIRS
-    ${ITK-NrrdIO_BINARY_DIR}
-    ${ITK-NrrdIO_SOURCE_DIR}/include
+    ${ITK-NrrdIO_BINARY_DIR}/src/NrrdIO
+    ${ITK-NrrdIO_SOURCE_DIR}/src
     )
-  set(ITK-NrrdIO_LIBRARIES itknrrd)
+  set(ITK-NrrdIO_LIBRARIES ITKNrrdIO)
 endif()
 
 

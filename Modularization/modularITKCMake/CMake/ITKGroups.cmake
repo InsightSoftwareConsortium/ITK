@@ -107,20 +107,20 @@ set(Bridge_module_list
 ITK-VTK)
 
 set(Utilities_module_list
-itksys
-itk-vnl
-itk-png
-itk-jpeg
+ITK-KWSys
+ITK-VNL
+ITK-PNG
+ITK-JPEG
 ITK-Expat
-itk-nrrd
-itk-nifti
-itk-meta
-itk-gdcm
-itk-openjpeg
+ITK-NrrdIO
+ITK-NIFTI
+ITK-MetaIO
+ITK-GDCM
+ITK-OpenJPEG
 itk-vml
-itk-zlib
-itk-vnl-instantiation
-itk-tiff
+ITK-ZLIB
+ITK-VNLInstantiation
+ITK-TIFF
 )
 #------------------------------------------------
 # Turn on the ITK_BUILD option for each group
