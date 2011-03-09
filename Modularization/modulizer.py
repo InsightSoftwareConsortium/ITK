@@ -262,19 +262,6 @@ for  moduleName in moduleList:
             o.write(line)
          o.close()
 
-         # write CTestConfig.cmake
-     filepath = HeadOfModularITKTree + '/'+ modulePath +'/CTestConfig.cmake'
-     if not os.path.isfile(filepath):
-        o = open(filepath,'w')
-        for line in open('./templateModule/itk-template-module/CTestConfig.cmake','r'):
-            line = line.replace('itk-template-module',moduleName)
-            o.write(line);
-        o.close()
-
-     # copy the LICENSE and NOTICE
-     os.system('cp ./templateModule/itk-template-module/LICENSE'+'  '+ HeadOfModularITKTree + '/'+ modulePath )
-     os.system('cp ./templateModule/itk-template-module/NOTICE'+'  '+ HeadOfModularITKTree + '/'+ modulePath )
-
 #----------------------------------------------------------------------------------------------------
 
 # clean up remaining  directories
