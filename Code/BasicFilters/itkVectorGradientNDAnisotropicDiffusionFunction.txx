@@ -18,6 +18,8 @@
 #ifndef __itkVectorGradientNDAnisotropicDiffusionFunction_txx
 #define __itkVectorGradientNDAnisotropicDiffusionFunction_txx
 
+#include "itkVectorGradientNDAnisotropicDiffusionFunction.h"
+
 namespace itk
 {
 template< class TImage >
