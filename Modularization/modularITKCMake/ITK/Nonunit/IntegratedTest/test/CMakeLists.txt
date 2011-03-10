@@ -317,6 +317,7 @@ itkStandardDeviationPerComponentSampleFilterTest.cxx
 itkStatisticsAlgorithmTest.cxx
 itkStatisticsAlgorithmTest2.cxx
 itkStatisticsTypesTest.cxx
+itkStatisticsPrintTest.cxx
 itkSTLThreadTest.cxx
 itkStreamingImageFilterTest.cxx
 itkStreamingImageFilterTest2.cxx
@@ -422,7 +423,7 @@ add_test(NAME itkCommonPrintTest
 add_test(NAME itkCellInterfaceTest
       COMMAND ITK-IntegratedTestTestDriver itkCellInterfaceTest)
 add_test(NAME itkBasicFiltersPrintTest
-      COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrint)
+      COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrintTest)
 add_test(NAME itkAccumulateImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
