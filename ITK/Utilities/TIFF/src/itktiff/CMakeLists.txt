@@ -132,8 +132,7 @@ configure_file(${ITKTIFF_SOURCE_DIR}/tif_config.h.in
   ${ITKTIFF_BINARY_DIR}/tif_config.h)
 
 add_library(itktiff ${common_SRCS})
-target_link_libraries(itktiff ${ITK_ZLIB_LIBRARIES}
- ${ITK_JPEG_LIBRARIES})
+target_link_libraries(itktiff ${ITK-ZLIB_LIBRARIES} ${ITK-JPEG_LIBRARIES})
 
 if(UNIX)
   target_link_libraries(itktiff -lm)
