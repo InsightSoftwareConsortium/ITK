@@ -27,7 +27,6 @@ itkSpatialOrientationAdapter.cxx
 itkRealTimeInterval.cxx
 itkOctreeNode.cxx
 itkNumericTraitsFixedArrayPixel.cxx
-itkSmartPointerForwardReferenceProcessObject.cxx
 itkMultiThreader.cxx
 itkNumericTraitsArrayPixel.cxx
 itkMetaDataDictionary.cxx
