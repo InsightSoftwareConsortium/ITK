@@ -122,7 +122,7 @@ class FileToPathMapping:
         return False
 
 basedir=sys.argv[1]  ## i.e. python FindRedundantHeaderIncludes.py /Users/hjohnson/Dashboards/ITK_TESTS/ITK
-if os.path.isfile(basedir+"/InsightLogo.gif"):  ## Currently hard-coded to only work with ITK dir.
+if os.path.isfile(basedir+"/Documentation/InsightLogo.gif"):  ## Currently hard-coded to only work with ITK dir.
   print("Processing: {0}".format(basedir))
 else:
   print("The directory must be the base ITK dir: {0} failed".format(basedir))
