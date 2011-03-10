@@ -41,20 +41,9 @@
 #endif
 
 /* what threading system are we using */
-#cmakedefine CMAKE_USE_PTHREADS
-#ifdef CMAKE_USE_PTHREADS
-#define ITK_USE_PTHREADS
-#endif
-
-#cmakedefine CMAKE_HP_PTHREADS
-#ifdef CMAKE_HP_PTHREADS
-#define ITK_HP_PTHREADS
-#endif
-
-#cmakedefine CMAKE_USE_WIN32_THREADS
-#ifdef CMAKE_USE_WIN32_THREADS
-#define ITK_USE_WIN32_THREADS
-#endif
+#cmakedefine ITK_USE_PTHREADS
+#cmakedefine ITK_HP_PTHREADS
+#cmakedefine ITK_USE_WIN32_THREADS
 
 #cmakedefine ITK_BUILD_SHARED_LIBS
 #ifdef ITK_BUILD_SHARED_LIBS
@@ -63,8 +52,6 @@
 #define ITKSTATIC
 #endif
 
-#cmakedefine CMAKE_NO_STD_NAMESPACE
-#cmakedefine CMAKE_NO_ANSI_FOR_SCOPE
 #cmakedefine ITK_CPP_FUNCTION
 #cmakedefine ITKV3_COMPATIBILITY
 #cmakedefine ITK_LEGACY_REMOVE
