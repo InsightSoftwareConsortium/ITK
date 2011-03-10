@@ -80,7 +80,7 @@ set(EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output d
 set(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
 
 #----------------------------------------------------------------------------
-configure_file(${ITK_SOURCE_DIR}/CTestCustom.cmake.in  ${ITK_BINARY_DIR}/CTestCustom.cmake)
+configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
 
 set(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
 
