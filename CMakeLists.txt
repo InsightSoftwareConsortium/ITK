@@ -142,7 +142,15 @@ include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
 
 
 # Provide an option for every module.
-option(ITK_BUILD_ALL_MODULES "Request to build all modules" OFF)
+if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
+  # developer build
+  set(ITK_BUILD_ALL_MODULES_DEFAULT OFF)
+else()
+  # dashboard build
+  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
+endif()
+option(ITK_BUILD_ALL_MODULES "Request to build all modules"
+  ${ITK_BUILD_ALL_MODULES_DEFAULT})
 mark_as_advanced(ITK_BUILD_ALL_MODULES)
 
 foreach(itk-module ${ITK_MODULES_ALL})
