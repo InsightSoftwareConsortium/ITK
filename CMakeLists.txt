@@ -71,6 +71,14 @@ set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
 set(ITK_USE_MODULAR_BUILD ON)
 
+# ITK build classes that are in the review process
+option(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, no
+r the Copyright Policy of ITK." OFF)
+mark_as_advanced(ITK_USE_REVIEW)
+
+if (ITK_USE_REVIEW)
+  set(Module_ITK-Review ON)
+endif(ITK_USE_REVIEW)
 
 option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
 mark_as_advanced(ITK_USE_GPU)
