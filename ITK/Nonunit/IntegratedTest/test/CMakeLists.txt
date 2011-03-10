@@ -1127,7 +1127,7 @@ if(ITK_BUILD_SHARED_LIBS)
   set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
   #set(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
   add_library(FileFreeTestLib SHARED ${FileFreeTest_Source})
-  target_link_libraries(FileFreeTestLib ITKIO)
+  target_link_libraries(FileFreeTestLib ${ITK-IO-Base_LIBRARIES})
   #add_dependencies(IOCxxTests FileFreeTestLib)
 endif(ITK_BUILD_SHARED_LIBS)
 
