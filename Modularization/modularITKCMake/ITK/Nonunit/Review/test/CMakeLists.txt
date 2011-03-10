@@ -1262,7 +1262,7 @@ add_test(NAME itkOptImageToImageMetricsTest01
               ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
               ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
 add_test(NAME itkOptImageToImageMetricsTest02
-      COMMAND ITK-ReviewTestDriver --with-thread 2
+      COMMAND ITK-ReviewTestDriver --with-threads 2
               itkOptImageToImageMetricsTest
               ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
               ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
