@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-IO-NRRD)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-IO-NRRD_LIBRARIES ITK-IO-NRRD)
+itk_module_impl()

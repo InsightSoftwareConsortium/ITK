@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-IO-Spatialobjects)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-IO-Spatialobjects_LIBRARIES ITK-IO-Spatialobjects)
+itk_module_impl()

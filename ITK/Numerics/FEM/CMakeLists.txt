@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-FEM)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-FEM_LIBRARIES ITK-FEM)
+itk_module_impl()

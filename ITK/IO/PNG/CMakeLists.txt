@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-IO-PNG)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-IO-PNG_LIBRARIES ITK-IO-PNG)
+itk_module_impl()

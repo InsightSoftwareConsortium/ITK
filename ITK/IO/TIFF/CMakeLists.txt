@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-IO-TIFF)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-IO-TIFF_LIBRARIES ITK-IO-TIFF)
+itk_module_impl()

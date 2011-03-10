@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-KLMRegionGrowing)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-KLMRegionGrowing_LIBRARIES ITK-KLMRegionGrowing)
+itk_module_impl()

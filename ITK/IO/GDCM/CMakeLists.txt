@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-IO-GDCM)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-IO-GDCM_LIBRARIES ITK-IO-GDCM)
+itk_module_impl()

@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-IO-Siemens)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-IO-Siemens_LIBRARIES ITK-IO-Siemens)
+itk_module_impl()

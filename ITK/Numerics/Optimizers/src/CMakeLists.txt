@@ -1,0 +1,32 @@
+set(ITK-Optimizers_SRC
+itkConjugateGradientOptimizer.cxx
+itkRegularStepGradientDescentOptimizer.cxx
+itkLBFGSOptimizer.cxx
+itkExhaustiveOptimizer.cxx
+itkLevenbergMarquardtOptimizer.cxx
+itkCostFunction.cxx
+itkSingleValuedNonLinearVnlOptimizer.cxx
+itkQuaternionRigidTransformGradientDescentOptimizer.cxx
+itkSPSAOptimizer.cxx
+itkSingleValuedVnlCostFunctionAdaptor.cxx
+itkMultipleValuedNonLinearVnlOptimizer.cxx
+itkPowellOptimizer.cxx
+itkVersorRigid3DTransformOptimizer.cxx
+itkVersorTransformOptimizer.cxx
+itkOnePlusOneEvolutionaryOptimizer.cxx
+itkMultipleValuedNonLinearOptimizer.cxx
+itkLBFGSBOptimizer.cxx
+itkCumulativeGaussianOptimizer.cxx
+itkAmoebaOptimizer.cxx
+itkCumulativeGaussianCostFunction.cxx
+itkOptimizer.cxx
+itkFRPROptimizer.cxx
+itkGradientDescentOptimizer.cxx
+itkSingleValuedNonLinearOptimizer.cxx
+itkRegularStepGradientDescentBaseOptimizer.cxx
+itkMultipleValuedVnlCostFunctionAdaptor.cxx
+)
+
+add_library(ITK-Optimizers ${ITK-Optimizers_SRC})
+target_link_libraries(ITK-Optimizers  ${ITK-Statistics_LIBRARIES} ${ITK-Transform_LIBRARIES} ${TEST_DEPENDS_LIBRARIES} ${ITK-TestKernel_LIBRARIES})
+itk_module_target(ITK-Optimizers)

@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-Mesh)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-Mesh_LIBRARIES ITK-Mesh)
+itk_module_impl()

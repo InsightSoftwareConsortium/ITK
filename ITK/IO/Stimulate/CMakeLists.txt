@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-IO-Stimulate)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-IO-Stimulate_LIBRARIES ITK-IO-Stimulate)
+itk_module_impl()

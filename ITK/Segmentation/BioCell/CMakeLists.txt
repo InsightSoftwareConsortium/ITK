@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(ITK-BioCell)
+find_package(itk-base 4.0 EXACT REQUIRED)
+set(ITK-BioCell_LIBRARIES ITK-BioCell)
+itk_module_impl()
