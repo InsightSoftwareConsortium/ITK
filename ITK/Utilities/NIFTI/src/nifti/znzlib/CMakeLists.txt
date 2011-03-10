@@ -9,9 +9,9 @@ add_library(${NIFTI_ZNZLIB_NAME} ${ZNZLIB_SRC} )
 target_link_libraries( ${NIFTI_ZNZLIB_NAME} ${NIFTI_ZLIB_LIBRARIES} )
 
 # Set library version if building shared libs.
-if(BUILD_SHARED_LIBS)
+if(BUILD_SHARED_LIBS AND NIFTI_LIBRARY_PROPERTIES)
   set_target_properties(${NIFTI_ZNZLIB_NAME} PROPERTIES ${NIFTI_LIBRARY_PROPERTIES})
-endif(BUILD_SHARED_LIBS)
+endif()
 
 
 if(NOT NIFTI_INSTALL_NO_LIBRARIES)
