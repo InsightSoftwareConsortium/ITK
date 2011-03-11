@@ -20,6 +20,10 @@
 
 # Run this script to set up the topic stage for pushing changes.
 
+egrep-q() {
+  egrep "$@" >/dev/null 2>/dev/null
+}
+
 die() {
   echo 'Failure during topic stage setup.' 1>&2
   echo '---------------------------------' 1>&2
@@ -58,7 +62,7 @@ if [ "$access" == "y" ] || [ "$access" == "Y" ]; then
   # We will have the private key corresponding the public key at itk.org at
   # ~/.ssh/id_git_itk.  This allows the developer to keep a single public key
   # on file with the server across multiple machines.
-  if ! grep -q 'Host itk.org' ~/.ssh/config 2>/dev/null; then
+  if ! egrep-q 'Host itk\.org' ~/.ssh/config; then
     echo "Configuring the IdentityFile for itk.org to be ~/.ssh/id_git_itk..."
     mkdir -p ~/.ssh
     chmod og-rwx ~/.ssh

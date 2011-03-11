@@ -23,6 +23,9 @@
 #   http://www.itk.org/Wiki/ITK/Git#Hooks
 #   http://www.itk.org/Wiki/Git/Hooks
 
+egrep-q() {
+  egrep "$@" >/dev/null 2>/dev/null
+}
 
 die() {
 	echo 'failure during hook setup' 1>&2
@@ -44,7 +47,7 @@ fi
 # Use the local hooks if possible.
 echo "Pulling the hooks..."
 if GIT_DIR=.. git for-each-ref refs/remotes/origin/hooks 2>/dev/null | \
-  grep -q '\<refs/remotes/origin/hooks$'; then
+  egrep-q 'refs/remotes/origin/hooks$'; then
   git pull .. remotes/origin/hooks
 else
   git pull http://public.kitware.com/ITK.git hooks || die "Downloading the hooks failed."
