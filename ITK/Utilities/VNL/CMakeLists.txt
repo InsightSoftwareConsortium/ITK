@@ -36,10 +36,3 @@ else()
 endif()
 
 itk_module_impl()
-
-if(NOT ITK_USE_SYSTEM_VXL)
-  foreach(lib itkvcl itkv3p_netlib itkv3p_lsqr itktestlib itkvnl itkvnl_algo)
-    itk_module_target_name(${lib})
-    itk_module_target_export(${lib})
-  endforeach()
-endif()
