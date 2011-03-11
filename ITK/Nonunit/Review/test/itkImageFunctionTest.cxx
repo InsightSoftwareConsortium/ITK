@@ -256,7 +256,7 @@ int itkImageFunctionTest( int , char*[] )
   indexC[0] = startIndexC[0]-1;
   if( function->IsInsideBuffer( indexC ) )
     {
-    std::cout << "Error with IsInsideBuffer 3C. Expected false." << std::endl
+    std::cout << "Error with IsInsideBuffer 3C. Expected  false." << std::endl
               << "  indexC: " << indexC << std::endl
               << "  start/end continuous indecies: "
               << startIndexC << " " << endIndexC << std::endl;
@@ -278,7 +278,7 @@ int itkImageFunctionTest( int , char*[] )
    * only run them when FPE are not enabled. */
   if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    std::cout << "FPE's disabled." << std::endl;
+    std::cout << "ContinousIndex Tests. FPE's disabled." << std::endl;
     if( ContinuousIndexNumericTraits::has_quiet_NaN )
       {
       indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
@@ -309,7 +309,9 @@ int itkImageFunctionTest( int , char*[] )
     }
   else
     {
-    std::cout << "FPE's enabled. Skipping tests that throw FPE's." << std::endl;
+    std::cout
+      << "ContinuousIndex. FPE's enabled. Skipping tests that throw FPE's."
+      << std::endl;
     }
 
   /* IsInsideBuffer with Point type */
@@ -334,21 +336,25 @@ int itkImageFunctionTest( int , char*[] )
     std::cout << "Error with IsInsideBuffer 3P. Expected false." << std::endl;
     result = EXIT_FAILURE;
     }
-  point[0] = PointNumericTraits::max();
-  if( function->IsInsideBuffer( point ) )
-    {
-    std::cout << "Error with IsInsideBuffer 4P. Expected false." << std::endl;
-    result = EXIT_FAILURE;
-    }
-  point[0] = PointNumericTraits::min();
-  if( function->IsInsideBuffer( point ) )
-    {
-    std::cout << "Error with IsInsideBuffer 5P. Expected false." << std::endl;
-    result = EXIT_FAILURE;
-    }
   if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    std::cout << "FPE's disabled." << std::endl;
+    std::cout << "Tests with Point. FPE's disabled." << std::endl;
+    point[0] = PointNumericTraits::max();
+    /* Note that since this calls Image::TransformPhysicalPointToIndex,
+     * which calls ImageRegion::IsInside, the region range gets added to
+     * this max() which can cause overflow. But only on one or two machines,
+     * it seems. */
+    if( function->IsInsideBuffer( point ) )
+      {
+      std::cout << "Error with IsInsideBuffer 4P. Expected false." << std::endl;
+      result = EXIT_FAILURE;
+      }
+    point[0] = PointNumericTraits::min();
+    if( function->IsInsideBuffer( point ) )
+      {
+      std::cout << "Error with IsInsideBuffer 5P. Expected false." << std::endl;
+      result = EXIT_FAILURE;
+      }
     if( PointNumericTraits::has_quiet_NaN )
       {
       std::cout << "Testing IsInsideBuffer(point) with quiet_NaN." << std::endl;
@@ -379,7 +385,9 @@ int itkImageFunctionTest( int , char*[] )
     }
   else
     {
-    std::cout << "FPE's enabled. Skipping tests that throw FPE's." << std::endl;
+    std::cout
+      << "Point tests. FPE's enabled. Skipping tests that throw FPE's."
+      << std::endl;
     }
 
   /* ConvertPointToNearestIndex
