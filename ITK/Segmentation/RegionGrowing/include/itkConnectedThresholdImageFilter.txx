@@ -23,9 +23,7 @@
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"
 
-#ifdef ITK_USE_REVIEW
 #include "itkShapedFloodFilledImageFunctionConditionalIterator.h"
-#endif
 
 namespace itk
 {
@@ -299,8 +297,6 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
       progress.CompletedPixel();  // potential exception thrown here
       }
     }
-
-#ifdef ITK_USE_REVIEW
   else if ( this->m_Connectivity == FullConnectivity )
     {
     // use the fully connected iterator here. The fully connected iterator
@@ -320,7 +316,6 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
       progress.CompletedPixel();  // potential exception thrown here
       }
     }
-#endif
 }
 } // end namespace itk
 

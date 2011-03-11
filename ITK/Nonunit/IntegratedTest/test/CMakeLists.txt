@@ -532,7 +532,6 @@ add_test(NAME itkConnectedThresholdImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png
     itkConnectedThresholdImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png 165 165 0 150)
-if (ITK_USE_REVIEW)
 add_test(NAME itkConnectedThresholdImageFilterTest2
       COMMAND ITK-IntegratedTestTestDriver
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest2.png
@@ -540,7 +539,6 @@ add_test(NAME itkConnectedThresholdImageFilterTest2
    itkConnectedThresholdImageFilterTest ${ITK_DATA_ROOT}/Input/8ConnectedImage.bmp
             ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest2.png
             29 47 200 255 1)
-endif(ITK_USE_REVIEW)
 add_test(NAME itkConstantPadImageTest
       COMMAND ITK-IntegratedTestTestDriver itkConstantPadImageTest)
 add_test(NAME itkConvertBufferTest

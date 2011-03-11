@@ -1,5 +1,5 @@
 # Set a list of group names
-set(group_list Core IO Filtering Registration Segmentation Numerics Utilities Bridge)
+set(group_list Core IO Filtering Registration Segmentation Numerics Utilities Bridge Nonunit)
 
 #------------------------------------------------
 # Set a module name list for each group
@@ -117,10 +117,14 @@ ITK-NIFTI
 ITK-MetaIO
 ITK-GDCM
 ITK-OpenJPEG
-itk-vml
 ITK-ZLIB
 ITK-VNLInstantiation
 ITK-TIFF
+)
+
+set(Nonunit_module_list
+ITK-IntegratedTest
+ITK-Review
 )
 #------------------------------------------------
 # Turn on the ITK_BUILD option for each group
