@@ -118,19 +118,21 @@ list(APPEND ${itk-module}_INCLUDE_DIRS \"${${itk-module}_INCLUDE_DIRS}\")
 ")
   endif()
 
-  if(${itk-module}_LIBRARIES)
-    list(REMOVE_DUPLICATES ${itk-module}_LIBRARIES)
+  if(_trans)
+    if(${itk-module}_LIBRARIES)
+      list(REMOVE_DUPLICATES ${itk-module}_LIBRARIES)
+    endif()
+    set(itk-module-config-build "${itk-module-config-build}
+if(${itk-module}_LIBRARIES)
+  list(REMOVE_DUPLICATES ${itk-module}_LIBRARIES)
+endif()
+")
+    set(itk-module-config-install "${itk-module-config-install}
+if(${itk-module}_LIBRARIES)
+  list(REMOVE_DUPLICATES ${itk-module}_LIBRARIES)
+endif()
+")
   endif()
-  set(itk-module-config-build "${itk-module-config-build}
-if(${itk-module}_LIBRARIES)
-  list(REMOVE_DUPLICATES ${itk-module}_LIBRARIES)
-endif()
-")
-  set(itk-module-config-install "${itk-module-config-install}
-if(${itk-module}_LIBRARIES)
-  list(REMOVE_DUPLICATES ${itk-module}_LIBRARIES)
-endif()
-")
 
   set(itk-module-export-targets 0)
   if(EXISTS ${${itk-module}_SOURCE_DIR}/src/CMakeLists.txt AND NOT itk-module-no-src)

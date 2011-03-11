@@ -1,0 +1,42 @@
+#-----------------------------------------------------------------------------
+#
+# ITKConfig.cmake - ITK CMake configuration file for external projects.
+#
+# This file is configured by ITK and used by the UseITK.cmake module
+# to load ITK's settings for an external project.
+@ITK_CONFIG_CODE@
+
+# The C and C++ flags added by ITK to the cmake-configured flags.
+set(ITK_REQUIRED_C_FLAGS "@ITK_REQUIRED_C_FLAGS@")
+set(ITK_REQUIRED_CXX_FLAGS "@ITK_REQUIRED_CXX_FLAGS@")
+set(ITK_REQUIRED_LINK_FLAGS "@ITK_REQUIRED_LINK_FLAGS@")
+
+# The ITK version number
+set(ITK_VERSION_MAJOR "@ITK_VERSION_MAJOR@")
+set(ITK_VERSION_MINOR "@ITK_VERSION_MINOR@")
+set(ITK_VERSION_PATCH "@ITK_VERSION_PATCH@")
+
+# The location of the UseITK.cmake file.
+set(ITK_USE_FILE "@ITK_USE_FILE@")
+
+# Whether ITK was built with shared libraries.
+set(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
+
+# List of available ITK modules.
+set(ITK_MODULES_ENABLED "@ITK_CONFIG_MODULES_ENABLED@")
+
+# Load all modules.
+set(ITK_LIBRARIES "")
+set(ITK_INCLUDE_DIRS "")
+set(ITK_LIBRARY_DIRS "")
+foreach(itk-module ${ITK_MODULES_ENABLED})
+  include("${${itk-module}_DIR}/${itk-module}Config.cmake")
+  list(APPEND ITK_LIBRARIES ${${itk-module}_LIBRARIES})
+  list(APPEND ITK_INCLUDE_DIRS ${${itk-module}_INCLUDE_DIRS})
+  list(APPEND ITK_LIBRARY_DIRS ${${itk-module}_LIBRARY_DIRS})
+endforeach()
+foreach(v ITK_LIBRARIES ITK_INCLUDE_DIRS ITK_LIBRARY_DIRS)
+  if(${v})
+    list(REMOVE_DUPLICATES ${v})
+  endif()
+endforeach()

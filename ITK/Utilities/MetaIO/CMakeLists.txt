@@ -30,8 +30,3 @@ else()
 endif()
 
 itk_module_impl()
-
-if (NOT ITK_USE_SYTEM_METAIO)
-  itk_module_target_name(ITKMetaIO)
-  itk_module_target_export(ITKMetaIO)
-endif()

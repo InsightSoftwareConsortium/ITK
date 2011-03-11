@@ -1,8 +1,5 @@
 The modularized build system is not yet mature in at least these areas:
 
- - No ITKConfig.cmake file is generated so find_package(ITK) in
-   applications will not yet work.
-
  - The Examples directory is not included in the build.
 
  - The Wrapping directory is not included in the build.
