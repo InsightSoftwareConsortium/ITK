@@ -215,7 +215,7 @@ void SegmentTreeGenerator< TScalarType >
   while ( ( !heap->Empty() ) && ( topMerge.saliency <= threshold ) )
     {
     counter++;                  // Every so often we should eliminate
-    if ( ( counter == 10000 ) ) // all the recursion in our records
+    if ( counter == 10000 )     // all the recursion in our records
       {                         // of which segments have merged.
       counter = 0;
       segments->PruneEdgeLists(threshold); // also we want to
