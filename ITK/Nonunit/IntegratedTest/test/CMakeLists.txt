@@ -397,19 +397,19 @@ CreateTestDriver_SupportBuildInIOFactories(ITK-IntegratedTest  "${ITK-Integrated
 # temporary solution for all print tests. Each module should have its own print test later.
 add_executable(itkAlgorithmsPrintTest  itkAlgorithmsPrintTest.cxx)
 target_link_libraries(itkAlgorithmsPrintTest ${ITK-IntegratedTest-Test_LIBRARIES})
-add_test(NAME itkAlgorithmsPrintTest COMMAND ${ITK_EXECUTABLE_PATH}/itkAlgorithmsPrintTest)
+add_test(NAME itkAlgorithmsPrintTest COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest2  itkAlgorithmsPrintTest2.cxx)
 target_link_libraries(itkAlgorithmsPrintTest2 ${ITK-IntegratedTest-Test_LIBRARIES})
-add_test(NAME itkAlgorithmsPrintTest2 COMMAND ${ITK_EXECUTABLE_PATH}/itkAlgorithmsPrintTest)
+add_test(NAME itkAlgorithmsPrintTest2 COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest3  itkAlgorithmsPrintTest3.cxx)
 target_link_libraries(itkAlgorithmsPrintTest3 ${ITK-IntegratedTest-Test_LIBRARIES})
-add_test(NAME itkAlgorithmsPrintTest3 COMMAND ${ITK_EXECUTABLE_PATH}/itkAlgorithmsPrintTest)
+add_test(NAME itkAlgorithmsPrintTest3 COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest4  itkAlgorithmsPrintTest4.cxx)
 target_link_libraries(itkAlgorithmsPrintTest4 ${ITK-IntegratedTest-Test_LIBRARIES})
-add_test(NAME itkAlgorithmsPrintTest4 COMMAND ${ITK_EXECUTABLE_PATH}/itkAlgorithmsPrintTest)
+add_test(NAME itkAlgorithmsPrintTest4 COMMAND itkAlgorithmsPrintTest)
 
 #-------------------------------------------------------------------------
 add_test(NAME itkStatisticsPrintTest
@@ -929,7 +929,7 @@ add_test(NAME itkImageFileWriterPastingTest2_6
 add_test(NAME itkImageFileWriterPastingTest2_7
       COMMAND ITK-IntegratedTestTestDriver itkImageFileWriterPastingTest2
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_7.mha ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha)
-add_test(itkImageFileWriterPastingTest3
+add_test(NAME itkImageFileWriterPastingTest3
       COMMAND ITK-IntegratedTestTestDriver
     itkImageFileWriterPastingTest3
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
@@ -947,7 +947,7 @@ add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_VTK
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest000.vtk
-    itkImageFileWriterStreamingPastingCompressingTest1 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest vtk 0 0 1 1 0 0 1 1)
+    itkImageFileWriterStreamingPastingCompressingTest1 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest vtk 0 0 0 0 0 0 0 0)
 add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_DCM
       COMMAND ITK-IntegratedTestTestDriver itkImageFileWriterStreamingPastingCompressingTest1
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest dcm 0 0 1 1 0 0 1 1)
@@ -1769,7 +1769,7 @@ add_test(NAME itkTriangleMeshToSimplexMeshFilter2Test
       COMMAND ITK-IntegratedTestTestDriver itkTriangleMeshToSimplexMeshFilter2Test)
 
 add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
-add_test(NAME itkUnicodeIOTest COMMAND ${ITK_TEST_OUTPUT_DIR}/itkUnicodeIOTest)
+add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)
 
 add_test(NAME itkUnsharpMaskLevelSetImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver itkUnsharpMaskLevelSetImageFilterTest)
