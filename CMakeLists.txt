@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK)
 
+# TODO: Integrate with itk-base and ITK-Common
+set(ITK_VERSION_MAJOR "4")
+set(ITK_VERSION_MINOR "0")
+set(ITK_VERSION_PATCH "0")
+
+set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+
 # Override CMake's built-in add_* commands: assign LABELS to tests and targets
 # automatically. Depends on the CMake variable itk-module being set to the
 # "current" module when add_* is called.
@@ -327,4 +334,48 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
   endif()
 endforeach()
 
-install(EXPORT ITKTargets DESTINATION lib/cmake/itk-4.0)
+#-----------------------------------------------------------------------------
+
+# Create list of available modules and libraries.
+set(ITK_CONFIG_MODULES_ENABLED "")
+foreach(itk-module ${ITK_MODULES_ENABLED})
+  if(NOT ${itk-module}_IS_TEST)
+    list(APPEND ITK_CONFIG_MODULES_ENABLED ${itk-module})
+  endif()
+endforeach()
+
+# Generate ITKConfig.cmake for the build tree.f
+set(ITK_CONFIG_CODE "# Module directories")
+foreach(itk-module ${ITK_CONFIG_MODULES_ENABLED})
+  set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
+set(${itk-module}_DIR \"${${itk-module}_DIR}\")")
+endforeach()
+set(ITK_USE_FILE "${ITK_SOURCE_DIR}/CMake/UseITK.cmake")
+configure_file(CMake/ITKConfig.cmake.in ITKConfig.cmake @ONLY)
+
+# Generate ITKConfig.cmake for the install tree.
+set(ITK_CONFIG_CODE "
+# Compute the installation prefix from this ITKConfig.cmake file location.
+get_filename_component(ITK_INSTALL_PREFIX \"\${CMAKE_CURRENT_LIST_FILE}\" PATH)")
+# Construct the proper number of get_filename_component(... PATH)
+# calls to compute the installation prefix.
+string(REGEX REPLACE "/" ";" _count "${ITK_INSTALL_PACKAGE_DIR}")
+foreach(p ${_count})
+  set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
+get_filename_component(ITK_INSTALL_PREFIX \"\${ITK_INSTALL_PREFIX}\" PATH)")
+endforeach(p)
+foreach(itk-module ${ITK_CONFIG_MODULES_ENABLED})
+  set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
+set(${itk-module}_DIR \"\${ITK_INSTALL_PREFIX}/lib/cmake/${itk-module}-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}\")")
+endforeach()
+set(ITK_USE_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/UseITK.cmake")
+configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
+
+#-----------------------------------------------------------------------------
+configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
+
+install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
+              ${ITK_BINARY_DIR}/ITKConfigVersion.cmake
+              CMake/UseITK.cmake
+  DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
+install(EXPORT ITKTargets DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
