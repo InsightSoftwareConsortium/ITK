@@ -32,14 +32,9 @@
 
 
 //Data definitons
-#define   IMGWIDTH            2
-#define   IMGHEIGHT           2
-#define   NFRAMES             4
-#define   NUMBANDS            2
-#define   NDIMENSION          3
-#define   NUM_CLASSES         3
-#define   MAX_NUM_ITER       50
 
+namespace SupervisedImageClassifierTest
+{
 
 // class to support progress feeback
 class ShowProgressObject
@@ -52,10 +47,19 @@ public:
   itk::LightProcessObject::Pointer m_Process;
 };
 
+}
 
 
 int itkSupervisedImageClassifierTest(int, char* [] )
 {
+  const unsigned int IMGWIDTH       =    2;
+  const unsigned int IMGHEIGHT      =    2;
+  const unsigned int NFRAMES        =    4;
+  const unsigned int NUMBANDS       =    2;
+  const unsigned int NDIMENSION     =    3;
+  const unsigned int NUM_CLASSES    =    3;
+  const unsigned int MAX_NUM_ITER   =   50;
+
 
   //------------------------------------------------------
   //Create a simple test image with width, height, and
@@ -314,8 +318,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   SupervisedClassifierType::Pointer
     applyClassifier = SupervisedClassifierType::New();
 
-  typedef ShowProgressObject
-    ProgressType;
+  typedef SupervisedImageClassifierTest::ShowProgressObject ProgressType;
 
   ProgressType progressWatch(applyClassifier);
   itk::SimpleMemberCommand<ProgressType>::Pointer command;
