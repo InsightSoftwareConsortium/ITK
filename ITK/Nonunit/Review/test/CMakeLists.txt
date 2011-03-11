@@ -713,6 +713,8 @@ add_test(NAME itkJPEG2000Test02
 add_test(NAME itkJPEG2000Test03
       COMMAND ITK-ReviewTestDriver itkJPEG2000ImageIOTest03
               ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif ${ITK_TEST_OUTPUT_DIR}/Bretagne1_02.j2k)
+set_tests_properties( itkJPEG2000Test03 PROPERTIES DEPENDS itkJPEG2000Test00 )
+
 add_test(NAME itkJPEG2000Test05
       COMMAND ITK-ReviewTestDriver itkJPEG2000ImageIOTest05
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR} jp2)
@@ -1626,7 +1628,7 @@ add_test(NAME itkOptGrayscaleDilateImageFilterTest
     ${TEMP}/itkOptGrayscaleDilateImageFilterTestHisto.png
     ${TEMP}/itkOptGrayscaleDilateImageFilterTestVHGW.png
     ${TEMP}/itkOptGrayscaleDilateImageFilterTestAnchor.png)
-add_test(itkOptGrayscaleErodeImageFilterTest
+add_test(NAME itkOptGrayscaleErodeImageFilterTest
       COMMAND ITK-ReviewTestDriver
     --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
               ${TEMP}/itkOptGrayscaleErodeImageFilterTestHisto.png
