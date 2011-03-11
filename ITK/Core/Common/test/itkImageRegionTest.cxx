@@ -24,6 +24,7 @@
 #include "itkContinuousIndex.h"
 #include "vcl_limits.h"
 #include "itkFloatingPointExceptions.h"
+#include "itkMath.h"
 
 int itkImageRegionTest(int, char* [] )
 {
@@ -183,6 +184,7 @@ int itkImageRegionTest(int, char* [] )
    * only run them when FPE are not enabled. */
   if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
+    std::cout << "FPE's are disabled." << std::endl;
     /* Generates overflow exception */
     std::cout << "Testing ContinuousIndexNumericTraits::max()." << std::endl;
     indexC[0] = ContinuousIndexNumericTraits::max();
@@ -228,6 +230,61 @@ int itkImageRegionTest(int, char* [] )
   else
     {
     std::cout << "Not testing behavior that triggers FPE." << std::endl;
+    }
+
+  if( ! itk::FloatingPointExceptions::GetEnabled() &&
+      ContinuousIndexNumericTraits::has_quiet_NaN )
+    {
+    std::cout << "FPE's are disabled. Test some more NaN-related behavior..."
+              << std::endl;
+    /* NaN behavior
+     * Experimenting. Can be removed before final merge.
+     * Issue with ImageRegion::IsInside is that it's using RoundHalfIntegerUp
+     * and thereby casting to integer and
+     * rounding, and thus NaN's get converted to a large negative int and
+     * are only caught indirectly. */
+
+    indexC.Fill(13);
+    if( regionA.IsInside(indexC) )
+      std::cout << "13,13,13 IsInside" << std::endl;
+    else
+      std::cout << "13,13,13 is not inside !" << std::endl;
+
+    indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
+    if( regionA.IsInside(indexC) )
+      std::cout << "** NaN,13,13 *is* inside. **" << std::endl;
+    else
+      std::cout << "NaN,13,13 is not inside" << std::endl;
+
+    std::cout << "NaN < -1 = " << (indexC[0] < -1.0) << std::endl;
+    std::cout << "NaN > -1 = " << (indexC[0] > -1.0) << std::endl;
+
+    TCoordRepType NaN = ContinuousIndexNumericTraits::quiet_NaN();
+    std::cout << "RoundHalfIntegerUp(NaN): "
+              << itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN) << std::endl;
+    std::cout
+      << "RoundHalfIntegerUp< TCoordRepType >(NaN) < static_cast<TCoordRepType> (0): "
+      << ( itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN) <
+      static_cast<TCoordRepType> (0) ) << std::endl;
+    std::cout
+      << "RoundHalfIntegerUp< TCoordRepType >(NaN) > static_cast<TCoordRepType> (0): "
+      << ( itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN) >
+      static_cast<TCoordRepType> (0) ) << std::endl;
+    TCoordRepType rf = itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN);
+    std::cout << "TCoordRepType = RoundHalfIntegerUp(NaN): " << rf << std::endl;
+    RegionType::IndexValueType rl =
+      itk::Math::RoundHalfIntegerUp< TCoordRepType >(NaN);
+    std::cout << "RegionType::IndexValueType type = RoundHalfIntegerUp(NaN): "
+              << rl << std::endl;
+    std::cout << "static_cast<RegionType::IndexValueType>( NaN ): "
+              << static_cast<RegionType::IndexValueType> (NaN)
+              << std::endl;
+    std::cout << "NumericTraits<RegionType::IndexValueType>::min(): "
+              << itk::NumericTraits<RegionType::IndexValueType>::min()
+              << std::endl;
+    std::cout << "TCoordRepType min(): " << ContinuousIndexNumericTraits::min()
+              << std::endl;
+    std::cout << "...end NaN tests." << std::endl << std::endl;
     }
 
   //Test IsInside( region )
