@@ -806,7 +806,7 @@ ProcessLine* JlsCodec<TRAITS,STRATEGY>::InitProcess(void* pvoidOut)
   if (STRATEGY::_info.colorTransform == 0)
     return new ProcessTransformed<TransformNone<typename TRAITS::SAMPLE> >(pvoidOut, STRATEGY::_info, TransformNone<SAMPLE>());
 
-  if ((STRATEGY::_info.bitspersample == sizeof(SAMPLE)*8))
+  if (STRATEGY::_info.bitspersample == sizeof(SAMPLE)*8)
   {
     switch(STRATEGY::_info.colorTransform)
     {
