@@ -520,39 +520,7 @@ TestImageOfSymMats(const std::string &fname)
   return same ? 0 : EXIT_FAILURE;
 }
 
-namespace
-{
-bool Equal(double a, double b)
-{
-  // actual equality
-  double diff = a - b;
-  if(diff == 0.0)
-    {
-    return true;
-    }
-  // signs match?
-  if((a < 0.00 && b >= 0.0) ||
-     (b < 0.0 && a >= 0.0))
-    {
-    return false;
-    }
-  if(diff < 0.0)
-    {
-    diff = -diff;
-    }
-  double avg = (a+b)/2.0;
-  if(avg < 0.0)
-    {
-    avg = - avg;
-    }
-  if(diff > avg/1000.0)
-    {
-    return false;
-    }
-  return true;
-}
-
-}
+extern bool Equal(const double a, const double b);
 
 template <class RGBPixelType>
 int RGBTest(int ac, char *av[])
