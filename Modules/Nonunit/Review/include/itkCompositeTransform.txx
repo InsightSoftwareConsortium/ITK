@@ -162,8 +162,8 @@ CompositeTransform<TScalar, NDimensions>
   /* Returns a concatenated MxN array, holding the Jacobian of each sub
    * transform that is selected for optimization. The order is the same
    * as that in which they're applied, i.e. reverse order.
-   * M = total number of parameters in the selected sub transforms
-   * N = dimensionality of the transforms */
+   * M rows = dimensionality of the transforms
+   * N cols = total number of parameters in the selected sub transforms. */
 
   this->m_Jacobian.SetSize( NDimensions, this->GetNumberOfParameters() );
   unsigned int offset = 0;
@@ -359,7 +359,10 @@ CompositeTransform<TScalar, NDimensions>
   /* Returns to total number of params in all transforms currently
    * set to be used for optimized.
    * NOTE: We might want to optimize this only to store the result and
-   * only re-calc when the composite object has been modified. */
+   * only re-calc when the composite object has been modified.
+   * However, it seems that number of parameter might change for dense
+   * field transfroms (deformation, bspline) during processing and
+   * we wouldn't know that in this class, so this is safest. */
   unsigned int result = 0;
   typename TransformQueueType::iterator it;
   TransformQueueType transforms = this->GetTransformsToOptimizeQueue();
@@ -463,6 +466,7 @@ PrintSelf( std::ostream& os, Indent indent ) const
 
   os << indent << "PreviousTransformsToOptimizeUpdateTime: "
      <<  m_PreviousTransformsToOptimizeUpdateTime << std::endl;
+  os << indent <<  "End of CompositeTransform." << std::endl << "<<<<<<<<<<" << std::endl;
 }
 
 } // namespace itk
