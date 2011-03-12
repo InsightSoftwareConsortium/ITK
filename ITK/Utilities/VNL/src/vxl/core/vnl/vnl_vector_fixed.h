@@ -129,10 +129,18 @@ class vnl_vector_fixed
   // While this constructor is sometimes useful, consider using
   // vnl_double_2 or vnl_float_2 instead.
   vnl_vector_fixed( const T& x0, const T& x1 )
-  {
+    {
     assert( n == 2 );
-    data_[0] = x0; data_[1] = x1;
-  }
+    if(n == 2)
+      {
+      data_[0] = x0;
+      data_[1] = x1;
+      }
+    else
+      {
+      //Throw exception?
+      }
+    }
 
   //: Convenience constructor for 3-D vectors
   // While this constructor is sometimes useful, consider using
@@ -140,15 +148,34 @@ class vnl_vector_fixed
   vnl_vector_fixed( const T& x0, const T& x1, const T& x2 )
   {
     assert( n == 3 );
-    data_[0] = x0; data_[1] = x1; data_[2] = x2;
+    if( n == 3)
+      {
+      data_[0] = x0;
+      data_[1] = x1;
+      data_[2] = x2;
+      }
+    else
+      {
+      //Throw exception?
+      }
   }
 
   //: Convenience constructor for 4-D vectors
   vnl_vector_fixed( const T& x0, const T& x1, const T& x2, const T& x3 )
-  {
+    {
     assert( n == 4 );
-    data_[0] = x0; data_[1] = x1; data_[2] = x2; data_[3] = x3;
-  }
+    if( n == 4 )
+      {
+      data_[0] = x0;
+      data_[1] = x1;
+      data_[2] = x2;
+      data_[3] = x3;
+      }
+    else
+      {
+      //Throw exception?
+      }
+    }
 
   //: Copy operator
   vnl_vector_fixed<T,n>& operator=( const vnl_vector_fixed<T,n>& rhs ) {
