@@ -907,8 +907,8 @@ add_test(NAME itkLabelMapOverlayImageFilterTest1
 add_test(NAME y$itkLabelMapOverlayImageFilterTest2
       COMMAND ITK-ReviewTestDriver
   --compare ${BASELINE}/itkLabelMapOverlayImageFilterTest1.png
-            ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
-  itkLabelMapOverlayImageFilterTest2 ${INPUTDATA}/cthead1Label.png ${INPUTDATA}/cthead1.png ${TEMP}/itkLabelMapOverlayImageFilterTest1.png 0.3)
+            ${TEMP}/itkLabelMapOverlayImageFilterTest2.png
+  itkLabelMapOverlayImageFilterTest2 ${INPUTDATA}/cthead1Label.png ${INPUTDATA}/cthead1.png ${TEMP}/itkLabelMapOverlayImageFilterTest2.png 0.3)
 add_test(NAME itkLabelMapTest
       COMMAND ITK-ReviewTestDriver itkLabelMapTest)
 add_test(NAME itkLabelMapToAttributeImageFilterTest1
@@ -931,8 +931,8 @@ add_test(NAME itkLabelMapToRGBImageFilterTest1
 add_test(NAME itkLabelMapToRGBImageFilterTest2
       COMMAND ITK-ReviewTestDriver
   --compare ${BASELINE}/itkLabelMapToRGBImageFilterTest1.png
-            ${TEMP}/itkLabelMapToRGBImageFilterTest1.png
-  itkLabelMapToRGBImageFilterTest2 ${INPUTDATA}/SpotsLabeled.png ${TEMP}/itkLabelMapToRGBImageFilterTest1.png)
+            ${TEMP}/itkLabelMapToRGBImageFilterTest2.png
+  itkLabelMapToRGBImageFilterTest2 ${INPUTDATA}/SpotsLabeled.png ${TEMP}/itkLabelMapToRGBImageFilterTest2.png)
 add_test(NAME itkLabelObjectLineComparatorTest
       COMMAND ITK-ReviewTestDriver itkLabelObjectLineComparatorTest)
 add_test(NAME itkLabelObjectLineTest
