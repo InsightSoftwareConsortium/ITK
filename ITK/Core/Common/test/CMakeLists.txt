@@ -1,4 +1,5 @@
 itk_module_test()
+
 create_test_sourcelist(TESTS1 ITK-Common-tests1.cxx
 itkMapContainerTest.cxx
 itkImageReverseIteratorTest.cxx
@@ -17,7 +18,6 @@ itkFileOutputWindowTest.cxx
 itkSymmetricEigenAnalysisTest.cxx
 itkLoggerTest.cxx
 itkDerivativeOperatorTest.cxx
-itkShapedNeighborhoodIteratorTest.cxx
 itkColorTableTest.cxx
 itkNumericTraitsTest.cxx
 itkImageRegionTest.cxx
@@ -68,6 +68,7 @@ itkVariableSizeMatrixTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkTimeStampTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
+itkShapedNeighborhoodIteratorTest.cxx
 itkSizeTest.cxx
 itkMatrixTest.cxx
 itkAutoPointerTest.cxx
@@ -174,6 +175,7 @@ add_test(itkBoundingBoxTest ${COMMON_TESTS1} itkBoundingBoxTest)
 add_test(itkBSplineInterpolationWeightFunctionTest ${COMMON_TESTS2} itkBSplineInterpolationWeightFunctionTest)
 add_test(itkBSplineKernelFunctionTest ${COMMON_TESTS1} itkBSplineKernelFunctionTest)
 add_test(itkConstNeighborhoodIteratorTest ${COMMON_TESTS2} itkConstNeighborhoodIteratorTest)
+add_test(itkShapedNeighborhoodIteratorTest ${COMMON_TESTS2} itkShapedNeighborhoodIteratorTest)
 add_test(itkConstShapedNeighborhoodIteratorTest ${COMMON_TESTS2} itkConstShapedNeighborhoodIteratorTest)
 add_test(itkConstShapedNeighborhoodIteratorTest2 ${COMMON_TESTS2} itkConstShapedNeighborhoodIteratorTest2)
 add_test(itkEventObjectTest ${COMMON_TESTS1} itkEventObjectTest)
@@ -232,7 +234,6 @@ add_test(itkRealTimeStampTest ${COMMON_TESTS1} itkRealTimeStampTest)
 add_test(itkRealTimeIntervalTest ${COMMON_TESTS1} itkRealTimeIntervalTest)
 add_test(itkRGBPixelTest ${COMMON_TESTS1} itkRGBPixelTest)
 add_test(itkScalarToRGBPixelFunctorTest ${COMMON_TESTS1} itkScalarToRGBPixelFunctorTest)
-add_test(itkShapedNeighborhoodIteratorTest ${COMMON_TESTS1} itkShapedNeighborhoodIteratorTest)
 add_test(itkSizeTest ${COMMON_TESTS2} itkSizeTest)
 add_test(itkSliceIteratorTest ${COMMON_TESTS2} itkSliceIteratorTest)
 add_test(itkSmartPointerTest ${COMMON_TESTS2} itkSmartPointerTest)
