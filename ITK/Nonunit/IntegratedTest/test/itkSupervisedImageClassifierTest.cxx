@@ -58,8 +58,6 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   const unsigned int NUMBANDS       =    2;
   const unsigned int NDIMENSION     =    3;
   const unsigned int NUM_CLASSES    =    3;
-  const unsigned int MAX_NUM_ITER   =   50;
-
 
   //------------------------------------------------------
   //Create a simple test image with width, height, and
