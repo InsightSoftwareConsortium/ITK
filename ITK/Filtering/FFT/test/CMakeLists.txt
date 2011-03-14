@@ -33,7 +33,7 @@ endif(USE_FFTWF)
 
 if(USE_FFTWD)
        add_test(NAME itkFFTWD_FFTTest
-             COMMAND itkFFTWD_FFTTest ${ITK_TEST_OUTPUT_DIR} )
+             COMMAND ITK-FFTTestDriver itkFFTWD_FFTTest ${ITK_TEST_OUTPUT_DIR} )
 
        add_test(NAME itkVnlFFTWD_FFTTest
              COMMAND  ITK-FFTTestDriver  itkVnlFFTWD_FFTTest)

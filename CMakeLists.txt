@@ -90,6 +90,28 @@ endif(ITK_USE_REVIEW)
 option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
 mark_as_advanced(ITK_USE_GPU)
 
+# Manage FFT v3 Options
+#
+# USE_FFTWD -- use double precision fftw
+option(USE_FFTWD "Use double precision fftw if found" OFF)
+mark_as_advanced(USE_FFTWD)
+#
+# USE_FFTWF -- use single precision fftw
+option(USE_FFTWF "Use single precision fftw if found" OFF)
+mark_as_advanced(USE_FFTWF)
+
+# USE_SYSTEM_FFTW -- locate a readybuilt fftw installation
+option(USE_SYSTEM_FFTW "Use an installed version of fftw" OFF)
+mark_as_advanced(USE_SYSTEM_FFTW)
+
+if( USE_FFTWD OR USE_FFTWF )
+  #
+  # use ExternalProject
+  include(ExternalProject)
+
+  include(itkExternal_FFTW)
+endif( USE_FFTWD OR USE_FFTWF )
+
 
 set(EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
 set(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
