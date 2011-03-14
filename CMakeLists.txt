@@ -45,8 +45,12 @@ macro(add_test)
   set_property(GLOBAL APPEND PROPERTY ${itk-module}_TESTS ${_imm_test})
 endmacro()
 
-include(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
-include(${ITK_SOURCE_DIR}/CMake/ITKPlatformSpecificChecks.cmake)
+include(ITKPlatformSpecificChecks)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 
 include(CTest)
 
