@@ -58,11 +58,12 @@ if(CMAKE_COMPILER_IS_GNUCXX)
    # only in Apple's gcc and not in the FSF gcc. The flags are obsolete
    # and totally removed in gcc 4.2 and later. I believe they are only
    # needed with gcc 3.3 and earlier.
-   itkCHECK_CXX_ACCEPTS_FLAGS("-no-cpp-precomp" CXX_HAS_CPP_PRECOMP_FLAG)
-   if(CXX_HAS_CPP_PRECOMP_FLAG)
+   execute_process(COMMAND "${CMAKE_C_COMPILER}" --version
+     OUTPUT_VARIABLE _version ERROR_VARIABLE _version)
+   if("${_version}" MATCHES "gcc.*3\\.3.*Apple")
      set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -no-cpp-precomp")
      set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -no-cpp-precomp")
-   endif(CXX_HAS_CPP_PRECOMP_FLAG)
+   endif()
    itkCHECK_CXX_ACCEPTS_FLAGS("-Wno-long-double" CXX_HAS_LONGDOUBLE_FLAG)
    if(CXX_HAS_LONGDOUBLE_FLAG)
      set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -Wno-long-double")
