@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK)
+set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
+include(PreventInSourceBuilds)
 
 # TODO: Integrate with itk-base and ITK-Common
 set(ITK_VERSION_MAJOR "4")
@@ -45,8 +47,6 @@ endmacro()
 
 include(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
 include(${ITK_SOURCE_DIR}/CMake/ITKPlatformSpecificChecks.cmake)
-
-set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake)
 
 include(CTest)
 
