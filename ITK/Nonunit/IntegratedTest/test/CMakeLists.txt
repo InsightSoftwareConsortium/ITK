@@ -58,18 +58,6 @@ itkExtractOrthogonalSwath2DImageFilterTest.cxx
 itkFastMarchingTest.cxx
 itkFastMarchingTest2.cxx
 itkFastMarchingUpwindGradientTest.cxx
-itkFEMElement2DMembraneTest.cxx
-itkFEMElement2DQuadraticTriangularTest.cxx
-itkFEMElement2DStrainTest.cxx
-itkFEMElement3DMembraneTest.cxx
-itkFEMElementTest.cxx
-itkFEMExceptionTest.cxx
-itkFEMGenerateMeshTest.cxx
-itkFEMLinearSystemWrapperDenseVNLTest.cxx
-itkFEMLinearSystemWrapperItpackTest.cxx
-itkFEMLinearSystemWrapperItpackTest2.cxx
-itkFEMLinearSystemWrapperVNLTest.cxx
-itkFEMPArrayTest.cxx
 #itkFileFreeImageIO.cxx
 #itkFileFreeImageIOFactory.cxx
 itkFilterDispatchTest.cxx
@@ -611,119 +599,7 @@ add_test(NAME itkFastMarchingTest2
       COMMAND ITK-IntegratedTestTestDriver itkFastMarchingTest2)
 add_test(NAME itkFastMarchingUpwindGradientTest
       COMMAND ITK-IntegratedTestTestDriver itkFastMarchingUpwindGradientTest)
-add_test(NAME itkFEMElement2DMembraneTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElement2DMembraneTest)
-add_test(NAME itkFEMElement2DQuadraticTriangularTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElement2DQuadraticTriangularTest)
-add_test(NAME itkFEMElement2DStrainTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElement2DStrainTest)
-add_test(NAME itkFEMElement3DMembraneTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElement3DMembraneTest)
-add_test(NAME itkFEMC0HexahedralElement-NodalLoads-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)
-add_test(NAME itkFEMC0HexahedralElement-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/hexa3.fem)
-add_test(NAME itkFEMC0HexahedralElement-GravityLoad-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/hexa4-grav.fem)
-add_test(NAME itkFEMC0QuadElement-NodalLoads-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad2-small.fem)
-add_test(NAME itkFEMC0QuadElement-Strain
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad2-strain.fem)
-add_test(NAME itkFEMC0QuadElement-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad4.fem)
-add_test(NAME itkFEMC0QuadElement-GravityLoad-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad6-grav.fem)
-add_test(NAME itkFEMLoadLandmarkImplementation
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad-lm.fem)
-add_test(NAME itkFEMC0TetrahedralElement-NodalLoads-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tetra2.fem)
-add_test(NAME itkFEMC0TetrahedralElement-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tetra3.fem)
-add_test(NAME itkFEMC0TetrahedralElement-GravityLoad-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tetra4-grav.fem)
-add_test(NAME itkFEMC0QuadElementTrapezoidalGeometry-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/trapezoid.fem)
-add_test(NAME itkFEMC0TriangularElement-NodalLoads-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tri2.fem)
-add_test(NAME itkFEMC0TriangularElement-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tri3.fem)
-add_test(NAME itkFEMC0TriangularElement-Strain
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tri3-e.fem)
-add_test(NAME itkFEMC0TriangularElement-Quadratic
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tri3-q.fem)
-add_test(NAME itkFEMTruss
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
-add_test(NAME itkFEMExceptionTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMExceptionTest)
-add_test(NAME itkFEMGenerateMeshTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMGenerateMeshTest)
-add_test(NAME itkFEMLinearSystemWrapperDenseVNLTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperDenseVNLTest)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest1
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              0)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest2
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              1)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest3
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              2)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest4
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              3)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest5
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              4)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest6
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              5)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest7
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              6)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest8
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              0)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest9
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              1)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest10
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              2)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest11
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              3)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest12
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              4)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest13
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              5)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest14
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              6)
-add_test(NAME itkFEMLinearSystemWrapperVNLTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperVNLTest)
-add_test(NAME itkFEMPArrayTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMPArrayTest)
+
 add_test(NAME itkFilterDispatchTest
       COMMAND ITK-IntegratedTestTestDriver itkFilterDispatchTest)
 add_test(NAME itkFloodFilledSpatialFunctionTest
