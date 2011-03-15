@@ -14,8 +14,8 @@ add_test(NAME itkSmoothingHeaderTest
       COMMAND ITK-SmoothingTestDriver itkSmoothingHeaderTest)
 add_test(NAME itkDiscreteGaussianImageFilterTest2
       COMMAND ITK-SmoothingTestDriver
-    --compare ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
-              ${ITK_DATA_ROOT}/Baseline/BasicFilters/DiscreteGaussianImageFilterTest2_OutputA.mha
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DiscreteGaussianImageFilterTest2_OutputA.mha
+              ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
     itkDiscreteGaussianImageFilterTest2 2 3 ${ITK_DATA_ROOT}/Input/RGBTestImage.tif 3.5 ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha)
 add_test(NAME itkSmoothingRecursiveGaussianImageFilterTest
       COMMAND ITK-SmoothingTestDriver itkSmoothingRecursiveGaussianImageFilterTest)
