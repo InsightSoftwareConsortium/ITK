@@ -29,6 +29,9 @@ namespace itk
  * image region is larger than the input image region, the extra pixels are
  * filled in by a constant value.  The output image region must be specified.
  *
+ *
+ * \image html PadImageFilter.png "Visual explanation of padding regions."
+ *
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
