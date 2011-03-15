@@ -749,7 +749,7 @@ add_test(NAME itkLabelGeometryImageFilterTest2
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelGeometryImageFilterTest2Image.png
               ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest2Image.png
-    itkLabelGeometryImageFilterTest ${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest2Image.png 2 ${ITK_DATA_ROOT}/Input/GrayscaleImageWithVariousShapes01.png)
+    itkLabelGeometryImageFilterTest ${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest2Image.png 2 ${ITK_DATA_ROOT}/Input/GrayscaleImageWithVariousShapes01.png ${ITK_TEST_OUTPUT_DIR})
 add_test(NAME itkLabelImageToLabelMapFilterTest
       COMMAND ITK-ReviewTestDriver itkLabelImageToLabelMapFilterTest)
 add_test(NAME itkLabelImageToShapeLabelMapFilterTest1
