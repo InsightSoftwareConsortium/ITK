@@ -181,10 +181,12 @@ int itkImageRegionTest(int, char* [] )
     passed = false;
     }
   /* Some tests cause floating point exceptions, so
-   * only run them when FPE are not enabled. */
+   * only run them when Floating Point Exceptions are not enabled. */
   if( ! itk::FloatingPointExceptions::GetEnabled() )
     {
-    std::cout << "FPE's are disabled." << std::endl;
+    std::cout << "Floating Point Exceptions's are disabled. " << std::endl;
+    std::cout << "...Proceeding with tests that can generate Floating Point Exceptions's." << std::endl;
+
     /* Generates overflow exception */
     std::cout << "Testing ContinuousIndexNumericTraits::max()." << std::endl;
     indexC[0] = ContinuousIndexNumericTraits::max();
@@ -226,16 +228,16 @@ int itkImageRegionTest(int, char* [] )
       std::cout << "Error with IsInside 8C. Expected false." << std::endl;
       passed = false;
       }
-    }// ! FPE::GetEnabled()
+    }// ! FloatingPointExceptions::GetEnabled()
   else
     {
-    std::cout << "Not testing behavior that triggers FPE." << std::endl;
+    std::cout << "Not testing behavior that triggers Floating Point Exceptions." << std::endl;
     }
 
   if( ! itk::FloatingPointExceptions::GetEnabled() &&
       ContinuousIndexNumericTraits::has_quiet_NaN )
     {
-    std::cout << "FPE's are disabled. Test some more NaN-related behavior..."
+    std::cout << "Floating Point Exceptions's are disabled. Test some more NaN-related behavior..."
               << std::endl;
     /* NaN behavior
      * Experimenting. Can be removed before final merge.
