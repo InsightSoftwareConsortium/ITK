@@ -15,7 +15,7 @@ WRAP_CLASS("itk::RawImageIO" POINTER)
 END_WRAP_CLASS()
 
 set(io_classes
-  AnalyzeImageIO
+#  AnalyzeImageIO
   BioRadImageIO
   BMPImageIO
   GDCMImageIO
@@ -41,10 +41,6 @@ set(io_classes
   JPEG2000ImageIO
 )
 
-if(NOT ITK_USE_MODULAR_BUILD)
-  set(io_classes ${io_classes} DICOMImageIO2 DicomImageIO)
-endif()
-
 foreach(c ${io_classes})
   WRAP_NON_TEMPLATE_CLASS("itk::${c}" POINTER)
   WRAP_NON_TEMPLATE_CLASS("itk::${c}Factory" POINTER)
@@ -53,7 +49,6 @@ endforeach(c)
 
 # *SeriesFileNames
 WRAP_NON_TEMPLATE_CLASS("itk::ArchetypeSeriesFileNames" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::DICOMSeriesFileNames" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::GDCMSeriesFileNames" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::NumericSeriesFileNames" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::RegularExpressionSeriesFileNames" POINTER)

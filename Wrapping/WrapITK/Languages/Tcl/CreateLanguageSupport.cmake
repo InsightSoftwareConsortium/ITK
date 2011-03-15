@@ -30,7 +30,7 @@ macro(END_WRAPPER_LIBRARY_TCL)
       -l${WrapITK_SOURCE_DIR}/Tcl/tcl.i
       -o ${cpp_file}
 #      -I${WRAPPER_MASTER_INDEX_OUTPUT_DIR}
-      -outdir ${LIBRARY_OUTPUT_PATH}
+      -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
       ${interface_file}
       WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl
       DEPENDS ${interface_file} ${WrapITK_SOURCE_DIR}/Tcl/tcl.i

@@ -14,7 +14,7 @@ set(JAVA_DRIVER "${ITK_TEST_DRIVER}"
   --add-before-libpath "${ITK_DIR}/bin"
   --add-before-libpath "${ITK_DIR}"
   "${Java_JAVA_EXECUTABLE}"
-  -Djava.library.path=${LIBRARY_OUTPUT_PATH}/\\\${CTEST_CONFIGURATION_TYPE}${sep}${LIBRARY_OUTPUT_PATH}
+  -Djava.library.path=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/\\\${CTEST_CONFIGURATION_TYPE}${sep}${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
 )
 
 # put all generated files in this list
