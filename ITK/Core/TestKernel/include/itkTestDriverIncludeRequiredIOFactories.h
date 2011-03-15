@@ -4,6 +4,7 @@
 #include "itkTIFFImageIOFactory.h"
 #include "itkBMPImageIOFactory.h"
 #include "itkVTKImageIOFactory.h"
+#include "itkNrrdImageIOFactory.h"
 #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
@@ -15,6 +16,7 @@ void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *a
   itk::ObjectFactoryBase::RegisterFactory( itk::PNGImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::TIFFImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::BMPImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::NrrdImageIOFactory::New() );
 
   ProcessArguments( ac, av );
 

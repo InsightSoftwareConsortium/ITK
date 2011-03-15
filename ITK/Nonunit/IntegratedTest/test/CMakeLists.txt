@@ -58,18 +58,6 @@ itkExtractOrthogonalSwath2DImageFilterTest.cxx
 itkFastMarchingTest.cxx
 itkFastMarchingTest2.cxx
 itkFastMarchingUpwindGradientTest.cxx
-itkFEMElement2DMembraneTest.cxx
-itkFEMElement2DQuadraticTriangularTest.cxx
-itkFEMElement2DStrainTest.cxx
-itkFEMElement3DMembraneTest.cxx
-itkFEMElementTest.cxx
-itkFEMExceptionTest.cxx
-itkFEMGenerateMeshTest.cxx
-itkFEMLinearSystemWrapperDenseVNLTest.cxx
-itkFEMLinearSystemWrapperItpackTest.cxx
-itkFEMLinearSystemWrapperItpackTest2.cxx
-itkFEMLinearSystemWrapperVNLTest.cxx
-itkFEMPArrayTest.cxx
 #itkFileFreeImageIO.cxx
 #itkFileFreeImageIOFactory.cxx
 itkFilterDispatchTest.cxx
@@ -79,10 +67,6 @@ itkFloodFillIteratorTest.cxx
 itkGaussianDistributionTest.cxx
 itkGaussianMembershipFunctionTest.cxx
 itkGaussianMixtureModelComponentTest.cxx
-itkGDCMImageIOTest.cxx
-itkGDCMImageIOTest2.cxx
-itkGDCMSeriesReadImageWrite.cxx
-itkGDCMSeriesStreamReadImageWrite.cxx
 itkGEImageIOTest.cxx
 itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
 itkGetAverageSliceImageFilterTest.cxx
@@ -212,18 +196,6 @@ itkNoiseImageFilterTest.cxx
 itkNormalizedCorrelationImageFilterTest.cxx
 itkNormalizedCorrelationImageMetricTest.cxx
 itkNormalVariateGeneratorTest1.cxx
-itkNrrdComplexImageReadTest.cxx
-itkNrrdComplexImageReadWriteTest.cxx
-itkNrrdCovariantVectorImageReadTest.cxx
-itkNrrdCovariantVectorImageReadWriteTest.cxx
-itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest.cxx
-itkNrrdDiffusionTensor3DImageReadTest.cxx
-itkNrrdDiffusionTensor3DImageReadWriteTest.cxx
-itkNrrdImageReadWriteTest.cxx
-itkNrrdRGBAImageReadWriteTest.cxx
-itkNrrdRGBImageReadWriteTest.cxx
-itkNrrdVectorImageReadTest.cxx
-itkNrrdVectorImageReadWriteTest.cxx
 itkNumericsPrintTest.cxx
 itkNumericsTest.cxx
 itkOptimizersHierarchyTest.cxx
@@ -248,23 +220,6 @@ itkProbabilityDistributionTest.cxx
 itkProjectionImageFilterTest.cxx
 itkPromoteDimensionImageTest.cxx
 itkPushPopTileImageFilterTest.cxx
-itkQuadEdgeMeshAddFaceTest1.cxx
-itkQuadEdgeMeshAddFaceTest2.cxx
-itkQuadEdgeMeshBasicLayerTest.cxx
-itkQuadEdgeMeshCellInterfaceTest.cxx
-itkQuadEdgeMeshCountingCellsTest.cxx
-itkQuadEdgeMeshDeleteEdgeTest.cxx
-itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
-itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorFlipTest.cxx
-itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
-itkQuadEdgeMeshEulerOperatorJoinVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
-itkQuadEdgeMeshIteratorTest.cxx
-itkQuadEdgeMeshNoPointConstTest.cxx
 itkRandomVariateGeneratorBaseTest.cxx
 itkReadWriteImageWithDictionaryTest.cxx
 itkReadWriteSpatialObjectTest.cxx
@@ -611,119 +566,7 @@ add_test(NAME itkFastMarchingTest2
       COMMAND ITK-IntegratedTestTestDriver itkFastMarchingTest2)
 add_test(NAME itkFastMarchingUpwindGradientTest
       COMMAND ITK-IntegratedTestTestDriver itkFastMarchingUpwindGradientTest)
-add_test(NAME itkFEMElement2DMembraneTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElement2DMembraneTest)
-add_test(NAME itkFEMElement2DQuadraticTriangularTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElement2DQuadraticTriangularTest)
-add_test(NAME itkFEMElement2DStrainTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElement2DStrainTest)
-add_test(NAME itkFEMElement3DMembraneTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElement3DMembraneTest)
-add_test(NAME itkFEMC0HexahedralElement-NodalLoads-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/hexa2.fem)
-add_test(NAME itkFEMC0HexahedralElement-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/hexa3.fem)
-add_test(NAME itkFEMC0HexahedralElement-GravityLoad-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/hexa4-grav.fem)
-add_test(NAME itkFEMC0QuadElement-NodalLoads-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad2-small.fem)
-add_test(NAME itkFEMC0QuadElement-Strain
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad2-strain.fem)
-add_test(NAME itkFEMC0QuadElement-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad4.fem)
-add_test(NAME itkFEMC0QuadElement-GravityLoad-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad6-grav.fem)
-add_test(NAME itkFEMLoadLandmarkImplementation
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/quad-lm.fem)
-add_test(NAME itkFEMC0TetrahedralElement-NodalLoads-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tetra2.fem)
-add_test(NAME itkFEMC0TetrahedralElement-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tetra3.fem)
-add_test(NAME itkFEMC0TetrahedralElement-GravityLoad-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tetra4-grav.fem)
-add_test(NAME itkFEMC0QuadElementTrapezoidalGeometry-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/trapezoid.fem)
-add_test(NAME itkFEMC0TriangularElement-NodalLoads-BCs
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tri2.fem)
-add_test(NAME itkFEMC0TriangularElement-NoLoads
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tri3.fem)
-add_test(NAME itkFEMC0TriangularElement-Strain
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tri3-e.fem)
-add_test(NAME itkFEMC0TriangularElement-Quadratic
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/tri3-q.fem)
-add_test(NAME itkFEMTruss
-      COMMAND ITK-IntegratedTestTestDriver itkFEMElementTest
-              ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
-add_test(NAME itkFEMExceptionTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMExceptionTest)
-add_test(NAME itkFEMGenerateMeshTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMGenerateMeshTest)
-add_test(NAME itkFEMLinearSystemWrapperDenseVNLTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperDenseVNLTest)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest1
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              0)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest2
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              1)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest3
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              2)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest4
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              3)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest5
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              4)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest6
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              5)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest7
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest
-              6)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest8
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              0)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest9
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              1)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest10
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              2)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest11
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              3)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest12
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              4)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest13
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              5)
-add_test(NAME itkFEMLinearSystemWrapperItpackTest14
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperItpackTest2
-              6)
-add_test(NAME itkFEMLinearSystemWrapperVNLTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMLinearSystemWrapperVNLTest)
-add_test(NAME itkFEMPArrayTest
-      COMMAND ITK-IntegratedTestTestDriver itkFEMPArrayTest)
+
 add_test(NAME itkFilterDispatchTest
       COMMAND ITK-IntegratedTestTestDriver itkFilterDispatchTest)
 add_test(NAME itkFloodFilledSpatialFunctionTest
@@ -737,30 +580,6 @@ add_test(NAME itkGaussianMembershipFunctionTest
 add_test(NAME itkGaussianMixtureModelComponentTest
       COMMAND ITK-IntegratedTestTestDriver itkGaussianMixtureModelComponentTest
               ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
-add_test(NAME itkGDCMImageIOTest1
-      COMMAND ITK-IntegratedTestTestDriver itkGDCMImageIOTest
-              ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest.dcm)
-add_test(NAME itkGDCMImageIOTest2
-      COMMAND ITK-IntegratedTestTestDriver itkGDCMImageIOTest
-              ${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest2.dcm)
-add_test(NAME itkGDCMImageIOTest3
-      COMMAND ITK-IntegratedTestTestDriver itkGDCMImageIOTest
-              ${ITK_DATA_ROOT}/Input/012345.002.050 ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest3.dcm)
-add_test(NAME itkGDCMImageIOTest4
-      COMMAND ITK-IntegratedTestTestDriver itkGDCMImageIOTest
-              ${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest3.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
-add_test(NAME itkGDCMImageIOTest5
-      COMMAND ITK-IntegratedTestTestDriver itkGDCMImageIOTest2
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest5)
-add_test(NAME itkGDCMSeriesReadImageWrite
-      COMMAND ITK-IntegratedTestTestDriver itkGDCMSeriesReadImageWrite
-              ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME itkGDCMSeriesStreamReadImageWrite1
-      COMMAND ITK-IntegratedTestTestDriver itkGDCMSeriesStreamReadImageWrite
-              ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite1.mhd 0.859375 0.85939 1.60016 0)
-add_test(NAME itkGDCMSeriesStreamReadImageWrite2
-      COMMAND ITK-IntegratedTestTestDriver itkGDCMSeriesStreamReadImageWrite
-              ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite2.mhd 0.859375 0.85939 1.60016 1)
 add_test(NAME itkGE4
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/19771.002.001.mha
@@ -1331,129 +1150,6 @@ add_test(NAME itkNormalizedCorrelationImageMetricTest
       COMMAND ITK-IntegratedTestTestDriver itkNormalizedCorrelationImageMetricTest)
 add_test(NAME itkNormalVariateGeneratorTest1
       COMMAND ITK-IntegratedTestTestDriver itkNormalVariateGeneratorTest1)
-add_test(NAME itkNrrdComplexImageReadTest
-      COMMAND ITK-IntegratedTestTestDriver itkNrrdComplexImageReadTest
-              ${ITK_DATA_ROOT}/Input/mini-complex-slow.nrrd)
-add_test(NAME itkNrrdComplexImageReadWriteTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-complex-fast.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/mini-complex.nrrd
-    itkNrrdComplexImageReadWriteTest ${ITK_DATA_ROOT}/Input/mini-complex-slow.nrrd ${ITK_TEST_OUTPUT_DIR}/mini-complex.nrrd)
-add_test(NAME itkNrrdCovariantVectorImageReadTest
-      COMMAND ITK-IntegratedTestTestDriver itkNrrdCovariantVectorImageReadTest
-              ${ITK_DATA_ROOT}/Input/mini-covector-fast.nrrd)
-add_test(NAME itkNrrdCovariantVectorImageReadWriteTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-covector.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/mini-covector.nrrd
-    itkNrrdCovariantVectorImageReadWriteTest ${ITK_DATA_ROOT}/Input/mini-covector-slow.nrrd ${ITK_TEST_OUTPUT_DIR}/mini-covector.nrrd)
-add_test(NAME itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDouble
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/small-tensors-double.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/small-tensors-double.nrrd
-    itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest ${ITK_DATA_ROOT}/Input/small-tensors.nhdr ${ITK_TEST_OUTPUT_DIR}/small-tensors-double.nrrd)
-add_test(NAME itkNrrdDiffusionTensor3DImageReadTest1
-      COMMAND ITK-IntegratedTestTestDriver itkNrrdDiffusionTensor3DImageReadTest
-              ${ITK_DATA_ROOT}/Input/mini-ten-mask.nrrd)
-add_test(NAME itkNrrdDiffusionTensor3DImageReadTest2
-      COMMAND ITK-IntegratedTestTestDriver itkNrrdDiffusionTensor3DImageReadTest
-              ${ITK_DATA_ROOT}/Input/mini-ten-nomask-fast.nrrd)
-add_test(NAME itkNrrdDiffusionTensor3DImageReadTest3
-      COMMAND ITK-IntegratedTestTestDriver itkNrrdDiffusionTensor3DImageReadTest
-              ${ITK_DATA_ROOT}/Input/mini-ten-nomask-slow.nrrd)
-add_test(NAME itkNrrdDiffusionTensor3DImageReadWriteTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-ten.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/mini-ten.nrrd
-    itkNrrdDiffusionTensor3DImageReadWriteTest ${ITK_DATA_ROOT}/Input/mini-ten-nomask-fast.nrrd ${ITK_TEST_OUTPUT_DIR}/mini-ten.nrrd)
-add_test(NAME itkNrrdDiffusionTensor3DImageReadWriteTest4
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/small-tensors.nhdr
-              ${ITK_TEST_OUTPUT_DIR}/small-tensors.nhdr
-    itkNrrdDiffusionTensor3DImageReadWriteTest ${ITK_DATA_ROOT}/Input/small-tensors.nhdr ${ITK_TEST_OUTPUT_DIR}/small-tensors.nhdr)
-add_test(NAME itkNrrdImageReadWriteTest1
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdImageReadWriteTest1.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/box.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/box.nhdr ${ITK_TEST_OUTPUT_DIR}/box.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol2.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd ${ITK_TEST_OUTPUT_DIR}/vol2.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest3
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol3.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-raw-big.nrrd ${ITK_TEST_OUTPUT_DIR}/vol3.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest4
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol4.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-raw-little.nrrd ${ITK_TEST_OUTPUT_DIR}/vol4.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest5
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol5.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-gzip-big.nrrd ${ITK_TEST_OUTPUT_DIR}/vol5.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest6
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol6.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-gzip-little.nrrd ${ITK_TEST_OUTPUT_DIR}/vol6.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest7
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol7.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-ascii.nhdr ${ITK_TEST_OUTPUT_DIR}/vol7.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest8
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol8.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-raw-big.nhdr ${ITK_TEST_OUTPUT_DIR}/vol8.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest9
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol9.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-raw-little.nhdr ${ITK_TEST_OUTPUT_DIR}/vol9.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest10
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol10.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-gzip-big.nhdr ${ITK_TEST_OUTPUT_DIR}/vol10.nrrd)
-add_test(NAME itkNrrdImageReadWriteTest11
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/vol-ascii.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/vol11.nrrd
-    itkNrrdImageReadWriteTest ${ITK_DATA_ROOT}/Input/vol-gzip-little.nhdr ${ITK_TEST_OUTPUT_DIR}/vol11.nrrd)
-add_test(NAME itkNrrdRGBAImageReadWriteTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBAImageReadWriteTest.png
-              ${ITK_TEST_OUTPUT_DIR}/NrrdRGBAImageReadWriteTest.png
-    itkNrrdRGBAImageReadWriteTest ${ITK_DATA_ROOT}/Input/testrgba.nrrd ${ITK_TEST_OUTPUT_DIR}/NrrdRGBAImageReadWriteTest.png)
-add_test(NAME itkNrrdRGBImageReadWriteTest0
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest0.png
-    itkNrrdRGBImageReadWriteTest ${ITK_DATA_ROOT}/Input/testrgb-0.nhdr ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest0.png)
-add_test(NAME itkNrrdRGBImageReadWriteTest1
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png
-    itkNrrdRGBImageReadWriteTest ${ITK_DATA_ROOT}/Input/testrgb-1.nhdr ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest1.png)
-add_test(NAME itkNrrdRGBImageReadWriteTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdRGBImageReadWriteTest2.png
-              ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest2.png
-    itkNrrdRGBImageReadWriteTest ${ITK_DATA_ROOT}/Input/testrgb-2.nhdr ${ITK_TEST_OUTPUT_DIR}/NrrdRGBImageReadWriteTest2.png)
-add_test(NAME itkNrrdVectorImageReadTest
-      COMMAND ITK-IntegratedTestTestDriver itkNrrdVectorImageReadTest
-              ${ITK_DATA_ROOT}/Input/mini-vector-fast.nrrd)
-add_test(NAME itkNrrdVectorImageReadWriteTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/mini-vector.nrrd
-              ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd
-    itkNrrdVectorImageReadWriteTest ${ITK_DATA_ROOT}/Input/mini-vector-slow.nrrd ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd)
 add_test(NAME itkNumericsPrintTest
      COMMAND ITK-IntegratedTestTestDriver itkNumericsPrintTest)
 add_test(NAME itkNumericsTest
@@ -1514,65 +1210,6 @@ add_test(NAME itkPushPopTileImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PushPopTileImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png
     itkPushPopTileImageFilterTest ${ITK_DATA_ROOT}/Input/Shapes.png ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_0
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              0)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_1
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              1)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_2
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              2)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_3
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              3)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_4
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              4)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_5
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              5)
-add_test(NAME itkQuadEdgeMeshAddFaceTest2
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest2)
-add_test(NAME itkQuadEdgeMeshCellInterfaceTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshCellInterfaceTest)
-add_test(NAME itkQuadEdgeMeshCountingCellsTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshCountingCellsTest)
-add_test(NAME itkQuadEdgeMeshDeleteEdgeTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshDeleteEdgeTest)
-add_test(NAME itkQuadEdgeMeshDeletePointAndReorderIDsTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshDeletePointAndReorderIDsTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorFlipTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorFlipTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinFacetTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinFacetTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest0
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              0)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest1
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              1)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest2
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              2)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest3
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              3)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest4
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              4)
-add_test(NAME itkQuadEdgeMeshEulerOperatorSplitEdgeTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorSplitVertexTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorSplitVertexTest)
-add_test(NAME itkQuadEdgeMeshIteratorTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshIteratorTest)
-add_test(NAME itkQuadEdgeMeshNoPointConstTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshNoPointConstTest)
 add_test(NAME itkRandomVariateGeneratorBaseTest
       COMMAND ITK-IntegratedTestTestDriver itkRandomVariateGeneratorBaseTest)
 add_test(NAME itkReadWriteImageWithDictionaryTest
