@@ -51,7 +51,7 @@ public:
   {
     NrrdImageIOFactory::Pointer nrrdFactory = NrrdImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(nrrdFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(nrrdFactory);
   }
 
 protected:

@@ -51,7 +51,7 @@ public:
   {
     BMPImageIOFactory::Pointer BMPFactory = BMPImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(BMPFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(BMPFactory);
   }
 
 protected:

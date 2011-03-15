@@ -43,4 +43,19 @@ const char * GDCMImageIOFactory::GetDescription() const
 {
   return "GDCM ImageIO Factory, allows the loading of DICOM images into Insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool GDCMImageIOFactoryHasBeenRegistered;
+
+void GDCMImageIOFactoryRegister__Private(void)
+{
+  if( ! GDCMImageIOFactoryHasBeenRegistered )
+    {
+    GDCMImageIOFactoryHasBeenRegistered = true;
+    GDCMImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

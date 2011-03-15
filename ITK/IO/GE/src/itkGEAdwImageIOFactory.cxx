@@ -48,4 +48,19 @@ GEAdwImageIOFactory::GetDescription() const
 {
   return "GEAdw ImageIO Factory, allows the loading of GEAdw images into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool GEAdwImageIOFactoryHasBeenRegistered;
+
+void GEAdwImageIOFactoryRegister__Private(void)
+{
+  if( ! GEAdwImageIOFactoryHasBeenRegistered )
+    {
+    GEAdwImageIOFactoryHasBeenRegistered = true;
+    GEAdwImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

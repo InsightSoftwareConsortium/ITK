@@ -55,7 +55,7 @@ public:
   {
     JPEGImageIOFactory::Pointer JPEGFactory = JPEGImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(JPEGFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(JPEGFactory);
   }
 
 protected:

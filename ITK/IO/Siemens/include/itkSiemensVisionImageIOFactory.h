@@ -55,7 +55,7 @@ public:
   {
     SiemensVisionImageIOFactory::Pointer metaFactory = SiemensVisionImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
 
 protected:

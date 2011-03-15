@@ -83,6 +83,12 @@ public:
    * This calls UnRegisterAll before re-loading. */
   static void ReHash();
 
+  /** Register a factory so it can be used to create itk objects.
+   *  This method is intended to be called only for built-in default
+   *  factories, not for loadable factories.
+   */
+  static void RegisterFactoryInternal(ObjectFactoryBase *);
+
   /** Register a factory so it can be used to create itk objects. */
   static void RegisterFactory(ObjectFactoryBase *);
 
@@ -182,8 +188,11 @@ private:
   ObjectFactoryBase(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
 
-  /** Initialize the static members of ObjectFactoryBase.   RegisterDefaults
-   * is called here. */
+  /** Initialize the static list of Factories. */
+  static void InitializeFactoryList();
+
+  /** Initialize the static members of ObjectFactoryBase.
+   *  RegisterDefaults() and InitializeFactoryList() are called here. */
   static void Initialize();
 
   /** Register default factories which are not loaded at run time. */

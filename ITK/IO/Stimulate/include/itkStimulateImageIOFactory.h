@@ -61,7 +61,7 @@ public:
   {
     StimulateImageIOFactory::Pointer stimulateFactory = StimulateImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(stimulateFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(stimulateFactory);
   }
 
 protected:

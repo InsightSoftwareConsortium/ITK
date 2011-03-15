@@ -51,7 +51,7 @@ public:
   {
     GiplImageIOFactory::Pointer GiplFactory = GiplImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(GiplFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(GiplFactory);
   }
 
 protected:

@@ -45,4 +45,19 @@ MetaImageIOFactory::GetDescription() const
 {
   return "Meta ImageIO Factory, allows the loading of Meta images into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool MetaImageIOFactoryHasBeenRegistered;
+
+void MetaImageIOFactoryRegister__Private(void)
+{
+  if( ! MetaImageIOFactoryHasBeenRegistered )
+    {
+    MetaImageIOFactoryHasBeenRegistered = true;
+    MetaImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

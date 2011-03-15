@@ -183,4 +183,8 @@ private:
 #include "itkImageFileReader.txx"
 #endif
 
+#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#include "itkImageIOFactoryRegisterManager.h"
+#endif
+
 #endif // __itkImageFileReader_h

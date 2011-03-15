@@ -99,10 +99,18 @@ public:
 };
 
 /**
- * Initialize static list of factories.
+ * static list of factories.
+ *
+ * IMPORTANT: The initialization to zero has been purposely removed here.
+ * We now rely on the initialization of the translation unit calling Initialize().
+ * Therefore, here we do not do any further initialization, since it may
+ * override the one that is already done in Initialize().
+ *
+ * By default the compiler will initialize this variable to Zero at the proper
+ * time.
+ *
  */
-std::list< ObjectFactoryBase * > *
-ObjectFactoryBase:: m_RegisteredFactories = 0;
+std::list< ObjectFactoryBase * > * ObjectFactoryBase:: m_RegisteredFactories;
 
 /**
  * Make possible for application developers to demand an exact match
@@ -187,7 +195,7 @@ ObjectFactoryBase
  */
 void
 ObjectFactoryBase
-::Initialize()
+::InitializeFactoryList()
 {
   CleanUpObjectFactoryGlobal.Use();
   /**
@@ -200,6 +208,16 @@ ObjectFactoryBase
 
   ObjectFactoryBase::m_RegisteredFactories =
     new std::list< ObjectFactoryBase * >;
+}
+
+/**
+ * A one time initialization method.
+ */
+void
+ObjectFactoryBase
+::Initialize()
+{
+  ObjectFactoryBase::InitializeFactoryList();
   ObjectFactoryBase::RegisterDefaults();
   ObjectFactoryBase::LoadDynamicFactories();
 }
@@ -433,6 +451,20 @@ ObjectFactoryBase
 }
 
 /**
+ * Add a factory to the registered list.
+ * Intended to be used only by default built-in factories,
+ * not to be used by loadable factories.
+ */
+void
+ObjectFactoryBase
+::RegisterFactoryInternal(ObjectFactoryBase *factory)
+{
+  ObjectFactoryBase::InitializeFactoryList();
+  ObjectFactoryBase::m_RegisteredFactories->push_back(factory);
+  factory->Register();
+}
+
+/**
  * Add a factory to the registered list
  */
 void
@@ -463,6 +495,10 @@ ObjectFactoryBase
       }
     }
   ObjectFactoryBase::Initialize();
+
+  //
+  // Check that this factory class has not been registered yet...
+  //
   ObjectFactoryBase::m_RegisteredFactories->push_back(factory);
   factory->Register();
 }

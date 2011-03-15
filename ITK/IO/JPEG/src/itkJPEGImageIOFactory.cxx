@@ -45,4 +45,19 @@ JPEGImageIOFactory::GetDescription(void) const
 {
   return "JPEG ImageIO Factory, allows the loading of JPEG images into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool JPEGImageIOFactoryHasBeenRegistered;
+
+void JPEGImageIOFactoryRegister__Private(void)
+{
+  if( ! JPEGImageIOFactoryHasBeenRegistered )
+    {
+    JPEGImageIOFactoryHasBeenRegistered = true;
+    JPEGImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

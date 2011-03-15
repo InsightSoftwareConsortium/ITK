@@ -51,7 +51,7 @@ public:
   {
     MetaImageIOFactory::Pointer metaFactory = MetaImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
 
 protected:

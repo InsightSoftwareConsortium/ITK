@@ -55,4 +55,19 @@ LSMImageIOFactory::GetDescription() const
 {
   return "LSM ImageIO Factory, allows the loading of LSM images into ITK";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool LSMImageIOFactoryHasBeenRegistered;
+
+void LSMImageIOFactoryRegister__Private(void)
+{
+  if( ! LSMImageIOFactoryHasBeenRegistered )
+    {
+    LSMImageIOFactoryHasBeenRegistered = true;
+    LSMImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

@@ -55,7 +55,7 @@ public:
   {
     TIFFImageIOFactory::Pointer TIFFFactory = TIFFImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(TIFFFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(TIFFFactory);
   }
 
 protected:

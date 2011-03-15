@@ -51,7 +51,7 @@ public:
   {
     GDCMImageIOFactory::Pointer gdcmFactory = GDCMImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(gdcmFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(gdcmFactory);
   }
 
 protected:

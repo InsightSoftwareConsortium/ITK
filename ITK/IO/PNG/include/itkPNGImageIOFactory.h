@@ -55,7 +55,7 @@ public:
   {
     PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(pngFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(pngFactory);
   }
 
 protected:
