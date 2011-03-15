@@ -88,8 +88,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   typename OpeningType::Pointer opening = OpeningType::New();
   opening->SetInput( labelizer->GetOutput() );
   opening->SetAttribute( LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER );
-  opening->SetLambda( 0 );
-  opening->SetReverseOrdering(true);
+  opening->SetLambda( 1 );
   opening->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(opening, .1f);
 
