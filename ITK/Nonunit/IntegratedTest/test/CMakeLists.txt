@@ -220,23 +220,6 @@ itkProbabilityDistributionTest.cxx
 itkProjectionImageFilterTest.cxx
 itkPromoteDimensionImageTest.cxx
 itkPushPopTileImageFilterTest.cxx
-itkQuadEdgeMeshAddFaceTest1.cxx
-itkQuadEdgeMeshAddFaceTest2.cxx
-itkQuadEdgeMeshBasicLayerTest.cxx
-itkQuadEdgeMeshCellInterfaceTest.cxx
-itkQuadEdgeMeshCountingCellsTest.cxx
-itkQuadEdgeMeshDeleteEdgeTest.cxx
-itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
-itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorFlipTest.cxx
-itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
-itkQuadEdgeMeshEulerOperatorJoinVertexTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
-itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
-itkQuadEdgeMeshIteratorTest.cxx
-itkQuadEdgeMeshNoPointConstTest.cxx
 itkRandomVariateGeneratorBaseTest.cxx
 itkReadWriteImageWithDictionaryTest.cxx
 itkReadWriteSpatialObjectTest.cxx
@@ -1227,65 +1210,6 @@ add_test(NAME itkPushPopTileImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PushPopTileImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png
     itkPushPopTileImageFilterTest ${ITK_DATA_ROOT}/Input/Shapes.png ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_0
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              0)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_1
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              1)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_2
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              2)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_3
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              3)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_4
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              4)
-add_test(NAME itkQuadEdgeMeshAddFaceTest1_5
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest1
-              5)
-add_test(NAME itkQuadEdgeMeshAddFaceTest2
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshAddFaceTest2)
-add_test(NAME itkQuadEdgeMeshCellInterfaceTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshCellInterfaceTest)
-add_test(NAME itkQuadEdgeMeshCountingCellsTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshCountingCellsTest)
-add_test(NAME itkQuadEdgeMeshDeleteEdgeTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshDeleteEdgeTest)
-add_test(NAME itkQuadEdgeMeshDeletePointAndReorderIDsTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshDeletePointAndReorderIDsTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorFlipTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorFlipTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinFacetTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinFacetTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest0
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              0)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest1
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              1)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest2
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              2)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest3
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              3)
-add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest4
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorJoinVertexTest
-              4)
-add_test(NAME itkQuadEdgeMeshEulerOperatorSplitEdgeTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
-add_test(NAME itkQuadEdgeMeshEulerOperatorSplitVertexTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshEulerOperatorSplitVertexTest)
-add_test(NAME itkQuadEdgeMeshIteratorTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshIteratorTest)
-add_test(NAME itkQuadEdgeMeshNoPointConstTest
-      COMMAND ITK-IntegratedTestTestDriver itkQuadEdgeMeshNoPointConstTest)
 add_test(NAME itkRandomVariateGeneratorBaseTest
       COMMAND ITK-IntegratedTestTestDriver itkRandomVariateGeneratorBaseTest)
 add_test(NAME itkReadWriteImageWithDictionaryTest
