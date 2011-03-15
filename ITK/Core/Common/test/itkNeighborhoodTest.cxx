@@ -22,7 +22,7 @@
 #include "itkVector.h"
 
 
-inline void println(const char *s)
+static void println(const char *s)
 {
   std::cout << std::endl << s << std::endl;
 }
