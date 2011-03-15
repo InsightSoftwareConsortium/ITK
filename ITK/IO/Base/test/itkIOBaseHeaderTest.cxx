@@ -21,8 +21,6 @@
 
 #include <iostream>
 
-#include "BigEndian_hdr.h"
-#include "BigEndian_img.h"
 #include "itkArchetypeSeriesFileNames.h"
 #include "itkConvertPixelBuffer.txx"
 #include "itkDefaultConvertPixelTraits.h"
@@ -38,10 +36,6 @@
 #include "itkNumericSeriesFileNames.h"
 #include "itkRegularExpressionSeriesFileNames.h"
 #include "itkStreamingImageIOBase.h"
-#include "LittleEndian_hdr.h"
-#include "LittleEndian_img.h"
-
-
 
 int itkIOBaseHeaderTest ( int , char * [] )
 {
