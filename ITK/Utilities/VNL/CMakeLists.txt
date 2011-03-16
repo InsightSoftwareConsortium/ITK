@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK-VNL)
-find_package(itk-base 4.0 EXACT REQUIRED)
 
 option(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_VXL)

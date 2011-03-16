@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK-NIFTI)
-find_package(itk-base 4.0 EXACT REQUIRED)
 
 option(ITK_USE_SYSTEM_NIFTI "Use an outside build of NIFTI." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_NIFTI)

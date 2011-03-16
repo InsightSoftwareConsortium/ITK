@@ -3,12 +3,27 @@ project(ITK)
 set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 
-# TODO: Integrate with itk-base and ITK-Common
+include(itk-base/itk-base-config)
+
 set(ITK_VERSION_MAJOR "4")
 set(ITK_VERSION_MINOR "0")
 set(ITK_VERSION_PATCH "0")
 
-set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+if(NOT ITK_INSTALL_RUNTIME_DIR)
+  set(ITK_INSTALL_RUNTIME_DIR bin)
+endif()
+if(NOT ITK_INSTALL_LIBRARY_DIR)
+  set(ITK_INSTALL_LIBRARY_DIR lib)
+endif()
+if(NOT ITK_INSTALL_ARCHIVE_DIR)
+  set(ITK_INSTALL_ARCHIVE_DIR lib)
+endif()
+if(NOT ITK_INSTALL_INCLUDE_DIR)
+  set(ITK_INSTALL_INCLUDE_DIR include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
+endif()
+if(NOT ITK_INSTALL_PACKAGE_DIR)
+  set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+endif()
 
 # Override CMake's built-in add_* commands: assign LABELS to tests and targets
 # automatically. Depends on the CMake variable itk-module being set to the
@@ -64,16 +79,12 @@ endif()
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib)
 endif()
+set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX ${ITK_BINARY_DIR}/root CACHE PATH "" FORCE)
   set(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT 0)
 endif()
-
-set(itk-base_DIR ${ITK_SOURCE_DIR}/CMake/itk-base)
-add_subdirectory(${itk-base_DIR})
-find_package(itk-base 4.0 EXACT REQUIRED)
-
 
 #-----------------------------------------------------------------------------
 # ITK build configuration options.
@@ -335,7 +346,6 @@ macro(init_module_vars)
   set(${itk-module}-targets ITKTargets)
   set(${itk-module}-targets-install "${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake")
   set(${itk-module}-targets-build "${ITK_BINARY_DIR}/ITKTargets.cmake")
-  set(${itk-module}_DIR "${${itk-module}_BINARY_DIR}") # find_package
 
   # Start each module with these properties empty. Calls to add_executable,
   # add_library and add_test accumulate names into these properties:
@@ -378,13 +388,11 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
   endif()
 endforeach()
 
-# Generate ITKConfig.cmake for the build tree.f
-set(ITK_CONFIG_CODE "# Module directories")
-foreach(itk-module ${ITK_CONFIG_MODULES_ENABLED})
-  set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
-set(${itk-module}_DIR \"${${itk-module}_DIR}\")")
-endforeach()
+# Generate ITKConfig.cmake for the build tree.
+set(ITK_CONFIG_CODE "
+set(ITK_MODULES_DIR \"${ITK_MODULES_DIR}\")")
 set(ITK_USE_FILE "${ITK_SOURCE_DIR}/CMake/UseITK.cmake")
+set(ITK_CONFIG_TARGETS_FILE "${ITK_BINARY_DIR}/ITKTargets.cmake")
 configure_file(CMake/ITKConfig.cmake.in ITKConfig.cmake @ONLY)
 
 # Generate ITKConfig.cmake for the install tree.
@@ -398,11 +406,10 @@ foreach(p ${_count})
   set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
 get_filename_component(ITK_INSTALL_PREFIX \"\${ITK_INSTALL_PREFIX}\" PATH)")
 endforeach(p)
-foreach(itk-module ${ITK_CONFIG_MODULES_ENABLED})
-  set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
-set(${itk-module}_DIR \"\${ITK_INSTALL_PREFIX}/lib/cmake/${itk-module}-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}\")")
-endforeach()
+set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
+set(ITK_MODULES_DIR \"\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/Modules\")")
 set(ITK_USE_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/UseITK.cmake")
+set(ITK_CONFIG_TARGETS_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake")
 configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
 
 #-----------------------------------------------------------------------------
