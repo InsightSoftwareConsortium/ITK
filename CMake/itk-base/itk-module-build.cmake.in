@@ -1,0 +1,5 @@
+if(@itk-module@_LOADED)
+  return()
+endif()
+set(@itk-module@_LOADED 1)
+@itk-module-config-build@

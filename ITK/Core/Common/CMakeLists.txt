@@ -1,9 +1,5 @@
 project(ITK-Common)
 
-set(ITK_VERSION_MAJOR "4")
-set(ITK_VERSION_MINOR "0")
-set(ITK_VERSION_PATCH "0")
-
 include(TestBigEndian)
 test_big_endian(CMAKE_WORDS_BIGENDIAN)
 

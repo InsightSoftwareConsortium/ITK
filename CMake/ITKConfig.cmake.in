@@ -25,12 +25,17 @@ set(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 # List of available ITK modules.
 set(ITK_MODULES_ENABLED "@ITK_CONFIG_MODULES_ENABLED@")
 
+# Import ITK targets.
+include("@ITK_CONFIG_TARGETS_FILE@")
+
 # Load all modules.
 set(ITK_LIBRARIES "")
 set(ITK_INCLUDE_DIRS "")
 set(ITK_LIBRARY_DIRS "")
 foreach(itk-module ${ITK_MODULES_ENABLED})
-  include("${${itk-module}_DIR}/${itk-module}Config.cmake")
+  if(NOT ${itk-module}_LOADED)
+    include("${ITK_MODULES_DIR}/${itk-module}.cmake")
+  endif()
   list(APPEND ITK_LIBRARIES ${${itk-module}_LIBRARIES})
   list(APPEND ITK_INCLUDE_DIRS ${${itk-module}_INCLUDE_DIRS})
   list(APPEND ITK_LIBRARY_DIRS ${${itk-module}_LIBRARY_DIRS})
