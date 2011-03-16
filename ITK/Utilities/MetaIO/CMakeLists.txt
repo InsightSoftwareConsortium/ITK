@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK-MetaIO)
-find_package(itk-base 4.0 EXACT REQUIRED)
 
 option(ITK_USE_SYSTEM_METAIO "Use an outside build of METAIO." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_METAIO)

@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK-ZLIB)
-find_package(itk-base 4.0 EXACT REQUIRED)
 
 option(ITK_USE_SYSTEM_ZLIB "Use system-installed zlib" OFF)
 mark_as_advanced(ITK_USE_SYSTEM_ZLIB)

@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK-Common)
-find_package(itk-base 4.0 EXACT REQUIRED)
 
 set(ITK_VERSION_MAJOR "4")
 set(ITK_VERSION_MINOR "0")
