@@ -6,15 +6,16 @@ mark_as_advanced(ITK_USE_SYSTEM_TIFF)
 if(ITK_USE_SYSTEM_TIFF)
   find_package(TIFF REQUIRED)
   set(ITK-TIFF_INCLUDE_DIRS
+    ${ITK-TIFF_BINARY_DIR}/src
     ${TIFF_INCLUDE_DIRS}
     )
-  set(ITK-TIFF_LIBRARIES itktiff)
+  set(ITK-TIFF_LIBRARIES "${TIFF_LIBRARIES}")
   set(itk-module-config-install "
-list(APPEND ITK-TIFF_LIBRARIES \"${TIFF_LIBRARIES}\")
+list(APPEND ITK-TIFF_LIBRARIES \"${ITK-TIFF_LIBRARIES}\")
 list(APPEND ITK-TIFF_INCLUDE_DIRS \"${ITK-TIFF_INCLUDE_DIRS}\")
 ")
   set(itk-module-config-build "
-list(APPEND ITK-TIFF_LIBRARIES \"${TIFF_LIBRARIES}\")
+list(APPEND ITK-TIFF_LIBRARIES \"${ITK-TIFF_LIBRARIES}\")
 list(APPEND ITK-TIFF_INCLUDE_DIRS \"${ITK-TIFF_INCLUDE_DIRS}\")
 ")
   set(itk-module-no-include 1)

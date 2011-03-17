@@ -8,13 +8,13 @@ if(ITK_USE_SYSTEM_EXPAT)
   set(ITK-Expat_INCLUDE_DIRS
     ${EXPAT_INCLUDE_DIRS}
     )
-  set(ITK-Expat_LIBRARIES ITKEXPAT)
+  set(ITK-Expat_LIBRARIES "${EXPAT_LIBRARIES}")
   set(itk-module-config-install "
-list(APPEND ITK-Expat_LIBRARIES \"${EXPAT_LIBRARIES}\")
+list(APPEND ITK-Expat_LIBRARIES \"${ITK-Expat_LIBRARIES}\")
 list(APPEND ITK-Expat_INCLUDE_DIRS \"${ITK-Expat_INCLUDE_DIRS}\")
 ")
   set(itk-module-config-build "
-list(APPEND ITK-Expat_LIBRARIES \"${EXPAT_LIBRARIES}\")
+list(APPEND ITK-Expat_LIBRARIES \"${ITK-Expat_LIBRARIES}\")
 list(APPEND ITK-Expat_INCLUDE_DIRS \"${ITK-Expat_INCLUDE_DIRS}\")
 ")
   set(itk-module-no-src 1)
