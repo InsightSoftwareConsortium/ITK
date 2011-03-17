@@ -1,4 +1,0 @@
-set(@itk-module@_LOADED 1)
-set(@itk-module@_DEPENDS "@itk-module-DEPENDS@")
-set(@itk-module@_LIBRARIES "@itk-module-LIBRARIES@")
-set(@itk-module@_INCLUDE_DIRS "@itk-module-INCLUDE_DIRS-build@")
