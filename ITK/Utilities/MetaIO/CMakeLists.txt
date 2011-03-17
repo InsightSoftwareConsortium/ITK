@@ -1,30 +1,9 @@
 project(ITK-MetaIO)
 
-option(ITK_USE_SYSTEM_METAIO "Use an outside build of METAIO." OFF)
-mark_as_advanced(ITK_USE_SYSTEM_METAIO)
-
-if(ITK_USE_SYSTEM_METAIO)
-  find_package(METAIO REQUIRED)
-  set(ITK-MetaIO_INCLUDE_DIRS
-    ${METAIO_INCLUDE_DIRS}
-    )
-  set(ITK-MetaIO_LIBRARIES ITKMetaIO)
-  set(itk-module-config-install "
-list(APPEND itk_LIBRARIES \"${ZLIB_LIBRARIES}\")
-list(APPEND ITK-MetaIO_INCLUDE_DIRS \"${ITK-MetaIO_INCLUDE_DIRS}\")
-")
-  set(itk-module-config-build "
-list(APPEND ITK-MetaIO_LIBRARIES \"${ZLIB_LIBRARIES}\")
-list(APPEND ITK-MetaIO_INCLUDE_DIRS \"${ITK-MetaIO_INCLUDE_DIRS}\")
-")
-  set(itk-module-no-include 1)
-  set(itk-module-no-src 1)
-else()
-  set(ITK-MetaIO-target ITKMetaIO)
-  set(ITK-MetaIO_INCLUDE_DIRS
-    ${ITK-MetaIO_SOURCE_DIR}/src/MetaIO
-    )
-  set(ITK-MetaIO_LIBRARIES ITKMetaIO)
-endif()
+set(ITK-MetaIO-target ITKMetaIO)
+set(ITK-MetaIO_INCLUDE_DIRS
+  ${ITK-MetaIO_SOURCE_DIR}/src/MetaIO
+  )
+set(ITK-MetaIO_LIBRARIES ITKMetaIO)
 
 itk_module_impl()
