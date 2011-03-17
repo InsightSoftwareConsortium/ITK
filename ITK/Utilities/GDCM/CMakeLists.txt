@@ -5,21 +5,12 @@ mark_as_advanced(ITK_USE_SYSTEM_GDCM)
 
 if(ITK_USE_SYSTEM_GDCM)
   find_package(GDCM REQUIRED)
-  set(ITK-GDCM_INCLUDE_DIRS
+  set(ITK-GDCM_SYSTEM_INCLUDE_DIRS
     ${GDCM_INCLUDE_DIR}
     )
   set(ITK-GDCM_LIBRARIES  gdcmDICT gdcmMSFF )
-  set(itk-module-config-install "
-list(APPEND ITK-GDCM_LIBRARY_DIRS \"${GDCM_LIBRARY_DIR}\")
-list(APPEND ITK-GDCM_INCLUDE_DIRS \"${GDCM_INCLUDE_DIRS}\")
-")
-  set(itk-module-config-build "
-list(APPEND ITK-GDCM_LIBRARIES \"${GDCM_LIBRARIES})
-list(APPEND ITK-GDCM_LIBRARY_DIRS \"${GDCM_LIBRARY_DIR}\")
-")
-  set(itk-module-no-src 1)
+  set(ITK-GDCM_NO_SRC 1)
 else()
-  set(ITK-GDCM-target  gdcmDICT)
   set(ITK-GDCM_INCLUDE_DIRS
     ${ITK-GDCM_BINARY_DIR}
     ${ITK-GDCM_BINARY_DIR}/src/gdcm/Source/Common

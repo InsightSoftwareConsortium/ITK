@@ -1,6 +1,5 @@
 project(ITK-MetaIO)
 
-set(ITK-MetaIO-target ITKMetaIO)
 set(ITK-MetaIO_INCLUDE_DIRS
   ${ITK-MetaIO_SOURCE_DIR}/src/MetaIO
   )
