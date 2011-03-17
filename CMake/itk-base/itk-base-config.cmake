@@ -100,8 +100,10 @@ macro(itk_module_impl)
     list(APPEND itk-module-INCLUDE_DIRS-build "${${itk-module}_SYSTEM_INCLUDE_DIRS}")
     list(APPEND itk-module-INCLUDE_DIRS-install "${${itk-module}_SYSTEM_INCLUDE_DIRS}")
   endif()
-  configure_file(${_itk_base_dir}/itk-module-build.cmake.in ${ITK_MODULES_DIR}/${itk-module}.cmake @ONLY)
-  configure_file(${_itk_base_dir}/itk-module-install.cmake.in CMakeFiles/${itk-module}.cmake @ONLY)
+  set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-build}")
+  configure_file(${_itk_base_dir}/itk-module-info.cmake.in ${ITK_MODULES_DIR}/${itk-module}.cmake @ONLY)
+  set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-install}")
+  configure_file(${_itk_base_dir}/itk-module-info.cmake.in CMakeFiles/${itk-module}.cmake @ONLY)
   install(FILES
     ${${itk-module}_BINARY_DIR}/CMakeFiles/${itk-module}.cmake
     DESTINATION ${ITK_INSTALL_PACKAGE_DIR}/Modules
