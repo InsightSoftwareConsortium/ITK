@@ -12,7 +12,7 @@ if(ITK_USE_SYSTEM_ZLIB)
     ${ZLIB_INCLUDE_DIRS}
     )
   set(ITK-ZLIB_LIBRARIES "${ZLIB_LIBRARIES}")
-  set(itk-module-no-src 1)
+  set(ITK-ZLIB_NO_SRC 1)
 else()
   set(ITK-ZLIB_INCLUDE_DIRS
     ${ITK-ZLIB_BINARY_DIR}/src

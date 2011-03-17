@@ -87,7 +87,7 @@ macro(itk_module_impl)
   endif()
 
   set(itk-module-export-targets 0)
-  if(EXISTS ${${itk-module}_SOURCE_DIR}/src/CMakeLists.txt AND NOT itk-module-no-src)
+  if(EXISTS ${${itk-module}_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_NO_SRC)
     set(itk-module-export-targets 1)
     add_subdirectory(src)
   endif()

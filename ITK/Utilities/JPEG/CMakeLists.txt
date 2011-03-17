@@ -12,7 +12,7 @@ if(ITK_USE_SYSTEM_JPEG)
     ${JPEG_INCLUDE_DIRS}
     )
   set(ITK-JPEG_LIBRARIES "${JPEG_LIBRARIES}")
-  set(itk-module-no-src 1)
+  set(ITK-JPEG_NO_SRC 1)
 else()
   set(ITK-JPEG_INCLUDE_DIRS
     ${ITK-JPEG_BINARY_DIR}/src

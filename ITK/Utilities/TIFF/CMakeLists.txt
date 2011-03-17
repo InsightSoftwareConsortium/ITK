@@ -12,7 +12,7 @@ if(ITK_USE_SYSTEM_TIFF)
     ${TIFF_INCLUDE_DIRS}
     )
   set(ITK-TIFF_LIBRARIES "${TIFF_LIBRARIES}")
-  set(itk-module-no-src 1)
+  set(ITK-TIFF_NO_SRC 1)
 else()
   set(ITK-TIFF_INCLUDE_DIRS
     ${ITK-TIFF_BINARY_DIR}/src

@@ -9,7 +9,7 @@ if(ITK_USE_SYSTEM_GDCM)
     ${GDCM_INCLUDE_DIR}
     )
   set(ITK-GDCM_LIBRARIES  gdcmDICT gdcmMSFF )
-  set(itk-module-no-src 1)
+  set(ITK-GDCM_NO_SRC 1)
 else()
   set(ITK-GDCM_INCLUDE_DIRS
     ${ITK-GDCM_BINARY_DIR}
