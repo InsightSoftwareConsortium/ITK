@@ -6,15 +6,16 @@ mark_as_advanced(ITK_USE_SYSTEM_PNG)
 if(ITK_USE_SYSTEM_PNG)
   find_package(PNG REQUIRED)
   set(ITK-PNG_INCLUDE_DIRS
+    ${ITK-PNG_BINARY_DIR}/src
     ${PNG_INCLUDE_DIRS}
     )
-  set(ITK-PNG_LIBRARIES itkpng)
+  set(ITK-PNG_LIBRARIES "${PNG_LIBRARIES}")
   set(itk-module-config-install "
-list(APPEND ITK-PNG_LIBRARIES \"${PNG_LIBRARIES}\")
+list(APPEND ITK-PNG_LIBRARIES \"${ITK-PNG_LIBRARIES}\")
 list(APPEND ITK-PNG_INCLUDE_DIRS \"${ITK-PNG_INCLUDE_DIRS}\")
 ")
   set(itk-module-config-build "
-list(APPEND ITK-PNG_LIBRARIES \"${PNG_LIBRARIES}\")
+list(APPEND ITK-PNG_LIBRARIES \"${ITK-PNG_LIBRARIES}\")
 list(APPEND ITK-PNG_INCLUDE_DIRS \"${ITK-PNG_INCLUDE_DIRS}\")
 ")
   set(itk-module-no-include 1)

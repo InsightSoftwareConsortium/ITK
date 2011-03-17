@@ -6,15 +6,16 @@ mark_as_advanced(ITK_USE_SYSTEM_ZLIB)
 if(ITK_USE_SYSTEM_ZLIB)
   find_package(ZLIB REQUIRED)
   set(ITK-ZLIB_INCLUDE_DIRS
+    ${ITK-ZLIB_BINARY_DIR}/src
     ${ZLIB_INCLUDE_DIRS}
     )
-  set(ITK-ZLIB_LIBRARIES itkzlib)
+  set(ITK-ZLIB_LIBRARIES "${ZLIB_LIBRARIES}")
   set(itk-module-config-install "
-list(APPEND ITK-ZLIB_LIBRARIES \"${ZLIB_LIBRARIES}\")
+list(APPEND ITK-ZLIB_LIBRARIES \"${ITK-ZLIB_LIBRARIES}\")
 list(APPEND ITK-ZLIB_INCLUDE_DIRS \"${ITK-ZLIB_INCLUDE_DIRS}\")
 ")
   set(itk-module-config-build "
-list(APPEND ITK-ZLIB_LIBRARIES \"${ZLIB_LIBRARIES}\")
+list(APPEND ITK-ZLIB_LIBRARIES \"${ITK-ZLIB_LIBRARIES}\")
 list(APPEND ITK-ZLIB_INCLUDE_DIRS \"${ITK-ZLIB_INCLUDE_DIRS}\")
 ")
   set(itk-module-no-include 1)
