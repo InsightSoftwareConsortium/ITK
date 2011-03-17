@@ -20,7 +20,6 @@ list(APPEND ITK-VNL_LIBRARY_DIRS \"${VXL_LIBRARY_DIR}\")
 ")
   set(itk-module-no-src 1)
 else()
-  set(ITK-VNL-target itkvnl)
   set(ITK-VNL_INCLUDE_DIRS
     ${ITK-VNL_SOURCE_DIR}/src/vxl/v3p/netlib
     ${ITK-VNL_SOURCE_DIR}/src/vxl/vcl

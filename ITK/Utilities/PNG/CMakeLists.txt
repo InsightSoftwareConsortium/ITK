@@ -21,7 +21,6 @@ list(APPEND ITK-PNG_INCLUDE_DIRS \"${ITK-PNG_INCLUDE_DIRS}\")
   set(itk-module-no-include 1)
   set(itk-module-no-src 1)
 else()
-  set(ITK-PNG-target itkpng)
   set(ITK-PNG_INCLUDE_DIRS
     ${ITK-PNG_BINARY_DIR}/src
     ${ITK-PNG_SOURCE_DIR}/src

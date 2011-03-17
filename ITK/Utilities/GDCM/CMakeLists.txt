@@ -19,7 +19,6 @@ list(APPEND ITK-GDCM_LIBRARY_DIRS \"${GDCM_LIBRARY_DIR}\")
 ")
   set(itk-module-no-src 1)
 else()
-  set(ITK-GDCM-target  gdcmDICT)
   set(ITK-GDCM_INCLUDE_DIRS
     ${ITK-GDCM_BINARY_DIR}
     ${ITK-GDCM_BINARY_DIR}/src/gdcm/Source/Common

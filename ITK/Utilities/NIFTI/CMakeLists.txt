@@ -1,6 +1,5 @@
 project(ITK-NIFTI)
 
-set(ITK-NIFTI-target ITKniftiio)
 set(ITK-NIFTI_INCLUDE_DIRS
   ${ITK-NIFTI_SOURCE_DIR}/src/nifti/niftilib
   ${ITK-NIFTI_SOURCE_DIR}/src/nifti/znzlib

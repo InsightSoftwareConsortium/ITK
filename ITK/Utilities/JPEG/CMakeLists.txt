@@ -21,7 +21,6 @@ list(APPEND ITK-JPEG_INCLUDE_DIRS \"${ITK-JPEG_INCLUDE_DIRS}\")
   set(itk-module-no-include 1)
   set(itk-module-no-src 1)
 else()
-  set(ITK-JPEG-target itkjpeg)
   set(ITK-JPEG_INCLUDE_DIRS
     ${ITK-JPEG_BINARY_DIR}/src
     ${ITK-JPEG_SOURCE_DIR}/src

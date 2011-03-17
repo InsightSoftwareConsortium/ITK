@@ -35,9 +35,6 @@ endmacro()
 
 macro(itk_module_impl)
   include(itk-module.cmake) # Load module meta-data
-  if(NOT ${itk-module}-target)
-    set(${itk-module}-target ${itk-module})
-  endif()
   set(${itk-module}_INSTALL_RUNTIME_DIR ${ITK_INSTALL_RUNTIME_DIR})
   set(${itk-module}_INSTALL_LIBRARY_DIR ${ITK_INSTALL_LIBRARY_DIR})
   set(${itk-module}_INSTALL_ARCHIVE_DIR ${ITK_INSTALL_ARCHIVE_DIR})

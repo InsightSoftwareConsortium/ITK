@@ -21,7 +21,6 @@ list(APPEND ITK-TIFF_INCLUDE_DIRS \"${ITK-TIFF_INCLUDE_DIRS}\")
   set(itk-module-no-include 1)
   set(itk-module-no-src 1)
 else()
-  set(ITK-TIFF-target itktiff)
   set(ITK-TIFF_INCLUDE_DIRS
     ${ITK-TIFF_BINARY_DIR}/src
     ${ITK-TIFF_SOURCE_DIR}/src

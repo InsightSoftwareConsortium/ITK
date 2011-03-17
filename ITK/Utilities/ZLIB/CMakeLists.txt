@@ -21,7 +21,6 @@ list(APPEND ITK-ZLIB_INCLUDE_DIRS \"${ITK-ZLIB_INCLUDE_DIRS}\")
   set(itk-module-no-include 1)
   set(itk-module-no-src 1)
 else()
-  set(ITK-ZLIB-target itkzlib)
   set(ITK-ZLIB_INCLUDE_DIRS
     ${ITK-ZLIB_BINARY_DIR}/src
     ${ITK-ZLIB_SOURCE_DIR}/src
