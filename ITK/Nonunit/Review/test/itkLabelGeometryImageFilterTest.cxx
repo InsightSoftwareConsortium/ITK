@@ -25,7 +25,7 @@
 #include <stdio.h>
 
 template < const unsigned int NDimension >
-int LabelGeometryImageFilterTest(const char * labelImageName,const char * outputImageName,const char * intensityImageName)
+int LabelGeometryImageFilterTest(const char * labelImageName,const char * outputImageName,const char * intensityImageName, const char * outputOrientedImagePath)
 {
   typedef unsigned short   LabelPixelType;
   typedef unsigned short   IntensityPixelType;
@@ -188,7 +188,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
     std::ostringstream filename;
     char buffer[50];
     sprintf(buffer,"%3.3d",label);
-    filename << "OrientedLabelImage" << buffer << ".mhd";
+    filename << outputOrientedImagePath << "/OrientedLabelImage" << buffer << ".mhd";
 
     labelWriter->SetFileName( filename.str().c_str() );
     labelWriter->SetInput( labelGeometryFilter2->GetOrientedLabelImage(label) );
@@ -205,7 +205,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
     typedef itk::ImageFileWriter< IntensityImageType > IntensityWriterType;
     typename IntensityWriterType::Pointer intensityWriter = IntensityWriterType::New();
     std::ostringstream filename2;
-    filename2 << "OrientedIntensityImage" << buffer << ".mhd";
+    filename2 << outputOrientedImagePath << "/OrientedIntensityImage" << buffer << ".mhd";
     intensityWriter->SetFileName( filename2.str().c_str() );
     intensityWriter->SetInput( labelGeometryFilter2->GetOrientedIntensityImage(label) );
 
@@ -227,7 +227,7 @@ int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " binaryImage outputLabeledImage dimension [intensityImage]" << std::endl;
+    std::cerr << argv[0] << " binaryImage outputLabeledImage dimension [intensityImage outputOrientedImagePath]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -235,19 +235,20 @@ int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
   const char * outputImageName = argv[2];
   unsigned int dimension = atoi(argv[3]);
   const char * intensityImageName = "";
+  const char * outputOrientedImagePath= "";
 
-  if( argc == 5 )
-    {
+  if (argc == 6){
+    outputOrientedImagePath = argv[5];
     intensityImageName = argv[4];
     }
 
   if( dimension == 2 )
     {
-    LabelGeometryImageFilterTest<2>(labelImageName,outputImageName,intensityImageName);
+    LabelGeometryImageFilterTest<2>(labelImageName,outputImageName,intensityImageName,outputOrientedImagePath);
     }
   else if( dimension == 3 )
     {
-    LabelGeometryImageFilterTest<3>(labelImageName,outputImageName,intensityImageName);
+    LabelGeometryImageFilterTest<3>(labelImageName,outputImageName,intensityImageName,outputOrientedImagePath);
     }
   return EXIT_SUCCESS;
 }
