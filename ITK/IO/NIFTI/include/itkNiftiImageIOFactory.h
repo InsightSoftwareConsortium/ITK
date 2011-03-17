@@ -55,7 +55,7 @@ public:
   {
     NiftiImageIOFactory::Pointer metaFactory = NiftiImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
 
 protected:

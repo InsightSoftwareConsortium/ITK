@@ -61,7 +61,7 @@ public:
   {
     BioRadImageIOFactory::Pointer bioradFactory = BioRadImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(bioradFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(bioradFactory);
   }
 
 protected:

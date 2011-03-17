@@ -45,4 +45,19 @@ NrrdImageIOFactory::GetDescription() const
 {
   return "Nrrd ImageIO Factory, allows the loading of Nrrd images into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool NrrdImageIOFactoryHasBeenRegistered;
+
+void NrrdImageIOFactoryRegister__Private(void)
+{
+  if( ! NrrdImageIOFactoryHasBeenRegistered )
+    {
+    NrrdImageIOFactoryHasBeenRegistered = true;
+    NrrdImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

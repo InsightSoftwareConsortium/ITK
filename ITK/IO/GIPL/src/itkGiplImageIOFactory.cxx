@@ -45,4 +45,19 @@ GiplImageIOFactory::GetDescription() const
 {
   return "Gipl ImageIO Factory, allows the loading of Gipl images into Insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool GiplImageIOFactoryHasBeenRegistered;
+
+void GiplImageIOFactoryRegister__Private(void)
+{
+  if( ! GiplImageIOFactoryHasBeenRegistered )
+    {
+    GiplImageIOFactoryHasBeenRegistered = true;
+    GiplImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

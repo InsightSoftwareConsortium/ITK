@@ -45,4 +45,19 @@ TIFFImageIOFactory::GetDescription(void) const
 {
   return "TIFF ImageIO Factory, allows the loading of TIFF images into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool TIFFImageIOFactoryHasBeenRegistered;
+
+void TIFFImageIOFactoryRegister__Private(void)
+{
+  if( ! TIFFImageIOFactoryHasBeenRegistered )
+    {
+    TIFFImageIOFactoryHasBeenRegistered = true;
+    TIFFImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

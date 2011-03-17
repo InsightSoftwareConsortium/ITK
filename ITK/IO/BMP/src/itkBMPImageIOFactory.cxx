@@ -45,4 +45,19 @@ BMPImageIOFactory::GetDescription() const
 {
   return "BMP ImageIO Factory, allows the loading of BMP images into Insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool BMPImageIOFactoryHasBeenRegistered;
+
+void BMPImageIOFactoryRegister__Private(void)
+{
+  if( ! BMPImageIOFactoryHasBeenRegistered )
+    {
+    BMPImageIOFactoryHasBeenRegistered = true;
+    BMPImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

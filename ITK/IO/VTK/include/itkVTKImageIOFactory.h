@@ -61,7 +61,7 @@ public:
   {
     VTKImageIOFactory::Pointer vtkFactory = VTKImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(vtkFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(vtkFactory);
   }
 
 protected:

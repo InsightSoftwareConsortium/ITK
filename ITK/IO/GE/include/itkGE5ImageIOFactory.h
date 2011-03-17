@@ -55,7 +55,7 @@ public:
   {
     GE5ImageIOFactory::Pointer metaFactory = GE5ImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
 
 protected:

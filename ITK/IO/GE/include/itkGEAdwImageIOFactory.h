@@ -55,7 +55,7 @@ public:
   {
     GEAdwImageIOFactory::Pointer metaFactory = GEAdwImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
 
 protected:

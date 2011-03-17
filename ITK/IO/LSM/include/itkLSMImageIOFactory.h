@@ -61,7 +61,7 @@ public:
   {
     LSMImageIOFactory::Pointer lsmFactory = LSMImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(lsmFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(lsmFactory);
   }
 
 protected:

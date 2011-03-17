@@ -216,4 +216,8 @@ private:
 #include "itkImageFileWriter.txx"
 #endif
 
+#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#include "itkImageIOFactoryRegisterManager.h"
+#endif
+
 #endif // __itkImageFileWriter_h
