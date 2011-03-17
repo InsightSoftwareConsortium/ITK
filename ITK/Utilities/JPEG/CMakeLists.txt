@@ -7,18 +7,11 @@ if(ITK_USE_SYSTEM_JPEG)
   find_package(JPEG REQUIRED)
   set(ITK-JPEG_INCLUDE_DIRS
     ${ITK-JPEG_BINARY_DIR}/src
+    )
+  set(ITK-JPEG_SYSTEM_INCLUDE_DIRS
     ${JPEG_INCLUDE_DIRS}
     )
   set(ITK-JPEG_LIBRARIES "${JPEG_LIBRARIES}")
-  set(itk-module-config-install "
-list(APPEND ITK-JPEG_LIBRARIES \"${ITK-JPEG_LIBRARIES}\")
-list(APPEND ITK-JPEG_INCLUDE_DIRS \"${ITK-JPEG_INCLUDE_DIRS}\")
-")
-  set(itk-module-config-build "
-list(APPEND ITK-JPEG_LIBRARIES \"${ITK-JPEG_LIBRARIES}\")
-list(APPEND ITK-JPEG_INCLUDE_DIRS \"${ITK-JPEG_INCLUDE_DIRS}\")
-")
-  set(itk-module-no-include 1)
   set(itk-module-no-src 1)
 else()
   set(ITK-JPEG_INCLUDE_DIRS

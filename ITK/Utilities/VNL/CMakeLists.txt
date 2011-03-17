@@ -5,19 +5,12 @@ mark_as_advanced(ITK_USE_SYSTEM_VXL)
 
 if(ITK_USE_SYSTEM_VXL)
   find_package(VXL REQUIRED)
-  set(ITK-VNL_INCLUDE_DIRS
+  set(ITK-VNL_SYSTEM_INCLUDE_DIRS
     ${VXL_NETLIB_INCLUDE_DIR}
     ${VXL_VCL_INCLUDE_DIR}
     ${VXL_CORE_INCLUDE_DIR}
     )
   set(ITK-VNL_LIBRARIES vnl_algo vnl v3p_netlib netlib vcl)
-  set(itk-module-config-install "
-list(APPEND ITK-VNL_LIBRARY_DIRS \"${VXL_LIBRARY_DIR}\")
-list(APPEND ITK-VNL_INCLUDE_DIRS \"${ITK-VNL_INCLUDE_DIRS}\")
-")
-  set(itk-module-config-build "
-list(APPEND ITK-VNL_LIBRARY_DIRS \"${VXL_LIBRARY_DIR}\")
-")
   set(itk-module-no-src 1)
 else()
   set(ITK-VNL_INCLUDE_DIRS

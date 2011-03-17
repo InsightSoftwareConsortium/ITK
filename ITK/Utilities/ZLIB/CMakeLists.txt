@@ -7,18 +7,11 @@ if(ITK_USE_SYSTEM_ZLIB)
   find_package(ZLIB REQUIRED)
   set(ITK-ZLIB_INCLUDE_DIRS
     ${ITK-ZLIB_BINARY_DIR}/src
+    )
+  set(ITK-ZLIB_SYSTEM_INCLUDE_DIRS
     ${ZLIB_INCLUDE_DIRS}
     )
   set(ITK-ZLIB_LIBRARIES "${ZLIB_LIBRARIES}")
-  set(itk-module-config-install "
-list(APPEND ITK-ZLIB_LIBRARIES \"${ITK-ZLIB_LIBRARIES}\")
-list(APPEND ITK-ZLIB_INCLUDE_DIRS \"${ITK-ZLIB_INCLUDE_DIRS}\")
-")
-  set(itk-module-config-build "
-list(APPEND ITK-ZLIB_LIBRARIES \"${ITK-ZLIB_LIBRARIES}\")
-list(APPEND ITK-ZLIB_INCLUDE_DIRS \"${ITK-ZLIB_INCLUDE_DIRS}\")
-")
-  set(itk-module-no-include 1)
   set(itk-module-no-src 1)
 else()
   set(ITK-ZLIB_INCLUDE_DIRS
