@@ -200,13 +200,7 @@ public:
   /** Test if a continuous index is inside the region.
    * We take into account the fact that each voxel has its
    * center at the integer coordinate and extends half way
-   * to the next integer coordinate.
-   * Note for NaN:  this doesn't properly catch NaN. It gets cast to integer
-   * which means it becomes a large negative number so it falls outside of
-   * region bounds. In this way the test returns false appropriately, but for
-   * the wrong reasons. ImageRegionTest will check that this method returns
-   * false for NaN and infintity, and if it fails, the compiler is handling a
-   * cast of NaN to integer differently. */
+   * to the next integer coordinate. */
   template< typename TCoordRepType >
   bool
   IsInside(const ContinuousIndex< TCoordRepType, VImageDimension > & index) const
@@ -221,7 +215,13 @@ public:
       const TCoordRepType bound = static_cast< TCoordRepType >(
         m_Index[i] + m_Size[i] - 0.5 );
 
-      if ( index[i] > bound )
+      /* Note for NaN: test using negation of a positive test in order
+       * to always evaluate to true (and thus return false) when index[i]
+       * is NaN. The cast above to integer via RoundHalfIntegerUp will cast
+       * NaN into a platform-dependent value (large negative, -1 or large
+       * positive, empirically). Thus this test here is relied on
+       * to 'catch' NaN's. */
+      if ( ! (index[i] <= bound) )
         {
         return false;
         }
