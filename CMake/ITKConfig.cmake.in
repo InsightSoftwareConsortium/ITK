@@ -43,6 +43,8 @@ set(Module_ITK-IO-TIFF   "@Module_ITK-IO-TIFF@")
 set(Module_ITK-IO-VTK    "@Module_ITK-IO-VTK@")
 set(Module_ITK-IO-Simulate "@Module_ITK-IO-Simulate@")
 
+set(ITK_USE_REVIEW "@ITK_USE_REVIEW@")
+
 # Load all modules.
 set(ITK_LIBRARIES "")
 set(ITK_INCLUDE_DIRS "")
