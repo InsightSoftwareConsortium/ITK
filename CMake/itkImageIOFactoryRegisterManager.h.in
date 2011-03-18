@@ -38,7 +38,7 @@ class ImageIOFactoryRegisterManager
 //  The following code is intended to be expanded at the end of the
 //  itkImageFileReader.h and itkImageFileWriter.h files.
 //
-@LISTOFFACTORIESREGISTRATION@
+@LIST_OF_FACTORIES_REGISTRATION@
 
 //
 // The code below registers available IO helpers using static initialization in
@@ -48,7 +48,7 @@ class ImageIOFactoryRegisterManager
 namespace {
 
   void (*ImageIOFactoryRegisterRegisterList[])(void) = {
-    @LISTOFFACTORYNAMES@
+    @LIST_OF_FACTORY_NAMES@
     0};
   ImageIOFactoryRegisterManager ImageIOFactoryRegisterManagerInstance(ImageIOFactoryRegisterRegisterList);
 

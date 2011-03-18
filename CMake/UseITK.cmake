@@ -20,39 +20,24 @@ link_directories(${ITK_LIBRARY_DIRS})
 #
 # Infrastructure for registering automatically the factories of commonly used IO formats
 #
-set(LISTOFFACTORIESREGISTRATION "
-void BioRadImageIOFactoryRegister__Private(void);
-void BMPImageIOFactoryRegister__Private(void);
-void GDCMImageIOFactoryRegister__Private(void);
-void NiftiImageIOFactoryRegister__Private(void);
-void GiplImageIOFactoryRegister__Private(void);
-void JPEGImageIOFactoryRegister__Private(void);
-void LSMImageIOFactoryRegister__Private(void);
-void MetaImageIOFactoryRegister__Private(void);
-void PNGImageIOFactoryRegister__Private(void);
-void NrrdImageIOFactoryRegister__Private(void);
-void TIFFImageIOFactoryRegister__Private(void);
-void VTKImageIOFactoryRegister__Private(void);
-void StimulateImageIOFactoryRegister__Private(void);
-"
-)
+set(LIST_OF_FACTORIES_REGISTRATION "")
+set(LIST_OF_FACTORY_NAMES "")
 
-set(LISTOFFACTORYNAMES "
-BioRadImageIOFactoryRegister__Private,
-BMPImageIOFactoryRegister__Private,
-GDCMImageIOFactoryRegister__Private,
-NiftiImageIOFactoryRegister__Private,
-GiplImageIOFactoryRegister__Private,
-JPEGImageIOFactoryRegister__Private,
-LSMImageIOFactoryRegister__Private,
-MetaImageIOFactoryRegister__Private,
-PNGImageIOFactoryRegister__Private,
-NrrdImageIOFactoryRegister__Private,
-TIFFImageIOFactoryRegister__Private,
-VTKImageIOFactoryRegister__Private,
-StimulateImageIOFactoryRegister__Private,
-"
-)
+
+foreach (ImageFormat  JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta)
+        if (Module_ITK-IO-${ImageFormat})
+                set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
+                set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
+        endif()
+endforeach()
+
+foreach (ImageFormat  Nifti Nrrd Gipl)
+        string(TOUPPER ${ImageFormat} ImageFormat_UPPER)
+        if (Module_ITK-IO-${ImageFormat_UPPER})
+                set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
+                set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
+        endif()
+endforeach()
 
 get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
 configure_file(${_selfdir}/itkImageIOFactoryRegisterManager.h.in
