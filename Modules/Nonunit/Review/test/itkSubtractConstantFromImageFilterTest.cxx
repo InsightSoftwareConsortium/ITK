@@ -20,7 +20,7 @@
 #endif
 
 #include "itkImage.h"
-#include "itkSubtractConstantFromImageFilter.h"
+#include "itkSubtractImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSubtractImageFilter.h"
 
@@ -91,8 +91,8 @@ int itkSubtractConstantFromImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the Log filter
-  typedef itk::SubtractConstantFromImageFilter<
-    InputImageType, FactorType, OutputImageType  >   FilterType;
+  typedef itk::SubtractImageFilter<
+    InputImageType, InputImageType, OutputImageType  >   FilterType;
 
 
   // Create an ADD Filter
@@ -107,7 +107,7 @@ int itkSubtractConstantFromImageFilterTest(int, char* [] )
 
   const FactorType factor = 17.0;
 
-  filter->SetConstant( factor );
+  filter->SetInput2( factor );
 
   // Execute the filter
   filter->Update();
