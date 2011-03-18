@@ -255,5 +255,25 @@ int itkDeformationFieldTransformTest(int ,char *[] )
     }
   std::cout << "Passed Jacobian test." << std::endl;
 
+  /* Test that the CreateAnother routine throws an exception.
+   * See comments in .h */
+  caughtException = false;
+  try
+    {
+    itk::LightObject::Pointer anotherTransform =
+      deformationTransform->CreateAnother();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Caught expected exception:" << std::endl << e << std::endl;
+    caughtException = true;
+    }
+  if( !caughtException )
+    {
+    std::cout << "Expected CreateAnother to throw exception." << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "CreateAnother test passed." << std::endl;
+
   return EXIT_SUCCESS;
 }
