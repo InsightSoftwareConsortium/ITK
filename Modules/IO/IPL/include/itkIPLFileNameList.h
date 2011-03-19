@@ -106,7 +106,7 @@ private:
 /** \class IPLFileNameList
  *  \brief -- stores filename+info to be enumerated for IPLCommonImageIO
  */
-class ITKIO_EXPORT IPLFileNameList
+class ITK_EXPORT IPLFileNameList
 {
 public:
   typedef std::vector< IPLFileSortInfo * > ListType;

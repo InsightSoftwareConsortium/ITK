@@ -21,6 +21,35 @@ if(WIN32)
    endif(NOT CYGWIN)
 endif(WIN32)
 
+if(WIN32)
+  # Some libraries (e.g. vxl libs) have no dllexport markup, so we can
+  # build full shared libraries only with the GNU toolchain. For non
+  # gnu compilers on windows, only Common is shared.  This allows for
+  # plugin type applications to use a dll for ITKCommon which will contain
+  # the static for Modified time.
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    # CMake adds --enable-all-exports on Cygwin (since Cygwin is
+    # supposed to be UNIX-like), but we need to add it explicitly for
+    # a native windows build with the MinGW tools.
+    if(MINGW)
+      set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS
+        "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+      set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS
+        "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+      set(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
+    endif(MINGW)
+    if(CYGWIN)
+      set(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
+    endif(CYGWIN)
+  else(CMAKE_COMPILER_IS_GNUCXX)
+   if(BUILD_SHARED_LIBS)
+     set(ITK_LIBRARY_BUILD_TYPE "SHARED")
+   else(BUILD_SHARED_LIBS)
+     set(ITK_LIBRARY_BUILD_TYPE "STATIC")
+   endif(BUILD_SHARED_LIBS)
+   set(BUILD_SHARED_LIBS OFF)
+  endif(CMAKE_COMPILER_IS_GNUCXX)
+endif(WIN32)
 
 #-----------------------------------------------------------------------------
 # Find platform-specific differences in the handling of IEEE floating point

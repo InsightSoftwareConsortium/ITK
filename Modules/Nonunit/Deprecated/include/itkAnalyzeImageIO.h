@@ -91,7 +91,7 @@ namespace itk
    *      A specially formated file with a mapping between object name and image code used to associate
    *      image voxel locations with a label.  This file is run length encoded to save disk storage.
    */
-class ITKIO_EXPORT AnalyzeImageIO:public ImageIOBase
+class ITK_EXPORT AnalyzeImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

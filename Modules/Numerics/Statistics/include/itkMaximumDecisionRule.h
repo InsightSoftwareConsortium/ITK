@@ -29,7 +29,7 @@ namespace itk
  *  score is the largest.
  */
 
-class ITKCommon_EXPORT MaximumDecisionRule:
+class ITK_EXPORT MaximumDecisionRule:
   public DecisionRuleBase
 {
 public:

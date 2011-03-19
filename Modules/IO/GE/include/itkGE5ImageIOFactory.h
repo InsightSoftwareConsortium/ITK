@@ -30,7 +30,7 @@ namespace itk
 /** \class GE5ImageIOFactory
    * \brief Create instances of GE5ImageIO objects using an object factory.
    */
-class ITKIO_EXPORT GE5ImageIOFactory:public ObjectFactoryBase
+class ITK_EXPORT GE5ImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

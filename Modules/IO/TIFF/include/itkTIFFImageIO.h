@@ -34,7 +34,7 @@ class TIFFReaderInternal;
  * \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT TIFFImageIO:public ImageIOBase
+class ITK_EXPORT TIFFImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

@@ -77,9 +77,8 @@ if(WIN32)
    set(ITK-Common_SRCS ${ITK-Common_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
 endif(WIN32)
 
-
-### genearting libraries
-add_library(ITK-Common ${ITK-Common_SRCS})
+### generating libraries
+add_library( ITK-Common ${ITK_LIBRARY_BUILD_TYPE} ${ITK-Common_SRCS})
 
 target_link_libraries(ITK-Common itksys ITK-VNLInstantiation)
 

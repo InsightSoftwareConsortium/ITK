@@ -30,7 +30,7 @@ namespace itk
 /** \class AnalyzeImageIOFactory
    * \brief Create instances of AnalyzeImageIO objects using an object factory.
    */
-class ITKIO_EXPORT AnalyzeImageIOFactory:public ObjectFactoryBase
+class ITK_EXPORT AnalyzeImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

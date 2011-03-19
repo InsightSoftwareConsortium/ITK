@@ -49,7 +49,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT GE5ImageIO:public IPLCommonImageIO
+class ITK_EXPORT GE5ImageIO:public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */

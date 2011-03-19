@@ -36,7 +36,7 @@ namespace Statistics
  *  any subclass should implement the function to be instantiated.
  */
 
-class ITKStatistics_EXPORT DecisionRule:public Object
+class ITK_EXPORT DecisionRule:public Object
 {
 public:
   /** Standard class typedefs */

@@ -101,7 +101,7 @@ namespace Statistics
  *
  * \ingroup Statistics
  */
-class ITKCommon_EXPORT MersenneTwisterRandomVariateGenerator:
+class ITK_EXPORT MersenneTwisterRandomVariateGenerator:
   public RandomVariateGeneratorBase
 {
 public:

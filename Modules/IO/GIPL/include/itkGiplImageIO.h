@@ -37,7 +37,7 @@ class GiplImageIOInternals;
  *  \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT GiplImageIO:public ImageIOBase
+class ITK_EXPORT GiplImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

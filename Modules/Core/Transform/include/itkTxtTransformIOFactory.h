@@ -30,7 +30,7 @@ namespace itk
 /** \class TxtTransformIOFactory
    * \brief Create instances of TxtTransformIO objects using an object factory.
    */
-class ITKIO_EXPORT TxtTransformIOFactory:public ObjectFactoryBase
+class ITK_EXPORT TxtTransformIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

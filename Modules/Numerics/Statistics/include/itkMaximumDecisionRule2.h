@@ -30,7 +30,7 @@ namespace Statistics
  *  in Code/Common
  */
 
-class ITKStatistics_EXPORT MaximumDecisionRule2:public DecisionRule
+class ITK_EXPORT MaximumDecisionRule2:public DecisionRule
 {
 public:
   /** Standard class typedefs */

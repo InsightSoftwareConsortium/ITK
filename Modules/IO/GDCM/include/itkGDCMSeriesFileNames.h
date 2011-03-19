@@ -49,7 +49,7 @@ namespace itk
  */
 typedef std::vector< std::string > FilenamesContainer;
 typedef std::vector< std::string > SerieUIDContainer;
-class ITKIO_EXPORT GDCMSeriesFileNames:public Object
+class ITK_EXPORT GDCMSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */

@@ -34,7 +34,7 @@ namespace itk
  *  any subclass should implement the function to be instantiated.
  */
 
-class ITKCommon_EXPORT DecisionRuleBase:public Object
+class ITK_EXPORT DecisionRuleBase:public Object
 {
 public:
   /** Standard class typedefs */

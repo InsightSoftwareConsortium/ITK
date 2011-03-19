@@ -36,7 +36,7 @@ namespace itk
  *  \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT BMPImageIO:public ImageIOBase
+class ITK_EXPORT BMPImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

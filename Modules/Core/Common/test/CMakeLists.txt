@@ -148,9 +148,9 @@ endif(ITK_OBJCXX_COMPILER_WORKS)
 if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK loadable factories
   set(FactoryTest_Source itkFactoryTestLib.cxx)
-  set(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
-  add_library(FactoryTestLib SHARED ${FactoryTest_Source})
+  add_library(FactoryTestLib MODULE ${FactoryTest_Source})
   target_link_libraries(FactoryTestLib ${ITK-Common_LIBRARIES})
+  set_property(TARGET FactoryTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/Testing/Temporary)
   add_dependencies(ITK-Common-tests2 FactoryTestLib)
 endif(ITK_BUILD_SHARED_LIBS)
 

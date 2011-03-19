@@ -70,7 +70,7 @@ namespace itk
  * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
  */
 
-class ITKNumerics_EXPORT MultivariateLegendrePolynomial
+class ITK_EXPORT MultivariateLegendrePolynomial
 {
 public:
   typedef MultivariateLegendrePolynomial Self;
@@ -296,7 +296,7 @@ private:
   IndexValueType  m_PrevZ;
 }; // end of class
 
-ITKNumerics_EXPORT std::ostream & operator<<(std::ostream & os,
+ITK_EXPORT std::ostream & operator<<(std::ostream & os,
                           MultivariateLegendrePolynomial & poly);
 } // end of namespace itk
 #endif

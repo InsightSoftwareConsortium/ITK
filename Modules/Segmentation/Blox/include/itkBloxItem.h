@@ -31,7 +31,7 @@ namespace itk
  * \ingroup ImageObjects
  * */
 
-class ITKCommon_EXPORT BloxItem
+class ITK_EXPORT BloxItem
 {
 public:
   BloxItem();

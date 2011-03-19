@@ -66,7 +66,7 @@ namespace itk
  *
  */
 
-class ITKIO_EXPORT ArchetypeSeriesFileNames:public Object
+class ITK_EXPORT ArchetypeSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */

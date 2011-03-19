@@ -59,6 +59,11 @@ macro(add_test)
   set_property(GLOBAL APPEND PROPERTY ${itk-module}_TESTS ${_imm_test})
 endmacro()
 
+#-----------------------------------------------------------------------------
+# ITK build configuration options.
+option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
+set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
+
 include(ITKPlatformSpecificChecks)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
@@ -84,11 +89,6 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX ${ITK_BINARY_DIR}/root CACHE PATH "" FORCE)
   set(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT 0)
 endif()
-
-#-----------------------------------------------------------------------------
-# ITK build configuration options.
-option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
-set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
 set(ITK_USE_MODULAR_BUILD ON)
 
