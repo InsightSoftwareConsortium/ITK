@@ -832,8 +832,10 @@ add_test(NAME itkResampleImageTest
 add_test(NAME itkResampleImageTest2
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ResampleImageTest2.png
-              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2.png
-    itkResampleImageTest2 ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2.png)
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.png
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ResampleImageTest2.png
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png
+    itkResampleImageTest2 ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.png ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png)
 add_test(NAME itkResamplePhasedArray3DSpecialCoordinatesImageTest
       COMMAND ITK-IntegratedTestTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 add_test(NAME itkRGBInterpolateImageFunctionTest

@@ -63,6 +63,8 @@ namespace itk
  *
  * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
+ * \warning For multithreading, the TransformPoint method of the
+ * user-designated coordinate transform must be threadsafe.
  *
  * \ingroup GeometricTransforms
  */
@@ -137,6 +139,10 @@ public:
   /** Image pixel value typedef. */
   typedef typename TOutputImage::PixelType PixelType;
   typedef typename TInputImage::PixelType  InputPixelType;
+
+  /** Input pixel continous index typdef */
+  typedef ContinuousIndex< TInterpolatorPrecisionType, ImageDimension >
+                                           ContinuousInputIndexType;
 
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
@@ -290,13 +296,7 @@ private:
   void operator=(const Self &);      //purposely not implemented
 
   SizeType                m_Size;      // Size of the output image
-
-  TransformPointerType    m_Transform; // Main transform to be used in thread = 0
-  // Copies of Transform helpers per thread (N-1 of them), since m_Transform
-  // will do the work for thread=0.
-  std::vector<TransformPointerType> m_ThreaderTransform;
-
-
+  TransformPointerType    m_Transform;         // Transform
   InterpolatorPointerType m_Interpolator;      // Image function for
                                                // interpolation
   PixelType m_DefaultPixelValue;               // default pixel value
@@ -308,8 +308,6 @@ private:
   IndexType       m_OutputStartIndex;          // output image start index
   bool            m_UseReferenceImage;
 
-  bool                           m_InterpolatorIsLinear;
-  LinearInterpolatorPointerType  m_LinearInterpolator;
   bool                           m_InterpolatorIsBSpline;
   BSplineInterpolatorPointerType m_BSplineInterpolator;
 };
