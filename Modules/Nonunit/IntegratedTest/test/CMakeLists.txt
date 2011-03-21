@@ -81,16 +81,7 @@ itkHashTableTest.cxx
 itkHConvexConcaveImageFilterTest.cxx
 itkHessianRecursiveGaussianFilterScaleSpaceTest.cxx
 itkHessianRecursiveGaussianFilterTest.cxx
-itkHistogramTest.cxx
-itkHistogramToEntropyImageFilterTest1.cxx
-itkHistogramToEntropyImageFilterTest2.cxx
-itkHistogramToIntensityImageFilterTest1.cxx
-itkHistogramToIntensityImageFilterTest2.cxx
-itkHistogramToLogProbabilityImageFilterTest1.cxx
-itkHistogramToLogProbabilityImageFilterTest2.cxx
-itkHistogramToProbabilityImageFilterTest1.cxx
-itkHistogramToProbabilityImageFilterTest2.cxx
-itkHistogramToTextureFeaturesFilterTest.cxx
+
 itkHMaximaMinimaImageFilterTest.cxx
 itkHoughTransform2DCirclesImageTest.cxx
 itkHoughTransform2DLinesImageTest.cxx
@@ -661,34 +652,6 @@ add_test(NAME itkHessianRecursiveGaussianFilterScaleSpaceTest
       COMMAND ITK-IntegratedTestTestDriver itkHessianRecursiveGaussianFilterScaleSpaceTest)
 add_test(NAME itkHessianRecursiveGaussianFilterTest
       COMMAND ITK-IntegratedTestTestDriver itkHessianRecursiveGaussianFilterTest)
-add_test(NAME itkHistogramTest
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramTest)
-add_test(NAME itkHistogramToEntropyImageFilterTest1
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToEntropyImageFilterTest1
-              ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest1.mhd)
-add_test(NAME itkHistogramToEntropyImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToEntropyImageFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest2.mhd)
-add_test(NAME itkHistogramToIntensityImageFilterTest1
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToIntensityImageFilterTest1
-              ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest1.mhd)
-add_test(NAME itkHistogramToIntensityImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToIntensityImageFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest2.mhd)
-add_test(NAME itkHistogramToLogProbabilityImageFilterTest1
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToLogProbabilityImageFilterTest1
-              ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest1.mhd)
-add_test(NAME itkHistogramToLogProbabilityImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToLogProbabilityImageFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest2.mhd)
-add_test(NAME itkHistogramToProbabilityImageFilterTest1
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToProbabilityImageFilterTest1
-              ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest1.mhd)
-add_test(NAME itkHistogramToProbabilityImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToProbabilityImageFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest2.mhd)
-add_test(NAME itkHistogramToTextureFeaturesFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkHistogramToTextureFeaturesFilterTest)
 add_test(NAME itkHMaximaMinimaImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png
