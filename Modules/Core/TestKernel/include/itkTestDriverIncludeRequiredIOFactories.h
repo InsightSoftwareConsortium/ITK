@@ -1,3 +1,4 @@
+#include "itkGDCMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
@@ -11,6 +12,7 @@
 void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
 {
   itk::ObjectFactoryBase::RegisterFactory( itk::MetaImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::GDCMImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::VTKImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::PNGImageIOFactory::New() );
