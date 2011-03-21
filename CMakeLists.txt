@@ -391,6 +391,7 @@ endforeach()
 set(ITK_CONFIG_CODE "
 set(ITK_MODULES_DIR \"${ITK_MODULES_DIR}\")")
 set(ITK_USE_FILE "${ITK_SOURCE_DIR}/CMake/UseITK.cmake")
+set(ITK_CONFIG_TARGETS_CONDITION " AND NOT ITK_BINARY_DIR")
 set(ITK_CONFIG_TARGETS_FILE "${ITK_BINARY_DIR}/ITKTargets.cmake")
 configure_file(CMake/ITKConfig.cmake.in ITKConfig.cmake @ONLY)
 
@@ -408,6 +409,7 @@ endforeach(p)
 set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
 set(ITK_MODULES_DIR \"\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/Modules\")")
 set(ITK_USE_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/UseITK.cmake")
+set(ITK_CONFIG_TARGETS_CONDITION "")
 set(ITK_CONFIG_TARGETS_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake")
 configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
 

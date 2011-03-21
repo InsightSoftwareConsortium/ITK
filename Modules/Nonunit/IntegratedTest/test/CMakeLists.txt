@@ -293,7 +293,6 @@ itkTransformsSetParametersTest.cxx
 itkTriangleCellTest.cxx
 itkTriangleMeshToSimplexMeshFilter2Test.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
-itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkVectorConfidenceConnectedImageFilterTest.cxx
 itkVectorGeometryTest.cxx
 itkVectorGradientMagnitudeImageFilterTest3.cxx
@@ -1408,8 +1407,6 @@ add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)
 
 add_test(NAME itkUnsharpMaskLevelSetImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver itkUnsharpMaskLevelSetImageFilterTest)
-add_test(NAME itkVectorAnisotropicDiffusionImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkVectorAnisotropicDiffusionImageFilterTest)
 add_test(NAME itkVectorConfidenceConnectedImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConfidenceConnectedImageFilterTest.png
