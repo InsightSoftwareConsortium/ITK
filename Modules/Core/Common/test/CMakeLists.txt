@@ -90,6 +90,7 @@ itkMultiThreaderTest.cxx
 itkImageRegionExclusionIteratorWithIndexTest.cxx
 itkFixedArrayTest.cxx
 itkImageTransformTest.cxx
+itkImageFillBufferTest.cxx
 )
 
 

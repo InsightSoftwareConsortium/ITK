@@ -209,6 +209,3 @@ int testMetaObject(int argc, char *argv[])
   std::cout << "[DONE]" << std::endl;
   return EXIT_SUCCESS;
   }
-
-
-

@@ -150,8 +150,6 @@ itkMemoryLeakTest.cxx
 itkMeshFstreamTest.cxx
 itkMeshSourceGraftOutputTest.cxx
 itkMeshSpatialObjectIOTest.cxx
-itkMetaImageStreamingIOTest.cxx
-itkMetaImageStreamingWriterIOTest.cxx
 itkMinimumDecisionRuleTest.cxx
 itkMirrorPadImageTest.cxx
 itkMixtureModelComponentBaseTest.cxx
@@ -286,19 +284,6 @@ NNetClassifierTest3.cxx
 NNetClassifierTest4.cxx
 QPropXORTest1.cxx
 RBFTest1.cxx
-testMetaArray.cxx
-testMetaBlob.cxx
-testMetaCommand.cxx
-testMetaGroup.cxx
-testMetaImage.cxx
-testMetaLandmark.cxx
-testMetaLine.cxx
-testMetaMesh.cxx
-testMetaObject.cxx
-testMetaScene.cxx
-testMetaSurface.cxx
-testMetaTube.cxx
-testMetaUtils.cxx
 XORTest1.cxx
 XORTest2.cxx
 itkCommonPrintTest.cxx
@@ -821,26 +806,6 @@ add_test(NAME itkMeshSpatialObjectIOTest1
 add_test(NAME itkMeshSpatialObjectIOTest2
       COMMAND ITK-IntegratedTestTestDriver itkMeshSpatialObjectIOTest
               ${ITK_TEST_OUTPUT_DIR}/metameshIOTest2.txt ${ITK_DATA_ROOT}/Input/metamesh.txt)
-add_test(NAME itkMetaImageStreamingIOTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
-    itkMetaImageStreamingIOTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd)
-add_test(NAME itkMetaImageCompressedStreamingIOTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
-    itkMetaImageStreamingIOTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha)
-add_test(NAME itkMetaImageStreamingWriterIOTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-              ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
-    itkMetaImageStreamingWriterIOTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha)
-add_test(NAME itkMetaImageStreamingWriterIOTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/mri3D.mhd
-              ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
-    itkMetaImageStreamingWriterIOTest ${ITK_DATA_ROOT}/Input/mri3D.mhd ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha)
 add_test(NAME itkMinimumDecisionRuleTest
       COMMAND ITK-IntegratedTestTestDriver itkMinimumDecisionRuleTest)
 add_test(NAME itkMirrorPadImageTest
@@ -1221,77 +1186,6 @@ add_test(NAME QPropXORTest1
 add_test(NAME RBFTest1
       COMMAND ITK-IntegratedTestTestDriver RBFTest1
               ${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_test.txt)
-add_test(NAME testMetaArray
-      COMMAND ITK-IntegratedTestTestDriver testMetaArray
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaBlob
-      COMMAND ITK-IntegratedTestTestDriver testMetaBlob
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME MetaCommandRequiredOptionsWithMultipleStrings
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 0 -sum 7 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7)
-add_test(NAME MetaCommandRequiredOptionsWithMultipleStringsAtEnd
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 0 -sum 7 -r2_ri 7 -r1c_rs StringValue1 StringValue2 StringValue3)
-add_test(NAME MetaCommandOptionalWithRequired
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 0 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99)
-add_test(NAME MetaCommandOptionalOptoinsWithOutArguments
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 0 -sum 207 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_oi -o2_oi)
-add_test(NAME MetaCommandOptionalOptoinsWithOutArguments1
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 0 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_oi 1 -o2_oi 99)
-add_test(NAME MetaCommandRequiredAndOptionalOptoinsWithArguments
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 0 -sum 207 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50 50)
-add_test(NAME MetaCommandRequiredAndOptionalOptoinsWithOutArguments
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 0 -sum 257 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50)
-add_test(NAME MetaCommandRequiredAndOptionalOptoinsWithOutArguments-1
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 0 -sum 457 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o1_ri 1 -o2_ri 99 -o3_ri_oi 50 -o1_oi -o2_oi)
-add_test(NAME MetaCommandRequiredOptionsWithMissingMultipleStrings
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 1 -sum 7 -r1c_rs -r2_ri 7)
-add_test(NAME MetaCommandRequiredOptionsWithMissingMultipleStringsAtEnd
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 1 -sum 7 -r2_ri 7 -r1c_rs)
-add_test(NAME MetaCommandOptionalWithRequiredMissing
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 1 -sum 107 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri -o1_ri 1 -o2_ri 99)
-add_test(NAME MetaCommandRequiredAndOptionalOptoinsWithArgumentsMissing
-      COMMAND ITK-IntegratedTestTestDriver testMetaCommand
-              -ExpectedFailStatus 1 -sum 207 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7 -o3_ri_oi)
-add_test(NAME testMetaGroup
-      COMMAND ITK-IntegratedTestTestDriver testMetaGroup
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaImage
-      COMMAND ITK-IntegratedTestTestDriver testMetaImage)
-add_test(NAME testMetaLandmark
-      COMMAND ITK-IntegratedTestTestDriver testMetaLandmark
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaLine
-      COMMAND ITK-IntegratedTestTestDriver testMetaLine
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaMesh
-      COMMAND ITK-IntegratedTestTestDriver testMetaMesh
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaObject
-      COMMAND ITK-IntegratedTestTestDriver testMetaObject
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaScene
-      COMMAND ITK-IntegratedTestTestDriver testMetaScene
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaSurface
-      COMMAND ITK-IntegratedTestTestDriver testMetaSurface
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaTube
-      COMMAND ITK-IntegratedTestTestDriver testMetaTube
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME testMetaUtils
-      COMMAND ITK-IntegratedTestTestDriver testMetaUtils
-              ${ITK_TEST_OUTPUT_DIR})
 add_test(NAME XORTest1
       COMMAND ITK-IntegratedTestTestDriver XORTest1
               ${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt)
