@@ -419,3 +419,12 @@ install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
               CMake/UseITK.cmake
   DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
 install(EXPORT ITKTargets DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
+
+#-----------------------------------------------------------------------------
+# set ITK_DIR so it can be used by subprojects
+SET(ITK_DIR "${CMAKE_BINARY_DIR}" CACHE INTERNAL "ITK dir to be used by subprojects")
+
+#-----------------------------------------------------------------------------
+# configure wrapping
+INCLUDE(${ITK_SOURCE_DIR}/Wrapping/itkWrapSetup.cmake)
+SUBDIRS(Wrapping)

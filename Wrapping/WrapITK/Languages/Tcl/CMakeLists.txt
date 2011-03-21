@@ -102,7 +102,7 @@ macro(END_WRAP_LIBRARY_TCL)
     -I${LANGUAGES_SRC_DIR}
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/tcl
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
-    -outdir ${LIBRARY_OUTPUT_PATH}
+    -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl
     DEPENDS ${DEPS} ${WRAP_ITK_TCL_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${WRAPPER_LIBRARY_NAME}_ext.i ${SWIG_EXECUTABLE}
@@ -181,7 +181,7 @@ macro(END_WRAP_MODULE_TCL group_name)
     -I${LANGUAGES_SRC_DIR}
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/tcl
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
-    -outdir ${LIBRARY_OUTPUT_PATH}
+    -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl
     DEPENDS ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${base_name}_ext.i ${SWIG_EXECUTABLE}
@@ -323,13 +323,13 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # Configure pkgIndex.tcl for the build tree.
     if(CMAKE_CONFIGURATION_TYPES)
       foreach(config ${CMAKE_CONFIGURATION_TYPES})
-        set(WRAP_ITK_TCL_PACKAGE_DIR "${LIBRARY_OUTPUT_PATH}/${config}")
+        set(WRAP_ITK_TCL_PACKAGE_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${config}")
         configure_file("${WRAP_ITK_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
                        "${WRAP_ITK_TCL_BINARY_DIR}/${config}/pkgIndex.tcl"
                        @ONLY IMMEDIATE)
       endforeach(config)
     else(CMAKE_CONFIGURATION_TYPES)
-      set(WRAP_ITK_TCL_PACKAGE_DIR "${LIBRARY_OUTPUT_PATH}")
+      set(WRAP_ITK_TCL_PACKAGE_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
       configure_file("${WRAP_ITK_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
                      "${WRAP_ITK_TCL_BINARY_DIR}/pkgIndex.tcl"
                      @ONLY IMMEDIATE)

@@ -86,7 +86,7 @@ SET(WRAP_ITK_MODULES "@CONFIG_WRAP_ITK_MODULES@")
 SET(EXTERNAL_WRAP_ITK_PROJECT ON)
 
 # libraries are all in the same dir
-SET (LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib" CACHE INTERNAL "Single output directory for building all libraries.")
+SET (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib" CACHE INTERNAL "Single output directory for building all libraries.")
 
 # Now include ConfigureWrapping
 INCLUDE("${WRAP_ITK_CMAKE_DIR}/ConfigureWrapping.cmake")
