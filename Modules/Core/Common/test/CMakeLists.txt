@@ -89,6 +89,7 @@ itkSliceIteratorTest.cxx
 itkMultiThreaderTest.cxx
 itkImageRegionExclusionIteratorWithIndexTest.cxx
 itkFixedArrayTest.cxx
+itkImageTransformTest.cxx
 )
 
 
@@ -161,6 +162,7 @@ add_test(itkDirectoryTest ${COMMON_TESTS1} itkDirectoryTest ${TEMP})
 add_test(itkDerivativeOperatorTest ${COMMON_TESTS1} itkDerivativeOperatorTest)
 add_test(itkMultipleLogOutputTest ${COMMON_TESTS1} itkMultipleLogOutputTest ${TEMP}/test_multi.txt)
 add_test(itkFixedArrayTest ${COMMON_TESTS2} itkFixedArrayTest)
+add_test(itkImageTransformTest ${COMMON_TESTS2} itkImageTransformTest)
 add_test(itkMinimumMaximumImageCalculatorTest ${COMMON_TESTS2} itkMinimumMaximumImageCalculatorTest)
 add_test(itkFixedArrayTest2 ${COMMON_TESTS1} itkFixedArrayTest2)
 add_test(itkArrayTest ${COMMON_TESTS1} itkArrayTest)

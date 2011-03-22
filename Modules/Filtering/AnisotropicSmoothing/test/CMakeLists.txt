@@ -4,6 +4,7 @@ itkGradientAnisotropicDiffusionImageFilterTest.cxx
 itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
 itkMinMaxCurvatureFlowImageFilterTest.cxx
 itkAnisotropicSmoothingHeaderTest.cxx
+itkVectorAnisotropicDiffusionImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-AnisotropicSmoothing  "${ITK-AnisotropicSmoothing-Test_LIBRARIES}" "${ITK-AnisotropicSmoothingTests}")
@@ -16,3 +17,5 @@ add_test(NAME itkCurvatureAnisotropicDiffusionImageFilterTest
       COMMAND ITK-AnisotropicSmoothingTestDriver itkCurvatureAnisotropicDiffusionImageFilterTest)
 add_test(NAME itkMinMaxCurvatureFlowImageFilterTest
       COMMAND ITK-AnisotropicSmoothingTestDriver itkMinMaxCurvatureFlowImageFilterTest)
+add_test(NAME itkVectorAnisotropicDiffusionImageFilterTest
+      COMMAND ITK-AnisotropicSmoothingTestDriver itkVectorAnisotropicDiffusionImageFilterTest)

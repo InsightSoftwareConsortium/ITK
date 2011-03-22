@@ -11,15 +11,10 @@ itkBinaryThresholdProjectionImageFilterTest.cxx
 itkBinaryThresholdSpatialFunctionTest.cxx
 itkBloxCoreAtomTest.cxx
 itkBoundaryConditionTest.cxx
-itkBSplineDeformableTransformTest.cxx
-itkBSplineDeformableTransformTest2.cxx
-itkBSplineDeformableTransformTest3.cxx
 itkBSplineInterpolateImageFunctionTest.cxx
 itkBSplineResampleImageFilterTest.cxx
 itkBSplineResampleImageFunctionTest.cxx
 itkByteSwapTest.cxx
-itkCenteredTransformInitializerTest.cxx
-itkCenteredVersorTransformInitializerTest.cxx
 itkChiSquareDistributionTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
 itkConnectedComponentImageFilterTooManyObjectsTest.cxx
@@ -107,7 +102,6 @@ itkImageToListSampleAdaptorTest2.cxx
 itkImageToListSampleFilterTest.cxx
 itkImageToListSampleFilterTest2.cxx
 itkImageToListSampleFilterTest3.cxx
-itkImageTransformTest.cxx
 itkImportContainerTest.cxx
 itkImportImageTest.cxx
 itkInterpolateTest.cxx
@@ -242,7 +236,6 @@ itkSimplexMeshWithFloatCoordRepTest.cxx
 itkSparseFrequencyContainer2Test.cxx
 itkSparseImageTest.cxx
 itkSpatialObjectToImageRegistrationTest.cxx
-itkSplineKernelTransformTest.cxx
 itkStandardDeviationPerComponentSampleFilterTest.cxx
 itkStatisticsAlgorithmTest.cxx
 itkStatisticsAlgorithmTest2.cxx
@@ -262,20 +255,14 @@ itkTDistributionTest.cxx
 itkThreadDefsTest.cxx
 itkTimeProbesTest.cxx
 itkTopHatImageFilterTest.cxx
-itkTransformFileReaderWriterTest.cxx
-itkTransformIOTest.cxx
-itkTransformsSetParametersTest.cxx
 itkTriangleCellTest.cxx
 itkTriangleMeshToSimplexMeshFilter2Test.cxx
 itkUnsharpMaskLevelSetImageFilterTest.cxx
-itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkVectorConfidenceConnectedImageFilterTest.cxx
 itkVectorGeometryTest.cxx
 itkVectorGradientMagnitudeImageFilterTest3.cxx
 itkVectorImageReadWriteTest.cxx
 itkVectorImageTest.cxx
-itkVersorRigid3DTransformTest.cxx
-itkVersorTransformTest.cxx
 itkVNLRoundProfileTest1.cxx
 itkVoronoiPartitioningImageFilterTest.cxx
 itkVTKImageIO2Test2.cxx
@@ -404,38 +391,6 @@ add_test(NAME itkBloxCoreAtomTest
       COMMAND ITK-IntegratedTestTestDriver itkBloxCoreAtomTest)
 add_test(NAME itkBoundaryConditionTest
       COMMAND ITK-IntegratedTestTestDriver itkBoundaryConditionTest)
-add_test(NAME itkBSplineDeformableTransformTest
-      COMMAND ITK-IntegratedTestTestDriver itkBSplineDeformableTransformTest)
-add_test(NAME itkBSplineDeformableTransformTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest2PixelCentered.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png
-    itkBSplineDeformableTransformTest2 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements5.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.mhd 1)
-add_test(NAME itkBSplineDeformableTransformTest3
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest3PixelCentered.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png
-    itkBSplineDeformableTransformTest2 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements3.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.mhd 2)
-add_test(NAME itkBSplineDeformableTransformTest4
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest4PixelCentered.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png
-    itkBSplineDeformableTransformTest2 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.mhd 3)
-add_test(NAME itkBSplineDeformableTransformTest5
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest5PixelCentered.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png
-    itkBSplineDeformableTransformTest3 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5DeformationFieldPixelCentered.mhd 0)
-add_test(NAME itkBSplineDeformableTransformTest6
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest5PixelCentered.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png
-    itkBSplineDeformableTransformTest3 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6DeformationFieldPixelCentered.mhd 1)
-add_test(NAME itkBSplineDeformableTransformTest7
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest5PixelCentered.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png
-    itkBSplineDeformableTransformTest3 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.mhd 2)
 add_test(NAME itkBSplineInterpolateImageFunctionTest
       COMMAND ITK-IntegratedTestTestDriver itkBSplineInterpolateImageFunctionTest)
 add_test(NAME itkBSplineResampleImageFilterTest
@@ -444,10 +399,6 @@ add_test(NAME itkBSplineResampleImageFunctionTest
       COMMAND ITK-IntegratedTestTestDriver itkBSplineResampleImageFunctionTest)
 add_test(NAME itkByteSwapTest
       COMMAND ITK-IntegratedTestTestDriver itkByteSwapTest)
-add_test(NAME itkCenteredTransformInitializerTest
-      COMMAND ITK-IntegratedTestTestDriver itkCenteredTransformInitializerTest)
-add_test(NAME itkCenteredVersorTransformInitializerTest
-      COMMAND ITK-IntegratedTestTestDriver itkCenteredVersorTransformInitializerTest)
 add_test(NAME itkChiSquareDistributionTest
       COMMAND ITK-IntegratedTestTestDriver itkChiSquareDistributionTest)
 add_test(NAME itkConfidenceConnectedImageFilterTest
@@ -704,8 +655,6 @@ add_test(NAME itkImageToListSampleFilterTest2
       COMMAND ITK-IntegratedTestTestDriver itkImageToListSampleFilterTest2)
 add_test(NAME itkImageToListSampleFilterTest3
       COMMAND ITK-IntegratedTestTestDriver itkImageToListSampleFilterTest3)
-add_test(NAME itkImageTransformTest
-      COMMAND ITK-IntegratedTestTestDriver itkImageTransformTest)
 add_test(NAME itkImportContainerTest
       COMMAND ITK-IntegratedTestTestDriver itkImportContainerTest)
 add_test(NAME itkImportImageTest
@@ -1104,8 +1053,6 @@ add_test(NAME itkSparseImageTest
       COMMAND ITK-IntegratedTestTestDriver itkSparseImageTest)
 add_test(NAME itkSpatialObjectToImageRegistrationTest
       COMMAND ITK-IntegratedTestTestDriver itkSpatialObjectToImageRegistrationTest)
-add_test(NAME itkSplineKernelTransformTest
-      COMMAND ITK-IntegratedTestTestDriver itkSplineKernelTransformTest)
 add_test(NAME itkStandardDeviationPerComponentSampleFilterTest
       COMMAND ITK-IntegratedTestTestDriver itkStandardDeviationPerComponentSampleFilterTest)
 add_test(NAME itkStatisticsAlgorithmTest
@@ -1160,23 +1107,6 @@ add_test(NAME itkWhiteTopHatImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkWhiteTopHatImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png
     itkTopHatImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png 1 3)
-add_test(NAME itkTransformFileReaderWriterTest0
-      COMMAND ITK-IntegratedTestTestDriver itkTransformFileReaderWriterTest
-              ${ITK_DATA_ROOT}/Input/itkAffineTransform00.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest0.txt)
-add_test(NAME itkTransformFileReaderWriterTest1
-      COMMAND ITK-IntegratedTestTestDriver itkTransformFileReaderWriterTest
-              ${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest1.txt)
-add_test(NAME itkTransformFileReaderWriterTest2
-      COMMAND ITK-IntegratedTestTestDriver itkTransformFileReaderWriterTest
-              ${ITK_DATA_ROOT}/Input/itkAffineTransform01.txt ${ITK_TEST_OUTPUT_DIR}/itkTransformFileReaderWriterTest1.mat)
-add_test(NAME itkTransformFileReaderWriterTest3
-      COMMAND ITK-IntegratedTestTestDriver itkTransformFileReaderWriterTest
-              ${ITK_DATA_ROOT}/Input/itkBSplineTransform00.txt ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransform00.mat)
-add_test(NAME itkTransformIOTest
-      COMMAND ITK-IntegratedTestTestDriver itkTransformIOTest
-              ${ITK_TEST_OUTPUT_DIR})
-add_test(NAME itkTransformsSetParametersTest
-      COMMAND ITK-IntegratedTestTestDriver itkTransformsSetParametersTest)
 add_test(NAME itkTriangleCellTest
       COMMAND ITK-IntegratedTestTestDriver itkTriangleCellTest)
 add_test(NAME itkTriangleMeshToSimplexMeshFilter2Test
@@ -1187,8 +1117,6 @@ add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)
 
 add_test(NAME itkUnsharpMaskLevelSetImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver itkUnsharpMaskLevelSetImageFilterTest)
-add_test(NAME itkVectorAnisotropicDiffusionImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkVectorAnisotropicDiffusionImageFilterTest)
 add_test(NAME itkVectorConfidenceConnectedImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConfidenceConnectedImageFilterTest.png
@@ -1208,10 +1136,6 @@ add_test(NAME itkVectorImageReadWriteTest2
 add_test(NAME itkVectorImageTest
       COMMAND ITK-IntegratedTestTestDriver itkVectorImageTest
               ${ITK_TEST_OUTPUT_DIR}/VectorImage.nrrd ${ITK_TEST_OUTPUT_DIR}/VectorImage.mhd)
-add_test(NAME itkVersorRigid3DTransformTest
-      COMMAND ITK-IntegratedTestTestDriver itkVersorRigid3DTransformTest)
-add_test(NAME itkVersorTransformTest
-      COMMAND ITK-IntegratedTestTestDriver itkVersorTransformTest)
 add_test(NAME itkVNLRoundProfileTest1
       COMMAND ITK-IntegratedTestTestDriver itkVNLRoundProfileTest1)
 add_test(NAME itkVoronoiPartitioningImageFilterTest1

@@ -20,7 +20,6 @@
 #endif
 
 #include "itkImage.h"
-#include "itkImage.h"
 #include "itkIndex.h"
 #include "itkSize.h"
 
@@ -83,4 +82,3 @@ int itkImageTransformTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

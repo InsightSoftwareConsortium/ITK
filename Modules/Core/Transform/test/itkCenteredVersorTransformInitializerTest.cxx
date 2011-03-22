@@ -251,4 +251,3 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
 
 }
-
