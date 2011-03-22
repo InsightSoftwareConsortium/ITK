@@ -35,8 +35,7 @@ int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
       << " InputImage OutputImage "
       << "seed_x seed_y "
       << "LowerConnectedThreshold UpperConnectedThreshold "
-      << "Connectivity[1=Full,0=Face]\n"
-      << " ITK_USE_REVIEW must be on to be able to use full connectivity.\n";
+      << "Connectivity[1=Full,0=Face]" << std::endl;
     return -1;
     }
 
@@ -60,14 +59,12 @@ int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
   filter->SetUpper(atoi(av[6]));
   filter->SetReplaceValue(255);
 
-#ifdef ITK_USE_REVIEW
   // Test the use of full (8 connectivity in 2D) on this image.
   if (ac > 7)
     {
     filter->SetConnectivity( atoi(av[7]) ?
         FilterType::FullConnectivity : FilterType::FaceConnectivity );
     }
-#endif
 
   try
     {
