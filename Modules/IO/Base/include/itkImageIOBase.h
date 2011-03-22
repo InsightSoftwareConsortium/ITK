@@ -61,7 +61,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT ImageIOBase:public LightProcessObject
+class ITK_EXPORT ImageIOBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */

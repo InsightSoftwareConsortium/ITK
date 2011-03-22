@@ -36,7 +36,7 @@ namespace bio
  * following update rules (typical Partial Differential Equations).
  *
  */
-class ITKAlgorithms_EXPORT GeneNetwork
+class ITK_EXPORT GeneNetwork
 {
 public:
   typedef   std::vector< float > ProteomeType;

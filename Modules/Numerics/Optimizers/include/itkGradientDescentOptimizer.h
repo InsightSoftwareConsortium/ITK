@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-class ITKNumerics_EXPORT GradientDescentOptimizer:
+class ITK_EXPORT GradientDescentOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

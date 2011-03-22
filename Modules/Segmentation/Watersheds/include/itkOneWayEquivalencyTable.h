@@ -43,7 +43,7 @@ namespace itk
  * \ingroup WatershedSegmentation
  *
  * \sa EquivalencyTable  */
-class ITKCommon_EXPORT OneWayEquivalencyTable:public DataObject
+class ITK_EXPORT OneWayEquivalencyTable:public DataObject
 {
 public:
   /**  Standard typedefs and smart pointer declarations.   */

@@ -48,7 +48,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT NumericSeriesFileNames:public Object
+class ITK_EXPORT NumericSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */

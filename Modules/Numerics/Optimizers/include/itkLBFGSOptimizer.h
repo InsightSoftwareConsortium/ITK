@@ -28,7 +28,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-class ITKNumerics_EXPORT LBFGSOptimizer:
+class ITK_EXPORT LBFGSOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 {
 public:

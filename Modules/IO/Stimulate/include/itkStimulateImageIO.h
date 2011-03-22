@@ -60,7 +60,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT StimulateImageIO:public ImageIOBase
+class ITK_EXPORT StimulateImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

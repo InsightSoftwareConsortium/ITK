@@ -42,7 +42,7 @@ namespace itk
  * \sa MaximumDecisionRule, MinimumDecisionRule
  */
 
-class ITKCommon_EXPORT MaximumRatioDecisionRule:
+class ITK_EXPORT MaximumRatioDecisionRule:
   public DecisionRuleBase
 {
 public:

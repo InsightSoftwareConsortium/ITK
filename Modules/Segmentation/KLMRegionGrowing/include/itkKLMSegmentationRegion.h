@@ -85,7 +85,7 @@ namespace itk
  */
 class KLMSegmentationBorder;
 
-class ITKCommon_EXPORT KLMSegmentationRegion:public SegmentationRegion
+class ITK_EXPORT KLMSegmentationRegion:public SegmentationRegion
 {
 public:
   /** Standard class typedefs. */

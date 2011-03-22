@@ -133,18 +133,6 @@ private:
   void operator=(const Self &); //purposely not implemented
 };
 
-// There are non-templated subclasses of ParametricPath
-// (ex. OrthogonallyCorrected2DParametricPath which is a subclass of
-// ParametricPath<2>).  We need force all consumers of
-// ParametericPath<2> to get it from the ITKCommon library.
-// itkParametricPath.cxx will put ParametricPath<2> in the the
-// ITKCommon library. Everyone else using a ParametericPath<2> will
-// load it from the dll.
-#if ( defined( _WIN32 ) || defined( WIN32 ) ) && !defined( ITKSTATIC )
-#ifndef ITKCommon_EXPORTS
-template class __declspec(dllimport) ParametricPath< 2 >;
-#endif
-#endif
 } // namespace itk
 
 // Define instantiation macro for this template.

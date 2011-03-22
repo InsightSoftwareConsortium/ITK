@@ -65,7 +65,7 @@ namespace itk
 #define FFTWPathSep "/"
 #endif
 
-class ITKAlgorithms_EXPORT WisdomFilenameGeneratorBase
+class ITK_EXPORT WisdomFilenameGeneratorBase
 {
   public:
     //The baseCacheDirectory from which to build the cache heirarchy
@@ -75,7 +75,7 @@ class ITKAlgorithms_EXPORT WisdomFilenameGeneratorBase
   private:
 };
 
-class ITKAlgorithms_EXPORT ManualWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
+class ITK_EXPORT ManualWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
     ManualWisdomFilenameGenerator(const std::string wfn): m_WisdomFilename(wfn) { };
@@ -91,7 +91,7 @@ class ITKAlgorithms_EXPORT ManualWisdomFilenameGenerator: public WisdomFilenameG
     std::string m_WisdomFilename;
 };
 
-class ITKAlgorithms_EXPORT SimpleWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
+class ITK_EXPORT SimpleWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
     virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const
@@ -100,7 +100,7 @@ class ITKAlgorithms_EXPORT SimpleWisdomFilenameGenerator: public WisdomFilenameG
       }
 };
 
-class ITKAlgorithms_EXPORT HostnameWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
+class ITK_EXPORT HostnameWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
     virtual std::string GenerateWisdomFilename(const std::string baseCacheDirectory) const
@@ -112,7 +112,7 @@ class ITKAlgorithms_EXPORT HostnameWisdomFilenameGenerator: public WisdomFilenam
       }
 };
 
-class ITKAlgorithms_EXPORT HardwareWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
+class ITK_EXPORT HardwareWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
 public:
     HardwareWisdomFilenameGenerator():
@@ -248,7 +248,7 @@ private:
  * \author Hans Johnson, The University of Iowa
  *
  */
-class ITKAlgorithms_EXPORT FFTWGlobalConfiguration: public Object
+class ITK_EXPORT FFTWGlobalConfiguration: public Object
 {
 public:
   /** Standard class typedefs. */

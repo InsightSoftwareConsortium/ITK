@@ -33,7 +33,7 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITKIO_EXPORT JPEGImageIO:public ImageIOBase
+class ITK_EXPORT JPEGImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

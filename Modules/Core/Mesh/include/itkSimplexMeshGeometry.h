@@ -42,7 +42,7 @@ namespace itk
  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
  *
  */
-class ITKCommon_EXPORT SimplexMeshGeometry
+class ITK_EXPORT SimplexMeshGeometry
 {
 public:
 

@@ -30,7 +30,7 @@ namespace itk
 /** \class JPEGImageIOFactory
  * \brief Create instances of JPEGImageIO objects using an object factory.
  */
-class ITKIO_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
+class ITK_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

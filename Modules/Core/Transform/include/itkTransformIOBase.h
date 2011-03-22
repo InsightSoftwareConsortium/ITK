@@ -36,7 +36,7 @@ namespace itk
  * the Reader/Writer to pick a concrete derived class to do the actual
  * reading/writing of transforms.
  */
-class ITKIO_EXPORT TransformIOBase:public LightProcessObject
+class ITK_EXPORT TransformIOBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs */

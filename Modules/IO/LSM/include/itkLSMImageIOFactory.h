@@ -36,7 +36,7 @@ namespace itk
 /** \class LSMImageIOFactory
  * \brief Create instances of LSMImageIO objects using an object factory.
  */
-class ITKIO_EXPORT LSMImageIOFactory:public ObjectFactoryBase
+class ITK_EXPORT LSMImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

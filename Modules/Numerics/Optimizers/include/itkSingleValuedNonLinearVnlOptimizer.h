@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-class ITKNumerics_EXPORT SingleValuedNonLinearVnlOptimizer:
+class ITK_EXPORT SingleValuedNonLinearVnlOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

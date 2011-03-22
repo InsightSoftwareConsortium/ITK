@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup PathObjects
  */
-class ITKCommon_EXPORT OrthogonallyCorrected2DParametricPath:public
+class ITK_EXPORT OrthogonallyCorrected2DParametricPath:public
   ParametricPath< 2 >
 {
 public:

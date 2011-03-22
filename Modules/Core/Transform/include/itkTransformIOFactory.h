@@ -26,7 +26,7 @@ namespace itk
 /** \class TransformIOFactory
  * \brief Create instances of TransformIO objects using an object factory.
  */
-class ITKIO_EXPORT TransformIOFactory:public Object
+class ITK_EXPORT TransformIOFactory:public Object
 {
 public:
   /** Standard class typedefs. */
