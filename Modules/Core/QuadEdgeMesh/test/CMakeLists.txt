@@ -27,6 +27,9 @@ itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
 itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
 itkQuadEdgeMeshIteratorTest.cxx
 itkQuadEdgeMeshNoPointConstTest.cxx
+itkVTKPolyDataIOQuadEdgeMeshTest.cxx
+itkVTKPolyDataReaderQuadEdgeMeshTest.cxx
+itkDynamicQuadEdgeMeshTest.cxx
 )
 
 CreateTestDriver(ITK-QuadEdgeMesh  "${ITK-QuadEdgeMesh-Test_LIBRARIES}" "${ITK-QuadEdgeMeshTests}")
@@ -111,3 +114,11 @@ add_test(NAME itkQuadEdgeMeshIteratorTest
       COMMAND ITK-QuadEdgeMeshTestDriver itkQuadEdgeMeshIteratorTest)
 add_test(NAME itkQuadEdgeMeshNoPointConstTest
       COMMAND ITK-QuadEdgeMeshTestDriver itkQuadEdgeMeshNoPointConstTest)
+add_test(NAME itkVTKPolyDataIOQuadEdgeMeshTest
+      COMMAND ITK-QuadEdgeMeshTestDriver itkVTKPolyDataIOQuadEdgeMeshTest
+              ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataIOTest.vtk)
+add_test(NAME itkVTKPolyDataReaderQuadEdgeMeshTest
+      COMMAND ITK-QuadEdgeMeshTestDriver itkVTKPolyDataReaderQuadEdgeMeshTest
+              ${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk)
+add_test(NAME itkDynamicQuadEdgeMeshTest
+      COMMAND ITK-QuadEdgeMeshTestDriver itkDynamicQuadEdgeMeshTest)

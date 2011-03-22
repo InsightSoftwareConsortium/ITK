@@ -22,6 +22,12 @@ itkWarpMeshFilterTest.cxx
 itkMeshHeaderTest.cxx
 itkMeshTest.cxx
 itkBinaryMask3DMeshSourceTest.cxx
+itkDynamicMeshTest.cxx
+itkExtractMeshConnectedRegionsTest.cxx
+itkMeshFstreamTest.cxx
+itkMeshSourceGraftOutputTest.cxx
+itkMeshSpatialObjectIOTest.cxx
+itkTriangleMeshToSimplexMeshFilter2Test.cxx
 )
 
 CreateTestDriver(ITK-Mesh  "${ITK-Mesh-Test_LIBRARIES}" "${ITK-MeshTests}")
@@ -131,6 +137,27 @@ add_test(NAME itkVTKPolyDataWriterTest02
               ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataWriterTest02.vtk)
 add_test(NAME itkWarpMeshFilterTest
       COMMAND ITK-MeshTestDriver itkWarpMeshFilterTest)
+add_test(NAME itkDynamicMeshTest
+      COMMAND ITK-MeshTestDriver itkDynamicMeshTest)
+add_test(NAME itkExtractMeshConnectedRegionsTest
+      COMMAND ITK-MeshTestDriver itkExtractMeshConnectedRegionsTest)
+add_test(NAME itkMeshFstreamTest
+      COMMAND ITK-MeshTestDriver itkMeshFstreamTest
+              ${ITK_TEST_OUTPUT_DIR}/testMeshFstream.txt)
+add_test(NAME itkMeshSourceGraftOutputTest
+      COMMAND ITK-MeshTestDriver itkMeshSourceGraftOutputTest)
+add_test(NAME itkMeshSpatialObjectIOTest
+      COMMAND ITK-MeshTestDriver itkMeshSpatialObjectIOTest
+              ${ITK_TEST_OUTPUT_DIR}/metameshIOTest.txt)
+add_test(NAME itkMeshSpatialObjectIOTest1
+      COMMAND ITK-MeshTestDriver itkMeshSpatialObjectIOTest
+              ${ITK_TEST_OUTPUT_DIR}/metameshIOTest1.txt binary)
+add_test(NAME itkMeshSpatialObjectIOTest2
+      COMMAND ITK-MeshTestDriver itkMeshSpatialObjectIOTest
+              ${ITK_TEST_OUTPUT_DIR}/metameshIOTest2.txt ${ITK_DATA_ROOT}/Input/metamesh.txt)
+add_test(NAME itkTriangleMeshToSimplexMeshFilter2Test
+      COMMAND ITK-MeshTestDriver itkTriangleMeshToSimplexMeshFilter2Test)
+
 
 
 SET_TESTS_PROPERTIES(itkVTKPolyDataReaderTest2

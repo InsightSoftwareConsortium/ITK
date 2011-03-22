@@ -119,4 +119,3 @@ int itkDynamicMeshTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
