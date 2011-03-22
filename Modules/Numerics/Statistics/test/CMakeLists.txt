@@ -5,6 +5,8 @@ itkStatisticsHeaderTest.cxx
 itkMaximumDecisionRuleTest.cxx
 itkMinimumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
+itkHistogramTest.cxx
+itkHistogramToTextureFeaturesFilterTest.cxx
 )
 
 CreateTestDriver(ITK-Statistics  "${ITK-Statistics-Test_LIBRARIES}" "${ITK-StatisticsTests}")
@@ -19,3 +21,7 @@ add_test(NAME itkMinimumDecisionRuleTest
       COMMAND ITK-StatisticsTestDriver itkMinimumDecisionRuleTest)
 add_test(NAME itkMaximumRatioDecisionRuleTest
       COMMAND ITK-StatisticsTestDriver itkMaximumRatioDecisionRuleTest)
+add_test(NAME itkHistogramTest
+      COMMAND ITK-StatisticsTestDriver itkHistogramTest)
+add_test(NAME itkHistogramToTextureFeaturesFilterTest
+      COMMAND ITK-StatisticsTestDriver itkHistogramToTextureFeaturesFilterTest)
