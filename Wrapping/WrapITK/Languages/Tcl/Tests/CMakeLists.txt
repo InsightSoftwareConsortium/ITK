@@ -1,14 +1,12 @@
 
 # configure the test driver
-find_program(ITK_TEST_DRIVER itkTestDriver)
-
 macro(add_tcl_test name)
   add_test(NAME ${name}
     COMMAND "${ITK_TEST_DRIVER}"
     --add-before-env-with-sep TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages/Tcl/$<CONFIGURATION>" " "
     --add-before-env-with-sep TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages/Tcl" " "
-    --add-before-libpath "${ITK_DIR}/bin/$<CONFIGURATION>"
-    --add-before-libpath "${ITK_DIR}/bin/"
+    --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
     ${TCL_TCLSH}
     ${ARGN}
     )
