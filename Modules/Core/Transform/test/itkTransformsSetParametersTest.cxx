@@ -510,4 +510,3 @@ int itkTransformsSetParametersTest( int , char *[] )
   return EXIT_SUCCESS;
 
 }
-

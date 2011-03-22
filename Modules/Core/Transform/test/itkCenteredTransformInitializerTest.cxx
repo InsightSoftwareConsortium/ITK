@@ -398,4 +398,3 @@ int itkCenteredTransformInitializerTest(int , char* [] )
 
 
 }
-

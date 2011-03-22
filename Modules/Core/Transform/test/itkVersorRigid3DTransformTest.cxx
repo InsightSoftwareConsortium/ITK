@@ -577,6 +577,3 @@ int itkVersorRigid3DTransformTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-

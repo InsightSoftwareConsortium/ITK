@@ -477,4 +477,3 @@ int itkSplineKernelTransformTest(int , char* [] )
   return EXIT_SUCCESS;
 
 }
-

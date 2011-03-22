@@ -516,6 +516,3 @@ int itkVersorTransformTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
