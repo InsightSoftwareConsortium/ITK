@@ -1,3 +1,5 @@
+include(itkCheckCXXAcceptsFlags)
+
 # On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
 # warnings
 if(WIN32)
@@ -56,7 +58,6 @@ endif(WIN32)
 if(CMAKE_COMPILER_IS_GNUCXX)
  set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -Wall -Wno-uninitialized -Wno-unused-parameter")
  set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50 -Wall")
- include(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
  itkCHECK_CXX_ACCEPTS_FLAGS("-Wno-deprecated" CXX_HAS_DEPRECATED_FLAG)
  if(CXX_HAS_DEPRECATED_FLAG)
    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-deprecated")
@@ -88,6 +89,15 @@ if(CMAKE_COMPILER_IS_GNUCXX)
  endif(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
+# Add flags for the SUN compiler to provide all the methods for std::allocator.
+#
+itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" SUN_COMPILER)
+if(SUN_COMPILER)
+  itkCHECK_CXX_ACCEPTS_FLAGS("-library=stlport4" SUN_COMPILER_HAS_STL_PORT_4)
+  if(SUN_COMPILER_HAS_STL_PORT_4)
+    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -library=stlport4")
+  endif(SUN_COMPILER_HAS_STL_PORT_4)
+endif(SUN_COMPILER)
 
 #---------------------------------------------------------------
 # run try compiles and tests for ITK
