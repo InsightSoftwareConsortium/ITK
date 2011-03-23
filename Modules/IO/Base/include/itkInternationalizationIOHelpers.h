@@ -210,7 +210,7 @@ public:
   I18nIfstream(const char *str,
                std::ios_base::openmode mode = std::ios_base::in):
     std::istream(0),
-    m_fd( I18nOpenforreading(str) ),
+    m_fd( I18nOpenForReading(str) ),
     m_buf(m_fd)
   {
     ///\todo better handle mode flag
