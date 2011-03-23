@@ -204,9 +204,6 @@ private:
   /** Load all dynamic libraries in the given path */
   static void LoadLibrariesInPath(const char *);
 
-  /** list of registered factories */
-  static std::list< ObjectFactoryBase * > *m_RegisteredFactories;
-
   /** Member variables for a factory set by the base class
    * at load or register time */
   void *        m_LibraryHandle;
