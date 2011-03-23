@@ -133,6 +133,11 @@ if( USE_FFTWD OR USE_FFTWF )
   include(itkExternal_FFTW)
 endif( USE_FFTWD OR USE_FFTWF )
 
+if(NOT ITKV3_COMPATIBILITY)
+  option(ITK_USE_64BITS_IDS "When ON, ITK will use 64 bits integers to index pixels. This is needed for managing images larger than 4Gb in some platforms." OFF)
+  mark_as_advanced(ITK_USE_64BITS_IDS)
+endif()
+
 # ITK turn on concept checking
 option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
 mark_as_advanced(ITK_USE_CONCEPT_CHECKING)
