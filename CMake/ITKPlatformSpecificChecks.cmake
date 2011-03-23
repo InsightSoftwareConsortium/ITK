@@ -89,6 +89,27 @@ if(CMAKE_COMPILER_IS_GNUCXX)
  endif(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
+#-----------------------------------------------------------------------------
+
+# for the gnu compiler a -D_PTHREADS is needed on sun
+# for the native compiler a -mt flag is needed on the sun
+if(CMAKE_SYSTEM MATCHES "SunOS.*")
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -D_PTHREADS")
+    set(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -lrt")
+  else()
+    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mt")
+    set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -mt")
+  endif()
+endif()
+
+# mingw thread support
+if(MINGW)
+  set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mthreads")
+  set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -mthreads")
+  set(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -mthreads")
+endif()
+
 # Add flags for the SUN compiler to provide all the methods for std::allocator.
 #
 itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" SUN_COMPILER)
