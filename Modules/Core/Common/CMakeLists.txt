@@ -1,4 +1,5 @@
 project(ITK-Common)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 
 # Version string should not include patch level.  The major.minor is
 # enough to distinguish available features of the toolkit.
@@ -20,6 +21,12 @@ elseif(CMAKE_HP_PTHREADS_INIT)
 endif()
 set(CMAKE_THREAD_LIBS "${CMAKE_THREAD_LIBS_INIT}" CACHE STRING "Thread library used.")
 mark_as_advanced(CMAKE_THREAD_LIBS)
+
+#
+# See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
+#
+include(CheckCPPDirective)
+check_cpp_directive_exists(__FUNCTION__ ITK_CPP_FUNCTION)
 
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 configure_file(src/itkFloatingPointExceptionsConfigure.h.in  itkFloatingPointExceptionsConfigure.h)
