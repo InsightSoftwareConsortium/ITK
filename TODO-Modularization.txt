@@ -4,7 +4,6 @@ The modularized build system is not yet mature in at least these areas:
 
  - Doxygen processing has not been attempted.
 
- - BUILD_SHARED_LIBS on Windows does not work.  This requires sweeping
-   dllexport markup changes which can work only after modularization.
+ - KWStyle is not configured
 
 Futher work will refine the new build system code moving forward.
