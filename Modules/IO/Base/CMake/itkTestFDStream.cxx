@@ -16,15 +16,18 @@
  *
  *=========================================================================*/
 /*
-   This file tests whether fstream's have a wchar_t * constructor
+   This file tests whether fdstream compiles
 */
 
-#include <fstream>
+#include "itkfdstream/fdstream.hpp"
 
 int main()
 {
-  std::ofstream ostr( L"tmptest.txt" );
-  std::ifstream istr( L"tmptest.txt" );
+  // stream with buffer reading from file descriptor 0 (standard input)
+  itk::fdistream in(0);
+
+  // stream with buffer writing to file descriptor 1 (standard output)
+  itk::fdostream out(1);
+
   return 0;
 }
-

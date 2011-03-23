@@ -16,19 +16,17 @@
  *
  *=========================================================================*/
 /*
-   This file tests whether fdstream compiles
+   This file tests whether we have _wopen and the like
 */
 
-#include "fdstream.hpp"
+#include <io.h> // for _wopen
+#include <fcntl.h> // for _O_RDONLY
+#include <stdio.h> // for _wfopen
 
 int main()
 {
-  // stream with buffer reading from file descriptor 0 (standard input)
-  boost::fdistream in(0);
-
-  // stream with buffer writing to file descriptor 1 (standard output)
-  boost::fdostream out(1);
-
+  _wopen( L"tmptest.txt", _O_RDONLY );
+  _wfopen( L"tmptest.txt", L"r" );
+  _wunlink( L"tmptest.txt" );
   return 0;
 }
-
