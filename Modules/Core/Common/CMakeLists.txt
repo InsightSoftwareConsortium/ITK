@@ -1,5 +1,9 @@
 project(ITK-Common)
 
+# Version string should not include patch level.  The major.minor is
+# enough to distinguish available features of the toolkit.
+set(ITK_VERSION_STRING "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+
 include(TestBigEndian)
 test_big_endian(CMAKE_WORDS_BIGENDIAN)
 

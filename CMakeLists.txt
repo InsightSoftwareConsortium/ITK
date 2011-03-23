@@ -4,6 +4,8 @@ set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 include(ITKModuleMacros)
 
+#-----------------------------------------------------------------------------
+# ITK version number.  An even minor number corresponds to releases.
 set(ITK_VERSION_MAJOR "4")
 set(ITK_VERSION_MINOR "0")
 set(ITK_VERSION_PATCH "0")
