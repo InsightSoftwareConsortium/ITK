@@ -15,12 +15,19 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifdef __INTEL_COMPILER
-        //If -i_dynamic is required (i.e. icc v7.1 on Redhat 9 or similar glibc version),
-        //this simple program will fail to compile.
-        #include <iostream>
-        int main(int argc, char * argv[]) { return 1; }
-#else //__INTEL_COMPILER
-        // If not the INTEL compiler, just fall though to simplest program
-        int main(int argc, char * argv[]) { return 1; }
-#endif //__INTEL_COMPILER
+/*
+   This file tests whether fdstream compiles
+*/
+
+#include "itkfdstream/fdstream.hpp"
+
+int main()
+{
+  // stream with buffer reading from file descriptor 0 (standard input)
+  itk::fdistream in(0);
+
+  // stream with buffer writing to file descriptor 1 (standard output)
+  itk::fdostream out(1);
+
+  return 0;
+}

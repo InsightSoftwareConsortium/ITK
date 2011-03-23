@@ -18,6 +18,8 @@
 #ifndef __itkImageIOBase_h
 #define __itkImageIOBase_h
 
+#include "itkIOConfigure.h"
+
 #include "itkLightProcessObject.h"
 #include "itkIndent.h"
 #include "itkImageIORegion.h"

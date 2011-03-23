@@ -24,6 +24,7 @@
 // This should help better dealing with internationalization (a.k.a i18n)
 
 #include "itkMacro.h"
+#include "itkIOConfigure.h"
 
 #ifdef ITK_HAVE_UNISTD_H
 #include <unistd.h> // for unlink
@@ -58,7 +59,7 @@
 #include <fstream>
 #else
 #define LOCAL_USE_FDSTREAM 1
-#include "fdstream.hpp"
+#include "itkfdstream/fdstream.hpp"
 #endif
 
 namespace itk

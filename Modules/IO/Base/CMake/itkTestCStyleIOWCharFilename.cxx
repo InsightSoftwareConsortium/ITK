@@ -16,15 +16,17 @@
  *
  *=========================================================================*/
 /*
-   This file tests whether fstream's have a wchar_t * constructor
+   This file tests whether we have _wopen and the like
 */
 
-#include <fstream>
+#include <io.h> // for _wopen
+#include <fcntl.h> // for _O_RDONLY
+#include <stdio.h> // for _wfopen
 
 int main()
 {
-  std::ofstream ostr( L"tmptest.txt" );
-  std::ifstream istr( L"tmptest.txt" );
+  _wopen( L"tmptest.txt", _O_RDONLY );
+  _wfopen( L"tmptest.txt", L"r" );
+  _wunlink( L"tmptest.txt" );
   return 0;
 }
-

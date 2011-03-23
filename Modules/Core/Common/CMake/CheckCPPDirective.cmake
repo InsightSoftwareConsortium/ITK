@@ -4,11 +4,13 @@
 # VARIABLE - variable to store the result to
 #
 
+get_filename_component(_CheckCPPDirective_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
 macro(CHECK_CPP_DIRECTIVE_EXISTS DIRECTIVE VARIABLE)
  if("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
   message(STATUS "Checking to see if this platform has the ${DIRECTIVE} C-Preprocessor directive")
   set(DIRECTIVE ${DIRECTIVE})
-  configure_file(${ITK_SOURCE_DIR}/CMake/CheckCPPDirectiveExists.cxx.in
+  configure_file(${_CheckCPPDirective_DIR}/CheckCPPDirectiveExists.cxx.in
     ${CMAKE_BINARY_DIR}/CMakeTmp/CheckCPPDirectiveExists.cxx IMMEDIATE)
   try_compile(${VARIABLE}
     ${CMAKE_BINARY_DIR}

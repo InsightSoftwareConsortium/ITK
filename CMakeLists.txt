@@ -2,8 +2,12 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(ITK)
 set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
+include(PreventInBuildInstalls)
 include(ITKModuleMacros)
+include(itkCheckSourceTree)
 
+#-----------------------------------------------------------------------------
+# ITK version number.  An even minor number corresponds to releases.
 set(ITK_VERSION_MAJOR "4")
 set(ITK_VERSION_MINOR "0")
 set(ITK_VERSION_PATCH "0")
@@ -87,6 +91,14 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
 set(ITK_USE_MODULAR_BUILD ON)
 
+#-----------------------------------------------------------------------------
+# Provide compatibility options.
+option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
+option(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
+option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
+mark_as_advanced(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT ITK_V3_COMPATIBILITY)
+
+#-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
 option(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, no
 r the Copyright Policy of ITK." OFF)
@@ -121,32 +133,38 @@ if( USE_FFTWD OR USE_FFTWF )
   include(itkExternal_FFTW)
 endif( USE_FFTWD OR USE_FFTWF )
 
+if(NOT ITKV3_COMPATIBILITY)
+  option(ITK_USE_64BITS_IDS "When ON, ITK will use 64 bits integers to index pixels. This is needed for managing images larger than 4Gb in some platforms." OFF)
+  mark_as_advanced(ITK_USE_64BITS_IDS)
+endif()
 
-set(EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
-set(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
+# ITK turn on concept checking
+option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
+mark_as_advanced(ITK_USE_CONCEPT_CHECKING)
+option(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
+mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
 
 #----------------------------------------------------------------------------
 configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
 
 set(ITK_TEST_OUTPUT_DIR "${ITK_BINARY_DIR}/Testing/Temporary")
 
-# Find the data directory.
-find_path(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
-if(NOT ITK_DATA_ROOT)
-  if(BUILD_TESTING)
-    message(WARNING "ITK_DATA_ROOT was not found.  ctest will not run properly.")
-  endif()
+#-----------------------------------------------------------------------------
+# Configure the default ITK_DATA_ROOT for the location of ITK Data.
+unset(ITK_DATA_ROOT CACHE) # No longer a cache entry.
+if(EXISTS ${ITK_SOURCE_DIR}/Testing/Data/ITKData.readme)
+  set(ITK_DATA_ROOT ${ITK_SOURCE_DIR}/Testing/Data)
+else()
+  set(ITK_DATA_ROOT "ITK_DATA_ROOT-NOTFOUND")
+  foreach(opt BUILD_TESTING BUILD_EXAMPLES)
+    if(${opt})
+      message(FATAL_ERROR
+        "${opt} is ON but the Testing/Data submodule is not available.  "
+        "Run\n  git submodule update --init\n"
+        "from the top of the source tree to get it!")
+    endif()
+  endforeach()
 endif()
-mark_as_advanced(ITK_DATA_ROOT)
-
-#CSWIG related
-set(ITKWISH_EXECUTABLE "${CXX_TEST_PATH}/itkwish")
-
-if(ITK_CSWIG_TCL)
-  find_program(ITKWISH_EXECUTABLE itkwish ${ITK_DIR}/bin ${ITK_DIR})
-endif()
-
-mark_as_advanced(TCL_TCLSH)
 
 set(ITKTesting_BINARY_DIR "${ITK_BINARY_DIR}/Testing")
 

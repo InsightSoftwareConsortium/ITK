@@ -16,19 +16,14 @@
  *
  *=========================================================================*/
 /*
-   This file tests whether fdstream compiles
+   This file tests whether fstream's have a wchar_t * constructor
 */
 
-#include "fdstream.hpp"
+#include <fstream>
 
 int main()
 {
-  // stream with buffer reading from file descriptor 0 (standard input)
-  boost::fdistream in(0);
-
-  // stream with buffer writing to file descriptor 1 (standard output)
-  boost::fdostream out(1);
-
+  std::ofstream ostr( L"tmptest.txt" );
+  std::ifstream istr( L"tmptest.txt" );
   return 0;
 }
-
