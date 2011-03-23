@@ -90,6 +90,14 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
 set(ITK_USE_MODULAR_BUILD ON)
 
+#-----------------------------------------------------------------------------
+# Provide compatibility options.
+option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
+option(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
+option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
+mark_as_advanced(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT ITK_V3_COMPATIBILITY)
+
+#-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
 option(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, no
 r the Copyright Policy of ITK." OFF)
