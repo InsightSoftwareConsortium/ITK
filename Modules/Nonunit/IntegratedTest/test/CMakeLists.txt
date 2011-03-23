@@ -648,17 +648,18 @@ add_test(NAME itkInterpolateTest
       COMMAND ITK-IntegratedTestTestDriver itkInterpolateTest)
 
 if(ITK_BUILD_SHARED_LIBS)
-  add_test(itkIOPluginTest ${TestDriver} itkIOPluginTest
-    ${ITK_TEST_OUTPUT_DIR}
-    "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
-    ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
+  add_test(NAME itkIOPluginTest
+           COMMAND ITK-IntegratedTestTestDriver itkIOPluginTest
+             ${ITK_TEST_OUTPUT_DIR}
+             "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
+             ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
     )
   ## Create a library to test ITK IO plugins
   set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
-  #set(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
-  add_library(FileFreeTestLib SHARED ${FileFreeTest_Source})
+  add_library(FileFreeTestLib MODULE ${FileFreeTest_Source})
   target_link_libraries(FileFreeTestLib ${ITK-IO-Base_LIBRARIES})
-  #add_dependencies(IOCxxTests FileFreeTestLib)
+  set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/Testing/Temporary)
+  add_dependencies(ITK-IntegratedTestTestDriver FileFreeTestLib)
 endif(ITK_BUILD_SHARED_LIBS)
 
 
