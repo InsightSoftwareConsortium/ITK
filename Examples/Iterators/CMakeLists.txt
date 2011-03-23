@@ -46,45 +46,40 @@ target_link_libraries(ShapedNeighborhoodIterators1 ${ITK_LIBRARIES})
 add_executable(ShapedNeighborhoodIterators2 ShapedNeighborhoodIterators2.cxx)
 target_link_libraries(ShapedNeighborhoodIterators2 ${ITK_LIBRARIES})
 
-add_executable(IteratorsExamples IteratorsExamples.cxx )
-target_link_libraries(IteratorsExamples ${ITK_LIBRARIES})
-
-set(ITERATORS_EXAMPLES ${CXX_TEST_PATH}/IteratorsExamples)
 
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Iterators)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 if(BUILD_TESTING)
-
-add_test(ImageLinearIteratorWithIndexTest ${ITERATORS_EXAMPLES}
+add_test(NAME ImageLinearIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageLinearIteratorWithIndexTest.png
             ${TEMP}/ImageLinearIteratorWithIndexTest.png
-  ImageLinearIteratorWithIndexTest
+  $<TARGET_FILE:ImageLinearIteratorWithIndex>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/ImageLinearIteratorWithIndexTest.png
 )
 
-add_test(ImageRegionIteratorWithIndexTest ${ITERATORS_EXAMPLES}
+add_test(NAME ImageRegionIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageRegionIteratorWithIndexTest.png
             ${TEMP}/ImageRegionIteratorWithIndexTest.png
-  ImageRegionIteratorWithIndexTest
+  $<TARGET_FILE:ImageRegionIteratorWithIndex>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/ImageRegionIteratorWithIndexTest.png
 )
 
-add_test(ImageRegionIteratorTest ${ITERATORS_EXAMPLES}
+add_test(NAME ImageRegionIteratorTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageRegionIteratorTest.png
             ${TEMP}/ImageRegionIteratorTest.png
-  ImageRegionIteratorTest
+  $<TARGET_FILE:ImageRegionIterator>
         ${ITK_SOURCE_DIR}/Examples/Data/FatMRISlice.png
         ${TEMP}/ImageRegionIteratorTest.png
         20 70 210 140
 )
 
-add_test(ImageSliceIteratorWithIndexTest ${ITERATORS_EXAMPLES}
+add_test(NAME ImageSliceIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageSliceIteratorWithIndexTest.mha
             ${TEMP}/ImageSliceIteratorWithIndexTest.mha
-  ImageSliceIteratorWithIndexTest
+ $<TARGET_FILE:ImageSliceIteratorWithIndex>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensity3Slices.mha
         ${TEMP}/ImageSliceIteratorWithIndexTest.mha
         2

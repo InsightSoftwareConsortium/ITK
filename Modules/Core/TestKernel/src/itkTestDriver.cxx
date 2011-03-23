@@ -15,19 +15,28 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// this file defines the ImageExamples for the test driver
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 )
-#endif
-#include <iostream>
-#include "itkTestMain.h"
+/*=========================================================================
+ *
+ *  Portions of this file are subject to the VTK Toolkit Version 3 copyright.
+ *
+ *  Copyright (c) Ken Martin, Will Schroeder, Bill Lorensen
+ *
+ *  For complete copyright, license and disclaimer of warranty information
+ *  please refer to the NOTICE file at the top of the ITK source tree.
+ *
+ *=========================================================================*/
 
+#include "itkTestDriverIncludeRequiredIOFactories.h"
 
-void RegisterTests()
+int main(int ac, char *av[])
 {
-  REGISTER_TEST(ImageAdaptor1Test);
-}
+ RegisterRequiredFactories();
 
-#undef main
-#define main ImageAdaptor1Test
-#include "ImageAdaptor1.cxx"
+ int result = ProcessArguments(&ac, &av);
+
+ if (result == 0){
+   #include "itkTestDriverBeforeTest.inc"
+   #include "itkTestDriverAfterTest.inc"
+ }
+return result;
+}

@@ -108,6 +108,8 @@ if (ITK_USE_REVIEW)
   set(Module_ITK-Review ON)
 endif(ITK_USE_REVIEW)
 
+option(BUILD_EXAMPLES "Build the Examples directory." OFF)
+
 option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
 mark_as_advanced(ITK_USE_GPU)
 
@@ -453,3 +455,7 @@ set(ITK_DIR "${ITK_BINARY_DIR}")
 
 include(Wrapping/itkWrapSetup.cmake)
 add_subdirectory(Wrapping)
+
+if(BUILD_EXAMPLES)
+  add_subdirectory(Examples)
+endif()

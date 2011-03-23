@@ -84,23 +84,20 @@ add_executable(VisibleHumanPasteWrite  VisibleHumanPasteWrite.cxx )
 target_link_libraries(VisibleHumanPasteWrite  ${ITK_LIBRARIES})
 
 
-set(IO_EXAMPLES ${CXX_TEST_PATH}/IOExamples)
 
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-add_executable(IOExamples IOExamples.cxx )
-target_link_libraries(IOExamples ${ITK_LIBRARIES})
 
 if(ITK_VISIBLEHUMAN_DATA_ROOT)
-  add_test(VisibleHumanStreamReadWriteTest
-    ${IO_EXAMPLES}
-    VisibleHumanStreamReadWriteTest
+  add_test(NAME VisibleHumanStreamReadWriteTest
+    COMMAND ${ITK_TEST_DRIVER}
+   $<TARGET_FILE:VisibleHumanStreamReadWrite>
     ${ITK_VISIBLEHUMAN_DATA_ROOT}/Male/Fullcolor/fullbody/
     ${TEMP}/VisibleHumanStreamReadWrite.mha )
-  add_test(VisibleHumanPasteWriteTest
-    ${IO_EXAMPLES}
-    VisibleHumanPasteWriteTest
+  add_test(NAME VisibleHumanPasteWriteTest
+    COMMAND ${ITK_TEST_DRIVER}
+   $<TARGET_FILE:VisibleHumanPasteWrite>
     ${TEMP}/VisibleHumanStreamReadWrite.mha
     ${TEMP}/VisibleHumanPasteWrite.mha)
   # this test must be run sequentially, be cause the output of the first is used by the second

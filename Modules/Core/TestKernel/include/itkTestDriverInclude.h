@@ -35,6 +35,9 @@
 // that is called after a test has been run by the driver.
 // command line options prior to invoking the test.
 //
+
+#include "itksys/Process.h"
+
 #include "itkWin32Header.h"
 #include <map>
 #include <string>
@@ -79,7 +82,58 @@ RegressionTestParameters regressionTestParameters;
 
 typedef char ** ArgumentStringType;
 
-void ProcessArguments(int *ac, ArgumentStringType *av)
+void usage()
+{
+  std::cerr << "usage: itkTestDriver [options] prg [args]" << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "itkTestDriver alter the environment, run a test program and compare the images" << std::endl;
+  std::cerr << "produced." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "Options:" << std::endl;
+  std::cerr << "  --add-before-libpath PATH" << std::endl;
+  std::cerr << "      Add a path to the library path environment. This option take care of" << std::endl;
+  std::cerr << "      choosing the right environment variable for your system." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --add-before-env NAME VALUE" << std::endl;
+  std::cerr << "      Add a VALUE to the variable name in the environment." << std::endl;
+  std::cerr << "      The seperator used is the default one on the system." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --add-before-env-with-sep NAME VALUE SEP" << std::endl;
+  std::cerr << "      Add a VALUE to the variable name in the environment using the provided separator." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compare TEST BASELINE" << std::endl;
+  std::cerr << "      Compare the TEST image to the BASELINE one." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << "  --with-threads THREADS" << std::endl;
+  std::cerr << "      Use at most THREADS threads." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --without-threads" << std::endl;
+  std::cerr << "      Use at most one thread." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareNumberOfPixelsTolerance TOLERANCE" << std::endl;
+  std::cerr << "      When comparing images with --compare, allow TOLERANCE pixels to differ." << std::endl;
+  std::cerr << "      Default is 0." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareRadiusTolerance TOLERANCE" << std::endl;
+  std::cerr << "      Default is 0." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareIntensityTolerance TOLERANCE" << std::endl;
+  std::cerr << "      Default is 2.0." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --" << std::endl;
+  std::cerr << "      The options after -- are not interpreted by this program and passed" << std::endl;
+  std::cerr << "      directly to the test program." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --help" << std::endl;
+  std::cerr << "      Display this message and exit." << std::endl;
+  std::cerr << std::endl;
+}
+
+
+int ProcessArguments(int *ac, ArgumentStringType *av)
 {
   itk::FloatingPointExceptions::Enable();
 
@@ -87,63 +141,194 @@ void ProcessArguments(int *ac, ArgumentStringType *av)
   regressionTestParameters.numberOfPixelsTolerance = 0;
   regressionTestParameters.radiusTolerance = 0;
 
-  if ( *ac < 2 )
-    {
-    // Return and let the main() function manage the error condition.
-    return;
-    }
-
-  // Process arguments that begin with "--". Return when an argument
-  // is found that dones not start with "--". The remaing arguments
-  // will be processed in the main program of the test
-  // driver. Presumably these arguments are the name of the test
-  // executable and its arguments.
-  while ( *ac > 0 )
-    {
-    if ( strcmp((*av)[1], "--with-threads") == 0 )
+  std::vector< char * > args;
+  // parse the command line
+  int  i = 1;
+  bool skip = false;
+  while ( i < *ac )
+  {
+     if ( !skip && strcmp((*av)[i], "--compare") == 0 )
       {
-      int numThreads = atoi((*av)[2]);
-      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(numThreads);
+      if ( i + 2 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      regressionTestParameters.compareList.push_back( ComparePairType((*av)[i + 1], (*av)[i + 2]) );
+      (*av) += 3;
+      *ac -= 3;
+      }
+    else if ( !skip && strcmp((*av)[i], "--") == 0 )
+      {
+      skip = true;
+      i += 1;
+      }
+    else if ( !skip && strcmp((*av)[i], "--help") == 0 )
+      {
+      usage();
+      return 1;
+      }
+    else if ( !skip && strcmp((*av)[i], "--with-threads") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      // set the environment which will be read by the subprocess
+      std::string threadEnv = "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=";
+      threadEnv += (*av)[i + 1];
+      itksys::SystemTools::PutEnv( threadEnv.c_str() );
+      // and set the number of threads locally for the comparison
+      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(atoi((*av)[i + 1]));
       *av += 2;
       *ac -= 2;
       }
-    else if ( strcmp((*av)[1], "--without-threads") == 0 )
+    else if ( !skip && strcmp((*av)[i], "--without-threads") == 0 )
       {
+      itksys::SystemTools::PutEnv( "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1" );
       itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
       *av += 1;
       *ac -= 1;
       }
-    else if ( *ac > 3 && strcmp((*av)[1], "--compare") == 0 )
+    else if ( !skip && strcmp((*av)[i], "--compareNumberOfPixelsTolerance") == 0 )
       {
-      regressionTestParameters.compareList.push_back(
-        ComparePairType((*av)[2], (*av)[3]) );
-      *av += 3;
-      *ac -= 3;
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      regressionTestParameters.numberOfPixelsTolerance = atoi((*av)[i + 1]);
+      *av +=2;
+      *ac -=2;
       }
-    else if ( *ac > 2 && strcmp((*av)[1], "--compareNumberOfPixelsTolerance") == 0 )
+    else if ( !skip && strcmp((*av)[i], "--compareRadiusTolerance") == 0 )
       {
-      regressionTestParameters.numberOfPixelsTolerance = atoi((*av)[2]);
-      *av += 2;
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+     regressionTestParameters.radiusTolerance = atoi((*av)[i + 1]);
+      (*av) += 2;
       *ac -= 2;
       }
-    else if ( *ac > 2 && strcmp((*av)[1], "--compareRadiusTolerance") == 0 )
+    else if ( !skip && strcmp((*av)[i], "--compareIntensityTolerance") == 0 )
       {
-      regressionTestParameters.radiusTolerance = atoi((*av)[2]);
-      *av += 2;
-      *ac -= 2;
-      }
-    else if ( *ac > 2 && strcmp((*av)[1], "--compareIntensityTolerance") == 0 )
-      {
-      regressionTestParameters.intensityTolerance = atof((*av)[2]);
-      *av += 2;
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+     regressionTestParameters.intensityTolerance = atof((*av)[i + 1]);
+      (*av) += 2;
       *ac -= 2;
       }
     else
       {
+      args.push_back((*av)[i]);
+      i += 1;
+      }
+  }
+
+
+  if ( args.empty() )
+    {
+    usage();
+    return 1;
+    }
+
+  // a NULL is required at the end of the table
+  char ** argv = new char *[args.size() + 1];
+  for ( i = 0; i < static_cast< int >( args.size() ); i++ )
+    {
+    argv[i] = args[i];
+    }
+  argv[args.size()] = NULL;
+
+  itksysProcess *process = itksysProcess_New();
+  itksysProcess_SetCommand(process, argv);
+  itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDOUT, true);
+  itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDERR, true);
+  itksysProcess_Execute(process);
+  itksysProcess_WaitForExit(process, NULL);
+
+  delete[] argv;
+
+  int state = itksysProcess_GetState(process);
+  switch( state )
+    {
+//     case kwsysProcess_State_Starting:
+//       {
+//       // this is not a possible state after itksysProcess_WaitForExit
+//       std::cerr << "itkTestDriver: Internal error: process can't be in Starting State." << std::endl;
+//       return 1;
+//       break;
+//       }
+    case itksysProcess_State_Error:
+      {
+      std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Exception:
+      {
+      std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Executing:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Exited:
+      {
+      // this is the normal case - it is treated later
+      break;
+      }
+    case itksysProcess_State_Expired:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Killed:
+      {
+      std::cerr << "itkTestDriver: The process has been killed." << std::endl;
+      return 1;
+      break;
+      }
+    case itksysProcess_State_Disowned:
+      {
+      std::cerr << "itkTestDriver: Process disowned." << std::endl;
+      return 1;
+      break;
+      }
+    default:
+      {
+      // this is not a possible state after itksysProcess_WaitForExit
+      std::cerr << "itkTestDriver: Internal error: unknown State." << std::endl;
+      return 1;
       break;
       }
     }
+
+  int retCode = itksysProcess_GetExitValue(process);
+  if ( retCode != 0 )
+    {
+    std::cerr << "itkTestDriver: Process exited with return value: " << retCode << std::endl;
+    // no need to compare the images: the test has failed
+    }
+
+return retCode;
+
 }
+
+
 
 // Regression Testing Code
 

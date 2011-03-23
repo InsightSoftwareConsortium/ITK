@@ -9,8 +9,7 @@
 #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
-void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
-{
+void RegisterRequiredFactories(){
   itk::ObjectFactoryBase::RegisterFactory( itk::MetaImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::GDCMImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );
@@ -19,7 +18,11 @@ void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *a
   itk::ObjectFactoryBase::RegisterFactory( itk::TIFFImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::BMPImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::NrrdImageIOFactory::New() );
+}
 
+void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
+{
+  RegisterRequiredFactories();
   ProcessArguments( ac, av );
 
 }
