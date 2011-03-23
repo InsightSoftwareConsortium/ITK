@@ -120,6 +120,23 @@ if(SUN_COMPILER)
   endif(SUN_COMPILER_HAS_STL_PORT_4)
 endif(SUN_COMPILER)
 
+#-----------------------------------------------------------------------------
+# The frename-registers option does not work due to a bug in the gnu compiler.
+# It must be removed or data errors will be produced and incorrect results
+# will be produced.  This is first documented in the gcc4 man page.
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(ALL_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS} ${CMAKE_MODULE_LINKER_FLAGS}" )
+  separate_arguments(ALL_FLAGS)
+  foreach(COMP_OPTION ${ALL_FLAGS})
+    if("${COMP_OPTION}" STREQUAL "-frename-registers")
+      message(FATAL_ERROR "-frename-registers causes runtime bugs.  It must be removed from your compilation options.")
+    endif("${COMP_OPTION}" STREQUAL "-frename-registers")
+    if("${COMP_OPTION}" STREQUAL "-ffloat-store")
+      message(FATAL_ERROR "-ffloat-store causes runtime bugs on gcc 3.2.3 (appearently not on gcc 3.4.3, but the exact criteria is not known).  It must be removed from your compilation options.")
+    endif("${COMP_OPTION}" STREQUAL "-ffloat-store")
+  endforeach(COMP_OPTION)
+endif(CMAKE_COMPILER_IS_GNUCXX)
+
 #---------------------------------------------------------------
 # run try compiles and tests for ITK
 include(CMake/itkTestFriendTemplatedFunction.cmake)
