@@ -135,15 +135,6 @@ if(NOT ITK_DATA_ROOT)
 endif()
 mark_as_advanced(ITK_DATA_ROOT)
 
-#CSWIG related
-set(ITKWISH_EXECUTABLE "${CXX_TEST_PATH}/itkwish")
-
-if(ITK_CSWIG_TCL)
-  find_program(ITKWISH_EXECUTABLE itkwish ${ITK_DIR}/bin ${ITK_DIR})
-endif()
-
-mark_as_advanced(TCL_TCLSH)
-
 set(ITKTesting_BINARY_DIR "${ITK_BINARY_DIR}/Testing")
 
 option(ITK_USE_FLOATINGPOINTEXCEPTIONS
