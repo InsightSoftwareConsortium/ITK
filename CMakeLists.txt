@@ -3,6 +3,7 @@ project(ITK)
 set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 include(ITKModuleMacros)
+include(itkCheckSourceTree)
 
 #-----------------------------------------------------------------------------
 # ITK version number.  An even minor number corresponds to releases.
