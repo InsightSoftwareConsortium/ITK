@@ -40,6 +40,9 @@ check_include_files("stdint.h" HAVE_STDINT_H)
 check_include_files("stddef.h" HAVE_STDDEF_H)
 check_include_files("sys/types.h" HAVE_SYS_TYPES_H)
 
+# Check if this platform support the sse2 rounding functions for 32 and 64 bits
+include(CheckSupportForSSERounding)
+
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 configure_file(src/itkFloatingPointExceptionsConfigure.h.in  itkFloatingPointExceptionsConfigure.h)
 
