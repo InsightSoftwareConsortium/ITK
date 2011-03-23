@@ -133,6 +133,12 @@ if( USE_FFTWD OR USE_FFTWF )
   include(itkExternal_FFTW)
 endif( USE_FFTWD OR USE_FFTWF )
 
+# ITK turn on concept checking
+option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
+mark_as_advanced(ITK_USE_CONCEPT_CHECKING)
+option(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
+mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
+
 #----------------------------------------------------------------------------
 configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
 
