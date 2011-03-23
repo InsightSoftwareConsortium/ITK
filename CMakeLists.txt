@@ -121,10 +121,6 @@ if( USE_FFTWD OR USE_FFTWF )
   include(itkExternal_FFTW)
 endif( USE_FFTWD OR USE_FFTWF )
 
-
-set(EXECUTABLE_OUTPUT_PATH ${ITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
-set(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
-
 #----------------------------------------------------------------------------
 configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake)
 
