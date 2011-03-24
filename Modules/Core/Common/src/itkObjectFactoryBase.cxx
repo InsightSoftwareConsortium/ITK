@@ -408,7 +408,7 @@ ObjectFactoryBase
           newfactory->m_LibraryHandle = (void *)lib;
           newfactory->m_LibraryPath = fullpath;
           newfactory->m_LibraryDate = 0; // unused for now...
-          ObjectFactoryBase::RegisterFactory(newfactory);
+          ObjectFactoryBase::RegisterFactoryInternal(newfactory);
           }
         else
           {
