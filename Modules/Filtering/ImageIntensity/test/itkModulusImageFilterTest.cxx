@@ -86,4 +86,3 @@ int itkModulusImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-

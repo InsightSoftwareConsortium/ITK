@@ -20,17 +20,18 @@
 #endif
 
 
+// Test the filter with 1-D images.
 
 
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 
-int itkGradientRecursiveGaussianFilterTest(int, char* [] )
+int itkGradientRecursiveGaussianFilterTest2(int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int myDimension = 1;
 
   // Declare the types of the images
   typedef itk::Image<float, myDimension>           myImageType;
@@ -50,9 +51,7 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
 
   // Define their size, and start index
   mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
+  size[0] = 64;
 
   myIndexType start;
   start.Fill(0);
@@ -80,13 +79,9 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
     ++it;
     }
 
-  size[0] = 4;
-  size[1] = 4;
-  size[2] = 4;
+  size[0] = 32;
 
-  start[0] = 2;
-  start[1] = 2;
-  start[2] = 2;
+  start[0] = 16;
 
   // Create one iterator for an internal region
   region.SetSize( size );
@@ -149,7 +144,3 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

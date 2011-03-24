@@ -6,6 +6,11 @@ itkGradientToMagnitudeImageFilterTest.cxx
 itkVectorGradientMagnitudeImageFilterTest1.cxx
 itkVectorGradientMagnitudeImageFilterTest2.cxx
 itkGradientMagnitudeImageFilterTest.cxx
+itkVectorGradientMagnitudeImageFilterTest3.cxx
+itkGradientMagnitudeRecursiveGaussianFilterTest.cxx
+itkGradientRecursiveGaussianFilterTest.cxx
+itkGradientRecursiveGaussianFilterTest2.cxx
+itkDifferenceOfGaussiansGradientTest.cxx
 )
 
 CreateTestDriver(ITK-ImageGradient  "${ITK-ImageGradient-Test_LIBRARIES}" "${ITK-ImageGradientTests}")
@@ -38,3 +43,14 @@ add_test(NAME itkVectorGradientMagnitudeImageFilterTest2b
     itkVectorGradientMagnitudeImageFilterTest2 ${ITK_DATA_ROOT}/Input/VHFColor.mhd ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png 1 5)
 add_test(NAME itkGradientMagnitudeImageFilterTest
       COMMAND ITK-ImageGradientTestDriver itkGradientMagnitudeImageFilterTest)
+add_test(NAME itkVectorGrtadientMagnitudeImageFilterTest3
+      COMMAND ITK-ImageGradientTestDriver itkVectorGradientMagnitudeImageFilterTest3
+              ${ITK_DATA_ROOT}/Input/VHFColor.mhd ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha 1)
+add_test(NAME itkGradientMagnitudeRecursiveGaussianFilterTest
+      COMMAND ITK-ImageGradientTestDriver itkGradientMagnitudeRecursiveGaussianFilterTest)
+add_test(NAME itkGradientRecursiveGaussianFilterTest
+      COMMAND ITK-ImageGradientTestDriver itkGradientRecursiveGaussianFilterTest)
+add_test(NAME itkGradientRecursiveGaussianFilterTest2
+      COMMAND ITK-ImageGradientTestDriver itkGradientRecursiveGaussianFilterTest2)
+add_test(NAME itkDifferenceOfGaussiansGradientTest
+      COMMAND ITK-ImageGradientTestDriver itkDifferenceOfGaussiansGradientTest)

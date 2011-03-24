@@ -157,5 +157,3 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
-
-

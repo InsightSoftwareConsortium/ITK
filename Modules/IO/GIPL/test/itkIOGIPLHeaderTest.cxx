@@ -15,45 +15,19 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRadialBasisFunctionBase_txx
-#define __itkRadialBasisFunctionBase_txx
-
-#include "itkRadialBasisFunctionBase.h"
-
-namespace itk
-{
-namespace Statistics
-{
-
-template<class ScalarType>
-void
-RadialBasisFunctionBase<ScalarType>
-::SetCenter(ArrayType c)
-{
-  m_Center=c;
-}
-template<class ScalarType>
-typename RadialBasisFunctionBase<ScalarType>::ArrayType
-RadialBasisFunctionBase<ScalarType>
-::GetCenter()
-{
-  return m_Center;
-}
-template<class ScalarType>
-void
-RadialBasisFunctionBase<ScalarType>
-::SetRadius(ScalarType r)
-{
-  m_Radius=r;
-}
-template<class ScalarType>
-ScalarType
-RadialBasisFunctionBase<ScalarType>
-::GetRadius()
-{
-  return m_Radius;
-}
-
-} // namespace itk
-}//namespace Statistics
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
 #endif
+
+#include <iostream>
+
+#include "itkGiplImageIOFactory.h"
+#include "itkGiplImageIO.h"
+
+
+
+int itkIOGIPLHeaderTest ( int , char * [] )
+{
+
+  return EXIT_SUCCESS;
+}

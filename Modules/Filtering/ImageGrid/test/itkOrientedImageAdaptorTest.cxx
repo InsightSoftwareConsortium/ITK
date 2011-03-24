@@ -317,6 +317,3 @@ int itkOrientedImageAdaptorTest(int, char* []) {
 
   return EXIT_SUCCESS;
 }
-
-
-

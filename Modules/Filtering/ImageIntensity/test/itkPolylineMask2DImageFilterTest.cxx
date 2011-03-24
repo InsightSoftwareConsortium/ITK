@@ -153,4 +153,3 @@ int itkPolylineMask2DImageFilterTest(int argc, char * argv [] )
   return EXIT_FAILURE;
 
 }
-

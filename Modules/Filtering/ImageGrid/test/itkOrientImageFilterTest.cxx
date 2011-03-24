@@ -20,7 +20,6 @@
 #endif
 
 #include "itkMultiThreader.h"
-#include "itkAnalyzeImageIO.h"
 #include "itkMetaDataObject.h"
 #include "itkImage.h"
 #include "itkOrientImageFilter.h"
