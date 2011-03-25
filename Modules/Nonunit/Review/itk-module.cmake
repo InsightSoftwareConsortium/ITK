@@ -51,7 +51,7 @@ ITK-IO-NRRD
 ITK-IO-PNG
 ITK-IO-RAW
 ITK-IO-Siemens
-ITK-IO-Spatialobjects
+ITK-IO-SpatialObjects
 ITK-IO-Stimulate
 ITK-IO-TIFF
 ITK-IO-VTK
