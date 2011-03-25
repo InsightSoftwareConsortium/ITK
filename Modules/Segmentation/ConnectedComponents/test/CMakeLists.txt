@@ -8,6 +8,8 @@ itkConnectedComponentImageFilterTest.cxx
 itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 itkScalarConnectedComponentImageFilterTest.cxx
 itkVectorConnectedComponentImageFilterTest.cxx
+itkConnectedComponentImageFilterTooManyObjectsTest.cxx
+itkMaskConnectedComponentImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ConnectedComponents  "${ITK-ConnectedComponents-Test_LIBRARIES}" "${ITK-ConnectedComponentsTests}")
@@ -61,3 +63,10 @@ add_test(NAME itkVectorConnectedComponentImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConnectedComponentImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
     itkVectorConnectedComponentImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png)
+add_test(NAME itkConnectedComponentImageFilterTooManyObjectsTest
+      COMMAND ITK-ConnectedComponentsTestDriver itkConnectedComponentImageFilterTooManyObjectsTest)
+add_test(NAME itkMaskConnectedComponentImageFilterTest
+      COMMAND ITK-ConnectedComponentsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskConnectedComponentImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png
+    itkMaskConnectedComponentImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png 130 145)

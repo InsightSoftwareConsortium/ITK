@@ -97,4 +97,3 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
 
   return EXIT_SUCCESS;
 }
-

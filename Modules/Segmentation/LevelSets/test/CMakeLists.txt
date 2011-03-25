@@ -6,6 +6,9 @@ itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
 itkReinitializeLevelSetImageFilterTest.cxx
 itkLevelSetVelocityNeighborhoodExtractorTest.cxx
 itkFastMarchingExtensionImageFilterTest.cxx
+itkFastMarchingTest.cxx
+itkFastMarchingTest2.cxx
+itkFastMarchingUpwindGradientTest.cxx
 itkIsotropicFourthOrderLevelSetImageFilterTest.cxx
 itkGeodesicActiveContourLevelSetImageFilterTest.cxx
 itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx
@@ -25,6 +28,10 @@ itkImplicitManifoldNormalVectorFilterTest.cxx
 itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx
 itkLaplacianSegmentationLevelSetImageFilterTest.cxx
 itkShapePriorSegmentationLevelSetFunctionTest.cxx
+itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
+itkUnsharpMaskLevelSetImageFilterTest.cxx
+itkCurvesLevelSetImageFilterTest.cxx
+itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
 )
 
 CreateTestDriver(ITK-LevelSets  "${ITK-LevelSets-Test_LIBRARIES}" "${ITK-LevelSetsTests}")
@@ -46,6 +53,12 @@ add_test(NAME itkLevelSetVelocityNeighborhoodExtractorTest
       COMMAND ITK-LevelSetsTestDriver itkLevelSetVelocityNeighborhoodExtractorTest)
 add_test(NAME itkFastMarchingExtensionImageFilterTest
       COMMAND ITK-LevelSetsTestDriver itkFastMarchingExtensionImageFilterTest)
+add_test(NAME itkFastMarchingTest
+      COMMAND ITK-LevelSetsTestDriver itkFastMarchingTest)
+add_test(NAME itkFastMarchingTest2
+      COMMAND ITK-LevelSetsTestDriver itkFastMarchingTest2)
+add_test(NAME itkFastMarchingUpwindGradientTest
+      COMMAND ITK-LevelSetsTestDriver itkFastMarchingUpwindGradientTest)
 add_test(NAME itkIsotropicFourthOrderLevelSetImageFilterTest
       COMMAND ITK-LevelSetsTestDriver itkIsotropicFourthOrderLevelSetImageFilterTest)
 add_test(NAME itkGeodesicActiveContourLevelSetImageFilterTest
@@ -88,3 +101,11 @@ add_test(NAME itkLaplacianSegmentationLevelSetImageFilterTest
       COMMAND ITK-LevelSetsTestDriver itkLaplacianSegmentationLevelSetImageFilterTest)
 add_test(NAME itkShapePriorSegmentationLevelSetFunctionTest
       COMMAND ITK-LevelSetsTestDriver itkShapePriorSegmentationLevelSetFunctionTest)
+add_test(NAME itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest
+      COMMAND ITK-LevelSetsTestDriver itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest)
+add_test(NAME itkUnsharpMaskLevelSetImageFilterTest
+      COMMAND ITK-LevelSetsTestDriver itkUnsharpMaskLevelSetImageFilterTest)
+add_test(NAME itkCurvesLevelSetImageFilterTest
+      COMMAND ITK-LevelSetsTestDriver itkCurvesLevelSetImageFilterTest)
+add_test(NAME itkCurvesLevelSetImageFilterZeroSigmaTest
+      COMMAND ITK-LevelSetsTestDriver itkCurvesLevelSetImageFilterZeroSigmaTest)

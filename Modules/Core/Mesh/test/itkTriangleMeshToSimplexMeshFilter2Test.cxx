@@ -95,7 +95,3 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

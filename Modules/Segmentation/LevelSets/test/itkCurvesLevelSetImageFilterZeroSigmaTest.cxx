@@ -29,12 +29,12 @@
 #include "itkSimilarityIndexImageFilter.h"
 
 /* Uncomment to write out image files */
-#ifdef WRITING_OUT_IMAGES
+/*
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
-#endif
+*/
 
-int itkCurvesLevelSetImageFilterTest(int, char* [] )
+int itkCurvesLevelSetImageFilterZeroSigmaTest(int, char* [] )
 {
 
   const   unsigned int    ImageDimension = 2;
@@ -152,6 +152,9 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   curvesFilter->SetCurvatureScaling( 0.1 );
   curvesFilter->SetAdvectionScaling( 0.5 );
 
+  // use finite differences instead of derivative of Gaussian to build advection
+  curvesFilter->SetDerivativeSigma( 0.0 );
+
   // set the convergence criteria
   curvesFilter->SetMaximumRMSError( 0.03 );
   curvesFilter->SetNumberOfIterations( 200 );
@@ -188,9 +191,9 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
   /**
-   * Define the symbol WRITING_OUT_IMAGES to write out image files.
+   * Uncomment to write out image files.
    */
-#ifdef WRITING_OUT_IMAGES
+/*
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
 
@@ -221,7 +224,7 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   writer->SetInput( thresholder->GetOutput() );
   writer->SetFileName( "initialLevelSet.png" );
   writer->Update();
-#endif
+*/
 
   // Check if overlap is above threshold
   if ( overlap->GetSimilarityIndex() > 0.90 )
@@ -245,4 +248,3 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
