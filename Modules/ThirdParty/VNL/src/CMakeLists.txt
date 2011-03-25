@@ -5,6 +5,11 @@ set(VXL_INSTALL_LIBRARY_DIR "${ITK-VNL_INSTALL_LIBRARY_DIR}")
 set(VXL_INSTALL_ARCHIVE_DIR "${ITK-VNL_INSTALL_ARCHIVE_DIR}")
 set(VXL_INSTALL_NO_DEVELOPMENT ${ITK_INSTALL_NO_DEVELOPMENT})
 set(VXL_INSTALL_NO_LIBRARIES ${ITK_INSTALL_NO_LIBRARIES})
+
+# vxl uses EXECUTABLE_OUTPUT_PATH to refer to test executable locations
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+
 add_subdirectory(vxl)
 foreach(lib itkvcl itkv3p_netlib itkv3p_lsqr itktestlib itkvnl itkvnl_algo)
   itk_module_target_name(${lib})
