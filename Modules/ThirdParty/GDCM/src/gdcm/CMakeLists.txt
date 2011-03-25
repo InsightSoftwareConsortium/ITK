@@ -116,9 +116,14 @@ ENDIF(BUILD_SHARED_LIBS)
 
 
 #-----------------------------------------------------------------------------
-SET (EXECUTABLE_OUTPUT_PATH ${GDCM_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables.")
-SET (LIBRARY_OUTPUT_PATH ${GDCM_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries.")
-MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
+IF(NOT EXECUTABLE_OUTPUT_PATH)
+  SET (EXECUTABLE_OUTPUT_PATH ${GDCM_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables.")
+  MARK_AS_ADVANCED(EXECUTABLE_OUTPUT_PATH)
+ENDIF()
+IF(NOT LIBRARY_OUTPUT_PATH)
+  SET (LIBRARY_OUTPUT_PATH ${GDCM_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries.")
+  MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH)
+ENDIF()
 
 #-----------------------------------------------------------------------------
 # Adding GDCM_DATA_ROOT
