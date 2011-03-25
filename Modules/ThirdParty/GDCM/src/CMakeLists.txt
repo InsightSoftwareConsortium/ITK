@@ -21,6 +21,10 @@ if(NOT ITK_USE_SYSTEM_ZLIB)
   set(ZLIB_LIBRARY itkzlib)
 endif()
 
+# GDCM uses these to refer to executable and library locations
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+
 add_subdirectory(gdcm)
 
 foreach(lib
