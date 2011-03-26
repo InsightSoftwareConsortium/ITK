@@ -603,6 +603,27 @@ add_test(NAME itkKdTreeTest2
 add_test(NAME itkKdTreeTest3
       COMMAND ITK-IntegratedTestTestDriver itkKdTreeTest2
               ${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
+
+#
+#  The following tests generate graphical plots of the KdTree organization.
+#  They are very helpful for debugging and verification purposes, but not so
+#  much for regression testing. They need the "dot" tool that is part of the
+#  Graphviz package. The dot executable is found as part of the process of
+#  configuring the Doxygen documentation. Therefore, to enable these tests
+#  below, you must enable BUILD_DOXYGEN and BUILD_DOCUMENTATION.
+#
+if(DOXYGEN_DOT_EXECUTABLE)
+add_test(NAME itkKdTreeTest1Plot
+      COMMAND ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.png ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot)
+set_tests_properties( itkKdTreeTest1Plot PROPERTIES DEPENDS itkKdTreeTest1 )
+add_test(NAME itkKdTreeTest2Plot
+      COMMAND ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.png ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot)
+set_tests_properties( itkKdTreeTest2Plot PROPERTIES DEPENDS itkKdTreeTest2 )
+add_test(NAME itkKdTreeTest3Plot
+      COMMAND ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.png ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
+set_tests_properties( itkKdTreeTest3Plot PROPERTIES DEPENDS itkKdTreeTest3 )
+endif(DOXYGEN_DOT_EXECUTABLE)
+
 add_test(NAME itkKdTreeTestSamplePoints
       COMMAND ITK-IntegratedTestTestDriver itkKdTreeTestSamplePoints)
 add_test(NAME itkKmeansModelEstimatorTest
