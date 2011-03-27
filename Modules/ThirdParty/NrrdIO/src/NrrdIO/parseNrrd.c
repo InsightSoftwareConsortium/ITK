@@ -670,7 +670,7 @@ _nrrdGetQuotedString(char **hP, int useBiff) {
   static const char me[]="_nrrdGetQuotedString";
   char *h, *buff, *ret;
   airArray *buffArr;
-  int pos;
+  size_t pos;
   _chpu uu;
   
   h = *hP;
@@ -1176,9 +1176,10 @@ _nrrdContainsPercentThisAndMore(const char *str, char thss) {
   return !!hh;
 }
 
-unsigned int
+size_t
 _nrrdDataFNNumber(NrrdIoState *nio) {
-  int ii, ret;
+  int ii;
+  size_t ret;
 
   if (nio->dataFNFormat) {
     /* datafiles given in iterator form; count number of values */
@@ -1270,7 +1271,7 @@ _nrrdReadNrrdParse_data_file(FILE *ffile, Nrrd *nrrd,
   static const char me[]="_nrrdReadNrrdParse_data_file";
   char *info, *nums;
   unsigned int linelen;
-  int tmp;
+  size_t tmp;
   airArray *mop;
 
   mop = airMopNew();

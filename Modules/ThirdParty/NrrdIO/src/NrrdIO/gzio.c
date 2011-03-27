@@ -299,7 +299,7 @@ _nrrdGzClose (gzFile file) {
 ** Returns the number of bytes actually read (0 for end of file).
 */
 int
-_nrrdGzRead(gzFile file, voidp buf, unsigned int len, unsigned int* read) {
+_nrrdGzRead(gzFile file, voidp buf, size_t len, unsigned int* read) {
   static const char me[]="_nrrdGzRead";
   _NrrdGzStream *s = (_NrrdGzStream*)file;
   Bytef *start = (Bytef*)buf; /* starting point for crc computation */
@@ -324,7 +324,7 @@ _nrrdGzRead(gzFile file, voidp buf, unsigned int len, unsigned int* read) {
 
   next_out = (Byte*)buf;
   s->stream.next_out = (Bytef*)buf;
-  s->stream.avail_out = len;
+  s->stream.avail_out = (uInt)(len);
 
   while (s->stream.avail_out != 0) {
 
@@ -345,10 +345,10 @@ _nrrdGzRead(gzFile file, voidp buf, unsigned int len, unsigned int* read) {
                                            s->file);
       }
       len -= s->stream.avail_out;
-      s->stream.total_in  += len;
-      s->stream.total_out += len;
+      s->stream.total_in  += (uInt)len;
+      s->stream.total_out += (uInt)len;
       if (len == 0) s->z_eof = 1;
-      *read = len;
+      *read = (uInt)len;
       return 0;
     }
     if (s->stream.avail_in == 0 && !s->z_eof) {
@@ -395,7 +395,7 @@ _nrrdGzRead(gzFile file, voidp buf, unsigned int len, unsigned int* read) {
   }
   s->crc = crc32(s->crc, start, (uInt)(s->stream.next_out - start));
 
-  *read = len - s->stream.avail_out;
+  *read = (uInt)len - s->stream.avail_out;
   return 0;
 }
 
@@ -406,7 +406,7 @@ _nrrdGzRead(gzFile file, voidp buf, unsigned int len, unsigned int* read) {
 ** Returns the number of bytes actually written (0 in case of error).
 */
 int
-_nrrdGzWrite(gzFile file, const voidp buf, unsigned int len,
+_nrrdGzWrite(gzFile file, const voidp buf, size_t len,
              unsigned int* written) {
   static const char me[]="_nrrdGzWrite";
   _NrrdGzStream *s = (_NrrdGzStream*)file;
@@ -418,7 +418,7 @@ _nrrdGzWrite(gzFile file, const voidp buf, unsigned int len,
   }
 
   s->stream.next_in = (Bytef*)buf;
-  s->stream.avail_in = len;
+  s->stream.avail_in = (uInt)len;
 
   while (s->stream.avail_in != 0) {
     if (s->stream.avail_out == 0) {
@@ -433,9 +433,9 @@ _nrrdGzWrite(gzFile file, const voidp buf, unsigned int len,
     s->z_err = deflate(&(s->stream), Z_NO_FLUSH);
     if (s->z_err != Z_OK) break;
   }
-  s->crc = crc32(s->crc, (const Bytef *)buf, len);
+  s->crc = crc32(s->crc, (const Bytef *)buf, (uInt)len);
 
-  *written = len - s->stream.avail_in;
+  *written = (uInt)len - s->stream.avail_in;
   return 0;
 }
 

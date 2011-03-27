@@ -106,7 +106,7 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
       if (read >= sizeChunk) {
         /* we were able to read as much data as we requested, maybe there is
            more, so we need to make our temp buffer bigger */
-        airArrayLenIncr(buffArr, sizeChunk);
+        airArrayLenIncr(buffArr, (int)sizeChunk);
         if (!buffArr->data) {
           biffAddf(NRRD, "%s: couldn't re-allocate data buffer", me);
           return 1;

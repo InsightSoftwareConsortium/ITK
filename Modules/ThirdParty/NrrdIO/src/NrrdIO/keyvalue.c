@@ -36,7 +36,7 @@
 **
 ** returns the number of key/value pairs in a nrrd
 */
-unsigned int
+size_t
 nrrdKeyValueSize(const Nrrd *nrrd) {
   
   if (!nrrd) {
@@ -81,7 +81,7 @@ nrrdKeyValueIndex(const Nrrd *nrrd, char **keyP, char **valueP,
 
 int
 _nrrdKeyValueIdxFind(const Nrrd *nrrd, const char *key) {
-  unsigned int nk, ki;
+  size_t nk, ki;
 
   nk = nrrd->kvpArr->len;
   for (ki=0; ki<nk; ki++) {
@@ -94,7 +94,7 @@ _nrrdKeyValueIdxFind(const Nrrd *nrrd, const char *key) {
 
 void
 nrrdKeyValueClear(Nrrd *nrrd) {
-  unsigned int nk, ki;
+  size_t nk, ki;
 
   if (!nrrd) {
     return;
@@ -112,7 +112,7 @@ nrrdKeyValueClear(Nrrd *nrrd) {
 
 int
 nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
-  unsigned int nk;
+  size_t nk;
   int ki;
   
   if (!( nrrd && key )) {
@@ -145,7 +145,7 @@ nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
 */
 int
 nrrdKeyValueAdd(Nrrd *nrrd, const char *key, const char *value) {
-  int ki;
+  size_t ki;
 
   if (!( nrrd && key && value )) {
     /* got NULL pointer */

@@ -87,7 +87,7 @@ _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
   static const char me[]="_nrrdOneLine";
   char **line;
   airArray *mop, *lineArr;
-  int lineIdx;
+  size_t lineIdx;
   _cppu u;
   unsigned int len, needLen;
 
@@ -143,7 +143,7 @@ _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
     airMopAdd(mop, lineArr, (airMopper)airArrayNuke, airMopAlways);
     while (len == nio->lineLen+1) {
       lineIdx = airArrayLenIncr(lineArr, 1);
-      if (-1 == lineIdx) {
+      if (!lineArr->data) {
         biffAddf(NRRD, "%s: couldn't increment line buffer array", me);
         *lenP = 0; airMopError(mop); return 1;
       }

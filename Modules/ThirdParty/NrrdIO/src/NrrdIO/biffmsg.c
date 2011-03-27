@@ -80,7 +80,7 @@ biffMsgNix(biffMsg *msg) {
 void
 biffMsgAdd(biffMsg *msg, const char *err) {
   static const char me[]="biffMsgAdd";
-  unsigned int idx;
+  size_t idx;
 
   if (biffMsgNoop == msg) {
     return;
@@ -262,7 +262,7 @@ void
 biffMsgStrSet(char *ret, const biffMsg *msg) {
   static const char me[]="biffMsgStrSet";
   char *buff;
-  unsigned int ii;
+  size_t ii;
 
   if (biffMsgNoop == msg) {
     return;

@@ -80,7 +80,7 @@ airMopNew() {
 int
 airMopAdd(airArray *arr, void *ptr, airMopper mop, int when) {
   airMop *mops;
-  unsigned int ii;
+  size_t ii;
   
   if (!arr) {
     return 0;
@@ -204,7 +204,7 @@ airMopDebug(airArray *arr) {
   mops = (airMop *)arr->data;
   printf("airMopDebug: _________________________ mop stack for 0x%p:\n",
          (void*)arr);
-  for (i=arr->len-1; i>=0; i--) {
+  for (i=(int)(arr->len)-1; i>=0; i--) {
     printf("% 4d: ", i);
     if (NULL == mops[i].mop && NULL == mops[i].ptr
         && airMopNever == mops[i].when) {
@@ -246,7 +246,7 @@ airMopDone(airArray *arr, int error) {
   */
   if (arr) {
     mops = (airMop *)arr->data;
-    for (i=arr->len-1; i>=0; i--) {
+    for (i=(int)(arr->len)-1; i>=0; i--) {
       if (mops[i].ptr
           && (airMopAlways == mops[i].when
               || (airMopOnError == mops[i].when && error)

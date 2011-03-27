@@ -169,7 +169,7 @@ typedef struct {
   void *data,         /* where the data is */
     **dataP;          /* (possibly NULL) address of user's data variable,
                          kept in sync with internal "data" variable */
-  unsigned int len,   /* length of array: # units for which there is
+  size_t len,         /* length of array: # units for which there is
                          considered to be data (which is <= total # units
                          allocated).  The # bytes which contain data is
                          len*unit.  Always updated (unlike "*lenP") */
@@ -203,15 +203,15 @@ typedef struct {
   void (*doneCB)(void *);  /* called on addresses of invalidated elements */
 
 } airArray;
-NRRDIO_EXPORT airArray *airArrayNew(void **dataP, unsigned int *lenP, size_t unit,
-                                 unsigned int incr);
+NRRDIO_EXPORT airArray *airArrayNew(void **dataP, size_t *lenP, size_t unit,
+                                 size_t incr);
 NRRDIO_EXPORT void airArrayStructCB(airArray *a, void (*initCB)(void *),
                                  void (*doneCB)(void *));
 NRRDIO_EXPORT void airArrayPointerCB(airArray *a, void *(*allocCB)(void),
                                   void *(*freeCB)(void *));
-NRRDIO_EXPORT void airArrayLenSet(airArray *a, unsigned int newlen);
-NRRDIO_EXPORT void airArrayLenPreSet(airArray *a, unsigned int newlen);
-NRRDIO_EXPORT unsigned int airArrayLenIncr(airArray *a, int delta);
+NRRDIO_EXPORT void airArrayLenSet(airArray *a, size_t newlen);
+NRRDIO_EXPORT void airArrayLenPreSet(airArray *a, size_t newlen);
+NRRDIO_EXPORT size_t airArrayLenIncr(airArray *a, int delta);
 NRRDIO_EXPORT airArray *airArrayNix(airArray *a);
 NRRDIO_EXPORT airArray *airArrayNuke(airArray *a);
 
@@ -741,7 +741,7 @@ typedef struct {
                                   of biffMsg creation */
   char **err;                  /* array of error strings; the err array itself
                                   is NOT null-terminated */
-  unsigned int errNum;         /* length of "err" == # strings stored */
+  size_t errNum;               /* length of "err" == # strings stored */
   airArray *errArr;            /* air array for err and num */
 } biffMsg;
 
@@ -791,7 +791,7 @@ __attribute__ ((format(printf,3,4)))
 NRRDIO_EXPORT char *biffGet(const char *key);
 NRRDIO_EXPORT int biffGetStrlen(const char *key);
 NRRDIO_EXPORT void biffSetStr(char *str, const char *key);
-NRRDIO_EXPORT int biffCheck(const char *key);
+NRRDIO_EXPORT size_t biffCheck(const char *key);
 NRRDIO_EXPORT void biffDone(const char *key);
 NRRDIO_EXPORT void biffMove(const char *destKey, const char *err,
                           const char *srcKey);
@@ -2092,7 +2092,7 @@ NRRDIO_EXPORT int nrrdCommentCopy(Nrrd *nout, const Nrrd *nin);
 
 /******** key/value pairs */
 /* keyvalue.c */
-NRRDIO_EXPORT unsigned int nrrdKeyValueSize(const Nrrd *nrrd);
+NRRDIO_EXPORT size_t nrrdKeyValueSize(const Nrrd *nrrd);
 NRRDIO_EXPORT int nrrdKeyValueAdd(Nrrd *nrrd,
                                 const char *key, const char *value);
 NRRDIO_EXPORT char *nrrdKeyValueGet(const Nrrd *nrrd, const char *key);
@@ -2138,7 +2138,7 @@ NRRDIO_EXPORT const NrrdEncoding *
 NRRDIO_EXPORT int (*nrrdFieldInfoParse[NRRD_FIELD_MAX+1])(FILE *file, Nrrd *nrrd,
                                                         NrrdIoState *nio,
                                                         int useBiff);
-NRRDIO_EXPORT unsigned int _nrrdDataFNNumber(NrrdIoState *nio);
+NRRDIO_EXPORT size_t _nrrdDataFNNumber(NrrdIoState *nio);
 NRRDIO_EXPORT int _nrrdContainsPercentThisAndMore(const char *str, char thss);
 NRRDIO_EXPORT int _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff);
 

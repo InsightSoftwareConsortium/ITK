@@ -128,7 +128,7 @@ void bio_destroy(opj_bio_t *bio) {
 }
 
 OPJ_UINT32 bio_numbytes(opj_bio_t *bio) {
-  return (bio->bp - bio->start);
+  return (OPJ_UINT32)( bio->bp - bio->start );
 }
 
 void bio_init_enc(opj_bio_t *bio, OPJ_BYTE *bp, OPJ_UINT32 len) {
