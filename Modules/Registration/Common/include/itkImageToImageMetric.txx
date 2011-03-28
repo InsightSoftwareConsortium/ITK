@@ -1286,7 +1286,6 @@ ImageToImageMetric< TFixedImage, TMovingImage >
                     * chunkSize );
     }
 
-  int numSamples = 0;
 
   if ( m_WithinThreadPreProcess )
     {
@@ -1294,11 +1293,12 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     }
 
   // Process the samples
-  MovingImagePointType mappedPoint;
-  bool                 sampleOk;
-  double               movingImageValue;
+  int numSamples = 0;
   for ( int count = 0; count < chunkSize; ++count, ++fixedImageSample )
     {
+    MovingImagePointType mappedPoint;
+    bool                 sampleOk;
+    double               movingImageValue;
     // Get moving image value
     this->TransformPoint(fixedImageSample, mappedPoint, sampleOk, movingImageValue,
                          threadID);
