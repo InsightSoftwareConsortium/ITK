@@ -31,21 +31,6 @@ if(NOT ITK_TARGETS_IMPORTED@ITK_CONFIG_TARGETS_CONDITION@)
   include("@ITK_CONFIG_TARGETS_FILE@")
 endif()
 
-# Builtin  Image IO formats
-set(Module_ITK-IO-JPEG   "@Module_ITK-IO-JPEG@")
-set(Module_ITK-IO-BioRad "@Module_ITK-IO-BioRad@")
-set(Module_ITK-IO-BMP    "@Module_ITK-IO-BMP@")
-set(Module_ITK-IO-GDCM   "@Module_ITK-IO-GDCM@")
-set(Module_ITK-IO-GIPL   "@Module_ITK-IO-GIPL@")
-set(Module_ITK-IO-LSM    "@Module_ITK-IO-LSM@")
-set(Module_ITK-IO-Meta   "@Module_ITK-IO-Meta@")
-set(Module_ITK-IO-NIFTI  "@Module_ITK-IO-NIFTI@")
-set(Module_ITK-IO-NRRD   "@Module_ITK-IO-NRRD@")
-set(Module_ITK-IO-PNG    "@Module_ITK-IO-PNG@")
-set(Module_ITK-IO-TIFF   "@Module_ITK-IO-TIFF@")
-set(Module_ITK-IO-VTK    "@Module_ITK-IO-VTK@")
-set(Module_ITK-IO-Simulate "@Module_ITK-IO-Simulate@")
-
 set(ITK_USE_REVIEW "@ITK_USE_REVIEW@")
 
 # Load all modules.
