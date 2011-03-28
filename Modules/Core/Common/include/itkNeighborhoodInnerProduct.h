@@ -30,11 +30,13 @@ namespace itk
  * itk::Neighborhood and and itk::NeighborhoodOperator.  The
  * operator() method is overloaded to support various types of
  * neighborhoods as well as inner products with slices of
- * neighborhoods. The second template parameter allows you to set the
- * value type of the operator. The third templage parameter allows you
- * to set the value type used as the return type of the inner product
- * calculation. The operator value type defaults to the image pixel
- * type and the output value type defaults to the operator type.
+ * neighborhoods.
+ *
+ * \tparam TImage         Type of image on which the class operates.
+ * \tparam TOperator      The value type of the operator (defaults to
+ * the image pixel type).
+* \tparam TComputation   The value type used as the return type of the
+ * inner product calculation (defaults to the operator type).
  *
  * \ingroup Operators
  */
