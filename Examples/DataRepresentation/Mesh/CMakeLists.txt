@@ -52,52 +52,45 @@ target_link_libraries(AutomaticMesh ${ITK_LIBRARIES})
 add_executable(ImageToPointSet ImageToPointSet.cxx )
 target_link_libraries(ImageToPointSet ${ITK_LIBRARIES})
 
-set(MESH_EXAMPLES ${CXX_TEST_PATH}/MeshExamples)
-
-add_executable(MeshExamples MeshExamples.cxx )
-target_link_libraries(MeshExamples ${ITK_LIBRARIES})
 
 if( NOT ITK_DISABLE_CXX_TESTING )
 
 if(BUILD_TESTING)
 
-add_test(AutomaticMeshTest ${CXX_TEST_PATH}/MeshExamples AutomaticMeshTest)
+add_test(NAME AutomaticMeshTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:AutomaticMesh>)
 
-add_test(ImageToPointSetTest ${CXX_TEST_PATH}/MeshExamples
-        ImageToPointSetTest ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png)
+add_test(NAME ImageToPointSetTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:ImageToPointSet> ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png)
 
-add_test(Mesh1Test ${CXX_TEST_PATH}/MeshExamples Mesh1Test)
+add_test(NAME Mesh1Test COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:Mesh1>)
 
-add_test(Mesh2Test ${CXX_TEST_PATH}/MeshExamples Mesh2Test)
+add_test(NAME Mesh2Test COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:Mesh2>)
 
-add_test(Mesh3Test ${CXX_TEST_PATH}/MeshExamples Mesh3Test)
+add_test(NAME Mesh3Test COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:Mesh3>)
 
-add_test(MeshCellsIterationTest ${CXX_TEST_PATH}/MeshExamples MeshCellsIterationTest)
+add_test(NAME MeshCellsIterationTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:MeshCellsIteration>)
 
-add_test(MeshCellVisitorTest ${CXX_TEST_PATH}/MeshExamples MeshCellVisitorTest)
+add_test(NAME MeshCellVisitorTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:MeshCellVisitor>)
 
-add_test(MeshCellVisitor2Test ${CXX_TEST_PATH}/MeshExamples MeshCellVisitor2Test)
+add_test(NAME MeshCellVisitor2Test COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:MeshCellVisitor2>)
 
-add_test(MeshKComplexTest ${CXX_TEST_PATH}/MeshExamples MeshKComplexTest)
+add_test(NAME MeshKComplexTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:MeshKComplex>)
 
-add_test(MeshPolyLineTest ${CXX_TEST_PATH}/MeshExamples MeshPolyLineTest)
+add_test(NAME MeshPolyLineTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:MeshPolyLine>)
 
-add_test(MeshTraitsTest ${CXX_TEST_PATH}/MeshExamples MeshTraitsTest)
+add_test(NAME MeshTraitsTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:MeshTraits>)
 
-add_test(PointSet1Test ${CXX_TEST_PATH}/MeshExamples PointSet1Test)
+add_test(NAME PointSet1Test COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:PointSet1>)
 
-add_test(PointSet2Test ${CXX_TEST_PATH}/MeshExamples PointSet2Test)
+add_test(NAME PointSet2Test COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:PointSet2>)
 
-add_test(PointSet3Test ${CXX_TEST_PATH}/MeshExamples PointSet3Test)
+add_test(NAME PointSet3Test COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:PointSet3>)
 
-add_test(PointSetWithCovariantVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithCovariantVectorsTest)
+add_test(NAME PointSetWithCovariantVectorsTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:PointSetWithCovariantVectors>)
 
-add_test(PointSetWithVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithVectorsTest)
+add_test(NAME PointSetWithVectorsTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:PointSetWithVectors>)
 
-add_test(RGBPointSetTest ${CXX_TEST_PATH}/MeshExamples RGBPointSetTest)
+add_test(NAME RGBPointSetTest COMMAND ${ITK_TEST_DRIVER} $<TARGET_FILE:RGBPointSet>)
 
 endif(BUILD_TESTING)
 
 endif( NOT ITK_DISABLE_CXX_TESTING )
-
-

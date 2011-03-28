@@ -27,11 +27,6 @@ target_link_libraries(ImageAdaptor3 ${ITK_LIBRARIES})
 add_executable(ImageAdaptor4 ImageAdaptor4.cxx )
 target_link_libraries(ImageAdaptor4 ${ITK_LIBRARIES})
 
-add_executable(ImageExamples2 ImageExamples2.cxx )
-target_link_libraries(ImageExamples2 ${ITK_LIBRARIES})
-
-add_executable(ImageExamples3 ImageExamples3.cxx )
-target_link_libraries(ImageExamples3 ${ITK_LIBRARIES})
 
 add_executable(Image5 Image5.cxx )
 target_link_libraries(Image5 ${ITK_LIBRARIES})
@@ -42,69 +37,59 @@ target_link_libraries(ImageAdaptor1 ${ITK_LIBRARIES})
 add_executable(RGBImage RGBImage.cxx )
 target_link_libraries(RGBImage ${ITK_LIBRARIES})
 
-add_executable(ImageExamples ImageExamples.cxx )
-target_link_libraries(ImageExamples ${ITK_LIBRARIES})
 
-add_executable(ImageExamples4 ImageExamples4.cxx )
-target_link_libraries(ImageExamples4 ${ITK_LIBRARIES})
-
-
-set(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)
-set(IMAGE_EXAMPLES2 ${CXX_TEST_PATH}/ImageExamples2)
-set(IMAGE_EXAMPLES3 ${CXX_TEST_PATH}/ImageExamples3)
-set(IMAGE_EXAMPLES4 ${CXX_TEST_PATH}/ImageExamples4)
 
 if( NOT ITK_DISABLE_CXX_TESTING )
 
 if(BUILD_TESTING)
-add_test(ImageAdaptor2Test ${IMAGE_EXAMPLES3}
-  ImageAdaptor2Test
+add_test(NAME ImageAdaptor2Test COMMAND ${ITK_TEST_DRIVER}
+ $<TARGET_FILE:ImageAdaptor2>
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor2Test.png
 )
 
-add_test(ImageAdaptor3Test ${IMAGE_EXAMPLES3}
-  ImageAdaptor3Test
+add_test(NAME ImageAdaptor3Test COMMAND ${ITK_TEST_DRIVER}
+  $<TARGET_FILE:ImageAdaptor3>
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor3Test.mhd 1
 )
 
-add_test(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
-  ImageAdaptor4Test
+add_test(NAME ImageAdaptor4Test COMMAND ${ITK_TEST_DRIVER}
+  $<TARGET_FILE:ImageAdaptor4>
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor4Test.png 127
 )
 
-add_test(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
-  ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
+add_test(NAME ImageAdaptor1Test COMMAND ${ITK_TEST_DRIVER}
+  $<TARGET_FILE:ImageAdaptor1>  ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
   )
 
-add_test(Image1Test ${IMAGE_EXAMPLES}
-  Image1Test
+add_test(NAME Image1Test COMMAND ${ITK_TEST_DRIVER}
+ $<TARGET_FILE:Image1>
 )
 
-add_test(Image2Test ${IMAGE_EXAMPLES}
-  Image2Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
+add_test(NAME Image2Test COMMAND ${ITK_TEST_DRIVER}
+  $<TARGET_FILE:Image2>  ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
 )
 
-add_test(Image3Test ${IMAGE_EXAMPLES}
-  Image3Test
+add_test(NAME Image3Test COMMAND ${ITK_TEST_DRIVER}
+  $<TARGET_FILE:Image3>
 )
 
-add_test(Image4Test ${IMAGE_EXAMPLES}
-  Image4Test
+add_test(NAME Image4Test COMMAND ${ITK_TEST_DRIVER}
+   $<TARGET_FILE:Image4>
 )
 
-add_test(Image5Test ${IMAGE_EXAMPLES}
-   Image5Test ${TEMP}/Image5Test.mhd
+add_test(NAME Image5Test COMMAND ${ITK_TEST_DRIVER}
+   $<TARGET_FILE:Image5> ${TEMP}/Image5Test.mhd
 )
 
-add_test(RGBImageTest ${IMAGE_EXAMPLES4}
-  RGBImageTest ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+add_test(NAME RGBImageTest COMMAND ${ITK_TEST_DRIVER4}
+  $<TARGET_FILE:RGBImage>  ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
 )
 
-add_test(VectorImageTest ${IMAGE_EXAMPLES4}
-  VectorImageTest
+add_test(NAME VectorImageTest COMMAND ${ITK_TEST_DRIVER4}
+   $<TARGET_FILE:VectorImage>
 )
 
 endif(BUILD_TESTING)
