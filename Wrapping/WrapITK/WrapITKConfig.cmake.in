@@ -105,12 +105,4 @@ ENDMACRO(LINK_IF_EXISTS)
 
 LINK_DIRECTORIES("@CONFIG_WRAP_ITK_LIB_DIR@")
 
-# pre-configure the python test driver
-# TODO: do the same for java and tcl, once external projects will be supported for those languages
 FIND_PROGRAM(ITK_TEST_DRIVER itkTestDriver)
-
-SET(PYTHON_DRIVER "${ITK_TEST_DRIVER}"
-  --add-before-env PYTHONPATH "@CONFIG_WRAP_ITK_PYTHON_MODULE@"
-  --add-before-env PYTHONPATH "@CONFIG_WRAP_ITK_PYTHON_LIBS@"
-  "@PYTHON_EXECUTABLE@"
-)
