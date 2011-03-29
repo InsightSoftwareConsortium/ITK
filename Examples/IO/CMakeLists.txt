@@ -42,11 +42,6 @@ target_link_libraries(ImageSeriesReadWrite2  ${ITK_LIBRARIES})
 add_executable(ImageReadImageSeriesWrite ImageReadImageSeriesWrite.cxx )
 target_link_libraries(ImageReadImageSeriesWrite  ${ITK_LIBRARIES})
 
-if(NOT ITK_USE_MODULAR_BUILD)
-  add_executable(DicomSeriesReadImageWrite DicomSeriesReadImageWrite.cxx )
-  target_link_libraries(DicomSeriesReadImageWrite  ${ITK_LIBRARIES})
-endif()
-
 add_executable(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx )
 target_link_libraries(DicomSeriesReadImageWrite2  ${ITK_LIBRARIES})
 

@@ -89,7 +89,6 @@ if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
 endif()
 set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
-set(ITK_USE_MODULAR_BUILD ON)
 
 #-----------------------------------------------------------------------------
 # Provide compatibility options.

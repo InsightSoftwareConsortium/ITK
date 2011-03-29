@@ -32,11 +32,7 @@
 
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/vnl_complex_traits.h"
-#if defined (ITK_USE_MODULAR_BUILD)
 #include "vcl_complex.h"
-#else
-#include "vxl/vcl/vcl_complex.h"
-#endif
 
 namespace itk {
 

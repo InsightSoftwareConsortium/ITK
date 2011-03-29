@@ -21,9 +21,8 @@
 #include <fstream>
 #include "itkTIFFImageIO.h"
 
-#if defined(ITK_USE_MODULAR_BUILD)
-  #define SPECIFIC_IMAGEIO_MODULE_TEST
-#endif
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 template<class T> int DoIt( int, char * argv[], typename T::Pointer)
 {
