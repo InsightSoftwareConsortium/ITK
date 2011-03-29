@@ -180,13 +180,9 @@ set(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM M
 mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
 
 
-#-----------------------------------------------------------------------------
-# If choose to build documentation, then search for Doxygen executables.
-option(BUILD_DOXYGEN "Build Doxygen Documentation" OFF)
-if(BUILD_DOXYGEN)
-  find_package(Doxygen)
-  add_subdirectory(Utilities/Doxygen)
-endif(BUILD_DOXYGEN)
+#----------------------------------------------------------------------
+# Provide an option for generating documentation.
+add_subdirectory(Utilities/Doxygen)
 
 
 #----------------------------------------------------------------------

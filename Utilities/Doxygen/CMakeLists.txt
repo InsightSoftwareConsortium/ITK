@@ -3,7 +3,9 @@
 #
 include (${CMAKE_ROOT}/Modules/Documentation.cmake)
 
-if (BUILD_DOXYGEN)
+mark_as_advanced(CLEAR BUILD_DOCUMENTATION)
+
+if (BUILD_DOCUMENTATION)
 
   #
   # Configure the script and the doxyfile, then add target
@@ -25,4 +27,4 @@ if (BUILD_DOXYGEN)
            "To generate Doxygen's documentation, you need to build the Documentation target"
          )
 
-endif (BUILD_DOXYGEN)
+endif (BUILD_DOCUMENTATION)
