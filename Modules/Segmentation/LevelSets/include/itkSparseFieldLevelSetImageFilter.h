@@ -364,7 +364,7 @@ protected:
 
   /** Applies the update buffer values to the active layer and reconstructs the
    *  sparse field layers for the next iteration. */
-  void ApplyUpdate(TimeStepType dt);
+  void ApplyUpdate(const TimeStepType& dt);
 
   /** Traverses the active layer list and calculates the change at these
    *  indicies to be applied in the current iteration. */

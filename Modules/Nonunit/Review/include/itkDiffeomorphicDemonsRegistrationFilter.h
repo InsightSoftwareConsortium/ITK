@@ -161,7 +161,7 @@ protected:
   virtual void AllocateUpdateBuffer();
 
   /** Apply update. */
-  virtual void ApplyUpdate(TimeStepType dt);
+  virtual void ApplyUpdate(const TimeStepType& dt);
 
 private:
   DiffeomorphicDemonsRegistrationFilter(const Self &); //purposely not
