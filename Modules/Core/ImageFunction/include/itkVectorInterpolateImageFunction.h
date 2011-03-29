@@ -141,7 +141,8 @@ public:
     OutputType output;
     PixelType  input = this->GetInputImage()->GetPixel(index);
 
-    for ( unsigned int k = 0; k < Dimension; k++ )
+    for ( unsigned int k = 0;
+              k < this->GetInputImage()->GetNumberOfComponentsPerPixel(); k++ )
       {
       output[k] = static_cast< double >( input[k] );
       }

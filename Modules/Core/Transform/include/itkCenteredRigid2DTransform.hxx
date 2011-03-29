@@ -53,7 +53,11 @@ CenteredRigid2DTransform< TScalarType >
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
-  this->m_Parameters = parameters;
+  //Save parameters
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
 
   // Set the angle
   const TScalarType angle = parameters[0];
@@ -128,35 +132,43 @@ template< class TScalarType >
 const typename CenteredRigid2DTransform< TScalarType >::JacobianType &
 CenteredRigid2DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
 {
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+
+template< class TScalarType >
+void
+CenteredRigid2DTransform< TScalarType >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+{
   const double ca = vcl_cos( this->GetAngle() );
   const double sa = vcl_sin( this->GetAngle() );
 
-  this->m_Jacobian.Fill(0.0);
+  jacobian.SetSize( 2, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0.0);
 
   const double cx = this->GetCenter()[0];
   const double cy = this->GetCenter()[1];
 
   // derivatives with respect to the angle
-  this->m_Jacobian[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
-  this->m_Jacobian[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy );
+  jacobian[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
+  jacobian[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy );
 
   // compute derivatives with respect to the center part
   // first with respect to cx
-  this->m_Jacobian[0][1] = 1.0 - ca;
-  this->m_Jacobian[1][1] =     -sa;
+  jacobian[0][1] = 1.0 - ca;
+  jacobian[1][1] =     -sa;
   // then with respect to cy
-  this->m_Jacobian[0][2] =       sa;
-  this->m_Jacobian[1][2] = 1.0 - ca;
+  jacobian[0][2] =       sa;
+  jacobian[1][2] = 1.0 - ca;
 
   // compute derivatives with respect to the translation part
   // first with respect to tx
-  this->m_Jacobian[0][3] = 1.0;
-  this->m_Jacobian[1][3] = 0.0;
+  jacobian[0][3] = 1.0;
+  jacobian[1][3] = 0.0;
   // first with respect to ty
-  this->m_Jacobian[0][4] = 0.0;
-  this->m_Jacobian[1][4] = 1.0;
-
-  return this->m_Jacobian;
+  jacobian[0][4] = 0.0;
+  jacobian[1][4] = 1.0;
 }
 
 template< class TScalarType >

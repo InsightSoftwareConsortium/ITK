@@ -65,6 +65,12 @@ CenteredEuler3DTransform< TScalarType >
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
+  //Save parameters
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
   const ScalarType angleX = parameters[0];
   const ScalarType angleY = parameters[1];
   const ScalarType angleZ = parameters[2];
@@ -129,6 +135,15 @@ template< class TScalarType >
 const typename CenteredEuler3DTransform< TScalarType >::JacobianType &
 CenteredEuler3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
 {
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+
+template< class TScalarType >
+void
+CenteredEuler3DTransform< TScalarType >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+{
   // need to check if angles are in the right order
   const double cx = vcl_cos( this->GetAngleX() );
   const double sx = vcl_sin( this->GetAngleX() );
@@ -137,7 +152,8 @@ CenteredEuler3DTransform< TScalarType >::GetJacobian(const InputPointType & p) c
   const double cz = vcl_cos( this->GetAngleZ() );
   const double sz = vcl_sin( this->GetAngleZ() );
 
-  this->m_Jacobian.Fill(0.0);
+  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0.0);
 
   const double px = p[0] - this->GetCenter()[0];
   const double py = p[1] - this->GetCenter()[1];
@@ -145,52 +161,50 @@ CenteredEuler3DTransform< TScalarType >::GetJacobian(const InputPointType & p) c
 
   if ( this->GetComputeZYX() )
     {
-    this->m_Jacobian[0][0] = ( cz * sy * cx + sz * sx ) * py + ( -cz * sy * sx + sz * cx ) * pz;
-    this->m_Jacobian[1][0] = ( sz * sy * cx - cz * sx ) * py + ( -sz * sy * sx - cz * cx ) * pz;
-    this->m_Jacobian[2][0] = ( cy * cx ) * py + ( -cy * sx ) * pz;
+    jacobian[0][0] = ( cz * sy * cx + sz * sx ) * py + ( -cz * sy * sx + sz * cx ) * pz;
+    jacobian[1][0] = ( sz * sy * cx - cz * sx ) * py + ( -sz * sy * sx - cz * cx ) * pz;
+    jacobian[2][0] = ( cy * cx ) * py + ( -cy * sx ) * pz;
 
-    this->m_Jacobian[0][1] = ( -cz * sy ) * px + ( cz * cy * sx ) * py + ( cz * cy * cx ) * pz;
-    this->m_Jacobian[1][1] = ( -sz * sy ) * px + ( sz * cy * sx ) * py + ( sz * cy * cx ) * pz;
-    this->m_Jacobian[2][1] = ( -cy ) * px + ( -sy * sx ) * py + ( -sy * cx ) * pz;
+    jacobian[0][1] = ( -cz * sy ) * px + ( cz * cy * sx ) * py + ( cz * cy * cx ) * pz;
+    jacobian[1][1] = ( -sz * sy ) * px + ( sz * cy * sx ) * py + ( sz * cy * cx ) * pz;
+    jacobian[2][1] = ( -cy ) * px + ( -sy * sx ) * py + ( -sy * cx ) * pz;
 
-    this->m_Jacobian[0][2] = ( -sz * cy ) * px + ( -sz * sy * sx - cz * cx ) * py
+    jacobian[0][2] = ( -sz * cy ) * px + ( -sz * sy * sx - cz * cx ) * py
                              + ( -sz * sy * cx + cz * sx ) * pz;
-    this->m_Jacobian[1][2] = ( cz * cy ) * px + ( cz * sy * sx - sz * cx ) * py
+    jacobian[1][2] = ( cz * cy ) * px + ( cz * sy * sx - sz * cx ) * py
                              + ( cz * sy * cx + sz * sx ) * pz;
-    this->m_Jacobian[2][2] = 0;
+    jacobian[2][2] = 0;
     }
   else
     {
-    this->m_Jacobian[0][0] = ( -sz * cx * sy ) * px + ( sz * sx ) * py + ( sz * cx * cy ) * pz;
-    this->m_Jacobian[1][0] = ( cz * cx * sy ) * px + ( -cz * sx ) * py + ( -cz * cx * cy ) * pz;
-    this->m_Jacobian[2][0] = ( sx * sy ) * px + ( cx ) * py + ( -sx * cy ) * pz;
+    jacobian[0][0] = ( -sz * cx * sy ) * px + ( sz * sx ) * py + ( sz * cx * cy ) * pz;
+    jacobian[1][0] = ( cz * cx * sy ) * px + ( -cz * sx ) * py + ( -cz * cx * cy ) * pz;
+    jacobian[2][0] = ( sx * sy ) * px + ( cx ) * py + ( -sx * cy ) * pz;
 
-    this->m_Jacobian[0][1] = ( -cz * sy - sz * sx * cy ) * px + ( cz * cy - sz * sx * sy ) * pz;
-    this->m_Jacobian[1][1] = ( -sz * sy + cz * sx * cy ) * px + ( sz * cy + cz * sx * sy ) * pz;
-    this->m_Jacobian[2][1] = ( -cx * cy ) * px + ( -cx * sy ) * pz;
+    jacobian[0][1] = ( -cz * sy - sz * sx * cy ) * px + ( cz * cy - sz * sx * sy ) * pz;
+    jacobian[1][1] = ( -sz * sy + cz * sx * cy ) * px + ( sz * cy + cz * sx * sy ) * pz;
+    jacobian[2][1] = ( -cx * cy ) * px + ( -cx * sy ) * pz;
 
-    this->m_Jacobian[0][2] = ( -sz * cy - cz * sx * sy ) * px + ( -cz * cx ) * py
+    jacobian[0][2] = ( -sz * cy - cz * sx * sy ) * px + ( -cz * cx ) * py
                              + ( -sz * sy + cz * sx * cy ) * pz;
-    this->m_Jacobian[1][2] = ( cz * cy - sz * sx * sy ) * px + ( -sz * cx ) * py
+    jacobian[1][2] = ( cz * cy - sz * sx * sy ) * px + ( -sz * cx ) * py
                              + ( cz * sy + sz * sx * cy ) * pz;
-    this->m_Jacobian[2][2] = 0;
+    jacobian[2][2] = 0;
     }
 
   // compute derivatives for the center of rotation part
   unsigned int blockOffset = 3;
   for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
-    this->m_Jacobian[dim][blockOffset + dim] = 1.0;
+    jacobian[dim][blockOffset + dim] = 1.0;
     }
   blockOffset += SpaceDimension;
 
   // compute derivatives for the translation part
   for ( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
-    this->m_Jacobian[dim][blockOffset + dim] = 1.0;
+    jacobian[dim][blockOffset + dim] = 1.0;
     }
-
-  return this->m_Jacobian;
 }
 
 // Get an inverse of this transform

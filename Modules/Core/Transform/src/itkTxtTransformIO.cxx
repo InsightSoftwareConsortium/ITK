@@ -141,11 +141,11 @@ TxtTransformIO::Read()
   in.close();
 
   // Read line by line
-  vnl_vector< double >   VectorBuffer;
+  TransformType::ParametersType   VectorBuffer;
   std::string::size_type position = 0;
 
-  Array< double > TmpParameterArray;
-  Array< double > TmpFixedParameterArray;
+  TransformType::ParametersType TmpParameterArray;
+  TransformType::ParametersType TmpFixedParameterArray;
   TmpParameterArray.clear();
   TmpFixedParameterArray.clear();
   bool haveFixedParameters = false;

@@ -368,6 +368,20 @@ public:
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian( const InputPointType  & ) const;
 
+  virtual void GetJacobianWithRespectToParameters(const InputPointType  &p,
+                                                  JacobianType &j) const
+  {
+    itkExceptionMacro("GetJacobianWithRespectToParameters unimplemented for "
+                      << this->GetNameOfClass() );
+  }
+
+  virtual void GetJacobianWithRespectToPosition(const InputPointType  &x,
+                                                  JacobianType &jac) const
+  {
+    itkExceptionMacro( "GetJacobianWithRespectToPosition not yet implemented "
+                       "for " << this->GetNameOfClass() );
+  }
+
   /** Return the number of parameters that completely define the Transfom */
   virtual unsigned int GetNumberOfParameters() const;
 

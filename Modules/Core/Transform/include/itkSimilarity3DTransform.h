@@ -120,6 +120,11 @@ public:
    * transform is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  & point) const;
 
+  /** Compute the Jacobian Matrix of the transformation at one point,
+   *  allowing for thread-safety. */
+  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+                                 JacobianType & jacobian) const;
+
 protected:
   Similarity3DTransform(unsigned int outputSpaceDim,
                         unsigned int paramDim);

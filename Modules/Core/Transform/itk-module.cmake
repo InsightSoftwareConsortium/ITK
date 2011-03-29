@@ -10,6 +10,7 @@ itk_module(ITKTransform
   DEPENDS
     ITKStatistics
     ITKHDF5
+    ITKImageFilterBase
   TEST_DEPENDS
     ITKTestKernel
     ITKImageFunction
@@ -19,5 +20,6 @@ itk_module(ITKTransform
     "${DOCUMENTATION}"
 )
 
+# Extra dependencies on ImageFilterBase introduced by itkGaussianSmoothingOnUpdateDisplacementFieldTransform.
 # Extra test dependencies on ImageFunction and ImageGrid are introduced by itkBSplineDeformableTransformTest.
 # Extra test dependency on  SpatialObjects is introduced by itkCenteredVersorTransformInitializerTest.

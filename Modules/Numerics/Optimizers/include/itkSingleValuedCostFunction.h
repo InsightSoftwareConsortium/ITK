@@ -47,14 +47,14 @@ public:
    *  It defines a type used to return the cost function value. */
   typedef double MeasureType;
 
-  /** DerivativeType typedef.
-   *  It defines a type used to return the cost function derivative.  */
-  typedef Array< double > DerivativeType;
-
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
   typedef Superclass::ParametersType      ParametersType;
   typedef Superclass::ParametersValueType ParametersValueType;
+
+  /** DerivativeType typedef.
+   *  It defines a type used to return the cost function derivative.  */
+  typedef Array< ParametersValueType > DerivativeType;
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.    */

@@ -90,6 +90,7 @@ public:
   typedef typename Superclass::ShapeFunctionType ShapeFunctionType;
 
   /** Type of the array for storing shape parameter mean and standard deivation.
+    * FIXME: should be templated.
     */
   typedef Array< double > ArrayType;
 

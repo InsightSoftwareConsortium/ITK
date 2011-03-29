@@ -103,6 +103,10 @@ public:
    * is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  & point) const;
 
+  /** Compute the Jacobian Matrix of the transformation at one point */
+  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+                                 JacobianType & jacobian) const;
+
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
 

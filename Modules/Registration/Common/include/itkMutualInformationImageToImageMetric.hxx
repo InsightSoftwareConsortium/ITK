@@ -51,7 +51,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
   m_DerivativeCalculator->UseImageDirectionOn();
 }
 
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -70,7 +70,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 /*
  * Set the number of spatial samples
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::SetNumberOfSpatialSamples(
@@ -99,7 +99,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
  * the base class.
  *
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::SampleFixedImageDomain(
@@ -197,7 +197,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 /*
  * Get the match Measure
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 typename MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::MeasureType
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
@@ -272,7 +272,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 /*
  * Get the both Value and Derivative Measure
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivative(
@@ -422,7 +422,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 /*
  * Get the match measure derivative
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const
@@ -443,7 +443,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
  * in the mapper. This solution only works for any transform
  * that support GetJacobian()
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::CalculateDerivatives(
@@ -465,7 +465,8 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
     }
 
   typedef typename TransformType::JacobianType JacobianType;
-  const JacobianType & jacobian = this->m_Transform->GetJacobian(point);
+  JacobianType jacobian;
+  this->m_Transform->GetJacobianWithRespectToParameters(point, jacobian);
 
   unsigned int numberOfParameters = this->m_Transform->GetNumberOfParameters();
 
@@ -482,7 +483,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 /*
  * Reinitialize the seed of the random number generator
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::ReinitializeSeed()
@@ -493,7 +494,7 @@ MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 /*
  * Reinitialize the seed of the random number generator
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::ReinitializeSeed(int seed)

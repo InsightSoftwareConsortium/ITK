@@ -67,6 +67,12 @@ Rigid3DPerspectiveTransform< TScalarType >
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
   // Transfer the versor part
 
   AxisType axis;
@@ -207,13 +213,22 @@ Rigid3DPerspectiveTransform< TScalarType >::ComputeMatrix(void)
 // Compute the Jacobian in one position
 template< class TScalarType >
 const typename Rigid3DPerspectiveTransform< TScalarType >::JacobianType &
-Rigid3DPerspectiveTransform< TScalarType >::GetJacobian(const InputPointType &) const
+Rigid3DPerspectiveTransform< TScalarType >
+::GetJacobian(const InputPointType & p) const
 {
-  this->m_Jacobian.Fill(0.0);
-
-  // TODO
-
+  //TODO: see GetJacobianWithRespectToParameters
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
   return this->m_Jacobian;
+}
+
+template< class TScalarType >
+void
+Rigid3DPerspectiveTransform< TScalarType >
+::GetJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
+{
+  jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
+  jacobian.Fill(0.0);
+  // TODO
 }
 } // namespace
 

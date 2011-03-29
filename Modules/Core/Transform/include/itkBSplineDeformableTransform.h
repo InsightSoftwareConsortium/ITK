@@ -378,11 +378,31 @@ public:
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  & point) const;
 
+  /** This is a thread-safe version for GetJacobian(). Otherwise,
+   *  m_Jacobian could be changed for different values in different threads.
+   *  This is also used for efficient computation of a point-local jacobian
+   *  for dense transforms.
+   *  \c j is assumed to be thread-local variable, otherwise memory corruption
+   *  will most likely occur during multi-threading.
+   *  To avoid repeatitive memory allocation, pass in 'j' with its size
+   *  already set.
+   * \warning Not yet implemented. When implementing, be careful to avoid
+   * use of m_Jacobian, using \c j instead. Then modify GetJacobian to
+   * call this method with m_Jacobian for backwards compatibility. */
+  virtual void GetJacobianWithRespectToParameters(const InputPointType  &p,
+                                                  JacobianType &j) const
+  { itkExceptionMacro("GetJacobianWithRespectToParameters "
+                      "not yet implemented."); }
+
   /** Return the number of parameters that completely define the Transfom */
   virtual unsigned int GetNumberOfParameters(void) const;
 
   /** Return the number of parameters per dimension */
   unsigned int GetNumberOfParametersPerDimension(void) const;
+
+  /** Return the number of local parameters */
+  virtual unsigned int GetNumberOfLocalParameters(void) const
+  { itkExceptionMacro("GetNumberOfLocalParameters not yet implemented."); }
 
   /** Return the region of the grid wholly within the support region */
   itkGetConstReferenceMacro(ValidRegion, RegionType);

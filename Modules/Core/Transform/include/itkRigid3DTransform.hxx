@@ -97,7 +97,11 @@ void
 Rigid3DTransform< TScalarType >
 ::SetParameters(const ParametersType & parameters)
 {
-  this->m_Parameters = parameters;
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
 
   unsigned int     par = 0;
   MatrixType       matrix;

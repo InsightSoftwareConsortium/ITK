@@ -48,7 +48,7 @@ int itkMatchCardinalityImageToImageMetricTest(int argc, char* argv[] )
   TransformType::Pointer transform = TransformType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  itk::Array<double> offset(2);
+  MetricType::ParametersType offset(2);
 
   reader->SetFileName (argv[1]);
   reader->Update();

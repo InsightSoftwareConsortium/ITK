@@ -67,7 +67,7 @@ MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * Print out internal information about this class
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -104,7 +104,7 @@ throw ( ExceptionObject )
     }
 }
 
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 inline bool
 MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueThreadProcessSample(ThreadIdType threadID,
@@ -119,8 +119,8 @@ MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
   return true;
 }
 
-template< class TFixedImage, class TMovingImage  >
-typename MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
+template< class TFixedImage, class TMovingImage >
+typename MeanSquaresImageToImageMetric< TFixedImage, TMovingImage  >
 ::MeasureType
 MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValue(const ParametersType & parameters) const
@@ -167,7 +167,7 @@ MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
   return mse;
 }
 
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 inline bool
 MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeThreadProcessSample(ThreadIdType threadID,
@@ -201,8 +201,8 @@ MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
     }
 
   // Jacobian should be evaluated at the unmapped (fixed image) point.
-  const TransformJacobianType & jacobian = transform
-                                           ->GetJacobian(fixedImagePoint);
+  TransformJacobianType jacobian;
+  transform->GetJacobianWithRespectToParameters(fixedImagePoint, jacobian);
 
   for ( unsigned int par = 0; par < this->m_NumberOfParameters; par++ )
     {
@@ -220,7 +220,7 @@ MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * Get the both Value and Derivative Measure
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivative(const ParametersType & parameters,
@@ -296,7 +296,7 @@ MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * Get the match measure derivative
  */
-template< class TFixedImage, class TMovingImage  >
+template< class TFixedImage, class TMovingImage >
 void
 MeanSquaresImageToImageMetric< TFixedImage, TMovingImage >
 ::GetDerivative(const ParametersType & parameters,

@@ -222,6 +222,12 @@ Rigid2DTransform< TScalarType >::SetParameters(const ParametersType & parameters
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
+  //Save parameters. Needed for proper operation of TransformUpdateParameters.
+  if( &parameters != &(this->m_Parameters) )
+    {
+    this->m_Parameters = parameters;
+    }
+
   // Set angle
   const TScalarType angle = parameters[0];
   this->SetVarAngle(angle);
@@ -272,27 +278,39 @@ template< class TScalarType >
 const typename Rigid2DTransform< TScalarType >::JacobianType &
 Rigid2DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
 {
+  GetJacobianWithRespectToParameters( p, this->m_Jacobian );
+  return this->m_Jacobian;
+}
+
+// Compute transformation Jacobian
+template< class TScalarType >
+void
+Rigid2DTransform< TScalarType >::GetJacobianWithRespectToParameters(const InputPointType & p,
+        JacobianType &j ) const
+{
+  j.SetSize( OutputSpaceDimension, this->GetNumberOfLocalParameters() );
+  j.Fill(0.0);
+
   const double ca = vcl_cos( this->GetAngle() );
   const double sa = vcl_sin( this->GetAngle() );
-
-  this->m_Jacobian.Fill(0.0);
 
   const double cx = this->GetCenter()[0];
   const double cy = this->GetCenter()[1];
 
   // derivatives with respect to the angle
-  this->m_Jacobian[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
-  this->m_Jacobian[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy );
+  j[0][0] = -sa * ( p[0] - cx ) - ca * ( p[1] - cy );
+  j[1][0] =  ca * ( p[0] - cx ) - sa * ( p[1] - cy );
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 1;
   for ( unsigned int dim = 0; dim < OutputSpaceDimension; dim++ )
     {
-    this->m_Jacobian[dim][blockOffset + dim] = 1.0;
+    j[dim][blockOffset + dim] = 1.0;
     }
 
-  return this->m_Jacobian;
+  return;
 }
+
 } // namespace
 
 #endif

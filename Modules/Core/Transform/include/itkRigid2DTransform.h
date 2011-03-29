@@ -211,6 +211,11 @@ public:
    * \sa Transform::GetJacobian() */
   const JacobianType & GetJacobian(const InputPointType  & point) const;
 
+  /** Compute the Jacobian Matrix of the transformation at one point,
+   *  allowing for thread-safety. */
+  virtual void GetJacobianWithRespectToParameters( const InputPointType  &p,
+                                 JacobianType & jacobian) const;
+
   /**
    * This method creates and returns a new Rigid2DTransform object
    * which is the inverse of self.
@@ -258,11 +263,13 @@ protected:
   /** Update angle without recomputation of other internal variables. */
   void SetVarAngle(TScalarType angle)
   { m_Angle = angle; }
+
 private:
   Rigid2DTransform(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented
 
   TScalarType m_Angle;
+
 }; //class Rigid2DTransform
 
 // Back transform a point

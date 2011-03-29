@@ -19,8 +19,9 @@ target_link_libraries(ImageRegistration9 ${ITK_LIBRARIES})
 add_executable(ImageRegistration10 ImageRegistration10.cxx )
 target_link_libraries(ImageRegistration10 ${ITK_LIBRARIES})
 
-add_executable(DeformableRegistration4 DeformableRegistration4.cxx )
-target_link_libraries(DeformableRegistration4 ${ITK_LIBRARIES})
+#Disable until BSplineDeformableTransform is fully implemented.
+#add_executable(DeformableRegistration4 DeformableRegistration4.cxx )
+#target_link_libraries(DeformableRegistration4 ${ITK_LIBRARIES})
 
 add_executable(ImageRegistration4 ImageRegistration4.cxx )
 target_link_libraries(ImageRegistration4 ${ITK_LIBRARIES})
@@ -55,8 +56,9 @@ target_link_libraries(ImageRegistration19 ${ITK_LIBRARIES})
 add_executable(ImageRegistration20 ImageRegistration20.cxx )
 target_link_libraries(ImageRegistration20 ${ITK_LIBRARIES})
 
-add_executable(DeformableRegistration6 DeformableRegistration6.cxx )
-target_link_libraries(DeformableRegistration6 ${ITK_LIBRARIES})
+#Disable until BSplineDeformableTransform is fully implemented.
+#add_executable(DeformableRegistration6 DeformableRegistration6.cxx )
+#target_link_libraries(DeformableRegistration6 ${ITK_LIBRARIES})
 
 add_executable(DeformableRegistration7 DeformableRegistration7.cxx )
 target_link_libraries(DeformableRegistration7 ${ITK_LIBRARIES})

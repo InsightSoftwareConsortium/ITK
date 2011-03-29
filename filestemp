@@ -1,0 +1,7 @@
+Modules/Core/Transform/include/itkBSplineDeformationFieldTransform.h
+Modules/Core/Transform/include/itkBSplineDeformationFieldTransform.hxx
+Modules/Core/Transform/include/itkDeformationFieldTransform.h
+Modules/Core/Transform/include/itkDeformationFieldTransform.hxx
+Modules/Core/Transform/test/itkBSplineDeformationFieldTransformTest.cxx
+Modules/Core/Transform/test/itkCompositeTransformTest.cxx
+Modules/Core/Transform/test/itkDeformationFieldTransformTest.cxx

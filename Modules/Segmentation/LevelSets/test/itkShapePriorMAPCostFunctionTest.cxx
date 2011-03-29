@@ -59,8 +59,8 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   typedef itk::ShapePriorMAPCostFunction<ImageType,PixelType> CostFunctionType;
   typedef CostFunctionType::NodeType NodeType;
   typedef CostFunctionType::NodeContainerType NodeContainerType;
-  CostFunctionType::ArrayType mean( shape->GetNumberOfParameters() );
-  CostFunctionType::ArrayType stddev( shape->GetNumberOfParameters() );
+  CostFunctionType::ParametersType mean( shape->GetNumberOfParameters() );
+  CostFunctionType::ParametersType stddev( shape->GetNumberOfParameters() );
 
   mean[0] = 10.0;
   mean[1] = 50.0;
@@ -144,8 +144,8 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   costFunction->SetActiveRegion( activeRegion );
   costFunction->SetFeatureImage( edgeMap );
 
-  CostFunctionType::ArrayType shapeMean( shape->GetNumberOfShapeParameters() );
-  CostFunctionType::ArrayType shapeStdDev( shape->GetNumberOfShapeParameters() );
+  CostFunctionType::ParametersType shapeMean( shape->GetNumberOfShapeParameters() );
+  CostFunctionType::ParametersType shapeStdDev( shape->GetNumberOfShapeParameters() );
   shapeMean[0] = mean[0];
   shapeStdDev[0] = stddev[0];
 
@@ -253,7 +253,7 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   TEST_INITIALIZATION_ERROR( ActiveRegion, NULL, activeRegion );
   TEST_INITIALIZATION_ERROR( FeatureImage, NULL, edgeMap );
 
-  CostFunctionType::ArrayType badParameters( shape->GetNumberOfShapeParameters() - 1 );
+  CostFunctionType::ParametersType badParameters( shape->GetNumberOfShapeParameters() - 1 );
   badParameters.Fill( 2.0 );
 
   TEST_INITIALIZATION_ERROR( ShapeParameterMeans, badParameters, shapeMean );

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCompositeTransformTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,6 +24,7 @@
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
 #include "itkArray2D.h"
+//#include "itkDisplacementFieldTransform.h"
 
 namespace {
 
@@ -277,6 +279,7 @@ int itkCompositeTransformTest(int ,char *[] )
   jacSingle = affine->GetJacobian( jacPoint );
   std::cout << "Single jacobian:" << std::endl << jacSingle << std::endl;
   jacComposite = compositeTransform->GetJacobian( jacPoint );
+  std::cout << "Composite jacobian:" << std::endl << jacComposite << std::endl;
   if( !testJacobian( jacComposite, jacSingle ) )
     {
     std::cout << "Failed getting jacobian for single transform." << std::endl;
@@ -630,7 +633,7 @@ int itkCompositeTransformTest(int ,char *[] )
   jacPoint2 = affine2->TransformPoint( jacPoint2 );
   jacAffine = affine->GetJacobian( jacPoint2 );
   jacTruth.SetSize( jacAffine3.rows(), jacAffine.cols()+jacAffine3.cols() );
-  jacTruth.update( jacAffine3, 0, 0 );
+  jacTruth.update( affine->GetMatrix() * affine2->GetMatrix() * jacAffine3, 0, 0 );
   jacTruth.update( jacAffine, 0, jacAffine3.cols() );
   std::cout << "transformed jacPoint: " << jacPoint2 << std::endl;
   std::cout << "Affine jacobian:" << std::endl << jacAffine;
@@ -643,7 +646,127 @@ int itkCompositeTransformTest(int ,char *[] )
     return EXIT_FAILURE;
     }
 
+  /* Test UpdateTransformParameters.
+   * NOTE Once there are transforms that do something other than simple
+   * addition in TransformUpdateParameters, this should be updated here.
+   */
+  {
+  /* Single transform full update, of last transform only */
+  compositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
+  CompositeType::ParametersType truth = compositeTransform->GetParameters();
+  CompositeType::DerivativeType
+    update( compositeTransform->GetNumberOfParameters() );
+  update.Fill(10);
+  truth += update;
+  compositeTransform->UpdateTransformParameters( update );
+  CompositeType::ParametersType
+    updateResult = compositeTransform->GetParameters();
+  std::cout << "Testing UpdateTransformParameters 1. "
+            << std::endl;
+  if( !testVectorArray( truth, updateResult ) )
+    {
+    std::cout << "UpdateTransformParameters 1 failed. " << std::endl
+              << " truth:  " << truth << std::endl
+              << " result: " << updateResult << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  /* Update partially two transforms, with a scaling factor */
+  compositeTransform->SetNthTransformToOptimizeOn(0);
+  truth = compositeTransform->GetParameters();
+  update.SetSize( compositeTransform->GetNumberOfParameters() );
+  AffineType::ScalarType factor = 0.5;
+  for( unsigned int i = 0;
+        i < compositeTransform->GetNumberOfParameters(); i++ )
+    {
+    update[i] = i;
+    truth[i] += update[i] * factor;
+    }
+  compositeTransform->UpdateTransformParameters( update, factor );
+  updateResult = compositeTransform->GetParameters();
+  std::cout << "Testing UpdateTransformParameters 3. "
+            << std::endl;
+  if( !testVectorArray( truth, updateResult ) )
+    {
+    std::cout << "UpdateTransformParameters 3 failed. " << std::endl
+              << " truth:  " << truth << std::endl
+              << " result: " << updateResult << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
+  /* Add a displacement field transform */
+  /* NOTE this should maybe go in a separate test so we don't have
+   * this test rely on DisplacementFieldTransform class which is also a
+   * new class. */
+//Remove until new DisplacementFieldTransform class is added to itk main.
+#if 0
+  {
+  /* Create a displacement field transform */
+  typedef itk::DisplacementFieldTransform<double, 2>
+                                              DisplacementTransformType;
+  DisplacementTransformType::Pointer displacementTransform =
+      DisplacementTransformType::New();
+  typedef DisplacementTransformType::DisplacementFieldType FieldType;
+  FieldType::Pointer field = FieldType::New(); //This is based on itk::Image
+
+  FieldType::SizeType size;
+  FieldType::IndexType start;
+  FieldType::RegionType region;
+  int dimLength = 10;
+  size.Fill( dimLength );
+  start.Fill( 0 );
+  region.SetSize( size );
+  region.SetIndex( start );
+  field->SetRegions( region );
+  field->Allocate();
+
+  DisplacementTransformType::OutputVectorType defVector;
+  defVector.Fill( 1 );
+  field->FillBuffer( defVector );
+
+  displacementTransform->SetDisplacementField( field );
+  compositeTransform->AddTransform( displacementTransform );
+
+  /* TODO Test transformation with displacement field */
+
+  /* Test TransformUpdateParameters with displacement
+   * field and one affine transforms */
+  compositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
+  compositeTransform->SetNthTransformToOptimizeOn(2);
+  CompositeType::ParametersType truth = compositeTransform->GetParameters();
+  CompositeType::DerivativeType
+    update( compositeTransform->GetNumberOfParameters() );
+  for( unsigned int i =0; i < compositeTransform->GetNumberOfParameters(); i++ )
+    {
+    update[i] = i;
+    }
+  truth += update;
+  /* Just exercise it. The update in DisplacementFieldTransform includes
+   * a smoothing operation, so to verify numerically we'll have to account
+   * for that. This could be done by calling DisplacementFieldTransform::
+   * SmoothDisplacementFieldGauss directly and putting the result into
+   * 'truth'. */
+  compositeTransform->UpdateTransformParameters( update );
+  /*
+  CompositeType::ParametersType
+    updateResult = compositeTransform->GetParameters();
+  std::cout << "UpdateTransformParameters with Displacement Field 1. "
+            << std::endl;
+  if( ! testVectorArray( truth, updateResult ) )
+    {
+    std::cout << "UpdateTransformParameters with Displacement Field 1 failed. "
+              << std::endl
+              << " truth:  " << truth << std::endl
+              << " result: " << updateResult << std::endl;
+    return EXIT_FAILURE;
+    }
+  */
+  }// end test with displacement field
+#endif
+
   /* Test SetParameters with wrong size array */
+  std::cout << "Test SetParameters with wrong size array." << std::endl;
   parametersTruth.SetSize(1);
   bool caught = false;
   try
@@ -666,6 +789,7 @@ int itkCompositeTransformTest(int ,char *[] )
 
   /* Test that the CreateAnother routine throws an exception.
    * See comments in .h */
+  std::cout << "Test CreateAnother." << std::endl;
   bool caughtException = false;
   try
     {
@@ -687,6 +811,8 @@ int itkCompositeTransformTest(int ,char *[] )
 
   /* Test printing */
   compositeTransform->Print(std::cout);
+
+  std::cout << "Passed test!" << std::endl;
   return EXIT_SUCCESS;
 
 }
