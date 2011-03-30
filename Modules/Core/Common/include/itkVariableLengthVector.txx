@@ -249,6 +249,16 @@ VariableLengthVector< TValueType >
   return *this;
 }
 
+/** Assignment operator */
+template< typename TValueType >
+const VariableLengthVector< TValueType > &
+VariableLengthVector< TValueType >
+::operator=(TValueType const & v)
+{
+  this->Fill(v);
+  return *this;
+}
+
 template< typename TValueType >
 VariableLengthVector< TValueType > &
 VariableLengthVector< TValueType >
