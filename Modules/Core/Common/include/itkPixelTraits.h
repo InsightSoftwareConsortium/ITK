@@ -51,6 +51,8 @@ public:
   typedef typename TPixelType::ValueType ValueType;
 };
 
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+
 /** \class PixelTraits<bool>
  * Specialization of PixelTraits for scalar images. */
 template< >
@@ -149,6 +151,8 @@ public:
   typedef double ValueType;
 };
 
+/** \endcond */
+
 /** \class JoinTraits
  * \brief Trait to determine what datatype is needed if the specified
  * pixel types are "joined" into a single vector.
@@ -172,6 +176,8 @@ class JoinTraits
 public:
   typedef TValueType1 ValueType;
 };
+
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
 
 /** \class JoinTraits
  * Specializations for bool. */
@@ -1047,6 +1053,9 @@ class JoinTraits< double, double >
 public:
   typedef double ValueType;
 };
+
+/** \endcond */
+
 } // end namespace itk
 
 #endif // __itkPixelTraits_h
