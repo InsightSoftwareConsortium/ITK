@@ -1,7 +1,5 @@
 The modularized build system is not yet mature in at least these areas:
 
- - Doxygen processing has not been attempted.
-
  - KWStyle is not configured
 
 Futher work will refine the new build system code moving forward.
