@@ -1,7 +1,5 @@
 The modularized build system is not yet mature in at least these areas:
 
- - The Examples directory is not included in the build.
-
  - Doxygen processing has not been attempted.
 
  - KWStyle is not configured
