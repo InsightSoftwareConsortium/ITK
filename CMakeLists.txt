@@ -107,8 +107,16 @@ if (ITK_USE_REVIEW)
   set(Module_ITK-Review ON)
 endif(ITK_USE_REVIEW)
 
+#-----------------------------------------------------------------------------
+# ITK uses KWStyle for checking the coding style
+INCLUDE(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
+
+#-----------------------------------------------------------------------------
+# ITK build the Examples that are illustrated in the Software Guide
 option(BUILD_EXAMPLES "Build the Examples directory." OFF)
 
+#-----------------------------------------------------------------------------
+# Enable GPU support. Requires OpenCL to be installed
 option(ITK_USE_GPU "GPU acceleration via OpenCL" OFF)
 mark_as_advanced(ITK_USE_GPU)
 
