@@ -334,7 +334,6 @@ protected:
   /** \class FixedImageSamplePoint
    * A fixed image spatial sample consists of the fixed domain point
    * and the fixed image value at that point. */
-  /// @cond
   class FixedImageSamplePoint
   {
 public:
@@ -351,7 +350,6 @@ public:
     double              value;
     unsigned int        valueIndex;
   };
-  /// @endcond
 
   bool                     m_UseFixedImageIndexes;
   FixedImageIndexContainer m_FixedImageIndexes;
