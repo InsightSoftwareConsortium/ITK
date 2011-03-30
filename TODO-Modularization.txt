@@ -1,5 +1,5 @@
 The modularized build system is not yet mature in at least these areas:
 
- - KWStyle is not configured
+  <empty list>
 
 Futher work will refine the new build system code moving forward.
