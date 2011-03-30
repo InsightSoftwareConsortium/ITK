@@ -638,11 +638,21 @@ RECURSIVE              = YES
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
 EXCLUDE                = "@ITK_SOURCE_DIR@/Modules/ThirdParty/" \
-                         "@ITK_SOURCE_DIR@/Modules/Core/Common/itkPixelTraits.h" \
-                         "@ITK_SOURCE_DIR@/Modules/Core/Common/itkNumericTraits.h" \
-                         "@ITK_SOURCE_DIR@/Modules/Core/Common/itkMathDetail.h" \
-                         "@ITK_SOURCE_DIR@/Modules/Core/IO/itkPixelData.h" \
-                         "@ITK_SOURCE_DIR@/Modules/Core/IO/itkAnalyzeDbh.h"
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkPixelTraits.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraits.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsArrayPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsCovariantVectorPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsDiffusionTensor3DPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsFixedArrayPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsPointPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsRGBAPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsRGBPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsTensorPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsVariableLengthVectorPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkNumericTraitsVectorPixel.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/Common/include/itkMathDetail.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/IO/include/itkPixelData.h" \
+                         "@ITK_SOURCE_DIR@/Modules/Core/IO/include/itkAnalyzeDbh.h"
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
