@@ -361,7 +361,7 @@ void mqc_destroy(opj_mqc_t *mqc) {
 }
 
 OPJ_UINT32 mqc_numbytes(opj_mqc_t *mqc) {
-  return mqc->bp - mqc->start;
+  return (OPJ_UINT32)( mqc->bp - mqc->start );
 }
 
 void mqc_init_enc(opj_mqc_t *mqc, OPJ_BYTE *bp) {

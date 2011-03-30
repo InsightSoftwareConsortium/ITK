@@ -88,7 +88,7 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
   nio->dataFNIndex++;
   if (nio->dataFNIndex >= (int)_nrrdDataFNNumber(nio)) {
     /* there is no next data file, but we don't make that an error */
-    nio->dataFNIndex = _nrrdDataFNNumber(nio);
+    nio->dataFNIndex = (int)_nrrdDataFNNumber(nio);
     airMopOkay(mop);
     *fileP = NULL;
     return 0;
@@ -481,7 +481,7 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   static const char me[]="_nrrdFormatNRRD_write"; 
   char strbuf[AIR_STRLEN_MED], *strptr, *tmp;
   int ii;
-  unsigned int jj;
+  size_t jj;
   airArray *mop;
   FILE *dataFile=NULL;
   size_t valsPerPiece;

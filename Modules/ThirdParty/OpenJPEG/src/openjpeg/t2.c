@@ -384,7 +384,7 @@ static bool t2_encode_packet(
     }
     ++band;
   }
-  * p_data_written += (c - dest);
+  * p_data_written += (OPJ_INT32)(c - dest);
   return true;
 }
 
@@ -525,7 +525,7 @@ static bool t2_read_packet_header(
   {  /* Normal Case */
     l_header_data_start = &(l_current_data);
     l_header_data = *l_header_data_start;
-    l_remaining_length = p_src_data+p_max_length-l_header_data;
+    l_remaining_length = (OPJ_UINT32)( p_src_data+p_max_length - l_header_data );
     l_modified_length_ptr = &(l_remaining_length);
   }
   bio_init_dec(l_bio, l_header_data,*l_modified_length_ptr);
@@ -544,7 +544,7 @@ static bool t2_read_packet_header(
         l_header_data += 2;
       }
     }
-    l_header_length = (l_header_data - *l_header_data_start);
+    l_header_length = (OPJ_UINT32)(l_header_data - *l_header_data_start);
     *l_modified_length_ptr -= l_header_length;
     *l_header_data_start += l_header_length;
     /* << INDEX */
@@ -557,7 +557,7 @@ static bool t2_read_packet_header(
     }
     /* INDEX >> */
     * p_is_data_present = false;
-    *p_data_read = l_current_data - p_src_data;
+    *p_data_read = (OPJ_INT32)( l_current_data - p_src_data );
     return true;
   }
 
@@ -687,7 +687,7 @@ static bool t2_read_packet_header(
   }
 
 
-  l_header_length = (l_header_data - *l_header_data_start);
+  l_header_length = (OPJ_UINT32)(l_header_data - *l_header_data_start);
   *l_modified_length_ptr -= l_header_length;
   *l_header_data_start += l_header_length;
   /* << INDEX */
@@ -700,7 +700,7 @@ static bool t2_read_packet_header(
   }
   /* INDEX >> */
   * p_is_data_present = true;
-  *p_data_read = l_current_data - p_src_data;
+  *p_data_read = (OPJ_UINT32)( l_current_data - p_src_data );
   return true;
 }
 
@@ -818,7 +818,7 @@ static bool t2_read_packet_data(
     }
     ++l_band;
   }
-  *(p_data_read) = l_current_data - p_src_data;
+  *(p_data_read) = (OPJ_UINT32)( l_current_data - p_src_data );
   return true;
 }
 
@@ -1243,7 +1243,7 @@ bool t2_decode_packets(
 
   /* don't forget to release pi */
   pi_destroy(l_pi,l_nb_pocs);
-  *p_data_read = l_current_data - p_src;
+  *p_data_read = (OPJ_UINT32)( l_current_data - p_src );
   return true;
 }
 

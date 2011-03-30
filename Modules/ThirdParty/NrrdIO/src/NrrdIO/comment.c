@@ -37,7 +37,7 @@ int
 nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
   /* static const char me[]="nrrdCommentAdd";*/
   char *str;
-  int i;
+  size_t i;
   
   if (!(nrrd && _str)) {
     /*
@@ -64,7 +64,7 @@ nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
     */
     return 1;
   }
-  /* clean out carraige returns that would screw up reader */
+  /* clean out carriage returns that would screw up reader */
   airOneLinify(str);
   i = airArrayLenIncr(nrrd->cmtArr, 1);
   if (!nrrd->cmtArr->data) {
@@ -102,7 +102,8 @@ nrrdCommentClear(Nrrd *nrrd) {
 int
 nrrdCommentCopy(Nrrd *nout, const Nrrd *nin) {
   /* static const char me[]="nrrdCommentCopy"; */
-  int numc, i, E;
+  size_t numc;
+  int i, E;
 
   if (!(nout && nin)) {
     /*

@@ -119,13 +119,13 @@ void set_default_event_handler(opj_event_mgr_t * p_manager)
 
 OPJ_INT32 opj_read_from_file (void * p_buffer, OPJ_UINT32 p_nb_bytes, FILE * p_file)
 {
-  OPJ_INT32 l_nb_read = fread(p_buffer,1,p_nb_bytes,p_file);
+  OPJ_INT32 l_nb_read = (OPJ_INT32)( fread(p_buffer,1,p_nb_bytes,p_file) );
   return l_nb_read ? l_nb_read : -1;
 }
 
 OPJ_UINT32 opj_write_from_file (void * p_buffer, OPJ_UINT32 p_nb_bytes, FILE * p_file)
 {
-  return fwrite(p_buffer,1,p_nb_bytes,p_file);
+  return (OPJ_UINT32)( fwrite(p_buffer,1,p_nb_bytes,p_file) );
 }
 
 OPJ_SIZE_T opj_skip_from_file (OPJ_SIZE_T p_nb_bytes, FILE * p_user_data)
