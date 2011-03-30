@@ -1,6 +1,5 @@
 set(GDCM_TARGETS_NAME ${ITK-GDCM-targets})
 set(GDCM_BUILD_TESTING_DEFAULT OFF)
-set(GDCM_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS} CACHE BOOL "" FORCE)
 
 # Tell GDCM to use "system" libraries but give it ITK's libraries:
 #
