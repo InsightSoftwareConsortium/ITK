@@ -20,9 +20,7 @@
 #endif
 #include "itkMetaImageIO.h"
 
-#if defined(ITK_USE_MODULAR_BUILD)
-  #define SPECIFIC_IMAGEIO_MODULE_TEST
-#endif
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkImageIOBaseTest( int , char * [] )
 {

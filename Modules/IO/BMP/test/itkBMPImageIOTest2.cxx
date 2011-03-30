@@ -21,9 +21,8 @@
 #include "itkRGBAPixel.h"
 #include <fstream>
 
-#if defined(ITK_USE_MODULAR_BUILD)
-  #define SPECIFIC_IMAGEIO_MODULE_TEST
-#endif
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkBMPImageIOTest2( int ac, char* av[] )
 {

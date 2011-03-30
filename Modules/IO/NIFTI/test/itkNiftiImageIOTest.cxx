@@ -21,9 +21,8 @@
 
 #include "itkNiftiImageIOTest.h"
 
-#if defined(ITK_USE_MODULAR_BUILD)
-  #define SPECIFIC_IMAGEIO_MODULE_TEST
-#endif
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 bool Equal(const double a, const double b)
 {
