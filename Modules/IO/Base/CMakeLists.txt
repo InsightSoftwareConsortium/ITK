@@ -28,3 +28,8 @@ configure_file(src/itkIOConfigure.h.in itkIOConfigure.h)
 set(ITK-IO-Base_INCLUDE_DIRS ${ITK-IO-Base_BINARY_DIR})
 set(ITK-IO-Base_LIBRARIES ITK-IO-Base)
 itk_module_impl()
+
+install(FILES
+  ${ITK-IO-Base_BINARY_DIR}/itkIOConfigure.h
+  DESTINATION ${ITK-IO-Base_INSTALL_INCLUDE_DIR}
+  )
