@@ -179,6 +179,8 @@ public:
   SizeValueType                m_Count;
 };
 
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+
 // now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram
 // as base class
 
@@ -199,6 +201,8 @@ class MorphologicalGradientHistogram<bool>:
   public VectorMorphologicalGradientHistogram<bool>
 {
 };
+
+/** \endcond */
 
 } // end namespace Function
 

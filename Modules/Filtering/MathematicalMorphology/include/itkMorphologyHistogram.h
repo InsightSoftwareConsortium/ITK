@@ -189,6 +189,7 @@ public:
   TInputPixel                     m_Boundary;
 };
 
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
 
 // now create MorphologyHistogram partial specilizations using the VectorMorphologyHistogram
 // as base class
@@ -210,6 +211,8 @@ class MorphologyHistogram<bool, TCompare>:
   public VectorMorphologyHistogram<bool, TCompare>
 {
 };
+
+/** \endcond */
 
 } // end namespace Function
 } // end namespace itk

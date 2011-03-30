@@ -443,6 +443,7 @@ public:
   typedef TPixelType MeasurementVectorType;
 };
 
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
 template< >
 class MeasurementVectorPixelTraits< char >
 {
@@ -519,6 +520,9 @@ class MeasurementVectorPixelTraits< double >
 public:
   typedef FixedArray< double, 1 > MeasurementVectorType;
 };
+
+/** \endcond*/
+
 } // namespace Statistics
 } // namespace itk
 

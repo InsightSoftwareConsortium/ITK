@@ -125,6 +125,7 @@ public:
   static T min(const T & val) { return TraitsType::min(); }
 };
 
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
 
 /** \class NumericTraits<bool>
  * \brief Define traits for type bool.
@@ -678,6 +679,9 @@ public:
   static ValueType ZeroValue() { return Zero; }
   static ValueType OneValue() { return One; }
 };
+
+/** \endcond */
+
 } // end namespace itk
 
 #include "itkFixedArray.h"
