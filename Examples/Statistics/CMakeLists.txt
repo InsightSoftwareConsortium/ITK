@@ -110,7 +110,7 @@ set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 add_test(NAME  ScalarImageKmeansClassifierTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ScalarImageKmeansClassifierOutput.png
             ${TEMP}/ScalarImageKmeansClassifierOutput.png
-  $<TARGET_FILE:ScalarImageKmeansClassifier>
+  --process $<TARGET_FILE:ScalarImageKmeansClassifier>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
         ${TEMP}/ScalarImageKmeansClassifierOutput.png
         1 3 14.8 91.6 134.9
@@ -119,7 +119,7 @@ add_test(NAME  ScalarImageKmeansClassifierTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ScalarImageMarkovRandomField1Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ScalarImageMarkovRandomField1Output.png
             ${TEMP}/ScalarImageMarkovRandomField1Output.png
-  $<TARGET_FILE:ScalarImageMarkovRandomField1>
+  --process $<TARGET_FILE:ScalarImageMarkovRandomField1>
             ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
             ${ITK_DATA_ROOT}/Input/Statistics/BrainT1Slice_AfterKMeansClassification.png
             ${TEMP}/ScalarImageMarkovRandomField1Output.png
@@ -127,12 +127,12 @@ add_test(NAME  ScalarImageMarkovRandomField1Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 add_test(NAME  BayesianPluginClassifierTest COMMAND ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:BayesianPluginClassifier>)
+  --process $<TARGET_FILE:BayesianPluginClassifier>)
 
 add_test(NAME  BayesianClassifierInitializerTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BayesianClassifierInitializerClass2Output.png
             ${TEMP}/BayesianClassifierInitializerClass2Output.png
-  $<TARGET_FILE:BayesianClassifierInitializer>
+  --process $<TARGET_FILE:BayesianClassifierInitializer>
             ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
             ${TEMP}/BayesianClassifierInitializerMemberships.mhd
             4 2 ${TEMP}/BayesianClassifierInitializerClass2Output.png
@@ -143,25 +143,25 @@ add_test(NAME  BayesianClassifierInitializerTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  BayesianClassifierTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BayesianClassifierLabelMap.png
             ${TEMP}/BayesianClassifierLabelMap.png
-  $<TARGET_FILE:BayesianClassifier>
+  --process $<TARGET_FILE:BayesianClassifier>
             ${ITK_SOURCE_DIR}/Examples/Data/BayesianClassifierInitializerMemberships.mhd
             ${TEMP}/BayesianClassifierLabelMap.png 2
 )
 
 add_test(NAME  EuclideanDistanceTest COMMAND ${ITK_TEST_DRIVER}
-          $<TARGET_FILE:EuclideanDistanceMetric>)
+          --process $<TARGET_FILE:EuclideanDistanceMetric>)
 
 add_test(NAME  GaussianDensityFunctionTest COMMAND ${ITK_TEST_DRIVER}
-          $<TARGET_FILE:GaussianMembershipFunction>)
+          --process $<TARGET_FILE:GaussianMembershipFunction>)
 
 add_test(NAME  MinimumDecisionRuleTest COMMAND ${ITK_TEST_DRIVER}
-          $<TARGET_FILE:MinimumDecisionRule2>)
+          --process $<TARGET_FILE:MinimumDecisionRule2>)
 
 add_test(NAME  MaximumDecisionRuleTest COMMAND ${ITK_TEST_DRIVER}
-          $<TARGET_FILE:MaximumDecisionRule2>)
+          --process $<TARGET_FILE:MaximumDecisionRule2>)
 
 add_test(NAME  MaximumRatioDecisionRuleTest COMMAND ${ITK_TEST_DRIVER}
-          $<TARGET_FILE:MaximumRatioDecisionRule2>)
+          --process $<TARGET_FILE:MaximumRatioDecisionRule2>)
 
 
 endif(BUILD_TESTING)
