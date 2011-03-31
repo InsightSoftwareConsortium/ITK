@@ -21,7 +21,10 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImage.h"
+#include "itkNrrdImageIO.h"
 #include <complex>
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkNrrdComplexImageReadTest( int ac, char* av[] )
 {
@@ -34,8 +37,12 @@ int itkNrrdComplexImageReadTest( int ac, char* av[] )
   typedef std::complex<float> PixelType;
   typedef itk::Image<PixelType, 2> myImage;
 
-  itk::ImageFileReader<myImage>::Pointer reader
-                                  = itk::ImageFileReader<myImage>::New();
+  typedef itk::ImageFileReader<myImage>  ReaderType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+
+  reader->SetImageIO( itk::NrrdImageIO::New() );
+
   reader->SetFileName(av[1]);
 
   try

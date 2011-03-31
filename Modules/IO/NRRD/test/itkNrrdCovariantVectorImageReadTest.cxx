@@ -21,7 +21,10 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImage.h"
+#include "itkNrrdImageIO.h"
 #include "itkCovariantVector.h"
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkNrrdCovariantVectorImageReadTest( int ac, char* av[] )
 {
@@ -34,8 +37,12 @@ int itkNrrdCovariantVectorImageReadTest( int ac, char* av[] )
   typedef itk::CovariantVector<float, 4> PixelType;
   typedef itk::Image<PixelType, 3> myImage;
 
-  itk::ImageFileReader<myImage>::Pointer reader
-                                  = itk::ImageFileReader<myImage>::New();
+  typedef itk::ImageFileReader<myImage>  ReaderType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+
+  reader->SetImageIO( itk::NrrdImageIO::New() );
+
   reader->SetFileName(av[1]);
 
   try
