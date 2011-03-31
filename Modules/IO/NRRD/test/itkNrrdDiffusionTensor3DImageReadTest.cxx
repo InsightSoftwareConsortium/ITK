@@ -22,6 +22,9 @@
 #include "itkImageFileReader.h"
 #include "itkImage.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkNrrdImageIO.h"
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkNrrdDiffusionTensor3DImageReadTest( int ac, char* av[] )
 {
@@ -34,8 +37,12 @@ int itkNrrdDiffusionTensor3DImageReadTest( int ac, char* av[] )
   typedef itk::DiffusionTensor3D<float> PixelType;
   typedef itk::Image<PixelType, 3> myImage;
 
-  itk::ImageFileReader<myImage>::Pointer reader
-                                  = itk::ImageFileReader<myImage>::New();
+  typedef itk::ImageFileReader<myImage>  ReaderType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+
+  reader->SetImageIO( itk::NrrdImageIO::New() );
+
   reader->SetFileName(av[1]);
 
   try

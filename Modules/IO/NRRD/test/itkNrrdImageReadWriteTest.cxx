@@ -22,6 +22,9 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
+#include "itkNrrdImageIO.h"
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkNrrdImageReadWriteTest( int ac, char* av[] )
 {
@@ -34,8 +37,12 @@ int itkNrrdImageReadWriteTest( int ac, char* av[] )
   typedef float PixelType;
   typedef itk::Image<PixelType, 3> myImage;
 
-  itk::ImageFileReader<myImage>::Pointer reader
-                                  = itk::ImageFileReader<myImage>::New();
+  typedef itk::ImageFileReader<myImage>  ReaderType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+
+  reader->SetImageIO( itk::NrrdImageIO::New() );
+
   reader->SetFileName(av[1]);
 
   try
@@ -55,6 +62,7 @@ int itkNrrdImageReadWriteTest( int ac, char* av[] )
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetImageIO( itk::NrrdImageIO::New() );
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName(av[2]);
   try
