@@ -7,6 +7,14 @@ mark_as_advanced(CLEAR BUILD_DOCUMENTATION)
 
 if (BUILD_DOCUMENTATION)
 
+  foreach(itk-module ${ITK_MODULES_ALL})
+    if(${itk-module}_IS_TEST)
+      list( APPEND DOXYGEN_TEST_DIRS "\"${${itk-module}_SOURCE_DIR}\" \\ \n ")
+    endif()
+  endforeach()
+
+  string( REGEX REPLACE ";" "\$" DOXYGEN_TEST_DIRS ${DOXYGEN_TEST_DIRS} )
+
   #
   # Configure the script and the doxyfile, then add target
   #

@@ -679,7 +679,8 @@ EXCLUDE_SYMBOLS        =
 # the \include command).
 
 EXAMPLE_PATH           = "@ITK_SOURCE_DIR@/Examples" \
-                         "@ITK_SOURCE_DIR@/Examples/DataRepresentation/Image"
+                         "@ITK_SOURCE_DIR@/Examples/DataRepresentation/Image" \
+                         @DOXYGEN_TEST_DIRS@
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp
