@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkImageRegistrationMethodImageSource_h
+#define __itkImageRegistrationMethodImageSource_h
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkCommandIterationUpdate.h"
@@ -56,8 +58,6 @@ public:
 
   typedef itk::Image<TMovingPixelType,NDimension> MovingImageType;
   typedef itk::Image<TFixedPixelType,NDimension > FixedImageType;
-
-
 
 const MovingImageType * GetMovingImage(void) const
   {
@@ -166,9 +166,7 @@ private:
 
 };
 
-
-
 }  // end namespace testhelper
 
 }  // end namespace itk
-
+#endif

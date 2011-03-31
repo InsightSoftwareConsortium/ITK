@@ -140,8 +140,6 @@
 @ITK_SOURCE_DIR@/Modules/Nonunit/Deprecated/src/itk*.cxx
 @ITK_SOURCE_DIR@/Modules/Numerics/Eigen/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Numerics/Eigen/include/itk*.txx
-@ITK_SOURCE_DIR@/Modules/Numerics/FEM/ReadMe.txt
-@ITK_SOURCE_DIR@/Modules/Numerics/FEM/ToDo.txt
 @ITK_SOURCE_DIR@/Modules/Numerics/FEM/include/itk*.h
 @ITK_SOURCE_DIR@/Modules/Numerics/FEM/include/itk*.txx
 @ITK_SOURCE_DIR@/Modules/Numerics/FEM/src/itk*.cxx

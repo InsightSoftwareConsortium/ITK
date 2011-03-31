@@ -1,3 +1,5 @@
+#ifndef __itkTestDriverIncludeDeprecatedIOFactories_h
+#define __itkTestDriverIncludeDeprecatedIOFactories_h
 #include "itkBioRadImageIOFactory.h"
 #include "itkBMPImageIOFactory.h"
 #include "itkGDCMImageIOFactory.h"
@@ -37,3 +39,4 @@ void ProcessArgumentsAndRegisterDeprecatedIOFactories(int *ac, ArgumentStringTyp
   ProcessArguments( ac, av );
 
 }
+#endif

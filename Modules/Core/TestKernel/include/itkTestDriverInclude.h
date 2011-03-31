@@ -199,8 +199,8 @@ int ProcessArguments(int *ac, ArgumentStringType *av)
         return 1;
         }
       regressionTestParameters.numberOfPixelsTolerance = atoi((*av)[i + 1]);
-      *av +=2;
-      *ac -=2;
+      *av += 2;
+      *ac -= 2;
       }
     else if ( !skip && strcmp((*av)[i], "--compareRadiusTolerance") == 0 )
       {
@@ -327,8 +327,6 @@ int ProcessArguments(int *ac, ArgumentStringType *av)
 return retCode;
 
 }
-
-
 
 // Regression Testing Code
 

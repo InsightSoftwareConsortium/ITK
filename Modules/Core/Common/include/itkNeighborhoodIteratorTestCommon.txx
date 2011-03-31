@@ -24,7 +24,7 @@
 #include <iostream>
 
 typedef itk::Image<itk::Index<4>, 4> TestImageType;
-typedef itk::Offset<4> OffsetType;
+typedef itk::Offset<4>               OffsetType;
 
 extern void println(const char *s);
 extern TestImageType::Pointer GetTestImage(int , int , int , int );
@@ -57,7 +57,7 @@ void printnb( const TIteratorType &nb, bool full)
 template<unsigned int N>
 void FillImage(itk::Image<itk::Index<N>,N> *img)
 {
-  typedef itk::Index<N> IndexType;
+  typedef itk::Index<N>            IndexType;
   typedef itk::Image<IndexType, N> ImageType;
   const itk::Size<N> size = img->GetRequestedRegion().GetSize();
 

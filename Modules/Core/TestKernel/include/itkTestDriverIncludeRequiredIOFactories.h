@@ -1,3 +1,5 @@
+#ifndef __itkTestDriverIncludeRequiredIOFactories_h
+#define __itkTestDriverIncludeRequiredIOFactories_h
 #include "itkGDCMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
@@ -26,3 +28,4 @@ void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *a
   ProcessArguments( ac, av );
 
 }
+#endif
