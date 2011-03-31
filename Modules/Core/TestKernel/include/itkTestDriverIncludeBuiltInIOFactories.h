@@ -1,3 +1,5 @@
+#ifndef __itkTestDriverIncludeBuiltInIOFactories_h
+#define __itkTestDriverIncludeBuiltInIOFactories_h
 #include "itkBioRadImageIOFactory.h"
 #include "itkBMPImageIOFactory.h"
 #include "itkGDCMImageIOFactory.h"
@@ -33,3 +35,4 @@ void ProcessArgumentsAndRegisterBuiltInFactories(int *ac, ArgumentStringType *av
   ProcessArguments( ac, av );
 
 }
+#endif

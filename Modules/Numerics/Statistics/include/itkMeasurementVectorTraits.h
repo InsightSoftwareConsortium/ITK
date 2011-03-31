@@ -443,7 +443,10 @@ public:
   typedef TPixelType MeasurementVectorType;
 };
 
-/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+/**
+ *  \cond HIDE_SPECIALIZATION_DOCUMENTATION
+ *  \class MeasurementVectorPixelTraits
+ */
 template< >
 class MeasurementVectorPixelTraits< char >
 {
