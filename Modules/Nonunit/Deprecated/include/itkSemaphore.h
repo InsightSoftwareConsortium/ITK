@@ -98,7 +98,7 @@ typedef int SemaphoreType;
  * and IPC semaphores.  On Windows systems, POSIX semaphores and WIN32 thread
  * library semaphores are supported.
  */
-class ITKCommon_EXPORT Semaphore:public LightObject
+class ITK_EXPORT Semaphore:public LightObject
 {
 public:
   /** Standard class typedefs. */
