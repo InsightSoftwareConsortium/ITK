@@ -30,7 +30,6 @@
 
 #if defined(ITK_USE_PTHREADS)
 #include <pthread.h>
-#include <semaphore.h>
 #elif defined(ITK_USE_WIN32_THREADS)
 #include "itkWindows.h"
 #include <winbase.h>
@@ -45,7 +44,6 @@ namespace itk
 #define ITK_MAX_THREADS              128
   typedef pthread_mutex_t MutexType;
   typedef pthread_mutex_t FastMutexType;
-  typedef sem_t*          SemaphoreType;
   typedef void *( * ThreadFunctionType )(void *);
   typedef pthread_t ThreadProcessIDType;
 #define ITK_THREAD_RETURN_VALUE  NULL
@@ -56,7 +54,6 @@ namespace itk
 #define ITK_MAX_THREADS              128
   typedef HANDLE                 MutexType;
   typedef CRITICAL_SECTION       FastMutexType;
-  typedef HANDLE                 SemaphoreType;
   typedef LPTHREAD_START_ROUTINE ThreadFunctionType;
   typedef HANDLE                 ThreadProcessIDType;
 #define ITK_THREAD_RETURN_VALUE 0
@@ -67,7 +64,6 @@ namespace itk
 #define ITK_MAX_THREADS              1
   typedef int     MutexType;
   typedef int     FastMutexType;
-  typedef int     SemaphoreType;
   typedef void ( *ThreadFunctionType )(void *);
   typedef int     ThreadProcessIDType;
 #define ITK_THREAD_RETURN_VALUE
