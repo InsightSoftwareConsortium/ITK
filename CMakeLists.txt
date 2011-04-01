@@ -190,9 +190,6 @@ set(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM M
 mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
 
 
-#----------------------------------------------------------------------
-# Provide an option for generating documentation.
-add_subdirectory(Utilities/Doxygen)
 
 
 #----------------------------------------------------------------------
@@ -506,3 +503,7 @@ add_subdirectory(Wrapping)
 if(BUILD_EXAMPLES)
   add_subdirectory(Examples)
 endif()
+
+#----------------------------------------------------------------------
+# Provide an option for generating documentation.
+add_subdirectory(Utilities/Doxygen)
