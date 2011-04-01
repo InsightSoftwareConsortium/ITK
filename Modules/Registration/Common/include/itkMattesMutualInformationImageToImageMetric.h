@@ -212,6 +212,15 @@ public:
   itkSetMacro(UseExplicitPDFDerivatives, bool);
   itkGetConstReferenceMacro(UseExplicitPDFDerivatives, bool);
   itkBooleanMacro(UseExplicitPDFDerivatives);
+
+  /** The marginal PDFs are stored as std::vector. */
+  typedef float PDFValueType;
+
+  /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
+  typedef Image< PDFValueType, 2 >            JointPDFType;
+  typedef Image< PDFValueType, 3 >            JointPDFDerivativesType;
+  itkGetConstReferenceMacro(JointPDF,typename JointPDFType::Pointer);
+  itkGetConstReferenceMacro(JointPDFDerivatives,typename JointPDFDerivativesType::Pointer);
 protected:
 
   MattesMutualInformationImageToImageMetric();
@@ -224,9 +233,6 @@ private:
   MattesMutualInformationImageToImageMetric(const Self &);
   //purposely not implemented
   void operator=(const Self &);
-
-  /** The marginal PDFs are stored as std::vector. */
-  typedef float PDFValueType;
 
   typedef float *MarginalPDFType;
 
@@ -244,9 +250,6 @@ private:
   mutable DerivativeType  m_MetricDerivative;
   mutable DerivativeType *m_ThreaderMetricDerivative;
 
-  /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
-  typedef Image< PDFValueType, 2 >            JointPDFType;
-  typedef Image< PDFValueType, 3 >            JointPDFDerivativesType;
   typedef JointPDFType::IndexType             JointPDFIndexType;
   typedef JointPDFType::PixelType             JointPDFValueType;
   typedef JointPDFType::RegionType            JointPDFRegionType;
