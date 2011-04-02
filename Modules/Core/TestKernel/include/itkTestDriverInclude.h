@@ -82,6 +82,21 @@ RegressionTestParameters regressionTestParameters;
 
 typedef char ** ArgumentStringType;
 
+
+// Types to hold parameters that should be processed later
+typedef std::vector< char * > ArgumentsList;
+
+struct ProcessedOutputType
+{
+  bool externalProcessMustBeCalled;
+
+  ArgumentsList args;
+  ArgumentsList add_before_libpath;
+  ArgumentsList add_before_env;
+  ArgumentsList add_before_env_with_sep;
+};
+
+
 void usage()
 {
   std::cerr << "usage: itkTestDriver [options] prg [args]" << std::endl;
@@ -123,6 +138,9 @@ void usage()
   std::cerr << "  --compareIntensityTolerance TOLERANCE" << std::endl;
   std::cerr << "      Default is 2.0." << std::endl;
   std::cerr << std::endl;
+  std::cerr << "  --process EXECUTABLE_PROGRAM" << std::endl;
+  std::cerr << "      The test driver will invoke this program." << std::endl;
+  std::cerr << std::endl;
   std::cerr << "  --" << std::endl;
   std::cerr << "      The options after -- are not interpreted by this program and passed" << std::endl;
   std::cerr << "      directly to the test program." << std::endl;
@@ -133,7 +151,7 @@ void usage()
 }
 
 
-int ProcessArguments(int *ac, ArgumentStringType *av)
+int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = NULL )
 {
   itk::FloatingPointExceptions::Enable();
 
@@ -141,7 +159,11 @@ int ProcessArguments(int *ac, ArgumentStringType *av)
   regressionTestParameters.numberOfPixelsTolerance = 0;
   regressionTestParameters.radiusTolerance = 0;
 
-  std::vector< char * > args;
+  if( processedOutput )
+    {
+    processedOutput->externalProcessMustBeCalled = false;
+    }
+
   // parse the command line
   int  i = 1;
   bool skip = false;
@@ -220,113 +242,81 @@ int ProcessArguments(int *ac, ArgumentStringType *av)
         usage();
         return 1;
         }
-     regressionTestParameters.intensityTolerance = atof((*av)[i + 1]);
+      regressionTestParameters.intensityTolerance = atof((*av)[i + 1]);
+      (*av) += 2;
+      *ac -= 2;
+      }
+    else if ( !skip && strcmp((*av)[i], "--add-before-libpath") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      if( processedOutput )
+        {
+        processedOutput->add_before_libpath.push_back( (*av)[i+1] );
+        }
+      (*av) += 2;
+      *ac -= 2;
+      }
+    else if ( !skip && strcmp((*av)[i], "--add-before-env") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      if( processedOutput )
+        {
+        processedOutput->add_before_env.push_back( (*av)[i+1] );
+        processedOutput->add_before_env.push_back( (*av)[i+2] );
+        }
+      (*av) += 3;
+      *ac -= 3;
+      }
+    else if ( !skip && strcmp((*av)[i], "--add-before-env-with-sep") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      if( processedOutput )
+        {
+        processedOutput->add_before_env_with_sep.push_back( (*av)[i+1] );
+        processedOutput->add_before_env_with_sep.push_back( (*av)[i+2] );
+        processedOutput->add_before_env_with_sep.push_back( (*av)[i+3] );
+        }
+      (*av) += 4;
+      *ac -= 4;
+      }
+
+    else if ( !skip && strcmp((*av)[i], "--process") == 0 )
+      {
+      // The test driver needs to invoke another executable
+      // For example, the python interpreter to run Wrapping tests.
+      if( processedOutput )
+        {
+        processedOutput->externalProcessMustBeCalled = true;
+        processedOutput->args.push_back((*av)[i+1]);
+        }
       (*av) += 2;
       *ac -= 2;
       }
     else
       {
-      args.push_back((*av)[i]);
+      if( processedOutput )
+        {
+        processedOutput->args.push_back((*av)[i]);
+        }
       i += 1;
       }
   }
 
-
-  if ( args.empty() )
-    {
-    usage();
-    return 1;
-    }
-
-  // a NULL is required at the end of the table
-  char ** argv = new char *[args.size() + 1];
-  for ( i = 0; i < static_cast< int >( args.size() ); i++ )
-    {
-    argv[i] = args[i];
-    }
-  argv[args.size()] = NULL;
-
-  itksysProcess *process = itksysProcess_New();
-  itksysProcess_SetCommand(process, argv);
-  itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDOUT, true);
-  itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDERR, true);
-  itksysProcess_Execute(process);
-  itksysProcess_WaitForExit(process, NULL);
-
-  delete[] argv;
-
-  int state = itksysProcess_GetState(process);
-  switch( state )
-    {
-//     case kwsysProcess_State_Starting:
-//       {
-//       // this is not a possible state after itksysProcess_WaitForExit
-//       std::cerr << "itkTestDriver: Internal error: process can't be in Starting State." << std::endl;
-//       return 1;
-//       break;
-//       }
-    case itksysProcess_State_Error:
-      {
-      std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Exception:
-      {
-      std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Executing:
-      {
-      // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Exited:
-      {
-      // this is the normal case - it is treated later
-      break;
-      }
-    case itksysProcess_State_Expired:
-      {
-      // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Killed:
-      {
-      std::cerr << "itkTestDriver: The process has been killed." << std::endl;
-      return 1;
-      break;
-      }
-    case itksysProcess_State_Disowned:
-      {
-      std::cerr << "itkTestDriver: Process disowned." << std::endl;
-      return 1;
-      break;
-      }
-    default:
-      {
-      // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: unknown State." << std::endl;
-      return 1;
-      break;
-      }
-    }
-
-  int retCode = itksysProcess_GetExitValue(process);
-  if ( retCode != 0 )
-    {
-    std::cerr << "itkTestDriver: Process exited with return value: " << retCode << std::endl;
-    // no need to compare the images: the test has failed
-    }
-
-return retCode;
-
+  return 0;
 }
+
 
 // Regression Testing Code
 

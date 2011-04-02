@@ -10,7 +10,7 @@ macro(add_python_test name)
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
     --add-before-libpath "${ITK_DIR}"
-    "${PYTHON_EXECUTABLE}"
+    --process "${PYTHON_EXECUTABLE}"
     ${ARGN}
     )
 endmacro()
