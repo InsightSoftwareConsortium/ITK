@@ -84,6 +84,7 @@ itkLoggerOutputTest.cxx
 itkNeighborhoodTest.cxx
 itkVersorTest.cxx
 itkObjectFactoryTest2.cxx
+itkObjectFactoryTest3.cxx
 itkMinimumMaximumImageCalculatorTest.cxx
 itkSliceIteratorTest.cxx
 itkMultiThreaderTest.cxx
@@ -216,6 +217,7 @@ add_test(NAME itkObjectFactoryTest2 COMMAND ITK-CommonTestDriver2 itkObjectFacto
 set_tests_properties(itkObjectFactoryTest2 PROPERTIES RUN_SERIAL 1)
 endif(ITK_BUILD_SHARED_LIBS)
 
+add_test(NAME itkObjectFactoryTest3 COMMAND ITK-CommonTestDriver2 itkObjectFactoryTest3)
 add_test(NAME itkPeriodicBoundaryConditionTest COMMAND ITK-CommonTestDriver2 itkPeriodicBoundaryConditionTest)
 add_test(NAME itkPhasedArray3DSpecialCoordinatesImageTest COMMAND ITK-CommonTestDriver1 itkPhasedArray3DSpecialCoordinatesImageTest)
 add_test(NAME itkRealTimeClockTest COMMAND ITK-CommonTestDriver1 itkRealTimeClockTest)
