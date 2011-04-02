@@ -74,31 +74,37 @@ public:
 };
 }
 
-template< class TInputPixel1, class TInputPixel2, class TOutputPixel, unsigned int NDimension = 3 >
+template< class TInputImage1,
+          class TInputImage2 = TInputImage1,
+          class TOutputImage = itk::Image< std::complex< typename TInputImage1::PixelType>,
+                                           TInputImage1::ImageDimension > >
 class ITK_EXPORT MagnitudeAndPhaseToComplexImageFilter:
   public BinaryFunctorImageFilter<
-    Image< TInputPixel1, NDimension >,
-    Image< TInputPixel2, NDimension >,
-    Image< std::complex< TOutputPixel >, NDimension >,
+    TInputImage1,
+    TInputImage2,
+    TOutputImage,
     Functor::MagnitudeAndPhaseToComplex<
-      TInputPixel1,
-      TInputPixel2,
-      TOutputPixel
-      >
-    >
+      typename TInputImage1::PixelType,
+      typename TInputImage2::PixelType,
+      typename TOutputImage::PixelType::value_type > >
+
 {
 public:
   /** Standard class typedefs. */
   typedef MagnitudeAndPhaseToComplexImageFilter Self;
 
   typedef BinaryFunctorImageFilter<
-    Image< TInputPixel1, NDimension >,
-    Image< TInputPixel2, NDimension >,
-    Image< std::complex< TOutputPixel >, NDimension >,
+    TInputImage1,
+    TInputImage2,
+    TOutputImage,
     Functor::MagnitudeAndPhaseToComplex<
-      TInputPixel1,
-      TInputPixel2,
-      TOutputPixel > >                     Superclass;
+      typename TInputImage1::PixelType,
+      typename TInputImage2::PixelType,
+      typename TOutputImage::PixelType::value_type > > Superclass;
+
+  typedef typename TInputImage1::PixelType InputPixel1Type;
+  typedef typename TInputImage2::PixelType InputPixel2Type;
+  typedef typename TOutputImage::PixelType OutputPixelType;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -112,11 +118,11 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( Input1ConvertibleToDoubleCheck,
-                   ( Concept::Convertible< TInputPixel1, double > ) );
+                   ( Concept::Convertible< InputPixel1Type, double > ) );
   itkConceptMacro( Input2ConvertibleToDoubleCheck,
-                   ( Concept::Convertible< TInputPixel2, double > ) );
+                   ( Concept::Convertible< InputPixel2Type, double > ) );
   itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, TOutputPixel > ) );
+                   ( Concept::Convertible< double, OutputPixelType > ) );
   /** End concept checking */
 #endif
 protected:

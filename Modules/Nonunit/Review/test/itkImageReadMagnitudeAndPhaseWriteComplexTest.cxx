@@ -59,7 +59,7 @@ int itkImageReadMagnitudeAndPhaseWriteComplexTest( int argc, char * argv[] )
   typedef itk::ImageFileWriter< OutputImageType >     WriterType;
 
   typedef itk::MagnitudeAndPhaseToComplexImageFilter <
-    InputPixelType, InputPixelType, OutputPixelType, Dimension > MagnitudeAndPhase2ComplexFilterType;
+    InputImageType, InputImageType, OutputImageType > MagnitudeAndPhase2ComplexFilterType;
 
   ReaderType::Pointer readerReal = ReaderType::New();
   ReaderType::Pointer readerImag = ReaderType::New();
@@ -89,6 +89,10 @@ int itkImageReadMagnitudeAndPhaseWriteComplexTest( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+  // check that the default template parameters work
+  typedef itk::MagnitudeAndPhaseToComplexImageFilter < InputImageType > DefaultParametersFilterType;
+  DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
 
   return EXIT_SUCCESS;
 

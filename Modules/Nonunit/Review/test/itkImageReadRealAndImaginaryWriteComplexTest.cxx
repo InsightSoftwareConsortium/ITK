@@ -56,7 +56,7 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
   typedef itk::ImageFileWriter< OutputImageType >                 WriterType;
 
   typedef itk::RealAndImaginaryToComplexImageFilter <
-    InputPixelType, InputPixelType, OutputPixelType, Dimension >  RealAndImaginary2ComplexFilterType;
+    InputImageType, InputImageType, OutputImageType >  RealAndImaginary2ComplexFilterType;
 
   ReaderType::Pointer readerReal = ReaderType::New();
   ReaderType::Pointer readerImag = ReaderType::New();
@@ -87,6 +87,11 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+  // check that the default template parameters work
+  typedef itk::RealAndImaginaryToComplexImageFilter < InputImageType > DefaultParametersFilterType;
+  DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
+
 
   return EXIT_SUCCESS;
 
