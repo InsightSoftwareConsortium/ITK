@@ -42,7 +42,7 @@ namespace itk
  *
  * \warning Don't forget to close the opened block with the corresponding
  *          itk::itkQEMeshForAllPointsMacro macro.
- * \example itk::MeshExtractComponentFilter::GetOutput().
+ * \sa itk::MeshExtractComponentFilter::GetOutput().
  */
 #define itkQEMeshForAllPointsMacro(MeshType,                               \
                                    MeshInstance,                           \
@@ -99,7 +99,7 @@ namespace itk
 
  * \warning Don't forget to close the opened block with the corresponding
  *          itk::itkQEMeshForAllCellsEndMacro macro.
- * \example itk::itkQEMeshForAllPrimalEdgesMacro
+ * \sa itk::itkQEMeshForAllPrimalEdgesMacro
  */
 #define itkQEMeshForAllCellsMacro(MeshType,                                    \
                                   MeshInstance,                                \
