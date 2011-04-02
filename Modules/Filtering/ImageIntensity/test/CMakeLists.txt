@@ -60,6 +60,9 @@ itkSubtractImageFilterTest.cxx
 itkComplexToImaginaryFilterAndAdaptorTest.cxx
 itkVectorToRGBImageAdaptorTest.cxx
 itkSinImageFilterAndAdaptorTest.cxx
+itkPolylineMask2DImageFilterTest.cxx
+itkPolylineMaskImageFilterTest.cxx
+itkModulusImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ImageIntensity  "${ITK-ImageIntensity-Test_LIBRARIES}" "${ITK-ImageIntensityTests}")
@@ -203,3 +206,13 @@ add_test(NAME itkVectorToRGBImageAdaptorTest
       COMMAND ITK-ImageIntensityTestDriver itkVectorToRGBImageAdaptorTest)
 add_test(NAME itkSinImageFilterAndAdaptorTest
       COMMAND ITK-ImageIntensityTestDriver itkSinImageFilterAndAdaptorTest)
+add_test(NAME itkPolylineMask2DImageFilterTest
+      COMMAND ITK-ImageIntensityTestDriver itkPolylineMask2DImageFilterTest
+              ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
+add_test(NAME itkPolylineMaskImageFilterTest
+      COMMAND ITK-ImageIntensityTestDriver itkPolylineMaskImageFilterTest)
+add_test(NAME itkModulusImageFilterTest
+      COMMAND ITK-ImageIntensityTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
+    itkModulusImageFilterTest ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png)

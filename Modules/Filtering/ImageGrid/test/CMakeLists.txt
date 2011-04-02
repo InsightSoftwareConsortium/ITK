@@ -16,6 +16,17 @@ itkInterpolateImageFilterTest.cxx
 itkPasteImageFilterTest.cxx
 itkVectorResampleImageFilterTest.cxx
 itkPermuteAxesImageFilterTest.cxx
+itkOrientedImage2DTest.cxx
+itkOrientedImage3DTest.cxx
+itkOrientedImageAdaptorTest.cxx
+itkOrientedImageProfileTest1.cxx
+itkOrientedImageProfileTest2.cxx
+itkOrientedImageProfileTest3.cxx
+itkOrientImageFilterTest.cxx
+itkOrientImageFilterTest2.cxx
+itkWarpImageFilterTest.cxx
+itkWarpVectorImageFilterTest.cxx
+itkWrapPadImageTest.cxx
 )
 
 CreateTestDriver(ITK-ImageGrid  "${ITK-ImageGrid-Test_LIBRARIES}" "${ITK-ImageGridTests}")
@@ -63,3 +74,27 @@ add_test(NAME itkVectorResampleImageFilterTest
     itkVectorResampleImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)
 add_test(NAME itkPermuteAxesImageFilterTest
       COMMAND ITK-ImageGridTestDriver itkPermuteAxesImageFilterTest)
+add_test(NAME itkOrientedImage2DTest01
+      COMMAND ITK-ImageGridTestDriver itkOrientedImage2DTest
+              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20DirectionPlus30.mhd 0.000 0.000 191.392 110.500 -128.500 222.569 4.000 -8.000 7.4641 -4.9282)
+add_test(NAME itkOrientedImage3DTest01
+      COMMAND ITK-ImageGridTestDriver itkOrientedImage3DTest
+              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd 0.000 0.000 0.000 166.277 -96.000 0.000 124.000 214.774 0.000 0.000 0.000 168.000 0.125 -4.125 9.000 -1.95425 -3.63485 9.000)
+add_test(NAME itkOrientedImageAdaptorTest
+      COMMAND ITK-ImageGridTestDriver itkOrientedImageAdaptorTest)
+add_test(NAME itkOrientedImageProfileTest1
+      COMMAND ITK-ImageGridTestDriver itkOrientedImageProfileTest1)
+add_test(NAME itkOrientedImageProfileTest2
+      COMMAND ITK-ImageGridTestDriver itkOrientedImageProfileTest2)
+add_test(NAME itkOrientedImageProfileTest3
+      COMMAND ITK-ImageGridTestDriver itkOrientedImageProfileTest3)
+add_test(NAME itkOrientImageFilterTest
+      COMMAND ITK-ImageGridTestDriver itkOrientImageFilterTest)
+add_test(NAME itkOrientImageFilterTest2
+      COMMAND ITK-ImageGridTestDriver itkOrientImageFilterTest2)
+add_test(NAME itkWarpImageFilterTest
+      COMMAND ITK-ImageGridTestDriver itkWarpImageFilterTest)
+add_test(NAME itkWarpVectorImageFilterTest
+      COMMAND ITK-ImageGridTestDriver itkWarpVectorImageFilterTest)
+add_test(NAME itkWrapPadImageTest
+      COMMAND ITK-ImageGridTestDriver itkWrapPadImageTest)

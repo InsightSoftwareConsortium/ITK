@@ -251,4 +251,3 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

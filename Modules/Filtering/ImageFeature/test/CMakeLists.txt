@@ -16,6 +16,7 @@ itkTensorFractionalAnisotropyImageFilterTest.cxx
 itkZeroCrossingImageFilterTest.cxx
 itkCannyEdgeDetectionImageFilterTest2.cxx
 itkDerivativeImageFilterTest.cxx
+itkLaplacianRecursiveGaussianImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ImageFeature  "${ITK-ImageFeature-Test_LIBRARIES}" "${ITK-ImageFeatureTests}")
@@ -85,3 +86,8 @@ add_test(NAME itkDerivativeImageFilterTest2y
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDerivativeImageFilterTest2y.png
               ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2y.png
     itkDerivativeImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2y.png 2 1)
+add_test(NAME itkLaplacianRecursiveGaussianImageFilterTest
+      COMMAND ITK-ImageFeatureTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/LaplacianRecursiveGaussianImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
+    itkLaplacianRecursiveGaussianImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)

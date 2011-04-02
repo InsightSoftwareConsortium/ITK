@@ -18,33 +18,15 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
+
+
+
+
+#include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkSimpleFilterWatcher.h"
 
-template<class TImage1Type,class TImage2Type>
-class ImageInformationIsEqual
-{
-public:
-static bool Check(const TImage1Type * image1, const TImage2Type * image2)
-{
-  if (image1->GetSpacing() != image2->GetSpacing())
-    {
-    return false;
-    }
-  if (image1->GetOrigin() != image2->GetOrigin())
-    {
-    return false;
-    }
-  if (image1->GetDirection() != image2->GetDirection())
-    {
-    return false;
-    }
-  return true;
-}
-};
 
-int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
+int itkGradientRecursiveGaussianFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -85,20 +67,6 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
-  // Set the metadata for the image
-  myImageType::PointType origin;
-  myImageType::SpacingType spacing;
-  myImageType::DirectionType direction;
-
-  origin[0] = 1.0; origin[1] = 2.0; origin[2] = 3.0;
-  spacing[0] = .1; spacing[1] = .2; spacing[2] = .3;
-  direction.SetIdentity();
-  direction(1,1) = -1.0;
-
-  inputImage->SetSpacing(spacing);
-  inputImage->SetOrigin(origin);
-  inputImage->SetDirection(direction);
-
   // Declare Iterator type for the input image
   typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
 
@@ -107,10 +75,10 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
 
   // Initialize the content of Image A
   while( !it.IsAtEnd() )
-  {
+    {
     it.Set( 0.0 );
     ++it;
-  }
+    }
 
   size[0] = 4;
   size[1] = 4;
@@ -127,13 +95,13 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
 
   // Initialize the content the internal region
   while( !itb.IsAtEnd() )
-  {
+    {
     itb.Set( 100.0 );
     ++itb;
-  }
+    }
 
   // Declare the type for the
-  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter<
+  typedef itk::GradientRecursiveGaussianImageFilter<
                                             myImageType >  myFilterType;
 
   typedef myFilterType::OutputImageType myGradientImageType;
@@ -141,7 +109,6 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
 
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
-  itk::SimpleFilterWatcher watcher(filter);
 
 
   // Connect the input images
@@ -152,16 +119,7 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
 
 
   // Execute the filter
-  try
-    {
-    filter->Update();
-    }
-  catch(...)
-    {
-    std::cerr << "Exception thrown during Update() " << std::endl;
-    return EXIT_FAILURE;
-    }
-
+  filter->Update();
 
   // Get the Smart Pointer to the Filter Output
   // It is important to do it AFTER the filter is Updated
@@ -181,48 +139,13 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
   std::cout << " Result " << std::endl;
   itg.GoToBegin();
   while( !itg.IsAtEnd() )
-  {
-    std::cout << itg.Get() << std::endl;
-    ++itg;
-  }
-
-  if (!ImageInformationIsEqual<myImageType,myImageType>::Check(inputImage, outputImage))
     {
-    std::cout << "ImageInformation mismatch!" << std::endl;
-    std::cout << "inputImage Origin:  " << inputImage->GetOrigin() << std::endl;
-    std::cout << "outputImage Origin: " << outputImage->GetOrigin() << std::endl;
-    std::cout << "inputImage Spacing:  " << inputImage->GetSpacing() << std::endl;
-    std::cout << "outputImage Spacing: " << outputImage->GetSpacing() << std::endl;
-    std::cout << "inputImage Direction:  " << inputImage->GetDirection() << std::endl;
-    std::cout << "outputImage Direction: " << outputImage->GetDirection() << std::endl;
-    return EXIT_FAILURE;
+    std::cout << itg.Get();
+    ++itg;
     }
 
-  // check that the same filter is able to run on a smaller image
-  size.Fill( 5 );
-  region.SetSize( size );
-
-  inputImage->SetRegions( region );
-  inputImage->Allocate();
-  inputImage->FillBuffer( 1 );
-
-  // Execute the filter
-  try
-    {
-    filter->UpdateLargestPossibleRegion();
-     }
-   catch(...)
-     {
-     std::cerr << "Exception thrown during Update() " << std::endl;
-     return EXIT_FAILURE;
-     }
 
   // All objects should be automatically destroyed at this point
-  std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 
 }
-
-
-
-

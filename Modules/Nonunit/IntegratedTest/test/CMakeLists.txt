@@ -1,14 +1,7 @@
 itk_module_test()
 set(ITK-IntegratedTestTests
-itkAccumulateImageFilterTest.cxx
-itkAdaptiveHistogramEqualizationImageFilterTest.cxx
 itkAdaptorComparisonTest.cxx
 itkBasicArchitectureTest.cxx
-itkBayesianClassifierImageFilterTest.cxx
-itkBinaryProjectionImageFilterTest.cxx
-itkBinaryThresholdImageFilterTest2.cxx
-itkBinaryThresholdProjectionImageFilterTest.cxx
-itkBinaryThresholdSpatialFunctionTest.cxx
 itkBloxCoreAtomTest.cxx
 itkBoundaryConditionTest.cxx
 itkBSplineInterpolateImageFunctionTest.cxx
@@ -27,18 +20,10 @@ itkDecisionRuleTest.cxx
 itkDecoratorTest.cxx
 itkDenseFrequencyContainer2Test.cxx
 itkDicomImageIODirection2DTest.cxx
-itkDifferenceOfGaussiansGradientTest.cxx
-itkDistanceMetricTest.cxx
-itkDistanceMetricTest2.cxx
-itkDistanceToCentroidMembershipFunctionTest.cxx
-itkDoubleThresholdImageFilterTest.cxx
-itkEuclideanDistanceMetricTest.cxx
-itkEuclideanSquareDistanceMetricTest.cxx
 itkExpectationMaximizationMixtureModelEstimatorTest.cxx
 itkExpImageFilterAndAdaptorTest.cxx
 itkExtractImage3Dto2DTest.cxx
 itkExtractImageTest.cxx
-itkExtractOrthogonalSwath2DImageFilterTest.cxx
 itkFilterDispatchTest.cxx
 itkFilterImageAddTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx
@@ -46,13 +31,7 @@ itkFloodFillIteratorTest.cxx
 itkGaussianDistributionTest.cxx
 itkGaussianMembershipFunctionTest.cxx
 itkGaussianMixtureModelComponentTest.cxx
-itkGetAverageSliceImageFilterTest.cxx
 itkGibbsTest.cxx
-itkGiplImageIOTest.cxx
-itkGradientAnisotropicDiffusionImageFilterTest2.cxx
-itkGradientMagnitudeRecursiveGaussianFilterTest.cxx
-itkGradientRecursiveGaussianFilterTest.cxx
-itkGradientRecursiveGaussianFilterTest2.cxx
 itkGrayscaleGeodesicErodeDilateImageFilterTest.cxx
 itkHashTableTest.cxx
 itkHConvexConcaveImageFilterTest.cxx
@@ -62,7 +41,6 @@ itkHMaximaMinimaImageFilterTest.cxx
 itkHoughTransform2DCirclesImageTest.cxx
 itkHoughTransform2DLinesImageTest.cxx
 itkImageAdaptorPipeLineTest.cxx
-itkImageClassifierFilterTest.cxx
 itkImageComputeOffsetAndIndexTest.cxx
 itkImageDuplicatorTest.cxx
 itkImageIteratorsForwardBackwardTest.cxx
@@ -72,8 +50,6 @@ itkImageRandomIteratorTest.cxx
 itkImageRandomIteratorTest2.cxx
 itkImageRandomNonRepeatingIteratorWithIndexTest.cxx
 itkImageRandomNonRepeatingIteratorWithIndexTest2.cxx
-itkImageSeriesReaderDimensionsTest.cxx
-itkImageSeriesWriterTest.cxx
 itkImageSliceIteratorTest.cxx
 itkImageToHistogramFilterTest.cxx
 itkImageToHistogramFilterTest2.cxx
@@ -87,8 +63,6 @@ itkImportContainerTest.cxx
 itkImportImageTest.cxx
 itkInterpolateTest.cxx
 itkIOPluginTest.cxx
-itkIsoContourDistanceImageFilterTest.cxx
-itkIsolatedWatershedImageFilterTest.cxx
 itkIteratorTests.cxx
 itkJoinSeriesImageFilterStreamingTest.cxx
 itkJointDomainImageToListSampleAdaptorTest.cxx
@@ -98,21 +72,15 @@ itkKdTreeTest1.cxx
 itkKdTreeTest2.cxx
 itkKdTreeTestSamplePoints.cxx
 itkKmeansModelEstimatorTest.cxx
-itkLaplacianRecursiveGaussianImageFilterTest.cxx
 itkLargeImageWriteConvertReadTest.cxx
 itkLargeImageWriteReadTest.cxx
 itkListSampleTest.cxx
-itkMahalanobisDistanceMetricTest.cxx
-itkManhattanDistanceMetricTest.cxx
-itkMaskNeighborhoodOperatorImageFilterTest.cxx
 itkMathCastWithRangeCheckTest.cxx
 itkMathematicalMorphologyImageFilterTest.cxx
 itkMathRoundProfileTest1.cxx
 itkMathRoundTest.cxx
 itkMathRoundTest2.cxx
 itkMatrixImageWriteReadTest.cxx
-itkMaximumDecisionRuleTest.cxx
-itkMaximumRatioDecisionRuleTest.cxx
 itkMeanReciprocalSquareDifferenceImageMetricTest.cxx
 itkMeanSampleFilterTest.cxx
 itkMeanSampleFilterTest2.cxx
@@ -127,38 +95,21 @@ itkMembershipSampleTest2.cxx
 itkMembershipSampleTest3.cxx
 itkMembershipSampleTest4.cxx
 itkMemoryLeakTest.cxx
-itkMinimumDecisionRuleTest.cxx
 itkMirrorPadImageTest.cxx
 itkMixtureModelComponentBaseTest.cxx
 itkModifiedTimeTest.cxx
-itkModulusImageFilterTest.cxx
-itkMRIBiasFieldCorrectionFilterTest.cxx
 itkMutualInformationMetricTest.cxx
 itkNeighborhoodSamplerTest1.cxx
 itkNewTest.cxx
-itkNoiseImageFilterTest.cxx
-itkNormalizedCorrelationImageFilterTest.cxx
-itkNormalizedCorrelationImageMetricTest.cxx
 itkNormalVariateGeneratorTest1.cxx
 itkNumericsPrintTest.cxx
 itkNumericsTest.cxx
 itkOptimizersHierarchyTest.cxx
-itkOrientedImage2DTest.cxx
-itkOrientedImage3DTest.cxx
-itkOrientedImageAdaptorTest.cxx
-itkOrientedImageProfileTest1.cxx
-itkOrientedImageProfileTest2.cxx
-itkOrientedImageProfileTest3.cxx
-itkOrientImageFilterTest.cxx
-itkOrientImageFilterTest2.cxx
-itkOrthogonalSwath2DPathFilterTest.cxx
 itkPixelAccessTest.cxx
 itkPointGeometryTest.cxx
 itkPointSetToImageRegistrationTest_1.cxx
 itkPointSetToListSampleAdaptorTest.cxx
 itkPointSetToPointSetRegistrationTest.cxx
-itkPolylineMask2DImageFilterTest.cxx
-itkPolylineMaskImageFilterTest.cxx
 itkPriorityQueueTest.cxx
 itkProbabilityDistributionTest.cxx
 itkProjectionImageFilterTest.cxx
@@ -178,13 +129,6 @@ itkResampleImageTest.cxx
 itkResampleImageTest2.cxx
 itkResamplePhasedArray3DSpecialCoordinatesImageTest.cxx
 itkRGBInterpolateImageFunctionTest.cxx
-itkSampleClassifierFilterTest1.cxx
-itkSampleClassifierFilterTest2.cxx
-itkSampleClassifierFilterTest3.cxx
-itkSampleClassifierFilterTest4.cxx
-itkSampleClassifierFilterTest5.cxx
-itkSampleClassifierFilterTest6.cxx
-itkSampleClassifierFilterTest7.cxx
 itkSampleTest.cxx
 itkSampleTest2.cxx
 itkSampleTest3.cxx
@@ -221,7 +165,6 @@ itkStreamingImageFilterTest3.cxx
 itkSubsampleTest.cxx
 itkSubsampleTest2.cxx
 itkSubsampleTest3.cxx
-itkSupervisedImageClassifierTest.cxx
 itkSymmetricSecondRankTensorImageReadTest.cxx
 itkSymmetricSecondRankTensorImageWriteReadTest.cxx
 itkTDistributionTest.cxx
@@ -230,22 +173,10 @@ itkTimeProbesTest.cxx
 itkTopHatImageFilterTest.cxx
 itkTriangleCellTest.cxx
 itkVectorGeometryTest.cxx
-itkVectorGradientMagnitudeImageFilterTest3.cxx
 itkVectorImageReadWriteTest.cxx
 itkVectorImageTest.cxx
 itkVNLRoundProfileTest1.cxx
-itkVoronoiPartitioningImageFilterTest.cxx
-itkVTKImageIO2Test2.cxx
-itkVTKImageIOTest2.cxx
-itkWarpImageFilterTest.cxx
-itkWarpVectorImageFilterTest.cxx
-itkWatershedImageFilterTest.cxx
-itkWrapPadImageTest.cxx
 itkZeroFluxBoundaryConditionTest.cxx
-NNetClassifierTest1.cxx
-NNetClassifierTest2.cxx
-NNetClassifierTest3.cxx
-NNetClassifierTest4.cxx
 QPropXORTest1.cxx
 RBFTest1.cxx
 XORTest1.cxx
@@ -290,52 +221,11 @@ add_test(NAME itkCellInterfaceTest
       COMMAND ITK-IntegratedTestTestDriver itkCellInterfaceTest)
 add_test(NAME itkBasicFiltersPrintTest
       COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrintTest)
-add_test(NAME itkAccumulateImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png
-    itkAccumulateImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png)
-add_test(NAME itkAdaptiveHistogramEqualizationImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest.png
-    itkAdaptiveHistogramEqualizationImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest.png 10 0.5 0.5)
-add_test(NAME itkAdaptiveHistogramEqualizationImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest2.png
-              ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png
-    itkAdaptiveHistogramEqualizationImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png 10 1.0 0.25)
 add_test(NAME itkAdaptorComparisonTest
       COMMAND ITK-IntegratedTestTestDriver itkAdaptorComparisonTest)
 add_test(NAME itkBasicArchitectureTest
       COMMAND ITK-IntegratedTestTestDriver itkBasicArchitectureTest)
-add_test(NAME itkBayesianClassifierImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkBayesianClassifierImageFilterTestLabelMap.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png
-    itkBayesianClassifierImageFilterTest ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png 4 2)
-add_test(NAME itkBinaryProjectionImageFilterTest1
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryProjection100.tif
-              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection100.tif
-    itkBinaryProjectionImageFilterTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection100.tif 100 0)
-add_test(NAME itkBinaryProjectionImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryProjection200.tif
-              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection200.tif
-    itkBinaryProjectionImageFilterTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection200.tif 200 0)
-add_test(NAME itkBinaryThresholdImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png
-              ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png
-    itkBinaryThresholdImageFilterTest2 ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png)
-add_test(NAME itkBinaryThresholdProjectionImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryThresholdProjection.png
-              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryThresholdProjection.png
-    itkBinaryThresholdProjectionImageFilterTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryThresholdProjection.png 100 255 0)
-add_test(NAME itkBinaryThresholdSpatialFunctionTest
-      COMMAND ITK-IntegratedTestTestDriver itkBinaryThresholdSpatialFunctionTest)
+
 add_test(NAME itkBloxCoreAtomTest
       COMMAND ITK-IntegratedTestTestDriver itkBloxCoreAtomTest)
 add_test(NAME itkBoundaryConditionTest
@@ -374,18 +264,6 @@ add_test(NAME itkDenseFrequencyContainer2Test
 add_test(NAME itkDicomImageIODirection2DTest
       COMMAND ITK-IntegratedTestTestDriver itkDicomImageIODirection2DTest
               ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.dcm ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.mhd ${ITK_TEST_OUTPUT_DIR}/itkDicomImage2DIODirection2DTest.mhd)
-add_test(NAME itkDifferenceOfGaussiansGradientTest
-      COMMAND ITK-IntegratedTestTestDriver itkDifferenceOfGaussiansGradientTest)
-add_test(NAME itkDistanceMetricTest
-      COMMAND ITK-IntegratedTestTestDriver itkDistanceMetricTest)
-add_test(NAME itkDistanceMetricTest2
-      COMMAND ITK-IntegratedTestTestDriver itkDistanceMetricTest2)
-add_test(NAME itkDistanceToCentroidMembershipFunctionTest
-      COMMAND ITK-IntegratedTestTestDriver itkDistanceToCentroidMembershipFunctionTest)
-add_test(NAME itkEuclideanDistanceMetricTest
-      COMMAND ITK-IntegratedTestTestDriver itkEuclideanDistanceMetricTest)
-add_test(NAME itkEuclideanSquareDistanceMetricTest
-      COMMAND ITK-IntegratedTestTestDriver itkEuclideanSquareDistanceMetricTest)
 add_test(NAME itkExpectationMaximizationMixtureModelEstimatorTest
       COMMAND ITK-IntegratedTestTestDriver itkExpectationMaximizationMixtureModelEstimatorTest
               ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
@@ -395,11 +273,6 @@ add_test(NAME itkExtractImage3Dto2DTest
       COMMAND ITK-IntegratedTestTestDriver itkExtractImage3Dto2DTest)
 add_test(NAME itkExtractImageTest
       COMMAND ITK-IntegratedTestTestDriver itkExtractImageTest)
-add_test(NAME itkExtractOrthogonalSwath2DImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ExtractOrthogonalSwath2DImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
-    itkExtractOrthogonalSwath2DImageFilterTest ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png)
 add_test(NAME itkFilterDispatchTest
       COMMAND ITK-IntegratedTestTestDriver itkFilterDispatchTest)
 add_test(NAME itkFloodFilledSpatialFunctionTest
@@ -413,37 +286,8 @@ add_test(NAME itkGaussianMembershipFunctionTest
 add_test(NAME itkGaussianMixtureModelComponentTest
       COMMAND ITK-IntegratedTestTestDriver itkGaussianMixtureModelComponentTest
               ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
-add_test(NAME itkGetAverageSliceImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png
-    itkGetAverageSliceImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png)
 add_test(NAME itkGibbsTest
       COMMAND ITK-IntegratedTestTestDriver itkGibbsTest)
-add_test(NAME itkGiplImageIOTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
-              ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
-    itkGiplImageIOTest ${ITK_DATA_ROOT}/Input/ramp.gipl ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
-add_test(NAME itkGiplImageIOGzTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
-              ${ITK_TEST_OUTPUT_DIR}/ramp-gz.mhd
-    itkGiplImageIOTest ${ITK_DATA_ROOT}/Input/ramp.gipl.gz ${ITK_TEST_OUTPUT_DIR}/ramp-gz.mhd)
-add_test(NAME itkGiplImageIOTest2
-      COMMAND ITK-IntegratedTestTestDriver itkGiplImageIOTest
-              ${ITK_DATA_ROOT}/Input/ramp.gipl ${ITK_TEST_OUTPUT_DIR}/ramp.gipl)
-add_test(NAME itkGradientAnisotropicDiffusionImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GradientAnisotropicDiffusionImageFilterTest2.png
-              ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
-    itkGradientAnisotropicDiffusionImageFilterTest2 ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png)
-add_test(NAME itkGradientMagnitudeRecursiveGaussianFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkGradientMagnitudeRecursiveGaussianFilterTest)
-add_test(NAME itkGradientRecursiveGaussianFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkGradientRecursiveGaussianFilterTest)
-add_test(NAME itkGradientRecursiveGaussianFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver itkGradientRecursiveGaussianFilterTest2)
 add_test(NAME itkGrayscaleGeodesicErodeDilateImageFilterTest
       COMMAND ITK-IntegratedTestTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png
@@ -476,11 +320,6 @@ add_test(NAME itkHoughTransform2DLinesImageTest
       COMMAND ITK-IntegratedTestTestDriver itkHoughTransform2DLinesImageTest)
 add_test(NAME itkImageAdaptorPipeLineTest
       COMMAND ITK-IntegratedTestTestDriver itkImageAdaptorPipeLineTest)
-add_test(NAME itkImageClassifierFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png
-              ${ITK_TEST_OUTPUT_DIR}/ImageClassifierFilterTestClassifiedImage.png
-    itkImageClassifierFilterTest ${ITK_TEST_OUTPUT_DIR}/ImageClassifierFilterTestClassifiedImage.png)
 add_test(NAME itkImageDuplicatorTest
       COMMAND ITK-IntegratedTestTestDriver itkImageDuplicatorTest)
 
@@ -499,15 +338,6 @@ add_test(NAME itkImageRandomNonRepeatingIteratorWithIndexTest
       COMMAND ITK-IntegratedTestTestDriver itkImageRandomNonRepeatingIteratorWithIndexTest)
 add_test(NAME itkImageRandomNonRepeatingIteratorWithIndexTest2
       COMMAND ITK-IntegratedTestTestDriver itkImageRandomNonRepeatingIteratorWithIndexTest2)
-add_test(NAME itkImageSeriesReaderDimensionsTest1
-      COMMAND ITK-IntegratedTestTestDriver itkImageSeriesReaderDimensionsTest
-              ${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm ${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm ${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm)
-add_test(NAME itkImageSeriesReaderDimensionsTest2
-      COMMAND ITK-IntegratedTestTestDriver itkImageSeriesReaderDimensionsTest
-              ${ITK_DATA_ROOT}/Input/cthead1.tif ${ITK_DATA_ROOT}/Input/cthead1.tif ${ITK_DATA_ROOT}/Input/cthead1.tif)
-add_test(NAME itkImageSeriesWriterTest
-      COMMAND ITK-IntegratedTestTestDriver itkImageSeriesWriterTest
-              ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR} png)
 add_test(NAME itkImageSliceIteratorTest
       COMMAND ITK-IntegratedTestTestDriver itkImageSliceIteratorTest)
 add_test(NAME itkImageToHistogramFilterTest
@@ -551,13 +381,6 @@ if(ITK_BUILD_SHARED_LIBS)
 endif(ITK_BUILD_SHARED_LIBS)
 
 
-add_test(NAME itkIsoContourDistanceImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkIsoContourDistanceImageFilterTest)
-add_test(NAME itkIsolatedWatershedImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/IsolatedWatershedImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/IsolatedWatershedImageFilterTest.png
-    itkIsolatedWatershedImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/IsolatedWatershedImageFilterTest.png 113 84 120 99)
 add_test(NAME itkIteratorTests
       COMMAND ITK-IntegratedTestTestDriver itkIteratorTests)
 add_test(NAME itkJoinSeriesImageFilterStreamingTest
@@ -628,11 +451,6 @@ add_test(NAME itkKdTreeTestSamplePoints
       COMMAND ITK-IntegratedTestTestDriver itkKdTreeTestSamplePoints)
 add_test(NAME itkKmeansModelEstimatorTest
       COMMAND ITK-IntegratedTestTestDriver itkKmeansModelEstimatorTest)
-add_test(NAME itkLaplacianRecursiveGaussianImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/LaplacianRecursiveGaussianImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
-    itkLaplacianRecursiveGaussianImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)
 add_test(NAME itkListSampleTest1
       COMMAND ITK-IntegratedTestTestDriver itkListSampleTest
               1)
@@ -645,15 +463,6 @@ add_test(NAME itkListSampleTest3
 add_test(NAME itkListSampleTest4
       COMMAND ITK-IntegratedTestTestDriver itkListSampleTest
               100)
-add_test(NAME itkMahalanobisDistanceMetricTest
-      COMMAND ITK-IntegratedTestTestDriver itkMahalanobisDistanceMetricTest)
-add_test(NAME itkManhattanDistanceMetricTest
-      COMMAND ITK-IntegratedTestTestDriver itkManhattanDistanceMetricTest)
-add_test(NAME itkMaskNeighborhoodOperatorImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskNeighborhoodOperatorImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
-    itkMaskNeighborhoodOperatorImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png)
 add_test(NAME itkMathCastWithRangeCheckTest
       COMMAND ITK-IntegratedTestTestDriver itkMathCastWithRangeCheckTest)
 add_test(NAME itkMathematicalMorphologyImageFilterTest
@@ -667,10 +476,6 @@ add_test(NAME itkMathRoundTest2
 add_test(NAME itkMatrixImageWriteReadTest
       COMMAND ITK-IntegratedTestTestDriver itkMatrixImageWriteReadTest
               ${ITK_TEST_OUTPUT_DIR}/testMatrix1.mha)
-add_test(NAME itkMaximumDecisionRuleTest
-      COMMAND ITK-IntegratedTestTestDriver itkMaximumDecisionRuleTest)
-add_test(NAME itkMaximumRatioDecisionRuleTest
-      COMMAND ITK-IntegratedTestTestDriver itkMaximumRatioDecisionRuleTest)
 add_test(NAME itkMeanReciprocalSquareDifferenceImageMetricTest
       COMMAND ITK-IntegratedTestTestDriver itkMeanReciprocalSquareDifferenceImageMetricTest)
 add_test(NAME itkMeanSampleFilterTest
@@ -697,21 +502,12 @@ add_test(NAME itkMembershipSampleTest3
       COMMAND ITK-IntegratedTestTestDriver itkMembershipSampleTest3)
 add_test(NAME itkMembershipSampleTest4
       COMMAND ITK-IntegratedTestTestDriver itkMembershipSampleTest4)
-add_test(NAME itkMinimumDecisionRuleTest
-      COMMAND ITK-IntegratedTestTestDriver itkMinimumDecisionRuleTest)
 add_test(NAME itkMirrorPadImageTest
       COMMAND ITK-IntegratedTestTestDriver itkMirrorPadImageTest)
 add_test(NAME itkMixtureModelComponentBaseTest
       COMMAND ITK-IntegratedTestTestDriver itkMixtureModelComponentBaseTest)
 add_test(NAME itkModifiedTimeTest
       COMMAND ITK-IntegratedTestTestDriver itkModifiedTimeTest)
-add_test(NAME itkModulusImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
-    itkModulusImageFilterTest ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png)
-add_test(NAME itkMRIBiasFieldCorrectionFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkMRIBiasFieldCorrectionFilterTest)
 add_test(NAME itkMutualInformationMetricTest
       COMMAND ITK-IntegratedTestTestDriver itkMutualInformationMetricTest)
 add_test(NAME itkNeighborhoodSamplerTest1
@@ -720,18 +516,6 @@ add_test(NAME itkNeuralNetworksPrintTest
       COMMAND ITK-IntegratedTestTestDriver itkNeuralNetworksPrintTest)
 add_test(NAME itkNewTest
       COMMAND ITK-IntegratedTestTestDriver itkNewTest)
-add_test(NAME itkNoiseImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png
-    itkNoiseImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)
-add_test(NAME itkNormalizedCorrelationImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NormalizedCorrelationImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png
-    itkNormalizedCorrelationImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png)
-add_test(NAME itkNormalizedCorrelationImageMetricTest
-      COMMAND ITK-IntegratedTestTestDriver itkNormalizedCorrelationImageMetricTest)
 add_test(NAME itkNormalVariateGeneratorTest1
       COMMAND ITK-IntegratedTestTestDriver itkNormalVariateGeneratorTest1)
 add_test(NAME itkNumericsPrintTest
@@ -740,26 +524,6 @@ add_test(NAME itkNumericsTest
       COMMAND ITK-IntegratedTestTestDriver itkNumericsTest)
 add_test(NAME itkOptimizersHierarchyTest
       COMMAND ITK-IntegratedTestTestDriver itkOptimizersHierarchyTest)
-add_test(NAME itkOrientedImage2DTest01
-      COMMAND ITK-IntegratedTestTestDriver itkOrientedImage2DTest
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20DirectionPlus30.mhd 0.000 0.000 191.392 110.500 -128.500 222.569 4.000 -8.000 7.4641 -4.9282)
-add_test(NAME itkOrientedImage3DTest01
-      COMMAND ITK-IntegratedTestTestDriver itkOrientedImage3DTest
-              ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd 0.000 0.000 0.000 166.277 -96.000 0.000 124.000 214.774 0.000 0.000 0.000 168.000 0.125 -4.125 9.000 -1.95425 -3.63485 9.000)
-add_test(NAME itkOrientedImageAdaptorTest
-      COMMAND ITK-IntegratedTestTestDriver itkOrientedImageAdaptorTest)
-add_test(NAME itkOrientedImageProfileTest1
-      COMMAND ITK-IntegratedTestTestDriver itkOrientedImageProfileTest1)
-add_test(NAME itkOrientedImageProfileTest2
-      COMMAND ITK-IntegratedTestTestDriver itkOrientedImageProfileTest2)
-add_test(NAME itkOrientedImageProfileTest3
-      COMMAND ITK-IntegratedTestTestDriver itkOrientedImageProfileTest3)
-add_test(NAME itkOrientImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkOrientImageFilterTest)
-add_test(NAME itkOrientImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver itkOrientImageFilterTest2)
-add_test(NAME itkOrthogonalSwath2DPathFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkOrthogonalSwath2DPathFilterTest)
 add_test(NAME itkPixelAccessTest
       COMMAND ITK-IntegratedTestTestDriver itkPixelAccessTest)
 add_test(NAME itkPointGeometryTest
@@ -770,11 +534,6 @@ add_test(NAME itkPointSetToListSampleAdaptorTest
       COMMAND ITK-IntegratedTestTestDriver itkPointSetToListSampleAdaptorTest)
 add_test(NAME itkPointSetToPointSetRegistrationTest
       COMMAND ITK-IntegratedTestTestDriver itkPointSetToPointSetRegistrationTest)
-add_test(NAME itkPolylineMask2DImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkPolylineMask2DImageFilterTest
-              ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
-add_test(NAME itkPolylineMaskImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkPolylineMaskImageFilterTest)
 add_test(NAME itkPriorityQueueTest
       COMMAND ITK-IntegratedTestTestDriver itkPriorityQueueTest)
 add_test(NAME itkProbabilityDistributionTest
@@ -838,21 +597,7 @@ add_test(NAME itkResamplePhasedArray3DSpecialCoordinatesImageTest
       COMMAND ITK-IntegratedTestTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 add_test(NAME itkRGBInterpolateImageFunctionTest
       COMMAND ITK-IntegratedTestTestDriver itkRGBInterpolateImageFunctionTest)
-add_test(NAME itkSampleClassifierFilterTest1
-      COMMAND ITK-IntegratedTestTestDriver itkSampleClassifierFilterTest1)
-add_test(NAME itkSampleClassifierFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver itkSampleClassifierFilterTest2)
-add_test(NAME itkSampleClassifierFilterTest3
-      COMMAND ITK-IntegratedTestTestDriver itkSampleClassifierFilterTest3)
-add_test(NAME itkSampleClassifierFilterTest4
-      COMMAND ITK-IntegratedTestTestDriver itkSampleClassifierFilterTest4)
-add_test(NAME itkSampleClassifierFilterTest5
-      COMMAND ITK-IntegratedTestTestDriver itkSampleClassifierFilterTest5)
-add_test(NAME itkSampleClassifierFilterTest6
-      COMMAND ITK-IntegratedTestTestDriver itkSampleClassifierFilterTest6)
-add_test(NAME itkSampleClassifierFilterTest7
-      COMMAND ITK-IntegratedTestTestDriver itkSampleClassifierFilterTest7
-              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussianTesting.dat)
+
 add_test(NAME itkSampleTest
       COMMAND ITK-IntegratedTestTestDriver itkSampleTest)
 add_test(NAME itkSampleTest2
@@ -935,8 +680,7 @@ add_test(NAME itkSubsampleTest2
       COMMAND ITK-IntegratedTestTestDriver itkSubsampleTest2)
 add_test(NAME itkSubsampleTest3
       COMMAND ITK-IntegratedTestTestDriver itkSubsampleTest3)
-add_test(NAME itkSupervisedImageClassifierTest
-      COMMAND ITK-IntegratedTestTestDriver itkSupervisedImageClassifierTest)
+
 add_test(NAME itkSymmetricSecondRankTensorImageReadTest
       COMMAND ITK-IntegratedTestTestDriver itkSymmetricSecondRankTensorImageReadTest
               ${ITK_TEST_OUTPUT_DIR}/testSymmetricTensor.nrrd)
@@ -967,9 +711,6 @@ add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
 add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)
 add_test(NAME itkVectorGeometryTest
       COMMAND ITK-IntegratedTestTestDriver itkVectorGeometryTest)
-add_test(NAME itkVectorGradientMagnitudeImageFilterTest3
-      COMMAND ITK-IntegratedTestTestDriver itkVectorGradientMagnitudeImageFilterTest3
-              ${ITK_DATA_ROOT}/Input/VHFColor.mhd ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha 1)
 add_test(NAME itkVectorImageReadWriteTest
       COMMAND ITK-IntegratedTestTestDriver itkVectorImageReadWriteTest
               ${ITK_TEST_OUTPUT_DIR}/VectorImageReadWriteTest.mhd)
@@ -981,44 +722,8 @@ add_test(NAME itkVectorImageTest
               ${ITK_TEST_OUTPUT_DIR}/VectorImage.nrrd ${ITK_TEST_OUTPUT_DIR}/VectorImage.mhd)
 add_test(NAME itkVNLRoundProfileTest1
       COMMAND ITK-IntegratedTestTestDriver itkVNLRoundProfileTest1)
-add_test(NAME itkVoronoiPartitioningImageFilterTest1
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
-    itkVoronoiPartitioningImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png 1)
-add_test(NAME itkVoronoiPartitioningImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest2.png
-              ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
-    itkVoronoiPartitioningImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png 0)
-add_test(NAME itkVTKImageIO2Test2
-      COMMAND ITK-IntegratedTestTestDriver itkVTKImageIO2Test2
-              ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIO2Test2.vtk)
-add_test(NAME itkVTKImageIOTest2
-      COMMAND ITK-IntegratedTestTestDriver itkVTKImageIOTest2
-              ${ITK_DATA_ROOT}/Input/VHFColor.mhd ${ITK_TEST_OUTPUT_DIR}/testVector.vtk)
-add_test(NAME itkWarpImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkWarpImageFilterTest)
-add_test(NAME itkWarpVectorImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkWarpVectorImageFilterTest)
-add_test(NAME itkWatershedImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkWatershedImageFilterTest)
-add_test(NAME itkWrapPadImageTest
-      COMMAND ITK-IntegratedTestTestDriver itkWrapPadImageTest)
 add_test(NAME itkZeroFluxBoundaryConditionTest
       COMMAND ITK-IntegratedTestTestDriver itkZeroFluxBoundaryConditionTest)
-add_test(NAME NNetClassifierTest1
-      COMMAND ITK-IntegratedTestTestDriver NNetClassifierTest1
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
-add_test(NAME NNetClassifierTest2
-      COMMAND ITK-IntegratedTestTestDriver NNetClassifierTest2
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
-add_test(NAME NNetClassifierTest3
-      COMMAND ITK-IntegratedTestTestDriver NNetClassifierTest3
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
-add_test(NAME NNetClassifierTest4
-      COMMAND ITK-IntegratedTestTestDriver NNetClassifierTest4
-              ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
 add_test(NAME QPropXORTest1
       COMMAND ITK-IntegratedTestTestDriver QPropXORTest1
               ${ITK_DATA_ROOT}/Input/NeuralNetworks/qpropxortest.txt)
@@ -1034,15 +739,3 @@ add_test(NAME XORTest2
 add_test(NAME itkRecursiveGaussianScaleSpaceTest1
       COMMAND ITK-IntegratedTestTestDriver
               itkRecursiveGaussianScaleSpaceTest1)
-add_test(NAME itkDoubleThresholdImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver
-  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest.png
-            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png itkDoubleThresholdImageFilterTest
-            ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
-            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png 217 246 255 255)
-add_test(NAME itkDoubleThresholdImageFilterTest2
-      COMMAND ITK-IntegratedTestTestDriver
-  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest2.png
-            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png itkDoubleThresholdImageFilterTest
-            ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
-            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png 150 164 164 180)

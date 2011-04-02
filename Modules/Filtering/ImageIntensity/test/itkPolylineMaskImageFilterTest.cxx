@@ -212,7 +212,3 @@ int itkPolylineMaskImageFilterTest(int , char * [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

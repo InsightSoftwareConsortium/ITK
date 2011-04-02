@@ -22,6 +22,9 @@ itkImageIOBaseTest.cxx
 itkImageIODirection2DTest.cxx
 itkImageIODirection3DTest.cxx
 itkImageIOFileNameExtensionsTests.cxx
+itkImageSeriesReaderDimensionsTest.cxx
+itkImageSeriesWriterTest.cxx
+itkNoiseImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-IO-Base  "${ITK-IO-Base-Test_LIBRARIES}" "${ITK-IO-BaseTests}")
@@ -215,3 +218,17 @@ add_test(NAME itkImageIODirection3DTest09
               ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd 0.0 -1.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr)
 add_test(NAME itkImageIOFileNameExtensionsTests
       COMMAND ITK-IO-BaseTestDriver itkImageIOFileNameExtensionsTests)
+add_test(NAME itkImageSeriesReaderDimensionsTest1
+      COMMAND ITK-IO-BaseTestDriver itkImageSeriesReaderDimensionsTest
+              ${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm ${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm ${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm)
+add_test(NAME itkImageSeriesReaderDimensionsTest2
+      COMMAND ITK-IO-BaseTestDriver itkImageSeriesReaderDimensionsTest
+              ${ITK_DATA_ROOT}/Input/cthead1.tif ${ITK_DATA_ROOT}/Input/cthead1.tif ${ITK_DATA_ROOT}/Input/cthead1.tif)
+add_test(NAME itkImageSeriesWriterTest
+      COMMAND ITK-IO-BaseTestDriver itkImageSeriesWriterTest
+              ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR} png)
+add_test(NAME itkNoiseImageFilterTest
+      COMMAND ITK-IO-BaseTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png
+    itkNoiseImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)

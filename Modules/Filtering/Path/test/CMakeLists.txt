@@ -11,6 +11,8 @@ itkFourierSeriesPathTest.cxx
 itkPathFunctionsTest.cxx
 itkPolyLineParametricPathTest.cxx
 itkChainCodeToFourierSeriesPathFilterTest.cxx
+itkExtractOrthogonalSwath2DImageFilterTest.cxx
+itkOrthogonalSwath2DPathFilterTest.cxx
 )
 
 CreateTestDriver(ITK-Path  "${ITK-Path-Test_LIBRARIES}" "${ITK-PathTests}")
@@ -37,3 +39,10 @@ add_test(NAME itkPolyLineParametricPathTest
       COMMAND ITK-PathTestDriver itkPolyLineParametricPathTest)
 add_test(NAME itkChainCodeToFourierSeriesPathFilterTest
       COMMAND ITK-PathTestDriver itkChainCodeToFourierSeriesPathFilterTest)
+add_test(NAME itkExtractOrthogonalSwath2DImageFilterTest
+      COMMAND ITK-PathTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ExtractOrthogonalSwath2DImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
+    itkExtractOrthogonalSwath2DImageFilterTest ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png)
+add_test(NAME itkOrthogonalSwath2DPathFilterTest
+      COMMAND ITK-PathTestDriver itkOrthogonalSwath2DPathFilterTest)

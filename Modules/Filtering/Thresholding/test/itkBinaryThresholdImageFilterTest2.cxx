@@ -95,7 +95,3 @@ int itkBinaryThresholdImageFilterTest2(int ac, char* av[] )
 
   return EXIT_SUCCESS;
 }
-
-
-
-
