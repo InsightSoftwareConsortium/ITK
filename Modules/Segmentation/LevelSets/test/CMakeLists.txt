@@ -5,10 +5,6 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
 itkReinitializeLevelSetImageFilterTest.cxx
 itkLevelSetVelocityNeighborhoodExtractorTest.cxx
-itkFastMarchingExtensionImageFilterTest.cxx
-itkFastMarchingTest.cxx
-itkFastMarchingTest2.cxx
-itkFastMarchingUpwindGradientTest.cxx
 itkIsotropicFourthOrderLevelSetImageFilterTest.cxx
 itkGeodesicActiveContourLevelSetImageFilterTest.cxx
 itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx
@@ -51,14 +47,6 @@ add_test(NAME itkReinitializeLevelSetImageFilterTest
       COMMAND ITK-LevelSetsTestDriver itkReinitializeLevelSetImageFilterTest)
 add_test(NAME itkLevelSetVelocityNeighborhoodExtractorTest
       COMMAND ITK-LevelSetsTestDriver itkLevelSetVelocityNeighborhoodExtractorTest)
-add_test(NAME itkFastMarchingExtensionImageFilterTest
-      COMMAND ITK-LevelSetsTestDriver itkFastMarchingExtensionImageFilterTest)
-add_test(NAME itkFastMarchingTest
-      COMMAND ITK-LevelSetsTestDriver itkFastMarchingTest)
-add_test(NAME itkFastMarchingTest2
-      COMMAND ITK-LevelSetsTestDriver itkFastMarchingTest2)
-add_test(NAME itkFastMarchingUpwindGradientTest
-      COMMAND ITK-LevelSetsTestDriver itkFastMarchingUpwindGradientTest)
 add_test(NAME itkIsotropicFourthOrderLevelSetImageFilterTest
       COMMAND ITK-LevelSetsTestDriver itkIsotropicFourthOrderLevelSetImageFilterTest)
 add_test(NAME itkGeodesicActiveContourLevelSetImageFilterTest

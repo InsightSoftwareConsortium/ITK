@@ -51,6 +51,7 @@ ITK-DeformationField
 ITK-DiffusionTensorImage
 ITK-DistanceMap
 ITK-FFT
+ITK-FastMarching
 ITK-ImageCompare
 ITK-ImageCompose
 ITK-ImageFeature
