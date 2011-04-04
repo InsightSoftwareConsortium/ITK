@@ -664,6 +664,26 @@ int itkCompositeTransformTest(int ,char *[] )
     return EXIT_FAILURE;
     }
 
+  /* Test that the CreateAnother routine throws an exception.
+   * See comments in .h */
+  bool caughtException = false;
+  try
+    {
+    itk::LightObject::Pointer anotherTransform =
+      compositeTransform->CreateAnother();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    caughtException = true;
+    }
+  if( !caughtException )
+    {
+    std::cout << "Expected CreateAnother to throw exception." << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "CreateAnother test passed." << std::endl;
+
+  /* Test printing */
   compositeTransform->Print(std::cout);
   return EXIT_SUCCESS;
 
