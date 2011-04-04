@@ -61,7 +61,6 @@ ITK-ImageIntensity
 ITK-ImageLabel
 ITK-ImageStatistics
 ITK-LabelVoting
-ITK-LevelSets
 ITK-MathematicalMorphology
 ITK-Path
 ITK-QuadEdgeMeshFiltering
