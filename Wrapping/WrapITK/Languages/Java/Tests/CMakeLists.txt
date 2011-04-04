@@ -64,13 +64,30 @@ macro(build_java_test_bin name cp_var)
 endmacro(build_java_test_bin)
 
 macro(add_java_test name classpath)
+  set(command "${Java_JAVA_EXECUTABLE}")
+
+  # add extra command which may be needed on some systems
+  if(CMAKE_OSX_ARCHITECTURES)
+    list(GET CMAKE_OSX_ARCHITECTURES 0 test_arch)
+    set(command arch -${test_arch} ${command})
+    if(${test_arch} STREQUAL "i386" OR ${test_arch} STREQUAL "ppc")
+      set(command ${command} -d32)
+    else()
+      if(${test_arch} STREQUAL "x86_64" OR ${test_arch} STREQUAL "ppc64")
+        set(command ${command} -d64)
+      else()
+        message("Warning: unknown architecture ${test_arch}")
+      endif()
+    endif()
+  endif()
+
   if(LAST_TEST_DEPS_OK)
     add_test(NAME ${name}
       COMMAND "${ITK_TEST_DRIVER}"
       --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
       --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
       --add-before-libpath "${ITK_DIR}"
-      "${Java_JAVA_EXECUTABLE}"
+      ${command}
       "-Djava.library.path=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>${sep}${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
       -cp "${classpath}"
       ${ARGN}
