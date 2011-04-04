@@ -50,9 +50,6 @@ public:
     */
   static ImageIOBasePointer CreateImageIO(const char *path, FileModeType mode);
 
-  /** Register Built-in factories */
-  static void RegisterBuiltInFactories();
-
 protected:
   ImageIOFactory();
   ~ImageIOFactory();

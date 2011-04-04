@@ -25,6 +25,7 @@ namespace itk {
 
 /**
  *  Implementation of the Command Pattern to be invoked every iteration
+ * \class CommandIterationUpdate
  */
 template < class TOptimizer >
 class ITK_EXPORT CommandIterationUpdate : public Command
@@ -116,8 +117,6 @@ public:
     m_Optimizer->AddObserver( itk::IterationEvent(), this );
     }
 
-
-
 protected:
 
   /**
@@ -131,14 +130,8 @@ private:
    *  WeakPointer to the Optimizer
    */
   WeakPointer<OptimizerType>   m_Optimizer;
-
-
-
 };
-
 
 } // end namespace itk
 
-
 #endif
-

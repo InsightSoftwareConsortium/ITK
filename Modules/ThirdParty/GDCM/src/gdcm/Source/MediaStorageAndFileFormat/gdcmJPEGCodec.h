@@ -65,7 +65,7 @@ public:
   bool GetLossless() const;
 
 protected:
-  bool Decode(std::istream &is, std::ostream &os);
+  bool DecodeByStreams(std::istream &is, std::ostream &os);
   bool IsValid(PhotometricInterpretation const &pi);
 
 protected:

@@ -2395,7 +2395,7 @@ bool j2k_write_com(
   assert(p_manager != 00);
 
   l_comment = p_j2k->m_cp.comment;
-  l_comment_size = strlen(l_comment);
+  l_comment_size = (OPJ_UINT32)( strlen(l_comment) );
   l_total_com_size = l_comment_size + 6;
 
   if
@@ -7669,13 +7669,13 @@ bool j2k_copy_default_tcp_and_create_tcd
       if
         (l_src_mcc_rec->m_decorrelation_array)
       {
-        l_offset = l_src_mcc_rec->m_decorrelation_array - l_default_tcp->m_mct_records;
+        l_offset = (OPJ_UINT32)( l_src_mcc_rec->m_decorrelation_array - l_default_tcp->m_mct_records );
         l_dest_mcc_rec->m_decorrelation_array = l_tcp->m_mct_records + l_offset;
       }
       if
         (l_src_mcc_rec->m_offset_array)
       {
-        l_offset = l_src_mcc_rec->m_offset_array - l_default_tcp->m_mct_records;
+        l_offset = (OPJ_UINT32)( l_src_mcc_rec->m_offset_array - l_default_tcp->m_mct_records );
         l_dest_mcc_rec->m_offset_array = l_tcp->m_mct_records + l_offset;
       }
       ++l_src_mcc_rec;

@@ -25,7 +25,7 @@
 #include "NrrdIO.h"
 
 void
-_airLenSet(airArray *a, unsigned int len) {
+_airLenSet(airArray *a, size_t len) {
   
   a->len = len;
   /* printf("    HEY: len = %d\n", a->len); */
@@ -64,7 +64,7 @@ _airSetData(airArray *a, void *data) {
 ** correct value will over-write any other.
 */
 airArray *
-airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
+airArrayNew(void **dataP, size_t *lenP, size_t unit, size_t incr) {
   airArray *a;
 
   if (unit<=0 || incr<=0) {
@@ -139,9 +139,9 @@ airArrayPointerCB(airArray *a,
 ** an error.
 */
 void
-airArrayLenPreSet(airArray *a, unsigned int newlen) {
+airArrayLenPreSet(airArray *a, size_t newlen) {
   /* char me[]="airArrayLenPreSet"; */
-  unsigned int newsize;
+  size_t newsize;
   void *newdata;
 
   if (!a) {
@@ -203,9 +203,10 @@ airArrayLenPreSet(airArray *a, unsigned int newlen) {
 ** such an error.
 */
 void
-airArrayLenSet(airArray *a, unsigned int newlen) {
+airArrayLenSet(airArray *a, size_t newlen) {
   /* char me[]="airArrayLenSet"; */
-  unsigned int ii, newsize;
+  size_t ii;
+  size_t newsize;
   void *addr, *newdata;
   
   if (!a) {
@@ -292,10 +293,10 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
 ** looking at a->data) when there was NO data previously allocated, and the
 ** first index of the newly allocated data is zero...
 */
-unsigned int
+size_t
 airArrayLenIncr(airArray *a, int delta) {
   /* char me[]="airArrayLenIncr"; */
-  unsigned int oldlen, ret;
+  size_t oldlen, ret;
 
   if (!a) {
     return 0;

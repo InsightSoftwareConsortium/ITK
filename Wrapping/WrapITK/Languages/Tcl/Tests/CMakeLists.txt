@@ -7,7 +7,7 @@ macro(add_tcl_test name)
     --add-before-env-with-sep TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages/Tcl" " "
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
-    ${TCL_TCLSH}
+    --process "${TCL_TCLSH}"
     ${ARGN}
     )
 endmacro()

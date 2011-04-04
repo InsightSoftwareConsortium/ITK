@@ -28,28 +28,28 @@ namespace itk
  * \class FiniteDifferenceFunction
  *
  * This class is a component object of the finite difference solver hierarchy
- * (see itkFiniteDifferenceImageFilter).  It defines a generic interface for a
+ * (see FiniteDifferenceImageFilter).  It defines a generic interface for a
  * function object that computes a single scalar value from a neighborhood of
  * values.  Examples of the application of this class are the various flavors
- * of AnisotropicDiffusionFunctions and LevelSetFunction objects.
+ * of AnisotropicDiffusionFunction and LevelSetFunction objects.
  *
  * These functions calculate the incremental change at a pixel in the solution
- * image from one iteration of the p.d.e. solver to the next.
+ * image from one iteration of the Partial Differential Equation (PDE) solver to
+ * the next.
  *
  * \par
  * Subclasses of FiniteDifferenceImageFilter (solvers) call the
  * ComputeUpdate() method of this class to compute \f$ \Delta u^n_{\mathbf{i}}
- * \f$ at each \f$ i \f$.  in \f$ u \f$.  Because the size of the time step for
- * each iteration of the p.d.e. solution depends on the particular calculations
- * done, this function object is also responsible for computing that time step
- * (see ComputeGlobalTimeStep).
+ * \f$ at each \f$ \mathbf{i} \f$  in \f$ u \f$.  Because the size of the time
+ * step for each iteration of the p.d.e. solution depends on the particular
+ * calculations done, this function object is also responsible for computing
+ * that time step (see ComputeGlobalTimeStep() ).
  *
  * \par How to use this class
  * FiniteDifferenceFunction must be subclassed to add functionality for
  * ComputeUpdate, ComputeGlobalTimeStep, and Get/ReleaseGlobalDataPointer.
  *
  * \par A note on thread safety.
-template<class TImageType>
  * The ComputeUpdate() methods of this filter are declared as const to enforce
  * thread-safety during execution of FiniteDifferenceImageFilter solver
  * algorithms.  The InitializeIteration() method is intended to provide a safe
@@ -108,10 +108,10 @@ public:
    *  of the finite difference solver (image filter) that uses it.  This is
    *  a thread-safe time to manipulate the object's state.
    *
-   * An example of how this can be used: the Anisotropic diffusion class of
-   * FiniteDifferenceFunctions use this method to pre-calculate an average
-   * gradient magnitude across the entire image region.  This value is set in
-   * the function object and used by the ComputeUpdate methods that are called
+   * An example of how this can be used: the AnisotropicDiffusionFunction class
+   * of FiniteDifferenceFunction use this method to pre-calculate an average
+   * gradient magnitude across the entire image region. This value is set in
+   * the function object and used by the ComputeUpdate() methods that are called
    * at each pixel as a constant. */
   virtual void InitializeIteration() {}
 
@@ -137,24 +137,16 @@ public:
 
   /** Sets the radius of the neighborhood this FiniteDifferenceFunction
    * needs to perform its calculations. */
-  void SetRadius(const RadiusType & r)
-  { m_Radius = r; }
+  void SetRadius(const RadiusType & r);
 
   /** Returns the radius of the neighborhood this FiniteDifferenceFunction
    * needs to perform its calculations. */
-  const RadiusType & GetRadius() const
-  { return m_Radius; }
+  const RadiusType & GetRadius() const;
 
   /** Set the ScaleCoefficients for the difference
    * operators. The defaults a 1.0. These can be set to take the image
    * spacing into account. */
-  void SetScaleCoefficients(PixelRealType vals[ImageDimension])
-  {
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      m_ScaleCoefficients[i] = vals[i];
-      }
-  }
+  void SetScaleCoefficients(PixelRealType vals[ImageDimension]);
 
   /** Compute the scales that weight the neighborhood during difference operations
    * to properly account for spacing and neighborhood radius
@@ -186,17 +178,9 @@ public:
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const = 0;
 
 protected:
-  FiniteDifferenceFunction()
-  {
-    // initialize variables
-    m_Radius.Fill(0);
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      m_ScaleCoefficients[i] = 1.0;
-      }
-  }
-
+  FiniteDifferenceFunction();
   ~FiniteDifferenceFunction() {}
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   RadiusType m_Radius;

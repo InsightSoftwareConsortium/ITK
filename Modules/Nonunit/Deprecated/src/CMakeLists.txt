@@ -5,6 +5,7 @@ itkDICOMImageIO2.cxx
 itkDICOMImageIO2Factory.cxx
 itkDicomImageIOFactory.cxx
 itkDICOMSeriesFileNames.cxx
+itkSemaphore.cxx
 )
 
 add_library(ITK-Deprecated ${ITK-Deprecated_SRC})

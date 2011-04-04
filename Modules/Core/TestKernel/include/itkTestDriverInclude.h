@@ -35,6 +35,9 @@
 // that is called after a test has been run by the driver.
 // command line options prior to invoking the test.
 //
+
+#include "itksys/Process.h"
+
 #include "itkWin32Header.h"
 #include <map>
 #include <string>
@@ -79,7 +82,76 @@ RegressionTestParameters regressionTestParameters;
 
 typedef char ** ArgumentStringType;
 
-void ProcessArguments(int *ac, ArgumentStringType *av)
+
+// Types to hold parameters that should be processed later
+typedef std::vector< char * > ArgumentsList;
+
+struct ProcessedOutputType
+{
+  bool externalProcessMustBeCalled;
+
+  ArgumentsList args;
+  ArgumentsList add_before_libpath;
+  ArgumentsList add_before_env;
+  ArgumentsList add_before_env_with_sep;
+};
+
+
+void usage()
+{
+  std::cerr << "usage: itkTestDriver [options] prg [args]" << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "itkTestDriver alter the environment, run a test program and compare the images" << std::endl;
+  std::cerr << "produced." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "Options:" << std::endl;
+  std::cerr << "  --add-before-libpath PATH" << std::endl;
+  std::cerr << "      Add a path to the library path environment. This option take care of" << std::endl;
+  std::cerr << "      choosing the right environment variable for your system." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --add-before-env NAME VALUE" << std::endl;
+  std::cerr << "      Add a VALUE to the variable name in the environment." << std::endl;
+  std::cerr << "      The seperator used is the default one on the system." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --add-before-env-with-sep NAME VALUE SEP" << std::endl;
+  std::cerr << "      Add a VALUE to the variable name in the environment using the provided separator." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compare TEST BASELINE" << std::endl;
+  std::cerr << "      Compare the TEST image to the BASELINE one." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << "  --with-threads THREADS" << std::endl;
+  std::cerr << "      Use at most THREADS threads." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --without-threads" << std::endl;
+  std::cerr << "      Use at most one thread." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareNumberOfPixelsTolerance TOLERANCE" << std::endl;
+  std::cerr << "      When comparing images with --compare, allow TOLERANCE pixels to differ." << std::endl;
+  std::cerr << "      Default is 0." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareRadiusTolerance TOLERANCE" << std::endl;
+  std::cerr << "      Default is 0." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareIntensityTolerance TOLERANCE" << std::endl;
+  std::cerr << "      Default is 2.0." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --process EXECUTABLE_PROGRAM" << std::endl;
+  std::cerr << "      The test driver will invoke this program." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --" << std::endl;
+  std::cerr << "      The options after -- are not interpreted by this program and passed" << std::endl;
+  std::cerr << "      directly to the test program." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --help" << std::endl;
+  std::cerr << "      Display this message and exit." << std::endl;
+  std::cerr << std::endl;
+}
+
+
+int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = NULL )
 {
   itk::FloatingPointExceptions::Enable();
 
@@ -87,63 +159,164 @@ void ProcessArguments(int *ac, ArgumentStringType *av)
   regressionTestParameters.numberOfPixelsTolerance = 0;
   regressionTestParameters.radiusTolerance = 0;
 
-  if ( *ac < 2 )
+  if( processedOutput )
     {
-    // Return and let the main() function manage the error condition.
-    return;
+    processedOutput->externalProcessMustBeCalled = false;
     }
 
-  // Process arguments that begin with "--". Return when an argument
-  // is found that dones not start with "--". The remaing arguments
-  // will be processed in the main program of the test
-  // driver. Presumably these arguments are the name of the test
-  // executable and its arguments.
-  while ( *ac > 0 )
-    {
-    if ( strcmp((*av)[1], "--with-threads") == 0 )
+  // parse the command line
+  int  i = 1;
+  bool skip = false;
+  while ( i < *ac )
+  {
+     if ( !skip && strcmp((*av)[i], "--compare") == 0 )
       {
-      int numThreads = atoi((*av)[2]);
-      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(numThreads);
+      if ( i + 2 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      regressionTestParameters.compareList.push_back( ComparePairType((*av)[i + 1], (*av)[i + 2]) );
+      (*av) += 3;
+      *ac -= 3;
+      }
+    else if ( !skip && strcmp((*av)[i], "--") == 0 )
+      {
+      skip = true;
+      i += 1;
+      }
+    else if ( !skip && strcmp((*av)[i], "--help") == 0 )
+      {
+      usage();
+      return 1;
+      }
+    else if ( !skip && strcmp((*av)[i], "--with-threads") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      // set the environment which will be read by the subprocess
+      std::string threadEnv = "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=";
+      threadEnv += (*av)[i + 1];
+      itksys::SystemTools::PutEnv( threadEnv.c_str() );
+      // and set the number of threads locally for the comparison
+      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(atoi((*av)[i + 1]));
       *av += 2;
       *ac -= 2;
       }
-    else if ( strcmp((*av)[1], "--without-threads") == 0 )
+    else if ( !skip && strcmp((*av)[i], "--without-threads") == 0 )
       {
+      itksys::SystemTools::PutEnv( "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1" );
       itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
       *av += 1;
       *ac -= 1;
       }
-    else if ( *ac > 3 && strcmp((*av)[1], "--compare") == 0 )
+    else if ( !skip && strcmp((*av)[i], "--compareNumberOfPixelsTolerance") == 0 )
       {
-      regressionTestParameters.compareList.push_back(
-        ComparePairType((*av)[2], (*av)[3]) );
-      *av += 3;
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      regressionTestParameters.numberOfPixelsTolerance = atoi((*av)[i + 1]);
+      *av += 2;
+      *ac -= 2;
+      }
+    else if ( !skip && strcmp((*av)[i], "--compareRadiusTolerance") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+     regressionTestParameters.radiusTolerance = atoi((*av)[i + 1]);
+      (*av) += 2;
+      *ac -= 2;
+      }
+    else if ( !skip && strcmp((*av)[i], "--compareIntensityTolerance") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      regressionTestParameters.intensityTolerance = atof((*av)[i + 1]);
+      (*av) += 2;
+      *ac -= 2;
+      }
+    else if ( !skip && strcmp((*av)[i], "--add-before-libpath") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      if( processedOutput )
+        {
+        processedOutput->add_before_libpath.push_back( (*av)[i+1] );
+        }
+      (*av) += 2;
+      *ac -= 2;
+      }
+    else if ( !skip && strcmp((*av)[i], "--add-before-env") == 0 )
+      {
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      if( processedOutput )
+        {
+        processedOutput->add_before_env.push_back( (*av)[i+1] );
+        processedOutput->add_before_env.push_back( (*av)[i+2] );
+        }
+      (*av) += 3;
       *ac -= 3;
       }
-    else if ( *ac > 2 && strcmp((*av)[1], "--compareNumberOfPixelsTolerance") == 0 )
+    else if ( !skip && strcmp((*av)[i], "--add-before-env-with-sep") == 0 )
       {
-      regressionTestParameters.numberOfPixelsTolerance = atoi((*av)[2]);
-      *av += 2;
-      *ac -= 2;
+      if ( i + 1 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      if( processedOutput )
+        {
+        processedOutput->add_before_env_with_sep.push_back( (*av)[i+1] );
+        processedOutput->add_before_env_with_sep.push_back( (*av)[i+2] );
+        processedOutput->add_before_env_with_sep.push_back( (*av)[i+3] );
+        }
+      (*av) += 4;
+      *ac -= 4;
       }
-    else if ( *ac > 2 && strcmp((*av)[1], "--compareRadiusTolerance") == 0 )
+
+    else if ( !skip && strcmp((*av)[i], "--process") == 0 )
       {
-      regressionTestParameters.radiusTolerance = atoi((*av)[2]);
-      *av += 2;
-      *ac -= 2;
-      }
-    else if ( *ac > 2 && strcmp((*av)[1], "--compareIntensityTolerance") == 0 )
-      {
-      regressionTestParameters.intensityTolerance = atof((*av)[2]);
-      *av += 2;
+      // The test driver needs to invoke another executable
+      // For example, the python interpreter to run Wrapping tests.
+      if( processedOutput )
+        {
+        processedOutput->externalProcessMustBeCalled = true;
+        processedOutput->args.push_back((*av)[i+1]);
+        }
+      (*av) += 2;
       *ac -= 2;
       }
     else
       {
-      break;
+      if( processedOutput )
+        {
+        processedOutput->args.push_back((*av)[i]);
+        }
+      i += 1;
       }
-    }
+  }
+
+  return 0;
 }
+
 
 // Regression Testing Code
 
@@ -247,7 +420,7 @@ int RegressionTestImage(const char *testImageFilename,
     region.SetSize(size);
 
     ExtractType::Pointer extract = ExtractType::New();
-    extract->SetDirectionCollapseToSubmatrix();
+    extract->SetDirectionCollapseToIdentity();
     extract->SetInput( rescale->GetOutput() );
     extract->SetExtractionRegion(region);
 

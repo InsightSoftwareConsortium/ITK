@@ -22,6 +22,11 @@ itkHistogramToLogProbabilityImageFilterTest1.cxx
 itkHistogramToLogProbabilityImageFilterTest2.cxx
 itkHistogramToProbabilityImageFilterTest1.cxx
 itkHistogramToProbabilityImageFilterTest2.cxx
+itkAccumulateImageFilterTest.cxx
+itkAdaptiveHistogramEqualizationImageFilterTest.cxx
+itkNormalizedCorrelationImageFilterTest.cxx
+itkGetAverageSliceImageFilterTest.cxx
+itkBinaryProjectionImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ImageStatistics  "${ITK-ImageStatistics-Test_LIBRARIES}" "${ITK-ImageStatisticsTests}")
@@ -113,3 +118,38 @@ add_test(NAME itkHistogramToProbabilityImageFilterTest1
 add_test(NAME itkHistogramToProbabilityImageFilterTest2
       COMMAND ITK-ImageStatisticsTestDriver itkHistogramToProbabilityImageFilterTest2
               ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest2.mhd)
+add_test(NAME itkAccumulateImageFilterTest
+      COMMAND ITK-ImageStatisticsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png
+    itkAccumulateImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png)
+add_test(NAME itkAdaptiveHistogramEqualizationImageFilterTest
+      COMMAND ITK-ImageStatisticsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest.png
+    itkAdaptiveHistogramEqualizationImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest.png 10 0.5 0.5)
+add_test(NAME itkAdaptiveHistogramEqualizationImageFilterTest2
+      COMMAND ITK-ImageStatisticsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest2.png
+              ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png
+    itkAdaptiveHistogramEqualizationImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png 10 1.0 0.25)
+add_test(NAME itkNormalizedCorrelationImageFilterTest
+      COMMAND ITK-ImageStatisticsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/NormalizedCorrelationImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png
+    itkNormalizedCorrelationImageFilterTest ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png)
+add_test(NAME itkGetAverageSliceImageFilterTest
+      COMMAND ITK-ImageStatisticsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png
+    itkGetAverageSliceImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png)
+add_test(NAME itkBinaryProjectionImageFilterTest1
+      COMMAND ITK-ImageStatisticsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryProjection100.tif
+              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection100.tif
+    itkBinaryProjectionImageFilterTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection100.tif 100 0)
+add_test(NAME itkBinaryProjectionImageFilterTest2
+      COMMAND ITK-ImageStatisticsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryProjection200.tif
+              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection200.tif
+    itkBinaryProjectionImageFilterTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection200.tif 200 0)

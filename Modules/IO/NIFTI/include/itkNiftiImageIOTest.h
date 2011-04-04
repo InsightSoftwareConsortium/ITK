@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNiftiImageIOTest_h_
-#define __itkNiftiImageIOTest_h_
+#ifndef __itkNiftiImageIOTest_h
+#define __itkNiftiImageIOTest_h
 
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
@@ -85,7 +85,7 @@ typename TImage::Pointer ReadImage( const std::string &fileName,
   if(zeroOrigin)
     {
     double origin[TImage::ImageDimension];
-    for(unsigned int i =0 ; i< TImage::ImageDimension ; i++)
+    for(unsigned int i = 0; i < TImage::ImageDimension; i++)
       {
       origin[i]=0;
       }
@@ -152,7 +152,7 @@ void SetIdentityDirection(typename ImageType::Pointer &im)
 
 template <typename T> int MakeNiftiImage(void)
 {
-  typedef itk::Image<T, 3> ImageType ;
+  typedef itk::Image<T, 3> ImageType;
   const char *filename = "test.nii";
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
@@ -246,9 +246,9 @@ template <typename T> int MakeNiftiImage(void)
     }
   catch (itk::ExceptionObject &e)
     {
-      e.Print(std::cerr) ;
-      Remove(filename);
-      return EXIT_FAILURE;
+    e.Print(std::cerr);
+    Remove(filename);
+    return EXIT_FAILURE;
     }
   Remove(filename);
   return EXIT_SUCCESS;
@@ -280,7 +280,7 @@ CORDirCosines()
  * Could probably be made to fo the image of vector test as well
  */
 
-template <class PixelType, unsigned Dimension>
+template <class PixelType, unsigned VDimension>
 int
 TestImageOfSymMats(const std::string &fname)
 {
@@ -290,7 +290,7 @@ TestImageOfSymMats(const std::string &fname)
 //  typedef typename itk::DiffusionTenor3D<ScalarType>    PixelType;
 
   /** Deformation field type. */
-  typedef typename itk::Image<PixelType,Dimension>      DtiImageType;
+  typedef typename itk::Image<PixelType,VDimension>      DtiImageType;
 
   //
   // swizzle up a random vector image.
@@ -312,7 +312,7 @@ TestImageOfSymMats(const std::string &fname)
   //NOTE: Nifti only reports upto 3D images correctly for direction cosigns.  It is implicitly assumed
   //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the
   //      direction matrix.
-  switch(Dimension)
+  switch(VDimension)
     {
     case 1:
       myDirection[0][0] = -1.0;
@@ -334,11 +334,11 @@ TestImageOfSymMats(const std::string &fname)
       break;
     }
 
-  std::cout << " === Testing DtiImageType:  Image Dimension " << static_cast<int>(Dimension) << std::endl;
+  std::cout << " === Testing DtiImageType:  Image Dimension " << static_cast<int>(VDimension) << std::endl;
   std::cout << "======================== Initialized Direction" << std::endl;
   std::cout << myDirection << std::endl;
 
-  for(unsigned i = 0; i < Dimension; i++)
+  for(unsigned i = 0; i < VDimension; i++)
     {
     size[i] = dimsize;
     index[i] = 0;
@@ -352,16 +352,16 @@ TestImageOfSymMats(const std::string &fname)
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
 
-  typedef itk::ImageRegionIterator<DtiImageType> IteratorType;
+  typedef itk::ImageRegionIterator<DtiImageType>      IteratorType;
   typedef itk::ImageRegionConstIterator<DtiImageType> ConstIteratorType;
 
   int dims[7];
   int _index[7];
-  for(unsigned i = 0; i < Dimension; i++)
+  for(unsigned i = 0; i < VDimension; i++)
     {
     dims[i] = size[i];
     }
-  for(unsigned i = Dimension; i < 7; i++)
+  for(unsigned i = VDimension; i < 7; i++)
       {
     dims[i] = 1;
     }
@@ -398,7 +398,7 @@ TestImageOfSymMats(const std::string &fname)
                   lowrange += 100.0;
                   highrange += 100.0;
                   }
-                for(unsigned int q = 0; q < Dimension; q++)
+                for(unsigned int q = 0; q < VDimension; q++)
                   {
                   index[q] = _index[q];
                   }
@@ -452,9 +452,9 @@ TestImageOfSymMats(const std::string &fname)
     std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing()  << std::endl;
     same = false;
     }
-  for(unsigned int r=0;r<Dimension;r++)
+  for(unsigned int r=0;r<VDimension;r++)
     {
-    for(unsigned int c=0;c<Dimension;c++)
+    for(unsigned int c=0;c<VDimension;c++)
       {
       if(vcl_abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7 )
         {
@@ -487,7 +487,7 @@ TestImageOfSymMats(const std::string &fname)
                 {
                 _index[0] = k;
                 PixelType p1,p2;
-                for(unsigned int q = 0; q < Dimension; q++)
+                for(unsigned int q = 0; q < VDimension; q++)
                   {
                   index[q] = _index[q];
     }

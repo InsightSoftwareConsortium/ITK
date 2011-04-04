@@ -173,12 +173,8 @@ find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
 ###############################################################################
-# Build test driver
+# Setup test driver
 ###############################################################################
-
-add_executable(itkTestDriver itkTestDriver.cxx)
-target_link_libraries(itkTestDriver ${ITK_LIBRARIES})
-install(TARGETS itkTestDriver DESTINATION bin)
 set(ITK_TEST_DRIVER "itkTestDriver")
 
 ###############################################################################

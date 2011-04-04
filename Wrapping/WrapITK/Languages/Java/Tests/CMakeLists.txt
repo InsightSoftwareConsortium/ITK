@@ -70,7 +70,7 @@ macro(add_java_test name classpath)
       --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
       --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
       --add-before-libpath "${ITK_DIR}"
-      "${Java_JAVA_EXECUTABLE}"
+      --process "${Java_JAVA_EXECUTABLE}"
       "-Djava.library.path=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>${sep}${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
       -cp "${classpath}"
       ${ARGN}

@@ -23,6 +23,9 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkNrrdImageIO.h"
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest( int ac, char* av[] )
 {
@@ -37,8 +40,12 @@ int itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest( int ac, 
   typedef itk::Image<InPixelType, 3> InImage;
   typedef itk::Image<OutPixelType, 3> OutImage;
 
-  itk::ImageFileReader<InImage>::Pointer reader
-                                  = itk::ImageFileReader<InImage>::New();
+  typedef itk::ImageFileReader<InImage>  ReaderType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+
+  reader->SetImageIO( itk::NrrdImageIO::New() );
+
   reader->SetFileName(av[1]);
 
   try
@@ -58,6 +65,7 @@ int itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest( int ac, 
   // Generate test image
   itk::ImageFileWriter<InImage>::Pointer writer;
   writer = itk::ImageFileWriter<InImage>::New();
+  writer->SetImageIO( itk::NrrdImageIO::New() );
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName(av[2]);
   try

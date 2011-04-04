@@ -16,6 +16,13 @@ itkWeightedMeanSampleFilterTest.cxx
 itkWeightedCentroidKdTreeGeneratorTest1.cxx
 itkWeightedCentroidKdTreeGeneratorTest8.cxx
 itkWeightedCentroidKdTreeGeneratorTest9.cxx
+itkMahalanobisDistanceMetricTest.cxx
+itkManhattanDistanceMetricTest.cxx
+itkDistanceMetricTest.cxx
+itkDistanceMetricTest2.cxx
+itkDistanceToCentroidMembershipFunctionTest.cxx
+itkEuclideanDistanceMetricTest.cxx
+itkEuclideanSquareDistanceMetricTest.cxx
 )
 
 CreateTestDriver(ITK-Statistics  "${ITK-Statistics-Test_LIBRARIES}" "${ITK-StatisticsTests}")
@@ -73,3 +80,17 @@ add_test(NAME itkWeightedCovarianceSampleFilterTest2
       COMMAND ITK-StatisticsTestDriver itkWeightedCovarianceSampleFilterTest2)
 add_test(NAME itkWeightedMeanSampleFilterTest
       COMMAND ITK-StatisticsTestDriver itkWeightedMeanSampleFilterTest)
+add_test(NAME itkDistanceMetricTest
+      COMMAND ITK-StatisticsTestDriver itkDistanceMetricTest)
+add_test(NAME itkDistanceMetricTest2
+      COMMAND ITK-StatisticsTestDriver itkDistanceMetricTest2)
+add_test(NAME itkDistanceToCentroidMembershipFunctionTest
+      COMMAND ITK-StatisticsTestDriver itkDistanceToCentroidMembershipFunctionTest)
+add_test(NAME itkEuclideanDistanceMetricTest
+      COMMAND ITK-StatisticsTestDriver itkEuclideanDistanceMetricTest)
+add_test(NAME itkEuclideanSquareDistanceMetricTest
+      COMMAND ITK-StatisticsTestDriver itkEuclideanSquareDistanceMetricTest)
+add_test(NAME itkMahalanobisDistanceMetricTest
+      COMMAND ITK-StatisticsTestDriver itkMahalanobisDistanceMetricTest)
+add_test(NAME itkManhattanDistanceMetricTest
+      COMMAND ITK-StatisticsTestDriver itkManhattanDistanceMetricTest)

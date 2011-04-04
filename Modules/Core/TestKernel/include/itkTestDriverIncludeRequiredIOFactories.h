@@ -1,3 +1,5 @@
+#ifndef __itkTestDriverIncludeRequiredIOFactories_h
+#define __itkTestDriverIncludeRequiredIOFactories_h
 #include "itkGDCMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
@@ -6,11 +8,11 @@
 #include "itkBMPImageIOFactory.h"
 #include "itkVTKImageIOFactory.h"
 #include "itkNrrdImageIOFactory.h"
+#include "itkGiplImageIOFactory.h"
 #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
-void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
-{
+void RegisterRequiredFactories(){
   itk::ObjectFactoryBase::RegisterFactory( itk::MetaImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::GDCMImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );
@@ -19,7 +21,13 @@ void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *a
   itk::ObjectFactoryBase::RegisterFactory( itk::TIFFImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::BMPImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::NrrdImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::GiplImageIOFactory::New() );
+}
 
+void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
+{
+  RegisterRequiredFactories();
   ProcessArguments( ac, av );
 
 }
+#endif

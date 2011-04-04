@@ -19,6 +19,7 @@ itkMathematicalMorphologyHeaderTest.cxx
 itkMorphologicalGradientImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx
 itkOpeningByReconstructionImageFilterTest.cxx
+itkDoubleThresholdImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-MathematicalMorphology  "${ITK-MathematicalMorphology-Test_LIBRARIES}" "${ITK-MathematicalMorphologyTests}")
@@ -190,3 +191,15 @@ add_test(NAME itkOpeningByReconstructionImageFilterTest2
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/OpeningByReconstructionImageFilterTest2.png
               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png
     itkOpeningByReconstructionImageFilterTest ${ITK_DATA_ROOT}/Input/chondt.png ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png 4 1 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract2.png)
+add_test(NAME itkDoubleThresholdImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png itkDoubleThresholdImageFilterTest
+            ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png 217 246 255 255)
+add_test(NAME itkDoubleThresholdImageFilterTest2
+      COMMAND ITK-MathematicalMorphologyTestDriver
+  --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest2.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png itkDoubleThresholdImageFilterTest
+            ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
+            ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png 150 164 164 180)

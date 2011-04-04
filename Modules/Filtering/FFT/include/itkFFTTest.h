@@ -15,7 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
+#ifndef __itkFFTTest_h
+#define __itkFFTTest_h
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -353,3 +354,4 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
   std::cerr << std::endl << std::endl;
   return 0;
 }
+#endif

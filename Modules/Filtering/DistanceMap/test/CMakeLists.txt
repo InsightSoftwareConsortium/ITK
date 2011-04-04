@@ -10,6 +10,7 @@ itkReflectiveImageRegionIteratorTest.cxx
 itkSignedMaurerDistanceMapImageFilterTest.cxx
 itkSignedDanielssonDistanceMapImageFilterTest.cxx
 itkApproximateSignedDistanceMapImageFilterTest.cxx
+itkIsoContourDistanceImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-DistanceMap  "${ITK-DistanceMap-Test_LIBRARIES}" "${ITK-DistanceMapTests}")
@@ -50,3 +51,5 @@ add_test(NAME itkApproximateSignedDistanceMapImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkApproximateSignedDistanceMapImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest.png
     itkApproximateSignedDistanceMapImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest.png)
+add_test(NAME itkIsoContourDistanceImageFilterTest
+      COMMAND ITK-DistanceMapTestDriver itkIsoContourDistanceImageFilterTest)

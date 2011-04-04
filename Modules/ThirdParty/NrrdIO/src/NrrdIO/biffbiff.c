@@ -26,7 +26,7 @@
 
 static biffMsg **
 _bmsg=NULL;            /* master array of biffMsg pointers */
-static unsigned int 
+static size_t
 _bmsgNum=0;            /* length of _biffErr == # keys maintained */
 static airArray *
 _bmsgArr=NULL;         /* air array of _biffErr and _biffNum */
@@ -130,7 +130,7 @@ _bmsgFindIdx(biffMsg *msg) {
 biffMsg *
 _bmsgAdd(const char *key) {
   static const char me[]="[biff] _bmsgAdd";
-  unsigned int ii;
+  size_t ii;
   biffMsg *msg;
 
   msg = NULL;
@@ -349,7 +349,7 @@ biffSetStr(char *str, const char *key) {
 ** sees how many messages there are for a given key
 ** returns 0 if the key doesn't exist.
 */
-int
+size_t
 biffCheck(const char *key) {
   biffMsg *msg;
 

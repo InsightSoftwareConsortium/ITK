@@ -25,7 +25,7 @@ set(LIST_OF_FACTORY_NAMES "")
 
 
 foreach (ImageFormat  JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta)
-        if (Module_ITK-IO-${ImageFormat})
+        if (ITK-IO-${ImageFormat}_LOADED)
                 set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
                 set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
         endif()
@@ -33,7 +33,7 @@ endforeach()
 
 foreach (ImageFormat  Nifti Nrrd Gipl)
         string(TOUPPER ${ImageFormat} ImageFormat_UPPER)
-        if (Module_ITK-IO-${ImageFormat_UPPER})
+        if (ITK-IO-${ImageFormat_UPPER}_LOADED)
                 set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
                 set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
         endif()

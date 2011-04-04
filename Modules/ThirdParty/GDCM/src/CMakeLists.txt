@@ -1,6 +1,9 @@
 set(GDCM_TARGETS_NAME ${ITK-GDCM-targets})
+set(GDCM_INSTALL_BIN_DIR ${ITK-GDCM_INSTALL_RUNTIME_DIR})
+set(GDCM_INSTALL_LIB_DIR ${ITK-GDCM_INSTALL_LIBRARY_DIR})
+set(GDCM_INSTALL_INCLUDE_DIR ${ITK-GDCM_INSTALL_INCLUDE_DIR})
+set(GDCM_INSTALL_DATA_DIR ${ITK_INSTALL_DATA_DIR}/gdcm)
 set(GDCM_BUILD_TESTING_DEFAULT OFF)
-set(GDCM_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS} CACHE BOOL "" FORCE)
 
 # Tell GDCM to use "system" libraries but give it ITK's libraries:
 #
@@ -40,7 +43,9 @@ foreach(lib
     gdcmuuid
     )
   if(TARGET ${lib}) # some gdcm targets are conditional
-    #itk_module_target_name(${lib}) # TODO: Mangle lib names with itk prefix too
+    set_property(TARGET ${lib} PROPERTY VERSION 1)
+    set_property(TARGET ${lib} PROPERTY SOVERSION "")
+    set_property(TARGET ${lib} PROPERTY OUTPUT_NAME itk${lib}-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
     itk_module_target_export(${lib})
   endif()
 endforeach()

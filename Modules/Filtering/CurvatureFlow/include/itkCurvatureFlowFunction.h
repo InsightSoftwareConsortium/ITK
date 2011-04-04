@@ -119,9 +119,10 @@ public:
 
 protected:
 
+  /** @cond HIDE_STRUCTURE */
+
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step. */
-  /// @cond
   struct GlobalDataStruct {
     GlobalDataStruct()
     {
