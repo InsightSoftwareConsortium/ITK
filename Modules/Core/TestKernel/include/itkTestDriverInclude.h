@@ -100,6 +100,7 @@ struct ProcessedOutputType
 void usage()
 {
   std::cerr << "usage: itkTestDriver [options] prg [args]" << std::endl;
+  std::cerr << "       itkTestDriver --no-process [options]" << std::endl;
   std::cerr << std::endl;
   std::cerr << "itkTestDriver alter the environment, run a test program and compare the images" << std::endl;
   std::cerr << "produced." << std::endl;
@@ -138,8 +139,8 @@ void usage()
   std::cerr << "  --compareIntensityTolerance TOLERANCE" << std::endl;
   std::cerr << "      Default is 2.0." << std::endl;
   std::cerr << std::endl;
-  std::cerr << "  --process EXECUTABLE_PROGRAM" << std::endl;
-  std::cerr << "      The test driver will invoke this program." << std::endl;
+  std::cerr << "  --no-process" << std::endl;
+  std::cerr << "      The test driver will not invoke any process." << std::endl;
   std::cerr << std::endl;
   std::cerr << "  --" << std::endl;
   std::cerr << "      The options after -- are not interpreted by this program and passed" << std::endl;
@@ -161,7 +162,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
 
   if( processedOutput )
     {
-    processedOutput->externalProcessMustBeCalled = false;
+    processedOutput->externalProcessMustBeCalled = true;
     }
 
   // parse the command line
@@ -292,17 +293,16 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       *ac -= 4;
       }
 
-    else if ( !skip && strcmp((*av)[i], "--process") == 0 )
+    else if ( !skip && strcmp((*av)[i], "--no-process") == 0 )
       {
       // The test driver needs to invoke another executable
       // For example, the python interpreter to run Wrapping tests.
       if( processedOutput )
         {
-        processedOutput->externalProcessMustBeCalled = true;
-        processedOutput->args.push_back((*av)[i+1]);
+        processedOutput->externalProcessMustBeCalled = false;
         }
-      (*av) += 2;
-      *ac -= 2;
+      (*av) += 1;
+      *ac -= 1;
       }
     else
       {

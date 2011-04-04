@@ -270,7 +270,13 @@ int main(int ac, char *av[])
 
   result = ProcessArguments(&ac, &av, &po);
 
-  if ( po.args.empty() )
+  if ( po.externalProcessMustBeCalled && po.args.empty() )
+    {
+    usage();
+    return 1;
+    }
+
+  if ( !po.externalProcessMustBeCalled && !po.args.empty() )
     {
     usage();
     return 1;
