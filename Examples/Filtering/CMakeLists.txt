@@ -144,7 +144,7 @@ if(BUILD_TESTING)
 add_test(NAME BilateralImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BilateralImageFilter.png
             ${TEMP}/BilateralImageFilter.png
-  --process $<TARGET_FILE:BilateralImageFilter>
+  $<TARGET_FILE:BilateralImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/BilateralImageFilter.png
         6.0 5.0
@@ -152,7 +152,7 @@ add_test(NAME BilateralImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  BinaryMinMaxCurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryMinMaxCurvatureFlowImageFilter.png
             ${TEMP}/BinaryMinMaxCurvatureFlowImageFilter.png
-  --process $<TARGET_FILE:BinaryMinMaxCurvatureFlowImageFilter>
+  $<TARGET_FILE:BinaryMinMaxCurvatureFlowImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/BinaryMinMaxCurvatureFlowImageFilter.png
         10 .125 1 128
@@ -160,7 +160,7 @@ add_test(NAME  BinaryMinMaxCurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVE
 add_test(NAME  BinaryThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryThresholdImageFilter.png
             ${TEMP}/BinaryThresholdImageFilter.png
-  --process $<TARGET_FILE:BinaryThresholdImageFilter>
+  $<TARGET_FILE:BinaryThresholdImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/BinaryThresholdImageFilter.png
         150 180 0 255
@@ -168,7 +168,7 @@ add_test(NAME  BinaryThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  BinaryMedianImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryMedianImageFilter1.png
             ${TEMP}/BinaryMedianImageFilter1.png
-  --process $<TARGET_FILE:BinaryMedianImageFilter>
+  $<TARGET_FILE:BinaryMedianImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/BinaryMedianImageFilter1.png
         1 1
@@ -176,7 +176,7 @@ add_test(NAME  BinaryMedianImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  BinaryMedianImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryMedianImageFilter2.png
             ${TEMP}/BinaryMedianImageFilter2.png
-  --process $<TARGET_FILE:BinaryMedianImageFilter>
+  $<TARGET_FILE:BinaryMedianImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/BinaryMedianImageFilter2.png
         2 2
@@ -184,7 +184,7 @@ add_test(NAME  BinaryMedianImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  BinaryMedianImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryMedianImageFilter3.png
             ${TEMP}/BinaryMedianImageFilter3.png
-  --process $<TARGET_FILE:BinaryMedianImageFilter>
+  $<TARGET_FILE:BinaryMedianImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/BinaryMedianImageFilter3.png
         3 3
@@ -192,7 +192,7 @@ add_test(NAME  BinaryMedianImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  VotingBinaryHoleFillingImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter1.png
             ${TEMP}/VotingBinaryHoleFillingImageFilter1.png
-  --process $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
+  $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/VotingBinaryHoleFillingImageFilter1.png
         1 1
@@ -200,7 +200,7 @@ add_test(NAME  VotingBinaryHoleFillingImageFilterTest1 COMMAND ${ITK_TEST_DRIVER
 add_test(NAME  VotingBinaryHoleFillingImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter2.png
             ${TEMP}/VotingBinaryHoleFillingImageFilter2.png
-  --process $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
+  $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/VotingBinaryHoleFillingImageFilter2.png
         2 2
@@ -208,7 +208,7 @@ add_test(NAME  VotingBinaryHoleFillingImageFilterTest2 COMMAND ${ITK_TEST_DRIVER
 add_test(NAME  VotingBinaryHoleFillingImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter3.png
             ${TEMP}/VotingBinaryHoleFillingImageFilter3.png
-  --process $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
+  $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/VotingBinaryHoleFillingImageFilter3.png
         3 3
@@ -216,7 +216,7 @@ add_test(NAME  VotingBinaryHoleFillingImageFilterTest3 COMMAND ${ITK_TEST_DRIVER
 add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter1.png
             ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter1.png
-  --process $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
+  $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter1.png
         1 1 10
@@ -224,7 +224,7 @@ add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest1 COMMAND ${ITK_TE
 add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter2.png
             ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter2.png
-  --process $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
+  $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter2.png
         2 2 10
@@ -232,7 +232,7 @@ add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest2 COMMAND ${ITK_TE
 add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter3.png
             ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter3.png
-  --process $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
+  $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
         ${BASELINE}/BinaryThresholdImageFilter.png
         ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter3.png
         3 3 10
@@ -240,7 +240,7 @@ add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest3 COMMAND ${ITK_TE
 add_test(NAME  BinomialBlurImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinomialBlurImageFilter.png
             ${TEMP}/BinomialBlurImageFilter.png
-  --process $<TARGET_FILE:BinomialBlurImageFilter>
+  $<TARGET_FILE:BinomialBlurImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/BinomialBlurImageFilter.png
         5
@@ -248,7 +248,7 @@ add_test(NAME  BinomialBlurImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  CurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/CurvatureAnisotropicDiffusionImageFilter.png
-  --process $<TARGET_FILE:CurvatureAnisotropicDiffusionImageFilter>
+  $<TARGET_FILE:CurvatureAnisotropicDiffusionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/CurvatureAnisotropicDiffusionImageFilter.png
         5 0.125 3
@@ -256,7 +256,7 @@ add_test(NAME  CurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_D
 add_test(NAME  CurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CurvatureFlowImageFilter.png
             ${TEMP}/CurvatureFlowImageFilter.png
-  --process $<TARGET_FILE:CurvatureFlowImageFilter>
+  $<TARGET_FILE:CurvatureFlowImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/CurvatureFlowImageFilter.png
         5 0.125 1.0
@@ -264,7 +264,7 @@ add_test(NAME  CurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  DanielssonDistanceMapImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/DanielssonDistanceMapImageFilter.png
             ${TEMP}/DanielssonDistanceMapImageFilter.png
-  --process $<TARGET_FILE:DanielssonDistanceMapImageFilter>
+  $<TARGET_FILE:DanielssonDistanceMapImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/FivePoints.png
         ${TEMP}/DanielssonDistanceMapImageFilter.png
         ${TEMP}/DanielssonDistanceMapImageFilter2.png
@@ -273,7 +273,7 @@ add_test(NAME  DanielssonDistanceMapImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  DiscreteGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/DiscreteGaussianImageFilter.png
             ${TEMP}/DiscreteGaussianImageFilter.png
-  --process $<TARGET_FILE:DiscreteGaussianImageFilter>
+  $<TARGET_FILE:DiscreteGaussianImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/DiscreteGaussianImageFilter.png
         1.73 10
@@ -281,7 +281,7 @@ add_test(NAME  DiscreteGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  GradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/GradientAnisotropicDiffusionImageFilter.png
-  --process $<TARGET_FILE:GradientAnisotropicDiffusionImageFilter>
+  $<TARGET_FILE:GradientAnisotropicDiffusionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GradientAnisotropicDiffusionImageFilter.png
         5 0.125 1.0
@@ -289,26 +289,26 @@ add_test(NAME  GradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DR
 add_test(NAME  GradientMagnitudeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GradientMagnitudeImageFilter.png
             ${TEMP}/GradientMagnitudeImageFilter.png
-  --process $<TARGET_FILE:GradientMagnitudeImageFilter>
+  $<TARGET_FILE:GradientMagnitudeImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GradientMagnitudeImageFilter.png
 )
 add_test(NAME  GradientMagnitudeRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GradientMagnitudeRecursiveGaussianImageFilter.png
             ${TEMP}/GradientMagnitudeRecursiveGaussianImageFilter.png
-  --process $<TARGET_FILE:GradientMagnitudeRecursiveGaussianImageFilter>
+  $<TARGET_FILE:GradientMagnitudeRecursiveGaussianImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GradientMagnitudeRecursiveGaussianImageFilter.png
         5
 )
 add_test(NAME  GradientRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
-  --process $<TARGET_FILE:GradientRecursiveGaussianImageFilter>
+  $<TARGET_FILE:GradientRecursiveGaussianImageFilter>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd
         ${TEMP}/GradientRecursiveGaussianImageFilterTest.mha
         1.5  # Sigma
 )
 add_test(NAME  GradientVectorFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
-  --process $<TARGET_FILE:GradientVectorFlowImageFilter>
+  $<TARGET_FILE:GradientVectorFlowImageFilter>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/GradientRecursiveGaussianImageFilterTest.mha
         ${TEMP}/GradientVectorFlowImageFilterTest.mha
         5        # number of iterations
@@ -319,7 +319,7 @@ set_tests_properties( GradientVectorFlowImageFilterTest
 add_test(NAME  DerivativeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/DerivativeImageFilter.mha
             ${TEMP}/DerivativeImageFilter.mha
-  --process $<TARGET_FILE:DerivativeImageFilter>
+  $<TARGET_FILE:DerivativeImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/DerivativeImageFilter.mha
         ${TEMP}/DerivativeImageFilter.png
@@ -328,21 +328,21 @@ add_test(NAME  DerivativeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  LaplacianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianImageFilter.png
             ${TEMP}/LaplacianImageFilter.png
-  --process $<TARGET_FILE:LaplacianImageFilter>
+  $<TARGET_FILE:LaplacianImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/LaplacianImageFilter.png
 )
 add_test(NAME  LaplacianSharpeningImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianSharpeningImageFilter.png
             ${TEMP}/LaplacianSharpeningImageFilter.png
-  --process $<TARGET_FILE:LaplacianSharpeningImageFilter>
+  $<TARGET_FILE:LaplacianSharpeningImageFilter>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
         ${TEMP}/LaplacianSharpeningImageFilter.png
 )
 add_test(NAME  MathematicalMorphologyBinaryFiltersTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MathematicalMorphologyBinaryFiltersErode.png
             ${TEMP}/MathematicalMorphologyBinaryFiltersErode.png
-  --process $<TARGET_FILE:MathematicalMorphologyBinaryFilters>
+  $<TARGET_FILE:MathematicalMorphologyBinaryFilters>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/MathematicalMorphologyBinaryFiltersErode.png
         ${TEMP}/MathematicalMorphologyBinaryFiltersDilate.png
@@ -351,7 +351,7 @@ add_test(NAME  MathematicalMorphologyBinaryFiltersTest COMMAND ${ITK_TEST_DRIVER
 add_test(NAME  MathematicalMorphologyGrayscaleFiltersTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MathematicalMorphologyGrayscaleFiltersErode.png
             ${TEMP}/MathematicalMorphologyGrayscaleFiltersErode.png
-  --process $<TARGET_FILE:MathematicalMorphologyGrayscaleFilters>
+  $<TARGET_FILE:MathematicalMorphologyGrayscaleFilters>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/MathematicalMorphologyGrayscaleFiltersErode.png
         ${TEMP}/MathematicalMorphologyGrayscaleFiltersDilate.png
@@ -359,14 +359,14 @@ add_test(NAME  MathematicalMorphologyGrayscaleFiltersTest COMMAND ${ITK_TEST_DRI
 add_test(NAME  MeanImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MeanImageFilter.png
             ${TEMP}/MeanImageFilter.png
-  --process $<TARGET_FILE:MeanImageFilter>
+  $<TARGET_FILE:MeanImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/MeanImageFilter.png
 )
 add_test(NAME  MedianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MedianImageFilter.png
             ${TEMP}/MedianImageFilter.png
-  --process $<TARGET_FILE:MedianImageFilter>
+  $<TARGET_FILE:MedianImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/MedianImageFilter.png
         1
@@ -374,7 +374,7 @@ add_test(NAME  MedianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilterTest1.png
             ${TEMP}/ResampleImageFilterTest1.png
-  --process $<TARGET_FILE:ResampleImageFilter>
+  $<TARGET_FILE:ResampleImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilterTest1.png
         0
@@ -382,7 +382,7 @@ add_test(NAME  ResampleImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleOrientedImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleOrientedImageFilterTest.png
             ${TEMP}/ResampleOrientedImageFilterTest.png
-  --process $<TARGET_FILE:ResampleOrientedImageFilter>
+  $<TARGET_FILE:ResampleOrientedImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
         ${TEMP}/ResampleOrientedImageFilterTest.png
         0 1 1 0
@@ -390,7 +390,7 @@ add_test(NAME  ResampleOrientedImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilterTest2.png
             ${TEMP}/ResampleImageFilterTest2.png
-  --process $<TARGET_FILE:ResampleImageFilter>
+  $<TARGET_FILE:ResampleImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilterTest2.png
         1
@@ -398,7 +398,7 @@ add_test(NAME  ResampleImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilterTest3.png
             ${TEMP}/ResampleImageFilterTest3.png
-  --process $<TARGET_FILE:ResampleImageFilter>
+  $<TARGET_FILE:ResampleImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilterTest3.png
         2
@@ -406,7 +406,7 @@ add_test(NAME  ResampleImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilterTest4 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilterTest4.png
             ${TEMP}/ResampleImageFilterTest4.png
-  --process $<TARGET_FILE:ResampleImageFilter>
+  $<TARGET_FILE:ResampleImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilterTest4.png
         3
@@ -414,7 +414,7 @@ add_test(NAME  ResampleImageFilterTest4 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter2Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test1.png
             ${TEMP}/ResampleImageFilter2Test1.png
-  --process $<TARGET_FILE:ResampleImageFilter2>
+  $<TARGET_FILE:ResampleImageFilter2>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter2Test1.png
         0
@@ -422,7 +422,7 @@ add_test(NAME  ResampleImageFilter2Test1 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter2Test2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test2.png
             ${TEMP}/ResampleImageFilter2Test2.png
-  --process $<TARGET_FILE:ResampleImageFilter2>
+  $<TARGET_FILE:ResampleImageFilter2>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter2Test2.png
         1
@@ -430,7 +430,7 @@ add_test(NAME  ResampleImageFilter2Test2 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter2Test3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test3.png
             ${TEMP}/ResampleImageFilter2Test3.png
-  --process $<TARGET_FILE:ResampleImageFilter2>
+  $<TARGET_FILE:ResampleImageFilter2>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter2Test3.png
         2
@@ -438,7 +438,7 @@ add_test(NAME  ResampleImageFilter2Test3 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter2Test4 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test4.png
             ${TEMP}/ResampleImageFilter2Test4.png
-  --process $<TARGET_FILE:ResampleImageFilter2>
+  $<TARGET_FILE:ResampleImageFilter2>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter2Test4.png
         3
@@ -446,7 +446,7 @@ add_test(NAME  ResampleImageFilter2Test4 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter2Test5 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test5.png
             ${TEMP}/ResampleImageFilter2Test5.png
-  --process $<TARGET_FILE:ResampleImageFilter2>
+  $<TARGET_FILE:ResampleImageFilter2>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter2Test5.png
         3
@@ -454,7 +454,7 @@ add_test(NAME  ResampleImageFilter2Test5 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter3Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter3Test1PixelCentered.png
             ${TEMP}/ResampleImageFilter3Test1PixelCentered.png
-  --process $<TARGET_FILE:ResampleImageFilter3>
+  $<TARGET_FILE:ResampleImageFilter3>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter3Test1PixelCentered.png
         0
@@ -463,7 +463,7 @@ add_test(NAME  ResampleImageFilter3Test1 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter4Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter4TestPixelCentered.png
             ${TEMP}/ResampleImageFilter4TestPixelCentered.png
-  --process $<TARGET_FILE:ResampleImageFilter4>
+  $<TARGET_FILE:ResampleImageFilter4>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter4TestPixelCentered.png
         20
@@ -471,7 +471,7 @@ add_test(NAME  ResampleImageFilter4Test COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter5Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter5TestPixelCentered.png
             ${TEMP}/ResampleImageFilter5TestPixelCentered.png
-  --process $<TARGET_FILE:ResampleImageFilter5>
+  $<TARGET_FILE:ResampleImageFilter5>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter5TestPixelCentered.png
         10 1.2
@@ -479,7 +479,7 @@ add_test(NAME  ResampleImageFilter5Test COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter8Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter8TestPixelCentered.png
             ${TEMP}/ResampleImageFilter8TestPixelCentered.png
-  --process $<TARGET_FILE:ResampleImageFilter8>
+  $<TARGET_FILE:ResampleImageFilter8>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ResampleImageFilter8TestPixelCentered.png
         45
@@ -487,7 +487,7 @@ add_test(NAME  ResampleImageFilter8Test COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleImageFilter9Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter9TestPixelCentered.png
             ${TEMP}/ResampleImageFilter9TestNearestPixelCentered.png
-  --process $<TARGET_FILE:ResampleImageFilter9>
+  $<TARGET_FILE:ResampleImageFilter9>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/ResampleImageFilter9TestNearestPixelCentered.png
         ${TEMP}/ResampleImageFilter9TestLinearPixelCentered.png
@@ -495,7 +495,7 @@ add_test(NAME  ResampleImageFilter9Test COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  SigmoidImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/SigmoidImageFilter.png
             ${TEMP}/SigmoidImageFilter.png
-  --process $<TARGET_FILE:SigmoidImageFilter>
+  $<TARGET_FILE:SigmoidImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/SigmoidImageFilter.png
         10 240 10 170
@@ -503,7 +503,7 @@ add_test(NAME  SigmoidImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  SmoothingRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter.png
             ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
-  --process $<TARGET_FILE:SmoothingRecursiveGaussianImageFilter>
+  $<TARGET_FILE:SmoothingRecursiveGaussianImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
         3
@@ -511,7 +511,7 @@ add_test(NAME  SmoothingRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIV
 add_test(NAME  SmoothingRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter2.png
             ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
-  --process $<TARGET_FILE:SmoothingRecursiveGaussianImageFilter2>
+  $<TARGET_FILE:SmoothingRecursiveGaussianImageFilter2>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
         3
@@ -523,7 +523,7 @@ add_test(NAME  ThresholdAboveBelowOutsideImageFilterTest COMMAND ${ITK_TEST_DRIV
             ${TEMP}/ThresholdBelowImageFilter.png
   --compare ${BASELINE}/ThresholdOutsideImageFilter.png
             ${TEMP}/ThresholdOutsideImageFilter.png
-  --process $<TARGET_FILE:ThresholdImageFilter>
+  $<TARGET_FILE:ThresholdImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ThresholdBelowImageFilter.png
         ${TEMP}/ThresholdAboveImageFilter.png
@@ -532,7 +532,7 @@ add_test(NAME  ThresholdAboveBelowOutsideImageFilterTest COMMAND ${ITK_TEST_DRIV
 add_test(NAME  VectorGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorGradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/VectorGradientAnisotropicDiffusionImageFilter.png
-  --process $<TARGET_FILE:VectorGradientAnisotropicDiffusionImageFilter>
+  $<TARGET_FILE:VectorGradientAnisotropicDiffusionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/VectorGradientAnisotropicDiffusionImageFilterOriginal.png
         ${TEMP}/VectorGradientAnisotropicDiffusionImageFilter.png
@@ -541,7 +541,7 @@ add_test(NAME  VectorGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_T
 add_test(NAME  VectorCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorCurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
-  --process $<TARGET_FILE:VectorCurvatureAnisotropicDiffusionImageFilter>
+  $<TARGET_FILE:VectorCurvatureAnisotropicDiffusionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilterOriginal.png
         ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
@@ -550,7 +550,7 @@ add_test(NAME  VectorCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_
 add_test(NAME  VectorIndexSelectionTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorIndexSelection.png
             ${TEMP}/VectorIndexSelection.png
-  --process $<TARGET_FILE:VectorIndexSelection>
+  $<TARGET_FILE:VectorIndexSelection>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/VectorIndexSelection.png
         1
@@ -558,7 +558,7 @@ add_test(NAME  VectorIndexSelectionTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ZeroCrossingBasedEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ZeroCrossingBasedEdgeDetectionImageFilter1.png
             ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter1.png
-  --process $<TARGET_FILE:ZeroCrossingBasedEdgeDetectionImageFilter>
+  $<TARGET_FILE:ZeroCrossingBasedEdgeDetectionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter1.png
         5.0
@@ -567,7 +567,7 @@ add_test(NAME  ZeroCrossingBasedEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_
 add_test(NAME  RGBGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RGBGradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/RGBGradientAnisotropicDiffusionImageFilter.png
-  --process $<TARGET_FILE:RGBGradientAnisotropicDiffusionImageFilter>
+  $<TARGET_FILE:RGBGradientAnisotropicDiffusionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/RGBGradientAnisotropicDiffusionImageFilter.png
         0.125 20
@@ -575,7 +575,7 @@ add_test(NAME  RGBGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST
 add_test(NAME  RGBCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RGBCurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/RGBCurvatureAnisotropicDiffusionImageFilter.png
-  --process $<TARGET_FILE:RGBCurvatureAnisotropicDiffusionImageFilter>
+  $<TARGET_FILE:RGBCurvatureAnisotropicDiffusionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/RGBCurvatureAnisotropicDiffusionImageFilter.png
         0.125 20
@@ -583,7 +583,7 @@ add_test(NAME  RGBCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TES
 add_test(NAME  MorphologicalImageEnhancementTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MorphologicalImageEnhancement.png
             ${TEMP}/MorphologicalImageEnhancement.png
-  --process $<TARGET_FILE:MorphologicalImageEnhancement>
+  $<TARGET_FILE:MorphologicalImageEnhancement>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/peppers.png
         ${TEMP}/MorphologicalImageEnhancement.png
         3
@@ -591,7 +591,7 @@ add_test(NAME  MorphologicalImageEnhancementTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  OtsuThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/OtsuThresholdImageFilter.png
             ${TEMP}/OtsuThresholdImageFilter.png
-  --process $<TARGET_FILE:OtsuThresholdImageFilter>
+  $<TARGET_FILE:OtsuThresholdImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/OtsuThresholdImageFilter.png
         255 0
@@ -599,7 +599,7 @@ add_test(NAME  OtsuThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  OtsuMultipleThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/OtsuMultipleThresholdOutput002.png
             ${TEMP}/OtsuMultipleThresholdOutput002.png
-  --process $<TARGET_FILE:OtsuMultipleThresholdImageFilter>
+  $<TARGET_FILE:OtsuMultipleThresholdImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/OtsuMultipleThresholdOutput
         png 3
@@ -607,13 +607,13 @@ add_test(NAME  OtsuMultipleThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  DigitallyReconstructedRadiograph1Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/DigitallyReconstructedRadiograph1.png
             ${TEMP}/DigitallyReconstructedRadiograph1.png
-  --process $<TARGET_FILE:DigitallyReconstructedRadiograph1>
+  $<TARGET_FILE:DigitallyReconstructedRadiograph1>
         -o ${TEMP}/DigitallyReconstructedRadiograph1.png
 )
 add_test(NAME  AntiAliasBinaryImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/AntiAliasBinaryImageFilter.png
             ${TEMP}/AntiAliasBinaryImageFilter.png
-  --process $<TARGET_FILE:AntiAliasBinaryImageFilter>
+  $<TARGET_FILE:AntiAliasBinaryImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
         ${TEMP}/AntiAliasBinaryImageFilterDoublePixelType.mha
         ${TEMP}/AntiAliasBinaryImageFilter.png
@@ -622,7 +622,7 @@ add_test(NAME  AntiAliasBinaryImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  CannyEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CannyEdgeDetectionImageFilter.png
             ${TEMP}/CannyEdgeDetectionImageFilter.png
-  --process $<TARGET_FILE:CannyEdgeDetectionImageFilter>
+  $<TARGET_FILE:CannyEdgeDetectionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/CannyEdgeDetectionImageFilter.png
         9     # Sigma
@@ -632,7 +632,7 @@ add_test(NAME  CannyEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  CannyEdgeDetectionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CannyEdgeDetectionImageFilter2.png
             ${TEMP}/CannyEdgeDetectionImageFilter2.png
-  --process $<TARGET_FILE:CannyEdgeDetectionImageFilter>
+  $<TARGET_FILE:CannyEdgeDetectionImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/CannyEdgeDetectionImageFilter2.png
         9     # Sigma
@@ -642,7 +642,7 @@ add_test(NAME  CannyEdgeDetectionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  FlipImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FlipImageFilterX.png
             ${TEMP}/FlipImageFilterX.png
-  --process $<TARGET_FILE:FlipImageFilter>
+  $<TARGET_FILE:FlipImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/FlipImageFilterX.png
         1 0
@@ -650,7 +650,7 @@ add_test(NAME  FlipImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  FlipImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FlipImageFilterY.png
             ${TEMP}/FlipImageFilterY.png
-  --process $<TARGET_FILE:FlipImageFilter>
+  $<TARGET_FILE:FlipImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/FlipImageFilterY.png
         0 1
@@ -658,7 +658,7 @@ add_test(NAME  FlipImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  FlipImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FlipImageFilterXY.png
             ${TEMP}/FlipImageFilterXY.png
-  --process $<TARGET_FILE:FlipImageFilter>
+  $<TARGET_FILE:FlipImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/FlipImageFilterXY.png
         1 1
@@ -666,7 +666,7 @@ add_test(NAME  FlipImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  GaussianBlurImageFunctionTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GaussianBlurImageFunction.mha
             ${TEMP}/GaussianBlurImageFunction.mha
-  --process $<TARGET_FILE:GaussianBlurImageFunction>
+  $<TARGET_FILE:GaussianBlurImageFunction>
         ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
         ${TEMP}/GaussianBlurImageFunction.mha
         2 3
@@ -674,7 +674,7 @@ add_test(NAME  GaussianBlurImageFunctionTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  FFTImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FFTImageFilterReal.png
             ${TEMP}/FFTImageFilterReal.png
-  --process $<TARGET_FILE:FFTImageFilter>
+  $<TARGET_FILE:FFTImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/FatMRISlice.png
         ${TEMP}/FFTImageFilterReal.png
         ${TEMP}/FFTImageFilterImaginary.png
@@ -683,7 +683,7 @@ add_test(NAME  FFTImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  FFTDirectInverseTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${ITK_SOURCE_DIR}/Examples/Data/Point.png
             ${TEMP}/FFTDirectInversePoint.png
-  --process $<TARGET_FILE:FFTDirectInverse>
+  $<TARGET_FILE:FFTDirectInverse>
         ${ITK_SOURCE_DIR}/Examples/Data/Point.png
         ${TEMP}/FFTDirectInversePoint.png
 )
@@ -692,20 +692,20 @@ if( USE_FFTWF )
   add_test(NAME  FFTDirectInverse2Test COMMAND ${ITK_TEST_DRIVER}
     --compare ${ITK_SOURCE_DIR}/Examples/Data/Point.png
               ${TEMP}/FFTDirectInverse2Point.png
-    --process $<TARGET_FILE:FFTDirectInverse2>
+    $<TARGET_FILE:FFTDirectInverse2>
           ${ITK_SOURCE_DIR}/Examples/Data/Point.png
           ${TEMP}/FFTDirectInverse2Point.png
   )
 endif( USE_FFTWF )
 add_test(NAME  FFTImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
-  --process $<TARGET_FILE:FFTImageFilter>
+  $<TARGET_FILE:FFTImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcenteredDC.png
         ${TEMP}/FFTImageFilterCenteredDCReal.png
         ${TEMP}/FFTImageFilterCenteredDCImaginary.png
         ${TEMP}/FFTImageFilterComplex2.mhd
 )
 add_test(NAME  FFTImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
-  --process $<TARGET_FILE:FFTImageFilter>
+  $<TARGET_FILE:FFTImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcorneredDC.png
         ${TEMP}/FFTImageFilterCorneredDCReal.png
         ${TEMP}/FFTImageFilterCorneredDCImaginary.png
@@ -714,14 +714,14 @@ add_test(NAME  FFTImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  RGBToGrayscaleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RGBToGrayscale.png
             ${TEMP}/RGBToGrayscale.png
-  --process $<TARGET_FILE:RGBToGrayscale>
+  $<TARGET_FILE:RGBToGrayscale>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
         ${TEMP}/RGBToGrayscale.png
 )
 add_test(NAME  LaplacianRecursiveGaussianImageFilter1Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter1.mha
             ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
-  --process $<TARGET_FILE:LaplacianRecursiveGaussianImageFilter1>
+  $<TARGET_FILE:LaplacianRecursiveGaussianImageFilter1>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
         3
@@ -729,7 +729,7 @@ add_test(NAME  LaplacianRecursiveGaussianImageFilter1Test COMMAND ${ITK_TEST_DRI
 add_test(NAME  LaplacianRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter2.mha
             ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
-  --process $<TARGET_FILE:LaplacianRecursiveGaussianImageFilter2>
+  $<TARGET_FILE:LaplacianRecursiveGaussianImageFilter2>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
         3
@@ -737,7 +737,7 @@ add_test(NAME  LaplacianRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRI
 add_test(NAME  ResampleImageFilter6Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter6PixelCentered.png
             ${TEMP}/ResampleImageFilter6PixelCentered.png
-  --process $<TARGET_FILE:ResampleImageFilter6>
+  $<TARGET_FILE:ResampleImageFilter6>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
         ${TEMP}/ResampleImageFilter6PixelCentered.png
         3
@@ -746,7 +746,7 @@ add_test(NAME  ResampleImageFilter7Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter7PixelCentered.png
             ${TEMP}/ResampleImageFilter7PixelCentered.png
   --compareNumberOfPixelsTolerance 1
-  --process $<TARGET_FILE:ResampleImageFilter7>
+  $<TARGET_FILE:ResampleImageFilter7>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
         ${TEMP}/ResampleImageFilter7PixelCentered.png
         33
@@ -754,7 +754,7 @@ add_test(NAME  ResampleImageFilter7Test COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ResampleVolumesToBeIsotropicTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleVolumesToBeIsotropic.mha
             ${TEMP}/ResampleVolumesToBeIsotropic.mha
-  --process $<TARGET_FILE:ResampleVolumesToBeIsotropic>
+  $<TARGET_FILE:ResampleVolumesToBeIsotropic>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/mri3D.mhd
         ${TEMP}/ResampleVolumesToBeIsotropic.mha
         0 255
@@ -762,7 +762,7 @@ add_test(NAME  ResampleVolumesToBeIsotropicTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  ScaleSpaceGenerator2DTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ScaleSpaceGenerator2D005.mhd
             ${TEMP}/ScaleSpaceGenerator2D005.mhd
-  --process $<TARGET_FILE:ScaleSpaceGenerator2D>
+  $<TARGET_FILE:ScaleSpaceGenerator2D>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
         ${TEMP}/ScaleSpaceGenerator2D
         10
@@ -770,21 +770,21 @@ add_test(NAME  ScaleSpaceGenerator2DTest COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  SubsampleVolumeTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/SubsampleVolume.mha
             ${TEMP}/SubsampleVolume.mha
-  --process $<TARGET_FILE:SubsampleVolume>
+  $<TARGET_FILE:SubsampleVolume>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd
         ${TEMP}/SubsampleVolume.mha
         2 2 2
 )
 add_test(NAME  SpatialObjectToImage1 COMMAND ${ITK_TEST_DRIVER}
-  --process $<TARGET_FILE:SpatialObjectToImage1>
+  $<TARGET_FILE:SpatialObjectToImage1>
         ${TEMP}/SpatialObjectToImage1.mha
 )
 add_test(NAME  SpatialObjectToImage2 COMMAND ${ITK_TEST_DRIVER}
-  --process $<TARGET_FILE:SpatialObjectToImage2>
+  $<TARGET_FILE:SpatialObjectToImage2>
         ${TEMP}/SpatialObjectToImage2.mha
 )
 add_test(NAME  SpatialObjectToImage3 COMMAND ${ITK_TEST_DRIVER}
-  --process $<TARGET_FILE:SpatialObjectToImage3>
+  $<TARGET_FILE:SpatialObjectToImage3>
         ${TEMP}/SpatialObjectToImage3.mha
 )
 # The test tests 3 filters.
@@ -795,7 +795,7 @@ add_test(NAME  SpatialObjectToImage3 COMMAND ${ITK_TEST_DRIVER}
 add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FACorpusCallosum.mhd
             ${TEMP}/FACorpusCallosum.mhd
-  --process $<TARGET_FILE:DiffusionTensor3DReconstructionImageFilter>
+  $<TARGET_FILE:DiffusionTensor3DReconstructionImageFilter>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr
         80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
         ${TEMP}/RACorpusCallosum.mhd 0
@@ -803,7 +803,7 @@ add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest1 COMMAND ${ITK_TES
 add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RACorpusCallosum.mhd
             ${TEMP}/RACorpusCallosum.mhd
-  --process $<TARGET_FILE:DiffusionTensor3DReconstructionImageFilter>
+  $<TARGET_FILE:DiffusionTensor3DReconstructionImageFilter>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr
         80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
         ${TEMP}/RACorpusCallosum.mhd 0
