@@ -75,12 +75,12 @@ struct GetPointSetDimension {
  * TMeshTraits =
  *     Type information structure for the point set.
  *
- * \example DataRepresentation/Mesh/PointSet1.cxx
- * \example DataRepresentation/Mesh/PointSet2.cxx
- * \example DataRepresentation/Mesh/PointSet3.cxx
- * \example DataRepresentation/Mesh/RGBPointSet.cxx
- * \example DataRepresentation/Mesh/PointSetWithVectors.cxx
- * \example DataRepresentation/Mesh/PointSetWithCovariantVectors.cxx
+ * \example PointSet1.cxx
+ * \example PointSet2.cxx
+ * \example PointSet3.cxx
+ * \example RGBPointSet.cxx
+ * \example PointSetWithVectors.cxx
+ * \example PointSetWithCovariantVectors.cxx
  *
  * \ingroup MeshObjects
  * \ingroup DataRepresentation
