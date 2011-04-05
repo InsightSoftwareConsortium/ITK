@@ -149,8 +149,10 @@ public:
     return *this;
   }
 
-  /** Assignment operator  */
+  /** Assignment operators  */
   const Self & operator=(const Self & v);
+
+  const Self & operator=(TValueType const & v);
 
   /** Return the number of elements in the Array  */
   inline unsigned int Size(void) const
