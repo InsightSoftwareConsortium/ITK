@@ -498,6 +498,10 @@ install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
   DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
 install(EXPORT ITKTargets DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
 
+if(BUILD_TESTING)
+  add_subdirectory(Utilities/InstallTest)
+endif()
+
 #-----------------------------------------------------------------------------
 # The subdirectories added below this line should use only the public
 # interface with find_package(ITK).  Set ITK_DIR to use this ITK build.
