@@ -47,21 +47,6 @@
 # error "This test may build only inside ITK."
 #endif
 
-// Construct the name of the notes file.
-#define ITK_SYSTEM_INFORMATION_NOTES \
-  ITK_SYSTEM_INFORMATION_DIR "/Testing/HTML/TestingResults/Sites/" \
-  ITKTesting_SITE "/" ITKTesting_BUILD_NAME "/BuildNameNotes.xml"
-
-std::string itkGetCurrentDateTime(const char* format)
-{
-  char buf[1024];
-  time_t t;
-  time(&t);
-  strftime(buf, sizeof(buf), format, localtime(&t));
-  return buf;
-}
-
-
 void itkSystemInformationPrintFile(const char* name, std::ostream& os,
                                    bool note=false )
 {
@@ -159,44 +144,12 @@ int main(int,char *[])
       0
     };
 
+  std::cout << "CTEST_FULL_OUTPUT\n";
+
   const char** f;
   for(f = files; *f; ++f)
     {
     itkSystemInformationPrintFile(*f, std::cout);
     }
-
-  std::ofstream outf(ITK_SYSTEM_INFORMATION_NOTES, std::ios::out);
-  if(outf)
-    {
-    std::cout << "Also writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
-
-    outf << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl;
-    outf << "<Site BuildName=\"" << ITKTesting_BUILD_NAME << "\"  Name=\""
-         << ITKTesting_SITE << "\">" << std::endl;
-    outf << "<BuildNameNotes>" << std::endl;
-    for(f = files; *f; ++f)
-      {
-      outf << "<Note Name=\"" << *f << "\">" << std::endl;
-      outf << "<DateTime>"
-           << itkGetCurrentDateTime("%a %b %d %Y %H:%M:%S %Z")
-           << "</DateTime>" << std::endl;
-      outf << "<Text>" << std::endl;
-
-      itkSystemInformationPrintFile(*f, outf, true);
-
-      outf << "</Text>" << std::endl;
-      outf << "</Note>" << std::endl;
-      }
-
-    outf << "</BuildNameNotes>" << std::endl;
-    outf << "</Site>" << std::endl;
-    outf.close();
-    }
-  else
-    {
-    std::cerr << "Error writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
-    return EXIT_FAILURE;
-    }
-
   return EXIT_SUCCESS;
 }
