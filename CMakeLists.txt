@@ -6,6 +6,8 @@ include(PreventInBuildInstalls)
 include(ITKModuleMacros)
 include(itkCheckSourceTree)
 
+set(main_project_name "ITKModular")
+
 #-----------------------------------------------------------------------------
 # ITK version number.  An even minor number corresponds to releases.
 set(ITK_VERSION_MAJOR "4")
@@ -56,14 +58,17 @@ endmacro()
 
 macro(add_test)
   _add_test(${ARGN})
-  verify_itk_module_is_set()
+  if(itk-module)
+    set(_label ${itk-module})
+  else()
+    set(_label ${main_project_name})
+  endif()
   if("NAME" STREQUAL "${ARGV0}")
     set(_imm_test ${ARGV1})
   else()
     set(_imm_test ${ARGV0})
   endif()
-  set_property(TEST ${_imm_test} PROPERTY LABELS ${itk-module})
-  set_property(GLOBAL APPEND PROPERTY ${itk-module}_TESTS ${_imm_test})
+  set_property(TEST ${_imm_test} PROPERTY LABELS ${_label})
 endmacro()
 
 #-----------------------------------------------------------------------------
@@ -213,6 +218,9 @@ foreach(f ${meta})
     set(${itk-module-test}_TESTS_FOR ${itk-module})
   endif()
 endforeach()
+# Clear variables set later in each module.
+unset(itk-module)
+unset(itk-module-test)
 
 #----------------------------------------------------------------------
 # Provide module selections by groups
@@ -311,7 +319,6 @@ endforeach()
 # Construct an in-build-order list of "CDash subproject" modules from the
 # list of enabled modules:
 
-set(main_project_name "ITKModular")
 set(ITK_CDASH_SUBPROJECT_MODULES)
 
 if(ITK_GENERATE_PROJECT_XML OR ITK_GENERATE_SUBPROJECTS_CMAKE)
@@ -419,7 +426,6 @@ macro(init_module_vars)
   # add_library and add_test accumulate names into these properties:
   set_property(GLOBAL PROPERTY ${itk-module}_EXECUTABLE_TARGETS "")
   set_property(GLOBAL PROPERTY ${itk-module}_LIBRARY_TARGETS "")
-  set_property(GLOBAL PROPERTY ${itk-module}_TESTS "")
 endmacro()
 
 macro(add_module_target)
@@ -491,6 +497,10 @@ install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
               CMake/itkImageIOFactoryRegisterManager.h.in
   DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
 install(EXPORT ITKTargets DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
+
+if(BUILD_TESTING)
+  add_subdirectory(Utilities/InstallTest)
+endif()
 
 #-----------------------------------------------------------------------------
 # The subdirectories added below this line should use only the public
