@@ -1237,7 +1237,7 @@ add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest2
               ${TEMP}/N4ControlPoints_3D.nii.gz
     itkN4MRIBiasFieldCorrectionImageFilterTest
     3
-    ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolumeCompressed.mha    # input
+    ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha    # input
     ${TEMP}/N4ControlPoints_3D.nii.gz                                  # control point lattice
     3                                                                  # shrink factor
     10x10x10                                                           # number of iterations
