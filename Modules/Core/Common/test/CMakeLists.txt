@@ -272,35 +272,6 @@ if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
 
 endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
 
-set(ITK_SYSTEM_INFORMATION_DIR ${ITK_BINARY_DIR})
-
-write_file(
-  "${ITK_SYSTEM_INFORMATION_DIR}/Testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME}/BuildNameNotes.xml"
-
-  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-  "<Site BuildName=\"CMakeCache\" Name=\"crd\">\n"
-  "<BuildNameNotes>\n"
-  "<Note>\n"
-  "<DateTime>Wed Oct 24 1:00:00 EST</DateTime>\n"
-  "<Text>\n"
-  "The full itkSystemInformationTest did not run.\n"
-  "Here is some basic information:\n"
-  "ITK_SOURCE_DIR = ${ITK_SOURCE_DIR}\n"
-  "ITK_BINARY_DIR = ${ITK_BINARY_DIR}\n"
-  "ITKTesting_SOURCE_DIR = ${ITKTesting_SOURCE_DIR}\n"
-  "ITKTesting_BINARY_DIR = ${ITKTesting_BINARY_DIR}\n"
-  "CMAKE_C_COMPILER = ${CMAKE_C_COMPILER}\n"
-  "CMAKE_C_FLAGS = ${CMAKE_C_FLAGS}\n"
-  "CMAKE_CXX_COMPILER = ${CMAKE_CXX_COMPILER}\n"
-  "CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}\n"
-  "CMAKE_SYSTEM = ${CMAKE_SYSTEM}\n"
-  "CMAKE_MAKE_PROGRAM = ${CMAKE_MAKE_PROGRAM}\n"
-  "</Text>\n"
-  "</Note>\n"
-  "</BuildNameNotes>\n"
-  "</Site>\n"
-)
-
 configure_file(itkSystemInformationTest.h.in itkSystemInformationTest.h)
 include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
