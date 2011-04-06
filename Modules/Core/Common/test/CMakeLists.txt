@@ -301,7 +301,8 @@ write_file(
   "</Site>\n"
 )
 
-configure_file(itkSystemInformationTest.h.in  ${ITK-Common_BINARY_DIR}/itkSystemInformationTest.h)
+configure_file(itkSystemInformationTest.h.in itkSystemInformationTest.h)
+include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
 target_link_libraries(itkSystemInformationTest  ${ITK-Common_LIBRARIES})
 add_test(NAME itkSystemInformationTest COMMAND itkSystemInformationTest)
