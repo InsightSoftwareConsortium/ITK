@@ -8,5 +8,5 @@ target_link_libraries(ITK-GPUCommon-tests  ${ITK-GPUCommon_LIBRARIES} )
 
 add_test(NAME itkGPUImageFilterTest
         COMMAND ITK-GPUCommon-tests itkGPUImageFilterTest
-        ${ITK_DATA_ROOT}/../../Examples/Data/BrainProtonDensitySlice.png
+        ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
         ${TEMP}/gpuImageFilterTest.png)

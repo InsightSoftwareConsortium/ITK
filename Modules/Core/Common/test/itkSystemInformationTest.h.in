@@ -20,7 +20,6 @@
 #define __itk_SystemInformation_h
 
 #cmakedefine ITK_BINARY_DIR "@ITK_BINARY_DIR@"
-#cmakedefine ITKTesting_BINARY_DIR "@ITKTesting_BINARY_DIR@"
 #define ITKTesting_BUILD_NAME "@BUILDNAME@"
 #define ITKTesting_SITE "@SITE@"
 

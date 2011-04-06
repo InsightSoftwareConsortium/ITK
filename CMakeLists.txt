@@ -191,7 +191,8 @@ else()
   endforeach()
 endif()
 
-set(ITKTesting_BINARY_DIR "${ITK_BINARY_DIR}/Testing")
+# Location of ITK Example Data.
+set(ITK_EXAMPLE_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
 option(ITK_USE_FLOATINGPOINTEXCEPTIONS
       "Enable Floating Point Exceptions for Testing" OFF)

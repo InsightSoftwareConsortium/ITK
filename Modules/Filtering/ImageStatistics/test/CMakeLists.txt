@@ -99,25 +99,25 @@ add_test(NAME itkHistogramToEntropyImageFilterTest1
               ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest1.mhd)
 add_test(NAME itkHistogramToEntropyImageFilterTest2
       COMMAND ITK-ImageStatisticsTestDriver itkHistogramToEntropyImageFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest2.mhd)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest2.mhd)
 add_test(NAME itkHistogramToIntensityImageFilterTest1
       COMMAND ITK-ImageStatisticsTestDriver itkHistogramToIntensityImageFilterTest1
               ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest1.mhd)
 add_test(NAME itkHistogramToIntensityImageFilterTest2
       COMMAND ITK-ImageStatisticsTestDriver itkHistogramToIntensityImageFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest2.mhd)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest2.mhd)
 add_test(NAME itkHistogramToLogProbabilityImageFilterTest1
       COMMAND ITK-ImageStatisticsTestDriver itkHistogramToLogProbabilityImageFilterTest1
               ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest1.mhd)
 add_test(NAME itkHistogramToLogProbabilityImageFilterTest2
       COMMAND ITK-ImageStatisticsTestDriver itkHistogramToLogProbabilityImageFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest2.mhd)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest2.mhd)
 add_test(NAME itkHistogramToProbabilityImageFilterTest1
       COMMAND ITK-ImageStatisticsTestDriver itkHistogramToProbabilityImageFilterTest1
               ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest1.mhd)
 add_test(NAME itkHistogramToProbabilityImageFilterTest2
       COMMAND ITK-ImageStatisticsTestDriver itkHistogramToProbabilityImageFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest2.mhd)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest2.mhd)
 add_test(NAME itkAccumulateImageFilterTest
       COMMAND ITK-ImageStatisticsTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png

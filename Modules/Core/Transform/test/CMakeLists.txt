@@ -115,32 +115,32 @@ add_test(NAME itkBSplineDeformableTransformTest2
       COMMAND ITK-TransformTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest2PixelCentered.png
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png
-    itkBSplineDeformableTransformTest2 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements5.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.mhd 1)
+    itkBSplineDeformableTransformTest2 ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements5.txt ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.mhd 1)
 add_test(NAME itkBSplineDeformableTransformTest3
       COMMAND ITK-TransformTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest3PixelCentered.png
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png
-    itkBSplineDeformableTransformTest2 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements3.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.mhd 2)
+    itkBSplineDeformableTransformTest2 ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements3.txt ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.mhd 2)
 add_test(NAME itkBSplineDeformableTransformTest4
       COMMAND ITK-TransformTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest4PixelCentered.png
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png
-    itkBSplineDeformableTransformTest2 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.mhd 3)
+    itkBSplineDeformableTransformTest2 ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.mhd 3)
 add_test(NAME itkBSplineDeformableTransformTest5
       COMMAND ITK-TransformTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest5PixelCentered.png
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png
-    itkBSplineDeformableTransformTest3 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5DeformationFieldPixelCentered.mhd 0)
+    itkBSplineDeformableTransformTest3 ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5DeformationFieldPixelCentered.mhd 0)
 add_test(NAME itkBSplineDeformableTransformTest6
       COMMAND ITK-TransformTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest5PixelCentered.png
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png
-    itkBSplineDeformableTransformTest3 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6DeformationFieldPixelCentered.mhd 1)
+    itkBSplineDeformableTransformTest3 ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6DeformationFieldPixelCentered.mhd 1)
 add_test(NAME itkBSplineDeformableTransformTest7
       COMMAND ITK-TransformTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest5PixelCentered.png
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png
-    itkBSplineDeformableTransformTest3 ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.mhd 2)
+    itkBSplineDeformableTransformTest3 ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.mhd 2)
 add_test(NAME itkVersorRigid3DTransformTest
       COMMAND ITK-TransformTestDriver itkVersorRigid3DTransformTest)
 add_test(NAME itkVersorTransformTest

@@ -22,7 +22,7 @@ add_test(NAME itkBayesianClassifierImageFilterTest
       COMMAND ITK-ClassifiersTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/itkBayesianClassifierImageFilterTestLabelMap.png
               ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png
-    itkBayesianClassifierImageFilterTest ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png 4 2)
+    itkBayesianClassifierImageFilterTest ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png 4 2)
 add_test(NAME itkImageClassifierFilterTest
       COMMAND ITK-ClassifiersTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png

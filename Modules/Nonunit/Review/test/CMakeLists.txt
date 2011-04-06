@@ -200,7 +200,7 @@ itkReviewHeaderTest.cxx
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
-set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 
 if(ITK_USE_MINC2 AND MINC2_FOUND)
@@ -430,10 +430,10 @@ add_test(NAME itkBSplineControlPointImageFunctionTest
       COMMAND ITK-ReviewTestDriver itkBSplineControlPointImageFunctionTest)
 add_test(NAME itkBSplineDeformableTransformInitializerTest1
       COMMAND ITK-ReviewTestDriver itkBSplineDeformableTransformInitializerTest1
-              ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest1.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest1DeformationField.mhd)
+              ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest1.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest1DeformationField.mhd)
 add_test(NAME itkBSplineDeformableTransformInitializerTest2
       COMMAND ITK-ReviewTestDriver itkBSplineDeformableTransformInitializerTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest2.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest2DeformationField.mhd)
+              ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest2.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest2DeformationField.mhd)
 add_test(NAME itkTransformToDeformationFieldSourceTest03
       COMMAND ITK-ReviewTestDriver
     --compare ${TEMP}/transformedImage.nii
@@ -543,19 +543,19 @@ add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest06
               0 0 0.005 20.0 200 0.01 0.08 5 10)
 add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest07
       COMMAND ITK-ReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest07.mha 0 0 0.001 0.1)
+              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest07.mha 0 0 0.001 0.1)
 add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest08
       COMMAND ITK-ReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest08.mha 1 0 0.001 0.1)
+              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest08.mha 1 0 0.001 0.1)
 add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest09
       COMMAND ITK-ReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest09.mha 2 0 0.001 0.1)
+              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest09.mha 2 0 0.001 0.1)
 add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest10
       COMMAND ITK-ReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest10.mha 3 0 0.001 0.1)
+              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest10.mha 3 0 0.001 0.1)
 add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest11
       COMMAND ITK-ReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest11.mha 0 1 0.001 0.1)
+              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest11.mha 0 1 0.001 0.1)
 add_test(NAME itkDirectFourierReconstructionImageToImageFilterTest
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/reconstruct.mha
@@ -692,13 +692,13 @@ add_test(NAME itkHeavisideStepFunctionTest1
       COMMAND ITK-ReviewTestDriver itkHeavisideStepFunctionTest1)
 add_test(NAME itkImageReadComplexWriteMagnitudeAndPhaseTest
       COMMAND ITK-ReviewTestDriver itkImageReadComplexWriteMagnitudeAndPhaseTest
-              ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplex.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha)
+              ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplex.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha)
 add_test(NAME itkImageReadMagnitudeAndPhaseWriteComplexTest
       COMMAND ITK-ReviewTestDriver itkImageReadMagnitudeAndPhaseWriteComplexTest
-              ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplexMagnitude.mha ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplexPhase.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
+              ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplexMagnitude.mha ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplexPhase.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
 add_test(NAME itkImageReadRealAndImaginaryWriteComplexTest
       COMMAND ITK-ReviewTestDriver itkImageReadRealAndImaginaryWriteComplexTest
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
 add_test(NAME itkImageFunctionTest
       COMMAND ITK-ReviewTestDriver itkImageFunctionTest)
 add_test(NAME itkJPEG2000Test00
@@ -1224,7 +1224,7 @@ add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest1
     --compare ${BASELINE}/N4ControlPoints_2D.nii.gz
               ${TEMP}/N4ControlPoints_2D.nii.gz
     itkN4MRIBiasFieldCorrectionImageFilterTest 2
-    ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png    # input
+    ${ITK_EXAMPLE_DATA_ROOT}/BrainT1SliceBorder20.png    # input
     ${TEMP}/N4ControlPoints_2D.nii.gz                           # control point lattice
     4                                                           # shrink factor
     20x20                                                       # number of iterations
@@ -1237,7 +1237,7 @@ add_test(NAME itkN4MRIBiasFieldCorrectionImageFilterTest2
               ${TEMP}/N4ControlPoints_3D.nii.gz
     itkN4MRIBiasFieldCorrectionImageFilterTest
     3
-    ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolumeCompressed.mha    # input
+    ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha    # input
     ${TEMP}/N4ControlPoints_3D.nii.gz                                  # control point lattice
     3                                                                  # shrink factor
     10x10x10                                                           # number of iterations
@@ -1261,23 +1261,23 @@ add_test(NAME itkObjectToObjectMetricTest
       COMMAND ITK-ReviewTestDriver itkObjectToObjectMetricTest)
 add_test(NAME itkOptImageToImageMetricsTest01
       COMMAND ITK-ReviewTestDriver itkOptImageToImageMetricsTest
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
 add_test(NAME itkOptImageToImageMetricsTest02
       COMMAND ITK-ReviewTestDriver --with-threads 2
               itkOptImageToImageMetricsTest
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
 add_test(NAME itkOptImageToImageMetricsTest03
       COMMAND ITK-ReviewTestDriver --without-threads
               itkOptImageToImageMetricsTest
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
 add_test(NAME itkOptImageToImageMetricsTest04
       COMMAND ITK-ReviewTestDriver itkOptImageToImageMetricsTest2
-              ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest4.png)
+              ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png ${ITK_DATA_ROOT}/Baseline/Common/itkBSplineDeformableTransformTest4.png)
 add_test(NAME itkOptMattesImageToImageMetricsTest01
       COMMAND ITK-ReviewTestDriver itkOptMattesMutualInformationImageToImageMetricThreadsTest1
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png 0 100)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png 0 100)
 add_test(NAME itkPadLabelMapFilterTest1
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-pad.mha
@@ -1339,27 +1339,27 @@ add_test(NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
               ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
-    itkScalarChanAndVeseDenseLevelSetImageFilterTest2 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha 1 1 0 0 0)
+    itkScalarChanAndVeseDenseLevelSetImageFilterTest2 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha 1 1 0 0 0)
 add_test(NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
               ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
-    itkScalarChanAndVeseDenseLevelSetImageFilterTest2 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha 1 1 1 1 200)
+    itkScalarChanAndVeseDenseLevelSetImageFilterTest2 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha 1 1 1 1 200)
 add_test(NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
               ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
-    itkScalarChanAndVeseDenseLevelSetImageFilterTest2 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha 0 0 1 0 0)
+    itkScalarChanAndVeseDenseLevelSetImageFilterTest2 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha 0 0 1 0 0)
 add_test(NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3
       COMMAND ITK-ReviewTestDriver itkScalarChanAndVeseDenseLevelSetImageFilterTest2
-              ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3.mha 0 0 0 0 0)
+              ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3.mha 0 0 0 0 0)
 add_test(NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest3
       COMMAND ITK-ReviewTestDriver itkScalarChanAndVeseDenseLevelSetImageFilterTest3)
 add_test(NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest4
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
               ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha
-    itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha 1 1 0 0 0)
+    itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha 1 1 0 0 0)
 add_test(NAME itkScalarChanAndVeseLevelSetFunctionTest1
       COMMAND ITK-ReviewTestDriver itkScalarChanAndVeseLevelSetFunctionTest1)
 add_test(NAME itkScalarChanAndVeseLevelSetFunctionTest2
@@ -1370,7 +1370,7 @@ add_test(NAME itkScalarChanAndVeseSparseLevelSetImageFilterTest2
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
               ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
-    itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha)
+    itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha)
 add_test(NAME itkScalarRegionBasedLevelSetFunctionTest
       COMMAND ITK-ReviewTestDriver itkScalarRegionBasedLevelSetFunctionTest)
 add_test(NAME RGBColormapTest_red

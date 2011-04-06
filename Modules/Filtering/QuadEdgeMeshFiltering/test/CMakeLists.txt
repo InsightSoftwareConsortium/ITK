@@ -21,7 +21,7 @@ itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest.cxx
 CreateTestDriver(ITK-QuadEdgeMeshFiltering  "${ITK-QuadEdgeMeshFiltering-Test_LIBRARIES}" "${ITK-QuadEdgeMeshFilteringTests}")
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
-set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 add_test(NAME itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest
       COMMAND ITK-QuadEdgeMeshFilteringTestDriver

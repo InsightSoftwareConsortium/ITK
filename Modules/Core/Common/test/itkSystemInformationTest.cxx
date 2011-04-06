@@ -44,7 +44,7 @@
 #if defined(ITK_BINARY_DIR)
 # define ITK_SYSTEM_INFORMATION_DIR ITK_BINARY_DIR
 #else
-# define ITK_SYSTEM_INFORMATION_DIR ITKTesting_BINARY_DIR
+# error "This test may build only inside ITK."
 #endif
 
 // Construct the name of the notes file.

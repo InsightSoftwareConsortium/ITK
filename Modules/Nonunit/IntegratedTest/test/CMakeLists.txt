@@ -376,7 +376,7 @@ if(ITK_BUILD_SHARED_LIBS)
   set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
   add_library(FileFreeTestLib MODULE ${FileFreeTest_Source})
   target_link_libraries(FileFreeTestLib ${ITK-IO-Base_LIBRARIES})
-  set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/Testing/Temporary)
+  set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITK-IntegratedTestTestDriver FileFreeTestLib)
 endif(ITK_BUILD_SHARED_LIBS)
 
@@ -625,9 +625,9 @@ add_test(NAME itkSampleToSubsampleFilterTest1
       COMMAND ITK-IntegratedTestTestDriver itkSampleToSubsampleFilterTest1)
 add_test(NAME itkScalarImageKmeansImageFilter3DTest
       COMMAND ITK-IntegratedTestTestDriver
-    --compare ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1KmeansPrelimSegmentation.nii.gz
+    --compare ${ITK_EXAMPLE_DATA_ROOT}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz
               ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz
-    itkScalarImageKmeansImageFilter3DTest ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1UCharRaw.nii.gz ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1RawSkullStrip.nii.gz ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz)
+    itkScalarImageKmeansImageFilter3DTest ${ITK_EXAMPLE_DATA_ROOT}/KmeansTest_T1UCharRaw.nii.gz ${ITK_EXAMPLE_DATA_ROOT}/KmeansTest_T1RawSkullStrip.nii.gz ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz)
 add_test(NAME itkScalarImageToCooccurrenceListSampleFilterTest
       COMMAND ITK-IntegratedTestTestDriver itkScalarImageToCooccurrenceListSampleFilterTest)
 add_test(NAME itkScalarImageToCooccurrenceMatrixFilterTest
