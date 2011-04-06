@@ -76,7 +76,7 @@ add_test(NAME itkPermuteAxesImageFilterTest
       COMMAND ITK-ImageGridTestDriver itkPermuteAxesImageFilterTest)
 add_test(NAME itkOrientedImage2DTest01
       COMMAND ITK-ImageGridTestDriver itkOrientedImage2DTest
-              ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20DirectionPlus30.mhd 0.000 0.000 191.392 110.500 -128.500 222.569 4.000 -8.000 7.4641 -4.9282)
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd 0.000 0.000 191.392 110.500 -128.500 222.569 4.000 -8.000 7.4641 -4.9282)
 add_test(NAME itkOrientedImage3DTest01
       COMMAND ITK-ImageGridTestDriver itkOrientedImage3DTest
               ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd 0.000 0.000 0.000 166.277 -96.000 0.000 124.000 214.774 0.000 0.000 0.000 168.000 0.125 -4.125 9.000 -1.95425 -3.63485 9.000)

@@ -109,7 +109,6 @@ target_link_libraries(ITK-CommonTestDriver2 ${ITK-Common_LIBRARIES})
 set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
-set(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
 #-----------------------------------------------------------------------------
 if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
