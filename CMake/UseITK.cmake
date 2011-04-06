@@ -11,36 +11,39 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 
 # Add include directories needed to use ITK.
-include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration ${ITK_INCLUDE_DIRS})
+include_directories(BEFORE ${ITK_INCLUDE_DIRS})
 
 # Add link directories needed to use ITK.
 link_directories(${ITK_LIBRARY_DIRS})
 
+if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+  #
+  # Infrastructure for registering automatically the factories of commonly used IO formats
+  #
+  set(LIST_OF_FACTORIES_REGISTRATION "")
+  set(LIST_OF_FACTORY_NAMES "")
 
-#
-# Infrastructure for registering automatically the factories of commonly used IO formats
-#
-set(LIST_OF_FACTORIES_REGISTRATION "")
-set(LIST_OF_FACTORY_NAMES "")
+  foreach (ImageFormat  JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta)
+    if (ITK-IO-${ImageFormat}_LOADED)
+      set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
+      set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
+    endif()
+  endforeach()
 
+  foreach (ImageFormat  Nifti Nrrd Gipl)
+    string(TOUPPER ${ImageFormat} ImageFormat_UPPER)
+    if (ITK-IO-${ImageFormat_UPPER}_LOADED)
+      set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
+      set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
+    endif()
+  endforeach()
 
-foreach (ImageFormat  JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta)
-        if (ITK-IO-${ImageFormat}_LOADED)
-                set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
-                set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
-        endif()
-endforeach()
+  get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+  configure_file(${_selfdir}/itkImageIOFactoryRegisterManager.h.in
+   "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itkImageIOFactoryRegisterManager.h" @ONLY)
+  unset(LIST_OF_FACTORIES_REGISTRATION)
+  unset(LIST_OF_FACTORY_NAMES)
 
-foreach (ImageFormat  Nifti Nrrd Gipl)
-        string(TOUPPER ${ImageFormat} ImageFormat_UPPER)
-        if (ITK-IO-${ImageFormat_UPPER}_LOADED)
-                set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
-                set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
-        endif()
-endforeach()
-
-get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
-configure_file(${_selfdir}/itkImageIOFactoryRegisterManager.h.in
- "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itkImageIOFactoryRegisterManager.h" @ONLY)
-
-set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_IO_FACTORY_REGISTER_MANAGER)
+  set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_IO_FACTORY_REGISTER_MANAGER)
+  include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration)
+endif()
