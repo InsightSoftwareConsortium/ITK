@@ -241,9 +241,9 @@ add_test(NAME itkVariableLengthVectorTest COMMAND ITK-CommonTestDriver2 itkVaria
 add_test(NAME itkVariableSizeMatrixTest COMMAND ITK-CommonTestDriver2 itkVariableSizeMatrixTest)
 #add_test(NAME itkQuaternionOrientationAdapterTest COMMAND ITK-CommonTestDriver2 itkQuaternionOrientationAdapterTest)
 
-if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
+if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4 )
   add_test(NAME itkImageFillBufferTest4.1 COMMAND ITK-CommonTestDriver2 itkImageFillBufferTest 4.1)
-endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
+endif()
 
 #
 # this test depends on being able to raise C++ exceptions from

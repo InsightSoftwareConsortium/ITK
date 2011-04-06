@@ -874,7 +874,7 @@ itk_add_test(NAME DeformableRegistration15Test1 COMMAND ${ITK_TEST_DRIVER}
 )
 endif( DART_TESTING_TIMEOUT GREATER 10000 )
 
-if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
+if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 6 )
 
 set(NUMBER_OF_BSPLINE_GRID_NODES 32)
 itk_add_test(NAME DeformableRegistration8Test5 COMMAND ${ITK_TEST_DRIVER}
@@ -968,7 +968,7 @@ set_tests_properties(
   RUN_SERIAL 1
   )
 
-if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
+if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16 )
 
 itk_add_test(NAME DeformableRegistration8Test11 COMMAND ${ITK_TEST_DRIVER}
   DeformableRegistration8
@@ -1003,9 +1003,9 @@ itk_add_test(NAME DeformableRegistration8Test12 COMMAND ${ITK_TEST_DRIVER}
     PROPERTIES
     RUN_SERIAL 1
     )
-endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
+endif()
 
-endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
+endif()
 
 endif(ITK_USE_BRAINWEB_DATA)
 
