@@ -108,7 +108,7 @@ target_link_libraries(ITK-CommonTestDriver2 ${ITK-Common_LIBRARIES})
 
 set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 
-set(TEMP "${ITKTesting_BINARY_DIR}/Temporary")
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
 set(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
 #-----------------------------------------------------------------------------
@@ -138,7 +138,7 @@ if(ITK_BUILD_SHARED_LIBS)
   set(FactoryTest_Source itkFactoryTestLib.cxx)
   add_library(FactoryTestLib MODULE ${FactoryTest_Source})
   target_link_libraries(FactoryTestLib ${ITK-Common_LIBRARIES})
-  set_property(TARGET FactoryTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/Testing/Temporary)
+  set_property(TARGET FactoryTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITK-CommonTestDriver2 FactoryTestLib)
 endif(ITK_BUILD_SHARED_LIBS)
 

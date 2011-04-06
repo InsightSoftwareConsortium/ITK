@@ -9,7 +9,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest.cxx
  # Define some convenient locations
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Algorithms)
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
-set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 CreateTestDriver(ITK-PDEDeformableRegistration  "${ITK-PDEDeformableRegistration-Test_LIBRARIES}" "${ITK-PDEDeformableRegistrationTests}")
 

@@ -200,7 +200,7 @@ itkReviewHeaderTest.cxx
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
-set(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
+set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 
 if(ITK_USE_MINC2 AND MINC2_FOUND)

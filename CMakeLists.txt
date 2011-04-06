@@ -178,8 +178,6 @@ else()
   endforeach()
 endif()
 
-set(ITKTesting_BINARY_DIR "${ITK_BINARY_DIR}/Testing")
-
 option(ITK_USE_FLOATINGPOINTEXCEPTIONS
       "Enable Floating Point Exceptions for Testing" OFF)
 mark_as_advanced(ITK_USE_FLOATINGPOINTEXCEPTIONS)
