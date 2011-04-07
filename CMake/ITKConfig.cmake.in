@@ -36,8 +36,17 @@ set(ITK_USE_REVIEW "@ITK_USE_REVIEW@")
 # Load module interface macros.
 include("@ITK_CONFIG_MODULE_API_FILE@")
 
-# Load all modules into variables:
+# Compute set of requested modules.
+if(ITK_FIND_COMPONENTS)
+  # Specific modules requested by find_package(ITK).
+  set(ITK_MODULES_REQUESTED "${ITK_FIND_COMPONENTS}")
+else()
+  # No specific modules requested.  Use all of them.
+  set(ITK_MODULES_REQUESTED "${ITK_MODULES_ENABLED}")
+endif()
+
+# Load requested modules and their dependencies into variables:
 #  ITK_LIBRARIES       = Libraries to link
 #  ITK_INCLUDE_DIRS    = Header file search path
 #  ITK_LIBRARY_DIRS    = Library search path (for outside dependencies)
-itk_module_config(ITK ${ITK_MODULES_ENABLED})
+itk_module_config(ITK ${ITK_MODULES_REQUESTED})
