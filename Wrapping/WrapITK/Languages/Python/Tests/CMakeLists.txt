@@ -1,6 +1,14 @@
 
 # configure the test driver
 macro(add_python_test name)
+  set(command "${PYTHON_EXECUTABLE}")
+
+  # add extra command which may be needed on some systems
+  if(CMAKE_OSX_ARCHITECTURES)
+    list(GET CMAKE_OSX_ARCHITECTURES 0 test_arch)
+    set(command arch -${test_arch} ${command})
+  endif()
+
   add_test(NAME ${name}
     COMMAND "${ITK_TEST_DRIVER}"
     --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}/$<CONFIGURATION>"
@@ -10,7 +18,7 @@ macro(add_python_test name)
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
     --add-before-libpath "${ITK_DIR}"
-    "${PYTHON_EXECUTABLE}"
+    ${command}
     ${ARGN}
     )
 endmacro()
