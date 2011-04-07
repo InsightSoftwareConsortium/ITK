@@ -36,16 +36,9 @@
 #include <cstdlib>
 #include <cstring>
 #include "itkConfigure.h"
-#include "itkSystemInformationTest.h"
 #include <sys/stat.h>
 #include <time.h>
 #include <string.h>
-
-#if defined(ITK_BINARY_DIR)
-# define ITK_SYSTEM_INFORMATION_DIR ITK_BINARY_DIR
-#else
-# error "This test may build only inside ITK."
-#endif
 
 void itkSystemInformationPrintFile(const char* name, std::ostream& os,
                                    bool note=false )
@@ -128,28 +121,33 @@ void itkSystemInformationPrintFile(const char* name, std::ostream& os,
     }
 }
 
-int main(int,char *[])
+int main(int argc, const char* argv[])
 {
+  if(argc != 2)
+    {
+    std::cerr << "Usage: itkSystemInformationTest <top-of-build-tree>\n";
+    return EXIT_FAILURE;
+    }
+  std::string build_dir = argv[1];
+  build_dir += "/";
+
   const char* files[] =
     {
-      ITK_SYSTEM_INFORMATION_DIR "/CMakeCache.txt",
-      ITK_SYSTEM_INFORMATION_DIR "/itkConfigure.h",
-      ITK_SYSTEM_INFORMATION_DIR "/CMakeFiles/CMakeOutput.log",
-      ITK_SYSTEM_INFORMATION_DIR "/CMakeFiles/CMakeError.log",
-      ITK_SYSTEM_INFORMATION_DIR "/CMakeOutput.log",
-      ITK_SYSTEM_INFORMATION_DIR "/CMakeError.log",
-      ITK_SYSTEM_INFORMATION_DIR "/ITKBuildSettings.cmake",
-      ITK_SYSTEM_INFORMATION_DIR "/ITKLibraryDepends.cmake",
-      ITK_SYSTEM_INFORMATION_DIR "/ITKConfig.cmake",
+      "CMakeCache.txt",
+      "Modules/Core/Common/itkConfigure.h",
+      "CMakeFiles/CMakeOutput.log",
+      "CMakeFiles/CMakeError.log",
+      "ITKConfig.cmake",
+      "ITKConfigVersion.cmake",
+      "ITKTargets.cmake",
       0
     };
 
   std::cout << "CTEST_FULL_OUTPUT\n";
-
-  const char** f;
-  for(f = files; *f; ++f)
+  for(const char** f = files; *f; ++f)
     {
-    itkSystemInformationPrintFile(*f, std::cout);
+    std::string fname = build_dir + *f;
+    itkSystemInformationPrintFile(fname.c_str(), std::cout);
     }
   return EXIT_SUCCESS;
 }
