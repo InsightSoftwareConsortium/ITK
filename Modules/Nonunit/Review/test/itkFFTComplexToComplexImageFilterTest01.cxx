@@ -76,7 +76,7 @@ int itkFFTComplexToComplexImageFilterTest01( int argc, char * argv[] )
 
 
   //  FFT filter
-  typedef itk::FFTComplexToComplexImageFilter < PixelComponentType, Dimension> FFTFilterType;
+  typedef itk::FFTComplexToComplexImageFilter < ImageType > FFTFilterType;
 
   int Direction = 1;
 

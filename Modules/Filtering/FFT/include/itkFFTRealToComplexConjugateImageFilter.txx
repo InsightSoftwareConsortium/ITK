@@ -28,58 +28,58 @@
 namespace itk
 {
 
-template <typename TSelfPointer, unsigned int VDimension, typename TPixel>
+template <typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel>
 struct DispatchFFTW_R2C_New
 {
   static TSelfPointer apply()
     {
-      return VnlFFTRealToComplexConjugateImageFilter< TPixel, VDimension >
+      return VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
     }
 };
 
 #ifdef USE_FFTWD
-template <typename TSelfPointer, unsigned int VDimension>
-struct DispatchFFTW_R2C_New<TSelfPointer, VDimension, double>
+template <typename TSelfPointer, class TInputImage, class TOutputImage>
+struct DispatchFFTW_R2C_New<TSelfPointer, TInputImage, TOutputImage, double>
 {
   static TSelfPointer apply()
     {
-      return FFTWRealToComplexConjugateImageFilter< double, VDimension >
+      return FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
     }
 };
 #endif
 
 #ifdef USE_FFTWF
-template <typename TSelfPointer, unsigned int VDimension>
-struct DispatchFFTW_R2C_New<TSelfPointer, VDimension, float>
+template <typename TSelfPointer, class TInputImage, class TOutputImage>
+struct DispatchFFTW_R2C_New<TSelfPointer, TInputImage, TOutputImage, float>
 {
   static TSelfPointer apply()
     {
-      return FFTWRealToComplexConjugateImageFilter< float, VDimension >
+      return FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
     }
 };
 #endif
 
-template< class TPixel, unsigned int VDimension >
-typename FFTRealToComplexConjugateImageFilter< TPixel, VDimension >::Pointer
-FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
+template< class TInputImage, class TOutputImage >
+typename FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::Pointer
+FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 ::New(void)
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
 
   if ( smartPtr.IsNull() )
     {
-    smartPtr = DispatchFFTW_R2C_New<Pointer, VDimension, TPixel>::apply();
+    smartPtr = DispatchFFTW_R2C_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::apply();
     }
 
   return smartPtr;
 }
 
-template< class TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 void
-FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
+FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -94,8 +94,8 @@ FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
     }
 
   // get pointers to the input and output
-  typename TInputImageType::ConstPointer inputPtr  = this->GetInput();
-  typename TOutputImageType::Pointer outputPtr = this->GetOutput();
+  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
+  typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
     {
@@ -107,13 +107,13 @@ FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
   // ShrinkImageFilter also modifies the image spacing, but spacing
   // has no meaning in the result of an FFT.
   unsigned int i;
-  const typename TInputImageType::SizeType &   inputSize =
+  const typename InputImageType::SizeType &   inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImageType::IndexType &  inputStartIndex =
+  const typename InputImageType::IndexType &  inputStartIndex =
     inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  typename TOutputImageType::SizeType outputSize;
-  typename TOutputImageType::IndexType outputStartIndex;
+  typename OutputImageType::SizeType outputSize;
+  typename OutputImageType::IndexType outputStartIndex;
 
   //
   // in 4.3.4 of the FFTW documentation, they indicate the size of
@@ -125,7 +125,7 @@ FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
   outputSize[0] = static_cast< unsigned int >( inputSize[0] ) / 2 + 1;
   outputStartIndex[0] = inputStartIndex[0];
 
-  for ( i = 1; i < TOutputImageType::ImageDimension; i++ )
+  for ( i = 1; i < OutputImageType::ImageDimension; i++ )
     {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];
@@ -134,29 +134,29 @@ FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
   // the halving of the input size hides the actual size of the input.
   // to get the same size image out of the IFFT, need to send it as
   // Metadata.
-  typedef typename TOutputImageType::SizeType::SizeValueType SizeScalarType;
+  typedef typename OutputImageType::SizeType::SizeValueType SizeScalarType;
   itk::MetaDataDictionary & OutputDic = outputPtr->GetMetaDataDictionary();
   itk::EncapsulateMetaData< SizeScalarType >(OutputDic,
                                              std::string("FFT_Actual_RealImage_Size"),
                                              inputSize[0]);
-  typename TOutputImageType::RegionType outputLargestPossibleRegion;
+  typename OutputImageType::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize(outputSize);
   outputLargestPossibleRegion.SetIndex(outputStartIndex);
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
 
-template< class TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 void
-FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
+FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  typename TInputImageType::Pointer input  =
-    const_cast< TInputImageType * >( this->GetInput() );
+  typename InputImageType::Pointer input  =
+    const_cast< InputImageType * >( this->GetInput() );
 
   if ( !input )
     {
@@ -166,9 +166,9 @@ FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 void
-FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
+FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);

@@ -38,13 +38,13 @@
 namespace itk
 {
 #if defined( USE_FFTWD ) || defined( USE_FFTWF )
-template< class TPixel, unsigned int NDimension >
+template< class TImage >
 class FFTWComplexToComplexImageFilter;
 #endif
 
-template< class TPixel, unsigned int NDimension >
-typename FFTComplexToComplexImageFilter< TPixel, NDimension >::Pointer
-FFTComplexToComplexImageFilter< TPixel, NDimension >
+template< class TImage >
+typename FFTComplexToComplexImageFilter< TImage >::Pointer
+FFTComplexToComplexImageFilter< TImage >
 ::New(void)
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
@@ -52,20 +52,20 @@ FFTComplexToComplexImageFilter< TPixel, NDimension >
 #ifdef USE_FFTWD
   if ( smartPtr.IsNull() )
     {
-    if ( typeid( TPixel ) == typeid( double ) )
+    if ( typeid( typename ImageType::PixelType::value_type ) == typeid( double ) )
       {
       smartPtr = dynamic_cast< Self * >(
-        FFTWComplexToComplexImageFilter< double, NDimension >::New().GetPointer() );
+        FFTWComplexToComplexImageFilter< TImage >::New().GetPointer() );
       }
     }
 #endif
 #ifdef USE_FFTWF
   if ( smartPtr.IsNull() )
     {
-    if ( typeid( TPixel ) == typeid( float ) )
+    if ( typeid( typename ImageType::PixelType::value_type ) == typeid( float ) )
       {
       smartPtr = dynamic_cast< Self * >(
-        FFTWComplexToComplexImageFilter< float, NDimension >::New().GetPointer() );
+        FFTWComplexToComplexImageFilter< TImage >::New().GetPointer() );
       }
     }
 #endif
@@ -73,9 +73,9 @@ FFTComplexToComplexImageFilter< TPixel, NDimension >
   return smartPtr;
 }
 
-template< class TPixel, unsigned int NDimension >
+template< class TImage >
 void
-FFTComplexToComplexImageFilter< TPixel, NDimension >::GenerateOutputInformation()
+FFTComplexToComplexImageFilter< TImage >::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
@@ -131,9 +131,9 @@ FFTComplexToComplexImageFilter< TPixel, NDimension >::GenerateOutputInformation(
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
 
-template< class TPixel, unsigned int NDimension >
+template< class TImage >
 void
-FFTComplexToComplexImageFilter< TPixel, NDimension >::GenerateInputRequestedRegion()
+FFTComplexToComplexImageFilter< TImage >::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output

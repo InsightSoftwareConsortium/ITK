@@ -28,15 +28,15 @@
 
 namespace itk
 {
-template< class TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 void
-VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateData()
+VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::GenerateData()
 {
   unsigned int i;
 
   // get pointers to the input and output
-  typename TInputImageType::ConstPointer inputPtr  = this->GetInput();
-  typename TOutputImageType::Pointer outputPtr = this->GetOutput();
+  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
+  typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
     {
@@ -47,7 +47,7 @@ VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateData()
   // reports the begining and the end of the process
   ProgressReporter progress(this, 0, 1);
 
-  const typename TInputImageType::SizeType &   outputSize =
+  const typename InputImageType::SizeType &   outputSize =
     outputPtr->GetLargestPossibleRegion().GetSize();
   unsigned int num_dims = outputPtr->GetImageDimension();
 
@@ -60,7 +60,7 @@ VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateData()
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  std::complex< TPixel > *in = const_cast< std::complex< TPixel > * >
+  InputPixelType *in = const_cast< InputPixelType * >
                                ( inputPtr->GetBufferPointer() );
 
   unsigned int vec_size = 1;
@@ -69,32 +69,32 @@ VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateData()
     vec_size *= outputSize[i];
     }
 
-  vnl_vector< vcl_complex< TPixel > > signal(vec_size);
+  vnl_vector< InputPixelType > signal(vec_size);
   for ( i = 0; i < vec_size; i++ )
     {
     signal[i] = in[i];
     }
 
-  TPixel *out = outputPtr->GetBufferPointer();
+  OutputPixelType *out = outputPtr->GetBufferPointer();
 
   switch ( num_dims )
     {
     case 1:
       {
-      vnl_fft_1d< TPixel > v1d(vec_size);
+      vnl_fft_1d< OutputPixelType > v1d(vec_size);
       v1d.fwd_transform(signal);
       }
       break;
     case 2:
       {
-      vnl_fft_2d< TPixel > v2d(outputSize[1], outputSize[0]);
-      v2d.vnl_fft_2d< TPixel >::base::transform(signal.data_block(), +1);
+      vnl_fft_2d< OutputPixelType > v2d(outputSize[1], outputSize[0]);
+      v2d.vnl_fft_2d< OutputPixelType >::base::transform(signal.data_block(), +1);
       }
       break;
     case 3:
       {
-      vnl_fft_3d< TPixel > v3d(outputSize[2], outputSize[1], outputSize[0]);
-      v3d.vnl_fft_3d< TPixel >::base::transform(signal.data_block(), +1);
+      vnl_fft_3d< OutputPixelType > v3d(outputSize[2], outputSize[1], outputSize[0]);
+      v3d.vnl_fft_3d< OutputPixelType >::base::transform(signal.data_block(), +1);
       }
       break;
     default:
@@ -106,9 +106,9 @@ VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >::GenerateData()
     }
 }
 
-template< class TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 bool
-VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >::FullMatrix()
+VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::FullMatrix()
 {
   return true;
 }

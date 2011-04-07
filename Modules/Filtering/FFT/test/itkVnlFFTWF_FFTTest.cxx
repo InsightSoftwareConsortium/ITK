@@ -31,6 +31,13 @@
 // and double.
 int itkVnlFFTWF_FFTTest(int argc, char *argv[])
 {
+  typedef itk::Image< float, 1>               ImageF1;
+  typedef itk::Image< std::complex<float>, 1> ImageCF1;
+  typedef itk::Image< float, 2>               ImageF2;
+  typedef itk::Image< std::complex<float>, 2> ImageCF2;
+  typedef itk::Image< float, 3>               ImageF3;
+  typedef itk::Image< std::complex<float>, 3> ImageCF3;
+
   itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
   itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);
   itk::FFTWGlobalConfiguration::SetReadWisdomCache(true);
@@ -48,33 +55,33 @@ int itkVnlFFTWF_FFTTest(int argc, char *argv[])
   int rval = 0;
   std::cerr << "VnlFFTWF:float,1 (4,4,4)" << std::endl;
   if((test_fft_rtc<float,1,
-      itk::VnlFFTRealToComplexConjugateImageFilter<float,1> ,
-      itk::FFTWRealToComplexConjugateImageFilter<float,1> >(SizeOfDimensions1)) != 0)
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF1> ,
+      itk::FFTWRealToComplexConjugateImageFilter<ImageF1> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,2 (4,4,4)"<< std::endl;
   if((test_fft_rtc<float,2,
-      itk::VnlFFTRealToComplexConjugateImageFilter<float,2> ,
-      itk::FFTWRealToComplexConjugateImageFilter<float,2> >(SizeOfDimensions1)) != 0)
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF2> ,
+      itk::FFTWRealToComplexConjugateImageFilter<ImageF2> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,3 (4,4,4)"<< std::endl;
   if((test_fft_rtc<float,3,
-      itk::VnlFFTRealToComplexConjugateImageFilter<float,3> ,
-      itk::FFTWRealToComplexConjugateImageFilter<float,3> >(SizeOfDimensions1)) != 0)
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF3> ,
+      itk::FFTWRealToComplexConjugateImageFilter<ImageF3> >(SizeOfDimensions1)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,1 (3,5,4)" << std::endl;
   if((test_fft_rtc<float,1,
-      itk::VnlFFTRealToComplexConjugateImageFilter<float,1> ,
-      itk::FFTWRealToComplexConjugateImageFilter<float,1> >(SizeOfDimensions2)) != 0)
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF1> ,
+      itk::FFTWRealToComplexConjugateImageFilter<ImageF1> >(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,2 (3,5,4)"<< std::endl;
   if((test_fft_rtc<float,2,
-      itk::VnlFFTRealToComplexConjugateImageFilter<float,2> ,
-      itk::FFTWRealToComplexConjugateImageFilter<float,2> >(SizeOfDimensions2)) != 0)
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF2> ,
+      itk::FFTWRealToComplexConjugateImageFilter<ImageF2> >(SizeOfDimensions2)) != 0)
     rval++;
   std::cerr << "VnlFFTWF:float,3 (3,5,4)"<< std::endl;
   if((test_fft_rtc<float,3,
-      itk::VnlFFTRealToComplexConjugateImageFilter<float,3> ,
-      itk::FFTWRealToComplexConjugateImageFilter<float,3> >(SizeOfDimensions2)) != 0)
+      itk::VnlFFTRealToComplexConjugateImageFilter<ImageF3> ,
+      itk::FFTWRealToComplexConjugateImageFilter<ImageF3> >(SizeOfDimensions2)) != 0)
     rval++;
 
   return (rval == 0) ? 0 : -1;

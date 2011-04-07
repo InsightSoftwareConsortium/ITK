@@ -32,8 +32,8 @@ typedef double    InternalPixelType;
 typedef short int OutputPixelType;
 
 typedef itk::Image< OutputPixelType, 3 > OutputImageType;
-typedef itk::DirectFourierReconstructionImageToImageFilter< InternalPixelType, InternalPixelType > ReconstructionFilterType;
-typedef ReconstructionFilterType::OutputImageType InternalImageType;
+typedef itk::Image< InternalPixelType, 3 > InternalImageType;
+typedef itk::DirectFourierReconstructionImageToImageFilter< InternalImageType, InternalImageType > ReconstructionFilterType;
 
 typedef itk::RecursiveGaussianImageFilter< InternalImageType, InternalImageType > SmootherType;
 typedef itk::RescaleIntensityImageFilter< InternalImageType, OutputImageType >    RescalerType;
