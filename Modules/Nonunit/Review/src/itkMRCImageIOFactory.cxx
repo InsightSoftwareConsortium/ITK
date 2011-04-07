@@ -55,4 +55,19 @@ MRCImageIOFactory::GetDescription(void) const
 {
   return "MRC ImageIO Factory, allows the loading of MRC images into ITK";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool MRCImageIOFactoryHasBeenRegistered;
+
+void MRCImageIOFactoryRegister__Private(void)
+{
+  if( ! MRCImageIOFactoryHasBeenRegistered )
+    {
+    MRCImageIOFactoryHasBeenRegistered = true;
+    MRCImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk
