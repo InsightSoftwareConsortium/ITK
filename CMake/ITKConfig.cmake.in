@@ -33,20 +33,11 @@ endif()
 
 set(ITK_USE_REVIEW "@ITK_USE_REVIEW@")
 
-# Load all modules.
-set(ITK_LIBRARIES "")
-set(ITK_INCLUDE_DIRS "")
-set(ITK_LIBRARY_DIRS "")
-foreach(itk-module ${ITK_MODULES_ENABLED})
-  if(NOT ${itk-module}_LOADED)
-    include("${ITK_MODULES_DIR}/${itk-module}.cmake")
-  endif()
-  list(APPEND ITK_LIBRARIES ${${itk-module}_LIBRARIES})
-  list(APPEND ITK_INCLUDE_DIRS ${${itk-module}_INCLUDE_DIRS})
-  list(APPEND ITK_LIBRARY_DIRS ${${itk-module}_LIBRARY_DIRS})
-endforeach()
-foreach(v ITK_LIBRARIES ITK_INCLUDE_DIRS ITK_LIBRARY_DIRS)
-  if(${v})
-    list(REMOVE_DUPLICATES ${v})
-  endif()
-endforeach()
+# Load module interface macros.
+include("@ITK_CONFIG_MODULE_API_FILE@")
+
+# Load all modules into variables:
+#  ITK_LIBRARIES       = Libraries to link
+#  ITK_INCLUDE_DIRS    = Header file search path
+#  ITK_LIBRARY_DIRS    = Library search path (for outside dependencies)
+itk_module_config(ITK ${ITK_MODULES_ENABLED})
