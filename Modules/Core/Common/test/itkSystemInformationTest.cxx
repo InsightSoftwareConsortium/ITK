@@ -40,84 +40,33 @@
 #include <time.h>
 #include <string.h>
 
-void itkSystemInformationPrintFile(const char* name, std::ostream& os,
-                                   bool note=false )
+void itkSystemInformationPrintFile(const char* name, std::ostream& os)
 {
-  if (!note)
-    {
-    os << "================================================================\n";
-    }
+  const char* div =
+    "=======================================================================";
+  os << "System Information File \"" << name << "\"";
   struct stat fs;
   if(stat(name, &fs) != 0)
     {
-    os << "The file \"" << name << "\" does not exist.\n";
+    os << " does not exist.\n";
     return;
     }
+  else
+    {
+    os << " has " << fs.st_size << " bytes";
+    }
 
-#ifdef _WIN32
-  std::ifstream fin(name, std::ios::in);
-#else
-  std::ifstream fin(name, std::ios::in);
-#endif
-
+  std::ifstream fin(name);
   if(fin)
     {
-    if (!note)
-      {
-      os << "Contents of \"" << name << "\":\n";
-      os << "----------------------------------------------------------------\n";
-      }
-    const int bufferSize = 4096;
-    char bufferIn[bufferSize];
-    char bufferOut[6*bufferSize]; // worst case scenario
-    // This copy loop is very sensitive on certain platforms with
-    // slightly broken stream libraries (like HPUX).  Normally, it is
-    // incorrect to not check the error condition on the fin.read()
-    // before using the data, but the fin.gcount() will be zero if an
-    // error occurred.  Therefore, the loop should be safe everywhere.
-    while(fin)
-      {
-      fin.read(bufferIn, bufferSize);
-      if(fin.gcount())
-        {
-        // convert buffer to an XML safe form
-        const char *s = bufferIn;
-        char *x = bufferOut;
-        *x = '\0';
-        for (int i = 0; i < static_cast<int>(fin.gcount()); i++)
-          {
-          // replace all special characters
-          switch (*s)
-            {
-            case '&':
-              strcat(x, "&amp;"); x += 5;
-              break;
-            case '"':
-              strcat(x, "&quot;"); x += 6;
-              break;
-            case '\'':
-              strcat(x, "&apos;"); x += 6;
-              break;
-            case '<':
-              strcat(x, "&lt;"); x += 4;
-              break;
-            case '>':
-              strcat(x, "&gt;"); x += 4;
-              break;
-            default:
-              *x = *s; x++;
-              *x = '\0'; // explicitly terminate the new string
-            }
-          s++;
-          }
-        os.write(bufferOut, x - bufferOut);
-        }
-      }
+    os << ":\n[" << div << "[\n";
+    os << fin.rdbuf();
+    os << "]" << div << "]\n";
     os.flush();
     }
   else
     {
-    os << "Error opening \"" << name << "\" for reading.\n";
+    os << " but cannot be opened for read.\n";
     }
 }
 
@@ -143,7 +92,6 @@ int main(int argc, const char* argv[])
       0
     };
 
-  std::cout << "CTEST_FULL_OUTPUT\n";
   for(const char** f = files; *f; ++f)
     {
     std::string fname = build_dir + *f;
