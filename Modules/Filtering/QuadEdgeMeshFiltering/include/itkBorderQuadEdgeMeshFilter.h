@@ -146,7 +146,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   BorderTransformType m_TransformType;
-  BorderPickType m_BorderPick;
+  BorderPickType      m_BorderPick;
 
   InputCoordRepType m_Radius;
 
