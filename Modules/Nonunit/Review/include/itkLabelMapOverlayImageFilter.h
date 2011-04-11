@@ -97,26 +97,26 @@ public:
                ImageToImageFilter);
 
    /** Set the feature image */
-  void SetFeatureImage(TFeatureImage *input)
+  void SetFeatureImage(const TFeatureImage *input)
     {
     // Process object is not const-correct so the const casting is required.
     this->SetNthInput( 1, const_cast<TFeatureImage *>(input) );
     }
 
   /** Get the feature image */
-  FeatureImageType * GetFeatureImage()
+  const FeatureImageType * GetFeatureImage()
     {
-    return static_cast<FeatureImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
+    return static_cast<FeatureImageType*>((this->ProcessObject::GetInput(1)));
     }
 
    /** Set the input image */
-  void SetInput1(TInputImage *input)
+  void SetInput1(const TInputImage *input)
     {
     this->SetInput( input );
     }
 
   /** Set the feature image */
-  void SetInput2(TFeatureImage *input)
+  void SetInput2(const TFeatureImage *input)
     {
     this->SetFeatureImage( input );
     }
