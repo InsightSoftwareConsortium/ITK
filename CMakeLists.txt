@@ -246,7 +246,6 @@ else()
 endif()
 option(ITK_BUILD_ALL_MODULES "Request to build all modules"
   ${ITK_BUILD_ALL_MODULES_DEFAULT})
-mark_as_advanced(ITK_BUILD_ALL_MODULES)
 
 foreach(itk-module ${ITK_MODULES_ALL})
   if(NOT ${itk-module}_IS_TEST)
