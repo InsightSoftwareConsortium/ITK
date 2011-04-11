@@ -20,13 +20,6 @@
 #include <iostream>
 #include <float.h>
 
-#if !defined(ITK_USE_FPE)
-int
-itkFloatingPointExceptionsTest(int , char *[] )
-{
-  return 0;
-}
-#else
 int
 itkFloatingPointExceptionsTest(int argc, char *argv[] )
 {
@@ -156,4 +149,3 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     }
   return error_return;
 }
-#endif
