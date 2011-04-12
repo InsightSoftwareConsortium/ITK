@@ -232,11 +232,8 @@ unset(itk-module)
 unset(itk-module-test)
 
 #----------------------------------------------------------------------
-# Provide module selections by groups
-include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
 
-
-# Provide an option for every module.
+# Provide an option for all modules.
 if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
   # developer build
   set(ITK_BUILD_ALL_MODULES_DEFAULT OFF)
@@ -247,6 +244,10 @@ endif()
 option(ITK_BUILD_ALL_MODULES "Request to build all modules"
   ${ITK_BUILD_ALL_MODULES_DEFAULT})
 
+# Provide module selections by groups
+include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
+
+# Provide an option for each module.
 foreach(itk-module ${ITK_MODULES_ALL})
   if(NOT ${itk-module}_IS_TEST)
     option(Module_${itk-module} "Request building ${itk-module}" "${ITK_MODULE_${itk-module}_DEFAULT}")
@@ -320,6 +321,17 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
       set(_reason ", needed by [${ITK_MODULE_${itk-module}_NEEDED_BY}]")
     endif()
     message(STATUS "Enabled ${itk-module}${_reason}.")
+  endif()
+endforeach()
+
+# Hide options for modules that will build anyway.
+foreach(itk-module ${ITK_MODULES_ALL})
+  if(NOT ${itk-module}_IS_TEST)
+    if(ITK_BUILD_ALL_MODULES OR ITK_MODULE_${itk-module}_NEEDED_BY)
+      set_property(CACHE Module_${itk-module} PROPERTY TYPE INTERNAL)
+    else()
+      set_property(CACHE Module_${itk-module} PROPERTY TYPE BOOL)
+    endif()
   endif()
 endforeach()
 
