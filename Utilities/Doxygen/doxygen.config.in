@@ -853,7 +853,7 @@ HTML_HEADER            = @ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenHeader.ht
 # each generated HTML page. If it is left blank doxygen will generate a
 # standard footer.
 
-HTML_FOOTER            =
+HTML_FOOTER            = @ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenFooter.html
 
 # If the HTML_TIMESTAMP tag is set to YES then the generated HTML
 # documentation will contain the timesstamp.
@@ -867,7 +867,7 @@ HTML_TIMESTAMP         = YES
 # the style sheet file to the HTML output directory, so don't put your own
 # stylesheet in the HTML output directory as well, or it will be erased!
 
-HTML_STYLESHEET        =
+HTML_STYLESHEET        = @ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenStyle.css
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output.
 # Doxygen will adjust the colors in the stylesheet and background images
