@@ -102,7 +102,7 @@ void VariableLengthVector< TValueType >
       TValueType *temp = this->AllocateElements(size);
       // only copy the portion of the data used in the old buffer
       memcpy( temp, m_Data, m_NumElements * sizeof( TValueType ) );
-      if ( m_Data && m_LetArrayManageMemory )
+      if ( m_LetArrayManageMemory )
         {
         delete[] m_Data;
         }
@@ -188,36 +188,68 @@ VariableLengthVector< TValueType >
   m_NumElements = sz;
 }
 
+
+template< typename TValueType >
+void VariableLengthVector< TValueType >
+::DestroyExistingData()
+{
+    // Free any existing data if we manage its memory.
+  if ( !m_LetArrayManageMemory )
+    {
+    m_Data = 0;
+    m_NumElements = 0;
+    return;
+    }
+
+  if ( m_Data )
+    {
+    if ( m_NumElements > 0 )
+      {
+      delete[] m_Data;
+      m_Data = 0;
+      m_NumElements = 0;
+      }
+    }
+}
+
 template< typename TValueType >
 void VariableLengthVector< TValueType >
 ::SetSize(unsigned int sz, bool destroyExistingData)
 {
   if ( destroyExistingData )
     {
-    // Free any existing data if we manage its memory and if we need to destroy
-    if ( !m_LetArrayManageMemory )
-      {
-      m_Data = 0;
-      m_NumElements = 0;
-      }
-    else if ( m_Data )
-      {
-      if ( ( m_NumElements != sz ) )
-        {
-        if ( m_NumElements > 0 )
-          {
-          delete[] m_Data;
-          m_Data = 0;
-          }
-        }
-      else { return; }
-      }
+    this->DestroyExistingData();
     }
 
-  if ( m_NumElements != sz )
+  if ( !m_Data )
     {
-    Reserve(sz);
+    m_Data = this->AllocateElements(sz);
+    m_NumElements = sz;
+    m_LetArrayManageMemory = true;
+    return;
     }
+
+  TValueType *temp = this->AllocateElements(sz);
+
+  if ( sz > m_NumElements )
+    {
+    // only copy the portion of the data used in the old buffer
+    memcpy( temp, m_Data, m_NumElements * sizeof( TValueType ) );
+    }
+  else
+    {
+    // only copy elements 0...size-1
+    memcpy( temp, m_Data, sz * sizeof( TValueType ) );
+    }
+
+  if ( m_LetArrayManageMemory )
+    {
+    delete[] m_Data;
+    }
+
+  m_Data = temp;
+  m_LetArrayManageMemory = true;
+  m_NumElements = sz;
 }
 
 /** Set the all the elements of the array to the specified value */
