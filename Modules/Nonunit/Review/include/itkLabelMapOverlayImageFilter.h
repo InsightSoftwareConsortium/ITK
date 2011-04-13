@@ -21,6 +21,7 @@
 #include "itkLabelMapFilter.h"
 #include "itkBarrier.h"
 #include "itkLabelOverlayFunctor.h"
+#include "itkRGBPixel.h"
 
 namespace itk {
 
