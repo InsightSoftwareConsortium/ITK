@@ -1,28 +1,14 @@
 itk_module_test()
 set(Video-IO-BaseTests
-  itkVideoFileReaderTest.cxx
-  itkVideoFileWriterTest.cxx
+  itkVideoFileReaderWriterTest.cxx
 )
 CreateTestDriver(Video-IO-Base  "${Video-IO-Base-Test_LIBRARIES}" "${Video-IO-BaseTests}")
 
-#DEBUG
-set(ITKVideo_Data_DIR /home/gabe/Projects/itk4/Video/ITKVideo/Video/Data)
-
-
-# VideoFileReader:
-add_test(NAME VideoFileReaderTest
-         COMMAND Video-IO-BaseTestDriver itkVideoFileReaderTest
+# VideoFileRederWriterTest:
+midas_add_test(NAME VideoFileReaderWriterTest
+         COMMAND Video-IO-BaseTestDriver itkVideoFileReaderWriterTest
          # Input
-         "${ITKVideo_Data_DIR}/Input/FileList/frame0.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame1.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame2.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame3.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame4.jpg"
+         "MIDAS{frame0.jpg.md5},MIDAS{frame1.jpg.md5},MIDAS{frame2.jpg.md5},MIDAS{frame3.jpg.md5},MIDAS{frame4.jpg.md5}"
          # Output
-         "${ITK_TEST_OUTPUT_DIR}/frame0.png\;${ITK_TEST_OUTPUT_DIR}/frame1.png\;${ITK_TEST_OUTPUT_DIR}/frame2.png\;${ITK_TEST_OUTPUT_DIR}/frame3.png\;${ITK_TEST_OUTPUT_DIR}/frame4.png"
-         )
-
-# VideoFileWriter:
-add_test(NAME VideoFileWriterTest
-         COMMAND Video-IO-BaseTestDriver itkVideoFileWriterTest
-         # Input
-         "${ITKVideo_Data_DIR}/Input/FileList/frame0.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame1.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame2.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame3.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame4.jpg"
-         # Output
-         "${ITK_TEST_OUTPUT_DIR}/frame0.png\;${ITK_TEST_OUTPUT_DIR}/frame1.png\;${ITK_TEST_OUTPUT_DIR}/frame2.png\;${ITK_TEST_OUTPUT_DIR}/frame3.png\;${ITK_TEST_OUTPUT_DIR}/frame4.png"
+         "${ITK_TEST_OUTPUT_DIR}/frame0.png,${ITK_TEST_OUTPUT_DIR}/frame1.png,${ITK_TEST_OUTPUT_DIR}/frame2.png,${ITK_TEST_OUTPUT_DIR}/frame3.png,${ITK_TEST_OUTPUT_DIR}/frame4.png"
          )

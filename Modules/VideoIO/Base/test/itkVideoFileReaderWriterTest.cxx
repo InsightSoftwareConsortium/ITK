@@ -9,7 +9,7 @@
 #include "itkFileListVideoIOFactory.h"
 
 
-int itkVideoFileWriterTest ( int argc, char *argv[] )
+int itkVideoFileReaderWriterTest ( int argc, char *argv[] )
 {
   if (argc != 3)
     {
@@ -65,4 +65,3 @@ int itkVideoFileWriterTest ( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-
