@@ -543,7 +543,7 @@ std::vector<std::string> FileListVideoIO::SplitFileNames(const char* fileList)
     str = str.substr(pos, len);
 
     // Update pos
-    pos = str.find(';');
+    pos = str.find(',');
 
     // Add the filename to the list
     out.push_back(str.substr(0,pos));

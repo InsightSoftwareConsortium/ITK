@@ -5,19 +5,18 @@ set(Video-IO-FileListTests
 )
 CreateTestDriver(Video-IO-FileList  "${Video-IO-FileList-Test_LIBRARIES}" "${Video-IO-FileListTests}")
 
-#DEBUG
-set(ITKVideo_Data_DIR /home/gabe/Projects/itk4/Video/ITKVideo/Video/Data)
-
+# For Midas-stored testing data
+include(${Video-Common_SOURCE_DIR}/MIDAS.cmake)
 
 # FileListVideoIO:
-add_test(NAME FileListVideoIOTest
+midas_add_test(NAME FileListVideoIOTest
          COMMAND Video-IO-FileListTestDriver itkFileListVideoIOTest
          # Video Input:
-         "${ITKVideo_Data_DIR}/Input/FileList/frame0.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame1.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame2.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame3.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame4.jpg"
+         "MIDAS{frame0.jpg.md5},MIDAS{frame1.jpg.md5},MIDAS{frame2.jpg.md5},MIDAS{frame3.jpg.md5},MIDAS{frame4.jpg.md5}"
          # Non-Video Input:
          ${ITKVideo_Data_DIR}/Input/TestParameters.txt
          # Output:
-         "${ITK_TEST_OUTPUT_DIR}/frame0.png\;${ITK_TEST_OUTPUT_DIR}/frame1.png\;${ITK_TEST_OUTPUT_DIR}/frame2.png\;${ITK_TEST_OUTPUT_DIR}/frame3.png\;${ITK_TEST_OUTPUT_DIR}/frame4.png"
+         "${ITK_TEST_OUTPUT_DIR}/frame0.png,${ITK_TEST_OUTPUT_DIR}/frame1.png,${ITK_TEST_OUTPUT_DIR}/frame2.png,${ITK_TEST_OUTPUT_DIR}/frame3.png,${ITK_TEST_OUTPUT_DIR}/frame4.png"
          # Webcam Output:
          ${ITK_TEST_OUTPUT_DIR}/FileListVideoIOTest_CameraOut.mha
          # Height Width NumFrames FpS
@@ -25,13 +24,12 @@ add_test(NAME FileListVideoIOTest
          )
 
 # FileListVideoIOFactory:
-add_test(NAME FileListVideoIOFactoryTest
+midas_add_test(NAME FileListVideoIOFactoryTest
          COMMAND Video-IO-FileListTestDriver itkFileListVideoIOFactoryTest
          # Video Input:
-         "${ITKVideo_Data_DIR}/Input/FileList/frame0.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame1.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame2.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame3.jpg\;${ITKVideo_Data_DIR}/Input/FileList/frame4.jpg"
+         "MIDAS{frame0.jpg.md5},MIDAS{frame1.jpg.md5},MIDAS{frame2.jpg.md5},MIDAS{frame3.jpg.md5},MIDAS{frame4.jpg.md5}"
          # Output:
-         "${ITK_TEST_OUTPUT_DIR}/frame0.png\;${ITK_TEST_OUTPUT_DIR}/frame1.png\;${ITK_TEST_OUTPUT_DIR}/frame2.png\;${ITK_TEST_OUTPUT_DIR}/frame3.png\;${ITK_TEST_OUTPUT_DIR}/frame4.png"
+         "${ITK_TEST_OUTPUT_DIR}/frame0.png,${ITK_TEST_OUTPUT_DIR}/frame1.png,${ITK_TEST_OUTPUT_DIR}/frame2.png,${ITK_TEST_OUTPUT_DIR}/frame3.png,${ITK_TEST_OUTPUT_DIR}/frame4.png"
          # Webcam Number:
          0
          )
-
