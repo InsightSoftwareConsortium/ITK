@@ -27,14 +27,13 @@ itk.auto_progress(2)
 dim = 2
 PixelType = itk.F
 ImageType = itk.Image[PixelType, dim]
+ComplexImageType  = itk.Image[itk.complex[PixelType], dim]
 
 reader = itk.ImageFileReader[ImageType].New( FileName=argv[1] )
-fftFilter = itk.VnlFFTRealToComplexConjugateImageFilter[PixelType, dim].New(reader)
+fftFilter = itk.FFTRealToComplexConjugateImageFilter[ImageType, ComplexImageType].New(reader)
 
 # why this Update() ?
 fftFilter.Update()
-
-ComplexImageType  = itk.Image[itk.complex[PixelType], dim]
 
 complexWriter = itk.ImageFileWriter[ComplexImageType].New( fftFilter, FileName="complexImage.mhd" )
 complexWriter.Update()
