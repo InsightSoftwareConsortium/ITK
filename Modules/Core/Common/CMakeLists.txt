@@ -44,7 +44,6 @@ check_include_files("sys/types.h" HAVE_SYS_TYPES_H)
 include(CheckSupportForSSERounding)
 
 configure_file(src/itkConfigure.h.in itkConfigure.h)
-configure_file(src/itkFloatingPointExceptionsConfigure.h.in  itkFloatingPointExceptionsConfigure.h)
 
 set(ITK-Common_INCLUDE_DIRS
   ${ITK-Common_BINARY_DIR}

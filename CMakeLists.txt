@@ -194,10 +194,6 @@ endif()
 # Location of ITK Example Data.
 set(ITK_EXAMPLE_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
-option(ITK_USE_FLOATINGPOINTEXCEPTIONS
-      "Enable Floating Point Exceptions for Testing" OFF)
-mark_as_advanced(ITK_USE_FLOATINGPOINTEXCEPTIONS)
-
 #This flag is used in particular, to enable some tests that require large memory to run.
 # This probably can be discovered at configuration time by CMake. (Check with CMake developers).
 set(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes")

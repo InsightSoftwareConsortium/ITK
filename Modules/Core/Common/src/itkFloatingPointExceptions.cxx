@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkFloatingPointExceptions.h"
-#include "itkFloatingPointExceptionsConfigure.h"
 #include <iostream>
 #include <sstream>
 #include <cstring>
@@ -27,7 +26,7 @@
 //
 // TODO: Actually implement controllable behavior on Windows.
 //
-#if defined(ITK_USE_FPE) && !defined(_WIN32)
+#if !defined(_WIN32)
 
 #include <iostream>
 
@@ -84,18 +83,6 @@ and that's what we implement.  Linux "man fegetenv" appears
 to suggest that it's the mask corresponding to bits in
 excepts that is returned.
 */
-#if 0
-static int
-fegetexcept (void)
-{
-  static fenv_t fenv;
-
-  return ( fegetenv (&fenv) ? -1 :
-    (
-      ( fenv & (FM_ALL_EXCEPT) ) << FE_EXCEPT_SHIFT )
-    );
-}
-#endif
 
 static int
 feenableexcept (unsigned int excepts)
@@ -126,16 +113,6 @@ fedisableexcept (unsigned int excepts)
 }
 
 #elif DEFINED_INTEL
-
-#if 0
-static int
-fegetexcept (void)
-{
-  static fenv_t fenv;
-
-  return fegetenv (&fenv) ? -1 : (fenv.__control & FE_ALL_EXCEPT);
-}
-#endif
 
 static int
 feenableexcept (unsigned int excepts)
@@ -274,7 +251,6 @@ fhdl ( int sig, siginfo_t *sip, void * )
     hexdouble t;
 
     getfpscr (t.d);
-//   printf ("FPSCR:   0x%08X\n", t.i.lo);
     msg << "FPSCR: " << std::hex << t.i.lo << std::endl;
 #endif
 
@@ -312,7 +288,7 @@ fhdl ( int sig, siginfo_t *sip, void * )
   //  e.SetDescription(msg.str().c_str());
   //  throw e;
 }
-#endif // defined(ITK_USE_FPE) && !defined(_WIN32)
+#endif // !defined(_WIN32)
 
 namespace itk
 {
@@ -356,18 +332,7 @@ SetEnabled(bool val)
     }
 }
 
-#if !defined(ITK_USE_FPE)
-void
-FloatingPointExceptions
-::Enable()
-{
-}
-void
-FloatingPointExceptions
-::Disable()
-{
-}
-#elif defined(_WIN32)
+#if defined(_WIN32)
 
 #include <float.h>
 
@@ -388,7 +353,7 @@ void FloatingPointExceptions
   FloatingPointExceptions::m_Enabled = false;
 }
 
-#else // ITK_USE_FPE
+#else // defined( _WIN32 )
 
 void
 FloatingPointExceptions
@@ -426,6 +391,6 @@ FloatingPointExceptions
   FloatingPointExceptions::m_Enabled = false;
 }
 
-#endif // ITK_USE_FPE
+#endif // defined ( _WIN32 )
 
 } // end of itk namespace
