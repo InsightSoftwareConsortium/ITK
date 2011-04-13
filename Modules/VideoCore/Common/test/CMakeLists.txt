@@ -1,5 +1,6 @@
 itk_module_test()
 set(Video-CommonTests
+  itkRingBufferTest.cxx
   itkRingBufferImageSetTest.cxx
   itkVideoImageSetTest.cxx
 )
@@ -9,6 +10,10 @@ set(Video-CommonTests
 include(${Video-Common_SOURCE_DIR}/MIDAS.cmake)
 
 CreateTestDriver(Video-Common  "${Video-Common-Test_LIBRARIES}" "${Video-CommonTests}")
+
+# RingBufferTest
+add_test( NAME RingBufferTest
+          COMMAND Video-CommonTestDriver itkRingBufferTest )
 
 # RingBufferImageSet:
 midas_add_test( NAME RingBufferImageSetTest
