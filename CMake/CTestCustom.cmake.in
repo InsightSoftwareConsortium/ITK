@@ -67,11 +67,13 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "WARNING non-zero return value in ctest"
   "Warning \\(Anachronism\\)"
   "attempted multiple inclusion of file"
+  "warning LNK4221: This object file does not define any previously undefined public symbols"
   )
 
 IF(APPLE)
 SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning -.: directory name .* does not exist"
+  "ld warning: duplicate dylib"
   )
 ENDIF(APPLE)
