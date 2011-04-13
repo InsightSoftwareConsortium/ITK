@@ -20,6 +20,7 @@
 
 #include "itkRegion.h"
 #include "itkRealTimeStamp.h"
+#include "itkRealTimeInterval.h"
 
 namespace itk
 {
@@ -30,7 +31,6 @@ namespace itk
  *
  * Time points are stored in both frame numbers and with RealTimeStamps
  */
-template < class TRegionType >
 class ITK_EXPORT TemporalRegion:public Region
 {
 public:
@@ -38,23 +38,18 @@ public:
 
   /** Standard class typedefs */
   typedef TemporalRegion Self;
-  typedef TRegionType    SpatialRegionType;
 
   itkTypeMacro(TemporalRegion, Region);
 
   /**-PUBLIC METHODS---------------------------------------------------------*/
-
-  /** Get/Set SpatialRegion */
-  void SetSpatialRegion(SpatialRegionType r) { this->m_SpatialRegion = r; }
-  SpatialRegionType GetSpatialRegion() { return this->m_SpatialRegion; }
 
   /** Get/Set RealStart */
   void SetRealStart(RealTimeStamp s) { this->m_RealStart = s; }
   RealTimeStamp GetRealStart() { return this->m_RealStart; }
 
   /** Get/Set RealDuration */
-  void SetRealDuration(RealTimeStamp d) { this->m_RealDuration = d; }
-  RealTimeStamp GetRealDuration() { return this->m_RealDuration; }
+  void SetRealDuration(RealTimeInterval d) { this->m_RealDuration = d; }
+  RealTimeInterval GetRealDuration() { return this->m_RealDuration; }
 
   /** Get/Set FrameStart */
   void SetFrameStart(unsigned long s) { this->m_FrameStart = s; }
@@ -64,20 +59,28 @@ public:
   void SetFrameDuration(unsigned long d) { this->m_FrameDuration = d; }
   unsigned long GetFrameDuration() { return this->m_FrameDuration; }
 
-  TemporalRegion();
-  ~TemporalRegion();
+  /** Return RegionType (SRUCTURED_REGION) */
+  virtual RegionType GetRegionType() const { return ITK_STRUCTURED_REGION; }
+
+  /** Constructor */
+  TemporalRegion()
+    {
+    m_RealStart = RealTimeStamp();
+    m_RealDuration = RealTimeInterval(0,0);
+    m_FrameStart = 0;
+    m_FrameDuration = 0;
+    }
+
+  /** Destructor */
+  ~TemporalRegion(){};
 
 protected:
 
   /**-PROTECTED MEMBERS------------------------------------------------------*/
 
-  /** Spatial region to apply to all internal DataObjects in the
-   * TemporalDataObject */
-  SpatialRegionType m_SpatialRegion;
-
   /** Time boundaries */
   RealTimeStamp m_RealStart;
-  RealTimeStamp m_RealDuration;
+  RealTimeInterval m_RealDuration;
   unsigned long m_FrameStart;
   unsigned long m_FrameDuration;
 

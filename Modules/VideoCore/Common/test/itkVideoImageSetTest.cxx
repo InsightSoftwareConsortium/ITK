@@ -16,28 +16,14 @@
  */
 int itkVideoImageSetTest ( int argc, char *argv[] )
 {
-
-  // Typedefs
-  typedef itk::ImageRegion<2>                SRegionType;
-  typedef SRegionType::SizeType              SizeType;
-  typedef SRegionType::IndexType             IndexType;
-  typedef itk::TemporalRegion< SRegionType > TRegionType;
-
   // Create TemporalRegion
-  SizeType sz;
-  sz[0] = 10;
-  sz[1] = 10;
-  IndexType id;
-  id[0] = 0;
-  id[1] = 0;
-  SRegionType sRegion;
-  sRegion.SetSize(sz);
-  sRegion.SetIndex(id);
-
-  TRegionType tRegion;
+  itk::TemporalRegion tRegion;
   tRegion.SetFrameStart(4);
   tRegion.SetFrameDuration(10);
-  tRegion.SetSpatialRegion(sRegion);
+
+
+
+
 
 /*
   //////
