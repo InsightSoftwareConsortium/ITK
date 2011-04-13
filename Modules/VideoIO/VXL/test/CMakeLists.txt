@@ -10,15 +10,11 @@ include( ${VXL_CMAKE_DIR}/UseVXL.cmake )
 
 CreateTestDriver(Video-IO-VXL "${Video-IO-VXL-Test_LIBRARIES}" "${Video-IO-VXLTests}")
 
-#DEBUG
-set(ITKVideo_Data_DIR /home/gabe/Projects/itk4/Video/ITKVideo/Video/Data)
-
-
 # VXLVideoIO:
-add_test(NAME VXLVideoIOTest
+midas_add_test(NAME VXLVideoIOTest
          COMMAND Video-IO-VXLTestDriver itkVXLVideoIOTest
          # Video Input:
-         ${ITKVideo_Data_DIR}/Input/inde-circulation.avi
+         MIDAS{inde-circulation.avi.md5}
          # Non-Video Input:
          ${ITKVideo_Data_DIR}/Input/TestParameters.txt
          # Output:
@@ -30,10 +26,10 @@ add_test(NAME VXLVideoIOTest
          )
 
 # VXLVideoIOFactory:
-add_test(NAME VXLVideoIOFactoryTest
+midas_add_test(NAME VXLVideoIOFactoryTest
          COMMAND Video-IO-VXLTestDriver itkVXLVideoIOFactoryTest
          # Video Input:
-         ${ITKVideo_Data_DIR}/Input/inde-circulation.avi
+         MIDAS{inde-circulation.avi.md5}
          # Output:
          ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_Out.avi
          # Webcam Number:
