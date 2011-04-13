@@ -120,7 +120,10 @@ public:
 
   typedef typename InverseTransformBaseType::Pointer InverseTransformBasePointer;
 
-  /**  Method to transform a point. */
+  /**  Method to transform a point.
+   * \warning This method must be thread-safe. See, e.g., its use
+   * in ResampleImageFilter.
+   */
   virtual OutputPointType TransformPoint(const InputPointType  &) const = 0;
 
   /**  Method to transform a vector. */
@@ -231,6 +234,8 @@ public:
    * However, transforms for which this is true will overload and reimplement
    * this method accordingly.
    *
+   * \warning This method must be thread-safe. See, e.g., its use
+   * in ResampleImageFilter.
    */
   virtual bool IsLinear() const { return false; }
 protected:
