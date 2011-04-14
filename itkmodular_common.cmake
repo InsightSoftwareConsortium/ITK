@@ -372,7 +372,7 @@ while(NOT dashboard_done)
     set_property(GLOBAL PROPERTY SubProject ${main_project_name})
     set_property(GLOBAL PROPERTY Label ${main_project_name})
 
-    safe_message("Configure top level project...")
+    safe_message("Initial configure top level project...")
     set(options
       -DCTEST_USE_LAUNCHERS=${CTEST_USE_LAUNCHERS}
       -DITK_BUILD_ALL_MODULES:BOOL=ON
@@ -448,6 +448,36 @@ while(NOT dashboard_done)
         endif()
       endif()
     endforeach()
+
+    # Final configure needs ITK_BUILD_ALL_MODULES ON to build everything.
+    set_property(GLOBAL PROPERTY SubProject ${main_project_name})
+    set_property(GLOBAL PROPERTY Label ${main_project_name})
+
+    safe_message("Final configure top level project...")
+    set(options
+      -DITK_BUILD_ALL_MODULES:BOOL=ON
+      -DITK_GENERATE_PROJECT_XML:BOOL=OFF
+      -DITK_GENERATE_SUBPROJECTS_CMAKE:BOOL=OFF
+      )
+    ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" OPTIONS "${options}")
+    override_drop_settings()
+
+    if(COMMAND dashboard_hook_build)
+      dashboard_hook_build()
+    endif()
+    ctest_build(BUILD "${CTEST_BINARY_DIRECTORY}" APPEND)
+    if(NOT dashboard_no_submit)
+      ctest_submit(PARTS Build)
+    endif()
+
+    if(COMMAND dashboard_hook_test)
+      dashboard_hook_test()
+    endif()
+    ctest_test(BUILD "${CTEST_BINARY_DIRECTORY}" INCLUDE_LABEL "^${main_project_name}$" ${CTEST_TEST_ARGS})
+    set(safe_message_skip 1) # Block further messages
+    if(NOT dashboard_no_submit)
+      ctest_submit(PARTS Test)
+    endif()
 
     #if(COMMAND dashboard_hook_submit)
     #  dashboard_hook_submit()
