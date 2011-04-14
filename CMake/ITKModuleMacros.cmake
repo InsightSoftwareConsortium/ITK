@@ -99,6 +99,7 @@ endmacro()
 
 macro(itk_module_target_name _name)
   set_property(TARGET ${_name} PROPERTY VERSION 1)
+  set_property(TARGET ${_name} PROPERTY SOVERSION 1)
   set_property(TARGET ${_name} PROPERTY OUTPUT_NAME ${_name}-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
 endmacro()
 
