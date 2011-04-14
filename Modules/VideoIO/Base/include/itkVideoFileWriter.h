@@ -21,7 +21,6 @@
 
 #include "itkProcessObject.h"
 #include "itkVideoIOFactory.h"
-#include "itkVideoImageSet.h"
 
 namespace itk
 {

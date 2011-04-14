@@ -74,7 +74,7 @@ public:
   virtual void SetReadFromCamera() = 0;
 
   /** Get the current read type */
-  int GetReadType() { return this->m_ReadType; };
+  ReadType GetReadType() { return this->m_ReadType; };
 
   /** Return whether or not the VideoIO can read from a camera. The cameraID
    * can be a camera number for OpenCV or a guid for VXL */
@@ -106,7 +106,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
   
   /** Member Variables */
-  int             m_ReadType;
+  ReadType        m_ReadType;
   double          m_FpS;
   unsigned long   m_FrameTotal;
   unsigned long   m_CurrentFrame;
