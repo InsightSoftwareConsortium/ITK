@@ -243,9 +243,7 @@ endif()
 # this test depends on being able to raise C++ exceptions from
 # the signal handler. This is apparently not something that
 # works properly
-if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux" OR
-    "${CMAKE_SYSTEM_NAME}" MATCHES "Darwin"
-    )
+if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
   add_test(NAME itkFloatingPointExceptionsTest1 COMMAND ITK-CommonTestDriver1
     itkFloatingPointExceptionsTest DivByZero)
   add_test(NAME itkFloatingPointExceptionsTest2 COMMAND ITK-CommonTestDriver1
@@ -266,8 +264,7 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux" OR
     PROPERTIES WILL_FAIL TRUE
     )
 
-endif("${CMAKE_SYSTEM_NAME}" MATCHES "Linux" OR
-    "${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
+endif("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
 add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
 target_link_libraries(itkSystemInformationTest  ${ITK-Common_LIBRARIES})
