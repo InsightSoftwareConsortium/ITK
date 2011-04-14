@@ -19,8 +19,6 @@
 #define __itkRingBuffer_txx
 
 #include "itkRingBuffer.h"
-#include "itkPixelTraits.h"
-#include "itkConvertPixelBuffer.h"
 
 namespace itk
 {
@@ -33,10 +31,9 @@ namespace itk
 template< class TElementType >
 RingBuffer< TElementType >
 ::RingBuffer()
+  : m_HeadIndex(0),
+    m_PointerVector()
 {
-  this->m_HeadIndex = 0;
-  this->m_PointerVector.clear();
-
   // Default to 3 buffers
   this->SetNumberOfBuffers(3);
 }

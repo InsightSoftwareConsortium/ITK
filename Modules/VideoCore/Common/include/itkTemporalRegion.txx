@@ -38,15 +38,27 @@ TemporalRegion
 // ---------------------------------------------------------------------------
 bool
 TemporalRegion
-::
-operator==(const Self & region) const
+::IsEqualInFrames(const Self & region) const
 {
-  bool same = true;
-  same &= m_RealStart == region.m_RealStart;
-  same &= m_RealDuration == region.m_RealDuration;
-  same &= m_FrameStart == region.m_FrameStart;
-  same &= m_FrameDuration == region.m_FrameDuration;
-  return same;
+  return m_FrameStart == region.m_FrameStart &&
+    m_FrameDuration == region.m_FrameDuration;
+}
+
+// ---------------------------------------------------------------------------
+bool
+TemporalRegion
+::IsEqualInRealTime(const Self & region) const
+{
+  return m_RealStart == region.m_RealStart &&
+    m_RealDuration == region.m_RealDuration;
+}
+
+// ---------------------------------------------------------------------------
+bool
+TemporalRegion
+::operator==(const Self & region) const
+{
+  return IsEqualInFrames(region) && IsEqualInRealTime(region);
 }
 
 
@@ -54,8 +66,7 @@ operator==(const Self & region) const
 // ---------------------------------------------------------------------------
 bool
 TemporalRegion
-::
-operator!=(const Self & region) const
+::operator!=(const Self & region) const
 {
   return !(operator==(region));
 }

@@ -55,10 +55,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(RingBuffer, Object);
 
-
-
-  /**-PUBLIC METHODS---------------------------------------------------------*/
-
   /** Set the number of buffers
    * WARNING: If the size is set smaller than the current buffer size, the tail
    * of the buffer will be chopped off */

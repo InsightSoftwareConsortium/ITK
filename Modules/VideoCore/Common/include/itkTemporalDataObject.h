@@ -19,22 +19,23 @@
 #define __itkTemporalDataObject_h
 
 #include "itkDataObject.h"
+#include "itkRingBuffer.h"
+#include "itkTemporalRegion.h"
 
 namespace itk
 {
-
-class RingBuffer;
-class TemporalRegion;
 
 /** \class TemporalDataObject
  * \brief DataObject subclass with knowledge of temporal region
  *
  */
-class ITK_EXPORT TemporalDataObject:public DataObject
+class ITK_EXPORT TemporalDataObject : public DataObject
 {
+public:
 
   /** Standard class typedefs */
   typedef TemporalDataObject                  Self;
+  typedef DataObject                          Superclass;
   typedef SmartPointer< Self >                Pointer;
   typedef SmartPointer< const Self >          ConstPointer;
   typedef WeakPointer< const Self >           ConstWeakPointer;
@@ -42,8 +43,25 @@ class ITK_EXPORT TemporalDataObject:public DataObject
   typedef RingBuffer<DataObject>              BufferType;
   typedef TemporalRegion                      TemporalRegionType;
 
+  /** Enum for defining the way in which to compare temporal regions */
+  typedef enum {Frame, RealTime, FrameAndRealTime} TemporalUnitType;
+
+  itkNewMacro(Self);
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(TemporalDataObject, DataObject);
+
+  /** Get the type of temporal units we care about (Defaults to Frame)*/
+  virtual TemporalUnitType GetTemporalUnit() const
+  { return m_TemporalUnit; }
+
+  /** Explicity set temporal units (Defaults to Frame)*/
+  virtual void SetTemporalUnitToFrame()
+  { m_TemporalUnit = Frame; }
+  virtual void SetTemporalUnitToRealTime()
+  { m_TemporalUnit = RealTime; }
+  virtual void SetTemporalUnitToFrameAndRealTime()
+  { m_TemporalUnit = FrameAndRealTime; }
 
   /** Function for getting the size of the underlying ring buffer. */
   virtual BufferType::SizeValueType GetBufferSize() const;
@@ -77,15 +95,17 @@ protected:
 
   TemporalDataObject();
   ~TemporalDataObject();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Buffer for holding component data objects */
   BufferType::Pointer m_DataObjectBuffer;
 
   /** We want to keep track of our regions in time. **/
-  TemporalRegionType::Pointer m_LargestPossibleTemporalRegion;
-  TemporalRegionType::Pointer m_RequestedTemporalRegion;
-  TemporalRegionType::Pointer m_BufferedTemporalRegion;
+  TemporalRegionType m_LargestPossibleTemporalRegion;
+  TemporalRegionType m_RequestedTemporalRegion;
+  TemporalRegionType m_BufferedTemporalRegion;
+
+  TemporalUnitType m_TemporalUnit;
 
 private:
 

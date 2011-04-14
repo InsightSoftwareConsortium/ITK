@@ -41,7 +41,8 @@ TemporalDataObject::TemporalDataObject()
   : m_DataObjectBuffer(),
     m_LargestPossibleTemporalRegion(),
     m_RequestedTemporalRegion(),
-    m_BufferedTemporalRegion()
+    m_BufferedTemporalRegion(),
+    m_TemporalUnit(Frame)
 {}
 
 //----------------------------------------------------------------------------
@@ -62,41 +63,68 @@ bool
 TemporalDataObject
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
-  // TODO Implement this
+  bool frameFlag = m_RequestedTemporalRegion.GetFrameStart() <
+    m_BufferedTemporalRegion.GetFrameStart();
+  frameFlag |= m_RequestedTemporalRegion.GetFrameDuration() >
+    m_BufferedTemporalRegion.GetFrameDuration();
+  bool realTimeFlag = m_RequestedTemporalRegion.GetRealStart() <
+    m_BufferedTemporalRegion.GetRealStart();
+  realTimeFlag |= m_RequestedTemporalRegion.GetRealDuration() >
+    m_BufferedTemporalRegion.GetRealDuration();
+  switch( m_TemporalUnit )
+    {
+    case Frame:
+      {
+      return frameFlag;
+      }
+    case RealTime:
+      {
+      return realTimeFlag;
+      }
+    case FrameAndRealTime:
+      {
+      return frameFlag || realTimeFlag;
+      }
+    default:
+      itkExceptionMacro( << "itk::TemporalDataObject::"
+                         << "RequestedRegionIsOutsideOfTheBufferedRegion() "
+                         << "Invalid Temporal Unit" );
+      return true;
+    }
 }
 
 //----------------------------------------------------------------------------
-void
+bool
 TemporalDataObject
 ::VerifyRequestedRegion()
 {
-  /** TODO: Actually implement this
-
-  bool         retval = true;
-  unsigned int i;
-
-  // Is the requested region within the LargestPossibleRegion?
-  // Note that the test is indeed against the largest possible region
-  // rather than the buffered region; see DataObject::VerifyRequestedRegion.
-  const IndexType & requestedRegionIndex = this->GetRequestedRegion().GetIndex();
-  const IndexType & largestPossibleRegionIndex =
-    this->GetLargestPossibleRegion().GetIndex();
-
-  const SizeType & requestedRegionSize = this->GetRequestedRegion().GetSize();
-  const SizeType & largestPossibleRegionSize =
-    this->GetLargestPossibleRegion().GetSize();
-
-  for ( i = 0; i < VImageDimension; i++ )
+  bool frameFlag = m_RequestedTemporalRegion.GetFrameStart() >=
+    m_LargestPossibleTemporalRegion.GetFrameStart();
+  frameFlag &= m_RequestedTemporalRegion.GetFrameDuration() <=
+    m_LargestPossibleTemporalRegion.GetFrameDuration();
+  bool realTimeFlag = m_RequestedTemporalRegion.GetRealStart() >=
+    m_LargestPossibleTemporalRegion.GetRealStart();
+  realTimeFlag &= m_RequestedTemporalRegion.GetRealDuration() <=
+    m_LargestPossibleTemporalRegion.GetRealDuration();
+  switch( m_TemporalUnit )
     {
-    if ( ( requestedRegionIndex[i] < largestPossibleRegionIndex[i] )
-         || ( ( requestedRegionIndex[i] + static_cast< OffsetValueType >( requestedRegionSize[i] ) )
-              > ( largestPossibleRegionIndex[i] + static_cast< OffsetValueType >( largestPossibleRegionSize[i] ) ) ) )
+    case Frame:
       {
-      retval = false;
+      return frameFlag;
       }
+    case RealTime:
+      {
+      return realTimeFlag;
+      }
+    case FrameAndRealTime:
+      {
+      return frameFlag && realTimeFlag;
+      }
+    default:
+      itkExceptionMacro( << "itk::TemporalDataObject::VerifyRequestedRegion() "
+                         << "Invalid Temporal Unit" );
+      return false;
     }
-
-  return retval;**/
 }
 
 //----------------------------------------------------------------------------
@@ -107,35 +135,32 @@ TemporalDataObject
   // Standard call to the superclass' method
   Superclass::CopyInformation(data);
 
-  if ( data )
+  const TemporalDataObject* temporalData;
+  temporalData = dynamic_cast< const TemporalDataObject* >( data );
+
+  if ( temporalData )
     {
-    // Attempt to cast data to a TemporalDataObject
-    const TemporalDataObject* temporalData;
-
-    try
+    // Copy the meta data for this data type
+    this->SetLargestPossibleTemporalRegion(
+      temporalData->GetLargestPossibleTemporalRegion() );
+    for( unsigned int i = 0;
+         i < this->m_DataObjectBuffer->GetNumberOfBuffers();
+         ++i )
       {
-      temporalData = dynamic_cast< const TemporalDataObject* >( data );
-    catch ( ... )
-      {
-      return;
-      }
-
-    if ( temporalData )
-      {
-      // Copy the meta data for this data type
-      this->SetLargestPossibleTemporalRegion(
-        temporalData->GetLargestPossibleTemporalRegion() );
-      }
-    else
-      {
-      // pointer could not be cast back down
-      itkExceptionMacro( << "itk::TemporalDataObject::CopyInformation() "
-                         << "cannot cast " << typeid( data ).name() << " to "
-                         << typeid( const TemporalDataObject * ).name() );
+      if( this->m_DataObjectBuffer->BufferIsFull(i) )
+        {
+        m_DataObjectBuffer->GetBufferContents(i)->CopyInformation(
+          temporalData->m_DataObjectBuffer->GetBufferContents(i) );
+        }
       }
     }
-
-  // TODO Iterate through the ring buffer
+  else
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro( << "itk::TemporalDataObject::CopyInformation() "
+                       << "cannot cast " << typeid( data ).name() << " to "
+                       << typeid( const TemporalDataObject* ).name() );
+    }
 }
 
 //----------------------------------------------------------------------------
@@ -143,31 +168,38 @@ void
 TemporalDataObject
 ::Graft(const DataObject *data)
 {
-
   const TemporalDataObject* temporalData;
 
-  try
+  temporalData = dynamic_cast< const TemporalDataObject* >( data );
+
+  if( temporalData )
     {
-    temporalData = dynamic_cast< const TemporalDataObject* >( data );
+    // Copy the meta-information
+    this->CopyInformation( temporalData );
+
+    this->SetBufferedTemporalRegion(
+      temporalData->GetBufferedTemporalRegion() );
+    this->SetRequestedTemporalRegion(
+      temporalData->GetRequestedTemporalRegion() );
+
+    for( unsigned int i = 0;
+         i < this->m_DataObjectBuffer->GetNumberOfBuffers();
+         ++i )
+      {
+      if( this->m_DataObjectBuffer->BufferIsFull(i) )
+        {
+        m_DataObjectBuffer->GetBufferContents(i)->Graft(
+          temporalData->m_DataObjectBuffer->GetBufferContents(i) );
+        }
+      }
     }
-  catch ( ... )
+  else
     {
-    return;
+    // pointer could not be cast back down
+    itkExceptionMacro( << "itk::TemporalDataObject::Graft() "
+                       << "cannot cast " << typeid( data ).name() << " to "
+                       << typeid( const TemporalDataObject* ).name() );
     }
-
-  if ( !temporalData )
-    {
-    return;
-    }
-
-  // Copy the meta-information
-  this->CopyInformation( temporalData );
-
-  this->SetBufferedTemporalRegion( temporalData->GetBufferedTemporalRegion() );
-  this->SetRequestedTemporalRegion(
-    temporalData->GetRequestedTemporalRegion() );
-
-  // TODO Add iteration through the ring buffer grafting
 }
 
 //----------------------------------------------------------------------------
@@ -175,7 +207,7 @@ void
 TemporalDataObject
 ::SetRequestedRegion(DataObject *data)
 {
-  TemporalDataObject *imgData;
+  TemporalDataObject *temporalData;
 
   temporalData = dynamic_cast< TemporalDataObject * >( data );
 
@@ -185,6 +217,23 @@ TemporalDataObject
     // a temporal data object
     this->SetRequestedTemporalRegion(
       temporalData->GetRequestedTemporalRegion() );
+    for( unsigned int i = 0;
+         i < this->m_DataObjectBuffer->GetNumberOfBuffers();
+         ++i )
+      {
+      if( this->m_DataObjectBuffer->BufferIsFull(i) )
+        {
+        m_DataObjectBuffer->GetBufferContents(i)->SetRequestedRegion(
+          temporalData->m_DataObjectBuffer->GetBufferContents(i) );
+        }
+      }
+    }
+  else
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro( << "itk::TemporalDataObject:SetRequestedRegion() "
+                       << "cannot cast " << typeid( data ).name() << " to "
+                       << typeid( const TemporalDataObject* ).name() );
     }
 }
 
@@ -194,16 +243,17 @@ TemporalDataObject
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Ring Buffer: " << m_RingBuffer.GetPointer() << std::endl;
+  os << indent << "Data Object Buffer: " << m_DataObjectBuffer.GetPointer()
+     << std::endl;
   os << indent << "LargestPossibleTemporalRegion: " << std::endl;
-  this->GetLargestPossibleTemporalRegion().PrintSelf( os,
-                                                      indent.GetNextIndent() );
+  this->GetLargestPossibleTemporalRegion().Print( os,
+                                                  indent.GetNextIndent() );
 
   os << indent << "BufferedTemporalRegion: " << std::endl;
-  this->GetBufferedTemporalRegion().PrintSelf( os, indent.GetNextIndent() );
+  this->GetBufferedTemporalRegion().Print( os, indent.GetNextIndent() );
 
   os << indent << "RequestedTemporalRegion: " << std::endl;
-  this->GetRequestedTemporalRegion().PrintSelf( os, indent.GetNextIndent() );
+  this->GetRequestedTemporalRegion().Print( os, indent.GetNextIndent() );
 }
 
 } // end namespace itk

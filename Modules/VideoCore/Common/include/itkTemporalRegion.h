@@ -31,17 +31,14 @@ namespace itk
  *
  * Time points are stored in both frame numbers and with RealTimeStamps
  */
-class ITK_EXPORT TemporalRegion:public Region
+class ITK_EXPORT TemporalRegion : public Region
 {
 public:
-  /**-TYPEDEFS---------------------------------------------------------------*/
 
   /** Standard class typedefs */
   typedef TemporalRegion Self;
 
   itkTypeMacro(TemporalRegion, Region);
-
-  /**-PUBLIC METHODS---------------------------------------------------------*/
 
   /** Get/Set RealStart */
   void SetRealStart(RealTimeStamp s) { this->m_RealStart = s; }
@@ -68,20 +65,23 @@ public:
   /** Destructor */
   virtual ~TemporalRegion(){};
 
-  /** Compare two temporal regions. */
+  /** Compare two temporal regions in Frame space */
+  virtual bool IsEqualInFrames(const Self & region) const;
+
+  /** Compare two temporal regions in Frame space */
+  bool IsEqualInRealTime(const Self & region) const;
+
+  /** Compare two temporal regions. (Both Frame and RealTime) */
   bool operator==(const Self & region) const;
   bool operator!=(const Self & region) const;
 
 protected:
-
-  /**-PROTECTED MEMBERS------------------------------------------------------*/
 
   /** Time boundaries */
   RealTimeStamp m_RealStart;
   RealTimeInterval m_RealDuration;
   unsigned long m_FrameStart;
   unsigned long m_FrameDuration;
-
 
 };  // end class TemporalRegion
 
