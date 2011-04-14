@@ -1,8 +1,7 @@
 itk_module_test()
 set(Video-CommonTests
   itkRingBufferTest.cxx
-  itkRingBufferImageSetTest.cxx
-  itkVideoImageSetTest.cxx
+  itkTemporalRegionTest.cxx
 )
 
 
@@ -15,24 +14,6 @@ CreateTestDriver(Video-Common  "${Video-Common-Test_LIBRARIES}" "${Video-CommonT
 add_test( NAME RingBufferTest
           COMMAND Video-CommonTestDriver itkRingBufferTest )
 
-# RingBufferImageSet:
-midas_add_test( NAME RingBufferImageSetTest
-          COMMAND Video-CommonTestDriver itkRingBufferImageSetTest
-          # Input:
-          "MIDAS{frame0.jpg.md5},MIDAS{frame1.jpg.md5},MIDAS{frame2.jpg.md5},MIDAS{frame3.jpg.md5},MIDAS{frame4.jpg.md5}"
-          # Char Output:
-          "${ITK_TEST_OUTPUT_DIR}/RingBuffer_charOut0.png,${ITK_TEST_OUTPUT_DIR}/RingBuffer_charOut1.png,${ITK_TEST_OUTPUT_DIR}/RingBuffer_charOut2.png,${ITK_TEST_OUTPUT_DIR}/RingBuffer_charOut3.png,${ITK_TEST_OUTPUT_DIR}/RingBuffer_charOut4.png"
-          # Float Output:
-          "${ITK_TEST_OUTPUT_DIR}/RingBuffer_floatOut0.mha,${ITK_TEST_OUTPUT_DIR}/RingBuffer_floatOut1.mha,${ITK_TEST_OUTPUT_DIR}/RingBuffer_floatOut2.mha,${ITK_TEST_OUTPUT_DIR}/RingBuffer_floatOut3.mha,${ITK_TEST_OUTPUT_DIR}/RingBuffer_floatOut4.mha"
-        )
-
-# VideoImageSet:
-midas_add_test( NAME VideoImageSetTest
-          COMMAND Video-CommonTestDriver itkVideoImageSetTest
-          # Input:
-          "MIDAS{frame0.jpg.md5},MIDAS{frame1.jpg.md5},MIDAS{frame2.jpg.md5},MIDAS{frame3.jpg.md5},MIDAS{frame4.jpg.md5}"
-          # Char Output:
-          "${ITK_TEST_OUTPUT_DIR}/VideoImageSet_charOut0.png,${ITK_TEST_OUTPUT_DIR}/VideoImageSet_charOut1.png,${ITK_TEST_OUTPUT_DIR}/VideoImageSet_charOut2.png,${ITK_TEST_OUTPUT_DIR}/VideoImageSet_charOut3.png,${ITK_TEST_OUTPUT_DIR}/VideoImageSet_charOut4.png"
-          # Float Output:
-          "${ITK_TEST_OUTPUT_DIR}/VideoImageSet_floatOut0.mha,${ITK_TEST_OUTPUT_DIR}/VideoImageSet_floatOut1.mha,${ITK_TEST_OUTPUT_DIR}/VideoImageSet_floatOut2.mha,${ITK_TEST_OUTPUT_DIR}/VideoImageSet_floatOut3.mha,${ITK_TEST_OUTPUT_DIR}/VideoImageSet_floatOut4.mha"
-        )
+# Testing Temporal Regions
+add_test( NAME itkTemporalRegionTest
+          COMMAND Video-CommonTestDriver itkTemporalRegionTest )

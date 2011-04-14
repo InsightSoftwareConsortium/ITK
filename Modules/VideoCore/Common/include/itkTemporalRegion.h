@@ -63,16 +63,14 @@ public:
   virtual RegionType GetRegionType() const { return ITK_STRUCTURED_REGION; }
 
   /** Constructor */
-  TemporalRegion()
-    {
-    m_RealStart = RealTimeStamp();
-    m_RealDuration = RealTimeInterval(0,0);
-    m_FrameStart = 0;
-    m_FrameDuration = 0;
-    }
+  TemporalRegion();
 
   /** Destructor */
-  ~TemporalRegion(){};
+  virtual ~TemporalRegion(){};
+
+  /** Compare two temporal regions. */
+  bool operator==(const Self & region) const;
+  bool operator!=(const Self & region) const;
 
 protected:
 
@@ -88,5 +86,9 @@ protected:
 };  // end class TemporalRegion
 
 } // end namespace itk
+
+#if ITK_TEMPLATE_TXX
+#include "itkTemporalRegion.txx"
+#endif
 
 #endif
