@@ -9,9 +9,9 @@
 int itkRingBufferTest ( int argc, char *argv[] )
 {
 
-  //
-  // Create a new ring buffer
-  //
+  //////
+  // Test instantiation
+  //////
   typedef itk::RingBuffer<itk::Object> RingBufferType;
   RingBufferType::Pointer ringBuffer = RingBufferType::New();
 
@@ -22,9 +22,11 @@ int itkRingBufferTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  //
+  //////
+  // Test setting number of buffers and moving Head
+  //////
+
   // Try adding buffers
-  //
   ringBuffer->SetNumberOfBuffers(5);
   if (ringBuffer->GetNumberOfBuffers() != 5 || ringBuffer->GetHeadIndex() != 4)
     {
@@ -32,9 +34,7 @@ int itkRingBufferTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  //
   // Try removing buffers
-  //
   ringBuffer->SetNumberOfBuffers(2);
   if (ringBuffer->GetNumberOfBuffers() != 2 || ringBuffer->GetHeadIndex() != 1)
     {
@@ -42,9 +42,7 @@ int itkRingBufferTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  //
   // Try moving the head forward (should wrap back to 0)
-  //
   ringBuffer->MoveHeadForward();
   if (ringBuffer->GetHeadIndex() != 0)
     {
@@ -52,9 +50,7 @@ int itkRingBufferTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  //
   // Add buffers back up to 4 and verify the head location is 2 (2 new buffers added at tail)
-  //
   ringBuffer->SetNumberOfBuffers(4);
   if (ringBuffer->GetNumberOfBuffers() != 4 || ringBuffer->GetHeadIndex() != 2)
     {
@@ -62,9 +58,7 @@ int itkRingBufferTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  //
   // Move head "forward" 2 which should put it at 0
-  //
   ringBuffer->MoveHead(2);
   if (ringBuffer->GetHeadIndex() != 0)
     {
@@ -72,13 +66,84 @@ int itkRingBufferTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  //
   // Remove 2 buffers. Verify that head stays at 0 and length goes back down to 2
-  //
   ringBuffer->SetNumberOfBuffers(2);
   if (ringBuffer->GetHeadIndex() != 0 || ringBuffer->GetNumberOfBuffers() != 2)
     {
     std::cerr << "Failed to keep Head at 0 index when removing from tail" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Test looping buffer offset forward
+  unsigned int oldHeadIndex = ringBuffer->GetHeadIndex();
+  ringBuffer->MoveHead(2*ringBuffer->GetNumberOfBuffers());
+  if (ringBuffer->GetHeadIndex() != oldHeadIndex)
+    {
+    std::cerr << "Failed to properly loop Head index when moving forward" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Test looping buffer offset backward
+  ringBuffer->MoveHead(-2*ringBuffer->GetNumberOfBuffers());
+  if (ringBuffer->GetHeadIndex() != oldHeadIndex)
+    {
+    //DEBUG
+    std::cout << "oldHeadIndex = " << oldHeadIndex << ", HeadIndex = " << ringBuffer->GetHeadIndex() << std::endl;
+    std::cout << "NumberOfBuffers = " << ringBuffer->GetNumberOfBuffers() << std::endl;
+
+    std::cerr << "Failed to properly loop Head index when moving backward" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  //////
+  // Test Setting buffers and full checking
+  //////
+
+  // Make sure all buffers are currently invalid
+  for (unsigned int i = 0; i < ringBuffer->GetNumberOfBuffers(); ++i)
+    {
+    if (ringBuffer->BufferIsFull(i))
+      {
+      std::cerr << "Incorrectly reported a full buffer for offset " << i << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+  // Create a new Object, add it at Head and make sure it is reported full
+  itk::Object::Pointer obj1 = itk::Object::New();
+  ringBuffer->SetBufferContents(0, obj1);
+  if (!ringBuffer->BufferIsFull(0))
+    {
+    std::cerr << "Did not report Head as full after setting contents" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Try retreiving the object and compare time stamps
+  itk::Object::Pointer objOut = ringBuffer->GetBufferContents(0);
+  if (obj1->GetTimeStamp() != objOut->GetTimeStamp())
+    {
+    std::cerr << "Returned object doesn't match input object" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Add another object and then check fullness of all buffers
+  itk::Object::Pointer obj2 = itk::Object::New();
+  ringBuffer->SetBufferContents(-1, obj2);
+
+  // Everything except Head and Head-1 should be empty
+  for (unsigned int i = 1; i < ringBuffer->GetNumberOfBuffers()-1; ++i)
+    {
+    if (ringBuffer->BufferIsFull(i))
+      {
+      std::cerr << "Incorrectly reported a full buffer for offset " << i
+                << " after filling Head and Head-1" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  if (!ringBuffer->BufferIsFull(0) || !ringBuffer->BufferIsFull(-1))
+    {
+    std::cerr << "Did not report Head or Head-1 full after setting" << std::endl;
     return EXIT_FAILURE;
     }
 

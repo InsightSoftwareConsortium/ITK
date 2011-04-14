@@ -100,7 +100,7 @@ RingBuffer< TElementType >
 
 
 //
-// BufferIsValid
+// BufferIsFull
 //
 template< class TElementType >
 bool
@@ -124,6 +124,22 @@ RingBuffer< TElementType >
 
   // Return the resulting image
   return this->m_PointerVector[bufferIndex];
+}
+
+
+//
+// SetBufferContents
+//
+template< class TElementType >
+void
+RingBuffer< TElementType >
+::SetBufferContents( int offset, RingBuffer< TElementType >::ElementType* element )
+{
+  // Get the right buffer
+  unsigned int bufferIndex = this->GetOffsetBufferIndex(offset);
+
+  // Set the pointer
+  this->m_PointerVector[bufferIndex] = element;
 }
 
 
@@ -193,13 +209,16 @@ unsigned int
 RingBuffer< TElementType >
 ::GetOffsetBufferIndex(int offset)
 {
-  int pos = (int)this->m_HeadIndex + offset;
-  int moddedPos = std::abs(pos) % this->GetNumberOfBuffers();
-  if (pos < 0)
+  int moddedOffset = std::abs(offset) % this->GetNumberOfBuffers();
+  if (offset >= 0)
     {
-    moddedPos = -moddedPos + this->GetNumberOfBuffers();
+    return ((int)this->m_HeadIndex + moddedOffset) % this->GetNumberOfBuffers();
     }
-  return moddedPos;
+  else
+    {
+    return ((int)this->m_HeadIndex + (this->GetNumberOfBuffers() - moddedOffset))
+              % this->GetNumberOfBuffers();
+    }
 }
 
 

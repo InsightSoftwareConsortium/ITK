@@ -84,7 +84,7 @@ public:
   typename ElementType::Pointer GetBufferContents(int offset);
 
   /** Set the buffer contents of a buffer */
-  void SetBufferContents(int offset, ElementType*);
+  void SetBufferContents(int offset, ElementType* element);
 
 protected:
 
