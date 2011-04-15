@@ -49,7 +49,8 @@ RingBuffer< TElementType >
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "RingBuffer:" << std::endl;
-  os << indent << "NumberOfBuffers: " << this->m_PointerVector.size() << std::endl;
+  os << indent << "NumberOfBuffers: " << this->m_PointerVector.size()
+     << std::endl;
 }
 
 
