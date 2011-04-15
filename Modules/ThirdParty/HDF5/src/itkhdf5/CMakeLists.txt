@@ -464,6 +464,7 @@ ENDIF (HDF5_BUILD_TOOLS AND BUILD_TESTING)
 #-----------------------------------------------------------------------------
 # Dashboard and Testing Settings
 #-----------------------------------------------------------------------------
+SET(BUILD_TESTING OFF) # this distribution has no test directories
 IF(0)
 OPTION (BUILD_TESTING "Build HDF5 Unit Testing" OFF)
 ENDIF(0)
@@ -511,7 +512,9 @@ ENDIF(0)
 #-----------------------------------------------------------------------------
 # Option to build HDF5 C++ Library
 #-----------------------------------------------------------------------------
+IF(0)
 OPTION (HDF5_BUILD_CPP_LIB  "Build HDF5 C++ Library" OFF)
+ENDIF(0)
 IF (HDF5_BUILD_CPP_LIB)
   ADD_SUBDIRECTORY (${HDF5_SOURCE_DIR}/c++ ${PROJECT_BINARY_DIR}/c++)
 ENDIF (HDF5_BUILD_CPP_LIB)
