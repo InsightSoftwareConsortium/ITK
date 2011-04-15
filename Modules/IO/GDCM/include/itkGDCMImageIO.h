@@ -76,6 +76,7 @@ namespace itk
  *
  *  \ingroup IOFilters
  *
+ * \ingroup ITK-IO-GDCM
  */
 class InternalHeader;
 class ITK_EXPORT GDCMImageIO:public ImageIOBase

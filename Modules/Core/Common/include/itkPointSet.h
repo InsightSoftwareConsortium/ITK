@@ -84,6 +84,7 @@ struct GetPointSetDimension {
  *
  * \ingroup MeshObjects
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 
 template<

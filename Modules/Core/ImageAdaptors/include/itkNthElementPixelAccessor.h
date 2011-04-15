@@ -42,6 +42,7 @@ namespace itk
  * \sa PixelAccessor
  *
  * \ingroup ImageAdaptors
+ * \ingroup ITK-ImageAdaptors
  */
 
 template< class T, class TContainer >

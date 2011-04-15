@@ -85,6 +85,7 @@ namespace itk
  * \sa LevelSetMotionRegistrationFunction
  * \sa DemonsRegistrationFilter
  * \ingroup DeformableImageRegistration MultiThreaded
+ * \ingroup ITK-PDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT LevelSetMotionRegistrationFilter:

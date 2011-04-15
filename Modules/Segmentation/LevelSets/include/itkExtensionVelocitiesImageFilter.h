@@ -44,6 +44,7 @@ namespace itk
  * Cambridge Press, Second edition, 1999.
  *
  * \ingroup LevelSetSegmentation
+ * \ingroup ITK-LevelSets
  */
 template<
   class TLevelSet,

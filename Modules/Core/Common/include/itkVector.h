@@ -51,6 +51,7 @@ namespace itk
  * \sa Point
  * \sa CovariantVector
  * \sa Matrix
+ * \ingroup ITK-Common
  */
 template< class T, unsigned int NVectorDimension = 3 >
 class Vector:public FixedArray< T, NVectorDimension >

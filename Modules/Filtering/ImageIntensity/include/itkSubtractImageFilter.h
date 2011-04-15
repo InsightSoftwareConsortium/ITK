@@ -32,6 +32,7 @@ namespace itk
  * Numeric conversions (castings) are done by the C++ defaults.
  *
  * \ingroup IntensityImageFilters Multithreaded
+ * \ingroup ITK-ImageIntensity
  */
 namespace Function
 {

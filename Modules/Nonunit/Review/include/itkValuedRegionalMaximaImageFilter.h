@@ -42,6 +42,7 @@ namespace itk
  * \sa HMinimaImageFilter
  *
  * \ingroup MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage >

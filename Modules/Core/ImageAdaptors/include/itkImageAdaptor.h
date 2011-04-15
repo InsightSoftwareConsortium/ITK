@@ -42,6 +42,7 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  *
+ * \ingroup ITK-ImageAdaptors
  */
 template< class TImage, class TAccessor >
 class ITK_EXPORT ImageAdaptor:public ImageBase< ::itk::GetImageDimension< TImage >::ImageDimension >

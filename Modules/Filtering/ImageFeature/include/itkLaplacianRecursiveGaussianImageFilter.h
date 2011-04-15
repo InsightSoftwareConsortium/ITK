@@ -32,6 +32,7 @@ namespace itk
  *
  * \ingroup GradientFilters
  * \ingroup Singlethreaded
+ * \ingroup ITK-ImageFeature
  */
 template< typename TInputImage,
           typename TOutputImage = TInputImage >

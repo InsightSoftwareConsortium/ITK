@@ -68,6 +68,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters TensorObjects
  *
+ * \ingroup ITK-ImageFeature
  */
 
 template< typename  TPixel >

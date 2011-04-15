@@ -47,6 +47,7 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  *
+ * \ingroup ITK-Review
  */
 template< typename TInput = float, typename TOutput = double >
 class HeavisideStepFunctionBase:public FunctionBase< TInput, TOutput >

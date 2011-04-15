@@ -101,6 +101,7 @@ namespace itk
  * the space dimension and the spline order.
  *
  * \ingroup Transforms
+ * \ingroup ITK-Transform
  */
 template<
   class TScalarType = double,            // Data type for scalars

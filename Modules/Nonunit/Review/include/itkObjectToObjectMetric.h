@@ -33,6 +33,7 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  *
+ * \ingroup ITK-Review
  */
 
 template< class TFixedObject,  class TMovingObject >

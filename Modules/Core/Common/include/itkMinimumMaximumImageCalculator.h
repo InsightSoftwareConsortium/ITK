@@ -30,6 +30,7 @@ namespace itk
  * otherwise Compute() will compute both.
  *
  * \ingroup Operators
+ * \ingroup ITK-Common
  */
 template< class TInputImage >
 class ITK_EXPORT MinimumMaximumImageCalculator:public Object

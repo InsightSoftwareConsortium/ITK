@@ -45,6 +45,7 @@ namespace itk
  * \sa ImageToImageFilter
  *
  * \ingroup Singlethreaded
+ * \ingroup ITK-ConnectedComponents
  */
 
 template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >

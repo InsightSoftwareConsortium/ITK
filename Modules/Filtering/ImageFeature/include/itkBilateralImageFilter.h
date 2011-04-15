@@ -64,6 +64,7 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \todo Support color images
  * \todo Support vector images
+ * \ingroup ITK-ImageFeature
  */
 
 template< class TInputImage, class TOutputImage >

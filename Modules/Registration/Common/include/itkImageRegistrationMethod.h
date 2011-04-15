@@ -58,6 +58,7 @@ namespace itk
  * interpolate values from the Moving image.
  *
  * \ingroup RegistrationFilters
+ * \ingroup ITK-RegistrationCommon
  */
 template< typename TFixedImage, typename TMovingImage >
 class ITK_EXPORT ImageRegistrationMethod:public ProcessObject

@@ -51,6 +51,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters TensorObjects
  *
+ * \ingroup ITK-Review
  */
 template< typename TInputImage,
           typename THessianImage,

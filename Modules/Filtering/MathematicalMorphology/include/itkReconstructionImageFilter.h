@@ -48,6 +48,7 @@ namespace itk
  *
  * \sa MorphologicalReonstructionErosionImageFilter MorphologicalReonstructionDilationImageFilter
  * \ingroup MathematicalMorphologyImageFilters
+ * \ingroup ITK-MathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TCompare >

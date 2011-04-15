@@ -40,6 +40,7 @@ namespace itk
  * specific algorithmic needs.
  *
  * \ingroup RegionGrowingSegmentation
+ * \ingroup ITK-KLMRegionGrowing
  */
 class ITK_EXPORT SegmentationBorder:public Object
 {

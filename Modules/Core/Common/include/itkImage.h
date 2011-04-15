@@ -75,7 +75,9 @@ namespace itk
  * \example RGBImage.cxx
  * \example VectorImage.cxx
  *
- * \ingroup ImageObjects */
+ * \ingroup ImageObjects
+ * \ingroup ITK-Common
+ */
 template< class TPixel, unsigned int VImageDimension = 2 >
 class ITK_EXPORT Image:public ImageBase< VImageDimension >
 {

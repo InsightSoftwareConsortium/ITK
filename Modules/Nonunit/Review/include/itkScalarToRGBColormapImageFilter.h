@@ -35,6 +35,7 @@ namespace itk
  * \sa BinaryFunctionImageFilter TernaryFunctionImageFilter
  *
  * \ingroup   IntensityImageFilters     Multithreaded
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ScalarToRGBColormapImageFilter:

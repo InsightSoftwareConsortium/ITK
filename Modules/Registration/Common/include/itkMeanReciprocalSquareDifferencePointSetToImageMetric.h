@@ -40,6 +40,7 @@ namespace itk
  * Transform.
  *
  * \ingroup RegistrationMetrics
+ * \ingroup ITK-RegistrationCommon
  */
 template< class TFixedPointSet, class TMovingImage >
 class ITK_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric:

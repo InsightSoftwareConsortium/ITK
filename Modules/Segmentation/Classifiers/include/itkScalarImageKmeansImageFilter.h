@@ -53,6 +53,7 @@ namespace itk
  * \sa RelabelImageFilter
  *
  * \ingroup ClassificationFilters
+ * \ingroup ITK-Classifiers
  */
 template< class TInputImage,
           class TOutputImage = Image< unsigned char, ::itk::GetImageDimension< TInputImage >::ImageDimension > >

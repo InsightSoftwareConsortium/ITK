@@ -125,6 +125,7 @@ public:
  *       have to be a pointer to function. In fact, it can be any type
  *       Object of this type will be returned, when calling the
  *       VisitorDispatcher::Visit function.
+ * \ingroup ITK-FEM
  */
 template< class TVisitedClass,
           class TVisitorBase,

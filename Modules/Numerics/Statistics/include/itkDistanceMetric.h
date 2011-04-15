@@ -40,6 +40,7 @@ namespace Statistics
  * \sa EuclideanDistanceMetric
  * \sa ManhattanDistanceMetric
  *
+ * \ingroup ITK-Statistics
  */
 
 template< class TVector >

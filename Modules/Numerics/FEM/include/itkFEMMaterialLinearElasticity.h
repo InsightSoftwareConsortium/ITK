@@ -30,6 +30,7 @@ namespace fem {
  * This class includes material and other kind of properties required to
  * define material properties of finite elements applied to linear
  * elasticity problems in FEM toolkit.
+ * \ingroup ITK-FEM
  */
 class MaterialLinearElasticity : public Material {
 FEM_CLASS(MaterialLinearElasticity,Material)

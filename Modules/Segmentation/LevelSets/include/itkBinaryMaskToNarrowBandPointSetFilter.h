@@ -48,6 +48,7 @@ namespace itk
  * \sa PointSetToImageRegistrationMethod
  *
  * \ingroup ImageFilters  MeshFilters
+ * \ingroup ITK-LevelSets
  */
 template< class TInputImage, class TOutputMesh >
 class ITK_EXPORT BinaryMaskToNarrowBandPointSetFilter:

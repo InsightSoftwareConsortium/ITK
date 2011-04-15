@@ -45,6 +45,7 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa LabelContourImageFilter BinaryErodeImageFilter SimpleContourExtractorImageFilter
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage >

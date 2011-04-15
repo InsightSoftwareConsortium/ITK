@@ -49,6 +49,7 @@ namespace itk
  * ThreadedGenerateData() method for its implementation.
  *
  * \ingroup GeometricTransforms
+ * \ingroup ITK-ImageGrid
  */
 template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType = double >
 class ITK_EXPORT VectorResampleImageFilter:

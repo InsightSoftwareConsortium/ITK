@@ -32,7 +32,9 @@ namespace itk
  * representing the "center" of the core atom (i.e. the midpoint along the
  * vector between the two boundary points).
  * \ingroup ImageObjects
- * */
+ *
+ * \ingroup ITK-Blox
+ */
 
 template< unsigned int VImageDimension >
 class ITK_EXPORT BloxCoreAtomItem:public BloxItem

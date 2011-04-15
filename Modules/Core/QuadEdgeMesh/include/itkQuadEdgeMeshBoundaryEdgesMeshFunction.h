@@ -32,6 +32,7 @@ namespace itk
  *        \ref QEPrimal::IteratorGeom::BeginGeomLnext().
  * \note  The size() of the resulting list is the number of boundary
  *        components.
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< class TMesh >
 class ITK_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction:

@@ -67,6 +67,7 @@ namespace itk
  * user-designated coordinate transform must be threadsafe.
  *
  * \ingroup GeometricTransforms
+ * \ingroup ITK-ImageGrid
  */
 template< class TInputImage,
           class TOutputImage,

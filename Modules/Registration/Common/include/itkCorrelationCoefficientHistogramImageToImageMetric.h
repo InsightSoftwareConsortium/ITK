@@ -32,7 +32,9 @@ namespace itk
     This metric computes the similarity measure between pixels in the
     moving image and pixels in the fixed images using a histogram.
 
-    \ingroup RegistrationMetrics */
+    \ingroup RegistrationMetrics
+ * \ingroup ITK-RegistrationCommon
+ */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT CorrelationCoefficientHistogramImageToImageMetric:
   public HistogramImageToImageMetric< TFixedImage, TMovingImage >

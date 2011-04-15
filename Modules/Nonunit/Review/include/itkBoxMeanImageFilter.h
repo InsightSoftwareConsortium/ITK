@@ -27,6 +27,7 @@ namespace itk
  * \brief Implements a fast rectangular mean filter using the
  * accumulator approach
  * \author Richard Beare
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage = TInputImage >

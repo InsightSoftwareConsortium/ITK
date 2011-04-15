@@ -43,6 +43,7 @@ namespace itk
  * \ingroup GeometricTransforms
  * \ingroup Multithreaded
  * \ingroup Streamed
+ * \ingroup ITK-ImageGrid
  */
 template< class TImage >
 class ITK_EXPORT FlipImageFilter:

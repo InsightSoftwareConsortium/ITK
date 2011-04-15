@@ -44,6 +44,7 @@ namespace Statistics
  *
  * \sa Sample, Histogram
  *
+ * \ingroup ITK-Statistics
  */
 
 template< class TSample, class THistogram >

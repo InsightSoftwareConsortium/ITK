@@ -29,6 +29,7 @@ namespace itk
 /** \class ImageFileReaderException
  *
  * \brief Base exception class for IO conflicts.
+ * \ingroup ITK-IO-Base
  */
 class ImageFileReaderException:public ExceptionObject
 {
@@ -82,6 +83,7 @@ public:
  *
  */
 /** \class ImageFileReader
+ * \ingroup ITK-IO-Base
  */
 template< class TOutputImage,
           class ConvertPixelTraits = DefaultConvertPixelTraits<

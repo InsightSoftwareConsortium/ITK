@@ -37,6 +37,7 @@ namespace itk
  *
  *  \sa DefaultDynamicMeshTraits
  *  \sa DefaultStaticMeshTraits
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< typename TPixel, unsigned int VPointDimension,
           typename TPData, typename TDData,

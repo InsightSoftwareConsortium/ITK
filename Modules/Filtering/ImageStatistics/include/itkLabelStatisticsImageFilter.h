@@ -50,6 +50,7 @@ namespace itk
  * its AfterThreadedGenerate method.
  *
  * \ingroup MathematicalStatisticsImageFilters
+ * \ingroup ITK-ImageStatistics
  */
 template< class TInputImage, class TLabelImage >
 class ITK_EXPORT LabelStatisticsImageFilter:
@@ -104,7 +105,9 @@ public:
   typedef typename HistogramType::Pointer        HistogramPointer;
 
   /** \class LabelStatistics
-   * \brief Statistics stored per label */
+   * \brief Statistics stored per label
+   * \ingroup ITK-ImageStatistics
+   */
   class LabelStatistics
   {
 public:

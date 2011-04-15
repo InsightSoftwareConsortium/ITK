@@ -33,6 +33,7 @@ namespace itk
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
+ * \ingroup ITK-ImageAdaptors
  */
 
 // Create a helper class to help the SunPro CC compiler

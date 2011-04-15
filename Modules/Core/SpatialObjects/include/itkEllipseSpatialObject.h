@@ -27,6 +27,7 @@ namespace itk
 /** \class EllipseSpatialObject
  *
  * \brief TODO
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TDimension = 3 >

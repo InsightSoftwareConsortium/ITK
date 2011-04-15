@@ -31,6 +31,7 @@ namespace Function
  * \brief Window function for sinc interpolation.
  * \f[ w(x) = cos(\frac{\pi x}{2 m} ) \f]
  * \sa WindowedSincInterpolateImageFunction
+ * \ingroup ITK-ImageFunction
  */
 template< unsigned int VRadius,
           class TInput = double, class TOutput = double >
@@ -49,6 +50,7 @@ private:
  * \brief Window function for sinc interpolation.
  * \f[ w(x) = 0.54 + 0.46 cos(\frac{\pi x}{m} ) \f]
  * \sa WindowedSincInterpolateImageFunction
+ * \ingroup ITK-ImageFunction
  */
 template< unsigned int VRadius,
           class TInput = double, class TOutput = double >
@@ -67,6 +69,7 @@ private:
  * \brief Window function for sinc interpolation.
  * \f[ w(x) = 1 - ( \frac{x^2}{m^2} ) \f]
  * \sa WindowedSincInterpolateImageFunction
+ * \ingroup ITK-ImageFunction
  */
 template< unsigned int VRadius,
           class TInput = double, class TOutput = double >
@@ -87,6 +90,7 @@ private:
  * Note: Paper referenced in WindowedSincInterpolateImageFunction gives
  * an incorrect definition of this window function.
  * \sa WindowedSincInterpolateImageFunction
+ * \ingroup ITK-ImageFunction
  */
 template< unsigned int VRadius,
           class TInput = double, class TOutput = double >
@@ -110,6 +114,7 @@ private:
  * \brief Window function for sinc interpolation.
  * \f[ w(x) = 0.42 + 0.5 cos(\frac{\pi x}{m}) + 0.08 cos(\frac{2 \pi x}{m}) \f]
  * \sa WindowedSincInterpolateImageFunction
+ * \ingroup ITK-ImageFunction
  */
 template< unsigned int VRadius,
           class TInput = double, class TOutput = double >
@@ -239,6 +244,7 @@ private:
  * \sa Function::LanczosWindowFunction
  * \sa Function::BlackmanWindowFunction
  * \ingroup ImageFunctions ImageInterpolators
+ * \ingroup ITK-ImageFunction
  */
 template<
   class TInputImage,

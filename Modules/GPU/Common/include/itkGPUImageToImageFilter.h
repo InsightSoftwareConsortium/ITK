@@ -13,6 +13,7 @@ namespace itk
  *
  * FIXME   Won-Ki to write more documentation here...
  *
+ * \ingroup ITK-GPUCommon
  */
 template< class TInputImage, class TOutputImage, class TParentImageFilter = ImageToImageFilter< TInputImage, TOutputImage > >
 class ITK_EXPORT GPUImageToImageFilter: public TParentImageFilter

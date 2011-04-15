@@ -42,6 +42,7 @@ namespace itk
  * \sa ContinuousIndex
  *
  * \ingroup PathObjects
+ * \ingroup ITK-Path
  */
 template< class TInput, class TOutput, unsigned int VDimension >
 class ITK_EXPORT Path:public DataObject

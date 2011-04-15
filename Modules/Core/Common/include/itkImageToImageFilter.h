@@ -65,6 +65,7 @@ namespace itk
  * first.
  *
  * \ingroup ImageFilters
+ * \ingroup ITK-Common
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >

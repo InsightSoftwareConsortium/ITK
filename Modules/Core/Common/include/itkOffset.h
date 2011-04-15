@@ -50,6 +50,7 @@ class OffsetLexicographicCompare;
  *
  * \sa Index
  * \ingroup ImageAccess
+ * \ingroup ITK-Common
  */
 
 template< unsigned int VOffsetDimension = 2 >
@@ -217,6 +218,7 @@ namespace Functor
  * This is a comparison functor suitable for storing Offset instances
  * in an STL container.  The ordering is total and unique but has
  * little geometric meaning.
+ * \ingroup ITK-Common
  */
 template< unsigned int VOffsetDimension >
 class OffsetLexicographicCompare

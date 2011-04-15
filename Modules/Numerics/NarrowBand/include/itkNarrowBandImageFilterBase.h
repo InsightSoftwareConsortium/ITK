@@ -62,6 +62,7 @@ namespace itk
  * \par REFERENCES
  * Sethian, J.A. Level Set Methods. Cambridge University Press. 1996.
  *
+ * \ingroup ITK-NarrowBand
  */
 template< class TInputImage, class TOutputImage >
 class NarrowBandImageFilterBase:

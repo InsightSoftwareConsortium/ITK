@@ -39,6 +39,7 @@ namespace itk
  * this object (or subclasses of this object).
  *
  * \ingroup OSSystemObjects
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT OutputWindow:public Object
 {

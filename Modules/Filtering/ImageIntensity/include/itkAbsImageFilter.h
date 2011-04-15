@@ -27,6 +27,7 @@ namespace itk
  * \brief Computes the ABS(x) pixel-wise
  *
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
  */
 namespace Function
 {

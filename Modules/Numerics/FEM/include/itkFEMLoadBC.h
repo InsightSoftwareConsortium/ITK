@@ -28,6 +28,7 @@ namespace fem {
  * \brief Generic essential (Dirichlet) boundary conditions.
  *
  * Objects of this class specify, which DOFs in a system are fixed.
+ * \ingroup ITK-FEM
  */
 class LoadBC : public Load
 {

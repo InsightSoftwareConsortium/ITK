@@ -46,6 +46,7 @@ namespace itk
  *
  * \sa itk::ImageFileReader itk::ImageFileWriter
  * \ingroup IOFilters
+ * \ingroup ITK-IO-Base
  */
 class ITK_EXPORT StreamingImageIOBase:public ImageIOBase
 {

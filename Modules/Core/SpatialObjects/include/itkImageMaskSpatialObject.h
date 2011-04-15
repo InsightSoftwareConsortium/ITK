@@ -31,6 +31,7 @@ namespace itk
  * Image Registration Metrics.
  *
  * \sa ImageSpatialObject SpatialObject CompositeSpatialObject
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TDimension = 3 >

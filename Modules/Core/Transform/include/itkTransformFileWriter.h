@@ -27,6 +27,7 @@ namespace itk
 /** \class TransformFileWriter
  *
  * \brief TODO
+ * \ingroup ITK-Transform
  */
 class ITK_EXPORT TransformFileWriter:public LightProcessObject
 {

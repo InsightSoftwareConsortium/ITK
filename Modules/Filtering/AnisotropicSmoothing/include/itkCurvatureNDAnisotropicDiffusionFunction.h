@@ -68,7 +68,9 @@ namespace itk
  * \sa AnisotropicDiffusionFunction
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
- * \todo References */
+ * \todo References
+ * \ingroup ITK-AnisotropicSmoothing
+ */
 template< class TImage >
 class ITK_EXPORT CurvatureNDAnisotropicDiffusionFunction:
   public ScalarAnisotropicDiffusionFunction< TImage >

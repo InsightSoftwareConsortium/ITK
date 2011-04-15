@@ -35,6 +35,7 @@ namespace itk
    *
    * \ingroup IOFilters
    *
+   * \ingroup ITK-IO-Base
    */
 class ITK_EXPORT IOCommon
 {

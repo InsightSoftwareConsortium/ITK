@@ -68,6 +68,7 @@ namespace itk
  * \sa ConnectedComponentImageFilter, BinaryThresholdImageFilter, ThresholdImageFilter
  *
  * \ingroup Singlethreaded
+ * \ingroup ITK-ConnectedComponents
  */
 
 template< class TInputImage, class TOutputImage >

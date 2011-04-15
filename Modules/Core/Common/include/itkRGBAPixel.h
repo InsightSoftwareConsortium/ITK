@@ -46,6 +46,7 @@ namespace itk
  * pixel[0], pixel[1], pixel[2], pixel[3]
  * \ingroup ImageObjects
  *
+ * \ingroup ITK-Common
  */
 
 template< typename TComponent = unsigned short >

@@ -56,6 +56,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
+ * \ingroup ITK-Common
  */
 
 template< unsigned int VImageDimension >

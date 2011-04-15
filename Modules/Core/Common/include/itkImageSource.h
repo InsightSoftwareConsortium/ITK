@@ -54,6 +54,7 @@ namespace itk
  * set this flag to limit peak memory usage during a pipeline update.
  *
  * \ingroup DataSources
+ * \ingroup ITK-Common
  */
 template< class TOutputImage >
 class ITK_EXPORT ImageSource:public ProcessObject

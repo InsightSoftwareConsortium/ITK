@@ -46,7 +46,9 @@ namespace itk
  *
  * \sa AnisotropicDiffusionFunction
  * \sa ScalarAnisotropicDiffusionFunction
- * */
+ *
+ * \ingroup ITK-AnisotropicSmoothing
+ */
 template< class TImage >
 class ITK_EXPORT VectorAnisotropicDiffusionFunction:
   public AnisotropicDiffusionFunction< TImage >

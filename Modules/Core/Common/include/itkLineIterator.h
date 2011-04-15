@@ -45,6 +45,7 @@ namespace itk
  * Radiologie, Medizinische Hochschule Hannover.
  *
  * \sa LineConstIterator
+ * \ingroup ITK-Common
  */
 template< class TImage >
 class ITK_EXPORT LineIterator:public LineConstIterator< TImage >

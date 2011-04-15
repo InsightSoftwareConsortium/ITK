@@ -43,6 +43,7 @@ namespace itk
  * \sa MinimumProjectionImageFilter
  * \sa StandardDeviationProjectionImageFilter
  * \sa SumProjectionImageFilter
+ * \ingroup ITK-ImageStatistics
  */
 
 namespace Function

@@ -45,6 +45,7 @@ namespace itk
  *
  * TCoordType: the type associated with the coordination of the seeds and the
  *  resulting vertices.
+ * \ingroup ITK-Voronoi
  */
 template< typename TCoordType >
 class ITK_EXPORT VoronoiDiagram2DGenerator:
@@ -126,7 +127,9 @@ private:
 
   /** \class FortuneSite
    * Small data structures for Fortune's Method
-   * and some public variables/methods not for external access. */
+   * and some public variables/methods not for external access.
+   * \ingroup ITK-Voronoi
+   */
   class FortuneSite;
   class FortuneEdge;
   class FortuneHalfEdge;

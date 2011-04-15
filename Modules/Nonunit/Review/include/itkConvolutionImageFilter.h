@@ -29,6 +29,7 @@ namespace itk
  *
  * \author Nicholas J. Tustison
  * \author James C. Gee
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TOutputImage = TInputImage >
 class ITK_EXPORT ConvolutionImageFilter:

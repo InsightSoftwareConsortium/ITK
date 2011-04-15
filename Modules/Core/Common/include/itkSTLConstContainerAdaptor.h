@@ -30,6 +30,7 @@ namespace itk
  *     itk::STLConstContainerAdaptor<itk::VectorContainer<SizeValueType, ElementType>> vecAdaptor(aContainer);
  *     const std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
  *     // do things with vec ...
+ * \ingroup ITK-Common
  */
 
 template< typename TContainer >

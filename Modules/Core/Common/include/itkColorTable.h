@@ -33,6 +33,7 @@ namespace itk
  * value range differs for integral and continuous data types. Consult
  * the documentation for each lookup table generator.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 
 template< class TPixel >

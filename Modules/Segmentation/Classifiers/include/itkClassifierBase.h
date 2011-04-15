@@ -81,6 +81,7 @@ namespace itk
  * This class is templated over the container type.
  *
  * \ingroup ClassificationFilters
+ * \ingroup ITK-Classifiers
  */
 template< class TDataContainer >
 class ITK_EXPORT ClassifierBase:public LightProcessObject

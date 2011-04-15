@@ -53,6 +53,7 @@ namespace itk
  * \author Zachary Pincus
  *
  * \ingroup Operators
+ * \ingroup ITK-ImageStatistics
  */
 template< class TInputImage,
           class TBasisImage = Image< double, ::itk::GetImageDimension< TInputImage >::ImageDimension > >

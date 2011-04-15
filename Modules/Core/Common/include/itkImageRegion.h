@@ -56,6 +56,7 @@ class ImageBase;
  * \sa MeshRegion
  *
  * \ingroup ImageObjects
+ * \ingroup ITK-Common
  */
 template< unsigned int VImageDimension >
 class ITK_EXPORT ImageRegion:public Region

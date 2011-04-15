@@ -52,6 +52,7 @@ namespace fem {
  * how much memory each element needs. Instead each derived class should take care of the memory
  * management (declare appropriate data members) for the element parameters and provide access
  * to these parameters (like nodes, materials...).
+ * \ingroup ITK-FEM
  */
 
 
@@ -126,6 +127,7 @@ public:
    * A node can define a point in space and can hold an arbitrary number
    * of coordinates and the DOFs. Since the only classes that use nodes
    * are the elements, the node class is defined within an element base class.
+   * \ingroup ITK-FEM
    */
   class Node : public FEMLightObject
     {
@@ -683,6 +685,7 @@ typedef Element::Node Node;
  * we also need pointer to the array of elements. Construct object of this
  * class and pass a pointer to it when calling Read virtual member function
  * for any type of fem classes.
+ * \ingroup ITK-FEM
  */
 class ReadInfoType
 {

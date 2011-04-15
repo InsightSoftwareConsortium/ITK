@@ -31,6 +31,7 @@ namespace itk
  *
  *
  *  \ingroup OSSystemObjects LoggingObjects
+ * \ingroup ITK-Common
  */
 
 class ITKCommon_EXPORT LoggerBase:public Object

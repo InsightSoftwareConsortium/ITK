@@ -35,6 +35,7 @@ namespace itk
  * (teem.sourceforge.net).
  *
  *  \ingroup IOFilters
+ * \ingroup ITK-IO-NRRD
  */
 class ITK_EXPORT NrrdImageIO:public ImageIOBase
 {

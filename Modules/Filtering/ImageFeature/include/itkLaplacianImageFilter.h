@@ -54,7 +54,9 @@ namespace itk
  * \sa NeighborhoodIterator
  * \sa LaplacianOperator
  *
- * \ingroup ImageFeatureExtraction */
+ * \ingroup ImageFeatureExtraction
+ * \ingroup ITK-ImageFeature
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT LaplacianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

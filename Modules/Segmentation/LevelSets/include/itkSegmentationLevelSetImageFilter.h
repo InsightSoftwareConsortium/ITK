@@ -136,7 +136,9 @@ namespace itk
  * why the New() operator (itkNewMacro) is missing from the class API.
  *
  * \par
- *  See LevelSetFunction for more information. */
+ *  See LevelSetFunction for more information.
+ * \ingroup ITK-LevelSets
+ */
 template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >

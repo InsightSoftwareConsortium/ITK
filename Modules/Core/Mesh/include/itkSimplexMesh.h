@@ -42,6 +42,7 @@ namespace itk
  * (from simplex to trinagle mesh)is done through a itkSimplexMeshToTriangleMeshFilter.
  *
  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+ * \ingroup ITK-Mesh
  */
 template< typename TPixelType, unsigned int VDimension = 3,
           typename TMeshTraits =

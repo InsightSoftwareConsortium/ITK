@@ -32,6 +32,7 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
+ * \ingroup ITK-ImageGradient
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_EXPORT GradientMagnitudeImageFilter:

@@ -36,6 +36,7 @@ namespace Accessor
  * \sa ImageAdaptor
  * \ingroup ImageAdaptors
  *
+ * \ingroup ITK-ImageAdaptors
  */
 
 template< class T >

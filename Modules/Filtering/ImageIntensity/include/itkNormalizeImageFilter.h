@@ -36,6 +36,7 @@ namespace itk
  * NB: since this filter normalizes the data to lie within -1 to 1,
  * integral types will produce an image that DOES NOT HAVE a unit variance.
  * \ingroup MathematicalImageFilters
+ * \ingroup ITK-ImageIntensity
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NormalizeImageFilter:

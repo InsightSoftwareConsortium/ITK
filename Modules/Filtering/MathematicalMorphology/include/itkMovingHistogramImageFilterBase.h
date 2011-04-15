@@ -83,6 +83,7 @@ namespace itk
  *
  * \author Gaetan Lehmann
  * \author Richard Beare
+ * \ingroup ITK-MathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >

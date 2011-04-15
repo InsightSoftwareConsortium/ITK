@@ -33,7 +33,9 @@ namespace Accessor
  * applies the function to it and cast the result according
  * to the types defined as template parameters
  *
- * \ingroup ImageAdaptors */
+ * \ingroup ImageAdaptors
+ * \ingroup ITK-ImageAdaptors
+ */
 
 template< class TInternalType, class TExternalType >
 class ITK_EXPORT AcosPixelAccessor
@@ -62,7 +64,9 @@ public:
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.
  *
- * \ingroup ImageAdaptors */
+ * \ingroup ImageAdaptors
+ * \ingroup ITK-ImageAdaptors
+ */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT AcosImageAdaptor:public
   ImageAdaptor< TImage, Accessor::AcosPixelAccessor<

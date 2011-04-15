@@ -44,6 +44,7 @@ namespace fem {
  *        m.lhs.push_back( LoadBCMFC::MFCTerm( elements.Find(1), 0, 0.5 ) );
  *        m.lhs.push_back( LoadBCMFC::MFCTerm( elements.Find(5), 1, 2.1 ) );
  *        m.rhs=10.0;
+ * \ingroup ITK-FEM
  */
 
 // forward declaratons...
@@ -58,6 +59,7 @@ public:
    * \class MFCTerm
    * \brief Class that holds information about one term in MFC constraint equation.
    * \sa LoadBCMFC
+   * \ingroup ITK-FEM
    */
   class MFCTerm
     {

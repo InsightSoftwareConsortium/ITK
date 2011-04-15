@@ -27,7 +27,9 @@ namespace itk
  * \brief Stores corresponding lists of nodes with pointers to
  * the contained items.
  *
- * */
+ *
+ * \ingroup ITK-Blox
+ */
 
 template< typename TItemType, int VCliqueSize >
 class SecondaryNodeList:public std::list< TItemType >

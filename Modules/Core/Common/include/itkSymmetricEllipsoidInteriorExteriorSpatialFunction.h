@@ -33,6 +33,7 @@ namespace itk
  * is one which has m axes of equal length and (n - m) unique axes lengths.
  * Specifically, this class deals with the case where (n - m) = 1 and
  * the ellipsoid's major axis is oriented along a singles orientation vector.
+ * \ingroup ITK-Common
  */
 template< unsigned int VDimension = 3,
           typename TInput = Point< double, VDimension > >

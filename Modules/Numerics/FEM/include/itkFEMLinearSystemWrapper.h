@@ -46,6 +46,7 @@ namespace fem {
  * and solver.
  *
  * \sa Solver::SetLinearSystemWrapper
+ * \ingroup ITK-FEM
  */
 class LinearSystemWrapper : public Solution
 {

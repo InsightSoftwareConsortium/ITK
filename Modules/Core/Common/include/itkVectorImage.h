@@ -70,6 +70,7 @@ namespace itk
  * \example itkVectorImageTest.cxx
  *
  * \ingroup ImageObjects
+ * \ingroup ITK-Common
  */
 template< class TPixel, unsigned int VImageDimension = 3 >
 class ITK_EXPORT VectorImage:

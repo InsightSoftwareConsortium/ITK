@@ -46,7 +46,9 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  *
- * */
+ *
+ * \ingroup ITK-ImageFeature
+ */
 
 template< typename TInputPixelType, typename TOutputPixelType >
 class ITK_EXPORT HoughTransform2DCirclesImageFilter:

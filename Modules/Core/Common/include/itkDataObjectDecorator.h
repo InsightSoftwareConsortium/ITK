@@ -59,6 +59,7 @@ namespace itk
  * \sa AutoPointerDataObjectDecorator
  * \ingroup ITKSystemObjects
  *
+ * \ingroup ITK-Common
  */
 template< class T >
 class ITK_EXPORT DataObjectDecorator:public DataObject

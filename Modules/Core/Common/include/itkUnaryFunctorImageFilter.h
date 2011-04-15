@@ -38,6 +38,7 @@ namespace itk
  * \sa BinaryFunctorImageFilter TernaryFunctorImageFilter
  *
  * \ingroup   IntensityImageFilters     Multithreaded
+ * \ingroup ITK-Common
  */
 template< class TInputImage, class TOutputImage, class TFunction >
 class ITK_EXPORT UnaryFunctorImageFilter:public InPlaceImageFilter< TInputImage, TOutputImage >

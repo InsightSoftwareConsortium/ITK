@@ -54,7 +54,9 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \sa LineSpatialObject
  *
- * */
+ *
+ * \ingroup ITK-ImageFeature
+ */
 
 template< typename TInputPixelType, typename TOutputPixelType >
 class ITK_EXPORT HoughTransform2DLinesImageFilter:

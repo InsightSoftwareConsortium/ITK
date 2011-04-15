@@ -25,6 +25,7 @@ namespace itk
 {
 /** \class MINC2ImageIOFactory
  * \brief Create instances of MINC2ImageIO objects using an object factory.
+ * \ingroup ITK-Review
  */
 class ITK_EXPORT MINC2ImageIOFactory:public ObjectFactoryBase
 {

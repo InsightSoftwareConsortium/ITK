@@ -39,6 +39,7 @@ class JPEG2000ImageIOInternal;
  *  compression (lossless and lossy), streaming, multi-channel images.
  *
  *  \ingroup IOFilters
+ * \ingroup ITK-Review
  */
 class ITK_EXPORT JPEG2000ImageIO:public StreamingImageIOBase
 {

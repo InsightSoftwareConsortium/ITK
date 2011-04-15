@@ -100,6 +100,7 @@ namespace itk
  * TCellTraits = Type information for cell.
  *
  * \ingroup MeshObjects
+ * \ingroup ITK-Common
  */
 template<
   typename TPixelType,
@@ -166,7 +167,9 @@ public:
    * CellInterfaceVisitor instances can be registered for each
    * type of cell that needs to be visited.
    *
-   * \ingroup MeshAccess */
+   * \ingroup MeshAccess
+   * \ingroup ITK-Common
+   */
   class MultiVisitor:public LightObject
   {
 public:
@@ -461,6 +464,7 @@ private:
  * type structure definition.
  *
  * \ingroup MeshObjects
+ * \ingroup ITK-Common
  */
 template< int VPointDimension, typename TCoordRep,
           typename TInterpolationWeight, typename TPointIdentifier,

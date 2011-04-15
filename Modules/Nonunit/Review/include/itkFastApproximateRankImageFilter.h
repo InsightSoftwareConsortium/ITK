@@ -32,6 +32,7 @@ namespace itk
  * are.
  *
  * \author Richard Beare
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage >

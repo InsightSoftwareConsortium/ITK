@@ -26,6 +26,7 @@ namespace itk {
 /**
  *  Implementation of the Command Pattern to be invoked every iteration
  * \class CommandIterationUpdate
+ * \ingroup ITK-RegistrationCommon
  */
 template < class TOptimizer >
 class ITK_EXPORT CommandIterationUpdate : public Command

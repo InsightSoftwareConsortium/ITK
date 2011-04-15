@@ -54,6 +54,7 @@ namespace itk
  * both image have the same number of dimensions.
  *
  * \ingroup MultiThreaded
+ * \ingroup ITK-ImageCompare
  */
 template< class TInputImage1, class TInputImage2 >
 class ITK_EXPORT SimilarityIndexImageFilter:

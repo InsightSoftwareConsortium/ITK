@@ -48,6 +48,7 @@ namespace itk
  *
  * \ingroup LevelSetSegmentation
  *
+ * \ingroup ITK-LevelSets
  */
 template<
   class TLevelSet,

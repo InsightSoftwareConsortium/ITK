@@ -28,6 +28,7 @@ namespace itk
  *
  * \brief Delete the vertex, connected edges and faces and create a new face
  *        In place of the previous vertex' one-ring.
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< class TMesh, class TQEType >
 class ITK_EXPORT QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction:

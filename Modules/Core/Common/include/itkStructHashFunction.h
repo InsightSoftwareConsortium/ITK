@@ -31,6 +31,7 @@ namespace itk
  *  on the data it points to.  It is imagined that this function will
  *  be used more for structs (with fully exposed data) than for
  *  general classes.
+ * \ingroup ITK-Common
  */
 template< class TInput >
 class ITK_EXPORT StructHashFunction

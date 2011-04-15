@@ -36,7 +36,9 @@ namespace itk
  *
  * \ingroup ImageFunctions
  *
- * */
+ *
+ * \ingroup ITK-ImageFunction
+ */
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT ExtrapolateImageFunction:
   public ImageFunction< TInputImage,

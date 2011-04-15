@@ -43,6 +43,7 @@ namespace itk
  * \sa ExtractImageFilter
  *
  * \ingroup GeometricTransforms
+ * \ingroup ITK-ImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT RegionOfInterestImageFilter:

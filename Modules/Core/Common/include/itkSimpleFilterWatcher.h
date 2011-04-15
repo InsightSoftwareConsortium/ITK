@@ -59,6 +59,7 @@ namespace itk
  *
  * \todo Allow any stream object to be used for the output (not just std::cout)
  *
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT SimpleFilterWatcher
 {

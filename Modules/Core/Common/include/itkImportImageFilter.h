@@ -33,6 +33,7 @@ namespace itk
  * the output image.
  *
  * \ingroup IOFilters
+ * \ingroup ITK-Common
  */
 template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_EXPORT ImportImageFilter:

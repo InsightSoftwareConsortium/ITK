@@ -29,6 +29,7 @@ namespace itk
  * \brief Templated n-dimensional image class used to store linked lists.
  * \ingroup ImageObjects
  *
+ * \ingroup ITK-Blox
  */
 template< unsigned int TImageDimension >
 class ITK_EXPORT BloxBoundaryPointImage:

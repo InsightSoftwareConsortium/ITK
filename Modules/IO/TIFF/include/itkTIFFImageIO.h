@@ -33,6 +33,7 @@ class TIFFReaderInternal;
  *
  * \ingroup IOFilters
  *
+ * \ingroup ITK-IO-TIFF
  */
 class ITK_EXPORT TIFFImageIO:public ImageIOBase
 {

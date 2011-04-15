@@ -74,6 +74,7 @@ namespace itk
  * \sa VectorImage
  * \sa BayesianClassifierInitializationImageFilter
  * \ingroup ClassificationFilters
+ * \ingroup ITK-Classifiers
  */
 template< class TInputVectorImage, class TLabelsType = unsigned char,
           class TPosteriorsPrecisionType = double, class TPriorsPrecisionType = double >

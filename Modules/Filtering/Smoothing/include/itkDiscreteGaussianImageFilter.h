@@ -51,6 +51,7 @@ namespace itk
  *
  * \ingroup ImageEnhancement
  * \ingroup ImageFeatureExtraction
+ * \ingroup ITK-Smoothing
  */
 
 template< class TInputImage, class TOutputImage >

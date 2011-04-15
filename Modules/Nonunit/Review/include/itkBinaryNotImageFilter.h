@@ -46,6 +46,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/176
  *
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-Review
  */
 namespace Functor {
 

@@ -27,7 +27,9 @@ namespace itk
  * A specialized Command object for updating the progress of a
  *  MiniPipeline.  Follows the progress of a series of filters
  *  and calls UpdateProgress on another filter (i.e. the filter
- * implementing the mini-pipeline). */
+ * implementing the mini-pipeline).
+ * \ingroup ITK-Watersheds
+ */
 class ITK_EXPORT WatershedMiniPipelineProgressCommand:public Command
 {
 public:

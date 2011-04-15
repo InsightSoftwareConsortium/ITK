@@ -43,6 +43,7 @@ namespace itk
  * point, or a region containing a specified cell.
  *
  * \ingroup MeshFilters
+ * \ingroup ITK-Mesh
  */
 
 template< class TInputMesh, class TOutputMesh >

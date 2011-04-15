@@ -38,6 +38,7 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup ImageFeatureExtraction
+ * \ingroup ITK-ImageFeature
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT DerivativeImageFilter:

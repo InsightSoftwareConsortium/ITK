@@ -42,6 +42,7 @@ namespace itk
  *
  * \sa Index
  * \ingroup ImageObjects
+ * \ingroup ITK-Common
  */
 template< unsigned int VDimension = 2 >
 class Size

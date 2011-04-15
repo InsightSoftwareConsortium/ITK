@@ -206,6 +206,7 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  *
  * \ingroup Operators
+ * \ingroup ITK-Common
  */
 template< class TImage, class TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >

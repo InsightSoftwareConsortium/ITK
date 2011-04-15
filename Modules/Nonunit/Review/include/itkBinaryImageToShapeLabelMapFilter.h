@@ -38,6 +38,7 @@ namespace itk
  *
  * \sa ShapeLabelObject, LabelShapeOpeningImageFilter, BinaryStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TOutputImage =
             LabelMap< ShapeLabelObject< SizeValueType, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >

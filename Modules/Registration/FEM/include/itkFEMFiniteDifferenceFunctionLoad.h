@@ -56,6 +56,7 @@ namespace fem
  * This region size may be set by the user by calling SetMetricRadius.
  * As the metric derivative computation evolves, performance should improve
  * and more functionality will be available (such as scale selection).
+ * \ingroup ITK-FEMRegistration
  */
 template< class TMoving, class TFixed >
 class ITK_EXPORT FiniteDifferenceFunctionLoad:public LoadElement

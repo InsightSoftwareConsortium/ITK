@@ -49,6 +49,7 @@ namespace itk
  *
  * \sa AccumulateImageFilter
  * \ingroup   IntensityImageFilters     Singlethreaded
+ * \ingroup ITK-ImageStatistics
  */
 template< class TInputImage, class TOutputImage, class TAccumulator >
 class ITK_EXPORT ProjectionImageFilter:

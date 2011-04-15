@@ -32,6 +32,7 @@ namespace itk
  * maximally connected (for example, 4-connected instead of 8-connected in 2D).
  *
  * \ingroup PathFilters
+ * \ingroup ITK-Path
  */
 template< class TInputPath, class TOutputChainCodePath >
 class ITK_EXPORT PathToChainCodePathFilter:public

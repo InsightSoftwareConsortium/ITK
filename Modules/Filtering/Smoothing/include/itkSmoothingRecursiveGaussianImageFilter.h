@@ -40,6 +40,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters
  * \ingroup Singlethreaded
+ * \ingroup ITK-Smoothing
  */
 template< typename TInputImage,
           typename TOutputImage = TInputImage >

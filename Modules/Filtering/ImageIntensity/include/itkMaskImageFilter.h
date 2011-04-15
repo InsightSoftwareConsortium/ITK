@@ -48,6 +48,7 @@ namespace itk
  *
  * \sa MaskNegatedImageFilter
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
  */
 namespace Functor
 {

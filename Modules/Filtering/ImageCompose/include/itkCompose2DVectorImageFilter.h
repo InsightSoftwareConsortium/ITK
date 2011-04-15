@@ -63,6 +63,7 @@ public:
  * type is preserved from the PixelType of the input images.
  *
  * \ingroup IntensityImageFilters
+ * \ingroup ITK-ImageCompose
  */
 
 template< typename TInputImage,

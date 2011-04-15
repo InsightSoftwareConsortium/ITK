@@ -49,6 +49,7 @@ namespace Statistics
  * GetMeasurementVectorSize() to get the length.
  *
  * \sa MixtureModelComponentBase, GaussianMixtureModelComponent
+ * \ingroup ITK-Statistics
  */
 
 template< class TSample >

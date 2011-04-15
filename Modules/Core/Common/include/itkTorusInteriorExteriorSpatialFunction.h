@@ -32,7 +32,9 @@ namespace itk
  *
  * \ingroup SpatialFunctions
  *
- * */
+ *
+ * \ingroup ITK-Common
+ */
 
 template< unsigned int VDimension = 3, typename TInput = Point< double, 3 > >
 class ITK_EXPORT TorusInteriorExteriorSpatialFunction:

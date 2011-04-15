@@ -66,6 +66,7 @@ public:
  * http://hdl.handle.net/1926/153
  *
  * \ingroup IntensityImageFilters
+ * \ingroup ITK-Review
  */
 
 template< typename TInputImage,

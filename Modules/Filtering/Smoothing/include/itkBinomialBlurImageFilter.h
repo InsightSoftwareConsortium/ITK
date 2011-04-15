@@ -33,6 +33,7 @@ namespace itk
  * convultion with a gaussian.
  *
  * \ingroup ImageEnhancement
+ * \ingroup ITK-Smoothing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT BinomialBlurImageFilter:

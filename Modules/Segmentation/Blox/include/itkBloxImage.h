@@ -56,6 +56,7 @@ namespace itk
  *
  * \ingroup ImageObjects
  *
+ * \ingroup ITK-Blox
  */
 template< typename TBloxPixelType, unsigned int TImageDimension = 3 >
 class ITK_EXPORT BloxImage:public Image< TBloxPixelType, TImageDimension >

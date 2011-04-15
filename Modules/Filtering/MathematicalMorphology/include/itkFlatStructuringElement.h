@@ -34,6 +34,7 @@ namespace itk
  * a cross structuring element, and let create a structuring element
  * based on an image.
  *
+ * \ingroup ITK-MathematicalMorphology
  */
 
 template< unsigned int VDimension >

@@ -33,6 +33,7 @@ namespace itk
  * that region is well defined for the porvided radius.
  *
  * \author Gaetan Lehmann
+ * \ingroup ITK-MathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TKernel /*=Neighborhood<bool,

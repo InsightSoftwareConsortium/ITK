@@ -37,6 +37,7 @@ namespace Statistics
  *
  * \sa SampleToSubsampleFilter
  *
+ * \ingroup ITK-Statistics
  */
 
 template< class TSample >

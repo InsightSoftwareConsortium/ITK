@@ -35,6 +35,7 @@ namespace itk
  * represent a binary image.
  *
  * \sa SpatialObjectPoint
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TDimension = 3 >
