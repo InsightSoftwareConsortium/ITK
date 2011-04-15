@@ -136,9 +136,7 @@ TemporalProcessObject::GenerateData()
                       << "cannot cast " << typeid(output).name() << " to "
                       << typeid(TemporalDataObject*).name() );
     }
-
-  //DEBUG -- this should be the GetFrameStart() of the unbuffered region
-  unsigned long outputStartFrame = 0;//output->GetRequestedTemporalRegion().GetFrameStart();
+  unsigned long outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
 
   // Process each of the temporal sub-regions in sequence
   for (unsigned int i = 0; i < inputTemporalRegionRequests.size(); ++i)
@@ -199,7 +197,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   // requested temporal region and its buffered temporal region. This
   // difference is defined as any time that is covered by the requested region
   // but not by the buffered region
-  TemporalRegion unbufferedRegion;    //DEBUG
+  TemporalRegion unbufferedRegion = outputObject->GetUnbufferedRequestedTemporalRegion();
 
   // Calculate the number of input requests that will be needed
   unsigned long numRequests = (unsigned long)(ceil(
@@ -210,7 +208,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   //unsigned long extraFrames = (numRequests * m_UnitOutputNumberOfFrames) -
   //                              unbufferedRegion.GetFrameDuration();
 
-  // Set up the requested input temporal region set (NOT PROPERLY HANDLING REAL TIME!!!!!!!!)
+  // Set up the requested input temporal region set (TODO: NOT PROPERLY HANDLING REAL TIME!!!!!!!!)
   std::vector<TemporalRegion> inputTemporalRegionRequests;
 
   unsigned long regionStartFrame = 1;
