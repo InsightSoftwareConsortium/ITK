@@ -318,6 +318,7 @@ H5std_string Attribute::getName( size_t buf_size ) const
 {
    H5std_string attr_name;
    ssize_t name_size = getName( buf_size, attr_name );
+   static_cast<void>(name_size);
    return( attr_name );
    // let caller catch exception if any
 }
