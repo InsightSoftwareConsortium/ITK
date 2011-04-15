@@ -38,17 +38,68 @@ namespace itk
 
 //----------------------------------------------------------------------------
 TemporalDataObject::TemporalDataObject()
-  : m_DataObjectBuffer(),
-    m_LargestPossibleTemporalRegion(),
+  : m_LargestPossibleTemporalRegion(),
     m_RequestedTemporalRegion(),
     m_BufferedTemporalRegion(),
     m_TemporalUnit(Frame)
-{}
+{
+  m_DataObjectBuffer = BufferType::New();
+}
 
 //----------------------------------------------------------------------------
 TemporalDataObject
 ::~TemporalDataObject()
 {}
+
+//----------------------------------------------------------------------------
+const TemporalDataObject::TemporalRegionType
+TemporalDataObject
+::GetUnbufferedRequestedTemporalRegion()
+{
+  // Get the start and end of the buffered and requested temporal regions
+  unsigned long reqStart = m_RequestedTemporalRegion.GetFrameStart();
+  unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
+                          m_RequestedTemporalRegion.GetFrameDuration() - 1;
+  unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
+                          m_BufferedTemporalRegion.GetFrameDuration() - 1;
+
+  // Handle case with unbuffered frames at beginning and end
+  if (reqStart < bufStart && reqEnd > bufEnd)
+    {
+    itkDebugMacro(<< "Unbuffered frames at beginning and end. Returning entire "
+                  << "requested region as unbuffered");
+    return this->m_RequestedTemporalRegion;
+    }
+
+  // Handle case with unbuffered frames at end -- TODO: FIX FOR REAL TIME!!!!!
+  else if(reqEnd > bufEnd)
+    {
+    TemporalRegionType out;
+    out.SetFrameStart(bufEnd + 1);
+    out.SetFrameDuration(reqEnd - bufEnd);
+    return out;
+    }
+
+  // Handle case with unbuffered frames at beginning -- TODO: FIX FOR REAL TIME!!!!!
+  else if(reqStart < bufStart)
+    {
+    TemporalRegionType out;
+    out.SetFrameStart(reqStart);
+    out.SetFrameDuration(bufStart - reqStart);
+    return out;
+    }
+
+  // Otherwise, nothing unbuffered
+  else
+    {
+    TemporalRegionType out;
+    out.SetFrameStart(0);
+    out.SetFrameDuration(0);
+    return out;
+    }
+
+}
 
 //----------------------------------------------------------------------------
 void

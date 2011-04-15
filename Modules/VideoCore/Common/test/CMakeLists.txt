@@ -19,3 +19,7 @@ add_test( NAME RingBufferTest
 # Testing Temporal Regions
 add_test( NAME TemporalRegionTest
           COMMAND Video-CommonTestDriver itkTemporalRegionTest )
+
+# Testing Temporal Regions
+add_test( NAME TemporalDataObjectTest
+          COMMAND Video-CommonTestDriver itkTemporalDataObjectTest )

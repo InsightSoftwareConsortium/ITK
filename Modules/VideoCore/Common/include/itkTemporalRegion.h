@@ -37,6 +37,7 @@ public:
 
   /** Standard class typedefs */
   typedef TemporalRegion Self;
+  typedef Region         Superclass;
 
   itkTypeMacro(TemporalRegion, Region);
 
@@ -76,6 +77,8 @@ public:
   bool operator!=(const Self & region) const;
 
 protected:
+
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Time boundaries */
   RealTimeStamp m_RealStart;
