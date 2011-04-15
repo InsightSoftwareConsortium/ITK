@@ -53,7 +53,9 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itksys/SystemTools.hxx"
 #include "itkIntTypes.h"
+#ifdef LINUX
 #include "itkFloatingPointExceptions.h"
+#endif
 #include "vnl/vnl_sample.h"
 
 #define ITK_TEST_DIMENSION_MAX 6
@@ -154,8 +156,9 @@ void usage()
 
 int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = NULL )
 {
+#ifdef LINUX
   itk::FloatingPointExceptions::Enable();
-
+#endif
   regressionTestParameters.intensityTolerance  = 2.0;
   regressionTestParameters.numberOfPixelsTolerance = 0;
   regressionTestParameters.radiusTolerance = 0;
