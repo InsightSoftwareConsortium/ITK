@@ -82,6 +82,10 @@ public:
   virtual const TemporalRegionType & GetRequestedTemporalRegion() const
   { return m_RequestedTemporalRegion; }
 
+  /** Get the portion of the requested region that is not covered by the
+   * buffered region */
+  virtual const TemporalRegionType GetUnbufferedRequestedTemporalRegion();
+
   virtual void SetRequestedRegionToLargestPossibleRegion();
 
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
