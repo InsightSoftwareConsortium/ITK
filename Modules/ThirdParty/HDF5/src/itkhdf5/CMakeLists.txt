@@ -153,6 +153,10 @@ IF (NOT HDF5_EXTERNALLY_CONFIGURED)
   SET (CMAKE_Fortran_MODULE_DIRECTORY
       ${PROJECT_BINARY_DIR}/bin/fortran CACHE PATH "Single Directory for all fortran modules."
   )
+  SET(HDF5_INSTALL_LIBRARY_DIR lib)
+  SET(HDF5_INSTALL_ARCHIVE_DIR lib)
+  SET(HDF5_INSTALL_RUNTIME_DIR bin)
+  SET(HDF5_INSTALL_INCLUDE_DIR include)
 ELSE (NOT HDF5_EXTERNALLY_CONFIGURED)
   # if we are externally configured, but the project uses old cmake scripts
   # this may not be set and utilities like H5detect will fail
@@ -199,15 +203,7 @@ IF (BUILD_SHARED_LIBS)
   SET (LIBPOSTFIX "")
   IF (MSVC)
     SET (CMAKE_MFC_FLAG 0)
-    FOREACH (flag_var
-        CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-        CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
-        CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-        CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-      IF (${flag_var} MATCHES "/MT")
-        STRING (REGEX REPLACE "/MT" "/MD" ${flag_var} "${${flag_var}}")
-      ENDIF (${flag_var} MATCHES "/MT")
-    ENDFOREACH (flag_var)
+    # flag replace /MT -> /MD disabled in this reduced distribution
   ENDIF (MSVC)
 ELSE (BUILD_SHARED_LIBS)
   IF (NOT WIN32)
@@ -217,15 +213,7 @@ ELSE (BUILD_SHARED_LIBS)
   SET (LIBPOSTFIX "")
   IF (MSVC)
     SET (CMAKE_MFC_FLAG 0)
-    FOREACH (flag_var
-        CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-        CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
-        CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-        CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-      IF (${flag_var} MATCHES "/MD")
-        STRING (REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-      ENDIF (${flag_var} MATCHES "/MD")
-    ENDFOREACH (flag_var)
+    # flag replace /MD -> /MT disabled in this reduced distribution
   ENDIF (MSVC)
 ENDIF (BUILD_SHARED_LIBS)
 
@@ -476,7 +464,9 @@ ENDIF (HDF5_BUILD_TOOLS AND BUILD_TESTING)
 #-----------------------------------------------------------------------------
 # Dashboard and Testing Settings
 #-----------------------------------------------------------------------------
+IF(0)
 OPTION (BUILD_TESTING "Build HDF5 Unit Testing" OFF)
+ENDIF(0)
 IF (BUILD_TESTING)
   SET (DART_TESTING_TIMEOUT 1200 CACHE INTEGER
        "Timeout in seconds for each test (default 1200=20minutes)")
@@ -495,7 +485,9 @@ ENDIF (BUILD_TESTING)
 # Make sure this appears before the CONFIGURE_FILE step
 # so that fortran name mangling is detected before writing H5pubconf.h
 #-----------------------------------------------------------------------------
+IF(0)
 OPTION (HDF5_BUILD_FORTRAN "Build FORTRAN support" OFF)
+ENDIF(0)
 IF (HDF5_BUILD_FORTRAN)
   # Set default name mangling : overridden by Fortran detection in fortran dir
   SET (H5_FC_FUNC "H5_FC_FUNC(name,NAME) name ## _")
@@ -509,10 +501,12 @@ ENDIF (HDF5_BUILD_FORTRAN)
 #-----------------------------------------------------------------------------
 # Option to build examples
 #-----------------------------------------------------------------------------
+IF(0)
 OPTION (HDF5_BUILD_EXAMPLES  "Build HDF5 Library Examples" OFF)
 IF (HDF5_BUILD_EXAMPLES)
   ADD_SUBDIRECTORY (${HDF5_SOURCE_DIR}/examples ${PROJECT_BINARY_DIR}/examples)
 ENDIF (HDF5_BUILD_EXAMPLES)
+ENDIF(0)
 
 #-----------------------------------------------------------------------------
 # Option to build HDF5 C++ Library
@@ -525,10 +519,12 @@ ENDIF (HDF5_BUILD_CPP_LIB)
 #-----------------------------------------------------------------------------
 # Option to build HDF5 Tools
 #-----------------------------------------------------------------------------
+IF(0)
 OPTION (HDF5_BUILD_TOOLS  "Build HDF5 Tools" OFF)
 IF (HDF5_BUILD_TOOLS)
   ADD_SUBDIRECTORY (${HDF5_SOURCE_DIR}/tools ${PROJECT_BINARY_DIR}/tools)
 ENDIF (HDF5_BUILD_TOOLS)
+ENDIF(0)
 
 #-----------------------------------------------------------------------------
 # Option to build High Level API's
@@ -551,12 +547,14 @@ INSTALL (
     FILES
         ${PROJECT_BINARY_DIR}/H5pubconf.h
     DESTINATION
-        include
+        ${HDF5_INSTALL_INCLUDE_DIR}
 )
 
 #-----------------------------------------------------------------------------
 # Add Target(s) to CMake Install for import into other projects
 #-----------------------------------------------------------------------------
+# This is not a full HDF5, so do not provide HDF5-config.cmake
+IF(0)
 INSTALL (
     EXPORT
         ${HDF5_EXPORTED_TARGETS}
@@ -583,3 +581,4 @@ EXPORT (
     FILE
         HDF5-config.cmake
 )
+ENDIF(0)
