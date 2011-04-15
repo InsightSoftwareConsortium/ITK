@@ -24,6 +24,7 @@ namespace itk
 {
 
 /** Forward declarations */
+class Region;
 class TemporalRegion;
 class TemporalDataObject;
 
@@ -64,18 +65,81 @@ public:
   virtual void GenerateOutputRequestedRegion(DataObject* output);
   virtual void GenerateInputRequestedRegion(DataObject* output);
 
+
+  /** Get/Set the number of frames of input required to produce output */
+  itkGetMacro(UnitInputNumberOfFrames, unsigned long);
+  itkSetMacro(UnitInputNumberOfFrames, unsigned long);
+
+  /** Get/Set the number of frames of output producdd for a single set
+   * of input frames */
+  itkGetMacro(UnitOutputNumberOfFrames, unsigned long);
+  itkSetMacro(UnitOutputNumberOfFrames, unsigned long);
+
+  /** Override GenerateData to do temporal region streaming. This is analogous
+   * to the ThreadedGenerateData system implemented in ImageSource, but it
+   * functions slightly differently. Since most temporal processes are going to
+   * to need more input frames than they produce output frames for a single
+   * operation, we cannot use the same model as spatial streaming which assumes
+   * that the input requested region is fully populated before producing any
+   * output. Instead, once we have split the requested output region, we reset
+   * the requested temporal region of the input to each input requested
+   * temporal sub-region (in sequence) and re-propagate the temporal region
+   * request up the pipeline. */
+  virtual void GenerateData();
+
+  /** TemporalStreamingGenerateData is in charge of producing output for a
+   * single portion of the output requested temporal region. This is where
+   * the body of the process will take place. Subclasses that handle spatial
+   * data (such as video frames) may instead use this function to split the
+   * requested spatial region and process the spatial sub-regions using the
+   * mechanism implemented in ImageBase for multithreading. */
+  virtual void TemporalStreamingGenerateData(unsigned long outputFrameStart) ITK_NO_RETURN;
+
 protected:
 
   /** Provide explicit protected methods for handling temporal region in
    * EnlargeOutputRequestedRegion, GenerateOutputRequestedRegion, and
-   * GenerateInputRequestedRegion. These methods are pure virtual here so that
-   * subclasses MUST handle temporal regions but they can still do so however
-   * they want */
-  virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output) = 0;
-  virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output) = 0;
-  virtual void GenerateInputRequestedTemporalRegion(TemporalDataObject* output) = 0;
+   * GenerateInputRequestedRegion. */
+  virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output) {};
+  virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output) {};
+  virtual void GenerateInputRequestedTemporalRegion(TemporalDataObject* output) {};
 
-  TemporalProcessObject(){};
+  /** Split the output's RequestedTemporalRegion into the proper number of
+   * sub-regions. By default it is assumed that each sub-region processed
+   * should be generated using the set of input frames starting one frame
+   * forward in time from the previous sub-region. To change this, set
+   * FrameSkipPerOutput to something other than 1. Positive indicates forward
+   * in time while negative indicates backward in time.
+   * The set of returned TemporalRegion objects is the set of temporal regions
+   * that are needed as input to generate the entire output requested region */
+  virtual std::vector<TemporalRegion> SplitRequestedTemporalRegion();
+
+  /** Method that gets called by GenerateData before
+   * TemporalStreamingGenerateData. Subclasses can override this method to
+   * provide pre-processing for the data before splitting up the requested
+   * output temporal region. */
+  virtual void BeforeTemporalStreamingGenerateData() {};
+
+  /** Method that gets called by GenerateData after
+   * TemporalStreamingGenerateData. Subclasses can override this method to
+   * provide post-processing for the data after producing the requested output
+   * temporal region. */
+  virtual void AfterTemporalStreamingGenerateData() {};
+
+
+
+  /** Members to indicate the number of input frames and output frames requred
+   * to perform a single pass through the processing. */
+  unsigned long m_UnitInputNumberOfFrames;
+  unsigned long m_UnitOutputNumberOfFrames;
+
+  /** Number of frames to move in order to produce each set of output frames.
+   * There is no public API for this member, but subclasses can set it
+   * internally (or provide access to it) if they wish. */
+  long m_FrameSkipPerOutput;
+
+
+  TemporalProcessObject();
   virtual ~TemporalProcessObject(){};
   void PrintSelf(std::ostream & os, Indent indent) const;
 

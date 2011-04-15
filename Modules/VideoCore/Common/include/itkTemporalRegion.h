@@ -42,20 +42,20 @@ public:
   itkTypeMacro(TemporalRegion, Region);
 
   /** Get/Set RealStart */
-  void SetRealStart(RealTimeStamp s) { this->m_RealStart = s; }
-  RealTimeStamp GetRealStart() { return this->m_RealStart; }
+  void SetRealStart(const RealTimeStamp s) { this->m_RealStart = s; }
+  RealTimeStamp GetRealStart() const { return this->m_RealStart; }
 
   /** Get/Set RealDuration */
-  void SetRealDuration(RealTimeInterval d) { this->m_RealDuration = d; }
-  RealTimeInterval GetRealDuration() { return this->m_RealDuration; }
+  void SetRealDuration(const RealTimeInterval d) { this->m_RealDuration = d; }
+  RealTimeInterval GetRealDuration() const { return this->m_RealDuration; }
 
   /** Get/Set FrameStart */
-  void SetFrameStart(unsigned long s) { this->m_FrameStart = s; }
-  unsigned long GetFrameStart() { return this->m_FrameStart; }
+  void SetFrameStart(const unsigned long s) { this->m_FrameStart = s; }
+  unsigned long GetFrameStart() const { return this->m_FrameStart; }
 
   /** Get/Set FrameDuration */
-  void SetFrameDuration(unsigned long d) { this->m_FrameDuration = d; }
-  unsigned long GetFrameDuration() { return this->m_FrameDuration; }
+  void SetFrameDuration(const unsigned long d) { this->m_FrameDuration = d; }
+  unsigned long GetFrameDuration() const { return this->m_FrameDuration; }
 
   /** Return RegionType (SRUCTURED_REGION) */
   virtual RegionType GetRegionType() const { return ITK_STRUCTURED_REGION; }
