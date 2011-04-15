@@ -94,11 +94,11 @@ protected:
 
   /**-PROTECTED MEMBERS------------------------------------------------------*/
 
-  /** Vector of pointers to elements */
-  std::vector< typename ElementType::Pointer > m_PointerVector;
-
   /** Pointer to the current active buffer */
   unsigned int m_HeadIndex;
+
+  /** Vector of pointers to elements */
+  std::vector< typename ElementType::Pointer > m_PointerVector;
 
 private:
   RingBuffer(const Self &); // purposely not implemented
