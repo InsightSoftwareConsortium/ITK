@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTemporalRegion_txx
-#define __itkTemporalRegion_txx
-
 #include "itkTemporalRegion.h"
 
 namespace itk
@@ -61,8 +58,6 @@ TemporalRegion
   return IsEqualInFrames(region) && IsEqualInRealTime(region);
 }
 
-
-
 // ---------------------------------------------------------------------------
 bool
 TemporalRegion
@@ -71,7 +66,4 @@ TemporalRegion
   return !(operator==(region));
 }
 
-
 } // end namespace itk
-
-#endif

@@ -1,4 +1,5 @@
 set(Video-Common_SRC
+itkTemporalRegion.cxx
 itkTemporalDataObject.cxx
 )
 

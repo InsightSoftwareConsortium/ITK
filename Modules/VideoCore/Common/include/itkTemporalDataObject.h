@@ -64,18 +64,21 @@ public:
   { m_TemporalUnit = FrameAndRealTime; }
 
   /** Function for getting the size of the underlying ring buffer. */
-  virtual BufferType::SizeValueType GetBufferSize() const;
+  //virtual BufferType::SizeValueType GetBufferSize() const;
 
   virtual void SetLargestPossibleTemporalRegion(
-    const TemporalRegionType & region);
+    const TemporalRegionType & region)
+  { m_LargestPossibleTemporalRegion = region; }
   virtual const TemporalRegionType & GetLargestPossibleTemporalRegion() const
   { return m_LargestPossibleTemporalRegion; }
 
-  virtual void SetBufferedTemporalRegion(const TemporalRegionType & region);
+  virtual void SetBufferedTemporalRegion(const TemporalRegionType & region)
+  { m_BufferedTemporalRegion = region; }
   virtual const TemporalRegionType & GetBufferedTemporalRegion() const
   { return m_BufferedTemporalRegion; }
 
-  virtual void SetRequestedTemporalRegion(const TemporalRegionType & region);
+  virtual void SetRequestedTemporalRegion(const TemporalRegionType & region)
+  { m_RequestedTemporalRegion = region; }
   virtual const TemporalRegionType & GetRequestedTemporalRegion() const
   { return m_RequestedTemporalRegion; }
 
@@ -94,7 +97,7 @@ public:
 protected:
 
   TemporalDataObject();
-  ~TemporalDataObject();
+  virtual ~TemporalDataObject();
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Buffer for holding component data objects */
