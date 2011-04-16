@@ -308,7 +308,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   typename LineNeighborhoodIndexListType::const_iterator LI = ActiveIndexes.begin();
   typename LineNeighborhoodIndexListType::const_iterator LEnd = ActiveIndexes.end();
 
-  for ( ; LI != LEnd; ++LI )
+  for (; LI != LEnd; ++LI )
     {
     LineOffsets.push_back(fakeImage->ComputeOffset( idx + lnit.GetOffset(*LI) ) - offset);
     }
@@ -384,7 +384,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
       bool lineCompleted = false;
 
-      for( ; mIt != mEnd && !lineCompleted; ++mIt )
+      for(; mIt != mEnd && !lineCompleted; ++mIt )
         {
         if ( mIt->label != cIt->label )
           {
