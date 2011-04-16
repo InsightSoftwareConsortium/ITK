@@ -153,9 +153,9 @@ protected:
     m_NumberOfThreads = 0;
     this->SetInPlace(false);
   }
+  BinaryContourImageFilter(const Self &); //Purposefully not implemented
 
   virtual ~BinaryContourImageFilter() {}
-  BinaryContourImageFilter(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
