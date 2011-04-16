@@ -68,6 +68,7 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  * \ingroup ITK-ImageGrid
+ * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
  */
 template< class TInputImage,
           class TOutputImage,

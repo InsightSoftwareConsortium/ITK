@@ -33,6 +33,10 @@ namespace itk
  *
  * \ingroup Transforms
  * \ingroup ITK-Transform
+ * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
+ * \wikiexample{VectorImages/VectorResampleImageFilter,Translate a vector image}
+ * \wikiexample{Registration/ImageRegistrationMethod,A basic global registration of two images}
+ * \wikiexample{Registration/MutualInformation,Mutual Information}
  */
 template<
   class TScalarType = double,          // Data type for scalars (float or

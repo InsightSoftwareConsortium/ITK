@@ -61,6 +61,7 @@ template< typename TValueType, unsigned int VLength>  class FixedArray;
  *
  * \ingroup DataRepresentation
  * \ingroup ITK-Common
+ * \wikiexample{SimpleOperations/NumericTraits,Get some basic information about a type}
  */
 template< class T >
 class NumericTraits:public vcl_numeric_limits< T >

@@ -68,6 +68,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITK-Review
+ * \wikiexample{Operators/GaussianDerivativeOperator,Create a Gaussian derivative kernel}
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

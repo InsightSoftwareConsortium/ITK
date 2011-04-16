@@ -51,6 +51,7 @@ class OffsetLexicographicCompare;
  * \sa Index
  * \ingroup ImageAccess
  * \ingroup ITK-Common
+ * \wikiexample{SimpleOperations/Offset,Add an offset to a pixel index}
  */
 
 template< unsigned int VOffsetDimension = 2 >

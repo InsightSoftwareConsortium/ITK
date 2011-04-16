@@ -56,6 +56,7 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  * \ingroup ITK-ImageFeature
+ * \wikiexample{ImageProcessing/LaplacianImageFilter,Compute the Laplacian of an image}
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT LaplacianImageFilter:

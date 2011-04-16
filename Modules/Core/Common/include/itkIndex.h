@@ -61,6 +61,8 @@ class IndexLexicographicCompare;
  * \ingroup ImageAccess
  * \ingroup ImageObjects
  * \ingroup ITK-Common
+ * \wikiexample{SimpleOperations/DistanceBetweenIndices,Distance between two indices}
+ * \wikiexample{Images/Index,An object which holds the index of a pixel}
  */
 
 template< unsigned int VIndexDimension = 2 >

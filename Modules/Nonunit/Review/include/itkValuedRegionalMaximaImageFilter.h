@@ -43,6 +43,7 @@ namespace itk
  *
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITK-Review
+ * \wikiexample{ImageProcessing/ValuedRegionalMaximaImageFilter,ValuedRegionalMaximaImageFilter}
  */
 
 template< class TInputImage, class TOutputImage >

@@ -109,6 +109,7 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  *
  * \ingroup ITK-Common
+ * \wikiexample{Iterators/ImageRandomConstIteratorWithIndex,Randomly select pixels from a region of an image}
  */
 template< typename TImage >
 class ITK_EXPORT ImageRandomConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >

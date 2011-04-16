@@ -195,6 +195,7 @@ struct MakeJoin {
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ * \wikiexample{VectorImages/JoinImageFilter,Join images, stacking their components}
  */
 template< class TInputImage1, class TInputImage2 >
 class ITK_EXPORT JoinImageFilter:

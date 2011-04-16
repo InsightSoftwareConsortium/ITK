@@ -47,6 +47,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-Review
+ * \wikiexample{ImageProcessing/BinaryNotImageFilter,Invert an image using the Binary Not operation}
  */
 namespace Functor {
 

@@ -33,6 +33,8 @@ namespace itk
  *
  * \sa FFTRealToComplexConjugateImageFilter
  * \ingroup ITK-FFT
+ * \wikiexample{SpectralAnalysis/VnlFFTRealToComplexConjugateImageFilter,Compute the FFT of an image}
+ * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
  */
 template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
 class VnlFFTRealToComplexConjugateImageFilter:

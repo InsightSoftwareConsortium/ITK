@@ -52,6 +52,7 @@ namespace itk
  * \ingroup ImageEnhancement
  * \ingroup ImageFeatureExtraction
  * \ingroup ITK-Smoothing
+ * \wikiexample{Smoothing/DiscreteGaussianImageFilter,Smooth an image with a discrete Gaussian filter}
  */
 
 template< class TInputImage, class TOutputImage >

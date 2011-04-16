@@ -53,6 +53,7 @@ namespace itk
  * \ingroup ImageEnhancement Singlethreaded
  * \see DiscreteGaussianImageFilter
  * \ingroup ITK-Smoothing
+ * \wikiexample{EdgesAndGradients/RecursiveGaussianImageFilter,Find higher derivatives of an image}
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_EXPORT RecursiveGaussianImageFilter:

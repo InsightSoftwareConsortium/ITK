@@ -41,6 +41,7 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup Singlethreaded
  * \ingroup ITK-Smoothing
+ * \wikiexample{Smoothing/SmoothingRecursiveGaussianImageFilter,Gaussian smoothing that works with image adaptors}
  */
 template< typename TInputImage,
           typename TOutputImage = TInputImage >

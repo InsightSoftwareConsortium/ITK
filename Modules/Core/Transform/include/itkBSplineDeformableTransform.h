@@ -102,6 +102,7 @@ namespace itk
  *
  * \ingroup Transforms
  * \ingroup ITK-Transform
+ * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
  */
 template<
   class TScalarType = double,            // Data type for scalars

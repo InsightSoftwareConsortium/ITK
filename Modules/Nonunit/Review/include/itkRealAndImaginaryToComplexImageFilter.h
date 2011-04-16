@@ -50,6 +50,7 @@ namespace itk
  *
  * \sa MagnitudeAndPhaseToComplexImageFilter
  * \ingroup ITK-Review
+ * \wikiexample{SpectralAnalysis/RealAndImaginaryToComplexImageFilter,Convert a real image and an imaginary image to a complex image}
  */
 
 namespace Functor

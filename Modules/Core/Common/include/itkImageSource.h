@@ -55,6 +55,7 @@ namespace itk
  *
  * \ingroup DataSources
  * \ingroup ITK-Common
+ * \wikiexample{Developer/ImageSource,Produce an image programmatically.}
  */
 template< class TOutputImage >
 class ITK_EXPORT ImageSource:public ProcessObject

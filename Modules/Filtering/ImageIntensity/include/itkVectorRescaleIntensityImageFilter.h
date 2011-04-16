@@ -83,6 +83,7 @@ private:
  * \ingroup IntensityImageFilters  Multithreaded
  *
  * \ingroup ITK-ImageIntensity
+ * \wikiexample{Images/VectorRescaleIntensityImageFilter,Apply a transformation to the magnitude of vector valued image pixels}
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT VectorRescaleIntensityImageFilter:

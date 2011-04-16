@@ -39,6 +39,7 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  * \ingroup ITK-ImageFeature
+ * \wikiexample{EdgesAndGradients/DerivativeImageFilter,Compute the derivative of an image in a particular direction}
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT DerivativeImageFilter:

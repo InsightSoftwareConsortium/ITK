@@ -55,6 +55,7 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
  * \ingroup ITK-Common
+ * \wikiexample{Iterators/ConstantBoundaryCondition,Make out of bounds pixels return a constant value}
  */
 template< class TImage >
 class ITK_EXPORT ConstantBoundaryCondition:

@@ -56,6 +56,7 @@ namespace itk
  *
  *
  * \ingroup ITK-ImageFeature
+ * \wikiexample{Conversions/HoughTransform2DLinesImageFilter,HoughTransform2DLinesImageFilter}
  */
 
 template< typename TInputPixelType, typename TOutputPixelType >

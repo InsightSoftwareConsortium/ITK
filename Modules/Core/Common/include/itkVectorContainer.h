@@ -41,6 +41,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ITK-Common
+ * \wikiexample{Utilities/VectorContainer,Vector container}
  */
 template<
   typename TElementIdentifier,

@@ -45,6 +45,7 @@ namespace itk
  *
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITK-Review
+ * \wikiexample{ImageProcessing/RegionalMaximaImageFilter,RegionalMaximaImageFilter}
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT RegionalMaximaImageFilter:

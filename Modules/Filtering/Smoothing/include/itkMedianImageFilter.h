@@ -42,6 +42,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters
  * \ingroup ITK-Smoothing
+ * \wikiexample{Smoothing/MedianImageFilter,Median filter an image}
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MedianImageFilter:

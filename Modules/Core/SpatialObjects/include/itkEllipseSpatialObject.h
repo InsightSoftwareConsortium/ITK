@@ -28,6 +28,7 @@ namespace itk
  *
  * \brief TODO
  * \ingroup ITK-SpatialObjects
+ * \wikiexample{SpatialObjects/EllipseSpatialObject,Ellipse}
  */
 
 template< unsigned int TDimension = 3 >

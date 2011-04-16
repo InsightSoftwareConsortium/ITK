@@ -36,6 +36,7 @@ namespace itk
  *
  * \sa SpatialObjectPoint
  * \ingroup ITK-SpatialObjects
+ * \wikiexample{SpatialObjects/BlobSpatialObject,Blob}
  */
 
 template< unsigned int TDimension = 3 >

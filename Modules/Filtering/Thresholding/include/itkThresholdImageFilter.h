@@ -46,6 +46,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters Multithreaded
  * \ingroup ITK-Thresholding
+ * \wikiexample{ImageProcessing/ThresholdImageFilter,Threshold an image}
  */
 template< class TImage >
 class ITK_EXPORT ThresholdImageFilter:public InPlaceImageFilter< TImage, TImage >

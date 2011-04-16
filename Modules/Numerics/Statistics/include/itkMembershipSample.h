@@ -46,6 +46,7 @@ namespace Statistics
  * SetSample method
  *
  * \ingroup ITK-Statistics
+ * \wikiexample{Statistics/MembershipSample,Create a list of samples with associated class IDs}
  */
 
 template< class TSample >

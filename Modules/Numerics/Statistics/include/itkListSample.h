@@ -41,6 +41,7 @@ namespace Statistics
  *
  *\sa Sample, Histogram
  * \ingroup ITK-Statistics
+ * \wikiexample{Statistics/ListSample,Create a list of sample measurements}
  */
 
 template< class TMeasurementVector >

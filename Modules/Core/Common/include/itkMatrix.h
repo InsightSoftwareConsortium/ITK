@@ -35,6 +35,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ITK-Common
+ * \wikiexample{Math/Matrix,Matrix}
  */
 
 template< class T, unsigned int NRows = 3, unsigned int NColumns = 3 >

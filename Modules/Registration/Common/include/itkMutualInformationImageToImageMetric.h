@@ -84,6 +84,8 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  * \ingroup ITK-RegistrationCommon
+ * \wikiexample{Registration/MutualInformation,Mutual Information}
+ * \wikiexample{Registration/MutualInformationAffine,Mutual Information Affine}
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MutualInformationImageToImageMetric:

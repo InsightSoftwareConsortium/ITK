@@ -48,6 +48,7 @@ namespace itk
  *
  *
  * \ingroup ITK-ImageFeature
+ * \wikiexample{Conversions/HoughTransform2DCirclesImageFilter,HoughTransform2DCirclesImageFilter}
  */
 
 template< typename TInputPixelType, typename TOutputPixelType >

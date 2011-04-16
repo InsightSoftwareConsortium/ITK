@@ -31,6 +31,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITK-Common
+ * \wikiexample{ImageProcessing/MinimumMaximumImageCalculator,Find the minimum and maximum value (and the position of the value) in an image}
  */
 template< class TInputImage >
 class ITK_EXPORT MinimumMaximumImageCalculator:public Object

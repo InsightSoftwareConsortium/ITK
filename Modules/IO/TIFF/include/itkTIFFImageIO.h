@@ -34,6 +34,7 @@ class TIFFReaderInternal;
  * \ingroup IOFilters
  *
  * \ingroup ITK-IO-TIFF
+ * \wikiexample{IO/TIFFImageIO,Write a TIFF image}
  */
 class ITK_EXPORT TIFFImageIO:public ImageIOBase
 {

@@ -200,6 +200,8 @@ public:
  * \sa ImageConstIteratorWithIndex
  *
  * \ingroup ITK-Common
+ * \wikiexample{Iterators/ImageRandomNonRepeatingConstIteratorWithIndex,Randomly select pixels from a region of an image without replacement}
+ * \wikiexample{Utilities/RandomPermutation,Permute a sequence of indices}
  */
 template< typename TImage >
 class ITK_EXPORT ImageRandomNonRepeatingConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >

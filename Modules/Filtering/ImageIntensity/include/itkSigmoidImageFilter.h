@@ -38,6 +38,7 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  *
  * \ingroup ITK-ImageIntensity
+ * \wikiexample{ImageProcessing/SigmoidImageFilter,Pass image pixels through a sigmoid function}
  */
 
 namespace Function

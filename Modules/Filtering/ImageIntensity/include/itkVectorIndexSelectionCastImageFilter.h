@@ -73,6 +73,7 @@ private:
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ * \wikiexample{VectorImages/VectorIndexSelectionCastImageFilter,Extract a component of an itkVectorImage}
  */
 
 template< class TInputImage, class TOutputImage >
