@@ -42,6 +42,8 @@ namespace itk
  *
  * \sa MorphologyImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-MathematicalMorphology
+ * \wikiexample{Morphology/GrayscaleDilateImageFilter,Dilate a grayscale image}
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >

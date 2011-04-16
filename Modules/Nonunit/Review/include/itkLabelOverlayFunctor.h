@@ -35,6 +35,7 @@ namespace Functor
  *
  * \sa LabelOverlayImageFilter LabelToRGBFunctor
  *
+ * \ingroup ITK-Review
  */
 template< class TInputPixel, class TLabel, class TRGBPixel >
 class LabelOverlayFunctor

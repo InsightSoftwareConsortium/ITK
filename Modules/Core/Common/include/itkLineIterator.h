@@ -45,6 +45,8 @@ namespace itk
  * Radiologie, Medizinische Hochschule Hannover.
  *
  * \sa LineConstIterator
+ * \ingroup ITK-Common
+ * \wikiexample{Iterators/LineIterator,Iterate over a line through an image}
  */
 template< class TImage >
 class ITK_EXPORT LineIterator:public LineConstIterator< TImage >

@@ -53,6 +53,8 @@ namespace itk
  * \sa RelabelImageFilter
  *
  * \ingroup ClassificationFilters
+ * \ingroup ITK-Classifiers
+ * \wikiexample{Statistics/ScalarImageKmeansImageFilter,Cluster the pixels in a greyscale image}
  */
 template< class TInputImage,
           class TOutputImage = Image< unsigned char, ::itk::GetImageDimension< TInputImage >::ImageDimension > >

@@ -54,6 +54,7 @@ namespace itk
  *     num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
  *     wilkinson.
  *     handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
+ * \ingroup ITK-Common
  */
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >

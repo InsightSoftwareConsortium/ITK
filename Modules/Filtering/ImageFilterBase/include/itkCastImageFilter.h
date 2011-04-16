@@ -36,6 +36,8 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  * \sa UnaryFunctorImageFilter
  * \sa ExtractImageFilter
+ * \ingroup ITK-ImageFilterBase
+ * \wikiexample{ImageProcessing/CastImageFilter,Cast an image from one type to another}
  */
 namespace Functor
 {

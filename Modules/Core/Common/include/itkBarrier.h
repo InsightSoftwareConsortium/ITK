@@ -50,6 +50,7 @@ namespace itk
  * this limit can be safely raised if necessary.  To enable the fetchop
  * implementation, set ITK_USE_FETCHOP_BARRIERS and link applications against
  * -lfetchop.
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT Barrier:public LightObject
 {

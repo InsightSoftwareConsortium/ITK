@@ -76,6 +76,8 @@ namespace itk
  *
  *  \ingroup IOFilters
  *
+ * \ingroup ITK-IO-GDCM
+ * \wikiexample{DICOM/ResampleDICOM,Resample a DICOM series}
  */
 class InternalHeader;
 class ITK_EXPORT GDCMImageIO:public ImageIOBase

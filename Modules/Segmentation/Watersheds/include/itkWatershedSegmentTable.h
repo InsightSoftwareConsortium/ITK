@@ -43,7 +43,9 @@ namespace watershed
  * saliency value (likelihood of merge) for each adjacency.
  *
  * \ingroup WatershedSegmentation
- * \sa itk::WatershedImageFilter */
+ * \sa itk::WatershedImageFilter
+ * \ingroup ITK-Watersheds
+ */
 template< class TScalarType >
 class ITK_EXPORT SegmentTable:public DataObject
 {

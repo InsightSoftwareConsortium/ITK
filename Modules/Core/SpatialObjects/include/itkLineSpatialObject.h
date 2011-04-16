@@ -32,6 +32,8 @@ namespace itk
  * The Line is basically defined by a set of points.
  *
  * \sa LineSpatialObjectPoint
+ * \ingroup ITK-SpatialObjects
+ * \wikiexample{SpatialObjects/LineSpatialObject,Line spatial object}
  */
 
 template< unsigned int TDimension = 3 >

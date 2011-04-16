@@ -48,6 +48,7 @@ namespace itk
  *    The element type stored in the container.
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 
 template< typename TElementIdentifier, typename TElement >
@@ -126,7 +127,9 @@ public:
    * Dereferencing the iterator must provide an object with the following
    * methods:
    *   ElementIdentifier Index(void) const;
-   *   Element&          Value(void); */
+   *   Element&          Value(void);
+   * \ingroup ITK-Common
+   */
   class Iterator {};
 
   /** \class ConstIterator
@@ -134,7 +137,9 @@ public:
    * Dereferencing the iterator must provide an object with the following
    * methods:
    *   ElementIdentifier Index(void) const;
-   *   const Element&    Value(void) const; */
+   *   const Element&    Value(void) const;
+   * \ingroup ITK-Common
+   */
   class ConstIterator {};
 
   /** Get a begin iterator for the container. */

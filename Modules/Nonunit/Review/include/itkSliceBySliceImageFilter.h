@@ -66,6 +66,7 @@ namespace itk
  * This class was taken from the Insight Journal paper:
  * http://insight-journal.org/midas/handle.php?handle=1926/368
  *
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage,

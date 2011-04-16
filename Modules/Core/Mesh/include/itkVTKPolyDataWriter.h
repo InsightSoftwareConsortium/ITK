@@ -30,6 +30,7 @@ namespace itk
  *
  * Caveat: The input to itkVTKPolyDataWriter must be a triangle mesh.
  *         Use vtkTriangleFilter to convert your mesh to a triangle mesh.
+ * \ingroup ITK-Mesh
  */
 template< class TInputMesh >
 class VTKPolyDataWriter:public Object

@@ -30,6 +30,7 @@ namespace itk
  *
  *  \brief FIXME Add documentation
  *
+ * \ingroup ITK-QuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT DelaunayConformingQuadEdgeMeshFilter:

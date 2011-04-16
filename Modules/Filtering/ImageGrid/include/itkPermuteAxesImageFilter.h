@@ -41,6 +41,8 @@ namespace itk
  * \ingroup GeometricTransforms
  * \ingroup Multithreaded
  * \ingroup Streamed
+ * \ingroup ITK-ImageGrid
+ * \wikiexample{ImageProcessing/PermuteAxesImageFilter,Switch the axes of an image}
  */
 template< class TImage >
 class ITK_EXPORT PermuteAxesImageFilter:

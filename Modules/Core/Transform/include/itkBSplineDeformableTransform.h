@@ -101,6 +101,8 @@ namespace itk
  * the space dimension and the spline order.
  *
  * \ingroup Transforms
+ * \ingroup ITK-Transform
+ * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
  */
 template<
   class TScalarType = double,            // Data type for scalars

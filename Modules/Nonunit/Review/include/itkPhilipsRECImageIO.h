@@ -49,6 +49,7 @@ namespace itk
  * \author Don C. Bigler
  * \brief Class that defines how to read Philips REC/PAR image files.
  *  This class supports reading only and not writing.
+ * \ingroup ITK-Review
  */
 
 class ITK_EXPORT PhilipsRECImageIO:public ImageIOBase

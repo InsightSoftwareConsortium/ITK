@@ -51,7 +51,10 @@ namespace itk
  *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
- * \ingroup Operators */
+ * \ingroup Operators
+ * \ingroup ITK-Common
+ * \wikiexample{Operators/LaplacianOperator,Create a Laplacian kernel}
+ */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >
 class ITK_EXPORT LaplacianOperator:

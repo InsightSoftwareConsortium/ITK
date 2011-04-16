@@ -40,6 +40,7 @@ namespace itk
  * the same size and origin.
  *
  * \sa VectorImage
+ * \ingroup ITK-ImageCompose
  */
 
 template< class TInputImage >

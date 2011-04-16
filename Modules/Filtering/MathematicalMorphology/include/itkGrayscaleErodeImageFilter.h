@@ -42,6 +42,8 @@ namespace itk
  *
  * \sa MorphologyImageFilter, GrayscaleFunctionErodeImageFilter, BinaryErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-MathematicalMorphology
+ * \wikiexample{Morphology/GrayscaleErodeImageFilter,Erode a grayscale image}
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >

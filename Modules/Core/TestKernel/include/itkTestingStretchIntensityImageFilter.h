@@ -35,6 +35,7 @@
  * is defined by the user in terms of the minimum and maximum values that
  * the output image should have.
  *
+ * \ingroup ITK-TestKernel
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT StretchIntensityImageFilter: public ImageSource< TOutputImage >

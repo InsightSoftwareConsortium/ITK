@@ -37,6 +37,7 @@ namespace itk
  * data structure for the two images, and the distance matrices of the two images
  * in order to produce an CorrespondenceDataStructure containing correspondences
  * between triplets (node cliques of size 3) in the images.
+ * \ingroup ITK-Blox
  */
 template< typename TSourceImage >
 class ITK_EXPORT MedialNodeTripletCorrespondenceProcess:public ProcessObject

@@ -40,7 +40,7 @@ public:
   BandNode() { m_NodeState = 0; }
 };
 
-/** \class NarrowBand */
+/** \class NarrowBand  \ingroup ITK-NarrowBand */
 template< class NodeType >
 class ITK_EXPORT NarrowBand:public LightObject
 {

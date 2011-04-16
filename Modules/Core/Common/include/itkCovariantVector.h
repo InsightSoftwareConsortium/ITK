@@ -55,6 +55,9 @@ namespace itk
  * \sa Point
  * \sa Vector
  * \sa Matrix
+ * \ingroup ITK-Common
+ * \wikiexample{Math/CovariantVector,Create a covariant vector}
+ * \wikiexample{Math/CovariantVectorNorm,Compute the norm of a covariant vector}
  */
 
 template< class T, unsigned int NVectorDimension = 3 >

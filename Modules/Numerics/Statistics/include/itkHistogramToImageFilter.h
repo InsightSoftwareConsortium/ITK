@@ -43,6 +43,7 @@ namespace itk
  *  \sa HistogramToProbabilityImageFilter, HistogramToLogProbabilityImageFilter,
  *  HistogramToIntensityImageFilter, HistogramToEntropyImageFilter
  *
+ * \ingroup ITK-Statistics
  */
 
 template< class THistogram, unsigned int NDimension, class TFunction >

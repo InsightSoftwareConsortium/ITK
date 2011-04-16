@@ -29,6 +29,7 @@ namespace itk
  * \brief class to implement openings and closings using anchor
  * methods. This is the base class that must be instantiated with
  * appropriate definitions of greater, less and so on
+ * \ingroup ITK-MathematicalMorphology
  */
 template< class TInputPix, class TCompare >
 class ITK_EXPORT AnchorOpenCloseLine

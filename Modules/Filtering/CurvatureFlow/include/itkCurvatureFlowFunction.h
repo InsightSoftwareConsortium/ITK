@@ -37,6 +37,7 @@ namespace itk
  * \sa CurvatureFlowImageFilter
  * \sa ZeroFluxNeumannBoundaryCondition
  * \ingroup FiniteDifferenceFunctions
+ * \ingroup ITK-CurvatureFlow
  */
 template< class TImage >
 class ITK_EXPORT CurvatureFlowFunction:

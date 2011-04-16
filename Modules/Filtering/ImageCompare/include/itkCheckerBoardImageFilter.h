@@ -35,6 +35,8 @@ namespace itk
  * ThreadedGenerateData() method for its implementation.
  *
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageCompare
+ * \wikiexample{Inspection/CheckerBoardImageFilter,Combine two images by alternating blocks of a checkerboard pattern}
  */
 template< class TImage >
 class ITK_EXPORT CheckerBoardImageFilter:

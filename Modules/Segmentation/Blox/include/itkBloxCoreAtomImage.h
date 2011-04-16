@@ -34,6 +34,7 @@ namespace itk
  * linked lists). The primary task of BloxCoreAtomImage is finding core atoms
  * and storing them in the correct blox location.
  * \ingroup ImageObjects
+ * \ingroup ITK-Blox
  */
 template< unsigned int NDimension >
 class ITK_EXPORT BloxCoreAtomImage:

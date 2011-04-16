@@ -35,6 +35,7 @@ namespace itk
  *
  * \sa ShapeLabelObject, BinaryShapeOpeningImageFilter, LabelStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 template< class TImage >
 class ITK_EXPORT ShapeUniqueLabelMapFilter:

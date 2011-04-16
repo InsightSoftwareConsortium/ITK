@@ -31,6 +31,7 @@ namespace itk
  * plug any kind of spatial object.
  *
  * \sa SpatialObject
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TSpaceDimension = 3 >

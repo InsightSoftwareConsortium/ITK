@@ -37,6 +37,7 @@ namespace itk
  * coordinate representation type (e.g. float or double ).
  *
  * \ingroup ImageFunctions
+ * \ingroup ITK-ImageFunction
  */
 template< class TInputImage, class TCoordRep = float >
 class ITK_EXPORT VarianceImageFunction:

@@ -38,6 +38,8 @@ namespace itk
  * \sa VectorLinearInterpolateImageFunction
  *
  * \ingroup ImageFunctions ImageInterpolators
+ * \ingroup ITK-ImageFunction
+ * \wikiexample{ImageProcessing/LinearInterpolateImageFunction,Linearly interpolate a position in an image}
  */
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT LinearInterpolateImageFunction:

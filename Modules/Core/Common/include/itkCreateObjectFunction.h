@@ -26,6 +26,7 @@ namespace itk
  * \brief Define API for object creation callback functions.
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 class CreateObjectFunctionBase:public Object
 {
@@ -53,6 +54,7 @@ private:
  * create ITK Objects for use with the itk::ObjectFactory.
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 template< class T >
 class CreateObjectFunction:public CreateObjectFunctionBase

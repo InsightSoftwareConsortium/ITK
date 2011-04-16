@@ -32,6 +32,8 @@ namespace itk
  *
  * \ingroup GradientFilters
  * \ingroup Singlethreaded
+ * \ingroup ITK-ImageFeature
+ * \wikiexample{EdgesAndGradients/LaplacianRecursiveGaussianImageFilter,Compute the Laplacian of an image}
  */
 template< typename TInputImage,
           typename TOutputImage = TInputImage >

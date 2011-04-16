@@ -41,6 +41,7 @@ namespace itk
  *
  * \ingroup FourierTransform, Multithreaded
  * \sa FFTWGlobalConfiguration
+ * \ingroup ITK-FFT
  */
 template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class ITK_EXPORT FFTWComplexConjugateToRealImageFilter:

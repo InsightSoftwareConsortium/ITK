@@ -59,6 +59,7 @@ class ProgressReporter;
  *               Spline order must be set before setting the image.
  *               Uses mirror boundary conditions.
  *               Requires the same order of Spline for each dimension.
+ * \ingroup ITK-ImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT BSplineCenteredResampleImageFilterBase:

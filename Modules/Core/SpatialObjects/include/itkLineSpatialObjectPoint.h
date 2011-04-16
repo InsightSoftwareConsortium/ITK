@@ -31,6 +31,8 @@ namespace itk
  * that can be used to build lines.
  * This Class derives from SpatialObjectPoint.
  * A LineSpatialObjectPoint has NDimension-1 normals.
+ * \ingroup ITK-SpatialObjects
+ * \wikiexample{SpatialObjects/LineSpatialObject,Line spatial object}
  */
 
 template< unsigned int TPointDimension = 3 >

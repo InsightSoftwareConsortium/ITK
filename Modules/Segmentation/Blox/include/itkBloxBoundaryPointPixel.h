@@ -28,7 +28,9 @@ namespace itk
  * \brief Holds a linked list of itk::BloxBoundaryPointItem's.
  *
  * \ingroup ImageObjects
- * */
+ *
+ * \ingroup ITK-Blox
+ */
 
 template< unsigned int NDimensions >
 class ITK_EXPORT BloxBoundaryPointPixel:public BloxPixel<

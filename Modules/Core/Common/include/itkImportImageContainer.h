@@ -39,6 +39,7 @@ namespace itk
  *
  * \ingroup ImageObjects
  * \ingroup IOFilters
+ * \ingroup ITK-Common
  */
 
 template< typename TElementIdentifier, typename TElement >

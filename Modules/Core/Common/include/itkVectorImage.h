@@ -70,6 +70,9 @@ namespace itk
  * \example itkVectorImageTest.cxx
  *
  * \ingroup ImageObjects
+ * \ingroup ITK-Common
+ * \wikiexample{IO/ReadVectorImage,Read an image file with an unknown number of components}
+ * \wikiexample{VectorImages/VectorImage,Create a vector image}
  */
 template< class TPixel, unsigned int VImageDimension = 3 >
 class ITK_EXPORT VectorImage:

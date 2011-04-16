@@ -74,6 +74,8 @@ private:
  * \sa IntensityWindowingImageFilter ShiftScaleImageFilter
  * \ingroup IntensityImageFilters  Multithreaded
  *
+ * \ingroup ITK-ImageIntensity
+ * \wikiexample{ImageProcessing/InvertIntensityImageFilter,Invert an image}
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT InvertIntensityImageFilter:

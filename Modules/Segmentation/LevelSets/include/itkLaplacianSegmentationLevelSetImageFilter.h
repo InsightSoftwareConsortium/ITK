@@ -95,7 +95,9 @@ namespace itk
  *
  *   \sa SegmentationLevelSetImageFilter
  *   \sa LaplacianSegmentationLevelSetFunction,
- *   \sa SparseFieldLevelSetImageFilter */
+ *   \sa SparseFieldLevelSetImageFilter
+ * \ingroup ITK-LevelSets
+ */
 template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >

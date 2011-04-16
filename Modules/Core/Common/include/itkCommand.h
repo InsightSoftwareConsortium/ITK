@@ -33,6 +33,8 @@ namespace itk
  * method is called to run the command.
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
+ * \wikiexample{Utilities/ObserveEvent,Observe an event}
  */
 
 // The superclass that all commands should be subclasses of
@@ -73,6 +75,7 @@ private:
  *  arguments as Execute on Command.
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 template< class T >
 class MemberCommand:public Command
@@ -146,6 +149,7 @@ private:
  *  only and itk::EventObject as argument
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 template< class T >
 class ReceptorMemberCommand:public Command
@@ -208,6 +212,7 @@ private:
  *  arguments.
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 template< class T >
 class SimpleMemberCommand:public Command
@@ -268,6 +273,7 @@ private:
  *  arguments.
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 template< class T >
 class SimpleConstMemberCommand:public Command
@@ -330,6 +336,7 @@ private:
  *  each time.
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 
 class CStyleCommand:public Command

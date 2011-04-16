@@ -35,6 +35,8 @@ namespace itk
  * \sa BinaryFunctionImageFilter TernaryFunctionImageFilter
  *
  * \ingroup   IntensityImageFilters     Multithreaded
+ * \ingroup ITK-Review
+ * \wikiexample{SimpleOperations/ScalarToRGBColormapImageFilter,Apply a color map to an image}
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ScalarToRGBColormapImageFilter:

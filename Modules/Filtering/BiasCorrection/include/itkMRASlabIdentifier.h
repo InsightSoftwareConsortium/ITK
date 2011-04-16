@@ -59,6 +59,7 @@ namespace itk
  * 4) For each slice, it subtracts the overall average from the slice average.
  *    If the sign of the subtraction result changes, then it assumes that a
  *    slab ends and another slab begins.
+ * \ingroup ITK-BiasCorrection
  */
 template< class TInputImage >
 class ITK_EXPORT MRASlabIdentifier:public Object

@@ -29,6 +29,7 @@ namespace fem {
  * the data is implemented in LinearSystemWrapper class.
  *
  * \sa LinearSystemWrapper
+ * \ingroup ITK-FEM
  */
 class Solution
 {

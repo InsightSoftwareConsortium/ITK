@@ -38,6 +38,8 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \sa UnaryFunctorImageFilter
+ * \ingroup ITK-Review
+ * \wikiexample{ImageProcessing/MultiplyByConstantImageFilter,Multiply every pixel in an image by a constant}
  */
 namespace Functor
 {

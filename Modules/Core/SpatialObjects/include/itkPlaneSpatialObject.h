@@ -26,6 +26,7 @@ namespace itk
 /** \class PlaneSpatialObject
  * A plane spatial object is defined by two points
  * \brief
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TDimension = 3  >

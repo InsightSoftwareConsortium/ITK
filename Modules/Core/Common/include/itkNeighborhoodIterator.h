@@ -206,6 +206,8 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  *
  * \ingroup Operators
+ * \ingroup ITK-Common
+ * \wikiexample{Iterators/NeighborhoodIterator,Iterate over a region of an image with a neighborhood (with write access)}
  */
 template< class TImage, class TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >

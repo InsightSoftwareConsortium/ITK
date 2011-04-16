@@ -38,6 +38,8 @@ namespace itk
  * \sa BinaryFunctorImageFilter TernaryFunctorImageFilter
  *
  * \ingroup   IntensityImageFilters     Multithreaded
+ * \ingroup ITK-Common
+ * \wikiexample{ImageProcessing/UnaryFunctorImageFilter,Apply a custom operation to each pixel in an image}
  */
 template< class TInputImage, class TOutputImage, class TFunction >
 class ITK_EXPORT UnaryFunctorImageFilter:public InPlaceImageFilter< TInputImage, TOutputImage >

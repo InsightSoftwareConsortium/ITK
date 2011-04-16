@@ -35,6 +35,7 @@ namespace Accessor
  * parameters
  *
  * \ingroup ImageAdaptors
+ * \ingroup ITK-ImageAdaptors
  */
 template< class TInternalType, class TExternalType >
 class ITK_EXPORT ComplexToPhasePixelAccessor
@@ -63,6 +64,7 @@ public:
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
+ * \ingroup ITK-ImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT ComplexToPhaseImageAdaptor:public

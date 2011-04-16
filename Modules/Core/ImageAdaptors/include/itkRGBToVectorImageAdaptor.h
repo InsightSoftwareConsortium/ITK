@@ -29,6 +29,8 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  *
+ * \ingroup ITK-ImageAdaptors
+ * \wikiexample{Conversions/RGBToVectorImageAdaptor,Present an image of RGBPixel pixels as an image of vectors}
  */
 template< class TImage >
 class ITK_EXPORT RGBToVectorImageAdaptor:public

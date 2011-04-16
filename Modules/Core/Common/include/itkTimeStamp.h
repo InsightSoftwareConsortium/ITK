@@ -52,6 +52,7 @@ namespace itk
  * for more detail).
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT TimeStamp
 {

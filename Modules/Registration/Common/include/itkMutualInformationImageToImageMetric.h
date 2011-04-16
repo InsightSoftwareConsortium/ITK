@@ -83,6 +83,9 @@ namespace itk
  * \sa GaussianKernelFunction
  *
  * \ingroup RegistrationMetrics
+ * \ingroup ITK-RegistrationCommon
+ * \wikiexample{Registration/MutualInformation,Mutual Information}
+ * \wikiexample{Registration/MutualInformationAffine,Mutual Information Affine}
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT MutualInformationImageToImageMetric:
@@ -194,7 +197,9 @@ private:
 
   /** \class SpatialSample
    * A spatial sample consists of the fixed domain point, the fixed
-   * image value at that point, and the corresponding moving image value. */
+   * image value at that point, and the corresponding moving image value.
+   * \ingroup ITK-RegistrationCommon
+   */
   class SpatialSample
   {
 public:

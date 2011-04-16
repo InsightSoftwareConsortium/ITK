@@ -50,7 +50,9 @@ namespace itk
  *  image.
  *
  * \ingroup MeshFilters
- * \ingroup MeshSegmentation */
+ * \ingroup MeshSegmentation
+ * \ingroup ITK-Deprecated
+ */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT DeformableMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {

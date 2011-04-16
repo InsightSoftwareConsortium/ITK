@@ -43,6 +43,7 @@ namespace itk
  * SimpleMutexLock which is not a subclass of Object.
  *
  * \ingroup OSSystemObjects
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT SimpleMutexLock
 {
@@ -91,6 +92,7 @@ protected:
  * SimpleMutexLock which is not a subclass of itkObject.
  *
  * \ingroup OSSystemObjects
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT MutexLock:public Object
 {

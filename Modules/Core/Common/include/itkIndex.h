@@ -60,6 +60,9 @@ class IndexLexicographicCompare;
  *
  * \ingroup ImageAccess
  * \ingroup ImageObjects
+ * \ingroup ITK-Common
+ * \wikiexample{SimpleOperations/DistanceBetweenIndices,Distance between two indices}
+ * \wikiexample{Images/Index,An object which holds the index of a pixel}
  */
 
 template< unsigned int VIndexDimension = 2 >
@@ -316,6 +319,7 @@ namespace Functor
  * This is a comparison functor suitable for storing Index instances
  * in an STL container.  The ordering is total and unique but has
  * little geometric meaning.
+ * \ingroup ITK-Common
  */
 template< unsigned int VIndexDimension >
 class IndexLexicographicCompare

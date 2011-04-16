@@ -46,6 +46,7 @@ namespace itk
  * If ITK_USE_PTHREADS is defined, then
  * pthread_create() will be used to create multiple threads (on
  * a sun, for example).
+ * \ingroup ITK-Common
  */
 
 class ITKCommon_EXPORT MultiThreader:public Object

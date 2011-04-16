@@ -29,6 +29,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  *
+ * \ingroup ITK-ImageIntensity
  */
 
 namespace Function

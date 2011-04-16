@@ -42,6 +42,8 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  *
+ * \ingroup ITK-ImageAdaptors
+ * \wikiexample{ImageProcessing/ImageAdaptorExtractVectorComponent,Present an image by first performing an operation}
  */
 template< class TImage, class TAccessor >
 class ITK_EXPORT ImageAdaptor:public ImageBase< ::itk::GetImageDimension< TImage >::ImageDimension >

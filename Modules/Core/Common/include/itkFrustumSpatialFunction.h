@@ -31,7 +31,9 @@ namespace itk
  *
  * \ingroup SpatialFunctions
  *
- * */
+ *
+ * \ingroup ITK-Common
+ */
 
 template< unsigned int VImageDimension = 3, typename TInput = Point< double, 3 > >
 class ITK_EXPORT FrustumSpatialFunction:

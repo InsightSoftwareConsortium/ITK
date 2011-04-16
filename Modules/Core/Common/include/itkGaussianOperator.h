@@ -56,6 +56,8 @@ namespace itk
  * \sa Neighborhood
  *
  * \ingroup Operators
+ * \ingroup ITK-Common
+ * \wikiexample{Operators/GaussianOperator,Create a Gaussian kernel}
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

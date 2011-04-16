@@ -103,6 +103,8 @@ private:
  *
  * \ingroup IntensityImageFilters  Multithreaded
  *
+ * \ingroup ITK-ImageIntensity
+ * \wikiexample{ImageProcessing/IntensityWindowingImageFilter,IntensityWindowingImageFilter}
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT IntensityWindowingImageFilter:

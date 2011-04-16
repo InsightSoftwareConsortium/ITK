@@ -39,6 +39,7 @@ namespace fem {
  * Class T should also include typedefs T::Pointer and T::ConstPointer that
  * define standard pointers to the class. Note that these could be
  * SmartPointer classes.
+ * \ingroup ITK-FEM
  */
 template<class T>
 class FEMP

@@ -31,6 +31,7 @@ namespace itk
  * defines the SetInput() method for defining the input to a filter.
  *
  * \ingroup ImageFilters
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TOutputPath >
 class ITK_EXPORT ImageToPathFilter:public PathSource< TOutputPath >

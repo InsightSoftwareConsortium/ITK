@@ -53,6 +53,7 @@ namespace itk
  *  A full discussion of the Transform directions in the ITK registration
  *  framework can be found in the ITK Software Guide.
  *
+ * \ingroup ITK-RegistrationCommon
  */
 
 template< class TFixedImage, class TMovingSpatialObject >

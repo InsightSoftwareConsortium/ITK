@@ -72,6 +72,7 @@ namespace itk
  * \sa SymmetricSecondRankTensor
  *
  * \ingroup ImageObjects   TensorObjects    Geometry
+ * \ingroup ITK-Common
  */
 
 template< typename TComponent >

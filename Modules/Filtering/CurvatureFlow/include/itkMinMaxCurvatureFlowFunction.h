@@ -36,6 +36,7 @@ namespace itk
  * \sa MinMaxCurvatureFlowImageFilter
  * \sa ZeroFluxNeumannBoundaryCondition
  * \ingroup FiniteDifferenceFunctions
+ * \ingroup ITK-CurvatureFlow
  */
 template< class TImage >
 class ITK_EXPORT MinMaxCurvatureFlowFunction:

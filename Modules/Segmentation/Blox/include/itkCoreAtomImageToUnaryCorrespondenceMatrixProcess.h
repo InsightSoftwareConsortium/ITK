@@ -33,6 +33,7 @@ namespace itk
  * UnaryMedialNodeMetric on them.
  * It returns a unary correspondence matrix for the images in the form of a
  * MatrixResizeableDataObject.
+ * \ingroup ITK-Blox
  */
 template< typename TSourceImage >
 class ITK_EXPORT CoreAtomImageToUnaryCorrespondenceMatrixProcess:public ProcessObject

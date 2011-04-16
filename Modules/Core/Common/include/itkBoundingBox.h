@@ -60,6 +60,8 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
+ * \ingroup ITK-Common
+ * \wikiexample{Utilities/BoundingBox,Bounding box}
  */
 
 template<

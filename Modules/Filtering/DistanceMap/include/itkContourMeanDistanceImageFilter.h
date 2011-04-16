@@ -60,6 +60,8 @@ namespace itk
  *
  * \author Teo Popa, ISIS Center, Georgetown University
  *
+ * \ingroup ITK-DistanceMap
+ * \wikiexample{Curves/ContourMeanDistanceImageFilter,Compute the mean distance between all points of two curves}
  */
 template< class TInputImage1, class TInputImage2 >
 class ITK_EXPORT ContourMeanDistanceImageFilter:

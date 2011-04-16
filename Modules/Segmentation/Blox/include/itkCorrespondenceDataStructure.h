@@ -29,6 +29,7 @@ namespace itk
  * \class CorrespondenceDataStructure
  * \brief A data structure designed to contain medial node clique
  * correspondence data between two images.
+ * \ingroup ITK-Blox
  */
 template< typename TItemType, int VCliqueSize >
 class CorrespondenceDataStructure:public DataObject

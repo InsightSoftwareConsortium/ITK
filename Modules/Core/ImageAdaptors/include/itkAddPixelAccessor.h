@@ -31,6 +31,8 @@ namespace Accessor
  *
  * \sa ImageAdaptor
  * \ingroup ImageAdaptors
+ * \ingroup ITK-ImageAdaptors
+ * \wikiexample{ImageProcessing/AddPixelAccessor,Add a constant to every pixel without duplicating the image in memory (an accessor)}
  */
 
 template< class TPixel >

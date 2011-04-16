@@ -45,6 +45,8 @@ namespace itk
  * \sa ImageToImageFilter
  *
  * \ingroup Singlethreaded
+ * \ingroup ITK-ConnectedComponents
+ * \wikiexample{ImageProcessing/ConnectedComponentImageFilter,Label connected components in a binary image}
  */
 
 template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >

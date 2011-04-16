@@ -36,6 +36,7 @@ namespace itk
  * definite, and m is chosen so that the integral of G(x) is 1, then G will
  * denote a normal distribution with mean 0 and covariance matrix \f$\S \times
  * Sigma\f$.
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TDimension = 3 >

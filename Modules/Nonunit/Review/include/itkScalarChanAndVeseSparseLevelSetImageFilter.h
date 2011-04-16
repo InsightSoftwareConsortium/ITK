@@ -54,6 +54,7 @@ namespace itk
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage,
           class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,

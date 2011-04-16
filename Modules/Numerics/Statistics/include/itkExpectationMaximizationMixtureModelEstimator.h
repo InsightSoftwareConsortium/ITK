@@ -49,6 +49,8 @@ namespace Statistics
  * GetMeasurementVectorSize() to get the length.
  *
  * \sa MixtureModelComponentBase, GaussianMixtureModelComponent
+ * \ingroup ITK-Statistics
+ * \wikiexample{Statistics/ExpectationMaximizationMixtureModelEstimator_2D,2D Gaussian Mixture Model Expectation Maximization}
  */
 
 template< class TSample >

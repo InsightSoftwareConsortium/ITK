@@ -86,6 +86,7 @@ namespace Statistics
  *
  * \author  Zachary Pincus and Glenn Pierce
  *
+ * \ingroup ITK-Statistics
  */
 
 template< class TImageType,

@@ -39,6 +39,7 @@ namespace itk
  * \ingroup ImageAccess
  * \ingroup ImageObjects
  *
+ * \ingroup ITK-Common
  */
 template< class TCoordRep = double, unsigned int VIndexDimension = 2 >
 class ContinuousIndex:public Point< TCoordRep, VIndexDimension >

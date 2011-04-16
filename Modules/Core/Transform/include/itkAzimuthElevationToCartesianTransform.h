@@ -72,6 +72,8 @@ namespace itk
  * \todo  Derive this class from a yet undefined TransformBase class.
  *        Currently, this class derives from AffineTransform, although
  *        it is not an affine transform.
+ * \ingroup ITK-Transform
+ * \wikiexample{Utilities/AzimuthElevationToCartesianTransform,Cartesian to AzimuthElevation and vice-versa}
  */
 template< class TScalarType = float,  // Data type for scalars
           unsigned int NDimensions = 3 >

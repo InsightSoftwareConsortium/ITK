@@ -27,6 +27,7 @@ namespace itk
 {
 /** \class AffineGeometryFrame
  * \brief Describes the geometry of a data object
+ * \ingroup ITK-SpatialObjects
  */
 template< class TScalarType = double, unsigned int NDimensions = 3 >
 class ITK_EXPORT AffineGeometryFrame:public Object

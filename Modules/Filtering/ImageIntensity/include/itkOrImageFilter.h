@@ -41,6 +41,8 @@ namespace itk
  * Where "|" is the boolean OR operator in C++.
  *
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
+ * \wikiexample{ImageProcessing/OrImageFilter,Binary OR two images}
  */
 namespace Functor
 {

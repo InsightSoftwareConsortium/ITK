@@ -60,6 +60,7 @@ namespace watershed
  * how boundary faces are indexed.
  * \sa itk::watershed::Boundary
  * \ingroup WatershedSegmentation
+ * \ingroup ITK-Watersheds
  */
 template< class TPixelType, unsigned int TDimension >
 class ITK_EXPORT BoundaryResolver:public ProcessObject

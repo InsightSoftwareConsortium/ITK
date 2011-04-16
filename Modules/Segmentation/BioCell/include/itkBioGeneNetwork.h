@@ -35,6 +35,7 @@ namespace bio
  * This class is implemented to iteratively compute the state of the gene network
  * following update rules (typical Partial Differential Equations).
  *
+ * \ingroup ITK-BioCell
  */
 class ITK_EXPORT GeneNetwork
 {

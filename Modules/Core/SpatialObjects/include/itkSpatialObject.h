@@ -52,6 +52,7 @@ namespace itk
  * virtual functions.  Examples of such functions are ValueAt(),
  * IsEvaluableAt(), and IsInside(), each of which has a meaning
  * specific to each particular object type.
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TDimension >

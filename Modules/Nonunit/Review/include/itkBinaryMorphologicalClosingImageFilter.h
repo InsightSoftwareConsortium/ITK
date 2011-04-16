@@ -41,6 +41,7 @@ namespace itk
  *
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >

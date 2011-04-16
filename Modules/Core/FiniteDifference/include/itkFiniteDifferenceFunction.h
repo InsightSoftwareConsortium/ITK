@@ -59,7 +59,9 @@ namespace itk
  * \todo Possibly subclass this object from Function.  Stumbling blocks here
  * are the specialized api of FiniteDifferenceFunction.
  *
- * \ingroup Functions */
+ * \ingroup Functions
+ * \ingroup ITK-FiniteDifference
+ */
 template< class TImageType >
 class ITK_EXPORT FiniteDifferenceFunction:public LightObject
 {

@@ -36,6 +36,7 @@ class OctreeBase;
  * This class is the basic building block of an octree.  It is rarely used by itself, and commonly
  * used by the Octree class.
  * \todo FIXME copy & paste documentation in all methods.
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT OctreeNode
 {

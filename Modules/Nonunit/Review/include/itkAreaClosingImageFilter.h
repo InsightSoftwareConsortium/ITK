@@ -46,6 +46,7 @@ namespace itk
  *
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TOutputImage, class TAttribute = ITK_TYPENAME TInputImage::SpacingType::ValueType >
 class ITK_EXPORT AreaClosingImageFilter:

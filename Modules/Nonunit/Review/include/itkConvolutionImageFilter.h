@@ -29,6 +29,8 @@ namespace itk
  *
  * \author Nicholas J. Tustison
  * \author James C. Gee
+ * \ingroup ITK-Review
+ * \wikiexample{ImageProcessing/ConvolutionImageFilter,Convolve an image with a kernel}
  */
 template< class TInputImage, class TOutputImage = TInputImage >
 class ITK_EXPORT ConvolutionImageFilter:

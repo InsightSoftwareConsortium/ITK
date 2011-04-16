@@ -67,6 +67,8 @@ namespace itk
  * user-designated coordinate transform must be threadsafe.
  *
  * \ingroup GeometricTransforms
+ * \ingroup ITK-ImageGrid
+ * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
  */
 template< class TInputImage,
           class TOutputImage,

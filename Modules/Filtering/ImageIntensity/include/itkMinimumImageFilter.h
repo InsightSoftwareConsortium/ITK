@@ -33,6 +33,8 @@ namespace itk
  * Numeric conversions (castings) are done by the C++ defaults.
 + *
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
+ * \wikiexample{ImageProcessing/MinimumImageFilter,Pixel wise compare two input images and set the output pixel to their min}
  */
 namespace Function
 {

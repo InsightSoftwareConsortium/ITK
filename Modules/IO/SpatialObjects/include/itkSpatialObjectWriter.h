@@ -26,6 +26,7 @@ namespace itk
 /** \class SpatialObjectWriter
  *
  * \brief TODO
+ * \ingroup ITK-IO-SpatialObjects
  */
 template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,

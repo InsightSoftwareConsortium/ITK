@@ -36,6 +36,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
+ * \ingroup ITK-Deprecated
  */
 class ITK_EXPORT DicomImageIO:public GDCMImageIO
 {

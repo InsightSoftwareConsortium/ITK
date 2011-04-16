@@ -70,6 +70,7 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup CanBeStreamed
  *
+ * \ingroup ITK-ImageGrid
  */
 
 template< class TInputImage,

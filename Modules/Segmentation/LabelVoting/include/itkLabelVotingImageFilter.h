@@ -69,6 +69,7 @@ namespace itk
  *
  * \author Torsten Rohlfing, SRI International, Neuroscience Program
  *
+ * \ingroup ITK-LabelVoting
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_EXPORT LabelVotingImageFilter:

@@ -30,6 +30,7 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * http://insight-journal.org/midas/handle.php?handle=1926/306
  *
+ * \ingroup ITK-QuadEdgeMeshFiltering
  */
 template< typename TInputMesh, typename TOutputMesh >
 class ITK_EXPORT QuadEdgeMeshToQuadEdgeMeshFilter:

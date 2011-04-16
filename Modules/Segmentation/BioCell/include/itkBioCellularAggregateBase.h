@@ -31,6 +31,7 @@ class CellBase;
 /** \class CellularAggregateBase
  * \brief Base class for the CellularAggregates. This base class is not
  * templated over the space dimension.
+ * \ingroup ITK-BioCell
  */
 class ITK_EXPORT CellularAggregateBase:public Object
 {

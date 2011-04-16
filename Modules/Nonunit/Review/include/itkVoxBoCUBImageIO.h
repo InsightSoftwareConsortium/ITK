@@ -48,6 +48,7 @@ class GenericCUBFileAdaptor;
  *
  * \ingroup IOFilters
  *
+ * \ingroup ITK-Review
  */
 class ITK_EXPORT VoxBoCUBImageIO:public ImageIOBase
 {

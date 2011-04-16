@@ -43,6 +43,8 @@ namespace Statistics
  *
  *
  * \sa Sample, ListSample
+ * \ingroup ITK-Statistics
+ * \wikiexample{Statistics/ImageToListSampleAdaptor,Create a list of samples from an image without duplicating the data}
  */
 
 template< class TImage >
@@ -121,7 +123,7 @@ public:
 
   //  PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** \class ConstIterator */
+  /** \class ConstIterator  \ingroup ITK-Statistics */
   class ConstIterator
   {
     friend class ImageToListSampleAdaptor;
@@ -196,7 +198,7 @@ private:
     InstanceIdentifier            m_InstanceIdentifier;
   };
 
-  /** \class Iterator */
+  /** \class Iterator  \ingroup ITK-Statistics */
   class Iterator:public ConstIterator
   {
     friend class ImageToListSampleAdaptor;

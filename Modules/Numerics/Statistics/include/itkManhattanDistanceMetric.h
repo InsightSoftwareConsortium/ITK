@@ -31,6 +31,7 @@ namespace Statistics
  * \sa EuclideanSquareDistanceMetric
  * \sa EuclideanDistanceMetric
  *
+ * \ingroup ITK-Statistics
  */
 template< class TVector >
 class ITK_EXPORT ManhattanDistanceMetric:

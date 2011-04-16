@@ -30,6 +30,7 @@ namespace itk
  * authors: Mark Meyer, Mathieu Desbrun, Peter Schroder, Alan H. Barr
  * conference: VisMath '02
  * location: Berlin (Germany)
+ * \ingroup ITK-QuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT DiscreteMeanCurvatureQuadEdgeMeshFilter:
