@@ -65,7 +65,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "itkQuadEdgeMeshEdgeMergeDecimationFilter.txx:.*warning: unused parameter.*iEdge.*"
   "vnl_diag_matrix.h"
   "WARNING non-zero return value in ctest"
-  "Warning \\\\(Anachronism\\\\)"
+  "Warning.*Anachronism.*"
   "attempted multiple inclusion of file"
   "warning LNK4221: This object file does not define any previously undefined public symbols"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Dd][Ii][Cc][Oo][Mm][Pp]arser[/\\\\].*[Ww]arning.*"
