@@ -198,7 +198,7 @@ void Attribute::read(const DataType& mem_type, H5std_string& strg) const
 //--------------------------------------------------------------------------
 size_t Attribute::getInMemDataSize() const
 {
-    char *func = "Attribute::getInMemDataSize";
+    const char *func = "Attribute::getInMemDataSize";
 
     // Get the data type of this attribute
     hid_t mem_type_id = H5Aget_type(id);
@@ -318,6 +318,7 @@ H5std_string Attribute::getName( size_t buf_size ) const
 {
    H5std_string attr_name;
    ssize_t name_size = getName( buf_size, attr_name );
+   static_cast<void>(name_size);
    return( attr_name );
    // let caller catch exception if any
 }
