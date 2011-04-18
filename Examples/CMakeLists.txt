@@ -1,3 +1,7 @@
+if(NOT ITK_BUILD_ALL_MODULES)
+  message(FATAL_ERROR "BUILD_EXAMPLES requires ITK_BUILD_ALL_MODULES")
+endif()
+
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
