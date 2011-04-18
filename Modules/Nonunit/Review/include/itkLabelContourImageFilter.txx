@@ -305,10 +305,9 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   PretendIndexType idx = LineRegion.GetIndex();
   OffsetValueType  offset = fakeImage->ComputeOffset(idx);
 
-  typename LineNeighborhoodIndexListType::const_iterator LI = ActiveIndexes.begin();
-  typename LineNeighborhoodIndexListType::const_iterator LEnd = ActiveIndexes.end();
-
-  for (; LI != LEnd; ++LI )
+  const typename LineNeighborhoodIndexListType::const_iterator LEnd = ActiveIndexes.end();
+  for (typename LineNeighborhoodIndexListType::const_iterator LI = ActiveIndexes.begin();
+    LI != LEnd; ++LI )
     {
     LineOffsets.push_back(fakeImage->ComputeOffset( idx + lnit.GetOffset(*LI) ) - offset);
     }
@@ -379,12 +378,10 @@ LabelContourImageFilter< TInputImage, TOutputImage >
       OffsetValueType cStart = cIt->where[0];  // the start x position
       OffsetValueType cLast = cStart + cIt->length - 1;
 
-      LineEncodingConstIterator mIt = Neighbour.begin();
-      LineEncodingConstIterator mEnd = Neighbour.end();
-
       bool lineCompleted = false;
-
-      for(; mIt != mEnd && !lineCompleted; ++mIt )
+      const LineEncodingConstIterator mEnd = Neighbour.end();
+      for(LineEncodingConstIterator mIt = Neighbour.begin();
+        mIt != mEnd && !lineCompleted; ++mIt )
         {
         if ( mIt->label != cIt->label )
           {
