@@ -64,6 +64,10 @@ TemporalDataObject
   unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                           m_BufferedTemporalRegion.GetFrameDuration() - 1;
 
+  //DEBUG
+  std::cout << "req start: " << reqStart << " req end: " << reqEnd << std::endl;
+  std::cout << "buf start: " << bufStart << " buf end: " << bufEnd << std::endl;
+
   // Handle case with unbuffered frames at beginning and end
   if (reqStart < bufStart && reqEnd > bufEnd)
     {

@@ -128,6 +128,10 @@ TemporalProcessObject::GenerateData()
   // Split up the requested output temporal region
   std::vector<TemporalRegion> inputTemporalRegionRequests = this->SplitRequestedTemporalRegion();
 
+  //DEBUG
+  std::cout << "inputTemporalRegionRequests split up into " << inputTemporalRegionRequests.size()
+            << " requests" << std::endl;
+
   // Get the first output frame location
   TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
   if (!output)
@@ -204,6 +208,11 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
                                               (double)(unbufferedRegion.GetFrameDuration() /
                                               (double)(m_UnitOutputNumberOfFrames)) ));
 
+  //DEBUG
+  std::cout << "unbuffered region size = " << unbufferedRegion.GetFrameDuration() << std::endl;
+  std::cout << "unit output = " << m_UnitOutputNumberOfFrames << std::endl;
+  std::cout << "num requests = " << numRequests << std::endl;
+
   // Calculate left extra frames that will be requested (might be unnecessary)
   //unsigned long extraFrames = (numRequests * m_UnitOutputNumberOfFrames) -
   //                              unbufferedRegion.GetFrameDuration();
@@ -237,8 +246,6 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   return inputTemporalRegionRequests;
 
 }
-
-
 
 } // end namespace itk
 

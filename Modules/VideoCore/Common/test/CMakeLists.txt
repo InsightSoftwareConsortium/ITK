@@ -10,7 +10,6 @@ set(Video-CommonTests
 # For Midas-stored testing data
 include(${Video-Common_SOURCE_DIR}/MIDAS.cmake)
 
-message( ${Video-Common-Test_LIBRARIES} )
 CreateTestDriver(Video-Common  "${Video-Common-Test_LIBRARIES}" "${Video-CommonTests}" )
 
 # TemporalProcessObjectTest
