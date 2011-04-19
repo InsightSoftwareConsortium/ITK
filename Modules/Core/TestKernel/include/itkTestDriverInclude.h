@@ -391,6 +391,12 @@ int RegressionTestImage(const char *testImageFilename,
   itk::SizeValueType status = itk::NumericTraits< itk::SizeValueType >::Zero;
   status = diff->GetNumberOfPixelsWithDifferences();
 
+  //The measurement errors should be reported for both success and errors
+  //to facilitate setting tight tolerances of tests.
+  std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
+  std::cout << status;
+  std::cout <<  "</DartMeasurement>" << std::endl;
+
   // if there are discrepencies, create an diff image
   if ( ( status > numberOfPixelsTolerance ) && reportErrors )
     {
@@ -429,10 +435,6 @@ int RegressionTestImage(const char *testImageFilename,
 
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput( extract->GetOutput() );
-
-    std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
-    std::cout << status;
-    std::cout <<  "</DartMeasurement>" << std::endl;
 
     std::ostringstream diffName;
     diffName << testImageFilename << ".diff.png";
