@@ -12,6 +12,75 @@ namespace itk
 namespace test
 {
 
+/** \class DummyDataObject
+ * This is just a normal data object that carries some additional information
+ * for debugging purposes
+ */
+class DummyDataObject:public DataObject
+{
+public:
+
+  /** typedefs */
+  typedef DummyDataObject            Self;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
+  /** Class macros */
+  itkNewMacro(Self);
+  itkTypeMacro(DummyDataObject, DataObject);
+
+  itkGetMacro(FrameNumber, unsigned long);
+  itkSetMacro(FrameNumber, unsigned long);
+
+  itkGetMacro(CreatorId, unsigned int);
+  itkSetMacro(CreatorId, unsigned int);
+
+  /** Add a new parent frame */
+  void AppendParentFrame(DummyDataObject* parent)
+    {
+    m_ParentFrames.push_back(parent);
+    }
+
+  /** Get parent vector */
+  std::vector<DummyDataObject::Pointer> GetParentFrames()
+    {
+    return m_ParentFrames;
+    }
+
+  /** Print in a nicely viewable way */
+  Indent PrintNicely(Indent indent) const
+    {
+    Indent out = indent;
+
+    for (unsigned int i = 0; i < m_ParentFrames.size(); ++i)
+      {
+      m_ParentFrames[i]->PrintNicely(out);
+      out = out.GetNextIndent();
+      }
+
+    std::cout << indent << "p: " << m_CreatorId << " fn: " << m_FrameNumber << std::endl;
+    std::cout << indent << "|" << std::endl;
+
+    return out;
+    }
+
+protected:
+
+  /** Constructor */
+  DummyDataObject()
+    : m_FrameNumber(0),
+      m_CreatorId(0),
+      m_ParentFrames()
+    {}
+
+
+  /** members used to hold debug data */
+  unsigned long m_FrameNumber;
+  unsigned int m_CreatorId;
+  std::vector<DummyDataObject::Pointer> m_ParentFrames;
+};
+
 
 /** \class DummyTemporalDataObject
  * Create TemporaDataObject subclass that does nothing, but overrides some
@@ -69,8 +138,9 @@ public:
 
     for (unsigned int i = 0; i < x; ++i)
       {
-      // Create a new DataObject (ugly since DataObject has no new macro)
-      DataObject::Pointer obj = dynamic_cast<DataObject*>(DataObject::New().GetPointer());
+      // Create a new DummyDataObject
+      DummyDataObject::Pointer obj = DummyDataObject::New();
+      obj->SetFrameNumber(i);
 
       // Append to the end of the buffer
       m_DataObjectBuffer->MoveHeadForward();
@@ -101,7 +171,7 @@ public:
     }
 
   /** Get a bufferd frame */
-  DataObject::Pointer GetFrame(unsigned long frameNumber)
+  DummyDataObject::Pointer GetFrame(unsigned long frameNumber)
     {
     // if nothing buffered, just fail
     if (m_BufferedTemporalRegion.GetFrameDuration() == 0)
@@ -119,7 +189,8 @@ public:
 
     // If we can, fetch the desired frame
     long frameOffset = frameNumber - bufEnd;  // Should be negative
-    return m_DataObjectBuffer->GetBufferContents(frameOffset);
+    return dynamic_cast<DummyDataObject*>(
+      m_DataObjectBuffer->GetBufferContents(frameOffset).GetPointer());
     }
 
 };
@@ -156,12 +227,30 @@ public:
                       this->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() - 1;
     std::cout << "  -> input requested from " << inputStart << " to " << inputEnd << std::endl;
 
-    // Just pass frames from the input through to the output
+    // Just pass frames from the input through to the output and add debug info
     for (unsigned int i = 0; i < m_UnitOutputNumberOfFrames; ++i)
       {
       unsigned long frameNum = outputFrameStart + i;
-      this->GetOutput()->AppendDataObject(this->GetInput()->GetFrame(frameNum));
+      DummyDataObject::Pointer newObj = DummyDataObject::New();
+      newObj->SetFrameNumber(frameNum);
+      newObj->SetCreatorId(m_IdNumber);
+
+      // Append all input frames as parents
+      for (unsigned int j = 0; j < m_UnitInputNumberOfFrames; ++j)
+        {
+        unsigned long inputFrameNum =
+          this->GetInput()->GetRequestedTemporalRegion().GetFrameStart() + j;
+        newObj->AppendParentFrame( this->GetInput()->GetFrame(inputFrameNum) );
+        }
+
+      // Set the output
+      this->GetOutput()->AppendDataObject(newObj);
       }
+
+    // Set the buffered output region to match the requested output region
+    this->GetOutput()->SetBufferedTemporalRegion(
+      this->GetOutput()->GetRequestedTemporalRegion());
+
     }
 
   /** GetOutput will return the output on port 0 */
@@ -424,6 +513,50 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
   // Call update to execute the entire pipeline
   tpo3->Update();
+
+  itk::test::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
+
+  std::cout << "Buffered Output Region: "
+    << outputObject->GetBufferedTemporalRegion().GetFrameStart()
+    << "->" << outputObject->GetBufferedTemporalRegion().GetFrameDuration() << std::endl;
+
+  itk::test::DummyDataObject::Pointer computedFrame =
+    outputObject->GetFrame(endLargestPossibleRegion.GetFrameStart());
+
+  std::cout << std::endl << std::endl;
+  computedFrame->PrintNicely(itk::Indent());
+
+  /* THIS DOESN'T WORK AT THE MOMENT
+
+  // Check the parents of the output frame
+  typedef std::vector<itk::test::DummyDataObject::Pointer> ParentVectorType;
+  ParentVectorType l3parents = computedFrame->GetParentFrames();
+  unsigned int i = 0;
+  for (unsigned int l3 = 1; l3 <= 2; ++l3)
+    {
+    ParentVectorType l2parents = l3parents[i]->GetParentFrames();
+    unsigned int j = 0;
+    for (unsigned int l2 = l3; l2 < l2 < l2 + 3; ++l2)
+      {
+      ParentVectorType l1parents = l2parents[j]->GetParentFrames();
+      unsigned int k = 0;
+      for (unsigned int l1 = l2-1; l1 <= l2+1; ++l1)
+        {
+        unsigned long l1fn = l1parents[k]->GetFrameNumber();
+        std::cout << "p: " << l1parents[k]->GetCreatorId() << " fn: " << l1fn << std::endl;
+        std::cout << "l1 = " << l1 << " j = " << j << std::endl;
+        if (l1fn != l1)
+          {
+          std::cerr << "Incorrect parents detected at level 1" << std::endl;
+          return EXIT_FAILURE;
+          }
+        ++k;
+        }
+      ++j;
+      }
+    ++i;
+    }
+  */
 
   // Return successfully
   return EXIT_SUCCESS;
