@@ -149,7 +149,6 @@ protected:
   virtual void AfterTemporalStreamingGenerateData() {};
 
 
-
   /** Members to indicate the number of input frames and output frames requred
    * to perform a single pass through the processing. */
   unsigned long m_UnitInputNumberOfFrames;
