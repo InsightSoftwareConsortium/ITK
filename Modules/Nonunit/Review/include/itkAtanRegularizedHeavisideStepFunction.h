@@ -49,7 +49,7 @@ namespace itk
  *
  * \ingroup ITK-Review
  */
-template< class TInput = float, class TOutput = double >
+template< typename TInput = float, typename TOutput = double >
 class AtanRegularizedHeavisideStepFunction:
   public RegularizedHeavisideStepFunction< TInput, TOutput >
 {
@@ -68,28 +68,25 @@ public:
   typedef typename Superclass::RealType   RealType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const
-  {
-    return 0.5 + ( vnl_math::one_over_pi * vcl_atan( input * this->GetOneOverEpsilon() ) );
-  }
+  virtual OutputType Evaluate(const InputType & input) const;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const
-  {
-    const RealType t = ( input * this->GetOneOverEpsilon() );
-
-    return static_cast< OutputType >( vnl_math::one_over_pi / ( 1.0 + t * t ) );
-  }
+  virtual OutputType EvaluateDerivative(const InputType & input) const;
 
 protected:
-  AtanRegularizedHeavisideStepFunction() {}
-  virtual ~AtanRegularizedHeavisideStepFunction() {}
+
+  AtanRegularizedHeavisideStepFunction();
+  virtual ~AtanRegularizedHeavisideStepFunction();
+
 private:
-  AtanRegularizedHeavisideStepFunction(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-                                                      // implemented
+  /** purposely not implemented */
+  AtanRegularizedHeavisideStepFunction(const Self &);
+  void operator=(const Self &);
 };
 }
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkAtanRegularizedHeavisideStepFunction.txx"
+#endif
 
 #endif

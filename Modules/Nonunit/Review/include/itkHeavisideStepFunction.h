@@ -19,6 +19,7 @@
 #define __itkHeavisideStepFunction_h
 
 #include "itkHeavisideStepFunctionBase.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -54,7 +55,7 @@ namespace itk
  *
  * \ingroup ITK-Review
  */
-template< class TInput = float, class TOutput = double >
+template< typename TInput = float, typename TOutput = double >
 class HeavisideStepFunction:
   public HeavisideStepFunctionBase< TInput, TOutput >
 {
@@ -72,24 +73,23 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const
-  {
-    return ( input >= 0.0 ) ? 1.0 : 0.0;
-  }
+  OutputType Evaluate(const InputType & input) const;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const
-  {
-    return ( input == 0.0 ) ? 1.0 : 0.0;
-  }
+  OutputType EvaluateDerivative(const InputType & input) const;
 
 protected:
-  HeavisideStepFunction() {}
-  virtual ~HeavisideStepFunction() {}
+  HeavisideStepFunction();
+  ~HeavisideStepFunction();
+
 private:
   HeavisideStepFunction(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented
 };
 }
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkHeavisideStepFunction.txx"
+#endif
 
 #endif

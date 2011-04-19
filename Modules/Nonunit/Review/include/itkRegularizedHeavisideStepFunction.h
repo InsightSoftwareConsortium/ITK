@@ -19,8 +19,6 @@
 #define __itkRegularizedHeavisideStepFunction_h
 
 #include "itkHeavisideStepFunctionBase.h"
-#include "itkNumericTraits.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -51,8 +49,9 @@ namespace itk
  *
  * \ingroup ITK-Review
  */
-template< class TInput = float, class TOutput = double >
-class RegularizedHeavisideStepFunction:public HeavisideStepFunctionBase< TInput, TOutput >
+template< typename TInput = float, typename TOutput = double >
+class RegularizedHeavisideStepFunction:
+    public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
   typedef RegularizedHeavisideStepFunction             Self;
@@ -65,44 +64,14 @@ public:
 
   typedef typename NumericTraits< InputType >::RealType RealType;
 
-  /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const = 0;
+  void SetEpsilon(const RealType & ieps);
 
-  /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const = 0;
-
-  void SetEpsilon(const RealType & ieps)
-  {
-    this->m_Epsilon = ieps;
-
-    if ( ieps > vnl_math::eps )
-      {
-      m_OneOverEpsilon = 1.0 / ieps;
-      }
-    else
-      {
-      itkGenericExceptionMacro("ERROR: Epsilon needs to be greater than " << vnl_math::eps);
-      }
-  }
-
-  RealType GetEpsilon() const
-  {
-    return this->m_Epsilon;
-  }
-
-  RealType GetOneOverEpsilon() const
-  {
-    return this->m_OneOverEpsilon;
-  }
+  itkGetConstMacro( Epsilon, RealType );
+  itkGetConstMacro( OneOverEpsilon, RealType );
 
 protected:
-  RegularizedHeavisideStepFunction()
-  {
-    this->m_Epsilon = 1.0;
-    this->m_OneOverEpsilon = 1.0;
-  }
-
-  virtual ~RegularizedHeavisideStepFunction() {}
+  RegularizedHeavisideStepFunction();
+  virtual ~RegularizedHeavisideStepFunction();
 private:
   RegularizedHeavisideStepFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                   //purposely not implemented
@@ -111,5 +80,9 @@ private:
   RealType m_OneOverEpsilon;
 };
 }
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkRegularizedHeavisideStepFunction.txx"
+#endif
 
 #endif

@@ -49,7 +49,7 @@ namespace itk
  *
  * \ingroup ITK-Review
  */
-template< class TInput = float, class TOutput = double >
+template< typename TInput = float, typename TOutput = double >
 class SinRegularizedHeavisideStepFunction:
   public RegularizedHeavisideStepFunction< TInput, TOutput >
 {
@@ -68,49 +68,22 @@ public:
   typedef typename Superclass::RealType   RealType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const
-  {
-    if ( input >= this->GetEpsilon() )
-      {
-      return 1.0;
-      }
-    else
-      {
-      if ( input <= -this->GetEpsilon() )
-        {
-        return 0.0;
-        }
-      else
-        {
-        const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
-        const RealType angle = input * angleFactor;
-        return 0.5 * ( 1.0 + vcl_sin(angle) );
-        }
-      }
-  }
+  OutputType Evaluate(const InputType & input) const;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const
-  {
-    if ( vnl_math_abs(input) >= this->GetEpsilon() )
-      {
-      return 0.0;
-      }
-    else
-      {
-      const RealType           angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
-      const RealType           angle = input * angleFactor;
-      return 0.5 *angleFactor *vcl_cos(angle);
-      }
-  }
+  OutputType EvaluateDerivative(const InputType & input) const;
 
 protected:
-  SinRegularizedHeavisideStepFunction() {}
-  virtual ~SinRegularizedHeavisideStepFunction() {}
+  SinRegularizedHeavisideStepFunction();
+  ~SinRegularizedHeavisideStepFunction();
 private:
   SinRegularizedHeavisideStepFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented
 };
 }
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkSinRegularizedHeavisideStepFunction.txx"
+#endif
 
 #endif
