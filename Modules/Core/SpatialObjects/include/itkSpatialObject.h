@@ -55,10 +55,10 @@ namespace itk
  * \ingroup ITK-SpatialObjects
  */
 
-template< unsigned int TDimension >
+template< unsigned int VDimension >
 class SpatialObjectTreeNode;
 
-template< unsigned int TDimension = 3 >
+template< unsigned int VDimension = 3 >
 class SpatialObject:
   public DataObject
 {
@@ -72,36 +72,36 @@ public:
    * have.  This provides convenient access to a static constant. */
   unsigned int GetMaximumDepth() { return MaximumDepth; }
 
-  typedef SpatialObject< TDimension > Self;
+  typedef SpatialObject< VDimension > Self;
   typedef DataObject                  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
-  typedef Point< ScalarType, TDimension > PointType;
+  typedef Point< ScalarType, VDimension > PointType;
   // Spatial Function Iterator needs the following typedef
-  typedef Point< ScalarType, TDimension > InputType;
+  typedef Point< ScalarType, VDimension > InputType;
   typedef PointType *                     PointPointer;
 
-  typedef Vector< ScalarType, TDimension >          VectorType;
-  typedef CovariantVector< ScalarType, TDimension > CovariantVectorType;
+  typedef Vector< ScalarType, VDimension >          VectorType;
+  typedef CovariantVector< ScalarType, VDimension > CovariantVectorType;
   typedef VectorType *                              VectorPointer;
 
   typedef double *SpacingType;
 
-  typedef CovariantVector< double, TDimension > OutputVectorType;
+  typedef CovariantVector< double, VDimension > OutputVectorType;
   typedef OutputVectorType *                    OutputVectorPointer;
 
-  typedef ScalableAffineTransform< double, TDimension > TransformType;
+  typedef ScalableAffineTransform< double, VDimension > TransformType;
   typedef typename TransformType::Pointer               TransformPointer;
   typedef const TransformType *                         TransformConstPointer;
 
   typedef VectorContainer< IdentifierType, PointType >  VectorContainerType;
 
-  typedef BoundingBox< IdentifierType, TDimension, ScalarType, VectorContainerType > BoundingBoxType;
+  typedef BoundingBox< IdentifierType, VDimension, ScalarType, VectorContainerType > BoundingBoxType;
   typedef typename BoundingBoxType::Pointer                                          BoundingBoxPointer;
 
-  typedef AffineGeometryFrame< double, TDimension > AffineGeometryFrameType;
+  typedef AffineGeometryFrame< double, VDimension > AffineGeometryFrameType;
   typedef typename AffineGeometryFrameType::Pointer AffineGeometryFramePointer;
 
   /** Return type for the list of children */
@@ -109,17 +109,17 @@ public:
   typedef ChildrenListType *   ChildrenListPointer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index< TDimension >                IndexType;
+  typedef Index< VDimension >                IndexType;
 
   /** Offset typedef support. An offset represent relative position
    * between indices. */
-  typedef Offset< TDimension >                 OffsetType;
-  typedef ImageRegion< TDimension >            RegionType;
-  typedef Size< TDimension >                   SizeType;
+  typedef Offset< VDimension >                 OffsetType;
+  typedef ImageRegion< VDimension >            RegionType;
+  typedef Size< VDimension >                   SizeType;
   typedef SpatialObjectProperty< float >       PropertyType;
   typedef typename PropertyType::Pointer       PropertyPointer;
 
-  typedef SpatialObjectTreeNode< TDimension > TreeNodeType;
+  typedef SpatialObjectTreeNode< VDimension > TreeNodeType;
 
   /** Return true if the object has a parent object. Basically, only
    *  the root object , or some isolated objects should return false. */
@@ -131,10 +131,10 @@ public:
   /** Dimension of the object.  This constant is used by functions that are
    * templated over SpatialObject type when they need compile time access
    * to the dimension of the object. */
-  itkStaticConstMacro(ObjectDimension, unsigned int, TDimension);
+  itkStaticConstMacro(ObjectDimension, unsigned int, VDimension);
 
   /** Get the dimensionality of the object */
-  unsigned int GetObjectDimension(void) const { return TDimension; }
+  unsigned int GetObjectDimension(void) const { return VDimension; }
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -284,7 +284,7 @@ public:
 
     // data is arranged as [][][][slice][row][col]
     // with Index[0] = col, Index[1] = row, Index[2] = slice
-    for ( int i = TDimension - 1; i > 0; i-- )
+    for ( int i = VDimension - 1; i > 0; i-- )
       {
       offset += ( ind[i] - bufferedRegionIndex[i] ) * m_OffsetTable[i];
       }
@@ -300,7 +300,7 @@ public:
     IndexType         index;
     const IndexType & bufferedRegionIndex = m_BufferedRegion.GetIndex();
 
-    for ( int i = TDimension - 1; i > 0; i-- )
+    for ( int i = VDimension - 1; i > 0; i-- )
       {
       index[i] = static_cast< IndexValueType >( offset / m_OffsetTable[i] );
       offset -= ( index[i] * m_OffsetTable[i] );
