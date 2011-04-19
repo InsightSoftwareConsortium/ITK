@@ -1,4 +1,5 @@
 project(ITK-GDCM)
+set(ITK-GDCM_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_GDCM "Use an outside build of GDCM." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_GDCM)

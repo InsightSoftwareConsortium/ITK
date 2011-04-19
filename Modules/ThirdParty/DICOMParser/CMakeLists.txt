@@ -1,4 +1,5 @@
 project(ITK-DICOMParser)
+set(ITK-DICOMParser_THIRD_PARTY 1)
 
 set(ITK-DICOMParser_INCLUDE_DIRS
   ${ITK-DICOMParser_BINARY_DIR}/src/DICOMParser
