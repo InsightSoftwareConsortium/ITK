@@ -72,6 +72,15 @@ TemporalProcessObject::EnlargeOutputRequestedRegion(DataObject* output)
 }
 
 //
+// EnlargeOutputRequestedTemporalRegion
+//
+void
+TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output)
+{
+  itkWarningMacro("STUB");
+}
+
+//
 // GenerateOutputRequestedRegion
 //
 void
@@ -111,6 +120,51 @@ TemporalProcessObject::GenerateInputRequestedRegion(DataObject* output)
                       << "cannot cast " << typeid(output).name() << " to "
                       << typeid(TemporalDataObject*).name() );
     }
+}
+
+//
+// GenerateInputRequestedTemporalRegion
+//
+void
+TemporalProcessObject::GenerateInputRequestedTemporalRegion(TemporalDataObject* output)
+{
+  itkWarningMacro("STUB");
+}
+
+//
+// UpdateOutputInformation
+//
+void
+TemporalProcessObject::UpdateOutputInformation()
+{
+  // Update using inherited system
+  Superclass::UpdateOutputInformation();
+
+  TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
+  TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+  if (!input)
+    {
+    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateOutputRequestedTemporalRegion() "
+                      << "cannot cast " << typeid(input).name() << " to "
+                      << typeid(TemporalDataObject*).name() );
+    }
+  if (!output)
+    {
+    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateOutputRequestedTemporalRegion() "
+                      << "cannot cast " << typeid(output).name() << " to "
+                      << typeid(TemporalDataObject*).name() );
+    }
+
+  // Compute duration for output largest possible region
+  int scannableDuration = input->GetLargestPossibleTemporalRegion().GetFrameDuration() -
+                            m_UnitInputNumberOfFrames + 1;
+  int outputDuration = m_UnitOutputNumberOfFrames *
+    ((double)(scannableDuration - 1) / (double)(m_FrameSkipPerOutput) + 1);
+
+  // Set up output largets possible region
+  TemporalRegion largestRegion = output->GetLargestPossibleTemporalRegion();
+  largestRegion.SetFrameDuration(outputDuration);
+  output->SetLargestPossibleTemporalRegion(largestRegion);
 }
 
 

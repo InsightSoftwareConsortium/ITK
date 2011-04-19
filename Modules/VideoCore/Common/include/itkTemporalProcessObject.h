@@ -75,6 +75,13 @@ public:
   itkGetMacro(UnitOutputNumberOfFrames, unsigned long);
   itkSetMacro(UnitOutputNumberOfFrames, unsigned long);
 
+  /** The default implementation of UpdateOutputInformation to handle temporal
+   * regions will compute the proper size of the output largest possible
+   * temporal region based on the largest possible temporal region of the input,
+   * the unit input/output sizes for the process, and the number of frames
+   * skipped per output*/
+  virtual void UpdateOutputInformation();
+
   /** Override GenerateData to do temporal region streaming. This is analogous
    * to the ThreadedGenerateData system implemented in ImageSource, but it
    * functions slightly differently. Since most temporal processes are going to
@@ -97,12 +104,27 @@ public:
 
 protected:
 
-  /** Provide explicit protected methods for handling temporal region in
-   * EnlargeOutputRequestedRegion, GenerateOutputRequestedRegion, and
-   * GenerateInputRequestedRegion. */
-  virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output) {};
+  /** Explicitly handle temporal regions in EnlargeRequestedRegion. The default
+   * implementation makes sure that the output reuqested temporal region is a
+   * multiple of the unit output size. */
+  virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output);
+
+  /** Explicitly handle temporal regions in GeneratOutputRegion. The default
+   * implementation does nothing */
   virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output) {};
-  virtual void GenerateInputRequestedTemporalRegion(TemporalDataObject* output) {};
+
+  /** Explicitly handle temporal regions in GenerateInputRequestedRegion. The
+   * default implementation sets the requested temporal region on the input to
+   * start at m_FrameSkipPerOutput times the start frame of the requested output
+   * temporal region with the duration needed to produce the entire requested
+   * output.
+   *
+   * NOTE: This default propagation will be overwritten during the
+   * UpdateOutputData phase by the temporal streaming mechanism if a subclass
+   * implements TemporalStreamingGenerateData, but this propagation is provided
+   * so that subclasses which directly implement GenerateData will work
+   * correctly. */
+  virtual void GenerateInputRequestedTemporalRegion(TemporalDataObject* output);
 
   /** Split the output's RequestedTemporalRegion into the proper number of
    * sub-regions. By default it is assumed that each sub-region processed

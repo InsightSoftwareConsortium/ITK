@@ -91,30 +91,6 @@ public:
               << m_IdNumber << std::endl;
     }
 
-  /** GenerateOutputInformation */
-  virtual void GenerateOutputInformation()
-    {
-    Superclass::GenerateOutputInformation();
-    TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
-    TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput().GetPointer());
-    if (!input || !output)
-      {
-      itkExceptionMacro("Bad dynamic cast");
-      }
-
-    // Compute duration for output largest possible region
-    int scannableDuration = input->GetLargestPossibleTemporalRegion().GetFrameDuration() -
-                              m_UnitInputNumberOfFrames + 1;
-    int outputDuration = m_UnitOutputNumberOfFrames *
-      ((double)(scannableDuration - 1) / (double)(m_FrameSkipPerOutput) + 1);
-
-    // Set up output largets possible region
-    TemporalRegion largestRegion = output->GetLargestPossibleTemporalRegion();
-    largestRegion.SetFrameDuration(outputDuration);
-    output->SetLargestPossibleTemporalRegion(largestRegion);
-
-    }
-
   /** Set the input requested temporal region */
   //virtual void GenerateInputRequestedTemporalRegion(TemporalDataObject* output)
   //  {
@@ -122,15 +98,15 @@ public:
   //  }
 
   /** GetOutput will return the output on port 0 */
-  TemporalDataObject::Pointer GetOutput()
+  DummyTemporalDataObject::Pointer GetOutput()
     {
-    return dynamic_cast<TemporalDataObject*>(Superclass::GetOutput(0));
+    return dynamic_cast<DummyTemporalDataObject*>(this->TemporalProcessObject::GetOutput(0));
     }
 
   /** SetInput will set the 0th input */
   void SetInput(TemporalDataObject* tdo)
     {
-    Superclass::SetNthInput(0, tdo);
+    this->ProcessObject::SetNthInput(0, tdo);
     }
 
   /** Get/Set IdNumber */
@@ -194,6 +170,10 @@ private:
 int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 {
 
+  //////
+  // Set up pipeline
+  //////
+
   // Create 3 new DummyTemporalProcessObjects
   typedef itk::test::DummyTemporalProcessObject TPOType;
   TPOType::Pointer tpo1 = TPOType::New();
@@ -235,13 +215,19 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   bufferedRegion.SetFrameDuration(0);
   tdo->SetBufferedTemporalRegion(bufferedRegion);
 
-  // Execute the pipeline
+
+  //////
+  // Test results of LargestTemporalRegion computation
+  //////
+
+  // Update to get largest possible temporal region information
   tpo3->UpdateOutputInformation();
 
   // Check largest possible temporal region after propagation
   if (tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 18)
     {
     std::cerr << "tpo1 largest possible region not correct" << std::endl;
+    std::cout << tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() << std::endl;
     return EXIT_FAILURE;
     }
   if (tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 32)
@@ -255,5 +241,23 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+
+  //////
+  // Test results of requested region propagation
+  //////
+
+  // Set up requested region for the end of the pipeline
+  itk::TemporalRegion finalRequest;
+  finalRequest.SetFrameStart(0);
+  finalRequest.SetFrameDuration(1);
+  itk::test::DummyTemporalDataObject* finalOutput = tpo3->GetOutput();
+  finalOutput->SetRequestedTemporalRegion(finalRequest);
+
+  // Update to propagate the requested temporal region
+  finalOutput->PropagateRequestedRegion();
+
+  // Check requested region up the pipeline
+
+  // Return successfully
   return EXIT_SUCCESS;
 }
