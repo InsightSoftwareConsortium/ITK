@@ -375,6 +375,7 @@ while(NOT dashboard_done)
     safe_message("Initial configure top level project...")
     set(options
       -DCTEST_USE_LAUNCHERS=${CTEST_USE_LAUNCHERS}
+      -DBUILD_EXAMPLES:BOOL=OFF
       -DITK_BUILD_ALL_MODULES:BOOL=ON
       -DITK_GENERATE_PROJECT_XML:BOOL=ON
       -DITK_GENERATE_SUBPROJECTS_CMAKE:BOOL=ON
@@ -399,6 +400,7 @@ while(NOT dashboard_done)
       set_property(GLOBAL PROPERTY Label ${subproj})
 
       set(options
+        -DBUILD_EXAMPLES:BOOL=OFF
         -DITK_BUILD_ALL_MODULES:BOOL=OFF
         -DModule_${subproj}:BOOL=ON
         -DITK_GENERATE_PROJECT_XML:BOOL=OFF
@@ -455,6 +457,7 @@ while(NOT dashboard_done)
 
     safe_message("Final configure top level project...")
     set(options
+      -DBUILD_EXAMPLES:BOOL=ON
       -DITK_BUILD_ALL_MODULES:BOOL=ON
       -DITK_GENERATE_PROJECT_XML:BOOL=OFF
       -DITK_GENERATE_SUBPROJECTS_CMAKE:BOOL=OFF
