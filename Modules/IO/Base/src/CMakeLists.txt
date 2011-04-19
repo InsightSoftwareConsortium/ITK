@@ -10,5 +10,5 @@ itkStreamingImageIOBase.cxx
 )
 
 add_library(ITK-IO-Base ${ITK-IO-Base_SRC})
-target_link_libraries(ITK-IO-Base  ${ITK-Common_LIBRARIES} ${TEST_DEPENDS_LIBRARIES} ${ITK-TestKernel_LIBRARIES})
+target_link_libraries(ITK-IO-Base  ${ITK-Common_LIBRARIES})
 itk_module_target(ITK-IO-Base)

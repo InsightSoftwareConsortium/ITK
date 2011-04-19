@@ -7,5 +7,5 @@ itkBioCellularAggregateBase.cxx
 )
 
 add_library(ITK-BioCell ${ITK-BioCell_SRC})
-target_link_libraries(ITK-BioCell  ${ITK-Mesh_LIBRARIES} ${TEST_DEPENDS_LIBRARIES} ${ITK-TestKernel_LIBRARIES})
+target_link_libraries(ITK-BioCell  ${ITK-Mesh_LIBRARIES})
 itk_module_target(ITK-BioCell)

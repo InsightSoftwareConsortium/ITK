@@ -51,5 +51,5 @@ dsrc2c.c
 )
 
 add_library(ITK-FEM ${ITK-FEM_SRC})
-target_link_libraries(ITK-FEM  ${ITK-ImageFunction_LIBRARIES} ${ITK-RegistrationCommon_LIBRARIES} ${TEST_DEPENDS_LIBRARIES} ${ITK-TestKernel_LIBRARIES})
+target_link_libraries(ITK-FEM  ${ITK-ImageFunction_LIBRARIES} ${ITK-RegistrationCommon_LIBRARIES})
 itk_module_target(ITK-FEM)
