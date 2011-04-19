@@ -34,31 +34,92 @@ public:
   /** Override update for debug output */
   virtual void Update()
     {
-    std::cout << "Calling Update from temporal data object" << std::endl;
+    //std::cout << "Calling Update from temporal data object" << std::endl;
     Superclass::Update();
     }
 
   /** Override UpdateOutputInformation for debug output */
   virtual void UpdateOutputInformation()
     {
-    std::cout << "Calling UpdateOutputInformation from temporal data object" << std::endl;
+    //std::cout << "Calling UpdateOutputInformation from temporal data object" << std::endl;
     Superclass::UpdateOutputInformation();
     }
 
   /** Override PropagateRequestedRegion for debug output */
   virtual void PropagateRequestedRegion() throw (itk::InvalidRequestedRegionError)
     {
-    std::cout << "Calling PropagateRequestedRegion from temporal data object" << std::endl;
+    //std::cout << "Calling PropagateRequestedRegion from temporal data object" << std::endl;
     Superclass::PropagateRequestedRegion();
     }
 
   /** Override UpdateOutputData for debug output */
   virtual void UpdateOutputData()
     {
-    std::cout << "Calling UpdateOutputData from temporal data object" << std::endl;
-    std::cout << "UpdateMTime = " << this->GetUpdateMTime() << " PipelineMTime = "
-              << this->GetPipelineMTime() << std::endl;
+    std::cout << "      UpdateOutputData from temporal data object" << std::endl;
+    //std::cout << "UpdateMTime = " << this->GetUpdateMTime() << " PipelineMTime = "
+    //          << this->GetPipelineMTime() << std::endl;
     Superclass::UpdateOutputData();
+    }
+
+  /** Fill buffer with X new frames */
+  void SetBufferToXNewFrames(unsigned int x)
+    {
+    // Set the internal number of buffers
+    m_DataObjectBuffer->SetNumberOfBuffers(x);
+
+    for (unsigned int i = 0; i < x; ++i)
+      {
+      // Create a new DataObject (ugly since DataObject has no new macro)
+      DataObject::Pointer obj = dynamic_cast<DataObject*>(DataObject::New().GetPointer());
+
+      // Append to the end of the buffer
+      m_DataObjectBuffer->MoveHeadForward();
+      m_DataObjectBuffer->SetBufferContents(0, obj);
+      }
+
+    // Set buffered region info
+    m_BufferedTemporalRegion.SetFrameStart(0);
+    m_BufferedTemporalRegion.SetFrameDuration(x);
+    }
+
+  /** Append the supplied data object */
+  void AppendDataObject(DataObject* obj)
+    {
+    m_DataObjectBuffer->MoveHeadForward();
+    m_DataObjectBuffer->SetBufferContents(0, obj);
+
+    if (m_BufferedTemporalRegion.GetFrameDuration() < m_DataObjectBuffer->GetNumberOfBuffers())
+      {
+      m_BufferedTemporalRegion.SetFrameDuration(
+        m_BufferedTemporalRegion.GetFrameDuration() + 1);
+      }
+    else
+      {
+      m_BufferedTemporalRegion.SetFrameStart(
+        m_BufferedTemporalRegion.GetFrameStart() + 1);
+      }
+    }
+
+  /** Get a bufferd frame */
+  DataObject::Pointer GetFrame(unsigned long frameNumber)
+    {
+    // if nothing buffered, just fail
+    if (m_BufferedTemporalRegion.GetFrameDuration() == 0)
+      {
+      return NULL;
+      }
+
+    // make sure we have the desired frame buffered
+    unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
+    unsigned long bufEnd = bufStart + m_BufferedTemporalRegion.GetFrameDuration() - 1;
+    if (frameNumber < bufStart || frameNumber > bufEnd)
+      {
+      return NULL;
+      }
+
+    // If we can, fetch the desired frame
+    long frameOffset = frameNumber - bufEnd;  // Should be negative
+    return m_DataObjectBuffer->GetBufferContents(frameOffset);
     }
 
 };
@@ -86,9 +147,21 @@ public:
   /** TemporalStreamingGenerateData */
   virtual void TemporalStreamingGenerateData(unsigned long outputFrameStart)
     {
-    //DEBUG
-    std::cout << "Calling TemporalStreamingGenerateData from process object with ID = "
-              << m_IdNumber << std::endl;
+    // Report
+    std::cout << "**(ID = " << m_IdNumber << ") - TemporalStreamingGenerateData" << std::endl;
+    std::cout << "  -> output start frame: " << outputFrameStart << std::endl;
+
+    unsigned long inputStart = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
+    unsigned long inputEnd = inputStart +
+                      this->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() - 1;
+    std::cout << "  -> input requested from " << inputStart << " to " << inputEnd << std::endl;
+
+    // Just pass frames from the input through to the output
+    for (unsigned int i = 0; i < m_UnitOutputNumberOfFrames; ++i)
+      {
+      unsigned long frameNum = outputFrameStart + i;
+      this->GetOutput()->AppendDataObject(this->GetInput()->GetFrame(frameNum));
+      }
     }
 
   /** GetOutput will return the output on port 0 */
@@ -127,39 +200,37 @@ public:
   /** Override Update for debug output */
   virtual void Update()
     {
-    std::cout << "Calling Update for process object with ID = " << m_IdNumber << std::endl;
+    std::cout << "(ID = " << m_IdNumber << ") - Update" << std::endl;
     Superclass::Update();
     }
 
   /** Override UpdateOutputData for debug output */
   virtual void UpdateOutputData(DataObject* dobj)
     {
-    std::cout << "Calling UpdateOutputData for process object with ID = "
-              << m_IdNumber << std::endl;
+    std::cout << "(ID = " << m_IdNumber << ") - UpdateOutputData" << std::endl;
     Superclass::UpdateOutputData(dobj);
     }
 
   /** Override GenerateData for debug output */
   virtual void GenerateData()
     {
-    std::cout << "Calling GenerateData for process object with ID = "
-              << m_IdNumber << std::endl;
+    std::cout << "*(ID = " << m_IdNumber << ") - GenerateData" << std::endl;
+    //std::cout << "Output Buffered temporal region duration = "
+    //          << this->GetOutput()->GetBufferedTemporalRegion().GetFrameDuration() << std::endl;
     Superclass::GenerateData();
     }
 
   /** Override EnlargeOutputRequestedTemporalRegion for debug output */
   virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output)
     {
-    std::cout << "Calling EnlargeOutputRequestedTemporalRegion for process object with ID = "
-              << m_IdNumber << std::endl;
+    std::cout << "(ID = " << m_IdNumber << ") - EnlargeOutputRequestedTemporalRegion" << std::endl;
     Superclass::EnlargeOutputRequestedTemporalRegion(output);
     }
 
   /** Override GenerateInputRequestedTemporalRegion for debug output */
   virtual void GenerateInputRequestedTemporalRegion()
     {
-    std::cout << "Calling GenerateInputRequestedTemporalRegion for process object with ID = "
-              << m_IdNumber << std::endl;
+    std::cout << "(ID = " << m_IdNumber << ") - GenerateInputRequestedTemporalRegion" << std::endl;
     Superclass::GenerateInputRequestedTemporalRegion();
     }
 
@@ -239,6 +310,9 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   bufferedRegion.SetFrameStart(0);
   bufferedRegion.SetFrameDuration(0);
   tdo->SetBufferedTemporalRegion(bufferedRegion);
+
+  // Fill the TemporalDataObject input with frames for the entire region
+  tdo->SetBufferToXNewFrames(largestRegion.GetFrameDuration());
 
 
   //////
@@ -339,6 +413,17 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+
+  //////
+  // Test Generation of data
+  //////
+
+  //DEBUG
+  std::cout << std::endl << "Requested frames at end = "
+    << tpo3->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() << std::endl << std::endl;
+
+  // Call update to execute the entire pipeline
+  tpo3->Update();
 
   // Return successfully
   return EXIT_SUCCESS;

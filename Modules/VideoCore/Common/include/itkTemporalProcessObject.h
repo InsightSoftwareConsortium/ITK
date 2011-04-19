@@ -87,6 +87,19 @@ public:
    * skipped per output*/
   virtual void UpdateOutputInformation();
 
+  /** Override ProcessObject's implementation of UpdateOutputData. This is
+   * necessary because by default ProcessObject propagates the call to its
+   * inputs before calling GenerateData. This doesn't work here because we need
+   * to adjust the requested temporal region of our inputs before calling their
+   * UpdateOutputData methods
+   *
+   * NOTE: Subclasses that don't use the temporal streaming process must
+   * override this function to call the version implemented in ProcessObject
+   *
+   * Code: this->ProcessObject::UpdateOutputData( output )
+   */
+  virtual void UpdateOutputData(DataObject* output);
+
   /** Override GenerateData to do temporal region streaming. This is analogous
    * to the ThreadedGenerateData system implemented in ImageSource, but it
    * functions slightly differently. Since most temporal processes are going to

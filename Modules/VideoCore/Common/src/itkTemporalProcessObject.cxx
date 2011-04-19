@@ -84,9 +84,6 @@ TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject* 
   TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
   unsigned long outFrameDuration = outReqTempRegion.GetFrameDuration();
 
-  //DEBUG
-  std::cout << "initial out frame duration = " << outFrameDuration << std::endl;
-
   unsigned int remainder = outFrameDuration % m_UnitOutputNumberOfFrames;
   if (remainder > 0)
     {
@@ -237,6 +234,95 @@ TemporalProcessObject::UpdateOutputInformation()
 //-TEMPORAL STREAMING----------------------------------------------------------
 
 //
+// UpdateOutputData
+//
+void
+TemporalProcessObject::UpdateOutputData(DataObject* itkNotUsed(output))
+{
+
+  // This implementation mirrors the one in ProcessObject with the exception
+  // that it does not propagate the call to its inputs before calling
+  // GenerateData. This is done because the temporal streaming system that is
+  // active by default will re-set the requested temporal region on the input
+  // multiple times in order to stream the data without requireing all data to
+  // be loaded at once.
+
+  // Prevent chasing the tail
+  if (m_Updating)
+    {
+    return;
+    }
+
+  // Prepare outputs
+  this->PrepareOutputs();
+
+  // Mark that we are updating
+  m_Updating = true;
+
+  // Cache ReleaseDataFlag(s)
+  this->CacheInputReleaseDataFlags();
+
+  // Notify observers of start
+  this->InvokeEvent( StartEvent() );
+
+  // Process GenerateData for this object (which will start temporal streaming)
+  this->SetAbortGenerateData(false);
+  this->UpdateProgress(0.0f);
+
+  try
+    {
+    // Make sure all requred input ports full
+    DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
+    if ( ninputs < this->GetNumberOfRequiredInputs() )
+      {
+      itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs()
+                        << " inputs are required but only " << ninputs
+                        << " are specified.");
+      }
+    this->GenerateData();
+    }
+  catch (ProcessAborted & excp)
+    {
+    this->InvokeEvent( AbortEvent() );
+    this->ResetPipeline();
+    this->RestoreInputReleaseDataFlags();
+    throw excp;
+    }
+  catch (...)
+    {
+    this->ResetPipeline();
+    this->RestoreInputReleaseDataFlags();
+    throw;
+    }
+
+  // If aborted, push progress to 1.0
+  if (this->GetAbortGenerateData())
+    {
+    this->UpdateProgress(1.0f);
+    }
+
+  // Now, mark the data up to date
+  DataObjectPointerArraySizeType idx;
+  for ( idx = 0; idx < this->GetNumberOfOutputs(); ++idx )
+    {
+    if ( this->GetOutput(idx) )
+      {
+      this->GetOutput(idx)->DataHasBeenGenerated();
+      }
+    }
+
+  // Restore the state of any input ReleaseDataFlags
+  this->RestoreInputReleaseDataFlags();
+
+  // Release any inputs if marked for release
+  this->ReleaseInputs();
+
+  // Mark that we are no longer updating the data in this filter
+  m_Updating = false;
+
+}
+
+//
 // GenerateData
 //
 void
@@ -318,21 +404,26 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
                       << typeid(TemporalDataObject*).name() );
     }
 
+  //DEBUG
+  std::cout << "Requested output frames = "
+    << outputObject->GetRequestedTemporalRegion().GetFrameDuration() << std::endl;
+  std::cout << "Requested output start = "
+    << outputObject->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
+
   // Get the TemporalRegion representing the difference between the output's
   // requested temporal region and its buffered temporal region. This
   // difference is defined as any time that is covered by the requested region
   // but not by the buffered region
   TemporalRegion unbufferedRegion = outputObject->GetUnbufferedRequestedTemporalRegion();
 
+  //DEBUG
+  std::cout << "Unbuffered Requested output frames = "
+    << unbufferedRegion.GetFrameDuration() << std::endl;
+
   // Calculate the number of input requests that will be needed
   unsigned long numRequests = (unsigned long)(ceil(
                                               (double)(unbufferedRegion.GetFrameDuration() /
                                               (double)(m_UnitOutputNumberOfFrames)) ));
-
-  //DEBUG
-  std::cout << "unbuffered region size = " << unbufferedRegion.GetFrameDuration() << std::endl;
-  std::cout << "unit output = " << m_UnitOutputNumberOfFrames << std::endl;
-  std::cout << "num requests = " << numRequests << std::endl;
 
   // Calculate left extra frames that will be requested (might be unnecessary)
   //unsigned long extraFrames = (numRequests * m_UnitOutputNumberOfFrames) -
@@ -341,16 +432,24 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   // Set up the requested input temporal region set (TODO: NOT PROPERLY HANDLING REAL TIME!!!!!!!!)
   std::vector<TemporalRegion> inputTemporalRegionRequests;
 
-  unsigned long regionStartFrame = 1;
+  long regionStartFrame = 1;
   if (this->m_FrameSkipPerOutput > 0)
     {
-    regionStartFrame = unbufferedRegion.GetFrameStart();
+    regionStartFrame = unbufferedRegion.GetFrameStart() - m_InputStencilCurrentFrameIndex;
     }
   else if (this->m_FrameSkipPerOutput < 0)
     {
-    regionStartFrame = unbufferedRegion.GetFrameStart() + unbufferedRegion.GetFrameDuration() -
-                        this->m_UnitOutputNumberOfFrames;
+    regionStartFrame = unbufferedRegion.GetFrameStart() + unbufferedRegion.GetFrameDuration() + 1 -
+                        (this->m_UnitOutputNumberOfFrames - m_InputStencilCurrentFrameIndex);
     }
+
+  // Make sure we're not trying to get a negative frame
+  if (regionStartFrame < 0)
+    {
+    itkExceptionMacro(<< "itk::TemporalProcessObject::SplitRequestedTemporalRegion() "
+                      << "cannot start at frame number " << regionStartFrame);
+    }
+
   for (unsigned int i = 0; i < numRequests; ++i)
     {
     // Create the requested region
