@@ -56,17 +56,27 @@ const TemporalDataObject::TemporalRegionType
 TemporalDataObject
 ::GetUnbufferedRequestedTemporalRegion()
 {
+  // If nothing is buffered or nothing is requested, just return the entire request
+  if (m_BufferedTemporalRegion.GetFrameDuration() == 0 ||
+      m_RequestedTemporalRegion.GetFrameDuration() == 0)
+    {
+    return m_RequestedTemporalRegion;
+    }
+
   // Get the start and end of the buffered and requested temporal regions
   unsigned long reqStart = m_RequestedTemporalRegion.GetFrameStart();
   unsigned long reqEnd = m_RequestedTemporalRegion.GetFrameStart() +
                           m_RequestedTemporalRegion.GetFrameDuration() - 1;
+
   unsigned long bufStart = m_BufferedTemporalRegion.GetFrameStart();
   unsigned long bufEnd = m_BufferedTemporalRegion.GetFrameStart() +
                           m_BufferedTemporalRegion.GetFrameDuration() - 1;
 
-  //DEBUG
-  std::cout << "req start: " << reqStart << " req end: " << reqEnd << std::endl;
-  std::cout << "buf start: " << bufStart << " buf end: " << bufEnd << std::endl;
+  // If the request starts after the buffered region, return the whole request
+  if (reqStart > bufEnd)
+    {
+    return m_RequestedTemporalRegion;
+    }
 
   // Handle case with unbuffered frames at beginning and end
   if (reqStart < bufStart && reqEnd > bufEnd)
