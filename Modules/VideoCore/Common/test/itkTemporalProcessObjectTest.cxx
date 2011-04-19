@@ -91,12 +91,6 @@ public:
               << m_IdNumber << std::endl;
     }
 
-  /** Set the input requested temporal region */
-  //virtual void GenerateInputRequestedTemporalRegion(TemporalDataObject* output)
-  //  {
-  //  // Given the
-  //  }
-
   /** GetOutput will return the output on port 0 */
   DummyTemporalDataObject::Pointer GetOutput()
     {
@@ -107,6 +101,12 @@ public:
   void SetInput(TemporalDataObject* tdo)
     {
     this->ProcessObject::SetNthInput(0, tdo);
+    }
+
+  /** GetInput gets the 0th input as a DummyTemporalDataObject */
+  DummyTemporalDataObject::Pointer GetInput()
+    {
+    return dynamic_cast<DummyTemporalDataObject*>(this->TemporalProcessObject::GetInput(0));
     }
 
   /** Get/Set IdNumber */
@@ -145,6 +145,22 @@ public:
     std::cout << "Calling GenerateData for process object with ID = "
               << m_IdNumber << std::endl;
     Superclass::GenerateData();
+    }
+
+  /** Override EnlargeOutputRequestedTemporalRegion for debug output */
+  virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output)
+    {
+    std::cout << "Calling EnlargeOutputRequestedTemporalRegion for process object with ID = "
+              << m_IdNumber << std::endl;
+    Superclass::EnlargeOutputRequestedTemporalRegion(output);
+    }
+
+  /** Override GenerateInputRequestedTemporalRegion for debug output */
+  virtual void GenerateInputRequestedTemporalRegion()
+    {
+    std::cout << "Calling GenerateInputRequestedTemporalRegion for process object with ID = "
+              << m_IdNumber << std::endl;
+    Superclass::GenerateInputRequestedTemporalRegion();
     }
 
 protected:
@@ -195,14 +211,14 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   tpo1->SetUnitInputNumberOfFrames(3);
   tpo1->SetUnitOutputNumberOfFrames(1);
   tpo2->SetUnitInputNumberOfFrames(3);
-  tpo2->SetUnitOutputNumberOfFrames(2);
+  tpo2->SetUnitOutputNumberOfFrames(3);
   tpo3->SetUnitInputNumberOfFrames(2);
   tpo3->SetUnitOutputNumberOfFrames(1);
   tpo3->SetFrameSkipPerOutput(2);
 
   // Set up frame stencils
   tpo1->SetInputStencilCurrentFrameIndex(1); // "current frame" centered in group of 3
-  tpo2->SetInputStencilCurrentFrameIndex(0);  // "current frame" at start of group of 3
+  tpo2->SetInputStencilCurrentFrameIndex(0); // "current frame" at start of group of 3
   tpo3->SetInputStencilCurrentFrameIndex(1); // "current frame" at end of group of 2
 
   // Create a new TemporalDataObject to pass through the pipeline
@@ -243,7 +259,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     std::cerr << "tpo1 largest possible region start not correct" << std::endl;
     return EXIT_FAILURE;
     }
-  if (tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 32)
+  if (tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 48)
     {
     std::cerr << "tpo2 largest possible region duration not correct" << std::endl;
     return EXIT_FAILURE;
@@ -255,7 +271,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     }
   itk::TemporalRegion endLargestPossibleRegion =
     tpo3->GetOutput()->GetLargestPossibleTemporalRegion();
-  if (endLargestPossibleRegion.GetFrameDuration() != 16)
+  if (endLargestPossibleRegion.GetFrameDuration() != 24)
     {
     std::cerr << "tpo3 largest possible region duration not correct" << std::endl;
     return EXIT_FAILURE;
@@ -282,6 +298,47 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   finalOutput->PropagateRequestedRegion();
 
   // Check requested region up the pipeline
+
+  // for tpo3, the requested input region should be size 3 because tpo2 can
+  // only output in groups of 3
+  if (tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() != 3)
+    {
+    std::cout << tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() << std::endl;
+    std::cerr << "tpo3 requested region duration not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 1)
+    {
+    std::cerr << "tpo3 requested region start not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // tpo2 is 3->3, so an initial request of 2 gets enlarged to 3 which results
+  // in propagating a request for 3 to tpo1
+  if (tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() != 3)
+    {
+    std::cerr << "tpo2 requested region duration not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 1)
+    {
+    std::cerr << "tpo2 requested region start not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // tpo1 is 3->1 and skips 1 frame for each output, so a request for 3
+  // requires 5 as input
+  if (tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() != 5)
+    {
+    std::cerr << "tpo1 requested region duration not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 0)
+    {
+    std::cerr << "tpo1 requested region start not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   // Return successfully
   return EXIT_SUCCESS;

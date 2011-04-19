@@ -74,11 +74,26 @@ TemporalProcessObject::EnlargeOutputRequestedRegion(DataObject* output)
 
 //
 // EnlargeOutputRequestedTemporalRegion
+// TODO: Hanle RealTime
 //
 void
 TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output)
 {
-  itkWarningMacro("STUB");
+  // Make sure the requested output temporal region duration is a multiple of
+  // the unit number of output frames
+  TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
+  unsigned long outFrameDuration = outReqTempRegion.GetFrameDuration();
+
+  //DEBUG
+  std::cout << "initial out frame duration = " << outFrameDuration << std::endl;
+
+  unsigned int remainder = outFrameDuration % m_UnitOutputNumberOfFrames;
+  if (remainder > 0)
+    {
+    outFrameDuration += (m_UnitOutputNumberOfFrames - remainder);
+    }
+  outReqTempRegion.SetFrameDuration(outFrameDuration);
+  output->SetRequestedTemporalRegion(outReqTempRegion);
 }
 
 //
@@ -106,34 +121,79 @@ TemporalProcessObject::GenerateOutputRequestedRegion(DataObject* output)
 // GenerateInputRequestedRegion
 //
 void
-TemporalProcessObject::GenerateInputRequestedRegion(DataObject* output)
+TemporalProcessObject::GenerateInputRequestedRegion()
 {
-    // Check that output is a TemporalDataObject
-  TemporalDataObject* tOutput = dynamic_cast<TemporalDataObject*>(output);
+  // Check that output and input are a TemporalDataObjects
+  TemporalDataObject* tOutput = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+  TemporalDataObject* tInput = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
 
-  if (tOutput)
+  if (!tOutput)
     {
-    this->GenerateInputRequestedTemporalRegion(tOutput);
+    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedRegion() "
+                      << "cannot cast " << typeid(this->GetOutput(0)).name() << " to "
+                      << typeid(TemporalDataObject*).name() );
+    }
+  else if (!tInput)
+    {
+    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedRegion() "
+                      << "cannot cast " << typeid(this->GetInput(0)).name() << " to "
+                      << typeid(TemporalDataObject*).name() );
     }
   else
     {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedRegion() "
-                      << "cannot cast " << typeid(output).name() << " to "
-                      << typeid(TemporalDataObject*).name() );
+    this->GenerateInputRequestedTemporalRegion();
     }
 }
 
 //
 // GenerateInputRequestedTemporalRegion
+// TODO: Hanle RealTime
 //
 void
-TemporalProcessObject::GenerateInputRequestedTemporalRegion(TemporalDataObject* output)
+TemporalProcessObject::GenerateInputRequestedTemporalRegion()
 {
-  itkWarningMacro("STUB");
+  // This should only get called after verifying that input(0) and output(0)
+  // can validly be cast to TemporalDataObjects, so don't check cast here
+  TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
+  TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+
+  TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
+
+  // This should always be a whole number because of EnlargeOutputRequestedTemporalRegion
+  // but do it safely in case the subclass overrides it
+  unsigned long numInputRequests =
+    (unsigned long)ceil((double)outReqTempRegion.GetFrameDuration() /
+                        (double)m_UnitOutputNumberOfFrames);
+
+  // The number of input requests indicates the number of times the process
+  // will have to request a temporal region of size m_UnitInputNumberOfFrames.
+  // Each request besides the last will require m_FrameSkipPerOutput new frames
+  // to be loaded.
+  unsigned long inputDuration = m_FrameSkipPerOutput * (numInputRequests - 1) +
+                                  m_UnitInputNumberOfFrames;
+
+  // Compute the start of the input requested temporal region based on
+  // m_InputStencilCurrentFrameIndex
+  long inputStart = outReqTempRegion.GetFrameStart() - m_InputStencilCurrentFrameIndex;
+
+  // Make sure we're not requesting a negative frame (this may be replaced by
+  // boundary conditions at some point)
+  if (inputStart < 0)
+    {
+    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedTemporalRegion() "
+                      << "cannot request a region with a starting frame of " << inputStart);
+    }
+
+  // Set up the region and assign it to input
+  TemporalRegion inReqTempRegion;
+  inReqTempRegion.SetFrameStart(inputStart);
+  inReqTempRegion.SetFrameDuration(inputDuration);
+  input->SetRequestedTemporalRegion(inReqTempRegion);
 }
 
 //
 // UpdateOutputInformation
+// TODO: Hanle RealTime
 //
 void
 TemporalProcessObject::UpdateOutputInformation()
@@ -243,6 +303,7 @@ TemporalProcessObject::TemporalStreamingGenerateData(unsigned long outputFrameSt
 
 //
 // SplitRequestedTemporalRegion
+// TODO: Hanle RealTime
 //
 std::vector<TemporalRegion>
 TemporalProcessObject::SplitRequestedTemporalRegion()

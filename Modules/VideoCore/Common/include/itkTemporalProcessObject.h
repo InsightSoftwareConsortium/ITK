@@ -68,7 +68,7 @@ public:
    * GenerateInputRequestedRegion to handle temporal regions */
   virtual void EnlargeOutputRequestedRegion(DataObject* output);
   virtual void GenerateOutputRequestedRegion(DataObject* output);
-  virtual void GenerateInputRequestedRegion(DataObject* output);
+  virtual void GenerateInputRequestedRegion();
 
 
   /** Get/Set the number of frames of input required to produce output */
@@ -140,7 +140,7 @@ protected:
    * implements TemporalStreamingGenerateData, but this propagation is provided
    * so that subclasses which directly implement GenerateData will work
    * correctly. */
-  virtual void GenerateInputRequestedTemporalRegion(TemporalDataObject* output);
+  virtual void GenerateInputRequestedTemporalRegion();
 
   /** Split the output's RequestedTemporalRegion into the proper number of
    * sub-regions. By default it is assumed that each sub-region processed
