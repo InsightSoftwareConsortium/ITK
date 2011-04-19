@@ -35,7 +35,8 @@ namespace itk
 TemporalProcessObject::TemporalProcessObject()
   : m_UnitInputNumberOfFrames(1),
     m_UnitOutputNumberOfFrames(1),
-    m_FrameSkipPerOutput(1)
+    m_FrameSkipPerOutput(1),
+    m_InputStencilCurrentFrameIndex(0)
 {}
 
 //
@@ -156,14 +157,19 @@ TemporalProcessObject::UpdateOutputInformation()
     }
 
   // Compute duration for output largest possible region
-  int scannableDuration = input->GetLargestPossibleTemporalRegion().GetFrameDuration() -
+  TemporalRegion inputLargestRegion = input->GetLargestPossibleTemporalRegion();
+  long scannableDuration = inputLargestRegion.GetFrameDuration() -
                             m_UnitInputNumberOfFrames + 1;
-  int outputDuration = m_UnitOutputNumberOfFrames *
+  long outputDuration = m_UnitOutputNumberOfFrames *
     ((double)(scannableDuration - 1) / (double)(m_FrameSkipPerOutput) + 1);
+
+  // Compute the start of the output region
+  long outputStart = inputLargestRegion.GetFrameStart() + m_InputStencilCurrentFrameIndex;
 
   // Set up output largets possible region
   TemporalRegion largestRegion = output->GetLargestPossibleTemporalRegion();
   largestRegion.SetFrameDuration(outputDuration);
+  largestRegion.SetFrameStart(outputStart);
   output->SetLargestPossibleTemporalRegion(largestRegion);
 }
 

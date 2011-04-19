@@ -50,6 +50,8 @@ class TemporalProcessObject:public ProcessObject
 {
 public:
 
+  /*-TYPEDEFS----------------------------------------------------------------*/
+
   /** Standard class typedefs */
   typedef TemporalProcessObject       Self;
   typedef ProcessObject               Superclass;
@@ -58,6 +60,9 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TemporalProcessObject, ProcessObject);
+
+
+  /*-PUBLIC METHODS----------------------------------------------------------*/
 
   /** Override EnlargeOutputRequestedRegion, GenerateOutputRequestedRegion, and
    * GenerateInputRequestedRegion to handle temporal regions */
@@ -104,6 +109,17 @@ public:
 
 protected:
 
+  /*-PROTECTED METHODS-------------------------------------------------------*/
+
+  /** Constructor that initializes members */
+  TemporalProcessObject();
+
+  /** Empty Destructor */
+  virtual ~TemporalProcessObject(){};
+
+  /** ITK print mechanism */
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Explicitly handle temporal regions in EnlargeRequestedRegion. The default
    * implementation makes sure that the output reuqested temporal region is a
    * multiple of the unit output size. */
@@ -149,6 +165,8 @@ protected:
   virtual void AfterTemporalStreamingGenerateData() {};
 
 
+  /*-PROTECTED MEMBERS-------------------------------------------------------*/
+
   /** Members to indicate the number of input frames and output frames requred
    * to perform a single pass through the processing. */
   unsigned long m_UnitInputNumberOfFrames;
@@ -159,10 +177,12 @@ protected:
    * internally (or provide access to it) if they wish. */
   long m_FrameSkipPerOutput;
 
-
-  TemporalProcessObject();
-  virtual ~TemporalProcessObject(){};
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  /** Member to indicate the location of the "current frame" in the minimum set
+   * of input frames. For example, if the unit number of input frames is 3 and
+   * m_InputStencilCurrentFrameIndex = 1, this indicates that for output frame
+   * n, frames n-1 through n+1 are required, whereas if
+   * m_InputStencilCurrentFrameIndex = 0, frames n through n+2 are required. */
+  long m_InputStencilCurrentFrameIndex;
 
 private:
   TemporalProcessObject(const Self &); //purposely not implemented

@@ -117,6 +117,10 @@ public:
   itkSetMacro(FrameSkipPerOutput, int);
   itkGetMacro(FrameSkipPerOutput, int);
 
+  /** Provide access to m_InputStencilCurrentFrameIndex */
+  itkSetMacro(InputStencilCurrentFrameIndex, long);
+  itkGetMacro(InputStencilCurrentFrameIndex, long);
+
 
   /*-DEBUG OVERRIDES---------------------------------------------------------*/
 
@@ -196,6 +200,11 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   tpo3->SetUnitOutputNumberOfFrames(1);
   tpo3->SetFrameSkipPerOutput(2);
 
+  // Set up frame stencils
+  tpo1->SetInputStencilCurrentFrameIndex(1); // "current frame" centered in group of 3
+  tpo2->SetInputStencilCurrentFrameIndex(0);  // "current frame" at start of group of 3
+  tpo3->SetInputStencilCurrentFrameIndex(1); // "current frame" at end of group of 2
+
   // Create a new TemporalDataObject to pass through the pipeline
   typedef itk::test::DummyTemporalDataObject TDOType;
   TDOType::Pointer tdo = TDOType::New();
@@ -226,18 +235,34 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   // Check largest possible temporal region after propagation
   if (tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 18)
     {
-    std::cerr << "tpo1 largest possible region not correct" << std::endl;
-    std::cout << tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() << std::endl;
+    std::cerr << "tpo1 largest possible region duration not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart() != 1)
+    {
+    std::cerr << "tpo1 largest possible region start not correct" << std::endl;
     return EXIT_FAILURE;
     }
   if (tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 32)
     {
-    std::cerr << "tpo2 largest possible region not correct" << std::endl;
+    std::cerr << "tpo2 largest possible region duration not correct" << std::endl;
     return EXIT_FAILURE;
     }
-  if (tpo3->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() != 16)
+  if (tpo2->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart() != 1)
     {
-    std::cerr << "tpo3 largest possible region not correct" << std::endl;
+    std::cerr << "tpo2 largest possible region start not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+  itk::TemporalRegion endLargestPossibleRegion =
+    tpo3->GetOutput()->GetLargestPossibleTemporalRegion();
+  if (endLargestPossibleRegion.GetFrameDuration() != 16)
+    {
+    std::cerr << "tpo3 largest possible region duration not correct" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (endLargestPossibleRegion.GetFrameStart() != 2)
+    {
+    std::cerr << "tpo3 largest possible region start not correct" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -248,7 +273,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
   // Set up requested region for the end of the pipeline
   itk::TemporalRegion finalRequest;
-  finalRequest.SetFrameStart(0);
+  finalRequest.SetFrameStart(endLargestPossibleRegion.GetFrameStart());
   finalRequest.SetFrameDuration(1);
   itk::test::DummyTemporalDataObject* finalOutput = tpo3->GetOutput();
   finalOutput->SetRequestedTemporalRegion(finalRequest);
