@@ -67,11 +67,28 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "WARNING non-zero return value in ctest"
   "Warning \\(Anachronism\\)"
   "attempted multiple inclusion of file"
+  "warning LNK4221: This object file does not define any previously undefined public symbols"
+  ".*/Modules/ThirdParty/DICOMParser/.*warning.*"
+  ".*/Modules/ThirdParty/Expat/.*warning.*"
+  ".*/Modules/ThirdParty/GDCM/.*warning.*"
+  ".*/Modules/ThirdParty/JPEG/.*warning.*"
+  ".*/Modules/ThirdParty/KWSys/.*warning.*"
+  ".*/Modules/ThirdParty/MetaIO/.*warning.*"
+  ".*/Modules/ThirdParty/Netlib/.*warning.*"
+  ".*/Modules/ThirdParty/NIFTI/.*warning.*"
+  ".*/Modules/ThirdParty/NrrdIO/.*warning.*"
+  ".*/Modules/ThirdParty/OpenJPEG/.*warning.*"
+  ".*/Modules/ThirdParty/PNG/.*warning.*"
+  ".*/Modules/ThirdParty/TIFF/.*warning.*"
+  ".*/Modules/ThirdParty/VNL/.*warning.*"
+  ".*/Modules/ThirdParty/VNLInstantiation/.*warning.*"
+  ".*/Modules/ThirdParty/ZLIB/.*warning.*"
   )
 
 IF(APPLE)
 SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning -.: directory name .* does not exist"
+  "ld.*warning.*duplicate dylib.*"
   )
 ENDIF(APPLE)
