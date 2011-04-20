@@ -68,17 +68,26 @@ public:
 
   virtual void SetLargestPossibleTemporalRegion(
     const TemporalRegionType & region)
-  { m_LargestPossibleTemporalRegion = region; }
+  {
+    m_LargestPossibleTemporalRegion = region;
+    this->Modified();
+  }
   virtual const TemporalRegionType & GetLargestPossibleTemporalRegion() const
   { return m_LargestPossibleTemporalRegion; }
 
   virtual void SetBufferedTemporalRegion(const TemporalRegionType & region)
-  { m_BufferedTemporalRegion = region; }
+  {
+    m_BufferedTemporalRegion = region;
+    this->Modified();
+  }
   virtual const TemporalRegionType & GetBufferedTemporalRegion() const
   { return m_BufferedTemporalRegion; }
 
   virtual void SetRequestedTemporalRegion(const TemporalRegionType & region)
-  { m_RequestedTemporalRegion = region; }
+  {
+    m_RequestedTemporalRegion = region;
+    this->Modified();
+  }
   virtual const TemporalRegionType & GetRequestedTemporalRegion() const
   { return m_RequestedTemporalRegion; }
 

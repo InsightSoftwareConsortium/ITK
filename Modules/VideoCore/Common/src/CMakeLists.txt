@@ -1,6 +1,7 @@
 set(Video-Common_SRC
 itkTemporalRegion.cxx
 itkTemporalDataObject.cxx
+itkTemporalProcessObject.cxx
 )
 
 add_library(Video-Common ${Video-Common_SRC})
