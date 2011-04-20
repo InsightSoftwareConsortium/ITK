@@ -335,10 +335,6 @@ TemporalProcessObject::GenerateData()
   // Split up the requested output temporal region
   std::vector<TemporalRegion> inputTemporalRegionRequests = this->SplitRequestedTemporalRegion();
 
-  //DEBUG
-  std::cout << "inputTemporalRegionRequests split up into " << inputTemporalRegionRequests.size()
-            << " requests" << std::endl;
-
   // Get the first output frame location
   TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
   if (!output)
@@ -412,25 +408,11 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
                       << typeid(TemporalDataObject*).name() );
     }
 
-  //DEBUG
-  std::cout << "Requested output frames = "
-    << outputObject->GetRequestedTemporalRegion().GetFrameDuration() << std::endl;
-  std::cout << "Requested output start = "
-    << outputObject->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
-  std::cout << "Buffered output frames = "
-    << outputObject->GetBufferedTemporalRegion().GetFrameDuration() << std::endl;
-  std::cout << "Buffered output start = "
-    << outputObject->GetBufferedTemporalRegion().GetFrameStart() << std::endl;
-
   // Get the TemporalRegion representing the difference between the output's
   // requested temporal region and its buffered temporal region. This
   // difference is defined as any time that is covered by the requested region
   // but not by the buffered region
   TemporalRegion unbufferedRegion = outputObject->GetUnbufferedRequestedTemporalRegion();
-
-  //DEBUG
-  std::cout << "Unbuffered Requested output frames = "
-    << unbufferedRegion.GetFrameDuration() << std::endl;
 
   // Calculate the number of input requests that will be needed
   unsigned long numRequests = (unsigned long)(ceil(
