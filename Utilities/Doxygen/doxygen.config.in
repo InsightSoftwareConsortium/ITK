@@ -616,8 +616,8 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  =  "@ITK_SOURCE_DIR@/Documentation/Doxygen" \
-                          "@ITK_SOURCE_DIR@/Modules"
+INPUT                  = "@ITK_SOURCE_DIR@/Documentation/Doxygen" \
+                         @DOXYGEN_INCLUDE_DIRS@
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -689,8 +689,7 @@ EXCLUDE_SYMBOLS        =
 # directories that contain example code fragments that are included (see
 # the \include command).
 
-EXAMPLE_PATH           = "@ITK_SOURCE_DIR@/Examples" \
-                         @DOXYGEN_TEST_DIRS@
+EXAMPLE_PATH           = @DOXYGEN_TEST_DIRS@
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp

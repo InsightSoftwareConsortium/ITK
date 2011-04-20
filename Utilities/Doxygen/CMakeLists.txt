@@ -7,13 +7,29 @@ mark_as_advanced(CLEAR BUILD_DOCUMENTATION)
 
 if (BUILD_DOCUMENTATION)
 
-  foreach(itk-module ${ITK_MODULES_ALL})
+  option( DOXYGEN_MODULE_ENABLED
+    "Doxygen documentation for enabled modules (ON), all modules (OFF)"
+    OFF )
+
+  if( ${DOXYGEN_MODULE_ENABLED} )
+    set( DOX_MODULE_LIST ${ITK_MODULES_ENABLED} )
+  else()
+    set( DOX_MODULE_LIST ${ITK_MODULES_ALL} )
+  endif()
+
+  foreach(itk-module ${DOX_MODULE_LIST})
     if(${itk-module}_IS_TEST)
       list( APPEND DOXYGEN_TEST_DIRS "\"${${itk-module}_SOURCE_DIR}\" \\ \n ")
+    else()
+      list( APPEND DOXYGEN_INCLUDE_DIRS "\"${${itk-module}_SOURCE_DIR}/include\" \\ \n")
     endif()
   endforeach()
 
+  list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}/Examples\" \n")
+
   string( REGEX REPLACE ";" "\$" DOXYGEN_TEST_DIRS ${DOXYGEN_TEST_DIRS} )
+
+  string( REGEX REPLACE ";" "\$" DOXYGEN_INCLUDE_DIRS ${DOXYGEN_INCLUDE_DIRS} )
 
   #
   # Configure the script and the doxyfile, then add target
