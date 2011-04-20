@@ -77,48 +77,54 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 static int
 feenableexcept (unsigned int excepts)
 {
-  fp_except e = fpgetmask();
-  if((excepts & FE_DIVBYZERO) != 0)
-    {
-    e |= FP_X_DZ;
-    }
-  else if((excepts & FE_INVALID) != 0)
-    {
-    e |= FP_X_INV;
-    }
-  else if((excepts & FPE_FLTOVF) != 0)
-    {
-    e |= FP_X_OFL;
-    }
-  else if((excepts & FPE_FLTUND) != 0)
-    {
-    e |= FP_X_UFL;
-    }
-  fpsetmask(e);
+  // This code is what is suggested in Solaris docs
+  // I'm guessing that was a cruel hoax
+  //
+  // fp_except e = fpgetmask();
+  // if((excepts & FE_DIVBYZERO) != 0)
+  //   {
+  //   e |= FP_X_DZ;
+  //   }
+  // else if((excepts & FE_INVALID) != 0)
+  //   {
+  //   e |= FP_X_INV;
+  //   }
+  // else if((excepts & FPE_FLTOVF) != 0)
+  //   {
+  //   e |= FP_X_OFL;
+  //   }
+  // else if((excepts & FPE_FLTUND) != 0)
+  //   {
+  //   e |= FP_X_UFL;
+  //   }
+  // fpsetmask(e);
   return 0;
 }
 
 static int
 fedisableexcept (unsigned int excepts)
 {
-  fp_except e = fpgetmask();
-  if((excepts & FE_DIVBYZERO) != 0)
-    {
-    e &= ~FP_X_DZ;
-    }
-  else if((excepts & FE_INVALID) != 0)
-    {
-    e &= ~FP_X_INV;
-    }
-  else if((excepts & FPE_FLTOVF) != 0)
-    {
-    e &= ~FP_X_OFL;
-    }
-  else if((excepts & FPE_FLTUND) != 0)
-    {
-    e &= ~FP_X_UFL;
-    }
-  fpsetmask(e);
+  // This code is what is suggested in Solaris docs
+  // I'm guessing that was a cruel hoax
+  //
+  // fp_except e = fpgetmask();
+  // if((excepts & FE_DIVBYZERO) != 0)
+  //   {
+  //   e &= ~FP_X_DZ;
+  //   }
+  // else if((excepts & FE_INVALID) != 0)
+  //   {
+  //   e &= ~FP_X_INV;
+  //   }
+  // else if((excepts & FPE_FLTOVF) != 0)
+  //   {
+  //   e &= ~FP_X_OFL;
+  //   }
+  // else if((excepts & FPE_FLTUND) != 0)
+  //   {
+  //   e &= ~FP_X_UFL;
+  //   }
+  // fpsetmask(e);
   return 0;
 }
 #endif
