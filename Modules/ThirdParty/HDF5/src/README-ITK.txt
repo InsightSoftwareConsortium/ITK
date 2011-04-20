@@ -52,7 +52,8 @@ Create a topic in the main repository on which to perform the update:
 
 Merge the hdf5-upstream branch as a subtree:
 
- git merge -s subtree hdf5-upstream
+ git merge -s recursive -X subtree=Modules/ThirdParty/HDF5/src/itkhdf5 \
+           hdf5-upstream
 
 If there are conflicts, resolve them and commit.  Build and test the
 tree.  Commit any additional changes needed to succeed.
