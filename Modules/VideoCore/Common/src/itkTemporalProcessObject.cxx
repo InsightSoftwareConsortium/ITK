@@ -324,6 +324,7 @@ TemporalProcessObject::UpdateOutputData(DataObject* itkNotUsed(output))
 
 //
 // GenerateData
+// TODO: Handle Real Time
 //
 void
 TemporalProcessObject::GenerateData()
@@ -347,6 +348,13 @@ TemporalProcessObject::GenerateData()
                       << typeid(TemporalDataObject*).name() );
     }
   unsigned long outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
+
+  // Set the start frame of the buffered region to match the first requested
+  // frame. The duration must be handled by the TemporalDataObject because of
+  // the RingBuffer used underneath.
+  TemporalRegion updatedBufferedRegion = output->GetBufferedTemporalRegion();
+  updatedBufferedRegion.SetFrameStart(output->GetRequestedTemporalRegion().GetFrameStart());
+  output->SetBufferedTemporalRegion(updatedBufferedRegion);
 
   // Process each of the temporal sub-regions in sequence
   for (unsigned int i = 0; i < inputTemporalRegionRequests.size(); ++i)
@@ -409,6 +417,10 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
     << outputObject->GetRequestedTemporalRegion().GetFrameDuration() << std::endl;
   std::cout << "Requested output start = "
     << outputObject->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
+  std::cout << "Buffered output frames = "
+    << outputObject->GetBufferedTemporalRegion().GetFrameDuration() << std::endl;
+  std::cout << "Buffered output start = "
+    << outputObject->GetBufferedTemporalRegion().GetFrameStart() << std::endl;
 
   // Get the TemporalRegion representing the difference between the output's
   // requested temporal region and its buffered temporal region. This
@@ -425,12 +437,14 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
                                               (double)(unbufferedRegion.GetFrameDuration() /
                                               (double)(m_UnitOutputNumberOfFrames)) ));
 
-  // Calculate left extra frames that will be requested (might be unnecessary)
-  //unsigned long extraFrames = (numRequests * m_UnitOutputNumberOfFrames) -
-  //                              unbufferedRegion.GetFrameDuration();
-
   // Set up the requested input temporal region set (TODO: NOT PROPERLY HANDLING REAL TIME!!!!!!!!)
   std::vector<TemporalRegion> inputTemporalRegionRequests;
+
+  // if there are no requests, just return now
+  if (numRequests == 0)
+    {
+    return inputTemporalRegionRequests;
+    }
 
   long regionStartFrame = 1;
   if (this->m_FrameSkipPerOutput > 0)

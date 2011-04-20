@@ -129,7 +129,6 @@ public:
   /** Override PropagateRequestedRegion for debug output */
   virtual void PropagateRequestedRegion() throw (itk::InvalidRequestedRegionError)
     {
-    //std::cout << "Calling PropagateRequestedRegion from temporal data object" << std::endl;
     Superclass::PropagateRequestedRegion();
     }
 
@@ -137,8 +136,6 @@ public:
   virtual void UpdateOutputData()
     {
     std::cout << "      UpdateOutputData from temporal data object" << std::endl;
-    //std::cout << "UpdateMTime = " << this->GetUpdateMTime() << " PipelineMTime = "
-    //          << this->GetPipelineMTime() << std::endl;
     Superclass::UpdateOutputData();
     }
 
@@ -250,14 +247,12 @@ public:
       this->GetOutput()->AppendDataObject(newObj);
       }
 
-    // Set the buffered output region to match the requested output region
-    this->GetOutput()->SetBufferedTemporalRegion(
-      this->GetOutput()->GetRequestedTemporalRegion());
-
     // Create an END entry in the stack trace
     callStack.push_back(CallRecord(m_IdNumber,
       CallRecord::END_CALL, CallRecord::STREAMING_GENERATE_DATA));
+
     }
+
 
   /** GetOutput will return the output on port 0 */
   DummyTemporalDataObject::Pointer GetOutput()
@@ -314,13 +309,12 @@ public:
       CallRecord::START_CALL, CallRecord::GENERATE_DATA));
 
     std::cout << "*(ID = " << m_IdNumber << ") - GenerateData" << std::endl;
-    //std::cout << "Output Buffered temporal region duration = "
-    //          << this->GetOutput()->GetBufferedTemporalRegion().GetFrameDuration() << std::endl;
     Superclass::GenerateData();
 
     // Create an END entry in the stack trace
     callStack.push_back(CallRecord(m_IdNumber,
       CallRecord::END_CALL, CallRecord::GENERATE_DATA));
+
     }
 
   /** Override EnlargeOutputRequestedTemporalRegion for debug output */
@@ -516,11 +510,23 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-
   //////
+  // Test Generation of data
+  //////
+
+  // Call update to execute the entire pipeline and track the call stack
+  itk::test::callStack.clear();
+  tpo3->Update();
+
+  // Print out duration of buffered output region
+  itk::test::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
+  unsigned long outputStart = outputObject->GetBufferedTemporalRegion().GetFrameStart();
+  unsigned long outputDuration = outputObject->GetBufferedTemporalRegion().GetFrameDuration();
+  std::cout << "Buffered Output Region: "
+    << outputStart << "->" << outputStart + outputDuration - 1 << std::endl;
+
   // Create a list of CallRecord items representing the correct
   // stack trace
-  //////
   typedef itk::test::CallRecord RecordType;
   std::vector<RecordType> correctCallStack;
 
@@ -588,15 +594,6 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   correctCallStack.push_back(
     RecordType(3, RecordType::END_CALL, RecordType::GENERATE_DATA) );
 
-
-  //////
-  // Test Generation of data
-  //////
-
-  // Call update to execute the entire pipeline and track the GenerateData call stack
-  itk::test::callStack.empty();
-  tpo3->Update();
-
   // Check that correct number of calls made
   if (itk::test::callStack.size() != correctCallStack.size())
     {
@@ -604,6 +601,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  // Check that call lists match
   std::cout << std::endl;
   for (unsigned int i = 0; i < itk::test::callStack.size(); ++i)
     {
@@ -620,15 +618,73 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
       }
     }
 
-  itk::test::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
-  unsigned long outputStart = outputObject->GetBufferedTemporalRegion().GetFrameStart();
-  unsigned long outputDuration = outputObject->GetBufferedTemporalRegion().GetFrameDuration();
 
-  std::cout << "Buffered Output Region: "
-    << outputStart << "->" << outputStart + outputDuration - 1 << std::endl;
+  //////
+  // Test Generation of next output frame -- For this case, since tpo2 has
+  // already generated 3 outputs and only 2 were used by tpo3 in the first
+  // pass, the call stack should never go back up to tpo1, but instead tpo3
+  // should just use the 2nd and 3rd frames from the output already generated
+  // by tpo2
+  //////
 
-  itk::DataObject::Pointer computedFrame =
-    outputObject->GetFrame(endLargestPossibleRegion.GetFrameStart());
+  // Set the requested region to the next output frame
+  finalRequest.SetFrameStart(finalRequest.GetFrameStart() + 1);
+  finalOutput = tpo3->GetOutput();
+  finalOutput->SetRequestedTemporalRegion(finalRequest);
+
+  // Call update to execute the entire pipeline and track the call stack
+  itk::test::callStack.clear();
+  correctCallStack.clear();
+  tpo3->Update();
+
+  // GenDat - START - obj 3
+  correctCallStack.push_back(
+    RecordType(3, RecordType::START_CALL, RecordType::GENERATE_DATA) );
+
+  // GenDat - START - obj 2
+  correctCallStack.push_back(
+    RecordType(2, RecordType::START_CALL, RecordType::GENERATE_DATA) );
+
+  // GenDat - END - obj 2
+  correctCallStack.push_back(
+    RecordType(2, RecordType::END_CALL, RecordType::GENERATE_DATA) );
+
+  // TempStreamGenDat - START - obj 3
+  correctCallStack.push_back(
+    RecordType(3, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // TempStreamGenDat - END - obj 3
+  correctCallStack.push_back(
+    RecordType(3, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // GenDat - END - obj 3
+  correctCallStack.push_back(
+    RecordType(3, RecordType::END_CALL, RecordType::GENERATE_DATA) );
+
+  // Check that correct number of calls made
+  if (itk::test::callStack.size() != correctCallStack.size())
+    {
+    std::cerr << "Incorrect number of items in call stack. Got: "
+      << itk::test::callStack.size() << " Expected: " << correctCallStack.size() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Check that call lists match
+  std::cout << std::endl;
+  for (unsigned int i = 0; i < itk::test::callStack.size(); ++i)
+    {
+    std::cout << "Got: ";
+    itk::test::callStack[i].Print();
+    std::cout << "Expected: ";
+    correctCallStack[i].Print();
+    std::cout << std::endl;
+
+    if (itk::test::callStack[i] != correctCallStack[i])
+      {
+      std::cerr << "Call stacks don't match" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
 
 
   //////
