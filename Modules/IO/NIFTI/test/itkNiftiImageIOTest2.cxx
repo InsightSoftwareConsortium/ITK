@@ -38,15 +38,14 @@ int itkNiftiImageIOTest2(int ac, char* av[])
   char *arg2 = av[2];
   char *prefix = av[3];
   int test_success = 0;
-  typedef itk::Image<signed short, 3> ImageType ;
-  typedef ImageType::Pointer ImagePointer ;
+
+  typedef itk::Image<signed short, 3> ImageType;
+  typedef ImageType::Pointer          ImagePointer;
 
   if((strcmp(arg1, "true") == 0) && WriteNiftiTestFiles(prefix) == -1)
     {
       return EXIT_FAILURE;
     }
-
-
 
   ImagePointer input;
   try
@@ -58,7 +57,7 @@ int itkNiftiImageIOTest2(int ac, char* av[])
     imageReader->SetFileName(arg2);
     imageReader->Update();
     input = imageReader->GetOutput();
-    input = ReadImage<ImageType>(std::string(arg2));
+    input = itk::IOTestHelper::ReadImage<ImageType>(std::string(arg2));
     }
   catch (itk::ExceptionObject &)
     {

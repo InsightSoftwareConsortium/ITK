@@ -45,7 +45,7 @@ TestDegenerateHeaderFiles()
   int error(0);
   try
     {
-    img = ReadImage<ImageType>(fname);
+    img = itk::IOTestHelper::ReadImage<ImageType>(fname);
     }
   catch( itk::ExceptionObject & err )
     {

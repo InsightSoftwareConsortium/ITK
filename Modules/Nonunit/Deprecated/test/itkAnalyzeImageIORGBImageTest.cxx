@@ -32,8 +32,9 @@ int itkAnalyzeImageIORGBImageTest(int ac, char* av[])
     itksys::SystemTools::ChangeDirectory(testdir);
     }
   const unsigned int Dimension = 3;
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  typedef itk::RGBPixel<unsigned char>        RGBPixelType;
   typedef itk::Image<RGBPixelType, Dimension> RGBImageType;
+
   RGBImageType::Pointer im(NewRGBImage<RGBImageType>());
   itk::ImageRegionIterator<RGBImageType> it(im,im->GetLargestPossibleRegion());
   RGBImageType::DirectionType dir(CORDirCosines<RGBImageType>());
@@ -51,7 +52,7 @@ int itkAnalyzeImageIORGBImageTest(int ac, char* av[])
   const std::string filename("RGBImageTest.hdr");
   try
     {
-    WriteImage<RGBImageType>(im,filename);
+    itk::IOTestHelper::WriteImage<RGBImageType,itk::AnalyzeImageIO>(im,filename);
     }
   catch ( itk::ExceptionObject & ex )
     {
@@ -70,7 +71,7 @@ int itkAnalyzeImageIORGBImageTest(int ac, char* av[])
     RGBImageType::Pointer im2;
     try
       {
-      im2 = ReadImage<RGBImageType>(filename);
+      im2 = itk::IOTestHelper::ReadImage<RGBImageType>(filename);
       }
     catch ( itk::ExceptionObject & ex )
       {
@@ -102,6 +103,6 @@ int itkAnalyzeImageIORGBImageTest(int ac, char* av[])
         }
       }
     }
-  Remove(filename.c_str());
+  itk::IOTestHelper::Remove(filename.c_str());
   return status;
 }

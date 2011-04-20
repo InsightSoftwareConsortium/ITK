@@ -25,7 +25,7 @@
 #include "itkNiftiImageIOTest.h"
 
 
-template <typename PixelType,unsigned typeIndex>
+template <typename PixelType,unsigned TType>
 int
 SlopeInterceptTest()
 {
@@ -48,7 +48,7 @@ SlopeInterceptTest()
   niftiImage->dy = niftiImage->pixdim[2] =
   niftiImage->dz = niftiImage->pixdim[3] = 1.0;
   niftiImage->nu = 1;
-  niftiImage->datatype = typeIndex;
+  niftiImage->datatype = TType;
   niftiImage->nbyper = sizeof(PixelType);
   niftiImage->scl_slope = 1.0/256.0;
   niftiImage->scl_inter = 0.0;
@@ -91,11 +91,11 @@ SlopeInterceptTest()
   typename ImageType::Pointer image;
   try
     {
-    image = ReadImage<ImageType>(std::string(filename));
+    image = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
     }
   catch(...)
     {
-    Remove(filename);
+    itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
     }
   typedef typename itk::ImageRegionIterator<ImageType> IteratorType;
@@ -120,7 +120,7 @@ SlopeInterceptTest()
       }
     }
   std::cerr << "Max error " << maxerror << std::endl;
-  Remove(filename);
+  itk::IOTestHelper::Remove(filename);
   return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
