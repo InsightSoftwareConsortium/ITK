@@ -12,6 +12,87 @@ namespace itk
 namespace test
 {
 
+/** \class CallRecord
+ * Record of a start or end of a GenerateDataCall from a
+ * DummyTemporalProcessObject instance
+ */
+class CallRecord
+{
+public:
+  enum RecordTypeEnum {START_CALL, END_CALL, MAX_RECORD_TYPE};
+  enum MethodTypeEnum {GENERATE_DATA, STREAMING_GENERATE_DATA, MAX_METHOD_TYPE};
+
+  /** Constructor that takes necessary info */
+  CallRecord(unsigned int callerId, unsigned int recordType, unsigned int methodType)
+    {
+    if (recordType >= MAX_RECORD_TYPE || methodType >= MAX_METHOD_TYPE)
+      {
+      throw;
+      }
+    m_CallerId = callerId;
+    m_RecordType = recordType;
+    m_MethodType = methodType;
+    }
+
+  /** Access members */
+  unsigned int GetCallerId() const
+    { return m_CallerId; }
+  unsigned int GetRecordType() const
+    { return m_RecordType; }
+  unsigned int GetMethodType() const
+    { return m_MethodType; }
+
+  /** Print out nicely */
+  void Print()
+    {
+    std::cout << "ID: " << m_CallerId << " -> ";
+    if (m_MethodType == GENERATE_DATA)
+      {
+      std::cout << "GenerateData - ";
+      }
+    else if(m_MethodType == STREAMING_GENERATE_DATA)
+      {
+      std::cout << "TemporalStreamingGenerateData - ";
+      }
+
+    if (m_RecordType == START_CALL)
+      {
+      std::cout << " START";
+      }
+    else if(m_RecordType == END_CALL)
+      {
+      std::cout << " END";
+      }
+    std::cout << std::endl;
+    }
+
+  /** Comparison operators */
+  bool operator==(const CallRecord& other) const
+    {
+    return (m_CallerId == other.GetCallerId() &&
+            m_RecordType == other.GetRecordType() &&
+            m_MethodType == other.GetMethodType());
+    }
+  bool operator!=(const CallRecord& other) const
+    {
+    return !(*this == other);
+    }
+
+protected:
+  unsigned int m_CallerId;
+  unsigned int m_RecordType;
+  unsigned int m_MethodType;
+};
+
+
+
+/**
+ * Static list of CallRecord items representing the stack trace of
+ * calls to GenerateData and TemporalStreamingGenerateData
+ */
+std::vector<CallRecord> callStack;
+
+
 
 /** \class DummyTemporalDataObject
  * Create TemporaDataObject subclass that does nothing, but overrides some
@@ -147,6 +228,10 @@ public:
   /** TemporalStreamingGenerateData */
   virtual void TemporalStreamingGenerateData(unsigned long outputFrameStart)
     {
+    // Create a START entry in the stack trace
+    callStack.push_back(CallRecord(m_IdNumber,
+      CallRecord::START_CALL, CallRecord::STREAMING_GENERATE_DATA));
+
     // Report
     std::cout << "**(ID = " << m_IdNumber << ") - TemporalStreamingGenerateData" << std::endl;
     std::cout << "  -> output start frame: " << outputFrameStart << std::endl;
@@ -169,6 +254,9 @@ public:
     this->GetOutput()->SetBufferedTemporalRegion(
       this->GetOutput()->GetRequestedTemporalRegion());
 
+    // Create an END entry in the stack trace
+    callStack.push_back(CallRecord(m_IdNumber,
+      CallRecord::END_CALL, CallRecord::STREAMING_GENERATE_DATA));
     }
 
   /** GetOutput will return the output on port 0 */
@@ -221,10 +309,18 @@ public:
   /** Override GenerateData for debug output */
   virtual void GenerateData()
     {
+    // Create a START entry in the stack trace
+    callStack.push_back(CallRecord(m_IdNumber,
+      CallRecord::START_CALL, CallRecord::GENERATE_DATA));
+
     std::cout << "*(ID = " << m_IdNumber << ") - GenerateData" << std::endl;
     //std::cout << "Output Buffered temporal region duration = "
     //          << this->GetOutput()->GetBufferedTemporalRegion().GetFrameDuration() << std::endl;
     Superclass::GenerateData();
+
+    // Create an END entry in the stack trace
+    callStack.push_back(CallRecord(m_IdNumber,
+      CallRecord::END_CALL, CallRecord::GENERATE_DATA));
     }
 
   /** Override EnlargeOutputRequestedTemporalRegion for debug output */
@@ -422,25 +518,121 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
 
   //////
+  // Create a list of CallRecord items representing the correct
+  // stack trace
+  //////
+  typedef itk::test::CallRecord RecordType;
+  std::vector<RecordType> correctCallStack;
+
+  // GenDat - START - obj 3
+  correctCallStack.push_back(
+    RecordType(3, RecordType::START_CALL, RecordType::GENERATE_DATA) );
+
+  // GenDat - START - obj 2
+  correctCallStack.push_back(
+    RecordType(2, RecordType::START_CALL, RecordType::GENERATE_DATA) );
+
+  // GenDat - START - obj 1
+  correctCallStack.push_back(
+    RecordType(1, RecordType::START_CALL, RecordType::GENERATE_DATA) );
+
+  // TempStreamGenDat - START - obj 1
+  correctCallStack.push_back(
+    RecordType(1, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // TempStreamGenDat - END - obj 1
+  correctCallStack.push_back(
+    RecordType(1, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // TempStreamGenDat - START - obj 1
+  correctCallStack.push_back(
+    RecordType(1, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // TempStreamGenDat - END - obj 1
+  correctCallStack.push_back(
+    RecordType(1, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // TempStreamGenDat - START - obj 1
+  correctCallStack.push_back(
+    RecordType(1, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // TempStreamGenDat - END - obj 1
+  correctCallStack.push_back(
+    RecordType(1, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // GenDat - END - obj 1
+  correctCallStack.push_back(
+    RecordType(1, RecordType::END_CALL, RecordType::GENERATE_DATA) );
+
+  // TempStreamGenDat - START - obj 2
+  correctCallStack.push_back(
+    RecordType(2, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // TempStreamGenDat - END - obj 2
+  correctCallStack.push_back(
+    RecordType(2, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // GenDat - END - obj 2
+  correctCallStack.push_back(
+    RecordType(2, RecordType::END_CALL, RecordType::GENERATE_DATA) );
+
+  // TempStreamGenDat - START - obj 3
+  correctCallStack.push_back(
+    RecordType(3, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // TempStreamGenDat - END - obj 3
+  correctCallStack.push_back(
+    RecordType(3, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA) );
+
+  // GenDat - END - obj 3
+  correctCallStack.push_back(
+    RecordType(3, RecordType::END_CALL, RecordType::GENERATE_DATA) );
+
+
+  //////
   // Test Generation of data
   //////
 
-  //DEBUG
-  std::cout << std::endl << "Requested frames at end = "
-    << tpo3->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() << std::endl << std::endl;
-
-  // Call update to execute the entire pipeline
+  // Call update to execute the entire pipeline and track the GenerateData call stack
+  itk::test::callStack.empty();
   tpo3->Update();
 
+  // Check that correct number of calls made
+  if (itk::test::callStack.size() != correctCallStack.size())
+    {
+    std::cerr << "Incorrect number of items in call stack" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << std::endl;
+  for (unsigned int i = 0; i < itk::test::callStack.size(); ++i)
+    {
+    std::cout << "Got: ";
+    itk::test::callStack[i].Print();
+    std::cout << "Expected: ";
+    correctCallStack[i].Print();
+    std::cout << std::endl;
+
+    if (itk::test::callStack[i] != correctCallStack[i])
+      {
+      std::cerr << "Call stacks don't match" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
   itk::test::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
+  unsigned long outputStart = outputObject->GetBufferedTemporalRegion().GetFrameStart();
+  unsigned long outputDuration = outputObject->GetBufferedTemporalRegion().GetFrameDuration();
 
   std::cout << "Buffered Output Region: "
-    << outputObject->GetBufferedTemporalRegion().GetFrameStart()
-    << "->" << outputObject->GetBufferedTemporalRegion().GetFrameDuration() << std::endl;
+    << outputStart << "->" << outputStart + outputDuration - 1 << std::endl;
 
   itk::DataObject::Pointer computedFrame =
     outputObject->GetFrame(endLargestPossibleRegion.GetFrameStart());
 
+
+  //////
   // Return successfully
+  //////
   return EXIT_SUCCESS;
 }
