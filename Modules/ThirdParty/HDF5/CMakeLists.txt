@@ -1,4 +1,5 @@
 project(ITK-HDF5)
+set(ITK-HDF5_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_HDF5 "Use an outside build of HDF5." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_HDF5)
