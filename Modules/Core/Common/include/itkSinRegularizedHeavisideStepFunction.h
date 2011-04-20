@@ -47,7 +47,7 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  *
- * \ingroup ITK-Review
+ * \ingroup ITK-Common
  */
 template< typename TInput = float, typename TOutput = double >
 class SinRegularizedHeavisideStepFunction:

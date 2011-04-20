@@ -15,17 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkHeavisideStepFunctionBase_h
-#define __itkHeavisideStepFunctionBase_h
+#ifndef __itkRegularizedHeavisideStepFunction_h
+#define __itkRegularizedHeavisideStepFunction_h
 
-#include "itkFunctionBase.h"
-#include "itkConceptChecking.h"
+#include "itkHeavisideStepFunctionBase.h"
 
 namespace itk
 {
-/** \class HeavisideStepFunctionBase
+/** \class RegularizedHeavisideStepFunction
  *
- * \brief Base class of the Heaviside function.
+ * \brief Base class of the Regularized (smoothed) Heaviside functions.
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
@@ -48,46 +47,42 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  *
- * \ingroup ITK-Review
+ * \ingroup ITK-Common
  */
 template< typename TInput = float, typename TOutput = double >
-class HeavisideStepFunctionBase:public FunctionBase< TInput, TOutput >
+class RegularizedHeavisideStepFunction:
+    public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
-  typedef HeavisideStepFunctionBase       Self;
-  typedef FunctionBase< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
-
-  /** Run-time type information */
-  itkTypeMacro ( HeavisideStepFunctionBase, FunctionBase );
-
+  typedef RegularizedHeavisideStepFunction             Self;
+  typedef HeavisideStepFunctionBase< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   typedef typename Superclass::InputType  InputType;
   typedef typename Superclass::OutputType OutputType;
 
-  /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const = 0;
+  typedef typename NumericTraits< InputType >::RealType RealType;
 
-  /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const = 0;
+  void SetEpsilon(const RealType & ieps);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( DoubleConvertibleToInputCheck,
-                 ( Concept::Convertible< double, TInput > ) );
-
-  itkConceptMacro( DoubleConvertibleToOutputCheck,
-                 ( Concept::Convertible< double, TOutput > ) );
-#endif // ITK_USE_CONCEPT_CHECKING
+  itkGetConstMacro( Epsilon, RealType );
+  itkGetConstMacro( OneOverEpsilon, RealType );
 
 protected:
-  HeavisideStepFunctionBase() : Superclass() {}
-  virtual ~HeavisideStepFunctionBase() {}
-
+  RegularizedHeavisideStepFunction();
+  virtual ~RegularizedHeavisideStepFunction();
 private:
-  HeavisideStepFunctionBase(const Self &); //purposely not implemented
-  void operator=(const Self &);            //purposely not implemented
+  RegularizedHeavisideStepFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
+
+  RealType m_Epsilon;
+  RealType m_OneOverEpsilon;
 };
 }
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkRegularizedHeavisideStepFunction.txx"
+#endif
 
 #endif

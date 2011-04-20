@@ -4,7 +4,6 @@ itkAddConstantToImageFilterTest.cxx
 itkAggregateLabelMapFilterTest.cxx
 itkAreaClosingImageFilterTest.cxx
 itkAreaOpeningImageFilterTest.cxx
-itkAtanRegularizedHeavisideStepFunctionTest1.cxx
 itkAttributeKeepNObjectsLabelMapFilterTest1.cxx
 itkAttributeLabelObjectAccessorsTest1.cxx
 itkAttributeOpeningLabelMapFilterTest1.cxx
@@ -70,7 +69,6 @@ itkGaborImageSourceTest.cxx
 itkGaussianDerivativeOperatorTest.cxx
 itkGridForwardWarpImageFilterTest.cxx
 itkGridImageSourceTest.cxx
-itkHeavisideStepFunctionTest1.cxx
 itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx
 itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
@@ -174,7 +172,6 @@ itkShapeRelabelLabelMapFilterTest1.cxx
 itkShapeUniqueLabelMapFilterTest1.cxx
 itkShiftLabelObjectTest.cxx
 itkShiftScaleLabelMapFilterTest1.cxx
-itkSinRegularizedHeavisideStepFunctionTest1.cxx
 itkSliceBySliceImageFilterTest.cxx
 itkStatisticsKeepNObjectsLabelMapFilterTest1.cxx
 itkStatisticsOpeningLabelMapFilterTest1.cxx
@@ -240,8 +237,6 @@ add_test(NAME itkAreaOpeningImageFilterTest0
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAreaOpeningImageFilterTest0.png
               ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png
     itkAreaOpeningImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png 1000 0 1)
-add_test(NAME itkAtanRegularizedHeavisideStepFunctionTest1
-      COMMAND ITK-ReviewTestDriver itkAtanRegularizedHeavisideStepFunctionTest1)
 add_test(NAME itkAttributeKeepNObjectsLabelMapFilterTest0
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkAttributeKeepNObjectsLabelMapFilterTest0.png
@@ -688,8 +683,6 @@ add_test(NAME itkGridImageSourceTest4
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkGridImageSourceTest4.nhdr
               ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest4.nhdr
     itkGridImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest4.nhdr 3)
-add_test(NAME itkHeavisideStepFunctionTest1
-      COMMAND ITK-ReviewTestDriver itkHeavisideStepFunctionTest1)
 add_test(NAME itkImageReadComplexWriteMagnitudeAndPhaseTest
       COMMAND ITK-ReviewTestDriver itkImageReadComplexWriteMagnitudeAndPhaseTest
               ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplex.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha)
@@ -1473,8 +1466,6 @@ add_test(NAME itkShiftScaleLabelMapFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-shiftscaled.mha
               ${ITK_TEST_OUTPUT_DIR}/cthead1-label-shiftscaled.mha
     itkShiftScaleLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-shiftscaled.mha 10 0.5 true)
-add_test(NAME itkSinRegularizedHeavisideStepFunctionTest1
-      COMMAND ITK-ReviewTestDriver itkSinRegularizedHeavisideStepFunctionTest1)
 add_test(NAME itkSliceBySliceImageFilterTest
       COMMAND ITK-ReviewTestDriver itkSliceBySliceImageFilterTest
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha)

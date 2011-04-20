@@ -49,6 +49,9 @@ itkPointSetTest.cxx
 itkBresenhamLineTest.cxx
 itkSparseFieldLayerTest.cxx
 itkDataObjectTest.cxx
+itkAtanRegularizedHeavisideStepFunctionTest1.cxx
+itkHeavisideStepFunctionTest1.cxx
+itkSinRegularizedHeavisideStepFunctionTest1.cxx
 )
 
 
@@ -187,6 +190,13 @@ add_test(NAME itkPointSetTest COMMAND ITK-CommonTestDriver1 itkPointSetTest)
 add_test(NAME itkBresenhamLineTest COMMAND ITK-CommonTestDriver1 itkBresenhamLineTest)
 add_test(NAME itkSparseFieldLayerTest COMMAND ITK-CommonTestDriver1 itkSparseFieldLayerTest)
 add_test(NAME itkDataObjectTest COMMAND ITK-CommonTestDriver1 itkDataObjectTest)
+add_test(NAME itkAtanRegularizedHeavisideStepFunctionTest1
+ COMMAND ITK-CommonTestDriver1 itkAtanRegularizedHeavisideStepFunctionTest1)
+add_test(NAME itkHeavisideStepFunctionTest1
+ COMMAND ITK-CommonTestDriver1 itkHeavisideStepFunctionTest1)
+add_test(NAME itkSinRegularizedHeavisideStepFunctionTest1
+ COMMAND ITK-CommonTestDriver1 itkSinRegularizedHeavisideStepFunctionTest1)
+
 #
 # This test should be enabled if you suspect that the memory leak detector
 # is not working

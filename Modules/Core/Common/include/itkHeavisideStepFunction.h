@@ -15,16 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkAtanRegularizedHeavisideStepFunction_h
-#define __itkAtanRegularizedHeavisideStepFunction_h
+#ifndef __itkHeavisideStepFunction_h
+#define __itkHeavisideStepFunction_h
 
-#include "itkRegularizedHeavisideStepFunction.h"
+#include "itkHeavisideStepFunctionBase.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
-/** \class AtanRegularizedHeavisideStepFunction
+/** \class HeavisideStepFunction
  *
- * \brief Atan-based implementation of the Regularized (smoothed) Heaviside functions.
+ * \brief Implementation of the classical Heaviside step function.
+ *
+ * The Heaviside Step function is a piece-wise function:
+ *
+ *     http://en.wikipedia.org/wiki/Heaviside_step_function
+ *
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
@@ -47,46 +53,43 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  *
- * \ingroup ITK-Review
+ * \ingroup ITK-Common
  */
 template< typename TInput = float, typename TOutput = double >
-class AtanRegularizedHeavisideStepFunction:
-  public RegularizedHeavisideStepFunction< TInput, TOutput >
+class HeavisideStepFunction:
+  public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
-  typedef AtanRegularizedHeavisideStepFunction                Self;
-  typedef RegularizedHeavisideStepFunction< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  typedef HeavisideStepFunction                        Self;
+  typedef HeavisideStepFunctionBase< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   itkNewMacro(Self);
 
-  itkTypeMacro(AtanRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction);
+  itkTypeMacro(HeavisideStepFunction, HeavisideStepFunctionBase);
 
   typedef typename Superclass::InputType  InputType;
   typedef typename Superclass::OutputType OutputType;
-  typedef typename Superclass::RealType   RealType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const;
+  OutputType Evaluate(const InputType & input) const;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const;
+  OutputType EvaluateDerivative(const InputType & input) const;
 
 protected:
-
-  AtanRegularizedHeavisideStepFunction();
-  virtual ~AtanRegularizedHeavisideStepFunction();
+  HeavisideStepFunction();
+  ~HeavisideStepFunction();
 
 private:
-  /** purposely not implemented */
-  AtanRegularizedHeavisideStepFunction(const Self &);
-  void operator=(const Self &);
+  HeavisideStepFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 };
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAtanRegularizedHeavisideStepFunction.txx"
+#include "itkHeavisideStepFunction.txx"
 #endif
 
 #endif

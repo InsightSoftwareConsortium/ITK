@@ -25,7 +25,6 @@
 #include "itkAggregateLabelMapFilter.txx"
 #include "itkAreaClosingImageFilter.h"
 #include "itkAreaOpeningImageFilter.h"
-#include "itkAtanRegularizedHeavisideStepFunction.h"
 #include "itkAttributeKeepNObjectsLabelMapFilter.txx"
 #include "itkAttributeLabelObject.h"
 #include "itkAttributeMorphologyBaseImageFilter.txx"
@@ -100,8 +99,6 @@
 #include "itkGreyColormapFunction.txx"
 #include "itkGridForwardWarpImageFilter.txx"
 #include "itkGridImageSource.txx"
-#include "itkHeavisideStepFunction.h"
-#include "itkHeavisideStepFunctionBase.h"
 #include "itkHessianToObjectnessMeasureImageFilter.txx"
 #include "itkHotColormapFunction.txx"
 #include "itkHSVColormapFunction.txx"
@@ -177,7 +174,6 @@
 #include "itkRegionBasedLevelSetFunctionData.txx"
 #include "itkRegionBasedLevelSetFunctionSharedData.h"
 #include "itkRegionFromReferenceLabelMapFilter.txx"
-#include "itkRegularizedHeavisideStepFunction.h"
 #include "itkRelabelLabelMapFilter.h"
 #include "itkRobustAutomaticThresholdCalculator.txx"
 #include "itkRobustAutomaticThresholdImageFilter.txx"
@@ -200,7 +196,6 @@
 #include "itkShapeRelabelLabelMapFilter.txx"
 #include "itkShapeUniqueLabelMapFilter.txx"
 #include "itkShiftScaleLabelMapFilter.txx"
-#include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkSliceBySliceImageFilter.txx"
 #include "itkSpringColormapFunction.txx"
 #include "itkStatisticsKeepNObjectsLabelMapFilter.txx"
@@ -227,10 +222,7 @@
 #include "itkWarpHarmonicEnergyCalculator.txx"
 #include "itkWinterColormapFunction.txx"
 
-
-
 int itkReviewHeaderTest ( int , char * [] )
 {
-
   return EXIT_SUCCESS;
 }

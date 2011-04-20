@@ -15,16 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkRegularizedHeavisideStepFunction_h
-#define __itkRegularizedHeavisideStepFunction_h
+#ifndef __itkAtanRegularizedHeavisideStepFunction_h
+#define __itkAtanRegularizedHeavisideStepFunction_h
 
-#include "itkHeavisideStepFunctionBase.h"
+#include "itkRegularizedHeavisideStepFunction.h"
 
 namespace itk
 {
-/** \class RegularizedHeavisideStepFunction
+/** \class AtanRegularizedHeavisideStepFunction
  *
- * \brief Base class of the Regularized (smoothed) Heaviside functions.
+ * \brief Atan-based implementation of the Regularized (smoothed) Heaviside functions.
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
@@ -47,42 +47,46 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  *
- * \ingroup ITK-Review
+ * \ingroup ITK-Common
  */
 template< typename TInput = float, typename TOutput = double >
-class RegularizedHeavisideStepFunction:
-    public HeavisideStepFunctionBase< TInput, TOutput >
+class AtanRegularizedHeavisideStepFunction:
+  public RegularizedHeavisideStepFunction< TInput, TOutput >
 {
 public:
-  typedef RegularizedHeavisideStepFunction             Self;
-  typedef HeavisideStepFunctionBase< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  typedef AtanRegularizedHeavisideStepFunction                Self;
+  typedef RegularizedHeavisideStepFunction< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+
+  itkNewMacro(Self);
+
+  itkTypeMacro(AtanRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction);
 
   typedef typename Superclass::InputType  InputType;
   typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::RealType   RealType;
 
-  typedef typename NumericTraits< InputType >::RealType RealType;
+  /** Evaluate at the specified input position */
+  virtual OutputType Evaluate(const InputType & input) const;
 
-  void SetEpsilon(const RealType & ieps);
-
-  itkGetConstMacro( Epsilon, RealType );
-  itkGetConstMacro( OneOverEpsilon, RealType );
+  /** Evaluate the derivative at the specified input position */
+  virtual OutputType EvaluateDerivative(const InputType & input) const;
 
 protected:
-  RegularizedHeavisideStepFunction();
-  virtual ~RegularizedHeavisideStepFunction();
-private:
-  RegularizedHeavisideStepFunction(const Self &); //purposely not implemented
-  void operator=(const Self &);                   //purposely not implemented
 
-  RealType m_Epsilon;
-  RealType m_OneOverEpsilon;
+  AtanRegularizedHeavisideStepFunction();
+  virtual ~AtanRegularizedHeavisideStepFunction();
+
+private:
+  /** purposely not implemented */
+  AtanRegularizedHeavisideStepFunction(const Self &);
+  void operator=(const Self &);
 };
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRegularizedHeavisideStepFunction.txx"
+#include "itkAtanRegularizedHeavisideStepFunction.txx"
 #endif
 
 #endif
