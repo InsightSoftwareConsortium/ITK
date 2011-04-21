@@ -4,6 +4,7 @@ set(Video-CommonTests
   itkTemporalRegionTest.cxx
   itkTemporalDataObjectTest.cxx
   itkTemporalProcessObjectTest.cxx
+  itkVideoStreamTest.cxx
 )
 
 
@@ -11,6 +12,10 @@ set(Video-CommonTests
 include(${Video-Common_SOURCE_DIR}/MIDAS.cmake)
 
 CreateTestDriver(Video-Common  "${Video-Common-Test_LIBRARIES}" "${Video-CommonTests}" )
+
+# VideoStreamTest
+add_test( NAME VideoStreamTest
+          COMMAND Video-CommonTestDriver itkVideoStreamTest )
 
 # TemporalProcessObjectTest
 add_test( NAME TemporalProcessObjectTest
@@ -24,6 +29,6 @@ add_test( NAME RingBufferTest
 add_test( NAME TemporalRegionTest
           COMMAND Video-CommonTestDriver itkTemporalRegionTest )
 
-# Testing Temporal Regions
+# Testing Temporal Data Object
 add_test( NAME TemporalDataObjectTest
           COMMAND Video-CommonTestDriver itkTemporalDataObjectTest )
