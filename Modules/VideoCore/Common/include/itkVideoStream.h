@@ -83,6 +83,18 @@ public:
    * will return the expected result. */
   FrameType* GetFrame(int offset);
 
+  /** Set the LargestPossibleRegion of a frame */
+  void SetFrameLargestPossibleSpatialRegion(int offset, SpatialRegionType region)
+    { this->GetFrame(offset)->SetLargestPossibleRegion(region); }
+
+  /** Set the RequestedRegion of a frame */
+  void SetFrameRequestedSpatialRegion(int offset, SpatialRegionType region)
+    { this->GetFrame(offset)->SetRequestedRegion(region); }
+
+  /** Set the BufferedRegion of a frame */
+  void SetFrameBufferedSpatialRegion(int offset, SpatialRegionType region)
+    { this->GetFrame(offset)->SetBufferedRegion(region); }
+
   /** Graft the data and information from one VideoStream to this one. This
    * just copies the meta information using TemporalProcessObject's Graft then
    * sets the internal RingBuffer pointer to point to the same buffer used by
