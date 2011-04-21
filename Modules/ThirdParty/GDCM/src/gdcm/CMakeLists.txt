@@ -595,7 +595,7 @@ ENDIF (GDCM_STANDALONE)
 
 #-----------------------------------------------------------------------------
 # CPack stuff
-IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
+IF(0) # disabled for ITK distribution of gdcm
   IF(EXISTS "${CMAKE_ROOT}/Modules/InstallRequiredSystemLibraries.cmake")
     SET(CMAKE_INSTALL_MFC_LIBRARIES 0)
     SET(CMAKE_INSTALL_DEBUG_LIBRARIES 0)
@@ -822,7 +822,7 @@ IF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
   INCLUDE(CPack)
 
-ENDIF(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
+ENDIF()
 
 
 MACRO(PROCESSONEDIR DIRNAME myoutput)
