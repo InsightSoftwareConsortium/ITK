@@ -22,6 +22,7 @@ else()
     ${ITK-GDCM_SOURCE_DIR}/src/gdcm/Source/MessageExchangeDefinition
     ${ITK-GDCM_SOURCE_DIR}/src/gdcm/Source/DataStructureAndEncodingDefinition
     )
+  include(CheckIncludeFile)
   check_include_file("stdint.h"       GDCM_HAVE_STDINT_H)
   if(NOT GDCM_HAVE_STDINT_H)
     # for MSVC only gdcm has a stdint.h that works for that
