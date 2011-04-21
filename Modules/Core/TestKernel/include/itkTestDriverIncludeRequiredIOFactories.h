@@ -9,6 +9,7 @@
 #include "itkVTKImageIOFactory.h"
 #include "itkNrrdImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
+#include "itkNiftiImageIOFactory.h"
 #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
@@ -22,6 +23,7 @@ void RegisterRequiredFactories(){
   itk::ObjectFactoryBase::RegisterFactory( itk::BMPImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::NrrdImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::GiplImageIOFactory::New() );
+  itk::ObjectFactoryBase::RegisterFactory( itk::NiftiImageIOFactory::New() );
 }
 
 void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
