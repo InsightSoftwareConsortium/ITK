@@ -76,6 +76,13 @@ public:
   /** Append the supplied frame to the end of the video */
   void AppendFrame(FrameType* frame);
 
+  /** Get the frame at the given offset from the current head. A negative
+   * offset means backward in time while a positive offset means forward in
+   * time. For video streams that have been filled from oldest frame to newest,
+   * the current frame will be the latest in time, so only negative offsets
+   * will return the expected result. */
+  FrameType* GetFrame(int offset);
+
   /** Graft the data and information from one VideoStream to this one. This
    * just copies the meta information using TemporalProcessObject's Graft then
    * sets the internal RingBuffer pointer to point to the same buffer used by

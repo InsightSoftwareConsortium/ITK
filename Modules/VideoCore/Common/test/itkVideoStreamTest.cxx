@@ -86,9 +86,22 @@ int itkVideoStreamTest( int argc, char* argv[] )
     }
 
   // Test appending frames to video2
-  video2->AppendFrame(FrameType::New().GetPointer());
-  video2->AppendFrame(FrameType::New().GetPointer());
-  video2->AppendFrame(FrameType::New().GetPointer());
+  FrameType::Pointer frame1 = FrameType::New();
+  FrameType::Pointer frame2 = FrameType::New();
+  FrameType::Pointer frame3 = FrameType::New();
+  video2->AppendFrame(frame1);
+  video2->AppendFrame(frame2);
+  video2->AppendFrame(frame3);
+
+  // Test retreiving frames
+  FrameType::Pointer outFrame3 = video2->GetFrame(0);
+  FrameType::Pointer outFrame2 = video2->GetFrame(-1);
+  FrameType::Pointer outFrame1 = video2->GetFrame(-2);
+  if (outFrame3 != frame3 || outFrame2 != frame2 || outFrame1 != frame1)
+    {
+    std::cerr << "Frames not retreived correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Make sure frames actually got buffered (frames at offset 0, -1, -2 should
   // be full and -3 should be empty)

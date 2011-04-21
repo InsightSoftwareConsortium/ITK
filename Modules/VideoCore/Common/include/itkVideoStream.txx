@@ -67,6 +67,20 @@ VideoStream<TFrameType>::AppendFrame(TFrameType* frame)
 }
 
 //
+// GetFrame
+//
+template<class TFrameType>
+TFrameType*
+VideoStream<TFrameType>::GetFrame(int offset)
+{
+  // reinterpret our buffer to contain images
+  BufferType* frameBuffer = reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer());
+
+  // Fetch the frame
+  return frameBuffer->GetBufferContents(offset);
+}
+
+//
 // Graft
 //
 template<class TFrameType>
