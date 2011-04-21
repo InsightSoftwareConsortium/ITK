@@ -19,13 +19,13 @@
 #define __itkTemporalProcessObject_h
 
 #include "itkProcessObject.h"
+#include "itkTemporalRegion.h"
 
 namespace itk
 {
 
 /** Forward declarations */
 class Region;
-class TemporalRegion;
 class TemporalDataObject;
 
 
@@ -176,6 +176,11 @@ protected:
    * provide post-processing for the data after producing the requested output
    * temporal region. */
   virtual void AfterTemporalStreamingGenerateData() {};
+
+  /** Generate a default LargestPossibleRegion. This is used by temporal
+   * process objects that have no input. The default implementation starts at
+   * frame 0 and has infinite duration. */
+  virtual TemporalRegion GenerateDefaultLargestPossibleRegion();
 
 
   /*-PROTECTED MEMBERS-------------------------------------------------------*/

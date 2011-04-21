@@ -19,7 +19,6 @@
 #define __itkTemporalProcessObject_cxx
 
 #include "itkTemporalProcessObject.h"
-#include "itkTemporalRegion.h"
 #include "itkTemporalDataObject.h"
 
 #include <math.h>
@@ -120,9 +119,15 @@ TemporalProcessObject::GenerateOutputRequestedRegion(DataObject* output)
 void
 TemporalProcessObject::GenerateInputRequestedRegion()
 {
+  // Only continue if we have an input
+  if (this->GetNumberOfInputs() == 0)
+    {
+    return;
+    }
+
   // Check that output and input are a TemporalDataObjects
   TemporalDataObject* tOutput = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
-  TemporalDataObject* tInput = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+  TemporalDataObject* tInput = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
 
   if (!tOutput)
     {
@@ -189,6 +194,20 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
 }
 
 //
+// GenerateDefaultLargestPossibleRegion
+//
+TemporalRegion
+TemporalProcessObject::GenerateDefaultLargestPossibleRegion()
+{
+  TemporalRegion out;
+  out.SetFrameStart(0);
+  out.SetFrameDuration(ITK_INFINITE_FRAME_DURATION);
+  out.SetRealStart(RealTimeStamp());
+  out.SetRealDuration(ITK_INFINITE_REAL_DURATION);
+  return out;
+}
+
+//
 // UpdateOutputInformation
 // TODO: Hanle RealTime
 //
@@ -200,12 +219,6 @@ TemporalProcessObject::UpdateOutputInformation()
 
   TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
   TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
-  if (!input)
-    {
-    itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateOutputRequestedTemporalRegion() "
-                      << "cannot cast " << typeid(input).name() << " to "
-                      << typeid(TemporalDataObject*).name() );
-    }
   if (!output)
     {
     itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateOutputRequestedTemporalRegion() "
@@ -214,7 +227,16 @@ TemporalProcessObject::UpdateOutputInformation()
     }
 
   // Compute duration for output largest possible region
-  TemporalRegion inputLargestRegion = input->GetLargestPossibleTemporalRegion();
+  TemporalRegion inputLargestRegion;
+  if (!input)
+    {
+    // If there is no input, use the default LargestTemporalRegion
+    inputLargestRegion = this->GenerateDefaultLargestPossibleRegion();
+    }
+  else
+    {
+    inputLargestRegion = input->GetLargestPossibleTemporalRegion();
+    }
   long scannableDuration = inputLargestRegion.GetFrameDuration() -
                             m_UnitInputNumberOfFrames + 1;
   long outputDuration = m_UnitOutputNumberOfFrames *
@@ -355,20 +377,24 @@ TemporalProcessObject::GenerateData()
   // Process each of the temporal sub-regions in sequence
   for (unsigned int i = 0; i < inputTemporalRegionRequests.size(); ++i)
     {
-    // Set Input's requested region to the new reqest at i
-    TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
-    if (!input)
+    // If we have an input, set the requested region and make sure its data is ready
+    if (this->GetNumberOfInputs())
       {
-      itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateData() "
-                        << "cannot cast " << typeid(input).name() << " to "
-                        << typeid(TemporalDataObject*).name() );
+      // Set Input's requested region to the new reqest at i
+      TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
+      if (!input)
+        {
+        itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateData() "
+                          << "cannot cast " << typeid(input).name() << " to "
+                          << typeid(TemporalDataObject*).name() );
+        }
+      input->SetRequestedTemporalRegion(inputTemporalRegionRequests[i]);
+
+      // Call Input's UpdateOutputData()
+      input->UpdateOutputData();
       }
-    input->SetRequestedTemporalRegion(inputTemporalRegionRequests[i]);
 
-    // Call Input's UpdateOutputData()
-    input->UpdateOutputData();
-
-    // Call TemporalStreamingGenerateData to process the newly acquired data
+    // Call TemporalStreamingGenerateData to process the chunk of data
     this->TemporalStreamingGenerateData(outputStartFrame);
 
     // Increment outputStartFrame

@@ -22,9 +22,14 @@
 #include "itkRealTimeStamp.h"
 #include "itkRealTimeInterval.h"
 
+#include <limits.h>
+
+/** Define representations of infinite duration for frames and real time */
+#define ITK_INFINITE_FRAME_DURATION ULONG_MAX
+#define ITK_INFINITE_REAL_DURATION RealTimeInterval(ULONG_MAX, 0)
+
 namespace itk
 {
-
 /** \class TemporalRegion
  * \brief Region subclass that holds a spatial region as well as beginning and
  * end time-points
