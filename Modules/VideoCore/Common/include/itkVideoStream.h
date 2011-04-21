@@ -31,7 +31,7 @@ namespace itk
  * TemporalDataObject. It provides several convenient typedefs to get common
  * attributes of the frames.
  */
-template<class TImageType>
+template<class TFrameType>
 class ITK_EXPORT VideoStream : public TemporalDataObject
 {
 public:
@@ -43,33 +43,51 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
   typedef WeakPointer< const Self >  ConstWeakPointer;
 
-  typedef TImageType                 ImageType;
-  typedef RingBuffer<ImageType>      BufferType;
+  typedef TFrameType                 FrameType;
+  typedef RingBuffer<FrameType>      BufferType;
 
-  typedef typename ImageType::RegionType    SpatialRegionType;
-  typedef typename ImageType::IndexType     IndexType;
-  typedef typename ImageType::PixelType     PixelType;
-  typedef typename ImageType::PointType     PointType;
-  typedef typename ImageType::SpacingType   SpacingType;
-  typedef typename ImageType::SizeType      SizeType;
-  typedef typename ImageType::DirectionType DirectionType;
+  typedef typename FrameType::RegionType    SpatialRegionType;
+  typedef typename FrameType::IndexType     IndexType;
+  typedef typename FrameType::PixelType     PixelType;
+  typedef typename FrameType::PointType     PointType;
+  typedef typename FrameType::SpacingType   SpacingType;
+  typedef typename FrameType::SizeType      SizeType;
+  typedef typename FrameType::DirectionType DirectionType;
 
   /** Access the spacial dimensionality of the frames */
-  itkStaticConstMacro(FrameDimension, unsigned int, ImageType::ImageDimension);
+  itkStaticConstMacro(FrameDimension, unsigned int, FrameType::ImageDimension);
   static unsigned int GetFrameDimension()
-    { return ImageType::ImageDimension; }
+    { return FrameType::ImageDimension; }
 
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoStream, TemporalDataObject);
 
+  /** Provide access to the internal frame buffer object */
+  BufferType* GetFrameBuffer()
+    { return reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer()); }
+  const BufferType* GetFrameBuffer() const
+    { return reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer()); }
+
+  /** Set the internal pixel buffer */
+  void SetFrameBuffer(BufferType* buffer);
+
+  /** Append the supplied frame to the end of the video */
+  void AppendFrame(FrameType* frame);
+
+  /** Graft the data and information from one VideoStream to this one. This
+   * just copies the meta information using TemporalProcessObject's Graft then
+   * sets the internal RingBuffer pointer to point to the same buffer used by
+   * the other VideoStream. */
+  virtual void Graft(const DataObject* data);
+
 protected:
 
   VideoStream() {};
   virtual ~VideoStream() {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const
-    { Superclass::Print(os, indent); };
+    { Superclass::Print(os, indent); }
 
 private:
 
@@ -79,5 +97,9 @@ private:
 };  // end class VideoStream
 
 } // end namespace itk
+
+#if ITK_TEMPLATE_TXX
+#include "itkVideoStream.txx"
+#endif
 
 #endif
