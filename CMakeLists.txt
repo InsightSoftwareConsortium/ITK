@@ -246,7 +246,7 @@ include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
 # Provide an option for each module.
 foreach(itk-module ${ITK_MODULES_ALL})
   if(NOT ${itk-module}_IS_TEST)
-    option(Module_${itk-module} "Request building ${itk-module}" "${ITK_MODULE_${itk-module}_DEFAULT}")
+    option(Module_${itk-module} "Request building ${itk-module}" OFF)
     mark_as_advanced(Module_${itk-module})
   endif()
 endforeach()
