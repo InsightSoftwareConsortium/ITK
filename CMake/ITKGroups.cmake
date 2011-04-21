@@ -128,7 +128,10 @@ ITK-Review
 )
 #------------------------------------------------
 # Turn on the ITK_BUILD option for each group
-option(ITKGroup_Core "Request building core modules" ON)
+if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
+  # developer build
+  option(ITKGroup_Core "Request building core modules" ON)
+endif()
 foreach( group ${group_list})
     option(ITKGroup_${group} "Request building ${group} modules" OFF)
     if (ITKGroup_${group})
