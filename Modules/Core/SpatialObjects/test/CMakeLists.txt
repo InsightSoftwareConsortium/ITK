@@ -8,6 +8,7 @@ itkImageSpatialObjectTest.cxx
 itkSpatialObjectToImageStatisticsCalculatorTest.cxx
 itkImageMaskSpatialObjectTest.cxx
 itkImageMaskSpatialObjectTest2.cxx
+itkImageMaskSpatialObjectTest3.cxx
 itkBlobSpatialObjectTest.cxx
 itkContourSpatialObjectTest.cxx
 itkSceneSpatialObjectTest.cxx
@@ -47,6 +48,8 @@ add_test(NAME itkImageMaskSpatialObjectTest
       COMMAND ITK-SpatialObjectsTestDriver itkImageMaskSpatialObjectTest)
 add_test(NAME itkImageMaskSpatialObjectTest2
       COMMAND ITK-SpatialObjectsTestDriver itkImageMaskSpatialObjectTest2)
+add_test(NAME itkImageMaskSpatialObjectTest3
+      COMMAND ITK-SpatialObjectsTestDriver itkImageMaskSpatialObjectTest3)
 add_test(NAME itkBlobSpatialObjectTest
       COMMAND ITK-SpatialObjectsTestDriver itkBlobSpatialObjectTest)
 add_test(NAME itkContourSpatialObjectTest
