@@ -131,6 +131,23 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
       {
       m_DataObjectBuffer->SetBufferContents(i, FrameType::New());
       }
+
+    // Check to see if any cached regions exist and if they do, assign them
+    if (m_LargestPossibleSpatialRegionCache.find(i) !=
+        m_LargestPossibleSpatialRegionCache.end())
+      {
+      this->GetFrame(i)->SetLargestPossibleRegion(m_LargestPossibleSpatialRegionCache[i]);
+      }
+    if (m_RequestedSpatialRegionCache.find(i) !=
+        m_RequestedSpatialRegionCache.end())
+      {
+      this->GetFrame(i)->SetRequestedRegion(m_RequestedSpatialRegionCache[i]);
+      }
+    if (m_BufferedSpatialRegionCache.find(i) !=
+        m_BufferedSpatialRegionCache.end())
+      {
+      this->GetFrame(i)->SetBufferedRegion(m_BufferedSpatialRegionCache[i]);
+      }
     }
 }
 
