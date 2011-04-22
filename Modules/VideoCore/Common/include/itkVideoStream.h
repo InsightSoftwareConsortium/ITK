@@ -64,6 +64,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoStream, TemporalDataObject);
 
+  /** Initialize any empty frames. This method makes sure that the frame buffer
+   * is large enough to hold the number of frames needed for the buffered
+   * temporal region. It goes through the necessary number of frames making
+   * sure that each one has been initialized. When allocating space for frames,
+   * this method should be called first, followed by setting the spatial
+   * regions on each frame, before Allocate is called. */
+  void InitializeEmptyFrames();
+
   /** Provide access to the internal frame buffer object */
   BufferType* GetFrameBuffer()
     { return reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer()); }
@@ -94,6 +102,54 @@ public:
   /** Set the BufferedRegion of a frame */
   void SetFrameBufferedSpatialRegion(int offset, SpatialRegionType region)
     { this->GetFrame(offset)->SetBufferedRegion(region); }
+
+  /** Set the LargestPossibleRegion on all frames. This assumes that all frames
+   * in the buffered temporal region have been initialized (should be called
+   * after InitializeEmptyFrames). */
+  void SetAllLargestPossibleSpatialRegions(SpatialRegionType region);
+
+  /** Set the RequestedRegion on all frames. This assumes that all frames in
+   * the buffered temporal region have been initialized (should be called
+   * after InitializeEmptyFrames). */
+  void SetAllRequestedSpatialRegions(SpatialRegionType region);
+
+  /** Set the BufferedRegion on all frames. This assumes that all frames in the
+   * buffered temporal region have been initialized (should be called after
+   * InitializeEmptyFrames). */
+  void SetAllBufferedSpatialRegions(SpatialRegionType region);
+
+  /** Allocate memory for the buffered spatial region of each frame in the
+   * buffered temporal region. This assumes that all frames in the buffered
+   * temporal region have been initialized and that the buffered spatial region
+   * has been set for each of these frames. A typical setup would look like:
+   *
+   * \code
+   *    // Set the buffered temporal region
+   *    TemporalRegionType bufferedTemporalRegion;
+   *    bufferedTemporalRegion.SetFrameStart( 0 );
+   *    bufferedTemporalRegion.SetFrameDuration( 3 );
+   *    video->SetBufferedTemporalRegion( bufferedTemporalRegion );
+   *
+   *    // Initialize all frames in the buffered temporal region
+   *    video->InitializeEmptyFrames();
+   *
+   *    // Set the buffered spatial region for each frame
+   *    SpatialRegionType bufferedSpatialRegion;
+   *    SpatialRegionType::SizeType size;
+   *    SpatialRegionType::IndexType start;
+   *    size[0] = 50;
+   *    size[1] = 40;
+   *    start.Fill( 0 );
+   *    bufferedSpatialRegion.SetSize( size );
+   *    bufferedSpatialRegion.SetIndex( start );
+   *    video->SetAllBufferedSpatialRegions( bufferedSpatialRegion );
+   *
+   *    // Allocate memory for the frames
+   *    video->Allocate();
+   * \endcode
+   */
+  void Allocate();
+
 
   /** Graft the data and information from one VideoStream to this one. This
    * just copies the meta information using TemporalProcessObject's Graft then

@@ -18,17 +18,35 @@
 
 #include "itkVideoStream.h"
 
+
+// Set up typedefs
+static const unsigned int Dimension =      2;
+typedef unsigned char                      PixelType;
+typedef itk::Image< PixelType, Dimension > FrameType;
+typedef itk::VideoStream< FrameType >      VideoType;
+
+/** Set up a spatial region with the given dimensions */
+FrameType::RegionType SetUpSpatialRegion(unsigned int x, unsigned int y)
+{
+  FrameType::RegionType out;
+  FrameType::RegionType::SizeType size;
+  FrameType::RegionType::IndexType start;
+  size[0] = x;
+  size[1] = y;
+  start.Fill( 0 );
+  out.SetSize( size );
+  out.SetIndex( start );
+  return out;
+}
+
 /**
  * Test the basic functionality of temporal data objects
  */
 int itkVideoStreamTest( int argc, char* argv[] )
 {
-  // Set up typedefs
-  const unsigned int Dimension =             2;
-  typedef unsigned char                      PixelType;
-  typedef itk::Image< PixelType, Dimension > FrameType;
-  typedef itk::VideoStream< FrameType >      VideoType;
-
+  //////
+  // Test Instantiation and grafting
+  //////
 
   // Instantiate a new VideoStream
   VideoType::Pointer video1 = VideoType::New();
@@ -135,6 +153,79 @@ int itkVideoStreamTest( int argc, char* argv[] )
     std::cerr << "Problem with graft's handling of frame buffer" << std::endl;
     return EXIT_FAILURE;
     }
+
+
+  //////
+  // Test Initialization, region setting, and allocation
+  //////
+
+  video1 = VideoType::New();
+
+  // Set the buffered temporal region
+  VideoType::TemporalRegionType bufferedTemporalRegion;
+  unsigned long numFrames = 5;
+  bufferedTemporalRegion.SetFrameStart( 0 );
+  bufferedTemporalRegion.SetFrameDuration( numFrames );
+  video1->SetBufferedTemporalRegion( bufferedTemporalRegion );
+
+  // Initialize all frames in the buffered temporal region
+  video1->InitializeEmptyFrames();
+
+  // Set the buffered spatial region for each frame
+  FrameType::RegionType largestSpatialRegion = SetUpSpatialRegion(100, 100);
+  FrameType::RegionType requestedSpatialRegion = SetUpSpatialRegion(40, 40);
+  FrameType::RegionType bufferedSpatialRegion = SetUpSpatialRegion(50, 40);
+  video1->SetAllLargestPossibleSpatialRegions( largestSpatialRegion );
+  video1->SetAllRequestedSpatialRegions( requestedSpatialRegion );
+  video1->SetAllBufferedSpatialRegions( bufferedSpatialRegion );
+
+  // Make sure regions were set correctly
+  for (unsigned long i = 1; i <= numFrames; ++i)
+    {
+    FrameType* frame = video1->GetFrame(i);
+    if (frame->GetLargestPossibleRegion() != largestSpatialRegion)
+      {
+      std::cerr << "Frame " << i << " largest possible spatial region not set correctly"
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+    if (frame->GetRequestedRegion() != requestedSpatialRegion)
+      {
+      std::cerr << "Frame " << i << " requested spatial region not set correctly"
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+    if (frame->GetBufferedRegion() != bufferedSpatialRegion)
+      {
+      std::cerr << "Frame " << i << " buffered spatial region not set correctly"
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+  // Allocate memory for the frames
+  video1->Allocate();
+
+  // Try to set and get a pixel on each frame
+  FrameType::IndexType idx;
+  idx[0] = 49;
+  idx[1] = 39;
+  PixelType pxVal = 35;
+  for (unsigned long i = 1; i <= numFrames; ++i)
+    {
+    FrameType* frame = video1->GetFrame(i);
+    frame->SetPixel(idx, pxVal);
+    }
+  for (unsigned long i = 1; i <= numFrames; ++i)
+    {
+    FrameType* frame = video1->GetFrame(i);
+    if (frame->GetPixel(idx) != pxVal)
+      {
+      std::cerr << "Error setting/getting pixel for frame " << i << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
 
   return EXIT_SUCCESS;
 

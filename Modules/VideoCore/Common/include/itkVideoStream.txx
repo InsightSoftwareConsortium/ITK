@@ -45,6 +45,34 @@ VideoStream<TFrameType>::SetFrameBuffer(
 }
 
 //
+// InitializeEmptyFrames
+//
+template<class TFrameType>
+void
+VideoStream<TFrameType>::InitializeEmptyFrames()
+{
+  // Make sure the frame buffer is large enough for the number of frames needed
+  // by the buffered temporal region
+  unsigned long numFrames = m_BufferedTemporalRegion.GetFrameDuration();
+  if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
+    {
+    m_DataObjectBuffer->SetNumberOfBuffers(numFrames);
+    }
+
+  // Go through the number of required frames and make sure none are empty. We
+  // check forward in the buffer, starting at offset 1, because the frames will
+  // be filled by calling AppendFrame which moves the head forward, then fills
+  // the buffer.
+  for (unsigned long i = 1; i <= numFrames; ++i)
+    {
+    if (!m_DataObjectBuffer->BufferIsFull(i))
+      {
+      m_DataObjectBuffer->SetBufferContents(i, FrameType::New());
+      }
+    }
+}
+
+//
 // AppendFrame
 //
 template<class TFrameType>
@@ -103,6 +131,140 @@ VideoStream<TFrameType>::Graft(const DataObject* data)
 
     // Copy the frame buffer
     this->SetFrameBuffer(const_cast< BufferType* >(videoData->GetFrameBuffer()));
+    }
+}
+
+//
+// SetAllLargestPossibleSpatialRegions
+//
+template<class TFrameType>
+void
+VideoStream<TFrameType>::
+SetAllLargestPossibleSpatialRegions(typename TFrameType::RegionType region)
+{
+  unsigned long numFrames = m_BufferedTemporalRegion.GetFrameDuration();
+  if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
+    {
+    itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                      "not enough frame buffers available. Call InitializeEmptyFrames "
+                      "to prepare the frame buffer correctly.");
+    }
+
+  // Go through the number of required frames, making sure none are empty and
+  // setting the region. We start at 1 and move forwards because frames will be
+  // added using AppendFrame which first moves the Head forward, then adds the
+  // frame
+  for (unsigned long i = 1; i <= numFrames; ++i)
+    {
+    if (!m_DataObjectBuffer->BufferIsFull(i))
+      {
+      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                        "empty frame buffer found at offset " << i << ". Call "
+                        "InitializeEmptyFrames to prepare the frame buffer correctly.");
+      }
+    this->SetFrameLargestPossibleSpatialRegion(i, region);
+    }
+}
+
+//
+// SetAllRequestedSpatialRegions
+//
+template<class TFrameType>
+void
+VideoStream<TFrameType>::
+SetAllRequestedSpatialRegions(typename TFrameType::RegionType region)
+{
+  unsigned long numFrames = m_BufferedTemporalRegion.GetFrameDuration();
+  if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
+    {
+    itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                      "not enough frame buffers available. Call InitializeEmptyFrames "
+                      "to prepare the frame buffer correctly.");
+    }
+
+  // Go through the number of required frames, making sure none are empty and
+  // setting the region. We start at 1 and move forwards because frames will be
+  // added using AppendFrame which first moves the Head forward, then adds the
+  // frame
+  for (unsigned long i = 1; i <= numFrames; ++i)
+    {
+    if (!m_DataObjectBuffer->BufferIsFull(i))
+      {
+      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                        "empty frame buffer found at offset " << i << ". Call "
+                        "InitializeEmptyFrames to prepare the frame buffer correctly.");
+      }
+    this->SetFrameRequestedSpatialRegion(i, region);
+    }
+}
+
+//
+// SetAllBufferedSpatialRegions
+//
+template<class TFrameType>
+void
+VideoStream<TFrameType>::
+SetAllBufferedSpatialRegions(typename TFrameType::RegionType region)
+{
+  unsigned long numFrames = m_BufferedTemporalRegion.GetFrameDuration();
+  if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
+    {
+    itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                      "not enough frame buffers available. Call InitializeEmptyFrames "
+                      "to prepare the frame buffer correctly.");
+    }
+
+  // Go through the number of required frames, making sure none are empty and
+  // setting the region. We start at 1 and move forwards because frames will be
+  // added using AppendFrame which first moves the Head forward, then adds the
+  // frame
+  for (unsigned long i = 1; i <= numFrames; ++i)
+    {
+    if (!m_DataObjectBuffer->BufferIsFull(i))
+      {
+      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                        "empty frame buffer found at offset " << i << ". Call "
+                        "InitializeEmptyFrames to prepare the frame buffer correctly.");
+      }
+    this->SetFrameBufferedSpatialRegion(i, region);
+    }
+}
+
+//
+// Allocate
+//
+template<class TFrameType>
+void
+VideoStream<TFrameType>::Allocate()
+{
+  unsigned long numFrames = m_BufferedTemporalRegion.GetFrameDuration();
+  if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
+    {
+    itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                      "not enough frame buffers available. Call InitializeEmptyFrames "
+                      "to prepare the frame buffer correctly.");
+    }
+
+  // Go through the number of required frames, making sure none are empty and
+  // allocating them. We start at 1 and move forwards because frames will be
+  // added using AppendFrame which first moves the Head forward, then adds the
+  // frame
+  for (unsigned long i = 1; i <= numFrames; ++i)
+    {
+    if (!m_DataObjectBuffer->BufferIsFull(i))
+      {
+      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                        "empty frame buffer found at offset " << i << ". Call "
+                        "InitializeEmptyFrames to prepare the frame buffer correctly.");
+      }
+    FrameType* frame = dynamic_cast<FrameType*>(
+                        m_DataObjectBuffer->GetBufferContents(i).GetPointer());
+    if (!frame)
+      {
+      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                        "could not cast frame " << i << " to the correct type.");
+      }
+    frame->Allocate();
     }
 }
 
