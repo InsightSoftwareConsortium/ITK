@@ -96,12 +96,25 @@ public:
 
 protected:
 
+  /** We override the TemporalProcessObject implementation to make sure that
+   * all frames have been initialized and to allow subclasses to implement a
+   * specific method for setting the requested spatial region on each frame of
+   * the input. */
+  //virtual void GenerateInputRequestedRegion();
+
+  /** This method gets called from GenerateInputRequestedRegion and is intedned
+   * to be used for propagating the requested spatial region from the output to
+   * the input. By default, this just sets the requested spatial region on each
+   * input frame to match the requested spatial region on the first output
+   * frame. */
+  //virtual void GenerateInputFrameRequestedSpatialRegion(unsigned long frameNumber);
+
   /** We override the default implementation of TemporalStreamingGenerateData
    * from TemporalProcessObject to provide functionality for spatial streaming.
    * This implementation works exactly the same way as the implementation of
    * GenerateData in ImageSource. The filter-specific implementation of
    * ThreadedGenerateData will be responsible of accessing the correct frames. */
-  virtual void TemporalStreamingGenerateData(unsigned long outputFrameStart);
+  virtual void TemporalStreamingGenerateData();
 
   /** ThreadedGenerateData here serves the same symnatic purpose as
    * ThreadedGenerateData in ProcessObjects that handle Images. This is to say
@@ -153,6 +166,7 @@ protected:
   virtual ~VideoSource() {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const
     { Superclass::Print(os, indent); };
+
 
 private:
 

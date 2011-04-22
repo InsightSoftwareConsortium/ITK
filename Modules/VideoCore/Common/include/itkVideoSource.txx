@@ -103,7 +103,7 @@ GraftNthOutput(unsigned int idx, TOutputVideoStream* graft)
     itkExceptionMacro("Cannot graft from a NULL pointer");
     }
 
-  // we use the process object method sinc all our outputs may not be of the
+  // we use the process object method since all our outputs may not be of the
   // same type
   DataObject* output = this->ProcessObject::GetOutput(idx);
   output->Graft(graft);
@@ -129,32 +129,35 @@ template<class TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::AllocateOutputs()
 {
-  // Get the output and its frame buffer
+  // Get the output
   OutputVideoStreamType* output = this->GetOutput();
-  unsigned long requestedDuration = output->GetRequestedTemporalRegion().GetFrameDuration();
-  typename OutputVideoStreamType::BufferType* frameBuffer = output->GetFrameBuffer();
 
-  // If the frame buffer is too small, enlarge it
-  if (frameBuffer->GetNumberOfBuffers() < requestedDuration)
+  // Get a list of unbuffered requested frames
+  TemporalRegion unbufferedRegion = output->GetUnbufferedRequestedTemporalRegion();
+
+  // Set the buffered temporal region to match the requeted region
+  output->SetBufferedTemporalRegion(output->GetRequestedTemporalRegion());
+
+  // If there are no unbuffered frames, return now
+  unsigned long numFrames = unbufferedRegion.GetFrameDuration();
+  if (numFrames == 0)
     {
-    frameBuffer->SetNumberOfBuffers(requestedDuration);
+    return;
     }
 
-  // Loop through all frames in the output requested temporal region and
-  // allocate any in the current output that haven't been allocated. The order
-  // doesn't matter here.
-  for (unsigned long i = 0; i < requestedDuration; ++i)
+  // Initialize any empty frames (which will set region values from cache)
+  output->InitializeEmptyFrames();
+
+  // Loop through the unbuffered frames and set the buffered region to match
+  // the requested region
+  unsigned long startFrame = unbufferedRegion.GetFrameStart();
+  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
-    if (!frameBuffer->BufferIsFull(i))
-      {
-      frameBuffer->SetBufferContents(i, OutputFrameType::New());
-      }
-    OutputFrameType* frame = frameBuffer->GetBufferContents(i);
-    frame->SetBufferedRegion( frame->GetRequestedRegion() );
+    OutputFrameType* frame = output->GetFrame(i);
+    frame->SetBufferedRegion(output->GetFrame(i)->GetRequestedRegion());
     frame->Allocate();
     }
 }
-
 
 //
 // TemporalStreamingGenerateData
@@ -162,7 +165,7 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
 template<class TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::
-TemporalStreamingGenerateData(unsigned long outputFrameStart)
+TemporalStreamingGenerateData()
 {
   // Call a method that can be overriden by a subclass to allocate
   // memory for the filter's outputs
@@ -218,7 +221,8 @@ SplitRequestedSpatialRegion(int i, int num,
 {
   // Get the output pointer and a pointer to the first output frame
   OutputVideoStreamType* outputPtr = this->GetOutput();
-  OutputFrameType* framePtr = outputPtr->GetFrame(0);
+  unsigned long currentFrame = outputPtr->GetRequestedTemporalRegion().GetFrameStart();
+  OutputFrameType* framePtr = outputPtr->GetFrame(currentFrame);
 
   const typename TOutputVideoStream::SizeType & requestedRegionSize =
     framePtr->GetRequestedRegion().GetSize();
