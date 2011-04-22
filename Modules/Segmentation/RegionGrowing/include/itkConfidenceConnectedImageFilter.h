@@ -129,6 +129,9 @@ public:
    * executed using the Update() method. */
   itkGetConstReferenceMacro(Variance, InputRealType);
 
+  /** Method to access seed container */
+  virtual const SeedsContainerType &GetSeeds() const;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( InputHasNumericTraitsCheck,

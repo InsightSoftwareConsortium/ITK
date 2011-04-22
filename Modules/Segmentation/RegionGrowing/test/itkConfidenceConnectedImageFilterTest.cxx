@@ -40,8 +40,9 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef unsigned char PixelType;
+  typedef unsigned char            PixelType;
   typedef itk::Image<PixelType, 2> myImage;
+
   itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
@@ -62,6 +63,16 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->SetMultiplier(2.5);
   filter->SetReplaceValue(255);
   filter->SetNumberOfIterations(10);
+
+  const FilterType::SeedsContainerType &seeds = filter->GetSeeds();
+  std::cout << "Filter Seeds";
+  for(FilterType::SeedsContainerType::const_iterator it =
+        seeds.begin(); it != seeds.end(); it++)
+    {
+    std::cout << " " << (*it);
+    }
+  std::cout << std::endl;
+
   try
     {
     input->Update();
@@ -106,12 +117,10 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage>::New();
-    writer->SetInput( filter->GetOutput() );
-    writer->SetFileName( av[2] );
-    writer->Update();
-
-
+  writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName( av[2] );
+  writer->Update();
 
   // Exercise AddSeed() method
   filter->AddSeed( seed );

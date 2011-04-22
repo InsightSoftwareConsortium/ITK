@@ -50,6 +50,9 @@ public:
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
 
+  /** Index ContainerType. */
+  typedef typename Superclass::SeedsContainerType SeedsContainerType;
+
   /** Size typedef support. */
   typedef typename Superclass::SizeType SizeType;
 
