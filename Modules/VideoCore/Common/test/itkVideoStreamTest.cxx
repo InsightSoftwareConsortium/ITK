@@ -107,26 +107,25 @@ int itkVideoStreamTest( int argc, char* argv[] )
   FrameType::Pointer frame1 = FrameType::New();
   FrameType::Pointer frame2 = FrameType::New();
   FrameType::Pointer frame3 = FrameType::New();
-  video2->AppendFrame(frame1);
-  video2->AppendFrame(frame2);
-  video2->AppendFrame(frame3);
+  video2->SetFrame(0, frame1);
+  video2->SetFrame(1, frame2);
+  video2->SetFrame(2, frame3);
 
   // Test retreiving frames
-  FrameType::Pointer outFrame3 = video2->GetFrame(0);
-  FrameType::Pointer outFrame2 = video2->GetFrame(-1);
-  FrameType::Pointer outFrame1 = video2->GetFrame(-2);
+  FrameType::Pointer outFrame1 = video2->GetFrame(0);
+  FrameType::Pointer outFrame2 = video2->GetFrame(1);
+  FrameType::Pointer outFrame3 = video2->GetFrame(2);
   if (outFrame3 != frame3 || outFrame2 != frame2 || outFrame1 != frame1)
     {
     std::cerr << "Frames not retreived correctly" << std::endl;
     return EXIT_FAILURE;
     }
 
-  // Make sure frames actually got buffered (frames at offset 0, -1, -2 should
-  // be full and -3 should be empty)
+  // Make sure frames actually got buffered
   if (!frameBuffer->BufferIsFull(0) ||
-      !frameBuffer->BufferIsFull(-1) ||
-      !frameBuffer->BufferIsFull(-2) ||
-      frameBuffer->BufferIsFull(-3))
+      !frameBuffer->BufferIsFull(1) ||
+      !frameBuffer->BufferIsFull(2) ||
+      frameBuffer->BufferIsFull(3))
     {
     std::cerr << "Frames not correctly appended" << std::endl;
     return EXIT_FAILURE;
@@ -162,11 +161,14 @@ int itkVideoStreamTest( int argc, char* argv[] )
   video1 = VideoType::New();
 
   // Set the buffered temporal region
-  VideoType::TemporalRegionType bufferedTemporalRegion;
+  VideoType::TemporalRegionType temporalRegion;
+  unsigned long startFrame = 0;
   unsigned long numFrames = 5;
-  bufferedTemporalRegion.SetFrameStart( 0 );
-  bufferedTemporalRegion.SetFrameDuration( numFrames );
-  video1->SetBufferedTemporalRegion( bufferedTemporalRegion );
+  temporalRegion.SetFrameStart( startFrame );
+  temporalRegion.SetFrameDuration( numFrames );
+  video1->SetLargestPossibleTemporalRegion( temporalRegion );
+  video1->SetRequestedTemporalRegion( temporalRegion );
+  video1->SetBufferedTemporalRegion( temporalRegion );
 
   // Initialize all frames in the buffered temporal region
   video1->InitializeEmptyFrames();
@@ -180,7 +182,7 @@ int itkVideoStreamTest( int argc, char* argv[] )
   video1->SetAllBufferedSpatialRegions( bufferedSpatialRegion );
 
   // Make sure regions were set correctly
-  for (unsigned long i = 1; i <= numFrames; ++i)
+  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
     FrameType* frame = video1->GetFrame(i);
     if (frame->GetLargestPossibleRegion() != largestSpatialRegion)

@@ -194,10 +194,10 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
 }
 
 //
-// GenerateDefaultLargestPossibleRegion
+// GenerateDefaultLargestPossibleTemporalRegion
 //
 TemporalRegion
-TemporalProcessObject::GenerateDefaultLargestPossibleRegion()
+TemporalProcessObject::GenerateDefaultLargestPossibleTemporalRegion()
 {
   TemporalRegion out;
   out.SetFrameStart(0);
@@ -231,7 +231,7 @@ TemporalProcessObject::UpdateOutputInformation()
   if (!input)
     {
     // If there is no input, use the default LargestTemporalRegion
-    inputLargestRegion = this->GenerateDefaultLargestPossibleRegion();
+    inputLargestRegion = this->GenerateDefaultLargestPossibleTemporalRegion();
     }
   else
     {
@@ -245,7 +245,7 @@ TemporalProcessObject::UpdateOutputInformation()
   // Compute the start of the output region
   long outputStart = inputLargestRegion.GetFrameStart() + m_InputStencilCurrentFrameIndex;
 
-  // Set up output largets possible region
+  // Set up output largest possible region
   TemporalRegion largestRegion = output->GetLargestPossibleTemporalRegion();
   largestRegion.SetFrameDuration(outputDuration);
   largestRegion.SetFrameStart(outputStart);

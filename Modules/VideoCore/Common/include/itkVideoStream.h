@@ -54,6 +54,9 @@ public:
   typedef typename FrameType::SizeType      SizeType;
   typedef typename FrameType::DirectionType DirectionType;
 
+  /** Type used to store map between frame numbers and spatial regions */
+  typedef typename std::map<unsigned long, SpatialRegionType> SpatialRegionMapType;
+
   /** Access the spacial dimensionality of the frames */
   itkStaticConstMacro(FrameDimension, unsigned int, FrameType::ImageDimension);
   static unsigned int GetFrameDimension()
@@ -81,27 +84,50 @@ public:
   /** Set the internal pixel buffer */
   void SetFrameBuffer(BufferType* buffer);
 
-  /** Append the supplied frame to the end of the video */
-  void AppendFrame(FrameType* frame);
 
-  /** Get the frame at the given offset from the current head. A negative
-   * offset means backward in time while a positive offset means forward in
-   * time. For video streams that have been filled from oldest frame to newest,
-   * the current frame will be the latest in time, so only negative offsets
-   * will return the expected result. */
-  FrameType* GetFrame(int offset);
+  /** Provide access to the internal caches for the spatial regions */
+  SpatialRegionMapType GetLargestPossibleSpatialRegionCache()
+    { return m_LargestPossibleSpatialRegionCache; }
+  const SpatialRegionMapType GetLargestPossibleSpatialRegionCache() const
+    { return m_LargestPossibleSpatialRegionCache; }
+  void SetLargestPossibleSpatialRegionCache(SpatialRegionMapType map)
+    { m_LargestPossibleSpatialRegionCache = map; }
+
+  SpatialRegionMapType GetRequestedSpatialRegionCache()
+    { return m_RequestedSpatialRegionCache; }
+  const SpatialRegionMapType GetRequestedSpatialRegionCache() const
+    { return m_RequestedSpatialRegionCache; }
+  void SetRequestedSpatialRegionCache(SpatialRegionMapType map)
+    { m_RequestedSpatialRegionCache = map; }
+
+  SpatialRegionMapType GetBufferedSpatialRegionCache()
+    { return m_BufferedSpatialRegionCache; }
+  const SpatialRegionMapType GetBufferedSpatialRegionCache() const
+    { return m_BufferedSpatialRegionCache; }
+  void SetBufferedSpatialRegionCache(SpatialRegionMapType map)
+    { m_BufferedSpatialRegionCache = map; }
+
+
+  /** Set the contents of the frame at a given frame number */
+  void SetFrame(unsigned long frameNumber, FrameType* frame);
+
+  /** Get the frame for the given frame number. Internally, we always leave the
+   * Head of the ring buffer in place and just use the frame number as an
+   * offset. This allows all references to frames to be processed by an
+   * explicit frame number rather than a potentially confusing offset. */
+  FrameType* GetFrame(unsigned long frameNumber);
 
   /** Set the LargestPossibleRegion of a frame */
-  void SetFrameLargestPossibleSpatialRegion(int offset, SpatialRegionType region)
-    { this->GetFrame(offset)->SetLargestPossibleRegion(region); }
+  void SetFrameLargestPossibleSpatialRegion(unsigned long frameNumber,
+                                            SpatialRegionType region);
 
   /** Set the RequestedRegion of a frame */
-  void SetFrameRequestedSpatialRegion(int offset, SpatialRegionType region)
-    { this->GetFrame(offset)->SetRequestedRegion(region); }
+  void SetFrameRequestedSpatialRegion(unsigned long frameNumber,
+                                      SpatialRegionType region);
 
   /** Set the BufferedRegion of a frame */
-  void SetFrameBufferedSpatialRegion(int offset, SpatialRegionType region)
-    { this->GetFrame(offset)->SetBufferedRegion(region); }
+  void SetFrameBufferedSpatialRegion(unsigned long frameNumber,
+                                     SpatialRegionType region);
 
   /** Set the LargestPossibleRegion on all frames. This assumes that all frames
    * in the buffered temporal region have been initialized (should be called
@@ -163,6 +189,14 @@ protected:
   virtual ~VideoStream() {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const
     { Superclass::Print(os, indent); }
+
+
+  /** These maps are used to cache a mapping between frame number and spatial
+   * region. This is done because frames will often not be in actual existance
+   * at the time when the region gets set. */
+  SpatialRegionMapType m_LargestPossibleSpatialRegionCache;
+  SpatialRegionMapType m_RequestedSpatialRegionCache;
+  SpatialRegionMapType m_BufferedSpatialRegionCache;
 
 private:
 

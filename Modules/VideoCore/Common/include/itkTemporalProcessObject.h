@@ -180,7 +180,7 @@ protected:
   /** Generate a default LargestPossibleRegion. This is used by temporal
    * process objects that have no input. The default implementation starts at
    * frame 0 and has infinite duration. */
-  virtual TemporalRegion GenerateDefaultLargestPossibleRegion();
+  virtual TemporalRegion GenerateDefaultLargestPossibleTemporalRegion();
 
 
   /*-PROTECTED MEMBERS-------------------------------------------------------*/
