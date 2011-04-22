@@ -46,7 +46,8 @@
 #include "itkQuadEdgeMeshTopologyChecker.txx"
 #include "itkQuadEdgeMeshTraits.h"
 #include "itkQuadEdgeMeshZipMeshFunction.txx"
-
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.txx"
 
 
 int itkQuadEdgeMeshHeaderTest ( int , char * [] )

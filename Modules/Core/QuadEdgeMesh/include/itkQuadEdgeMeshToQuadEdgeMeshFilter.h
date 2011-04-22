@@ -23,14 +23,14 @@
 namespace itk
 {
 /** \class QuadEdgeMeshToQuadEdgeMeshFilter
- *  \brief Duplicates the content of a Mesh.
+ *  \brief Duplicates the content of a Mesh
  *
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
  * http://insight-journal.org/midas/handle.php?handle=1926/306
  *
- * \ingroup ITK-QuadEdgeMeshFiltering
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< typename TInputMesh, typename TOutputMesh >
 class ITK_EXPORT QuadEdgeMeshToQuadEdgeMeshFilter:
