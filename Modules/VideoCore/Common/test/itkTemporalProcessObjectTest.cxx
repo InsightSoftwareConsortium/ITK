@@ -221,15 +221,16 @@ public:
   /*-REQUIRED IMPLEMENTATIONS------------------------------------------------*/
 
   /** TemporalStreamingGenerateData */
-  virtual void TemporalStreamingGenerateData(unsigned long outputFrameStart)
+  virtual void TemporalStreamingGenerateData()
     {
     // Create a START entry in the stack trace
     m_CallStack.push_back(CallRecord(m_IdNumber,
       CallRecord::START_CALL, CallRecord::STREAMING_GENERATE_DATA));
 
     // Report
+    unsigned long outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
     std::cout << "**(ID = " << m_IdNumber << ") - TemporalStreamingGenerateData" << std::endl;
-    std::cout << "  -> output start frame: " << outputFrameStart << std::endl;
+    std::cout << "  -> output start frame: " << outputStart << std::endl;
 
     unsigned long inputStart = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
     unsigned long inputEnd = inputStart +

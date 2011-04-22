@@ -118,7 +118,7 @@ public:
    * data (such as video frames) may instead use this function to split the
    * requested spatial region and process the spatial sub-regions using the
    * mechanism implemented in ImageBase for multithreading. */
-  virtual void TemporalStreamingGenerateData(unsigned long outputFrameStart) ITK_NO_RETURN;
+  virtual void TemporalStreamingGenerateData() ITK_NO_RETURN;
 
 protected:
 

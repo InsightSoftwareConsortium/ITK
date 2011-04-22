@@ -394,8 +394,15 @@ TemporalProcessObject::GenerateData()
       input->UpdateOutputData();
       }
 
+    // Set the output's requested region to the region corresponding to this
+    // input request
+    TemporalRegion currentRequest;
+    currentRequest.SetFrameStart(outputStartFrame);
+    currentRequest.SetFrameDuration(m_UnitOutputNumberOfFrames);
+    output->SetRequestedTemporalRegion(currentRequest);
+
     // Call TemporalStreamingGenerateData to process the chunk of data
-    this->TemporalStreamingGenerateData(outputStartFrame);
+    this->TemporalStreamingGenerateData();
 
     // Increment outputStartFrame
     outputStartFrame += this->m_UnitOutputNumberOfFrames;
@@ -410,7 +417,7 @@ TemporalProcessObject::GenerateData()
 // TemporalStreamingGenerateData
 //
 void
-TemporalProcessObject::TemporalStreamingGenerateData(unsigned long outputFrameStart)
+TemporalProcessObject::TemporalStreamingGenerateData()
 {
   itkExceptionMacro(<< "itk::Error: " << this->GetNameOfClass()
                     << "(" << this << "): Subclass should override this method!!!" );
