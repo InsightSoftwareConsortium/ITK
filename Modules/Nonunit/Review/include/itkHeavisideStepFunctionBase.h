@@ -19,6 +19,7 @@
 #define __itkHeavisideStepFunctionBase_h
 
 #include "itkFunctionBase.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -58,6 +59,10 @@ public:
   typedef SmartPointer< Self >            Pointer;
   typedef SmartPointer< const Self >      ConstPointer;
 
+  /** Run-time type information */
+  itkTypeMacro ( HeavisideStepFunctionBase, FunctionBase );
+
+
   typedef typename Superclass::InputType  InputType;
   typedef typename Superclass::OutputType OutputType;
 
@@ -67,9 +72,18 @@ public:
   /** Evaluate the derivative at the specified input position */
   virtual OutputType EvaluateDerivative(const InputType & input) const = 0;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro( DoubleConvertibleToInputCheck,
+                 ( Concept::Convertible< double, TInput > ) );
+
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                 ( Concept::Convertible< double, TOutput > ) );
+#endif // ITK_USE_CONCEPT_CHECKING
+
 protected:
-  HeavisideStepFunctionBase() {}
+  HeavisideStepFunctionBase() : Superclass() {}
   virtual ~HeavisideStepFunctionBase() {}
+
 private:
   HeavisideStepFunctionBase(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented
