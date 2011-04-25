@@ -314,6 +314,11 @@ protected:
   typename IndexListType::size_type GetActiveIndexListSize() const
   { return m_ActiveIndexList.size(); }
 
+  /** Add non-zero neighborhood offsets to the active list. The
+    * radius of the neighborhood must match the radius of the shaped
+    * iterator */
+  void CreateActiveListFromNeighborhood(const NeighborhoodType &);
+
   /** Reimplements the operator++ method so that only active pixel locations
    * are updated. */
   Self & operator++();
