@@ -9,7 +9,7 @@
  */
 namespace itk
 {
-namespace test
+namespace TemporalProcessObjectTest
 {
 
 /** \class CallRecord
@@ -360,7 +360,7 @@ private:
 };
 
 
-} // end namespace test
+} // end namespace TemporalProcessObjectTest
 } // end namespace itk
 
 
@@ -375,7 +375,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   //////
 
   // Create 3 new DummyTemporalProcessObjects
-  typedef itk::test::DummyTemporalProcessObject TPOType;
+  typedef itk::TemporalProcessObjectTest::DummyTemporalProcessObject TPOType;
   TPOType::Pointer tpo1 = TPOType::New();
   tpo1->SetIdNumber(1);
   TPOType::Pointer tpo2 = TPOType::New();
@@ -402,7 +402,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   tpo3->SetInputStencilCurrentFrameIndex(1); // "current frame" at end of group of 2
 
   // Create a new TemporalDataObject to pass through the pipeline
-  typedef itk::test::DummyTemporalDataObject TDOType;
+  typedef itk::TemporalProcessObjectTest::DummyTemporalDataObject TDOType;
   TDOType::Pointer tdo = TDOType::New();
   tpo1->SetInput(tdo);
 
@@ -474,7 +474,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   itk::TemporalRegion finalRequest;
   finalRequest.SetFrameStart(endLargestPossibleRegion.GetFrameStart());
   finalRequest.SetFrameDuration(1);
-  itk::test::DummyTemporalDataObject* finalOutput = tpo3->GetOutput();
+  itk::TemporalProcessObjectTest::DummyTemporalDataObject* finalOutput = tpo3->GetOutput();
   finalOutput->SetRequestedTemporalRegion(finalRequest);
 
   // Update to propagate the requested temporal region
@@ -527,11 +527,11 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   //////
 
   // Call update to execute the entire pipeline and track the call stack
-  itk::test::m_CallStack.clear();
+  itk::TemporalProcessObjectTest::m_CallStack.clear();
   tpo3->Update();
 
   // Print out duration of buffered output region
-  itk::test::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
+  itk::TemporalProcessObjectTest::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
   unsigned long outputStart = outputObject->GetBufferedTemporalRegion().GetFrameStart();
   unsigned long outputDuration = outputObject->GetBufferedTemporalRegion().GetFrameDuration();
   std::cout << "Buffered Output Region: "
@@ -539,7 +539,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
   // Create a list of CallRecord items representing the correct
   // stack trace
-  typedef itk::test::CallRecord RecordType;
+  typedef itk::TemporalProcessObjectTest::CallRecord RecordType;
   std::vector<RecordType> correctCallStack;
 
   // GenDat - START - obj 3
@@ -607,7 +607,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     RecordType(3, RecordType::END_CALL, RecordType::GENERATE_DATA) );
 
   // Check that correct number of calls made
-  if (itk::test::m_CallStack.size() != correctCallStack.size())
+  if (itk::TemporalProcessObjectTest::m_CallStack.size() != correctCallStack.size())
     {
     std::cerr << "Incorrect number of items in call stack" << std::endl;
     return EXIT_FAILURE;
@@ -615,15 +615,15 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
   // Check that call lists match
   std::cout << std::endl;
-  for (unsigned int i = 0; i < itk::test::m_CallStack.size(); ++i)
+  for (unsigned int i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
     {
     std::cout << "Got: ";
-    itk::test::m_CallStack[i].Print();
+    itk::TemporalProcessObjectTest::m_CallStack[i].Print();
     std::cout << "Expected: ";
     correctCallStack[i].Print();
     std::cout << std::endl;
 
-    if (itk::test::m_CallStack[i] != correctCallStack[i])
+    if (itk::TemporalProcessObjectTest::m_CallStack[i] != correctCallStack[i])
       {
       std::cerr << "Call stacks don't match" << std::endl;
       return EXIT_FAILURE;
@@ -645,7 +645,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   finalOutput->SetRequestedTemporalRegion(finalRequest);
 
   // Call update to execute the entire pipeline and track the call stack
-  itk::test::m_CallStack.clear();
+  itk::TemporalProcessObjectTest::m_CallStack.clear();
   correctCallStack.clear();
   tpo3->Update();
 
@@ -674,24 +674,25 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     RecordType(3, RecordType::END_CALL, RecordType::GENERATE_DATA) );
 
   // Check that correct number of calls made
-  if (itk::test::m_CallStack.size() != correctCallStack.size())
+  if (itk::TemporalProcessObjectTest::m_CallStack.size() != correctCallStack.size())
     {
     std::cerr << "Incorrect number of items in call stack. Got: "
-      << itk::test::m_CallStack.size() << " Expected: " << correctCallStack.size() << std::endl;
+      << itk::TemporalProcessObjectTest::m_CallStack.size() << " Expected: "
+      << correctCallStack.size() << std::endl;
     return EXIT_FAILURE;
     }
 
   // Check that call lists match
   std::cout << std::endl;
-  for (unsigned int i = 0; i < itk::test::m_CallStack.size(); ++i)
+  for (unsigned int i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
     {
     std::cout << "Got: ";
-    itk::test::m_CallStack[i].Print();
+    itk::TemporalProcessObjectTest::m_CallStack[i].Print();
     std::cout << "Expected: ";
     correctCallStack[i].Print();
     std::cout << std::endl;
 
-    if (itk::test::m_CallStack[i] != correctCallStack[i])
+    if (itk::TemporalProcessObjectTest::m_CallStack[i] != correctCallStack[i])
       {
       std::cerr << "Call stacks don't match" << std::endl;
       return EXIT_FAILURE;

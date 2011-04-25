@@ -19,9 +19,16 @@
 #include "itkVideoSource.h"
 #include "itkImageRegionIterator.h"
 
+// Set up typedefs for test
+const unsigned int Dimension =                   2;
+typedef unsigned char                            PixelType;
+typedef itk::Image< PixelType, Dimension >       FrameType;
+typedef itk::VideoStream< FrameType >            VideoType;
+
+
 namespace itk
 {
-namespace test
+namespace VideoSourceTest
 {
 /** \class DummyVideoSource
  * Provide dummy implementation of VideoSource that just sets all pixels to 1
@@ -97,17 +104,6 @@ protected:
 };
 
 
-} // end namespace test
-} // end namespace itk
-
-
-// Set up typedefs
-const unsigned int Dimension =                   2;
-typedef unsigned char                            PixelType;
-typedef itk::Image< PixelType, Dimension >       FrameType;
-typedef itk::VideoStream< FrameType >            VideoType;
-typedef itk::test::DummyVideoSource< VideoType > VideoSourceType;
-
 /**
  * Create a new empty frame
  */
@@ -140,6 +136,11 @@ FrameType::Pointer CreateEmptyFrame()
   return out;
 }
 
+
+} // end namespace VideoSourceTest
+} // end namespace itk
+
+
 /**
  * Test the basic functionality of temporal data objects
  */
@@ -149,7 +150,7 @@ int itkVideoSourceTest( int argc, char* argv[] )
   //////
   // Test Instantiation
   //////
-
+  typedef itk::VideoSourceTest::DummyVideoSource< VideoType > VideoSourceType;
   VideoSourceType::Pointer videoSource = VideoSourceType::New();
 
 
@@ -176,7 +177,7 @@ int itkVideoSourceTest( int argc, char* argv[] )
        i < bufferedRegion.GetFrameStart() + bufferedRegion.GetFrameDuration();
        ++i)
     {
-    frame = CreateEmptyFrame();
+    frame = itk::VideoSourceTest::CreateEmptyFrame();
     video->SetFrame(i, frame);
     }
 
