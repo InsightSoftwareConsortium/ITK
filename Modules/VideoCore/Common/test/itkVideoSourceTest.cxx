@@ -200,7 +200,7 @@ int itkVideoSourceTest( int argc, char* argv[] )
 
 
   //////
-  // Test ThreadedGenerateDataSystem
+  // Test ThreadedGenerateData System
   //////
 
   // Reset videoSource
