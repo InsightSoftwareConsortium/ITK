@@ -126,6 +126,12 @@ ImageMaskSpatialObject< TDimension >
   IndexType index;
   SizeType  size;
 
+  for(unsigned int i(0); i < ImageType::ImageDimension; i++)
+    {
+    index[i] = 0;
+    size[i] = 0;
+    }
+
   if ( ImageType::ImageDimension == 3 )
     {
     for ( unsigned int axis = 0; axis < ImageType::ImageDimension; axis++ )
