@@ -44,7 +44,10 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  * \ingroup ITK-ImageGrid
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/RegionOfInterestImageFilter,Extract a portion of an image (region of interest)}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT RegionOfInterestImageFilter:

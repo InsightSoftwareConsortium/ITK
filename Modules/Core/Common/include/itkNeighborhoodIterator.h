@@ -94,7 +94,7 @@ namespace itk
  *
  * A \em pixel \em neighborhood is defined as a central pixel location and an
  * N-dimensional radius extending outward from that location.
-
+ *
  * Pixels in a neighborhood can be accessed through a NeighborhoodIterator
  * like elements in an array.  For example, a 2D neighborhood with radius 2x1
  * has indices:
@@ -169,7 +169,6 @@ namespace itk
  * internal loop variables and offsets to trigger wraps at itk::Image region
  * boundaries, and to identify the end of the itk::Image region.
  *
- *
  * \todo Better support for regions with negative indicies.
  * \todo Add Begin() and End() methods?
  *
@@ -207,7 +206,11 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Iterators/NeighborhoodIterator,Iterate over a region of an image with a neighborhood (with write access)}
+ * \wikiexample{VectorImages/NeighborhoodIterator,NeighborhoodIterator on a VectorImage}
+ * \endwiki
  */
 template< class TImage, class TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >

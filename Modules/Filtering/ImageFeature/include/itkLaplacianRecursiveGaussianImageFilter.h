@@ -29,11 +29,13 @@ namespace itk
  *
  * This filter is implemented using the recursive gaussian filters
  *
- *
  * \ingroup GradientFilters
  * \ingroup Singlethreaded
  * \ingroup ITK-ImageFeature
+ *
+ * \wiki
  * \wikiexample{EdgesAndGradients/LaplacianRecursiveGaussianImageFilter,Compute the Laplacian of an image}
+ * \endwiki
  */
 template< typename TInputImage,
           typename TOutputImage = TInputImage >

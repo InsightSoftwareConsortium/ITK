@@ -45,7 +45,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters Multithreaded
  * \ingroup ITK-ImageCompare
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/SquaredDifferenceImageFilter,Compute the squared difference of corresponding pixels in two images}
+ * \endwiki
  */
 namespace Functor
 {

@@ -35,11 +35,13 @@ namespace itk
  * This filter is implemented using the recursive gaussian
  * filters
  *
- *
  * \ingroup GradientFilters
  * \ingroup Singlethreaded
  * \ingroup ITK-ImageGradient
- * \wikiexample{EdgesAndGradients/GradientRecursiveGaussianImageFilter,Compute the gradient of an imabe by convolution with the first derivative of a Gaussian}
+ *
+ * \wiki
+ * \wikiexample{EdgesAndGradients/GradientRecursiveGaussianImageFilter,Compute the gradient of an image by convolution with the first derivative of a Gaussian}
+ * \endwiki
  */
 // NOTE that the ITK_TYPENAME macro has to be used here in lieu
 // of "typename" because VC++ doesn't like the typename keyword

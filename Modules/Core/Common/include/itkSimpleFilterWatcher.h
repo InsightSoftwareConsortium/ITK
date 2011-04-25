@@ -56,11 +56,13 @@ namespace itk
  * allows the user to associate the emitted messages to a particular
  * filter/variable.
  *
- *
  * \todo Allow any stream object to be used for the output (not just std::cout)
  *
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Utilities/SimpleFilterWatcher,Monitor a filter}
+ * \endwiki
  */
 class ITKCommon_EXPORT SimpleFilterWatcher
 {

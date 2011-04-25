@@ -75,7 +75,10 @@ private:
  * \ingroup IntensityImageFilters  Multithreaded
  *
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/InvertIntensityImageFilter,Invert an image}
+ * \endwiki
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT InvertIntensityImageFilter:

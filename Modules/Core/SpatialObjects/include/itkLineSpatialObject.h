@@ -33,7 +33,10 @@ namespace itk
  *
  * \sa LineSpatialObjectPoint
  * \ingroup ITK-SpatialObjects
+ *
+ * \wiki
  * \wikiexample{SpatialObjects/LineSpatialObject,Line spatial object}
+ * \endwiki
  */
 
 template< unsigned int TDimension = 3 >

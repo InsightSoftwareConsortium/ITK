@@ -34,7 +34,10 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Utilities/ObserveEvent,Observe an event}
+ * \endwiki
  */
 
 // The superclass that all commands should be subclasses of

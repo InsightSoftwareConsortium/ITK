@@ -25,7 +25,6 @@ namespace itk
 /** \class GradientMagnitudeImageFilter
  * \brief Computes the gradient magnitude of an image region at each pixel.
  *
- *
  * \ingroup GradientFilters
  *
  * \sa Image
@@ -33,7 +32,10 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  * \ingroup ITK-ImageGradient
+ *
+ * \wiki
  * \wikiexample{EdgesAndGradients/GradientMagnitudeImageFilter,Compute the gradient magnitude image}
+ * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_EXPORT GradientMagnitudeImageFilter:

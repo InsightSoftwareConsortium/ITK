@@ -45,7 +45,6 @@ namespace itk
  *               0 0 3 3 5 5 6
  *               0 0 4 4 6 7 8
  *
- *
  * \note If you are using an image with Array as the pixel type, you will need
  * to set the constant explicitly with an array of the appropriate length. This
  * is also true if your image type is a VectorImage.
@@ -55,7 +54,10 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Iterators/ConstantBoundaryCondition,Make out of bounds pixels return a constant value}
+ * \endwiki
  */
 template< class TImage >
 class ITK_EXPORT ConstantBoundaryCondition:

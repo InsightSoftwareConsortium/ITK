@@ -46,8 +46,11 @@ namespace itk
  *
  * \sa LabelContourImageFilter BinaryErodeImageFilter SimpleContourExtractorImageFilter
  * \ingroup ITK-Review
+ *
+ * \wiki
  * \wikiexample{EdgesAndGradients/BinaryContourImageFilter,Extract the boundaries of connected regions in a binary image}
  * \wikiexample{EdgesAndGradients/BinaryBoundaries,Extract the inner and outer boundaries of blobs in a binary image}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >

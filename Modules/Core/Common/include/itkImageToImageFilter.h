@@ -66,10 +66,13 @@ namespace itk
  *
  * \ingroup ImageFilters
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Developer/ImageFilter,Filter an image}
  * \wikiexample{Developer/ImageFilterMultipleInputs,Write a filter with multiple inputs of the same type.}
  * \wikiexample{Developer/ImageFilterMultipleInputsDifferentType,Write a filter with multiple inputs of different types.}
  * \wikiexample{Developer/ImageFilterMultipleOutputs,Write a filter with multiple outputs of the same type.}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >

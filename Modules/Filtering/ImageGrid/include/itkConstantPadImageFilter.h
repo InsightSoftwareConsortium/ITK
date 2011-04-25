@@ -29,7 +29,6 @@ namespace itk
  * image region is larger than the input image region, the extra pixels are
  * filled in by a constant value.  The output image region must be specified.
  *
- *
  * \image html PadImageFilter.png "Visual explanation of padding regions."
  *
  * This filter is implemented as a multithreaded filter.  It provides a
@@ -38,7 +37,10 @@ namespace itk
  * \ingroup GeometricTransforms
  * \sa WrapPadImageFilter, MirrorPadImageFilter
  * \ingroup ITK-ImageGrid
+ *
+ * \wiki
  * \wikiexample{Images/ConstantPadImageFilter,Pad an image with a constant value}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ConstantPadImageFilter:

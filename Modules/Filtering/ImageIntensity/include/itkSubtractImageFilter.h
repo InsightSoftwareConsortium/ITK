@@ -33,7 +33,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters Multithreaded
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/SubtractImageFilter,Subtract two images}
+ * \endwiki
  */
 namespace Function
 {

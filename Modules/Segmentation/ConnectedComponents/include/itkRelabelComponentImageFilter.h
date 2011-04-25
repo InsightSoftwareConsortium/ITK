@@ -69,7 +69,10 @@ namespace itk
  *
  * \ingroup Singlethreaded
  * \ingroup ITK-ConnectedComponents
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/RelabelComponentImageFilter,Assign contiguous labels to connected regions of an image}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >

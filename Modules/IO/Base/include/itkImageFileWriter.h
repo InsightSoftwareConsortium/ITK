@@ -71,7 +71,10 @@ public:
  *
  * \ingroup IOFilters
  * \ingroup ITK-IO-Base
+ *
+ * \wiki
  * \wikiexample{IO/ImageFileWriter,Write an image}
+ * \endwiki
  */
 template< class TInputImage >
 class ITK_EXPORT ImageFileWriter:public ProcessObject

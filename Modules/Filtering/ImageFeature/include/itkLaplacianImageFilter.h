@@ -32,8 +32,6 @@ namespace itk
  * an image that has first been smoothed with a Gaussian filter in order to
  * reduce its sensitivity to noise.
  *
- *
- *
  * \par
  * The Laplacian at each pixel location is computed by convolution with the
  * itk::LaplacianOperator.
@@ -47,7 +45,6 @@ namespace itk
  * type. You will get a compilation error if the pixel type of the input and
  * output images is not float or double.
  *
- *
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
@@ -56,7 +53,10 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  * \ingroup ITK-ImageFeature
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/LaplacianImageFilter,Compute the Laplacian of an image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT LaplacianImageFilter:

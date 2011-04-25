@@ -42,7 +42,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/XorImageFilter,Binary XOR (exclusive OR) two images}
+ * \endwiki
  */
 namespace Functor
 {

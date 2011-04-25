@@ -59,9 +59,12 @@ namespace itk
  *
  * \ingroup RegistrationFilters
  * \ingroup ITK-RegistrationCommon
+ *
+ * \wiki
  * \wikiexample{Registration/ImageRegistrationMethod,A basic global registration of two images}
  * \wikiexample{Registration/ImageRegistrationMethodAffine,A global registration of two images}
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
+ * \endwiki
  */
 template< typename TFixedImage, typename TMovingImage >
 class ITK_EXPORT ImageRegistrationMethod:public ProcessObject

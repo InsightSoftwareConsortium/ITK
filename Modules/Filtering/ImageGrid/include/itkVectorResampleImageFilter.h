@@ -50,7 +50,10 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  * \ingroup ITK-ImageGrid
+ *
+ * \wiki
  * \wikiexample{VectorImages/VectorResampleImageFilter,Translate a vector image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType = double >
 class ITK_EXPORT VectorResampleImageFilter:

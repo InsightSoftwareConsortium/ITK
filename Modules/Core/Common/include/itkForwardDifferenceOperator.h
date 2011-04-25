@@ -35,7 +35,10 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Operators/ForwardDifferenceOperator,Create a forward difference kernel}
+ * \endwiki
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

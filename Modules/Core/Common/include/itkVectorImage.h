@@ -71,8 +71,12 @@ namespace itk
  *
  * \ingroup ImageObjects
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{IO/ReadVectorImage,Read an image file with an unknown number of components}
  * \wikiexample{VectorImages/VectorImage,Create a vector image}
+ * \wikiexample{VectorImages/NeighborhoodIterator,NeighborhoodIterator on a VectorImage}
+ * \endwiki
  */
 template< class TPixel, unsigned int VImageDimension = 3 >
 class ITK_EXPORT VectorImage:

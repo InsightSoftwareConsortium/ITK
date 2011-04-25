@@ -52,7 +52,10 @@ namespace Statistics
  * Information on the National Centers for Biomedical Computing
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  * \ingroup ITK-Statistics
+ *
+ * \wiki
  * \wikiexample{Statistics/GaussianDistribution,Create a Gaussian distribution}
+ * \endwiki
  */
 class ITK_EXPORT GaussianDistribution:
   public ProbabilityDistribution

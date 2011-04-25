@@ -28,7 +28,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/AbsImageFilter,Compute the absolute value of an image}
+ * \endwiki
  */
 namespace Function
 {

@@ -65,7 +65,10 @@ namespace itk
  * \todo Support color images
  * \todo Support vector images
  * \ingroup ITK-ImageFeature
+ *
+ * \wiki
  * \wikiexample{Smoothing/BilateralImageFilter,Bilateral filter an image}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage >
