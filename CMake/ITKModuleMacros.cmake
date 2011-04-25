@@ -66,9 +66,8 @@ macro(itk_module_impl)
     itk_module_warnings_disable(C CXX)
   endif()
 
-  set(itk-module-export-targets 0)
   if(EXISTS ${${itk-module}_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_NO_SRC)
-    set(itk-module-export-targets 1)
+    set_property(GLOBAL APPEND PROPERTY ITKTargets_MODULES ${itk-module})
     add_subdirectory(src)
   endif()
 

@@ -515,7 +515,16 @@ install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
               CMake/UseITK.cmake
               CMake/itkImageIOFactoryRegisterManager.h.in
   DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
-install(EXPORT ITKTargets DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
+get_property(ITKTargets_MODULES GLOBAL PROPERTY ITKTargets_MODULES)
+if(ITKTargets_MODULES)
+  install(EXPORT ITKTargets DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
+else()
+  set(CMAKE_CONFIGURABLE_FILE_CONTENT "# No targets!")
+  configure_file(${CMAKE_ROOT}/Modules/CMakeConfigurableFile.in
+                 ${ITK_BINARY_DIR}/CMakeFiles/ITKTargets.cmake @ONLY)
+  install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKTargets.cmake
+          DESTINATION ${ITK_INSTALL_PACKAGE_DIR})
+endif()
 
 if(BUILD_TESTING)
   add_subdirectory(Utilities/InstallTest)
