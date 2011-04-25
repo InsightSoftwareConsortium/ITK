@@ -43,6 +43,5 @@ foreach(lib
     itkhdf5
     itkhdf5_cpp
     )
-  itk_module_target_name(${lib})
-  itk_module_target_export(${lib})
+  itk_module_target(${lib} NO_INSTALL)
 endforeach()

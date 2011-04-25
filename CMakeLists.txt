@@ -6,7 +6,7 @@ include(PreventInBuildInstalls)
 include(ITKModuleMacros)
 include(itkCheckSourceTree)
 
-set(main_project_name "ITKModular")
+set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 
 #-----------------------------------------------------------------------------
 # ITK version number.  An even minor number corresponds to releases.
@@ -40,28 +40,6 @@ macro(verify_itk_module_is_set)
   if("" STREQUAL "${itk-module}")
     message(FATAL_ERROR "CMake variable itk-module is not set")
   endif()
-endmacro()
-
-macro(add_executable)
-  _add_executable(${ARGN})
-  if(itk-module)
-    set(_label ${itk-module})
-    set_property(GLOBAL APPEND PROPERTY ${itk-module}_EXECUTABLE_TARGETS ${ARGV0})
-  else()
-    set(_label ${main_project_name})
-  endif()
-  set_property(TARGET ${ARGV0} PROPERTY LABELS ${itk-module})
-endmacro()
-
-macro(add_library)
-  _add_library(${ARGN})
-  if(itk-module)
-    set(_label ${itk-module})
-    set_property(GLOBAL APPEND PROPERTY ${itk-module}_LIBRARY_TARGETS ${ARGV0})
-  else()
-    set(_label ${main_project_name})
-  endif()
-  set_property(TARGET ${ARGV0} PROPERTY LABELS ${_label})
 endmacro()
 
 macro(add_test)
@@ -438,18 +416,15 @@ macro(init_module_vars)
   set(${itk-module}-targets-install "${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake")
   set(${itk-module}-targets-build "${ITK_BINARY_DIR}/ITKTargets.cmake")
 
-  # Start each module with these properties empty. Calls to add_executable,
-  # add_library and add_test accumulate names into these properties:
-  set_property(GLOBAL PROPERTY ${itk-module}_EXECUTABLE_TARGETS "")
-  set_property(GLOBAL PROPERTY ${itk-module}_LIBRARY_TARGETS "")
+  # Start each module with these properties empty. Calls to itk_module_target
+  # and itk_module_target_label accumulate names into this property:
+  set_property(GLOBAL PROPERTY ${itk-module}_TARGETS "")
 endmacro()
 
 macro(add_module_target)
   verify_itk_module_is_set()
   add_custom_target(${itk-module}-all)
-  get_property(_imm_exe_targets GLOBAL PROPERTY ${itk-module}_EXECUTABLE_TARGETS)
-  get_property(_imm_lib_targets GLOBAL PROPERTY ${itk-module}_LIBRARY_TARGETS)
-  set(_imm_dep_targets ${_imm_exe_targets} ${_imm_lib_targets})
+  get_property(_imm_dep_targets GLOBAL PROPERTY ${itk-module}_TARGETS)
   if(_imm_dep_targets)
     add_dependencies(${itk-module}-all ${_imm_dep_targets})
   endif()
