@@ -394,18 +394,21 @@ while(NOT dashboard_done)
       ctest_submit(FILES "${CTEST_BINARY_DIRECTORY}/${main_project_name}.Project.xml")
     endif()
 
+    set(disable_last_subproj "")
     foreach(subproj ${itk_subprojects})
       safe_message("Configure/build/test subproject [${subproj}]...")
       set_property(GLOBAL PROPERTY SubProject ${subproj})
       set_property(GLOBAL PROPERTY Label ${subproj})
 
       set(options
+        ${disable_last_subproj}
         -DBUILD_EXAMPLES:BOOL=OFF
         -DITK_BUILD_ALL_MODULES:BOOL=OFF
         -DModule_${subproj}:BOOL=ON
         -DITK_GENERATE_PROJECT_XML:BOOL=OFF
         -DITK_GENERATE_SUBPROJECTS_CMAKE:BOOL=OFF
         )
+      set(disable_last_subproj -DModule_${subproj}:BOOL=OFF)
       ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" OPTIONS "${options}")
       override_drop_settings()
 
@@ -457,6 +460,7 @@ while(NOT dashboard_done)
 
     safe_message("Final configure top level project...")
     set(options
+      ${disable_last_subproj}
       -DBUILD_EXAMPLES:BOOL=ON
       -DITK_BUILD_ALL_MODULES:BOOL=ON
       -DITK_GENERATE_PROJECT_XML:BOOL=OFF
