@@ -31,7 +31,7 @@ namespace itk
  * TemporalDataObject. It provides several convenient typedefs to get common
  * attributes of the frames.
  */
-template<class TImageType>
+template<class TFrameType>
 class ITK_EXPORT VideoStream : public TemporalDataObject
 {
 public:
@@ -43,33 +43,160 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
   typedef WeakPointer< const Self >  ConstWeakPointer;
 
-  typedef TImageType                 ImageType;
-  typedef RingBuffer<ImageType>      BufferType;
+  typedef TFrameType                 FrameType;
+  typedef RingBuffer<FrameType>      BufferType;
 
-  typedef typename ImageType::RegionType    SpatialRegionType;
-  typedef typename ImageType::IndexType     IndexType;
-  typedef typename ImageType::PixelType     PixelType;
-  typedef typename ImageType::PointType     PointType;
-  typedef typename ImageType::SpacingType   SpacingType;
-  typedef typename ImageType::SizeType      SizeType;
-  typedef typename ImageType::DirectionType DirectionType;
+  typedef typename FrameType::RegionType    SpatialRegionType;
+  typedef typename FrameType::IndexType     IndexType;
+  typedef typename FrameType::PixelType     PixelType;
+  typedef typename FrameType::PointType     PointType;
+  typedef typename FrameType::SpacingType   SpacingType;
+  typedef typename FrameType::SizeType      SizeType;
+  typedef typename FrameType::DirectionType DirectionType;
+
+  /** Type used to store map between frame numbers and spatial regions */
+  typedef typename std::map<unsigned long, SpatialRegionType> SpatialRegionMapType;
 
   /** Access the spacial dimensionality of the frames */
-  itkStaticConstMacro(FrameDimension, unsigned int, ImageType::ImageDimension);
+  itkStaticConstMacro(FrameDimension, unsigned int, FrameType::ImageDimension);
   static unsigned int GetFrameDimension()
-    { return ImageType::ImageDimension; }
+    { return FrameType::ImageDimension; }
 
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoStream, TemporalDataObject);
 
+  /** Initialize any empty frames. This method makes sure that the frame buffer
+   * is large enough to hold the number of frames needed for the buffered
+   * temporal region. It goes through the necessary number of frames making
+   * sure that each one has been initialized. When allocating space for frames,
+   * this method should be called first, followed by setting the spatial
+   * regions on each frame, before Allocate is called. */
+  void InitializeEmptyFrames();
+
+  /** Provide access to the internal frame buffer object */
+  BufferType* GetFrameBuffer()
+    { return reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer()); }
+  const BufferType* GetFrameBuffer() const
+    { return reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer()); }
+
+  /** Set the internal pixel buffer */
+  void SetFrameBuffer(BufferType* buffer);
+
+
+  /** Provide access to the internal caches for the spatial regions */
+  SpatialRegionMapType GetLargestPossibleSpatialRegionCache()
+    { return m_LargestPossibleSpatialRegionCache; }
+  const SpatialRegionMapType GetLargestPossibleSpatialRegionCache() const
+    { return m_LargestPossibleSpatialRegionCache; }
+  void SetLargestPossibleSpatialRegionCache(SpatialRegionMapType map)
+    { m_LargestPossibleSpatialRegionCache = map; }
+
+  SpatialRegionMapType GetRequestedSpatialRegionCache()
+    { return m_RequestedSpatialRegionCache; }
+  const SpatialRegionMapType GetRequestedSpatialRegionCache() const
+    { return m_RequestedSpatialRegionCache; }
+  void SetRequestedSpatialRegionCache(SpatialRegionMapType map)
+    { m_RequestedSpatialRegionCache = map; }
+
+  SpatialRegionMapType GetBufferedSpatialRegionCache()
+    { return m_BufferedSpatialRegionCache; }
+  const SpatialRegionMapType GetBufferedSpatialRegionCache() const
+    { return m_BufferedSpatialRegionCache; }
+  void SetBufferedSpatialRegionCache(SpatialRegionMapType map)
+    { m_BufferedSpatialRegionCache = map; }
+
+
+  /** Set the contents of the frame at a given frame number */
+  void SetFrame(unsigned long frameNumber, FrameType* frame);
+
+  /** Get the frame for the given frame number. Internally, we always leave the
+   * Head of the ring buffer in place and just use the frame number as an
+   * offset. This allows all references to frames to be processed by an
+   * explicit frame number rather than a potentially confusing offset. */
+  FrameType* GetFrame(unsigned long frameNumber);
+
+  /** Set the LargestPossibleRegion of a frame */
+  void SetFrameLargestPossibleSpatialRegion(unsigned long frameNumber,
+                                            SpatialRegionType region);
+
+  /** Set the RequestedRegion of a frame */
+  void SetFrameRequestedSpatialRegion(unsigned long frameNumber,
+                                      SpatialRegionType region);
+
+  /** Set the BufferedRegion of a frame */
+  void SetFrameBufferedSpatialRegion(unsigned long frameNumber,
+                                     SpatialRegionType region);
+
+  /** Set the LargestPossibleRegion on all frames. This assumes that all frames
+   * in the buffered temporal region have been initialized (should be called
+   * after InitializeEmptyFrames). */
+  void SetAllLargestPossibleSpatialRegions(SpatialRegionType region);
+
+  /** Set the RequestedRegion on all frames. This assumes that all frames in
+   * the buffered temporal region have been initialized (should be called
+   * after InitializeEmptyFrames). */
+  void SetAllRequestedSpatialRegions(SpatialRegionType region);
+
+  /** Set the BufferedRegion on all frames. This assumes that all frames in the
+   * buffered temporal region have been initialized (should be called after
+   * InitializeEmptyFrames). */
+  void SetAllBufferedSpatialRegions(SpatialRegionType region);
+
+  /** Allocate memory for the buffered spatial region of each frame in the
+   * buffered temporal region. This assumes that all frames in the buffered
+   * temporal region have been initialized and that the buffered spatial region
+   * has been set for each of these frames. A typical setup would look like:
+   *
+   * \code
+   *    // Set the buffered temporal region
+   *    TemporalRegionType bufferedTemporalRegion;
+   *    bufferedTemporalRegion.SetFrameStart( 0 );
+   *    bufferedTemporalRegion.SetFrameDuration( 3 );
+   *    video->SetBufferedTemporalRegion( bufferedTemporalRegion );
+   *
+   *    // Initialize all frames in the buffered temporal region
+   *    video->InitializeEmptyFrames();
+   *
+   *    // Set the buffered spatial region for each frame
+   *    SpatialRegionType bufferedSpatialRegion;
+   *    SpatialRegionType::SizeType size;
+   *    SpatialRegionType::IndexType start;
+   *    size[0] = 50;
+   *    size[1] = 40;
+   *    start.Fill( 0 );
+   *    bufferedSpatialRegion.SetSize( size );
+   *    bufferedSpatialRegion.SetIndex( start );
+   *    video->SetAllBufferedSpatialRegions( bufferedSpatialRegion );
+   *
+   *    // Allocate memory for the frames
+   *    video->Allocate();
+   * \endcode
+   */
+  void Allocate();
+
+
+  /** Graft the data and information from one VideoStream to this one. This
+   * just copies the meta information using TemporalProcessObject's Graft then
+   * sets the internal RingBuffer pointer to point to the same buffer used by
+   * the other VideoStream. */
+  virtual void Graft(const DataObject* data);
+
 protected:
 
   VideoStream() {};
   virtual ~VideoStream() {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const
-    { Superclass::Print(os, indent); };
+    { Superclass::Print(os, indent); }
+
+
+  /** These maps are used to cache a mapping between frame number and spatial
+   * region. This is done because frames will often not be in actual existance
+   * at the time when the region gets set. */
+  SpatialRegionMapType m_LargestPossibleSpatialRegionCache;
+  SpatialRegionMapType m_RequestedSpatialRegionCache;
+  SpatialRegionMapType m_BufferedSpatialRegionCache;
 
 private:
 
@@ -79,5 +206,9 @@ private:
 };  // end class VideoStream
 
 } // end namespace itk
+
+#if ITK_TEMPLATE_TXX
+#include "itkVideoStream.txx"
+#endif
 
 #endif

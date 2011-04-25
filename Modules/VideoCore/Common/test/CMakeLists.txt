@@ -5,6 +5,7 @@ set(Video-CommonTests
   itkTemporalDataObjectTest.cxx
   itkTemporalProcessObjectTest.cxx
   itkVideoStreamTest.cxx
+  itkVideoSourceTest.cxx
 )
 
 
@@ -12,6 +13,10 @@ set(Video-CommonTests
 include(${Video-Common_SOURCE_DIR}/MIDAS.cmake)
 
 CreateTestDriver(Video-Common  "${Video-Common-Test_LIBRARIES}" "${Video-CommonTests}" )
+
+# VideoSourceTest
+add_test( NAME VideoSourceTest
+          COMMAND Video-CommonTestDriver itkVideoSourceTest )
 
 # VideoStreamTest
 add_test( NAME VideoStreamTest
