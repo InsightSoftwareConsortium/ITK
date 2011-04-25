@@ -159,10 +159,9 @@ public:
     }
 
   /** Append the supplied data object */
-  void AppendDataObject(DataObject* obj)
+  void SetObjectAtFrame(unsigned long frameNumber, DataObject* obj)
     {
-    m_DataObjectBuffer->MoveHeadForward();
-    m_DataObjectBuffer->SetBufferContents(0, obj);
+    m_DataObjectBuffer->SetBufferContents(frameNumber, obj);
 
     if (m_BufferedTemporalRegion.GetFrameDuration() < m_DataObjectBuffer->GetNumberOfBuffers())
       {
@@ -237,14 +236,28 @@ public:
                       this->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() - 1;
     std::cout << "  -> input requested from " << inputStart << " to " << inputEnd << std::endl;
 
+    // Get the list of unbuffered frames
+    TemporalRegion unbufferedRegion = this->GetOutput()->GetUnbufferedRequestedTemporalRegion();
+
+    // Make sure that the requested output duration matches the unit output duration
+    unsigned long numFramesOut =
+      this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+    if (numFramesOut != m_UnitOutputNumberOfFrames)
+      {
+      itkExceptionMacro("Requested non-unit number of output frames");
+      }
+
     // Just pass frames from the input through to the output and add debug info
-    for (unsigned int i = 0; i < m_UnitOutputNumberOfFrames; ++i)
+    for (unsigned int i = outputStart; i < outputStart + numFramesOut; ++i)
       {
       DataObject::Pointer newObj = dynamic_cast<DataObject*>(DataObject::New().GetPointer());
 
       // Set the output
-      this->GetOutput()->AppendDataObject(newObj);
+      this->GetOutput()->SetObjectAtFrame(i, newObj);
       }
+
+    // Set the buffered region to match the requested region
+    this->GetOutput()->SetBufferedTemporalRegion(this->GetOutput()->GetRequestedTemporalRegion());
 
     // Create an END entry in the stack trace
     m_CallStack.push_back(CallRecord(m_IdNumber,
