@@ -16,5 +16,4 @@ set(KWSYS_INSTALL_BIN_DIR ${ITK-KWSys_INSTALL_RUNTIME_DIR})
 set(KWSYS_INSTALL_EXPORT_NAME ${ITK-KWSys-targets})
 
 add_subdirectory(KWSys)
-itk_module_target_name(${KWSYS_NAMESPACE})
-itk_module_target_export(${KWSYS_NAMESPACE})
+itk_module_target(${KWSYS_NAMESPACE} NO_INSTALL)

@@ -58,9 +58,8 @@ foreach(lib
     gdcmuuid
     )
   if(TARGET ${lib}) # some gdcm targets are conditional
-    set_property(TARGET ${lib} PROPERTY VERSION 1)
-    set_property(TARGET ${lib} PROPERTY SOVERSION "")
-    set_property(TARGET ${lib} PROPERTY OUTPUT_NAME itk${lib}-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
-    itk_module_target_export(${lib})
+    itk_module_target(${lib} NO_INSTALL)
+    get_property(name TARGET ${lib} PROPERTY OUTPUT_NAME)
+    set_property(TARGET ${lib} PROPERTY OUTPUT_NAME itk${name})
   endif()
 endforeach()

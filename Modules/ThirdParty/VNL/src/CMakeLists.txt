@@ -12,6 +12,5 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 add_subdirectory(vxl)
 foreach(lib itkvcl itkv3p_netlib itkv3p_lsqr itktestlib itkvnl itkvnl_algo)
-  itk_module_target_name(${lib})
-  itk_module_target_export(${lib})
+  itk_module_target(${lib} NO_INSTALL)
 endforeach()
