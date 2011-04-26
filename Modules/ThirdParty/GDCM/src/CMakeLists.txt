@@ -59,7 +59,5 @@ foreach(lib
     )
   if(TARGET ${lib}) # some gdcm targets are conditional
     itk_module_target(${lib} NO_INSTALL)
-    get_property(name TARGET ${lib} PROPERTY OUTPUT_NAME)
-    set_property(TARGET ${lib} PROPERTY OUTPUT_NAME itk${name})
   endif()
 endforeach()
