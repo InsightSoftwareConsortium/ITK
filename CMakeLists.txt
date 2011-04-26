@@ -200,6 +200,18 @@ foreach(f ${meta})
     set(${itk-module}_TESTED_BY ${itk-module-test})
     set(${itk-module-test}_TESTS_FOR ${itk-module})
   endif()
+
+  # Reject bad dependencies.
+  string(REGEX MATCHALL ";(ITK-Deprecated|ITK-Review|ITK-IntegratedTest);"
+    _bad_deps ";${ITK_MODULE_${itk-module}_DEPENDS};${ITK_MODULE_${itk-module-test}_DEPENDS};")
+  foreach(dep ${_bad_deps})
+    if(NOT "${itk-module}" MATCHES "^(${dep}|ITK-IntegratedTest)$")
+      message(FATAL_ERROR
+        "Module \"${itk-module}\" loaded from\n"
+        "  ${${itk-module}_BASE}/itk-module.cmake\n"
+        "may not depend on module \"${dep}\".")
+    endif()
+  endforeach()
 endforeach()
 # Clear variables set later in each module.
 unset(itk-module)
