@@ -20,6 +20,7 @@ itkMorphologicalGradientImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx
 itkOpeningByReconstructionImageFilterTest.cxx
 itkDoubleThresholdImageFilterTest.cxx
+itkShapedIteratorFromStructuringElementTest.cxx
 )
 
 CreateTestDriver(ITK-MathematicalMorphology  "${ITK-MathematicalMorphology-Test_LIBRARIES}" "${ITK-MathematicalMorphologyTests}")
@@ -203,3 +204,5 @@ add_test(NAME itkDoubleThresholdImageFilterTest2
             ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png itkDoubleThresholdImageFilterTest
             ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
             ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png 150 164 164 180)
+add_test(NAME itkShapedIteratorFromStructuringElementTest
+      COMMAND ITK-MathematicalMorphologyTestDriver itkShapedIteratorFromStructuringElementTest)
