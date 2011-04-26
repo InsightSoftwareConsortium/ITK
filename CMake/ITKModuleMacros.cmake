@@ -40,6 +40,23 @@ macro(itk_module_impl)
   set(${itk-module}_INSTALL_ARCHIVE_DIR ${ITK_INSTALL_ARCHIVE_DIR})
   set(${itk-module}_INSTALL_INCLUDE_DIR ${ITK_INSTALL_INCLUDE_DIR})
 
+  # Collect all sources and headers for IDE projects.
+  set(_srcs "")
+  if("${CMAKE_GENERATOR}" MATCHES "Xcode|Visual Studio|KDevelop"
+      OR CMAKE_EXTRA_GENERATOR)
+    # Add sources to the module target for easy editing in the IDE.
+    set(_include ${${itk-module}_SOURCE_DIR}/include)
+    if(EXISTS ${_include})
+      set(_src ${${itk-module}_SOURCE_DIR}/src)
+      file(GLOB_RECURSE _srcs ${_src}/*.cxx)
+      file(GLOB_RECURSE _hdrs ${_include}/*.h ${_include}/*.txx)
+      list(APPEND _srcs ${_hdrs})
+    endif()
+  endif()
+
+  # Create a ${itk-module}-all target to build the whole module.
+  add_custom_target(${itk-module}-all ALL SOURCES ${_srcs})
+
   itk_module_use(${ITK_MODULE_${itk-module}_DEPENDS})
 
   if(NOT DEFINED ${itk-module}_LIBRARIES)
@@ -117,7 +134,7 @@ endmacro()
 macro(itk_module_target_label _target_name)
   if(itk-module)
     set(_label ${itk-module})
-    set_property(GLOBAL APPEND PROPERTY ${itk-module}_TARGETS ${_target_name})
+    add_dependencies(${itk-module}-all ${_target_name})
   else()
     set(_label ${_ITKModuleMacros_DEFAULT_LABEL})
   endif()

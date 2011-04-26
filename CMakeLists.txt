@@ -417,31 +417,6 @@ macro(init_module_vars)
   set(${itk-module}-targets ITKTargets)
   set(${itk-module}-targets-install "${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake")
   set(${itk-module}-targets-build "${ITK_BINARY_DIR}/ITKTargets.cmake")
-
-  # Start each module with these properties empty. Calls to itk_module_target
-  # and itk_module_target_label accumulate names into this property:
-  set_property(GLOBAL PROPERTY ${itk-module}_TARGETS "")
-endmacro()
-
-macro(add_module_target)
-  verify_itk_module_is_set()
-  set(_srcs "")
-  if("${CMAKE_GENERATOR}" MATCHES "Xcode|Visual Studio|KDevelop"
-      OR CMAKE_EXTRA_GENERATOR)
-    # Add sources to the module target for easy editing in the IDE.
-    set(_include ${${itk-module}_SOURCE_DIR}/include)
-    if(EXISTS ${_include})
-      set(_src ${${itk-module}_SOURCE_DIR}/src)
-      file(GLOB_RECURSE _srcs ${_src}/*.cxx)
-      file(GLOB_RECURSE _hdrs ${_include}/*.h ${_include}/*.txx)
-      list(APPEND _srcs ${_hdrs})
-    endif()
-  endif()
-  add_custom_target(${itk-module}-all SOURCES ${_srcs})
-  get_property(_imm_dep_targets GLOBAL PROPERTY ${itk-module}_TARGETS)
-  if(_imm_dep_targets)
-    add_dependencies(${itk-module}-all ${_imm_dep_targets})
-  endif()
 endmacro()
 
 # Build all modules.
@@ -450,11 +425,6 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
     init_module_vars()
   endif()
   add_subdirectory("${${itk-module}_SOURCE_DIR}" "${${itk-module}_BINARY_DIR}")
-endforeach()
-foreach(itk-module ${ITK_MODULES_ENABLED})
-  if(NOT ${itk-module}_IS_TEST)
-    add_module_target()
-  endif()
 endforeach()
 
 #-----------------------------------------------------------------------------
