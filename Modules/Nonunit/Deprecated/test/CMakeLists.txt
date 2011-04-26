@@ -46,10 +46,12 @@ create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
         FUNCTION  ProcessArgumentsAndRegisterDeprecatedIOFactories
 )
 add_library(ITK-AnalyzeIO-TestHelper itkAnalyzeImageIOTestHelper.cxx)
+itk_module_target_label(ITK-AnalyzeIO-TestHelper)
 target_link_libraries(ITK-AnalyzeIO-TestHelper  ${ITK-Deprecated_LIBRARIES})
 
 list(APPEND ITK-Deprecated-Test_LIBRARIES ITK-AnalyzeIO-TestHelper)
 add_executable(DeprecatedIOTestDriver DeprecatedIOTestDriver.cxx  ${DeprecatedIOTests})
+itk_module_target_label(DeprecatedIOTestDriver)
 target_link_libraries(DeprecatedIOTestDriver ${ITK-Deprecated-Test_LIBRARIES})
 
 

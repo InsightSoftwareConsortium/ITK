@@ -101,11 +101,13 @@ itkImageFillBufferTest.cxx
 set(TestsToRun ${TESTS1})
 list(REMOVE_ITEM TestsToRun ITK-CommonTestDriver1.cxx)
 add_executable(ITK-CommonTestDriver1  ${TESTS1} )
+itk_module_target_label(ITK-CommonTestDriver1)
 target_link_libraries(ITK-CommonTestDriver1 ${ITK-Common_LIBRARIES})
 
 set(TestsToRun ${TESTS2})
 list(REMOVE_ITEM TestsToRun ITK-CommonTests2.cxx)
 add_executable(ITK-CommonTestDriver2  ${TESTS2} )
+itk_module_target_label(ITK-CommonTestDriver2)
 target_link_libraries(ITK-CommonTestDriver2 ${ITK-Common_LIBRARIES})
 
 #-----------------------------------------------------------------------------
@@ -116,16 +118,19 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 #-----------------------------------------------------------------------------
 add_executable( itkMathTest itkMathTest.cxx )
+itk_module_target_label(itkMathTest)
 add_test(NAME itkMathTest COMMAND itkMathTest)
 target_link_libraries(itkMathTest ${ITK-Common_LIBRARIES})
 
 add_executable(itkSystemInformation itkSystemInformation.cxx)
+itk_module_target_label(itkSystemInformation)
 target_link_libraries(itkSystemInformation ${ITK-Common_LIBRARIES})
 add_test(NAME SystemInformation COMMAND itkSystemInformation)
 
 
 if(ITK_OBJCXX_COMPILER_WORKS)
   add_executable(itkCommonHeaderObjCxxTest itkCommonHeaderObjCxxTest.mm)
+  itk_module_target_label(itkCommonHeaderObjCxxTest)
   target_link_libraries(itkCommonHeaderObjCxxTest ${ITK-Common_LIBRARIES})
   add_test(NAME itkCommonHeaderObjCxxTest COMMAND itkCommonHeaderObjCxxTest)
 endif(ITK_OBJCXX_COMPILER_WORKS)
@@ -135,6 +140,7 @@ if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK loadable factories
   set(FactoryTest_Source itkFactoryTestLib.cxx)
   add_library(FactoryTestLib MODULE ${FactoryTest_Source})
+  itk_module_target_label(FactoryTestLib)
   target_link_libraries(FactoryTestLib ${ITK-Common_LIBRARIES})
   set_property(TARGET FactoryTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITK-CommonTestDriver2 FactoryTestLib)
@@ -279,6 +285,7 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 endif("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
 add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
+itk_module_target_label(itkSystemInformationTest)
 target_link_libraries(itkSystemInformationTest  ${ITK-Common_LIBRARIES})
 add_test(NAME itkSystemInformationTest
          COMMAND itkSystemInformationTest ${CMAKE_BINARY_DIR})
