@@ -38,6 +38,10 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  * \sa UnaryFunctorImageFilter
  * \ingroup ITK-Review
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/AddConstantToImageFilter,Add a constant to every pixel in an image}
+ * \endwiki
  */
 namespace Functor
 {

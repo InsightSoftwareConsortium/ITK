@@ -107,7 +107,7 @@ private:
  * \ingroup ITK-ImageAdaptors
  *
  * \wiki
- * \wikiexample{VectorImages/VectorImageToImageAdaptor,Extract a component from a vector image}
+ * \wikiexample{VectorImages/VectorImageToImageAdaptor,View a component of a vector image as if it were a scalar image}
  * \endwiki
  */
 template< class TPixelType, unsigned int Dimension >

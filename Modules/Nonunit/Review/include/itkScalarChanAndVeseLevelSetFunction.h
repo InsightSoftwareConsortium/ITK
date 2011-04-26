@@ -62,8 +62,13 @@ namespace itk
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
- *
  * \ingroup ITK-Review
+ *
+ * \wiki
+ * \wikiexample{Segmentation/MultiphaseChanAndVeseSparseFieldLevelSetSegmentation,Multiphase Chan And Vese Sparse Field Level Set Segmentation}
+ * \wikiexample{Segmentation/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation,Single-phase Chan And Vese Sparse Field Level Set Segmentation}
+ * \wikiexample{Segmentation/SinglephaseChanAndVeseDenseFieldLevelSetSegmentation,Single-phase Chan And Vese Dense Field Level Set Segmentation}
+ * \endwiki
  */
 template< class TInputImage,
           class TFeatureImage,
