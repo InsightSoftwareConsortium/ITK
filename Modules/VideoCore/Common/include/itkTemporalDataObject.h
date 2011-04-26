@@ -63,8 +63,11 @@ public:
   virtual void SetTemporalUnitToFrameAndRealTime()
   { m_TemporalUnit = FrameAndRealTime; }
 
-  /** Function for getting the size of the underlying ring buffer. */
-  //virtual BufferType::SizeValueType GetBufferSize() const;
+  /** Get/Set the number of frames that the internal buffer can hold */
+  unsigned long GetNumberOfBuffers()
+    { return m_DataObjectBuffer->GetNumberOfBuffers(); }
+  void SetNumberOfBuffers(unsigned long num)
+    { m_DataObjectBuffer->SetNumberOfBuffers(num); }
 
   virtual void SetLargestPossibleTemporalRegion(
     const TemporalRegionType & region)
