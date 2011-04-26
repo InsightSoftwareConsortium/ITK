@@ -16,7 +16,7 @@ include(${ITK_TOP_DIR}/CMake/ITKModuleMacros.cmake)
 
 # Find the ITK build or install tree.  Assume the version matches exactly.
 # One should provide ITK_DIR explicitly in our intended use cases.
-find_package(ITK REQUIRED)
+find_package(ITK REQUIRED NO_MODULE)
 
 # Use ITK's flags.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
