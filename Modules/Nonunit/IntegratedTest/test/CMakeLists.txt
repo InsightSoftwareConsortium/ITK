@@ -193,18 +193,22 @@ CreateTestDriver_SupportBuildInIOFactories(ITK-IntegratedTest  "${ITK-Integrated
 
 # temporary solution for all print tests. Each module should have its own print test later.
 add_executable(itkAlgorithmsPrintTest  itkAlgorithmsPrintTest.cxx)
+itk_module_target_label(itkAlgorithmsPrintTest)
 target_link_libraries(itkAlgorithmsPrintTest ${ITK-IntegratedTest-Test_LIBRARIES})
 add_test(NAME itkAlgorithmsPrintTest COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest2  itkAlgorithmsPrintTest2.cxx)
+itk_module_target_label(itkAlgorithmsPrintTest2)
 target_link_libraries(itkAlgorithmsPrintTest2 ${ITK-IntegratedTest-Test_LIBRARIES})
 add_test(NAME itkAlgorithmsPrintTest2 COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest3  itkAlgorithmsPrintTest3.cxx)
+itk_module_target_label(itkAlgorithmsPrintTest3)
 target_link_libraries(itkAlgorithmsPrintTest3 ${ITK-IntegratedTest-Test_LIBRARIES})
 add_test(NAME itkAlgorithmsPrintTest3 COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest4  itkAlgorithmsPrintTest4.cxx)
+itk_module_target_label(itkAlgorithmsPrintTest4)
 target_link_libraries(itkAlgorithmsPrintTest4 ${ITK-IntegratedTest-Test_LIBRARIES})
 add_test(NAME itkAlgorithmsPrintTest4 COMMAND itkAlgorithmsPrintTest)
 
@@ -375,6 +379,7 @@ if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK IO plugins
   set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
   add_library(FileFreeTestLib MODULE ${FileFreeTest_Source})
+  itk_module_target_label(FileFreeTestLib)
   target_link_libraries(FileFreeTestLib ${ITK-IO-Base_LIBRARIES})
   set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITK-IntegratedTestTestDriver FileFreeTestLib)
@@ -710,6 +715,7 @@ add_test(NAME itkTriangleCellTest
 
 
 add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
+itk_module_target_label(itkUnicodeIOTest)
 add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)
 add_test(NAME itkVectorGeometryTest
       COMMAND ITK-IntegratedTestTestDriver itkVectorGeometryTest)
