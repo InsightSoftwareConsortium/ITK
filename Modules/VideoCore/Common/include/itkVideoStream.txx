@@ -120,7 +120,9 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
     }
   if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
     {
-    m_DataObjectBuffer->SetNumberOfBuffers(numFrames);
+    // Throw an exception. Just enlarging the buffer can cause errors with
+    // frame lookups
+    itkExceptionMacro("Not enough frame buffers set");
     }
 
   // Go through the number of required frames and make sure none are empty
@@ -172,6 +174,22 @@ VideoStream<TFrameType>::SetFrame(unsigned long frameNumber, TFrameType* frame)
 template<class TFrameType>
 TFrameType*
 VideoStream<TFrameType>::GetFrame(unsigned long frameNumber)
+{
+  // reinterpret our buffer to contain images
+  BufferType* frameBuffer = reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer());
+
+  // Fetch the frame
+  FrameType* frame =  frameBuffer->GetBufferContents(frameNumber);
+
+  return frame;
+}
+
+//
+// const GetFrame const
+//
+template<class TFrameType>
+const TFrameType*
+VideoStream<TFrameType>::GetFrame(unsigned long frameNumber) const
 {
   // reinterpret our buffer to contain images
   BufferType* frameBuffer = reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer());

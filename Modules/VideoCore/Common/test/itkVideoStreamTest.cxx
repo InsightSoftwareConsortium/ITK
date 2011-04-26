@@ -170,6 +170,10 @@ int itkVideoStreamTest( int argc, char* argv[] )
   video1->SetRequestedTemporalRegion( temporalRegion );
   video1->SetBufferedTemporalRegion( temporalRegion );
 
+  // Explicitly set the number of buffers to match the duration. This can't be
+  // done at update time because it will cause errors with frame lookup
+  video1->SetNumberOfBuffers(numFrames);
+
   // Initialize all frames in the buffered temporal region
   video1->InitializeEmptyFrames();
 

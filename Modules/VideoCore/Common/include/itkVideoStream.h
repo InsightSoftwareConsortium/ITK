@@ -107,7 +107,6 @@ public:
   void SetBufferedSpatialRegionCache(SpatialRegionMapType map)
     { m_BufferedSpatialRegionCache = map; }
 
-
   /** Set the contents of the frame at a given frame number */
   void SetFrame(unsigned long frameNumber, FrameType* frame);
 
@@ -116,18 +115,25 @@ public:
    * offset. This allows all references to frames to be processed by an
    * explicit frame number rather than a potentially confusing offset. */
   FrameType* GetFrame(unsigned long frameNumber);
+  const FrameType* GetFrame(unsigned long frameNumber) const;
 
-  /** Set the LargestPossibleRegion of a frame */
+  /** Get/Set the LargestPossibleRegion of a frame */
   void SetFrameLargestPossibleSpatialRegion(unsigned long frameNumber,
                                             SpatialRegionType region);
+  SpatialRegionType GetFrameLargestPossibleSpatialRegion(unsigned long frameNumber)
+    { return this->m_LargestPossibleSpatialRegionCache[frameNumber]; }
 
   /** Set the RequestedRegion of a frame */
   void SetFrameRequestedSpatialRegion(unsigned long frameNumber,
                                       SpatialRegionType region);
+  SpatialRegionType GetFrameRequestedSpatialRegion(unsigned long frameNumber)
+    { return this->m_RequestedSpatialRegionCache[frameNumber]; }
 
   /** Set the BufferedRegion of a frame */
   void SetFrameBufferedSpatialRegion(unsigned long frameNumber,
                                      SpatialRegionType region);
+  SpatialRegionType GetFrameBufferedSpatialRegion(unsigned long frameNumber)
+    { return this->m_BufferedSpatialRegionCache[frameNumber]; }
 
   /** Set the LargestPossibleRegion on all frames. This assumes that all frames
    * in the buffered temporal region have been initialized (should be called
