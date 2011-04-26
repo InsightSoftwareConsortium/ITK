@@ -19,11 +19,3 @@ add_subdirectory(Registration)
 add_subdirectory(Segmentation)
 add_subdirectory(SpatialObjects)
 add_subdirectory(Statistics)
-
-#This code looks like it needs to be updated to the new statistics framework
-#It was never updated as part of the refactoring to review statistics.
-#TMP_RMV20100801 add_subdirectory( Statistics )
-
-if( ITK_USE_REVIEW )
-  add_subdirectory( Review )
-endif( ITK_USE_REVIEW )
