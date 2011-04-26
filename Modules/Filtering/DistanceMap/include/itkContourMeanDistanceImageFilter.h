@@ -27,7 +27,6 @@ namespace itk
  * \brief Computes the Mean distance between the boundaries of
  * non-zero regions of two images.
  *
- *
  * ContourMeanDistanceImageFilter computes the distance between the
  * set non-zero pixels of two images using the following formula:
  * \f[ H(A,B) = \max(h(A,B),h(B,A)) \f]
@@ -61,7 +60,10 @@ namespace itk
  * \author Teo Popa, ISIS Center, Georgetown University
  *
  * \ingroup ITK-DistanceMap
+ *
+ * \wiki
  * \wikiexample{Curves/ContourMeanDistanceImageFilter,Compute the mean distance between all points of two curves}
+ * \endwiki
  */
 template< class TInputImage1, class TInputImage2 >
 class ITK_EXPORT ContourMeanDistanceImageFilter:

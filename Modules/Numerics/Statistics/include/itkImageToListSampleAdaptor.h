@@ -41,10 +41,12 @@ namespace Statistics
  * The measurment vector type is determined from the image pixel type. This class
  * handles images with scalar, fixed array or variable length vector pixel types.
  *
- *
  * \sa Sample, ListSample
  * \ingroup ITK-Statistics
+ *
+ * \wiki
  * \wikiexample{Statistics/ImageToListSampleAdaptor,Create a list of samples from an image without duplicating the data}
+ * \endwiki
  */
 
 template< class TImage >

@@ -44,7 +44,10 @@ namespace itk
  * \ingroup Multithreaded
  * \ingroup Streamed
  * \ingroup ITK-ImageGrid
+ *
+ * \wiki
  * \wikiexample{Images/FlipImageFilter,Flip an image over specified axes}
+ * \endwiki
  */
 template< class TImage >
 class ITK_EXPORT FlipImageFilter:

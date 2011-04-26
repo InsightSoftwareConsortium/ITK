@@ -36,11 +36,11 @@ namespace itk
  *
  * More precisely
  * \f[ Output(x_i) =
-       \begin{cases}
-         InsideValue  & \text{if $LowerThreshold \leq x_i \leq UpperThreshold$} \\
-         OutsideValue & \text{otherwise}
-        \end{cases}
-   \f]
+ *        \begin{cases}
+ *          InsideValue  & \text{if $LowerThreshold \leq x_i \leq UpperThreshold$} \\
+ *          OutsideValue & \text{otherwise}
+ *         \end{cases}
+ *    \f]
  *
  * This filter is templated over the input image type
  * and the output image type.
@@ -55,7 +55,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-Thresholding
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/BinaryThresholdImageFilter,Threshold an image}
+ * \endwiki
  */
 namespace Functor
 {

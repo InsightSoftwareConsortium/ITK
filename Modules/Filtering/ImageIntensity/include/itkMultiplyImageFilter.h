@@ -31,7 +31,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/MultiplyImageFilter,Multiply two images together}
+ * \endwiki
  */
 namespace Function
 {

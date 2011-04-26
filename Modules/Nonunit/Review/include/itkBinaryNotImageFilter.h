@@ -32,7 +32,6 @@ namespace itk
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- *
  * The total operation over one pixel will be
  *
  *  output_pixel = static_cast<PixelType>( input1_pixel != input2_pixel )
@@ -47,7 +46,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-Review
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/BinaryNotImageFilter,Invert an image using the Binary Not operation}
+ * \endwiki
  */
 namespace Functor {
 

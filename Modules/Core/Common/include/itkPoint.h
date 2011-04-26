@@ -41,8 +41,11 @@ namespace itk
  *
  * \sa Image \sa Mesh \sa Vector \sa CovariantVector \sa Matrix
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{SimpleOperations/DistanceBetweenPoints,Distance between two points}
  * \wikiexample{SimpleOperations/DistanceBetweenIndices,Distance between two indices}
+ * \endwiki
  */
 template< class TCoordRep, unsigned int NPointDimension = 3 >
 class Point:public FixedArray< TCoordRep, NPointDimension >

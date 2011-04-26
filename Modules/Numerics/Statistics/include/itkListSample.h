@@ -39,9 +39,12 @@ namespace Statistics
  * a measurement directly.  The GetFrequency() methods returns 1 if
  * the measurement exists in the list, 0 otherwise.
  *
- *\sa Sample, Histogram
+ * \sa Sample, Histogram
  * \ingroup ITK-Statistics
+ *
+ * \wiki
  * \wikiexample{Statistics/ListSample,Create a list of sample measurements}
+ * \endwiki
  */
 
 template< class TMeasurementVector >

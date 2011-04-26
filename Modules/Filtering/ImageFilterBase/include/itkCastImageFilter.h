@@ -37,7 +37,10 @@ namespace itk
  * \sa UnaryFunctorImageFilter
  * \sa ExtractImageFilter
  * \ingroup ITK-ImageFilterBase
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/CastImageFilter,Cast an image from one type to another}
+ * \endwiki
  */
 namespace Functor
 {

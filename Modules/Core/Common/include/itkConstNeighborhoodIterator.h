@@ -37,12 +37,14 @@ namespace itk
  * NeighborhoodIterator.  It serves as a base class from which other iterators
  * are derived. See NeighborhoodIterator for more complete information.
  *
- *
  * \ingroup ImageIterators
  *
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Iterators/ConstNeighborhoodIterator,Iterate over a region of an image with a neighborhood (without write access)}
+ * \endwiki
  */
 template< class TImage,  class TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >

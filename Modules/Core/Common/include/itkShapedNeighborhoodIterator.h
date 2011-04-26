@@ -37,7 +37,7 @@ namespace itk
  * example, to specify "cross-shaped" neighborhood where only elements along a
  * spatial axes are significant.
  *
- *\par Constructing a shaped neighborhood iterator
+ * \par Constructing a shaped neighborhood iterator
  * A shaped neighborhood iterator is constructed by constructing a list of
  * active neighbor locations.  The list is called the ActiveIndexList.  The
  * methods ActivateOffset, DeactivateOffset, and ClearActiveList are used to
@@ -60,7 +60,7 @@ namespace itk
  * location.  Note that values at inactive locations will NOT be valid if
  * queried.
  *
- *\par Accessing elements in a shaped neighborhood.
+ * \par Accessing elements in a shaped neighborhood.
  * To access the value at an active neighborhood location, you can use the
  * standard GetPixel, SetPixel methods.  SetPixel is not defined for
  * ConstShapedNeighborhoodIterator.   The class will not complain if you
@@ -141,6 +141,11 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Iterators/ShapedNeighborhoodIterator_Manual,Iterate over a region of an image with a shaped neighborhood}
+ * \wikiexample{Iterators/ShapedNeighborhoodIterator,Iterate over a region of an image with a shaped neighborhood}
+ * \endwiki
  */
 template< class TImage,  class TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >

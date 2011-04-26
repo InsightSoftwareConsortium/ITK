@@ -41,12 +41,14 @@ namespace itk
  * component image filter which did not produce consecutive labels or
  * impose any particular ordering.
  *
- *
  * \sa ImageToImageFilter
  *
  * \ingroup Singlethreaded
  * \ingroup ITK-ConnectedComponents
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/ConnectedComponentImageFilter,Label connected components in a binary image}
+ * \endwiki
  */
 
 template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >

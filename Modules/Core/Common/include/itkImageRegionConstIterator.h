@@ -68,7 +68,6 @@ namespace itk
  *
  * \endcode
  *
- *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
@@ -100,7 +99,10 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Iterators/ImageRegionConstIterator,Iterate over a region of an image (without write access)}
+ * \endwiki
  */
 template< typename TImage >
 class ITK_EXPORT ImageRegionConstIterator:public ImageConstIterator< TImage >

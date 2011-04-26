@@ -42,7 +42,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/AndImageFilter,Binary AND two images}
+ * \endwiki
  */
 namespace Functor
 {

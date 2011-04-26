@@ -56,7 +56,6 @@ namespace itk
  * wraps to the next row, starting at the first pixel in the row that is
  * part of the region. This allows for simple processing loops of the form:
  *
- *
  * \code
  *
  *  IteratorType it( image, image->GetRequestedRegion() );
@@ -120,7 +119,10 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Iterators/ImageRegionConstIteratorWithIndex,Iterate over a region of an image with efficient access to the current index (without write access)}
+ * \endwiki
  */
 template< typename TImage >
 class ITK_EXPORT ImageRegionConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >

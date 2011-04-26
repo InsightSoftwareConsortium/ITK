@@ -49,7 +49,6 @@ namespace itk
  * be taken not to make this value too small relative to the variance
  * lest the operator size become unreasonably large.
  *
- *
  * References:
  * The Gaussian kernel contained in this operator was described
  * by Tony Lindeberg  (Discrete Scale-Space Theory and the Scale-Space
@@ -68,7 +67,10 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITK-Review
+ *
+ * \wiki
  * \wikiexample{Operators/GaussianDerivativeOperator,Create a Gaussian derivative kernel}
+ * \endwiki
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

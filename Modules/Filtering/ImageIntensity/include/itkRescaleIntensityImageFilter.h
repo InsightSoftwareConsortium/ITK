@@ -112,7 +112,10 @@ private:
  * \ingroup IntensityImageFilters  Multithreaded
  *
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/RescaleIntensityImageFilter,Rescale the intensity values of an image to a specified range}
+ * \endwiki
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_EXPORT RescaleIntensityImageFilter:

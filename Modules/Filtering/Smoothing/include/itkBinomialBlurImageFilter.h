@@ -34,7 +34,10 @@ namespace itk
  *
  * \ingroup ImageEnhancement
  * \ingroup ITK-Smoothing
+ *
+ * \wiki
  * \wikiexample{Smoothing/BinomialBlurImageFilter,Blur an image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT BinomialBlurImageFilter:

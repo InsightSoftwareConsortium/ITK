@@ -32,7 +32,10 @@ namespace itk
  * This Class derives from SpatialObjectPoint.
  * A LineSpatialObjectPoint has NDimension-1 normals.
  * \ingroup ITK-SpatialObjects
+ *
+ * \wiki
  * \wikiexample{SpatialObjects/LineSpatialObject,Line spatial object}
+ * \endwiki
  */
 
 template< unsigned int TPointDimension = 3 >

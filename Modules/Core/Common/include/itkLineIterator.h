@@ -46,7 +46,10 @@ namespace itk
  *
  * \sa LineConstIterator
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Iterators/LineIterator,Iterate over a line through an image}
+ * \endwiki
  */
 template< class TImage >
 class ITK_EXPORT LineIterator:public LineConstIterator< TImage >

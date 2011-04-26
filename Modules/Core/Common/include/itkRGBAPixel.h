@@ -47,7 +47,10 @@ namespace itk
  * \ingroup ImageObjects
  *
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{SimpleOperations/Transparency,Make part of an image transparent}
+ * \endwiki
  */
 
 template< typename TComponent = unsigned short >

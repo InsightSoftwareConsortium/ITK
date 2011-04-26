@@ -52,7 +52,10 @@ namespace itk
  * \sa CovariantVector
  * \sa Matrix
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{SimpleOperations/CreateVector,Create a vector}
+ * \endwiki
  */
 template< class T, unsigned int NVectorDimension = 3 >
 class Vector:public FixedArray< T, NVectorDimension >

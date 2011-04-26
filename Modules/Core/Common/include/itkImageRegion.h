@@ -57,10 +57,13 @@ class ImageBase;
  *
  * \ingroup ImageObjects
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Images/ImageRegion,An object which holds the index (start) and size of a region of an image}
  * \wikiexample{SimpleOperations/RegionIntersection,Determine if one region is fully inside another region}
  * \wikiexample{SimpleOperations/PixelInsideRegion,Determine if a pixel is inside of a region}
  * \wikiexample{SimpleOperations/RegionOverlap,Determine the overlap of two regions}
+ * \endwiki
  */
 template< unsigned int VImageDimension >
 class ITK_EXPORT ImageRegion:public Region

@@ -35,9 +35,9 @@ namespace itk
  * efficient, N-D Gaussian blurring of an image region.
  *
  * GaussianOperator takes two parameters:
-
+ *
  * (1) The floating-point variance of the desired Gaussian function.
-
+ *
  * (2) The "maximum error" allowed in the discrete Gaussian
  * function.  "Maximum errror" is defined as the difference between the area
  * under the discrete Gaussian curve and the area under the continuous
@@ -57,7 +57,10 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITK-Common
+ *
+ * \wiki
  * \wikiexample{Operators/GaussianOperator,Create a Gaussian kernel}
+ * \endwiki
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

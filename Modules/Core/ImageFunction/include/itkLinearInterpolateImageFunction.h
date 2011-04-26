@@ -39,7 +39,10 @@ namespace itk
  *
  * \ingroup ImageFunctions ImageInterpolators
  * \ingroup ITK-ImageFunction
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/LinearInterpolateImageFunction,Linearly interpolate a position in an image}
+ * \endwiki
  */
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT LinearInterpolateImageFunction:

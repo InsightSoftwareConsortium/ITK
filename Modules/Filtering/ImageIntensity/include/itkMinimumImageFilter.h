@@ -31,10 +31,13 @@ namespace itk
  * This class is parametrized over the types of the two
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
-+ *
+ * + *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
  * \wikiexample{ImageProcessing/MinimumImageFilter,Pixel wise compare two input images and set the output pixel to their min}
+ * \endwiki
  */
 namespace Function
 {

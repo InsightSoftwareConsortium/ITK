@@ -32,7 +32,10 @@ namespace itk
  *
  * \sa ConstantPadImageFilter
  * \ingroup ITK-FFT
+ *
+ * \wiki
  * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class VnlFFTComplexConjugateToRealImageFilter:
