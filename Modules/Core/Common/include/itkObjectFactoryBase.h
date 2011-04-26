@@ -90,8 +90,33 @@ public:
    */
   static void RegisterFactoryInternal(ObjectFactoryBase *);
 
-  /** Register a factory so it can be used to create itk objects. */
-  static void RegisterFactory(ObjectFactoryBase *);
+  /** Position at which the new factory will be registered in the
+   *  internal factory container.
+   */
+  typedef enum
+    {
+    INSERT_AT_FRONT,
+    INSERT_AT_BACK,
+    INSERT_AT_POSITION
+    }  InsertionPositionType;
+
+  /** Register a factory so it can be used to create itk objects.
+   *
+   * When INSERT_AT_POSITION is selected, a third argument must be provided
+   * with the actual integer number of the intended position. The position
+   * number must be in the range [0, numberOfRegisteredFactories-1].
+   *
+   * Usage should be any of the following:
+   *
+   * itk::ObjectFactoryBase::RegisterFactory( newFactory1 ); // at back
+   * itk::ObjectFactoryBase::RegisterFactory( newFactory2, INSERT_AT_FRONT );
+   * itk::ObjectFactoryBase::RegisterFactory( newFactory3, INSERT_AT_BACK );
+   * itk::ObjectFactoryBase::RegisterFactory( newFactory4, INSERT_AT_POSITION, 5 );
+   *
+   * If the position value is out of range, an exception will be thrown.
+   */
+  static void RegisterFactory(ObjectFactoryBase *,
+    InsertionPositionType where=INSERT_AT_BACK, size_t position = 0);
 
   /** Remove a factory from the list of registered factories. */
   static void UnRegisterFactory(ObjectFactoryBase *);
