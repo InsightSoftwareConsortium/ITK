@@ -134,8 +134,9 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Explicitly handle temporal regions in EnlargeRequestedRegion. The default
-   * implementation makes sure that the output reuqested temporal region is a
-   * multiple of the unit output size. */
+   * implementation makes sure that the output requested temporal region is
+   * contained in the buffered temporal region or has a duration that is a
+   * multiple of the unit output number of frames */
   virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output);
 
   /** Explicitly handle temporal regions in GeneratOutputRegion. The default

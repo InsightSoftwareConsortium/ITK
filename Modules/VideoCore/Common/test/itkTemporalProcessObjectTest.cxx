@@ -134,6 +134,10 @@ public:
   virtual void UpdateOutputData()
     {
     std::cout << "      UpdateOutputData from temporal data object" << std::endl;
+
+    //DEBUG
+    std::cout << "Buffered region outside: " << this->RequestedRegionIsOutsideOfTheBufferedRegion()
+              << std::endl;
     Superclass::UpdateOutputData();
     }
 
@@ -162,17 +166,6 @@ public:
   void SetObjectAtFrame(unsigned long frameNumber, DataObject* obj)
     {
     m_DataObjectBuffer->SetBufferContents(frameNumber, obj);
-
-    if (m_BufferedTemporalRegion.GetFrameDuration() < m_DataObjectBuffer->GetNumberOfBuffers())
-      {
-      m_BufferedTemporalRegion.SetFrameDuration(
-        m_BufferedTemporalRegion.GetFrameDuration() + 1);
-      }
-    else
-      {
-      m_BufferedTemporalRegion.SetFrameStart(
-        m_BufferedTemporalRegion.GetFrameStart() + 1);
-      }
     }
 
   /** Get a bufferd frame */
@@ -229,12 +222,20 @@ public:
     // Report
     unsigned long outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
     std::cout << "**(ID = " << m_IdNumber << ") - TemporalStreamingGenerateData" << std::endl;
-    std::cout << "  -> output start frame: " << outputStart << std::endl;
+    std::cout << "  -> output requested from: " << outputStart << " to "
+              << this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() +
+                 outputStart - 1
+              << std::endl;
 
     unsigned long inputStart = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
     unsigned long inputEnd = inputStart +
                       this->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() - 1;
     std::cout << "  -> input requested from " << inputStart << " to " << inputEnd << std::endl;
+    std::cout << "  -> input buffered from "
+              << this->GetInput()->GetBufferedTemporalRegion().GetFrameStart() << " to "
+              << this->GetInput()->GetBufferedTemporalRegion().GetFrameStart() +
+                 this->GetInput()->GetBufferedTemporalRegion().GetFrameDuration() - 1
+              << std::endl;
 
     // Get the list of unbuffered frames
     TemporalRegion unbufferedRegion = this->GetOutput()->GetUnbufferedRequestedTemporalRegion();
@@ -257,7 +258,7 @@ public:
       }
 
     // Set the buffered region to match the requested region
-    this->GetOutput()->SetBufferedTemporalRegion(this->GetOutput()->GetRequestedTemporalRegion());
+    //this->GetOutput()->SetBufferedTemporalRegion(this->GetOutput()->GetRequestedTemporalRegion());
 
     // Create an END entry in the stack trace
     m_CallStack.push_back(CallRecord(m_IdNumber,
@@ -395,6 +396,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
   tpo3->SetUnitInputNumberOfFrames(2);
   tpo3->SetUnitOutputNumberOfFrames(1);
   tpo3->SetFrameSkipPerOutput(2);
+  tpo2->GetOutput()->SetNumberOfBuffers(6);
 
   // Set up frame stencils
   tpo1->SetInputStencilCurrentFrameIndex(1); // "current frame" centered in group of 3
@@ -490,8 +492,9 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     std::cerr << "tpo3 requested region duration not correct" << std::endl;
     return EXIT_FAILURE;
     }
-  if (tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 1)
+  if (tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 3)
     {
+    std::cerr << tpo3->GetInput()->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
     std::cerr << "tpo3 requested region start not correct" << std::endl;
     return EXIT_FAILURE;
     }
@@ -503,8 +506,9 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     std::cerr << "tpo2 requested region duration not correct" << std::endl;
     return EXIT_FAILURE;
     }
-  if (tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 1)
+  if (tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 3)
     {
+    std::cerr << tpo2->GetInput()->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
     std::cerr << "tpo2 requested region start not correct" << std::endl;
     return EXIT_FAILURE;
     }
@@ -516,8 +520,9 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
     std::cerr << "tpo1 requested region duration not correct" << std::endl;
     return EXIT_FAILURE;
     }
-  if (tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 0)
+  if (tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameStart() != 2)
     {
+    std::cerr << tpo1->GetInput()->GetRequestedTemporalRegion().GetFrameStart() << std::endl;
     std::cerr << "tpo1 requested region start not correct" << std::endl;
     return EXIT_FAILURE;
     }
@@ -632,11 +637,10 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
 
   //////
-  // Test Generation of next output frame -- For this case, since tpo2 has
-  // already generated 3 outputs and only 2 were used by tpo3 in the first
-  // pass, the call stack should never go back up to tpo1, but instead tpo3
-  // should just use the 2nd and 3rd frames from the output already generated
-  // by tpo2
+  // Test Generation of next output frame -- Since tpo3 skips two frames of
+  // input for every frame of output and tpo2 can only generate 3 outputs at a
+  // time, tpo2 must generate 6,7,8 (none of which are already buffered), so
+  // the entire pipeline runs again (so the call stack should be the same).
   //////
 
   // Set the requested region to the next output frame
@@ -646,28 +650,47 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
   // Call update to execute the entire pipeline and track the call stack
   itk::TemporalProcessObjectTest::m_CallStack.clear();
-  correctCallStack.clear();
   tpo3->Update();
+
+  // Check that correct number of calls made
+  if (itk::TemporalProcessObjectTest::m_CallStack.size() != correctCallStack.size())
+    {
+    std::cerr << "Incorrect number of items in call stack. Got: "
+      << itk::TemporalProcessObjectTest::m_CallStack.size() << " Expected: "
+      << correctCallStack.size() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Check that call lists match
+  std::cout << std::endl;
+  for (unsigned int i = 0; i < itk::TemporalProcessObjectTest::m_CallStack.size(); ++i)
+    {
+    std::cout << "Got: ";
+    itk::TemporalProcessObjectTest::m_CallStack[i].Print();
+    std::cout << "Expected: ";
+    correctCallStack[i].Print();
+    std::cout << std::endl;
+
+    if (itk::TemporalProcessObjectTest::m_CallStack[i] != correctCallStack[i])
+      {
+      std::cerr << "Call stacks don't match" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+
+  //////
+  // Call Update again and make sure that nothing happens except one call to
+  // GenerateData at the bottom which doesn't end up needing to do anything
+  //////
+  itk::TemporalProcessObjectTest::m_CallStack.clear();
+  tpo3->Update();
+
+  correctCallStack.clear();
 
   // GenDat - START - obj 3
   correctCallStack.push_back(
     RecordType(3, RecordType::START_CALL, RecordType::GENERATE_DATA) );
-
-  // GenDat - START - obj 2
-  correctCallStack.push_back(
-    RecordType(2, RecordType::START_CALL, RecordType::GENERATE_DATA) );
-
-  // GenDat - END - obj 2
-  correctCallStack.push_back(
-    RecordType(2, RecordType::END_CALL, RecordType::GENERATE_DATA) );
-
-  // TempStreamGenDat - START - obj 3
-  correctCallStack.push_back(
-    RecordType(3, RecordType::START_CALL, RecordType::STREAMING_GENERATE_DATA) );
-
-  // TempStreamGenDat - END - obj 3
-  correctCallStack.push_back(
-    RecordType(3, RecordType::END_CALL, RecordType::STREAMING_GENERATE_DATA) );
 
   // GenDat - END - obj 3
   correctCallStack.push_back(
