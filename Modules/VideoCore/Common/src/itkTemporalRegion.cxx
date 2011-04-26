@@ -78,4 +78,11 @@ TemporalRegion
   os << indent << "Frame Duration: " << m_FrameDuration << std::endl;
 }
 
+// ---------------------------------------------------------------------------
+std::ostream & operator<<(std::ostream & os, const TemporalRegion & region)
+{
+  region.Print(os);
+  return os;
+}
+
 } // end namespace itk
