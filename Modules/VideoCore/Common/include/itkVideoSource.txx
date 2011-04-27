@@ -135,8 +135,8 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
   // Get a list of unbuffered requested frames
   TemporalRegion unbufferedRegion = output->GetUnbufferedRequestedTemporalRegion();
 
-  // Set the buffered temporal region to match the requeted region
-  output->SetBufferedTemporalRegion(output->GetRequestedTemporalRegion());
+  // We don't touch the buffered temporal region here because that is handled
+  // by the default implementation of GenerateData in TemporalProcessObject
 
   // If there are no unbuffered frames, return now
   unsigned long numFrames = unbufferedRegion.GetFrameDuration();
@@ -149,7 +149,7 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
   output->InitializeEmptyFrames();
 
   // Loop through the unbuffered frames and set the buffered region to match
-  // the requested region
+  // the requested region then allocate the data
   unsigned long startFrame = unbufferedRegion.GetFrameStart();
   for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {

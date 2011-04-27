@@ -93,6 +93,9 @@ protected:
 
 };  // end class TemporalRegion
 
+/** ostream operator */
+std::ostream & operator<<(std::ostream & os, const TemporalRegion & region);
+
 } // end namespace itk
 
 #endif

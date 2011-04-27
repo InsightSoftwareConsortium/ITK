@@ -184,20 +184,19 @@ int itkVideoStreamTest( int argc, char* argv[] )
   // Make sure regions were set correctly
   for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
-    FrameType* frame = video1->GetFrame(i);
-    if (frame->GetLargestPossibleRegion() != largestSpatialRegion)
+    if (video1->GetFrameLargestPossibleSpatialRegion(i) != largestSpatialRegion)
       {
       std::cerr << "Frame " << i << " largest possible spatial region not set correctly"
                 << std::endl;
       return EXIT_FAILURE;
       }
-    if (frame->GetRequestedRegion() != requestedSpatialRegion)
+    if (video1->GetFrameRequestedSpatialRegion(i) != requestedSpatialRegion)
       {
       std::cerr << "Frame " << i << " requested spatial region not set correctly"
                 << std::endl;
       return EXIT_FAILURE;
       }
-    if (frame->GetBufferedRegion() != bufferedSpatialRegion)
+    if (video1->GetFrameBufferedSpatialRegion(i) != bufferedSpatialRegion)
       {
       std::cerr << "Frame " << i << " buffered spatial region not set correctly"
                 << std::endl;
@@ -212,22 +211,41 @@ int itkVideoStreamTest( int argc, char* argv[] )
   FrameType::IndexType idx;
   idx[0] = 49;
   idx[1] = 39;
-  PixelType pxVal = 35;
-  for (unsigned long i = 1; i <= numFrames; ++i)
+  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
     FrameType* frame = video1->GetFrame(i);
-    frame->SetPixel(idx, pxVal);
+    frame->SetPixel(idx, i);
     }
-  for (unsigned long i = 1; i <= numFrames; ++i)
+  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
     FrameType* frame = video1->GetFrame(i);
-    if (frame->GetPixel(idx) != pxVal)
+    if (frame->GetPixel(idx) != i)
       {
       std::cerr << "Error setting/getting pixel for frame " << i << std::endl;
       return EXIT_FAILURE;
       }
     }
 
+
+  //////
+  // Test InitializeNewFrames with larger requested region. Make sure buffered
+  // frames are still valid
+  //////
+
+  temporalRegion.SetFrameDuration(temporalRegion.GetFrameDuration() + 1);
+  video1->SetLargestPossibleTemporalRegion(temporalRegion);
+  video1->SetRequestedTemporalRegion(temporalRegion);
+  video1->InitializeEmptyFrames();
+
+  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+    {
+    FrameType* frame = video1->GetFrame(i);
+    if (frame->GetPixel(idx) != i)
+      {
+      std::cerr << "Error setting/getting pixel for frame " << i << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
 
   return EXIT_SUCCESS;
 

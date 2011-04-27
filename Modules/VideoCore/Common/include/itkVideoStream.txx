@@ -111,20 +111,46 @@ template<class TFrameType>
 void
 VideoStream<TFrameType>::InitializeEmptyFrames()
 {
-  // Make sure the frame buffer is large enough for the number of frames needed
-  // by the buffered temporal region
-  unsigned long numFrames = m_BufferedTemporalRegion.GetFrameDuration();
+  // If we don't have any frames requested, just return
+  unsigned long numFrames = m_RequestedTemporalRegion.GetFrameDuration();
   if (numFrames == 0)
     {
     return;
     }
+
+  // If we don't have enough buffer space to handle the number of requested
+  // frames, we need to resize the ring buffer. Just resizing can cause data to
+  // be in the wrong place. For example if the head of the buffer is at index 0
+  // and the buffer has 3 slots, setting frame number 3 will actually place the
+  // data into slot 0.  If we then resize the buffer to have 4 slots, the data
+  // for frame 3 will live in slot 0 even though a request for frame 3 will
+  // return the data from the newly created slot 3. To circumvent this problem,
+  // we move the buffered data to the proper indices in the ring buffer after
+  // resizing.
   if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
     {
+    // Save the indices of all frames in the currently buffered region
+    unsigned long bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
+    unsigned long bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
+    std::map<unsigned long, DataObject*> frameNumPtrMap;
+    for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
+      {
+      frameNumPtrMap[i] = m_DataObjectBuffer->GetBufferContents(i);
+      //m_DataObjectBuffer->SetBufferContents(i, NULL);
+      }
+
+    // Resize the ring buffer
     m_DataObjectBuffer->SetNumberOfBuffers(numFrames);
+
+    // Move previously buffered data to the locations where their frame numbers now map
+    for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
+      {
+      m_DataObjectBuffer->SetBufferContents(i, frameNumPtrMap[i]);
+      }
     }
 
   // Go through the number of required frames and make sure none are empty
-  unsigned long startFrame = m_BufferedTemporalRegion.GetFrameStart();
+  unsigned long startFrame = m_RequestedTemporalRegion.GetFrameStart();
   for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
     if (!m_DataObjectBuffer->BufferIsFull(i))
@@ -172,6 +198,22 @@ VideoStream<TFrameType>::SetFrame(unsigned long frameNumber, TFrameType* frame)
 template<class TFrameType>
 TFrameType*
 VideoStream<TFrameType>::GetFrame(unsigned long frameNumber)
+{
+  // reinterpret our buffer to contain images
+  BufferType* frameBuffer = reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer());
+
+  // Fetch the frame
+  FrameType* frame =  frameBuffer->GetBufferContents(frameNumber);
+
+  return frame;
+}
+
+//
+// const GetFrame const
+//
+template<class TFrameType>
+const TFrameType*
+VideoStream<TFrameType>::GetFrame(unsigned long frameNumber) const
 {
   // reinterpret our buffer to contain images
   BufferType* frameBuffer = reinterpret_cast<BufferType*>(m_DataObjectBuffer.GetPointer());

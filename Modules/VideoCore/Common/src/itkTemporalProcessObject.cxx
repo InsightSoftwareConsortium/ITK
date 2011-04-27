@@ -78,17 +78,31 @@ TemporalProcessObject::EnlargeOutputRequestedRegion(DataObject* output)
 void
 TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output)
 {
+  // Get information on output request and current output buffer
+  TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
+  TemporalRegion outBufTempRegion = output->GetBufferedTemporalRegion();
+  unsigned long outReqStart = outReqTempRegion.GetFrameStart();
+  unsigned long outReqDuration = outReqTempRegion.GetFrameDuration();
+  unsigned long outReqEnd = outReqDuration + outReqStart;
+  unsigned long outBufStart = outBufTempRegion.GetFrameStart();
+  unsigned long outBufEnd = outBufTempRegion.GetFrameDuration() + outBufStart;
+
+  // If the requested output region is contained in the buffered temporal
+  // region, just return
+  if (outReqStart >= outBufStart && outReqEnd <= outBufEnd)
+    {
+    return;
+    }
+
   // Make sure the requested output temporal region duration is a multiple of
   // the unit number of output frames
-  TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
-  unsigned long outFrameDuration = outReqTempRegion.GetFrameDuration();
 
-  unsigned int remainder = outFrameDuration % m_UnitOutputNumberOfFrames;
+  unsigned int remainder = outReqDuration % m_UnitOutputNumberOfFrames;
   if (remainder > 0)
     {
-    outFrameDuration += (m_UnitOutputNumberOfFrames - remainder);
+    outReqDuration += (m_UnitOutputNumberOfFrames - remainder);
     }
-  outReqTempRegion.SetFrameDuration(outFrameDuration);
+  outReqTempRegion.SetFrameDuration(outReqDuration);
   output->SetRequestedTemporalRegion(outReqTempRegion);
 }
 
@@ -175,8 +189,9 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
                                   m_UnitInputNumberOfFrames;
 
   // Compute the start of the input requested temporal region based on
-  // m_InputStencilCurrentFrameIndex
-  long inputStart = outReqTempRegion.GetFrameStart() - m_InputStencilCurrentFrameIndex;
+  // m_InputStencilCurrentFrameIndex and FrameSkipPerOutput
+  long inputStart = outReqTempRegion.GetFrameStart() * m_FrameSkipPerOutput
+                      - m_InputStencilCurrentFrameIndex;
 
   // Make sure we're not requesting a negative frame (this may be replaced by
   // boundary conditions at some point)
@@ -243,7 +258,8 @@ TemporalProcessObject::UpdateOutputInformation()
     ((double)(scannableDuration - 1) / (double)(m_FrameSkipPerOutput) + 1);
 
   // Compute the start of the output region
-  long outputStart = inputLargestRegion.GetFrameStart() + m_InputStencilCurrentFrameIndex;
+  long outputStart = ceil((double)inputLargestRegion.GetFrameStart() / (double)m_FrameSkipPerOutput)
+                      + m_InputStencilCurrentFrameIndex;
 
   // Set up output largest possible region
   TemporalRegion largestRegion = output->GetLargestPossibleTemporalRegion();
@@ -367,12 +383,8 @@ TemporalProcessObject::GenerateData()
     }
   unsigned long outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
 
-  // Set the start frame of the buffered region to match the first requested
-  // frame. The duration must be handled by the TemporalDataObject because of
-  // the RingBuffer used underneath.
-  TemporalRegion updatedBufferedRegion = output->GetBufferedTemporalRegion();
-  updatedBufferedRegion.SetFrameStart(output->GetRequestedTemporalRegion().GetFrameStart());
-  output->SetBufferedTemporalRegion(updatedBufferedRegion);
+  // Save the full requested and buffered output regions
+  TemporalRegion fullOutputRequest = output->GetRequestedTemporalRegion();
 
   // Process each of the temporal sub-regions in sequence
   for (unsigned int i = 0; i < inputTemporalRegionRequests.size(); ++i)
@@ -404,9 +416,42 @@ TemporalProcessObject::GenerateData()
     // Call TemporalStreamingGenerateData to process the chunk of data
     this->TemporalStreamingGenerateData();
 
+    // Update the bufferd region information
+    TemporalRegion outputBufferedRegion = output->GetBufferedTemporalRegion();
+    unsigned long bufferedStart = outputBufferedRegion.GetFrameStart();
+    unsigned long bufferedDuration = outputBufferedRegion.GetFrameDuration();
+
+    // If there is nothing buffered, set the start as well as the duration
+    if (bufferedDuration == 0)
+      {
+      bufferedStart = outputStartFrame;
+      }
+
+    long spareFrames = output->GetNumberOfBuffers() - (long)bufferedDuration;
+    if (spareFrames >= (long)m_UnitOutputNumberOfFrames)
+      {
+      bufferedDuration += m_UnitOutputNumberOfFrames;
+      }
+    else if (spareFrames > 0)
+      {
+      bufferedDuration += spareFrames;
+      bufferedStart += (m_UnitOutputNumberOfFrames - spareFrames);
+      }
+    else
+      {
+      bufferedStart += m_UnitOutputNumberOfFrames;
+      }
+
+    outputBufferedRegion.SetFrameStart(bufferedStart);
+    outputBufferedRegion.SetFrameDuration(bufferedDuration);
+    output->SetBufferedTemporalRegion(outputBufferedRegion);
+
     // Increment outputStartFrame
     outputStartFrame += this->m_UnitOutputNumberOfFrames;
     }
+
+  // Set the requested and buffered temporal regions to match the full request
+  output->SetRequestedTemporalRegion(fullOutputRequest);
 
   // Call post-processing method
   this->AfterTemporalStreamingGenerateData();
@@ -426,7 +471,7 @@ TemporalProcessObject::TemporalStreamingGenerateData()
 
 //
 // SplitRequestedTemporalRegion
-// TODO: Hanle RealTime
+// TODO: Handle RealTime
 //
 std::vector<TemporalRegion>
 TemporalProcessObject::SplitRequestedTemporalRegion()
@@ -464,12 +509,14 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   long regionStartFrame = 1;
   if (this->m_FrameSkipPerOutput > 0)
     {
-    regionStartFrame = unbufferedRegion.GetFrameStart() - m_InputStencilCurrentFrameIndex;
+    regionStartFrame = unbufferedRegion.GetFrameStart() * m_FrameSkipPerOutput
+                         - m_InputStencilCurrentFrameIndex;
     }
   else if (this->m_FrameSkipPerOutput < 0)
     {
-    regionStartFrame = unbufferedRegion.GetFrameStart() + unbufferedRegion.GetFrameDuration() + 1 -
-                        (this->m_UnitOutputNumberOfFrames - m_InputStencilCurrentFrameIndex);
+    regionStartFrame = unbufferedRegion.GetFrameStart() * m_FrameSkipPerOutput
+                        + unbufferedRegion.GetFrameDuration() + 1
+                        - (this->m_UnitOutputNumberOfFrames - m_InputStencilCurrentFrameIndex);
     }
 
   // Make sure we're not trying to get a negative frame

@@ -130,12 +130,13 @@ TemporalDataObject
 {
   bool frameFlag = m_RequestedTemporalRegion.GetFrameStart() <
     m_BufferedTemporalRegion.GetFrameStart();
-  frameFlag |= m_RequestedTemporalRegion.GetFrameDuration() >
-    m_BufferedTemporalRegion.GetFrameDuration();
+  frameFlag |= m_RequestedTemporalRegion.GetFrameDuration() + m_RequestedTemporalRegion.GetFrameStart() >
+    m_BufferedTemporalRegion.GetFrameDuration() + m_BufferedTemporalRegion.GetFrameStart();
   bool realTimeFlag = m_RequestedTemporalRegion.GetRealStart() <
     m_BufferedTemporalRegion.GetRealStart();
-  realTimeFlag |= m_RequestedTemporalRegion.GetRealDuration() >
-    m_BufferedTemporalRegion.GetRealDuration();
+  realTimeFlag |= m_RequestedTemporalRegion.GetRealStart() + m_RequestedTemporalRegion.GetRealDuration() >
+    m_BufferedTemporalRegion.GetRealStart() + m_BufferedTemporalRegion.GetRealDuration();
+
   switch( m_TemporalUnit )
     {
     case Frame:
