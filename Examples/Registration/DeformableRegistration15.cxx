@@ -37,22 +37,7 @@
 #include "itkMattesMutualInformationImageToImageMetric.h"
 
 #include "itkTimeProbesCollectorBase.h"
-
-#ifdef ITK_USE_REVIEW
 #include "itkMemoryProbesCollectorBase.h"
-#define itkProbesCreate()  \
-  itk::TimeProbesCollectorBase chronometer; \
-  itk::MemoryProbesCollectorBase memorymeter
-#define itkProbesStart( text ) memorymeter.Start( text ); chronometer.Start( text )
-#define itkProbesStop( text )  chronometer.Stop( text ); memorymeter.Stop( text  )
-#define itkProbesReport( stream )  chronometer.Report( stream ); memorymeter.Report( stream  )
-#else
-#define itkProbesCreate()  \
-  itk::TimeProbesCollectorBase chronometer
-#define itkProbesStart( text ) chronometer.Start( text )
-#define itkProbesStop( text )  chronometer.Stop( text )
-#define itkProbesReport( stream )  chronometer.Report( stream )
-#endif
 
 //  Software Guide : BeginLatex
 //
@@ -230,7 +215,8 @@ int main( int argc, char *argv[] )
   // Add a time and memory probes collector for profiling the computation time
   // of every stage.
   //
-  itkProbesCreate();
+  itk::TimeProbesCollectorBase chronometer;
+  itk::MemoryProbesCollectorBase memorymeter
 
 
   //
@@ -279,9 +265,15 @@ int main( int argc, char *argv[] )
 
 
   std::cout << "Starting Rigid Transform Initialization " << std::endl;
-  itkProbesStart( "Rigid Initialization");
+
+  memorymeter.Start( "Rigid Initialization" );
+  chronometer.Start( "Rigid Initialization" )
+
   initializer->InitializeTransform();
-  itkProbesStop( "Rigid Initialization");
+
+  chronometer.Stop( "Rigid Initialization" );
+  memorymeter.Stop( "Rigid Initialization" )
+
   std::cout << "Rigid Transform Initialization completed" << std::endl;
   std::cout << std::endl;
 
@@ -332,9 +324,14 @@ int main( int argc, char *argv[] )
 
   try
     {
-    itkProbesStart( "Rigid Registration" );
+    memorymeter.Start( "Rigid Registration" );
+    chronometer.Start( "Rigid Registration" )
+
     registration->StartRegistration();
-    itkProbesStop( "Rigid Registration" );
+
+    chronometer.Stop( "Rigid Registration" );
+    memorymeter.Stop( "Rigid Registration" )
+
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
@@ -401,9 +398,13 @@ int main( int argc, char *argv[] )
 
   try
     {
-    itkProbesStart( "Affine Registration" );
+    memorymeter.Start( "Affine Registration" );
+    chronometer.Start( "Affine Registration" )
+
     registration->StartRegistration();
-    itkProbesStop( "Affine Registration" );
+
+    chronometer.Stop( "Affine Registration" );
+    memorymeter.Stop( "Affine Registration" )
     }
   catch( itk::ExceptionObject & err )
     {
@@ -533,9 +534,13 @@ int main( int argc, char *argv[] )
 
   try
     {
-    itkProbesStart( "Deformable Registration Coarse" );
+    memorymeter.Start( "Deformable Registration Coarse" );
+    chronometer.Start( "Deformable Registration Coarse" )
+
     registration->StartRegistration();
-    itkProbesStop( "Deformable Registration Coarse" );
+
+    chronometer.Stop( "Deformable Registration Coarse" );
+    memorymeter.Stop( "Deformable Registration Coarse" )
     }
   catch( itk::ExceptionObject & err )
     {
@@ -693,9 +698,13 @@ int main( int argc, char *argv[] )
 
   try
     {
-    itkProbesStart( "Deformable Registration Fine" );
+    memorymeter.Start( "Deformable Registration Fine" );
+    chronometer.Start( "Deformable Registration Fine" )
+
     registration->StartRegistration();
-    itkProbesStop( "Deformable Registration Fine" );
+
+    chronometer.Stop( "Deformable Registration Fine" );
+    memorymeter.Stop( "Deformable Registration Fine" )
     }
   catch( itk::ExceptionObject & err )
     {
@@ -711,7 +720,8 @@ int main( int argc, char *argv[] )
 
 
   // Report the time and memory taken by the registration
-  itkProbesReport( std::cout );
+  chronometer.Report( std::cout );
+  memorymeter.Report( std::cout );
 
   finalParameters = registration->GetLastTransformParameters();
 
@@ -907,8 +917,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-
-#undef itkProbesCreate
-#undef itkProbesStart
-#undef itkProbesStop
-#undef itkProbesReport
