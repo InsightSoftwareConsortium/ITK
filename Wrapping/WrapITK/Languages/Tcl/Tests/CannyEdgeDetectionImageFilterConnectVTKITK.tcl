@@ -64,21 +64,21 @@ ConnectVTKToITKF2 vtkExporter [$itkImporter GetPointer]
 
 # perform a canny edge detection and rescale the output
 set canny [itkCannyEdgeDetectionImageFilterF2F2_New]
-set rescaler [itkRescaleIntensityImageFilterF2US2_New]
+set rescaler [itkRescaleIntensityImageFilterF2UC2_New]
 $canny SetInput [$itkImporter GetOutput]
 $rescaler SetInput [$canny GetOutput]
 $rescaler SetOutputMinimum 0
 $rescaler SetOutputMaximum 65535
 
 # this will form the end-point of the ITK pipeline segment
-set itkExporter [itkVTKImageExportUS2_New]
+set itkExporter [itkVTKImageExportUC2_New]
 $itkExporter SetInput [$rescaler GetOutput]
 
 # the vtkImageImport will bring our data back into VTK-land
 vtkImageImport vtkImporter
 # do the magic connection call (once again: only available if you built
 # ITK with ITK_CSWIG_CONNECTVTKITK set to ON)
-ConnectITKUS2ToVTK [$itkExporter GetPointer] vtkImporter
+ConnectITKUC2ToVTK [$itkExporter GetPointer] vtkImporter
 
 # finally write the image to disk using VTK
 vtkPNGWriter writer

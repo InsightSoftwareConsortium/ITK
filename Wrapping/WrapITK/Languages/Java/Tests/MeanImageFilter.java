@@ -31,10 +31,10 @@ public class MeanImageFilter
   {
     System.out.println("MeanImageFilter Example");
 
-    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
-    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
+    itkImageFileReaderIUC2 reader = new itkImageFileReaderIUC2();
+    itkImageFileWriterIUC2 writer = new itkImageFileWriterIUC2();
 
-    itkMeanImageFilterIUS2IUS2 filter = new itkMeanImageFilterIUS2IUS2();
+    itkMeanImageFilterIUC2IUC2 filter = new itkMeanImageFilterIUC2IUC2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

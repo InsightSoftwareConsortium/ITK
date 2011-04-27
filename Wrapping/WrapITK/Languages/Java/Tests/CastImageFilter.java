@@ -30,10 +30,10 @@ public class CastImageFilter
   {
     System.out.println("CastImageFilter Example");
 
-    itkImageFileReaderIUC2 reader = new itkImageFileReaderIUC2();
-    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
+    itkImageFileReaderISS2 reader = new itkImageFileReaderISS2();
+    itkImageFileWriterIUC2 writer = new itkImageFileWriterIUC2();
 
-    itkCastImageFilterIUC2IUS2 filter = new itkCastImageFilterIUC2IUS2();
+    itkCastImageFilterISS2IUC2 filter = new itkCastImageFilterISS2IUC2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

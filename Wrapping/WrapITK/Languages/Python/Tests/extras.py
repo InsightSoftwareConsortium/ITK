@@ -32,7 +32,7 @@ itk.force_load()
 
 fileName = sys.argv[1]
 
-PType = itk.US
+PType = itk.UC
 dim = 2
 IType = itk.Image[PType, dim]
 ReaderType = itk.ImageFileReader[IType]

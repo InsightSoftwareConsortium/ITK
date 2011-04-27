@@ -46,7 +46,7 @@ add_python_test(PythonTiming ${CMAKE_CURRENT_SOURCE_DIR}/timing.py)
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
 INTERSECTION(WRAP_2 2 "${WRAP_ITK_DIMS}")
-if(WRAP_unsigned_short AND WRAP_2)
+if(WRAP_unsigned_char AND WRAP_2)
   add_python_test(PythonTypemaps ${CMAKE_CURRENT_SOURCE_DIR}/typemaps.py)
 
   add_python_test(PythonTemplate ${CMAKE_CURRENT_SOURCE_DIR}/template.py)
@@ -96,7 +96,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     BinaryThresholdImageFilter.png
     50 150
-    0 65535
+    0 255
     --compare BinaryThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png
   )
 
@@ -228,7 +228,7 @@ if(WRAP_unsigned_short AND WRAP_2)
           3
   )
 
-endif(WRAP_unsigned_short AND WRAP_2)
+endif(WRAP_unsigned_char AND WRAP_2)
 
 
 if(WRAP_float AND WRAP_2)

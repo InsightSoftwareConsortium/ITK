@@ -30,10 +30,10 @@ public class BinaryThresholdImageFilter
   {
     System.out.println("BinaryThresholdImageFilter Example");
 
-    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
-    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
+    itkImageFileReaderIUC2 reader = new itkImageFileReaderIUC2();
+    itkImageFileWriterIUC2 writer = new itkImageFileWriterIUC2();
 
-    itkBinaryThresholdImageFilterIUS2IUS2 filter = new itkBinaryThresholdImageFilterIUS2IUS2();
+    itkBinaryThresholdImageFilterIUC2IUC2 filter = new itkBinaryThresholdImageFilterIUC2IUC2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );
@@ -41,11 +41,11 @@ public class BinaryThresholdImageFilter
     reader.SetFileName( argv[0] );
     writer.SetFileName( argv[1] );
 
-    filter.SetLowerThreshold(  Integer.parseInt( argv[2] )  );
-    filter.SetUpperThreshold(  Integer.parseInt( argv[3] )  );
+    filter.SetLowerThreshold(  Short.parseShort( argv[2] )  );
+    filter.SetUpperThreshold(  Short.parseShort( argv[3] )  );
 
-    filter.SetOutsideValue( Integer.parseInt( argv[4] )  );
-    filter.SetInsideValue(  Integer.parseInt( argv[5] )  );
+    filter.SetOutsideValue( Short.parseShort( argv[4] )  );
+    filter.SetInsideValue(  Short.parseShort( argv[5] )  );
 
     writer.Update();
   }

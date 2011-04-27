@@ -65,12 +65,12 @@ set(WrapITK_VERSION_MINOR 4)
 set(WrapITK_VERSION_PATCH 0)
 
 
-option(WRAP_unsigned_char "Wrap unsigned char type" OFF)
-option(WRAP_unsigned_short "Wrap unsigned short type" ON)
+option(WRAP_unsigned_char "Wrap unsigned char type" ON)
+option(WRAP_unsigned_short "Wrap unsigned short type" OFF)
 option(WRAP_unsigned_long "Wrap unsigned long type" OFF)
 
 option(WRAP_signed_char "Wrap signed char type" OFF)
-option(WRAP_signed_short "Wrap signed short type" OFF)
+option(WRAP_signed_short "Wrap signed short type" ON)
 option(WRAP_signed_long "Wrap signed long type" OFF)
 
 option(WRAP_float "Wrap float type" ON)
@@ -82,11 +82,11 @@ option(WRAP_vector_double "Wrap vector double type" OFF)
 option(WRAP_covariant_vector_float "Wrap covariant vector float type" ON)
 option(WRAP_covariant_vector_double "Wrap covariant vector double type" OFF)
 
-option(WRAP_rgb_unsigned_char "Wrap RGB< unsigned char > type" OFF)
-option(WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" ON)
+option(WRAP_rgb_unsigned_char "Wrap RGB< unsigned char > type" ON)
+option(WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" OFF)
 
-option(WRAP_rgba_unsigned_char "Wrap RGBA< unsigned char > type" OFF)
-option(WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" ON)
+option(WRAP_rgba_unsigned_char "Wrap RGBA< unsigned char > type" ON)
+option(WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" OFF)
 
 option(WRAP_complex_float "Wrap complex<float> type" ON)
 option(WRAP_complex_double "Wrap complex<double> type" OFF)

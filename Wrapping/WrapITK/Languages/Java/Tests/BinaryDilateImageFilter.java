@@ -32,15 +32,13 @@ public class BinaryDilateImageFilter
   {
     System.out.println("BinaryDilateImageFilter Example");
 
-    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
+    itkImageFileReaderIUC2 reader = new itkImageFileReaderIUC2();
     itkImageFileWriterIUC2 writer = new itkImageFileWriterIUC2();
-    itkCastImageFilterIUS2IUC2 caster = new itkCastImageFilterIUS2IUC2();
 
-    itkBinaryDilateImageFilterIUS2IUS2SE2 filter = new itkBinaryDilateImageFilterIUS2IUS2SE2();
+    itkBinaryDilateImageFilterIUC2IUC2SE2 filter = new itkBinaryDilateImageFilterIUC2IUC2SE2();
 
     filter.SetInput( reader.GetOutput() );
-    caster.SetInput( filter.GetOutput() );
-    writer.SetInput( caster.GetOutput() );
+    writer.SetInput( filter.GetOutput() );
 
     reader.SetFileName( argv[0] );
     writer.SetFileName( argv[1] );

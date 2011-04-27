@@ -52,7 +52,7 @@ proc createImageViewer2D {frame image args} {
 set sigma 1
 
 # Create a random image source.
-set source [itkRandomImageSourceUS2_New]
+set source [itkRandomImageSourceUC2_New]
 $source SetMin 0
 $source SetMax 255
 set a [new_ULArray 2]
@@ -62,7 +62,7 @@ $source SetSize $a
 
 
 # Connect the smoothing filter.
-set filter [itkRecursiveGaussianImageFilterUS2US2_New]
+set filter [itkRecursiveGaussianImageFilterUC2UC2_New]
 $filter SetInput [$source GetOutput]
 $filter SetSigma $sigma
 $filter SetNormalizeAcrossScale 1

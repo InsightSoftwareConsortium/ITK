@@ -47,7 +47,7 @@ size4 = itk.Size[2](i)
 assert size1.GetElement(0) == size2.GetElement(0) == size3.GetElement(0) == size4.GetElement(0) == i
 assert size1.GetElement(1) == size2.GetElement(1) == size3.GetElement(1) == size4.GetElement(1) == i
 
-median = itk.MedianImageFilter.IUS2IUS2.New()
+median = itk.MedianImageFilter.IUC2IUC2.New()
 median.SetRadius(size)
 size1 = median.GetRadius()
 median.SetRadius(t)
@@ -61,7 +61,7 @@ assert size1.GetElement(1) == size2.GetElement(1) == size3.GetElement(1) == size
 
 
 # smart pointers
-im = itk.Image.US2.New()
+im = itk.Image.UC2.New()
 assert im != None
 
 median.SetInput( im )
@@ -74,7 +74,7 @@ assert median.GetInput() == None
 
 # ImageSource
 
-median2 = itk.MedianImageFilter.IUS2IUS2.New()
+median2 = itk.MedianImageFilter.IUC2IUC2.New()
 median.SetInput( median2 )
 assert median.GetInput() == median2.GetOutput()
 
