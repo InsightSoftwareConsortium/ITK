@@ -226,7 +226,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 
   // Find the highest and lowest seed intensity.
   InputRealType lowestSeedIntensity = itk::NumericTraits< InputImagePixelType >::max();
-  InputRealType highestSeedIntensity = itk::NumericTraits< InputImagePixelType >::NonPositiveMin();
+  InputRealType highestSeedIntensity = itk::NumericTraits< InputImagePixelType >::NonpositiveMin();
   typename SeedsContainerType::const_iterator si = m_Seeds.begin();
   typename SeedsContainerType::const_iterator li = m_Seeds.end();
   while ( si != li )
