@@ -204,8 +204,8 @@ TAB_SIZE               = 2
 
 ALIASES +="wikimainaddress{1}=<a href=\"\1\">All Examples</a>"
 ALIASES +="wikiexamplemaintitle=\par Wiki Examples:\n\n"
-ALIASES +="wikiexample{2}=<a href=\"http://www.itk.org/Wiki/ITK/Examples/\1\">\2</a>\n"
-ALIASES +="wiki=\wikiexamplemaintitle \wikimainaddress{http://www.itk.org/Wiki/ITK/Examples}\n"
+ALIASES +="wikiexample{2}=\li <a href=\"http://www.itk.org/Wiki/ITK/Examples/\1\">\2</a>\n"
+ALIASES +="wiki=\wikiexamplemaintitle \li \wikimainaddress{http://www.itk.org/Wiki/ITK/Examples}\n"
 ALIASES +="endwiki=\n\n\n"
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C
