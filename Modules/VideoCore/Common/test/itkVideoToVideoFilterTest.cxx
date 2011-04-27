@@ -228,7 +228,7 @@ int itkVideoToVideoFilterTest( int argc, char* argv[] )
     filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration());
   filter->Update();
 
-  //DEBUG
+  // Report on output buffers
   std::cout << "Number of output buffers: " << filter->GetOutput()->GetNumberOfBuffers() << std::endl;
 
   // Make sure results are correct int the requested spatia region

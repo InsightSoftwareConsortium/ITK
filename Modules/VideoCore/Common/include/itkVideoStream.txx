@@ -112,8 +112,8 @@ void
 VideoStream<TFrameType>::InitializeEmptyFrames()
 {
   // Make sure the frame buffer is large enough for the number of frames needed
-  // by the buffered temporal region
-  unsigned long numFrames = m_BufferedTemporalRegion.GetFrameDuration();
+  // by the requested temporal region
+  unsigned long numFrames = m_RequestedTemporalRegion.GetFrameDuration();
   if (numFrames == 0)
     {
     return;
@@ -126,7 +126,7 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
     }
 
   // Go through the number of required frames and make sure none are empty
-  unsigned long startFrame = m_BufferedTemporalRegion.GetFrameStart();
+  unsigned long startFrame = m_RequestedTemporalRegion.GetFrameStart();
   for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
     if (!m_DataObjectBuffer->BufferIsFull(i))
