@@ -373,12 +373,6 @@ TemporalProcessObject::GenerateData()
   // Split up the requested output temporal region
   std::vector<TemporalRegion> inputTemporalRegionRequests = this->SplitRequestedTemporalRegion();
 
-  //DEBUG
-  for (unsigned int i = 0; i < inputTemporalRegionRequests.size(); ++i)
-    {
-    std::cout << inputTemporalRegionRequests[i] << std::endl;
-    }
-
   // Get the first output frame location
   TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
   if (!output)
@@ -388,11 +382,6 @@ TemporalProcessObject::GenerateData()
                       << typeid(TemporalDataObject*).name() );
     }
   unsigned long outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
-
-  // Set the start frame of the buffered region to match the first requested frame
-  //TemporalRegion updatedBufferedRegion = output->GetBufferedTemporalRegion();
-  //updatedBufferedRegion.SetFrameStart(output->GetRequestedTemporalRegion().GetFrameStart());
-  //output->SetBufferedTemporalRegion(updatedBufferedRegion);
 
   // Save the full requested and buffered output regions
   TemporalRegion fullOutputRequest = output->GetRequestedTemporalRegion();
@@ -438,10 +427,6 @@ TemporalProcessObject::GenerateData()
       bufferedStart = outputStartFrame;
       }
 
-    //DEBUG
-    std::cout << "bufferedStart: " << bufferedStart << std::endl;
-    std::cout << "bufferedDuration: " << bufferedDuration << std::endl;
-
     long spareFrames = output->GetNumberOfBuffers() - (long)bufferedDuration;
     if (spareFrames >= (long)m_UnitOutputNumberOfFrames)
       {
@@ -456,9 +441,6 @@ TemporalProcessObject::GenerateData()
       {
       bufferedStart += m_UnitOutputNumberOfFrames;
       }
-    //DEBUG
-    std::cout << "bufferedStart: " << bufferedStart << std::endl;
-    std::cout << "bufferedDuration: " << bufferedDuration << std::endl;
 
     outputBufferedRegion.SetFrameStart(bufferedStart);
     outputBufferedRegion.SetFrameDuration(bufferedDuration);
