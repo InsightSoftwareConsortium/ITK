@@ -156,11 +156,13 @@ public:
    * has been set for each of these frames. A typical setup would look like:
    *
    * \code
-   *    // Set the buffered temporal region
-   *    TemporalRegionType bufferedTemporalRegion;
-   *    bufferedTemporalRegion.SetFrameStart( 0 );
-   *    bufferedTemporalRegion.SetFrameDuration( 3 );
-   *    video->SetBufferedTemporalRegion( bufferedTemporalRegion );
+   *    // Set the temporal regions
+   *    TemporalRegionType temporalRegion;
+   *    temporalRegion.SetFrameStart( 0 );
+   *    temporalRegion.SetFrameDuration( 3 );
+   *    video->SetLargestPossibleTemporalRegion( temporalRegion );
+   *    video->SetRequestedTemporalRegion( temporalRegion );
+   *    video->SetBufferedTemporalRegion( temporalRegion );
    *
    *    // Initialize all frames in the buffered temporal region
    *    video->InitializeEmptyFrames();
