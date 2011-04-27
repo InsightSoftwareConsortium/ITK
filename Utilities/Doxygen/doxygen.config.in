@@ -1488,15 +1488,7 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "itkTemplateFloatingToIntegerMacro(name)=                   template <TReturn, typename TInput> name( TInput x )" \
                          "FEM_ABSTRACT_CLASS(thisClass,parentClass)=                   public:                                                                   /** Standard  Self typedef.*/                                          typedef thisClass Self;                                                 /** Standard  Superclass typedef. */                                   typedef parentClass Superclass;                                         /** Pointer or SmartPointer to an object. */                            typedef Self* Pointer;                                                  /** Const pointer or SmartPointer to an object. */                      typedef const Self* ConstPointer;                                     private:" \
                          "FEM_CLASS(thisClass,parentClass)=                   FEM_ABSTRACT_CLASS(thisClass,parentClass)                               public:                                                                   /** Create a new object from the existing one  */                       virtual Baseclass::Pointer Clone() const;                               /** Class ID for FEM object factory */                                  static const int CLID;                                                  /** Virtual function to access the class ID */                          virtual int ClassID() const                                               { return CLID; }                                                      /** Object creation in an itk compatible way */                         static Self::Pointer New()                                                { return new Self(); }                                              private:" \
-                         "FREEVERSION" \
                          "ERROR_CHECKING" \
-                         "HAS_TIFF" \
-                         "HAS_JPEG" \
-                         "HAS_NETLIB" \
-                         "HAS_PNG" \
-                         "HAS_ZLIB" \
-                         "HAS_GLUT" \
-                         "HAS_QT" \
                          "VCL_USE_NATIVE_STL=1" \
                          "VCL_USE_NATIVE_COMPLEX=1" \
                          "VCL_HAS_BOOL=1" \
