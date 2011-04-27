@@ -75,6 +75,16 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
+/** Method to access seed container */
+template< class TInputImage, class TOutputImage >
+const typename ConfidenceConnectedImageFilter<TInputImage,TOutputImage>::SeedsContainerType &
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
+::GetSeeds() const
+{
+  itkDebugMacro("returning Seeds");
+  return this->m_Seeds;
+}
+
 /**
  * Standard PrintSelf method.
  */

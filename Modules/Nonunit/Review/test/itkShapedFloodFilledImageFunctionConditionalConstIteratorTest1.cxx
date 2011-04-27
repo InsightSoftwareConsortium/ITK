@@ -70,6 +70,16 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
     ShapedFloodFilledIteratorType shapedFloodIt(
         reader->GetOutput(), function, seedList);
     shapedFloodIt.SetFullyConnected(true); // 8-connected, default
+    //
+    // get the seeds and display them.
+    const ShapedFloodFilledIteratorType::SeedsContainerType &seeds(shapedFloodIt.GetSeeds());
+    std::cout << "Iterator seeds";
+    for(ShapedFloodFilledIteratorType::SeedsContainerType::const_iterator it =
+          seeds.begin(); it != seeds.end(); it++)
+      {
+      std::cout << " " << (*it);
+      }
+    std::cout << std::endl;
 
     ImageType::Pointer visitedImage = ImageType::New();
     visitedImage->SetRegions(region);

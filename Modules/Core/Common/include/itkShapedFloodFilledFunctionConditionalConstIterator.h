@@ -55,6 +55,9 @@ public:
   /** Index typedef support. */
   typedef typename TImage::IndexType IndexType;
 
+  /** Index Container Type */
+  typedef typename std::vector< IndexType > SeedsContainerType;
+
   /** Offset typedef support. */
   typedef typename TImage::OffsetType OffsetType;
 
@@ -151,13 +154,13 @@ public:
   /** Put more seeds on the list */
   void AddSeed(const IndexType seed)
   {
-    m_StartIndices.push_back (seed);
+    m_Seeds.push_back (seed);
   }
 
   /** Clear all the seeds */
   void ClearSeeds()
   {
-    m_StartIndices.clear();
+    m_Seeds.clear();
   }
 
   /** Move an iterator to the beginning of the region. "Begin" is
@@ -176,20 +179,20 @@ public:
       NumericTraits< ITK_TYPENAME TTempImage::PixelType >::Zero
       );
 
-    for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
+    for ( unsigned int i = 0; i < m_Seeds.size(); i++ )
       {
-      if ( this->m_Image->GetBufferedRegion().IsInside (m_StartIndices[i])
-           && this->IsPixelIncluded(m_StartIndices[i]) )
+      if ( this->m_Image->GetBufferedRegion().IsInside (m_Seeds[i])
+           && this->IsPixelIncluded(m_Seeds[i]) )
         {
         // Push the seed onto the queue
-        m_IndexStack.push(m_StartIndices[i]);
+        m_IndexStack.push(m_Seeds[i]);
 
         // Obviously, we're at the beginning
         this->m_IsAtEnd = false;
 
         // Mark the start index in the temp image as inside the
         // function, neighbor check incomplete
-        m_TempPtr->SetPixel(m_StartIndices[i], 2);
+        m_TempPtr->SetPixel(m_Seeds[i], 2);
         }
       }
   }
@@ -214,6 +217,11 @@ public:
   bool GetFullyConnected() const;
 
   itkBooleanMacro(FullyConnected);
+
+  virtual const SeedsContainerType &GetSeeds() const
+  {
+    return m_Seeds;
+  }
 protected: //made protected so other iterators can access
   /** Smart pointer to the function we're evaluating */
   SmartPointer< FunctionType > m_Function;
@@ -228,7 +236,7 @@ protected: //made protected so other iterators can access
   typename TTempImage::Pointer m_TempPtr;
 
   /** A list of locations to start the recursive fill */
-  std::vector< IndexType > m_StartIndices;
+  SeedsContainerType m_Seeds;
 
   /** The origin of the source image */
   typename ImageType::PointType m_ImageOrigin;

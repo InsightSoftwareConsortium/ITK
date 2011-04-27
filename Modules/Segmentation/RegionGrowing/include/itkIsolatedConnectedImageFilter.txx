@@ -155,6 +155,24 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
     }
 }
 
+template< class TInputImage, class TOutputImage >
+const typename IsolatedConnectedImageFilter< TInputImage, TOutputImage >::SeedsContainerType &
+IsolatedConnectedImageFilter< TInputImage, TOutputImage >
+::GetSeeds1() const
+{
+  itkDebugMacro("returning Seeds1");
+  return this->m_Seeds1;
+}
+
+template< class TInputImage, class TOutputImage >
+const typename IsolatedConnectedImageFilter< TInputImage, TOutputImage >::SeedsContainerType &
+IsolatedConnectedImageFilter< TInputImage, TOutputImage >
+::GetSeeds2() const
+{
+  itkDebugMacro("returning Seeds2");
+  return this->m_Seeds2;
+}
+
 /** Add seed point 2. */
 template< class TInputImage, class TOutputImage >
 void

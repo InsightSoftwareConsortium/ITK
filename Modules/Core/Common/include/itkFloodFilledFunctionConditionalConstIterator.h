@@ -52,6 +52,9 @@ public:
   /** Index typedef support. */
   typedef typename TImage::IndexType IndexType;
 
+  /** Index ContainerType */
+  typedef typename std::vector<IndexType> SeedsContainerType;
+
   /** Size typedef support. */
   typedef typename TImage::SizeType SizeType;
 
@@ -140,15 +143,21 @@ public:
   { return this->m_IsAtEnd; }
 
   /** Put more seeds on the list */
-  void AddSeed(const IndexType seed)
+  void AddSeed(const IndexType &seed)
   {
-    m_StartIndices.push_back (seed);
+    m_Seeds.push_back (seed);
+  }
+
+  /** get the seed container */
+  virtual const SeedsContainerType &GetSeeds() const
+  {
+    return m_Seeds;
   }
 
   /** Clear all the seeds */
   void ClearSeeds()
   {
-    m_StartIndices.clear();
+    m_Seeds.clear();
   }
 
   /** Move an iterator to the beginning of the region. "Begin" is
@@ -167,20 +176,20 @@ public:
       NumericTraits< ITK_TYPENAME TTempImage::PixelType >::Zero
       );
 
-    for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
+    for ( unsigned int i = 0; i < m_Seeds.size(); i++ )
       {
-      if ( this->m_Image->GetBufferedRegion().IsInside (m_StartIndices[i])
-           && this->IsPixelIncluded(m_StartIndices[i]) )
+      if ( this->m_Image->GetBufferedRegion().IsInside (m_Seeds[i])
+           && this->IsPixelIncluded(m_Seeds[i]) )
         {
         // Push the seed onto the queue
-        m_IndexStack.push(m_StartIndices[i]);
+        m_IndexStack.push(m_Seeds[i]);
 
         // Obviously, we're at the beginning
         this->m_IsAtEnd = false;
 
         // Mark the start index in the temp image as inside the
         // function, neighbor check incomplete
-        m_TemporaryPointer->SetPixel(m_StartIndices[i], 2);
+        m_TemporaryPointer->SetPixel(m_Seeds[i], 2);
         }
       }
   }
@@ -209,7 +218,7 @@ protected: //made protected so other iterators can access
   typename TTempImage::Pointer m_TemporaryPointer;
 
   /** A list of locations to start the recursive fill */
-  std::vector< IndexType > m_StartIndices;
+  SeedsContainerType m_Seeds;
 
   /** The origin of the source image */
   typename ImageType::PointType m_ImageOrigin;

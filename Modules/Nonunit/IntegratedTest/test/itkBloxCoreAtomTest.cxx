@@ -91,7 +91,7 @@ int itkBloxCoreAtomTest(int, char* [] )
   //---------Create and initialize a spatial function-----------
 
   typedef itk::SphereSpatialFunction<dim> FunctionType;
-  typedef FunctionType::InputType FunctionPositionType;
+  typedef FunctionType::InputType         FunctionPositionType;
 
   // Create and initialize a new sphere function
 
@@ -115,8 +115,19 @@ int itkBloxCoreAtomTest(int, char* [] )
     <ImageType, FunctionType> ItType;
   ItType sfi = ItType(sourceImage, spatialFunc, seedPos);
 
+  //
+  // get the seeds and display them.
+  const ItType::SeedsContainerType &seeds(sfi.GetSeeds());
+  std::cout << "Iterator seeds";
+  for(ItType::SeedsContainerType::const_iterator it =
+        seeds.begin(); it != seeds.end(); it++)
+    {
+    std::cout << " " << (*it);
+    }
+  std::cout << std::endl;
+
   // Iterate through the entire image and set interior pixels to 255
-  for( ; !( sfi.IsAtEnd() ); ++sfi)
+  for(; !( sfi.IsAtEnd() ); ++sfi)
     {
     sfi.Set(255);
     }
@@ -168,7 +179,7 @@ int itkBloxCoreAtomTest(int, char* [] )
   CoreAtomType::Pointer coreAtomImage = CoreAtomType::New();
 
   typedef itk::BloxBoundaryPointToCoreAtomImageFilter<dim> TCAFilter;
-  typedef TCAFilter::TOutputImage BloxCAImageType;
+  typedef TCAFilter::TOutputImage                          BloxCAImageType;
 
   TCAFilter::Pointer caFilter = TCAFilter::New();
   caFilter->SetInput(bloxBoundaryPointImage);
