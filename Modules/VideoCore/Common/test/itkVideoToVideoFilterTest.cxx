@@ -222,16 +222,19 @@ int itkVideoToVideoFilterTest( int argc, char* argv[] )
   outputRequestedSpatialRegion.SetIndex(start);
   filter->GetOutput()->SetAllRequestedSpatialRegions(outputRequestedSpatialRegion);
 
-  // Update the filter
-  filter->SetNumberOfThreads(1);
+  // Set the number of frame buffers on the output so that we get all output
+  // frames buffered at the end
   filter->GetOutput()->SetNumberOfBuffers(
     filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration());
+
+  // Update the filter
+  filter->SetNumberOfThreads(1);
   filter->Update();
 
   // Report on output buffers
   std::cout << "Number of output buffers: " << filter->GetOutput()->GetNumberOfBuffers() << std::endl;
 
-  // Make sure results are correct int the requested spatia region
+  // Make sure results are correct in the requested spatia region
   unsigned long outputStart =
     filter->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
   unsigned long outputDuration =
