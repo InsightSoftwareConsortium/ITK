@@ -234,7 +234,7 @@ int itkVideoToVideoFilterTest( int argc, char* argv[] )
   // Report on output buffers
   std::cout << "Number of output buffers: " << filter->GetOutput()->GetNumberOfBuffers() << std::endl;
 
-  // Make sure results are correct in the requested spatia region
+  // Make sure results are correct in the requested spatial region
   unsigned long outputStart =
     filter->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
   unsigned long outputDuration =
@@ -245,10 +245,11 @@ int itkVideoToVideoFilterTest( int argc, char* argv[] )
 
     const OutputFrameType* frame = filter->GetOutput()->GetFrame(i);
     itk::ImageRegionConstIterator<OutputFrameType> iter(frame, frame->GetRequestedRegion());
+
+    OutputPixelType expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i))/2.0;
+    OutputPixelType epsilon = .00001;
     while (!iter.IsAtEnd())
       {
-      OutputPixelType expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i))/2.0;
-      OutputPixelType epsilon = .00001;
       if (iter.Get() < expectedVal - epsilon || iter.Get() > expectedVal + epsilon)
         {
         std::cerr << "Filter didn't set values correctly. Got: "
@@ -256,6 +257,15 @@ int itkVideoToVideoFilterTest( int argc, char* argv[] )
         return EXIT_FAILURE;
         }
       ++iter;
+      }
+
+    // Make sure nothing set outside of requested spatial region
+    OutputFrameType::IndexType idx;
+    idx.Fill(0);
+    if (frame->GetPixel(idx) > expectedVal - epsilon && frame->GetPixel(idx) < expectedVal + epsilon)
+      {
+      std::cerr << "Filter set pixel outside of requested region" << std::endl;
+      return EXIT_FAILURE;
       }
     }
 
