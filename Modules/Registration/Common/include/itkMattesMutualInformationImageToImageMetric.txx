@@ -220,7 +220,7 @@ throw ( ExceptionObject )
       ++fi;
       }
       {
-      itk::ImageRegionConstIteratorWithIndex<TFixedImage> mi(this->m_MovingImage,this->m_MovingImage->GetBufferedRegion());
+      itk::ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage,this->m_MovingImage->GetBufferedRegion());
       while( ! mi.IsAtEnd() )
         {
         typename TMovingImage::PointType movingSpacePhysicalPoint;
