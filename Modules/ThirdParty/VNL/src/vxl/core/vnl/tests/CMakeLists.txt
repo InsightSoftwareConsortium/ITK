@@ -98,4 +98,6 @@ ADD_TEST( vnl_test_sparse_matrix          ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all
 ADD_TEST(test_pow_log                     ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all test_pow_log                )
 
 ADD_EXECUTABLE(vnl_test_include test_include.cxx)
-TARGET_LINK_LIBRARIES(vnl_test_include itkvnl_algo itkvnl)
+TARGET_LINK_LIBRARIES(vnl_test_include itkvnl)
+ADD_EXECUTABLE(vnl_test_template_include test_template_include.cxx)
+TARGET_LINK_LIBRARIES(vnl_test_template_include itkvnl)

@@ -393,6 +393,9 @@ class vnl_vector
   //: Return true iff the size is zero.
   bool empty() const { return !data || !num_elmts; }
 
+  //:  Return true if all elements of vectors are equal, within given tolerance
+  bool is_equal(vnl_vector<T> const& rhs, double tol) const;
+  
   //: Return true if *this == v
   bool operator_eq(vnl_vector<T> const& v) const;
 

@@ -1,0 +1,1 @@
+extern int dsortr_(char *which, logical *apply, integer *n, doublereal *x1, doublereal *x2, ftnlen which_len);

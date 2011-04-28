@@ -1,0 +1,9 @@
+extern int ztgsyl_(char *trans, integer *ijob, integer *m, integer *n, doublecomplex *a, integer *lda, doublecomplex *b, integer *ldb, doublecomplex *c__, integer *ldc, doublecomplex *d__, integer *ldd, doublecomplex *e, integer *lde, doublecomplex *f, integer *ldf, doublereal *scale, doublereal *dif, doublecomplex *work, integer *lwork, integer *iwork, integer *info, ftnlen trans_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: ilaenv_ 4 9 4 13 13 4 4 4 4 124 124 */
+/*:ref: zlaset_ 14 8 13 4 4 9 9 9 4 124 */
+/*:ref: ztgsy2_ 14 21 13 4 4 4 9 4 9 4 9 4 9 4 9 4 9 4 7 7 7 4 124 */
+/*:ref: zlacpy_ 14 8 13 4 4 9 4 9 4 124 */
+/*:ref: zscal_ 14 4 4 9 9 4 */
+/*:ref: zgemm_ 14 15 13 13 4 4 4 9 9 4 9 4 9 9 4 124 124 */

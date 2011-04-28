@@ -1,4 +1,4 @@
-/* This header undefines mangled names defined by v3p_netlib_mangle.h.
+/* This header undefines mangled names defined by v3p_
    There are purposely no include blockers so translation units can
    mangle/unmangle repeatedly. */
 
@@ -42,6 +42,7 @@
 #undef dgerq2_
 #undef dgesc2_
 #undef dgetc2_
+#undef dgetv0_
 #undef dggbak_
 #undef dggbal_
 #undef dgges_
@@ -58,6 +59,7 @@
 #undef dlacon_
 #undef dlacpy_
 #undef dladiv_
+#undef dlae2_
 #undef dlaeig_
 #undef dlaev2_
 #undef dlag2_
@@ -71,6 +73,7 @@
 #undef dlamch_
 #undef dlange_
 #undef dlanhs_
+#undef dlanst_
 #undef dlapy2_
 #undef dlapy3_
 #undef dlaran_
@@ -78,9 +81,13 @@
 #undef dlarfb_
 #undef dlarfg_
 #undef dlarft_
+#undef dlarnv_
 #undef dlartg_
+#undef dlaruv_
 #undef dlascl_
 #undef dlaset_
+#undef dlasr_
+#undef dlasrt_
 #undef dlassq_
 #undef dlasv2_
 #undef dlaswp_
@@ -110,10 +117,23 @@
 #undef drot_
 #undef drotg_
 #undef drscl_
+#undef dsaitr_
+#undef dsapps_
+#undef dsaup2_
+#undef dsaupd_
 #undef dscal_
+#undef dsconv_
+#undef dseigt_
+#undef dsesrt_
+#undef dseupd_
+#undef dsgets_
+#undef dsortr_
 #undef dspr_
 #undef dsptrf_
 #undef dsptrs_
+#undef dstats_
+#undef dsteqr_
+#undef dstqrb_
 #undef dsvdc_
 #undef dswap_
 #undef dtgex2_
@@ -202,6 +222,7 @@
 #undef scopy_
 #undef sdiff_
 #undef sdot_
+#undef second_
 #undef setdgpfa_
 #undef setgpfa_
 #undef setulb_
@@ -317,3 +338,33 @@
 #undef zung2r_
 #undef zunghr_
 #undef zungqr_
+#undef ztgsyl_
+#undef zrot_
+#undef zlatdf_
+#undef zlacn2_
+#undef ztgsy2_
+#undef ztgexc_
+#undef zggbak_
+#undef zgetc2_
+#undef zhgeqz_
+#undef zgges_
+#undef zlaswp_
+#undef zdrscl_
+#undef zlartg_
+#undef zggbal_
+#undef zgeqr2_
+#undef zgecon_
+#undef zunmqr_
+#undef zunm2r_
+#undef zgeqrf_
+#undef ztgex2_
+#undef zgesc2_
+#undef ztgsen_
+#undef zgghrd_
+#undef zgeru_
+#undef izmax1_
+#undef dzsum1_
+#undef zgees_
+#undef ztrexc_
+#undef ztrsen_
+#undef ztrsyl_

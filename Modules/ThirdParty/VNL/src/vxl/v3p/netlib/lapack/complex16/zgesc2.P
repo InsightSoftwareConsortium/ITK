@@ -1,0 +1,6 @@
+extern int zgesc2_(integer *n, doublecomplex *a, integer *lda, doublecomplex *rhs, integer *ipiv, integer *jpiv, doublereal *scale);
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlabad_ 14 2 7 7 */
+/*:ref: zlaswp_ 14 7 4 9 4 4 4 4 4 */
+/*:ref: izamax_ 4 3 4 9 4 */
+/*:ref: zscal_ 14 4 4 9 9 4 */

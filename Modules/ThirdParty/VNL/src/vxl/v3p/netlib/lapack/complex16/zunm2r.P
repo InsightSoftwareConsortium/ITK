@@ -1,0 +1,4 @@
+extern int zunm2r_(char *side, char *trans, integer *m, integer *n, integer *k, doublecomplex *a, integer *lda, doublecomplex *tau, doublecomplex *c__, integer *ldc, doublecomplex *work, integer *info, ftnlen side_len, ftnlen trans_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: zlarf_ 14 10 13 4 4 9 4 9 9 4 9 124 */

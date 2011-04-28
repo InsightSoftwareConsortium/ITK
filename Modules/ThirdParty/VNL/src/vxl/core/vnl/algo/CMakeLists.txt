@@ -13,6 +13,7 @@ IF(NETLIB_FOUND)
 # vnl_cholesky                     dpoco_ dpodi_ dpofa_ dposl_
 # vnl_ldl_cholesky                 dpoco_ dpodi_ dpofa_ dposl_
 # vnl_complex_eigensystem          zgeev_
+# vnl_complex_generalized_schur    zgges_
 # vnl_conjugate_gradient           cg_
 # vnl_fft                          dgpfa_ dsetgpfa_ gpfa_ setgpfa_
 # vnl_generalized_eigensystem      rsg_
@@ -57,6 +58,7 @@ IF(NETLIB_FOUND)
     vnl_generalized_eigensystem.cxx vnl_generalized_eigensystem.h
     vnl_sparse_symmetric_eigensystem.cxx vnl_sparse_symmetric_eigensystem.h
     vnl_generalized_schur.cxx vnl_generalized_schur.h
+    vnl_complex_generalized_schur.cxx vnl_complex_generalized_schur.h
 
     # optimisation
     vnl_discrete_diff.cxx vnl_discrete_diff.h

@@ -1,0 +1,10 @@
+extern int dstqrb_(integer *n, doublereal *d__, doublereal *e, doublereal *z__, doublereal *work, integer *info);
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlanst_ 7 5 13 4 7 7 124 */
+/*:ref: dlascl_ 14 11 13 4 4 7 7 4 4 7 4 4 124 */
+/*:ref: dlaev2_ 14 7 7 7 7 7 7 7 7 */
+/*:ref: dlae2_ 14 5 7 7 7 7 7 */
+/*:ref: dlapy2_ 7 2 7 7 */
+/*:ref: dlartg_ 14 5 7 7 7 7 7 */
+/*:ref: dlasr_ 14 12 13 13 13 4 4 7 7 7 4 124 124 124 */
+/*:ref: dlasrt_ 14 5 13 4 7 4 124 */

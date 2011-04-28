@@ -5,9 +5,13 @@
 // \file
 
 #include "vnl_sparse_matrix.h"
+
 #include <vcl_cassert.h>
 #include <vcl_algorithm.h>
 #include <vcl_iostream.h>
+
+#include <vnl/vnl_math.h>
+#include <vnl/vnl_complex_traits.h>
 
 #ifdef DEBUG_SPARSE
 # include <vnl/vnl_matrix.h>
@@ -885,7 +889,7 @@ vnl_sparse_matrix<T>& vnl_sparse_matrix<T>::normalize_rows()
          ++col_iter)
     {
       vnl_sparse_matrix_pair<T>& entry = *col_iter;
-      norm += entry.second * entry.second;
+      norm += vnl_math_squared_magnitude(entry.second);
     }
     if (norm != 0) {
       abs_real_t scale = abs_real_t(1)/(vcl_sqrt((abs_real_t)norm));
@@ -919,6 +923,52 @@ vnl_sparse_matrix<T>& vnl_sparse_matrix<T>::set_identity()
   return *this;
 }
 
+//: returns a new sparse matrix, viz. the transpose of this
+template<class T>
+vnl_sparse_matrix<T> vnl_sparse_matrix<T>::transpose() const
+{
+  vnl_sparse_matrix<T> result(cols(), rows());
+  unsigned int rownum = 0; // row number in this matrix
+  // iterate through the rows of this matrix,
+  // and add every element thus found to the new result matrix
+  for (typename vcl_vector<row>::const_iterator row_iter = elements.begin();
+       row_iter != elements.end();
+       ++row_iter, ++rownum)
+  {
+    row const& this_row = *row_iter;
+    for (typename row::const_iterator col_iter = this_row.begin();
+         col_iter != this_row.end();
+         ++col_iter)
+    {
+      vnl_sparse_matrix_pair<T> entry = *col_iter; // new copy of element
+      row& rw = result.elements[entry.first];
+      entry.first = rownum; // modify element: its column number is now rownum
+      rw.insert(rw.end(), entry); // insert at the end of the row
+    }
+  }
+  return result;
+}
+
+//: returns a new sparse matrix, viz. the conjugate (or Hermitian) transpose of this
+template<class T>
+vnl_sparse_matrix<T> vnl_sparse_matrix<T>::conjugate_transpose() const
+{
+  vnl_sparse_matrix<T> result(transpose());
+  for (typename vcl_vector<row>::iterator row_iter = result.elements.begin();
+       row_iter != result.elements.end();
+       ++row_iter)
+  {
+    row& this_row = *row_iter;
+    for (typename row::iterator col_iter = this_row.begin();
+         col_iter != this_row.end();
+         ++col_iter)
+    {
+      vnl_sparse_matrix_pair<T>& entry = *col_iter;
+      entry.second = vnl_complex_traits<T>::conjugate(entry.second);
+    }
+  }
+  return result;
+}
 
 #define VNL_SPARSE_MATRIX_INSTANTIATE(T) \
 template class vnl_sparse_matrix<T >

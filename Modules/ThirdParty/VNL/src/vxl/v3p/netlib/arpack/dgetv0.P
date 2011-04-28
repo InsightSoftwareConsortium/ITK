@@ -1,0 +1,9 @@
+extern int dgetv0_(integer *ido, char *bmat, integer *itry, logical *initv, integer *n, integer *j, doublereal *v, integer *ldv, doublereal *resid, doublereal *rnorm, integer *ipntr, doublereal *workd, integer *ierr, ftnlen bmat_len);
+/* comlen debug_ 96 */
+/* comlen timing_ 124 */
+/*:ref: second_ 14 1 6 */
+/*:ref: dlarnv_ 14 4 4 4 4 7 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: dnrm2_ 7 3 4 7 4 */
+/*:ref: dgemv_ 14 12 13 4 4 7 7 4 7 4 7 7 4 124 */

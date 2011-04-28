@@ -1,0 +1,20 @@
+extern int v3p_netlib_dsaupd_(
+  v3p_netlib_integer *ido,
+  char *bmat,
+  v3p_netlib_integer *n,
+  char *which,
+  v3p_netlib_integer *nev,
+  v3p_netlib_doublereal *tol,
+  v3p_netlib_doublereal *resid,
+  v3p_netlib_integer *ncv,
+  v3p_netlib_doublereal *v,
+  v3p_netlib_integer *ldv,
+  v3p_netlib_integer *iparam,
+  v3p_netlib_integer *ipntr,
+  v3p_netlib_doublereal *workd,
+  v3p_netlib_doublereal *workl,
+  v3p_netlib_integer *lworkl,
+  v3p_netlib_integer *info,
+  v3p_netlib_ftnlen bmat_len,
+  v3p_netlib_ftnlen which_len
+  );
