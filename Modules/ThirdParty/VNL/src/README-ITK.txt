@@ -1,4 +1,4 @@
-The Utilities/vxl directory contains a reduced distribution of the
+The vxl subdirectory contains a reduced distribution of the
 vxl source tree with only vnl and supporting code.  It is not a
 submodule; the actual content is part of our source tree and
 changes can be made and committed directly.
