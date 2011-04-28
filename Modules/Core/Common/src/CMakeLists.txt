@@ -71,6 +71,7 @@ itkSimpleFastMutexLock.cxx
 itkNumericTraitsDiffusionTensor3DPixel.cxx
 itkEquivalencyTable.cxx
 itkXMLFileOutputWindow.cxx
+itkStoppingCriterionBase.cxx
 )
 
 if(WIN32)

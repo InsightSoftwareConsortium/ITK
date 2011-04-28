@@ -15,28 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
-#include <iostream>
+#include "itkStoppingCriterionBase.h"
 
-#include "itkFastMarchingExtensionImageFilter.txx"
-#include "itkFastMarchingUpwindGradientImageFilter.txx"
-#include "itkFastMarchingImageFilter.txx"
-
-#include "itkFastMarchingBase.h"
-#include "itkFastMarchingExtensionImageFilterBase.h"
-#include "itkFastMarchingImageFilterBase.h"
-#include "itkFastMarchingQuadEdgeMeshFilterBase.h"
-#include "itkFastMarchingReachedTargetNodesStoppingCriterion.h"
-#include "itkFastMarchingStoppingCriterionBase.h"
-#include "itkFastMarchingTraits.h"
-#include "itkFastMarchingUpwindGradientImageFilterBase.h"
-#include "itkFastMarchingImageToNodePairContainerAdaptor.h"
-
-int itkFastMarchingHeaderTest ( int , char * [] )
+namespace itk
 {
+StoppingCriterionBase::
+StoppingCriterionBase()
+{}
 
-  return EXIT_SUCCESS;
+StoppingCriterionBase::
+~StoppingCriterionBase()
+{}
+
+
 }
