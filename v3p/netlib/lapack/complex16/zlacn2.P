@@ -1,0 +1,5 @@
+extern int zlacn2_(integer *n, doublecomplex *v, doublecomplex *x, doublereal *est, integer *kase, integer *isave);
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dzsum1_ 7 3 4 9 4 */
+/*:ref: izmax1_ 4 3 4 9 4 */
+/*:ref: zcopy_ 14 5 4 9 4 9 4 */

@@ -181,6 +181,7 @@ bool vnl_conjugate_gradient::minimize( vnl_vector<double> &x)
         case 1:  vcl_cout << "UNABLE TO OBTAIN DESCENT DIRECTION\n"; break;
         case 2:  vcl_cout << "THE FUNCTION DECREASES WITH NO MINIMUM\n"; break;
         case 3:  vcl_cout << "PRECONDITIONER NOT POSITIVE DEFINITE\n"; break;
+        case 4:  vcl_cout << "UNABLE TO SATISFY ARMIJO CONDITION\n"; break;
         default: vcl_cout << "UNKNOWN ERROR CODE\n"; break;
       }
     }

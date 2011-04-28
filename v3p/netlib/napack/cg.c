@@ -117,7 +117,7 @@ extern "C" {
     /* Local variables */
     doublereal a, b, c__, d__, f, g;
     integer i__, j, k, l=0;
-    doublereal p, q, r__, s, v=0, w=0, y[50], z__[50], a8,
+    doublereal p, q, r__, s, v=0, w=0, y[54], z__[54], a8,
                c0, c1=0, d0, f0, f1, l3, da, db, fa, fb, fc;
     extern doublereal fd_(doublereal *, doublereal *, doublereal *, integer *,
                           void (*grad)(double*,double*,void*), void*);
@@ -134,7 +134,7 @@ extern "C" {
             ;
 
 /*<       INTEGER I,IT,J,K,L,LIMIT,M,N,NA,NB,NC,ND >*/
-/*<       REAL*8 H(N,1),X(1),Y(50),Z(50),A1,A2,A3,A4,A5,A6,A7,A8,A,B,C,C0,C1 >*/
+/*<       REAL*8 H(N,1),X(1),Y(54),Z(54),A1,A2,A3,A4,A5,A6,A7,A8,A,B,C,C0,C1 >*/
 /*<       REAL*8 D,D0,DA,DB,E,F,F0,F1,FA,FB,FC,G,L3,P,Q,R,S,STEP,T,V,W >*/
 /*<       REAL*8 FV,FD,VALUE >*/
 /*<       EXTERNAL BOTH,GRAD,PRE,VALUE >*/
@@ -1116,7 +1116,14 @@ L640:
     goto L135;
 /*< 650   WRITE(6,*) 'UNABLE TO SATISFY ARMIJO CONDITION' >*/
 L650:
-    printf("UNABLE TO SATISFY ARMIJO CONDITION\n");
+    if(error_code)
+      {
+      *error_code = 4;
+      }
+    else
+      {
+      printf("UNABLE TO SATISFY ARMIJO CONDITION\n");
+      }
 /*<       RETURN >*/
     return 0;
 /*< 660   STEP = A >*/

@@ -1,0 +1,9 @@
+extern int ztgsen_(integer *ijob, logical *wantq, logical *wantz, logical *select, integer *n, doublecomplex *a, integer *lda, doublecomplex *b, integer *ldb, doublecomplex *alpha, doublecomplex *beta, doublecomplex *q, integer *ldq, doublecomplex *z__, integer *ldz, integer *m, doublereal *pl, doublereal *pr, doublereal *dif, doublecomplex *work, integer *lwork, integer *iwork, integer *liwork, integer *info);
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: zlassq_ 14 5 4 9 4 7 7 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: ztgexc_ 14 14 12 12 4 9 4 9 4 9 4 9 4 4 4 4 */
+/*:ref: zlacpy_ 14 8 13 4 4 9 4 9 4 124 */
+/*:ref: ztgsyl_ 14 23 13 4 4 4 9 4 9 4 9 4 9 4 9 4 9 4 7 7 9 4 4 4 124 */
+/*:ref: zlacn2_ 14 6 4 9 9 7 4 4 */
+/*:ref: zscal_ 14 4 4 9 9 4 */

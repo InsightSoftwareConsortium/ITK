@@ -8,6 +8,8 @@
 #include <vcl_cassert.h>
 #include <vcl_iostream.h>
 
+#include <sparse/spMatrix.h>
+
 // destructor - undo the spCreate() from the constructor(s)
 // (memory leak fix of 7 Feb. 2008 by Toon Huysmans)
 vnl_sparse_lu::~vnl_sparse_lu()

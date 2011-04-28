@@ -1,0 +1,10 @@
+extern int zlatdf_(integer *ijob, integer *n, doublecomplex *z__, integer *ldz, doublecomplex *rhs, doublereal *rdsum, doublereal *rdscal, integer *ipiv, integer *jpiv);
+/*:ref: zlaswp_ 14 7 4 9 4 4 4 4 4 */
+/*:ref: zdotc_ 9 6 9 4 9 4 9 4 */
+/*:ref: zaxpy_ 14 6 4 9 9 4 9 4 */
+/*:ref: zcopy_ 14 5 4 9 4 9 4 */
+/*:ref: zlassq_ 14 5 4 9 4 7 7 */
+/*:ref: zgecon_ 14 10 13 4 9 4 7 7 9 7 4 124 */
+/*:ref: zscal_ 14 4 4 9 9 4 */
+/*:ref: zgesc2_ 14 7 4 9 4 9 4 4 7 */
+/*:ref: dzasum_ 7 3 4 9 4 */

@@ -9,6 +9,7 @@
 #include <vnl/algo/vnl_chi_squared.h>
 #include <vnl/algo/vnl_cholesky.h>
 #include <vnl/algo/vnl_complex_eigensystem.h>
+#include <vnl/algo/vnl_complex_generalized_schur.h>
 #include <vnl/algo/vnl_conjugate_gradient.h>
 #include <vnl/algo/vnl_convolve.h>
 #include <vnl/algo/vnl_cpoly_roots.h>

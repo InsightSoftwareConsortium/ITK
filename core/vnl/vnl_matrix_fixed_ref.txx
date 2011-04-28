@@ -124,10 +124,24 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::fill (T value) const
 
 template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed_ref<T,nrows,ncols> const&
-vnl_matrix_fixed_ref<T,nrows,ncols>::fill_diagonal (T value) const
+vnl_matrix_fixed_ref<T,nrows,ncols>::fill_diagonal(T value) const
 {
   for (unsigned int i = 0; i < nrows && i < ncols; i++)
     (*this)(i,i) = value;
+  return *this;
+}
+
+
+template<class T, unsigned nrows, unsigned ncols>
+vnl_matrix_fixed_ref<T,nrows,ncols> const&
+vnl_matrix_fixed_ref<T,nrows,ncols>::set_diagonal(vnl_vector<T> const& diag) const
+{
+  assert(diag.size() >= nrows || diag.size() >= ncols);
+  // The length of the diagonal of a non-square matrix is the minimum of
+  // the matrix's width & height; that explains the "||" in the assert,
+  // and the "&&" in the upper bound for the "for".
+  for (unsigned int i = 0; i < nrows && i < ncols; ++i)
+    (*this)(i,i) = diag[i];
   return *this;
 }
 
@@ -404,6 +418,16 @@ vnl_vector<T> vnl_matrix_fixed_ref_const<T,nrows,ncols>::get_column(unsigned col
 }
 
 #endif // 0
+
+//: Return a vector with the content of the (main) diagonal
+template<class T, unsigned nrows, unsigned ncols>
+vnl_vector<T> vnl_matrix_fixed_ref_const<T,nrows,ncols>::get_diagonal() const
+{
+  vnl_vector<T> v(nrows < ncols ? nrows : ncols);
+  for (unsigned int j = 0; j < nrows && j < ncols; ++j)
+    v[j] = (*this)(j,j);
+  return v;
+}
 
 //--------------------------------------------------------------------------------
 

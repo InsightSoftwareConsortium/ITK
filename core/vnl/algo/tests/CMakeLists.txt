@@ -16,6 +16,7 @@ IF(NETLIB_FOUND)
     test_algo.cxx
     test_amoeba.cxx
     test_cholesky.cxx
+    test_complex_algo.cxx
     test_complex_eigensystem.cxx
     test_convolve.cxx
     test_cpoly_roots.cxx
@@ -54,6 +55,7 @@ IF(NETLIB_FOUND)
   ADD_TEST( vnl_algo_test_algo                     ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_algo                    )
   ADD_TEST( vnl_algo_test_amoeba                   ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_amoeba                  )
   ADD_TEST( vnl_algo_test_cholesky                 ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_cholesky                )
+  ADD_TEST( vnl_algo_test_complex_algo             ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_complex_algo            )
   ADD_TEST( vnl_algo_test_complex_eigensystem      ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_complex_eigensystem     )
   ADD_TEST( vnl_algo_test_convolve                 ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_convolve                )
   ADD_TEST( vnl_algo_test_cpoly_roots              ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_cpoly_roots             )
@@ -110,3 +112,5 @@ ENDIF ( CMAKE_COMPILER_IS_GNUCXX )
 
 ADD_EXECUTABLE( vnl_algo_test_include test_include.cxx )
 TARGET_LINK_LIBRARIES( vnl_algo_test_include vnl_algo )
+ADD_EXECUTABLE( vnl_algo_test_template_include test_template_include.cxx )
+TARGET_LINK_LIBRARIES( vnl_algo_test_template_include vnl_algo )

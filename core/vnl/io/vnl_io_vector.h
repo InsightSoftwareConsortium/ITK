@@ -3,7 +3,7 @@
 #define vnl_io_vector_h
 //:
 // \file
-// \author Louise Bucther
+// \author Louise Butcher
 // \date 20-Mar-2001
 
 #include <vsl/vsl_fwd.h>

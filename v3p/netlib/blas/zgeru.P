@@ -1,0 +1,2 @@
+extern int zgeru_(integer *m, integer *n, doublecomplex *alpha, doublecomplex *x, integer *incx, doublecomplex *y, integer *incy, doublecomplex *a, integer *lda);
+/*:ref: xerbla_ 14 3 13 4 124 */

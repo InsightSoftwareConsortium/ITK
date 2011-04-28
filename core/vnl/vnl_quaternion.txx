@@ -160,7 +160,7 @@ vnl_quaternion<T>::vnl_quaternion(T theta_X, T theta_Y, T theta_Z)
 }
 
 //: Rotation representation in Euler angles.
-// The angles raturned will be [theta_X,theta_Y,theta_Z]
+// The angles returned will be [theta_X,theta_Y,theta_Z]
 // where the final rotation is found be first applying theta_X radians
 // about the X axis, then theta_Y about the Y-axis, etc.
 // The axes stay in a fixed reference frame.

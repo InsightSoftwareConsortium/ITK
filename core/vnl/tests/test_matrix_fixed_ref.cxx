@@ -51,6 +51,9 @@ void test_matrix_fixed_ref()
     vnl_vector_fixed<double,rows> col_copy2 = mat.get_column(j);
     TEST("get_column", col_copy,col_copy2);
   }
+  //    get_diagonal
+  vnl_vector_fixed<double,3> v(0,11,22);
+  TEST("get_diagonal()", cmf.get_diagonal(), v);
 
   // fixed_ref (non-const)
   // wrap around mat
@@ -83,6 +86,9 @@ void test_matrix_fixed_ref()
     vnl_vector_fixed<double,rows> col_copy = mat.get_column(j);
     TEST("set_col", new_col, col_copy);
   }
+  //   set diagonal
+  ref.set_diagonal(vnl_vector_fixed<double,3>(16,7,9));
+  TEST("set_diagonal(7,9,16))",ref(0,0)==16 && ref(1,1)==7 && ref(2,2)==9, true);
 
   //    assign from mat
   mf other;
@@ -95,24 +101,24 @@ void test_matrix_fixed_ref()
 #endif // 0
 
   {
-  //    assign from const mfr
-  vcl_generate(other.begin(),other.end(),vcl_rand);
-  mfrc cref(other);
-  ref = cref;
-  TEST("assign_const_ref", ref, other);
-  // test different addresses
-  TEST("assign_const_ref", (ref.begin() != other.begin()), true);
+    //    assign from const mfr
+    vcl_generate(other.begin(),other.end(),vcl_rand);
+    mfrc cref(other);
+    ref = cref;
+    TEST("assign_const_ref", ref, other);
+    // test different addresses
+    TEST("assign_const_ref", (ref.begin() != other.begin()), true);
   }
 
   {
 #if 0 // cannot assign to a vnl_matrix_fixed_ref_const
-  //    assign from mfr
-  vcl_generate(other.begin(),other.end(),vcl_rand);
-  mfr ref2(other);
-  ref = ref2;
-  TEST("assign_ref", ref, other);
-  // test different addresses
-  TEST("assign_ref", (ref.begin() != other.begin()), true);
+    //    assign from mfr
+    vcl_generate(other.begin(),other.end(),vcl_rand);
+    mfr ref2(other);
+    ref = ref2;
+    TEST("assign_ref", ref, other);
+    // test different addresses
+    TEST("assign_ref", (ref.begin() != other.begin()), true);
 #endif // 0
   }
   // arithmetic

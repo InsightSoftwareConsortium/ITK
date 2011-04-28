@@ -1,0 +1,9 @@
+extern int zhgeqz_(char *job, char *compq, char *compz, integer *n, integer *ilo, integer *ihi, doublecomplex *h__, integer *ldh, doublecomplex *t, integer *ldt, doublecomplex *alpha, doublecomplex *beta, doublecomplex *q, integer *ldq, doublecomplex *z__, integer *ldz, doublecomplex *work, integer *lwork, doublereal *rwork, integer *info, ftnlen job_len, ftnlen compq_len, ftnlen compz_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: zlaset_ 14 8 13 4 4 9 9 9 4 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: zlanhs_ 7 6 13 4 9 4 7 124 */
+/*:ref: zscal_ 14 4 4 9 9 4 */
+/*:ref: zlartg_ 14 5 9 9 7 9 9 */
+/*:ref: zrot_ 14 7 4 9 4 9 4 7 9 */

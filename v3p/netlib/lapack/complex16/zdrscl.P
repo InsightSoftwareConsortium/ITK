@@ -1,0 +1,4 @@
+extern int zdrscl_(integer *n, doublereal *sa, doublecomplex *sx, integer *incx);
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlabad_ 14 2 7 7 */
+/*:ref: zdscal_ 14 4 4 7 9 4 */

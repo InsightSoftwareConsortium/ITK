@@ -16,7 +16,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vnl/vnl_double_3.h>
+#include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_double_3x3.h>
 
 //: Calculates the 3x3 skew symmetric cross product matrix from a vector.
@@ -32,10 +32,10 @@ class vnl_cross_product_matrix : public vnl_double_3x3
  public:
   typedef vnl_double_3x3 base;
 
-  vnl_cross_product_matrix(const vnl_double_3& v) { set(v.data_block()); }
-  vnl_cross_product_matrix(const vnl_vector<double>& v) { set(v.data_block()); }
+  vnl_cross_product_matrix(vnl_vector_fixed<double,3> const& v) { set(v.data_block()); }
+  vnl_cross_product_matrix(vnl_vector<double> const& v) { set(v.data_block()); }
   vnl_cross_product_matrix(const double* v) { set(v); }
-  vnl_cross_product_matrix(const vnl_cross_product_matrix& that): base(that) {}
+  vnl_cross_product_matrix(vnl_cross_product_matrix const& that): base(that) {}
  ~vnl_cross_product_matrix() {}
 
   vnl_cross_product_matrix& operator=(const vnl_cross_product_matrix& that) {

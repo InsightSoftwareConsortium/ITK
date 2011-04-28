@@ -32,7 +32,7 @@
 //
 //   David Capel May 2000   Added set_row, scale_row, mult, vcat and const
 //                          methods where appropriate.
-//   Peter Vanroose - Jan.2009 - Added several methods, modeled after vnl_matrix<T>:
+//   Peter Vanroose - Jan.2009 - Added several methods, modelled after vnl_matrix<T>:
 //     const version of operator()(unsigned int, unsigned int)
 //     T get(unsigned int, unsigned int)
 //     void put(unsigned int, unsigned int, T)
@@ -52,6 +52,7 @@
 //     scalar division of a matrix
 //     in-place scalar division of a matrix
 //   Peter Vanroose - Oct.2010 - Added set_identity()
+//   Peter Vanroose - Mar.2011 - Added transpose() and conjugate_transpose()
 // \endverbatim
 
 #include <vcl_vector.h>
@@ -249,6 +250,12 @@ class vnl_sparse_matrix
 
   //: in-place scalar division
   vnl_sparse_matrix<T>& operator/=(T const& rhs);
+
+  //: returns a new sparse matrix, viz. the transpose of this
+  vnl_sparse_matrix<T> transpose() const;
+
+  //: returns a new sparse matrix, viz. the conjugate (or Hermitian) transpose of this
+  vnl_sparse_matrix<T> conjugate_transpose() const;
 
   //: Sets this matrix to an identity matrix, then returns "*this".
   //  Returning "*this" allows e.g. passing an identity matrix as argument to

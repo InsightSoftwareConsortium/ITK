@@ -1,0 +1,14 @@
+extern int dseupd_(logical *rvec, char *howmny, logical *select, doublereal *d__, doublereal *z__, integer *ldz, doublereal *sigma, char *bmat, integer *n, char *which, integer *nev, doublereal *tol, doublereal *resid, integer *ncv, doublereal *v, integer *ldv, integer *iparam, integer *ipntr, doublereal *workd, doublereal *workl, integer *lworkl, integer *info, ftnlen howmny_len, ftnlen bmat_len, ftnlen which_len);
+/* comlen debug_ 96 */
+/* comlen timing_ 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dnrm2_ 7 3 4 7 4 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dsteqr_ 14 9 13 4 7 7 7 4 7 4 124 */
+/*:ref: dsesrt_ 14 8 13 12 4 7 4 7 4 124 */
+/*:ref: dsortr_ 14 6 13 12 4 7 7 124 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: dgeqr2_ 14 7 4 4 7 4 7 7 4 */
+/*:ref: dorm2r_ 14 14 13 13 4 4 4 7 4 7 7 4 7 4 124 124 */
+/*:ref: dlacpy_ 14 8 13 4 4 7 4 7 4 124 */
+/*:ref: dger_ 14 9 4 4 7 7 4 7 4 7 4 */

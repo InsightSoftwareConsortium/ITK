@@ -99,3 +99,5 @@ ADD_TEST(test_pow_log                     ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all
 
 ADD_EXECUTABLE(vnl_test_include test_include.cxx)
 TARGET_LINK_LIBRARIES(vnl_test_include vnl)
+ADD_EXECUTABLE(vnl_test_template_include test_template_include.cxx)
+TARGET_LINK_LIBRARIES(vnl_test_template_include vnl)

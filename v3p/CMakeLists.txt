@@ -35,6 +35,10 @@ IF (BUILD_CORE_IMAGING)
   OPTION( VXL_FORCE_V3P_JPEG "Use V3P instead of any native JPEG library?" NO)
   MARK_AS_ADVANCED( VXL_FORCE_V3P_JPEG )
   SUBDIRS(jpeg)
+  
+  OPTION( VXL_FORCE_V3P_J2K "Use V3P instead of any native JPEG2000 library? (WIN32 only)" NO)
+  MARK_AS_ADVANCED( VXL_FORCE_V3P_J2K )
+  SUBDIRS(j2k)
 
   OPTION( VXL_FORCE_V3P_TIFF "Use V3P instead of any native TIFF library?" NO)
   MARK_AS_ADVANCED( VXL_FORCE_V3P_TIFF )
@@ -55,7 +59,11 @@ IF (BUILD_CORE_IMAGING)
   OPTION( VXL_FORCE_V3P_DCMTK "Use V3P instead of any native DCMTK library?" NO)
   MARK_AS_ADVANCED( VXL_FORCE_V3P_DCMTK )
   SUBDIRS(dcmtk)
-	
+
+  OPTION( VXL_FORCE_V3P_OPENJPEG2 "Use V3P instead of any native OpenJPEG v2 library?" NO)
+  MARK_AS_ADVANCED( VXL_FORCE_V3P_OPENJPEG2 )
+  SUBDIRS(openjpeg2)
+
   SUBDIRS(rply)
 
 ENDIF (BUILD_CORE_IMAGING)

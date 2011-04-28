@@ -38,7 +38,7 @@ class vnl_lbfgsb : public vnl_nonlinear_minimizer
   //: Set the bounds to be enforced on each variable.
   // The argument should have one entry per unknown.
   // Each entry may have one of these values:
-  //   0 - variable is not constrainted
+  //   0 - variable is not constrained
   //   1 - variable has only a lower bound
   //   2 - variable has both lower and upper bounds
   //   3 - variable has only an upper bound
