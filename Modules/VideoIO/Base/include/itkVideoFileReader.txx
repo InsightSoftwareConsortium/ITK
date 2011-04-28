@@ -29,30 +29,27 @@ namespace itk
 //
 // Constructor
 //
-template< class TInputImage >
-VideoFileReader< TInputImage >
+template< class TOutputVideoStream >
+VideoFileReader< TOutputVideoStream >
 ::VideoFileReader()
 {
   // Initialize members
-  this->m_FileName = "";
-  this->m_Output = ImageType::New();
-  this->m_VideoIO = NULL;
-  this->m_PixelConversionNeeded = false;
-  this->m_OutputAllocated = false;
+  m_FileName = "";
+  m_VideoIO = NULL;
+  m_PixelConversionNeeded = false;
 
-  // Set up output
-  this->SetNthOutput(0, this->m_Output);
-
-  // Add modification timestamp
-  this->Modified();
+  // TemporalProcessObject inherited members
+  this->TemporalProcessObject::m_UnitOutputNumberOfFrames = 1;
+  this->TemporalProcessObject::m_FrameSkipPerOutput = 1;
+  this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 0;
 }
 
 
 //
 // Destructor
 //
-template< class TInputImage >
-VideoFileReader< TInputImage >
+template< class TOutputVideoStream >
+VideoFileReader< TOutputVideoStream >
 ::~VideoFileReader()
 {}
 
@@ -60,18 +57,18 @@ VideoFileReader< TInputImage >
 //
 // PrintSelf
 //
-template< class TInputImage >
+template< class TOutputVideoStream >
 void
-VideoFileReader< TInputImage >
+VideoFileReader< TOutputVideoStream >
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << this->m_FileName << std::endl;
-  if (!this->m_Output.IsNull())
+  os << indent << "FileName: " << m_FileName << std::endl;
+  if (m_VideoIO)
     {
-    std::cout << indent << "OutputImage:" << std::endl;
-    this->m_Output->Print(os, indent.GetNextIndent());
+    std::cout << indent << "VideoIO:" << std::endl;
+    m_VideoIO->Print(os, indent.GetNextIndent());
     }
 }
 
@@ -80,187 +77,141 @@ VideoFileReader< TInputImage >
 //
 // GenerateOutputInformation
 //
-template< class TInputImage >
+template< class TOutputVideoStream >
 void
-VideoFileReader< TInputImage >
-::GenerateOutputInformation()
+VideoFileReader< TOutputVideoStream >
+::UpdateOutputInformation()
 {
   //
   // Use the VideoIOFactory to generate a VideoIOBase if needed
   //
-  if (this->m_VideoIO.IsNull())
+  if (m_VideoIO.IsNull())
     {
     this->InitializeVideoIO();
     }
 
   //
-  // Create a new output if it doesn't already exist
+  // Set up the largest possible temporal region for the output
   //
-  if (!this->m_OutputAllocated)
-    {
-    // Set spacing, origin, and direction
-    typename ImageType::PointType origin;
-    typename ImageType::SpacingType spacing;
-    typename ImageType::DirectionType direction;
+  TemporalRegion largestPossibleTemporalRegion;
+  largestPossibleTemporalRegion.SetFrameStart(0);
+  largestPossibleTemporalRegion.SetFrameDuration(m_VideoIO->GetFrameTotal());
+  this->GetOutput()->SetLargestPossibleTemporalRegion(largestPossibleTemporalRegion);
 
-    // Set up largest possible region
-    typename ImageType::RegionType region;
-    typename ImageType::SizeType size;
-    typename ImageType::IndexType start;
-    for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
+  //
+  // Set up the information for the output frames
+  //
+
+  // Set spacing, origin, and direction
+  typename FrameType::PointType origin;
+  typename FrameType::SpacingType spacing;
+  typename FrameType::DirectionType direction;
+
+  // Set up largest possible spatial region
+  typename FrameType::RegionType region;
+  typename FrameType::SizeType size;
+  typename FrameType::IndexType start;
+  for (unsigned int i = 0; i < FrameType::ImageDimension; ++i)
+    {
+    size[i] = m_VideoIO->GetDimensions(i);
+    origin[i] = m_VideoIO->GetOrigin(i);
+    spacing[i] = m_VideoIO->GetSpacing(i);
+    for (unsigned int j = 0; j < FrameType::ImageDimension; ++j)
       {
-      size[i] = this->m_VideoIO->GetDimensions(i);
-      origin[i] = this->m_VideoIO->GetOrigin(i);
-      spacing[i] = this->m_VideoIO->GetSpacing(i);
-      for (unsigned int j = 0; j < ImageType::ImageDimension; ++j)
-        {
-        direction[j][i] = this->m_VideoIO->GetDirection(i)[j];
-        }
+      direction[j][i] = m_VideoIO->GetDirection(i)[j];
       }
-    start.Fill(0);
-    region.SetSize(size);
-    region.SetIndex(start);
-    this->m_Output->SetLargestPossibleRegion(region);
-    this->m_Output->SetBufferedRegion(region);
-    this->m_Output->SetRequestedRegion(region);
-
-    this->m_Output->SetSpacing(spacing);
-    this->m_Output->SetOrigin(origin);
-    this->m_Output->SetDirection(direction);
-
-    // Allocate the output
-    this->m_Output->Allocate();
-
-    // Don't need to do this again
-    this->m_OutputAllocated = true;
     }
+  start.Fill(0);
+  region.SetSize(size);
+  region.SetIndex(start);
+  this->GetOutput()->SetAllLargestPossibleSpatialRegions(region);
+  this->GetOutput()->SetAllBufferedSpatialRegions(region);
+  this->GetOutput()->SetAllRequestedSpatialRegions(region);
+
+  /* TODO: Figure out how to handle spacing/origin/direction for frames
+  m_Output->SetSpacing(spacing);
+  m_Output->SetOrigin(origin);
+  m_Output->SetDirection(direction);
+  */
 }
-
-
-//
-// UpdateOutputData
-//
-template< class TInputImage >
-void
-VideoFileReader< TInputImage >
-::UpdateOutputData(DataObject*)
-{
-
-  // Read the next frame from the videoIO and do conversion if necessary
-  if (this->m_PixelConversionNeeded)
-    {
-    // Set up temporary buffer for reading
-    size_t bufferSize = this->m_VideoIO->GetImageSizeInBytes();
-    char* loadBuffer = new char[bufferSize];
-
-    // Read into a temporary buffer
-    this->m_VideoIO->Read(static_cast<void*>(loadBuffer));
-
-    // Convert the buffer into the output buffer location
-    this->DoConvertBuffer(static_cast<void*>(loadBuffer));
-    }
-  else
-    {
-    this->m_VideoIO->Read(reinterpret_cast<void*>(
-      this->m_Output->GetPixelContainer()->GetBufferPointer()));
-    }
-
-  // Mark ourselves modified
-  this->Modified();
-}
-
-
-//
-// GetOutput
-//
-template< class TInputImage >
-typename TInputImage::Pointer
-VideoFileReader< TInputImage >
-::GetOutput()
-{
-  return this->m_Output;
-}
-
-
-
 
 //
 // GetCurrentPositionFrame
 //
-template< class TInputImage >
+template< class TOutputVideoStream >
 unsigned long
-VideoFileReader< TInputImage >
+VideoFileReader< TOutputVideoStream >
 ::GetCurrentPositionFrame()
 {
-  if(this->m_VideoIO.IsNull())
+  if(m_VideoIO.IsNull())
     {
     this->InitializeVideoIO();
     }
-  return this->m_VideoIO->GetCurrentFrame();
+  return m_VideoIO->GetCurrentFrame();
 }
 
 
 //
 // GetCurrentPositionRatio
 //
-template< class TInputImage >
+template< class TOutputVideoStream >
 double
-VideoFileReader< TInputImage >
+VideoFileReader< TOutputVideoStream >
 ::GetCurrentPositionRatio()
 {
-  if(this->m_VideoIO.IsNull())
+  if(m_VideoIO.IsNull())
     {
     this->InitializeVideoIO();
     }
-  return this->m_VideoIO->GetRatio();
+  return m_VideoIO->GetRatio();
 }
 
 
 //
 // GetCurrentPositionMSec
 //
-template< class TInputImage >
+template< class TOutputVideoStream >
 double
-VideoFileReader< TInputImage >
+VideoFileReader< TOutputVideoStream >
 ::GetCurrentPositionMSec()
 {
-  if(this->m_VideoIO.IsNull())
+  if(m_VideoIO.IsNull())
     {
     this->InitializeVideoIO();
     }
-  return this->m_VideoIO->GetPositionInMSec();
+  return m_VideoIO->GetPositionInMSec();
 }
 
 
 //
 // GetNumberOfFrames
 //
-template< class TInputImage >
+template< class TOutputVideoStream >
 unsigned long
-VideoFileReader< TInputImage >
+VideoFileReader< TOutputVideoStream >
 ::GetNumberOfFrames()
 {
-  if(this->m_VideoIO.IsNull())
+  if(m_VideoIO.IsNull())
     {
     this->InitializeVideoIO();
     }
-  return this->m_VideoIO->GetFrameTotal();
+  return m_VideoIO->GetFrameTotal();
 }
 
 
 //
 // GetFpS
 //
-template< class TInputImage >
+template< class TOutputVideoStream >
 double
-VideoFileReader< TInputImage >
+VideoFileReader< TOutputVideoStream >
 ::GetFpS()
 {
-  if(this->m_VideoIO.IsNull())
+  if(m_VideoIO.IsNull())
     {
     this->InitializeVideoIO();
     }
-  return this->m_VideoIO->GetFpS();
+  return m_VideoIO->GetFpS();
 }
 
 
@@ -272,26 +223,26 @@ VideoFileReader< TInputImage >
 //
 // InitializeVideoIO
 //
-template< class TImageType >
+template< class TOutputVideoStream >
 void
-VideoFileReader< TImageType >
+VideoFileReader< TOutputVideoStream >
 ::InitializeVideoIO()
 {
-  this->m_VideoIO = itk::VideoIOFactory::CreateVideoIO(
+  m_VideoIO = itk::VideoIOFactory::CreateVideoIO(
                                 itk::VideoIOFactory::ReadFileMode,
-                                this->m_FileName.c_str());
-  this->m_VideoIO->SetFileName(this->m_FileName.c_str());
-  this->m_VideoIO->ReadImageInformation();
+                                m_FileName.c_str());
+  m_VideoIO->SetFileName(m_FileName.c_str());
+  m_VideoIO->ReadImageInformation();
 
   // Make sure the input video has the same number of dimensions as the desired
   // output
   //
   // Note: This may be changed with the implementation of the Image
   //       Interpretation Layer
-  if (this->m_VideoIO->GetNumberOfDimensions() != ImageType::ImageDimension)
+  if (m_VideoIO->GetNumberOfDimensions() != FrameType::ImageDimension)
     {
-    itkExceptionMacro("Cannot convert " << this->m_VideoIO->GetNumberOfDimensions() << "D "
-      "image set to " << ImageType::ImageDimension << "D");
+    itkExceptionMacro("Cannot convert " << m_VideoIO->GetNumberOfDimensions() << "D "
+      "image set to " << FrameType::ImageDimension << "D");
     }
 
   // See if a buffer conversion is needed
@@ -310,27 +261,66 @@ VideoFileReader< TImageType >
                    << ConvertPixelTraits::GetNumberOfComponents()
                    << " m_VideoIO->NumComponents "
                    << m_VideoIO->GetNumberOfComponents() );
-    this->m_PixelConversionNeeded = true;
+    m_PixelConversionNeeded = true;
     }
   else
     {
-    this->m_PixelConversionNeeded = false;
+    m_PixelConversionNeeded = false;
     }
 }
 
+
+//
+// TemporalStreamingGenerateData
+//
+template< class TOutputVideoStream >
+void
+VideoFileReader< TOutputVideoStream >
+::TemporalStreamingGenerateData()
+{
+  // Allocate the output frames
+  this->AllocateOutputs();
+
+  // Get the frame number for the frame we're reading
+  unsigned long frameNum = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
+
+  // Read a single frame
+  if (m_PixelConversionNeeded)
+    {
+    // Set up temporary buffer for reading
+    size_t bufferSize = m_VideoIO->GetImageSizeInBytes();
+    char* loadBuffer = new char[bufferSize];
+
+    // Read into a temporary buffer
+    m_VideoIO->Read(static_cast<void*>(loadBuffer));
+
+    // Convert the buffer into the output buffer location
+    this->DoConvertBuffer(static_cast<void*>(loadBuffer), frameNum);
+    }
+  else
+    {
+    FrameType* frame = this->GetOutput()->GetFrame(frameNum);
+    m_VideoIO->Read(reinterpret_cast<void*>(frame->GetBufferPointer()));
+    }
+
+  // Mark ourselves modified
+  this->Modified();
+}
 
 
 //
 // DoConvertBuffer (much borrowed from itkImageFileReader)
 //
-template< class TImageType >
+template< class TOutputVideoStream >
 void
-VideoFileReader< TImageType >
-::DoConvertBuffer(void* inputData)
+VideoFileReader< TOutputVideoStream >::
+DoConvertBuffer(void* inputData, unsigned long frameNumber)
 {
-  PixelType* outputData = this->m_Output->GetPixelContainer()->GetBufferPointer();
-  unsigned int numberOfPixels = this->m_Output->GetPixelContainer()->Size();
-  bool isVectorImage(strcmp(this->m_Output->GetNameOfClass(),
+  PixelType* outputData =
+    this->GetOutput()->GetFrame(frameNumber)->GetPixelContainer()->GetBufferPointer();
+  unsigned int numberOfPixels =
+    this->GetOutput()->GetFrame(frameNumber)->GetPixelContainer()->Size();
+  bool isVectorImage(strcmp(this->GetOutput()->GetFrame(frameNumber)->GetNameOfClass(),
                             "VectorImage") == 0);
 #define ITK_CONVERT_BUFFER_IF_BLOCK(_CType,type)                        \
   else if(m_VideoIO->GetComponentType() == _CType)                      \
