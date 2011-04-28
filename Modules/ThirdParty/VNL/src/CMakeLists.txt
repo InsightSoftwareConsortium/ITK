@@ -27,9 +27,11 @@ foreach(exe
     vcl_test_include
     vnl_algo_test_all
     vnl_algo_test_include
+    vnl_algo_test_template_include
     vnl_basic_operation_timings
     vnl_test_all
     vnl_test_include
+    vnl_test_template_include
     )
   if(TARGET ${exe}) # some vxl targets are conditional
     itk_module_target_label(${exe})
