@@ -216,7 +216,7 @@ int main( int argc, char *argv[] )
   // of every stage.
   //
   itk::TimeProbesCollectorBase chronometer;
-  itk::MemoryProbesCollectorBase memorymeter
+  itk::MemoryProbesCollectorBase memorymeter;
 
 
   //
@@ -267,12 +267,12 @@ int main( int argc, char *argv[] )
   std::cout << "Starting Rigid Transform Initialization " << std::endl;
 
   memorymeter.Start( "Rigid Initialization" );
-  chronometer.Start( "Rigid Initialization" )
+  chronometer.Start( "Rigid Initialization" );
 
   initializer->InitializeTransform();
 
   chronometer.Stop( "Rigid Initialization" );
-  memorymeter.Stop( "Rigid Initialization" )
+  memorymeter.Stop( "Rigid Initialization" );
 
   std::cout << "Rigid Transform Initialization completed" << std::endl;
   std::cout << std::endl;
@@ -325,12 +325,12 @@ int main( int argc, char *argv[] )
   try
     {
     memorymeter.Start( "Rigid Registration" );
-    chronometer.Start( "Rigid Registration" )
+    chronometer.Start( "Rigid Registration" );
 
     registration->StartRegistration();
 
     chronometer.Stop( "Rigid Registration" );
-    memorymeter.Stop( "Rigid Registration" )
+    memorymeter.Stop( "Rigid Registration" );
 
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
@@ -399,12 +399,12 @@ int main( int argc, char *argv[] )
   try
     {
     memorymeter.Start( "Affine Registration" );
-    chronometer.Start( "Affine Registration" )
+    chronometer.Start( "Affine Registration" );
 
     registration->StartRegistration();
 
     chronometer.Stop( "Affine Registration" );
-    memorymeter.Stop( "Affine Registration" )
+    memorymeter.Stop( "Affine Registration" );
     }
   catch( itk::ExceptionObject & err )
     {
@@ -535,12 +535,12 @@ int main( int argc, char *argv[] )
   try
     {
     memorymeter.Start( "Deformable Registration Coarse" );
-    chronometer.Start( "Deformable Registration Coarse" )
+    chronometer.Start( "Deformable Registration Coarse" );
 
     registration->StartRegistration();
 
     chronometer.Stop( "Deformable Registration Coarse" );
-    memorymeter.Stop( "Deformable Registration Coarse" )
+    memorymeter.Stop( "Deformable Registration Coarse" );
     }
   catch( itk::ExceptionObject & err )
     {
@@ -699,12 +699,12 @@ int main( int argc, char *argv[] )
   try
     {
     memorymeter.Start( "Deformable Registration Fine" );
-    chronometer.Start( "Deformable Registration Fine" )
+    chronometer.Start( "Deformable Registration Fine" );
 
     registration->StartRegistration();
 
     chronometer.Stop( "Deformable Registration Fine" );
-    memorymeter.Stop( "Deformable Registration Fine" )
+    memorymeter.Stop( "Deformable Registration Fine" );
     }
   catch( itk::ExceptionObject & err )
     {
