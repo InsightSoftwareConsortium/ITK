@@ -24,8 +24,8 @@
 // index at the start of each run, but there isn't a choice
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
-#include "itkMaskImageFilter.h"
 #include "itkConnectedComponentAlgorithm.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -91,7 +91,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   // the following method
   nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
 
-//  std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
   m_Barrier = Barrier::New();
   m_Barrier->Initialize(nbOfThreads);
 
@@ -169,7 +168,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
       SizeValueType  length = 0;
       InputIndexType thisIndex = inLineIt.GetIndex();
-      //std::cout << thisIndex << std::endl;
       outLineIt.Set(m_BackgroundValue);
       ++length;
       ++inLineIt;
@@ -187,7 +185,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
       Line.push_back(thisRun);
       }
-//     std::cout << std::endl;
     m_LineMap[lineId] = Line;
     ++lineId;
     progress.CompletedPixel();
@@ -361,8 +358,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
     {
     offset = 1;
     }
-//   std::cout << "offset: " << offset << std::endl;
-
   OutputImagePointer output = this->GetOutput();
 
   LineEncodingIterator cIt = current.begin();
@@ -415,7 +410,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
           if ( ( ss1 >= cStart ) && ( ee2 <= cLast ) )
             {
             // case 1
-    //         std::cout << "case 1" << std::endl;
             eq = true;
             oStart = ss1;
             oLast = ee2;
@@ -423,7 +417,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
           else if ( ( ss1 <= cStart ) && ( ee2 >= cLast ) )
             {
             // case 4
-    //         std::cout << "case 4" << std::endl;
             eq = true;
             oStart = cStart;
             oLast = cLast;
@@ -431,7 +424,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
           else if ( ( ss1 <= cLast ) && ( ee2 >= cLast ) )
             {
             // case 2
-    //         std::cout << "case 2" << std::endl;
             eq = true;
             oStart = ss1;
             oLast = cLast;
@@ -439,7 +431,6 @@ LabelContourImageFilter< TInputImage, TOutputImage >
           else if ( ( ss1 <= cStart ) && ( ee2 >= cStart ) )
             {
             // case 3
-    //         std::cout << "case 3" << std::endl;
             eq = true;
             oStart = cStart;
             oLast = ee2;
@@ -447,12 +438,10 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
           if ( eq )
             {
-    //         std::cout << oStart << " " << oLast << std::endl;
             itkAssertInDebugAndIgnoreInReleaseMacro(oStart <= oLast);
             OutputIndexType idx = cIt->where;
             for ( OffsetValueType x = oStart; x <= oLast; ++x )
               {
-    //           std::cout << idx << std::endl;
               idx[0] = x;
               output->SetPixel(idx, cIt->label);
               }

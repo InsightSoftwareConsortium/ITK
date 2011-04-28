@@ -85,7 +85,6 @@ itkJPEG2000ImageIOTest05.cxx
 itkJPEG2000ImageIOTest06.cxx
 itkKappaSigmaThresholdImageCalculatorTest.cxx
 itkKappaSigmaThresholdImageFilterTest.cxx
-itkLabelContourImageFilterTest.cxx
 itkLabelGeometryImageFilterTest.cxx
 itkLabelImageToLabelMapFilterTest.cxx
 itkLabelImageToShapeLabelMapFilterTest1.cxx
@@ -728,16 +727,6 @@ add_test(NAME itkKappaSigmaThresholdImageFilterTest01
 add_test(NAME itkKappaSigmaThresholdImageFilterTest02
       COMMAND ITK-ReviewTestDriver itkKappaSigmaThresholdImageFilterTest
               ${ITK_DATA_ROOT}/Input/CellsFluorescence2.png ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest02.mha 10 3.0)
-add_test(NAME itkLabelContourImageFilterTest0
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelContourImageFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest0.png
-    itkLabelContourImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest0.png 0 0)
-add_test(NAME itkLabelContourImageFilterTest1
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelContourImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest1.png
-    itkLabelContourImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest1.png 1 0)
 add_test(NAME itkLabelGeometryImageFilterTest2
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkLabelGeometryImageFilterTest2Image.png

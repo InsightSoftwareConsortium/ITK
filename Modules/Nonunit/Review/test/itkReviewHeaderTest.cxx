@@ -110,7 +110,6 @@
 #include "itkJPEG2000ImageIOFactory.h"
 #include "itkKappaSigmaThresholdImageCalculator.txx"
 #include "itkKappaSigmaThresholdImageFilter.txx"
-#include "itkLabelContourImageFilter.txx"
 #include "itkLabelGeometryImageFilter.txx"
 #include "itkLabelImageToLabelMapFilter.txx"
 #include "itkLabelImageToShapeLabelMapFilter.txx"
