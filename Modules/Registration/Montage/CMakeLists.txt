@@ -12,5 +12,8 @@ include(${ITK_USE_FILE})
 add_executable(SimpleImageReconstruction SimpleImageReconstruction.cxx )
 target_link_libraries(SimpleImageReconstruction ITKIO)
 
+add_executable(AffineImageReconstruction AffineImageReconstruction.cxx )
+target_link_libraries(AffineImageReconstruction ITKIO ITKNumerics)
+
 add_executable(PrintImageInformation PrintImageInformation.cxx )
 target_link_libraries(PrintImageInformation ITKIO)
