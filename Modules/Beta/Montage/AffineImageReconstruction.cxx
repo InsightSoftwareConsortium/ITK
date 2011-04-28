@@ -116,7 +116,7 @@ private:
 void AffineRegistration::Execute()
 {
   const    unsigned int    Dimension = 2;
-  typedef  float           PixelType;
+  typedef  unsigned char   PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
