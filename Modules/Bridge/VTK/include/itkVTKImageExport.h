@@ -19,6 +19,7 @@
 #define __itkVTKImageExport_h
 
 #include "itkVTKImageExportBase.h"
+#include "itkConceptChecking.h"
 
 namespace itk
 {
@@ -58,6 +59,8 @@ public:
   typedef VTKImageExportBase         Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageExport, VTKImageExportBase);
@@ -68,6 +71,11 @@ public:
   /** The type of the input image. */
   typedef TInputImage InputImageType;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro( ImageDimensionCheck,
+                   ( Concept::SameDimensionOrMinusOneOrTwo<
+                     3,itkGetStaticConstMacro(InputImageDimension) > ) );
+#endif
   /** Set the input image of this image exporter. */
   void SetInput(const InputImageType *);
 
@@ -80,9 +88,6 @@ protected:
   typedef typename InputImageType::RegionType InputRegionType;
   typedef typename InputRegionType::SizeType  InputSizeType;
   typedef typename InputRegionType::IndexType InputIndexType;
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
-
   InputImageType * GetInput(void);
 
   int * WholeExtentCallback();
