@@ -81,20 +81,40 @@ public:
     }
 };
 
-
-int main( int argc, char *argv[] )
+class AffineRegistration
 {
-  if( argc < 4 )
+public:
+  AffineRegistration() {}
+  ~AffineRegistration() {}
+
+  void SetFixedImageFileName( const std::string & name )
     {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << "   fixedImageFile  movingImageFile " << std::endl;
-    std::cerr << "   outputImagefile  [differenceBeforeRegistration] " << std::endl;
-    std::cerr << "   [differenceAfterRegistration] " << std::endl;
-    std::cerr << "   [stepLength] [maxNumberOfIterations] "<< std::endl;
-    return EXIT_FAILURE;
+    this->m_FixedImageFilename = name;
     }
 
+  void SetMovingImageFileName( const std::string & name )
+    {
+    this->m_MovingImageFilename = name;
+    }
+
+  void SetRegisteredImageFileName( const std::string & name )
+    {
+    this->m_RegisteredImageFileName = name;
+    }
+
+  void Execute();
+
+private:
+
+  std::string  m_FixedImageFilename;
+  std::string  m_MovingImageFilename;
+  std::string  m_RegisteredImageFileName;
+
+};
+
+
+void AffineRegistration::Execute()
+{
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;
 
@@ -106,12 +126,15 @@ int main( int argc, char *argv[] )
                                   Dimension  >     TransformType;
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+
   typedef itk::MeanSquaresImageToImageMetric<
                                     FixedImageType,
                                     MovingImageType >    MetricType;
+
   typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
+
   typedef itk::ImageRegistrationMethod<
                                     FixedImageType,
                                     MovingImageType >    RegistrationType;
@@ -134,8 +157,8 @@ int main( int argc, char *argv[] )
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
-  fixedImageReader->SetFileName(  argv[1] );
-  movingImageReader->SetFileName( argv[2] );
+  fixedImageReader->SetFileName(  this->m_FixedImageFilename );
+  movingImageReader->SetFileName( this->m_MovingImageFilename );
 
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
@@ -164,10 +187,6 @@ int main( int argc, char *argv[] )
 
 
   double translationScale = 1.0 / 1000.0;
-  if( argc > 8 )
-    {
-    translationScale = atof( argv[8] );
-    }
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
@@ -183,18 +202,7 @@ int main( int argc, char *argv[] )
 
   double steplength = 0.1;
 
-  if( argc > 6 )
-    {
-    steplength = atof( argv[6] );
-    }
-
   unsigned int maxNumberOfIterations = 300;
-
-  if( argc > 7 )
-    {
-    maxNumberOfIterations = atoi( argv[7] );
-    }
-
 
   optimizer->SetMaximumStepLength( steplength );
   optimizer->SetMinimumStepLength( 0.0001 );
@@ -216,10 +224,8 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
-    return EXIT_FAILURE;
+    return;
     }
-
-
 
   OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
@@ -232,9 +238,6 @@ int main( int argc, char *argv[] )
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   const double bestValue = optimizer->GetValue();
 
-
-  // Print out results
-  //
   std::cout << "Result = " << std::endl;
   std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
   std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
@@ -242,10 +245,6 @@ int main( int argc, char *argv[] )
   std::cout << " Translation Y = " << finalTranslationY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-
-  //Compute the rotation angle and scaling from SVD of the matrix
-  // \todo Find a way to figure out if the scales are along X or along Y.
-  // VNL returns the eigenvalues ordered from largest to smallest.
 
   vnl_matrix<double> p(2, 2);
   p[0][0] = (double) finalParameters[0];
@@ -279,80 +278,45 @@ int main( int argc, char *argv[] )
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
-  resampler->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
+  resampler->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
   resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputDirection( fixedImage->GetDirection() );
+
   resampler->SetDefaultPixelValue( 100 );
 
   typedef  unsigned char  OutputPixelType;
 
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-
-  typedef itk::CastImageFilter<
-                        FixedImageType,
-                        OutputImageType > CastFilterType;
-
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-
+  typedef itk::ImageFileWriter< FixedImageType >  WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
-  CastFilterType::Pointer  caster =  CastFilterType::New();
 
+  writer->SetFileName( m_RegisteredImageFileName );
 
-  writer->SetFileName( argv[3] );
-
-
-  caster->SetInput( resampler->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
+  writer->SetInput( resampler->GetOutput() );
   writer->Update();
-
-
-  typedef itk::SubtractImageFilter<
-                                  FixedImageType,
-                                  FixedImageType,
-                                  FixedImageType > DifferenceFilterType;
-
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
-
-  difference->SetInput1( fixedImageReader->GetOutput() );
-  difference->SetInput2( resampler->GetOutput() );
-
-  WriterType::Pointer writer2 = WriterType::New();
-
-  typedef itk::RescaleIntensityImageFilter<
-                                  FixedImageType,
-                                  OutputImageType >   RescalerType;
-
-  RescalerType::Pointer intensityRescaler = RescalerType::New();
-
-  intensityRescaler->SetInput( difference->GetOutput() );
-  intensityRescaler->SetOutputMinimum(   0 );
-  intensityRescaler->SetOutputMaximum( 255 );
-
-  writer2->SetInput( intensityRescaler->GetOutput() );
-  resampler->SetDefaultPixelValue( 1 );
-
-  // Compute the difference image between the
-  // fixed and resampled moving image.
-  if( argc > 5 )
-    {
-    writer2->SetFileName( argv[5] );
-    writer2->Update();
-    }
-
-
-  typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
-  IdentityTransformType::Pointer identity = IdentityTransformType::New();
-
-  // Compute the difference image between the
-  // fixed and moving image before registration.
-  if( argc > 4 )
-    {
-    resampler->SetTransform( identity );
-    writer2->SetFileName( argv[4] );
-    writer2->Update();
-    }
-
-  return EXIT_SUCCESS;
 }
+
+
+int main( int argc, char *argv[] )
+{
+  if( argc < 4 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << "   fixedImageFile  movingImageFile " << std::endl;
+    std::cerr << "   outputImagefile  [differenceBeforeRegistration] " << std::endl;
+    std::cerr << "   [differenceAfterRegistration] " << std::endl;
+    std::cerr << "   [stepLength] [maxNumberOfIterations] "<< std::endl;
+    return EXIT_FAILURE;
+    }
+
+  AffineRegistration registration;
+
+  registration.SetFixedImageFileName( argv[1] );
+  registration.SetMovingImageFileName( argv[2] );
+  registration.SetRegisteredImageFileName( argv[3] );
+
+  registration.Execute();
+}
+
