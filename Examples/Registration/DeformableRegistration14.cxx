@@ -350,19 +350,19 @@ int main( int argc, char *argv[] )
 
   // Add time and memory probes
   itk::TimeProbesCollectorBase chronometer;
-  itk::MemoryProbesCollectorBase memorymeter
+  itk::MemoryProbesCollectorBase memorymeter;
 
   std::cout << std::endl << "Starting Registration" << std::endl;
 
   try
     {
     memorymeter.Start( "Registration" );
-    chronometer.Start( "Registration" )
+    chronometer.Start( "Registration" );
 
     registration->StartRegistration();
 
     chronometer.Stop( "Registration" );
-    memorymeter.Stop( "Registration" )
+    memorymeter.Stop( "Registration" );
 
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
