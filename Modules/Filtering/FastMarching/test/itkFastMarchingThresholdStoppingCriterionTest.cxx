@@ -15,28 +15,32 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
-#include <iostream>
+#include "itkFastMarchingThresholdStoppingCriterion.h"
+#include "itkImage.h"
+#include "itkMesh.h"
 
-#include "itkFastMarchingExtensionImageFilter.txx"
-#include "itkFastMarchingUpwindGradientImageFilter.txx"
-#include "itkFastMarchingImageFilter.txx"
+int itkFastMarchingThresholdStoppingCriterionTest( int argc, char* argv[] )
+  {
+  (void) argc;
+  (void) argv;
 
-#include "itkFastMarchingBase.h"
-#include "itkFastMarchingExtensionImageFilterBase.h"
-#include "itkFastMarchingImageFilterBase.h"
-#include "itkFastMarchingQuadEdgeMeshFilterBase.h"
-#include "itkFastMarchingReachedTargetNodesStoppingCriterion.h"
-#include "itkFastMarchingStoppingCriterionBase.h"
-#include "itkFastMarchingTraits.h"
-#include "itkFastMarchingUpwindGradientImageFilterBase.h"
-#include "itkFastMarchingImageToNodePairContainerAdaptor.h"
+  typedef itk::Image< float, 2> ImageType;
 
-int itkFastMarchingHeaderTest ( int , char * [] )
-{
+  typedef itk::FastMarchingThresholdStoppingCriterion<
+      ImageType, ImageType > ImageStoppingCriterionType;
+
+  ImageStoppingCriterionType::Pointer image_criterion =
+      ImageStoppingCriterionType::New();
+
+  typedef itk::QuadEdgeMesh< float, 3 >
+      MeshType;
+
+  typedef itk::FastMarchingThresholdStoppingCriterion< MeshType, MeshType >
+      MeshStoppingCriterionType;
+
+  MeshStoppingCriterionType::Pointer mesh_criterion =
+      MeshStoppingCriterionType::New();
 
   return EXIT_SUCCESS;
-}
+  }
