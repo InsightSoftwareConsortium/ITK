@@ -35,6 +35,11 @@ namespace itk
  *
  * \ingroup Operators
  *
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Operators/BackwardDifferenceOperator,Create a backward difference kernel}
+ * \endwiki
  */
 template< class TPixel, unsigned int TDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

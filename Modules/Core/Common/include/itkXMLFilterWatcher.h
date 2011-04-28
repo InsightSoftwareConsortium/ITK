@@ -26,6 +26,7 @@ namespace itk
  * \brief Simple mechanism for monitoring the pipeline events of a
  * filter and reporting these events to std::cout. Formats reports
  * with xml.
+ * \ingroup ITK-Common
  */
 class XMLFilterWatcher:public SimpleFilterWatcher
 {

@@ -42,23 +42,7 @@
 #include "itkMeanSquaresImageToImageMetric.h"
 
 #include "itkTimeProbesCollectorBase.h"
-
-#ifdef ITK_USE_REVIEW
 #include "itkMemoryProbesCollectorBase.h"
-#define itkProbesCreate()  \
-  itk::TimeProbesCollectorBase chronometer; \
-  itk::MemoryProbesCollectorBase memorymeter
-#define itkProbesStart( text ) memorymeter.Start( text ); chronometer.Start( text )
-#define itkProbesStop( text )  chronometer.Stop( text ); memorymeter.Stop( text  )
-#define itkProbesReport( stream )  chronometer.Report( stream ); memorymeter.Report( stream  )
-#else
-#define itkProbesCreate()  \
-  itk::TimeProbesCollectorBase chronometer
-#define itkProbesStart( text ) chronometer.Start( text )
-#define itkProbesStop( text )  chronometer.Stop( text )
-#define itkProbesReport( stream )  chronometer.Report( stream )
-#endif
-
 
 //  Software Guide : BeginLatex
 //
@@ -292,15 +276,21 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   // Add time and memory probes
-  itkProbesCreate();
+  itk::TimeProbesCollectorBase chronometer;
+  itk::MemoryProbesCollectorBase memorymeter
 
   std::cout << std::endl << "Starting Registration" << std::endl;
 
   try
     {
-    itkProbesStart( "Registration" );
+    memorymeter.Start( "Registration" );
+    chronometer.Start( "Registration" )
+
     registration->StartRegistration();
-    itkProbesStop( "Registration" );
+
+    chronometer.Stop( "Registration" );
+    memorymeter.Stop( "Registration" )
+
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
@@ -320,7 +310,8 @@ int main( int argc, char *argv[] )
 
 
   // Report the time and memory taken by the registration
-  itkProbesReport( std::cout );
+  chronometer.Report( std::cout );
+  memorymeter.Report( std::cout );
 
   //  Software Guide : BeginLatex
   //
@@ -495,8 +486,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-
-#undef itkProbesCreate
-#undef itkProbesStart
-#undef itkProbesStop
-#undef itkProbesReport

@@ -39,6 +39,7 @@ namespace itk
  *
  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
  *
+ * \ingroup ITK-Mesh
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT TriangleMeshToSimplexMeshFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >

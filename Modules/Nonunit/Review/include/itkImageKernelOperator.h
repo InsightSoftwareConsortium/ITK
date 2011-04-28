@@ -33,6 +33,7 @@ namespace itk
  * \sa Neighborhood
  *
  * \ingroup Operators
+ * \ingroup ITK-Review
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

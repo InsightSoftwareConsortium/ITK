@@ -28,5 +28,5 @@ itkMultipleValuedVnlCostFunctionAdaptor.cxx
 )
 
 add_library(ITK-Optimizers ${ITK-Optimizers_SRC})
-target_link_libraries(ITK-Optimizers  ${ITK-Statistics_LIBRARIES} ${ITK-Transform_LIBRARIES} ${TEST_DEPENDS_LIBRARIES} ${ITK-TestKernel_LIBRARIES})
+target_link_libraries(ITK-Optimizers  ${ITK-Statistics_LIBRARIES} ${ITK-Transform_LIBRARIES})
 itk_module_target(ITK-Optimizers)

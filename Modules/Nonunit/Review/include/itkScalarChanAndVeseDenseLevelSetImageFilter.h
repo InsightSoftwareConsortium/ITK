@@ -27,7 +27,6 @@ namespace itk
 /** \class ScalarChanAndVeseDenseLevelSetImageFilter
  * \brief Dense implementation of the Chan and Vese multiphase level set image filter.
  *
- *
  * This code was adapted from the paper:
  *
  *        "An active contour model without edges"
@@ -54,6 +53,11 @@ namespace itk
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
+ * \ingroup ITK-Review
+ *
+ * \wiki
+ * \wikiexample{Segmentation/SinglephaseChanAndVeseDenseFieldLevelSetSegmentation,Single-phase Chan And Vese Dense Field Level Set Segmentation}
+ * \endwiki
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage,
           class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,

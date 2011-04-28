@@ -29,6 +29,7 @@ namespace itk
  * the type of the output image.
  *
  * \ingroup   IntensityImageFilters     Singlethreaded
+ * \ingroup ITK-Deprecated
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ReflectImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >

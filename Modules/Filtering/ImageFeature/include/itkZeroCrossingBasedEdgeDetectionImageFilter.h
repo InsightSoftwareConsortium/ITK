@@ -63,7 +63,9 @@ namespace itk
  * \sa DiscreteGaussianImageFilter
  * \sa LaplacianImageFilter
  * \sa ZeroCrossingImageFilter
- * \ingroup ImageFeatureExtraction */
+ * \ingroup ImageFeatureExtraction
+ * \ingroup ITK-ImageFeature
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

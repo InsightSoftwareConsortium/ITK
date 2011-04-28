@@ -43,6 +43,7 @@ namespace itk
  * 2. Take an nD binary image and a set of seed points as input, and output an nD binary image containing the cells connected to the seeds.
  *    For option 2, users need to assign the member variable std::list<IndexType> m_Seeds before calling function GenerateData().
  * \sa ImageToImageFilter
+ * \ingroup ITK-ConnectedComponents
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT HardConnectedComponentImageFilter:

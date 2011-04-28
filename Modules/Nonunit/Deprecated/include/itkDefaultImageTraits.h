@@ -29,6 +29,7 @@ namespace itk
  *
  * \sa Image
  * \ingroup ImageObjects
+ * \ingroup ITK-Deprecated
  */
 template< typename TPixelType,
           unsigned int VImageDimension,

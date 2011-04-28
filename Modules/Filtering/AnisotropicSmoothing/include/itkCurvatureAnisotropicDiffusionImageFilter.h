@@ -51,7 +51,9 @@ namespace itk
  * \sa AnisotropicDiffusionImageFilter
  * \sa AnisotropicDiffusionFunction
  * \sa CurvatureNDAnisotropicDiffusionFunction
- * \ingroup ImageEnhancement */
+ * \ingroup ImageEnhancement
+ * \ingroup ITK-AnisotropicSmoothing
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT CurvatureAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >

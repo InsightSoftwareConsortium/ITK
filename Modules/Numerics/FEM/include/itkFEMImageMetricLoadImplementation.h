@@ -47,6 +47,7 @@ namespace fem {
  * instantiation is normally done like:
  *     typedef LoadTest<...> MyLoadTestClass;
  *     template class LoadTestImplementationBar2D<MyLoadTestClass>;
+ * \ingroup ITK-FEM
  */
 template<class TLoadClass>
 class ImageMetricLoadImplementation

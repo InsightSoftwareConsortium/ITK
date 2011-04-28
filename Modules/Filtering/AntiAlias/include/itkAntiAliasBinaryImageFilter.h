@@ -25,7 +25,7 @@ namespace itk
 /**
  * \class AntiAliasBinaryImageFilter
  *
- *\par
+ * \par
  * This filter implements a surface-fitting method for estimation of a
  * surface from a binary volume.  This process can be used to reduce aliasing
  * artifacts which result in visualization of binary partitioned surfaces.
@@ -96,6 +96,11 @@ namespace itk
  *  In the common case, the only parameter that will need to be set is the
  *  MaximumRMSChange parameter, which determines when the solver halts.
  *
+ * \ingroup ITK-AntiAlias
+ *
+ * \wiki
+ * \wikiexample{Smoothing/AntiAliasBinaryImageFilter,Anti alias a binary image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT AntiAliasBinaryImageFilter:

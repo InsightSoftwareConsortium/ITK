@@ -35,20 +35,15 @@
 #include "itkDecimationQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 #include "itkSquaredEdgeLengthDecimationQuadEdgeMeshFilter.txx"
-#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.txx"
 #include "itkCleanQuadEdgeMeshFilter.h"
 #include "itkEdgeDecimationQuadEdgeMeshFilter.txx"
 #include "itkDiscreteMinimumCurvatureQuadEdgeMeshFilter.h"
 #include "itkDiscreteGaussianCurvatureQuadEdgeMeshFilter.h"
 #include "itkParameterizationQuadEdgeMeshFilter.h"
-#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadricDecimationQuadEdgeMeshFilter.h"
 #include "itkDiscreteMaximumCurvatureQuadEdgeMeshFilter.h"
 
-
-
 int itkQuadEdgeMeshFilteringHeaderTest ( int , char * [] )
 {
-
   return EXIT_SUCCESS;
 }

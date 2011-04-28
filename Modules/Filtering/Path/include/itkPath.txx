@@ -32,7 +32,7 @@
 #include "itkProcessObject.h"
 
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
-/* ** **  Much of the code in this file is based on itkPointSet.txx  ** ** */
+/* ** **  Much of the code in this file is based on itkPointSet      ** ** */
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
 
 namespace itk

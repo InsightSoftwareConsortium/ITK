@@ -30,6 +30,7 @@ namespace fem {
  * \note The class must be instantiated, before the object factory can
  *       produce more objects of this class. Instantiate the specific
  *       derived classes with: "template class LoadTest<...>;" where required.
+ * \ingroup ITK-FEM
  */
 template<class TClass>
 class LoadTest : public LoadElement

@@ -60,6 +60,11 @@ template< typename TValueType, unsigned int VLength>  class FixedArray;
  * traits include minimum and maximum value; accumulation type; etc.
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/NumericTraits,Get some basic information about a type}
+ * \endwiki
  */
 template< class T >
 class NumericTraits:public vcl_numeric_limits< T >
@@ -131,6 +136,7 @@ public:
  * \brief Define traits for type bool.
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 
 template< >
@@ -165,6 +171,7 @@ public:
 /** \class NumericTraits<char>
  * \brief Define traits for type char.
  * NOTE: char is not guaranteed to be signed. On SGI's, the default is unsigned
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< char > :public vcl_numeric_limits< char >
@@ -206,6 +213,7 @@ public:
 /** \class NumericTraits<char>
  * \brief Define traits for type char.
  * NOTE: char is not guaranteed to be signed. On SGI's, the default is unsigned
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< signed char > :public vcl_numeric_limits< signed char >
@@ -239,6 +247,7 @@ public:
 /** \class NumericTraits<unsigned char>
  * \brief Define traits for type unsigned char.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< unsigned char > :public vcl_numeric_limits< unsigned char >
@@ -269,6 +278,7 @@ public:
 
 /** \class NumericTraits<short>
  * \brief Define traits for type short.
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< short > :public vcl_numeric_limits< short >
@@ -299,6 +309,7 @@ public:
 /** \class NumericTraits<unsigned short>
  * \brief Define traits for type unsigned short.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< unsigned short > :public vcl_numeric_limits< unsigned short >
@@ -328,6 +339,7 @@ public:
 
 /** \class NumericTraits<int>
  * \brief Define traits for type int.
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< int > :public vcl_numeric_limits< int >
@@ -358,6 +370,7 @@ public:
 /** \class NumericTraits<unsigned int>
  * \brief Define traits for type unsigned int.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< unsigned int > :public vcl_numeric_limits< unsigned int >
@@ -391,6 +404,7 @@ public:
 /** \class NumericTraits<long>
  * \brief Define traits for type long.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< long > :public vcl_numeric_limits< long >
@@ -421,6 +435,7 @@ public:
 /** \class NumericTraits<unsigned long>
  * \brief Define traits for type unsigned long.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< unsigned long > :public vcl_numeric_limits< unsigned long >
@@ -451,6 +466,7 @@ public:
 /** \class NumericTraits<float>
  * \brief Define traits for type float.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< float > :public vcl_numeric_limits< float >
@@ -481,6 +497,7 @@ public:
 /** \class NumericTraits<double>
  * \brief Define traits for type double.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< double > :public vcl_numeric_limits< double >
@@ -511,6 +528,7 @@ public:
 /** \class NumericTraits<long double>
  * \brief Define traits for type long double.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< long double > :public vcl_numeric_limits< long double >
@@ -549,6 +567,7 @@ public:
 /** \class NumericTraits< std::complex<float> >
  * \brief Define traits for type std::complex<float>.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< std::complex< float > >
@@ -585,6 +604,7 @@ public:
 /** \class NumericTraits< std::complex<double> >
  * \brief Define traits for type std::complex<double>.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< std::complex< double > >
@@ -621,6 +641,7 @@ public:
 /** \class NumericTraits<long long>
  * \brief Define traits for type long long.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< long long > :
@@ -652,6 +673,7 @@ public:
 /** \class NumericTraits<unsigned long long>
  * \brief Define traits for type unsigned long long.
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< >
 class NumericTraits< unsigned long long > :

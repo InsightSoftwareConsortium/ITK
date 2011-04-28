@@ -46,6 +46,7 @@ namespace itk
  * \sa Index
  * \sa Size
  * \sa MeshRegion
+ * \ingroup ITK-IO-Base
  */
 
 class ITK_EXPORT ImageIORegion:public Region
@@ -163,7 +164,9 @@ extern ITK_EXPORT std::ostream & operator<<(std::ostream & os, const ImageIORegi
 /** \class ImageIORegionAdaptor
  * \brief Helper class for converting ImageRegions into ImageIORegions and back.
  *
- **/
+ *
+ * \ingroup ITK-IO-Base
+ */
 template< unsigned int VDimension >
 class ImageIORegionAdaptor
 {

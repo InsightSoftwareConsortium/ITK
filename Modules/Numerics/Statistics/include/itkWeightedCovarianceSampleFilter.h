@@ -36,6 +36,7 @@ namespace Statistics
  *
  * \sa CovarianceSampleFilter
  *
+ * \ingroup ITK-Statistics
  */
 
 template< class TSample >

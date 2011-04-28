@@ -35,6 +35,7 @@ namespace itk
  * there is only one input image.
  *
  * \ingroup Multithreaded
+ * \ingroup ITK-ImageIntensity
  */
 
 template< class TInputImage, class TOutputImage >

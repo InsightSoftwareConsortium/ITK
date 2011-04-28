@@ -28,6 +28,7 @@ namespace itk
  *        as input and produce an image as output.
  *  By default, if the user does not specify the size of the output image,
  *  the maximum size of the point-set's bounding box is used.
+ * \ingroup ITK-Common
  */
 template< class TInputPointSet, class TOutputImage >
 class ITK_EXPORT PointSetToImageFilter:public ImageSource< TOutputImage >

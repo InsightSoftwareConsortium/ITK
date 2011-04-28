@@ -55,6 +55,7 @@ namespace itk
  * \sa CurvatureNDAnisotropicDiffusionFunction
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
+ * \ingroup ITK-AnisotropicSmoothing
  */
 template< class TImage >
 class ITK_EXPORT GradientNDAnisotropicDiffusionFunction:

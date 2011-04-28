@@ -27,6 +27,7 @@ namespace itk
  * \brief Compute the robust automatic threshold
  *
  * \ingroup Operators
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TGradientImage >
 class ITK_EXPORT RobustAutomaticThresholdCalculator:public Object

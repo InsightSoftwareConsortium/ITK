@@ -39,6 +39,7 @@ namespace itk
  * The filter expect both the input and output images to have the same
  * number of dimensions, and both of a scalar image type.
  *
+ * \ingroup ITK-ImageIntensity
  */
 namespace Functor
 {

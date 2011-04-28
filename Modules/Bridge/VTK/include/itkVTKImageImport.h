@@ -50,6 +50,7 @@ namespace itk
  *
  * \ingroup IOFilters
  * \sa VTKImageImport
+ * \ingroup ITK-VTK
  */
 template< typename TOutputImage >
 class ITK_EXPORT VTKImageImport:public ImageSource< TOutputImage >

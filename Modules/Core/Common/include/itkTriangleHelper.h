@@ -25,6 +25,7 @@ namespace itk
 /** \class TriangleHelper
  * \brief Convenient class for various triangles elements computation in
  * 2D or 3D
+ * \ingroup ITK-Common
  */
 template< typename TPoint >
 class TriangleHelper

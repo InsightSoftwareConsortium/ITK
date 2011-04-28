@@ -31,6 +31,7 @@ namespace itk
  * libraries or dll's into a process.
  *
  * \ingroup OSSystemObjects
+ * \ingroup ITK-Common
  */
 
 //BTX

@@ -52,6 +52,7 @@ namespace itk
  *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
+ * \ingroup ITK-Common
  */
 template< class TImage >
 class ITK_EXPORT ZeroFluxNeumannBoundaryCondition:

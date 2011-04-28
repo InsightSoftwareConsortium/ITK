@@ -127,6 +127,33 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 }
 
 template< class TImage, class TBoundaryCondition >
+void
+ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
+::CreateActiveListFromNeighborhood(const NeighborhoodType &neighborhood)
+{
+  if (this->GetRadius() != neighborhood.GetRadius())
+    {
+    itkGenericExceptionMacro(<< "Radius of shaped iterator("
+                             << this->GetRadius()
+                             << ") does not equal radius of neighborhood("
+                             << neighborhood.GetRadius() << ")");
+    }
+  typename NeighborhoodType::ConstIterator nit;
+  NeighborIndexType idx = 0;
+  for (nit = neighborhood.Begin(); nit != neighborhood.End(); ++nit, ++idx)
+    {
+    if (*nit)
+      {
+      this->ActivateOffset(GetOffset(idx));
+      }
+    else
+      {
+      this->DeactivateOffset(GetOffset(idx));
+      }
+    }
+}
+
+template< class TImage, class TBoundaryCondition >
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator++()

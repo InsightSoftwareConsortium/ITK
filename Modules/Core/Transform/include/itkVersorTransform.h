@@ -42,6 +42,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
+ * \ingroup ITK-Transform
  */
 template< class TScalarType = double >
 //Data type for scalars (float or double)

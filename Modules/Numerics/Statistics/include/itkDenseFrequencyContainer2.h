@@ -35,6 +35,7 @@ namespace Statistics
  * by (InstanceIdentifier)index or measurement vector.
  *
  * \sa Histogram, SparseFrequencyContainer
+ * \ingroup ITK-Statistics
  */
 
 class ITK_EXPORT DenseFrequencyContainer2:

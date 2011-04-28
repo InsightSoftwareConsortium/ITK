@@ -41,6 +41,7 @@ namespace itk {
  *
  * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT LabelMapMaskImageFilter :
@@ -96,19 +97,19 @@ public:
     }
 
   /** Get the feature image */
-  OutputImageType * GetFeatureImage()
+  const OutputImageType * GetFeatureImage()
     {
     return static_cast<OutputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
     }
 
   /** Set the input image */
-  void SetInput1(TInputImage *input)
+  void SetInput1(const TInputImage *input)
     {
     this->SetInput( input );
     }
 
   /** Set the feature image */
-  void SetInput2(TOutputImage *input)
+  void SetInput2(const TOutputImage *input)
     {
     this->SetFeatureImage( input );
     }

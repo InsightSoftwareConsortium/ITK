@@ -63,6 +63,11 @@ namespace itk
  * \sa RGBPixel
  * \sa DiffusionTensor3D
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/VariableLengthVector,Variable length vector}
+ * \endwiki
  */
 template< typename TValueType >
 class VariableLengthVector

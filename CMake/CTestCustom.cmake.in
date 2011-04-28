@@ -65,13 +65,30 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "itkQuadEdgeMeshEdgeMergeDecimationFilter.txx:.*warning: unused parameter.*iEdge.*"
   "vnl_diag_matrix.h"
   "WARNING non-zero return value in ctest"
-  "Warning \\(Anachronism\\)"
+  "Warning.*Anachronism.*"
   "attempted multiple inclusion of file"
+  "warning LNK4221: This object file does not define any previously undefined public symbols"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Dd][Ii][Cc][Oo][Mm][Pp]arser[/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Ee]xpat[/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Gg][Dd][Cc][Mm][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Jj][Pp][Ee][Gg][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Kk][Ww][Ss]ys[/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Mm]eta[Ii][Oo][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Nn]etlib[/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Nn][Ii][Ff][Tt][Ii][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Nn]rrd[Ii][Oo][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Oo]pen[Jj][Pp][Ee][Gg][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Pp][Nn][Gg][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Tt][Ii][Ff][Ff][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Vv][Nn][Ll][/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Vv][Nn][Ll][Ii]nstantiation[/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Zz][Ll][Ii][Bb][/\\\\].*[Ww]arning.*"
   )
 
 IF(APPLE)
 SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning -.: directory name .* does not exist"
+  "ld.*warning.*duplicate dylib.*"
   )
 ENDIF(APPLE)

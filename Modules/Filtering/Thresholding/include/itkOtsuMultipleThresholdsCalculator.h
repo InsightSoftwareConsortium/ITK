@@ -34,6 +34,7 @@ namespace itk
  * maximized.
  *
  * \ingroup Calculators
+ * \ingroup ITK-Thresholding
  */
 
 template< class TInputHistogram >

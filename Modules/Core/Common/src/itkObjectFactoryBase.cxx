@@ -110,9 +110,10 @@ public:
  * time.
  *
  */
+typedef std::list< ObjectFactoryBase * > FactoryListType;
 namespace ObjectFactoryBasePrivate
 {
-std::list< ObjectFactoryBase * > * RegisteredFactories;
+FactoryListType * RegisteredFactories;
 }
 
 /**
@@ -160,7 +161,7 @@ ObjectFactoryBase
     ObjectFactoryBase::Initialize();
     }
 
-  for ( std::list< ObjectFactoryBase * >::iterator
+  for ( FactoryListType::iterator
         i = ObjectFactoryBasePrivate::RegisteredFactories->begin();
         i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
     {
@@ -183,7 +184,7 @@ ObjectFactoryBase
     ObjectFactoryBase::Initialize();
     }
   std::list< LightObject::Pointer > created;
-  for ( std::list< ObjectFactoryBase * >::iterator
+  for ( FactoryListType::iterator
         i = ObjectFactoryBasePrivate::RegisteredFactories->begin();
         i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
     {
@@ -209,8 +210,7 @@ ObjectFactoryBase
     return;
     }
 
-  ObjectFactoryBasePrivate::RegisteredFactories =
-    new std::list< ObjectFactoryBase * >;
+  ObjectFactoryBasePrivate::RegisteredFactories = new FactoryListType;
 }
 
 /**
@@ -473,7 +473,7 @@ ObjectFactoryBase
  */
 void
 ObjectFactoryBase
-::RegisterFactory(ObjectFactoryBase *factory)
+::RegisterFactory(ObjectFactoryBase *factory, InsertionPositionType where, size_t position)
 {
   if ( factory->m_LibraryHandle == 0 )
     {
@@ -501,9 +501,51 @@ ObjectFactoryBase
   ObjectFactoryBase::Initialize();
 
   //
-  // Check that this factory class has not been registered yet...
+  //  Register the factory in the internal list at the requested location.
   //
-  ObjectFactoryBasePrivate::RegisteredFactories->push_back(factory);
+  switch( where )
+    {
+    case INSERT_AT_BACK:
+      {
+      if( position )
+        {
+        itkGenericExceptionMacro(<< "position argument must not be used with INSERT_AT_BACK option");
+        }
+      ObjectFactoryBasePrivate::RegisteredFactories->push_back(factory);
+      break;
+      }
+    case INSERT_AT_FRONT:
+      {
+      if( position )
+        {
+        itkGenericExceptionMacro(<< "position argument must not be used with INSERT_AT_FRONT option");
+        }
+      ObjectFactoryBasePrivate::RegisteredFactories->push_front(factory);
+      break;
+      }
+    case INSERT_AT_POSITION:
+      {
+      const size_t numberOfFactories = ObjectFactoryBasePrivate::RegisteredFactories->size();
+      if( position < numberOfFactories )
+        {
+        typedef FactoryListType::iterator    FactoryIterator;
+        FactoryIterator fitr = ObjectFactoryBasePrivate::RegisteredFactories->begin();
+
+        while( position-- )
+          {
+          ++fitr;
+          }
+
+        ObjectFactoryBasePrivate::RegisteredFactories->insert(fitr,factory);
+        break;
+        }
+      else
+        {
+        itkGenericExceptionMacro("Position" << position << " is outside range. \
+          Only " << numberOfFactories << " factories are registered");
+        }
+      }
+    }
   factory->Register();
 }
 

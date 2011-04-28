@@ -41,6 +41,7 @@ namespace itk
  *
  * \ingroup MeshFilters
  *
+ * \ingroup ITK-Mesh
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT MeshToMeshFilter:public MeshSource< TOutputMesh >

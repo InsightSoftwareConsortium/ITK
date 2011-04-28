@@ -22,8 +22,6 @@
 #include "itkImage.h"
 #include "itkConceptChecking.h"
 #include <vector>
-#include <map>
-#include "itkProgressReporter.h"
 #include "itkBarrier.h"
 
 namespace itk
@@ -46,6 +44,7 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa BinaryContourImageFilter
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage >
@@ -58,58 +57,8 @@ public:
    */
   typedef LabelContourImageFilter                         Self;
   typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-
-  /**
-   * Types from the Superclass
-   */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
-
-  /**
-   * Extract some information from the image types.  Dimensionality
-   * of the two images is assumed to be the same.
-   */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
-
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-
-  /**
-   * Image typedef support
-   */
-  typedef TInputImage                           InputImageType;
-  typedef typename TInputImage::IndexType       IndexType;
-  typedef typename TInputImage::SizeType        SizeType;
-  typedef typename TInputImage::OffsetType      OffsetType;
-  typedef typename TInputImage::PixelType       InputImagePixelType;
-  typedef typename TInputImage::SizeValueType   SizeValueType;
-  typedef typename TInputImage::OffsetValueType OffsetValueType;
-
-  typedef TOutputImage                      OutputImageType;
-  typedef typename TOutputImage::RegionType RegionType;
-  typedef typename TOutputImage::IndexType  OutputIndexType;
-  typedef typename TOutputImage::SizeType   OutputSizeType;
-  typedef typename TOutputImage::OffsetType OutputOffsetType;
-  typedef typename TOutputImage::PixelType  OutputImagePixelType;
-
-  typedef std::list< IndexType > ListType;
-
-  /**
-   * Smart pointer typedef support
-   */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-
-  /**
-   * Run-time type information (and related methods)
-   */
-  itkTypeMacro(LabelContourImageFilter, ImageToImageFilter);
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /**
    * Method for creation through the object factory.
@@ -117,19 +66,57 @@ public:
   itkNewMacro(Self);
 
   /**
+   * Run-time type information (and related methods)
+   */
+  itkTypeMacro(LabelContourImageFilter, InPlaceImageFilter);
+
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+
+  itkStaticConstMacro(InputImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
+
+  itkConceptMacro( SameDimension,
+    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
+                              itkGetStaticConstMacro(OutputImageDimension) > ) );
+
+#endif
+
+  /**
+   * Image typedef support
+   */
+  typedef TInputImage                                 InputImageType;
+  typedef typename InputImageType::Pointer            InputImagePointer;
+  typedef typename InputImageType::IndexType          InputIndexType;
+  typedef typename InputImageType::SizeType           InputSizeType;
+  typedef typename InputImageType::OffsetType         InputOffsetType;
+  typedef typename InputImageType::PixelType          InputImagePixelType;
+  typedef typename InputImageType::SizeValueType      SizeValueType;
+  typedef typename InputImageType::OffsetValueType    OffsetValueType;
+  typedef typename InputImageType::PixelType          InputPixelType;
+
+  typedef TOutputImage                          OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename OutputImageType::RegionType  OutputRegionType;
+  typedef typename OutputImageType::IndexType   OutputIndexType;
+  typedef typename OutputImageType::SizeType    OutputSizeType;
+  typedef typename OutputImageType::OffsetType  OutputOffsetType;
+  typedef typename OutputImageType::PixelType   OutputImagePixelType;
+
+  /**
    * Set/Get whether the connected components are defined strictly by
    * face connectivity or by face+edge+vertex connectivity.  Default is
-   * FullyConnectedOff.  For objects that are 1 pixel wide, use
-   * FullyConnectedOn.
+   * FullyConnectedOff.
+   * \note For objects that are 1 pixel wide, use FullyConnectedOn.
    */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
-  // Concept checking -- input and output dimensions must be the same
-  itkConceptMacro( SameDimension,
-                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
-                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
 
   /**
    * Set/Get the background value used to identify the objects and mark the
@@ -137,17 +124,12 @@ public:
    */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-protected:
-  LabelContourImageFilter()
-  {
-    m_FullyConnected = false;
-    m_BackgroundValue = NumericTraits< OutputImagePixelType >::Zero;
-    m_NumberOfThreads = 0;
-    this->SetInPlace(false);
-  }
 
+protected:
+
+  LabelContourImageFilter();
   virtual ~LabelContourImageFilter() {}
-  LabelContourImageFilter(const Self &) {}
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
@@ -157,7 +139,8 @@ protected:
 
   void AfterThreadedGenerateData();
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread, int threadId);
+  void ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
+                            int threadId);
 
   /** LabelContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -169,52 +152,50 @@ protected:
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) );
+
 private:
-  OutputImagePixelType m_BackgroundValue;
-  bool                 m_FullyConnected;
 
-  // some additional types
-  typedef typename TOutputImage::RegionType::SizeType OutSizeType;
+  LabelContourImageFilter(const Self &);
+  void operator = ( const Self& );
 
-  // types to support the run length encoding of lines
-  class runLength
+  /** types to support the run length encoding of lines */
+  struct RunLength
   {
-public:
-    // run length information - may be a more type safe way of doing this
+    /** run length information - may be a more type safe way of doing this */
     SizeValueType length;
-    typename InputImageType::IndexType where; // Index of the start of the run
+
+    /** Index of the start of the run */
+    InputIndexType where;
+
     InputImagePixelType label;
   };
 
-  typedef std::vector< runLength > lineEncoding;
+  typedef std::vector< RunLength >                  LineEncodingType;
+  typedef typename LineEncodingType::iterator       LineEncodingIterator;
+  typedef typename LineEncodingType::const_iterator LineEncodingConstIterator;
+
+  typedef std::vector< OffsetValueType >            OffsetVectorType;
+  typedef typename OffsetVectorType::const_iterator OffsetVectorConstIterator;
 
   // the map storing lines
-  typedef std::vector< lineEncoding > LineMapType;
+  typedef std::vector< LineEncodingType > LineMapType;
 
-  typedef std::vector< OffsetValueType > OffsetVec;
-
-  // the types to support union-find operations
-  typedef std::vector< SizeValueType > UnionFindType;
+  LineMapType           m_LineMap;
+  OutputImagePixelType  m_BackgroundValue;
+  int                   m_NumberOfThreads;
+  bool                  m_FullyConnected;
 
   bool CheckNeighbors(const OutputIndexType & A,
-                      const OutputIndexType & B);
+                      const OutputIndexType & B) const;
 
-  void CompareLines(lineEncoding & current, const lineEncoding & Neighbour);
+  void CompareLines(LineEncodingType & current, const LineEncodingType & Neighbour);
 
-  void SetupLineOffsets(OffsetVec & LineOffsets);
+  void SetupLineOffsets(OffsetVectorType & LineOffsets);
 
-  void Wait()
-  {
-    if ( m_NumberOfThreads > 1 )
-      {
-      m_Barrier->Wait();
-      }
-  }
+  void Wait();
 
   typename Barrier::Pointer m_Barrier;
 
-  LineMapType m_LineMap;
-  int         m_NumberOfThreads;
 };
 } // end namespace itk
 

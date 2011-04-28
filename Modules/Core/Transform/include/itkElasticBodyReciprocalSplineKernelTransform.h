@@ -33,6 +33,7 @@ namespace itk
  * that some physical objects deform".
  *
  * \ingroup Transforms
+ * \ingroup ITK-Transform
  */
 template< class TScalarType = double,   // Data type for scalars (float or
                                         // double)

@@ -297,7 +297,7 @@ MACRO( DETERMINE_TYPE VAR INTEGRAL_TYPE SIZE TYPE_LIST )
       WRITE_FILE( ${CMAKE_BINARY_DIR}/CMakeTmp/config.h "#define THE_TYPE ${TYPE}\n#define THE_SIZE ${SIZE}\n#define INTEGRAL_TYPE ${INTEGRAL_TYPE}" )
       SET( MACRO_DETERMINE_TYPE_FLAGS "-DVXL_HAS_TYPE_OF_SIZE" )
       MESSAGE( STATUS "${MSG} [Checking ${TYPE}...]" )
-      TRY_RUN( RUN_RESULT COMPILE_RESULT
+      TRY_COMPILE(COMPILE_RESULT
             ${CMAKE_BINARY_DIR}
             ${vxl_config_SOURCE_DIR}/vxl_platform_tests.cxx
             CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${MACRO_DETERMINE_TYPE_FLAGS}
@@ -305,14 +305,8 @@ MACRO( DETERMINE_TYPE VAR INTEGRAL_TYPE SIZE TYPE_LIST )
                         -DLINK_LIBRARIES:STRING=${CMAKE_REQUIRED_LIBRARIES}
             OUTPUT_VARIABLE OUTPUT )
       IF( COMPILE_RESULT )
-        IF( NOT RUN_RESULT )
-          SET( VXL_${VAR} ${TYPE} )
-          SET( VXL_HAS_${VAR} 1 )
-        ELSE( NOT RUN_RESULT )
-          WRITE_FILE( ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log 
-            "${MSG} Failed to run with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n"
-            APPEND )
-        ENDIF( NOT RUN_RESULT )
+        SET( VXL_${VAR} ${TYPE} )
+        SET( VXL_HAS_${VAR} 1 )
       ELSE( COMPILE_RESULT )
         WRITE_FILE( ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log 
           "${MSG} Failed to compile with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n"

@@ -217,6 +217,7 @@ namespace itk
  * \sa "Accessing adjacent edges."
  *
  * \ingroup MeshObjects
+ * \ingroup ITK-QuadEdgeMesh
  */
 class ITK_EXPORT QuadEdge
 {

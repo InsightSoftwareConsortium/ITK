@@ -55,6 +55,7 @@ namespace itk
  *
  * \ingroup IntensityImageFilters Multithreaded
  *
+ * \ingroup ITK-ImageIntensity
  */
 /* THistogramMeasurement -- The precision level for which to do
   HistogramMeasurmenets */

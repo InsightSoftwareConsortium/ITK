@@ -23,6 +23,8 @@
 #include "itkImage.h"
 #include "itkFFTTest.h"
 
+#include "itkVnlFFTComplexConjugateToRealImageFilter.h"
+
 // Test FFT using VNL Libraries. The test is performed for 2 3d array one of
 // them having the same dimension(4,4,4) and the other having different
 // dimensions (3,4,5).  Images are created with different dimensions in the

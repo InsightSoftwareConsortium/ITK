@@ -40,6 +40,7 @@ namespace itk
  * \sa SymmetricEigenAnalysis
  *
  * \ingroup Numerics Deprecated
+ * \ingroup ITK-Eigen
  */
 
 template< class TMatrixElement, int VNumberOfRows >

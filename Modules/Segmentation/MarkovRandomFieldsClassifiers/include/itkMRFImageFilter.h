@@ -120,6 +120,7 @@ namespace itk
  * \ingroup MRFFilters
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \sa Classifier
+ * \ingroup ITK-MarkovRandomFieldsClassifiers
  */
 template< class TInputImage, class TClassifiedImage >
 class ITK_EXPORT MRFImageFilter:

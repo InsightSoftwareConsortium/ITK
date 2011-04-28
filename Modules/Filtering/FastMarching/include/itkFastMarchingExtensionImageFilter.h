@@ -46,6 +46,7 @@ namespace itk
  * \sa LevelSetTypeDefault
  * \sa AuxVarTypeDefault
  * \ingroup LevelSetSegmentation
+ * \ingroup ITK-FastMarching
  */
 template<
   class TLevelSet,

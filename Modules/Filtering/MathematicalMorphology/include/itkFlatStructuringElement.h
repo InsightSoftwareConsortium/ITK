@@ -34,6 +34,11 @@ namespace itk
  * a cross structuring element, and let create a structuring element
  * based on an image.
  *
+ * \ingroup ITK-MathematicalMorphology
+ *
+ * \wiki
+ * \wikiexample{Morphology/FlatStructuringElement,Erode a binary image using a flat (box) structuring element}
+ * \endwiki
  */
 
 template< unsigned int VDimension >

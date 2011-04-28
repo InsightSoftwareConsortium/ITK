@@ -49,6 +49,7 @@ namespace itk
  *
  * \sa NumericTraits
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< typename T >
 class NumericTraits< std::vector< T > >

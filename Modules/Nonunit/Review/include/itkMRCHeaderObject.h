@@ -38,6 +38,7 @@ const char *const magicMAP = "MAP ";
  * The POD structures a publicly avaible without access methods.
  *
  * \sa MetaDataDictionary
+ * \ingroup ITK-Review
  */
 class ITK_EXPORT MRCHeaderObject:
   public itk::LightObject

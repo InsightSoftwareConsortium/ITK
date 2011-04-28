@@ -33,6 +33,7 @@ namespace fem {
  * \brief LinearSystemWrapper class that uses VNL numeric library functions
  *        to define a sparse linear system of equations.
  * \sa LinearSystemWrapper
+ * \ingroup ITK-FEM
  */
 class LinearSystemWrapperDenseVNL : public LinearSystemWrapper
 {

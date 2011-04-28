@@ -19,6 +19,7 @@
 #define __itkDiffusionTensor3DReconstructionImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkSpatialObject.h"
 #include "itkDiffusionTensor3D.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -116,6 +117,7 @@ namespace itk
  *
  * \sa DiffusionTensor3D SymmetricSecondRankTensor
  * \ingroup Multithreaded TensorObjects
+ * \ingroup ITK-DiffusionTensorImage
  */
 
 template< class TReferenceImagePixelType,
@@ -167,6 +169,9 @@ public:
    * Reference image and a vector length parameter of \c n (number of
    * gradient directions) */
   typedef VectorImage< GradientPixelType, 3 > GradientImagesType;
+
+  /** The type for the optional SpatialObject for masking*/
+  typedef SpatialObject<3> MaskSpatialObjectType;
 
   /** The type for the optional mask image */
   typedef TMaskImageType MaskImageType;
@@ -224,11 +229,11 @@ public:
     return m_GradientDirectionContainer->ElementAt(idx + 1);
   }
 
-  void SetMaskImage(MaskImageType *maskImage)
-  {
-    this->ProcessObject::SetNthInput(1,maskImage);
-    this->m_MaskImagePresent = true;
-  }
+  /** set an image mask */
+  void SetMaskImage(MaskImageType *maskImage);
+  /** set a spatial object mask */
+  void SetMaskSpatialObject(MaskSpatialObjectType *maskSpatialObject);
+
 
   /** Threshold on the reference image data. The output tensor will be a null
    * tensor for pixels in the reference image that have a value less than this

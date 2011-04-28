@@ -33,6 +33,12 @@ namespace itk
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors
+ * \ingroup ITK-ImageAdaptors
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/NthElementImageAdaptor,Extract a component of an itkImage with pixels with multiple components}
+ * \wikiexample{ImageProcessing/ProcessingNthImageElement,Process the nth component/element of a vector image}
+ * \endwiki
  */
 
 // Create a helper class to help the SunPro CC compiler

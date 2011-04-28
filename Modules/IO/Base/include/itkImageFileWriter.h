@@ -27,6 +27,7 @@ namespace itk
 /** \brief Base exception class for IO problems during writing.
  *
  * \class ImageFileWriterException
+ * \ingroup ITK-IO-Base
  */
 class ImageFileWriterException:public ExceptionObject
 {
@@ -69,6 +70,11 @@ public:
  * \sa ImageIOBase
  *
  * \ingroup IOFilters
+ * \ingroup ITK-IO-Base
+ *
+ * \wiki
+ * \wikiexample{IO/ImageFileWriter,Write an image}
+ * \endwiki
  */
 template< class TInputImage >
 class ITK_EXPORT ImageFileWriter:public ProcessObject

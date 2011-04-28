@@ -66,6 +66,11 @@ public:
  * input images.
  *
  * \ingroup IntensityImageFilters
+ * \ingroup ITK-ImageCompose
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/Compose3DCovariantVectorImageFilter,Compose a vector image (with 3 components) from three scalar images}
+ * \endwiki
  */
 
 template< typename TInputImage,

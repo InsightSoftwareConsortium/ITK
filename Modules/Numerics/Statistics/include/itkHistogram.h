@@ -75,6 +75,7 @@ struct GetHistogramDimension {
  * \endcode
  *
  * \sa Sample, DenseFrequencyContainer, SparseFrequencyContainer, VariableDimensionHistogram
+ * \ingroup ITK-Statistics
  */
 
 template< class TMeasurement = float,
@@ -338,6 +339,7 @@ public:
 
   /** \class ConstIterator
    * \brief class that walks through the elements of the histogram.
+   * \ingroup ITK-Statistics
    */
   class ConstIterator
   {
@@ -415,7 +417,7 @@ protected:
     const Self *m_Histogram;
   };   // end of iterator class
 
-  /** \class Iterator */
+  /** \class Iterator  \ingroup ITK-Statistics */
   class Iterator:public ConstIterator
   {
 public:

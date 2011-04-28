@@ -39,7 +39,9 @@ namespace itk
  * The two force components f_1 and f_3 are minimized by the GradientEnergy
  * method while f_2 is minized by the GibbsTotalEnergy method.
  *
- * \ingroup MRFFilters */
+ * \ingroup MRFFilters
+ * \ingroup ITK-MarkovRandomFieldsClassifiers
+ */
 template< class TInputImage, class TClassifiedImage >
 class ITK_EXPORT RGBGibbsPriorFilter:public MRFImageFilter< TInputImage,
                                                             TClassifiedImage >

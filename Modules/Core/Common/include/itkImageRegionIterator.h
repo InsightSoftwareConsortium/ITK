@@ -67,7 +67,13 @@ namespace itk
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
- * \sa ImageConstIteratorWithIndex */
+ * \sa ImageConstIteratorWithIndex
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Iterators/ImageRegionIterator,Iterate over a region of an image (with write access)}
+ * \endwiki
+ */
 template< typename TImage >
 class ITK_EXPORT ImageRegionIterator:public ImageRegionConstIterator< TImage >
 {

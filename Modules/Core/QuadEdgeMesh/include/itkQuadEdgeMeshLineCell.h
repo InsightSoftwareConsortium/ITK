@@ -33,6 +33,7 @@ namespace itk
  *
  * \author  Eric Boix, Alex Gouaillard, Leonardo Florez
  *
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< class TCellInterface >
 class ITK_EXPORT QuadEdgeMeshLineCell:

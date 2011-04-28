@@ -47,6 +47,11 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ImageIterators
+ * \ingroup ITK-MathematicalMorphology
+ *
+ * \wiki
+ * \wikiexample{Morphology/BinaryBallStructuringElement,An elliptical structuring element}
+ * \endwiki
  */
 
 template< class TPixel, unsigned int VDimension = 2,

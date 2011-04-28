@@ -33,6 +33,7 @@ namespace itk
  * \warning This interpolator works for 3-dimensional images only.
  *
  * \ingroup ImageFunctions
+ * \ingroup ITK-ImageFunction
  */
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT RayCastInterpolateImageFunction:

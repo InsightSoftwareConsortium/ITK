@@ -201,12 +201,14 @@ int TestDriverInvokeProcess( const ArgumentsList & args )
     case itksysProcess_State_Error:
       {
       std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << std::endl;
+      itksysProcess_Delete(process);
       return 1;
       break;
       }
     case itksysProcess_State_Exception:
       {
       std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << std::endl;
+      itksysProcess_Delete(process);
       return 1;
       break;
       }
@@ -214,6 +216,7 @@ int TestDriverInvokeProcess( const ArgumentsList & args )
       {
       // this is not a possible state after itksysProcess_WaitForExit
       std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << std::endl;
+      itksysProcess_Delete(process);
       return 1;
       break;
       }
@@ -226,18 +229,21 @@ int TestDriverInvokeProcess( const ArgumentsList & args )
       {
       // this is not a possible state after itksysProcess_WaitForExit
       std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << std::endl;
+      itksysProcess_Delete(process);
       return 1;
       break;
       }
     case itksysProcess_State_Killed:
       {
       std::cerr << "itkTestDriver: The process has been killed." << std::endl;
+      itksysProcess_Delete(process);
       return 1;
       break;
       }
     case itksysProcess_State_Disowned:
       {
       std::cerr << "itkTestDriver: Process disowned." << std::endl;
+      itksysProcess_Delete(process);
       return 1;
       break;
       }
@@ -245,6 +251,7 @@ int TestDriverInvokeProcess( const ArgumentsList & args )
       {
       // this is not a possible state after itksysProcess_WaitForExit
       std::cerr << "itkTestDriver: Internal error: unknown State." << std::endl;
+      itksysProcess_Delete(process);
       return 1;
       break;
       }
@@ -255,7 +262,7 @@ int TestDriverInvokeProcess( const ArgumentsList & args )
     {
     std::cerr << "itkTestDriver: Process exited with return value: " << retCode << std::endl;
     }
-
+  itksysProcess_Delete(process);
 return retCode;
 }
 

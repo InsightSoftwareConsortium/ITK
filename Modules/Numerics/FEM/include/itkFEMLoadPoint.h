@@ -29,6 +29,7 @@ namespace fem {
  * \brief This load is applied on a point in an element.
  *
  * FIXME: To be implemented. Nothing works yet
+ * \ingroup ITK-FEM
  */
 class LoadPoint : public LoadElement {
   FEM_CLASS(LoadPoint,LoadElement)

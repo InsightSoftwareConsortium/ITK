@@ -29,6 +29,7 @@ namespace itk
  * multiple values
 
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
 class ITK_EXPORT MultipleValuedCostFunction:
   public CostFunction

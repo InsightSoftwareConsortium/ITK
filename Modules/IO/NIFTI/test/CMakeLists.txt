@@ -15,6 +15,7 @@ itkNiftiImageIOTest11.cxx
 )
 
 add_library(ITK-IO-NIFTI-TestSupport  itkNiftiImageIOTestHelper.cxx)
+itk_module_target_label(ITK-IO-NIFTI-TestSupport)
 target_link_libraries(ITK-IO-NIFTI-TestSupport ${ITK-IO-NIFTI_LIBRARIES})
 
 list(APPEND ITK-IO-NIFTI-Test_LIBRARIES ITK-IO-NIFTI-TestSupport)

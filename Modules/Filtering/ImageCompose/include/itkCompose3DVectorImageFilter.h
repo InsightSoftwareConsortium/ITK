@@ -66,6 +66,7 @@ public:
  * input images.
  *
  * \ingroup IntensityImageFilters
+ * \ingroup ITK-ImageCompose
  */
 
 template< typename TInputImage,

@@ -71,6 +71,11 @@ namespace itk
  * \sa BSplineDecompositionImageFilter
  *
  * \ingroup ImageFunctions
+ * \ingroup ITK-ImageFunction
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/Upsampling,Upsampling an image}
+ * \endwiki
  */
 template<
   class TImageType,

@@ -48,6 +48,7 @@ namespace itk
  * B-spline object.
  *
  * \author Nicholas J. Tustison
+ * \ingroup ITK-Review
  */
 
 template <class TInputImage, class TOutputImage = TInputImage>

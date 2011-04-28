@@ -41,6 +41,7 @@ namespace itk
  * http://hdl.handle.net/1926/500
  *
  * \ingroup DataSources
+ * \ingroup ITK-Review
  */
 template< typename TOutputImage >
 class ITK_EXPORT GaborImageSource:public ImageSource< TOutputImage >

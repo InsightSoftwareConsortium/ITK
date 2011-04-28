@@ -40,6 +40,7 @@ namespace itk
 
   \sa SegmentationLevelSetImageFilter
   \sa LevelSetFunction
+ * \ingroup ITK-LevelSets
  */
 
 template< class TImageType, class TFeatureImageType = TImageType >

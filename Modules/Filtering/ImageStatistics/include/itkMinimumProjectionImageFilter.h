@@ -40,6 +40,7 @@ namespace itk
  * \sa BinaryProjectionImageFilter
  * \sa MaximumProjectionImageFilter
  * \sa MeanProjectionImageFilter
+ * \ingroup ITK-ImageStatistics
  */
 
 namespace Function

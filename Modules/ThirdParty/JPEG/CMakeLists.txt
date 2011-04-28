@@ -1,4 +1,5 @@
 project(ITK-JPEG)
+set(ITK-JPEG_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_JPEG "Use an outside build of JPEG." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_JPEG)

@@ -44,14 +44,14 @@ PROJECT_BRIEF          = "Insight Segmentation and Registration Toolkit"
 # exceed 55 pixels and the maximum width should not exceed 200 pixels.
 # Doxygen will copy the logo to the output directory.
 
-PROJECT_LOGO           = itkLogoSmall.jpg
+PROJECT_LOGO           = "@ITK_SOURCE_DIR@/Documentation/Art/itkLogoSmall.gif"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute)
 # base path where the generated documentation will be put.
 # If a relative path is entered, it will be relative to the location
 # where doxygen was started. If left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = @ITK_BINARY_DIR@/Utilities/Doxygen
+OUTPUT_DIRECTORY       = "@ITK_BINARY_DIR@/Utilities/Doxygen"
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create
 # 4096 sub-directories (in 2 levels) under the output directory of each output
@@ -137,7 +137,7 @@ FULL_PATH_NAMES        = NO
 # If left blank the directory from which doxygen is run is used as the
 # path to strip.
 
-STRIP_FROM_PATH        = @ITK_BINARY_DIR@/Utilities/
+STRIP_FROM_PATH        = "@ITK_BINARY_DIR@/Utilities/"
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of
 # the path mentioned in the documentation of a class, which tells
@@ -206,6 +206,7 @@ ALIASES +="wikimainaddress{1}=<a href=\"\1\">All Examples</a>"
 ALIASES +="wikiexamplemaintitle=\par Wiki Examples:\n\n"
 ALIASES +="wikiexample{2}=<a href=\"http://www.itk.org/Wiki/ITK/Examples/\1\">\2</a>\n"
 ALIASES +="wiki=\wikiexamplemaintitle \wikimainaddress{http://www.itk.org/Wiki/ITK/Examples}\n"
+ALIASES +="endwiki=\n\n\n"
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C
 # sources only. Doxygen will then generate output that is more tailored for C.
@@ -615,8 +616,9 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = "@ITK_SOURCE_DIR@/Modules" \
-                         "@ITK_SOURCE_DIR@/Documentation/Doxygen"
+INPUT                  = "@ITK_SOURCE_DIR@/Documentation/Doxygen" \
+                         "@ITK_BINARY_DIR@/Utilities/Doxygen/Modules" \
+                         @DOXYGEN_INCLUDE_DIRS@
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -688,8 +690,7 @@ EXCLUDE_SYMBOLS        =
 # directories that contain example code fragments that are included (see
 # the \include command).
 
-EXAMPLE_PATH           = "@ITK_SOURCE_DIR@/Examples" \
-                         @DOXYGEN_TEST_DIRS@
+EXAMPLE_PATH           = @DOXYGEN_TEST_DIRS@
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp
@@ -847,13 +848,13 @@ HTML_FILE_EXTENSION    = .html
 # each generated HTML page. If it is left blank doxygen will generate a
 # standard header.
 
-HTML_HEADER            = @ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenHeader.html
+HTML_HEADER            = "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenHeader.html"
 
 # The HTML_FOOTER tag can be used to specify a personal HTML footer for
 # each generated HTML page. If it is left blank doxygen will generate a
 # standard footer.
 
-HTML_FOOTER            =
+HTML_FOOTER            = "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenFooter.html"
 
 # If the HTML_TIMESTAMP tag is set to YES then the generated HTML
 # documentation will contain the timesstamp.
@@ -867,7 +868,7 @@ HTML_TIMESTAMP         = YES
 # the style sheet file to the HTML output directory, so don't put your own
 # stylesheet in the HTML output directory as well, or it will be erased!
 
-HTML_STYLESHEET        =
+HTML_STYLESHEET        = "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenStyle.css"
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output.
 # Doxygen will adjust the colors in the stylesheet and background images
@@ -1148,7 +1149,7 @@ MATHJAX_RELPATH        = http://www.mathjax.org/mathjax
 # typically be disabled. For large projects the javascript based search engine
 # can be slow, then enabling SERVER_BASED_SEARCH may provide a better solution.
 
-SEARCHENGINE           = NO
+SEARCHENGINE           = YES
 
 # When the SERVER_BASED_SEARCH tag is enabled the search engine will be
 # implemented using a PHP enabled web server instead of at the web client
@@ -1158,7 +1159,7 @@ SEARCHENGINE           = NO
 # full text search. The disadvantages are that it is more difficult to setup
 # and does not have live searching capabilities.
 
-SERVER_BASED_SEARCH    = NO
+SERVER_BASED_SEARCH    = YES
 
 #---------------------------------------------------------------------------
 # configuration options related to the LaTeX output
@@ -1487,15 +1488,7 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "itkTemplateFloatingToIntegerMacro(name)=                   template <TReturn, typename TInput> name( TInput x )" \
                          "FEM_ABSTRACT_CLASS(thisClass,parentClass)=                   public:                                                                   /** Standard  Self typedef.*/                                          typedef thisClass Self;                                                 /** Standard  Superclass typedef. */                                   typedef parentClass Superclass;                                         /** Pointer or SmartPointer to an object. */                            typedef Self* Pointer;                                                  /** Const pointer or SmartPointer to an object. */                      typedef const Self* ConstPointer;                                     private:" \
                          "FEM_CLASS(thisClass,parentClass)=                   FEM_ABSTRACT_CLASS(thisClass,parentClass)                               public:                                                                   /** Create a new object from the existing one  */                       virtual Baseclass::Pointer Clone() const;                               /** Class ID for FEM object factory */                                  static const int CLID;                                                  /** Virtual function to access the class ID */                          virtual int ClassID() const                                               { return CLID; }                                                      /** Object creation in an itk compatible way */                         static Self::Pointer New()                                                { return new Self(); }                                              private:" \
-                         "FREEVERSION" \
                          "ERROR_CHECKING" \
-                         "HAS_TIFF" \
-                         "HAS_JPEG" \
-                         "HAS_NETLIB" \
-                         "HAS_PNG" \
-                         "HAS_ZLIB" \
-                         "HAS_GLUT" \
-                         "HAS_QT" \
                          "VCL_USE_NATIVE_STL=1" \
                          "VCL_USE_NATIVE_COMPLEX=1" \
                          "VCL_HAS_BOOL=1" \
@@ -1503,7 +1496,6 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "VXL_LITTLE_ENDIAN=0" \
                          "VNL_DLL_DATA=" \
                          "size_t=vcl_size_t" \
-                         "ITK_USE_REVIEW" \
                          "USE_FFTWD" \
                          "USE_FFTWF" \
                          "ITK_USE_CONCEPT_CHECKING"
@@ -1547,7 +1539,7 @@ TAGFILES               =
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create
 # a tag file that is based on the input files it reads.
 
-GENERATE_TAGFILE       = @ITK_BINARY_DIR@/Utilities/Doxygen/InsightDoxygen.tag
+GENERATE_TAGFILE       = "@ITK_BINARY_DIR@/Utilities/Doxygen/InsightDoxygen.tag"
 
 # If the ALLEXTERNALS tag is set to YES all external classes will be listed
 # in the class index. If set to NO only the inherited external classes
@@ -1564,7 +1556,7 @@ EXTERNAL_GROUPS        = YES
 # The PERL_PATH should be the absolute path and name of the perl script
 # interpreter (i.e. the result of `which perl').
 
-PERL_PATH              = @PERL_EXECUTABLE@
+PERL_PATH              = "@PERL_EXECUTABLE@"
 
 #---------------------------------------------------------------------------
 # Configuration options related to the dot tool

@@ -26,6 +26,7 @@ namespace itk
 /** \class Log10ImageFilter
  * \brief Computes the vcl_log10(x) pixel-wise
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
  */
 namespace Function
 {

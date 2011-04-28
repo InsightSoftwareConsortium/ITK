@@ -25,8 +25,8 @@
 #include "vnl/vnl_math.h"
 #include "itkStatisticsImageFilter.h"
 
-#include "vnl/vnl_vector.txx"
-#include "vnl/vnl_c_vector.txx"
+#include "vnl/vnl_vector.h"
+#include "vnl/vnl_c_vector.h"
 
 namespace itk
 {
@@ -75,9 +75,9 @@ MattesMutualInformationImageToImageMetric< TFixedImage, TMovingImage >
   m_ImplicitDerivativesSecondPass(false)
 {
   this->SetComputeGradient(false); // don't use the default gradient for now
-
-  this->m_WithinThreadPreProcess=true;
-  this->m_WithinThreadPostProcess=false;
+  this->m_WithinThreadPreProcess = true;
+  this->m_WithinThreadPostProcess = false;
+  this->m_ComputeGradient = false;
 }
 
 template< class TFixedImage, class TMovingImage >
@@ -167,6 +167,16 @@ MattesMutualInformationImageToImageMetric< TFixedImage, TMovingImage >
   os << this->m_UseExplicitPDFDerivatives << std::endl;
   os << indent << "ImplicitDerivativesSecondPass: ";
   os << this->m_ImplicitDerivativesSecondPass << std::endl;
+  if( this->m_JointPDF.IsNotNull() )
+    {
+    os << indent << "JointPDF: ";
+    os << this->m_JointPDF << std::endl;
+    }
+  if( this->m_JointPDFDerivatives.IsNotNull() )
+    {
+    os << indent << "JointPDFDerivatives: ";
+    os << this->m_JointPDFDerivatives;
+    }
 }
 
 /**
@@ -180,36 +190,58 @@ throw ( ExceptionObject )
 {
   this->Superclass::Initialize();
   this->Superclass::MultiThreadingInitialize();
+    {
+    /**
+     * Compute the minimum and maximum within the specified mask
+     * region for creating the size of the 2D joint histogram.
+     * Areas outside the masked region should be ignored
+     * in computing the range of intensity values.
+     */
 
-  typedef StatisticsImageFilter< FixedImageType > FixedImageStatisticsFilterType;
-  typename FixedImageStatisticsFilterType::Pointer fixedImageStats =
-    FixedImageStatisticsFilterType::New();
-  fixedImageStats->SetInput(this->m_FixedImage);
-  fixedImageStats->SetNumberOfThreads(this->m_NumberOfThreads);
-  fixedImageStats->Update();
+    this->m_FixedImageTrueMin=vcl_numeric_limits< typename TFixedImage::PixelType >::max();
+    this->m_FixedImageTrueMax=vcl_numeric_limits< typename TFixedImage::PixelType >::min();
+    this->m_MovingImageTrueMin=vcl_numeric_limits< typename TMovingImage::PixelType >::max();
+    this->m_MovingImageTrueMax=vcl_numeric_limits< typename TMovingImage::PixelType >::min();
 
-  m_FixedImageTrueMin = fixedImageStats->GetMinimum();
-  m_FixedImageTrueMax = fixedImageStats->GetMaximum();
-  const double fixedImageMin = m_FixedImageTrueMin;
-  const double fixedImageMax = m_FixedImageTrueMax;
+    //We need to make robust measures only over the requested mask region
+    itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage,this->m_FixedImage->GetBufferedRegion());
+    while( ! fi.IsAtEnd() )
+      {
+      typename TFixedImage::PointType fixedSpacePhysicalPoint;
+      this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
+      if( this->m_FixedImageMask.IsNull()  // A null mask implies entire space is to be used.
+        || this->m_FixedImageMask->IsInside(fixedSpacePhysicalPoint)
+      )
+        {
+        const typename TFixedImage::PixelType currValue=fi.Get();
+        m_FixedImageTrueMin=(m_FixedImageTrueMin<currValue)?m_FixedImageTrueMin:currValue;
+        m_FixedImageTrueMax=(m_FixedImageTrueMax>currValue)?m_FixedImageTrueMax:currValue;
+        }
+      ++fi;
+      }
+      {
+      itk::ImageRegionConstIteratorWithIndex<TFixedImage> mi(this->m_MovingImage,this->m_MovingImage->GetBufferedRegion());
+      while( ! mi.IsAtEnd() )
+        {
+        typename TMovingImage::PointType movingSpacePhysicalPoint;
+        this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
+        if( this->m_MovingImageMask.IsNull()  // A null mask implies entire space is to be used.
+          || this->m_MovingImageMask->IsInside(movingSpacePhysicalPoint)
+        )
+          {
+          const typename TMovingImage::PixelType currValue=mi.Get();
+          m_MovingImageTrueMin=(m_MovingImageTrueMin<currValue)?m_MovingImageTrueMin:currValue;
+          m_MovingImageTrueMax=(m_MovingImageTrueMax>currValue)?m_MovingImageTrueMax:currValue;
+          }
+        ++mi;
+        }
+      }
+    }
 
-  typedef StatisticsImageFilter< MovingImageType >
-    MovingImageStatisticsFilterType;
-  typename MovingImageStatisticsFilterType::Pointer movingImageStats =
-    MovingImageStatisticsFilterType::New();
-  movingImageStats->SetInput(this->m_MovingImage);
-  movingImageStats->SetNumberOfThreads(this->m_NumberOfThreads);
-  movingImageStats->Update();
-
-  m_MovingImageTrueMin = movingImageStats->GetMinimum();
-  m_MovingImageTrueMax = movingImageStats->GetMaximum();
-  const double movingImageMin = m_MovingImageTrueMin;
-  const double movingImageMax = m_MovingImageTrueMax;
-
-  itkDebugMacro(" FixedImageMin: " << fixedImageMin
-                                   << " FixedImageMax: " << fixedImageMax << std::endl);
-  itkDebugMacro(" MovingImageMin: " << movingImageMin
-                                    << " MovingImageMax: " << movingImageMax << std::endl);
+  itkDebugMacro(" FixedImageMin: " << m_FixedImageTrueMin
+                                   << " FixedImageMax: " << m_FixedImageTrueMax << std::endl);
+  itkDebugMacro(" MovingImageMin: " << m_MovingImageTrueMin
+                                    << " MovingImageMax: " << m_MovingImageTrueMax << std::endl);
 
   /**
    * Compute binsize for the histograms.
@@ -229,16 +261,16 @@ throw ( ExceptionObject )
    */
   const int padding = 2;  // this will pad by 2 bins
 
-  m_FixedImageBinSize = ( fixedImageMax - fixedImageMin )
+  m_FixedImageBinSize = ( m_FixedImageTrueMax - m_FixedImageTrueMin )
                         / static_cast< double >( m_NumberOfHistogramBins
                                                  - 2 * padding );
-  m_FixedImageNormalizedMin = fixedImageMin / m_FixedImageBinSize
+  m_FixedImageNormalizedMin = m_FixedImageTrueMin / m_FixedImageBinSize
                               - static_cast< double >( padding );
 
-  m_MovingImageBinSize = ( movingImageMax - movingImageMin )
+  m_MovingImageBinSize = ( m_MovingImageTrueMax - m_MovingImageTrueMin )
                          / static_cast< double >( m_NumberOfHistogramBins
                                                   - 2 * padding );
-  m_MovingImageNormalizedMin = movingImageMin / m_MovingImageBinSize
+  m_MovingImageNormalizedMin = m_MovingImageTrueMin / m_MovingImageBinSize
                                - static_cast< double >( padding );
 
   itkDebugMacro("FixedImageNormalizedMin: " << m_FixedImageNormalizedMin);
@@ -338,6 +370,17 @@ throw ( ExceptionObject )
 
   // Set the regions and allocate
   m_JointPDF->SetRegions(jointPDFRegion);
+    {
+    //By setting these values, the joint histogram physical locations will correspond to intensity values.
+    typename JointPDFType::PointType origin;
+    origin[0]=this->m_FixedImageTrueMin;
+    origin[1]=this->m_MovingImageTrueMin;
+    m_JointPDF->SetOrigin(origin);
+    typename JointPDFType::SpacingType spacing;
+    spacing[0]=this->m_FixedImageBinSize;
+    spacing[1]=this->m_MovingImageBinSize;
+    m_JointPDF->SetSpacing(spacing);
+    }
   m_JointPDF->Allocate();
 
   m_JointPDFBufferSize = jointPDFSize[0] * jointPDFSize[1] * sizeof( PDFValueType );
@@ -388,11 +431,9 @@ throw ( ExceptionObject )
     }
   m_ThreaderJointPDFSum = new double[this->m_NumberOfThreads];
 
-  unsigned int threadID;
+  const int binRange = m_NumberOfHistogramBins / this->m_NumberOfThreads;
 
-  int binRange = m_NumberOfHistogramBins / this->m_NumberOfThreads;
-
-  for ( threadID = 0; threadID < this->m_NumberOfThreads - 1; threadID++ )
+  for (unsigned int threadID = 0; threadID < this->m_NumberOfThreads - 1; threadID++ )
     {
     m_ThreaderJointPDF[threadID] = JointPDFType::New();
     m_ThreaderJointPDF[threadID]->SetRegions(jointPDFRegion);
@@ -427,7 +468,7 @@ throw ( ExceptionObject )
     m_ThreaderJointPDFDerivatives = new typename
                                     JointPDFDerivativesType::Pointer[this->m_NumberOfThreads - 1];
 
-    for ( threadID = 0; threadID < this->m_NumberOfThreads - 1; threadID++ )
+    for (unsigned int threadID = 0; threadID < this->m_NumberOfThreads - 1; threadID++ )
       {
       m_ThreaderJointPDFDerivatives[threadID] = JointPDFDerivativesType::New();
       m_ThreaderJointPDFDerivatives[threadID]->SetRegions(
@@ -439,7 +480,7 @@ throw ( ExceptionObject )
     {
     m_ThreaderMetricDerivative = new DerivativeType[this->m_NumberOfThreads - 1];
 
-    for ( threadID = 0; threadID < this->m_NumberOfThreads - 1; threadID++ )
+    for (unsigned int threadID = 0; threadID < this->m_NumberOfThreads - 1; threadID++ )
       {
       this->m_ThreaderMetricDerivative[threadID] = DerivativeType( this->GetNumberOfParameters() );
       }
@@ -447,7 +488,8 @@ throw ( ExceptionObject )
 }
 
 /**
- * Uniformly sample the fixed image domain using a random walk
+ * From the pre-computed samples, now
+ * fill in the parzen window index locations
  */
 template< class TFixedImage, class TMovingImage >
 void
@@ -455,8 +497,7 @@ MattesMutualInformationImageToImageMetric< TFixedImage, TMovingImage >
 ::ComputeFixedImageParzenWindowIndices(
   FixedImageSampleContainer & samples)
 {
-  typename FixedImageSampleContainer::const_iterator end = samples.end();
-
+  const typename FixedImageSampleContainer::const_iterator end = samples.end();
   for ( typename FixedImageSampleContainer::iterator iter = samples.begin();
     iter != end; ++iter )
     {
@@ -678,7 +719,7 @@ MattesMutualInformationImageToImageMetric< TFixedImage, TMovingImage >
     }
   if ( m_JointPDFSum == 0.0 )
     {
-    itkExceptionMacro("Joint PDF summed to zero");
+    itkExceptionMacro("Joint PDF summed to zero\n" << m_JointPDF );
     }
 
   memset( m_MovingImageMarginalPDF,

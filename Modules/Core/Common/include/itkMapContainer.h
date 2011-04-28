@@ -41,6 +41,7 @@ namespace itk
  *    The element type stored in the container.
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< typename TElementIdentifier, typename TElement >
 class MapContainer:
@@ -105,7 +106,9 @@ public:
   friend class ConstIterator;
 
   /** \class Iterator
-   * \brief The non-const iterator type for the map. */
+   * \brief The non-const iterator type for the map.
+   * \ingroup ITK-Common
+   */
   class Iterator
   {
 public:
@@ -135,7 +138,9 @@ private:
   };
 
   /** \class ConstIterator
-   * \brief The const iterator type for the map. */
+   * \brief The const iterator type for the map.
+   * \ingroup ITK-Common
+   */
   class ConstIterator
   {
 public:

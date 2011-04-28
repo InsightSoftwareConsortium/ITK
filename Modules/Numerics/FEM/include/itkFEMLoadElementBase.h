@@ -37,6 +37,7 @@ namespace fem {
  * the Element's Fe() member funtion is called with the pointer to the LoadElement class that is
  * prescribed on that element. Fe() function shuld dynamically cast this pointer to specific
  * load class, which it can handle and return the element's force vector.
+ * \ingroup ITK-FEM
  */
 class LoadElement : public Load
 {

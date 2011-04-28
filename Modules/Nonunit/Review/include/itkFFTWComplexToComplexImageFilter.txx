@@ -19,7 +19,7 @@
 #define __itkFFTWComplexToComplexImageFilter_txx
 
 #include "itkFFTWComplexToComplexImageFilter.h"
-#include "itkFFTComplexToComplexImageFilter.txx"
+#include "itkFFTComplexToComplexImageFilter.h"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"

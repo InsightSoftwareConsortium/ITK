@@ -29,6 +29,7 @@ namespace itk
  *
  * \brief Wrapper around a itk::Point in order to add a reference
  * to an entry in the edge ring.
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge =
             GeometricalQuadEdge< unsigned long, unsigned long, bool, bool, true > >

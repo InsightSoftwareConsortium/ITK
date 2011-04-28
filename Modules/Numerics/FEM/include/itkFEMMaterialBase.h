@@ -38,6 +38,7 @@ namespace fem {
  * Everything usefull is stored in derived clases. This class
  * is here just to group all material classes together and access
  * them via this base class.
+ * \ingroup ITK-FEM
  */
 class Material : public FEMLightObject
 {

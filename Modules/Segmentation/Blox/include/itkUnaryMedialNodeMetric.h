@@ -42,6 +42,7 @@ namespace itk
  * Notes in Computer Science (in press), 2003.
  *
  * \ingroup ImageFeatureSimilarityMetrics
+ * \ingroup ITK-Blox
  */
 
 template< int VDimensions = 3 >

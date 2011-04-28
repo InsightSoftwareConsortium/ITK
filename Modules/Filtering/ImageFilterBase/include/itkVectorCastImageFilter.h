@@ -37,6 +37,7 @@ namespace itk
  * \sa Vector
  *
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageFilterBase
  */
 namespace Functor
 {

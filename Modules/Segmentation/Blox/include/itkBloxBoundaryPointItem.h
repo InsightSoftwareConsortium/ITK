@@ -29,7 +29,9 @@ namespace itk
  * \brief A boundary point, stored in a BloxPixel.
  * \ingroup ImageObjects
  *
- * */
+ *
+ * \ingroup ITK-Blox
+ */
 
 template< unsigned int VImageDimension >
 class ITK_EXPORT BloxBoundaryPointItem:public BloxItem

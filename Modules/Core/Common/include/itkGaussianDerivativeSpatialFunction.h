@@ -36,6 +36,7 @@ namespace itk
  * of the output data type (for instance, 255 for uchars)
  *
  * \ingroup SpatialFunctions
+ * \ingroup ITK-Common
  */
 template< typename TOutput = double,
           unsigned int VImageDimension = 3,

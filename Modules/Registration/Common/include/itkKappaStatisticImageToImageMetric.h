@@ -48,6 +48,7 @@ namespace itk
  * only minimize a metric, use the ComplementOn() method.
  *
  * \ingroup RegistrationMetrics
+ * \ingroup ITK-RegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
 class ITK_EXPORT KappaStatisticImageToImageMetric:

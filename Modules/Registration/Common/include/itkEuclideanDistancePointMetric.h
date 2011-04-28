@@ -39,6 +39,7 @@ namespace itk
  *             IEEE PAMI, Vol 14, No. 2, February 1992
  *
  * \ingroup RegistrationMetrics
+ * \ingroup ITK-RegistrationCommon
  */
 template< class TFixedPointSet, class TMovingPointSet,
           class TDistanceMap =

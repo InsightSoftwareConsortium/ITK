@@ -49,6 +49,11 @@ namespace itk
  * http://insight-journal.org/midas/handle.php?handle=1926/326
  *
  * \sa MagnitudeAndPhaseToComplexImageFilter
+ * \ingroup ITK-Review
+ *
+ * \wiki
+ * \wikiexample{SpectralAnalysis/RealAndImaginaryToComplexImageFilter,Convert a real image and an imaginary image to a complex image}
+ * \endwiki
  */
 
 namespace Functor

@@ -35,7 +35,9 @@ namespace itk
  * \brief Holds a linked list of itk::BloxCoreAtomItem's
  *
  * \ingroup ImageObjects
- * */
+ *
+ * \ingroup ITK-Blox
+ */
 
 template< unsigned int NDimensions >
 class ITK_EXPORT BloxCoreAtomPixel:public BloxPixel<

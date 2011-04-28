@@ -34,6 +34,7 @@ namespace itk
 {
 /** \class SpatialObjectFactoryBase
  * \brief Create instances of SpatialObjects
+ * \ingroup ITK-SpatialObjects
  */
 
 class ITK_EXPORT SpatialObjectFactoryBase:public ObjectFactoryBase

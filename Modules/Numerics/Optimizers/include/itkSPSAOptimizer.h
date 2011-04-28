@@ -37,6 +37,7 @@ namespace itk
  * Hopkins APL Technical Digest, vol. 19, pp. 482-492
  *
  * \ingroup Optimizers
+ * \ingroup ITK-Optimizers
  */
 
 class ITK_EXPORT SPSAOptimizer:

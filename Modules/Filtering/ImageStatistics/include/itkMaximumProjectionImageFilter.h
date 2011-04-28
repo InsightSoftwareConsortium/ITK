@@ -40,6 +40,7 @@ namespace itk
  * \sa StandardDeviationProjectionImageFilter
  * \sa SumProjectionImageFilter
  * \sa BinaryProjectionImageFilter
+ * \ingroup ITK-ImageStatistics
  */
 
 namespace Function

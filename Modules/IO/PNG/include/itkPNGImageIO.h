@@ -32,6 +32,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
+ * \ingroup ITK-IO-PNG
  */
 class ITK_EXPORT PNGImageIO:public ImageIOBase
 {

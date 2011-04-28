@@ -39,6 +39,7 @@ namespace itk
  *
  * \sa StatisticsLabelObject, BinaryStatisticsOpeningImageFilter, LabelShapeOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 template< class TImage >
 class ITK_EXPORT StatisticsOpeningLabelMapFilter:

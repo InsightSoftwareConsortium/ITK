@@ -53,6 +53,7 @@ namespace itk
  * \sa Scalar
  * \sa Vector
  * \ingroup DataRepresentation
+ * \ingroup ITK-Deprecated
  */
 template< class TScalar, class TVector, unsigned int TVectorDimension = 3 >
 class ITK_EXPORT ScalarVector

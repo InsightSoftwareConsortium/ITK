@@ -32,6 +32,7 @@ namespace itk
  *
  * The output is a 4 connected labeled map of the image.
  * \ingroup Segmentation
+ * \ingroup ITK-Watersheds
  */
 
 template< class TInputImage >

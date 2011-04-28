@@ -44,6 +44,7 @@ namespace itk
  * \sa GradientAnisotropicDiffusionFunction
  * \ingroup ImageEnhancement
  * \ingroup ImageFilters
+ * \ingroup ITK-AnisotropicSmoothing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT GradientAnisotropicDiffusionImageFilter:

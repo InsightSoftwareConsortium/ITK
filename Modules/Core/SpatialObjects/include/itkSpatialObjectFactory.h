@@ -34,6 +34,7 @@ namespace itk
 {
 /** \class SpatialObjectFactory
  * \brief Create instances of SpatialObjects
+ * \ingroup ITK-SpatialObjects
  */
 
 template< class T >

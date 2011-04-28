@@ -46,6 +46,7 @@ namespace itk
  * itkExceptionMacro (found in Common/itkMacro.h) can be used.
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT ExceptionObject:public std::exception
 {
@@ -130,6 +131,7 @@ private:
    *  and ExceptionData, and overloads the Register()/UnRegister() methods to
    *  delegate them to its second parent, the LightObject.
    *
+   * \ingroup ITK-Common
    */
   class ReferenceCounterInterface
   {
@@ -161,6 +163,7 @@ inline std::ostream & operator<<(std::ostream & os, ExceptionObject & e)
 /** \class MemoryAllocationError
  * Exception thrown when image memory allocation fails.
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 class MemoryAllocationError:public ExceptionObject
 {
@@ -192,6 +195,7 @@ public:
 /** \class RangeError
  * Exception thrown when accessing memory out of range.
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 class RangeError:public ExceptionObject
 {
@@ -218,6 +222,7 @@ public:
  * Exception thrown when invalid argument is given to a method
  * or function.
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 class InvalidArgumentError:public ExceptionObject
 {
@@ -249,6 +254,7 @@ public:
 /** \class IncompatibleOperandsError
  * Exception thrown when two operands are incompatible.
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 class IncompatibleOperandsError:public ExceptionObject
 {
@@ -274,6 +280,7 @@ public:
 /** \class ProcessAborted
  * Exception thrown when a filter (actually a ProcessObject) has been aborted.
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 class ProcessAborted:public ExceptionObject
 {

@@ -67,6 +67,7 @@ namespace itk
  *
  * \sa PDEDeformableRegistrationFunction.
  * \ingroup DeformableImageRegistration
+ * \ingroup ITK-PDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT PDEDeformableRegistrationFilter:

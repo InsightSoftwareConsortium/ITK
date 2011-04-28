@@ -39,6 +39,7 @@ namespace Statistics
  * PointsDataContainer.
  *
  * \sa Sample, ListSample, PointSet
+ * \ingroup ITK-Statistics
  */
 
 template< class TPointSet >
@@ -103,7 +104,7 @@ public:
   /** returns the size of this container */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
-  /** \class ConstIterator */
+  /** \class ConstIterator  \ingroup ITK-Statistics */
   class ConstIterator
   {
     friend class PointSetToListSampleAdaptor;
@@ -176,7 +177,7 @@ private:
     InstanceIdentifier               m_InstanceIdentifier;
   };
 
-  /** \class Iterator */
+  /** \class Iterator  \ingroup ITK-Statistics */
   class Iterator:public ConstIterator
   {
     friend class PointSetToListSampleAdaptor;

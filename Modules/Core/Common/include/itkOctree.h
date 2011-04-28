@@ -44,6 +44,7 @@ enum OctreePlaneType {
  * \class OctreeBase
  * \brief Provides non-templated access to templated instances of Octree
  *
+ * \ingroup ITK-Common
  */
 class OctreeBase:public Object
 {
@@ -107,6 +108,7 @@ public:
  *
  * Parameterized on Pixel type of the image, number of colors in color
  * table, and a Mapping function, derived from itk::FunctionBase
+ * \ingroup ITK-Common
  */
 template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
 class Octree:public OctreeBase

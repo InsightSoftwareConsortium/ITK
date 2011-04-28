@@ -25,6 +25,7 @@ namespace itk
 {
 /** \class TransformIOFactory
  * \brief Create instances of TransformIO objects using an object factory.
+ * \ingroup ITK-Transform
  */
 class ITK_EXPORT TransformIOFactory:public Object
 {

@@ -65,6 +65,7 @@ namespace itk
  *
  *
  * \ingroup RegionGrowingSegmentation
+ * \ingroup ITK-RegionGrowing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT IsolatedConnectedImageFilter:

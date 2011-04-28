@@ -27,6 +27,11 @@ namespace itk
  * \brief Computes the ABS(x) pixel-wise
  *
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/AbsImageFilter,Compute the absolute value of an image}
+ * \endwiki
  */
 namespace Function
 {

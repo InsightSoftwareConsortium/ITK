@@ -111,6 +111,7 @@ namespace itk
  * It will look for these files in the directory structure described above.  The
  * path and filename of the '2dseq' file must be the name of the file to read
  * (see CanReadFile).  This class supports reading only.
+ * \ingroup ITK-Review
  */
 class ITK_EXPORT Bruker2DSEQImageIO:public ImageIOBase
 {
