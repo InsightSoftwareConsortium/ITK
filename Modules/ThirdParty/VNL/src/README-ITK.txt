@@ -52,7 +52,8 @@ Create a topic in the main repository on which to perform the update:
 
 Merge the vxl-upstream branch as a subtree:
 
- git merge -s subtree vxl-upstream
+ git merge -s recursive -X subtree=Modules/ThirdParty/VNL/src/vxl \
+           vxl-upstream
 
 If there are conflicts, resolve them and commit.  Build and test the
 tree.  Commit any additional changes needed to succeed.
