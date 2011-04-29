@@ -8,23 +8,25 @@
 #include "itkImageFileWriter.h"
 #include "itkFileListVideoIOFactory.h"
 
+//DEBUG
+#include "itkImageFileWriter.h"
 
 int itkVideoFileReaderWriterTest ( int argc, char *argv[] )
 {
+  // Check parameters
   if (argc != 3)
     {
     std::cerr << "Usage: [Video Input] [Image Output]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  //
   // Instantiate a new reader
-  //
   typedef itk::RGBPixel<unsigned char>                PixelType;
   const unsigned int NumberOfDimensions =             2;
-  typedef itk::Image< PixelType, NumberOfDimensions > ImageType;
-  typedef itk::VideoFileReader< ImageType >           VideoReaderType;
-  typedef itk::VideoFileWriter< ImageType >           VideoWriterType;
+  typedef itk::Image< PixelType, NumberOfDimensions > FrameType;
+  typedef itk::VideoStream< FrameType >               VideoType;
+  typedef itk::VideoFileReader< VideoType >           VideoReaderType;
+  typedef itk::VideoFileWriter< VideoType >           VideoWriterType;
 
   VideoReaderType::Pointer reader = VideoReaderType::New();
   reader->SetFileName(argv[1]);
@@ -33,35 +35,13 @@ int itkVideoFileReaderWriterTest ( int argc, char *argv[] )
   // register an FileListVideoIO
   itk::ObjectFactoryBase::RegisterFactory( itk::FileListVideoIOFactory::New() );
 
-  // Set up a filter to pass the resulting frames through
-  typedef itk::RecursiveGaussianImageFilter<ImageType, ImageType> FilterType;
-  FilterType::Pointer gaussFilter = FilterType::New();
-  gaussFilter->SetSigma(10);
-
-  // Set up video writer
+  // Set up the writer
   VideoWriterType::Pointer writer = VideoWriterType::New();
+  writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);
 
-  // Connect the pipeline
-  gaussFilter->SetInput(reader->GetOutput());
-  writer->SetInput(gaussFilter->GetOutput());
-  writer->SetFpS(reader->GetFpS());
-  writer->SetFourCC("MP42");  // For now, just set manually
-
-  // Loop through all of the frames and write them out
-  for (unsigned int i = 0; i < reader->GetNumberOfFrames(); ++i)
-    {
-
-    // Mark the filter modified so it is out of date
-    gaussFilter->Modified();
-
-    // Write the frame
-    writer->Update();
-    }
-
-  // Finish writing the video
-  writer->FinishWriting();
-
+  // Call Update on the writer to process the entire video
+  writer->Update();
 
   return EXIT_SUCCESS;
 }
