@@ -120,7 +120,7 @@ protected:
   const OutputPixelType GetOutputValue( OutputMeshType* oMesh,
                                   const NodeType& iNode ) const;
 
-  const unsigned char GetLabelValueForGivenNode( const NodeType& iNode ) const;
+  unsigned char GetLabelValueForGivenNode( const NodeType& iNode ) const;
 
   void SetLabelValueForGivenNode( const NodeType& iNode,
                                   const LabelType& iLabel );

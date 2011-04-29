@@ -23,7 +23,7 @@
 #include "itkFastMarchingThresholdStoppingCriterion.h"
 #include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h"
 
-int itkFastMarchingQuadEdgeMeshFilterBaseTest2( int , char** )
+int itkFastMarchingQuadEdgeMeshFilterBaseTest2( int , char * [] )
 {
   typedef float   PixelType;
   typedef double  CoordType;

@@ -69,7 +69,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 
 
 template< class TInput, class TOutput >
-const unsigned char
+unsigned char
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::GetLabelValueForGivenNode( const NodeType& iNode ) const
 {
@@ -318,14 +318,14 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 
       if( unfolded )
         {
-        OutputVectorRealType sq_norm3 = norm3 * norm3;
+        OutputVectorRealType t_sq_norm3 = norm3 * norm3;
 
         OutputVectorRealType val3 =
             static_cast< OutputVectorRealType >(
               this->GetOutputValue( oMesh, new_id ) );
-        OutputVectorRealType t1 = ComputeUpdate( iVal1, val3, norm3, sq_norm3,
+        OutputVectorRealType t1 = ComputeUpdate( iVal1, val3, norm3, t_sq_norm3,
                                                 norm1, sq_norm1, dot1, iF );
-        OutputVectorRealType t2 = ComputeUpdate( iVal2, val3, norm3, sq_norm3,
+        OutputVectorRealType t2 = ComputeUpdate( iVal2, val3, norm3, t_sq_norm3,
                                                 norm2, sq_norm2, dot2, iF );
 
         return vnl_math_min( t1, t2 );
