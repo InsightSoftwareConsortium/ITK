@@ -42,9 +42,9 @@ class ITK_EXPORT VideoFileReader:public VideoSource< TOutputVideoStream >
 public:
 
   /**-TYPEDEFS---------------------------------------------------------------*/
-  typedef VideoFileReader                  Self;
+  typedef VideoFileReader                   Self;
   typedef VideoSource< TOutputVideoStream > Superclass;
-  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<Self>                Pointer;
   typedef TOutputVideoStream                VideoStreamType;
 
   typedef typename VideoStreamType::FrameType FrameType;
