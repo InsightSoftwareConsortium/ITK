@@ -21,6 +21,9 @@ target_link_libraries(AffineImageReconstruction ITKIO ITKNumerics)
 add_executable(PrintImageInformation PrintImageInformation.cxx )
 target_link_libraries(PrintImageInformation ITKIO)
 
+add_executable(ImageReadImageSeriesWrite ImageReadImageSeriesWrite.cxx )
+target_link_libraries(ImageReadImageSeriesWrite ITKIO)
+
 install(TARGETS SimpleImageReconstruction AffineImageReconstruction PrintImageInformation
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
