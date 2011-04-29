@@ -62,11 +62,8 @@ int FastMarchingImageFilterBase( )
 
 
 // ----------------------------------------------------------------------------
-int itkFastMarchingImageFilterBaseTest( int argc, char** argv )
+int itkFastMarchingImageFilterBaseTest( int , char * [] )
   {
-  (void) argc;
-  (void) argv;
-
   if( FastMarchingImageFilterBase< 2 >() == EXIT_FAILURE )
     {
     std::cerr << "2D Fails" <<std::endl;

@@ -160,7 +160,7 @@ GetOutputValue( OutputImageType* oImage, const NodeType& iNode ) const
 
 // -----------------------------------------------------------------------------
 template< class TInput, class TOutput >
-const unsigned char
+unsigned char
 FastMarchingImageFilterBase< TInput, TOutput >::
 GetLabelValueForGivenNode( const NodeType& iNode ) const
   {
