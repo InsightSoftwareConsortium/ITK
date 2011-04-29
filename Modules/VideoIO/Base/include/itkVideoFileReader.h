@@ -27,24 +27,14 @@ namespace itk
 {
 
 /** \class VideoFileReader
- * \brief Reader that creates a VideoImageSet with an apropriate VideoIOBase
+ * \brief Reader that creates a VideoStream
  *
- * This class is responsible for instantiating a valid VideoIO for the given
- * input file and returning a VideoImageSet that will use that VideoIO
- * internally. Unlike VideoFileReader, this does not actually do the reading.
- * that part is handled internally by RingBufferImageSet (parent of
- * VideoImageSet).
- *
- * The relationship between VideoFileReader, VideoImageSet, and Image creates
- * a break in the ITK pipeline system. Typacally, the pipeline consists of
- * ProcessObjects and each ProcessObject passes one or more DataObjects to the
- * next ProcessObject down the line. The problem arises because VideoImageSet
- * needs to function both as a ProcessObject (outputs images for frames) and as
- * a DataObject (output by VideoImageSet). The solution for this is to manually
- * implement the relationship between VideoFileReader and VideoImageSet and to
- * let the rest of the pipeline treat VideoImageSet as an ImageSource. Because
- * of this issue, VideoFileReader implements its own Update() and GetOutput()
- * methods rather than using those provided by ProcessObject
+ * This class is responsible for reading video information from files. It is a
+ * subclass of VideoSource, giving it functionality to connect to other
+ * TemporalProcessObject classes (specifically, VideoToVideoFilter classes). It
+ * uses the temporal streaming implementation provided by TemporalProcessObject
+ * to load a single frame at a time into the frame buffer of the output
+ * VideoSource.
  */
 template< class TOutputVideoStream >
 class ITK_EXPORT VideoFileReader:public VideoSource< TOutputVideoStream >
