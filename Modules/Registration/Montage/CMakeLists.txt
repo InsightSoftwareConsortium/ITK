@@ -9,6 +9,9 @@ project(SimpleImageReconstruction)
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
+include(CTest)
+include(CPack)
+
 add_executable(SimpleImageReconstruction SimpleImageReconstruction.cxx )
 target_link_libraries(SimpleImageReconstruction ITKIO)
 
@@ -17,3 +20,9 @@ target_link_libraries(AffineImageReconstruction ITKIO ITKNumerics)
 
 add_executable(PrintImageInformation PrintImageInformation.cxx )
 target_link_libraries(PrintImageInformation ITKIO)
+
+install(TARGETS SimpleImageReconstruction AffineImageReconstruction PrintImageInformation
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
