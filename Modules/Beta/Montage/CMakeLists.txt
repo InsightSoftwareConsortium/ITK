@@ -13,16 +13,16 @@ include(CTest)
 include(CPack)
 
 add_executable(SimpleImageReconstruction SimpleImageReconstruction.cxx )
-target_link_libraries(SimpleImageReconstruction ITKIO)
+target_link_libraries(SimpleImageReconstruction ${ITK_LIBRARIES})
 
 add_executable(AffineImageReconstruction AffineImageReconstruction.cxx )
-target_link_libraries(AffineImageReconstruction ITKIO ITKNumerics)
+target_link_libraries(AffineImageReconstruction ${ITK_LIBRARIES})
 
 add_executable(PrintImageInformation PrintImageInformation.cxx )
-target_link_libraries(PrintImageInformation ITKIO)
+target_link_libraries(PrintImageInformation ${ITK_LIBRARIES})
 
 add_executable(ImageReadImageSeriesWrite ImageReadImageSeriesWrite.cxx )
-target_link_libraries(ImageReadImageSeriesWrite ITKIO)
+target_link_libraries(ImageReadImageSeriesWrite ${ITK_LIBRARIES})
 
 install(TARGETS SimpleImageReconstruction AffineImageReconstruction PrintImageInformation
   RUNTIME DESTINATION bin
