@@ -25,23 +25,23 @@
 namespace itk
 {
 /** Constructor */
-template< class THistogram, unsigned int NDimension, class TFunction >
-HistogramToImageFilter< THistogram, NDimension, TFunction >
+template< class THistogram, class TImage, class TFunction >
+HistogramToImageFilter< THistogram, TImage, TFunction >
 ::HistogramToImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
 }
 
 /** Destructor */
-template< class THistogram, unsigned int NDimension, class TFunction >
-HistogramToImageFilter< THistogram, NDimension, TFunction >
+template< class THistogram, class TImage, class TFunction >
+HistogramToImageFilter< THistogram, TImage, TFunction >
 ::~HistogramToImageFilter()
 {}
 
 /** Set the Input Histogram */
-template< class THistogram, unsigned int NDimension, class TFunction >
+template< class THistogram, class TImage, class TFunction >
 void
-HistogramToImageFilter< THistogram, NDimension, TFunction >
+HistogramToImageFilter< THistogram, TImage, TFunction >
 ::SetInput(const HistogramType *input)
 {
   // Process object is not const-correct so the const_cast is required here
@@ -49,9 +49,9 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
   this->ProcessObject::SetNthInput(0,  histogram);
 }
 
-template< class THistogram, unsigned int NDimension, class TFunction >
-const typename HistogramToImageFilter< THistogram, NDimension, TFunction >::HistogramType *
-HistogramToImageFilter< THistogram, NDimension, TFunction >
+template< class THistogram, class TImage, class TFunction >
+const typename HistogramToImageFilter< THistogram, TImage, TFunction >::HistogramType *
+HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GetInput(void)
 {
   if ( this->GetNumberOfInputs() < 1 )
@@ -63,9 +63,9 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
          ( this->ProcessObject::GetInput(0) );
 }
 
-template< class THistogram, unsigned int NDimension, class TFunction >
+template< class THistogram, class TImage, class TFunction >
 void
-HistogramToImageFilter< THistogram, NDimension, TFunction >
+HistogramToImageFilter< THistogram, TImage, TFunction >
 ::SetTotalFrequency(SizeValueType n)
 {
   if ( n < 1 )
@@ -84,9 +84,9 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
     }
 }
 
-template< class THistogram, unsigned int NDimension, class TFunction >
+template< class THistogram, class TImage, class TFunction >
 void
-HistogramToImageFilter< THistogram, NDimension, TFunction >
+HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GenerateOutputInformation()
 {
   // Get the input and output pointers
@@ -135,9 +135,9 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
 //----------------------------------------------------------------------------
 
 /** Update */
-template< class THistogram, unsigned int NDimension, class TFunction >
+template< class THistogram, class TImage, class TFunction >
 void
-HistogramToImageFilter< THistogram, NDimension, TFunction >
+HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GenerateData(void)
 {
   itkDebugMacro(<< "HistogramToImageFilter::Update() called");
@@ -177,9 +177,9 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
     }
 } // end update function
 
-template< class THistogram, unsigned int NDimension, class TFunction >
+template< class THistogram, class TImage, class TFunction >
 void
-HistogramToImageFilter< THistogram, NDimension, TFunction >
+HistogramToImageFilter< THistogram, TImage, TFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

@@ -120,7 +120,7 @@ int itkHistogramToIntensityImageFilterTest2( int argc, char * argv [] )
   typedef HistogramFilterType::HistogramType  HistogramType;
   const HistogramType * histogram = histogramFilter->GetOutput();
 
-  typedef itk::HistogramToIntensityImageFilter< HistogramType, NumberOfComponents > HistogramToImageFilterType;
+  typedef itk::HistogramToIntensityImageFilter< HistogramType > HistogramToImageFilterType;
   HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
 
   histogramToImageFilter->SetInput( histogram );

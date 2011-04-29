@@ -46,24 +46,24 @@ namespace itk
  * \ingroup ITK-Statistics
  */
 
-template< class THistogram, unsigned int NDimension, class TFunction >
+template< class THistogram, class TImage, class TFunction >
 class ITK_EXPORT HistogramToImageFilter:
-  public ImageSource< Image< typename TFunction::OutputPixelType, NDimension > >
+  public ImageSource< TImage >
 {
 public:
 
   /** Standard class typedefs. */
   typedef TFunction                                           FunctorType;
-  typedef typename FunctorType::OutputPixelType               OutputPixelType;
   typedef HistogramToImageFilter                              Self;
-  typedef ImageSource< Image< OutputPixelType, NDimension > > Superclass;
+  typedef ImageSource< TImage >                               Superclass;
   typedef SmartPointer< Self >                                Pointer;
   typedef SmartPointer< const Self >                          ConstPointer;
 
-  typedef Image< OutputPixelType, NDimension >  OutputImageType;
-  typedef typename Superclass::Pointer          OutputImagePointer;
-  typedef typename OutputImageType::SpacingType SpacingType;
-  typedef typename OutputImageType::PointType   PointType;
+  typedef TImage                                              OutputImageType;
+  typedef typename Superclass::Pointer                        OutputImagePointer;
+  typedef typename OutputImageType::SpacingType               SpacingType;
+  typedef typename OutputImageType::PointType                 PointType;
+  typedef typename OutputImageType::PixelType                 OutputPixelType;
 
   // Define an iterator to iterate through the image
   typedef itk::ImageRegionIteratorWithIndex< OutputImageType > ImageIteratorType;
@@ -84,7 +84,7 @@ public:
   typedef typename OutputImageType::SizeType            SizeType;
 
   /** Determine the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, NDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
 
   /** Set/Get the input of this process object.  */
   virtual void SetInput(const HistogramType *histogram);

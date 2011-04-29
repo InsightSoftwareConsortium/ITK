@@ -97,9 +97,7 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
   // use a 3D image to check the behavior of HistogramToImageFilter when the image
   // is of greater dimension than the histogram
   typedef itk::Image< float, 3 > FloatImageType;
-
-  // TODO: 3 and float should be replaced by FloatImageType
-  typedef itk::HistogramToLogProbabilityImageFilter< HistogramType, 3, float >   ImageFilterType;
+  typedef itk::HistogramToLogProbabilityImageFilter< HistogramType, FloatImageType >   ImageFilterType;
   ImageFilterType::Pointer imageFilter = ImageFilterType::New();
   imageFilter->SetInput( histogramFilter->GetOutput() );
 
