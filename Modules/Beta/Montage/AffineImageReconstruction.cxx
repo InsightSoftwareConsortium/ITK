@@ -30,6 +30,7 @@
 #include "itkCastImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkNumericSeriesFileNames.h"
 
 
 //
@@ -115,6 +116,12 @@ private:
 
 void AffineRegistration::Execute()
 {
+
+  std::cout << "AffineRegistration of " << std::endl;
+  std::cout << this->m_FixedImageFilename  << std::endl;
+  std::cout << this->m_MovingImageFilename << std::endl;
+  std::cout << std::endl;
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned char   PixelType;
 
@@ -178,7 +185,7 @@ void AffineRegistration::Execute()
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
-  initializer->MomentsOn();
+  initializer->GeometryOn();
   initializer->InitializeTransform();
 
 
@@ -311,12 +318,38 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  AffineRegistration registration;
+  typedef itk::NumericSeriesFileNames    NameGeneratorType;
 
-  registration.SetFixedImageFileName( argv[1] );
-  registration.SetMovingImageFileName( argv[2] );
-  registration.SetRegisteredImageFileName( argv[3] );
+  NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
 
-  registration.Execute();
+  nameGenerator->SetSeriesFormat( argv[1] );
+  nameGenerator->SetStartIndex( atoi( argv[2] ) );
+  nameGenerator->SetEndIndex( atoi( argv[3] ) );
+  nameGenerator->SetIncrementIndex( 1 );
+
+  typedef std::vector< std::string > FileNamesType;
+
+  const FileNamesType & nameList = nameGenerator->GetFileNames();
+
+  FileNamesType::const_iterator nameFixed  = nameList.begin();
+  FileNamesType::const_iterator nameMoving = nameList.begin();
+  FileNamesType::const_iterator nameEnd    = nameList.end();
+
+  nameMoving++;
+
+  while( nameMoving != nameEnd )
+    {
+    AffineRegistration registration;
+
+    registration.SetFixedImageFileName( *nameFixed );
+    registration.SetMovingImageFileName( *nameMoving );
+    registration.SetRegisteredImageFileName("registered.png");
+
+    registration.Execute();
+
+    nameFixed++;
+    nameMoving++;
+    }
+
 }
 
