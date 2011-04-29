@@ -62,7 +62,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::GetOutputValue( OutputMeshType* oMesh, const NodeType& iNode ) const
 {
-  OutputPixelType outputValue;
+  OutputPixelType outputValue = NumericTraits< OutputPixelType >::Zero;
   oMesh->GetPointData( iNode, &outputValue );
   return outputValue;
 }
@@ -147,7 +147,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   OutputPointType p;
   oMesh->GetPoint( iNode, &p );
 
-  InputPixelType F;
+  InputPixelType F = NumericTraits< InputPixelType >::Zero;
   this->GetInput()->GetPointData( iNode, &F );
 
   if( F < 0. )
@@ -485,7 +485,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 
   OutputPointType t_pt1 = iP1;
   OutputPointType t_pt2 = iP2;
-  OutputPointType t_pt;
+  OutputPointType t_pt = t_pt1;
 
   unsigned int nNum = 0;
   while( nNum<50 && qe->GetLeft() != OutputMeshType::m_NoFace )
