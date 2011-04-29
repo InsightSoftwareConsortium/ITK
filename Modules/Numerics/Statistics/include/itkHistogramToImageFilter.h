@@ -91,26 +91,6 @@ public:
 
   const HistogramType * GetInput(void);
 
-  /** Set the spacing (size of a pixel) of the image.
-   *  \sa GetSpacing() */
-  itkSetMacro(Spacing, SpacingType);
-  virtual void SetSpacing(const double *values);
-
-  /** Get the spacing (size of a pixel) of the image.
-   * For ImageBase and Image, the default data spacing is unity. */
-  itkGetConstReferenceMacro(Spacing, SpacingType);
-
-  /** Set the origin of the image.
-   * \sa GetOrigin() */
-  itkSetMacro(Origin, PointType);
-  virtual void SetOrigin(const double *values);
-
-  /** Get the origin of the image.  */
-  itkGetConstReferenceMacro(Origin, PointType);
-
-  /** Get the size of the histogram. */
-  itkGetMacro(Size, SizeType);
-
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
    * functor that has ivars set differently than the default functor.
@@ -141,12 +121,6 @@ protected:
   virtual void GenerateData();
 
   FunctorType m_Functor;
-
-  SizeType m_Size;
-
-  SpacingType m_Spacing;
-
-  PointType m_Origin;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 

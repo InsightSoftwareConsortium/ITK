@@ -66,9 +66,21 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
   typedef HistogramFilterType::HistogramType  HistogramType;
   typedef HistogramFilterType::HistogramSizeType   SizeType;
 
+//   // Setting bin mins and max
+//   typedef HistogramFilterType::HistogramMeasurementVectorType  HistogramMeasurementVectorType;
+//   HistogramMeasurementVectorType histogramBinMinimum( 2 );
+//   histogramBinMinimum[0] = 0;
+//   histogramBinMinimum[1] = 0;
+//   HistogramMeasurementVectorType histogramBinMaximum( 2 );
+//   histogramBinMaximum[0] = 256;
+//   histogramBinMaximum[1] = 256;
+//   histogramFilter->SetHistogramBinMinimum( histogramBinMinimum );
+//   histogramFilter->SetHistogramBinMaximum( histogramBinMaximum );
+//   histogramFilter->SetAutoMinimumMaximum( false );
+
   // TODO: the default histogram size should be ok
   SizeType size( 2 );
-  size.Fill(255);
+  size.Fill(256);
   histogramFilter->SetHistogramSize( size );
 
   // TODO: this Update() shouldn't be needed - remove it.
@@ -82,10 +94,12 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< float, 2 > FloatImageType;
+  // use a 3D image to check the behavior of HistogramToImageFilter when the image
+  // is of greater dimension than the histogram
+  typedef itk::Image< float, 3 > FloatImageType;
 
   // TODO: 3 and float should be replaced by FloatImageType
-  typedef itk::HistogramToLogProbabilityImageFilter< HistogramType, 2, float >   ImageFilterType;
+  typedef itk::HistogramToLogProbabilityImageFilter< HistogramType, 3, float >   ImageFilterType;
   ImageFilterType::Pointer imageFilter = ImageFilterType::New();
   imageFilter->SetInput( histogramFilter->GetOutput() );
 
@@ -107,6 +121,9 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+  // print the image produced by HistogramToLogProbabilityImageFilter for visual inspection
+  imageFilter->GetOutput()->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

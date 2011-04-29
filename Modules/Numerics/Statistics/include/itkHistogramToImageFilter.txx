@@ -30,9 +30,6 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::HistogramToImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
-  m_Size.Fill(0);
-  m_Spacing.Fill(1.0);
-  m_Origin.Fill(0.0);
 }
 
 /** Destructor */
@@ -69,26 +66,6 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
 template< class THistogram, unsigned int NDimension, class TFunction >
 void
 HistogramToImageFilter< THistogram, NDimension, TFunction >
-::SetSpacing(const double *spacing)
-{
-  SpacingType s(spacing);
-
-  this->SetSpacing(s);
-}
-
-template< class THistogram, unsigned int NDimension, class TFunction >
-void
-HistogramToImageFilter< THistogram, NDimension, TFunction >
-::SetOrigin(const double *origin)
-{
-  PointType p(origin);
-
-  SetOrigin(p);
-}
-
-template< class THistogram, unsigned int NDimension, class TFunction >
-void
-HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::SetTotalFrequency(SizeValueType n)
 {
   if ( n < 1 )
@@ -117,21 +94,42 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
   const HistogramType *inputHistogram = this->GetInput();
   OutputImageType *    outputImage    = this->GetOutput();
 
+  SizeType size;
+  PointType origin;
+  SpacingType spacing;
   // Set the image size to the number of bins along each dimension.
-  for ( unsigned int i = 0; i < ImageDimension; i++ )
+  // TODO: is it possible to have a size 0 on one of the dimension? if yes, the size must be checked
+  unsigned int minDim = std::min((unsigned int)ImageDimension, inputHistogram->GetMeasurementVectorSize());
+  for ( unsigned int i = 0; i < minDim; i++ )
     {
-    m_Size[i]    = inputHistogram->GetSize(i);
-    m_Origin[i]  = inputHistogram->GetBinMin(i, 0);
-    m_Spacing[i] = inputHistogram->GetBinMin(i, 1) - m_Origin[i];
+    size[i]    = inputHistogram->GetSize(i);
+    origin[i]  = inputHistogram->GetBinMin(i, 0);
+    // we can compute a spacing if there is not at least 2 elements
+    if( size[i] > 1 )
+      {
+      spacing[i] = inputHistogram->GetBinMin(i, 1) - origin[i];
+      }
+    else
+      {
+      spacing[i] = 1.0;
+      }
+    }
+
+  // if the image is of greater dimension than the histogram, use some default values
+  for ( unsigned int i = inputHistogram->GetMeasurementVectorSize(); i<ImageDimension; i++ )
+    {
+    size[i]    = 1;
+    origin[i]  = 0.0;
+    spacing[i] = 1.0;
     }
 
   // Set output image params and Allocate image
   typename OutputImageType::RegionType region;
-  region.SetSize(m_Size);
+  region.SetSize(size);
 
   outputImage->SetRegions(region);
-  outputImage->SetSpacing(m_Spacing);     // set spacing
-  outputImage->SetOrigin(m_Origin);       // and origin
+  outputImage->SetSpacing(spacing);     // set spacing
+  outputImage->SetOrigin(origin);       // and origin
 }
 
 //----------------------------------------------------------------------------
@@ -185,9 +183,6 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Size : " << m_Size << std::endl;
-  os << indent << "Origin: " << m_Origin << std::endl;
-  os << indent << "Spacing: " << m_Spacing << std::endl;
   os << indent << "Sum of frequencies of measurement vectors of the histogram: "
      << m_Functor.GetTotalFrequency() << std::endl;
 }
