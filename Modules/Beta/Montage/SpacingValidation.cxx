@@ -22,3 +22,9 @@
 
 // Add here code for computing FFT of spacing locations.
 // To report spacing outliers.
+
+int main()
+{
+
+  return 0;
+}

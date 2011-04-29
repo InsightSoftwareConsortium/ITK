@@ -22,3 +22,9 @@
 
 // Add here a program to compute Second order moments in order to make an
 // evaluation of shape continuity between
+
+int main()
+{
+
+  return 0;
+}
