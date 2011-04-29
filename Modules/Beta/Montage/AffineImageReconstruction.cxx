@@ -85,7 +85,14 @@ public:
 class AffineRegistration
 {
 public:
-  AffineRegistration() {}
+
+  typedef itk::AffineTransform< double, 2 >  TransformType;
+
+  AffineRegistration()
+    {
+    this->m_OutputInterSliceTransform = TransformType::New();
+    }
+
   ~AffineRegistration() {}
 
   void SetFixedImageFileName( const std::string & name )
@@ -103,6 +110,11 @@ public:
     this->m_RegisteredImageFileName = name;
     }
 
+  const TransformType * GetOutputInterSliceTransform() const
+   {
+   return this->m_OutputInterSliceTransform.GetPointer();
+   }
+
   void Execute();
 
 private:
@@ -110,6 +122,8 @@ private:
   std::string  m_FixedImageFilename;
   std::string  m_MovingImageFilename;
   std::string  m_RegisteredImageFileName;
+
+  TransformType::Pointer  m_OutputInterSliceTransform;
 
 };
 
@@ -129,10 +143,6 @@ void AffineRegistration::Execute()
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
-
-  typedef itk::AffineTransform<
-                                  double,
-                                  Dimension  >     TransformType;
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
 
@@ -157,8 +167,7 @@ void AffineRegistration::Execute()
   registration->SetOptimizer(     optimizer     );
   registration->SetInterpolator(  interpolator  );
 
-  TransformType::Pointer  transform = TransformType::New();
-  registration->SetTransform( transform );
+  registration->SetTransform( this->m_OutputInterSliceTransform );
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -187,7 +196,7 @@ void AffineRegistration::Execute()
 
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
-  initializer->SetTransform(   transform );
+  initializer->SetTransform( this->m_OutputInterSliceTransform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   initializer->GeometryOn();
@@ -196,13 +205,12 @@ void AffineRegistration::Execute()
   initializer->InitializeTransform();
   chronometer.Stop("Initialization");
 
-  registration->SetInitialTransformParameters(
-                                 transform->GetParameters() );
+  registration->SetInitialTransformParameters( this->m_OutputInterSliceTransform->GetParameters() );
 
   double translationScale = 1.0 / 1000.0;
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
-  OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
+  OptimizerScalesType optimizerScales( this->m_OutputInterSliceTransform->GetNumberOfParameters() );
 
   optimizerScales[0] =  1.0;
   optimizerScales[1] =  1.0;
@@ -246,8 +254,8 @@ void AffineRegistration::Execute()
   OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
 
-  const double finalRotationCenterX = transform->GetCenter()[0];
-  const double finalRotationCenterY = transform->GetCenter()[1];
+  const double finalRotationCenterX = this->m_OutputInterSliceTransform->GetCenter()[0];
+  const double finalRotationCenterY = this->m_OutputInterSliceTransform->GetCenter()[1];
   const double finalTranslationX    = finalParameters[4];
   const double finalTranslationY    = finalParameters[5];
 
@@ -285,7 +293,7 @@ void AffineRegistration::Execute()
   TransformType::Pointer finalTransform = TransformType::New();
 
   finalTransform->SetParameters( finalParameters );
-  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
+  finalTransform->SetFixedParameters( this->m_OutputInterSliceTransform->GetFixedParameters() );
 
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
@@ -336,6 +344,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  typedef AffineRegistration::TransformType   TransformType;
+
   typedef itk::NumericSeriesFileNames    NameGeneratorType;
 
   NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
@@ -364,6 +374,11 @@ int main( int argc, char *argv[] )
     registration.SetRegisteredImageFileName("registered.png");
 
     registration.Execute();
+
+    const TransformType * intersliceTransform =
+      registration.GetOutputInterSliceTransform();
+
+    intersliceTransform->Print( std::cout );
 
     nameFixed++;
     nameMoving++;
