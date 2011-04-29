@@ -31,7 +31,7 @@
 #include "itkSubtractImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkNumericSeriesFileNames.h"
-
+#include "itkTimeProbesCollectorBase.h"
 
 //
 //  The following piece of code implements an observer
@@ -122,6 +122,8 @@ void AffineRegistration::Execute()
   std::cout << this->m_MovingImageFilename << std::endl;
   std::cout << std::endl;
 
+  itk::TimeProbesCollectorBase  chronometer;
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned char   PixelType;
 
@@ -167,10 +169,13 @@ void AffineRegistration::Execute()
   fixedImageReader->SetFileName(  this->m_FixedImageFilename );
   movingImageReader->SetFileName( this->m_MovingImageFilename );
 
+  chronometer.Start("Reading");
+  fixedImageReader->Update();
+  movingImageReader->Update();
+  chronometer.Stop("Reading");
+
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
-
-  fixedImageReader->Update();
 
   registration->SetFixedImageRegion(
      fixedImageReader->GetOutput()->GetBufferedRegion() );
@@ -186,12 +191,13 @@ void AffineRegistration::Execute()
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   initializer->GeometryOn();
-  initializer->InitializeTransform();
 
+  chronometer.Start("Initialization");
+  initializer->InitializeTransform();
+  chronometer.Stop("Initialization");
 
   registration->SetInitialTransformParameters(
                                  transform->GetParameters() );
-
 
   double translationScale = 1.0 / 1000.0;
 
@@ -222,10 +228,9 @@ void AffineRegistration::Execute()
 
   try
     {
+    chronometer.Start("Registration");
     registration->StartRegistration();
-    std::cout << "Optimizer stop condition: "
-              << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    chronometer.Stop("Registration");
     }
   catch( itk::ExceptionObject & err )
     {
@@ -233,6 +238,10 @@ void AffineRegistration::Execute()
     std::cerr << err << std::endl;
     return;
     }
+
+  std::cout << "Optimizer stop condition: "
+            << registration->GetOptimizer()->GetStopConditionDescription()
+            << std::endl;
 
   OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
@@ -292,6 +301,10 @@ void AffineRegistration::Execute()
 
   resampler->SetDefaultPixelValue( 100 );
 
+  chronometer.Start("Resampling");
+  resampler->Update();
+  chronometer.Stop("Resampling");
+
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::ImageFileWriter< FixedImageType >  WriterType;
@@ -301,7 +314,12 @@ void AffineRegistration::Execute()
   writer->SetFileName( m_RegisteredImageFileName );
 
   writer->SetInput( resampler->GetOutput() );
+
+  chronometer.Start("Writing");
   writer->Update();
+  chronometer.Stop("Writing");
+
+  chronometer.Report( std::cout );
 }
 
 
