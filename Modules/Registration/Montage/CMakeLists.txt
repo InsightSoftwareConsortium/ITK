@@ -9,6 +9,8 @@ project(SimpleImageReconstruction)
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
+include(CMake/PlatformSpecificChecks.cmake)
+
 include(CTest)
 include(CPack)
 
