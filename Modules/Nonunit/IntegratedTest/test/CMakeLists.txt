@@ -29,6 +29,7 @@ itkImageSliceIteratorTest.cxx
 itkImageToHistogramFilterTest.cxx
 itkImageToHistogramFilterTest2.cxx
 itkImageToHistogramFilterTest3.cxx
+itkImageToHistogramFilterTest4.cxx
 itkImageToListSampleAdaptorTest.cxx
 itkImageToListSampleAdaptorTest2.cxx
 itkImageToListSampleFilterTest.cxx
