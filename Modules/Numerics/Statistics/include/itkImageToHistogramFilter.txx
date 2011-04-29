@@ -36,6 +36,10 @@ ImageToHistogramFilter< TImage >
   this->m_ImageToListAdaptor = AdaptorType::New();
   this->m_HistogramGenerator = GeneratorType::New();
   this->m_HistogramGenerator->SetInput(this->m_ImageToListAdaptor);
+
+  // same default values as in the HistogramGenerator
+  this->SetMarginalScale(100);
+  this->SetAutoMinimumMaximum(true);
 }
 
 template< class TImage >
