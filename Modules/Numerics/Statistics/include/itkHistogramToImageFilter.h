@@ -83,19 +83,13 @@ public:
   typedef typename HistogramType::SizeType              HistogramSizeType;
   typedef typename OutputImageType::SizeType            SizeType;
 
-  /** Since histograms are not dataobjects, we use the decorator to push
-   *  them down the pipeline */
-  typedef SimpleDataObjectDecorator< HistogramType * > InputHistogramObjectType;
-
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, NDimension);
 
   /** Set/Get the input of this process object.  */
   virtual void SetInput(const HistogramType *histogram);
 
-  virtual void SetInput(const InputHistogramObjectType *inputObject);
-
-  const InputHistogramObjectType * GetInput(void);
+  const HistogramType * GetInput(void);
 
   /** Set the spacing (size of a pixel) of the image.
    *  \sa GetSpacing() */

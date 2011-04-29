@@ -47,29 +47,13 @@ void
 HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::SetInput(const HistogramType *input)
 {
-  // Histograms are not dataobjects, so need to decorate it to push it down
-  // the pipeline
-  typename InputHistogramObjectType::Pointer histogramObject =
-    InputHistogramObjectType::New();
-  histogramObject->Set( const_cast< HistogramType * >( input ) );
-
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(0,  histogramObject);
-}
-
-/** Set the Input Histogram if already decorated */
-template< class THistogram, unsigned int NDimension, class TFunction >
-void
-HistogramToImageFilter< THistogram, NDimension, TFunction >
-::SetInput(const InputHistogramObjectType *inputObject)
-{
-  // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< InputHistogramObjectType * >( inputObject ) );
+  HistogramType * histogram = const_cast< HistogramType * >( input );
+  this->ProcessObject::SetNthInput(0,  histogram);
 }
 
 template< class THistogram, unsigned int NDimension, class TFunction >
-const typename HistogramToImageFilter< THistogram, NDimension, TFunction >::InputHistogramObjectType *
+const typename HistogramToImageFilter< THistogram, NDimension, TFunction >::HistogramType *
 HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::GetInput(void)
 {
@@ -78,7 +62,7 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
     return 0;
     }
 
-  return static_cast< const InputHistogramObjectType * >
+  return static_cast< const HistogramType * >
          ( this->ProcessObject::GetInput(0) );
 }
 
@@ -130,7 +114,7 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
 {
   // Get the input and output pointers
   // Get from decorator
-  const HistogramType *inputHistogram = this->GetInput()->Get();
+  const HistogramType *inputHistogram = this->GetInput();
   OutputImageType *    outputImage    = this->GetOutput();
 
   // Set the image size to the number of bins along each dimension.
@@ -164,7 +148,7 @@ HistogramToImageFilter< THistogram, NDimension, TFunction >
 
   // Get the input and output pointers
   // Get from decorator
-  const HistogramType *inputHistogram = this->GetInput()->Get();
+  const HistogramType *inputHistogram = this->GetInput();
   OutputImageType *    outputImage    = this->GetOutput();
 
   // Set the TotalFrequency in the functor
