@@ -28,7 +28,7 @@ namespace itk
  *
  * this class was contributed to the insight journal by Gaetan Lehmann.
  * the original paper can be found at
- *      http://insight-journal.org/midas/handle.php?handle=1926/164
+ *    http://hdl.handle.net/1926/164
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la reproduction,
  *  inra de jouy-en-josas, France.

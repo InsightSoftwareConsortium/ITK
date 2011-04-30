@@ -29,7 +29,7 @@
  *         The Pennsylvania State University 2004
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/1381
+ * http://hdl.handle.net/1926/1381
  *
  */
 
