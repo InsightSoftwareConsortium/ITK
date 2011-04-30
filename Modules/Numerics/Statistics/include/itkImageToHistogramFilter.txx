@@ -102,7 +102,18 @@ ImageToHistogramFilter< TImage >
 {
   this->m_ImageToListAdaptor->SetImage( this->GetInput() );
 
-  this->m_HistogramGenerator->SetHistogramSizeInput( this->GetHistogramSizeInput() );
+  if( this->GetHistogramSizeInput() )
+    {
+    // user provided value
+    this->m_HistogramGenerator->SetHistogramSizeInput( this->GetHistogramSizeInput() );
+    }
+  else
+    {
+    // use a default value, which must be computed at run time for the VectorImage
+    HistogramSizeType numberOfBins( this->GetInput()->GetNumberOfComponentsPerPixel() );
+    numberOfBins.Fill(128);
+    this->m_HistogramGenerator->SetHistogramSize( numberOfBins );
+    }
   this->m_HistogramGenerator->SetMarginalScaleInput( this->GetMarginalScaleInput() );
   this->m_HistogramGenerator->SetAutoMinimumMaximumInput( this->GetAutoMinimumMaximumInput() );
   this->m_HistogramGenerator->SetHistogramBinMinimumInput( this->GetHistogramBinMinimumInput() );

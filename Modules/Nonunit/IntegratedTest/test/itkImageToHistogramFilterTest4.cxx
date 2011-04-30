@@ -78,10 +78,9 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
 //   histogramFilter->SetHistogramBinMaximum( histogramBinMaximum );
 //   histogramFilter->SetAutoMinimumMaximum( false );
 
-  // TODO: the default histogram size should be ok
-  SizeType size( 2 );
-  size.Fill(256);
-  histogramFilter->SetHistogramSize( size );
+//   SizeType size( 2 );
+//   size.Fill(256);
+//   histogramFilter->SetHistogramSize( size );
 
   // TODO: this Update() shouldn't be needed - remove it.
   try
