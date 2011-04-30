@@ -432,6 +432,8 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   OutputVectorRealType& oDot1, OutputVectorRealType& oDot2,
   OutputPointIdentifierType& oId ) const
   {
+  (void) iId;
+
   OutputVectorType Edge1 = iP1 - iP;
   OutputVectorRealType Norm1 = Edge1.GetNorm();
 
@@ -455,7 +457,8 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   OutputVectorRealType dot =
       static_cast< OutputVectorRealType >( Edge1 * Edge2 );
 
-  // the equation of the lines defining the unfolding region [e.g. line 1 : {x ; <x,eq1>=0} ]
+  // the equation of the lines defining the unfolding region
+  // [e.g. line 1 : {x ; <x,eq1>=0} ]
   typedef Vector< OutputVectorRealType, 2 >     Vector2DType;
   typedef Matrix< OutputVectorRealType, 2, 2 >  Matrix2DType;
 
