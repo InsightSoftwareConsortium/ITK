@@ -82,7 +82,7 @@ macro(add_java_test name classpath)
   endif()
 
   if(LAST_TEST_DEPS_OK)
-    add_test(NAME ${name}
+    itk_add_test(NAME ${name}
       COMMAND "${ITK_TEST_DRIVER}"
       --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
       --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"

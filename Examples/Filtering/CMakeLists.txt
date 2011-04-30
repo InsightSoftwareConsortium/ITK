@@ -141,7 +141,7 @@ set(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 if( NOT ITK_DISABLE_CXX_TESTING )
 if(BUILD_TESTING)
-add_test(NAME BilateralImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME BilateralImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BilateralImageFilter.png
             ${TEMP}/BilateralImageFilter.png
   $<TARGET_FILE:BilateralImageFilter>
@@ -149,7 +149,7 @@ add_test(NAME BilateralImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BilateralImageFilter.png
         6.0 5.0
 )
-add_test(NAME  BinaryMinMaxCurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  BinaryMinMaxCurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryMinMaxCurvatureFlowImageFilter.png
             ${TEMP}/BinaryMinMaxCurvatureFlowImageFilter.png
   $<TARGET_FILE:BinaryMinMaxCurvatureFlowImageFilter>
@@ -157,7 +157,7 @@ add_test(NAME  BinaryMinMaxCurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVE
         ${TEMP}/BinaryMinMaxCurvatureFlowImageFilter.png
         10 .125 1 128
 )
-add_test(NAME  BinaryThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  BinaryThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryThresholdImageFilter.png
             ${TEMP}/BinaryThresholdImageFilter.png
   $<TARGET_FILE:BinaryThresholdImageFilter>
@@ -165,7 +165,7 @@ add_test(NAME  BinaryThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BinaryThresholdImageFilter.png
         150 180 0 255
 )
-add_test(NAME  BinaryMedianImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  BinaryMedianImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryMedianImageFilter1.png
             ${TEMP}/BinaryMedianImageFilter1.png
   $<TARGET_FILE:BinaryMedianImageFilter>
@@ -173,7 +173,7 @@ add_test(NAME  BinaryMedianImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BinaryMedianImageFilter1.png
         1 1
 )
-add_test(NAME  BinaryMedianImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  BinaryMedianImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryMedianImageFilter2.png
             ${TEMP}/BinaryMedianImageFilter2.png
   $<TARGET_FILE:BinaryMedianImageFilter>
@@ -181,7 +181,7 @@ add_test(NAME  BinaryMedianImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BinaryMedianImageFilter2.png
         2 2
 )
-add_test(NAME  BinaryMedianImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  BinaryMedianImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinaryMedianImageFilter3.png
             ${TEMP}/BinaryMedianImageFilter3.png
   $<TARGET_FILE:BinaryMedianImageFilter>
@@ -189,7 +189,7 @@ add_test(NAME  BinaryMedianImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BinaryMedianImageFilter3.png
         3 3
 )
-add_test(NAME  VotingBinaryHoleFillingImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VotingBinaryHoleFillingImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter1.png
             ${TEMP}/VotingBinaryHoleFillingImageFilter1.png
   $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
@@ -197,7 +197,7 @@ add_test(NAME  VotingBinaryHoleFillingImageFilterTest1 COMMAND ${ITK_TEST_DRIVER
         ${TEMP}/VotingBinaryHoleFillingImageFilter1.png
         1 1
 )
-add_test(NAME  VotingBinaryHoleFillingImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VotingBinaryHoleFillingImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter2.png
             ${TEMP}/VotingBinaryHoleFillingImageFilter2.png
   $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
@@ -205,7 +205,7 @@ add_test(NAME  VotingBinaryHoleFillingImageFilterTest2 COMMAND ${ITK_TEST_DRIVER
         ${TEMP}/VotingBinaryHoleFillingImageFilter2.png
         2 2
 )
-add_test(NAME  VotingBinaryHoleFillingImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VotingBinaryHoleFillingImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryHoleFillingImageFilter3.png
             ${TEMP}/VotingBinaryHoleFillingImageFilter3.png
   $<TARGET_FILE:VotingBinaryHoleFillingImageFilter>
@@ -213,7 +213,7 @@ add_test(NAME  VotingBinaryHoleFillingImageFilterTest3 COMMAND ${ITK_TEST_DRIVER
         ${TEMP}/VotingBinaryHoleFillingImageFilter3.png
         3 3
 )
-add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter1.png
             ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter1.png
   $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
@@ -221,7 +221,7 @@ add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest1 COMMAND ${ITK_TE
         ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter1.png
         1 1 10
 )
-add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter2.png
             ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter2.png
   $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
@@ -229,7 +229,7 @@ add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest2 COMMAND ${ITK_TE
         ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter2.png
         2 2 10
 )
-add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VotingBinaryIterativeHoleFillingImageFilter3.png
             ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter3.png
   $<TARGET_FILE:VotingBinaryIterativeHoleFillingImageFilter>
@@ -237,7 +237,7 @@ add_test(NAME  VotingBinaryIterativeHoleFillingImageFilterTest3 COMMAND ${ITK_TE
         ${TEMP}/VotingBinaryIterativeHoleFillingImageFilter3.png
         3 3 10
 )
-add_test(NAME  BinomialBlurImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  BinomialBlurImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/BinomialBlurImageFilter.png
             ${TEMP}/BinomialBlurImageFilter.png
   $<TARGET_FILE:BinomialBlurImageFilter>
@@ -245,7 +245,7 @@ add_test(NAME  BinomialBlurImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BinomialBlurImageFilter.png
         5
 )
-add_test(NAME  CurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  CurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/CurvatureAnisotropicDiffusionImageFilter.png
   $<TARGET_FILE:CurvatureAnisotropicDiffusionImageFilter>
@@ -253,7 +253,7 @@ add_test(NAME  CurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_D
         ${TEMP}/CurvatureAnisotropicDiffusionImageFilter.png
         5 0.125 3
 )
-add_test(NAME  CurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  CurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CurvatureFlowImageFilter.png
             ${TEMP}/CurvatureFlowImageFilter.png
   $<TARGET_FILE:CurvatureFlowImageFilter>
@@ -261,7 +261,7 @@ add_test(NAME  CurvatureFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/CurvatureFlowImageFilter.png
         5 0.125 1.0
 )
-add_test(NAME  DanielssonDistanceMapImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  DanielssonDistanceMapImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/DanielssonDistanceMapImageFilter.png
             ${TEMP}/DanielssonDistanceMapImageFilter.png
   $<TARGET_FILE:DanielssonDistanceMapImageFilter>
@@ -270,7 +270,7 @@ add_test(NAME  DanielssonDistanceMapImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DanielssonDistanceMapImageFilter2.png
         ${TEMP}/DanielssonDistanceMapImageFilter.mha
 )
-add_test(NAME  DiscreteGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  DiscreteGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/DiscreteGaussianImageFilter.png
             ${TEMP}/DiscreteGaussianImageFilter.png
   $<TARGET_FILE:DiscreteGaussianImageFilter>
@@ -278,7 +278,7 @@ add_test(NAME  DiscreteGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DiscreteGaussianImageFilter.png
         1.73 10
 )
-add_test(NAME  GradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  GradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/GradientAnisotropicDiffusionImageFilter.png
   $<TARGET_FILE:GradientAnisotropicDiffusionImageFilter>
@@ -286,14 +286,14 @@ add_test(NAME  GradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DR
         ${TEMP}/GradientAnisotropicDiffusionImageFilter.png
         5 0.125 1.0
 )
-add_test(NAME  GradientMagnitudeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  GradientMagnitudeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GradientMagnitudeImageFilter.png
             ${TEMP}/GradientMagnitudeImageFilter.png
   $<TARGET_FILE:GradientMagnitudeImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/GradientMagnitudeImageFilter.png
 )
-add_test(NAME  GradientMagnitudeRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  GradientMagnitudeRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GradientMagnitudeRecursiveGaussianImageFilter.png
             ${TEMP}/GradientMagnitudeRecursiveGaussianImageFilter.png
   $<TARGET_FILE:GradientMagnitudeRecursiveGaussianImageFilter>
@@ -301,13 +301,13 @@ add_test(NAME  GradientMagnitudeRecursiveGaussianImageFilterTest COMMAND ${ITK_T
         ${TEMP}/GradientMagnitudeRecursiveGaussianImageFilter.png
         5
 )
-add_test(NAME  GradientRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  GradientRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:GradientRecursiveGaussianImageFilter>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd
         ${TEMP}/GradientRecursiveGaussianImageFilterTest.mha
         1.5  # Sigma
 )
-add_test(NAME  GradientVectorFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  GradientVectorFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:GradientVectorFlowImageFilter>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/GradientRecursiveGaussianImageFilterTest.mha
         ${TEMP}/GradientVectorFlowImageFilterTest.mha
@@ -316,7 +316,7 @@ add_test(NAME  GradientVectorFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
 )
 set_tests_properties( GradientVectorFlowImageFilterTest
   PROPERTIES DEPENDS GradientRecursiveGaussianImageFilterTest)
-add_test(NAME  DerivativeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  DerivativeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/DerivativeImageFilter.mha
             ${TEMP}/DerivativeImageFilter.mha
   $<TARGET_FILE:DerivativeImageFilter>
@@ -325,21 +325,21 @@ add_test(NAME  DerivativeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DerivativeImageFilter.png
         1 1
 )
-add_test(NAME  LaplacianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  LaplacianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianImageFilter.png
             ${TEMP}/LaplacianImageFilter.png
   $<TARGET_FILE:LaplacianImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/LaplacianImageFilter.png
 )
-add_test(NAME  LaplacianSharpeningImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  LaplacianSharpeningImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianSharpeningImageFilter.png
             ${TEMP}/LaplacianSharpeningImageFilter.png
   $<TARGET_FILE:LaplacianSharpeningImageFilter>
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
         ${TEMP}/LaplacianSharpeningImageFilter.png
 )
-add_test(NAME  MathematicalMorphologyBinaryFiltersTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  MathematicalMorphologyBinaryFiltersTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MathematicalMorphologyBinaryFiltersErode.png
             ${TEMP}/MathematicalMorphologyBinaryFiltersErode.png
   $<TARGET_FILE:MathematicalMorphologyBinaryFilters>
@@ -348,7 +348,7 @@ add_test(NAME  MathematicalMorphologyBinaryFiltersTest COMMAND ${ITK_TEST_DRIVER
         ${TEMP}/MathematicalMorphologyBinaryFiltersDilate.png
         150 180
 )
-add_test(NAME  MathematicalMorphologyGrayscaleFiltersTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  MathematicalMorphologyGrayscaleFiltersTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MathematicalMorphologyGrayscaleFiltersErode.png
             ${TEMP}/MathematicalMorphologyGrayscaleFiltersErode.png
   $<TARGET_FILE:MathematicalMorphologyGrayscaleFilters>
@@ -356,14 +356,14 @@ add_test(NAME  MathematicalMorphologyGrayscaleFiltersTest COMMAND ${ITK_TEST_DRI
         ${TEMP}/MathematicalMorphologyGrayscaleFiltersErode.png
         ${TEMP}/MathematicalMorphologyGrayscaleFiltersDilate.png
 )
-add_test(NAME  MeanImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  MeanImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MeanImageFilter.png
             ${TEMP}/MeanImageFilter.png
   $<TARGET_FILE:MeanImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/MeanImageFilter.png
 )
-add_test(NAME  MedianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  MedianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MedianImageFilter.png
             ${TEMP}/MedianImageFilter.png
   $<TARGET_FILE:MedianImageFilter>
@@ -371,7 +371,7 @@ add_test(NAME  MedianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/MedianImageFilter.png
         1
 )
-add_test(NAME  ResampleImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilterTest1.png
             ${TEMP}/ResampleImageFilterTest1.png
   $<TARGET_FILE:ResampleImageFilter>
@@ -379,7 +379,7 @@ add_test(NAME  ResampleImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilterTest1.png
         0
 )
-add_test(NAME  ResampleOrientedImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleOrientedImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleOrientedImageFilterTest.png
             ${TEMP}/ResampleOrientedImageFilterTest.png
   $<TARGET_FILE:ResampleOrientedImageFilter>
@@ -387,7 +387,7 @@ add_test(NAME  ResampleOrientedImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleOrientedImageFilterTest.png
         0 1 1 0
 )
-add_test(NAME  ResampleImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilterTest2.png
             ${TEMP}/ResampleImageFilterTest2.png
   $<TARGET_FILE:ResampleImageFilter>
@@ -395,7 +395,7 @@ add_test(NAME  ResampleImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilterTest2.png
         1
 )
-add_test(NAME  ResampleImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilterTest3.png
             ${TEMP}/ResampleImageFilterTest3.png
   $<TARGET_FILE:ResampleImageFilter>
@@ -403,7 +403,7 @@ add_test(NAME  ResampleImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilterTest3.png
         2
 )
-add_test(NAME  ResampleImageFilterTest4 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilterTest4 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilterTest4.png
             ${TEMP}/ResampleImageFilterTest4.png
   $<TARGET_FILE:ResampleImageFilter>
@@ -411,7 +411,7 @@ add_test(NAME  ResampleImageFilterTest4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilterTest4.png
         3
 )
-add_test(NAME  ResampleImageFilter2Test1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter2Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test1.png
             ${TEMP}/ResampleImageFilter2Test1.png
   $<TARGET_FILE:ResampleImageFilter2>
@@ -419,7 +419,7 @@ add_test(NAME  ResampleImageFilter2Test1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter2Test1.png
         0
 )
-add_test(NAME  ResampleImageFilter2Test2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter2Test2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test2.png
             ${TEMP}/ResampleImageFilter2Test2.png
   $<TARGET_FILE:ResampleImageFilter2>
@@ -427,7 +427,7 @@ add_test(NAME  ResampleImageFilter2Test2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter2Test2.png
         1
 )
-add_test(NAME  ResampleImageFilter2Test3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter2Test3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test3.png
             ${TEMP}/ResampleImageFilter2Test3.png
   $<TARGET_FILE:ResampleImageFilter2>
@@ -435,7 +435,7 @@ add_test(NAME  ResampleImageFilter2Test3 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter2Test3.png
         2
 )
-add_test(NAME  ResampleImageFilter2Test4 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter2Test4 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test4.png
             ${TEMP}/ResampleImageFilter2Test4.png
   $<TARGET_FILE:ResampleImageFilter2>
@@ -443,7 +443,7 @@ add_test(NAME  ResampleImageFilter2Test4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter2Test4.png
         3
 )
-add_test(NAME  ResampleImageFilter2Test5 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter2Test5 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter2Test5.png
             ${TEMP}/ResampleImageFilter2Test5.png
   $<TARGET_FILE:ResampleImageFilter2>
@@ -451,7 +451,7 @@ add_test(NAME  ResampleImageFilter2Test5 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter2Test5.png
         3
 )
-add_test(NAME  ResampleImageFilter3Test1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter3Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter3Test1PixelCentered.png
             ${TEMP}/ResampleImageFilter3Test1PixelCentered.png
   $<TARGET_FILE:ResampleImageFilter3>
@@ -460,7 +460,7 @@ add_test(NAME  ResampleImageFilter3Test1 COMMAND ${ITK_TEST_DRIVER}
         0
 )
 
-add_test(NAME  ResampleImageFilter4Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter4Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter4TestPixelCentered.png
             ${TEMP}/ResampleImageFilter4TestPixelCentered.png
   $<TARGET_FILE:ResampleImageFilter4>
@@ -468,7 +468,7 @@ add_test(NAME  ResampleImageFilter4Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter4TestPixelCentered.png
         20
 )
-add_test(NAME  ResampleImageFilter5Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter5Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter5TestPixelCentered.png
             ${TEMP}/ResampleImageFilter5TestPixelCentered.png
   $<TARGET_FILE:ResampleImageFilter5>
@@ -476,7 +476,7 @@ add_test(NAME  ResampleImageFilter5Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter5TestPixelCentered.png
         10 1.2
 )
-add_test(NAME  ResampleImageFilter8Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter8Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter8TestPixelCentered.png
             ${TEMP}/ResampleImageFilter8TestPixelCentered.png
   $<TARGET_FILE:ResampleImageFilter8>
@@ -484,7 +484,7 @@ add_test(NAME  ResampleImageFilter8Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter8TestPixelCentered.png
         45
 )
-add_test(NAME  ResampleImageFilter9Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter9Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter9TestPixelCentered.png
             ${TEMP}/ResampleImageFilter9TestNearestPixelCentered.png
   $<TARGET_FILE:ResampleImageFilter9>
@@ -492,7 +492,7 @@ add_test(NAME  ResampleImageFilter9Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter9TestNearestPixelCentered.png
         ${TEMP}/ResampleImageFilter9TestLinearPixelCentered.png
 )
-add_test(NAME  SigmoidImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  SigmoidImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/SigmoidImageFilter.png
             ${TEMP}/SigmoidImageFilter.png
   $<TARGET_FILE:SigmoidImageFilter>
@@ -500,7 +500,7 @@ add_test(NAME  SigmoidImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/SigmoidImageFilter.png
         10 240 10 170
 )
-add_test(NAME  SmoothingRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  SmoothingRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter.png
             ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
   $<TARGET_FILE:SmoothingRecursiveGaussianImageFilter>
@@ -508,7 +508,7 @@ add_test(NAME  SmoothingRecursiveGaussianImageFilterTest COMMAND ${ITK_TEST_DRIV
         ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
         3
 )
-add_test(NAME  SmoothingRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  SmoothingRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter2.png
             ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
   $<TARGET_FILE:SmoothingRecursiveGaussianImageFilter2>
@@ -516,7 +516,7 @@ add_test(NAME  SmoothingRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRI
         ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
         3
 )
-add_test(NAME  ThresholdAboveBelowOutsideImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ThresholdAboveBelowOutsideImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ThresholdAboveImageFilter.png
             ${TEMP}/ThresholdAboveImageFilter.png
   --compare ${BASELINE}/ThresholdBelowImageFilter.png
@@ -529,7 +529,7 @@ add_test(NAME  ThresholdAboveBelowOutsideImageFilterTest COMMAND ${ITK_TEST_DRIV
         ${TEMP}/ThresholdAboveImageFilter.png
         ${TEMP}/ThresholdOutsideImageFilter.png
 )
-add_test(NAME  VectorGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VectorGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorGradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/VectorGradientAnisotropicDiffusionImageFilter.png
   $<TARGET_FILE:VectorGradientAnisotropicDiffusionImageFilter>
@@ -538,7 +538,7 @@ add_test(NAME  VectorGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_T
         ${TEMP}/VectorGradientAnisotropicDiffusionImageFilter.png
         .25 5
 )
-add_test(NAME  VectorCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VectorCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorCurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
   $<TARGET_FILE:VectorCurvatureAnisotropicDiffusionImageFilter>
@@ -547,7 +547,7 @@ add_test(NAME  VectorCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_
         ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
         0.125 5
 )
-add_test(NAME  VectorIndexSelectionTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  VectorIndexSelectionTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorIndexSelection.png
             ${TEMP}/VectorIndexSelection.png
   $<TARGET_FILE:VectorIndexSelection>
@@ -555,7 +555,7 @@ add_test(NAME  VectorIndexSelectionTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/VectorIndexSelection.png
         1
 )
-add_test(NAME  ZeroCrossingBasedEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ZeroCrossingBasedEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ZeroCrossingBasedEdgeDetectionImageFilter1.png
             ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter1.png
   $<TARGET_FILE:ZeroCrossingBasedEdgeDetectionImageFilter>
@@ -564,7 +564,7 @@ add_test(NAME  ZeroCrossingBasedEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_
         5.0
         0.03
 )
-add_test(NAME  RGBGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  RGBGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RGBGradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/RGBGradientAnisotropicDiffusionImageFilter.png
   $<TARGET_FILE:RGBGradientAnisotropicDiffusionImageFilter>
@@ -572,7 +572,7 @@ add_test(NAME  RGBGradientAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST
         ${TEMP}/RGBGradientAnisotropicDiffusionImageFilter.png
         0.125 20
 )
-add_test(NAME  RGBCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  RGBCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RGBCurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/RGBCurvatureAnisotropicDiffusionImageFilter.png
   $<TARGET_FILE:RGBCurvatureAnisotropicDiffusionImageFilter>
@@ -580,7 +580,7 @@ add_test(NAME  RGBCurvatureAnisotropicDiffusionImageFilterTest COMMAND ${ITK_TES
         ${TEMP}/RGBCurvatureAnisotropicDiffusionImageFilter.png
         0.125 20
 )
-add_test(NAME  MorphologicalImageEnhancementTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  MorphologicalImageEnhancementTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/MorphologicalImageEnhancement.png
             ${TEMP}/MorphologicalImageEnhancement.png
   $<TARGET_FILE:MorphologicalImageEnhancement>
@@ -588,7 +588,7 @@ add_test(NAME  MorphologicalImageEnhancementTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/MorphologicalImageEnhancement.png
         3
 )
-add_test(NAME  OtsuThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  OtsuThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/OtsuThresholdImageFilter.png
             ${TEMP}/OtsuThresholdImageFilter.png
   $<TARGET_FILE:OtsuThresholdImageFilter>
@@ -596,7 +596,7 @@ add_test(NAME  OtsuThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/OtsuThresholdImageFilter.png
         255 0
 )
-add_test(NAME  OtsuMultipleThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  OtsuMultipleThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/OtsuMultipleThresholdOutput002.png
             ${TEMP}/OtsuMultipleThresholdOutput002.png
   $<TARGET_FILE:OtsuMultipleThresholdImageFilter>
@@ -604,13 +604,13 @@ add_test(NAME  OtsuMultipleThresholdImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/OtsuMultipleThresholdOutput
         png 3
 )
-add_test(NAME  DigitallyReconstructedRadiograph1Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  DigitallyReconstructedRadiograph1Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/DigitallyReconstructedRadiograph1.png
             ${TEMP}/DigitallyReconstructedRadiograph1.png
   $<TARGET_FILE:DigitallyReconstructedRadiograph1>
         -o ${TEMP}/DigitallyReconstructedRadiograph1.png
 )
-add_test(NAME  AntiAliasBinaryImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  AntiAliasBinaryImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/AntiAliasBinaryImageFilter.png
             ${TEMP}/AntiAliasBinaryImageFilter.png
   $<TARGET_FILE:AntiAliasBinaryImageFilter>
@@ -619,7 +619,7 @@ add_test(NAME  AntiAliasBinaryImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/AntiAliasBinaryImageFilter.png
         .001 50
 )
-add_test(NAME  CannyEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  CannyEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CannyEdgeDetectionImageFilter.png
             ${TEMP}/CannyEdgeDetectionImageFilter.png
   $<TARGET_FILE:CannyEdgeDetectionImageFilter>
@@ -629,7 +629,7 @@ add_test(NAME  CannyEdgeDetectionImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         0     # Upper Threshold
         0     # Lower Threshold
 )
-add_test(NAME  CannyEdgeDetectionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  CannyEdgeDetectionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CannyEdgeDetectionImageFilter2.png
             ${TEMP}/CannyEdgeDetectionImageFilter2.png
   $<TARGET_FILE:CannyEdgeDetectionImageFilter>
@@ -639,7 +639,7 @@ add_test(NAME  CannyEdgeDetectionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
         5     # Upper Threshold
         1     # Lower Threshold
 )
-add_test(NAME  FlipImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  FlipImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FlipImageFilterX.png
             ${TEMP}/FlipImageFilterX.png
   $<TARGET_FILE:FlipImageFilter>
@@ -647,7 +647,7 @@ add_test(NAME  FlipImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/FlipImageFilterX.png
         1 0
 )
-add_test(NAME  FlipImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  FlipImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FlipImageFilterY.png
             ${TEMP}/FlipImageFilterY.png
   $<TARGET_FILE:FlipImageFilter>
@@ -655,7 +655,7 @@ add_test(NAME  FlipImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/FlipImageFilterY.png
         0 1
 )
-add_test(NAME  FlipImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  FlipImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FlipImageFilterXY.png
             ${TEMP}/FlipImageFilterXY.png
   $<TARGET_FILE:FlipImageFilter>
@@ -663,7 +663,7 @@ add_test(NAME  FlipImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/FlipImageFilterXY.png
         1 1
 )
-add_test(NAME  GaussianBlurImageFunctionTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  GaussianBlurImageFunctionTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GaussianBlurImageFunction.mha
             ${TEMP}/GaussianBlurImageFunction.mha
   $<TARGET_FILE:GaussianBlurImageFunction>
@@ -671,7 +671,7 @@ add_test(NAME  GaussianBlurImageFunctionTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/GaussianBlurImageFunction.mha
         2 3
 )
-add_test(NAME  FFTImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  FFTImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FFTImageFilterReal.png
             ${TEMP}/FFTImageFilterReal.png
   $<TARGET_FILE:FFTImageFilter>
@@ -680,7 +680,7 @@ add_test(NAME  FFTImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/FFTImageFilterImaginary.png
         ${TEMP}/FFTImageFilterComplex.mhd
 )
-add_test(NAME  FFTDirectInverseTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  FFTDirectInverseTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${ITK_SOURCE_DIR}/Examples/Data/Point.png
             ${TEMP}/FFTDirectInversePoint.png
   $<TARGET_FILE:FFTDirectInverse>
@@ -689,7 +689,7 @@ add_test(NAME  FFTDirectInverseTest COMMAND ${ITK_TEST_DRIVER}
 )
 if( USE_FFTWF )
 #${BASELINE}/FFTDirectInverse2Point.png
-  add_test(NAME  FFTDirectInverse2Test COMMAND ${ITK_TEST_DRIVER}
+  itk_add_test(NAME  FFTDirectInverse2Test COMMAND ${ITK_TEST_DRIVER}
     --compare ${ITK_SOURCE_DIR}/Examples/Data/Point.png
               ${TEMP}/FFTDirectInverse2Point.png
     $<TARGET_FILE:FFTDirectInverse2>
@@ -697,28 +697,28 @@ if( USE_FFTWF )
           ${TEMP}/FFTDirectInverse2Point.png
   )
 endif( USE_FFTWF )
-add_test(NAME  FFTImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  FFTImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:FFTImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcenteredDC.png
         ${TEMP}/FFTImageFilterCenteredDCReal.png
         ${TEMP}/FFTImageFilterCenteredDCImaginary.png
         ${TEMP}/FFTImageFilterComplex2.mhd
 )
-add_test(NAME  FFTImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  FFTImageFilterTest3 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:FFTImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcorneredDC.png
         ${TEMP}/FFTImageFilterCorneredDCReal.png
         ${TEMP}/FFTImageFilterCorneredDCImaginary.png
         ${TEMP}/FFTImageFilterComplex3.mhd
 )
-add_test(NAME  RGBToGrayscaleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  RGBToGrayscaleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RGBToGrayscale.png
             ${TEMP}/RGBToGrayscale.png
   $<TARGET_FILE:RGBToGrayscale>
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
         ${TEMP}/RGBToGrayscale.png
 )
-add_test(NAME  LaplacianRecursiveGaussianImageFilter1Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  LaplacianRecursiveGaussianImageFilter1Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter1.mha
             ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
   $<TARGET_FILE:LaplacianRecursiveGaussianImageFilter1>
@@ -726,7 +726,7 @@ add_test(NAME  LaplacianRecursiveGaussianImageFilter1Test COMMAND ${ITK_TEST_DRI
         ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
         3
 )
-add_test(NAME  LaplacianRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  LaplacianRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter2.mha
             ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
   $<TARGET_FILE:LaplacianRecursiveGaussianImageFilter2>
@@ -734,7 +734,7 @@ add_test(NAME  LaplacianRecursiveGaussianImageFilter2Test COMMAND ${ITK_TEST_DRI
         ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
         3
 )
-add_test(NAME  ResampleImageFilter6Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter6Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter6PixelCentered.png
             ${TEMP}/ResampleImageFilter6PixelCentered.png
   $<TARGET_FILE:ResampleImageFilter6>
@@ -742,7 +742,7 @@ add_test(NAME  ResampleImageFilter6Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter6PixelCentered.png
         3
 )
-add_test(NAME  ResampleImageFilter7Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleImageFilter7Test COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleImageFilter7PixelCentered.png
             ${TEMP}/ResampleImageFilter7PixelCentered.png
   --compareNumberOfPixelsTolerance 1
@@ -751,7 +751,7 @@ add_test(NAME  ResampleImageFilter7Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleImageFilter7PixelCentered.png
         33
 )
-add_test(NAME  ResampleVolumesToBeIsotropicTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ResampleVolumesToBeIsotropicTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ResampleVolumesToBeIsotropic.mha
             ${TEMP}/ResampleVolumesToBeIsotropic.mha
   $<TARGET_FILE:ResampleVolumesToBeIsotropic>
@@ -759,7 +759,7 @@ add_test(NAME  ResampleVolumesToBeIsotropicTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ResampleVolumesToBeIsotropic.mha
         0 255
 )
-add_test(NAME  ScaleSpaceGenerator2DTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  ScaleSpaceGenerator2DTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ScaleSpaceGenerator2D005.mhd
             ${TEMP}/ScaleSpaceGenerator2D005.mhd
   $<TARGET_FILE:ScaleSpaceGenerator2D>
@@ -767,7 +767,7 @@ add_test(NAME  ScaleSpaceGenerator2DTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ScaleSpaceGenerator2D
         10
 )
-add_test(NAME  SubsampleVolumeTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  SubsampleVolumeTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/SubsampleVolume.mha
             ${TEMP}/SubsampleVolume.mha
   $<TARGET_FILE:SubsampleVolume>
@@ -775,15 +775,15 @@ add_test(NAME  SubsampleVolumeTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/SubsampleVolume.mha
         2 2 2
 )
-add_test(NAME  SpatialObjectToImage1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  SpatialObjectToImage1 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:SpatialObjectToImage1>
         ${TEMP}/SpatialObjectToImage1.mha
 )
-add_test(NAME  SpatialObjectToImage2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  SpatialObjectToImage2 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:SpatialObjectToImage2>
         ${TEMP}/SpatialObjectToImage2.mha
 )
-add_test(NAME  SpatialObjectToImage3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  SpatialObjectToImage3 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:SpatialObjectToImage3>
         ${TEMP}/SpatialObjectToImage3.mha
 )
@@ -792,7 +792,7 @@ add_test(NAME  SpatialObjectToImage3 COMMAND ${ITK_TEST_DRIVER}
 #   TensorFractionalAnisotropyImageFilter
 #   TensorRelativeAnisotropyImageFilter
 #
-add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FACorpusCallosum.mhd
             ${TEMP}/FACorpusCallosum.mhd
   $<TARGET_FILE:DiffusionTensor3DReconstructionImageFilter>
@@ -800,7 +800,7 @@ add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest1 COMMAND ${ITK_TES
         80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
         ${TEMP}/RACorpusCallosum.mhd 0
 )
-add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME  DiffusionTensor3DReconstructionImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RACorpusCallosum.mhd
             ${TEMP}/RACorpusCallosum.mhd
   $<TARGET_FILE:DiffusionTensor3DReconstructionImageFilter>

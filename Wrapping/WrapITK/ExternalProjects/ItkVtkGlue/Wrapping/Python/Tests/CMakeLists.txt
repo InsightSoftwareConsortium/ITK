@@ -7,8 +7,8 @@ set(PYTHON_DRIVER ${PYTHON_DRIVER}
 )
 
 
-add_test(SimpleItkVtkPipeline
-  ${PYTHON_DRIVER}
+itk_add_test(NAME SimpleItkVtkPipeline
+  COMMAND ${PYTHON_DRIVER}
   ${CMAKE_CURRENT_SOURCE_DIR}/simpleItkVtkPipeline.py
   ${PROJECT_SOURCE_DIR}/images/cthead1.png
   SimpleItkVtkPipeline.png

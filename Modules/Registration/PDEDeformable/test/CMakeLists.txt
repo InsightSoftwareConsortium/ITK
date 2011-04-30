@@ -13,16 +13,16 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 CreateTestDriver(ITK-PDEDeformableRegistration  "${ITK-PDEDeformableRegistration-Test_LIBRARIES}" "${ITK-PDEDeformableRegistrationTests}")
 
-add_test(NAME itkPDEDeformableRegistrationHeaderTest
+itk_add_test(NAME itkPDEDeformableRegistrationHeaderTest
       COMMAND ITK-PDEDeformableRegistrationTestDriver itkPDEDeformableRegistrationHeaderTest)
-add_test(NAME itkDemonsRegistrationFilterTest
+itk_add_test(NAME itkDemonsRegistrationFilterTest
       COMMAND ITK-PDEDeformableRegistrationTestDriver itkDemonsRegistrationFilterTest)
-add_test(NAME itkLevelSetMotionRegistrationFilterTest
+itk_add_test(NAME itkLevelSetMotionRegistrationFilterTest
       COMMAND ITK-PDEDeformableRegistrationTestDriver itkLevelSetMotionRegistrationFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestFixedImage.mha ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestMovingImage.mha ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha)
-add_test(NAME itkSymmetricForcesDemonsRegistrationFilterTest
+itk_add_test(NAME itkSymmetricForcesDemonsRegistrationFilterTest
       COMMAND ITK-PDEDeformableRegistrationTestDriver itkSymmetricForcesDemonsRegistrationFilterTest)
-add_test(NAME itkMultiResolutionPDEDeformableRegistrationTestD ${TestDriver}
+itk_add_test(NAME itkMultiResolutionPDEDeformableRegistrationTestD ${TestDriver}
       COMMAND ITK-PDEDeformableRegistrationTestDriver
             --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
