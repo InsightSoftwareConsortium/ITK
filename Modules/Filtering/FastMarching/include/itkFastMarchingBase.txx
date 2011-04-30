@@ -46,6 +46,7 @@ FastMarchingBase()
   m_TopologyCheck = None;
   m_LargeValue = NumericTraits< OutputPixelType >::max();
   m_TopologyValue = m_LargeValue;
+  m_CollectPoints = false;
   }
 // -----------------------------------------------------------------------------
 
