@@ -9,7 +9,7 @@ if(ITK_USE_SYSTEM_GDCM)
   set(ITK-GDCM_SYSTEM_INCLUDE_DIRS
     ${GDCM_INCLUDE_DIRS}
     )
-  set(ITK-GDCM_LIBRARIES  gdcmDICT gdcmMSFF )
+  set(ITK-GDCM_LIBRARIES  gdcmDICT gdcmMSFF gdcmopenjpeg gdcmzlib )
   set(ITK-GDCM_NO_SRC 1)
 else()
   set(ITK-GDCM_INCLUDE_DIRS
