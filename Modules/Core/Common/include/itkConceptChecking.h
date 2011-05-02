@@ -648,6 +648,27 @@ struct SameDimensionOrMinusOne {
   itkConceptConstraintsMacro();
 };
 
+/** Concept requiring D1 and D2 to be the same dimension or D2-1 = D1. */
+template< unsigned int D1, unsigned int D2 >
+struct SameDimensionOrMinusOneOrTwo {
+  struct Constraints {
+    typedef Detail::UniqueType_unsigned_int< D1 >     Type1;
+    typedef Detail::UniqueType_unsigned_int< D1 - 1 > Type2;
+    typedef Detail::UniqueType_unsigned_int< D1 - 2 > Type3;
+
+    void f(Type1) {}
+    void f(Type2, int = 0) {}
+    void f(Type3, int = 0, int = 0) {}
+
+    void constraints()
+    {
+      Detail::UniqueType_unsigned_int< D2 > tt;
+      this->f(tt);
+    }
+  };
+  itkConceptConstraintsMacro();
+};
+
 /** Concept requiring T to be integer. */
 template< typename T >
 struct IsInteger {
