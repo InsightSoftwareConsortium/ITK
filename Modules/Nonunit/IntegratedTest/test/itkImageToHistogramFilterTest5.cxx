@@ -27,6 +27,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageToVectorImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkImageToHistogramFilterTest5( int argc, char * argv [] )
 {
@@ -62,6 +63,7 @@ int itkImageToHistogramFilterTest5( int argc, char * argv [] )
   typedef itk::Statistics::ImageToHistogramFilter< VectorImageType >   HistogramFilterType;
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   histogramFilter->SetInput(  compose->GetOutput()  );
+  itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
 
   typedef HistogramFilterType::HistogramType  HistogramType;
   typedef HistogramFilterType::HistogramSizeType   SizeType;

@@ -24,6 +24,7 @@
 #include "itkImage.h"
 #include "itkRGBPixel.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkImageToHistogramFilterTest( int , char * [] )
 {
@@ -87,6 +88,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
   typedef HistogramFilterType::HistogramType                              HistogramType;
 
   HistogramFilterType::Pointer filter = HistogramFilterType::New();
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Exercise the method NameOfClass();
   std::cout << filter->GetNameOfClass() << std::endl;
