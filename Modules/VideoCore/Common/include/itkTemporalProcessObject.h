@@ -142,7 +142,10 @@ protected:
   /** Explicitly handle temporal regions in GeneratOutputRegion. The default
    * implementation checks to see if a request is currently set and if not, it
    * sets the requested temporal region to match the largest possible temporal
-   * region */
+   * region
+   *
+   * Note: If the largest possible temporal duration has infinite duration, the
+   * requested temporal region will be set to have duration 1. */
   virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output);
 
   /** Explicitly handle temporal regions in GenerateInputRequestedRegion. The
