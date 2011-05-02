@@ -724,6 +724,36 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
 
   //////
+  // Test that the requested temporal region for the output of a temporal
+  // process object gets set to the largest possible temporal region if no
+  // temporal region has been set
+  //////
+
+  // Reset tpo1 and the requsted temporal region of tdo
+  tpo1 = TPOType::New();
+  itk::TemporalRegion emptyRegion;
+  tdo->SetRequestedTemporalRegion(emptyRegion);
+  tpo1->SetInput(tdo);
+  tpo1->UpdateOutputInformation();
+
+  // Make sure the requested temporal region of tpo1's output is empty
+  if (tpo1->GetOutput()->GetRequestedTemporalRegion() != emptyRegion)
+    {
+    std::cerr << "tpo1's output's requested temporal region not empty before propagate" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  tpo1->PropagateRequestedRegion(tpo1->GetOutput());
+  if (tpo1->GetOutput()->GetRequestedTemporalRegion() !=
+        tpo1->GetOutput()->GetLargestPossibleTemporalRegion() ||
+      tpo1->GetOutput()->GetRequestedTemporalRegion() == emptyRegion)
+    {
+    std::cerr << "tpo1's output's requested temporal region set correctly after propagate" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  //////
   // Return successfully
   //////
   return EXIT_SUCCESS;

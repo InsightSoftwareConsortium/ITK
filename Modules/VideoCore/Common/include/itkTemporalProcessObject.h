@@ -140,8 +140,10 @@ protected:
   virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output);
 
   /** Explicitly handle temporal regions in GeneratOutputRegion. The default
-   * implementation does nothing */
-  virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output) {};
+   * implementation checks to see if a request is currently set and if not, it
+   * sets the requested temporal region to match the largest possible temporal
+   * region */
+  virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output);
 
   /** Explicitly handle temporal regions in GenerateInputRequestedRegion. The
    * default implementation sets the requested temporal region on the input to

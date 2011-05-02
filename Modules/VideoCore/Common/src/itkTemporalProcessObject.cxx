@@ -128,6 +128,23 @@ TemporalProcessObject::GenerateOutputRequestedRegion(DataObject* output)
 }
 
 //
+// GenerateOutputRequestedTemporalRegion
+//
+void
+TemporalProcessObject::GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
+{
+  // Get the current output requested region
+  TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
+
+  // If the current region is set to no duration, use the largest possible temporal region
+  if (!outputRequest.GetFrameDuration())
+    {
+    output->SetRequestedTemporalRegion(
+      output->GetLargestPossibleTemporalRegion());
+    }
+}
+
+//
 // GenerateInputRequestedRegion
 //
 void
