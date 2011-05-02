@@ -1,12 +1,23 @@
 itk_module_test()
 
 create_test_sourcelist(TESTS1 ITK-CommonTestDriver1.cxx
+itkAdaptorComparisonTest.cxx
+itkCellInterfaceTest.cxx
+itkCovariantVectorGeometryTest.cxx
+itkDataTypeTest.cxx
+itkDecoratorTest.cxx
+itkExtractImage3Dto2DTest.cxx
+itkExtractImageTest.cxx
+itkFilterDispatchTest.cxx
 itkMapContainerTest.cxx
 itkImageReverseIteratorTest.cxx
 itkTreeContainerTest2.cxx
+itkTriangleCellTest.cxx
 itkRGBPixelTest.cxx
 itkLightObjectTest.cxx
 itkBoundingBoxTest.cxx
+itkBoundaryConditionTest.cxx
+itkByteSwapTest.cxx
 itkScalarToRGBPixelFunctorTest.cxx
 itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkArray2DTest.cxx
@@ -147,6 +158,14 @@ if(ITK_BUILD_SHARED_LIBS)
 endif(ITK_BUILD_SHARED_LIBS)
 
 add_test(NAME itkCommonHeaderTest COMMAND ITK-CommonTestDriver1 itkCommonHeaderTest)
+add_test(NAME itkAdaptorComparisonTest COMMAND ITK-CommonTestDriver1 itkAdaptorComparisonTest)
+add_test(NAME itkCellInterfaceTest COMMAND ITK-CommonTestDriver1 itkCellInterfaceTest)
+add_test(NAME itkCovariantVectorGeometryTest COMMAND ITK-CommonTestDriver1 itkCovariantVectorGeometryTest)
+add_test(NAME itkDataTypeTest COMMAND ITK-CommonTestDriver1 itkDataTypeTest)
+add_test(NAME itkDecoratorTest COMMAND ITK-CommonTestDriver1  itkDecoratorTest)
+add_test(NAME itkExtractImage3Dto2DTest COMMAND ITK-CommonTestDriver1  itkExtractImage3Dto2DTest)
+add_test(NAME itkExtractImageTest COMMAND ITK-CommonTestDriver1 itkExtractImageTest)
+add_test(NAME itkFilterDispatchTest COMMAND ITK-CommonTestDriver1 itkFilterDispatchTest)
 add_test(NAME itkAnnulusOperatorTest COMMAND ITK-CommonTestDriver1 itkAnnulusOperatorTest)
 add_test(NAME itkColorTableTest COMMAND ITK-CommonTestDriver1 itkColorTableTest)
 add_test(NAME itkDirectoryTest COMMAND ITK-CommonTestDriver1 itkDirectoryTest ${TEMP})
@@ -165,6 +184,8 @@ add_test(NAME itkConditionVariableTest COMMAND ITK-CommonTestDriver1 itkConditio
 endif(NOT MINGW)
 add_test(NAME itkTimeStampTest COMMAND ITK-CommonTestDriver2 itkTimeStampTest)
 add_test(NAME itkBoundingBoxTest COMMAND ITK-CommonTestDriver1 itkBoundingBoxTest)
+add_test(NAME itkBoundaryConditionTest COMMAND ITK-CommonTestDriver1 itkBoundaryConditionTest)
+add_test(NAME itkByteSwapTest COMMAND ITK-CommonTestDriver1 itkByteSwapTest)
 add_test(NAME itkBSplineInterpolationWeightFunctionTest COMMAND ITK-CommonTestDriver2 itkBSplineInterpolationWeightFunctionTest)
 add_test(NAME itkBSplineKernelFunctionTest COMMAND ITK-CommonTestDriver1 itkBSplineKernelFunctionTest)
 add_test(NAME itkConstNeighborhoodIteratorTest COMMAND ITK-CommonTestDriver2 itkConstNeighborhoodIteratorTest)
@@ -233,6 +254,7 @@ add_test(NAME itkPhasedArray3DSpecialCoordinatesImageTest COMMAND ITK-CommonTest
 add_test(NAME itkRealTimeClockTest COMMAND ITK-CommonTestDriver1 itkRealTimeClockTest)
 add_test(NAME itkRealTimeStampTest COMMAND ITK-CommonTestDriver1 itkRealTimeStampTest)
 add_test(NAME itkRealTimeIntervalTest COMMAND ITK-CommonTestDriver1 itkRealTimeIntervalTest)
+add_test(NAME itkTriangleCellTest COMMAND ITK-CommonTestDriver1 itkTriangleCellTest)
 add_test(NAME itkRGBPixelTest COMMAND ITK-CommonTestDriver1 itkRGBPixelTest)
 add_test(NAME itkScalarToRGBPixelFunctorTest COMMAND ITK-CommonTestDriver1 itkScalarToRGBPixelFunctorTest)
 add_test(NAME itkSizeTest COMMAND ITK-CommonTestDriver2 itkSizeTest)

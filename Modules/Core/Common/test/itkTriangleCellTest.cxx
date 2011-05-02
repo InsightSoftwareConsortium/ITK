@@ -353,4 +353,3 @@ int itkTriangleCellTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-

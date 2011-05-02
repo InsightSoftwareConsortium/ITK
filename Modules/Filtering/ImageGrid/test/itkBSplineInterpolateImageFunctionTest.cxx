@@ -725,4 +725,3 @@ void set3DDerivativeData(ImageType3D::Pointer imgPtr)
   }
 
 }
-

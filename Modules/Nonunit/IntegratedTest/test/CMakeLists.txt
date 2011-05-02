@@ -1,30 +1,5 @@
 itk_module_test()
 set(ITK-IntegratedTestTests
-itkAdaptorComparisonTest.cxx
-itkBasicArchitectureTest.cxx
-itkBloxCoreAtomTest.cxx
-itkBoundaryConditionTest.cxx
-itkBSplineInterpolateImageFunctionTest.cxx
-itkBSplineResampleImageFilterTest.cxx
-itkBSplineResampleImageFunctionTest.cxx
-itkByteSwapTest.cxx
-itkChiSquareDistributionTest.cxx
-itkConstantPadImageTest.cxx
-itkConvertBufferTest.cxx
-itkConvertBufferTest2.cxx
-itkCovariantVectorGeometryTest.cxx
-itkCurvatureFlowTest.cxx
-itkCyclicReferences.cxx
-itkDataTypeTest.cxx
-itkDecisionRuleTest.cxx
-itkDecoratorTest.cxx
-itkDenseFrequencyContainer2Test.cxx
-itkDicomImageIODirection2DTest.cxx
-itkExpectationMaximizationMixtureModelEstimatorTest.cxx
-itkExpImageFilterAndAdaptorTest.cxx
-itkExtractImage3Dto2DTest.cxx
-itkExtractImageTest.cxx
-itkFilterDispatchTest.cxx
 itkFilterImageAddTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx
 itkFloodFillIteratorTest.cxx
@@ -171,7 +146,6 @@ itkTDistributionTest.cxx
 itkThreadDefsTest.cxx
 itkTimeProbesTest.cxx
 itkTopHatImageFilterTest.cxx
-itkTriangleCellTest.cxx
 itkVectorGeometryTest.cxx
 itkVectorImageReadWriteTest.cxx
 itkVectorImageTest.cxx
@@ -182,7 +156,6 @@ RBFTest1.cxx
 XORTest1.cxx
 XORTest2.cxx
 itkCommonPrintTest.cxx
-itkCellInterfaceTest.cxx
 itkIOPrintTest.cxx
 itkBasicFiltersPrintTest.cxx
 itkNeuralNetworksPrintTest.cxx
@@ -221,64 +194,8 @@ add_test(NAME itkIOPrintTest
       COMMAND ITK-IntegratedTestTestDriver itkIOPrintTest)
 add_test(NAME itkCommonPrintTest
       COMMAND ITK-IntegratedTestTestDriver itkCommonPrintTest)
-add_test(NAME itkCellInterfaceTest
-      COMMAND ITK-IntegratedTestTestDriver itkCellInterfaceTest)
 add_test(NAME itkBasicFiltersPrintTest
       COMMAND ITK-IntegratedTestTestDriver itkBasicFiltersPrintTest)
-add_test(NAME itkAdaptorComparisonTest
-      COMMAND ITK-IntegratedTestTestDriver itkAdaptorComparisonTest)
-add_test(NAME itkBasicArchitectureTest
-      COMMAND ITK-IntegratedTestTestDriver itkBasicArchitectureTest)
-
-add_test(NAME itkBloxCoreAtomTest
-      COMMAND ITK-IntegratedTestTestDriver itkBloxCoreAtomTest)
-add_test(NAME itkBoundaryConditionTest
-      COMMAND ITK-IntegratedTestTestDriver itkBoundaryConditionTest)
-add_test(NAME itkBSplineInterpolateImageFunctionTest
-      COMMAND ITK-IntegratedTestTestDriver itkBSplineInterpolateImageFunctionTest)
-add_test(NAME itkBSplineResampleImageFilterTest
-      COMMAND ITK-IntegratedTestTestDriver itkBSplineResampleImageFilterTest)
-add_test(NAME itkBSplineResampleImageFunctionTest
-      COMMAND ITK-IntegratedTestTestDriver itkBSplineResampleImageFunctionTest)
-add_test(NAME itkByteSwapTest
-      COMMAND ITK-IntegratedTestTestDriver itkByteSwapTest)
-add_test(NAME itkChiSquareDistributionTest
-      COMMAND ITK-IntegratedTestTestDriver itkChiSquareDistributionTest)
-add_test(NAME itkConstantPadImageTest
-      COMMAND ITK-IntegratedTestTestDriver itkConstantPadImageTest)
-add_test(NAME itkConvertBufferTest
-      COMMAND ITK-IntegratedTestTestDriver itkConvertBufferTest)
-add_test(NAME itkConvertBufferTest2
-      COMMAND ITK-IntegratedTestTestDriver itkConvertBufferTest2)
-add_test(NAME itkCovariantVectorGeometryTest
-      COMMAND ITK-IntegratedTestTestDriver itkCovariantVectorGeometryTest)
-add_test(NAME itkCurvatureFlowTest
-      COMMAND ITK-IntegratedTestTestDriver itkCurvatureFlowTest
-              ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk)
-add_test(NAME itkCyclicReferences
-      COMMAND ITK-IntegratedTestTestDriver itkCyclicReferences)
-add_test(NAME itkDataTypeTest
-      COMMAND ITK-IntegratedTestTestDriver itkDataTypeTest)
-add_test(NAME itkDecisionRuleTest
-      COMMAND ITK-IntegratedTestTestDriver itkDecisionRuleTest)
-add_test(NAME itkDecoratorTest
-      COMMAND ITK-IntegratedTestTestDriver itkDecoratorTest)
-add_test(NAME itkDenseFrequencyContainer2Test
-      COMMAND ITK-IntegratedTestTestDriver itkDenseFrequencyContainer2Test)
-add_test(NAME itkDicomImageIODirection2DTest
-      COMMAND ITK-IntegratedTestTestDriver itkDicomImageIODirection2DTest
-              ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.dcm ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.mhd ${ITK_TEST_OUTPUT_DIR}/itkDicomImage2DIODirection2DTest.mhd)
-add_test(NAME itkExpectationMaximizationMixtureModelEstimatorTest
-      COMMAND ITK-IntegratedTestTestDriver itkExpectationMaximizationMixtureModelEstimatorTest
-              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
-add_test(NAME itkExpImageFilterAndAdaptorTest
-      COMMAND ITK-IntegratedTestTestDriver itkExpImageFilterAndAdaptorTest)
-add_test(NAME itkExtractImage3Dto2DTest
-      COMMAND ITK-IntegratedTestTestDriver itkExtractImage3Dto2DTest)
-add_test(NAME itkExtractImageTest
-      COMMAND ITK-IntegratedTestTestDriver itkExtractImageTest)
-add_test(NAME itkFilterDispatchTest
-      COMMAND ITK-IntegratedTestTestDriver itkFilterDispatchTest)
 add_test(NAME itkFloodFilledSpatialFunctionTest
       COMMAND ITK-IntegratedTestTestDriver itkFloodFilledSpatialFunctionTest)
 add_test(NAME itkFloodFillIteratorTest
@@ -710,8 +627,7 @@ add_test(NAME itkWhiteTopHatImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkWhiteTopHatImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png
     itkTopHatImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png 1 3)
-add_test(NAME itkTriangleCellTest
-      COMMAND ITK-IntegratedTestTestDriver itkTriangleCellTest)
+
 
 
 add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
