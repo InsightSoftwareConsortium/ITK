@@ -123,6 +123,38 @@ VideoSource<TOutputVideoStream>::MakeOutput(unsigned int idx)
 //-PROTECTED METHODS-----------------------------------------------------------
 
 //
+// GenerateOutputRequestedRegion
+//
+template<class TOutputVideoStream>
+void
+VideoSource<TOutputVideoStream>::
+GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
+{
+  // Check if requested temporal region unset
+  bool resetNumFrames = false;
+  TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
+  if (!outputRequest.GetFrameDuration())
+    {
+    resetNumFrames = true;
+    }
+
+  // Call superclass's version - this will set the requested temporal region
+  Superclass::GenerateOutputRequestedTemporalRegion(this->GetOutput());
+
+  // Make sure the output has enough buffers available for the entire output
+  // only if this request has just been matched to the largest possible spatial
+  // region. This should only happen for filters at the end of the pipeline
+  // since mid-pipeline filters will have their outputs' requested temporal
+  // regions set automatically.
+  unsigned long requestDuration =
+    this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+  if (resetNumFrames && this->GetOutput()->GetNumberOfBuffers() < requestDuration)
+    {
+    this->GetOutput()->SetNumberOfBuffers(requestDuration);
+    }
+}
+
+//
 // AllocateOutputs
 //
 template<class TOutputVideoStream>

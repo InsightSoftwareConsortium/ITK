@@ -248,6 +248,56 @@ int itkVideoSourceTest( int argc, char* argv[] )
 
 
   //////
+  // Test that the output has the proper number of buffers when no requested
+  // temporal region manually set
+  //////
+
+  // Reset videoSource and the requsted temporal region of tdo
+  videoSource = VideoSourceType::New();
+  videoSource->UpdateOutputInformation();
+
+  // Make sure the requested temporal region of videoSource's output is empty
+  itk::TemporalRegion emptyRegion;
+  if (videoSource->GetOutput()->GetRequestedTemporalRegion() != emptyRegion)
+    {
+    std::cerr << "videoSource's output's requested temporal region not empty before propagate"
+      << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Propagate the request
+  videoSource->PropagateRequestedRegion(videoSource->GetOutput());
+
+  // Since the largest possible region's duration is infinte, the request
+  // should have duration 1
+  if (videoSource->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() != 1)
+    {
+    std::cerr << "videoSource's output's requested temporal region not set "
+      << "correctly after propagate for with infinte largest region" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Artificially set the output's largest possible temporal region duration
+  itk::TemporalRegion largestTempRegion =
+    videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
+  unsigned int newNumBuffers = 25;
+  largestTempRegion.SetFrameDuration(newNumBuffers);
+  videoSource->GetOutput()->SetLargestPossibleTemporalRegion(largestTempRegion);
+  videoSource->GetOutput()->SetRequestedTemporalRegion(emptyRegion);
+
+  // No propagate again and make sure 25 buffers have been set
+  videoSource->PropagateRequestedRegion(videoSource->GetOutput());
+  if (videoSource->GetOutput()->GetNumberOfBuffers() != newNumBuffers)
+    {
+    std::cerr << "Number of buffers not set correctly after propagate. Got: "
+      << videoSource->GetOutput()->GetNumberOfBuffers() << " Expected: " << newNumBuffers
+      << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+
+  //////
   // Return Successfully
   //////
   return EXIT_SUCCESS;
