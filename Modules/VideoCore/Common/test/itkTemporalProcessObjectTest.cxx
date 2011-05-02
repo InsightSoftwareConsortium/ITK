@@ -748,7 +748,7 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
         tpo1->GetOutput()->GetLargestPossibleTemporalRegion() ||
       tpo1->GetOutput()->GetRequestedTemporalRegion() == emptyRegion)
     {
-    std::cerr << "tpo1's output's requested temporal region set correctly after propagate" << std::endl;
+    std::cerr << "tpo1's output's requested temporal region not set correctly after propagate" << std::endl;
     return EXIT_FAILURE;
     }
 
