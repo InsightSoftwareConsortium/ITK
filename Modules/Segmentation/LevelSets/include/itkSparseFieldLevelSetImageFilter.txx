@@ -131,7 +131,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::SparseFieldLevelSetImageFilter()
 {
   m_IsoSurfaceValue = m_ValueZero;
-  m_NumberOfLayers = ImageDimension;
+  m_NumberOfLayers = 2;
   m_LayerNodeStore = LayerNodeStorageType::New();
   m_LayerNodeStore->SetGrowthStrategyToExponential();
   this->SetRMSChange( static_cast< double >( m_ValueZero ) );
