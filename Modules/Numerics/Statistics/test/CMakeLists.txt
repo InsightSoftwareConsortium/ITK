@@ -1,5 +1,8 @@
 itk_module_test()
 set(ITK-StatisticsTests
+itkDecisionRuleTest.cxx
+itkDenseFrequencyContainer2Test.cxx
+itkExpectationMaximizationMixtureModelEstimatorTest.cxx
 itkKalmanLinearEstimatorTest.cxx
 itkStatisticsHeaderTest.cxx
 itkMaximumDecisionRuleTest.cxx
@@ -7,6 +10,7 @@ itkMinimumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
 itkHistogramTest.cxx
 itkHistogramToTextureFeaturesFilterTest.cxx
+itkChiSquareDistributionTest.cxx
 itkCovarianceSampleFilterTest.cxx
 itkCovarianceSampleFilterTest2.cxx
 itkCovarianceSampleFilterTest3.cxx
@@ -29,6 +33,13 @@ CreateTestDriver(ITK-Statistics  "${ITK-Statistics-Test_LIBRARIES}" "${ITK-Stati
 
 add_test(NAME itkStatisticsHeaderTest
       COMMAND ITK-StatisticsTestDriver itkStatisticsHeaderTest)
+add_test(NAME itkDecisionRuleTest
+      COMMAND ITK-StatisticsTestDriver itkDecisionRuleTest)
+add_test(NAME itkDenseFrequencyContainer2Test
+      COMMAND ITK-StatisticsTestDriver itkDenseFrequencyContainer2Test)
+add_test(NAME itkExpectationMaximizationMixtureModelEstimatorTest
+      COMMAND ITK-StatisticsTestDriver itkExpectationMaximizationMixtureModelEstimatorTest
+              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 add_test(NAME itkKalmanLinearEstimatorTest
       COMMAND ITK-StatisticsTestDriver itkKalmanLinearEstimatorTest)
 add_test(NAME itkMaximumDecisionRuleTest
@@ -41,6 +52,8 @@ add_test(NAME itkHistogramTest
       COMMAND ITK-StatisticsTestDriver itkHistogramTest)
 add_test(NAME itkHistogramToTextureFeaturesFilterTest
       COMMAND ITK-StatisticsTestDriver itkHistogramToTextureFeaturesFilterTest)
+add_test(NAME itkChiSquareDistributionTest
+      COMMAND ITK-StatisticsTestDriver itkChiSquareDistributionTest)
 add_test(NAME itkCovarianceSampleFilterTest
       COMMAND ITK-StatisticsTestDriver itkCovarianceSampleFilterTest)
 add_test(NAME itkCovarianceSampleFilterTest2

@@ -1,5 +1,7 @@
 itk_module_test()
 set(ITK-IO-BaseTests
+itkConvertBufferTest.cxx
+itkConvertBufferTest2.cxx
 itkImageFileReaderTest1.cxx
 itkImageFileWriterTest.cxx
 itkIOBaseHeaderTest.cxx
@@ -38,6 +40,10 @@ add_test(NAME itkArchetypeSeriesFileNamesTest2
     itkArchetypeSeriesFileNamesTest
     ${ITK_DATA_ROOT}/Input/Archetype/image.001
     ${ITK_DATA_ROOT}/Input/Archetype/image.010)
+add_test(NAME itkConvertBufferTest
+      COMMAND ITK-IO-BaseTestDriver itkConvertBufferTest)
+add_test(NAME itkConvertBufferTest2
+      COMMAND ITK-IO-BaseTestDriver itkConvertBufferTest2)
 add_test(NAME itkIOBaseHeaderTest
       COMMAND ITK-IO-BaseTestDriver itkIOBaseHeaderTest)
 add_test(NAME itkImageFileReaderTest1

@@ -1,12 +1,18 @@
 itk_module_test()
 set(ITK-ImageGridTests
+itkBasicArchitectureTest.cxx
 itkChangeInformationImageFilterTest.cxx
+itkConstantPadImageTest.cxx
+itkCyclicReferences.cxx
 itkInterpolateImagePointsFilterTest.cxx
 itkCropImageFilterTest.cxx
 itkFlipImageFilterTest.cxx
 itkExpandImageFilterTest.cxx
 itkRegionOfInterestImageFilterTest.cxx
 itkBSplineUpsampleImageFilterTest.cxx
+itkBSplineResampleImageFilterTest.cxx
+itkBSplineResampleImageFunctionTest.cxx
+itkBSplineInterpolateImageFunctionTest.cxx
 itkImageGridHeaderTest.cxx
 itkWarpImageFilterTest2.cxx
 itkBSplineDecompositionImageFilterTest.cxx
@@ -33,8 +39,14 @@ CreateTestDriver(ITK-ImageGrid  "${ITK-ImageGrid-Test_LIBRARIES}" "${ITK-ImageGr
 
 add_test(NAME itkImageGridHeaderTest
       COMMAND ITK-ImageGridTestDriver itkImageGridHeaderTest)
+add_test(NAME itkBasicArchitectureTest
+      COMMAND ITK-ImageGridTestDriver itkBasicArchitectureTest)
 add_test(NAME itkChangeInformationImageFilterTest
       COMMAND ITK-ImageGridTestDriver itkChangeInformationImageFilterTest)
+add_test(NAME itkConstantPadImageTest
+      COMMAND ITK-ImageGridTestDriver itkConstantPadImageTest)
+add_test(NAME itkCyclicReferences
+      COMMAND ITK-ImageGridTestDriver itkCyclicReferences)
 add_test(NAME itkInterpolateImagePointsFilterTest
       COMMAND ITK-ImageGridTestDriver itkInterpolateImagePointsFilterTest)
 add_test(NAME itkCropImageFilterTest
@@ -48,6 +60,12 @@ add_test(NAME itkRegionOfInterestImageFilterTest
 add_test(NAME itkBSplineUpsampleImageFilterTest
       COMMAND ITK-ImageGridTestDriver itkBSplineUpsampleImageFilterTest
               ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkBSplineUpsampleImageFilterTest1.mha 3)
+add_test(NAME itkBSplineResampleImageFilterTest
+      COMMAND ITK-ImageGridTestDriver itkBSplineResampleImageFilterTest)
+add_test(NAME itkBSplineResampleImageFunctionTest
+      COMMAND ITK-ImageGridTestDriver itkBSplineResampleImageFunctionTest)
+add_test(NAME itkBSplineInterpolateImageFunctionTest
+      COMMAND ITK-ImageGridTestDriver itkBSplineInterpolateImageFunctionTest)
 add_test(NAME itkWarpImageFilterTest2
       COMMAND ITK-ImageGridTestDriver itkWarpImageFilterTest2)
 add_test(NAME itkBSplineDecompositionImageFilterTest

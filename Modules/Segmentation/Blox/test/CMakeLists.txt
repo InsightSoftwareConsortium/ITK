@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITK-BloxTests
+itkBloxCoreAtomTest.cxx
 itkBloxBoundaryPointImageTest.cxx
 itkBinaryMedialNodeMetricTest.cxx
 itkBloxHeaderTest.cxx
@@ -11,6 +12,8 @@ CreateTestDriver(ITK-Blox  "${ITK-Blox-Test_LIBRARIES}" "${ITK-BloxTests}")
 
 add_test(NAME itkBloxHeaderTest
       COMMAND ITK-BloxTestDriver itkBloxHeaderTest)
+add_test(NAME itkBloxCoreAtomTest
+      COMMAND ITK-BloxTestDriver itkBloxCoreAtomTest)
 add_test(NAME itkBloxBoundaryPointImageTest
       COMMAND ITK-BloxTestDriver itkBloxBoundaryPointImageTest)
 add_test(NAME itkBinaryMedialNodeMetricTest

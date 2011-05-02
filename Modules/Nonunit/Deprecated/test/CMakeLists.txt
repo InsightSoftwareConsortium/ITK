@@ -30,6 +30,7 @@ add_test(NAME itkTwoOutputExampleImageFilterTest
 create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
         itkDICOMImageIO2Test.cxx
         itkDicomImageIOTest.cxx
+        itkDicomImageIODirection2DTest.cxx
         itkDICOMImageSeriesTest.cxx
         itkDICOMImageSeriesTest2.cxx
         itkDICOMSeriesFileNamesTest.cxx
@@ -107,6 +108,9 @@ add_test(NAME itkDicomDifficultFile
      COMMAND DeprecatedIOTestDriver
     itkDicomImageIOTest ${ITK_DATA_ROOT}/Input/012345.002.050
          ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
+add_test(NAME itkDicomImageIODirection2DTest
+      COMMAND DeprecatedIOTestDriver itkDicomImageIODirection2DTest
+              ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.dcm ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.mhd ${ITK_TEST_OUTPUT_DIR}/itkDicomImage2DIODirection2DTest.mhd)
 add_test(NAME itkImageReadDICOMSeriesWriteTest
      COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha

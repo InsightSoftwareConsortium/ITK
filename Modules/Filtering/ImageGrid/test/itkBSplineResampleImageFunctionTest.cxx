@@ -124,4 +124,3 @@ int itkBSplineResampleImageFunctionTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

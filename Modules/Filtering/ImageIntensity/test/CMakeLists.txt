@@ -1,6 +1,7 @@
 itk_module_test()
 set(ITK-ImageIntensityTests
 itkCosImageFilterAndAdaptorTest.cxx
+itkExpImageFilterAndAdaptorTest.cxx
 itkVectorRescaleIntensityImageFilterTest.cxx
 itkTernaryMagnitudeSquaredImageFilterTest.cxx
 itkMinimumImageFilterTest.cxx
@@ -178,6 +179,8 @@ add_test(NAME itkAcosImageFilterAndAdaptorTest
       COMMAND ITK-ImageIntensityTestDriver itkAcosImageFilterAndAdaptorTest)
 add_test(NAME itkExpNegativeImageFilterAndAdaptorTest
       COMMAND ITK-ImageIntensityTestDriver itkExpNegativeImageFilterAndAdaptorTest)
+add_test(NAME itkExpImageFilterAndAdaptorTest
+      COMMAND ITK-ImageIntensityTestDriver itkExpImageFilterAndAdaptorTest)
 add_test(NAME itkTanImageFilterAndAdaptorTest
       COMMAND ITK-ImageIntensityTestDriver itkTanImageFilterAndAdaptorTest)
 add_test(NAME itkSigmoidImageFilterTest

@@ -714,7 +714,3 @@ itkBSplineResampleImageFilterTest(
     return EXIT_SUCCESS; }
 
 }
-
-
-
-
