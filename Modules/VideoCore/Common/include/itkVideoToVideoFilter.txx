@@ -86,7 +86,74 @@ GetInput(unsigned int idx) const
   return static_cast< const InputVideoStreamType* >(this->ProcessObject::GetInput(idx));
 }
 
+//
+// UpdateOutputInformation
+//
+template<class TInputVideoStream, class TOutputVideoStream>
+void
+VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
+UpdateOutputInformation()
+{
+  // Call superclass's version
+  Superclass::UpdateOutputInformation();
+
+  // FIXME: Working around const-correctness issues
+  InputVideoStreamType* input = const_cast<InputVideoStreamType*>(this->GetInput());
+
+  // Get first input frame's largest possible spatial region
+  unsigned long firstInputFrameNum =
+    input->GetLargestPossibleTemporalRegion().GetFrameStart();
+  InputFrameSpatialRegionType inputRegion =
+    input->GetFrameLargestPossibleSpatialRegion(firstInputFrameNum);
+
+  // Propagate this spatial region to output frames
+  this->GetOutput()->SetAllLargestPossibleSpatialRegions(inputRegion);
+}
+
 //-PROTECTED METHODS-----------------------------------------------------------
+
+//
+// GenerateOutputRequestedRegion
+//
+template<class TInputVideoStream, class TOutputVideoStream>
+void
+VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
+GenerateOutputRequestedRegion(DataObject* output)
+{
+  // Call Superclass's version
+  Superclass::GenerateOutputRequestedRegion(output);
+
+  // Go through the requested temporal region and for any frame that doesn't
+  // have a requested spatial region, set it to the largest possible
+  unsigned long outFrameStart =
+    this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
+  unsigned long outFrameDuration =
+    this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+  for (unsigned long i = outFrameStart; i < outFrameStart + outFrameDuration; ++i)
+    {
+    // Get the requested spatial region for this frame
+    OutputFrameSpatialRegionType spatialRegion =
+      this->GetOutput()->GetFrameRequestedSpatialRegion(i);
+
+    // Check if the region has 0 size for all dimensions
+    bool validRegion = false;
+    for (unsigned int j = 0; j < OutputFrameType::ImageDimension; ++j)
+      {
+      if (spatialRegion.GetSize()[j])
+        {
+        validRegion = true;
+        break;
+        }
+      }
+
+    // If region has zero size, set it to match the largest possible region
+    if (!validRegion)
+      {
+      this->GetOutput()->SetFrameRequestedSpatialRegion(i,
+        this->GetOutput()->GetFrameLargestPossibleSpatialRegion(i));
+      }
+    }
+}
 
 //
 // GenerateInputRequestedRegion

@@ -84,7 +84,21 @@ public:
   const InputVideoStreamType* GetInput() const;
   const InputVideoStreamType* GetInput(unsigned int idx) const;
 
+  /** Extend UpdateOutputInformation to propagate largest possible spatial
+   * region as well as temporal region. The default implementation here will
+   * use the largest spatial region from the first input frame to set the
+   * largest spatial region of each of the output frames. This will need to be
+   * overwritten for filters that need different behavior (eg: need edge pixels
+   * or different spatial regions for different frames) */
+  virtual void UpdateOutputInformation();
+
 protected:
+
+  /** Override GenerateOutputRequestedRegion to handle the case where no
+   * requested spatial region has been set for the frames. By default, we set
+   * the requested spatial region of each frame to be its largest possible
+   * spatial region. */
+  virtual void GenerateOutputRequestedRegion(DataObject* output);
 
   /** Extend the default implementation of GenerateInputRequestedRegion from
    * TemporalProcessObject to propagate spatial regions as well as temporal
@@ -96,7 +110,7 @@ protected:
   VideoToVideoFilter();
   virtual ~VideoToVideoFilter() {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const
-    { Superclass::Print(os, indent); };
+    { Superclass::Print(os, indent); }
 
 
 private:
