@@ -12,6 +12,7 @@ itkNiftiImageIOTest8.cxx
 itkNiftiImageIOTest9.cxx
 itkNiftiImageIOTest10.cxx
 itkNiftiImageIOTest11.cxx
+itkNiftiReadAnalyzeTest.cxx
 )
 
 add_library(ITK-IO-NIFTI-TestSupport  itkNiftiImageIOTestHelper.cxx)
@@ -69,3 +70,5 @@ itk_add_test(NAME itkNiftiVectorImageTest
       COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest3 ${ITK_TEST_OUTPUT_DIR} )
 itk_add_test(NAME itkNiftiDimensionLimitsTest
       COMMAND ITK-IO-NIFTITestDriver itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} SizeFailure.nii.gz )
+itk_add_test(NAME itkNiftiReadAnalyzeTest
+      COMMAND ITK-IO-NIFTITestDriver itkNiftiReadAnalyzeTest ${ITK_TEST_OUTPUT_DIR} )
