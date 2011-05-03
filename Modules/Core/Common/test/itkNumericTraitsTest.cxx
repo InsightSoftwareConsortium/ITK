@@ -988,8 +988,8 @@ int itkNumericTraitsTest(int, char* [] )
 
 
   // itk::complex
-  // CheckFixedArrayTraits(std::complex<float>());
-  // CheckFixedArrayTraits(std::complex<double>());
+  CheckFixedArrayTraits(std::complex<float>());
+  CheckFixedArrayTraits(std::complex<double>());
   // CheckFixedArrayTraits(std::complex<long double>());
 
 

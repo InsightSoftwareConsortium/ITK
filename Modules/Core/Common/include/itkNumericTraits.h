@@ -871,41 +871,53 @@ template< >
 class NumericTraits< std::complex< float > >
 {
 public:
-  typedef std::complex< float >  TheType;
+  typedef std::complex< float >  Self;
+  // for backward compatibility
+  typedef Self                   TheType;
   typedef float                  ValueType;
-  typedef TheType                PrintType;
+  typedef Self                   PrintType;
   typedef double                 AbsType;
-  typedef TheType                AccumulateType;
+  typedef Self                   AccumulateType;
   typedef std::complex< double > RealType;
   typedef double                 ScalarRealType;
   typedef std::complex< float >  FloatType;
-  typedef FixedArray<TheType, 1> MeasurementVectorType;
+  typedef FixedArray<float, 2>   MeasurementVectorType;
 
-  static const TheType ITKCommon_EXPORT Zero;
-  static const TheType ITKCommon_EXPORT One;
+  static const Self ITKCommon_EXPORT Zero;
+  static const Self ITKCommon_EXPORT One;
 
-  static TheType min(TheType) { return vcl_numeric_limits< ValueType >::min(); }
-  static TheType max(TheType) { return vcl_numeric_limits< ValueType >::max(); }
-  static TheType NonpositiveMin()
+  static Self min() { return vcl_numeric_limits< Self >::min(); }
+  static Self max() { return vcl_numeric_limits< Self >::max(); }
+  static Self min(Self) { return min(); }
+  static Self max(Self) { return max(); }
+  static Self NonpositiveMin()
   {
-    return TheType(-NumericTraits< float >::NonpositiveMin(), 0.0f);
+    return Self(-NumericTraits< float >::NonpositiveMin(), 0.0f);
   }
 
-  static bool IsPositive(TheType val) { return val.real() > 0.0; }
-  static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
-  static bool IsNegative(TheType val) { return val.real() < 0.0; }
-  static bool IsNonnegative(TheType val) { return val.real() >= 0.0; }
-  static TheType ZeroValue() { return Zero; }
-  static TheType OneValue() { return One; }
-  static unsigned int GetLength(const TheType &) { return 1; }
-  static unsigned int GetLength() { return 1; }
-  static TheType NonpositiveMin(const TheType &) { return NonpositiveMin(); }
-  static TheType ZeroValue(const TheType &) { return ZeroValue(); }
-  static TheType OneValue(const TheType &) { return OneValue(); }
+  static bool IsPositive(Self val) { return val.real() > 0.0; }
+  static bool IsNonpositive(Self val) { return val.real() <= 0.0; }
+  static bool IsNegative(Self val) { return val.real() < 0.0; }
+  static bool IsNonnegative(Self val) { return val.real() >= 0.0; }
+  static Self ZeroValue() { return Zero; }
+  static Self OneValue() { return One; }
+  static unsigned int GetLength(const Self &) { return 2; }
+  static unsigned int GetLength() { return 2; }
+  static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
+  static Self ZeroValue(const Self &) { return ZeroValue(); }
+  static Self OneValue(const Self &) { return OneValue(); }
   template<class TArray>
-  static void AssignToArray( const TheType & v, TArray & mv )
+  static void AssignToArray( const Self & v, TArray & mv )
   {
-    mv[0] = v;
+    mv[0] = v.real();
+    mv[1] = v.imag();
+  }
+  static void SetLength(Self & m, const unsigned int s)
+  {
+    if ( s != 2 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
+      }
   }
 };
 
@@ -918,41 +930,53 @@ template< >
 class NumericTraits< std::complex< double > >
 {
 public:
-  typedef std::complex< double > TheType;
+  typedef std::complex< double > Self;
+  // for backward compatibility
+  typedef Self                   TheType;
   typedef double                 ValueType;
-  typedef TheType                PrintType;
+  typedef Self                   PrintType;
   typedef double                 AbsType;
-  typedef TheType                AccumulateType;
+  typedef Self                   AccumulateType;
   typedef std::complex< double > RealType;
   typedef double                 ScalarRealType;
   typedef std::complex< float >  FloatType;
-  typedef FixedArray<TheType, 1> MeasurementVectorType;
+  typedef FixedArray<double, 2>  MeasurementVectorType;
 
-  static const TheType ITKCommon_EXPORT Zero;
-  static const TheType ITKCommon_EXPORT One;
+  static const Self ITKCommon_EXPORT Zero;
+  static const Self ITKCommon_EXPORT One;
 
-  static TheType min(TheType) { return vcl_numeric_limits< ValueType >::min(); }
-  static TheType max(TheType) { return vcl_numeric_limits< ValueType >::max(); }
-  static TheType NonpositiveMin()
+  static Self min() { return vcl_numeric_limits< ValueType >::min(); }
+  static Self max() { return vcl_numeric_limits< ValueType >::max(); }
+  static Self min(Self) { return min(); }
+  static Self max(Self) { return max(); }
+  static Self NonpositiveMin()
   {
-    return TheType(-NumericTraits< double >::NonpositiveMin(), 0.0);
+    return Self(-NumericTraits< double >::NonpositiveMin(), 0.0);
   }
 
-  static bool IsPositive(TheType val) { return val.real() > 0.0; }
-  static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
-  static bool IsNegative(TheType val) { return val.real() < 0.0; }
-  static bool IsNonnegative(TheType val) { return val.real() >= 0.0; }
-  static TheType ZeroValue() { return Zero; }
-  static TheType OneValue() { return One; }
-  static unsigned int GetLength(const TheType &) { return 1; }
-  static unsigned int GetLength() { return 1; }
-  static TheType NonpositiveMin(const TheType &) { return NonpositiveMin(); }
-  static TheType ZeroValue(const TheType &) { return ZeroValue(); }
-  static TheType OneValue(const TheType &) { return OneValue(); }
+  static bool IsPositive(Self val) { return val.real() > 0.0; }
+  static bool IsNonpositive(Self val) { return val.real() <= 0.0; }
+  static bool IsNegative(Self val) { return val.real() < 0.0; }
+  static bool IsNonnegative(Self val) { return val.real() >= 0.0; }
+  static Self ZeroValue() { return Zero; }
+  static Self OneValue() { return One; }
+  static unsigned int GetLength(const Self &) { return 2; }
+  static unsigned int GetLength() { return 2; }
+  static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
+  static Self ZeroValue(const Self &) { return ZeroValue(); }
+  static Self OneValue(const Self &) { return OneValue(); }
   template<class TArray>
-  static void AssignToArray( const TheType & v, TArray & mv )
+  static void AssignToArray( const Self & v, TArray & mv )
   {
-    mv[0] = v;
+    mv[0] = v.real();
+    mv[1] = v.imag();
+  }
+  static void SetLength(Self & m, const unsigned int s)
+  {
+    if ( s != 2 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
+      }
   }
 };
 

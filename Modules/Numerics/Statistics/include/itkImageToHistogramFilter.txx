@@ -212,10 +212,6 @@ ImageToHistogramFilter< TImage >
       }
     }
 
-std::cout << "size: " << size << std::endl;
-std::cout << "min: " << min << std::endl;
-std::cout << "max: " << max << std::endl;
-
   // finally, initialize the histogram
   hist->SetMeasurementVectorSize( nbOfComponents );
   hist->Initialize( size, min, max );
@@ -267,8 +263,8 @@ ImageToHistogramFilter< TImage >
   inputIt.GoToBegin();
   HistogramMeasurementVectorType m( nbOfComponents );
 
-  min = NumericTraits<HistogramMeasurementVectorType>::max(min);
-  max = NumericTraits<HistogramMeasurementVectorType>::NonpositiveMin(max);
+  min.Fill( NumericTraits<ValueType>::max() );
+  max.Fill( NumericTraits<ValueType>::NonpositiveMin() );
   while ( !inputIt.IsAtEnd() )
     {
     const PixelType & p = inputIt.Get();

@@ -31,7 +31,7 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
 ::MaskedImageToHistogramFilter()
 {
 //  this->SetNumberOfRequiredInputs(2);
-  this->SetMaskValue( NumericTraits<MaskPixelType>::ZeroValue() );
+  this->SetMaskValue( NumericTraits<MaskPixelType>::max() );
 }
 
 template< class TImage, class TMaskImage >
@@ -75,8 +75,8 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
   maskIt.GoToBegin();
   HistogramMeasurementVectorType m( nbOfComponents );
 
-  min = NumericTraits<HistogramMeasurementVectorType>::max(min);
-  max = NumericTraits<HistogramMeasurementVectorType>::NonpositiveMin(max);
+  min.Fill( NumericTraits<ValueType>::max() );
+  max.Fill( NumericTraits<ValueType>::NonpositiveMin() );
   while ( !inputIt.IsAtEnd() )
     {
     if( maskIt.Get() == maskValue )
