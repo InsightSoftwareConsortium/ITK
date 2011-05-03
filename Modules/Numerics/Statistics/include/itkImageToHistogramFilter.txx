@@ -36,7 +36,14 @@ ImageToHistogramFilter< TImage >
 
   // same default values as in the HistogramGenerator
   this->SetMarginalScale(100);
-  this->SetAutoMinimumMaximum(true);
+  if( NumericTraits< ValueType >::is_integer )
+    {
+    this->SetAutoMinimumMaximum(false);
+    }
+  else
+    {
+    this->SetAutoMinimumMaximum(true);
+    }
 }
 
 template< class TImage >
@@ -147,7 +154,7 @@ ImageToHistogramFilter< TImage >
   else
     {
     // use a default value, which must be computed at run time for the VectorImage
-    size.Fill(128);
+    size.Fill(256);
     }
 
   if( this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum() )
@@ -171,61 +178,7 @@ ImageToHistogramFilter< TImage >
           max[i] = std::max( max[i], m_Maximums[t][i] );
           }
         }
-      for ( unsigned int i = 0; i < nbOfComponents; i++ )
-        {
-        if ( !NumericTraits< HistogramMeasurementType >::is_integer )
-          {
-          HistogramMeasurementType marginalScale = this->GetMarginalScale();
-          const double margin =
-            ( static_cast< HistogramMeasurementType >( max[i] - min[i] )
-              / static_cast< HistogramMeasurementType >( size[i] ) )
-            / static_cast< HistogramMeasurementType >( marginalScale );
-
-          // Now we check if the max[i] value can be increased by
-          // the margin value without saturating the capacity of the
-          // HistogramMeasurementType
-          if ( ( NumericTraits< HistogramMeasurementType >::max() - max[i] ) > margin )
-            {
-            max[i] = static_cast< HistogramMeasurementType >( max[i] + margin );
-            }
-          else
-            {
-            // an overflow would occur if we add 'margin' to the max
-            // therefore we just compromise in setting max = max.
-            // Histogram measurement type would force the clipping the max
-            // value.
-            // Therefore we must call the following to include the max value:
-            hist->SetClipBinsAtEnds(false);
-            // The above function is okay since here we are within the
-            // autoMinMax
-            // computation and clearly the user intended to include min and max.
-            }
-          }
-        else
-          {
-          // max[i] = SafeAssign(max[i] + NumericTraits<MeasurementType>::One);
-          // if ( max[i] <= max[i] )
-          if(max[i] <
-             (static_cast<ValueType>
-              (NumericTraits<HistogramMeasurementType>::max()) -
-              NumericTraits<ValueType>::OneValue()))
-            {
-            max[i] = static_cast<HistogramMeasurementType>
-              (max[i] + NumericTraits<ValueType>::OneValue());
-            }
-          else
-            {
-            // an overflow would have occurred, therefore set max to max
-            // Histogram measurement type would force the clipping the max
-            // value.
-            // Therefore we must call the following to include the max value:
-            hist->SetClipBinsAtEnds(false);
-            // The above function is okay since here we are within the
-            // autoMinMax
-            // computation and clearly the user intended to include min and max.
-            }
-          }
-        }
+      this->ApplyMarginalScale( min, max, size );
       // store the values so they can be retreived by the other threads
       m_Minimums[0] = min;
       m_Maximums[0] = max;
@@ -240,9 +193,28 @@ ImageToHistogramFilter< TImage >
     }
   else
     {
-    min = this->GetHistogramBinMinimum();
-    max = this->GetHistogramBinMaximum();
+    if( this->GetHistogramBinMinimumInput() )
+      {
+      min = this->GetHistogramBinMinimum();
+      }
+    else
+      {
+      min.Fill( NumericTraits<ValueType>::NonpositiveMin() - 0.5 );
+      }
+    if( this->GetHistogramBinMaximumInput() )
+      {
+      max = this->GetHistogramBinMaximum();
+      }
+    else
+      {
+      max.Fill( NumericTraits<ValueType>::max() + 0.5 );
+      // this->ApplyMarginalScale( min, max, size );
+      }
     }
+
+std::cout << "size: " << size << std::endl;
+std::cout << "min: " << min << std::endl;
+std::cout << "max: " << max << std::endl;
 
   // finally, initialize the histogram
   hist->SetMeasurementVectorSize( nbOfComponents );
@@ -330,6 +302,77 @@ ImageToHistogramFilter< TImage >
     m_Histograms[threadId]->IncreaseFrequencyOfMeasurement( m, 1 );
     ++inputIt;
     progress.CompletedPixel();  // potential exception thrown here
+    }
+}
+
+template< class TImage >
+void
+ImageToHistogramFilter< TImage >
+::ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size )
+{
+  unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  bool clipHistograms = true;
+  for ( unsigned int i = 0; i < nbOfComponents; i++ )
+    {
+    if ( !NumericTraits< HistogramMeasurementType >::is_integer )
+      {
+      HistogramMeasurementType marginalScale = this->GetMarginalScale();
+      const double margin =
+        ( static_cast< HistogramMeasurementType >( max[i] - min[i] )
+          / static_cast< HistogramMeasurementType >( size[i] ) )
+        / static_cast< HistogramMeasurementType >( marginalScale );
+
+      // Now we check if the max[i] value can be increased by
+      // the margin value without saturating the capacity of the
+      // HistogramMeasurementType
+      if ( ( NumericTraits< HistogramMeasurementType >::max() - max[i] ) > margin )
+        {
+        max[i] = static_cast< HistogramMeasurementType >( max[i] + margin );
+        }
+      else
+        {
+        // an overflow would occur if we add 'margin' to the max
+        // therefore we just compromise in setting max = max.
+        // Histogram measurement type would force the clipping the max
+        // value.
+        // Therefore we must call the following to include the max value:
+        clipHistograms = false;
+        // The above function is okay since here we are within the
+        // autoMinMax
+        // computation and clearly the user intended to include min and max.
+        }
+      }
+    else
+      {
+      // max[i] = SafeAssign(max[i] + NumericTraits<MeasurementType>::One);
+      // if ( max[i] <= max[i] )
+      if(max[i] <
+          (static_cast<ValueType>
+          (NumericTraits<HistogramMeasurementType>::max()) -
+          NumericTraits<ValueType>::OneValue()))
+        {
+        max[i] = static_cast<HistogramMeasurementType>
+          (max[i] + NumericTraits<ValueType>::OneValue());
+        }
+      else
+        {
+        // an overflow would have occurred, therefore set max to max
+        // Histogram measurement type would force the clipping the max
+        // value.
+        // Therefore we must call the following to include the max value:
+        clipHistograms = false;
+        // The above function is okay since here we are within the
+        // autoMinMax
+        // computation and clearly the user intended to include min and max.
+        }
+      }
+    }
+  if( clipHistograms == false )
+    {
+    for( unsigned int i=0; i<m_Histograms.size(); i++ )
+      {
+      m_Histograms[i]->SetClipBinsAtEnds(false);
+      }
     }
 }
 
