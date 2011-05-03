@@ -30,6 +30,12 @@ namespace itk
  * path data and require image data as input. Specifically, this class
  * defines the SetInput() method for defining the input to a filter.
  *
+ * This code was contributed in the Insight Journal paper:
+ * "ContourExtractor2DImageFilter: A subpixel-precision image isocontour extraction filter."
+ * by Pincus Z.
+ * http://hdl.handle.net/1926/165
+ * http://www.insight-journal.org/browse/publication/72
+ *
  * \ingroup ImageFilters
  * \ingroup ITK-Review
  */

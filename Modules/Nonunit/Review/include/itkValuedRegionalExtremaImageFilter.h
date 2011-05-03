@@ -56,10 +56,15 @@ namespace itk
  *
  * The implementation uses the functor model from itkMaximumImageFilter.
  *
- * This class was contributed to the Insight Journal by
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Finding regional extrema - methods and performance"
+ * by Beare R., Lehmann G.
+ * http://hdl.handle.net/1926/153
+ * http://www.insight-journal.org/browse/publication/65
+ *
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
- *       http://hdl.handle.net/1926/153
  *
  * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalMaximaImageFilter,
  * \sa  HMinimaImageFilter

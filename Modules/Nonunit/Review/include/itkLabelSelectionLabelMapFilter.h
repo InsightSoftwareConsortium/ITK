@@ -35,6 +35,14 @@ namespace itk {
  * Contrary to the other filters made to remove some object of a LabelMap, no
  * ordering relation for the attribute is needed in that filter.
  *
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Label object representation and manipulation with ITK"
+ * by Lehmann G.
+ * http://hdl.handle.net/1926/584
+ * http://www.insight-journal.org/browse/publication/176
+ *
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa AttributeLabelObject

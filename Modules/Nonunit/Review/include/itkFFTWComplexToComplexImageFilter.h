@@ -31,6 +31,14 @@ namespace itk
  * This filter is multithreaded and supports input images with sizes which are not
  * a power of two.
  *
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "FFT Complex to Complex filters and helper classes"
+ * by Warfield S.
+ * http://hdl.handle.net/1926/326
+ * http://www.insight-journal.org/browse/publication/128
+ *
+ *
  * \ingroup FourierTransform, Multithreaded
  * \sa FFTWGlobalConfiguration
  *

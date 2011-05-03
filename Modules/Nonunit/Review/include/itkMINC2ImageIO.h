@@ -50,6 +50,13 @@ namespace itk
  * vector_dimension and so on
  * NOTE** This class only reads the regularly sampled dimensions as I
  * am not sure how to deal with "iregularly sampled" dimensions yet!
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "MINC2.0 IO Support for ITK"
+ * by Baghdadi L.
+ * http://hdl.handle.net/1926/191
+ * http://www.insight-journal.org/browse/publication/88
+ *
  * \ingroup IOFilters
  *
  * \ingroup ITK-Review

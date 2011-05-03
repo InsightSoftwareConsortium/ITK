@@ -39,6 +39,14 @@ namespace itk
  * The filter computes a second output image (accessed by the GetScalesOutput method)
  * containing the scales at which each pixel gave the best reponse.
  *
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Generalizing vesselness with respect to dimensionality and shape"
+ * by Antiga L.
+ * http://hdl.handle.net/1926/576
+ * http://www.insight-journal.org/browse/publication/175
+ *
+ *
  * \author Luca Antiga Ph.D.  Medical Imaging Unit,
  *                            Bioengineering Deparment, Mario Negri Institute, Italy.
  *

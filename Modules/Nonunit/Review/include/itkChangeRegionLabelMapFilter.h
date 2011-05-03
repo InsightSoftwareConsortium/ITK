@@ -38,6 +38,14 @@ namespace itk
  * Change the region of a label map. If the output can't contain some of the objects' lines
  * they are truncated or removed. All objects fully outside the output region are removed.
  *
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Label object representation and manipulation with ITK"
+ * by Lehmann G.
+ * http://hdl.handle.net/1926/584
+ * http://www.insight-journal.org/browse/publication/176
+ *
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa LabelMapMaskImageFilter
