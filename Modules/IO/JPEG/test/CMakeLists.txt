@@ -6,14 +6,14 @@ itkJPEGImageIOTest.cxx
 
 CreateTestDriver(ITK-IO-JPEG  "${ITK-IO-JPEG-Test_LIBRARIES}" "${ITK-IO-JPEGTests}")
 
-add_test(NAME itkIOJPEGHeaderTest
+itk_add_test(NAME itkIOJPEGHeaderTest
       COMMAND ITK-IO-JPEGTestDriver itkIOJPEGHeaderTest)
-add_test(NAME itkJPEGImageIOTest
+itk_add_test(NAME itkJPEGImageIOTest
       COMMAND ITK-IO-JPEGTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.png
               ${ITK_TEST_OUTPUT_DIR}/cthead1.png
     itkJPEGImageIOTest ${ITK_DATA_ROOT}/Input/cthead1.jpg ${ITK_TEST_OUTPUT_DIR}/cthead1.png)
-add_test(NAME itkJPEGImageIOTest2
+itk_add_test(NAME itkJPEGImageIOTest2
       COMMAND ITK-IO-JPEGTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.jpg
               ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg

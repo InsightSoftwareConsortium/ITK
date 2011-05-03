@@ -15,16 +15,16 @@ endif()
 
 CreateTestDriver(ITK-FFT  "${ITK-FFT-Test_LIBRARIES}" "${ITK-FFTTests}")
 
-add_test(NAME itkFFTHeaderTest
+itk_add_test(NAME itkFFTHeaderTest
       COMMAND ITK-FFTTestDriver itkFFTHeaderTest)
 
-add_test(NAME itkVnlFFTTest
+itk_add_test(NAME itkVnlFFTTest
       COMMAND ITK-FFTTestDriver itkVnlFFTTest)
 
 if(USE_FFTWF)
-       add_test(NAME itkFFTWF_FFTTest
+       itk_add_test(NAME itkFFTWF_FFTTest
              COMMAND ITK-FFTTestDriver itkFFTWF_FFTTest ${ITK_TEST_OUTPUT_DIR} )
-       add_test(NAME itkVnlFFTWF_FFTTest
+       itk_add_test(NAME itkVnlFFTWF_FFTTest
              COMMAND ITK-FFTTestDriver  itkVnlFFTWF_FFTTest )
        set_tests_properties(itkVnlFFTWF_FFTTest PROPERTIES ENVIRONMENT
          "ITK_FFTW_READ_WISDOM_CACHE=oN;ITK_FFTW_WRITE_WISDOM_CACHE=oN;ITK_FFTW_WISDOM_CACHE_FILE=${ITK_TEST_OUTPUT_DIR}/.wisdom_from_ITK_FFTW_WISDOM_CACHE_FILE;ITK_FFTW_PLAN_RIGOR=FFTW_EXHAUSTIVE"
@@ -32,10 +32,10 @@ if(USE_FFTWF)
 endif(USE_FFTWF)
 
 if(USE_FFTWD)
-       add_test(NAME itkFFTWD_FFTTest
+       itk_add_test(NAME itkFFTWD_FFTTest
              COMMAND ITK-FFTTestDriver itkFFTWD_FFTTest ${ITK_TEST_OUTPUT_DIR} )
 
-       add_test(NAME itkVnlFFTWD_FFTTest
+       itk_add_test(NAME itkVnlFFTWD_FFTTest
              COMMAND  ITK-FFTTestDriver  itkVnlFFTWD_FFTTest)
        set_tests_properties(itkVnlFFTWD_FFTTest PROPERTIES ENVIRONMENT
          "ITK_FFTW_READ_WISDOM_CACHE=oN;ITK_FFTW_WISDOM_CACHE_BASE=${ITK_TEST_OUTPUT_DIR};ITK_FFTW_PLAN_RIGOR=FFTW_EXHAUSTIVE;ITK_FFTW_WRITE_WISDOM_CACHE=oN")
