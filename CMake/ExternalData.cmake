@@ -208,6 +208,13 @@ endfunction()
 set(_ExternalData_SELF "${CMAKE_CURRENT_LIST_FILE}")
 get_filename_component(_ExternalData_SELF_DIR "${_ExternalData_SELF}" PATH)
 
+function(_ExternalData_atomic_write file content)
+  string(RANDOM LENGTH 6 random)
+  set(tmp "${file}.tmp${random}")
+  file(WRITE "${tmp}" "${content}")
+  file(RENAME "${tmp}" "${file}")
+endfunction()
+
 function(_ExternalData_arg target arg data var_file)
   # Convert to full path.
   if(IS_ABSOLUTE "${data}")
@@ -449,10 +456,7 @@ if("${ExternalData_ACTION}" STREQUAL "fetch")
   endif()
 
   # Atomically update the hash/timestamp file to record the object referenced.
-  string(RANDOM LENGTH 6 random)
-  set(tmp "${file}${ext}.tmp${random}")
-  file(WRITE "${tmp}" "${hash}\n")
-  file(RENAME "${tmp}" "${file}${ext}")
+  _ExternalData_atomic_write("${file}${ext}" "${hash}\n")
 elseif("${ExternalData_ACTION}" STREQUAL "local")
   foreach(v file name)
     if(NOT DEFINED "${v}")
