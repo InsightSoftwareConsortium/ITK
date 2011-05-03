@@ -208,6 +208,19 @@ endfunction()
 set(_ExternalData_SELF "${CMAKE_CURRENT_LIST_FILE}")
 get_filename_component(_ExternalData_SELF_DIR "${_ExternalData_SELF}" PATH)
 
+function(_ExternalData_compute_hash var_hash algo file)
+  if("${algo}" STREQUAL "MD5")
+    # TODO: Errors
+    execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
+      OUTPUT_VARIABLE output)
+    string(SUBSTRING ${output} 0 32 hash)
+    set("${var_hash}" "${hash}" PARENT_SCOPE)
+  else()
+    # TODO: Other hashes.
+    message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
+  endif()
+endfunction()
+
 function(_ExternalData_atomic_write file content)
   string(RANDOM LENGTH 6 random)
   set(tmp "${file}.tmp${random}")
@@ -364,19 +377,6 @@ function(_ExternalData_link_or_copy src dst)
 
   # Atomically create/replace the real destination.
   file(RENAME "${tmp}" "${dst}")
-endfunction()
-
-function(_ExternalData_compute_hash var_hash algo file)
-  if("${algo}" STREQUAL "MD5")
-    # TODO: Errors
-    execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
-      OUTPUT_VARIABLE output)
-    string(SUBSTRING ${output} 0 32 hash)
-    set("${var_hash}" "${hash}" PARENT_SCOPE)
-  else()
-    # TODO: Other hashes.
-    message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
-  endif()
 endfunction()
 
 function(_ExternalData_download_object hash algo obj)
