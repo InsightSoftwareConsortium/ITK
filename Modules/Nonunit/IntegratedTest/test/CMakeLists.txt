@@ -52,6 +52,7 @@ itkKmeansModelEstimatorTest.cxx
 itkLargeImageWriteConvertReadTest.cxx
 itkLargeImageWriteReadTest.cxx
 itkListSampleTest.cxx
+itkMaskedImageToHistogramFilterTest1.cxx
 itkMathCastWithRangeCheckTest.cxx
 itkMathematicalMorphologyImageFilterTest.cxx
 itkMathRoundProfileTest1.cxx

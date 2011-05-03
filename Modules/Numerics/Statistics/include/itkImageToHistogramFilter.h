@@ -22,6 +22,7 @@
 #include "itkImageTransformer.h"
 #include "itkBarrier.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -128,13 +129,17 @@ protected:
   /** Method that construct the outputs */
   DataObject::Pointer  MakeOutput(unsigned int);
 
-private:
-  ImageToHistogramFilter(const Self &); //purposely not implemented
-  void operator=(const Self &);         //purposely not implemented
+  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress );
+  virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress );
 
   std::vector< HistogramPointer >               m_Histograms;
   std::vector< HistogramMeasurementVectorType > m_Minimums;
   std::vector< HistogramMeasurementVectorType > m_Maximums;
+
+private:
+  ImageToHistogramFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
+
   typename Barrier::Pointer                     m_Barrier;
 
 };

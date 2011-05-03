@@ -19,7 +19,6 @@
 #define __itkImageToHistogramFilter_txx
 
 #include "itkImageToHistogramFilter.h"
-#include "itkProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk
@@ -154,26 +153,7 @@ ImageToHistogramFilter< TImage >
   if( this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum() )
     {
     // we have to compute the minimum and maximum values
-    ImageRegionConstIterator< TImage > inputIt( this->GetInput(), inputRegionForThread );
-    inputIt.GoToBegin();
-    HistogramMeasurementVectorType m( nbOfComponents );
-
-    min = NumericTraits<HistogramMeasurementVectorType>::max(min);
-    max = NumericTraits<HistogramMeasurementVectorType>::NonpositiveMin(max);
-    while ( !inputIt.IsAtEnd() )
-      {
-      const PixelType & p = inputIt.Get();
-      NumericTraits<PixelType>::AssignToArray( p, m );
-      for( unsigned int i=0; i<nbOfComponents; i++ )
-        {
-        min[i] = std::min( m[i], min[i] );
-        max[i] = std::max( m[i], max[i] );
-        }
-      progress.CompletedPixel();  // potential exception thrown here
-      ++inputIt;
-      }
-    m_Minimums[threadId] = min;
-    m_Maximums[threadId] = max;
+    this->ThreadedComputeMinimumAndMaximum( inputRegionForThread, threadId, progress );
 
     // wait for the other threads to complete their part
     m_Barrier->Wait();
@@ -181,6 +161,8 @@ ImageToHistogramFilter< TImage >
     // a non multithreaded part
     if( threadId == 0 )
       {
+      min = m_Minimums[0];
+      max = m_Maximums[0];
       for( unsigned int t=1; t<m_Minimums.size(); t++ )
         {
         for( unsigned int i=0; i<nbOfComponents; i++ )
@@ -266,19 +248,8 @@ ImageToHistogramFilter< TImage >
   hist->SetMeasurementVectorSize( nbOfComponents );
   hist->Initialize( size, min, max );
 
-  // now fill the histogram
-  ImageRegionConstIterator< TImage > inputIt( this->GetInput(), inputRegionForThread );
-  inputIt.GoToBegin();
-  HistogramMeasurementVectorType m( nbOfComponents );
-
-  while ( !inputIt.IsAtEnd() )
-    {
-    const PixelType & p = inputIt.Get();
-    NumericTraits<PixelType>::AssignToArray( p, m );
-    hist->IncreaseFrequencyOfMeasurement( m, 1 );
-    ++inputIt;
-    progress.CompletedPixel();  // potential exception thrown here
-    }
+  // now fill the histograms
+  this->ThreadedComputeHistogram( inputRegionForThread, threadId, progress );
 }
 
 
@@ -310,6 +281,57 @@ ImageToHistogramFilter< TImage >
   m_Barrier = NULL;
 }
 
+
+template< class TImage >
+void
+ImageToHistogramFilter< TImage >
+::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress )
+{
+  unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  HistogramMeasurementVectorType min( nbOfComponents );
+  HistogramMeasurementVectorType max( nbOfComponents );
+
+  ImageRegionConstIterator< TImage > inputIt( this->GetInput(), inputRegionForThread );
+  inputIt.GoToBegin();
+  HistogramMeasurementVectorType m( nbOfComponents );
+
+  min = NumericTraits<HistogramMeasurementVectorType>::max(min);
+  max = NumericTraits<HistogramMeasurementVectorType>::NonpositiveMin(max);
+  while ( !inputIt.IsAtEnd() )
+    {
+    const PixelType & p = inputIt.Get();
+    NumericTraits<PixelType>::AssignToArray( p, m );
+    for( unsigned int i=0; i<nbOfComponents; i++ )
+      {
+      min[i] = std::min( m[i], min[i] );
+      max[i] = std::max( m[i], max[i] );
+      }
+    progress.CompletedPixel();  // potential exception thrown here
+    ++inputIt;
+    }
+  m_Minimums[threadId] = min;
+  m_Maximums[threadId] = max;
+}
+
+template< class TImage >
+void
+ImageToHistogramFilter< TImage >
+::ThreadedComputeHistogram(const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress )
+{
+  unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  ImageRegionConstIterator< TImage > inputIt( this->GetInput(), inputRegionForThread );
+  inputIt.GoToBegin();
+  HistogramMeasurementVectorType m( nbOfComponents );
+
+  while ( !inputIt.IsAtEnd() )
+    {
+    const PixelType & p = inputIt.Get();
+    NumericTraits<PixelType>::AssignToArray( p, m );
+    m_Histograms[threadId]->IncreaseFrequencyOfMeasurement( m, 1 );
+    ++inputIt;
+    progress.CompletedPixel();  // potential exception thrown here
+    }
+}
 
 template< class TImage >
 void
