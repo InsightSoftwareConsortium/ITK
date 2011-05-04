@@ -202,10 +202,10 @@ protected:
   long m_FrameSkipPerOutput;
 
   /** Member to indicate the location of the "current frame" in the minimum set
-   * of input frames. For example, if the unit number of input frames is 3 and
-   * m_InputStencilCurrentFrameIndex = 1, this indicates that for output frame
-   * n, frames n-1 through n+1 are required, whereas if
-   * m_InputStencilCurrentFrameIndex = 0, frames n through n+2 are required. */
+   * of input frames. For example, if the unit number of input frames is 6 and
+   * m_InputStencilCurrentFrameIndex = 4, this indicates that for output frame
+   * n, frames n-4 through n+1 are required, whereas if
+   * m_InputStencilCurrentFrameIndex = 0, frames n through n+5 are required. */
   long m_InputStencilCurrentFrameIndex;
 
 private:
