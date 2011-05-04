@@ -56,6 +56,8 @@ public:
 
   typedef  Logger::PriorityLevelType PriorityLevelType;
 
+  typedef  unsigned int DelayType;
+
   /** Definition of types of operations for ThreadLogger. */
   typedef enum
   {
@@ -80,6 +82,16 @@ public:
   virtual void SetLevelForFlushing(PriorityLevelType level);
 
   virtual PriorityLevelType GetLevelForFlushing() const;
+
+/** Set the delay in milliseconds between checks to see if there are any
+ *  low priority messages to be processed.
+ */
+  virtual void SetDelay(DelayType delay);
+
+/** Get the delay in milliseconds between checks to see if there are any
+ *  low priority messages to be processed.
+ */
+  virtual DelayType GetDelay() const;
 
   /** Registers another output stream with the multiple output. */
   virtual void AddLogOutput(OutputType *output);
@@ -125,7 +137,8 @@ private:
 
   SimpleFastMutexLock m_Mutex;
 
-  SimpleFastMutexLock m_WaitMutex;
+  DelayType m_Delay;
+
 };  // class ThreadLogger
 } // namespace itk
 
