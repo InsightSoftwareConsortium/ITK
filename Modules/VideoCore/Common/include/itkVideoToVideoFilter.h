@@ -94,6 +94,12 @@ public:
 
 protected:
 
+  /** Get a non-const version of the input for internal use when setting
+   * input's requested regions. This is the only time input should be modified
+   */
+  InputVideoStreamType* GetInput();
+  InputVideoStreamType* GetInput(unsigned int idx);
+
   /** Override GenerateOutputRequestedRegion to handle the case where no
    * requested spatial region has been set for the frames. By default, we set
    * the requested spatial region of each frame to be its largest possible

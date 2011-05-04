@@ -86,23 +86,17 @@ public:
 
 
   /** Provide access to the internal caches for the spatial regions */
-  SpatialRegionMapType GetLargestPossibleSpatialRegionCache()
-    { return m_LargestPossibleSpatialRegionCache; }
-  const SpatialRegionMapType GetLargestPossibleSpatialRegionCache() const
+  const SpatialRegionMapType & GetLargestPossibleSpatialRegionCache() const
     { return m_LargestPossibleSpatialRegionCache; }
   void SetLargestPossibleSpatialRegionCache(SpatialRegionMapType map)
     { m_LargestPossibleSpatialRegionCache = map; }
 
-  SpatialRegionMapType GetRequestedSpatialRegionCache()
-    { return m_RequestedSpatialRegionCache; }
-  const SpatialRegionMapType GetRequestedSpatialRegionCache() const
+  const SpatialRegionMapType & GetRequestedSpatialRegionCache() const
     { return m_RequestedSpatialRegionCache; }
   void SetRequestedSpatialRegionCache(SpatialRegionMapType map)
     { m_RequestedSpatialRegionCache = map; }
 
-  SpatialRegionMapType GetBufferedSpatialRegionCache()
-    { return m_BufferedSpatialRegionCache; }
-  const SpatialRegionMapType GetBufferedSpatialRegionCache() const
+  const SpatialRegionMapType & GetBufferedSpatialRegionCache() const
     { return m_BufferedSpatialRegionCache; }
   void SetBufferedSpatialRegionCache(SpatialRegionMapType map)
     { m_BufferedSpatialRegionCache = map; }
@@ -120,20 +114,20 @@ public:
   /** Get/Set the LargestPossibleRegion of a frame */
   void SetFrameLargestPossibleSpatialRegion(unsigned long frameNumber,
                                             SpatialRegionType region);
-  SpatialRegionType GetFrameLargestPossibleSpatialRegion(unsigned long frameNumber)
-    { return this->m_LargestPossibleSpatialRegionCache[frameNumber]; }
+  const SpatialRegionType &
+  GetFrameLargestPossibleSpatialRegion(unsigned long frameNumber) const;
 
-  /** Set the RequestedRegion of a frame */
+  /** Get/Set the RequestedRegion of a frame */
   void SetFrameRequestedSpatialRegion(unsigned long frameNumber,
                                       SpatialRegionType region);
-  SpatialRegionType GetFrameRequestedSpatialRegion(unsigned long frameNumber)
-    { return this->m_RequestedSpatialRegionCache[frameNumber]; }
+  const SpatialRegionType &
+  GetFrameRequestedSpatialRegion(unsigned long frameNumber) const;
 
-  /** Set the BufferedRegion of a frame */
+  /** Get/Set the BufferedRegion of a frame */
   void SetFrameBufferedSpatialRegion(unsigned long frameNumber,
                                      SpatialRegionType region);
-  SpatialRegionType GetFrameBufferedSpatialRegion(unsigned long frameNumber)
-    { return this->m_BufferedSpatialRegionCache[frameNumber]; }
+  const SpatialRegionType &
+  GetFrameBufferedSpatialRegion(unsigned long frameNumber) const;
 
   /** Set the LargestPossibleRegion on all frames. This assumes that all frames
    * in the buffered temporal region have been initialized (should be called

@@ -45,6 +45,8 @@ void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 SetInput(const TInputVideoStream* videoStream)
 {
+  // We keep this const_cast because in actuality, we do want to be able to
+  // change the requested regions on the input so we need a non-const version
   this->SetInput(0, const_cast< InputVideoStreamType* >(videoStream));
 }
 
@@ -56,6 +58,8 @@ void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 SetInput(unsigned int idx, const TInputVideoStream* videoStream)
 {
+  // We keep this const_cast because in actuality, we do want to be able to
+  // change the requested regions on the input so we need a non-const version
   this->TemporalProcessObject::SetNthInput( idx,
                                 const_cast< InputVideoStreamType* >(videoStream) );
 }
@@ -97,8 +101,8 @@ UpdateOutputInformation()
   // Call superclass's version
   Superclass::UpdateOutputInformation();
 
-  // FIXME: Working around const-correctness issues
-  InputVideoStreamType* input = const_cast<InputVideoStreamType*>(this->GetInput());
+  // Get the input
+  const InputVideoStreamType* input = this->GetInput();
 
   // Get first input frame's largest possible spatial region
   unsigned long firstInputFrameNum =
@@ -111,6 +115,28 @@ UpdateOutputInformation()
 }
 
 //-PROTECTED METHODS-----------------------------------------------------------
+
+//
+// GetInput (non-const)
+//
+template<class TInputVideoStream, class TOutputVideoStream>
+TInputVideoStream*
+VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
+GetInput()
+{
+  return GetInput(0);
+}
+
+//
+// GetInput (non-const)
+//
+template<class TInputVideoStream, class TOutputVideoStream>
+TInputVideoStream*
+VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
+GetInput(unsigned int idx)
+{
+  return static_cast< InputVideoStreamType* >(this->ProcessObject::GetInput(idx));
+}
 
 //
 // GenerateOutputRequestedRegion
