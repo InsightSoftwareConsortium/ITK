@@ -194,9 +194,8 @@ GenerateInputRequestedRegion()
     unsigned long numFrames = inRequestedTemporalRegion.GetFrameDuration();
     for (unsigned long j = inputStart; j < inputStart + numFrames; ++j)
       {
-      // Get the input's frame
-      InputFrameType* frame = input->GetFrame(j);
-      frame->SetRequestedRegion( inputRegion );
+      // Set the requested spatial region on the input
+      input->SetFrameRequestedSpatialRegion(j, inputRegion);
       }
     }
 }
