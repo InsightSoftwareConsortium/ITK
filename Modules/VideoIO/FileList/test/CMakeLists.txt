@@ -20,7 +20,7 @@ midas_add_test(NAME FileListVideoIOTest
          # Webcam Output:
          ${ITK_TEST_OUTPUT_DIR}/FileListVideoIOTest_CameraOut.mha
          # Height Width NumFrames FpS
-         320 240 1396 14.985
+         320 240 5 1
          )
 
 # FileListVideoIOFactory:

@@ -226,7 +226,7 @@ bool FileListVideoIO::CanReadCamera( unsigned long cameraID )
 //
 void FileListVideoIO::ReadImageInformation()
 {
-  // Open capture from a file
+  // Open from a file
   if (this->m_ReadType == ReadFromFile)
     {
 
@@ -238,7 +238,7 @@ void FileListVideoIO::ReadImageInformation()
       }
 
 
-    // Open the video file
+    // Open the image file
     ImageIOBase::Pointer localIO = ImageIOFactory::CreateImageIO(
       this->m_FileNames[0].c_str(), ImageIOFactory::ReadMode);
 
@@ -247,7 +247,7 @@ void FileListVideoIO::ReadImageInformation()
 
     // No I-Frame issues to worry about
     this->m_IFrameInterval = 1;
-    this->m_LastIFrame = this->m_FrameTotal;
+    this->m_LastIFrame = this->m_FrameTotal-1;
 
     // Fill Dimensions and Origin
     this->m_Dimensions.clear();
@@ -403,7 +403,10 @@ void FileListVideoIO::SetWriterParameters(double fps, std::vector<SizeValueType>
     this->m_Dimensions.push_back(dim[i]);
     this->m_Origin.push_back(0);
     }
-  
+
+  // Set FpS even though we're not going to use it
+  this->m_FpS = fps;
+
 }
 
 //
