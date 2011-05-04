@@ -106,6 +106,7 @@ set(ITKCommon2Tests
 itkMetaDataDictionaryTest.cxx
 itkStdStreamLogOutputTest.cxx
 itkOctreeTest.cxx
+itkLoggerThreadWrapperTest.cxx
 itkThreadLoggerTest.cxx
 itkThreadDefsTest.cxx
 itkTimeProbesTest.cxx
