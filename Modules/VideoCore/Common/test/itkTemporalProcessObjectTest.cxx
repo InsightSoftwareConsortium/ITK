@@ -266,6 +266,11 @@ public:
 
     }
 
+  /** Allow the UnitIinputNumberOfFrames to be set */
+  itkSetMacro(UnitInputNumberOfFrames, unsigned long);
+
+  /** Allow the UnitOutputNumberOfFrames to be set */
+  itkSetMacro(UnitOutputNumberOfFrames, unsigned long);
 
   /** GetOutput will return the output on port 0 */
   DummyTemporalDataObject::Pointer GetOutput()

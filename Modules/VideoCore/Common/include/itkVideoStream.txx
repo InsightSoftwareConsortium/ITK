@@ -44,6 +44,19 @@ VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(
 }
 
 //
+// GetFrameLargestPossibleSpatialRegion
+//
+template<class TFrameType>
+const typename TFrameType::RegionType &
+VideoStream<TFrameType>::
+GetFrameLargestPossibleSpatialRegion(unsigned long frameNumber) const
+{
+  // It seems that std::map's [] operator isn't const correct, so we need to
+  // access this member from an non-const version of ourselves
+  return const_cast<Self*>(this)->m_LargestPossibleSpatialRegionCache[frameNumber];
+}
+
+//
 // SetFrameRequestedSpatialRegion
 //
 template<class TFrameType>
@@ -64,6 +77,19 @@ VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(
 }
 
 //
+// GetFrameRequestedSpatialRegion
+//
+template<class TFrameType>
+const typename TFrameType::RegionType &
+VideoStream<TFrameType>::
+GetFrameRequestedSpatialRegion(unsigned long frameNumber) const
+{
+  // It seems that std::map's [] operator isn't const correct, so we need to
+  // access this member from an non-const version of ourselves
+  return const_cast<Self*>(this)->m_RequestedSpatialRegionCache[frameNumber];
+}
+
+//
 // SetFrameBufferedSpatialRegion
 //
 template<class TFrameType>
@@ -81,6 +107,19 @@ VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(
     FrameType* frame = this->GetFrame(frameNumber);
     frame->SetBufferedRegion(region);
     }
+}
+
+//
+// GetFrameBufferedSpatialRegion
+//
+template<class TFrameType>
+const typename TFrameType::RegionType &
+VideoStream<TFrameType>::
+GetFrameBufferedSpatialRegion(unsigned long frameNumber) const
+{
+  // It seems that std::map's [] operator isn't const correct, so we need to
+  // access this member from an non-const version of ourselves
+  return const_cast<Self*>(this)->m_BufferedSpatialRegionCache[frameNumber];
 }
 
 //

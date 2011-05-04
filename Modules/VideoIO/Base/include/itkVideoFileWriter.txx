@@ -186,7 +186,7 @@ VideoFileWriter< TInputVideoStream >
   // use that.
   if (m_OutputTemporalRegion.GetFrameDuration() == 0)
     {
-    m_OutputTemporalRegion = nonConstInput->GetLargestPossibleTemporalRegion();
+    m_OutputTemporalRegion = input->GetLargestPossibleTemporalRegion();
     }
 
   // FIXME: For now we will always request the entire spatial region of each
@@ -196,7 +196,7 @@ VideoFileWriter< TInputVideoStream >
   for (unsigned long i = frameStart; i < frameStart + numFrames; ++i)
     {
     nonConstInput->SetFrameRequestedSpatialRegion(i,
-      nonConstInput->GetFrameLargestPossibleSpatialRegion(i));
+      input->GetFrameLargestPossibleSpatialRegion(i));
     }
 
   // Propagate the requested regions
@@ -258,7 +258,7 @@ VideoFileWriter< TInputVideoStream >
 ::TemporalStreamingGenerateData()
 {
   // Get a non-const pointer to the input and output
-  VideoStreamType* input = const_cast<VideoStreamType*>(this->GetInput());
+  const VideoStreamType* input = dynamic_cast<const VideoStreamType*>(this->GetInput());
   TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
   if (!output)
     {
@@ -267,15 +267,15 @@ VideoFileWriter< TInputVideoStream >
 
   // Get the frame we're going to write
   unsigned long frameNum = output->GetRequestedTemporalRegion().GetFrameStart();
-  FrameType* frame = input->GetFrame(frameNum);
+  const FrameType* frame = input->GetFrame(frameNum);
   if (!frame)
     {
     itkExceptionMacro("Could not get input frame " << frameNum << " for writing");
     }
 
   // Write the frame out
-  m_VideoIO->Write(static_cast<void*>(
-    frame->GetPixelContainer()->GetBufferPointer()));
+  m_VideoIO->Write(static_cast<const void*>(
+    frame->GetBufferPointer()));
 }
 
 //
@@ -296,12 +296,12 @@ VideoFileWriter< TInputVideoStream >
   unsigned long frameNum = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
 
   // Get a non-const pointer so we can get spatial regions (VideoStream isn't const correct)
-  VideoStreamType* nonConstInput = const_cast<VideoStreamType*>(this->GetInput());
+  const VideoStreamType* input = this->GetInput();
 
   // Set dimensions
   m_Dimensions.empty();
   typename FrameType::SizeType size =
-    nonConstInput->GetFrameLargestPossibleSpatialRegion(frameNum).GetSize();
+    input->GetFrameLargestPossibleSpatialRegion(frameNum).GetSize();
   for (unsigned int i = 0; i < FrameType::ImageDimension; ++i)
     {
     m_Dimensions.push_back(size[i]);
@@ -313,7 +313,6 @@ VideoFileWriter< TInputVideoStream >
 
   return true;
 }
-
 
 
 //

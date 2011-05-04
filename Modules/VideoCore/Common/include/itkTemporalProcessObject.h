@@ -71,14 +71,15 @@ public:
   virtual void GenerateInputRequestedRegion();
 
 
-  /** Get/Set the number of frames of input required to produce output */
+  /** Get the number of frames of input required to produce output. We don't
+   * provide a Set method because we want some filters to be able to hold this
+   * as a constant. */
   itkGetMacro(UnitInputNumberOfFrames, unsigned long);
-  itkSetMacro(UnitInputNumberOfFrames, unsigned long);
 
-  /** Get/Set the number of frames of output producdd for a single set
-   * of input frames */
+  /** Get the number of frames of output produced for a single set of input
+   * frames. We don't provide a Set method because we want some filters to be
+   * able to hold this as a constant. */
   itkGetMacro(UnitOutputNumberOfFrames, unsigned long);
-  itkSetMacro(UnitOutputNumberOfFrames, unsigned long);
 
   /** The default implementation of UpdateOutputInformation to handle temporal
    * regions will compute the proper size of the output largest possible
