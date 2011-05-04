@@ -136,7 +136,6 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
     for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
       {
       frameNumPtrMap[i] = m_DataObjectBuffer->GetBufferContents(i);
-      //m_DataObjectBuffer->SetBufferContents(i, NULL);
       }
 
     // Resize the ring buffer
