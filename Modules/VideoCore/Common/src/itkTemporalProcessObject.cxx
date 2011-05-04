@@ -128,6 +128,42 @@ TemporalProcessObject::GenerateOutputRequestedRegion(DataObject* output)
 }
 
 //
+// GenerateOutputRequestedTemporalRegion
+//
+void
+TemporalProcessObject::GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
+{
+  // Get the current output requested region
+  TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
+
+
+  // If the largest possible temporal region has infinite duration, we should
+  // only request a single frame
+  if (!outputRequest.GetFrameDuration() &&
+      output->GetLargestPossibleTemporalRegion().GetFrameDuration() ==
+      ITK_INFINITE_FRAME_DURATION)
+    {
+    TemporalRegion requestedRegion = output->GetLargestPossibleTemporalRegion();
+    requestedRegion.SetFrameDuration(1);
+    // TODO: Set the real duration correctly
+    output->SetRequestedTemporalRegion(requestedRegion);
+
+    // Warn the user about this corner case
+    itkWarningMacro("Largest possible temporal region is infinte. Setting "
+                    "requested temporal region's duration to 1");
+    }
+
+  // If the current region is set to no duration, use the largest possible
+  // temporal region
+  else if (!outputRequest.GetFrameDuration())
+    {
+    output->SetRequestedTemporalRegion(
+      output->GetLargestPossibleTemporalRegion());
+    }
+
+}
+
+//
 // GenerateInputRequestedRegion
 //
 void

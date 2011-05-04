@@ -724,6 +724,54 @@ int itkTemporalProcessObjectTest ( int argc, char *argv[] )
 
 
   //////
+  // Test that the requested temporal region for the output of a temporal
+  // process object gets set to the largest possible temporal region if no
+  // temporal region has been set
+  //////
+
+  // Reset tpo1 and the requsted temporal region of tdo
+  tpo1 = TPOType::New();
+  itk::TemporalRegion emptyRegion;
+  tdo->SetRequestedTemporalRegion(emptyRegion);
+  tpo1->SetInput(tdo);
+  tpo1->UpdateOutputInformation();
+
+  // Make sure the requested temporal region of tpo1's output is empty
+  if (tpo1->GetOutput()->GetRequestedTemporalRegion() != emptyRegion)
+    {
+    std::cerr << "tpo1's output's requested temporal region not empty before propagate" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  tpo1->PropagateRequestedRegion(tpo1->GetOutput());
+  if (tpo1->GetOutput()->GetRequestedTemporalRegion() !=
+        tpo1->GetOutput()->GetLargestPossibleTemporalRegion() ||
+      tpo1->GetOutput()->GetRequestedTemporalRegion() == emptyRegion)
+    {
+    std::cerr << "tpo1's output's requested temporal region not set correctly after propagate" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Test that if largest possible temporal region has infinte duration,
+  // request gets set to duration 1
+  tpo1 = TPOType::New();
+  largestRegion = tdo->GetLargestPossibleTemporalRegion();
+  largestRegion.SetFrameDuration(ITK_INFINITE_FRAME_DURATION);
+  tdo->SetLargestPossibleTemporalRegion(largestRegion);
+  tpo1->SetInput(tdo);
+  tpo1->UpdateOutputInformation();
+  tpo1->PropagateRequestedRegion(tpo1->GetOutput());
+  if (tpo1->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration() !=
+        ITK_INFINITE_FRAME_DURATION ||
+      tpo1->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() != 1)
+    {
+    std::cerr << "tpo1's output's temporal regions not properly set for infinite input" << std::endl;
+    std::cerr << "Requested region duration: "
+      << tpo1->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //////
   // Return successfully
   //////
   return EXIT_SUCCESS;

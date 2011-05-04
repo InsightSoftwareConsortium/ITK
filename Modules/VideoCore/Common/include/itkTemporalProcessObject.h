@@ -140,8 +140,13 @@ protected:
   virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output);
 
   /** Explicitly handle temporal regions in GeneratOutputRegion. The default
-   * implementation does nothing */
-  virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output) {};
+   * implementation checks to see if a request is currently set and if not, it
+   * sets the requested temporal region to match the largest possible temporal
+   * region
+   *
+   * Note: If the largest possible temporal duration has infinite duration, the
+   * requested temporal region will be set to have duration 1. */
+  virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output);
 
   /** Explicitly handle temporal regions in GenerateInputRequestedRegion. The
    * default implementation sets the requested temporal region on the input to
@@ -197,10 +202,10 @@ protected:
   long m_FrameSkipPerOutput;
 
   /** Member to indicate the location of the "current frame" in the minimum set
-   * of input frames. For example, if the unit number of input frames is 3 and
-   * m_InputStencilCurrentFrameIndex = 1, this indicates that for output frame
-   * n, frames n-1 through n+1 are required, whereas if
-   * m_InputStencilCurrentFrameIndex = 0, frames n through n+2 are required. */
+   * of input frames. For example, if the unit number of input frames is 6 and
+   * m_InputStencilCurrentFrameIndex = 4, this indicates that for output frame
+   * n, frames n-4 through n+1 are required, whereas if
+   * m_InputStencilCurrentFrameIndex = 0, frames n through n+5 are required. */
   long m_InputStencilCurrentFrameIndex;
 
 private:

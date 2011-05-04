@@ -96,6 +96,19 @@ public:
 
 protected:
 
+  /** Override GenerateOutputRequestedTemporalRegion to make sure that if the
+   * requested temporal region is not set, it gets set to the largest possible
+   * temporal region (using TemporalProcessObject's implementation) and the
+   * output has enough frame buffer slots to hold the entire request. We don't
+   * want the number of buffers to be changed for mid-pipeline filters since
+   * they will usually operate on fewer frames than requested at any given
+   * time. The solution is to only change the number of buffers if the
+   * requested temporal region was unset at the beginning of the call since
+   * mid-pipeline filters will always have their outputs' requested spatial
+   * regions set by the GenerateInputRequestedRegion call from the filter one
+   * further down the pipeline. */
+  virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output);
+
   /** We override the default implementation of TemporalStreamingGenerateData
    * from TemporalProcessObject to provide functionality for spatial streaming.
    * This implementation works exactly the same way as the implementation of
@@ -152,7 +165,7 @@ protected:
   VideoSource();
   virtual ~VideoSource() {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const
-    { Superclass::Print(os, indent); };
+    { Superclass::Print(os, indent); }
 
 
 private:

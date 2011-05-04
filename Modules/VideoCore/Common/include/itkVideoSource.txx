@@ -123,6 +123,55 @@ VideoSource<TOutputVideoStream>::MakeOutput(unsigned int idx)
 //-PROTECTED METHODS-----------------------------------------------------------
 
 //
+// GenerateOutputRequestedTemporalRegion
+//
+template<class TOutputVideoStream>
+void
+VideoSource<TOutputVideoStream>::
+GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
+{
+  // Check if requested temporal region unset
+  bool resetNumFrames = false;
+  TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
+  if (!outputRequest.GetFrameDuration())
+    {
+    resetNumFrames = true;
+    }
+
+  // Call superclass's version - this will set the requested temporal region
+  Superclass::GenerateOutputRequestedTemporalRegion(this->GetOutput());
+
+  // Make sure the output has enough buffers available for the entire output
+  // only if this request has just been matched to the largest possible spatial
+  // region. This should only happen for filters at the end of the pipeline
+  // since mid-pipeline filters will have their outputs' requested temporal
+  // regions set automatically.
+  unsigned long requestDuration =
+    this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+  if (resetNumFrames && this->GetOutput()->GetNumberOfBuffers() < requestDuration)
+    {
+    this->GetOutput()->SetNumberOfBuffers(requestDuration);
+    }
+
+  // If requested temporal region was just set to largest possible, set the
+  // spatial regions for every frame to the largest possible as well
+  if (resetNumFrames)
+    {
+    unsigned long frameStart =
+      this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
+    unsigned long numFrames =
+      this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+    for (unsigned long i = frameStart; i < frameStart + numFrames; ++i)
+      {
+      //this->GetOutput()->SetFrameRequestedSpatialRegion(i,
+      //  this->GetOutput()->GetFrameLargestPossibleSpatialRegion(i));
+      OutputVideoStreamType* out = this->GetOutput();
+      out->GetFrameLargestPossibleSpatialRegion(i);
+      }
+    }
+}
+
+//
 // AllocateOutputs
 //
 template<class TOutputVideoStream>
@@ -148,13 +197,14 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
   // Initialize any empty frames (which will set region values from cache)
   output->InitializeEmptyFrames();
 
-  // Loop through the unbuffered frames and set the buffered region to match
-  // the requested region then allocate the data
+  // Loop through the unbuffered frames and set the buffered spatial region to
+  // match the requested spatial region then allocate the data
   unsigned long startFrame = unbufferedRegion.GetFrameStart();
   for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
+    output->SetFrameBufferedSpatialRegion(i, output->GetFrameRequestedSpatialRegion(i));
     OutputFrameType* frame = output->GetFrame(i);
-    frame->SetBufferedRegion(output->GetFrame(i)->GetRequestedRegion());
+    frame->SetBufferedRegion(output->GetFrameRequestedSpatialRegion(i));
     frame->Allocate();
     }
 }

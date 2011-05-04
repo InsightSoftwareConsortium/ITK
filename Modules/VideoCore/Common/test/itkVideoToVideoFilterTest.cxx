@@ -104,8 +104,7 @@ protected:
     this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 1;
     }
 
-  /** Override ThreadedGenerateData to set all pixels in the requested region
-   * to 1 */
+  /** Override ThreadedGenerateData */
   virtual void ThreadedGenerateData(
                 const OutputFrameSpatialRegionType& outputRegionForThread,
                 int threadId)
@@ -265,6 +264,54 @@ int itkVideoToVideoFilterTest( int argc, char* argv[] )
     if (frame->GetPixel(idx) > expectedVal - epsilon && frame->GetPixel(idx) < expectedVal + epsilon)
       {
       std::cerr << "Filter set pixel outside of requested region" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+
+  //////
+  // Test that the output's spatial region request gets properly set to the
+  // largest possible region if none set manually
+  //////
+
+  // Reset the filter
+  filter = VideoFilterType::New();
+  filter->SetInput(inputVideo);
+  filter->UpdateOutputInformation();
+
+  // Make sure the requested spatial regions are empty
+  unsigned long startFrame =
+    filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart();
+  unsigned long numFrames =
+    filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration();
+  if (numFrames == 0)
+    {
+    std::cerr << "Output's largest possible temporal region not set correctly" << std::endl;
+    }
+  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+    {
+    for (unsigned int j = 0; j < Dimension; ++j)
+      {
+      if (filter->GetOutput()->GetFrameRequestedSpatialRegion(i).GetSize()[j] != 0)
+        {
+        std::cerr << "Output's requested spatial region not empty for frame " << i
+          << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    }
+
+  // Now, propagate the requested region and make sure the requested spatial
+  // regions match the largest possible
+  filter->PropagateRequestedRegion(filter->GetOutput());
+  for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
+    {
+    if (filter->GetOutput()->GetFrameRequestedSpatialRegion(i) !=
+        filter->GetOutput()->GetFrameLargestPossibleSpatialRegion(i) ||
+        filter->GetOutput()->GetFrameRequestedSpatialRegion(i).GetSize()[0] == 0)
+      {
+      std::cerr << "Output's requested spatial region not set correctly after propagation "
+        << "for frame " << i << std::endl;
       return EXIT_FAILURE;
       }
     }

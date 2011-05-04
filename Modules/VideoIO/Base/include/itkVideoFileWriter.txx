@@ -189,6 +189,19 @@ VideoFileWriter< TInputVideoStream >
     m_OutputTemporalRegion = nonConstInput->GetLargestPossibleTemporalRegion();
     }
 
+  // FIXME: For now we will always request the entire spatial region of each
+  // frame as output
+  unsigned long frameStart = m_OutputTemporalRegion.GetFrameStart();
+  unsigned long numFrames = m_OutputTemporalRegion.GetFrameDuration();
+  for (unsigned long i = frameStart; i < frameStart + numFrames; ++i)
+    {
+    nonConstInput->SetFrameRequestedSpatialRegion(i,
+      nonConstInput->GetFrameLargestPossibleSpatialRegion(i));
+    }
+
+  // Propagate the requested regions
+  nonConstInput->PropagateRequestedRegion();
+
   // Set the output's temporal regions to match the input's. The output object
   // doesn't actually get used, but its temporal regions are used by the
   // temporal streaming in TemporalProcessObject's GenerateData. We set the
