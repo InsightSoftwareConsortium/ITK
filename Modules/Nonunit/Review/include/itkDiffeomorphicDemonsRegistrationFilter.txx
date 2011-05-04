@@ -246,7 +246,7 @@ DiffeomorphicDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationFi
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
 DiffeomorphicDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
-::ApplyUpdate(TimeStepType dt)
+::ApplyUpdate(const TimeStepType& dt)
 {
   // If we smooth the update buffer before applying it, then the are
   // approximating a viscuous problem as opposed to an elastic problem

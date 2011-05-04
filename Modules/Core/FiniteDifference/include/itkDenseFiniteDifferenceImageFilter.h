@@ -125,7 +125,7 @@ protected:
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
-  virtual void ApplyUpdate(TimeStepType dt);
+  virtual void ApplyUpdate(const TimeStepType& dt);
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
@@ -149,7 +149,7 @@ protected:
    *  \sa ApplyUpdate
    *  \sa ApplyUpdateThreaderCallback */
   virtual
-  void ThreadedApplyUpdate(TimeStepType dt,
+  void ThreadedApplyUpdate(const TimeStepType& dt,
                            const ThreadRegionType & regionToProcess,
                            int threadId);
 
@@ -170,8 +170,8 @@ private:
   struct DenseFDThreadStruct {
     DenseFiniteDifferenceImageFilter *Filter;
     TimeStepType TimeStep;
-    TimeStepType *TimeStepList;
-    bool *ValidTimeStepList;
+    std::vector< TimeStepType > TimeStepList;
+    std::vector< bool > ValidTimeStepList;
   };
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an

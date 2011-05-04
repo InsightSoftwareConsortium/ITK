@@ -32,10 +32,10 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
   m_UseImageSpacing    = false;
   m_ElapsedIterations  = 0;
   m_DifferenceFunction = 0;
-  m_NumberOfIterations = NumericTraits< unsigned int >::max();
+  m_NumberOfIterations = NumericTraits< IdentifierType >::max();
   m_MaximumRMSError = 0.0;
   m_RMSChange = 0.0;
-  m_State = UNINITIALIZED;
+  m_IsInitialized = false;
   m_ManualReinitialization = false;
   this->InPlaceOff();
 }
@@ -57,7 +57,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
     itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors");
     }
 
-  if ( this->GetState() == UNINITIALIZED )
+  if ( !m_IsInitialized )
     {
     // Allocate the output image
     this->AllocateOutputs();
@@ -77,19 +77,19 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
     // the subclass, since this class cannot define an update buffer type.
     this->AllocateUpdateBuffer();
 
-    this->SetStateToInitialized();
+    m_IsInitialized = true;
     m_ElapsedIterations = 0;
     }
 
   // Iterative algorithm
-  TimeStepType dt;
-
   while ( !this->Halt() )
     {
     this->InitializeIteration(); // An optional method for precalculating
                                  // global values, or otherwise setting up
                                  // for the next iteration
-    dt = this->CalculateChange();
+
+    TimeStepType dt = this->CalculateChange();
+
     this->ApplyUpdate(dt);
     ++m_ElapsedIterations;
 
@@ -103,10 +103,10 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  if ( m_ManualReinitialization == false )
+  if ( !m_ManualReinitialization )
     {
-    this->SetStateToUninitialized(); // Reset the state once execution is
-                                     // completed
+    // Reset the state once execution is completed
+    m_IsInitialized = false;
     }
   // Any further processing of the solution can be done here.
   this->PostProcessOutput();
@@ -151,11 +151,6 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(radius);
 
-//     std::cout << "inputRequestedRegion: " << inputRequestedRegion <<
-// std::endl;
-//     std::cout << "largestPossibleRegion: " <<
-// inputPtr->GetLargestPossibleRegion() << std::endl;
-
   // crop the input requested region at the input's largest possible region
   if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
     {
@@ -182,37 +177,51 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 typename FiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
-::ResolveTimeStep(const TimeStepType *timeStepList, const bool *valid, int size)
+::ResolveTimeStep(const std::vector< TimeStepType >& timeStepList,
+                  const std::vector< bool >& valid ) const
 {
-  TimeStepType min;
-  bool         flag;
-
-  min = NumericTraits< TimeStepType >::Zero;
+  TimeStepType oMin = NumericTraits< TimeStepType >::Zero;
+  bool         flag = false;
 
   // grab first valid value
-  flag = false;
-  for ( int i = 0; i < size; ++i )
+  typename std::vector< TimeStepType >::const_iterator t_it = timeStepList.begin();
+  typename std::vector< TimeStepType >::const_iterator t_end = timeStepList.end();
+
+  typename std::vector< bool >::const_iterator v_it = valid.begin();
+
+  while( t_it != t_end )
     {
-    if ( valid[i] )
+    if( *v_it )
       {
-      min = timeStepList[i];
+      oMin = *t_it;
       flag = true;
       break;
       }
+    ++t_it;
+    ++v_it;
     }
 
   if ( !flag )
     {
     // no values!
-    throw ExceptionObject(__FILE__, __LINE__);
+    itkGenericExceptionMacro( << "there is no satisfying value" );
     }
 
-  // find minimum value
-  for ( int i = 0; i < size; ++i )
-    {
-    if ( valid[i] && ( timeStepList[i] < min ) ) { min = timeStepList[i]; } }
+  t_it = timeStepList.begin();
+  v_it = valid.begin();
 
-  return min;
+  // find minimum value
+   while( t_it != t_end )
+    {
+    if( *v_it && ( *t_it < oMin ) )
+      {
+      oMin = *t_it;
+      }
+    ++t_it;
+    ++v_it;
+    }
+
+  return oMin;
 }
 
 template< class TInputImage, class TOutputImage >
@@ -250,7 +259,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::InitializeFunctionCoefficients()
 {
   // Set the coefficients for the derivatives
-  double coeffs[TOutputImage::ImageDimension];
+  double coeffs[ImageDimension];
 
   if ( this->m_UseImageSpacing )
     {
@@ -263,14 +272,14 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
     typedef typename TOutputImage::SpacingType SpacingType;
     const SpacingType spacing = outputImage->GetSpacing();
 
-    for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      coeffs[i] = 1.0 / spacing[i];
+      coeffs[i] = 1.0 / static_cast< double >( spacing[i] );
       }
     }
   else
     {
-    for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       coeffs[i] = 1.0;
       }
@@ -287,7 +296,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 
   os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
   os << indent << "UseImageSpacing: " << ( m_UseImageSpacing ? "On" : "Off" ) << std::endl;
-  os << indent << "State: " << m_State << std::endl;
+  os << indent << "State: " << ( m_IsInitialized ? "INITIALIZED" : "UNINITIALIZED" ) << std::endl;
   os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
   os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
   os << indent << "ManualReinitialization: " << m_ManualReinitialization << std::endl;
