@@ -103,16 +103,8 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
   for ( unsigned int i = 0; i < minDim; i++ )
     {
     size[i]    = inputHistogram->GetSize(i);
-    origin[i]  = inputHistogram->GetBinMin(i, 0);
-    // we can compute a spacing if there is not at least 2 elements
-    if( size[i] > 1 )
-      {
-      spacing[i] = inputHistogram->GetBinMin(i, 1) - origin[i];
-      }
-    else
-      {
-      spacing[i] = 1.0;
-      }
+    origin[i]  = inputHistogram->GetMeasurement(0, i);
+    spacing[i] = inputHistogram->GetBinMax(i, 0) - inputHistogram->GetBinMin(i, 0);
     }
 
   // if the image is of greater dimension than the histogram, use some default values
