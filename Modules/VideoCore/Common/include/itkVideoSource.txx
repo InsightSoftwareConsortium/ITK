@@ -123,7 +123,7 @@ VideoSource<TOutputVideoStream>::MakeOutput(unsigned int idx)
 //-PROTECTED METHODS-----------------------------------------------------------
 
 //
-// GenerateOutputRequestedRegion
+// GenerateOutputRequestedTemporalRegion
 //
 template<class TOutputVideoStream>
 void
@@ -151,6 +151,23 @@ GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
   if (resetNumFrames && this->GetOutput()->GetNumberOfBuffers() < requestDuration)
     {
     this->GetOutput()->SetNumberOfBuffers(requestDuration);
+    }
+
+  // If requested temporal region was just set to largest possible, set the
+  // spatial regions for every frame to the largest possible as well
+  if (resetNumFrames)
+    {
+    unsigned long frameStart =
+      this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
+    unsigned long numFrames =
+      this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+    for (unsigned long i = frameStart; i < frameStart + numFrames; ++i)
+      {
+      //this->GetOutput()->SetFrameRequestedSpatialRegion(i,
+      //  this->GetOutput()->GetFrameLargestPossibleSpatialRegion(i));
+      OutputVideoStreamType* out = this->GetOutput();
+      out->GetFrameLargestPossibleSpatialRegion(i);
+      }
     }
 }
 
@@ -180,13 +197,14 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
   // Initialize any empty frames (which will set region values from cache)
   output->InitializeEmptyFrames();
 
-  // Loop through the unbuffered frames and set the buffered region to match
-  // the requested region then allocate the data
+  // Loop through the unbuffered frames and set the buffered spatial region to
+  // match the requested spatial region then allocate the data
   unsigned long startFrame = unbufferedRegion.GetFrameStart();
   for (unsigned long i = startFrame; i < startFrame + numFrames; ++i)
     {
+    output->SetFrameBufferedSpatialRegion(i, output->GetFrameRequestedSpatialRegion(i));
     OutputFrameType* frame = output->GetFrame(i);
-    frame->SetBufferedRegion(output->GetFrame(i)->GetRequestedRegion());
+    frame->SetBufferedRegion(output->GetFrameRequestedSpatialRegion(i));
     frame->Allocate();
     }
 }
