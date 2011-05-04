@@ -66,7 +66,6 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
     std::cerr << "Should have failed to open \"" << nonVideoInput << "\"" << std::endl;
     ret = EXIT_FAILURE; 
     }
-/*
 
   //////
   // ReadImageInformation
@@ -358,7 +357,7 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
   //std::cout << "I263 = " << CV_FOURCC('I', '2', '6', '3') << std::endl;
   //std::cout << "FLV1 = " << CV_FOURCC('F', 'L', 'V', '1') << std::endl;
 
-*/
+
 
   std::cout<<"Done !"<<std::endl;
   return ret;
