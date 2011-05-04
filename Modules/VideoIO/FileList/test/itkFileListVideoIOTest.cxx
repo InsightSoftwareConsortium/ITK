@@ -4,6 +4,7 @@
 #include "itkFileListVideoIO.h"
 #include "itkImportImageFilter.h"
 #include "itkRGBPixel.h"
+#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 
@@ -11,8 +12,42 @@
 typedef itk::RGBPixel<char> PixelType;
 typedef itk::ImportImageFilter<PixelType, 2> ImportFilterType;
 typedef itk::Image<PixelType, 2> ImageType;
+typedef itk::ImageFileReader<ImageType> ReaderType;
 typedef itk::ImageFileWriter<ImageType> WriterType;
 
+
+//
+// Duplicate the splitting function from FileListVideoIO
+//
+std::vector<std::string> test_SplitFileNames(const char* fileList)
+{
+  std::string str = fileList;
+
+  std::vector<std::string> out;
+
+  int pos = 0;
+  int len = str.length();
+  while (pos != -1 && len > 0)
+    {
+    // Get the substring
+    str = str.substr(pos, len);
+
+    // Update pos
+    pos = str.find(',');
+
+    // Add the filename to the list
+    out.push_back(str.substr(0,pos));
+
+    // Move past the delimiter
+    if (pos != -1)
+      {
+      pos++;
+      }
+    len -= pos;
+    }
+
+  return out;
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -66,7 +101,7 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
     std::cerr << "Should have failed to open \"" << nonVideoInput << "\"" << std::endl;
     ret = EXIT_FAILURE; 
     }
-/*
+
 
   //////
   // ReadImageInformation
@@ -116,22 +151,30 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
   std::cout << "FileListVideoIO::Read..." << std::endl;
   std::cout << "Comparing all " << fileListIO->GetFrameTotal() << " frames" << std::endl;
 
-  // Set up FileList capture
-  CvCapture* capture = cvCaptureFromFile( fileListIO->GetFileName() );
+  // Set up ImageFileReader
+  ReaderType::Pointer reader = ReaderType::New();
 
   // Loop through all frames
+  std::vector<std::string> filenames = test_SplitFileNames(input);
   for (unsigned long i = 0; i < fileListIO->GetFrameTotal(); ++i)
     {
-    if (!readCorrectly(fileListIO, capture, i))
+    // Read the image file directly
+    reader->SetFileName(filenames[i]);
+    reader->Update();
+
+    // Read the image using FileListVideoIO
+    size_t bufferSize = fileListIO->GetImageSizeInBytes();
+    PixelType buffer[bufferSize];
+    fileListIO->Read(static_cast<void*>(buffer));
+
+    // Compare buffer contents
+    if (memcmp(reinterpret_cast<void*>(buffer),
+        reinterpret_cast<void*>(reader->GetOutput()->GetBufferPointer()), bufferSize))
       {
-      std::cerr << "Failed to read frame " << i << " correctly" << std::endl;
-      ret = EXIT_FAILURE;
-      break;
+      std::cerr << "Frame buffers don't match for frame " << i << std::endl;
+      ret = false;
       }
     }
-
-  // Release capture
-  cvReleaseCapture(&capture);
 
 
   //////
@@ -139,55 +182,12 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
   //////
   std::cout << "FileListVideoIO::SetNextFrameToRead" << std::endl;
 
-  // Set up the buffer for the frame data so Read can be called
-  size_t bufferSize = fileListIO->GetImageSizeInBytes();
-  PixelType buffer[bufferSize];
-
-
-  // try seeking to an I-Frame
-  unsigned long seekFrame = fileListIO->GetIFrameInterval();
+  // try seeking to the end
+  unsigned long seekFrame = fileListIO->GetFrameTotal()-1;
   if (!fileListIO->SetNextFrameToRead(seekFrame))
     {
     std::cerr << "Failed to seek to second I-Frame..." << std::endl;
     ret = EXIT_FAILURE;
-    }
-
-  // Read the frame data which updates the current frame correctly
-  fileListIO->Read(static_cast<void*>(buffer));
-
-  if (fileListIO->GetCurrentFrame() != seekFrame)
-    {
-    std::cerr << "Seek to I-Frame didn't end up in the right place" << std::endl;
-    ret = EXIT_FAILURE;
-    }
-
-
-  // If there are I-Frame intervals, check behavior
-  if (fileListIO->GetIFrameInterval() > 1)
-    {
-
-    // try seeking in-between I-Frames
-    seekFrame = fileListIO->GetIFrameInterval()/2;
-    if (!fileListIO->SetNextFrameToRead(seekFrame))
-      {
-      std::cerr << "Failed to seek between I-Frames" << std::endl;
-      ret = EXIT_FAILURE;
-      }
-    fileListIO->Read(static_cast<void*>(buffer));
-    if (fileListIO->GetCurrentFrame() != fileListIO->GetIFrameInterval())
-      {
-      std::cerr << "Seek between I-Frames didn't end up in the right place" << std::endl;
-      ret = EXIT_FAILURE;
-      }
-
-    // try seeking past last I-Frame
-    seekFrame = fileListIO->GetLastIFrame() + 1;
-    if (fileListIO->SetNextFrameToRead(seekFrame))
-      {
-      std::cerr << "Did no fail when seeking past the last I-Frame" << std::endl;
-      ret = EXIT_FAILURE;
-      }
-
     }
 
   // Save the current parameters
@@ -201,66 +201,6 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
   fileListIO->FinishReadingOrWriting();
 
 
-  //////
-  // Test reading from camera -- If webcam 0 can be opened, it will, otherwise this will be skipped
-  //////
-
-  // Check to see if camera is available
-  if (fileListIO->CanReadCamera( 0 ))
-    {
-
-    std::cout << "FileListVideoIO::Read (from camera)..." << std::endl;
-
-    // Set the reader to use the camera
-    fileListIO->SetReadFromCamera();
-
-    // Get information from the camera
-    try
-      {
-      fileListIO->ReadImageInformation();
-      }
-    catch (itk::ExceptionObject e)
-      {
-      std::cerr << "Could not read information from the camera" << std::endl;
-      ret = EXIT_FAILURE;
-      }
-
-    // set up buffer for camera
-    size_t camBufferSize = fileListIO->GetImageSizeInBytes();
-    PixelType camBuffer[camBufferSize];
-
-    // Read from the camera
-    try
-      {
-      fileListIO->Read(reinterpret_cast<void*>(camBuffer));
-      }
-    catch (itk::ExceptionObject e)
-      {
-      std::cerr << "Could not read from the camera" << std::endl;
-      ret = EXIT_FAILURE;
-      }
-
-    // Get an ITK image from the camera's frame
-    ImageType::Pointer cameraFrame = itkImageFromBuffer(fileListIO, camBuffer, camBufferSize);
-
-    // Write out the ITK image -- DEBUG
-    WriterType::Pointer writer = WriterType::New();
-    writer->SetFileName(cameraOutput);
-    writer->SetInput(cameraFrame);
-    writer->Update();
-
-    // Overwirte the file right away so we're not saving pictures of the tester!
-    std::ofstream fs;
-    fs.open(cameraOutput);
-    fs << "EMPTY... deleted picture from webcam\n";
-    fs.close();
-
-    // Finish reading
-    fileListIO->FinishReadingOrWriting();
-
-    }
-
-
   /////////////////////////////////////////////////////////////////////////////
   // Test Writing
   //
@@ -269,7 +209,7 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
   //////
   // SetWriterParameters
   //////
-  std::cout << "FileListVIdeoIO::SetWriterParameters..." << std::endl;
+  std::cout << "FileListVideoIO::SetWriterParameters..." << std::endl;
 
   // Reset the saved parameters
   std::vector<unsigned int> size;
@@ -282,6 +222,14 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
       fileListIO->GetDimensions(1) != height || fileListIO->GetNumberOfComponents() != nChannels)
     {
     std::cerr << "Didn't set writer parmeters correctly" << std::endl;
+    std::cerr << "  FpS -> Got: " << fileListIO->GetFpS() << " Expected: " << fps
+              << std::endl;
+    std::cerr << "  width -> Got: " << fileListIO->GetDimensions(0) << " Expected: "
+              << width << std::endl;
+    std::cerr << "  height -> Got: " << fileListIO->GetDimensions(1) << " Expected: "
+              << height << std::endl;
+    std::cerr << "  NChannels -> Got: " << fileListIO->GetNumberOfComponents()
+              << " Expected: " << nChannels << std::endl;
     ret = EXIT_FAILURE;
     }
 
@@ -308,20 +256,21 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
   //////
   // Write
   //////
-  std::cout << "FileListVIdeoIO::Write..." << std::endl;
+  std::cout << "FileListVideoIO::Write..." << std::endl;
 
   // Set output filename
   fileListIO->SetFileName( output );
 
-  // Set up a second VideoIO to read while we're writing
+  // Set up a two more VideoIOs to read while we're writing
   itk::FileListVideoIO::Pointer fileListIO2 = itk::FileListVideoIO::New();
+  itk::FileListVideoIO::Pointer fileListIO3 = itk::FileListVideoIO::New();
   fileListIO2->SetFileName( input );
   fileListIO2->ReadImageInformation();
+  fileListIO3->SetFileName( output );
 
   // Loop through all frames to read with fileListIO2 and write with fileListIO
   for (unsigned int i = 0; i < inNumFrames; ++i)
     {
-
     // Set up a buffer to read to
     size_t bufferSize = fileListIO2->GetImageSizeInBytes();
     PixelType buffer[bufferSize];
@@ -332,33 +281,21 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
     // Write out the frame from the buffer
     fileListIO->Write(static_cast<void*>(buffer));
 
+    // Now, read back in from the written file and make sure the buffers match
+    fileListIO3->ReadImageInformation();
+    PixelType reReadBuffer[bufferSize];
+    fileListIO3->Read(static_cast<void*>(reReadBuffer));
+    if (memcmp(reinterpret_cast<void*>(buffer), reinterpret_cast<void*>(reReadBuffer), bufferSize))
+      {
+      std::cerr << "Didn't write correctly for frame " << i << std::endl;
+      ret = EXIT_FAILURE;
+      }
     }
 
   // Finish writing
   fileListIO2->FinishReadingOrWriting();
   fileListIO->FinishReadingOrWriting();
 
-
-  //DEBUG -- Don't do this for now, need a better comparison method
-  // Compare input and output videos to make sure they are identical
-  //if (!videosMatch(input, output))
-  //  {
-  //  std::cerr << "Written video does not match input video" << std::endl;
-  //  ret = EXIT_FAILURE;
-  //  }
-
-
-  //DEBUG
-  //std::cout << "PIM1 = " << CV_FOURCC('P','I','M','1') << std::endl;
-  //std::cout << "MJPG = " << CV_FOURCC('M','J','P','G') << std::endl;
-  //std::cout << "MP42 = " << CV_FOURCC('M', 'P', '4', '2') << std::endl;
-  //std::cout << "DIV3 = " << CV_FOURCC('D', 'I', 'V', '3') << std::endl;
-  //std::cout << "DIVX = " << CV_FOURCC('D', 'I', 'V', 'X') << std::endl;
-  //std::cout << "U263 = " << CV_FOURCC('U', '2', '6', '3') << std::endl;
-  //std::cout << "I263 = " << CV_FOURCC('I', '2', '6', '3') << std::endl;
-  //std::cout << "FLV1 = " << CV_FOURCC('F', 'L', 'V', '1') << std::endl;
-
-*/
 
   std::cout<<"Done !"<<std::endl;
   return ret;
