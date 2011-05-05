@@ -21,10 +21,10 @@
 #
 package require InsightToolkit
 
-set reader [ itkImageFileReaderUC2_New ]
-set writer [ itkImageFileWriterUC2_New ]
+set reader [ itkImageFileReaderIUC2_New ]
+set writer [ itkImageFileWriterIUC2_New ]
 
-set filter [ itkSigmoidImageFilterUC2UC2_New ]
+set filter [ itkSigmoidImageFilterIUC2IUC2_New ]
 
 $filter     SetInput [ $reader  GetOutput ]
 $writer     SetInput [ $filter  GetOutput ]

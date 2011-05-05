@@ -21,10 +21,10 @@
 #
 package require InsightToolkit
 
-set reader [ itkImageFileReaderF2_New ]
+set reader [ itkImageFileReaderIF2_New ]
 $reader SetFileName [lindex $argv 0]
 
-set diffusion [ itkGradientAnisotropicDiffusionImageFilterF2F2_New ]
+set diffusion [ itkGradientAnisotropicDiffusionImageFilterIF2IF2_New ]
 
 $diffusion  SetInput   [ $reader  GetOutput ]
 
@@ -32,10 +32,10 @@ $diffusion  SetTimeStep 0.0625
 $diffusion  SetConductanceParameter 9.0
 $diffusion  SetNumberOfIterations 5
 
-set gradient [ itkGradientMagnitudeImageFilterF2F2_New ]
+set gradient [ itkGradientMagnitudeImageFilterIF2IF2_New ]
 $gradient  SetInput   [ $diffusion  GetOutput ]
 
-set watershed [ itkWatershedImageFilterF2_New ]
+set watershed [ itkWatershedImageFilterIF2_New ]
 $watershed  SetInput   [ $gradient GetOutput ]
 
 $watershed  SetThreshold 0.01
