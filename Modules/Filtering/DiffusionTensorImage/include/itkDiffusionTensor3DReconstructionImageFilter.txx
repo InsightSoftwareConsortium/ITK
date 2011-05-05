@@ -196,7 +196,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   typename MaskSpatialObjectType::Pointer maskSpatialObject;
   if(this->m_MaskImagePresent)
     {
-    typename MaskSpatialObjectType::Pointer maskSpatialObject =
+    maskSpatialObject =
       static_cast<MaskSpatialObjectType *>(this->ProcessObject::GetInput(1));
     }
   bool useMask(maskSpatialObject.IsNotNull());
