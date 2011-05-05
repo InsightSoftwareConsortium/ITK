@@ -369,7 +369,7 @@ DoConvertBuffer(void* inputData, unsigned long frameNumber)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::DOUBLE,double)
   else
     {
-#define TYPENAME(x)                                     \
+#define TYPENAME_VideoFileReader(x)                                     \
     m_VideoIO->GetComponentTypeAsString                 \
       (ImageIOBase::MapPixelType<x>::CType)
 
@@ -379,16 +379,16 @@ DoConvertBuffer(void* inputData, unsigned long frameNumber)
         << std::endl << "    "
         << m_VideoIO->GetComponentTypeAsString( m_VideoIO->GetComponentType() )
         << std::endl << "to one of: "
-        << std::endl << "    " << TYPENAME( unsigned char )
-        << std::endl << "    " << TYPENAME( char )
-        << std::endl << "    " << TYPENAME( unsigned short )
-        << std::endl << "    " << TYPENAME( short )
-        << std::endl << "    " << TYPENAME( unsigned int )
-        << std::endl << "    " << TYPENAME( int )
-        << std::endl << "    " << TYPENAME( unsigned long )
-        << std::endl << "    " << TYPENAME( long )
-        << std::endl << "    " << TYPENAME( float )
-        << std::endl << "    " << TYPENAME( double )
+        << std::endl << "    " << TYPENAME_VideoFileReader( unsigned char )
+        << std::endl << "    " << TYPENAME_VideoFileReader( char )
+        << std::endl << "    " << TYPENAME_VideoFileReader( unsigned short )
+        << std::endl << "    " << TYPENAME_VideoFileReader( short )
+        << std::endl << "    " << TYPENAME_VideoFileReader( unsigned int )
+        << std::endl << "    " << TYPENAME_VideoFileReader( int )
+        << std::endl << "    " << TYPENAME_VideoFileReader( unsigned long )
+        << std::endl << "    " << TYPENAME_VideoFileReader( long )
+        << std::endl << "    " << TYPENAME_VideoFileReader( float )
+        << std::endl << "    " << TYPENAME_VideoFileReader( double )
         << std::endl;
     e.SetDescription( msg.str().c_str() );
     e.SetLocation(ITK_LOCATION);
