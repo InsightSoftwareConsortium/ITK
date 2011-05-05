@@ -54,6 +54,8 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "ranlib:.*file:.*has no symbols"
   "ranlib: file: .+ has no symbols"
   "libtool:.*file:.*has no symbols"
+  "ipo: warning #11053"
+  "ipo: warning #11053"
   "vxl.core.vnl.algo"
   "vxl.core.vnl"
   "vxl.v3p.netlib"
