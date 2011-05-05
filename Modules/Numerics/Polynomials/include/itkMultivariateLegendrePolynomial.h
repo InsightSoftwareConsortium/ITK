@@ -46,7 +46,7 @@ namespace itk
  *
  * The size of the parameter vector for 2D is
  * \f$\frac{(l+1)\cdot(1+2)}{2}\f$,
- * and for 3D is \f$\frac{(l+1)*(l+2)*(l+3){3!}\f$
+ * and for 3D is \f$\frac{(l+1)*(l+2)*(l+3)}{3!}\f$
  *
  * To get the size of the parameter vector, users can use one of the
  * two GetNumberOfCoefficients() member functions
