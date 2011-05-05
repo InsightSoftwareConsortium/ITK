@@ -285,8 +285,8 @@ itk_add_test(NAME CellularSegmentation1Test COMMAND ${ITK_TEST_DRIVER}
 
 if( ITK_USE_BRAINWEB_DATA )
 
-itk_add_test_with_data(NAME CellularSegmentation2Test COMMAND ${ITK_TEST_DRIVER}
-  CellularSegmentation2
+itk_add_test(NAME CellularSegmentation2Test COMMAND ${ITK_TEST_DRIVER}
+  $<TARGET_FILE:CellularSegmentation2>
         DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
         81 113 96 220 255 2000
         ${TEMP}/CellularSegmentation2Test.vtk
