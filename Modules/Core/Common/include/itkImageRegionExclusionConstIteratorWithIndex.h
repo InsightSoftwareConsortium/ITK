@@ -57,8 +57,6 @@ namespace itk
  * next row, starting at the first pixel in the row that is part of the
  * region. This allows for simple processing loops of the form:
  *
- * \example itkImageRegionExclusionConstIteratorWithIndex
- *
  * \code
  *
  *  IteratorType it( image, image->GetRequestedRegion() );

@@ -96,7 +96,7 @@ namespace itk
 #endif
 
 //This is probably better, but requires a lot of extra work
-//for gettting ExplicitInstantiation to work properly. #define
+//for gettting ExplicitInstantiation to work properly. \#define
 // itkStaticConstMacro(name, type, value) static const type name = value
 #define itkStaticConstMacro(name, type, value) enum { name = value }
 
@@ -300,7 +300,7 @@ namespace itk
     }
 
 /** Set built-in type where value is constrained between min/max limits.
- * Create member Set"name"() (e.q., SetRadius()). #defines are
+ * Create member Set"name"() (e.q., SetRadius()). \#defines are
  * convienience for clamping open-ended values. */
 #define itkSetClampMacro(name, type, min, max)                                    \
   virtual void Set##name (type _arg)                                            \
@@ -504,8 +504,8 @@ namespace itk
  * The following is used to output debug, warning, and error messages.
  * Use a global function which actually calls:
  * OutputWindow::GetInstance()->DisplayText();
- * This is to avoid Object #include of OutputWindow
- * while OutputWindow #includes Object. */
+ * This is to avoid Object \#include of OutputWindow
+ * while OutputWindow \#includes Object. */
 extern ITKCommon_EXPORT void OutputWindowDisplayText(const char *);
 
 extern ITKCommon_EXPORT void OutputWindowDisplayErrorText(const char *);
@@ -860,7 +860,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #define ITK_TEMPLATE_IMPORT_WORKS 0
 #endif
 
-/* Define macros to export and import template instantiations.  These
+/** Define macros to export and import template instantiations.  These
    depend on each class providing a macro defining the instantiations
    given template arguments in X.  The argument X is of the form
    N(a1[,a2...,aN]).  The argument Y is a valid preprocessing token
@@ -872,7 +872,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
    The ITK_TEMPLATE_<name> macro should be defined in itk<name>.h and
    is of the following form:
 
-     #define ITK_TEMPLATE_<name>(_, EXPORT, TypeX, TypeY) \
+     \#define ITK_TEMPLATE_<name>(_, EXPORT, TypeX, TypeY) \
     namespace itk { \
        _(<n>(class EXPORT <name>< ITK_TEMPLATE_<n> x >)) \
        namespace Templates { \
