@@ -2,6 +2,7 @@ itk_module_test()
 set(Video-IO-OpenCVTests
   itkOpenCVVideoIOTest.cxx
   itkOpenCVVideoIOFactoryTest.cxx
+  itkOpenCVVideoCaptureTest.cxx
 )
 find_package ( OpenCV REQUIRED )
 CreateTestDriver(Video-IO-OpenCV  "${Video-IO-OpenCV-Test_LIBRARIES}" "${Video-IO-OpenCVTests}")
@@ -30,4 +31,13 @@ midas_add_test(NAME OpenCVVideoIOFactoryTest
          ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_Out.avi
          # Webcam Number:
          0
+         )
+
+# OpenCVVideoCapture:
+midas_add_test(NAME OpenCVVideoCaptureTest
+         COMMAND Video-IO-OpenCVTestDriver itkOpenCVVideoCaptureTest
+         # Video Input:
+         MIDAS{inde-circulation.avi.md5}
+         # Output:
+         ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_Out.avi
          )
