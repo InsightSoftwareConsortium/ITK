@@ -234,7 +234,7 @@ FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeforma
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
 FastSymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
-::ApplyUpdate(TimeStepType dt)
+::ApplyUpdate(const TimeStepType& dt)
 {
   // If we smooth the update buffer before applying it, then the are
   // approximating a viscuous problem as opposed to an elastic problem
