@@ -207,6 +207,12 @@ public:
   itkGetConstReferenceMacro(ManualReinitialization, bool);
   itkBooleanMacro(ManualReinitialization);
 
+  itkSetMacro( IsInitialized, bool );
+  itkGetMacro( IsInitialized, bool );
+
+  void SetStateToUninitialized() { this->SetIsInitialized( false ); }
+  void SetStateToInitialized() { this->SetIsInitialized( true ); }
+
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( OutputPixelIsFloatingPointCheck,
