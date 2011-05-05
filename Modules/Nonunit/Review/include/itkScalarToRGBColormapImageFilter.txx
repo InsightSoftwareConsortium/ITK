@@ -38,6 +38,16 @@
 #include "itkJetColormapFunction.h"
 #include "itkOverUnderColormapFunction.h"
 
+/*
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Meeting Andy Warhol Somewhere Over the Rainbow: RGB Colormapping and ITK"
+ * by Tustison N., Zhang H., Lehmann G., Yushkevich P., Gee J.
+ * http://hdl.handle.net/1926/1452
+ * http://www.insight-journal.org/browse/publication/285
+ *
+ */
+
 namespace itk
 {
 /**

@@ -22,6 +22,16 @@
 #include "itkImageRegionIterator.h"
 #include "vnl/vnl_math.h"
 
+/*
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Efficient implementation of kernel filtering"
+ * by Beare R., Lehmann G
+ * http://hdl.handle.net/1926/576
+ * http://www.insight-journal.org/browse/publication/175
+ *
+ */
+
 namespace itk
 {
 /**

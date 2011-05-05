@@ -35,6 +35,17 @@ namespace Function
 // This is a modified version for use with masks. Need to allow for
 // the situation in which the map is empty
 
+/*
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Efficient implementation of kernel filtering"
+ * by Beare R., Lehmann G
+ * http://hdl.handle.net/1926/555
+ * http://www.insight-journal.org/browse/publication/160
+ *
+ */
+
+
 template< class TInputPixel >
 class RankHistogram
 {

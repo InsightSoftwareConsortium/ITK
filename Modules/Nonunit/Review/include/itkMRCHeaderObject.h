@@ -37,6 +37,12 @@ const char *const magicMAP = "MAP ";
  *
  * The POD structures a publicly avaible without access methods.
  *
+ *  This code was contributed in the Insight Journal paper:
+ *  "A Streaming IO Base Class and Support for Streaming the MRC and VTK File Format"
+ *  by Lowekamp B., Chen D.
+ *  http://www.insight-journal.org/browse/publication/729
+ *  http://hdl.handle.net/10380/3171
+ *
  * \sa MetaDataDictionary
  * \ingroup ITK-Review
  */

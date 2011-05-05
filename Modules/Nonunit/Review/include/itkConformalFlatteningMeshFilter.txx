@@ -25,6 +25,15 @@
 
 #include <float.h>  // for DBL_MIN
 
+/*
+ * This code was contributed in the Insight Journal paper:
+ * "Conformal Flattening ITK Filter"
+ * by Gao Y., Melonakos J., Tannenbaum A.
+ * http://hdl.handle.net/1926/225
+ * http://www.insight-journal.org/browse/publication/112
+ *
+ */
+
 namespace itk
 {
 /**

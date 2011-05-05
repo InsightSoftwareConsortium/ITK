@@ -63,6 +63,12 @@ namespace itk
  * Chapter 9.2 of Pierre Soille's book "Morphological Image Analysis:
  * Principles and Applications", Second Edition, Springer, 2003.
  *
+ * This code was contributed in the Insight Journal paper:
+ * "The watershed transform in ITK - discussion and new developments"
+ * by Beare R., Lehmann G.
+ * http://hdl.handle.net/1926/202
+ * http://www.insight-journal.org/browse/publication/92
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *

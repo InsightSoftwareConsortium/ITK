@@ -25,9 +25,11 @@ namespace itk
 /**
  * \author Nicholas J. Tustison
  *
- * Contributed by Nicholas J. Tustison, James C. Gee
- * in the Insight Journal paper:
+ * This code was contributed in the Insight Journal paper:
+ * "N-D C^k B-Spline Scattered Data Approximation"
+ * by Nicholas J. Tustison, James C. Gee
  * http://hdl.handle.net/1926/140
+ * http://www.insight-journal.org/browse/publication/57
  *
  */
 

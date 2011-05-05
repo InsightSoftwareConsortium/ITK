@@ -28,6 +28,12 @@ namespace itk
 /**
  * \class MaskedMovingHistogramImageFilter
  *
+ * This code was contributed in the Insight Journal paper:
+ * "Efficient implementation of kernel filtering"
+ * by Beare R., Lehmann G
+ * http://hdl.handle.net/1926/555
+ * http://www.insight-journal.org/browse/publication/160
+ *
  * \author Richard Beare
  * \author Gaetan Lehmann
  * \ingroup ITK-Review
