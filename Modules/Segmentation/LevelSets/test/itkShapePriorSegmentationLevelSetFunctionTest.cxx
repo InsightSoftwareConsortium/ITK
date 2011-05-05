@@ -56,7 +56,7 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   itkTypeMacro( SimpleTestFilter, DenseFiniteDifferenceImageFilter );
   itkNewMacro( Self );
-  itkSetMacro( NumberOfIterations, unsigned int );
+  itkSetMacro( NumberOfIterations, IdentifierType );
   typedef ShapePriorSegmentationLevelSetFunction<TImage,TImage> ShapePriorFunctionType;
   ShapePriorFunctionType * GetShapePriorFunction()
     { return m_ShapePriorFunction; };

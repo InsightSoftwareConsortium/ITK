@@ -180,7 +180,7 @@ protected:
   virtual void Initialize();
 
   /** Apply update. */
-  virtual void ApplyUpdate(TimeStepType dt);
+  virtual void ApplyUpdate(const TimeStepType& dt);
 
 private:
   CurvatureRegistrationFilter(const Self &); //purposely not implemented
