@@ -417,7 +417,10 @@ protected:
     const Self *m_Histogram;
   };   // end of iterator class
 
-  /** \class Iterator  \ingroup ITK-Statistics */
+  /** \class Iterator
+   * \brief class that walks through the elements of the histogram.
+   * \ingroup ITK-Statistics
+   */
   class Iterator:public ConstIterator
   {
 public:

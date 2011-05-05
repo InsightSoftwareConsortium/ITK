@@ -62,7 +62,10 @@ public:
   }
 };
 
-/** \class RandomPermutation  \ingroup ITK-Common */
+/** \class RandomPermutation
+ * \brief Random Permutation
+ * \ingroup ITK-Common
+ */
 class RandomPermutation
 {
 public:
