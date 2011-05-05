@@ -21,6 +21,7 @@
 #include "itkLabelMapFilter.h"
 #include "itkBarrier.h"
 #include "itkLabelOverlayFunctor.h"
+#include "itkRGBPixel.h"
 
 namespace itk {
 
@@ -42,7 +43,8 @@ namespace itk {
  *
  * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- */
+ * \ingroup ITK-Review
+*/
 template<class TInputImage, class TFeatureImage, class TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
 class ITK_EXPORT LabelMapOverlayImageFilter :
     public LabelMapFilter<TInputImage, TOutputImage>

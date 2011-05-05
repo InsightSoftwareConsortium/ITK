@@ -37,6 +37,7 @@ namespace fem {
  * FEM library is linked to a program. Before the library can
  * be used, some initialization must be performed. This is
  * done in a constructor of FEMInitialization class.
+ * \ingroup ITK-FEM
  */
 class FEMInitialization
 {

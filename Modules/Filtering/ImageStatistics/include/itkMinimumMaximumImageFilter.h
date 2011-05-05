@@ -38,6 +38,7 @@ namespace itk
  *
  * \ingroup Operators
  * \sa StatisticsImageFilter
+ * \ingroup ITK-ImageStatistics
  */
 template< class TInputImage >
 class ITK_EXPORT MinimumMaximumImageFilter:

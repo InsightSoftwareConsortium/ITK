@@ -44,6 +44,7 @@ namespace itk
  *
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-LevelSets
  */
 template< class TFeatureImage, class TOutputPixel >
 class ITK_EXPORT ShapePriorMAPCostFunction:

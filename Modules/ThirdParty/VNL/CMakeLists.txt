@@ -1,4 +1,5 @@
 project(ITK-VNL)
+set(ITK-VNL_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_VXL)

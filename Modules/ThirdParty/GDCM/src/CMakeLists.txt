@@ -24,6 +24,21 @@ if(NOT ITK_USE_SYSTEM_ZLIB)
   set(ZLIB_LIBRARY itkzlib)
 endif()
 
+# Configure GDCM privately so its options do not appear to the user.
+set(GDCM_LEGACY_REMOVE OFF CACHE INTERNAL "Remove all legacy code completely.")
+set(GDCM_LEGACY_SILENT OFF CACHE INTERNAL "Silence all legacy code messages.")
+set(GDCM_SUPPORT_BROKEN_IMPLEMENTATION ON CACHE INTERNAL "Handle broken DICOM")
+set(GDCM_TEMP_DIRECTORY "${ITK_TEST_OUTPUT_DIR}" CACHE INTERNAL "Path to a valid temp directory")
+set(GDCM_USE_KAKADU OFF CACHE INTERNAL "Use kakadu lib, only turn it on if you know what you are doing.")
+set(GDCM_USE_PVRG OFF CACHE INTERNAL "Use pvrg lib, only turn it on if you know what you are doing.")
+set(GDCM_USE_SYSTEM_LJPEG OFF CACHE INTERNAL "Use system ljpeg (ijg lib)")
+set(GDCM_USE_SYSTEM_OPENSSL OFF CACHE INTERNAL "Use system OpenSSL")
+set(GDCM_USE_SYSTEM_PODOFO OFF CACHE INTERNAL "Use system podofo (pdf)")
+set(GDCM_USE_SYSTEM_POPPLER OFF CACHE INTERNAL "Use system poppler (pdf)")
+set(GDCM_USE_SYSTEM_UUID OFF CACHE INTERNAL "Use system uuid")
+set(GDCM_USE_WXWIDGETS OFF CACHE INTERNAL "wxWidgets bridge ?")
+set(GDCM_WRITE_ODD_LENGTH OFF CACHE INTERNAL "Do not change")
+
 # GDCM uses these to refer to executable and library locations
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
@@ -43,9 +58,6 @@ foreach(lib
     gdcmuuid
     )
   if(TARGET ${lib}) # some gdcm targets are conditional
-    set_property(TARGET ${lib} PROPERTY VERSION 1)
-    set_property(TARGET ${lib} PROPERTY SOVERSION "")
-    set_property(TARGET ${lib} PROPERTY OUTPUT_NAME itk${lib}-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
-    itk_module_target_export(${lib})
+    itk_module_target(${lib} NO_INSTALL)
   endif()
 endforeach()

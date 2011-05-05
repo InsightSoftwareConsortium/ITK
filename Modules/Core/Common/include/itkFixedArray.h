@@ -60,6 +60,11 @@ struct GetVectorDimension {
  * you're best off using std::vector<>.
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Utilities/FixedArray,C-style array}
+ * \endwiki
  */
 template< typename TValueType, unsigned int VLength = 3 >
 class FixedArray
@@ -86,7 +91,9 @@ public:
   class ConstReverseIterator;
 
   /** \class ReverseIterator
-   * \brief A reverse iterator through the array. */
+   * \brief A reverse iterator through the array.
+   * \ingroup ITK-Common
+   */
   class ReverseIterator
   {
 public:
@@ -105,7 +112,9 @@ private:
   };
 
   /** \class ConstReverseIterator
-   * \brief A const reverse iterator through the array. */
+   * \brief A const reverse iterator through the array.
+   * \ingroup ITK-Common
+   */
   class ConstReverseIterator
   {
 public:

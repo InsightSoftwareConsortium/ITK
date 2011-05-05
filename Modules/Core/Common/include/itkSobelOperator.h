@@ -85,6 +85,11 @@ namespace itk
  * \sa BackwardDifferenceOperator
  *
  * \ingroup Operators
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Operators/SobelOperator,Create the Sobel kernel}
+ * \endwiki
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

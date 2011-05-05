@@ -41,6 +41,7 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup IntensityImageFilters
+ * \ingroup ITK-ImageFilterBase
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NoiseImageFilter:

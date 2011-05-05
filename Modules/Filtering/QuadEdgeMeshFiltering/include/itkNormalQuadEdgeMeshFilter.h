@@ -31,7 +31,7 @@ namespace itk
  * Normals to face are first computed, then normals to vertices are computed
  * as linear combination of neighbor face normals, i.e.
  * \f[
- * n_v = \frac{\sum_{i=0}^{#f} \omega_i \cdot n_i}{\| \sum_{k=0}^{#f} \omega_x \cdot n_k\|}
+ * n_v = \frac{\sum_{i=0}^{N_f} \omega_i \cdot n_i}{\| \sum_{k=0}^{N_f} \omega_x \cdot n_k\|}
  * \f]
  *
  * The difference between each method relies in the definition of the weight
@@ -62,6 +62,7 @@ namespace itk
  * TInputMesh::MeshTraits == TOutputMesh::MeshTraits
  * (and of course it requires that the output have some itk::Vector for point
  * data and cell data.
+ * \ingroup ITK-QuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT NormalQuadEdgeMeshFilter:

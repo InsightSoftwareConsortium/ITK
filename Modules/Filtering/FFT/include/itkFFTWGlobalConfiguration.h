@@ -247,6 +247,7 @@ private:
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Hans Johnson, The University of Iowa
  *
+ * \ingroup ITK-FFT
  */
 class ITK_EXPORT FFTWGlobalConfiguration: public Object
 {

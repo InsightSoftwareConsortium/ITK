@@ -38,6 +38,7 @@ namespace itk
  *
  * \sa ShapeLabelObject, BinaryShapeKeepNObjectsImageFilter, LabelStatisticsKeepNObjectsImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 template< class TImage >
 class ITK_EXPORT ShapeKeepNObjectsLabelMapFilter:

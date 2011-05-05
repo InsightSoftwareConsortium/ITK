@@ -1,11 +1,3 @@
 WRAP_CLASS("itk::FFTWComplexToComplexImageFilter" POINTER)
-  foreach(d ${WRAP_ITK_DIMS})
-    if(WRAP_complex_float)
-      WRAP_TEMPLATE("${ITKM_F}${d}" "${ITKT_F},${d}")
-    endif(WRAP_complex_float)
-
-    if(WRAP_complex_double)
-      WRAP_TEMPLATE("${ITKM_D}${d}" "${ITKT_D},${d}")
-    endif(WRAP_complex_double)
-  endforeach(d)
+  WRAP_IMAGE_FILTER_COMPLEX_REAL(1)
 END_WRAP_CLASS()

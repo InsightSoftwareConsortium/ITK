@@ -72,6 +72,7 @@ namespace itk
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
+ * \ingroup ITK-Review
  */
 template< class TFixedImage, class TMovingImage, class TDeformationField >
 class ITK_EXPORT DiffeomorphicDemonsRegistrationFilter:
@@ -160,7 +161,7 @@ protected:
   virtual void AllocateUpdateBuffer();
 
   /** Apply update. */
-  virtual void ApplyUpdate(TimeStepType dt);
+  virtual void ApplyUpdate(const TimeStepType& dt);
 
 private:
   DiffeomorphicDemonsRegistrationFilter(const Self &); //purposely not

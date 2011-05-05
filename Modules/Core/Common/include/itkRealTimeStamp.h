@@ -39,6 +39,7 @@ namespace itk
  * \sa RealTimeInterval
  * \sa RealTimeClock
  *
+ * \ingroup ITK-Common
  */
 
 class ITKCommon_EXPORT RealTimeStamp

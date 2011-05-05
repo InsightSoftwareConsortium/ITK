@@ -64,11 +64,20 @@ namespace itk
  * manage memory using (and perhaps overriding) the implementations of
  * ReleaseInputs() and AllocateOutputs() provided here.
  *
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Label object representation and manipulation with ITK"
+ * by Lehmann G.
+ * http://hdl.handle.net/1926/584
+ * http://www.insight-journal.org/browse/publication/176
+ *
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  *  INRA de Jouy-en-Josas, France.
  *
  * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 template< class TInputImage >
 class ITK_EXPORT InPlaceLabelMapFilter:public LabelMapFilter< TInputImage, TInputImage >

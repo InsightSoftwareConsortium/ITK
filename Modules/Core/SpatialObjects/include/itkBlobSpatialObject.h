@@ -35,6 +35,11 @@ namespace itk
  * represent a binary image.
  *
  * \sa SpatialObjectPoint
+ * \ingroup ITK-SpatialObjects
+ *
+ * \wiki
+ * \wikiexample{SpatialObjects/BlobSpatialObject,Blob}
+ * \endwiki
  */
 
 template< unsigned int TDimension = 3 >

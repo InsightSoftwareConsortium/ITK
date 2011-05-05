@@ -25,10 +25,20 @@ namespace itk
 /** \class ConvolutionImageFilter
  * \brief Convolve a given image with an arbitrary image kernel
  *
+ * This code was contributed in the Insight Journal paper:
+ *
+ * "Image Kernel Convolution"
+ * by Tustison N., Gee J.
  * http://hdl.handle.net/1926/1323
+ * http://www.insight-journal.org/browse/publication/208
  *
  * \author Nicholas J. Tustison
  * \author James C. Gee
+ * \ingroup ITK-Review
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/ConvolutionImageFilter,Convolve an image with a kernel}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage = TInputImage >
 class ITK_EXPORT ConvolutionImageFilter:

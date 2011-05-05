@@ -57,7 +57,9 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \sa itk::WatershedImageFilter
  * \sa itk::EquivalencyTable
- * \sa itk::watershed::SegmentTree  */
+ * \sa itk::watershed::SegmentTree
+ * \ingroup ITK-Watersheds
+ */
 template< class TScalarType, unsigned int TImageDimension >
 class ITK_EXPORT Relabeler:
   public ProcessObject

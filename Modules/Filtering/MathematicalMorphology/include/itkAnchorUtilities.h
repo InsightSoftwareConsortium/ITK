@@ -28,7 +28,9 @@ namespace itk
 * \brief functionality in common for anchor openings/closings and
 * erosions/dilation
 *
-**/
+*
+* \ingroup ITK-MathematicalMorphology
+*/
 template< class TImage, class TBres, class TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,

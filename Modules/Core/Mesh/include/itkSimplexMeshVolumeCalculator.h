@@ -43,6 +43,7 @@ namespace itk
  * details see the following reference  (Alyassin A.M. et al,
  * "Evaluation of new algorithms for the interactive measurement of
  * surface area and volume", Med Phys 21(6) 1994.).
+ * \ingroup ITK-Mesh
  */
 
 template< class TInputMesh >
@@ -96,6 +97,7 @@ public:
    * This class provides methods for visiting
    * each simplex cell of a simplex mesh
    * It computes the center of each visited cell.
+   * \ingroup ITK-Mesh
    */
   class SimplexCellVisitor
   {

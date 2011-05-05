@@ -131,11 +131,11 @@ add_custom_command(
 add_custom_target(StyleCheckReview DEPENDS ${ITK_BINARY_DIR}/KWStyleReviewReport.txt)
 add_custom_target(StyleCheckCode DEPENDS ${ITK_BINARY_DIR}/KWStyleCodeReport.txt)
 
-add_test(NAME KWStyleReviewTest
+itk_add_test(NAME KWStyleReviewTest
   COMMAND ${KWSTYLE_EXECUTABLE}
   ${KWSTYLE_ARGUMENTS_REVIEW})
 
-add_test(NAME KWStyleCodeTest
+itk_add_test(NAME KWStyleCodeTest
   COMMAND ${KWSTYLE_EXECUTABLE}
   ${KWSTYLE_ARGUMENTS_CODE})
 

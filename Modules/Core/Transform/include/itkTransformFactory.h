@@ -34,6 +34,7 @@ namespace itk
 {
 /** \class TransformFactory
  * \brief Create instances of Transforms
+ * \ingroup ITK-Transform
  */
 
 template< class T >

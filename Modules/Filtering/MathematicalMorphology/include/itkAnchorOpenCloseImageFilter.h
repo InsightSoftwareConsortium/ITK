@@ -45,6 +45,7 @@ namespace itk
  * in more complex template parameters because the appropriate
  * comparison operations need to be passed in. The less
  *
+ * \ingroup ITK-MathematicalMorphology
  */
 template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 class ITK_EXPORT AnchorOpenCloseImageFilter:

@@ -49,11 +49,12 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/306
+ * http://hdl.handle.net/1926/306
  *
  * \sa QuadEdge
  *
  * \ingroup MeshObjects
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< typename TVRef,  typename TFRef,
           typename TPrimalData, typename TDualData,

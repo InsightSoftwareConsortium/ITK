@@ -29,6 +29,7 @@ namespace itk
  * files. This prevents multiple definition of static variables.
  *
  * \ingroup MeshObjects
+ * \ingroup ITK-Common
  */
 
 class ITKCommon_EXPORT QuadrilateralCellTopology

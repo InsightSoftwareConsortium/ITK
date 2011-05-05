@@ -65,6 +65,7 @@ namespace itk
  *
  *
  * \ingroup RegionGrowingSegmentation
+ * \ingroup ITK-RegionGrowing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT IsolatedConnectedImageFilter:
@@ -124,6 +125,10 @@ public:
 
   /** Add seed point 2. */
   void AddSeed2(const IndexType & seed);
+
+  /** Method to access seed container */
+  virtual const SeedsContainerType &GetSeeds1() const;
+  virtual const SeedsContainerType &GetSeeds2() const;
 
   /** Set/Get the limit on the lower threshold value. The default is
    * the NonpositiveMin() for the InputPixelType. */

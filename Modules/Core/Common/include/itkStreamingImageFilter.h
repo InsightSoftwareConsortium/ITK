@@ -38,6 +38,7 @@ namespace itk
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
+ * \ingroup ITK-Common
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT StreamingImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >

@@ -770,7 +770,7 @@ void FEMRegistrationFilter< TMovingImage, TFixedImage >::ApplyLoads(SolverType &
           }
         catch ( itk::ExceptionObject & err )
           {
-          std::cerr << "Exception: cannot read load landmark FEMRegistrationFilter.txx " << err;
+          std::cerr << "Exception: cannot read load landmark " << __FILE__ << err;
           }
         f.close();
 

@@ -37,30 +37,35 @@ namespace itk
 template< class NodeType >
 std::vector< ITK_TYPENAME NarrowBand< NodeType >::RegionType >
 NarrowBand< NodeType >
-::SplitBand(unsigned int n)
+::SplitBand(const SizeType& n)
 {
-  unsigned int i;
+  SizeType t_n = n;
+  SizeType t_size = m_NodeContainer.size();
 
   std::vector< RegionType > regionList;
-  if ( n > static_cast< unsigned int >( m_NodeContainer.size() ) )
+  if ( t_n > t_size )
     {
-    n = static_cast< unsigned int >( m_NodeContainer.size() );
+    t_n = t_size;
     }
-  unsigned int regionsize =
-    static_cast< unsigned int >( vcl_floor( static_cast< float >( m_NodeContainer.size() ) / static_cast< float >( n ) ) );
+
+  SizeType regionsize =
+    static_cast< SizeType >(
+        vcl_floor( static_cast< float >( t_size ) / static_cast< float >( t_n ) ) );
+
   if ( regionsize == 0 )
     {
     regionsize = 1;
     }
+
   RegionType region;
   Iterator   pos = this->Begin();
 
-  for ( i = 0; i < n; i++ )
+  for ( SizeType i = 0; i < t_n; ++i )
     {
     region.Begin = pos;
     pos += regionsize;
 
-    if ( i != n - 1 )
+    if ( i != t_n - 1 )
       {
       region.End = pos;
       }

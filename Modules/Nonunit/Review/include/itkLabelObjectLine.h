@@ -36,6 +36,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/176
  *
  * \ingroup LabeledImageObject
+ * \ingroup ITK-Review
  */
 template< unsigned int VImageDimension >
 class LabelObjectLine

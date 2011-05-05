@@ -212,11 +212,12 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/306
+ * http://hdl.handle.net/1926/306
  *
  * \sa "Accessing adjacent edges."
  *
  * \ingroup MeshObjects
+ * \ingroup ITK-QuadEdgeMesh
  */
 class ITK_EXPORT QuadEdge
 {

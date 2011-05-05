@@ -1,4 +1,5 @@
 project(ITK-PNG)
+set(ITK-PNG_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_PNG "Use system-installed png" OFF)
 mark_as_advanced(ITK_USE_SYSTEM_PNG)

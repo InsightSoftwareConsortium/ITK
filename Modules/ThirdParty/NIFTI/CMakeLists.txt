@@ -1,4 +1,5 @@
 project(ITK-NIFTI)
+set(ITK-NIFTI_THIRD_PARTY 1)
 
 set(ITK-NIFTI_INCLUDE_DIRS
   ${ITK-NIFTI_SOURCE_DIR}/src/nifti/niftilib

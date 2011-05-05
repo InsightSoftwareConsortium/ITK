@@ -19,19 +19,30 @@
 #define __itkFFTWComplexToComplexImageFilter_txx
 
 #include "itkFFTWComplexToComplexImageFilter.h"
-#include "itkFFTComplexToComplexImageFilter.txx"
+#include "itkFFTComplexToComplexImageFilter.h"
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
 
+
+/*
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "FFT Complex to Complex filters and helper classes"
+ * by Warfield S.
+ * http://hdl.handle.net/1926/326
+ * http://www.insight-journal.org/browse/publication/128
+ *
+ */
+
 namespace itk
 {
 
-template< typename TPixel, unsigned int VDimension >
+template< class TImage >
 void
-FFTWComplexToComplexImageFilter< TPixel, VDimension >::
+FFTWComplexToComplexImageFilter< TImage >::
 BeforeThreadedGenerateData()
 {
   // get pointers to the input and output
@@ -63,7 +74,7 @@ BeforeThreadedGenerateData()
   unsigned int total_outputSize = 1;
   unsigned int total_inputSize = 1;
 
-  for ( unsigned i = 0; i < VDimension; i++ )
+  for ( unsigned i = 0; i < ImageDimension; i++ )
     {
     total_outputSize *= outputSize[i];
     total_inputSize *= inputSize[i];
@@ -87,13 +98,13 @@ BeforeThreadedGenerateData()
     flags = flags | FFTW_PRESERVE_INPUT;
     }
 
-  int *sizes = new int[VDimension];
-  for(unsigned int i = 0; i < VDimension; i++)
+  int *sizes = new int[ImageDimension];
+  for(unsigned int i = 0; i < ImageDimension; i++)
     {
-    sizes[(VDimension - 1) - i] = inputSize[i];
+    sizes[(ImageDimension - 1) - i] = inputSize[i];
     }
 
-  plan = FFTWProxyType::Plan_dft(VDimension,sizes,
+  plan = FFTWProxyType::Plan_dft(ImageDimension,sizes,
                                     in,
                                     out,
                                     transformDirection,
@@ -105,9 +116,9 @@ BeforeThreadedGenerateData()
   FFTWProxyType::DestroyPlan(plan);
 }
 
-template <typename TPixel, unsigned int VDimension>
+template <class TImage>
 void
-FFTWComplexToComplexImageFilter< TPixel, VDimension >::
+FFTWComplexToComplexImageFilter< TImage >::
 ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int itkNotUsed(threadId) )
 {
   //
@@ -120,7 +131,7 @@ ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int itk
     IteratorType it(this->GetOutput(), outputRegionForThread);
     while( !it.IsAtEnd() )
       {
-      std::complex< TPixel > val = it.Value();
+      PixelType val = it.Value();
       val /= total_outputSize;
       it.Set(val);
       ++it;
@@ -128,17 +139,17 @@ ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int itk
     }
 }
 
-template< typename TPixel, unsigned int VDimension >
+template< class TImage >
 bool
-FFTWComplexToComplexImageFilter< TPixel, VDimension >::FullMatrix()
+FFTWComplexToComplexImageFilter< TImage >::FullMatrix()
 {
   return false;
 }
 
 
-template< typename TPixel, unsigned int VDimension >
+template< class TImage >
 void
-FFTWComplexToComplexImageFilter< TPixel, VDimension >::
+FFTWComplexToComplexImageFilter< TImage >::
 UpdateOutputData(DataObject * output)
 {
   // we need to catch that information now, because it is changed later
@@ -148,9 +159,9 @@ UpdateOutputData(DataObject * output)
   Superclass::UpdateOutputData( output );
 }
 
-template< typename TPixel, unsigned int VDimension >
+template< class TImage >
 void
-FFTWComplexToComplexImageFilter< TPixel, VDimension >
+FFTWComplexToComplexImageFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

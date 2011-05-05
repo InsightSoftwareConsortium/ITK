@@ -37,7 +37,9 @@ namespace itk
  * \sa ShapeSignedDistanceFunction
  * \ingroup ImageFunctions
  *
- * */
+ *
+ * \ingroup ITK-SignedDistanceFunction
+ */
 template< typename TCoordRep, unsigned int VSpaceDimension >
 class ITK_EXPORT SphereSignedDistanceFunction:
   public ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >

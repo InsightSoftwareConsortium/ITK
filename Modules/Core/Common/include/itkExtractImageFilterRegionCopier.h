@@ -129,6 +129,7 @@ void ExtractImageFilterCopyRegion(const typename
   *  in ImageToImageFilterDetail.
   *
   *
+  * \ingroup ITK-Common
   */
 template< unsigned int T1, unsigned int T2 >
 class ITK_EXPORT ExtractImageFilterRegionCopier:

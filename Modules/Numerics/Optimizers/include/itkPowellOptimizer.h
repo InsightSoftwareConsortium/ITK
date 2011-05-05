@@ -55,6 +55,7 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  *
+ * \ingroup ITK-Optimizers
  */
 
 class ITK_EXPORT PowellOptimizer:

@@ -67,6 +67,7 @@ namespace itk
  * Depending on the Function object being used it might need other
  * members. For instance, NormalVectorDiffusionFunction will also require that
  * the NodeType has the following additional members: m_Flux.
+ * \ingroup ITK-LevelSets
  */
 template< class TInputImage, class TSparseOutputImage >
 class ITK_EXPORT ImplicitManifoldNormalVectorFilter:

@@ -63,6 +63,11 @@ namespace itk
  * \sa RGBPixel
  * \sa DiffusionTensor3D
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/VariableLengthVector,Variable length vector}
+ * \endwiki
  */
 template< typename TValueType >
 class VariableLengthVector
@@ -184,6 +189,10 @@ public:
    * length is different from the current length, existing data will be lost.
    * The default is \c true. */
   void SetSize(unsigned int sz, bool destroyExistingData = true);
+
+  /** Destroy data that is allocated internally, if LetArrayManageMemory is
+   * true. */
+  void DestroyExistingData();
 
   inline unsigned int GetSize(void) const
   { return m_NumElements; }

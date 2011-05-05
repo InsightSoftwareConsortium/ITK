@@ -26,7 +26,16 @@ namespace itk
 /** \class RobustAutomaticThresholdCalculator
  * \brief Compute the robust automatic threshold
  *
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Robust Automatic Threshold Selection"
+ * by Lehmann G.
+ * http://hdl.handle.net/1926/370
+ * http://www.insight-journal.org/browse/publication/134
+ *
+ *
  * \ingroup Operators
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TGradientImage >
 class ITK_EXPORT RobustAutomaticThresholdCalculator:public Object

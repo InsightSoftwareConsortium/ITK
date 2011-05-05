@@ -23,17 +23,14 @@
 #include "itkImage.h"
 #include "itkSpatialObjectToImageStatisticsCalculator.h"
 #include "itkSpatialObjectToImageFilter.h"
-#include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 #include "itkEllipseSpatialObject.h"
 #include "itkImageSliceIteratorWithIndex.h"
 
 int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
 {
-  typedef unsigned char PixelType;
-  typedef itk::Image<PixelType,2> ImageType;
+  typedef unsigned char                PixelType;
+  typedef itk::Image<PixelType,2>      ImageType;
   typedef itk::EllipseSpatialObject<2> EllipseType;
-  typedef itk::FloodFilledSpatialFunctionConditionalIterator<ImageType,
-                                                 EllipseType> IteratorType;
 
   // Image Definition
   ImageType::RegionType region;
@@ -72,7 +69,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   calculator->Update();
 
   std::cout << " --- Ellipse and Image perfectly aligned --- " << std::endl;
-  std::cout << "Sample mean = " << calculator->GetMean() << std::endl ;
+  std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
   if(calculator->GetMean() != 255
@@ -92,7 +89,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   calculator->Update();
 
   std::cout << " --- Ellipse and Image mismatched left --- " << std::endl;
-  std::cout << "Sample mean = " << calculator->GetMean() << std::endl ;
+  std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
   if(  (vcl_fabs(calculator->GetMean()[0]-140.0)>1.0)
@@ -113,7 +110,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   ellipse->Update();
   calculator->Update();
 
-  std::cout << "Sample mean = " << calculator->GetMean() << std::endl ;
+  std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
   if( (vcl_fabs(calculator->GetMean()[0]-140.0)>1.0)
@@ -153,6 +150,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   std::cout << "Allocating image." << std::endl;
   typedef itk::ImageSliceIteratorWithIndex< Image3DType > SliceIteratorType;
   SliceIteratorType it( image3D, region3D );
+
 
   it.GoToBegin();
   it.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
@@ -197,7 +195,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   calculator3D->SetSpatialObject(ellipse3D);
   calculator3D->Update();
 
-  std::cout << "Sample mean = " << calculator3D->GetMean() << std::endl ;
+  std::cout << "Sample mean = " << calculator3D->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator3D->GetCovarianceMatrix();
 
   if(  (vcl_fabs(calculator3D->GetMean()[0]-0.0)>1.0)

@@ -37,10 +37,18 @@ namespace itk
  * having values > 0 are candidates for affecting the center pixel.
  *
  *
+ * This code was contributed in the Insight Journal paper:
+ * "Binary morphological closing and opening image filters"
+ * by Lehmann G.
+ * http://hdl.handle.net/1926/141
+ * http://www.insight-journal.org/browse/publication/58
+ *
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >

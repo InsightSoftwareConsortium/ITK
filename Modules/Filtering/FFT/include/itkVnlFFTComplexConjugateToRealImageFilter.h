@@ -18,6 +18,7 @@
 #ifndef __itkVnlFFTComplexConjugateToRealImageFilter_h
 #define __itkVnlFFTComplexConjugateToRealImageFilter_h
 #include "itkFFTComplexConjugateToRealImageFilter.h"
+#include "itkImage.h"
 
 namespace itk
 {
@@ -30,20 +31,27 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa ConstantPadImageFilter
+ * \ingroup ITK-FFT
+ *
+ * \wiki
+ * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
+ * \endwiki
  */
-template< class TPixel, unsigned int VDimension = 3 >
+template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class VnlFFTComplexConjugateToRealImageFilter:
-  public FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
+  public FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef Image< std::complex< TPixel >, VDimension > TInputImageType;
-  typedef Image< TPixel, VDimension >                 TOutputImageType;
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::PixelType  OutputPixelType;
 
-  typedef VnlFFTComplexConjugateToRealImageFilter                    Self;
-  typedef FFTComplexConjugateToRealImageFilter< TPixel, VDimension > Superclass;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
+  typedef VnlFFTComplexConjugateToRealImageFilter                           Self;
+  typedef FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                              Pointer;
+  typedef SmartPointer< const Self >                                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -53,8 +61,7 @@ public:
                FFTComplexConjugateToRealImageFilter);
 
   /** Image type typedef support. */
-  typedef TInputImageType              ImageType;
-  typedef typename ImageType::SizeType ImageSizeType;
+  typedef typename InputImageType::SizeType ImageSizeType;
 
   //
   // these should be defined in every FFT filter class
@@ -65,17 +72,13 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( PixelUnsignedIntDivisionOperatorsCheck,
-                   ( Concept::DivisionOperators< TPixel, unsigned int > ) );
+                   ( Concept::DivisionOperators< OutputPixelType, unsigned int > ) );
   /** End concept checking */
 #endif
 protected:
   VnlFFTComplexConjugateToRealImageFilter()  {}
   virtual ~VnlFFTComplexConjugateToRealImageFilter(){}
 private:
-  inline std::complex< TPixel > myConj(const std::complex< TPixel > & __z)
-  {
-    return std::complex< TPixel >( __z.real(), -__z.imag() );
-  }
 
   VnlFFTComplexConjugateToRealImageFilter(const Self &); //purposely not
                                                          // implemented

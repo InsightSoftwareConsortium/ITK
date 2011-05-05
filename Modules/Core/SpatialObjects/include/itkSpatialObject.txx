@@ -91,7 +91,7 @@ SpatialObject< TDimension >
 {
   if ( !IsEvaluableAt(point, depth, name) )
     {
-    itk::ExceptionObject e("SpatialObject.txx");
+    itk::ExceptionObject e(__FILE__);
     e.SetLocation(
       "SpatialObject< TDimension >::DerivateAt(\
                    const PointType, unsigned short, OutputVectorType & )"                                                 );

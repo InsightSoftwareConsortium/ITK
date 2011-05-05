@@ -59,7 +59,9 @@ namespace itk
  * \sa Transform
  * \ingroup ImageFunctions
  *
- * */
+ *
+ * \ingroup ITK-SignedDistanceFunction
+ */
 template< typename TCoordRep,
           unsigned int VSpaceDimension,
           typename TImage = Image< double, VSpaceDimension > >

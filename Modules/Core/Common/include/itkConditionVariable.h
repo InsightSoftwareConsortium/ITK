@@ -53,6 +53,7 @@ namespace itk
  * POSIX Condition Variables on Win32". This article can be found at
  * http://www.cs.wustl.edu/~schmidt/win32-cv-1.html
  *
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT ConditionVariable:public LightObject
 {

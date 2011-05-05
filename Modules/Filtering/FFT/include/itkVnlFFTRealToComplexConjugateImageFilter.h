@@ -32,17 +32,28 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa FFTRealToComplexConjugateImageFilter
+ * \ingroup ITK-FFT
+ *
+ * \wiki
+ * \wikiexample{SpectralAnalysis/VnlFFTRealToComplexConjugateImageFilter,Compute the FFT of an image}
+ * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
+ * \endwiki
  */
-template< class TPixel, unsigned int VDimension = 3 >
+template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
 class VnlFFTRealToComplexConjugateImageFilter:
-  public FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
+  public FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef VnlFFTRealToComplexConjugateImageFilter                    Self;
-  typedef FFTRealToComplexConjugateImageFilter< TPixel, VDimension > Superclass;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::PixelType  OutputPixelType;
+
+  typedef VnlFFTRealToComplexConjugateImageFilter                           Self;
+  typedef FFTRealToComplexConjugateImageFilter<  TInputImage, TOutputImage> Superclass;
+  typedef SmartPointer< Self >                                              Pointer;
+  typedef SmartPointer< const Self >                                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,11 +75,6 @@ protected:
   bool Legaldim(int n);
 
 private:
-  inline std::complex< TPixel > myConj(const std::complex< TPixel > & __z)
-  {
-    return std::complex< TPixel >( __z.real(), -__z.imag() );
-  }
-
   VnlFFTRealToComplexConjugateImageFilter(const Self &); //purposely not
                                                          // implemented
   void operator=(const Self &);                          //purposely not

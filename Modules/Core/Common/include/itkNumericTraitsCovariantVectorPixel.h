@@ -36,6 +36,7 @@ namespace itk
  *
  * \sa NumericTraits
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< typename T, unsigned int D >
 class NumericTraits< CovariantVector< T, D > >

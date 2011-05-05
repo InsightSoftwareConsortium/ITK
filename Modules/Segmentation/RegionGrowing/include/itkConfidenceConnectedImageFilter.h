@@ -53,6 +53,7 @@ namespace itk
  * valid numeric limits of the input data pixel type. Also, the limits
  * may be adjusted to contain the seed point's intensity.
  * \ingroup RegionGrowingSegmentation
+ * \ingroup ITK-RegionGrowing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ConfidenceConnectedImageFilter:
@@ -127,6 +128,9 @@ public:
    * region.  This method should only be invoked after the filter has been
    * executed using the Update() method. */
   itkGetConstReferenceMacro(Variance, InputRealType);
+
+  /** Method to access seed container */
+  virtual const SeedsContainerType &GetSeeds() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

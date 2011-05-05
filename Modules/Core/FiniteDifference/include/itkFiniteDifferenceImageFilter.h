@@ -28,7 +28,8 @@ namespace itk
  *
  * \par The Finite Difference Solver Hierarchy
  *
- * This is an overview of the finite difference solver (FDS) framework.  The
+ * \par
+ * This is an overview of the Finite Difference Solver (FDS) framework. The
  * FDS framework is a set of classes for creating filters to solve partial
  * differential equations on images using an iterative, finite difference
  * update scheme.
@@ -45,21 +46,20 @@ namespace itk
  * \endcode
  *
  * \par
- * The following equation describes update \f$n+1\f$ at pixel \f$i\f$ on
+ * The following equation describes update \f$ n+1 \f$ at pixel \f$ i \f$ on
  * discrete image \f$ u \f$ :
  *
- * \par
- * \f$u_{\mathbf{i}}^{n+1}=u^n_{\mathbf{i}}+\Delta u^n_{\mathbf{i}}\Delta t\f$
+ * \f[ u_{\mathbf{i}}^{n+1}=u^n_{\mathbf{i}}+\Delta u^n_{\mathbf{i}}\Delta t \f]
  *
  * \par Component objects
  * The FDS hierarchy is comprised of two component object types, variations of
  * which are designed to be plugged together to create filters for different
- * applications.  At the process level are the ``solver'' objects, which are
- * subclasses of FiniteDifferenceImageFilter.  Solver objects are filters that
+ * applications.  At the process level are the "solver" objects, which are
+ * subclasses of FiniteDifferenceImageFilter. Solver objects are filters that
  * take image inputs and produce image outputs.  Solver objects require a
- * ``finite difference function'' object to perform the calculation at each
- * image pixel during iteration.  These specialized function objects are
- * subclasses of FiniteDifferenceFunction. FiniteDifferenceFunctions take a
+ * FiniteDifferenceFunction object to perform the calculation at each
+ * image pixel during iteration. These specialized function objects are
+ * subclasses of FiniteDifferenceFunction. FiniteDifferenceFunction take a
  * neighborhood of pixels as input (in the form of an
  * itk::NeighborhoodIterator) and produce a scalar valued result.
  *
@@ -67,8 +67,10 @@ namespace itk
  * Filters for different applications are created by defining a function object
  * to handle the numerical calculations and choosing (or creating) a solver
  * object that reflects the requirements and constraints of the application.
+ *
  * For example, anisotropic diffusion filters are created by plugging
  * anisotropic diffusion functions into the DenseFiniteDifferenceImageFilter.
+ *
  * The separation between function object and solver object allows us to
  * create, for example, sparse-field, dense-field, and narrow-band
  * implementations of a level-set surface evolution filter can all be
@@ -79,15 +81,15 @@ namespace itk
  * The procedure for creating a filter within the FDS hierarchy is to identify
  * all the virtual methods that need to be defined for your particular
  * application.  In the simplest case, a filter needs only to instantiate a
- * specific function object and define some halting criteria.  For more
+ * specific function object and define some halting criteria. For more
  * complicated applications, you may need to define a specialized type of
  * iteration scheme or updating procedure in a higher-level solver object.
  *
  * \par
  * Some simple examples are the specific subclasses of
- * AnisotropicDiffusionImageFilter.  The leaves of the anisotropic diffusion
+ * AnisotropicDiffusionImageFilter. The leaves of the anisotropic diffusion
  * filter tree only define the function object they use for their particular
- * flavor of diffusion.  See CurvatureAnisotropicDiffusionImageFilter and
+ * flavor of diffusion. See CurvatureAnisotropicDiffusionImageFilter and
  * GradientAnisotropicDiffusionImageFilter for details.
  *
  * \par FiniteDifferenceImageFilter
@@ -96,29 +98,36 @@ namespace itk
  * the generic, high-level algorithm (described above).
  *
  * \par Inputs and Outputs
- * This filter is an Image to Image filter.  Depending on the specific
+ * This filter is an ImageToImage filter. Depending on the specific
  * subclass implementation, finite difference image filters may process a
- * variety of image types.  The input to the filter is the initial
+ * variety of image types. The input to the filter is the initial
  * value of \f$ u \f$ and the output of the filter is the solution to the
- * p.d.e.
+ * P.D.E.
  *
  * \par How to use this class
  * GenerateData() relies on several virtual methods that must be defined by a
- * subclass.  Specifically: \em AllocateUpdateBuffer \em ApplyUpdate
- * \em CalculateChange and \em Halt.  To create a finite difference solver,
- * implement a subclass to define these methods.
+ * subclass.
+ * Specifically:
+ * \li \em AllocateUpdateBuffer()
+ * \li \em ApplyUpdate()
+ * \li \em CalculateChange()
+ * \li \em Halt().
+ * To create a finite difference solver, implement a subclass to define these methods.
  *
  * \par
  * Note that there is no fixed container type for the buffer used to hold
- * the update \f$ \Delta \f$.  The container might be another image, or simply
+ * the update \f$ \Delta \f$. The container might be another image, or simply
  * a list of values.  AllocateUpdateBuffer is responsible for creating the
  * \f$ \Delta \f$ container.  CalculateChange populates this buffer and
- * ApplyUpdate adds the buffer values to the output image (solution).  The
- * boolean Halt() (or ThreadedHalt) method returns a true value to stop iteration.
+ * ApplyUpdate adds the buffer values to the output image (solution). The
+ * boolean Halt() (or ThreadedHalt()) method returns a true value to stop iteration.
  *
  * \ingroup ImageFilter
  * \ingroup LevelSetSegmentation
- * \sa DenseFiniteDifferenceImageFilter */
+ *
+ * \sa DenseFiniteDifferenceImageFilter
+ * \ingroup ITK-FiniteDifference
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT FiniteDifferenceImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
@@ -158,10 +167,8 @@ public:
   typedef typename FiniteDifferenceFunctionType::RadiusType             RadiusType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodScalesType NeighborhoodScalesType;
 
-  typedef enum { UNINITIALIZED = 0, INITIALIZED = 1 } FilterStateType;
-
   /** Get the number of elapsed iterations of the filter. */
-  itkGetConstReferenceMacro(ElapsedIterations, unsigned int);
+  itkGetConstReferenceMacro(ElapsedIterations, IdentifierType);
 
   /** This method returns a pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
@@ -175,8 +182,8 @@ public:
   itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType);
 
   /** Set/Get the number of iterations that the filter will run. */
-  itkSetMacro(NumberOfIterations, unsigned int);
-  itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
+  itkSetMacro(NumberOfIterations, IdentifierType);
+  itkGetConstReferenceMacro(NumberOfIterations, IdentifierType);
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOff. */
@@ -194,24 +201,6 @@ public:
   itkSetMacro(RMSChange, double);
   itkGetConstReferenceMacro(RMSChange, double);
 
-  /** Set the state of the filter to INITIALIZED */
-  void SetStateToInitialized()
-  {
-    this->SetState(INITIALIZED);
-  }
-
-  /** Set the state of the filter to UNINITIALIZED */
-  void SetStateToUninitialized()
-  {
-    this->SetState(UNINITIALIZED);
-  }
-
-  /** Set/Get the state of the filter. */
-#if !defined( CABLE_CONFIGURATION )
-  itkSetMacro(State, FilterStateType);
-  itkGetConstReferenceMacro(State, FilterStateType);
-#endif
-
   /** Require the filter to be manually reinitialized (by calling
       SetStateToUninitialized() */
   itkSetMacro(ManualReinitialization, bool);
@@ -224,9 +213,15 @@ public:
                    ( Concept::IsFloatingPoint< OutputPixelValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
+
   FiniteDifferenceImageFilter();
-  ~FiniteDifferenceImageFilter();
+  virtual ~FiniteDifferenceImageFilter();
+
+  /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
+  bool m_IsInitialized;
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This method allocates a temporary update container in the subclass. */
@@ -235,7 +230,7 @@ protected:
   /** This method is defined by a subclass to apply changes to the output
    * from an update buffer and a time step value "dt".
    * \param dt Time step value. */
-  virtual void ApplyUpdate(TimeStepType dt) = 0;
+  virtual void ApplyUpdate(const TimeStepType& dt) = 0;
 
   /** This method is defined by a subclass to populate an update buffer
    * with changes for the pixels in the output.  It returns a time
@@ -311,22 +306,22 @@ protected:
    * \param size The size of "list" and "valid"
    *
    * The default is to return the minimum value in the list. */
-  virtual TimeStepType ResolveTimeStep(const TimeStepType *timeStepList,
-                                       const bool *valid, int size);
+  virtual TimeStepType ResolveTimeStep(const std::vector< TimeStepType >& timeStepList,
+                                       const std::vector< bool >& valid ) const;
 
   /** Set the number of elapsed iterations of the filter. */
-  itkSetMacro(ElapsedIterations, unsigned int);
+  itkSetMacro(ElapsedIterations, IdentifierType);
 
   /** This method is called after the solution has been generated to allow
    * subclasses to apply some further processing to the output. */
   virtual void PostProcessOutput() {}
 
   /** The maximum number of iterations this filter will run */
-  unsigned int m_NumberOfIterations;
+  IdentifierType m_NumberOfIterations;
 
   /** A counter for keeping track of the number of elapsed
       iterations during filtering. */
-  unsigned int m_ElapsedIterations;
+  IdentifierType m_ElapsedIterations;
 
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */
@@ -334,6 +329,7 @@ protected:
 
   double m_RMSChange;
   double m_MaximumRMSError;
+
 private:
   FiniteDifferenceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented
@@ -349,9 +345,6 @@ private:
 
   /** The function that will be used in calculating updates for each pixel. */
   typename FiniteDifferenceFunctionType::Pointer m_DifferenceFunction;
-
-  /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
-  FilterStateType m_State;
 };
 } // end namespace itk
 

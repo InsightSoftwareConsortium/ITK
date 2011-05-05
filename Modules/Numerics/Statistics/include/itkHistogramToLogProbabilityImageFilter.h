@@ -41,6 +41,7 @@ namespace itk
  *  \sa HistogramToImageFilter, HistogramToProbabilityImageFilter,
  *  HistogramToIntensityImageFilter, HistogramToEntropyImageFilter
  *
+ * \ingroup ITK-Statistics
  */
 
 namespace Function

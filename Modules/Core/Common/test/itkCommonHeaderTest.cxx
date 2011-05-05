@@ -293,8 +293,15 @@
 #include "itkZeroFluxNeumannBoundaryCondition.txx"
 #include "vcl_alloc.h"
 #include "VNLIterativeSparseSolverTraits.h"
-
-
+#include "itkAtanRegularizedHeavisideStepFunction.h"
+#include "itkAtanRegularizedHeavisideStepFunction.txx"
+#include "itkHeavisideStepFunction.h"
+#include "itkHeavisideStepFunction.txx"
+#include "itkHeavisideStepFunctionBase.h"
+#include "itkRegularizedHeavisideStepFunction.h"
+#include "itkRegularizedHeavisideStepFunction.txx"
+#include "itkSinRegularizedHeavisideStepFunction.h"
+#include "itkSinRegularizedHeavisideStepFunction.txx"
 
 int itkCommonHeaderTest ( int , char * [] )
 {

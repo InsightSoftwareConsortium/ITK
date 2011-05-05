@@ -9,7 +9,7 @@ macro(add_tcl_test name)
     set(command arch -${test_arch} ${command})
   endif()
 
-  add_test(NAME ${name}
+  itk_add_test(NAME ${name}
     COMMAND "${ITK_TEST_DRIVER}"
     --add-before-env-with-sep TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages/Tcl/$<CONFIGURATION>" " "
     --add-before-env-with-sep TCLLIBPATH "${WrapITK_BINARY_DIR}/Languages/Tcl" " "

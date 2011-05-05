@@ -35,6 +35,7 @@ namespace itk
  * \sa KernelFunction
  *
  * \ingroup Functions
+ * \ingroup ITK-Common
  */
 class ITKCommon_EXPORT GaussianKernelFunction:public KernelFunction
 {

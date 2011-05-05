@@ -213,6 +213,7 @@ namespace fem {
 /**
  * \class INITClass
  * \brief Class that is used in #FEM_CLASS_INIT macro.
+ * \ingroup ITK-FEM
  */
 struct INITClass {
   INITClass(int i) {

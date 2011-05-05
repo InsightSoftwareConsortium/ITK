@@ -22,6 +22,16 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"
 
+/*
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Robust Automatic Threshold Selection"
+ * by Lehmann G.
+ * http://hdl.handle.net/1926/370
+ * http://www.insight-journal.org/browse/publication/134
+ *
+ */
+
 namespace itk
 {
 template< class TInputImage, class TGradientImage, class TOutputImage >

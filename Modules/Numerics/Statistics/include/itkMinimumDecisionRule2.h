@@ -28,6 +28,7 @@ namespace Statistics
  *  \brief A Decision rule that choose the class of which discriminant
  *  score is the largest. This class will replace the MinimumDecisionRule
  *  in Code/Common
+ * \ingroup ITK-Statistics
  */
 
 class ITK_EXPORT MinimumDecisionRule2:public DecisionRule

@@ -1,14 +1,14 @@
-# Doxyfile 1.7.3
+# Doxyfile 1.7.4
 
 # This file describes the settings to be used by the documentation system
-# doxygen (www.doxygen.org) for a project
+# doxygen (www.doxygen.org) for a project.
 #
-# All text after a hash (#) is considered a comment and will be ignored
+# All text after a hash (#) is considered a comment and will be ignored.
 # The format is:
 #       TAG = value [value, ...]
 # For lists items can also be appended using:
 #       TAG += value [value, ...]
-# Values that contain spaces should be placed between quotes (" ")
+# Values that contain spaces should be placed between quotes (" ").
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -44,14 +44,14 @@ PROJECT_BRIEF          = "Insight Segmentation and Registration Toolkit"
 # exceed 55 pixels and the maximum width should not exceed 200 pixels.
 # Doxygen will copy the logo to the output directory.
 
-PROJECT_LOGO           = itkLogoSmall.jpg
+PROJECT_LOGO           = "@ITK_SOURCE_DIR@/Documentation/Art/itkLogoSmall.gif"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute)
 # base path where the generated documentation will be put.
 # If a relative path is entered, it will be relative to the location
 # where doxygen was started. If left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = @ITK_BINARY_DIR@/Utilities/Doxygen
+OUTPUT_DIRECTORY       = "@ITK_BINARY_DIR@/Utilities/Doxygen"
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create
 # 4096 sub-directories (in 2 levels) under the output directory of each output
@@ -137,7 +137,7 @@ FULL_PATH_NAMES        = NO
 # If left blank the directory from which doxygen is run is used as the
 # path to strip.
 
-STRIP_FROM_PATH        = @ITK_BINARY_DIR@/Utilities/
+STRIP_FROM_PATH        = "@ITK_BINARY_DIR@/Utilities/"
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of
 # the path mentioned in the documentation of a class, which tells
@@ -202,10 +202,11 @@ TAB_SIZE               = 2
 # will result in a user-defined paragraph with heading "Side Effects:".
 # You can put \n's in the value part of an alias to insert newlines.
 
-ALIASES +="wikimainaddress{1}=<a href=\"\1\">All Examples</a>"
-ALIASES +="wikiexamplemaintitle=\par Wiki Examples:\n\n"
-ALIASES +="wikiexample{2}=<a href=\"http://www.itk.org/Wiki/ITK/Examples/\1\">\2</a>\n"
-ALIASES +="wiki=\wikiexamplemaintitle \wikimainaddress{http://www.itk.org/Wiki/ITK/Examples}\n"
+ALIASES                = "wikimainaddress{1}=<a href=\"\1\">All Examples</a>" \
+                         "wikiexamplemaintitle=\par Wiki Examples:\n\n" \
+                         "wikiexample{2}=\li <a href=\"http://www.itk.org/Wiki/ITK/Examples/\1\">\2</a>\n" \
+                         "wiki=\wikiexamplemaintitle \li \wikimainaddress{http://www.itk.org/Wiki/ITK/Examples}\n" \
+                         "endwiki=\n\n\n"
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C
 # sources only. Doxygen will then generate output that is more tailored for C.
@@ -288,6 +289,13 @@ DISTRIBUTE_GROUP_DOC   = YES
 # the \nosubgrouping command.
 
 SUBGROUPING            = YES
+
+# When the INLINE_GROUPED_CLASSES tag is set to YES, classes, structs and
+# unions are shown inside the group in which they are included (e.g. using
+# @ingroup) instead of on a separate page (for HTML and Man pages) or
+# section (for LaTeX and RTF).
+
+INLINE_GROUPED_CLASSES = NO
 
 # When TYPEDEF_HIDES_STRUCT is enabled, a typedef of a struct, union, or enum
 # is documented as struct, union, or enum with the name of the typedef. So
@@ -531,7 +539,8 @@ SHOW_DIRECTORIES       = YES
 SHOW_FILES             = YES
 
 # Set the SHOW_NAMESPACES tag to NO to disable the generation of the
-# Namespaces page.  This will remove the Namespaces entry from the Quick Index
+# Namespaces page.
+# This will remove the Namespaces entry from the Quick Index
 # and from the Folder Tree View (if specified). The default is YES.
 
 SHOW_NAMESPACES        = YES
@@ -615,8 +624,9 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = "@ITK_SOURCE_DIR@/Modules" \
-                         "@ITK_SOURCE_DIR@/Documentation/Doxygen"
+INPUT                  = "@ITK_SOURCE_DIR@/Documentation/Doxygen" \
+                         "@ITK_BINARY_DIR@/Utilities/Doxygen/Modules" \
+                         @DOXYGEN_INCLUDE_DIRS@
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
@@ -688,8 +698,7 @@ EXCLUDE_SYMBOLS        =
 # directories that contain example code fragments that are included (see
 # the \include command).
 
-EXAMPLE_PATH           = "@ITK_SOURCE_DIR@/Examples" \
-                         @DOXYGEN_TEST_DIRS@
+EXAMPLE_PATH           = @DOXYGEN_TEST_DIRS@
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp
@@ -716,14 +725,17 @@ IMAGE_PATH             = "@ITK_SOURCE_DIR@/Documentation/Art"
 # by executing (via popen()) the command <filter> <input-file>, where <filter>
 # is the value of the INPUT_FILTER tag, and <input-file> is the name of an
 # input file. Doxygen will then use the output that the filter program writes
-# to standard output.  If FILTER_PATTERNS is specified, this tag will be
+# to standard output.
+# If FILTER_PATTERNS is specified, this tag will be
 # ignored.
 
 INPUT_FILTER           = "@PERL_EXECUTABLE@ @ITK_BINARY_DIR@/Utilities/Doxygen/itkdoxygen.pl"
 
 # The FILTER_PATTERNS tag can be used to specify filters on a per file pattern
-# basis.  Doxygen will compare the file name with each pattern and apply the
-# filter if there is a match.  The filters are a list of the form:
+# basis.
+# Doxygen will compare the file name with each pattern and apply the
+# filter if there is a match.
+# The filters are a list of the form:
 # pattern=filter (like *.cpp=my_cpp_filter). See INPUT_FILTER for further
 # info on how filters are used. If FILTER_PATTERNS is empty or if
 # non of the patterns match the file name, INPUT_FILTER is applied.
@@ -781,7 +793,8 @@ REFERENCES_RELATION    = YES
 # If the REFERENCES_LINK_SOURCE tag is set to YES (the default)
 # and SOURCE_BROWSER tag is set to YES, then the hyperlinks from
 # functions in REFERENCES_RELATION and REFERENCED_BY_RELATION lists will
-# link to the source code.  Otherwise they will link to the documentation.
+# link to the source code.
+# Otherwise they will link to the documentation.
 
 REFERENCES_LINK_SOURCE = YES
 
@@ -845,18 +858,23 @@ HTML_FILE_EXTENSION    = .html
 
 # The HTML_HEADER tag can be used to specify a personal HTML header for
 # each generated HTML page. If it is left blank doxygen will generate a
-# standard header.
+# standard header. Note that when using a custom header you are responsible
+# for the proper inclusion of any scripts and style sheets that doxygen
+# needs, which is dependent on the configuration options used.
+# It is adviced to generate a default header using "doxygen -w html
+# header.html footer.html stylesheet.css YourConfigFile" and then modify
+# that header. Note that the header is subject to change so you typically
+# have to redo this when upgrading to a newer version of doxygen or when changing the value of configuration settings such as GENERATE_TREEVIEW!
 
-HTML_HEADER            = @ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenHeader.html
+HTML_HEADER            = "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenHeader.html"
 
 # The HTML_FOOTER tag can be used to specify a personal HTML footer for
 # each generated HTML page. If it is left blank doxygen will generate a
 # standard footer.
 
-HTML_FOOTER            = @ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenFooter.html
+HTML_FOOTER            = "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenFooter.html"
 
-# If the HTML_TIMESTAMP tag is set to YES then the generated HTML
-# documentation will contain the timesstamp.
+# If the HTML_TIMESTAMP tag is set to YES then the generated HTML documentation will contain the timesstamp.
 
 HTML_TIMESTAMP         = YES
 
@@ -867,7 +885,16 @@ HTML_TIMESTAMP         = YES
 # the style sheet file to the HTML output directory, so don't put your own
 # stylesheet in the HTML output directory as well, or it will be erased!
 
-HTML_STYLESHEET        = @ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenStyle.css
+HTML_STYLESHEET        = "@ITK_SOURCE_DIR@/Documentation/Doxygen/DoxygenStyle.css"
+
+# The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
+# other source files which should be copied to the HTML output directory. Note
+# that these files will be copied to the base HTML output directory. Use the
+# $relpath$ marker in the HTML_HEADER and/or HTML_FOOTER files to load these
+# files. In the HTML_STYLESHEET file, use the file name only. Also note that
+# the files will be copied as-is; there are no commands or markers available.
+
+HTML_EXTRA_FILES       =
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output.
 # Doxygen will adjust the colors in the stylesheet and background images
@@ -1049,7 +1076,7 @@ QHP_SECT_FILTER_ATTRS  =
 QHG_LOCATION           =
 
 # If the GENERATE_ECLIPSEHELP tag is set to YES, additional index files
-# will be generated, which together with the HTML files, form an Eclipse help
+#  will be generated, which together with the HTML files, form an Eclipse help
 # plugin. To install this plugin and make it available under the help contents
 # menu in Eclipse, the contents of the directory containing the HTML and XML
 # files needs to be copied into the plugins directory of eclipse. The name of
@@ -1071,10 +1098,10 @@ ECLIPSE_DOC_ID         = org.doxygen.Project
 
 DISABLE_INDEX          = NO
 
-# This tag can be used to set the number of enum values (range [0,1..20])
-# that doxygen will group on one line in the generated HTML documentation.
-# Note that a value of 0 will completely suppress the enum values from
-# appearing in the overview section.
+# The ENUM_VALUES_PER_LINE tag can be used to set the number of enum values
+# (range [0,1..20]) that doxygen will group on one line in the generated HTML
+# documentation. Note that a value of 0 will completely suppress the enum
+# values from appearing in the overview section.
 
 ENUM_VALUES_PER_LINE   = 1
 
@@ -1148,7 +1175,7 @@ MATHJAX_RELPATH        = http://www.mathjax.org/mathjax
 # typically be disabled. For large projects the javascript based search engine
 # can be slow, then enabling SERVER_BASED_SEARCH may provide a better solution.
 
-SEARCHENGINE           = NO
+SEARCHENGINE           = YES
 
 # When the SERVER_BASED_SEARCH tag is enabled the search engine will be
 # implemented using a PHP enabled web server instead of at the web client
@@ -1158,7 +1185,7 @@ SEARCHENGINE           = NO
 # full text search. The disadvantages are that it is more difficult to setup
 # and does not have live searching capabilities.
 
-SERVER_BASED_SEARCH    = NO
+SERVER_BASED_SEARCH    = YES
 
 #---------------------------------------------------------------------------
 # configuration options related to the LaTeX output
@@ -1213,6 +1240,13 @@ EXTRA_PACKAGES         = amsmath \
 # standard header. Notice: only use this tag if you know what you are doing!
 
 LATEX_HEADER           =
+
+# The LATEX_FOOTER tag can be used to specify a personal LaTeX footer for
+# the generated latex document. The footer should contain everything after
+# the last chapter. If it is left blank doxygen will generate a
+# standard footer. Notice: only use this tag if you know what you are doing!
+
+LATEX_FOOTER           =
 
 # If the PDF_HYPERLINKS tag is set to YES, the LaTeX that is generated
 # is prepared for conversion to pdf (using ps2pdf). The pdf file will
@@ -1383,8 +1417,10 @@ GENERATE_PERLMOD       = NO
 PERLMOD_LATEX          = NO
 
 # If the PERLMOD_PRETTY tag is set to YES the Perl module output will be
-# nicely formatted so it can be parsed by a human reader.  This is useful
-# if you want to understand what is going on.  On the other hand, if this
+# nicely formatted so it can be parsed by a human reader.
+# This is useful
+# if you want to understand what is going on.
+# On the other hand, if this
 # tag is set to NO the size of the Perl module output will be much smaller
 # and Perl will parse it just the same.
 
@@ -1421,7 +1457,7 @@ MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = YES
 
 # If the SEARCH_INCLUDES tag is set to YES (the default) the includes files
-# in the INCLUDE_PATH (see below) will be search if a #include is found.
+# pointed to by INCLUDE_PATH will be searched when a #include is found.
 
 SEARCH_INCLUDES        = NO
 
@@ -1487,15 +1523,7 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "itkTemplateFloatingToIntegerMacro(name)=                   template <TReturn, typename TInput> name( TInput x )" \
                          "FEM_ABSTRACT_CLASS(thisClass,parentClass)=                   public:                                                                   /** Standard  Self typedef.*/                                          typedef thisClass Self;                                                 /** Standard  Superclass typedef. */                                   typedef parentClass Superclass;                                         /** Pointer or SmartPointer to an object. */                            typedef Self* Pointer;                                                  /** Const pointer or SmartPointer to an object. */                      typedef const Self* ConstPointer;                                     private:" \
                          "FEM_CLASS(thisClass,parentClass)=                   FEM_ABSTRACT_CLASS(thisClass,parentClass)                               public:                                                                   /** Create a new object from the existing one  */                       virtual Baseclass::Pointer Clone() const;                               /** Class ID for FEM object factory */                                  static const int CLID;                                                  /** Virtual function to access the class ID */                          virtual int ClassID() const                                               { return CLID; }                                                      /** Object creation in an itk compatible way */                         static Self::Pointer New()                                                { return new Self(); }                                              private:" \
-                         "FREEVERSION" \
                          "ERROR_CHECKING" \
-                         "HAS_TIFF" \
-                         "HAS_JPEG" \
-                         "HAS_NETLIB" \
-                         "HAS_PNG" \
-                         "HAS_ZLIB" \
-                         "HAS_GLUT" \
-                         "HAS_QT" \
                          "VCL_USE_NATIVE_STL=1" \
                          "VCL_USE_NATIVE_COMPLEX=1" \
                          "VCL_HAS_BOOL=1" \
@@ -1503,7 +1531,6 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "VXL_LITTLE_ENDIAN=0" \
                          "VNL_DLL_DATA=" \
                          "size_t=vcl_size_t" \
-                         "ITK_USE_REVIEW" \
                          "USE_FFTWD" \
                          "USE_FFTWF" \
                          "ITK_USE_CONCEPT_CHECKING"
@@ -1531,9 +1558,11 @@ SKIP_FUNCTION_MACROS   = YES
 # Optionally an initial location of the external documentation
 # can be added for each tagfile. The format of a tag file without
 # this location is as follows:
-#   TAGFILES = file1 file2 ...
+#
+# TAGFILES = file1 file2 ...
 # Adding location for the tag files is done as follows:
-#   TAGFILES = file1=loc1 "file2 = loc2" ...
+#
+# TAGFILES = file1=loc1 "file2 = loc2" ...
 # where "loc1" and "loc2" can be relative or absolute paths or
 # URLs. If a location is present for each tag, the installdox tool
 # does not have to be run to correct the links.
@@ -1547,7 +1576,7 @@ TAGFILES               =
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create
 # a tag file that is based on the input files it reads.
 
-GENERATE_TAGFILE       = @ITK_BINARY_DIR@/Utilities/Doxygen/InsightDoxygen.tag
+GENERATE_TAGFILE       = "@ITK_BINARY_DIR@/Utilities/Doxygen/InsightDoxygen.tag"
 
 # If the ALLEXTERNALS tag is set to YES all external classes will be listed
 # in the class index. If set to NO only the inherited external classes
@@ -1564,7 +1593,7 @@ EXTERNAL_GROUPS        = YES
 # The PERL_PATH should be the absolute path and name of the perl script
 # interpreter (i.e. the result of `which perl').
 
-PERL_PATH              = @PERL_EXECUTABLE@
+PERL_PATH              = "@PERL_EXECUTABLE@"
 
 #---------------------------------------------------------------------------
 # Configuration options related to the dot tool
@@ -1703,7 +1732,7 @@ GRAPHICAL_HIERARCHY    = NO
 DIRECTORY_GRAPH        = YES
 
 # The DOT_IMAGE_FORMAT tag can be used to set the image format of the images
-# generated by dot. Possible values are png, svg, gif or svg.
+# generated by dot. Possible values are svg, png, jpg, or gif.
 # If left blank png will be used.
 
 DOT_IMAGE_FORMAT       = png

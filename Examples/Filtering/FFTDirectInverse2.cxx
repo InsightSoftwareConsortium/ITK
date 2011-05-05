@@ -89,10 +89,7 @@ int main( int argc, char * argv[] )
   inputreader->Update();
 
 // Forward FFT filter
-  typedef itk::FFTWRealToComplexConjugateImageFilter <
-                                              WorkPixelType,
-                                              Dimension
-                                                      > FFTFilterType;
+  typedef itk::FFTWRealToComplexConjugateImageFilter < InputImageType > FFTFilterType;
 
   FFTFilterType::Pointer fftinput = FFTFilterType::New();
   fftinput->SetInput( inputreader->GetOutput() );
@@ -102,9 +99,7 @@ int main( int argc, char * argv[] )
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
 // Do the inverse transform = forward transform + flip all axes
-  typedef itk::FFTWComplexConjugateToRealImageFilter <
-                                              WorkPixelType,
-                                              Dimension > invFFTFilterType;
+  typedef itk::FFTWComplexConjugateToRealImageFilter < ComplexImageType > invFFTFilterType;
 
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image

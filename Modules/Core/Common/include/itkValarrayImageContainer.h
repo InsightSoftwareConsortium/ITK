@@ -40,6 +40,7 @@ namespace itk
  *
  * \ingroup ImageObjects
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template<
   typename TElementIdentifier,

@@ -35,6 +35,7 @@ namespace fem {
  * This is the main class used for solving the FEM problems. It also stores
  * all the objects that define the specific FEM problem. Normally there is
  * one Solver object for each FEM problem.
+ * \ingroup ITK-FEM
  */
 class Solver
 {

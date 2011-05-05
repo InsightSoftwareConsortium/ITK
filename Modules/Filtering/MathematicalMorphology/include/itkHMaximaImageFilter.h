@@ -51,6 +51,7 @@ namespace itk
  * \sa ReconstructionByDilationImageFilter, HMinimaImageFilter, HConvexImageFilter
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-MathematicalMorphology
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT HMaximaImageFilter:

@@ -27,7 +27,7 @@
  *         The Pennsylvania State University 2005
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/1381
+ * http://hdl.handle.net/1926/1381
  *
  */
 
@@ -206,6 +206,7 @@ struct par_parameter  //par_parameter
  *
  * \ingroup IOFilters
  *
+ * \ingroup ITK-Review
  */
 class ITK_EXPORT PhilipsPAR:public LightProcessObject
 {

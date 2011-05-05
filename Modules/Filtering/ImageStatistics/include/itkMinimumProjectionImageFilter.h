@@ -28,7 +28,7 @@ namespace itk
  *
  * This class was contributed to the Insight Journal by Gaetan Lehmann.
  * The original paper can be found at
- *      http://insight-journal.org/midas/handle.php?handle=1926/164
+ *      http://hdl.handle.net/1926/164
  *
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
@@ -40,6 +40,7 @@ namespace itk
  * \sa BinaryProjectionImageFilter
  * \sa MaximumProjectionImageFilter
  * \sa MeanProjectionImageFilter
+ * \ingroup ITK-ImageStatistics
  */
 
 namespace Function

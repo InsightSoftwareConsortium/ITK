@@ -46,12 +46,15 @@ namespace itk
  *
  * This code was contributed in the Insight Journal paper
  *
+ * "Grayscale morphological attribute operations"
+ * by Beare R.
  * http://hdl.handle.net/1926/1316
  * http://www.insight-journal.org/browse/publication/203
  *
  *
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
+ * \ingroup ITK-Review
  */
 template< class TInputImage, class TOutputImage, class TAttribute = ITK_TYPENAME TInputImage::SpacingType::ValueType >
 class ITK_EXPORT AreaOpeningImageFilter:

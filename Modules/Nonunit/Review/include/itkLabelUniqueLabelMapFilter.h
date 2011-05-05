@@ -40,6 +40,7 @@ namespace itk {
  *
  * \sa AttributeLabelObject
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 template<class TImage>
 class ITK_EXPORT LabelUniqueLabelMapFilter :

@@ -53,7 +53,9 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itksys/SystemTools.hxx"
 #include "itkIntTypes.h"
+#ifdef LINUX
 #include "itkFloatingPointExceptions.h"
+#endif
 #include "vnl/vnl_sample.h"
 
 #define ITK_TEST_DIMENSION_MAX 6
@@ -154,8 +156,9 @@ void usage()
 
 int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = NULL )
 {
+#ifdef LINUX
   itk::FloatingPointExceptions::Enable();
-
+#endif
   regressionTestParameters.intensityTolerance  = 2.0;
   regressionTestParameters.numberOfPixelsTolerance = 0;
   regressionTestParameters.radiusTolerance = 0;
@@ -388,6 +391,12 @@ int RegressionTestImage(const char *testImageFilename,
   itk::SizeValueType status = itk::NumericTraits< itk::SizeValueType >::Zero;
   status = diff->GetNumberOfPixelsWithDifferences();
 
+  //The measurement errors should be reported for both success and errors
+  //to facilitate setting tight tolerances of tests.
+  std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
+  std::cout << status;
+  std::cout <<  "</DartMeasurement>" << std::endl;
+
   // if there are discrepencies, create an diff image
   if ( ( status > numberOfPixelsTolerance ) && reportErrors )
     {
@@ -426,10 +435,6 @@ int RegressionTestImage(const char *testImageFilename,
 
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput( extract->GetOutput() );
-
-    std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
-    std::cout << status;
-    std::cout <<  "</DartMeasurement>" << std::endl;
 
     std::ostringstream diffName;
     diffName << testImageFilename << ".diff.png";

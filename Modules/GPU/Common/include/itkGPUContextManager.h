@@ -15,6 +15,7 @@
  *
  *  Won-Ki to write more documentation here...
  *
+ * \ingroup ITK-GPUCommon
  */
 namespace itk
 {

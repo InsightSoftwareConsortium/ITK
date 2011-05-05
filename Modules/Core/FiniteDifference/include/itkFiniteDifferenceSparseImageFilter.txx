@@ -78,7 +78,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 template< class TInputImageType, class TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
-::ApplyUpdate(TimeStepType dt)
+::ApplyUpdate(const TimeStepType& dt)
 {
   // Set up for multithreaded processing.
   FDThreadStruct str;
@@ -123,7 +123,8 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 template< class TInputImageType, class TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
-::ThreadedApplyUpdate(TimeStepType dt, const ThreadRegionType & regionToProcess,
+::ThreadedApplyUpdate(const TimeStepType& dt,
+                      const ThreadRegionType & regionToProcess,
                       int)
 {
   typename NodeListType::Iterator it;
@@ -165,8 +166,6 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
     {
     this->PrecalculateChange();
     }
-  int          threadCount;
-  TimeStepType dt;
 
   // Set up for multithreaded processing.
   FDThreadStruct str;
@@ -182,13 +181,11 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   // various threads.  There is one distinct slot for each possible thread,
   // so this data structure is thread-safe.  All of the time steps calculated
   // in each thread will be combined in the ResolveTimeStepMethod.
-  threadCount = this->GetMultiThreader()->GetNumberOfThreads();
-  str.TimeStepList = new TimeStepType[threadCount];
-  str.ValidTimeStepList = new bool[threadCount];
-  for ( int i = 0; i < threadCount; ++i )
-    {
-    str.ValidTimeStepList[i] = false;
-    }
+  int threadCount = this->GetMultiThreader()->GetNumberOfThreads();
+
+  str.TimeStepList.resize(threadCount, false);
+  str.ValidTimeStepList.resize(threadCount);
+
 
   // Multithread the execution
   this->GetMultiThreader()->SingleMethodExecute();
@@ -196,11 +193,8 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   // Resolve the single value time step to return.  The default implementation
   // of ResolveTimeStep is to return the lowest value in the list that it is
   // given.
-  dt = this->ResolveTimeStep(str.TimeStepList,
-                             str.ValidTimeStepList, threadCount);
-
-  delete[] str.TimeStepList;
-  delete[] str.ValidTimeStepList;
+  TimeStepType dt = this->ResolveTimeStep( str.TimeStepList,
+                                           str.ValidTimeStepList );
 
   return dt;
 }

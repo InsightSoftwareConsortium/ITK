@@ -35,6 +35,7 @@ namespace itk
  *
  *  \ingroup IOFilters
  *
+ * \ingroup ITK-IO-BMP
  */
 class ITK_EXPORT BMPImageIO:public ImageIOBase
 {

@@ -148,7 +148,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::ApplyUpdate(TimeStepType dt)
+::ApplyUpdate(const TimeStepType& dt)
 {
   unsigned int i, j, k, t;
 

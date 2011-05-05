@@ -29,6 +29,7 @@ namespace itk
  * \brief functionality in common for anchor openings/closings and
  * erosions/dilation
  *
+ * \ingroup ITK-MathematicalMorphology
  */
 template< class PixelType, class TFunction >
 void FillReverseExt(std::vector<PixelType> & pixbuffer,

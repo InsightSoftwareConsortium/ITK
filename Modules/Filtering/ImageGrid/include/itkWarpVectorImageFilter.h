@@ -79,6 +79,7 @@ namespace itk
  * \author  Corinne Mattmann
  *
  * \ingroup GeometricTransforms MultiThreaded
+ * \ingroup ITK-ImageGrid
  */
 template<
   class TInputImage,

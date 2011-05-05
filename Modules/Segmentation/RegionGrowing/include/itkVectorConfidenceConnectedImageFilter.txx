@@ -332,6 +332,16 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 {
   return m_ThresholdFunction->GetMean();
 }
+
+template< class TInputImage, class TOutputImage >
+const typename VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >::SeedsContainerType &
+VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
+::GetSeeds() const
+{
+  itkDebugMacro("returning Seeds");
+  return this->m_Seeds;
+}
+
 } // end namespace itk
 
 #endif

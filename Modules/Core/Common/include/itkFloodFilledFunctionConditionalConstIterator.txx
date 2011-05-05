@@ -31,7 +31,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;
-  m_StartIndices.push_back (startIndex);
+  m_Seeds.push_back (startIndex);
 
   // Set up the temporary image
   this->InitializeIterator();
@@ -48,7 +48,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   unsigned int i;
   for ( i = 0; i < startIndex.size(); i++ )
     {
-    m_StartIndices.push_back (startIndex[i]);
+    m_Seeds.push_back (startIndex[i]);
     }
 
   // Set up the temporary image
@@ -88,16 +88,16 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   m_TemporaryPointer->FillBuffer(NumericTraits< ITK_TYPENAME TTempImage::PixelType >::Zero);
 
   // Initialize the queue by adding the start index assuming one of
-  // the m_StartIndices is "inside" This might not be true, in which
+  // the m_Seeds is "inside" This might not be true, in which
   // case it's up to the programmer to specify a correct starting
   // position later (using FindSeedPixel).  Must make sure that the
   // seed is inside the buffer before touching pixels.
   this->m_IsAtEnd = true;
-  for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
+  for ( unsigned int i = 0; i < m_Seeds.size(); i++ )
     {
-    if ( m_ImageRegion.IsInside (m_StartIndices[i]) )
+    if ( m_ImageRegion.IsInside (m_Seeds[i]) )
       {
-      m_IndexStack.push(m_StartIndices[i]);
+      m_IndexStack.push(m_Seeds[i]);
       this->m_IsAtEnd = false;
       }
     }
@@ -114,12 +114,12 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest
-  m_StartIndices.clear();
+  m_Seeds.clear();
   for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
     if ( this->IsPixelIncluded( it.GetIndex() ) )
       {
-      m_StartIndices.push_back ( it.GetIndex() );
+      m_Seeds.push_back ( it.GetIndex() );
 
       // We need to reset the "beginning" now that we have a real seed
       this->GoToBegin();
@@ -140,13 +140,13 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest
-  m_StartIndices.clear();
+  m_Seeds.clear();
   bool found = false;
   for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
     if ( this->IsPixelIncluded( it.GetIndex() ) )
       {
-      m_StartIndices.push_back ( it.GetIndex() );
+      m_Seeds.push_back ( it.GetIndex() );
       found = true;
       }
     }

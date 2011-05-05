@@ -39,10 +39,7 @@
 
 
 #include "itkImageFileReader.h"
-
-#ifdef ITK_USE_REVIEW
 #include "itkVTKPolyDataWriter.h"
-#endif
 
 
 int main( int argc, char *argv[] )
@@ -238,7 +235,7 @@ int main( int argc, char *argv[] )
 
   std::cout << " Final number of Cells = " << cellularAggregate->GetNumberOfCells() << std::endl;
 
-  #ifdef ITK_USE_REVIEW
+
   //  Write the mesh to a file
   //
   typedef itk::VTKPolyDataWriter< CellularAggregateType::MeshType > WriterType;
@@ -259,7 +256,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  #endif
 
   return EXIT_SUCCESS;
 

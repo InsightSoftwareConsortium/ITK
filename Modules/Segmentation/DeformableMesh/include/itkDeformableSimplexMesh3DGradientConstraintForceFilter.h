@@ -79,6 +79,7 @@ public:
  *
  * \author Leila Baghdadi. Mouse Imaging Centre, Hospital for Sick Children, Toronto, Ontario,Canada.
  *  I acknowledge the helpful insights of Herve Delingette of INRIA, France.
+ * \ingroup ITK-DeformableMesh
  */
 
 template< class TInputMesh, class TOutputMesh >

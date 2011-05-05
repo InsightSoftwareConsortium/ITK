@@ -34,6 +34,7 @@ namespace itk
  * Versor representing rotation.
  *
  * \ingroup Transforms
+ * \ingroup ITK-Transform
  */
 template< class TFixedImage,
           class TMovingImage >

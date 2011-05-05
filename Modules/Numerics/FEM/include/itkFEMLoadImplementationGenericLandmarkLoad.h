@@ -29,6 +29,7 @@ namespace fem {
  * \brief Class that holds a templated generic landmark load implementation.
  *
  * For more info see class LoadImplementationGenericBodyLoad.
+ * \ingroup ITK-FEM
  */
 class LoadImplementationGenericLandmarkLoad
 {

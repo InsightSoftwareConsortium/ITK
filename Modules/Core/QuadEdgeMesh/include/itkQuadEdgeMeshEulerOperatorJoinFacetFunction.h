@@ -27,6 +27,7 @@ namespace itk
  * \ingroup QEMeshModifierFunctions
  *
  * \brief Join the two facets which are on both sides of a given internal edge.
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< class TMesh, class TQEType >
 class ITK_EXPORT QuadEdgeMeshEulerOperatorJoinFacetFunction:

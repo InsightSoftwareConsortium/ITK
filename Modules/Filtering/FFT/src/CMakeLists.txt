@@ -3,7 +3,7 @@ itkFFTWGlobalConfiguration.cxx
 )
 
 add_library(ITK-FFT ${ITK-FFT_SRC})
-target_link_libraries(ITK-FFT  ${ITK-Common_LIBRARIES} ${TEST_DEPENDS_LIBRARIES} ${ITK-TestKernel_LIBRARIES})
+target_link_libraries(ITK-FFT  ${ITK-Common_LIBRARIES})
 
 if(USE_FFTWD)
   add_dependencies(ITK-FFT fftwd)

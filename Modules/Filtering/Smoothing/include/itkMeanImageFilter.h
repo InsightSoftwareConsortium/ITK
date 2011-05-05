@@ -38,6 +38,11 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup IntensityImageFilters
+ * \ingroup ITK-Smoothing
+ *
+ * \wiki
+ * \wikiexample{Smoothing/MeanImageFilter,Mean filter an image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MeanImageFilter:

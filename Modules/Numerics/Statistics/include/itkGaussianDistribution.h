@@ -51,6 +51,11 @@ namespace Statistics
  * through the NIH Roadmap for Medical Research, Grant U54 EB005149.
  * Information on the National Centers for Biomedical Computing
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
+ * \ingroup ITK-Statistics
+ *
+ * \wiki
+ * \wikiexample{Statistics/GaussianDistribution,Create a Gaussian distribution}
+ * \endwiki
  */
 class ITK_EXPORT GaussianDistribution:
   public ProbabilityDistribution

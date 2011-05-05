@@ -34,6 +34,7 @@ namespace itk
  * region of interest.
  *
  * \ingroup LevelSetSegmentation
+ * \ingroup ITK-FastMarching
  */
 template< class TLevelSet >
 class ITK_EXPORT LevelSetTypeDefault
@@ -78,6 +79,7 @@ public:
  * in a group or collection of level set nodes or grid positions.
  *
  * \ingroup LevelSetSegmentation
+ * \ingroup ITK-FastMarching
  */
 template<
   class TPixel,

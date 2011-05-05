@@ -45,6 +45,11 @@ namespace Statistics
  * the method, you should first plug in a basic type sample using the
  * SetSample method
  *
+ * \ingroup ITK-Statistics
+ *
+ * \wiki
+ * \wikiexample{Statistics/MembershipSample,Create a list of samples with associated class IDs}
+ * \endwiki
  */
 
 template< class TSample >

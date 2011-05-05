@@ -85,6 +85,7 @@ else(USE_SYSTEM_FFTW)
         )
     endif(USE_FFTWD)
     link_directories(${ITK_BINARY_DIR}/fftw/lib)
+    include_directories(${ITK_BINARY_DIR}/fftw/include)
     # backwards compatibility
     set(FFTW_INCLUDE_PATH ${ITK_BINARY_DIR}/fftw/include)
     #

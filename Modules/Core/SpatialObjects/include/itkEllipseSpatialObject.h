@@ -27,6 +27,11 @@ namespace itk
 /** \class EllipseSpatialObject
  *
  * \brief TODO
+ * \ingroup ITK-SpatialObjects
+ *
+ * \wiki
+ * \wikiexample{SpatialObjects/EllipseSpatialObject,Ellipse}
+ * \endwiki
  */
 
 template< unsigned int TDimension = 3 >

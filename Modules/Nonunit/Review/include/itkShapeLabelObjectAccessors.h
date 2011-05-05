@@ -19,6 +19,16 @@
 #define __itkShapeLabelObjectAccessors_h
 #include "itkLabelObjectAccessors.h"
 
+/*
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Label object representation and manipulation with ITK"
+ * by Lehmann G.
+ * http://hdl.handle.net/1926/584
+ * http://www.insight-journal.org/browse/publication/176
+ *
+ */
+
 namespace itk
 {
 namespace Functor

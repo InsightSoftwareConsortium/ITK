@@ -50,6 +50,7 @@ struct GetDimension {
  *
  * \sa InterpolateImageFunction
  * \ingroup ImageFunctions ImageInterpolators
+ * \ingroup ITK-ImageFunction
  */
 template< class TInputImage, class TCoordRep = double >
 class ITK_EXPORT VectorInterpolateImageFunction:

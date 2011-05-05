@@ -36,7 +36,9 @@ namespace itk
  * framework of deformable model.
  *
  * \ingroup ImageFilters
- * \ingroup ImageSegmentation */
+ * \ingroup ImageSegmentation
+ * \ingroup ITK-ImageFeature
+ */
 template< class TInputImage, class TOutputImage, class TInternalPixel = double >
 class ITK_EXPORT GradientVectorFlowImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {

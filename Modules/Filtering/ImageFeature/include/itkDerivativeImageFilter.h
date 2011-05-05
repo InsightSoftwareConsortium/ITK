@@ -38,6 +38,11 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup ImageFeatureExtraction
+ * \ingroup ITK-ImageFeature
+ *
+ * \wiki
+ * \wikiexample{EdgesAndGradients/DerivativeImageFilter,Compute the derivative of an image in a particular direction}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT DerivativeImageFilter:

@@ -59,6 +59,7 @@ namespace itk
  *
  * \ingroup IOFilters
  *
+ * \ingroup ITK-IO-Stimulate
  */
 class ITK_EXPORT StimulateImageIO:public ImageIOBase
 {

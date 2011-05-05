@@ -29,6 +29,7 @@ namespace itk
 {
 /** \class GEAdwImageIOFactory
    * \brief Create instances of GEAdwImageIO objects using an object factory.
+   * \ingroup ITK-IO-GE
    */
 class ITK_EXPORT GEAdwImageIOFactory:public ObjectFactoryBase
 {

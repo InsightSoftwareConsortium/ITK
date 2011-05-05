@@ -34,6 +34,7 @@ namespace itk
 {
 /** \class MutexLockHolder
  *
+ * \ingroup ITK-Common
  */
 template< class TMutex >
 class MutexLockHolder

@@ -33,6 +33,7 @@ namespace itk
  * for this reason it doesn't support the Set() method.
  *
  * \ingroup ImageIterators
+ * \ingroup ITK-Common
  */
 template< class TImage >
 class ConditionalConstIterator

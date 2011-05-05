@@ -33,6 +33,11 @@ namespace itk
  * the output image.
  *
  * \ingroup IOFilters
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{IO/ImportImageFilter,Convert a C-style array to an itkImage}
+ * \endwiki
  */
 template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_EXPORT ImportImageFilter:

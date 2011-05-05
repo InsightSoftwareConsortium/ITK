@@ -33,6 +33,7 @@ namespace itk
  * \ingroup OSSystemObjects
  *
  * See also itksys::Directory
+ * \ingroup ITK-Common
  */
 
 class ITKCommon_EXPORT Directory:public Object

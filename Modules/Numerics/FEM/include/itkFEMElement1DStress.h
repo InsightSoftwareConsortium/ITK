@@ -37,6 +37,7 @@ namespace fem {
  *                be derived from the Element base class. This enables you
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element base class.
+ * \ingroup ITK-FEM
  */
 template<class TBaseClass=Element>
 class Element1DStress : public TBaseClass

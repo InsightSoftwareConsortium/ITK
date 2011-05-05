@@ -975,7 +975,7 @@ MetaImageIO
       }
     else if ( metaDataStr == "cm. " )
       {
-      m_MetaImage.DistanceUnits(MET_DISTANCE_UNITS_MM);
+      m_MetaImage.DistanceUnits(MET_DISTANCE_UNITS_CM);
       }
     else
       {

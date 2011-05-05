@@ -56,6 +56,7 @@ namespace itk
  * \par IMPORTANT
  * The output sparse image type must be templated with a node type that at
  * least has the following member variables: m_Index, m_Data and m_Update.
+ * \ingroup ITK-FiniteDifference
  */
 
 template< class TInputImageType, class TSparseOutputImageType >
@@ -142,12 +143,12 @@ protected:
 
   /** This function updates the m_Data variable in the output image nodes using
       the update values computed by CalculateChange. */
-  virtual void ApplyUpdate(TimeStepType dt);
+  virtual void ApplyUpdate(const TimeStepType& dt);
 
   /** Multi-threaded implementation of ApplyUpdate. */
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback(void *arg);
 
-  virtual void ThreadedApplyUpdate(TimeStepType dt,
+  virtual void ThreadedApplyUpdate(const TimeStepType& dt,
                                    const ThreadRegionType & regionToProcess,
                                    int threadId);
 
@@ -177,8 +178,8 @@ protected:
   struct FDThreadStruct {
     FiniteDifferenceSparseImageFilter *Filter;
     TimeStepType TimeStep;
-    TimeStepType *TimeStepList;
-    bool *ValidTimeStepList;
+    std::vector< TimeStepType > TimeStepList;
+    std::vector< bool > ValidTimeStepList;
   };
 private:
   /** Flag to let the class know whether or not to call PrecalculateChange. */

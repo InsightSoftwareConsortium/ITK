@@ -1,4 +1,5 @@
 project(ITK-TIFF)
+set(ITK-TIFF_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_TIFF "Use system-installed tiff" OFF)
 mark_as_advanced(ITK_USE_SYSTEM_TIFF)

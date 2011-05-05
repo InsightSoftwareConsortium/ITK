@@ -35,6 +35,7 @@ namespace itk
  * (in BloxPixel linked lists). The primary task of BloxBoundaryProfileImage
  * is finding boundary profilesand storing them in the correct blox location.
  * \ingroup ImageObjects
+ * \ingroup ITK-Blox
  */
 template< unsigned int TImageDimension >
 class ITK_EXPORT BloxBoundaryProfileImage:

@@ -40,6 +40,7 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa NeighborhoodOperatorImageFilter
  * \sa NeighborhoodIterator
+ * \ingroup ITK-ImageFilterBase
  */
 template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType =
             ITK_TYPENAME TOutputImage::PixelType >

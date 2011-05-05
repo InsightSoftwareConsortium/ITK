@@ -31,12 +31,19 @@ namespace itk
  * value. In that case, a gray pixel with the same intensity than the background
  * label is produced.
  *
+ * This code was contributed in the Insight Journal paper:
+ * "The watershed transform in ITK - discussion and new developments"
+ * by Beare R., Lehmann G.
+ * http://hdl.handle.net/1926/202
+ * http://www.insight-journal.org/browse/publication/92
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
  * \sa ScalarToRGBPixelFunctor LabelOverlayImageFilter
  * \ingroup Multithreaded
  *
+ * \ingroup ITK-Review
  */
 template< class TLabelImage, typename  TOutputImage >
 class ITK_EXPORT LabelToRGBImageFilter:

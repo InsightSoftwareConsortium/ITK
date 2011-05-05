@@ -48,6 +48,7 @@ namespace itk
  * \sa GrayscaleGeodesicDilateImageFilter
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-MathematicalMorphology
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT DoubleThresholdImageFilter:

@@ -35,6 +35,7 @@ namespace Statistics
  * as double. Any function derived from this class returns quantitative
  * measure for how well the vector x belong to the class ( or group)
  * represented by the function.
+ * \ingroup ITK-Statistics
  */
 
 template< class TVector >

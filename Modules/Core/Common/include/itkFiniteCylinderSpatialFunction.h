@@ -29,6 +29,7 @@ namespace itk
  * Implements a function that returns 1 for points inside or on the surface
  * of a cylinder and 0 for points outside the cylinder.
  *
+ * \ingroup ITK-Common
  */
 
 template< unsigned int VDimension = 3,

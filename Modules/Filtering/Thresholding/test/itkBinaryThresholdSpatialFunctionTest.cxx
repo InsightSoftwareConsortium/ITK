@@ -44,10 +44,10 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
   typedef double CoordRep;
   const unsigned int Dimension = 2;
 
-  typedef itk::SphereSignedDistanceFunction<CoordRep,Dimension> SphereFunctionType;
+  typedef itk::SphereSignedDistanceFunction<CoordRep,Dimension>   SphereFunctionType;
   typedef itk::BinaryThresholdSpatialFunction<SphereFunctionType> FunctionType;
-  typedef SphereFunctionType::PointType PointType;
-  typedef SphereFunctionType::ParametersType ParametersType;
+  typedef SphereFunctionType::PointType                           PointType;
+  typedef SphereFunctionType::ParametersType                      ParametersType;
 
   SphereFunctionType::Pointer sphere = SphereFunctionType::New();
 
@@ -125,6 +125,17 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
   index[0] = 0; index[1] = 3;
   iterator.AddSeed( index );
 
+  //
+  // get the seeds and display them.
+  const IteratorType::SeedsContainerType &seeds(iterator.GetSeeds());
+  std::cout << "Iterator seeds";
+  for(IteratorType::SeedsContainerType::const_iterator it =
+        seeds.begin(); it != seeds.end(); it++)
+    {
+    std::cout << " " << (*it);
+    }
+  std::cout << std::endl;
+
   unsigned int counter = 0;
   iterator.GoToBegin();
 
@@ -149,7 +160,7 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
       }
 
     ++iterator;
-    };
+    }
 
 
   function->Print(std::cout);

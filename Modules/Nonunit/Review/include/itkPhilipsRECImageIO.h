@@ -27,7 +27,7 @@
  *         The Pennsylvania State University 2005
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/1381
+ * http://hdl.handle.net/1926/1381
  *
  */
 
@@ -49,6 +49,7 @@ namespace itk
  * \author Don C. Bigler
  * \brief Class that defines how to read Philips REC/PAR image files.
  *  This class supports reading only and not writing.
+ * \ingroup ITK-Review
  */
 
 class ITK_EXPORT PhilipsRECImageIO:public ImageIOBase

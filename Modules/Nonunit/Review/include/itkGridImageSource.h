@@ -51,6 +51,7 @@ namespace itk
  * http://hdl.handle.net/1926/475
  *
  * \ingroup DataSources
+ * \ingroup ITK-Review
  */
 template< typename TOutputImage >
 class ITK_EXPORT GridImageSource:public ImageSource< TOutputImage >

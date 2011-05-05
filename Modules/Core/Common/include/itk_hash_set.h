@@ -81,6 +81,7 @@ namespace itk
 /** \class hash_set
  * \brief Replacement for STL hash set because some systems do not support it,
  * or support it incorrectly.
+ * \ingroup ITK-Common
  */
 template< class Value, VCL_DFL_TMPL_PARAM_STLDECL(HashFcn, hash< Value > ),
           VCL_DFL_TMPL_PARAM_STLDECL(EqualKey, std::equal_to< Value > ),

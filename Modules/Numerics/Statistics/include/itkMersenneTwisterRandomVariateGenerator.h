@@ -53,7 +53,7 @@ namespace Statistics
  * are far greater.  The generator is also fast; it avoids multiplication and
  * division, and it benefits from caches and pipelines.  For more information
  * see the inventors' web page at http:*www.math.keio.ac.jp/~matumoto/emt.html
-
+ *
  * Reference
  * M. Matsumoto and T. Nishimura, "Mersenne Twister: A 623-Dimensionally
  * Equidistributed Uniform Pseudo-Random Number Generator", ACM Transactions on
@@ -100,6 +100,11 @@ namespace Statistics
  * when you write.
  *
  * \ingroup Statistics
+ * \ingroup ITK-Statistics
+ *
+ * \wiki
+ * \wikiexample{Utilities/MersenneTwisterRandomVariateGenerator,Random number generator}
+ * \endwiki
  */
 class ITK_EXPORT MersenneTwisterRandomVariateGenerator:
   public RandomVariateGeneratorBase

@@ -26,6 +26,7 @@ namespace fem {
 /**
  * \class Element2DC0LinearLine
  * \brief 2-noded, linear, C0 continuous line element in 2D space.
+ * \ingroup ITK-FEM
  */
 class Element2DC0LinearLine : public ElementStd<2,2>
 {

@@ -1,5 +1,8 @@
 itk_module_test()
 set(ITK-StatisticsTests
+itkDecisionRuleTest.cxx
+itkDenseFrequencyContainer2Test.cxx
+itkExpectationMaximizationMixtureModelEstimatorTest.cxx
 itkKalmanLinearEstimatorTest.cxx
 itkStatisticsHeaderTest.cxx
 itkMaximumDecisionRuleTest.cxx
@@ -7,6 +10,7 @@ itkMinimumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
 itkHistogramTest.cxx
 itkHistogramToTextureFeaturesFilterTest.cxx
+itkChiSquareDistributionTest.cxx
 itkCovarianceSampleFilterTest.cxx
 itkCovarianceSampleFilterTest2.cxx
 itkCovarianceSampleFilterTest3.cxx
@@ -27,70 +31,79 @@ itkEuclideanSquareDistanceMetricTest.cxx
 
 CreateTestDriver(ITK-Statistics  "${ITK-Statistics-Test_LIBRARIES}" "${ITK-StatisticsTests}")
 
-add_test(NAME itkStatisticsHeaderTest
+itk_add_test(NAME itkStatisticsHeaderTest
       COMMAND ITK-StatisticsTestDriver itkStatisticsHeaderTest)
-add_test(NAME itkKalmanLinearEstimatorTest
+itk_add_test(NAME itkDecisionRuleTest
+      COMMAND ITK-StatisticsTestDriver itkDecisionRuleTest)
+itk_add_test(NAME itkDenseFrequencyContainer2Test
+      COMMAND ITK-StatisticsTestDriver itkDenseFrequencyContainer2Test)
+itk_add_test(NAME itkExpectationMaximizationMixtureModelEstimatorTest
+      COMMAND ITK-StatisticsTestDriver itkExpectationMaximizationMixtureModelEstimatorTest
+              ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+itk_add_test(NAME itkKalmanLinearEstimatorTest
       COMMAND ITK-StatisticsTestDriver itkKalmanLinearEstimatorTest)
-add_test(NAME itkMaximumDecisionRuleTest
+itk_add_test(NAME itkMaximumDecisionRuleTest
       COMMAND ITK-StatisticsTestDriver itkMaximumDecisionRuleTest)
-add_test(NAME itkMinimumDecisionRuleTest
+itk_add_test(NAME itkMinimumDecisionRuleTest
       COMMAND ITK-StatisticsTestDriver itkMinimumDecisionRuleTest)
-add_test(NAME itkMaximumRatioDecisionRuleTest
+itk_add_test(NAME itkMaximumRatioDecisionRuleTest
       COMMAND ITK-StatisticsTestDriver itkMaximumRatioDecisionRuleTest)
-add_test(NAME itkHistogramTest
+itk_add_test(NAME itkHistogramTest
       COMMAND ITK-StatisticsTestDriver itkHistogramTest)
-add_test(NAME itkHistogramToTextureFeaturesFilterTest
+itk_add_test(NAME itkHistogramToTextureFeaturesFilterTest
       COMMAND ITK-StatisticsTestDriver itkHistogramToTextureFeaturesFilterTest)
-add_test(NAME itkCovarianceSampleFilterTest
+itk_add_test(NAME itkChiSquareDistributionTest
+      COMMAND ITK-StatisticsTestDriver itkChiSquareDistributionTest)
+itk_add_test(NAME itkCovarianceSampleFilterTest
       COMMAND ITK-StatisticsTestDriver itkCovarianceSampleFilterTest)
-add_test(NAME itkCovarianceSampleFilterTest2
+itk_add_test(NAME itkCovarianceSampleFilterTest2
       COMMAND ITK-StatisticsTestDriver itkCovarianceSampleFilterTest2)
-add_test(NAME itkCovarianceSampleFilterTest3
+itk_add_test(NAME itkCovarianceSampleFilterTest3
       COMMAND ITK-StatisticsTestDriver itkCovarianceSampleFilterTest3)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest1
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest1
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest1
               1000 1000 1)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest2
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest2
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest1
               1000 1000 2)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest3
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest3
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest1
               1000 1000 3)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest4
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest4
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest1
               1000 1000 5)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest5
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest5
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest1
               1000 1000 10)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest6
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest6
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest1
               1000 1000 20)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest7
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest7
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest1
               1000 1000 100)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest8
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest8
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest8
               1000 1000 1)
-add_test(NAME itkWeightedCentroidKdTreeGeneratorTest9
+itk_add_test(NAME itkWeightedCentroidKdTreeGeneratorTest9
       COMMAND ITK-StatisticsTestDriver itkWeightedCentroidKdTreeGeneratorTest9
               1000 1000 1)
-add_test(NAME itkWeightedCovarianceSampleFilterTest
+itk_add_test(NAME itkWeightedCovarianceSampleFilterTest
       COMMAND ITK-StatisticsTestDriver itkWeightedCovarianceSampleFilterTest)
-add_test(NAME itkWeightedCovarianceSampleFilterTest2
+itk_add_test(NAME itkWeightedCovarianceSampleFilterTest2
       COMMAND ITK-StatisticsTestDriver itkWeightedCovarianceSampleFilterTest2)
-add_test(NAME itkWeightedMeanSampleFilterTest
+itk_add_test(NAME itkWeightedMeanSampleFilterTest
       COMMAND ITK-StatisticsTestDriver itkWeightedMeanSampleFilterTest)
-add_test(NAME itkDistanceMetricTest
+itk_add_test(NAME itkDistanceMetricTest
       COMMAND ITK-StatisticsTestDriver itkDistanceMetricTest)
-add_test(NAME itkDistanceMetricTest2
+itk_add_test(NAME itkDistanceMetricTest2
       COMMAND ITK-StatisticsTestDriver itkDistanceMetricTest2)
-add_test(NAME itkDistanceToCentroidMembershipFunctionTest
+itk_add_test(NAME itkDistanceToCentroidMembershipFunctionTest
       COMMAND ITK-StatisticsTestDriver itkDistanceToCentroidMembershipFunctionTest)
-add_test(NAME itkEuclideanDistanceMetricTest
+itk_add_test(NAME itkEuclideanDistanceMetricTest
       COMMAND ITK-StatisticsTestDriver itkEuclideanDistanceMetricTest)
-add_test(NAME itkEuclideanSquareDistanceMetricTest
+itk_add_test(NAME itkEuclideanSquareDistanceMetricTest
       COMMAND ITK-StatisticsTestDriver itkEuclideanSquareDistanceMetricTest)
-add_test(NAME itkMahalanobisDistanceMetricTest
+itk_add_test(NAME itkMahalanobisDistanceMetricTest
       COMMAND ITK-StatisticsTestDriver itkMahalanobisDistanceMetricTest)
-add_test(NAME itkManhattanDistanceMetricTest
+itk_add_test(NAME itkManhattanDistanceMetricTest
       COMMAND ITK-StatisticsTestDriver itkManhattanDistanceMetricTest)

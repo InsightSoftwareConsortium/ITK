@@ -38,6 +38,11 @@ namespace itk
  *
  * \sa ShapeLabelObject, LabelShapeOpeningImageFilter, BinaryStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/BinaryImageToShapeLabelMapFilter,Label binary regions in an image and get their properties}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage =
             LabelMap< ShapeLabelObject< SizeValueType, ::itk::GetImageDimension< TInputImage >::ImageDimension > > >

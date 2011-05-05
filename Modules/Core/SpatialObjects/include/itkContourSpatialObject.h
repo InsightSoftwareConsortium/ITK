@@ -32,6 +32,7 @@ namespace itk
  * The Contour is basically defined by a set of points which are inside this blob
  *
  * \sa SpatialObjectPoint
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TDimension = 3 >

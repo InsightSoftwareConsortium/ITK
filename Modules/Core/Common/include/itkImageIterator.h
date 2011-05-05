@@ -58,7 +58,9 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  *
- *  */
+ *
+ * \ingroup ITK-Common
+ */
 template< typename TImage >
 class ITK_EXPORT ImageIterator:public ImageConstIterator< TImage >
 {

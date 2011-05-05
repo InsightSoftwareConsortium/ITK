@@ -7,7 +7,7 @@ target_link_libraries(PolyLineParametricPath1 ${ITK_LIBRARIES})
 
 if(BUILD_TESTING)
 
-add_test(NAME PolyLineParametricPath1 COMMAND PolyLineParametricPath1
+itk_add_test(NAME PolyLineParametricPath1 COMMAND PolyLineParametricPath1
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
 )
 

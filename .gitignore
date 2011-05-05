@@ -11,3 +11,10 @@
 # Binary directory
 BUILD*
 build*
+
+# qtcreator
+CMakeLists.txt.user*
+
+# kdevelop
+*.kdev*
+.kdev*

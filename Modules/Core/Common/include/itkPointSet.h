@@ -84,6 +84,14 @@ struct GetPointSetDimension {
  *
  * \ingroup MeshObjects
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{PointSet/CreatePointSet,Create a PointSet}
+ * \wikiexample{PointSet/ReadPointSet,Read a PointSet}
+ * \wikiexample{PointSet/WritePointSet,Write a PointSet}
+ * \wikiexample{PointSet/BoundingBox,Get the bounding box of a PointSet}
+ * \endwiki
  */
 
 template<

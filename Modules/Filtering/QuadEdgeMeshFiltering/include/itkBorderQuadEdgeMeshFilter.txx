@@ -83,7 +83,6 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     }
 
   this->m_Border.resize(i);
-  //delete list;
 }
 
 // ----------------------------------------------------------------------------
@@ -136,7 +135,12 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
       oborder_it = b_it;
       }
     }
-  return ( *oborder_it );
+
+  InputQEType* output = *oborder_it;
+
+  delete list;
+
+  return output;
 }
 #endif
 
@@ -178,8 +182,11 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()
       }
     }
 
+  InputQEType* output = *oborder_it;
+
   delete list;
-  return ( *oborder_it );
+
+  return output;
 }
 #endif
 

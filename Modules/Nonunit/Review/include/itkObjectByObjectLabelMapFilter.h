@@ -63,6 +63,7 @@ namespace itk {
  * http://www.insight-journal.org/browse/publication/176
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 template<class TInputImage, class TOutputImage=TInputImage,
   class TInputFilter=ImageToImageFilter<

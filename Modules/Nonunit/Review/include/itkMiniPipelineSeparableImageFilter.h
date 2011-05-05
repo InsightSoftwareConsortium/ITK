@@ -33,8 +33,17 @@ namespace itk
  * defined by the SetRadius() method, like the BoxImageFilter and its
  * subcalsses.
  *
+ *
+ * This code was contributed in the Insight Journal paper:
+ * "Efficient implementation of kernel filtering"
+ * by Beare R., Lehmann G
+ * http://hdl.handle.net/1926/555
+ * http://www.insight-journal.org/browse/publication/160
+ *
+ *
  * \author Gaetan Lehmann
  * \author Richard Beare
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage, class TFilter >

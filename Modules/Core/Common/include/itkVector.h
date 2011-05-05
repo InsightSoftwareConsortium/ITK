@@ -51,6 +51,12 @@ namespace itk
  * \sa Point
  * \sa CovariantVector
  * \sa Matrix
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/CreateVector,Create a vector}
+ * \wikiexample{Math/DotProduct,Dot product (inner product) of two vectors}
+ * \endwiki
  */
 template< class T, unsigned int NVectorDimension = 3 >
 class Vector:public FixedArray< T, NVectorDimension >

@@ -64,7 +64,9 @@ namespace itk
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
- * \sa ImageConstIteratorWithIndex */
+ * \sa ImageConstIteratorWithIndex
+ * \ingroup ITK-Common
+ */
 template< class TImage,  class TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >
 class ITK_EXPORT ConstShapedNeighborhoodIterator:
@@ -311,6 +313,11 @@ protected:
   /** Returns the size of the list of active neighborhood indicies. */
   typename IndexListType::size_type GetActiveIndexListSize() const
   { return m_ActiveIndexList.size(); }
+
+  /** Add non-zero neighborhood offsets to the active list. The
+    * radius of the neighborhood must match the radius of the shaped
+    * iterator */
+  void CreateActiveListFromNeighborhood(const NeighborhoodType &);
 
   /** Reimplements the operator++ method so that only active pixel locations
    * are updated. */

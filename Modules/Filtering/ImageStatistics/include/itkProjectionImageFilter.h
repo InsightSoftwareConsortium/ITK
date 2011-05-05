@@ -40,7 +40,7 @@ namespace itk
  *
  * This class was contributed to the Insight Journal by Emilian Beronich and
  * Gaetan Lehmann. The original paper can be found at
- *      http://insight-journal.org/midas/handle.php?handle=1926/164
+ *      http://hdl.handle.net/1926/164
  *
  * \author Emiliano Beronich
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
@@ -49,6 +49,7 @@ namespace itk
  *
  * \sa AccumulateImageFilter
  * \ingroup   IntensityImageFilters     Singlethreaded
+ * \ingroup ITK-ImageStatistics
  */
 template< class TInputImage, class TOutputImage, class TAccumulator >
 class ITK_EXPORT ProjectionImageFilter:
