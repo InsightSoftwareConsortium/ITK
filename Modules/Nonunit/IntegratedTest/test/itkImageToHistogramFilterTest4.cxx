@@ -63,37 +63,10 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
   typedef itk::Statistics::ImageToHistogramFilter< VectorImageType >   HistogramFilterType;
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   histogramFilter->SetInput(  compose->GetOutput()  );
-//  itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
+  itk::SimpleFilterWatcher watcher(histogramFilter, "histogramFilter");
 
   typedef HistogramFilterType::HistogramType  HistogramType;
   typedef HistogramFilterType::HistogramSizeType   SizeType;
-
-//   // Setting bin mins and max
-//   typedef HistogramFilterType::HistogramMeasurementVectorType  HistogramMeasurementVectorType;
-//   HistogramMeasurementVectorType histogramBinMinimum( 2 );
-//   histogramBinMinimum[0] = 0;
-//   histogramBinMinimum[1] = 0;
-//   HistogramMeasurementVectorType histogramBinMaximum( 2 );
-//   histogramBinMaximum[0] = 256;
-//   histogramBinMaximum[1] = 256;
-//   histogramFilter->SetHistogramBinMinimum( histogramBinMinimum );
-//   histogramFilter->SetHistogramBinMaximum( histogramBinMaximum );
-//   histogramFilter->SetAutoMinimumMaximum( false );
-
-//   SizeType size( 2 );
-//   size.Fill(256);
-//   histogramFilter->SetHistogramSize( size );
-
-  // TODO: this Update() shouldn't be needed - remove it.
-  try
-    {
-    histogramFilter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
 
   // use a 3D image to check the behavior of HistogramToImageFilter when the image
   // is of greater dimension than the histogram
@@ -101,6 +74,7 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
   typedef itk::HistogramToLogProbabilityImageFilter< HistogramType, FloatImageType >   ImageFilterType;
   ImageFilterType::Pointer imageFilter = ImageFilterType::New();
   imageFilter->SetInput( histogramFilter->GetOutput() );
+  itk::SimpleFilterWatcher watcher2(imageFilter, "imageFilter");
 
   typedef itk::RescaleIntensityImageFilter< FloatImageType, ImageType > RescaleType;
   RescaleType::Pointer rescale = RescaleType::New();

@@ -89,6 +89,11 @@ void
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GenerateOutputInformation()
 {
+  // we need the input histogram to be up to date, so we can look at its values
+  // to compute the size, spacing and origin of the output image.
+  // the GetInput() from ProcessObject is used to get a non const histogram.
+  this->ProcessObject::GetInput(0)->Update();
+
   // Get the input and output pointers
   // Get from decorator
   const HistogramType *inputHistogram = this->GetInput();
