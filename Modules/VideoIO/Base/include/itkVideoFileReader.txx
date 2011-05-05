@@ -284,6 +284,13 @@ VideoFileReader< TOutputVideoStream >
   // Get the frame number for the frame we're reading
   unsigned long frameNum = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
 
+  // Figure out if we need to skip frames
+  unsigned long currentIOFrame = m_VideoIO->GetCurrentFrame();
+  if (frameNum != currentIOFrame)
+    {
+    m_VideoIO->SetNextFrameToRead(frameNum);
+    }
+
   // Read a single frame
   if (m_PixelConversionNeeded)
     {
