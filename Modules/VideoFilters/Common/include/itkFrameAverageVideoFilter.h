@@ -75,7 +75,6 @@ protected:
   virtual void ThreadedGenerateData(
                 const OutputFrameSpatialRegionType& outputRegionForThread,
                 int threadId);
-  //virtual void TemporalStreamingGenerateData();
 
 private:
   FrameAverageVideoFilter(const Self &);  // purposely not implemented
