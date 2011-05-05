@@ -16,40 +16,6 @@ typedef itk::ImageFileReader<ImageType> ReaderType;
 typedef itk::ImageFileWriter<ImageType> WriterType;
 
 
-//
-// Duplicate the splitting function from FileListVideoIO
-//
-std::vector<std::string> test_SplitFileNames(const char* fileList)
-{
-  std::string str = fileList;
-
-  std::vector<std::string> out;
-
-  int pos = 0;
-  int len = str.length();
-  while (pos != -1 && len > 0)
-    {
-    // Get the substring
-    str = str.substr(pos, len);
-
-    // Update pos
-    pos = str.find(',');
-
-    // Add the filename to the list
-    out.push_back(str.substr(0,pos));
-
-    // Move past the delimiter
-    if (pos != -1)
-      {
-      pos++;
-      }
-    len -= pos;
-    }
-
-  return out;
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // This tests all of the functionality of the FileListVideoIO
 //
@@ -155,7 +121,7 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
   ReaderType::Pointer reader = ReaderType::New();
 
   // Loop through all frames
-  std::vector<std::string> filenames = test_SplitFileNames(input);
+  std::vector<std::string> filenames = fileListIO->SplitFileNames(input);
   for (unsigned long i = 0; i < fileListIO->GetFrameTotal(); ++i)
     {
     // Read the image file directly

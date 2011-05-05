@@ -55,6 +55,11 @@ public:
   /** Close the reader and writer and reset members */
   virtual void FinishReadingOrWriting();
 
+  /** Split up the input file names -- This is public so that places where
+   * FileListVideoIO is used can access the individual file names. This is
+   * mostly an issue for testing. */
+  static std::vector<std::string> SplitFileNames(const char* fileList);
+
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Set to reading from file */
@@ -129,9 +134,6 @@ protected:
 
   /** Open the writer iff the reader is not open */
   void OpenWriter();
-
-  /** Split up the input file names */
-  std::vector<std::string> SplitFileNames(const char* fileList);
 
 
 private:
