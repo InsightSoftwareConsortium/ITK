@@ -23,14 +23,19 @@
 #include "itkImageToHistogramFilter.h"
 #include "itkHistogramToLogProbabilityImageFilter.h"
 #include "itkImage.h"
+#include "itkVectorImage.h"
 #include "itkRGBPixel.h"
+#include "itkRGBAPixel.h"
+#include "itkVector.h"
+#include "itkCovariantVector.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCompose2DVectorImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkImageToHistogramFilterTest4( int argc, char * argv [] )
+template<class TVectorImage>
+int itkImageToHistogramFilterTest4Templated( int argc, char * argv [] )
 {
 
   if( argc < 4 )
@@ -46,7 +51,7 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
   typedef itk::Vector< PixelComponentType, 2 >            VectorPixelType;
 
   typedef itk::Image< unsigned char, Dimension >   ImageType;
-  typedef itk::Image< VectorPixelType, Dimension > VectorImageType;
+  typedef TVectorImage                             VectorImageType;
 
   typedef itk::ImageFileReader< ImageType >  ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
@@ -55,33 +60,33 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::Compose2DVectorImageFilter< ImageType, VectorImageType > ComposeType;
-  ComposeType::Pointer compose = ComposeType::New();
+  typedef itk::ComposeImageFilter< ImageType, VectorImageType > ComposeType;
+  typename ComposeType::Pointer compose = ComposeType::New();
   compose->SetInput1(reader->GetOutput());
   compose->SetInput2(reader2->GetOutput());
 
   typedef itk::Statistics::ImageToHistogramFilter< VectorImageType >   HistogramFilterType;
-  HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
+  typename HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   histogramFilter->SetInput(  compose->GetOutput()  );
   itk::SimpleFilterWatcher watcher(histogramFilter, "histogramFilter");
 
-  typedef HistogramFilterType::HistogramType  HistogramType;
-  typedef HistogramFilterType::HistogramSizeType   SizeType;
+  typedef typename HistogramFilterType::HistogramType       HistogramType;
+  typedef typename HistogramFilterType::HistogramSizeType   SizeType;
 
   // use a 3D image to check the behavior of HistogramToImageFilter when the image
   // is of greater dimension than the histogram
   typedef itk::Image< float, 3 > FloatImageType;
   typedef itk::HistogramToLogProbabilityImageFilter< HistogramType, FloatImageType >   ImageFilterType;
-  ImageFilterType::Pointer imageFilter = ImageFilterType::New();
+  typename ImageFilterType::Pointer imageFilter = ImageFilterType::New();
   imageFilter->SetInput( histogramFilter->GetOutput() );
   itk::SimpleFilterWatcher watcher2(imageFilter, "imageFilter");
 
   typedef itk::RescaleIntensityImageFilter< FloatImageType, ImageType > RescaleType;
-  RescaleType::Pointer rescale = RescaleType::New();
+  typename RescaleType::Pointer rescale = RescaleType::New();
   rescale->SetInput( imageFilter->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType >  WriterType;
-  WriterType::Pointer writer = WriterType::New();
+  typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( rescale->GetOutput() );
   writer->SetFileName( argv[3] );
 
@@ -99,4 +104,48 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
   imageFilter->GetOutput()->Print(std::cout);
 
   return EXIT_SUCCESS;
+}
+
+
+int itkImageToHistogramFilterTest4( int argc, char * argv [] )
+{
+  std::string command = argv[1];
+  argc--;
+  argv++;
+  if( command == "Vector" )
+    {
+    typedef itk::Image<itk::Vector<float, 2>, 3> VectorImageType;
+    return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
+    }
+  else if( command == "CovarianVector" )
+    {
+    typedef itk::Image<itk::CovariantVector<float, 2>, 3> VectorImageType;
+    return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
+    }
+  else if( command == "RGBPixel" )
+    {
+    typedef itk::Image<itk::RGBPixel<unsigned char>, 3> VectorImageType;
+    return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
+    }
+  else if( command == "RGBAPixel" )
+    {
+    typedef itk::Image<itk::RGBAPixel<unsigned char>, 3> VectorImageType;
+    return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
+    }
+  else if( command == "FixedArray" )
+    {
+    typedef itk::Image<itk::FixedArray<unsigned char, 2>, 3> VectorImageType;
+    return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
+    }
+  else if( command == "complex" )
+    {
+    typedef itk::Image<std::complex<float>, 3> VectorImageType;
+    return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
+    }
+  else if( command == "VectorImage" )
+    {
+    typedef itk::VectorImage<unsigned char, 3> VectorImageType;
+    return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
+    }
+  return EXIT_FAILURE;
 }

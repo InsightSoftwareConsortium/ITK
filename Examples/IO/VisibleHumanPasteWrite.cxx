@@ -23,7 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkVectorGradientMagnitudeImageFilter.h"
-#include "itkComposeRGBImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkRGBToVectorImageAdaptor.h"
 
 
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 
   typedef  GradientMagnitudeImageFilter::OutputImageType GradientMagnitudeOutputImageType;
 
-  typedef itk::ComposeRGBImageFilter< GradientMagnitudeOutputImageType, RGB2DImageType > ComposeRGBFilterType;
+  typedef itk::ComposeImageFilter< GradientMagnitudeOutputImageType, RGB2DImageType > ComposeRGBFilterType;
   ComposeRGBFilterType::Pointer composeRGB = ComposeRGBFilterType::New();
   composeRGB->SetInput1( grad->GetOutput() );
   composeRGB->SetInput2( grad->GetOutput() );

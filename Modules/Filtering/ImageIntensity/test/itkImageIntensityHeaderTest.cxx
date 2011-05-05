@@ -70,7 +70,6 @@
 #include "itkEdgePotentialImageFilter.h"
 #include "itkNaryAddImageFilter.h"
 #include "itkTanImageFilter.h"
-#include "itkScalarToArrayCastImageFilter.txx"
 #include "itkExpImageFilter.h"
 #include "itkXorImageFilter.h"
 #include "itkConstrainedValueDifferenceImageFilter.h"

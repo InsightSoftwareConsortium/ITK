@@ -36,7 +36,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkRealAndImaginaryToComplexImageFilter.h"
+#include "itkComposeImageFilter.h"
 
 int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
 {
@@ -55,8 +55,8 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
   typedef itk::ImageFileReader< InputImageType >                  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >                 WriterType;
 
-  typedef itk::RealAndImaginaryToComplexImageFilter <
-    InputImageType, InputImageType, OutputImageType >  RealAndImaginary2ComplexFilterType;
+  typedef itk::ComposeImageFilter <
+    InputImageType, OutputImageType >  RealAndImaginary2ComplexFilterType;
 
   ReaderType::Pointer readerReal = ReaderType::New();
   ReaderType::Pointer readerImag = ReaderType::New();
@@ -89,7 +89,7 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
     }
 
   // check that the default template parameters work
-  typedef itk::RealAndImaginaryToComplexImageFilter < InputImageType > DefaultParametersFilterType;
+  typedef itk::ComposeImageFilter < InputImageType > DefaultParametersFilterType;
   DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
 
 

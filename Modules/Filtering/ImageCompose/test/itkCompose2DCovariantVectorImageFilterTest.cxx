@@ -21,7 +21,8 @@
 
 #include <iostream>
 #include "itkImage.h"
-#include "itkCompose2DCovariantVectorImageFilter.h"
+#include "itkCovariantVector.h"
+#include "itkComposeImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 
@@ -31,7 +32,10 @@ int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
   typedef unsigned char PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
 
-  typedef itk::Compose2DCovariantVectorImageFilter< InputImageType >  FilterType;
+  typedef itk::CovariantVector<float, 2>    OutputPixelType;
+  typedef itk::Image< OutputPixelType, 3 >  OutputImageType;
+
+  typedef itk::ComposeImageFilter< InputImageType, OutputImageType >  FilterType;
 
   typedef InputImageType::RegionType RegionType;
   typedef InputImageType::SizeType   SizeType;
@@ -69,7 +73,6 @@ int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
   try
     {
     filter->Update();
-    filter->SetFunctor(filter->GetFunctor());
     }
 
   catch( itk::ExceptionObject & excp )

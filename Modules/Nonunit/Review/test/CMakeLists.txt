@@ -40,7 +40,6 @@ itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
 itkChangeLabelLabelMapFilterTest.cxx
 itkChangeRegionLabelMapFilterTest1.cxx
-itkComposeRGBAImageFilterTest.cxx
 itkCompositeTransformTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
@@ -72,7 +71,6 @@ itkGridImageSourceTest.cxx
 itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx
 itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
-itkImageReadRealAndImaginaryWriteComplexTest.cxx
 itkImageFunctionTest.cxx
 itkJPEG2000ImageIOFactoryTest01.cxx
 itkJPEG2000ImageIORegionOfInterest.cxx
@@ -465,9 +463,6 @@ itk_add_test(NAME itkChangeRegionLabelMapFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-changeregion.mha
               ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changeregion.mha
     itkChangeRegionLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changeregion.mha 50 100 120 150)
-itk_add_test(NAME itkComposeRGBAImageFilterTest
-      COMMAND ITK-ReviewTestDriver itkComposeRGBAImageFilterTest
-              ${ITK_TEST_OUTPUT_DIR}/itkComposeRGBAImageFilterTestOutput.png ${ITK_DATA_ROOT}/Input/Number1inText.png ${ITK_DATA_ROOT}/Input/Number2inText.png ${ITK_DATA_ROOT}/Input/Number3inText.png ${ITK_DATA_ROOT}/Input/IntensityRamp64.png)
 itk_add_test(NAME itkCompositeTransformTest
       COMMAND ITK-ReviewTestDriver itkCompositeTransformTest)
 itk_add_test(NAME itkConformalFlatteningMeshFilterTest1
@@ -688,9 +683,6 @@ itk_add_test(NAME itkImageReadComplexWriteMagnitudeAndPhaseTest
 itk_add_test(NAME itkImageReadMagnitudeAndPhaseWriteComplexTest
       COMMAND ITK-ReviewTestDriver itkImageReadMagnitudeAndPhaseWriteComplexTest
               ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplexMagnitude.mha ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplexPhase.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
-itk_add_test(NAME itkImageReadRealAndImaginaryWriteComplexTest
-      COMMAND ITK-ReviewTestDriver itkImageReadRealAndImaginaryWriteComplexTest
-              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
 itk_add_test(NAME itkImageFunctionTest
       COMMAND ITK-ReviewTestDriver itkImageFunctionTest)
 itk_add_test(NAME itkJPEG2000Test00

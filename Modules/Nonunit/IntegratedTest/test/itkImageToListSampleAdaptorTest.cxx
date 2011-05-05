@@ -20,7 +20,7 @@
 #endif
 #include "itkImageToListSampleAdaptor.h"
 #include "itkRandomImageSource.h"
-#include "itkScalarToArrayCastImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkFixedArray.h"
 
 int itkImageToListSampleAdaptorTest(int, char* [] )
