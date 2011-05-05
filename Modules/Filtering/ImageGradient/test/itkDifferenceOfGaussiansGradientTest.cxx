@@ -124,11 +124,11 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   // show seed indices
   std::cout << "Seeds for FloodFilledSpatialFunctionConditionalIterator"
             << std::endl;
-  for(TItType::SeedsContainerType::const_iterator it
+  for(TItType::SeedsContainerType::const_iterator s_it
         = seeds.begin();
-      it != seeds.end(); it++)
+      s_it != seeds.end(); ++s_it)
     {
-    std::cout << (*it) << " ";
+    std::cout << (*s_it) << " ";
     }
   std::cout << std::endl;
 
