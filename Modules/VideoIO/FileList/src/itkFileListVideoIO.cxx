@@ -143,6 +143,39 @@ void FileListVideoIO::SetFileName(const char* fileList)
   this->m_FrameTotal = this->m_FileNames.size();
 }
 
+//
+// SplitFileNames ';'
+//
+std::vector<std::string> FileListVideoIO::SplitFileNames(const char* fileList)
+{
+  std::string str = fileList;
+
+  std::vector<std::string> out;
+
+  int pos = 0;
+  int len = str.length();
+  while (pos != -1 && len > 0)
+    {
+    // Get the substring
+    str = str.substr(pos, len);
+
+    // Update pos
+    pos = str.find(',');
+
+    // Add the filename to the list
+    out.push_back(str.substr(0,pos));
+
+    // Move past the delimiter
+    if (pos != -1)
+      {
+      pos++;
+      }
+    len -= pos;
+    }
+
+  return out;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Read related methods
 //
@@ -528,40 +561,6 @@ void FileListVideoIO::OpenWriter()
     itkExceptionMacro("File failed to open for writing");
     }
 }
-
-//
-// SplitFileNames ';'
-//
-std::vector<std::string> FileListVideoIO::SplitFileNames(const char* fileList)
-{
-  std::string str = fileList;
-
-  std::vector<std::string> out;
-
-  int pos = 0;
-  int len = str.length();
-  while (pos != -1 && len > 0)
-    {
-    // Get the substring
-    str = str.substr(pos, len);
-
-    // Update pos
-    pos = str.find(',');
-
-    // Add the filename to the list
-    out.push_back(str.substr(0,pos));
-
-    // Move past the delimiter
-    if (pos != -1)
-      {
-      pos++;
-      }
-    len -= pos;
-    }
-
-  return out;
-}
-
 
 //
 // ResetMembers
