@@ -193,7 +193,10 @@ public:
 
   //  void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** \class ConstIterator  \ingroup ITK-Statistics */
+  /** \class ConstIterator
+   * \brief Const Iterator
+   * \ingroup ITK-Statistics
+   */
   class ConstIterator
   {
     friend class JointDomainImageToListSampleAdaptor;
@@ -266,7 +269,10 @@ private:
     const JointDomainImageToListSampleAdaptor *m_Adaptor;
   };
 
-  /** \class Iterator  \ingroup ITK-Statistics */
+  /** \class Iterator
+   * \brief Iterator
+   * \ingroup ITK-Statistics
+   */
   class Iterator:public ConstIterator
   {
     friend class JointDomainImageToListSampleAdaptor;

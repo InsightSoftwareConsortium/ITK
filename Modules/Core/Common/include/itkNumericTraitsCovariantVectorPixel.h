@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** \class NumericTraits<CovariantVector< T > >
+/** \class NumericTraits<CovariantVector<T>>
  * \brief Define numeric traits for CovariantVector.
  *
  * We provide here a generic implementation based on creating types of
@@ -31,8 +31,8 @@ namespace itk
  * the original CovariantVector components. This implementation require
  * support for partial specializations, since it is based on the
  * concept that:
- *   NumericTraits<CovariantVector< T > >  is defined piecewise by
- *   CovariantVector< NumericTraits< T > >
+ *   NumericTraits<CovariantVector<T>>  is defined piecewise by
+ *   CovariantVector<NumericTraits<T>>
  *
  * \sa NumericTraits
  * \ingroup DataRepresentation
