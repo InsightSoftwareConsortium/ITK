@@ -18,7 +18,7 @@
 #ifndef __itkGradientToMagnitudeImageFilter_h
 #define __itkGradientToMagnitudeImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkVectorMagnitudeImageFilter.h"
 
 namespace itk
 {
@@ -33,50 +33,23 @@ namespace itk
  * This filter assumes that the PixelType of the input image is a VectorType
  * that provides a GetNorm() method.
  *
+ * This filter is here for backwards compatibility. It has been renamed to
+ * VectorMagnitudeImageFilter in the ImageIntensity module.
+ *
  * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageGradient
+ * \ingroup ITK-Deprecated
  */
-
-namespace Functor
-{
-template< class TInput, class TOutput >
-class GradientMagnitude
-{
-public:
-  GradientMagnitude() {}
-  ~GradientMagnitude() {}
-
-  bool operator!=(const GradientMagnitude &) const
-  {
-    return false;
-  }
-
-  bool operator==(const GradientMagnitude & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput & A) const
-  {
-    return static_cast< TOutput >( A.GetNorm() );
-  }
-};
-}
 
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT GradientToMagnitudeImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::GradientMagnitude< typename TInputImage::PixelType,
-                                                       typename TOutputImage::PixelType >   >
+  VectorMagnitudeImageFilter< TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef GradientToMagnitudeImageFilter Self;
-  typedef UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::GradientMagnitude< typename TInputImage::PixelType,
-                                typename TOutputImage::PixelType > > Superclass;
+  typedef VectorMagnitudeImageFilter<
+    TInputImage, TOutputImage> Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -86,7 +59,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(GradientToMagnitudeImageFilter,
-               UnaryFunctorImageFilter);
+               VectorMagnitudeImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
