@@ -5,9 +5,6 @@ endif()
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
-macro(itk_add_test_with_data)
-endmacro()
-
 set(ITK_TEST_DRIVER itkTestDriver)
 
 add_subdirectory(Iterators)

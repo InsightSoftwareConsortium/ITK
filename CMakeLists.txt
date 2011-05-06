@@ -43,6 +43,19 @@ macro(verify_itk_module_is_set)
 endmacro()
 
 #-----------------------------------------------------------------------------
+# Load macros to manage data download
+include(ExternalData)
+list(APPEND ExternalData_URL_TEMPLATES
+  "http://midas.kitware.com/api/rest/midas.bitstream.by.hash?hash=%(hash)&algorithm=%(algo)"
+  )
+
+#-----------------------------------------------------------------------------
+# Enable the download and use of BrainWeb datasets.
+# When this data is available, additional 3D tests are enabled.
+option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)
+mark_as_advanced(ITK_USE_BRAINWEB_DATA)
+
+#-----------------------------------------------------------------------------
 # Takes a list of tests and applies the containing module's label to each.
 #
 macro(itk_add_test_module_label)
@@ -64,7 +77,8 @@ endmacro()
 # to the value of its containing module.
 #
 macro(itk_add_test)
-  add_test(${ARGN})
+  # Add tests with data in the ITKData group.
+  ExternalData_add_test(ITKData ${ARGN})
 
   if("NAME" STREQUAL "${ARGV0}")
     set(_iat_testname ${ARGV1})
@@ -534,3 +548,7 @@ endif()
 #----------------------------------------------------------------------
 # Provide an option for generating documentation.
 add_subdirectory(Utilities/Doxygen)
+
+# Create target to download data from the ITKData group.  This must come after
+# all tests have been added that reference the group, so we put it last.
+ExternalData_Add_Target(ITKData)
