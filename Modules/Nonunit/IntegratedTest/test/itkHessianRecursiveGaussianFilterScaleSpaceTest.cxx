@@ -76,6 +76,8 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
   scales[2] = 3.0;
   scales[3] = 5.0;
 
+  // changing the size of the object with the the size of the
+  // gaussian should produce the same results
   for (unsigned int i=0; i<numberOfScales; i++)
     {
     IteratorType it(inputImage, inputImage->GetRequestedRegion());
@@ -126,6 +128,66 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
       return EXIT_FAILURE;
       }
     }
+
+
+  // maintaining the size of the object and gaussian, in physical
+  // size, should maintain the value, while the size of the image changes.
+ for (unsigned int i=0; i<numberOfScales; i++)
+    {
+    IteratorType it(inputImage, inputImage->GetRequestedRegion());
+
+    PointType point;
+    double objectSize = 5.0;
+
+    spacing.Fill(scales[i]/5.0);
+
+    inputImage->SetSpacing(spacing);
+
+    // Fill the image with a 1D Gaussian along X with sigma equal to
+    // the object size.
+    // The Gaussian is not normalized, since it should have the same peak value across
+    // scales, only sigma should change
+    while(!it.IsAtEnd())
+      {
+      inputImage->TransformIndexToPhysicalPoint(it.GetIndex(),point);
+      double value = vcl_exp(-point[0]*point[0] / (2.0*objectSize*objectSize));
+      it.Set(value);
+      ++it;
+      }
+
+    // Compute the hessian using NormalizeAcrossScale true
+    typedef itk::HessianRecursiveGaussianImageFilter<ImageType> FilterType;
+
+    typedef FilterType::OutputImageType HessianImageType;
+
+    FilterType::Pointer filter = FilterType::New();
+    filter->SetInput(inputImage);
+    filter->SetSigma(objectSize);
+    filter->SetNormalizeAcrossScale(true);
+    filter->Update();
+
+    HessianImageType::Pointer outputImage = filter->GetOutput();
+
+    // Get the value at the center of the image, the location of the peak of the Gaussian
+    PointType center;
+    center.Fill(0.0);
+
+    IndexType centerIndex;
+
+    typedef HessianImageType::PixelType HessianType;
+
+    outputImage->TransformPhysicalPointToIndex(center,centerIndex);
+
+    // Irrespective of the scale, the Hxx component should be the same
+    double centerHxx = outputImage->GetPixel(centerIndex)[0];
+
+    if (centerHxx > -0.354 || centerHxx < -0.355 )
+      {
+      std::cout << "center Hessian: " << outputImage->GetPixel(centerIndex) << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
 
   return EXIT_SUCCESS;
 }
