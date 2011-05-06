@@ -25,12 +25,9 @@
 #include "itkVectorGradientMagnitudeImageFilter.txx"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.txx"
 #include "itkGradientImageFilter.txx"
-#include "itkGradientToMagnitudeImageFilter.h"
 #include "itkDifferenceOfGaussiansGradientImageFilter.txx"
 #include "itkGradientRecursiveGaussianImageFilter.txx"
 #include "itkGradientMagnitudeImageFilter.txx"
-
-
 
 int itkImageGradientHeaderTest ( int , char * [] )
 {

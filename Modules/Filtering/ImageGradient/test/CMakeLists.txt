@@ -2,7 +2,6 @@ itk_module_test()
 set(ITK-ImageGradientTests
 itkImageGradientHeaderTest.cxx
 itkGradientImageFilterTest.cxx
-itkGradientToMagnitudeImageFilterTest.cxx
 itkVectorGradientMagnitudeImageFilterTest1.cxx
 itkVectorGradientMagnitudeImageFilterTest2.cxx
 itkGradientMagnitudeImageFilterTest.cxx
@@ -19,8 +18,6 @@ itk_add_test(NAME itkImageGradientHeaderTest
       COMMAND ITK-ImageGradientTestDriver itkImageGradientHeaderTest)
 itk_add_test(NAME itkGradientImageFilterTest
       COMMAND ITK-ImageGradientTestDriver itkGradientImageFilterTest)
-itk_add_test(NAME itkGradientToMagnitudeImageFilterTest
-      COMMAND ITK-ImageGradientTestDriver itkGradientToMagnitudeImageFilterTest)
 itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest1a
       COMMAND ITK-ImageGradientTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest1a.png
