@@ -26,8 +26,9 @@
 
 namespace itk
 {
-/** \class NumericTraits<VariableLengthVector< T > >
+/**
  * \brief Define numeric traits for VariableLengthVector.
+ * \tparam T Component type of VariableLenghtVector
  *
  * We provide here a generic implementation based on creating types of
  * VariableLengthVector whose components are the types of the NumericTraits from

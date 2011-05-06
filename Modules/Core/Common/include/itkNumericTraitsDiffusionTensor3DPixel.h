@@ -25,8 +25,9 @@
 
 namespace itk
 {
-/** \class NumericTraits<DiffusionTensor3D< T > >
+/**
  * \brief Define numeric traits for DiffusionTensor3D.
+ * \tparam T Component type of DiffusionTensor3D
  *
  * We provide here a generic implementation based on creating types of
  * DiffusionTensor3D whose components are the types of the NumericTraits from

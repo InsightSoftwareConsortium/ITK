@@ -23,8 +23,10 @@
 
 namespace itk
 {
-/** \class NumericTraits<SymmetricSecondRankTensor< T, D > >
+/**
  * \brief Define numeric traits for SymmetricSecondRankTensor.
+ * \tparam T Component type of SymmetricSecondRankTensor
+ * \tparam D Dimension of the SymmetricSecondRankTensor
  *
  * We provide here a generic implementation based on creating types of
  * SymmetricSecondRankTensor whose components are the types of the

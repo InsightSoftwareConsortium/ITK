@@ -23,15 +23,17 @@
 
 namespace itk
 {
-/** \class NumericTraits<FixedArray< T > >
+/**
  * \brief Define numeric traits for FixedArray.
+ * \tparam T Component type of the FixedArray
+ * \tparam D Dimension of the FixedArray
  *
  * We provide here a generic implementation based on creating types of
  * FixedArray whose components are the types of the NumericTraits from
  * the original FixedArray components. This implementation require
  * support for partial specializations, since it is based on the
  * concept that:
- *   NumericTraits<FixedArray< T > >  is defined piecewise by
+ *   NumericTraits<FixedArray< T, D > >  is defined piecewise by
  *   FixedArray< NumericTraits< T > >
  *
  * \sa NumericTraits

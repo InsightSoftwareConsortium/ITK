@@ -23,15 +23,17 @@
 
 namespace itk
 {
-/** \class NumericTraits<CovariantVector<T>>
+/**
  * \brief Define numeric traits for CovariantVector.
+ * \tparam T Component type of CovariantVector
+ * \tparam D Dimension of the CovariantVector
  *
  * We provide here a generic implementation based on creating types of
  * CovariantVector whose components are the types of the NumericTraits from
  * the original CovariantVector components. This implementation require
  * support for partial specializations, since it is based on the
  * concept that:
- *   NumericTraits<CovariantVector<T>>  is defined piecewise by
+ *   NumericTraits<CovariantVector<T,D>>  is defined piecewise by
  *   CovariantVector<NumericTraits<T>>
  *
  * \sa NumericTraits

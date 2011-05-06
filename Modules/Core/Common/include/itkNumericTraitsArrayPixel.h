@@ -23,6 +23,9 @@
 
 namespace itk
 {
+/** \brief NumericTraits for Array
+ * \tparam T type of the array component
+ */
 template< typename T >
 class NumericTraits< Array< T > >
 {
