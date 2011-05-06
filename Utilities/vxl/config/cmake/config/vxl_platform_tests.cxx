@@ -1039,9 +1039,13 @@ double cast( THE_TYPE a )
 }
 #endif // INTEGRAL_TYPE
 
+// These declarations conflict unless the sizes match.
+extern int (*verify_size)[sizeof(THE_TYPE) * CHAR_BIT];
+extern int (*verify_size)[THE_SIZE];
+
 int main()
 {
-  return sizeof(THE_TYPE) * CHAR_BIT == THE_SIZE ? 0 : 1;
+  return 0;
 }
 
 #endif // VXL_HAS_TYPE_OF_SIZE
