@@ -705,16 +705,36 @@ Histogram< TMeasurement, TFrequencyContainer >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OffsetTable: " <<  std::endl;
+  // os << indent << "MeasurementVectorSize: " << this->GetMeasurementVectorSize() << std::endl;
+  os << indent << "TotalFrequency: " << this->GetTotalFrequency() << std::endl;
+  os << indent << "Size: ";
+  for ( unsigned int i = 0; i < m_Size.Size(); i++ )
+    {
+    os << m_Size[i] << "  ";
+    }
+  os << std::endl;
+  os << indent << "Bin Minima: ";
+  for ( unsigned int i = 0; i < m_Min.size(); i++ )
+    {
+    os << m_Min[i][0] << "  ";
+    }
+  os << std::endl;
+  os << indent << "Bin Maxima: ";
+  for ( unsigned int i = 0; i < m_Max.size(); i++ )
+    {
+    os <<  m_Max[i][m_Max[i].size()-1] << "  ";
+    }
+  os << std::endl;
+  os << indent << "ClipBinsAtEnds: "
+     << itk::NumericTraits< bool >::PrintType( this->GetClipBinsAtEnds() ) << std::endl;
+  os << indent << "OffsetTable: ";
   for ( unsigned int i = 0; i < this->m_OffsetTable.size(); i++ )
     {
     os << this->m_OffsetTable[i] << "  ";
     }
   os << std::endl;
-  os << indent << "ClipBinsAtEnds: "
-     << itk::NumericTraits< bool >::PrintType( this->GetClipBinsAtEnds() ) << std::endl;
-  os << indent << "FrequencyContainerPointer: " << m_FrequencyContainer
-     << std::endl;
+  os << indent << "FrequencyContainerPointer: " << std::endl;
+  m_FrequencyContainer->Print( os,  indent.GetNextIndent() );
 }
 
 template< class TMeasurement, class TFrequencyContainer >
