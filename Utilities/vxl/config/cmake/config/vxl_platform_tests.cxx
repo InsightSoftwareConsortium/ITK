@@ -1129,6 +1129,24 @@ int main()
 #endif // VXL_APPLE_HAS_INLINE_ISNAND
 
 //-------------------------------------
+#ifdef VXL_HAS_WIN_WCHAR_T
+
+#ifdef _WCHAR_T_DEFINED
+#include <wchar.h>
+int main()
+{
+  wchar_t buf [10];
+  buf[0] = L'1';
+  buf[1] = L'\0';
+  return 0;
+}
+#else
+  int main() { return 1; }
+#endif
+
+#endif
+
+//-------------------------------------
 
 #ifdef VXL_HAS_MM_MALLOC
 #include <emmintrin.h>

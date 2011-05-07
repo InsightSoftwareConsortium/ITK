@@ -125,6 +125,11 @@ IF(APPLE)
   ENDIF(NOT ${VXL_APPLE_HAS_ISNAND})
 ENDIF(APPLE)
 
+# Check if Windows have wchar_t defined
+IF(WIN32)
+  PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_HAS_WIN_WCHAR_T)
+ENDIF(WIN32)
+
 #
 # Find header files
 #
