@@ -27,7 +27,7 @@ itk_add_test(NAME itkShiftScaleInPlaceImageFilterTest
       COMMAND ITK-DeprecatedTestDriver itkShiftScaleInPlaceImageFilterTest)
 itk_add_test(NAME itkTwoOutputExampleImageFilterTest
       COMMAND ITK-DeprecatedTestDriver itkTwoOutputExampleImageFilterTest)
-add_test(NAME itkGradientToMagnitudeImageFilterTest
+itk_add_test(NAME itkGradientToMagnitudeImageFilterTest
       COMMAND ITK-DeprecatedTestDriver itkGradientToMagnitudeImageFilterTest)
 
 create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx

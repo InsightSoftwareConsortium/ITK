@@ -50,8 +50,9 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
 
   // Create a default pixel
   VectorPixelType pixel;
-  pixel[0] = 3;
-  pixel[1] = 4;
+  pixel[0] = 4;
+  pixel[1] = 2;
+  pixel[2] = 4;
   image->FillBuffer(pixel);
 
   // Declare Iterator type for the input image
@@ -102,10 +103,10 @@ int itkGradientToMagnitudeImageFilterTest(int, char* [] )
   imageIterator.GoToBegin();
   while( !outputIterator.IsAtEnd() )
     {
-    // Check if the magnitude of each pixel is 5.0 (to a small tolerance)
-    if(vnl_math_abs(outputIterator.Get() - 5.0) > 1e-5)
+    // Check if the magnitude of each pixel is 6.0 (to a small tolerance)
+    if(vnl_math_abs(outputIterator.Get() - 6.0) > 1e-5)
       {
-      std::cerr << "Every pixel magnitude should be 5! This one is "
+      std::cerr << "Every pixel magnitude should be 6! This one is "
                 << imageIterator.Get() << " and has magnitude "
                 << outputIterator.Get() << std::endl;
       return EXIT_FAILURE;
