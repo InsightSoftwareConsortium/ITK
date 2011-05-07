@@ -220,5 +220,5 @@ itk_add_test(NAME itkModulusImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
     itkModulusImageFilterTest ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png)
-add_test(NAME itkVectorMagnitudeImageFilterTest
+itk_add_test(NAME itkVectorMagnitudeImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkVectorMagnitudeImageFilterTest)
