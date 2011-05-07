@@ -23,6 +23,10 @@
 
 namespace itk
 {
+/** \brief NumericTraits for Vector
+ * \tparam T Component type for Vector
+ * \tparam D Space dimension (Dimension of Vector)
+ */
 template< typename T, unsigned int D >
 class NumericTraits< Vector< T, D > >
 {

@@ -28,8 +28,9 @@
 
 namespace itk
 {
-/** \class NumericTraits<std::vector< T > >
+/**
  * \brief Define numeric traits for std::vector.
+ * \tparam T Component type of std::vector
  *
  * We provide here a generic implementation based on creating types of
  * std::vector whose components are the types of the NumericTraits from

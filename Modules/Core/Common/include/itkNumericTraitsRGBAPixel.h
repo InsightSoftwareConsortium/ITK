@@ -23,8 +23,9 @@
 
 namespace itk
 {
-/** \class NumericTraits<RGBAPixel< T > >
+/**
  * \brief Define numeric traits for RGBAPixel.
+ * \tparam T Component type of RBGAPixel
  *
  * We provide here a generic implementation based on creating types of
  * RGBAPixel whose components are the types of the NumericTraits from

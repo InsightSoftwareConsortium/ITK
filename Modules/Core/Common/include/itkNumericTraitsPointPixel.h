@@ -23,6 +23,11 @@
 
 namespace itk
 {
+/**
+ * \brief NumericTraits for Point
+ * \tparam T Component type for Point
+ * \tparam D Dimension of the space
+ */
 template< typename T, unsigned int D >
 class NumericTraits< Point< T , D > >
 {
