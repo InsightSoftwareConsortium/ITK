@@ -47,9 +47,8 @@ class ITK_EXPORT GradientToMagnitudeImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientToMagnitudeImageFilter Self;
-  typedef VectorMagnitudeImageFilter<
-    TInputImage, TOutputImage> Superclass;
+  typedef GradientToMagnitudeImageFilter                        Self;
+  typedef VectorMagnitudeImageFilter<TInputImage, TOutputImage> Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
