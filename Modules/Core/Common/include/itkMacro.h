@@ -869,14 +869,14 @@ itkTypeMacro(newexcp, parentexcp);                                              
      ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Foo, (int), I)
      ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Bar, (int, char), IC)
 
-   The ITK_TEMPLATE_<name> macro should be defined in itk<name>.h and
+   The ITK_TEMPLATE_\<name\> macro should be defined in itk\<name\>.h and
    is of the following form:
 
-     \#define ITK_TEMPLATE_<name>(_, EXPORT, TypeX, TypeY) \
+     \#define ITK_TEMPLATE_\<name\>(_, EXPORT, TypeX, TypeY) \
     namespace itk { \
-       _(<n>(class EXPORT <name>< ITK_TEMPLATE_<n> x >)) \
+       _(\<n\>(class EXPORT \<name\>< ITK_TEMPLATE_<n> x >)) \
        namespace Templates { \
-    typedef <name>< ITK_TEMPLATE_<n> x > <name>##TypeY; \
+    typedef \<name\>\< ITK_TEMPLATE_\<n\> x \> \<name\>\#\#TypeY; \
    }\
      }
 
@@ -889,29 +889,29 @@ itkTypeMacro(newexcp, parentexcp);                                              
    given template arguments and should be used to construct typedef
    names for the instantiations.
 
-   Note the use of ITK_TEMPLATE_<n>, where <n> is the number of
+   Note the use of ITK_TEMPLATE_\<n\>, where \<n\> is the number of
    template arguments for the class template.  Note also that the
    number of template arguments is usually the length of the list
    nested within the inner parentheses, so the instantiation is listed
-   with the form <n>(...).  Example definitions:
+   with the form \<n\>(...).  Example definitions:
 
-     #define ITK_TEMPLATE_Foo(_, EXPORT, TypeX, TypeY) \
+     \#define ITK_TEMPLATE_Foo(_, EXPORT, TypeX, TypeY) \
     namespace itk { \
-       _(1(class EXPORT Foo< ITK_TEMPLATE_1 TypeX >)) \
+       _(1(class EXPORT Foo\< ITK_TEMPLATE_1 TypeX \>)) \
        _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                            const Foo< ITK_TEMPLATE_1 TypeX >&))) \
        namespace Templates { \
-    typedef Foo< ITK_TEMPLATE_1 TypeX > Foo##TypeY; \
+    typedef Foo< ITK_TEMPLATE_1 TypeX > Foo\#\#TypeY; \
    }\
      }
 
-     #define ITK_TEMPLATE_Bar(_, EXPORT, TypeX, TypeY) \
+     \#define ITK_TEMPLATE_Bar(_, EXPORT, TypeX, TypeY) \
     namespace itk { \
        _(2(class EXPORT Bar< ITK_TEMPLATE_2 TypeX >)) \
        _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                            const Bar< ITK_TEMPLATE_2 TypeX >&))) \
        namespace Templates { \
-    typedef Bar< ITK_TEMPLATE_2 TypeX > Bar##TypeY; \
+    typedef Bar< ITK_TEMPLATE_2 TypeX > Bar\#\#TypeY; \
    }\
      }
 

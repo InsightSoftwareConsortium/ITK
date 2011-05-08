@@ -70,7 +70,7 @@ public:
   typedef TPixel PixelType;
 
   /** Iterator typedef support. Note the naming is intentional, i.e.,
-  * ::iterator and ::const_iterator, because the allocator may be a
+  * \\::iterator and \\::const_iterator, because the allocator may be a
   * vnl object or other type, which uses this form. */
   typedef typename AllocatorType::iterator       Iterator;
   typedef typename AllocatorType::const_iterator ConstIterator;
