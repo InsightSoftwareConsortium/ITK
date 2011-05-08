@@ -17,18 +17,27 @@ itkGrayscaleFunctionDilateImageFilterTest.cxx
 itkGrayscaleFunctionErodeImageFilterTest.cxx
 itkGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
+itkGrayscaleGeodesicErodeDilateImageFilterTest.cxx
+itkHConvexConcaveImageFilterTest.cxx
 itkMathematicalMorphologyHeaderTest.cxx
+itkMathematicalMorphologyImageFilterTest.cxx
+itkHMaximaMinimaImageFilterTest.cxx
 itkMorphologicalGradientImageFilterTest.cxx
 itkObjectMorphologyImageFilterTest.cxx
 itkOpeningByReconstructionImageFilterTest.cxx
 itkDoubleThresholdImageFilterTest.cxx
+itkRemoveBoundaryObjectsTest.cxx
+itkRemoveBoundaryObjectsTest2.cxx
 itkShapedIteratorFromStructuringElementTest.cxx
+itkTopHatImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-MathematicalMorphology  "${ITK-MathematicalMorphology-Test_LIBRARIES}" "${ITK-MathematicalMorphologyTests}")
 
 itk_add_test(NAME itkMathematicalMorphologyHeaderTest
       COMMAND ITK-MathematicalMorphologyTestDriver itkMathematicalMorphologyHeaderTest)
+itk_add_test(NAME itkMathematicalMorphologyImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver itkMathematicalMorphologyImageFilterTest)
 itk_add_test(NAME itkBinaryDilateImageFilterTest
       COMMAND ITK-MathematicalMorphologyTestDriver itkBinaryDilateImageFilterTest)
 itk_add_test(NAME itkBinaryDilateImageFilterTest2
@@ -192,6 +201,26 @@ itk_add_test(NAME itkGrayscaleMorphologicalOpeningImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/GrayscaleMorphologicalOpeningImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalOpeningImageFilterTest.png
     itkGrayscaleMorphologicalOpeningImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalOpeningImageFilterTest.png)
+itk_add_test(NAME itkGrayscaleGeodesicErodeDilateImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png
+    itkGrayscaleGeodesicErodeDilateImageFilterTest ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png 35)
+itk_add_test(NAME itkHConvexConcaveImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HConvexConcaveImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/HConvexConcaveImageFilterTest.png
+    itkHConvexConcaveImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/HConvexConcaveImageFilterTest.png 50)
+itk_add_test(NAME itkHMaximaMinimaImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest.png
+    itkHMaximaMinimaImageFilterTest ${ITK_DATA_ROOT}/Input/cake_easy.png ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest.png 35)
+itk_add_test(NAME itkHMaximaMinimaImageFilterTest2
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest2.png
+              ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest2.png
+    itkHMaximaMinimaImageFilterTest ${ITK_DATA_ROOT}/Input/cake_hard.png ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest2.png 35)
 itk_add_test(NAME itkMorphologicalGradientImageFilterTest
       COMMAND ITK-MathematicalMorphologyTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MorphologicalGradientImageFilterTest.png
@@ -221,5 +250,25 @@ itk_add_test(NAME itkDoubleThresholdImageFilterTest2
             ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png itkDoubleThresholdImageFilterTest
             ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
             ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png 150 164 164 180)
+itk_add_test(NAME itkRemoveBoundaryObjectsTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RemoveBoundaryObjectsTest.png
+              ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest.png
+    itkRemoveBoundaryObjectsTest ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest.png)
+itk_add_test(NAME itkRemoveBoundaryObjectsTest2
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/RemoveBoundaryObjectsTest2.png
+              ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest2.png
+    itkRemoveBoundaryObjectsTest2 ${ITK_DATA_ROOT}/Input/SpotsInverted.png ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest2.png)
 itk_add_test(NAME itkShapedIteratorFromStructuringElementTest
       COMMAND ITK-MathematicalMorphologyTestDriver itkShapedIteratorFromStructuringElementTest)
+itk_add_test(NAME itkBlackTopHatImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBlackTopHatImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/itkBlackTopHatImageFilterTest.png
+    itkTopHatImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBlackTopHatImageFilterTest.png 0 3)
+itk_add_test(NAME itkWhiteTopHatImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkWhiteTopHatImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png
+    itkTopHatImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png 1 3)

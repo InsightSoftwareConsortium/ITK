@@ -9,6 +9,8 @@ itkIOCommonTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
 itkArchetypeSeriesFileNamesTest.cxx
+itkLargeImageWriteConvertReadTest.cxx
+itkLargeImageWriteReadTest.cxx
 itkImageFileReaderDimensionsTest.cxx
 itkImageFileReaderStreamingTest.cxx
 itkImageFileReaderStreamingTest2.cxx
@@ -26,8 +28,13 @@ itkImageIODirection3DTest.cxx
 itkImageIOFileNameExtensionsTests.cxx
 itkImageSeriesReaderDimensionsTest.cxx
 itkImageSeriesWriterTest.cxx
+itkIOPluginTest.cxx
 itkNoiseImageFilterTest.cxx
+itkMatrixImageWriteReadTest.cxx
+itkReadWriteImageWithDictionaryTest.cxx
+itkVectorImageReadWriteTest.cxx
 )
+
 
 CreateTestDriver(ITK-IO-Base  "${ITK-IO-Base-Test_LIBRARIES}" "${ITK-IO-BaseTests}")
 itk_add_test(NAME itkArchetypeSeriesFileNamesTest
@@ -233,8 +240,43 @@ itk_add_test(NAME itkImageSeriesReaderDimensionsTest2
 itk_add_test(NAME itkImageSeriesWriterTest
       COMMAND ITK-IO-BaseTestDriver itkImageSeriesWriterTest
               ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR} png)
+
+if(ITK_BUILD_SHARED_LIBS)
+  itk_add_test(NAME itkIOPluginTest
+           COMMAND ITK-IO-BaseTestDriver itkIOPluginTest
+             ${ITK_TEST_OUTPUT_DIR}
+             "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
+             ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
+    )
+  ## Create a library to test ITK IO plugins
+  set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
+  add_library(FileFreeTestLib MODULE ${FileFreeTest_Source})
+  itk_module_target_label(FileFreeTestLib)
+  target_link_libraries(FileFreeTestLib ${ITK-IO-Base_LIBRARIES})
+  set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
+  add_dependencies(ITK-IO-BaseTestDriver FileFreeTestLib)
+endif(ITK_BUILD_SHARED_LIBS)
 itk_add_test(NAME itkNoiseImageFilterTest
       COMMAND ITK-IO-BaseTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png
     itkNoiseImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)
+itk_add_test(NAME itkMatrixImageWriteReadTest
+      COMMAND ITK-IO-BaseTestDriver itkMatrixImageWriteReadTest
+              ${ITK_TEST_OUTPUT_DIR}/testMatrix1.mha)
+itk_add_test(NAME itkReadWriteImageWithDictionaryTest
+      COMMAND ITK-IO-BaseTestDriver itkReadWriteImageWithDictionaryTest
+              ${ITK_TEST_OUTPUT_DIR}/test.hdr)
+itk_add_test(NAME itkReadWriteImageWithDictionaryTest1
+      COMMAND ITK-IO-BaseTestDriver itkReadWriteImageWithDictionaryTest
+              ${ITK_TEST_OUTPUT_DIR}/test.mha)
+itk_add_test(NAME itkVectorImageReadWriteTest
+      COMMAND ITK-IO-BaseTestDriver itkVectorImageReadWriteTest
+              ${ITK_TEST_OUTPUT_DIR}/VectorImageReadWriteTest.mhd)
+itk_add_test(NAME itkVectorImageReadWriteTest2
+      COMMAND ITK-IO-BaseTestDriver itkVectorImageReadWriteTest
+              ${ITK_TEST_OUTPUT_DIR}/VectorImageReadWriteTest.nrrd)
+
+add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
+itk_module_target_label(itkUnicodeIOTest)
+itk_add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)

@@ -47,6 +47,7 @@ itkRealTimeClock.cxx
 itkMetaDataObjectBase.cxx
 itkCovariantVector.cxx
 itkMemoryUsageObserver.cxx
+itkMersenneTwisterRandomVariateGenerator.cxx
 itkLoggerBase.cxx
 itkNumericTraitsCovariantVectorPixel.cxx
 itkProgressReporter.cxx
