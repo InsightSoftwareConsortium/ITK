@@ -444,6 +444,54 @@ std::string ImageIOBase::GetComponentTypeAsString(IOComponentType t) const
   return ( s = "unknown" );
 }
 
+ImageIOBase::IOComponentType ImageIOBase::GetComponentTypeFromString(const std::string &typeString) const
+{
+  if(typeString.compare("unsigned_char")==0)
+    {
+    return UCHAR;
+    }
+  else if(typeString.compare("char")==0)
+    {
+    return CHAR;
+    }
+  else if(typeString.compare("unsigned_short")==0)
+    {
+    return USHORT;
+    }
+  else if(typeString.compare("short")==0)
+    {
+    return SHORT;
+    }
+  else if(typeString.compare("unsigned_int")==0)
+    {
+    return UINT;
+    }
+  else if(typeString.compare("int")==0)
+    {
+    return INT;
+    }
+  else if(typeString.compare("unsigned_long")==0)
+    {
+    return ULONG;
+    }
+  else if(typeString.compare("long")==0)
+    {
+    return LONG;
+    }
+  else if(typeString.compare("float")==0)
+    {
+    return FLOAT;
+    }
+  else if(typeString.compare("double")==0)
+    {
+    return DOUBLE;
+    }
+  else
+    {
+    return UNKNOWNCOMPONENTTYPE;
+    }
+}
+
 std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
 {
   std::string s;
@@ -475,6 +523,54 @@ std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
       itkExceptionMacro ("Unknown pixel type: " << t);
     }
   return ( s = "unknown" );
+}
+
+ImageIOBase::IOPixelType ImageIOBase::GetPixelTypeFromString(const std::string &pixelString) const
+{
+  if(pixelString.compare("scalar")==0)
+    {
+    return SCALAR;
+    }
+  else if(pixelString.compare("vector")==0)
+    {
+    return VECTOR;
+    }
+  else if(pixelString.compare("covariant_vector")==0)
+    {
+    return COVARIANTVECTOR;
+    }
+  else if(pixelString.compare("point")==0)
+    {
+    return POINT;
+    }
+  else if(pixelString.compare("offset")==0)
+    {
+    return OFFSET;
+    }
+  else if(pixelString.compare("rgb")==0)
+    {
+    return RGB;
+    }
+  else if(pixelString.compare("rgba")==0)
+    {
+    return RGBA;
+    }
+  else if(pixelString.compare("symmetric_second_rank_tensor")==0)
+    {
+    return SYMMETRICSECONDRANKTENSOR;
+    }
+  else if(pixelString.compare("diffusion_tensor_3D")==0)
+    {
+    return DIFFUSIONTENSOR3D;
+    }
+  else if(pixelString.compare("complex")==0)
+    {
+    return COMPLEX;
+    }
+  else
+    {
+    return UNKNOWNPIXELTYPE;
+    }
 }
 
 namespace
