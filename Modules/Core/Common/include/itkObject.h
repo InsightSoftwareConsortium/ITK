@@ -49,6 +49,10 @@ class Command;
  * \ingroup ITKSystemObjects
  * \ingroup DataRepresentation
  * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Utilities/CreateAnother,Copy a filter}
+ * \endwiki
  */
 class ITKCommon_EXPORT Object:public LightObject
 {

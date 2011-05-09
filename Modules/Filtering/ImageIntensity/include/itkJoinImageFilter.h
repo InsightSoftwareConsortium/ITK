@@ -197,7 +197,7 @@ struct MakeJoin {
  * \ingroup ITK-ImageIntensity
  *
  * \wiki
- * \wikiexample{VectorImages/JoinImageFilter,Join images, stacking their components}
+ * \wikiexample{VectorImages/JoinImageFilter,Join images\, stacking their components}
  * \endwiki
  */
 template< class TInputImage1, class TInputImage2 >
