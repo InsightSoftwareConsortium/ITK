@@ -190,6 +190,10 @@ public:
    * The default is \c true. */
   void SetSize(unsigned int sz, bool destroyExistingData = true);
 
+  /** Destroy data that is allocated internally, if LetArrayManageMemory is
+   * true. */
+  void DestroyExistingData();
+
   inline unsigned int GetSize(void) const
   { return m_NumElements; }
 

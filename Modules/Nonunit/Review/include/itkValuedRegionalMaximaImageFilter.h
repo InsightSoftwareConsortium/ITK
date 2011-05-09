@@ -35,7 +35,7 @@ namespace itk
  * This code was contributed to the Insight Journal by
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
- *    http://insight-journal.org/midas/handle.php?handle=1926/153
+ *    http://hdl.handle.net/1926/153
  *
  * \sa ValuedRegionalMinimaImageFilter
  * \sa ValuedRegionalExtremaImageFilter

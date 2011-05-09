@@ -42,19 +42,37 @@ macro(verify_itk_module_is_set)
   endif()
 endmacro()
 
-macro(add_test)
-  _add_test(${ARGN})
+#-----------------------------------------------------------------------------
+# Takes a list of tests and applies the containing module's label to each.
+#
+macro(itk_add_test_module_label)
+  if("${ARGV0}" STREQUAL "")
+    message(FATAL_ERROR "itk_add_test_module_label requires at least one test name as input")
+  endif()
+
   if(itk-module)
     set(_label ${itk-module})
   else()
     set(_label ${main_project_name})
   endif()
+
+  set_property(TEST ${ARGN} PROPERTY LABELS ${_label})
+endmacro()
+
+#-----------------------------------------------------------------------------
+# ITK wrapper for add_test that automatically sets the test's LABELS property
+# to the value of its containing module.
+#
+macro(itk_add_test)
+  add_test(${ARGN})
+
   if("NAME" STREQUAL "${ARGV0}")
-    set(_imm_test ${ARGV1})
+    set(_iat_testname ${ARGV1})
   else()
-    set(_imm_test ${ARGV0})
+    set(_iat_testname ${ARGV0})
   endif()
-  set_property(TEST ${_imm_test} PROPERTY LABELS ${_label})
+
+  itk_add_test_module_label(${_iat_testname})
 endmacro()
 
 #-----------------------------------------------------------------------------

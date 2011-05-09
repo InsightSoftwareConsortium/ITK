@@ -4,8 +4,9 @@ macro( itk_module_doxygen _name )
   set( _content "${_content} \\defgroup ${_name} ${_name} \n" )
   set( _content "${_content} ${ITK_MODULE_${_name}_DESCRIPTION} \n" )
 
+  set( _content "${_content} \\par Dependencies:\n" )
   foreach( d ${ITK_MODULE_${_name}_DEPENDS} )
-    set( _content "${_content} \\sa ${d} \n" )
+    set( _content "${_content} \\li \\ref ${d} \n" )
   endforeach()
 
   set( _content "${_content} */\n" )

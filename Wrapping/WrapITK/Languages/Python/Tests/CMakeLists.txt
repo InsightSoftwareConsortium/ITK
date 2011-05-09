@@ -9,7 +9,7 @@ macro(add_python_test name)
     set(command arch -${test_arch} ${command})
   endif()
 
-  add_test(NAME ${name}
+  itk_add_test(NAME ${name}
     COMMAND "${ITK_TEST_DRIVER}"
     --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}/$<CONFIGURATION>"
     --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}"

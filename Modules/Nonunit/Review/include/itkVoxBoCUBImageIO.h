@@ -44,7 +44,7 @@ class GenericCUBFileAdaptor;
  * \author Burstein, Pablo D.; Yushkevich, Paul; Gee, James C.
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/303
+ * http://hdl.handle.net/1926/303
  *
  * \ingroup IOFilters
  *

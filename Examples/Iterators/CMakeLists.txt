@@ -51,7 +51,7 @@ set(BASELINE ${ITK_DATA_ROOT}/Baseline/Iterators)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 if(BUILD_TESTING)
-add_test(NAME ImageLinearIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ImageLinearIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageLinearIteratorWithIndexTest.png
             ${TEMP}/ImageLinearIteratorWithIndexTest.png
   $<TARGET_FILE:ImageLinearIteratorWithIndex>
@@ -59,7 +59,7 @@ add_test(NAME ImageLinearIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ImageLinearIteratorWithIndexTest.png
 )
 
-add_test(NAME ImageRegionIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ImageRegionIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageRegionIteratorWithIndexTest.png
             ${TEMP}/ImageRegionIteratorWithIndexTest.png
   $<TARGET_FILE:ImageRegionIteratorWithIndex>
@@ -67,7 +67,7 @@ add_test(NAME ImageRegionIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ImageRegionIteratorWithIndexTest.png
 )
 
-add_test(NAME ImageRegionIteratorTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ImageRegionIteratorTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageRegionIteratorTest.png
             ${TEMP}/ImageRegionIteratorTest.png
   $<TARGET_FILE:ImageRegionIterator>
@@ -76,7 +76,7 @@ add_test(NAME ImageRegionIteratorTest COMMAND ${ITK_TEST_DRIVER}
         20 70 210 140
 )
 
-add_test(NAME ImageSliceIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ImageSliceIteratorWithIndexTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ImageSliceIteratorWithIndexTest.mha
             ${TEMP}/ImageSliceIteratorWithIndexTest.mha
  $<TARGET_FILE:ImageSliceIteratorWithIndex>

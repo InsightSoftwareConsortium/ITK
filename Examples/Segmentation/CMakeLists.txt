@@ -87,7 +87,7 @@ if( NOT ITK_DISABLE_CXX_TESTING )
 
 if(BUILD_TESTING)
 
-add_test(NAME ConfidenceConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ConfidenceConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ConfidenceConnectedWhiteTest.png
             ${TEMP}/ConfidenceConnectedWhiteTest.png
   $<TARGET_FILE:ConfidenceConnected>
@@ -96,7 +96,7 @@ add_test(NAME ConfidenceConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
         60 116
 )
 
-add_test(NAME ConfidenceConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ConfidenceConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ConfidenceConnectedVentricleTest.png
             ${TEMP}/ConfidenceConnectedVentricleTest.png
   $<TARGET_FILE:ConfidenceConnected>
@@ -105,7 +105,7 @@ add_test(NAME ConfidenceConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
         81 112
 )
 
-add_test(NAME ConfidenceConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ConfidenceConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ConfidenceConnectedGrayTest.png
             ${TEMP}/ConfidenceConnectedGrayTest.png
   $<TARGET_FILE:ConfidenceConnected>
@@ -114,7 +114,7 @@ add_test(NAME ConfidenceConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
         107 69
 )
 
-add_test(NAME ConnectedThresholdWhiteTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ConnectedThresholdWhiteTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ConnectedThresholdWhiteTest.png
             ${TEMP}/ConnectedThresholdWhiteTest.png
   $<TARGET_FILE:ConnectedThresholdImageFilter>
@@ -123,7 +123,7 @@ add_test(NAME ConnectedThresholdWhiteTest COMMAND ${ITK_TEST_DRIVER}
         60 116 150 180
 )
 
-add_test(NAME ConnectedThresholdVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ConnectedThresholdVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ConnectedThresholdVentricleTest.png
             ${TEMP}/ConnectedThresholdVentricleTest.png
   $<TARGET_FILE:ConnectedThresholdImageFilter>
@@ -132,7 +132,7 @@ add_test(NAME ConnectedThresholdVentricleTest COMMAND ${ITK_TEST_DRIVER}
         81 112 210 250
 )
 
-add_test(NAME ConnectedThresholdGrayTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ConnectedThresholdGrayTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ConnectedThresholdGrayTest.png
             ${TEMP}/ConnectedThresholdGrayTest.png
   $<TARGET_FILE:ConnectedThresholdImageFilter>
@@ -141,7 +141,7 @@ add_test(NAME ConnectedThresholdGrayTest COMMAND ${ITK_TEST_DRIVER}
         107 69 180 210
 )
 
-add_test(NAME FastMarchingLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME FastMarchingLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FastMarchingLeftVentricleTest.png
             ${TEMP}/FastMarchingLeftVentricleTest.png
   $<TARGET_FILE:FastMarchingImageFilter>
@@ -150,7 +150,7 @@ add_test(NAME FastMarchingLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
         81 114 1.0 -0.5 3.0 100 100
 )
 
-add_test(NAME FastMarchingRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME FastMarchingRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FastMarchingRightVentricleTest.png
             ${TEMP}/FastMarchingRightVentricleTest.png
   $<TARGET_FILE:FastMarchingImageFilter>
@@ -159,7 +159,7 @@ add_test(NAME FastMarchingRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
         99 114 1.0 -0.5 3.0 100 100
 )
 
-add_test(NAME FastMarchingWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME FastMarchingWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FastMarchingWhiteMatterTest.png
             ${TEMP}/FastMarchingWhiteMatterTest.png
   $<TARGET_FILE:FastMarchingImageFilter>
@@ -168,7 +168,7 @@ add_test(NAME FastMarchingWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
         56 92 1.0 -0.3 2.0 200 100
 )
 
-add_test(NAME FastMarchingGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME FastMarchingGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/FastMarchingGrayMatterTest.png
             ${TEMP}/FastMarchingGrayMatterTest.png
   $<TARGET_FILE:FastMarchingImageFilter>
@@ -177,7 +177,7 @@ add_test(NAME FastMarchingGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
         40 90 .5 -0.3 2.0 200 100
 )
 
-add_test(NAME GeodesicActiveContourLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME GeodesicActiveContourLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GeodesicActiveContourLeftVentricleTest.png
             ${TEMP}/GeodesicActiveContourLeftVentricleTest.png
   $<TARGET_FILE:GeodesicActiveContourImageFilter>
@@ -186,7 +186,7 @@ add_test(NAME GeodesicActiveContourLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
         81 114 5.0 1.0 -0.5 3.0 2.0
 )
 
-add_test(NAME GeodesicActiveContourRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME GeodesicActiveContourRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GeodesicActiveContourRightVentricleTest.png
             ${TEMP}/GeodesicActiveContourRightVentricleTest.png
   $<TARGET_FILE:GeodesicActiveContourImageFilter>
@@ -195,7 +195,7 @@ add_test(NAME GeodesicActiveContourRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
         99 114 5.0 1.0 -0.5 3.0 2.0
 )
 
-add_test(NAME GeodesicActiveContourWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME GeodesicActiveContourWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GeodesicActiveContourWhiteMatterTest.png
             ${TEMP}/GeodesicActiveContourWhiteMatterTest.png
   $<TARGET_FILE:GeodesicActiveContourImageFilter>
@@ -204,7 +204,7 @@ add_test(NAME GeodesicActiveContourWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
         56 92 5.0 1.0 -0.3 2.0 10.0
 )
 
-add_test(NAME GeodesicActiveContourGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME GeodesicActiveContourGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GeodesicActiveContourGrayMatterTest.png
             ${TEMP}/GeodesicActiveContourGrayMatterTest.png
   $<TARGET_FILE:GeodesicActiveContourImageFilter>
@@ -213,7 +213,7 @@ add_test(NAME GeodesicActiveContourGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
         40 90 5.0 .5 -0.3 2.0 10.0
 )
 
-add_test(NAME ShapeDetectionLevelSetLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ShapeDetectionLevelSetLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ShapeDetectionLevelSetLeftVentricleTest.png
             ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
   $<TARGET_FILE:ShapeDetectionLevelSetFilter>
@@ -222,7 +222,7 @@ add_test(NAME ShapeDetectionLevelSetLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
         81 114 5.0 1.0 -0.5 3.0 0.05 1.0
 )
 
-add_test(NAME ShapeDetectionLevelSetRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ShapeDetectionLevelSetRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ShapeDetectionLevelSetRightVentricleTest.png
             ${TEMP}/ShapeDetectionLevelSetRightVentricleTest.png
   $<TARGET_FILE:ShapeDetectionLevelSetFilter>
@@ -231,7 +231,7 @@ add_test(NAME ShapeDetectionLevelSetRightVentricleTest COMMAND ${ITK_TEST_DRIVER
         99 114 5.0 1.0 -0.5 3.0 0.05 1.0
 )
 
-add_test(NAME ShapeDetectionLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ShapeDetectionLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ShapeDetectionLevelSetWhiteMatterTest.png
             ${TEMP}/ShapeDetectionLevelSetWhiteMatterTest.png
   $<TARGET_FILE:ShapeDetectionLevelSetFilter>
@@ -240,7 +240,7 @@ add_test(NAME ShapeDetectionLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
         56 92 5.0 1.0 -0.3 2.0 0.05 1.0
 )
 
-add_test(NAME ShapeDetectionLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ShapeDetectionLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ShapeDetectionLevelSetGrayMatterTest.png
             ${TEMP}/ShapeDetectionLevelSetGrayMatterTest.png
   $<TARGET_FILE:ShapeDetectionLevelSetFilter>
@@ -249,7 +249,7 @@ add_test(NAME ShapeDetectionLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
         40 90 5.0 1.0 -0.3 2.0 0.05 1.0
 )
 
-add_test(NAME ThresholdSegmentationLevelSetVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ThresholdSegmentationLevelSetVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png
             ${TEMP}/ThresholdSegmentationLevelSetVentricleTest.png
   $<TARGET_FILE:ThresholdSegmentationLevelSetImageFilter>
@@ -258,7 +258,7 @@ add_test(NAME ThresholdSegmentationLevelSetVentricleTest COMMAND ${ITK_TEST_DRIV
         81 112 5 210 250
 )
 
-add_test(NAME ThresholdSegmentationLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ThresholdSegmentationLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetWhiteMatterTest.png
             ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
   $<TARGET_FILE:ThresholdSegmentationLevelSetImageFilter>
@@ -267,7 +267,7 @@ add_test(NAME ThresholdSegmentationLevelSetWhiteMatterTest COMMAND ${ITK_TEST_DR
         60 116 5 150 180
 )
 
-add_test(NAME ThresholdSegmentationLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME ThresholdSegmentationLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetGrayMatterTest.png
             ${TEMP}/ThresholdSegmentationLevelSetGrayMatterTest.png
   $<TARGET_FILE:ThresholdSegmentationLevelSetImageFilter>
@@ -276,7 +276,7 @@ add_test(NAME ThresholdSegmentationLevelSetGrayMatterTest COMMAND ${ITK_TEST_DRI
         107 69 5 180 210
 )
 
-add_test(NAME CellularSegmentation1Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME CellularSegmentation1Test COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:CellularSegmentation1>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         100 115 200 255 3000
@@ -285,7 +285,7 @@ add_test(NAME CellularSegmentation1Test COMMAND ${ITK_TEST_DRIVER}
 
 if( ITK_USE_BRAINWEB_DATA )
 
-itk_add_test(NAME CellularSegmentation2Test COMMAND ${ITK_TEST_DRIVER}
+itk_add_test_with_data(NAME CellularSegmentation2Test COMMAND ${ITK_TEST_DRIVER}
   CellularSegmentation2
         DATA{../Data/BrainWeb/brainweb1e1a10f20.mha}
         81 113 96 220 255 2000
@@ -294,7 +294,7 @@ itk_add_test(NAME CellularSegmentation2Test COMMAND ${ITK_TEST_DRIVER}
 
 endif( ITK_USE_BRAINWEB_DATA )
 
-add_test(NAME VectorConfidenceConnectedTest1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME VectorConfidenceConnectedTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorConfidenceConnected1.png
             ${TEMP}/VectorConfidenceConnected1.png
   $<TARGET_FILE:VectorConfidenceConnected>
@@ -303,7 +303,7 @@ add_test(NAME VectorConfidenceConnectedTest1 COMMAND ${ITK_TEST_DRIVER}
         70 120 7 1
 )
 
-add_test(NAME VectorConfidenceConnectedTest2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME VectorConfidenceConnectedTest2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorConfidenceConnected2.png
             ${TEMP}/VectorConfidenceConnected2.png
   $<TARGET_FILE:VectorConfidenceConnected>
@@ -312,7 +312,7 @@ add_test(NAME VectorConfidenceConnectedTest2 COMMAND ${ITK_TEST_DRIVER}
         23 93 7 1
 )
 
-add_test(NAME VectorConfidenceConnectedTest3 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME VectorConfidenceConnectedTest3 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/VectorConfidenceConnected3.png
             ${TEMP}/VectorConfidenceConnected3.png
   $<TARGET_FILE:VectorConfidenceConnected>
@@ -322,7 +322,7 @@ add_test(NAME VectorConfidenceConnectedTest3 COMMAND ${ITK_TEST_DRIVER}
 )
 
 
-add_test(NAME CannySegmentationLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME CannySegmentationLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CannySegmentationLevelSetImageFilterTest.png
             ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
   $<TARGET_FILE:CannySegmentationLevelSetImageFilter>
@@ -332,7 +332,7 @@ add_test(NAME CannySegmentationLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER
         7 0.1 -10.0 127.5 10000
 )
 
-add_test(NAME GeodesicActiveContourShapePriorCallosumTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME GeodesicActiveContourShapePriorCallosumTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/GeodesicActiveContourShapePriorCallosumTest.png
             ${TEMP}/GeodesicActiveContourShapePriorCallosumTest.png
   $<TARGET_FILE:GeodesicActiveContourShapePriorLevelSetImageFilter>
@@ -343,7 +343,7 @@ add_test(NAME GeodesicActiveContourShapePriorCallosumTest COMMAND ${ITK_TEST_DRI
         ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMode%d.mha 10 0
 )
 
-add_test(NAME NeighborhoodConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME NeighborhoodConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/NeighborhoodConnectedWhiteTest.png
             ${TEMP}/NeighborhoodConnectedWhiteTest.png
   $<TARGET_FILE:NeighborhoodConnectedImageFilter>
@@ -352,7 +352,7 @@ add_test(NAME NeighborhoodConnectedWhiteTest COMMAND ${ITK_TEST_DRIVER}
         60 116 150 180
 )
 
-add_test(NAME NeighborhoodConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME NeighborhoodConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/NeighborhoodConnectedVentricleTest.png
             ${TEMP}/NeighborhoodConnectedVentricleTest.png
   $<TARGET_FILE:NeighborhoodConnectedImageFilter>
@@ -361,7 +361,7 @@ add_test(NAME NeighborhoodConnectedVentricleTest COMMAND ${ITK_TEST_DRIVER}
         81 112 210 250
 )
 
-add_test(NAME NeighborhoodConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME NeighborhoodConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/NeighborhoodConnectedGrayTest.png
             ${TEMP}/NeighborhoodConnectedGrayTest.png
   $<TARGET_FILE:NeighborhoodConnectedImageFilter>
@@ -370,7 +370,7 @@ add_test(NAME NeighborhoodConnectedGrayTest COMMAND ${ITK_TEST_DRIVER}
         107 69 180 210
 )
 
-add_test(NAME IsolatedConnectedTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME IsolatedConnectedTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/IsolatedConnectedTest.png
             ${TEMP}/IsolatedConnectedTest.png
   $<TARGET_FILE:IsolatedConnectedImageFilter>
@@ -379,7 +379,7 @@ add_test(NAME IsolatedConnectedTest COMMAND ${ITK_TEST_DRIVER}
         61 140 150 63 43
 )
 
-add_test(NAME RelabelComponentImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME RelabelComponentImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/RelabelComponentImageFilter.png
             ${TEMP}/RelabelComponentImageFilter.png
   $<TARGET_FILE:RelabelComponentImageFilter>
@@ -387,7 +387,7 @@ add_test(NAME RelabelComponentImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/RelabelComponentImageFilter.png
 )
 
-add_test(NAME WatershedSegmentation1Test1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME WatershedSegmentation1Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/WatershedSegmentation1Test1.png
             ${TEMP}/WatershedSegmentation1Test1.png
   $<TARGET_FILE:WatershedSegmentation1>
@@ -396,7 +396,7 @@ add_test(NAME WatershedSegmentation1Test1 COMMAND ${ITK_TEST_DRIVER}
         2.0 10 0.0 0.05 1
 )
 
-add_test(NAME WatershedSegmentation1Test2 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME WatershedSegmentation1Test2 COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/WatershedSegmentation1Test2.png
             ${TEMP}/WatershedSegmentation1Test2.png
   $<TARGET_FILE:WatershedSegmentation1>
@@ -405,7 +405,7 @@ add_test(NAME WatershedSegmentation1Test2 COMMAND ${ITK_TEST_DRIVER}
         2.0 10 0.001 0.15 0
 )
 
-add_test(NAME CurvesLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME CurvesLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
             ${TEMP}/CurvesLevelSetImageFilterTest.png
   $<TARGET_FILE:CurvesLevelSetImageFilter>
@@ -414,7 +414,7 @@ add_test(NAME CurvesLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         81 114 5.0 1.0 -0.5 3.0 2.0
 )
 
-add_test(NAME HoughTransformTwo2DLinesTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME HoughTransformTwo2DLinesTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/HoughTransformTwoLinesTest.png
             ${TEMP}/HoughTransformTwoLinesTest.png
   $<TARGET_FILE:HoughTransform2DLinesImageFilter>
@@ -423,7 +423,7 @@ add_test(NAME HoughTransformTwo2DLinesTest COMMAND ${ITK_TEST_DRIVER}
         2 5 10
 )
 
-add_test(NAME HoughTransformTwo2DCirclesTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME HoughTransformTwo2DCirclesTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/HoughTransformTwoCirclesTest.png
             ${TEMP}/HoughTransformTwoCirclesTest.png
   $<TARGET_FILE:HoughTransform2DCirclesImageFilter>
@@ -432,7 +432,7 @@ add_test(NAME HoughTransformTwo2DCirclesTest COMMAND ${ITK_TEST_DRIVER}
         2 6 20 3.14 10 5 1.5
 )
 
-add_test(NAME LaplacianSegmentationLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME LaplacianSegmentationLevelSetImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare ${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png
             ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
   $<TARGET_FILE:LaplacianSegmentationLevelSetImageFilter>

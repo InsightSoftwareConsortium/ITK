@@ -32,19 +32,19 @@ int itkVariableLengthVectorTest(int, char*[])
   DoubleVariableLengthVectorType g( 3 );
   g[0]=4.0; g[1] = 5.0; g[2] = 6.0;
   FloatVariableLengthVectorType h;
-  h = g + f;
-  g = h++;
-  h-=1.1;
-  h*=2.0;
-  h/=2.0;
+  h  = g + f;
+  g  = h++;
+  h -= 1.1;
+  h *= 2.0;
+  h /= 2.0;
   h += g;
   h -= g;
-  h = g - h;
-  h = -h;
+  h  = g - h;
+  h  = -h;
 
   std::cout << h << std::endl;  // should be [-1.1 -1.1 -1.1]
 
-  h = ( FloatVariableLengthVectorType )g ;
+  h = ( FloatVariableLengthVectorType ) g;
   if( h!= static_cast< FloatVariableLengthVectorType >( g ) )
     {
     std::cerr << "Casts: [FAILED]" << std::endl;
@@ -73,11 +73,13 @@ int itkVariableLengthVectorTest(int, char*[])
       }
     x.SetSize( 2 , false); // reduce length but preserve existing data
     std::cout << x << std::endl;
-    if( (d[0] != 0.1) || (x[0] != 0.1) )
+    if( (x.GetSize() != 2) || (d[0] != 0.1) || (x[0] != 0.1) )
       {
       std::cerr << "Memory management: [FAILED]" << std::endl;
       }
-     x.SetSize( 5 , true);
+     x.SetSize( 5 , true); // increase size, destroy data.
+     x.SetSize( 7 , true); // increase size, destroy data.
+     x.SetSize( 6 , true); // decrease size, destroy data.
      }
   delete []d;
   }

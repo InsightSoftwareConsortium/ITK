@@ -264,4 +264,3 @@ int itkFilterDispatchTest(int, char* [] )
     return EXIT_FAILURE;
     }
 }
-

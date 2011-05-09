@@ -103,5 +103,3 @@ int itkConvertBufferTest2(int, char* [])
 
   return EXIT_SUCCESS;
 }
-
-

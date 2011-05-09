@@ -22,11 +22,9 @@
 #include <iostream>
 
 #include "itkChangeLabelImageFilter.txx"
-
-
+#include "itkLabelContourImageFilter.txx"
 
 int itkImageLabelHeaderTest ( int , char * [] )
 {
-
   return EXIT_SUCCESS;
 }

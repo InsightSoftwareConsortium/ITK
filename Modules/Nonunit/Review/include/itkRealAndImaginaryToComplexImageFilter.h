@@ -46,7 +46,7 @@ namespace itk
  * official view of NCRR or NIH.
  *
  * This class was taken from the Insight Journal paper:
- * http://insight-journal.org/midas/handle.php?handle=1926/326
+ * http://hdl.handle.net/1926/326
  *
  * \sa MagnitudeAndPhaseToComplexImageFilter
  * \ingroup ITK-Review

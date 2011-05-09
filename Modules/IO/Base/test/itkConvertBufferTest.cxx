@@ -116,5 +116,3 @@ int itkConvertBufferTest(int, char* [])
     = itk::ImageFileReader<ushort3Image>::New();
         return EXIT_SUCCESS;
 }
-
-

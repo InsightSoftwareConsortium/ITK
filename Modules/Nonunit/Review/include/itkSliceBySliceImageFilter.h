@@ -64,7 +64,7 @@ namespace itk
  * \author Gaetan Lehmann
  *
  * This class was taken from the Insight Journal paper:
- * http://insight-journal.org/midas/handle.php?handle=1926/368
+ * http://hdl.handle.net/1926/368
  *
  * \ingroup ITK-Review
  */

@@ -174,6 +174,3 @@ int itkBasicArchitectureTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-
-
-

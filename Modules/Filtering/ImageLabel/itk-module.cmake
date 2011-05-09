@@ -1,1 +1,4 @@
-itk_module(ITK-ImageLabel DEPENDS ITK-ImageFilterBase TEST_DEPENDS ITK-TestKernel)
+itk_module(ITK-ImageLabel DEPENDS
+ITK-ImageFilterBase
+TEST_DEPENDS
+ITK-TestKernel)
