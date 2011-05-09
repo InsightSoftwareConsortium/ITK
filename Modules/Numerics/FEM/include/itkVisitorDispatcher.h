@@ -194,7 +194,7 @@ public:
    * \note Dummy class pointer must be passed as a first parameter to
    *       automatically deduct the correct template parameter TVisitorClass.
    *       Technically we would like to call the this function as
-   *       VisitorDispatcher<...>::RegisterVisitor<MyVisitorClass>(...),
+   *       VisitorDispatcher\<...\>\\::RegisterVisitor\<MyVisitorClass\>(...),
    *       but MS C compiler crashes if we do this. This is a work around.
    *       You should pass null pointer casted to the TVisitorClass when
    *       calling this function.

@@ -309,7 +309,6 @@ protected:
    * to ThreadedGenerateData.
    * \param valid The set of flags indicating which of "list" elements are
    *  valid
-   * \param size The size of "list" and "valid"
    *
    * The default is to return the minimum value in the list. */
   virtual TimeStepType ResolveTimeStep(const std::vector< TimeStepType >& timeStepList,
