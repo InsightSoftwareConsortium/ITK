@@ -221,7 +221,7 @@ protected:
 
   NarrowBandPointer m_NarrowBand;
 
-  /** \struct NarrowBandImageFilterBase::RegionType
+  /** \struct ThreadRegionType
   The type of region used in multithreading.
   Defines a subregion of the narrowband. */
   struct ThreadRegionType {

@@ -96,7 +96,7 @@ public:
    */
   void SetNumberOfMatrices(unsigned int nMatrices) { m_NumberOfMatrices = nMatrices; }
 
-  /**
+  /*
    * Set the maximum number of entries permitted in a matrix
    * \param matrixIndex index of matrix to set value for
    * \param maxNonZeros maximum number of entries allowed in matrix
