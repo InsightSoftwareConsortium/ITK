@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#==========================================================================
+#
+#   Copyright Insight Software Consortium
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#          http://www.apache.org/licenses/LICENSE-2.0.txt
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#==========================================================================*/
+
+USAGE="[<remote>] [--]"
+OPTIONS_SPEC=
+SUBDIRECTORY_OK=Yes
+. "$(git --exec-path)/git-sh-setup"
+
+#-----------------------------------------------------------------------------
+
+remote=''
+
+# Parse command line options.
+while test $# != 0; do
+  case "$1" in
+    --) shift; break ;;
+    -*) usage ;;
+    *) test -z "$remote" || usage ; remote="$1" ;;
+  esac
+  shift
+done
+test $# = 0 || usage
+
+# Default remote.
+test -n "$remote" || remote="gerrit"
+
+# Identify and validate the topic branch name.
+topic="$(git symbolic-ref HEAD | sed -e 's|^refs/heads/||')"
+if test "$topic" = "master"; then
+  die 'Please name your topic:
+  git checkout -b descriptive-name'
+fi
+
+# Fetch now to help the following push recognize the upstream branch heads.
+# This helps computation of a minimal pack to push.
+git fetch "$remote" || exit 1
+
+# Push the topic by name.
+git push "$remote" HEAD:refs/for/master/$topic
