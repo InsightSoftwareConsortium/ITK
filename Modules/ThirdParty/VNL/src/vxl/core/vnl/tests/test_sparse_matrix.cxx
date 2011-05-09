@@ -29,6 +29,11 @@ void test_sparse_int()
   TEST("m0 != m1", (m0 != m1), true);
   TEST("!(m1 == m2)", (m1 == m2), false);
 
+  // test transpose operator
+  mb = m0.transpose();
+  TEST("transpose size", (mb.rows()==3000 && mb.cols()==2000), true);
+  TEST("transpose content", (mb.get(0,0)==0 && mb.get(2222,1111)==3333), true);
+
   // test additions and subtractions
   TEST("mb = -m0", (mb = -m0, (mb.get(0,0)==0 && mb.get(1111,2222)==-3333)), true);
   TEST("mb=m1+m2", (mb=m1+m2, (mb.get(0,0)==0 && mb.get(1111,2222)==6666 && mb.get(1,1)==3)), true);
@@ -97,6 +102,7 @@ void test_sparse_float()
   TEST("d0+=d2",   (d0+=d2,   d0), d5);
   TEST("d0=d2*5.f",(d0=d2*5.f,(d0.get(0,0)==0.f && d0.get(0,1)==0.f && d0.get(1,0)==0.f && d0.get(1,1)==15.f)), true);
   TEST("d2*=5.f",  (d2*=5.f,  d2), d0);
+  TEST("transpose", (d1 = d2, d2 = d1.transpose(), (d2.rows()==4 && d2.cols()==3 && d2.get(0,0)==0.f && d2.get(1,1)==15.f)), true);
 }
 
 void test_sparse_double()
@@ -119,14 +125,50 @@ void test_sparse_double()
   vnl_sparse_matrix<double> d3(d2);
   TEST("vnl_sparse_matrix<double> d3(d2)", d2, d3);
   TEST("d0=d2", (d0=d2,  (d0==d2)), true);
-  vnl_sparse_matrix<double> d5(2,2);
 
   // normalizations
   d2(0,1) = 7.0;
   d2.normalize_rows();
-  TEST("normalize_rows()", d2(0,0)==0 && d2(0,1)==1, true);
+  TEST("normalize_rows()", d2(0,0)==0.0 && d2(0,1)==1.0, true);
   TEST_NEAR("normalize_rows()", d2(1,0), 0.8, 1e-12);
   TEST_NEAR("normalize_rows()", d2(1,1), 0.6, 1e-12);
+}
+
+void test_sparse_complex()
+{
+  vcl_cout << "*******************************************\n"
+           << " Testing vnl_sparse_matrix<complex_double>\n"
+           << "*******************************************\n";
+  vnl_sparse_matrix<vcl_complex<double> > d0(2,2);
+  TEST("vnl_sparse_matrix<complex_double> d0(2,2)", (d0.rows()==2 && d0.columns()==2), true);
+  vnl_sparse_matrix<vcl_complex<double> > d1(3,4);
+  TEST("vnl_sparse_matrix<complex_double> d1(3,4)", (d1.rows()==3 && d1.columns()==4), true);
+  vnl_sparse_matrix<vcl_complex<double> > d2=d0;
+  TEST("copy constructor", d0, d2);
+  TEST("d2.put(1,1,3.0)", (d2.put(1,1,3.0),d2.get(1,1)), 3.0);
+  TEST("d2.get(1,1)", d2.get(1,1), 3.0);
+  vcl_complex<double> r4i12(4.0, 12.0);
+  d2(1,0) = r4i12;
+  TEST("d2(1,0) = 4+12i", d2(1,0), r4i12);
+  TEST("!(d0 == d2)", (d0 == d2), false);
+  TEST("d0 != d2", (d0 != d2), true);
+  vnl_sparse_matrix<vcl_complex<double> > d3(d2);
+  TEST("vnl_sparse_matrix<complex_double> d3(d2)", d2, d3);
+  TEST("assignment operator", (d0=d2,  (d0==d2)), true);
+
+  d1.put(1,1, 3.0);
+  d1.put(1,0, r4i12);
+  d1 = d1.conjugate_transpose();
+//TEST("Hermitian", (d1.rows()==4 && d1.cols()==3 && d1.get(1,1)==3.0 && d1.get(0,1)==8.0-r4i12), true);
+  d1 = d1.transpose();
+//TEST("transpose", (d1.rows()==3 && d1.cols()==4 && d1.get(1,1)==3.0 && d1.get(0,1)==0.0), true);
+
+  // normalizations
+  d2(0,1) = 7.0;
+  d2.normalize_rows();
+  TEST("normalize_rows()", d2(0,0)==0.0 && d2(0,1)==1.0, true);
+  TEST_NEAR("normalize_rows()", d2(1,0), r4i12/13.0, 1e-12);
+  TEST_NEAR("normalize_rows()", d2(1,1), 3.0/13.0, 1e-12);
 }
 
 static
@@ -135,6 +177,7 @@ void test_sparse_matrix()
   test_sparse_int();
   test_sparse_float();
   test_sparse_double();
+  test_sparse_complex();
 }
 
 TESTMAIN(test_sparse_matrix);

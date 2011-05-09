@@ -8,7 +8,7 @@
 // \file
 // \brief Math on blocks of memory
 //
-//    vnl_c_vector interfaces to lowlevel memory-block operations.
+//    vnl_c_vector interfaces to low-level memory-block operations.
 //
 // \author Andrew W. Fitzgibbon, Oxford RRG
 // \date   12 Feb 1998
@@ -24,6 +24,7 @@
 
 #include <vcl_iosfwd.h>
 #include <vnl/vnl_numeric_traits.h>
+#include <vcl_cstddef.h> // for vcl_size_t
 #include <vcl_cmath.h> // for vcl_sqrt
 
 // avoid messing about with aux_* functions for gcc 2.7 -- fsm
@@ -140,10 +141,10 @@ class vnl_c_vector
   static T euclid_dist_sq(T const *, T const *, unsigned);
 
   //: Memory allocation
-  static T** allocate_Tptr(int n);
-  static T*  allocate_T(int n);
-  static void deallocate(T**, int n_when_allocated);
-  static void deallocate(T*, int n_when_allocated);
+  static T** allocate_Tptr(vcl_size_t n);
+  static T*  allocate_T(vcl_size_t n);
+  static void deallocate(T**, vcl_size_t n_when_allocated);
+  static void deallocate(T*, vcl_size_t n_when_allocated);
 };
 
 //: Input & output

@@ -28,7 +28,7 @@ macro(z, vcl_complex<double>);
 
 //--------------------------------------------------------------------------------
 
-static bool test_heavily = false;
+static bool vnl_svd_test_heavily = false;
 #include <vnl/vnl_matlab_print.h>
 
 template <class T>
@@ -131,7 +131,7 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
     }
   }
 
-  if (test_heavily)
+  if (vnl_svd_test_heavily)
   {
     // Test that recomposed matrix == M
     typedef typename vnl_numeric_traits<T>::abs_t abs_t;
@@ -203,13 +203,13 @@ template <class T> void vnl_svd<T>::zero_out_relative(double tol) // sqrt(machin
 }
 
 static bool w=false;
-inline bool warned() { if (w) return true; else { w=true; return false; } }
+inline bool vnl_svn_warned() { if (w) return true; else { w=true; return false; } }
 
 //: Calculate determinant as product of diagonals in W.
 template <class T>
 typename vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
 {
-  if (!warned() && m_ != n_)
+  if (!vnl_svn_warned() && m_ != n_)
     vcl_cerr << __FILE__ ": called determinant_magnitude() on SVD of non-square matrix\n"
              << "(This warning is displayed only once)\n";
   singval_t product = W_(0, 0);

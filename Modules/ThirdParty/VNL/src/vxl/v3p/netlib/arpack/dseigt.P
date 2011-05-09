@@ -1,0 +1,6 @@
+extern int dseigt_(doublereal *rnorm, integer *n, doublereal *h__, integer *ldh, doublereal *eig, doublereal *bounds, doublereal *workl, integer *ierr);
+/* comlen debug_ 96 */
+/* comlen timing_ 124 */
+/*:ref: second_ 14 1 6 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dstqrb_ 14 6 4 7 7 7 7 4 */

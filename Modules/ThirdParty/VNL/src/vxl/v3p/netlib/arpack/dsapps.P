@@ -1,0 +1,12 @@
+extern int dsapps_(integer *n, integer *kev, integer *np, doublereal *shift, doublereal *v, integer *ldv, doublereal *h__, integer *ldh, doublereal *resid, doublereal *q, integer *ldq, doublereal *workd);
+/* comlen debug_ 96 */
+/* comlen timing_ 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: second_ 14 1 6 */
+/*:ref: dlaset_ 14 8 13 4 4 7 7 7 4 124 */
+/*:ref: dlartg_ 14 5 7 7 7 7 7 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: dgemv_ 14 12 13 4 4 7 7 4 7 4 7 7 4 124 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dlacpy_ 14 8 13 4 4 7 4 7 4 124 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */

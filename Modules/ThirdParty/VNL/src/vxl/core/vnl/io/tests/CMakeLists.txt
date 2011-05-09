@@ -39,3 +39,5 @@ ADD_TEST( vnl_io_golden_test_vnl_io            ${EXECUTABLE_OUTPUT_PATH}/vnl_io_
 
 ADD_EXECUTABLE( vnl_io_test_include test_include.cxx )
 TARGET_LINK_LIBRARIES( vnl_io_test_include vnl_io )
+ADD_EXECUTABLE( vnl_io_test_template_include test_template_include.cxx )
+TARGET_LINK_LIBRARIES( vnl_io_test_template_include vnl_io )

@@ -1,0 +1,2 @@
+extern int dsesrt_(char *which, logical *apply, integer *n, doublereal *x, integer *na, doublereal *a, integer *lda, ftnlen which_len);
+/*:ref: dswap_ 14 5 4 7 4 7 4 */

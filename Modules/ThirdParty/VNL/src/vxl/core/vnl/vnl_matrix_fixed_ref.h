@@ -29,7 +29,7 @@
 // Additional comments on the vnl_matrix_fixed_ref and vnl_vector_fixed_ref
 // classes, extracted from an email conversation between Paul P. Smyth,
 // Vicon Motion Systems Ltd., from May 02, 2001, and Amitha Perera
-// (who anwers the following on Monday, October 07, 2002):
+// (who answers the following on Monday, October 07, 2002):
 //
 // I'm working on separating vnl_vector and vnl_vector_fixed in the VXL
 // tree, as I mailed a while ago to the vxl-maintainers list. I noticed
@@ -135,6 +135,7 @@
 //    8-Dec-2006 Markus Moll - changed operator>> signature (to const& argument)
 //   30-Mar-2009 Peter Vanroose - added arg_min() and arg_max()
 //   24-Oct-2010 Peter Vanroose - mutators and filling methods now return *this
+//   18-Jan-2011 Peter Vanroose - added methods set_diagonal() & get_diagonal()
 // \endverbatim
 //
 //-----------------------------------------------------------------------------
@@ -199,6 +200,10 @@ class vnl_matrix_fixed_ref_const
       v[j] = (*this)(j,column_index);
     return v;
   }
+
+  //: Return a vector with the content of the (main) diagonal
+  vnl_vector<T> get_diagonal() const;
+
   const T * data_block() const { return data_; }
 
   //: Const iterators
@@ -466,6 +471,12 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //     f(vnl_matrix_fixed_ref<double,3,3>().fill_diagonal(5));
   //  \endcode
   vnl_matrix_fixed_ref const& fill_diagonal (T) const;
+
+  //: Sets the diagonal elements of this matrix to the specified list of values.
+  //  Returning "*this" allows "chaining" two or more operations: see the
+  //  reasoning (and the examples) in the documentation for method
+  //  fill_diagonal().
+  vnl_matrix_fixed_ref const& set_diagonal(vnl_vector<T> const&) const;
 
   //: Fills (laminates) this matrix with the given data, then returns it.
   //  We assume that the argument points to a contiguous rows*cols array, stored rowwise.

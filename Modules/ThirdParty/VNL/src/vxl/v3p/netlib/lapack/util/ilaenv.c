@@ -206,14 +206,14 @@ L100:
 /*<          IF( IC.GE.97 .AND. IC.LE.122 ) THEN >*/
         if (ic >= 97 && ic <= 122) {
 /*<             SUBNAM( 1:1 ) = CHAR( IC-32 ) >*/
-            *(unsigned char *)subnam = (char) (ic - 32);
+            *(unsigned char *)subnam = (unsigned char) (ic - 32);
 /*<             DO 10 I = 2, 6 >*/
             for (i__ = 2; i__ <= 6; ++i__) {
 /*<                IC = ICHAR( SUBNAM( I:I ) ) >*/
                 ic = *(unsigned char *)&subnam[i__ - 1];
 /*<    >*/
                 if (ic >= 97 && ic <= 122) {
-                    *(unsigned char *)&subnam[i__ - 1] = (char) (ic - 32);
+                    *(unsigned char *)&subnam[i__ - 1] = (unsigned char) (ic - 32);
                 }
 /*<    10       CONTINUE >*/
 /* L10: */
@@ -230,7 +230,7 @@ L100:
         if ((ic >= 129 && ic <= 137) || (ic >= 145 && ic <= 153) || (ic >= 162 && 
                 ic <= 169)) {
 /*<             SUBNAM( 1:1 ) = CHAR( IC+64 ) >*/
-            *(unsigned char *)subnam = (char) (ic + 64);
+            *(unsigned char *)subnam = (unsigned char) (ic + 64);
 /*<             DO 20 I = 2, 6 >*/
             for (i__ = 2; i__ <= 6; ++i__) {
 /*<                IC = ICHAR( SUBNAM( I:I ) ) >*/
@@ -238,7 +238,7 @@ L100:
 /*<    >*/
                 if ((ic >= 129 && ic <= 137) || (ic >= 145 && ic <= 153) || (ic >= 
                         162 && ic <= 169)) {
-                    *(unsigned char *)&subnam[i__ - 1] = (char) (ic + 64);
+                    *(unsigned char *)&subnam[i__ - 1] = (unsigned char) (ic + 64);
                 }
 /*<    20       CONTINUE >*/
 /* L20: */
@@ -254,14 +254,14 @@ L100:
 /*<          IF( IC.GE.225 .AND. IC.LE.250 ) THEN >*/
         if (ic >= 225 && ic <= 250) {
 /*<             SUBNAM( 1:1 ) = CHAR( IC-32 ) >*/
-            *(unsigned char *)subnam = (char) (ic - 32);
+            *(unsigned char *)subnam = (unsigned char) (ic - 32);
 /*<             DO 30 I = 2, 6 >*/
             for (i__ = 2; i__ <= 6; ++i__) {
 /*<                IC = ICHAR( SUBNAM( I:I ) ) >*/
                 ic = *(unsigned char *)&subnam[i__ - 1];
 /*<    >*/
                 if (ic >= 225 && ic <= 250) {
-                    *(unsigned char *)&subnam[i__ - 1] = (char) (ic - 32);
+                    *(unsigned char *)&subnam[i__ - 1] = (unsigned char) (ic - 32);
                 }
 /*<    30       CONTINUE >*/
 /* L30: */

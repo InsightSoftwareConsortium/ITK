@@ -3,7 +3,7 @@
 #define vnl_io_sparse_matrix_h
 //:
 // \file
-// \author Louise Bucther
+// \author Louise Butcher
 // \date 20-Mar-2001
 
 #include <vnl/vnl_sparse_matrix.h>

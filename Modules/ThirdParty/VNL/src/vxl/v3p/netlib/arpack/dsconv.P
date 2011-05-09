@@ -1,0 +1,5 @@
+extern int dsconv_(integer *n, doublereal *ritz, doublereal *bounds, doublereal *tol, integer *nconv);
+/* comlen debug_ 96 */
+/* comlen timing_ 124 */
+/*:ref: second_ 14 1 6 */
+/*:ref: dlamch_ 7 2 13 124 */

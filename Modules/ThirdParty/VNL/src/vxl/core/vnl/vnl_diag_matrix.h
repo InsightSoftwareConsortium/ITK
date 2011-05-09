@@ -17,6 +17,7 @@
 //   Sep.2002 - Peter Vanroose - Added operator+, operator-, operator*
 //   Mar.2004 - Peter Vanroose - removed deprecated resize()
 //   Oct.2010 - Peter Vanroose - mutators and setters now return *this
+//   Jan.2011 - Peter Vanroose - added methods set_diagonal() & get_diagonal()
 // \endverbatim
 
 #include <vcl_cassert.h>
@@ -106,8 +107,17 @@ unsigned j
     assert(r == c); assert (r<size()); return diagonal_[r];
   }
 
+  //: Return a vector (copy) with the content of the (main) diagonal
+  inline vnl_vector<T> get_diagonal() const { return diagonal_; }
+
+  //: Return diagonal elements as a vector
+  inline vnl_vector<T> const& diagonal() const { return diagonal_; }
+
   //: Set all diagonal elements of matrix to specified value.
   inline vnl_diag_matrix& fill_diagonal (T const& v) { diagonal_.fill(v); return *this; }
+
+  //: Sets the diagonal elements of this matrix to the specified list of values.
+  inline vnl_diag_matrix& set_diagonal(vnl_vector<T> const& v) { diagonal_ = v; return *this; }
 
   // iterators
 
@@ -139,9 +149,6 @@ unsigned j
   //: Return pointer to the diagonal elements as a contiguous 1D C array;
   inline T*       data_block()       { return diagonal_.data_block(); }
   inline T const* data_block() const { return diagonal_.data_block(); }
-
-  //: Return diagonal elements as a vector
-  inline vnl_vector<T> const& diagonal() const { return diagonal_; }
 
   //: Set diagonal elements using vector
   inline vnl_diag_matrix& set(vnl_vector<T> const& v)  { diagonal_=v; return *this; }

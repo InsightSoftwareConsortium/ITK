@@ -1,0 +1,7 @@
+extern int dsaupd_(integer *ido, char *bmat, integer *n, char *which, integer *nev, doublereal *tol, doublereal *resid, integer *ncv, doublereal *v, integer *ldv, integer *iparam, integer *ipntr, doublereal *workd, doublereal *workl, integer *lworkl, integer *info, ftnlen bmat_len, ftnlen which_len);
+/* comlen debug_ 96 */
+/* comlen timing_ 124 */
+/*:ref: dstats_ 14 0 */
+/*:ref: second_ 14 1 6 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dsaup2_ 14 26 4 13 4 13 4 4 7 7 4 4 4 4 7 4 7 4 7 7 7 4 7 4 7 4 124 124 */

@@ -1,0 +1,18 @@
+extern int zgges_(char *jobvsl, char *jobvsr, char *sort, L_fp selctg, integer *n, doublecomplex *a, integer *lda, doublecomplex *b, integer *ldb, integer *sdim, doublecomplex *alpha, doublecomplex *beta, doublecomplex *vsl, integer *ldvsl, doublecomplex *vsr, integer *ldvsr, doublecomplex *work, integer *lwork, doublereal *rwork, logical *bwork, integer *info, ftnlen jobvsl_len, ftnlen jobvsr_len, ftnlen sort_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: ilaenv_ 4 9 4 13 13 4 4 4 4 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlabad_ 14 2 7 7 */
+/*:ref: zlange_ 7 7 13 4 4 9 4 7 124 */
+/*:ref: zlascl_ 14 11 13 4 4 7 7 4 4 9 4 4 124 */
+/*:ref: zggbal_ 14 13 13 4 9 4 9 4 4 4 7 7 7 4 124 */
+/*:ref: zgeqrf_ 14 8 4 4 9 4 9 9 4 4 */
+/*:ref: zunmqr_ 14 15 13 13 4 4 4 9 4 9 9 4 9 4 4 124 124 */
+/*:ref: zlaset_ 14 8 13 4 4 9 9 9 4 124 */
+/*:ref: zlacpy_ 14 8 13 4 4 9 4 9 4 124 */
+/*:ref: zungqr_ 14 9 4 4 4 9 4 9 9 4 4 */
+/*:ref: zgghrd_ 14 16 13 13 4 4 4 9 4 9 4 9 4 9 4 4 124 124 */
+/*:ref: zhgeqz_ 14 23 13 13 13 4 4 4 9 4 9 4 9 9 9 4 9 4 9 4 7 4 124 124 124 */
+/*:ref: ztgsen_ 14 24 4 12 12 12 4 9 4 9 4 9 9 9 4 9 4 4 7 7 7 9 4 4 4 4 */
+/*:ref: zggbak_ 14 13 13 13 4 4 4 7 7 4 9 4 4 124 124 */

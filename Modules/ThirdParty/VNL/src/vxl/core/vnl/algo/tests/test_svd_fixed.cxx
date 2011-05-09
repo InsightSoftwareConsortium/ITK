@@ -183,7 +183,7 @@ static void test_speed(vnl_random& rng)
     ms_nosvd = timer.user();
     vcl_cout << "(c.f. vnl_inverse no-SVD time for 10000 3x3 inversions: " << ms_nosvd << "ms.)" << vcl_endl;
   }
-  TEST("Stack memory SVD is faster than heap memory SVD", ms_stack < ms_heap, true);
+  TEST("Stack memory SVD is faster than heap memory SVD", ms_stack <= ms_heap, true);
 }
 
 // Driver

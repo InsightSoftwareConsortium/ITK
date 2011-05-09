@@ -1,0 +1,5 @@
+extern int ztrexc_(char *compq, integer *n, doublecomplex *t, integer *ldt, doublecomplex *q, integer *ldq, integer *ifst, integer *ilst, integer *info, ftnlen compq_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: zlartg_ 14 5 9 9 7 9 9 */
+/*:ref: zrot_ 14 7 4 9 4 9 4 7 9 */

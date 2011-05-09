@@ -6,12 +6,15 @@
 // \file
 
 #include "vnl_sparse_symmetric_eigensystem.h"
+#include "vnl_sparse_lu.h"
+#include <vnl/vnl_vector_ref.h>
 #include <vcl_cassert.h>
 #include <vcl_cstring.h>
+#include <vcl_cstdlib.h>
 #include <vcl_iostream.h>
 #include <vcl_vector.h>
 
-#include <vnl/algo/vnl_netlib.h> // dnlaso_()
+#include <vnl/algo/vnl_netlib.h> // dnlaso_() dseupd_() dsaupd_()
 
 static vnl_sparse_symmetric_eigensystem * current_system = 0;
 
@@ -200,6 +203,254 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
 
   return ierr;
 }
+
+
+//------------------------------------------------------------
+//: Here is where the fortran converted code gets called.
+// The sparse matrix A is assumed to be symmetric.
+// Find n eigenvalue/eigenvectors of the eigenproblem A * x = lambda * B * x.
+// !smallest and !magnitude - compute the N largest (algebraic) eigenvalues
+//  smallest and !magnitude - compute the N smallest (algebraic) eigenvalues
+// !smallest and  magnitude - compute the N largest (magnitude) eigenvalues
+//  smallest and  magnitude - compute the nev smallest (magnitude) eigenvalues
+// set sigma for shift/invert mode
+int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
+                      vnl_sparse_matrix<double>& A, vnl_sparse_matrix<double>& B, int nEV,
+                      double tolerance, int numberLanczosVecs,
+                      bool smallest, bool magnitude,
+                      int maxIterations,
+                      double sigma)
+{
+  mat = &A;
+  Bmat = &B;
+
+  // Clear current vectors.
+  if (vectors) {
+    delete[] vectors; vectors = NULL;
+    delete[] values; values = NULL;
+  }
+  nvalues = 0;
+
+  const long whichLength = 2;
+  char which[whichLength + 1];
+  which[whichLength] = '\0';
+  if (smallest)
+    which[0] = 'S';
+  else
+    which[0] = 'L';
+
+  if (magnitude)
+    which[1] = 'M';
+  else
+    which[1] = 'A';
+
+  long  matSize = mat->columns();          // Dimension of the eigenproblem.
+  long  ido = 0;        // ido == 0 means initialization
+
+  long  nconv = 0L;     // Number of "converged" Ritz values.
+  long  numberLanczosVecsL = numberLanczosVecs;    // number of vectors to calc
+  long  nEVL = nEV;    // long number of EVs to calc
+
+  double *resid = new double[matSize];
+  vcl_memset((void*) resid, 0, sizeof(double)*matSize);
+
+  if (maxIterations <= 0)
+    maxIterations =  nEVL * 100;
+
+  if (numberLanczosVecsL <= 0)
+    numberLanczosVecsL = 2 * nEVL + 1;
+  numberLanczosVecsL = (numberLanczosVecsL > matSize ? matSize : numberLanczosVecsL);
+  double *V = new double[matSize * numberLanczosVecsL + 1];
+
+#define DONE 99
+  const int genEigProblemLength = 1;
+  char genEigProblem = 'G';
+  long    info = 0;   // Initialization info (INPUT) and error flag (OUTPUT)
+
+#define IPARAMSIZE 12
+  long iParam[IPARAMSIZE];
+  // for the sake of consistency with parameter indices in FORTRAN,
+  // start at index 1...
+  iParam[0] = 0;
+  iParam[1] = 1;   //  always auto-shift
+  iParam[2] = 0;   //  no longer referenced
+  iParam[3] = maxIterations;
+  iParam[4] = 1;   // NB: blocksize to be used in the recurrence.
+                   // The code currently works only for NB = 1.
+
+  iParam[5] = 0;   // output - number of converged Ritz values
+  iParam[6] = 0;   // No longer referenced. Implicit restarting is ALWAYS used
+
+  long mode;
+
+  // if we have a sigma, it's mode 3, otherwise, mode 2
+  // the mode determines the OP used in the solution
+  // determine OP
+  vnl_sparse_matrix<double> OP;
+  if (sigma != 0.0)
+  {
+    // K*x = lambda*M*x, K symmetric, M symmetric positive semi-definite
+    // OP = (inv[K - sigma*M])*M  and  B = M.
+    // Shift-and-Invert mode
+    mode = 3;
+    // determine OP
+
+    OP = B;
+    OP *= sigma;
+    OP = A - OP;
+//vsl_print_summary(std::cout, OP);
+  }
+  else
+  {
+    // A*x = lambda*M*x, A symmetric, M symmetric positive definite
+    // OP = inv[M]*A  and  B = M.
+    mode = 2;
+    OP = B;
+  }
+  // iParam[7] is the mode of the solution
+  iParam[7] = mode;
+
+  // decompose for using in "multiplying" intermediate results
+  vnl_sparse_lu opLU(OP);
+
+//std::cout << opLU << std::endl;
+
+  iParam[8] = 0;   //  parameter for user supplied shifts - not used here
+
+  // iParam 9 - 11 are output
+  iParam[9] = 0;   // total number of OP*x operations
+  iParam[10] = 0;   // total number of B*x operations if BMAT='G'
+  iParam[11] = 0;   // total number of steps of re-orthogonalization
+
+  // output vector filled with address information for intermediate data used
+  // by the solver
+  // use FORTRAN indexing again...
+  long iPntr[IPARAMSIZE];
+  for (int clrIx = 0; clrIx < IPARAMSIZE; clrIx++)
+    iPntr[clrIx]= 0;
+
+  // Double precision work array of length 3*N.
+  double *workd = new double[3 * matSize + 1];
+
+  // Double precision work array of length 3*N.
+  long lworkl = numberLanczosVecsL * (numberLanczosVecsL+9);
+
+  // Double precision work array of length at least NCV**2 + 8*NCV
+  double *workl = new double[lworkl + 1];
+
+  // start from scratch
+  bool basisCalculated = false;
+
+  vnl_vector<double> workVector;
+
+  while (!basisCalculated)
+  {
+    // Calling arpack routine dsaupd.
+    v3p_netlib_dsaupd_(
+      &ido, &genEigProblem, &matSize, which,
+      &nEVL, &tolerance, resid, &numberLanczosVecsL, &V[1], &matSize,
+          &iParam[1], &iPntr[1], &workd[1], &workl[1], &lworkl, &info,
+          genEigProblemLength, whichLength);
+
+    // Checking if aupp is done
+    if (ido==DONE)
+    {
+      nconv = iParam[5];
+      basisCalculated = true;
+      break;
+    }
+    else
+    {
+      switch (info) {
+        case    -8:  // Could not perform LAPACK eigenvalue calculation
+        case    -9:  // Starting vector is zero
+        case -9999:  // Could not build an Arnoldi factorization
+          return info;
+          break;
+        case     0:  // success
+        case     1:  // hit maxIterations - should be DONE
+        case     3:  // No shifts could be applied during a cycle of IRAM iteration
+          break;
+        default   :  // unknown ARPACK error
+          return info;
+      }
+
+      // setting z pointer to ( = Bx) into workd
+      if (ido == -1)
+        iPntr[3] = iPntr[2] + matSize;
+
+      vnl_vector_ref<double> x(matSize, &workd[iPntr[1]]);
+      vnl_vector_ref<double> y(matSize, &workd[iPntr[2]]);
+      vnl_vector_ref<double> z(matSize, &workd[iPntr[3]]);  // z = Bx
+
+      switch (ido)
+      {
+        case -1:
+            // Performing y <- OP*x for the first time when mode != 2.
+            if (mode != 2)
+              B.mult(x, z);
+            // no "break;" - initialization continues below
+        case  1:
+            // Performing y <- OP*w.
+            if (mode != 2)
+              opLU.solve(z, &y);
+            else
+              {
+              A.mult(x, workVector);
+              x.update(workVector);
+              opLU.solve(x, &y);
+              }
+          break;
+        case  2:
+            B.mult(x, y);
+          break;
+        default:
+            break;
+      }
+    }
+  }
+
+  long rvec   = 1;  // get the values and vectors
+
+  // which Ritz vctors do we want?
+  const int howMnyLength = 1;
+  char howMny = 'A';  // all
+
+  // selection vector for which Ritz vectors to calc.
+  // we want them all, so allocate the space (dseupd uses it)
+  vnl_vector<long> select(numberLanczosVecsL);
+
+  // allocate eVals and eVecs
+  nvalues = nconv;
+  values = new double[nvalues];
+  vectors = new vnl_vector<double>[nvalues];
+
+  // hold the eigenvectors
+  double *Z = new double[nvalues * matSize];
+
+  v3p_netlib_dseupd_(&rvec, &howMny, select.data_block(), values, Z, &matSize, &sigma, &genEigProblem,
+                     &matSize, which, &nEVL, &tolerance, resid, &numberLanczosVecsL, &V[1], &matSize, &iParam[1],
+                     &iPntr[1], &workd[1], &workl[1], &lworkl, &info,
+                     howMnyLength, genEigProblemLength, whichLength);
+
+  // Copy the eigenvectors
+  int evIx;
+  for (evIx = 0; evIx < nvalues; evIx++)
+  {
+    vnl_vector_ref<double> tempEVec(matSize, &Z[evIx * matSize]);
+    vectors[evIx] = tempEVec;
+  }
+
+  // Delete temporary space.
+  delete[] Z;
+  delete[] resid;
+  delete[] V;
+  delete[] workd;
+  delete[] workl;
+
+  return info;
+}
+
 
 //------------------------------------------------------------
 //: Callback from solver to calculate the product A p.

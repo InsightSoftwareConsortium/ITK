@@ -13,7 +13,7 @@
 #include <vnl/vnl_matlab_print.h>
 
 #define macro(p, T) \
-inline void vnl_linpack_svdc(vnl_netlib_svd_proto(T)) \
+inline void vnl_linpack_svdc_economy(vnl_netlib_svd_proto(T)) \
 { v3p_netlib_##p##svdc_(vnl_netlib_svd_params); }
 macro(s, float);
 macro(d, double);
@@ -41,13 +41,13 @@ vnl_svd_economy<real_t>::vnl_svd_economy( vnl_matrix<real_t> const& M ) :
   long ldu = 0;
   long info = 0;
   const long job = 01; // no U, n svs in V (i.e. super-economy size)
-  vnl_linpack_svdc((real_t*)X, &m_, &m_, &n_,
-                   wspace.data_block(),
-                   espace.data_block(),
-                   0, &ldu,
-                   vspace.data_block(), &n_,
-                   work.data_block(),
-                   &job, &info);
+  vnl_linpack_svdc_economy((real_t*)X, &m_, &m_, &n_,
+                           wspace.data_block(),
+                           espace.data_block(),
+                           0, &ldu,
+                           vspace.data_block(), &n_,
+                           work.data_block(),
+                           &job, &info);
 
   // Error return?
   if (info != 0)
