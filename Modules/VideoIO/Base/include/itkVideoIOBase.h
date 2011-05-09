@@ -90,6 +90,7 @@ public:
   virtual unsigned long GetFrameTotal() = 0;
   virtual double GetFpS() = 0;
   virtual unsigned long GetCurrentFrame() = 0;
+  virtual unsigned long GetLastIFrame() = 0;
 
 
   /*-------- This part of the interfaces deals with writing data. ----- */
