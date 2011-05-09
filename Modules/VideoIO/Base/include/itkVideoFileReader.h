@@ -65,6 +65,11 @@ public:
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
 
+  /** Get/Set IFrameSafe. If true, the last IFrame will be reported as the last
+   * frame for the largest possible temporal region */
+  itkSetMacro(IFrameSafe, bool);
+  itkGetMacro(IFrameSafe, bool);
+
   /** Set up the output information */
   virtual void UpdateOutputInformation();
 
@@ -114,6 +119,10 @@ protected:
 
   /** Flag to store whether or not the pixel type needs to be converted */
   bool m_PixelConversionNeeded;
+
+  /** Flag to indicate whether to report the last frame as the last IFrame. On
+   * by default */
+  bool m_IFrameSafe;
 
 private:
   VideoFileReader(const Self &); // purposely not implemented

@@ -37,6 +37,7 @@ VideoFileReader< TOutputVideoStream >
   m_FileName = "";
   m_VideoIO = NULL;
   m_PixelConversionNeeded = false;
+  m_IFrameSafe = true;
 
   // TemporalProcessObject inherited members
   this->TemporalProcessObject::m_UnitOutputNumberOfFrames = 1;
@@ -95,7 +96,14 @@ VideoFileReader< TOutputVideoStream >
   //
   TemporalRegion largestPossibleTemporalRegion;
   largestPossibleTemporalRegion.SetFrameStart(0);
-  largestPossibleTemporalRegion.SetFrameDuration(m_VideoIO->GetFrameTotal());
+  if (m_IFrameSafe)
+    {
+    largestPossibleTemporalRegion.SetFrameDuration(m_VideoIO->GetLastIFrame());
+    }
+  else
+    {
+    largestPossibleTemporalRegion.SetFrameDuration(m_VideoIO->GetFrameTotal());
+    }
   this->GetOutput()->SetLargestPossibleTemporalRegion(largestPossibleTemporalRegion);
 
   //
