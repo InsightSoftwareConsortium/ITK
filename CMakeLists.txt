@@ -56,23 +56,6 @@ option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testin
 mark_as_advanced(ITK_USE_BRAINWEB_DATA)
 
 #-----------------------------------------------------------------------------
-# Takes a list of tests and applies the containing module's label to each.
-#
-macro(itk_add_test_module_label)
-  if("${ARGV0}" STREQUAL "")
-    message(FATAL_ERROR "itk_add_test_module_label requires at least one test name as input")
-  endif()
-
-  if(itk-module)
-    set(_label ${itk-module})
-  else()
-    set(_label ${main_project_name})
-  endif()
-
-  set_property(TEST ${ARGN} PROPERTY LABELS ${_label})
-endmacro()
-
-#-----------------------------------------------------------------------------
 # ITK wrapper for add_test that automatically sets the test's LABELS property
 # to the value of its containing module.
 #
@@ -86,7 +69,13 @@ macro(itk_add_test)
     set(_iat_testname ${ARGV0})
   endif()
 
-  itk_add_test_module_label(${_iat_testname})
+  if(itk-module)
+    set(_label ${itk-module})
+  else()
+    set(_label ${main_project_name})
+  endif()
+
+  set_property(TEST ${_iat_testname} PROPERTY LABELS ${_label})
 endmacro()
 
 #-----------------------------------------------------------------------------
