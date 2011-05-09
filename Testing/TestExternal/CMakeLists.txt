@@ -14,6 +14,11 @@ get_filename_component(ITK_TOP_DIR ${ITKTestExternal_SOURCE_DIR}/../.. ABSOLUTE)
 # Load module infrastructure macros.
 include(${ITK_TOP_DIR}/CMake/ITKModuleMacros.cmake)
 
+# Tell modules how to add their tests.
+macro(itk_add_test)
+  add_test(${ARGN})
+endmacro()
+
 # Find the ITK build or install tree.  Assume the version matches exactly.
 # One should provide ITK_DIR explicitly in our intended use cases.
 find_package(ITK REQUIRED NO_MODULE)
