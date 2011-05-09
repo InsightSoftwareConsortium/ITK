@@ -4,6 +4,7 @@ set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
 include(ITKModuleMacros)
+include(ITKExternalData)
 include(itkCheckSourceTree)
 
 set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
@@ -41,13 +42,6 @@ macro(verify_itk_module_is_set)
     message(FATAL_ERROR "CMake variable itk-module is not set")
   endif()
 endmacro()
-
-#-----------------------------------------------------------------------------
-# Load macros to manage data download
-include(ExternalData)
-list(APPEND ExternalData_URL_TEMPLATES
-  "http://midas.kitware.com/api/rest/midas.bitstream.by.hash?hash=%(hash)&algorithm=%(algo)"
-  )
 
 #-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.

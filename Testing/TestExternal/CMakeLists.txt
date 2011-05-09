@@ -10,13 +10,16 @@ include(CTest)
 
 # Find the top of the main ITK source tree.
 get_filename_component(ITK_TOP_DIR ${ITKTestExternal_SOURCE_DIR}/../.. ABSOLUTE)
+set(ExternalData_SOURCE_ROOT ${ITK_TOP_DIR})
 
 # Load module infrastructure macros.
 include(${ITK_TOP_DIR}/CMake/ITKModuleMacros.cmake)
+include(${ITK_TOP_DIR}/CMake/ITKExternalData.cmake)
 
 # Tell modules how to add their tests.
 macro(itk_add_test)
-  add_test(${ARGN})
+  # Add tests with data in the ITKData group.
+  ExternalData_add_test(ITKData ${ARGN})
 endmacro()
 
 # Find the ITK build or install tree.  Assume the version matches exactly.
@@ -69,3 +72,7 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
                      ${ITKTestExternal_BINARY_DIR}/${${itk-module}_TEST_DIR})
   endif()
 endforeach()
+
+# Create target to download data from the ITKData group.  This must come after
+# all tests have been added that reference the group, so we put it last.
+ExternalData_Add_Target(ITKData)
