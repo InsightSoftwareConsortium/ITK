@@ -18,7 +18,7 @@ midas_add_test(NAME OpenCVVideoIOTest
          ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_Out.avi
          # Webcam Output:
          ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_CameraOut.mha
-         # Height Width NumFrames FpS
+         # Width Height NumFrames FpS
          320 240 1396 14.985
          )
 
@@ -38,6 +38,10 @@ midas_add_test(NAME OpenCVVideoCaptureTest
          COMMAND Video-IO-OpenCVTestDriver itkOpenCVVideoCaptureTest
          # Video Input:
          MIDAS{inde-circulation.avi.md5}
-         # Output:
-         ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_Out.avi
+         # Scalar Output:
+         ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoCaptureTest_ScalarOut.avi
+         # RGB Output:
+         ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoCaptureTest_RGBOut.avi
+         # Width Height
+         320 240
          )

@@ -30,25 +30,31 @@ namespace itk
  * \brief This class implements OpenCV's VideoCapture API and takes an itk
  * VideoStream as input
  */
+template<class TVideoStream>
 class OpenCVVideoCapture : public cv::VideoCapture
 {
 public:
 
   /**-CONSTRUCTORS AND DESTRUCTOR--------------------------------------------*/
 
+  /** ITK stype typedefs */
+  typedef TVideoStream                          VideoStreamType;
+  typedef OpenCVVideoCapture< VideoStreamType > Self;
+  typedef typename VideoStreamType::FrameType   FrameType;
+  typedef typename FrameType::PixelType         PixelType;
+  static const unsigned int Dimensions =        FrameType::ImageDimension;
+
   /** Constructor that initializes internal VideoStream to null */
   OpenCVVideoCapture();
 
-  /** Constructor that takes a TemporalDataObject as input. It checks to make
-   * sure that the object can be cast to a VideoStream */
-  OpenCVVideoCapture(TemporalDataObject* videoStream);
+  /** Constructor that takes a VideoStream as input */
+  OpenCVVideoCapture(VideoStreamType* videoStream);
 
   /** Destructor that does nothing. The VideoStream will be freed by the source
    * that generated it. */
   virtual ~OpenCVVideoCapture() {}
 
   /** ITK's type info */
-  typedef OpenCVVideoCapture Self;
   itkTypeMacro(OpenCVVideoCapture, cv::VideoCapture);
 
 
@@ -70,13 +76,13 @@ public:
 
   /** Add an open method that takes a TemporalDataObject. This checks to make
    * sure that it can be cast to a VideoStream */
-  virtual bool open(TemporalDataObject* videoStream);
+  virtual bool open(VideoStreamType* videoStream);
 
   /** Check if the VideoStream is null */
   virtual bool isOpened() { return m_VideoStream == 0; }
 
-  /** Force the VideoStream's source (if it exists) to detach it's output and
-   * free VideoStream's data */
+  /** Just set the internal pointer to null. Let the upstream filters take care
+   * of actually freeing the memory */
   virtual void release();
 
 
@@ -106,13 +112,19 @@ public:
 
 protected:
 
-  /** We store the pointer to the internal VideoStream as a TemporalDataObject
-   * to avoid the need for templating. Internally, we always cast to
-   * VideoStream using the apropriate primitive OpenCV type */
-  TemporalDataObject* m_VideoStream;
+  /** Internal VideoStream */
+  VideoStreamType* m_VideoStream;
+
+  /** Property members */
+  double m_FpS;
+  int m_FourCC;
 
 };  // end class VideoCapture
 
 } // end namespace itk
+
+#if ITK_TEMPLATE_TXX
+#include "itkOpenCVVideoCapture.txx"
+#endif
 
 #endif
