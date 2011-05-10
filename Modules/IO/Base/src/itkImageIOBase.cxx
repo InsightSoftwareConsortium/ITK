@@ -411,7 +411,7 @@ std::string ImageIOBase::GetByteOrderAsString(ByteOrder t) const
   return s = "OrderNotApplicable";
 }
 
-std::string ImageIOBase::GetComponentTypeAsString(IOComponentType t) const
+std::string ImageIOBase::GetComponentTypeAsString(IOComponentType t)
 {
   std::string s;
 
@@ -438,13 +438,13 @@ std::string ImageIOBase::GetComponentTypeAsString(IOComponentType t) const
     case DOUBLE:
       return ( s = "double" );
     case UNKNOWNCOMPONENTTYPE:
+      return ( s = "unknown" );
     default:
       return ( s = "unknown" );
     }
-  return ( s = "unknown" );
 }
 
-ImageIOBase::IOComponentType ImageIOBase::GetComponentTypeFromString(const std::string &typeString) const
+ImageIOBase::IOComponentType ImageIOBase::GetComponentTypeFromString(const std::string &typeString)
 {
   if(typeString.compare("unsigned_char")==0)
     {
@@ -492,7 +492,7 @@ ImageIOBase::IOComponentType ImageIOBase::GetComponentTypeFromString(const std::
     }
 }
 
-std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
+std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t)
 {
   std::string s;
 
@@ -519,13 +519,13 @@ std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
     case COMPLEX:
       return ( s = "complex" );
     case UNKNOWNPIXELTYPE:
+      return ( s = "unknown" );
     default:
-      itkExceptionMacro ("Unknown pixel type: " << t);
+      return ( s = "unknown" );
     }
-  return ( s = "unknown" );
 }
 
-ImageIOBase::IOPixelType ImageIOBase::GetPixelTypeFromString(const std::string &pixelString) const
+ImageIOBase::IOPixelType ImageIOBase::GetPixelTypeFromString(const std::string &pixelString)
 {
   if(pixelString.compare("scalar")==0)
     {

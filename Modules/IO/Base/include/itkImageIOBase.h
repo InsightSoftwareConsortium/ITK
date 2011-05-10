@@ -204,17 +204,17 @@ public:
 
   /** Convenience method returns the IOComponentType as a string. This can be
    * used for writing output files. */
-  std::string GetComponentTypeAsString(IOComponentType) const;
+  static std::string GetComponentTypeAsString(IOComponentType);
 
   /** Convenience method returns the IOComponentType corresponding to a string. */
-  IOComponentType GetComponentTypeFromString(const std::string &typeString) const;
+  static IOComponentType GetComponentTypeFromString(const std::string &typeString);
 
   /** Convenience method returns the IOPixelType as a string. This can be
    * used for writing output files. */
-  std::string GetPixelTypeAsString(IOPixelType) const;
+  static std::string GetPixelTypeAsString(IOPixelType);
 
   /** Convenience method returns the IOPixelType corresponding to a string. */
-  IOPixelType GetPixelTypeFromString(const std::string &pixelString) const;
+  static IOPixelType GetPixelTypeFromString(const std::string &pixelString);
 
   /** Enums used to specify write style: whether binary or ASCII. Some
    * subclasses use this, some ignore it. */
