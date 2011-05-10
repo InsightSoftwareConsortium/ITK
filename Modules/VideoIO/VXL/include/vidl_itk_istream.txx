@@ -18,6 +18,8 @@
 #ifndef __itk_vidl_istream_txx
 #define __itk_vidl_istream_txx
 
+#include "itkNumericTraits.h"
+
 namespace itk
 {
 
@@ -165,8 +167,87 @@ template< class TVideoStream >
 vidl_pixel_format
 vidl_itk_istream< TVideoStream >::format() const
 {
-  itkWarningMacro("STUB");
-  return (vidl_pixel_format)0;
+  // We need to know about the primative type used for the pixel
+  typedef typename itk::NumericTraits< PixelType >::ValueType PixelValueType;
+
+  // Get the number of challenls for the pixel
+  unsigned int channels = itk::NumericTraits< PixelType >::MeasurementVectorType::Dimension;
+
+  //
+  // Return the proper format based on typeid and number of channels
+  //
+
+  // bool
+  if (typeid(PixelValueType) == typeid(bool))
+    {
+    if (channels == 1)
+      {
+      return VIDL_PIXEL_FORMAT_MONO_1;
+      }
+    else
+      {
+      return VIDL_PIXEL_FORMAT_UNKNOWN;
+      }
+    }
+
+  // char / unsigned char
+  else if (typeid(PixelValueType) == typeid(char) ||
+           typeid(PixelValueType) == typeid(unsigned char))
+    {
+    if (channels == 1)
+      {
+      return VIDL_PIXEL_FORMAT_MONO_8;
+      }
+    else if (channels == 3)
+      {
+      return VIDL_PIXEL_FORMAT_RGB_24;
+      }
+    else if (channels == 4)
+      {
+      return VIDL_PIXEL_FORMAT_RGBA_32;
+      }
+    else
+      {
+      return VIDL_PIXEL_FORMAT_UNKNOWN;
+      }
+    }
+
+  // short / unsigned short
+  else if (typeid(PixelValueType) == typeid(short) ||
+           typeid(PixelValueType) == typeid(unsigned short))
+    {
+    if (channels == 1)
+      {
+      return VIDL_PIXEL_FORMAT_MONO_16;
+      }
+    else
+      {
+      return VIDL_PIXEL_FORMAT_UNKNOWN;
+      }
+    }
+
+  // float
+  else if (typeid(PixelValueType) == typeid(float))
+    {
+    if (channels == 1)
+      {
+      return VIDL_PIXEL_FORMAT_MONO_F32;
+      }
+    else if (channels == 3)
+      {
+      return VIDL_PIXEL_FORMAT_RGB_F32;
+      }
+    else
+      {
+      return VIDL_PIXEL_FORMAT_UNKNOWN;
+      }
+    }
+
+  // unknown
+  else
+    {
+    return VIDL_PIXEL_FORMAT_UNKNOWN;
+    }
 }
 
 //
