@@ -2,6 +2,7 @@ itk_module_test()
 set(Video-IO-VXLTests
   itkVXLVideoIOTest.cxx
   itkVXLVideoIOFactoryTest.cxx
+  vidl_itk_istreamTest.cxx
 )
 
 # include VXL headers
@@ -36,3 +37,7 @@ midas_add_test(NAME VXLVideoIOFactoryTest
          0
          )
 
+# vidl_itk_istream:
+midas_add_test(NAME vidl_itk_istreamTest
+        COMMAND Video-IO-VXLTestDriver vidl_itk_istreamTest
+        )
