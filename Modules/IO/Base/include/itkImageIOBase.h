@@ -206,9 +206,15 @@ public:
    * used for writing output files. */
   std::string GetComponentTypeAsString(IOComponentType) const;
 
+  /** Convenience method returns the IOComponentType corresponding to a string. */
+  IOComponentType GetComponentTypeFromString(const std::string &typeString) const;
+
   /** Convenience method returns the IOPixelType as a string. This can be
    * used for writing output files. */
   std::string GetPixelTypeAsString(IOPixelType) const;
+
+  /** Convenience method returns the IOPixelType corresponding to a string. */
+  IOPixelType GetPixelTypeFromString(const std::string &pixelString) const;
 
   /** Enums used to specify write style: whether binary or ASCII. Some
    * subclasses use this, some ignore it. */
