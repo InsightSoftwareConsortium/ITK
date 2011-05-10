@@ -52,7 +52,8 @@ ListSample< TMeasurementVector >
 {
   if ( this->GetMeasurementVectorSize() != NumericTraits<MeasurementVectorType>::GetLength(mv) )
     {
-    itkExceptionMacro("MeasurementVector instance doesn't match MeasurementVectorSize");
+    itkExceptionMacro("MeasurementVectorSize: " << this->GetMeasurementVectorSize()
+      << " doesn't match input measurement vector length: " << NumericTraits<MeasurementVectorType>::GetLength(mv));
     }
   this->m_InternalContainer.push_back(mv);
 }
