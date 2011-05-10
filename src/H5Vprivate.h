@@ -24,6 +24,10 @@
 #include "H5private.h"		/* Generic Functions			*/
 #include "H5Eprivate.h"		/* Error handling		  	*/
 
+/* Vector-Vector sequence operation callback */
+typedef herr_t (*H5V_opvv_func_t)(hsize_t dst_off, hsize_t src_off,
+    size_t len, void *udata);
+
 /* Vector comparison functions like Fortran66 comparison operators */
 #define H5V_vector_eq_s(N,V1,V2) (H5V_vector_cmp_s (N, V1, V2)==0)
 #define H5V_vector_lt_s(N,V1,V2) (H5V_vector_cmp_s (N, V1, V2)<0)
@@ -83,12 +87,15 @@ H5_DLL hsize_t H5V_array_offset_pre(unsigned n,
     const hsize_t *acc, const hsize_t *offset);
 H5_DLL hsize_t H5V_array_offset(unsigned n, const hsize_t *total_size,
     const hsize_t *offset);
-H5_DLL herr_t H5V_array_calc_pre(hsize_t offset, unsigned n, const hsize_t *total_size,
-    const hsize_t *down, hsize_t *coords);
 H5_DLL herr_t H5V_array_calc(hsize_t offset, unsigned n,
     const hsize_t *total_size, hsize_t *coords);
 H5_DLL herr_t H5V_chunk_index(unsigned ndims, const hsize_t *coord,
     const uint32_t *chunk, const hsize_t *down_nchunks, hsize_t *chunk_idx);
+H5_DLL ssize_t H5V_opvv(size_t dst_max_nseq, size_t *dst_curr_seq, size_t dst_len_arr[],
+    hsize_t dst_off_arr[],
+    size_t src_max_nseq, size_t *src_curr_seq, size_t src_len_arr[],
+    hsize_t src_off_arr[],
+    H5V_opvv_func_t op, void *op_data);
 H5_DLL ssize_t H5V_memcpyvv(void *_dst,
     size_t dst_max_nseq, size_t *dst_curr_seq, size_t dst_len_arr[], hsize_t dst_off_arr[],
     const void *_src,

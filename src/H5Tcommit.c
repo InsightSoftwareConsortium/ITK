@@ -221,7 +221,7 @@ done:
     /* If the datatype was committed but something failed after that, we need
      * to return it to the state it was in before it was committed.
      */
-    if(ret_value < 0 && ocrt_info.new_obj) {
+    if(ret_value < 0 && (NULL != ocrt_info.new_obj)) {
 	if(dt->shared->state == H5T_STATE_OPEN && dt->sh_loc.type == H5O_SHARE_TYPE_COMMITTED) {
             /* Remove the datatype from the list of opened objects in the file */
             if(H5FO_top_decr(dt->sh_loc.file, dt->sh_loc.u.loc.oh_addr) < 0)
@@ -302,6 +302,19 @@ H5Tcommit_anon(hid_t loc_id, hid_t type_id, hid_t tcpl_id, hid_t tapl_id)
     if(H5T_commit(loc.oloc->file, type, tcpl_id, H5AC_dxpl_id) < 0)
 	HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to commit datatype")
 
+    /* Release the datatype's object header */
+    {
+        H5O_loc_t *oloc;         /* Object location for datatype */
+
+        /* Get the new committed datatype's object location */
+        if(NULL == (oloc = H5T_oloc(type)))
+            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to get object location of committed datatype")
+
+        /* Decrement refcount on committed datatype's object header in memory */
+        if(H5O_dec_rc_by_loc(oloc, H5AC_dxpl_id) < 0)
+           HGOTO_ERROR(H5E_DATATYPE, H5E_CANTDEC, FAIL, "unable to decrement refcount on newly created object")
+    } /* end if */
+
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5Tcommit_anon() */
@@ -379,7 +392,7 @@ H5T_commit(H5F_t *file, H5T_t *type, hid_t tcpl_id, hid_t dxpl_id)
      * Create the object header and open it for write access. Insert the data
      * type message and then give the object header a name.
      */
-    if(H5O_create(file, dxpl_id, dtype_size, tcpl_id, &temp_oloc) < 0)
+    if(H5O_create(file, dxpl_id, dtype_size, (size_t)1, tcpl_id, &temp_oloc) < 0)
 	HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to create datatype object header")
     if(H5O_msg_create(&temp_oloc, H5O_DTYPE_ID, H5O_MSG_FLAG_CONSTANT | H5O_MSG_FLAG_DONTSHARE, H5O_UPDATE_TIME, type, dxpl_id) < 0)
 	HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to update type header message")
@@ -415,6 +428,8 @@ done:
             H5G_name_free(&temp_path);
         } /* end if */
         if((type->shared->state == H5T_STATE_TRANSIENT || type->shared->state == H5T_STATE_RDONLY) && (type->sh_loc.type == H5O_SHARE_TYPE_COMMITTED)) {
+            if(H5O_dec_rc_by_loc(&(type->oloc), dxpl_id) < 0)
+                HDONE_ERROR(H5E_DATATYPE, H5E_CANTDEC, FAIL, "unable to decrement refcount on newly created object")
 	    if(H5O_close(&(type->oloc)) < 0)
                 HDONE_ERROR(H5E_DATATYPE, H5E_CLOSEERROR, FAIL, "unable to release object header")
             if(H5O_delete(file, dxpl_id, type->sh_loc.u.loc.oh_addr) < 0)
@@ -664,7 +679,8 @@ H5Tget_create_plist(hid_t dtype_id)
 done:
     if(ret_value < 0)
         if(new_tcpl_id > 0)
-            (void)H5I_dec_ref(new_tcpl_id, TRUE);
+            if(H5I_dec_app_ref(new_tcpl_id) < 0)
+                HDONE_ERROR(H5E_DATATYPE, H5E_CANTDEC, FAIL, "unable to close temporary object")
 
     FUNC_LEAVE_API(ret_value)
 } /* end H5Tget_create_plist() */

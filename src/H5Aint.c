@@ -232,9 +232,12 @@ H5A_compact_build_table(H5F_t *f, hid_t dxpl_id, H5O_t *oh, H5_index_t idx_type,
     /* Correct # of attributes in table */
     atable->nattrs = udata.curr_attr;
 
-    /* Sort attribute table in correct iteration order */
-    if(H5A_attr_sort_table(atable, idx_type, order) < 0)
-        HGOTO_ERROR(H5E_ATTR, H5E_CANTSORT, FAIL, "error sorting attribute table")
+    /* Don't sort an empty table. */
+    if(atable->nattrs > 0) {
+        /* Sort attribute table in correct iteration order */
+        if(H5A_attr_sort_table(atable, idx_type, order) < 0)
+            HGOTO_ERROR(H5E_ATTR, H5E_CANTSORT, FAIL, "error sorting attribute table")
+    } /* end if */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -872,7 +875,8 @@ H5A_attr_copy_file(const H5A_t *attr_src, H5F_t *file_dst, hbool_t *recompute_si
         dst_oloc->file = file_dst;
 
         /* Copy the shared object from source to destination */
-        if(H5O_copy_header_map(src_oloc, dst_oloc, dxpl_id, cpy_info, FALSE) < 0)
+        if(H5O_copy_header_map(src_oloc, dst_oloc, dxpl_id, cpy_info, FALSE,
+                NULL, NULL) < 0)
             HGOTO_ERROR(H5E_OHDR, H5E_CANTCOPY, NULL, "unable to copy object")
 
         /* Update shared message info from named datatype info */
@@ -887,8 +891,9 @@ H5A_attr_copy_file(const H5A_t *attr_src, H5F_t *file_dst, hbool_t *recompute_si
             HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, NULL, "unable to reset datatype sharing")
     } /* end else */
 
-    /* Copy the dataspace for the attribute */
-    attr_dst->shared->ds = H5S_copy(attr_src->shared->ds, FALSE, FALSE);
+    /* Copy the dataspace for the attribute. Make sure the maximal dimension is also copied.
+     * Otherwise the comparison in the test may complain about it. SLU 2011/4/12 */
+    attr_dst->shared->ds = H5S_copy(attr_src->shared->ds, FALSE, TRUE);
     HDassert(attr_dst->shared->ds);
 
     /* Reset the dataspace's sharing in the source file before trying to share
@@ -1028,20 +1033,19 @@ H5A_attr_copy_file(const H5A_t *attr_src, H5F_t *file_dst, hbool_t *recompute_si
     ret_value = attr_dst;
 
 done:
-    if(buf_sid > 0)
-        if(H5I_dec_ref(buf_sid, FALSE) < 0)
-            HDONE_ERROR(H5E_ATTR, H5E_CANTFREE, NULL, "Can't decrement temporary dataspace ID")
+    if(buf_sid > 0 && H5I_dec_ref(buf_sid) < 0)
+        HDONE_ERROR(H5E_ATTR, H5E_CANTFREE, NULL, "Can't decrement temporary dataspace ID")
     if(tid_src > 0)
         /* Don't decrement ID, we want to keep underlying datatype */
-        if(H5I_remove(tid_src) == NULL)
+        if(NULL == H5I_remove(tid_src))
             HDONE_ERROR(H5E_ATTR, H5E_CANTFREE, NULL, "Can't decrement temporary datatype ID")
     if(tid_dst > 0)
         /* Don't decrement ID, we want to keep underlying datatype */
-        if(H5I_remove(tid_dst) == NULL)
+        if(NULL == H5I_remove(tid_dst))
             HDONE_ERROR(H5E_ATTR, H5E_CANTFREE, NULL, "Can't decrement temporary datatype ID")
     if(tid_mem > 0)
         /* Decrement the memory datatype ID, it's transient */
-        if(H5I_dec_ref(tid_mem, FALSE) < 0)
+        if(H5I_dec_ref(tid_mem) < 0)
             HDONE_ERROR(H5E_ATTR, H5E_CANTFREE, NULL, "Can't decrement temporary datatype ID")
     if(buf)
         buf = H5FL_BLK_FREE(attr_buf, buf);

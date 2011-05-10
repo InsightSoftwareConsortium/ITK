@@ -66,9 +66,11 @@ H5RS_xstrdup(const char *s)
     FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5RS_xstrdup)
 
     if(s) {
-        ret_value = (char *)H5FL_BLK_MALLOC(str_buf, HDstrlen(s) + 1);
+        size_t len = HDstrlen(s) + 1;
+
+        ret_value = (char *)H5FL_BLK_MALLOC(str_buf, len);
         HDassert(ret_value);
-        HDstrcpy(ret_value, s);
+        HDstrncpy(ret_value, s, len);
     } /* end if */
     else
         ret_value = NULL;
@@ -352,7 +354,7 @@ H5RS_dup_str(const char *s)
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
     /* Copy name for full path */
-    HDstrcpy(new_str, s);
+    HDstrncpy(new_str, s, (path_len + 1));
 
     /* Create reference counted string for path */
     ret_value = H5RS_own(new_str);

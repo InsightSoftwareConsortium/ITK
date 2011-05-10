@@ -268,12 +268,13 @@ H5O_dtype_decode_helper(H5F_t *f, unsigned *ioflags/*in,out*/, const uint8_t **p
                  * Compound datatypes...
                  */
                 dt->shared->u.compnd.nmembs = flags & 0xffff;
-                HDassert(dt->shared->u.compnd.nmembs > 0);
+                if(dt->shared->u.compnd.nmembs == 0)
+                    HGOTO_ERROR(H5E_DATATYPE, H5E_BADVALUE, FAIL, "invalid number of members: %u", dt->shared->u.compnd.nmembs)
                 dt->shared->u.compnd.nalloc = dt->shared->u.compnd.nmembs;
                 dt->shared->u.compnd.memb = (H5T_cmemb_t *)H5MM_calloc(dt->shared->u.compnd.nalloc * sizeof(H5T_cmemb_t));
                 dt->shared->u.compnd.memb_size = 0;
                 if(NULL == dt->shared->u.compnd.memb)
-                    HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
+                    HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "memory allocation failed")
                 for(i = 0; i < dt->shared->u.compnd.nmembs; i++) {
                     unsigned ndims = 0;     /* Number of dimensions of the array field */
                     htri_t can_upgrade;     /* Whether we can upgrade this type's version */

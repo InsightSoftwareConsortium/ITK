@@ -1719,11 +1719,11 @@ H5Tclose(hid_t type_id)
     /* Check args */
     if(NULL == (dt = (H5T_t *)H5I_object_verify(type_id, H5I_DATATYPE)))
 	HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
-    if(H5T_STATE_IMMUTABLE==dt->shared->state)
+    if(H5T_STATE_IMMUTABLE == dt->shared->state)
 	HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "immutable datatype")
 
     /* When the reference count reaches zero the resources are freed */
-    if(H5I_dec_ref(type_id, TRUE) < 0)
+    if(H5I_dec_app_ref(type_id) < 0)
 	HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "problem freeing id")
 
 done:
@@ -2341,28 +2341,28 @@ H5T_register(H5T_pers_t pers, const char *name, H5T_t *src, H5T_t *dst,
                     old_path->dst->shared->type!=dst->shared->type) {
                 continue;
             }
-            if ((tmp_sid = H5I_register(H5I_DATATYPE, H5T_copy(old_path->src, H5T_COPY_ALL), FALSE))<0 ||
-                    (tmp_did = H5I_register(H5I_DATATYPE, H5T_copy(old_path->dst, H5T_COPY_ALL), FALSE))<0)
-                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTREGISTER, FAIL, "unable to register data types for conv query");
+            if((tmp_sid = H5I_register(H5I_DATATYPE, H5T_copy(old_path->src, H5T_COPY_ALL), FALSE)) < 0 ||
+                    (tmp_did = H5I_register(H5I_DATATYPE, H5T_copy(old_path->dst, H5T_COPY_ALL), FALSE)) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTREGISTER, FAIL, "unable to register data types for conv query")
             HDmemset(&cdata, 0, sizeof cdata);
             cdata.command = H5T_CONV_INIT;
-            if ((func)(tmp_sid, tmp_did, &cdata, (size_t)0, (size_t)0, (size_t)0,
-                    NULL, NULL, dxpl_id)<0) {
-                H5I_dec_ref(tmp_sid, FALSE);
-                H5I_dec_ref(tmp_did, FALSE);
+            if((func)(tmp_sid, tmp_did, &cdata, (size_t)0, (size_t)0, (size_t)0,
+                    NULL, NULL, dxpl_id) < 0) {
+                H5I_dec_ref(tmp_sid);
+                H5I_dec_ref(tmp_did);
                 tmp_sid = tmp_did = -1;
                 H5E_clear_stack(NULL);
                 continue;
             } /* end if */
 
             /* Create a new conversion path */
-            if (NULL==(new_path=H5FL_CALLOC(H5T_path_t)))
-                HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed");
+            if(NULL == (new_path = H5FL_CALLOC(H5T_path_t)))
+                HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
             HDstrncpy(new_path->name, name, (size_t)H5T_NAMELEN);
             new_path->name[H5T_NAMELEN-1] = '\0';
-            if (NULL==(new_path->src=H5T_copy(old_path->src, H5T_COPY_ALL)) ||
-                    NULL==(new_path->dst=H5T_copy(old_path->dst, H5T_COPY_ALL)))
-                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to copy data types");
+            if(NULL == (new_path->src = H5T_copy(old_path->src, H5T_COPY_ALL)) ||
+                    NULL == (new_path->dst=H5T_copy(old_path->dst, H5T_COPY_ALL)))
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to copy data types")
             new_path->func = func;
             new_path->is_hard = FALSE;
             new_path->cdata = cdata;
@@ -2389,8 +2389,8 @@ H5T_register(H5T_pers_t pers, const char *name, H5T_t *src, H5T_t *dst,
             old_path = H5FL_FREE(H5T_path_t, old_path);
 
             /* Release temporary atoms */
-            H5I_dec_ref(tmp_sid, FALSE);
-            H5I_dec_ref(tmp_did, FALSE);
+            H5I_dec_ref(tmp_sid);
+            H5I_dec_ref(tmp_did);
             tmp_sid = tmp_did = -1;
 
             /* We don't care about any failures during the freeing process */
@@ -2408,9 +2408,9 @@ done:
             new_path = H5FL_FREE(H5T_path_t, new_path);
 	} /* end if */
 	if(tmp_sid >= 0)
-            H5I_dec_ref(tmp_sid, FALSE);
+            H5I_dec_ref(tmp_sid);
 	if(tmp_did >= 0)
-            H5I_dec_ref(tmp_did, FALSE);
+            H5I_dec_ref(tmp_did);
     } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value);
@@ -2807,6 +2807,11 @@ done:
  *              slu@ncsa.uiuc.edu
  *              July 14, 2004
  *
+ * Modification:Raymond Lu
+ *              songyulu@hdfgroup.org
+ *              17 February 2011
+ *              I changed the value for the APP_REF parameter of H5I_register
+ *              from FALSE to TRUE. 
  *-------------------------------------------------------------------------
  */
 hid_t
@@ -2827,7 +2832,7 @@ H5Tdecode(const void *buf)
 	HGOTO_ERROR(H5E_DATATYPE, H5E_CANTDECODE, FAIL, "can't decode object")
 
     /* Register the type and return the ID */
-    if((ret_value = H5I_register(H5I_DATATYPE, dt, FALSE)) < 0)
+    if((ret_value = H5I_register(H5I_DATATYPE, dt, TRUE)) < 0)
 	HGOTO_ERROR(H5E_DATATYPE, H5E_CANTREGISTER, FAIL, "unable to register data type")
 
 done:
@@ -3589,6 +3594,11 @@ H5T_close(H5T_t *dt)
                 if(H5O_close(&dt->oloc) < 0)
                     HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to close")
             } /* end if */
+            else
+                /* Free object location (i.e. "unhold" the file if appropriate)
+                 */
+                if(H5O_loc_free(&(dt->oloc)) < 0)
+                    HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRELEASE, FAIL, "problem attempting to free location")
         } /* end if */
 
         /* Free the group hier. path since we're not calling H5T_free*/
@@ -4409,9 +4419,9 @@ H5T_path_find(const H5T_t *src, const H5T_t *dst, const char *name,
 	if((func)(src_id, dst_id, &(path->cdata), (size_t)0, (size_t)0, (size_t)0, NULL, NULL, dxpl_id) < 0)
 	    HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, NULL, "unable to initialize conversion function")
 	if(src_id >= 0)
-            H5I_dec_ref(src_id, FALSE);
+            H5I_dec_ref(src_id);
 	if(dst_id >= 0)
-            H5I_dec_ref(dst_id, FALSE);
+            H5I_dec_ref(dst_id);
 	src_id = dst_id = -1;
 	path->func = func;
 	path->is_hard = TRUE;
@@ -4441,8 +4451,8 @@ H5T_path_find(const H5T_t *src, const H5T_t *dst, const char *name,
 	    path->func = H5T_g.soft[i].func;
 	    path->is_hard = FALSE;
 	} /* end else */
-	H5I_dec_ref(src_id, FALSE);
-	H5I_dec_ref(dst_id, FALSE);
+	H5I_dec_ref(src_id);
+	H5I_dec_ref(dst_id);
 	src_id = dst_id = -1;
     } /* end for */
     if(!path->func)
@@ -4529,9 +4539,9 @@ done:
         path = H5FL_FREE(H5T_path_t, path);
     } /* end if */
     if(src_id >= 0)
-        H5I_dec_ref(src_id, FALSE);
+        H5I_dec_ref(src_id);
     if(dst_id >= 0)
-        H5I_dec_ref(dst_id, FALSE);
+        H5I_dec_ref(dst_id);
 
     FUNC_LEAVE_NOAPI(ret_value);
 } /* end H5T_path_find() */

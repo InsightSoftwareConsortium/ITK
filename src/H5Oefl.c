@@ -81,6 +81,11 @@ const H5O_msg_class_t H5O_MSG_EFL[1] = {{
  * Programmer:	Robb Matzke
  *		Tuesday, November 25, 1997
  *
+ * Modification:
+ *              Raymond Lu
+ *              11 April 2011
+ *              We allow zero dimension size starting from the 1.8.7 release.
+ *              The dataset size of external storage can be zero.
  *-------------------------------------------------------------------------
  */
 static void *
@@ -156,7 +161,6 @@ H5O_efl_decode(H5F_t *f, hid_t dxpl_id, H5O_t UNUSED *open_oh,
 
 	/* Size */
 	H5F_DECODE_LENGTH (f, p, mesg->slot[u].size);
-	HDassert(mesg->slot[u].size > 0);
     } /* end for */
 
     if(H5HL_unprotect(heap) < 0)

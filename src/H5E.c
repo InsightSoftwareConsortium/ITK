@@ -170,13 +170,20 @@ H5E_set_default_auto(H5E_t *stk)
 {
     FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_set_default_auto)
 
-#ifdef H5_USE_16_API
+#ifndef H5_NO_DEPRECATED_SYMBOLS
+#ifdef H5_USE_16_API_DEFAULT
     stk->auto_op.vers = 1;
-    stk->auto_op.u.func1 = (H5E_auto1_t)H5Eprint1;
 #else /* H5_USE_16_API */
     stk->auto_op.vers = 2;
-    stk->auto_op.u.func2 = (H5E_auto2_t)H5Eprint2;
-#endif /* H5_USE_16_API */
+#endif /* H5_USE_16_API_DEFAULT */
+
+    stk->auto_op.func1 = stk->auto_op.func1_default = (H5E_auto1_t)H5Eprint1;
+    stk->auto_op.func2 = stk->auto_op.func2_default = (H5E_auto2_t)H5Eprint2;
+    stk->auto_op.is_default = TRUE;
+#else /* H5_NO_DEPRECATED_SYMBOLS */
+    stk->auto_op.func2 = (H5E_auto2_t)H5Eprint2;
+#endif /* H5_NO_DEPRECATED_SYMBOLS */
+
     stk->auto_data = NULL;
 
     FUNC_LEAVE_NOAPI(SUCCEED)
@@ -336,7 +343,7 @@ H5E_get_stack(void)
 
     FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_get_stack)
 
-    estack = (H5E_t *)pthread_getspecific(H5TS_errstk_key_g);
+    estack = (H5E_t *)H5TS_get_thread_local_value(H5TS_errstk_key_g);
 
     if(!estack) {
         /* no associated value with current thread - create one */
@@ -351,7 +358,7 @@ H5E_get_stack(void)
          *      released by the "key destructor" set up in the H5TS
          *      routines.  See calls to pthread_key_create() in H5TS.c -QAK)
          */
-        pthread_setspecific(H5TS_errstk_key_g, (void *)estack);
+        H5TS_set_thread_local_value(H5TS_errstk_key_g, (void *)estack);
     } /* end if */
 
     /* Set return value */
@@ -505,7 +512,7 @@ H5Eunregister_class(hid_t class_id)
      * Decrement the counter on the dataset.  It will be freed if the count
      * reaches zero.
      */
-    if(H5I_dec_ref(class_id, TRUE) < 0)
+    if(H5I_dec_app_ref(class_id) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTDEC, FAIL, "unable to decrement ref count on error class")
 
 done:
@@ -684,7 +691,7 @@ H5Eclose_msg(hid_t err_id)
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not an error class")
 
     /* Decrement the counter.  It will be freed if the count reaches zero. */
-    if(H5I_dec_ref(err_id, TRUE) < 0)
+    if(H5I_dec_app_ref(err_id) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTDEC, FAIL, "unable to decrement ref count on error message")
 
 done:
@@ -1000,13 +1007,19 @@ done:
 /*-------------------------------------------------------------------------
  * Function:	H5Eset_current_stack
  *
- * Purpose:     Replaces current stack with specified stack.
+ * Purpose:     Replaces current stack with specified stack.  This closes the
+ *		stack ID also.
  *
  * Return:	Non-negative value on success/Negative on failure
  *
  * Programmer:	Raymond Lu
  *              Friday, July 15, 2003
  *
+ * Modification:
+ *              Raymond Lu
+ *              7 September 2010
+ *              Also closes the stack to avoid potential problem (bug 1799)
+ * 
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1025,6 +1038,13 @@ H5Eset_current_stack(hid_t err_stack)
         /* Set the current error stack */
         if(H5E_set_current_stack(estack) < 0)
             HGOTO_ERROR(H5E_ERROR, H5E_CANTSET, FAIL, "unable to set error stack")
+
+        /*
+         * Decrement the counter on the error stack.  It will be freed if the count
+         * reaches zero.
+         */
+        if(H5I_dec_app_ref(err_stack) < 0)
+            HGOTO_ERROR(H5E_ERROR, H5E_CANTDEC, FAIL, "unable to decrement ref count on error stack")
     } /* end if */
 
 done:
@@ -1118,14 +1138,14 @@ H5Eclose_stack(hid_t stack_id)
 
     if(H5E_DEFAULT != stack_id) {
         /* Check arguments */
-        if (H5I_ERROR_STACK != H5I_get_type(stack_id))
+        if(H5I_ERROR_STACK != H5I_get_type(stack_id))
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a error stack ID")
 
         /*
          * Decrement the counter on the error stack.  It will be freed if the count
          * reaches zero.
          */
-        if(H5I_dec_ref(stack_id, TRUE)<0)
+        if(H5I_dec_app_ref(stack_id) < 0)
             HGOTO_ERROR(H5E_ERROR, H5E_CANTDEC, FAIL, "unable to decrement ref count on error stack")
     } /* end if */
 
@@ -1537,6 +1557,11 @@ done:
  * Programmer:	Robb Matzke
  *              Saturday, February 28, 1998
  *
+ * Modification:Raymond Lu
+ *              4 October 2010
+ *              If the printing function isn't the default H5Eprint1 or 2, 
+ *              and H5Eset_auto1 has been called to set the old style 
+ *              printing function, a call to H5Eget_auto2 should fail.
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1560,8 +1585,15 @@ H5Eget_auto2(hid_t estack_id, H5E_auto2_t *func, void **client_data)
     /* Get the automatic error reporting information */
     if(H5E_get_auto(estack, &op, client_data) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTGET, FAIL, "can't get automatic error info")
+
+#ifndef H5_NO_DEPRECATED_SYMBOLS
+    /* Fail if the printing function isn't the default(user-set) and set through H5Eset_auto1 */
+    if(!op.is_default && op.vers == 1)
+        HGOTO_ERROR(H5E_ERROR, H5E_CANTGET, FAIL, "wrong API function, H5Eset_auto1 has been called")
+#endif /* H5_NO_DEPRECATED_SYMBOLS */
+
     if(func)
-        *func = op.u.func2;
+        *func = op.func2;
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -1588,6 +1620,9 @@ done:
  * Programmer:	Robb Matzke
  *              Friday, February 27, 1998
  *
+ * Modification:Raymond Lu
+ *              4 October 2010
+ *              If the FUNC is H5Eprint2, put the IS_DEFAULT flag on.
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1609,9 +1644,23 @@ H5Eset_auto2(hid_t estack_id, H5E_auto2_t func, void *client_data)
         if(NULL == (estack = (H5E_t *)H5I_object_verify(estack_id, H5I_ERROR_STACK)))
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a error stack ID")
 
+#ifndef H5_NO_DEPRECATED_SYMBOLS
+    /* Get the automatic error reporting information */
+    if(H5E_get_auto(estack, &op, NULL) < 0)
+        HGOTO_ERROR(H5E_ERROR, H5E_CANTGET, FAIL, "can't get automatic error info")
+
     /* Set the automatic error reporting information */
+    if(func != op.func2_default)
+        op.is_default = FALSE;
+    else
+        op.is_default = TRUE;
+
     op.vers = 2;
-    op.u.func2 = func;
+#endif /* H5_NO_DEPRECATED_SYMBOLS */
+
+    /* Set the automatic error reporting function */
+    op.func2 = func;
+
     if(H5E_set_auto(estack, &op, client_data) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTSET, FAIL, "can't set automatic error info")
 
@@ -1654,7 +1703,11 @@ H5Eauto_is_v2(hid_t estack_id, unsigned *is_stack)
 
     /* Check if the error stack reporting function is the "newer" stack type */
     if(is_stack)
+#ifndef H5_NO_DEPRECATED_SYMBOLS
         *is_stack = estack->auto_op.vers > 1;
+#else
+        *is_stack = 1;
+#endif
 
 done:
     FUNC_LEAVE_API(ret_value)

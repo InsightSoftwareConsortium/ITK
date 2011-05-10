@@ -104,7 +104,7 @@ am_libhdf5_la_OBJECTS = H5.lo H5checksum.lo H5dbg.lo H5system.lo \
 	H5Ddeprec.lo H5Defl.lo H5Dfill.lo H5Dint.lo H5Dio.lo \
 	H5Dlayout.lo H5Dmpio.lo H5Doh.lo H5Dscatgath.lo H5Dselect.lo \
 	H5Dtest.lo H5E.lo H5Edeprec.lo H5Eint.lo H5F.lo H5Faccum.lo \
-	H5Fdbg.lo H5Ffake.lo H5Fio.lo H5Fmount.lo H5Fmpi.lo \
+	H5Fdbg.lo H5Fefc.lo H5Ffake.lo H5Fio.lo H5Fmount.lo H5Fmpi.lo \
 	H5Fquery.lo H5Fsfile.lo H5Fsuper.lo H5Fsuper_cache.lo \
 	H5Ftest.lo H5FD.lo H5FDcore.lo H5FDdirect.lo H5FDfamily.lo \
 	H5FDint.lo H5FDlog.lo H5FDmpi.lo H5FDmpio.lo H5FDmpiposix.lo \
@@ -118,8 +118,8 @@ am_libhdf5_la_OBJECTS = H5.lo H5checksum.lo H5dbg.lo H5system.lo \
 	H5HFdtable.lo H5HFhdr.lo H5HFhuge.lo H5HFiblock.lo H5HFiter.lo \
 	H5HFman.lo H5HFsection.lo H5HFspace.lo H5HFstat.lo H5HFtest.lo \
 	H5HFtiny.lo H5HG.lo H5HGcache.lo H5HGdbg.lo H5HL.lo \
-	H5HLcache.lo H5HLdbg.lo H5HLint.lo H5HP.lo H5I.lo H5L.lo \
-	H5Lexternal.lo H5lib_settings.lo H5MF.lo H5MFaggr.lo \
+	H5HLcache.lo H5HLdbg.lo H5HLint.lo H5HP.lo H5I.lo H5Itest.lo \
+	H5L.lo H5Lexternal.lo H5lib_settings.lo H5MF.lo H5MFaggr.lo \
 	H5MFdbg.lo H5MFsection.lo H5MM.lo H5MP.lo H5MPtest.lo H5O.lo \
 	H5Oainfo.lo H5Oalloc.lo H5Oattr.lo H5Oattribute.lo H5Obogus.lo \
 	H5Obtreek.lo H5Ocache.lo H5Ochunk.lo H5Ocont.lo H5Ocopy.lo \
@@ -143,16 +143,19 @@ am_libhdf5_la_OBJECTS = H5.lo H5checksum.lo H5dbg.lo H5system.lo \
 	H5Znbit.lo H5Zshuffle.lo H5Zszip.lo H5Zscaleoffset.lo \
 	H5Ztrans.lo
 libhdf5_la_OBJECTS = $(am_libhdf5_la_OBJECTS)
-libhdf5_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+AM_V_lt = $(am__v_lt_$(V))
+am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
+am__v_lt_0 = --silent
+libhdf5_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(libhdf5_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(noinst_PROGRAMS)
 H5detect_SOURCES = H5detect.c
 H5detect_OBJECTS = H5detect-H5detect.$(OBJEXT)
 H5detect_LDADD = $(LDADD)
-H5detect_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(H5detect_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
+H5detect_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(H5detect_CFLAGS) \
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 H5make_libsettings_SOURCES = H5make_libsettings.c
 H5make_libsettings_OBJECTS = H5make_libsettings.$(OBJEXT)
 H5make_libsettings_LDADD = $(LDADD)
@@ -162,13 +165,26 @@ am__depfiles_maybe = depfiles
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_$(V))
+am__v_CC_ = $(am__v_CC_$(AM_DEFAULT_VERBOSITY))
+am__v_CC_0 = @echo "  CC    " $@;
+AM_V_at = $(am__v_at_$(V))
+am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
+am__v_at_0 = @
 CCLD = $(CC)
-LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
+LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_$(V))
+am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
+am__v_CCLD_0 = @echo "  CCLD  " $@;
+AM_V_GEN = $(am__v_GEN_$(V))
+am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
+am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(libhdf5_la_SOURCES) H5detect.c H5make_libsettings.c
 DIST_SOURCES = $(libhdf5_la_SOURCES) H5detect.c H5make_libsettings.c
 DATA = $(settings_DATA)
@@ -186,13 +202,16 @@ AMTAR = @AMTAR@
 # but which should not be exported to h5cc for building other programs.
 # AM_CFLAGS is an automake construct which should be used by Makefiles 
 # instead of CFLAGS, as CFLAGS is reserved solely for the user to define.
+# This applies to FCFLAGS, CXXFLAGS, CPPFLAGS, and LDFLAGS as well.
 AM_CFLAGS = @AM_CFLAGS@ @H5_CFLAGS@
 AM_CPPFLAGS = @AM_CPPFLAGS@ @H5_CPPFLAGS@
 AM_CXXFLAGS = @AM_CXXFLAGS@ @H5_CXXFLAGS@
+AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AM_FCFLAGS = @AM_FCFLAGS@ @H5_FCFLAGS@
-AM_LDFLAGS = @AM_LDFLAGS@
+AM_LDFLAGS = @AM_LDFLAGS@ @H5_LDFLAGS@
 AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
+AS = @AS@
 
 # Set the paths for AFS installs of autotools for Linux machines
 # Ideally, these tools should never be needed during the build.
@@ -224,6 +243,7 @@ DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DEPRECATED_SYMBOLS = @DEPRECATED_SYMBOLS@
 DIRECT_VFD = @DIRECT_VFD@
+DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
 DYNAMIC_DIRS = @DYNAMIC_DIRS@
@@ -251,7 +271,10 @@ GREP = @GREP@
 H5_CFLAGS = @H5_CFLAGS@
 H5_CPPFLAGS = @H5_CPPFLAGS@
 H5_CXXFLAGS = @H5_CXXFLAGS@
+H5_CXX_SHARED = @H5_CXX_SHARED@
 H5_FCFLAGS = @H5_FCFLAGS@
+H5_FORTRAN_SHARED = @H5_FORTRAN_SHARED@
+H5_LDFLAGS = @H5_LDFLAGS@
 H5_LONE_COLON = @H5_LONE_COLON@
 H5_VERSION = @H5_VERSION@
 HADDR_T = @HADDR_T@
@@ -285,6 +308,7 @@ LTLIBOBJS = @LTLIBOBJS@
 LT_STATIC_EXEC = @LT_STATIC_EXEC@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MPE = @MPE@
 MPI_GET_SIZE = @MPI_GET_SIZE@
@@ -342,6 +366,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
@@ -380,7 +405,6 @@ libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
-lt_ECHO = @lt_ECHO@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
@@ -421,6 +445,16 @@ LIBH5_HL = $(top_builddir)/hl/src/libhdf5_hl.la
 LIBH5F_HL = $(top_builddir)/hl/fortran/src/libhdf5hl_fortran.la
 LIBH5CPP_HL = $(top_builddir)/hl/c++/src/libhdf5_hl_cpp.la
 
+# Note that in svn revision 19400 the '/' after DESTDIR in H5* variables below  
+# has been removed. According to the official description of DESTDIR by Gnu at 
+# http://www.gnu.org/prep/standards/html_node/DESTDIR.html, DESTDIR is 
+# prepended to the normal and complete install path that it precedes for the 
+# purpose of installing in a temporary directory which is useful for building 
+# rpms and other packages.  The '/' after ${DESTDIR} will be followed by another 
+# '/' at the beginning of the normal install path.  When DESTDIR is empty the  
+# path then begins with '//', which is incorrect and causes problems at least for 
+# Cygwin.   
+
 # Scripts used to build examples
 # If only shared libraries have been installed, have h5cc build examples with
 # shared libraries instead of static libraries
@@ -429,6 +463,7 @@ H5CC_PP = ${DESTDIR}$(bindir)/h5pcc
 H5FC = ${DESTDIR}$(bindir)/h5fc
 H5FC_PP = ${DESTDIR}$(bindir)/h5pfc
 H5CPP = ${DESTDIR}$(bindir)/h5c++
+ACLOCAL_AMFLAGS = "-I m4"
 
 # The trace script; this is used on source files from the C library to
 # insert tracing macros.
@@ -437,12 +472,12 @@ TRACE = perl $(top_srcdir)/bin/trace
 # .chkexe files are used to mark tests that have run successfully.
 # .chklog files are output from those tests.
 # *.clog are from the MPE option.
-CHECK_CLEANFILES = *.chkexe *.chklog *.clog $(TEST_PROG) *.o *.exe
+CHECK_CLEANFILES = *.chkexe *.chklog *.clog
 
 # Add libtool shared library version numbers to the HDF5 library
 # See libtool versioning documentation online.
-LT_VERS_INTERFACE = 6
-LT_VERS_REVISION = 4
+LT_VERS_INTERFACE = 7
+LT_VERS_REVISION = 1
 LT_VERS_AGE = 0
 H5detect_CFLAGS = -g $(AM_CFLAGS)
 
@@ -468,7 +503,8 @@ libhdf5_la_SOURCES = H5.c H5checksum.c H5dbg.c H5system.c H5timer.c H5trace.c \
         H5Dio.c H5Dlayout.c \
         H5Dmpio.c H5Doh.c H5Dscatgath.c H5Dselect.c H5Dtest.c \
         H5E.c H5Edeprec.c H5Eint.c \
-        H5F.c H5Faccum.c H5Fdbg.c H5Ffake.c H5Fio.c H5Fmount.c H5Fmpi.c H5Fquery.c \
+        H5F.c H5Faccum.c H5Fdbg.c H5Fefc.c H5Ffake.c H5Fio.c \
+        H5Fmount.c H5Fmpi.c H5Fquery.c \
         H5Fsfile.c H5Fsuper.c H5Fsuper_cache.c H5Ftest.c \
         H5FD.c H5FDcore.c  \
         H5FDdirect.c H5FDfamily.c H5FDint.c H5FDlog.c H5FDmpi.c H5FDmpio.c \
@@ -484,7 +520,7 @@ libhdf5_la_SOURCES = H5.c H5checksum.c H5dbg.c H5system.c H5timer.c H5trace.c \
         H5HFspace.c H5HFstat.c H5HFtest.c H5HFtiny.c \
         H5HG.c H5HGcache.c H5HGdbg.c \
         H5HL.c H5HLcache.c H5HLdbg.c H5HLint.c \
-        H5HP.c H5I.c H5L.c H5Lexternal.c H5lib_settings.c \
+        H5HP.c H5I.c H5Itest.c H5L.c H5Lexternal.c H5lib_settings.c \
         H5MF.c H5MFaggr.c H5MFdbg.c H5MFsection.c \
         H5MM.c H5MP.c H5MPtest.c \
         H5O.c H5Oainfo.c H5Oalloc.c H5Oattr.c \
@@ -636,7 +672,7 @@ clean-libLTLIBRARIES:
 	  rm -f "$${dir}/so_locations"; \
 	done
 libhdf5.la: $(libhdf5_la_OBJECTS) $(libhdf5_la_DEPENDENCIES) 
-	$(libhdf5_la_LINK) -rpath $(libdir) $(libhdf5_la_OBJECTS) $(libhdf5_la_LIBADD) $(LIBS)
+	$(AM_V_CCLD)$(libhdf5_la_LINK) -rpath $(libdir) $(libhdf5_la_OBJECTS) $(libhdf5_la_LIBADD) $(LIBS)
 
 clean-noinstPROGRAMS:
 	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
@@ -648,10 +684,10 @@ clean-noinstPROGRAMS:
 	rm -f $$list
 H5detect$(EXEEXT): $(H5detect_OBJECTS) $(H5detect_DEPENDENCIES) 
 	@rm -f H5detect$(EXEEXT)
-	$(H5detect_LINK) $(H5detect_OBJECTS) $(H5detect_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(H5detect_LINK) $(H5detect_OBJECTS) $(H5detect_LDADD) $(LIBS)
 H5make_libsettings$(EXEEXT): $(H5make_libsettings_OBJECTS) $(H5make_libsettings_DEPENDENCIES) 
 	@rm -f H5make_libsettings$(EXEEXT)
-	$(LINK) $(H5make_libsettings_OBJECTS) $(H5make_libsettings_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(LINK) $(H5make_libsettings_OBJECTS) $(H5make_libsettings_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -723,6 +759,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5FStest.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5Faccum.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5Fdbg.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5Fefc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5Ffake.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5Fio.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5Fmount.Plo@am__quote@
@@ -775,6 +812,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5HLint.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5HP.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5I.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5Itest.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5L.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5Lexternal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5MF.Plo@am__quote@
@@ -898,36 +936,41 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/H5trace.Plo@am__quote@
 
 .c.o:
-@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(COMPILE) -c $<
 
 .c.obj:
-@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
 .c.lo:
-@am__fastdepCC_TRUE@	$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
 H5detect-H5detect.o: H5detect.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(H5detect_CFLAGS) $(CFLAGS) -MT H5detect-H5detect.o -MD -MP -MF $(DEPDIR)/H5detect-H5detect.Tpo -c -o H5detect-H5detect.o `test -f 'H5detect.c' || echo '$(srcdir)/'`H5detect.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/H5detect-H5detect.Tpo $(DEPDIR)/H5detect-H5detect.Po
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(H5detect_CFLAGS) $(CFLAGS) -MT H5detect-H5detect.o -MD -MP -MF $(DEPDIR)/H5detect-H5detect.Tpo -c -o H5detect-H5detect.o `test -f 'H5detect.c' || echo '$(srcdir)/'`H5detect.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/H5detect-H5detect.Tpo $(DEPDIR)/H5detect-H5detect.Po
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='H5detect.c' object='H5detect-H5detect.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(H5detect_CFLAGS) $(CFLAGS) -c -o H5detect-H5detect.o `test -f 'H5detect.c' || echo '$(srcdir)/'`H5detect.c
 
 H5detect-H5detect.obj: H5detect.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(H5detect_CFLAGS) $(CFLAGS) -MT H5detect-H5detect.obj -MD -MP -MF $(DEPDIR)/H5detect-H5detect.Tpo -c -o H5detect-H5detect.obj `if test -f 'H5detect.c'; then $(CYGPATH_W) 'H5detect.c'; else $(CYGPATH_W) '$(srcdir)/H5detect.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/H5detect-H5detect.Tpo $(DEPDIR)/H5detect-H5detect.Po
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(H5detect_CFLAGS) $(CFLAGS) -MT H5detect-H5detect.obj -MD -MP -MF $(DEPDIR)/H5detect-H5detect.Tpo -c -o H5detect-H5detect.obj `if test -f 'H5detect.c'; then $(CYGPATH_W) 'H5detect.c'; else $(CYGPATH_W) '$(srcdir)/H5detect.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/H5detect-H5detect.Tpo $(DEPDIR)/H5detect-H5detect.Po
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='H5detect.c' object='H5detect-H5detect.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(H5detect_CFLAGS) $(CFLAGS) -c -o H5detect-H5detect.obj `if test -f 'H5detect.c'; then $(CYGPATH_W) 'H5detect.c'; else $(CYGPATH_W) '$(srcdir)/H5detect.c'; fi`

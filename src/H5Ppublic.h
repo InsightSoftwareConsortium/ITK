@@ -24,7 +24,7 @@
 
 /* Public headers needed by this file */
 #include "H5public.h"
-#include "H5Cpublic.h"
+#include "H5ACpublic.h"
 #include "H5Dpublic.h"
 #include "H5Fpublic.h"
 #include "H5FDpublic.h"
@@ -288,6 +288,8 @@ H5_DLL herr_t H5Pset_libver_bounds(hid_t plist_id, H5F_libver_t low,
     H5F_libver_t high);
 H5_DLL herr_t H5Pget_libver_bounds(hid_t plist_id, H5F_libver_t *low,
     H5F_libver_t *high);
+H5_DLL herr_t H5Pset_elink_file_cache_size(hid_t plist_id, unsigned efc_size);
+H5_DLL herr_t H5Pget_elink_file_cache_size(hid_t plist_id, unsigned *efc_size);
 
 /* Dataset creation property list (DCPL) routines */
 H5_DLL herr_t H5Pset_layout(hid_t plist_id, H5D_layout_t layout);
