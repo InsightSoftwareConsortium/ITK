@@ -4,6 +4,7 @@ set(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
 include(ITKModuleMacros)
+include(ITKExternalData)
 include(itkCheckSourceTree)
 
 set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
@@ -43,34 +44,10 @@ macro(verify_itk_module_is_set)
 endmacro()
 
 #-----------------------------------------------------------------------------
-# Load macros to manage data download
-include(ExternalData)
-list(APPEND ExternalData_URL_TEMPLATES
-  "http://midas.kitware.com/api/rest/midas.bitstream.by.hash?hash=%(hash)&algorithm=%(algo)"
-  )
-
-#-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
 # When this data is available, additional 3D tests are enabled.
 option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)
 mark_as_advanced(ITK_USE_BRAINWEB_DATA)
-
-#-----------------------------------------------------------------------------
-# Takes a list of tests and applies the containing module's label to each.
-#
-macro(itk_add_test_module_label)
-  if("${ARGV0}" STREQUAL "")
-    message(FATAL_ERROR "itk_add_test_module_label requires at least one test name as input")
-  endif()
-
-  if(itk-module)
-    set(_label ${itk-module})
-  else()
-    set(_label ${main_project_name})
-  endif()
-
-  set_property(TEST ${ARGN} PROPERTY LABELS ${_label})
-endmacro()
 
 #-----------------------------------------------------------------------------
 # ITK wrapper for add_test that automatically sets the test's LABELS property
@@ -86,7 +63,16 @@ macro(itk_add_test)
     set(_iat_testname ${ARGV0})
   endif()
 
-  itk_add_test_module_label(${_iat_testname})
+  if(itk-module)
+    set(_label ${itk-module})
+    if(TARGET ${itk-module}-all AND "${ARGN}" MATCHES "DATA{")
+      add_dependencies(${itk-module}-all ITKData)
+    endif()
+  else()
+    set(_label ${main_project_name})
+  endif()
+
+  set_property(TEST ${_iat_testname} PROPERTY LABELS ${_label})
 endmacro()
 
 #-----------------------------------------------------------------------------

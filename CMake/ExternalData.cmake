@@ -87,6 +87,12 @@
 # one of the locations in the list of URL templates (by means outside the
 # scope of this module).  The data fetch rule created for the content link
 # will use the staged object if it cannot be found using any URL template.
+#
+# The variable ExternalData_SOURCE_ROOT may be set to the highest source
+# directory containing any path named by a DATA{} reference.  The default is
+# CMAKE_SOURCE_DIR.  ExternalData_SOURCE_ROOT and CMAKE_SOURCE_DIR must refer
+# to directories within a single source distribution (e.g. they come together
+# in one tarball).
 
 #=============================================================================
 # Copyright 2010-2011 Kitware, Inc.
@@ -253,7 +259,7 @@ function(_ExternalData_link_content name var_ext)
   file(RENAME "${name}" "${staged}")
   set("${var_ext}" "${ext}" PARENT_SCOPE)
 
-  file(RELATIVE_PATH relname "${CMAKE_SOURCE_DIR}" "${name}${ext}")
+  file(RELATIVE_PATH relname "${ExternalData_SOURCE_ROOT}" "${name}${ext}")
   message(STATUS "Linked ${relname} to ExternalData ${algo}/${hash}")
 endfunction()
 
@@ -267,7 +273,10 @@ function(_ExternalData_arg target arg data var_file)
   endif()
 
   # Convert to relative path under the source tree.
-  set(top_src "${CMAKE_SOURCE_DIR}")
+  if(NOT ExternalData_SOURCE_ROOT)
+    set(ExternalData_SOURCE_ROOT "${CMAKE_SOURCE_DIR}")
+  endif()
+  set(top_src "${ExternalData_SOURCE_ROOT}")
   file(RELATIVE_PATH reldata "${top_src}" "${absdata}")
   if(IS_ABSOLUTE "${reldata}" OR "${reldata}" MATCHES "^\\.\\./")
     message(FATAL_ERROR "Data file referenced by argument\n"
