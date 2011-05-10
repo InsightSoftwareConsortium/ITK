@@ -145,7 +145,7 @@ def main():
       f = file(fname, "r")
       mcontent = f.read()
       f.close()
-      module = re.match(r"itk_module\(([^ )]+)", mcontent).group(1)
+      module = re.search(r"itk_module\(([^ )]+)", mcontent).group(1)
       dname = os.path.dirname(fname)
       for fname2 in glob.glob(dname+"/include/*.h"):
         count += 1
