@@ -211,9 +211,11 @@ main()
                         if (need_nancheck())
                                 fprintf(f, "#define NANCHECK\n");
                         }
+                fclose(f);
                 return 0;
                 }
         fprintf(f, "/* Unknown arithmetic */\n");
+        fclose(f);
         return 1;
         }
 
