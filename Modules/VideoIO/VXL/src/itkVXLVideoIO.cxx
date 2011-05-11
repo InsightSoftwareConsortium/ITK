@@ -558,16 +558,8 @@ void VXLVideoIO::Write(const void *buffer)
     }
 
   // Create the output frame
-  if (this->m_VIDLFrame == NULL)
-    {
-    this->m_VIDLFrame = new vidl_shared_frame(const_cast<void*>(buffer),
-      this->m_Dimensions[0], this->m_Dimensions[1], this->m_PixelFormat);
-    }
-  else
-    {
-    size_t bufferSize = this->m_VIDLFrame->size();
-    memcpy(this->m_VIDLFrame->data(), buffer, bufferSize);
-    }
+  this->m_VIDLFrame = new vidl_shared_frame(const_cast<void*>(buffer),
+    this->m_Dimensions[0], this->m_Dimensions[1], this->m_PixelFormat);
 
   // Write the frame out
   this->m_Writer->write_frame(this->m_VIDLFrame);  

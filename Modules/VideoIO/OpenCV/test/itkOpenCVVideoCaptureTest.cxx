@@ -89,6 +89,8 @@ int itkOpenCVVideoCaptureTest ( int argc, char *argv[] )
     scalarWriter.write(outFrame);
     }
 
+  // Clean up
+  delete scalarCap;
 
   //
   // Test with RGB
@@ -131,6 +133,9 @@ int itkOpenCVVideoCaptureTest ( int argc, char *argv[] )
     {
     rgbWriter.write(outFrame);
     }
+
+  // Clean up
+  delete rgbCap;
 
   return EXIT_SUCCESS;
 }
