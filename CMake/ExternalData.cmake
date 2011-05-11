@@ -295,6 +295,30 @@ function(_ExternalData_arg target arg data var_file)
   set(internal "") # Entries internal to the source tree.
   set(have_original 0)
 
+  _ExternalData_arg_series()
+
+  if(NOT have_original)
+    message(FATAL_ERROR "Data file referenced by argument\n"
+      "  ${arg}\n"
+      "corresponds to source tree path\n"
+      "  ${reldata}\n"
+      "that does not exist (with or without an extension)!")
+  endif()
+
+  if(external)
+    # Make the series available in the build tree.
+    set_property(GLOBAL APPEND PROPERTY
+      _ExternalData_${target}_FETCH "${external}")
+    set_property(GLOBAL APPEND PROPERTY
+      _ExternalData_${target}_LOCAL "${internal}")
+    set("${var_file}" "${top_bin}/${reldata}" PARENT_SCOPE)
+  else()
+    # The whole series is in the source tree.
+    set("${var_file}" "${top_src}/${reldata}" PARENT_SCOPE)
+  endif()
+endfunction()
+
+macro(_ExternalData_arg_series)
   # Configure series parsing and matching.
   if(ExternalData_SERIES_PARSE)
     if(NOT "${ExternalData_SERIES_PARSE}" MATCHES
@@ -335,27 +359,7 @@ function(_ExternalData_arg target arg data var_file)
   _ExternalData_exact_regex(series_ext "${ext}")
   _ExternalData_arg_find_files("${relbase}*${ext}"
     "${series_base}${series_match}${series_ext}")
-
-  if(NOT have_original)
-    message(FATAL_ERROR "Data file referenced by argument\n"
-      "  ${arg}\n"
-      "corresponds to source tree path\n"
-      "  ${reldata}\n"
-      "that does not exist (with or without an extension)!")
-  endif()
-
-  if(external)
-    # Make the series available in the build tree.
-    set_property(GLOBAL APPEND PROPERTY
-      _ExternalData_${target}_FETCH "${external}")
-    set_property(GLOBAL APPEND PROPERTY
-      _ExternalData_${target}_LOCAL "${internal}")
-    set("${var_file}" "${top_bin}/${reldata}" PARENT_SCOPE)
-  else()
-    # The whole series is in the source tree.
-    set("${var_file}" "${top_src}/${reldata}" PARENT_SCOPE)
-  endif()
-endfunction()
+endmacro()
 
 function(_ExternalData_arg_find_files pattern regex)
   file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
