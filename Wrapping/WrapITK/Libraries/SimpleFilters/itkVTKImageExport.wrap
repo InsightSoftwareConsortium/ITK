@@ -2,5 +2,11 @@ WRAP_NON_TEMPLATE_CLASS("itk::VTKImageExportBase" POINTER)
 
 WRAP_CLASS("itk::VTKImageExport" POINTER)
   UNIQUE(types "${WRAP_ITK_SCALAR};UC;UL")
-  WRAP_IMAGE_FILTER("${types}" 1)
+  FILTER_DIMS(dims "2;3")
+
+  foreach(t ${types})
+    foreach(d ${dims})
+      WRAP_TEMPLATE("${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}")
+    endforeach(d)
+  endforeach(t)
 END_WRAP_CLASS()
