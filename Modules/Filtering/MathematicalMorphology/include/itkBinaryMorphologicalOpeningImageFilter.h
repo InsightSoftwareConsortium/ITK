@@ -15,22 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkBinaryMorphologicalClosingImageFilter_h
-#define __itkBinaryMorphologicalClosingImageFilter_h
+#ifndef __itkBinaryMorphologicalOpeningImageFilter_h
+#define __itkBinaryMorphologicalOpeningImageFilter_h
 
 #include "itkKernelImageFilter.h"
 
 namespace itk
 {
 /**
- * \class BinaryMorphologicalClosingImageFilter
+ * \class BinaryMorphologicalOpeningImageFilter
  * \brief binary morphological closing of an image.
  *
  * This filter removes small (i.e., smaller than the structuring
- * element) holes and tube like structures in the interior or at the
- * boundaries of the image. The morphological closing of an image
+ * element) structures in the interior or at the
+ * boundaries of the image. The morphological opening of an image
  * "f" is defined as:
- * Closing(f) = Erosion(Dilation(f)).
+ * Opening(f) = Dilatation(Erosion(f)).
  *
  * The structuring element is assumed to be composed of binary
  * values (zero or one). Only elements of the structuring element
@@ -48,16 +48,16 @@ namespace itk
  *
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITK-Review
+ * \ingroup ITK-MathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT BinaryMorphologicalClosingImageFilter:
+class ITK_EXPORT BinaryMorphologicalOpeningImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryMorphologicalClosingImageFilter                   Self;
+  typedef BinaryMorphologicalOpeningImageFilter                   Self;
   typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
   typedef SmartPointer< Self >                                    Pointer;
   typedef SmartPointer< const Self >                              ConstPointer;
@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryMorphologicalClosingImageFilter,
+  itkTypeMacro(BinaryMorphologicalOpeningImageFilter,
                KernelImageFilter);
 
   typedef TInputImage                          InputImageType;
@@ -75,28 +75,27 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   /** Declaration of pixel type. */
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::PixelType OutputPixelType;
+  typedef typename TInputImage::PixelType PixelType;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
 
   /** Set the value in the image to consider as "foreground". Defaults to
-   * maximum value of InputPixelType. */
-  itkSetMacro(ForegroundValue, InputPixelType);
+   * maximum value of PixelType. */
+  itkSetMacro(ForegroundValue, PixelType);
 
   /** Get the value in the image considered as "foreground". Defaults to
-   * maximum value of InputPixelType. */
-  itkGetConstMacro(ForegroundValue, InputPixelType);
+   * maximum value of PixelType. */
+  itkGetConstMacro(ForegroundValue, PixelType);
 
-  /** A safe border is added to input image to avoid borders effects
-   * and remove it once the closing is done */
-  itkSetMacro(SafeBorder, bool);
-  itkGetConstReferenceMacro(SafeBorder, bool);
-  itkBooleanMacro(SafeBorder);
+  /** Set the value in eroded part of the image. Defaults to zero */
+  itkSetMacro(BackgroundValue, PixelType);
+
+  /** Set the value in eroded part of the image. Defaults to zero */
+  itkGetConstMacro(BackgroundValue, PixelType);
 protected:
-  BinaryMorphologicalClosingImageFilter();
-  ~BinaryMorphologicalClosingImageFilter() {}
+  BinaryMorphologicalOpeningImageFilter();
+  ~BinaryMorphologicalOpeningImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Single-threaded version of GenerateData.  This filter delegates
@@ -104,19 +103,19 @@ protected:
   void  GenerateData();
 
 private:
-  BinaryMorphologicalClosingImageFilter(const Self &); //purposely not
+  BinaryMorphologicalOpeningImageFilter(const Self &); //purposely not
                                                        // implemented
   void operator=(const Self &);                        //purposely not
                                                        // implemented
 
-  InputPixelType m_ForegroundValue;
+  PixelType m_ForegroundValue;
 
-  bool m_SafeBorder;
+  PixelType m_BackgroundValue;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMorphologicalClosingImageFilter.txx"
+#include "itkBinaryMorphologicalOpeningImageFilter.txx"
 #endif
 
 #endif
