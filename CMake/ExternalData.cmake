@@ -286,6 +286,10 @@ function(_ExternalData_arg target arg data var_file)
   endif()
   set(top_bin "${CMAKE_BINARY_DIR}/ExternalData") # TODO: .../${target} ?
 
+  set(external "") # Entries external to the source tree.
+  set(internal "") # Entries internal to the source tree.
+  set(have_original 0)
+
   # Configure series parsing and matching.
   if(ExternalData_SERIES_PARSE)
     if(NOT "${ExternalData_SERIES_PARSE}" MATCHES
@@ -317,41 +321,15 @@ function(_ExternalData_arg target arg data var_file)
       "that does not match regular expression\n"
       "  ${series_parse}")
   endif()
-
-  # Glob files that might match the series.
   list(GET tuple 0 relbase)
   list(GET tuple 2 ext)
-  set(pattern "${relbase}*${ext}*")
-  file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}")
 
-  # Match base, number, and extension perhaps followed by a hash ext.
+  # Glob files that might match the series.
+  # Then match match base, number, and extension.
   string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" series_base "${relbase}")
   string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" series_ext "${ext}")
-  set(series_regex "^(${series_base}${series_match}${series_ext})(\\.[^.]*|)$")
-  set(external "") # Entries external to the source tree.
-  set(internal "") # Entries internal to the source tree.
-  set(have_original 0)
-  foreach(entry IN LISTS globbed)
-    string(REGEX REPLACE "${series_regex}" "\\1;\\2" tuple "${entry}")
-    list(LENGTH tuple len)
-    if("${len}" EQUAL 2)
-      list(GET tuple 0 relname)
-      list(GET tuple 1 alg)
-      set(name "${top_src}/${relname}")
-      set(file "${top_bin}/${relname}")
-      if(alg)
-        list(APPEND external "${file}|${name}|${alg}")
-      elseif(ExternalData_LINK_CONTENT)
-        _ExternalData_link_content("${name}" alg)
-        list(APPEND external "${file}|${name}|${alg}")
-      else()
-        list(APPEND internal "${file}|${name}")
-      endif()
-      if("${relname}" STREQUAL "${reldata}")
-        set(have_original 1)
-      endif()
-    endif()
-  endforeach()
+  _ExternalData_arg_find_files("${relbase}*${ext}"
+    "${series_base}${series_match}${series_ext}")
 
   if(NOT have_original)
     message(FATAL_ERROR "Data file referenced by argument\n"
@@ -372,6 +350,34 @@ function(_ExternalData_arg target arg data var_file)
     # The whole series is in the source tree.
     set("${var_file}" "${top_src}/${reldata}" PARENT_SCOPE)
   endif()
+endfunction()
+
+function(_ExternalData_arg_find_files pattern regex)
+  file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
+  foreach(entry IN LISTS globbed)
+    string(REGEX REPLACE "^(${regex})(\\.[^.]*|)$" "\\1;\\2" tuple "${entry}")
+    list(LENGTH tuple len)
+    if("${len}" EQUAL 2)
+      list(GET tuple 0 relname)
+      list(GET tuple 1 alg)
+      set(name "${top_src}/${relname}")
+      set(file "${top_bin}/${relname}")
+      if(alg)
+        list(APPEND external "${file}|${name}|${alg}")
+      elseif(ExternalData_LINK_CONTENT)
+        _ExternalData_link_content("${name}" alg)
+        list(APPEND external "${file}|${name}|${alg}")
+      else()
+        list(APPEND internal "${file}|${name}")
+      endif()
+      if("${relname}" STREQUAL "${reldata}")
+        set(have_original 1)
+      endif()
+    endif()
+  endforeach()
+  set(external "${external}" PARENT_SCOPE)
+  set(internal "${internal}" PARENT_SCOPE)
+  set(have_original "${have_original}" PARENT_SCOPE)
 endfunction()
 
 #-----------------------------------------------------------------------------
