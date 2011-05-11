@@ -236,6 +236,11 @@ function(_ExternalData_compute_hash var_hash algo file)
   endif()
 endfunction()
 
+function(_ExternalData_exact_regex regex_var string)
+  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" regex "${string}")
+  set("${regex_var}" "${regex}" PARENT_SCOPE)
+endfunction()
+
 function(_ExternalData_atomic_write file content)
   string(RANDOM LENGTH 6 random)
   set(tmp "${file}.tmp${random}")
@@ -326,8 +331,8 @@ function(_ExternalData_arg target arg data var_file)
 
   # Glob files that might match the series.
   # Then match match base, number, and extension.
-  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" series_base "${relbase}")
-  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" series_ext "${ext}")
+  _ExternalData_exact_regex(series_base "${relbase}")
+  _ExternalData_exact_regex(series_ext "${ext}")
   _ExternalData_arg_find_files("${relbase}*${ext}"
     "${series_base}${series_match}${series_ext}")
 
