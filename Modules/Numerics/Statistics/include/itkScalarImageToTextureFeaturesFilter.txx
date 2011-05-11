@@ -70,7 +70,6 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Scal
   for ( unsigned int d = 0; d < centerIndex; d++ )
     {
     offset = hood.GetOffset(d);
-    std::cout << "Add the offset: " << offset << std::endl;
     offsets->push_back(offset);
     }
   this->SetOffsets(offsets);
