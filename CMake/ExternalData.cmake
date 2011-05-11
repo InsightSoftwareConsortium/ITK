@@ -79,6 +79,16 @@
 # does not include a hash-algorithm extension.  Both series configuration
 # variables have default values that work well for common cases.
 #
+# The DATA{} syntax can alternatively match files associated with the named
+# file and contained in the same directory.  Associated files may be specified
+# by options using the syntax DATA{<name>,<opt1>,<opt2>,...}.  Each option may
+# specify one file by name or specify a regular expression to match file names
+# using the syntax REGEX:<regex>.  For example, the arguments
+#   DATA{MyData/MyInput.mhd,MyInput.img}             # File pair
+#   DATA{MyData/MyFrames00.png,MyFrames[0-9]+\\.png} # Series
+# will pass MyInput.mha and MyFrames00.png on the command line but ensure
+# that the associated files are present next to them.
+#
 # The variable ExternalData_LINK_CONTENT may be set to the name of a supported
 # hash algorithm to enable automatic conversion of real data files referenced
 # by the DATA{} syntax into content links.  For each such <file> a content
@@ -268,7 +278,12 @@ function(_ExternalData_link_content name var_ext)
   message(STATUS "Linked ${relname} to ExternalData ${algo}/${hash}")
 endfunction()
 
-function(_ExternalData_arg target arg data var_file)
+function(_ExternalData_arg target arg options var_file)
+  # Separate data path from the options.
+  string(REPLACE "," ";" options "${options}")
+  list(GET options 0 data)
+  list(REMOVE_AT options 0)
+
   # Convert to full path.
   if(IS_ABSOLUTE "${data}")
     set(absdata "${data}")
@@ -295,7 +310,34 @@ function(_ExternalData_arg target arg data var_file)
   set(internal "") # Entries internal to the source tree.
   set(have_original 0)
 
-  _ExternalData_arg_series()
+  # Process options.
+  set(associated_files "")
+  set(associated_regex "")
+  foreach(opt ${options})
+    if("x${opt}" MATCHES "^xREGEX:[^:/]+$")
+      # Regular expression to match associated files.
+      string(REGEX REPLACE "^REGEX:" "" regex "${opt}")
+      list(APPEND associated_regex "${regex}")
+    elseif("x${opt}" MATCHES "^[^][:/*?]+$")
+      # Specific associated file.
+      list(APPEND associated_files "${opt}")
+    else()
+      message(FATAL_ERROR "Unknown option \"${opt}\" in argument\n"
+        "  ${arg}\n")
+    endif()
+  endforeach()
+
+  if(associated_files OR associated_regex)
+    # Load the named data file and listed/matching associated files.
+    _ExternalData_arg_single()
+    _ExternalData_arg_associated()
+  elseif("${reldata}" MATCHES "(^|/)[^/.]+$")
+    # Files with no extension cannot be a series.
+    _ExternalData_arg_single()
+  else()
+    # Match a whole file series by default.
+    _ExternalData_arg_series()
+  endif()
 
   if(NOT have_original)
     message(FATAL_ERROR "Data file referenced by argument\n"
@@ -317,6 +359,36 @@ function(_ExternalData_arg target arg data var_file)
     set("${var_file}" "${top_src}/${reldata}" PARENT_SCOPE)
   endif()
 endfunction()
+
+macro(_ExternalData_arg_associated)
+  # Associated files lie in the same directory.
+  get_filename_component(reldir "${reldata}" PATH)
+  if(reldir)
+    set(reldir "${reldir}/")
+  endif()
+  _ExternalData_exact_regex(reldir_regex "${reldir}")
+
+  # Find files named explicitly.
+  foreach(file ${associated_files})
+    _ExternalData_exact_regex(file_regex "${file}")
+    _ExternalData_arg_find_files("${reldir}${file}" "${reldir_regex}${file_regex}")
+  endforeach()
+
+  # Find files matching the given regular expressions.
+  set(all "")
+  set(sep "")
+  foreach(regex ${associated_regex})
+    set(all "${all}${sep}${reldir_regex}${regex}")
+    set(sep "|")
+  endforeach()
+  _ExternalData_arg_find_files("${reldir}" "${all}")
+endmacro()
+
+macro(_ExternalData_arg_single)
+  # Match only the named data by itself.
+  _ExternalData_exact_regex(data_regex "${reldata}")
+  _ExternalData_arg_find_files("${reldata}" "${data_regex}")
+endmacro()
 
 macro(_ExternalData_arg_series)
   # Configure series parsing and matching.
