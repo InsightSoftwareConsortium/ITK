@@ -5,6 +5,8 @@ itkBinaryDilateImageFilterTest2.cxx
 itkBinaryDilateImageFilterTest3.cxx
 itkBinaryErodeImageFilterTest.cxx
 itkBinaryErodeImageFilterTest3.cxx
+itkBinaryMorphologicalClosingImageFilterTest.cxx
+itkBinaryMorphologicalOpeningImageFilterTest.cxx
 itkBinaryThinningImageFilterTest.cxx
 itkClosingByReconstructionImageFilterTest.cxx
 itkFlatStructuringElementTest.cxx
@@ -113,6 +115,21 @@ itk_add_test(NAME itkBinaryErodeImageFilterTest-200-150-1
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-150-1.png
               ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-1.png
     itkBinaryErodeImageFilterTest3 ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-1.png 200 150 1 10)
+itk_add_test(NAME itkBinaryMorphologicalClosingImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryMorphologicalClosingImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png
+    itkBinaryMorphologicalClosingImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png 40 1 200)
+itk_add_test(NAME itkBinaryMorphologicalClosingImageFilterTestUnsafe
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
+              ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
+    itkBinaryMorphologicalClosingImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png 40 0 200)
+itk_add_test(NAME itkBinaryMorphologicalOpeningImageFilterTest
+      COMMAND ITK-MathematicalMorphologyTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryMorphologicalOpeningImageFilterTest.png
+              ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png
+    itkBinaryMorphologicalOpeningImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png 8 150 200)
 itk_add_test(NAME itkBinaryThinningImageFilterTest
       COMMAND ITK-MathematicalMorphologyTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Algorithms/BinaryThinningImageFilterTest.png
