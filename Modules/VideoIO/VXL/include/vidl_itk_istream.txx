@@ -51,7 +51,7 @@ bool
 vidl_itk_istream< TVideoStream >::open(TVideoStream* videoStream)
 {
   m_VideoStream = videoStream;
-  return videoStream == NULL;
+  return (m_VideoStream == NULL);
 }
 
 //
@@ -61,6 +61,12 @@ template< class TVideoStream >
 bool
 vidl_itk_istream< TVideoStream >::is_valid() const
 {
+  // Make sure the image is 2D
+  if (Dimensions != 2)
+    {
+    return false;
+    }
+
   return (m_VideoStream == NULL || m_AdvanceCalled);
 }
 
@@ -281,8 +287,44 @@ template< class TVideoStream >
 bool
 vidl_itk_istream< TVideoStream >::advance()
 {
-  itkWarningMacro("STUB");
-  return false;
+  // Make sure it's open
+  if (!this->is_open())
+    {
+    return false;
+    }
+
+  // Update largest region information
+  m_VideoStream->UpdateOutputInformation();
+
+  // We re-implement seeking forward because we want to be able to advance even
+  // if the duration is infinite (and hence the video isn't seekable)
+  TemporalRegion currentRequest = m_VideoStream->GetRequestedTemporalRegion();
+  unsigned long currentFrame = currentRequest.GetFrameStart();
+
+  // we can't advance if we're at the end
+  unsigned long firstFrame = m_VideoStream->GetLargestPossibleTemporalRegion().GetFrameStart();
+  unsigned long duration = m_VideoStream->GetLargestPossibleTemporalRegion().GetFrameDuration();
+  if (duration == 0 || currentFrame >= firstFrame + duration - 1)
+    {
+    return false;
+    }
+
+  // If we haven't called advance yet, go to the first frame
+  if (!m_AdvanceCalled)
+    {
+    currentRequest.SetFrameStart(firstFrame);
+    m_AdvanceCalled = true;
+    }
+  // otherwise, move forward one frame
+  else
+    {
+    currentRequest.SetFrameStart(currentFrame + 1);
+    }
+  currentRequest.SetFrameDuration(1);
+  m_VideoStream->SetRequestedTemporalRegion(currentRequest);
+
+  // Return success
+  return true;
 }
 
 //
@@ -292,8 +334,14 @@ template< class TVideoStream >
 vidl_frame_sptr
 vidl_itk_istream< TVideoStream >::read_frame()
 {
-  this->advance();
-  return this->current_frame();
+  if (this->advance())
+    {
+    return this->current_frame();
+    }
+  else
+    {
+    return NULL;
+    }
 }
 
 //
@@ -303,8 +351,24 @@ template< class TVideoStream >
 vidl_frame_sptr
 vidl_itk_istream< TVideoStream >::current_frame()
 {
-  itkWarningMacro("STUB");
-  return NULL;
+  // Return if not valid
+  if (!this->is_valid())
+    {
+    return NULL;
+    }
+
+  // Make sure the VideoSource's data is up to date
+  m_VideoStream->Update();
+
+  // Get the frame
+  FrameType* frame = m_VideoStream->GetFrame(this->frame_number());
+
+  // Set up the output vidl_frame_sptr
+  vidl_frame_sptr output_frame = new vidl_shared_frame(static_cast<void*>(frame->GetBufferPointer()),
+    this->width(), this->height(), this->format());
+
+  // Return frame
+  return output_frame;
 }
 
 //
@@ -328,7 +392,6 @@ vidl_itk_istream< TVideoStream >::seek_frame(unsigned int frame_number)
   request.SetFrameDuration(1);
   m_VideoStream->SetRequestedTemporalRegion(request);
   return true;
-
 }
 
 

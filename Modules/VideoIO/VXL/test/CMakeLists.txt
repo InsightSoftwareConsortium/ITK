@@ -22,7 +22,7 @@ midas_add_test(NAME VXLVideoIOTest
          ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_Out.avi
          # Webcam Output:
          ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_CameraOut.mha
-         # Height Width NumFrames FpS
+         # Width Height NumFrames FpS
          320 240 1396 14.985
          )
 
@@ -40,4 +40,10 @@ midas_add_test(NAME VXLVideoIOFactoryTest
 # vidl_itk_istream:
 midas_add_test(NAME vidl_itk_istreamTest
         COMMAND Video-IO-VXLTestDriver vidl_itk_istreamTest
+         # Video Input:
+         MIDAS{inde-circulation_short.avi.md5}
+         # Output:
+         ${ITK_TEST_OUTPUT_DIR}/vidl_itk_istreamTest_Out.avi
+         # Width Height
+         320 240
         )

@@ -67,7 +67,7 @@ public:
   /**-STREAM INFORMATION-----------------------------------------------------*/
 
   /** Return whether or not the VideoStream is null */
-  virtual bool is_open() const { return m_VideoStream == NULL; }
+  virtual bool is_open() const { return m_VideoStream != NULL; }
 
   /** Return true if the stream is in a valid state. To comply with vxl's
    * standard, this will return false until advance() has been called at least

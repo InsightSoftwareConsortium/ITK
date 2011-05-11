@@ -6,17 +6,7 @@
 #include "itkVideoStream.h"
 #include "itkVideoFileReader.h"
 #include "itkVXLVideoIOFactory.h"
-
-
-// ITK typedefs
-typedef unsigned char                                 ScalarPixelType;
-typedef itk::Image<ScalarPixelType, 2>                ScalarFrameType;
-typedef itk::VideoStream< ScalarFrameType >           ScalarVideoStreamType;
-typedef itk::VideoFileReader< ScalarVideoStreamType > scalarReaderType;
-typedef itk::RGBPixel<unsigned char>                  RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>                   RGBFrameType;
-typedef itk::VideoStream< RGBFrameType >              RGBVideoStreamType;
-typedef itk::VideoFileReader< RGBVideoStreamType >    rgbReaderType;
+#include "vidl/vidl_ffmpeg_ostream.h"
 
 
 //
@@ -44,6 +34,83 @@ bool TestFormat(vidl_pixel_format expectedFormat)
       return EXIT_FAILURE;                                                  \
     }
 
+//
+// Templated test
+//
+template<class TPixelType>
+int vidl_itk_istreamTestWithPixelType(int argc, char* argv[], vidl_pixel_format expectedFormat)
+{
+  // typedefs
+  typedef TPixelType                        PixelType;
+  typedef itk::Image<PixelType, 2>          FrameType;
+  typedef itk::VideoStream<FrameType>       VideoType;
+  typedef itk::vidl_itk_istream<VideoType>  StreamType;
+  typedef itk::VideoFileReader<VideoType>   ReaderType;
+
+  // Test the pixel format
+  if (!TestFormat<PixelType>(expectedFormat))
+    {
+    std::cerr << "format() did not return expected result for pixel type "
+              << typeid(PixelType).name() << std::endl;
+      return EXIT_FAILURE;
+    }
+
+  // Set up VideoFileReader
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
+
+  // Set up new istream and connect it
+  StreamType* istream = new StreamType();
+  istream->open(reader->GetOutput());
+
+  // Check width and height
+  unsigned int width = istream->width();
+  unsigned int height = istream->height();
+  if (width != static_cast<unsigned int>(atoi(argv[3])) ||
+      height != static_cast<unsigned int>(atoi(argv[4])))
+    {
+    std::cerr << "(px: " << typeid(PixelType).name()
+              << ") dimensions not reporting correctly. Got [" << width << "," << height
+              << "] Expected [" << atoi(argv[3]) << "," << atoi(argv[4]) << "]" << std::endl;
+    delete istream;
+    return EXIT_FAILURE;
+    }
+
+  // Set up vidl_ffmpeg_ostream
+  vidl_ffmpeg_ostream_params parameters;
+  parameters.frame_rate_ = 24;
+  parameters.ni_ = istream->width();
+  parameters.nj_ = istream->height();
+  parameters.encoder_ = vidl_ffmpeg_ostream_params::MSMPEG4V2;
+  vidl_ffmpeg_ostream* ostream = new vidl_ffmpeg_ostream(argv[2], parameters);
+
+  // Read the entire video and write it back out
+  bool keepReading = true;
+  while(keepReading)
+    {
+    vidl_frame_sptr outFrame = istream->read_frame();
+    if (outFrame)
+      {
+      ostream->write_frame(outFrame);
+      }
+    else
+      {
+      keepReading = false;
+      }
+    }
+
+  // Return success
+  delete istream;
+  delete ostream;
+  return EXIT_SUCCESS;
+}
+
+#define TemplatedTestMacro(PixelType, expectedFormat)                               \
+  if (vidl_itk_istreamTestWithPixelType<PixelType>(argc, argv, expectedFormat) ==   \
+      EXIT_FAILURE)                                                                 \
+    {                                                                               \
+    return EXIT_FAILURE;                                                            \
+    }
 
 //
 // Main test body
@@ -51,38 +118,44 @@ bool TestFormat(vidl_pixel_format expectedFormat)
 int vidl_itk_istreamTest ( int argc, char *argv[] )
 {
   //
-  // Test supported pixel formats
+  // Check parameters
+  //
+  if (argc < 5)
+    {
+    std::cerr << "Usage: " << argv[0] << " input_file output_file width height" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // Register a VXLVideoIO. This should be fixed eventually
+  itk::ObjectFactoryBase::RegisterFactory( itk::VXLVideoIOFactory::New() );
+
+  //
+  // Test all supported pixel formats
   //
 
   // Scalar types
-  TestFormatMacro(bool, VIDL_PIXEL_FORMAT_MONO_1);
-  TestFormatMacro(char, VIDL_PIXEL_FORMAT_MONO_8);
-  TestFormatMacro(unsigned char, VIDL_PIXEL_FORMAT_MONO_8);
-  TestFormatMacro(short, VIDL_PIXEL_FORMAT_MONO_16);
-  TestFormatMacro(unsigned short, VIDL_PIXEL_FORMAT_MONO_16);
-  TestFormatMacro(float, VIDL_PIXEL_FORMAT_MONO_F32);
+  TemplatedTestMacro(bool, VIDL_PIXEL_FORMAT_MONO_1);
+  TemplatedTestMacro(char, VIDL_PIXEL_FORMAT_MONO_8);
+  TemplatedTestMacro(unsigned char, VIDL_PIXEL_FORMAT_MONO_8);
+  TemplatedTestMacro(short, VIDL_PIXEL_FORMAT_MONO_16);
+  TemplatedTestMacro(unsigned short, VIDL_PIXEL_FORMAT_MONO_16);
+  TemplatedTestMacro(float, VIDL_PIXEL_FORMAT_MONO_F32);
 
   // RGB(A) types
-  TestFormatMacro(itk::RGBPixel<char>, VIDL_PIXEL_FORMAT_RGB_24);
-  TestFormatMacro(itk::RGBPixel<unsigned char>, VIDL_PIXEL_FORMAT_RGB_24);
-  TestFormatMacro(itk::RGBAPixel<char>, VIDL_PIXEL_FORMAT_RGBA_32);
-  TestFormatMacro(itk::RGBAPixel<unsigned char>, VIDL_PIXEL_FORMAT_RGBA_32);
-  TestFormatMacro(itk::RGBPixel<float>, VIDL_PIXEL_FORMAT_RGB_F32);
+  TemplatedTestMacro(itk::RGBPixel<char>, VIDL_PIXEL_FORMAT_RGB_24);
+  TemplatedTestMacro(itk::RGBPixel<unsigned char>, VIDL_PIXEL_FORMAT_RGB_24);
+  TemplatedTestMacro(itk::RGBAPixel<char>, VIDL_PIXEL_FORMAT_RGBA_32);
+  TemplatedTestMacro(itk::RGBAPixel<unsigned char>, VIDL_PIXEL_FORMAT_RGBA_32);
+  TemplatedTestMacro(itk::RGBPixel<float>, VIDL_PIXEL_FORMAT_RGB_F32);
 
-  // Unsupported types
+  //
+  // Test format returned for unsupported types
+  //
   TestFormatMacro(int, VIDL_PIXEL_FORMAT_UNKNOWN);
   TestFormatMacro(unsigned int, VIDL_PIXEL_FORMAT_UNKNOWN);
   TestFormatMacro(double, VIDL_PIXEL_FORMAT_UNKNOWN);
   TestFormatMacro(itk::RGBPixel<int>, VIDL_PIXEL_FORMAT_UNKNOWN);
-
-  //
-  // Set up a new vidl_itk_istream
-  //
-  typedef itk::vidl_itk_istream< ScalarVideoStreamType > vidl_itk_istream_type;
-  vidl_itk_istream_type* scalar_stream = new vidl_itk_istream_type();
-
-  // Clean up
-  delete scalar_stream;
 
   return EXIT_SUCCESS;
 }
