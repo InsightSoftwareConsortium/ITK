@@ -296,7 +296,8 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
       // Deal with the 2D case.
       if ( numberOfSmoothingFilters > 0 )
         {
-        GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension - 3];
+        int temp_dim = static_cast< int >( ImageDimension ) - 3;
+        GaussianFilterPointer lastFilter = m_SmoothingFilters[temp_dim];
         lastFilter->UpdateLargestPossibleRegion();
         derivativeImage = lastFilter->GetOutput();
         }

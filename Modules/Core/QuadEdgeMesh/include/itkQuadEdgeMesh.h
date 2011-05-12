@@ -302,7 +302,7 @@ public:
     int dimension) const
   {
     (void)dimension;
-    return ( (const BoundaryAssignmentsContainerPointer)0 );
+    return ( (BoundaryAssignmentsContainerPointer)0 );
   }
 
 #endif
