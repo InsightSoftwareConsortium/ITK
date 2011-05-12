@@ -53,7 +53,7 @@ mark_as_advanced(ITK_USE_BRAINWEB_DATA)
 # ITK wrapper for add_test that automatically sets the test's LABELS property
 # to the value of its containing module.
 #
-macro(itk_add_test)
+function(itk_add_test)
   # Add tests with data in the ITKData group.
   ExternalData_add_test(ITKData ${ARGN})
 
@@ -73,7 +73,7 @@ macro(itk_add_test)
   endif()
 
   set_property(TEST ${_iat_testname} PROPERTY LABELS ${_label})
-endmacro()
+endfunction()
 
 #-----------------------------------------------------------------------------
 # ITK build configuration options.
