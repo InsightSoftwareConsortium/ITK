@@ -189,34 +189,36 @@ static int
 feenableexcept (unsigned int excepts)
 {
   static fenv_t fenv;
-  unsigned int new_excepts = excepts & FE_ALL_EXCEPT,
-               old_excepts;  // previous masks
+  unsigned int new_excepts = excepts & FE_ALL_EXCEPT;
 
   if ( fegetenv (&fenv) ) return -1;
-  old_excepts = fenv.__control & FE_ALL_EXCEPT;
+
+  // previous masks
+  unsigned int old_excepts = fenv.__control & FE_ALL_EXCEPT;
 
   // unmask
   fenv.__control &= ~new_excepts;
   fenv.__mxcsr   &= ~(new_excepts << 7);
 
-  return ( fesetenv (&fenv) ? -1 : old_excepts );
+  return ( fesetenv (&fenv) ? -1 : static_cast< int >( old_excepts ) );
 }
 
 static int
 fedisableexcept (unsigned int excepts)
 {
   static fenv_t fenv;
-  unsigned int new_excepts = excepts & FE_ALL_EXCEPT,
-               old_excepts;  // all previous masks
+  unsigned int new_excepts = excepts & FE_ALL_EXCEPT;
 
   if ( fegetenv (&fenv) ) return -1;
-  old_excepts = fenv.__control & FE_ALL_EXCEPT;
+
+  // all previous masks
+  unsigned int old_excepts = fenv.__control & FE_ALL_EXCEPT;
 
   // mask
   fenv.__control |= new_excepts;
   fenv.__mxcsr   |= new_excepts << 7;
 
-  return ( fesetenv (&fenv) ? -1 : old_excepts );
+  return ( fesetenv (&fenv) ? -1 : static_cast< int >( old_excepts ) );
 }
 
 #endif  // PPC or INTEL enabling
