@@ -149,8 +149,8 @@ int itkDiffusionTensor3DTest(int, char* [] )
   std::cout << "product by scalar = " << pc << std::endl;
 
   /** Create an Image of tensors  */
-  typedef Float3DTensorType   PixelType;
-  typedef itk::Image< PixelType, 3 >           ImageType;
+  typedef Float3DTensorType           PixelType;
+  typedef itk::Image< PixelType, 3 >  ImageType;
 
   ImageType::Pointer dti = ImageType::New();
 
@@ -436,16 +436,28 @@ int itkDiffusionTensor3DTest(int, char* [] )
     typedef itk::NumericTraits<TensorType>::ScalarRealType ScalarRealType;
 
     TensorType maxTensor = itk::NumericTraits<TensorType>::max();
+    std::cout << maxTensor <<std::endl;
+
     TensorType minTensor = itk::NumericTraits<TensorType>::min();
+    std::cout << minTensor <<std::endl;
+
     TensorType nonpositiveMinTensor
                           = itk::NumericTraits<TensorType>::NonpositiveMin();
+    std::cout << nonpositiveMinTensor <<std::endl;
+
     TensorType zeroValue
                           = itk::NumericTraits<TensorType>::ZeroValue();
+    std::cout << zeroValue <<std::endl;
+
     TensorType oneValue
                           = itk::NumericTraits<TensorType>::OneValue();
+    std::cout << oneValue <<std::endl;
 
     TensorType zero = itk::NumericTraits<TensorType>::Zero;
+    std::cout << zero <<std::endl;
+
     TensorType one = itk::NumericTraits<TensorType>::One;
+    std::cout << one <<std::endl;
   }
 
   //Test casting constructors
@@ -487,4 +499,3 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
   return (passed ? EXIT_SUCCESS : EXIT_FAILURE);
 }
-

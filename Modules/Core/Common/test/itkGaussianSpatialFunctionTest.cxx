@@ -47,6 +47,10 @@ int itkGaussianSpatialFunctionTest(int, char* [] )
 
   // Test the Get macros as well
   ArrayType mean1 = spatialFunction->GetMean();
+  if( mean1 != mean )
+    {
+    return EXIT_FAILURE;
+    }
   // FIXME : verify the return values...
 
   ArrayType sigma;
@@ -57,6 +61,10 @@ int itkGaussianSpatialFunctionTest(int, char* [] )
 
   // Test the Get macros as well
   ArrayType sigma1 = spatialFunction->GetSigma();
+  if( sigma1 != sigma )
+    {
+    return EXIT_FAILURE;
+    }
   // FIXME : verify the return values...
 
   double scale1 = spatialFunction->GetScale();

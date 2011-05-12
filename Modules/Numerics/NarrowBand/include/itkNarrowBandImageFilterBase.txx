@@ -130,7 +130,6 @@ void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::ThreadedIterate(void *arg, int threadId)
 {
-  int              threadCount;
   ThreadRegionType splitRegion;
 
   //Implement iterative loop in thread function
@@ -139,8 +138,6 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   NarrowBandImageFilterBaseThreadStruct *str =
     (NarrowBandImageFilterBaseThreadStruct *)
     ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
-
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
   IdentifierType iter = 0;
   while ( !( this->ThreadedHalt(arg) ) )
