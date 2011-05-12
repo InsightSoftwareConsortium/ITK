@@ -227,10 +227,19 @@ public:
   typedef typename itk::hash_map< LabelPixelType, LabelStatistics >::const_iterator MapConstIterator;
   typedef IdentifierType                                                            MapSizeType;
 
+  /** Type of the container used to store valid label values */
+  typedef std::vector<LabelPixelType> ValidLabelValuesContainerType;
+
   // macros for Histogram enables
   itkSetMacro(UseHistograms, bool);
   itkGetConstMacro(UseHistograms, bool);
   itkBooleanMacro(UseHistograms);
+
+
+  virtual const ValidLabelValuesContainerType &GetValidLabelValues() const
+  {
+    return m_ValidLabelValues;
+  }
 
   /** Set the label image */
   void SetLabelInput(const TLabelImage *input)
@@ -338,8 +347,9 @@ private:
   LabelStatisticsImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented
 
-  std::vector< MapType > m_LabelStatisticsPerThread;
-  MapType                m_LabelStatistics;
+  std::vector< MapType >        m_LabelStatisticsPerThread;
+  MapType                       m_LabelStatistics;
+  ValidLabelValuesContainerType m_ValidLabelValues;
 
   bool m_UseHistograms;
 
