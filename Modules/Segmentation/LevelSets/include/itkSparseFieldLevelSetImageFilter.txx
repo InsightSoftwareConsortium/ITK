@@ -925,8 +925,6 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
                                                     this->GetOutput(), this->GetOutput()->GetRequestedRegion() );
   TimeStepType timeStep;
 
-  const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
-
   if ( m_BoundsCheckingActive == false )
     {
     outputIt.NeedToUseBoundaryConditionOff();

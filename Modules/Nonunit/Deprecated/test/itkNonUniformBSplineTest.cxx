@@ -157,12 +157,14 @@ int itkNonUniformBSplineTest(int, char* [] )
     }
 
   PointType p1 = mySpline->EvaluateSpline( 0.5 );
+  std::cout << p1 << std::endl;
   // FIXME: Validate the return value in p1
 
   itk::Array<double> pp(3);
   pp.Fill( 0.5);
 
   PointType p2 = mySpline->EvaluateSpline( pp );
+  std::cout << p2 << std::endl;
   // FIXME: Validate the return value in p2
 
 
@@ -226,4 +228,3 @@ int itkNonUniformBSplineTest(int, char* [] )
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;
 }
-

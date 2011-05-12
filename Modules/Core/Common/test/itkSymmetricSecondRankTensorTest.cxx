@@ -131,12 +131,9 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   pc = pa * 3.2;
   std::cout << "product by scalar = " << pc << std::endl;
 
-
-
-
   /** Create an Image of tensors  */
-  typedef Float3DTensorType   PixelType;
-  typedef itk::Image< PixelType, 3 >           ImageType;
+  typedef Float3DTensorType           PixelType;
+  typedef itk::Image< PixelType, 3 >  ImageType;
 
   ImageType::Pointer dti = ImageType::New();
 
@@ -432,7 +429,10 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     Double3DMatrixType matrix3D;
 
     Double3DTensorType result1 = tensor3D.PreMultiply( matrix3D );
+    std::cout << result1 << std::endl;
+
     Double3DTensorType result2 = tensor3D.PostMultiply( matrix3D );
+    std::cout << result2 << std::endl;
 
   } // end of Matrix * SymmetricSecondRankTensor test
 
@@ -475,4 +475,3 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-
