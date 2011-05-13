@@ -238,7 +238,7 @@ function(_ExternalData_compute_hash var_hash algo file)
     # TODO: Errors
     execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
       OUTPUT_VARIABLE output)
-    string(SUBSTRING ${output} 0 32 hash)
+    string(SUBSTRING "${output}" 0 32 hash)
     set("${var_hash}" "${hash}" PARENT_SCOPE)
   else()
     # TODO: Other hashes.
