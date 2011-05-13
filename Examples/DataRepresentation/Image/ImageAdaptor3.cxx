@@ -72,6 +72,8 @@ public:
   typedef itk::CovariantVector<float,2>   InternalType;
   typedef                      float      ExternalType;
 
+  VectorPixelAccessor() : m_Index(0) {}
+
   void operator=( const VectorPixelAccessor & vpa )
     {
       m_Index = vpa.m_Index;

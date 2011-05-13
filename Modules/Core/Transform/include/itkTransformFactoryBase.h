@@ -66,7 +66,7 @@ public:
     if ( m_Factory == 0 )
       {
       // Make and register the factory
-      TransformFactoryBase::Pointer p = TransformFactoryBase::New();
+      Pointer p = New();
       m_Factory = p.GetPointer();
       ObjectFactoryBase::RegisterFactory (p);
       p->RegisterDefaultTransforms ();

@@ -98,7 +98,7 @@ int main( int argc, char* argv[] )
     while( seriesItr != seriesEnd )
       {
       std::cout << seriesItr->c_str() << std::endl;
-      seriesItr++;
+      ++seriesItr;
       }
 
     std::cout << std::endl << std::endl;

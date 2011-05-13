@@ -66,11 +66,11 @@ void DoAnchorFace(const TImage *input,
   for ( unsigned int it = 0; it < face.GetNumberOfPixels(); it++ )
     {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned start, end, len;
+    unsigned start, end;
     if ( FillLineBuffer< TImage, TBres, TLine >(input, Ind, NormLine, tol, LineOffsets,
                                                 AllImage, inbuffer, start, end) )
       {
-      len = end - start + 1;
+      const unsigned len = end - start + 1;
       // compat
       inbuffer[0] = border;
       inbuffer[len + 1] = border;

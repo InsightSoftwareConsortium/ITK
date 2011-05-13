@@ -114,9 +114,9 @@ public:
   static bool GetGlobalWarningDisplay();
 
   static void GlobalWarningDisplayOn()
-  { Object::SetGlobalWarningDisplay(true); }
+  { SetGlobalWarningDisplay(true); }
   static void GlobalWarningDisplayOff()
-  { Object::SetGlobalWarningDisplay(false); }
+  { SetGlobalWarningDisplay(false); }
 
   /** Allow people to add/remove/invoke observers (callbacks) to any ITK
    * object. This is an implementation of the subject/observer design

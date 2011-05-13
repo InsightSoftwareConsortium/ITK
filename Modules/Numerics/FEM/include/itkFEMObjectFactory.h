@@ -76,6 +76,7 @@ class FEMObjectFactory
   /**
    * Type that holds a pointer to function which can create a new object of a derived class.
    */
+  // cppcheck-suppress syntaxError
   typedef typename T::Pointer (*COF)();
 
   /**
