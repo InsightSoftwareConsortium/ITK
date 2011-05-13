@@ -1397,7 +1397,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
   unsigned int i, center = outputIt.Size() / 2;
 
-  const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
+  this->GetDifferenceFunction()->ComputeNeighborhoodScales();
 
   // Calculates the update values for the active layer indicies in this
   // iteration.  Iterates through the active layer index list, applying
