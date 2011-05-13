@@ -61,6 +61,8 @@ bool vnl_generalized_schur(vnl_matrix<vcl_complex<double> > *A,
   L->inplace_transpose();
   R->inplace_transpose();
   delete [] work;
+  delete [] bwork;
+  delete [] rwork;
 
   if (info == 0) {
     // ok
