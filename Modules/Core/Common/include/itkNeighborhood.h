@@ -154,7 +154,7 @@ public:
    * length is the number of pixels between adjacent pixels along the
    * given dimension. */
   OffsetValueType GetStride(DimensionValueType axis) const
-  {     return m_StrideTable[axis];  }
+  { return ( axis < VDimension ) ? m_StrideTable[axis] : 0;  }
 
   /** STL-style iterator support. */
   Iterator End()

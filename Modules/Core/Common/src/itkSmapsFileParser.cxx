@@ -436,7 +436,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & stream, VMMapData_10_2 & dat
   try
     {
     std::string    line;
-    std::streampos startPos = stream.tellg();
+
     // get to the Summary subsection
     while ( std::getline(stream, line).good() )
       {

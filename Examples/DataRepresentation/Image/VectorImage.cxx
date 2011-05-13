@@ -144,6 +144,7 @@ int main(int, char *[])
   // pixels from the image
   ImageType::PixelType value = image->GetPixel( pixelIndex );
 
+  std::cout << value << std::endl;
 
   // Lets repeat that both \code{SetPixel()} and \code{GetPixel()} are
   // inefficient and should only be used for debugging purposes or for
