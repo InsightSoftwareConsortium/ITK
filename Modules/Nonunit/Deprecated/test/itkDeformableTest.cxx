@@ -278,7 +278,7 @@ int itkDeformableTest(int , char *[])
 
   double2DVector stiff_tmp = m_dfilter->GetStiffness();
 
-  std::cout stiff_tmp <<std::endl;
+  std::cout << stiff_tmp <<std::endl;
 
   std::cout << m_dfilter->GetTimeStep() << std::endl;
 
