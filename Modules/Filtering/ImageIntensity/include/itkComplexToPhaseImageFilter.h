@@ -29,7 +29,7 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
  */
-namespace Function
+namespace Functor
 {
 template< class TInput, class TOutput >
 class ComplexToPhase
@@ -58,7 +58,7 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ComplexToPhaseImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Function::ComplexToPhase<
+                           Functor::ComplexToPhase<
                              typename TInputImage::PixelType,
                              typename TOutputImage::PixelType >   >
 {
@@ -67,7 +67,7 @@ public:
   typedef ComplexToPhaseImageFilter Self;
   typedef UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
-    Function::ComplexToPhase< typename TInputImage::PixelType,
+    Functor::ComplexToPhase< typename TInputImage::PixelType,
                               typename TOutputImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;

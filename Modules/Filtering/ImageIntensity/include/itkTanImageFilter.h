@@ -29,7 +29,7 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
  */
-namespace Function
+namespace Functor
 {
 template< class TInput, class TOutput >
 class Tan
@@ -55,7 +55,7 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT TanImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Function::Tan< typename TInputImage::PixelType,
+                           Functor::Tan< typename TInputImage::PixelType,
                                           typename TOutputImage::PixelType >   >
 {
 public:
@@ -63,8 +63,8 @@ public:
   typedef TanImageFilter Self;
   typedef UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
-    Function::Tan< typename TInputImage::PixelType,
-                   typename TOutputImage::PixelType > >  Superclass;
+    Functor::Tan< typename TInputImage::PixelType,
+                  typename TOutputImage::PixelType > >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITK-ImageStatistics
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInputPixel, class TAccumulate >
 class StandardDeviationAccumulator
@@ -106,16 +106,16 @@ template< class TInputImage,
 class ITK_EXPORT StandardDeviationProjectionImageFilter:
   public
   ProjectionImageFilter< TInputImage, TOutputImage,
-                         Function::StandardDeviationAccumulator< ITK_TYPENAME
-                                                                 TInputImage::PixelType, TAccumulate > >
+                         Functor::StandardDeviationAccumulator< ITK_TYPENAME
+                                                                TInputImage::PixelType, TAccumulate > >
 {
 public:
   typedef StandardDeviationProjectionImageFilter Self;
 
   typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Function::StandardDeviationAccumulator< typename
-                                                                         TInputImage::PixelType,
-                                                                         TAccumulate > > Superclass;
+                                 Functor::StandardDeviationAccumulator< typename
+                                                                        TInputImage::PixelType,
+                                                                        TAccumulate > > Superclass;
 
   typedef TInputImage                        InputImageType;
   typedef typename InputImageType::PixelType InputPixelType;
