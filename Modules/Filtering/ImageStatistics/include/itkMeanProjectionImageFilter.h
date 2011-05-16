@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITK-ImageStatistics
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInputPixel, class TAccumulate >
 class MeanAccumulator
@@ -88,12 +88,12 @@ template< class TInputImage, class TOutputImage,
               ITK_TYPENAME TOutputImage::PixelType >::AccumulateType >
 class ITK_EXPORT MeanProjectionImageFilter:public
   ProjectionImageFilter< TInputImage, TOutputImage,
-                         Function::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > >
+                         Functor::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > >
 {
 public:
   typedef MeanProjectionImageFilter Self;
   typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Function::MeanAccumulator<
+                                 Functor::MeanAccumulator<
                                    typename TInputImage::PixelType, TAccumulate > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;

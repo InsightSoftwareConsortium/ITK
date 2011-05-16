@@ -29,7 +29,7 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
  */
-namespace Function
+namespace Functor
 {
 template< class TInput, class TOutput >
 class Sqrt
@@ -57,7 +57,7 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SqrtImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Function::Sqrt< typename TInputImage::PixelType,
+                           Functor::Sqrt< typename TInputImage::PixelType,
                                            typename TOutputImage::PixelType >   >
 {
 public:
@@ -65,8 +65,8 @@ public:
   typedef SqrtImageFilter Self;
   typedef UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
-    Function::Sqrt< typename TInputImage::PixelType,
-                    typename TOutputImage::PixelType > >  Superclass;
+    Functor::Sqrt< typename TInputImage::PixelType,
+                   typename TOutputImage::PixelType > >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

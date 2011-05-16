@@ -38,7 +38,7 @@ namespace itk
  * \wikiexample{ImageProcessing/SubtractImageFilter,Subtract two images}
  * \endwiki
  */
-namespace Function
+namespace Functor
 {
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Sub2
@@ -65,7 +65,7 @@ template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputIm
 class ITK_EXPORT SubtractImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Function::Sub2<
+                            Functor::Sub2<
                               typename TInputImage1::PixelType,
                               typename TInputImage2::PixelType,
                               typename TOutputImage::PixelType >   >
@@ -75,9 +75,9 @@ public:
   typedef SubtractImageFilter Self;
   typedef BinaryFunctorImageFilter<
     TInputImage1, TInputImage2, TOutputImage,
-    Function::Sub2< typename TInputImage1::PixelType,
-                    typename TInputImage2::PixelType,
-                    typename TOutputImage::PixelType > >  Superclass;
+    Functor::Sub2< typename TInputImage1::PixelType,
+                   typename TInputImage2::PixelType,
+                   typename TOutputImage::PixelType > >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITK-ImageStatistics
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInputPixel >
 class MinimumAccumulator
@@ -74,12 +74,12 @@ public:
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MinimumProjectionImageFilter:public
   ProjectionImageFilter< TInputImage, TOutputImage,
-                         Function::MinimumAccumulator< typename TInputImage::PixelType > >
+                         Functor::MinimumAccumulator< typename TInputImage::PixelType > >
 {
 public:
   typedef MinimumProjectionImageFilter Self;
   typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Function::MinimumAccumulator<
+                                 Functor::MinimumAccumulator<
                                    typename TInputImage::PixelType > > Superclass;
 
   typedef TInputImage                        InputImageType;

@@ -32,7 +32,7 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITK-ImageIntensity
  */
-namespace Function
+namespace Functor
 {
 template< class TInput1, class TInput2, class TInput3, class TOutput >
 class Modulus3
@@ -63,7 +63,7 @@ class ITK_EXPORT TernaryMagnitudeImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage1, TInputImage2,
                              TInputImage3, TOutputImage,
-                             Function::Modulus3<
+                             Functor::Modulus3<
                                typename TInputImage1::PixelType,
                                typename TInputImage2::PixelType,
                                typename TInputImage3::PixelType,
@@ -75,7 +75,7 @@ public:
   typedef TernaryFunctorImageFilter<
     TInputImage1, TInputImage2,
     TInputImage3, TOutputImage,
-    Function::Modulus3<
+    Functor::Modulus3<
       typename TInputImage1::PixelType,
       typename TInputImage2::PixelType,
       typename TInputImage3::PixelType,

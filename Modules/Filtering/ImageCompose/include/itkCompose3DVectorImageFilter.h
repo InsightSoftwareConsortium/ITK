@@ -23,7 +23,7 @@
 
 namespace itk
 {
-namespace Function
+namespace Functor
 {
 template< class TInput >
 class Compose3DVector
@@ -77,7 +77,7 @@ class ITK_EXPORT Compose3DVectorImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage, TInputImage,
                              TInputImage, TOutputImage,
-                             Function::Compose3DVector< ITK_TYPENAME TInputImage::PixelType >   >
+                             Functor::Compose3DVector< ITK_TYPENAME TInputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
@@ -85,7 +85,7 @@ public:
   typedef TernaryFunctorImageFilter<
     TInputImage, TInputImage, TInputImage,
     TOutputImage,
-    Function::Compose3DVector<
+    Functor::Compose3DVector<
       ITK_TYPENAME TInputImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;

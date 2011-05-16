@@ -29,7 +29,7 @@ namespace itk
  * \ingroup ITK-ImageIntensity
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInput, class TOutput >
 class Square
@@ -60,16 +60,16 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SquareImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Function::Square< typename TInputImage::PixelType,
-                                             typename TOutputImage::PixelType >   >
+                           Functor::Square< typename TInputImage::PixelType,
+                                            typename TOutputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
   typedef SquareImageFilter Self;
   typedef UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
-    Function::Square< typename TInputImage::PixelType,
-                      typename TOutputImage::PixelType > >  Superclass;
+    Functor::Square< typename TInputImage::PixelType,
+                     typename TOutputImage::PixelType > >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITK-ImageStatistics
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInputPixel >
 class MedianAccumulator
@@ -85,12 +85,12 @@ public:
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MedianProjectionImageFilter:public
   ProjectionImageFilter< TInputImage, TOutputImage,
-                         Function::MedianAccumulator< typename TInputImage::PixelType > >
+                         Functor::MedianAccumulator< typename TInputImage::PixelType > >
 {
 public:
   typedef MedianProjectionImageFilter Self;
   typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Function::MedianAccumulator<
+                                 Functor::MedianAccumulator<
                                    typename TInputImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;

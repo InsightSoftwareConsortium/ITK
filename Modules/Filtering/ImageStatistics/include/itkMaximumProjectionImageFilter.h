@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITK-ImageStatistics
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInputPixel >
 class MaximumAccumulator
@@ -74,12 +74,12 @@ public:
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MaximumProjectionImageFilter:
   public ProjectionImageFilter< TInputImage, TOutputImage,
-                                Function::MaximumAccumulator< typename TInputImage::PixelType > >
+                                Functor::MaximumAccumulator< typename TInputImage::PixelType > >
 {
 public:
   typedef MaximumProjectionImageFilter Self;
   typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Function::MaximumAccumulator< typename TInputImage::PixelType > > Superclass;
+                                 Functor::MaximumAccumulator< typename TInputImage::PixelType > > Superclass;
 
   typedef TInputImage                        InputImageType;
   typedef typename InputImageType::PixelType InputPixelType;

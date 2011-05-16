@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITK-ImageIntensity
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInput, class TOutput >
 class Exp
@@ -60,7 +60,7 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExpImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Function::Exp<
+                           Functor::Exp<
                              typename TInputImage::PixelType,
                              typename TOutputImage::PixelType >   >
 {
@@ -69,7 +69,7 @@ public:
   typedef ExpImageFilter Self;
   typedef UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
-    Function::Exp< typename TInputImage::PixelType,
+    Functor::Exp< typename TInputImage::PixelType,
                    typename TOutputImage::PixelType > >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
