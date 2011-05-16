@@ -34,6 +34,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 
   m_HausdorffDistance = NumericTraits< RealType >::Zero;
   m_AverageHausdorffDistance = NumericTraits< RealType >::Zero;
+  m_UseImageSpacing = false;
 }
 
 template< class TInputImage1, class TInputImage2 >
@@ -122,6 +123,9 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   filter21->SetInput1( this->GetInput2() );
   filter21->SetInput2( this->GetInput1() );
 
+  filter12->SetUseImageSpacing(m_UseImageSpacing);
+  filter21->SetUseImageSpacing(m_UseImageSpacing);
+
   // Register the filter with the with progress accumulator using
   // equal weight proportion
   progress->RegisterInternalFilter(filter12, .5f);
@@ -155,6 +159,8 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
      << m_HausdorffDistance << std::endl;
   os << indent << "AverageHausdorffDistance: "
      << m_AverageHausdorffDistance << std::endl;
+  os << indent << "Use Image Spacing : "
+     << m_UseImageSpacing << std::endl;
 }
 } // end namespace itk
 #endif

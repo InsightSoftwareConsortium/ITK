@@ -35,6 +35,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_DistanceMap = NULL;
   m_DirectedHausdorffDistance = NumericTraits< RealType >::Zero;
   m_AverageHausdorffDistance = NumericTraits< RealType >::Zero;
+  m_UseImageSpacing     = false;
 }
 
 template< class TInputImage1, class TInputImage2 >
@@ -126,6 +127,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   typename FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput( this->GetInput2() );
+  filter->SetUseImageSpacing(m_UseImageSpacing);
   filter->Update();
 
   m_DistanceMap = filter->GetOutput();
@@ -204,6 +206,8 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
      << m_DirectedHausdorffDistance << std::endl;
   os << indent << "AverageHausdorffDistance: "
      << m_AverageHausdorffDistance << std::endl;
+  os << indent << "Use Image Spacing : "
+     << m_UseImageSpacing << std::endl;
 }
 } // end namespace itk
 #endif
