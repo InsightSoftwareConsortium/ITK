@@ -23,6 +23,7 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk {
 
@@ -290,15 +291,10 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     {
     // the user want the mask to be the background of the label collection image
     // copy the feature image to the output image
-    ImageRegionConstIterator< OutputImageType > featureIt( input2, outputRegionForThread );
-    ImageRegionIterator< OutputImageType > outputIt( output, outputRegionForThread );
 
-    for ( featureIt.GoToBegin(), outputIt.GoToBegin();
-          !featureIt.IsAtEnd();
-          ++featureIt, ++outputIt )
-      {
-      outputIt.Set( featureIt.Get() );
-      }
+    // copy input2 region to output
+    ImageAlgorithm::Copy( input2, output, outputRegionForThread, outputRegionForThread );
+
     }
   else
     {

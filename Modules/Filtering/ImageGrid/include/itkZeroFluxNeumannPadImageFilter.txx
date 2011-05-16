@@ -24,6 +24,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -90,8 +91,8 @@ ZeroFluxNeumannPadImageFilter< TInputImage, TOutputImage > // support progress m
   itkDebugMacro(<<"Actually executing");
 
   // Get the input and output pointers
-  typename Superclass::InputImageConstPointer inputPtr  = this->GetInput();
-  typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
+  const TInputImage* inputPtr  = this->GetInput();
+  TOutputImage*      outputPtr = this->GetOutput();
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -195,16 +196,9 @@ ZeroFluxNeumannPadImageFilter< TInputImage, TOutputImage > // support progress m
     {
     inputRegion.SetIndex( outputRegion.GetIndex() );
     inputRegion.SetSize( outputRegion.GetSize() );
-    OutputIterator outIt = OutputIterator( outputPtr, outputRegion );
-    InputIterator  inIt  = InputIterator( inputPtr, inputRegion );
 
-    // walk the output region, and sample the input image
-    for (ctr = 0; !outIt.IsAtEnd(); ++outIt, ++inIt, ctr++ )
-      {
-      // copy the input pixel to the output
-      outIt.Set( inIt.Get() );
-      progress.CompletedPixel();
-      }
+    // copy the input region to the output
+    ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegion, outputRegion );
     }
 
   // Now walk the remaining regions.

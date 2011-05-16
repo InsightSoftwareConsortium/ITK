@@ -31,6 +31,7 @@
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkDiffusionTensor3D.h"
 #include "itkMatrix.h"
+#include "itkImageAlgorithm.h"
 #include <complex>
 
 namespace itk
@@ -399,17 +400,7 @@ ImageFileWriter< TInputImage >
       cacheImage->SetBufferedRegion(ioRegion);
       cacheImage->Allocate();
 
-      typedef ImageRegionConstIterator< TInputImage > ConstIteratorType;
-      typedef ImageRegionIterator< TInputImage >      IteratorType;
-
-      ConstIteratorType in(input, ioRegion);
-      IteratorType      out(cacheImage, ioRegion);
-
-      // copy the data into a buffer to match the ioregion
-      for ( in.GoToBegin(), out.GoToBegin(); !in.IsAtEnd(); ++in, ++out )
-        {
-        out.Set( in.Get() );
-        }
+      ImageAlgorithm::Copy( input, cacheImage.GetPointer(), ioRegion, ioRegion );
 
       dataPtr = (const void *)cacheImage->GetBufferPointer();
       }

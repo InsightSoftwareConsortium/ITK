@@ -20,6 +20,7 @@
 #include "itkStreamingImageFilter.h"
 #include "itkCommand.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -154,7 +155,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
   /**
    * Allocate the output buffer.
    */
-  OutputImagePointer    outputPtr = this->GetOutput(0);
+  OutputImageType      *outputPtr = this->GetOutput(0);
   OutputImageRegionType outputRegion = outputPtr->GetRequestedRegion();
   outputPtr->SetBufferedRegion(outputRegion);
   outputPtr->Allocate();
@@ -162,7 +163,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
   /**
    * Grab the input
    */
-  InputImagePointer inputPtr =
+  InputImageType * inputPtr =
     const_cast< InputImageType * >( this->GetInput(0) );
 
   /**
@@ -201,14 +202,9 @@ StreamingImageFilter< TInputImage, TOutputImage >
     // copy the result to the proper place in the output. the input
     // requested region determined by the RegionSplitter (as opposed
     // to what the pipeline might have enlarged it to) is used to
-    // construct the iterators for both the input and output
-    ImageRegionIterator< InputImageType >  inIt(inputPtr, streamRegion);
-    ImageRegionIterator< OutputImageType > outIt(outputPtr, streamRegion);
+    // copy the regions from the input to output
+    ImageAlgorithm::Copy( inputPtr, outputPtr, streamRegion, streamRegion );
 
-    for ( inIt.GoToBegin(), outIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++outIt )
-      {
-      outIt.Set( inIt.Get() );
-      }
 
     this->UpdateProgress( (float)piece / numDivisions );
     }
