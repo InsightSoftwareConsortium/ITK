@@ -32,13 +32,16 @@ namespace itk
  *
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  *
- *
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/510
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \sa UnaryFunctorImageFilter
  * \ingroup ITK-Review
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/SubtractConstantFromImageFilter,Subtract a constant from every pixel in an image}
+ * \endwiki
  */
 namespace Functor
 {

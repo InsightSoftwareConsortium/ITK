@@ -43,6 +43,8 @@ namespace itk
  *
  * \wiki
  * \wikiexample{ImageProcessing/TileImageFilter,Tile multiple images into another image}
+ * \wikiexample{ImageProcessing/TileImageFilter_CreateVolume,Stack multiple 2D images into a 3D image}
+ * \wikiexample{ImageProcessing/TileImageFilter_SideBySide,Tile multiple images side by side}
  * \endwiki
  */
 

@@ -27,6 +27,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/SquareImageFilter,Square every pixel in an image}
+ * \endwiki
  */
 
 namespace Functor

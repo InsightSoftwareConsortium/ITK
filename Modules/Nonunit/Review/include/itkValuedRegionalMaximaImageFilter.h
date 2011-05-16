@@ -32,7 +32,6 @@ namespace itk
  * value. A completely flat image will be marked as a regional maxima
  * by this filter.
  *
- *
  * This code was contributed in the Insight Journal paper:
  * "Finding regional extrema - methods and performance"
  * by Beare R., Lehmann G.
