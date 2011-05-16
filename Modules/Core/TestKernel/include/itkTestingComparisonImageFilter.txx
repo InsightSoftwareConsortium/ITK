@@ -93,7 +93,7 @@ void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   // Initialize statistics about difference image.
   m_MeanDifference = NumericTraits< RealType >::Zero;
@@ -113,7 +113,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & threadRegion, int threadId)
+::ThreadedGenerateData(const OutputImageRegionType & threadRegion, ThreadIdType threadId)
 {
   typedef ConstNeighborhoodIterator< InputImageType >                           SmartIterator;
   typedef ImageRegionConstIterator< InputImageType >                            InputIterator;
@@ -240,9 +240,9 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
 {
   // Set statistics about difference image.
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
-  for ( int i = 0; i < numberOfThreads; ++i )
+  for ( ThreadIdType i = 0; i < numberOfThreads; ++i )
     {
     m_TotalDifference += m_ThreadDifferenceSum[i];
     m_NumberOfPixelsWithDifferences += m_ThreadNumberOfPixels[i];

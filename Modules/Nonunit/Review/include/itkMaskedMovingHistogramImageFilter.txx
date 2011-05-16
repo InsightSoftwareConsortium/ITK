@@ -132,7 +132,7 @@ template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel
 void
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // instantiate the histogram
   HistogramType histogram;

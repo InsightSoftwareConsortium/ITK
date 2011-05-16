@@ -196,7 +196,7 @@ template< class TInputImage,
 void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // Check whether the input or the output is a
   // SpecialCoordinatesImage.  If either are, then we cannot use the
@@ -238,7 +238,7 @@ void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::NonlinearThreadedGenerateData(const OutputImageRegionType &
                                 outputRegionForThread,
-                                int threadId)
+                                ThreadIdType threadId)
 {
   // Get the output pointers
   OutputImagePointer outputPtr = this->GetOutput();
@@ -334,7 +334,7 @@ void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::LinearThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             int threadId)
+                             ThreadIdType threadId)
 {
   // Get the output pointers
   OutputImagePointer outputPtr = this->GetOutput();

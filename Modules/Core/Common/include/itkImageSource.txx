@@ -261,7 +261,7 @@ template< class TOutputImage >
 void
 ImageSource< TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType &,
-                       int)
+                       ThreadIdType)
 {
 // The following code is equivalent to:
 // itkExceptionMacro("subclass should override this method!!!");

@@ -305,14 +305,14 @@ private:
   /** This method is a thread implementation of the iterative scheme implemented
    * in itkFiniteDifferenceImageFilter::GenerateData. It relies on ThreadedApplyUpdate
    * and ThreadedCalculateChange to update the solution at every iteration. */
-  virtual void ThreadedIterate(void *arg, int threadId);
+  virtual void ThreadedIterate(void *arg, ThreadIdType threadId);
 
   /** This method applies changes from the m_NarrowBand to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
   virtual void ThreadedApplyUpdate(const TimeStepType& dt,
                                    const ThreadRegionType & regionToProcess,
-                                   int threadId);
+                                   ThreadIdType threadId);
 
   virtual void ApplyUpdate(const TimeStepType&){}
 
@@ -320,7 +320,7 @@ private:
    * output using the ThreadedCalculateChange() method and a multithreading
    * mechanism. Returns value is a time step to be used for the update. */
   virtual TimeStepType ThreadedCalculateChange(const ThreadRegionType & regionToProcess,
-                                               int threadId);
+                                               ThreadIdType threadId);
 
   virtual TimeStepType CalculateChange() { return 0; }
 };

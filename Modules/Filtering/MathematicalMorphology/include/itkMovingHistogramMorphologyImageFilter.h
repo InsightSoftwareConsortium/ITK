@@ -101,7 +101,7 @@ protected:
   /** Multi-thread version GenerateData. */
 //   void  ThreadedGenerateData (const OutputImageRegionType&
 //                               outputRegionForThread,
-//                               int threadId);
+//                               ThreadIdType threadId);
 
   /** needed to pass the boundary value to the histogram object */
   virtual void ConfigureHistogram(THistogram & histogram);

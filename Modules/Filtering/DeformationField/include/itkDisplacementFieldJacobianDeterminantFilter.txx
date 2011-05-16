@@ -172,7 +172,7 @@ template< typename TInputImage, typename TRealType, typename TOutputImage >
 void
 DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   ZeroFluxNeumannBoundaryCondition< RealVectorImageType > nbc;
   ConstNeighborhoodIteratorType                           bit;

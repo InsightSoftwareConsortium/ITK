@@ -42,9 +42,9 @@ extern "C"
 typedef void *( *c_void_cast )(void *);
 }
 
-int MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
+ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
 {
-    int num;
+    ThreadIdType num;
     // Default the number of threads to be the number of available
     // processors if we are using pthreads()
 #ifdef _SC_NPROCESSORS_ONLN
@@ -76,7 +76,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
 
 void MultiThreader::MultipleMethodExecute()
 {
-  int thread_loop;
+  ThreadIdType thread_loop;
 
   pthread_t process_id[ITK_MAX_THREADS];
 
@@ -185,7 +185,7 @@ int MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
   return id;
 }
 
-void MultiThreader::TerminateThread(int ThreadID)
+void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 {
   if ( !m_SpawnedThreadActiveFlag[ThreadID] )
     {

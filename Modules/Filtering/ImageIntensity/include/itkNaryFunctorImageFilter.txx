@@ -44,7 +44,7 @@ template< class TInputImage, class TOutputImage, class TFunction >
 void
 NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   const unsigned int numberOfInputImages =
     static_cast< unsigned int >( this->GetNumberOfInputs() );

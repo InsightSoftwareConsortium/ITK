@@ -39,7 +39,7 @@ template< class TInputImage, class TOutputImage, class TKernel >
 void
 MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // Neighborhood iterators
   NeighborhoodIteratorType b_iter;

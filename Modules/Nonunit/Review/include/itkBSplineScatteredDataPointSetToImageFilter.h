@@ -275,7 +275,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  void ThreadedGenerateData( const RegionType &, int );
+  void ThreadedGenerateData( const RegionType &, ThreadIdType );
 
   void BeforeThreadedGenerateData();
 
@@ -311,12 +311,12 @@ private:
   /**
    * Function used to generate the sampled B-spline object quickly.
    */
-  void ThreadedGenerateDataForFitting( const RegionType &, int  );
+  void ThreadedGenerateDataForFitting( const RegionType &, ThreadIdType  );
 
   /**
    * Function used to generate the sampled B-spline object quickly.
    */
-  void ThreadedGenerateDataForReconstruction( const RegionType &, int  );
+  void ThreadedGenerateDataForReconstruction( const RegionType &, ThreadIdType  );
 
   /**
    * Sub-function used by GenerateOutputImageFast() to generate the sampled

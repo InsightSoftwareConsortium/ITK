@@ -30,6 +30,7 @@
 
 #include "itkMutexLock.h"
 #include "itkThreadSupport.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -67,26 +68,26 @@ public:
   /** Get/Set the number of threads to create. It will be clamped to the range
    * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should
    * check that the requested number of threads was accepted. */
-  void SetNumberOfThreads(int numberOfThreads);
+  void SetNumberOfThreads(ThreadIdType numberOfThreads);
 
-  itkGetConstMacro(NumberOfThreads, int);
+  itkGetConstMacro(NumberOfThreads, ThreadIdType);
 
   /** Set/Get the maximum number of threads to use when multithreading.  It
    * will be clamped to the range [ 1, ITK_MAX_THREADS ] because several arrays
    * are already statically allocated using the ITK_MAX_THREADS number.
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
-  static void SetGlobalMaximumNumberOfThreads(int val);
+  static void SetGlobalMaximumNumberOfThreads(ThreadIdType val);
 
-  static int  GetGlobalMaximumNumberOfThreads();
+  static ThreadIdType  GetGlobalMaximumNumberOfThreads();
 
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
    * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
-  static void SetGlobalDefaultNumberOfThreads(int val);
+  static void SetGlobalDefaultNumberOfThreads(ThreadIdType val);
 
-  static int  GetGlobalDefaultNumberOfThreads();
+  static ThreadIdType  GetGlobalDefaultNumberOfThreads();
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfThreads threads. As a side effect the m_NumberOfThreads will be
@@ -109,7 +110,7 @@ public:
 
   /** Set the MultipleMethod at the given index to f() and the UserData
    * field of the ThreadInfoStruct that is passed to it will be data. */
-  void SetMultipleMethod(int index, ThreadFunctionType, void *data);
+  void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data);
 
   /** Create a new thread for the given function. Return a thread id
      * which is a number between 0 and ITK_MAX_THREADS - 1. This
@@ -118,7 +119,7 @@ public:
   int SpawnThread(ThreadFunctionType, void *data);
 
   /** Terminate the thread that was created with a SpawnThreadExecute() */
-  void TerminateThread(int thread_id);
+  void TerminateThread(ThreadIdType thread_id);
 
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute, MultipleMethodExecute or
@@ -135,8 +136,8 @@ public:
 #undef ThreadInfoStruct
 #endif
   struct ThreadInfoStruct {
-    int ThreadID;
-    int NumberOfThreads;
+    ThreadIdType ThreadID;
+    ThreadIdType NumberOfThreads;
     int *ActiveFlag;
     MutexLock::Pointer ActiveFlagLock;
     void *UserData;
@@ -175,7 +176,7 @@ private:
   /** Global variable defining the maximum number of threads that can be used.
    *  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
    *  ITK_MAX_THREADS and greater than zero. */
-  static int m_GlobalMaximumNumberOfThreads;
+  static ThreadIdType m_GlobalMaximumNumberOfThreads;
 
   /*  Global variable defining the default number of threads to set at
    *  construction time of a MultiThreader instance.  The
@@ -183,10 +184,10 @@ private:
    *  m_GlobalMaximumNumberOfThreads and larger or equal to 1 once it has been
    *  initialized in the constructor of the first MultiThreader instantiation.
    */
-  static int m_GlobalDefaultNumberOfThreads;
+  static ThreadIdType m_GlobalDefaultNumberOfThreads;
 
   /**  Platform specific number of threads */
-  static int  GetGlobalDefaultNumberOfThreadsByPlatform();
+  static ThreadIdType  GetGlobalDefaultNumberOfThreadsByPlatform();
 
   /** The number of threads to use.
    *  The m_NumberOfThreads must always be less than or equal to
@@ -197,7 +198,7 @@ private:
    *  to the current m_GlobalMaximumNumberOfThreads in the
    *  SingleMethodExecute() and MultipleMethodExecute() methods.
    */
-  int m_NumberOfThreads;
+  ThreadIdType m_NumberOfThreads;
 
   /** Static function used as a "proxy callback" by the MultiThreader.  The
    * threading library will call this routine for each thread, which

@@ -42,7 +42,7 @@ template< class TInputImage, class TOutputImage >
 void
 SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   unsigned int i;
 

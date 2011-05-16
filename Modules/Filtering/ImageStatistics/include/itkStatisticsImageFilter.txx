@@ -223,7 +223,7 @@ void
 StatisticsImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
 {
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   // Resize the thread temporaries
   m_Count.SetSize(numberOfThreads);
@@ -245,11 +245,11 @@ void
 StatisticsImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
 {
-  int             i;
+  ThreadIdType    i;
   SizeValueType   count;
   RealType        sumOfSquares;
 
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   PixelType minimum;
   PixelType maximum;
@@ -301,7 +301,7 @@ template< class TInputImage >
 void
 StatisticsImageFilter< TInputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   RealType  realValue;
   PixelType value;

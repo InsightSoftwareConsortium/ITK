@@ -140,7 +140,7 @@ template< class TInputImage, class TOutputImage >
 void
 StretchIntensityImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   const TInputImage *  inputPtr = this->GetInput();
   TOutputImage      *  outputPtr = this->GetOutput(0);

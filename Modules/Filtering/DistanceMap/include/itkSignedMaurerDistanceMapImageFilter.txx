@@ -230,7 +230,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, int threadId)
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
   vnl_vector< unsigned int > k(InputImageDimension - 1);
 

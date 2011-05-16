@@ -224,7 +224,7 @@ template<class InputImage, class TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType & region,
-  int itkNotUsed( threadId ) )
+  ThreadIdType itkNotUsed( threadId ) )
 {
   typename PointDataImageType::Pointer collapsedPhiLattices[ImageDimension + 1];
   for( unsigned int i = 0; i < ImageDimension; i++ )

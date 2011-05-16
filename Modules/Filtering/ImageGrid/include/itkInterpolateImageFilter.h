@@ -117,7 +117,7 @@ protected:
 
   /** InterpolateImageFilter can be implemented as a multithreaded filter. */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 
 private:
   InterpolateImageFilter(const Self &); //purposely not implemented

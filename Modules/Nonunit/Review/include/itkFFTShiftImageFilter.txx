@@ -51,7 +51,7 @@ template< class TInputImage, class TOutputImage >
 void
 FFTShiftImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // setup the progress reporter
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );

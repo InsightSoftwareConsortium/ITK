@@ -223,7 +223,7 @@ protected:
   /**
    * Multithreaded function which generates the output sampled B-spline object.
    */
-  void ThreadedGenerateData( const OutputImageRegionType &, int );
+  void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType );
 
 private:
   BSplineControlPointImageFilter( const Self& ); //purposely not implemented

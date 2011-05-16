@@ -109,7 +109,7 @@ template< class TInputImage, class TOutputImage, class TKernel >
 void
 ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   ImageRegionConstIterator< TInputImage > iRegIter;
   ImageRegionIterator< TOutputImage >     oRegIter;

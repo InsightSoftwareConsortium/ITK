@@ -231,7 +231,7 @@ template< typename TOutputImage >
 void
 RandomImageSource< TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   itkDebugMacro(<< "Generating a random image of scalars");
 

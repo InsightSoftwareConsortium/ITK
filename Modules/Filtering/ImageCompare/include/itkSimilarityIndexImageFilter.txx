@@ -104,7 +104,7 @@ void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::BeforeThreadedGenerateData()
 {
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   // Resize the thread temporaries
   m_CountOfImage1.SetSize(numberOfThreads);
@@ -122,10 +122,10 @@ void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::AfterThreadedGenerateData()
 {
-  int           i;
+  ThreadIdType           i;
   SizeValueType countImage1, countImage2, countIntersect;
 
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   countImage1 = 0;
   countImage2 = 0;
@@ -154,7 +154,7 @@ template< class TInputImage1, class TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   ImageRegionConstIterator< TInputImage1 > it1 (this->GetInput1(), outputRegionForThread);
   ImageRegionConstIterator< TInputImage2 > it2 (this->GetInput2(), outputRegionForThread);

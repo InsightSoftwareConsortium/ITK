@@ -142,7 +142,7 @@ void
 MinimumMaximumImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
 {
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   // Create the thread temporaries
   m_ThreadMin = std::vector< PixelType >( numberOfThreads,
@@ -156,8 +156,8 @@ void
 MinimumMaximumImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
 {
-  int i;
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType i;
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   PixelType minimum, maximum;
 
@@ -185,7 +185,7 @@ template< class TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   PixelType value;
 

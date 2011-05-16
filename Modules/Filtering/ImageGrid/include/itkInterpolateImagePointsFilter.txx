@@ -99,7 +99,7 @@ template< class TInputImage, class TOutputImage, class TCoordType, class Interpo
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   itkDebugMacro(<< "Actually Executing");
 

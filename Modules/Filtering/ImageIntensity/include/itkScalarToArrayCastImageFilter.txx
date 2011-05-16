@@ -43,7 +43,7 @@ template< class TInputImage, class TOutputImage  >
 void
 ScalarToArrayCastImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   unsigned int length =
     PixelTraits< OutputImagePixelType >::Dimension;

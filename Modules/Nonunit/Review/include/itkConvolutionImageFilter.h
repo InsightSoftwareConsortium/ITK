@@ -90,7 +90,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  void ThreadedGenerateData(const OutputRegionType & outputRegionForThread, int threadId);
+  void ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId);
 
 private:
   ConvolutionImageFilter(const Self &); //purposely not implemented

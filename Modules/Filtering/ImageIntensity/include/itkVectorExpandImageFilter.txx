@@ -155,7 +155,7 @@ template< class TInputImage, class TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // Get the input and output pointers
   OutputImagePointer outputPtr = this->GetOutput();

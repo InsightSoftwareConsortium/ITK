@@ -197,7 +197,7 @@ template< class TInputImage, class TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   itkDebugMacro(<< "Actually executing");
 

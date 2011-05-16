@@ -189,7 +189,7 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
   m_TempImage->DisconnectPipeline();
 
 
-  int nbOfThreads = this->GetNumberOfThreads();
+  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
   if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = std::min( this->GetNumberOfThreads(), MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -210,7 +210,7 @@ LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 template<class TInputImage, class TFeatureImage, class TOutputImage>
 void
 LabelMapContourOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, int threadId )
+::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
   OutputImageType * output = this->GetOutput();
   InputImageType * input = const_cast<InputImageType *>(this->GetInput());

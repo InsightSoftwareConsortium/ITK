@@ -153,6 +153,9 @@ typedef signed long   OffsetValueType;
 
 #endif
 
+/** Type to count and reference number of threads */
+typedef unsigned int  ThreadIdType;
+
 }
 
 #endif  /* __itkIntTypes_h */

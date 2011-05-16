@@ -256,7 +256,7 @@ void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
-  int nbOfThreads = this->GetNumberOfThreads();
+  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
   if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -278,7 +278,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, int threadId )
+::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
   OutputImageType * output = this->GetOutput();
   InputImageType * input = const_cast<InputImageType *>(this->GetInput());

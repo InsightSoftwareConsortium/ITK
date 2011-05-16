@@ -215,7 +215,7 @@ template< class TInputImage, class TOutputImage, class TAccumulator >
 void
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   if ( m_ProjectionDimension >= TInputImage::ImageDimension )
     {

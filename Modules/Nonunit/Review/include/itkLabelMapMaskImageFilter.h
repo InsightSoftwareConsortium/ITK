@@ -164,7 +164,7 @@ protected:
 
   virtual void BeforeThreadedGenerateData();
 
-  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
+  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
 
   virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
 

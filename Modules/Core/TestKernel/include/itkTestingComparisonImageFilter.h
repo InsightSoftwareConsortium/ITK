@@ -112,7 +112,7 @@ protected:
    * "outputRegionForThread"
    */
   void ThreadedGenerateData(const OutputImageRegionType & threadRegion,
-                            int threadId);
+                            ThreadIdType threadId);
 
   void BeforeThreadedGenerateData();
 

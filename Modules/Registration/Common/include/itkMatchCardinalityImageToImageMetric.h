@@ -144,7 +144,7 @@ protected:
    * GetValue(). */
   virtual
   void ThreadedGetValue(const FixedImageRegionType & outputRegionForThread,
-                        int threadId);
+                        ThreadIdType threadId);
 
   /** Split the FixedImageRegion into "num" pieces, returning
    * region "i" as "splitRegion". This method is called "num" times. The

@@ -117,7 +117,7 @@ BeforeThreadedGenerateData()
 template <class TInputImage, class TOutputImage>
 void
 FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::
-ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int itkNotUsed(threadId) )
+ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) )
 {
   typedef ImageRegionIterator< OutputImageType >   IteratorType;
   unsigned long total_outputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();

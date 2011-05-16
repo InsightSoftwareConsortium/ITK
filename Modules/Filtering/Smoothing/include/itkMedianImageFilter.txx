@@ -40,7 +40,7 @@ template< class TInputImage, class TOutputImage >
 void
 MedianImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();

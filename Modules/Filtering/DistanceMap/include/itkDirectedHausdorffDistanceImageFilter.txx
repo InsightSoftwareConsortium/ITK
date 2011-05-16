@@ -107,7 +107,7 @@ void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::BeforeThreadedGenerateData()
 {
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   // Resize the thread temporaries
   m_MaxDistance.SetSize(numberOfThreads);
@@ -136,9 +136,9 @@ void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::AfterThreadedGenerateData()
 {
-  int i;
+  ThreadIdType i;
 
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   m_DirectedHausdorffDistance = NumericTraits< RealType >::Zero;
   RealType     sum = NumericTraits< RealType >::Zero;
@@ -165,7 +165,7 @@ template< class TInputImage1, class TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::ThreadedGenerateData(const RegionType & regionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   ImageRegionConstIterator< TInputImage1 >    it1 (this->GetInput1(), regionForThread);
   ImageRegionConstIterator< DistanceMapType > it2 (m_DistanceMap, regionForThread);

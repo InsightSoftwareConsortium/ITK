@@ -35,7 +35,7 @@ template< class TImage, class TKernel, class TCompare1, class TCompare2 >
 void
 AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // check that we are using a decomposable kernel
   if ( !this->GetKernel().GetDecomposable() )

@@ -117,7 +117,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             int threadId);
+                             ThreadIdType threadId);
 
 private:
   ShiftScaleImageFilter(const Self &); //purposely not implemented
