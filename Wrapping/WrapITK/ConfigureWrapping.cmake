@@ -38,7 +38,7 @@
 # only used by the macros defined in a given cmake file.
 ###############################################################################
 
-cmake_minimum_required(VERSION 2.4.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 
 ###############################################################################
