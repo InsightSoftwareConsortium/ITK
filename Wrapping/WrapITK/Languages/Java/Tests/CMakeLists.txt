@@ -173,7 +173,7 @@ add_java_test(JavaBinaryThresholdImageFilter
   ${WrapITK_SOURCE_DIR}/images/cthead1.png
   BinaryThresholdImageFilter.png
   50 150
-  0 65535
+  0 255
   --compare BinaryThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png
 )
 
@@ -184,7 +184,7 @@ add_java_test(JavaCastImageFilter
   ${WrapITK_SOURCE_DIR}/images/cthead1.png
   CastImageFilter.png
   50 150
-  0 65535
+  0 255
   --compare CastImageFilter.png ${WrapITK_SOURCE_DIR}/images/cthead1.png
 )
 

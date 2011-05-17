@@ -30,10 +30,10 @@ public class SigmoidImageFilter
   {
     System.out.println("SigmoidImageFilter Example");
 
-    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
-    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
+    itkImageFileReaderIUC2 reader = new itkImageFileReaderIUC2();
+    itkImageFileWriterIUC2 writer = new itkImageFileWriterIUC2();
 
-    itkSigmoidImageFilterIUS2IUS2 filter = new itkSigmoidImageFilterIUS2IUS2();
+    itkSigmoidImageFilterIUC2IUC2 filter = new itkSigmoidImageFilterIUC2IUC2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

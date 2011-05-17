@@ -22,10 +22,10 @@
 #
 package require InsightToolkit
 
-set reader [ itkImageFileReaderIUS2_New ]
+set reader [ itkImageFileReaderIUC2_New ]
 set writer [ itkImageFileWriterIUC2_New ]
 
-set filter [ itkRescaleIntensityImageFilterIUS2IUC2_New ]
+set filter [ itkRescaleIntensityImageFilterIUC2IUC2_New ]
 
 set dicomIO [ itkDicomImageIO_New ]
 

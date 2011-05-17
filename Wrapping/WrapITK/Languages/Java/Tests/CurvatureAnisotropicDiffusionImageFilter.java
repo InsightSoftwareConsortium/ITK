@@ -31,22 +31,19 @@ public class CurvatureAnisotropicDiffusionImageFilter
 {
   public static void main( String argv[] )
   {
-    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
-    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
+    itkImageFileReaderIUC2 reader = new itkImageFileReaderIUC2();
+    itkImageFileWriterIUC2 writer = new itkImageFileWriterIUC2();
 
-    itkCastImageFilterIUS2IF2 inputCast = new itkCastImageFilterIUS2IF2();
+    itkCastImageFilterIUC2IF2 inputCast = new itkCastImageFilterIUC2IF2();
 
     itkCurvatureAnisotropicDiffusionImageFilterIF2IF2 filter = new itkCurvatureAnisotropicDiffusionImageFilterIF2IF2();
 
-    itkRescaleIntensityImageFilterIF2IUS2 outputCast = new itkRescaleIntensityImageFilterIF2IUS2();
+    itkRescaleIntensityImageFilterIF2IUC2 outputCast = new itkRescaleIntensityImageFilterIF2IUC2();
 
     inputCast.SetInput( reader.GetOutput() );
     filter.SetInput( inputCast.GetOutput() );
     outputCast.SetInput( filter.GetOutput() );
     writer.SetInput( outputCast.GetOutput() );
-
-    outputCast.SetOutputMinimum(  0  );
-    outputCast.SetOutputMaximum( 255 );
 
     filter.SetNumberOfIterations(   Integer.parseInt( argv[2] ) );
     filter.SetTimeStep(             Float.parseFloat( argv[3] ) );

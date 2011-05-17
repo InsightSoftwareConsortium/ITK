@@ -31,15 +31,15 @@ set cf [itkCurvatureFlowImageFilterF2F2_New]
   $cf SetTimeStep 0.25
   $cf SetNumberOfIterations 10
 
-set cfss [itkShiftScaleImageFilterF2US2_New]
+set cfss [itkShiftScaleImageFilterF2UC2_New]
   $cfss SetInput [$cf GetOutput]
   $cfss SetShift 0.7
   $cfss SetScale 0.9
 
-set valid [itkImageFileReaderUS2_New]
+set valid [itkImageFileReaderUC2_New]
   $valid SetFileName "${ITK_TEST_BASELINE}/$dir/$name.png"
 
-set diff [itkDifferenceImageFilterUS2_New]
+set diff [itkDifferenceImageFilterUC2_New]
   $diff SetValidInput [$valid GetOutput]
   $diff SetTestInput [$cfss GetOutput]
   $diff SetToleranceRadius 1
@@ -55,8 +55,8 @@ puts "<DartMeasurement name=\"MeanDifference\" type=\"numeric/double\">$meanDiff
 puts "<DartMeasurement name=\"TotalDifference\" type=\"numeric/double\">$totalDiff</DartMeasurement>"
 
 if {$meanDiff > 0.1} {
-  set convert [itkShiftScaleImageFilterUS2UC2_New]
-  set rescale [itkRescaleIntensityImageFilterUS2UC2_New]
+  set convert [itkShiftScaleImageFilterUC2UC2_New]
+  set rescale [itkRescaleIntensityImageFilterUC2UC2_New]
     $rescale SetInput [$diff GetOutput]
     $rescale SetOutputMinimum 0
     $rescale SetOutputMaximum 255

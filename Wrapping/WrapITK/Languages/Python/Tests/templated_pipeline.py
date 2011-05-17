@@ -43,13 +43,12 @@ LabelDilateImageFilter = itk.templated_class(LabelDilateImageFilter)
 
 # and use it
 dim = 2
-IType = itk.Image[itk.US, dim]
+IType = itk.Image[itk.UC, dim]
 OIType = itk.Image[itk.UC, dim]
 DIType = itk.Image[itk.F, dim]
 
 reader = itk.ImageFileReader[IType].New( FileName=argv[1] )
 dilate = LabelDilateImageFilter[IType, DIType].New(reader, Radius=eval(argv[3]))
-cast = itk.CastImageFilter[IType, OIType].New(dilate)
-writer = itk.ImageFileWriter[OIType].New( cast, FileName=argv[2] )
+writer = itk.ImageFileWriter[OIType].New( dilate, FileName=argv[2] )
 
 writer.Update()

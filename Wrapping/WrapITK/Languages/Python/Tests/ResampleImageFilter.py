@@ -49,7 +49,7 @@ if( len(argv) >= 4 ):
   exampleAction = int( argv[3] )
 
 Dimension = 2
-InputPixelType = itk.US
+InputPixelType = itk.UC
 OutputPixelType = itk.UC
 InputImageType = itk.Image[ InputPixelType,  Dimension ]
 OutputImageType = itk.Image[ OutputPixelType, Dimension ]

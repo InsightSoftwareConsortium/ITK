@@ -37,10 +37,10 @@ watershed.SetInput(gradient.GetOutput())
 watershed.SetThreshold(0.01)
 watershed.SetLevel(0.2)
 
-relabel = itk.RelabelComponentImageFilter.IUL2IUS2.New()
+relabel = itk.RelabelComponentImageFilter.IUL2ISS2.New()
 relabel.SetInput( watershed.GetOutput() )
 
-cast = itk.CastImageFilter.IUS2IUC2.New()
+cast = itk.CastImageFilter.ISS2IUC2.New()
 cast.SetInput( relabel.GetOutput() )
 
 writer = itk.ImageFileWriter.IUC2.New()
