@@ -41,7 +41,8 @@ namespace itk
  * \ingroup ITK-ImageFilterBase
  *
  * \wiki
- * \wikiexample{ImageProcessing/BinaryFunctorImageFilter,Apply a custom operation to corresponding pixels in two images}
+ * \wikiexample{ImageProcessing/BinaryFunctorImageFilter,Apply a predefined operation to corresponding pixels in two images}
+ * \wikiexample{ImageProcessing/BinaryFunctorImageFilterCustom,Apply a custom operation to corresponding pixels in two images}
  * \endwiki
  */
 template< class TInputImage1, class TInputImage2,
