@@ -34,6 +34,7 @@ namespace itk
  *
  * \wiki
  * \wikiexample{ImageProcessing/MultiplyImageFilter,Multiply two images together}
+ * \wikiexample{ImageProcessing/MultiplyByConstantImageFilter,Multiply every pixel in an image by a constant}
  * \endwiki
  */
 namespace Functor

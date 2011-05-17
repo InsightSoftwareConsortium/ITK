@@ -36,6 +36,7 @@ namespace itk
  *
  * \wiki
  * \wikiexample{ImageProcessing/SubtractImageFilter,Subtract two images}
+ * \wikiexample{ImageProcessing/SubtractConstantFromImageFilter,Subtract a constant from every pixel in an image}
  * \endwiki
  */
 namespace Functor
