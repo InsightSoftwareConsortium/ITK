@@ -79,6 +79,16 @@
 # does not include a hash-algorithm extension.  Both series configuration
 # variables have default values that work well for common cases.
 #
+# The DATA{} syntax can alternatively match files associated with the named
+# file and contained in the same directory.  Associated files may be specified
+# by options using the syntax DATA{<name>,<opt1>,<opt2>,...}.  Each option may
+# specify one file by name or specify a regular expression to match file names
+# using the syntax REGEX:<regex>.  For example, the arguments
+#   DATA{MyData/MyInput.mhd,MyInput.img}             # File pair
+#   DATA{MyData/MyFrames00.png,MyFrames[0-9]+\\.png} # Series
+# will pass MyInput.mha and MyFrames00.png on the command line but ensure
+# that the associated files are present next to them.
+#
 # The variable ExternalData_LINK_CONTENT may be set to the name of a supported
 # hash algorithm to enable automatic conversion of real data files referenced
 # by the DATA{} syntax into content links.  For each such <file> a content
@@ -236,6 +246,11 @@ function(_ExternalData_compute_hash var_hash algo file)
   endif()
 endfunction()
 
+function(_ExternalData_exact_regex regex_var string)
+  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" regex "${string}")
+  set("${regex_var}" "${regex}" PARENT_SCOPE)
+endfunction()
+
 function(_ExternalData_atomic_write file content)
   string(RANDOM LENGTH 6 random)
   set(tmp "${file}.tmp${random}")
@@ -263,7 +278,12 @@ function(_ExternalData_link_content name var_ext)
   message(STATUS "Linked ${relname} to ExternalData ${algo}/${hash}")
 endfunction()
 
-function(_ExternalData_arg target arg data var_file)
+function(_ExternalData_arg target arg options var_file)
+  # Separate data path from the options.
+  string(REPLACE "," ";" options "${options}")
+  list(GET options 0 data)
+  list(REMOVE_AT options 0)
+
   # Convert to full path.
   if(IS_ABSOLUTE "${data}")
     set(absdata "${data}")
@@ -286,6 +306,91 @@ function(_ExternalData_arg target arg data var_file)
   endif()
   set(top_bin "${CMAKE_BINARY_DIR}/ExternalData") # TODO: .../${target} ?
 
+  set(external "") # Entries external to the source tree.
+  set(internal "") # Entries internal to the source tree.
+  set(have_original 0)
+
+  # Process options.
+  set(associated_files "")
+  set(associated_regex "")
+  foreach(opt ${options})
+    if("x${opt}" MATCHES "^xREGEX:[^:/]+$")
+      # Regular expression to match associated files.
+      string(REGEX REPLACE "^REGEX:" "" regex "${opt}")
+      list(APPEND associated_regex "${regex}")
+    elseif("x${opt}" MATCHES "^[^][:/*?]+$")
+      # Specific associated file.
+      list(APPEND associated_files "${opt}")
+    else()
+      message(FATAL_ERROR "Unknown option \"${opt}\" in argument\n"
+        "  ${arg}\n")
+    endif()
+  endforeach()
+
+  if(associated_files OR associated_regex)
+    # Load the named data file and listed/matching associated files.
+    _ExternalData_arg_single()
+    _ExternalData_arg_associated()
+  elseif("${reldata}" MATCHES "(^|/)[^/.]+$")
+    # Files with no extension cannot be a series.
+    _ExternalData_arg_single()
+  else()
+    # Match a whole file series by default.
+    _ExternalData_arg_series()
+  endif()
+
+  if(NOT have_original)
+    message(FATAL_ERROR "Data file referenced by argument\n"
+      "  ${arg}\n"
+      "corresponds to source tree path\n"
+      "  ${reldata}\n"
+      "that does not exist (with or without an extension)!")
+  endif()
+
+  if(external)
+    # Make the series available in the build tree.
+    set_property(GLOBAL APPEND PROPERTY
+      _ExternalData_${target}_FETCH "${external}")
+    set_property(GLOBAL APPEND PROPERTY
+      _ExternalData_${target}_LOCAL "${internal}")
+    set("${var_file}" "${top_bin}/${reldata}" PARENT_SCOPE)
+  else()
+    # The whole series is in the source tree.
+    set("${var_file}" "${top_src}/${reldata}" PARENT_SCOPE)
+  endif()
+endfunction()
+
+macro(_ExternalData_arg_associated)
+  # Associated files lie in the same directory.
+  get_filename_component(reldir "${reldata}" PATH)
+  if(reldir)
+    set(reldir "${reldir}/")
+  endif()
+  _ExternalData_exact_regex(reldir_regex "${reldir}")
+
+  # Find files named explicitly.
+  foreach(file ${associated_files})
+    _ExternalData_exact_regex(file_regex "${file}")
+    _ExternalData_arg_find_files("${reldir}${file}" "${reldir_regex}${file_regex}")
+  endforeach()
+
+  # Find files matching the given regular expressions.
+  set(all "")
+  set(sep "")
+  foreach(regex ${associated_regex})
+    set(all "${all}${sep}${reldir_regex}${regex}")
+    set(sep "|")
+  endforeach()
+  _ExternalData_arg_find_files("${reldir}" "${all}")
+endmacro()
+
+macro(_ExternalData_arg_single)
+  # Match only the named data by itself.
+  _ExternalData_exact_regex(data_regex "${reldata}")
+  _ExternalData_arg_find_files("${reldata}" "${data_regex}")
+endmacro()
+
+macro(_ExternalData_arg_series)
   # Configure series parsing and matching.
   if(ExternalData_SERIES_PARSE)
     if(NOT "${ExternalData_SERIES_PARSE}" MATCHES
@@ -317,22 +422,21 @@ function(_ExternalData_arg target arg data var_file)
       "that does not match regular expression\n"
       "  ${series_parse}")
   endif()
-
-  # Glob files that might match the series.
   list(GET tuple 0 relbase)
   list(GET tuple 2 ext)
-  set(pattern "${relbase}*${ext}*")
-  file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}")
 
-  # Match base, number, and extension perhaps followed by a hash ext.
-  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" series_base "${relbase}")
-  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" series_ext "${ext}")
-  set(series_regex "^(${series_base}${series_match}${series_ext})(\\.[^.]*|)$")
-  set(external "") # Entries external to the source tree.
-  set(internal "") # Entries internal to the source tree.
-  set(have_original 0)
+  # Glob files that might match the series.
+  # Then match match base, number, and extension.
+  _ExternalData_exact_regex(series_base "${relbase}")
+  _ExternalData_exact_regex(series_ext "${ext}")
+  _ExternalData_arg_find_files("${relbase}*${ext}"
+    "${series_base}${series_match}${series_ext}")
+endmacro()
+
+function(_ExternalData_arg_find_files pattern regex)
+  file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
   foreach(entry IN LISTS globbed)
-    string(REGEX REPLACE "${series_regex}" "\\1;\\2" tuple "${entry}")
+    string(REGEX REPLACE "^(${regex})(\\.[^.]*|)$" "\\1;\\2" tuple "${entry}")
     list(LENGTH tuple len)
     if("${len}" EQUAL 2)
       list(GET tuple 0 relname)
@@ -352,26 +456,9 @@ function(_ExternalData_arg target arg data var_file)
       endif()
     endif()
   endforeach()
-
-  if(NOT have_original)
-    message(FATAL_ERROR "Data file referenced by argument\n"
-      "  ${arg}\n"
-      "corresponds to source tree path\n"
-      "  ${reldata}\n"
-      "that does not exist (with or without an extension)!")
-  endif()
-
-  if(external)
-    # Make the series available in the build tree.
-    set_property(GLOBAL APPEND PROPERTY
-      _ExternalData_${target}_FETCH "${external}")
-    set_property(GLOBAL APPEND PROPERTY
-      _ExternalData_${target}_LOCAL "${internal}")
-    set("${var_file}" "${top_bin}/${reldata}" PARENT_SCOPE)
-  else()
-    # The whole series is in the source tree.
-    set("${var_file}" "${top_src}/${reldata}" PARENT_SCOPE)
-  endif()
+  set(external "${external}" PARENT_SCOPE)
+  set(internal "${internal}" PARENT_SCOPE)
+  set(have_original "${have_original}" PARENT_SCOPE)
 endfunction()
 
 #-----------------------------------------------------------------------------
