@@ -24,6 +24,7 @@
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkGradientMagnitudeImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {

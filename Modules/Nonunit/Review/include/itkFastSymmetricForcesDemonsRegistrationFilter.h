@@ -21,7 +21,7 @@
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkESMDemonsRegistrationFunction.h"
 
-#include "itkMultiplyByConstantImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 #include "itkExponentialDeformationFieldImageFilter.h"
 
 namespace itk
@@ -100,6 +100,9 @@ public:
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
   typedef typename Superclass::DeformationFieldPointer DeformationFieldPointer;
 
+  itkStaticConstMacro(
+    ImageDimension, unsigned int, FixedImageType::ImageDimension);
+
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
    * computed over the the overlapping region between the two images.
@@ -158,9 +161,10 @@ protected:
   virtual void ApplyUpdate(const TimeStepType& dt);
 
   /** other typedefs */
-  typedef MultiplyByConstantImageFilter<
+  typedef MultiplyImageFilter<
     DeformationFieldType,
-    TimeStepType, DeformationFieldType >                  MultiplyByConstantType;
+    itk::Image<TimeStepType, ImageDimension>,
+    DeformationFieldType >                                MultiplyByConstantType;
 
   typedef AddImageFilter<
     DeformationFieldType,

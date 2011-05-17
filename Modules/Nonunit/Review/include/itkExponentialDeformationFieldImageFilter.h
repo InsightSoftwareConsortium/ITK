@@ -18,7 +18,7 @@
 #ifndef __itkExponentialDeformationFieldImageFilter_h
 #define __itkExponentialDeformationFieldImageFilter_h
 
-#include "itkDivideByConstantImageFilter.h"
+#include "itkDivideImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkWarpVectorImageFilter.h"
 #include "itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction.h"
@@ -143,9 +143,10 @@ protected:
 
   typedef typename InputImageType::RegionType RegionType;
 
-  typedef DivideByConstantImageFilter<
+  typedef DivideImageFilter<
     InputImageType,
-    InputPixelRealValueType, OutputImageType >         DivideByConstantType;
+    itk::Image<InputPixelRealValueType, ImageDimension>,
+    OutputImageType >                                   DivideByConstantType;
 
   typedef CastImageFilter<
     InputImageType, OutputImageType >                   CasterType;
