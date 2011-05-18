@@ -233,12 +233,12 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
 
   std::vector< InternalNodeStructure > NodesUsed( ImageDimension );
 
-  GetInternalNodesUsed( oImage, iNode, NodesUsed );
+  this->GetInternalNodesUsed( oImage, iNode, NodesUsed );
 
   InternalNodeStructure temp_node;
 
   OutputPixelType outputPixel =
-      static_cast< OutputPixelType >( Solve( oImage, iNode, NodesUsed ) );
+      static_cast< OutputPixelType >( this->Solve( oImage, iNode, NodesUsed ) );
 
   if ( outputPixel < this->m_LargeValue )
     {
