@@ -124,7 +124,7 @@ except:
   pass
 
 try:
-  itk.SubtractImageFilter[IType, IType, IType].New(im, 1)
+  itk.SubtractImageFilter[IType, IType, IType].New(im, "wrong")
   raise Exception('no exception sent for wrong 2nd input type')
 except TypeError:
   pass
