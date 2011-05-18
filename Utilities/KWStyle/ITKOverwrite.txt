@@ -89,6 +89,17 @@ itkMetaDataObject.txx Namespace Disable
 itkMersenneTwisterRandomVariateGenerator.h InternalVariables Disable
 itkNeighborhoodAllocator.h Typedefs Disable
 itkNodeList.h InternalVariables Disable
+itkNumericTraitsArrayPixel.h Comments Disable
+itkNumericTraitsCovariantVectorPixel.h Comments Disable
+itkNumericTraitsDiffusionTensor3DPixel.h Comments Disable
+itkNumericTraitsFixedArrayPixel.h Comments Disable
+itkNumericTraitsPointPixel.h Comments Disable
+itkNumericTraitsRGBAPixel.h Comments Disable
+itkNumericTraitsRGBPixel.h Comments Disable
+itkNumericTraitsStdVector.h Comments Disable
+itkNumericTraitsTensorPixel.h Comments Disable
+itkNumericTraitsVariableLengthVectorPixel.h Comments Disable
+itkNumericTraitsVectorPixel.h Comments Disable
 itkNumericTraitsArrayPixel.h InternalVariables Disable
 itkNumericTraitsPointPixel.h InternalVariables Disable
 itkNumericTraitsCovariantVectorPixel.h InternalVariables Disable
