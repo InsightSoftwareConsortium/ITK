@@ -194,6 +194,26 @@ SORT_MEMBER_DOCS      = YES
 
 TAB_SIZE              = 8
 
+# This tag can be used to specify a number of aliases that acts
+# as commands in the documentation. An alias has the form "name=value".
+# For example adding "sideeffect=\par Side Effects:\n" will allow you to
+# put the command \sideeffect (or @sideeffect) in the documentation, which
+# will result in a user-defined paragraph with heading "Side Effects:".
+# You can put \n's in the value part of an alias to insert newlines.
+
+ALIASES                = "wikimainaddress{1}=<a href=\"\1\">All Examples</a>" \
+                         "wikiexamplemaintitle=\par Wiki Examples:\n\n" \
+                         "wikiexample{2}=\li http://www.itk.org/Wiki/ITK/Examples/\1 -- \2\n" \
+                         "wiki=\wikiexamplemaintitle \li \wikimainaddress{http://www.itk.org/Wiki/ITK/Examples}\n" \
+                         "endwiki=\n\n\n"
+
+# The IMAGE_PATH tag can be used to specify one or more files or
+# directories that contain image that are included in the documentation (see
+# the \image command).
+
+IMAGE_PATH             = "@ITK_SOURCE_DIR@/Documentation/Art" \
+                         "@ITK_BINARY_DIR@/Utilities/Doxygen/Modules"
+
 # The ENABLE_SECTIONS tag can be used to enable conditional
 # documentation sections, marked by \if sectionname ... \endif.
 
