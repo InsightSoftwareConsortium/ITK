@@ -1,5 +1,11 @@
 ###############################################################################
 # configure ruby
+# Ruby support is currently broken. Show the warning message.
+message(WARNING "RUBY support in WrapITK is currently broken!")
+
+# Keep WRAP_ITK_RUBY in advanced mode
+mark_as_advanced(WRAP_ITK_RUBY)
+
 find_package(Ruby)
 mark_as_advanced(RUBY_EXECUTABLE)
 include_directories(${RUBY_INCLUDE_PATH})
