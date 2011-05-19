@@ -4,6 +4,10 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
 itkLaplacianImageFilterTest.cxx
 itkSobelEdgeDetectionImageFilterTest.cxx
 itkHessian3DToVesselnessMeasureImageFilterTest.cxx
+itkHessianRecursiveGaussianFilterScaleSpaceTest.cxx
+itkHessianRecursiveGaussianFilterTest.cxx
+itkHoughTransform2DCirclesImageTest.cxx
+itkHoughTransform2DLinesImageTest.cxx
 itkCannyEdgeDetectionImageFilterTest.cxx
 itkBilateralImageFilterTest.cxx
 itkTensorRelativeAnisotropyImageFilterTest.cxx
@@ -31,6 +35,14 @@ itk_add_test(NAME itkSobelEdgeDetectionImageFilterTest
       COMMAND ITK-ImageFeatureTestDriver itkSobelEdgeDetectionImageFilterTest)
 itk_add_test(NAME itkHessian3DToVesselnessMeasureImageFilterTest
       COMMAND ITK-ImageFeatureTestDriver itkHessian3DToVesselnessMeasureImageFilterTest)
+itk_add_test(NAME itkHessianRecursiveGaussianFilterScaleSpaceTest
+      COMMAND ITK-ImageFeatureTestDriver itkHessianRecursiveGaussianFilterScaleSpaceTest)
+itk_add_test(NAME itkHessianRecursiveGaussianFilterTest
+      COMMAND ITK-ImageFeatureTestDriver itkHessianRecursiveGaussianFilterTest)
+itk_add_test(NAME itkHoughTransform2DCirclesImageTest
+      COMMAND ITK-ImageFeatureTestDriver itkHoughTransform2DCirclesImageTest)
+itk_add_test(NAME itkHoughTransform2DLinesImageTest
+      COMMAND ITK-ImageFeatureTestDriver itkHoughTransform2DLinesImageTest)
 itk_add_test(NAME itkCannyEdgeDetectionImageFilterTest
       COMMAND ITK-ImageFeatureTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkCannyEdgeDetectionImageFilterTest.png

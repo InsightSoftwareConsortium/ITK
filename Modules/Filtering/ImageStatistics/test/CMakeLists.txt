@@ -5,6 +5,10 @@ itkLabelStatisticsImageFilterTest.cxx
 itkSumProjectionImageFilterTest.cxx
 itkStandardDeviationProjectionImageFilterTest.cxx
 itkImageStatisticsHeaderTest.cxx
+itkImageMomentsTest.cxx
+itkImageToHistogramFilterTest.cxx
+itkImageToHistogramFilterTest2.cxx
+itkImageToHistogramFilterTest3.cxx
 itkMinimumMaximumImageFilterTest.cxx
 itkImagePCAShapeModelEstimatorTest.cxx
 itkMaximumProjectionImageFilterTest2.cxx
@@ -27,6 +31,7 @@ itkAdaptiveHistogramEqualizationImageFilterTest.cxx
 itkNormalizedCorrelationImageFilterTest.cxx
 itkGetAverageSliceImageFilterTest.cxx
 itkBinaryProjectionImageFilterTest.cxx
+itkProjectionImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ImageStatistics  "${ITK-ImageStatistics-Test_LIBRARIES}" "${ITK-ImageStatisticsTests}")
@@ -48,6 +53,16 @@ itk_add_test(NAME itkStandardDeviationProjectionImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeStandardDeviationProjection.tif
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStandardDeviationProjection.tif
     itkStandardDeviationProjectionImageFilterTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStandardDeviationProjection.tif)
+itk_add_test(NAME itkImageMomentsTest
+      COMMAND ITK-ImageStatisticsTestDriver itkImageMomentsTest)
+itk_add_test(NAME itkImageToHistogramFilterTest
+      COMMAND ITK-ImageStatisticsTestDriver itkImageToHistogramFilterTest)
+itk_add_test(NAME itkImageToHistogramFilterTest2
+      COMMAND ITK-ImageStatisticsTestDriver itkImageToHistogramFilterTest2
+              ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt)
+itk_add_test(NAME itkImageToHistogramFilterTest3
+      COMMAND ITK-ImageStatisticsTestDriver itkImageToHistogramFilterTest3
+              ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest3.txt)
 itk_add_test(NAME itkMinimumMaximumImageFilterTest
       COMMAND ITK-ImageStatisticsTestDriver itkMinimumMaximumImageFilterTest)
 itk_add_test(NAME itkImagePCAShapeModelEstimatorTest
@@ -153,3 +168,8 @@ itk_add_test(NAME itkBinaryProjectionImageFilterTest2
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryProjection200.tif
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection200.tif
     itkBinaryProjectionImageFilterTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection200.tif 200 0)
+itk_add_test(NAME itkProjectionImageFilterTest1
+      COMMAND ITK-ImageStatisticsTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryProjection100.tif
+              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeProjection100.tif
+    itkProjectionImageFilterTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeProjection100.tif 100 0)

@@ -4,7 +4,6 @@ itkDenseFrequencyContainer2.cxx
 itkChiSquareDistribution.cxx
 itkDecisionRuleBase.cxx
 itkTDistribution.cxx
-itkMersenneTwisterRandomVariateGenerator.cxx
 itkGaussianDistribution.cxx
 itkNormalVariateGenerator.cxx
 itkMaximumRatioDecisionRule2.cxx
