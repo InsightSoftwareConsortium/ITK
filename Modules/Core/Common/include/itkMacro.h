@@ -131,14 +131,10 @@ namespace itk
 #define itkGetInputMacro(name, type, number)                                                                     \
   virtual const type * Get##name##Input() const                                                              \
     {                                                                                                            \
-    itkDebugMacro( "returning input " << #name " of "                                                           \
-                                      << static_cast< const type * >( this->ProcessObject::GetInput(number) ) ); \
     return static_cast< const type * >( this->ProcessObject::GetInput(number) );                                 \
     }                                                                                                            \
   virtual const type *GetInput##number() const                                                                 \
     {                                                                                                            \
-    itkDebugMacro( "returning input " << #number " of "                                                         \
-                                      << static_cast< const type * >( this->ProcessObject::GetInput(number) ) ); \
     return static_cast< const type * >( this->ProcessObject::GetInput(number) );                                 \
     }
 
@@ -165,7 +161,6 @@ namespace itk
     }                                                                \
   virtual const type & Get##name() const                             \
     {                                                                \
-    itkDebugMacro("Getting input " #name);                           \
     typedef SimpleDataObjectDecorator< type > DecoratorType;         \
     const DecoratorType *input =                                     \
       static_cast< const DecoratorType * >(                          \
@@ -216,7 +211,6 @@ namespace itk
 #define itkGetMacro(name, type)                                       \
   virtual type Get##name ()                                         \
     {                                                                 \
-    itkDebugMacro("returning " << #name " of " << this->m_##name); \
     return this->m_##name;                                          \
     }
 
@@ -226,7 +220,6 @@ namespace itk
 #define itkGetConstMacro(name, type)                                  \
   virtual type Get##name () const                                   \
     {                                                                 \
-    itkDebugMacro("returning " << #name " of " << this->m_##name); \
     return this->m_##name;                                          \
     }
 
@@ -237,7 +230,6 @@ namespace itk
 #define itkGetConstReferenceMacro(name, type)                         \
   virtual const type &Get##name () const                            \
     {                                                                 \
-    itkDebugMacro("returning " << #name " of " << this->m_##name); \
     return this->m_##name;                                          \
     }
 
@@ -260,11 +252,10 @@ namespace itk
   * This should be use when the type is an enum. It is use to avoid warnings on
   * some compilers with non specified enum types passed to
   * itkDebugMacro. */
-#define itkGetEnumMacro(name, type)                                                            \
-  virtual type Get##name () const                                                            \
-    {                                                                                          \
-    itkDebugMacro( "returning " << #name " of " << static_cast< long >( this->m_##name ) ); \
-    return this->m_##name;                                                                   \
+#define itkGetEnumMacro(name, type)                                           \
+  virtual type Get##name () const                                             \
+    {                                                                         \
+    return this->m_##name;                                                    \
     }
 
 /** Set character string.  Creates member Set"name"()
@@ -333,7 +324,6 @@ namespace itk
 #define itkGetObjectMacro(name, type)                                   \
   virtual type * Get##name ()                                         \
     {                                                                   \
-    itkDebugMacro("returning " #name " address " << this->m_##name); \
     return this->m_##name.GetPointer();                               \
     }
 
@@ -357,17 +347,15 @@ namespace itk
 #define itkGetConstObjectMacro(name, type)                              \
   virtual const type * Get##name () const                             \
     {                                                                   \
-    itkDebugMacro("returning " #name " address " << this->m_##name); \
     return this->m_##name.GetPointer();                               \
     }
 
 /** Get a const reference to a smart pointer to an object.
  * Creates the member Get"name"() (e.g., GetPoints()). */
 #define itkGetConstReferenceObjectMacro(name, type)                     \
-  virtual const typename type::Pointer & Get##name () const           \
+  virtual const typename type::Pointer & Get##name () const             \
     {                                                                   \
-    itkDebugMacro("returning " #name " address " << this->m_##name); \
-    return this->m_##name;                                            \
+    return this->m_##name;                                              \
     }
 
 /** Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
