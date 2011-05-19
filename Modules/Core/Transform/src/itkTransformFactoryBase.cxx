@@ -41,6 +41,11 @@ namespace itk
 {
 TransformFactoryBase *TransformFactoryBase:: m_Factory = 0;
 
+namespace TransformFactoryBasePrivate
+{
+bool DefaultTransformsRegistered = false;
+}
+
 TransformFactoryBase::TransformFactoryBase()
 {}
 
@@ -49,7 +54,13 @@ TransformFactoryBase::~TransformFactoryBase()
 
 void TransformFactoryBase::RegisterDefaultTransforms()
 {
-  if ( !m_Factory )
+  //
+  // make sure that the the factory instance has
+  // been created. All normal paths to this method
+  // already do this but this makes certain sure it's done
+  (void)TransformFactoryBase::GetFactory();
+
+  if ( !TransformFactoryBasePrivate::DefaultTransformsRegistered )
     {
     TransformFactory< IdentityTransform< double, 2 > >::RegisterTransform ();
     TransformFactory< IdentityTransform< double, 3 > >::RegisterTransform ();
@@ -155,6 +166,7 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< VersorRigid3DTransform< float > >::RegisterTransform ();
     TransformFactory< VersorTransform< float > >::RegisterTransform ();
     }
+  TransformFactoryBasePrivate::DefaultTransformsRegistered = true;
 }
 
 const char *

@@ -32,11 +32,9 @@
 static int oneTest(const char *goodname,const char *badname)
 {
   unsigned int i;
-  // Create an odd type of transform, and register it
-  typedef itk::AffineTransform<double,4> AffineTransformType;
+  typedef itk::AffineTransform<double,4>  AffineTransformType;
   typedef itk::AffineTransform<double,10> AffineTransformTypeNotRegistered;
-  itk::TransformFactory<AffineTransformType>::RegisterTransform();
-  AffineTransformType::Pointer affine = AffineTransformType::New();
+  AffineTransformType::Pointer        affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
 
   // Set it's parameters
@@ -117,8 +115,6 @@ static int oneTest(const char *goodname,const char *badname)
     }
   Bogus->SetFixedParameters ( p );
 
-
-
   itk::TransformFileWriter::Pointer badwriter;
   itk::TransformFileReader::Pointer badreader;
   badreader = itk::TransformFileReader::New();
@@ -146,14 +142,14 @@ static int oneTest(const char *goodname,const char *badname)
 
   std::cout << "Testing read of non register transform : " << std::endl;
   std::cout << std::flush;
-  bool caught = 0;
+  bool caught = false;
   try
     {
     badreader->Update();
     }
   catch( itk::ExceptionObject & excp )
     {
-    caught = 1;
+    caught = true;
     std::cout << "Caught exception as expected" << std::endl;
     std::cout << excp << std::endl;
     }
@@ -227,7 +223,8 @@ int itkTransformIOTest(int argc, char* argv[])
     }
   int result1 =  oneTest("Transforms.txt", "TransformsBad.txt" );
   int result2 =  oneTest("Transforms.mat", "TransformsBad.mat" );
-  int result3 =  secondTest();
+  int result3 = oneTest( "Transforms.hdf5","TransformsBad.hdf5" );
+  int result4 =  secondTest();
   return !(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS
-    && result3 == EXIT_SUCCESS);
+    && result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS);
 }
