@@ -118,8 +118,8 @@ public:
    * Set/Get the value used as "foreground" in the output image.
    * Defaults to NumericTraits<MaskPixelType>::max().
    */
-  itkSetMacro(ForegroundValue, PixelType);
-  itkGetConstMacro(ForegroundValue, PixelType);
+  itkSetMacro(ForegroundValue, MarkerImagePixelType);
+  itkGetConstMacro(ForegroundValue, MarkerImagePixelType);
 
 protected:
   BinaryReconstructionLabelMapFilter();
