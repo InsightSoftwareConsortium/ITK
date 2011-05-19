@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--**
+**
+** RenamedFunctionsToFunctors.xml
+**
+**
+**-->
+<Change>
+    <!--**
+    ** Title for the online migration page
+    **-->
+    <Title>
+      Renamed Functions to Functors
+    </Title>
+
+    <!--**
+    ** The author of the change
+    **-->
+    <Author>
+      David Doria
+    </Author>
+
+    <!--**
+    ** Date of creation for the XML document
+    **-->
+    <Date>
+      2011-05-16
+    </Date>
+
+    <!--**
+    ** Plain text description of the change
+    ** Extracted from git commit messages
+    **-->
+    <Description>
+      Some UnaryFunctorImageFilter, BinaryFunctorImageFilter, NaryFunctorImageFilter,
+      TernaryFunctorImageFilter, and ProjectionImageFilter subclasses had their
+      functor in the Function namespace. I have moved them all to be in the
+      Functor namespace.
+
+    </Description>
+
+    <!--**
+    ** Sample code snippets
+    ** Extracted from git diff of changed files in Examples and Testing
+    **-->
+    <SampleCode>
+      <Old>
+	namespace Function
+	Function::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType > > Superclass;
+      </Old>
+
+      <New>
+	namespace Functor
+	Functor::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType > > Superclass;
+      </New>
+
+    </SampleCode>
+
+    <!--**
+    ** The change-ids for all commits in the topic branch
+    **-->
+    <Gerrit-ChangeId>
+      Id4f25d0b0f747149cb05b7320816f475dd22984d
+    </Gerrit-ChangeId>
+
+    <!--**
+    ** List of all changed files from the topic branch
+    **-->
+    <FileList>
+      Modules/Filtering/ImageCompose/include/itkCompose2DCovariantVectorImageFilter.h
+      Modules/Filtering/ImageCompose/include/itkCompose2DVectorImageFilter.h
+      Modules/Filtering/ImageCompose/include/itkCompose3DCovariantVectorImageFilter.h
+      Modules/Filtering/ImageCompose/include/itkCompose3DVectorImageFilter.h
+      Modules/Filtering/ImageCompose/include/itkComposeRGBImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkAbsImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkComplexToImaginaryImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkComplexToModulusImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkComplexToPhaseImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkComplexToRealImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkDivideImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkExpImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkExpNegativeImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkLog10ImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkLogImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkMaximumImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkMinimumImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkMultiplyImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkRGBToLuminanceImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkSigmoidImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkSinImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkSqrtImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkSquareImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkSubtractImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkTanImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkTernaryAddImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkTernaryMagnitudeImageFilter.h
+      Modules/Filtering/ImageIntensity/include/itkTernaryMagnitudeSquaredImageFilter.h
+      Modules/Filtering/ImageStatistics/include/itkBinaryProjectionImageFilter.h
+      Modules/Filtering/ImageStatistics/include/itkMaximumProjectionImageFilter.h
+      Modules/Filtering/ImageStatistics/include/itkMeanProjectionImageFilter.h
+      Modules/Filtering/ImageStatistics/include/itkMedianProjectionImageFilter.h
+      Modules/Filtering/ImageStatistics/include/itkMinimumProjectionImageFilter.h
+      Modules/Filtering/ImageStatistics/include/itkStandardDeviationProjectionImageFilter.h
+      Modules/Filtering/ImageStatistics/include/itkSumProjectionImageFilter.h
+    </FileList>
+
+    <MigrationFix-Automatic>
+       <Old>
+         Function::Compose2DCovariantVector
+       </Old>
+       <New>
+         Functor::Compose2DCovariantVector
+       </New>
+
+       <Old>
+         Function::Compose2DVector
+       </Old>
+       <New>
+         Functor::Compose2DVector
+       </New>
+
+       <Old>
+         Function::Compose3DCovariantVector
+       </Old>
+       <New>
+         Functor::Compose3DCovariantVector
+       </New>
+
+       <Old>
+         Function::Compose3DVector
+       </Old>
+       <New>
+         Functor::Compose3DVector
+       </New>
+
+       <Old>
+         Function::ComposeRGB
+       </Old>
+       <New>
+         Functor::ComposeRGB
+       </New>
+
+       <Old>
+         Function::Abs
+       </Old>
+       <New>
+         Functor::Abs
+       </New>
+
+       <Old>
+         Function::ComplexToImaginary
+       </Old>
+       <New>
+         Functor::ComplexToImaginary
+       </New>
+
+       <Old>
+         Function::ComplexToModulus
+       </Old>
+       <New>
+         Functor::ComplexToModulus
+       </New>
+
+       <Old>
+         Function::ComplexToPhase
+       </Old>
+       <New>
+         Functor::ComplexToPhase
+       </New>
+
+       <Old>
+         Function::ComplexToReal
+       </Old>
+       <New>
+         Functor::ComplexToReal
+       </New>
+
+       <Old>
+         Function::Div
+       </Old>
+       <New>
+         Functor::Div
+       </New>
+
+       <Old>
+         Function::Exp
+       </Old>
+       <New>
+         Functor::Exp
+       </New>
+
+       <Old>
+         Function::ExpNegative
+       </Old>
+       <New>
+         Functor::ExpNegative
+       </New>
+
+       <Old>
+         Function::Log10
+       </Old>
+       <New>
+         Functor::Log10
+       </New>
+
+       <Old>
+         Function::Log
+       </Old>
+       <New>
+         Functor::Log
+       </New>
+
+       <Old>
+         Function::Maximum
+       </Old>
+       <New>
+         Functor::Maximum
+       </New>
+
+       <Old>
+         Function::Minimum
+       </Old>
+       <New>
+         Functor::Minimum
+       </New>
+
+       <Old>
+         Function::Mult
+       </Old>
+       <New>
+         Functor::Mult
+       </New>
+
+       <Old>
+         Function::RGBToLuminance
+       </Old>
+       <New>
+         Functor::RGBToLuminance
+       </New>
+
+       <Old>
+         Function::Sigmoid
+       </Old>
+       <New>
+         Functor::Sigmoid
+       </New>
+
+       <Old>
+         Function::Sin
+       </Old>
+       <New>
+         Functor::Sin
+       </New>
+
+       <Old>
+         Function::Sqrt
+       </Old>
+       <New>
+         Functor::Sqrt
+       </New>
+
+       <Old>
+         Function::Square
+       </Old>
+       <New>
+         Functor::Square
+       </New>
+
+       <Old>
+         Function::Sub2
+       </Old>
+       <New>
+         Functor::Sub2
+       </New>
+
+       <Old>
+         Function::Tan
+       </Old>
+       <New>
+         Functor::Tan
+       </New>
+
+       <Old>
+         Function::Add3
+       </Old>
+       <New>
+         Functor::Add3
+       </New>
+
+       <Old>
+         Function::Modulus3
+       </Old>
+       <New>
+         Functor::Modulus3
+       </New>
+
+       <Old>
+         Function::ModulusSquare3
+       </Old>
+       <New>
+         Functor::ModulusSquare3
+       </New>
+
+       <Old>
+         Function::BinaryAccumulator
+       </Old>
+       <New>
+         Functor::BinaryAccumulator
+       </New>
+
+       <Old>
+         Function::MaximumAccumulator
+       </Old>
+       <New>
+         Functor::MaximumAccumulator
+       </New>
+
+       <Old>
+         Function::MeanAccumulator
+       </Old>
+       <New>
+         Functor::MeanAccumulator
+       </New>
+
+       <Old>
+         Function::MedianAccumulator
+       </Old>
+       <New>
+         Functor::MedianAccumulator
+       </New>
+
+       <Old>
+         Function::MinimumAccumulator
+       </Old>
+       <New>
+         Functor::MinimumAccumulator
+       </New>
+
+       <Old>
+         Function::StandardDeviationAccumulator
+       </Old>
+       <New>
+         Functor::StandardDeviationAccumulator
+       </New>
+
+       <Old>
+         Function::SumAccumulator
+       </Old>
+       <New>
+         Functor::SumAccumulator
+       </New>
+
+    </MigrationFix-Automatic>
+
+
+</Change>

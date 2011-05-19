@@ -20,7 +20,7 @@
 #endif
 #include "itkImageToListSampleAdaptor.h"
 #include "itkRandomImageSource.h"
-#include "itkScalarToArrayCastImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkFixedArray.h"
 
 int itkImageToListSampleAdaptorTest(int, char* [] )
@@ -301,36 +301,5 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
 
     }
 
-
-  //Test the Use_PixelContainer boolean
-
-  sample->SetUsePixelContainer( false );
-  if ( sample->GetUsePixelContainer() != false )
-    {
-    std::cerr << "Error in Set/Get UsePixelContainer methods" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  sample->UsePixelContainerOn(  );
-  if ( sample->GetUsePixelContainer() != true )
-    {
-    std::cerr << "Error in Set/Get UsePixelContainerOn method" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  //Get measurement vector from the pixel container and using ComputeIndex and compare
-  //the result
-  ImageToListSampleAdaptorType::MeasurementVectorType  v1 = sample->GetMeasurementVector( 4 );
-  sample->UsePixelContainerOff();
-  ImageToListSampleAdaptorType::MeasurementVectorType  v2 = sample->GetMeasurementVector( 4 );
-
-  if ( v1[0] != v2[0] )
-    {
-    std::cerr << "Accessing the measurement vector using the two method produced different \
-                  result " << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }

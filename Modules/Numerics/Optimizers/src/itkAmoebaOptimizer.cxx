@@ -232,8 +232,14 @@ AmoebaOptimizer
     }
   else
     {
+    if ( m_InitialSimplexDelta.GetSize() != parameters.GetSize() )
+      {
+      itkExceptionMacro( << "Size of InitialSimplexDelta ("
+                         << m_InitialSimplexDelta.GetSize()
+                         << ") does not match number of parameters ("
+                         << parameters.GetSize() << ")" );
+      }
     InternalParametersType delta(m_InitialSimplexDelta);
-    // m_VnlOptimizer->verbose = 1;
     m_VnlOptimizer->minimize(parameters, delta);
     }
 

@@ -29,8 +29,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkComposeRGBImageFilter.h"
-#include "itkComposeRGBAImageFilter.h"
+#include "itkComposeImageFilter.h"
 
 int itkComposeRGBAImageFilterTest(int argc, char* argv[])
 {
@@ -67,7 +66,7 @@ int itkComposeRGBAImageFilterTest(int argc, char* argv[])
     typedef itk::Image< RGBAPixelType, Dimension >        RGBAImageType;
     typedef itk::ImageFileReader< ScalarImageType >       ReaderType;
     typedef itk::ImageFileWriter< RGBAImageType >         WriterType;
-    typedef itk::ComposeRGBAImageFilter<
+    typedef itk::ComposeImageFilter<
       ScalarImageType, RGBAImageType >                    ComposeFilterType;
 
     // Read input1

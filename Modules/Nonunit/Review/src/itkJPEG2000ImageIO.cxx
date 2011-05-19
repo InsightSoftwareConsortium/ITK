@@ -304,15 +304,6 @@ void JPEG2000ImageIO::ReadImageInformation()
       this->SetPixelType( VECTOR );
     }
 
-  itkDebugMacro(<< "bits per pixel = " << l_image->comps[0].prec);
-  itkDebugMacro(<< "Color space = " << l_image->color_space);
-  itkDebugMacro(<< "Tile Start X = " << this->m_Internal->m_TileStartX);
-  itkDebugMacro(<< "Tile Start Y = " << this->m_Internal->m_TileStartY);
-  itkDebugMacro(<< "Tile Width = " << this->m_Internal->m_TileWidth);
-  itkDebugMacro(<< "Tile Height = " << this->m_Internal->m_TileHeight);
-  itkDebugMacro(<< "Number of Tiles X = " << this->m_Internal->m_NumberOfTilesInX);
-  itkDebugMacro(<< "Number of Tiles Y = " << this->m_Internal->m_NumberOfTilesInY);
-
   if ( !l_image )
     {
     opj_destroy_codec(this->m_Internal->m_Dinfo);
@@ -321,6 +312,15 @@ void JPEG2000ImageIO::ReadImageInformation()
     fclose(l_file);
     itkExceptionMacro("ERROR -> j2k_to_image: failed to decode image!");
     }
+
+  itkDebugMacro(<< "bits per pixel = " << l_image->comps[0].prec);
+  itkDebugMacro(<< "Color space = " << l_image->color_space);
+  itkDebugMacro(<< "Tile Start X = " << this->m_Internal->m_TileStartX);
+  itkDebugMacro(<< "Tile Start Y = " << this->m_Internal->m_TileStartY);
+  itkDebugMacro(<< "Tile Width = " << this->m_Internal->m_TileWidth);
+  itkDebugMacro(<< "Tile Height = " << this->m_Internal->m_TileHeight);
+  itkDebugMacro(<< "Number of Tiles X = " << this->m_Internal->m_NumberOfTilesInX);
+  itkDebugMacro(<< "Number of Tiles Y = " << this->m_Internal->m_NumberOfTilesInY);
 
   itkDebugMacro(<< "image->x1 = " <<  l_image->x1);
   itkDebugMacro(<< "image->y1 = " <<  l_image->y1);

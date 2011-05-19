@@ -1208,6 +1208,7 @@ void MINC2ImageIO::SetSliceScalingFromLocalScaling(mihandle_t volume)
   if ( miget_volume_valid_range(volume, &valid_max, &valid_min) < 0 )
     {
     itkDebugMacro("Could not get volume valid range ");
+    delete[] coords;
     return;
     }
 
@@ -1238,6 +1239,7 @@ void MINC2ImageIO::SetSliceScalingFromLocalScaling(mihandle_t volume)
         if ( miget_slice_range(volume, coords, this->m_NDims, &slice_max, &slice_min) < 0 )
           {
           itkDebugMacro("Could not get slice range");
+          delete[] coords;
           return;
           }
 
@@ -1256,6 +1258,7 @@ void MINC2ImageIO::SetSliceScalingFromLocalScaling(mihandle_t volume)
       if ( miget_slice_range(volume, coords, this->m_NDims, &slice_max, &slice_min) < 0 )
         {
         itkDebugMacro("Could not get slice range");
+        delete[] coords;
         return;
         }
       if ( slice_min < min )
@@ -1270,6 +1273,7 @@ void MINC2ImageIO::SetSliceScalingFromLocalScaling(mihandle_t volume)
     }
   m_Scale = ( max - min ) / ( valid_max - valid_min );
   m_Shift = min - ( valid_min * m_Scale );
+  delete[] coords;
 }
 
 void MINC2ImageIO::SetSliceScalingFromGlobalScaling(mihandle_t volume)

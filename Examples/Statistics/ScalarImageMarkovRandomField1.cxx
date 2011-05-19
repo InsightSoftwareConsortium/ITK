@@ -52,7 +52,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkScalarToArrayCastImageFilter.h"
+#include "itkComposeImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 #include "itkRescaleIntensityImageFilter.h"
@@ -156,7 +156,7 @@ int main( int argc, char * argv [] )
   // whose pixels have multiple components, that is, images of vector type, we
   // must adapt our scalar image in order to satisfy the interface expected by
   // the \code{MRFImageFilter}. We do this by using the
-  // \doxygen{ScalarToArrayCastImageFilter}. With this filter we will present our
+  // \doxygen{ComposeImageFilter}. With this filter we will present our
   // scalar image as a vector image whose vector pixels contain a single
   // component.
   //
@@ -167,7 +167,7 @@ int main( int argc, char * argv [] )
 
   typedef itk::Image< ArrayPixelType, Dimension > ArrayImageType;
 
-  typedef itk::ScalarToArrayCastImageFilter<
+  typedef itk::ComposeImageFilter<
                      ImageType, ArrayImageType > ScalarToArrayFilterType;
 
   ScalarToArrayFilterType::Pointer

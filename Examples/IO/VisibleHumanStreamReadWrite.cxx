@@ -25,7 +25,7 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkShrinkImageFilter.h"
-#include "itkComposeRGBImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkMeanImageFilter.h"
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
   breader->SetFileNames ( nameGenerator->GetFileNames() );
   breader->SetImageIO( bimageio );
 
-  typedef itk::ComposeRGBImageFilter< ImageType, RGB3DImageType > ComposeRGBFilterType;
+  typedef itk::ComposeImageFilter< ImageType, RGB3DImageType > ComposeRGBFilterType;
   ComposeRGBFilterType::Pointer composeRGB = ComposeRGBFilterType::New();
   composeRGB->SetInput1( rreader->GetOutput() );
   composeRGB->SetInput2( greader->GetOutput() );
@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 // This example creates a RawImageIO and ImageSeriesReader for each
 // color channel in the data. Notice that there are no special methods
 // that are needed to enable streaming; it will just respond correctly
-// to requests from the pipeline. In the ComposeRGBImageFilter, the
+// to requests from the pipeline. In the ComposeImageFilter, the
 // channels are composited into a single color image. Then the
 // information is updated to initialize the coronal slice region to be
 // extracted. The final filter, ImageFileWriter, writes out the file

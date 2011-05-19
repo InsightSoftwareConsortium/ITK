@@ -18,7 +18,7 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkImageToVectorImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkImage.h"
 
 #include "itkImageFileReader.h"
@@ -35,7 +35,7 @@ int itkImageToVectorImageFilterTest(int argc, char *argv[] )
   typedef itk::ImageFileReader<ScalarImageType>                ReaderType;
   typedef itk::ImageFileWriter<VectorImageType>                WriterType;
 
-  typedef itk::ImageToVectorImageFilter<ScalarImageType> FilterType;
+  typedef itk::ComposeImageFilter<ScalarImageType> FilterType;
 
   if (argc < 3)
     {

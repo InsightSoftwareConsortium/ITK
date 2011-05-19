@@ -19,6 +19,18 @@
 
 namespace itk
 {
-// No explicit instantiations at this time.  Point does not have a
-// suitable constructor.
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, char);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, unsigned char);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, signed char);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, short);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, unsigned short);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, int);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, unsigned int);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, long);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, unsigned long);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, float);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, double);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, long double);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, long long);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(Point, unsigned long long);
 } // end namespace itk

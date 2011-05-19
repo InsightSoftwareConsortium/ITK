@@ -118,6 +118,21 @@ public:
     return Self(NumericTraits< T >::One);
   }
 
+  static const Self NonpositiveMin(const Self &)
+  {
+    return NonpositiveMin();
+  }
+
+  static const Self ZeroValue(const Self &)
+  {
+    return ZeroValue();
+  }
+
+  static const Self OneValue(const Self &)
+  {
+    return OneValue();
+  }
+
   /** RGB pixels must have 3 components, so the size cannot be
    *  set to anything besides 3.  If called with size of 3, this
    *  function will fill the pixel with zeros. */
@@ -135,6 +150,26 @@ public:
   static unsigned int GetLength(const RGBPixel< T > &)
   {
     return 3;
+  }
+
+  /** Return the dimensionality of the pixel. Always returns 3. */
+  static unsigned int GetLength()
+  {
+    return 3;
+  }
+
+  static void AssignToArray( const Self & v, MeasurementVectorType & mv )
+  {
+    mv = v;
+  }
+
+  template<class TArray>
+  static void AssignToArray( const Self & v, TArray & mv )
+  {
+    for( unsigned int i=0; i<3; i++ )
+      {
+      mv[i] = v[i];
+      }
   }
 
   /** \note: the functions are prefered over the member variables as

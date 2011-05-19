@@ -42,6 +42,13 @@
 #include "itkDicomImageIO.h"
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkQuaternionOrientationAdapter.h"
+#include "itkCompose2DCovariantVectorImageFilter.h"
+#include "itkCompose2DVectorImageFilter.h"
+#include "itkCompose3DCovariantVectorImageFilter.h"
+#include "itkCompose3DVectorImageFilter.h"
+#include "itkComposeRGBImageFilter.h"
+#include "itkImageToVectorImageFilter.h"
+#include "itkScalarToArrayCastImageFilter.h"
 
 
 

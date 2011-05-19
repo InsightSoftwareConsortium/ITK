@@ -83,10 +83,7 @@ int itkHistogramToProbabilityImageFilterTest1( int argc, char * argv [] )
   typedef HistogramGeneratorType::HistogramType  HistogramType;
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
-  const unsigned int NumberOfComponents = 1;
-
-  typedef itk::HistogramToProbabilityImageFilter<
-    HistogramType, NumberOfComponents > HistogramToImageFilterType;
+  typedef itk::HistogramToProbabilityImageFilter< HistogramType > HistogramToImageFilterType;
 
   HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
 

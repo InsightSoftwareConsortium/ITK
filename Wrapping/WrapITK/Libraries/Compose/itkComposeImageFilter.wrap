@@ -1,0 +1,57 @@
+WRAP_CLASS("itk::ComposeImageFilter" POINTER)
+  # VectorImage types
+  foreach(d ${WRAP_ITK_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_VI${t}${d}}" "${ITKT_I${t}${d}}, ${ITKT_VI${t}${d}}")
+    endforeach(t)
+  endforeach(d)
+
+  IF(WRAP_float AND WRAP_covariant_vector_float)
+    WRAP_IMAGE_FILTER_TYPES(F CVF 2)
+  ENDIF(WRAP_float AND WRAP_covariant_vector_float)
+
+  IF(WRAP_double AND WRAP_covariant_vector_double)
+    WRAP_IMAGE_FILTER_TYPES(D CVD 2)
+  ENDIF(WRAP_double AND WRAP_covariant_vector_double)
+
+  IF(WRAP_float AND WRAP_vector_float)
+    WRAP_IMAGE_FILTER_TYPES(F VF 2)
+  ENDIF(WRAP_float AND WRAP_vector_float)
+
+  IF(WRAP_double AND WRAP_vector_double)
+    WRAP_IMAGE_FILTER_TYPES(D VD 2)
+  ENDIF(WRAP_double AND WRAP_vector_double)
+
+  IF(WRAP_float AND WRAP_covariant_vector_float)
+    WRAP_IMAGE_FILTER_TYPES(F CVF 3)
+  ENDIF(WRAP_float AND WRAP_covariant_vector_float)
+
+  IF(WRAP_double AND WRAP_covariant_vector_double)
+    WRAP_IMAGE_FILTER_TYPES(D CVD 3)
+  ENDIF(WRAP_double AND WRAP_covariant_vector_double)
+
+  IF(WRAP_float AND WRAP_vector_float)
+    WRAP_IMAGE_FILTER_TYPES(F VF 3)
+  ENDIF(WRAP_float AND WRAP_vector_float)
+
+  IF(WRAP_double AND WRAP_vector_double)
+    WRAP_IMAGE_FILTER_TYPES(D VD 3)
+  ENDIF(WRAP_double AND WRAP_vector_double)
+
+  IF(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
+    WRAP_IMAGE_FILTER_TYPES(UC RGBAUC)
+  ENDIF(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
+
+  IF(WRAP_rgba_unsigned_short AND WRAP_unsigned_short)
+    WRAP_IMAGE_FILTER_TYPES(US RGBAUS)
+  ENDIF(WRAP_rgba_unsigned_short AND WRAP_unsigned_short)
+
+  IF(WRAP_rgb_unsigned_char AND WRAP_unsigned_char)
+    WRAP_IMAGE_FILTER_TYPES(UC RGBUC)
+  ENDIF(WRAP_rgb_unsigned_char AND WRAP_unsigned_char)
+
+  IF(WRAP_rgb_unsigned_short AND WRAP_unsigned_short)
+    WRAP_IMAGE_FILTER_TYPES(US RGBUS)
+  ENDIF(WRAP_rgb_unsigned_short AND WRAP_unsigned_short)
+
+END_WRAP_CLASS()

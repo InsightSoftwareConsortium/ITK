@@ -83,10 +83,10 @@ private:
 };
 }
 
-template< class THistogram, unsigned int NDimensions, class TOutputPixel = float >
+template< class THistogram, class TImage=Image< float, 3> >
 class ITK_EXPORT HistogramToProbabilityImageFilter:
-  public HistogramToImageFilter< THistogram, NDimensions,
-                                 Function::HistogramProbabilityFunction< SizeValueType, TOutputPixel > >
+  public HistogramToImageFilter< THistogram, TImage,
+                                 Function::HistogramProbabilityFunction< SizeValueType, typename TImage::PixelType > >
 {
 public:
 
@@ -94,8 +94,8 @@ public:
   typedef HistogramToProbabilityImageFilter Self;
 
   /** Standard "Superclass" typedef. */
-  typedef HistogramToImageFilter< THistogram, NDimensions,
-                                  Function::HistogramProbabilityFunction< SizeValueType, TOutputPixel > >
+  typedef HistogramToImageFilter< THistogram, TImage,
+                                 Function::HistogramProbabilityFunction< SizeValueType, typename TImage::PixelType > >
   Superclass;
 
   typedef SmartPointer< Self >       Pointer;

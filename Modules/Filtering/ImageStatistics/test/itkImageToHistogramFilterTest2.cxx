@@ -24,6 +24,7 @@
 #include "itkImage.h"
 #include "itkRGBPixel.h"
 #include "itkImageFileReader.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkImageToHistogramFilterTest2( int argc, char * argv [] )
 {
@@ -67,6 +68,7 @@ int itkImageToHistogramFilterTest2( int argc, char * argv [] )
   typedef itk::Statistics::ImageToHistogramFilter< RGBImageType >   HistogramFilterType;
 
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
+  itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
 
   typedef HistogramFilterType::HistogramMeasurementVectorType  HistogramMeasurementVectorType;
 

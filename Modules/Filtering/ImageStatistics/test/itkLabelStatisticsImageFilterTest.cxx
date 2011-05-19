@@ -73,17 +73,38 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   const unsigned int numberOfObjects  = filter->GetNumberOfObjects();
   const unsigned int numberOfLabels   = filter->GetNumberOfLabels();
 
-  typedef FilterType::RealType          RealType;
-  typedef FilterType::BoundingBoxType   BoundingBoxType;
-  typedef FilterType::RegionType        RegionType;
-  typedef FilterType::LabelPixelType    LabelPixelType;
+  typedef FilterType::RealType                      RealType;
+  typedef FilterType::BoundingBoxType               BoundingBoxType;
+  typedef FilterType::RegionType                    RegionType;
+  typedef FilterType::LabelPixelType                LabelPixelType;
+  typedef FilterType::ValidLabelValuesContainerType ValidLabelValuesType;
 
   LabelPixelType labelValue;
 
   std::cout << "There are " << numberOfLabels << " labels" << std::endl;
   std::cout << "There are " << numberOfObjects << " objects" << std::endl;
 
-// Try two labels: one that exists and one that does not
+  unsigned int labelCount=0;
+  // Try to validate that the numberOfLabels in the ValidLabelList is
+  // equal to the number of labels reported
+  for(ValidLabelValuesType::const_iterator vIt=filter->GetValidLabelValues().begin();
+      vIt != filter->GetValidLabelValues().end();
+      ++vIt)
+    {
+    if ( filter->HasLabel(*vIt) )
+      {
+      ++labelCount;
+      }
+
+    }
+  if( labelCount != numberOfLabels )
+    {
+    std::cerr << "Valid Labels Mismatch found!" << std::endl;
+    std::cerr << labelCount << " != " << numberOfLabels << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Try two labels: one that exists and one that does not
   for (int i = 0; i < 2; i++)
     {
     // Find an existing label
@@ -110,6 +131,8 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
                 << static_cast<itk::NumericTraits<LabelPixelType>::PrintType>(labelValue)
                 << " which does not exist" << std::endl;
       }
+
+
     const RealType min      =  filter->GetMinimum( labelValue );
     const RealType max      =  filter->GetMaximum( labelValue );
     const RealType median   =  filter->GetMedian( labelValue );
@@ -138,4 +161,3 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
     }
   return EXIT_SUCCESS;
 }
-
