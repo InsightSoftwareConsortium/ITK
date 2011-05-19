@@ -936,6 +936,84 @@ def number_of_objects( i ):
   i =  itk.output(i)
   return i.GetNumberOfLabelObjects()
 
+def ipython_kw_matches(text):
+  """Match named ITK object's named parameters"""
+  import IPython.ipapi, itk, re, inspect, itkTemplate
+  regexp =  re.compile(r'''
+          '.*?' |    # single quoted strings or
+          ".*?" |    # double quoted strings or
+          \w+   |    # identifier
+          \S         # other characters
+          ''', re.VERBOSE | re.DOTALL)
+  ip = IPython.ipapi.get()
+  if "." in text: # a parameter cannot be dotted
+    return []
+  # 1. find the nearest identifier that comes before an unclosed
+  # parenthesis e.g. for "foo (1+bar(x), pa", the candidate is "foo".
+  # Use get_endidx() to find the indentifier at the cursor position
+  tokens = regexp.findall(ip.IP.Completer.get_line_buffer()[:ip.IP.Completer.get_endidx()])
+  tokens.reverse()
+  iterTokens = iter(tokens); openPar = 0
+  for token in iterTokens:
+    if token == ')':
+      openPar -= 1
+    elif token == '(':
+      openPar += 1
+      if openPar > 0:
+        # found the last unclosed parenthesis
+        break
+  else:
+    return []
+  # 2. Concatenate dotted names ("foo.bar" for "foo.bar(x, pa" )
+  ids = []
+  isId = re.compile(r'\w+$').match
+  while True:
+    try:
+      ids.append(iterTokens.next())
+      if not isId(ids[-1]):
+        ids.pop(); break
+      if not iterTokens.next() == '.':
+        break
+    except StopIteration:
+      break
+  # lookup the candidate callable matches either using global_matches
+  # or attr_matches for dotted names
+  if len(ids) == 1:
+    callableMatches = ip.IP.Completer.global_matches(ids[0])
+  else:
+    callableMatches = ip.IP.Completer.attr_matches('.'.join(ids[::-1]))
+  argMatches = []
+  for callableMatch in callableMatches:
+    # drop the .New at this end, so we can search in the class members
+    if callableMatch.endswith(".New"):
+      callableMatch = callableMatch[:-4]
+    try:
+      object = eval(callableMatch, ip.IP.Completer.namespace)
+      if isinstance(object, itkTemplate.itkTemplate):
+        # this is a template - lets grab the first entry to search for the methods
+        object = object.values()[0]
+      namedArgs = []
+      if isinstance(object, itk.LightObject) or (inspect.isclass(object) and issubclass(object, itk.LightObject)):
+        namedArgs = [n[3:] for n in dir(object) if n.startswith("Set")]
+    except Exception, e:
+      print e
+      continue
+    for namedArg in namedArgs:
+      if namedArg.startswith(text):
+        argMatches.append("%s=" %namedArg)
+  return argMatches
+
+# install progress callback and custom completer if we are in ipython interpreter
+try:
+  import itkConfig, IPython.ipapi
+  if IPython.ipapi.get():
+    IPython.ipapi.get().IP.Completer.matchers.insert(0, ipython_kw_matches)
+    itkConfig.ProgressCallback = terminal_progress_callback
+  # some cleanup
+  del itkConfig, IPython
+except ImportError:
+  # fail silently
+  pass
 
 # now loads the other modules we may found in the same directory
 import os.path, sys
