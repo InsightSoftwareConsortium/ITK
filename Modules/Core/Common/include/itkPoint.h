@@ -84,6 +84,7 @@ public:
   template< class TPointValueType >
   Point(const Point< TPointValueType, NPointDimension > & r):BaseArray(r) {}
   Point(const ValueType r[NPointDimension]):BaseArray(r) {}
+  Point(const ValueType & v):BaseArray(v) {}
 
   /** Pass-through assignment operator for the Array base class. */
   Point & operator=(const Self & r);

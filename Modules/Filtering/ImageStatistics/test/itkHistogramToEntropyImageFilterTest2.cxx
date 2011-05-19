@@ -120,7 +120,7 @@ int itkHistogramToEntropyImageFilterTest2( int argc, char * argv [] )
   typedef HistogramFilterType::HistogramType  HistogramType;
   const HistogramType * histogram = histogramFilter->GetOutput();
 
-  typedef itk::HistogramToEntropyImageFilter< HistogramType, NumberOfComponents > HistogramToImageFilterType;
+  typedef itk::HistogramToEntropyImageFilter< HistogramType > HistogramToImageFilterType;
   HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
 
   histogramToImageFilter->SetInput( histogram );

@@ -29,6 +29,7 @@ itkImageSliceIteratorTest.cxx
 itkImageToHistogramFilterTest.cxx
 itkImageToHistogramFilterTest2.cxx
 itkImageToHistogramFilterTest3.cxx
+itkImageToHistogramFilterTest4.cxx
 itkImageToListSampleAdaptorTest.cxx
 itkImageToListSampleAdaptorTest2.cxx
 itkImageToListSampleFilterTest.cxx
@@ -50,6 +51,7 @@ itkKmeansModelEstimatorTest.cxx
 itkLargeImageWriteConvertReadTest.cxx
 itkLargeImageWriteReadTest.cxx
 itkListSampleTest.cxx
+itkMaskedImageToHistogramFilterTest1.cxx
 itkMathCastWithRangeCheckTest.cxx
 itkMathematicalMorphologyImageFilterTest.cxx
 itkMathRoundProfileTest1.cxx

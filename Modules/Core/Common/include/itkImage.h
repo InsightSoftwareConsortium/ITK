@@ -286,6 +286,9 @@ public:
   /** Return the NeighborhoodAccessor functor */
   const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
   { return NeighborhoodAccessorFunctorType(); }
+
+  virtual unsigned int GetNumberOfComponentsPerPixel() const;
+
 protected:
   Image();
   void PrintSelf(std::ostream & os, Indent indent) const;

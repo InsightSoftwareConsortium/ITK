@@ -22,7 +22,7 @@
 #include "itkSubsample.h"
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
-#include "itkScalarToArrayCastImageFilter.h"
+#include "itkComposeImageFilter.h"
 
 int itkSubsampleTest(int, char* [] )
 {
@@ -54,7 +54,7 @@ int itkSubsampleTest(int, char* [] )
   typedef itk::Image< ArrayPixelType, 3 > ArrayPixelImageType;
   typedef itk::Image< unsigned char, 3 >  MaskPixelImageType;
 
-  typedef itk::ScalarToArrayCastImageFilter< FloatImage, ArrayPixelImageType >
+  typedef itk::ComposeImageFilter< FloatImage, ArrayPixelImageType >
     ImageCastFilterType;
   ImageCastFilterType::Pointer castFilter = ImageCastFilterType::New();
   castFilter->SetInput(source->GetOutput());

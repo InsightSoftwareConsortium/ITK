@@ -29,7 +29,6 @@ ImageToListSampleAdaptor< TImage >
 ::ImageToListSampleAdaptor()
 {
   m_Image = 0;
-  m_UsePixelContainer = true;
 }
 
 template< class TImage >
@@ -41,17 +40,8 @@ ImageToListSampleAdaptor< TImage >
     {
     itkExceptionMacro("Image has not been set yet");
     }
-
-  if ( m_UsePixelContainer )
-    {
-    MeasurementVectorTraits::Assign(m_MeasurementVectorInternal,
-                                    ( *m_PixelContainer )[id]);
-    }
-  else
-    {
-    MeasurementVectorTraits::Assign( m_MeasurementVectorInternal,
-                                     m_Image->GetPixel( m_Image->ComputeIndex(id) ) );
-    }
+  MeasurementVectorTraits::Assign( m_MeasurementVectorInternal,
+                                   m_Image->GetPixel( m_Image->ComputeIndex(id) ) );
 
   return m_MeasurementVectorInternal;
 }
@@ -99,8 +89,15 @@ ImageToListSampleAdaptor< TImage >
     {
     os << "not set." << std::endl;
     }
-  os << indent << "UsePixelContainer: "
-     << this->GetUsePixelContainer() << std::endl;
+  os << indent << "MeasurementVectorSize: ";
+  if ( m_Image.IsNotNull() )
+    {
+    os << this->GetMeasurementVectorSize() << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl;
+    }
 }
 
 template< class TImage >
@@ -109,7 +106,6 @@ ImageToListSampleAdaptor< TImage >
 ::SetImage(const TImage *image)
 {
   m_Image = image;
-  m_PixelContainer = image->GetPixelContainer();
   this->Modified();
 }
 

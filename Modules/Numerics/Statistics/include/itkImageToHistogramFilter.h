@@ -18,10 +18,11 @@
 #ifndef __itkImageToHistogramFilter_h
 #define __itkImageToHistogramFilter_h
 
-#include "itkImageToListSampleAdaptor.h"
-#include "itkSampleToHistogramFilter.h"
 #include "itkHistogram.h"
-#include "itkObject.h"
+#include "itkImageTransformer.h"
+#include "itkBarrier.h"
+#include "itkSimpleDataObjectDecorator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -38,29 +39,27 @@ namespace Statistics
  * \ingroup ITK-Statistics
  */
 
-template< class TImageType >
-class ITK_EXPORT ImageToHistogramFilter:public ProcessObject
+template< class TImage >
+class ITK_EXPORT ImageToHistogramFilter:public ImageTransformer<TImage>
 {
 public:
   /** Standard typedefs */
   typedef ImageToHistogramFilter     Self;
-  typedef ProcessObject              Superclass;
+  typedef ImageTransformer<TImage>   Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToHistogramFilter, ProcessObject);
+  itkTypeMacro(ImageToHistogramFilter, ImageTransformer);
 
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef TImageType                                     ImageType;
-  typedef ImageToListSampleAdaptor< ImageType >          AdaptorType;
-  typedef typename AdaptorType::Pointer                  AdaptorPointer;
+  typedef TImage                                         ImageType;
   typedef typename ImageType::PixelType                  PixelType;
+  typedef typename ImageType::RegionType                 RegionType;
   typedef typename NumericTraits< PixelType >::ValueType ValueType;
   typedef typename NumericTraits< ValueType >::RealType  ValueRealType;
-  typedef DenseFrequencyContainer2                       FrequencyContainerType;
 
   typedef Histogram< ValueRealType >                    HistogramType;
   typedef typename HistogramType::Pointer               HistogramPointer;
@@ -69,22 +68,11 @@ public:
   typedef typename HistogramType::MeasurementType       HistogramMeasurementType;
   typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
 
-  typedef SampleToHistogramFilter<
-    AdaptorType, HistogramType >                            GeneratorType;
-
-  typedef typename GeneratorType::Pointer GeneratorPointer;
 public:
 
-  /** Connects the input image for which the histogram is going to be computed
-    */
-  void SetInput(const ImageType *);
-
-  const ImageType * GetInput() const;
-
-  /** Return the output histogram.
-   \warning This output is only valid after the Compute() method has been invoked
-   \sa Compute */
+  /** Return the output histogram. */
   const HistogramType * GetOutput() const;
+  HistogramType * GetOutput();
 
   /** Type of DataObjects to use for Size inputs */
   typedef SimpleDataObjectDecorator<
@@ -134,19 +122,27 @@ protected:
   virtual ~ImageToHistogramFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** Triggers the Computation of the histogram */
-  void GenerateData(void);
+  void BeforeThreadedGenerateData(void);
+  void ThreadedGenerateData(const RegionType & inputRegionForThread, int threadId);
+  void AfterThreadedGenerateData(void);
 
   /** Method that construct the outputs */
   DataObject::Pointer  MakeOutput(unsigned int);
+
+  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress );
+  virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress );
+
+  std::vector< HistogramPointer >               m_Histograms;
+  std::vector< HistogramMeasurementVectorType > m_Minimums;
+  std::vector< HistogramMeasurementVectorType > m_Maximums;
 
 private:
   ImageToHistogramFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
-  AdaptorPointer m_ImageToListAdaptor;
+  void ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size );
+  typename Barrier::Pointer                     m_Barrier;
 
-  GeneratorPointer m_HistogramGenerator;
 };
 } // end of namespace Statistics
 } // end of namespace itk

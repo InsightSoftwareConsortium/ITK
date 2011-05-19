@@ -46,24 +46,24 @@ namespace itk
  * \ingroup ITK-Statistics
  */
 
-template< class THistogram, unsigned int NDimension, class TFunction >
+template< class THistogram, class TImage, class TFunction >
 class ITK_EXPORT HistogramToImageFilter:
-  public ImageSource< Image< typename TFunction::OutputPixelType, NDimension > >
+  public ImageSource< TImage >
 {
 public:
 
   /** Standard class typedefs. */
   typedef TFunction                                           FunctorType;
-  typedef typename FunctorType::OutputPixelType               OutputPixelType;
   typedef HistogramToImageFilter                              Self;
-  typedef ImageSource< Image< OutputPixelType, NDimension > > Superclass;
+  typedef ImageSource< TImage >                               Superclass;
   typedef SmartPointer< Self >                                Pointer;
   typedef SmartPointer< const Self >                          ConstPointer;
 
-  typedef Image< OutputPixelType, NDimension >  OutputImageType;
-  typedef typename Superclass::Pointer          OutputImagePointer;
-  typedef typename OutputImageType::SpacingType SpacingType;
-  typedef typename OutputImageType::PointType   PointType;
+  typedef TImage                                              OutputImageType;
+  typedef typename Superclass::Pointer                        OutputImagePointer;
+  typedef typename OutputImageType::SpacingType               SpacingType;
+  typedef typename OutputImageType::PointType                 PointType;
+  typedef typename OutputImageType::PixelType                 OutputPixelType;
 
   // Define an iterator to iterate through the image
   typedef itk::ImageRegionIteratorWithIndex< OutputImageType > ImageIteratorType;
@@ -83,39 +83,13 @@ public:
   typedef typename HistogramType::SizeType              HistogramSizeType;
   typedef typename OutputImageType::SizeType            SizeType;
 
-  /** Since histograms are not dataobjects, we use the decorator to push
-   *  them down the pipeline */
-  typedef SimpleDataObjectDecorator< HistogramType * > InputHistogramObjectType;
-
   /** Determine the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, NDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
 
   /** Set/Get the input of this process object.  */
   virtual void SetInput(const HistogramType *histogram);
 
-  virtual void SetInput(const InputHistogramObjectType *inputObject);
-
-  const InputHistogramObjectType * GetInput(void);
-
-  /** Set the spacing (size of a pixel) of the image.
-   *  \sa GetSpacing() */
-  itkSetMacro(Spacing, SpacingType);
-  virtual void SetSpacing(const double *values);
-
-  /** Get the spacing (size of a pixel) of the image.
-   * For ImageBase and Image, the default data spacing is unity. */
-  itkGetConstReferenceMacro(Spacing, SpacingType);
-
-  /** Set the origin of the image.
-   * \sa GetOrigin() */
-  itkSetMacro(Origin, PointType);
-  virtual void SetOrigin(const double *values);
-
-  /** Get the origin of the image.  */
-  itkGetConstReferenceMacro(Origin, PointType);
-
-  /** Get the size of the histogram. */
-  itkGetMacro(Size, SizeType);
+  const HistogramType * GetInput(void);
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -147,12 +121,6 @@ protected:
   virtual void GenerateData();
 
   FunctorType m_Functor;
-
-  SizeType m_Size;
-
-  SpacingType m_Spacing;
-
-  PointType m_Origin;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 

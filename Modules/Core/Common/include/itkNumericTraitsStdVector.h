@@ -78,6 +78,8 @@ public:
     */
   typedef std::vector< ElementFloatType > FloatType;
 
+  // TODO: this won't really print well, at least not without defining an operator
+  // to push to a stream.
   /** Return the type that can be printed. */
   typedef std::vector< ElementPrintType > PrintType;
 
@@ -97,33 +99,31 @@ public:
    */
   static const Self max(const Self & a)
   {
-    Self b( a.Size() );
-
-    b.Fill( NumericTraits< T >::max() );
+    Self b( a.Size(), NumericTraits< T >::max() );
     return b;
   }
 
   static const Self min(const Self & a)
   {
-    Self b( a.Size() );
-
-    b.Fill( NumericTraits< T >::min() );
+    Self b( a.Size(), NumericTraits< T >::min() );
     return b;
   }
 
-  static const Self Zero(const Self  & a)
+  static const Self ZeroValue(const Self  & a)
   {
-    Self b( a.Size() );
-
-    b.Fill(NumericTraits< T >::Zero);
+    Self b( a.Size(), NumericTraits< T >::Zero );
     return b;
   }
 
-  static const Self One(const Self & a)
+  static const Self OneValue(const Self & a)
   {
-    Self b( a.Size() );
+    Self b( a.Size(), NumericTraits< T >::One );
+    return b;
+  }
 
-    b.Fill(NumericTraits< T >::One);
+  static const Self NonpositiveMin(const Self & a)
+  {
+    Self b( a.Size(), NumericTraits< T >::NonpositiveMin() );
     return b;
   }
 
@@ -137,6 +137,20 @@ public:
   static unsigned int GetLength(const std::vector< T > & m)
   {
     return m.size();
+  }
+
+  static void AssignToArray( const Self & v, MeasurementVectorType & mv )
+  {
+    mv = v;
+  }
+
+  template<class TArray>
+  static void AssignToArray( const Self & v, TArray & mv )
+  {
+    for( unsigned int i=0; i<GetLength(v); i++ )
+      {
+      mv[i] = v[i];
+      }
   }
 
 };

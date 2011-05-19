@@ -21,7 +21,8 @@
 
 #include <iostream>
 #include "itkImage.h"
-#include "itkCompose2DVectorImageFilter.h"
+#include "itkVector.h"
+#include "itkComposeImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 
@@ -31,7 +32,10 @@ int itkCompose2DVectorImageFilterTest(int , char * [])
   typedef unsigned char PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
 
-  typedef itk::Compose2DVectorImageFilter< InputImageType >  FilterType;
+  typedef itk::Vector<float, 2>             OutputPixelType;
+  typedef itk::Image< OutputPixelType, 3 >  OutputImageType;
+
+  typedef itk::ComposeImageFilter< InputImageType, OutputImageType >  FilterType;
 
   typedef InputImageType::RegionType RegionType;
   typedef InputImageType::SizeType   SizeType;
