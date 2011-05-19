@@ -48,6 +48,8 @@ namespace itk
  *
  * \wiki
  * \wikiexample{VectorImages/ImageToVectorImageFilter,Create a vector image from a collection of scalar images}
+ * \wikiexample{ImageProcessing/Compose3DCovariantVectorImageFilter,Compose a vector image (with 3 components) from three scalar images}
+ * \wikiexample{SpectralAnalysis/RealAndImaginaryToComplexImageFilter,Convert a real image and an imaginary image to a complex image}
  * \endwiki
  */
 
