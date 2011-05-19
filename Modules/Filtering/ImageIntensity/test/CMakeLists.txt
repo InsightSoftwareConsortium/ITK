@@ -67,6 +67,7 @@ itkPolylineMaskImageFilterTest.cxx
 itkPromoteDimensionImageTest.cxx
 itkModulusImageFilterTest.cxx
 itkVectorMagnitudeImageFilterTest.cxx
+itkNormalizeToConstantImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ImageIntensity  "${ITK-ImageIntensity-Test_LIBRARIES}" "${ITK-ImageIntensityTests}")
@@ -234,3 +235,5 @@ itk_add_test(NAME itkModulusImageFilterTest
     itkModulusImageFilterTest ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png)
 itk_add_test(NAME itkVectorMagnitudeImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkVectorMagnitudeImageFilterTest)
+itk_add_test(NAME itkNormalizeToConstantImageFilterTest
+      COMMAND ITK-ImageIntensityTestDriver itkNormalizeToConstantImageFilterTest)
