@@ -21,7 +21,8 @@
 
 #include <iostream>
 #include "itkImage.h"
-#include "itkComposeRGBImageFilter.h"
+#include "itkRGBPixel.h"
+#include "itkComposeImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 
@@ -31,7 +32,11 @@ int itkComposeRGBImageFilterTest(int , char * [])
   typedef unsigned char PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
 
-  typedef itk::ComposeRGBImageFilter< InputImageType >  FilterType;
+  typedef itk::RGBPixel<unsigned char>   RGBPixelType;
+  typedef itk::Image< RGBPixelType, 3 >  OutputImageType;
+
+
+  typedef itk::ComposeImageFilter< InputImageType, OutputImageType >  FilterType;
 
   typedef InputImageType::RegionType RegionType;
   typedef InputImageType::SizeType   SizeType;
@@ -74,7 +79,6 @@ int itkComposeRGBImageFilterTest(int , char * [])
   try
     {
     filter->Update();
-    filter->SetFunctor(filter->GetFunctor());
     }
 
   catch( itk::ExceptionObject & excp )
@@ -83,8 +87,6 @@ int itkComposeRGBImageFilterTest(int , char * [])
    std::cerr << excp << std::endl;
    return EXIT_FAILURE;
    }
-
-  typedef FilterType::OutputImageType  OutputImageType;
 
   OutputImageType::Pointer rgbImage = filter->GetOutput();
 

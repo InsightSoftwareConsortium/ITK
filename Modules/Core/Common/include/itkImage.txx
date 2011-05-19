@@ -150,6 +150,17 @@ Image< TPixel, VImageDimension >
   this->Superclass::ComputeIndexToPhysicalPointMatrices();
 }
 
+template< class TPixel, unsigned int VImageDimension >
+unsigned int
+Image< TPixel, VImageDimension >
+::GetNumberOfComponentsPerPixel() const
+{
+  // use the GetLength() method which works with variable length arrays,
+  // to make it work with as much pixel types as possible
+  PixelType p;
+  return NumericTraits< PixelType >::GetLength(p);
+}
+
 /**
  *
  */

@@ -155,8 +155,9 @@ TubeSpatialObject< TDimension, TTubePointType >
       {
       // First we compute the bounding box in the index space
       typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-      PointType ptMin = ( *it ).GetPosition() - ( *it ).GetRadius();
-      PointType ptMax = ( *it ).GetPosition() + ( *it ).GetRadius();
+      VectorType rad = ( *it ).GetRadius();
+      PointType ptMin = ( *it ).GetPosition() - rad;
+      PointType ptMax = ( *it ).GetPosition() + rad;
       bb->SetMinimum(ptMin);
       bb->SetMaximum(ptMax);
 
@@ -168,8 +169,9 @@ TubeSpatialObject< TDimension, TTubePointType >
       it++;
       while ( it != end )
         {
-        ptMin = ( *it ).GetPosition() - ( *it ).GetRadius();
-        ptMax = ( *it ).GetPosition() + ( *it ).GetRadius();
+        rad = ( *it ).GetRadius();
+        ptMin = ( *it ).GetPosition() - rad;
+        ptMax = ( *it ).GetPosition() + rad;
         bb->ConsiderPoint(ptMin);
         bb->ConsiderPoint(ptMax);
         it++;

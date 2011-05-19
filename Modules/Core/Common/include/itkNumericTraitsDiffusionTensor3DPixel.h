@@ -140,6 +140,26 @@ public:
     return 6;
   }
 
+  /** Return the size of the tensor. Always returns 6. */
+  static unsigned int GetLength()
+  {
+    return 6;
+  }
+
+  static void AssignToArray( const Self & v, MeasurementVectorType & mv )
+  {
+    mv = v;
+  }
+
+  template<class TArray>
+  static void AssignToArray( const Self & v, TArray & mv )
+  {
+    for( unsigned int i=0; i<6; i++ )
+      {
+      mv[i] = v[i];
+      }
+  }
+
   /** \note: the functions are prefered over the member variables as
    * they are defined for all partial specialization
    */

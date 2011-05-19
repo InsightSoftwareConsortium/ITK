@@ -1,7 +1,10 @@
 WRAP_CLASS("itk::Statistics::ImageToHistogramFilter" POINTER)
-  # TODO: this should work with all the pixel types, but currently fails with CovariantVector and complex
-  WRAP_IMAGE_FILTER_SCALAR(1)
-  WRAP_IMAGE_FILTER_RGB(1)
-  WRAP_IMAGE_FILTER_RGBA(1)
-  WRAP_IMAGE_FILTER_VECTOR_REAL(1)
+  WRAP_IMAGE_FILTER_ALL_TYPES(1)
+
+  # VectorImage types
+  foreach(d ${WRAP_ITK_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      WRAP_TEMPLATE("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
+    endforeach(t)
+  endforeach(d)
 END_WRAP_CLASS()

@@ -22,6 +22,7 @@
 #include "itkTransformIOFactory.h"
 #include "itkTxtTransformIOFactory.h"
 #include "itkMatlabTransformIOFactory.h"
+#include "itkHDF5TransformIOFactory.h"
 
 #include "itkMutexLock.h"
 #include "itkMutexLockHolder.h"
@@ -89,6 +90,7 @@ TransformIOFactory::RegisterBuiltInFactories()
       // );
       ObjectFactoryBase::RegisterFactory( MatlabTransformIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( TxtTransformIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( HDF5TransformIOFactory::New() );
       firstTime = false;
       }
     }

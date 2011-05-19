@@ -108,22 +108,26 @@ public:
   /** method to return measurement vector for a specified id */
   virtual const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const;
 
+  virtual MeasurementVectorSizeType GetMeasurementVectorSize() const
+  {
+    // some filter are expected that this method returns something even if the
+    // input is not set. This won't be the right value for a variable length vector
+    // but it's better than an exception.
+    if( m_Image.IsNull() )
+      {
+      return Superclass::GetMeasurementVectorSize();
+      }
+    else
+      {
+      return m_Image->GetNumberOfComponentsPerPixel();
+      }
+  }
+
   /** method to return frequency for a specified id */
   AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
 
   /** method to return the total frequency */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
-
-  /** Method to set UsePixelContainer flag */
-  itkSetMacro(UsePixelContainer, bool);
-
-  /** Method to get UsePixelContainer flag */
-  itkGetConstMacro(UsePixelContainer, bool);
-
-  /** Convenience methods to turn on/off the UsePixelContainer flag */
-  itkBooleanMacro(UsePixelContainer);
-
-  //  PrintSelf(std::ostream& os, Indent indent) const;
 
   /** \class ConstIterator
    *  \brief Const Iterator
@@ -290,9 +294,7 @@ private:
 
   ImageConstPointer             m_Image;
   mutable MeasurementVectorType m_MeasurementVectorInternal;
-  bool                          m_UsePixelContainer;
 
-  PixelContainerConstPointer m_PixelContainer;
 };  // end of class ImageToListSampleAdaptor
 } // end of namespace Statistics
 } // end of namespace itk

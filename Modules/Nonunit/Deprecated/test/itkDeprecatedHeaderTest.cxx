@@ -21,12 +21,16 @@
 
 #include <iostream>
 
-#include "itkTestDriverIncludeAnalyzeIOFactory.h"
 #include "itkAnalyzeDbh.h"
 #include "itkAnalyzeImageIO.h"
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkAnalyzeImageIOTest.h"
 #include "itkBalloonForceFilter.txx"
+#include "itkCompose2DCovariantVectorImageFilter.h"
+#include "itkCompose2DVectorImageFilter.h"
+#include "itkCompose3DCovariantVectorImageFilter.h"
+#include "itkCompose3DVectorImageFilter.h"
+#include "itkComposeRGBImageFilter.h"
 #include "itkDefaultImageTraits.h"
 #include "itkDeformableMesh3DFilter.txx"
 #include "itkDicomImageIO.h"
@@ -35,15 +39,18 @@
 #include "itkDICOMImageIO2Factory.h"
 #include "itkDICOMSeriesFileNames.h"
 #include "itkGradientToMagnitudeImageFilter.h"
+#include "itkImageToVectorImageFilter.h"
 #include "itkNonThreadedShrinkImageFilter.h"
 #include "itkNonUniformBSpline.txx"
 #include "itkQuaternionOrientationAdapter.h"
 #include "itkReflectImageFilter.txx"
+#include "itkScalarToArrayCastImageFilter.h"
 #include "itkScalarVector.h"
 #include "itkSemaphore.h"
 #include "itkShiftScaleInPlaceImageFilter.txx"
 #include "itkTwoOutputExampleImageFilter.txx"
 
+#include "itkTestDriverIncludeAnalyzeIOFactory.h"
 #include "itkTestDriverIncludeDeprecatedIOFactories.h"
 
 int itkDeprecatedHeaderTest ( int , char * [] )

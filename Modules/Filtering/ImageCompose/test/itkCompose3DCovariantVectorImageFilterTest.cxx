@@ -21,7 +21,8 @@
 
 #include <iostream>
 #include "itkImage.h"
-#include "itkCompose3DCovariantVectorImageFilter.h"
+#include "itkCovariantVector.h"
+#include "itkComposeImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 
@@ -31,7 +32,11 @@ int itkCompose3DCovariantVectorImageFilterTest(int , char * [])
   typedef unsigned char PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
 
-  typedef itk::Compose3DCovariantVectorImageFilter< InputImageType >  FilterType;
+  typedef itk::CovariantVector<float, 3>    OutputPixelType;
+  typedef itk::Image< OutputPixelType, 3 >  OutputImageType;
+
+  typedef itk::ComposeImageFilter< InputImageType, OutputImageType >  FilterType;
+
 
   typedef InputImageType::RegionType RegionType;
   typedef InputImageType::SizeType   SizeType;
@@ -74,7 +79,6 @@ int itkCompose3DCovariantVectorImageFilterTest(int , char * [])
   try
     {
     filter->Update();
-    filter->SetFunctor(filter->GetFunctor());
     }
 
   catch( itk::ExceptionObject & excp )

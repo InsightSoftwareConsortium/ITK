@@ -35,6 +35,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   m_NumBins[0] = 20;
   m_LowerBound = static_cast< RealType >( NumericTraits< PixelType >::NonpositiveMin() );
   m_UpperBound = static_cast< RealType >( NumericTraits< PixelType >::max() );
+  m_ValidLabelValues.clear();
 }
 
 template< class TInputImage, class TLabelImage >
@@ -220,6 +221,18 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 
     // sigma
     ( *mapIt ).second.m_Sigma = vcl_sqrt( ( *mapIt ).second.m_Variance );
+    }
+
+    {
+    //Now update the cached vector of valid labels.
+    m_ValidLabelValues.resize(0);
+    m_ValidLabelValues.reserve(m_LabelStatistics.size());
+    for ( mapIt = m_LabelStatistics.begin();
+      mapIt != m_LabelStatistics.end();
+      ++mapIt )
+      {
+      m_ValidLabelValues.push_back(mapIt->first);
+      }
     }
 }
 

@@ -83,9 +83,7 @@ int itkHistogramToIntensityImageFilterTest1( int argc, char * argv [] )
   typedef HistogramGeneratorType::HistogramType  HistogramType;
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
-  const unsigned int NumberOfComponents = 1;
-
-  typedef itk::HistogramToIntensityImageFilter< HistogramType, NumberOfComponents > HistogramToImageFilterType;
+  typedef itk::HistogramToIntensityImageFilter< HistogramType > HistogramToImageFilterType;
   HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
 
   histogramToImageFilter->SetInput( histogram );
