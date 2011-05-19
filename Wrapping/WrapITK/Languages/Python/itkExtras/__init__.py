@@ -479,11 +479,11 @@ def show(input, **kargs) :
 class show2D :
   """Display a 2D image
   """
-  def __init__(self, imageOrFilter, Label=False) :
+  def __init__(self, imageOrFilter, Label=False, Title=None) :
     import tempfile, itk, os
     # get some data from the environment
-    command = os.environ.get("WRAPITK_SHOW2D_COMMAND", "imview %s -fork")
-    label_command = os.environ.get("WRAPITK_SHOW2D_LABEL_COMMAND", "imview %s -c regions.lut -fork")
+    command = os.environ.get("WRAPITK_SHOW2D_COMMAND", "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' &")
+    label_command = os.environ.get("WRAPITK_SHOW2D_LABEL_COMMAND", "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' -run '3-3-2 RGB' &")
     compress = os.environ.get("WRAPITK_SHOW2D_COMPRESS", "true").lower() in ["on", "true", "yes", "1"]
     extension = os.environ.get("WRAPITK_SHOW2D_EXTENSION", ".tif")
     # use the tempfile module to get a non used file name and to put
@@ -493,6 +493,36 @@ class show2D :
     img = output(imageOrFilter)
     img.UpdateOutputInformation()
     img.Update()
+    if Title == None:
+      # try to generate a title
+      s = img.GetSource()
+      if s:
+        s = itk.down_cast(s)
+        if hasattr(img, "GetSourceOutputIndex"):
+          o = '[%s]' % img.GetSourceOutputIndex()
+        elif hasattr(img, "GetSourceOutputName"):
+          o = '[%s]' % img.GetSourceOutputName()
+        else:
+          o = ""
+        Title = "%s%s" % (s.__class__.__name__, o)
+      else:
+        Title = img.__class__.__name__
+      try:
+        import IPython.ipapi
+        ip = IPython.ipapi.get()
+        if ip != None:
+          names = []
+          ref = imageOrFilter
+          if s:
+            ref = s
+          for n, v in ip.user_ns.iteritems():
+            if isinstance(v, itk.LightObject) and v == ref:
+              names.append(n)
+          if names != []:
+            Title = ", ".join(names)+" - "+Title
+      except ImportError:
+        # just do nothing
+        pass
     # change the LabelMaps to an Image, so we can look at them easily
     if 'LabelMap' in dir(itk) and img.GetNameOfClass() == 'LabelMap':
       # retreive the biggest label in the label map
@@ -508,9 +538,9 @@ class show2D :
     # now run imview
     import os
     if Label:
-      os.system( label_command % self.__tmpFile__.name)
+      os.system( label_command % {"image":self.__tmpFile__.name, "title": Title} )
     else:
-      os.system( command % self.__tmpFile__.name)
+      os.system( command % {"image":self.__tmpFile__.name, "title": Title} )
     #tmpFile.close()
 
 
