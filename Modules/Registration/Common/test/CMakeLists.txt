@@ -1,5 +1,7 @@
 itk_module_test()
 set(ITK-RegistrationCommonTests
+itkCenteredTransformInitializerTest.cxx
+itkCenteredVersorTransformInitializerTest.cxx
 itkMultiResolutionImageRegistrationMethodTest_1.cxx
 itkMultiResolutionImageRegistrationMethodTest_2.cxx
 itkImageRegistrationMethodTest_10.cxx
@@ -51,6 +53,10 @@ CreateTestDriver(ITK-RegistrationCommon  "${ITK-RegistrationCommon-Test_LIBRARIE
 
 itk_add_test(NAME itkRegistrationCommonHeaderTest
       COMMAND ITK-RegistrationCommonTestDriver itkRegistrationCommonHeaderTest)
+itk_add_test(NAME itkCenteredTransformInitializerTest
+      COMMAND ITK-RegistrationCommonTestDriver itkCenteredTransformInitializerTest)
+itk_add_test(NAME itkCenteredVersorTransformInitializerTest
+      COMMAND ITK-RegistrationCommonTestDriver itkCenteredVersorTransformInitializerTest)
 itk_add_test(NAME itkMultiResolutionImageRegistrationMethodTest_1
       COMMAND ITK-RegistrationCommonTestDriver itkMultiResolutionImageRegistrationMethodTest_1)
 itk_add_test(NAME itkMultiResolutionImageRegistrationMethodTest_2
