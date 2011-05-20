@@ -323,6 +323,8 @@ int test2DSpline()
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
+  ImageType2D::IndexType startIndex = image->GetRequestedRegion().GetIndex();
+
   /* Create and initialize the interpolator */
   for (unsigned int splineOrder = 0; splineOrder<=5; splineOrder++)
     {
@@ -362,6 +364,9 @@ int test2DSpline()
      // darray1[0] = darray[ii][0];
      // darray1[1] = darray[ii][1];
       cindex = ContinuousIndexType2D(&darray1[ii][0]);
+      cindex[0] += startIndex[0];
+      cindex[1] += startIndex[1];
+
       passed = TestContinuousIndex<InterpolatorType2D, ContinuousIndexType2D >( interp, cindex, b_Inside[ii], truth[ii][splineOrder] );
 
       if( !passed ) flag += 1;
@@ -656,11 +661,14 @@ void set2DInterpData(ImageType2D::Pointer imgPtr)
  -423.0000, -225.6000,  -84.6000,         0,   28.2000,         0,  -84.6000 ,
  -543.0000, -289.6000, -108.6000,         0,   36.2000,         0, -108.6000  };
 
+  ImageType2D::IndexType index;
+  index.Fill( 10 );
+
   ImageType2D::RegionType region;
   region.SetSize( size );
+  region.SetIndex( index );
 
-  imgPtr->SetLargestPossibleRegion( region );
-  imgPtr->SetBufferedRegion( region );
+  imgPtr->SetRegions( region );
   imgPtr->Allocate();
 
   typedef itk::ImageRegionIterator<ImageType2D>  InputIterator;

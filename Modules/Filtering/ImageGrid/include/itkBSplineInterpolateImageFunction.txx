@@ -723,10 +723,11 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::ApplyMirrorBoundaryConditions(vnl_matrix< long > & evaluateIndex,
                                 unsigned int splineOrder) const
 {
+  const IndexType startIndex = this->GetStartIndex();
+  const IndexType endIndex = this->GetEndIndex();
+
   for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
-    long dataLength2 = 2 * m_DataLength[n] - 2;
-
     // apply the mirror boundary conditions
     // TODO:  We could implement other boundary options beside mirror
     if ( m_DataLength[n] == 1 )
@@ -740,24 +741,15 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
       {
       for ( unsigned int k = 0; k <= splineOrder; k++ )
         {
-        // btw - Think about this couldn't this be replaced with a more
-        // elagent modulus method?
-
-        if ( evaluateIndex[n][k] < 0L )
+        if ( evaluateIndex[n][k] < startIndex[n] )
           {
-          evaluateIndex[n][k] = -evaluateIndex[n][k]
-                                - dataLength2
-                                * ( ( -evaluateIndex[n][k] ) / dataLength2 );
+          evaluateIndex[n][k] = startIndex[n] +
+            ( startIndex[n] - evaluateIndex[n][k] );
           }
-        else
+        if ( evaluateIndex[n][k] >= endIndex[n] )
           {
-          evaluateIndex[n][k] = evaluateIndex[n][k]
-                                - dataLength2
-                                * ( evaluateIndex[n][k] / dataLength2 );
-          }
-        if ( (long)m_DataLength[n] <= evaluateIndex[n][k] )
-          {
-          evaluateIndex[n][k] = dataLength2 - evaluateIndex[n][k];
+          evaluateIndex[n][k] = endIndex[n] -
+            ( evaluateIndex[n][k] - endIndex[n] );
           }
         }
       }
