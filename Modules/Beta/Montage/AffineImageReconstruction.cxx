@@ -337,10 +337,7 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << "   fixedImageFile  movingImageFile " << std::endl;
-    std::cerr << "   outputImagefile  [differenceBeforeRegistration] " << std::endl;
-    std::cerr << "   [differenceAfterRegistration] " << std::endl;
-    std::cerr << "   [stepLength] [maxNumberOfIterations] "<< std::endl;
+    std::cerr << "   slices_filename_base_pattern firstSliceNumber LastSliceNumber" << std::endl;
     return EXIT_FAILURE;
     }
 
