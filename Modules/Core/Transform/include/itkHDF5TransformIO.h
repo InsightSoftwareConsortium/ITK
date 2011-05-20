@@ -34,6 +34,9 @@ namespace itk
  *  See hdfgroup.org/HDF5 -- HDF5 is a physics/astrophysics
  *  format, but it is very general and can store pretty much
  *  any sort of data.
+ *
+ * \ingroup Transforms
+ * \ingroup ITK-Transform
  */
 class HDF5TransformIO:public TransformIOBase
 {

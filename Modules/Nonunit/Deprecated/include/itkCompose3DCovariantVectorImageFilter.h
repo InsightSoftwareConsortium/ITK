@@ -65,8 +65,8 @@ public:
  * unified. The Component type is preserved from the PixelType of the
  * input images.
  *
- * \ingroup IntensityImageFilters
- * \ingroup ITK-ImageCompose
+ * \ingroup Deprecated
+ * \ingroup ITK-Deprecated
  *
  * \wiki
  * \wikiexample{ImageProcessing/Compose3DCovariantVectorImageFilter,Compose a vector image (with 3 components) from three scalar images}

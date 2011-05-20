@@ -34,8 +34,8 @@ namespace itk
  * filter can be used to cast a scalar image to a vector image if
  * there is only one input image.
  *
- * \ingroup Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup Deprecated
+ * \ingroup ITK-Deprecated
  */
 
 template< class TInputImage, class TOutputImage >
