@@ -33,8 +33,6 @@ itkBSplineDeformableTransformTest2.cxx
 itkBSplineDeformableTransformTest3.cxx
 itkVersorRigid3DTransformTest.cxx
 itkVersorTransformTest.cxx
-itkCenteredTransformInitializerTest.cxx
-itkCenteredVersorTransformInitializerTest.cxx
 itkSplineKernelTransformTest.cxx
 )
 
@@ -145,9 +143,5 @@ itk_add_test(NAME itkVersorRigid3DTransformTest
       COMMAND ITK-TransformTestDriver itkVersorRigid3DTransformTest)
 itk_add_test(NAME itkVersorTransformTest
       COMMAND ITK-TransformTestDriver itkVersorTransformTest)
-itk_add_test(NAME itkCenteredTransformInitializerTest
-      COMMAND ITK-TransformTestDriver itkCenteredTransformInitializerTest)
-itk_add_test(NAME itkCenteredVersorTransformInitializerTest
-      COMMAND ITK-TransformTestDriver itkCenteredVersorTransformInitializerTest)
 itk_add_test(NAME itkSplineKernelTransformTest
       COMMAND ITK-TransformTestDriver itkSplineKernelTransformTest)
