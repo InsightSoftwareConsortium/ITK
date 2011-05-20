@@ -235,6 +235,35 @@ endforeach()
 unset(itk-module)
 unset(itk-module-test)
 
+# Validate the module DAG.
+macro(itk_module_check itk-module _needed_by stack)
+  if(NOT ITK_MODULE_${itk-module}_DECLARED)
+    message(FATAL_ERROR "No such module \"${itk-module}\" needed by \"${_needed_by}\"")
+  endif()
+  if(check_started_${itk-module} AND NOT check_finished_${itk-module})
+    # We reached a module while traversing its own dependencies recursively.
+    set(msg "")
+    foreach(entry ${stack})
+      set(msg " ${entry} =>${msg}")
+      if("${entry}" STREQUAL "${itk-module}")
+        break()
+      endif()
+    endforeach()
+    message(FATAL_ERROR "Module dependency cycle detected:\n ${msg} ${itk-module}")
+  elseif(NOT check_started_${itk-module})
+    # Traverse dependencies of this module.  Mark the start and finish.
+    set(check_started_${itk-module} 1)
+    foreach(dep IN LISTS ITK_MODULE_${itk-module}_DEPENDS)
+      itk_module_check(${dep} ${itk-module} "${itk-module};${stack}")
+    endforeach()
+    set(check_finished_${itk-module} 1)
+  endif()
+endmacro()
+
+foreach(itk-module ${ITK_MODULES_ALL})
+  itk_module_check("${itk-module}" "" "")
+endforeach()
+
 #----------------------------------------------------------------------
 
 # Provide an option for all modules.
@@ -261,9 +290,6 @@ endforeach()
 
 # Follow dependencies.
 macro(itk_module_enable itk-module _needed_by)
-  if(NOT ITK_MODULE_${itk-module}_DECLARED)
-    message(FATAL_ERROR "No such module \"${itk-module}\" needed by \"${_needed_by}\"")
-  endif()
   if(NOT Module_${itk-module})
     if(NOT ${itk-module}_TESTED_BY OR
       NOT "x${_needed_by}" STREQUAL "x${${itk-module}_TESTED_BY}")
