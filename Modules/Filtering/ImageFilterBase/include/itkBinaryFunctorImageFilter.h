@@ -104,6 +104,14 @@ public:
 
   /** Set the second operand as a constant */
   virtual void SetConstant2(const Input2ImagePixelType &input2);
+  void SetConstant(Input2ImagePixelType ct)
+    {
+      this->SetConstant2(ct);
+    }
+  const Input2ImagePixelType & GetConstant() const
+    {
+      return this->GetConstant2();
+    }
 
   /** Get the constant value of the second operand. An exception is sent if
    * the second operand is not a constant

@@ -55,8 +55,6 @@
       typedef MultiplyByConstantImageFilter<
         DeformationFieldType,
         TimeStepType, DeformationFieldType >                MultiplyType;
-      MultiplyType::Pointer filter = MultiplyType::New();
-      filter->SetConstant( value );
       </Old>
 
       <New>
@@ -64,8 +62,6 @@
       typedef MultiplyImageFilter< DeformationFieldType,
         itk::Image<TimeStepType, ImageDimension>,
         DeformationFieldType >                              MultiplyType;
-      MultiplyType::Pointer filter = MultiplyType::New();
-      filter->SetConstant2( value );
       </New>
 
     </SampleCode>
@@ -75,6 +71,7 @@
     **-->
     <Gerrit-ChangeId>
       I328d66b64485bbafe04a47e95674d98a9d3bdace
+      Ia4b95dbb9dd82f176246e6b84870cf1dfdd217fa
     </Gerrit-ChangeId>
 
     <!--**
