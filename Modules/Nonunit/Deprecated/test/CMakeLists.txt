@@ -8,6 +8,10 @@ itkReflectImageFilterTest.cxx
 itkShiftScaleInPlaceImageFilterTest.cxx
 itkTwoOutputExampleImageFilterTest.cxx
 itkGradientToMagnitudeImageFilterTest.cxx
+itkAddConstantToImageFilterTest.cxx
+itkDivideByConstantImageFilterTest.cxx
+itkMultiplyByConstantImageFilterTest.cxx
+itkSubtractConstantFromImageFilterTest.cxx
 )
 
 
@@ -29,6 +33,15 @@ itk_add_test(NAME itkTwoOutputExampleImageFilterTest
       COMMAND ITK-DeprecatedTestDriver itkTwoOutputExampleImageFilterTest)
 itk_add_test(NAME itkGradientToMagnitudeImageFilterTest
       COMMAND ITK-DeprecatedTestDriver itkGradientToMagnitudeImageFilterTest)
+
+itk_add_test(NAME DeprecatedAddConstantToImageFilterTest
+  COMMAND ITK-DeprecatedTestDriver itkAddConstantToImageFilterTest)
+itk_add_test(NAME DeprecatedSubtractConstantFromaImageFilterTest
+  COMMAND ITK-DeprecatedTestDriver itkSubtractConstantFromImageFilterTest)
+itk_add_test(NAME DeprecatedMultiplyByConstantImageFilterTest
+  COMMAND ITK-DeprecatedTestDriver itkMultiplyByConstantImageFilterTest)
+itk_add_test(NAME DeprecatedDivideByConstantImageFilterTest
+  COMMAND ITK-DeprecatedTestDriver itkDivideByConstantImageFilterTest)
 
 create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
         itkDICOMImageIO2Test.cxx
