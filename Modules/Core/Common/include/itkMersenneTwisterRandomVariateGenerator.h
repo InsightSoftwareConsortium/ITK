@@ -106,7 +106,7 @@ namespace Statistics
  * \wikiexample{Utilities/MersenneTwisterRandomVariateGenerator,Random number generator}
  * \endwiki
  */
-class ITK_EXPORT MersenneTwisterRandomVariateGenerator:
+class ITKCommon_EXPORT MersenneTwisterRandomVariateGenerator:
   public RandomVariateGeneratorBase
 {
 public:
