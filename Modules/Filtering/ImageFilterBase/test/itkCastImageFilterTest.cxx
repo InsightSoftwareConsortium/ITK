@@ -121,7 +121,7 @@ bool TestCastFromTo()
     std::cout << "[FAILED]" << std::endl;
     }
 
-  return true;
+  return success;
 }
 
 
