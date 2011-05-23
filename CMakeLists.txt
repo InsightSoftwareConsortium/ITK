@@ -480,6 +480,7 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
   if(NOT ${itk-module}_IS_TEST)
     init_module_vars()
   endif()
+  include("${${itk-module}_SOURCE_DIR}/itk-module-init.cmake" OPTIONAL)
   add_subdirectory("${${itk-module}_SOURCE_DIR}" "${${itk-module}_BINARY_DIR}")
 endforeach()
 
