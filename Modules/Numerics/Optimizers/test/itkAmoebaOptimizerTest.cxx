@@ -382,32 +382,17 @@ int itkAmoebaOptimizerTest(int, char* [] )
     }
   }
 
-  // Test for exception when initial simplex delta is not the
-  // same size as the number of parameters.
+  std::cout << "Testing behavior when AutomaticInitialSimplex is off."
+            << std::endl << std::endl;
   itkOptimizer->AutomaticInitialSimplexOff();
-  OptimizerType::ParametersType delta( initialValue.GetSize() + 1);
-  itkOptimizer->SetInitialSimplexDelta( delta );
-
-  std::cout << "Testing if exception is thrown when size of initial simplex "
-            << "is not the same as the size of the parameters." << std::endl;
-  try
-    {
-    itkOptimizer->StartOptimization();
-    std::cout << "[FAIL]" << std::endl;
-    return EXIT_FAILURE;
-    }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cout << "[PASS]" << std::endl;
-    std::cout << "Caught expected exception " << e << std::endl;
-    }
-
-  delta = OptimizerType::ParametersType( initialValue.GetSize() );
-  itkOptimizer->SetInitialSimplexDelta( delta );
-  itkOptimizer->SetMaximumNumberOfIterations( 1 );
 
   std::cout << "Testing that exception is not thrown when size of initial "
             << "simplex is the same as the size of the parameters." << std::endl;
+
+  OptimizerType::ParametersType delta( initialValue.GetSize() );
+  delta.Fill( 1.0 );
+  itkOptimizer->SetInitialSimplexDelta( delta );
+  itkOptimizer->SetMaximumNumberOfIterations( 1 );
 
   try
     {
@@ -419,6 +404,25 @@ int itkAmoebaOptimizerTest(int, char* [] )
     std::cout << "[FAIL]" << std::endl;
     std::cout << "Caught unexpected exception " << e << std::endl;
     return EXIT_FAILURE;
+    }
+
+  std::cout << "Testing if exception is thrown when size of initial simplex "
+            << "is not the same as the size of the parameters." << std::endl;
+
+  delta = OptimizerType::ParametersType( initialValue.GetSize() + 1);
+  delta.Fill( 1.0 );
+  itkOptimizer->SetInitialSimplexDelta( delta );
+
+  try
+    {
+    itkOptimizer->StartOptimization();
+    std::cout << "[FAIL]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch ( itk::ExceptionObject & e )
+    {
+    std::cout << "[PASS]" << std::endl;
+    std::cout << "Caught expected exception " << e << std::endl;
     }
 
   std::cout << "Test done." << std::endl;
