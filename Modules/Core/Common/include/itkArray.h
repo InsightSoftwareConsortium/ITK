@@ -83,6 +83,7 @@ public:
   template< class TArrayValue >
   Array(const Array< TArrayValue > & r)
   {
+    this->m_LetArrayManageMemory = true;
     this->SetSize( r.GetSize() );
     for( unsigned int i=0; i<r.GetSize(); i++ )
       {
