@@ -28,6 +28,8 @@ SingleValuedVnlCostFunctionAdaptor
   m_ScalesInitialized = false;
   m_NegateCostFunction = false;
   m_Reporter = Object::New();
+  m_CachedValue = NumericTraits< MeasureType >::Zero;
+  m_CachedDerivative.Fill(0);
 }
 
 /** Set current parameters scaling. */
