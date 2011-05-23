@@ -19,11 +19,11 @@
 package require InsightToolkit
 package require itkinteraction
 
-set registration       [ itkImageRegistrationMethodF2F2_New ]
-set imageMetric        [ itkMattesMutualInformationImageToImageMetricF2F2_New ]
+set registration       [ itkImageRegistrationMethodIF2IF2_New ]
+set imageMetric        [ itkMattesMutualInformationImageToImageMetricIF2IF2_New ]
 set transform          [ itkTranslationTransform2_New ]
 set optimizer          [ itkRegularStepGradientDescentOptimizer_New ]
-set interpolator       [ itkLinearInterpolateImageFunctionF2D_New  ]
+set interpolator       [ itkLinearInterpolateImageFunctionIF2D_New  ]
 
 $imageMetric    SetNumberOfHistogramBins      20
 $imageMetric    SetNumberOfSpatialSamples  10000
@@ -34,8 +34,8 @@ $registration   SetInterpolator   [ $interpolator GetPointer ]
 $registration   SetMetric         [ $imageMetric GetPointer ]
 
 
-set fixedImageReader   [ itkImageFileReaderF2_New ]
-set movingImageReader  [ itkImageFileReaderF2_New ]
+set fixedImageReader   [ itkImageFileReaderIF2_New ]
+set movingImageReader  [ itkImageFileReaderIF2_New ]
 
 $fixedImageReader    SetFileName  [lindex $argv 0]
 $movingImageReader   SetFileName  [lindex $argv 1]
@@ -90,7 +90,7 @@ puts "Translation Y =  [$finalParameters GetElement 1]"
 # Now,
 # we use the final transform for resampling the
 # moving image.
-set resampler [itkResampleImageFilterF2F2_New ]
+set resampler [itkResampleImageFilterIF2IF2_New ]
 
 $resampler SetTransform [$transform GetPointer]
 $resampler SetInput     $movingImage
@@ -104,7 +104,7 @@ $resampler SetOutputDirection [ $fixedImage GetDirection ]
 $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
-set outputCast  [itkRescaleIntensityImageFilterF2US2_New]
+set outputCast  [itkRescaleIntensityImageFilterIF2ISS2_New]
 $outputCast SetOutputMinimum  0
 $outputCast SetOutputMaximum 65535
 $outputCast SetInput [$resampler GetOutput]
@@ -113,7 +113,7 @@ $outputCast SetInput [$resampler GetOutput]
 #
 #  Write the resampled image
 #
-set writer [ itkImageFileWriterUS2_New ]
+set writer [ itkImageFileWriterISS2_New ]
 
 $writer SetFileName [lindex $argv 2]
 $writer SetInput [ $outputCast GetOutput ]

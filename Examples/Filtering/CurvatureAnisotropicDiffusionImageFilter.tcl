@@ -21,13 +21,13 @@
 #
 package require InsightToolkit
 
-set reader [ itkImageFileReaderUS2_New ]
-set writer [ itkImageFileWriterUS2_New ]
+set reader [ itkImageFileReaderISS2_New ]
+set writer [ itkImageFileWriterISS2_New ]
 
-set inputCast  [ itkCastImageFilterUS2F2_New    ]
-set outputCast [ itkRescaleIntensityImageFilterF2US2_New ]
+set inputCast  [ itkCastImageFilterISS2IF2_New    ]
+set outputCast [ itkRescaleIntensityImageFilterIF2ISS2_New ]
 
-set filter [ itkCurvatureAnisotropicDiffusionImageFilterF2F2_New ]
+set filter [ itkCurvatureAnisotropicDiffusionImageFilterIF2IF2_New ]
 
 $inputCast  SetInput [ $reader     GetOutput ]
 $filter     SetInput [ $inputCast  GetOutput ]

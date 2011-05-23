@@ -21,10 +21,10 @@
 #
 package require InsightToolkit
 
-set reader [ itkImageFileReaderUS2_New ]
-set writer [ itkImageFileWriterUS2_New ]
+set reader [ itkImageFileReaderISS2_New ]
+set writer [ itkImageFileWriterISS2_New ]
 
-set filter [ itkMeanImageFilterUS2US2_New ]
+set filter [ itkMeanImageFilterISS2ISS2_New ]
 
 $filter     SetInput [ $reader  GetOutput ]
 $writer     SetInput [ $filter  GetOutput ]
@@ -34,11 +34,11 @@ $writer SetFileName [lindex $argv 1]
 
 set radius [expr [ lindex $argv 2] ]
 
-itkSize2 sizeRadius 
+itkSize2 sizeRadius
 sizeRadius SetElement  0  $radius
 sizeRadius SetElement  1  $radius
 
-$filter SetRadius  sizeRadius 
+$filter SetRadius  sizeRadius
 
 $writer Update
 
