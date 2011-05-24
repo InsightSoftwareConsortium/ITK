@@ -6,7 +6,7 @@ set(Video-IO-FileListTests
 CreateTestDriver(Video-IO-FileList  "${Video-IO-FileList-Test_LIBRARIES}" "${Video-IO-FileListTests}")
 
 # For Midas-stored testing data
-include(${Video-Common_SOURCE_DIR}/MIDAS.cmake)
+include(${Video-Core-Common_SOURCE_DIR}/MIDAS.cmake)
 
 # FileListVideoIO:
 midas_add_test(NAME FileListVideoIOTest
