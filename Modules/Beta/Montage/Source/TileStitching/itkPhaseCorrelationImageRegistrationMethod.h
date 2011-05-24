@@ -263,9 +263,9 @@ protected:
   /** Types for internal componets. */
   typedef itk::ConstantPadImageFilter< FixedImageType, RealImageType >   FixedPadderType;
   typedef itk::ConstantPadImageFilter< MovingImageType, RealImageType >  MovingPadderType;
-  typedef itk::FFTWRealToComplexConjugateImageFilter< RealImageType >    FFTFilterType;
+  typedef itk::FFTRealToComplexConjugateImageFilter< RealImageType >     FFTFilterType;
   typedef typename FFTFilterType::OutputImageType                        ComplexImageType;
-  typedef itk::FFTWComplexConjugateToRealImageFilter<
+  typedef itk::FFTComplexConjugateToRealImageFilter<
     ComplexImageType, RealImageType >                                    IFFTFilterType;
 
 private:
