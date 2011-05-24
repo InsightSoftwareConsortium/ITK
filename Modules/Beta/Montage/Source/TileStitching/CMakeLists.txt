@@ -2,7 +2,7 @@
 #   Create a library here
 #
 
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/vtkRegistrationConfigure.h.in
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/vtkRegistrationConfigure.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/vtkRegistrationConfigure.h
                @ONLY IMMEDIATE)
 
