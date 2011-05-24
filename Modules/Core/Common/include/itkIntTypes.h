@@ -33,6 +33,8 @@
 
 #endif // ITK_HAVE_CSTDINT
 
+#include <limits.h>
+
 namespace itk
 {
 #if defined( ITK_HAVE_STDINT_H )
@@ -117,7 +119,7 @@ typedef::size_t    uintptr_t;
 
 #endif // ITK_HAVE_STDINT_H
 
-#if !defined(ITKV3_COMPATIBILITY) && defined(ITK_USE_64BITS_IDS)
+#if !defined(ITKV3_COMPATIBILITY) && defined(ITK_USE_64BITS_IDS) && ((ULLONG_MAX != ULONG_MAX) || (LLONG_MAX != LONG_MAX))
 
 /** Any count of number of items (number of pixels in an image, number of
  *  points) (it is unsigned) */
