@@ -30,7 +30,7 @@ ENDIF(BUILD_SHARED_LIBS)
 include(CTest)
 include(CPack)
 
-include_directories(Source/TileStiching)
+include_directories(${PROJECT_SOURCE_DIR}/Source/TileStitching)
 
 add_subdirectory(Source)
 add_subdirectory(Testing)
