@@ -37,7 +37,7 @@ class HDF5TransformIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef HDF5TransformIOFactory      Self;
+  typedef HDF5TransformIOFactory     Self;
   typedef ObjectFactoryBase          Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

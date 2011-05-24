@@ -21,6 +21,12 @@
 
 #include <string>
 
+// Avoids KWStyle error from forward declaration below.
+namespace itk
+{
+}
+
+// Forward declaration of class H5::H5File
 namespace H5
 {
 class H5File;
