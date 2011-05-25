@@ -7,6 +7,7 @@ itkVectorNeighborhoodOperatorImageFilterTest.cxx
 itkGaussianImageSourceTest.cxx
 itkMaskNeighborhoodOperatorImageFilterTest.cxx
 itkCastImageFilterTest.cxx
+itkClampImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ImageFilterBase  "${ITK-ImageFilterBase-Test_LIBRARIES}" "${ITK-ImageFilterBaseTests}")
@@ -28,3 +29,5 @@ itk_add_test(NAME itkMaskNeighborhoodOperatorImageFilterTest
     itkMaskNeighborhoodOperatorImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png)
 itk_add_test(NAME itkCastImageFilterTest
       COMMAND ITK-ImageFilterBaseTestDriver itkCastImageFilterTest)
+itk_add_test(NAME itkClampImageFilterTest
+      COMMAND ITK-ImageFilterBaseTestDriver itkClampImageFilterTest)

@@ -21,23 +21,22 @@
 
 #include <iostream>
 
-#include "itkTernaryFunctorImageFilter.txx"
-#include "itkFilterWatcher.h"
-#include "itkNoiseImageFilter.txx"
-#include "itkBinaryFunctorImageFilter.h"
-#include "itkMaskNeighborhoodOperatorImageFilter.txx"
-#include "itkNeighborhoodOperatorImageFilter.txx"
-#include "itkRecursiveSeparableImageFilter.txx"
-#include "itkNullImageToImageFilterDriver.txx"
-#include "itkGaussianImageSource.txx"
-#include "itkVectorCastImageFilter.h"
+#include "itkBinaryFunctorImageFilter.txx"
 #include "itkBoxImageFilter.txx"
 #include "itkCastImageFilter.h"
+#include "itkClampImageFilter.h"
+#include "itkFilterWatcher.h"
+#include "itkGaussianImageSource.txx"
+#include "itkMaskNeighborhoodOperatorImageFilter.txx"
+#include "itkNeighborhoodOperatorImageFilter.txx"
+#include "itkNoiseImageFilter.txx"
+#include "itkNullImageToImageFilterDriver.txx"
+#include "itkRecursiveSeparableImageFilter.txx"
+#include "itkTernaryFunctorImageFilter.txx"
+#include "itkVectorCastImageFilter.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.txx"
-#include "itkBinaryFunctorImageFilter.txx"
+
 #include "itkPipelineMonitorImageFilter.h"
-
-
 
 int itkImageFilterBaseHeaderTest ( int , char * [] )
 {
