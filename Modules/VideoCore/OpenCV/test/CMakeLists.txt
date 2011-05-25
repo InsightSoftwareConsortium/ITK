@@ -1,6 +1,7 @@
 itk_module_test()
 set(Video-Core-OpenCVTests
   itkOpenCVVideoCaptureTest.cxx
+  itkOpenCVImageBridgeTest.cxx
 )
 find_package ( OpenCV REQUIRED )
 CreateTestDriver(Video-Core-OpenCV  "${Video-Core-OpenCV-Test_LIBRARIES}" "${Video-Core-OpenCVTests}")
@@ -18,4 +19,13 @@ midas_add_test(NAME OpenCVVideoCaptureTest
          ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoCaptureTest_RGBOut.avi
          # Width Height
          320 240
+         )
+
+# OpenCVImageBridge:
+midas_add_test(NAME OpenCVImageBridgeTest
+         COMMAND Video-Core-OpenCVTestDriver itkOpenCVImageBridgeTest
+         # Input Image:
+         ${ITK_DATA_ROOT}/Input/closerec1.jpg
+         # Output Image:
+         ${ITK_TEST_OUTPUT_DIR}/OpenCVImageBridgeTest.mha
          )
