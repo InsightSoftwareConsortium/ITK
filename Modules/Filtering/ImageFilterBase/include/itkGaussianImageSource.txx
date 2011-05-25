@@ -26,6 +26,7 @@
 
 namespace itk
 {
+//----------------------------------------------------------------------------
 template< class TOutputImage >
 GaussianImageSource< TOutputImage >
 ::GaussianImageSource()
@@ -41,14 +42,17 @@ GaussianImageSource< TOutputImage >
   m_Mean.Fill(32.0);
   m_Sigma.Fill(16.0);
   m_Scale = 255.0;
+
   m_Normalized = false;
 }
 
+//----------------------------------------------------------------------------
 template< class TOutputImage >
 GaussianImageSource< TOutputImage >
 ::~GaussianImageSource()
 {}
 
+//----------------------------------------------------------------------------
 template< class TOutputImage >
 void
 GaussianImageSource< TOutputImage >
@@ -63,14 +67,14 @@ GaussianImageSource< TOutputImage >
     {
     os << m_Size[i] << ", ";
     }
-  os << "]" << std::endl;
+  os << m_Size[i] << "]" << std::endl;
 
   os << indent << "Origin: [";
   for ( i = 0; i < NDimensions - 1; i++ )
     {
     os << m_Origin[i] << ", ";
     }
-  os << "]" << std::endl;
+  os << m_Origin[i] << "]" << std::endl;
 
   os << indent << "Spacing: " << m_Spacing << std::endl;
 
@@ -82,17 +86,62 @@ GaussianImageSource< TOutputImage >
     {
     os << m_Sigma[i] << ", ";
     }
-  os << "]" << std::endl;
+  os << m_Sigma[i] << "]" << std::endl;
 
   os << indent << "Gaussian mean: [";
   for ( i = 0; i < NDimensions - 1; i++ )
     {
     os << m_Mean[i] << ", ";
     }
-  os << "]" << std::endl;
+  os << m_Mean[i] << "]" << std::endl;
 
   os << indent << "Gaussian scale: " << m_Scale << std::endl;
   os << indent << "Normalized Gaussian?: " << m_Normalized << std::endl;
+}
+
+//----------------------------------------------------------------------------
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::SetParameters(const ParametersType & parameters)
+{
+  ArrayType sigma, mean;
+  for ( unsigned int i = 0; i < ArrayType::Length; i++ )
+    {
+    sigma[i] = parameters[i];
+    mean[i]  = parameters[i + ArrayType::Length];
+    }
+  this->SetSigma( sigma );
+  this->SetMean( mean );
+
+  double scale = parameters[2*ArrayType::Length];
+  this->SetScale( scale );
+}
+
+//----------------------------------------------------------------------------
+template< class TOutputImage >
+typename GaussianImageSource< TOutputImage >::ParametersType
+GaussianImageSource< TOutputImage >
+::GetParameters() const
+{
+  ParametersType parameters( 2*ArrayType::Length + 1 );
+  for ( unsigned int i = 0; i < ArrayType::Length; i++ )
+    {
+    parameters[i] = m_Sigma[i];
+    parameters[i + ArrayType::Length] = m_Mean[i];
+    }
+  parameters[2*ArrayType::Length] = m_Scale;
+
+  return parameters;
+}
+
+//----------------------------------------------------------------------------
+template< class TOutputImage >
+unsigned int
+GaussianImageSource< TOutputImage >
+::GetNumberOfParameters() const
+{
+  return 2*ArrayType::Length + 1;
 }
 
 //----------------------------------------------------------------------------
@@ -117,6 +166,7 @@ GaussianImageSource< TOutputImage >
   output->SetDirection(m_Direction);
 }
 
+//----------------------------------------------------------------------------
 template< typename TOutputImage >
 void
 GaussianImageSource< TOutputImage >

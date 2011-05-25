@@ -66,6 +66,72 @@ int itkGaussianImageSourceTest(int, char* [] )
   pSource->GetSigma();
   pSource->GetMean();
 
+  // Test the get/set parameters
+  GaussianSourceType::ParametersType params = pSource->GetParameters();
+  if ( params.GetSize() != 7 )
+    {
+    std::cerr << "Incorrect number of parameters. Expected 7, got "
+              << params.GetSize() << "." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if ( params[0] != sigma[0] || params[1] != sigma[1] || params[2] != sigma[2] )
+    {
+    std::cerr << "Parameters have incorrect sigma value." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if ( params[3] != mean[0] || params[4] != mean[1] || params[5] != mean[2] )
+    {
+    std::cerr << "Parameters have incorrect mean value." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if ( params[6] != pSource->GetScale() )
+    {
+    std::cerr << "Parameters have incorrect scale value." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  params[0] = 12.0;
+  params[1] = 13.0;
+  params[2] = 14.0;
+  params[3] = 22.0;
+  params[4] = 32.0;
+  params[5] = 42.0;
+  params[6] = 55.5;
+  pSource->SetParameters( params );
+
+  if ( pSource->GetSigma()[0] != params[0] ||
+       pSource->GetSigma()[1] != params[1] ||
+       pSource->GetSigma()[2] != params[2] )
+    {
+    std::cerr << "Sigma disagrees with parameters array." << std::endl;
+    std::cerr << "Sigma: " << pSource->GetSigma() << ", parameters: ["
+              << params[0] << ", " << params[1] << ", " << params[2]
+              << "]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if ( pSource->GetMean()[0] != params[3] ||
+       pSource->GetMean()[1] != params[4] ||
+       pSource->GetMean()[2] != params[5] )
+    {
+    std::cerr << "Mean disagrees with parameters array." << std::endl;
+    std::cerr << "Mean: " << pSource->GetMean() << ", parameters: ["
+             << params[3] << ", " << params[4] << ", " << params[5]
+             << "]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if ( pSource->GetScale() != params[6] )
+    {
+    std::cerr << "Scale disagrees with parameters array." << std::endl;
+    std::cerr << "Scale: " << pSource->GetScale() << ", parameters: "
+              << params[6] << std::endl;
+    return EXIT_FAILURE;
+    }
+
   // Get the output of the source
   ImageType::Pointer pImage = pSource->GetOutput();
 
@@ -76,5 +142,3 @@ int itkGaussianImageSourceTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-
-
