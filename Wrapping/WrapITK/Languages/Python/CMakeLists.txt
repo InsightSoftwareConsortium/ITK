@@ -387,6 +387,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
     -w361 # operator!
     -w467 # overloaded functions (with typemaps)
     -w350 -w394 -w395  # operator new/new[]/delete[] ignored
+    -w303 # to avoid warning about customization in pyBase.i
     -o ${cpp_file}
     -I${LANGUAGES_SRC_DIR}
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
@@ -557,6 +558,7 @@ macro(END_WRAP_MODULE_PYTHON group_name)
     -w361 # operator!
     -w467 # overloaded functions (with typemaps)
     -w350 -w394 -w395  # operator new/new[]/delete[] ignored
+    -w303 # to avoid warning about customization in pyBase.i
     -o ${cpp_file}
     -I${LANGUAGES_SRC_DIR}
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
