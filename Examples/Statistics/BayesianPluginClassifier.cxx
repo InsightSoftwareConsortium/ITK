@@ -84,7 +84,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMaximumRatioDecisionRule2.h"
+#include "itkMaximumRatioDecisionRule.h"
 #include "itkGaussianMembershipFunction.h"
 #include "itkSampleClassifierFilter.h"
 // Software Guide : EndCodeSnippet
@@ -225,12 +225,12 @@ int main( int,  char *[])
   // Software Guide : BeginLatex
   //
   // After creating a SampleClassifier object and a
-  // MaximumRatioDecisionRule2 object, we plug in the
+  // MaximumRatioDecisionRule object, we plug in the
   // \code{decisionRule} and the \code{sample} to the classifier. Then,
   // we specify the number of classes that will be considered using
   // the \code{SetNumberOfClasses()} method.
   //
-  // The MaximumRatioDecisionRule2 requires a vector of \emph{a
+  // The MaximumRatioDecisionRule requires a vector of \emph{a
   // priori} probability values. Such \emph{a priori} probability will
   // be the $P(\omega_{i})$ of the following variation of the Bayes
   // decision rule:
@@ -253,15 +253,15 @@ int main( int,  char *[])
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
     MembershipFunctionType;
-  typedef itk::Statistics::MaximumRatioDecisionRule2 DecisionRuleType;
+  typedef itk::Statistics::MaximumRatioDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  DecisionRuleType::APrioriVectorType aPrioris;
+  DecisionRuleType::PriorProbabilityVectorType aPrioris;
   aPrioris.push_back( (double)classSamples[0]->GetTotalFrequency()
                       / (double)sample->GetTotalFrequency() ) ;
   aPrioris.push_back( (double)classSamples[1]->GetTotalFrequency()
                       / (double)sample->GetTotalFrequency() ) ;
-  decisionRule->SetAPriori( aPrioris );
+  decisionRule->SetPriorProbabilities( aPrioris );
 
   typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
   ClassifierType::Pointer classifier = ClassifierType::New();

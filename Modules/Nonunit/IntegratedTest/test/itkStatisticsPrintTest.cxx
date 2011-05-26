@@ -33,8 +33,8 @@
 #include "itkImageToListSampleAdaptor.h"
 #include "itkPointSetToListSampleAdaptor.h"
 #include "itkJointDomainImageToListSampleAdaptor.h"
-#include "itkMaximumDecisionRule2.h"
-#include "itkMinimumDecisionRule2.h"
+#include "itkMaximumDecisionRule.h"
+#include "itkMinimumDecisionRule.h"
 #include "itkEuclideanSquareDistanceMetric.h"
 #include "itkMahalanobisDistanceMetric.h"
 #include "itkManhattanDistanceMetric.h"
@@ -111,8 +111,8 @@ int itkStatisticsPrintTest(int , char* [])
   typedef itk::Statistics::ManhattanDistanceMetric< TMeasurementVectorType >
     ManhattanDistanceMetricType;
 
-  typedef itk::Statistics::MaximumDecisionRule2 MaximumDecisionRuleType;
-  typedef itk::Statistics::MinimumDecisionRule2 MinimumDecisionRuleType;
+  typedef itk::Statistics::MaximumDecisionRule MaximumDecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule MinimumDecisionRuleType;
 
 
   typedef itk::Statistics::HistogramToTextureFeaturesFilter<

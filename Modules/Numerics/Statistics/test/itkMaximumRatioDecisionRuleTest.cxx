@@ -31,51 +31,36 @@ int itkMaximumRatioDecisionRuleTest(int,char *[] )
   std::cout << "==================================" << std::endl;
   std::cout << "Testing MaximumRatioDecionRule " << std::endl << std::endl;
 
-  typedef itk::MaximumRatioDecisionRule  DecisionRuleType;
+  typedef itk::Statistics::MaximumRatioDecisionRule  DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  std::vector< double > discriminantScores;
+  DecisionRuleType::MembershipVectorType discriminantScores;
   discriminantScores.resize( 3 );
 
   discriminantScores[0] = 0.3;
   discriminantScores[1] = 0.5;
   discriminantScores[2] = 0.2;
 
-  DecisionRuleType::APrioriVectorType aPrioris;
-  aPrioris.resize(3);
+  DecisionRuleType::PriorProbabilityVectorType aPrioris ;
+  aPrioris.resize(3) ;
 
-  aPrioris[0] = 0.2;
-  aPrioris[1] = 0.5;
-  aPrioris[2] = 0.3;
+  aPrioris[0] = 0.2 ;
+  aPrioris[1] = 0.1 ;
+  aPrioris[2] = 0.6 ;
 
-  decisionRule->SetAPriori( aPrioris );
+  decisionRule->SetPriorProbabilities( aPrioris ) ;
+
+  if ( decisionRule->Evaluate( discriminantScores ) != 2 )
+    {
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // run with uniform prior
+  aPrioris.clear();
+  decisionRule->SetPriorProbabilities( aPrioris );
 
   if ( decisionRule->Evaluate( discriminantScores ) != 1 )
-    {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  DecisionRuleType::VectorType discriminantScores2;
-  discriminantScores2.resize( 3 );
-
-  discriminantScores2[0] = 0.3;
-  discriminantScores2[1] = 0.5;
-  discriminantScores2[2] = 0.2;
-
-  if ( decisionRule->Evaluate( discriminantScores2 ) != 1 )
-    {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  DecisionRuleType::ArrayType discriminantScores3(3);
-
-  discriminantScores3[0] = 0.3;
-  discriminantScores3[1] = 0.5;
-  discriminantScores3[2] = 0.2;
-
-  if ( decisionRule->Evaluate( discriminantScores3 ) != 1 )
     {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;

@@ -31,11 +31,11 @@ int itkMinimumDecisionRuleTest(int,char *[] )
   std::cout << "==================================" << std::endl;
   std::cout << "Testing MinimumDecionRule " << std::endl << std::endl;
 
-  typedef itk::MinimumDecisionRule  DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule  DecisionRuleType ;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  std::vector< double > discriminantScores;
-  discriminantScores.resize( 3 );
+  DecisionRuleType::MembershipVectorType discriminantScores ;
+  discriminantScores.resize( 3 ) ;
 
   discriminantScores[0] = 0.0;
   discriminantScores[1] = 1.0;
@@ -47,8 +47,7 @@ int itkMinimumDecisionRuleTest(int,char *[] )
     return EXIT_FAILURE;
     }
 
-
-  DecisionRuleType::VectorType discriminantScores2;
+  DecisionRuleType::MembershipVectorType discriminantScores2;
   discriminantScores2.resize( 3 );
 
   discriminantScores2[0] = 0.0;
@@ -62,7 +61,7 @@ int itkMinimumDecisionRuleTest(int,char *[] )
     }
 
 
-  DecisionRuleType::VectorType discriminantScores3;
+  DecisionRuleType::MembershipVectorType discriminantScores3;
   discriminantScores3.resize( 3 );
 
   discriminantScores3[0] = 0.0;
@@ -74,7 +73,6 @@ int itkMinimumDecisionRuleTest(int,char *[] )
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
-
 
   std::cout << "[SUCCEEDED]" << std::endl;
   return EXIT_SUCCESS;

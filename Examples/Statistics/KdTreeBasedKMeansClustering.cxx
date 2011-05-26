@@ -114,7 +114,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMinimumDecisionRule2.h"
+#include "itkMinimumDecisionRule.h"
 #include "itkSampleClassifierFilter.h"
 // Software Guide : EndCodeSnippet
 
@@ -281,7 +281,7 @@ int main()
   // the estimated k means and the measurement vectors. We use the
   // DistanceToCentroidMembershipFunction class as membership functions.
   // Our choice for the decision rule is the
-  // \subdoxygen{Statistics}{MinimumDecisionRule2} that returns the
+  // \subdoxygen{Statistics}{MinimumDecisionRule} that returns the
   // index of the membership functions that have the smallest value for
   // a measurement vector.
   //
@@ -302,7 +302,7 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >
     MembershipFunctionType;
-  typedef itk::Statistics::MinimumDecisionRule2 DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;

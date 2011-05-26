@@ -350,12 +350,12 @@ int itkCommonPrintTest(int , char* [])
     itk::MatrixResizeableDataObject<double>::New();
   std::cout << "------------MatrixResizeableDataObject" << MatrixResizeableDataObjectObj;
 
-  itk::MaximumDecisionRule::Pointer MaximumDecisionRuleObj =
-    itk::MaximumDecisionRule::New();
+  itk::Statistics::MaximumDecisionRule::Pointer MaximumDecisionRuleObj =
+    itk::Statistics::MaximumDecisionRule::New();
   std::cout << "------------MaximumDecisionRule" << MaximumDecisionRuleObj;
 
-  itk::MaximumRatioDecisionRule::Pointer MaximumRatioDecisionRuleObj =
-    itk::MaximumRatioDecisionRule::New();
+  itk::Statistics::MaximumRatioDecisionRule::Pointer MaximumRatioDecisionRuleObj =
+    itk::Statistics::MaximumRatioDecisionRule::New();
   std::cout << "------------MaximumRatioDecisionRule" << MaximumRatioDecisionRuleObj;
 
   itk::MeanImageFunction<InputType,float>::Pointer MeanImageFunctionObj =
@@ -382,8 +382,8 @@ int itkCommonPrintTest(int , char* [])
     itk::MetaDataObject<VectorImageType>::New();
   std::cout << "------------MetaDataObject" << MetaDataObjectObj;
 #endif
-  itk::MinimumDecisionRule::Pointer MinimumDecisionRuleObj =
-    itk::MinimumDecisionRule::New();
+  itk::Statistics::MinimumDecisionRule::Pointer MinimumDecisionRuleObj =
+    itk::Statistics::MinimumDecisionRule::New();
   std::cout << "------------MinimumDecisionRule" << MinimumDecisionRuleObj;
 
   itk::MultiThreader::Pointer MultiThreaderObj =

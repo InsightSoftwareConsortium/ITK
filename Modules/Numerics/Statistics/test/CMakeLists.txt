@@ -92,7 +92,7 @@ CreateTestDriver(ITKStatistics  "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisti
 itk_add_test(NAME itkStatisticsHeaderTest
       COMMAND ITKStatisticsTestDriver itkStatisticsHeaderTest)
 itk_add_test(NAME itkDecisionRuleTest
-      COMMAND ITKStatisticsTestDriver itkDecisionRuleTest)
+     COMMAND ITKStatisticsTestDriver itkDecisionRuleTest)
 itk_add_test(NAME itkDenseFrequencyContainer2Test
       COMMAND ITKStatisticsTestDriver itkDenseFrequencyContainer2Test)
 itk_add_test(NAME itkExpectationMaximizationMixtureModelEstimatorTest

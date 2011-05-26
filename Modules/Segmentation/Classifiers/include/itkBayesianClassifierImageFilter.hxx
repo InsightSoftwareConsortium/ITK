@@ -31,6 +31,8 @@
 #include "itkBayesianClassifierImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
+#include <algorithm>
+
 namespace itk
 {
 /**
@@ -378,10 +380,20 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   itrLabelsImage.GoToBegin();
   itrPosteriorsImage.GoToBegin();
 
+  typename PosteriorsImageType::PixelType posteriorsPixel;
+  typename DecisionRuleType::MembershipVectorType posteriorsVector;
+  posteriorsPixel = itrPosteriorsImage.Get();
+  posteriorsVector.reserve( posteriorsPixel.Size() );
+  posteriorsVector.insert(posteriorsVector.begin(),
+                          posteriorsPixel.Size(), 0.0);
   while ( !itrLabelsImage.IsAtEnd() )
     {
+    posteriorsPixel = itrPosteriorsImage.Get();
+    std::copy(posteriorsPixel.GetDataPointer(),
+              posteriorsPixel.GetDataPointer()+posteriorsPixel.Size(),
+              posteriorsVector.begin() );
     itrLabelsImage.Set( static_cast< TLabelsType >(
-                          decisionRule->Evaluate( itrPosteriorsImage.Get() ) ) );
+                          decisionRule->Evaluate( posteriorsVector ) ) );
     ++itrLabelsImage;
     ++itrPosteriorsImage;
     }

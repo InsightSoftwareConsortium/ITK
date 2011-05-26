@@ -151,7 +151,7 @@ public:
   typedef ImageRegionIterator< PosteriorsImageType > PosteriorsImageIteratorType;
 
   /** Decision rule to use for defining the label */
-  typedef MaximumDecisionRule       DecisionRuleType;
+  typedef Statistics::MaximumDecisionRule       DecisionRuleType;
   typedef DecisionRuleType::Pointer DecisionRulePointer;
 
   typedef typename Superclass::DataObjectPointer DataObjectPointer;

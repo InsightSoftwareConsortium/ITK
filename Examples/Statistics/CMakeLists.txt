@@ -35,17 +35,17 @@ target_link_libraries(ListSample ${ITK_LIBRARIES})
 add_executable(SampleToHistogramFilter SampleToHistogramFilter.cxx )
 target_link_libraries(SampleToHistogramFilter ${ITK_LIBRARIES})
 
-add_executable(MaximumDecisionRule2 MaximumDecisionRule2.cxx )
-target_link_libraries(MaximumDecisionRule2 ${ITK_LIBRARIES})
+add_executable(MaximumDecisionRule MaximumDecisionRule.cxx )
+target_link_libraries(MaximumDecisionRule ${ITK_LIBRARIES})
 
-add_executable(MaximumRatioDecisionRule2 MaximumRatioDecisionRule2.cxx )
-target_link_libraries(MaximumRatioDecisionRule2 ${ITK_LIBRARIES})
+add_executable(MaximumRatioDecisionRule MaximumRatioDecisionRule.cxx )
+target_link_libraries(MaximumRatioDecisionRule ${ITK_LIBRARIES})
 
 add_executable(MembershipSample MembershipSample.cxx )
 target_link_libraries(MembershipSample ${ITK_LIBRARIES})
 
-add_executable(MinimumDecisionRule2 MinimumDecisionRule2.cxx )
-target_link_libraries(MinimumDecisionRule2 ${ITK_LIBRARIES})
+add_executable(MinimumDecisionRule MinimumDecisionRule.cxx )
+target_link_libraries(MinimumDecisionRule ${ITK_LIBRARIES})
 #
 # At the moment, itkNeighborhoodSampler is incomplete, so this example
 # can't be updated
@@ -155,13 +155,13 @@ itk_add_test(NAME  GaussianDensityFunctionTest COMMAND ${ITK_TEST_DRIVER}
           $<TARGET_FILE:GaussianMembershipFunction>)
 
 itk_add_test(NAME  MinimumDecisionRuleTest COMMAND ${ITK_TEST_DRIVER}
-          $<TARGET_FILE:MinimumDecisionRule2>)
+          $<TARGET_FILE:MinimumDecisionRule>)
 
 itk_add_test(NAME  MaximumDecisionRuleTest COMMAND ${ITK_TEST_DRIVER}
-          $<TARGET_FILE:MaximumDecisionRule2>)
+          $<TARGET_FILE:MaximumDecisionRule>)
 
 itk_add_test(NAME  MaximumRatioDecisionRuleTest COMMAND ${ITK_TEST_DRIVER}
-          $<TARGET_FILE:MaximumRatioDecisionRule2>)
+          $<TARGET_FILE:MaximumRatioDecisionRule>)
 
 
 endif(BUILD_TESTING)

@@ -25,7 +25,7 @@
 
 #include "itkSampleClassifierFilter.h"
 #include "itkImageToListSampleAdaptor.h"
-#include "itkMinimumDecisionRule2.h"
+#include "itkMinimumDecisionRule.h"
 
 #include "itkRegionOfInterestImageFilter.h"
 
@@ -100,7 +100,7 @@ public:
 
   typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType > MembershipFunctionType;
   typedef itk::Statistics::SampleClassifierFilter< AdaptorType >                         ClassifierType;
-  typedef itk::Statistics::MinimumDecisionRule2                                          DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule  DecisionRuleType;
 
   typedef typename ClassifierType::ClassLabelVectorType ClassLabelVectorType;
 

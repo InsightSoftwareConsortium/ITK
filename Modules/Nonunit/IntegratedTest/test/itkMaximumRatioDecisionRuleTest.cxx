@@ -19,12 +19,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMaximumRatioDecisionRule2.h"
+#include "itkMaximumRatioDecisionRule.h"
 #include "itkObjectFactory.h"
 
 int itkMaximumRatioDecisionRuleTest(int, char* [] )
 {
-  typedef itk::Statistics::MaximumRatioDecisionRule2      MaximumRatioDecisionRuleType;
+  typedef itk::Statistics::MaximumRatioDecisionRule      MaximumRatioDecisionRuleType;
 
   typedef MaximumRatioDecisionRuleType::MembershipVectorType MembershipVectorType;
 
