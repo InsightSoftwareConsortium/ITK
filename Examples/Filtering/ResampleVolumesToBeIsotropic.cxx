@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ResampleVolumesToBeIsotropic.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 // Software Guide : BeginLatex
@@ -34,7 +31,7 @@
 // small is the understanding of the third dimension that have been gained in
 // the clinical settings and in many radiology reading rooms. Datasets that are
 // acquired with such large anisotropies bring with them the retrograde
-// message: \emph{``I do not think 3D is informative''}. 
+// message: \emph{``I do not think 3D is informative''}.
 // They repeat stubbornly that: \emph{``all that you need to know, can be known
 // by looking at individual slices, one by one''}. However, the fallacy of such
 // statement is made evident with the simple act of looking at the slices when
@@ -42,7 +39,7 @@
 // rectangular pixel shapes becomes obvious, along with the clear technical
 // realization that no decent signal processing or algorithms can be performed
 // in such images.
-// 
+//
 // Image analysts have a long educational battle to fight in the radiological
 // setting in order to bring the message that 3D datasets acquired with
 // anisotropies larger than $[1:2]$ are simply dismissive of the most fundamental
@@ -57,7 +54,7 @@
 // inter-slice resolution with the purpose of faking the type of dataset that
 // they should have received in the first place: an \textbf{isotropic} dataset.
 // This example is an illustration of how such operation can be performed using
-// the filter available in the Insight Toolkit. 
+// the filter available in the Insight Toolkit.
 //
 // Note that this example is not presented here as a \emph{solution} to the
 // problem of anisotropic datasets.  On the contrary, this is simply a
@@ -90,7 +87,7 @@
 // \index{Supersampling}
 // \index{Resampling}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginLatex
@@ -114,7 +111,7 @@
 // anisotropic dataset is to include the header files for the
 // \doxygen{ResampleImageFilter}, and the Gaussian smoothing filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
@@ -142,12 +139,11 @@
 // cover-up for an improper acquisition of medical data, and we are just trying
 // to make it look as if it was correctly acquired.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkIdentityTransform.h"
-#include "itkLinearInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -163,7 +159,7 @@
 // current clinical application. It practice you may want to remove this step
 // of intensity rescaling.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkIntensityWindowingImageFilter.h"
@@ -175,7 +171,7 @@ int main( int argc, char * argv[] )
   if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  lower upper " << std::endl; 
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  lower upper " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -185,7 +181,7 @@ int main( int argc, char * argv[] )
 // input image to be processed, as well as the pixel type that we intend to use
 // for the internal computation during the smoothing and resampling.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -206,7 +202,7 @@ int main( int argc, char * argv[] )
 
   reader->SetFileName( argv[1] );
 
-  try 
+  try
     {
     reader->Update();
     }
@@ -216,8 +212,8 @@ int main( int argc, char * argv[] )
     std::cerr << excep << std::endl;
     }
 
-  typedef itk::IntensityWindowingImageFilter< 
-                                  InputImageType, 
+  typedef itk::IntensityWindowingImageFilter<
+                                  InputImageType,
                                   InternalImageType >  IntensityFilterType;
 
   IntensityFilterType::Pointer intensityWindowing = IntensityFilterType::New();
@@ -231,16 +227,16 @@ int main( int argc, char * argv[] )
   intensityWindowing->SetInput( reader->GetOutput() );
 
 
-  
+
 // Software Guide : BeginLatex
 //
 // We instantiate the smoothing filter that will be used on the preprocessing
-// for subsampling the in-plane resolution of the dataset. 
+// for subsampling the in-plane resolution of the dataset.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::RecursiveGaussianImageFilter< 
+  typedef itk::RecursiveGaussianImageFilter<
                                 InternalImageType,
                                 InternalImageType > GaussianFilterType;
 // Software Guide : EndCodeSnippet
@@ -256,7 +252,7 @@ int main( int argc, char * argv[] )
 // intensity windowing filter. Note that you may want to skip the intensity
 // windowing scale and simply take the input directly from the reader.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   GaussianFilterType::Pointer smootherX = GaussianFilterType::New();
@@ -284,7 +280,7 @@ int main( int argc, char * argv[] )
 // We take the image from the input and then request its array of pixel spacing
 // values.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   InputImageType::ConstPointer inputImage = reader->GetOutput();
@@ -302,11 +298,11 @@ int main( int argc, char * argv[] )
 // Then set this spacing as the Sigma value to be used for the Gaussian
 // smoothing at the preprocessing stage.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const double isoSpacing = vcl_sqrt( inputSpacing[2] * inputSpacing[0] );
-  
+
   smootherX->SetSigma( isoSpacing );
   smootherY->SetSigma( isoSpacing );
 // Software Guide : EndCodeSnippet
@@ -317,20 +313,14 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginLatex
 //
 // We instruct the smoothing filters to act along the $X$ and $Y$ direction
-// respectively. And define the settings for avoiding the loss of intensity as
-// a result of the diffusion process that is inherited from the use of a
-// Gaussian filter.
+// respectively.
 //
-// \index{RecursiveGaussianImageFilter!SetNormalizeAcrossScale}
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
- 
+
 // Software Guide : BeginCodeSnippet
   smootherX->SetDirection( 0 );
   smootherY->SetDirection( 1 );
-
-  smootherX->SetNormalizeAcrossScale( true );
-  smootherY->SetNormalizeAcrossScale( true );
 // Software Guide : EndCodeSnippet
 
 
@@ -342,7 +332,7 @@ int main( int argc, char * argv[] )
 // then instantiate the image type and the type for the resampling filter.
 // Finally we construct an instantiation of such a filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -364,7 +354,7 @@ int main( int argc, char * argv[] )
 // The resampling filter requires that we provide a Transform, that in this
 // particular case can simply be an identity transform.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::IdentityTransform< double, Dimension >  TransformType;
@@ -383,10 +373,10 @@ int main( int argc, char * argv[] )
 // The filter also requires an interpolator to be passed to it. In this case we
 // chose to use a linear interpolator.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                           InternalImageType, double >  InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -407,7 +397,7 @@ int main( int argc, char * argv[] )
 // The pixel spacing of the resampled dataset is loaded in a \code{SpacingType}
 // and passed to the resampling filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   OutputImageType::SpacingType spacing;
@@ -426,7 +416,7 @@ int main( int argc, char * argv[] )
 // decided to resample the image in the same physical extent of the input
 // anisotropic image.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   resampler->SetOutputOrigin( inputImage->GetOrigin() );
@@ -445,12 +435,12 @@ int main( int argc, char * argv[] )
 // purpose of making sure that we don't attempt to compute pixels that are
 // outside of the original anisotropic dataset.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  InputImageType::SizeType   inputSize = 
+  InputImageType::SizeType   inputSize =
                     inputImage->GetLargestPossibleRegion().GetSize();
-  
+
   typedef InputImageType::SizeType::SizeValueType SizeValueType;
 
   const double dx = inputSize[0] * inputSpacing[0] / isoSpacing;
@@ -468,7 +458,7 @@ int main( int argc, char * argv[] )
 // computation are performed in \code{double}, while the elements of the
 // \code{SizeType} are integers.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   InputImageType::SizeType   size;
@@ -490,7 +480,7 @@ int main( int argc, char * argv[] )
 // execution of the pipeline by invoking the \code{Update()} method on the
 // resampling filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -498,7 +488,7 @@ int main( int argc, char * argv[] )
 
   resampler->Update();
 // Software Guide : EndCodeSnippet
-  
+
 
 // Software Guide : BeginLatex
 //
@@ -506,12 +496,12 @@ int main( int argc, char * argv[] )
 // circumstances that have lead us to accept to cover-up for the improper
 // acquisition of medical data.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 
 
-  
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
@@ -519,7 +509,7 @@ int main( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
   writer->SetInput( resampler->GetOutput() );
 
-  try 
+  try
     {
     writer->Update();
     }

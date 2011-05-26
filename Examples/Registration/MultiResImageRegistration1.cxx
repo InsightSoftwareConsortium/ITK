@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MultiResImageRegistration1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -46,9 +47,7 @@
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkImage.h"
 // Software Guide : EndCodeSnippet
 
@@ -80,7 +79,7 @@
 // \label{fig:MultiResRegistrationConcept}
 // \end{figure}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginLatex
@@ -106,7 +105,7 @@
 // optimizer between each resolution level by way of a simple interface
 // command. First, we include the header file of the Command class.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkCommand.h"
@@ -114,16 +113,16 @@
 
 // Software Guide : BeginLatex
 //
-// Our new interface command class is called 
-// \code{RegistrationInterfaceCommand}. It derives from 
-// Command and is templated over the 
+// Our new interface command class is called
+// \code{RegistrationInterfaceCommand}. It derives from
+// Command and is templated over the
 // multi-resolution registration type.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 template <typename TRegistration>
-class RegistrationInterfaceCommand : public itk::Command 
+class RegistrationInterfaceCommand : public itk::Command
 {
   // Software Guide : EndCodeSnippet
 
@@ -131,7 +130,7 @@ class RegistrationInterfaceCommand : public itk::Command
   //
   // We then define \code{Self}, \code{Superclass}, \code{Pointer},
   // \code{New()} and a constructor in a similar fashion to the
-  // \code{CommandIterationUpdate} class in Section 
+  // \code{CommandIterationUpdate} class in Section
   // \ref{sec:MonitoringImageRegistration}.
   //
   // Software Guide : EndLatex
@@ -162,7 +161,7 @@ public:
   // Software Guide : BeginLatex
   //
   // Two arguments are passed to the \code{Execute()} method: the first
-  // is the pointer to the object which invoked the event and the 
+  // is the pointer to the object which invoked the event and the
   // second is the event that was invoked.
   //
   // Software Guide : EndLatex
@@ -187,9 +186,9 @@ public:
     // Software Guide : BeginLatex
     //
     // We then convert the input object pointer to a RegistrationPointer.
-    // Note that no error checking is done here to verify if the 
+    // Note that no error checking is done here to verify if the
     // \code{dynamic\_cast} was successful since we know the actual object
-    // is a multi-resolution registration method. 
+    // is a multi-resolution registration method.
     //
     // Software Guide : EndLatex
     // Software Guide : BeginCodeSnippet
@@ -212,7 +211,7 @@ public:
     //
     // Software Guide : EndLatex
     // Software Guide : BeginCodeSnippet
-    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
+    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >(
                        registration->GetOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
@@ -222,7 +221,7 @@ public:
 
     if ( registration->GetCurrentLevel() == 0 )
       {
-      optimizer->SetMaximumStepLength( 16.00 );  
+      optimizer->SetMaximumStepLength( 16.00 );
       optimizer->SetMinimumStepLength( 0.01 );
       }
     else
@@ -250,7 +249,7 @@ public:
 //  The following section of code implements an observer
 //  that will monitor the evolution of the registration process.
 //
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -270,7 +269,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
+      OptimizerPointer optimizer =
         dynamic_cast< OptimizerPointer >( object );
       if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
@@ -296,44 +295,44 @@ int main( int argc, char *argv[] )
     std::cerr << " [numberOfBins] [numberOfSamples ] " << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The fixed and moving image types are defined as in previous
   //  examples.  Due to the recursive nature of the process by which the
   //  downsampled images are computed by the image pyramids, the output
   //  images are required to have real pixel types. We declare this internal
   //  image type to be \code{InternalPixelType}:
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   typedef   float                                    InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The types for the registration components are then derived using
   //  the internal image type.
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension > TransformType;
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     InternalImageType,
                                     double             > InterpolatorType;
-  typedef itk::MattesMutualInformationImageToImageMetric< 
-                                    InternalImageType, 
+  typedef itk::MattesMutualInformationImageToImageMetric<
+                                    InternalImageType,
                                     InternalImageType >   MetricType;
-  typedef itk::MultiResolutionImageRegistrationMethod< 
-                                    InternalImageType, 
+  typedef itk::MultiResolutionImageRegistrationMethod<
+                                    InternalImageType,
                                     InternalImageType >   RegistrationType;
   // Software Guide: EndCodeSnippet
 
@@ -346,8 +345,8 @@ int main( int argc, char *argv[] )
   // of the filter and the format of the schedules are found in
   // Section \ref{sec:ImagePyramids}. For this example, we will simply use
   // the default schedules.
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   typedef itk::MultiResolutionPyramidImageFilter<
                                     InternalImageType,
@@ -359,7 +358,7 @@ int main( int argc, char *argv[] )
 
 
   //  All the components are instantiated using their \code{New()} method
-  //  and connected to the registration object as in previous example.  
+  //  and connected to the registration object as in previous example.
   //
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -367,7 +366,7 @@ int main( int argc, char *argv[] )
   RegistrationType::Pointer   registration  = RegistrationType::New();
   MetricType::Pointer         metric        = MetricType::New();
 
-  FixedImagePyramidType::Pointer fixedImagePyramid = 
+  FixedImagePyramidType::Pointer fixedImagePyramid =
       FixedImagePyramidType::New();
   MovingImagePyramidType::Pointer movingImagePyramid =
       MovingImagePyramidType::New();
@@ -378,7 +377,7 @@ int main( int argc, char *argv[] )
   registration->SetMetric( metric  );
   registration->SetFixedImagePyramid( fixedImagePyramid );
   registration->SetMovingImagePyramid( movingImagePyramid );
-  
+
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -391,16 +390,16 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The fixed and moving images are read from a file. Before connecting
   //  these images to the registration we need to cast them to the internal
   //  image type using \doxygen{CastImageFilters}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         FixedImageType, InternalImageType > FixedCastFilterType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         MovingImageType, InternalImageType > MovingCastFilterType;
 
   FixedCastFilterType::Pointer fixedCaster   = FixedCastFilterType::New();
@@ -408,12 +407,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The output of the readers is connected as input to the cast
   //  filters. The inputs to the registration method are taken from the
-  //  cast filters. 
+  //  cast filters.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   fixedCaster->SetInput(  fixedImageReader->GetOutput() );
   movingCaster->SetInput( movingImageReader->GetOutput() );
@@ -425,16 +424,16 @@ int main( int argc, char *argv[] )
 
   fixedCaster->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
        fixedCaster->GetOutput()->GetBufferedRegion() );
-   
+
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
-  
+
   registration->SetInitialTransformParameters( initialParameters );
 
   metric->SetNumberOfHistogramBins( 128 );
@@ -454,19 +453,19 @@ int main( int argc, char *argv[] )
 
 
  //  Software Guide : BeginLatex
-  //  
+  //
   //  Given that the Mattes Mutual Information metric uses a random iterator in
   //  order to collect the samples from the images, it is usually convenient to
   //  initialize the seed of the random number generator.
   //
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!ReinitializeSeed()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   metric->ReinitializeSeed( 76926294 );
   // Software Guide : EndCodeSnippet
- 
+
 
   if( argc > 7 )
     {
@@ -489,12 +488,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Once all the registration components are in place we can create
   //  an instance of our interface command and connect it to the
   //  registration object using the \code{AddObserver()} method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef RegistrationInterfaceCommand<RegistrationType> CommandType;
@@ -503,40 +502,40 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We set the number of multi-resolution levels to three and trigger the
   //  registration process by calling \code{StartRegistration()}.
   //
   //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!SetNumberOfLevels()}
   //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!StartRegistration()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   registration->SetNumberOfLevels( 3 );
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
-  
+
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   double bestValue = optimizer->GetValue();
 
 
@@ -550,7 +549,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Let's execute this example using the following images
   //
   //  \begin{itemize}
@@ -591,10 +590,10 @@ int main( int argc, char *argv[] )
   //  These values are a close match to the true misalignment of $(13,17)$
   //  introduced in the moving image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -625,11 +624,11 @@ int main( int argc, char *argv[] )
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
@@ -638,12 +637,12 @@ int main( int argc, char *argv[] )
 
 
   writer->SetFileName( argv[3] );
-  
+
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
-  
+
   //
   // Generate checkerboards before and after registration
   //
@@ -656,9 +655,9 @@ int main( int argc, char *argv[] )
 
   caster->SetInput( checker->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
-  
+
   resample->SetDefaultPixelValue( 0 );
-  
+
   // Before registration
   TransformType::Pointer identityTransform = TransformType::New();
   identityTransform->SetIdentity();
@@ -670,7 +669,7 @@ int main( int argc, char *argv[] )
     writer->Update();
     }
 
- 
+
   // After registration
   resample->SetTransform( finalTransform );
   if( argc > 6 )
@@ -680,7 +679,7 @@ int main( int argc, char *argv[] )
     }
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration1Output.eps}
@@ -697,10 +696,10 @@ int main( int argc, char *argv[] )
   //  right images of the figure depict a checkerboard composite of the fixed
   //  and moving images before and after registration.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[height=0.44\textwidth]{MultiResImageRegistration1TraceTranslations.eps}
@@ -722,7 +721,7 @@ int main( int argc, char *argv[] )
   //  \ref{sec:MultiModalityRegistrationMattes}, where 24 iterations were
   //  required as more conservative optimization parameters had to be used.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

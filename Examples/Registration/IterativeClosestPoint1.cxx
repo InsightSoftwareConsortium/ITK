@@ -1,43 +1,43 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    IterativeClosestPoint1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
 #endif
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to perform Iterative Closest Point (ICP) 
-// registration in ITK. The main class featured in this section is the 
+// This example illustrates how to perform Iterative Closest Point (ICP)
+// registration in ITK. The main class featured in this section is the
 // \doxygen{EuclideanDistancePointMetric}.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
-#include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
 // Software Guide : EndCodeSnippet
 
 #include <iostream>
 #include <fstream>
 
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -60,7 +60,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
                          dynamic_cast< OptimizerPointer >( object );
 
     if( ! itk::IterationEvent().CheckEvent( &event ) )
@@ -68,12 +68,12 @@ public:
       return;
       }
 
-    std::cout << "Value = " << optimizer->GetCachedValue() << std::endl; 
+    std::cout << "Value = " << optimizer->GetCachedValue() << std::endl;
     std::cout << "Position = "  << optimizer->GetCachedCurrentPosition();
     std::cout << std::endl << std::endl;
 
     }
-   
+
 };
 
 
@@ -83,8 +83,8 @@ int main(int argc, char * argv[] )
   if( argc < 3 )
     {
     std::cerr << "Arguments Missing. " << std::endl;
-    std::cerr 
-      << "Usage:  IterativeClosestPoint1   fixedPointsFile  movingPointsFile " 
+    std::cerr
+      << "Usage:  IterativeClosestPoint1   fixedPointsFile  movingPointsFile "
       << std::endl;
     return 1;
     }
@@ -127,8 +127,8 @@ int main(int argc, char * argv[] )
     pointId++;
     }
   fixedPointSet->SetPoints( fixedPointContainer );
-  std::cout << 
-    "Number of fixed Points = " << 
+  std::cout <<
+    "Number of fixed Points = " <<
     fixedPointSet->GetNumberOfPoints() << std::endl;
 
   // Read the file containing coordinates of moving points.
@@ -150,15 +150,15 @@ int main(int argc, char * argv[] )
     pointId++;
     }
   movingPointSet->SetPoints( movingPointContainer );
-  std::cout << "Number of moving Points = " 
+  std::cout << "Number of moving Points = "
     << movingPointSet->GetNumberOfPoints() << std::endl;
 
 
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::EuclideanDistancePointMetric<  
-                                    PointSetType, 
+  typedef itk::EuclideanDistancePointMetric<
+                                    PointSetType,
                                     PointSetType>
                                                     MetricType;
 
@@ -185,8 +185,8 @@ int main(int argc, char * argv[] )
   optimizer->SetUseCostFunctionGradient(false);
 
   // Registration Method
-  typedef itk::PointSetToPointSetRegistrationMethod< 
-                                            PointSetType, 
+  typedef itk::PointSetToPointSetRegistrationMethod<
+                                            PointSetType,
                                             PointSetType >
                                                     RegistrationType;
 
@@ -197,7 +197,7 @@ int main(int argc, char * argv[] )
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 0.01 );
 
-  
+
   unsigned long   numberOfIterations =  100;
   double          gradientTolerance  =  1e-5;    // convergence criterion
   double          valueTolerance     =  1e-5;    // convergence criterion
@@ -210,7 +210,7 @@ int main(int argc, char * argv[] )
   optimizer->SetGradientTolerance( gradientTolerance );
   optimizer->SetEpsilonFunction( epsilonFunction );
 
-  // Start from an Identity transform (in a normal case, the user 
+  // Start from an Identity transform (in a normal case, the user
   // can probably provide a better guess than the identity...
   transform->SetIdentity();
 
@@ -229,7 +229,7 @@ int main(int argc, char * argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
-  try 
+  try
     {
     registration->StartRegistration();
     }

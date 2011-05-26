@@ -61,4 +61,23 @@
   if ( $1 == NULL ) { SWIG_fail; }
 }
 
+%typemap(out) vtkPolyData* {
+  PyImport_ImportModule("vtk");
+  $result = vtkPythonGetObjectFromPointer ( (vtkPolyData*)$1 );
+}
+
+%typemap(in) vtkPolyData* {
+  $1 = NULL;
+  $1 = (vtkPolyData*) vtkPythonGetPointerFromObject ( $input, "vtkPolyData" );
+  if ( $1 == NULL ) { SWIG_fail; }
+}
+
+#endif
+
+#ifdef SWIGJAVA
+%{
+#include "vtkJavaUtil.h"
+%}
+
+// TODO: The java typemaps seem to only work in java.i, they are harmless in that file but misplaces.
 #endif

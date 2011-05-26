@@ -1,0 +1,11 @@
+%{
+@WRAP_ITK_PYTHON_LIBRARY_DECLS@
+%}
+
+%init %{
+@WRAP_ITK_PYTHON_LIBRARY_CALLS@
+%}
+
+%pythoncode %{
+@WRAP_ITK_PYTHON_LIBRARY_IMPORTS@
+%}

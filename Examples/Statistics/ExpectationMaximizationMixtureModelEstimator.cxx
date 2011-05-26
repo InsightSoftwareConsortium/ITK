@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ExpectationMaximizationMixtureModelEstimator.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-     Copyright (c) Insight Software Consortium. All rights reserved.
-     See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -42,8 +43,8 @@
 //   p(x) = \sum^{c}_{i=0}\alpha_{i}f_{i}(x)
 // \end{equation}
 // where $i$ is the index of the component,
-//       $c$ is the number of components, 
-//       $\alpha_{i}$ is the proportion of the component, 
+//       $c$ is the number of components,
+//       $\alpha_{i}$ is the proportion of the component,
 //       and $f_{i}$ is the probability density function of the component.
 //
 // Now the task is to find the parameters(the component PDF's
@@ -76,7 +77,7 @@
 // vector class. To store measurement vectors into two separate sample
 // container, we use the \subdoxygen{Statistics}{Subsample} objects.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
@@ -96,7 +97,7 @@
 
 // Software Guide : BeginLatex
 //
-// We will fill the sample with random variables from two normal 
+// We will fill the sample with random variables from two normal
 // distribution using the \subdoxygen{Statistics}{NormalVariateGenerator}.
 //
 // Software Guide : EndLatex
@@ -112,7 +113,7 @@ int main()
   // Since the NormalVariateGenerator class only supports 1-D, we
   // define our measurement vector type as a one component vector. We
   // then, create a ListSample object for data inputs.
-  // 
+  //
   // We also create two Subsample objects that will store the
   // measurement vectors in the \code{sample} into two separate sample
   // containers. Each Subsample object stores only the
@@ -181,7 +182,7 @@ int main()
   // for the MeanCalculator and CovarianceCalculator is
   // \code{ClassSampleType} (i.e., type of Subsample) instead of
   // \code{SampleType} (i.e., type of ListSample). This is because the
-  // parameter estimation algorithms are applied to the class sample. 
+  // parameter estimation algorithms are applied to the class sample.
   //
   // Software Guide : EndLatex
 
@@ -198,7 +199,7 @@ int main()
   params[1] = 850.0;
   initialParameters[1] = params;
 
-  typedef itk::Statistics::GaussianMixtureModelComponent< SampleType > 
+  typedef itk::Statistics::GaussianMixtureModelComponent< SampleType >
     ComponentType;
 
   std::vector< ComponentType::Pointer > components;
@@ -209,7 +210,7 @@ int main()
     (components[i])->SetParameters( initialParameters[i] );
     }
   // Software Guide : EndCodeSnippet
-  
+
   // Software Guide : BeginLatex
   //
   // We run the estimator.
@@ -217,7 +218,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator< 
+  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator<
                            SampleType > EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
@@ -229,13 +230,13 @@ int main()
   initialProportions[1] = 0.5;
 
   estimator->SetInitialProportions( initialProportions );
-  
+
   for ( unsigned int i = 0 ; i < numberOfClasses ; i++)
     {
     estimator->AddComponent( (ComponentType::Superclass*)
                              (components[i]).GetPointer() );
     }
-  
+
   estimator->Update();
   // Software Guide : EndCodeSnippet
 
@@ -250,13 +251,13 @@ int main()
     {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
-    std::cout << "         " << (components[i])->GetFullParameters() 
+    std::cout << "         " << (components[i])->GetFullParameters()
               << std::endl;
     std::cout << "    Proportion: ";
-    std::cout << "         " << (*estimator->GetProportions())[i] << std::endl;
+    std::cout << "         " << estimator->GetProportions()[i] << std::endl;
     }
   // Software Guide : EndCodeSnippet
-  
+
   return 0;
 }
 

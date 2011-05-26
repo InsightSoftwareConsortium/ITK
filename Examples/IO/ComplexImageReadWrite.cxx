@@ -1,27 +1,23 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ComplexImageReadWrite.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #pragma warning ( disable : 4275 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -41,7 +37,7 @@
 //  \index{Complex images!Reading}
 //  \index{Complex images!Writing}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -69,7 +65,7 @@ int main( int argc, char * argv [] )
 // \code{std::complex<>} as the pixel type. Using the dimension and pixel type
 // we proceed to instantiate the image type.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -79,7 +75,7 @@ int main( int argc, char * argv [] )
   typedef itk::Image< PixelType, Dimension > ImageType;
 // Software Guide : EndCodeSnippet
 
-  
+
 
 
 // Software Guide : BeginLatex
@@ -87,8 +83,8 @@ int main( int argc, char * argv [] )
 // The image file reader and writer types are instantiated using the image
 // type. We can then create objects for both of them.
 //
-// Software Guide : EndLatex 
- 
+// Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
@@ -98,14 +94,14 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
 
-  
+
 
 // Software Guide : BeginLatex
 //
 // Filenames should be provided for both the reader and the writer. In this
 // particular example we take those filenames from the command line arguments.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   reader->SetFileName( argv[1] );
@@ -118,7 +114,7 @@ int main( int argc, char * argv [] )
 // This simple program could be used for converting complex images from one
 // fileformat to another.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   writer->SetInput( reader->GetOutput() );
@@ -130,19 +126,19 @@ int main( int argc, char * argv [] )
 // method of the writer. This invocation must be placed inside a try/catch
 // block since its execution may result in exceptions being thrown.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   try
     {
     writer->Update();
     }
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -152,7 +148,7 @@ int main( int argc, char * argv [] )
   // image operation. A practical application of this code is presented in
   // section~\ref{sec:FrequencyDomain} in the context of Fourier analysis.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

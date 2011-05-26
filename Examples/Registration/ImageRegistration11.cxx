@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration11.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -33,17 +34,15 @@
 // \index{itk::ImageRegistrationMethod!Multi-Modality}
 // \index{itk::OnePlusOneEvolutionaryOptimizer!Multi-Modality}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
-#include "itkNormalVariateGenerator.h" 
-#include "itkImage.h"
+#include "itkNormalVariateGenerator.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -58,7 +57,7 @@
 //  used to monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -78,7 +77,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
+      OptimizerPointer optimizer =
         dynamic_cast< OptimizerPointer >( object );
       if( ! itk::IterationEvent().CheckEvent( &event ) )
         {
@@ -87,7 +86,7 @@ public:
       double currentValue = optimizer->GetValue();
       // Only print out when the Metric value changes
       if( vcl_fabs( m_LastMetricValue - currentValue ) > 1e-7 )
-        { 
+        {
         std::cout << optimizer->GetCurrentIteration() << "   ";
         std::cout << currentValue << "   ";
         std::cout << optimizer->GetCurrentPosition() << std::endl;
@@ -110,35 +109,35 @@ int main( int argc, char *argv[] )
     std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
   typedef itk::TranslationTransform< double, Dimension > TransformType;
   typedef itk::OnePlusOneEvolutionaryOptimizer           OptimizerType;
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType    > RegistrationType;
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In this example the image types and all registration components,
-  //  except the metric, are declared as in Section 
+  //  except the metric, are declared as in Section
   //  \ref{sec:IntroductionImageRegistration}.
-  //  The Mattes mutual information metric type is 
+  //  The Mattes mutual information metric type is
   //  instantiated using the image types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MattesMutualInformationImageToImageMetric< 
-                                          FixedImageType, 
+  typedef itk::MattesMutualInformationImageToImageMetric<
+                                          FixedImageType,
                                           MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
 
@@ -150,7 +149,7 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetInterpolator(  interpolator  );
-  
+
   MetricType::Pointer metric = MetricType::New();
   registration->SetMetric( metric  );
 
@@ -180,7 +179,7 @@ int main( int argc, char *argv[] )
 
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
        fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
@@ -189,7 +188,7 @@ int main( int argc, char *argv[] )
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
-  
+
   registration->SetInitialTransformParameters( initialParameters );
 
 
@@ -204,7 +203,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::NormalVariateGenerator!New()}
   //  \index{itk::NormalVariateGenerator!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::NormalVariateGenerator  GeneratorType;
@@ -219,7 +218,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::NormalVariateGenerator!Initialize()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   generator->Initialize(12345);
@@ -227,14 +226,14 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Another significant difference in the metric is that it
   //  computes the negative mutual information and hence we
   //  need to minimize the cost function in this case. In this
   //  example we will use the same optimization parameters as in
   //  Section \ref{sec:IntroductionImageRegistration}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   optimizer->MaximizeOff();
@@ -252,28 +251,28 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Registration completed!" << std::endl;
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
-  
+
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   double bestValue = optimizer->GetValue();
 
 
@@ -287,7 +286,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  This example is executed using the same multi-modality images as
   //  in the previous one.  The registration converges after $24$ iterations and produces
   //  the following results:
@@ -296,14 +295,14 @@ int main( int argc, char *argv[] )
   //  Translation X = 13.1719
   //  Translation Y = 16.9006
   //  \end{verbatim}
-  //  These values are a very close match to 
+  //  These values are a very close match to
   //  the true misalignment introduced in the moving image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -327,7 +326,7 @@ int main( int argc, char *argv[] )
 
   typedef  unsigned char                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;

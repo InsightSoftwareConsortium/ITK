@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MembershipSample.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -72,7 +73,7 @@ int main()
   mv[1] = 4.0;
   mv[2] = 5.0;
   sample->PushBack(mv);
-  
+
   mv[0] = 3.0;
   mv[1] = 8.0;
   mv[2] = 6.0;
@@ -103,13 +104,13 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::MembershipSample< SampleType >
     MembershipSampleType;
-  
-  MembershipSampleType::Pointer membershipSample = 
+
+  MembershipSampleType::Pointer membershipSample =
     MembershipSampleType::New();
 
   membershipSample->SetSample(sample);
   membershipSample->SetNumberOfClasses(2);
-  
+
   membershipSample->AddInstance(0U, 0UL );
   membershipSample->AddInstance(0U, 1UL );
   membershipSample->AddInstance(1U, 2UL );
@@ -123,7 +124,6 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Size = " << membershipSample->Size() << std::endl;
   std::cout << "Total frequency = " 
             << membershipSample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
@@ -133,7 +133,7 @@ int main()
   // The \code{membershipSample} is ready for use. The following code snippet
   // shows how to use the \code{Iterator} interface. The
   // MembershipSample's \code{Iterator} has an additional method
-  // that returns the class label (\code{GetClassLabel()}). 
+  // that returns the class label (\code{GetClassLabel()}).
   //
   // Software Guide : EndLatex
 
@@ -141,31 +141,32 @@ int main()
   MembershipSampleType::ConstIterator iter = membershipSample->Begin();
   while ( iter != membershipSample->End() )
     {
-    std::cout << "instance identifier = " << iter.GetInstanceIdentifier() 
-              << "\t measurement vector = " 
-              << iter.GetMeasurementVector() 
-              << "\t frequency = " 
+    std::cout << "instance identifier = " << iter.GetInstanceIdentifier()
+              << "\t measurement vector = "
+              << iter.GetMeasurementVector()
+              << "\t frequency = "
               << iter.GetFrequency()
-              << "\t class label = " 
+              << "\t class label = "
               << iter.GetClassLabel()
               << std::endl;
     ++iter;
     }
   // Software Guide : EndCodeSnippet
 
-  
+
   // Software Guide : BeginLatex
   //
   // To see the numbers of instances in each class subsample, we use
-  // the \code{GetClassSampleSize()} method. 
+  // the \code{Size()} method of the \code{ClassSampleType} instance
+  // returned by the \code{GetClassSample(index)} method.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   std::cout << "class label = 0 sample size = " 
-            << membershipSample->GetClassSampleSize(0) << std::endl;
+            << membershipSample->GetClassSample(0)->Size() << std::endl;
   std::cout << "class label = 1 sample size = " 
-            << membershipSample->GetClassSampleSize(1) << std::endl;
+            << membershipSample->GetClassSample(1)->Size() << std::endl;
   // Software Guide : EndCodeSnippet
 
 
@@ -182,23 +183,23 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MembershipSampleType::ClassSampleType::ConstPointer classSample = 
+  MembershipSampleType::ClassSampleType::ConstPointer classSample =
                                   membershipSample->GetClassSample( 0 );
 
-  MembershipSampleType::ClassSampleType::ConstIterator c_iter = 
+  MembershipSampleType::ClassSampleType::ConstIterator c_iter =
                                                     classSample->Begin();
 
   while ( c_iter != classSample->End() )
     {
-    std::cout << "instance identifier = " << c_iter.GetInstanceIdentifier() 
-              << "\t measurement vector = " 
-              << c_iter.GetMeasurementVector() 
-              << "\t frequency = " 
+    std::cout << "instance identifier = " << c_iter.GetInstanceIdentifier()
+              << "\t measurement vector = "
+              << c_iter.GetMeasurementVector()
+              << "\t frequency = "
               << c_iter.GetFrequency() << std::endl;
     ++c_iter;
     }
   // Software Guide : EndCodeSnippet
-  
+
   return 0;
 }
 

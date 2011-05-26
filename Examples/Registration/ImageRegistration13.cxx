@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration13.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,7 +24,7 @@
 //  This example illustrates how to do registration with a 2D Rigid Transform
 //  and with MutualInformation metric.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 #include "itkImageRegistrationMethod.h"
@@ -35,9 +36,7 @@
 #include "itkMattesMutualInformationImageToImageMetric.h"
 // Software Guide : EndCodeSnippet
 
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 
 #include "itkImageFileReader.h"
@@ -51,7 +50,7 @@
 //  used to monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -71,7 +70,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -96,10 +95,10 @@ int main( int argc, char *argv[] )
     std::cerr << "[useCachingBSplineWeights ] " << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned char   PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
@@ -110,18 +109,18 @@ int main( int argc, char *argv[] )
   typedef itk::CenteredRigid2DTransform< double >  TransformType;
   typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
   // Software Guide : EndCodeSnippet
-   
-  typedef itk::LinearInterpolateImageFunction< 
+
+  typedef itk::LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType    > RegistrationType;
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MattesMutualInformationImageToImageMetric< 
-                                          FixedImageType, 
+  typedef itk::MattesMutualInformationImageToImageMetric<
+                                          FixedImageType,
                                           MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
 
@@ -135,7 +134,7 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetInterpolator(  interpolator  );
-  
+
 
   MetricType::Pointer metric = MetricType::New();
   registration->SetMetric( metric  );
@@ -158,7 +157,7 @@ int main( int argc, char *argv[] )
     // Define whether to cache the BSpline weights and indexes corresponding to
     // each one of the samples used to compute the metric. Enabling caching will
     // make the algorithm run faster but it will have a cost on the amount of memory
-    // that needs to be allocated. This option is only relevant when using the 
+    // that needs to be allocated. This option is only relevant when using the
     // BSplineDeformableTransform.
     metric->SetUseCachingOfBSplineWeights( atoi( argv[5] ) );
     }
@@ -178,29 +177,29 @@ int main( int argc, char *argv[] )
 
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
        fixedImageReader->GetOutput()->GetBufferedRegion() );
 
   // Software Guide : BeginLatex
-  // The \doxygen{CenteredRigid2DTransform} is initialized by 5 parameters, 
-  // indicating the angle of rotation, the center coordinates and the 
-  // translation to be applied after rotation. The initialization is done 
-  // by the \doxygen{CenteredTransformInitializer}. 
-  // The transform can operate in two modes, one assumes that the 
-  // anatomical objects to be registered are centered in their respective 
+  // The \doxygen{CenteredRigid2DTransform} is initialized by 5 parameters,
+  // indicating the angle of rotation, the center coordinates and the
+  // translation to be applied after rotation. The initialization is done
+  // by the \doxygen{CenteredTransformInitializer}.
+  // The transform can operate in two modes, one assumes that the
+  // anatomical objects to be registered are centered in their respective
   // images. Hence the best initial guess for the registration is the one
   // that superimposes those two centers.
-  // This second approach assumes that the moments of the anatomical 
-  // objects are similar for both images and hence the best initial guess 
+  // This second approach assumes that the moments of the anatomical
+  // objects are similar for both images and hence the best initial guess
   // for registration is to superimpose both mass centers. The center of
   // mass is computed from the moments obtained from the gray level values.
   // Here we adopt the first approach. The \code{GeometryOn()} method
   // toggles between the approaches.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer< 
-                                    TransformType, 
-                                    FixedImageType, 
+  typedef itk::CenteredTransformInitializer<
+                                    TransformType,
+                                    FixedImageType,
                                     MovingImageType >  TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
@@ -218,10 +217,10 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
   // Software Guide : BeginLatex
-  // The optimizer scales the metrics (the gradient in this case) by the 
+  // The optimizer scales the metrics (the gradient in this case) by the
   // scales during each iteration. Hence a large value of the center scale
   // will prevent movement along the center during optimization. Here we
-  // assume that the fixed and moving images are likely to be related by 
+  // assume that the fixed and moving images are likely to be related by
   // a translation.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
@@ -229,7 +228,7 @@ int main( int argc, char *argv[] )
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 128.0;
-  const double centerScale      = 1000.0; // prevents it from moving 
+  const double centerScale      = 1000.0; // prevents it from moving
                                           // during the optimization
   optimizerScales[0] = 1.0;
   optimizerScales[1] = centerScale;
@@ -239,7 +238,7 @@ int main( int argc, char *argv[] )
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 0.5   ); 
+  optimizer->SetMaximumStepLength( 0.5   );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 400 );
   // Software Guide : EndCodeSnippet
@@ -250,24 +249,24 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   typedef RegistrationType::ParametersType ParametersType;
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   const double finalAngle           = finalParameters[0];
   const double finalRotationCenterX = finalParameters[1];
   const double finalRotationCenterY = finalParameters[2];
@@ -275,7 +274,7 @@ int main( int argc, char *argv[] )
   const double finalTranslationY    = finalParameters[4];
 
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   double bestValue = optimizer->GetValue();
 
   // Print out results
@@ -294,8 +293,8 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -332,24 +331,24 @@ int main( int argc, char *argv[] )
 }
 
 //  Software Guide : BeginLatex
-//  
+//
 //  Let's execute this example over some of the images provided in
 //  \code{Examples/Data}, for example:
-//  
+//
 //  \begin{itemize}
-//  \item \code{BrainProtonDensitySlice.png} 
+//  \item \code{BrainProtonDensitySlice.png}
 //  \item \code{BrainProtonDensitySliceBorder20.png}
 //  \end{itemize}
 //
 //  The second image is the result of intentionally shifting the first
 //  image by $20mm$ in $X$ and $20mm$ in
 //  $Y$. Both images have unit-spacing and are shown in Figure
-//  \ref{fig:FixedMovingImageRegistration1}. The example 
+//  \ref{fig:FixedMovingImageRegistration1}. The example
 //  yielded the following results.
-//  
+//
 //  \begin{verbatim}
 //  Translation X = 20
 //  Translation Y = 20
 //  \end{verbatim}
 //  These values match the true misalignment introduced in the moving image.
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex

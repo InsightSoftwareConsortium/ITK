@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkRawImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -18,8 +35,8 @@ int main(int argc, char *argv[])
   typedef std::list<std::string> FileListType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
   typedef itk::ImageFileWriter<ImageType> WriterType;
-  typedef itk::RawImageIO<ScalarType, 3> ImageIOType;  
-  
+  typedef itk::RawImageIO<ScalarType, 3> ImageIOType;
+
   FileListType file_list;
   std::string output_filename;
   int x, y, z;
@@ -59,7 +76,7 @@ int main(int argc, char *argv[])
   inputIo->SetDimensions(0, x);
   inputIo->SetDimensions(1, y);
   inputIo->SetDimensions(2, z);
-  
+
   reader->SetImageIO(inputIo);
 
   WriterType::Pointer writer = WriterType::New();
@@ -89,7 +106,7 @@ int main(int argc, char *argv[])
   out->SetRegions(reg);
   out->Allocate();
 
-  try { 
+  try {
   // Counting step
   for (FileListType::iterator fit = file_list.begin();
        fit != file_list.end();
@@ -112,7 +129,7 @@ int main(int argc, char *argv[])
             { it2.Set(it2.Get()+1); }
         }
     }
-  
+
   // Thresholding step
   i_threshold = (int) (::floor(threshold * (float) N));
 

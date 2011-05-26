@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MultiResImageRegistration2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -48,7 +49,7 @@
 //
 // \index{itk::AffineTransform!Header}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -59,7 +60,6 @@
 #include "itkCenteredTransformInitializer.h"
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkImage.h"
@@ -76,7 +76,7 @@
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -96,7 +96,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
       dynamic_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
@@ -117,7 +117,7 @@ private:
 //  at every change of resolution level.
 //
 template <typename TRegistration>
-class RegistrationInterfaceCommand : public itk::Command 
+class RegistrationInterfaceCommand : public itk::Command
 {
 public:
   typedef  RegistrationInterfaceCommand   Self;
@@ -139,7 +139,7 @@ public:
       }
     RegistrationPointer registration =
                         dynamic_cast<RegistrationPointer>( object );
-    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
+    OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >(
                        registration->GetOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
@@ -149,7 +149,7 @@ public:
 
     if ( registration->GetCurrentLevel() == 0 )
       {
-      optimizer->SetMaximumStepLength( 16.00 );  
+      optimizer->SetMaximumStepLength( 16.00 );
       optimizer->SetMinimumStepLength(  0.01 );
       }
     else
@@ -175,10 +175,10 @@ int main( int argc, char *argv[] )
     std::cerr << " [numberOfBins] [numberOfSamples ] " << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
@@ -187,34 +187,34 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The configuration of the registration method in this example closely
   //  follows the procedure in the previous section. The main changes involve the
   //  construction and initialization of the transform. The instantiation of
   //  the transform type requires only the dimension of the space and the
   //  type used for representing space coordinates.
-  //  
+  //
   //  \index{itk::AffineTransform!Instantiation}
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::AffineTransform< double, Dimension > TransformType;
   // Software Guide : EndCodeSnippet
 
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     InternalImageType,
                                     double             > InterpolatorType;
-  typedef itk::MattesMutualInformationImageToImageMetric< 
-                                          InternalImageType, 
+  typedef itk::MattesMutualInformationImageToImageMetric<
+                                          InternalImageType,
                                           InternalImageType >    MetricType;
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
 
-  typedef itk::MultiResolutionImageRegistrationMethod< 
-                                    InternalImageType, 
+  typedef itk::MultiResolutionImageRegistrationMethod<
+                                    InternalImageType,
                                     InternalImageType    > RegistrationType;
   typedef itk::RecursiveMultiResolutionPyramidImageFilter<
                                     InternalImageType,
@@ -242,7 +242,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::AffineTransform!Pointer}
   //  \index{itk::Multi\-Resolution\-Image\-Registration\-Method!SetTransform()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer   transform  = TransformType::New();
@@ -250,7 +250,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  FixedImagePyramidType::Pointer fixedImagePyramid = 
+  FixedImagePyramidType::Pointer fixedImagePyramid =
       FixedImagePyramidType::New();
   MovingImagePyramidType::Pointer movingImagePyramid =
       MovingImagePyramidType::New();
@@ -265,9 +265,9 @@ int main( int argc, char *argv[] )
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         FixedImageType, InternalImageType > FixedCastFilterType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         MovingImageType, InternalImageType > MovingCastFilterType;
   FixedCastFilterType::Pointer fixedCaster   = FixedCastFilterType::New();
   MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
@@ -280,12 +280,12 @@ int main( int argc, char *argv[] )
 
   fixedCaster->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
        fixedCaster->GetOutput()->GetBufferedRegion() );
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  One of the easiest ways of preparing a consistent set of parameters for
   //  the transform is to use the \doxygen{CenteredTransformInitializer}. Once
   //  the transform is initialized, we can invoke its \code{GetParameters()}
@@ -293,12 +293,12 @@ int main( int argc, char *argv[] )
   //  the registration method using its \code{SetInitialTransformParameters()}
   //  method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer< 
-                                    TransformType, 
-                                    FixedImageType, 
+  typedef itk::CenteredTransformInitializer<
+                                    TransformType,
+                                    FixedImageType,
                                     MovingImageType >  TransformInitializerType;
 
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
@@ -315,7 +315,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The set of parameters in the AffineTransform have different
   //  dynamic ranges. Typically the parameters associated with the matrix
   //  have values around $[-1:1]$, although they are not restricted to this
@@ -333,7 +333,7 @@ int main( int argc, char *argv[] )
   //  factors. Then, we set the remaining scale factors to a small value. The
   //  following code sets up the scale coefficients.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
@@ -355,39 +355,39 @@ int main( int argc, char *argv[] )
   //  is expressed as
   //
   //  \begin{equation}
-  //  \left[ 
+  //  \left[
   //  \begin{array}{c}
-  //  {P'}_x  \\  {P'}_y  \\  \end{array} 
+  //  {P'}_x  \\  {P'}_y  \\  \end{array}
   //  \right]
   //  =
-  //  \left[ 
+  //  \left[
   //  \begin{array}{cc}
   //  M_{11} & M_{12} \\ M_{21} & M_{22} \\  \end{array}
   //  \right]
-  //  \cdot 
-  //  \left[ 
+  //  \cdot
+  //  \left[
   //  \begin{array}{c}
-  //  P_x  \\ P_y  \\  \end{array} 
+  //  P_x  \\ P_y  \\  \end{array}
   //  \right]
   //  +
-  //  \left[ 
+  //  \left[
   //  \begin{array}{c}
-  //  T_x  \\ T_y  \\  \end{array} 
-  //  \right] 
+  //  T_x  \\ T_y  \\  \end{array}
+  //  \right]
   //  \end{equation}
   //
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The array of scales is then passed to the optimizer using the
   //  \code{SetScales()} method.
   //
   //  \index{itk::Optimizer!SetScales()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetScales( optimizerScales );
@@ -411,19 +411,19 @@ int main( int argc, char *argv[] )
 
 
  //  Software Guide : BeginLatex
-  //  
+  //
   //  Given that the Mattes Mutual Information metric uses a random iterator in
   //  order to collect the samples from the images, it is usually convenient to
   //  initialize the seed of the random number generator.
   //
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!ReinitializeSeed()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   metric->ReinitializeSeed( 76926294 );
   // Software Guide : EndCodeSnippet
- 
+
   if( argc > 7 )
     {
     // Define whether to calculate the metric derivative by explicitly
@@ -435,7 +435,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The step length has to be proportional to the expected values of the
   //  parameters in the search space. Since the expected values of the matrix
   //  coefficients are around $1.0$, the initial step of the optimization
@@ -448,7 +448,7 @@ int main( int argc, char *argv[] )
   //  \code{RegistrationInterfaceCommand} when it is called at the beginning
   //  of registration at each multi-resolution level.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   optimizer->SetNumberOfIterations(  200  );
   optimizer->SetRelaxationFactor( 0.8 );
@@ -467,31 +467,31 @@ int main( int argc, char *argv[] )
   registration->AddObserver( itk::IterationEvent(), command );
   registration->SetNumberOfLevels( 3 );
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
-  std::cout << "Optimizer Stopping Condition = " 
+  std::cout << "Optimizer Stopping Condition = "
             << optimizer->GetStopCondition() << std::endl;
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   double TranslationAlongX = finalParameters[4];
   double TranslationAlongY = finalParameters[5];
-  
+
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   double bestValue = optimizer->GetValue();
 
 
@@ -505,7 +505,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Let's execute this example using the same multi-modality images as
   //  before.  The registration converges after $5$ iterations in the first
   //  level, $7$ in the second level and $4$ in the third level. The final
@@ -519,17 +519,17 @@ int main( int argc, char *argv[] )
   //  they can now be seen as
   //
   //  \begin{equation}
-  //  M = 
-  //  \left[ 
+  //  M =
+  //  \left[
   //  \begin{array}{cc}
   //  1.00164 & 0.0014 \\ 0.00168 & 1.0027 \\  \end{array}
   //  \right]
   //  \mbox{ and }
   //  T =
-  //  \left[ 
+  //  \left[
   //  \begin{array}{c}
-  //  12.6296  \\  16.4768  \\  \end{array} 
-  //  \right] 
+  //  12.6296  \\  16.4768  \\  \end{array}
+  //  \right]
   //  \end{equation}
   //
   //  In this form, it is easier to interpret the effect of the
@@ -537,7 +537,7 @@ int main( int argc, char *argv[] )
   //  shearing while $\bf{T}$ is responsible for translations.  It can be seen
   //  that the translation values in this case closely match the true
   //  misalignment introduced in the moving image.
-  // 
+  //
   //  It is important to note that once the images are registered at a
   //  sub-pixel level, any further improvement of the registration relies
   //  heavily on the quality of the interpolator. It may then be reasonable to
@@ -545,11 +545,11 @@ int main( int argc, char *argv[] )
   //  switch to a high-quality but slow interpolator in the final resolution
   //  level.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -579,7 +579,7 @@ int main( int argc, char *argv[] )
 
   typedef  unsigned char                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType >          CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -595,7 +595,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration2Output.eps}
@@ -612,10 +612,10 @@ int main( int argc, char *argv[] )
   //  right images of the figure present a checkerboard composite of the fixed
   //  and moving images before and after registration.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[height=0.44\textwidth]{MultiResImageRegistration2TraceTranslations.eps}
@@ -631,7 +631,7 @@ int main( int argc, char *argv[] )
   //  parameter space. The right side of the same figure shows the sequence of
   //  metric values computed as the optimizer explored the parameter space.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //
   // Generate checkerboards before and after registration
@@ -645,7 +645,7 @@ int main( int argc, char *argv[] )
 
   caster->SetInput( checker->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
-  
+
   resample->SetDefaultPixelValue( 0 );
 
   // Write out checkerboard outputs
@@ -660,7 +660,7 @@ int main( int argc, char *argv[] )
     writer->Update();
     }
 
- 
+
   // After registration
   resample->SetTransform( finalTransform );
   if( argc > 6 )

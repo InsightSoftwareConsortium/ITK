@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ModelToImageRegistration2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,27 +26,27 @@
 //  registration. In this case, a SpatialObject is used for generating a
 //  \doxygen{PointSet} whose points are located in a narrow band around the
 //  edges of the SpatialObject. This PointSet is then used in order to perform
-//  PointSet to Image registration. 
+//  PointSet to Image registration.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  In this example we use the \doxygen{BoxSpatialObject}, that is one of the
 //  simplest SpatialObjects in ITK.
 //
 //  \index{itk::BoxSpatialObject!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
 #include "itkBoxSpatialObject.h"
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  The generation of the PointSet is done in two stages. First the
 //  SpatialObject is rasterized in order to generate an image containing a
 //  binary mask that represents the inside and outside of the SpatialObject.
@@ -54,25 +55,23 @@
 //  PointSet. The pixel values associated to the point in the PointSet are the
 //  values of distance from each point to the binary mask.  The first stage is
 //  performed by the \doxygen{SpatialObjectToImageFilter}, while the second
-//  stage is performed witht eh \doxygen{BinaryMaskToNarrowBandPointSetFilter} 
+//  stage is performed witht eh \doxygen{BinaryMaskToNarrowBandPointSetFilter}
 //
 //  \index{itk::Spatial\-Object\-To\-Image\-Filter!header}
 //  \index{itk::Binary\-Mask\-To\-Narrow\-Band\-Point\-Set\-Filter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkBinaryMaskToNarrowBandPointSetFilter.h"
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 #include "itkBinaryMaskToNarrowBandPointSetFilter.h"
 
-#include "itkImage.h"
 #include "itkPointSet.h"
 #include "itkPointSetToImageRegistrationMethod.h"
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkRigid2DTransform.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
@@ -84,7 +83,7 @@
 //
 // Observer to the optimizer
 //
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -104,13 +103,13 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
       dynamic_cast< OptimizerPointer >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       {
       return;
       }
-    
+
     OptimizerType::DerivativeType gradient = optimizer->GetGradient();
     OptimizerType::ScalesType     scales   = optimizer->GetScales();
 
@@ -120,10 +119,10 @@ public:
       {
       const double fc = gradient[i] / scales[i];
       magnitude2 += fc * fc;
-      }  
+      }
 
     const double gradientMagnitude = vcl_sqrt( magnitude2 );
-    
+
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
     std::cout << gradientMagnitude << "   ";
@@ -152,9 +151,9 @@ int main( int argc, char * argv [] )
 
   typedef itk::BoxSpatialObject< Dimension >    SpatialObjectType;
 
-  typedef itk::SpatialObjectToImageFilter< 
-                              SpatialObjectType, 
-                              MaskImageType 
+  typedef itk::SpatialObjectToImageFilter<
+                              SpatialObjectType,
+                              MaskImageType
                                 >   SpatialObjectToImageFilterType;
 
   typedef itk::PointSet< float, Dimension >       FixedPointSetType;
@@ -162,18 +161,18 @@ int main( int argc, char * argv [] )
 
   typedef itk::BinaryMaskToNarrowBandPointSetFilter<
                                     MaskImageType,
-                                    FixedPointSetType 
+                                    FixedPointSetType
                                             >  NarrowBandFilterType;
 
   typedef  signed short   PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  ImageType;
 
   typedef  unsigned char       MaskPixelType;
-  
+
   typedef itk::Image< MaskPixelType, Dimension >  MaskImageType;
 
-  
+
   typedef itk::Rigid2DTransform< double  > TransformType;
 
   typedef TransformType::ParametersType          ParametersType;
@@ -181,20 +180,20 @@ int main( int argc, char * argv [] )
 
   typedef itk::RegularStepGradientDescentOptimizer    OptimizerType;
 
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     ImageType,
                                     double     > LinearInterpolatorType;
 
 
-  typedef itk::NormalizedCorrelationPointSetToImageMetric< 
-                                    FixedPointSetType, 
+  typedef itk::NormalizedCorrelationPointSetToImageMetric<
+                                    FixedPointSetType,
                                     ImageType  >   MetricType;
-                                          
+
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
 
 
-  typedef itk::PointSetToImageRegistrationMethod< 
+  typedef itk::PointSetToImageRegistrationMethod<
                                     FixedPointSetType,
                                     ImageType  >   RegistrationType;
 
@@ -217,7 +216,7 @@ int main( int argc, char * argv [] )
   SpatialObjectToImageFilterType::Pointer rasterizationFilter;
   NarrowBandFilterType::Pointer           narrowBandPointSetFilter;
 
-  
+
   metric              = MetricType::New();
   transform           = TransformType::New();
   optimizer           = OptimizerType::New();
@@ -230,7 +229,7 @@ int main( int argc, char * argv [] )
   narrowBandPointSetFilter = NarrowBandFilterType::New();
 
   movingImageReader        = ImageReaderType::New();
-  
+
   movingImageReader->SetFileName( argv[1] );
 
   try
@@ -246,29 +245,29 @@ int main( int argc, char * argv [] )
     }
 
 
-  
+
   movingImage = movingImageReader->GetOutput();
-  
+
   SpatialObjectType::SizeType boxSize;
   boxSize[0] = 60.0;  // mm
   boxSize[1] = 60.0;  // mm
-  
+
   if( argc > 6 )
     {
     boxSize[0] = atof( argv[5] );
     boxSize[1] = atof( argv[6] );
     }
 
-  // 
-  // The geometry of the BoxSpatialObject is such that one of 
+  //
+  // The geometry of the BoxSpatialObject is such that one of
   // its corners is located at the origin of coordinates.
-  // 
+  //
   spatialObject->SetSize( boxSize );
 
-  ImageType::RegionType region = 
+  ImageType::RegionType region =
                 movingImage->GetLargestPossibleRegion();
 
-  ImageType::SizeType   imageSize = region.GetSize(); 
+  ImageType::SizeType   imageSize = region.GetSize();
 
   ImageType::SpacingType spacing = movingImage->GetSpacing();
   ImageType::PointType  origin;
@@ -280,11 +279,11 @@ int main( int argc, char * argv [] )
   rasterizationFilter->SetSpacing( spacing );
   rasterizationFilter->SetOrigin( origin );
 
-  
+
   narrowBandPointSetFilter->SetBandWidth( 5.0 );
-      
-  narrowBandPointSetFilter->SetInput( 
-                    rasterizationFilter->GetOutput() ); 
+
+  narrowBandPointSetFilter->SetInput(
+                    rasterizationFilter->GetOutput() );
 
   narrowBandPointSetFilter->Update();
 
@@ -296,9 +295,9 @@ int main( int argc, char * argv [] )
     maskWriter->SetFileName( argv[4] );
     maskWriter->Update();
     }
-  
+
   fixedPointSet = narrowBandPointSetFilter->GetOutput();
-  
+
   fixedPointSet->Print( std::cout );
 
   registrationMethod->SetOptimizer(     optimizer     );
@@ -337,8 +336,8 @@ int main( int argc, char * argv [] )
   transform->SetCenter( rotationCenter );
   transform->SetTranslation( initialTranslation );
 
-  registrationMethod->SetInitialTransformParameters( 
-                                  transform->GetParameters() ); 
+  registrationMethod->SetInitialTransformParameters(
+                                  transform->GetParameters() );
 
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
@@ -352,7 +351,7 @@ int main( int argc, char * argv [] )
 
   try
     {
-    registrationMethod->StartRegistration(); 
+    registrationMethod->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registrationMethod->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
@@ -365,7 +364,7 @@ int main( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  ParametersType transformParameters = 
+  ParametersType transformParameters =
          registrationMethod->GetLastTransformParameters();
 
 

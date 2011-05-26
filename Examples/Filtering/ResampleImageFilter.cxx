@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ResampleImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -42,7 +39,7 @@
 //    OUTPUTS: {ResampleImageFilterOutput4.png}
 //    3
 //  Software Guide : EndCommandLineArgs
-//  
+//
 //  Software Guide : BeginLatex
 //
 //  Resampling an image is a very important task in image analysis. It is
@@ -60,7 +57,7 @@
 //
 //  \index{itk::ResampleImageFilter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -70,11 +67,11 @@
 
 //  Software Guide : BeginLatex
 //
-//  The header file corresponding to this filter should be included first. 
+//  The header file corresponding to this filter should be included first.
 //
 //  \index{itk::ResampleImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -90,7 +87,7 @@
 //  \index{itk::AffineTransform!header}
 //  \index{itk::Nearest\-Neighbor\-Interpolate\-Image\-Function!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -104,13 +101,13 @@ int main( int argc, char * argv[] )
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile"; 
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile";
     std::cerr << "  [exampleAction={0,1,2,3}]" << std::endl;
     return EXIT_FAILURE;
     }
 
   int exampleAction = 0;
- 
+
   if( argc >= 4 )
     {
     exampleAction = atoi( argv[3] );
@@ -121,7 +118,7 @@ int main( int argc, char * argv[] )
   //  The dimension and pixel types for input and output image must be
   //  defined and with them the image types can be instantiated.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 2;
@@ -150,8 +147,8 @@ int main( int argc, char * argv[] )
   //  \index{itk::ResampleImageFilter!instantiation}
   //  \index{itk::ResampleImageFilter!New()}
   //  \index{itk::ResampleImageFilter!Pointer}
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ResampleImageFilter<InputImageType,OutputImageType> FilterType;
@@ -166,8 +163,8 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::AffineTransform!instantiation}
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
 
   // Software Guide : BeginCodeSnippet
   typedef itk::AffineTransform< double, Dimension >  TransformType;
@@ -182,7 +179,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetTransform()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -198,10 +195,10 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Nearest\-Neighbor\-Interpolate\-Image\-Function!instantiation}
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
-  typedef itk::NearestNeighborInterpolateImageFunction< 
+  typedef itk::NearestNeighborInterpolateImageFunction<
                        InputImageType, double >  InterpolatorType;
   // Software Guide : EndCodeSnippet
 
@@ -213,7 +210,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetInterpolator()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -231,7 +228,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetDefaultPixelValue( 0 );
@@ -246,7 +243,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   double spacing[ Dimension ];
@@ -277,7 +274,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   InputImageType::SizeType   size;
@@ -299,7 +296,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::ResampleImageFilter!SetInput()}
   //  \index{itk::ResampleImageFilter!GetOutput()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -310,7 +307,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
@@ -346,7 +343,7 @@ int main( int argc, char * argv[] )
   //  \times 300$ pixels. In this case, the input and output images both have
   //  spacing of $1mm \times 1mm$ and origin of $(0.0,0.0)$.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -357,7 +354,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::AffineTransform!Translate()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType translation;
@@ -412,7 +409,7 @@ int main( int argc, char * argv[] )
   // the input image because the transformation applied was a translation of
   // $(-30,-50)$.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -425,7 +422,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetDefaultPixelValue( 100 );
@@ -449,7 +446,7 @@ int main( int argc, char * argv[] )
   //  $(30,50)$ of the output image gets its gray value from the point $(0,0)$
   //  of the input image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   if( exampleAction == 2 )
     {

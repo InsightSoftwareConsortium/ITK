@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    CovariantVectorImageExtractComponent.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -28,7 +25,7 @@
 //  \code{CovariantVector}, extract one of its components to form a scalar
 //  image and finally save this image into a file.
 //
-//  The \doxygen{VectorIndexSelectionCastImageFilter} is used to extract 
+//  The \doxygen{VectorIndexSelectionCastImageFilter} is used to extract
 //  a scalar from the vector image. It is also possible to cast the component
 //  type when using this filter. It is the user's responsibility to make sure
 //  that the cast will not result in any information loss.
@@ -38,7 +35,7 @@
 //  \index{itk::ImageFileRead!Vector images}
 //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
@@ -71,17 +68,17 @@ int main( int argc, char ** argv )
   //  Then, we rescale the intensities of this scalar image and write it as a
   //  image of \code{unsigned short} pixels.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float                 ComponentType;
   const   unsigned int          Dimension = 2;
-  
-  typedef itk::CovariantVector< ComponentType, 
+
+  typedef itk::CovariantVector< ComponentType,
                                     Dimension  >      InputPixelType;
 
   typedef unsigned short                              OutputPixelType;
-  
+
   typedef itk::Image< InputPixelType,      Dimension >    InputImageType;
   typedef itk::Image< ComponentType,       Dimension >    ComponentImageType;
   typedef itk::Image< OutputPixelType,     Dimension >    OutputImageType;
@@ -89,11 +86,11 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
   //  are instantiated using the image types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
@@ -102,7 +99,7 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The VectorIndexSelectionCastImageFilter is instantiated
   //  using the input and output image types. A filter object is created with
   //  the New() method and assigned to a \doxygen{SmartPointer}.
@@ -111,10 +108,10 @@ int main( int argc, char ** argv )
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!New()}
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VectorIndexSelectionCastImageFilter< 
+  typedef itk::VectorIndexSelectionCastImageFilter<
                                           InputImageType,
                                           ComponentImageType    > FilterType;
 
@@ -123,7 +120,7 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The VectorIndexSelectionCastImageFilter class require us to specify
   //  which of the vector components is to be extracted from the vector image.
   //  This is done with the SetIndex() method. In this example we obtain
@@ -131,7 +128,7 @@ int main( int argc, char ** argv )
   //
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!SetIndex()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const unsigned int indexOfComponentToExtract = atoi( argv[4] );
 
@@ -145,30 +142,30 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginCodeSnippet
   componentExtractor->SetIndex( indexOfComponentToExtract );
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The \doxygen{RescaleIntensityImageFilter} filter is instantiated here.
   //
   //  \index{RescaleIntensityImageFilter!Instantiation}
   //  \index{RescaleIntensityImageFilter!New()}
   //  \index{RescaleIntensityImageFilter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::RescaleIntensityImageFilter< 
-                                  ComponentImageType, 
-                                  OutputImageType >      RescaleFilterType; 
+  typedef itk::RescaleIntensityImageFilter<
+                                  ComponentImageType,
+                                  OutputImageType >      RescaleFilterType;
 
   RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The minimum and maximum values for the output image are specified in
   //  the following. Note the use of the \doxygen{NumericTraits} class which
   //  allows to define a number of type-related constant in a generic
@@ -178,12 +175,12 @@ int main( int argc, char ** argv )
   //  \index{RescaleIntensityImageFilter!SetOutputMinimum()}
   //  \index{RescaleIntensityImageFilter!SetOutputMaximum()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
   rescaler->SetOutputMinimum( itk::NumericTraits< OutputPixelType >::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits< OutputPixelType >::max() );
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
@@ -196,7 +193,7 @@ int main( int argc, char ** argv )
   //  \index{itk::ImageFileReader!SmartPointer}
   //  \index{itk::ImageFileWriter!SmartPointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
@@ -213,14 +210,14 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  SetFileName() method. 
+  //  SetFileName() method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
   //  \index{SetFileName()!itk::ImageFileReader}
   //  \index{SetFileName()!itk::ImageFileWriter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   reader->SetFileName( inputFilename  );
@@ -233,7 +230,7 @@ int main( int argc, char ** argv )
   //  Below we connect the reader, filter and writer to form the data
   //  processing pipeline.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   componentExtractor->SetInput( reader->GetOutput() );
@@ -243,24 +240,24 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally we execute the pipeline by invoking Update() on the
   //  writer. The call is placed in a \code{try/catch} block in case exceptions
   //  are thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try 
-    { 
-    writer->Update(); 
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
 
 

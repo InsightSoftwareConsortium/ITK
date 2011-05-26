@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageSpatialObject.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,9 +27,9 @@
 // notion of spatial transformations and parent-child hierarchy. Let's begin
 // the next example by including the appropriate header file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
-#include <itkImageRegionIterator.h>
+#include "itkImageRegionIterator.h"
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageSpatialObject.h"
@@ -40,7 +41,7 @@ int main( int , char *[] )
 //
 //  We first create a simple 2D image of size 10 by 10 pixels.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::Image<short,2> Image;
@@ -56,7 +57,7 @@ int main( int , char *[] )
 //
 //  Next we fill the image with increasing values.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageRegionIterator<Image> Iterator;
@@ -74,7 +75,7 @@ int main( int , char *[] )
 // We can now define the ImageSpatialObject which is templated over the dimension
 // and the pixel type of the image.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageSpatialObject<2,short> ImageSpatialObject;
@@ -86,7 +87,7 @@ int main( int , char *[] )
 // Then we set the itkImage to the ImageSpatialObject by using the
 // \code{SetImage()} function.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   imageSO->SetImage(image);
@@ -98,11 +99,11 @@ int main( int , char *[] )
 // \code{DerivativeAt()} functions inherent in SpatialObjects.  The
 // \code{IsInside()} value can be useful when dealing with registration.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::Point<double,2> Point;
-  Point insidePoint; 
+  Point insidePoint;
   insidePoint.Fill(9);
 
   if( imageSO->IsInside(insidePoint) )
@@ -116,12 +117,12 @@ int main( int , char *[] )
 //  The \code{ValueAt()} returns the value of the closest pixel, i.e no interpolation, to
 //  a given physical point.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   double returnedValue;
   imageSO->ValueAt(insidePoint,returnedValue);
- 
+
   std::cout << "ValueAt(" << insidePoint << ") = " << returnedValue << std::endl;
 // Software Guide : EndCodeSnippet
 
@@ -135,7 +136,7 @@ int main( int , char *[] )
 //  iteratively using finite differences and, like the \code{ValueAt()}, no
 //  interpolator is used.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   ImageSpatialObject::OutputVectorType returnedDerivative;

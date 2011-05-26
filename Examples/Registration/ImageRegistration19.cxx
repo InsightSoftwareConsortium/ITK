@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration19.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +28,6 @@
 #include "itkAmoebaOptimizer.h"
 #include "itkCenteredTransformInitializer.h"
 
-#include "itkImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -42,7 +42,7 @@
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate19 : public itk::Command 
+class CommandIterationUpdate19 : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate19   Self;
@@ -62,7 +62,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
                       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -88,7 +88,7 @@ int main( int argc, char *argv[] )
 
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance( fow );
-  
+
   // The types of each one of the components in the registration methods should
   // be instantiated. First, we select the image dimension and the type for
   // representing image pixels.
@@ -96,7 +96,7 @@ int main( int argc, char *argv[] )
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;
 
-  
+
   //  The types of the input images are instantiated by the following lines.
   //
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
@@ -106,26 +106,26 @@ int main( int argc, char *argv[] )
 
   typedef itk::AmoebaOptimizer       OptimizerType;
 
-  typedef itk::MatchCardinalityImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MatchCardinalityImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
 
   //  Finally, the type of the interpolator is declared. The
   //  interpolator will evaluate the moving image at non-grid
-  //  positions. 
-  typedef itk:: NearestNeighborInterpolateImageFunction< 
+  //  positions.
+  typedef itk:: NearestNeighborInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
 
   //  The registration method type is instantiated using the types of the
   //  fixed and moving images. This class is responsible for interconnecting
   //  all the components we have described so far.
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
   //  Each one of the registration components is created using its
-  //  \code{New()} method and is assigned to its respective 
+  //  \code{New()} method and is assigned to its respective
   //  \doxygen{SmartPointer}.
   //
   MetricType::Pointer         metric        = MetricType::New();
@@ -185,26 +185,26 @@ int main( int argc, char *argv[] )
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
   //
-  // Here we initialize the transform to make sure that the center of 
+  // Here we initialize the transform to make sure that the center of
   // rotation is set to the center of mass of the object in the fixed image.
   //
-  typedef itk::CenteredTransformInitializer< TransformType, 
-                                             FixedImageType, 
-                                             MovingImageType 
+  typedef itk::CenteredTransformInitializer< TransformType,
+                                             FixedImageType,
+                                             MovingImageType
                                                  >  TransformInitializerType;
 
-  TransformInitializerType::Pointer initializer = 
+  TransformInitializerType::Pointer initializer =
                                           TransformInitializerType::New();
 
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
-  
+
   initializer->MomentsOn();
   initializer->InitializeTransform();
 
@@ -214,7 +214,7 @@ int main( int argc, char *argv[] )
   //  misalignment. In this particular case, a translation transform is
   //  being used for the registration. The array of parameters for this
   //  transform is simply composed of the rotation matrix and the translation
-  //  values along each dimension. 
+  //  values along each dimension.
   //
   //  \index{itk::AffineTransform!GetNumberOfParameters()}
   //  \index{itk::RegistrationMethod!SetInitialTransformParameters()}
@@ -233,7 +233,7 @@ int main( int argc, char *argv[] )
 
   initialParameters[4] = tx;  // Initial offset in mm along X
   initialParameters[5] = ty;  // Initial offset in mm along Y
-  
+
   registration->SetInitialTransformParameters( initialParameters );
 
   //  At this point the registration method is ready for execution. The
@@ -258,7 +258,7 @@ int main( int argc, char *argv[] )
 
   optimizer->SetParametersConvergenceTolerance( 1e-4 ); // about 0.005 degrees
   optimizer->SetFunctionConvergenceTolerance( 1e-6 );  // variation in metric value
-  
+
   optimizer->SetMaximumNumberOfIterations( 200 );
 
 
@@ -284,41 +284,41 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate19::Pointer observer = CommandIterationUpdate19::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
-  
+
   //  The registration process is triggered by an invocation of the
   //  \code{StartRegistration()} method. If something goes wrong during the
   //  initialization or execution of the registration an exception will be
   //  thrown. We should therefore place the \code{StartRegistration()} method
   //  in a \code{try/catch} block as illustrated in the following lines.
   //
-  try 
+  try
     {
     // print out the initial metric value.  need to initialize the
     // registration method to force all the connections to be established.
     registration->Initialize();
     std::cout << "Initial Metric value  = "
-              << metric->GetValue( initialParameters ) 
+              << metric->GetValue( initialParameters )
               << std::endl;
 
     // run the registration
-    registration->StartRegistration(); 
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   // In a real application, you may attempt to recover from the error in the
   // catch block. Here we are simply printing out a message and then
   // terminating the execution of the program.
   //
 
-  //  
+  //
   //  The result of the registration process is an array of parameters that
   //  defines the spatial transformation in an unique way. This final result is
   //  obtained using the \code{GetLastTransformParameters()} method.
@@ -335,7 +335,7 @@ int main( int argc, char *argv[] )
   const double TranslationAlongY = finalParameters[5];
 
   //  The optimizer can be queried for the actual number of iterations
-  //  performed to reach convergence.  
+  //  performed to reach convergence.
   //
   const unsigned int numberOfIterations
     = optimizer->GetOptimizer()->get_num_evaluations();
@@ -364,8 +364,8 @@ int main( int argc, char *argv[] )
   //  the output type since it is likely that the transformed moving image
   //  will be compared with the fixed image.
   //
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   //  A transform of the same type used in the registration process should be
@@ -411,7 +411,7 @@ int main( int argc, char *argv[] )
   //
   typedef unsigned short                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType >          CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -434,15 +434,15 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-  //  
+  //
   //  The fixed image and the transformed moving image can easily be compared
   //  using the \code{SquaredDifferenceImageFilter}. This pixel-wise
   //  filter computes the squared value of the difference between homologous
   //  pixels of its input images.
   //
-  typedef itk::SquaredDifferenceImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
+  typedef itk::SquaredDifferenceImageFilter<
+                                  FixedImageType,
+                                  FixedImageType,
                                   OutputImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
@@ -452,7 +452,7 @@ int main( int argc, char *argv[] )
   //  Its output can be passed to another writer.
   //
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
+  writer2->SetInput( difference->GetOutput() );
 
   if( argc > 4 )
     {

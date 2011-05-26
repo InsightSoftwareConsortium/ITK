@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRandomConstIteratorWithIndex.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +30,7 @@
 //
 // The user must specify a sample size when creating this iterator. The sample
 // size, rather than a specific image index, defines the end position for the
-// iterator.  \code{IsAtEnd()} returns 
+// iterator.  \code{IsAtEnd()} returns
 // \code{true} when the current sample number equals the sample size.
 // \code{IsAtBegin()} returns \code{true} when the current sample number equals
 // zero.  An important difference from other image iterators is that
@@ -69,10 +70,10 @@ int main( int argc, char *argv[] )
   const unsigned int Dimension = 2;
 
   typedef unsigned short                                       PixelType;
-  typedef itk::Image< PixelType, Dimension >                   ImageType;  
+  typedef itk::Image< PixelType, Dimension >                   ImageType;
   typedef itk::ImageRandomConstIteratorWithIndex< ImageType >  ConstIteratorType;
 // Software Guide : EndCodeSnippet
-  
+
   typedef itk::ImageFileReader< ImageType > ReaderType;
 
   ImageType::ConstPointer inputImage;
@@ -85,8 +86,8 @@ int main( int argc, char *argv[] )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return -1;
     }
 
@@ -120,7 +121,7 @@ int main( int argc, char *argv[] )
     mean += static_cast<float>( inputIt.Get() );
     }
   mean = mean / ::atof( argv[2] );
-  
+
 // Software Guide : EndCodeSnippet
   std::cout << "Mean estimate with " << argv[2] << " samples is " << mean << std::endl;
 
@@ -133,11 +134,11 @@ int main( int argc, char *argv[] )
 // \begin{table}
 // \begin{center}
 // \begin{tabular}[]{rc|c|c|c}
-// & \multicolumn{4}{c}{\emph{Sample Size}} \\  & \code{\textbf{10}} & \code{\textbf{100}} 
-// & \code{\textbf{1000}}  
+// & \multicolumn{4}{c}{\emph{Sample Size}} \\  & \code{\textbf{10}} & \code{\textbf{100}}
+// & \code{\textbf{1000}}
 // & \code{\textbf{10000}} \\ \cline{2-5}
-// \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\ \code{RatLungSlice2.mha} 
-// & 46.7 & 47.5 & 47.4 & 47.6  \\ \code{BrainT1Slice.png} 
+// \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\ \code{RatLungSlice2.mha}
+// & 46.7 & 47.5 & 47.4 & 47.6  \\ \code{BrainT1Slice.png}
 // & 47.2 & 64.1 & 68.0 & 67.8  \\ \end{tabular}
 // \protect\label{fig:ImageRandomConstIteratorWithIndexExample}
 // \itkcaption[ImageRandomConstIteratorWithIndex usage]{Estimates of mean image pixel
@@ -148,6 +149,6 @@ int main( int argc, char *argv[] )
 //
 // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|)}
 // Software Guide : EndLatex
-  
+
   return 0;
 }

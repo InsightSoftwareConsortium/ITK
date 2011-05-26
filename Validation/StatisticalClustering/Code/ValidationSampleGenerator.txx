@@ -1,19 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    ValidationSampleGenerator.txx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __ValidationSampleGenerator_txx
 #define __ValidationSampleGenerator_txx
 
@@ -46,13 +47,13 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 }
 
 template< class TImage, class TClassMaskImage, class TVectorImage >
-void 
+void
 ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 ::SetImageFileNames(const std::vector< std::string >& fileNames)
 {
   if ( fileNames.size() != m_NumberOfMeasurements )
     {
-      std::cout 
+      std::cout
         << "ERROR: the number of file names doesn't match "
         << "the VectorImage's vector length"<< std::endl ;
       return ;
@@ -64,7 +65,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 template< class TImage, class TClassMaskImage, class TVectorImage >
 void
 ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
-::SetClassMaskImageFileName(const char* fileName, 
+::SetClassMaskImageFileName(const char* fileName,
                             unsigned int defaultClassLabel,
                             int sliceOffset)
 {
@@ -196,7 +197,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
                                     GetOutput()->GetLargestPossibleRegion().GetSize()) ;
       m_SliceFiller->SetBackgroundPixelValue(m_DefaultClassLabel) ;
       m_SliceFiller->Update() ;
-      
+
       m_ClassMaskImage = m_SliceFiller->GetOutput() ;
     }
   else
@@ -211,7 +212,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 ::GenerateVectorImage()
 {
   unsigned int i ;
-  typename TImage::RegionType region = 
+  typename TImage::RegionType region =
     m_ImageReaders[0]->GetOutput()->GetLargestPossibleRegion() ;
 
   typename TVectorImage::PixelType vi_pixel ;
@@ -228,7 +229,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
     {
       for ( i = 0 ; i < m_ImageFileNames.size() ; i++ )
         {
-          vi_pixel[i] = 
+          vi_pixel[i] =
             m_ImageReaders[i]->GetOutput()->GetPixel(vi_iter.GetIndex()) ;
         }
       vi_iter.Set(vi_pixel) ;
@@ -244,7 +245,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
   unsigned int i ;
   unsigned int sampleSize = 1 ;
 
-  typename TVectorImage::RegionType region = 
+  typename TVectorImage::RegionType region =
     m_VectorImage->GetLargestPossibleRegion() ;
   for ( i = 0 ; i < TImage::ImageDimension ; i++ )
     {
@@ -258,7 +259,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
   m_ImageMins.Fill(itk::NumericTraits< MeasurementType >::Zero) ;
   m_ImageMaxes.Fill(itk::NumericTraits< MeasurementType >::Zero) ;
   m_ImageMeans.Fill(0.0) ;
-  
+
   itk::ImageRegionIteratorWithIndex< TVectorImage >
     iter(m_VectorImage, region) ;
 
@@ -311,9 +312,9 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 
   for ( i = 0 ; i < m_NumberOfMeasurements ; i++ )
     {
-      m_ImageStandardDeviations[i] = 
+      m_ImageStandardDeviations[i] =
         vcl_sqrt(m_ImageStandardDeviations[i] / (double) sampleSize) ;
-      std::cout << "DEBUG: image standard deviations[" << i << "] = " 
+      std::cout << "DEBUG: image standard deviations[" << i << "] = "
                 << m_ImageStandardDeviations[i]
                 << std::endl ;
     }
@@ -335,9 +336,9 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
       pixel = iter.Get() ;
 
       for ( i = 0 ; i < m_NumberOfMeasurements ; i++ )
-        { 
-          pixel[i] = 
-            (MeasurementType) ((pixel[i] - m_ImageMeans[i]) / 
+        {
+          pixel[i] =
+            (MeasurementType) ((pixel[i] - m_ImageMeans[i]) /
             m_ImageStandardDeviations[i] * m_NormalizationScale) ;
         }
 
@@ -353,15 +354,15 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 {
   unsigned int i ;
   int classIndex ;
-  
+
   m_MeasurementsLowerBound.Fill(itk::NumericTraits< MeasurementType >::max()) ;
   m_MeasurementsUpperBound.Fill(itk::NumericTraits< MeasurementType >::min()) ;
 
   m_Sample->SetImage(m_VectorImage) ;
 
-  itk::ImageRegionIteratorWithIndex< TClassMaskImage >  
+  itk::ImageRegionIteratorWithIndex< TClassMaskImage >
     m_iter( m_ClassMaskImage, m_ClassMaskImage->GetLargestPossibleRegion()) ;
-  
+
   ImageSampleType::Iterator s_iter = m_Sample->Begin() ;
   ImageSampleType::Iterator s_end = m_Sample->End() ;
 
@@ -370,7 +371,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
   while ( s_iter != s_end )
     {
       classIndex = this->GetClassIndex(m_iter.Get()) ;
-//       std::cout << "DEBUG: class index = " << classIndex 
+//       std::cout << "DEBUG: class index = " << classIndex
 //                 << " labels size = " << m_UniqueClassLabels.size()
 //                 << std::endl ;
       if ( classIndex == -1 )
@@ -388,7 +389,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
 
       temp = s_iter.GetMeasurementVector() ;
 
-      if ( std::find(m_SelectedClassLabels.begin(), m_SelectedClassLabels.end(), 
+      if ( std::find(m_SelectedClassLabels.begin(), m_SelectedClassLabels.end(),
                     m_iter.Get()) != m_SelectedClassLabels.end() )
         {
           // selected class
@@ -404,7 +405,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
                 {
                   m_MeasurementsLowerBound[i] = temp[i] ;
                 }
-              
+
               if ( temp[i] > m_MeasurementsUpperBound[i] )
                 {
                   m_MeasurementsUpperBound[i] = temp[i] ;
@@ -428,8 +429,8 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
   for ( i = 0 ; i < numberOfClasses ; i++ )
     {
       m_ClassMeans[i] /= (double) m_ClassSizes[i] ;
-      std::cout << " class labels = " << m_UniqueClassLabels[i] 
-                << " mean = " << m_ClassMeans[i] 
+      std::cout << " class labels = " << m_UniqueClassLabels[i]
+                << " mean = " << m_ClassMeans[i]
                 << " size = " << m_ClassSizes[i] << std::endl ;
     }
 
@@ -453,7 +454,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
         {
           for ( col = 0; col < row + 1 ; col++)
             {
-              m_ClassCovariances[classIndex].GetVnlMatrix()(row,col) += 
+              m_ClassCovariances[classIndex].GetVnlMatrix()(row,col) +=
                 diff[row] * diff[col] ;
             }
         }
@@ -461,7 +462,7 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
       ++s_iter ;
     }
 
-  // fills the upper triangle using the lower triangle  
+  // fills the upper triangle using the lower triangle
 
   for ( i = 0 ; i < numberOfClasses ; i++ )
     {
@@ -469,9 +470,9 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
         {
           for (col = 0 ; col < row ; col++)
             {
-              m_ClassCovariances[i].GetVnlMatrix()(col, row) = 
+              m_ClassCovariances[i].GetVnlMatrix()(col, row) =
                 m_ClassCovariances[i].GetVnlMatrix()(row, col) ;
-            } 
+            }
         }
       m_ClassCovariances[i].GetVnlMatrix() /= m_ClassSizes[i] ;
     }
@@ -488,16 +489,16 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
   HistogramType::SizeType histogramSize ;
   HistogramType::MeasurementVectorType lowerBound ;
   HistogramType::MeasurementVectorType upperBound ;
-  
+
   for ( i = 0 ; i < m_NumberOfMeasurements ; i++ )
     {
-      histogramSize[i] = 
-        (unsigned long) (m_MeasurementsUpperBound[i] - 
+      histogramSize[i] =
+        (unsigned long) (m_MeasurementsUpperBound[i] -
                          m_MeasurementsLowerBound[i] + 1) ;
       lowerBound[i] = m_MeasurementsLowerBound[i] - 0.5 ;
       upperBound[i] = m_MeasurementsUpperBound[i] + 0.5 ;
     }
-  
+
   // creats equal size bins ;
   m_Histogram->Initialize(histogramSize, lowerBound, upperBound) ;
 
@@ -507,8 +508,8 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
   time_t begin = clock() ;
   m_Importer->Run() ;
   time_t end = clock() ;
-  std::cout << "DEBUG: histogram genererated in " 
-            << double(end - begin) /CLOCKS_PER_SEC 
+  std::cout << "DEBUG: histogram genererated in "
+            << double(end - begin) /CLOCKS_PER_SEC
             << " seconds" << std::endl ;
 }
 
@@ -523,8 +524,8 @@ ValidationSampleGenerator< TImage, TClassMaskImage, TVectorImage >
   m_TreeGenerator->GenerateData() ;
   time_t end = clock() ;
   m_KdTree = m_TreeGenerator->GetOutput() ;
-  std::cout << "DEBUG: k-d tree genererated in " 
-            << double(end - begin) /CLOCKS_PER_SEC 
+  std::cout << "DEBUG: k-d tree genererated in "
+            << double(end - begin) /CLOCKS_PER_SEC
             << " seconds" << std::endl ;
 }
 

@@ -1020,6 +1020,13 @@
    fun:dlopen*
 }
 {
+   dlopen leak3
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib64/libdl-2.?.so
+   fun:dlopen
+}
+{
    <insert_a_suppression_name_here>
    Memcheck:Leak
    fun:malloc
@@ -1361,4 +1368,28 @@
    obj:/lib/ld-2.10.1.so
    obj:/lib/ld-2.10.1.so
    obj:/lib/ld-2.10.1.so
+}
+{
+   ExitFreeLibC brian.jouy.inra.fr
+   Memcheck:Free
+   fun:free
+   obj:/lib64/libc-2.9.so
+   obj:/lib64/libc-2.9.so
+   fun:_vgnU_freeres
+   fun:exit
+   fun:(below main)
+}
+{
+   CrazyTclError brian.jouy.inra.fr
+   Memcheck:Leak
+   fun:realloc
+   fun:Tcl_Realloc
+   obj:/usr/lib64/libtcl8.6.so.0
+   fun:Tcl_GetUnicodeFromObj
+   obj:/usr/lib64/libtcl8.6.so.0
+   fun:TclNRRunCallbacks
+   obj:/usr/lib64/libtcl8.6.so.0
+   fun:Tcl_FSEvalFileEx
+   fun:Tcl_Main
+   fun:main
 }

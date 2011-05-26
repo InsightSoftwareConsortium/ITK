@@ -1,19 +1,20 @@
-#=========================================================================
+#==========================================================================
 #
-#  Program:   Insight Segmentation & Registration Toolkit
-#  Module:    ImageRegistration3.py
-#  Language:  C++
-#  Date:      $Date$
-#  Version:   $Revision$
+#   Copyright Insight Software Consortium
 #
-#  Copyright (c) Insight Software Consortium. All rights reserved.
-#  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
 #
-#     This software is distributed WITHOUT ANY WARRANTY; without even 
-#     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-#     PURPOSE.  See the above copyright notices for more information.
+#          http://www.apache.org/licenses/LICENSE-2.0.txt
 #
-#=========================================================================
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#==========================================================================*/
 
 from InsightToolkit import *
 
@@ -22,7 +23,7 @@ from sys import argv
 
 
 #
-#  Read the fixed and moving images using filenames 
+#  Read the fixed and moving images using filenames
 #  from the command line arguments
 #
 fixedImageReader  = itkImageFileReaderF2_New()
@@ -72,7 +73,7 @@ def iterationUpdate():
     print "M: %f   P: %f %f " % ( optimizer.GetValue(),
                         currentParameter.GetElement(0),
                         currentParameter.GetElement(1) )
- 
+
 iterationCommand = itkPyCommand_New()
 iterationCommand.SetCommandCallable( iterationUpdate )
 optimizer.AddObserver( itkIterationEvent(), iterationCommand.GetPointer() )
@@ -93,7 +94,7 @@ print "Starting registration"
 #  Start the registration process
 #
 
-registration.StartRegistration() 
+registration.StartRegistration()
 
 
 #

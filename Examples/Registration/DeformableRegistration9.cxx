@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableRegistration9.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,24 +27,22 @@
 #endif
 
 
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 #include "itkCurvatureRegistrationFilter.h"
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"
 
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkWarpImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkExceptionObject.h"
 
 const unsigned int Dimension = 2;
 
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
 //
-  class CommandIterationUpdate : public itk::Command 
+  class CommandIterationUpdate : public itk::Command
   {
   public:
     typedef  CommandIterationUpdate   Self;
@@ -72,7 +71,7 @@ const unsigned int Dimension = 2;
 
     void Execute(const itk::Object * object, const itk::EventObject & event)
       {
-         const RegistrationFilterType * filter = 
+         const RegistrationFilterType * filter =
           dynamic_cast< const RegistrationFilterType * >( object );
         if( !(itk::IterationEvent().CheckEvent( &event )) )
           {
@@ -103,9 +102,9 @@ int main( int argc, char *argv[] )
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
 
-  FixedImageReaderType::Pointer fixedImageReader   = 
+  FixedImageReaderType::Pointer fixedImageReader   =
     FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = 
+  MovingImageReaderType::Pointer movingImageReader =
     MovingImageReaderType::New();
 
   fixedImageReader->SetFileName( argv[1] );
@@ -113,18 +112,18 @@ int main( int argc, char *argv[] )
 
   typedef float InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-  typedef itk::CastImageFilter< FixedImageType, 
+  typedef itk::CastImageFilter< FixedImageType,
                                 InternalImageType > FixedImageCasterType;
-  typedef itk::CastImageFilter< MovingImageType, 
+  typedef itk::CastImageFilter< MovingImageType,
                                 InternalImageType > MovingImageCasterType;
 
-  FixedImageCasterType::Pointer fixedImageCaster   = 
+  FixedImageCasterType::Pointer fixedImageCaster   =
     FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster = 
+  MovingImageCasterType::Pointer movingImageCaster =
     MovingImageCasterType::New();
 
   fixedImageCaster->SetInput( fixedImageReader->GetOutput() );
-  movingImageCaster->SetInput( movingImageReader->GetOutput() ); 
+  movingImageCaster->SetInput( movingImageReader->GetOutput() );
 
   typedef itk::HistogramMatchingImageFilter<
                                     InternalImageType,
@@ -157,7 +156,7 @@ int main( int argc, char *argv[] )
   filter->Update();
 
   typedef itk::WarpImageFilter<
-                          MovingImageType, 
+                          MovingImageType,
                           MovingImageType,
                           DeformationFieldType  >     WarperType;
   typedef itk::LinearInterpolateImageFunction<
@@ -177,7 +176,7 @@ int main( int argc, char *argv[] )
   // Write warped image out to file
   typedef unsigned short  OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         MovingImageType,
                         OutputImageType > CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -186,7 +185,7 @@ int main( int argc, char *argv[] )
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
   writer->SetFileName( argv[3] );
-  
+
   caster->SetInput( warper->GetOutput() );
   writer->SetInput( caster->GetOutput() );
   writer->Update();

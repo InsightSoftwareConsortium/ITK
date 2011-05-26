@@ -1,23 +1,23 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    NeighborhoodIterators2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -83,17 +83,17 @@ int main( int argc, char ** argv )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return -1;
     }
-  
+
   ImageType::Pointer output = ImageType::New();
   output->SetRegions(reader->GetOutput()->GetRequestedRegion());
   output->Allocate();
-  
+
   IteratorType out(output, reader->GetOutput()->GetRequestedRegion());
-  
+
   // Software Guide : BeginLatex
   //
   // \index{convolution!kernels}
@@ -120,16 +120,16 @@ int main( int argc, char ** argv )
   //
   // The neighborhood iterator is initialized as before, except that now it takes
   // its radius directly from the radius of the Sobel operator.  The inner
-  // product function object is templated over image type and requires no 
+  // product function object is templated over image type and requires no
   // initialization.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius = sobelOperator.GetRadius();
-  NeighborhoodIteratorType it( radius, reader->GetOutput(), 
+  NeighborhoodIteratorType it( radius, reader->GetOutput(),
                                reader->GetOutput()->GetRequestedRegion() );
-  
+
   itk::NeighborhoodInnerProduct<ImageType> innerProduct;
   // Software Guide : EndCodeSnippet
 
@@ -141,28 +141,28 @@ int main( int argc, char ** argv )
   // by the iterator.
   //
   // Software Guide : EndLatex
-    
+
   // Software Guide : BeginCodeSnippet
   for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
     {
     out.Set( innerProduct( it, sobelOperator ) );
     }
   // Software Guide : EndCodeSnippet
-  
+
   // Software Guide : BeginLatex
   //
   // The output is rescaled and written as in the previous example.  Applying
   // this example in the $x$ and $y$ directions produces the images at the center
-  // and right of Figure~\ref{fig:NeighborhoodExamples1}. Note that x-direction 
+  // and right of Figure~\ref{fig:NeighborhoodExamples1}. Note that x-direction
   // operator produces the same output image as in the previous example.
-  // 
+  //
   // Software Guide : EndLatex
 
   typedef unsigned char                          WritePixelType;
   typedef itk::Image< WritePixelType, 2 >        WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
-  
-  typedef itk::RescaleIntensityImageFilter< 
+
+  typedef itk::RescaleIntensityImageFilter<
                ImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
@@ -170,7 +170,7 @@ int main( int argc, char ** argv )
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
   rescaler->SetInput(output);
-  
+
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput(rescaler->GetOutput());
@@ -180,9 +180,9 @@ int main( int argc, char ** argv )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
-    return -1;   
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    return -1;
     }
 
   return 0;

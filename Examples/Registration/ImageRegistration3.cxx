@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration3.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,7 +30,7 @@
 // ImageRegistrationMethod class.
 //
 // Insight implements the \emph{Observer/Command} design pattern
-// \cite{Gamma1995}. (See Section~\ref{sec:EventHandling} for an overview.) 
+// \cite{Gamma1995}. (See Section~\ref{sec:EventHandling} for an overview.)
 // The classes involved in this implementation are the \doxygen{Object},
 // \doxygen{Command} and \doxygen{EventObject} classes. The Object
 // is the base class of most ITK objects. This class maintains a linked
@@ -56,15 +57,13 @@
 // \index{itk::ImageRegistrationMethod!Monitoring}
 //
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -75,13 +74,13 @@
 
 //  Software Guide : BeginLatex
 //
-//  The following code illustrates a simple way of creating a 
+//  The following code illustrates a simple way of creating a
 //  Observer/Command to monitor a registration process. This new
 //  class derives from the Command class and provides a specific
 //  implementation of the \code{Execute()} method.  First, the header file of
 //  the Command class must be included.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkCommand.h"
@@ -95,10 +94,10 @@
 //  types \code{Self} and \code{Superclass}. This facilitate the use of
 //  standard macros later in the class implementation.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -111,7 +110,7 @@ public:
   //  The following typedef declares the type of the SmartPointer capable of
   //  holding a reference to this object.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::SmartPointer<Self>  Pointer;
@@ -123,9 +122,9 @@ public:
   //  The \code{itkNewMacro} takes care of defining all the necessary code for
   //  the \code{New()} method. Those with curious minds are invited to see the
   //  details of the macro in the file \code{itkMacro.h} in the
-  //  \code{Insight/Code/Common} directory. 
+  //  \code{Insight/Code/Common} directory.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   itkNewMacro( Self );
@@ -136,15 +135,15 @@ public:
   //
   //  In order to ensure that the \code{New()} method is used to instantiate
   //  the class (and not the C++ \code{new} operator), the constructor is
-  //  declared \code{protected}. 
+  //  declared \code{protected}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 protected:
   CommandIterationUpdate() {};
 // Software Guide : EndCodeSnippet
- 
+
 
 public:
   //  Software Guide : BeginLatex
@@ -157,7 +156,7 @@ public:
   //  way. A \code{const} interface ensures that all operations invoked on the
   //  optimizer are read-only.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
@@ -178,7 +177,7 @@ public:
   //  similar case could happen when a user is controlling the registration
   //  process from a GUI.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   void Execute(itk::Object *caller, const itk::EventObject & event)
@@ -194,7 +193,7 @@ public:
   // to the object that invoked the event. The second argument is the event that
   // was invoked.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   void Execute(const itk::Object * object, const itk::EventObject & event)
@@ -210,10 +209,10 @@ public:
     //  optimizer. Thus we can perform a \code{dynamic\_cast} to the real type
     //  of the object.
     //
-    //  Software Guide : EndLatex 
+    //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
                          dynamic_cast< OptimizerPointer >( object );
     // Software Guide : EndCodeSnippet
 
@@ -228,11 +227,11 @@ public:
     //  comparison will return true if \code{event} is of type
     //  \code{IterationEvent} or derives from \code{IterationEvent}.  If we find
     //  that the event is not of the expected type then the \code{Execute()}
-    //  method of this command observer should return without any further action. 
+    //  method of this command observer should return without any further action.
     //
     // \index{itk::EventObject!CheckEvent}
     //
-    //  Software Guide : EndLatex 
+    //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
     if( ! itk::IterationEvent().CheckEvent( &event ) )
@@ -251,7 +250,7 @@ public:
     //  to the standard output. You could imagine more elaborate actions like
     //  updating a GUI or refreshing a visualization pipeline.
     //
-    //  Software Guide : EndLatex 
+    //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
     std::cout << optimizer->GetCurrentIteration() << " = ";
@@ -259,14 +258,14 @@ public:
     std::cout << optimizer->GetCurrentPosition() << std::endl;
     // Software Guide : EndCodeSnippet
     }
-   
+
   //  Software Guide : BeginLatex
   //
   //  This concludes our implementation of a minimal Command class
   //  capable of observing our registration method.  We can now move on to
   //  configuring the registration process.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 };
 
 
@@ -280,10 +279,10 @@ int main( int argc, char *argv[] )
     std::cerr << "outputImagefile [differenceImage]" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
@@ -291,16 +290,16 @@ int main( int argc, char *argv[] )
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
 
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double             > InterpolatorType;
 
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType   >  RegistrationType;
 
-  typedef itk::MeanSquaresImageToImageMetric< 
-                                      FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric<
+                                      FixedImageType,
                                       MovingImageType >  MetricType;
 
   TransformType::Pointer      transform     = TransformType::New();
@@ -313,7 +312,7 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
   MetricType::Pointer         metric        = MetricType::New();
-  
+
   registration->SetMetric( metric  );
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
@@ -330,7 +329,7 @@ int main( int argc, char *argv[] )
 
   fixedImageReader->Update(); // This is needed to make the BufferedRegion below valid.
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
        fixedImageReader->GetOutput()->GetBufferedRegion() );
 
   typedef RegistrationType::ParametersType ParametersType;
@@ -338,10 +337,10 @@ int main( int argc, char *argv[] )
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
-  
+
   registration->SetInitialTransformParameters( initialParameters );
 
-  optimizer->SetMaximumStepLength( 4.00 );  
+  optimizer->SetMaximumStepLength( 4.00 );
   optimizer->SetMinimumStepLength( 0.01 );
   optimizer->SetNumberOfIterations( 200 );
 
@@ -354,7 +353,7 @@ int main( int argc, char *argv[] )
   //  instance of our observer. This is done with the standard \code{New()}
   //  method and assigned to a SmartPointer.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
@@ -362,7 +361,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ImageRegistration3Observer.eps}
@@ -372,7 +371,7 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -387,7 +386,7 @@ int main( int argc, char *argv[] )
   //  interaction between the Command/Observer class and the registration
   //  method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   optimizer->AddObserver( itk::IterationEvent(), observer );
@@ -401,31 +400,31 @@ int main( int argc, char *argv[] )
   //  use of the \code{try/catch} block around the \code{StartRegistration()}
   //  method in case an exception is thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
   //  The registration process is applied to the following images in \code{Examples/Data}:
-  //  
+  //
   //  \begin{itemize}
-  //  \item \code{BrainProtonDensitySliceBorder20.png} 
+  //  \item \code{BrainProtonDensitySliceBorder20.png}
   //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
   //  \end{itemize}
   //
@@ -460,16 +459,16 @@ int main( int argc, char *argv[] )
   //  process and fine-tune parameters without having to wait until the
   //  optimizer stops by itself.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   const double TranslationAlongX = finalParameters[0];
   const double TranslationAlongY = finalParameters[1];
-  
+
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   const double bestValue = optimizer->GetValue();
 
   std::cout << "Registration done !" << std::endl;
@@ -481,8 +480,8 @@ int main( int argc, char *argv[] )
 
   // Prepare the resampling filter in order to map the moving image.
   //
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -510,11 +509,11 @@ int main( int argc, char *argv[] )
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
@@ -522,7 +521,7 @@ int main( int argc, char *argv[] )
 
 
   writer->SetFileName( argv[3] );
-  
+
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();

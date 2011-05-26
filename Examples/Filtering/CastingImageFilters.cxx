@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    CastingImageFilters.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -54,15 +51,15 @@
 //  input are mapped to minimum and maximum values provided by the
 //  user. This is a typical process for forcing the dynamic range of the image
 //  to fit within a particular scale and is common for image display.
-//  The linear transformation applied by this filter can be expressed as 
+//  The linear transformation applied by this filter can be expressed as
 //
-//  \[ outputPixel = ( inputPixel - inpMin) \times 
+//  \[ outputPixel = ( inputPixel - inpMin) \times
 //                    \frac{(outMax - outMin )}{(inpMax-inpMin)} + outMin \]
 //
 //  The ShiftScaleImageFilter also applies a linear transformation to
 //  the intensities of the input image, but the transformation is specified
 //  by the user in the form of a multiplying factor and a value to be added.
-//  This can be expressed as 
+//  This can be expressed as
 //
 //  \[  outputPixel = \left( inputPixel  + Shift \right) \times Scale\].
 //
@@ -89,7 +86,7 @@
 //  As usual, the first step required to use these filters is to include their
 //  header files.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -98,14 +95,13 @@
 // Software Guide : BeginCodeSnippet
 #include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkShiftScaleImageFilter.h"
 #include "itkNormalizeImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 2 ) 
+  if( argc < 2 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "   inputImageFile " << std::endl;
@@ -116,7 +112,7 @@ int main( int argc, char * argv[] )
   //
   //  Let's define pixel types for the input and output images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   unsigned char    InputPixelType;
@@ -128,7 +124,7 @@ int main( int argc, char * argv[] )
   //
   //  Then, the input and output image types are defined.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< InputPixelType,  3 >   InputImageType;
@@ -143,7 +139,7 @@ int main( int argc, char * argv[] )
   //
   //  The filters are instantiated using the defined image types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CastImageFilter<
@@ -176,7 +172,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::NormalizeImageFilter!Pointer}
   //  \index{itk::CastImageFilter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -200,7 +196,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::NormalizeImageFilter!SetInput()}
   //  \index{itk::CastImageFilter!SetInput()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   castFilter->SetInput(       reader->GetOutput() );
@@ -224,7 +220,7 @@ int main( int argc, char * argv[] )
   //  \index{SetOutputMinimum()!itk::RescaleIntensityImageFilter}
   //  \index{SetOutputMaximum()!itk::RescaleIntensityImageFilter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   rescaleFilter->SetOutputMinimum(  10 );
@@ -243,7 +239,7 @@ int main( int argc, char * argv[] )
   //  \index{SetShift()!itk::ShiftScaleImageFilter}
   //  \index{SetScale()!itk::ShiftScaleImageFilter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   shiftFilter->SetScale( 1.2 );
@@ -260,7 +256,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::NormalizeImageFilter!Update()}
   //  \index{itk::CastImageFilter!Update()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet

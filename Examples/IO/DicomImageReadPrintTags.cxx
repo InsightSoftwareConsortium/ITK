@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DicomImageReadPrintTags.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -37,13 +34,13 @@
 //  \index{DICOM!GDCM}
 //  \index{GDCM!Dictionary}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginLatex
-// 
+//
 // The headers of the main classes involved in this example are specified
 // below. They include the image file reader, the GDCM image IO object, the
-// Meta data dictionary and its entry element the Meta data object. 
+// Meta data dictionary and its entry element the Meta data object.
 //
 // \index{MetaDataDictionary!header}
 // \index{MetaDataObject!header}
@@ -54,8 +51,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkGDCMImageIO.h"
-#include "itkImageIOBase.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 // Software Guide : EndCodeSnippet
 
@@ -77,7 +72,7 @@ int main( int argc, char* argv[] )
     }
 
   // Software Guide : BeginLatex
-  // 
+  //
   //  We instantiate the type to be used for storing the image once it is read
   //  into memory.
   //
@@ -86,7 +81,7 @@ int main( int argc, char* argv[] )
   // Software Guide : BeginCodeSnippet
   typedef signed short       PixelType;
   const unsigned int         Dimension = 2;
-  
+
   typedef itk::Image< PixelType, Dimension >      ImageType;
   // Software Guide : EndCodeSnippet
 
@@ -105,7 +100,7 @@ int main( int argc, char* argv[] )
     }
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Using the image type as template parameter we instantiate the type of the
   // image file reader and construct one instance of it.
   //
@@ -118,7 +113,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // The GDCM image IO type is declared and used for constructing one image IO
   // object.
   //
@@ -130,7 +125,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Here we override the gdcm default value of 0xfff with a value of 0xffff
   // to allow the loading of long binary stream in the DICOM file.
   // This is particularly useful when reading the private tag: 0029,1010
@@ -140,7 +135,7 @@ int main( int argc, char* argv[] )
   dicomIO->SetMaxSizeLoadEntry(0xffff);
 
   // Software Guide : BeginLatex
-  // 
+  //
   // We pass to the reader the filename of the image to be read and connect the
   // ImageIO object to it too.
   //
@@ -152,7 +147,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // The reading process is triggered with a call to the \code{Update()} method.
   // This call should be placed inside a \code{try/catch} block because its
   // execution may result in exceptions being thrown.
@@ -172,7 +167,7 @@ int main( int argc, char* argv[] )
     }
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Now that the image has been read, we obtain the Meta data dictionary from
   // the ImageIO object using the \code{GetMetaDataDictionary()} method.
   //
@@ -189,7 +184,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Since we are interested only in the DICOM tags that can be expressed in
   // strings, we declare a MetaDataObject suitable for managing strings.
   //
@@ -200,7 +195,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // We instantiate the iterators that will make possible to walk through all the
   // entries of the MetaDataDictionary.
   //
@@ -216,18 +211,18 @@ int main( int argc, char* argv[] )
   // For each one of the entries in the dictionary, we check first if its element
   // can be converted to a string, a \code{dynamic\_cast} is used for this purpose.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   while( itr != end )
     {
     itk::MetaDataObjectBase::Pointer  entry = itr->second;
 
-    MetaDataStringType::Pointer entryvalue = 
+    MetaDataStringType::Pointer entryvalue =
       dynamic_cast<MetaDataStringType *>( entry.GetPointer() );
     // Software Guide : EndCodeSnippet
 
-    
+
     // Software Guide : BeginLatex
     //
     // For those entries that can be converted, we take their DICOM tag and pass it
@@ -249,20 +244,20 @@ int main( int argc, char* argv[] )
       // Software Guide : EndCodeSnippet
 
       // Software Guide : BeginLatex
-      // 
+      //
       // The actual value of the dictionary entry is obtained as a string with the
       // \code{GetMetaDataObjectValue()} method.
-      // 
+      //
       // \index{MetaDataObject!GetMetaDataObjectValue()}
-      // 
+      //
       // Software Guide : EndLatex
-       
+
       // Software Guide : BeginCodeSnippet
       std::string tagvalue = entryvalue->GetMetaDataObjectValue();
       // Software Guide : EndCodeSnippet
 
       // Software Guide : BeginLatex
-      // 
+      //
       // At this point we can print out an entry by concatenating the DICOM Name or
       // label, the numeric tag and its actual value.
       //
@@ -283,7 +278,7 @@ int main( int argc, char* argv[] )
       }
 
     // Software Guide : BeginLatex
-    // 
+    //
     // Finally we just close the loop that will walk through all the Dictionary
     // entries.
     //
@@ -299,14 +294,14 @@ int main( int argc, char* argv[] )
   //  It is also possible to read a specific tag. In that case the string of the
   //  entry can be used for querying the MetaDataDictionary.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   std::string entryId = "0010|0010";
     DictionaryType::ConstIterator tagItr = dictionary.Find( entryId );
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginLatex
-  // 
+  //
   // If the entry is actually found in the Dictionary, then we can attempt to
   // convert it to a string entry by using a \code{dynamic\_cast}.
   //
@@ -315,14 +310,14 @@ int main( int argc, char* argv[] )
   // Software Guide : BeginCodeSnippet
   if( tagItr != end )
     {
-    MetaDataStringType::ConstPointer entryvalue = 
-     dynamic_cast<const MetaDataStringType *>( 
+    MetaDataStringType::ConstPointer entryvalue =
+     dynamic_cast<const MetaDataStringType *>(
                                  tagItr->second.GetPointer() );
     // Software Guide : EndCodeSnippet
 
 
     // Software Guide : BeginLatex
-    // 
+    //
     // If the dynamic cast succeed, then we can print out the values of the label,
     // the tag and the actual value.
     //
@@ -339,7 +334,7 @@ int main( int argc, char* argv[] )
     }
 
   // Software Guide : BeginLatex
-  // 
+  //
   //  Another way to read a specific tag is to use the encapsulation above MetaDataDictionary
   //  Note that this is stricly equivalent to the above code.
   //
@@ -370,7 +365,7 @@ int main( int argc, char* argv[] )
 
 
   // Software Guide : BeginLatex
-  // 
+  //
   // For a full description of the DICOM dictionary please look at the file.
   //
   // \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}
@@ -383,17 +378,17 @@ int main( int argc, char* argv[] )
   // instanciating an itk::ImageFileReader that can properly import the
   // printed DICOM file.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-    
+
   itk::ImageIOBase::IOPixelType pixelType;
-  pixelType = reader->GetImageIO()->GetPixelType(); 
+  pixelType = reader->GetImageIO()->GetPixelType();
 
   itk::ImageIOBase::IOComponentType componentType;
   componentType = reader->GetImageIO()->GetComponentType();
   std::cout << "PixelType: " << reader->GetImageIO()->GetPixelTypeAsString(pixelType) << std::endl;
-  std::cout << "Component Type: " << 
+  std::cout << "Component Type: " <<
     reader->GetImageIO()->GetComponentTypeAsString(componentType) << std::endl;
 
   // Software Guide : EndCodeSnippet

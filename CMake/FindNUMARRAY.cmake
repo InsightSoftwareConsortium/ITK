@@ -6,13 +6,13 @@
 #
 #
 
-  FIND_PATH(PYTHON_NUMARRAY_INCLUDE_DIR arrayobject.h
+  find_path(PYTHON_NUMARRAY_INCLUDE_DIR arrayobject.h
     /usr/include/python2.3/numarray/
     /usr/share/pyshared/numpy/core/include/numpy/
     DOC "Directory where the arrayobject.h header file can be found. This file is part of the numarray package"
     )
 
-  IF(PYTHON_NUMARRAY_INCLUDE_DIR)
-    SET (PYTHON_NUMARRAY_FOUND 1 CACHE INTERNAL "Python numarray development package is available")
-  ENDIF(PYTHON_NUMARRAY_INCLUDE_DIR)
+  if(PYTHON_NUMARRAY_INCLUDE_DIR)
+    set(PYTHON_NUMARRAY_FOUND 1 CACHE INTERNAL "Python numarray development package is available")
+  endif(PYTHON_NUMARRAY_INCLUDE_DIR)
 

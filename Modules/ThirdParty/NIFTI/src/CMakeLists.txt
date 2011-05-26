@@ -1,0 +1,12 @@
+set(ITK_VERSION_MAJOR 4)
+set(ITK3P_INSTALL_EXPORT_NAME "${ITK-NIFTI-targets}")
+set(ITK3P_INSTALL_INCLUDE_DIR "${ITK-NIFTI_INSTALL_INCLUDE_DIR}")
+set(ITK3P_INSTALL_RUNTIME_DIR "${ITK-NIFTI_INSTALL_RUNTIME_DIR}")
+set(ITK3P_INSTALL_LIBRARY_DIR "${ITK-NIFTI_INSTALL_LIBRARY_DIR}")
+set(ITK3P_INSTALL_ARCHIVE_DIR "${ITK-NIFTI_INSTALL_ARCHIVE_DIR}")
+add_subdirectory(nifti)
+
+itk_module_target_name(ITKznz)
+itk_module_target_export(ITKznz)
+itk_module_target_name(ITKniftiio)
+itk_module_target_export(ITKniftiio)

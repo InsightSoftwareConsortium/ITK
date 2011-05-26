@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ConfidenceConnected.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -75,7 +72,7 @@
 // following header defining the \doxygen{ConfidenceConnectedImageFilter} class
 // must be included.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -83,7 +80,6 @@
 // Software Guide : EndCodeSnippet
 
 
-#include "itkImage.h"
 #include "itkCastImageFilter.h"
 
 
@@ -97,7 +93,7 @@
 //  \doxygen{CurvatureFlowImageFilter}, hence we need to include its header
 //  file.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkCurvatureFlowImageFilter.h"
@@ -120,12 +116,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We now define the image type using a pixel type and a particular
   //  dimension. In this case the \code{float} type is used for the pixels due
-  //  to the requirements of the smoothing filter. 
+  //  to the requirements of the smoothing filter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
@@ -139,7 +135,7 @@ int main( int argc, char *argv[] )
   typedef itk::CastImageFilter< InternalImageType, OutputImageType >
     CastingFilterType;
   CastingFilterType::Pointer caster = CastingFilterType::New();
-                        
+
 
   // We instantiate reader and writer types
   //
@@ -154,11 +150,11 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The smoothing filter type is instantiated using the image type as
   //  a template parameter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >
@@ -167,36 +163,36 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Next the filter is created by invoking the \code{New()} method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CurvatureFlowImageFilterType::Pointer smoothing = 
+  CurvatureFlowImageFilterType::Pointer smoothing =
                          CurvatureFlowImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
-  //  We now declare the type of the region growing filter. In this case it is
-  //  the ConfidenceConnectedImageFilter. 
   //
-  //  Software Guide : EndLatex 
+  //  We now declare the type of the region growing filter. In this case it is
+  //  the ConfidenceConnectedImageFilter.
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType> 
+  typedef itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType>
     ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then, we construct one filter of this class using the \code{New()}
   //  method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
@@ -204,14 +200,14 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Now it is time to create a simple, linear pipeline. A file reader is
   //  added at the beginning of the pipeline and a cast filter and writer are
   //  added at the end. The cast filter is required here to convert
   //  \code{float} pixel types to integer types since only a few image file
   //  formats support \code{float} types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetInput( reader->GetOutput() );
@@ -228,7 +224,7 @@ int main( int argc, char *argv[] )
   //  be adjusted depending on the amount of noise present in the input
   //  image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetNumberOfIterations( 5 );
@@ -250,7 +246,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetMultiplier()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetMultiplier( 2.5 );
@@ -272,7 +268,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetNumberOfIterations()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetNumberOfIterations( 5 );
@@ -288,7 +284,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetReplaceValue()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetReplaceValue( 255 );
@@ -308,10 +304,10 @@ int main( int argc, char *argv[] )
   //  \index{itk::ConfidenceConnectedImageFilter!SetSeed()}
   //  \index{itk::ConfidenceConnectedImageFilter!SetInitialNeighborhoodRadius()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   InternalImageType::IndexType  index;
-  
+
   index[0] = atoi( argv[3] );
   index[1] = atoi( argv[4] );
 
@@ -319,16 +315,16 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetSeed( index );
   // Software Guide : EndCodeSnippet
- 
+
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The size of the initial neighborhood around the seed is defined with the
   //  method \code{SetInitialNeighborhoodRadius()}. The neighborhood will be
   //  defined as an $N$-dimensional rectangular region with $2r+1$ pixels on
-  //  the side, where $r$ is the value passed as initial neighborhood radius. 
+  //  the side, where $r$ is the value passed as initial neighborhood radius.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetInitialNeighborhoodRadius( 2 );
@@ -336,12 +332,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  It is recommended to place update calls in a
   //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   try
@@ -390,7 +386,7 @@ int main( int argc, char *argv[] )
   //  experiment with different numbers of iterations to verify how the
   //  accepted region will extend.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return 0;

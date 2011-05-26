@@ -1,0 +1,13 @@
+# back-up files
+*~
+*.bak
+
+# KWStyle hook output
+*.kws
+
+# compiled python files
+*.pyc
+
+# Binary directory
+BUILD*
+build*

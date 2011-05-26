@@ -1,28 +1,28 @@
 /*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkVTKImageToImageFilter.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-#ifndef _itkVTKImageToImageFilter_txx
-#define _itkVTKImageToImageFilter_txx
+#ifndef __itkVTKImageToImageFilter_txx
+#define __itkVTKImageToImageFilter_txx
 
 #include "itkVTKImageToImageFilter.h"
 
 namespace itk
 {
-
-
 
 /**
  * Constructor
@@ -34,25 +34,20 @@ VTKImageToImageFilter<TOutputImage>
 
   m_Exporter = vtkImageExport::New();
 
-  m_Importer = ImporterFilterType::New();
-
-  m_Importer->SetUpdateInformationCallback( m_Exporter->GetUpdateInformationCallback());
-  m_Importer->SetPipelineModifiedCallback( m_Exporter->GetPipelineModifiedCallback());
-  m_Importer->SetWholeExtentCallback( m_Exporter->GetWholeExtentCallback());
-  m_Importer->SetSpacingCallback( m_Exporter->GetSpacingCallback());
-  m_Importer->SetOriginCallback( m_Exporter->GetOriginCallback());
-  m_Importer->SetScalarTypeCallback( m_Exporter->GetScalarTypeCallback());
-  m_Importer->SetNumberOfComponentsCallback( m_Exporter->GetNumberOfComponentsCallback());
-  m_Importer->SetPropagateUpdateExtentCallback( m_Exporter->GetPropagateUpdateExtentCallback());
-  m_Importer->SetUpdateDataCallback( m_Exporter->GetUpdateDataCallback());
-  m_Importer->SetDataExtentCallback( m_Exporter->GetDataExtentCallback());
-  m_Importer->SetBufferPointerCallback( m_Exporter->GetBufferPointerCallback());
-  m_Importer->SetCallbackUserData( m_Exporter->GetCallbackUserData());
+  this->SetUpdateInformationCallback( m_Exporter->GetUpdateInformationCallback());
+  this->SetPipelineModifiedCallback( m_Exporter->GetPipelineModifiedCallback());
+  this->SetWholeExtentCallback( m_Exporter->GetWholeExtentCallback());
+  this->SetSpacingCallback( m_Exporter->GetSpacingCallback());
+  this->SetOriginCallback( m_Exporter->GetOriginCallback());
+  this->SetScalarTypeCallback( m_Exporter->GetScalarTypeCallback());
+  this->SetNumberOfComponentsCallback( m_Exporter->GetNumberOfComponentsCallback());
+  this->SetPropagateUpdateExtentCallback( m_Exporter->GetPropagateUpdateExtentCallback());
+  this->SetUpdateDataCallback( m_Exporter->GetUpdateDataCallback());
+  this->SetDataExtentCallback( m_Exporter->GetDataExtentCallback());
+  this->SetBufferPointerCallback( m_Exporter->GetBufferPointerCallback());
+  this->SetCallbackUserData( m_Exporter->GetCallbackUserData());
 
 }
-
-
-
 
 /**
  * Destructor
@@ -68,10 +63,8 @@ VTKImageToImageFilter<TOutputImage>
     }
 }
 
-
-
 /**
- * Set a vtkImageData as input 
+ * Set a vtkImageData as input
  */
 template <class TOutputImage>
 void
@@ -80,22 +73,6 @@ VTKImageToImageFilter<TOutputImage>
 {
   m_Exporter->SetInput( inputImage );
 }
-
-
-
-/**
- * Get an itk::Image as output
- */
-template <class TOutputImage>
-const typename VTKImageToImageFilter<TOutputImage>::OutputImageType *
-VTKImageToImageFilter<TOutputImage>
-::GetOutput() const
-{
-  return m_Importer->GetOutput();
-}
-
-
-
 
 /**
  * Get the exporter filter
@@ -108,37 +85,17 @@ VTKImageToImageFilter<TOutputImage>
   return m_Exporter;
 }
 
-
-
 /**
  * Get the importer filter
  */
 template <class TOutputImage>
-typename VTKImageToImageFilter<TOutputImage>::ImporterFilterType *
+const typename VTKImageToImageFilter<TOutputImage>::Superclass *
 VTKImageToImageFilter<TOutputImage>
 ::GetImporter() const
 {
-  return m_Importer;
+  return this;
 }
-
-
-
-
-/**
- * Delegate the Update to the importer
- */
-template <class TOutputImage>
-void
-VTKImageToImageFilter<TOutputImage>
-::Update()
-{
-  m_Importer->Update();
-}
-
-
-
 
 } // end namespace itk
 
 #endif
-

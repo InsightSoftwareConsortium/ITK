@@ -1,25 +1,25 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ExpectationMaximizationClusteringMethod.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __ExpectationMaximizationClusteringMethod_h
 #define __ExpectationMaximizationClusteringMethod_h
 
 #include <time.h>
 
-#include "itkMacro.h"
 #include "itkArray.h"
 #include "itkVector.h"
 
@@ -36,14 +36,14 @@ public:
   typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator< THistogram >
     EstimatorType ;
 
-  typedef itk::Statistics::GaussianMixtureModelComponent< THistogram > 
+  typedef itk::Statistics::GaussianMixtureModelComponent< THistogram >
     ComponentType ;
 
-  typedef itk::hash_map< typename TSample::InstanceIdentifier, 
+  typedef itk::hash_map< typename TSample::InstanceIdentifier,
                          unsigned int > ClusterLabelsType ;
 
   typedef itk::Array< double > ParametersType ;
-  
+
   void SetInitialParameters(ParametersType& parameters)
   { m_InitialParameters = parameters ; }
 
@@ -59,14 +59,14 @@ public:
   void Initialize(unsigned int numberOfClusters) ;
 
   void Run() ;
-  
+
   unsigned int GetLastIteration()
   { return m_LastIteration ; }
 
   ParametersType& GetEstimatedParameters()
   { return m_EstimatedParameters ; }
 
-  ClusterLabelsType* GetClusterLabels() 
+  ClusterLabelsType* GetClusterLabels()
   { return &m_ClusterLabels ; }
 
   double GetTotalElapsedTime()

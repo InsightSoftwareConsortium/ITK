@@ -2,22 +2,22 @@
 
   Abstract:  -  Multiresolution  symmetric forces demons registration - 4 multiresolution levels
   Created: July 8 2008
-  Last Revision 7/9/2008 
+  Last Revision 7/9/2008
   by Vidya Rajagopalan  on 7/9/2008
 
   Copyright (c) 2008, Bioimaging Systems Lab, Virginia Tech
   All rights reserved.
 
-  Redistribution and use in source and binary forms, with or without modification, 
+  Redistribution and use in source and binary forms, with or without modification,
   are permitted provided that the following conditions are met:
 
-   * Redistributions of source code must retain the above copyright notice, this 
-     list of conditions and the following disclaimer. 
-   * Redistributions in binary form must reproduce the above copyright notice, 
-     this list of conditions and the following disclaimer in the documentation 
-     and/or other materials provided with the distribution. 
-   * Neither the name of Virgina Tech nor the names of its contributors may 
-     be used to endorse or promote products derived from this software without 
+   * Redistributions of source code must retain the above copyright notice, this
+     list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above copyright notice,
+     this list of conditions and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+   * Neither the name of Virgina Tech nor the names of its contributors may
+     be used to endorse or promote products derived from this software without
      specific prior written permission.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -33,22 +33,22 @@
   OF SUCH DAMAGE.
 *******************************************************************************/
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableRegistration17.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
@@ -61,21 +61,21 @@
 // \index{itk::MultiResolutionPDEDeformableRegistration}
 // \index{itk::SymmetricForcesDemonsRegistrationFilter}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 //
 //   CREDITS:
 //
-//   This example was contributed to ITK by 
+//   This example was contributed to ITK by
 //
 //       Vidya Rajagopalan, Bioimaging Systems Lab, Virginia Tech
 //
 //   The example was improved during the NAMIC programming week on July 2008
 //   http://wiki.na-mic.org/Wiki/index.php/2008_Summer_Project_Week
 //
-//   National Alliance for Medical Image Computing (NAMIC), 
-//   funded by the National Institutes of Health 
-//   through the NIH Roadmap for Medical Research, 
+//   National Alliance for Medical Image Computing (NAMIC),
+//   funded by the National Institutes of Health
+//   through the NIH Roadmap for Medical Research,
 //   Grant U54 EB005149.
 //
 //   Data for these examples have been contributed by
@@ -91,19 +91,16 @@
 #include <cstdlib>
 
 // ITK IO includes
-#include "itkOrientedImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 // ITK Registration includes
 #include "itkMultiResolutionPDEDeformableRegistration.h"
 #include "itkMultiResolutionImageRegistrationMethod.h"
-#include "itkMultiResolutionPyramidImageFilter.h"
-#include "itkSymmetricForcesDemonsRegistrationFilter.h" 
-#include "itkHistogramMatchingImageFilter.h" 
-#include "itkCastImageFilter.h" 
-#include "itkWarpImageFilter.h" 
-#include "itkLinearInterpolateImageFunction.h"
+#include "itkSymmetricForcesDemonsRegistrationFilter.h"
+#include "itkHistogramMatchingImageFilter.h"
+#include "itkCastImageFilter.h"
+#include "itkWarpImageFilter.h"
 
 unsigned int RmsCounter = 0;
 double MaxRmsE[4] = {0.8,  0.75,  0.4, 0.2};
@@ -114,7 +111,7 @@ double MaxRmsE[4] = {0.8,  0.75,  0.4, 0.2};
 //  MaximumRMS convergence criteria to use at every resolution level.
 //
 
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -126,12 +123,12 @@ protected:
 
   // define ITK short-hand types
   typedef short PixelType;
-  typedef float InternalPixelType; 
+  typedef float InternalPixelType;
   typedef itk::Image< PixelType, 2 > ImageType;
   typedef itk::Image< InternalPixelType, 2 > InternalImageType;
-    typedef itk::Vector< float, 2 > VectorPixelType; 
-  typedef itk::Image< VectorPixelType, 2 > DeformationFieldType; 
-  typedef itk::SymmetricForcesDemonsRegistrationFilter< InternalImageType, 
+    typedef itk::Vector< float, 2 > VectorPixelType;
+  typedef itk::Image< VectorPixelType, 2 > DeformationFieldType;
+  typedef itk::SymmetricForcesDemonsRegistrationFilter< InternalImageType,
     InternalImageType, DeformationFieldType> RegistrationFilterType;
 
   public:
@@ -139,11 +136,11 @@ protected:
     void Execute(const itk::Object *, const itk::EventObject & )
       {
       std::cout << "Warning: The const Execute method shouldn't be called" << std::endl;
-      } 
+      }
 
     void Execute(itk::Object *caller, const itk::EventObject & event)
       {
-      RegistrationFilterType * filter = 
+      RegistrationFilterType * filter =
        dynamic_cast<  RegistrationFilterType * >( caller );
 
       if( !(itk::IterationEvent().CheckEvent( &event )) )
@@ -155,25 +152,25 @@ protected:
         {
         filter->SetMaximumRMSError(MaxRmsE[RmsCounter]);
         std::cout << filter->GetMetric() <<  "  RMS Change: " << filter->GetRMSChange() << std::endl;
-         
+
         std::cout << "Level Tolerance=  "<<filter->GetMaximumRMSError ()<<std::endl;
         }
   }
 };
-  
 
-// 
+
+//
 // The following command observer reports the progress of the registration
 // inside a given resolution level.
 //
-class CommandResolutionLevelUpdate : public itk::Command 
+class CommandResolutionLevelUpdate : public itk::Command
 {
 public:
   typedef  CommandResolutionLevelUpdate   Self;
   typedef  itk::Command             Superclass;
   typedef  itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
-   
+
 protected:
   CommandResolutionLevelUpdate() {};
 
@@ -193,7 +190,7 @@ public:
 
 int main( int argc, char * argv [] )
 {
-  
+
   // Verify the number of parameters in the command line
   if( argc != 5 )
     {
@@ -201,16 +198,16 @@ int main( int argc, char * argv [] )
     std::cerr << argv[0] << " fixedImage movingImage registeredImage deformationField" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // define ITK short-hand types
-  const unsigned int Dimension = 2; 
+  const unsigned int Dimension = 2;
   typedef short PixelType;
-  typedef float InternalPixelType; 
+  typedef float InternalPixelType;
   typedef itk::Image< PixelType, Dimension > ImageType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   typedef itk::CastImageFilter< ImageType, InternalImageType > ImageCasterType;
-     
-    
+
+
 
 
   // setup input file readers
@@ -224,51 +221,51 @@ int main( int argc, char * argv [] )
   sourceReader->Update();
 
   // cast target and source to float
-  ImageCasterType::Pointer targetImageCaster = ImageCasterType::New(); 
-  ImageCasterType::Pointer sourceImageCaster = ImageCasterType::New(); 
-  targetImageCaster->SetInput( targetReader->GetOutput() ); 
+  ImageCasterType::Pointer targetImageCaster = ImageCasterType::New();
+  ImageCasterType::Pointer sourceImageCaster = ImageCasterType::New();
+  targetImageCaster->SetInput( targetReader->GetOutput() );
   sourceImageCaster->SetInput( sourceReader->GetOutput() );
-  
+
   // match the histograms between source and target
-  typedef itk::HistogramMatchingImageFilter< 
-    InternalImageType, InternalImageType >          MatchingFilterType; 
+  typedef itk::HistogramMatchingImageFilter<
+    InternalImageType, InternalImageType >          MatchingFilterType;
 
   MatchingFilterType::Pointer matcher = MatchingFilterType::New();
 
-  matcher->SetInput( sourceImageCaster->GetOutput() ); 
+  matcher->SetInput( sourceImageCaster->GetOutput() );
   matcher->SetReferenceImage( targetImageCaster->GetOutput() );
-  matcher->SetNumberOfHistogramLevels( 1024 ); 
+  matcher->SetNumberOfHistogramLevels( 1024 );
   matcher->SetNumberOfMatchPoints( 7 );
   matcher->ThresholdAtMeanIntensityOn();
 
   // setup the deformation field and filter
-  typedef itk::Vector< float, Dimension > VectorPixelType; 
+  typedef itk::Vector< float, Dimension > VectorPixelType;
 
-  typedef itk::Image< VectorPixelType, Dimension > DeformationFieldType; 
+  typedef itk::Image< VectorPixelType, Dimension > DeformationFieldType;
 
-  typedef itk::SymmetricForcesDemonsRegistrationFilter< 
-    InternalImageType, 
-    InternalImageType, 
-    DeformationFieldType>         RegistrationFilterType; 
+  typedef itk::SymmetricForcesDemonsRegistrationFilter<
+    InternalImageType,
+    InternalImageType,
+    DeformationFieldType>         RegistrationFilterType;
 
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
 
   filter->SetStandardDeviations( 1.0 );
-   
+
   //
   // Create the Command observer and register it with the registration filter.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   filter->AddObserver( itk::IterationEvent(), observer );
-  
+
 
   // use multiresolution scheme
-  typedef itk::MultiResolutionPDEDeformableRegistration< 
-    InternalImageType, 
+  typedef itk::MultiResolutionPDEDeformableRegistration<
+    InternalImageType,
     InternalImageType,
     DeformationFieldType >       MultiResRegistrationFilterType;
 
-  MultiResRegistrationFilterType::Pointer multires = 
+  MultiResRegistrationFilterType::Pointer multires =
     MultiResRegistrationFilterType::New();
 
   multires->SetRegistrationFilter( filter );
@@ -283,7 +280,7 @@ int main( int argc, char * argv [] )
   //
   CommandResolutionLevelUpdate::Pointer levelobserver = CommandResolutionLevelUpdate::New();
   multires->AddObserver( itk::IterationEvent(), levelobserver );
-  
+
   // apply the registration filter
   try
     {
@@ -298,16 +295,16 @@ int main( int argc, char * argv [] )
 
   // compute the output (warped) image
   typedef itk::WarpImageFilter< ImageType, ImageType, DeformationFieldType > WarperType;
-  typedef itk::LinearInterpolateImageFunction< ImageType, double > InterpolatorType; 
+  typedef itk::LinearInterpolateImageFunction< ImageType, double > InterpolatorType;
 
-  WarperType::Pointer warper = WarperType::New(); 
+  WarperType::Pointer warper = WarperType::New();
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New(); 
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  ImageType::Pointer targetImage = targetReader->GetOutput(); 
-  warper->SetInput( sourceReader->GetOutput() ); 
-  warper->SetInterpolator( interpolator ); 
-  warper->SetOutputSpacing( targetImage->GetSpacing() ); 
+  ImageType::Pointer targetImage = targetReader->GetOutput();
+  warper->SetInput( sourceReader->GetOutput() );
+  warper->SetInterpolator( interpolator );
+  warper->SetOutputSpacing( targetImage->GetSpacing() );
   warper->SetOutputOrigin( targetImage->GetOrigin() );
   warper->SetOutputDirection( targetImage->GetDirection() );
   warper->SetDeformationField( multires->GetOutput() );

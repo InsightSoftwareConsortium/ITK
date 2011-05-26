@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ConnectedThresholdImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -66,7 +63,7 @@
 // following header defining the ConnectedThresholdImageFilter class
 // must be included.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -88,7 +85,7 @@
 //  \doxygen{CurvatureFlowImageFilter}, hence we need to include its header
 //  file.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkCurvatureFlowImageFilter.h"
@@ -111,12 +108,12 @@ int main( int argc, char *argv[])
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We declare the image type based on a particular pixel type and
   //  dimension. In this case the \code{float} type is used for the pixels
   //  due to the requirements of the smoothing filter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
@@ -130,7 +127,7 @@ int main( int argc, char *argv[])
   typedef itk::CastImageFilter< InternalImageType, OutputImageType >
                                                    CastingFilterType;
   CastingFilterType::Pointer caster = CastingFilterType::New();
-                        
+
   // We instantiate reader and writer types
   //
   typedef  itk::ImageFileReader< InternalImageType > ReaderType;
@@ -144,12 +141,12 @@ int main( int argc, char *argv[])
 
 
   //  Software Guide : BeginLatex
-  //  
-  //  
+  //
+  //
   //  The smoothing filter is instantiated using the image type as
   //  a template parameter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >
@@ -158,36 +155,36 @@ int main( int argc, char *argv[])
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then the filter is created by invoking the \code{New()} method and
   //  assigning the result to a \doxygen{SmartPointer}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CurvatureFlowImageFilterType::Pointer smoothing = 
+  CurvatureFlowImageFilterType::Pointer smoothing =
                          CurvatureFlowImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
-  //  We now declare the type of the region growing filter. In this case it is
-  //  the ConnectedThresholdImageFilter. 
   //
-  //  Software Guide : EndLatex 
+  //  We now declare the type of the region growing filter. In this case it is
+  //  the ConnectedThresholdImageFilter.
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ConnectedThresholdImageFilter< InternalImageType, 
+  typedef itk::ConnectedThresholdImageFilter< InternalImageType,
                                     InternalImageType > ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then we construct one filter of this class using the \code{New()}
   //  method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ConnectedFilterType::Pointer connectedThreshold = ConnectedFilterType::New();
@@ -195,14 +192,14 @@ int main( int argc, char *argv[])
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Now it is time to connect a simple, linear pipeline. A file reader is
   //  added at the beginning of the pipeline and a cast filter and writer
   //  are added at the end. The cast filter is required to convert
   //  \code{float} pixel types to integer types since only a few image file
   //  formats support \code{float} types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetInput( reader->GetOutput() );
@@ -219,7 +216,7 @@ int main( int argc, char *argv[])
   //  they may have to be adjusted depending on the amount of noise present in
   //  the input image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   smoothing->SetNumberOfIterations( 5 );
@@ -239,7 +236,7 @@ int main( int argc, char *argv[])
   //  \index{itk::ConnectedThresholdImageFilter!SetUpper()}
   //  \index{itk::ConnectedThresholdImageFilter!SetLower()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const InternalPixelType lowerThreshold = atof( argv[5] );
   const InternalPixelType upperThreshold = atof( argv[6] );
@@ -258,7 +255,7 @@ int main( int argc, char *argv[])
   //
   //  \index{itk::ConnectedThresholdImageFilter!SetReplaceValue()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   connectedThreshold->SetReplaceValue( 255 );
@@ -275,10 +272,10 @@ int main( int argc, char *argv[])
   //
   //  \index{itk::ConnectedThresholdImageFilter!SetSeed()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   InternalImageType::IndexType  index;
-  
+
   index[0] = atoi( argv[3] );
   index[1] = atoi( argv[4] );
 
@@ -287,14 +284,14 @@ int main( int argc, char *argv[])
   connectedThreshold->SetSeed( index );
   // Software Guide : EndCodeSnippet
 
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  It is usually wise to put update calls in a
   //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   try
@@ -324,7 +321,7 @@ int main( int argc, char *argv[])
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
-  //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline 
+  //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline
   //  White matter & $(60,116)$ & 150 & 180 & Second from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
   //  Ventricle    & $(81,112)$ & 210 & 250 & Third  from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
   //  Gray matter  & $(107,69)$ & 180 & 210 & Fourth from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline
@@ -341,7 +338,7 @@ int main( int argc, char *argv[])
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput1.eps}
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput2.eps}
   // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput3.eps}
-  // \itkcaption[ConnectedThreshold segmentation results]{Segmentation results 
+  // \itkcaption[ConnectedThreshold segmentation results]{Segmentation results
   // for the ConnectedThreshold filter for various seed points.}
   // \label{fig:ConnectedThresholdOutput}
   // \end{figure}
@@ -361,7 +358,7 @@ int main( int argc, char *argv[])
   //  to be segmented and each selected point is passed as a seed to this
   //  filter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return 0;

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    Image3.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -30,7 +31,7 @@
 // \pageref{sec:ImageIteratorsChapter} for information about image
 // iterators.)
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -58,7 +59,7 @@ int main(int, char *[])
   ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
-  
+
   // Pixel data is allocated
   image->SetRegions( region );
   image->Allocate();
@@ -84,15 +85,15 @@ int main(int, char *[])
   // between objects. It is more efficient to produce multiple copies of
   // these small objects than to share them using the SmartPointer
   // mechanism.
-  // 
+  //
   // The following lines declare an instance of the index type and initialize
   // its content in order to associate it with a pixel position in the image.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ImageType::IndexType pixelIndex;
- 
+
   pixelIndex[0] = 27;   // x position
   pixelIndex[1] = 29;   // y position
   pixelIndex[2] = 37;   // z position
@@ -106,8 +107,8 @@ int main(int, char *[])
   // method allows us to get the value of the pixels.
   //
   // \index{itk::Image!GetPixel()}
-  // 
-  // Software Guide : EndLatex 
+  //
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ImageType::PixelType   pixelValue = image->GetPixel( pixelIndex );
@@ -121,7 +122,7 @@ int main(int, char *[])
   //
   // \index{itk::Image!SetPixel()}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   image->SetPixel(   pixelIndex,   pixelValue+1  );
@@ -138,7 +139,7 @@ int main(int, char *[])
   // and should only be used for debugging or for supporting interactions like
   // querying pixel values by clicking with the mouse.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
 
   return 0;

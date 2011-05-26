@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageLinearIteratorWithIndex.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -33,7 +34,7 @@
 // image region $R$.  The line $\ell$ through which the iterator moves is
 // defined by selecting a direction and an origin.   The line $\ell$
 // extends from the origin to the upper boundary of $R$. The origin can be
-// moved to any position along the lower boundary of $R$. 
+// moved to any position along the lower boundary of $R$.
 //
 // Several additional methods are defined for this iterator to control movement
 // of the iterator along the line $\ell$ and movement of the origin of $\ell$.
@@ -64,7 +65,7 @@
 //
 // \index{itk::ImageLinearIteratorWithIndex!GoToEndOfLine()}
 //
-// \item \textbf{\code{GoToEndOfLine()}}  Move the iterator to 
+// \item \textbf{\code{GoToEndOfLine()}}  Move the iterator to
 // \emph{one past} the last valid pixel of the current line.
 //
 // \index{itk::ImageLinearIteratorWithIndex!GoToReverseBeginOfLine()}
@@ -74,13 +75,13 @@
 //
 // \index{itk::ImageLinearIteratorWithIndex!IsAtReverseEndOfLine()}
 //
-// \item \textbf{\code{IsAtReverseEndOfLine()}} 
+// \item \textbf{\code{IsAtReverseEndOfLine()}}
 // Returns true if the iterator points
 // to \emph{one position before} the beginning pixel of the current line.
 //
 // \index{itk::ImageLinearIteratorWithIndex!IsAtEndOfLine()}
 //
-// \item \textbf{\code{IsAtEndOfLine()}}  
+// \item \textbf{\code{IsAtEndOfLine()}}
 // Returns true if the iterator points to
 // \emph{one position past} the last valid pixel of the current line.
 // \end{itemize}
@@ -88,8 +89,8 @@
 // The following code example shows how to use the
 // ImageLinearIteratorWithIndex.  It implements the same algorithm as
 // in the previous example, flipping an image across its $x$-axis.  Two line
-// iterators are iterated in opposite directions across the $x$-axis.  
-// After each line is traversed, the iterator origins are stepped along 
+// iterators are iterated in opposite directions across the $x$-axis.
+// After each line is traversed, the iterator origins are stepped along
 // the $y$-axis to the
 // next line.
 //
@@ -102,7 +103,6 @@
 #include "itkImage.h"
 #include "itkRGBPixel.h"
 // Software Guide : BeginCodeSnippet
-#include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
 // Software Guide : EndCodeSnippet
 #include "itkImageFileReader.h"
@@ -123,14 +123,14 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// The RGB image and pixel types are defined as in the previous example.  The 
+// The RGB image and pixel types are defined as in the previous example.  The
 // ImageLinearIteratorWithIndex class and its const version each have
 // single template parameters, the image type.
 //
 // Software Guide : EndLatex
 
   const unsigned int Dimension = 2;
-  
+
   typedef itk::RGBPixel< unsigned char >        RGBPixelType;
   typedef itk::Image< RGBPixelType, Dimension > ImageType;
 
@@ -138,7 +138,7 @@ int main( int argc, char *argv[] )
   typedef itk::ImageLinearIteratorWithIndex< ImageType >       IteratorType;
   typedef itk::ImageLinearConstIteratorWithIndex< ImageType >  ConstIteratorType;
 // Software Guide : EndCodeSnippet
-  
+
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
 
@@ -152,8 +152,8 @@ int main( int argc, char *argv[] )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught a !" << std::endl; 
-    std::cout << err << std::endl; 
+    std::cout << "ExceptionObject caught a !" << std::endl;
+    std::cout << err << std::endl;
     return -1;
     }
 
@@ -219,9 +219,9 @@ int main( int argc, char *argv[] )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
-    return -1;   
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    return -1;
     }
 
 // Software Guide : BeginLatex
@@ -232,6 +232,6 @@ int main( int argc, char *argv[] )
 //
 // \index{itk::ImageLinearIteratorWithIndex!example of using|)}
 // Software Guide : EndLatex
-  
+
   return 0;
 }

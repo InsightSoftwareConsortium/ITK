@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    VesselTubeSpatialObject.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,18 +23,17 @@
 //
 // \index{itk::VesselTubeSpatialObject}
 //
-// \doxygen{VesselTubeSpatialObject} derives from \doxygen{TubeSpatialObject}. 
+// \doxygen{VesselTubeSpatialObject} derives from \doxygen{TubeSpatialObject}.
 // It represents a blood vessel segmented from an image.
-// A VesselTubeSpatialObject is described as a list of centerline points which 
-// have a position, a radius, normals, 
+// A VesselTubeSpatialObject is described as a list of centerline points which
+// have a position, a radius, normals,
 //
 // Let's start by including the appropriate header file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkVesselTubeSpatialObject.h"
-#include "itkVesselTubeSpatialObjectPoint.h"
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )
@@ -46,7 +46,7 @@ int main( int , char *[] )
 //
 // First we define some type definitions and we create the tube.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
   unsigned int i;
 
@@ -61,7 +61,7 @@ int main( int , char *[] )
 //
 // We create a point list and we set:
 // \begin{enumerate}
-// \item The position of each point in the local coordinate system using the 
+// \item The position of each point in the local coordinate system using the
 // \code{SetPosition()} method.
 // \item The radius of the tube at this position using \code{SetRadius()}.
 // \item The medialness value describing how the point lies in the middle of the vessel using \code{SetMedialness()}.
@@ -73,7 +73,7 @@ int main( int , char *[] )
 // \item The color of the point is set to red in this example with an opacity of 1.
 // \end{enumerate}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   VesselTubeType::PointListType list;
@@ -100,7 +100,7 @@ int main( int , char *[] )
 // set its identification number with \code{SetId()} and, at the end, we add
 // the list of points previously created.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   VesselTube->GetProperty()->SetName("VesselTube");
@@ -113,7 +113,7 @@ int main( int , char *[] )
 // The \code{GetPoints()} method return a reference to the internal list of
 // points of the object.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   VesselTubeType::PointListType pointList = VesselTube->GetPoints();
@@ -127,10 +127,10 @@ int main( int , char *[] )
 // and \code{GetColor()} functions return respectively the position and the
 // color of the point.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  VesselTubeType::PointListType::const_iterator 
+  VesselTubeType::PointListType::const_iterator
             it = VesselTube->GetPoints().begin();
   i=0;
   while(it != VesselTube->GetPoints().end())

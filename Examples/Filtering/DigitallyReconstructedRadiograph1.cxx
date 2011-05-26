@@ -1,36 +1,32 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DigitallyReconstructedRadiograph1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
-// \code{RayCastInterpolateImageFunction} class to generate digitally 
+// \code{RayCastInterpolateImageFunction} class to generate digitally
 // reconstructed radiographs (DRRs) from a 3D image volume such as CT
 // or MR.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -47,7 +43,7 @@
 // The \code{RayCastInterpolateImageFunction} class definition for
 // this example is contained in the following header file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkRayCastInterpolateImageFunction.h"
@@ -237,25 +233,25 @@ int main( int argc, char *argv[] )
       argc--; argv++;
       }
 
-    if (ok == false) 
+    if (ok == false)
       {
 
-      if (input_name == NULL) 
+      if (input_name == NULL)
         {
         input_name = argv[1];
         argc--;
         argv++;
         }
-      
-      else 
+
+      else
         {
         std::cerr << "ERROR: Can not parse argument " << argv[1] << std::endl;
         usage();
         }
       }
-    } 
+    }
 
-  if (verbose) 
+  if (verbose)
     {
     if (input_name)  std::cout << "Input image: "  << input_name  << std::endl;
     if (output_name) std::cout << "Output image: " << output_name << std::endl;
@@ -266,13 +262,13 @@ int main( int argc, char *argv[] )
 // Although we generate a 2D projection of the 3D volume for the
 // purposes of the interpolator both images must be three dimensional.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 3;
   typedef   short         InputPixelType;
   typedef   unsigned char OutputPixelType;
-  
+
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
 
@@ -284,9 +280,9 @@ int main( int argc, char *argv[] )
 // For the purposes of this example we assume the input volume has
 // been loaded into an \code{itk::Image image}.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
-  if (input_name) 
+  if (input_name)
     {
 
     typedef itk::ImageFileReader< InputImageType >  ReaderType;
@@ -294,33 +290,33 @@ int main( int argc, char *argv[] )
     reader->SetFileName( input_name );
 
 
-    try 
-      { 
+    try
+      {
       reader->Update();
-      } 
-    catch( itk::ExceptionObject & err ) 
-      { 
-      std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-      std::cerr << err << std::endl; 
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+      std::cerr << err << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
 
     image = reader->GetOutput();
 
     }
-  else 
+  else
     {   // No input image specified so create a cube
 
     image = InputImageType::New();
 
     InputImageType::SpacingType spacing;
-    spacing[0] = 3.; 
+    spacing[0] = 3.;
     spacing[1] = 3.;
     spacing[2] = 3.;
     image->SetSpacing( spacing );
 
     InputImageType::PointType origin;
-    origin[0] = 0.; 
+    origin[0] = 0.;
     origin[1] = 0.;
     origin[2] = 0.;
     image->SetOrigin( origin );
@@ -330,18 +326,18 @@ int main( int argc, char *argv[] )
     start[0] =   0;  // first index on X
     start[1] =   0;  // first index on Y
     start[2] =   0;  // first index on Z
-    
+
     InputImageType::SizeType  size;
-    
+
     size[0]  = 61;  // size along X
     size[1]  = 61;  // size along Y
     size[2]  = 61;  // size along Z
 
     InputImageType::RegionType region;
-  
+
     region.SetSize( size );
     region.SetIndex( start );
-    
+
     image->SetRegions( region );
     image->Allocate();
     image->FillBuffer(0);
@@ -352,7 +348,7 @@ int main( int argc, char *argv[] )
 
     IteratorType iterate( image, image->GetLargestPossibleRegion() );
 
-    while ( ! iterate.IsAtEnd() ) 
+    while ( ! iterate.IsAtEnd() )
       {
 
       InputImageType::IndexType idx = iterate.GetIndex();
@@ -365,10 +361,10 @@ int main( int argc, char *argv[] )
                   && ((idx[1] <= 11) || (idx[1] >= 49)))
 
               || (   ((idx[0] <= 11) || (idx[0] >= 49))
-                  && ((idx[2] <= 11) || (idx[2] >= 49))) 
+                  && ((idx[2] <= 11) || (idx[2] >= 49)))
 
               || (   ((idx[1] <= 11) || (idx[1] >= 49))
-                  && ((idx[2] <= 11) || (idx[2] >= 49))) )) 
+                  && ((idx[2] <= 11) || (idx[2] >= 49))) ))
         {
         iterate.Set(10);
         }
@@ -381,10 +377,10 @@ int main( int argc, char *argv[] )
                           && ((idx[1] <= 23) || (idx[1] >= 37)))
 
                       || (   ((idx[0] <= 23) || (idx[0] >= 37))
-                          && ((idx[2] <= 23) || (idx[2] >= 37))) 
+                          && ((idx[2] <= 23) || (idx[2] >= 37)))
 
                       || (   ((idx[1] <= 23) || (idx[1] >= 37))
-                          && ((idx[2] <= 23) || (idx[2] >= 37))) )) 
+                          && ((idx[2] <= 23) || (idx[2] >= 37))) ))
         {
         iterate.Set(60);
         }
@@ -406,44 +402,44 @@ int main( int argc, char *argv[] )
     writer->SetFileName( filename );
     writer->SetInput( image );
 
-    try 
-      { 
+    try
+      {
       std::cout << "Writing image: " << filename << std::endl;
       writer->Update();
-      } 
-    catch( itk::ExceptionObject & err ) 
-      { 
-      
-      std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-      std::cerr << err << std::endl; 
+      }
+    catch( itk::ExceptionObject & err )
+      {
+
+      std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+      std::cerr << err << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
 #endif
   }
 
 
   // Print out the details of the input volume
 
-  if (verbose) 
+  if (verbose)
     {
     unsigned int i;
-    const InputImageType::SpacingType spacing = image->GetSpacing();  
+    const InputImageType::SpacingType spacing = image->GetSpacing();
     std::cout << std::endl << "Input ";
-    
+
     InputImageType::RegionType region = image->GetBufferedRegion();
     region.Print(std::cout);
-    
+
     std::cout << "  Resolution: [";
-    for (i=0; i<Dimension; i++) 
+    for (i=0; i<Dimension; i++)
       {
       std::cout << spacing[i];
       if (i < Dimension-1) std::cout << ", ";
       }
     std::cout << "]" << std::endl;
-    
+
     const InputImageType::PointType origin = image->GetOrigin();
     std::cout << "  Origin: [";
-    for (i=0; i<Dimension; i++) 
+    for (i=0; i<Dimension; i++)
       {
       std::cout << origin[i];
       if (i < Dimension-1) std::cout << ", ";
@@ -459,7 +455,7 @@ int main( int argc, char *argv[] )
 // to determine the equation of each corresponding ray which is cast
 // through the input volume.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ResampleImageFilter<InputImageType, InputImageType > FilterType;
@@ -476,7 +472,7 @@ int main( int argc, char *argv[] )
 // The \code{ResampleImageFilter} uses this transform to position the
 // output DRR image for the desired view.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::CenteredEuler3DTransform< double >  TransformType;
@@ -506,9 +502,9 @@ int main( int argc, char *argv[] )
   InputImageRegionType imRegion = image->GetBufferedRegion();
   InputImageSizeType   imSize   = imRegion.GetSize();
 
-  imOrigin[0] += imRes[0] * static_cast<double>( imSize[0] ) / 2.0; 
-  imOrigin[1] += imRes[1] * static_cast<double>( imSize[1] ) / 2.0; 
-  imOrigin[2] += imRes[2] * static_cast<double>( imSize[2] ) / 2.0; 
+  imOrigin[0] += imRes[0] * static_cast<double>( imSize[0] ) / 2.0;
+  imOrigin[1] += imRes[1] * static_cast<double>( imSize[1] ) / 2.0;
+  imOrigin[2] += imRes[2] * static_cast<double>( imSize[2] ) / 2.0;
 
   TransformType::InputPointType center;
   center[0] = cx + imOrigin[0];
@@ -517,7 +513,7 @@ int main( int argc, char *argv[] )
 
   transform->SetCenter(center);
 
-  if (verbose) 
+  if (verbose)
     {
     std::cout << "Image size: "
               << imSize[0] << ", " << imSize[1] << ", " << imSize[2] << std::endl
@@ -535,13 +531,13 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginLatex
 //
-// The \code{RayCastInterpolateImageFunction} is instantiated and passed the transform 
+// The \code{RayCastInterpolateImageFunction} is instantiated and passed the transform
 // object. The \code{RayCastInterpolateImageFunction} uses this
 // transform to reposition the x-ray source such that the DRR image
 // and x-ray source move as one around the input volume. This coupling
-// mimics the rigid geometry of the x-ray gantry. 
+// mimics the rigid geometry of the x-ray gantry.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::RayCastInterpolateImageFunction<InputImageType,double> InterpolatorType;
@@ -556,7 +552,7 @@ int main( int argc, char *argv[] )
 // We can then specify a threshold above which the volume's
 // intensities will be integrated.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   interpolator->SetThreshold(threshold);
@@ -569,9 +565,9 @@ int main( int argc, char *argv[] )
 // volume at the origin and halfway between the ray source and the
 // screen. The distance between the ray source and the screen
 // is the "source to image distance" \code{sid} and is specified by
-// the user. 
+// the user.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   InterpolatorType::InputPointType focalpoint;
@@ -585,9 +581,9 @@ int main( int argc, char *argv[] )
 
   if (verbose)
     {
-    std::cout << "Focal Point: " 
-              << focalpoint[0] << ", " 
-              << focalpoint[1] << ", " 
+    std::cout << "Focal Point: "
+              << focalpoint[0] << ", "
+              << focalpoint[1] << ", "
               << focalpoint[2] << std::endl;
     }
 
@@ -596,7 +592,7 @@ int main( int argc, char *argv[] )
 // Having initialised the interpolator we pass the object to the
 // resample filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   interpolator->Print (std::cout);
@@ -608,17 +604,17 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginLatex
 //
 // The size and resolution of the output DRR image is specified via the
-// resample filter. 
+// resample filter.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 
   // setup the scene
   InputImageType::SizeType   size;
 
-  size[0] = dx;  // number of pixels along X of the 2D DRR image 
-  size[1] = dy;  // number of pixels along Y of the 2D DRR image 
+  size[0] = dx;  // number of pixels along X of the 2D DRR image
+  size[1] = dy;  // number of pixels along Y of the 2D DRR image
   size[2] = 1;   // only one slice
 
   filter->SetSize( size );
@@ -633,16 +629,16 @@ int main( int argc, char *argv[] )
 
 // Software Guide : EndCodeSnippet
 
-  if (verbose) 
+  if (verbose)
     {
-    std::cout << "Output image size: " 
-              << size[0] << ", " 
-              << size[1] << ", " 
+    std::cout << "Output image size: "
+              << size[0] << ", "
+              << size[1] << ", "
               << size[2] << std::endl;
-    
-    std::cout << "Output image spacing: " 
-              << spacing[0] << ", " 
-              << spacing[1] << ", " 
+
+    std::cout << "Output image spacing: "
+              << spacing[0] << ", "
+              << spacing[1] << ", "
               << spacing[2] << std::endl;
     }
 
@@ -654,30 +650,30 @@ int main( int argc, char *argv[] )
 // otherwise the normal from the "screen" to the ray source passes
 // directly through the centre of the DRR.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 
   double origin[ Dimension ];
 
-  origin[0] = imOrigin[0] + o2Dx - sx*((double) dx - 1.)/2.; 
-  origin[1] = imOrigin[1] + o2Dy - sy*((double) dy - 1.)/2.; 
-  origin[2] = imOrigin[2] + sid/2.; 
+  origin[0] = imOrigin[0] + o2Dx - sx*((double) dx - 1.)/2.;
+  origin[1] = imOrigin[1] + o2Dy - sy*((double) dy - 1.)/2.;
+  origin[2] = imOrigin[2] + sid/2.;
 
   filter->SetOutputOrigin( origin );
 // Software Guide : EndCodeSnippet
 
-  if (verbose) 
+  if (verbose)
     {
-    std::cout << "Output image origin: " 
-              << origin[0] << ", " 
-              << origin[1] << ", " 
+    std::cout << "Output image origin: "
+              << origin[0] << ", "
+              << origin[1] << ", "
               << origin[2] << std::endl;
     }
 
   // create writer
 
-  if (output_name) 
+  if (output_name)
     {
 
 // Software Guide : BeginLatex
@@ -685,10 +681,10 @@ int main( int argc, char *argv[] )
 // The output of the resample filter can then be passed to a writer to
 // save the DRR image to a file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-    typedef itk::RescaleIntensityImageFilter< 
+    typedef itk::RescaleIntensityImageFilter<
       InputImageType, OutputImageType > RescaleFilterType;
     RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
     rescaler->SetOutputMinimum(   0 );
@@ -701,20 +697,20 @@ int main( int argc, char *argv[] )
     writer->SetFileName( output_name );
     writer->SetInput( rescaler->GetOutput() );
 
-    try 
-      { 
+    try
+      {
       std::cout << "Writing image: " << output_name << std::endl;
       writer->Update();
-      } 
-    catch( itk::ExceptionObject & err ) 
-      { 
-      std::cerr << "ERROR: ExceptionObject caught !" << std::endl; 
-      std::cerr << err << std::endl; 
-      } 
+      }
+    catch( itk::ExceptionObject & err )
+      {
+      std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+      std::cerr << err << std::endl;
+      }
 // Software Guide : EndCodeSnippet
 
     }
-  else 
+  else
     {
     filter->Update();
     }

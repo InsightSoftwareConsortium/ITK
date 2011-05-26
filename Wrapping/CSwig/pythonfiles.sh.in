@@ -1,8 +1,0 @@
-#!/bin/sh
-
-SRC="@EXECUTABLE_OUTPUT_PATH@"
-DST="@CMAKE_INSTALL_PREFIX@@ITK_INSTALL_LIB_DIR@"
-
-cp "${SRC}"/*.py "${DESTDIR}${DST}" >/dev/null 2>&1
-
-echo "pythonfiles.sh"

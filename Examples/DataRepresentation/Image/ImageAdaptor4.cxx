@@ -1,20 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageAdaptor4.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -32,8 +32,8 @@
 
 // Software Guide : BeginLatex
 //
-// Image adaptors can also be used to perform simple pixel-wise computations 
-// on image data. The following example illustrates how to use the 
+// Image adaptors can also be used to perform simple pixel-wise computations
+// on image data. The following example illustrates how to use the
 // \doxygen{ImageAdaptor} for image thresholding.
 //
 // \index{itk::ImageAdaptor!Instantiation}
@@ -42,9 +42,8 @@
 // \index{itk::PixelAccessor!with parameters}
 // \index{itk::PixelAccessor!performing computation}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
-#include "itkImage.h"
 #include "itkImageAdaptor.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -57,17 +56,17 @@
 //  maintain the threshold value. Therefore, it must also implement the
 //  assignment operator to set this internal parameter.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
-class ThresholdingPixelAccessor  
+class ThresholdingPixelAccessor
 {
 public:
   typedef unsigned char      InternalType;
   typedef unsigned char      ExternalType;
 
-  ExternalType Get( const InternalType & input ) const 
+  ExternalType Get( const InternalType & input ) const
     {
     return (input > m_Threshold) ? 1 : 0;
     }
@@ -89,11 +88,11 @@ private:
 //  Software Guide : BeginLatex
 //
 //  The \code{Get()} method returns one if the input pixel is above
-//  the threshold and zero otherwise. The assignment operator transfers 
+//  the threshold and zero otherwise. The assignment operator transfers
 //  the value of the threshold member
 //  variable from one instance of the pixel accessor to another.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 //-------------------------
@@ -102,7 +101,7 @@ private:
 //
 //-------------------------
 
-int main( int argc, char *argv[] ) 
+int main( int argc, char *argv[] )
 {
   if( argc < 4 )
     {
@@ -119,7 +118,7 @@ int main( int argc, char *argv[] )
 //  whose pixel type is the same as the internal pixel type of the pixel
 //  accessor.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -135,11 +134,11 @@ int main( int argc, char *argv[] )
 //  first template parameter and the pixel accessor as the second template
 //  parameter.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageAdaptor<  ImageType, 
+  typedef itk::ImageAdaptor<  ImageType,
                               ThresholdingPixelAccessor > ImageAdaptorType;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
@@ -152,7 +151,7 @@ int main( int argc, char *argv[] )
 //  pixel accessor is created and connected to the image adaptor
 //  in the same manner as in the previous example.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -167,20 +166,20 @@ int main( int argc, char *argv[] )
 //  We create a reader to load the input image and connect the output
 //  of the reader as the input to the adaptor.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType >   ReaderType;
-  ReaderType::Pointer reader = ReaderType::New();  
+  ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
 
   adaptor->SetImage( reader->GetOutput() );
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 
-  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, 
+  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType,
                                             ImageType > RescalerType;
 
   RescalerType::Pointer rescaler = RescalerType::New();
@@ -207,7 +206,7 @@ int main( int argc, char *argv[] )
   // \itkcaption[Image Adaptor for performing computations]{Using
   // ImageAdaptor to perform a simple image computation. An
   // ImageAdaptor is used to perform binary thresholding on
-  // the input image on the  left. The center image was created using a 
+  // the input image on the  left. The center image was created using a
   // threshold of 180, while the
   // image on the right corresponds to a  threshold of 220.}
   // \label{fig:ImageAdaptorThresholding}
@@ -221,7 +220,7 @@ int main( int argc, char *argv[] )
   //  achieved by using the \doxygen{BinaryThresholdImageFilter} but at the
   //  price of holding an extra copy of the image in memory.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
 
   return 0;

@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DicomImageReadWrite.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -36,7 +33,7 @@
 //
 //  We should first include the following header files.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
@@ -63,9 +60,9 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginLatex
 //
 // Then we declare the pixel type and image dimension, and use them for
-// instantiating the image type to be read. 
-// 
-// Software Guide : EndLatex 
+// instantiating the image type to be read.
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef signed short InputPixelType;
@@ -79,7 +76,7 @@ int main( int argc, char* argv[] )
 // With the image type we can instantiate the type of the reader, create one,
 // and set the filename of the image to be read.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< InputImageType > ReaderType;
@@ -92,7 +89,7 @@ int main( int argc, char* argv[] )
 //
 // GDCMImageIO is an ImageIO class for reading and writing DICOM v3 and
 // ACR/NEMA images. The GDCMImageIO object is constructed here and connected to
-// the ImageFileReader. 
+// the ImageFileReader.
 //
 // Software Guide : EndLatex
 
@@ -100,7 +97,7 @@ int main( int argc, char* argv[] )
   typedef itk::GDCMImageIO           ImageIOType;
 
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
-  
+
   reader->SetImageIO( gdcmImageIO );
 // Software Guide : EndCodeSnippet
 
@@ -110,7 +107,7 @@ int main( int argc, char* argv[] )
 // method.  Since this reading process may eventually throw an exception, we
 // place the invocation inside a try/catch block.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   try
@@ -132,7 +129,7 @@ int main( int argc, char* argv[] )
 // we focus on showing how we can save this image again in DICOM format in a
 // new file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginLatex
 //
@@ -142,7 +139,7 @@ int main( int argc, char* argv[] )
 // and in each case we use a different writer, we enumerated here the variable
 // names of the writer objects as well as their types.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< InputImageType >  Writer1Type;
@@ -161,7 +158,7 @@ int main( int argc, char* argv[] )
 //  DICOM file should contain, like Patient Name, Patient ID, Institution Name,
 //  etc.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   writer1->SetImageIO( gdcmImageIO );
@@ -173,7 +170,7 @@ int main( int argc, char* argv[] )
 // execution may result in exceptions being thrown we place the Update() call
 // inside a try/catch block.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   try
@@ -195,15 +192,15 @@ int main( int argc, char* argv[] )
 //  \code{unsigned char} instead of \code{signed short}.  The minimum and
 //  maximum values of the output image are explicitly defined in the rescaling
 //  filter.
-//  
+//
 // Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
   typedef unsigned char WritePixelType;
-  
+
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-  
-  typedef itk::RescaleIntensityImageFilter< 
+
+  typedef itk::RescaleIntensityImageFilter<
                InputImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
@@ -211,7 +208,7 @@ int main( int argc, char* argv[] )
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
   // Software Guide : EndCodeSnippet
-  
+
 
 
 // Software Guide : BeginLatex
@@ -221,7 +218,7 @@ int main( int argc, char* argv[] )
 // verifying the image against the one that will be saved in DICOM format later
 // on this example.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< WriteImageType >  Writer2Type;
@@ -229,7 +226,7 @@ int main( int argc, char* argv[] )
   Writer2Type::Pointer writer2 = Writer2Type::New();
 
   writer2->SetFileName( argv[3] );
- 
+
   rescaler->SetInput( reader->GetOutput() );
   writer2->SetInput( rescaler->GetOutput() );
 // Software Guide : EndCodeSnippet
@@ -239,7 +236,7 @@ int main( int argc, char* argv[] )
 // The writer can be executed by invoking the Update() method from inside a
 // try/catch block.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
   try
@@ -257,13 +254,13 @@ int main( int argc, char* argv[] )
 //
 // We proceed now to save the same rescaled image into a file in DICOM format.
 // For this purpose we just need to set up a \doxygen{ImageFileWriter} and pass
-// to it the rescaled image as input. 
-// 
+// to it the rescaled image as input.
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< WriteImageType >  Writer3Type;
-  
+
   Writer3Type::Pointer writer3 = Writer3Type::New();
 
   writer3->SetFileName( argv[4] );
@@ -282,7 +279,7 @@ int main( int argc, char* argv[] )
 // accordingly.
 // \index{itk::ImageFileWriter!UseInputMetaDataDictionaryOff()}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   writer3->UseInputMetaDataDictionaryOff ();
@@ -294,7 +291,7 @@ int main( int argc, char* argv[] )
 // Finally we trigger the execution of the DICOM writer by invoking the
 // Update() method from inside a try/catch block.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   try

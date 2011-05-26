@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration7.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -52,26 +53,24 @@
 //
 // \index{itk::CenteredSimilarity2DTransform}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 
 #include "itkCenteredTransformInitializer.h"
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  In addition to the headers included in previous examples, here the
 //  following header must be included.
 //
 //  \index{itk::CenteredSimilarity2DTransform!header}
-// 
-//  Software Guide : EndLatex 
+//
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkCenteredSimilarity2DTransform.h"
@@ -92,7 +91,7 @@
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -112,7 +111,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -138,7 +137,7 @@ int main( int argc, char *argv[] )
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;
 
@@ -147,14 +146,14 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The Transform class is instantiated using the code below. The only
   //  template parameter of this class is the representation type of the
   //  space coordinates.
   //
   //  \index{itk::CenteredSimilarity2DTransform!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredSimilarity2DTransform< double > TransformType;
@@ -188,7 +187,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::CenteredSimilarity2DTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
@@ -210,23 +209,23 @@ int main( int argc, char *argv[] )
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In this example, we again use the helper class
   //  \doxygen{CenteredTransformInitializer} to compute a reasonable
   //  value for the initial center of rotation and the translation.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer< 
-                                    TransformType, 
-                                    FixedImageType, 
+  typedef itk::CenteredTransformInitializer<
+                                    TransformType,
+                                    FixedImageType,
                                     MovingImageType >  TransformInitializerType;
 
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
@@ -243,13 +242,13 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The remaining parameters of the transform are initialized below.
   //
   //  \index{itk::CenteredSimilarity2DTransform!SetScale()}
   //  \index{itk::CenteredSimilarity2DTransform!SetAngle()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   double initialScale = 1.0;
 
@@ -257,25 +256,25 @@ int main( int argc, char *argv[] )
     {
     initialScale =  atof( argv[7] );
     }
-    
+
   double initialAngle = 0.0;
 
   if( argc > 8 )
     {
     initialAngle =  atof( argv[8] );
     }
- 
+
   // Software Guide : BeginCodeSnippet
   transform->SetScale( initialScale );
   transform->SetAngle( initialAngle );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We now pass the parameter of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
@@ -283,7 +282,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Keeping in mind that the scale of units in scaling, rotation and
   //  translation are quite different, we take advantage of the scaling
   //  functionality provided by the optimizers. We know that the first element
@@ -291,9 +290,9 @@ int main( int argc, char *argv[] )
   //  corresponds to the angle, third and forth are the center of rotation and
   //  fifth and sixth are the remaining translation. We use henceforth small
   //  factors in the scales associated with translations and the rotation
-  //  center. 
+  //  center.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef OptimizerType::ScalesType       OptimizerScalesType;
@@ -312,7 +311,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We set also the normal parameters of the optimization method. In this
   //  case we are using A
   //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
@@ -320,17 +319,17 @@ int main( int argc, char *argv[] )
   //  and number of iterations. These last two act as stopping criteria for
   //  the optimization.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   double steplength = 1.0;
-  
+
   if( argc > 6 )
     {
     steplength = atof( argv[6] );
     }
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( steplength ); 
+  optimizer->SetMaximumStepLength( steplength );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 500 );
   // Software Guide : EndCodeSnippet
@@ -342,21 +341,21 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
-  
-  OptimizerType::ParametersType finalParameters = 
+    }
+
+  OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
 
 
@@ -390,12 +389,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Let's execute this example over some of the images provided in
   //  \code{Examples/Data}, for example:
-  //  
+  //
   //  \begin{itemize}
-  //  \item \code{BrainProtonDensitySliceBorder20.png} 
+  //  \item \code{BrainProtonDensitySliceBorder20.png}
   //  \item \code{BrainProtonDensitySliceR10X13Y17S12.png}
   //  \end{itemize}
   //
@@ -414,13 +413,13 @@ int main( int argc, char *argv[] )
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Scale factor  =                     $0.833222$   
+  //  \item Scale factor  =                     $0.833222$
   //  \item Angle         =                     $0.174521$   radians
   //  \item Center        = $( 111.437     , 131.741     )$ millimeters
   //  \item Translation   = $( -12.8272    , -12.7862    )$ millimeters
   //  \end{itemize}
-  //  
-  // 
+  //
+  //
   //  These values approximate the misalignment intentionally introduced into
   //  the moving image. Since $10$ degrees is about $0.174532$ radians.
   //
@@ -439,7 +438,7 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter.eps} 
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter.eps}
   // \itkcaption[Output of the CenteredSimilarity2DTransform registration]{Resampled
   // moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
@@ -456,10 +455,10 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceScale.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations.eps} 
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations.eps}
   // \itkcaption[CenteredSimilarity2DTransform registration plots]{Plots of the Metric,
   // rotation angle and translations during
-  // the registration using 
+  // the registration using
   // Similarity2D transform.}
   // \label{fig:ImageRegistration7Plots}
   // \end{figure}
@@ -470,17 +469,17 @@ int main( int argc, char *argv[] )
   //  left while the translation components of the registration are presented
   //  in the plot at right.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
-  typedef itk::ResampleImageFilter< MovingImageType, 
+  typedef itk::ResampleImageFilter< MovingImageType,
                                     FixedImageType > ResampleFilterType;
-  
+
   TransformType::Pointer finalTransform = TransformType::New();
-  
+
   finalTransform->SetParameters( finalParameters );
   finalTransform->SetFixedParameters( transform->GetFixedParameters() );
-  
+
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
   resampler->SetTransform( finalTransform );
@@ -493,14 +492,14 @@ int main( int argc, char *argv[] )
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 100 );
-  
+
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< FixedImageType, OutputImageType > 
+
+  typedef itk::CastImageFilter< FixedImageType, OutputImageType >
     CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
@@ -516,20 +515,20 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-  typedef itk::SubtractImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
+  typedef itk::SubtractImageFilter<
+                                  FixedImageType,
+                                  FixedImageType,
                                   FixedImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
 
-  typedef itk::RescaleIntensityImageFilter< 
-                                  FixedImageType, 
+  typedef itk::RescaleIntensityImageFilter<
+                                  FixedImageType,
                                   OutputImageType >   RescalerType;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
-  
+
   intensityRescaler->SetInput( difference->GetOutput() );
   intensityRescaler->SetOutputMinimum(   0 );
   intensityRescaler->SetOutputMaximum( 255 );
@@ -540,10 +539,10 @@ int main( int argc, char *argv[] )
   resampler->SetDefaultPixelValue( 1 );
 
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( intensityRescaler->GetOutput() );  
-  
+  writer2->SetInput( intensityRescaler->GetOutput() );
 
-  // Compute the difference image between the 
+
+  // Compute the difference image between the
   // fixed and resampled moving image.
   if( argc > 5 )
     {
@@ -555,7 +554,7 @@ int main( int argc, char *argv[] )
   typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
   IdentityTransformType::Pointer identity = IdentityTransformType::New();
 
-  // Compute the difference image between the 
+  // Compute the difference image between the
   // fixed and moving image before registration.
   if( argc > 4 )
     {

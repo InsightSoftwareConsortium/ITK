@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DicomSeriesReadImageWrite2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -29,7 +26,7 @@
 //  tridimensional images. This is the case for CT, MRI and PET scanners. It is
 //  very common therefore for image analysts to have to process volumetric
 //  images that are stored in the form of a set of DICOM files belonging to a
-//  common DICOM series. 
+//  common DICOM series.
 //
 //  The following example illustrates how to use ITK functionalities in order
 //  to read a DICOM series into a volume and then save this volume in another
@@ -46,10 +43,10 @@
 //  \index{itk::GDCMSeriesFileNames!header}
 //  \index{itk::ImageFileWriter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
 #include "itkImageSeriesReader.h"
@@ -62,19 +59,18 @@ int main( int argc, char* argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " DicomDirectory  outputFileName  [seriesName]" 
+    std::cerr << argv[0] << " DicomDirectory  outputFileName  [seriesName]"
               << std::endl;
     return EXIT_FAILURE;
     }
 
 // Software Guide : BeginLatex
-// 
+//
 // We define the pixel type and dimension of the image to be read. In this
 // particular case, the dimensionality of the image is 3, and we assume a
 // \code{signed short} pixel type that is commonly used for X-Rays CT scanners.
-// 
-// We also choose to use the \doxygen{OrientedImage} in order to make sure
-// that the image orientation information contained in the direction cosines
+//
+// The image orientation information contained in the direction cosines
 // of the DICOM header are read in and passed correctly down the image processing
 // pipeline.
 //
@@ -84,11 +80,11 @@ int main( int argc, char* argv[] )
   typedef signed short    PixelType;
   const unsigned int      Dimension = 3;
 
-  typedef itk::OrientedImage< PixelType, Dimension >         ImageType;
+  typedef itk::Image< PixelType, Dimension >         ImageType;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// 
+//
 // We use the image type for instantiating the type of the series reader and
 // for constructing one object of its type.
 //
@@ -100,16 +96,16 @@ int main( int argc, char* argv[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// 
+//
 // A GDCMImageIO object is created and connected to the reader. This object is
-// the one that is aware of the internal intricacies of the DICOM format. 
+// the one that is aware of the internal intricacies of the DICOM format.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   typedef itk::GDCMImageIO       ImageIOType;
   ImageIOType::Pointer dicomIO = ImageIOType::New();
-  
+
   reader->SetImageIO( dicomIO );
 // Software Guide : EndCodeSnippet
 
@@ -124,11 +120,11 @@ int main( int argc, char* argv[] )
 // for us, we only need to pass to this class the name of the directory where
 // the DICOM slices are stored. This is done with the \code{SetDirectory()}
 // method. The GDCMSeriesFileNames object will explore the directory and will
-// generate a sequence of filenames for DICOM files for one study/series. 
+// generate a sequence of filenames for DICOM files for one study/series.
 // In this example, we also call the \code{SetUseSeriesDetails(true)} function
-// that tells the GDCMSereiesFileNames object to use additional DICOM 
+// that tells the GDCMSereiesFileNames object to use additional DICOM
 // information to distinguish unique volumes within the directory.  This is
-// useful, for example, if a DICOM device assigns the same SeriesID to 
+// useful, for example, if a DICOM device assigns the same SeriesID to
 // a scout scan and its 3D volume; by using additional DICOM information
 // the scout scan will not be included as part of the 3D volume.  Note that
 // \code{SetUseSeriesDetails(true)} must be called prior to calling
@@ -159,7 +155,7 @@ int main( int argc, char* argv[] )
 
   nameGenerator->SetDirectory( argv[1] );
 // Software Guide : EndCodeSnippet
-  
+
 
   try
     {
@@ -169,9 +165,9 @@ int main( int argc, char* argv[] )
     std::cout << std::endl << std::endl;
 
 
-    
+
 // Software Guide : BeginLatex
-// 
+//
 // The GDCMSeriesFileNames object first identifies the list of DICOM series
 // that are present in the given directory. We receive that list in a reference
 // to a container of strings and then we can do things like printing out all
@@ -183,9 +179,9 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginCodeSnippet
     typedef std::vector< std::string >    SeriesIdContainer;
-    
+
     const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
-    
+
     SeriesIdContainer::const_iterator seriesItr = seriesUID.begin();
     SeriesIdContainer::const_iterator seriesEnd = seriesUID.end();
     while( seriesItr != seriesEnd )
@@ -194,11 +190,11 @@ int main( int argc, char* argv[] )
       seriesItr++;
       }
 // Software Guide : EndCodeSnippet
-  
+
 
 
 // Software Guide : BeginLatex
-// 
+//
 // Given that it is common to find multiple DICOM series in the same directory,
 // we must tell the GDCM classes what specific series do we want to read. In
 // this example we do this by checking first if the user has provided a series
@@ -228,13 +224,13 @@ int main( int argc, char* argv[] )
     std::cout << std::endl << std::endl;
 
 // Software Guide : BeginLatex
-// 
+//
 // We pass the series identifier to the name generator and ask for all the
 // filenames associated to that series. This list is returned in a container of
-// strings by the \code{GetFileNames()} method. 
+// strings by the \code{GetFileNames()} method.
 //
 // \index{itk::GDCMSeriesFileNames!GetFileNames()}
-// 
+//
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
@@ -245,21 +241,21 @@ int main( int argc, char* argv[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// 
+//
 //
 // The list of filenames can now be passed to the \doxygen{ImageSeriesReader}
 // using the \code{SetFileNames()} method.
-//  
+//
 //  \index{itk::ImageSeriesReader!SetFileNames()}
 //
 // Software Guide : EndLatex
-  
+
 // Software Guide : BeginCodeSnippet
     reader->SetFileNames( fileNames );
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// 
+//
 // Finally we can trigger the reading process by invoking the \code{Update()}
 // method in the reader. This call as usual is placed inside a \code{try/catch}
 // block.
@@ -280,14 +276,14 @@ int main( int argc, char* argv[] )
 
 
 // Software Guide : BeginLatex
-// 
+//
 // At this point, we have a volumetric image in memory that we can access by
 // invoking the \code{GetOutput()} method of the reader.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginLatex
-// 
+//
 // We proceed now to save the volumetric image in another file, as specified by
 // the user in the command line arguments of this program. Thanks to the
 // ImageIO factory mechanism, only the filename extension is needed to identify
@@ -298,7 +294,7 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginCodeSnippet
     typedef itk::ImageFileWriter< ImageType > WriterType;
     WriterType::Pointer writer = WriterType::New();
-    
+
     writer->SetFileName( argv[2] );
 
     writer->SetInput( reader->GetOutput() );
@@ -309,7 +305,7 @@ int main( int argc, char* argv[] )
 
 
 // Software Guide : BeginLatex
-// 
+//
 // The process of writing the image is initiated by invoking the
 // \code{Update()} method of the writer.
 //
@@ -334,12 +330,12 @@ int main( int argc, char* argv[] )
     }
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Note that in addition to writing the volumetric image to a file we could
   // have used it as the input for any 3D processing pipeline. Keep in mind that
   // DICOM is simply a file format and a network protocol. Once the image data
   // has been loaded into memory, it behaves as any other volumetric dataset that
-  // you could have loaded from any other file format. 
+  // you could have loaded from any other file format.
   //
   // Software Guide : EndLatex
 

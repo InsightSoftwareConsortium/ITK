@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "ParameterTable.h"
 
 #include <fstream>
@@ -15,8 +32,8 @@ ParameterTable
     {
       std::cout << "ERROR: cannot open the parameter file" << std::endl ;
       return ;
-    } 
-  
+    }
+
   // parse the header
   std::string header ;
   std::string field ;
@@ -29,14 +46,14 @@ ParameterTable
       fieldBegin = header.find('"', fieldBegin) + 1 ;
       fieldEnd = header.find('"', fieldBegin) ;
       field = header.substr(fieldBegin, fieldEnd - fieldBegin) ;
-      m_Fields.push_back(field) ; 
+      m_Fields.push_back(field) ;
       fieldBegin = fieldEnd + 1 ;
     }
 
   // erase the "case" and "class" field names
   m_Fields.erase(m_Fields.begin()) ;
   m_Fields.erase(m_Fields.begin()) ;
-//   std::copy(m_Fields.begin(), m_Fields.end(), 
+//   std::copy(m_Fields.begin(), m_Fields.end(),
 //             std::ostream_iterator<std::string>(std::cout, " ") ) ;
 //   std::cout << std::endl ;
 
@@ -69,7 +86,7 @@ ParameterTable
       m_ClassLabels.push_back(classLabel) ;
 
       for ( i = 0 ; i < m_Fields.size() ; i++ )
-        {  
+        {
           paramFile >> tempValue ;
           tempRecord[i] = tempValue ;
         }
@@ -80,11 +97,11 @@ ParameterTable
 
   m_NumberOfClasses = m_ClassLabels.size() ;
   first = true ;
-  // parse and store the rest 
+  // parse and store the rest
   unsigned int index = 0 ;
-  while ( true && !paramFile.eof() ) 
+  while ( true && !paramFile.eof() )
     {
-      
+
       if ( !first )
         {
           paramFile >> caseIndex ;
@@ -106,13 +123,13 @@ ParameterTable
         {
           first = false ;
         }
-      
+
       for ( i = 0 ; i < m_Fields.size() ; i++ )
-        {  
+        {
           paramFile >> tempValue ;
           tempRecord[i] = tempValue ;
         }
-      
+
       tempGroup[index] = tempRecord ;
       ++index ;
     } // end of while
@@ -140,8 +157,8 @@ ParameterTable
 
 void
 ParameterTable
-::Create(const HeaderType &header, 
-         const unsigned int numberOfCases, 
+::Create(const HeaderType &header,
+         const unsigned int numberOfCases,
          const std::vector< unsigned int >& classLabels)
 {
   m_Fields = header ;
@@ -159,12 +176,12 @@ ParameterTable
         }
       m_Table[caseIndex] = tempGroup ;
     }
-  
+
   m_WriteMode = true ;
   this->ClearFilter() ;
 }
 
-void 
+void
 ParameterTable
 ::Write(const char* fileName, bool useFilter)
 {
@@ -178,8 +195,8 @@ ParameterTable
     {
       std::cout << "ERROR: cannot open the parameter file" << std::endl ;
       return ;
-    } 
-  
+    }
+
   // print the header
   paramFile << "\"case\" \"class\" " ;
 
@@ -255,7 +272,7 @@ ParameterTable
     }
 }
 
-void 
+void
 ParameterTable
 ::ClearFilter()
 {
@@ -266,9 +283,9 @@ ParameterTable
     }
 }
 
-ParameterTable::ParametersType 
+ParameterTable::ParametersType
 ParameterTable
-::GetParameters(const unsigned int caseIndex, 
+::GetParameters(const unsigned int caseIndex,
                 const unsigned int classLabel)
 {
   ParametersType params(m_Filter.size()) ;
@@ -286,8 +303,8 @@ ParameterTable
 
 void
 ParameterTable
-::SetParameters(const unsigned int caseIndex, 
-                const unsigned int classLabel, 
+::SetParameters(const unsigned int caseIndex,
+                const unsigned int classLabel,
                 const ParametersType& params)
 {
   if ( !m_WriteMode )
@@ -305,7 +322,7 @@ ParameterTable
     }
 }
 
-unsigned int 
+unsigned int
 ParameterTable
 ::GetFieldIndex(const char* fieldName) const
 {
@@ -338,7 +355,7 @@ ParameterTable
 
 void
 ParameterTable
-::SetParameter(const unsigned int caseIndex, 
+::SetParameter(const unsigned int caseIndex,
                const unsigned int classLabel,
                const unsigned int fieldIndex,
                const double value)
@@ -353,7 +370,7 @@ ParameterTable
 
 double
 ParameterTable
-::GetParameter(const unsigned int caseIndex, 
+::GetParameter(const unsigned int caseIndex,
                const unsigned int classLabel,
                const unsigned int fieldIndex) const
 {
@@ -362,7 +379,7 @@ ParameterTable
 
 double
 ParameterTable
-::GetParameter(const unsigned int caseIndex, 
+::GetParameter(const unsigned int caseIndex,
                const unsigned int classLabel,
                const char* fieldName) const
 {

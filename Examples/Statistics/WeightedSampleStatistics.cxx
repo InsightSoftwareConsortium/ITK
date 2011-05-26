@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    WeightedSampleStatistics.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,7 +27,7 @@
 // \index{Statistics!Weighted covariance}
 //
 // We include the header file for the \doxygen{Vector} class that will
-// be our measurement vector template in this example. 
+// be our measurement vector template in this example.
 //
 // Software Guide : EndLatex
 
@@ -52,8 +53,8 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkWeightedMeanCalculator.h"
-#include "itkWeightedCovarianceCalculator.h"
+#include "itkWeightedMeanSampleFilter.h"
+#include "itkWeightedCovarianceSampleFilter.h"
 // Software Guide : EndCodeSnippet
 
 typedef itk::Vector< float, 3 > MeasurementVectorType;
@@ -67,7 +68,7 @@ public:
   typedef itk::FunctionBase< MeasurementVectorType, double > Superclass;
   typedef itk::SmartPointer<Self> Pointer;
   typedef itk::SmartPointer<const Self> ConstPointer;
-  
+
   /** Standard macros. */
   itkTypeMacro(ExampleWeightFunction, FunctionBase);
   itkNewMacro(Self);
@@ -79,7 +80,7 @@ public:
   typedef double OutputType;
 
   /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType& input ) const 
+  OutputType Evaluate( const InputType& input ) const
     {
       if ( input[0] < 3.0 )
         {
@@ -114,14 +115,14 @@ int main()
   mv[0] = 1.0;
   mv[1] = 2.0;
   mv[2] = 4.0;
-  
+
   sample->PushBack( mv );
 
   mv[0] = 2.0;
   mv[1] = 4.0;
   mv[2] = 5.0;
   sample->PushBack( mv );
-  
+
   mv[0] = 3.0;
   mv[1] = 8.0;
   mv[2] = 6.0;
@@ -148,12 +149,12 @@ int main()
   // The first method is to plug in an array of weight values. The
   // size of the weight value array should be equal to that of the
   // measurement vectors. In both algorithms, we use the
-  // \code{SetWeights(weights*)}.
+  // \code{SetWeights(weights)}.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::WeightedMeanCalculator< SampleType >
+  typedef itk::Statistics::WeightedMeanSampleFilter< SampleType >
     WeightedMeanAlgorithmType;
 
   WeightedMeanAlgorithmType::WeightArrayType weightArray( sample->Size() );
@@ -161,29 +162,28 @@ int main()
   weightArray[2] = 0.01;
   weightArray[4] = 0.01;
 
-  WeightedMeanAlgorithmType::Pointer weightedMeanAlgorithm = 
+  WeightedMeanAlgorithmType::Pointer weightedMeanAlgorithm =
                                               WeightedMeanAlgorithmType::New();
 
-  weightedMeanAlgorithm->SetInputSample( sample );
-  weightedMeanAlgorithm->SetWeights( &weightArray );
+  weightedMeanAlgorithm->SetInput( sample );
+  weightedMeanAlgorithm->SetWeights( weightArray );
   weightedMeanAlgorithm->Update();
 
   std::cout << "Sample weighted mean = " 
-            << *(weightedMeanAlgorithm->GetOutput()) << std::endl;
+            << weightedMeanAlgorithm->GetMean() << std::endl;
 
-  typedef itk::Statistics::WeightedCovarianceCalculator< SampleType >
+  typedef itk::Statistics::WeightedCovarianceSampleFilter< SampleType >
                                               WeightedCovarianceAlgorithmType;
-  
-  WeightedCovarianceAlgorithmType::Pointer weightedCovarianceAlgorithm = 
+
+  WeightedCovarianceAlgorithmType::Pointer weightedCovarianceAlgorithm =
                                         WeightedCovarianceAlgorithmType::New();
 
-  weightedCovarianceAlgorithm->SetInputSample( sample );
-  weightedCovarianceAlgorithm->SetMean( weightedMeanAlgorithm->GetOutput() );
-  weightedCovarianceAlgorithm->SetWeights( &weightArray );
+  weightedCovarianceAlgorithm->SetInput( sample );
+  weightedCovarianceAlgorithm->SetWeights( weightArray );
   weightedCovarianceAlgorithm->Update();
 
   std::cout << "Sample weighted covariance = " << std::endl ; 
-  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl;
+  std::cout << weightedCovarianceAlgorithm->GetCovarianceMatrix() << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -192,42 +192,28 @@ int main()
   // function that returns a weight value that is usually a function of each
   // measurement vector. Since the \code{weightedMeanAlgorithm} and
   // \code{weightedCovarianceAlgorithm} already have the input sample plugged
-  // in, we only need to call the \code{SetWeightFunction(weights*)}
-  // method. For the \code{weightedCovarianceAlgorithm}, we replace the mean
-  // vector input with the output from the \code{weightedMeanAlgorithm}. If
-  // we do not provide the mean vector using the \code{SetMean()} method or
-  // if we pass a null pointer as the mean vector as in this example, the
-  // \code{weightedCovarianceAlgorithm} will perform the one pass algorithm
-  // to generate the mean vector and the covariance matrix.
+  // in, we only need to call the \code{SetWeightingFunction(weights)}
+  // method.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ExampleWeightFunction::Pointer weightFunction = ExampleWeightFunction::New();
 
-  weightedMeanAlgorithm->SetWeightFunction( weightFunction );
+  weightedMeanAlgorithm->SetWeightingFunction( weightFunction );
   weightedMeanAlgorithm->Update();
 
   std::cout << "Sample weighted mean = " 
-            << *(weightedMeanAlgorithm->GetOutput()) << std::endl;
+            << weightedMeanAlgorithm->GetMean() << std::endl;
 
-  weightedCovarianceAlgorithm->SetMean( weightedMeanAlgorithm->GetOutput() );
-  weightedCovarianceAlgorithm->SetWeightFunction( weightFunction );
+  weightedCovarianceAlgorithm->SetWeightingFunction( weightFunction );
   weightedCovarianceAlgorithm->Update();
 
   std::cout << "Sample weighted covariance = " << std::endl ; 
-  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl;
+  std::cout << weightedCovarianceAlgorithm->GetCovarianceMatrix();
 
-  weightedCovarianceAlgorithm->SetMean( 0 );
-  weightedCovarianceAlgorithm->SetWeightFunction( weightFunction );
-  weightedCovarianceAlgorithm->Update();
-
-  std::cout << "Using the one pass algorithm:" << std::endl;
-  std::cout << "Sample weighted covariance = " << std::endl ; 
-  std::cout << *(weightedCovarianceAlgorithm->GetOutput()) << std::endl;
-
-  std::cout << "Sample weighted mean = " 
-            << *(weightedCovarianceAlgorithm->GetMean()) << std::endl;
+  std::cout << "Sample weighted mean (from WeightedCovarainceSampleFilter) = "
+            << std::endl << weightedCovarianceAlgorithm->GetMean() << std::endl;
   // Software Guide : EndCodeSnippet
 
   return 0;

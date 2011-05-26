@@ -2,7 +2,7 @@ Portions of the Insight code base are derived from the Visualization Toolkit
 (VTK), and hence are covered under the VTK copyright. The VTK copyright is as
 follows:
 
-Copyright (c) 1993-2002 Ken Martin, Will Schroeder, Bill Lorensen 
+Copyright (c) 1993-2002 Ken Martin, Will Schroeder, Bill Lorensen
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

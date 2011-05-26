@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ClusteringOutputEvaluator.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "ClusteringOutputEvaluator.h"
 
 ClusteringOutputEvaluator
@@ -23,27 +24,27 @@ ClusteringOutputEvaluator
   m_NumberOfClasses = 0 ;
 }
 
-ClusteringOutputEvaluator 
+ClusteringOutputEvaluator
 ::~ClusteringOutputEvaluator()
 {
 }
 
 void
-ClusteringOutputEvaluator 
+ClusteringOutputEvaluator
 ::SetTruth(EstimatedClassLabelsType* classLabels)
 {
   m_Truth = classLabels ;
 }
 
 void
-ClusteringOutputEvaluator 
+ClusteringOutputEvaluator
 ::SetClusteringResult(EstimatedClassLabelsType* classLabels)
 {
   m_Estimates = classLabels ;
 }
 
 void
-ClusteringOutputEvaluator 
+ClusteringOutputEvaluator
 ::SetUniqueClassLabels(const std::vector< unsigned int >& classLabels)
 {
   m_ClassLabels = classLabels ;
@@ -60,7 +61,7 @@ ClusteringOutputEvaluator
 }
 
 unsigned int
-ClusteringOutputEvaluator 
+ClusteringOutputEvaluator
 ::GetClassIndex(const unsigned int classLabel) const
 {
   for ( unsigned int i = 0 ; i < m_NumberOfClasses ; i++ )
@@ -70,7 +71,7 @@ ClusteringOutputEvaluator
           return i ;
         }
     }
- 
+
  return 0 ;
 }
 
@@ -82,12 +83,12 @@ ClusteringOutputEvaluator
 }
 
 void
-ClusteringOutputEvaluator 
+ClusteringOutputEvaluator
 ::GenerateData()
 {
   for ( int i = 0 ; i < m_NumberOfClasses ; i++ )
     {
-      std::fill(m_ClassificationMatrix[i].begin(), 
+      std::fill(m_ClassificationMatrix[i].begin(),
                 m_ClassificationMatrix[i].end(), 0) ;
     }
 
@@ -96,12 +97,12 @@ ClusteringOutputEvaluator
   unsigned int estimatedLabel ;
   while ( t_iter != m_Truth->end() )
     {
-//       std::cout << "DEBUG: id = " << (*t_iter).first 
+//       std::cout << "DEBUG: id = " << (*t_iter).first
 //                 << " true label = " << (*t_iter).second
-//                 << " estimated cluster = " << (*(m_Estimates->find((*t_iter).first))).second 
+//                 << " estimated cluster = " << (*(m_Estimates->find((*t_iter).first))).second
 //                 << std::endl ;
       trueLabel = this->GetClassIndex((*t_iter).second) ;
-      estimatedLabel = 
+      estimatedLabel =
         this->GetMappedClassIndex((*(m_Estimates->find((*t_iter).first))).second) ;
       m_ClassificationMatrix[estimatedLabel][trueLabel] += 1 ;
       ++t_iter ;

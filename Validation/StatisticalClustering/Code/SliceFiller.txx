@@ -1,26 +1,27 @@
 /*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SliceFiller.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 #ifndef __SliceFiller_txx
 #define __SliceFiller_txx
 
 #include "SliceFiller.h"
 
 #include "itkNumericTraits.h"
-#include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkImageSliceIteratorWithIndex.h"
 
 template< class TImage >
@@ -30,7 +31,7 @@ SliceFiller< TImage >
   m_StartingSliceNumber = -1 ;
   m_DesiredSize.Fill(0) ;
   m_SliceSize = 0 ;
-  m_BackgroundPixelValue = 
+  m_BackgroundPixelValue =
     itk::NumericTraits< ImagePixelType >::min() ;
 }
 
@@ -64,7 +65,7 @@ SliceFiller< TImage >
       for ( int i = 0 ; i < (TImage::ImageDimension - 1) ; i++ )
         {
           m_SliceSize *= m_DesiredSize[i] ;
-        } 
+        }
       this->Modified() ;
     }
 }
@@ -80,7 +81,7 @@ SliceFiller< TImage >
       this->Modified() ;
     }
 }
-  
+
 template< class TImage >
 void
 SliceFiller< TImage >
@@ -103,9 +104,9 @@ SliceFiller< TImage >
 
   int endingSliceNumber ;
   const TImage* inputPtr = this->GetInput() ;
-  itk::ImageSliceConstIteratorWithIndex< TImage > 
+  itk::ImageSliceConstIteratorWithIndex< TImage >
     i_iter(inputPtr, inputPtr->GetLargestPossibleRegion()) ;
-  
+
   i_iter.GoToBegin() ;
   i_iter.SetFirstDirection( 0 );  // 0=x, 1=y, 2=z
   i_iter.SetSecondDirection( 1 ); // 0=x, 1=y, 2=z
@@ -127,14 +128,14 @@ SliceFiller< TImage >
           ++i ;
         }
     }
-  endingSliceNumber = 
-    inputPtr->GetLargestPossibleRegion().GetSize()[TImage::ImageDimension - 1] + 
+  endingSliceNumber =
+    inputPtr->GetLargestPossibleRegion().GetSize()[TImage::ImageDimension - 1] +
     m_StartingSliceNumber - 1 ;
   int sliceNumber = 0 ;
 
   while ( !o_iter.IsAtEnd() )
     {
-      if ( sliceNumber < m_StartingSliceNumber || 
+      if ( sliceNumber < m_StartingSliceNumber ||
            sliceNumber > endingSliceNumber )
         {
           while ( !o_iter.IsAtEndOfSlice() )

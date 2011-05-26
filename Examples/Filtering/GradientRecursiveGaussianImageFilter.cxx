@@ -1,37 +1,33 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    GradientRecursiveGaussianImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 //  Software Guide : BeginLatex
 //
-//  This example illustrates the use of the \doxygen{GradientRecursiveGaussianImageFilter}. 
+//  This example illustrates the use of the \doxygen{GradientRecursiveGaussianImageFilter}.
 //
 //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -42,7 +38,7 @@
 //
 //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkGradientRecursiveGaussianImageFilter.h"
@@ -51,27 +47,27 @@
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 4 ) 
-    { 
+  if( argc < 4 )
+    {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile   outputVectorImageFile   sigma" << std::endl;
     return EXIT_FAILURE;
     }
 
-  
+
   //  Software Guide : BeginLatex
   //
   //  Types should be instantiated based on the pixels of the input and
   //  output images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int  Dimension = 3;
   typedef    float    InputPixelType;
   typedef    float    OutputComponentPixelType;
 
-  typedef itk::CovariantVector< 
+  typedef itk::CovariantVector<
     OutputComponentPixelType, Dimension > OutputPixelType;
   // Software Guide : EndCodeSnippet
 
@@ -80,7 +76,7 @@ int main( int argc, char * argv[] )
   //
   //  With them, the input and output image types can be instantiated.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
@@ -98,7 +94,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::GradientRecursiveGaussianImageFilter<
@@ -118,7 +114,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!New()}
   //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
@@ -130,7 +126,7 @@ int main( int argc, char * argv[] )
   //  The input image can be obtained from the output of another filter. Here,
   //  an image reader is used as source.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
@@ -144,7 +140,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //  \index{SetSigma()!itk::Gradient\-Recursive\-Gaussian\-Image\-Filter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
   const double sigma = atof( argv[3] );
 
 
@@ -159,7 +155,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!Update()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -174,7 +170,7 @@ int main( int argc, char * argv[] )
   //  example, we may connect this gradient magnitude filter to an image file
   //  writer and then update the writer.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -182,19 +178,19 @@ int main( int argc, char * argv[] )
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );
- 
+
 
   // Software Guide : BeginCodeSnippet
   writer->SetInput( filter->GetOutput() );
   writer->Update();
   // Software Guide : EndCodeSnippet
-  
+
 
   //  Software Guide : BeginLatex
-  // 
-  // 
   //
-  //  Software Guide : EndLatex 
+  //
+  //
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

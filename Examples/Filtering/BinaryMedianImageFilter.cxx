@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    BinaryMedianImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -38,7 +35,7 @@
 //  output pixel as the statistical median of the neighborhood of values around
 //  the corresponding input pixel. When the input images are binary, the
 //  implementation can be optimized by simply counting the number of pixels
-//  ON/OFF around the current pixel. 
+//  ON/OFF around the current pixel.
 //
 //  This filter will work on images of any dimension thanks to the internal use
 //  of \doxygen{NeighborhoodIterator} and \doxygen{NeighborhoodOperator}. The
@@ -47,7 +44,7 @@
 //
 //  \index{itk::BinaryMedianImageFilter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -61,7 +58,7 @@
 //
 //  \index{itk::BinaryMedianImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -83,7 +80,7 @@ int main( int argc, char * argv[] )
   //
   //  Then the pixel and image types of the input and output must be defined.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   unsigned char  InputPixelType;
@@ -111,8 +108,8 @@ int main( int argc, char * argv[] )
   //  \index{itk::BinaryMedianImageFilter!instantiation}
   //  \index{itk::BinaryMedianImageFilter!New()}
   //  \index{itk::BinaryMedianImageFilter!Pointer}
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::BinaryMedianImageFilter<
@@ -133,14 +130,14 @@ int main( int argc, char * argv[] )
   //  \index{itk::BinaryMedianImageFilter!Radius}
   //  \index{itk::BinaryMedianImageFilter!Neighborhood}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const unsigned int radiusX = atoi( argv[3] );
   const unsigned int radiusY = atoi( argv[4] );
 
   // Software Guide : BeginCodeSnippet
   InputImageType::SizeType indexRadius;
-  
+
   indexRadius[0] = radiusX; // radius along x
   indexRadius[1] = radiusY; // radius along y
 
@@ -157,7 +154,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::BinaryMedianImageFilter!SetInput()}
   //  \index{itk::BinaryMedianImageFilter!GetOutput()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -168,7 +165,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
@@ -185,8 +182,8 @@ int main( int argc, char * argv[] )
   //  classical neighborhood.  The filtered image demonstrates the capability
   //  of this filter for reducing noise both in the background and foreground of
   //  the image, as well as smoothing the contours of the regions.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

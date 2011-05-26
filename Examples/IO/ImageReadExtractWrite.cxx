@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageReadExtractWrite.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -35,7 +32,7 @@
 //
 //  In this example we start by including the appropriate header files.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
@@ -44,7 +41,7 @@
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  The filter used to extract a region from an image is the
 //  \doxygen{ExtractImageFilter}. Its header is included below.  This filter
 //  is capable of extracting $(N-1)$-dimensional images from $N$-dimensional
@@ -52,7 +49,7 @@
 //
 //  \index{itk::ExtractImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkExtractImageFilter.h"
@@ -79,7 +76,7 @@ int main( int argc, char ** argv )
   //  Image types are defined below. Note that the input image type is $3D$ and
   //  the output image type is $2D$.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef signed short        InputPixelType;
@@ -91,11 +88,11 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The types for the \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
   //  are instantiated using the image types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
@@ -119,7 +116,7 @@ int main( int argc, char ** argv )
   //  \index{itk::ImageFileReader!SmartPointer}
   //  \index{itk::ImageFileWriter!SmartPointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
@@ -130,14 +127,14 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  The name of the file to be read or written is passed with the
-  //  SetFileName() method. 
+  //  SetFileName() method.
   //
   //  \index{itk::ImageFileReader!SetFileName()}
   //  \index{itk::ImageFileWriter!SetFileName()}
   //  \index{SetFileName()!itk::ImageFileReader}
   //  \index{SetFileName()!itk::ImageFileWriter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   reader->SetFileName( inputFilename  );
@@ -146,21 +143,22 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The ExtractImageFilter type is instantiated using the input and
   //  output image types. A filter object is created with the New()
   //  method and assigned to a SmartPointer.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ExtractImageFilter< InputImageType, OutputImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
+  filter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The ExtractImageFilter requires a region to be defined by the
   //  user. The region is specified by an \doxygen{Index} indicating the
   //  pixel where the region starts and an \doxygen{Size} indication how many
@@ -171,10 +169,10 @@ int main( int argc, char ** argv )
   //  specified. Here we take the region from the largest possible region of
   //  the input image. Note that Update() is being called first on the
   //  reader, since otherwise the output would have invalid data.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
-  
+
   // Software Guide : BeginCodeSnippet
   reader->Update();
   InputImageType::RegionType inputRegion =
@@ -183,37 +181,37 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We take the size from the region and collapse the size in the $Z$
   //  component by setting its value to $0$. This will indicate to the
   //  ExtractImageFilter that the output image should have a
   //  dimension less than the input image.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   InputImageType::SizeType size = inputRegion.GetSize();
   size[2] = 0;
   // Software Guide : EndCodeSnippet
- 
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Note that in this case we are extracting a $Z$ slice, and for that
   //  reason, the dimension to be collapsed in the one with index $2$. You
   //  may keep in mind the association of index components
   //  $\{X=0,Y=1,Z=2\}$. If we were interested in extracting a slice
   //  perpendicular to the $Y$ axis we would have set \code{size[1]=0;}.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then, we take the index from the region and set its $Z$ value to the
   //  slice number we want to extract. In this example we obtain the slice
   //  number from the command line arguments.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   InputImageType::IndexType start = inputRegion.GetIndex();
@@ -223,11 +221,11 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally, an \doxygen{ImageRegion} object is created and initialized with
   //  the start and size we just prepared using the slice information.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   InputImageType::RegionType desiredRegion;
@@ -237,13 +235,13 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then the region is passed to the filter using the
   //  SetExtractionRegion() method.
   //
   //  \index{itk::ExtractImageFilter!SetExtractionRegion()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -256,7 +254,7 @@ int main( int argc, char ** argv )
   //  Below we connect the reader, filter and writer to form the data
   //  processing pipeline.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
@@ -265,24 +263,24 @@ int main( int argc, char ** argv )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally we execute the pipeline by invoking Update() on the writer. The
   //  call is placed in a \code{try/catch} block in case exceptions are
   //  thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try 
-    { 
-    writer->Update(); 
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
 
 

@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MedianImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -42,17 +39,17 @@
 //
 //  \begin{center}
 //  \begin{picture}(200,46)
-//  \put(   5.0,  0.0 ){\framebox(30.0,15.0){25}} 
-//  \put(  35.0,  0.0 ){\framebox(30.0,15.0){30}} 
-//  \put(  65.0,  0.0 ){\framebox(30.0,15.0){32}} 
-//  \put(   5.0, 15.0 ){\framebox(30.0,15.0){27}} 
-//  \put(  35.0, 15.0 ){\framebox(30.0,15.0){25}} 
-//  \put(  65.0, 15.0 ){\framebox(30.0,15.0){29}} 
-//  \put(   5.0, 30.0 ){\framebox(30.0,15.0){28}} 
-//  \put(  35.0, 30.0 ){\framebox(30.0,15.0){26}} 
-//  \put(  65.0, 30.0 ){\framebox(30.0,15.0){50}} 
+//  \put(   5.0,  0.0 ){\framebox(30.0,15.0){25}}
+//  \put(  35.0,  0.0 ){\framebox(30.0,15.0){30}}
+//  \put(  65.0,  0.0 ){\framebox(30.0,15.0){32}}
+//  \put(   5.0, 15.0 ){\framebox(30.0,15.0){27}}
+//  \put(  35.0, 15.0 ){\framebox(30.0,15.0){25}}
+//  \put(  65.0, 15.0 ){\framebox(30.0,15.0){29}}
+//  \put(   5.0, 30.0 ){\framebox(30.0,15.0){28}}
+//  \put(  35.0, 30.0 ){\framebox(30.0,15.0){26}}
+//  \put(  65.0, 30.0 ){\framebox(30.0,15.0){50}}
 //  \put( 100.0, 22.0 ){\vector(1,0){20.0}}
-//  \put( 125.0, 15.0 ){\framebox(30.0,15.0){28}} 
+//  \put( 125.0, 15.0 ){\framebox(30.0,15.0){28}}
 //  \end{picture}
 //  \end{center}
 //
@@ -64,10 +61,9 @@
 //
 //  \index{itk::MedianImageFilter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -78,7 +74,7 @@
 //
 //  \index{itk::MedianImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -100,7 +96,7 @@ int main( int argc, char * argv[] )
   //
   //  Then the pixel and image types of the input and output must be defined.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   unsigned char  InputPixelType;
@@ -128,8 +124,8 @@ int main( int argc, char * argv[] )
   //  \index{itk::MedianImageFilter!instantiation}
   //  \index{itk::MedianImageFilter!New()}
   //  \index{itk::MedianImageFilter!Pointer}
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::MedianImageFilter<
@@ -150,12 +146,12 @@ int main( int argc, char * argv[] )
   //  \index{itk::MedianImageFilter!Radius}
   //  \index{itk::MedianImageFilter!Neighborhood}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
   InputImageType::SizeType indexRadius;
-  
+
   indexRadius[0] = 1; // radius along x
   indexRadius[1] = 1; // radius along y
 
@@ -172,7 +168,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::MedianImageFilter!SetInput()}
   //  \index{itk::MedianImageFilter!GetOutput()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -183,7 +179,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
@@ -199,7 +195,7 @@ int main( int argc, char * argv[] )
   //  The filtered image demonstrates the moderate tendency of the median
   //  filter to preserve edges.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

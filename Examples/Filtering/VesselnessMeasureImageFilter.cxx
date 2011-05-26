@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    VesselnessMeasureImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 // The example takes an image (say MRA image), computes the vesselness measure
@@ -29,8 +26,6 @@
 
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
-#include "itkSymmetricSecondRankTensor.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -40,28 +35,28 @@ int main( int argc, char *argv[] )
     {
     std::cerr << "Usage: inputImage outputImage [sigma] [alpha_1] [alpha_2]" << std::endl;
     }
-  
+
   const     unsigned int        Dimension       = 3;
   typedef   double              InputPixelType;
   typedef   float               OutputPixelType;
-  
+
   typedef   itk::Image< InputPixelType, Dimension >   InputImageType;
   typedef   itk::Image< OutputPixelType, Dimension >  OutputImageType;
-  
-  typedef   itk::HessianRecursiveGaussianImageFilter< 
+
+  typedef   itk::HessianRecursiveGaussianImageFilter<
                             InputImageType >              HessianFilterType;
   typedef   itk::Hessian3DToVesselnessMeasureImageFilter<
               OutputPixelType > VesselnessMeasureFilterType;
   typedef   itk::ImageFileReader< InputImageType >  ReaderType;
   typedef   itk::ImageFileWriter< OutputImageType > WriterType;
-  
+
   HessianFilterType::Pointer hessianFilter = HessianFilterType::New();
-  VesselnessMeasureFilterType::Pointer vesselnessFilter = 
+  VesselnessMeasureFilterType::Pointer vesselnessFilter =
                             VesselnessMeasureFilterType::New();
 
   ReaderType::Pointer   reader = ReaderType::New();
   WriterType::Pointer   writer = WriterType::New();
-  
+
   reader->SetFileName( argv[1] );
   hessianFilter->SetInput( reader->GetOutput() );
   if( argc >= 4 )
@@ -84,4 +79,4 @@ int main( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-    
+

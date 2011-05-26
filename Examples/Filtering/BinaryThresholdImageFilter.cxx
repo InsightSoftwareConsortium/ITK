@@ -1,27 +1,23 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    BinaryThresholdImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 
 // Software Guide : BeginCommandLineArgs
 // INPUTS:  {BrainProtonDensitySlice.png}
@@ -52,9 +48,9 @@
 // \index{itk::Binary\-Threshold\-Image\-Filter!Header}
 //
 // The first step required to use the \doxygen{BinaryThresholdImageFilter} is
-// to include its header file. 
+// to include its header file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkBinaryThresholdImageFilter.h"
@@ -69,18 +65,18 @@ int main( int argc, char * argv[] )
   if( argc < 7 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImageFile outputImageFile ";  
-    std::cerr << " lowerThreshold upperThreshold ";  
-    std::cerr << " outsideValue insideValue   "  << std::endl;  
+    std::cerr << " inputImageFile outputImageFile ";
+    std::cerr << " lowerThreshold upperThreshold ";
+    std::cerr << " outsideValue insideValue   "  << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   //  Software Guide : BeginLatex
   //
   //  The next step is to decide which pixel types to use for the input and output
   //  images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef  unsigned char  InputPixelType;
@@ -93,7 +89,7 @@ int main( int argc, char * argv[] )
   //  The input and output image types are now defined using their respective
   //  pixel types and dimensions.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
@@ -106,7 +102,7 @@ int main( int argc, char * argv[] )
   //  The filter type can be instantiated using the input and output image
   //  types defined above.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::BinaryThresholdImageFilter<
@@ -117,11 +113,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  An \doxygen{ImageFileReader} class is also instantiated in order to read
-  //  image data from a file. (See Section \ref{sec:IO} on page 
+  //  image data from a file. (See Section \ref{sec:IO} on page
   //  \pageref{sec:IO} for more information about reading
-  //  and writing data.) 
+  //  and writing data.)
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
@@ -129,11 +125,11 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // An \doxygen{ImageFileWriter} is instantiated in order to write the output
   // image to a file.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -146,7 +142,7 @@ int main( int argc, char * argv[] )
   //  Both the filter and the reader are created by invoking their \code{New()}
   //  methods and assigning the result to \doxygen{SmartPointer}s.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
@@ -159,14 +155,14 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The image obtained with the reader is passed as input to the
   //  BinaryThresholdImageFilter.
   //
   //  \index{itk::Binary\-Threshold\-Image\-Filter!SetInput()}
   //  \index{itk::FileImageReader!GetOutput()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
@@ -174,19 +170,19 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The method \code{SetOutsideValue()} defines the intensity value to be
   //  assigned to those pixels whose intensities are outside the range defined
   //  by the lower and upper thresholds. The method \code{SetInsideValue()}
   //  defines the intensity value to be assigned to pixels with intensities
   //  falling inside the threshold range.
-  //  
+  //
   //  \index{itk::Binary\-Threshold\-Image\-Filter!SetOutsideValue()}
   //  \index{itk::Binary\-Threshold\-Image\-Filter!SetInsideValue()}
   //  \index{SetOutsideValue()!itk::Binary\-Threshold\-Image\-Filter}
   //  \index{SetInsideValue()!itk::Binary\-Threshold\-Image\-Filter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const OutputPixelType outsideValue = atoi( argv[5] );
   const OutputPixelType insideValue  = atoi( argv[6] );
@@ -198,14 +194,14 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The methods \code{SetLowerThreshold()} and \code{SetUpperThreshold()}
   //  define the range of the input image intensities that will be transformed
   //  into the \code{InsideValue}. Note that the lower and upper thresholds are
   //  values of the type of the input image pixels, while the inside and
   //  outside values are of the type of the output image pixels.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const InputPixelType lowerThreshold = atoi( argv[3] );
   const InputPixelType upperThreshold = atoi( argv[4] );
@@ -217,20 +213,20 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The execution of the filter is triggered by invoking the \code{Update()}
   //  method.   If the filter's output has been passed as input to subsequent
   //  filters, the \code{Update()} call on any posterior filters in the
   //  pipeline will indirectly trigger the update of this filter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->Update();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
@@ -252,7 +248,7 @@ int main( int argc, char * argv[] )
   //  \item \doxygen{ThresholdImageFilter}
   //  \end{itemize}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   writer->SetFileName( argv[2] );
   writer->Update();

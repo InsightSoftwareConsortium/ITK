@@ -1,19 +1,20 @@
 /*=========================================================================
-
-Program:   Insight Segmentation & Registration Toolkit
-Module:    BrainWebClassStatisticsApp.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
-
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "OptionList.h"
 #include "ValidationSampleGenerator.h"
 
@@ -27,15 +28,15 @@ void print_usage()
   std::cout << "" << std::endl ;
 
   std::cout << "--images file" << std::endl ;
-  std::cout << "        image file name with intesnity values [meta image format]"  
+  std::cout << "        image file name with intesnity values [meta image format]"
             << std::endl ;
 
   std::cout << "--mask file" << std::endl ;
-  std::cout << "        class label image file name that will have the class labels for pixels" 
+  std::cout << "        class label image file name that will have the class labels for pixels"
             << std::endl ;
   std::cout << "        in the target image file [meta image format]"  << std::endl ;
 
-  std::cout << "example: BrainWebClassStatisticsGeneratorApp --image brainweb.T1.1mm.0.0.mhd" 
+  std::cout << "example: BrainWebClassStatisticsGeneratorApp --image brainweb.T1.1mm.0.0.mhd"
             << std::endl ;
   std::cout << "         --mask phantom_discrete.mhd" << std::endl ;
 }
@@ -59,12 +60,12 @@ int main(int argc, char* argv[])
     }
   catch(OptionList::RequiredOptionMissing e)
     {
-      std::cout << "Error: The '" << e.OptionTag 
-                << "' option is required but missing." 
+      std::cout << "Error: The '" << e.OptionTag
+                << "' option is required but missing."
                 << std::endl ;
       return 1 ;
     }
- 
+
   std::vector< unsigned int > selectedClasses ;
   selectedClasses.push_back(1) ; // csf
   selectedClasses.push_back(2) ; // gray
@@ -73,7 +74,7 @@ int main(int argc, char* argv[])
   typedef itk::Image< short, 3 > ImageType ;
   typedef itk::FixedArray< short, 2 > VectorPixelType ;
   typedef itk::Image< VectorPixelType, 3 > VectorImageType ;
-  typedef ValidationSampleGenerator< ImageType, 
+  typedef ValidationSampleGenerator< ImageType,
     ImageType, VectorImageType > SampleGeneratorType ;
   SampleGeneratorType sampleGenerator ;
 
@@ -91,7 +92,7 @@ int main(int argc, char* argv[])
     {
       caseNoBegin = 0 ;
     }
-  
+
   std::string::size_type caseNoLength = imageFileNames[0].rfind(".mhd") - caseNoBegin ;
   std::string caseNo = imageFileNames[0].substr(caseNoBegin, caseNoLength) ;
   std::cout << "\"class\" \"size\"" ;
@@ -99,14 +100,14 @@ int main(int argc, char* argv[])
     {
       std::cout << " \"mean." << i + 1 <<"\"" ;
     }
-  
+
   for ( unsigned int i = 0 ; i < imageFileNames.size() * imageFileNames.size() ; i++ )
     {
       std::cout << " \"sigma." << i + 1 <<"\"" ;
     }
   std::cout << std::endl ;
   for ( int i = 0 ; i < selectedClasses.size() ; i++ )
-    { 
+    {
       //      std::cout << caseNo ;
       std::cout << " " << selectedClasses[i] ;
       std::cout << " " << sampleGenerator.GetClassSize(selectedClasses[i]) ;
@@ -114,12 +115,12 @@ int main(int argc, char* argv[])
         {
           std::cout << " " << sampleGenerator.GetClassMean(selectedClasses[i])[j] ;
         }
-      
+
       for ( unsigned int j = 0 ; j < imageFileNames.size() ; j++ )
         {
           for (unsigned int k = 0 ; k < imageFileNames.size() ; k++ )
             {
-              std::cout << " " 
+              std::cout << " "
                         << sampleGenerator.GetClassCovariance(selectedClasses[i]).GetVnlMatrix()[j][k] ;
             }
         }

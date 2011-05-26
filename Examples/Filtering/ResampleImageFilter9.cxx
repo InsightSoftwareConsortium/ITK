@@ -1,40 +1,37 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ResampleImageFilter9.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 //  Software Guide : BeginLatex
 //
-//  Resampling can also be performed in multi-component images. 
-//  This example compares nearest neighbor resampling using the Nearest 
+//  Resampling can also be performed in multi-component images.
+//  This example compares nearest neighbor resampling using the Nearest
 //  neighbor and the linear interpolators for vector images.
-//  
-//  Try 
-//    ResampleImageFilter9 Examples/Data/VisibleWomanEyeSlice.png 
+//
+//  Try
+//    ResampleImageFilter9 Examples/Data/VisibleWomanEyeSlice.png
 //        SliceNearestNeighbor.png SliceLinear.png
 //
 //  \index{itk::VectorResampleImageFilter!Image internal transform}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -52,8 +49,8 @@ int main( int argc, char * argv[] )
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << 
-      "  inputImageFile  outputImageFile_NearestNeighbor" << 
+    std::cerr << argv[0] <<
+      "  inputImageFile  outputImageFile_NearestNeighbor" <<
       "  outputImageFile_Linear " << std::endl;
     return EXIT_FAILURE;
     }
@@ -83,11 +80,11 @@ int main( int argc, char * argv[] )
   FilterType::Pointer linearFilter = FilterType::New();
 
   //Interpolators
-  typedef itk::VectorNearestNeighborInterpolateImageFunction< 
+  typedef itk::VectorNearestNeighborInterpolateImageFunction<
                        ImageType, double >  NearestInterpolatorType;
   NearestInterpolatorType::Pointer interpolatorNearest = NearestInterpolatorType::New();
-  
-  typedef itk::VectorLinearInterpolateImageFunction< 
+
+  typedef itk::VectorLinearInterpolateImageFunction<
                        ImageType, double >  LinearInterpolatorType;
   LinearInterpolatorType::Pointer interpolatorLinear = LinearInterpolatorType::New();
 
@@ -149,7 +146,7 @@ int main( int argc, char * argv[] )
   writerLinear->SetInput( linearFilter->GetOutput() );
 
 
-  
+
   try
     {
     writerNearest->Update();

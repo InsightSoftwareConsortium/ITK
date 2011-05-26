@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MeshCellVisitor.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 //  based on the \emph{Visitor Pattern} presented  in \cite{Gamma1995}. The
 //  visitor pattern is designed to facilitate the process of walking through an
 //  heterogeneous list of objects sharing a common base class.
-// 
+//
 //  The first requirement for using the \code{CellVisitor} mechanism it to
 //  include the \code{CellInterfaceVisitor} header file.
 //
@@ -34,13 +35,11 @@
 //  \index{CellVisitor}
 //  \index{CellInterfaceVisitor}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkMesh.h"
-#include "itkVertexCell.h"
 #include "itkLineCell.h"
-#include "itkTriangleCell.h"
 #include "itkTetrahedronCell.h"
 
 
@@ -51,9 +50,9 @@
 
   //  Software Guide : BeginLatex
   //
-  //  The typical mesh types are now declared 
+  //  The typical mesh types are now declared
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float                             PixelType;
@@ -85,7 +84,7 @@
   //  \index{CellInterfaceVisitor!requirements}
   //  \index{CellInterfaceVisitor!Visit()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
 #ifndef __CustomTriangleVisitor
@@ -116,10 +115,10 @@ int main(int, char *[])
   MeshType::PointType   point2;
   MeshType::PointType   point3;
 
-  point0[0] = -1; point0[1] = -1; point0[2] = -1; 
-  point1[0] =  1; point1[1] =  1; point1[2] = -1; 
-  point2[0] =  1; point2[1] = -1; point2[2] =  1; 
-  point3[0] = -1; point3[1] =  1; point3[2] =  1; 
+  point0[0] = -1; point0[1] = -1; point0[2] = -1;
+  point1[0] =  1; point1[1] =  1; point1[2] = -1;
+  point2[0] =  1; point2[1] = -1; point2[2] =  1;
+  point3[0] = -1; point3[1] =  1; point3[2] =  1;
 
   mesh->SetPoint( 0, point0 );
   mesh->SetPoint( 1, point1 );
@@ -236,12 +235,12 @@ int main(int, char *[])
   //  which will be invoked each time a triangle cell is found while the mesh
   //  iterates over the cells.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CellInterfaceVisitorImplementation<
-                              PixelType, 
-                              MeshType::CellTraits, 
+                              PixelType,
+                              MeshType::CellTraits,
                               TriangleType,
                               CustomTriangleVisitor
                                        > TriangleVisitorInterfaceType;
@@ -252,13 +251,13 @@ int main(int, char *[])
   //
   //  Note that the actual \code{CellInterfaceVisitorImplementation} is
   //  templated over the PixelType, the CellTraits, the CellType to be visited
-  //  and the Visitor class that defines with will be done with the cell. 
+  //  and the Visitor class that defines with will be done with the cell.
   //
   //  A visitor implementation class can now be created using the normal
   //  invocation to its \code{New()} method and assigning the result to a
   //  \doxygen{SmartPointer}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -275,11 +274,11 @@ int main(int, char *[])
   //  action to every registered visitor when the appropriate cell type is
   //  encountered.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef CellType::MultiVisitor CellMultiVisitorType;
-  CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New();  
+  CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -287,10 +286,10 @@ int main(int, char *[])
   //
   //  The visitor is registered with the Mesh using the \code{AddVisitor()}
   //  method.
-  //  
+  //
   //  \index{itk::Mesh!AddVisitor()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   multiVisitor->AddVisitor( triangleVisitor );
@@ -301,17 +300,17 @@ int main(int, char *[])
   //
   //  Finally, the iteration over the cells is triggered by calling the method
   //  \code{Accept()} on the \code{itk::Mesh}.
-  // 
+  //
   //  \index{itk::Mesh!Accept()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
   mesh->Accept( multiVisitor );
   // Software Guide : EndCodeSnippet
 
-  
+
   //  Software Guide : BeginLatex
   //
   //  The \code{Accept()} method will iterate over all the cells and for each
@@ -323,7 +322,7 @@ int main(int, char *[])
   //  create new methods on the cell types or creating a complex visitor class
   //  that knows about every CellType.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return 0;

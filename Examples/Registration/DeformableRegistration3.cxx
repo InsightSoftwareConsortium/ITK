@@ -1,25 +1,26 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableRegistration3.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 
 // Software Guide : BeginLatex
@@ -44,7 +45,6 @@
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkWarpImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -54,7 +54,7 @@
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
 //
-  class CommandIterationUpdate : public itk::Command 
+  class CommandIterationUpdate : public itk::Command
   {
   public:
     typedef  CommandIterationUpdate   Self;
@@ -82,7 +82,7 @@
 
     void Execute(const itk::Object * object, const itk::EventObject & event)
       {
-         const RegistrationFilterType * filter = 
+         const RegistrationFilterType * filter =
           dynamic_cast< const RegistrationFilterType * >( object );
         if( !(itk::IterationEvent().CheckEvent( &event )) )
           {
@@ -144,16 +144,16 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef float InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-  typedef itk::CastImageFilter< FixedImageType, 
+  typedef itk::CastImageFilter< FixedImageType,
                                 InternalImageType > FixedImageCasterType;
-  typedef itk::CastImageFilter< MovingImageType, 
+  typedef itk::CastImageFilter< MovingImageType,
                                 InternalImageType > MovingImageCasterType;
 
   FixedImageCasterType::Pointer fixedImageCaster   = FixedImageCasterType::New();
   MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput( fixedImageReader->GetOutput() );
-  movingImageCaster->SetInput( movingImageReader->GetOutput() ); 
+  movingImageCaster->SetInput( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -162,7 +162,7 @@ int main( int argc, char *argv[] )
   // same homologous point on an object have the same intensity on both the
   // fixed and moving images to be registered. In this example, we will
   // preprocess the moving image to match the intensity between the images
-  // using the \doxygen{HistogramMatchingImageFilter}. 
+  // using the \doxygen{HistogramMatchingImageFilter}.
   //
   // \index{itk::Histogram\-Matching\-Image\-Filter}
   //
@@ -182,7 +182,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginLatex
-  // 
+  //
   // For this example, we set the moving image as the source or input image and
   // the fixed image as the reference image.
   //
@@ -190,9 +190,9 @@ int main( int argc, char *argv[] )
   // \index{itk::Histogram\-Matching\-Image\-Filter!SetSourceImage()}
   // \index{itk::Histogram\-Matching\-Image\-Filter!SetReferenceImage()}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : BeginCodeSnippet
   matcher->SetInput( movingImageCaster->GetOutput() );
   matcher->SetReferenceImage( fixedImageCaster->GetOutput() );
   // Software Guide : EndCodeSnippet
@@ -293,7 +293,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginLatex
-  // 
+  //
   // The registration algorithm is triggered by updating the filter. The
   // filter output is the computed deformation field.
   //
@@ -322,7 +322,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::WarpImageFilter<
-                          MovingImageType, 
+                          MovingImageType,
                           MovingImageType,
                           DeformationFieldType  >     WarperType;
   typedef itk::LinearInterpolateImageFunction<
@@ -359,7 +359,7 @@ int main( int argc, char *argv[] )
   // Write warped image out to file
   typedef  unsigned char  OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         MovingImageType,
                         OutputImageType > CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -368,7 +368,7 @@ int main( int argc, char *argv[] )
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
   writer->SetFileName( argv[3] );
-  
+
   caster->SetInput( warper->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
@@ -391,7 +391,7 @@ int main( int argc, char *argv[] )
   // before and after demons-based deformable registration.}
   // \label{fig:DeformableRegistration3Output}
   // \end{figure}
-  // 
+  //
   // The result of the demons-based deformable registration is presented in
   // Figure \ref{fig:DeformableRegistration3Output}. The checkerboard
   // comparison shows that the algorithm was able to recover the misalignment

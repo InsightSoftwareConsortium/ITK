@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableModel1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
- =========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 // Software Guide : BeginLatex
@@ -75,7 +72,7 @@
 // \index{Deformable Models}
 // \index{DeformableMesh3DFilter}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 #include <iostream>
@@ -91,7 +88,7 @@
 //
 //  \index{itk::BinaryMask3DMeshSource!Header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkBinaryMask3DMeshSource.h"
@@ -99,82 +96,79 @@
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  Then we include the header of the DeformableMesh3DFilter that
 //  implements the deformable model algorithm.
 //
 //  \index{itk::DeformableMesh3DFilter!Header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
 #include "itkDeformableMesh3DFilter.h"
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  We also need the headers of the gradient filters that will be used for
 //  computing the vector field. In our case they are the
 //  GradientMagnitudeRecursiveGaussianImageFilter and
 //  GradientRecursiveGaussianImageFilter.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  The main data structures required in this example are the Image
 //  and the Mesh classes. The deformable model \emph{per se} is
 //  represented as a Mesh.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-#include "itkImage.h"
-#include "itkMesh.h"
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  The \code{PixelType} of the image derivatives is represented with a
 //  \doxygen{CovariantVector}. We include its header in the following line.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-#include "itkCovariantVector.h"
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
-//  
+//
 //  The deformed mesh is converted into a binary image using the
 //  \doxygen{PointSetToImageFilter}.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
 #include "itkPointSetToImageFilter.h"
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
-//  
+//
 //  In order to read both the input image and the mask image, we need the
 //  \doxygen{ImageFileReader} class. We also need the \doxygen{ImageFileWriter}
 //  to save the resulting deformed mask image.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-//  Software Guide : EndCodeSnippet 
+//  Software Guide : EndCodeSnippet
 
 int main( int argc, char *argv[] )
 {
@@ -186,7 +180,7 @@ int main( int argc, char *argv[] )
     std::cerr << " InputImage  BinaryImage DeformedMaskImage" << std::endl;
     return 1;
     }
- 
+
 
   //  Software Guide : BeginLatex
   //
@@ -195,7 +189,7 @@ int main( int argc, char *argv[] )
   //  DeformableMesh3DFilter is specialized for $3D$, so the choice
   //  is clear in our case.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const     unsigned int    Dimension = 3;
@@ -205,13 +199,13 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The input to BinaryMask3DMeshSource is a binary mask that we
   //  will read from a file. This mask could be the result of a rough
   //  segmentation algorithm applied previously to the same anatomical
   //  structure. We declare below the type of the binary mask image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char, Dimension >   BinaryImageType;
@@ -219,13 +213,13 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then we define the type of the deformable mesh. We represent the
   //  deformable model using the Mesh class. The \code{double} type used as
   //  template parameter here is to be used to assign values to every point
   //  of the Mesh.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef  itk::Mesh<double>     MeshType;
@@ -233,10 +227,10 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The following lines declare the type of the gradient image:
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CovariantVector< double, Dimension >  GradientPixelType;
@@ -245,33 +239,33 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  With it we can declare the type of the gradient filter and the gradient
   //  magnitude filter:
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
   typedef itk::GradientRecursiveGaussianImageFilter<ImageType, GradientImageType>
     GradientFilterType;
   typedef itk::GradientMagnitudeRecursiveGaussianImageFilter<ImageType,ImageType>
     GradientMagnitudeFilterType;
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The filter implementing the isocontouring algorithm is the
   //  BinaryMask3DMeshSource filter.
-  // 
-  //  \index{itk::BinaryMask3DMeshSource!Instantiation} 
   //
-  //  Software Guide : EndLatex 
+  //  \index{itk::BinaryMask3DMeshSource!Instantiation}
+  //
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
   typedef itk::BinaryMask3DMeshSource< BinaryImageType, MeshType >  MeshSourceType;
-  //  Software Guide : EndCodeSnippet 
-  // typedef itk::BinaryMaskToNarrowBandPointSetFilter< 
+  //  Software Guide : EndCodeSnippet
+  // typedef itk::BinaryMaskToNarrowBandPointSetFilter<
   //                        BinaryImageType, MeshType >  MeshSourceType;
 
 
@@ -283,7 +277,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{DeformableMesh3DFilter!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::DeformableMesh3DFilter<MeshType,MeshType>  DeformableFilterType;
@@ -297,7 +291,7 @@ int main( int argc, char *argv[] )
   //  approximation of the segmentation that will be used to initialize a
   //  mesh for the deformable model.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType       >  ReaderType;
@@ -308,16 +302,16 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In this example we take the filenames of the input image and the binary
   //  mask from the command line arguments.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
   imageReader->SetFileName( argv[1] );
   maskReader->SetFileName(  argv[2] );
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
@@ -327,7 +321,7 @@ int main( int argc, char *argv[] )
   //  usual, we invoke its \code{New()} method and assign the result to a
   //  \doxygen{SmartPointer}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   GradientMagnitudeFilterType::Pointer  gradientMagnitudeFilter
@@ -344,25 +338,25 @@ int main( int argc, char *argv[] )
   //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetInput()}
   //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  gradientMagnitudeFilter->SetInput( imageReader->GetOutput() ); 
+  gradientMagnitudeFilter->SetInput( imageReader->GetOutput() );
   gradientMagnitudeFilter->SetSigma( 1.0 );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In the following line, we construct the gradient filter that will take
   //  the gradient magnitude of the input image that will be passed to the
   //  deformable model algorithm.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
   GradientFilterType::Pointer gradientMapFilter = GradientFilterType::New();
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
@@ -375,7 +369,7 @@ int main( int argc, char *argv[] )
   //  anatomical structure on the image. Once again we must select the value
   //  of sigma to be used in the blurring process.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   gradientMapFilter->SetInput( gradientMagnitudeFilter->GetOutput());
@@ -384,13 +378,13 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  At this point, we are ready to compute the vector field. This is done
   //  simply by invoking the \code{Update()} method on the second derivative
   //  filter. This was illustrated in
   //  Figure~\ref{fig:DeformableModelCollaborationDiagram}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   try
     {
@@ -404,21 +398,21 @@ int main( int argc, char *argv[] )
     std::cerr << e << std::endl;
     return -1;
     }
- 
+
 
 
   std::cout << "The gradient map created!" << std::endl;
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Now we can construct the mesh source filter that implements the
   //  isocontouring algorithm.
   //
   //  \index{BinaryMask3DMeshSource!New()}
   //  \index{BinaryMask3DMeshSource!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
@@ -426,22 +420,22 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then we create the filter implementing the deformable model and set its
   //  input to the output of the binary mask mesh source. We also set the
   //  vector field using the \code{SetGradient()} method.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  DeformableFilterType::Pointer deformableModelFilter = 
+  DeformableFilterType::Pointer deformableModelFilter =
                                      DeformableFilterType::New();
   deformableModelFilter->SetGradient( gradientMapFilter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Here we connect the output of the binary mask reader to the input of
   //  the BinaryMask3DMeshSource that will apply the isocontouring algorithm
   //  and generate the initial mesh to be deformed. We must also select the
@@ -452,7 +446,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::BinaryMask3DMeshSource!SetInput()}
   //  \index{itk::BinaryMask3DMeshSource!SetObjectValue()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   BinaryImageType::Pointer mask = maskReader->GetOutput();
@@ -460,7 +454,7 @@ int main( int argc, char *argv[] )
   meshSource->SetObjectValue( 200 );
 
   std::cout << "Creating mesh..." << std::endl;
-  try 
+  try
     {
     meshSource->Update();
     }
@@ -478,7 +472,7 @@ int main( int argc, char *argv[] )
   std::cout << "Deformable mesh created using Marching Cube!" << std::endl;
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Next, we set the parameters of the deformable model computation.
   //  \code{Stiffness} defines the model stiffness in the vertical and
   //  horizontal directions on the deformable surface. \code{Scale} helps to
@@ -487,7 +481,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::DeformableMesh3DFilter!SetStiffness()}
   //  \index{itk::DeformableMesh3DFilter!SetScale()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CovariantVector<double, 2>           double2DVector;
@@ -499,7 +493,7 @@ int main( int argc, char *argv[] )
 
   double3DVector scale;
   scale[0] = 1.0;
-  scale[1] = 1.0; 
+  scale[1] = 1.0;
   scale[2] = 1.0;
 
   deformableModelFilter->SetStiffness( stiffness );
@@ -508,7 +502,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // Other parameters to be set are the gradient magnitude, the time step and
   // the step threshold.  The gradient magnitude controls the magnitude of the
   // external force.  The time step controls the length of each step during
@@ -519,31 +513,31 @@ int main( int argc, char *argv[] )
   //  \index{itk::DeformableMesh3DFilter!SetTimeStep()}
   //  \index{itk::DeformableMesh3DFilter!SetStepThreshold()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
   deformableModelFilter->SetGradientMagnitude( 0.8 );
   deformableModelFilter->SetTimeStep( 0.01 );
   deformableModelFilter->SetStepThreshold( 60 );
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
 
   std::cout << "Deformable mesh fitting...";
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally, we trigger the execution of the deformable model computation
   //  using the \code{Update()} method of the DeformableMesh3DFilter.  As
   //  usual, the call to \code{Update()} should be placed in a
   //  \code{try/catch} block in case any exceptions are thrown.
-  //  
+  //
   //  \index{DeformableMesh3DFilter!Update()}
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try 
+  try
     {
     deformableModelFilter->Update();
     }
@@ -557,7 +551,7 @@ int main( int argc, char *argv[] )
   std::cout << "Mesh Source: " << meshSource;
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The \doxygen{PointSetToImageFilter} takes the deformed
   //  mesh and produce a binary image corresponding to the node
   //  of the mesh. Note that only the nodes are producing the image
@@ -565,9 +559,9 @@ int main( int argc, char *argv[] )
   //  a complete binary image from cells using the \doxygen{MeshSpatialObject}
   //  combined with the \doxygen{SpatialObjectToImageFilter}.
   //  However, using SpatialObjects is computationally more expensive.
-  //  
-  //  Software Guide : EndLatex 
- 
+  //
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef itk::PointSetToImageFilter<MeshType,ImageType> MeshFilterType;
   MeshFilterType::Pointer meshFilter = MeshFilterType::New();
@@ -575,7 +569,7 @@ int main( int argc, char *argv[] )
   meshFilter->SetSize(mask->GetLargestPossibleRegion().GetSize());
   meshFilter->SetSpacing(mask->GetSpacing());
   meshFilter->SetInput(meshSource->GetOutput());
-  try 
+  try
     {
     meshFilter->Update();
     }
@@ -587,11 +581,11 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The resulting deformed binary mask can be written on disk
   //  using the \doxygen{ImageFileWriter}.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter<ImageType> WriterType;
@@ -607,8 +601,8 @@ int main( int argc, char *argv[] )
   //  parameters must be adjusted to reflect the characteristics of the
   //  data. The output of the filter is an Mesh.  Users can use
   //  their own visualization packages to see the segmentation results.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

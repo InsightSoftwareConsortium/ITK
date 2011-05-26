@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ResampleImageFilter2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -33,7 +30,7 @@
 //  For example, the pixel of index $I=(20,50)$ in an image of origin
 //  $O=(19.0, 29.0)$ and pixel spacing $S=(1.3,1.5)$ corresponds to the
 //  spatial position
-// 
+//
 //  \begin{equation}
 //  P[i] = I[i] \times S[i] + O[i]
 //  \end{equation}
@@ -52,7 +49,7 @@
 //
 //  \index{itk::ResampleImageFilter!Image internal transform}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -68,13 +65,13 @@ int main( int argc, char * argv[] )
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile"; 
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile";
     std::cerr << "  [exampleAction={0,1,2,3,4}]" << std::endl;
     return EXIT_FAILURE;
     }
 
   int exampleAction = 0;
- 
+
   if( argc >= 4 )
     {
     exampleAction = atoi( argv[3] );
@@ -105,7 +102,7 @@ int main( int argc, char * argv[] )
   typedef itk::AffineTransform< double, Dimension >  TransformType;
   TransformType::Pointer transform = TransformType::New();
 
-  typedef itk::NearestNeighborInterpolateImageFunction< 
+  typedef itk::NearestNeighborInterpolateImageFunction<
                        InputImageType, double >  InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   filter->SetInterpolator( interpolator );
@@ -118,7 +115,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetDefaultPixelValue()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetDefaultPixelValue( 50 );
@@ -127,11 +124,11 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Let's set up a uniform spacing for the output image. 
+  //  Let's set up a uniform spacing for the output image.
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   double spacing[ Dimension ];
@@ -148,7 +145,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetOutputDirection( reader->GetOutput()->GetDirection() );
@@ -163,7 +160,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   double origin[ Dimension ];
@@ -192,14 +189,14 @@ int main( int argc, char * argv[] )
   //  \index{itk::AffineTransform!SetIdentity()}
   //  \index{itk::ResampleImageFilter!SetTransform()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   transform->SetIdentity();
   filter->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
-  
+
   if( exampleAction == 0 )
     {
     writer->Update();
@@ -224,7 +221,7 @@ int main( int argc, char * argv[] )
   //  case happens to have spacing $(1.0,1.0)$ and origin $(0.0,0.0)$, the
   //  physical point $Q=(30,40)$ maps to the pixel with index $I=(30,40)$.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -235,7 +232,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   size[0] = 150;  // number of pixels along X
@@ -245,10 +242,10 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   origin[0] = 60.0;  // X space coordinate of origin
@@ -280,9 +277,9 @@ int main( int argc, char * argv[] )
   //  have spacing $(1.0,1.0)$ and origin $(0.0,0.0)$, the physical point
   //  $Q=(60,30)$ maps to the pixel with index $I=(60,30)$.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
- 
+
   //  Software Guide : BeginLatex
   //
   //  Let's now analyze the effect of a non-zero origin in the input image.
@@ -306,7 +303,7 @@ int main( int argc, char * argv[] )
   //  point $Q=(116,150)$ on the input image space. The coordinates of $Q$ are
   //  associated with the pixel of index $I=(66,80)$ on the input image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   if( exampleAction == 2 )
@@ -323,7 +320,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   origin[0] = 0.0;  // X space coordinate of origin
@@ -338,7 +335,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   spacing[0] = 2.0; // pixel spacing in millimeters along X
@@ -354,7 +351,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -369,7 +366,7 @@ int main( int argc, char * argv[] )
   //  With these new parameters the physical extent of the output image is
   //  $160$ millimeters by $150$ millimeters.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -385,7 +382,7 @@ int main( int argc, char * argv[] )
   //  correct display is presented at the right in the same figure\footnote{A
   //  viewer is provided with ITK under the name of MetaImageViewer. This
   //  viewer takes into account pixel spacing.}.
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
@@ -415,7 +412,7 @@ int main( int argc, char * argv[] )
   // $I=(66,81)$ on the input image, because this image has zero origin and
   // unit spacing.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   if( exampleAction == 3 )
     {
@@ -424,7 +421,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.42\textwidth]{BrainProtonDensitySlice2x3.eps}
@@ -439,7 +436,7 @@ int main( int argc, char * argv[] )
   //  non-unit pixel spacing on the input image. An input image similar to
   //  the those used in Figures
   //  \ref{fig:ResampleImageFilterTransformComposition1} to
-  //  \ref{fig:ResampleImageFilterTransformComposition4} has been 
+  //  \ref{fig:ResampleImageFilterTransformComposition4} has been
   //  resampled to have pixel spacing of $2\mbox{mm} \times 3\mbox{mm}$. The
   //  input image is presented in Figure \ref{fig:ResampleImageFilterInput2}
   //  as viewed with a naive image viewer (left) and with a correct image
@@ -449,16 +446,16 @@ int main( int argc, char * argv[] )
   //  into another non-unit spacing image located at a non-zero origin. The
   //  comparison between input and output in a common reference system is
   //  presented in figure \ref{fig:ResampleImageFilterTransformComposition5}.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Here we start by selecting the origin of the output image.
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   origin[0] = 25.0;  // X space coordinate of origin
@@ -467,12 +464,12 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We then select the number of pixels along each dimension.
   //
   //  \index{itk::ResampleImageFilter!SetSize()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   size[0] = 40;  // number of pixels along X
@@ -481,12 +478,12 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally, we set the output pixel spacing.
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   spacing[0] = 4.0; // pixel spacing in millimeters along X
@@ -502,7 +499,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // Figure \ref{fig:ResampleImageFilterTransformComposition5} shows the
   // analysis of the filter output under these conditions. First, notice that
   // the origin of the output image corresponds to the settings
@@ -531,7 +528,7 @@ int main( int argc, char * argv[] )
   //  \ref{fig:ResampleImageFilterTransformComposition5} due to the choice of a
   //  low resolution---just $40 \times 45$ pixels.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

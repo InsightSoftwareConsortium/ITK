@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration14.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -23,7 +24,7 @@
 //  This example illustrates how to do registration with a 2D Rigid Transform
 //  and with the Normalized Mutual Information metric.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -33,11 +34,9 @@
 #include "itkCenteredTransformInitializer.h"
 
 #include "itkNormalizedMutualInformationHistogramImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
-#include "itkNormalVariateGenerator.h" 
+#include "itkNormalVariateGenerator.h"
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -49,7 +48,7 @@
 //  used to monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -69,7 +68,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
+      OptimizerPointer optimizer =
         dynamic_cast< OptimizerPointer >( object );
       if( ! itk::IterationEvent().CheckEvent( &event ) )
         {
@@ -78,7 +77,7 @@ public:
       double currentValue = optimizer->GetValue();
       // Only print out when the Metric value changes
       if( vcl_fabs( m_LastMetricValue - currentValue ) > 1e-7 )
-        { 
+        {
         std::cout << optimizer->GetCurrentIteration() << "   ";
         std::cout << currentValue << "   ";
         std::cout << optimizer->GetFrobeniusNorm() << "   ";
@@ -103,26 +102,26 @@ int main( int argc, char *argv[] )
     std::cerr << "[initialAngle(radians)] [initialTx] [initialTy]" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned char   PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
   typedef itk::CenteredRigid2DTransform< double > TransformType;
 
   typedef itk::OnePlusOneEvolutionaryOptimizer       OptimizerType;
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType    > RegistrationType;
 
 
-  typedef itk::NormalizedMutualInformationHistogramImageToImageMetric< 
-                                          FixedImageType, 
+  typedef itk::NormalizedMutualInformationHistogramImageToImageMetric<
+                                          FixedImageType,
                                           MovingImageType >    MetricType;
 
   TransformType::Pointer      transform     = TransformType::New();
@@ -133,7 +132,7 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetInterpolator(  interpolator  );
-  
+
 
 
   MetricType::Pointer metric = MetricType::New();
@@ -149,22 +148,18 @@ int main( int argc, char *argv[] )
 
   MetricType::HistogramType::SizeType histogramSize;
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   histogramSize.SetSize(2);
-#endif
 
   histogramSize[0] = numberOfHistogramBins;
   histogramSize[1] = numberOfHistogramBins;
   metric->SetHistogramSize( histogramSize );
- 
 
   const unsigned int numberOfParameters = transform->GetNumberOfParameters();
-
   typedef MetricType::ScalesType ScalesType;
   ScalesType scales( numberOfParameters );
 
   scales.Fill( 1.0 );
-    
+
   metric->SetDerivativeStepLengthScales(scales);
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
@@ -187,9 +182,9 @@ int main( int argc, char *argv[] )
   registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
 
-  typedef itk::CenteredTransformInitializer< 
-                                    TransformType, 
-                                    FixedImageType, 
+  typedef itk::CenteredTransformInitializer<
+                                    TransformType,
+                                    FixedImageType,
                                     MovingImageType >  TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
@@ -201,7 +196,7 @@ int main( int argc, char *argv[] )
 
 
   typedef RegistrationType::ParametersType ParametersType;
-  
+
 
   double initialAngle = 0.0;
 
@@ -248,7 +243,7 @@ int main( int argc, char *argv[] )
   optimizerScales[4] = 1.0 / ( 0.1 * size[1] * spacing[1] );
 
   std::cout << "optimizerScales = " << optimizerScales << std::endl;
-    
+
   optimizer->SetScales( optimizerScales );
 
 
@@ -288,24 +283,24 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   typedef RegistrationType::ParametersType ParametersType;
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   const double finalAngle           = finalParameters[0];
   const double finalRotationCenterX = finalParameters[1];
   const double finalRotationCenterY = finalParameters[2];
@@ -313,7 +308,7 @@ int main( int argc, char *argv[] )
   const double finalTranslationY    = finalParameters[4];
 
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   double bestValue = optimizer->GetValue();
 
 
@@ -333,8 +328,8 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();

@@ -1,0 +1,17 @@
+#
+#  a very simple pipeline
+#
+package require InsightToolkit
+
+set reader [ itkImageFileReaderI@TCL_TEST_PIXEL_TYPE@@TCL_TEST_IMAGE_DIMENSION@_New ]
+set writer [ itkImageFileWriterI@TCL_TEST_PIXEL_TYPE@@TCL_TEST_IMAGE_DIMENSION@_New ]
+
+$writer     SetInput [ $reader  GetOutput ]
+
+$reader SetFileName [lindex $argv 0]
+$writer SetFileName [lindex $argv 1]
+
+$writer Update
+
+
+exit

@@ -1,27 +1,23 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DicomSeriesReadImageWrite.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 
 //====================================================================
 //
@@ -53,13 +49,13 @@
 //  tridimensional images. This is the case for CT, MRI and PET scanners. It is
 //  very common therefore for image analysists to have to process volumetric
 //  images that are stored in the form of a set of DICOM files belonging to a
-//  common DICOM series. 
+//  common DICOM series.
 //
 //  The following example illustrates how to use ITK functionalities in order
 //  to read a DICOM series into a volume and then save this volume in another
 //  file format.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImageSeriesReader.h"
@@ -93,7 +89,7 @@ int main( int argc, char* argv[] )
 
     seriesIdContainer::const_iterator seriesItr = seriesUID.begin();
     seriesIdContainer::const_iterator seriesEnd = seriesUID.end();
-  
+
     std::cout << std::endl << "The directory: " << std::endl;
     std::cout << std::endl << argv[1] << std::endl << std::endl;
     std::cout << "Contains the following DICOM Series: ";
@@ -104,7 +100,7 @@ int main( int argc, char* argv[] )
       std::cout << seriesItr->c_str() << std::endl;
       seriesItr++;
       }
-  
+
     std::cout << std::endl << std::endl;
     std::cout << "Now reading series: " << std::endl << std::endl;
 
@@ -144,7 +140,7 @@ int main( int argc, char* argv[] )
     std::cout  << argv[2] << std::endl << std::endl;
 
     writer->SetFileName( argv[2] );
-    
+
     writer->SetInput( reader->GetOutput() );
 
     try

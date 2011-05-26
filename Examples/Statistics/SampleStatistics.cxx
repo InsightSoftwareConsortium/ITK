@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SampleStatistics.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -21,12 +22,12 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::Statistics::MeanCalculator}
-// \index{itk::Statistics::CovarianceCalculator}
+// \index{itk::Statistics::CovarianceSampleFilter}
 // \index{Statistics!Mean}
 // \index{Statistics!Covariance}
 //
 // We include the header file for the \doxygen{Vector} class that will
-// be our measurement vector template in this example. 
+// be our measurement vector template in this example.
 //
 // Software Guide : EndLatex
 
@@ -48,8 +49,8 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMeanCalculator.h"
-#include "itkCovarianceCalculator.h"
+#include "itkMeanSampleFilter.h"
+#include "itkCovarianceSampleFilter.h"
 // Software Guide : EndCodeSnippet
 
 int main()
@@ -72,14 +73,14 @@ int main()
   mv[0] = 1.0;
   mv[1] = 2.0;
   mv[2] = 4.0;
-  
+
   sample->PushBack( mv );
 
   mv[0] = 2.0;
   mv[1] = 4.0;
   mv[2] = 5.0;
   sample->PushBack( mv );
-  
+
   mv[0] = 3.0;
   mv[1] = 8.0;
   mv[2] = 6.0;
@@ -99,62 +100,50 @@ int main()
   // Software Guide : BeginLatex
   //
   // To calculate the mean (vector) of a sample, we instantiate the
-  // \subdoxygen{Statistics}{MeanCalculator} class that implements the mean
+  // \subdoxygen{Statistics}{MeanSampleFilter} class that implements the mean
   // algorithm and plug in the sample using the
   // \code{SetInputSample(sample*)} method.  By calling the \code{Update()}
   // method, we run the algorithm. We get the mean vector using the
-  // \code{GetOutput()} method. The output from the \code{GetOutput()} method
+  // \code{GetMean()} method. The output from the \code{GetOutput()} method
   // is the pointer to the mean vector.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::MeanCalculator< SampleType > MeanAlgorithmType;
-  
+  typedef itk::Statistics::MeanSampleFilter< SampleType > MeanAlgorithmType;
+
   MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New();
 
-  meanAlgorithm->SetInputSample( sample );
+  meanAlgorithm->SetInput( sample );
   meanAlgorithm->Update();
 
-  std::cout << "Sample mean = " << *(meanAlgorithm->GetOutput()) << std::endl;
+  std::cout << "Sample mean = " << meanAlgorithm->GetMean() << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // To use the covariance calculation algorithm, we have two options.  Since
-  // we already have the mean calculated by the MeanCalculator, we can
-  // plug-in its output to an instance of
-  // \subdoxygen{Statistics}{CovarianceCalculator} using the \code{SetMean()}
-  // method. The other option is not to set the mean at all and just call the
-  // \code{Update()} method. The covariance calculation algorithm will
-  // compute the mean and covariance together in one pass. If you have
-  // already set the mean as in this example and you want to run one pass
-  // algorithm, simply pass a null pointer as the mean vector.
+  // The covariance calculation algorithm will also calculate the mean while
+  // performing the covariance matrix calculation. The mean can be accessed
+  // using the \code{GetMean()} method while the covariance can be accessed
+  // using the \code{GetCovarianceMatrix()} method.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::CovarianceCalculator< SampleType > 
+  typedef itk::Statistics::CovarianceSampleFilter< SampleType >
     CovarianceAlgorithmType;
-  CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
+  CovarianceAlgorithmType::Pointer covarianceAlgorithm =
     CovarianceAlgorithmType::New();
 
-  covarianceAlgorithm->SetInputSample( sample );
-  covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() );
+  covarianceAlgorithm->SetInput( sample );
   covarianceAlgorithm->Update();
 
-  std::cout << "Sample covariance = " << std::endl ; 
-  std::cout << *(covarianceAlgorithm->GetOutput()) << std::endl;
-
-  covarianceAlgorithm->SetMean( 0 );
-  covarianceAlgorithm->Update();
-
-  std::cout << "Using the one pass algorithm:" << std::endl;
-  std::cout << "Mean = " << std::endl ; 
-  std::cout << *(covarianceAlgorithm->GetMean()) << std::endl;
+  std::cout << "Mean = " << std::endl;
+  std::cout << covarianceAlgorithm->GetMean() << std::endl;
 
   std::cout << "Covariance = " << std::endl ; 
-  std::cout << *(covarianceAlgorithm->GetOutput()) << std::endl;
+  std::cout << covarianceAlgorithm->GetCovarianceMatrix() << std::endl;
   // Software Guide : EndCodeSnippet
+
   return 0;
 }

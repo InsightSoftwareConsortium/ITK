@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Change>
+  <!--
+  ** English language description of what was changed and why
+  **-->
+  <Description>
+  Disambiguate the behavior of the resulting image direction
+  when collapsing to a lower dimensional image.
+  </Description>
+
+  <!--
+  ** Sample code to illustrate the fix process
+  **-->
+  <SampleCode>
+    <OldCode>
+    itk::ExtractImageFilter<ImageType>::Pointer myfilter=itk::ExtractImageFilter<ImageType>::New();
+    </OldCode>
+
+    <NewCode>
+    itk::ExtractImageFilter<ImageType>::Pointer myfilter=itk::ExtractImageFilter<ImageType>::New();
+#if  ITK_VERSION_MAJOR >=4
+  myfilter->DirectionCollapseToSubmatrix(); //When collapsing from a list of properly defined phsycial spaces (i.e. collapsing on time in a 3D+time image)
+  myfilter->DirectionCollapseGuess(); //ITKv3 compatible, but not recommended
+  myfilter->DirectionCollapseToIdentity(); //If you don't care about resulting image dimension
+#endif
+    </NewCode>
+  </SampleCode>
+
+  <!--
+  ** List of all files that were changed (might be automatically populated by
+  ** git hook?)
+  **-->
+  <FileList>
+    Code/BasicFilters/itkCropImageFilter.h
+    Code/BasicFilters/itkExtractImageFilter.h
+    Code/BasicFilters/itkExtractImageFilter.txx
+    Code/Common/itkTestMain.h
+    Code/IO/itkTestDriver.cxx
+    Examples/IO/ImageReadExtractFilterInsertWrite.cxx
+    Examples/IO/ImageReadExtractWrite.cxx
+    Examples/IO/VisibleHumanStreamReadWrite.cxx
+    Examples/Registration/ImageRegistration8.cxx
+    Testing/Code/BasicFilters/itkExtractImageTest.cxx
+    Testing/Code/BasicFilters/itkJoinSeriesImageFilterStreamingTest.cxx
+    Testing/Code/BasicFilters/itkMaximumProjectionImageFilterTest2.cxx
+    Testing/Code/BasicFilters/itkMaximumProjectionImageFilterTest3.cxx
+    Testing/Code/IO/ImageCompare.cxx
+    Testing/Code/IO/ImageCompareCommand.cxx
+    Testing/Code/IO/itkImageFileReaderStreamingTest2.cxx
+    Testing/Code/IO/itkImageFileWriterPastingTest2.cxx
+    Testing/Code/IO/itkImageFileWriterStreamingPastingCompressingTest1.cxx
+  </FileList>
+
+  <!--
+  ** The asociated Gerrit entry for this API change
+  **-->
+  <Gerrit-ChangeId>
+  I5e5f1cfc3efbc235ade2cd824f2f23ec40a4546c
+  </Gerrit-ChangeId>
+
+
+  <!--
+  ** Migration guide rules
+  **-->
+  <MigrationFix-Manual type="MethodRefactor">
+    <Old>
+    ExtractImageFilter
+    </Old>
+    <!--
+    Based on desired behavior, select the
+    desired strategy for collapsing.
+    -->
+  </MigrationFix-Manual>
+
+</Change>

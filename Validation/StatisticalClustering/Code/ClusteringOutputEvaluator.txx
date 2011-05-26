@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ClusteringOutputEvaluator.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __ClusteringOutputEvaluator_txx
 #define __ClusteringOutputEvaluator_txx
 
@@ -28,14 +29,14 @@ ClusteringOutputEvaluator< TSample >
 }
 
 template< class TSample >
-ClusteringOutputEvaluator< TSample > 
+ClusteringOutputEvaluator< TSample >
 ::~ClusteringOutputEvaluator()
 {
 }
 
 template< class TSample >
 void
-ClusteringOutputEvaluator< TSample > 
+ClusteringOutputEvaluator< TSample >
 ::SetTruth(TSample* sample)
 {
   m_Truth = sample ;
@@ -43,15 +44,15 @@ ClusteringOutputEvaluator< TSample >
 
 template< class TSample >
 void
-ClusteringOutputEvaluator< TSample > 
+ClusteringOutputEvaluator< TSample >
 ::SetClusteringOutput(ClusteringOutputType* labels)
 {
   m_ClusteringOutput = labels ;
 }
 
 template< class TSample >
-const int 
-ClusteringOutputEvaluator< TSample > 
+const int
+ClusteringOutputEvaluator< TSample >
 ::GetSize(const unsigned int classLabel ) const
 {
   return m_Sizes[this->GetClassIndex(classLabel)] ;
@@ -59,15 +60,15 @@ ClusteringOutputEvaluator< TSample >
 
 template< class TSample >
 const int
-ClusteringOutputEvaluator< TSample > 
+ClusteringOutputEvaluator< TSample >
 ::GetNumberOfMatches(const unsigned int classLabel ) const
 {
   return m_NumberOfMatches[this->GetClassIndex(classLabel)] ;
 }
-  
+
 template< class TSample >
 const std::vector< int >&
-ClusteringOutputEvaluator< TSample > 
+ClusteringOutputEvaluator< TSample >
 ::GetInclusionErrors(const unsigned int classLabel) const
 {
   return m_InclusionErrors[this->GetClassIndex(classLabel)] ;
@@ -75,15 +76,15 @@ ClusteringOutputEvaluator< TSample >
 
 template< class TSample >
 const std::vector< int >&
-ClusteringOutputEvaluator< TSample > 
-::GetExclusionErrors(const unsigned int classLabel) const 
+ClusteringOutputEvaluator< TSample >
+::GetExclusionErrors(const unsigned int classLabel) const
 {
   return m_ExclusionErrors[this->GetClassIndex(classLabel)] ;
 }
 
 template< class TSample >
 void
-ClusteringOutputEvaluator< TSample > 
+ClusteringOutputEvaluator< TSample >
 ::SetClassLabels(const std::vector< unsigned int >& classLabels)
 {
   m_ClassLabels = classLabels ;
@@ -101,7 +102,7 @@ ClusteringOutputEvaluator< TSample >
 
 template< class TSample >
 unsigned int
-ClusteringOutputEvaluator< TSample > 
+ClusteringOutputEvaluator< TSample >
 ::GetClassIndex(const unsigned int classLabel) const
 {
   for ( unsigned int i = 0 ; i < m_NumberOfClasses ; i++ )
@@ -111,13 +112,13 @@ ClusteringOutputEvaluator< TSample >
           return i ;
         }
     }
- 
+
  return 0 ;
 }
 
 template< class TSample >
 void
-ClusteringOutputEvaluator< TSample > 
+ClusteringOutputEvaluator< TSample >
 ::GenerateData()
 {
 
@@ -129,7 +130,7 @@ ClusteringOutputEvaluator< TSample >
       std::fill(m_ExclusionErrors[i].begin(), m_ExclusionErrors[i].end(), 0) ;
     }
 
-//   std::copy(m_ClassLabels.begin(), m_ClassLabels.end(), 
+//   std::copy(m_ClassLabels.begin(), m_ClassLabels.end(),
 //             std::ostream_iterator<std::string>(std::cout, " ") ) ;
 //   std::cout << std::endl ;
   typename TSample::Iterator t_iter = m_Truth->Begin() ;
@@ -138,11 +139,11 @@ ClusteringOutputEvaluator< TSample >
   unsigned int estimatedLabel ;
   while ( o_iter != m_ClusteringOutput->end() )
     {
-      
+
       trueLabel = this->GetClassIndex(t_iter.GetMeasurementVector()[0]) ;
       estimatedLabel = this->GetClassIndex(*o_iter) ;
       m_Sizes[estimatedLabel] += 1 ;
-      
+
       if ( estimatedLabel == trueLabel)
         {
           m_NumberOfMatches[trueLabel] += 1 ;

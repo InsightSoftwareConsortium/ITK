@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration9.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,7 +32,7 @@
 //
 // This example illustrates the use of the \doxygen{AffineTransform}
 // for performing registration in $2D$. The example code is, for the most part,
-// identical to that in \ref{sec:InitializingRegistrationWithMoments}.  
+// identical to that in \ref{sec:InitializingRegistrationWithMoments}.
 // The main difference is the use of the AffineTransform here instead of the
 // \doxygen{CenteredRigid2DTransform}. We will focus on the most
 // relevant changes in the current code and skip the basic elements already
@@ -39,24 +40,22 @@
 //
 // \index{itk::AffineTransform}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 
 #include "itkCenteredTransformInitializer.h"
 
 //  Software Guide : BeginLatex
-//  
+//
 //  Let's start by including the header file of the AffineTransform.
 //
 //  \index{itk::AffineTransform!header}
-// 
-//  Software Guide : EndLatex 
+//
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkAffineTransform.h"
@@ -77,7 +76,7 @@
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -97,7 +96,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
                       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -106,7 +105,7 @@ public:
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << optimizer->GetValue() << "   ";
       std::cout << optimizer->GetCurrentPosition();
-     
+
       // Print the angle for the trace plot
       vnl_matrix<double> p(2, 2);
       p[0][0] = (double) optimizer->GetCurrentPosition()[0];
@@ -140,7 +139,7 @@ int main( int argc, char *argv[] )
   //
   //  We define then the types of the images to be registered.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const    unsigned int    Dimension = 2;
@@ -152,31 +151,31 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The transform type is instantiated using the code below. The template
   //  parameters of this class are the representation type of the space
   //  coordinates and the space dimension.
   //
   //  \index{itk::AffineTransform!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::AffineTransform< 
-                                  double, 
+  typedef itk::AffineTransform<
+                                  double,
                                   Dimension  >     TransformType;
   // Software Guide : EndCodeSnippet
 
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
@@ -198,7 +197,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::AffineTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
@@ -218,24 +217,24 @@ int main( int argc, char *argv[] )
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In this example, we again use the
   //  \doxygen{CenteredTransformInitializer} helper class in order to compute
   //  a reasonable value for the initial center of rotation and the
   //  translation. The initializer is set to use the center of mass of each
   //  image as the initial correspondence correction.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer< 
-                                    TransformType, 
-                                    FixedImageType, 
+  typedef itk::CenteredTransformInitializer<
+                                    TransformType,
+                                    FixedImageType,
                                     MovingImageType >  TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
   initializer->SetTransform(   transform );
@@ -247,20 +246,20 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Now we pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  registration->SetInitialTransformParameters( 
+  registration->SetInitialTransformParameters(
                                  transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Keeping in mind that the scale of units in scaling, rotation and
   //  translation are quite different, we take advantage of the scaling
   //  functionality provided by the optimizers. We know that the first $N
@@ -268,7 +267,7 @@ int main( int argc, char *argv[] )
   //  matrix factor, and the last $N$ are the components of the translation to
   //  be applied after multiplication with the matrix is performed.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   double translationScale = 1.0 / 1000.0;
@@ -294,7 +293,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
   //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
@@ -302,7 +301,7 @@ int main( int argc, char *argv[] )
   //  and number of iterations. These last two act as stopping criteria for
   //  the optimization.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   double steplength = 0.1;
 
@@ -321,7 +320,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( steplength ); 
+  optimizer->SetMaximumStepLength( steplength );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( maxNumberOfIterations );
   // Software Guide : EndCodeSnippet
@@ -334,7 +333,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!MinimizeOn()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   optimizer->MinimizeOn();
@@ -353,22 +352,22 @@ int main( int argc, char *argv[] )
   //  the \code{Update()} method. The call is placed in a \code{try/catch}
   //  block in case any exceptions are thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
 
 
@@ -385,10 +384,10 @@ int main( int argc, char *argv[] )
   //  \index{itk::RegistrationMethod!GetCurrentIteration()}
   //  \index{itk::RegistrationMethod!GetLastTransformParameters()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  OptimizerType::ParametersType finalParameters = 
+  OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
 
   const double finalRotationCenterX = transform->GetCenter()[0];
@@ -410,11 +409,11 @@ int main( int argc, char *argv[] )
   std::cout << " Translation Y = " << finalTranslationY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-  
+
   //Compute the rotation angle and scaling from SVD of the matrix
   // \todo Find a way to figure out if the scales are along X or along Y.
   // VNL returns the eigenvalues ordered from largest to smallest.
-  
+
   vnl_matrix<double> p(2, 2);
   p[0][0] = (double) finalParameters[0];
   p[0][1] = (double) finalParameters[1];
@@ -424,21 +423,21 @@ int main( int argc, char *argv[] )
   vnl_matrix<double> r(2, 2);
   r = svd.U() * vnl_transpose(svd.V());
   double angle = vcl_asin(r[1][0]);
-  
+
   const double angleInDegrees = angle * 180.0 / vnl_math::pi;
 
   std::cout << " Scale 1         = " << svd.W(0)        << std::endl;
   std::cout << " Scale 2         = " << svd.W(1)        << std::endl;
   std::cout << " Angle (degrees) = " << angleInDegrees  << std::endl;
-  
+
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Let's execute this example over two of the images provided in
   //  \code{Examples/Data}:
-  //  
+  //
   //  \begin{itemize}
-  //  \item \code{BrainProtonDensitySliceBorder20.png} 
+  //  \item \code{BrainProtonDensitySliceBorder20.png}
   //  \item \code{BrainProtonDensitySliceR10X13Y17.png}
   //  \end{itemize}
   //
@@ -465,10 +464,10 @@ int main( int argc, char *argv[] )
   //  \item Translation  = $(   12.461,  16.0754 )$ millimeters
   //  \item Affine scales = $(1.00185, .999137)$
   //  \end{itemize}
-  //  
+  //
   //  The second component of the matrix values is usually associated with
   //  $\sin{\theta}$. We obtain the rotation through SVD of the affine
-  //  matrix. The value is $9.6526$ degrees, which is approximately the 
+  //  matrix. The value is $9.6526$ degrees, which is approximately the
   //  intentional misalignment of $10.0$ degrees.
   //
   // \begin{figure}
@@ -485,10 +484,10 @@ int main( int argc, char *argv[] )
   // \center
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9Output.eps}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter.eps} 
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter.eps}
   // \itkcaption[AffineTransform output images]{The resampled moving image
-  // (left), and the difference between the fixed and moving images before (center) 
-  // and after (right) registration with the 
+  // (left), and the difference between the fixed and moving images before (center)
+  // and after (right) registration with the
   // AffineTransform transform.}
   // \label{fig:ImageRegistration9Outputs}
   // \end{figure}
@@ -496,15 +495,15 @@ int main( int argc, char *argv[] )
   // Figure \ref{fig:ImageRegistration9Outputs} shows the output of the
   // registration. The right most image of this figure shows the squared
   // magnitude difference between the fixed image and the resampled
-  // moving image. 
+  // moving image.
   //
   // \begin{figure}
   // \center
   // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceMetric.eps}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceAngle.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceTranslations.eps} 
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceTranslations.eps}
   // \itkcaption[AffineTransform output plots]{Metric values,
-  // rotation angle and translations during the registration using the 
+  // rotation angle and translations during the registration using the
   // AffineTransform transform.}
   // \label{fig:ImageRegistration9Plots}
   // \end{figure}
@@ -517,7 +516,7 @@ int main( int argc, char *argv[] )
   //  is to be computed as a combination of the shift due rotation plus the
   //  explicit translation set on the transform.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  The following code is used to dump output images to files.
@@ -525,8 +524,8 @@ int main( int argc, char *argv[] )
   //  We will resample the moving image and write out the difference image
   //  before and after registration. We will also rescale the intensities of the
   //  difference images, so that they look better!
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -546,15 +545,15 @@ int main( int argc, char *argv[] )
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 100 );
-  
+
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
@@ -570,9 +569,9 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-  typedef itk::SubtractImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
+  typedef itk::SubtractImageFilter<
+                                  FixedImageType,
+                                  FixedImageType,
                                   FixedImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
@@ -581,9 +580,9 @@ int main( int argc, char *argv[] )
   difference->SetInput2( resampler->GetOutput() );
 
   WriterType::Pointer writer2 = WriterType::New();
-  
-  typedef itk::RescaleIntensityImageFilter< 
-                                  FixedImageType, 
+
+  typedef itk::RescaleIntensityImageFilter<
+                                  FixedImageType,
                                   OutputImageType >   RescalerType;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
@@ -591,11 +590,11 @@ int main( int argc, char *argv[] )
   intensityRescaler->SetInput( difference->GetOutput() );
   intensityRescaler->SetOutputMinimum(   0 );
   intensityRescaler->SetOutputMaximum( 255 );
-  
-  writer2->SetInput( intensityRescaler->GetOutput() );  
+
+  writer2->SetInput( intensityRescaler->GetOutput() );
   resampler->SetDefaultPixelValue( 1 );
-  
-  // Compute the difference image between the 
+
+  // Compute the difference image between the
   // fixed and resampled moving image.
   if( argc > 5 )
     {
@@ -607,7 +606,7 @@ int main( int argc, char *argv[] )
   typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
   IdentityTransformType::Pointer identity = IdentityTransformType::New();
 
-  // Compute the difference image between the 
+  // Compute the difference image between the
   // fixed and moving image before registration.
   if( argc > 4 )
     {

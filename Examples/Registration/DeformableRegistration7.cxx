@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableRegistration7.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,19 +30,17 @@
 // made the modification because we found that LBFGS does not behave well when
 // the starting positions is at or close to optimal; instead we used LBFGSB in
 // unconstrained mode.
-// 
+//
 //
 // \index{itk::BSplineDeformableTransform}
 // \index{itk::BSplineDeformableTransform!DeformableRegistration}
 // \index{itk::LBFGSOptimizer}
 //
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
-#include "itkImage.h"
 
 #include "itkTimeProbesCollectorBase.h"
 
@@ -63,13 +62,13 @@
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  The following are the most relevant headers to this example.
 //
 //  \index{itk::BSplineDeformableTransform!header}
 //  \index{itk::LBFGSOptimizer!header}
-// 
-//  Software Guide : EndLatex 
+//
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkBSplineDeformableTransform.h"
@@ -77,7 +76,7 @@
 // Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
-//  
+//
 //  The parameter space of the \code{BSplineDeformableTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
 //  grid.  This large number of parameters makes possible to represent a wide
@@ -85,8 +84,8 @@
 //  significant amount of computation time.
 //
 //  \index{itk::BSplineDeformableTransform!header}
-// 
-//  Software Guide : EndLatex 
+//
+//  Software Guide : EndLatex
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -100,7 +99,7 @@
 //  used to monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -112,7 +111,7 @@ protected:
 public:
   typedef itk::LBFGSBOptimizer       OptimizerType;
   typedef   const OptimizerType *    OptimizerPointer;
-  
+
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
     Execute( (const itk::Object *)caller, event);
@@ -120,7 +119,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
       dynamic_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
@@ -144,7 +143,7 @@ int main( int argc, char *argv[] )
     std::cerr << " [deformationField] ";
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    ImageDimension = 3;
   typedef  float           PixelType;
 
@@ -156,12 +155,12 @@ int main( int argc, char *argv[] )
   //
   //  We instantiate now the type of the \code{BSplineDeformableTransform} using
   //  as template parameters the type for coordinates representation, the
-  //  dimension of the space, and the order of the BSpline. 
-  // 
+  //  dimension of the space, and the order of the BSpline.
+  //
   //  \index{BSplineDeformableTransform!New}
   //  \index{BSplineDeformableTransform!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int SpaceDimension = ImageDimension;
@@ -178,23 +177,23 @@ int main( int argc, char *argv[] )
   typedef itk::LBFGSBOptimizer       OptimizerType;
 
 
-  typedef itk::MeanSquaresImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
 
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
 
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
-  
+
 
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
@@ -207,7 +206,7 @@ int main( int argc, char *argv[] )
   //  method.
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
@@ -231,22 +230,22 @@ int main( int argc, char *argv[] )
   fixedImageReader->Update();
 
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-  
+
  registration->SetFixedImageRegion( fixedRegion );
 
   //  Software Guide : BeginLatex
   //
   //  Here we define the parameters of the BSplineDeformableTransform grid.  We
-  //  arbitrarily decide to use a grid with $5 \times 5$ nodes within the image. 
+  //  arbitrarily decide to use a grid with $5 \times 5$ nodes within the image.
   //  The reader should note that the BSpline computation requires a
   //  finite support region ( 1 grid node at the lower borders and 2
   //  grid nodes at upper borders). Therefore in this example, we set
   //  the grid size to be $8 \times 8$ and place the grid origin such that
   //  grid node (1,1) coincides with the first pixel in the fixed image.
-  // 
+  //
   //  \index{BSplineDeformableTransform}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -272,26 +271,26 @@ int main( int argc, char *argv[] )
 
   for(unsigned int r=0; r<ImageDimension; r++)
     {
-    spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  / 
+    spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  /
                   static_cast<double>(gridSizeOnImage[r] - 1);
     }
 
   FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
   SpacingType gridOriginOffset = gridDirection * spacing;
 
-  OriginType gridOrigin = origin - gridOriginOffset; 
+  OriginType gridOrigin = origin - gridOriginOffset;
 
   transform->SetGridSpacing( spacing );
   transform->SetGridOrigin( gridOrigin );
   transform->SetGridRegion( bsplineRegion );
   transform->SetGridDirection( gridDirection );
-  
+
 
   typedef TransformType::ParametersType     ParametersType;
 
   const unsigned int numberOfParameters =
                transform->GetNumberOfParameters();
-  
+
   ParametersType parameters( numberOfParameters );
 
   parameters.Fill( 0.0 );
@@ -300,11 +299,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
-  //  We now pass the parameters of the current transform as the initial
-  //  parameters to be used when the registration process starts. 
   //
-  //  Software Guide : EndLatex 
+  //  We now pass the parameters of the current transform as the initial
+  //  parameters to be used when the registration process starts.
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
@@ -314,10 +313,10 @@ int main( int argc, char *argv[] )
   std::cout << transform->GetParameters() << std::endl;
 
   //  Software Guide : BeginLatex
-  //  
-  //  Next we set the parameters of the LBFGSB Optimizer. 
   //
-  //  Software Guide : EndLatex 
+  //  Next we set the parameters of the LBFGSB Optimizer.
+  //
+  //  Software Guide : EndLatex
   OptimizerType::BoundSelectionType boundSelect( transform->GetNumberOfParameters() );
   OptimizerType::BoundValueType upperBound( transform->GetNumberOfParameters() );
   OptimizerType::BoundValueType lowerBound( transform->GetNumberOfParameters() );
@@ -347,23 +346,23 @@ int main( int argc, char *argv[] )
 
   std::cout << std::endl << "Starting Registration" << std::endl;
 
-  try 
-    { 
+  try
+    {
     itkProbesStart( "Registration" );
-    registration->StartRegistration(); 
+    registration->StartRegistration();
     itkProbesStop( "Registration" );
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
-  
-  OptimizerType::ParametersType finalParameters = 
+    }
+
+  OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
 
   std::cout << "Last Transform Parameters" << std::endl;
@@ -378,8 +377,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
@@ -392,15 +391,15 @@ int main( int argc, char *argv[] )
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
-  
+
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
@@ -419,27 +418,27 @@ int main( int argc, char *argv[] )
     {
     writer->Update();
     }
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
- 
+    }
 
 
-  typedef itk::SquaredDifferenceImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
+
+  typedef itk::SquaredDifferenceImageFilter<
+                                  FixedImageType,
+                                  FixedImageType,
                                   OutputImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
-  
+  writer2->SetInput( difference->GetOutput() );
 
-  // Compute the difference image between the 
+
+  // Compute the difference image between the
   // fixed and resampled moving image.
   if( argc >= 5 )
     {
@@ -450,16 +449,16 @@ int main( int argc, char *argv[] )
       {
       writer2->Update();
       }
-    catch( itk::ExceptionObject & err ) 
-      { 
-      std::cerr << "ExceptionObject caught !" << std::endl; 
-      std::cerr << err << std::endl; 
+    catch( itk::ExceptionObject & err )
+      {
+      std::cerr << "ExceptionObject caught !" << std::endl;
+      std::cerr << err << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     }
 
 
-  // Compute the difference image between the 
+  // Compute the difference image between the
   // fixed and moving image before registration.
   if( argc >= 6 )
     {
@@ -470,15 +469,15 @@ int main( int argc, char *argv[] )
       {
       writer2->Update();
       }
-    catch( itk::ExceptionObject & err ) 
-      { 
-      std::cerr << "ExceptionObject caught !" << std::endl; 
-      std::cerr << err << std::endl; 
+    catch( itk::ExceptionObject & err )
+      {
+      std::cerr << "ExceptionObject caught !" << std::endl;
+      std::cerr << err << std::endl;
       return EXIT_FAILURE;
-      } 
+      }
     }
 
-  // Generate the explicit deformation field resulting from 
+  // Generate the explicit deformation field resulting from
   // the registration.
   if( argc >= 7 )
     {

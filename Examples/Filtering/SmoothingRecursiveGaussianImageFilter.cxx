@@ -1,35 +1,32 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SmoothingRecursiveGaussianImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: {SmoothingRecursiveGaussianImageFilterOutput3.png} 
+//    OUTPUTS: {SmoothingRecursiveGaussianImageFilterOutput3.png}
 //    3
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
-//    OUTPUTS: {SmoothingRecursiveGaussianImageFilterOutput5.png} 
+//    OUTPUTS: {SmoothingRecursiveGaussianImageFilterOutput5.png}
 //    5
 //  Software Guide : EndCommandLineArgs
 
@@ -48,7 +45,7 @@
 //
 //  \index{itk::RecursiveGaussianImageFilter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -62,7 +59,7 @@
 //
 //  \index{itk::RecursiveGaussianImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkRecursiveGaussianImageFilter.h"
@@ -71,19 +68,19 @@
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 4 ) 
-    { 
+  if( argc < 4 )
+    {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma " << std::endl;
     return EXIT_FAILURE;
     }
 
-  
+
   //  Software Guide : BeginLatex
   //
   //  Types should be selected on the desired input and output pixel types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef    float    InputPixelType;
@@ -95,7 +92,7 @@ int main( int argc, char * argv[] )
   //
   //  The input and output image types are instantiated using the pixel types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
@@ -113,7 +110,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::RecursiveGaussianImageFilter!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::RecursiveGaussianImageFilter<
@@ -137,7 +134,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::RecursiveGaussianImageFilter!New()}
   //  \index{itk::RecursiveGaussianImageFilter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filterX = FilterType::New();
@@ -152,7 +149,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{RecursiveGaussianImageFilter!SetDirection()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filterX->SetDirection( 0 );   // 0 --> X direction
@@ -174,7 +171,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{RecursiveGaussianImageFilter!SetOrder()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filterX->SetOrder( FilterType::ZeroOrder );
@@ -211,7 +208,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{RecursiveGaussianImageFilter!SetNormalizeAcrossScale()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filterX->SetNormalizeAcrossScale( false );
@@ -231,7 +228,7 @@ int main( int argc, char * argv[] )
   //  this capability is less interesting, though, since we only want to smooth
   //  the image in all directions.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filterX->SetInput( reader->GetOutput() );
@@ -250,7 +247,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::RecursiveGaussianImageFilter!SetSigma()}
   //  \index{SetSigma()!itk::RecursiveGaussianImageFilter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const double sigma = atof( argv[3] );
 
@@ -266,7 +263,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::RecursiveGaussianImageFilter!Update()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -276,11 +273,11 @@ int main( int argc, char * argv[] )
 
   typedef  unsigned char  WritePixelType;
   typedef itk::Image< WritePixelType, 2 >    WriteImageType;
-  typedef itk::RescaleIntensityImageFilter< 
+  typedef itk::RescaleIntensityImageFilter<
                    OutputImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-  
+
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
@@ -293,7 +290,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput3.eps}
@@ -313,11 +310,11 @@ int main( int argc, char * argv[] )
   //
   //  The RecursiveGaussianFilters can also be applied on multi-component images. For instance,
   //  the above filter could have applied with RGBPixel as the pixel type. Each component is
-  //  then independently filtered. However the RescaleIntensityImageFilter will not work on 
-  //  RGBPixels since it does not mathematically make sense to rescale the output 
+  //  then independently filtered. However the RescaleIntensityImageFilter will not work on
+  //  RGBPixels since it does not mathematically make sense to rescale the output
   //  of multi-component images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

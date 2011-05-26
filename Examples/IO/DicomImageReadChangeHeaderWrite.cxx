@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DicomImageReadChangeHeaderWrite.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -30,7 +27,7 @@
 //  in the file
 //
 //  \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}
-//  
+//
 //  Please note that modifying the content of a DICOM header is a very risky
 //  operation. The Header contains fundamental information about the patient
 //  and therefore its consistency must be protected from any data corruption.
@@ -41,10 +38,10 @@
 //
 //  \index{DICOM!Changing Headers}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginLatex
-// 
+//
 // We must start by including the relevant header files. Here we include the
 // image reader, image writer, the image, the Meta data dictionary and its
 // entries the Meta data objects and the GDCMImageIO. The Meta data dictionary
@@ -57,7 +54,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 #include "itkGDCMImageIO.h"
 // Software Guide : EndCodeSnippet
@@ -75,7 +71,7 @@ int main(int argc, char* argv[])
     }
 
 // Software Guide : BeginLatex
-// 
+//
 // We declare the image type by selecting a particular pixel type and image
 // dimension.
 //
@@ -88,7 +84,7 @@ int main(int argc, char* argv[])
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// 
+//
 // We instantiate the reader type by using the image type as template
 // parameter. An instance of the reader is created and the file name to be read
 // is taken from the command line arguments.
@@ -108,7 +104,7 @@ int main(int argc, char* argv[])
 // connected to the reader.
 //
 // Software Guide : EndLatex
- 
+
 // Software Guide : BeginCodeSnippet
   typedef itk::GDCMImageIO           ImageIOType;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
@@ -116,7 +112,7 @@ int main(int argc, char* argv[])
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// 
+//
 // The reading of the image is triggered by invoking \code{Update()} in the
 // reader.
 //
@@ -138,7 +134,7 @@ int main(int argc, char* argv[])
     }
 
 // Software Guide : BeginLatex
-// 
+//
 // We take the Meta data dictionary from the image that the reader had loaded
 // in memory.
 //
@@ -152,7 +148,7 @@ int main(int argc, char* argv[])
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// 
+//
 // Now we access the entries in the Meta data dictionary, and for particular
 // key values we assign a new content to the entry. This is done here by taking
 // \{key,value\} pairs from the command line arguments. The relevant method is
@@ -173,7 +169,7 @@ int main(int argc, char* argv[])
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
-// 
+//
 // Now that the Dictionary has been updated, we proceed to save the image. This
 // output image will have the modified data associated to its DICOM header.
 //
@@ -196,7 +192,7 @@ int main(int argc, char* argv[])
 
 
 // Software Guide : BeginLatex
-// 
+//
 // Execution of the writer is triggered by invoking the \code{Update()} method.
 //
 // Software Guide : EndLatex
@@ -216,7 +212,7 @@ int main(int argc, char* argv[])
     }
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Remember again, that modifying the header entries of a DICOM file involves
   // very serious risks for patients and therefore must be done with extreme
   // caution.

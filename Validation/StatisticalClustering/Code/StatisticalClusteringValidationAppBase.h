@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    StatisticalClusteringValidationAppBase.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __StatisticalClusteringValidationAppBase_h
 #define __StatisticalClusteringValidationAppBase_h
 
@@ -39,22 +40,22 @@ public:
   typedef itk::FixedArray< short, VMeasurementVectorSize > VectorPixelType ;
   typedef itk::Image< VectorPixelType, IMAGE_DIMENSION > VectorImageType ;
 
-  typedef ValidationSampleGenerator< ImageType, MaskImageType, 
+  typedef ValidationSampleGenerator< ImageType, MaskImageType,
                                      VectorImageType > SampleGeneratorType ;
-  
+
   typedef itk::Array< double > ParametersType ;
   typedef itk::Vector< double, VMeasurementVectorSize > VectorType ;
   typedef itk::Statistics::EuclideanDistance< VectorType > DistanceMetricType ;
-  
+
   void SetCommandLineOptions(int argc, char* argv[]) ;
   void SetSelectedClasses(const std::vector< unsigned int >& classLabels) ;
 
   void Run() ;
 
 protected:
-  virtual void GenerateSample() = 0 ; 
-  virtual void PrepareInputParameterFilter() = 0 ; 
-  virtual void PrepareOutputParameterTableHeader() = 0 ; 
+  virtual void GenerateSample() = 0 ;
+  virtual void PrepareInputParameterFilter() = 0 ;
+  virtual void PrepareOutputParameterTableHeader() = 0 ;
   virtual void StartClustering(ParametersType& params) = 0 ;
   virtual void MapClusterToClass() = 0 ;
   virtual void PutResult(unsigned int caseNo) = 0 ;
@@ -70,7 +71,7 @@ protected:
   unsigned int m_NumberOfCases ;
   unsigned int m_NumberOfClasses ;
   std::vector< unsigned int > m_ClassLabels ;
-  
+
   std::vector< std::string > m_ImageFileNames ;
   std::string m_MaskFileName ;
   int m_MaskImageSliceOffset ;

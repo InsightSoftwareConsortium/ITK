@@ -1,0 +1,8 @@
+WRAP_CLASS("itk::HoughTransform2DCirclesImageFilter" POINTER)
+  FILTER_DIMS(d2 2)
+  if(d2)
+    foreach(t ${WRAP_ITK_REAL})
+      WRAP_TEMPLATE("${ITKM_${t}}${ITKM_${t}}" "${ITKT_${t}}, ${ITKT_${t}}")
+    endforeach(t)
+  endif(d2)
+END_WRAP_CLASS()

@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    AntiAliasBinaryImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -28,11 +25,11 @@
 //  filter expect a binary mask as input, and using Level Sets it smooths the
 //  image by keeping the edge of the structure within 1 pixel distance from the
 //  original location. It is usually desirable to run this filter before
-//  extracting isocontour with surface extraction methods. 
-//  
+//  extracting isocontour with surface extraction methods.
+//
 //  \index{itk::AntiAliasBinaryImageFilter|textbf}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImageFileReader.h"
@@ -47,7 +44,7 @@
 //
 //  \index{itk::AntiAliasBinaryImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -64,7 +61,7 @@ int main(int argc, char* argv[])
     std::cerr << " outputImage8BitsPixelType [RMS] [numberOfIterations]" << std::endl;
     return EXIT_FAILURE;
     }
-   
+
   const char * inputFilename   = argv[1];
   const char * outputFilename1 = argv[2];
   const char * outputFilename2 = argv[3];
@@ -99,7 +96,7 @@ int main(int argc, char* argv[])
   //
   //  This filter operates on image of pixel type float. It is then necessary
   //  to cast the type of the input images that are usually of integer type.
-  //  The \doxygen{CastImageFilter} is used here for that purpose. Its image 
+  //  The \doxygen{CastImageFilter} is used here for that purpose. Its image
   //  template parameters are defined for casting from the input type to the
   //  float type using for processing.
   //
@@ -147,37 +144,37 @@ int main(int argc, char* argv[])
   antiAliasFilter->SetMaximumRMSError( maximumRMSError );
   antiAliasFilter->SetNumberOfIterations( numberOfIterations );
   antiAliasFilter->SetNumberOfLayers( 2 );
-  
+
   RealWriterType::Pointer realWriter = RealWriterType::New();
   realWriter->SetInput( antiAliasFilter->GetOutput() );
   realWriter->SetFileName( outputFilename1 );
 
-  try 
+  try
     {
     realWriter->Update();
     }
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
- 
+
   WriterType::Pointer rescaledWriter = WriterType::New();
   rescale->SetInput( antiAliasFilter->GetOutput() );
   rescaledWriter->SetInput( rescale->GetOutput() );
   rescaledWriter->SetFileName( outputFilename2 );
-  try 
+  try
     {
     rescaledWriter->Update();
     }
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   std::cout << "Completed in " << antiAliasFilter->GetNumberOfIterations() << std::endl;
 

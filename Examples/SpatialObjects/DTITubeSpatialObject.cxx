@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DTITubeSpatialObject.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,20 +23,19 @@
 //
 // \index{itk::DTITubeSpatialObject}
 //
-// \doxygen{DTITubeSpatialObject} derives from \doxygen{TubeSpatialObject}. 
+// \doxygen{DTITubeSpatialObject} derives from \doxygen{TubeSpatialObject}.
 // It represents a fiber tracts from Diffusion Tensor Imaging.
-// A DTITubeSpatialObject is described as a list of centerline points which 
+// A DTITubeSpatialObject is described as a list of centerline points which
 // have a position, a radius, normals, the fractional anisotropy (FA) value, the ADC value,
 // the geodesic anisotropy (GA) value, the eigenvalues and vectors as well as the full
 // tensor matrix.
 //
 // Let's start by including the appropriate header file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkDTITubeSpatialObject.h"
-#include "itkDTITubeSpatialObjectPoint.h"
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )
@@ -48,7 +48,7 @@ int main( int , char *[] )
 //
 // First we define some type definitions and we create the tube.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
   unsigned int i;
 
@@ -63,7 +63,7 @@ int main( int , char *[] )
 //
 // We create a point list and we set:
 // \begin{enumerate}
-// \item The position of each point in the local coordinate system using the 
+// \item The position of each point in the local coordinate system using the
 // \code{SetPosition()} method.
 // \item The radius of the tube at this position using \code{SetRadius()}.
 // \item The FA value using \code{AddField(DTITubePointType::FA)}.
@@ -73,7 +73,7 @@ int main( int , char *[] )
 // \item The color of the point is set to red in our case.
 // \end{enumerate}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   DTITubeType::PointListType list;
@@ -106,7 +106,7 @@ int main( int , char *[] )
 // set its identification number with \code{SetId()} and, at the end, we add
 // the list of points previously created.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   dtiTube->GetProperty()->SetName("DTITube");
@@ -119,7 +119,7 @@ int main( int , char *[] )
 // The \code{GetPoints()} method return a reference to the internal list of
 // points of the object.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   DTITubeType::PointListType pointList = dtiTube->GetPoints();
@@ -133,7 +133,7 @@ int main( int , char *[] )
 // and \code{GetColor()} functions return respectively the position and the
 // color of the point.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   DTITubeType::PointListType::const_iterator it = dtiTube->GetPoints().begin();

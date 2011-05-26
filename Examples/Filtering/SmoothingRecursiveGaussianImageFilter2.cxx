@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SmoothingRecursiveGaussianImageFilter2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -32,10 +29,9 @@
 //
 //  \index{itk::SmoothingRecursiveGaussianImageFilter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -46,7 +42,7 @@
 //
 //  \index{itk::SmoothingRecursiveGaussianImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
@@ -55,20 +51,20 @@
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 4 ) 
-    { 
+  if( argc < 4 )
+    {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma " << std::endl;
     return EXIT_FAILURE;
     }
 
-  
+
   //  Software Guide : BeginLatex
   //
   //  Appropriate pixel types must be selected to support input and output
   //  images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef    float    InputPixelType;
@@ -80,7 +76,7 @@ int main( int argc, char * argv[] )
   //
   //  With them, the input and output image types can be instantiated.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
@@ -100,7 +96,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::SmoothingRecursiveGaussianImageFilter<
@@ -121,7 +117,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!New()}
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
@@ -130,11 +126,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  As in the previous examples we should decide what type of normalization
-  //  to use during the computation of the Gaussians. The method   
-  //  \code{SetNormalizeAcrossScale()} serves this purpose. 
+  //  to use during the computation of the Gaussians. The method
+  //  \code{SetNormalizeAcrossScale()} serves this purpose.
   //  \index{SmoothingRecursiveGaussianImageFilter!SetNormalizeAcrossScale()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetNormalizeAcrossScale( false );
@@ -144,10 +140,10 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another filter. Here,
-  //  an image reader is used as source. The image is passed directly to the 
+  //  an image reader is used as source. The image is passed directly to the
   //  smoothing filter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
@@ -165,7 +161,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!SetSigma()}
   //  \index{SetSigma()!itk::SmoothingRecursiveGaussianImageFilter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const double sigma = atof( argv[3] );
 
@@ -180,7 +176,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!Update()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -191,7 +187,7 @@ int main( int argc, char * argv[] )
   typedef  unsigned char  WritePixelType;
   typedef itk::Image< WritePixelType, 2 >    WriteImageType;
 
-  typedef itk::RescaleIntensityImageFilter< 
+  typedef itk::RescaleIntensityImageFilter<
                    OutputImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
@@ -207,7 +203,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput3.eps}
@@ -224,7 +220,7 @@ int main( int argc, char * argv[] )
   //  regulated by selecting an appropriate sigma.  This type of scale-tunable
   //  filter is suitable for performing scale-space analysis.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

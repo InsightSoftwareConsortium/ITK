@@ -23,6 +23,7 @@ itkSparseFieldFourthOrderLevelSetImageFilter.h InternalVariables Disable
 itkSparseFieldLevelSetImageFilter.h InternalVariables Disable
 itkWindowedSincInterpolateImageFunction.h DeclarationOrder Disable
 itkCommand.h Typedefs Disable
+itkFilterWatcher.h Namespace Disable
 itkFixedArray.h Typedefs Disable
 itkQuadEdgeMeshMacro.h Indent Disable
 itkExceptionObject.h Indent Disable
@@ -88,9 +89,15 @@ itkMetaDataObject.txx Namespace Disable
 itkMersenneTwisterRandomVariateGenerator.h InternalVariables Disable
 itkNeighborhoodAllocator.h Typedefs Disable
 itkNodeList.h InternalVariables Disable
+itkNumericTraitsArrayPixel.h InternalVariables Disable
+itkNumericTraitsPointPixel.h InternalVariables Disable
 itkNumericTraitsCovariantVectorPixel.h InternalVariables Disable
 itkNumericTraitsTensorPixel.h InternalVariables Disable
 itkNumericTraitsVectorPixel.h InternalVariables Disable
+itkNumericTraitsDiffusionTensor3DPixel.h InternalVariables Disable
+itkNumericTraitsFixedArrayPixel.h InternalVariables Disable
+itkNumericTraitsRGBPixel.h InternalVariables Disable
+itkNumericTraitsRGBAPixel.h InternalVariables Disable
 itkNumericTraits.cxx Typedefs Disable
 itkObjectFactoryBase.cxx Namespace Disable
 itkSecondaryNodeList.h InternalVariables Disable
@@ -105,3 +112,4 @@ itkNormalVariateGenerator.h InternalVariables Disable
 itkStatisticsTypesTest.cxx Typedefs Disable
 itkLabelStatisticsImageFilter.h Indent Disable
 itkIntTypes.h Typedefs Disable
+itkv3Rigid3DTransform.h Namespace Disable

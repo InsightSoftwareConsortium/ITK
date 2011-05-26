@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    PointSetWithVectors.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,13 +28,13 @@
 //  \doxygen{Vector} class is used here as the pixel type. This class is
 //  appropriate for representing the relative position between two points. It
 //  could then be used to manage displacements, for example.
-//  
+//
 //  \index{itk::PointSet!Vector pixels}
-//  
+//
 //  In order to use the vector class it is necessary to include its header file
 //  along with the header of the point set.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
@@ -52,13 +53,13 @@ int main(int, char *[])
   //  the spatial coordinates and over the space dimension.  Since the
   //  PixelType is independent of the PointType, we are free to select any
   //  dimension for the vectors to be used as pixel type. However, for the
-  //  sake of producing an interesting example, we will use vectors that 
+  //  sake of producing an interesting example, we will use vectors that
   //  represent displacements of the points in the PointSet. Those vectors
   //  are then selected to be of the same dimension as the PointSet.
   //
   //  \index{itk::Vector!itk::PointSet}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
@@ -71,7 +72,7 @@ int main(int, char *[])
   //  Then we use the PixelType (which are actually Vectors) to instantiate the
   //  PointSet type and subsequently create a PointSet object.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::PointSet< PixelType, Dimension > PointSetType;
@@ -89,7 +90,7 @@ int main(int, char *[])
   //  \index{itk::PointSet!SetPoint()}
   //  \index{itk::PointSet!SetPointData()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   PointSetType::PixelType   tangent;
@@ -107,8 +108,8 @@ int main(int, char *[])
     tangent[0] =  vcl_cos(angle);
     tangent[1] = -vcl_sin(angle);
     tangent[2] = 0.0;  // flat on the Z plane
-    pointSet->SetPoint( pointId, point );   
-    pointSet->SetPointData( pointId, tangent );   
+    pointSet->SetPoint( pointId, point );
+    pointSet->SetPointData( pointId, tangent );
     pointId++;
     }
   // Software Guide : EndCodeSnippet
@@ -118,13 +119,13 @@ int main(int, char *[])
   //
   //  We can now visit all the points and use the vector on the pixel values to
   //  apply a displacement on the points. This is along the spirit of what a
-  //  deformable model could do at each one of its iterations. 
+  //  deformable model could do at each one of its iterations.
   //
   //  \index{itk::PointSet!PointIterator}
   //  \index{itk::PointSet!GetPoints()}
   //  \index{itk::PointSet!GetPointData()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -136,7 +137,7 @@ int main(int, char *[])
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
   PointIterator pointEnd      = pointSet->GetPoints()->End();
 
-  while( pixelIterator != pixelEnd  && pointIterator != pointEnd ) 
+  while( pixelIterator != pixelEnd  && pointIterator != pointEnd )
     {
     pointIterator.Value() = pointIterator.Value() + pixelIterator.Value();
     ++pixelIterator;
@@ -154,7 +155,7 @@ int main(int, char *[])
   //  \index{ConstIterator}
   //  \index{const-correctness}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -169,12 +170,12 @@ int main(int, char *[])
   //
   //  We can finally visit all the points and print out the new values
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   pointIterator = pointSet->GetPoints()->Begin();
   pointEnd      = pointSet->GetPoints()->End();
-  while( pointIterator != pointEnd ) 
+  while( pointIterator != pointEnd )
     {
     std::cout << pointIterator.Value() << std::endl;
     ++pointIterator;
@@ -190,7 +191,7 @@ int main(int, char *[])
   //  specific class for representing normals and function gradients. This is
   //  the \doxygen{CovariantVector} class.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   return 0;
 }

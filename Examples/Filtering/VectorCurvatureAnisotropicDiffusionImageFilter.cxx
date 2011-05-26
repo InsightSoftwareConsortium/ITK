@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    VectorCurvatureAnisotropicDiffusionImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -31,7 +28,7 @@
 //
 //  Typically in vector-valued diffusion, vector components are diffused
 //  independently of one another using a conductance term that is linked across
-//  the components. 
+//  the components.
 //
 //  This filter is designed to process images of \doxygen{Vector} type.  The
 //  code relies on various typedefs and overloaded operators defined in
@@ -42,10 +39,9 @@
 //
 //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -59,7 +55,7 @@
 //
 //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkVectorCurvatureAnisotropicDiffusionImageFilter.h"
@@ -68,8 +64,8 @@
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 6 ) 
-    { 
+  if( argc < 6 )
+    {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputGradientImageFile ";
     std::cerr << "outputSmoothedGradientImageFile ";
@@ -77,14 +73,14 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  
+
   //  Software Guide : BeginLatex
   //
   //  Types should be selected based on required pixel type for the input and
   //  output images.  The image types are defined using the pixel type and
   //  the dimension.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef    float    InputPixelType;
@@ -109,7 +105,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!New()}
   //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::VectorCurvatureAnisotropicDiffusionImageFilter<
@@ -118,7 +114,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::GradientRecursiveGaussianImageFilter< 
+  typedef itk::GradientRecursiveGaussianImageFilter<
                        InputImageType, VectorImageType >   GradientFilterType;
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
@@ -130,7 +126,7 @@ int main( int argc, char * argv[] )
   //  an image reader is used as source and its data is passed through a
   //  gradient filter in order to generate an image of vectors.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   gradient->SetInput( reader->GetOutput() );
@@ -155,7 +151,7 @@ int main( int argc, char * argv[] )
   //  \index{SetTimeStep()!itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter}
   //  \index{SetNumberOfIterations()!itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetNumberOfIterations( numberOfIterations );
@@ -172,7 +168,7 @@ int main( int argc, char * argv[] )
   //  $5$, more iterations will result in further smoothing and will increase
   //  linearly the computing time.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //
@@ -183,7 +179,7 @@ int main( int argc, char * argv[] )
   //
   typedef    float    OutputPixelType;
   typedef itk::Image< OutputPixelType,  2 >   OutputImageType;
-  typedef itk::VectorIndexSelectionCastImageFilter< 
+  typedef itk::VectorIndexSelectionCastImageFilter<
                   VectorImageType, OutputImageType > ComponentFilterType;
   ComponentFilterType::Pointer component = ComponentFilterType::New();
 
@@ -192,12 +188,12 @@ int main( int argc, char * argv[] )
 
   typedef unsigned char WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-  typedef itk::RescaleIntensityImageFilter< 
+  typedef itk::RescaleIntensityImageFilter<
                OutputImageType, WriteImageType > RescaleFilterType;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
+
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
   WriterType::Pointer writer = WriterType::New();
   rescaler->SetInput( component->GetOutput() );
@@ -216,7 +212,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterInput.eps}
   // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterOutput.eps}
@@ -232,7 +228,7 @@ int main( int argc, char * argv[] )
   //  (left) and after (right) the application of the filter. In this example
   //  the filter was run with a time step of 0.25, and 5 iterations.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

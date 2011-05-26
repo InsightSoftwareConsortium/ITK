@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration12.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -26,13 +27,11 @@
 // the SpatialObject masks are created and passed to the image metric.
 //
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
@@ -45,13 +44,13 @@
 #include "itkSquaredDifferenceImageFilter.h"
 
 //  Software Guide : BeginLatex
-//  
-//  The most important header in this example is the one corresponding to the 
+//
+//  The most important header in this example is the one corresponding to the
 //  \doxygen{ImageMaskSpatialObject} class.
 //
 //  \index{itk::ImageMaskSpatialObject!header}
-// 
-//  Software Guide : EndLatex 
+//
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageMaskSpatialObject.h"
@@ -62,7 +61,7 @@
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -82,7 +81,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -105,7 +104,7 @@ int main( int argc, char *argv[] )
     std::cerr << " [differenceBeforeRegistration] "<< std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;
 
@@ -117,21 +116,21 @@ int main( int argc, char *argv[] )
 
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
-  
+
 
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
@@ -153,12 +152,12 @@ int main( int argc, char *argv[] )
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
-  typedef itk::CenteredTransformInitializer< 
-                                    TransformType, 
-                                    FixedImageType, 
+  typedef itk::CenteredTransformInitializer<
+                                    TransformType,
+                                    FixedImageType,
                                     MovingImageType >  TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
@@ -173,7 +172,7 @@ int main( int argc, char *argv[] )
   transform->SetAngle( 0.0 );
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  
+
 
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
@@ -188,7 +187,7 @@ int main( int argc, char *argv[] )
 
   optimizer->SetScales( optimizerScales );
 
-  optimizer->SetMaximumStepLength( 0.1    ); 
+  optimizer->SetMaximumStepLength( 0.1    );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
 
@@ -199,27 +198,27 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Here we instantiate the type of the \doxygen{ImageMaskSpatialObject}
   //  using the same dimension of the images to be registered.
   //
   //  \index{itk::ImageMaskSpatialObject!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageMaskSpatialObject< Dimension >   MaskType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then we use the type for creating the spatial object mask that will
   //  restrict the registration to a reduced region of the image.
   //
   //  \index{itk::ImageMaskSpatialObject!New}
   //  \index{itk::ImageMaskSpatialObject!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MaskType::Pointer  spatialObjectMask = MaskType::New();
@@ -227,12 +226,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The mask in this case is read from a binary file using the
   //  \code{ImageFileReader} instantiated for an \code{unsigned char} pixel
   //  type.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char, Dimension >   ImageMaskType;
@@ -241,10 +240,10 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The reader is constructed and a filename is passed to it.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MaskReaderType::Pointer  maskReader = MaskReaderType::New();
@@ -252,75 +251,75 @@ int main( int argc, char *argv[] )
   maskReader->SetFileName( argv[3] );
   // Software Guide : EndCodeSnippet
 
-  
- 
+
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  As usual, the reader is triggered by invoking its \code{Update()} method.
   //  Since this may eventually throw an exception, the call must be placed in
   //  a \code{try/catch} block. Note that a full fledged application will place
   //  this \code{try/catch} block at a much higher level, probably under the
   //  control of the GUI.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try 
-    { 
-    maskReader->Update(); 
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+  try
+    {
+    maskReader->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
-  
- 
+
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The output of the mask reader is connected as input to the
   //  \code{ImageMaskSpatialObject}.
   //
   //  \index{itk::ImageMaskSpatialObject!SetImage()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   spatialObjectMask->SetImage( maskReader->GetOutput() );
   // Software Guide : EndCodeSnippet
-  
- 
+
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally, the spatial object mask is passed to the image metric.
   //
   //  \index{itk::ImageToImageMetric!SetFixedImage()}
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   metric->SetFixedImageMask( spatialObjectMask );
   // Software Guide : EndCodeSnippet
-  
 
 
-  try 
-    { 
-    registration->StartRegistration(); 
+
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition = "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
-  
-  OptimizerType::ParametersType finalParameters = 
+    }
+
+  OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
 
 
@@ -349,21 +348,21 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Let's execute this example over some of the images provided in
   //  \code{Examples/Data}, for example:
-  //  
+  //
   //  \begin{itemize}
-  //  \item \code{BrainProtonDensitySliceBorder20.png} 
+  //  \item \code{BrainProtonDensitySliceBorder20.png}
   //  \item \code{BrainProtonDensitySliceR10X13Y17.png}
   //  \end{itemize}
   //
   //  The second image is the result of intentionally rotating the first
   //  image by $10$ degrees and shifting it $13mm$ in $X$ and $17mm$ in
   //  $Y$. Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5}. 
+  //  \ref{fig:FixedMovingImageRegistration5}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
@@ -380,11 +379,11 @@ int main( int argc, char *argv[] )
   //  Now we resample the moving image using the transform resulting from the
   //  registration process.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -403,15 +402,15 @@ int main( int argc, char *argv[] )
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
-  
+
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
@@ -427,18 +426,18 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-  typedef itk::SquaredDifferenceImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
+  typedef itk::SquaredDifferenceImageFilter<
+                                  FixedImageType,
+                                  FixedImageType,
                                   OutputImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( difference->GetOutput() );  
-  
+  writer2->SetInput( difference->GetOutput() );
 
-  // Compute the difference image between the 
+
+  // Compute the difference image between the
   // fixed and resampled moving image.
   if( argc >= 6 )
     {
@@ -449,7 +448,7 @@ int main( int argc, char *argv[] )
     }
 
 
-  // Compute the difference image between the 
+  // Compute the difference image between the
   // fixed and moving image before registration.
   if( argc >= 7 )
     {

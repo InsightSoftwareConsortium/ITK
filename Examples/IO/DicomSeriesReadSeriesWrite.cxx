@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DicomSeriesReadSeriesWrite.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginLatex
@@ -56,18 +53,18 @@
 //  representation may make impossible to detect certain pathologies and as a
 //  result will expose the patient to the risk or remaining untreated for a
 //  long period of time while her/his pathology progresses.
-//  
+//
 //  You are strongly encouraged to get familiar with the report on medical
 //  errors ``To Err is Human'', produced by the U.S. Institute of
 //  Medicine~\cite{ToErrIsHuman2001}. Raising awareness about the high
 //  frequency of medical errors is a first step in reducing their occurrence.
-//  
+//
 //  \index{Medical Errors}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginLatex
-// 
+//
 // After all these warnings, let us now go back to the code and get familiar
 // with the use of ITK and GDCM for writing DICOM Series. The first step that
 // we must take is to include the header files of the relevant classes. We
@@ -84,13 +81,13 @@
 // Software Guide : EndCodeSnippet
 
 #include <vector>
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 int main( int argc, char* argv[] )
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << 
+    std::cerr << "Usage: " << argv[0] <<
       " DicomDirectory  OutputDicomDirectory" << std::endl;
     return EXIT_FAILURE;
     }
@@ -100,8 +97,8 @@ int main( int argc, char* argv[] )
   //  As a second step, we define the image type to be used in this example. This
   //  is done by explicitly selecting a pixel type and a dimension. Using the
   //  image type we can define the type of the series reader.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef signed short    PixelType;
@@ -130,7 +127,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Just as the previous example, we get the DICOM filenames from the
   //  directory. Note however, that in this case we use the
   //  \code{SetInputDirectory()} method instead of the \code{SetDirectory()}.
@@ -139,17 +136,17 @@ int main( int argc, char* argv[] )
   //  for writing. Then, we invoke the \code{GetInputFileNames()} method in order
   //  to get the list of filenames to read.
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   namesGenerator->SetInputDirectory( argv[1] );
 
-  const ReaderType::FileNamesContainer & filenames = 
+  const ReaderType::FileNamesContainer & filenames =
                             namesGenerator->GetInputFileNames();
   // Software Guide : EndCodeSnippet
 
   unsigned int numberOfFilenames =  filenames.size();
-  std::cout << numberOfFilenames << std::endl; 
+  std::cout << numberOfFilenames << std::endl;
   for(unsigned int fni = 0; fni<numberOfFilenames; fni++)
     {
     std::cout << "filename # " << fni << " = ";
@@ -157,7 +154,7 @@ int main( int argc, char* argv[] )
     }
 
   // Software Guide : BeginLatex
-  // 
+  //
   // We construct one instance of the series reader object. Set the DICOM image
   // IO object to be use with it, and set the list of filenames to read.
   //
@@ -171,7 +168,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // We can trigger the reading process by calling the \code{Update()} method on
   // the series reader. It is wise to put this invocation inside a
   // \code{try/catch} block since the process may eventually throw exceptions.
@@ -192,7 +189,7 @@ int main( int argc, char* argv[] )
     }
 
   // Software Guide : BeginLatex
-  // 
+  //
   // At this point we would have the volumetric data loaded in memory and we can
   // get access to it by invoking the \code{GetOutput()} method in the reader.
   //
@@ -203,7 +200,7 @@ int main( int argc, char* argv[] )
   //  Now we can prepare the process for writing the dataset. First, we take the
   //  name of the output directory from the command line arguments.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const char * outputDirectory = argv[2];
@@ -222,14 +219,14 @@ int main( int argc, char* argv[] )
   //  \index{MakeDirectory!SystemTools}
   //  \index{MakeDirectory!itksys}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   itksys::SystemTools::MakeDirectory( outputDirectory );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // We instantiate explicitly the image type to be used for writing, and use the
   // image type for instantiating the type of the series writer.
   //
@@ -241,17 +238,17 @@ int main( int argc, char* argv[] )
 
   typedef itk::Image< OutputPixelType, OutputDimension >    Image2DType;
 
-  typedef itk::ImageSeriesWriter< 
+  typedef itk::ImageSeriesWriter<
                              ImageType, Image2DType >  SeriesWriterType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We construct a series writer and connect to its input the output from the
   //  reader. Then we pass the GDCM image IO object in order to be able to write
-  //  the images in DICOM format. 
+  //  the images in DICOM format.
   //
-  //  the writer filter.  Software Guide : EndLatex 
+  //  the writer filter.  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
@@ -261,7 +258,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  It is time now to setup the GDCMSeriesFileNames to generate new filenames
   //  using another output directory.  Then simply pass those newly generated
   //  files to the series writer.
@@ -269,8 +266,8 @@ int main( int argc, char* argv[] )
   //  \index{GDCMSeriesFileNames!SetOutputDirectory()}
   //  \index{GDCMSeriesFileNames!GetOutputFileNames()}
   //  \index{ImageSeriesWriter!SetFileNames()}
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   namesGenerator->SetOutputDirectory( outputDirectory );
@@ -278,7 +275,7 @@ int main( int argc, char* argv[] )
   seriesWriter->SetFileNames( namesGenerator->GetOutputFileNames() );
   // Software Guide : EndCodeSnippet
 
-  
+
 
 
   //  Software Guide : BeginLatex
@@ -292,15 +289,15 @@ int main( int argc, char* argv[] )
   //  \index{itk::ImageSeriesReader!GetMetaDataDictionaryArray()}
   //  \index{itk::ImageSeriesWriter!SetMetaDataDictionaryArray()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  seriesWriter->SetMetaDataDictionaryArray( 
+  seriesWriter->SetMetaDataDictionaryArray(
                         reader->GetMetaDataDictionaryArray() );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Finally we trigger the writing process by invoking the \code{Update()} method
   // in the series writer. We place this call inside a try/catch block, in case
   // any exception is thrown during the writing process.
@@ -321,7 +318,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Please keep in mind that you should avoid to generate DICOM files that have
   // the appearance of being produced by a scanner. It should be clear from the
   // directory or filenames that this data was the result of the

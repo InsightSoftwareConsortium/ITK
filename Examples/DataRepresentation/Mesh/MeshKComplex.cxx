@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MeshKComplex.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -33,7 +34,7 @@
 //
 //  \index{itk::Mesh!K-Complex}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 //  Software Guide : BeginLatex
@@ -46,14 +47,12 @@
 //  \index{itk::TriangleCell!header}
 //  \index{itk::TetrahedronCell!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkMesh.h"
-#include "itkVertexCell.h"
 #include "itkLineCell.h"
-#include "itkTriangleCell.h"
 #include "itkTetrahedronCell.h"
 // Software Guide : EndCodeSnippet
 
@@ -61,14 +60,14 @@
 int main(int, char *[])
 {
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then the PixelType is defined and the mesh type is instantiated with it.
   //  Note that the dimension of the space is three in this case.
   //
   //  \index{itk::Mesh!Instantiation}
   //  \index{itk::Mesh!PixelType}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float                             PixelType;
@@ -79,14 +78,14 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The cell type can now be instantiated using the traits
-  //  taken from the Mesh.  
+  //  taken from the Mesh.
   //
   //  \index{itk::LineCell!Instantiation}
   //  \index{itk::VertexCell!Instantiation}
   //  \index{itk::TriangleCell!Instantiation}
   //  \index{itk::TetrahedronCell!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellType                CellType;
@@ -119,7 +118,7 @@ int main(int, char *[])
   //  \index{itk::Mesh!PointType}
   //  \index{itk::Mesh!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MeshType::Pointer  mesh = MeshType::New();
@@ -129,10 +128,10 @@ int main(int, char *[])
   MeshType::PointType   point2;
   MeshType::PointType   point3;
 
-  point0[0] = -1; point0[1] = -1; point0[2] = -1; 
-  point1[0] =  1; point1[1] =  1; point1[2] = -1; 
-  point2[0] =  1; point2[1] = -1; point2[2] =  1; 
-  point3[0] = -1; point3[1] =  1; point3[2] =  1; 
+  point0[0] = -1; point0[1] = -1; point0[2] = -1;
+  point1[0] =  1; point1[1] =  1; point1[2] = -1;
+  point2[0] =  1; point2[1] = -1; point2[2] =  1;
+  point3[0] = -1; point3[1] =  1; point3[2] =  1;
 
   mesh->SetPoint( 0, point0 );
   mesh->SetPoint( 1, point1 );
@@ -154,7 +153,7 @@ int main(int, char *[])
   //  \index{itk::TetrahedronCell!Instantiation}
   //  \index{itk::TetrahedronCell!SetPointId()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -169,14 +168,14 @@ int main(int, char *[])
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Four triangular faces are created and associated with the mesh now.
   //  The first triangle connects points {0,1,2}.
   //
   //  \index{itk::TriangleCell!Instantiation}
   //  \index{itk::TriangleCell!SetPointId()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -189,10 +188,10 @@ int main(int, char *[])
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The second triangle connects points { 0, 2, 3 }
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new TriangleType );
@@ -201,13 +200,13 @@ int main(int, char *[])
   cellpointer->SetPointId( 2, 3 );
   mesh->SetCell( 2, cellpointer );
   // Software Guide : EndCodeSnippet
-    
+
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The third triangle connects points { 0, 3, 1 }
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
    // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new TriangleType );
@@ -219,10 +218,10 @@ int main(int, char *[])
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The fourth triangle connects points { 3, 2, 1 }
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new TriangleType );
@@ -233,7 +232,7 @@ int main(int, char *[])
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Note how the \code{CellAutoPointer} is reused every time. Reminder: the
   //  \doxygen{AutoPointer} loses ownership of the cell when it is passed as
   //  an argument of the \code{SetCell()} method. The AutoPointer is attached
@@ -245,7 +244,7 @@ int main(int, char *[])
   //  \index{itk::LineCell!Instantiation}
   //  \index{itk::LineCell!SetPointId()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new LineType );
@@ -281,11 +280,11 @@ int main(int, char *[])
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally the zero dimensional cells represented by the
   //  \doxygen{VertexCell} are created and inserted in the mesh.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new VertexType );
@@ -314,7 +313,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  At this point the Mesh contains four points and fifteen cells enumerated
-  //  from 0 to 14.  The points can be visited using PointContainer iterators 
+  //  from 0 to 14.  The points can be visited using PointContainer iterators
   //
   // \index{itk::Mesh!PointsContainer}
   // \index{itk::Mesh!PointsIterators}
@@ -322,14 +321,14 @@ int main(int, char *[])
   // \index{PointsContainer!Begin()}
   // \index{PointsContainer!End()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::PointsContainer::ConstIterator  PointIterator;
   PointIterator pointIterator = mesh->GetPoints()->Begin();
   PointIterator pointEnd      = mesh->GetPoints()->End();
-  
-  while( pointIterator != pointEnd ) 
+
+  while( pointIterator != pointEnd )
     {
     std::cout << pointIterator.Value() << std::endl;
     ++pointIterator;
@@ -339,7 +338,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The cells can be visited using CellsContainer iterators 
+  //  The cells can be visited using CellsContainer iterators
   //
   // \index{itk::Mesh!CellsContainer}
   // \index{itk::Mesh!CellsIterators}
@@ -347,15 +346,15 @@ int main(int, char *[])
   // \index{CellsContainer!Begin()}
   // \index{CellsContainer!End()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellsContainer::ConstIterator  CellIterator;
 
   CellIterator cellIterator = mesh->GetCells()->Begin();
   CellIterator cellEnd      = mesh->GetCells()->End();
-  
-  while( cellIterator != cellEnd ) 
+
+  while( cellIterator != cellEnd )
     {
     CellType * cell = cellIterator.Value();
     std::cout << cell->GetNumberOfPoints() << std::endl;
@@ -369,7 +368,7 @@ int main(int, char *[])
   //  Note that cells are stored as pointer to a generic cell type that is the
   //  base class of all the specific cell classes. This means that at this
   //  level we can only have access to the virtual methods defined in the
-  //  \code{CellType}. 
+  //  \code{CellType}.
   //
   //  The point identifiers to which the cells have been associated can be
   //  visited using iterators defined in the \code{CellType} trait. The
@@ -385,12 +384,12 @@ int main(int, char *[])
   //  \index{PointIdsBegin()}
   //  \index{PointIdsEnd()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   cellIterator = mesh->GetCells()->Begin();
   cellEnd      = mesh->GetCells()->End();
-  
-  while( cellIterator != cellEnd ) 
+
+  while( cellIterator != cellEnd )
     {
     CellType * cell = cellIterator.Value();
 
@@ -420,7 +419,7 @@ int main(int, char *[])
   //  more traditional \code{*iterator} notation instead the \code{Value()}
   //  notation used by cell-iterators.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -437,7 +436,7 @@ int main(int, char *[])
   //  simulation. This application typically simulates bistoury cuts
   //  in a mesh representing an organ. A small cut in the surface may be made
   //  by specifying that two triangles are not considered to be neighbors any
-  //  more. 
+  //  more.
   //
   //  Neighborhood relationships are represented in the mesh by the
   //  notion of \emph{BoundaryFeature}. Every cell has an internal list of
@@ -447,7 +446,7 @@ int main(int, char *[])
   //  its two vertices. A tetrahedron will have boundary features of dimension
   //  zero, one and two, corresponding to its four vertices, six edges and four
   //  triangular faces. It is up to the user to specify the connections between
-  //  the cells. 
+  //  the cells.
   //
   //  \index{BoundaryFeature}
   //  \index{CellBoundaryFeature}
@@ -456,19 +455,19 @@ int main(int, char *[])
   //  Let's take in our current example the tetrahedron cell that was
   //  associated with the cell-identifier \code{0} and assign to it the four
   //  vertices as boundaries of dimension zero. This is done by invoking the
-  //  \code{SetBoundaryAssignment()} method on the Mesh class. 
+  //  \code{SetBoundaryAssignment()} method on the Mesh class.
   //
   //  \index{itk::Mesh!SetBoundaryAssignment()}
   //  \index{SetBoundaryAssignment()!itk::Mesh}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MeshType::CellIdentifier cellId = 0;  // the tetrahedron
 
   int dimension = 0;                    // vertices
 
-  MeshType::CellFeatureIdentifier featureId = 0; 
+  MeshType::CellFeatureIdentifier featureId = 0;
 
   mesh->SetBoundaryAssignment( dimension, cellId, featureId++, 11 );
   mesh->SetBoundaryAssignment( dimension, cellId, featureId++, 12 );
@@ -494,12 +493,12 @@ int main(int, char *[])
   //  \begin{tabular}{ | c || c | c | c | }
   //  \hline
   //  Dimension & CellType & FeatureId range & Cell Ids \\ \hline\hline
-  //  0 & VertexCell & [0:3] & \{11,12,13,14\} \\   \hline 
-  //  1 & LineCell & [0:5] & \{5,6,7,8,9,10\} \\   \hline 
-  //  2 & TriangleCell & [0:3] & \{1,2,3,4\} \\ \hline 
+  //  0 & VertexCell & [0:3] & \{11,12,13,14\} \\   \hline
+  //  1 & LineCell & [0:5] & \{5,6,7,8,9,10\} \\   \hline
+  //  2 & TriangleCell & [0:3] & \{1,2,3,4\} \\ \hline
   //  \end{tabular}
   //  \end{center}
-  // 
+  //
   //  In the code example above, the values of featureId range from zero to
   //  three. The cell identifiers of the triangle cells in this example are the
   //  numbers \{1,2,3,4\}, while the cell identifiers of the vertex cells are
@@ -511,7 +510,7 @@ int main(int, char *[])
   //  feature identifier is reinitialized to zero since the count is
   //  independent for each dimension.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   cellId    = 0;  // still the tetrahedron
@@ -533,7 +532,7 @@ int main(int, char *[])
   //  \{1,2,3,4\}. The featureId is reset to zero since feature-Ids are
   //  independent on each dimension.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   cellId    = 0;  // still the tetrahedron
@@ -557,7 +556,7 @@ int main(int, char *[])
   //  \index{itk::Mesh!GetNumberOfBoundaryFeatures()}
   //  \index{GetNumberOfBoundaryFeatures()!itk::Mesh}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   cellId = 0; // still the tetrahedron
@@ -587,7 +586,7 @@ int main(int, char *[])
   // \index{itk::Mesh!GetBoundaryAssignment()}
   // \index{GetBoundaryAssignment()!itk::Mesh}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   std::cout << "Boundary features of dimension 0 " << std::endl;
 
@@ -631,10 +630,10 @@ int main(int, char *[])
   //  The following code illustrates how to set the edge boundaries for one of
   //  the triangular faces.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  cellId     =  2;    // one of the triangles 
+  cellId     =  2;    // one of the triangles
   dimension  =  1;    // boundary edges
   featureId  =  0;    // start the count of features
 

@@ -1,2 +1,0 @@
-WRAP_NON_TEMPLATE_CLASS("itk::CostFunction" POINTER)
-WRAP_NON_TEMPLATE_CLASS("itk::SingleValuedCostFunction" POINTER)

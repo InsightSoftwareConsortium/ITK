@@ -1,25 +1,26 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableRegistration5.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 #include "itkImageRegionIterator.h"
 
@@ -35,7 +36,6 @@
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkWarpImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -45,7 +45,7 @@
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.
 //
-  class CommandIterationUpdate : public itk::Command 
+  class CommandIterationUpdate : public itk::Command
   {
   public:
     typedef  CommandIterationUpdate   Self;
@@ -73,7 +73,7 @@
 
     void Execute(const itk::Object * object, const itk::EventObject & event)
       {
-         const RegistrationFilterType * filter = 
+         const RegistrationFilterType * filter =
           dynamic_cast< const RegistrationFilterType * >( object );
         if( !(itk::IterationEvent().CheckEvent( &event )) )
           {
@@ -137,16 +137,16 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef float InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-  typedef itk::CastImageFilter< FixedImageType, 
+  typedef itk::CastImageFilter< FixedImageType,
                                 InternalImageType > FixedImageCasterType;
-  typedef itk::CastImageFilter< MovingImageType, 
+  typedef itk::CastImageFilter< MovingImageType,
                                 InternalImageType > MovingImageCasterType;
 
   FixedImageCasterType::Pointer fixedImageCaster   = FixedImageCasterType::New();
   MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput( fixedImageReader->GetOutput() );
-  movingImageCaster->SetInput( movingImageReader->GetOutput() ); 
+  movingImageCaster->SetInput( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -176,7 +176,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginLatex
-  // 
+  //
   // For this example, we set the moving image as the source or input image and
   // the fixed image as the reference image.
   //
@@ -184,9 +184,9 @@ int main( int argc, char *argv[] )
   // \index{itk::HistogramMatchingImageFilter!SetSourceImage()}
   // \index{itk::HistogramMatchingImageFilter!SetReferenceImage()}
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : BeginCodeSnippet
   matcher->SetInput( movingImageCaster->GetOutput() );
   matcher->SetReferenceImage( fixedImageCaster->GetOutput() );
   // Software Guide : EndCodeSnippet
@@ -291,7 +291,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginLatex
-  // 
+  //
   // The registration algorithm is triggered by updating the filter. The
   // filter output is the computed deformation field.
   //
@@ -320,7 +320,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::WarpImageFilter<
-                          MovingImageType, 
+                          MovingImageType,
                           MovingImageType,
                           DeformationFieldType  >     WarperType;
   typedef itk::LinearInterpolateImageFunction<
@@ -357,7 +357,7 @@ int main( int argc, char *argv[] )
   // Write warped image out to file
   typedef  unsigned char  OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         MovingImageType,
                         OutputImageType > CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -366,7 +366,7 @@ int main( int argc, char *argv[] )
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
   writer->SetFileName( argv[3] );
-  
+
   caster->SetInput( warper->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
@@ -389,7 +389,7 @@ int main( int argc, char *argv[] )
   // before and after demons-based deformable registration.}
   // \label{fig:DeformableRegistration5Output}
   // \end{figure}
-  // 
+  //
   // The result of the demons-based deformable registration is presented in
   // Figure \ref{fig:DeformableRegistration5Output}. The checkerboard
   // comparison shows that the algorithm was able to recover the misalignment
@@ -439,7 +439,7 @@ int main( int argc, char *argv[] )
 
   VectorImage2DType::RegionType  region2D = vectorImage2D->GetBufferedRegion();
   VectorImage2DType::IndexType   index2D  = region2D.GetIndex();
-  VectorImage2DType::SizeType    size2D   = region2D.GetSize(); 
+  VectorImage2DType::SizeType    size2D   = region2D.GetSize();
 
 
   typedef itk::Vector< float,       3 >  Vector3DType;
@@ -450,7 +450,7 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer3D = WriterType::New();
 
   VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
-  
+
   VectorImage3DType::RegionType  region3D;
   VectorImage3DType::IndexType   index3D;
   VectorImage3DType::SizeType    size3D;
@@ -458,7 +458,7 @@ int main( int argc, char *argv[] )
   index3D[0] = index2D[0];
   index3D[1] = index2D[1];
   index3D[2] = 0;
-  
+
   size3D[0]  = size2D[0];
   size3D[1]  = size2D[1];
   size3D[2]  = 1;
@@ -477,7 +477,7 @@ int main( int argc, char *argv[] )
 
   vectorImage3D->SetRegions( region3D );
   vectorImage3D->Allocate();
-  
+
   typedef itk::ImageRegionConstIterator< VectorImage2DType > Iterator2DType;
 
   typedef itk::ImageRegionIterator< VectorImage3DType > Iterator3DType;
@@ -496,8 +496,8 @@ int main( int argc, char *argv[] )
   while( !it2.IsAtEnd() )
     {
     vector2D = it2.Get();
-    vector3D[0] = vector2D[0];  
-    vector3D[1] = vector2D[1];  
+    vector3D[0] = vector2D[0];
+    vector3D[1] = vector2D[1];
     it3.Set( vector3D );
     ++it2;
     ++it3;

@@ -1,30 +1,27 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    GeodesicActiveContourShapePriorLevelSetImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
- =========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 // Software Guide : BeginLatex
 //
-// In medical imaging applications, the general shape, location and 
+// In medical imaging applications, the general shape, location and
 // orientation of an anatomical structure of interest is typically
 // known \emph{a priori}. This information can be used to aid the
 // segmentation process especially when image contrast is low or
@@ -33,11 +30,11 @@
 // In \cite{Leventon2000}, Leventon \emph{et al.} extended the
 // geodesic active contours method with an additional shape-influenced term in
 // the driving PDE. The \doxygen{GeodesicActiveContourShapePriorLevelSetFilter}
-// is a generalization of Leventon's approach and its use is illustrated 
+// is a generalization of Leventon's approach and its use is illustrated
 // in the following example.
 //
-// To support shape-guidance, the generic level set 
-// equation (Eqn(~\ref{eqn:LevelSetEquation})) is extended to incorporate a 
+// To support shape-guidance, the generic level set
+// equation (Eqn(~\ref{eqn:LevelSetEquation})) is extended to incorporate a
 // shape guidance term:
 //
 // \begin{equation}
@@ -49,15 +46,15 @@
 // with respect to a shape model. The new term has the effect of driving the
 // contour towards the best-fit shape. The scalar $\xi$ weights the influence
 // of the shape term in the overall evolution. In general, the best-fit shape
-// is not known ahead of time and has to be iteratively estimated in 
+// is not known ahead of time and has to be iteratively estimated in
 // conjunction with the contour evolution.
 //
-// As with the \doxygen{GeodesicActiveContourLevelSetImageFilter}, the 
+// As with the \doxygen{GeodesicActiveContourLevelSetImageFilter}, the
 // GeodesicActiveContourShapePriorLevelSetImageFilter expects two input
 // images: the first is an initial level set and the second a feature image
 // that represents the image edge potential. The configuration of this
-// example is quite similar to the example in 
-// Section~\ref{sec:GeodesicActiveContourImageFilter} and hence the description 
+// example is quite similar to the example in
+// Section~\ref{sec:GeodesicActiveContourImageFilter} and hence the description
 // will focus on the new objects involved in the segmentation process as shown
 // in Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}.
 //
@@ -71,9 +68,9 @@
 //
 // The process pipeline begins with centering the input image using the
 // the \doxygen{ChangeInformationImageFilter} to simplify the estimation of the pose
-// of the shape, to be explained later. 
-// The centered image is then smoothed using non-linear diffusion to 
-// remove noise and the gradient magnitude is computed from the smoothed image. 
+// of the shape, to be explained later.
+// The centered image is then smoothed using non-linear diffusion to
+// remove noise and the gradient magnitude is computed from the smoothed image.
 // For simplicity, this example uses the \doxygen{BoundedReciprocalImageFilter}
 // to produce the edge potential image.
 //
@@ -87,11 +84,11 @@
 // to the \doxygen{BinaryThresholdImageFilter} to produce a binary mask
 // representing the segmented object.
 //
-// The remaining objects in 
+// The remaining objects in
 // Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}
 // are used for shape modeling and estimation.
 // The \doxygen{PCAShapeSignedDistanceFunction} represents a statistical
-// shape model defined by a mean signed distance and the first $K$ 
+// shape model defined by a mean signed distance and the first $K$
 // principal components modes; while the \doxygen{Euler2DTransform} is used
 // to represent the pose of the shape. In this implementation, the
 // best-fit shape estimation problem is reformulated as a minimization problem
@@ -102,14 +99,13 @@
 // cost function, and optimizer are used in this example, the implementation
 // is generic, allowing different instances of these components to be
 // plugged in. This flexibility allows a user to tailor the behavior of the
-// segmentation process to suit the circumstances of the targeted application. 
-//  
-// Let's start the example by including the headers of the new filters 
-// involved in the segmentation. 
+// segmentation process to suit the circumstances of the targeted application.
 //
-// Software Guide : EndLatex 
+// Let's start the example by including the headers of the new filters
+// involved in the segmentation.
+//
+// Software Guide : EndLatex
 
-#include "itkImage.h"
 
 // Software Guide : BeginCodeSnippet
 #include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.h"
@@ -120,16 +116,15 @@
 
 //  Software Guide : BeginLatex
 //
-//  Next, we include the headers of the objects involved in shape 
-//  modeling and estimation.  
+//  Next, we include the headers of the objects involved in shape
+//  modeling and estimation.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkPCAShapeSignedDistanceFunction.h"
 #include "itkEuler2DTransform.h"
-#include "itkShapePriorMAPCostFunction.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkNormalVariateGenerator.h"
 #include "vnl/vnl_sample.h"
@@ -148,18 +143,18 @@
 
 // Software Guide : BeginLatex
 //
-// Given the numerous parameters involved in tuning this segmentation method 
+// Given the numerous parameters involved in tuning this segmentation method
 // it is not uncommon for a segmentation process to
 // run for several minutes and still produce an unsatisfactory result. For debugging
 // purposes it is quite helpful to track the evolution of the
-// segmentation as it progresses. The following defines a 
+// segmentation as it progresses. The following defines a
 // custom \doxygen{Command} class
 // for monitoring the RMS change and shape parameters at each iteration.
 //
 //  \index{itk::Geodesic\-Active\-Contour\-Shape\-Prior\-LevelSet\-Image\-Filter!Monitoring}
 //  \index{itk::Shape\-Prior\-Segmentation\-Level\-Set\-Image\-Filter!Monitoring}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkCommand.h"
@@ -177,8 +172,8 @@ protected:
 public:
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
-    { 
-    Execute( (const itk::Object *) caller, event); 
+    {
+    Execute( (const itk::Object *) caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
@@ -187,12 +182,12 @@ public:
       dynamic_cast< const TFilter * >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       { return; }
-    
+
     std::cout << filter->GetElapsedIterations() << ": ";
     std::cout << filter->GetRMSChange() << " ";
     std::cout << filter->GetCurrentParameters() << std::endl;
     }
-  
+
 };
 // Software Guide : EndCodeSnippet
 
@@ -217,18 +212,18 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We define the image type using a particular pixel type and
   //  dimension. In this case we will use 2D \code{float} images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
   const     unsigned int    Dimension = 2;
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
-                                     
+
 
   //  The following lines instantiate the thresholding filter that will
   //  process the final level set at the output of the
@@ -236,12 +231,12 @@ int main( int argc, char *argv[] )
   //
   typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::BinaryThresholdImageFilter< 
-                        InternalImageType, 
+  typedef itk::BinaryThresholdImageFilter<
+                        InternalImageType,
                         OutputImageType    >       ThresholdingFilterType;
-  
+
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
-                        
+
   thresholder->SetLowerThreshold( -1000.0 );
   thresholder->SetUpperThreshold(     0.0 );
 
@@ -264,16 +259,16 @@ int main( int argc, char *argv[] )
   //  The RescaleIntensityImageFilter type is declared below. This filter will
   //  renormalize image before sending them to writers.
   //
-  typedef itk::RescaleIntensityImageFilter< 
-                               InternalImageType, 
+  typedef itk::RescaleIntensityImageFilter<
+                               InternalImageType,
                                OutputImageType >   CastFilterType;
 
 
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} type is
-  //  instantiated using the internal image type. 
+  //  instantiated using the internal image type.
   //
-  typedef   itk::CurvatureAnisotropicDiffusionImageFilter< 
-                               InternalImageType, 
+  typedef   itk::CurvatureAnisotropicDiffusionImageFilter<
+                               InternalImageType,
                                InternalImageType >  SmoothingFilterType;
 
   SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
@@ -283,8 +278,8 @@ int main( int argc, char *argv[] )
   //  GradientMagnitudeRecursiveGaussianImageFilter is
   //  instantiated using the internal image type.
   //
-  typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter< 
-                               InternalImageType, 
+  typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter<
+                               InternalImageType,
                                InternalImageType >  GradientFilterType;
 
   GradientFilterType::Pointer  gradientMagnitude = GradientFilterType::New();
@@ -294,8 +289,8 @@ int main( int argc, char *argv[] )
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
-  typedef  itk::FastMarchingImageFilter< 
-                              InternalImageType, 
+  typedef  itk::FastMarchingImageFilter<
+                              InternalImageType,
                               InternalImageType >    FastMarchingFilterType;
 
 
@@ -303,35 +298,35 @@ int main( int argc, char *argv[] )
   //  method.
   //
   FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The following line instantiate a
   //  \doxygen{GeodesicActiveContourShapePriorLevelSetImageFilter}
   //  using the \code{New()} method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::GeodesicActiveContourShapePriorLevelSetImageFilter< 
-                              InternalImageType, 
+  typedef  itk::GeodesicActiveContourShapePriorLevelSetImageFilter<
+                              InternalImageType,
                               InternalImageType >   GeodesicActiveContourFilterType;
-  GeodesicActiveContourFilterType::Pointer geodesicActiveContour = 
+  GeodesicActiveContourFilterType::Pointer geodesicActiveContour =
                                      GeodesicActiveContourFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // The \doxygen{ChangeInformationImageFilter} is the first filter in the preprocessing
   // stage and is used to force the image origin to the center of the image.
   //
   //  \index{itk::ChangeInformationImageFilter!CenterImageOn()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ChangeInformationImageFilter< 
+  typedef itk::ChangeInformationImageFilter<
                                InternalImageType >  CenterFilterType;
 
   CenterFilterType::Pointer center = CenterFilterType::New();
@@ -339,26 +334,26 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // In this example, we will use the bounded reciprocal $1/(1+x)$ of
   // the image gradient magnitude as the edge potential feature image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   itk::BoundedReciprocalImageFilter<
-                               InternalImageType, 
+                               InternalImageType,
                                InternalImageType >  ReciprocalFilterType;
 
   ReciprocalFilterType::Pointer reciprocal = ReciprocalFilterType::New();
   // Software Guide : EndCodeSnippet
 
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In the GeodesicActiveContourShapePriorLevelSetImageFilter, scaling parameters
   //  are used to trade off between the propagation (inflation), the
-  //  curvature (smoothing), the advection, and the shape influence terms. 
+  //  curvature (smoothing), the advection, and the shape influence terms.
   //  These parameters are set
   //  using methods \code{SetPropagationScaling()},
   //  \code{SetCurvatureScaling()}, \code{SetAdvectionScaling()} and
@@ -373,7 +368,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::Geodesic\-Active\-Contour\-Shape\-Prior\-LevelSet\-Image\-Filter!SetAdvectionScaling()}
   //  \index{itk::Shape\-Prior\-Segmentation\-Level\-Set\-Image\-Filter!SetAdvectionScaling()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const double propagationScaling = atof( argv[11] );
   const double shapePriorScaling  = atof( argv[12] );
@@ -383,7 +378,7 @@ int main( int argc, char *argv[] )
   geodesicActiveContour->SetShapePriorScaling( shapePriorScaling );
   geodesicActiveContour->SetCurvatureScaling( 1.0 );
   geodesicActiveContour->SetAdvectionScaling( 1.0 );
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
   //  Once activiated the level set evolution will stop if the convergence
   //  criteria or if the maximum number of iterations is reached.  The
@@ -402,27 +397,27 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Each iteration, the current ``best-fit'' shape is estimated from the
-  //  edge potential image and the current contour. To increase speed, only 
+  //  edge potential image and the current contour. To increase speed, only
   //  information within the sparse field layers of the current contour is used
   //  in the estimation. The default number of sparse field layers is
   //  the same as
-  //  the ImageDimension which does not contain enough information to get 
+  //  the ImageDimension which does not contain enough information to get
   //  a reliable best-fit shape estimate. Thus, we override the default and
   //  set the number of layers to 4.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
   geodesicActiveContour->SetNumberOfLayers( 4 );
-  //  Software Guide : EndCodeSnippet 
+  //  Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The filters are then connected in a pipeline as illustrated in
   //  Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   center->SetInput( reader->GetOutput() );
@@ -443,7 +438,7 @@ int main( int argc, char *argv[] )
   //  images. However they may have to be adjusted depending on the amount of
   //  noise present in the input image. This filter has been discussed in
   //  section~\ref{sec:GradientAnisotropicDiffusionImageFilter}.
-  
+
   smoothing->SetTimeStep( 0.125 );
   smoothing->SetNumberOfIterations(  5 );
   smoothing->SetConductanceParameter( 9.0 );
@@ -457,7 +452,7 @@ int main( int argc, char *argv[] )
 
   const double sigma = atof( argv[10] );
   gradientMagnitude->SetSigma(  sigma  );
-  
+
 
   //  The FastMarchingImageFilter requires the user to provide a seed
   //  point from which the level set will be generated. The user can actually
@@ -476,7 +471,7 @@ int main( int argc, char *argv[] )
   NodeContainer::Pointer seeds = NodeContainer::New();
 
   InternalImageType::IndexType  seedPosition;
-  
+
   seedPosition[0] = atoi( argv[3] );
   seedPosition[1] = atoi( argv[4] );
 
@@ -496,7 +491,7 @@ int main( int argc, char *argv[] )
   NodeType node;
 
   const double seedValue = - initialDistance;
-  
+
   node.SetValue( seedValue );
   node.SetIndex( seedPosition );
 
@@ -538,7 +533,7 @@ int main( int argc, char *argv[] )
   //  pedagogical/debugging purposes. These intermediate output are normaly not
   //  required. Only the output of the final thresholding filter should be
   //  relevant.  Observing intermediate output is helpful in the process of
-  //  fine tuning the parameters of filters in the pipeline. 
+  //  fine tuning the parameters of filters in the pipeline.
   //
   CastFilterType::Pointer caster1 = CastFilterType::New();
   CastFilterType::Pointer caster2 = CastFilterType::New();
@@ -585,9 +580,9 @@ int main( int argc, char *argv[] )
   //  only after the \code{Update()} methods of this filter has been called
   //  directly or indirectly.
   //
-  fastMarching->SetOutputRegion( 
+  fastMarching->SetOutputRegion(
            center->GetOutput()->GetBufferedRegion() );
-  fastMarching->SetOutputSpacing( 
+  fastMarching->SetOutputSpacing(
            center->GetOutput()->GetSpacing() );
   fastMarching->SetOutputOrigin(
            center->GetOutput()->GetOrigin() );
@@ -595,8 +590,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Next, we define the shape model. In this example, 
-  //  we use an implicit shape model based on the principal components 
+  //  Next, we define the shape model. In this example,
+  //  we use an implicit shape model based on the principal components
   //  such that:
   //
   //  \begin{equation}
@@ -604,12 +599,12 @@ int main( int argc, char *argv[] )
   //  \end{equation}
   //
   //  where $\mu(\mathbf{x})$ is the mean signed distance computed from training
-  //  set of segmented objects and $u_k(\mathbf{x})$ are the first $K$ principal 
-  //  components of the offset (signed distance - mean). 
+  //  set of segmented objects and $u_k(\mathbf{x})$ are the first $K$ principal
+  //  components of the offset (signed distance - mean).
   //  The coefficients $\{\alpha_k\}$ form the
-  //  set of \emph{shape} parameters. 
+  //  set of \emph{shape} parameters.
   //
-  //  Given a set of training data, the \doxygen{ImagePCAShapeModelEstimator} 
+  //  Given a set of training data, the \doxygen{ImagePCAShapeModelEstimator}
   //  can be used to obtain
   //  the mean and principal mode shape images required by PCAShapeSignedDistanceFunction.
   //
@@ -635,12 +630,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  In this example, we will read the mean shape and
-  //  principal mode images from file. We will assume that 
-  //  the filenames of the mode images form a numeric series starting from index 0. 
+  //  principal mode images from file. We will assume that
+  //  the filenames of the mode images form a numeric series starting from index 0.
   //
   //  \index{itk::PCAShapeSignedDistanceFunction!SetMeanImage()}
   //  \index{itk::PCAShapeSignedDistanceFunction!SetPrincipalComponentsImages()}
-  // 
+  //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -650,13 +645,13 @@ int main( int argc, char *argv[] )
 
   std::vector<InternalImageType::Pointer> shapeModeImages( numberOfPCAModes );
 
-  itk::NumericSeriesFileNames::Pointer fileNamesCreator = 
+  itk::NumericSeriesFileNames::Pointer fileNamesCreator =
           itk::NumericSeriesFileNames::New();
 
   fileNamesCreator->SetStartIndex( 0 );
   fileNamesCreator->SetEndIndex( numberOfPCAModes - 1 );
   fileNamesCreator->SetSeriesFormat( argv[15] );
-  const std::vector<std::string> & shapeModeFileNames = 
+  const std::vector<std::string> & shapeModeFileNames =
           fileNamesCreator->GetFileNames();
 
   for ( unsigned int k = 0; k < numberOfPCAModes; k++ )
@@ -673,7 +668,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // Further we assume that the shape modes have been normalized 
+  // Further we assume that the shape modes have been normalized
   // by multiplying with the corresponding singular value. Hence,
   // we can set the principal component standard deviations to all
   // ones.
@@ -685,14 +680,14 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   ShapeFunctionType::ParametersType pcaStandardDeviations( numberOfPCAModes );
   pcaStandardDeviations.Fill( 1.0 );
-  
+
   shape->SetPrincipalComponentStandardDeviations( pcaStandardDeviations );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
   // Next, we instantiate a \doxygen{Euler2DTransform} and connect it to the
-  // PCASignedDistanceFunction. The transform represent 
+  // PCASignedDistanceFunction. The transform represent
   // the pose of the shape. The parameters of the transform
   // forms the set of \emph{pose} parameters.
   //
@@ -714,7 +709,7 @@ int main( int argc, char *argv[] )
   // of the current best-fit shape is estimated by minimizing the
   // \doxygen{ShapePriorMAPCostFunction}. The cost function is composed of
   // four terms: contour fit, image fit, shape prior and pose prior.
-  // The user can specify the weights applied to each term. 
+  // The user can specify the weights applied to each term.
   //
   //  \index{itk::ShapePriorMAPCostFunction!SetWeights()}
   //
@@ -739,7 +734,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // Contour fit measures the likelihood of seeing the current
-  // evolving contour for a given set of shape/pose parameters. 
+  // evolving contour for a given set of shape/pose parameters.
   // This is computed by counting the number of pixels inside
   // the current contour but outside the current shape.
   //
@@ -758,10 +753,10 @@ int main( int argc, char *argv[] )
   // the edge potential feature image.
   //
   // The pose parameters are assumed to have a uniform distribution
-  // and hence do not contribute to the cost function. 
-  // The shape parameters are assumed to have a Gaussian distribution. 
+  // and hence do not contribute to the cost function.
+  // The shape parameters are assumed to have a Gaussian distribution.
   // The parameters of the distribution are user-specified. Since we
-  // assumed the principal modes have already been normalized, 
+  // assumed the principal modes have already been normalized,
   // we set the distribution to zero mean and unit variance.
   //
   //  \index{itk::ShapePriorMAPCostFunction!SetShapeParameterMeans()}
@@ -817,7 +812,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The cost function has $K+3$ parameters. The first $K$ 
+  // The cost function has $K+3$ parameters. The first $K$
   // parameters are the principal component multipliers, followed
   // by the 2D rotation parameter (in radians) and the x- and
   // y- translation parameters (in mm).  We need to carefully
@@ -842,8 +837,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // Next, we specify the initial radius, the shrink and
-  // grow mutation factors and termination criteria of the optimizer. 
-  // Since the best-fit shape is re-estimated each iteration of 
+  // grow mutation factors and termination criteria of the optimizer.
+  // Since the best-fit shape is re-estimated each iteration of
   // the curve evolution, we do not need to spend too much time finding the true
   // minimizing solution each time; we only need to head towards it. As such,
   // we only require a small number of optimizer iterations.
@@ -899,14 +894,14 @@ int main( int argc, char *argv[] )
   geodesicActiveContour->AddObserver( itk::IterationEvent(), observer );
   // Software Guide : EndCodeSnippet
 
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  As usual, the call is placed in a
   //  \code{try/catch} block to handle exceptions should errors occur.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   try
@@ -920,7 +915,7 @@ int main( int argc, char *argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-  // Print out some useful information 
+  // Print out some useful information
   std::cout << std::endl;
   std::cout << "Max. no. iterations: " << geodesicActiveContour->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << geodesicActiveContour->GetMaximumRMSError() << std::endl;
@@ -965,7 +960,7 @@ int main( int argc, char *argv[] )
   evaluator->SetInput( geodesicActiveContour->GetOutput() );
   evaluator->SetFunction( shape );
   shape->SetParameters( geodesicActiveContour->GetInitialParameters() );
-  
+
   thresholder->SetInput( evaluator->GetOutput() );
   writer->SetFileName( "GeodesicActiveContourShapePriorImageFilterOutput5.png" );
   writer->Update();
@@ -978,26 +973,26 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  // Deviating from previous examples, we will demonstrate this example using 
-  // \code{BrainMidSagittalSlice.png} 
+  // Deviating from previous examples, we will demonstrate this example using
+  // \code{BrainMidSagittalSlice.png}
   // (Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}, left)
   // from the \code{Examples/Data} directory.
   // The aim here is to segment the corpus callosum from the image using a shape model
   // defined by \code{CorpusCallosumMeanShape.mha} and the first three principal
-  // components \code{CorpusCallosumMode0.mha}, \code{CorpusCallosumMode1.mha} and 
+  // components \code{CorpusCallosumMode0.mha}, \code{CorpusCallosumMode1.mha} and
   // \code{CorpusCallosumMode12.mha}. As shown in Figure~\ref{fig:CorpusCallosumPCAModes},
   // the first mode captures scaling, the second mode captures the shifting of mass between
   // the rostrum and the splenium and the third mode captures the degree of curvature.
   // Segmentation results with and without shape
-  // guidance are shown in 
+  // guidance are shown in
   // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}.
   //
-  // 
+  //
   // \begin{figure} \center
   // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice.eps}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5.eps}
-  // \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and initial model]{ 
-  // The input image to the GeodesicActiveContourShapePriorLevelSetImageFilter is a 
+  // \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and initial model]{
+  // The input image to the GeodesicActiveContourShapePriorLevelSetImageFilter is a
   // synthesized MR-T1 mid-sagittal slice ($217 \times 180$ pixels, $1 \times 1$ mm spacing)
   // of the brain (left) and the initial best-fit shape
   // (right) chosen to roughly overlap the corpus callosum in the image to be segmented.}
@@ -1010,17 +1005,17 @@ int main( int argc, char *argv[] )
   // \center
   // \begin{tabular}{cccc}
   // & $-3\sigma$ & mean & $+3\sigma$ \\ mode 0: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0.eps} & 
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0.eps} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0.eps} \\ mode 1: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1.eps} & 
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1.eps} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1.eps} \\ mode 2: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2.eps} & 
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} & 
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2.eps} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2.eps} \\ \end{tabular}
   // \itkcaption[Corpus callosum PCA modes]{First three PCA modes of a low-resolution
-  // ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model used in the 
+  // ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model used in the
   // shape guided geodesic active contours example.}
   //
   // \label{fig:CorpusCallosumPCAModes}
@@ -1039,10 +1034,10 @@ int main( int argc, char *argv[] )
   // the corpus callosum in the image as shown in
   // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput} (right).
   //
-  // 
+  //
   // From Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2} it can be
   // observed that without
-  // shape guidance (left), segmentation using geodesic active contour leaks in the 
+  // shape guidance (left), segmentation using geodesic active contour leaks in the
   // regions where the corpus callosum blends into the surrounding brain tissues. With
   // shape guidance (center), the segmentation is constrained by the global shape model
   // to prevent leaking.
@@ -1054,7 +1049,7 @@ int main( int argc, char *argv[] )
   // \end{verbatim}
   //
   // and is shown in
-  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2} (right). Note that a 
+  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2} (right). Note that a
   // $0.28$ radian ($15.8$ degree) rotation has been introduced to match the model to
   // the corpus callosum in the image. Additionally, a negative weight for the first
   // mode shrinks the size relative to the mean shape. A negative weight for the second mode
@@ -1062,14 +1057,14 @@ int main( int argc, char *argv[] )
   // increases the curvature. It can also be observed that the final segmentation is
   // a combination of the best-fit shape with additional local deformation. The combination
   // of both global and local shape allows the segmentation to capture fine details not represented
-  // in the shape model. 
-  // 
+  // in the shape model.
+  //
   //
   // \begin{figure} \center
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput1.eps}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput2.eps}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput6.eps}
-  // \itkcaption[GeodesicActiveContourShapePriorImageFilter segmentations]{Corpus callosum 
+  // \itkcaption[GeodesicActiveContourShapePriorImageFilter segmentations]{Corpus callosum
   // segmentation using geodesic active contours without (left) and with (center) shape guidance.
   // The image on the right represents the best-fit shape at the end of the segmentation process.}
   //
@@ -1077,7 +1072,7 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return 0;

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -39,21 +40,19 @@
 // simpler GradientDescentOptimizer with a user defined learning rate.  The
 // following headers declare the basic components of this registration method.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"
-#include "itkImage.h"
 // Software Guide : EndCodeSnippet
 
 
 //  Software Guide : BeginLatex
-//  
+//
 //  One way to simplify the computation of the mutual information is
 //  to normalize the statistical distribution of the two input images. The
 //  \doxygen{NormalizeImageFilter} is the perfect tool for this task.
@@ -61,21 +60,21 @@
 //  output image with zero mean and unit variance. This filter has been
 //  discussed in Section \ref{sec:CastingImageFilters}.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkNormalizeImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
-//  
+//
 //  Additionally, low-pass filtering of the images to be registered will also
 //  increase robustness against noise. In this example, we will use the
 //  \doxygen{DiscreteGaussianImageFilter} for that purpose. The
 //  characteristics of this filter have been discussed in Section
 //  \ref{sec:BlurringFilters}.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkDiscreteGaussianImageFilter.h"
@@ -94,7 +93,7 @@
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -114,7 +113,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -138,30 +137,30 @@ int main( int argc, char *argv[] )
     std::cerr << "[checkerBoardBefore] [checkerBoardAfter]" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   // Software Guide : BeginLatex
-  // 
-  // The moving and fixed images types should be instantiated first. 
   //
-  // Software Guide : EndLatex 
+  // The moving and fixed images types should be instantiated first.
   //
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : EndLatex
+  //
+  // Software Guide : BeginCodeSnippet
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  It is convenient to work with an internal image type because mutual
   //  information will perform better on images with a normalized statistical
   //  distribution. The fixed and moving images will be normalized and
   //  converted to this internal type.
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef   float                                    InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
@@ -169,36 +168,36 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The rest of the image registration components are instantiated as
   //  illustrated in Section \ref{sec:IntroductionImageRegistration} with
   //  the use of the \code{InternalImageType}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension > TransformType;
   typedef itk::GradientDescentOptimizer                  OptimizerType;
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     InternalImageType,
                                     double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod< 
-                                    InternalImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    InternalImageType,
                                     InternalImageType >  RegistrationType;
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The mutual information metric type is instantiated using the image
   //  types.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MutualInformationImageToImageMetric< 
-                                          InternalImageType, 
+  typedef itk::MutualInformationImageToImageMetric<
+                                          InternalImageType,
                                           InternalImageType >    MetricType;
   // Software Guide : EndCodeSnippet
 
@@ -214,11 +213,11 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The metric is created using the \code{New()} method and then
   //  connected to the registration object.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MetricType::Pointer         metric        = MetricType::New();
@@ -227,7 +226,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The metric requires a number of parameters to be selected, including
   //  the standard deviation of the Gaussian kernel for the fixed image
   //  density estimate, the standard deviation of the kernel for the moving
@@ -242,7 +241,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetFixedImageStandardDeviation()}
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetMovingImageStandardDeviation()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   metric->SetFixedImageStandardDeviation(  0.4 );
@@ -260,24 +259,24 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The normalization filters are instantiated using the fixed and moving
   //  image types as input and the internal image type as output.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::NormalizeImageFilter< 
-                                FixedImageType, 
-                                InternalImageType 
+  typedef itk::NormalizeImageFilter<
+                                FixedImageType,
+                                InternalImageType
                                         > FixedNormalizeFilterType;
 
-  typedef itk::NormalizeImageFilter< 
-                                MovingImageType, 
-                                InternalImageType 
+  typedef itk::NormalizeImageFilter<
+                                MovingImageType,
+                                InternalImageType
                                               > MovingNormalizeFilterType;
 
-  FixedNormalizeFilterType::Pointer fixedNormalizer = 
+  FixedNormalizeFilterType::Pointer fixedNormalizer =
                                             FixedNormalizeFilterType::New();
 
   MovingNormalizeFilterType::Pointer movingNormalizer =
@@ -285,19 +284,19 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The blurring filters are declared using the internal image type as both
   //  the input and output types. In this example, we will set the variance
   //  for both blurring filters to $2.0$.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::DiscreteGaussianImageFilter<
-                                      InternalImageType, 
+                                      InternalImageType,
                                       InternalImageType
                                                     > GaussianFilterType;
-  
+
   GaussianFilterType::Pointer fixedSmoother  = GaussianFilterType::New();
   GaussianFilterType::Pointer movingSmoother = GaussianFilterType::New();
 
@@ -306,13 +305,13 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The output of the readers becomes the input to the normalization
   //  filters. The output of the normalization filters is connected as
   //  input to the blurring filters. The input to the registration method
   //  is taken from the blurring filters.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   fixedNormalizer->SetInput(  fixedImageReader->GetOutput() );
@@ -336,7 +335,7 @@ int main( int argc, char *argv[] )
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
-  
+
   registration->SetInitialTransformParameters( initialParameters );
 
   //  Software Guide : BeginLatex
@@ -353,7 +352,7 @@ int main( int argc, char *argv[] )
   //  therefore helps when this metric is used in conjunction with optimizers
   //  that rely of the continuity of the metric values. The trade-off, of
   //  course, is that a larger number of samples result in longer computation
-  //  times per every evaluation of the metric. 
+  //  times per every evaluation of the metric.
   //
   //  It has been demonstrated empirically that the number of samples is not a
   //  critical parameter for the registration process. When you start fine
@@ -371,12 +370,12 @@ int main( int argc, char *argv[] )
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!Trade-offs}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
-  
-  const unsigned int numberOfSamples = 
+
+  const unsigned int numberOfSamples =
                         static_cast< unsigned int >( numberOfPixels * 0.01 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
@@ -384,7 +383,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Since larger values of mutual information indicate better matches than
   //  smaller values, we need to maximize the cost function in this example.
   //  By default the GradientDescentOptimizer class is set to minimize the
@@ -396,7 +395,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::Gradient\-Descent\-Optimizer!MaximizeOn()}
   //  \index{itk::Image\-Registration\-Method!Maximize vs Minimize}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -407,7 +406,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Note that large values of the learning rate will make the optimizer
   // unstable. Small values, on the other hand, may result in the optimizer
   // needing too many iterations in order to walk to the extrema of the cost
@@ -432,27 +431,27 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
-  
+
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   double bestValue = optimizer->GetValue();
 
 
@@ -468,12 +467,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Let's execute this example over two of the images provided in
   //  \code{Examples/Data}:
-  //  
+  //
   //  \begin{itemize}
-  //  \item \code{BrainT1SliceBorder20.png} 
+  //  \item \code{BrainT1SliceBorder20.png}
   //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
   //  \end{itemize}
   //
@@ -485,7 +484,7 @@ int main( int argc, char *argv[] )
   //  density MRI (moving image) are provided as input to the registration method.}
   //  \label{fig:FixedMovingImageRegistration2}
   //  \end{figure}
-  // 
+  //
   //  The second image is the result of intentionally translating the image
   //  \code{Brain\-Proton\-Density\-Slice\-Border20.png} by $(13,17)$
   //  millimeters. Both images have unit-spacing and are shown in Figure
@@ -499,10 +498,10 @@ int main( int argc, char *argv[] )
   //  These values are approximately within one tenth of a pixel from the true
   //  misalignment introduced in the moving image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -514,7 +513,7 @@ int main( int argc, char *argv[] )
 
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
-  
+
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
@@ -527,11 +526,11 @@ int main( int argc, char *argv[] )
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
@@ -540,7 +539,7 @@ int main( int argc, char *argv[] )
 
 
   writer->SetFileName( argv[3] );
-  
+
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
@@ -558,7 +557,7 @@ int main( int argc, char *argv[] )
 
   caster->SetInput( checker->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
-  
+
   // Before registration
   TransformType::Pointer identityTransform = TransformType::New();
   identityTransform->SetIdentity();
@@ -570,7 +569,7 @@ int main( int argc, char *argv[] )
     writer->Update();
     }
 
- 
+
   // After registration
   resample->SetTransform( finalTransform );
   if( argc > 5 )
@@ -581,7 +580,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.32\textwidth]{ImageRegistration2Output.eps}
@@ -598,10 +597,10 @@ int main( int argc, char *argv[] )
   //  figures present a checkerboard composite of the fixed and
   //  moving images before and after registration.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceTranslations.eps}
@@ -688,7 +687,7 @@ int main( int argc, char *argv[] )
   //  Reviewers of Scientific Journals.} instead of verifying their statements
   //  by performing their own experiments ~\cite{Popper1971,Popper2002}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    BSplineWarping2.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -22,20 +23,18 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to deform a 3D image using a BSplineTransform.
-// 
+//
 //  \index{BSplineDeformableTransform}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
-#include "itkImage.h"
 #include "itkResampleImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 #include "itkBSplineDeformableTransform.h"
 #include "itkTransformFileWriter.h"
@@ -48,7 +47,7 @@
 //  used to monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandProgressUpdate : public itk::Command 
+class CommandProgressUpdate : public itk::Command
 {
 public:
   typedef  CommandProgressUpdate   Self;
@@ -65,7 +64,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      const itk::ProcessObject * filter = 
+      const itk::ProcessObject * filter =
         dynamic_cast< const itk::ProcessObject * >( object );
       if( ! itk::ProgressEvent().CheckEvent( &event ) )
         {
@@ -127,12 +126,12 @@ int main( int argc, char * argv[] )
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
-  typedef itk::ResampleImageFilter< MovingImageType, 
+  typedef itk::ResampleImageFilter< MovingImageType,
                                     FixedImageType  >  FilterType;
 
   FilterType::Pointer resampler = FilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                        MovingImageType, double >  InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -147,7 +146,7 @@ int main( int argc, char * argv[] )
   resampler->SetOutputOrigin(  fixedOrigin  );
   resampler->SetOutputDirection(  fixedDirection  );
 
-  
+
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
   FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
@@ -155,7 +154,7 @@ int main( int argc, char * argv[] )
 
 
   resampler->SetInput( movingReader->GetOutput() );
-  
+
   movingWriter->SetInput( resampler->GetOutput() );
 //  Software Guide : EndCodeSnippet
 
@@ -164,12 +163,12 @@ int main( int argc, char * argv[] )
 //
 //  We instantiate now the type of the \code{BSplineDeformableTransform} using
 //  as template parameters the type for coordinates representation, the
-//  dimension of the space, and the order of the B-spline. 
-// 
+//  dimension of the space, and the order of the B-spline.
+//
 //  \index{BSplineDeformableTransform!New}
 //  \index{BSplineDeformableTransform!Instantiation}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -182,7 +181,7 @@ int main( int argc, char * argv[] )
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >     TransformType;
-  
+
   TransformType::Pointer bsplineTransform = TransformType::New();
 
 //  Software Guide : EndCodeSnippet
@@ -201,10 +200,10 @@ int main( int argc, char * argv[] )
 //  B-spline grid to $250.0 \times 250.0$ mm. The origin of the B-spline grid
 //  must be set at one grid position away from the origin of the desired output
 //  image. All this is done with the following lines of code.
-// 
+//
 //  \index{BSplineDeformableTransform}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -216,13 +215,13 @@ int main( int argc, char * argv[] )
 
   const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
 
-  const unsigned int numberOfGridNodes = 
+  const unsigned int numberOfGridNodes =
                         numberOfGridNodesInsideTheImageSupport +
                         numberOfGridNodesOutsideTheImageSupport;
 
-  const unsigned int numberOfGridCells = 
+  const unsigned int numberOfGridCells =
                         numberOfGridNodesInsideTheImageSupport - 1;
-                        
+
   size.Fill( numberOfGridNodes );
   bsplineRegion.SetSize( size );
 
@@ -231,25 +230,25 @@ int main( int argc, char * argv[] )
 
   typedef TransformType::OriginType OriginType;
   OriginType origin;
-  
+
   for( unsigned int i=0; i< SpaceDimension; i++ )
     {
     spacing[i] = fixedSpacing[i] * (fixedSize[i] - 1) / numberOfGridCells;
     }
-  
+
   origin  = fixedOrigin - fixedDirection * spacing;
 
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );
   bsplineTransform->SetGridDirection( fixedDirection );
-  
+
 
   typedef TransformType::ParametersType     ParametersType;
 
   const unsigned int numberOfParameters =
                bsplineTransform->GetNumberOfParameters();
-  
+
 
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
@@ -277,7 +276,7 @@ int main( int argc, char * argv[] )
 //  elements from the file in the second block of the array. Finally the array
 //  is passed to the B-spline transform using the \code{SetParameters()}.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -290,7 +289,7 @@ int main( int argc, char * argv[] )
     infile >>  parameters[n];                  // X coordinate
     infile >>  parameters[n+numberOfNodes];    // Y coordinate
     infile >>  parameters[n+numberOfNodes*2];  // Z coordinate
-    } 
+    }
 
   infile.close();
 //  Software Guide : EndCodeSnippet
@@ -302,7 +301,7 @@ int main( int argc, char * argv[] )
 //   Finally the array is passed to the B-spline transform using the
 //   \code{SetParameters()}.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 
@@ -315,19 +314,19 @@ int main( int argc, char * argv[] )
    CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
    resampler->AddObserver( itk::ProgressEvent(), observer );
-  
+
 
 //  Software Guide : BeginLatex
 //
 //  At this point we are ready to use the transform as part of the resample
 //  filter. We trigger the execution of the pipeline by invoking
 //  \code{Update()} on the last filter of the pipeline, in this case writer.
-//  
-//  Software Guide : EndLatex 
+//
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   resampler->SetTransform( bsplineTransform );
-  
+
   try
     {
     movingWriter->Update();
@@ -399,7 +398,7 @@ int main( int argc, char * argv[] )
     {
     fieldWriter->SetFileName( argv[6] );
     try
-      { 
+      {
       typedef itk::TransformFileWriter    TransformWriterType;
       TransformWriterType::Pointer transformWriter = TransformWriterType::New();
       transformWriter->AddTransform( bsplineTransform );

@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DerivativeImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -37,7 +34,7 @@
 //
 //  \index{itk::DerivativeImageFilter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -51,7 +48,7 @@
 //
 //  \index{itk::DerivativeImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -77,7 +74,7 @@ int main( int argc, char * argv[] )
   //  select a signed type for the image, since the values of the derivatives
   //  will be positive as well as negative.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   float  InputPixelType;
@@ -102,13 +99,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Using the image types, it is now possible to define the filter type
-  //  and create the filter object. 
+  //  and create the filter object.
   //
   //  \index{itk::DerivativeImageFilter!instantiation}
   //  \index{itk::DerivativeImageFilter!New()}
   //  \index{itk::DerivativeImageFilter!Pointer}
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::DerivativeImageFilter<
@@ -127,7 +124,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::DerivativeImageFilter!SetOrder()}
   //  \index{itk::DerivativeImageFilter!SetDirection()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetOrder(     atoi( argv[4] ) );
@@ -145,7 +142,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::DerivativeImageFilter!SetInput()}
   //  \index{itk::DerivativeImageFilter!GetOutput()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -156,7 +153,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
@@ -171,12 +168,12 @@ int main( int argc, char * argv[] )
   //  is taken along the $x$ direction.  The sensitivity to noise in the image
   //  is evident from this result.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   typedef itk::Image< unsigned char, Dimension >  WriteImageType;
 
-  typedef itk::RescaleIntensityImageFilter< 
+  typedef itk::RescaleIntensityImageFilter<
                                   OutputImageType,
                                   WriteImageType >    NormalizeFilterType;
 

@@ -1,28 +1,27 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMissingExplicitIntantiations.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #include "itkPointSet.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkPath.h"
 #include "itkSymmetricEigenAnalysis.h"
-#include "itkImageMomentsCalculator.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 #include "itkBoundingBox.h"
-#include "itkUnaryFunctorImageFilter.h"
 #include "itkCastImageFilter.h"
 
 typedef itk::Matrix<float,3,3> MatrixF33;
@@ -72,7 +71,6 @@ template struct ITKCommon_EXPORT itk::NeighborhoodAlgorithm::ImageBoundaryFacesC
 template struct ITKCommon_EXPORT itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageVF22>;
 template struct ITKCommon_EXPORT itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageVF32>;
 template class ITKCommon_EXPORT itk::Path<double,ContinuousIndexD2,2>;
-template class ITKCommon_EXPORT itk::PointLocator<unsigned long, 3, float, VectorContainerULPF3>;
 template class ITKCommon_EXPORT itk::PointSet<PointD2,2,DefaultStaticMeshTraits22DDD>;
 template class ITKCommon_EXPORT itk::PointSet<PointD3,3,DefaultStaticMeshTraits33DDD>;
 template class ITKCommon_EXPORT itk::PointSet<PointD4,4,DefaultStaticMeshTraits44DDD>;

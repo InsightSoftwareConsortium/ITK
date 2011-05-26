@@ -1,33 +1,34 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableRegistration11.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
 
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 
 #include "itkFEM.h"
 #include "itkFEMRegistrationFilter.h"
-       
+
 
 
 /* Example of FEM-base deformable registration in 3D */
@@ -53,10 +54,10 @@ typedef ElementType::LoadType                              ElementLoadType;
 typedef ElementType2::LoadImplementationFunctionPointer    LoadImpFP2;
 typedef ElementType2::LoadType                             ElementLoadType2;
 
-typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>   
+typedef itk::fem::VisitorDispatcher<ElementType,ElementLoadType, LoadImpFP>
                                                            DispatcherType;
 
-typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>   
+typedef itk::fem::VisitorDispatcher<ElementType2,ElementLoadType2, LoadImpFP2>
                                                            DispatcherType2;
 
 
@@ -73,20 +74,20 @@ int main(int argc, char *argv[])
     std::cout << "Parameter file name missing" << std::endl;
     std::cout << "Usage: " << argv[0] << " param.file" << std::endl;
     return EXIT_FAILURE;
-    } 
-  else 
-    { 
-    paramname=argv[1]; 
+    }
+  else
+    {
+    paramname=argv[1];
     }
 
 
-  
+
   // Register the correct load implementation with the element-typed visitor
-  // dispatcher. 
+  // dispatcher.
   typedef itk::fem::ImageMetricLoadImplementation<
                                        ImageLoadType> LoadImplementationType;
   {
-  ElementType::LoadImplementationFunctionPointer fp = 
+  ElementType::LoadImplementationFunctionPointer fp =
     &LoadImplementationType::ImplementImageMetricLoad;
   DispatcherType::RegisterVisitor((ImageLoadType*)0,fp);
   }
@@ -98,19 +99,19 @@ int main(int argc, char *argv[])
 
 
 
-  RegistrationType::Pointer registrationFilter = RegistrationType::New(); 
+  RegistrationType::Pointer registrationFilter = RegistrationType::New();
 
 
 
 
   // Attempt to read the parameter file, and exit if an error occurs
   registrationFilter->SetConfigFileName(paramname);
-  if ( !registrationFilter->ReadConfigFile( 
-           (registrationFilter->GetConfigFileName()).c_str() ) ) 
-    { 
-    return EXIT_FAILURE; 
+  if ( !registrationFilter->ReadConfigFile(
+           (registrationFilter->GetConfigFileName()).c_str() ) )
+    {
+    return EXIT_FAILURE;
     }
- 
+
   // Read the image files
   typedef itk::ImageFileReader< FileImageType >      FileSourceType;
   typedef FileImageType::PixelType PixType;
@@ -119,12 +120,12 @@ int main(int argc, char *argv[])
   movingfilter->SetFileName( (registrationFilter->GetMovingFile()).c_str() );
   FileSourceType::Pointer fixedfilter = FileSourceType::New();
   fixedfilter->SetFileName( (registrationFilter->GetFixedFile()).c_str() );
- 
+
   std::cout << " reading moving ";
   std::cout << registrationFilter->GetMovingFile() << std::endl;
   std::cout << " reading fixed ";
   std::cout << registrationFilter->GetFixedFile() << std::endl;
-  
+
 
   try
     {
@@ -146,12 +147,12 @@ int main(int argc, char *argv[])
     std::cerr << std::endl << e << std::endl;
     return EXIT_FAILURE;
     }
-  
+
 
   // Rescale the image intensities so that they fall between 0 and 255
   typedef itk::RescaleIntensityImageFilter<
                         FileImageType, ImageType > FilterType;
-  
+
   FilterType::Pointer movingrescalefilter = FilterType::New();
   FilterType::Pointer fixedrescalefilter = FilterType::New();
 
@@ -167,7 +168,7 @@ int main(int argc, char *argv[])
   fixedrescalefilter->SetOutputMinimum( desiredMinimum );
   fixedrescalefilter->SetOutputMaximum( desiredMaximum );
   fixedrescalefilter->UpdateLargestPossibleRegion();
-  
+
 
   // Histogram match the images
   typedef itk::HistogramMatchingImageFilter<ImageType,ImageType> HEFilterType;
@@ -188,29 +189,29 @@ int main(int argc, char *argv[])
   writer = itk::ImageFileWriter<ImageType>::New();
 
   writer->SetFileName("fixed.mhd");
-  writer->SetInput(registrationFilter->GetFixedImage() ); 
+  writer->SetInput(registrationFilter->GetFixedImage() );
   writer->Write();
 
   itk::ImageFileWriter<ImageType>::Pointer writer2;
   writer2 =  itk::ImageFileWriter<ImageType>::New();
   writer2->SetFileName("moving.mhd");
-  writer2->SetInput(registrationFilter->GetMovingImage() ); 
+  writer2->SetInput(registrationFilter->GetMovingImage() );
   writer2->Write();
- 
 
-  
+
+
   // Create the material properties
   itk::fem::MaterialLinearElasticity::Pointer m;
   m = itk::fem::MaterialLinearElasticity::New();
   m->GN = 0;                  // Global number of the material
-  m->E = registrationFilter->GetElasticity();  // Young's modulus 
+  m->E = registrationFilter->GetElasticity();  // Young's modulus
   m->A = 1.0;                 // Cross-sectional area
   m->h = 1.0;                 // Thickness
   m->I = 1.0;                 // Moment of inertia
   m->nu = 0.;                 // Poisson's ratio -- DONT CHOOSE 1.0!!
   m->RhoC = 1.0;              // Density
-  
-  // Create the element type 
+
+  // Create the element type
   ElementType::Pointer e1=ElementType::New();
   e1->m_mat=dynamic_cast<itk::fem::MaterialLinearElasticity*>( m );
   registrationFilter->SetElement(e1);

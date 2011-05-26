@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration18.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -30,24 +31,20 @@
 // \index{itk::ImageRegistrationMethod!Monitoring}
 //
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkGradientDifferenceImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkResampleImageFilter.h"
-#include "itkCastImageFilter.h"
 #include "itkCommand.h"
 
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -57,7 +54,7 @@ public:
 
 protected:
   CommandIterationUpdate() {};
- 
+
 
 public:
   typedef itk::RegularStepGradientDescentOptimizer  OptimizerType;
@@ -70,7 +67,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
                          dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -80,7 +77,7 @@ public:
     std::cout << optimizer->GetValue() << " : ";
     std::cout << optimizer->GetCurrentPosition() << std::endl;
     }
-   
+
 };
 
 
@@ -95,10 +92,10 @@ int main( int argc, char *argv[] )
     std::cerr << "[initialTx] [initialTy]" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
@@ -106,16 +103,16 @@ int main( int argc, char *argv[] )
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
 
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double             > InterpolatorType;
 
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType   >  RegistrationType;
 
-  typedef itk::GradientDifferenceImageToImageMetric< 
-                                      FixedImageType, 
+  typedef itk::GradientDifferenceImageToImageMetric<
+                                      FixedImageType,
                                       MovingImageType >  MetricType;
 
   TransformType::Pointer      transform     = TransformType::New();
@@ -128,7 +125,7 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
   MetricType::Pointer         metric        = MetricType::New();
-  
+
   metric->SetDerivativeDelta( 0.5 );
 
   registration->SetMetric( metric  );
@@ -147,7 +144,7 @@ int main( int argc, char *argv[] )
 
   fixedImageReader->Update(); // This is needed to make the BufferedRegion below valid.
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
        fixedImageReader->GetOutput()->GetBufferedRegion() );
 
   typedef RegistrationType::ParametersType ParametersType;
@@ -155,7 +152,7 @@ int main( int argc, char *argv[] )
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
-  
+
   if( argc > 4 )
     {
     initialParameters[0] = atof( argv[4] );
@@ -170,7 +167,7 @@ int main( int argc, char *argv[] )
 
   registration->SetInitialTransformParameters( initialParameters );
 
-  optimizer->SetMaximumStepLength( 4.00 );  
+  optimizer->SetMaximumStepLength( 4.00 );
   optimizer->SetMinimumStepLength( 0.01 );
   optimizer->SetNumberOfIterations( 200 );
   optimizer->SetGradientMagnitudeTolerance( 1e-40 );
@@ -181,28 +178,28 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   const double TranslationAlongX = finalParameters[0];
   const double TranslationAlongY = finalParameters[1];
-  
+
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  
+
   const double bestValue = optimizer->GetValue();
 
   std::cout << "Registration done !" << std::endl;
@@ -217,8 +214,8 @@ int main( int argc, char *argv[] )
 
   // Prepare the resampling filter in order to map the moving image.
   //
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -246,11 +243,11 @@ int main( int argc, char *argv[] )
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
@@ -258,7 +255,7 @@ int main( int argc, char *argv[] )
 
 
   writer->SetFileName( argv[3] );
-  
+
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   writer->Update();

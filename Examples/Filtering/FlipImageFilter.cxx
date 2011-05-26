@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    FlipImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -45,7 +42,7 @@
 //
 //  \index{itk::FlipImageFilter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -58,7 +55,7 @@
 //
 //  \index{itk::FlipImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -81,7 +78,7 @@ int main( int argc, char * argv[] )
   //  Then the pixel types for input and output image must be defined and, with
   //  them, the image types can be instantiated.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   unsigned char  PixelType;
@@ -102,13 +99,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  Using the image types it is now possible to instantiate the filter type
-  //  and create the filter object. 
+  //  and create the filter object.
   //
   //  \index{itk::FlipImageFilter!instantiation}
   //  \index{itk::FlipImageFilter!New()}
   //  \index{itk::FlipImageFilter!Pointer}
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::FlipImageFilter< ImageType >  FilterType;
@@ -125,11 +122,11 @@ int main( int argc, char * argv[] )
   //  \index{itk::FlipImageFilter!Radius}
   //  \index{itk::FlipImageFilter!Neighborhood}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef FilterType::FlipAxesArrayType     FlipAxesArrayType;
-  
+
   FlipAxesArrayType flipArray;
 
   flipArray[0] = atoi( argv[3] );
@@ -148,7 +145,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::FlipImageFilter!SetInput()}
   //  \index{itk::FlipImageFilter!GetOutput()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -159,7 +156,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
@@ -173,7 +170,7 @@ int main( int argc, char * argv[] )
   //  filter on a slice of MRI brain image using a flip array $[0,1]$ which
   //  means that the $Y$ axis was flipped while the $X$ axis was conserved.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

@@ -1,24 +1,25 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegionIterator.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 //  Software Guide : BeginCommandLineArgs
-//     INPUTS: {FatMRISlice.png} 
+//     INPUTS: {FatMRISlice.png}
 //     OUTPUTS: {ImageRegionIteratorOutput.png}
 //     20 70 210 140
 //  Software Guide : EndCommandLineArgs
@@ -46,7 +47,6 @@
 
 #include "itkImage.h"
 // Software Guide : BeginCodeSnippet
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 // Software Guide : EndCodeSnippet
 #include "itkImageFileReader.h"
@@ -74,19 +74,19 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
-  
+
   typedef unsigned char                      PixelType;
   typedef itk::Image< PixelType, Dimension > ImageType;
-  
+
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
   typedef itk::ImageRegionIterator< ImageType>       IteratorType;
   // Software Guide : EndCodeSnippet
-  
+
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
 
   // Software Guide : BeginLatex
-  // 
+  //
   // Information about the subregion to copy is read from the command line. The
   // subregion is defined by an \doxygen{ImageRegion} object, with a starting
   // grid index and a size (Section~\ref{sec:ImageSection}).
@@ -111,7 +111,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginLatex
-  // 
+  //
   // The destination region in the output image is defined using the input region
   // size, but a different start index.  The starting index for the destination
   // region is the corner of the newly generated image.
@@ -139,8 +139,8 @@ int main( int argc, char *argv[] )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return -1;
     }
 
@@ -157,12 +157,12 @@ int main( int argc, char *argv[] )
   //
   // After reading the input image and checking that the desired subregion is,
   // in fact, contained in the input, we allocate an output image.  It is
-  // fundamental to set valid values to some of the basic image information 
-  // during the copying process.  
+  // fundamental to set valid values to some of the basic image information
+  // during the copying process.
   // In particular, the starting index of the output region
   // is now filled up with zero values and the coordinates of the physical
   // origin are computed as a shift from the origin of the input image. This is
-  // quite important since it will allow us to later 
+  // quite important since it will allow us to later
   // register the extracted region against the original image.
   //
   // Software Guide : EndLatex
@@ -187,7 +187,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // \index{Iterators!construction of} \index{Iterators!and image regions} 
+  // \index{Iterators!construction of} \index{Iterators!and image regions}
   // The necessary images and region definitions are now in place.  All that is
   // left to do is to create the iterators and perform the copy.  Note that image
   // iterators are not accessed via smart pointers so they are light-weight
@@ -223,7 +223,7 @@ int main( int argc, char *argv[] )
   //  \code{for} loops for traversing an image.
   //
   // Software Guide : EndLatex
-  
+
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( outputImage );
@@ -234,9 +234,9 @@ int main( int argc, char *argv[] )
     }
   catch ( itk::ExceptionObject &err)
     {
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
-    return -1;   
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
+    return -1;
     }
 
   // Software Guide : BeginLatex
@@ -264,7 +264,7 @@ int main( int argc, char *argv[] )
   // the right is the result of applying the ImageRegionIterator example code.}
   // \protect\label{fig:ImageRegionIteratorOutput}
   // \end{figure}
-  // 
+  //
   // \index{itk::ImageRegionIterator!example of using|)}
   //
   // Software Guide : EndLatex

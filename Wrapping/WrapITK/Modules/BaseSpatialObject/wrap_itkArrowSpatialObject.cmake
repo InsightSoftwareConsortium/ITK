@@ -1,6 +1,0 @@
-WRAP_CLASS("itk::ArrowSpatialObject" POINTER)
-  FILTER_DIMS(dims "2;3")
-  FOREACH(d ${dims})
-    WRAP_TEMPLATE(${d} ${d})
-  ENDFOREACH(d)
-END_WRAP_CLASS()

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -46,16 +47,14 @@
 // registration is intended.  The following header files provide declarations
 // of common types used for these components.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -69,7 +68,7 @@
 
 
 
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -92,7 +91,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
   {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
                          dynamic_cast< OptimizerPointer >( object );
 
     if( ! itk::IterationEvent().CheckEvent( &event ) )
@@ -104,7 +103,7 @@ public:
     std::cout << optimizer->GetValue() << " : ";
     std::cout << optimizer->GetCurrentPosition() << std::endl;
   }
-   
+
 };
 
 
@@ -119,27 +118,27 @@ int main( int argc, char *argv[] )
     std::cerr << "[differenceImageBefore]" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
 
   // Software Guide : BeginLatex
-  // 
+  //
   // The types of each one of the components in the registration methods should
   // be instantiated first. With that purpose, we start by selecting the image
   // dimension and the type used for representing image pixels.
   //
-  // Software Guide : EndLatex 
-  
-  // Software Guide : BeginCodeSnippet 
+  // Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;
   // Software Guide : EndCodeSnippet
 
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The types of the input images are instantiated by the following lines.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
@@ -148,11 +147,11 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The transform that will map the fixed image space into the moving image
   //  space is defined below.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::TranslationTransform< double, Dimension > TransformType;
@@ -160,11 +159,11 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  An optimizer is required to explore the parameter space of the transform
   //  in search of optimal values of the metric.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
@@ -172,33 +171,33 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The metric will compare how well the two images match each other. Metric
   //  types are usually parameterized by the image types as it can be seen in
   //  the following type declaration.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MeanSquaresImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
 
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally, the type of the interpolator is declared. The interpolator will
   //  evaluate the intensities of the moving image at non-grid positions.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
-  // Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
@@ -207,11 +206,11 @@ int main( int argc, char *argv[] )
   //  fixed and moving images. This class is responsible for interconnecting
   //  all the components that we have described so far.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
   // Software Guide : EndCodeSnippet
 
@@ -219,10 +218,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  Each one of the registration components is created using its
-  //  \code{New()} method and is assigned to its respective 
+  //  \code{New()} method and is assigned to its respective
   //  \doxygen{SmartPointer}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MetricType::Pointer         metric        = MetricType::New();
@@ -231,7 +230,7 @@ int main( int argc, char *argv[] )
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
   // Software Guide : EndCodeSnippet
-  
+
 
   //  Software Guide : BeginLatex
   //
@@ -243,7 +242,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::RegistrationMethod!SetMovingImage()}
   //  \index{itk::RegistrationMethod!SetInterpolator()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   registration->SetMetric(        metric        );
@@ -263,12 +262,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In this example, the fixed and moving images are read from files. This
   //  requires the \doxygen{ImageRegistrationMethod} to acquire its inputs from
   //  the output of the readers.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
@@ -277,7 +276,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The registration can be restricted to consider only a particular region
   //  of the fixed image as input to the metric computation. This region is
   //  defined with the \code{SetFixedImageRegion()} method.  You could use this
@@ -291,11 +290,11 @@ int main( int argc, char *argv[] )
   //  \index{itk::ImageRegistrationMethod!SetFixedImageRegion()}
   //  \index{itk::Image!GetBufferedRegion()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   fixedImageReader->Update();
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
                     fixedImageReader->GetOutput()->GetBufferedRegion() );
   // Software Guide : EndCodeSnippet
 
@@ -307,7 +306,7 @@ int main( int argc, char *argv[] )
   //  misalignment. In this particular case, a translation transform is
   //  being used for the registration. The array of parameters for this
   //  transform is simply composed of the translation values along each
-  //  dimension. Setting the values of the parameters to zero 
+  //  dimension. Setting the values of the parameters to zero
   //  initializes the transform to an \emph{Identity} transform. Note that the
   //  array constructor requires the number of elements to be passed as an
   //  argument.
@@ -315,7 +314,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::TranslationTransform!GetNumberOfParameters()}
   //  \index{itk::RegistrationMethod!SetInitialTransformParameters()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef RegistrationType::ParametersType ParametersType;
@@ -323,7 +322,7 @@ int main( int argc, char *argv[] )
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
-  
+
   registration->SetInitialTransformParameters( initialParameters );
   // Software Guide : EndCodeSnippet
 
@@ -358,16 +357,16 @@ int main( int argc, char *argv[] )
   //  \index{itk::Regular\-Setp\-Gradient\-Descent\-Optimizer!SetMaximumStepLength()}
   //  \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!SetMinimumStepLength()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( 4.00 );  
+  optimizer->SetMaximumStepLength( 4.00 );
   optimizer->SetMinimumStepLength( 0.01 );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In case the optimizer never succeeds reaching the desired
   //  precision tolerance, it is prudent to establish a limit on the number of
   //  iterations to be performed. This maximum number is defined with the
@@ -375,7 +374,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Regular\-Setp\-Gradient\-Descent\-Optimizer!SetNumberOfIterations()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetNumberOfIterations( 200 );
@@ -388,46 +387,46 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The registration process is triggered by an invocation to the
   //  \code{Update()} method. If something goes wrong during the
   //  initialization or execution of the registration an exception will be
   //  thrown. We should therefore place the \code{Update()} method
   //  inside a \code{try/catch} block as illustrated in the following lines.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try 
-    { 
-    registration->Update(); 
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+  try
+    {
+    registration->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
 
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   // In a real life application, you may attempt to recover from the error by
   // taking more effective actions in the catch block. Here we are simply
   // printing out a message and then terminating the execution of the program.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The result of the registration process is an array of parameters that
   //  defines the spatial transformation in an unique way. This final result is
   //  obtained using the \code{GetLastTransformParameters()} method.
   //
   //  \index{itk::RegistrationMethod!GetLastTransformParameters()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ParametersType finalParameters = registration->GetLastTransformParameters();
@@ -435,12 +434,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In the case of the \doxygen{TranslationTransform}, there is a
   //  straightforward interpretation of the parameters.  Each element of the
   //  array corresponds to a translation along one spatial dimension.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const double TranslationAlongX = finalParameters[0];
@@ -449,7 +448,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The optimizer can be queried for the actual number of iterations
   //  performed to reach convergence.  The \code{GetCurrentIteration()}
   //  method returns this value. A large number of iterations may be an
@@ -458,18 +457,18 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Regular\-Setp\-Gradient\-Descent\-Optimizer!GetCurrentIteration()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The value of the image metric corresponding to the last set of parameters
   //  can be obtained with the \code{GetValue()} method of the optimizer.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const double bestValue = optimizer->GetValue();
@@ -486,12 +485,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Let's execute this example over two of the images provided in
   //  \code{Examples/Data}:
-  //  
+  //
   //  \begin{itemize}
-  //  \item \code{BrainProtonDensitySliceBorder20.png} 
+  //  \item \code{BrainProtonDensitySliceBorder20.png}
   //  \item \code{BrainProtonDensitySliceShifted13x17y.png}
   //  \end{itemize}
   //
@@ -504,7 +503,7 @@ int main( int argc, char *argv[] )
   //  Translation X = 12.9959
   //  Translation Y = 17.0001
   //  \end{verbatim}
-  // 
+  //
   //  As expected, these values match quite well the misalignment that we
   //  intentionally introduced in the moving image.
   //
@@ -518,11 +517,11 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  It is common, as the last step of a registration task, to use the
   //  resulting transform to map the moving image into the fixed image space.
   //  This is easily done with the \doxygen{ResampleImageFilter}. Please
@@ -532,22 +531,22 @@ int main( int argc, char *argv[] )
   //  the output type since it is likely that the transformed moving image
   //  will be compared with the fixed image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
   // Software Guide : EndCodeSnippet
 
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  A resampling filter is created and the moving image is connected as
   //  its input.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
@@ -557,7 +556,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The Transform that is produced as output of the Registration method is
   //  also passed as input to the resampling filter. Note the use of the
   //  methods \code{GetOutput()} and \code{Get()}. This combination is needed
@@ -573,7 +572,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::DataObjectDecorator!Use in Registration}
   //  \index{itk::DataObjectDecorator!Get()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   resampler->SetTransform( registration->GetOutput()->Get() );
@@ -582,14 +581,14 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  As described in Section \ref{sec:ResampleImageFilter}, the
   //  ResampleImageFilter requires additional parameters to be specified, in
   //  particular, the spacing, origin and size of the output image. The default
   //  pixel value is also set to a distinct gray level in order to highlight
-  //  the regions that are mapped outside of the moving image.  
+  //  the regions that are mapped outside of the moving image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
@@ -602,7 +601,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.32\textwidth]{ImageRegistration1Output.eps}
@@ -613,22 +612,22 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration1Output}
   // \end{figure}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The output of the filter is passed to a writer that will store the
   //  image in a file. An \doxygen{CastImageFilter} is used to convert the
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   typedef unsigned char OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter< 
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -636,11 +635,11 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The filters are created by invoking their \code{New()}
   //  method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   WriterType::Pointer      writer =  WriterType::New();
@@ -656,7 +655,7 @@ int main( int argc, char *argv[] )
   //  The filters are connected together and the \code{Update()} method of the
   //  writer is invoked in order to trigger the execution of the pipeline.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   caster->SetInput( resampler->GetOutput() );
@@ -666,7 +665,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ImageRegistration1Pipeline.eps}
@@ -676,21 +675,21 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The fixed image and the transformed moving image can easily be compared
   //  using the \doxygen{SubtractImageFilter}. This pixel-wise filter computes
   //  the difference between homologous pixels of its two input images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::SubtractImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
+  typedef itk::SubtractImageFilter<
+                                  FixedImageType,
+                                  FixedImageType,
                                   FixedImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
@@ -712,7 +711,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Since the differences between the two images may correspond to very low
   //  values of intensity, we rescale those intensities with a
   //  \doxygen{RescaleIntensityImageFilter} in order to make them more visible.
@@ -723,15 +722,15 @@ int main( int argc, char *argv[] )
   //  \code{DefaultPixelValue} to ``1'' in order to prevent that value from
   //  absorbing the dynamic range of the differences between the two images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RescaleIntensityImageFilter< 
-                                  FixedImageType, 
+  typedef itk::RescaleIntensityImageFilter<
+                                  FixedImageType,
                                   OutputImageType >   RescalerType;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
-  
+
   intensityRescaler->SetInput( difference->GetOutput() );
   intensityRescaler->SetOutputMinimum(   0 );
   intensityRescaler->SetOutputMaximum( 255 );
@@ -741,14 +740,14 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Its output can be passed to another writer.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( intensityRescaler->GetOutput() );  
+  writer2->SetInput( intensityRescaler->GetOutput() );
   // Software Guide : EndCodeSnippet
 
 
@@ -761,7 +760,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  For the purpose of comparison, the difference between the fixed image and
   //  the moving image before registration can also be computed by simply
   //  setting the transform to an identity transform. Note that the resampling
@@ -771,7 +770,7 @@ int main( int argc, char *argv[] )
   //  process with an identity transform will ensure that we have a
   //  representation of the moving image in the grid of the fixed image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer identityTransform = TransformType::New();
@@ -789,7 +788,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The complete pipeline structure of the current example is presented in
   //  Figure~\ref{fig:ImageRegistration1Pipeline}.  The components of the
   //  registration method are depicted as well.  Figure
@@ -806,15 +805,15 @@ int main( int argc, char *argv[] )
   //  the final registration is still off by a fraction of a pixel, which
   //  results in bands around edges of anatomical structures to appear in the
   //  difference image. A perfect registration would have produced a null
-  //  difference image. 
+  //  difference image.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceTranslations.eps}
@@ -834,7 +833,7 @@ int main( int argc, char *argv[] )
   //  log plot helps to highlight the normal oscillations of the optimizer
   //  around the extrema value.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

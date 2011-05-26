@@ -1,26 +1,24 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    BinaryMinMaxCurvatureFlowImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
@@ -35,7 +33,7 @@
 //  however, the restriction that negative curvatures are only accepted in
 //  regions of the image having low intensities. The user should provide an
 //  intensity threshold over which negative curvatures are not considered for
-//  the propagation.  
+//  the propagation.
 //
 //  In practice the algorithm do the following for each pixel. First, the
 //  curvature $\kappa$ is computed on the current pixel. If the computed
@@ -60,7 +58,7 @@
 //
 //  \index{itk::Binary\-MinMax\-Curvature\-Flow\-Image\-Filter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -74,7 +72,7 @@
 //
 //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
@@ -84,21 +82,21 @@ int main( int argc, char * argv[] )
 {
 
 
-  if( argc < 7 ) 
-    { 
+  if( argc < 7 )
+    {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  ";
     std::cerr << "numberOfIterations  timeStep  stencilRadius  threshold" << std::endl;
     return EXIT_FAILURE;
     }
 
-  
+
   //  Software Guide : BeginLatex
   //
   //  Types should be chosen for the pixels of the input and output images and
   //  with them the image types are instantiated.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef    float    InputPixelType;
@@ -121,7 +119,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!New()}
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::BinaryMinMaxCurvatureFlowImageFilter<
@@ -140,7 +138,7 @@ int main( int argc, char * argv[] )
   //  The input image can be obtained from the output of another filter. Here,
   //  an image reader is used as source.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
@@ -176,7 +174,7 @@ int main( int argc, char * argv[] )
   //  \index{SetThreshold()!itk::BinaryMinMaxCurvatureFlowImageFilter}
   //  \index{SetNumberOfIterations()!itk::BinaryMinMaxCurvatureFlowImageFilter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetTimeStep( timeStep );
@@ -184,7 +182,7 @@ int main( int argc, char * argv[] )
 
   filter->SetStencilRadius( radius );
   filter->SetThreshold( threshold );
-  
+
   filter->Update();
   // Software Guide : EndCodeSnippet
 
@@ -196,29 +194,29 @@ int main( int argc, char * argv[] )
   //  iterations will result in further smoothing and will increase linearly
   //  the computing time. The radius of the stencil can be typically $1$. The
   //  value of the threshold should be selected according to the gray levels of
-  //  the object of interest and the gray level of its background. 
+  //  the object of interest and the gray level of its background.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   typedef unsigned char WritePixelType;
 
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
 
-  typedef itk::RescaleIntensityImageFilter< 
+  typedef itk::RescaleIntensityImageFilter<
                OutputImageType, WriteImageType > RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
-  
+
 
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );
- 
+
 
   rescaler->SetInput( filter->GetOutput() );
   writer->SetInput( rescaler->GetOutput() );
@@ -226,7 +224,7 @@ int main( int argc, char * argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
@@ -240,9 +238,9 @@ int main( int argc, char * argv[] )
   //  Figure \ref{fig:BinaryMinMaxCurvatureFlowImageFilterInputOutput} illustrates
   //  the effect of this filter on a MRI proton density image of the brain. In
   //  this example the filter was run with a time step of $0.125$, $10$ iterations,
-  //  a stencil radius of $1$ and a threshold of $128$.  
+  //  a stencil radius of $1$ and a threshold of $128$.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

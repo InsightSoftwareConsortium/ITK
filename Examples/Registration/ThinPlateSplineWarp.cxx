@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ThinPlateSplineWarp.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,20 +28,18 @@
 //  Software Guide : BeginLatex
 //  This example deforms a 3D volume with the Thin plate spline.
 //  \index{ThinPlateSplineKernelTransform}
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkResampleImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 // Software Guide : BeginCodeSnippet
 #include "itkThinPlateSplineKernelTransform.h"
 // Software Guide : EndCodeSnippet
 
-#include "itkPoint.h"
 #include "itkPointSet.h"
 #include <fstream>
 
@@ -76,9 +75,9 @@ int main( int argc, char * argv[] )
   typedef   TransformType::PointSetType      PointSetType;
   typedef   PointSetType::Pointer            PointSetPointer;
   typedef   PointSetType::PointIdentifier  PointIdType;
-  typedef   itk::ResampleImageFilter< InputImageType, 
+  typedef   itk::ResampleImageFilter< InputImageType,
                                       InputImageType  >  ResamplerType;
-  typedef   itk::LinearInterpolateImageFunction< 
+  typedef   itk::LinearInterpolateImageFunction<
                        InputImageType, double >  InterpolatorType;
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -107,9 +106,9 @@ int main( int argc, char * argv[] )
   PointSetType::Pointer sourceLandMarks = PointSetType::New();
   PointSetType::Pointer targetLandMarks = PointSetType::New();
   PointType p1;     PointType p2;
-  PointSetType::PointsContainer::Pointer sourceLandMarkContainer = 
+  PointSetType::PointsContainer::Pointer sourceLandMarkContainer =
                                    sourceLandMarks->GetPoints();
-  PointSetType::PointsContainer::Pointer targetLandMarkContainer = 
+  PointSetType::PointsContainer::Pointer targetLandMarkContainer =
                                    targetLandMarks->GetPoints();
   // Software Guide : EndCodeSnippet
 
@@ -120,14 +119,14 @@ int main( int argc, char * argv[] )
   infile.open( argv[1] );
   while (!infile.eof())
     {
-    infile >>  p1[0] >> p1[1] >> p1[2] >> p2[0] >> p2[1] >> p2[2]; 
+    infile >>  p1[0] >> p1[1] >> p1[2] >> p2[0] >> p2[1] >> p2[2];
 
     // Software Guide : BeginCodeSnippet
     sourceLandMarkContainer->InsertElement( id, p1 );
     targetLandMarkContainer->InsertElement( id++, p2 );
     // Software Guide : EndCodeSnippet
 
-    } 
+    }
   infile.close();
 
   // Software Guide : BeginCodeSnippet
@@ -165,7 +164,7 @@ int main( int argc, char * argv[] )
   resampler->SetInput( reader->GetOutput() );
 
   //Set and write deformed image
-  DeformedImageWriterType::Pointer deformedImageWriter = 
+  DeformedImageWriterType::Pointer deformedImageWriter =
       DeformedImageWriterType::New();
   deformedImageWriter->SetInput( resampler->GetOutput() );
   deformedImageWriter->SetFileName( argv[3] );
@@ -183,8 +182,8 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginLatex
-  // The deformation field is computed as the difference between the input and 
-  // the deformed image by using an iterator. 
+  // The deformation field is computed as the difference between the input and
+  // the deformed image by using an iterator.
   // Software Guide : EndLatex
 
   // Compute the deformation field

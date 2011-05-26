@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    GradientVectorFlowImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -40,10 +37,9 @@
 //
 //  \index{itk::GradientVectorFlowImageFilter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -54,7 +50,7 @@
 //
 //  \index{itk::GradientVectorFlowImageFilter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkGradientVectorFlowImageFilter.h"
@@ -63,8 +59,8 @@
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 5 ) 
-    { 
+  if( argc < 5 )
+    {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile";
     std::cerr << " numberOfIterations  noiseLevel" << std::endl;
@@ -77,7 +73,7 @@ int main( int argc, char * argv[] )
   //  and output images. In this particular case, the input and output pixel
   //  types are multicomponents type such as itk::Vectors.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int  Dimension = 3;
@@ -92,7 +88,7 @@ int main( int argc, char * argv[] )
   //
   //  With them, the input and output image types can be instantiated.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
@@ -110,7 +106,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::GradientVectorFlowImageFilter!instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::GradientVectorFlowImageFilter<
@@ -130,7 +126,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::GradientVectorFlowImageFilter!New()}
   //  \index{itk::GradientVectorFlowImageFilter!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   FilterType::Pointer filter = FilterType::New();
@@ -142,7 +138,7 @@ int main( int argc, char * argv[] )
   //  The input image can be obtained from the output of another filter. Here,
   //  an image reader is used as source.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
@@ -169,7 +165,7 @@ int main( int argc, char * argv[] )
   //  \index{SetNoiseLevel()!itk::GradientVectorFlowImageFilter}
   //  \index{SetNumberOfIterations()!itk::GradientVectorFlowImageFilter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetIterationNum( numberOfIterations );
@@ -183,7 +179,7 @@ int main( int argc, char * argv[] )
   //  When using as input the result of a gradient filter, then the typical
   //  values for the noise level will be around 2000.0.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   //  Software Guide : BeginLatex
@@ -193,11 +189,11 @@ int main( int argc, char * argv[] )
   //  triggered the execution of this one. For example, a writer filter could
   //  have been used after the curvature flow filter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
- 
+
   // Software Guide : BeginCodeSnippet
   writer->SetInput( filter->GetOutput() );
   writer->Update();

@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration20.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -31,22 +32,20 @@
 //
 // \index{itk::AffineTransform}
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 #include "itkCenteredTransformInitializer.h"
 
 //  Software Guide : BeginLatex
-//  
+//
 //  Let's start by including the header file of the AffineTransform.
 //
 //  \index{itk::AffineTransform!header}
-// 
-//  Software Guide : EndLatex 
+//
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkAffineTransform.h"
@@ -67,7 +66,7 @@
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -87,7 +86,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
                       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -118,7 +117,7 @@ int main( int argc, char *argv[] )
   //
   //  We define then the types of the images to be registered.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const    unsigned int    Dimension = 3;
@@ -130,31 +129,31 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The transform type is instantiated using the code below. The template
   //  parameters of this class are the representation type of the space
   //  coordinates and the space dimension.
   //
   //  \index{itk::AffineTransform!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::AffineTransform< 
-                                  double, 
+  typedef itk::AffineTransform<
+                                  double,
                                   Dimension  >     TransformType;
   // Software Guide : EndCodeSnippet
 
 
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetric< 
-                                    FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric<
+                                    FixedImageType,
                                     MovingImageType >    MetricType;
-  typedef itk:: LinearInterpolateImageFunction< 
+  typedef itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >    InterpolatorType;
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType >    RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
@@ -176,7 +175,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::AffineTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
@@ -196,24 +195,24 @@ int main( int argc, char *argv[] )
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion( 
+  registration->SetFixedImageRegion(
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  In this example, we again use the
   //  \doxygen{CenteredTransformInitializer} helper class in order to compute
   //  a reasonable value for the initial center of rotation and the
   //  translation. The initializer is set to use the center of mass of each
   //  image as the initial correspondence correction.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer< 
-                                    TransformType, 
-                                    FixedImageType, 
+  typedef itk::CenteredTransformInitializer<
+                                    TransformType,
+                                    FixedImageType,
                                     MovingImageType >  TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
   initializer->SetTransform(   transform );
@@ -225,20 +224,20 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Now we pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  registration->SetInitialTransformParameters( 
+  registration->SetInitialTransformParameters(
                                  transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Keeping in mind that the scale of units in scaling, rotation and
   //  translation are quite different, we take advantage of the scaling
   //  functionality provided by the optimizers. We know that the first $N
@@ -246,7 +245,7 @@ int main( int argc, char *argv[] )
   //  matrix factor, and the last $N$ are the components of the translation to
   //  be applied after multiplication with the matrix is performed.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   double translationScale = 1.0 / 1000.0;
@@ -278,7 +277,7 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
   //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
@@ -286,7 +285,7 @@ int main( int argc, char *argv[] )
   //  and number of iterations. These last two act as stopping criteria for
   //  the optimization.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   double steplength = 0.1;
 
@@ -305,7 +304,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetMaximumStepLength( steplength ); 
+  optimizer->SetMaximumStepLength( steplength );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( maxNumberOfIterations );
   // Software Guide : EndCodeSnippet
@@ -318,7 +317,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!MinimizeOn()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   optimizer->MinimizeOn();
@@ -337,22 +336,22 @@ int main( int argc, char *argv[] )
   //  the \code{Update()} method. The call is placed in a \code{try/catch}
   //  block in case any exceptions are thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cerr << "ExceptionObject caught !" << std::endl; 
-    std::cerr << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
   // Software Guide : EndCodeSnippet
 
 
@@ -369,10 +368,10 @@ int main( int argc, char *argv[] )
   //  \index{itk::RegistrationMethod!GetCurrentIteration()}
   //  \index{itk::RegistrationMethod!GetLastTransformParameters()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  OptimizerType::ParametersType finalParameters = 
+  OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
@@ -385,15 +384,15 @@ int main( int argc, char *argv[] )
   std::cout << "Result = " << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-  
+
 
   //  The following code is used to dump output images to files.
   //  They illustrate the final results of the registration.
   //  We will resample the moving image and write out the difference image
   //  before and after registration. We will also rescale the intensities of the
   //  difference images, so that they look better!
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
@@ -413,15 +412,15 @@ int main( int argc, char *argv[] )
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 100 );
-  
+
   typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  
-  typedef itk::CastImageFilter< 
+
+  typedef itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType > CastFilterType;
-                    
+
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
 
@@ -437,9 +436,9 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-  typedef itk::SubtractImageFilter< 
-                                  FixedImageType, 
-                                  FixedImageType, 
+  typedef itk::SubtractImageFilter<
+                                  FixedImageType,
+                                  FixedImageType,
                                   FixedImageType > DifferenceFilterType;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
@@ -448,9 +447,9 @@ int main( int argc, char *argv[] )
   difference->SetInput2( resampler->GetOutput() );
 
   WriterType::Pointer writer2 = WriterType::New();
-  
-  typedef itk::RescaleIntensityImageFilter< 
-                                  FixedImageType, 
+
+  typedef itk::RescaleIntensityImageFilter<
+                                  FixedImageType,
                                   OutputImageType >   RescalerType;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
@@ -458,11 +457,11 @@ int main( int argc, char *argv[] )
   intensityRescaler->SetInput( difference->GetOutput() );
   intensityRescaler->SetOutputMinimum(   0 );
   intensityRescaler->SetOutputMaximum( 255 );
-  
-  writer2->SetInput( intensityRescaler->GetOutput() );  
+
+  writer2->SetInput( intensityRescaler->GetOutput() );
   resampler->SetDefaultPixelValue( 1 );
-  
-  // Compute the difference image between the 
+
+  // Compute the difference image between the
   // fixed and resampled moving image.
   if( argc > 5 )
     {
@@ -474,7 +473,7 @@ int main( int argc, char *argv[] )
   typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
   IdentityTransformType::Pointer identity = IdentityTransformType::New();
 
-  // Compute the difference image between the 
+  // Compute the difference image between the
   // fixed and moving image before registration.
   if( argc > 4 )
     {

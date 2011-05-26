@@ -1,0 +1,8 @@
+WRAP_CLASS("itk::Hessian3DToVesselnessMeasureImageFilter" POINTER)
+  FILTER_DIMS(d3 3)
+  if(d3)
+    foreach(t ${WRAP_ITK_SCALAR})
+      WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
+    endforeach(t)
+  endif(d3)
+END_WRAP_CLASS()

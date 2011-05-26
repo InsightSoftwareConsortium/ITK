@@ -1,71 +1,71 @@
 #
 #  Examples on the use of SpatialObjects.
 #
-PROJECT(SpatialObjectsExamples)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(SpatialObjectsExamples)
+include_regular_expression("^.*$")
 
-ADD_EXECUTABLE(ArrowSpatialObject ArrowSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(ArrowSpatialObject  ITKIO )
+add_executable(ArrowSpatialObject ArrowSpatialObject.cxx)
+target_link_libraries(ArrowSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(BlobSpatialObject BlobSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(BlobSpatialObject  ITKIO )
+add_executable(BlobSpatialObject BlobSpatialObject.cxx)
+target_link_libraries(BlobSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(CylinderSpatialObject CylinderSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(CylinderSpatialObject  ITKIO ITKSpatialObject)
+add_executable(CylinderSpatialObject CylinderSpatialObject.cxx)
+target_link_libraries(CylinderSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(EllipseSpatialObject EllipseSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(EllipseSpatialObject  ITKIO )
+add_executable(EllipseSpatialObject EllipseSpatialObject.cxx)
+target_link_libraries(EllipseSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(GaussianSpatialObject GaussianSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(GaussianSpatialObject  ITKIO )
+add_executable(GaussianSpatialObject GaussianSpatialObject.cxx)
+target_link_libraries(GaussianSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(GroupSpatialObject GroupSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(GroupSpatialObject  ITKIO )
+add_executable(GroupSpatialObject GroupSpatialObject.cxx)
+target_link_libraries(GroupSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(ImageSpatialObject ImageSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(ImageSpatialObject  ITKIO )
+add_executable(ImageSpatialObject ImageSpatialObject.cxx)
+target_link_libraries(ImageSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(ImageMaskSpatialObject ImageMaskSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(ImageMaskSpatialObject  ITKIO )
+add_executable(ImageMaskSpatialObject ImageMaskSpatialObject.cxx)
+target_link_libraries(ImageMaskSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(LandmarkSpatialObject LandmarkSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(LandmarkSpatialObject  ITKIO )
+add_executable(LandmarkSpatialObject LandmarkSpatialObject.cxx)
+target_link_libraries(LandmarkSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(LineSpatialObject LineSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(LineSpatialObject  ITKIO )
+add_executable(LineSpatialObject LineSpatialObject.cxx)
+target_link_libraries(LineSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(MeshSpatialObject MeshSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(MeshSpatialObject  ITKIO ITKAlgorithms ITKSpatialObject)
+add_executable(MeshSpatialObject MeshSpatialObject.cxx)
+target_link_libraries(MeshSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(ReadWriteSpatialObject ReadWriteSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(ReadWriteSpatialObject  ITKIO ITKAlgorithms ITKSpatialObject)
+add_executable(ReadWriteSpatialObject ReadWriteSpatialObject.cxx)
+target_link_libraries(ReadWriteSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(SceneSpatialObject SceneSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(SceneSpatialObject  ITKIO )
+add_executable(SceneSpatialObject SceneSpatialObject.cxx)
+target_link_libraries(SceneSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(SpatialObjectHierarchy SpatialObjectHierarchy.cxx)
-TARGET_LINK_LIBRARIES(SpatialObjectHierarchy  ITKIO )
+add_executable(SpatialObjectHierarchy SpatialObjectHierarchy.cxx)
+target_link_libraries(SpatialObjectHierarchy  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(SpatialObjectTransforms SpatialObjectTransforms.cxx)
-TARGET_LINK_LIBRARIES(SpatialObjectTransforms  ITKIO )
+add_executable(SpatialObjectTransforms SpatialObjectTransforms.cxx)
+target_link_libraries(SpatialObjectTransforms  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(SpatialObjectTreeContainer SpatialObjectTreeContainer.cxx)
-TARGET_LINK_LIBRARIES(SpatialObjectTreeContainer  ITKIO )
+add_executable(SpatialObjectTreeContainer SpatialObjectTreeContainer.cxx)
+target_link_libraries(SpatialObjectTreeContainer  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(SpatialObjectToImageStatisticsCalculator SpatialObjectToImageStatisticsCalculator.cxx)
-TARGET_LINK_LIBRARIES(SpatialObjectToImageStatisticsCalculator  ITKIO )
+add_executable(SpatialObjectToImageStatisticsCalculator SpatialObjectToImageStatisticsCalculator.cxx)
+target_link_libraries(SpatialObjectToImageStatisticsCalculator  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(SurfaceSpatialObject SurfaceSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(SurfaceSpatialObject  ITKIO )
+add_executable(SurfaceSpatialObject SurfaceSpatialObject.cxx)
+target_link_libraries(SurfaceSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(TubeSpatialObject TubeSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(TubeSpatialObject  ITKIO )
+add_executable(TubeSpatialObject TubeSpatialObject.cxx)
+target_link_libraries(TubeSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(VesselTubeSpatialObject VesselTubeSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(VesselTubeSpatialObject  ITKIO )
+add_executable(VesselTubeSpatialObject VesselTubeSpatialObject.cxx)
+target_link_libraries(VesselTubeSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(DTITubeSpatialObject DTITubeSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(DTITubeSpatialObject  ITKIO )
+add_executable(DTITubeSpatialObject DTITubeSpatialObject.cxx)
+target_link_libraries(DTITubeSpatialObject  ${ITK_LIBRARIES})
 
-ADD_EXECUTABLE(BoundingBoxFromImageMaskSpatialObject BoundingBoxFromImageMaskSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(BoundingBoxFromImageMaskSpatialObject  ITKIO )
+add_executable(BoundingBoxFromImageMaskSpatialObject BoundingBoxFromImageMaskSpatialObject.cxx)
+target_link_libraries(BoundingBoxFromImageMaskSpatialObject  ${ITK_LIBRARIES})

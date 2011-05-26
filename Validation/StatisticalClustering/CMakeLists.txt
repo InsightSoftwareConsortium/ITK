@@ -1,4 +1,4 @@
-INCLUDE_DIRECTORIES(
+include_directories(
 ${ITK_SOURCE_DIR}/Code/Common
 ${ITK_SOURCE_DIR}/Code/BasicFilters
 ${ITK_SOURCE_DIR}/Code/Numerics/Statistics
@@ -6,12 +6,12 @@ ${ITK_SOURCE_DIR}/Applications/MRIBiasCorrection
 ${ITK_SOURCE_DIR}/Validation/StatisticalClustering
 )
 
-LINK_DIRECTORIES(
+link_directories(
 ${ITK_BINARY_DIR}/bin
 )
 
 
-LINK_LIBRARIES (
+link_libraries(
 ITKCommon
 ITKBasicFilters
 ITKNumerics
@@ -19,57 +19,57 @@ ITKStatistics
 ITKIO
 )
 
-SET(IBSRClassStatisticsApp_SRCS
+set(IBSRClassStatisticsApp_SRCS
 ${ITK_SOURCE_DIR}/Applications/MRIBiasCorrection/OptionList.cxx
 Code/IBSRClassStatisticsApp.cxx
 )
 
-SET(BrainWebClassStatisticsApp_SRCS
+set(BrainWebClassStatisticsApp_SRCS
 ${ITK_SOURCE_DIR}/Applications/MRIBiasCorrection/OptionList.cxx
 Code/BrainWebClassStatisticsApp.cxx
 )
 
-SET(KdTreeBasedKmeansIBSRValidationApp_SRCS
+set(KdTreeBasedKmeansIBSRValidationApp_SRCS
 ${ITK_SOURCE_DIR}/Applications/MRIBiasCorrection/OptionList.cxx
 Code/ParameterTable.cxx
 Code/ClusteringOutputEvaluator.cxx
 Code/KdTreeBasedKmeansIBSRValidationApp.cxx
 )
 
-SET(KdTreeBasedKmeansBrainWebValidationApp_SRCS
+set(KdTreeBasedKmeansBrainWebValidationApp_SRCS
 ${ITK_SOURCE_DIR}/Applications/MRIBiasCorrection/OptionList.cxx
 Code/ParameterTable.cxx
 Code/ClusteringOutputEvaluator.cxx
 Code/KdTreeBasedKmeansBrainWebValidationApp.cxx
 )
 
-SET(ExpectationMaximizationIBSRValidationApp_SRCS
+set(ExpectationMaximizationIBSRValidationApp_SRCS
 ${ITK_SOURCE_DIR}/Applications/MRIBiasCorrection/OptionList.cxx
 Code/ParameterTable.cxx
 Code/ClusteringOutputEvaluator.cxx
 Code/ExpectationMaximizationIBSRValidationApp.cxx
 )
 
-SET(ExpectationMaximizationBrainWebValidationApp_SRCS
+set(ExpectationMaximizationBrainWebValidationApp_SRCS
 ${ITK_SOURCE_DIR}/Applications/MRIBiasCorrection/OptionList.cxx
 Code/ParameterTable.cxx
 Code/ClusteringOutputEvaluator.cxx
 Code/ExpectationMaximizationBrainWebValidationApp.cxx
 )
 
-IF(UNIX)
-  LINK_LIBRARIES (
+if(UNIX)
+  link_libraries(
   -lm
   )
-ENDIF(UNIX)
+endif(UNIX)
 
-ADD_EXECUTABLE(IBSRClassStatisticsApp ${IBSRClassStatisticsApp_SRCS})
-ADD_EXECUTABLE(BrainWebClassStatisticsApp ${BrainWebClassStatisticsApp_SRCS})
-ADD_EXECUTABLE(KdTreeBasedKmeansIBSRValidationApp 
+add_executable(IBSRClassStatisticsApp ${IBSRClassStatisticsApp_SRCS})
+add_executable(BrainWebClassStatisticsApp ${BrainWebClassStatisticsApp_SRCS})
+add_executable(KdTreeBasedKmeansIBSRValidationApp
                  ${KdTreeBasedKmeansIBSRValidationApp_SRCS})
-ADD_EXECUTABLE(KdTreeBasedKmeansBrainWebValidationApp 
+add_executable(KdTreeBasedKmeansBrainWebValidationApp
                  ${KdTreeBasedKmeansBrainWebValidationApp_SRCS})
-ADD_EXECUTABLE(ExpectationMaximizationIBSRValidationApp 
+add_executable(ExpectationMaximizationIBSRValidationApp
                  ${ExpectationMaximizationIBSRValidationApp_SRCS})
-ADD_EXECUTABLE(ExpectationMaximizationBrainWebValidationApp 
+add_executable(ExpectationMaximizationBrainWebValidationApp
                  ${ExpectationMaximizationBrainWebValidationApp_SRCS})

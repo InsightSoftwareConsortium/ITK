@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    Mesh1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -50,7 +51,7 @@
 //
 //  In order to use the Mesh class, its header file should be included.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkMesh.h"
@@ -62,9 +63,9 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Then, the type associated with the points must be selected and used for
-  //  instantiating the Mesh type. 
+  //  instantiating the Mesh type.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   float   PixelType;
@@ -83,8 +84,8 @@ int main(int, char *[])
   //
   //  \index{itk::Mesh!Instantiation}
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
   typedef itk::Mesh< PixelType, Dimension >   MeshType;
@@ -101,9 +102,9 @@ int main(int, char *[])
   //
   //  \index{itk::Mesh!New()}
   //  \index{itk::Mesh!Pointer()}
-  //  
-  //  Software Guide : EndLatex 
-  
+  //
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   MeshType::Pointer  mesh = MeshType::New();
   // Software Guide : EndCodeSnippet
@@ -119,7 +120,7 @@ int main(int, char *[])
   //
   //  \index{itk::Mesh!PointType}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MeshType::PointType p0;
@@ -143,7 +144,7 @@ int main(int, char *[])
   //
   //  \index{itk::Mesh!SetPoint()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   mesh->SetPoint( 0, p0 );
@@ -160,7 +161,7 @@ int main(int, char *[])
   //
   //  \index{itk::Mesh!GetNumberOfPoints()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Points = " << mesh->GetNumberOfPoints() << std::endl;
@@ -177,7 +178,7 @@ int main(int, char *[])
   //  \index{PointsContainer!Iterator}
   //  \index{itk::Mesh!GetPoints()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::PointsContainer::Iterator     PointsIterator;
@@ -192,10 +193,10 @@ int main(int, char *[])
   //  \index{PointsContainer!Begin()}
   //  \index{itk::Mesh!GetPoints()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointsIterator  pointIterator = mesh->GetPoints()->Begin();  
+  PointsIterator  pointIterator = mesh->GetPoints()->Begin();
   // Software Guide : EndCodeSnippet
 
 
@@ -212,11 +213,11 @@ int main(int, char *[])
   //  \index{PointsContainer!End()}
   //  \index{PointsContainer!Iterator}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   PointsIterator end = mesh->GetPoints()->End();
-  while( pointIterator != end ) 
+  while( pointIterator != end )
     {
     MeshType::PointType p = pointIterator.Value();  // access the point
     std::cout << p << std::endl;                    // print the point

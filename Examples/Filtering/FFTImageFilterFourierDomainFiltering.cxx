@@ -1,27 +1,23 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    FFTImageFilterFourierDomainFiltering.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 
 //  Software Guide : BeginLatex
 //
@@ -32,15 +28,15 @@
 //  a FFT filter, masking the resulting image in the Fourier domain with a
 //  mask, and finally taking the result of the masking and computing its
 //  inverse Fourier transform.
-//  
+//
 //  This typical processing is what it is illustrated in the example below.
-//  
+//
 //  \index{itk::FFT\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
 //  \index{itk::Vnl\-FFT\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
 //  \index{itk::FFTW\-Real\-To\-Complex\-Conjugate\-Image\-Filter}
 //  \index{itk::Mask\-Image\-Filter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -57,7 +53,7 @@
 // filter expects as in put a complex image and produces a real image as
 // output.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
@@ -77,9 +73,9 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginLatex
   //
   // The first decision to make is related to the pixel type and dimension of the
-  // images on which we want to compute the Fourier transform. 
+  // images on which we want to compute the Fourier transform.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float  InputPixelType;
@@ -94,7 +90,7 @@ int main( int argc, char * argv [] )
   // Then we select the pixel type to use for the mask image and instantiate the
   // image type of the mask.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef unsigned char  MaskPixelType;
@@ -108,7 +104,7 @@ int main( int argc, char * argv [] )
   // obtained as the output of a preprocessing pipeline. We omit here the details
   // of reading the image since the process is quite standard.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   typedef itk::ImageFileReader< InputImageType >    InputReaderType;
   typedef itk::ImageFileReader< MaskImageType  >    MaskReaderType;
@@ -125,11 +121,11 @@ int main( int argc, char * argv [] )
   // Note that contrary to most ITK filters, the FFT filter is instantiated using
   // the Pixel type and the image dimension explicitly. Using the type we
   // construct one instance of the filter.
-  // 
-  // Software Guide : EndLatex 
+  //
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter< 
+  typedef itk::VnlFFTRealToComplexConjugateImageFilter<
                                   InputPixelType, Dimension >  FFTFilterType;
 
   FFTFilterType::Pointer fftFilter = FFTFilterType::New();
@@ -143,15 +139,15 @@ int main( int argc, char * argv [] )
   // Since our purpose is to perform filtering in the frequency domain by
   // altering the weights of the image spectrum, we need here a filter that will
   // mask the Fourier transform of the input image with a binary image. Note that the
-  // type of the spectral image is taken here from the traits of the FFT filter. 
+  // type of the spectral image is taken here from the traits of the FFT filter.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef FFTFilterType::OutputImageType    SpectralImageType;
 
   typedef itk::MaskImageFilter< SpectralImageType,
-                                    MaskImageType, 
+                                    MaskImageType,
                                     SpectralImageType >  MaskFilterType;
 
   MaskFilterType::Pointer maskFilter = MaskFilterType::New();
@@ -163,12 +159,12 @@ int main( int argc, char * argv [] )
   // We connect the inputs to the mask filter by taking the outputs from the
   // first FFT filter and from the reader of the Mask image.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
   maskFilter->SetInput1( fftFilter->GetOutput() );
-  maskFilter->SetInput2( maskReader->GetOutput() ); 
+  maskFilter->SetInput2( maskReader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -176,7 +172,7 @@ int main( int argc, char * argv [] )
   // For the purpose of verifying the aspect of the spectrum after being filtered
   // with the mask, we can write out the output of the Mask filter to a file.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< SpectralImageType > SpectralWriterType;
@@ -190,14 +186,14 @@ int main( int argc, char * argv [] )
   //
   // The output of the mask filter will contain the \emph{filtered} spectrum
   // of the input image. We must then apply an inverse Fourier transform on it in
-  // order to obtain the filtered version of the input image. For that purpose we 
+  // order to obtain the filtered version of the input image. For that purpose we
   // create another instance of the FFT filter.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VnlFFTComplexConjugateToRealImageFilter< 
+  typedef itk::VnlFFTComplexConjugateToRealImageFilter<
     InputPixelType, Dimension >  IFFTFilterType;
 
   IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();
@@ -212,7 +208,7 @@ int main( int argc, char * argv [] )
   // eventually throw and exception, the call must be placed inside a try/catch
   // block.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   try
@@ -234,7 +230,7 @@ int main( int argc, char * argv [] )
   // passed to a subsequent processing pipeline. Here we simply write it out to
   // an image file.
   //
-  // Software Guide : EndLatex 
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< InputImageType > WriterType;
@@ -260,7 +256,7 @@ int main( int argc, char * argv [] )
   // Note that this example is just a minimal illustration of the multiple types
   // of processing that are possible in the Fourier domain.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

@@ -1,3 +1,3 @@
 WRAP_CLASS("itk::Image" POINTER)
-  SET(WRAPPER_TEMPLATES "${itk_Wrap_Image}")
+  set(WRAPPER_TEMPLATES "${itk_Wrap_Image}")
 END_WRAP_CLASS()

@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ThresholdSegmentationLevelSetImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 //  Software Guide : BeginCommandLineArgs
@@ -86,7 +83,7 @@
 // or no preprocessing of its input.  Smoothing the input image is not
 // usually required to produce reasonable solutions, though it may still be
 // warranted in some cases.
-// 
+//
 // Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram} shows how
 // the image processing pipeline is constructed. The initial surface is
 // generated using the fast marching filter.  The output of the segmentation
@@ -94,7 +91,7 @@
 // binary representation of the segmented object.  Let's start by including the
 // appropriate header file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -124,11 +121,11 @@ int main( int argc, char *argv[] )
     }
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We define the image type using a particular pixel type and
   //  dimension. In this case we will use 2D \code{float} images.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
@@ -140,9 +137,9 @@ int main( int argc, char *argv[] )
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>
                                                    ThresholdingFilterType;
-  
+
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
-                        
+
   thresholder->SetLowerThreshold( -1000.0 );
   thresholder->SetUpperThreshold(     0.0 );
 
@@ -167,24 +164,24 @@ int main( int argc, char *argv[] )
     FastMarchingFilterType;
 
   FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The following lines instantiate a
   //  ThresholdSegmentationLevelSetImageFilter using the \code{New()} method.
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ThresholdSegmentationLevelSetImageFilter< InternalImageType, 
+  typedef  itk::ThresholdSegmentationLevelSetImageFilter< InternalImageType,
     InternalImageType > ThresholdSegmentationLevelSetImageFilterType;
   ThresholdSegmentationLevelSetImageFilterType::Pointer thresholdSegmentation =
     ThresholdSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  For the ThresholdSegmentationLevelSetImageFilter, scaling
   //  parameters are used to balance the influence of the propagation
   //  (inflation) and the curvature (surface smoothing) terms from
@@ -198,7 +195,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::Threshold\-Segmentation\-Level\-Set\-Image\-Filter!SetCurvatureScaling()}
   //  \index{itk::Segmentation\-Level\-Set\-Image\-Filter!SetCurvatureScaling()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
   thresholdSegmentation->SetPropagationScaling( 1.0 );
@@ -210,8 +207,8 @@ int main( int argc, char *argv[] )
     {
     thresholdSegmentation->SetCurvatureScaling( 1.0 );
     }
-  
-  //  Software Guide : EndCodeSnippet 
+
+  //  Software Guide : EndCodeSnippet
 
   //  The level set solver will stop if the convergence criteria has been
   //  reached or if the maximum number of iterations has elasped.  The
@@ -239,9 +236,9 @@ int main( int argc, char *argv[] )
   thresholdSegmentation->SetLowerThreshold( ::atof(argv[6]) );
   thresholdSegmentation->SetIsoSurfaceValue(0.0);
   // Software Guide : EndCodeSnippet
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The filters are now connected in a pipeline indicated in
   //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram}.
   //  Remember that before calling \code{Update()} on the file writer object,
@@ -249,8 +246,8 @@ int main( int argc, char *argv[] )
   //  the output from the reader object.  See previous examples and the
   //  source code for this section for details.
   //
-  //  Software Guide : EndLatex 
-  
+  //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   thresholdSegmentation->SetInput( fastMarching->GetOutput() );
   thresholdSegmentation->SetFeatureImage( reader->GetOutput() );
@@ -276,7 +273,7 @@ int main( int argc, char *argv[] )
   NodeContainer::Pointer seeds = NodeContainer::New();
 
   InternalImageType::IndexType  seedPosition;
-  
+
   seedPosition[0] = atoi( argv[3] );
   seedPosition[1] = atoi( argv[4] );
 
@@ -296,7 +293,7 @@ int main( int argc, char *argv[] )
   NodeType node;
 
   const double seedValue = - initialDistance;
-  
+
   node.SetValue( seedValue );
   node.SetIndex( seedPosition );
 
@@ -312,12 +309,12 @@ int main( int argc, char *argv[] )
   //  \code{SetTrialPoints()}.
   fastMarching->SetTrialPoints(  seeds  );
 
-  //  
+  //
   //  Since the FastMarchingImageFilter is used here just as a
   //  Distance Map generator. It does not require a speed image as input.
   //  Instead the constant value $1.0$ is passed using the
   //  \code{SetSpeedConstant()} method.
-  
+
   fastMarching->SetSpeedConstant( 1.0 );
 
 
@@ -329,14 +326,14 @@ int main( int argc, char *argv[] )
   //  directly or indirectly. Other image parameters such as Origin, Spacing
   //  and Direction are set in a similar manner.
 
-  
+
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Invoking the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  As usual, the call is placed in a
   //  \code{try/catch} block should any errors occur or exceptions be thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   try
@@ -356,7 +353,7 @@ int main( int argc, char *argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-  // Print out some useful information 
+  // Print out some useful information
   std::cout << std::endl;
   std::cout << "Max. no. iterations: " << thresholdSegmentation->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << thresholdSegmentation->GetMaximumRMSError() << std::endl;
@@ -411,7 +408,7 @@ int main( int argc, char *argv[] )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|}
   //  \hline
-  //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline  
+  //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline
   //  White matter & $(60,116)$ & 150 & 180 & Second from left  \\  \hline
   //  Ventricle    & $(81,112)$ & 210 & 250 & Third  from left  \\  \hline
   //  Gray matter  & $(107,69)$ & 180 & 210 & Fourth from left  \\  \hline
@@ -423,8 +420,8 @@ int main( int argc, char *argv[] )
   //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}
   //  \label{tab:ThresholdSegmentationLevelSetImageFilter} }.  \end{center}
   //  \end{table}
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   return 0;
 }

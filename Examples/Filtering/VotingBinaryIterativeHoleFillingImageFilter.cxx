@@ -1,25 +1,22 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    VotingBinaryIterativeHoleFillingImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
-#endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
 #endif
 
 // Software Guide : BeginCommandLineArgs
@@ -51,7 +48,7 @@
 //
 //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -65,7 +62,7 @@
 //
 //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -89,7 +86,7 @@ int main( int argc, char * argv[] )
   //  requires the input and output images to be of the same type, therefore a
   //  single image type is required for the template instantiation.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   unsigned char  PixelType;
@@ -115,8 +112,8 @@ int main( int argc, char * argv[] )
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!instantiation}
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!New()}
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!Pointer}
-  // 
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::VotingBinaryIterativeHoleFillingImageFilter<
@@ -137,14 +134,14 @@ int main( int argc, char * argv[] )
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!Radius}
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!Neighborhood}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const unsigned int radiusX = atoi( argv[3] );
   const unsigned int radiusY = atoi( argv[4] );
 
   // Software Guide : BeginCodeSnippet
   ImageType::SizeType indexRadius;
-  
+
   indexRadius[0] = radiusX; // radius along x
   indexRadius[1] = radiusY; // radius along y
 
@@ -163,7 +160,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetForegroundValue()}
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetBackgroundValue()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetBackgroundValue(   0 );
@@ -187,7 +184,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetMajorityThreshold()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   filter->SetMajorityThreshold( 2 );
@@ -203,7 +200,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetMaximumNumberOfIterations()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const unsigned int numberOfIterations = atoi( argv[5] );
 
@@ -225,7 +222,7 @@ int main( int argc, char * argv[] )
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetInput()}
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!GetOutput()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -237,13 +234,13 @@ int main( int argc, char * argv[] )
   const unsigned int iterationsUsed = filter->GetCurrentNumberOfIterations();
 
   std::cout << "The filter used " << iterationsUsed << " iterations " << std::endl;
-  
+
   const unsigned int numberOfPixelsChanged = filter->GetNumberOfPixelsChanged();
 
   std::cout << "and changed a total of " << numberOfPixelsChanged << " pixels" << std::endl;
 
   //  Software Guide : BeginLatex
-  // 
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
@@ -264,8 +261,8 @@ int main( int argc, char * argv[] )
   //  \times 5 $, $ 7 \times 7 $.  The filtered image demonstrates the
   //  capability of this filter for reducing noise both in the background and
   //  foreground of the image, as well as smoothing the contours of the regions.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

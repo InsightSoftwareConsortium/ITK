@@ -1,0 +1,108 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
+#include "itksys/SystemTools.hxx"
+#include "itkNiftiImageIO.h"
+#include "itkNiftiImageIOTest.h"
+
+int itkNiftiImageIOTest6(int ac, char *av[])
+{
+  if(ac > 1)
+    {
+    char *testdir = *++av;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  int success(EXIT_SUCCESS);
+
+  typedef itk::VectorImage<double,3> VectorImageType;
+  VectorImageType::RegionType imageRegion;
+  VectorImageType::SizeType size;
+  VectorImageType::IndexType index;
+  VectorImageType::SpacingType spacing;
+  VectorImageType::VectorLengthType vecLength(4);
+
+  for(unsigned i = 0; i < 3; i++)
+    {
+    size[i] = 3;
+    index[i] = 0;
+    spacing[i] = 1.0;
+    }
+  imageRegion.SetSize(size); imageRegion.SetIndex(index);
+  VectorImageType::Pointer vecImage;
+  AllocateVecImageFromRegionAndSpacing(VectorImageType, vecImage, imageRegion, spacing,vecLength);
+
+  itk::ImageRegionIterator<VectorImageType>
+    it(vecImage,vecImage->GetLargestPossibleRegion());
+  double val(0.0);
+  for(it.GoToBegin(); it != it.End(); ++it)
+    {
+    VectorImageType::PixelType p(vecLength);
+    for(unsigned i = 0; i < vecLength; i++)
+      {
+      p[i] = val;
+      val++;
+      }
+    it.Set(p);
+    }
+  const std::string testfname("vectorImage.nii.gz");
+  VectorImageType::Pointer readback;
+  try
+    {
+    WriteImage<VectorImageType>(vecImage,testfname);
+    readback = ReadImage<VectorImageType>(testfname);
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    std::cout << "itkNiftiImageIOTest6" << std::endl
+              << "Exception Object caught: " << std::endl
+              << err << std::endl;
+    throw;
+    }
+  itk::ImageRegionIterator<VectorImageType>
+    readbackIt(readback,readback->GetLargestPossibleRegion());
+  for(it.GoToBegin(),readbackIt.GoToBegin();
+      it != it.End() && readbackIt != readbackIt.End();
+      ++it, ++readbackIt)
+    {
+    VectorImageType::PixelType p(vecLength),
+      readbackP(vecLength);
+    p = it.Get();
+    readbackP = readbackIt.Get();
+    if(p != readbackP)
+      {
+      std::cout << "Pixel mismatch at index "
+                << it.GetIndex()
+                << " original = "
+                << p
+                << " read value = "
+                << readbackP
+                << std::endl;
+      success = EXIT_FAILURE;
+      break;
+      }
+    }
+  Remove(testfname.c_str());
+  return success;
+}

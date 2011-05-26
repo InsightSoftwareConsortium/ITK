@@ -1,27 +1,23 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    VectorConfidenceConnected.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {VisibleWomanEyeSlice.png}
@@ -38,9 +34,9 @@
 //    OUTPUTS: {VectorConfidenceConnectedOutput3.png}
 //    66 66 3 1
 //  Software Guide : EndCommandLineArgs
-  
+
 //  Software Guide : BeginLatex
-//  
+//
 //  This example illustrates the use of the confidence connected concept
 //  applied to images with vector pixel types. The confidence connected
 //  algorithm is implemented for vector images in the class
@@ -51,7 +47,7 @@
 //  Mahalanobis distance as implemented in the class
 //  \subdoxygen{Statistics}{MahalanobisDistanceThresholdImageFunction}.
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -77,12 +73,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We now define the image type using a particular pixel type and
   //  dimension. In this case the \code{float} type is used for the pixels
   //  due to the requirements of the smoothing filter.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef   unsigned char                         PixelComponentType;
@@ -94,7 +90,7 @@ int main( int argc, char *argv[] )
   typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
-                        
+
   // We instantiate reader and writer types
   //
   typedef  itk::ImageFileReader<  InputImageType   > ReaderType;
@@ -108,23 +104,23 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We now declare the type of the region growing filter. In this case it
   //  is the \doxygen{VectorConfidenceConnectedImageFilter}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::VectorConfidenceConnectedImageFilter< InputImageType, 
+  typedef  itk::VectorConfidenceConnectedImageFilter< InputImageType,
                                     OutputImageType > ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then, we construct one filter of this class using the \code{New()}
   //  method.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
@@ -132,10 +128,10 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Next we create a simple, linear data processing pipeline.
-  //  
-  //  Software Guide : EndLatex 
+  //
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetInput( reader->GetOutput() );
@@ -157,7 +153,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetMultiplier()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const double multiplier = atof( argv[5] );
 
@@ -181,10 +177,10 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetNumberOfIterations()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   const unsigned int iterations = atoi( argv[6] );
-    
+
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetNumberOfIterations( iterations );
   // Software Guide : EndCodeSnippet
@@ -199,7 +195,7 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetReplaceValue()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetReplaceValue( 255 );
@@ -218,10 +214,10 @@ int main( int argc, char *argv[] )
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetSeed()}
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetInitialNeighborhoodRadius()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   InputImageType::IndexType  index;
-  
+
   index[0] = atoi( argv[3] );
   index[1] = atoi( argv[4] );
 
@@ -229,16 +225,16 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetSeed( index );
   // Software Guide : EndCodeSnippet
- 
+
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The size of the initial neighborhood around the seed is defined with the
   //  method \code{SetInitialNeighborhoodRadius()}. The neighborhood will be
   //  defined as an $N$-Dimensional rectangular region with $2r+1$ pixels on
-  //  the side, where $r$ is the value passed as initial neighborhood radius. 
+  //  the side, where $r$ is the value passed as initial neighborhood radius.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetInitialNeighborhoodRadius( 3 );
@@ -246,12 +242,12 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The invocation of the \code{Update()} method on the writer triggers the
   //  execution of the pipeline.  It is usually wise to put update calls in a
   //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   try
@@ -298,7 +294,7 @@ int main( int argc, char *argv[] )
   // has a coloration that is not very homogeneous inside the eyeball and
   // does not allow to generate a full segmentation based only on color.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   //  Software Guide : BeginLatex
   //
@@ -306,23 +302,23 @@ int main( int argc, char *argv[] )
   //  last iteration can be queried using the methods \code{GetMean()} and
   //  \code{GetCovariance()}.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef ConnectedFilterType::MeanVectorType   MeanVectorType; 
-    
+  typedef ConnectedFilterType::MeanVectorType   MeanVectorType;
+
   const MeanVectorType & mean = confidenceConnected->GetMean();
 
   std::cout << "Mean vector = " << std::endl;
   std::cout << mean << std::endl;
 
-  typedef ConnectedFilterType::CovarianceMatrixType   CovarianceMatrixType; 
-    
+  typedef ConnectedFilterType::CovarianceMatrixType   CovarianceMatrixType;
+
   const CovarianceMatrixType & covariance = confidenceConnected->GetCovariance();
 
   std::cout << "Covariance matrix = " << std::endl;
   std::cout << covariance << std::endl;
   // Software Guide : EndCodeSnippet
-  
+
   return 0;
 }

@@ -1,23 +1,23 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ValidationSampleGenerator.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __ValidationSampleGenerator_h
 #define __ValidationSampleGenerator_h
 
-#include "itkMacro.h"
 #include "itkNumericTraits.h"
 #include "itk_hash_map.h"
 
@@ -31,7 +31,6 @@
 
 #include "itkStatisticsAlgorithm.h"
 #include "itkHistogram.h"
-#include "itkSubsample.h"
 #include "itkListSampleToHistogramFilter.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 
@@ -45,7 +44,7 @@ public:
   typedef itk::PixelTraits< typename TVectorImage::PixelType > PixelTraitsType ;
 
   typedef typename TImage::PixelType ImagePixelType ;
-  
+
   typedef itk::ImageFileReader< TImage > ImageReaderType ;
 
   typedef itk::ImageFileReader< TClassMaskImage > ClassMaskImageReaderType ;
@@ -59,7 +58,7 @@ public:
 
   typedef itk::Statistics::Histogram< float, PixelTraitsType::Dimension > HistogramType ;
 
-  typedef itk::Statistics::ListSampleToHistogramFilter< SubsampleType, 
+  typedef itk::Statistics::ListSampleToHistogramFilter< SubsampleType,
                                                         HistogramType > ImporterType ;
 
   typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SubsampleType > TreeGeneratorType ;
@@ -68,29 +67,29 @@ public:
 
   typedef itk::Vector< double, PixelTraitsType::Dimension > MeanType ;
 
-  typedef itk::Matrix< double, 
-                       PixelTraitsType::Dimension, 
+  typedef itk::Matrix< double,
+                       PixelTraitsType::Dimension,
                        PixelTraitsType::Dimension > CovarianceType ;
 
 
   void SetImageFileNames(const std::vector< std::string >& fileNames) ;
 
-  void SetClassMaskImageFileName(const char* fileName, 
+  void SetClassMaskImageFileName(const char* fileName,
                                  unsigned int defaultClassLabel,
-                                 int sliceOffset = 
+                                 int sliceOffset =
                                  itk::NumericTraits< int >::min()) ;
 
-  /** VECTOR_IMAGE 
+  /** VECTOR_IMAGE
    *  LIST_SAMPLE                -- implies VECTOR_IMAGE
    *  HISTOGRAM                  -- implies VECTOR_IMAGE &
-   *                                           LIST_SAMPLE 
+   *                                           LIST_SAMPLE
    *  WEIGHTED_CENTROID_KD_TREE -- implies VECTOR_IMAGE,
    *                                        LIST_SAMPLE */
   enum SampleTypeEnum { VECTOR_IMAGE,
                         LIST_SAMPLE,
                         HISTOGRAM,
                         WEIGHTED_CENTROID_KD_TREE } ;
-                            
+
   void SetOutputSampleType(SampleTypeEnum outputType)
   { m_OutputSampleType = outputType ; }
 
@@ -98,13 +97,13 @@ public:
   { m_KdTreeBucketSize = size ; }
 
   void SetOutputNormalized(bool flag = true, double normalizationScale = 100)
-  { 
-    m_OutputNormalized = flag ; 
+  {
+    m_OutputNormalized = flag ;
     m_NormalizationScale = normalizationScale ;
   }
 
   /** If you choose to use masked sample, the corresponding class labels will be
-   * also generated. And you can get the class labels by calling the 
+   * also generated. And you can get the class labels by calling the
    * GetClassLabels() method. However, if you chose VECTOR_IMAGE as output,
    * this method won't have any effect on output */
   void SetSelectedClasses(const std::vector< unsigned int >& labelsOfSelectedClasses)
@@ -114,7 +113,7 @@ public:
   { return m_ImageReaders[this->GetFileIndex(fileName)]->GetOutput() ; }
 
   TClassMaskImage* GetClassMaskImage()
-  { 
+  {
     return m_ClassMaskImage ;
   }
 
@@ -127,8 +126,8 @@ public:
   HistogramType* GetHistogram()
   { return m_Histogram.GetPointer() ; }
 
-  KdTreeType* GetKdTree() 
-  { return m_KdTree.GetPointer() ; } 
+  KdTreeType* GetKdTree()
+  { return m_KdTree.GetPointer() ; }
 
   typedef itk::hash_map< unsigned long, unsigned int > ClassLabelsType ;
 //   std::vector< unsigned int >* GetClassLabels()
@@ -156,19 +155,19 @@ public:
 
   MeanType GetClassMean(unsigned int classLabel)
   { return m_ClassMeans[this->GetClassIndex(classLabel)] ; }
-  
+
   CovarianceType GetClassCovariance(unsigned int classLabel)
   { return m_ClassCovariances[this->GetClassIndex(classLabel)] ; }
-  
+
   /** gets measurment bounds */
-  MeasurementVectorType GetMeasurementsLowerBound() 
+  MeasurementVectorType GetMeasurementsLowerBound()
   { return m_MeasurementsLowerBound ; }
-  
+
   MeasurementVectorType GetMeasurementsUpperBound()
   { return m_MeasurementsUpperBound ; }
-  
+
   void GenerateData() ;
-  
+
 protected:
   int GetFileIndex(const char* fileName) ;
 

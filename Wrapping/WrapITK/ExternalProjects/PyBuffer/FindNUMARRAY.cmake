@@ -5,26 +5,28 @@
 # PYTHON_NUMARRAY_INCLUDE_DIR  - directory where the arrayobject.h header file can be found
 #
 #
-  IF(PYTHON_EXECUTABLE)
-    FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/det_npp.py "try: import numpy; print numpy.get_numpy_include()\nexcept: pass\n")
-    EXEC_PROGRAM("${PYTHON_EXECUTABLE}"
+  if(PYTHON_EXECUTABLE)
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/det_npp.py "try: import numpy; print numpy.get_include()\nexcept: pass\n")
+    exec_program("${PYTHON_EXECUTABLE}"
       ARGS "\"${CMAKE_CURRENT_BINARY_DIR}/det_npp.py\""
       OUTPUT_VARIABLE NUMPY_PATH
     )
-  ENDIF(PYTHON_EXECUTABLE)
+  endif(PYTHON_EXECUTABLE)
 
-  FIND_PATH(PYTHON_NUMARRAY_INCLUDE_DIR arrayobject.h
+  # TODO The user might want to select between numpy/numarray
+  find_path(PYTHON_NUMARRAY_INCLUDE_DIR arrayobject.h
     "${NUMPY_PATH}/numpy/"
     "${PYTHON_INCLUDE_PATH}/numarray/"
     "${PYTHON_INCLUDE_PATH}/Numeric/"
+    /usr/include/python2.6/numarray/
+    /usr/include/python2.5/numarray/
     /usr/include/python2.4/numarray/
     /usr/include/python2.3/numarray/
     /usr/include/python2.2/numarray/
     /usr/include/python2.1/numarray/
-    DOC "Directory where the arrayobject.h header file can be found. This file is part of the numarray package"
+    DOC "Directory where the arrayobject.h header file can be found. This file is part of the numarray or numpy package"
     )
 
-  IF(PYTHON_NUMARRAY_INCLUDE_DIR)
-    SET (PYTHON_NUMARRAY_FOUND 1 CACHE INTERNAL "Python numarray development package is available")
-  ENDIF(PYTHON_NUMARRAY_INCLUDE_DIR)
-
+  if(PYTHON_NUMARRAY_INCLUDE_DIR)
+    set(PYTHON_NUMARRAY_FOUND 1 CACHE INTERNAL "Python numarray development package is available")
+  endif(PYTHON_NUMARRAY_INCLUDE_DIR)

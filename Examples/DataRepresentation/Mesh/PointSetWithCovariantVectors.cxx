@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    PointSetWithCovariantVectors.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -21,7 +22,7 @@
 //  Software Guide : BeginLatex
 //
 //  It is common to represent geometric object by using points on their surfaces
-//  and normals associated with those points.  This structure can be easily 
+//  and normals associated with those points.  This structure can be easily
 //  instantiated with the \doxygen{PointSet} class.
 //
 //  The natural class for representing normals to surfaces and
@@ -32,7 +33,7 @@
 //  function, the transformed covariant vector will still be the valid
 //  gradient of the transformed function, a property which would not
 //  hold with a regular vector.
-// 
+//
 //  \index{itk::PointSet!itk::CovariantVector}
 //  \index{itk::CovariantVector!itk::PointSet}
 //
@@ -40,13 +41,13 @@
 //  PointSet class.  The CovariantVector class is used here as the
 //  pixel type. The example illustrates how a deformable model could move under
 //  the influence of the gradient of potential function.
-//  
+//
 //  In order to use the CovariantVector class it is necessary to
 //  include its header file along with the header of the point set.
 //
 //  \index{itk::CovariantVector!Header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkCovariantVector.h"
@@ -67,7 +68,7 @@ int main(int, char *[])
   //
   //  \index{itk::CovariantVector!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
@@ -80,7 +81,7 @@ int main(int, char *[])
   //  Then we use the PixelType (which are actually CovariantVectors) to
   //  instantiate the PointSet type and subsequently create a PointSet object.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef itk::PointSet< PixelType, Dimension > PointSetType;
@@ -97,7 +98,7 @@ int main(int, char *[])
   //  \index{itk::PointSet!SetPoint()}
   //  \index{itk::PointSet!SetPointData()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   PointSetType::PixelType   gradient;
@@ -115,8 +116,8 @@ int main(int, char *[])
     gradient[0] =  vcl_sin(angle);
     gradient[1] =  vcl_cos(angle);
     gradient[2] = 0.0;  // flat on the Z plane
-    pointSet->SetPoint( pointId, point );   
-    pointSet->SetPointData( pointId, gradient );   
+    pointSet->SetPoint( pointId, point );
+    pointSet->SetPointData( pointId, gradient );
     pointId++;
     }
   // Software Guide : EndCodeSnippet
@@ -135,7 +136,7 @@ int main(int, char *[])
   //
   //  \index{itk::PointSet!PointDataIterator}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
@@ -147,14 +148,14 @@ int main(int, char *[])
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
   PointIterator pointEnd      = pointSet->GetPoints()->End();
 
-  while( pixelIterator != pixelEnd  && pointIterator != pointEnd ) 
+  while( pixelIterator != pixelEnd  && pointIterator != pointEnd )
     {
     point    = pointIterator.Value();
     gradient = pixelIterator.Value();
-    for(unsigned int i=0; i<Dimension; i++) 
+    for(unsigned int i=0; i<Dimension; i++)
       {
       point[i] += gradient[i];
-      } 
+      }
     pointIterator.Value() = point;
     ++pixelIterator;
     ++pointIterator;
@@ -177,7 +178,7 @@ int main(int, char *[])
   //
   //  \index{itk::CovariantVector}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
   //
 
 
@@ -185,7 +186,7 @@ int main(int, char *[])
   //
   pointIterator = pointSet->GetPoints()->Begin();
   pointEnd      = pointSet->GetPoints()->End();
-  while( pointIterator != pointEnd ) 
+  while( pointIterator != pointEnd )
     {
     std::cout << pointIterator.Value() << std::endl;
     ++pointIterator;

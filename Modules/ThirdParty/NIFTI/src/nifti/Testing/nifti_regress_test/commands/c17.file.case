@@ -1,0 +1,33 @@
+
+# - test read/write of datasets with various name cases
+#       - .nii .hdr .img .NII .HDR .IMG
+#       - compressed
+#       - error conditions
+
+# start with a basic dataset
+nifti_tool -make_im -new_dim 3 3 4 5 1 0 0 0 -prefix small.nii
+
+set prefix = t17
+
+# read/write of 3 cap cases
+nifti_tool -cbl -keep_hist -infiles small.nii -prefix $prefix.1.NII
+nifti_tool -cbl -keep_hist -infiles $prefix.1.NII -prefix $prefix.2.HDR
+nifti_tool -cbl -keep_hist -infiles $prefix.2.HDR -prefix $prefix.3.IMG
+
+nifti_tool -diff_hdr -infiles $prefix.2.HDR small.nii
+nifti_tool -diff_nim -infiles $prefix.2.HDR $prefix.3.IMG
+
+# compression cases
+nifti_tool -cbl -keep_hist -infiles $prefix.1.NII -prefix $prefix.4.NII.GZ
+nifti_tool -cbl -keep_hist -infiles $prefix.4.NII.GZ -prefix $prefix.5.HDR.GZ
+nifti_tool -cbl -keep_hist -infiles $prefix.5.HDR.GZ -prefix $prefix.6.IMG.GZ
+
+nifti_tool -diff_hdr -infiles $prefix.6.HDR.GZ small.nii
+
+# display last header
+nifti_tool -disp_hdr -infiles $prefix.6.IMG.GZ
+
+# error cases
+echo should be errors:
+nifti_tool -disp_hdr -infiles small.NII
+nifti_tool -disp_hdr -infiles $prefix.4.NII.gz

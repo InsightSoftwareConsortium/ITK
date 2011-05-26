@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    AutomaticMesh.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -29,8 +30,8 @@
 //  you add.  It explicitly includes all boundary information, so that
 //  the resulting mesh can be easily traversed.  It merges all shared
 //  edges, vertices, and faces, so no geometric feature appears more
-//  than once.  
-//  
+//  than once.
+//
 //  This section shows how you can use the AutomaticTopologyMeshSource to
 //  instantiate a mesh representing a K-Complex.  We will first generate the
 //  same tetrahedron from Section~\ref{sec:MeshKComplex}, after which we will
@@ -40,7 +41,7 @@
 //  \index{itk::Mesh!K-Complex}
 //  \index{itk::AutomaticTopologyMeshSource}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 //  Software Guide : BeginLatex
 //
@@ -49,14 +50,10 @@
 //
 //  \index{itk::AutomaticTopologyMeshSource!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMesh.h"
-#include "itkVertexCell.h"
-#include "itkLineCell.h"
 #include "itkTriangleCell.h"
-#include "itkTetrahedronCell.h"
 #include "itkAutomaticTopologyMeshSource.h"
 // Software Guide : EndCodeSnippet
 
@@ -64,7 +61,7 @@ int
 main(int, char *[])
 {
   //  Software Guide : BeginLatex
-  //  
+  //
   //  We then define the necessary types and instantiate the mesh
   //  source.  Two new types are \code{IdentifierType} and
   //  \code{IdentifierArrayType}.  Every cell in a mesh has an
@@ -80,7 +77,7 @@ main(int, char *[])
   //  \index{itk::AutomaticTopologyMeshSource!IdentifierType}
   //  \index{itk::AutomaticTopologyMeshSource!IdentifierArrayType}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float                             PixelType;
@@ -104,7 +101,7 @@ main(int, char *[])
   //  generates all the vertices, edges, and faces, along with the
   //  tetrahedral solid, and adds them to the mesh along with the
   //  connectivity information.
-  // 
+  //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -128,7 +125,7 @@ main(int, char *[])
   //  it returns the ID of the point in the mesh, and if not, it
   //  generates a new unique ID, adds the point with that ID, and
   //  returns the ID.
-  // 
+  //
   //  \index{itk::AutomaticTopologyMeshSource!AddPoint()}
   //  \index{itk::AutomaticTopologyMeshSource!AddTetrahedron()}
   //
@@ -137,11 +134,11 @@ main(int, char *[])
   //  unchanged and returns the ID that the tetrahedron already has.
   //  If not, it adds the tetrahedron (and all its faces, edges, and
   //  vertices), and generates a new ID, which it returns.
-  // 
+  //
   //  It is also possible to add all the points first, and then add a
   //  number of cells using the point IDs directly.  This approach
   //  corresponds with the way the data is stored in many file formats
-  //  for 3D polygonal models.  
+  //  for 3D polygonal models.
   //
   //  First we add the points (in this case the vertices of a larger
   //  tetrahedron).  This example also illustrates that

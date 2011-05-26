@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformationFieldInitialization.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -34,21 +35,20 @@
 //  interpolates the values of all other deformation vectors using
 //  \doxygen{KernelBasedTransform}
 //
-// 
+//
 //  \index{Registration!Finite Element-Based}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImageFileReader.h" 
-#include "itkImageFileWriter.h" 
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkDeformationFieldSource.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 
 #include <fstream>
@@ -101,7 +101,7 @@ int main( int argc, char * argv[] )
 
 
   typedef itk::DeformationFieldSource<
-                                DeformationFieldType 
+                                DeformationFieldType
                                              >  FilterType;
 
   FilterType::Pointer filter = FilterType::New();
@@ -116,7 +116,7 @@ int main( int argc, char * argv[] )
 
 
   //  Create source and target landmarks.
-  //  
+  //
   typedef FilterType::LandmarkContainerPointer   LandmarkContainerPointer;
   typedef FilterType::LandmarkContainer          LandmarkContainerType;
   typedef FilterType::LandmarkPointType          LandmarkPointType;
@@ -148,7 +148,7 @@ int main( int argc, char * argv[] )
 
   pointsFile.close();
 
-  
+
   filter->SetSourceLandmarks( sourceLandmarks.GetPointer() );
   filter->SetTargetLandmarks( targetLandmarks.GetPointer() );
 
@@ -184,7 +184,7 @@ int main( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 
 //  Software Guide : EndLatex

@@ -1,293 +1,255 @@
-PROJECT(WrapITK)
+#==========================================================================
+#
+#   Copyright Insight Software Consortium
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#          http://www.apache.org/licenses/LICENSE-2.0.txt
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#==========================================================================*/
+
+project(WrapITK)
 
 # check cmake version
 # Require 2.4.2 for MATH and LIST commands (REMOVE_ITEM is not the same in
 # 2.4.1)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.2 FATAL_ERROR)
+# 2.4.5 is required to parse the if(POLICY) command.
+cmake_minimum_required(VERSION 2.4.5 FATAL_ERROR)
+if(COMMAND CMAKE_POLICY)
+  cmake_policy(SET CMP0003 NEW)
+  if(POLICY CMP0011)
+    cmake_policy(SET CMP0011 NEW)
+  endif(POLICY CMP0011)
 
-# needed for the insight journal
-INCLUDE(IJMacros.txt)
+endif(COMMAND CMAKE_POLICY)
+include("CMakeUtilityFunctions.cmake")
 
-ENABLE_TESTING()
+set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
+if(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
+  cmake_policy(SET CMP0011 OLD)
+endif(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
 
-IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
-ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+enable_testing()
+# include(CTest)
+# if(BUILD_TESTING)
+#   set(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
+#   mark_as_advanced(BUILDNAME)
+# endif(BUILD_TESTING)
 
 ###############################################################################
 # Config ITKWrap
 ###############################################################################
 
+# With MS compilers on Win64, we need the /bigobj switch, else generated
+# code results in objects with number of sections exceeding object file
+# format.
+# see http://msdn.microsoft.com/en-us/library/ms173499.aspx
+IF(CMAKE_CL_64)
+ ADD_DEFINITIONS(/bigobj)
+ENDIF(CMAKE_CL_64)
+
+
 # Set up options needed for ConfigureWrapping
 
-# load the language autodetection stuff for the insight journal
-INCLUDE(LanguageAutoDetection.cmake)
-
 # set WrapITK version
-SET(WrapITK_VERSION_MAJOR 0)
-SET(WrapITK_VERSION_MINOR 2)
-SET(WrapITK_VERSION_PATCH 1)
+set(WrapITK_VERSION_MAJOR 0)
+set(WrapITK_VERSION_MINOR 4)
+set(WrapITK_VERSION_PATCH 0)
 
 
-OPTION(WRAP_ITK_TCL "Build cswig Tcl wrapper support." OFF)
-OPTION(WRAP_ITK_PYTHON "Build cswig Python wrapper support." OFF)
-OPTION(WRAP_ITK_JAVA "Build cswig Java wrapper support." OFF)
-# OPTION(WRAP_ITK_PERL "Build cswig Perl wrapper support." OFF)
+option(WRAP_unsigned_char "Wrap unsigned char type" OFF)
+option(WRAP_unsigned_short "Wrap unsigned short type" ON)
+option(WRAP_unsigned_long "Wrap unsigned long type" OFF)
 
-OPTION(WRAP_unsigned_char "Wrap unsigned char type" OFF)
-OPTION(WRAP_unsigned_short "Wrap unsigned short type" ON)
-OPTION(WRAP_unsigned_long "Wrap unsigned long type" OFF)
+option(WRAP_signed_char "Wrap signed char type" OFF)
+option(WRAP_signed_short "Wrap signed short type" OFF)
+option(WRAP_signed_long "Wrap signed long type" OFF)
 
-OPTION(WRAP_signed_char "Wrap signed char type" OFF)
-OPTION(WRAP_signed_short "Wrap signed short type" OFF)
-OPTION(WRAP_signed_long "Wrap signed long type" OFF)
+option(WRAP_float "Wrap float type" ON)
+option(WRAP_double "Wrap double type" OFF)
 
-OPTION(WRAP_float "Wrap float type" ON)
-OPTION(WRAP_double "Wrap double type" OFF)
+option(WRAP_vector_float "Wrap vector float type" ON)
+option(WRAP_vector_double "Wrap vector double type" OFF)
 
-OPTION(WRAP_vector_float "Wrap vector float type" ON)
-OPTION(WRAP_vector_double "Wrap vector double type" OFF)
+option(WRAP_covariant_vector_float "Wrap covariant vector float type" ON)
+option(WRAP_covariant_vector_double "Wrap covariant vector double type" OFF)
 
-OPTION(WRAP_covariant_vector_float "Wrap covariant vector float type" ON)
-OPTION(WRAP_covariant_vector_double "Wrap covariant vector double type" OFF)
+option(WRAP_rgb_unsigned_char "Wrap RGB< unsigned char > type" OFF)
+option(WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" ON)
 
-OPTION(WRAP_rgb_unsigned_char "Wrap RGB< unsigned char > type" OFF)
-OPTION(WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" ON)
+option(WRAP_rgba_unsigned_char "Wrap RGBA< unsigned char > type" OFF)
+option(WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" ON)
 
-OPTION(WRAP_rgba_unsigned_char "Wrap RGBA< unsigned char > type" OFF)
-OPTION(WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" ON)
+option(WRAP_complex_float "Wrap complex<float> type" ON)
+option(WRAP_complex_double "Wrap complex<double> type" OFF)
 
-OPTION(WRAP_complex_float "Wrap complex<float> type" ON)
-OPTION(WRAP_complex_double "Wrap complex<double> type" OFF)
+set(WRAP_ITK_DIMS "2;3" CACHE STRING "dimensions available separated by semicolons (;)")
 
-SET(WRAP_ITK_DIMS "2;3" CACHE STRING "dimensions available separated by semicolons (;)")
+option(INSTALL_WRAP_ITK_COMPATIBILITY "Install FindWrapITK.cmake and WrapITK.pth (so cmake and python can find WrapITK) as part of the standard installation process. This requires admin privileges. These files can be separately installed by making the install_wrapitk_compatibility target. " ON)
 
-OPTION(INSTALL_WRAP_ITK_COMPATIBILITY "Install FindWrapITK.cmake and WrapITK.pth (so cmake and python can find WrapITK) as part of the standard installation process. This requires admin privileges. These files can be separately installed by making the install_wrapitk_compatibility target. " ON)
-
-SET(WRAP_ITK_INSTALL_PREFIX "/lib/InsightToolkit/WrapITK/" CACHE PATH "subpath where where most of WrapITK files will be installed")
-
+if(ITK_INSTALL_PACKAGE_DIR)
+  string(REGEX REPLACE "^/" "" path "${ITK_INSTALL_PACKAGE_DIR}/WrapITK/")
+else()
+  set(path "lib/InsightToolkit/WrapITK/")
+endif()
+set(WRAP_ITK_INSTALL_PREFIX ${path} CACHE PATH "subpath where where most of WrapITK files will be installed")
 
 # Output directories.
-SET(WRAP_ITK_CONFIG_DIR "${WrapITK_SOURCE_DIR}/ConfigurationInputs")
-SET(WRAP_ITK_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
-SET(WRAP_ITK_JAVA_DIR "${WrapITK_BINARY_DIR}/Java")
-IF(NOT LIBRARY_OUTPUT_PATH)
-  SET (LIBRARY_OUTPUT_PATH ${WrapITK_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
-ENDIF(NOT LIBRARY_OUTPUT_PATH)
-IF(NOT EXECUTABLE_OUTPUT_PATH)
-  SET (EXECUTABLE_OUTPUT_PATH ${WrapITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
-ENDIF(NOT EXECUTABLE_OUTPUT_PATH)
-MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH WRAP_ITK_INSTALL_PREFIX)
-SET(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
+set(WRAP_ITK_CONFIG_DIR "${WrapITK_SOURCE_DIR}/")
+set(WRAP_ITK_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
+set(WRAP_ITK_JAVA_DIR "${WrapITK_BINARY_DIR}/Java")
 
-# Now include ConfigureWrapping
-INCLUDE(ConfigureWrapping.cmake)
+if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${WrapITK_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
+endif(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
 
-# Now make sure that itk.swg is copied to WRAPPER_SWIG_LIBRARY_OUTPUT_DIR, which
-# is set in ConfigureWrapping. We do this so there is only one place that swig
-# files needed for a WrapITK build are placed: in the binary directory. (For
-# external projects, we look in the WrapITK binary dir and the project's binary
-# dir.)
-SET(src "${WrapITK_SOURCE_DIR}/itk.swg")
-SET(tgt "${WRAPPER_SWIG_LIBRARY_OUTPUT_DIR}/itk.swg")
-EXEC_PROGRAM(${CMAKE_COMMAND} ARGS -E copy_if_different "\"${src}\"" "\"${tgt}\"")
+if(NOT EXECUTABLE_OUTPUT_PATH)
+  set(EXECUTABLE_OUTPUT_PATH ${WrapITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
+endif(NOT EXECUTABLE_OUTPUT_PATH)
 
-SUBDIRS(SwigRuntime)
+mark_as_advanced(CMAKE_LIBRARY_OUTPUT_DIRECTORY EXECUTABLE_OUTPUT_PATH WRAP_ITK_INSTALL_PREFIX)
+
+set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 ###############################################################################
 # Configure CPack
 ###############################################################################
 
 # CPack was introduced in cmake 2.4
-SET(CMAKE_VERSION "${CMAKE_CACHE_MAJOR_VERSION}.${CMAKE_CACHE_MINOR_VERSION}.${CMAKE_CACHE_RELEASE_VERSION}")
-# IF("${CMAKE_VERSION}" STRGREATER "2.4")
-#   SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Enhanced languages support for the Insight Toolkit")
-#Ê  SET(CPACK_PACKAGE_VENDOR "Gaetan Lehmann, Zachary Pincus")
-#   SET(CPACK_PACKAGE_VERSION_MAJOR "${WrapITK_VERSION_MAJOR}")
-#   SET(CPACK_PACKAGE_VERSION_MINOR "${WrapITK_VERSION_MINOR}")
-#   SET(CPACK_PACKAGE_VERSION_PATCH "${WrapITK_VERSION_PATCH}")
-#   # SET(CPACK_PACKAGE_INSTALL_DIRECTORY "WrapITK-${WrapITK_VERSION_MAJOR}.${WrapITK_VERSION_MINOR}")
-#   # SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
-#   SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/Documentation/Copyright/ITKCopyright.txt")
-#   INCLUDE(CPack)
-# ENDIF("${CMAKE_VERSION}" STRGREATER "2.4")
+set(CMAKE_VERSION "${CMAKE_CACHE_MAJOR_VERSION}.${CMAKE_CACHE_MINOR_VERSION}.${CMAKE_CACHE_RELEASE_VERSION}")
+if("${CMAKE_VERSION}" STRGREATER "2.4")
+  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Enhanced languages support for the Insight Toolkit")
+  set(CPACK_PACKAGE_VENDOR "Gaetan Lehmann, Zachary Pincus")
+  set(CPACK_PACKAGE_VERSION_MAJOR "${WrapITK_VERSION_MAJOR}")
+  set(CPACK_PACKAGE_VERSION_MINOR "${WrapITK_VERSION_MINOR}")
+  set(CPACK_PACKAGE_VERSION_PATCH "${WrapITK_VERSION_PATCH}")
+  # set(CPACK_PACKAGE_INSTALL_DIRECTORY "WrapITK-${WrapITK_VERSION_MAJOR}.${WrapITK_VERSION_MINOR}")
+  # set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+  set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/Documentation/Copyright/ITKCopyright.txt")
+  include(CPack)
+endif("${CMAKE_VERSION}" STRGREATER "2.4")
+
+install(FILES
+  CMakeUtilityFunctions.cmake
+  ConfigureWrapping.cmake
+  TypedefMacros.cmake
+  WrapBasicTypes.cmake
+  WrapITKTypes.cmake
+  DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration"
+)
+
+install(FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
+  DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/"
+)
+
+# Add a custom target to drive installation of the WrapITK-compatibility files
+if(INSTALL_WRAP_ITK_COMPATIBILITY)
+  # if we should by default install the files, make a custom target that will
+  # always be built.
+  CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET(install_wrapitk_compatibility DEFAULT
+    "Installing WrapITK compatibility files. Requires admin priviliges: turn off INSTALL_WRAP_ITK_COMPATIBILITY in cmake to disable.")
+else(INSTALL_WRAP_ITK_COMPATIBILITY)
+  # otherwise, add a target that will install the files only when that target is
+  # manually built.
+  CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET(install_wrapitk_compatibility ON_DEMAND
+    "Installing WrapITK compatibility files. Requires admin priviliges.")
+endif(INSTALL_WRAP_ITK_COMPATIBILITY)
+
+INSTALL_AT_ABSOLUTE_PATH(install_wrapitk_compatibility "${CMAKE_ROOT}/Modules" "${WrapITK_BINARY_DIR}/InstallOnly/FindWrapITK.cmake")
+
+set(WRAP_ITK_TYPEDEFS_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Typedefs")
+set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+
+
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
+###############################################################################
+# Setup test driver
+###############################################################################
+set(ITK_TEST_DRIVER "itkTestDriver")
+
+###############################################################################
+# The real work on wrappers
+###############################################################################
+
+include(ConfigureWrapping.cmake)
+
+###############################################################################
+# let the different languages running some code before begining to parse the
+# modules
+###############################################################################
+
+WRAP_LIBRARIES()
+
 
 ###############################################################################
 # Configure specific wrapper modules
 ###############################################################################
 
-SET(WRAP_ITK_MODULES
-  VXLNumerics
-  Base
-  BaseNumerics
-  BaseTransforms
-  BaseSpatialObject)
-  
-# set Iterators module to OFF by default
-# it is currently usable only when applying patches to ITK, and will only
-# take place and time to build
-# TODO: remove this line when iterators will be usable without patch
-OPTION(WRAP_Iterators "Build Iterators module." OFF)
-  
-# Set FFTW to on if USE_FFTWF or USE_FFTWD are on.
-IF(USE_FFTWD OR USE_FFTWF)
-  OPTION(WRAP_FFTW "Build FFTW module." ON)
-ELSE(USE_FFTWD OR USE_FFTWF)
-  OPTION(WRAP_FFTW "Build FFTW module." OFF)
-ENDIF(USE_FFTWD OR USE_FFTWF)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Libraries" "${CMAKE_CURRENT_BINARY_DIR}/Libraries")
 
-
-SET(optional_modules 
-  BinaryMorphology
-  Calculators
-  Compose
-  DeformableTransforms
-  Denoising
-  DistanceMap
-  EdgesAndContours
-  FFT
-  FFTW
-  Filtering
-  IntensityFilters
-  Interpolators
-  IO
-  Iterators
-  LevelSet
-  Morphology
-  #Patented
-  PixelMath
-  Registration
-  Resize
-  Review
-  SegmentationAndThreshold
-  SegmentationValidation
-  SimpleFilters
-  UnaryPixelMath)
-
-FOREACH(module ${optional_modules})
-  OPTION(WRAP_${module} "Build ${module} module." ON)
-  MARK_AS_ADVANCED(WRAP_${module})
-  IF(WRAP_${module})
-    SET(WRAP_ITK_MODULES ${WRAP_ITK_MODULES} ${module})
-  ENDIF(WRAP_${module})
-ENDFOREACH(module)
-
-FOREACH(module ${WRAP_ITK_MODULES})
-  SUBDIRS(Modules/${module})
-ENDFOREACH(module)
 
 ###############################################################################
-# Configure language-specific features
+# let the different languages running some code after have parsed all the
+# modules
 ###############################################################################
-IF(WRAP_ITK_TCL)
-  SUBDIRS(Tcl)
-ENDIF(WRAP_ITK_TCL)
 
-IF(WRAP_ITK_PERL)
-  SUBDIRS(Perl)
-ENDIF(WRAP_ITK_PERL)
-
-IF(WRAP_ITK_PYTHON)
-  SUBDIRS(Python)
-ENDIF(WRAP_ITK_PYTHON)
-
-IF(WRAP_ITK_JAVA)
-  SUBDIRS(Java)
-ENDIF(WRAP_ITK_JAVA)
+END_WRAP_LIBRARIES()
 
 ###############################################################################
 # Configure WrapITKConfig.cmake and FindWrapITK.cmake for external projects
 ###############################################################################
 # First, configure for use directly from the build dir.
-SET(CONFIG_CONFIG_DIR "${WrapITK_SOURCE_DIR}/ConfigurationInputs")
-SET(CONFIG_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
-SET(CONFIG_WRAP_ITK_SWIG_LIBRARY_DIRECTORY "${WRAPPER_SWIG_LIBRARY_OUTPUT_DIR}")
-SET(CONFIG_WRAP_ITK_MASTER_INDEX_DIRECTORY "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
-SET(CONFIG_WRAP_ITK_INSTALL_LOCATION "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}")
-SET(CONFIG_WRAP_ITK_INSTALL_PREFIX "${WRAP_ITK_INSTALL_PREFIX}")
-SET(CONFIG_WRAP_ITK_MODULES "${WRAP_ITK_MODULES}")
-SET(CONFIG_WRAP_ITK_PYTHON_MODULE "${WrapITK_BINARY_DIR}/Python/\\\${CTEST_CONFIGURATION_TYPE}")
-SET(CONFIG_WRAP_ITK_PYTHON_LIBS "${LIBRARY_OUTPUT_PATH}/\\\${CTEST_CONFIGURATION_TYPE}")
-SET(CONFIG_WRAP_ITK_LIB_DIR  "${LIBRARY_OUTPUT_PATH}")
-CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
+# we must add the options for the languages for the build dir case, so the
+# external project won't find all the languages, even the usued ones.
+# In the installed case, this feature is useful to let the packagers make several
+# subpackages for wrapitk.
+set(CONFIG_WRAP_ITK_MORE_OPTIONS)
+foreach(lang ${WRAP_ITK_LANGUAGES} ${WRAP_ITK_UNUSED_LANGUAGES})
+  string(TOUPPER "${lang}" lang_upper)
+  set(CONFIG_WRAP_ITK_MORE_OPTIONS "${CONFIG_WRAP_ITK_MORE_OPTIONS}set(WRAP_ITK_${lang_upper} ${WRAP_ITK_${lang_upper}} CACHE BOOL \"Build swig ${lang} wrapper support.\")\n")
+endforeach(lang)
+set(CONFIG_CONFIG_DIR "${WrapITK_SOURCE_DIR}/ConfigurationInputs")
+set(CONFIG_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
+set(CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Typedefs")
+set(CONFIG_WRAP_ITK_INSTALL_LOCATION "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}")
+set(CONFIG_WRAP_ITK_MODULES "${WRAP_ITK_MODULES}")
+set(CONFIG_WRAP_ITK_PYTHON_MODULE "${WrapITK_BINARY_DIR}/Python/\\\${CTEST_CONFIGURATION_TYPE}")
+set(CONFIG_WRAP_ITK_PYTHON_LIBS "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/\\\${CTEST_CONFIGURATION_TYPE}")
+set(CONFIG_WRAP_ITK_LIB_DIR  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
                "${WrapITK_BINARY_DIR}/WrapITKConfig.cmake"
                @ONLY IMMEDIATE)
 
-SET(CONFIG_WRAP_ITK_DIR "${WrapITK_BINARY_DIR}")
-CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/FindWrapITK.cmake.in"
+set(CONFIG_WRAP_ITK_DIR "${WrapITK_BINARY_DIR}")
+configure_file("${WRAP_ITK_CONFIG_DIR}/FindWrapITK.cmake.in"
                "${WrapITK_BINARY_DIR}/FindWrapITK.cmake"
                @ONLY IMMEDIATE)
 
 # Second, configure for installed use. Ensure that no absolute paths
 # go into the installed config file, so that it is as portable as possible.
-SET(CONFIG_CONFIG_DIR "\${WrapITK_DIR}/Configuration/Inputs")
-SET(CONFIG_CMAKE_DIR "\${WrapITK_DIR}/Configuration")
-SET(CONFIG_WRAP_ITK_SWIG_LIBRARY_DIRECTORY "\${WrapITK_DIR}/SWIG")
-SET(CONFIG_WRAP_ITK_MASTER_INDEX_DIRECTORY "\${WrapITK_DIR}/ClassIndex")
-SET(CONFIG_WRAP_ITK_INSTALL_LOCATION "\${WrapITK_DIR}")
-SET(CONFIG_WRAP_ITK_PYTHON_MODULE "\${WrapITK_DIR}/Python/")
-SET(CONFIG_WRAP_ITK_PYTHON_LIBS "\${WrapITK_DIR}/lib")
-SET(CONFIG_WRAP_ITK_LIB_DIR  "\${WrapITK_DIR}/lib")
-CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
+set(CONFIG_WRAP_ITK_MORE_OPTIONS)
+set(CONFIG_CONFIG_DIR "\${WrapITK_DIR}/Configuration/Inputs")
+set(CONFIG_CMAKE_DIR "\${WrapITK_DIR}/Configuration")
+set(CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY "\${WrapITK_DIR}/Configuration/Typedefs")
+set(CONFIG_WRAP_ITK_INSTALL_LOCATION "\${WrapITK_DIR}")
+set(CONFIG_WRAP_ITK_PYTHON_MODULE "\${WrapITK_DIR}/Python/")
+set(CONFIG_WRAP_ITK_PYTHON_LIBS "\${WrapITK_DIR}/lib")
+set(CONFIG_WRAP_ITK_LIB_DIR  "\${WrapITK_DIR}/lib")
+configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
                "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
                @ONLY IMMEDIATE)
 
-SET(CONFIG_WRAP_ITK_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}")
-CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/FindWrapITK.cmake.in"
+set(CONFIG_WRAP_ITK_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}")
+configure_file("${WRAP_ITK_CONFIG_DIR}/FindWrapITK.cmake.in"
                "${WrapITK_BINARY_DIR}/InstallOnly/FindWrapITK.cmake"
                @ONLY IMMEDIATE)
-
-
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration" FILES 
- ConfigureWrapping.cmake
- CMakeUtilityFunctions.cmake
- CreateCableSwigInputs.cmake
- CreateLanguageSupport.cmake
- CreateWrapperLibrary.cmake
- WrapBasicTypes.cmake
- WrapITKTypes.cmake)
-
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Inputs" FILES
- ConfigurationInputs/wrap_ITKLang.cxx.in
- ConfigurationInputs/wrap_ITK.cxx.in
- ConfigurationInputs/wrap_.cxx.in
- ConfigurationInputs/Master.mdx.in
- ConfigurationInputs/gcc_xml.inc.in
- ConfigurationInputs/empty.depend.in
- ConfigurationInputs/typemaps.swg.in)
-
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Inputs/LanguageSupport" FILES
-  ConfigurationInputs/LanguageSupport/ModuleLoader.py.in
-  ConfigurationInputs/LanguageSupport/ModuleConfig.py.in
-  ConfigurationInputs/LanguageSupport/ExternalProjectConfig.py.in)
-
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/SWIG" FILES "itk.swg")
-
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/" FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake")
-
-# Add a custom target to drive installation of the WrapITK-compatibility files
-IF(INSTALL_WRAP_ITK_COMPATIBILITY)
-  # if we should by default install the files, make a custom target that will
-  # always be built.
-  CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET(install_wrapitk_compatibility DEFAULT
-    "Installing WrapITK compatibility files. Requires admin priviliges: turn off INSTALL_WRAP_ITK_COMPATIBILITY in cmake to disable.")
-ELSE(INSTALL_WRAP_ITK_COMPATIBILITY)
-  # otherwise, add a target that will install the files only when that target is
-  # manually built.
-  CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET(install_wrapitk_compatibility ON_DEMAND
-    "Installing WrapITK compatibility files. Requires admin priviliges.")
-ENDIF(INSTALL_WRAP_ITK_COMPATIBILITY)
-
-INSTALL_AT_ABSOLUTE_PATH(install_wrapitk_compatibility "${CMAKE_ROOT}/Modules" "${WrapITK_BINARY_DIR}/InstallOnly/FindWrapITK.cmake")
-
-
-
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Python" FILES "${WRAP_ITK_CMAKE_DIR}/Python/CreateLanguageSupport.cmake")
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Java" FILES "${WRAP_ITK_CMAKE_DIR}/Java/CreateLanguageSupport.cmake")
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Tcl" FILES "${WRAP_ITK_CMAKE_DIR}/Tcl/CreateLanguageSupport.cmake")
-
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Python" FILES "${WRAP_ITK_CMAKE_DIR}/Python/ConfigureWrapping.cmake")
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Java" FILES "${WRAP_ITK_CMAKE_DIR}/Java/ConfigureWrapping.cmake")
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Tcl" FILES "${WRAP_ITK_CMAKE_DIR}/Tcl/ConfigureWrapping.cmake")
-
-INSTALL_FILES("${WRAP_ITK_INSTALL_PREFIX}/Configuration/Inputs/LanguageSupport" FILES "${WRAP_ITK_CMAKE_DIR}/ConfigurationInputs/LanguageSupport/ExternalProjectConfig.pth.in")

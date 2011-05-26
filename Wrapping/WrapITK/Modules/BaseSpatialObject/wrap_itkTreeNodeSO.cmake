@@ -1,5 +1,0 @@
-WRAP_CLASS("itk::TreeNode" POINTER)
-  FOREACH(d ${WRAP_ITK_DIMS})
-    WRAP_TEMPLATE("${ITKM_SO${d}}" "${ITKT_SO${d}}*")
-  ENDFOREACH(d)
-END_WRAP_CLASS()

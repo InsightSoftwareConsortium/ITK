@@ -1,19 +1,20 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    MeshPolyLine.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -25,7 +26,7 @@
 //
 //  \index{itk::Mesh!PolyLine}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 //  Software Guide : BeginLatex
@@ -36,12 +37,11 @@
 //  \index{itk::LineCell!header}
 //  \index{itk::VertexCell!header}
 //
-//  Software Guide : EndLatex 
+//  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkMesh.h"
-#include "itkVertexCell.h"
 #include "itkLineCell.h"
 // Software Guide : EndCodeSnippet
 
@@ -49,14 +49,14 @@
 int main(int, char *[])
 {
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Then the PixelType is defined and the mesh type is instantiated with it.
   //  Note that the dimension of the space is two in this case.
   //
   //  \index{itk::Mesh!Instantiation}
   //  \index{itk::Mesh!PixelType}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef float                             PixelType;
@@ -67,12 +67,12 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The cell type can now be instantiated using the traits
-  //  taken from the Mesh.  
+  //  taken from the Mesh.
   //
   //  \index{itk::LineCell!Instantiation}
   //  \index{itk::VertexCell!Instantiation}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellType                CellType;
@@ -103,7 +103,7 @@ int main(int, char *[])
   //  \index{itk::Mesh!PointType}
   //  \index{itk::Mesh!Pointer}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   MeshType::Pointer  mesh = MeshType::New();
@@ -113,10 +113,10 @@ int main(int, char *[])
   MeshType::PointType   point2;
   MeshType::PointType   point3;
 
-  point0[0] = -1; point0[1] = -1; 
-  point1[0] =  1; point1[1] = -1; 
-  point2[0] =  1; point2[1] =  1; 
-  point3[0] = -1; point3[1] =  1; 
+  point0[0] = -1; point0[1] = -1;
+  point1[0] =  1; point1[1] = -1;
+  point2[0] =  1; point2[1] =  1;
+  point3[0] = -1; point3[1] =  1;
 
   mesh->SetPoint( 0, point0 );
   mesh->SetPoint( 1, point1 );
@@ -128,7 +128,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  We proceed now to create the cells, associate them with the points and
-  //  insert them on the mesh. 
+  //  insert them on the mesh.
   //
   //  \index{itk::AutoPointer!TakeOwnership()}
   //  \index{CellAutoPointer!TakeOwnership()}
@@ -137,7 +137,7 @@ int main(int, char *[])
   //  \index{itk::LineCell!Instantiation}
   //  \index{itk::LineCell!SetPointId()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   CellType::CellAutoPointer cellpointer;
@@ -160,11 +160,11 @@ int main(int, char *[])
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  Finally the zero dimensional cells represented by the
   //  \doxygen{VertexCell} are created and inserted in the mesh.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   cellpointer.TakeOwnership( new VertexType );
@@ -193,7 +193,7 @@ int main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  At this point the Mesh contains four points and three cells.  The
-  //  points can be visited using PointContainer iterators 
+  //  points can be visited using PointContainer iterators
   //
   // \index{itk::Mesh!PointsContainer}
   // \index{itk::Mesh!PointIterator}
@@ -201,14 +201,14 @@ int main(int, char *[])
   // \index{PointsContainer!Begin()}
   // \index{PointsContainer!End()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::PointsContainer::ConstIterator  PointIterator;
   PointIterator pointIterator = mesh->GetPoints()->Begin();
   PointIterator pointEnd      = mesh->GetPoints()->End();
-  
-  while( pointIterator != pointEnd ) 
+
+  while( pointIterator != pointEnd )
     {
     std::cout << pointIterator.Value() << std::endl;
     ++pointIterator;
@@ -218,7 +218,7 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The cells can be visited using CellsContainer iterators 
+  //  The cells can be visited using CellsContainer iterators
   //
   // \index{itk::Mesh!CellsContainer}
   // \index{itk::Mesh!CellIterator}
@@ -226,15 +226,15 @@ int main(int, char *[])
   // \index{CellsContainer!Begin()}
   // \index{CellsContainer!End()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   typedef MeshType::CellsContainer::ConstIterator  CellIterator;
 
   CellIterator cellIterator = mesh->GetCells()->Begin();
   CellIterator cellEnd      = mesh->GetCells()->End();
-  
-  while( cellIterator != cellEnd ) 
+
+  while( cellIterator != cellEnd )
     {
     CellType * cell = cellIterator.Value();
     std::cout << cell->GetNumberOfPoints() << std::endl;
@@ -248,7 +248,7 @@ int main(int, char *[])
   //  Note that cells are stored as pointer to a generic cell type that is the
   //  base class of all the specific cell classes. This means that at this
   //  level we can only have access to the virtual methods defined in the
-  //  \code{CellType}. 
+  //  \code{CellType}.
   //
   //  The point identifiers to which the cells have been associated can be
   //  visited using iterators defined in the \code{CellType} trait. The
@@ -264,12 +264,12 @@ int main(int, char *[])
   //  \index{PointIdsBegin()}
   //  \index{PointIdsEnd()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   cellIterator = mesh->GetCells()->Begin();
   cellEnd      = mesh->GetCells()->End();
-  
-  while( cellIterator != cellEnd ) 
+
+  while( cellIterator != cellEnd )
     {
     CellType * cell = cellIterator.Value();
 
@@ -299,7 +299,7 @@ int main(int, char *[])
   //  more traditional \code{*iterator} notation instead the \code{Value()}
   //  notation used by cell-iterators.
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return 0;

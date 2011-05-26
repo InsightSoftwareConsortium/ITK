@@ -1,40 +1,37 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    SignedDanielssonDistanceMapImageFilter.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 // Software Guide : BeginLatex
-// 
+//
 // This example illustrates the use of the
 // \doxygen{SignedDanielssonDistanceMapImageFilter}.  This filter generates a
 // distance map by running Danielsson distance map twice, once on the input
-// image and once on the flipped image. 
+// image and once on the flipped image.
 //
 // \index{itk::Signed\-Danielsson\-Distance\-Map\-Image\-Filter!Instantiation}
 // \index{itk::Signed\-Danielsson\-Distance\-Map\-Image\-Filter!Header}
 //
-// The first step required to use this filter is to include its header file. 
+// The first step required to use this filter is to include its header file.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
@@ -54,7 +51,7 @@ int main( int argc, char * argv[] )
     std::cerr << " inputImageFile outputDistanceMapImageFile ";
     std::cerr << " outputVoronoiMapImageFilter ";
     std::cerr << " outputVectorMapImageFilter ";
-    std::cerr << std::endl;  
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -66,7 +63,7 @@ int main( int argc, char * argv[] )
   //  or said in $N-D$ terms, the maximum extension along all the dimensions.
   //  The input and output image types are now defined using their respective
   //  pixel type and dimension.
-  //  
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
@@ -80,7 +77,7 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginLatex
-  // 
+  //
   // The only change with respect to the previous example is to replace the
   // DanielssonDistanceMapImageFilter with the
   // SignedDanielssonDistanceMapImageFilter
@@ -89,25 +86,25 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::SignedDanielssonDistanceMapImageFilter<
-                                         InputImageType, 
+                                         InputImageType,
                                          OutputImageType >  FilterType;
-  
+
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
-  
 
 
-  typedef itk::RescaleIntensityImageFilter< 
+
+  typedef itk::RescaleIntensityImageFilter<
                    OutputImageType, OutputImageType > RescalerType;
 
   RescalerType::Pointer scaler = RescalerType::New();
 
-  
+
 
   // Software Guide : BeginLatex
-  // 
-  // The inside is considered as having negative distances. Outside is 
-  // treated as having positive distances. To change the convention, 
+  //
+  // The inside is considered as having negative distances. Outside is
+  // treated as having positive distances. To change the convention,
   // use the InsideIsPositive(bool) function.
   //
   // Software Guide : EndLatex
@@ -133,7 +130,7 @@ int main( int argc, char * argv[] )
 
   scaler->SetOutputMaximum( 65535L );
   scaler->SetOutputMinimum( 0L );
-  
+
   try
     {
     writer->Update();
@@ -144,7 +141,7 @@ int main( int argc, char * argv[] )
     std::cerr <<     exp    << std::endl;
     }
 
-  
+
   const char * voronoiMapFileName = argv[3];
 
   //  The Voronoi map is obtained with the \code{GetVoronoiMap()} method. In
@@ -193,13 +190,13 @@ int main( int argc, char * argv[] )
     }
 
   //  Software Guide : BeginLatex
-  //  
+  //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.32\textwidth]{Circle.eps}
   // \includegraphics[width=0.32\textwidth]{SignedDanielssonDistanceMapImageFilterOutput.eps}
   // \itkcaption[SignedDanielssonDistanceMapImageFilter
-  // output]{SignedDanielssonDistanceMapImageFilter applied on a binary circle image. 
+  // output]{SignedDanielssonDistanceMapImageFilter applied on a binary circle image.
   // The intensity has been rescaled for purposes of display.}
   // \label{fig:SignedDanielssonDistanceMapImageFilterInputOutput}
   // \end{figure}
@@ -210,7 +207,7 @@ int main( int argc, char * argv[] )
   //
   //  \index{Distance Map!itk::Signed\-Danielsson\-Distance\-Map\-Image\-Filter}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

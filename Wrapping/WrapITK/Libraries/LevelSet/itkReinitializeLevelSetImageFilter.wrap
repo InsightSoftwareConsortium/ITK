@@ -1,0 +1,3 @@
+WRAP_CLASS("itk::ReinitializeLevelSetImageFilter" POINTER)
+  WRAP_IMAGE_FILTER_REAL(1)
+END_WRAP_CLASS()

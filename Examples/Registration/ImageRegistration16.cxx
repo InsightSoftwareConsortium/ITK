@@ -1,31 +1,30 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ImageRegistration16.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#define ITK_LEAN_AND_MEAN
 
 // Software Guide : BeginLatex
 //
 //  This example illustrates how to do registration with a 2D Translation Transform,
 //  the Normalized Mutual Information metric and the Amoeba optimizer.
 //
-// Software Guide : EndLatex 
+// Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
@@ -33,10 +32,8 @@
 
 #include "itkTranslationTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkAmoebaOptimizer.h"
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -48,7 +45,7 @@
 //  used to monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-class CommandIterationUpdate : public itk::Command 
+class CommandIterationUpdate : public itk::Command
 {
 public:
   typedef  CommandIterationUpdate   Self;
@@ -56,7 +53,7 @@ public:
   typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
-  CommandIterationUpdate() 
+  CommandIterationUpdate()
     {
     m_IterationNumber=0;
     }
@@ -71,7 +68,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-    OptimizerPointer optimizer = 
+    OptimizerPointer optimizer =
       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -97,26 +94,26 @@ int main( int argc, char *argv[] )
     std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
     return EXIT_FAILURE;
     }
-  
+
   const    unsigned int    Dimension = 2;
   typedef  unsigned char   PixelType;
-  
+
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
   typedef itk::TranslationTransform< double, Dimension > TransformType;
 
   typedef itk::AmoebaOptimizer                           OptimizerType;
-  typedef itk::LinearInterpolateImageFunction< 
+  typedef itk::LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod< 
-                                    FixedImageType, 
+  typedef itk::ImageRegistrationMethod<
+                                    FixedImageType,
                                     MovingImageType    > RegistrationType;
 
 
-  typedef itk::MattesMutualInformationImageToImageMetric< 
-                                          FixedImageType, 
+  typedef itk::MattesMutualInformationImageToImageMetric<
+                                          FixedImageType,
                                           MovingImageType >    MetricType;
 
 
@@ -128,7 +125,7 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetInterpolator(  interpolator  );
-  
+
 
 
   MetricType::Pointer metric = MetricType::New();
@@ -136,10 +133,10 @@ int main( int argc, char *argv[] )
 
 
   //  Software Guide : BeginLatex
-  //  
+  //
   //  The metric requires two parameters to be selected: the number
   //  of bins used to compute the entropy and the number of spatial samples
-  //  used to compute the density estimates. In typical application, 50 
+  //  used to compute the density estimates. In typical application, 50
   //  histogram bins are sufficient and the metric is relatively insensitive
   //  to changes in the number of bins. The number of spatial samples
   //  to be used depends on the content of the image. If the images are
@@ -151,7 +148,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfHistogramBins()}
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
   //
-  //  Software Guide : EndLatex 
+  //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( 20 );
@@ -194,7 +191,7 @@ int main( int argc, char *argv[] )
   transform->SetIdentity();
 
   typedef RegistrationType::ParametersType ParametersType;
-  
+
   ParametersType initialParameters =  transform->GetParameters();
 
   initialParameters[0] = 0.0;
@@ -205,7 +202,7 @@ int main( int argc, char *argv[] )
     initialParameters[0] = atof( argv[4] );
     initialParameters[1] = atof( argv[5] );
     }
-  
+
   registration->SetInitialTransformParameters( initialParameters  );
 
   std::cout << "Initial transform parameters = ";
@@ -236,14 +233,14 @@ int main( int argc, char *argv[] )
   //  returns the value of Mutual Information.  So we set the function
   //  convergence to be 0.001 bits (bits are the appropriate units for
   //  measuring Information).
-  //  
+  //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetParametersConvergenceTolerance( 0.1 );  // 1/10th pixel
   optimizer->SetFunctionConvergenceTolerance(0.001);    // 0.001 bits
   // Software Guide : EndCodeSnippet
-  
+
 
   //  Software Guide : BeginLatex
   //  In the case where the optimizer never succeeds in reaching the desired
@@ -254,7 +251,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::Amoeba\-Optimizer!SetMaximumNumberOfIterations()}
   //
   //  Software Guide : EndLatex
- 
+
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
@@ -266,23 +263,23 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
-  try 
-    { 
-    registration->StartRegistration(); 
+  try
+    {
+    registration->StartRegistration();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
-    } 
-  catch( itk::ExceptionObject & err ) 
-    { 
-    std::cout << "ExceptionObject caught !" << std::endl; 
-    std::cout << err << std::endl; 
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
     return EXIT_FAILURE;
-    } 
+    }
 
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  
+
   const double finalTranslationX    = finalParameters[0];
   const double finalTranslationY    = finalParameters[1];
 
@@ -297,8 +294,8 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
-  typedef itk::ResampleImageFilter< 
-                            MovingImageType, 
+  typedef itk::ResampleImageFilter<
+                            MovingImageType,
                             FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();

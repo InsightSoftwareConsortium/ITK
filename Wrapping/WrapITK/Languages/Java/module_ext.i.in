@@ -1,0 +1,16 @@
+
+@WRAP_ITK_JAVA_SWIG_EXT@
+
+%typemap(javaimports) SWIGTYPE, SWIGTYPE *, SWIGTYPE &, SWIGTYPE [], SWIGTYPE (CLASS::*)"
+@WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS@"
+
+%pragma(java) jniclassimports = %{
+import org.itk.itkjavabase.*;
+@WRAP_ITK_JAVA_TYPEMAP_JAVAIMPORTS@
+%}
+
+%pragma(java) jniclasscode=%{
+  static {
+    itkJavaLibraryLoader.Load("@WRAPPER_LIBRARY_NAME@Java");
+  }
+%}
