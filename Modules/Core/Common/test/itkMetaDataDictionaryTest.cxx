@@ -231,8 +231,40 @@ int itkMetaDataDictionaryTest(int , char * [])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+  // Getter/Setter test
+  std::cout << "Exercise the Getter/Setter test" <<std::endl;
+  try
+   {
+    itk::MetaDataDictionary::Iterator itr = MyDictionary.Begin();
+    itk::MetaDataDictionary::Iterator end = MyDictionary.End();
+    while( itr != end )
+    {
+        std::cout << "Key   = " << itr->first << std::endl;
+        std::cout << "Value = ";
+        MyDictionary.Get(itr->first)->Print( std::cout );
+        MyDictionary.Set(itr->first, itr->second);
+        std::cout << std::endl;
+        ++itr;
+    }
+   }
+  catch( itk::ExceptionObject  & excp )
+  {
+   std::cerr << "Exception Thrown." << std::endl;
+   std::cerr << excp << std::endl;
+   return EXIT_FAILURE;
+  }
+  try
+   {
+       MyDictionary.Get("InvalidKeyString")->Print( std::cout );
+       std::cerr << "Failed to throw expected exception" << std::endl;
+       return EXIT_FAILURE;
+   }
+   catch( itk::ExceptionObject & excp )
+   {
+       std::cout << excp << std::endl;
+       std::cout << "catched EXPECTED exception for invalid key string to MetaDataDictionary" << std::endl;
+   }
 #endif
-
 
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
   delete [] StrandedMemory;

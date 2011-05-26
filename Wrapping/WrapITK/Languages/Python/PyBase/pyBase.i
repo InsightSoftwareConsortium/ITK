@@ -160,6 +160,41 @@
   }
 }
 
+%extend itkMetaDataDictionary {
+    std::string __str__() {
+        std::ostringstream msg;
+        self->Print( msg );
+        return msg.str();
+    }
+    %pythoncode {
+        def __setitem__(self,key,item):
+            import itk
+            if isinstance(item, str):
+                object = itk.MetaDataObject.S.New()
+            elif isinstance(item, int):
+                object = itk.MetaDataObject.SI.New()
+            elif isinstance( item, float):
+                object = itk.MetaDataObject.F.New()
+            elif isinstance( item, bool):
+                object = itk.MetaDataObject.B.New()
+            else:
+                object = None
+            if object != None:
+                object.SetMetaDataObjectValue(item)
+                self.Set(key, object)
+        def __getitem__(self,key):
+            import itk
+            obj = self.Get(key)
+            return itk.down_cast(obj).GetMetaDataObjectValue()
+        def __len__(self):
+            return self.GetKeys().size()
+        def __iter__(self):
+            keys = self.GetKeys()
+            for key in keys:
+                yield self.Get(key)
+    }
+}
+
 // some code from stl
 
 %template(vectorstring)   std::vector< std::string >;

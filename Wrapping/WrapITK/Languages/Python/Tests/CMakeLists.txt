@@ -25,7 +25,7 @@ endmacro()
 
 
 add_python_test(PythonTestDirectory ${CMAKE_CURRENT_SOURCE_DIR}/TestDirectory.py)
-
+add_python_test(PythonTestMetaDataDictionary ${CMAKE_CURRENT_SOURCE_DIR}/TestMetaDataDictionary.py)
 add_python_test(PythonTestObject ${CMAKE_CURRENT_SOURCE_DIR}/TestObject.py)
 
 # TODO: drop -E option once all filters/spatial objects/cost functions are actually wrapped
