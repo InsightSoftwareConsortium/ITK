@@ -650,15 +650,15 @@ int itkCompositeTransformTest(int ,char *[] )
     {
     compositeTransform->SetParameters( parametersTruth );
     }
-  catch( itk::ExceptionObject & err )
+  catch( itk::ExceptionObject & excp )
     {
     caught = true;
     std::cout << "\nCaught expected exception:" << std::endl;
-    (&err)->Print(std::cout);
+    std::cout << excp << std::endl;
     }
   if( !caught )
     {
-    std::cout << "Expected exception calling SetParameters with wrong size"
+    std::cerr << "Expected exception calling SetParameters with wrong size"
               << std::endl;
 
     return EXIT_FAILURE;
@@ -672,13 +672,15 @@ int itkCompositeTransformTest(int ,char *[] )
     itk::LightObject::Pointer anotherTransform =
       compositeTransform->CreateAnother();
     }
-  catch( itk::ExceptionObject & e )
+  catch( itk::ExceptionObject & excp )
     {
     caughtException = true;
+    std::cout << "\nCaught expected exception:" << std::endl;
+    std::cout << excp << std::endl;
     }
   if( !caughtException )
     {
-    std::cout << "Expected CreateAnother to throw exception." << std::endl;
+    std::cerr << "Expected CreateAnother to throw exception." << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "CreateAnother test passed." << std::endl;
