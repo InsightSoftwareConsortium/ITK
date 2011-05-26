@@ -50,113 +50,20 @@
 #include <fstream>
 #include <stdio.h>
 
-static inline int Remove(const char *fname)
-{
-  return itksys::SystemTools::RemoveFile(fname);
-}
-
-template <typename TImage>
-typename TImage::Pointer ReadImage( const std::string &fileName,
-                                    const bool zeroOrigin = false )
-{
-  typedef itk::ImageFileReader<TImage> ReaderType;
-
-  typename ReaderType::Pointer reader = ReaderType::New();
-  {
-  reader->SetFileName( fileName.c_str() );
-  reader->SetImageIO(itk::NiftiImageIO::New());
-  try
-    {
-    reader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cout << "Caught an exception: " << std::endl;
-    std::cout << err << " " << __FILE__ << " " << __LINE__ << std::endl;
-    throw err;
-    }
-  catch(...)
-    {
-    std::cout << "Error while reading in image for patient " << fileName << std::endl;
-    throw;
-    }
-  }
-  typename TImage::Pointer image = reader->GetOutput();
-  if(zeroOrigin)
-    {
-    double origin[TImage::ImageDimension];
-    for(unsigned int i = 0; i < TImage::ImageDimension; i++)
-      {
-      origin[i]=0;
-      }
-    image->SetOrigin(origin);
-    }
-  return image;
-}
-
-template <class ImageType>
-void
-WriteImage(typename ImageType::Pointer &image ,
-           const std::string &filename)
-{
-
-  typedef itk::ImageFileWriter< ImageType > WriterType;
-  typename  WriterType::Pointer writer = WriterType::New();
-
-  writer->SetImageIO(itk::NiftiImageIO::New());
-
-  writer->SetFileName(filename.c_str());
-
-  writer->SetInput(image);
-
-  try
-    {
-    writer->Update();
-    }
-  catch (itk::ExceptionObject &err) {
-  std::cout << "Exception Object caught: " << std::endl;
-  std::cout << err << std::endl;
-  throw;
-  }
-}
+#include "itkIOTestHelper.h"
 
 const unsigned char RPI=16;        /*Bit pattern 0 0 0  10000*/
 const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
-template <class ImageType>
-void SetIdentityDirection(typename ImageType::Pointer &im)
-{
-  typename ImageType::DirectionType dir;
-  dir.SetIdentity();
-  im->SetDirection(dir);
-}
-
-#define AllocateImageFromRegionAndSpacing(ImageType,rval,region,spacing) \
-{ \
-  rval = ImageType::New(); \
-  SetIdentityDirection<ImageType>(rval);       \
-  rval->SetSpacing(spacing); \
-  rval->SetRegions(region); \
-  rval->Allocate(); \
-}
-#define AllocateVecImageFromRegionAndSpacing(ImageType,rval,region,spacing,vecLength) \
-{ \
-  rval = ImageType::New(); \
-  rval->SetSpacing(spacing); \
-  rval->SetRegions(region); \
-  rval->SetVectorLength(vecLength); \
-  rval->Allocate(); \
-}
-
-template <typename T> int MakeNiftiImage(void)
+template <typename T>
+int MakeNiftiImage(void)
 {
   typedef itk::Image<T, 3> ImageType;
   const char *filename = "test.nii";
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
-  typename ImageType::Pointer img;
   const typename ImageType::SizeType size = {{10,10,10}};
   typename ImageType::SpacingType spacing;
   spacing[0] = spacing[1] = spacing[2] = 1.0;
@@ -165,7 +72,8 @@ template <typename T> int MakeNiftiImage(void)
   typename ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
-  AllocateImageFromRegionAndSpacing(ImageType, img, region, spacing);
+  typename ImageType::Pointer img =
+    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
 
   { //Fill in entire image
     itk::ImageRegionIterator<ImageType> ri(img,region);
@@ -224,7 +132,7 @@ template <typename T> int MakeNiftiImage(void)
   }
   try
     {
-    WriteImage<ImageType>(img,std::string(filename));
+    itk::IOTestHelper::WriteImage<ImageType,itk::NiftiImageIO>(img,std::string(filename));
     }
   catch ( itk::ExceptionObject & ex )
     {
@@ -236,21 +144,21 @@ template <typename T> int MakeNiftiImage(void)
       message += "\n";
       message += ex.GetDescription();
       std::cerr << message << std::endl;
-      Remove(filename);
+      itk::IOTestHelper::Remove(filename);
       return EXIT_FAILURE;
     }
   typename ImageType::Pointer input;
   try
     {
-    input = ReadImage<ImageType>(std::string(filename));
+    input = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
     }
   catch (itk::ExceptionObject &e)
     {
     e.Print(std::cerr);
-    Remove(filename);
+    itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
     }
-  Remove(filename);
+  itk::IOTestHelper::Remove(filename);
   return EXIT_SUCCESS;
 }
 
@@ -294,7 +202,6 @@ TestImageOfSymMats(const std::string &fname)
 
   //
   // swizzle up a random vector image.
-  typename DtiImageType::Pointer vi;
   typename DtiImageType::RegionType imageRegion;
   typename DtiImageType::SizeType size;
   typename DtiImageType::IndexType index;
@@ -334,9 +241,10 @@ TestImageOfSymMats(const std::string &fname)
       break;
     }
 
-  std::cout << " === Testing DtiImageType:  Image Dimension " << static_cast<int>(VDimension) << std::endl;
-  std::cout << "======================== Initialized Direction" << std::endl;
-  std::cout << myDirection << std::endl;
+  std::cout << " === Testing DtiImageType:  Image Dimension "
+            << static_cast<int>(VDimension) << std::endl
+            << "======================== Initialized Direction" << std::endl
+            << myDirection << std::endl;
 
   for(unsigned i = 0; i < VDimension; i++)
     {
@@ -348,7 +256,8 @@ TestImageOfSymMats(const std::string &fname)
 
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  AllocateImageFromRegionAndSpacing(DtiImageType, vi, imageRegion, spacing);
+  typename DtiImageType::Pointer vi =
+    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<DtiImageType>(imageRegion, spacing);
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
 
@@ -412,7 +321,7 @@ TestImageOfSymMats(const std::string &fname)
     }
   try
     {
-    WriteImage<DtiImageType>(vi,fname);
+    itk::IOTestHelper::WriteImage<DtiImageType,itk::NiftiImageIO>(vi,fname);
     }
   catch(itk::ExceptionObject &ex)
     {
@@ -421,7 +330,7 @@ TestImageOfSymMats(const std::string &fname)
     message += fname; message += "\n";
     message += ex.GetLocation(); message += "\n";
     message += ex.GetDescription(); std::cout << message << std::endl;
-    Remove(fname.c_str());
+    itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
     }
   //
@@ -429,7 +338,7 @@ TestImageOfSymMats(const std::string &fname)
   typename DtiImageType::Pointer readback;
   try
     {
-    readback = ReadImage<DtiImageType>(fname);
+    readback = itk::IOTestHelper::ReadImage<DtiImageType>(fname);
     }
   catch(itk::ExceptionObject &ex)
       {
@@ -438,7 +347,7 @@ TestImageOfSymMats(const std::string &fname)
     message += fname; message += "\n";
     message += ex.GetLocation(); message += "\n";
     message += ex.GetDescription(); std::cout << message << std::endl;
-    Remove(fname.c_str());
+    itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
       }
   bool same = true;
@@ -458,7 +367,9 @@ TestImageOfSymMats(const std::string &fname)
       {
       if(vcl_abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7 )
         {
-        std::cout << "Direction is different:\n " << readback->GetDirection() << "\n != \n" << vi->GetDirection()  << std::endl;
+        std::cout << "Direction is different:\n "
+                  << readback->GetDirection() << "\n != \n" << vi->GetDirection()
+                  << std::endl;
         same = false;
         break;
       }
@@ -490,16 +401,16 @@ TestImageOfSymMats(const std::string &fname)
                 for(unsigned int q = 0; q < VDimension; q++)
                   {
                   index[q] = _index[q];
-    }
+                  }
                 p1 = vi->GetPixel(index);
                 p2 = readback->GetPixel(index);
                 if(p1 != p2)
-    {
+                  {
                   same = false;
                   std::cout << p1 << " != " << p2 <<  "    ERROR! " << std::endl;
-    }
+                  }
                 else
-    {
+                  {
                   std::cout << p1 << " == " << p2 << std::endl;
                   }
                 }
@@ -511,7 +422,7 @@ TestImageOfSymMats(const std::string &fname)
     }
   if(same)
       {
-    Remove(fname.c_str());
+      itk::IOTestHelper::Remove(fname.c_str());
       }
   else
     {
@@ -552,8 +463,8 @@ int RGBTest(int ac, char *av[])
     }
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  typename RGBImageType::Pointer im;
-  AllocateImageFromRegionAndSpacing(RGBImageType,im,imageRegion,spacing);
+  typename RGBImageType::Pointer im =
+    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<RGBImageType>(imageRegion,spacing);
   vnl_random randgen(12345678);
   itk::ImageRegionIterator<RGBImageType> it(im,im->GetLargestPossibleRegion());
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -568,8 +479,8 @@ int RGBTest(int ac, char *av[])
   typename RGBImageType::Pointer im2;
   try
     {
-    WriteImage<RGBImageType>(im,std::string(tmpImage));
-    im2 = ReadImage<RGBImageType>(std::string(tmpImage));
+    itk::IOTestHelper::WriteImage<RGBImageType,itk::NiftiImageIO>(im,std::string(tmpImage));
+    im2 = itk::IOTestHelper::ReadImage<RGBImageType>(std::string(tmpImage));
     }
   catch(itk::ExceptionObject &err)
     {
@@ -590,7 +501,7 @@ int RGBTest(int ac, char *av[])
       break;
       }
     }
-  Remove(tmpImage);
+  itk::IOTestHelper::Remove(tmpImage);
   return success;
 }
 

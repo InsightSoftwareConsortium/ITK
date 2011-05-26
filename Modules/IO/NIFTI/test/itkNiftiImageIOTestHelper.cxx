@@ -64,7 +64,7 @@ int WriteNiftiTestFiles(const std::string & prefix)
 int TestNiftiByteSwap(const std::string & prefix)
 {
   int rval;
-  typedef itk::Image<double, 3> ImageType ;
+  typedef itk::Image<double, 3> ImageType;
   if(WriteNiftiTestFiles(prefix) == -1)
     {
       return EXIT_FAILURE;
@@ -75,15 +75,15 @@ int TestNiftiByteSwap(const std::string & prefix)
 
   try
     {
-    little = ReadImage<ImageType>(prefix+"NiftiLittleEndian.hdr", false);
+    little = itk::IOTestHelper::ReadImage<ImageType>(prefix+"NiftiLittleEndian.hdr", false);
     const std::string fname(prefix+"NiftiBigEndian.hdr");
-    big = ReadImage<ImageType>(fname, false);
+    big = itk::IOTestHelper::ReadImage<ImageType>(fname, false);
     std::cout << "Printing Dictionary" << std::endl;
     big->GetMetaDataDictionary().Print(std::cout);
     }
   catch (itk::ExceptionObject &e)
     {
-    e.Print(std::cerr) ;
+    e.Print(std::cerr);
     RemoveNiftiByteSwapTestFiles(prefix);
     return EXIT_FAILURE;
     }
@@ -116,8 +116,8 @@ int TestNiftiByteSwap(const std::string & prefix)
 
 void RemoveNiftiByteSwapTestFiles(const std::string & prefix)
 {
-  Remove((prefix+"NiftiLittleEndian.hdr").c_str());
-  Remove((prefix+"NiftiLittleEndian.img").c_str());
-  Remove((prefix+"NiftiBigEndian.hdr").c_str());
-  Remove((prefix+"NiftiBigEndian.img").c_str());
+  itk::IOTestHelper::Remove((prefix+"NiftiLittleEndian.hdr").c_str());
+  itk::IOTestHelper::Remove((prefix+"NiftiLittleEndian.img").c_str());
+  itk::IOTestHelper::Remove((prefix+"NiftiBigEndian.hdr").c_str());
+  itk::IOTestHelper::Remove((prefix+"NiftiBigEndian.img").c_str());
 }
