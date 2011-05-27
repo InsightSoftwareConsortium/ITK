@@ -26,6 +26,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itk_H5Cpp.h"
 #include "itk_hdf5.h"
+#include <typeinfo>
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
@@ -77,50 +78,36 @@ const std::string VoxelType("/VoxelType");
 const std::string VoxelData("/VoxelData");
 const std::string MetaDataName("/MetaData");
 
-inline H5::PredType GetType(double *)
+template <typename TScalar>
+H5::PredType GetType()
 {
-  return H5::PredType::NATIVE_DOUBLE;
+  itkGenericExceptionMacro(<< "Type not handled "
+                           << "in HDF5 File: "
+                           << typeid(TScalar).name());
+
 }
-inline H5::PredType GetType(float *)
-{
-  return H5::PredType::NATIVE_FLOAT;
-}
-inline H5::PredType GetType(int *)
-{
-  return H5::PredType::NATIVE_INT;
-}
-inline H5::PredType GetType(unsigned int *)
-{
-  return H5::PredType::NATIVE_UINT;
-}
-inline H5::PredType GetType(short *)
-{
-  return H5::PredType::NATIVE_SHORT;
-}
-inline H5::PredType GetType(unsigned short *)
-{
-  return H5::PredType::NATIVE_USHORT;
-}
-inline H5::PredType GetType(long *)
-{
-  return H5::PredType::NATIVE_LONG;
-}
-inline H5::PredType GetType(unsigned long *)
-{
-  return H5::PredType::NATIVE_ULONG;
-}
-inline H5::PredType GetType(unsigned char *)
-{
-  return H5::PredType::NATIVE_UCHAR;
-}
-inline H5::PredType GetType(char *)
-{
-  return H5::PredType::NATIVE_CHAR;
-}
-inline H5::PredType GetType(bool *)
-{
-  return H5::PredType::NATIVE_HBOOL;
-}
+#define GetH5TypeSpecialize(CXXType,H5Type) \
+  template <>                             \
+  H5::PredType GetType<CXXType>()         \
+  {                                       \
+    return H5Type;                        \
+  }
+
+GetH5TypeSpecialize(double,            H5::PredType::NATIVE_DOUBLE)
+GetH5TypeSpecialize(float,             H5::PredType::NATIVE_FLOAT)
+GetH5TypeSpecialize(int,               H5::PredType::NATIVE_INT)
+GetH5TypeSpecialize(unsigned int,      H5::PredType::NATIVE_UINT)
+GetH5TypeSpecialize(short,             H5::PredType::NATIVE_SHORT)
+GetH5TypeSpecialize(unsigned short,    H5::PredType::NATIVE_USHORT)
+GetH5TypeSpecialize(long,              H5::PredType::NATIVE_LONG)
+GetH5TypeSpecialize(unsigned long,     H5::PredType::NATIVE_ULONG)
+GetH5TypeSpecialize(long long,         H5::PredType::NATIVE_LLONG)
+GetH5TypeSpecialize(unsigned long long,H5::PredType::NATIVE_ULLONG)
+GetH5TypeSpecialize(unsigned char,     H5::PredType::NATIVE_UCHAR)
+GetH5TypeSpecialize(char,              H5::PredType::NATIVE_CHAR)
+GetH5TypeSpecialize(bool,              H5::PredType::NATIVE_HBOOL)
+
+#undef GetH5TypeSpecialize(CXXType,H5Type)
 
 inline
 ImageIOBase::IOComponentType
@@ -315,7 +302,7 @@ HDF5ImageIO
   hsize_t numScalars(1);
   H5::DataSpace scalarSpace(1,&numScalars);
   H5::PredType scalarType =
-    GetType(static_cast<TScalar *>(0));
+    GetType<TScalar>();
   H5::DataSet scalarSet =
     this->m_H5File->createDataSet(path,
                           scalarType,
@@ -345,7 +332,7 @@ HDF5ImageIO
                       << "in HDF5 File");
     }
   TScalar scalar;
-  H5::PredType scalarType = GetType(static_cast<TScalar *>(0));
+  H5::PredType scalarType = GetType<TScalar>();
   scalarSet.read(&scalar,scalarType);
   scalarSet.close();
   return scalar;
@@ -403,10 +390,9 @@ HDF5ImageIO
 
   H5::DataSpace vecSpace(1,&dim);
   H5::PredType vecType =
-    GetType(static_cast<TScalar *>(0));
+    GetType<TScalar>();
   H5::DataSet vecSet = this->m_H5File->createDataSet(path, vecType, vecSpace);
-  H5::PredType scalarType = GetType(static_cast<TScalar *>(0));
-  vecSet.write(buf,scalarType);
+  vecSet.write(buf,vecType);
   vecSet.close();
   delete [] buf;
 
@@ -431,7 +417,7 @@ HDF5ImageIO
   vec.resize(dim);
   TScalar *buf = new TScalar[dim];
   H5::PredType vecType =
-    GetType(static_cast<TScalar *>(0));
+    GetType<TScalar>();
   vecSet.read(buf,vecType);
   for(unsigned i = 0; i < dim; i++)
     {
