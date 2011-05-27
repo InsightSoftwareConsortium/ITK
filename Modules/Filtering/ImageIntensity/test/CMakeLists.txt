@@ -32,8 +32,6 @@ itkComplexToPhaseFilterAndAdaptorTest.cxx
 itkIntensityWindowingImageFilterTest.cxx
 itkTernaryMagnitudeImageFilterTest.cxx
 itkAbsImageFilterAndAdaptorTest.cxx
-itkJoinSeriesImageFilterTest.cxx
-itkJoinSeriesImageFilterStreamingTest.cxx
 itkMaximumImageFilterTest.cxx
 itkBinaryMagnitudeImageFilterTest.cxx
 itkMatrixIndexSelectionImageFilterTest.cxx
@@ -56,7 +54,6 @@ itkVectorExpandImageFilterTest.cxx
 itkAdaptImageFilterTest.cxx
 itkOrImageFilterTest.cxx
 itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
-itkJoinImageFilterTest.cxx
 itkXorImageFilterTest.cxx
 itkSubtractImageFilterTest.cxx
 itkComplexToImaginaryFilterAndAdaptorTest.cxx
@@ -150,13 +147,6 @@ itk_add_test(NAME itkTernaryMagnitudeImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkTernaryMagnitudeImageFilterTest)
 itk_add_test(NAME itkAbsImageFilterAndAdaptorTest
       COMMAND ITK-ImageIntensityTestDriver itkAbsImageFilterAndAdaptorTest)
-itk_add_test(NAME itkJoinSeriesImageFilterTest
-      COMMAND ITK-ImageIntensityTestDriver itkJoinSeriesImageFilterTest)
-itk_add_test(NAME itkJoinSeriesImageFilterStreamingTest
-      COMMAND ITK-ImageIntensityTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-              ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha
-    itkJoinSeriesImageFilterStreamingTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha)
 itk_add_test(NAME itkMaximumImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkMaximumImageFilterTest)
 itk_add_test(NAME itkBinaryMagnitudeImageFilterTest
@@ -206,8 +196,6 @@ itk_add_test(NAME itkOrImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkOrImageFilterTest)
 itk_add_test(NAME itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
       COMMAND ITK-ImageIntensityTestDriver itkRGBToLuminanceImageFilterAndAdaptorTest)
-itk_add_test(NAME itkJoinImageFilterTest
-      COMMAND ITK-ImageIntensityTestDriver itkJoinImageFilterTest)
 itk_add_test(NAME itkXorImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkXorImageFilterTest)
 itk_add_test(NAME itkSubtractImageFilterTest

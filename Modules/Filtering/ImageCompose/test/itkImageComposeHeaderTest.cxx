@@ -22,6 +22,8 @@
 #include <iostream>
 
 #include "itkComposeImageFilter.h"
+#include "itkJoinSeriesImageFilter.txx"
+#include "itkJoinImageFilter.h"
 
 
 int itkImageComposeHeaderTest ( int , char * [] )
