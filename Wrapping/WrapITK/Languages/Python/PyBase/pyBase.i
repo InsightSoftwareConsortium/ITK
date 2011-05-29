@@ -3,12 +3,17 @@
 %include <exception.i>
 %include <typemaps.i>
 
-%include std_iostream.i
-%include std_sstream.i
+%include <std_string.i>
 %include <std_vector.i>
 %include <std_map.i>
 %include <std_list.i>
 %include <std_set.i>
+
+// must be included in the end to avoid wrong std::string typemaps
+%include std_iostream.i
+// broken for now when used after std_string.i: error: ‘basic_string’ has not been declared
+// TODO: make a bug report to swig
+// %include std_sstream.i
 
 %exception {
   try {
