@@ -53,7 +53,7 @@ class MetaDataDictionary;
  * \brief Class that defines how to read HDF5 file format.
  * HDF5 IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/HDF5lib
  *
- * \ingroup IOFilters
+ * \ingroup ITK-IO-HDF5
  *
  * HDF5 paths for elements in file
  * N is dimension of image
@@ -75,6 +75,11 @@ class MetaDataDictionary;
  *                             in the case of non-scalar voxel type,
  *                             keep voxel components together, to make
  *                             loading possible without
+ * /ITKImage/<name>/MetaData   Group for storing metadata from
+ *                             MetaDataDictionary
+ * /ITKImage/<name>/MetaData/<item-name>
+ *                             Dataset containing data for item-name
+ *                             in the MetaDataDictionary
  * re-arrangement.
  *
  *
