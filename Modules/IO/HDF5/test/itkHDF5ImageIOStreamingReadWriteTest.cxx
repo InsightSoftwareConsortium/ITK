@@ -120,7 +120,7 @@ int HDF5ReadWriteTest2(const char *fileName)
 }
 
 int
-itkHDF5ImageIOStreamingReadWriteTest(int ac, char **av)
+itkHDF5ImageIOStreamingReadWriteTest(int ac, char * av [])
 {
   std::string prefix("");
   if(ac > 1)
