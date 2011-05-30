@@ -107,7 +107,7 @@ GetH5TypeSpecialize(unsigned char,     H5::PredType::NATIVE_UCHAR)
 GetH5TypeSpecialize(char,              H5::PredType::NATIVE_CHAR)
 GetH5TypeSpecialize(bool,              H5::PredType::NATIVE_HBOOL)
 
-#undef GetH5TypeSpecialize(CXXType,H5Type)
+#undef GetH5TypeSpecialize
 
 inline
 ImageIOBase::IOComponentType
