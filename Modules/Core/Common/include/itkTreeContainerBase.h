@@ -68,7 +68,7 @@ public:
   void SetSubtree(bool val) { m_SubTree = val; }
 protected:
 
-  TreeContainerBase() {}
+  TreeContainerBase() : m_SubTree(false) {}
   virtual ~TreeContainerBase() {}
   bool m_SubTree;
 };

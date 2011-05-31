@@ -142,7 +142,7 @@ int main( int argc, char *argv[] )
     TensorReconstructionImageFilterType::GradientDirectionContainerType::New();
 
 
-  for (; itKey != imgMetaKeys.end(); itKey ++)
+  for (; itKey != imgMetaKeys.end(); ++itKey)
     {
     double x,y,z;
 
@@ -235,9 +235,9 @@ int main( int argc, char *argv[] )
   // If we need to write out the reference and gradient images to a file..
   // Easier viewing them with a viewer than if they were in a single NRRD
   // file
-  unsigned int referenceImageIndex = 0;
   if( (argc > 4) && (atoi(argv[6])) )
     {
+    unsigned int referenceImageIndex = 0;
     typedef itk::ImageFileWriter< GradientImageType > GradientWriterType;
     for( unsigned int i = 0; i<numberOfImages; i++ )
       {

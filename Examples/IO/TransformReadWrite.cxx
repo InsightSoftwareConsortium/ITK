@@ -187,7 +187,7 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
     affine_read->Print(std::cout);
     }
 
-  it++;
+  ++it;
 
   if(!strcmp((*it)->GetNameOfClass(),"BSplineDeformableTransform"))
     {
