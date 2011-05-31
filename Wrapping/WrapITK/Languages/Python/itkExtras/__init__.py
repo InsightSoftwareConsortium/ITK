@@ -108,17 +108,7 @@ def echo(object, f=sys.stderr) :
    If the object has a method Print(), this method is used.
    repr(object) is used otherwise
    """
-   import itk
-   ss = itk.stringstream()
-   try :
-      try:
-         object.Print(ss)
-      except:
-         object.Print(ss, Indent.New());
-   except:
-      print >> f, repr(object)
-   else:
-      print >> f, ss.str()
+   print >> f, object
 del sys
 
 
