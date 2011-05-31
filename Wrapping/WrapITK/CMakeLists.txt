@@ -22,7 +22,7 @@ project(WrapITK)
 # Require 2.4.2 for MATH and LIST commands (REMOVE_ITEM is not the same in
 # 2.4.1)
 # 2.4.5 is required to parse the if(POLICY) command.
-cmake_minimum_required(VERSION 2.4.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 if(COMMAND CMAKE_POLICY)
   cmake_policy(SET CMP0003 NEW)
   if(POLICY CMP0011)
