@@ -6,9 +6,6 @@
 #include "itkDifferenceImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
-//DEBUG
-#include "itkImageFileWriter.h"
-
 //-----------------------------------------------------------------------------
 // Compare RGBPixel Images
 //

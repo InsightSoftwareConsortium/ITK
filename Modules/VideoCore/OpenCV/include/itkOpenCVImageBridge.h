@@ -63,12 +63,6 @@ public:
   template<class TInputImageType>
   static cv::Mat ITKImageToCVMat(const TInputImageType* in);
 
-protected:
-
-  /** Convert a pixel buffer to a different type. Only used when going to ITK */
-  //template<class TOutputImageType>
-  //static void ConvertBufferType(void* input, void* output);
-
 private:
   OpenCVImageBridge(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
