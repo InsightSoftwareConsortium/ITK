@@ -25,44 +25,32 @@
 #include "itkCastImageFilter.h"
 #include "itkRandomImageSource.h"
 
-template < class T >
-std::string GetTypeName() { return "unknown type"; }
+// Better name demanging for gcc
+#if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
+#define GCC_USEDEMANGLE
+#endif
 
-template < >
-std::string GetTypeName< char >() { return "char"; }
+#ifdef GCC_USEDEMANGLE
+#include <cstdlib>
+#include <cxxabi.h>
+#endif
 
-template < >
-std::string GetTypeName< unsigned char >() { return "unsigned char"; }
+template< class T >
+std::string GetCastTypeName()
+{
+  std::string name;
+#ifdef GCC_USEDEMANGLE
+  char const *mangledName = typeid( T ).name();
+  int         status;
+  char *      unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
+  name = unmangled;
+  free(unmangled);
+#else
+  name = typeid( t ).name();
+#endif
 
-template < >
-std::string GetTypeName< short >() { return "short"; }
-
-template < >
-std::string GetTypeName< unsigned short >() { return "unsigned short"; }
-
-template < >
-std::string GetTypeName< int >() { return "int"; }
-
-template < >
-std::string GetTypeName< unsigned int >() { return "unsigned int"; }
-
-template < >
-std::string GetTypeName< long >() { return "long"; }
-
-template < >
-std::string GetTypeName< unsigned long >() { return "unsigned long"; }
-
-template < >
-std::string GetTypeName< long long >() { return "long long"; }
-
-template < >
-std::string GetTypeName< unsigned long long >() { return "unsigned long long"; }
-
-template < >
-std::string GetTypeName< float >() { return "float"; }
-
-template < >
-std::string GetTypeName< double >() { return "double"; }
+  return name;
+}
 
 
 template < class TInputPixelType, class TOutputPixelType >
@@ -92,8 +80,8 @@ bool TestCastFromTo()
 
   bool success = true;
 
-  std::cout << "Casting from " << GetTypeName< TInputPixelType >()
-            << " to " << GetTypeName< TOutputPixelType >() << " ... ";
+  std::cout << "Casting from " << GetCastTypeName< TInputPixelType >()
+            << " to " << GetCastTypeName< TOutputPixelType >() << " ... ";
 
   it.GoToBegin();
   ot.GoToBegin();
@@ -101,8 +89,12 @@ bool TestCastFromTo()
     {
     TInputPixelType  inValue  = it.Value();
     TOutputPixelType outValue = ot.Value();
+    TOutputPixelType expectedValue = static_cast< TOutputPixelType >( inValue );
 
-    if ( outValue != static_cast< TOutputPixelType >( inValue ) )
+    /** Warning:
+     * expectedValue == static_cast< TOutputPixelType( inValue ) is
+     * false on some systems and compilers with some values of inValue. */
+    if ( outValue != expectedValue )
       {
       success = false;
       break;
@@ -126,7 +118,7 @@ bool TestCastFromTo()
 
 
 template < class TInputPixelType >
-bool TestCastTo()
+bool TestCastFrom()
 {
   bool success =
     TestCastFromTo< TInputPixelType, char >() &&
@@ -151,18 +143,18 @@ int itkCastImageFilterTest( int, char* [] )
   std::cout << "itkCastImageFilterTest Start" << std::endl;
 
   bool success =
-    TestCastTo< char >() &&
-    TestCastTo< unsigned char >() &&
-    TestCastTo< short >() &&
-    TestCastTo< unsigned short >() &&
-    TestCastTo< int >() &&
-    TestCastTo< unsigned int >() &&
-    TestCastTo< long >() &&
-    TestCastTo< unsigned long >() &&
-    TestCastTo< long long >() &&
-    TestCastTo< unsigned long long >() &&
-    TestCastTo< float >() &&
-    TestCastTo< double >();
+    TestCastFrom< char >() &&
+    TestCastFrom< unsigned char >() &&
+    TestCastFrom< short >() &&
+    TestCastFrom< unsigned short >() &&
+    TestCastFrom< int >() &&
+    TestCastFrom< unsigned int >() &&
+    TestCastFrom< long >() &&
+    TestCastFrom< unsigned long >() &&
+    TestCastFrom< long long >() &&
+    TestCastFrom< unsigned long long >() &&
+    TestCastFrom< float >() &&
+    TestCastFrom< double >();
 
   std::cout << std::endl;
   if ( !success )
