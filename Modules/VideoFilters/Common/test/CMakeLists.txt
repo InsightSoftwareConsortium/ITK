@@ -7,7 +7,7 @@ set(Video-Filters-CommonTests
 CreateTestDriver(Video-Filters-Common  "${Video-Filters-Common-Test_LIBRARIES}" "${Video-Filters-CommonTests}")
 
 # For Midas-stored testing data
-include(${Video-Common_SOURCE_DIR}/MIDAS.cmake)
+include(${Video-Core-Common_SOURCE_DIR}/MIDAS.cmake)
 
 # FrameAverageVideoFilter
 midas_add_test(NAME FrameAverageVideoFilterTest

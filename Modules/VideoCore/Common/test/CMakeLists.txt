@@ -1,5 +1,5 @@
 itk_module_test()
-set(Video-CommonTests
+set(Video-Core-CommonTests
   itkRingBufferTest.cxx
   itkTemporalRegionTest.cxx
   itkTemporalDataObjectTest.cxx
@@ -11,34 +11,34 @@ set(Video-CommonTests
 
 
 # For Midas-stored testing data
-include(${Video-Common_SOURCE_DIR}/MIDAS.cmake)
+include(${Video-Core-Common_SOURCE_DIR}/MIDAS.cmake)
 
-CreateTestDriver(Video-Common  "${Video-Common-Test_LIBRARIES}" "${Video-CommonTests}" )
+CreateTestDriver(Video-Core-Common  "${Video-Core-Common-Test_LIBRARIES}" "${Video-Core-CommonTests}" )
 
 # VideoToVideoFilterTest
 add_test( NAME VideoToVideoFilterTest
-          COMMAND Video-CommonTestDriver itkVideoToVideoFilterTest )
+          COMMAND Video-Core-CommonTestDriver itkVideoToVideoFilterTest )
 
 # VideoSourceTest
 add_test( NAME VideoSourceTest
-          COMMAND Video-CommonTestDriver itkVideoSourceTest )
+          COMMAND Video-Core-CommonTestDriver itkVideoSourceTest )
 
 # VideoStreamTest
 add_test( NAME VideoStreamTest
-          COMMAND Video-CommonTestDriver itkVideoStreamTest )
+          COMMAND Video-Core-CommonTestDriver itkVideoStreamTest )
 
 # TemporalProcessObjectTest
 add_test( NAME TemporalProcessObjectTest
-          COMMAND Video-CommonTestDriver itkTemporalProcessObjectTest )
+          COMMAND Video-Core-CommonTestDriver itkTemporalProcessObjectTest )
 
 # RingBufferTest
 add_test( NAME RingBufferTest
-          COMMAND Video-CommonTestDriver itkRingBufferTest )
+          COMMAND Video-Core-CommonTestDriver itkRingBufferTest )
 
 # Testing Temporal Regions
 add_test( NAME TemporalRegionTest
-          COMMAND Video-CommonTestDriver itkTemporalRegionTest )
+          COMMAND Video-Core-CommonTestDriver itkTemporalRegionTest )
 
 # Testing Temporal Data Object
 add_test( NAME TemporalDataObjectTest
-          COMMAND Video-CommonTestDriver itkTemporalDataObjectTest )
+          COMMAND Video-Core-CommonTestDriver itkTemporalDataObjectTest )
