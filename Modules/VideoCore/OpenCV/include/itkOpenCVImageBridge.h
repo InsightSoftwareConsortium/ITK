@@ -47,21 +47,21 @@ public:
   /** ITK stype typedefs */
   typedef OpenCVImageBridge Self;
 
-  /** IplImage -> itk::Image */
+  /** IplImage* -> itk::Image */
   template<class TOutputImageType>
   static typename TOutputImageType::Pointer IplImageToITKImage(const IplImage* in);
 
   /** cv::Mat -> itk::Image */
   template<class TOutputImageType>
-  static typename TOutputImageType::Pointer CVMatToITKImage(const cv::Mat* in);
+  static typename TOutputImageType::Pointer CVMatToITKImage(const cv::Mat in);
 
-  /** itk::Image -> IplImage */
+  /** itk::Image -> IplImage* */
   template<class TInputImageType>
   static IplImage* ITKImageToIplImage(const TInputImageType* in);
 
   /** itk::Image -> cv::Mat */
   template<class TInputImageType>
-  static cv::Mat* ITKImageToCVMat(const TInputImageType* in);
+  static cv::Mat ITKImageToCVMat(const TInputImageType* in);
 
 protected:
 

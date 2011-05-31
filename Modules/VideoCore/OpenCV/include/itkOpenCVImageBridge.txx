@@ -44,7 +44,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
   //
   if (!in)
     {
-    itkGenericExceptionMacro("Cannot convert from a NULL IplImage to an itk::Image");
+    itkGenericExceptionMacro("Input is NULL");
     }
   if (ImageType::ImageDimension > 2)
     {
@@ -73,20 +73,24 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
   //     (slow but necessary)
   //  4) Copy the buffer and convert the pixels if necessary
 #define ITK_CONVERT_IPLIMAGE_BUFFER(_CVDepth, inType)\
+  bool freeCurrent = false;\
   if (inChannels == 3 && outChannels == 1)\
     {\
     current = cvCreateImage(cvSize(in->width, in->height), _CVDepth, 1);\
     cvCvtColor(in, current, CV_BGR2GRAY);\
+    freeCurrent = true;\
     }\
   else if (inChannels == 1 && outChannels == 3)\
     {\
     current = cvCreateImage(cvSize(in->width, in->height), _CVDepth, 3);\
     cvCvtColor(in, current, CV_GRAY2RGB);\
+    freeCurrent = true;\
     }\
   else if (inChannels == 3 && outChannels == 3)\
     {\
     current = cvCreateImage(cvSize(in->width, in->height), _CVDepth, 3);\
     cvCvtColor(in, current, CV_BGR2RGB);\
+    freeCurrent = true;\
     }\
   else if (inChannels != 1 || outChannels != 1)\
     {\
@@ -134,7 +138,13 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
                 current->nChannels,\
                 out->GetPixelContainer()->GetBufferPointer(),\
                 out->GetPixelContainer()->Size());\
+    }\
+  delete[] reinterpret_cast<inType*>(unpaddedBuffer);\
+  if (freeCurrent)\
+    {\
+    cvReleaseImage(&current);\
     }
+
 
   switch (in->depth)
     {
@@ -185,10 +195,10 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
 //
 template<class TOutputImageType>
 typename TOutputImageType::Pointer
-OpenCVImageBridge::CVMatToITKImage(const cv::Mat* in)
+OpenCVImageBridge::CVMatToITKImage(const cv::Mat in)
 {
-  std::cout << "STUB" << std::endl;
-  return NULL;
+  const IplImage converted = in;
+  return IplImageToITKImage<TOutputImageType>(&converted);
 }
 
 //
@@ -198,19 +208,116 @@ template<class TInputImageType>
 IplImage*
 OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in)
 {
-  std::cout << "STUB" << std::endl;
-  return NULL;
+  // Typedefs
+  typedef TInputImageType ImageType;
+  typedef typename ImageType::PixelType InputPixelType;
+  typedef typename itk::NumericTraits<InputPixelType>::ValueType ValueType;
+
+  //
+  // Make sure input isn't null, is 2D or 1D, and is scalar or RGB
+  //
+  if (!in)
+    {
+    itkGenericExceptionMacro("Input is NULL");
+    }
+  if (ImageType::ImageDimension > 2)
+    {
+    itkGenericExceptionMacro("OpenCV only supports 2D and 1D images");
+    }
+  unsigned int nChannels = itk::NumericTraits<InputPixelType>::MeasurementVectorType::Dimension;
+  if (nChannels != 1 && nChannels != 3)
+    {
+    itkGenericExceptionMacro("OpenCV only supports scalar and 3-channel data");
+    }
+
+
+  //
+  // Set up the output image
+  //
+  IplImage* out;
+  unsigned int w = in->GetLargestPossibleRegion().GetSize()[0];
+  unsigned int h = in->GetLargestPossibleRegion().GetSize()[1];
+
+  //
+  // set the depth correctly based on input pixel type
+  //
+  if (typeid(ValueType) == typeid(unsigned char))
+    {
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8U, nChannels);
+    }
+  else if (typeid(ValueType) == typeid(char))
+    {
+    if (nChannels != 1)
+      {
+      itkGenericExceptionMacro("OpenCV does not support color images with pixels of type char");
+      }
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8S, nChannels);
+    }
+  else if (typeid(ValueType) == typeid(unsigned short))
+    {
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16U, nChannels);
+    }
+  else if (typeid(ValueType) == typeid(short))
+    {
+    if (nChannels != 1)
+      {
+      itkGenericExceptionMacro("OpenCV does not support color images with pixels of type short");
+      }
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16S, nChannels);
+    }
+  else if (typeid(ValueType) == typeid(float))
+    {
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_32F, nChannels);
+    }
+  else if (typeid(ValueType) == typeid(double))
+    {
+    if (nChannels != 1)
+      {
+      itkGenericExceptionMacro("OpenCV does not support color images with pixels of type double");
+      }
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_64F, nChannels);
+    }
+  else
+    {
+    itkGenericExceptionMacro("OpenCV does not support the input pixel type");
+    }
+
+  //Scalar
+  if (out->nChannels == 1)
+    {
+    memcpy(out->imageData, in->GetBufferPointer(), out->imageSize);
+    }
+
+  // RGB
+  else
+    {
+    // Set up an IplImage pointing at the input's buffer. It's ok to do the
+    // const cast because it will only get used to copy pixels
+    IplImage* temp = new IplImage(*out);
+    temp->imageData = reinterpret_cast<char*>(
+      const_cast<InputPixelType*>(in->GetBufferPointer()));
+    cvCvtColor(temp, out, CV_RGB2BGR);
+    delete temp;
+    }
+
+  //
+  // Return the result
+  //
+  return out;
 }
 
 //
 // ITKImageToIplImage
 //
 template<class TInputImageType>
-cv::Mat*
+cv::Mat
 OpenCVImageBridge::ITKImageToCVMat(const TInputImageType* in)
 {
-  std::cout << "STUB" << std::endl;
-  return NULL;
+  // Extra copy, but necessary to prevent memory leaks
+  IplImage* temp = ITKImageToIplImage<TInputImageType>(in);
+  cv::Mat out(temp, true);
+  cvReleaseImage(&temp);
+  return out;
 }
 
 
