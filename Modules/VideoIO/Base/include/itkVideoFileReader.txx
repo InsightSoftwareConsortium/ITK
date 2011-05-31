@@ -98,7 +98,7 @@ VideoFileReader< TOutputVideoStream >
   largestPossibleTemporalRegion.SetFrameStart(0);
   if (m_IFrameSafe)
     {
-    largestPossibleTemporalRegion.SetFrameDuration(m_VideoIO->GetLastIFrame());
+    largestPossibleTemporalRegion.SetFrameDuration(m_VideoIO->GetLastIFrame()+1);
     }
   else
     {
