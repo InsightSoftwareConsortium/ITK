@@ -152,6 +152,10 @@ private:
 
   void WriteScalar(const std::string &path,
                    const bool &value);
+  void WriteScalar(const std::string &path,
+                   const long &value);
+  void WriteScalar(const std::string &path,
+                   const unsigned long &value);
 
   template <typename TScalar>
   void WriteScalar(const std::string &path,

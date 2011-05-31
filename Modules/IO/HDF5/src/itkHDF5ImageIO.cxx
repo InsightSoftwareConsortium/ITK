@@ -288,8 +288,70 @@ HDF5ImageIO
   bool trueVal(true);
   isBool.write(scalarType,&trueVal);
   isBool.close();
+  int tempVal = static_cast<int>(value);
+  scalarSet.write(&tempVal,scalarType);
+  scalarSet.close();
+}
 
-  scalarSet.write(&value,scalarType);
+void
+HDF5ImageIO
+::WriteScalar(const std::string &path,
+              const long &value)
+{
+  hsize_t numScalars(1);
+  H5::DataSpace scalarSpace(1,&numScalars);
+  H5::PredType scalarType =
+    H5::PredType::NATIVE_HBOOL;
+  H5::DataSet scalarSet =
+    this->m_H5File->createDataSet(path,
+                          scalarType,
+                          scalarSpace);
+  //
+  // HDF5 can't distinguish
+  // between bool and int datasets
+  // in a disk file. So add an attribute
+  // labeling this as a bool
+  const std::string isLongName("isLong");
+  H5::Attribute isLong =
+    scalarSet.createAttribute(isLongName,
+                               scalarType,
+                               scalarSpace);
+  bool trueVal(true);
+  isLong.write(scalarType,&trueVal);
+  isLong.close();
+  int tempVal = static_cast<int>(value);
+  scalarSet.write(&tempVal,scalarType);
+  scalarSet.close();
+}
+
+void
+HDF5ImageIO
+::WriteScalar(const std::string &path,
+              const unsigned long &value)
+{
+  hsize_t numScalars(1);
+  H5::DataSpace scalarSpace(1,&numScalars);
+  H5::PredType scalarType =
+    H5::PredType::NATIVE_HBOOL;
+  H5::DataSet scalarSet =
+    this->m_H5File->createDataSet(path,
+                          scalarType,
+                          scalarSpace);
+  //
+  // HDF5 can't distinguish
+  // between bool and int datasets
+  // in a disk file. So add an attribute
+  // labeling this as a bool
+  const std::string isUnsignedLongName("isUnsignedLong");
+  H5::Attribute isUnsignedLong =
+    scalarSet.createAttribute(isUnsignedLongName,
+                               scalarType,
+                               scalarSpace);
+  bool trueVal(true);
+  isUnsignedLong.write(scalarType,&trueVal);
+  isUnsignedLong.close();
+  int tempVal = static_cast<int>(value);
+  scalarSet.write(&tempVal,scalarType);
   scalarSet.close();
 }
 
@@ -697,8 +759,20 @@ HDF5ImageIO
           // itk::Array<bool> apparently can't
           // happen because vnl_vector<bool> isn't
           // instantiated
-          bool val = this->ReadScalar<bool>(MetaDataName);
+          bool val;
+          int tmpVal = this->ReadScalar<int>(MetaDataName);
+          val = tmpVal != 0;
           EncapsulateMetaData<bool>(metaDict,name,val);
+          }
+        else if(doesAttrExist(metaDataSet,"isLong"))
+          {
+          long val = this->ReadScalar<long>(MetaDataName);
+          EncapsulateMetaData<long>(metaDict,name,val);
+          }
+        else if(doesAttrExist(metaDataSet,"isUnsignedLong"))
+          {
+          unsigned long val = this->ReadScalar<unsigned long>(MetaDataName);
+          EncapsulateMetaData<unsigned long>(metaDict,name,val);
           }
         else
           {
