@@ -99,6 +99,10 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /**
+   * Output pixel type for Interpolator, used in PhysicalSpaceMode
+   */
+  typedef typename Superclass::InterpolatorOutputPixelType InterpolatorOutputPixelType;
+  /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
@@ -118,7 +122,10 @@ public:
   /** End concept checking */
 #endif
 protected:
-  DivideImageFilter() {}
+  DivideImageFilter()
+    {
+    this->SetDefaultValue(NumericTraits<InterpolatorOutputPixelType>::One);
+    }
   virtual ~DivideImageFilter() {}
   DivideImageFilter(const Self &) {}
   void operator=(const Self &) {}

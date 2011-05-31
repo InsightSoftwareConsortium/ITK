@@ -20,6 +20,8 @@
 
 #include "itkInPlaceImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkLinearInterpolateImageFunction.h"
+#include "itkVectorLinearInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -40,6 +42,7 @@ namespace itk
  * \ingroup IntensityImageFilters   Multithreaded
  * \ingroup ITK-ImageFilterBase
  *
+
  * \wiki
  * \wikiexample{ImageProcessing/BinaryFunctorImageFilter,Apply a predefined operation to corresponding pixels in two images}
  * \wikiexample{ImageProcessing/BinaryFunctorImageFilterCustom,Apply a custom operation to corresponding pixels in two images}
@@ -83,6 +86,15 @@ public:
   typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
+
+
+  /** the generic type for interpolating the image in Physical Space
+   *  Mode
+   */
+  typedef ImageFunction<Input2ImageType,
+                        ITK_TYPENAME NumericTraits<Input2ImagePixelType>::RealType,
+                        double>                 InterpolatorType;
+  typedef typename InterpolatorType::OutputType InterpolatorOutputPixelType;
 
   /** Connect one of the operands for pixel-wise operation */
   virtual void SetInput1(const TInputImage1 *image1);
@@ -148,6 +160,35 @@ public:
       }
   }
 
+  /** Set/Get UsePhysicalSpace
+   *  The default behavior of this filter is to assume that
+   *  the dimensions, physical orientation, and spacing are
+   *  the same.
+   *  If UsePhysicalSpace is true, an InterpolateImageFunction is
+   *  used to use the interpolated pixel in Image2 that is at the
+   *  physical location of the pixel in Image1 for computations.
+   *  This allows, for example, a binary operation on two images
+   *  that occupy the same physical volume but have different size
+   *  & spacing.
+   */
+  itkSetMacro(UsePhysicalSpace,bool)
+  itkGetMacro(UsePhysicalSpace,bool)
+
+  /** Set the Interpolator for Physical Space Mode
+   *  The default interpolator is the LinearInterpolateImageFunction,
+   *  or for Vector Images, VectorLinearInterpolateImageFunction.
+   */
+  itkSetObjectMacro(Interpolator, InterpolatorType);
+  itkGetObjectMacro(Interpolator, InterpolatorType);
+
+  /** Set the default pixel value.  In Physical Space Mode, it is
+   *  possible for the two images to have disjoint physical volumes,
+   *  and in that case, the default pixel value will be used for
+   *  pixels outside Image2's image volume.
+   */
+  itkSetMacro(DefaultValue, InterpolatorOutputPixelType);
+  itkGetMacro(DefaultValue, InterpolatorOutputPixelType);
+
   /** ImageDimension constants */
   itkStaticConstMacro(
     InputImage1Dimension, unsigned int, TInputImage1::ImageDimension);
@@ -170,6 +211,9 @@ protected:
   BinaryFunctorImageFilter();
   virtual ~BinaryFunctorImageFilter() {}
 
+  /** Set up interpolator if necessary before threaded execution */
+  virtual void BeforeThreadedGenerateData();
+
   /** BinaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
    * which is called for each processing thread. The output image data is
@@ -180,18 +224,41 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            int threadId);
+  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                                    int threadId);
 
   // needed to take the image information from the 2nd input, if the first one is
   // a simple decorated object
   virtual void GenerateOutputInformation();
 
 private:
+  /** Instantiate default interpolator, based on pixel type
+   */
+  template <typename TScalar>
+    typename InterpolatorType::Pointer
+    NewDefaultInterpolator(TScalar *)
+  {
+    return LinearInterpolateImageFunction<TInputImage2>::New().GetPointer();
+  }
+
+  template <typename TScalar,unsigned VVecLength>
+    typename InterpolatorType::Pointer
+    NewDefaultInterpolator(Vector<TScalar,VVecLength> *)
+  {
+    return VectorLinearInterpolateImageFunction<TInputImage2>::New().GetPointer();
+  }
+
   BinaryFunctorImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented
 
-  FunctorType m_Functor;
+  /** functor for current filter */
+  FunctorType                        m_Functor;
+  /** whether or not to use physical space for calculations */
+  bool                               m_UsePhysicalSpace;
+  /** true if size, spacing, origin, and orientation match */
+  bool                               m_PhysicalSpacesMatch;
+  typename InterpolatorType::Pointer m_Interpolator;
+  InterpolatorOutputPixelType        m_DefaultValue;
 };
 } // end namespace itk
 

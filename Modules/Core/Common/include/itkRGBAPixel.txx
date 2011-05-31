@@ -46,6 +46,105 @@ RGBAPixel< T >
   return *this;
 }
 
+/**
+ * Returns a temporary copy of a vector
+ */
+template< class T >
+RGBAPixel< T >
+RGBAPixel< T >
+::operator+(const Self & r) const
+{
+  Self result;
+
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    result[i] = ( *this )[i] + r[i];
+    }
+  return result;
+}
+
+/**
+ * Returns a temporary copy of a vector
+ */
+template< class T >
+RGBAPixel< T >
+RGBAPixel< T >
+::operator-(const Self & r) const
+{
+  Self result;
+
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    result[i] = ( *this )[i] - r[i];
+    }
+  return result;
+}
+
+/**
+ * Returns a temporary copy of a vector
+ */
+template< class T >
+const RGBAPixel< T > &
+RGBAPixel< T >
+::operator+=(const Self & r)
+{
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    ( *this )[i] += r[i];
+    }
+  return *this;
+}
+
+/**
+ * Returns a temporary copy of a vector
+ */
+template< class T >
+const RGBAPixel< T > &
+RGBAPixel< T >
+::operator-=(const Self & r)
+{
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    ( *this )[i] -= r[i];
+    }
+  return *this;
+}
+
+/**
+ * Returns a temporary copy of a vector
+ */
+template< class T >
+RGBAPixel< T >
+RGBAPixel< T >
+::operator*(const ComponentType & r) const
+{
+  Self result;
+
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    result[i] = ( *this )[i] * r;
+    }
+  return result;
+}
+
+/**
+ * Returns the results from a test for equality (all components must be equal)
+ */
+template< class T >
+bool
+RGBAPixel< T >
+::operator==(const Self & r) const
+{
+  for ( unsigned int i = 0; i < 4; i++ )
+    {
+    if ( ( *this )[i] != r[i] )
+      {
+      return false;
+      }
+    }
+  return true;
+}
+
 /*
  * Compute luminance
  */
