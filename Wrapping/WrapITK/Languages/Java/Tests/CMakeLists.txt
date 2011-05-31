@@ -208,6 +208,12 @@ add_java_test(JavaCurvatureFlowImageFilter
   5 0.125 1.0
 )
 
+build_java_test(MetaDataDictionary class_path IO)
+add_java_test(JavaMetaDataDictionary
+  ${class_path}
+  MetaDataDictionary
+)
+
 build_java_test(SigmoidImageFilter class_path IO  IntensityFilters)
 add_java_test(JavaSigmoidImageFilter
   ${class_path}
