@@ -12,38 +12,38 @@ include( ${VXL_CMAKE_DIR}/UseVXL.cmake )
 CreateTestDriver(Video-IO-VXL "${Video-IO-VXL-Test_LIBRARIES}" "${Video-IO-VXLTests}")
 
 # VXLVideoIO:
-midas_add_test(NAME VXLVideoIOTest
-         COMMAND Video-IO-VXLTestDriver itkVXLVideoIOTest
-         # Video Input:
-         MIDAS{inde-circulation.avi.md5}
-         # Non-Video Input:
-         ${ITKVideo_Data_DIR}/Input/TestParameters.txt
-         # Output:
-         ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_Out.avi
-         # Webcam Output:
-         ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_CameraOut.mha
-         # Width Height NumFrames FpS
-         320 240 1396 14.985
-         )
+add_video_test(NAME VXLVideoIOTest
+               COMMAND Video-IO-VXLTestDriver itkVXLVideoIOTest
+               # Video Input:
+               MIDAS{inde-circulation.avi.md5}
+               # Non-Video Input:
+               ${ITKVideo_Data_DIR}/Input/TestParameters.txt
+               # Output:
+               ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_Out.avi
+               # Webcam Output:
+               ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_CameraOut.mha
+               # Width Height NumFrames FpS
+               320 240 1396 14.985
+               )
 
 # VXLVideoIOFactory:
-midas_add_test(NAME VXLVideoIOFactoryTest
-         COMMAND Video-IO-VXLTestDriver itkVXLVideoIOFactoryTest
-         # Video Input:
-         MIDAS{inde-circulation.avi.md5}
-         # Output:
-         ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_Out.avi
-         # Webcam Number:
-         0
-         )
+add_video_test(NAME VXLVideoIOFactoryTest
+               COMMAND Video-IO-VXLTestDriver itkVXLVideoIOFactoryTest
+               # Video Input:
+               MIDAS{inde-circulation.avi.md5}
+               # Output:
+               ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_Out.avi
+               # Webcam Number:
+               0
+               )
 
 # vidl_itk_istream:
-midas_add_test(NAME vidl_itk_istreamTest
-        COMMAND Video-IO-VXLTestDriver vidl_itk_istreamTest
-         # Video Input:
-         MIDAS{inde-circulation_short.avi.md5}
-         # Output:
-         ${ITK_TEST_OUTPUT_DIR}/vidl_itk_istreamTest_Out.avi
-         # Width Height
-         320 240
-        )
+add_video_test(NAME vidl_itk_istreamTest
+               COMMAND Video-IO-VXLTestDriver vidl_itk_istreamTest
+               # Video Input:
+               MIDAS{inde-circulation_short.avi.md5}
+               # Output:
+               ${ITK_TEST_OUTPUT_DIR}/vidl_itk_istreamTest_Out.avi
+               # Width Height
+               320 240
+               )
