@@ -66,6 +66,7 @@ namespace Statistics
  *
  * \sa ImageKmeansModelEstimator
  * \sa WeightedCentroidKdTreeGenerator, KdTree
+ * \ingroup ITK-Statistics
  */
 
 template< class TKdTree >
@@ -163,7 +164,7 @@ protected:
 
   void FillClusterLabels(KdTreeNodeType *node, int closestIndex);
 
-  /** \class CandidateVector */
+  /** \class CandidateVector  \ingroup ITK-Statistics */
   class CandidateVector
   {
 public:

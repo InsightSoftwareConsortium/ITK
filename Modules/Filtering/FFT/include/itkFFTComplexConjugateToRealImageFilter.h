@@ -47,25 +47,27 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa FFTRealToComplexConjugateImageFilter, FFTComplexConjugateToRealImageFilter
+ * \ingroup ITK-FFT
  */
-template< class TPixel, unsigned int VDimension = 3 >
+template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class ITK_EXPORT FFTComplexConjugateToRealImageFilter:
-  public ImageToImageFilter< Image< std::complex< TPixel >, VDimension >,
-                             Image< TPixel, VDimension > >
+  public ImageToImageFilter< TInputImage, TOutputImage >
 
 {
 public:
   /** Standard class typedefs. */
-  typedef Image< std::complex< TPixel >, VDimension > TInputImageType;
-  typedef Image< TPixel, VDimension >                 TOutputImageType;
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::PixelType  OutputPixelType;
 
   typedef FFTComplexConjugateToRealImageFilter                    Self;
-  typedef ImageToImageFilter< TInputImageType, TOutputImageType > Superclass;
+  typedef ImageToImageFilter< InputImageType, OutputImageType >   Superclass;
   typedef SmartPointer< Self >                                    Pointer;
   typedef SmartPointer< const Self >                              ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImageType::ImageDimension);
+                      InputImageType::ImageDimension);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTComplexConjugateToRealImageFilter, ImageToImageFilter);
@@ -77,9 +79,7 @@ public:
   */
   static Pointer New(void);
 
-  /** Image type typedef support. */
-  typedef TInputImageType              ImageType;
-  typedef typename ImageType::SizeType ImageSizeType;
+  typedef typename InputImageType::SizeType ImageSizeType;
 
   /** The output may be a different size from the input if complex conjugate
    * symmetry is implicit. */

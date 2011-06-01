@@ -42,6 +42,7 @@ namespace itk
  * Wesley, Reading, MA. 1997.
  *
  * \ingroup Iterators
+ * \ingroup ITK-Common
  */
 template< class TPixel, class TContainer >
 class ITK_EXPORT SliceIterator

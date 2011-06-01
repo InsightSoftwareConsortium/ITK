@@ -29,6 +29,7 @@ namespace fem {
  * \brief 3-noded finite element class in 2D space for linear elasticity problem.
  *
  * This element is combined from Element2DC0LinearTriangular and Element2DStress.
+ * \ingroup ITK-FEM
  */
 class Element2DC0QuadraticTriangularStress : public Element2DStress<Element2DC0QuadraticTriangular>
 {

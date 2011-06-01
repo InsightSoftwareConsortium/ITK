@@ -28,9 +28,10 @@ namespace itk
 {
 /** \class MinimumDecisionRule
  *  \brief A Decision rule that choose the class that has minimum value
+ * \ingroup ITK-Statistics
  */
 
-class ITKCommon_EXPORT MinimumDecisionRule:
+class ITK_EXPORT MinimumDecisionRule:
   public DecisionRuleBase
 {
 public:

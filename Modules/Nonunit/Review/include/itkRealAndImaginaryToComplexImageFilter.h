@@ -23,8 +23,8 @@
 namespace itk
 {
 /** \class RealAndImaginaryToComplexImageFilter
- * \brief Implements pixel-wise conversion of real and imaginar data into
- * complex voxels.
+ * \brief Implements pixel-wise conversion of real and imaginary data
+ * into complex voxels.
  *
  * This filter is parametrized over the types of the two
  * input images and the type of the output image.
@@ -46,14 +46,19 @@ namespace itk
  * official view of NCRR or NIH.
  *
  * This class was taken from the Insight Journal paper:
- * http://insight-journal.org/midas/handle.php?handle=1926/326
+ * http://hdl.handle.net/1926/326
  *
  * \sa MagnitudeAndPhaseToComplexImageFilter
+ * \ingroup ITK-Review
+ *
+ * \wiki
+ * \wikiexample{SpectralAnalysis/RealAndImaginaryToComplexImageFilter,Convert a real image and an imaginary image to a complex image}
+ * \endwiki
  */
 
 namespace Functor
 {
-template< class TInput1, class TInput2, class TOutput >
+template< class TInput1, class TInput2, class TOutputValueType >
 class RealAndImaginaryToComplex
 {
 public:
@@ -69,36 +74,44 @@ public:
     return !( *this != other );
   }
 
-  inline std::complex< TOutput > operator()(const TInput1 & A, const TInput2 & B) const
+  inline std::complex< TOutputValueType > operator()(const TInput1 & A, const TInput2 & B) const
   {
-    return std::complex< TOutput >( static_cast< TOutput >( A ), static_cast< TOutput >( B ) );
+    return std::complex< TOutputValueType >( static_cast< TOutputValueType >( A ),
+                                    static_cast< TOutputValueType >( B ) );
   }
 };
 }
 
-template< class TInputPixel1, class TInputPixel2, class TOutputPixel, unsigned int NDimension = 3 >
+template< class TInputImage1,
+          class TInputImage2 = TInputImage1,
+          class TOutputImage = itk::Image< std::complex< typename TInputImage1::PixelType>,
+                                           TInputImage1::ImageDimension > >
 class ITK_EXPORT RealAndImaginaryToComplexImageFilter:
   public BinaryFunctorImageFilter<
-    Image< TInputPixel1, NDimension >,
-    Image< TInputPixel2, NDimension >,
-    Image< std::complex< TOutputPixel >, NDimension >,
+    TInputImage1,
+    TInputImage2,
+    TOutputImage,
     Functor::RealAndImaginaryToComplex<
-      TInputPixel1,
-      TInputPixel2,
-      TOutputPixel
-      > >
+      typename TInputImage1::PixelType,
+      typename TInputImage2::PixelType,
+      typename TOutputImage::PixelType::value_type > >
 {
 public:
   /** Standard class typedefs. */
   typedef RealAndImaginaryToComplexImageFilter Self;
+
   typedef BinaryFunctorImageFilter<
-    Image< TInputPixel1, NDimension >,
-    Image< TInputPixel2, NDimension >,
-    Image< std::complex< TOutputPixel >, NDimension >,
+  TInputImage1,
+    TInputImage2,
+    TOutputImage,
     Functor::RealAndImaginaryToComplex<
-      TInputPixel1,
-      TInputPixel2,
-      TOutputPixel > >                        Superclass;
+      typename TInputImage1::PixelType,
+      typename TInputImage2::PixelType,
+      typename TOutputImage::PixelType::value_type > >     Superclass;
+
+  typedef typename TInputImage1::PixelType InputPixel1Type;
+  typedef typename TInputImage2::PixelType InputPixel2Type;
+  typedef typename TOutputImage::PixelType OutputPixelType;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -112,11 +125,11 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( Input1ConvertibleToDoubleCheck,
-                   ( Concept::Convertible< TInputPixel1, double > ) );
+                   ( Concept::Convertible< InputPixel1Type, double > ) );
   itkConceptMacro( Input2ConvertibleToDoubleCheck,
-                   ( Concept::Convertible< TInputPixel2, double > ) );
+                   ( Concept::Convertible< InputPixel2Type, double > ) );
   itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, TOutputPixel > ) );
+                   ( Concept::Convertible< double, OutputPixelType > ) );
   /** End concept checking */
 #endif
 protected:

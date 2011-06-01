@@ -32,6 +32,11 @@ namespace itk
  * Numeric conversions (castings) are done by the C++ defaults.
  *
  * \ingroup IntensityImageFilters Multithreaded
+ * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/SubtractImageFilter,Subtract two images}
+ * \endwiki
  */
 namespace Function
 {

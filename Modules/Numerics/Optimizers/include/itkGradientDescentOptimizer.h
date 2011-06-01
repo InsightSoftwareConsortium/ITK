@@ -45,8 +45,9 @@ namespace itk
  * \sa RegularStepGradientDescentOptimizer
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT GradientDescentOptimizer:
+class ITK_EXPORT GradientDescentOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

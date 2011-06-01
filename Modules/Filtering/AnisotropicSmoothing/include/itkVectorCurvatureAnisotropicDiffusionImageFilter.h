@@ -57,6 +57,7 @@ namespace itk
 
  * \ingroup ImageEnhancement
  *
+ * \ingroup ITK-AnisotropicSmoothing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT VectorCurvatureAnisotropicDiffusionImageFilter:

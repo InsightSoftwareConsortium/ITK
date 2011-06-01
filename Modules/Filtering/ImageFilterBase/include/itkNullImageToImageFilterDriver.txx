@@ -20,8 +20,8 @@
  * type filter in or out of an itk pipeline for testing purposes.
  */
 
-#ifndef __itkNullImageToImageFilterDriver_h
-#define __itkNullImageToImageFilterDriver_h
+#ifndef __itkNullImageToImageFilterDriver_txx
+#define __itkNullImageToImageFilterDriver_txx
 
 #include "itkPixelTraits.h"
 #include "itkImage.h"
@@ -50,7 +50,7 @@ class ITK_EXPORT NullImageToImageFilterDriver
 public:
   NullImageToImageFilterDriver() {};
 
-  typedef typename TInputImage::SizeType ImageSizeType;
+  typedef typename TInputImage::SizeType  ImageSizeType;
   typedef typename TInputImage::PixelType InputPixelType;
   enum {InputPixelDimension=PixelTraits<InputPixelType>::Dimension};
 
@@ -82,7 +82,7 @@ protected:
 
 private:
   ImageToImageFilter<TInputImage, TOutputImage> *m_Filter;
-  ImageSizeType m_ImageSize;
+  ImageSizeType                                  m_ImageSize;
 };
 
 
@@ -112,8 +112,6 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
 {
   pixel = NumericTraits<InputPixelType>::Zero;
 }
-
-
 
 /**
  *  Drive the filter without using the itk pipeline

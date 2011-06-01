@@ -49,6 +49,7 @@ namespace itk
  * Washington, D.C.
  *
  * \ingroup ImageEnhancement
+ * \ingroup ITK-Blox
  */
 template< typename TSourceImage >
 class ITK_EXPORT BloxBoundaryPointImageToBloxBoundaryProfileImageFilter:

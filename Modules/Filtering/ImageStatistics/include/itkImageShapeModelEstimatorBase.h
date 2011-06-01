@@ -40,7 +40,9 @@ namespace itk
  * function making this an abstract class. Classes deriving from this
  * class are required to implement the EstimateShapeModels function.
  *
- *  \ingroup ImageFeatureExtraction */
+ *  \ingroup ImageFeatureExtraction
+ * \ingroup ITK-ImageStatistics
+ */
 
 template< class TInputImage,
           class TOutputImage = Image< double, ::itk::GetImageDimension< TInputImage >::ImageDimension > >

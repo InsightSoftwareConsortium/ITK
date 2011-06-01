@@ -77,7 +77,7 @@ namespace itk
  *
  *  \endcode
  *
- * \example  Common/itkImageSliceIteratorTest.cxx
+ * \example  itkImageSliceIteratorTest.cxx
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
@@ -107,7 +107,9 @@ namespace itk
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
- * \sa ImageConstIteratorWithIndex */
+ * \sa ImageConstIteratorWithIndex
+ * \ingroup ITK-Common
+ */
 template< typename TImage >
 class ITK_EXPORT ImageSliceConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {

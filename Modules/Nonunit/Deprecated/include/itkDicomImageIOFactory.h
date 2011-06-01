@@ -29,8 +29,9 @@ namespace itk
 {
 /** \class DicomImageIOFactory
  * \brief Create instances of DicomImageIO objects using an object factory.
+ * \ingroup ITK-Deprecated
  */
-class ITKIO_EXPORT DicomImageIOFactory:public ObjectFactoryBase
+class ITK_EXPORT DicomImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

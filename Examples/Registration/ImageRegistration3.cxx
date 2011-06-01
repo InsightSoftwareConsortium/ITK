@@ -271,12 +271,12 @@ public:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile [differenceImage]" << std::endl;
+    std::cerr << "outputImagefile " << std::endl;
     return EXIT_FAILURE;
     }
 

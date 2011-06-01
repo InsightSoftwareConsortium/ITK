@@ -59,6 +59,7 @@ namespace itk
  * successive neighborhoods across a region of interest in an image.
  *
  * \ingroup Operators
+ * \ingroup ITK-Common
  */
 template< class TPixel, unsigned int VDimension,
           class TAllocator = NeighborhoodAllocator< TPixel > >

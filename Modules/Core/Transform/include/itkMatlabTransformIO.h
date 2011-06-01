@@ -21,7 +21,7 @@
 
 namespace itk
 {
-class ITKIO_EXPORT MatlabTransformIO:public TransformIOBase
+class ITK_EXPORT MatlabTransformIO:public TransformIOBase
 {
 public:
   typedef MatlabTransformIO             Self;

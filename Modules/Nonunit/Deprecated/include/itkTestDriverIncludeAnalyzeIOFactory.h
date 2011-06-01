@@ -1,3 +1,5 @@
+#ifndef __itkTestDriverIncludeAnalyzeIOFactory_h
+#define __itkTestDriverIncludeAnalyzeIOFactory_h
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkNiftiImageIOFactory.h"
 #include "itkTestDriverInclude.h"
@@ -11,3 +13,4 @@ void ProcessArgumentsAndRegisterAnalyzeIOFactory(int *ac, ArgumentStringType *av
   ProcessArguments( ac, av );
 
 }
+#endif

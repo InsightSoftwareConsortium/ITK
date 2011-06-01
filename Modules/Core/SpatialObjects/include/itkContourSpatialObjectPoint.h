@@ -31,6 +31,7 @@ namespace itk
  * A surface point has a position and only one normal
  *
  * \sa SpatialObjectPoint
+ * \ingroup ITK-SpatialObjects
  */
 template< unsigned int TPointDimension = 3 >
 class ITK_EXPORT ContourSpatialObjectPoint:

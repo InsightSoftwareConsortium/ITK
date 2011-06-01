@@ -52,6 +52,7 @@ namespace itk
  * am not sure how to deal with "iregularly sampled" dimensions yet!
  * \ingroup IOFilters
  *
+ * \ingroup ITK-Review
  */
 class ITK_EXPORT MINC2ImageIO:public ImageIOBase
 {

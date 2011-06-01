@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITK-BloxTests
+itkBloxCoreAtomTest.cxx
 itkBloxBoundaryPointImageTest.cxx
 itkBinaryMedialNodeMetricTest.cxx
 itkBloxHeaderTest.cxx
@@ -9,13 +10,15 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
 
 CreateTestDriver(ITK-Blox  "${ITK-Blox-Test_LIBRARIES}" "${ITK-BloxTests}")
 
-add_test(NAME itkBloxHeaderTest
+itk_add_test(NAME itkBloxHeaderTest
       COMMAND ITK-BloxTestDriver itkBloxHeaderTest)
-add_test(NAME itkBloxBoundaryPointImageTest
+itk_add_test(NAME itkBloxCoreAtomTest
+      COMMAND ITK-BloxTestDriver itkBloxCoreAtomTest)
+itk_add_test(NAME itkBloxBoundaryPointImageTest
       COMMAND ITK-BloxTestDriver itkBloxBoundaryPointImageTest)
-add_test(NAME itkBinaryMedialNodeMetricTest
+itk_add_test(NAME itkBinaryMedialNodeMetricTest
       COMMAND ITK-BloxTestDriver itkBinaryMedialNodeMetricTest)
-add_test(NAME itkBloxBoundaryProfileImageToBloxCoreAtomImageFilterTest
+itk_add_test(NAME itkBloxBoundaryProfileImageToBloxCoreAtomImageFilterTest
       COMMAND ITK-BloxTestDriver itkBloxBoundaryProfileImageToBloxCoreAtomImageFilterTest)
-add_test(NAME itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest
+itk_add_test(NAME itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest
       COMMAND ITK-BloxTestDriver itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest)

@@ -49,7 +49,9 @@ namespace itk
  *  \f$  f(x) = \left\{ \begin{array}{ll} g(x) - L & \mbox{if $(g)x < (U-L)/2 + L$} \\ U - g(x) & \mbox{otherwise} \end{array} \right. \f$
  *
  * \sa SegmentationLevelSetImageFunction
- *  \sa ThresholdSegmentationLevelSetImageFilter */
+ *  \sa ThresholdSegmentationLevelSetImageFilter
+ * \ingroup ITK-LevelSets
+ */
 template< class TImageType, class TFeatureImageType = TImageType >
 class ITK_EXPORT ThresholdSegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >

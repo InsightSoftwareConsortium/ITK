@@ -39,8 +39,9 @@ namespace bio
  * control the expression of the gene. These boolean expression will result in
  * a polynome in a finite different equation determining the rate at which
  * protein is syntethizied by this gene.
+ * \ingroup ITK-BioCell
  */
-class ITKAlgorithms_EXPORT Gene
+class ITK_EXPORT Gene
 {
 public:
   typedef   std::string                          NameType;

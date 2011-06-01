@@ -55,6 +55,7 @@ namespace itk
 {
 /** \class IPLSortInfo
  *  \brief -- holds info on one file for IPLCommonImageIO
+ * \ingroup ITK-IO-IPL
  */
 class IPLFileSortInfo
 {
@@ -105,8 +106,9 @@ private:
 
 /** \class IPLFileNameList
  *  \brief -- stores filename+info to be enumerated for IPLCommonImageIO
+ * \ingroup ITK-IO-IPL
  */
-class ITKIO_EXPORT IPLFileNameList
+class ITK_EXPORT IPLFileNameList
 {
 public:
   typedef std::vector< IPLFileSortInfo * > ListType;

@@ -41,6 +41,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \sa itk::WatershedImageFilter
  *
+ * \ingroup ITK-Watersheds
  */
 template< class TScalarType >
 class ITK_EXPORT SegmentTree:public DataObject

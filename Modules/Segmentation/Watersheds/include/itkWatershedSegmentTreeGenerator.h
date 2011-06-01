@@ -71,7 +71,9 @@ namespace watershed
  * streaming applications and is turned off by default.  (TRUE == merge, FALSE
  * == do not merge).
  * \sa itk::WatershedImageFilter
- * \ingroup WatershedSegmentation  */
+ * \ingroup WatershedSegmentation
+ * \ingroup ITK-Watersheds
+ */
 template< class TScalarType >
 class ITK_EXPORT SegmentTreeGenerator:public ProcessObject
 {

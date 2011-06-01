@@ -39,7 +39,12 @@ namespace Statistics
  * a measurement directly.  The GetFrequency() methods returns 1 if
  * the measurement exists in the list, 0 otherwise.
  *
- *\sa Sample, Histogram
+ * \sa Sample, Histogram
+ * \ingroup ITK-Statistics
+ *
+ * \wiki
+ * \wikiexample{Statistics/ListSample,Create a list of sample measurements}
+ * \endwiki
  */
 
 template< class TMeasurementVector >
@@ -115,7 +120,7 @@ public:
   /** Method to graft another sample */
   virtual void Graft(const DataObject *thatObject);
 
-  /** \class ConstIterator */
+  /** \class ConstIterator  \ingroup ITK-Statistics */
   class ConstIterator
   {
     friend class ListSample;
@@ -189,7 +194,7 @@ private:
     InstanceIdentifier m_InstanceIdentifier;
   };
 
-  /** \class Iterator */
+  /** \class Iterator  \ingroup ITK-Statistics */
   class Iterator:public ConstIterator
   {
     friend class ListSample;

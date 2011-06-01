@@ -35,6 +35,7 @@ namespace itk
 {
 /** \class MRCImageIOFactory
  * \brief Create instances of MRCImageIO objects using an object factory.
+ * \ingroup ITK-Review
  */
 class ITK_EXPORT MRCImageIOFactory:public ObjectFactoryBase
 {

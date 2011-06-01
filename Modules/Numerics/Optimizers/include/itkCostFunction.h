@@ -29,9 +29,10 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  *
+ * \ingroup ITK-Optimizers
  */
 
-class ITKNumerics_EXPORT CostFunction:public Object
+class ITK_EXPORT CostFunction:public Object
 {
 public:
   /** Standard class typedefs. */

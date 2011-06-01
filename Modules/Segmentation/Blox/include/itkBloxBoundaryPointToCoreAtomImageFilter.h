@@ -30,6 +30,7 @@ namespace itk
  * a BloxBoundaryPointImage
  *
  * \ingroup ImageEnhancement
+ * \ingroup ITK-Blox
  */
 template< unsigned int dim >
 class ITK_EXPORT BloxBoundaryPointToCoreAtomImageFilter:

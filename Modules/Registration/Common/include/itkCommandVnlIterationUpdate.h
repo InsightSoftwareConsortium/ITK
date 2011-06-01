@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkCommandIterationUpdate_h
-#define __itkCommandIterationUpdate_h
+#ifndef __itkCommandVnlIterationUpdate_h
+#define __itkCommandVnlIterationUpdate_h
 
 #include "itkCommand.h"
 #include "itkWeakPointer.h"
@@ -25,6 +25,8 @@ namespace itk {
 
 /**
  *  Implementation of the Command Pattern to be invoked every iteration
+ * \class CommandVnlIterationUpdate
+ * \ingroup ITK-RegistrationCommon
  */
 template < class TOptimizer >
 class ITK_EXPORT CommandVnlIterationUpdate : public Command
@@ -113,8 +115,6 @@ public:
     m_Optimizer->AddObserver( itk::IterationEvent(), this );
     }
 
-
-
 protected:
 
   /**
@@ -128,9 +128,6 @@ private:
    *  WeakPointer to the Optimizer
    */
   WeakPointer<OptimizerType>   m_Optimizer;
-
-
-
 };
 
 
@@ -138,4 +135,3 @@ private:
 
 
 #endif
-

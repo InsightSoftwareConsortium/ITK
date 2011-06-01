@@ -43,9 +43,10 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  *
+ * \ingroup ITK-Optimizers
  */
 
-class ITKNumerics_EXPORT FRPROptimizer:
+class ITK_EXPORT FRPROptimizer:
   public PowellOptimizer
 {
 public:

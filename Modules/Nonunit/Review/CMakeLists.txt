@@ -1,28 +1,17 @@
 project(ITK-Review)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 set(ITK-Review_LIBRARIES ITK-Review)
 
 set(ITK_USE_REVIEW ON)
 
-if(ITK_USE_MINC2 AND MINC2_FOUND)
-  set(ITKMINC2_SRCS
-    itkMINC2ImageIO.cxx
-    itkMINC2ImageIOFactory.cxx
-    )
-  add_library(ITKIOMINC2 ${ITK_REVIEW_BUILD_TYPE} ${ITKMINC2_SRCS})
-  target_link_libraries(ITKIOMINC2 ITKIO ${MINC2_LIB} ${HDF5_LIB} ${NETCDF_LIB})
-  if(ITK_LIBRARY_PROPERTIES)
-    set_target_properties(ITKIOMINC2 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-  endif(ITK_LIBRARY_PROPERTIES)
-  if(NOT ITK_INSTALL_NO_LIBRARIES)
-    install(TARGETS ITKIOMINC2
-      RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
-      LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
-      ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-  endif(NOT ITK_INSTALL_NO_LIBRARIES)
-endif(ITK_USE_MINC2 AND MINC2_FOUND)
-
-
-
-
+# Deal with MINC2 options
+option(ITK_USE_MINC2 "Use MINC2 File Format" OFF)
+mark_as_advanced(ITK_USE_MINC2)
+if( ITK_USE_MINC2 )
+  find_package( MINC2 )
+  if( NOT MINC2_FOUND )
+    message("You requested to use MINC2 but some components are missing")
+  endif( NOT MINC2_FOUND )
+endif( ITK_USE_MINC2 )
 
 itk_module_impl()

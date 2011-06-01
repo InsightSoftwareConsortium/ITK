@@ -1,13 +1,14 @@
 
 # configure the test driver
 set(PYTHON_DRIVER ${PYTHON_DRIVER}
-  --add-before-env PYTHONPATH "${LIBRARY_OUTPUT_PATH}/\${CTEST_CONFIGURATION_TYPE}"
+  --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/\${CTEST_CONFIGURATION_TYPE}"
   --add-before-env WRAPITK_PYTHON_PATH "${PROJECT_BINARY_DIR}/Python/\${CTEST_CONFIGURATION_TYPE}"
+  "${PYTHON_EXECUTABLE}"
 )
 
 
-add_test(SimpleItkVtkPipeline
-  ${PYTHON_DRIVER}
+itk_add_test(NAME SimpleItkVtkPipeline
+  COMMAND ${PYTHON_DRIVER}
   ${CMAKE_CURRENT_SOURCE_DIR}/simpleItkVtkPipeline.py
   ${PROJECT_SOURCE_DIR}/images/cthead1.png
   SimpleItkVtkPipeline.png

@@ -39,12 +39,13 @@ namespace itk
  * INRA de Jouy-en-Josas, France.
  *
  * This class was contributed to the Insight Journal
- *     http://insight-journal.org/midas/handle.php?handle=1926/172
+ *     http://hdl.handle.net/1926/172
  *
  *
  * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
  * \ingroup Multithreaded
  *
+ * \ingroup ITK-Review
  */
 template< typename  TInputImage, class TLabelImage, typename  TOutputImage >
 class ITK_EXPORT LabelOverlayImageFilter:

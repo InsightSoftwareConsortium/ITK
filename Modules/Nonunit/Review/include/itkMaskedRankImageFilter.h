@@ -52,6 +52,7 @@ namespace itk
  * having values > 0 are candidates for affecting the center pixel.
  *
  * \author Richard Beare
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel =

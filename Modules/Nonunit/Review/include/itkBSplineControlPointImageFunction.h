@@ -62,6 +62,7 @@ namespace itk
  * and input that control point lattice into this class.  S/he can then
  * call CalculateParametersClosestToDataPoint( PointDataType, PointType & )
  * to get this parametric point on the curve.
+ * \ingroup ITK-Review
  */
 template<class TControlPointLattice>
 class ITK_EXPORT BSplineParametricDistanceCostFunction
@@ -206,6 +207,7 @@ private:
  *
  * \author Nicholas J. Tustison
  *
+ * \ingroup ITK-Review
  */
 template <class TInputImage, class TCoordRep = double>
 class BSplineControlPointImageFunction

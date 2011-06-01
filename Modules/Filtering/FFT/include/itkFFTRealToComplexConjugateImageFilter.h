@@ -43,19 +43,21 @@ namespace itk
  * \ingroup FourierTransform
  *
  * \sa FFTComplexConjugateToRealImageFilter, FFTComplexToComplexImageFilter
+ * \ingroup ITK-FFT
  */
-template< class TPixel, unsigned int VDimension = 3 >
+template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
 class ITK_EXPORT FFTRealToComplexConjugateImageFilter:
-  public ImageToImageFilter< Image< TPixel, VDimension >,
-                             Image< std::complex< TPixel >, VDimension > >
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef Image< TPixel, VDimension >                 TInputImageType;
-  typedef Image< std::complex< TPixel >, VDimension > TOutputImageType;
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::PixelType  OutputPixelType;
 
   typedef FFTRealToComplexConjugateImageFilter                    Self;
-  typedef ImageToImageFilter< TInputImageType, TOutputImageType > Superclass;
+  typedef ImageToImageFilter< InputImageType, OutputImageType >   Superclass;
   typedef SmartPointer< Self >                                    Pointer;
   typedef SmartPointer< const Self >                              ConstPointer;
 
@@ -70,8 +72,8 @@ public:
   static Pointer New(void);
 
   /** Image type typedef support. */
-  typedef TInputImageType              ImageType;
-  typedef typename ImageType::SizeType ImageSizeType;
+  typedef InputImageType                    ImageType;
+  typedef typename InputImageType::SizeType ImageSizeType;
 protected:
   FFTRealToComplexConjugateImageFilter() {}
   virtual ~FFTRealToComplexConjugateImageFilter(){}

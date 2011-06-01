@@ -114,7 +114,9 @@ namespace itk
  * algorithm. Setting the AbortGenerateData() flag will cause the algorithm to
  * halt after the current iteration and produce results just as if it had
  * converged. The algorithm makes no attempt to report its progress since the
- * number of iterations needed cannot be known in advance. */
+ * number of iterations needed cannot be known in advance.
+ * \ingroup ITK-ImageCompare
+ */
 template< typename TInputImage, typename TOutputImage >
 class ITK_EXPORT STAPLEImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

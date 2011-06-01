@@ -39,6 +39,7 @@ namespace itk
  * of a pixel.  The default implementation is suitable for all subclasses
  * of itk::Array. This (will) include RGBPixel and RGBAPixel. Specialized
  * versions of PixelTraits are defined for the standard scalar types.
+ * \ingroup ITK-Common
  */
 template< class TPixelType >
 class PixelTraits
@@ -51,8 +52,12 @@ public:
   typedef typename TPixelType::ValueType ValueType;
 };
 
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+
 /** \class PixelTraits<bool>
- * Specialization of PixelTraits for scalar images. */
+ * Specialization of PixelTraits for scalar images.
+ * \ingroup ITK-Common
+ */
 template< >
 class PixelTraits< bool >
 {
@@ -149,6 +154,8 @@ public:
   typedef double ValueType;
 };
 
+/** \endcond */
+
 /** \class JoinTraits
  * \brief Trait to determine what datatype is needed if the specified
  * pixel types are "joined" into a single vector.
@@ -165,6 +172,7 @@ public:
  * an int but this is not the case for 32 bit systems, so we promote
  * to float). There are several combinations similar to this.  Most
  * of the JoinTraits are specializations of the base template.
+ * \ingroup ITK-Common
  */
 template< class TValueType1, class TValueType2 >
 class JoinTraits
@@ -173,8 +181,12 @@ public:
   typedef TValueType1 ValueType;
 };
 
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+
 /** \class JoinTraits
- * Specializations for bool. */
+ * Specializations for bool.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< bool, bool >
 {
@@ -253,7 +265,9 @@ public:
 };
 
 /**  \class PixelTraits<char>
- * Specializations for char. */
+ * Specializations for char.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< char, bool >
 {
@@ -333,7 +347,9 @@ public:
 };
 
 /**  \class PixelTraits<unsigned char>
- * Specializations for unsigned char. */
+ * Specializations for unsigned char.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< unsigned char, bool >
 {
@@ -412,7 +428,9 @@ public:
 };
 
 /**  \class PixelTraits<short>
- * Specializations for short. */
+ * Specializations for short.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< short, bool >
 {
@@ -492,7 +510,9 @@ public:
 };
 
 /**  \class PixelTraits<unsigned short>
- * Specializations for unsigned short. */
+ * Specializations for unsigned short.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< unsigned short, bool >
 {
@@ -571,7 +591,9 @@ public:
 };
 
 /**  \class PixelTraits<int>
- * Specializations for int. */
+ * Specializations for int.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< int, bool >
 {
@@ -651,7 +673,9 @@ public:
 };
 
 /**  \class PixelTraits<unsigned int>
- * Specializations for unsigned int. */
+ * Specializations for unsigned int.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< unsigned int, bool >
 {
@@ -733,7 +757,9 @@ public:
 };
 
 /** \class PixelTraits<long>
- * Specializations for long. */
+ * Specializations for long.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< long, bool >
 {
@@ -812,7 +838,9 @@ public:
 };
 
 /** \class PixelTraits<unsigned long>
- * Specializations for unsigned long. */
+ * Specializations for unsigned long.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< unsigned long, bool >
 {
@@ -891,7 +919,9 @@ public:
 };
 
 /**  \class PixelTraits<float>
- * Specializations for float. */
+ * Specializations for float.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< float, bool >
 {
@@ -970,7 +1000,9 @@ public:
 };
 
 /** \class PixelTraits<double>
- * Specializations for double. */
+ * Specializations for double.
+ * \ingroup ITK-Common
+ */
 template< >
 class JoinTraits< double, bool >
 {
@@ -1047,6 +1079,9 @@ class JoinTraits< double, double >
 public:
   typedef double ValueType;
 };
+
+/** \endcond */
+
 } // end namespace itk
 
 #endif // __itkPixelTraits_h

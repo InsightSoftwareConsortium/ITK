@@ -31,8 +31,9 @@ namespace itk
  * It is an Adaptor class for optimizers provided by the vnl library
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT SingleValuedNonLinearVnlOptimizer:
+class ITK_EXPORT SingleValuedNonLinearVnlOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

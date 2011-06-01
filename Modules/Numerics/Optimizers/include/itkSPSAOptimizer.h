@@ -37,9 +37,10 @@ namespace itk
  * Hopkins APL Technical Digest, vol. 19, pp. 482-492
  *
  * \ingroup Optimizers
+ * \ingroup ITK-Optimizers
  */
 
-class ITKNumerics_EXPORT SPSAOptimizer:
+class ITK_EXPORT SPSAOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

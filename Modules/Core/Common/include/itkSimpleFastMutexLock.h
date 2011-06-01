@@ -42,6 +42,7 @@ namespace itk
  * allocated on the stack.
  *
  * \ingroup OSSystemObjects
+ * \ingroup ITK-Common
  */
 
 // Critical Section object that is not a itkObject.

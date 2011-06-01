@@ -41,6 +41,11 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup IntensityImageFilters
+ * \ingroup ITK-Smoothing
+ *
+ * \wiki
+ * \wikiexample{Smoothing/MedianImageFilter,Median filter an image}
+ * \endwiki
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MedianImageFilter:

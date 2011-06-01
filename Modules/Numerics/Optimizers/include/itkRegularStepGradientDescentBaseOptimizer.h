@@ -27,8 +27,9 @@ namespace itk
  * \brief Implement a gradient descent optimizer
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT RegularStepGradientDescentBaseOptimizer:
+class ITK_EXPORT RegularStepGradientDescentBaseOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

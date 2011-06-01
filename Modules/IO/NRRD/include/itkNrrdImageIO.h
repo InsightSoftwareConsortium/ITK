@@ -24,7 +24,7 @@
 
 #include "itkImageIOBase.h"
 #include <fstream>
-#include "NrrdIO/NrrdIO.h"
+#include "NrrdIO.h"
 
 namespace itk
 {
@@ -35,8 +35,9 @@ namespace itk
  * (teem.sourceforge.net).
  *
  *  \ingroup IOFilters
+ * \ingroup ITK-IO-NRRD
  */
-class ITKIO_EXPORT NrrdImageIO:public ImageIOBase
+class ITK_EXPORT NrrdImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

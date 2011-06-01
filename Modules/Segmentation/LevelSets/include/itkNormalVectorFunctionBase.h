@@ -45,6 +45,7 @@ namespace itk
  * ComputeGloablTimeStep method. Unlike other finite difference function
  * classes, this class does not use the maximum change magnitude to compute the
  * time step, it returns this predetermined time step.
+ * \ingroup ITK-LevelSets
  */
 
 template< class TSparseImageType >

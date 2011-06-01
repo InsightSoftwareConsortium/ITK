@@ -67,7 +67,9 @@ namespace itk
  * \sa ImageReverseConstIterator  \sa ImageReverseIterator
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathIterator \sa ShapedNeighborhoodIterator
- * \sa SliceIterator \sa ImageConstIteratorWithIndex */
+ * \sa SliceIterator \sa ImageConstIteratorWithIndex
+ * \ingroup ITK-Path
+ */
 template< class TImage, class TPath >
 class ITK_EXPORT PathConstIterator
 {

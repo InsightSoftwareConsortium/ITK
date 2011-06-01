@@ -24,76 +24,11 @@
 #include "itkMutexLockHolder.h"
 
 
-#if defined(ITKIO_SUPPORTS_BIORAD_IMAGEIO)
-#include "itkBioRadImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_BMP_IMAGEIO)
-#include "itkBMPImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_GDCM_IMAGEIO)
-#include "itkGDCMImageIOFactory.h"
-#endif
-
-#if !defined(ITK_USE_MODULAR_BUILD)
-#  if defined(ITKIO_SUPPORTS_DICOM2_IMAGEIO)
-#    include "itkDICOMImageIO2Factory.h"
-#  endif
-#endif
-
-#if defined(ITKIO_SUPPORTS_ANALYZE_IMAGEIO)
-#include "itkAnalyzeImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_NIFTI_IMAGEIO)
-#include "itkNiftiImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_GIPL_IMAGEIO)
-#include "itkGiplImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_JPEG_IMAGEIO)
-#include "itkJPEGImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_LSM_IMAGEIO)
-#include "itkLSMImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_META_IMAGEIO)
-#include "itkMetaImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_PNG_IMAGEIO)
-#include "itkPNGImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_NRRD_IMAGEIO)
-#include "itkNrrdImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_TIFF_IMAGEIO)
-#include "itkTIFFImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_VTK_IMAGEIO)
-#include "itkVTKImageIOFactory.h"
-#endif
-
-#if defined(ITKIO_SUPPORTS_STIMULATE_IMAGEIO)
-#include "itkStimulateImageIOFactory.h"
-#endif
-
-
 namespace itk
 {
 ImageIOBase::Pointer
 ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
 {
-  RegisterBuiltInFactories();
-
   std::list< ImageIOBase::Pointer > possibleImageIO;
   std::list< LightObject::Pointer > allobjects =
     ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
@@ -131,95 +66,5 @@ ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
       }
     }
   return 0;
-}
-
-void
-ImageIOFactory::RegisterBuiltInFactories()
-{
-  static bool firstTime = true;
-
-  static SimpleMutexLock mutex;
-
-    {
-    // This helper class makes sure the Mutex is unlocked
-    // in the event an exception is thrown.
-    MutexLockHolder< SimpleMutexLock > mutexHolder(mutex);
-    if ( firstTime )
-      {
-#if defined(ITKIO_SUPPORTS_BIORAD_IMAGEIO)
-      // BioRad should be registered before GDCM
-      ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_GDCM_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( GDCMImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_META_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_PNG_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_VTK_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_GIPL_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_LSM_IMAGEIO)
-      // LSM should be registered before TIFF
-      ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New() );
-#endif
-
-
-#if defined(ITKIO_SUPPORTS_ANALYZE_IMAGEIO)
-      // ITK Teleconference 2008-02-22 determined that
-      // AnalyzeImageIOFactory MUST be the default for reading all
-      // non-nifti identified .hdr/.img images.  This requires
-      // that the AnalyzeImageIOFactory can now come before the Nifti
-      // Factory because AnalyzeImageIO->CanRead() has been instrumented to
-      // reject .hdr/.img files with the nifti magic number tags.
-      ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New() );
-#endif
-
-
-#if defined(ITKIO_SUPPORTS_NIFTI_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_STIMULATE_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_JPEG_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_TIFF_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_NRRD_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( NrrdImageIOFactory::New() );
-#endif
-
-#if defined(ITKIO_SUPPORTS_BMP_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( BMPImageIOFactory::New() );
-#endif
-
-#if !defined(ITK_USE_MODULAR_BUILD)
-#if defined(ITKIO_SUPPORTS_DICOM2_IMAGEIO)
-      ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() );
-#endif
-
-#endif
-      firstTime = false;
-      }
-    }
 }
 } // end namespace itk

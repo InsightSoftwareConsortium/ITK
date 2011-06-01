@@ -34,6 +34,7 @@ namespace itk
  * that provides a GetNorm() method.
  *
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageGradient
  */
 
 namespace Functor

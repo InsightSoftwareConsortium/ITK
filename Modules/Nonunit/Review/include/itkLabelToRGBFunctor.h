@@ -35,7 +35,9 @@ namespace Functor
  *
  * \sa LabelToRGBImageFilter
  *
- **/
+ *
+ * \ingroup ITK-Review
+ */
 template< class TLabel, class TRGBPixel >
 class LabelToRGBFunctor
 {

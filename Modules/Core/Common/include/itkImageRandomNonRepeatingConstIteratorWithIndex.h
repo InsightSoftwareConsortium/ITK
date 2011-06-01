@@ -33,6 +33,7 @@ namespace itk
  * basically container which holds NodeOfPermutation objects.  The
  * node class overloads the < operator, which allows the sort algorithm
  * from the STL to be used on it.
+ * \ingroup ITK-Common
  */
 class NodeOfPermutation
 {
@@ -61,7 +62,7 @@ public:
   }
 };
 
-/** \class RandomPermutation */
+/** \class RandomPermutation  \ingroup ITK-Common */
 class RandomPermutation
 {
 public:
@@ -165,7 +166,6 @@ public:
  * [][][][slice][row][col] with
  * Index[0] = col, Index[1] = row, Index[2] = slice, etc.
  *
- *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
@@ -198,6 +198,12 @@ public:
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  *
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Iterators/ImageRandomNonRepeatingConstIteratorWithIndex,Randomly select pixels from a region of an image without replacement}
+ * \wikiexample{Utilities/RandomPermutation,Permute a sequence of indices}
+ * \endwiki
  */
 template< typename TImage >
 class ITK_EXPORT ImageRandomNonRepeatingConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >

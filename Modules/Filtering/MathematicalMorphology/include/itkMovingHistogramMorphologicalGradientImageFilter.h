@@ -179,6 +179,8 @@ public:
   SizeValueType                m_Count;
 };
 
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+
 // now create MorphologicalGradientHistogram specilizations using the VectorMorphologicalGradientHistogram
 // as base class
 
@@ -200,6 +202,8 @@ class MorphologicalGradientHistogram<bool>:
 {
 };
 
+/** \endcond */
+
 } // end namespace Function
 
 /**
@@ -214,6 +218,7 @@ class MorphologicalGradientHistogram<bool>:
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
+ * \ingroup ITK-MathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >

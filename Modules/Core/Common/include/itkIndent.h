@@ -43,6 +43,7 @@ namespace itk
  * PrintHeader(), and PrintTrailer().
  *
  * \ingroup OSSystemObjects
+ * \ingroup ITK-Common
  */
 
 class ITKCommon_EXPORT Indent

@@ -112,9 +112,7 @@ int main( int argc, char * argv[] )
   inputresampler->SetInput( inputreader->GetOutput() );
 
   // Forward FFT filter
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter <
-                                              WorkPixelType,
-                                              Dimension > FFTFilterType;
+  typedef itk::VnlFFTRealToComplexConjugateImageFilter < WorkImageType > FFTFilterType;
   FFTFilterType::Pointer fftinput = FFTFilterType::New();
   fftinput->SetInput( inputresampler->GetOutput() );
 
@@ -122,9 +120,7 @@ int main( int argc, char * argv[] )
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
   // Do the inverse transform = forward transform / num voxels
-  typedef itk::VnlFFTComplexConjugateToRealImageFilter <
-                                              WorkPixelType,
-                                              Dimension > invFFTFilterType;
+  typedef itk::VnlFFTComplexConjugateToRealImageFilter < ComplexImageType > invFFTFilterType;
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
 

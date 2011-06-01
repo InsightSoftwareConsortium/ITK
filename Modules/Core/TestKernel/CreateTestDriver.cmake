@@ -17,6 +17,7 @@ macro(CreateTestDriver KIT KIT_LIBS KitTests)
     )
   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests})
   target_link_libraries(${KIT}TestDriver ${KIT_LIBS} ${ITK-TestKernel_LIBRARIES})
+  itk_module_target_label(${KIT}TestDriver)
 endmacro(CreateTestDriver)
 
 
@@ -30,4 +31,5 @@ macro(CreateTestDriver_SupportBuildInIOFactories KIT KIT_LIBS KitTests)
      )
    add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests})
    target_link_libraries(${KIT}TestDriver ${KIT_LIBS} ${ITK-TestKernel_LIBRARIES})
+   itk_module_target_label(${KIT}TestDriver)
 endmacro(CreateTestDriver_SupportBuildInIOFactories)

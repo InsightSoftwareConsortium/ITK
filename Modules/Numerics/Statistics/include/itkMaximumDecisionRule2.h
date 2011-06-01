@@ -28,9 +28,10 @@ namespace Statistics
  *  \brief A Decision rule that choose the class of which discriminant
  *  score is the largest. This class will replace the MaximumDecisionRule
  *  in Code/Common
+ * \ingroup ITK-Statistics
  */
 
-class ITKStatistics_EXPORT MaximumDecisionRule2:public DecisionRule
+class ITK_EXPORT MaximumDecisionRule2:public DecisionRule
 {
 public:
   /** Standard class typedefs */

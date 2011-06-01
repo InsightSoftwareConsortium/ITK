@@ -56,6 +56,7 @@ namespace itkv3
  * the center of rotation in each dimension.
  *
  * \ingroup Transforms
+ * \ingroup ITK-Transform
  */
 template< class TScalarType = double >
 // type for scalars (float or double)

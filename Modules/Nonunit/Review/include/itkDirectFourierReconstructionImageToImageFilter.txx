@@ -25,9 +25,8 @@ namespace itk
 /**
  * Initialize member variables with meaningful values.
  */
-template< class TInputPixelType, class TOutputPixelType >
-DirectFourierReconstructionImageToImageFilter< TInputPixelType,
-                                               TOutputPixelType >::DirectFourierReconstructionImageToImageFilter():
+template< class TInputImage, class TOutputImage >
+DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::DirectFourierReconstructionImageToImageFilter():
   Superclass()
 {
   const double RADIANS = 1.0;
@@ -49,8 +48,8 @@ DirectFourierReconstructionImageToImageFilter< TInputPixelType,
 /**
  * Print out class state (member variables)
  */
-template< class TInputPixelType, class TOutputPixelType >
-void DirectFourierReconstructionImageToImageFilter< TInputPixelType, TOutputPixelType >::PrintSelf(std::ostream & os,
+template< class TInputImage, class TOutputImage >
+void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os,
                                                                                                    Indent indent) const
 {
   // call the superclass' implementation of this method
@@ -79,8 +78,8 @@ void DirectFourierReconstructionImageToImageFilter< TInputPixelType, TOutputPixe
 /**
 * Calculate image boundaries and define output regions, spacing, origin etc.
 */
-template< class TInputPixelType, class TOutputPixelType >
-void DirectFourierReconstructionImageToImageFilter< TInputPixelType, TOutputPixelType >::GenerateOutputInformation()
+template< class TInputImage, class TOutputImage >
+void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
@@ -133,8 +132,8 @@ void DirectFourierReconstructionImageToImageFilter< TInputPixelType, TOutputPixe
 /**
  * Calculate necessary input image boundaries
  */
-template< class TInputPixelType, class TOutputPixelType >
-void DirectFourierReconstructionImageToImageFilter< TInputPixelType, TOutputPixelType >::GenerateInputRequestedRegion()
+template< class TInputImage, class TOutputImage >
+void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
@@ -165,8 +164,8 @@ void DirectFourierReconstructionImageToImageFilter< TInputPixelType, TOutputPixe
 /**
  * Actual computation
  */
-template< class TInputPixelType, class TOutputPixelType >
-void DirectFourierReconstructionImageToImageFilter< TInputPixelType, TOutputPixelType >::GenerateData()
+template< class TInputImage, class TOutputImage >
+void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::GenerateData()
 {
   OutputImagePointer     outputImage = this->GetOutput();
   ConstInputImagePointer inputImage = this->GetInput();
@@ -414,7 +413,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputPixelType, TOutputPixe
       wIdx[1] %= FFTSliceSize[1];
 
       // Demodulate the image
-      TOutputPixelType val = static_cast< TOutputPixelType >( IFFT->GetOutput()->GetPixel(wIdx) );
+      OutputPixelType val = static_cast< OutputPixelType >( IFFT->GetOutput()->GetPixel(wIdx) );
       outputImage->SetPixel(oIdx, ( ( wIdx[0] + wIdx[1] ) & 1 ) ? -val : val);
       progress.CompletedPixel();
       } // for outputIt

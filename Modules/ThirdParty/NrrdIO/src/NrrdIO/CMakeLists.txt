@@ -29,6 +29,18 @@ INCLUDE_DIRECTORIES(
         ${ITKNrrdIO_BINARY_DIR} 
 )
 
+#-----------------------------------------------------------------------------
+# Find platform-specific differences in the handling of IEEE floating point
+# special values.
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/TestQnanhibit.cmake)
+test_qnanhibit(QNANHIBIT_VALUE ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
+if(QNANHIBIT_VALUE)
+   set(QNANHIBIT 1 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
+else(QNANHIBIT_VALUE)
+   set(QNANHIBIT 0 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
+endif(QNANHIBIT_VALUE)
+
 # Set compiler flags for endian-ness.
 #IF(CMAKE_WORDS_BIGENDIAN)
 #  ADD_DEFINITIONS(-DTEEM_ENDIAN=4321)

@@ -88,7 +88,9 @@ namespace itk
  * \sa ImageContainerInterface
  * \sa Image
  *
- * \ingroup ImageObjects */
+ * \ingroup ImageObjects
+ * \ingroup ITK-Common
+ */
 template< class TPixel, unsigned int VImageDimension = 2 >
 class ITK_EXPORT SpecialCoordinatesImage:public ImageBase< VImageDimension >
 {

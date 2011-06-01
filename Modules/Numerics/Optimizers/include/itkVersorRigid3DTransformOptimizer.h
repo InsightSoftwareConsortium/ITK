@@ -45,8 +45,9 @@ namespace itk
  * \sa VersorRigid3DTransform
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT VersorRigid3DTransformOptimizer:
+class ITK_EXPORT VersorRigid3DTransformOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:

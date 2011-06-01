@@ -28,6 +28,7 @@ namespace itk
  * \brief Fuse the incoming edge and it's Onext() follower (like a zipper does).
  * @return The OriginRefType of the point that will be removed during the
  *         zipping process.
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< class TMesh, class TQEType >
 class ITK_EXPORT QuadEdgeMeshZipMeshFunction:

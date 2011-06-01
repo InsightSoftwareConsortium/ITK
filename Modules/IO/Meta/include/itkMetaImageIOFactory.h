@@ -25,8 +25,9 @@ namespace itk
 {
 /** \class MetaImageIOFactory
  * \brief Create instances of MetaImageIO objects using an object factory.
+ * \ingroup ITK-IO-Meta
  */
-class ITKIO_EXPORT MetaImageIOFactory:public ObjectFactoryBase
+class ITK_EXPORT MetaImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

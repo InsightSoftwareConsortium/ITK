@@ -18,8 +18,7 @@
 #ifndef __itkRadialBasisFunctionBase_txx
 #define __itkRadialBasisFunctionBase_txx
 
-#include "itkFunctionBase.h"
-#include "itkArray.h"
+#include "itkRadialBasisFunctionBase.h"
 
 namespace itk
 {

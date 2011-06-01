@@ -1,8 +1,0 @@
-(FILENAMES 
-"8o.raw.cropped" 
-"9o.raw.cropped" 
-"10o.raw.cropped"
-)
-(DIMENSIONS 254 254 52)
-
-(GOLD_FILENAME "goldstandard_hand-optic.raw")

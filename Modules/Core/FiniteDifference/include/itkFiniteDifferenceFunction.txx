@@ -23,6 +23,43 @@
 namespace itk
 {
 template< class TImageType >
+FiniteDifferenceFunction< TImageType >::
+FiniteDifferenceFunction()
+{
+  // initialize variables
+  m_Radius.Fill(0);
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    m_ScaleCoefficients[i] = 1.0;
+    }
+}
+
+template< class TImageType >
+void
+FiniteDifferenceFunction< TImageType >::SetRadius(const RadiusType & r)
+{
+  m_Radius = r;
+}
+
+template< class TImageType >
+const typename FiniteDifferenceFunction< TImageType >::RadiusType &
+FiniteDifferenceFunction< TImageType >::GetRadius() const
+{
+  return m_Radius;
+}
+
+template< class TImageType >
+void
+FiniteDifferenceFunction< TImageType >::
+SetScaleCoefficients(PixelRealType vals[ImageDimension])
+{
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    m_ScaleCoefficients[i] = vals[i];
+    }
+}
+
+template< class TImageType >
 void
 FiniteDifferenceFunction< TImageType >::PrintSelf(std::ostream & os, Indent indent) const
 {

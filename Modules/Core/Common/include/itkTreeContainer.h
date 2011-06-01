@@ -35,6 +35,7 @@ namespace itk
  * - TValueType = Element type stored at each location in the Tree.
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
  */
 template< class TValueType >
 class TreeContainer:public TreeContainerBase< TValueType >

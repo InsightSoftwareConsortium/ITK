@@ -139,7 +139,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     }
 
 
-  typedef std::vector< unsigned long > SizesType;
+  typedef RelabelFilterType::ObjectSizeInPixelsContainerType  SizesType;
 
   const SizesType &  sizes = relabeler->GetSizeOfObjectsInPixels();
 

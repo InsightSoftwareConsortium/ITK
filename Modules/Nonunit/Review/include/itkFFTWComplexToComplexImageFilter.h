@@ -43,16 +43,25 @@ namespace itk
  * responsibility of the authors and do not necessarily represent the
  * official view of NCRR or NIH.
  *
+ * \ingroup ITK-Review
  */
-template< typename TPixel, unsigned int VDimension >
+template< class TImage >
 class ITK_EXPORT FFTWComplexToComplexImageFilter:
-  public FFTComplexToComplexImageFilter< TPixel, VDimension >
+  public FFTComplexToComplexImageFilter< TImage >
 {
 public:
   typedef FFTWComplexToComplexImageFilter                      Self;
-  typedef FFTComplexToComplexImageFilter< TPixel, VDimension > Superclass;
+  typedef FFTComplexToComplexImageFilter< TImage >             Superclass;
   typedef SmartPointer< Self >                                 Pointer;
   typedef SmartPointer< const Self >                           ConstPointer;
+
+  /** Standard class typedefs. */
+  typedef TImage                               ImageType;
+  typedef typename ImageType::PixelType        PixelType;
+  typedef typename Superclass::InputImageType  InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+
   //
   // the proxy type is a wrapper for the fftw API
   // since the proxy is only defined over double and float,
@@ -60,12 +69,7 @@ public:
   // is trying to use double if only the float FFTW version is
   // configured in, or float if only double is configured.
   //
-  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
-
-  /** Standard class typedefs. */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename fftw::Proxy< typename PixelType::value_type > FFTWProxyType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,8 +78,10 @@ public:
   itkTypeMacro(FFTWComplexToComplexImageFilter,
                FFTComplexToComplexImageFilter);
 
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      ImageType::ImageDimension);
+
   /** Image type typedef support. */
-  typedef InputImageType               ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
 
   //

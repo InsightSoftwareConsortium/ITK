@@ -27,6 +27,7 @@ namespace itk
  * \brief Implements a fast rectangular sigma filter using the
  * accumulator approach
  * \author Gaetan Lehmann
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage = TInputImage >

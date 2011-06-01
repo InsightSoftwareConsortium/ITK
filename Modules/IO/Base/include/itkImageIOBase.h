@@ -18,6 +18,8 @@
 #ifndef __itkImageIOBase_h
 #define __itkImageIOBase_h
 
+#include "itkIOConfigure.h"
+
 #include "itkLightProcessObject.h"
 #include "itkIndent.h"
 #include "itkImageIORegion.h"
@@ -60,8 +62,9 @@ namespace itk
  *
  * \ingroup IOFilters
  *
+ * \ingroup ITK-IO-Base
  */
-class ITKIO_EXPORT ImageIOBase:public LightProcessObject
+class ITK_EXPORT ImageIOBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */
@@ -83,6 +86,7 @@ public:
   /**
    * \class UnknownType
    * Used to return information when types are unknown.
+   * \ingroup ITK-IO-Base
    */
   class UnknownType {};
 

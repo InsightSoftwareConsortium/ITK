@@ -35,6 +35,7 @@ namespace itk
  * of the two images, and the unary correspondence matrix between the two images
  * in order to produce an CorrespondenceDataStructure containing
  * correspondences between pairs (node cliques of size 2) in the images.
+ * \ingroup ITK-Blox
  */
 template< typename TSourceImage >
 class ITK_EXPORT MedialNodePairCorrespondenceProcess:public ProcessObject

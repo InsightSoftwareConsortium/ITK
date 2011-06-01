@@ -130,7 +130,9 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
  * \todo Automatically generate the time step value from image dimensionality
- *  and order of the equations */
+ *  and order of the equations
+ * \ingroup ITK-AnisotropicSmoothing
+ */
 template< class TImage >
 class ITK_EXPORT AnisotropicDiffusionFunction:
   public FiniteDifferenceFunction< TImage >

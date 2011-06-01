@@ -29,15 +29,15 @@ namespace itk
  * \brief This class contains a list of transforms and concatenates them by composition.
  *
  * This class concatenates transforms by means of composition:
- *    \f[ T_1 o T_0 = T_1(T_0(x)) \f]
+ *    \f$ T_1 o T_0 = T_1(T_0(x)) \f$
  * Transforms are stored in a container (queue), in the following order:
- *    \f[ T_0, T_1, ... , T_N-1 \f]
+ *    \f$ T_0, T_1, ... , T_N-1 \f$
  * Transforms are added via a single method, AddTransform(). This adds the
  * transforms to the back of the queue. A single method for adding transforms
  * is meant to simplify the interface and prevent errors.
  * One use of the class is to optimize only a subset of included transforms.
  *
- * Example
+ * Example:
  * A user wants to optimize two Affine transforms together, then add a
  * Deformation Field (DF) transform, and optimize it separately.
  * He first adds the two Affines, then runs the optimization and both Affines
@@ -48,7 +48,7 @@ namespace itk
  * optimization and only the DF transform is optimized, but the affines are
  * included in the transformation during the optimization.
  *
- * Optimization Flags
+ * Optimization Flags:
  * The m_TransformsToOptimize flags hold one flag for each transform in the
  * queue, designating if each transform is to be used for optimization. Note
  * that all transforms in the queue are applied in TransformPoint, regardless
@@ -59,7 +59,7 @@ namespace itk
  * in optimization. The goal is to be able to optimize multiple transforms at
  * once, while leaving other transforms fixed. See the above example.
  *
- * Setting Optimization Flags
+ * Setting Optimization Flags:
  * A transform's optimization flag is set when it is added to the queue, and
  * remains set as other transforms are added. The methods
  * SetNthTransformToOptimize* and SetAllTransformToOptimize* are used to
@@ -67,13 +67,13 @@ namespace itk
  * a convenience method for setting only the most recently added transform
  * for optimization, with the idea that this will be a common practice.
  *
- * Indexing
+ * Indexing:
  * The index values used in GetNthTransform and
  * SetNthTransformToOptimize* and SetAllTransformToOptimize* follow the
  * order in which transforms were added. Thus, the first transform added is at
  * index 0, the next at index 1, etc.
  *
- * Inverse
+ * Inverse:
  * The inverse transform is created by retrieving the inverse from each
  * sub transform and adding them to a composite transform in reverse order.
  * The m_TransformsToOptimizeFlags is copied in reverse for the inverse.
@@ -84,7 +84,7 @@ namespace itk
  * x The PushFrontTransform and PushBackTransform methods are protected to
  *   force the user to use the AddTransform method, forcing the order of
  *   transforms. Are there use cases where the user would *need* to insert
- *   transforms at the back of the queue? Or at arbitrary positions?
+ *   transforms at the front of the queue? Or at arbitrary positions?
  *
  * GetParameters efficiency optimization
  *  Can we optimize this to only query the sub-transforms when the params
@@ -95,6 +95,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
+ * \ingroup ITK-Review
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>
@@ -112,48 +113,48 @@ public:
   itkTypeMacro( CompositeTransform, Transform );
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+ itkSimpleNewMacro( Self );
 
-  /** Constituent transform type **/
+  /** Leave CreateAnother undefined. To fully implement here, it must be
+   * sure to copy all members. It may be called from transform-cloning
+   * that only copies parameters, so override here to prevent
+   * its use without copying full members. */
+  virtual::itk::LightObject::Pointer CreateAnother(void) const
+    {
+    itkExceptionMacro("CreateAnother unimplemented. See source comments.");
+    }
+
+  /** Component transform type **/
   typedef Superclass                    TransformType;
   typedef typename Superclass::Pointer  TransformTypePointer;
-
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
-
+  typedef typename Superclass::InverseTransformBasePointer
+                                        InverseTransformBasePointer;
   /** Scalar type. */
   typedef typename Superclass::ScalarType ScalarType;
-
   /** Parameters type. */
   typedef typename Superclass::ParametersType      ParametersType;
   typedef typename Superclass::ParametersValueType ParametersValueType;
   /** Jacobian type. */
   typedef typename Superclass::JacobianType JacobianType;
-
   /** Standard coordinate point type for this class. */
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType OutputPointType;
-
   /** Standard vector type for this class. */
   typedef typename Superclass::InputVectorType  InputVectorType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
-
   /** Standard covariant vector type for this class */
   typedef typename Superclass::InputCovariantVectorType
   InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType
   OutputCovariantVectorType;
-
   /** Standard vnl_vector type for this class. */
   typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
-
   /** Transform queue type */
   typedef std::deque<TransformTypePointer> TransformQueueType;
-
   /** Optimization flags queue type */
   typedef std::deque<bool>                 TransformsToOptimizeFlagsType;
-
 
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( InputDimension, unsigned int, NDimensions );
@@ -224,7 +225,7 @@ public:
 
   /* With AddTransform() as the only way to add a transform, we
    * can have this method to easily allow user to optimize only
-   * the transform the added most recenlty. */
+   * the transform added most recenlty. */
   void SetOnlyMostRecentTransformToOptimizeOn()
   {
     this->SetAllTransformsToOptimize( false );
@@ -267,9 +268,6 @@ public:
   }
 
   /** Return an inverse of this transform. */
-
-  // NOTE: Brian, should this return the reverse of the active transform list
-  //  as well? I figure yes. Or it could return them all set to active.
   bool GetInverse( Self *inverse ) const;
 
   virtual InverseTransformBasePointer GetInverseTransform() const;

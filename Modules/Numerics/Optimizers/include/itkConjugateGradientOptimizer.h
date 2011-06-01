@@ -28,8 +28,9 @@ namespace itk
  * \brief Wrap of the vnl_conjugate_gradient
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT ConjugateGradientOptimizer:
+class ITK_EXPORT ConjugateGradientOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 
 {

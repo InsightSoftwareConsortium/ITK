@@ -40,6 +40,11 @@ namespace itk
  *    The element type stored in the container.
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Utilities/VectorContainer,Vector container}
+ * \endwiki
  */
 template<
   typename TElementIdentifier,
@@ -113,7 +118,9 @@ public:
 
   /** \class Iterator
    * Simulate STL-map style iteration where dereferencing the iterator
-   * gives access to both the index and the value. */
+   * gives access to both the index and the value.
+   * \ingroup ITK-Common
+   */
   class Iterator
   {
 public:
@@ -144,7 +151,9 @@ private:
 
   /** \class ConstIterator
    * Simulate STL-map style const iteration where dereferencing the iterator
-   * gives read access to both the index and the value. */
+   * gives read access to both the index and the value.
+   * \ingroup ITK-Common
+   */
   class ConstIterator
   {
 public:

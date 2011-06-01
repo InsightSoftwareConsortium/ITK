@@ -43,6 +43,7 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  * \sa WrapPadImageFilter, ConstantPadImageFilter
+ * \ingroup ITK-ImageGrid
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT MirrorPadImageFilter:

@@ -118,15 +118,14 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginLatex
   //
   // Now the \doxygen{VnlFFTRealToComplexConjugateImageFilter} can be instantiated.
-  // Note that contrary to most ITK filters, the FFT filter is instantiated using
-  // the Pixel type and the image dimension explicitly. Using the type we
-  // construct one instance of the filter.
+  // Like most ITK filters, the FFT filter is instantiated using the full image type.
+  // By not setting the output image type, we decide to use the default one provided
+  // by the filter. Using the type we construct one instance of the filter.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter<
-                                  InputPixelType, Dimension >  FFTFilterType;
+  typedef itk::VnlFFTRealToComplexConjugateImageFilter< InputImageType >  FFTFilterType;
 
   FFTFilterType::Pointer fftFilter = FFTFilterType::New();
 
@@ -194,7 +193,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::VnlFFTComplexConjugateToRealImageFilter<
-    InputPixelType, Dimension >  IFFTFilterType;
+    SpectralImageType >  IFFTFilterType;
 
   IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();
 

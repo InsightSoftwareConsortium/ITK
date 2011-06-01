@@ -1,48 +1,57 @@
 
 # configure the test driver
-find_program(ITK_TEST_DRIVER itkTestDriver)
+macro(add_python_test name)
+  set(command "${PYTHON_EXECUTABLE}")
 
-set(PYTHON_DRIVER "${ITK_TEST_DRIVER}"
-  --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}/\${CTEST_CONFIGURATION_TYPE}"
-  --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}"
-  --add-before-env PYTHONPATH "${LIBRARY_OUTPUT_PATH}/\${CTEST_CONFIGURATION_TYPE}"
-  --add-before-env PYTHONPATH "${LIBRARY_OUTPUT_PATH}"
-  --add-before-libpath "${ITK_DIR}/bin/\${CTEST_CONFIGURATION_TYPE}"
-  --add-before-libpath "${ITK_DIR}/bin"
-  --add-before-libpath "${ITK_DIR}"
-  "${PYTHON_EXECUTABLE}"
-)
+  # add extra command which may be needed on some systems
+  if(CMAKE_OSX_ARCHITECTURES)
+    list(GET CMAKE_OSX_ARCHITECTURES 0 test_arch)
+    set(command arch -${test_arch} ${command})
+  endif()
+
+  itk_add_test(NAME ${name}
+    COMMAND "${ITK_TEST_DRIVER}"
+    --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}/$<CONFIGURATION>"
+    --add-before-env PYTHONPATH "${WRAP_ITK_PYTHON_BINARY_DIR}"
+    --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+    --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+    --add-before-libpath "${ITK_DIR}"
+    ${command}
+    ${ARGN}
+    )
+endmacro()
 
 
-add_test(PythonTestDirectory ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/TestDirectory.py)
+add_python_test(PythonTestDirectory ${CMAKE_CURRENT_SOURCE_DIR}/TestDirectory.py)
 
-add_test(PythonTestObject ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/TestObject.py)
+add_python_test(PythonTestObject ${CMAKE_CURRENT_SOURCE_DIR}/TestObject.py)
 
 # TODO: drop -E option once all filters/spatial objects/cost functions are actually wrapped
-add_test(NonBlockingPythonFilterCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b Filter -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-filters.txt ${ITK_INCLUDE_DIRS})
-add_test(NonBlockingPythonSpatialObjectCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b SpatialObject ${ITK_INCLUDE_DIRS})
-add_test(NonBlockingPythonCostFunctionCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b CostFunction ${ITK_INCLUDE_DIRS})
+add_python_test(NonBlockingPythonFilterCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b Filter -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-filters.txt ${ITK_INCLUDE_DIRS})
+add_python_test(NonBlockingPythonSpatialObjectCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b SpatialObject ${ITK_INCLUDE_DIRS})
+add_python_test(NonBlockingPythonCostFunctionCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b CostFunction ${ITK_INCLUDE_DIRS})
 
-add_test(PythonImageIOCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b ImageIO -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-imageio.txt ${ITK_INCLUDE_DIRS})
-add_test(PythonOptimizerCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Optimizer ${ITK_INCLUDE_DIRS})
-add_test(PythonTransformCoverage ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Transform -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt ${ITK_INCLUDE_DIRS})
+add_python_test(PythonImageIOCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b ImageIO -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-imageio.txt ${ITK_INCLUDE_DIRS})
+add_python_test(PythonOptimizerCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Optimizer ${ITK_INCLUDE_DIRS})
+add_python_test(PythonTransformCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Transform -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt ${ITK_INCLUDE_DIRS})
 
-add_test(PythonFindEmptyClasses ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py)
+add_python_test(PythonFindEmptyClasses ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py)
 
-add_test(PythonGetNameOfClass ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py)
+add_python_test(PythonGetNameOfClass ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py)
 
-add_test(PythonTiming ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/timing.py)
+add_python_test(PythonTiming ${CMAKE_CURRENT_SOURCE_DIR}/timing.py)
 
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
 INTERSECTION(WRAP_2 2 "${WRAP_ITK_DIMS}")
 if(WRAP_unsigned_short AND WRAP_2)
-  add_test(PythonTypemaps ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/typemaps.py)
+  add_python_test(PythonTypemaps ${CMAKE_CURRENT_SOURCE_DIR}/typemaps.py)
 
-  add_test(PythonTemplate ${PYTHON_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/template.py)
+  add_python_test(PythonTemplate ${CMAKE_CURRENT_SOURCE_DIR}/template.py)
 
-  add_test(PythonAutoPipeline
-    ${PYTHON_DRIVER}
+  add_python_test(PythonAutoPipeline
     ${CMAKE_CURRENT_SOURCE_DIR}/auto_pipeline.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     auto_pipeline.png
@@ -50,8 +59,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     --compare auto_pipeline.png ${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png
   )
 
-  add_test(PythonTemplatedPipeline
-    ${PYTHON_DRIVER}
+  add_python_test(PythonTemplatedPipeline
     ${CMAKE_CURRENT_SOURCE_DIR}/templated_pipeline.py
     ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
     templated_pipeline.png
@@ -59,34 +67,31 @@ if(WRAP_unsigned_short AND WRAP_2)
     --compare templated_pipeline.png ${WrapITK_SOURCE_DIR}/images/templated_pipeline.png
   )
 
-  add_test(PythonExtras ${PYTHON_DRIVER}
+  add_python_test(PythonExtras
     ${CMAKE_CURRENT_SOURCE_DIR}/extras.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png out.png
   )
 
-  add_test(PythonModuleToModule ${PYTHON_DRIVER}
+  add_python_test(PythonModuleToModule
     ${CMAKE_CURRENT_SOURCE_DIR}/module2module.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
   )
 
-  add_test(PythonBinaryDilateImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonBinaryDilateImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/BinaryDilateImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
     BinaryDilateImageFilter.png
     --compare BinaryDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png
   )
 
-  add_test(PythonBinaryErodeImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonBinaryErodeImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/BinaryErodeImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
     BinaryErodeImageFilter.png
     --compare BinaryErodeImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryErodeImageFilter.png
   )
 
-  add_test(PythonBinaryThresholdImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonBinaryThresholdImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/BinaryThresholdImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     BinaryThresholdImageFilter.png
@@ -95,32 +100,28 @@ if(WRAP_unsigned_short AND WRAP_2)
     --compare BinaryThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png
   )
 
-  add_test(PythonCastImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonCastImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/CastImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     CastImageFilter.png
     --compare CastImageFilter.png ${WrapITK_SOURCE_DIR}/images/cthead1.png
   )
 
-  add_test(PythonGrayscaleDilateImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonGrayscaleDilateImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/GrayscaleDilateImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     GrayscaleDilateImageFilter.png
     --compare GrayscaleDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/GrayscaleDilateImageFilter.png
   )
 
-  add_test(PythonBoxGrayscaleDilateImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonBoxGrayscaleDilateImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/BoxGrayscaleDilateImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     BoxGrayscaleDilateImageFilter.png
     --compare BoxGrayscaleDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/BoxGrayscaleDilateImageFilter.png
   )
 
-#   add_test(PythonStrelFromImageGrayscaleDilateImageFilter
-#     ${PYTHON_DRIVER}
+#   add_python_test(PythonStrelFromImageGrayscaleDilateImageFilter
 #     ${CMAKE_CURRENT_SOURCE_DIR}/StrelFromImageGrayscaleDilateImageFilter.py
 #     ${WrapITK_SOURCE_DIR}/images/cthead1.png
 #     StrelFromImageGrayscaleDilateImageFilter.png
@@ -128,16 +129,14 @@ if(WRAP_unsigned_short AND WRAP_2)
 #     --compare StrelFromImageGrayscaleDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/StrelFromImageGrayscaleDilateImageFilter.png
 #   )
 
-  add_test(PythonGrayscaleErodeImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonGrayscaleErodeImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/GrayscaleErodeImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     GrayscaleErodeImageFilter.png
     --compare GrayscaleErodeImageFilter.png ${WrapITK_SOURCE_DIR}/images/GrayscaleErodeImageFilter.png
   )
 
-#   add_test(PythonFlatStructuringElementBall
-#     ${PYTHON_DRIVER}
+#   add_python_test(PythonFlatStructuringElementBall
 #     ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
 #     Ball-5.png
 #     Ball
@@ -145,8 +144,7 @@ if(WRAP_unsigned_short AND WRAP_2)
 #     --compare Ball-5.png ${WrapITK_SOURCE_DIR}/images/Ball-5.png
 #   )
 
-#   add_test(PythonFlatStructuringElementBox
-#     ${PYTHON_DRIVER}
+#   add_python_test(PythonFlatStructuringElementBox
 #     ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
 #     Box-5.png
 #     Box
@@ -154,8 +152,7 @@ if(WRAP_unsigned_short AND WRAP_2)
 #     --compare Box-5.png ${WrapITK_SOURCE_DIR}/images/Box-5.png
 #   )
 
-#   add_test(PythonFlatStructuringElementFromImage
-#     ${PYTHON_DRIVER}
+#   add_python_test(PythonFlatStructuringElementFromImage
 #     ${CMAKE_CURRENT_SOURCE_DIR}/FlatStructuringElement.py
 #     StrelFromImage.png
 #     FromImage
@@ -163,8 +160,7 @@ if(WRAP_unsigned_short AND WRAP_2)
 #     --compare StrelFromImage.png ${WrapITK_SOURCE_DIR}/images/StrelFromImage.png
 #   )
 
-  add_test(PythonMeanImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonMeanImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/MeanImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     MeanImageFilter.png
@@ -172,8 +168,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     --compare MeanImageFilter.png ${WrapITK_SOURCE_DIR}/images/MeanImageFilter.png
   )
 
-  add_test(PythonMedianImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonMedianImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/MedianImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     MedianImageFilter.png
@@ -181,8 +176,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     --compare MedianImageFilter.png ${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png
   )
 
-  add_test(PythonSigmoidImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonSigmoidImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/SigmoidImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     SigmoidImageFilter.png
@@ -190,8 +184,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     --compare SigmoidImageFilter.png ${WrapITK_SOURCE_DIR}/images/SigmoidImageFilter.png
   )
 
-  add_test(PythonThresholdImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonThresholdImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/ThresholdImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     ThresholdImageFilter.png
@@ -199,8 +192,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     --compare ThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/ThresholdImageFilter.png
   )
 
-  add_test(PythonResampleImageFilterTest1
-    ${PYTHON_DRIVER}
+  add_python_test(PythonResampleImageFilterTest1
     --compare ResampleImageFilterTest1.png
               ${WrapITK_SOURCE_DIR}/images/ResampleImageFilterTest1.png
     ${CMAKE_CURRENT_SOURCE_DIR}/ResampleImageFilter.py
@@ -209,8 +201,7 @@ if(WRAP_unsigned_short AND WRAP_2)
           0
   )
 
-  add_test(PythonResampleImageFilterTest2
-    ${PYTHON_DRIVER}
+  add_python_test(PythonResampleImageFilterTest2
     --compare ResampleImageFilterTest2.png
               ${WrapITK_SOURCE_DIR}/images/ResampleImageFilterTest2.png
     ${CMAKE_CURRENT_SOURCE_DIR}/ResampleImageFilter.py
@@ -219,8 +210,7 @@ if(WRAP_unsigned_short AND WRAP_2)
           1
   )
 
-  add_test(PythonResampleImageFilterTest3
-    ${PYTHON_DRIVER}
+  add_python_test(PythonResampleImageFilterTest3
     --compare ResampleImageFilterTest3.png
               ${WrapITK_SOURCE_DIR}/images/ResampleImageFilterTest3.png
     ${CMAKE_CURRENT_SOURCE_DIR}/ResampleImageFilter.py
@@ -229,8 +219,7 @@ if(WRAP_unsigned_short AND WRAP_2)
           2
   )
 
-  add_test(PythonResampleImageFilterTest4
-    ${PYTHON_DRIVER}
+  add_python_test(PythonResampleImageFilterTest4
     --compare ResampleImageFilterTest4.png
               ${WrapITK_SOURCE_DIR}/images/ResampleImageFilterTest4.png
     ${CMAKE_CURRENT_SOURCE_DIR}/ResampleImageFilter.py
@@ -243,39 +232,34 @@ endif(WRAP_unsigned_short AND WRAP_2)
 
 
 if(WRAP_float AND WRAP_2)
-  add_test(PythonCurvatureAnisotropicDiffusionImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonCurvatureAnisotropicDiffusionImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/CurvatureAnisotropicDiffusionImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     CurvatureAnisotropicDiffusionImageFilter.png
     5 0.125 3
   )
 
-  add_test(PythonCurvatureFlowImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonCurvatureFlowImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/CurvatureFlowImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     CurvatureFlowImageFilter.png
     5 0.125 1.0
   )
 
-  add_test(PythonSmoothingRecursiveGaussianImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonSmoothingRecursiveGaussianImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/SmoothingRecursiveGaussianImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     SmoothingRecursiveGaussianImageFilter.png
     3
   )
 
-  add_test(PythonLaplacianImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonLaplacianImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/LaplacianImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     LaplacianImageFilter.png
   )
 
-  add_test(PythonFFTImageFilter
-    ${PYTHON_DRIVER}
+  add_python_test(PythonFFTImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/FFTImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     FFTImageFilterReal.png
@@ -285,8 +269,7 @@ if(WRAP_float AND WRAP_2)
 #     --compare complexImage.mhd ${WrapITK_SOURCE_DIR}/images/complexImage.mhd
   )
 
-  add_test( PythonGradientMagnitudeRecursiveGaussianImageFilterTest
-    ${PYTHON_DRIVER}
+  add_python_test( PythonGradientMagnitudeRecursiveGaussianImageFilterTest
     ${CMAKE_CURRENT_SOURCE_DIR}/GradientMagnitudeRecursiveGaussianImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png
     GradientMagnitudeRecursiveGaussianImageFilter.png
@@ -295,8 +278,7 @@ if(WRAP_float AND WRAP_2)
             ${WrapITK_SOURCE_DIR}/images/GradientMagnitudeRecursiveGaussianImageFilter.png
   )
 
-  add_test( PythonGradientAnisotropicDiffusionImageFilterTest
-    ${PYTHON_DRIVER}
+  add_python_test( PythonGradientAnisotropicDiffusionImageFilterTest
     ${CMAKE_CURRENT_SOURCE_DIR}/GradientAnisotropicDiffusionImageFilter.py
     ${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png
     GradientAnisotropicDiffusionImageFilter.png
@@ -310,8 +292,7 @@ if(WRAP_float AND WRAP_2)
 # same than with c++
 # keep just one to be sure it run, but don't compare the images
 
-  add_test( PythonGeodesicActiveContourLeftVentricleTest
-    ${PYTHON_DRIVER}
+  add_python_test( PythonGeodesicActiveContourLeftVentricleTest
 #     --compare GeodesicActiveContourLeftVentricleTest.png
 #             ${WrapITK_SOURCE_DIR}/images/GeodesicActiveContourLeftVentricleTest.png
     --
@@ -321,8 +302,7 @@ if(WRAP_float AND WRAP_2)
     81 114 5.0 1.0 -0.5 3.0 2.0
   )
 
-#   add_test( PythonGeodesicActiveContourWhiteMatterTest
-#     ${PYTHON_DRIVER}
+#   add_python_test( PythonGeodesicActiveContourWhiteMatterTest
 #     --compare GeodesicActiveContourWhiteMatterTest.png
 #             ${WrapITK_SOURCE_DIR}/images/GeodesicActiveContourWhiteMatterTest.png
 #     --
@@ -332,8 +312,7 @@ if(WRAP_float AND WRAP_2)
 #     56 92 5.0 1.0 -0.3 2.0 10.0
 #   )
 
-#   add_test( PythonGeodesicActiveContourGrayMatterTest
-#     ${PYTHON_DRIVER}
+#   add_python_test( PythonGeodesicActiveContourGrayMatterTest
 #     --compare GeodesicActiveContourGrayMatterTest.png
 #             ${WrapITK_SOURCE_DIR}/images/GeodesicActiveContourGrayMatterTest.png
 #     --
@@ -344,8 +323,7 @@ if(WRAP_float AND WRAP_2)
 #   )
 
 
-  add_test(PythonFastMarchingLeftVentricleTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonFastMarchingLeftVentricleTest
     --compare FastMarchingLeftVentricleTest.png
               ${WrapITK_SOURCE_DIR}/images/FastMarchingLeftVentricleTest.png
     --
@@ -355,8 +333,7 @@ if(WRAP_float AND WRAP_2)
           81 114 1.0 -0.5 3.0 100 100
   )
 
-  add_test(PythonFastMarchingRightVentricleTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonFastMarchingRightVentricleTest
     --compare FastMarchingRightVentricleTest.png
               ${WrapITK_SOURCE_DIR}/images/FastMarchingRightVentricleTest.png
     --
@@ -366,8 +343,7 @@ if(WRAP_float AND WRAP_2)
           99 114 1.0 -0.5 3.0 100 100
   )
 
-  add_test(PythonFastMarchingWhiteMatterTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonFastMarchingWhiteMatterTest
     --compare FastMarchingWhiteMatterTest.png
               ${WrapITK_SOURCE_DIR}/images/FastMarchingWhiteMatterTest.png
     --
@@ -377,8 +353,7 @@ if(WRAP_float AND WRAP_2)
           56 92 1.0 -0.3 2.0 200 100
   )
 
-  add_test(PythonFastMarchingGrayMatterTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonFastMarchingGrayMatterTest
     --compare FastMarchingGrayMatterTest.png
               ${WrapITK_SOURCE_DIR}/images/FastMarchingGrayMatterTest.png
     --
@@ -388,8 +363,7 @@ if(WRAP_float AND WRAP_2)
           40 90 .5 -0.3 2.0 200 100
   )
 
-  add_test(PythonThresholdSegmentationLevelSetVentricleTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonThresholdSegmentationLevelSetVentricleTest
     --compare ThresholdSegmentationLevelSetVentricleTest.png
               ${WrapITK_SOURCE_DIR}/images/ThresholdSegmentationLevelSetVentricleTest.png
     ${CMAKE_CURRENT_SOURCE_DIR}/ThresholdSegmentationLevelSetImageFilter.py
@@ -398,8 +372,7 @@ if(WRAP_float AND WRAP_2)
           81 112 5 210 250
   )
 
-  add_test(PythonThresholdSegmentationLevelSetWhiteMatterTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonThresholdSegmentationLevelSetWhiteMatterTest
     --compare ThresholdSegmentationLevelSetWhiteMatterTest.png
               ${WrapITK_SOURCE_DIR}/images/ThresholdSegmentationLevelSetWhiteMatterTest.png
     ${CMAKE_CURRENT_SOURCE_DIR}/ThresholdSegmentationLevelSetImageFilter.py
@@ -408,8 +381,7 @@ if(WRAP_float AND WRAP_2)
           60 116 5 150 180
   )
 
-  add_test(PythonThresholdSegmentationLevelSetGrayMatterTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonThresholdSegmentationLevelSetGrayMatterTest
     --compare ThresholdSegmentationLevelSetGrayMatterTest.png
               ${WrapITK_SOURCE_DIR}/images/ThresholdSegmentationLevelSetGrayMatterTest.png
     ${CMAKE_CURRENT_SOURCE_DIR}/ThresholdSegmentationLevelSetImageFilter.py
@@ -418,8 +390,7 @@ if(WRAP_float AND WRAP_2)
           107 69 5 180 210
   )
 
-  add_test(PythonCannyEdgeDetectionImageFilterTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonCannyEdgeDetectionImageFilterTest
     --compareNumberOfPixelsTolerance 1
     --compare CannyEdgeDetectionImageFilter.png
               ${WrapITK_SOURCE_DIR}/images/CannyEdgeDetectionImageFilter.png
@@ -429,8 +400,7 @@ if(WRAP_float AND WRAP_2)
           9
   )
 
-  add_test(PythonWatershedSegmentation1
-    ${PYTHON_DRIVER}
+  add_python_test(PythonWatershedSegmentation1
     --compare WatershedSegmentation1.png
               ${WrapITK_SOURCE_DIR}/images/WatershedSegmentation1.png
     ${CMAKE_CURRENT_SOURCE_DIR}/WatershedSegmentation1.py
@@ -438,8 +408,7 @@ if(WRAP_float AND WRAP_2)
           WatershedSegmentation1.png
   )
 
-  add_test(PythonSpatialObject
-    ${PYTHON_DRIVER}
+  add_python_test(PythonSpatialObject
     --compare SpatialObject.png
               ${WrapITK_SOURCE_DIR}/images/SpatialObject.png
     ${CMAKE_CURRENT_SOURCE_DIR}/SpatialObjectTest.py
@@ -451,8 +420,7 @@ endif(WRAP_float AND WRAP_2)
 
 INTERSECTION(WRAP_3 3 "${WRAP_ITK_DIMS}")
 if(WRAP_float AND WRAP_3)
-  add_test(PythonAntiAliasBinaryImageFilterTest
-    ${PYTHON_DRIVER}
+  add_python_test(PythonAntiAliasBinaryImageFilterTest
     --compare AntiAliasBinaryImageFilter.png
               ${WrapITK_SOURCE_DIR}/images/AntiAliasBinaryImageFilter.png
      ${CMAKE_CURRENT_SOURCE_DIR}/AntiAliasBinaryImageFilter.py
@@ -468,7 +436,7 @@ UNIQUE(types "${WRAP_ITK_SCALAR};UC")
 list(REMOVE_ITEM types SC)
 foreach(d ${WRAP_ITK_DIMS})
   foreach(t ${types})
-    add_test(PythonSimplePipeline${t}${d} ${PYTHON_DRIVER}
+    add_python_test(PythonSimplePipeline${t}${d}
       ${CMAKE_CURRENT_SOURCE_DIR}/simple_pipeline.py
       ${t}
       ${d}

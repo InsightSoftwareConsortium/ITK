@@ -36,7 +36,9 @@ namespace itk
  * corresponding node lists and contain pointers to a
  * set of medial nodes (cliques).
  *
- * */
+ *
+ * \ingroup ITK-Blox
+ */
 
 template< unsigned int VImageDimension, unsigned int VCliqueSize >
 class CorrespondingMedialNodeClique

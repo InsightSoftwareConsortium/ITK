@@ -27,9 +27,10 @@ namespace itk
 /** \class MaximumDecisionRule
  *  \brief A Decision rule that choose the class of which discriminant
  *  score is the largest.
+ * \ingroup ITK-Statistics
  */
 
-class ITKCommon_EXPORT MaximumDecisionRule:
+class ITK_EXPORT MaximumDecisionRule:
   public DecisionRuleBase
 {
 public:

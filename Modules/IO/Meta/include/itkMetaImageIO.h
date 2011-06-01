@@ -34,8 +34,9 @@ namespace itk
  *  \brief Read MetaImage file format.
  *
  *  \ingroup IOFilters
+ * \ingroup ITK-IO-Meta
  */
-class ITKIO_EXPORT MetaImageIO:public ImageIOBase
+class ITK_EXPORT MetaImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

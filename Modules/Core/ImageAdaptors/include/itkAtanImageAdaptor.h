@@ -35,6 +35,7 @@ namespace Accessor
  * to the types defined as template parameters
  * \ingroup ImageAdaptors
  *
+ * \ingroup ITK-ImageAdaptors
  */
 
 template< class TInternalType, class TExternalType >
@@ -67,6 +68,7 @@ public:
  *
  * \ingroup ImageAdaptors
  *
+ * \ingroup ITK-ImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
 class ITK_EXPORT AtanImageAdaptor:public

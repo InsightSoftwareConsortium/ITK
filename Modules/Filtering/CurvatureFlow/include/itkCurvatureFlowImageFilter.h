@@ -84,6 +84,7 @@ namespace itk
   * Input/Output Restrictions:
   *  TInputImage and TOutputImage must have the same dimension.
   *  TOutputImage's pixel type must be a real number type.
+  * \ingroup ITK-CurvatureFlow
   */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT CurvatureFlowImageFilter:

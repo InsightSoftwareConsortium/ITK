@@ -32,9 +32,10 @@ namespace itk
  *  decision rules used in classification
  *  This class has the pure virtual function, Evaluate(). Therefore,
  *  any subclass should implement the function to be instantiated.
+ * \ingroup ITK-Statistics
  */
 
-class ITKCommon_EXPORT DecisionRuleBase:public Object
+class ITK_EXPORT DecisionRuleBase:public Object
 {
 public:
   /** Standard class typedefs */

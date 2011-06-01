@@ -40,8 +40,9 @@ namespace itk
  * specific algorithmic needs.
  *
  * \ingroup RegionGrowingSegmentation
+ * \ingroup ITK-KLMRegionGrowing
  */
-class ITKCommon_EXPORT SegmentationBorder:public Object
+class ITK_EXPORT SegmentationBorder:public Object
 {
 public:
   /** Standard class typedefs. */

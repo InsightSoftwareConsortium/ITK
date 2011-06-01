@@ -1,4 +1,5 @@
 project(ITK-VNL)
+set(ITK-VNL_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_VXL)
@@ -11,6 +12,7 @@ if(ITK_USE_SYSTEM_VXL)
     ${VXL_CORE_INCLUDE_DIR}
     )
   set(ITK-VNL_LIBRARIES vnl_algo vnl v3p_netlib netlib vcl)
+  set(ITK-VNL_SYSTEM_LIBRARY_DIRS "${VXL_LIBRARY_DIR}")
   set(ITK-VNL_NO_SRC 1)
 else()
   set(ITK-VNL_INCLUDE_DIRS

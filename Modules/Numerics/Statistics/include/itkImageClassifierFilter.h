@@ -41,6 +41,7 @@ namespace Statistics
  *  sample type.
  *
  * \sa SampleClassifierFilter
+ * \ingroup ITK-Statistics
  */
 
 template< class TSample, class TInputImage, class TOutputImage >

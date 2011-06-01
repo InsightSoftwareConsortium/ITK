@@ -51,6 +51,7 @@ namespace itk
  * \sa Similarity2DTransform
  *
  * \ingroup Transforms
+ * \ingroup ITK-Transform
  */
 template< class TScalarType = double >
 // Data type for scalars

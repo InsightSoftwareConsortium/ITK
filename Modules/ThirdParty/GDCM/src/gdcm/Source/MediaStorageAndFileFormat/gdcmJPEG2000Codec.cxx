@@ -100,7 +100,7 @@ OPJ_UINT32 opj_read_from_memory(void * p_buffer, OPJ_UINT32 p_nb_bytes, myfile* 
         {
         gdcmErrorMacro("jpeg2000 reading from memory produced an image larger than 32 bits.");
         }
-    l_nb_read = p_file->mem + (uint32_t)p_file->len - p_file->cur;
+    l_nb_read = (OPJ_UINT32)( p_file->mem + (uint32_t)p_file->len - p_file->cur );
     assert( l_nb_read < p_nb_bytes );
     }
   memcpy(p_buffer,p_file->cur,l_nb_read);
@@ -210,7 +210,7 @@ public:
 
 void JPEG2000Codec::SetRate(unsigned int idx, double rate)
 {
-  Internals->coder_param.tcp_rates[idx] = rate;
+  Internals->coder_param.tcp_rates[idx] = (float)rate;
   if( Internals->coder_param.tcp_numlayers <= (int)idx )
     {
     Internals->coder_param.tcp_numlayers = idx + 1;
@@ -225,7 +225,7 @@ double JPEG2000Codec::GetRate(unsigned int idx ) const
 
 void JPEG2000Codec::SetQuality(unsigned int idx, double q)
 {
-  Internals->coder_param.tcp_distoratio[idx] = q;
+  Internals->coder_param.tcp_distoratio[idx] = (float)q;
   if( Internals->coder_param.tcp_numlayers <= (int)idx )
     {
     Internals->coder_param.tcp_numlayers = idx + 1;

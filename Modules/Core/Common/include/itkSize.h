@@ -42,6 +42,11 @@ namespace itk
  *
  * \sa Index
  * \ingroup ImageObjects
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Images/Size,An object which holds the size of an image}
+ * \endwiki
  */
 template< unsigned int VDimension = 2 >
 class Size

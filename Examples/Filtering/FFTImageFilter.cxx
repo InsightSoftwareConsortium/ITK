@@ -101,8 +101,7 @@ int main( int argc, char * argv [] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::VnlFFTRealToComplexConjugateImageFilter<
-                                      PixelType, Dimension >  FFTFilterType;
+  typedef itk::VnlFFTRealToComplexConjugateImageFilter< ImageType >  FFTFilterType;
 
   FFTFilterType::Pointer fftFilter = FFTFilterType::New();
 // Software Guide : EndCodeSnippet

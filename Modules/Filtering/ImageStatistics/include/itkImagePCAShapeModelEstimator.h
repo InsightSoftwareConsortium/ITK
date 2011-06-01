@@ -64,7 +64,9 @@ namespace itk
  * The Update() function enables the calculation of the various models, creates
  * the membership function objects and populates them.
  *
- * \ingroup ImageFeatureExtraction */
+ * \ingroup ImageFeatureExtraction
+ * \ingroup ITK-ImageStatistics
+ */
 
 template< class TInputImage,
           class TOutputImage = Image< double, ::itk::GetImageDimension< TInputImage >::ImageDimension > >

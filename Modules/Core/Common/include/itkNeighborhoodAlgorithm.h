@@ -31,11 +31,11 @@ namespace NeighborhoodAlgorithm
 *
 * Splitting the image into the necessary regions is an easy task when you use
 * the ImageBoundaryFacesCalculator.  The face
-* calculator is so named because it returns a list of the ``faces'' of the ND
-* dataset.  Faces are those regions whose pixels all lie within a distance $d$
-* from the boundary, where $d$ is the radius of the neighborhood stencil used
+* calculator is so named because it returns a list of the "faces" of the ND
+* dataset.  Faces are those regions whose pixels all lie within a distance \f$d\f$
+* from the boundary, where \f$d\f$ is the radius of the neighborhood stencil used
 * for the numerical calculations. In other words, faces are those regions
-* where a neighborhood iterator of radius $d$ will always overlap the boundary
+* where a neighborhood iterator of radius \f$d\f$ will always overlap the boundary
 * of the image. The face calculator also returns the single \em inner
 * region, in which out-of-bounds values are never required and bounds checking
 * is not necessary.
@@ -55,6 +55,7 @@ namespace NeighborhoodAlgorithm
 * regionToProcess and bufferedRegion. The non-boundary regions (if
 * any) are the remaining faces in faceList.
 *
+* \ingroup ITK-Common
 */
 template< class TImage >
 struct ITK_EXPORT ImageBoundaryFacesCalculator {
@@ -74,6 +75,7 @@ struct ITK_EXPORT ImageBoundaryFacesCalculator {
  * buffers. Calculates the necessary modifiers to synchronize input and output
  * iteration between images with equal RequestedRegion sizes but unequal
  * BufferedRegion sizes.
+ * \ingroup ITK-Common
  */
 template< class TImage >
 struct ITK_EXPORT CalculateOutputWrapOffsetModifiers {

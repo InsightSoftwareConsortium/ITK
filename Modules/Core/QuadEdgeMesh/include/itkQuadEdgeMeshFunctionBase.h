@@ -49,6 +49,7 @@ namespace itk
  *
  * \ingroup Functions
  *
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< class TMesh, class TOutput >
 class ITK_EXPORT QuadEdgeMeshFunctionBase:public Object

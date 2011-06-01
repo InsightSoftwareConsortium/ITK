@@ -25,9 +25,8 @@
 #include "itkRGBPixel.h"
 #include "itkImage.h"
 
-#if defined(ITK_USE_MODULAR_BUILD)
-  #define SPECIFIC_IMAGEIO_MODULE_TEST
-#endif
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 
 int itkRawImageIOTest2(int argc, char * argv [])

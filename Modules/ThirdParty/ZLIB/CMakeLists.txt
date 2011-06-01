@@ -1,4 +1,5 @@
 project(ITK-ZLIB)
+set(ITK-ZLIB_THIRD_PARTY 1)
 
 option(ITK_USE_SYSTEM_ZLIB "Use system-installed zlib" OFF)
 mark_as_advanced(ITK_USE_SYSTEM_ZLIB)

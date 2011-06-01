@@ -31,8 +31,9 @@ namespace itk
  *  It is not intended to be instantiated.
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT Optimizer:public Object
+class ITK_EXPORT Optimizer:public Object
 {
 public:
   /** Standard class typedefs. */

@@ -110,7 +110,11 @@ public:
  * time.
  *
  */
-std::list< ObjectFactoryBase * > * ObjectFactoryBase:: m_RegisteredFactories;
+typedef std::list< ObjectFactoryBase * > FactoryListType;
+namespace ObjectFactoryBasePrivate
+{
+FactoryListType * RegisteredFactories;
+}
 
 /**
  * Make possible for application developers to demand an exact match
@@ -152,14 +156,14 @@ LightObject::Pointer
 ObjectFactoryBase
 ::CreateInstance(const char *itkclassname)
 {
-  if ( !ObjectFactoryBase::m_RegisteredFactories )
+  if ( !ObjectFactoryBasePrivate::RegisteredFactories )
     {
     ObjectFactoryBase::Initialize();
     }
 
-  for ( std::list< ObjectFactoryBase * >::iterator
-        i = m_RegisteredFactories->begin();
-        i != m_RegisteredFactories->end(); ++i )
+  for ( FactoryListType::iterator
+        i = ObjectFactoryBasePrivate::RegisteredFactories->begin();
+        i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
     {
     LightObject::Pointer newobject = ( *i )->CreateObject(itkclassname);
     if ( newobject )
@@ -175,14 +179,14 @@ std::list< LightObject::Pointer >
 ObjectFactoryBase
 ::CreateAllInstance(const char *itkclassname)
 {
-  if ( !ObjectFactoryBase::m_RegisteredFactories )
+  if ( !ObjectFactoryBasePrivate::RegisteredFactories )
     {
     ObjectFactoryBase::Initialize();
     }
   std::list< LightObject::Pointer > created;
-  for ( std::list< ObjectFactoryBase * >::iterator
-        i = m_RegisteredFactories->begin();
-        i != m_RegisteredFactories->end(); ++i )
+  for ( FactoryListType::iterator
+        i = ObjectFactoryBasePrivate::RegisteredFactories->begin();
+        i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
     {
     std::list< LightObject::Pointer > moreObjects = ( *i )->CreateAllObject(itkclassname);
     created.splice(created.end(), moreObjects);
@@ -201,13 +205,12 @@ ObjectFactoryBase
   /**
    * Don't do anything if we are already initialized
    */
-  if ( ObjectFactoryBase::m_RegisteredFactories )
+  if ( ObjectFactoryBasePrivate::RegisteredFactories )
     {
     return;
     }
 
-  ObjectFactoryBase::m_RegisteredFactories =
-    new std::list< ObjectFactoryBase * >;
+  ObjectFactoryBasePrivate::RegisteredFactories = new FactoryListType;
 }
 
 /**
@@ -341,14 +344,15 @@ NameIsSharedLibrary(const char *name)
 {
   std::string extension = itksys::DynamicLoader::LibExtension();
 
+  std::string sname = name;
+  if ( sname.rfind(extension) == sname.size() - extension.size() )
+    {
+    return true;
+    }
 #ifdef __APPLE__
-  // possible bug: CMake generated build file on the Mac makes
-  // libraries with a .dylib extension.  kwsys guesses the extension
-  // should be ".so"
+  // Need to also check libraries with a .dylib extension.
   extension = ".dylib";
 #endif
-
-  std::string sname = name;
   if ( sname.rfind(extension) == sname.size() - extension.size() )
     {
     return true;
@@ -405,7 +409,7 @@ ObjectFactoryBase
           newfactory->m_LibraryHandle = (void *)lib;
           newfactory->m_LibraryPath = fullpath;
           newfactory->m_LibraryDate = 0; // unused for now...
-          ObjectFactoryBase::RegisterFactory(newfactory);
+          ObjectFactoryBase::RegisterFactoryInternal(newfactory);
           }
         else
           {
@@ -460,7 +464,7 @@ ObjectFactoryBase
 ::RegisterFactoryInternal(ObjectFactoryBase *factory)
 {
   ObjectFactoryBase::InitializeFactoryList();
-  ObjectFactoryBase::m_RegisteredFactories->push_back(factory);
+  ObjectFactoryBasePrivate::RegisteredFactories->push_back(factory);
   factory->Register();
 }
 
@@ -469,7 +473,7 @@ ObjectFactoryBase
  */
 void
 ObjectFactoryBase
-::RegisterFactory(ObjectFactoryBase *factory)
+::RegisterFactory(ObjectFactoryBase *factory, InsertionPositionType where, size_t position)
 {
   if ( factory->m_LibraryHandle == 0 )
     {
@@ -497,9 +501,51 @@ ObjectFactoryBase
   ObjectFactoryBase::Initialize();
 
   //
-  // Check that this factory class has not been registered yet...
+  //  Register the factory in the internal list at the requested location.
   //
-  ObjectFactoryBase::m_RegisteredFactories->push_back(factory);
+  switch( where )
+    {
+    case INSERT_AT_BACK:
+      {
+      if( position )
+        {
+        itkGenericExceptionMacro(<< "position argument must not be used with INSERT_AT_BACK option");
+        }
+      ObjectFactoryBasePrivate::RegisteredFactories->push_back(factory);
+      break;
+      }
+    case INSERT_AT_FRONT:
+      {
+      if( position )
+        {
+        itkGenericExceptionMacro(<< "position argument must not be used with INSERT_AT_FRONT option");
+        }
+      ObjectFactoryBasePrivate::RegisteredFactories->push_front(factory);
+      break;
+      }
+    case INSERT_AT_POSITION:
+      {
+      const size_t numberOfFactories = ObjectFactoryBasePrivate::RegisteredFactories->size();
+      if( position < numberOfFactories )
+        {
+        typedef FactoryListType::iterator    FactoryIterator;
+        FactoryIterator fitr = ObjectFactoryBasePrivate::RegisteredFactories->begin();
+
+        while( position-- )
+          {
+          ++fitr;
+          }
+
+        ObjectFactoryBasePrivate::RegisteredFactories->insert(fitr,factory);
+        break;
+        }
+      else
+        {
+        itkGenericExceptionMacro("Position" << position << " is outside range. \
+          Only " << numberOfFactories << " factories are registered");
+        }
+      }
+    }
   factory->Register();
 }
 
@@ -541,13 +587,13 @@ ObjectFactoryBase
 ::UnRegisterFactory(ObjectFactoryBase *factory)
 {
   for ( std::list< ObjectFactoryBase * >::iterator i =
-          m_RegisteredFactories->begin();
-        i != m_RegisteredFactories->end(); ++i )
+          ObjectFactoryBasePrivate::RegisteredFactories->begin();
+        i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
     {
     if ( factory == *i )
       {
       factory->UnRegister();
-      m_RegisteredFactories->remove(factory);
+      ObjectFactoryBasePrivate::RegisteredFactories->remove(factory);
       return;
       }
     }
@@ -560,21 +606,21 @@ void
 ObjectFactoryBase
 ::UnRegisterAllFactories()
 {
-  if ( ObjectFactoryBase::m_RegisteredFactories )
+  if ( ObjectFactoryBasePrivate::RegisteredFactories )
     {
     // Collect up all the library handles so they can be closed
     // AFTER the factory has been deleted.
     std::list< void * > libs;
     for ( std::list< ObjectFactoryBase * >::iterator i =
-            m_RegisteredFactories->begin();
-          i != m_RegisteredFactories->end(); ++i )
+            ObjectFactoryBasePrivate::RegisteredFactories->begin();
+          i != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++i )
       {
       libs.push_back( static_cast< void * >( ( *i )->m_LibraryHandle ) );
       }
     // Unregister each factory
     for ( std::list< ObjectFactoryBase * >::iterator f =
-            m_RegisteredFactories->begin();
-          f != m_RegisteredFactories->end(); ++f )
+            ObjectFactoryBasePrivate::RegisteredFactories->begin();
+          f != ObjectFactoryBasePrivate::RegisteredFactories->end(); ++f )
       {
       ( *f )->UnRegister();
       }
@@ -588,8 +634,8 @@ ObjectFactoryBase
         DynamicLoader::CloseLibrary( static_cast< LibHandle >( *lib ) );
         }
       }
-    delete ObjectFactoryBase::m_RegisteredFactories;
-    ObjectFactoryBase::m_RegisteredFactories = 0;
+    delete ObjectFactoryBasePrivate::RegisteredFactories;
+    ObjectFactoryBasePrivate::RegisteredFactories = 0;
     }
 }
 
@@ -715,7 +761,7 @@ std::list< ObjectFactoryBase * >
 ObjectFactoryBase
 ::GetRegisteredFactories()
 {
-  return *ObjectFactoryBase::m_RegisteredFactories;
+  return *ObjectFactoryBasePrivate::RegisteredFactories;
 }
 
 /**

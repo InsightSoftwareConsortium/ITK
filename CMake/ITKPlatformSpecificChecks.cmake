@@ -1,3 +1,5 @@
+include(itkCheckCXXAcceptsFlags)
+
 # On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
 # warnings
 if(WIN32)
@@ -21,34 +23,41 @@ if(WIN32)
    endif(NOT CYGWIN)
 endif(WIN32)
 
-
-#-----------------------------------------------------------------------------
-# Find platform-specific differences in the handling of IEEE floating point
-# special values.
-include(${ITK_SOURCE_DIR}/CMake/CheckBigBitfield.cmake)
-CHECK_BIG_BITFIELD(BIGBITFIELD_VALUE ${ITK_SOURCE_DIR}/CMake)
-if(BIGBITFIELD_VALUE)
-   set(BIGBITFIELD 1 CACHE INTERNAL "System handles bit-fields larger than 32 bits.")
-else(BIGBITFIELD_VALUE)
-   set(BIGBITFIELD 0 CACHE INTERNAL "System handles bit-fields larger than 32 bits.")
-endif(BIGBITFIELD_VALUE)
-
-include(${ITK_SOURCE_DIR}/CMake/TestQnanhibit.cmake)
-TEST_QNANHIBIT(QNANHIBIT_VALUE ${ITK_SOURCE_DIR}/CMake)
-if(QNANHIBIT_VALUE)
-   set(QNANHIBIT 1 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
-else(QNANHIBIT_VALUE)
-   set(QNANHIBIT 0 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
-endif(QNANHIBIT_VALUE)
-
-
+if(WIN32)
+  # Some libraries (e.g. vxl libs) have no dllexport markup, so we can
+  # build full shared libraries only with the GNU toolchain. For non
+  # gnu compilers on windows, only Common is shared.  This allows for
+  # plugin type applications to use a dll for ITKCommon which will contain
+  # the static for Modified time.
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    # CMake adds --enable-all-exports on Cygwin (since Cygwin is
+    # supposed to be UNIX-like), but we need to add it explicitly for
+    # a native windows build with the MinGW tools.
+    if(MINGW)
+      set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS
+        "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+      set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS
+        "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+      set(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
+    endif(MINGW)
+    if(CYGWIN)
+      set(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
+    endif(CYGWIN)
+  else(CMAKE_COMPILER_IS_GNUCXX)
+   if(BUILD_SHARED_LIBS)
+     set(ITK_LIBRARY_BUILD_TYPE "SHARED")
+   else(BUILD_SHARED_LIBS)
+     set(ITK_LIBRARY_BUILD_TYPE "STATIC")
+   endif(BUILD_SHARED_LIBS)
+   set(BUILD_SHARED_LIBS OFF)
+  endif(CMAKE_COMPILER_IS_GNUCXX)
+endif(WIN32)
 
 #-----------------------------------------------------------------------------
 #ITK requires special compiler flags on some platforms.
 if(CMAKE_COMPILER_IS_GNUCXX)
  set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -Wall -Wno-uninitialized -Wno-unused-parameter")
- set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50 -Wall")
- include(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
+ set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wall")
  itkCHECK_CXX_ACCEPTS_FLAGS("-Wno-deprecated" CXX_HAS_DEPRECATED_FLAG)
  if(CXX_HAS_DEPRECATED_FLAG)
    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-deprecated")
@@ -80,6 +89,53 @@ if(CMAKE_COMPILER_IS_GNUCXX)
  endif(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
+#-----------------------------------------------------------------------------
+
+# for the gnu compiler a -D_PTHREADS is needed on sun
+# for the native compiler a -mt flag is needed on the sun
+if(CMAKE_SYSTEM MATCHES "SunOS.*")
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -D_PTHREADS")
+    set(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -lrt")
+  else()
+    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mt")
+    set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -mt")
+  endif()
+endif()
+
+# mingw thread support
+if(MINGW)
+  set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mthreads")
+  set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -mthreads")
+  set(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -mthreads")
+endif()
+
+# Add flags for the SUN compiler to provide all the methods for std::allocator.
+#
+itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" SUN_COMPILER)
+if(SUN_COMPILER)
+  itkCHECK_CXX_ACCEPTS_FLAGS("-library=stlport4" SUN_COMPILER_HAS_STL_PORT_4)
+  if(SUN_COMPILER_HAS_STL_PORT_4)
+    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -library=stlport4")
+  endif(SUN_COMPILER_HAS_STL_PORT_4)
+endif(SUN_COMPILER)
+
+#-----------------------------------------------------------------------------
+# The frename-registers option does not work due to a bug in the gnu compiler.
+# It must be removed or data errors will be produced and incorrect results
+# will be produced.  This is first documented in the gcc4 man page.
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(ALL_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS} ${CMAKE_MODULE_LINKER_FLAGS}" )
+  separate_arguments(ALL_FLAGS)
+  foreach(COMP_OPTION ${ALL_FLAGS})
+    if("${COMP_OPTION}" STREQUAL "-frename-registers")
+      message(FATAL_ERROR "-frename-registers causes runtime bugs.  It must be removed from your compilation options.")
+    endif("${COMP_OPTION}" STREQUAL "-frename-registers")
+    if("${COMP_OPTION}" STREQUAL "-ffloat-store")
+      message(FATAL_ERROR "-ffloat-store causes runtime bugs on gcc 3.2.3 (appearently not on gcc 3.4.3, but the exact criteria is not known).  It must be removed from your compilation options.")
+    endif("${COMP_OPTION}" STREQUAL "-ffloat-store")
+  endforeach(COMP_OPTION)
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
 #---------------------------------------------------------------
 # run try compiles and tests for ITK

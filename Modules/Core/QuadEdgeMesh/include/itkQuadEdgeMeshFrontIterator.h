@@ -81,6 +81,7 @@ namespace itk
  * Depending on the weight associated wich each edge, and on the type of the
  * seed (primal or dual) it can be used for frint propagation algorithm,
  * distance tree computation or other Djikstra like algorithms.
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< typename TMesh, typename TQE >
 class ITK_EXPORT QuadEdgeMeshFrontBaseIterator
@@ -105,6 +106,7 @@ protected:
    *
    * Note that when sorting this list, the sorting criteria is the
    * Cost attribute.
+   * \ingroup ITK-QuadEdgeMesh
    */
   class FrontAtom
   {
@@ -211,6 +213,7 @@ protected:
  * \class QuadEdgeMeshFrontIterator
  *
  * \brief Non const quad edge front iterator.
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< typename TMesh, typename TQE >
 class ITK_EXPORT QuadEdgeMeshFrontIterator:
@@ -236,6 +239,7 @@ public:
  * \class QuadEdgeMeshConstFrontIterator
  *
  * \brief Const quad edge mesh front iterator.
+ * \ingroup ITK-QuadEdgeMesh
  */
 template< class TMesh, class TQE = typename TMesh::QEType >
 class ITK_EXPORT QuadEdgeMeshConstFrontIterator:

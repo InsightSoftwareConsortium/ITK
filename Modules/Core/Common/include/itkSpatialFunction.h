@@ -39,6 +39,7 @@ namespace itk
  * returned by an evaluate() call) and dimensionality.
  *
  * \ingroup SpatialFunctions
+ * \ingroup ITK-Common
  */
 template< typename TOutput,
           unsigned int VImageDimension = 3,

@@ -46,6 +46,7 @@ namespace itk
  * \sa Vector
  *
  * \ingroup PathObjects
+ * \ingroup ITK-Path
  */
 template< unsigned int VDimension >
 class ITK_EXPORT PolyLineParametricPath:public

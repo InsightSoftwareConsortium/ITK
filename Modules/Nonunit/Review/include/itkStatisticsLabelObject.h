@@ -35,6 +35,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/176
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Review
  */
 template< class TLabel, unsigned int VImageDimension >
 class ITK_EXPORT StatisticsLabelObject:public ShapeLabelObject< TLabel, VImageDimension >

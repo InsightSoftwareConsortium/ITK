@@ -41,6 +41,7 @@ namespace itk
  * \sa OtsuMultipleThresholdsCalculator
  * \sa ThresholdLabelerImageFilter
  * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-Thresholding
  */
 
 template< class TInputImage, class TOutputImage >

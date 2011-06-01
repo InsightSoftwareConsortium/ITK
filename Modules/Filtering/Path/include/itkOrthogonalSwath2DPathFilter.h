@@ -39,10 +39,14 @@ namespace itk
  * a good way to do this). Both the merit swath image and the path used to
  * extract the swath image should then be passed as inputs to this filter which
  * will search through the merit swath image using dynamic programming to find
- * the absolutely optimum (in terms of the swath image) path.  The test file
+ * the absolutely optimum (in terms of the swath image) path.
  * itkOrthogonalSwath2DPathFilterTest.cxx provides a good usage example.
  *
+ * \example itkOrthogonalSwath2DPathFilterTest.cxx
+ * It provides a good usage example of itk::OrthogonalSwath2DPathFilter
+ *
  * \ingroup PathFilters
+ * \ingroup ITK-Path
  */
 template< class TFourierSeriesPath, class TSwathMeritImage >
 class ITK_EXPORT OrthogonalSwath2DPathFilter:public

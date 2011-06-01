@@ -40,21 +40,22 @@ namespace itk
  * official view of NCRR or NIH.
  *
  * This class was taken from the Insight Journal paper:
- * http://insight-journal.org/midas/handle.php?handle=1926/326
+ * http://hdl.handle.net/1926/326
  *
  * \ingroup FourierTransform
  *
  * \sa FFTRealToComplexConjugateImageFilter
+ * \ingroup ITK-Review
  */
-template< class TPixel, unsigned int NDimension = 3 >
+template< class TImage >
 class FFTComplexToComplexImageFilter:
-  public ImageToImageFilter< Image< std::complex< TPixel >, NDimension >,
-                             Image< std::complex< TPixel >, NDimension > >
+  public ImageToImageFilter< TImage, TImage >
 {
 public:
   /** Input and output image types. */
-  typedef Image< std::complex< TPixel >, NDimension > InputImageType;
-  typedef Image< std::complex< TPixel >, NDimension > OutputImageType;
+  typedef TImage ImageType;
+  typedef TImage InputImageType;
+  typedef TImage OutputImageType;
 
   /** Standard class typedefs. */
   typedef FFTComplexToComplexImageFilter                        Self;
@@ -82,7 +83,6 @@ public:
     }                                             TransformDirectionType;
 
   /** Image type typedef support. */
-  typedef InputImageType               ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
 
   /** Set/Get the direction in which the transform will be applied.

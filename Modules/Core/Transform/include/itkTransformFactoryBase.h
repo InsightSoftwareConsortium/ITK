@@ -34,9 +34,10 @@ namespace itk
 {
 /** \class TransformFactoryBase
  * \brief Create instances of Transforms
+ * \ingroup ITK-Transform
  */
 
-class ITKCommon_EXPORT TransformFactoryBase:public ObjectFactoryBase
+class ITK_EXPORT TransformFactoryBase:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -84,7 +84,9 @@ namespace watershed
  * thresholding eliminates are generally not of interest.
  *
  * \sa WatershedImageFilter
- * \ingroup WatershedSegmentation  */
+ * \ingroup WatershedSegmentation
+ * \ingroup ITK-Watersheds
+ */
 template< class TInputImage >
 class ITK_EXPORT Segmenter:
   public ProcessObject

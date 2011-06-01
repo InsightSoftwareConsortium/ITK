@@ -35,6 +35,7 @@ namespace itk
  * to a list of borders pointed by a region.
  *
  * \ingroup RegionGrowingSegmentation
+ * \ingroup ITK-KLMRegionGrowing
  */
 
 template< class TBorder >
@@ -127,11 +128,12 @@ public:
  * least Lambda value is eliminated.
  *
  * \ingroup RegionGrowingSegmentation
+ * \ingroup ITK-KLMRegionGrowing
  */
 
 class KLMSegmentationRegion;
 
-class ITKCommon_EXPORT KLMSegmentationBorder:public SegmentationBorder
+class ITK_EXPORT KLMSegmentationBorder:public SegmentationBorder
 {
 public:
   /** Standard class typedefs. */

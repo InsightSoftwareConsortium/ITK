@@ -34,6 +34,7 @@ namespace itk
  * the elements of the Arrow.  Since any itk::SpatialObject can have
  * children (see SpatialObject::GetChildren()), this class needs no
  * additional methods.
+ * \ingroup ITK-SpatialObjects
  */
 
 template< unsigned int TDimension = 3 >

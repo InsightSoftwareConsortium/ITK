@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkAnalyzeImageIOTest_h
+#define __itkAnalyzeImageIOTest_h
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -38,18 +40,14 @@
 #include <unistd.h>
 #endif
 
-#if defined(ITK_USE_MODULAR_BUILD)
-  #define SPECIFIC_IMAGEIO_MODULE_TEST
-#endif
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
-
-
-template <typename T, unsigned Dimension>
+template <typename T, unsigned VDimension>
 int
 MakeImage(const std::string & AugmentName)
 {
-  typedef itk::Image<T, Dimension>                ImageType;
-  typedef itk::ImageFileReader< ImageType >       ImageReaderType;
+  typedef itk::Image<T, VDimension>         ImageType;
+  typedef itk::ImageFileReader< ImageType > ImageReaderType;
 
   const std::string filename=std::string(typeid(T).name()) +"_"+AugmentName+"_" +std::string("test.hdr");
 
@@ -59,7 +57,7 @@ MakeImage(const std::string & AugmentName)
   typename ImageType::SizeType size; // = {{10,10,10}};
   typename ImageType::IndexType index; // = {{0,0,0}};
 
-  for(unsigned i = 0; i < Dimension; i++)
+  for(unsigned i = 0; i < VDimension; i++)
     {
     size[i] = 10;
     index[i] = 0;
@@ -100,7 +98,7 @@ MakeImage(const std::string & AugmentName)
   typename ImageType::IndexType RPIindex; // = {{0,0,0}};
   typename ImageType::SizeType RPIsize; // = {{5,10,10}};
   unsigned localdims[] = { 5,10,10 };
-  for(unsigned i = 0; i < Dimension; i++)
+  for(unsigned i = 0; i < VDimension; i++)
     {
     RPIindex[i] = 0;
     RPIsize[i] = localdims[i];
@@ -121,7 +119,7 @@ MakeImage(const std::string & AugmentName)
   typename ImageType::SizeType RPIsize; // = {{10,5,10}};
   unsigned localindex[] = { 0, 5, 0 };
   unsigned localdims[] = { 10,5,10 };
-  for(unsigned i = 0; i < Dimension; i++)
+  for(unsigned i = 0; i < VDimension; i++)
     {
     RPIindex[i] = localindex[i];
     RPIsize[i] = localdims[i];
@@ -137,13 +135,13 @@ MakeImage(const std::string & AugmentName)
     }
   }
 
-  if(Dimension > 2)
+  if(VDimension > 2)
     {  //Fill in superior half
     typename ImageType::IndexType RPIindex; //= {{0,0,5}};
     typename ImageType::SizeType RPIsize; //= {{10,10,5}};
     unsigned localInd[] = { 0,0,5 };
     unsigned localSize[] = { 10,10,5 };
-    for(unsigned i = 0; i < Dimension; i++)
+    for(unsigned i = 0; i < VDimension; i++)
       {
       RPIindex[i] = localInd[i];
       RPIsize[i] = localSize[i];
@@ -231,3 +229,4 @@ typename ImageType::Pointer NewRGBImage()
 }
 
 int WriteAnalyzeTestFiles(const std::string & AugmentName);
+#endif

@@ -38,6 +38,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ImageIterators
+ * \ingroup ITK-MathematicalMorphology
  */
 
 template< class TPixel, unsigned int VDimension = 2,

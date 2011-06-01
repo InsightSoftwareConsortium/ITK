@@ -29,15 +29,51 @@
 #include "itkResampleImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
+/* Further testing of itkResampleImageFilter
+ * Output is compared with baseline image using the cmake add_test
+ * '--compare' option.
+ */
+
+namespace {
+
+template<class TCoordRepType, unsigned int NDimensions>
+class NonlinearAffineTransform:
+  public itk::AffineTransform<TCoordRepType,NDimensions>
+{
+public:
+  /** Standard class typedefs.   */
+  typedef NonlinearAffineTransform                           Self;
+  typedef itk::AffineTransform< TCoordRepType, NDimensions > Superclass;
+  typedef itk::SmartPointer< Self >                          Pointer;
+  typedef itk::SmartPointer< const Self >                    ConstPointer;
+
+  /** New macro for creation of through a smart pointer. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(NonlinearAffineTransform, AffineTransform);
+
+  /** Dimension of the domain space. */
+  itkStaticConstMacro(InputSpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
+  itkStaticConstMacro( ParametersDimension, unsigned int,
+                       NDimensions *( NDimensions + 1 ) );
+
+  /** Override this. See test below. */
+    virtual bool IsLinear() const { return false; }
+};
+}
 
 int itkResampleImageTest2(int argc, char * argv [] )
 {
 
-  if( argc < 4 )
+  if( argc < 5 )
     {
     std::cerr << "Missing arguments ! " << std::endl;
     std::cerr << "Usage : " << std::endl;
-    std::cerr << argv[0] << "inputImage referenceImage resampledImage";
+    std::cerr << argv[0] << "inputImage referenceImage "
+              << "resampledImageLinear resampledImageNonLinear";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -50,9 +86,12 @@ int itkResampleImageTest2(int argc, char * argv [] )
   typedef ImageType::Pointer                     ImagePointerType;
   typedef ImageType::RegionType                  ImageRegionType;
   typedef ImageType::SizeType                    ImageSizeType;
-  typedef double                  CoordRepType;
+  typedef double                                 CoordRepType;
   typedef itk::AffineTransform<CoordRepType,NDimensions>   AffineTransformType;
-  typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
+  typedef NonlinearAffineTransform<CoordRepType,NDimensions>
+                                                 NonlinearAffineTransformType;
+  typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
+                                                 InterpolatorType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
@@ -60,12 +99,14 @@ int itkResampleImageTest2(int argc, char * argv [] )
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
 
-  WriterType::Pointer writer = WriterType::New();
+  WriterType::Pointer writer1 = WriterType::New();
+  WriterType::Pointer writer2 = WriterType::New();
 
   reader1->SetFileName( argv[1] );
   reader2->SetFileName( argv[2] );
 
-  writer->SetFileName( argv[3] );
+  writer1->SetFileName( argv[3] );
+  writer2->SetFileName( argv[4] );
 
   // Create an affine transformation
   AffineTransformType::Pointer affineTransform = AffineTransformType::New();
@@ -85,7 +126,7 @@ int itkResampleImageTest2(int argc, char * argv [] )
   resample->SetTransform( affineTransform );
   resample->SetInterpolator( interpolator );
 
-  writer->SetInput( resample->GetOutput() );
+  writer1->SetInput( resample->GetOutput() );
 
   // Check GetReferenceImage
   if( resample->GetReferenceImage() != reader2->GetOutput() )
@@ -94,11 +135,33 @@ int itkResampleImageTest2(int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-
-  // Run the resampling filter
+  // Run the resampling filter with the normal, linear, affine transform.
+  // This will use ResampleImageFilter::LinearThreadedGenerateData().
+  std::cout << "Test with normal AffineTransform." << std::endl;
   try
     {
-    writer->Update();
+    writer1->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Assign an affine transform that returns
+  // false for IsLinear() instead of true, to force
+  // the filter to use the NonlinearThreadedGenerateData method
+  // instead of LinearThreadedGenerateData. This will test that
+  // we get the same results for both methods.
+  std::cout << "Test with NonlinearAffineTransform." << std::endl;
+  NonlinearAffineTransformType::Pointer nonlinearAffineTransform =
+                                    NonlinearAffineTransformType::New();
+  nonlinearAffineTransform->Scale(2.0);
+  resample->SetTransform( nonlinearAffineTransform );
+  writer2->SetInput( resample->GetOutput() );
+  try
+    {
+    writer2->Update();
     }
   catch( itk::ExceptionObject & excp )
     {

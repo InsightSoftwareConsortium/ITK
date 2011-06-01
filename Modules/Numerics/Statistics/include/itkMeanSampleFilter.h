@@ -41,6 +41,7 @@ namespace Statistics
  * 'MeasurementVectorSize'  has been removed to allow the length of a measurement
  * vector to be specified at run time. It is now obtained from the input sample.
  * Please use the function GetMeasurementVectorSize() to obtain the length.
+ * \ingroup ITK-Statistics
  */
 
 template< class TSample >

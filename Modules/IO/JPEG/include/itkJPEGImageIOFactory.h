@@ -29,8 +29,9 @@ namespace itk
 {
 /** \class JPEGImageIOFactory
  * \brief Create instances of JPEGImageIO objects using an object factory.
+ * \ingroup ITK-IO-JPEG
  */
-class ITKIO_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
+class ITK_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

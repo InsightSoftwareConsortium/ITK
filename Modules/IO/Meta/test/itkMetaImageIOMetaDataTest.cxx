@@ -27,9 +27,8 @@
 #include "itkMetaDataDictionary.h"
 #include "itkMetaImageIO.h"
 
-#if defined(ITK_USE_MODULAR_BUILD)
-  #define SPECIFIC_IMAGEIO_MODULE_TEST
-#endif
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 /** read an image using ITK -- image-based template */
 template <typename TImage>

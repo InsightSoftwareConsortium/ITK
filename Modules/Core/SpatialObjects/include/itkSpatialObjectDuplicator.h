@@ -25,7 +25,9 @@ namespace itk
 {
 /** \class SpatialObjectDuplicator
  *  This helper class create an SpatialObject which is perfect
- *  copy of the input SpatialObject */
+ *  copy of the input SpatialObject
+ * \ingroup ITK-SpatialObjects
+ */
 template< class TInputSpatialObject >
 class ITK_EXPORT SpatialObjectDuplicator:public Object
 {

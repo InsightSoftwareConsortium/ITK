@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkNrrdImageIOTest_h_
-#define __itkNrrdImageIOTest_h_
+#ifndef __itkNrrdImageIOTest_h
+#define __itkNrrdImageIOTest_h
 
 #include <fstream>
 #include "itkImageRegionIterator.h"

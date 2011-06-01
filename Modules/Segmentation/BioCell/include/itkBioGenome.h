@@ -41,8 +41,9 @@ namespace bio
  * The genome is considered to be a sequence of genes each one having
  * a name and a level of expression. This class is intended to be used
  * by artificial cells implementing cellular algorithms for image processing.
+ * \ingroup ITK-BioCell
  */
-class ITKAlgorithms_EXPORT Genome
+class ITK_EXPORT Genome
 {
 public:
   typedef   std::string                    GeneIdType;

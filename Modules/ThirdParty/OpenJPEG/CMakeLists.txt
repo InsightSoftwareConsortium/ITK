@@ -1,4 +1,5 @@
 project(ITK-OpenJPEG)
+set(ITK-OpenJPEG_THIRD_PARTY 1)
 
 set(ITK-OpenJPEG_INCLUDE_DIRS
   ${ITK-OpenJPEG_BINARY_DIR}/src/openjpeg

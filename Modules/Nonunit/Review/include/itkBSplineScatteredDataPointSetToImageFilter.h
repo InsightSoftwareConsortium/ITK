@@ -65,6 +65,7 @@ namespace itk
  * \par REFERENCE
  * N.J. Tustison and J.C. Gee, "Generalized n-D C^k Scattered Data Approximation
  * with COnfidence Values", Proceedings of the MIAR conference, August 2006.
+ * \ingroup ITK-Review
  */
 
 template< class TInputPointSet, class TOutputImage >

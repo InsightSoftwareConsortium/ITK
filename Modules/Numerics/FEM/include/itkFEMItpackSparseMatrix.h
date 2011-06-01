@@ -29,6 +29,7 @@ namespace fem {
  * \brief a compressed row sparse matrix representation that makes
  *        use of itpack to dynamically assemble the matrix
  * \sa ItpackLinearSystemWrapper
+ * \ingroup ITK-FEM
  */
 
 // Forward declaration of friend class
@@ -244,6 +245,7 @@ private:
  * \brief handles errors that occur when unfinalizing the matrix
  * \sa ItpackSparseMatrix
  * \sa FEMException
+ * \ingroup ITK-FEM
  */
 class FEMExceptionItpackSparseMatrixSbagn : public FEMException
 {
@@ -273,6 +275,7 @@ public:
  * \brief handles errors that occur when building the matrix
  * \sa ItpackSparseMatrix
  * \sa FEMException
+ * \ingroup ITK-FEM
  */
 class FEMExceptionItpackSparseMatrixSbsij : public FEMException
 {

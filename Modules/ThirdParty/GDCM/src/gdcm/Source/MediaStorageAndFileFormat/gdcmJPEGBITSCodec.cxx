@@ -684,7 +684,7 @@ UINT16 Y_density
 /*
  * Note: see dcmdjpeg +cn option to avoid the YBR => RGB loss
  */
-bool JPEGBITSCodec::Decode(std::istream &is, std::ostream &os)
+bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
 {
   /* This struct contains the JPEG decompression parameters and pointers to
    * working space (which is allocated as needed by the JPEG library).

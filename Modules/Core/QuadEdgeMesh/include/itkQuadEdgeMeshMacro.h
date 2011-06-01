@@ -38,11 +38,11 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/306
+ * http://hdl.handle.net/1926/306
  *
  * \warning Don't forget to close the opened block with the corresponding
  *          itk::itkQEMeshForAllPointsMacro macro.
- * \example itk::MeshExtractComponentFilter::GetOutput().
+ * \sa itk::MeshExtractComponentFilter::GetOutput().
  */
 #define itkQEMeshForAllPointsMacro(MeshType,                               \
                                    MeshInstance,                           \
@@ -94,12 +94,12 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/306
+ * http://hdl.handle.net/1926/306
  *
 
  * \warning Don't forget to close the opened block with the corresponding
  *          itk::itkQEMeshForAllCellsEndMacro macro.
- * \example itk::itkQEMeshForAllPrimalEdgesMacro
+ * \sa itk::itkQEMeshForAllPrimalEdgesMacro
  */
 #define itkQEMeshForAllCellsMacro(MeshType,                                    \
                                   MeshInstance,                                \
@@ -144,7 +144,7 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/306
+ * http://hdl.handle.net/1926/306
  *
  * \warning Don't forget to close the opened block with the corresponding
  *          itk::itkQEMeshForAllPrimalEdgesMacro macro.

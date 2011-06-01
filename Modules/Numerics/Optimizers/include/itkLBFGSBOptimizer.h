@@ -28,8 +28,9 @@ namespace itk
  *
  * This class is used to translate iteration events, etc, from
  * vnl_lbfgsb into iteration events in ITK.
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT LBFGSBOptimizerHelper;
+class ITK_EXPORT LBFGSBOptimizerHelper;
 
 /** \class LBFGSBOptimizer
  * \brief Limited memory Broyden Fletcher Goldfarb Shannon minimization with simple bounds.
@@ -55,8 +56,9 @@ class ITKNumerics_EXPORT LBFGSBOptimizerHelper;
  * Vol 23, Num. 4, pp. 550 - 560.
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT LBFGSBOptimizer:
+class ITK_EXPORT LBFGSBOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 {
 public:

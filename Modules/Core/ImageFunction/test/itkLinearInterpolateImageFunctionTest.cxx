@@ -22,42 +22,61 @@
 #include <iostream>
 
 #include "itkImage.h"
+#include "itkVectorImage.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 
 
-int itkLinearInterpolateImageFunctionTest( int , char*[] )
+/* Allows testing up to TDimension=4 */
+template< unsigned int TDimension >
+int RunTest( void )
  {
-
- const   unsigned int                                  Dimension = 2;
  typedef float                                         PixelType;
+ const   unsigned int                                  Dimensions = TDimension;
  const   unsigned int                                  VectorDimension = 4;
  typedef itk::Vector< PixelType, VectorDimension >     VectorPixelType;
- typedef itk::Image< PixelType, Dimension >            ImageType;
- typedef itk::Image< VectorPixelType, Dimension >      VectorImageType;
- typedef ImageType::RegionType                         RegionType;
- typedef RegionType::SizeType                          SizeType;
- typedef ImageType::IndexType                          IndexType;
+ typedef itk::Image< PixelType, Dimensions >           ImageType;
+ typedef itk::Image< VectorPixelType, Dimensions >     VectorImageType;
+ typedef itk::VectorImage< PixelType, Dimensions >     VariableVectorImageType;
+ typedef typename VariableVectorImageType::PixelType   VariablePixelType;
+ typedef typename ImageType::RegionType                RegionType;
+ typedef typename RegionType::SizeType                 SizeType;
+ typedef typename ImageType::IndexType                 IndexType;
 
- typedef itk::ContinuousIndex<float, 2>                ContinuousIndexType;
- typedef itk::Point<float,2>                           PointType;
+ typedef typename itk::ContinuousIndex<float, Dimensions>
+                                                       ContinuousIndexType;
+ typedef typename itk::Point<float,Dimensions>         PointType;
 
  typedef float                                         CoordRepType;
- typedef itk::LinearInterpolateImageFunction<
-    ImageType, CoordRepType >                          InterpolatorType;
- typedef itk::LinearInterpolateImageFunction<
-    VectorImageType, CoordRepType >                    VectorInterpolatorType;
+ typedef typename itk::LinearInterpolateImageFunction<
+                                                      ImageType,
+                                                      CoordRepType >
+                                                      InterpolatorType;
+ typedef typename itk::LinearInterpolateImageFunction<
+                                                      VectorImageType,
+                                                      CoordRepType >
+                                                      VectorInterpolatorType;
+ typedef typename itk::LinearInterpolateImageFunction<
+                                                      VariableVectorImageType,
+                                                      CoordRepType >
+                                               VariableVectorInterpolatorType;
 
- typedef VectorInterpolatorType::OutputType            InterpolatedVectorType;
+ typedef typename VectorInterpolatorType::OutputType  InterpolatedVectorType;
+ typedef typename VariableVectorInterpolatorType::OutputType
+                                               InterpolatedVariableVectorType;
 
- ImageType::Pointer image = ImageType::New();
- VectorImageType::Pointer vectorimage = VectorImageType::New();
+ typename ImageType::Pointer image = ImageType::New();
+ typename VectorImageType::Pointer vectorimage = VectorImageType::New();
+ typename VariableVectorImageType::Pointer
+  variablevectorimage = VariableVectorImageType::New();
+ variablevectorimage->SetVectorLength(VectorDimension);
 
  IndexType start;
  start.Fill( 0 );
 
  SizeType size;
- size.Fill( 3 );
+ const int dimMaxLength = 3;
+ size.Fill( dimMaxLength );
 
  RegionType region;
  region.SetSize( size );
@@ -69,8 +88,11 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
  vectorimage->SetRegions( region );
  vectorimage->Allocate();
 
- ImageType::PointType     origin;
- ImageType::SpacingType   spacing;
+ variablevectorimage->SetRegions( region );
+ variablevectorimage->Allocate();
+
+ typename ImageType::PointType     origin;
+ typename ImageType::SpacingType   spacing;
 
  origin.Fill( 0.0 );
  spacing.Fill( 1.0 );
@@ -81,98 +103,215 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
  vectorimage->SetOrigin( origin );
  vectorimage->SetSpacing( spacing );
 
+ variablevectorimage->SetOrigin( origin );
+ variablevectorimage->SetSpacing( spacing );
+
  image->Print( std::cout );
 
- unsigned int maxx = 3;
- unsigned int maxy = 3;
+ // Setup for testing up to Dimension=4
+ unsigned int dimLengths[4] = {1,1,1,1};
+ for( unsigned int ind = 0; ind < Dimensions; ind++ )
+  {
+  dimLengths[ind] = dimMaxLength;
+  }
 
  //
  // Fill up the image values with the function
  //
- //   Intensity = f(x,y) = x + 3 * y
+ //   Intensity = f(d1[,d2[,d3[,d4]]]) = 3*d1 [+ d2 [+ d3 [+ d4] ] ]
  //
  //
- for (unsigned int y = 0; y < maxy; y++)
+ IndexType index;
+ unsigned int dimIt[4];
+ std::cout << "Image Data: " << std::endl;
+ for (dimIt[3] = 0; dimIt[3] < dimLengths[3]; dimIt[3]++)
    {
-   for (unsigned int x = 0; x < maxx; x++)
+   for (dimIt[2] = 0; dimIt[2] < dimLengths[2]; dimIt[2]++)
      {
-     IndexType index;
-     index[0] = x;
-     index[1] = y;
+     std::cout << "* dimIt[3], dimIt[2]: " << dimIt[3] << ", " << dimIt[2]
+               << std::endl;
+     for (dimIt[1] = 0; dimIt[1] < dimLengths[1]; dimIt[1]++)
+       {
+       for (dimIt[0] = 0; dimIt[0] < dimLengths[0]; dimIt[0]++)
+         {
+         PixelType value = 3*dimIt[0];
+         index[0] = dimIt[0];
+         for( unsigned int ind = 1; ind < Dimensions; ind++ )
+          {
+          value += dimIt[ind];
+          index[ind]=dimIt[ind];
+          }
+         image->SetPixel( index, value );
 
-     const PixelType value = x + y * maxx;
-     image->SetPixel( index, value );
+         VectorPixelType & vectorpixel = vectorimage->GetPixel( index );
+         vectorpixel.Fill( value );
 
-     VectorPixelType & vectorpixel = vectorimage->GetPixel( index );
-     vectorpixel.Fill( value );
+         VariablePixelType
+          variablevectorpixel = variablevectorimage->GetPixel( index );
+         variablevectorpixel.Fill( value );
 
-     std::cout << value << " ";
+         std::cout << value << " ";
+         }
+        std::cout << std::endl;
+       }
      }
-   std::cout << std::endl;
    }
 
- InterpolatorType::Pointer interpolator = InterpolatorType::New();
+ typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
  interpolator->SetInputImage( image );
 
- VectorInterpolatorType::Pointer vectorinterpolator = VectorInterpolatorType::New();
+ typename VectorInterpolatorType::Pointer
+  vectorinterpolator = VectorInterpolatorType::New();
  vectorinterpolator->SetInputImage( vectorimage );
 
- const double incr = 0.1;
+ typename VariableVectorInterpolatorType::Pointer
+  variablevectorinterpolator = VariableVectorInterpolatorType::New();
+ variablevectorinterpolator->SetInputImage( variablevectorimage );
+
+ const double incr = 0.2;
 
  const double tolerance = 1e-6;
 
  PointType point;
-
- for (double yy = 0; yy < static_cast<double>(maxy-1); yy++)
+ unsigned int testLengths[4] = {1,1,1,1};
+ for( unsigned int ind = 0; ind < Dimensions; ind++ )
+  {
+  testLengths[ind] = dimMaxLength-1;
+  }
+ double steps[4];
+ double dimItf[4];
+ for (dimItf[3] = 0; dimItf[3] < testLengths[3]; dimItf[3]++)
    {
-   for (double xx = 0; xx < static_cast<double>(maxx-1); xx++)
+   for (dimItf[2] = 0; dimItf[2] < testLengths[2]; dimItf[2]++)
      {
-     for (double yyy = yy; yyy < yy + 1.01; yyy += incr)
+     for (dimItf[1] = 0; dimItf[1] < testLengths[1]; dimItf[1]++)
        {
-       for (double xxx = xx; xxx < xx + 1.01; xxx += incr)
+       for (dimItf[0] = 0; dimItf[0] < testLengths[0]; dimItf[0]++)
          {
-         point[0] = xxx;
-         point[1] = yyy;
-
-         if( interpolator->IsInsideBuffer( point ) )
+         for (steps[3] = 0; steps[3] < dimItf[3] + 1.01; steps[3]+=incr)
            {
-           const double expectedValue = xxx + 3.0 * yyy;
-
-           const double computedValue = interpolator->Evaluate( point );
-
-           const double difference = expectedValue - computedValue;
-
-           if( vcl_fabs( difference ) > tolerance )
+           for (steps[2] = 0; steps[2] < dimItf[2] + 1.01; steps[2]+=incr)
              {
-             std::cerr << "Error found while computing interpolation " << std::endl;
-             std::cerr << "Point = " << point << std::endl;
-             std::cerr << "Expected value = " << expectedValue << std::endl;
-             std::cerr << "Computed value = " << computedValue << std::endl;
-             std::cerr << "Difference     = " << difference << std::endl;
-             return EXIT_FAILURE;
-             }
+             for (steps[1] = 0; steps[1] < dimItf[1] + 1.01; steps[1]+=incr)
+               {
+               for (steps[0] = 0; steps[0] < dimItf[0] + 1.01; steps[0]+=incr)
+                 {
+                 double expectedValue = 3*steps[0];
+                 point[0] = steps[0];
+                 for( unsigned int ind = 1; ind < Dimensions; ind++ )
+                  {
+                  expectedValue += steps[ind];
+                  point[ind]=steps[ind];
+                  }
 
-           const InterpolatedVectorType vectorpixel = vectorinterpolator->Evaluate( point );
+                 if( interpolator->IsInsideBuffer( point ) )
+                   {
+                   const double computedValue = interpolator->Evaluate( point );
+                   const double difference = expectedValue - computedValue;
 
-           const InterpolatedVectorType expectedvector(expectedValue);
+                   if( vcl_fabs( difference ) > tolerance )
+                     {
+                     std::cerr << "Error found while computing interpolation "
+                               << std::endl;
+                     std::cerr << "Point = " << point << std::endl;
+                     std::cerr << "Expected value = " << expectedValue
+                               << std::endl;
+                     std::cerr << "Computed value = " << computedValue
+                               << std::endl;
+                     std::cerr << "Difference     = " << difference
+                               << std::endl;
+                     return EXIT_FAILURE;
+                     }
 
-           const double errornorm = (expectedvector - vectorpixel).GetNorm();
+                   const InterpolatedVectorType vectorpixel =
+                    vectorinterpolator->Evaluate( point );
 
-           if( errornorm > tolerance )
-             {
-             std::cerr << "Error found while computing vector interpolation " << std::endl;
-             std::cerr << "Point = " << point << std::endl;
-             std::cerr << "Expected vector = " << expectedvector << std::endl;
-             std::cerr << "Computed vector = " << vectorpixel << std::endl;
-             std::cerr << "Difference     = " << (expectedvector - vectorpixel) << std::endl;
-             return EXIT_FAILURE;
+                   const InterpolatedVectorType expectedvector(expectedValue);
+
+                   const double errornorm =
+                    (expectedvector - vectorpixel).GetNorm();
+
+                   if( errornorm > tolerance )
+                     {
+                     std::cerr << "Error found computing vector interpolation "
+                               << std::endl;
+                     std::cerr << "Point = " << point << std::endl;
+                     std::cerr << "Expected vector = " << expectedvector
+                               << std::endl;
+                     std::cerr << "Computed vector = " << vectorpixel
+                               << std::endl;
+                     std::cerr << "Difference     = "
+                               << (expectedvector - vectorpixel)
+                               << std::endl;
+                     return EXIT_FAILURE;
+                     }
+
+                   const InterpolatedVariableVectorType variablevectorpixel =
+                    variablevectorinterpolator->Evaluate( point );
+
+                   InterpolatedVariableVectorType expectedvariablevector;
+                   expectedvariablevector.SetSize(VectorDimension);
+                   expectedvariablevector.Fill(expectedValue);
+
+                   const double varerrornorm =
+                    (expectedvariablevector - variablevectorpixel).GetNorm();
+
+                   if( varerrornorm > tolerance )
+                     {
+                     std::cerr << "Error found while computing variable "
+                               << " vector interpolation " << std::endl;
+                     std::cerr << "Point = " << point << std::endl;
+                     std::cerr << "Expected variablevector = "
+                      << expectedvariablevector << std::endl;
+                     std::cerr << "Computed variablevector = "
+                      << variablevectorpixel << std::endl;
+                     std::cerr << "Difference     = "
+                      << (expectedvariablevector - variablevectorpixel)
+                      << std::endl;
+                     return EXIT_FAILURE;
+                     }
+                   }
+                 }
+               }
              }
            }
          }
        }
      }
-   }
+   } //for dims[3]...
+ return EXIT_SUCCESS;
+ }// RunTest()
 
+int itkLinearInterpolateImageFunctionTest( int , char*[] )
+ {
+  /* Test separately for images of 1 through 4 dimensions because this function
+   * has optimized implementations for dimensionality of 1-3, and unoptimized
+   * implementation for 4 and greater. */
+  int result = EXIT_SUCCESS;
 
-  return EXIT_SUCCESS;
-}
+  std::cout << "***** Testing dimensionality of 1 *****" << std::endl;
+  if( RunTest<1>() == EXIT_FAILURE )
+    {
+    result = EXIT_FAILURE;
+    std::cout << "Failed for dimensionality 1." << std::endl;
+    }
+  std::cout << "***** Testing dimensionality of 2 *****" << std::endl;
+  if( RunTest<2>() == EXIT_FAILURE )
+    {
+    result = EXIT_FAILURE;
+    std::cout << "Failed for dimensionality 2." << std::endl;
+    }
+  std::cout << "***** Testing dimensionality of 3 *****" << std::endl;
+  if( RunTest<3>() == EXIT_FAILURE )
+    {
+    result = EXIT_FAILURE;
+    std::cout << "Failed for dimensionality 3." << std::endl;
+    }
+  std::cout << "***** Testing dimensionality of 4 *****" << std::endl;
+  if( RunTest<4>() == EXIT_FAILURE )
+    {
+    result = EXIT_FAILURE;
+    std::cout << "Failed for dimensionality 4." << std::endl;
+    }
+  return result;
+ }

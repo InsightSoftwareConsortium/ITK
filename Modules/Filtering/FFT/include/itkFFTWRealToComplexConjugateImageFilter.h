@@ -45,20 +45,23 @@ namespace itk
  *
  * \ingroup FourierTransform, Multithreaded
  * \sa FFTWGlobalConfiguration, FFTRealToComplexConjugateImageFilter
+ * \ingroup ITK-FFT
  */
-template< class TPixel, unsigned int VDimension = 3 >
+template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
 class ITK_EXPORT FFTWRealToComplexConjugateImageFilter:
-  public FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
+  public FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 {
 public:
-  typedef FFTWRealToComplexConjugateImageFilter                      Self;
-  typedef FFTRealToComplexConjugateImageFilter< TPixel, VDimension > Superclass;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
-
   /** Standard class typedefs. */
-  typedef typename Superclass::TInputImageType  TInputImageType;
-  typedef typename Superclass::TOutputImageType TOutputImageType;
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::PixelType  OutputPixelType;
+
+  typedef FFTWRealToComplexConjugateImageFilter                             Self;
+  typedef FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                              Pointer;
+  typedef SmartPointer< const Self >                                        ConstPointer;
 
   /**
    * the proxy type is a wrapper for the fftw API
@@ -67,7 +70,7 @@ public:
    * is trying to use double if only the float FFTW version is
    * configured in, or float if only double is configured.
    */
-  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
+  typedef typename fftw::Proxy< InputPixelType > FFTWProxyType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,6 +78,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTWRealToComplexConjugateImageFilter,
                FFTRealToComplexConjugateImageFilter);
+
+  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
   /**
    * Set/Get the behavior of wisdom plan creation. The default is

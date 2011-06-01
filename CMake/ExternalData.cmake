@@ -78,6 +78,15 @@
 # members named <prefix><number><suffix>.  Note that the <suffix> of a series
 # does not include a hash-algorithm extension.  Both series configuration
 # variables have default values that work well for common cases.
+#
+# The variable ExternalData_LINK_CONTENT may be set to the name of a supported
+# hash algorithm to enable automatic conversion of real data files referenced
+# by the DATA{} syntax into content links.  For each such <file> a content
+# link named "<file><ext>" is created.  The original file is renamed to the
+# form ".ExternalData_<algo>_<hash>" to stage it for future transmission to
+# one of the locations in the list of URL templates (by means outside the
+# scope of this module).  The data fetch rule created for the content link
+# will use the staged object if it cannot be found using any URL template.
 
 #=============================================================================
 # Copyright 2010-2011 Kitware, Inc.
@@ -208,6 +217,46 @@ endfunction()
 set(_ExternalData_SELF "${CMAKE_CURRENT_LIST_FILE}")
 get_filename_component(_ExternalData_SELF_DIR "${_ExternalData_SELF}" PATH)
 
+function(_ExternalData_compute_hash var_hash algo file)
+  if("${algo}" STREQUAL "MD5")
+    # TODO: Errors
+    execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
+      OUTPUT_VARIABLE output)
+    string(SUBSTRING ${output} 0 32 hash)
+    set("${var_hash}" "${hash}" PARENT_SCOPE)
+  else()
+    # TODO: Other hashes.
+    message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
+  endif()
+endfunction()
+
+function(_ExternalData_atomic_write file content)
+  string(RANDOM LENGTH 6 random)
+  set(tmp "${file}.tmp${random}")
+  file(WRITE "${tmp}" "${content}")
+  file(RENAME "${tmp}" "${file}")
+endfunction()
+
+function(_ExternalData_link_content name var_ext)
+  if("${ExternalData_LINK_CONTENT}" MATCHES "^(MD5)$")
+    set(algo "${ExternalData_LINK_CONTENT}")
+  else()
+    message(FATAL_ERROR
+      "Unknown hash algorithm specified by ExternalData_LINK_CONTENT:\n"
+      "  ${ExternalData_LINK_CONTENT}")
+  endif()
+  _ExternalData_compute_hash(hash "${algo}" "${name}")
+  get_filename_component(dir "${name}" PATH)
+  set(staged "${dir}/.ExternalData_${algo}_${hash}")
+  set(ext ".md5")
+  _ExternalData_atomic_write("${name}${ext}" "${hash}\n")
+  file(RENAME "${name}" "${staged}")
+  set("${var_ext}" "${ext}" PARENT_SCOPE)
+
+  file(RELATIVE_PATH relname "${CMAKE_SOURCE_DIR}" "${name}${ext}")
+  message(STATUS "Linked ${relname} to ExternalData ${algo}/${hash}")
+endfunction()
+
 function(_ExternalData_arg target arg data var_file)
   # Convert to full path.
   if(IS_ABSOLUTE "${data}")
@@ -282,6 +331,9 @@ function(_ExternalData_arg target arg data var_file)
       set(name "${top_src}/${relname}")
       set(file "${top_bin}/${relname}")
       if(alg)
+        list(APPEND external "${file}|${name}|${alg}")
+      elseif(ExternalData_LINK_CONTENT)
+        _ExternalData_link_content("${name}" alg)
         list(APPEND external "${file}|${name}|${alg}")
       else()
         list(APPEND internal "${file}|${name}")
@@ -359,20 +411,14 @@ function(_ExternalData_link_or_copy src dst)
   file(RENAME "${tmp}" "${dst}")
 endfunction()
 
-function(_ExternalData_compute_hash var_hash algo file)
-  if("${algo}" STREQUAL "MD5")
-    # TODO: Errors
-    execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
-      OUTPUT_VARIABLE output)
-    string(SUBSTRING ${output} 0 32 hash)
-    set("${var_hash}" "${hash}" PARENT_SCOPE)
-  else()
-    # TODO: Other hashes.
-    message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
+function(_ExternalData_download_object name hash algo var_obj)
+  set(obj "${ExternalData_OBJECT_DIR}/${algo}/${hash}")
+  if(EXISTS "${obj}")
+    message(STATUS "Found object: \"${obj}\"")
+    set("${var_obj}" "${obj}" PARENT_SCOPE)
+    return()
   endif()
-endfunction()
 
-function(_ExternalData_download_object hash algo obj)
   string(RANDOM LENGTH 6 random)
   set(tmp "${obj}.tmp${random}")
   set(found 0)
@@ -399,11 +445,21 @@ function(_ExternalData_download_object hash algo obj)
     endif()
     file(REMOVE "${tmp}")
   endforeach()
-  if(NOT found)
+
+  get_filename_component(dir "${name}" PATH)
+  set(staged "${dir}/.ExternalData_${algo}_${hash}")
+
+  if(found)
+    file(RENAME "${tmp}" "${obj}")
+    message(STATUS "Downloaded object: \"${obj}\"")
+  elseif(EXISTS "${staged}")
+    set(obj "${staged}")
+    message(STATUS "Staged object: \"${obj}\"")
+  else()
     message(FATAL_ERROR "Object ${algo}=${hash} not found at:${tried}")
   endif()
 
-  file(RENAME "${tmp}" "${obj}")
+  set("${var_obj}" "${obj}" PARENT_SCOPE)
 endfunction()
 
 if("${ExternalData_ACTION}" STREQUAL "fetch")
@@ -422,13 +478,7 @@ if("${ExternalData_ACTION}" STREQUAL "fetch")
     message(FATAL_ERROR "Unknown hash algorithm extension \"${ext}\"")
   endif()
 
-  set(obj "${ExternalData_OBJECT_DIR}/${algo}/${hash}")
-  if(EXISTS "${obj}")
-    message(STATUS "Found object: \"${obj}\"")
-  else()
-    _ExternalData_download_object("${hash}" "${algo}" "${obj}")
-    message(STATUS "Downloaded object: \"${obj}\"")
-  endif()
+  _ExternalData_download_object("${name}" "${hash}" "${algo}" obj)
 
   # Check if file already corresponds to the object.
   set(file_up_to_date 0)
@@ -449,10 +499,7 @@ if("${ExternalData_ACTION}" STREQUAL "fetch")
   endif()
 
   # Atomically update the hash/timestamp file to record the object referenced.
-  string(RANDOM LENGTH 6 random)
-  set(tmp "${file}${ext}.tmp${random}")
-  file(WRITE "${tmp}" "${hash}\n")
-  file(RENAME "${tmp}" "${file}${ext}")
+  _ExternalData_atomic_write("${file}${ext}" "${hash}\n")
 elseif("${ExternalData_ACTION}" STREQUAL "local")
   foreach(v file name)
     if(NOT DEFINED "${v}")

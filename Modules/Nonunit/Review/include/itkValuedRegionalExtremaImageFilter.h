@@ -59,11 +59,12 @@ namespace itk
  * This class was contributed to the Insight Journal by
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
- *       http://insight-journal.org/midas/handle.php?handle=1926/153
+ *       http://hdl.handle.net/1926/153
  *
  * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalMaximaImageFilter,
  * \sa  HMinimaImageFilter
  * \ingroup MathematicalMorphologyImageFilters
+ * \ingroup ITK-Review
  */
 
 template< class TInputImage, class TOutputImage,

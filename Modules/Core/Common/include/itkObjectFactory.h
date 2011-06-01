@@ -48,6 +48,7 @@ namespace itk
  * on the class definition.)
  *
  * \ingroup ITKSystemObjects
+ * \ingroup ITK-Common
  */
 
 template< class T >

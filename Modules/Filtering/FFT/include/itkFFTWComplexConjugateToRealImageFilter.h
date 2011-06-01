@@ -41,16 +41,23 @@ namespace itk
  *
  * \ingroup FourierTransform, Multithreaded
  * \sa FFTWGlobalConfiguration
+ * \ingroup ITK-FFT
  */
-template< typename TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class ITK_EXPORT FFTWComplexConjugateToRealImageFilter:
-  public FFTComplexConjugateToRealImageFilter< TPixel, VDimension >
+  public FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 {
 public:
-  typedef FFTWComplexConjugateToRealImageFilter                      Self;
-  typedef FFTComplexConjugateToRealImageFilter< TPixel, VDimension > Superclass;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
+  /** Standard class typedefs. */
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::PixelType  OutputPixelType;
+
+  typedef FFTWComplexConjugateToRealImageFilter                                   Self;
+  typedef FFTComplexConjugateToRealImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                                                    Pointer;
+  typedef SmartPointer< const Self >                                              ConstPointer;
   //
   // the proxy type is a wrapper for the fftw API
   // since the proxy is only defined over double and float,
@@ -58,12 +65,9 @@ public:
   // is trying to use double if only the float FFTW version is
   // configured in, or float if only double is configured.
   //
-  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
+  typedef typename fftw::Proxy< OutputPixelType > FFTWProxyType;
 
-  /** Standard class typedefs. */
-  typedef typename Superclass::TInputImageType  TInputImageType;
-  typedef typename Superclass::TOutputImageType TOutputImageType;
-  typedef typename TOutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,8 +77,9 @@ public:
                FFTComplexConjugateToRealImageFilter);
 
   /** Image type typedef support. */
-  typedef TInputImageType              ImageType;
-  typedef typename ImageType::SizeType ImageSizeType;
+  typedef typename InputImageType::SizeType ImageSizeType;
+
+  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
   //
   // these should be defined in every FFT filter class

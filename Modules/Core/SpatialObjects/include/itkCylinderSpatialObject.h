@@ -27,8 +27,9 @@ namespace itk
 /** \class CylinderSpatialObject
  *
  * \brief This class describe a cylinder in 3D only.
+ * \ingroup ITK-SpatialObjects
  */
-class ITKSpatialObject_EXPORT CylinderSpatialObject:
+class ITK_EXPORT CylinderSpatialObject:
   public SpatialObject< 3 >
 {
 public:

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageMaskSpatialObject.h"
 #include <iostream>
 
 int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
@@ -120,6 +121,12 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
       maskImage->Allocate();
       maskImage->FillBuffer(255);
       tensorReconstructionFilter->SetMaskImage( maskImage );
+      //
+      // just for coverage, use the Spatial Object input type as well.
+      itk::ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
+        itk::ImageMaskSpatialObject<3>::New();
+      maskSpatialObject->SetImage(maskImage);
+      tensorReconstructionFilter->SetMaskSpatialObject(maskSpatialObject);
       }
     tensorReconstructionFilter->SetReferenceImage( referenceImage );
     // TODO: remove this when netlib is made thread safe

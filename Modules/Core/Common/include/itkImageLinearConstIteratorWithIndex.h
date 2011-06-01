@@ -65,7 +65,7 @@ namespace itk
  *
  *  \endcode
  *
- * \example  Examples/Iterators/ImageLinearIteratorWithIndex.cxx
+ * \example  ImageLinearIteratorWithIndex.cxx
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
@@ -97,6 +97,7 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  *
+ * \ingroup ITK-Common
  */
 template< typename TImage >
 class ITK_EXPORT ImageLinearConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >

@@ -28,7 +28,9 @@ namespace itk
  *
  *
  *
- * */
+ *
+ * \ingroup ITK-Blox
+ */
 
 template< typename TItemType, int VCliqueSize >
 class CorrespondingList:public std::list< TItemType >

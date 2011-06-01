@@ -136,7 +136,9 @@ namespace itk
  * FeatureScaling.
  *
  * \par
- *  See LevelSetFunction for more information. */
+ *  See LevelSetFunction for more information.
+ * \ingroup ITK-LevelSets
+ */
 template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float,

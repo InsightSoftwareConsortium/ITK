@@ -38,6 +38,7 @@ namespace itk
  *     Type information of mesh containing cell.
  *
  * \ingroup MeshObjects
+ * \ingroup ITK-Common
  */
 
 template< typename TCellInterface >

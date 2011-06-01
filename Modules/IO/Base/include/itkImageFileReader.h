@@ -29,6 +29,7 @@ namespace itk
 /** \class ImageFileReaderException
  *
  * \brief Base exception class for IO conflicts.
+ * \ingroup ITK-IO-Base
  */
 class ImageFileReaderException:public ExceptionObject
 {
@@ -82,6 +83,13 @@ public:
  *
  */
 /** \class ImageFileReader
+ * \ingroup ITK-IO-Base
+ *
+ * \wiki
+ * \wikiexample{IO/ReadVectorImage,Read an image file with an unknown number of components}
+ * \wikiexample{IO/ReadUnknownImageType,Read an image file without knowing its type before hand}
+ * \wikiexample{IO/ImageFileReader,Read an image}
+ * \endwiki
  */
 template< class TOutputImage,
           class ConvertPixelTraits = DefaultConvertPixelTraits<

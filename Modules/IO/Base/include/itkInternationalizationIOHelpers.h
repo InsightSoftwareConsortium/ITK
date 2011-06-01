@@ -24,6 +24,7 @@
 // This should help better dealing with internationalization (a.k.a i18n)
 
 #include "itkMacro.h"
+#include "itkIOConfigure.h"
 
 #ifdef ITK_HAVE_UNISTD_H
 #include <unistd.h> // for unlink
@@ -58,7 +59,7 @@
 #include <fstream>
 #else
 #define LOCAL_USE_FDSTREAM 1
-#include "fdstream.hpp"
+#include "itkfdstream/fdstream.hpp"
 #endif
 
 namespace itk
@@ -148,8 +149,8 @@ inline int I18nOpenForReading(const std::string & str)
 #endif
 }
 
-// Writting wrapper around I18nOpen to avoid explicitely specifying the flags
-inline int I18nOpenForWritting(const std::string & str, const bool append = false)
+// Writing wrapper around I18nOpen to avoid explicitely specifying the flags
+inline int I18nOpenForWriting(const std::string & str, const bool append = false)
 {
 #if LOCAL_USE_WIN32_WOPEN
   if ( !append ) { return I18nOpen(str, _O_WRONLY | _O_CREAT | _O_BINARY, _S_IREAD | _S_IWRITE); }
@@ -181,7 +182,7 @@ public:
   I18nOfstream(const char *str,
                std::ios_base::openmode mode = std::ios_base::out):
     std::ostream(0),
-    m_fd( I18nOpenForWritting(str, ( mode & std::ios::app ) ? true:false) ),
+    m_fd( I18nOpenForWriting(str, ( mode & std::ios::app ) ? true:false) ),
     m_buf(m_fd)
   {
     ///\todo better handle mode flag
@@ -209,7 +210,7 @@ public:
   I18nIfstream(const char *str,
                std::ios_base::openmode mode = std::ios_base::in):
     std::istream(0),
-    m_fd( I18nOpenforreading(str) ),
+    m_fd( I18nOpenForReading(str) ),
     m_buf(m_fd)
   {
     ///\todo better handle mode flag

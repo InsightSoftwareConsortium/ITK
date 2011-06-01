@@ -29,14 +29,14 @@
 namespace itk
 {
 
-template< typename TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 void
-FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::
+FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::
 BeforeThreadedGenerateData()
 {
   // get pointers to the input and output
-  typename TInputImageType::ConstPointer inputPtr  = this->GetInput();
-  typename TOutputImageType::Pointer outputPtr = this->GetOutput();
+  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
+  typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
     {
@@ -51,9 +51,9 @@ BeforeThreadedGenerateData()
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  const typename TInputImageType::SizeType &   outputSize =
+  const typename InputImageType::SizeType &   outputSize =
     outputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TOutputImageType::SizeType & inputSize =
+  const typename OutputImageType::SizeType & inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
 
   // figure out sizes
@@ -63,7 +63,7 @@ BeforeThreadedGenerateData()
   unsigned int total_outputSize = 1;
   unsigned int total_inputSize = 1;
 
-  for ( unsigned i = 0; i < VDimension; i++ )
+  for ( unsigned i = 0; i < ImageDimension; i++ )
     {
     total_outputSize *= outputSize[i];
     total_inputSize *= inputSize[i];
@@ -83,15 +83,15 @@ BeforeThreadedGenerateData()
     // we must use a buffer where fftw can work and destroy what it wants
     in = new typename FFTWProxyType::ComplexType[total_inputSize];
     }
-  TPixel * out = outputPtr->GetBufferPointer();
+  OutputPixelType * out = outputPtr->GetBufferPointer();
   typename FFTWProxyType::PlanType plan;
 
-  int *sizes = new int[VDimension];
-  for(unsigned int i = 0; i < VDimension; i++)
+  int *sizes = new int[ImageDimension];
+  for(unsigned int i = 0; i < ImageDimension; i++)
     {
-    sizes[(VDimension - 1) - i] = outputSize[i];
+    sizes[(ImageDimension - 1) - i] = outputSize[i];
     }
-  plan = FFTWProxyType::Plan_dft_c2r(VDimension,sizes,
+  plan = FFTWProxyType::Plan_dft_c2r(ImageDimension,sizes,
                               in,
                               out,
                               m_PlanRigor,
@@ -114,12 +114,12 @@ BeforeThreadedGenerateData()
     }
 }
 
-template <typename TPixel, unsigned int VDimension>
+template <class TInputImage, class TOutputImage>
 void
-FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::
+FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::
 ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int itkNotUsed(threadId) )
 {
-  typedef ImageRegionIterator< TOutputImageType >   IteratorType;
+  typedef ImageRegionIterator< OutputImageType >   IteratorType;
   unsigned long total_outputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
   IteratorType it(this->GetOutput(), outputRegionForThread);
   while( !it.IsAtEnd() )
@@ -129,17 +129,17 @@ ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int itk
     }
 }
 
-template< typename TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 bool
-FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::FullMatrix()
+FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::FullMatrix()
 {
   return false;
 }
 
 
-template< typename TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 void
-FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >::
+FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::
 UpdateOutputData(DataObject * output)
 {
   // we need to catch that information now, because it is changed later
@@ -149,9 +149,9 @@ UpdateOutputData(DataObject * output)
   Superclass::UpdateOutputData( output );
 }
 
-template< typename TPixel, unsigned int VDimension >
+template< class TInputImage, class TOutputImage >
 void
-FFTWComplexConjugateToRealImageFilter< TPixel, VDimension >
+FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

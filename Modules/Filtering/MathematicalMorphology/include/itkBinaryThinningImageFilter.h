@@ -50,6 +50,7 @@ namespace itk
  *
  * \sa MorphologyImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
+ * \ingroup ITK-MathematicalMorphology
  */
 
 template< class TInputImage, class TOutputImage >
@@ -120,8 +121,6 @@ public:
                    ( Concept::Convertible< int, PixelType > ) );
   itkConceptMacro( SameTypeCheck,
                    ( Concept::SameType< PixelType, typename TOutputImage::PixelType > ) );
-  itkConceptMacro( InputIntComparableCheck,
-                   ( Concept::Comparable< PixelType, int > ) );
   /** End concept checking */
 #endif
 protected:

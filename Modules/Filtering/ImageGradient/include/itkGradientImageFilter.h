@@ -43,6 +43,7 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup GradientFilters
+ * \ingroup ITK-ImageGradient
  */
 template< class TInputImage, class TOperatorValueType = float, class TOutputValueType = float >
 class ITK_EXPORT GradientImageFilter:

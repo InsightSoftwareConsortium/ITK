@@ -63,6 +63,11 @@ namespace itk
  * \sa RGBPixel
  * \sa DiffusionTensor3D
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/VariableLengthVector,Variable length vector}
+ * \endwiki
  */
 template< typename TValueType >
 class VariableLengthVector
@@ -149,8 +154,10 @@ public:
     return *this;
   }
 
-  /** Assignment operator  */
+  /** Assignment operators  */
   const Self & operator=(const Self & v);
+
+  const Self & operator=(TValueType const & v);
 
   /** Return the number of elements in the Array  */
   inline unsigned int Size(void) const
@@ -182,6 +189,10 @@ public:
    * length is different from the current length, existing data will be lost.
    * The default is \c true. */
   void SetSize(unsigned int sz, bool destroyExistingData = true);
+
+  /** Destroy data that is allocated internally, if LetArrayManageMemory is
+   * true. */
+  void DestroyExistingData();
 
   inline unsigned int GetSize(void) const
   { return m_NumElements; }

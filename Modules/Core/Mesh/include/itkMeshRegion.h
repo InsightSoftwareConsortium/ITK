@@ -46,8 +46,9 @@ namespace itk
  * \sa ImageRegion
  *
  * \ingroup MeshObjects
+ * \ingroup ITK-Mesh
  */
-class ITKCommon_EXPORT MeshRegion:public Region
+class ITK_EXPORT MeshRegion:public Region
 {
 public:
   /** Standard class typedefs. */

@@ -28,8 +28,9 @@ namespace itk
  * optimize a multiple valued function.
  *
  * \ingroup Numerics Optimizers
+ * \ingroup ITK-Optimizers
  */
-class ITKNumerics_EXPORT MultipleValuedNonLinearOptimizer:
+class ITK_EXPORT MultipleValuedNonLinearOptimizer:
   public NonLinearOptimizer
 {
 public:

@@ -40,6 +40,7 @@ namespace itk
  * populations in itk::BloxCoreAtomPixel
  *
  * \ingroup ImageObjects
+ * \ingroup ITK-Blox
  */
 template< typename TItemType >
 class BloxPixel:public std::list< TItemType * >

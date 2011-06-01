@@ -3,12 +3,6 @@ PROJECT(vxl)
 
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
-IF(NOT ITK_SOURCE_DIR)
-  SET(BUILD_TESTING 1)
-  SET(LIBRARY_OUTPUT_PATH ${vxl_BINARY_DIR}/bin)
-  SET(EXECUTABLE_OUTPUT_PATH ${vxl_BINARY_DIR}/bin)
-ENDIF(NOT ITK_SOURCE_DIR)
-
 # CMake support directory.
 INCLUDE(${vxl_SOURCE_DIR}/config/cmake/config/vxl_utils.cmake)
 SET(VXL_CMAKE_DIR ${vxl_SOURCE_DIR}/config/cmake/Modules)
@@ -22,9 +16,7 @@ SUBDIRS(vcl v3p core)
 
 # Standard include directories.
 SET(VXLCORE_INCLUDE_DIR ${vxl_BINARY_DIR}/core ${vxl_SOURCE_DIR}/core)
-SET(VXLCORE_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/core)
 SET(VCL_INCLUDE_DIR ${vxl_BINARY_DIR}/vcl ${vxl_SOURCE_DIR}/vcl)
-SET(VCL_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/vcl)
 
 INCLUDE_DIRECTORIES(${VCL_INCLUDE_DIR} ${VXLCORE_INCLUDE_DIR})
 

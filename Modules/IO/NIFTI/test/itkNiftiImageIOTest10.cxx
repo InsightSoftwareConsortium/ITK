@@ -22,9 +22,8 @@
 #include "itkNiftiImageIOTest.h"
 #include "itkNumericTraits.h"
 
-#if defined(ITK_USE_MODULAR_BUILD)
-  #define SPECIFIC_IMAGEIO_MODULE_TEST
-#endif
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkNiftiImageIOTest10(int ac, char *av[])
 {

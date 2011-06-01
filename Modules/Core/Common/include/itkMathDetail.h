@@ -71,11 +71,11 @@
 // try-compile set ITK_COMPILER_SUPPORTS_SSE2_32 and
 // ITK_COMPILER_SUPPORTS_SSE2_64 to set values:
 
-#  if defined(ITK_COMPILER_SUPPORTS_SSE2_32)
+#  if defined(ITK_COMPILER_SUPPORTS_SSE2_32) && !defined( __GCCXML__ )
 #    undef  USE_SSE2_32IMPL
 #    define USE_SSE2_32IMPL 1
 #  endif
-#  if defined(ITK_COMPILER_SUPPORTS_SSE2_64)
+#  if defined(ITK_COMPILER_SUPPORTS_SSE2_64) && !defined( __GCCXML__ )
 #    undef  USE_SSE2_64IMPL
 #    define USE_SSE2_64IMPL 1
 #  endif

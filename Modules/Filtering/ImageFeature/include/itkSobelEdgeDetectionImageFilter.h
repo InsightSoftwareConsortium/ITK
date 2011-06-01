@@ -39,6 +39,7 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  *
+ * \ingroup ITK-ImageFeature
  */
 
 template< class TInputImage, class TOutputImage >

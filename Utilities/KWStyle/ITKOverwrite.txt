@@ -113,3 +113,5 @@ itkStatisticsTypesTest.cxx Typedefs Disable
 itkLabelStatisticsImageFilter.h Indent Disable
 itkIntTypes.h Typedefs Disable
 itkv3Rigid3DTransform.h Namespace Disable
+itkNeighborhoodIteratorTestCommon.txx Namespace Disable
+itkSimpleMultiResolutionImageRegistrationUI.h Namespace Disable

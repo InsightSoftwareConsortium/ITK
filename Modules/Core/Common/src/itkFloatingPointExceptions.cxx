@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 #include "itkFloatingPointExceptions.h"
-#include "itkFloatingPointExceptionsConfigure.h"
 #include <iostream>
 #include <sstream>
 #include <cstring>
@@ -27,9 +26,13 @@
 //
 // TODO: Actually implement controllable behavior on Windows.
 //
-#if defined(ITK_USE_FPE) && !defined(_WIN32)
+// this is based on work by David N. Williams
+// www-personal.umich.edu/~williams
+// http://www-personal.umich.edu/~williams/archive/computation/fe-handling-example.c
+#if !defined(_WIN32)
 
 #include <iostream>
+#include <string.h> // memcpy
 
 #ifdef LINUX
 /* BEGIN quote
@@ -54,10 +57,77 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 #endif // LINUX
 
 #include <float.h>
+
+#ifdef ITK_HAVE_FENV_H
+#include <stdio.h> // needed on Solaris
 #include <fenv.h>
+#else
+#error "fenv.h required for floating point exception handling"
+#endif
 
 #define DEFINED_PPC      (defined(__ppc__) || defined(__ppc64__))
 #define DEFINED_INTEL    (defined(__i386__) || defined(__x86_64__))
+
+#if defined(__sun)
+#include <ieeefp.h>
+/*
+ * Based on information suggested in Solaris documentation.
+ * See http://download.oracle.com/docs/cd/E19963-01/html/821-1465/fpgetmask-3c.html
+ */
+static int
+feenableexcept (unsigned int excepts)
+{
+  // This code is what is suggested in Solaris docs
+  // I'm guessing that was a cruel hoax
+  //
+  // fp_except e = fpgetmask();
+  // if((excepts & FE_DIVBYZERO) != 0)
+  //   {
+  //   e |= FP_X_DZ;
+  //   }
+  // else if((excepts & FE_INVALID) != 0)
+  //   {
+  //   e |= FP_X_INV;
+  //   }
+  // else if((excepts & FPE_FLTOVF) != 0)
+  //   {
+  //   e |= FP_X_OFL;
+  //   }
+  // else if((excepts & FPE_FLTUND) != 0)
+  //   {
+  //   e |= FP_X_UFL;
+  //   }
+  // fpsetmask(e);
+  return 0;
+}
+
+static int
+fedisableexcept (unsigned int excepts)
+{
+  // This code is what is suggested in Solaris docs
+  // I'm guessing that was a cruel hoax
+  //
+  // fp_except e = fpgetmask();
+  // if((excepts & FE_DIVBYZERO) != 0)
+  //   {
+  //   e &= ~FP_X_DZ;
+  //   }
+  // else if((excepts & FE_INVALID) != 0)
+  //   {
+  //   e &= ~FP_X_INV;
+  //   }
+  // else if((excepts & FPE_FLTOVF) != 0)
+  //   {
+  //   e &= ~FP_X_OFL;
+  //   }
+  // else if((excepts & FPE_FLTUND) != 0)
+  //   {
+  //   e &= ~FP_X_UFL;
+  //   }
+  // fpsetmask(e);
+  return 0;
+}
+#endif
 
 #if defined(__APPLE__)
 
@@ -84,18 +154,6 @@ and that's what we implement.  Linux "man fegetenv" appears
 to suggest that it's the mask corresponding to bits in
 excepts that is returned.
 */
-#if 0
-static int
-fegetexcept (void)
-{
-  static fenv_t fenv;
-
-  return ( fegetenv (&fenv) ? -1 :
-    (
-      ( fenv & (FM_ALL_EXCEPT) ) << FE_EXCEPT_SHIFT )
-    );
-}
-#endif
 
 static int
 feenableexcept (unsigned int excepts)
@@ -126,16 +184,6 @@ fedisableexcept (unsigned int excepts)
 }
 
 #elif DEFINED_INTEL
-
-#if 0
-static int
-fegetexcept (void)
-{
-  static fenv_t fenv;
-
-  return fegetenv (&fenv) ? -1 : (fenv.__control & FE_ALL_EXCEPT);
-}
-#endif
 
 static int
 feenableexcept (unsigned int excepts)
@@ -230,89 +278,91 @@ these issues:
 * imprecision of interrupts from system software
 */
 
-static void
-fhdl ( int sig, siginfo_t *sip, void * )
+extern "C"
 {
-  std::cout << "FPE Signal Caught" << std::endl;
-  std::cout.flush();
-  int fe_code = sip->si_code;
-  unsigned int excepts = fetestexcept (FE_ALL_EXCEPT);
+  static void
+  fhdl ( int sig, siginfo_t *sip, void * )
+  {
+    std::cout << "FPE Signal Caught" << std::endl;
+    std::cout.flush();
+    int fe_code = sip->si_code;
+    unsigned int excepts = fetestexcept (FE_ALL_EXCEPT);
 
-  std::stringstream msg;
+    std::stringstream msg;
 
-  switch (fe_code)
-    {
+    switch (fe_code)
+      {
 #ifdef FPE_NOOP  // occurs in OS X
-    case FPE_NOOP:   fe_code = 0; break;
+      case FPE_NOOP:   fe_code = 0; break;
 #endif
-    case FPE_FLTDIV: fe_code = 1; break; // divideByZero
-    case FPE_FLTINV: fe_code = 2; break; // invalid
-    case FPE_FLTOVF: fe_code = 3; break; // overflow
-    case FPE_FLTUND: fe_code = 4; break; // underflow
-    case FPE_FLTRES: fe_code = 5; break; // inexact
-    case FPE_FLTSUB: fe_code = 6; break; // invalid
-    case FPE_INTDIV: fe_code = 7; break; // overflow
-    case FPE_INTOVF: fe_code = 8; break; // underflow
-    default: fe_code = 9;
-    }
+      case FPE_FLTDIV: fe_code = 1; break; // divideByZero
+      case FPE_FLTINV: fe_code = 2; break; // invalid
+      case FPE_FLTOVF: fe_code = 3; break; // overflow
+      case FPE_FLTUND: fe_code = 4; break; // underflow
+      case FPE_FLTRES: fe_code = 5; break; // inexact
+      case FPE_FLTSUB: fe_code = 6; break; // invalid
+      case FPE_INTDIV: fe_code = 7; break; // overflow
+      case FPE_INTOVF: fe_code = 8; break; // underflow
+      default: fe_code = 9;
+      }
 
-  if ( sig == SIGFPE )
-    {
+    if ( sig == SIGFPE )
+      {
 #if DEFINED_INTEL
-    unsigned short x87cr,x87sr;
-    unsigned int mxcsr;
+      unsigned short x87cr,x87sr;
+      unsigned int mxcsr;
 
-    getx87cr (x87cr);
-    getx87sr (x87sr);
-    getmxcsr (mxcsr);
-    msg << "X87CR: " << std::hex << x87cr << std::endl
-        << "X87SR: " << std::hex << x87sr << std::endl
-        << "MXCSR: " << std::hex << mxcsr << std::endl;
+      getx87cr (x87cr);
+      getx87sr (x87sr);
+      getmxcsr (mxcsr);
+      msg << "X87CR: " << std::hex << x87cr << std::endl
+          << "X87SR: " << std::hex << x87sr << std::endl
+          << "MXCSR: " << std::hex << mxcsr << std::endl;
 #endif
 
 #if DEFINED_PPC
-    hexdouble t;
+      hexdouble t;
 
-    getfpscr (t.d);
-//   printf ("FPSCR:   0x%08X\n", t.i.lo);
-    msg << "FPSCR: " << std::hex << t.i.lo << std::endl;
+      getfpscr (t.d);
+      msg << "FPSCR: " << std::hex << t.i.lo << std::endl;
 #endif
 
-    msg << "signal:  SIGFPE with code "
-        << fe_code_name[fe_code] << std::endl
-        <<   "invalid flag: "
-        << std::hex <<  (excepts & FE_INVALID) << std::endl
-        << "divByZero flag: "
-        << std::hex << (excepts & FE_DIVBYZERO) << std::endl;
-    feclearexcept (FE_DIVBYZERO);
-    feclearexcept (FE_INVALID);
-    feclearexcept (FPE_FLTOVF);
-    feclearexcept (FPE_FLTUND);
-    feclearexcept (FPE_FLTRES);
-    feclearexcept (FPE_FLTSUB);
-    feclearexcept (FPE_INTDIV);
-    feclearexcept (FPE_INTOVF);
-    }
-  else
-    {
-    msg << "Signal is not SIGFPE, it's " << sig << std::endl;
-    }
-  std::cerr << msg.str();
-  if(itk::FloatingPointExceptions::GetExceptionAction() ==
-     itk::FloatingPointExceptions::ABORT)
-    {
-    abort();
-    }
-  else
-    {
-    exit(255);
-    }
-   // it would be awesome if this worked but it doesn't
-  //  itk::ExceptionObject e(__FILE__,__LINE__);
-  //  e.SetDescription(msg.str().c_str());
-  //  throw e;
+      msg << "signal:  SIGFPE with code "
+          << fe_code_name[fe_code] << std::endl
+          <<   "invalid flag: "
+          << std::hex <<  (excepts & FE_INVALID) << std::endl
+          << "divByZero flag: "
+          << std::hex << (excepts & FE_DIVBYZERO) << std::endl;
+      feclearexcept (FE_DIVBYZERO);
+      feclearexcept (FE_INVALID);
+      feclearexcept (FPE_FLTOVF);
+      feclearexcept (FPE_FLTUND);
+      feclearexcept (FPE_FLTRES);
+      feclearexcept (FPE_FLTSUB);
+      feclearexcept (FPE_INTDIV);
+      feclearexcept (FPE_INTOVF);
+      }
+    else
+      {
+      msg << "Signal is not SIGFPE, it's " << sig << std::endl;
+      }
+    std::cerr << msg.str();
+    if(itk::FloatingPointExceptions::GetExceptionAction() ==
+       itk::FloatingPointExceptions::ABORT)
+      {
+      abort();
+      }
+    else
+      {
+      exit(255);
+      }
+    // it would be awesome if this worked but it doesn't
+    //  itk::ExceptionObject e(__FILE__,__LINE__);
+    //  e.SetDescription(msg.str().c_str());
+    //  throw e;
+  }
 }
-#endif // defined(ITK_USE_FPE) && !defined(_WIN32)
+#endif // !defined(_WIN32)
 
 namespace itk
 {
@@ -356,18 +406,7 @@ SetEnabled(bool val)
     }
 }
 
-#if !defined(ITK_USE_FPE)
-void
-FloatingPointExceptions
-::Enable()
-{
-}
-void
-FloatingPointExceptions
-::Disable()
-{
-}
-#elif defined(_WIN32)
+#if defined(_WIN32)
 
 #include <float.h>
 
@@ -388,7 +427,7 @@ void FloatingPointExceptions
   FloatingPointExceptions::m_Enabled = false;
 }
 
-#else // ITK_USE_FPE
+#else // defined( _WIN32 )
 
 void
 FloatingPointExceptions
@@ -426,6 +465,6 @@ FloatingPointExceptions
   FloatingPointExceptions::m_Enabled = false;
 }
 
-#endif // ITK_USE_FPE
+#endif // defined ( _WIN32 )
 
 } // end of itk namespace

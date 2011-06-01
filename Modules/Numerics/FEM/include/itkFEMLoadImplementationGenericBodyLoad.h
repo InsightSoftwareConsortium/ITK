@@ -41,6 +41,7 @@ namespace fem {
  *
  * \note Declare any additional general implementations of loads in a\
  *       similar way as here.
+ * \ingroup ITK-FEM
  */
 class LoadImplementationGenericBodyLoad
 {

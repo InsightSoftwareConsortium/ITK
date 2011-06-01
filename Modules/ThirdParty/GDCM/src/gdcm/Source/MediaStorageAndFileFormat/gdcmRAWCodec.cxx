@@ -85,7 +85,7 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
   std::stringstream is;
   is.write(bv->GetPointer(), bv->GetLength());
   std::stringstream os;
-  bool r = Decode(is, os);
+  bool r = DecodeByStreams(is, os);
   if(!r) return false;
   assert( r );
 
@@ -117,9 +117,9 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
   return r;
 }
 
-bool RAWCodec::Decode(std::istream &is, std::ostream &os)
+bool RAWCodec::DecodeByStreams(std::istream &is, std::ostream &os)
 {
-  bool r = ImageCodec::Decode(is, os);
+  bool r = ImageCodec::DecodeByStreams(is, os);
   return r;
 }
 

@@ -53,8 +53,9 @@ namespace itk
  * it is currently used for MRIBiasFieldCorrectionFilter
  * as an energy function. The bias field estimation requires calculation of
  * energy values again and again for each iteration.
+ * \ingroup ITK-BiasCorrection
  */
-class ITKNumerics_EXPORT CacheableScalarFunction
+class ITK_EXPORT CacheableScalarFunction
 {
 public:
   /** Constructor. */

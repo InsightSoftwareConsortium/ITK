@@ -45,18 +45,20 @@ namespace itk
  * http://hdl.handle.net/1926/585
  *
  * \ingroup ImageFilters
+ * \ingroup ITK-Review
  */
-template< class TInputPixelType = double, class TOutputPixelType = double >
+template< class TInputImage, class TOutputImage=TInputImage >
 class ITK_EXPORT DirectFourierReconstructionImageToImageFilter:
-  public ImageToImageFilter< Image< TInputPixelType, 3 >, Image< TOutputPixelType, 3 > >
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard Self typedef */
   typedef DirectFourierReconstructionImageToImageFilter Self;
-  /** InputImageType from TInputPixelType */
-  typedef Image< TInputPixelType, 3 > InputImageType;
-  /** OutputImageType from TOutputPixelType */
-  typedef Image< TOutputPixelType, 3 > OutputImageType;
+
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::PixelType  OutputPixelType;
 
   /** Standard Superclass typedef */
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
@@ -89,20 +91,28 @@ public:
 
   itkSetMacro(ZeroPadding, unsigned short int);
   itkGetConstMacro(ZeroPadding, unsigned short int);
+
   itkSetMacro(OverSampling, unsigned short int);
   itkGetConstMacro(OverSampling, unsigned short int);
+
   itkSetMacro(Cutoff, double);
   itkGetConstMacro(Cutoff, double);
+
   itkSetMacro(AlphaRange, double);
   itkGetConstMacro(AlphaRange, double);
+
   itkSetMacro(AlphaDirection, unsigned short int);
   itkGetConstMacro(AlphaDirection, unsigned short int);
+
   itkSetMacro(ZDirection, unsigned short int);
   itkGetConstMacro(ZDirection, unsigned short int);
+
   itkSetMacro(RDirection, unsigned short int);
   itkGetConstMacro(RDirection, unsigned short int);
+
   itkSetMacro(RadialSplineOrder, unsigned short int);
   itkGetConstMacro(RadialSplineOrder, unsigned short int);
+
 protected:
   /** Constructor */
   DirectFourierReconstructionImageToImageFilter();
@@ -126,7 +136,8 @@ private:
   typedef ImageSliceConstIteratorWithIndex< InputImageType > InputSliceIteratorType;
 
   /** 1D FFT filter type */
-  typedef VnlFFTRealToComplexConjugateImageFilter< double, 1 > FFTLineFilterType;
+  typedef Image< double, 1 >                                       LineImageType;
+  typedef VnlFFTRealToComplexConjugateImageFilter< LineImageType > FFTLineFilterType;
   /** Derived 1D FFT image type */
   typedef FFTLineFilterType::OutputImageType FFTLineType;
   /** Derived 1D input image type */
@@ -137,7 +148,8 @@ private:
   typedef ComplexBSplineInterpolateImageFunction< FFTLineType, double, double > FFTLineInterpolatorType;
 
   /** 2D inverse FFT filter type */
-  typedef VnlFFTComplexConjugateToRealImageFilter< double, 2 > IFFTSliceFilterType;
+  typedef Image< std::complex<double>, 2>                          IFFTImageType;
+  typedef VnlFFTComplexConjugateToRealImageFilter< IFFTImageType > IFFTSliceFilterType;
   /** Derived 2D FFT image type */
   typedef IFFTSliceFilterType::InputImageType FFTSliceType;
   /** Derived 2D output slice type */

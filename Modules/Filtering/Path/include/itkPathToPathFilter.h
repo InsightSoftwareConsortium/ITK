@@ -30,6 +30,7 @@ namespace itk
  * defines the SetInput() method for defining the input to a filter.
  *
  * \ingroup PathFilters
+ * \ingroup ITK-Path
  */
 
 template< class TInputPath, class TOutputPath >

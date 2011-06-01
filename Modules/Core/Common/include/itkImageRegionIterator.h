@@ -43,7 +43,7 @@ namespace itk
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
  * is available in print and as a free .pdf download from http://www.itk.org.
  *
- * \example Iterators/ImageRegionIterator.cxx
+ * \example ImageRegionIterator.cxx
  * \ingroup ImageIterators
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
@@ -67,7 +67,13 @@ namespace itk
  * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
- * \sa ImageConstIteratorWithIndex */
+ * \sa ImageConstIteratorWithIndex
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Iterators/ImageRegionIterator,Iterate over a region of an image (with write access)}
+ * \endwiki
+ */
 template< typename TImage >
 class ITK_EXPORT ImageRegionIterator:public ImageRegionConstIterator< TImage >
 {

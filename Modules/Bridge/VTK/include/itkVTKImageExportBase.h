@@ -31,8 +31,9 @@ namespace itk
  *
  * \ingroup IOFilters
  * \sa VTKImageExport
+ * \ingroup ITK-VTK
  */
-class ITKBasicFilters_EXPORT VTKImageExportBase:public ProcessObject
+class ITK_EXPORT VTKImageExportBase:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
@@ -65,7 +66,9 @@ public:
   typedef float * ( *FloatOriginCallbackType )(void *);
 
   /** \class CallbackTypeProxy
-   * \brief Provide compatibility between VTK 4.4 and earlier versions.  */
+   * \brief Provide compatibility between VTK 4.4 and earlier versions.
+   * \ingroup ITK-VTK
+   */
   class CallbackTypeProxy
   {
 public:

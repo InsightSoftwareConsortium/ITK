@@ -95,7 +95,9 @@ namespace Statistics
 * \sa MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator
 * \sa ScalarImageTextureCalculator
 *
-* Author: Zachary Pincus */
+* Author: Zachary Pincus
+* \ingroup ITK-Statistics
+*/
 
 template< class THistogram >
 class ITK_EXPORT HistogramToTextureFeaturesFilter:public ProcessObject

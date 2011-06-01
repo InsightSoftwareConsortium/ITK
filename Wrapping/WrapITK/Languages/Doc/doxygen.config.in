@@ -430,12 +430,10 @@ PREDEFINED  =  "itkNotUsed(x)="\
                     static Self::Pointer New()                          \
                       { return new Self(); }                            \
                   private:"                                             \
-                "FREEVERSION" "ERROR_CHECKING"                          \
-                "HAS_TIFF" "HAS_JPEG" "HAS_NETLIB" "HAS_PNG" "HAS_ZLIB" \
-                "HAS_GLUT" "HAS_QT"                                     \
+               "ERROR_CHECKING"                                         \
                "VCL_USE_NATIVE_STL=1" "VCL_USE_NATIVE_COMPLEX=1"        \
                "VCL_HAS_BOOL=1" "VXL_BIG_ENDIAN=1" "VXL_LITTLE_ENDIAN=0"\
-               "VNL_DLL_DATA=" "size_t=vcl_size_t" "ITK_USE_REVIEW"     \
+               "VNL_DLL_DATA=" "size_t=vcl_size_t"                      \
                "USE_FFTWD" "USE_FFTWF"
 
 # If the EXPAND_ONLY_PREDEF and MACRO_EXPANSION tags are both set to YES

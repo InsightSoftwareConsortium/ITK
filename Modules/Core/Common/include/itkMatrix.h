@@ -34,6 +34,11 @@ namespace itk
  * to make all the vnl mathematical methods available.
  *
  * \ingroup DataRepresentation
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Math/Matrix,Matrix}
+ * \endwiki
  */
 
 template< class T, unsigned int NRows = 3, unsigned int NColumns = 3 >

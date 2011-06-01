@@ -70,12 +70,18 @@ namespace itk
  *
  * \sa ImageContainerInterface
  *
- * \example DataRepresentation/Image/Image1.cxx
- * \example DataRepresentation/Image/Image2.cxx
- * \example DataRepresentation/Image/RGBImage.cxx
- * \example DataRepresentation/Image/VectorImage.cxx
+ * \example Image1.cxx
+ * \example Image2.cxx
+ * \example RGBImage.cxx
+ * \example VectorImage.cxx
  *
- * \ingroup ImageObjects */
+ * \ingroup ImageObjects
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/SetPixels,Set specified pixels to specified values}
+ * \endwiki
+ */
 template< class TPixel, unsigned int VImageDimension = 2 >
 class ITK_EXPORT Image:public ImageBase< VImageDimension >
 {

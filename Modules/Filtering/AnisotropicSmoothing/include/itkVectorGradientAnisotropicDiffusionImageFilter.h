@@ -51,6 +51,7 @@ namespace itk
  * and for 3D images, any value below 0.125 is stable.
  *
  * \ingroup ImageEnhancement
+ * \ingroup ITK-AnisotropicSmoothing
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT VectorGradientAnisotropicDiffusionImageFilter:

@@ -49,6 +49,7 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ImageIterators
+ * \ingroup ITK-Common
  */
 
 template< class TPixel, unsigned int VDimension = 2,

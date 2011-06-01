@@ -68,6 +68,7 @@ namespace itk
  * \sa DiffusionTensor3D
  *
  * \ingroup ImageObjects   TensorObjects   Geometry
+ * \ingroup ITK-Common
  */
 
 template< typename TComponent, unsigned int NDimension = 3 >

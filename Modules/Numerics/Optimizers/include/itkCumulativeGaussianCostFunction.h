@@ -44,9 +44,10 @@ namespace itk
  * of the function is \f$ {\frac{{x - \mu }}{{\sigma \sqrt 2 }}} \f$.
  *
  * \ingroup Numerics Cost Functions
+ * \ingroup ITK-Optimizers
  */
 
-class ITKNumerics_EXPORT CumulativeGaussianCostFunction:public MultipleValuedCostFunction
+class ITK_EXPORT CumulativeGaussianCostFunction:public MultipleValuedCostFunction
 {
 public:
 

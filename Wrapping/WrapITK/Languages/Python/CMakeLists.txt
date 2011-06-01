@@ -31,9 +31,9 @@ endif("${SWIG_VERSION}" STREQUAL "1.3.37")
 # any obvious way to find that. Create a link 64 -> . to make it find its
 # files.
 # TODO: file a bug report at opensolaris
-if(CMAKE_SYSTEM MATCHES "SunOS-." AND NOT EXISTS "${LIBRARY_OUTPUT_PATH}/64")
-  file(MAKE_DIRECTORY "${LIBRARY_OUTPUT_PATH}")
-  exec_program(ln ARGS -sf . "${LIBRARY_OUTPUT_PATH}/64")
+if(CMAKE_SYSTEM MATCHES "SunOS-." AND NOT EXISTS "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/64")
+  file(MAKE_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+  exec_program(ln ARGS -sf . "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/64")
 endif()
 
 
@@ -53,7 +53,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
     foreach(config ${CMAKE_CONFIGURATION_TYPES})
       # SWIG-generated libs and *.py files are sent to ${config} subdir
-      # This assumes that LIBRARY_OUTPUT_PATH is WrapITK_BINARY_DIR/bin (bad!)
+      # This assumes that CMAKE_LIBRARY_OUTPUT_DIRECTORY is WrapITK_BINARY_DIR/bin (bad!)
       # TODO: We need a better way to do this.
       set(CONFIG_PYTHON_SWIGPY_DIR "../../lib/${config}")
       set(CONFIG_PYTHON_SWIGLIB_DIR "../../lib/${config}")
@@ -205,7 +205,7 @@ if(CMAKE_CONFIGURATION_TYPES)
     set(CONFIG_WRAP_ITK_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}")
 
     # SWIG-generated libs and *.py files are sent to ${config} subdir
-    # This assumes that LIBRARY_OUTPUT_PATH is WrapITK_BINARY_DIR/bin (bad!)
+    # This assumes that CMAKE_LIBRARY_OUTPUT_DIRECTORY is WrapITK_BINARY_DIR/bin (bad!)
     # TODO: We need a better way to do this.
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
                    "${CMAKE_CURRENT_BINARY_DIR}/${config}/WrapITK.pth"
@@ -363,7 +363,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
   # set some var reused later
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
   set(lib ${WRAPPER_LIBRARY_NAME}Python)
-  set(python_file "${LIBRARY_OUTPUT_PATH}/${lib}.py")
+  set(python_file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${lib}.py")
   set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}Python.cpp")
 
   # if this is for an external library, let the user add extra swig args
@@ -392,7 +392,7 @@ macro(END_WRAP_LIBRARY_PYTHON)
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
     ${WRAP_ITK_SWIG_ARGS_PYTHON}
-    -outdir ${LIBRARY_OUTPUT_PATH}
+    -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
     DEPENDS ${DEPS} ${WRAP_ITK_PYTHON_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${SWIG_EXECUTABLE}
@@ -525,7 +525,7 @@ macro(END_WRAP_MODULE_PYTHON group_name)
   #
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${base_name}.i")
   set(lib ${group_name}Python)
-  set(python_file "${LIBRARY_OUTPUT_PATH}/${lib}.py")
+  set(python_file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${lib}.py")
   set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${base_name}Python.cpp")
 
   # create the python customization for that wrap_*.cmake file.
@@ -562,7 +562,7 @@ macro(END_WRAP_MODULE_PYTHON group_name)
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
     ${WRAP_ITK_SWIG_ARGS_PYTHON}
-    -outdir ${LIBRARY_OUTPUT_PATH}
+    -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
     DEPENDS ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${doc_file} ${SWIG_EXECUTABLE}

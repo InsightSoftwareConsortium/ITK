@@ -29,8 +29,9 @@ namespace itk
 /**
  * \class DICOMImageIO2
  *  \brief Read DICOMImage file format.
+ * \ingroup ITK-Deprecated
  */
-class ITKIO_EXPORT DICOMImageIO2:public ImageIOBase
+class ITK_EXPORT DICOMImageIO2:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

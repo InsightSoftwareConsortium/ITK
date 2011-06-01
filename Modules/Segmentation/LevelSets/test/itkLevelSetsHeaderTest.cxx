@@ -21,10 +21,8 @@
 
 #include <iostream>
 
-#include "itkFastMarchingExtensionImageFilter.txx"
 #include "itkGeodesicActiveContourShapePriorLevelSetFunction.txx"
 #include "itkShapePriorSegmentationLevelSetFunction.txx"
-#include "itkFastMarchingUpwindGradientImageFilter.txx"
 #include "itkBinaryMaskToNarrowBandPointSetFilter.txx"
 #include "itkVectorThresholdSegmentationLevelSetFunction.txx"
 #include "itkParallelSparseFieldLevelSetImageFilter.txx"
@@ -41,7 +39,6 @@
 #include "itkLevelSetFunction.txx"
 #include "itkNarrowBandLevelSetImageFilter.txx"
 #include "itkIsotropicFourthOrderLevelSetImageFilter.h"
-#include "itkFastMarchingImageFilter.txx"
 #include "itkLaplacianSegmentationLevelSetImageFilter.txx"
 #include "itkShapePriorMAPCostFunctionBase.txx"
 #include "itkGeodesicActiveContourLevelSetImageFilter.txx"

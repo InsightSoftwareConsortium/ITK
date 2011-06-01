@@ -26,39 +26,44 @@ set(ITK_BUILD_SHARED "@BUILD_SHARED_LIBS@")
 set(ITK_MODULES_ENABLED "@ITK_CONFIG_MODULES_ENABLED@")
 
 # Import ITK targets.
-include("@ITK_CONFIG_TARGETS_FILE@")
-
-# Builtin  Image IO formats
-set(Module_ITK-IO-JPEG   "@Module_ITK-IO-JPEG@")
-set(Module_ITK-IO-BioRad "@Module_ITK-IO-BioRad@")
-set(Module_ITK-IO-BMP    "@Module_ITK-IO-BMP@")
-set(Module_ITK-IO-GDCM   "@Module_ITK-IO-GDCM@")
-set(Module_ITK-IO-GIPL   "@Module_ITK-IO-GIPL@")
-set(Module_ITK-IO-LSM    "@Module_ITK-IO-LSM@")
-set(Module_ITK-IO-Meta   "@Module_ITK-IO-Meta@")
-set(Module_ITK-IO-NIFTI  "@Module_ITK-IO-NIFTI@")
-set(Module_ITK-IO-NRRD   "@Module_ITK-IO-NRRD@")
-set(Module_ITK-IO-PNG    "@Module_ITK-IO-PNG@")
-set(Module_ITK-IO-TIFF   "@Module_ITK-IO-TIFF@")
-set(Module_ITK-IO-VTK    "@Module_ITK-IO-VTK@")
-set(Module_ITK-IO-Simulate "@Module_ITK-IO-Simulate@")
+if(NOT ITK_TARGETS_IMPORTED@ITK_CONFIG_TARGETS_CONDITION@)
+  set(ITK_TARGETS_IMPORTED 1)
+  include("@ITK_CONFIG_TARGETS_FILE@")
+endif()
 
 set(ITK_USE_REVIEW "@ITK_USE_REVIEW@")
 
-# Load all modules.
-set(ITK_LIBRARIES "")
-set(ITK_INCLUDE_DIRS "")
-set(ITK_LIBRARY_DIRS "")
-foreach(itk-module ${ITK_MODULES_ENABLED})
-  if(NOT ${itk-module}_LOADED)
-    include("${ITK_MODULES_DIR}/${itk-module}.cmake")
-  endif()
-  list(APPEND ITK_LIBRARIES ${${itk-module}_LIBRARIES})
-  list(APPEND ITK_INCLUDE_DIRS ${${itk-module}_INCLUDE_DIRS})
-  list(APPEND ITK_LIBRARY_DIRS ${${itk-module}_LIBRARY_DIRS})
-endforeach()
-foreach(v ITK_LIBRARIES ITK_INCLUDE_DIRS ITK_LIBRARY_DIRS)
-  if(${v})
-    list(REMOVE_DUPLICATES ${v})
-  endif()
-endforeach()
+# Load module interface macros.
+include("@ITK_CONFIG_MODULE_API_FILE@")
+
+# Compute set of requested modules.
+if(ITK_FIND_COMPONENTS)
+  # Specific modules requested by find_package(ITK).
+  set(ITK_MODULES_REQUESTED "${ITK_FIND_COMPONENTS}")
+elseif(NOT "${CMAKE_VERSION}" VERSION_GREATER 2.8.4.20110407)
+  # CMake 2.8.4 and lower do not forward the components list through
+  # their FindITK.cmake module, so unless the application called
+  #
+  #   find_package(ITK NO_MODULE ...)
+  #
+  # then only the per-component variables ITK_FIND_REQUIRED_<mod> will
+  # have leaked through.
+  set(ITK_MODULES_REQUESTED "")
+  get_cmake_property(_vars VARIABLES)
+  foreach(v IN LISTS _vars)
+    if("x${v}" MATCHES "^xITK_FIND_REQUIRED_" AND ${v})
+      string(REGEX REPLACE "^ITK_FIND_REQUIRED_" "" _mod "${v}")
+      list(APPEND ITK_MODULES_REQUESTED ${_mod})
+    endif()
+  endforeach()
+endif()
+if(NOT ITK_MODULES_REQUESTED)
+  # No specific modules requested.  Use all of them.
+  set(ITK_MODULES_REQUESTED "${ITK_MODULES_ENABLED}")
+endif()
+
+# Load requested modules and their dependencies into variables:
+#  ITK_LIBRARIES       = Libraries to link
+#  ITK_INCLUDE_DIRS    = Header file search path
+#  ITK_LIBRARY_DIRS    = Library search path (for outside dependencies)
+itk_module_config(ITK ${ITK_MODULES_REQUESTED})

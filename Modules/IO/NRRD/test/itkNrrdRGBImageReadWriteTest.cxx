@@ -24,6 +24,11 @@
 #include "itkImage.h"
 #include "itkRGBPixel.h"
 
+//
+// This test needs to use more than one file format,
+// so we don't label it as SPECIFIC_IMAGEIO_MODULE_TEST
+//
+
 int itkNrrdRGBImageReadWriteTest( int ac, char* av[] )
 {
   if(ac < 2)

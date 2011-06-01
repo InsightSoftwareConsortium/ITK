@@ -6,7 +6,7 @@ itkPolynomialsHeaderTest.cxx
 
 CreateTestDriver(ITK-Polynomials  "${ITK-Polynomials-Test_LIBRARIES}" "${ITK-PolynomialsTests}")
 
-add_test(NAME itkPolynomialsHeaderTest
+itk_add_test(NAME itkPolynomialsHeaderTest
       COMMAND ITK-PolynomialsTestDriver itkPolynomialsHeaderTest)
-add_test(NAME itkMultivariateLegendrePolynomialTest
+itk_add_test(NAME itkMultivariateLegendrePolynomialTest
       COMMAND ITK-PolynomialsTestDriver itkMultivariateLegendrePolynomialTest)

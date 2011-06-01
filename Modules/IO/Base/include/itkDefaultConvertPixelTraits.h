@@ -33,6 +33,7 @@ namespace itk
  *  This implementaion, does a simple assignment operator, so if you are
  *  going from from a higher bit representation to a lower bit one (int to
  *  char), you may want to specialize and add some sort of transfer function.
+ * \ingroup ITK-IO-Base
  */
 template< typename PixelType >
 class DefaultConvertPixelTraits

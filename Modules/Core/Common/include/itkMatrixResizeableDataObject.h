@@ -30,6 +30,7 @@ namespace itk
  * object with the flexibility of being resizable.
  *
  * \ingroup DataProcessing
+ * \ingroup ITK-Common
  */
 
 template< typename TItemType >

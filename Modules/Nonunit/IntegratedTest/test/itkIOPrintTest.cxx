@@ -22,10 +22,6 @@
 #include "itkImage.h"
 #include "itkAnalyzeImageIO.h"
 #include "itkBioRadImageIO.h"
-#if !defined(ITK_USE_MODULAR_BUILD)
-#include "itkDICOMImageIO2.h"
-#include "itkDicomImageIO.h"
-#endif
 #include "itkGE4ImageIO.h"
 #include "itkGE5ImageIO.h"
 #include "itkGEAdwImageIO.h"
@@ -60,18 +56,6 @@ int itkIOPrintTest(int , char* [])
   BioRadio = itk::BioRadImageIO::New();
   reader->SetImageIO(BioRadio);
   std::cout << "---------------BioRad" << reader;
-
-#if !defined(ITK_USE_MODULAR_BUILD)
-  itk::DicomImageIO::Pointer Dicomio;
-  Dicomio = itk::DicomImageIO::New();
-  reader->SetImageIO(Dicomio);
-  std::cout << "---------------Dicom" << reader;
-
-  itk::DICOMImageIO2::Pointer DICOMio;
-  DICOMio = itk::DICOMImageIO2::New();
-  reader->SetImageIO(DICOMio);
-  std::cout << "---------------DICOM" << reader;
-#endif
 
   itk::GE4ImageIO::Pointer GE4io;
   GE4io = itk::GE4ImageIO::New();

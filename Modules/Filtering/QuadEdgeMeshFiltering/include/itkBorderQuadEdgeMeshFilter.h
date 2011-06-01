@@ -26,10 +26,25 @@ namespace itk
 {
 /**
  * \class BorderQuadEdgeMeshFilter
- * \brief Transform the unique border of a QuadEdgeMesh
- * into either a circle (conformal) or a square (arclength-wise).
+ * \brief Transform one border of a QuadEdgeMesh into either a circle
+ * (conformal) or a square (arclength-wise).
  *
- * \todo This class needs a more detailed documentation...
+ * This class is one important step when computing a planar parameterization
+ * of one mesh.
+ *
+ * If the input mesh has several boundaries, one can choose
+ * the one which would be transformed via the variable m_BorderPick.
+ *
+ * \li <tt>m_BorderPick == Self::LONGEST</tt> refers to the boundary
+ * \f$ b \f$ which satisfies:
+ * \f[ b = \arg \max_{b^k} \sum_{i=1}^{N^k} \left\| x_{i}^k - x_{i+1}^k \right\| \f]
+ *
+ * \li <tt>m_BorderPick == Self::LARGEST</tt> refers to the boundary
+ * \f$ b \f$ which satisfies:
+ * \f[ b = \arg \max_{b^k} N^k \f]
+ *
+ * \sa ParameterizationQuadEdgeMeshFilter
+ * \ingroup ITK-QuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh=TInputMesh >
 class ITK_EXPORT BorderQuadEdgeMeshFilter:
@@ -94,6 +109,7 @@ public:
 
   typedef QuadEdgeMeshBoundaryEdgesMeshFunction< InputMeshType > BoundaryRepresentativeEdgesType;
   typedef typename BoundaryRepresentativeEdgesType::Pointer      BoundaryRepresentativeEdgesPointer;
+
 public:
 
   enum BorderTransformType {
@@ -101,8 +117,16 @@ public:
     DISK_BORDER_TRANSFORM
     };
 
+  enum BorderPickType {
+    LONGEST = 0,
+    LARGEST
+    };
+
   itkSetMacro(TransformType, BorderTransformType);
   itkGetConstMacro(TransformType, BorderTransformType);
+
+  itkSetMacro( BorderPick, BorderPickType );
+  itkGetConstMacro( BorderPick, BorderPickType );
 
   itkSetMacro(Radius, InputCoordRepType);
   itkGetConstMacro(Radius, InputCoordRepType);
@@ -114,11 +138,16 @@ public:
   InputVectorPointType GetBorder();
 
 protected:
+  /** \brief Constructor */
   BorderQuadEdgeMeshFilter();
+
+  /** \brief Destructor */
   ~BorderQuadEdgeMeshFilter() {}
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   BorderTransformType m_TransformType;
+  BorderPickType      m_BorderPick;
 
   InputCoordRepType m_Radius;
 
@@ -130,11 +159,9 @@ protected:
 
   void ComputeBoundary();
 
-#if !defined( CABLE_CONFIGURATION )
-  InputEdgeListIterator ComputeLongestBorder();
+  InputQEType* ComputeLongestBorder();
 
-  InputEdgeListIterator ComputeLargestBorder();
-#endif
+  InputQEType* ComputeLargestBorder();
 
   void DiskTransform();
 

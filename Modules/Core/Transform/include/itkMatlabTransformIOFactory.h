@@ -30,8 +30,9 @@ namespace itk
 /** \class MatlabTransformIOFactory
  *  \brief Create instances of MatlabTransformIO objects using an
  *  object factory.
+ * \ingroup ITK-Transform
  */
-class ITKIO_EXPORT MatlabTransformIOFactory:public ObjectFactoryBase
+class ITK_EXPORT MatlabTransformIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

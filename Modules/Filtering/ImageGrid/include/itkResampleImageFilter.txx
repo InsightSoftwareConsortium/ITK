@@ -46,18 +46,14 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   m_Size.Fill(0);
   m_OutputStartIndex.Fill(0);
 
-  m_Transform = IdentityTransform< TInterpolatorPrecisionType, ImageDimension >::New();
-  m_ThreaderTransform.clear();
+  m_Transform =
+    IdentityTransform< TInterpolatorPrecisionType, ImageDimension >::New();
 
   m_InterpolatorIsBSpline = false;
   m_BSplineInterpolator = NULL;
 
-  m_InterpolatorIsLinear = true;
-  m_LinearInterpolator = LinearInterpolateImageFunction< InputImageType,
-                                                         TInterpolatorPrecisionType >::New();
-
   m_Interpolator = dynamic_cast< InterpolatorType * >
-                   ( m_LinearInterpolator.GetPointer() );
+                   ( LinearInterpolatorType::New().GetPointer() );
 
   m_DefaultPixelValue = 0;
 }
@@ -154,26 +150,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
     itkExceptionMacro(<< "Transform not set");
     }
 
-  itk::MultiThreader * threader = this->GetMultiThreader();
-  const unsigned long numberOfThreads = threader->GetNumberOfThreads();
-
-  m_ThreaderTransform.resize(numberOfThreads - 1);
-
-  for ( unsigned int ithread = 0; ithread < numberOfThreads - 1; ++ithread )
-    {
-    // Create a copy of the main transform to be used in this thread.
-    LightObject::Pointer anotherTransform = this->m_Transform->CreateAnother();
-    // This static_cast should always work since the pointer was created by
-    // CreateAnother() called from the transform itself.
-    TransformType *transformCopy = static_cast< TransformType * >( anotherTransform.GetPointer() );
-    /** Set the fixed parameters first. Some transforms have parameters which depend on
-        the values of the fixed parameters. For instance, the BSplineDeformableTransform
-        checks the grid size (part of the fixed parameters) before setting the parameters. */
-    transformCopy->SetFixedParameters( this->m_Transform->GetFixedParameters() );
-    transformCopy->SetParameters( this->m_Transform->GetParameters() );
-    this->m_ThreaderTransform[ithread] = transformCopy;
-    }
-
   if ( !m_Interpolator )
     {
     itkExceptionMacro(<< "Interpolator not set");
@@ -182,33 +158,18 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
 
-  m_InterpolatorIsBSpline = true;
-
+  // Test for a BSpline interpolator
   BSplineInterpolatorType *testPtr =
-    dynamic_cast< BSplineInterpolatorType * >
-    ( m_Interpolator.GetPointer() );
+    dynamic_cast< BSplineInterpolatorType * > ( m_Interpolator.GetPointer() );
   if ( testPtr )
     {
+    m_InterpolatorIsBSpline = true;
     m_BSplineInterpolator = testPtr;
     m_BSplineInterpolator->SetNumberOfThreads( this->GetNumberOfThreads() );
     }
   else
     {
     m_InterpolatorIsBSpline = false;
-
-    m_InterpolatorIsLinear = true;
-
-    LinearInterpolatorType *test2Ptr =
-      dynamic_cast< LinearInterpolatorType * >
-      ( m_Interpolator.GetPointer() );
-    if ( !test2Ptr )
-      {
-      m_InterpolatorIsLinear = false;
-      }
-    else
-      {
-      m_LinearInterpolator = test2Ptr;
-      }
     }
 }
 
@@ -224,7 +185,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 {
   // Disconnect input image from the interpolator
   m_Interpolator->SetInputImage(NULL);
-  m_ThreaderTransform.clear();
 }
 
 /**
@@ -268,6 +228,9 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
 }
 
+/**
+ * NonlinearThreadedGenerateData
+ */
 template< class TInputImage,
           class TOutputImage,
           class TInterpolatorPrecisionType >
@@ -285,7 +248,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 
   // Create an iterator that will walk the output region for this thread.
   typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIterator;
-
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
@@ -293,242 +255,78 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
-  typedef ContinuousIndex< TInterpolatorPrecisionType, ImageDimension >
-  ContinuousIndexType;
-  ContinuousIndexType inputIndex;
+  ContinuousInputIndexType inputIndex;
 
   // Support for progress methods/callbacks
   ProgressReporter progress( this,
                              threadId,
                              outputRegionForThread.GetNumberOfPixels() );
 
-  typedef typename InterpolatorType::OutputType OutputType;
-
   // Min/max values of the output pixel type AND these values
   // represented as the output type of the interpolator
   const PixelType minValue =  NumericTraits< PixelType >::NonpositiveMin();
   const PixelType maxValue =  NumericTraits< PixelType >::max();
 
+  typedef typename InterpolatorType::OutputType OutputType;
   const OutputType minOutputValue = static_cast< OutputType >( minValue );
   const OutputType maxOutputValue = static_cast< OutputType >( maxValue );
 
   // Walk the output region
   outIt.GoToBegin();
 
-  // This fix works for images up to approximately 2^25 pixels in
-  // any dimension.  If the image is larger than this, this constant
-  // needs to be made lower.
-  double precisionConstant = 1 << ( NumericTraits< double >::digits >> 1 );
-
-  const TransformType * transform;
-
-  if ( threadId > 0 )
+  while ( !outIt.IsAtEnd() )
     {
-    transform = this->m_ThreaderTransform[threadId - 1];
-    }
-  else
-    {
-    transform = this->m_Transform;
-    }
+    // Determine the index of the current output pixel
+    outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
 
+    // Compute corresponding input pixel position
+    inputPoint = this->m_Transform->TransformPoint(outputPoint);
+    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
-  if ( m_InterpolatorIsBSpline )
-    {
-    while ( !outIt.IsAtEnd() )
+    // Evaluate input at right position and copy to the output
+    if ( m_Interpolator->IsInsideBuffer(inputIndex) )
       {
-      // Determine the index of the current output pixel
-      outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
-
-      // Compute corresponding input pixel position
-      inputPoint = transform->TransformPoint(outputPoint);
-      inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
-
-      // The inputIndex is precise to many decimal points, but this precision
-      // involves some error in the last bits.
-      // Sometimes, when an index should be inside of the image, the
-      // index will be slightly
-      // greater than the largest index in the image, like 255.00000000002
-      // for a image of size 256.  This can cause an empty row to show up
-      // at the bottom of the image.
-      // Therefore, the following routine uses a
-      // precisionConstant that specifies the number of relevant bits,
-      // and the value is truncated to this precision.
-      for ( unsigned int i = 0; i < ImageDimension; ++i )
+      PixelType        pixval;
+      OutputType       value;
+      if ( m_InterpolatorIsBSpline )
         {
-        IndexValueType roundedInputIndex = (IndexValueType)( inputIndex[i] );
-        if ( inputIndex[i] < 0.0 && inputIndex[i] != (double)roundedInputIndex )
-          {
-          --roundedInputIndex;
-          }
-        double inputIndexFrac = inputIndex[i] - roundedInputIndex;
-        double newInputIndexFrac = (IndexValueType)( precisionConstant
-                                           * inputIndexFrac )
-                                   / precisionConstant;
-        inputIndex[i] = roundedInputIndex + newInputIndexFrac;
-        }
-
-      // Evaluate input at right position and copy to the output
-      if ( m_Interpolator->IsInsideBuffer(inputIndex) )
-        {
-        PixelType        pixval;
-        const OutputType value = m_BSplineInterpolator
-                                 ->EvaluateAtContinuousIndex(inputIndex,
-                                                             threadId);
-        if ( value < minOutputValue )
-          {
-          pixval = minValue;
-          }
-        else if ( value > maxOutputValue )
-          {
-          pixval = maxValue;
-          }
-        else
-          {
-          pixval = static_cast< PixelType >( value );
-          }
-        outIt.Set(pixval);
+        value = m_BSplineInterpolator
+                 ->EvaluateAtContinuousIndex(inputIndex, threadId);
         }
       else
         {
-        outIt.Set(m_DefaultPixelValue); // default background value
+        value = m_Interpolator ->EvaluateAtContinuousIndex(inputIndex);
         }
-
-      progress.CompletedPixel();
-      ++outIt;
-      }
-    }
-  else if ( m_InterpolatorIsLinear )
-    {
-    while ( !outIt.IsAtEnd() )
-      {
-      // Determine the index of the current output pixel
-      outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
-
-      // Compute corresponding input pixel position
-      inputPoint = transform->TransformPoint(outputPoint);
-      inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
-
-      // The inputIndex is precise to many decimal points, but this precision
-      // involves some error in the last bits.
-      // Sometimes, when an index should be inside of the image, the
-      // index will be slightly
-      // greater than the largest index in the image, like 255.00000000002
-      // for a image of size 256.  This can cause an empty row to show up
-      // at the bottom of the image.
-      // Therefore, the following routine uses a
-      // precisionConstant that specifies the number of relevant bits,
-      // and the value is truncated to this precision.
-      for ( unsigned int i = 0; i < ImageDimension; ++i )
+      // Check boundaries and assign
+      if ( value < minOutputValue )
         {
-        IndexValueType roundedInputIndex = (IndexValueType)( inputIndex[i] );
-        if ( inputIndex[i] < 0.0 && inputIndex[i] != (double)roundedInputIndex )
-          {
-          --roundedInputIndex;
-          }
-        double inputIndexFrac = inputIndex[i] - roundedInputIndex;
-        double newInputIndexFrac = (IndexValueType)( precisionConstant
-                                           * inputIndexFrac )
-                                   / precisionConstant;
-        inputIndex[i] = roundedInputIndex + newInputIndexFrac;
+        pixval = minValue;
         }
-
-      // Evaluate input at right position and copy to the output
-      if ( m_Interpolator->IsInsideBuffer(inputIndex) )
+      else if ( value > maxOutputValue )
         {
-        PixelType        pixval;
-        const OutputType value = m_LinearInterpolator
-                                 ->EvaluateAtContinuousIndex(inputIndex);
-        if ( value < minOutputValue )
-          {
-          pixval = minValue;
-          }
-        else if ( value > maxOutputValue )
-          {
-          pixval = maxValue;
-          }
-        else
-          {
-          pixval = static_cast< PixelType >( value );
-          }
-        outIt.Set(pixval);
+        pixval = maxValue;
         }
       else
         {
-        outIt.Set(m_DefaultPixelValue); // default background value
+        pixval = static_cast< PixelType >( value );
         }
-
-      progress.CompletedPixel();
-      ++outIt;
+      outIt.Set(pixval);
       }
-    }
-  else
-    {
-    while ( !outIt.IsAtEnd() )
+    else
       {
-      // Determine the index of the current output pixel
-      outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
-
-      // Compute corresponding input pixel position
-      inputPoint = transform->TransformPoint(outputPoint);
-      inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
-
-      // The inputIndex is precise to many decimal points, but this precision
-      // involves some error in the last bits.
-      // Sometimes, when an index should be inside of the image, the
-      // index will be slightly
-      // greater than the largest index in the image, like 255.00000000002
-      // for a image of size 256.  This can cause an empty row to show up
-      // at the bottom of the image.
-      // Therefore, the following routine uses a
-      // precisionConstant that specifies the number of relevant bits,
-      // and the value is truncated to this precision.
-      for ( unsigned int i = 0; i < ImageDimension; ++i )
-        {
-        IndexValueType roundedInputIndex = (IndexValueType)( inputIndex[i] );
-        if ( inputIndex[i] < 0.0 && inputIndex[i] != (double)roundedInputIndex )
-          {
-          --roundedInputIndex;
-          }
-        double inputIndexFrac = inputIndex[i] - roundedInputIndex;
-        double newInputIndexFrac = (IndexValueType)( precisionConstant
-                                           * inputIndexFrac )
-                                   / precisionConstant;
-        inputIndex[i] = roundedInputIndex + newInputIndexFrac;
-        }
-
-      // Evaluate input at right position and copy to the output
-      if ( m_Interpolator->IsInsideBuffer(inputIndex) )
-        {
-        PixelType        pixval;
-        const OutputType value = m_Interpolator
-                                 ->EvaluateAtContinuousIndex(inputIndex);
-        if ( value < minOutputValue )
-          {
-          pixval = minValue;
-          }
-        else if ( value > maxOutputValue )
-          {
-          pixval = maxValue;
-          }
-        else
-          {
-          pixval = static_cast< PixelType >( value );
-          }
-        outIt.Set(pixval);
-        }
-      else
-        {
-        outIt.Set(m_DefaultPixelValue); // default background value
-        }
-
-      progress.CompletedPixel();
-      ++outIt;
+      outIt.Set(m_DefaultPixelValue); // default background value
       }
+
+    progress.CompletedPixel();
+    ++outIt;
     }
 
   return;
 }
 
+/**
+ * LinearThreadedGenerateData
+ */
 template< class TInputImage,
           class TOutputImage,
           class TInterpolatorPrecisionType >
@@ -557,13 +355,12 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   PointType tmpOutputPoint;
   PointType tmpInputPoint;
 
-  typedef ContinuousIndex< TInterpolatorPrecisionType, ImageDimension >
-  ContinuousIndexType;
-  ContinuousIndexType inputIndex;
-  ContinuousIndexType tmpInputIndex;
+  ContinuousInputIndexType inputIndex;
+  ContinuousInputIndexType tmpInputIndex;
 
   typedef typename PointType::VectorType VectorType;
   VectorType delta;          // delta in input continuous index coordinate frame
+
   IndexType  index;
 
   // Support for progress methods/callbacks
@@ -588,22 +385,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   index = outIt.GetIndex();
   outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
 
-  // Use the Transform that corresponds to this thread
-  // Transforms are not thread-safe, so they have been replicated.
-  const TransformType * transform;
-
-  if ( threadId > 0 )
-    {
-    transform = this->m_ThreaderTransform[threadId - 1];
-    }
-  else
-    {
-    transform = this->m_Transform;
-    }
-
-
   // Compute corresponding input pixel position
-  inputPoint = transform->TransformPoint(outputPoint);
+  inputPoint = this->m_Transform->TransformPoint(outputPoint);
   inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
   // As we walk across a scan line in the output image, we trace
@@ -624,41 +407,10 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
   //
   ++index[0];
   outputPtr->TransformIndexToPhysicalPoint(index, tmpOutputPoint);
-  tmpInputPoint = transform->TransformPoint(tmpOutputPoint);
+  tmpInputPoint = this->m_Transform->TransformPoint(tmpOutputPoint);
   inputPtr->TransformPhysicalPointToContinuousIndex(tmpInputPoint,
                                                     tmpInputIndex);
   delta = tmpInputIndex - inputIndex;
-
-  // This fix works for images up to approximately 2^25 pixels in
-  // any dimension.  If the image is larger than this, this constant
-  // needs to be made lower.
-  double precisionConstant = 1 << ( NumericTraits< double >::digits >> 1 );
-
-  // Delta is precise to many decimal points, but this precision
-  // involves some error in the last bits.  This error can accumulate
-  // as the delta values are added.
-  // Sometimes, when the accumulated delta should be inside of the
-  // image, it will be slightly
-  // greater than the largest index in the image, like 255.00000000002
-  // for a image of size 256.  This can cause an empty column to show up
-  // at the right side of the image. If we instead
-  // truncate this delta value to some precision, this solves the problem.
-  // Therefore, the following routine uses a
-  // precisionConstant that specifies the number of relevant bits,
-  // and the value is truncated to this precision.
-  for ( unsigned int i = 0; i < ImageDimension; ++i )
-    {
-    IndexValueType roundedInputIndex = (IndexValueType)( inputIndex[i] );
-    if ( inputIndex[i] < 0.0 && inputIndex[i] != (double)roundedInputIndex )
-      {
-      --roundedInputIndex;
-      }
-    double inputIndexFrac = inputIndex[i] - roundedInputIndex;
-    double newInputIndexFrac = (IndexValueType)( precisionConstant
-                                       * inputIndexFrac )
-                               / precisionConstant;
-    inputIndex[i] = roundedInputIndex + newInputIndexFrac;
-    }
 
   while ( !outIt.IsAtEnd() )
     {
@@ -672,78 +424,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 
     // Compute corresponding input pixel continuous index, this index
     // will incremented in the scanline loop
-    inputPoint = transform->TransformPoint(outputPoint);
+    inputPoint = this->m_Transform->TransformPoint(outputPoint);
     inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
-
-    // The inputIndex is precise to many decimal points, but this precision
-    // involves some error in the last bits.
-    // Sometimes, when an index should be inside of the image, the
-    // index will be slightly
-    // greater than the largest index in the image, like 255.00000000002
-    // for a image of size 256.  This can cause an empty row to show up
-    // at the bottom of the image.
-    // Therefore, the following routine uses a
-    // precisionConstant that specifies the number of relevant bits,
-    // and the value is truncated to this precision.
-    for ( unsigned int i = 0; i < ImageDimension; ++i )
-      {
-      IndexValueType roundedInputIndex = (IndexValueType)( inputIndex[i] );
-      if ( inputIndex[i] < 0.0 && inputIndex[i] != (double)roundedInputIndex )
-        {
-        --roundedInputIndex;
-        }
-      double inputIndexFrac = inputIndex[i] - roundedInputIndex;
-      double newInputIndexFrac = (IndexValueType)( precisionConstant
-                                         * inputIndexFrac )
-                                 / precisionConstant;
-      inputIndex[i] = roundedInputIndex + newInputIndexFrac;
-      }
-
-    while ( !outIt.IsAtEndOfLine()
-            && !m_Interpolator->IsInsideBuffer(inputIndex) )
-      {
-      outIt.Set(defaultValue); // default background value
-      progress.CompletedPixel();
-      ++outIt;
-      inputIndex += delta;
-      }
-
-    if ( !outIt.IsAtEndOfLine() && m_Interpolator->IsInsideBuffer(inputIndex) )
-      {
-      PixelType  pixval;
-      OutputType value;
-      if ( m_InterpolatorIsBSpline )
-        {
-        value = m_BSplineInterpolator->EvaluateAtContinuousIndex(inputIndex,
-                                                                 threadId);
-        }
-      else if ( m_InterpolatorIsLinear )
-        {
-        value = m_LinearInterpolator->EvaluateAtContinuousIndex(inputIndex
-                                                                );
-        }
-      else
-        {
-        value = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
-        }
-      if ( value <  minOutputValue )
-        {
-        pixval = minValue;
-        }
-      else if ( value > maxOutputValue )
-        {
-        pixval = maxValue;
-        }
-      else
-        {
-        pixval = static_cast< PixelType >( value );
-        }
-      outIt.Set(pixval);
-
-      progress.CompletedPixel();
-      ++outIt;
-      inputIndex += delta;
-      }
 
     while ( !outIt.IsAtEndOfLine() )
       {
@@ -758,15 +440,11 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
             inputIndex,
             threadId);
           }
-        else if ( m_InterpolatorIsLinear )
-          {
-          value = m_LinearInterpolator->EvaluateAtContinuousIndex(inputIndex
-                                                                  );
-          }
         else
           {
           value = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
           }
+        //Check for value min/max
         if ( value <  minOutputValue )
           {
           pixval = minValue;
@@ -784,24 +462,14 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
       else
         {
         outIt.Set(defaultValue); // default background value
-        break;
         }
 
       progress.CompletedPixel();
       ++outIt;
       inputIndex += delta;
       }
-
-    while ( !outIt.IsAtEndOfLine() )
-      {
-      outIt.Set(defaultValue); // default background value
-      progress.CompletedPixel();
-      ++outIt;
-      inputIndex += delta;
-      }
-
     outIt.NextLine();
-    }
+    } //while( !outIt.IsAtEnd() )
 
   return;
 }

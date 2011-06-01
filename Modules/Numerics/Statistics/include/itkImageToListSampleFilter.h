@@ -49,6 +49,7 @@ namespace Statistics
  * through the image.
  *
  * \sa ImageToListSampleAdaptor
+ * \ingroup ITK-Statistics
  */
 template< class TImage, class TMaskImage = TImage >
 class ITK_EXPORT ImageToListSampleFilter:

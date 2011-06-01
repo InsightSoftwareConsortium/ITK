@@ -44,6 +44,11 @@ namespace itk
  * that provides the input to the ImageDuplicator object. This is needed
  * because the ImageDuplicator is not a pipeline filter.
  *
+ * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{SimpleOperations/ImageDuplicator,Duplicate an image}
+ * \endwiki
  */
 template< class TInputImage >
 class ITK_EXPORT ImageDuplicator:public Object
