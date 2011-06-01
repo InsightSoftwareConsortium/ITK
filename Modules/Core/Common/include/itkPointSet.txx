@@ -298,38 +298,6 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 }
 
 /**
- * Get the bounding box of the entire pointSet.
- */
-template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
-const typename PointSet< TPixelType, VDimension, TMeshTraits >::BoundingBoxType *
-PointSet< TPixelType, VDimension, TMeshTraits >
-::GetBoundingBox(void) const
-{
-  m_BoundingBox->SetPoints( this->GetPoints() );
-  if ( m_BoundingBox->GetMTime() > this->GetMTime() )
-    {
-    m_BoundingBox->ComputeBoundingBox();
-    }
-  return m_BoundingBox;
-}
-
-/**
- * Find the closest point in the pointSet to the given point
- * (coords[PointDimension]).  Returns whether a closest point was found.  If
- * a point is found, its PointIdentifier is set through the "pointId" pointer
- * (if it isn't NULL).
- */
-template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
-bool
-PointSet< TPixelType, VDimension, TMeshTraits >
-::FindClosestPoint(CoordRepType *,
-                   PointIdentifier *)
-{
-  m_BoundingBox->SetPoints( this->GetPoints() );
-  return bool();
-}
-
-/**
  * Restore the PointSet to its initial state.  Useful for data pipeline updates
  * without memory re-allocation.
  */
@@ -358,7 +326,6 @@ PointSet< TPixelType, VDimension, TMeshTraits >
   m_PointsContainer(0),
   m_PointDataContainer(0)
 {
-  m_BoundingBox  = BoundingBoxType::New();
 
   // If we used unstructured regions instead of structured regions, then
   // assume this object was created by the user and this is region 0 of
@@ -430,10 +397,6 @@ PointSet< TPixelType, VDimension, TMeshTraits >
     }
 
   m_MaximumNumberOfRegions = pointSet->GetMaximumNumberOfRegions();
-
-  // Copy the bounding box by value in order to avoid dependencies between the
-  // source and destination.
-  m_BoundingBox           = pointSet->GetBoundingBox()->DeepCopy();
 
   m_NumberOfRegions = pointSet->m_NumberOfRegions;
   m_RequestedNumberOfRegions = pointSet->m_RequestedNumberOfRegions;

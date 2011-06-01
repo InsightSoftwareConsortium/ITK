@@ -54,45 +54,25 @@ int itkPointSetTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 100 ; ++i)
+
+  try
     {
-    testPointCoords[0] = (PointSet::CoordRepType)
-      vnl_sample_uniform((double)-1.0,(double)1.0);
-    testPointCoords[1] = (PointSet::CoordRepType)
-      vnl_sample_uniform((double)-1.0,(double)1.0);
-    testPointCoords[2] = (PointSet::CoordRepType)
-      vnl_sample_uniform((double)-1.0,(double)1.0);
-    pset->SetPoint(i, PointType(testPointCoords));
+    for(int i=0; i < 100 ; ++i)
+      {
+      testPointCoords[0] = (PointSet::CoordRepType)
+        vnl_sample_uniform((double)-1.0,(double)1.0);
+      testPointCoords[1] = (PointSet::CoordRepType)
+        vnl_sample_uniform((double)-1.0,(double)1.0);
+      testPointCoords[2] = (PointSet::CoordRepType)
+        vnl_sample_uniform((double)-1.0,(double)1.0);
+      pset->SetPoint(i, PointType(testPointCoords));
+      }
     }
-
-  /**
-   * Perform some geometric operations (coordinate transformations)
-   * to see if they are working.
-   */
-  PointSet::CoordRepType coords[PointSet::PointDimension];
-  PointSet::PointIdentifier pointId;
-  pset->FindClosestPoint(coords,&pointId);
-
-  /**
-   * Compute the bounding box of the mesh
-   */
-  typedef itk::BoundingBox<PointSet::PointIdentifier,PointSet::PointDimension,
-    PointSet::CoordRepType,PointSet::PointsContainer> BoundingBox;
-
-  BoundingBox::Pointer bbox(BoundingBox::New());
-  bbox->SetPoints(pset->GetPoints());
-  bbox->ComputeBoundingBox();
-  std::cout << bbox << std::endl;
-
-
-  /**
-   *  Test the internal bounding box
-   */
-  std::cout << "Internal bounding box " << std::endl;
-  BoundingBox::ConstPointer bbox2 = pset->GetBoundingBox();
-  std::cout << bbox2 << std::endl;
-
+  catch(...)
+    {
+    std::cerr << "Error setting points." << std::endl;
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
-
 }
 

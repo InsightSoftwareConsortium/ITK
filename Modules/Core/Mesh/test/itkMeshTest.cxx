@@ -593,16 +593,6 @@ int itkMeshTest(int, char* [] )
       }
   } // end of local scope for this part of the test.
 
-
-
-  /**
-   * Perform some geometric operations (coordinate transformations)
-   * to see if they are working.
-   */
-  MeshType::CoordRepType coords[MeshType::PointDimension];
-  MeshType::PointIdentifier pointId;
-  mesh->FindClosestPoint(coords,&pointId);
-
   /**
    * Compute the bounding box of the mesh
    */
