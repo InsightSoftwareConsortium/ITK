@@ -64,7 +64,7 @@ public:
  *
  * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
  *
- * \ingroup ITK-ImageFeature
+ * \ingroup ITK-DiffusionTensorImage
  */
 template< typename  TInputImage, typename  TOutputImage = Image<
     typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,

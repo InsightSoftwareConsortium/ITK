@@ -42,7 +42,7 @@ namespace Functor
  * be represented in a long. But on 32 bit architectures, the only
  * safe join value type is a float. For this and similar ambiguous
  * cases, the join value type is promoted to a float.
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITK-ImageCompose
  */
 template< class TPixel1, class TPixel2 >
 class JoinFunctor
@@ -194,7 +194,7 @@ struct MakeJoin {
  * JoinImageFilter<Image1, Image2>::OutputImageType
  *
  * \ingroup IntensityImageFilters  Multithreaded
- * \ingroup ITK-ImageIntensity
+ * \ingroup ITK-ImageCompose
  *
  * \wiki
  * \wikiexample{VectorImages/JoinImageFilter,Join images\, stacking their components}

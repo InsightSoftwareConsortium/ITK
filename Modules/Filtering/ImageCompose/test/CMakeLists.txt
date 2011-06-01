@@ -9,6 +9,9 @@ itkComposeRGBImageFilterTest.cxx
 itkImageToVectorImageFilterTest.cxx
 itkImageReadRealAndImaginaryWriteComplexTest.cxx
 itkComposeRGBAImageFilterTest.cxx
+itkJoinSeriesImageFilterTest.cxx
+itkJoinSeriesImageFilterStreamingTest.cxx
+itkJoinImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ImageCompose  "${ITK-ImageCompose-Test_LIBRARIES}" "${ITK-ImageComposeTests}")
@@ -36,3 +39,12 @@ itk_add_test(NAME itkImageReadRealAndImaginaryWriteComplexTest
 itk_add_test(NAME itkComposeRGBAImageFilterTest
       COMMAND ITK-ImageComposeTestDriver itkComposeRGBAImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkComposeRGBAImageFilterTestOutput.png ${ITK_DATA_ROOT}/Input/Number1inText.png ${ITK_DATA_ROOT}/Input/Number2inText.png ${ITK_DATA_ROOT}/Input/Number3inText.png ${ITK_DATA_ROOT}/Input/IntensityRamp64.png)
+itk_add_test(NAME itkJoinSeriesImageFilterTest
+      COMMAND ITK-ImageComposeTestDriver itkJoinSeriesImageFilterTest)
+itk_add_test(NAME itkJoinSeriesImageFilterStreamingTest
+      COMMAND ITK-ImageComposeTestDriver
+    --compare ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+              ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha
+    itkJoinSeriesImageFilterStreamingTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha)
+itk_add_test(NAME itkJoinImageFilterTest
+      COMMAND ITK-ImageComposeTestDriver itkJoinImageFilterTest)
