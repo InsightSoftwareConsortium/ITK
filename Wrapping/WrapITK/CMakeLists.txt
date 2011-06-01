@@ -52,9 +52,9 @@ enable_testing()
 # code results in objects with number of sections exceeding object file
 # format.
 # see http://msdn.microsoft.com/en-us/library/ms173499.aspx
-IF(CMAKE_CL_64)
- ADD_DEFINITIONS(/bigobj)
-ENDIF(CMAKE_CL_64)
+if(CMAKE_CL_64 OR CMAKE_COMPILER_2005)
+ add_definitions(/bigobj)
+endif()
 
 
 # Set up options needed for ConfigureWrapping
