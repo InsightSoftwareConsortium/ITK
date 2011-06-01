@@ -304,7 +304,7 @@ vidl_itk_istream< TVideoStream >::advance()
   // we can't advance if we're at the end
   unsigned long firstFrame = m_VideoStream->GetLargestPossibleTemporalRegion().GetFrameStart();
   unsigned long duration = m_VideoStream->GetLargestPossibleTemporalRegion().GetFrameDuration();
-  if (duration == 0 || currentFrame >= firstFrame + duration - 1)
+  if (duration == 0 || currentFrame >= firstFrame + duration - 2)
     {
     return false;
     }
