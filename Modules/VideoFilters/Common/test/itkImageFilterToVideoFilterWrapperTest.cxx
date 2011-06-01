@@ -22,7 +22,10 @@
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkVideoFileReader.h"
 #include "itkVideoFileWriter.h"
+#include "itkImageFileReader.h"
+#include "itkFileListVideoIO.h"
 #include "itkFileListVideoIOFactory.h"
+#include "itkDifferenceImageFilter.h"
 
 /**
  * Main test
@@ -33,6 +36,15 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
   if (argc < 3)
     {
     std::cerr << "Usage: " << argv[0] << " input_video output_video" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Get the lists of input and output files
+  std::vector<std::string> inputFiles = itk::FileListVideoIO::SplitFileNames(argv[1]);
+  std::vector<std::string> outputFiles = itk::FileListVideoIO::SplitFileNames(argv[2]);
+  if (inputFiles.size() != outputFiles.size())
+    {
+    std::cerr << "Must specify the same number of input and output frames" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -69,6 +81,32 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
 
   // Run the pipeline
   writer->Update();
+
+  //
+  // Check output
+  //
+  typedef itk::ImageFileReader< FrameType > ImageReaderType;
+  typedef itk::DifferenceImageFilter< FrameType, FrameType > DifferenceFilterType;
+  ImageReaderType::Pointer imReader1 = ImageReaderType::New();
+  ImageReaderType::Pointer imReader2 = ImageReaderType::New();
+  DifferenceFilterType::Pointer differ = DifferenceFilterType::New();
+
+  imgGauss->SetInput(imReader1->GetOutput());
+  differ->SetValidInput(imgGauss->GetOutput());
+  differ->SetTestInput(imReader2->GetOutput());
+
+  for (unsigned int i = 0; i < inputFiles.size(); ++i)
+    {
+    imReader1->SetFileName(inputFiles[i]);
+    imReader2->SetFileName(outputFiles[i]);
+    differ->Update();
+    if (differ->GetTotalDifference() != 0)
+      {
+      std::cerr << "Frame " << i << " didn't produce the correct output. Difference = "
+                << differ->GetTotalDifference() << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
 
   //////
   // Return successfully
