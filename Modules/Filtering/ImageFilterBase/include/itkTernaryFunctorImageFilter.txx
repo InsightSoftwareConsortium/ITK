@@ -20,7 +20,6 @@
 
 #include "itkTernaryFunctorImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -31,14 +30,9 @@ namespace itk
 template< class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage, class TFunction  >
 TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunction >
-::TernaryFunctorImageFilter() : m_UsePhysicalSpace(false), m_PhysicalSpacesMatch(false)
+::TernaryFunctorImageFilter()
 {
   this->InPlaceOff();
-  // this is not a good idea for e.g. itk::DivideImageFilter, and
-  // should be overridden in subclasses where appropriate.
-  //
-  this->m_DefaultValue2 = NumericTraits<Interpolator2OutputPixelType>::Zero;
-  this->m_DefaultValue3 = NumericTraits<Interpolator3OutputPixelType>::Zero;
 }
 
 /**
@@ -103,33 +97,6 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
                        << " Input2 is " << inputPtr2.GetPointer() << ", "
                        << " Input3 is " << inputPtr3.GetPointer() );
     }
-  //
-  // if the physical spaces are the same, then you can work in index space.
-  this->m_PhysicalSpacesMatch = inputPtr1->GetOrigin() == inputPtr2->GetOrigin() &&
-    inputPtr1->GetLargestPossibleRegion() == inputPtr2->GetLargestPossibleRegion() &&
-    inputPtr1->GetSpacing() == inputPtr2->GetSpacing() &&
-    inputPtr1->GetDirection() == inputPtr2->GetDirection() &&
-    inputPtr1->GetOrigin() == inputPtr3->GetOrigin() &&
-    inputPtr1->GetLargestPossibleRegion() == inputPtr3->GetLargestPossibleRegion() &&
-    inputPtr1->GetSpacing() == inputPtr3->GetSpacing() &&
-    inputPtr1->GetDirection() == inputPtr3->GetDirection();
-  //
-  // don't bother allocating an interpolator if it isn't going to be used.
-  if(this->m_UsePhysicalSpace && !this->m_PhysicalSpacesMatch)
-    {
-    if(this->m_Interpolator2.IsNull())
-      {
-      this->m_Interpolator2 =
-        this->NewDefaultInterpolator2(static_cast<typename TInputImage2::PixelType *>(0));
-      }
-    if(this->m_Interpolator3.IsNull())
-      {
-      this->m_Interpolator3 =
-        this->NewDefaultInterpolator3(static_cast<typename TInputImage3::PixelType *>(0));
-      }
-    this->m_Interpolator2->SetInputImage(inputPtr2);
-    this->m_Interpolator3->SetInputImage(inputPtr3);
-    }
 }
 
 /**
@@ -153,67 +120,26 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
     dynamic_cast< const TInputImage3 * >( ( ProcessObject::GetInput(2) ) );
   OutputImagePointer outputPtr = this->GetOutput(0);
 
+  ImageRegionConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
+  ImageRegionConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
+  ImageRegionConstIterator< TInputImage3 > inputIt3(inputPtr3, outputRegionForThread);
   ImageRegionIterator< TOutputImage >      outputIt(outputPtr, outputRegionForThread);
 
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
+  inputIt1.GoToBegin();
+  inputIt2.GoToBegin();
+  inputIt3.GoToBegin();
   outputIt.GoToBegin();
-  //
-  // simple case -- either default index space mode, or
-  // all physical spaces match
-  if(!this->m_UsePhysicalSpace || this->m_PhysicalSpacesMatch)
+
+  while ( !inputIt1.IsAtEnd() )
     {
-    ImageRegionConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
-    ImageRegionConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
-    ImageRegionConstIterator< TInputImage3 > inputIt3(inputPtr3, outputRegionForThread);
-
-    inputIt1.GoToBegin();
-    inputIt2.GoToBegin();
-    inputIt3.GoToBegin();
-    while ( !inputIt1.IsAtEnd() )
-      {
-      outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get(), inputIt3.Get() ) );
-      ++inputIt1;
-      ++inputIt2;
-      ++inputIt3;
-      ++outputIt;
-      progress.CompletedPixel(); // potential exception thrown here
-      }
-    }
-  else
-    {
-    ImageRegionConstIteratorWithIndex< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
-    inputIt1.GoToBegin();
-
-    while ( !inputIt1.IsAtEnd() )
-      {
-      typename TInputImage1::IndexType index1 = inputIt1.GetIndex();
-      typename TInputImage2::PointType pt;
-      inputPtr1->TransformIndexToPhysicalPoint(index1,pt);
-      Interpolator2OutputPixelType interpVal2;
-      Interpolator3OutputPixelType interpVal3;
-      if(this->m_Interpolator2->IsInsideBuffer(pt))
-        {
-        interpVal2 = this->m_Interpolator2->Evaluate(pt);
-        }
-      else
-        {
-        interpVal2 = this->m_DefaultValue2;
-        }
-      if(this->m_Interpolator3->IsInsideBuffer(pt))
-        {
-        interpVal3 = this->m_Interpolator3->Evaluate(pt);
-        }
-      else
-        {
-        interpVal3 = this->m_DefaultValue3;
-        }
-
-      outputIt.Set( m_Functor( inputIt1.Get(), interpVal2, interpVal3 ) );
-      ++inputIt1;
-      ++outputIt;
-      progress.CompletedPixel(); // potential exception thrown here
-      }
+    outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get(), inputIt3.Get() ) );
+    ++inputIt1;
+    ++inputIt2;
+    ++inputIt3;
+    ++outputIt;
+    progress.CompletedPixel(); // potential exception thrown here
     }
 }
 } // end namespace itk

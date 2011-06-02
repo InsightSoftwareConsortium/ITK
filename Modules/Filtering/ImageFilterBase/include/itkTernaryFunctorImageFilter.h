@@ -20,8 +20,6 @@
 
 #include "itkInPlaceImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkLinearInterpolateImageFunction.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -74,18 +72,6 @@ public:
   typedef typename OutputImageType::RegionType   OutputImageRegionType;
   typedef typename OutputImageType::PixelType    OutputImagePixelType;
 
-  /** the generic type for interpolating the image in Physical Space
-   *  Mode
-   */
-  typedef ImageFunction<Input2ImageType,
-                        ITK_TYPENAME NumericTraits<Input2ImagePixelType>::RealType,
-                        double>                  Interpolator2Type;
-  typedef typename Interpolator2Type::OutputType Interpolator2OutputPixelType;
-  typedef ImageFunction<Input3ImageType,
-                        ITK_TYPENAME NumericTraits<Input3ImagePixelType>::RealType,
-                        double>                  Interpolator3Type;
-  typedef typename Interpolator3Type::OutputType Interpolator3OutputPixelType;
-
   /** Connect one of the operands for pixel-wise addition. */
   void SetInput1(const TInputImage1 *image1);
 
@@ -124,40 +110,6 @@ public:
       this->Modified();
       }
   }
-
-  /** Set/Get UsePhysicalSpace
-   *  The default behavior of this filter is to assume that
-   *  the dimensions, physical orientation, and spacing are
-   *  the same.
-   *  If UsePhysicalSpace is true, an InterpolateImageFunction is
-   *  used to use the interpolated pixel in Image2 & Image3 that
-   *  is at the physical location of the pixel in Image1 for
-   *  computations.
-   *  This allows, for example, a binary operation on two images
-   *  that occupy the same physical volume but have different size
-   *  & spacing.
-   */
-  itkSetMacro(UsePhysicalSpace,bool)
-  itkGetMacro(UsePhysicalSpace,bool)
-
-  /** Set the Interpolator for Physical Space Mode
-   *  The default interpolator is the LinearInterpolateImageFunction,
-   *  or for Vector Images, VectorLinearInterpolateImageFunction.
-   */
-  itkSetObjectMacro(Interpolator2, Interpolator2Type);
-  itkSetObjectMacro(Interpolator3, Interpolator3Type);
-  itkGetObjectMacro(Interpolator2, Interpolator2Type);
-  itkGetObjectMacro(Interpolator3, Interpolator3Type);
-
-  /** Set the default pixel value.  In Physical Space Mode, it is
-   *  possible for the two images to have disjoint physical volumes,
-   *  and in that case, the default pixel value will be used for
-   *  pixels outside Image2's image volume.
-   */
-  itkSetMacro(DefaultValue2, Interpolator2OutputPixelType);
-  itkGetMacro(DefaultValue2, Interpolator2OutputPixelType);
-  itkSetMacro(DefaultValue3, Interpolator3OutputPixelType);
-  itkGetMacro(DefaultValue3, Interpolator3OutputPixelType);
 
   /** Image dimensions */
   itkStaticConstMacro(Input1ImageDimension, unsigned int,
@@ -204,50 +156,7 @@ private:
   TernaryFunctorImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented
 
-   /** Instantiate default interpolator, based on pixel type
-   */
-  template <typename TScalar>
-    typename Interpolator2Type::Pointer
-    NewDefaultInterpolator2(TScalar *)
-  {
-    return LinearInterpolateImageFunction<TInputImage2>::New().GetPointer();
-  }
-
-  template <typename TScalar,unsigned VVecLength>
-    typename Interpolator2Type::Pointer
-    NewDefaultInterpolator2(Vector<TScalar,VVecLength> *)
-  {
-    return VectorLinearInterpolateImageFunction<TInputImage2>::New().GetPointer();
-  }
-
-  template <typename TScalar>
-    typename Interpolator3Type::Pointer
-    NewDefaultInterpolator3(TScalar *)
-  {
-    return LinearInterpolateImageFunction<TInputImage3>::New().GetPointer();
-  }
-
-  template <typename TScalar,unsigned VVecLength>
-    typename Interpolator3Type::Pointer
-    NewDefaultInterpolator3(Vector<TScalar,VVecLength> *)
-  {
-    return VectorLinearInterpolateImageFunction<TInputImage3>::New().GetPointer();
-  }
-
   FunctorType m_Functor;
-
-  /** whether or not to use physical space for calculations */
-  bool                                m_UsePhysicalSpace;
-  /** true if size, spacing, origin, and orientation match */
-  bool                                m_PhysicalSpacesMatch;
-  /** interpolators to use by default if none is set. */
-  typename Interpolator2Type::Pointer m_Interpolator2;
-  typename Interpolator3Type::Pointer m_Interpolator3;
-  /** default pixel value to use if interpolator is given a
-   *  point outside the image volume.
-   */
-  Interpolator2OutputPixelType        m_DefaultValue2;
-  Interpolator3OutputPixelType        m_DefaultValue3;
 };
 } // end namespace itk
 

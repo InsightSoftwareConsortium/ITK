@@ -65,7 +65,6 @@ itkPromoteDimensionImageTest.cxx
 itkModulusImageFilterTest.cxx
 itkVectorMagnitudeImageFilterTest.cxx
 itkNormalizeToConstantImageFilterTest.cxx
-itkMathInWorldCoordinatesTest.cxx
 )
 
 CreateTestDriver(ITK-ImageIntensity  "${ITK-ImageIntensity-Test_LIBRARIES}" "${ITK-ImageIntensityTests}")
@@ -226,5 +225,3 @@ itk_add_test(NAME itkVectorMagnitudeImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkVectorMagnitudeImageFilterTest)
 itk_add_test(NAME itkNormalizeToConstantImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkNormalizeToConstantImageFilterTest)
-itk_add_test(NAME itkMathInWorldCoordinatesTest
-  COMMAND ITK-ImageIntensityTestDriver itkMathInWorldCoordinatesTest)
