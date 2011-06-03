@@ -279,6 +279,7 @@ H5T_bit_get_d(uint8_t *buf, size_t offset, size_t size)
         case H5T_ORDER_ERROR:
         case H5T_ORDER_VAX:
         case H5T_ORDER_NONE:
+        case H5T_ORDER_MIXED:
         default:
             /* Unknown endianness. Bail out. */
             HGOTO_DONE(UFAIL)
@@ -326,6 +327,7 @@ H5T_bit_set_d(uint8_t *buf, size_t offset, size_t size, uint64_t val)
         case H5T_ORDER_ERROR:
         case H5T_ORDER_VAX:
         case H5T_ORDER_NONE:
+        case H5T_ORDER_MIXED:
         default:
             HDabort();
     } /* end switch */
@@ -534,7 +536,7 @@ H5T_bit_inc(uint8_t *buf, size_t start, size_t size)
 	else
             mask = ((unsigned)1 << (8 - start)) - 1;
 	acc = ((unsigned)buf[idx] >> start) & mask;
-	acc += 1;
+	acc++;
 	carry = acc & ((unsigned)1 << MIN(size, 8 - start));
 	buf[idx] &= (uint8_t)(~(mask << start));
 	buf[idx] |= (uint8_t)((acc & mask) << start);
@@ -546,7 +548,7 @@ H5T_bit_inc(uint8_t *buf, size_t start, size_t size)
     /* The middle */
     while(carry && size >= 8) {
 	acc = buf[idx];
-	acc += 1;
+	acc++;
 	carry = acc & 0x100;
 	buf[idx] = acc & 0xff;
 	idx++;
@@ -557,7 +559,7 @@ H5T_bit_inc(uint8_t *buf, size_t start, size_t size)
     if(carry && size > 0) {
 	mask = ((unsigned)1 << size) - 1;
 	acc = buf[idx] & mask;
-	acc += 1;
+	acc++;
 	carry = acc & ((unsigned)1 << size);
 	buf[idx] &= (uint8_t)(~mask);
 	buf[idx] |= (uint8_t)(acc & mask);
@@ -606,7 +608,7 @@ H5T_bit_dec(uint8_t *buf, size_t start, size_t size)
          */
         if(!(buf[idx] >> pos))
             borrow = 1;
-        buf[idx] -= 1 << pos;
+        buf[idx] = (uint8_t)(buf[idx] - (1 << pos));
         idx++;
         size -= (8 - pos);
 
@@ -614,7 +616,7 @@ H5T_bit_dec(uint8_t *buf, size_t start, size_t size)
         while(borrow && size >= 8) {
             if(buf[idx])
                 borrow = 0;
-            buf[idx] -= 1;
+            buf[idx]--;
 
             idx++;
             size -= 8;
@@ -624,9 +626,9 @@ H5T_bit_dec(uint8_t *buf, size_t start, size_t size)
         if(borrow && size > 0) {
             /* Similar to the first byte case, where sequence ends in the same byte as starts */
             tmp = buf[idx];
-            buf[idx] -= 1;
+            buf[idx]--;
             if((buf[idx] >> size) != tmp >> size)
-                buf[idx] += 1 << size;
+                buf[idx] = (uint8_t)(buf[idx] + (1 << size));
         } /* end if */
     } /* end if */
     else { /* bit sequence ends in the same byte as starts */
@@ -635,9 +637,9 @@ H5T_bit_dec(uint8_t *buf, size_t start, size_t size)
          * not equal).  We need to put this bit back by increment 1000000.
          */
         tmp = buf[idx];
-        buf[idx] -= 1 << pos;
+        buf[idx] = (uint8_t)(buf[idx] - (1 << pos));
         if((buf[idx] >> (pos + size)) != tmp >> (pos + size)) {
-            buf[idx] += 1 << (pos + size);
+            buf[idx] = (uint8_t)(buf[idx] + (1 << (pos + size)));
             borrow = 1;
         } /* end if */
     } /* end else */
@@ -664,7 +666,7 @@ H5T_bit_neg(uint8_t *buf, size_t start, size_t size)
 {
     size_t	idx = start / 8;
     size_t      pos = start % 8;
-    uint8_t     tmp;
+    uint8_t     tmp[1];
 
     /* Use FUNC_ENTER_NOAPI_NOINIT_NOFUNC here to avoid performance issues */
     FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_bit_neg);
@@ -673,12 +675,11 @@ H5T_bit_neg(uint8_t *buf, size_t start, size_t size)
     HDassert(size);
 
     /* The first partial byte */
-    tmp = buf[idx];
-    tmp = (uint8_t)~tmp;
+    tmp[0] = (uint8_t)~buf[idx];
 
     /* Simply copy the negated bit field back to the original byte */
     if((size + start - 1) / 8 > idx) {   /*bit sequence doesn't end in the same byte as starts*/
-        H5T_bit_copy(&(buf[idx]), pos, &tmp, pos, (8-pos));
+        H5T_bit_copy(&(buf[idx]), pos, tmp, pos, (8-pos));
         idx++;
         size -= (8 - pos);
 
@@ -692,13 +693,12 @@ H5T_bit_neg(uint8_t *buf, size_t start, size_t size)
         /* The last partial byte */
         if(size > 0) {
             /* Similar to the first byte case, where sequence ends in the same byte as starts */
-            tmp = buf[idx];
-            tmp = (uint8_t)~tmp;
-            H5T_bit_copy(&(buf[idx]), (size_t)0, &tmp, (size_t)0, size);
+            tmp[0] = (uint8_t)~buf[idx];
+            H5T_bit_copy(&(buf[idx]), (size_t)0, tmp, (size_t)0, size);
         } /* end if */
     } /* end if */
     else  /* bit sequence ends in the same byte as starts */
-        H5T_bit_copy(&(buf[idx]), pos, &tmp, pos, size);
+        H5T_bit_copy(&(buf[idx]), pos, tmp, pos, size);
 
     FUNC_LEAVE_NOAPI_VOID
 } /* end H5T_bit_neg() */

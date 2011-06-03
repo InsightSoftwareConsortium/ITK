@@ -558,6 +558,21 @@ done:
  *		koziol@ncsa.uiuc.edu
  *		Mar 20 2003
  *
+ * Changes:	In the parallel case, there is the possibility that the 
+ *		the object header may be flushed by different processes
+ *		over the life of the computation.  Thus we must ensure
+ *		that the chunk images are up to date before we mark the
+ *		messages clean -- as otherwise we may overwrite valid
+ *		data with a blank section of a chunk image.
+ *
+ *		To deal with this, I have added code to call 
+ *		H5O_chunk_serialize() for all chunks before we 
+ *		mark all messages as clean if we are not destroying the 
+ *		object.  Do this in the parallel case only, as the problem 
+ *		can only occur in this context.
+ *
+ *						JRM -- 10/12/10
+ *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -570,6 +585,30 @@ H5O_clear(H5F_t *f, H5O_t *oh, hbool_t destroy)
 
     /* check args */
     HDassert(oh);
+
+#ifdef H5_HAVE_PARALLEL
+    if ( ( oh->cache_info.is_dirty ) && ( ! destroy ) ) {
+
+	size_t i;
+
+        /* scan through all chunks associated with the object header,
+	 * and cause them to update their images for all entries currently
+ 	 * marked dirty.  Must do this in the parallel case, as it is possible
+	 * that this processor may clear this object header several times
+	 * before flushing it -- thus causing undefined sections of the image
+	 * to be written to disk overwriting valid data.
+         */
+
+	for ( i = 0; i < oh->nchunks; i++ ) {
+
+            if ( H5O_chunk_serialize(f, oh, i) < 0 ) {
+
+                HGOTO_ERROR(H5E_OHDR, H5E_CANTSERIALIZE, FAIL, 
+			    "unable to serialize object header chunk")
+	    }
+        }
+    }
+#endif /* H5_HAVE_PARALLEL */
 
     /* Mark messages as clean */
     for(u = 0; u < oh->nmesgs; u++)
@@ -616,7 +655,10 @@ H5O_size(const H5F_t UNUSED *f, const H5O_t *oh, size_t *size_ptr)
     HDassert(size_ptr);
 
     /* Report the object header's prefix+first chunk length */
-    *size_ptr = (size_t)H5O_SIZEOF_HDR(oh) + oh->chunk0_size;
+    if(oh->chunk0_size)
+       *size_ptr = H5O_SIZEOF_HDR(oh) + oh->chunk0_size;
+    else
+       *size_ptr = oh->chunk[0].size;
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* H5O_size() */
@@ -663,11 +705,11 @@ H5O_cache_chk_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
         HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, NULL, "can't wrap buffer")
 
     /* Get a pointer to a buffer that's large enough for serialized header */
-    if(NULL == (buf = (uint8_t *)H5WB_actual(wb, udata->chunk_size)))
+    if(NULL == (buf = (uint8_t *)H5WB_actual(wb, udata->size)))
         HGOTO_ERROR(H5E_OHDR, H5E_NOSPACE, NULL, "can't get actual buffer")
 
     /* Read rest of the raw data */
-    if(H5F_block_read(f, H5FD_MEM_OHDR, addr, udata->chunk_size, dxpl_id, buf) < 0)
+    if(H5F_block_read(f, H5FD_MEM_OHDR, addr, udata->size, dxpl_id, buf) < 0)
         HGOTO_ERROR(H5E_OHDR, H5E_READERROR, NULL, "unable to read object header continuation chunk")
 
     /* Check if we are still decoding the object header */
@@ -678,7 +720,7 @@ H5O_cache_chk_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
         HDassert(udata->common.cont_msg_info);
 
         /* Parse the chunk */
-        if(H5O_chunk_deserialize(udata->oh, udata->common.addr, udata->chunk_size, buf, &(udata->common), &chk_proxy->cache_info.is_dirty) < 0)
+        if(H5O_chunk_deserialize(udata->oh, udata->common.addr, udata->size, buf, &(udata->common), &chk_proxy->cache_info.is_dirty) < 0)
             HGOTO_ERROR(H5E_OHDR, H5E_CANTINIT, NULL, "can't deserialize object header chunk")
 
         /* Set the fields for the chunk proxy */
@@ -825,6 +867,30 @@ done:
  *              koziol@hdfgroup.org
  *              July 12, 2008
  *
+ * Changes:	In the parallel case, there is the possibility that the 
+ *		the object header chunk may be flushed by different 
+ *		processes over the life of the computation.  Thus we must 
+ *		ensure that the chunk image is up to date before we mark its
+ *		messages clean -- as otherwise we may overwrite valid
+ *		data with a blank section of a chunk image.
+ *
+ *		To deal with this, I have added code to call 
+ *		H5O_chunk_serialize() for this chunk before we 
+ *		mark all messages as clean if we are not destroying the 
+ *		chunk.
+ *
+ *		Do this in the parallel case only, as the problem 
+ *		can only occur in this context.
+ *
+ *		Note that at present at least, it seems that this fix
+ *		is not necessary, as we don't seem to be able to 
+ *		generate a dirty chunk without creating a dirty object
+ *		header.  However, the object header code will be changing
+ *		a lot in the near future, so I'll leave this fix in 
+ *		for now, unless Quincey requests otherwise.
+ *
+ *						JRM -- 10/12/10
+ *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -837,6 +903,17 @@ H5O_cache_chk_clear(H5F_t *f, H5O_chunk_proxy_t *chk_proxy, hbool_t destroy)
 
     /* check args */
     HDassert(chk_proxy);
+
+#ifdef H5_HAVE_PARALLEL
+    if ( ( chk_proxy->oh->cache_info.is_dirty ) && ( ! destroy ) ) {
+
+        if ( H5O_chunk_serialize(f, chk_proxy->oh, chk_proxy->chunkno) < 0 ) {
+
+            HGOTO_ERROR(H5E_OHDR, H5E_CANTSERIALIZE, FAIL, 
+                       "unable to serialize object header chunk")
+        }
+    }
+#endif /* H5_HAVE_PARALLEL */
 
     /* Mark messages in chunk as clean */
     for(u = 0; u < chk_proxy->oh->nmesgs; u++)

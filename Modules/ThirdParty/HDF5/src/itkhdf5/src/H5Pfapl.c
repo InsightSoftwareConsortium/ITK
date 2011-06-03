@@ -119,6 +119,9 @@
  */
 #define H5F_ACS_WANT_POSIX_FD_SIZE              sizeof(hbool_t)
 #define H5F_ACS_WANT_POSIX_FD_DEF               FALSE
+/* Definition for external file cache size */
+#define H5F_ACS_EFC_SIZE_SIZE                   sizeof(unsigned)
+#define H5F_ACS_EFC_SIZE_DEF                    0
 
 
 /******************/
@@ -211,6 +214,7 @@ H5P_facc_reg_prop(H5P_genclass_t *pclass)
     H5FD_mem_t mem_type = H5F_ACS_MULTI_TYPE_DEF;               /* Default file space type for multi VFD */
     hbool_t latest_format = H5F_ACS_LATEST_FORMAT_DEF;          /* Default setting for "use the latest version of the format" flag */
     hbool_t want_posix_fd = H5F_ACS_WANT_POSIX_FD_DEF;          /* Default setting for retrieving 'handle' from core VFD */
+    unsigned efc_size = H5F_ACS_EFC_SIZE_DEF;                   /* Default external file cache size */
     herr_t ret_value = SUCCEED;         /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT(H5P_facc_reg_prop)
@@ -290,6 +294,10 @@ H5P_facc_reg_prop(H5P_genclass_t *pclass)
     /* Register the private property of whether to retrieve the file descriptor from the core VFD */
     /* (used internally to the library only) */
     if(H5P_register_real(pclass, H5F_ACS_WANT_POSIX_FD_NAME, H5F_ACS_WANT_POSIX_FD_SIZE, &want_posix_fd, NULL, NULL, NULL, NULL, NULL, NULL, NULL) < 0)
+         HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
+
+    /* Register the external file cache size */
+    if(H5P_register_real(pclass, H5F_ACS_EFC_SIZE_NAME, H5F_ACS_EFC_SIZE_SIZE, &efc_size, NULL, NULL, NULL, NULL, NULL, NULL, NULL) < 0)
          HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
 
 done:
@@ -1330,10 +1338,6 @@ done:
  * Programmer:	J. Mainzer
  *              Thursday, April 7, 2005
  *
- * Modifications:
- *
- *		Done.
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1381,10 +1385,6 @@ done:
  *
  * Programmer:	J. Mainzer
  *              Thursday, April 7, 2005
- *
- * Modifications:
- *
- *		None.
  *
  *-------------------------------------------------------------------------
  */
@@ -2023,4 +2023,81 @@ H5Pget_libver_bounds(hid_t plist_id, H5F_libver_t *low/*out*/,
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5Pget_libver_bounds() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:    H5Pset_elink_file_cache_size
+ *
+ * Purpose:     Sets the number of files opened through external links
+ *              from the file associated with this fapl to be held open
+ *              in that file's external file cache.  When the maximum
+ *              number of files is reached, the least recently used file
+ *              is closed (unless it is opened from somewhere else).
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *
+ * Programmer:  Neil Fortner
+ *              Friday, December 17, 2010
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5Pset_elink_file_cache_size(hid_t plist_id, unsigned efc_size)
+{
+    H5P_genplist_t *plist;      /* Property list pointer */
+    herr_t ret_value = SUCCEED;   /* return value */
+
+    FUNC_ENTER_API(H5Pset_elink_file_cache_size, FAIL)
+    H5TRACE2("e", "iIu", plist_id, efc_size);
+
+    /* Get the plist structure */
+    if(NULL == (plist = H5P_object_verify(plist_id, H5P_FILE_ACCESS)))
+        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+
+    /* Set value */
+    if(H5P_set(plist, H5F_ACS_EFC_SIZE_NAME, &efc_size) < 0)
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set elink file cache size")
+
+done:
+    FUNC_LEAVE_API(ret_value)
+} /* end H5Pset_elink_file_cache_size() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:    H5Pget_elink_file_cache_size
+ *
+ * Purpose:     Gets the number of files opened through external links
+ *              from the file associated with this fapl to be held open
+ *              in that file's external file cache.  When the maximum
+ *              number of files is reached, the least recently used file
+ *              is closed (unless it is opened from somewhere else).
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *
+ * Programmer:  Neil Fortner
+ *              Friday, December 17, 2010
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5Pget_elink_file_cache_size(hid_t plist_id, unsigned *efc_size)
+{
+    H5P_genplist_t *plist;      /* Property list pointer */
+    herr_t ret_value = SUCCEED;   /* return value */
+
+    FUNC_ENTER_API(H5Pget_elink_file_cache_size, FAIL)
+    H5TRACE2("e", "i*Iu", plist_id, efc_size);
+
+    /* Get the plist structure */
+    if(NULL == (plist = H5P_object_verify(plist_id, H5P_FILE_ACCESS)))
+        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
+
+    /* Get value */
+    if(efc_size)
+        if(H5P_get(plist, H5F_ACS_EFC_SIZE_NAME, efc_size) < 0)
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get elink file cache size")
+
+done:
+    FUNC_LEAVE_API(ret_value)
+} /* end H5Pget_elink_file_cache_size() */
 

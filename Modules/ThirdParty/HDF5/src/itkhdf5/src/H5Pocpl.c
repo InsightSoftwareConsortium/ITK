@@ -1025,14 +1025,6 @@ H5Pget_filter_by_id2(hid_t plist_id, H5Z_filter_t id, unsigned int *flags/*out*/
     if(NULL == (plist = H5P_object_verify(plist_id, H5P_OBJECT_CREATE)))
         HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
 
-    /* Get the pipeline property to query */
-    if(H5P_get(plist, H5O_CRT_PIPELINE_NAME, &pline) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get pipeline")
-
-    /* Get pointer to filter in pipeline */
-    if(NULL == (filter = H5Z_filter_info(&pline, id)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "filter ID is invalid")
-
     /* Get filter information */
     if(H5P_get_filter_by_id(plist, id, flags, cd_nelmts, cd_values, namelen,
             name, filter_config) < 0)

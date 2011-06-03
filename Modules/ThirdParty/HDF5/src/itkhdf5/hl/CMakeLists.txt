@@ -1,11 +1,13 @@
 cmake_minimum_required (VERSION 2.8)
-PROJECT (HDF5_HL)
+PROJECT (HDF5_HL C CXX)
 
 #-----------------------------------------------------------------------------
 # Shared Libs
 #-----------------------------------------------------------------------------
 IF (BUILD_SHARED_LIBS)
   SET (HL_BUILT_AS_DYNAMIC_LIB 1)
+ELSE (BUILD_SHARED_LIBS)
+  SET (HL_BUILT_AS_STATIC_LIB 1)
 ENDIF (BUILD_SHARED_LIBS)
 
 #-----------------------------------------------------------------------------
@@ -31,11 +33,6 @@ IF (NOT HDF5_EXTERNALLY_CONFIGURED)
     ADD_SUBDIRECTORY (${HDF5_HL_SOURCE_DIR}/test ${HDF5_HL_BINARY_DIR}/test)
   ENDIF (BUILD_TESTING)
 ENDIF (NOT HDF5_EXTERNALLY_CONFIGURED)
-
-#-- Build the High Level Fortran source codes
-IF (HDF5_BUILD_FORTRAN)
-  ADD_SUBDIRECTORY (fortran)
-ENDIF (HDF5_BUILD_FORTRAN)
 
 IF (HDF5_BUILD_CPP_LIB)
   ADD_SUBDIRECTORY (${HDF5_HL_SOURCE_DIR}/c++ ${HDF5_HL_BINARY_DIR}/c++)

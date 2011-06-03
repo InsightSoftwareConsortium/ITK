@@ -333,6 +333,8 @@ typedef struct H5O_addr_map_t {
     haddr_t     dst_addr;               /* Address of object in destination file */
     hbool_t     is_locked;              /* Indicate that the destination object is locked currently */
     hsize_t     inc_ref_count;          /* Number of deferred increments to reference count */
+    H5O_obj_class_t *obj_class;         /* Object class */
+    void        *udata;                 /* Object class copy file udata */
 } H5O_addr_map_t;
 
 /* Stack of continuation messages to interpret */
@@ -374,7 +376,7 @@ typedef struct H5O_chk_cache_ud_t {
     hbool_t decoding;                   /* Whether the object header is being decoded */
     H5O_t *oh;                          /* Object header for this chunk */
     unsigned chunkno;                   /* Index of chunk being brought in (for re-loads) */
-    size_t chunk_size;			/* Chunk size */
+    size_t size;                        /* Size of chunk in the file */
     H5O_common_cache_ud_t common;       /* Common object header cache callback info */
 } H5O_chk_cache_ud_t;
 
@@ -553,8 +555,9 @@ H5_DLL herr_t H5O_chunk_add(H5F_t *f, hid_t dxpl_id, H5O_t *oh, unsigned idx);
 H5_DLL H5O_chunk_proxy_t *H5O_chunk_protect(H5F_t *f, hid_t dxpl_id, H5O_t *oh,
     unsigned idx);
 H5_DLL herr_t H5O_chunk_unprotect(H5F_t *f, hid_t dxpl_id,
-    H5O_chunk_proxy_t *chk_proxy, unsigned chk_flags);
+    H5O_chunk_proxy_t *chk_proxy, hbool_t chk_dirtied);
 H5_DLL herr_t H5O_chunk_update_idx(H5F_t *f, hid_t dxpl_id, H5O_t *oh, unsigned idx);
+H5_DLL herr_t H5O_chunk_resize(H5O_t *oh, H5O_chunk_proxy_t *chk_proxy);
 H5_DLL herr_t H5O_chunk_delete(H5F_t *f, hid_t dxpl_id, H5O_t *oh, unsigned idx);
 
 /* Collect storage info for btree and heap */
@@ -604,6 +607,7 @@ H5_DLL herr_t H5O_num_attrs_test(hid_t oid, hsize_t *nattrs);
 H5_DLL herr_t H5O_attr_dense_info_test(hid_t oid, hsize_t *name_count, hsize_t *corder_count);
 H5_DLL herr_t H5O_check_msg_marked_test(hid_t oid, hbool_t flag_val);
 H5_DLL herr_t H5O_expunge_chunks_test(const H5O_loc_t *oloc, hid_t dxpl_id);
+H5_DLL herr_t H5O_get_rc(const H5O_loc_t *oloc, hid_t dxpl_id, unsigned *rc);
 #endif /* H5O_TESTING */
 
 /* Object header debugging routines */
