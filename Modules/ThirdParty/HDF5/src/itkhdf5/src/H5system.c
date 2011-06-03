@@ -605,6 +605,7 @@ HDremove_all(const char *fname)
  *-------------------------------------------------------------------------
  */
 #ifdef _WIN32
+# ifndef __MINGW32__
 
 /* Offset between 1/1/1601 and 1/1/1970 in 100 nanosecond units */
 #define _W32_FT_OFFSET (116444736000000000ULL)
@@ -638,6 +639,7 @@ Wgettimeofday(struct timeval *tv, struct timezone *tz)
      Do not set errno on error.  */
   return 0;
 }
+# endif
 #endif
 
 

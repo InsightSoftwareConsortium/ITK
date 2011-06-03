@@ -45,6 +45,9 @@ typedef __int64             h5_stat_size_t;
 #define HDgetcwd(S,Z)       _getcwd(S,Z)
 #define HDgetdcwd(D,S,Z)    _getdcwd(D,S,Z)
 
+#ifdef __MINGW32__
+# define HDgettimeofday(V,Z) gettimeofday(V,Z)
+#else
 struct timezone {
     int tz_minuteswest;
     int tz_dsttime;
@@ -58,6 +61,7 @@ H5_DLL int Wgettimeofday(struct timeval *tv, struct timezone *tz);
         }
 #endif /* __cplusplus */
 #define HDgettimeofday(V,Z) Wgettimeofday(V,Z)
+#endif
 
 #define HDgetdrive()        _getdrive()
 #define HDlseek(F,O,W)      _lseeki64(F,O,W)
