@@ -121,7 +121,7 @@ class FileToPathMapping:
               self.proc_children(currEdge,dupcandidate,starting_child)
         return False
 
-basedir=sys.argv[1]  ## i.e. python FindRedundantHeaderIncludes.py /Users/hjohnson/Dashboards/ITK_TESTS/ITK
+basedir=sys.argv[1]  ## i.e. python FindRedundantHeaderIncludes.py $HOME/Dashboards/ITK_TESTS/ITK
 if os.path.isfile(basedir+"/Documentation/InsightLogo.gif"):  ## Currently hard-coded to only work with ITK dir.
   print("Processing: {0}".format(basedir))
 else:
