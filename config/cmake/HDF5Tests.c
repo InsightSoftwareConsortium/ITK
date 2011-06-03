@@ -217,7 +217,9 @@ SIMPLE_TEST(struct tm tm; tm.tm_gmtoff=0);
 
 #ifdef HAVE_TIMEZONE
 
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
 #include <time.h>
 SIMPLE_TEST(timezone=0);
 
@@ -325,16 +327,6 @@ int main ()
 
 #endif /* DEV_T_IS_SCALAR */
 
-#if defined( INLINE_TEST_inline ) || defined( INLINE_TEST___inline__ ) || defined( INLINE_TEST___inline )
-#ifndef __cplusplus
-typedef int foo_t;
-static INLINE_TEST_INLINE foo_t static_foo () { return 0; }
-INLINE_TEST_INLINE foo_t foo () {return 0; }
-int main() { return 0; }
-#endif
-
-#endif /* INLINE_TEST */
-
 #ifdef HAVE_OFF64_T
 #include <sys/types.h>
 int main()
@@ -364,3 +356,49 @@ int main(void)
 }
 #endif
 
+#ifdef LONE_COLON
+int main(int argc, char * argv) 
+{
+  return 0;
+}
+#endif
+
+#ifdef HAVE_GPFS
+
+#include <gpfs.h>
+int main ()
+{
+    int fd = 0; 
+    gpfs_fcntl(fd, (void *)0);
+}
+
+#endif /* HAVE_GPFS */
+
+#ifdef HAVE_IOEO
+
+#include <windows.h>
+typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
+int main ()
+{
+	PGNSI pGNSI;
+	pGNSI = (PGNSI) GetProcAddress(
+      GetModuleHandle(TEXT("kernel32.dll")), 
+      "InitOnceExecuteOnce");
+	if(NULL == pGNSI)
+		return 1;
+	else
+		return 0;
+}
+
+#endif /* HAVE_IOEO */
+
+
+#if defined( INLINE_TEST_inline ) || defined( INLINE_TEST___inline__ ) || defined( INLINE_TEST___inline )
+#ifndef __cplusplus
+typedef int foo_t;
+static INLINE_TEST_INLINE foo_t static_foo () { return 0; }
+INLINE_TEST_INLINE foo_t foo () {return 0; }
+int main() { return 0; }
+#endif
+
+#endif /* INLINE_TEST */

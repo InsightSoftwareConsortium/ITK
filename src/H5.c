@@ -27,6 +27,7 @@
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5FLprivate.h"	/* Free lists                           */
 #include "H5Lprivate.h"		/* Links		  		*/
+#include "H5MMprivate.h"        /* Memory management                    */
 #include "H5Pprivate.h"		/* Property lists			*/
 #include "H5Tprivate.h"		/* Datatypes				*/
 #include "H5SLprivate.h"        /* Skip lists                           */
@@ -103,7 +104,7 @@ H5_init_library(void)
 {
     herr_t ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI(H5_init_library, FAIL)
+    FUNC_ENTER_NOAPI(H5_init_library, FAIL);
     /*
      * Make sure the package information is updated.
      */
@@ -184,7 +185,7 @@ H5_init_library(void)
     H5_debug_mask(HDgetenv("HDF5_DEBUG"));
 
 done:
-    FUNC_LEAVE_NOAPI(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value);
 } /* end H5_init_library() */
 
 
@@ -308,6 +309,16 @@ H5_term_library(void)
 	H5_MPEinit_g = FALSE;	/* turn it off no matter what */
     } /* end if */
 #endif
+
+    /* Free open debugging streams */
+    while(H5_debug_g.open_stream) {
+        H5_debug_open_stream_t  *tmp_open_stream;
+
+        tmp_open_stream = H5_debug_g.open_stream;
+        (void)HDfclose(H5_debug_g.open_stream->stream);
+        H5_debug_g.open_stream = H5_debug_g.open_stream->next;
+        (void)H5MM_free(tmp_open_stream);
+    } /* end while */
 
     /* Mark library as closed */
     H5_INIT_GLOBAL = FALSE;
@@ -532,9 +543,21 @@ H5_debug_mask(const char *s)
 	    }
 
 	} else if (HDisdigit(*s)) {
-	    int fd = (int)HDstrtol (s, &rest, 0);
-	    if ((stream=HDfdopen(fd, "w"))!=NULL)
-	        (void)HDsetvbuf (stream, NULL, _IOLBF, (size_t)0);
+	    int fd = (int)HDstrtol(s, &rest, 0);
+	    H5_debug_open_stream_t *open_stream;
+
+	    if((stream = HDfdopen(fd, "w")) != NULL) {
+	        (void)HDsetvbuf(stream, NULL, _IOLBF, (size_t)0);
+
+	        if(NULL == (open_stream = (H5_debug_open_stream_t *)H5MM_malloc(sizeof(H5_debug_open_stream_t)))) {
+                    (void)HDfclose(stream);
+                    return;
+                } /* end if */
+
+                open_stream->stream = stream;
+                open_stream->next = H5_debug_g.open_stream;
+                H5_debug_g.open_stream = open_stream;
+            } /* end if */
 	    s = rest;
 	} else {
 	    s++;

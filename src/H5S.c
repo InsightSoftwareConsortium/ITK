@@ -355,7 +355,7 @@ done:
 herr_t
 H5Sclose(hid_t space_id)
 {
-    herr_t ret_value=SUCCEED;   /* Return value */
+    herr_t ret_value = SUCCEED;   /* Return value */
 
     FUNC_ENTER_API(H5Sclose, FAIL)
     H5TRACE1("e", "i", space_id);
@@ -365,12 +365,12 @@ H5Sclose(hid_t space_id)
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a dataspace")
 
     /* When the reference count reaches zero the resources are freed */
-    if (H5I_dec_ref(space_id, TRUE) < 0)
-        HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "problem freeing id")
+    if(H5I_dec_app_ref(space_id) < 0)
+        HGOTO_ERROR(H5E_DATASPACE, H5E_CANTDEC, FAIL, "problem freeing id")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}
+} /* end H5Sclose() */
 
 
 /*-------------------------------------------------------------------------
@@ -1160,14 +1160,17 @@ H5Sis_simple(hid_t space_id)
     Christian Chilan 01/17/2007
     Verifies that each element of DIMS is not equal to H5S_UNLIMITED.
 
+    Raymond Lu 03/30/2011
+    We allow 0 dimension size for non-unlimited dimension starting from 1.8.7
+    release.
 --------------------------------------------------------------------------*/
 herr_t
 H5Sset_extent_simple(hid_t space_id, int rank, const hsize_t dims[/*rank*/],
 		      const hsize_t max[/*rank*/])
 {
     H5S_t	*space;	/* dataspace to modify */
-    int	u;	/* local counting variable */
-    herr_t ret_value=SUCCEED;   /* Return value */
+    int	        u;	/* local counting variable */
+    herr_t      ret_value=SUCCEED;   /* Return value */
 
     FUNC_ENTER_API(H5Sset_extent_simple, FAIL)
     H5TRACE4("e", "iIs*[a1]h*[a1]h", space_id, rank, dims, max);
@@ -1183,8 +1186,6 @@ H5Sset_extent_simple(hid_t space_id, int rank, const hsize_t dims[/*rank*/],
         for (u=0; u<rank; u++) {
             if (H5S_UNLIMITED==dims[u])
                 HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "current dimension must have a specific size, not H5S_UNLIMITED")
-            if (((max!=NULL && max[u]!=H5S_UNLIMITED) || max==NULL) && dims[u]==0)
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid dimension size")
         }
     }
     if (max!=NULL) {
@@ -1258,13 +1259,15 @@ H5S_set_extent_simple(H5S_t *space, unsigned rank, const hsize_t *dims,
         } /* end for */
         space->extent.nelem = nelem;
 
-        /* Copy the maximum dimensions if specified */
+        /* Copy the maximum dimensions if specified. Otherwise, the maximal dimensions are the 
+         * same as the dimension */
+        space->extent.max = (hsize_t *)H5FL_ARR_MALLOC(hsize_t, (size_t)rank);
         if(max != NULL) {
-            space->extent.max = (hsize_t *)H5FL_ARR_MALLOC(hsize_t, (size_t)rank);
             HDmemcpy(space->extent.max, max, sizeof(hsize_t) * rank);
-        } /* end if */
-        else
-            space->extent.max = NULL;
+        } else {
+            for(u = 0; u < space->extent.rank; u++)
+                space->extent.max[u] = dims[u];
+        }
     } /* end else */
 
     /* Selection related cleanup */
@@ -1303,6 +1306,11 @@ done:
  * Programmer:	Quincey Koziol
  *		Tuesday, January  27, 1998
  *
+ * Modification:
+ *              Raymond Lu 03/30/2011
+ *              We allow 0-dimension for non-unlimited dimension starting 
+ *              from 1.8.7 release.
+ *
  *-------------------------------------------------------------------------
  */
 hid_t
@@ -1332,17 +1340,9 @@ H5Screate_simple(int rank, const hsize_t dims[/*rank*/],
     for(i = 0; i < rank; i++) {
         if(H5S_UNLIMITED == dims[i])
             HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "current dimension must have a specific size, not H5S_UNLIMITED")
-        if(maxdims) {
-            if(H5S_UNLIMITED != maxdims[i] && maxdims[i]<dims[i])
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "maxdims is smaller than dims")
-            if(H5S_UNLIMITED != maxdims[i] && dims[i] == 0)
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "zero sized dimension for non-unlimited dimension")
-        } /* end if */
-        else {
-            if(dims[i] == 0)
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "zero sized dimension for non-unlimited dimension")
-        } /* end else */
-    } /* end else */
+        if(maxdims && H5S_UNLIMITED != maxdims[i] && maxdims[i]<dims[i])
+            HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "maxdims is smaller than dims")
+    } /* end for */
 
     /* Create the space and set the extent */
     if(NULL == (space = H5S_create_simple((unsigned)rank,dims,maxdims)))
@@ -1827,7 +1827,7 @@ H5S_set_extent(H5S_t *space, const hsize_t *size)
             /* Check for invalid dimension size modification */
             if(space->extent.max && H5S_UNLIMITED != space->extent.max[u] &&
                      space->extent.max[u] < size[u])
-                 HGOTO_ERROR(H5E_DATASPACE, H5E_BADVALUE, FAIL, "dimension cannot be modified")
+                 HGOTO_ERROR(H5E_DATASPACE, H5E_BADVALUE, FAIL, "dimension cannot exceed the existing maximal size")
 
             /* Indicate that dimension size can be modified */
             ret_value = TRUE;
@@ -1906,7 +1906,7 @@ H5S_set_extent_real(H5S_t *space, const hsize_t *size)
     /* Change the dataspace size & re-compute the number of elements in the extent */
     for(u = 0, nelem = 1; u < space->extent.rank; u++ ) {
         space->extent.size[u] = size[u];
-        nelem *= space->extent.size[u];
+        nelem *= size[u];
     } /* end for */
     space->extent.nelem = nelem;
 

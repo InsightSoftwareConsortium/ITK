@@ -33,6 +33,7 @@
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5Fprivate.h"		/* Files				*/
 #include "H5HLprivate.h"	/* Local Heaps				*/
+#include "H5Vprivate.h"		/* Vector and array functions		*/
 
 
 /****************/
@@ -43,6 +44,18 @@
 /******************/
 /* Local Typedefs */
 /******************/
+
+/* Callback info for readvv operation */
+typedef struct H5D_efl_readvv_ud_t {
+    const H5O_efl_t *efl;       /* Pointer to efl info */
+    unsigned char *rbuf;        /* Read buffer */
+} H5D_efl_readvv_ud_t;
+
+/* Callback info for writevv operation */
+typedef struct H5D_efl_writevv_ud_t {
+    const H5O_efl_t *efl;       /* Pointer to efl info */
+    const unsigned char *wbuf;  /* Write buffer */
+} H5D_efl_writevv_ud_t;
 
 
 /********************/
@@ -398,6 +411,35 @@ done:
 
 
 /*-------------------------------------------------------------------------
+ * Function:	H5D_efl_readvv_cb
+ *
+ * Purpose:	Callback operator for H5D_efl_readvv().
+ *
+ * Return:	Non-negative on success/Negative on failure
+ *
+ * Programmer:	Quincey Koziol
+ *              Thursday, Sept 30, 2010
+ *
+ *-------------------------------------------------------------------------
+ */
+static herr_t
+H5D_efl_readvv_cb(hsize_t dst_off, hsize_t src_off, size_t len, void *_udata)
+{
+    H5D_efl_readvv_ud_t *udata = (H5D_efl_readvv_ud_t *)_udata; /* User data for H5V_opvv() operator */
+    herr_t ret_value = SUCCEED;         /* Return value */
+
+    FUNC_ENTER_NOAPI_NOINIT(H5D_efl_readvv_cb)
+
+    /* Read data */
+    if(H5D_efl_read(udata->efl, dst_off, len, (udata->rbuf + src_off)) < 0)
+        HGOTO_ERROR(H5E_DATASET, H5E_READERROR, FAIL, "EFL read failed")
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5D_efl_readvv_cb() */
+
+
+/*-------------------------------------------------------------------------
  * Function:	H5D_efl_readvv
  *
  * Purpose:	Reads data from an external file list.  It is an error to
@@ -414,68 +456,67 @@ done:
  */
 static ssize_t
 H5D_efl_readvv(const H5D_io_info_t *io_info,
-    size_t dset_max_nseq, size_t *dset_curr_seq, size_t dset_len_arr[], hsize_t dset_offset_arr[],
-    size_t mem_max_nseq, size_t *mem_curr_seq, size_t mem_len_arr[], hsize_t mem_offset_arr[])
+    size_t dset_max_nseq, size_t *dset_curr_seq, size_t dset_len_arr[], hsize_t dset_off_arr[],
+    size_t mem_max_nseq, size_t *mem_curr_seq, size_t mem_len_arr[], hsize_t mem_off_arr[])
 {
-    const H5O_efl_t *efl = &(io_info->store->efl); /* Pointer to efl info */
-    unsigned char *buf;         /* Pointer to buffer to write */
-    haddr_t addr;               /* Actual address to read */
-    size_t total_size = 0;      /* Total size of sequence in bytes */
-    size_t size;                /* Size of sequence in bytes */
-    size_t u;                   /* Counting variable */
-    size_t v;                   /* Counting variable */
-    ssize_t ret_value;          /* Return value */
+    H5D_efl_readvv_ud_t udata;  /* User data for H5V_opvv() operator */
+    ssize_t ret_value;          /* Return value (Total size of sequence in bytes) */
 
     FUNC_ENTER_NOAPI_NOINIT(H5D_efl_readvv)
 
     /* Check args */
-    HDassert(efl && efl->nused > 0);
+    HDassert(io_info);
+    HDassert(io_info->store->efl.nused > 0);
     HDassert(io_info->u.rbuf);
+    HDassert(dset_curr_seq);
+    HDassert(dset_len_arr);
+    HDassert(dset_off_arr);
+    HDassert(mem_curr_seq);
+    HDassert(mem_len_arr);
+    HDassert(mem_off_arr);
 
-    /* Work through all the sequences */
-    for(u = *dset_curr_seq, v = *mem_curr_seq; u < dset_max_nseq && v < mem_max_nseq; ) {
-        /* Choose smallest buffer to write */
-        if(mem_len_arr[v] < dset_len_arr[u])
-            size = mem_len_arr[v];
-        else
-            size = dset_len_arr[u];
+    /* Set up user data for H5V_opvv() */
+    udata.efl = &(io_info->store->efl);
+    udata.rbuf = (unsigned char *)io_info->u.rbuf;
 
-        /* Compute offset on disk */
-        addr = dset_offset_arr[u];
-
-        /* Compute offset in memory */
-        buf = (unsigned char *)io_info->u.rbuf + mem_offset_arr[v];
-
-        /* Read data */
-        if(H5D_efl_read(efl, addr, size, buf) < 0)
-            HGOTO_ERROR(H5E_IO, H5E_WRITEERROR, FAIL, "block write failed")
-
-        /* Update memory information */
-        mem_len_arr[v] -= size;
-        mem_offset_arr[v] += size;
-        if(mem_len_arr[v] == 0)
-            v++;
-
-        /* Update file information */
-        dset_len_arr[u] -= size;
-        dset_offset_arr[u] += size;
-        if(dset_len_arr[u] == 0)
-            u++;
-
-        /* Increment number of bytes copied */
-        total_size += size;
-    } /* end for */
-
-    /* Update current sequence vectors */
-    *dset_curr_seq = u;
-    *mem_curr_seq = v;
-
-    /* Set return value */
-    H5_ASSIGN_OVERFLOW(ret_value, total_size, size_t, ssize_t);
+    /* Call generic sequence operation routine */
+    if((ret_value = H5V_opvv(dset_max_nseq, dset_curr_seq, dset_len_arr, dset_off_arr,
+            mem_max_nseq, mem_curr_seq, mem_len_arr, mem_off_arr,
+            H5D_efl_readvv_cb, &udata)) < 0)
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPERATE, FAIL, "can't perform vectorized EFL read")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5D_efl_readvv() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:	H5D_efl_writevv_cb
+ *
+ * Purpose:	Callback operator for H5D_efl_writevv().
+ *
+ * Return:	Non-negative on success/Negative on failure
+ *
+ * Programmer:	Quincey Koziol
+ *              Thursday, Sept 30, 2010
+ *
+ *-------------------------------------------------------------------------
+ */
+static herr_t
+H5D_efl_writevv_cb(hsize_t dst_off, hsize_t src_off, size_t len, void *_udata)
+{
+    H5D_efl_writevv_ud_t *udata = (H5D_efl_writevv_ud_t *)_udata; /* User data for H5V_opvv() operator */
+    herr_t ret_value = SUCCEED;         /* Return value */
+
+    FUNC_ENTER_NOAPI_NOINIT(H5D_efl_writevv_cb)
+
+    /* Write data */
+    if(H5D_efl_write(udata->efl, dst_off, len, (udata->wbuf + src_off)) < 0)
+        HGOTO_ERROR(H5E_DATASET, H5E_WRITEERROR, FAIL, "EFL write failed")
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5D_efl_writevv_cb() */
 
 
 /*-------------------------------------------------------------------------
@@ -495,65 +536,34 @@ done:
  */
 static ssize_t
 H5D_efl_writevv(const H5D_io_info_t *io_info,
-    size_t dset_max_nseq, size_t *dset_curr_seq, size_t dset_len_arr[], hsize_t dset_offset_arr[],
-    size_t mem_max_nseq, size_t *mem_curr_seq, size_t mem_len_arr[], hsize_t mem_offset_arr[])
+    size_t dset_max_nseq, size_t *dset_curr_seq, size_t dset_len_arr[], hsize_t dset_off_arr[],
+    size_t mem_max_nseq, size_t *mem_curr_seq, size_t mem_len_arr[], hsize_t mem_off_arr[])
 {
-    const H5O_efl_t *efl = &(io_info->store->efl); /* Pointer to efl info */
-    const unsigned char *buf;   /* Pointer to buffer to write */
-    haddr_t addr;               /* Actual address to read */
-    size_t total_size = 0;      /* Total size of sequence in bytes */
-    size_t size;                /* Size of sequence in bytes */
-    size_t u;                   /* Counting variable */
-    size_t v;                   /* Counting variable */
-    ssize_t ret_value;          /* Return value */
+    H5D_efl_writevv_ud_t udata;  /* User data for H5V_opvv() operator */
+    ssize_t ret_value;          /* Return value (Total size of sequence in bytes) */
 
     FUNC_ENTER_NOAPI_NOINIT(H5D_efl_writevv)
 
     /* Check args */
-    HDassert(efl && efl->nused > 0);
+    HDassert(io_info);
+    HDassert(io_info->store->efl.nused > 0);
     HDassert(io_info->u.wbuf);
+    HDassert(dset_curr_seq);
+    HDassert(dset_len_arr);
+    HDassert(dset_off_arr);
+    HDassert(mem_curr_seq);
+    HDassert(mem_len_arr);
+    HDassert(mem_off_arr);
 
-    /* Work through all the sequences */
-    for(u = *dset_curr_seq, v = *mem_curr_seq; u < dset_max_nseq && v < mem_max_nseq; ) {
-        /* Choose smallest buffer to write */
-        if(mem_len_arr[v] < dset_len_arr[u])
-            size = mem_len_arr[v];
-        else
-            size = dset_len_arr[u];
+    /* Set up user data for H5V_opvv() */
+    udata.efl = &(io_info->store->efl);
+    udata.wbuf = (const unsigned char *)io_info->u.wbuf;
 
-        /* Compute offset on disk */
-        addr = dset_offset_arr[u];
-
-        /* Compute offset in memory */
-        buf = (const unsigned char *)io_info->u.wbuf + mem_offset_arr[v];
-
-        /* Write data */
-        if(H5D_efl_write(efl, addr, size, buf) < 0)
-            HGOTO_ERROR(H5E_IO, H5E_WRITEERROR, FAIL, "block write failed")
-
-        /* Update memory information */
-        mem_len_arr[v] -= size;
-        mem_offset_arr[v] += size;
-        if(mem_len_arr[v] == 0)
-            v++;
-
-        /* Update file information */
-        dset_len_arr[u] -= size;
-        dset_offset_arr[u] += size;
-        if(dset_len_arr[u] == 0)
-            u++;
-
-        /* Increment number of bytes copied */
-        total_size += size;
-    } /* end for */
-
-    /* Update current sequence vectors */
-    *dset_curr_seq = u;
-    *mem_curr_seq = v;
-
-    /* Set return value */
-    H5_ASSIGN_OVERFLOW(ret_value, total_size, size_t, ssize_t);
-
+    /* Call generic sequence operation routine */
+    if((ret_value = H5V_opvv(dset_max_nseq, dset_curr_seq, dset_len_arr, dset_off_arr,
+            mem_max_nseq, mem_curr_seq, mem_len_arr, mem_off_arr,
+            H5D_efl_writevv_cb, &udata)) < 0)
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPERATE, FAIL, "can't perform vectorized EFL write")
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5D_efl_writevv() */

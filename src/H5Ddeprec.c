@@ -366,7 +366,8 @@ H5D_extend(H5D_t *dataset, const hsize_t *size, hid_t dxpl_id)
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "unable to initialize dataset with fill value")
 
         /* Mark the dataspace as dirty, for later writing to the file */
-        dataset->shared->space_dirty = TRUE;
+        if(H5D_mark(dataset, dxpl_id, H5D_MARK_SPACE) < 0)
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "unable to mark dataspace as dirty")
     } /* end if */
 
 done:

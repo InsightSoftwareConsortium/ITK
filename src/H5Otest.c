@@ -518,3 +518,52 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 }   /* H5O_expunge_chunks_test() */
 
+
+/*--------------------------------------------------------------------------
+ NAME
+    H5O_get_rc
+ PURPOSE
+    Retrieve the refcount for the object header
+ USAGE
+    herr_t H5O_expunge_chunks_test(loc, dxpl_id, rc)
+        const H5O_loc_t *loc;   IN: Object location for object header to query
+        hid_t dxpl_id;          IN: DXPL to use for operation
+        unsigned *rc;           OUT: Pointer to refcount for object header
+ RETURNS
+    Non-negative on success, negative on failure
+ DESCRIPTION
+    Protects object header, retrieves the object header's refcount, and
+    unprotects object header.
+ GLOBAL VARIABLES
+ COMMENTS, BUGS, ASSUMPTIONS
+    DO NOT USE THIS FUNCTION FOR ANYTHING EXCEPT TESTING
+ EXAMPLES
+ REVISION LOG
+--------------------------------------------------------------------------*/
+herr_t
+H5O_get_rc(const H5O_loc_t *loc, hid_t dxpl_id, unsigned *rc)
+{
+    H5O_t *oh = NULL;           /* Object header */
+    herr_t ret_value = SUCCEED; /* Return value */
+
+    FUNC_ENTER_NOAPI(H5O_get_rc, FAIL)
+
+    /* Sanity check */
+    HDassert(loc);
+    HDassert(rc);
+
+    /* Get the object header */
+    if(NULL == (oh = H5O_protect(loc, dxpl_id, H5AC_READ)))
+	HGOTO_ERROR(H5E_OHDR, H5E_CANTPROTECT, FAIL, "unable to protect object header")
+
+    /* Save the refcount for the object header */
+    *rc = oh->nlink;
+
+done:
+    /* Release the object header */
+    if(oh && H5O_unprotect(loc, dxpl_id, oh, H5AC__NO_FLAGS_SET) < 0)
+	HDONE_ERROR(H5E_OHDR, H5E_CANTUNPROTECT, FAIL, "unable to unprotect object header")
+
+    FUNC_LEAVE_NOAPI(ret_value)
+}   /* H5O_expunge_chunks_test() */
+

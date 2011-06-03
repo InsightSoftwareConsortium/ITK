@@ -356,6 +356,7 @@ typedef struct H5O_storage_contig_t {
 } H5O_storage_contig_t;
 
 typedef struct H5O_storage_chunk_btree_t {
+    haddr_t     dset_ohdr_addr;         /* File address dataset's object header */
     H5RC_t     *shared;			/* Ref-counted shared info for B-tree nodes */
 } H5O_storage_chunk_btree_t;
 
@@ -599,13 +600,14 @@ struct H5P_genplist_t;
 /* Object header routines */
 H5_DLL herr_t H5O_init(void);
 H5_DLL herr_t H5O_create(H5F_t *f, hid_t dxpl_id, size_t size_hint,
-    hid_t ocpl_id, H5O_loc_t *loc/*out*/);
+    size_t initial_rc, hid_t ocpl_id, H5O_loc_t *loc/*out*/);
 H5_DLL herr_t H5O_open(H5O_loc_t *loc);
 H5_DLL herr_t H5O_close(H5O_loc_t *loc);
 H5_DLL int H5O_link(const H5O_loc_t *loc, int adjust, hid_t dxpl_id);
 H5_DLL H5O_t *H5O_protect(const H5O_loc_t *loc, hid_t dxpl_id, H5AC_protect_t prot);
 H5_DLL H5O_t *H5O_pin(const H5O_loc_t *loc, hid_t dxpl_id);
 H5_DLL herr_t H5O_unpin(H5O_t *oh);
+H5_DLL herr_t H5O_dec_rc_by_loc(const H5O_loc_t *loc, hid_t dxpl_id);
 H5_DLL herr_t H5O_unprotect(const H5O_loc_t *loc, hid_t dxpl_id, H5O_t *oh,
     unsigned oh_flags);
 H5_DLL herr_t H5O_touch(const H5O_loc_t *loc, hbool_t force, hid_t dxpl_id);
@@ -677,7 +679,8 @@ H5_DLL herr_t H5O_msg_unlock(const H5O_loc_t *loc, unsigned type_id, hid_t dxpl_
 
 /* Object copying routines */
 H5_DLL herr_t H5O_copy_header_map(const H5O_loc_t *oloc_src, H5O_loc_t *oloc_dst /*out */,
-    hid_t dxpl_id, H5O_copy_t *cpy_info, hbool_t inc_depth);
+    hid_t dxpl_id, H5O_copy_t *cpy_info, hbool_t inc_depth,
+    H5O_type_t *obj_type, void **udata);
 H5_DLL herr_t H5O_copy_expand_ref(H5F_t *file_src, void *_src_ref, hid_t dxpl_id,
     H5F_t *file_dst, void *_dst_ref, size_t ref_count, H5R_type_t ref_type,
     H5O_copy_t *cpy_info);
@@ -689,7 +692,7 @@ H5_DLL herr_t H5O_debug(H5F_t *f, hid_t dxpl_id, haddr_t addr, FILE * stream, in
 
 /* These functions operate on object locations */
 H5_DLL herr_t H5O_loc_reset(H5O_loc_t *loc);
-H5_DLL herr_t H5O_loc_copy(H5O_loc_t *dst, const H5O_loc_t *src, H5_copy_depth_t depth);
+H5_DLL herr_t H5O_loc_copy(H5O_loc_t *dst, H5O_loc_t *src, H5_copy_depth_t depth);
 H5_DLL herr_t H5O_loc_hold_file(H5O_loc_t *loc);
 H5_DLL herr_t H5O_loc_free(H5O_loc_t *loc);
 

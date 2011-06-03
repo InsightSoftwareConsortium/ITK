@@ -8,13 +8,22 @@ INCLUDE (${CMAKE_ROOT}/Modules/CheckIncludeFiles.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/CheckLibraryExists.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/CheckTypeSize.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/CheckVariableExists.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/CheckFortranFunctionExists.cmake)
 
 #-----------------------------------------------------------------------------
 # Always SET this for now IF we are on an OS X box
 #-----------------------------------------------------------------------------
 IF (APPLE)
-  SET (H5_AC_APPLE_UNIVERSAL_BUILD 1)
+  LIST(LENGTH CMAKE_OSX_ARCHITECTURES ARCH_LENGTH)
+  IF(ARCH_LENGTH GREATER 1)
+    set (CMAKE_OSX_ARCHITECTURES "" CACHE STRING "" FORCE)
+    message(FATAL_ERROR "Building Universal Binaries on OS X is NOT supported by the HDF5 project. This is"
+    "due to technical reasons. The best approach would be build each architecture in separate directories"
+    "and use the 'lipo' tool to combine them into a single executable or library. The 'CMAKE_OSX_ARCHITECTURES'"
+    "variable has been set to a blank value which will build the default architecture for this system.")
+  ENDIF()
+  SET (H5_AC_APPLE_UNIVERSAL_BUILD 0)
 ENDIF (APPLE)
 
 #-----------------------------------------------------------------------------
@@ -24,6 +33,7 @@ OPTION (HDF5_Enable_Clear_File_Buffers "Securely clear file buffers before writi
 IF (HDF5_Enable_Clear_File_Buffers)
   SET (H5_CLEAR_MEMORY 1)
 ENDIF (HDF5_Enable_Clear_File_Buffers)
+MARK_AS_ADVANCED (HDF5_Enable_Clear_File_Buffers)
 
 #-----------------------------------------------------------------------------
 # Option for --enable-instrument
@@ -35,6 +45,7 @@ OPTION (HDF5_Enable_Instrument "Instrument The library" HDF5_Enable_Instrument)
 IF (HDF5_Enable_Instrument)
   SET (H5_HAVE_INSTRUMENTED_LIBRARY 1)
 ENDIF (HDF5_Enable_Instrument)
+MARK_AS_ADVANCED (HDF5_Enable_Instrument)
 
 #-----------------------------------------------------------------------------
 # Option for --enable-strict-format-checks
@@ -43,6 +54,7 @@ OPTION (HDF5_STRICT_FORMAT_CHECKS "Whether to perform strict file format checks"
 IF (HDF5_STRICT_FORMAT_CHECKS)
   SET (H5_STRICT_FORMAT_CHECKS 1)
 ENDIF (HDF5_STRICT_FORMAT_CHECKS)
+MARK_AS_ADVANCED (HDF5_STRICT_FORMAT_CHECKS)
 
 #-----------------------------------------------------------------------------
 # Option for --enable-metadata-trace-file
@@ -51,6 +63,7 @@ OPTION (HDF5_METADATA_TRACE_FILE "Enable metadata trace file collection" OFF)
 IF (HDF5_METADATA_TRACE_FILE)
   SET (H5_METADATA_TRACE_FILE 1)
 ENDIF (HDF5_METADATA_TRACE_FILE)
+MARK_AS_ADVANCED (HDF5_METADATA_TRACE_FILE)
 
 # ----------------------------------------------------------------------
 # Decide whether the data accuracy has higher priority during data
@@ -62,6 +75,7 @@ OPTION (HDF5_WANT_DATA_ACCURACY "IF data accuracy is guaranteed during data conv
 IF (HDF5_WANT_DATA_ACCURACY)
   SET (H5_WANT_DATA_ACCURACY 1)
 ENDIF(HDF5_WANT_DATA_ACCURACY)
+MARK_AS_ADVANCED (HDF5_WANT_DATA_ACCURACY)
 
 # ----------------------------------------------------------------------
 # Decide whether the presence of user's exception handling functions is
@@ -73,56 +87,18 @@ OPTION (HDF5_WANT_DCONV_EXCEPTION "exception handling functions is checked durin
 IF (HDF5_WANT_DCONV_EXCEPTION)
   SET (H5_WANT_DCONV_EXCEPTION 1)
 ENDIF (HDF5_WANT_DCONV_EXCEPTION)
+MARK_AS_ADVANCED (HDF5_WANT_DCONV_EXCEPTION)
 
-SET (LINUX_LFS 0)
-IF (CMAKE_SYSTEM MATCHES "Linux-([3-9]\\.[0-9]|2\\.[4-9])\\.")
-  # Linux Specific flags
-  ADD_DEFINITIONS (-D_POSIX_SOURCE -D_BSD_SOURCE)
-  OPTION (HDF5_ENABLE_LARGE_FILE "Enable support for large (64-bit) files on Linux." ON)
-  IF (HDF5_ENABLE_LARGE_FILE)
-    SET (LARGEFILE 1)
-  ENDIF (HDF5_ENABLE_LARGE_FILE)
-ENDIF (CMAKE_SYSTEM MATCHES "Linux-([3-9]\\.[0-9]|2\\.[4-9])\\.")
-SET (HDF5_EXTRA_FLAGS)
-IF (LINUX_LFS)
-  SET (HDF5_EXTRA_FLAGS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE)
-  SET (CMAKE_REQUIRED_DEFINITIONS ${HDF5_EXTRA_FLAGS})
-ENDIF (LINUX_LFS)
-ADD_DEFINITIONS (${HDF5_EXTRA_FLAGS})
-
-#IF (WIN32)
-#  SET (DEFAULT_STREAM_VFD OFF)
-#ELSE (WIN32)
-#  SET (DEFAULT_STREAM_VFD ON)
-#ENDIF (WIN32)
-#OPTION (HDF5_STREAM_VFD "Compile Stream Virtual File Driver support" ${DEFAULT_STREAM_VFD})
-OPTION (HDF5_ENABLE_HSIZET "Enable datasets larger than memory" ON)
-
-SET (WINDOWS)
-IF (WIN32)
-  IF (NOT UNIX)
-    SET (WINDOWS 1)
-  ENDIF (NOT UNIX)
-ENDIF (WIN32)
-
-# TODO --------------------------------------------------------------------------
-# Should the Default Virtual File Driver be compiled?
-# This is hard-coded now but option should added to match configure
+# ----------------------------------------------------------------------
+# Check if they would like the function stack support compiled in
 #
-IF (WINDOWS)
-  SET (H5_HAVE_WINDOWS 1)
-#  SET (H5_WINDOWS_USE_STDIO 0)
-  # ----------------------------------------------------------------------
-  # Set the flag to indicate that the machine has window style pathname,
-  # that is, "drive-letter:\" (e.g. "C:") or "drive-letter:/" (e.g. "C:/").
-  # (This flag should be _unset_ for all machines, except for Windows)
-  #
-  SET (H5_HAVE_WINDOW_PATH 1)
-  SET (WINDOWS_MAX_BUF (1024 * 1024 * 1024))
-  SET (H5_DEFAULT_VFD H5FD_WINDOWS)
-ELSE (WINDOWS)
-  SET (H5_DEFAULT_VFD H5FD_SEC2)
-ENDIF (WINDOWS)
+OPTION (HDF5_ENABLE_CODESTACK "Enable the function stack tracing (for developer debugging)." OFF)
+IF (HDF5_ENABLE_CODESTACK)
+  SET (H5_HAVE_CODESTACK 1)
+ENDIF (HDF5_ENABLE_CODESTACK)
+MARK_AS_ADVANCED (HDF5_ENABLE_CODESTACK)
+
+OPTION (HDF5_ENABLE_HSIZET "Enable datasets larger than memory" ON)
 
 # ----------------------------------------------------------------------
 # Set the flag to indicate that the machine can handle converting
@@ -146,21 +122,96 @@ MACRO (CHECK_LIBRARY_EXISTS_CONCAT LIBRARY SYMBOL VARIABLE)
   ENDIF (${VARIABLE})
 ENDMACRO (CHECK_LIBRARY_EXISTS_CONCAT)
 
+# ----------------------------------------------------------------------
+# WINDOWS Hard code Values
+# ----------------------------------------------------------------------
+
+SET (WINDOWS)
+IF (WIN32)
+  IF (NOT UNIX AND NOT CYGWIN AND NOT MINGW)
+    SET (WINDOWS 1)
+  ENDIF (NOT UNIX AND NOT CYGWIN AND NOT MINGW)
+ENDIF (WIN32)
+
+#IF (WIN32)
+#  SET (DEFAULT_STREAM_VFD OFF)
+#ELSE (WIN32)
+#  SET (DEFAULT_STREAM_VFD ON)
+#ENDIF (WIN32)
+#OPTION (HDF5_STREAM_VFD "Compile Stream Virtual File Driver support" ${DEFAULT_STREAM_VFD})
+
+# TODO --------------------------------------------------------------------------
+# Should the Default Virtual File Driver be compiled?
+# This is hard-coded now but option should added to match configure
+#
+IF (WINDOWS)
+  SET (H5_HAVE_WINDOWS 1)
+#  SET (H5_WINDOWS_USE_STDIO 0)
+  # ----------------------------------------------------------------------
+  # Set the flag to indicate that the machine has window style pathname,
+  # that is, "drive-letter:\" (e.g. "C:") or "drive-letter:/" (e.g. "C:/").
+  # (This flag should be _unset_ for all machines, except for Windows)
+  #
+  SET (H5_HAVE_WINDOW_PATH 1)
+  SET (WINDOWS_MAX_BUF (1024 * 1024 * 1024))
+  SET (H5_DEFAULT_VFD H5FD_WINDOWS)
+  SET (LINK_LIBS ${LINK_LIBS} "kernel32")
+ELSE (WINDOWS)
+  SET (H5_DEFAULT_VFD H5FD_SEC2)
+ENDIF (WINDOWS)
+
+IF (WINDOWS)
+  SET (H5_HAVE_IO_H 1)
+  SET (H5_HAVE_SETJMP_H 1)
+  SET (H5_HAVE_STDDEF_H 1)
+  SET (H5_HAVE_SYS_STAT_H 1)
+  SET (H5_HAVE_SYS_TIMEB_H 1)
+  SET (H5_HAVE_SYS_TYPES_H 1)
+  SET (H5_HAVE_WINSOCK_H 1)
+  SET (H5_HAVE_LIBM 1)
+  SET (H5_HAVE_STRDUP 1)
+  SET (H5_HAVE_SYSTEM 1)
+  SET (H5_HAVE_DIFFTIME 1)
+  SET (H5_HAVE_LONGJMP 1)
+  SET (H5_STDC_HEADERS 1)
+  SET (H5_HAVE_GETHOSTNAME 1)
+  SET (H5_HAVE_GETCONSOLESCREENBUFFERINFO 1)
+  SET (H5_HAVE_FUNCTION 1)
+  SET (H5_GETTIMEOFDAY_GIVES_TZ 1)
+  SET (H5_HAVE_TIMEZONE 1)
+  SET (H5_HAVE_GETTIMEOFDAY 1)
+  SET (H5_LONE_COLON 0)
+ENDIF (WINDOWS)
+
+#-----------------------------------------------------------------------------
+# These tests need to be manually SET for windows since there is currently
+# something not quite correct with the actual test implementation. This affects
+# the 'dt_arith' test and most likely lots of other code
+# ----------------------------------------------------------------------------
+IF (WINDOWS)
+  SET (H5_FP_TO_ULLONG_RIGHT_MAXIMUM "" CACHE INTERNAL "")
+ENDIF (WINDOWS)
+
+# ----------------------------------------------------------------------
+# END of WINDOWS Hard code Values
+# ----------------------------------------------------------------------
+
+IF (CYGWIN)
+  SET (H5_HAVE_LSEEK64 0)
+ENDIF (CYGWIN)
+
 #-----------------------------------------------------------------------------
 #  Check for the math library "m"
 #-----------------------------------------------------------------------------
-IF (WINDOWS)
-  SET (H5_HAVE_LIBM 1)
-ELSE (WINDOWS)
-  CHECK_LIBRARY_EXISTS_CONCAT ("m" printf     H5_HAVE_LIBM)
-ENDIF (WINDOWS)
-CHECK_LIBRARY_EXISTS_CONCAT ("ws2_32" printf  H5_HAVE_LIBWS2_32)
-CHECK_LIBRARY_EXISTS_CONCAT ("wsock32" printf H5_HAVE_LIBWSOCK32)
-#CHECK_LIBRARY_EXISTS_CONCAT ("dl"     dlopen       H5_HAVE_LIBDL)
+IF (NOT WINDOWS)
+  CHECK_LIBRARY_EXISTS_CONCAT ("m" random     H5_HAVE_LIBM)
+ENDIF (NOT WINDOWS)
+
+CHECK_LIBRARY_EXISTS_CONCAT ("ws2_32" WSAStartup  H5_HAVE_LIBWS2_32)
+CHECK_LIBRARY_EXISTS_CONCAT ("wsock32" gethostbyname H5_HAVE_LIBWSOCK32)
 CHECK_LIBRARY_EXISTS_CONCAT ("ucb"    gethostname  H5_HAVE_LIBUCB)
 CHECK_LIBRARY_EXISTS_CONCAT ("socket" connect      H5_HAVE_LIBSOCKET)
 CHECK_LIBRARY_EXISTS ("c" gethostbyname "" NOT_NEED_LIBNSL)
-
 
 IF (NOT NOT_NEED_LIBNSL)
   CHECK_LIBRARY_EXISTS_CONCAT ("nsl"    gethostbyname  H5_HAVE_LIBNSL)
@@ -168,6 +219,9 @@ ENDIF (NOT NOT_NEED_LIBNSL)
 
 
 SET (USE_INCLUDES "")
+IF (WINDOWS)
+  SET (USE_INCLUDES ${USE_INCLUDES} "windows.h")
+ENDIF (WINDOWS)
 #-----------------------------------------------------------------------------
 # Check IF header file exists and add it to the list.
 #-----------------------------------------------------------------------------
@@ -177,19 +231,6 @@ MACRO (CHECK_INCLUDE_FILE_CONCAT FILE VARIABLE)
     SET (USE_INCLUDES ${USE_INCLUDES} ${FILE})
   ENDIF (${VARIABLE})
 ENDMACRO (CHECK_INCLUDE_FILE_CONCAT)
-
-#-----------------------------------------------------------------------------
-# If we are on Windows we know some of the answers to these tests already
-#-----------------------------------------------------------------------------
-IF (WINDOWS)
-  SET (H5_HAVE_IO_H 1)
-  SET (H5_HAVE_SETJMP_H 1)
-  SET (H5_HAVE_STDDEF_H 1)
-  SET (H5_HAVE_SYS_STAT_H 1)
-  SET (H5_HAVE_SYS_TIMEB_H 1)
-  SET (H5_HAVE_SYS_TYPES_H 1)
-  SET (H5_HAVE_WINSOCK_H 1)
-ENDIF (WINDOWS)
 
 #-----------------------------------------------------------------------------
 #  Check for the existence of certain header files
@@ -225,9 +266,11 @@ CHECK_INCLUDE_FILE_CONCAT ("memory.h"        H5_HAVE_MEMORY_H)
 CHECK_INCLUDE_FILE_CONCAT ("dlfcn.h"         H5_HAVE_DLFCN_H)
 CHECK_INCLUDE_FILE_CONCAT ("features.h"      H5_HAVE_FEATURES_H)
 CHECK_INCLUDE_FILE_CONCAT ("inttypes.h"      H5_HAVE_INTTYPES_H)
-CHECK_INCLUDE_FILE_CONCAT ("winsock.h"       H5_HAVE_WINSOCK_H)
 CHECK_INCLUDE_FILE_CONCAT ("netinet/in.h"    H5_HAVE_NETINET_IN_H)
 
+IF (NOT CYGWIN)
+  CHECK_INCLUDE_FILE_CONCAT ("winsock2.h"      H5_HAVE_WINSOCK_H)
+ENDIF (NOT CYGWIN)
 
 # IF the c compiler found stdint, check the C++ as well. On some systems this
 # file will be found by C but not C++, only do this test IF the C++ compiler
@@ -236,8 +279,30 @@ IF (H5_HAVE_STDINT_H AND CMAKE_CXX_COMPILER_LOADED)
   CHECK_INCLUDE_FILE_CXX ("stdint.h" H5_HAVE_STDINT_H_CXX)
   IF (NOT H5_HAVE_STDINT_H_CXX)
     SET (H5_HAVE_STDINT_H "" CACHE INTERNAL "Have includes HAVE_STDINT_H")
+    SET (USE_INCLUDES ${USE_INCLUDES} "stdint.h")
   ENDIF (NOT H5_HAVE_STDINT_H_CXX)
 ENDIF (H5_HAVE_STDINT_H AND CMAKE_CXX_COMPILER_LOADED)
+
+#-----------------------------------------------------------------------------
+#  Check for large file support
+#-----------------------------------------------------------------------------
+
+# The linux-lfs option is deprecated.
+SET (LINUX_LFS 0)
+
+SET (HDF5_EXTRA_FLAGS)
+IF (CMAKE_SYSTEM MATCHES "Linux-([3-9]\\.[0-9]|2\\.[4-9])\\.")
+  # Linux Specific flags
+  SET (HDF5_EXTRA_FLAGS -D_POSIX_SOURCE -D_BSD_SOURCE)
+  OPTION (HDF5_ENABLE_LARGE_FILE "Enable support for large (64-bit) files on Linux." ON)
+  IF (HDF5_ENABLE_LARGE_FILE)
+    SET (LARGEFILE 1)
+    SET (HDF5_EXTRA_FLAGS ${HDF5_EXTRA_FLAGS} -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE)
+  ENDIF (HDF5_ENABLE_LARGE_FILE)
+  SET (CMAKE_REQUIRED_DEFINITIONS ${CMAKE_REQUIRED_DEFINITIONS} ${HDF5_EXTRA_FLAGS})
+ENDIF (CMAKE_SYSTEM MATCHES "Linux-([3-9]\\.[0-9]|2\\.[4-9])\\.")
+
+ADD_DEFINITIONS (${HDF5_EXTRA_FLAGS})
 
 #-----------------------------------------------------------------------------
 #  Check the size in bytes of all the int and float types
@@ -252,7 +317,6 @@ MACRO (H5_CHECK_TYPE_SIZE type var)
 #    MESSAGE (STATUS "Size of ${aType} was NOT Found")
   ENDIF (NOT ${aVar})
 ENDMACRO (H5_CHECK_TYPE_SIZE)
-
 
 
 H5_CHECK_TYPE_SIZE (char           H5_SIZEOF_CHAR)
@@ -314,15 +378,7 @@ SET (CMAKE_REQUIRED_LIBRARIES ${LINK_LIBS})
 
 #-----------------------------------------------------------------------------
 # Check for some functions that are used
-IF (WINDOWS)
-  SET (H5_HAVE_STRDUP 1)
-  SET (H5_HAVE_SYSTEM 1)
-  SET (H5_HAVE_DIFFTIME 1)
-  SET (H5_HAVE_LONGJMP 1)
-  SET (H5_STDC_HEADERS 1)
-  SET (H5_HAVE_GETHOSTNAME 1)
-ENDIF (WINDOWS)
-
+#
 CHECK_FUNCTION_EXISTS (alarm             H5_HAVE_ALARM)
 CHECK_FUNCTION_EXISTS (fork              H5_HAVE_FORK)
 CHECK_FUNCTION_EXISTS (frexpf            H5_HAVE_FREXPF)
@@ -361,10 +417,21 @@ CHECK_FUNCTION_EXISTS (ioctl             H5_HAVE_IOCTL)
 CHECK_FUNCTION_EXISTS (difftime          H5_HAVE_DIFFTIME)
 CHECK_FUNCTION_EXISTS (fseeko            H5_HAVE_FSEEKO)
 CHECK_FUNCTION_EXISTS (ftello            H5_HAVE_FTELLO)
+CHECK_FUNCTION_EXISTS (fseeko64          H5_HAVE_FSEEKO64)
+CHECK_FUNCTION_EXISTS (ftello64          H5_HAVE_FTELLO64)
 CHECK_FUNCTION_EXISTS (fstat64           H5_HAVE_FSTAT64)
 CHECK_FUNCTION_EXISTS (stat64            H5_HAVE_STAT64)
 
 #-----------------------------------------------------------------------------
+# sigsetjmp is special; may actually be a macro
+IF (NOT H5_HAVE_SIGSETJMP)
+  IF (H5_HAVE_SETJMP_H)
+    CHECK_SYMBOL_EXISTS (sigsetjmp "setjmp.h" H5_HAVE_MACRO_SIGSETJMP)
+    IF (H5_HAVE_MACRO_SIGSETJMP)
+      SET (H5_HAVE_SIGSETJMP 1)
+    ENDIF (H5_HAVE_MACRO_SIGSETJMP)
+  ENDIF (H5_HAVE_SETJMP_H)
+ENDIF (NOT H5_HAVE_SIGSETJMP)
 
 #-----------------------------------------------------------------------------
 #  Since gettimeofday is not defined any where standard, lets look in all the
@@ -374,37 +441,38 @@ IF (NOT MSVC)
   IF ("H5_HAVE_TIME_GETTIMEOFDAY" MATCHES "^H5_HAVE_TIME_GETTIMEOFDAY$")
     TRY_COMPILE (HAVE_TIME_GETTIMEOFDAY
         ${CMAKE_BINARY_DIR}
-        ${HDF5_SOURCE_DIR}/Resources/GetTimeOfDayTest.cpp
+        ${HDF5_RESOURCES_DIR}/GetTimeOfDayTest.cpp
         COMPILE_DEFINITIONS -DTRY_TIME_H
         OUTPUT_VARIABLE OUTPUT
     )
     IF (HAVE_TIME_GETTIMEOFDAY STREQUAL "TRUE")
       SET (H5_HAVE_TIME_GETTIMEOFDAY "1" CACHE INTERNAL "H5_HAVE_TIME_GETTIMEOFDAY")
+      SET (H5_HAVE_GETTIMEOFDAY "1" CACHE INTERNAL "H5_HAVE_GETTIMEOFDAY")
     ENDIF (HAVE_TIME_GETTIMEOFDAY STREQUAL "TRUE")
   ENDIF ("H5_HAVE_TIME_GETTIMEOFDAY" MATCHES "^H5_HAVE_TIME_GETTIMEOFDAY$")
 
   IF ("H5_HAVE_SYS_TIME_GETTIMEOFDAY" MATCHES "^H5_HAVE_SYS_TIME_GETTIMEOFDAY$")
     TRY_COMPILE (HAVE_SYS_TIME_GETTIMEOFDAY
         ${CMAKE_BINARY_DIR}
-        ${HDF5_SOURCE_DIR}/Resources/GetTimeOfDayTest.cpp
+        ${HDF5_RESOURCES_DIR}/GetTimeOfDayTest.cpp
         COMPILE_DEFINITIONS -DTRY_SYS_TIME_H
         OUTPUT_VARIABLE OUTPUT
     )
     IF (HAVE_SYS_TIME_GETTIMEOFDAY STREQUAL "TRUE")
       SET (H5_HAVE_SYS_TIME_GETTIMEOFDAY "1" CACHE INTERNAL "H5_HAVE_SYS_TIME_GETTIMEOFDAY")
+      SET (H5_HAVE_GETTIMEOFDAY "1" CACHE INTERNAL "H5_HAVE_GETTIMEOFDAY")
     ENDIF (HAVE_SYS_TIME_GETTIMEOFDAY STREQUAL "TRUE")
   ENDIF ("H5_HAVE_SYS_TIME_GETTIMEOFDAY" MATCHES "^H5_HAVE_SYS_TIME_GETTIMEOFDAY$")
+
+  IF (NOT HAVE_SYS_TIME_GETTIMEOFDAY AND NOT H5_HAVE_GETTIMEOFDAY)
+    MESSAGE (STATUS "---------------------------------------------------------------")
+    MESSAGE (STATUS "Function 'gettimeofday()' was not found. HDF5 will use its")
+    MESSAGE (STATUS "  own implementation.. This can happen on older versions of")
+    MESSAGE (STATUS "  MinGW on Windows. Consider upgrading your MinGW installation")
+    MESSAGE (STATUS "  to a newer version such as MinGW 3.12")
+    MESSAGE (STATUS "---------------------------------------------------------------")
+  ENDIF (NOT HAVE_SYS_TIME_GETTIMEOFDAY AND NOT H5_HAVE_GETTIMEOFDAY)
 ENDIF (NOT MSVC)
-
-IF (NOT HAVE_SYS_TIME_GETTIMEOFDAY AND NOT H5_HAVE_GETTIMEOFDAY AND NOT MSVC)
-  MESSAGE (STATUS "---------------------------------------------------------------")
-  MESSAGE (STATUS "Function 'gettimeofday()' was not found. HDF5 will use its")
-  MESSAGE (STATUS "  own implementation.. This can happen on older versions of")
-  MESSAGE (STATUS "  MinGW on Windows. Consider upgrading your MinGW installation")
-  MESSAGE (STATUS "  to a newer version such as MinGW 3.12")
-  MESSAGE (STATUS "---------------------------------------------------------------")
-ENDIF (NOT HAVE_SYS_TIME_GETTIMEOFDAY AND NOT H5_HAVE_GETTIMEOFDAY AND NOT MSVC)
-
 
 # Check for Symbols
 CHECK_SYMBOL_EXISTS (tzname "time.h" H5_HAVE_DECL_TZNAME)
@@ -442,26 +510,26 @@ MACRO (HDF5_FUNCTION_TEST OTHER_TEST)
     ENDFOREACH (def)
 
     FOREACH (def
-        H5_HAVE_SYS_TIME_H
-        H5_HAVE_UNISTD_H
-        H5_HAVE_SYS_TYPES_H
-        H5_HAVE_SYS_SOCKET_H
+        HAVE_SYS_TIME_H
+        HAVE_UNISTD_H
+        HAVE_SYS_TYPES_H
+        HAVE_SYS_SOCKET_H
     )
-      IF ("${def}")
+      IF ("${H5_${def}}")
         SET (MACRO_CHECK_FUNCTION_DEFINITIONS "${MACRO_CHECK_FUNCTION_DEFINITIONS} -D${def}")
-      ENDIF ("${def}")
+      ENDIF ("${H5_${def}}")
     ENDFOREACH (def)
 
-    IF (LINUX_LFS)
+    IF (LARGEFILE)
       SET (MACRO_CHECK_FUNCTION_DEFINITIONS
           "${MACRO_CHECK_FUNCTION_DEFINITIONS} -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE"
       )
-    ENDIF (LINUX_LFS)
+    ENDIF (LARGEFILE)
 
-    # (STATUS "Performing ${OTHER_TEST}")
+    #MESSAGE (STATUS "Performing ${OTHER_TEST}")
     TRY_COMPILE (${OTHER_TEST}
         ${CMAKE_BINARY_DIR}
-        ${HDF5_SOURCE_DIR}/Resources/HDF5Tests.c
+        ${HDF5_RESOURCES_DIR}/HDF5Tests.c
         CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${MACRO_CHECK_FUNCTION_DEFINITIONS}
         "${OTHER_TEST_ADD_LIBRARIES}"
         OUTPUT_VARIABLE OUTPUT
@@ -483,10 +551,7 @@ ENDMACRO (HDF5_FUNCTION_TEST)
 #-----------------------------------------------------------------------------
 # Check a bunch of other functions
 #-----------------------------------------------------------------------------
-IF (WINDOWS)
-  SET (H5_HAVE_TIMEZONE 1)
-  SET (H5_HAVE_FUNCTION 1)
-ELSE (WINDOWS)
+IF (NOT WINDOWS)
   FOREACH (test
       TIME_WITH_SYS_TIME
       STDC_HEADERS
@@ -495,7 +560,7 @@ ELSE (WINDOWS)
       HAVE_ATTRIBUTE
       HAVE_FUNCTION
       HAVE_TM_GMTOFF
-      HAVE_TIMEZONE
+#      HAVE_TIMEZONE
       HAVE_STRUCT_TIMEZONE
       HAVE_STAT_ST_BLOCKS
       HAVE_FUNCTION
@@ -508,17 +573,97 @@ ELSE (WINDOWS)
       HAVE_C99_FUNC
       HAVE_C99_DESIGNATED_INITIALIZER
       CXX_HAVE_OFFSETOF
+      LONE_COLON
   )
     HDF5_FUNCTION_TEST (${test})
   ENDFOREACH (test)
+  IF (NOT CYGWIN AND NOT MINGW)
+      HDF5_FUNCTION_TEST (HAVE_TIMEZONE)
+#      HDF5_FUNCTION_TEST (HAVE_STAT_ST_BLOCKS)
+  ENDIF (NOT CYGWIN AND NOT MINGW)
+ENDIF (NOT WINDOWS)
+
+#-----------------------------------------------------------------------------
+# Check if InitOnceExecuteOnce is available
+#-----------------------------------------------------------------------------
+IF (WINDOWS)
+  MESSAGE (STATUS "Checking for InitOnceExecuteOnce:")
+  IF("${H5_HAVE_IOEO}" MATCHES "^${H5_HAVE_IOEO}$")
+    IF (LARGEFILE)
+      SET (CMAKE_REQUIRED_DEFINITIONS
+          "${CURRENT_TEST_DEFINITIONS} -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE"
+      )
+    ENDIF (LARGEFILE)
+    SET(MACRO_CHECK_FUNCTION_DEFINITIONS 
+      "-DHAVE_IOEO ${CMAKE_REQUIRED_FLAGS}")
+    IF(CMAKE_REQUIRED_LIBRARIES)
+      SET(CHECK_C_SOURCE_COMPILES_ADD_LIBRARIES
+        "-DLINK_LIBRARIES:STRING=${CMAKE_REQUIRED_LIBRARIES}")
+    ELSE(CMAKE_REQUIRED_LIBRARIES)
+      SET(CHECK_C_SOURCE_COMPILES_ADD_LIBRARIES)
+    ENDIF(CMAKE_REQUIRED_LIBRARIES)
+    IF(CMAKE_REQUIRED_INCLUDES)
+      SET(CHECK_C_SOURCE_COMPILES_ADD_INCLUDES
+        "-DINCLUDE_DIRECTORIES:STRING=${CMAKE_REQUIRED_INCLUDES}")
+    ELSE(CMAKE_REQUIRED_INCLUDES)
+      SET(CHECK_C_SOURCE_COMPILES_ADD_INCLUDES)
+    ENDIF(CMAKE_REQUIRED_INCLUDES)
+
+    TRY_RUN(HAVE_IOEO_EXITCODE HAVE_IOEO_COMPILED
+      ${CMAKE_BINARY_DIR}
+      ${HDF5_RESOURCES_DIR}/HDF5Tests.c
+      COMPILE_DEFINITIONS ${CMAKE_REQUIRED_DEFINITIONS}
+      CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${MACRO_CHECK_FUNCTION_DEFINITIONS}
+      -DCMAKE_SKIP_RPATH:BOOL=${CMAKE_SKIP_RPATH}
+      "${CHECK_C_SOURCE_COMPILES_ADD_LIBRARIES}"
+      "${CHECK_C_SOURCE_COMPILES_ADD_INCLUDES}"
+      COMPILE_OUTPUT_VARIABLE OUTPUT)
+    # if it did not compile make the return value fail code of 1
+    IF(NOT HAVE_IOEO_COMPILED)
+      SET(HAVE_IOEO_EXITCODE 1)
+    ENDIF(NOT HAVE_IOEO_COMPILED)
+    # if the return value was 0 then it worked
+    IF("${HAVE_IOEO_EXITCODE}" EQUAL 0)
+      SET(H5_HAVE_IOEO 1 CACHE INTERNAL "Test InitOnceExecuteOnce")
+      MESSAGE(STATUS "Performing Test InitOnceExecuteOnce - Success")
+      FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log 
+        "Performing C SOURCE FILE Test InitOnceExecuteOnce succeded with the following output:\n"
+        "${OUTPUT}\n"
+        "Return value: ${HAVE_IOEO}\n")
+    ELSE("${HAVE_IOEO_EXITCODE}" EQUAL 0)
+      IF(CMAKE_CROSSCOMPILING AND "${HAVE_IOEO_EXITCODE}" MATCHES  "FAILED_TO_RUN")
+        SET(H5_HAVE_IOEO "${HAVE_IOEO_EXITCODE}")
+      ELSE(CMAKE_CROSSCOMPILING AND "${HAVE_IOEO_EXITCODE}" MATCHES  "FAILED_TO_RUN")
+        SET(H5_HAVE_IOEO "" CACHE INTERNAL "Test InitOnceExecuteOnce")
+      ENDIF(CMAKE_CROSSCOMPILING AND "${HAVE_IOEO_EXITCODE}" MATCHES  "FAILED_TO_RUN")
+
+      MESSAGE(STATUS "Performing Test InitOnceExecuteOnce - Failed")
+      FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log 
+        "Performing InitOnceExecuteOnce Test  failed with the following output:\n"
+        "${OUTPUT}\n"
+        "Return value: ${HAVE_IOEO_EXITCODE}\n")
+    ENDIF("${HAVE_IOEO_EXITCODE}" EQUAL 0)
+  ENDIF("${H5_HAVE_IOEO}" MATCHES "^${H5_HAVE_IOEO}$")
 ENDIF (WINDOWS)
+	
+
+#-----------------------------------------------------------------------------
+# Option to see if GPFS is available on this filesystem --enable-gpfs
+#-----------------------------------------------------------------------------
+OPTION (HDF5_ENABLE_GPFS "Enable GPFS hints for the MPI/POSIX file driver" OFF)
+IF (HDF5_ENABLE_GPFS)
+  CHECK_INCLUDE_FILE_CONCAT ("gpfs.h"        HAVE_GPFS)
+  IF (HAVE_GPFS)
+    HDF5_FUNCTION_TEST (HAVE_GPFS)  
+  ENDIF (HAVE_GPFS)
+ENDIF (HDF5_ENABLE_GPFS)
+MARK_AS_ADVANCED (HDF5_ENABLE_GPFS)
 
 #-----------------------------------------------------------------------------
 # Look for 64 bit file stream capability
 #-----------------------------------------------------------------------------
 IF (HAVE_OFF64_T)
   CHECK_FUNCTION_EXISTS (lseek64           H5_HAVE_LSEEK64)
-  CHECK_FUNCTION_EXISTS (fseek64           H5_HAVE_FSEEK64)
 ENDIF (HAVE_OFF64_T)
 
 #-----------------------------------------------------------------------------
@@ -546,8 +691,7 @@ ENDIF (INLINE_TEST___inline__)
 #-----------------------------------------------------------------------------
 # Check how to print a Long Long integer
 #-----------------------------------------------------------------------------
-SET (H5_H5_PRINTF_LL_WIDTH "H5_PRINTF_LL_WIDTH")
-IF (H5_PRINTF_LL_WIDTH MATCHES "^H5_PRINTF_LL_WIDTH$")
+IF (NOT H5_PRINTF_LL_WIDTH OR H5_PRINTF_LL_WIDTH MATCHES "unknown")
   SET (PRINT_LL_FOUND 0)
   MESSAGE (STATUS "Checking for appropriate format for 64 bit long:")
   FOREACH (HDF5_PRINTF_LL l64 l L q I64 ll)
@@ -557,7 +701,7 @@ IF (H5_PRINTF_LL_WIDTH MATCHES "^H5_PRINTF_LL_WIDTH$")
     ENDIF (H5_SIZEOF_LONG_LONG)
     TRY_RUN (HDF5_PRINTF_LL_TEST_RUN   HDF5_PRINTF_LL_TEST_COMPILE
         ${HDF5_BINARY_DIR}/CMake
-        ${HDF5_SOURCE_DIR}/Resources/HDF5Tests.c
+        ${HDF5_RESOURCES_DIR}/HDF5Tests.c
         CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=${CURRENT_TEST_DEFINITIONS}
         OUTPUT_VARIABLE OUTPUT
     )
@@ -583,7 +727,7 @@ IF (H5_PRINTF_LL_WIDTH MATCHES "^H5_PRINTF_LL_WIDTH$")
         "Width for printf for type `long long' or `__int64', us. `ll"
     )
   ENDIF (PRINT_LL_FOUND)
-ENDIF (H5_PRINTF_LL_WIDTH MATCHES "^H5_PRINTF_LL_WIDTH$")
+ENDIF (NOT H5_PRINTF_LL_WIDTH OR H5_PRINTF_LL_WIDTH MATCHES "unknown")
 
 # ----------------------------------------------------------------------
 # Set the flag to indicate that the machine can handle converting
@@ -599,9 +743,6 @@ SET (H5_CONVERT_DENORMAL_FLOAT 1)
 IF (HDF5_ENABLE_HSIZET)
   SET (H5_HAVE_LARGE_HSIZET 1)
 ENDIF (HDF5_ENABLE_HSIZET)
-IF (CYGWIN)
-  SET (H5_HAVE_LSEEK64 0)
-ENDIF (CYGWIN)
 
 #-----------------------------------------------------------------------------
 # Macro to determine the various conversion capabilities
@@ -611,14 +752,14 @@ MACRO (H5ConversionTests TEST msg)
    # MESSAGE (STATUS "===> ${TEST}")
     TRY_RUN (${TEST}_RUN   ${TEST}_COMPILE
         ${HDF5_BINARY_DIR}/CMake
-        ${HDF5_SOURCE_DIR}/Resources/ConversionTests.c
+        ${HDF5_RESOURCES_DIR}/ConversionTests.c
         CMAKE_FLAGS -DCOMPILE_DEFINITIONS:STRING=-D${TEST}_TEST
         OUTPUT_VARIABLE OUTPUT
     )
     IF (${TEST}_COMPILE)
       IF (${TEST}_RUN  MATCHES 0)
         SET (${TEST} 1 CACHE INTERNAL ${msg})
-        MESSAGE(STATUS "${msg}... yes")
+        MESSAGE (STATUS "${msg}... yes")
       ELSE (${TEST}_RUN  MATCHES 0)
         SET (${TEST} "" CACHE INTERNAL ${msg})
         MESSAGE (STATUS "${msg}... no")
@@ -775,11 +916,8 @@ H5ConversionTests (H5_LDOUBLE_TO_LLONG_ACCURATE "Checking IF correctly convertin
 H5ConversionTests (H5_LLONG_TO_LDOUBLE_CORRECT "Checking IF correctly converting (unsigned) long long to long double values")
 H5ConversionTests (H5_NO_ALIGNMENT_RESTRICTIONS "Checking IF alignment restrictions are strictly enforced")
 
-#-----------------------------------------------------------------------------
-# These tests need to be manually SET for windows since there is currently
-# something not quite correct with the actual test implementation. This affects
-# the 'dt_arith' test and most likely lots of other code
-# ----------------------------------------------------------------------------
-IF (WINDOWS)
-  SET (H5_FP_TO_ULLONG_RIGHT_MAXIMUM "" CACHE INTERNAL "")
-ENDIF (WINDOWS)
+# Define a macro for Cygwin (on XP only) where the compiler has rounding
+#   problem converting from unsigned long long to long double */
+IF (CYGWIN)
+  SET (H5_CYGWIN_ULLONG_TO_LDOUBLE_ROUND_PROBLEM 1)
+ENDIF (CYGWIN)

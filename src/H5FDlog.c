@@ -35,27 +35,18 @@
 #include "H5Fprivate.h"		/* File access				*/
 #include "H5FDprivate.h"	/* File drivers				*/
 #include "H5FDlog.h"		/* Logging file driver			*/
+#include "H5FLprivate.h"	/* Free Lists                           */
 #include "H5Iprivate.h"		/* IDs			  		*/
 #include "H5MMprivate.h"	/* Memory management			*/
 #include "H5Pprivate.h"		/* Property lists			*/
 
-#ifdef MAX
-#undef MAX
-#define MAX(X,Y)	((X)>(Y)?(X):(Y))
-#endif /* MAX */
-
 /* The driver identification number, initialized at runtime */
 static hid_t H5FD_LOG_g = 0;
-
-/* File operations */
-#define OP_UNKNOWN	0
-#define OP_READ		1
-#define OP_WRITE	2
 
 /* Driver-specific file access properties */
 typedef struct H5FD_log_fapl_t {
     char *logfile;	        /* Allocated log file name */
-    unsigned flags;             /* Flags for logging behavior */
+    unsigned long long flags;   /* Flags for logging behavior */
     size_t buf_size;            /* Size of buffers for track flavor and number of times each byte is accessed */
 } H5FD_log_fapl_t;
 
@@ -88,20 +79,19 @@ typedef struct H5FD_log_t {
     haddr_t	eoa;			/*end of allocated region	*/
     haddr_t	eof;			/*end of file; current file size*/
     haddr_t	pos;			/*current file I/O position	*/
-    int		op;			    /*last operation		*/
-    unsigned char *nread;   /* Number of reads from a file location */
-    unsigned char *nwrite;  /* Number of write to a file location */
-    unsigned char *flavor;  /* Flavor of information written to file location */
-    size_t  iosize;         /* Size of I/O information buffers */
-    FILE   *logfp;          /* Log file pointer */
-    H5FD_log_fapl_t fa;	/*driver-specific file access properties*/
+    H5FD_file_op_t	op;		/*last operation		*/
+    char	filename[H5FD_MAX_FILENAME_LEN];     /* Copy of file name from open operation */
 #ifndef _WIN32
     /*
      * On most systems the combination of device and i-node number uniquely
      * identify a file.
      */
     dev_t	device;			/*file device number		*/
+#ifdef H5_VMS
+    ino_t	inode[3];		/*file i-node number		*/
+#else
     ino_t	inode;			/*file i-node number		*/
+#endif /*H5_VMS*/
 #else
     /*
      * On _WIN32 the low-order word of a unique identifier associated with the
@@ -115,6 +105,25 @@ typedef struct H5FD_log_t {
     DWORD fileindexlo;
     DWORD fileindexhi;
 #endif
+
+    /* Information from properties set by 'h5repart' tool */
+    hbool_t     fam_to_sec2;    /* Whether to eliminate the family driver info
+                                 * and convert this file to a single file */
+
+    /* Fields for tracking I/O operations */
+    unsigned char *nread;   /* Number of reads from a file location */
+    unsigned char *nwrite;  /* Number of write to a file location */
+    unsigned char *flavor;  /* Flavor of information written to file location */
+    unsigned long long total_read_ops;  /* Total number of read operations */
+    unsigned long long total_write_ops; /* Total number of write operations */
+    unsigned long long total_seek_ops;  /* Total number of seek operations */
+    unsigned long long total_truncate_ops; /* Total number of truncate operations */
+    double      total_read_time;    /* Total time spent in read operations */
+    double      total_write_time;   /* Total time spent in write operations */
+    double      total_seek_time;    /* Total time spent in seek operations */
+    size_t      iosize;     /* Size of I/O information buffers */
+    FILE       *logfp;      /* Log file pointer */
+    H5FD_log_fapl_t fa;	    /* Driver-specific file access properties*/
 } H5FD_log_t;
 
 
@@ -123,34 +132,14 @@ typedef struct H5FD_log_t {
  * some macros here so we don't have to have conditional compilations later
  * throughout the code.
  *
- * file_offset_t:	The datatype for file offsets, the second argument of
- *			the lseek() or lseek64() call.
+ * HDoff_t:	The datatype for file offsets, the second argument of
+ *		the lseek() or lseek64() call.
  *
- * file_seek:		The function which adjusts the current file position,
- *			either lseek() or lseek64().
  */
-/* adding for windows NT file system support. */
-
-#ifdef H5_HAVE_LSEEK64
-#   define file_offset_t	off64_t
-#   define file_seek		lseek64
-#elif defined (_WIN32)
-#   ifdef __MWERKS__
-#       define file_offset_t off_t
-#       define file_seek lseek
-#   else /*MSVC*/
-#       define file_offset_t __int64
-#       define file_seek _lseeki64
-#   endif
-#else
-#   define file_offset_t	off_t
-#   define file_seek		lseek
-#endif
-
 
 /*
  * These macros check for overflow of various quantities.  These macros
- * assume that file_offset_t is signed and haddr_t and size_t are unsigned.
+ * assume that HDoff_t is signed and haddr_t and size_t are unsigned.
  *
  * ADDR_OVERFLOW:	Checks whether a file address of type `haddr_t'
  *			is too large to be represented by the second argument
@@ -163,14 +152,13 @@ typedef struct H5FD_log_t {
  *			which can be addressed entirely by the second
  *			argument of the file seek function.
  */
-#define MAXADDR (((haddr_t)1<<(8*sizeof(file_offset_t)-1))-1)
+#define MAXADDR (((haddr_t)1<<(8*sizeof(HDoff_t)-1))-1)
 #define ADDR_OVERFLOW(A)	(HADDR_UNDEF==(A) ||			      \
 				 ((A) & ~(haddr_t)MAXADDR))
 #define SIZE_OVERFLOW(Z)	((Z) & ~(hsize_t)MAXADDR)
 #define REGION_OVERFLOW(A,Z)	(ADDR_OVERFLOW(A) || SIZE_OVERFLOW(Z) ||      \
-				 sizeof(file_offset_t)<sizeof(size_t) ||      \
                                  HADDR_UNDEF==(A)+(Z) ||		      \
-				 (file_offset_t)((A)+(Z))<(file_offset_t)(A))
+				 (HDoff_t)((A)+(Z))<(HDoff_t)(A))
 
 /* Prototypes */
 static void *H5FD_log_fapl_get(H5FD_t *file);
@@ -191,21 +179,6 @@ static herr_t H5FD_log_read(H5FD_t *_file, H5FD_mem_t type, hid_t fapl_id, haddr
 static herr_t H5FD_log_write(H5FD_t *_file, H5FD_mem_t type, hid_t fapl_id, haddr_t addr,
 			      size_t size, const void *buf);
 static herr_t H5FD_log_truncate(H5FD_t *_file, hid_t dxpl_id, hbool_t closing);
-
-#ifdef OLD_WAY
-/*
- * The free list map which causes each request type to use no free lists
- */
-#define H5FD_FLMAP_NOLIST {						      \
-    H5FD_MEM_NOLIST,			/*default*/			      \
-    H5FD_MEM_NOLIST,			/*super*/			      \
-    H5FD_MEM_NOLIST,			/*btree*/			      \
-    H5FD_MEM_NOLIST,			/*draw*/			      \
-    H5FD_MEM_NOLIST,			/*gheap*/			      \
-    H5FD_MEM_NOLIST,			/*lheap*/			      \
-    H5FD_MEM_NOLIST			/*ohdr*/			      \
-}
-#endif /* OLD_WAY */
 
 static const H5FD_class_t H5FD_log_g = {
     "log",					/*name			*/
@@ -241,6 +214,9 @@ static const H5FD_class_t H5FD_log_g = {
     H5FD_FLMAP_SINGLE 				/*fl_map		*/
 };
 
+/* Declare a free list to manage the H5FD_log_t struct */
+H5FL_DEFINE_STATIC(H5FD_log_t);
+
 
 /*--------------------------------------------------------------------------
 NAME
@@ -271,32 +247,29 @@ H5FD_log_init_interface(void)
  *		library.
  *
  * Return:	Success:	The driver ID for the log driver.
- *
  *		Failure:	Negative.
  *
  * Programmer:	Robb Matzke
  *              Thursday, July 29, 1999
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
 hid_t
 H5FD_log_init(void)
 {
-    hid_t ret_value;         /* Return value */
+    hid_t ret_value;            /* Return value */
 
     FUNC_ENTER_NOAPI(H5FD_log_init, FAIL)
 
-    if (H5I_VFL!=H5Iget_type(H5FD_LOG_g))
-        H5FD_LOG_g = H5FD_register(&H5FD_log_g,sizeof(H5FD_class_t),FALSE);
+    if(H5I_VFL != H5I_get_type(H5FD_LOG_g))
+        H5FD_LOG_g = H5FD_register(&H5FD_log_g, sizeof(H5FD_class_t), FALSE);
 
     /* Set return value */
-    ret_value=H5FD_LOG_g;
+    ret_value = H5FD_LOG_g;
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5FD_log_init() */
 
 
 /*---------------------------------------------------------------------------
@@ -309,8 +282,6 @@ done:
  * Programmer:  Quincey Koziol
  *              Friday, Jan 30, 2004
  *
- * Modification:
- *
  *---------------------------------------------------------------------------
  */
 void
@@ -319,7 +290,7 @@ H5FD_log_term(void)
     FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_log_term)
 
     /* Reset VFL ID */
-    H5FD_LOG_g=0;
+    H5FD_LOG_g = 0;
 
     FUNC_LEAVE_NOAPI_VOID
 } /* end H5FD_log_term() */
@@ -337,16 +308,10 @@ H5FD_log_term(void)
  * Programmer:	Robb Matzke
  *		Thursday, February 19, 1998
  *
- * Modifications:
- *              We copy the LOGFILE value into our own access properties.
- *
- * 		Raymond Lu, 2001-10-25
- *		Changed the file access list to the new generic property list.
- *
  *-------------------------------------------------------------------------
  */
 herr_t
-H5Pset_fapl_log(hid_t fapl_id, const char *logfile, unsigned flags, size_t buf_size)
+H5Pset_fapl_log(hid_t fapl_id, const char *logfile, unsigned long long flags, size_t buf_size)
 {
     H5FD_log_fapl_t	fa;     /* File access property list information */
     H5P_genplist_t *plist;      /* Property list pointer */
@@ -355,7 +320,7 @@ H5Pset_fapl_log(hid_t fapl_id, const char *logfile, unsigned flags, size_t buf_s
     FUNC_ENTER_API(H5Pset_fapl_log, FAIL)
     H5TRACE4("e", "i*sIuz", fapl_id, logfile, flags, buf_size);
 
-    if(NULL == (plist = H5P_object_verify(fapl_id,H5P_FILE_ACCESS)))
+    if(NULL == (plist = H5P_object_verify(fapl_id, H5P_FILE_ACCESS)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a file access property list")
 
     fa.logfile = (char *)logfile;
@@ -377,28 +342,24 @@ done:
  *
  * Return:	Success:	Ptr to new file access property list with all
  *				members copied from the file struct.
- *
  *		Failure:	NULL
  *
  * Programmer:	Quincey Koziol
  *              Thursday, April 20, 2000
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
 static void *
 H5FD_log_fapl_get(H5FD_t *_file)
 {
-    H5FD_log_t	*file = (H5FD_log_t*)_file;
+    H5FD_log_t	*file = (H5FD_log_t *)_file;
     void *ret_value;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_log_fapl_get, NULL)
+    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_log_fapl_get)
 
     /* Set return value */
-    ret_value= H5FD_log_fapl_copy(&(file->fa));
+    ret_value = H5FD_log_fapl_copy(&(file->fa));
 
-done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD_log_fapl_get() */
 
@@ -423,7 +384,7 @@ H5FD_log_fapl_copy(const void *_old_fa)
     H5FD_log_fapl_t *new_fa = NULL;    /* New FAPL info */
     void *ret_value;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_log_fapl_copy, NULL)
+    FUNC_ENTER_NOAPI_NOINIT(H5FD_log_fapl_copy)
 
     HDassert(old_fa);
 
@@ -499,22 +460,29 @@ H5FD_log_fapl_free(void *_fa)
  *-------------------------------------------------------------------------
  */
 static H5FD_t *
-H5FD_log_open(const char *name, unsigned flags, hid_t fapl_id,
-	       haddr_t maxaddr)
+H5FD_log_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr)
 {
-    int	        o_flags;
-    int		fd = (-1);
     H5FD_log_t	*file = NULL;
-    H5FD_log_fapl_t	*fa;     /* File access property list information */
+    H5P_genplist_t *plist;      /* Property list */
+    H5FD_log_fapl_t	*fa;    /* File access property list information */
+    int		fd = (-1);      /* File descriptor */
+    int		o_flags;        /* Flags for open() call */
 #ifdef _WIN32
     HFILE filehandle;
     struct _BY_HANDLE_FILE_INFORMATION fileinfo;
 #endif
-    h5_stat_t   sb;
-    H5P_genplist_t *plist;      /* Property list */
-    H5FD_t	*ret_value;
+#ifdef H5_HAVE_GETTIMEOFDAY
+    struct timeval timeval_start;
+    struct timeval open_timeval_diff;
+    struct timeval stat_timeval_diff;
+#endif /* H5_HAVE_GETTIMEOFDAY */
+    h5_stat_t	sb;
+    H5FD_t	*ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_log_open, NULL)
+    FUNC_ENTER_NOAPI_NOINIT(H5FD_log_open)
+
+    /* Sanity check on file offsets */
+    HDcompile_assert(sizeof(HDoff_t) >= sizeof(size_t));
 
     /* Check arguments */
     if(!name || !*name)
@@ -533,21 +501,64 @@ H5FD_log_open(const char *name, unsigned flags, hid_t fapl_id,
     if(H5F_ACC_EXCL & flags)
         o_flags |= O_EXCL;
 
-    /* Open the file */
-    if((fd = HDopen(name, o_flags, 0666)) < 0)
-        HGOTO_ERROR(H5E_FILE, H5E_CANTOPENFILE, NULL, "unable to open file")
-    if(HDfstat(fd, &sb) < 0)
-        HGOTO_ERROR(H5E_FILE, H5E_BADFILE, NULL, "unable to fstat file")
-
-    /* Create the new file struct */
-    if(NULL == (file = (H5FD_log_t *)H5MM_calloc(sizeof(H5FD_log_t))))
-        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "unable to allocate file struct")
-
     /* Get the driver specific information */
     if(NULL == (plist = H5P_object_verify(fapl_id, H5P_FILE_ACCESS)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "not a file access property list")
     fa = (H5FD_log_fapl_t *)H5P_get_driver_info(plist);
     HDassert(fa);
+
+#ifdef H5_HAVE_GETTIMEOFDAY
+    if(fa->flags & H5FD_LOG_TIME_OPEN)
+        HDgettimeofday(&timeval_start, NULL);
+#endif /* H5_HAVE_GETTIMEOFDAY */
+    /* Open the file */
+    if((fd = HDopen(name, o_flags, 0666)) < 0) {
+        int myerrno = errno;
+
+        HGOTO_ERROR(H5E_FILE, H5E_CANTOPENFILE, NULL, "unable to open file: name = '%s', errno = %d, error message = '%s', flags = %x, o_flags = %x", name, myerrno, HDstrerror(myerrno), flags, (unsigned)o_flags);
+    } /* end if */
+#ifdef H5_HAVE_GETTIMEOFDAY
+    if(fa->flags & H5FD_LOG_TIME_OPEN) {
+        struct timeval timeval_stop;
+
+        HDgettimeofday(&timeval_stop, NULL);
+
+         /* Calculate the elapsed gettimeofday time */
+         open_timeval_diff.tv_usec = timeval_stop.tv_usec - timeval_start.tv_usec;
+         open_timeval_diff.tv_sec = timeval_stop.tv_sec - timeval_start.tv_sec;
+         if(open_timeval_diff.tv_usec < 0) {
+             open_timeval_diff.tv_usec += 1000000;
+             open_timeval_diff.tv_sec--;
+         } /* end if */
+    } /* end if */
+#endif /* H5_HAVE_GETTIMEOFDAY */
+
+#ifdef H5_HAVE_GETTIMEOFDAY
+    if(fa->flags & H5FD_LOG_TIME_STAT)
+        HDgettimeofday(&timeval_start, NULL);
+#endif /* H5_HAVE_GETTIMEOFDAY */
+    /* Get the file stats */
+    if(HDfstat(fd, &sb) < 0)
+        HSYS_GOTO_ERROR(H5E_FILE, H5E_BADFILE, NULL, "unable to fstat file")
+#ifdef H5_HAVE_GETTIMEOFDAY
+    if(fa->flags & H5FD_LOG_TIME_STAT) {
+        struct timeval timeval_stop;
+
+        HDgettimeofday(&timeval_stop, NULL);
+
+         /* Calculate the elapsed gettimeofday time */
+         stat_timeval_diff.tv_usec = timeval_stop.tv_usec - timeval_start.tv_usec;
+         stat_timeval_diff.tv_sec = timeval_stop.tv_sec - timeval_start.tv_sec;
+         if(stat_timeval_diff.tv_usec < 0) {
+             stat_timeval_diff.tv_usec += 1000000;
+             stat_timeval_diff.tv_sec--;
+         } /* end if */
+    } /* end if */
+#endif /* H5_HAVE_GETTIMEOFDAY */
+
+    /* Create the new file struct */
+    if(NULL == (file = H5FL_CALLOC(H5FD_log_t)))
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "unable to allocate file struct")
 
     file->fd = fd;
     H5_ASSIGN_OVERFLOW(file->eof, sb.st_size, h5_stat_size_t, haddr_t);
@@ -558,16 +569,28 @@ H5FD_log_open(const char *name, unsigned flags, hid_t fapl_id,
     (void)GetFileInformationByHandle((HANDLE)filehandle, &fileinfo);
     file->fileindexhi = fileinfo.nFileIndexHigh;
     file->fileindexlo = fileinfo.nFileIndexLow;
-#else
+#else /* _WIN32 */
     file->device = sb.st_dev;
+#ifdef H5_VMS
+    file->inode[0] = sb.st_ino[0];
+    file->inode[1] = sb.st_ino[1];
+    file->inode[2] = sb.st_ino[2];
+#else
     file->inode = sb.st_ino;
-#endif
+#endif /*H5_VMS*/
+
+#endif /* _WIN32 */
+
+    /* Retain a copy of the name used to open the file, for possible error reporting */
+    HDstrncpy(file->filename, name, sizeof(file->filename));
+    file->filename[sizeof(file->filename) - 1] = '\0';
 
     /* Get the flags for logging */
     file->fa.flags = fa->flags;
 
     /* Check if we are doing any logging at all */
     if(file->fa.flags != 0) {
+        /* Allocate buffers for tracking file accesses and data "flavor" */
         file->iosize = fa->buf_size;
         if(file->fa.flags & H5FD_LOG_FILE_READ) {
             file->nread = (unsigned char *)H5MM_calloc(file->iosize);
@@ -581,10 +604,32 @@ H5FD_log_open(const char *name, unsigned flags, hid_t fapl_id,
             file->flavor = (unsigned char *)H5MM_calloc(file->iosize);
             HDassert(file->flavor);
         } /* end if */
+
+        /* Set the log file pointer */
         if(fa->logfile)
             file->logfp = HDfopen(fa->logfile, "w");
         else
             file->logfp = stderr;
+
+#ifdef H5_HAVE_GETTIMEOFDAY
+        if(file->fa.flags & H5FD_LOG_TIME_OPEN)
+            HDfprintf(file->logfp, "Open took: (%f s)\n", (double)open_timeval_diff.tv_sec + ((double)open_timeval_diff.tv_usec / (double)1000000.0));
+        if(file->fa.flags & H5FD_LOG_TIME_STAT)
+            HDfprintf(file->logfp, "Stat took: (%f s)\n", (double)stat_timeval_diff.tv_sec + ((double)stat_timeval_diff.tv_usec / (double)1000000.0));
+#endif /* H5_HAVE_GETTIMEOFDAY */
+
+    } /* end if */
+
+    /* Check for non-default FAPL */
+    if(H5P_FILE_ACCESS_DEFAULT != fapl_id) {
+        /* This step is for h5repart tool only. If user wants to change file driver from
+         * family to sec2 while using h5repart, this private property should be set so that
+         * in the later step, the library can ignore the family driver information saved
+         * in the superblock.
+         */
+        if(H5P_exist_plist(plist, H5F_ACS_FAMILY_TO_SEC2_NAME) > 0)
+            if(H5P_get(plist, H5F_ACS_FAMILY_TO_SEC2_NAME, &file->fam_to_sec2) < 0)
+                HGOTO_ERROR(H5E_VFL, H5E_CANTGET, NULL, "can't get property of changing family to sec2")
     } /* end if */
 
     /* Set return value */
@@ -594,7 +639,8 @@ done:
     if(NULL == ret_value) {
         if(fd >= 0)
             HDclose(fd);
-        file = (H5FD_log_t *)H5MM_xfree(file);
+        if(file)
+            file = H5FL_FREE(H5FD_log_t, file);
     } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -617,24 +663,27 @@ done:
 static herr_t
 H5FD_log_close(H5FD_t *_file)
 {
-    H5FD_log_t	*file = (H5FD_log_t*)_file;
+    H5FD_log_t	*file = (H5FD_log_t *)_file;
 #ifdef H5_HAVE_GETTIMEOFDAY
-    struct timeval timeval_start,timeval_stop;
-    struct timeval timeval_diff;
+    struct timeval timeval_start, timeval_stop;
 #endif /* H5_HAVE_GETTIMEOFDAY */
-    herr_t      ret_value = SUCCEED;       /* Return value */
+    herr_t ret_value = SUCCEED;                 /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_log_close, FAIL)
+    FUNC_ENTER_NOAPI_NOINIT(H5FD_log_close)
+
+    /* Sanity check */
+    HDassert(file);
 
 #ifdef H5_HAVE_GETTIMEOFDAY
     if(file->fa.flags&H5FD_LOG_TIME_CLOSE)
-        HDgettimeofday(&timeval_start,NULL);
+        HDgettimeofday(&timeval_start, NULL);
 #endif /* H5_HAVE_GETTIMEOFDAY */
+    /* Close the underlying file */
     if(HDclose(file->fd) < 0)
-        HGOTO_ERROR(H5E_IO, H5E_CANTCLOSEFILE, FAIL, "unable to close file")
+        HSYS_GOTO_ERROR(H5E_IO, H5E_CANTCLOSEFILE, FAIL, "unable to close file")
 #ifdef H5_HAVE_GETTIMEOFDAY
     if(file->fa.flags&H5FD_LOG_TIME_CLOSE)
-        HDgettimeofday(&timeval_stop,NULL);
+        HDgettimeofday(&timeval_stop, NULL);
 #endif /* H5_HAVE_GETTIMEOFDAY */
 
     /* Dump I/O information */
@@ -645,6 +694,8 @@ H5FD_log_close(H5FD_t *_file)
 
 #ifdef H5_HAVE_GETTIMEOFDAY
         if(file->fa.flags & H5FD_LOG_TIME_CLOSE) {
+            struct timeval timeval_diff;
+
              /* Calculate the elapsed gettimeofday time */
              timeval_diff.tv_usec = timeval_stop.tv_usec - timeval_start.tv_usec;
              timeval_diff.tv_sec = timeval_stop.tv_sec - timeval_start.tv_sec;
@@ -655,6 +706,24 @@ H5FD_log_close(H5FD_t *_file)
             HDfprintf(file->logfp, "Close took: (%f s)\n", (double)timeval_diff.tv_sec + ((double)timeval_diff.tv_usec / (double)1000000.0));
         } /* end if */
 #endif /* H5_HAVE_GETTIMEOFDAY */
+
+        /* Dump the total number of seek/read/write operations */
+        if(file->fa.flags & H5FD_LOG_NUM_READ)
+            HDfprintf(file->logfp, "Total number of read operations: %llu\n", file->total_read_ops);
+        if(file->fa.flags & H5FD_LOG_NUM_WRITE)
+            HDfprintf(file->logfp, "Total number of write operations: %llu\n", file->total_write_ops);
+        if(file->fa.flags & H5FD_LOG_NUM_SEEK)
+            HDfprintf(file->logfp, "Total number of seek operations: %llu\n", file->total_seek_ops);
+        if(file->fa.flags & H5FD_LOG_NUM_TRUNCATE)
+            HDfprintf(file->logfp, "Total number of truncate operations: %llu\n", file->total_truncate_ops);
+
+        /* Dump the total time in seek/read/write */
+        if(file->fa.flags & H5FD_LOG_TIME_READ)
+            HDfprintf(file->logfp, "Total time in read operations: %f s\n", file->total_read_time);
+        if(file->fa.flags & H5FD_LOG_TIME_WRITE)
+            HDfprintf(file->logfp, "Total time in write operations: %f s\n", file->total_write_time);
+        if(file->fa.flags & H5FD_LOG_TIME_SEEK)
+            HDfprintf(file->logfp, "Total time in seek operations: %f s\n", file->total_seek_time);
 
         /* Dump the write I/O information */
         if(file->fa.flags & H5FD_LOG_FILE_WRITE) {
@@ -718,7 +787,8 @@ H5FD_log_close(H5FD_t *_file)
             fclose(file->logfp);
     } /* end if */
 
-    H5MM_xfree(file);
+    /* Release the file info */
+    file = H5FL_FREE(H5FD_log_t, file);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -732,53 +802,56 @@ done:
  *		arbitrary (but consistent) ordering.
  *
  * Return:	Success:	A value like strcmp()
- *
  *		Failure:	never fails (arguments were checked by the
  *				caller).
  *
  * Programmer:	Robb Matzke
  *              Thursday, July 29, 1999
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 static int
 H5FD_log_cmp(const H5FD_t *_f1, const H5FD_t *_f2)
 {
-    const H5FD_log_t	*f1 = (const H5FD_log_t*)_f1;
-    const H5FD_log_t	*f2 = (const H5FD_log_t*)_f2;
-    int ret_value=0;
+    const H5FD_log_t	*f1 = (const H5FD_log_t *)_f1;
+    const H5FD_log_t	*f2 = (const H5FD_log_t *)_f2;
+    int ret_value = 0;
 
-    FUNC_ENTER_NOAPI(H5FD_log_cmp, H5FD_VFD_DEFAULT)
+    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_log_cmp)
 
 #ifdef _WIN32
-    if (f1->fileindexhi < f2->fileindexhi) HGOTO_DONE(-1)
-    if (f1->fileindexhi > f2->fileindexhi) HGOTO_DONE(1)
+    if(f1->fileindexhi < f2->fileindexhi) HGOTO_DONE(-1)
+    if(f1->fileindexhi > f2->fileindexhi) HGOTO_DONE(1)
 
-    if (f1->fileindexlo < f2->fileindexlo) HGOTO_DONE(-1)
-    if (f1->fileindexlo > f2->fileindexlo) HGOTO_DONE(1)
+    if(f1->fileindexlo < f2->fileindexlo) HGOTO_DONE(-1)
+    if(f1->fileindexlo > f2->fileindexlo) HGOTO_DONE(1)
 
 #else
 #ifdef H5_DEV_T_IS_SCALAR
-    if (f1->device < f2->device) HGOTO_DONE(-1)
-    if (f1->device > f2->device) HGOTO_DONE(1)
+    if(f1->device < f2->device) HGOTO_DONE(-1)
+    if(f1->device > f2->device) HGOTO_DONE(1)
 #else /* H5_DEV_T_IS_SCALAR */
     /* If dev_t isn't a scalar value on this system, just use memcmp to
      * determine if the values are the same or not.  The actual return value
      * shouldn't really matter...
      */
-    if(HDmemcmp(&(f1->device),&(f2->device),sizeof(dev_t))<0) HGOTO_DONE(-1)
-    if(HDmemcmp(&(f1->device),&(f2->device),sizeof(dev_t))>0) HGOTO_DONE(1)
+    if(HDmemcmp(&(f1->device),&(f2->device),sizeof(dev_t)) < 0) HGOTO_DONE(-1)
+    if(HDmemcmp(&(f1->device),&(f2->device),sizeof(dev_t)) > 0) HGOTO_DONE(1)
 #endif /* H5_DEV_T_IS_SCALAR */
 
-    if (f1->inode < f2->inode) HGOTO_DONE(-1)
-    if (f1->inode > f2->inode) HGOTO_DONE(1)
+#ifndef H5_VMS
+    if(f1->inode < f2->inode) HGOTO_DONE(-1)
+    if(f1->inode > f2->inode) HGOTO_DONE(1)
+#else
+    if(HDmemcmp(&(f1->inode), &(f2->inode), 3 * sizeof(ino_t)) < 0) HGOTO_DONE(-1)
+    if(HDmemcmp(&(f1->inode), &(f2->inode), 3 * sizeof(ino_t)) > 0) HGOTO_DONE(1)
+#endif /*H5_VMS*/
+
 #endif
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5FD_log_cmp() */
 
 
 /*-------------------------------------------------------------------------
@@ -788,20 +861,18 @@ done:
  *              (listed in H5FDpublic.h)
  *
  * Return:	Success:	non-negative
- *
  *		Failure:	negative
  *
  * Programmer:	Quincey Koziol
  *              Friday, August 25, 2000
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
-/* ARGSUSED */
 static herr_t
-H5FD_log_query(const H5FD_t UNUSED * _f, unsigned long *flags /* out */)
+H5FD_log_query(const H5FD_t *_file, unsigned long *flags /* out */)
 {
+    const H5FD_log_t	*file = (const H5FD_log_t *)_file;
+
     FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_log_query)
 
     /* Set the VFL feature flags that this driver supports */
@@ -812,6 +883,10 @@ H5FD_log_query(const H5FD_t UNUSED * _f, unsigned long *flags /* out */)
         *flags |= H5FD_FEAT_DATA_SIEVE;       /* OK to perform data sieving for faster raw data reads & writes */
         *flags |= H5FD_FEAT_AGGREGATE_SMALLDATA; /* OK to aggregate "small" raw data allocations */
         *flags |= H5FD_FEAT_POSIX_COMPAT_HANDLE; /* VFD handle is POSIX I/O call compatible */
+
+        /* Check for flags that are set by h5repart */
+        if(file->fam_to_sec2)
+            *flags |= H5FD_FEAT_IGNORE_DRVRINFO; /* Ignore the driver info when file is opened (which eliminates it) */
     } /* end if */
 
     FUNC_LEAVE_NOAPI(SUCCEED)
@@ -824,13 +899,10 @@ H5FD_log_query(const H5FD_t UNUSED * _f, unsigned long *flags /* out */)
  * Purpose:	Allocate file memory.
  *
  * Return:	Success:	Address of new memory
- *
  *		Failure:	HADDR_UNDEF
  *
  * Programmer:	Quincey Koziol
  *              Monday, April 17, 2000
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -838,42 +910,41 @@ H5FD_log_query(const H5FD_t UNUSED * _f, unsigned long *flags /* out */)
 static haddr_t
 H5FD_log_alloc(H5FD_t *_file, H5FD_mem_t type, hid_t UNUSED dxpl_id, hsize_t size)
 {
-    H5FD_log_t	*file = (H5FD_log_t*)_file;
-    haddr_t		addr;
+    H5FD_log_t	*file = (H5FD_log_t *)_file;
+    haddr_t addr;
     haddr_t ret_value;          /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_log_alloc, HADDR_UNDEF)
+    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_log_alloc)
 
     /* Compute the address for the block to allocate */
     addr = file->eoa;
 
     /* Check if we need to align this block */
-    if(size>=file->pub.threshold) {
+    if(size >= file->pub.threshold) {
         /* Check for an already aligned block */
-        if(addr%file->pub.alignment!=0)
-            addr=((addr/file->pub.alignment)+1)*file->pub.alignment;
+        if(addr % file->pub.alignment != 0)
+            addr = ((addr / file->pub.alignment) + 1) * file->pub.alignment;
     } /* end if */
 
-    file->eoa = addr+size;
+    file->eoa = addr + size;
 
     /* Retain the (first) flavor of the information written to the file */
-    if(file->fa.flags!=0) {
-        if(file->fa.flags&H5FD_LOG_FLAVOR) {
-            assert(addr<file->iosize);
-            H5_CHECK_OVERFLOW(size,hsize_t,size_t);
-            HDmemset(&file->flavor[addr],(int)type,(size_t)size);
+    if(file->fa.flags != 0) {
+        if(file->fa.flags & H5FD_LOG_FLAVOR) {
+            HDassert(addr < file->iosize);
+            H5_CHECK_OVERFLOW(size, hsize_t, size_t);
+            HDmemset(&file->flavor[addr], (int)type, (size_t)size);
         } /* end if */
 
-        if(file->fa.flags&H5FD_LOG_ALLOC)
-            HDfprintf(file->logfp,"%10a-%10a (%10Hu bytes) (%s) Allocated\n",addr,addr+size-1,size,flavors[type]);
+        if(file->fa.flags & H5FD_LOG_ALLOC)
+            HDfprintf(file->logfp, "%10a-%10a (%10Hu bytes) (%s) Allocated\n", addr, (addr + size) - 1, size, flavors[type]);
     } /* end if */
 
     /* Set return value */
-    ret_value=addr;
+    ret_value = addr;
 
-done:
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* H5FD_log_alloc() */
+} /* end H5FD_log_alloc() */
 
 
 /*-------------------------------------------------------------------------
@@ -884,33 +955,22 @@ done:
  *		format address space.
  *
  * Return:	Success:	The end-of-address marker.
- *
  *		Failure:	HADDR_UNDEF
  *
  * Programmer:	Robb Matzke
  *              Monday, August  2, 1999
- *
- * Modifications:
- *              Raymond Lu
- *              21 Dec. 2006
- *              Added the parameter TYPE.  It's only used for MULTI driver.
  *
  *-------------------------------------------------------------------------
  */
 static haddr_t
 H5FD_log_get_eoa(const H5FD_t *_file, H5FD_mem_t UNUSED type)
 {
-    const H5FD_log_t	*file = (const H5FD_log_t*)_file;
-    haddr_t ret_value;          /* Return value */
+    const H5FD_log_t	*file = (const H5FD_log_t *)_file;
 
-    FUNC_ENTER_NOAPI(H5FD_log_get_eoa, HADDR_UNDEF)
+    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_log_get_eoa)
 
-    /* Set return value */
-    ret_value=file->eoa;
-
-done:
-    FUNC_LEAVE_NOAPI(ret_value)
-}
+    FUNC_LEAVE_NOAPI(file->eoa)
+} /* end H5FD_log_get_eoa() */
 
 
 /*-------------------------------------------------------------------------
@@ -921,32 +981,24 @@ done:
  *		to tell the driver where the end of the HDF5 data is located.
  *
  * Return:	Success:	0
- *
  *		Failure:	-1
  *
  * Programmer:	Robb Matzke
  *              Thursday, July 29, 1999
- *
- * Modifications:
- *              Raymond Lu
- *              21 Dec. 2006
- *              Added the parameter TYPE.  It's only used for MULTI driver.
  *
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5FD_log_set_eoa(H5FD_t *_file, H5FD_mem_t UNUSED type, haddr_t addr)
 {
-    H5FD_log_t	*file = (H5FD_log_t*)_file;
-    herr_t ret_value=SUCCEED;   /* Return value */
+    H5FD_log_t	*file = (H5FD_log_t *)_file;
 
-    FUNC_ENTER_NOAPI(H5FD_log_set_eoa, FAIL)
+    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_log_set_eoa)
 
     file->eoa = addr;
 
-done:
-    FUNC_LEAVE_NOAPI(ret_value)
-}
+    FUNC_LEAVE_NOAPI(SUCCEED)
+} /* end H5FD_log_set_eoa() */
 
 
 /*-------------------------------------------------------------------------
@@ -959,30 +1011,22 @@ done:
  * Return:	Success:	End of file address, the first address past
  *				the end of the "file", either the Unix file
  *				or the HDF5 file.
- *
  *		Failure:	HADDR_UNDEF
  *
  * Programmer:	Robb Matzke
  *              Thursday, July 29, 1999
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
 static haddr_t
 H5FD_log_get_eof(const H5FD_t *_file)
 {
-    const H5FD_log_t	*file = (const H5FD_log_t*)_file;
-    haddr_t ret_value;          /* Return value */
+    const H5FD_log_t	*file = (const H5FD_log_t *)_file;
 
-    FUNC_ENTER_NOAPI(H5FD_log_get_eof, HADDR_UNDEF)
+    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_log_get_eof)
 
-    /* Set return value */
-    ret_value=MAX(file->eof, file->eoa);
-
-done:
-    FUNC_LEAVE_NOAPI(ret_value)
-}
+    FUNC_LEAVE_NOAPI(MAX(file->eof, file->eoa))
+} /* end H5FD_log_get_eof() */
 
 
 /*-------------------------------------------------------------------------
@@ -995,18 +1039,16 @@ done:
  * Programmer:     Raymond Lu
  *                 Sept. 16, 2002
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 /* ARGSUSED */
 static herr_t
-H5FD_log_get_handle(H5FD_t *_file, hid_t UNUSED fapl, void** file_handle)
+H5FD_log_get_handle(H5FD_t *_file, hid_t UNUSED fapl, void **file_handle)
 {
     H5FD_log_t          *file = (H5FD_log_t *)_file;
     herr_t              ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI(H5FD_log_get_handle, FAIL)
+    FUNC_ENTER_NOAPI_NOINIT(H5FD_log_get_handle)
 
     if(!file_handle)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "file handle not valid")
@@ -1015,7 +1057,7 @@ H5FD_log_get_handle(H5FD_t *_file, hid_t UNUSED fapl, void** file_handle)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5FD_log_get_handle() */
 
 
 /*-------------------------------------------------------------------------
@@ -1027,13 +1069,10 @@ done:
  *
  * Return:	Success:	Zero. Result is stored in caller-supplied
  *				buffer BUF.
- *
  *		Failure:	-1, Contents of buffer BUF are undefined.
  *
  * Programmer:	Robb Matzke
  *              Thursday, July 29, 1999
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -1042,91 +1081,171 @@ static herr_t
 H5FD_log_read(H5FD_t *_file, H5FD_mem_t type, hid_t UNUSED dxpl_id, haddr_t addr,
 	       size_t size, void *buf/*out*/)
 {
-    H5FD_log_t		*file = (H5FD_log_t*)_file;
+    H5FD_log_t		*file = (H5FD_log_t *)_file;
     ssize_t		nbytes;
-    herr_t      ret_value=SUCCEED;       /* Return value */
+    size_t              orig_size = size; /* Save the original size for later */
+    haddr_t             orig_addr = addr;
+#ifdef H5_HAVE_GETTIMEOFDAY
+    struct timeval      timeval_start, timeval_stop;
+#endif /* H5_HAVE_GETTIMEOFDAY */
+    herr_t              ret_value = SUCCEED;       /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_log_read, FAIL)
+    FUNC_ENTER_NOAPI_NOINIT(H5FD_log_read)
 
-    assert(file && file->pub.cls);
-    assert(buf);
+    HDassert(file && file->pub.cls);
+    HDassert(buf);
 
     /* Check for overflow conditions */
-    if (HADDR_UNDEF==addr)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "addr undefined")
-    if (REGION_OVERFLOW(addr, size))
-        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow")
+    if(!H5F_addr_defined(addr))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "addr undefined, addr = %llu", (unsigned long long)addr)
+    if(REGION_OVERFLOW(addr, size))
+        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow, addr = %llu", (unsigned long long)addr)
     if((addr + size) > file->eoa)
-        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow")
+        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow, addr = %llu", (unsigned long long)addr)
 
     /* Log the I/O information about the read */
-    if(file->fa.flags!=0) {
-        size_t tmp_size=size;
-        haddr_t tmp_addr=addr;
+    if(file->fa.flags != 0) {
+        size_t tmp_size = size;
+        haddr_t tmp_addr = addr;
 
         /* Log information about the number of times these locations are read */
-        if(file->fa.flags&H5FD_LOG_FILE_READ) {
-            assert((addr+size)<file->iosize);
-            while(tmp_size-->0)
+        if(file->fa.flags & H5FD_LOG_FILE_READ) {
+            HDassert((addr + size) < file->iosize);
+            while(tmp_size-- > 0)
                 file->nread[tmp_addr++]++;
-        } /* end if */
-
-        /* Log information about the seek, if it's going to occur */
-        if(file->fa.flags&H5FD_LOG_LOC_SEEK) {
-            if(addr!=file->pos || OP_READ!=file->op)
-                HDfprintf(file->logfp,"Seek: From %10a To %10a\n",file->pos,addr);
-        } /* end if */
-
-        /* Log information about the read */
-        if(file->fa.flags&H5FD_LOG_LOC_READ) {
-            HDfprintf(file->logfp,"%10a-%10a (%10Zu bytes) (%s) Read\n",addr,addr+size-1,size,flavors[type]);
-/* XXX: Verify the flavor information, if we have it? */
         } /* end if */
     } /* end if */
 
     /* Seek to the correct location */
-    if ((addr!=file->pos || OP_READ!=file->op) &&
-            file_seek(file->fd, (file_offset_t)addr, SEEK_SET)<0) {
-        file->pos = HADDR_UNDEF;
-        file->op = OP_UNKNOWN;
-        HGOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
-    }
+    if(addr != file->pos || OP_READ != file->op) {
+#ifdef H5_HAVE_GETTIMEOFDAY
+        if(file->fa.flags & H5FD_LOG_TIME_SEEK)
+            HDgettimeofday(&timeval_start, NULL);
+#endif /* H5_HAVE_GETTIMEOFDAY */
+        if(HDlseek(file->fd, (HDoff_t)addr, SEEK_SET) < 0)
+            HSYS_GOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
+#ifdef H5_HAVE_GETTIMEOFDAY
+        if(file->fa.flags & H5FD_LOG_TIME_SEEK)
+            HDgettimeofday(&timeval_stop, NULL);
+#endif /* H5_HAVE_GETTIMEOFDAY */
+
+        /* Log information about the seek */
+        if(file->fa.flags & H5FD_LOG_NUM_SEEK)
+            file->total_seek_ops++;
+        if(file->fa.flags & H5FD_LOG_LOC_SEEK) {
+            HDfprintf(file->logfp, "Seek: From %10a To %10a", file->pos, addr);
+#ifdef H5_HAVE_GETTIMEOFDAY
+            if(file->fa.flags & H5FD_LOG_TIME_SEEK) {
+                struct timeval timeval_diff;
+                double time_diff;
+
+                /* Calculate the elapsed gettimeofday time */
+                timeval_diff.tv_usec = timeval_stop.tv_usec - timeval_start.tv_usec;
+                timeval_diff.tv_sec = timeval_stop.tv_sec - timeval_start.tv_sec;
+                if(timeval_diff.tv_usec < 0) {
+                    timeval_diff.tv_usec += 1000000;
+                    timeval_diff.tv_sec--;
+                } /* end if */
+                time_diff = (double)timeval_diff.tv_sec + ((double)timeval_diff.tv_usec / (double)1000000.0);
+                HDfprintf(file->logfp, " (%f s)\n", time_diff);
+
+                /* Add to total seek time */
+                file->total_seek_time += time_diff;
+            } /* end if */
+            else
+                HDfprintf(file->logfp, "\n");
+#else /* H5_HAVE_GETTIMEOFDAY */
+            HDfprintf(file->logfp, "\n");
+#endif /* H5_HAVE_GETTIMEOFDAY */
+        } /* end if */
+    } /* end if */
 
     /*
      * Read data, being careful of interrupted system calls, partial results,
      * and the end of the file.
      */
-    while (size>0) {
+#ifdef H5_HAVE_GETTIMEOFDAY
+    if(file->fa.flags & H5FD_LOG_TIME_READ)
+        HDgettimeofday(&timeval_start, NULL);
+#endif /* H5_HAVE_GETTIMEOFDAY */
+    while(size > 0) {
         do {
             nbytes = HDread(file->fd, buf, size);
-        } while (-1==nbytes && EINTR==errno);
-        if (-1==nbytes) {
-            /* error */
-            file->pos = HADDR_UNDEF;
-            file->op = OP_UNKNOWN;
-            HGOTO_ERROR(H5E_IO, H5E_READERROR, FAIL, "file read failed")
-        }
-        if (0==nbytes) {
+        } while(-1 == nbytes && EINTR == errno);
+        if(-1 == nbytes) { /* error */
+            int myerrno = errno;
+            time_t mytime = HDtime(NULL);
+            HDoff_t myoffset = HDlseek(file->fd, (HDoff_t)0, SEEK_CUR);
+
+            if(file->fa.flags & H5FD_LOG_LOC_READ)
+                HDfprintf(file->logfp, "Error! Reading: %10a-%10a (%10Zu bytes)\n", orig_addr, (orig_addr + orig_size) - 1, orig_size);
+
+            HGOTO_ERROR(H5E_IO, H5E_READERROR, FAIL, "file read failed: time = %s, filename = '%s', file descriptor = %d, errno = %d, error message = '%s', buf = %p, size = %lu, offset = %llu", HDctime(&mytime), file->filename, file->fd, myerrno, HDstrerror(myerrno), buf, (unsigned long)size, (unsigned long long)myoffset);
+        } /* end if */
+        if(0 == nbytes) {
             /* end of file but not end of format address space */
             HDmemset(buf, 0, size);
-            size = 0;
-        }
-        assert(nbytes>=0);
-        assert((size_t)nbytes<=size);
-        H5_CHECK_OVERFLOW(nbytes,ssize_t,size_t);
+            break;
+        } /* end if */
+        HDassert(nbytes >= 0);
+        HDassert((size_t)nbytes <= size);
+        H5_CHECK_OVERFLOW(nbytes, ssize_t, size_t);
         size -= (size_t)nbytes;
-        H5_CHECK_OVERFLOW(nbytes,ssize_t,haddr_t);
+        H5_CHECK_OVERFLOW(nbytes, ssize_t, haddr_t);
         addr += (haddr_t)nbytes;
-        buf = (char*)buf + nbytes;
-    }
+        buf = (char *)buf + nbytes;
+    } /* end while */
+#ifdef H5_HAVE_GETTIMEOFDAY
+    if(file->fa.flags & H5FD_LOG_TIME_READ)
+        HDgettimeofday(&timeval_stop, NULL);
+#endif /* H5_HAVE_GETTIMEOFDAY */
+
+    /* Log information about the read */
+    if(file->fa.flags & H5FD_LOG_NUM_READ)
+        file->total_read_ops++;
+    if(file->fa.flags & H5FD_LOG_LOC_READ) {
+        HDfprintf(file->logfp, "%10a-%10a (%10Zu bytes) (%s) Read", orig_addr, (orig_addr + orig_size) - 1, orig_size, flavors[type]);
+
+        /* XXX: Verify the flavor information, if we have it? */
+
+#ifdef H5_HAVE_GETTIMEOFDAY
+        if(file->fa.flags & H5FD_LOG_TIME_READ) {
+            struct timeval timeval_diff;
+            double time_diff;
+
+            /* Calculate the elapsed gettimeofday time */
+            timeval_diff.tv_usec = timeval_stop.tv_usec - timeval_start.tv_usec;
+            timeval_diff.tv_sec = timeval_stop.tv_sec - timeval_start.tv_sec;
+            if(timeval_diff.tv_usec < 0) {
+                timeval_diff.tv_usec += 1000000;
+                timeval_diff.tv_sec--;
+            } /* end if */
+            time_diff = (double)timeval_diff.tv_sec + ((double)timeval_diff.tv_usec / (double)1000000.0);
+            HDfprintf(file->logfp, " (%f s)\n", time_diff);
+
+            /* Add to total read time */
+            file->total_read_time += time_diff;
+        } /* end if */
+        else
+            HDfprintf(file->logfp, "\n");
+#else /* H5_HAVE_GETTIMEOFDAY */
+        HDfprintf(file->logfp, "\n");
+#endif /* H5_HAVE_GETTIMEOFDAY */
+    } /* end if */
 
     /* Update current position */
     file->pos = addr;
     file->op = OP_READ;
 
 done:
+    if(ret_value < 0) {
+        /* Reset last file I/O information */
+        file->pos = HADDR_UNDEF;
+        file->op = OP_UNKNOWN;
+    } /* end if */
+
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5FD_log_read() */
 
 
 /*-------------------------------------------------------------------------
@@ -1137,13 +1256,10 @@ done:
  *		DXPL_ID.
  *
  * Return:	Success:	Zero
- *
  *		Failure:	-1
  *
  * Programmer:	Robb Matzke
  *              Thursday, July 29, 1999
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -1152,80 +1268,86 @@ static herr_t
 H5FD_log_write(H5FD_t *_file, H5FD_mem_t type, hid_t UNUSED dxpl_id, haddr_t addr,
 		size_t size, const void *buf)
 {
-    H5FD_log_t		*file = (H5FD_log_t*)_file;
+    H5FD_log_t		*file = (H5FD_log_t *)_file;
     ssize_t		nbytes;
-    size_t      orig_size=size; /* Save the original size for later */
-    haddr_t     orig_addr=addr;
+    size_t              orig_size = size; /* Save the original size for later */
+    haddr_t             orig_addr = addr;
 #ifdef H5_HAVE_GETTIMEOFDAY
-    struct timeval timeval_start,timeval_stop;
-    struct timeval timeval_diff;
+    struct timeval      timeval_start, timeval_stop;
 #endif /* H5_HAVE_GETTIMEOFDAY */
-    herr_t      ret_value=SUCCEED;       /* Return value */
+    herr_t              ret_value = SUCCEED;       /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_log_write, FAIL)
+    FUNC_ENTER_NOAPI_NOINIT(H5FD_log_write)
 
-    assert(file && file->pub.cls);
-    assert(size>0);
-    assert(buf);
+    HDassert(file && file->pub.cls);
+    HDassert(size > 0);
+    HDassert(buf);
 
     /* Verify that we are writing out the type of data we allocated in this location */
     if(file->flavor) {
-        assert(type==H5FD_MEM_DEFAULT || type==(H5FD_mem_t)file->flavor[addr] || (H5FD_mem_t)file->flavor[addr]==H5FD_MEM_DEFAULT);
-        assert(type==H5FD_MEM_DEFAULT || type==(H5FD_mem_t)file->flavor[(addr+size)-1] || (H5FD_mem_t)file->flavor[(addr+size)-1]==H5FD_MEM_DEFAULT);
+        HDassert(type == H5FD_MEM_DEFAULT || type == (H5FD_mem_t)file->flavor[addr] || (H5FD_mem_t)file->flavor[addr] == H5FD_MEM_DEFAULT);
+        HDassert(type == H5FD_MEM_DEFAULT || type == (H5FD_mem_t)file->flavor[(addr + size) - 1] || (H5FD_mem_t)file->flavor[(addr + size) - 1] == H5FD_MEM_DEFAULT);
     } /* end if */
 
     /* Check for overflow conditions */
-    if (HADDR_UNDEF==addr)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "addr undefined")
-    if (REGION_OVERFLOW(addr, size))
-        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow")
-    if (addr+size>file->eoa)
-        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow")
+    if(!H5F_addr_defined(addr))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "addr undefined, addr = %llu", (unsigned long long)addr)
+    if(REGION_OVERFLOW(addr, size))
+        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow, addr = %llu, size = %llu", (unsigned long long)addr, (unsigned long long)size)
+    if((addr + size) > file->eoa)
+        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow, addr = %llu, size = %llu, eoa = %llu", (unsigned long long)addr, (unsigned long long)size, (unsigned long long)file->eoa)
 
     /* Log the I/O information about the write */
-    if(file->fa.flags&H5FD_LOG_FILE_WRITE) {
-        size_t tmp_size=size;
-        haddr_t tmp_addr=addr;
+    if(file->fa.flags & H5FD_LOG_FILE_WRITE) {
+        size_t tmp_size = size;
+        haddr_t tmp_addr = addr;
 
-        assert((addr+size)<file->iosize);
-        while(tmp_size-->0)
+        /* Log information about the number of times these locations are read */
+        HDassert((addr + size) < file->iosize);
+        while(tmp_size-- > 0)
             file->nwrite[tmp_addr++]++;
     } /* end if */
 
     /* Seek to the correct location */
-    if (addr!=file->pos || OP_WRITE!=file->op) {
+    if(addr != file->pos || OP_WRITE != file->op) {
 #ifdef H5_HAVE_GETTIMEOFDAY
-        if(file->fa.flags&H5FD_LOG_TIME_SEEK)
-            HDgettimeofday(&timeval_start,NULL);
+        if(file->fa.flags & H5FD_LOG_TIME_SEEK)
+            HDgettimeofday(&timeval_start, NULL);
 #endif /* H5_HAVE_GETTIMEOFDAY */
-        if(file_seek(file->fd, (file_offset_t)addr, SEEK_SET)<0) {
-            file->pos = HADDR_UNDEF;
-            file->op = OP_UNKNOWN;
-            HGOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
-        } /* end if */
+        if(HDlseek(file->fd, (HDoff_t)addr, SEEK_SET) < 0)
+            HSYS_GOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
 #ifdef H5_HAVE_GETTIMEOFDAY
-        if(file->fa.flags&H5FD_LOG_TIME_SEEK)
-            HDgettimeofday(&timeval_stop,NULL);
+        if(file->fa.flags & H5FD_LOG_TIME_SEEK)
+            HDgettimeofday(&timeval_stop, NULL);
 #endif /* H5_HAVE_GETTIMEOFDAY */
 
         /* Log information about the seek */
-        if(file->fa.flags&H5FD_LOG_LOC_SEEK) {
+        if(file->fa.flags & H5FD_LOG_NUM_SEEK)
+            file->total_seek_ops++;
+        if(file->fa.flags & H5FD_LOG_LOC_SEEK) {
+            HDfprintf(file->logfp, "Seek: From %10a To %10a", file->pos, addr);
 #ifdef H5_HAVE_GETTIMEOFDAY
-            HDfprintf(file->logfp,"Seek: From %10a To %10a",file->pos,addr);
-            if(file->fa.flags&H5FD_LOG_TIME_SEEK) {
-                 /* Calculate the elapsed gettimeofday time */
-                 timeval_diff.tv_usec=timeval_stop.tv_usec-timeval_start.tv_usec;
-                 timeval_diff.tv_sec=timeval_stop.tv_sec-timeval_start.tv_sec;
-                 if(timeval_diff.tv_usec<0) {
-                     timeval_diff.tv_usec+=1000000;
-                     timeval_diff.tv_sec--;
-                 } /* end if */
-                HDfprintf(file->logfp," (%f s)\n",(double)timeval_diff.tv_sec+((double)timeval_diff.tv_usec/(double)1000000.0));
+            if(file->fa.flags & H5FD_LOG_TIME_SEEK) {
+                struct timeval timeval_diff;
+                double time_diff;
+
+                /* Calculate the elapsed gettimeofday time */
+                timeval_diff.tv_usec = timeval_stop.tv_usec - timeval_start.tv_usec;
+                timeval_diff.tv_sec = timeval_stop.tv_sec - timeval_start.tv_sec;
+                if(timeval_diff.tv_usec < 0) {
+                    timeval_diff.tv_usec += 1000000;
+                    timeval_diff.tv_sec--;
+                } /* end if */
+                time_diff = (double)timeval_diff.tv_sec + ((double)timeval_diff.tv_usec / (double)1000000.0);
+                HDfprintf(file->logfp, " (%f s)\n", time_diff);
+
+                /* Add to total seek time */
+                file->total_seek_time += time_diff;
             } /* end if */
             else
-                HDfprintf(file->logfp,"\n");
+                HDfprintf(file->logfp, "\n");
 #else /* H5_HAVE_GETTIMEOFDAY */
-            HDfprintf(file->logfp,"Seek: From %10a To %10a\n",file->pos,addr);
+            HDfprintf(file->logfp, "\n");
 #endif /* H5_HAVE_GETTIMEOFDAY */
         } /* end if */
     } /* end if */
@@ -1236,70 +1358,87 @@ H5FD_log_write(H5FD_t *_file, H5FD_mem_t type, hid_t UNUSED dxpl_id, haddr_t add
      */
 #ifdef H5_HAVE_GETTIMEOFDAY
     if(file->fa.flags&H5FD_LOG_TIME_WRITE)
-        HDgettimeofday(&timeval_start,NULL);
+        HDgettimeofday(&timeval_start, NULL);
 #endif /* H5_HAVE_GETTIMEOFDAY */
-    while (size>0) {
+    while(size > 0) {
         do {
             nbytes = HDwrite(file->fd, buf, size);
-        } while (-1==nbytes && EINTR==errno);
-        if (-1==nbytes) {
-            /* error */
-            file->pos = HADDR_UNDEF;
-            file->op = OP_UNKNOWN;
-            if(file->fa.flags&H5FD_LOG_LOC_WRITE)
-                HDfprintf(file->logfp,"Error! Writing: %10a-%10a (%10Zu bytes)\n",orig_addr,orig_addr+orig_size-1,orig_size);
-            HGOTO_ERROR(H5E_IO, H5E_WRITEERROR, FAIL, "file write failed")
-        }
-        assert(nbytes>0);
-        assert((size_t)nbytes<=size);
-        H5_CHECK_OVERFLOW(nbytes,ssize_t,size_t);
+        } while(-1 == nbytes && EINTR == errno);
+        if(-1 == nbytes) { /* error */
+            int myerrno = errno;
+            time_t mytime = HDtime(NULL);
+            HDoff_t myoffset = HDlseek(file->fd, (HDoff_t)0, SEEK_CUR);
+
+            if(file->fa.flags & H5FD_LOG_LOC_WRITE)
+                HDfprintf(file->logfp, "Error! Writing: %10a-%10a (%10Zu bytes)\n", orig_addr, (orig_addr + orig_size) - 1, orig_size);
+
+            HGOTO_ERROR(H5E_IO, H5E_WRITEERROR, FAIL, "file write failed: time = %s, filename = '%s', file descriptor = %d, errno = %d, error message = '%s', buf = %p, size = %lu, offset = %llu", HDctime(&mytime), file->filename, file->fd, myerrno, HDstrerror(myerrno), buf, (unsigned long)size, (unsigned long long)myoffset);
+        } /* end if */
+        HDassert(nbytes > 0);
+        HDassert((size_t)nbytes <= size);
+        H5_CHECK_OVERFLOW(nbytes, ssize_t, size_t);
         size -= (size_t)nbytes;
-        H5_CHECK_OVERFLOW(nbytes,ssize_t,haddr_t);
+        H5_CHECK_OVERFLOW(nbytes, ssize_t, haddr_t);
         addr += (haddr_t)nbytes;
-        buf = (const char*)buf + nbytes;
-    }
+        buf = (const char *)buf + nbytes;
+    } /* end while */
 #ifdef H5_HAVE_GETTIMEOFDAY
-    if(file->fa.flags&H5FD_LOG_TIME_WRITE)
-        HDgettimeofday(&timeval_stop,NULL);
+    if(file->fa.flags & H5FD_LOG_TIME_WRITE)
+        HDgettimeofday(&timeval_stop, NULL);
 #endif /* H5_HAVE_GETTIMEOFDAY */
 
     /* Log information about the write */
-    if(file->fa.flags&H5FD_LOG_LOC_WRITE) {
-        HDfprintf(file->logfp,"%10a-%10a (%10Zu bytes) (%s) Written",orig_addr,orig_addr+orig_size-1,orig_size,flavors[type]);
+    if(file->fa.flags & H5FD_LOG_NUM_WRITE)
+        file->total_write_ops++;
+    if(file->fa.flags & H5FD_LOG_LOC_WRITE) {
+        HDfprintf(file->logfp, "%10a-%10a (%10Zu bytes) (%s) Written", orig_addr, (orig_addr + orig_size) - 1, orig_size, flavors[type]);
 
         /* Check if this is the first write into a "default" section, grabbed by the metadata agregation algorithm */
-        if(file->fa.flags&H5FD_LOG_FLAVOR) {
-            if((H5FD_mem_t)file->flavor[orig_addr]==H5FD_MEM_DEFAULT)
-                HDmemset(&file->flavor[orig_addr],(int)type,orig_size);
+        if(file->fa.flags & H5FD_LOG_FLAVOR) {
+            if((H5FD_mem_t)file->flavor[orig_addr] == H5FD_MEM_DEFAULT)
+                HDmemset(&file->flavor[orig_addr], (int)type, orig_size);
         } /* end if */
 
 #ifdef H5_HAVE_GETTIMEOFDAY
-        if(file->fa.flags&H5FD_LOG_TIME_WRITE) {
-             /* Calculate the elapsed gettimeofday time */
-             timeval_diff.tv_usec=timeval_stop.tv_usec-timeval_start.tv_usec;
-             timeval_diff.tv_sec=timeval_stop.tv_sec-timeval_start.tv_sec;
-             if(timeval_diff.tv_usec<0) {
-                 timeval_diff.tv_usec+=1000000;
-                 timeval_diff.tv_sec--;
-             } /* end if */
-            HDfprintf(file->logfp," (%f s)\n",(double)timeval_diff.tv_sec+((double)timeval_diff.tv_usec/(double)1000000.0));
+        if(file->fa.flags & H5FD_LOG_TIME_WRITE) {
+            struct timeval timeval_diff;
+            double time_diff;
+
+            /* Calculate the elapsed gettimeofday time */
+            timeval_diff.tv_usec = timeval_stop.tv_usec - timeval_start.tv_usec;
+            timeval_diff.tv_sec = timeval_stop.tv_sec - timeval_start.tv_sec;
+            if(timeval_diff.tv_usec < 0) {
+                timeval_diff.tv_usec += 1000000;
+                timeval_diff.tv_sec--;
+            } /* end if */
+            time_diff = (double)timeval_diff.tv_sec + ((double)timeval_diff.tv_usec / (double)1000000.0);
+            HDfprintf(file->logfp, " (%f s)\n", time_diff);
+
+            /* Add to total write time */
+            file->total_write_time += time_diff;
         } /* end if */
         else
-            HDfprintf(file->logfp,"\n");
+            HDfprintf(file->logfp, "\n");
 #else /* H5_HAVE_GETTIMEOFDAY */
-        HDfprintf(file->logfp,"\n");
+        HDfprintf(file->logfp, "\n");
 #endif /* H5_HAVE_GETTIMEOFDAY */
     } /* end if */
 
     /* Update current position and eof */
     file->pos = addr;
     file->op = OP_WRITE;
-    if (file->pos>file->eof)
+    if(file->pos > file->eof)
         file->eof = file->pos;
 
 done:
+    if(ret_value < 0) {
+        /* Reset last file I/O information */
+        file->pos = HADDR_UNDEF;
+        file->op = OP_UNKNOWN;
+    } /* end if */
+
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5FD_log_write() */
 
 
 /*-------------------------------------------------------------------------
@@ -1318,22 +1457,53 @@ done:
  */
 /* ARGSUSED */
 static herr_t
-H5FD_log_truncate(H5FD_t *_file, hid_t UNUSED dxpl_id, unsigned UNUSED closing)
+H5FD_log_truncate(H5FD_t *_file, hid_t UNUSED dxpl_id, hbool_t UNUSED closing)
 {
-    H5FD_log_t	*file = (H5FD_log_t*)_file;
-    herr_t      ret_value=SUCCEED;       /* Return value */
+    H5FD_log_t	*file = (H5FD_log_t *)_file;
+    herr_t ret_value = SUCCEED;                 /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_log_truncate, FAIL)
+    FUNC_ENTER_NOAPI_NOINIT(H5FD_log_truncate)
 
-    if(file->eoa>file->eof) {
-        if(-1 == file_seek(file->fd, (file_offset_t)(file->eoa - 1), SEEK_SET))
-            HGOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
-        if(HDwrite(file->fd, "", (size_t)1) != 1)
-            HGOTO_ERROR(H5E_IO, H5E_WRITEERROR, FAIL, "file write failed")
+    HDassert(file);
+
+    /* Extend the file to make sure it's large enough */
+    if(!H5F_addr_eq(file->eoa, file->eof)) {
+#ifdef _WIN32
+        HFILE filehandle;   /* Windows file handle */
+        LARGE_INTEGER li;   /* 64-bit integer for SetFilePointer() call */
+
+        /* Map the posix file handle to a Windows file handle */
+        filehandle = _get_osfhandle(file->fd);
+
+        /* Translate 64-bit integers into form Windows wants */
+        /* [This algorithm is from the Windows documentation for SetFilePointer()] */
+        li.QuadPart = (LONGLONG)file->eoa;
+        (void)SetFilePointer((HANDLE)filehandle, li.LowPart, &li.HighPart, FILE_BEGIN);
+        if(SetEndOfFile((HANDLE)filehandle) == 0)
+            HGOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to extend file properly")
+#else /* _WIN32 */
+#ifdef H5_VMS
+        /* Reset seek offset to the beginning of the file, so that the file isn't
+         * re-extended later.  This may happen on Open VMS. */
+        if(-1 == HDlseek(file->fd, (HDoff_t)0, SEEK_SET))
+            HSYS_GOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
+#endif
+
+        if(-1 == HDftruncate(file->fd, (HDoff_t)file->eoa))
+            HSYS_GOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to extend file properly")
+#endif /* _WIN32 */
+
+        /* Log information about the truncate */
+        if(file->fa.flags & H5FD_LOG_NUM_TRUNCATE)
+            file->total_truncate_ops++;
+
+        /* Update the eof value */
         file->eof = file->eoa;
-        file->pos = file->eoa;
-        file->op = OP_WRITE;
-    }
+
+        /* Reset last file I/O information */
+        file->pos = HADDR_UNDEF;
+        file->op = OP_UNKNOWN;
+    } /* end if */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

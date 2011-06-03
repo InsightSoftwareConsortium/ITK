@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
     FILE *outfile = NULL;
     char *buffer = NULL;
     char argbuf[8];
-    unsigned int bytes = 0;
-    unsigned int idx = 0;
+    size_t bytes = 0;
+    size_t idx = 0;
     unsigned int lineidx = 0;
     unsigned int stripXlines = 3;
    

@@ -4188,7 +4188,7 @@ H5P_copy_prop_pclass(hid_t dst_id, hid_t src_id, const char *name)
         HDassert(old_dst_pclass == orig_dst_pclass);
 
         /* Close the previous class */
-        if(H5P_close_class(orig_dst_pclass) < 0)
+        if(H5P_close_class(old_dst_pclass) < 0)
             HGOTO_ERROR(H5E_PLIST, H5E_CANTCLOSEOBJ, FAIL, "unable to close original property class after substitution")
     } /* end if */
 
