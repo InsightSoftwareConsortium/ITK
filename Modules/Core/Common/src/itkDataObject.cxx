@@ -339,6 +339,7 @@ void
 DataObject
 ::UpdateOutputInformation()
 {
+
   if ( this->GetSource() )
     {
     this->GetSource()->UpdateOutputInformation();

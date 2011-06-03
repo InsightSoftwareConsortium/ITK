@@ -218,8 +218,11 @@ public:
 
 protected:
   ChangeInformationImageFilter();
-  ~ChangeInformationImageFilter() {}
+  //~ChangeInformationImageFilter() {} default implementation ok
+
   void PrintSelf(std::ostream & os, Indent indent) const;
+
+  virtual void VerifyInputInformation();
 
 private:
   ChangeInformationImageFilter(const Self &); //purposely not implemented

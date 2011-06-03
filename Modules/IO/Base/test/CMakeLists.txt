@@ -119,9 +119,15 @@ itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_VTK
     --compare ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
               ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest000.vtk
     itkImageFileWriterStreamingPastingCompressingTest1 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest vtk 0 0 0 0 0 0 0 0)
-itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_DCM
-      COMMAND ITK-IO-BaseTestDriver itkImageFileWriterStreamingPastingCompressingTest1
-              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest dcm 0 0 1 1 0 0 1 1)
+
+# JIRA ITK-182
+# This test has been disabled due to the above bug. It should be
+# enabled when it is resolved and to confirm the above test is
+# working.
+#
+#itk_add_test(NAME itkImageFileWriterStreamingPastingCompressingTest_DCM
+#      COMMAND ITK-IO-BaseTestDriver itkImageFileWriterStreamingPastingCompressingTest1
+#              ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest dcm 0 0 1 1 0 0 1 1)
 itk_add_test(NAME itkImageFileWriterStreamingTest1_1
       COMMAND ITK-IO-BaseTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd

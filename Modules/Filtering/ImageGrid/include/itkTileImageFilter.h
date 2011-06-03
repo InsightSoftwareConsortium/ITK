@@ -128,7 +128,8 @@ public:
 #endif
 protected:
   TileImageFilter();
-  ~TileImageFilter(){}
+  // ~TileImageFilter(){} default implementation ok
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateInputRequestedRegion();
@@ -136,6 +137,8 @@ protected:
   void GenerateOutputInformation();
 
   void  GenerateData();
+
+  virtual void VerifyInputInformation();
 
 private:
   TileImageFilter(const Self &); //purposely not implemented

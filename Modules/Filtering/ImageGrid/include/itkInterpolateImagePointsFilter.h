@@ -154,6 +154,11 @@ public:
   /** End concept checking */
 #endif
 protected:
+  InterpolateImagePointsFilter();
+  // ~InterpolateImagePointsFilter(){} default implemnetation ok
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Main function for calculating interpolated values at each coordinate
     * set.  Access is through the update() call. */
 
@@ -164,9 +169,7 @@ protected:
 
   void BeforeThreadedGenerateData();
 
-  InterpolateImagePointsFilter();
-  ~InterpolateImagePointsFilter(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void VerifyInputInformation();
 
 private:
 

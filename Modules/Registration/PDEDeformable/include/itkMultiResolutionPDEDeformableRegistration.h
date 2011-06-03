@@ -221,7 +221,8 @@ public:
 
 protected:
   MultiResolutionPDEDeformableRegistration();
-  ~MultiResolutionPDEDeformableRegistration() {}
+  // ~MultiResolutionPDEDeformableRegistration() {} default implementation ok
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Generate output data by performing the registration
@@ -249,6 +250,8 @@ protected:
   /** This method returns true to indicate that the registration should
    * terminate at the current resolution level. */
   virtual bool Halt();
+
+  virtual void VerifyInputInformation();
 
 private:
   MultiResolutionPDEDeformableRegistration(const Self &); //purposely not
