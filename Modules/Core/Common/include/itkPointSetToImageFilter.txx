@@ -19,6 +19,8 @@
 #define __itkPointSetToImageFilter_txx
 
 #include "itkPointSetToImageFilter.h"
+
+#include "itkBoundingBox.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 
@@ -153,8 +155,14 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   double   origin[InputPointSetDimension];
   SizeType size;
 
-  typedef typename InputPointSetType::BoundingBoxType BoundingBoxType;
-  const BoundingBoxType *bb = InputPointSet->GetBoundingBox();
+  typedef BoundingBox<
+    typename InputPointSetType::PointIdentifier,
+    InputPointSetDimension,
+    typename InputPointSetType::CoordRepType,
+    typename InputPointSetType::PointsContainer>  BoundingBoxType;
+  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+  bb->SetPoints( InputPointSet->GetPoints() );
+  bb->ComputeBoundingBox();
 
   for ( i = 0; i < InputPointSetDimension; i++ )
     {

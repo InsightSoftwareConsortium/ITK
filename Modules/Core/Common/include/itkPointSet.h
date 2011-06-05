@@ -30,7 +30,6 @@
 
 #include "itkDataObject.h"
 #include "itkDefaultStaticMeshTraits.h"
-#include "itkBoundingBox.h"
 #include <vector>
 #include <set>
 
@@ -90,7 +89,6 @@ struct GetPointSetDimension {
  * \wikiexample{PointSet/CreatePointSet,Create a PointSet}
  * \wikiexample{PointSet/ReadPointSet,Read a PointSet}
  * \wikiexample{PointSet/WritePointSet,Write a PointSet}
- * \wikiexample{PointSet/BoundingBox,Get the bounding box of a PointSet}
  * \endwiki
  */
 
@@ -129,17 +127,11 @@ public:
   itkStaticConstMacro(PointDimension, unsigned int,
                       TMeshTraits::PointDimension);
 
-  /** Used to support geometric operations on PointSet's such as locating
-   * points quickly, and intersecting a point with a ray. */
-  typedef BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension),
-                       CoordRepType, PointsContainer >   BoundingBoxType;
-
   /** Create types that are pointers to each of the container types. */
   typedef typename PointsContainer::Pointer         PointsContainerPointer;
   typedef typename PointsContainer::ConstPointer    PointsContainerConstPointer;
   typedef typename PointDataContainer::Pointer      PointDataContainerPointer;
   typedef typename PointDataContainer::ConstPointer PointDataContainerConstPointer;
-  typedef typename BoundingBoxType::Pointer         BoundingBoxPointer;
 
   /** Create types that are iterators for each of the container types. */
   typedef typename PointsContainer::ConstIterator    PointsContainerConstIterator;
@@ -163,9 +155,6 @@ protected:
    * identifier. */
   PointDataContainerPointer m_PointDataContainer;
 
-  /** The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh. The
-   * bounding box is used for searching, picking, display, etc. */
-  BoundingBoxPointer m_BoundingBox;
 public:
   /** PointSet-level operation interface. */
   void PassStructure(Self *inputPointSet);
@@ -199,15 +188,6 @@ public:
    * from it. */
   void SetPointData(PointIdentifier, PixelType);
   bool GetPointData(PointIdentifier, PixelType *) const;
-
-  /** Get the bounding box of the mesh. The methods return a pointer to
-   * the user-supplied bounding box as a convenience. */
-  const BoundingBoxType * GetBoundingBox(void) const;
-
-  /** Geometric operations convert between coordinate systems, perform
-   * interpolation, and locate points and cells. */
-  bool FindClosestPoint(CoordRepType * /*coords[PointDimension]*/,
-                        PointIdentifier *pointId);
 
   /** Methods to manage streaming. */
   virtual void UpdateOutputInformation();
