@@ -98,6 +98,14 @@ public:
   virtual void SetCameraIndex(int idx);
   virtual int GetCameraIndex();
 
+  /** Override Accessors to pass default values since VXL doesn't handle this
+   * type of meta data. */
+  virtual double GetSpacing(unsigned int i) const
+    { return 1.0; }
+  virtual double GetOrigin(unsigned int i) const
+    { return 0.0; }
+  virtual std::vector< double > GetDirection(unsigned int i) const
+    { return this->GetDefaultDirection(i); }
 
 
   /*-------- This part of the interfaces deals with writing data. ----- */
@@ -117,21 +125,6 @@ public:
   /** Set Writer Parameters */
   virtual void SetWriterParameters(double fps, std::vector<SizeValueType> dim, const char* fourCC,
                                    unsigned int nChannels, IOComponentType componentType);
-
-
-  /** Try to open a video
-   * Return true on success, false otherwise.
-   */
-  //virtual bool Open(const char* filename);
-
-  /** Try to close a video
-   * Return true if in case of a success, false for a faillure
-   * Intended to be overloaded by subclasses */
-  //virtual bool Close(const char* filename);
-
-  /** Return the state of the video (opened or not) **/
-  //virtual bool IsWriterOpen();
-
 
 protected:
   VXLVideoIO();
