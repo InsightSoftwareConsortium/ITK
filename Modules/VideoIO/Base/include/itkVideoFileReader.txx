@@ -92,6 +92,14 @@ VideoFileReader< TOutputVideoStream >
     }
 
   //
+  // Check that the desired dimension mateches that read from the file
+  //
+  if (m_VideoIO->GetNumberOfDimensions() != FrameType::ImageDimension)
+    {
+    itkExceptionMacro("Output dimension doesn't match dimension of read data");
+    }
+
+  //
   // Set up the largest possible temporal region for the output
   //
   TemporalRegion largestPossibleTemporalRegion;
@@ -110,15 +118,13 @@ VideoFileReader< TOutputVideoStream >
   // Set up the information for the output frames
   //
 
-  // Set spacing, origin, and direction
-  typename FrameType::PointType origin;
-  typename FrameType::SpacingType spacing;
-  typename FrameType::DirectionType direction;
-
   // Set up largest possible spatial region
   typename FrameType::RegionType region;
   typename FrameType::SizeType size;
   typename FrameType::IndexType start;
+  typename FrameType::PointType origin;
+  typename FrameType::SpacingType spacing;
+  typename FrameType::DirectionType direction;
   for (unsigned int i = 0; i < FrameType::ImageDimension; ++i)
     {
     size[i] = m_VideoIO->GetDimensions(i);
@@ -136,11 +142,9 @@ VideoFileReader< TOutputVideoStream >
   this->GetOutput()->SetAllBufferedSpatialRegions(region);
   this->GetOutput()->SetAllRequestedSpatialRegions(region);
 
-  /* TODO: Figure out how to handle spacing/origin/direction for frames
-  m_Output->SetSpacing(spacing);
-  m_Output->SetOrigin(origin);
-  m_Output->SetDirection(direction);
-  */
+  this->GetOutput()->SetAllFramesSpacing(spacing);
+  this->GetOutput()->SetAllFramesOrigin(origin);
+  this->GetOutput()->SetAllFramesDirection(direction);
 }
 
 //
@@ -221,9 +225,6 @@ VideoFileReader< TOutputVideoStream >
     }
   return m_VideoIO->GetFpS();
 }
-
-
-
 
 
 //-PROTECTED METHODS-----------------------------------------------------------
@@ -406,9 +407,6 @@ DoConvertBuffer(void* inputData, unsigned long frameNumber)
 #undef ITK_CONVERT_BUFFER_IF_BLOCK
 
 }
-
-
-
 
 } // end namespace itk
 
