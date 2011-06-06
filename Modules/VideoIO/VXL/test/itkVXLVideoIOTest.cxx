@@ -58,7 +58,6 @@ bool readCorrectly( itk::VXLVideoIO::Pointer vxlIO, vidl_ffmpeg_istream* stream,
   bool ret = true;
 
   // Set up the buffer for the frame data
-  //size_t bufferSize = vxlIO->GetDimensions(1)*vxlIO->GetD()*vxlIO->GetNumberOfComponents()*vxlIO->GetBytesPerPixel();
   size_t bufferSize = vxlIO->GetImageSizeInBytes();
   PixelType buffer[bufferSize];
 
@@ -75,6 +74,26 @@ bool readCorrectly( itk::VXLVideoIO::Pointer vxlIO, vidl_ffmpeg_istream* stream,
     std::cerr << "Frame buffer sizes don't match (" << vxlFrame->size()
               << " != " << bufferSize << ")" << std::endl;
     ret = false;
+    }
+
+  // Check meta data
+  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
+    {
+    if (vxlIO->GetSpacing(i) != 1.0)
+      {
+      std::cerr << "Frame Spacing not set correctly" << std::endl;
+      ret = false;
+      }
+    if (vxlIO->GetOrigin(i) != 0.0)
+      {
+      std::cerr << "Frame Origin not set correctly" << std::endl;
+      ret = false;
+      }
+    if (vxlIO->GetDirection(i) != vxlIO->GetDefaultDirection(i))
+      {
+      std::cerr << "Frame Direction not set correctly" << std::endl;
+      ret = false;
+      }
     }
 
   // Compare buffer contents

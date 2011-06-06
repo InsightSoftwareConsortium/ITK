@@ -56,6 +56,26 @@ bool readCorrectly( itk::OpenCVVideoIO::Pointer opencvIO, CvCapture* capture, un
 {
   bool ret = true;
 
+  // Check meta data
+  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
+    {
+    if (opencvIO->GetSpacing(i) != 1.0)
+      {
+      std::cerr << "Frame Spacing not set correctly" << std::endl;
+      ret = false;
+      }
+    if (opencvIO->GetOrigin(i) != 0.0)
+      {
+      std::cerr << "Frame Origin not set correctly" << std::endl;
+      ret = false;
+      }
+    if (opencvIO->GetDirection(i) != opencvIO->GetDefaultDirection(i))
+      {
+      std::cerr << "Frame Direction not set correctly" << std::endl;
+      ret = false;
+      }
+    }
+
   // Set up the buffer for the frame data
   size_t bufferSize = opencvIO->GetImageSizeInBytes();
   PixelType buffer[bufferSize];

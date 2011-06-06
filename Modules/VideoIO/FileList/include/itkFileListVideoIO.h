@@ -98,7 +98,10 @@ public:
   /** Override SetFileName to do parsing */
   virtual void SetFileName(const char* fileList);
 
-
+  /** Override Accessors to pass through to internal image reader */
+  virtual double GetSpacing(unsigned int i) const;
+  virtual double GetOrigin(unsigned int i) const;
+  virtual std::vector< double > GetDirection(unsigned int i) const;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 

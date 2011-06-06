@@ -360,6 +360,44 @@ bool FileListVideoIO::SetNextFrameToRead(unsigned long frameNumber)
 }
 
 
+//
+// GetSpacing
+//
+double FileListVideoIO::GetSpacing(unsigned int i) const
+{
+  if (!m_ReaderOpen)
+    {
+    itkExceptionMacro("Can't get Spacing without ImageIO open for reading");
+    }
+  return m_ImageIO->GetSpacing(i);
+}
+
+
+//
+// GetOrigin
+//
+double FileListVideoIO::GetOrigin(unsigned int i) const
+{
+  if (!m_ReaderOpen)
+    {
+    itkExceptionMacro("Can't get Origin without ImageIO open for reading");
+    }
+  return m_ImageIO->GetOrigin(i);
+}
+
+
+//
+// GetDirection
+//
+std::vector< double > FileListVideoIO::GetDirection(unsigned int i) const
+{
+  if (!m_ReaderOpen)
+    {
+    itkExceptionMacro("Can't get Direction without ImageIO open for reading");
+    }
+  return m_ImageIO->GetDirection(i);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Write related methods
