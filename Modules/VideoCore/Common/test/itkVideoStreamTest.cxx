@@ -247,6 +247,116 @@ int itkVideoStreamTest( int argc, char* argv[] )
       }
     }
 
+
+  //////
+  // Test meta data caching
+  //////
+
+  // Reset video1
+  video1 = VideoType::New();
+  itk::TemporalRegion tempReg = video1->GetLargestPossibleTemporalRegion();
+  if (tempReg.GetFrameStart() != 0 || tempReg.GetFrameDuration() != 0)
+    {
+    std::cerr << "video1 initialized with non-empty temporal region" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Set the cached meta-data for a non-buffered frame
+  FrameType::RegionType spatReg;
+  FrameType::RegionType::SizeType sz;
+  FrameType::RegionType::IndexType start;
+  FrameType::SpacingType space;
+  FrameType::PointType orgn;
+  FrameType::DirectionType direction;
+  sz[0] = 10;
+  sz[1] = 20;
+  start.Fill(0);
+  spatReg.SetSize(sz);
+  spatReg.SetIndex(start);
+  space[0] = 0.1;
+  space[1] = 0.5;
+  orgn[0] = 5.432;
+  orgn[1] = -23.4;
+  direction[0][0] = 1;
+  direction[0][1] = 2;
+  direction[1][0] = -2;
+  direction[1][1] = 1;
+  video1->SetFrameLargestPossibleSpatialRegion(0, spatReg);
+  video1->SetFrameRequestedSpatialRegion(0, spatReg);
+  video1->SetFrameBufferedSpatialRegion(0, spatReg);
+  video1->SetFrameSpacing(0, space);
+  video1->SetFrameOrigin(0, orgn);
+  video1->SetFrameDirection(0, direction);
+
+  // Check retrieval while still unbuffered
+  if (video1->GetFrameLargestPossibleSpatialRegion(0) != spatReg)
+    {
+    std::cerr << "video1 LargestPossibleSpatialRegion not cached correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (video1->GetFrameRequestedSpatialRegion(0) != spatReg)
+    {
+    std::cerr << "video1 RequestedSpatialRegion not cached correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (video1->GetFrameBufferedSpatialRegion(0) != spatReg)
+    {
+    std::cerr << "video1 BufferedSpatialRegion not cached correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (video1->GetFrameSpacing(0) != space)
+    {
+    std::cerr << "video1 Spacing not cached correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (video1->GetFrameOrigin(0) != orgn)
+    {
+    std::cerr << "video1 Origin not cached correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (video1->GetFrameDirection(0) != direction)
+    {
+    std::cerr << "video1 Direction not cached correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Check meta data after frame initialized
+  tempReg.SetFrameDuration(1);
+  video1->SetLargestPossibleTemporalRegion(tempReg);
+  video1->SetRequestedTemporalRegion(tempReg);
+  video1->InitializeEmptyFrames();
+  FrameType* frame = video1->GetFrame(0);
+  if (frame->GetLargestPossibleRegion() != spatReg)
+    {
+    std::cerr << "frame LargestPossibleRegion not initialized correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (frame->GetRequestedRegion() != spatReg)
+    {
+    std::cerr << "frame RequestedRegion not initialized correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (frame->GetBufferedRegion() != spatReg)
+    {
+    std::cerr << "frame BufferedRegion not initialized correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (frame->GetSpacing() != space)
+    {
+    std::cerr << "frame Spacing not initialized correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (frame->GetOrigin() != orgn)
+    {
+    std::cerr << "frame Origin not initialized correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (frame->GetDirection() != direction)
+    {
+    std::cerr << "frame Direction not initialized correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 
 }

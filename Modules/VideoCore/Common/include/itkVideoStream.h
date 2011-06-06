@@ -54,8 +54,11 @@ public:
   typedef typename FrameType::SizeType      SizeType;
   typedef typename FrameType::DirectionType DirectionType;
 
-  /** Type used to store map between frame numbers and spatial regions */
+  /** Types used to store map between frame numbers and frame meta data */
   typedef typename std::map<unsigned long, SpatialRegionType> SpatialRegionMapType;
+  typedef typename std::map<unsigned long, PointType>         PointMapType;
+  typedef typename std::map<unsigned long, DirectionType>     DirectionMapType;
+  typedef typename std::map<unsigned long, SpacingType>       SpacingMapType;
 
   /** Access the spacial dimensionality of the frames */
   itkStaticConstMacro(FrameDimension, unsigned int, FrameType::ImageDimension);
@@ -85,7 +88,7 @@ public:
   void SetFrameBuffer(BufferType* buffer);
 
 
-  /** Provide access to the internal caches for the spatial regions */
+  /** Provide access to the internal caches for the meta data */
   const SpatialRegionMapType & GetLargestPossibleSpatialRegionCache() const
     { return m_LargestPossibleSpatialRegionCache; }
   void SetLargestPossibleSpatialRegionCache(SpatialRegionMapType map)
@@ -100,6 +103,21 @@ public:
     { return m_BufferedSpatialRegionCache; }
   void SetBufferedSpatialRegionCache(SpatialRegionMapType map)
     { m_BufferedSpatialRegionCache = map; }
+
+  const SpacingMapType & GetSpacingCache() const
+    { return m_SpacingCache; }
+  void SetSpacingCache(SpacingMapType map)
+    { m_SpacingCache = map; }
+
+  const PointMapType & GetOriginCache() const
+    { return m_OriginCache; }
+  void SetOriginCache(PointMapType map)
+    { m_OriginCache = map; }
+
+  const DirectionMapType & GetDirectionCache() const
+    { return m_DirectionCache; }
+  void SetDirectionCache(DirectionMapType map)
+    { m_DirectionCache = map; }
 
   /** Set the contents of the frame at a given frame number */
   void SetFrame(unsigned long frameNumber, FrameType* frame);
@@ -129,6 +147,18 @@ public:
   const SpatialRegionType &
   GetFrameBufferedSpatialRegion(unsigned long frameNumber) const;
 
+  /** Get/Set the Spacing of a frame */
+  void SetFrameSpacing(unsigned long frameNumber, SpacingType spacing);
+  const SpacingType & GetFrameSpacing(unsigned long frameNumber) const;
+
+  /** Get/Set the Origin of a frame */
+  void SetFrameOrigin(unsigned long frameNumber, PointType origin);
+  const PointType & GetFrameOrigin(unsigned long frameNumber) const;
+
+  /** Get/Set the Direction of a frame */
+  void SetFrameDirection(unsigned long frameNumber, DirectionType direction);
+  const DirectionType & GetFrameDirection(unsigned long frameNumber) const;
+
   /** Set the LargestPossibleRegion on all frames. This assumes that all frames
    * in the buffered temporal region have been initialized (should be called
    * after InitializeEmptyFrames). */
@@ -143,6 +173,21 @@ public:
    * buffered temporal region have been initialized (should be called after
    * InitializeEmptyFrames). */
   void SetAllBufferedSpatialRegions(SpatialRegionType region);
+
+  /** Set the Spacing of all frames. This assumes that all frames in the
+   * buffered temporal region have been initialized (should be called after
+   * InitializeEmptyFrames). */
+  void SetAllFramesSpacing(SpacingType spacing);
+
+  /** Set the Origin of all frames. This assumes that all frames in the
+   * buffered temporal region have been initialized (should be called after
+   * InitializeEmptyFrames). */
+  void SetAllFramesOrigin(PointType origin);
+
+  /** Set the Direction of all frames. This assumes that all frames in the
+   * buffered temporal region have been initialized (should be called after
+   * InitializeEmptyFrames). */
+  void SetAllFramesDirection(DirectionType direction);
 
   /** Allocate memory for the buffered spatial region of each frame in the
    * buffered temporal region. This assumes that all frames in the buffered
@@ -199,6 +244,12 @@ protected:
   SpatialRegionMapType m_LargestPossibleSpatialRegionCache;
   SpatialRegionMapType m_RequestedSpatialRegionCache;
   SpatialRegionMapType m_BufferedSpatialRegionCache;
+
+  /** These maps cache a mapping between frame number and the meta data for
+   * origin, spacing, and direction */
+  SpacingMapType m_SpacingCache;
+  DirectionMapType m_DirectionCache;
+  PointMapType m_OriginCache;
 
 private:
 
