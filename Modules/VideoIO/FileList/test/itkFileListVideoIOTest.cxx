@@ -133,6 +133,26 @@ int test_FileListVideoIO ( char* input, char* nonVideoInput, char* output, char*
     PixelType buffer[bufferSize];
     fileListIO->Read(static_cast<void*>(buffer));
 
+    // Compare Spacing, Origin, Direction
+    for (unsigned int j = 0; j < ImageType::ImageDimension; ++j)
+      {
+      if (fileListIO->GetSpacing(j) != reader->GetImageIO()->GetSpacing(j))
+        {
+        std::cerr << "Spacing not read correctly" << std::endl;
+        ret = false;
+        }
+      if (fileListIO->GetOrigin(j) != reader->GetImageIO()->GetOrigin(j))
+        {
+        std::cerr << "Origin not read correctly" << std::endl;
+        ret = false;
+        }
+      if (fileListIO->GetDirection(j) != reader->GetImageIO()->GetDirection(j))
+        {
+        std::cerr << "Direction not read correctly" << std::endl;
+        ret = false;
+        }
+      }
+
     // Compare buffer contents
     if (memcmp(reinterpret_cast<void*>(buffer),
         reinterpret_cast<void*>(reader->GetOutput()->GetBufferPointer()), bufferSize))
