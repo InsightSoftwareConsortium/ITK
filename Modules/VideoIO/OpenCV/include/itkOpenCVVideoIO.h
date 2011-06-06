@@ -97,6 +97,14 @@ public:
   virtual void SetCameraIndex(int idx);
   virtual int GetCameraIndex();
 
+  /** Override Accessors to pass default values since OpenCV doesn't handle
+   * this type of meta data. */
+  virtual double GetSpacing(unsigned int i) const
+    { return 1.0; }
+  virtual double GetOrigin(unsigned int i) const
+    { return 0.0; }
+  virtual std::vector< double > GetDirection(unsigned int i) const
+    { return this->GetDefaultDirection(i); }
 
 
   /*-------- This part of the interfaces deals with writing data. ----- */
