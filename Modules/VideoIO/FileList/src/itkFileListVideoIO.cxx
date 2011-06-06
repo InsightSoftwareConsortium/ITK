@@ -53,10 +53,10 @@ FileListVideoIO::~FileListVideoIO()
 void FileListVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  if (!this->m_ImageIO.IsNull())
+  if (!m_ImageIO.IsNull())
     {
     os << indent << "Internal ImageIO:" << std::endl;
-    this->m_ImageIO->Print(os, indent.GetNextIndent());
+    m_ImageIO->Print(os, indent.GetNextIndent());
     }
 }
 
@@ -80,7 +80,7 @@ void FileListVideoIO::FinishReadingOrWriting()
 //
 double FileListVideoIO::GetPositionInMSec()
 {
-  return this->m_PositionInMSec;
+  return m_PositionInMSec;
 }
 
 //
@@ -88,7 +88,7 @@ double FileListVideoIO::GetPositionInMSec()
 //
 double FileListVideoIO::GetRatio()
 {
-  return this->m_Ratio;
+  return m_Ratio;
 }
 
 //
@@ -96,7 +96,7 @@ double FileListVideoIO::GetRatio()
 //
 unsigned long FileListVideoIO::GetFrameTotal()
 {
-  return this->m_FrameTotal;
+  return m_FrameTotal;
 }
 
 //
@@ -104,7 +104,7 @@ unsigned long FileListVideoIO::GetFrameTotal()
 //
 double FileListVideoIO::GetFpS()
 {
-  return this->m_FpS;
+  return m_FpS;
 }
 
 //
@@ -112,7 +112,7 @@ double FileListVideoIO::GetFpS()
 //
 unsigned long FileListVideoIO::GetCurrentFrame()
 {
-  return this->m_CurrentFrame;
+  return m_CurrentFrame;
 }
 
 //
@@ -120,7 +120,7 @@ unsigned long FileListVideoIO::GetCurrentFrame()
 //
 unsigned int FileListVideoIO::GetIFrameInterval()
 {
-  return this->m_IFrameInterval;
+  return m_IFrameInterval;
 }
 
 //
@@ -128,7 +128,7 @@ unsigned int FileListVideoIO::GetIFrameInterval()
 //
 unsigned long FileListVideoIO::GetLastIFrame()
 {
-  return this->m_LastIFrame;
+  return m_LastIFrame;
 }
 
 
@@ -137,10 +137,10 @@ unsigned long FileListVideoIO::GetLastIFrame()
 //
 void FileListVideoIO::SetFileName(const char* fileList)
 {
-  this->m_FileNames = SplitFileNames(fileList);
+  m_FileNames = SplitFileNames(fileList);
 
   // Set the number of frames
-  this->m_FrameTotal = this->m_FileNames.size();
+  m_FrameTotal = m_FileNames.size();
 }
 
 //
@@ -186,9 +186,9 @@ std::vector<std::string> FileListVideoIO::SplitFileNames(const char* fileList)
 //
 void FileListVideoIO::SetReadFromFile()
 {
-  if (!this->m_ReaderOpen && !this->m_WriterOpen)
+  if (!m_ReaderOpen && !m_WriterOpen)
     {
-    this->m_ReadType = ReadFromFile;
+    m_ReadType = ReadFromFile;
     }
   else
     {
@@ -260,50 +260,52 @@ bool FileListVideoIO::CanReadCamera( unsigned long cameraID )
 void FileListVideoIO::ReadImageInformation()
 {
   // Open from a file
-  if (this->m_ReadType == ReadFromFile)
+  if (m_ReadType == ReadFromFile)
     {
 
     // Make sure file can be read
-    std::string filename = this->m_FileNames[0];
+    std::string filename = m_FileNames[0];
     if (!this->CanReadFile(filename.c_str()))
       {
       itkExceptionMacro(<< "Cannot Read File: " << filename);
       }
 
+    // Open the internal IO (don't use local so that spacing, origin, direction
+    // can be retrieved)
+    if (!m_ReaderOpen)
+      {
+      this->OpenReader();
+      }
 
-    // Open the image file
-    ImageIOBase::Pointer localIO = ImageIOFactory::CreateImageIO(
-      this->m_FileNames[0].c_str(), ImageIOFactory::ReadMode);
-
-    localIO->SetFileName(this->m_FileNames[0].c_str());
-    localIO->ReadImageInformation();
+    m_ImageIO->SetFileName(m_FileNames[0].c_str());
+    m_ImageIO->ReadImageInformation();
 
     // No I-Frame issues to worry about
-    this->m_IFrameInterval = 1;
-    this->m_LastIFrame = this->m_FrameTotal-1;
+    m_IFrameInterval = 1;
+    m_LastIFrame = m_FrameTotal-1;
 
     // Fill Dimensions and Origin
-    this->m_Dimensions.clear();
-    this->m_Origin.clear();
-    this->SetNumberOfDimensions(localIO->GetNumberOfDimensions());
-    for (unsigned int i = 0; i < localIO->GetNumberOfDimensions(); ++i)
+    m_Dimensions.clear();
+    m_Origin.clear();
+    this->SetNumberOfDimensions(m_ImageIO->GetNumberOfDimensions());
+    for (unsigned int i = 0; i < m_ImageIO->GetNumberOfDimensions(); ++i)
       {
-      this->m_Dimensions.push_back(localIO->GetDimensions(i));
-      this->m_Origin.push_back(localIO->GetOrigin(i));
+      m_Dimensions.push_back(m_ImageIO->GetDimensions(i));
+      m_Origin.push_back(m_ImageIO->GetOrigin(i));
       }
 
     // Get other image info
-    this->m_NumberOfComponents = localIO->GetNumberOfComponents();
-    this->m_ComponentType = localIO->GetComponentType();
-    this->m_PixelType = localIO->GetPixelType();
+    m_NumberOfComponents = m_ImageIO->GetNumberOfComponents();
+    m_ComponentType = m_ImageIO->GetComponentType();
+    m_PixelType = m_ImageIO->GetPixelType();
 
     // Make up an arbitrary FpS of 1
-    this->m_FpS = 1;
+    m_FpS = 1;
 
     }
 
   // Open capture from a camera
-  else if (this->m_ReadType == ReadFromCamera)
+  else if (m_ReadType == ReadFromCamera)
     {
     itkExceptionMacro("FileListVideoIO cannot read from a camera");
     }
@@ -321,25 +323,25 @@ void FileListVideoIO::ReadImageInformation()
 void FileListVideoIO::Read(void *buffer)
 {
   // Make sure we've already called ReadImageInformation (dimensions are non-zero)
-  if (this->m_Dimensions[0] == 0)
+  if (m_Dimensions[0] == 0)
     {
     itkExceptionMacro(<< "Cannot read frame with zero dimension. May need to call ReadImageInformation");
     }
 
   // If video is not already open, open it and keep it open
-  if (!this->m_ReaderOpen)
+  if (!m_ReaderOpen)
     {
     this->OpenReader();
     }
 
   // Read the desired frame
-  this->m_ImageIO->SetFileName(this->m_FileNames[this->m_CurrentFrame]);
-  this->m_ImageIO->Read(buffer);
+  m_ImageIO->SetFileName(m_FileNames[m_CurrentFrame]);
+  m_ImageIO->Read(buffer);
 
   // Move on to the next frame
-  if (this->m_CurrentFrame < this->m_FrameTotal - 1)
+  if (m_CurrentFrame < m_FrameTotal - 1)
     {
-    this->m_CurrentFrame++;
+    m_CurrentFrame++;
     }
 }
 
@@ -350,12 +352,12 @@ void FileListVideoIO::Read(void *buffer)
 bool FileListVideoIO::SetNextFrameToRead(unsigned long frameNumber)
 {
 
-  if (frameNumber >= this->m_FrameTotal)
+  if (frameNumber >= m_FrameTotal)
     {
     return false;
     }
 
-  this->m_CurrentFrame = frameNumber;
+  m_CurrentFrame = frameNumber;
   return true;
 }
 
@@ -451,12 +453,12 @@ bool FileListVideoIO::CanWriteFile(const char* filename)
 //
 void FileListVideoIO::WriteImageInformation()
 {
-  if (!this->m_WriterOpen)
+  if (!m_WriterOpen)
     {
     this->OpenWriter();
     }
-  this->m_ImageIO->SetFileName(this->m_FileNames[this->m_CurrentFrame]);
-  this->m_ImageIO->WriteImageInformation();
+  m_ImageIO->SetFileName(m_FileNames[m_CurrentFrame]);
+  m_ImageIO->WriteImageInformation();
 }
 
 //
@@ -466,17 +468,17 @@ void FileListVideoIO::SetWriterParameters(double fps, std::vector<SizeValueType>
                                         const char* fourCC, unsigned int nChannels,
                                         IOComponentType componentType)
 {
-  this->m_Dimensions.clear();
-  this->m_Origin.clear();
-  this->m_NumberOfComponents = nChannels;
+  m_Dimensions.clear();
+  m_Origin.clear();
+  m_NumberOfComponents = nChannels;
   for (unsigned int i = 0; i < dim.size(); ++i)
     {
-    this->m_Dimensions.push_back(dim[i]);
-    this->m_Origin.push_back(0);
+    m_Dimensions.push_back(dim[i]);
+    m_Origin.push_back(0);
     }
 
   // Set FpS even though we're not going to use it
-  this->m_FpS = fps;
+  m_FpS = fps;
 
 }
 
@@ -487,34 +489,34 @@ void FileListVideoIO::Write(const void *buffer)
 {
 
   // Make sure parameters are specified
-  if (this->m_Dimensions.size() == 0)
+  if (m_Dimensions.size() == 0)
     {
     itkExceptionMacro("Can not write with empty parameters. You probably need to call SetWriterParameters");
     }
 
   // If the writer isn't open yet, open it
-  if (!this->m_WriterOpen)
+  if (!m_WriterOpen)
     {
     this->OpenWriter();
     }
 
   // Set the properties to the ImageIO
-  this->m_ImageIO->SetNumberOfDimensions(this->m_Dimensions.size());
-  for (unsigned int i = 0; i < this->m_Dimensions.size(); ++i)
+  m_ImageIO->SetNumberOfDimensions(m_Dimensions.size());
+  for (unsigned int i = 0; i < m_Dimensions.size(); ++i)
     {
-    this->m_ImageIO->SetDimensions(i, this->m_Dimensions[i]);
-    this->m_ImageIO->SetOrigin(i, this->m_Origin[i]);
+    m_ImageIO->SetDimensions(i, m_Dimensions[i]);
+    m_ImageIO->SetOrigin(i, m_Origin[i]);
     }
-  this->m_ImageIO->SetNumberOfComponents(this->m_NumberOfComponents);
+  m_ImageIO->SetNumberOfComponents(m_NumberOfComponents);
 
   // Write with the ImageIO
-  this->m_ImageIO->SetFileName(this->m_FileNames[this->m_CurrentFrame]);
-  this->m_ImageIO->Write(buffer);
+  m_ImageIO->SetFileName(m_FileNames[m_CurrentFrame]);
+  m_ImageIO->Write(buffer);
 
   // Move to the next frame
-  if (this->m_CurrentFrame < this->m_FrameTotal-1)
+  if (m_CurrentFrame < m_FrameTotal-1)
     {
-    this->m_CurrentFrame++;
+    m_CurrentFrame++;
     }
 
 }
@@ -529,38 +531,38 @@ void FileListVideoIO::Write(const void *buffer)
 //
 void FileListVideoIO::OpenReader()
 {
-  if (this->m_ReaderOpen)
+  if (m_ReaderOpen)
     {
     itkExceptionMacro("Can not open reader while video is already open for reading");
     }
 
-  if (this->m_WriterOpen)
+  if (m_WriterOpen)
     {
     itkExceptionMacro("Can not open reader while video is already open for writing");
     }
 
   // Make sure FileNames have been specified
-  if (this->m_FileNames.size() == 0)
+  if (m_FileNames.size() == 0)
     {
     itkExceptionMacro("Can not open reader without file names set");
     }
 
   // If neither reader nor writer is currently open, open the reader
-  if (this->m_ReadType == ReadFromFile)
+  if (m_ReadType == ReadFromFile)
     {
     // Use the ImageIOFactory to instantiate a working ImageIO
-    this->m_ImageIO = ImageIOFactory::CreateImageIO(
-      this->m_FileNames[0].c_str(), ImageIOFactory::ReadMode);
-    if (!this->m_ImageIO.IsNull())
+    m_ImageIO = ImageIOFactory::CreateImageIO(
+      m_FileNames[0].c_str(), ImageIOFactory::ReadMode);
+    if (!m_ImageIO.IsNull())
       {
-      this->m_ReaderOpen = true;
+      m_ReaderOpen = true;
       }
     else
       {
       itkExceptionMacro("Video failed to open");
       }
     }
-  else if (this->m_ReadType == ReadFromCamera)
+  else if (m_ReadType == ReadFromCamera)
     {
     itkExceptionMacro("FileListVideoIO doesn't support reading from camera");
     }
@@ -571,28 +573,28 @@ void FileListVideoIO::OpenReader()
 //
 void FileListVideoIO::OpenWriter()
 {
-  if (this->m_WriterOpen)
+  if (m_WriterOpen)
     {
     itkExceptionMacro("Can not open writer while video is already open for writing");
     }
 
-  if (this->m_ReaderOpen)
+  if (m_ReaderOpen)
     {
     itkExceptionMacro("Can not open writer while video is already open for reading");
     }
 
   // Make sure FileNames have been specified
-  if (this->m_FileNames.size() == 0)
+  if (m_FileNames.size() == 0)
     {
     itkExceptionMacro("Can not open reader without file names set");
     }
 
   // If neither reader nor writer is currently open, open the writer
-  this->m_ImageIO = ImageIOFactory::CreateImageIO(
-    this->m_FileNames[0].c_str(), ImageIOFactory::WriteMode);
-  if (!this->m_ImageIO.IsNull())
+  m_ImageIO = ImageIOFactory::CreateImageIO(
+    m_FileNames[0].c_str(), ImageIOFactory::WriteMode);
+  if (!m_ImageIO.IsNull())
     {
-    this->m_WriterOpen = true;
+    m_WriterOpen = true;
     }
   else
     {
@@ -605,29 +607,29 @@ void FileListVideoIO::OpenWriter()
 //
 void FileListVideoIO::ResetMembers()
 {
-  this->m_ImageIO = NULL;
-  this->m_FileNames.clear();
-  this->m_WriterOpen = false;
-  this->m_ReaderOpen = false;
-  this->m_FpS = 0;
-  this->m_Dimensions.clear();
-  this->m_FrameTotal = 0;
-  this->m_CurrentFrame = 0;
-  this->m_NumberOfComponents = 0;
-  this->m_IFrameInterval = 0;
-  this->m_LastIFrame = 0;
+  m_ImageIO = NULL;
+  m_FileNames.clear();
+  m_WriterOpen = false;
+  m_ReaderOpen = false;
+  m_FpS = 0;
+  m_Dimensions.clear();
+  m_FrameTotal = 0;
+  m_CurrentFrame = 0;
+  m_NumberOfComponents = 0;
+  m_IFrameInterval = 0;
+  m_LastIFrame = 0;
 
   // Default to reading from a file
-  this->m_ReadType = ReadFromFile;
+  m_ReadType = ReadFromFile;
 
   // Members from ImageIOBase
-  this->m_PixelType = SCALAR;
-  this->m_ComponentType = UCHAR;
+  m_PixelType = SCALAR;
+  m_ComponentType = UCHAR;
   this->SetNumberOfDimensions(2);
-  this->m_Spacing[0] = 1.0;
-  this->m_Spacing[1] = 1.0;
-  this->m_Origin[0] = 0.0;
-  this->m_Origin[1] = 0.0;
+  m_Spacing[0] = 1.0;
+  m_Spacing[1] = 1.0;
+  m_Origin[0] = 0.0;
+  m_Origin[1] = 0.0;
 }
 
 
