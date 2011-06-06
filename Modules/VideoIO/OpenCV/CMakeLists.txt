@@ -1,6 +1,5 @@
 project(Video-IO-OpenCV)
 
-set(CMAKE_MODULE_PATH ${Video-Core-OpenCV_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 find_package ( OpenCV REQUIRED )
 
 set(Video-IO-OpenCV_INCLUDE_DIRS ${OpenCV_INCLUDE_DIRS} )
