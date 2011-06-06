@@ -521,6 +521,11 @@ set(ITK_CONFIG_TARGETS_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/I
 set(ITK_CONFIG_MODULE_API_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKModuleAPI.cmake")
 configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
 
+#----------------------------------------------------------------------------
+# Configure maintenance scripts
+configure_file(Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh.in
+  Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh @ONLY)
+
 #-----------------------------------------------------------------------------
 configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
 
