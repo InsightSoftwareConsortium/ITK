@@ -197,13 +197,12 @@ private:
  * The NumberOfLayers parameter controls the number of layers inside and
  * outside of the active set (see description above).  The sparse field will
  * contain 2*NumberOfLayers+1 lists of indices: the active set and city block
- * neighbors inside and outside the active set.   It is important to
+ * neighbors inside and outside the active set. It is important to
  * specify enough layers to cover the footprint of your calculations.
- * Curvature calculations in three dimensions, for example, require 3 layers.
- * In two dimensions, a minimum of 2 layers is probably required.  Higher order
- * derivatives and other geometrical measures may require more layers.  If too
- * few layers are specified, then the calculations will pull values from the
- * background, which may consist of arbitrary or random values.
+ * Curvature calculations require a minimum of 2 layers. Higher order
+ * derivatives and other geometrical measures may require more layers.
+ * If too few layers are specified, then the calculations will pull values
+ * from the background, which may consist of arbitrary or random values.
  *
  * \par
  * The IsoSurfaceValue indicates which value in the input represents the
