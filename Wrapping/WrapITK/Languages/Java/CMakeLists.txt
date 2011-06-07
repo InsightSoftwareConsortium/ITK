@@ -166,7 +166,7 @@ macro(END_WRAP_LIBRARY_JAVA)
   endif(WRAP_ITK_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
 
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  install(TARGETS "${lib}" DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/lib")
+  install(TARGETS "${lib}" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Java")
 
   if(EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
@@ -237,7 +237,7 @@ macro(END_WRAP_LIBRARY_JAVA)
       COMMENT "Creating java archive: ${java_jar_file_name}"
       )
     add_custom_target(${lib_jar} ALL DEPENDS ${java_bin_file} ${java_jar_file_path})
-    WRAP_ITK_INSTALL(/lib ${java_jar_file_path})
+    WRAP_ITK_BINDINGS_INSTALL(/Java ${java_jar_file_path})
 
     add_dependencies(${lib_jar} ${lib})
     if(NOT EXTERNAL_WRAP_ITK_PROJECT)

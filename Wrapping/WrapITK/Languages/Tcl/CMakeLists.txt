@@ -113,7 +113,7 @@ macro(END_WRAP_LIBRARY_TCL)
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl
     DEPENDS ${DEPS} ${WRAP_ITK_TCL_LIBRARY_DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${WRAPPER_LIBRARY_NAME}_ext.i ${SWIG_EXECUTABLE}
   )
-  WRAP_ITK_INSTALL("/lib" "${tcl_file}")
+  WRAP_ITK_BINDINGS_INSTALL("/Tcl" "${tcl_file}")
 
   # build all the c++ files from this module in a common lib
   set(lib ${WRAPPER_LIBRARY_NAME}Tcl)
@@ -123,7 +123,7 @@ macro(END_WRAP_LIBRARY_TCL)
     target_link_libraries(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
   endif(WRAP_ITK_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKTclBase)
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  install(TARGETS "${lib}" DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/lib")
+  install(TARGETS "${lib}" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
@@ -342,18 +342,18 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     endif(CMAKE_CONFIGURATION_TYPES)
 
     # configure pkgIndex.tcl for the installed tree
-    set(WRAP_ITK_TCL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/lib")
+    set(WRAP_ITK_TCL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
     configure_file("${WRAP_ITK_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
                    "${WRAP_ITK_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl"
                   @ONLY IMMEDIATE)
-    WRAP_ITK_INSTALL(/Tcl "${WRAP_ITK_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl")
+    WRAP_ITK_BINDINGS_INSTALL(/Tcl "${WRAP_ITK_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl")
 
     #install the actual executable
     install(FILES ${WRAP_ITK_TCL_SOURCE_DIR}/itkinteraction.tcl
                   ${WRAP_ITK_TCL_SOURCE_DIR}/itktesting.tcl
                   ${WRAP_ITK_TCL_SOURCE_DIR}/itkdata.tcl
                   ${WRAP_ITK_TCL_SOURCE_DIR}/itkutils.tcl
-            DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Tcl"
+            DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl"
            )
 
   endmacro(END_WRAP_LIBRARIES_TCL)
