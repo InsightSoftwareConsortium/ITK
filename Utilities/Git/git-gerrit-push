@@ -17,7 +17,7 @@
 #
 #==========================================================================*/
 
-USAGE="[<remote>] [--no-topic] [--no-data] [--keep-data] [--]"
+USAGE="[<remote>] [--no-topic] [--no-data] [--keep-data] [--dry-run] [--]"
 OPTIONS_SPEC=
 SUBDIRECTORY_OK=Yes
 . "$(git --exec-path)/git-sh-setup"
@@ -64,6 +64,7 @@ data_commit() {
 }
 
 data_remove() {
+  test -z "$dry_run" || return 0
   git ls-tree -r "$1" |
   while read mode type obj name; do
     # Remove ref only if it still has the data we expected.
@@ -113,6 +114,7 @@ refspecs=''
 keep_data=''
 no_topic=''
 no_data=''
+dry_run=''
 
 # Parse command line options.
 while test $# != 0; do
@@ -120,6 +122,7 @@ while test $# != 0; do
     --keep-data) keep_data=1 ;;
     --no-topic)  no_topic=1 ;;
     --no-data)   no_data=1 ;;
+    --dry-run)   dry_run=--dry-run ;;
     --) shift; break ;;
     -*) usage ;;
     *) test -z "$remote" || usage ; remote="$1" ;;
@@ -167,7 +170,7 @@ fi
 
 # Push.  Save output and exit code.
 echo "Pushing to $remote"
-push_stdout=$(git push --porcelain "$remote" $refspecs); push_exit=$?
+push_stdout=$(git push --porcelain $dry_run "$remote" $refspecs); push_exit=$?
 echo "$push_stdout"
 
 # Check if data were pushed successfully.
