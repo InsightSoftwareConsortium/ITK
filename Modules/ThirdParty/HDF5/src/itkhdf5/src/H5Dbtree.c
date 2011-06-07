@@ -822,7 +822,7 @@ done:
  */
 static herr_t
 H5D_btree_idx_init(const H5D_chk_idx_info_t *idx_info, const H5S_t UNUSED *space,
-    haddr_t UNUSED dset_ohdr_addr)
+    haddr_t dset_ohdr_addr)
 {
     herr_t      ret_value = SUCCEED;       /* Return value */
 
@@ -835,6 +835,8 @@ H5D_btree_idx_init(const H5D_chk_idx_info_t *idx_info, const H5S_t UNUSED *space
     HDassert(idx_info->layout);
     HDassert(idx_info->storage);
     HDassert(H5F_addr_defined(dset_ohdr_addr));
+
+    idx_info->storage->u.btree.dset_ohdr_addr = dset_ohdr_addr;
 
     /* Allocate the shared structure */
     if(H5D_btree_shared_create(idx_info->f, idx_info->storage, idx_info->layout->ndims) < 0)

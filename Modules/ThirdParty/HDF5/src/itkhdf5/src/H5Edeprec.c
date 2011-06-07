@@ -370,6 +370,11 @@ done:
  * Programmer:	Raymond Lu
  *              Sep 16, 2003
  *
+ * Modification:Raymond Lu
+ *              4 October 2010
+ *              If the printing function isn't the default H5Eprint1 or 2, 
+ *              and H5Eset_auto2 has been called to set the new style 
+ *              printing function, a call to H5Eget_auto1 should fail.
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -389,8 +394,13 @@ H5Eget_auto1(H5E_auto1_t *func, void **client_data)
     /* Get the automatic error reporting information */
     if(H5E_get_auto(estack, &auto_op, client_data) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTGET, FAIL, "can't get automatic error info")
+
+    /* Fail if the printing function isn't the default(user-set) and set through H5Eset_auto2 */
+    if(!auto_op.is_default && auto_op.vers == 2)
+        HGOTO_ERROR(H5E_ERROR, H5E_CANTGET, FAIL, "wrong API function, H5Eset_auto2 has been called")
+
     if(func)
-        *func = auto_op.u.func1;
+        *func = auto_op.func1;
 
 done:
     FUNC_LEAVE_API(ret_value)
@@ -418,6 +428,9 @@ done:
  * Programmer:	Raymond Lu
  *              Sep 16, 2003
  *
+ * Modification:Raymond Lu
+ *              4 October 2010
+ *              If the FUNC is H5Eprint2, put the IS_DEFAULT flag on.
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -434,9 +447,18 @@ H5Eset_auto1(H5E_auto1_t func, void *client_data)
     if(NULL == (estack = H5E_get_my_stack())) /*lint !e506 !e774 Make lint 'constant value Boolean' in non-threaded case */
         HGOTO_ERROR(H5E_ERROR, H5E_CANTGET, FAIL, "can't get current error stack")
 
+    /* Get the automatic error reporting information */
+    if(H5E_get_auto(estack, &auto_op, NULL) < 0)
+        HGOTO_ERROR(H5E_ERROR, H5E_CANTGET, FAIL, "can't get automatic error info")
+
     /* Set the automatic error reporting information */
     auto_op.vers = 1;
-    auto_op.u.func1 = func;
+    if(func != auto_op.func1_default)
+        auto_op.is_default = FALSE;
+    else
+        auto_op.is_default = TRUE;
+    auto_op.func1 = func;
+
     if(H5E_set_auto(estack, &auto_op, client_data) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTSET, FAIL, "can't set automatic error info")
 

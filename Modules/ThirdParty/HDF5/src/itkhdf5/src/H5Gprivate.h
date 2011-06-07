@@ -141,11 +141,6 @@ typedef struct {
     H5G_name_t *path;                   /* Group hierarchy path              */
 } H5G_loc_t;
 
-/* Callback information for copying groups */
-typedef struct H5G_copy_file_ud_t {
-    H5O_copy_file_ud_common_t common;   /* Shared information (must be first) */
-} H5G_copy_file_ud_t;
-
 typedef struct H5G_t H5G_t;
 typedef struct H5G_shared_t H5G_shared_t;
 typedef struct H5G_entry_t H5G_entry_t;
@@ -154,15 +149,14 @@ typedef struct H5G_entry_t H5G_entry_t;
  * Library prototypes...  These are the ones that other packages routinely
  * call.
  */
-H5_DLL herr_t H5G_mkroot(H5F_t *f, hid_t dxpl_id, hbool_t create_root);
 H5_DLL struct H5O_loc_t *H5G_oloc(H5G_t *grp);
+H5_DLL herr_t H5G_mkroot(H5F_t *f, hid_t dxpl_id, hbool_t create_root);
+H5_DLL herr_t H5G_root_free(H5G_t *grp);
 H5_DLL H5G_t *H5G_rootof(H5F_t *f);
 H5_DLL H5G_name_t * H5G_nameof(H5G_t *grp);
 H5_DLL H5F_t *H5G_fileof(H5G_t *grp);
-H5_DLL herr_t H5G_free(H5G_t *grp);
 H5_DLL H5G_t *H5G_open(const H5G_loc_t *loc, hid_t dxpl_id);
 H5_DLL herr_t H5G_close(H5G_t *grp);
-H5_DLL herr_t H5G_free_grp_name(H5G_t *grp);
 H5_DLL herr_t H5G_get_shared_count(H5G_t *grp);
 H5_DLL herr_t H5G_mount(H5G_t *grp);
 H5_DLL hbool_t H5G_mounted(H5G_t *grp);
@@ -196,8 +190,8 @@ H5_DLL herr_t H5G_name_replace(const struct H5O_link_t *lnk, H5G_names_op_t op,
 H5_DLL herr_t H5G_name_reset(H5G_name_t *name);
 H5_DLL herr_t H5G_name_copy(H5G_name_t *dst, const H5G_name_t *src, H5_copy_depth_t depth);
 H5_DLL herr_t H5G_name_free(H5G_name_t *name);
-H5_DLL ssize_t H5G_get_name(hid_t id, char *name/*out*/, size_t size,
-    hid_t lapl_id, hid_t dxpl_id);
+H5_DLL ssize_t H5G_get_name(const H5G_loc_t *loc, char *name/*out*/, size_t size,
+    hbool_t *cached, hid_t lapl_id, hid_t dxpl_id);
 H5_DLL ssize_t H5G_get_name_by_addr(hid_t fid, hid_t lapl_id, hid_t dxpl_id,
     const struct H5O_loc_t *loc, char* name, size_t size);
 

@@ -173,7 +173,7 @@ H5G_loc(hid_t loc_id, H5G_loc_t *loc)
                     HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid file ID")
 
                 /* Construct a group location for root group of the file */
-                if(H5G_loc_root(f, loc) < 0)
+                if(H5G_root_loc(f, loc) < 0)
                     HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "unable to create location for file")
             } /* end case */
             break;
@@ -256,56 +256,6 @@ H5G_loc(hid_t loc_id, H5G_loc_t *loc)
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G_loc() */
-
-
-/*-------------------------------------------------------------------------
- * Function:	H5G_loc_root
- *
- * Purpose:	Construct a "group location" for the root group of a file
- *
- * Return:	Success:	Non-negative
- * 		Failure:	Negative
- *
- * Programmer:	Quincey Koziol
- *		koziol@hdfgroup.org
- *		Mar  5 2007
- *
- *-------------------------------------------------------------------------
- */
-herr_t
-H5G_loc_root(H5F_t *f, H5G_loc_t *loc)
-{
-    H5G_t *root_grp;                    /* Pointer to root group's info */
-    herr_t ret_value = SUCCEED;         /* Return value */
-
-    FUNC_ENTER_NOAPI(H5G_loc_root, FAIL)
-
-    HDassert(f);
-    HDassert(loc);
-
-    /* Retrieve the root group for the file */
-    root_grp = H5G_rootof(f);
-    HDassert(root_grp);
-
-    /* Build the group location for the root group */
-    if(NULL == (loc->oloc = H5G_oloc(root_grp)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to get object location for root group")
-    if(NULL == (loc->path = H5G_nameof(root_grp)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to get path for root group")
-
-    /* Patch up root group's object location to reflect this file */
-    /* (Since the root group info is only stored once for files which
-     *  share an underlying low-level file)
-     */
-    /* (but only for non-mounted files) */
-    if(!H5F_is_mount(f)) {
-        loc->oloc->file = f;
-        loc->oloc->holding_file = FALSE;
-    } /* end if */
-
-done:
-    FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5G_loc_root() */
 
 
 /*-------------------------------------------------------------------------
@@ -609,7 +559,7 @@ done:
  */
 herr_t
 H5G_loc_insert(H5G_loc_t *grp_loc, const char *name, H5G_loc_t *obj_loc,
-    hid_t dxpl_id)
+    H5O_type_t obj_type, const void *crt_info, hid_t dxpl_id)
 {
     H5O_link_t  lnk;                    /* Link for object to insert */
     herr_t      ret_value = SUCCEED;    /* Return value */
@@ -631,7 +581,8 @@ H5G_loc_insert(H5G_loc_t *grp_loc, const char *name, H5G_loc_t *obj_loc,
     lnk.u.hard.addr = obj_loc->oloc->addr;
 
     /* Insert new group into current group's symbol table */
-    if(H5G_obj_insert(grp_loc->oloc, name, &lnk, TRUE, dxpl_id) < 0)
+    if(H5G_obj_insert(grp_loc->oloc, name, &lnk, TRUE, obj_type, crt_info,
+            dxpl_id) < 0)
         HGOTO_ERROR(H5E_SYM, H5E_CANTINSERT, FAIL, "unable to insert object")
 
     /* Set the name of the object location */
@@ -946,7 +897,7 @@ done:
  * Purpose:	Retrieve the information for an object from a group location
  *              and path to that object
  *
- * Return:	Success:	Number of bytes in the comment including the
+ * Return:	Success:	Number of bytes in the comment excluding the
  *				null terminator.  Zero if the object has no
  *				comment.
  *

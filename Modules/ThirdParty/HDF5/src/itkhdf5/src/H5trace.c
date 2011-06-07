@@ -1935,6 +1935,10 @@ H5_trace(const double *returning, const char *func, const char *type, ...)
                                     fprintf(out, "H5T_ORDER_VAX");
                                     break;
 
+                                case H5T_ORDER_MIXED:
+                                    fprintf(out, "H5T_ORDER_MIXED");
+                                    break;
+
                                 case H5T_ORDER_NONE:
                                     fprintf(out, "H5T_ORDER_NONE");
                                     break;

@@ -22,7 +22,6 @@
 /* Public header files needed by this file */
 #include "H5public.h"
 #include "H5ACpublic.h"
-#include "H5Cpublic.h"
 #include "H5Ipublic.h"
 
 /* When this header is included from a private header, don't make calls to H5check() */
@@ -134,6 +133,10 @@ typedef enum H5F_libver_t {
     H5F_LIBVER_LATEST           /* Use the latest possible format available for storing objects*/
 } H5F_libver_t;
 
+/* Define file format version for 1.8 to prepare for 1.10 release.  
+ * (Not used anywhere now)*/
+#define H5F_LIBVER_18 H5F_LIBVER_LATEST
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -170,6 +173,7 @@ H5_DLL herr_t H5Fget_mdc_size(hid_t file_id,
 H5_DLL herr_t H5Freset_mdc_hit_rate_stats(hid_t file_id);
 H5_DLL ssize_t H5Fget_name(hid_t obj_id, char *name, size_t size);
 H5_DLL herr_t H5Fget_info(hid_t obj_id, H5F_info_t *bh_info);
+H5_DLL herr_t H5Fclear_elink_file_cache(hid_t file_id);
 
 #ifdef __cplusplus
 }

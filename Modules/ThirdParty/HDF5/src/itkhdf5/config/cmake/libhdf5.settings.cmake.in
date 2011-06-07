@@ -65,4 +65,4 @@ Clear file buffers before write: @CLEARFILEBUF@
                            GPFS: @GPFS@
       Strict File Format Checks: @STRICT_FORMAT_CHECKS@
    Optimization Instrumentation: @INSTRUMENT@
- Linux Large File Support (LFS): @LINUX_LFS@
+       Large File Support (LFS): @LARGEFILE@

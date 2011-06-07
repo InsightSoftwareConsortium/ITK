@@ -22,7 +22,7 @@
 namespace H5 {
 #endif
 
-const H5std_string Exception::DEFAULT_MSG("No detailed information provided");
+const char Exception::DEFAULT_MSG[] = "No detailed information provided";
 
 //--------------------------------------------------------------------------
 // Function:	Exception default constructor

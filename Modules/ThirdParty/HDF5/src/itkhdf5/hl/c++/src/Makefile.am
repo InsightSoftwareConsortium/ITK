@@ -40,6 +40,9 @@ endif
 # At the moment, only the H5PT Packet Table has a C++ API.
 libhdf5_hl_cpp_la_SOURCES=H5PacketTable.cpp
 
+# HDF5 HL C++ library depends on HDF5 HL Library and HDF5 C++ Library.
+libhdf5_hl_cpp_la_LIBADD=$(LIBH5_HL) $(LIBH5CPP)
+
 # Public headers
 include_HEADERS=H5PacketTable.h
 

@@ -241,7 +241,7 @@
 
 #define H5T_CONV_sS(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)<=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_xX, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_xX, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_sU_CORE(S,D,ST,DT,D_MIN,D_MAX) {			      \
@@ -266,7 +266,7 @@
 
 #define H5T_CONV_sU(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)<=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_sU, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_sU, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_uS_CORE(S,D,ST,DT,D_MIN,D_MAX) {			      \
@@ -291,17 +291,17 @@
 
 #define H5T_CONV_uS(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)<=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_uS, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_uS, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_uU(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)<=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_xX, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_xX, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_Ss(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)>=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_Xx, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_Xx, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_Su_CORE(S,D,ST,DT,D_MIN,D_MAX) {			      \
@@ -337,17 +337,17 @@
 
 #define H5T_CONV_Su(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)>=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_Su, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_Su, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_Us(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)>=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_Ux, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_Ux, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_Uu(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)>=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_Ux, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_Ux, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_su_CORE(S,D,ST,DT,D_MIN,D_MAX) {			      \
@@ -374,7 +374,7 @@
 
 #define H5T_CONV_su(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)==sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_su, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_su, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_us_CORE(S,D,ST,DT,D_MIN,D_MAX) {			      \
@@ -401,12 +401,12 @@
 
 #define H5T_CONV_us(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)==sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_us, long long, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)      \
+    H5T_CONV(H5T_CONV_us, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_CONV_fF(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)<=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_xX, long double, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)    \
+    H5T_CONV(H5T_CONV_xX, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 /* Same as H5T_CONV_Xx_CORE, except that instead of using D_MAX and D_MIN
@@ -445,7 +445,7 @@
 
 #define H5T_CONV_Ff(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
     HDcompile_assert(sizeof(ST)>=sizeof(DT));				      \
-    H5T_CONV(H5T_CONV_Ff, long double, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)    \
+    H5T_CONV(H5T_CONV_Ff, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 #define H5T_HI_LO_BIT_SET(TYP, V, LO, HI) {                                   \
@@ -536,7 +536,7 @@
 }
 
 #define H5T_CONV_xF(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
-    H5T_CONV(H5T_CONV_xF, long double, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)    \
+    H5T_CONV(H5T_CONV_xF, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 /* Quincey added the condition branch (else if (*(S) != (ST)((DT)(*(S))))).
@@ -589,7 +589,7 @@
 }
 
 #define H5T_CONV_Fx(STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {			      \
-    H5T_CONV(H5T_CONV_Fx, long double, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)    \
+    H5T_CONV(H5T_CONV_Fx, STYPE, DTYPE, ST, DT, D_MIN, D_MAX)                 \
 }
 
 /* Since all "no exception" cores do the same thing (assign the value in the
@@ -601,7 +601,7 @@
 }
 
 /* The main part of every integer hardware conversion macro */
-#define H5T_CONV(GUTS,ATYPE,STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {		      \
+#define H5T_CONV(GUTS,STYPE,DTYPE,ST,DT,D_MIN,D_MAX) {		              \
     size_t	elmtno;			/*element number		*/    \
     size_t	sprec;			/*source precision		*/    \
     size_t	dprec;			/*destination precision		*/    \
@@ -662,17 +662,16 @@
 	CI_INC_DST(d_mv)						      \
 	                                                                      \
         /* Get the plist structure */                                         \
-        if(NULL == (plist = H5P_object_verify(dxpl_id,H5P_DATASET_XFER)))     \
-            HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID"); \
+        if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))    \
+            HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID") \
                                                                               \
         /* Get conversion exception callback property */                      \
-        if (H5P_get(plist,H5D_XFER_CONV_CB_NAME,&cb_struct)<0)                \
-            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback"); \
+        if(H5P_get(plist, H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)             \
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback") \
                                                                               \
         /* Get source and destination datatypes */			      \
-        if (NULL==(st=(H5T_t*)H5I_object(src_id)) || NULL==(dt=(H5T_t*)H5I_object(dst_id)))   \
-            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL,		      \
-                          "unable to dereference datatype object ID")	      \
+        if(NULL == (st = (H5T_t *)H5I_object(src_id)) || NULL == (dt = (H5T_t *)H5I_object(dst_id))) \
+            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to dereference datatype object ID") \
 									      \
         /* Get source & destination precisions into a variable */	      \
         tclass = st->shared->type;					      \
@@ -1041,9 +1040,8 @@ H5T_conv_order_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
     switch(cdata->command) {
         case H5T_CONV_INIT:
             /* Capability query */
-            if(NULL == (src = (H5T_t *)H5I_object(src_id)) ||
-                    NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type")
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             if(src->shared->size != dst->shared->size ||
                     0 != src->shared->u.atomic.offset ||
                     0 != dst->shared->u.atomic.offset)
@@ -1055,7 +1053,7 @@ H5T_conv_order_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
                     !((H5T_ORDER_BE == src->shared->u.atomic.order && H5T_ORDER_LE == dst->shared->u.atomic.order) ||
                       (H5T_ORDER_LE == src->shared->u.atomic.order && H5T_ORDER_BE == dst->shared->u.atomic.order)))
                 HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "conversion not supported")
-            if (src->shared->size != 1 && src->shared->size != 2 && src->shared->size != 4 &&
+            if(src->shared->size != 1 && src->shared->size != 2 && src->shared->size != 4 &&
                     src->shared->size != 8 && src->shared->size != 16)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "conversion not supported")
             switch(src->shared->type) {
@@ -1085,14 +1083,14 @@ H5T_conv_order_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
 
         case H5T_CONV_CONV:
             /* The conversion */
-            if(NULL == (src = (H5T_t *)H5I_object(src_id)) ||
-                    NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type")
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
 
             /* Check for "no op" reference conversion */
             if(src->shared->type == H5T_REFERENCE) {
                 /* Sanity check */
-                HDassert(dst->shared->type == H5T_REFERENCE);
+                if(dst->shared->type != H5T_REFERENCE)
+                    HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_REFERENCE datatype")
 
                 /* Check if we are on a little-endian machine (the order that
                  * the addresses in the file must be) and just get out now, there
@@ -1452,7 +1450,7 @@ H5T_conv_order(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             /* Capability query */
             if(NULL == (src = (H5T_t *)H5I_object(src_id)) ||
                     NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type")
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             if(src->shared->size != dst->shared->size || 0 != src->shared->u.atomic.offset ||
                     0 != dst->shared->u.atomic.offset ||
                     !((H5T_ORDER_BE == src->shared->u.atomic.order &&
@@ -1487,9 +1485,8 @@ H5T_conv_order(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
         case H5T_CONV_CONV:
             /* The conversion */
-            if(NULL == (src = (H5T_t *)H5I_object(src_id)) ||
-                    NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type")
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
 
             buf_stride = buf_stride ? buf_stride : src->shared->size;
             md = src->shared->size / 2;
@@ -1535,7 +1532,7 @@ H5T_conv_b_b(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
              void UNUSED *background, hid_t dxpl_id)
 {
     uint8_t	*buf = (uint8_t*)_buf;
-    H5T_t	*src = NULL, *dst = NULL;	/*source and dest data types	*/
+    H5T_t	*src = NULL, *dst = NULL;	/*source and dest datatypes	*/
     int	direction;		/*direction of traversal	*/
     size_t	elmtno;			/*element number		*/
     size_t	olap;			/*num overlapping elements	*/
@@ -1558,7 +1555,7 @@ H5T_conv_b_b(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             /* Capability query */
             if(NULL == (src = (H5T_t *)H5I_object(src_id)) ||
                     NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type")
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             if(H5T_ORDER_LE != src->shared->u.atomic.order &&
                     H5T_ORDER_BE != src->shared->u.atomic.order)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order")
@@ -1572,10 +1569,9 @@ H5T_conv_b_b(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             break;
 
         case H5T_CONV_CONV:
-            /* Get the data types */
-            if(NULL == (src = (H5T_t *)H5I_object(src_id)) ||
-                    NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a data type")
+            /* Get the datatypes */
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
 
             /*
              * Do we process the values from beginning to end or vice versa? Also,
@@ -1777,24 +1773,26 @@ H5T_conv_struct_free(H5T_conv_struct_t *priv)
     hid_t       *src_memb_id = priv->src_memb_id,
                 *dst_memb_id = priv->dst_memb_id;
     unsigned    i;
-    int         status;
 
     FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_conv_struct_free)
 
-    for (i=0; i<priv->src_nmembs; i++)
-        if (src2dst[i] >= 0) {
-            status = H5I_dec_ref(src_memb_id[i], FALSE);
+    for(i = 0; i < priv->src_nmembs; i++)
+        if(src2dst[i] >= 0) {
+            int status;
+
+            status = H5I_dec_ref(src_memb_id[i]);
             HDassert(status >= 0);
-            status = H5I_dec_ref(dst_memb_id[src2dst[i]], FALSE);
+            status = H5I_dec_ref(dst_memb_id[src2dst[i]]);
             HDassert(status >= 0);
-        }
+        } /* end if */
 
     H5MM_xfree(src2dst);
     H5MM_xfree(src_memb_id);
     H5MM_xfree(dst_memb_id);
     H5MM_xfree(priv->memb_path);
-    FUNC_LEAVE_NOAPI((H5T_conv_struct_t *)H5MM_xfree(priv));
-}
+
+    FUNC_LEAVE_NOAPI((H5T_conv_struct_t *)H5MM_xfree(priv))
+} /* end H5T_conv_struct_free() */
 
 
 /*-------------------------------------------------------------------------
@@ -1852,9 +1850,7 @@ H5T_conv_struct_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata, hid_t dxpl_id)
     int		        *src2dst = NULL;
     unsigned            src_nmembs, dst_nmembs;
     unsigned		i, j;
-    H5T_t		*type = NULL;
-    hid_t		tid;
-    herr_t      ret_value=SUCCEED;       /* Return value */
+    herr_t              ret_value = SUCCEED;       /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT(H5T_conv_struct_init)
 
@@ -1900,9 +1896,12 @@ H5T_conv_struct_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata, hid_t dxpl_id)
                 } /* end if */
             } /* end for */
             if(src2dst[i] >= 0) {
+                hid_t	tid;
+                H5T_t	*type;
+
                 type = H5T_copy(src->shared->u.compnd.memb[i].type, H5T_COPY_ALL);
                 tid = H5I_register(H5I_DATATYPE, type, FALSE);
-                HDassert(tid>=0);
+                HDassert(tid >= 0);
                 priv->src_memb_id[i] = tid;
 
                 type = H5T_copy(dst->shared->u.compnd.memb[src2dst[i]].type, H5T_COPY_ALL);
@@ -1933,7 +1932,7 @@ H5T_conv_struct_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata, hid_t dxpl_id)
             H5T_path_t *tpath = H5T_path_find(src->shared->u.compnd.memb[i].type, dst->shared->u.compnd.memb[src2dst[i]].type, NULL, NULL, dxpl_id, FALSE);
 
             if(NULL == (priv->memb_path[i] = tpath)) {
-                cdata->priv = priv = H5T_conv_struct_free(priv);
+                cdata->priv = H5T_conv_struct_free(priv);
                 HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unable to convert member datatype")
             } /* end if */
         } /* end if */
@@ -1959,8 +1958,8 @@ H5T_conv_struct_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata, hid_t dxpl_id)
             * the end of src.
             */
         if(priv->subset_info.subset == H5T_SUBSET_SRC)
-            priv->subset_info.copy_size = src->shared->u.compnd.memb[src_nmembs-1].offset
-                + src->shared->u.compnd.memb[src_nmembs-1].size;
+            priv->subset_info.copy_size = src->shared->u.compnd.memb[src_nmembs - 1].offset
+                + src->shared->u.compnd.memb[src_nmembs - 1].size;
     } else if(dst_nmembs < src_nmembs) {
         priv->subset_info.subset = H5T_SUBSET_DST;
         for(i = 0; i < dst_nmembs; i++) {
@@ -2075,23 +2074,23 @@ H5T_conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 {
     uint8_t	*buf = (uint8_t *)_buf;	/*cast for pointer arithmetic	*/
     uint8_t	*bkg = (uint8_t *)_bkg;	/*background pointer arithmetic	*/
-    uint8_t     *xbuf=buf, *xbkg=bkg;   /*temp pointers into buf and bkg*/
+    uint8_t     *xbuf = buf, *xbkg = bkg;   /*temp pointers into buf and bkg*/
     H5T_t	*src = NULL;		/*source datatype		*/
     H5T_t	*dst = NULL;		/*destination datatype		*/
     int	*src2dst = NULL;	/*maps src member to dst member	*/
     H5T_cmemb_t	*src_memb = NULL;	/*source struct member descript.*/
     H5T_cmemb_t	*dst_memb = NULL;	/*destination struct memb desc.	*/
     size_t	offset;			/*byte offset wrt struct	*/
-    size_t	src_delta;	    /*source stride	*/
+    size_t	src_delta;	        /*source stride	*/
     size_t	elmtno;
-    unsigned	u;		/*counters			*/
-    int	i;			/*counters			*/
+    unsigned	u;		        /*counters			*/
+    int	        i;			/*counters			*/
     H5T_conv_struct_t *priv = (H5T_conv_struct_t *)(cdata->priv);
-    herr_t      ret_value=SUCCEED;       /* Return value */
+    herr_t      ret_value = SUCCEED;       /* Return value */
 
     FUNC_ENTER_NOAPI(H5T_conv_struct, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
             /*
              * First, determine if this conversion function applies to the
@@ -2099,35 +2098,35 @@ H5T_conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
              * otherwise initialize the `priv' field of `cdata' with information
              * that remains (almost) constant for this conversion path.
              */
-            if (NULL == (src = (H5T_t *)H5I_object(src_id)) ||
-                    NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
-            assert (H5T_COMPOUND==src->shared->type);
-            assert (H5T_COMPOUND==dst->shared->type);
+            if (NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a datatype")
+            if(H5T_COMPOUND != src->shared->type)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_COMPOUND datatype")
+            if(H5T_COMPOUND != dst->shared->type) 
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_COMPOUND datatype")
 
-            if (H5T_conv_struct_init (src, dst, cdata, dxpl_id)<0)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data");
+            if(H5T_conv_struct_init(src, dst, cdata, dxpl_id) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data")
             break;
 
         case H5T_CONV_FREE:
             /*
              * Free the private conversion data.
              */
-            cdata->priv = priv = H5T_conv_struct_free(priv);
+            cdata->priv = H5T_conv_struct_free(priv);
             break;
 
         case H5T_CONV_CONV:
             /*
              * Conversion.
              */
-            if (NULL == (src = (H5T_t *)H5I_object(src_id)) ||
-                    NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
-            assert (priv);
-            assert (bkg && cdata->need_bkg);
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a datatype")
+            HDassert(priv);
+            HDassert(bkg && cdata->need_bkg);
 
-            if (cdata->recalc && H5T_conv_struct_init (src, dst, cdata, dxpl_id)<0)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data");
+            if(cdata->recalc && H5T_conv_struct_init(src, dst, cdata, dxpl_id) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data")
 
             /*
              * Insure that members are sorted.
@@ -2139,7 +2138,7 @@ H5T_conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             /*
              * Direction of conversion and striding through background.
              */
-            if (buf_stride) {
+            if(buf_stride) {
                 src_delta = buf_stride;
                 if(!bkg_stride)
                     bkg_stride = dst->shared->size;
@@ -2156,7 +2155,7 @@ H5T_conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             } /* end else */
 
             /* Conversion loop... */
-            for (elmtno=0; elmtno<nelmts; elmtno++) {
+            for(elmtno = 0; elmtno < nelmts; elmtno++) {
                 /*
                  * For each source member which will be present in the
                  * destination, convert the member to the destination type unless
@@ -2165,8 +2164,9 @@ H5T_conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                  * data point as small as possible with all the free space on the
                  * right side.
                  */
-                for (u=0, offset=0; u<src->shared->u.compnd.nmembs; u++) {
-                    if (src2dst[u]<0) continue; /*subsetting*/
+                for(u = 0, offset = 0; u < src->shared->u.compnd.nmembs; u++) {
+                    if(src2dst[u] < 0)
+                        continue; /*subsetting*/
                     src_memb = src->shared->u.compnd.memb + u;
                     dst_memb = dst->shared->u.compnd.memb + src2dst[u];
 
@@ -2176,15 +2176,16 @@ H5T_conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                                 (size_t)1, (size_t)0, (size_t)0, /*no striding (packed array)*/
                                 xbuf + src_memb->offset, xbkg + dst_memb->offset,
                                 dxpl_id) < 0)
-                            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to convert compound datatype member");
+                            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to convert compound datatype member")
                         HDmemmove(xbuf + offset, xbuf + src_memb->offset, dst_memb->size);
                         offset += dst_memb->size;
-                    } else {
+                    } /* end if */
+                    else {
                         HDmemmove (xbuf+offset, xbuf+src_memb->offset,
                                    src_memb->size);
                         offset += src_memb->size;
-                    }
-                }
+                    } /* end else */
+                } /* end for */
 
                 /*
                  * For each source member which will be present in the
@@ -2193,8 +2194,9 @@ H5T_conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                  * yet).  Then copy the member to the destination offset in the
                  * background buffer.
                  */
-                for (i=src->shared->u.compnd.nmembs-1; i>=0; --i) {
-                    if (src2dst[i]<0) continue; /*subsetting*/
+                for(i = src->shared->u.compnd.nmembs - 1; i >= 0; --i) {
+                    if(src2dst[i] < 0)
+                        continue; /*subsetting*/
                     src_memb = src->shared->u.compnd.memb + i;
                     dst_memb = dst->shared->u.compnd.memb + src2dst[i];
 
@@ -2205,43 +2207,44 @@ H5T_conv_struct(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                                     (size_t)1, (size_t)0, (size_t)0, /*no striding (packed array)*/
                                     xbuf + offset, xbkg + dst_memb->offset,
                                     dxpl_id) < 0)
-                            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to convert compound datatype member");
-                    } else
+                            HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to convert compound datatype member")
+                    } /* end if */
+                    else
                         offset -= dst_memb->size;
                     HDmemmove(xbkg + dst_memb->offset, xbuf + offset, dst_memb->size);
-                }
-                assert (0==offset);
+                } /* end for */
+                HDassert(0 == offset);
 
                 /*
                  * Update pointers
                  */
                 xbuf += src_delta;
                 xbkg += bkg_stride;
-            }
+            } /* end for */
 
             /* If the bkg_stride was set to -(dst->shared->size), make it positive now */
-            if(buf_stride==0 && dst->shared->size>src->shared->size)
-                bkg_stride=dst->shared->size;
+            if(buf_stride == 0 && dst->shared->size > src->shared->size)
+                bkg_stride = dst->shared->size;
 
             /*
              * Copy the background buffer back into the in-place conversion
              * buffer.
              */
-            for (xbuf=buf, xbkg=bkg, elmtno=0; elmtno<nelmts; elmtno++) {
+            for(xbuf = buf, xbkg = bkg, elmtno = 0; elmtno < nelmts; elmtno++) {
                 HDmemmove(xbuf, xbkg, dst->shared->size);
                 xbuf += buf_stride ? buf_stride : dst->shared->size;
                 xbkg += bkg_stride;
-            }
+            } /* end for */
             break;
 
         default:
             /* Some other command we don't know about yet.*/
-            HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command");
-    }
+            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command")
+    } /* end switch */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5T_conv_struct() */
 
 
 /*-------------------------------------------------------------------------
@@ -2337,7 +2340,7 @@ H5T_conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
 
     FUNC_ENTER_NOAPI(H5T_conv_struct_opt, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
             /*
              * First, determine if this conversion function applies to the
@@ -2347,8 +2350,10 @@ H5T_conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
              */
             if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
                 HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
-            HDassert(H5T_COMPOUND == src->shared->type);
-            HDassert(H5T_COMPOUND == dst->shared->type);
+            if(H5T_COMPOUND != src->shared->type)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_COMPOUND datatype")
+            if(H5T_COMPOUND != dst->shared->type) 
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_COMPOUND datatype")
 
             /* Initialize data which is relatively constant */
             if(H5T_conv_struct_init(src, dst, cdata, dxpl_id) < 0)
@@ -2383,7 +2388,7 @@ H5T_conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
                     if(dst_memb->size > src_memb->size) {
                         offset -= src_memb->size;
                         if(dst_memb->size > src->shared->size-offset) {
-                            cdata->priv = priv = H5T_conv_struct_free(priv);
+                            cdata->priv = H5T_conv_struct_free(priv);
                             HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "convertion is unsupported by this function")
                         } /* end if */
                     } /* end if */
@@ -2395,8 +2400,7 @@ H5T_conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
             /*
              * Free the private conversion data.
              */
-            priv = (H5T_conv_struct_t *)(cdata->priv);
-            cdata->priv = priv = H5T_conv_struct_free(priv);
+            cdata->priv = H5T_conv_struct_free((H5T_conv_struct_t *)(cdata->priv));
             break;
 
         case H5T_CONV_CONV:
@@ -2410,8 +2414,8 @@ H5T_conv_struct_opt(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata,
             if(cdata->recalc && H5T_conv_struct_init(src, dst, cdata, dxpl_id)<0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize conversion data")
             priv = (H5T_conv_struct_t *)(cdata->priv);
-            src2dst = priv->src2dst;
             HDassert(priv);
+            src2dst = priv->src2dst;
             HDassert(bkg && cdata->need_bkg);
 
             /*
@@ -2558,20 +2562,20 @@ done:
 static herr_t
 H5T_conv_enum_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata)
 {
-    H5T_enum_struct_t	*priv=NULL;	/*private conversion data	*/
+    H5T_enum_struct_t	*priv = NULL;	/*private conversion data	*/
     int		n;		/*src value cast as native int	*/
     int		domain[2] = {0, 0};	/*min and max source values	*/
-    int		*map=NULL;	/*map from src value to dst idx	*/
+    int		*map = NULL;	/*map from src value to dst idx	*/
     unsigned	length;		/*nelmts in map array		*/
     unsigned	i, j;		/*counters			*/
-    herr_t      ret_value=SUCCEED;       /* Return value */
+    herr_t      ret_value = SUCCEED;    /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT(H5T_conv_enum_init)
 
     cdata->need_bkg = H5T_BKG_NO;
-    if (NULL==(priv=(H5T_enum_struct_t *)(cdata->priv=H5MM_calloc(sizeof(*priv)))))
-	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed");
-    if (0==src->shared->u.enumer.nmembs)
+    if(NULL == (priv = (H5T_enum_struct_t *)(cdata->priv = H5MM_calloc(sizeof(*priv)))))
+	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
+    if(0 == src->shared->u.enumer.nmembs)
 	HGOTO_DONE(SUCCEED);
 
     /*
@@ -2581,18 +2585,18 @@ H5T_conv_enum_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata)
      */
     H5T_sort_name(src, NULL);
     H5T_sort_name(dst, NULL);
-    if (NULL==(priv->src2dst=(int *)H5MM_malloc(src->shared->u.enumer.nmembs*sizeof(int))))
-	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed");;
-    for (i=0, j=0;
-             i<src->shared->u.enumer.nmembs && j<dst->shared->u.enumer.nmembs;
+    if(NULL == (priv->src2dst = (int *)H5MM_malloc(src->shared->u.enumer.nmembs * sizeof(int))))
+	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
+    for(i = 0, j = 0;
+             i < src->shared->u.enumer.nmembs && j < dst->shared->u.enumer.nmembs;
              i++, j++) {
-	while (j<dst->shared->u.enumer.nmembs &&
+	while(j < dst->shared->u.enumer.nmembs &&
 	       HDstrcmp(src->shared->u.enumer.name[i], dst->shared->u.enumer.name[j]))
             j++;
-	if (j>=dst->shared->u.enumer.nmembs)
-	    HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "source type is not a subset of destination type");
+	if(j >= dst->shared->u.enumer.nmembs)
+	    HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "source type is not a subset of destination type")
 	priv->src2dst[i] = j;
-    }
+    } /* end for */
 
     /*
      * The conversion function will use an O(log N) lookup method for each
@@ -2634,7 +2638,7 @@ H5T_conv_enum_init(H5T_t *src, H5T_t *dst, H5T_cdata_t *cdata)
 	    priv->base = domain[0];
 	    priv->length = length;
 	    if (NULL==(map=(int *)H5MM_malloc(length*sizeof(int))))
-		HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed");
+		HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
 	    for (i=0; i<length; i++)
                 map[i] = -1; /*entry unused*/
 	    for (i=0; i<src->shared->u.enumer.nmembs; i++) {
@@ -2701,20 +2705,20 @@ H5T_conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
               void UNUSED *bkg, hid_t UNUSED dxpl_id)
 {
     uint8_t	*buf = (uint8_t*)_buf;	/*cast for pointer arithmetic	*/
-    H5T_t	*src=NULL, *dst=NULL;	/*src and dst datatypes	*/
-    uint8_t	*s=NULL, *d=NULL;	/*src and dst BUF pointers	*/
+    H5T_t	*src = NULL, *dst = NULL;	/*src and dst datatypes	*/
+    uint8_t	*s = NULL, *d = NULL;	/*src and dst BUF pointers	*/
     int	src_delta, dst_delta;	/*conversion strides		*/
     int	n;			/*src value cast as native int	*/
-    size_t	i;			/*counters			*/
     H5T_enum_struct_t *priv = (H5T_enum_struct_t*)(cdata->priv);
     H5P_genplist_t      *plist;         /*property list pointer         */
     H5T_conv_cb_t       cb_struct;      /*conversion callback structure */
     H5T_conv_ret_t      except_ret;     /*return of callback function   */
-    herr_t      ret_value=SUCCEED;      /* Return value                 */
+    size_t	i;			/*counters			*/
+    herr_t      ret_value = SUCCEED;    /* Return value                 */
 
     FUNC_ENTER_NOAPI(H5T_conv_enum, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
             /*
              * Determine if this conversion function applies to the conversion
@@ -2722,13 +2726,15 @@ H5T_conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
              * the `priv' field of `cdata' with information about the underlying
              * integer conversion.
              */
-            if (NULL == (src = (H5T_t *)H5I_object(src_id)) ||
-                    NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
-            assert (H5T_ENUM==src->shared->type);
-            assert (H5T_ENUM==dst->shared->type);
-            if (H5T_conv_enum_init(src, dst, cdata)<0)
-                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize private data");
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a datatype")
+            if(H5T_ENUM != src->shared->type)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_ENUM datatype")
+            if(H5T_ENUM != dst->shared->type) 
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_ENUM datatype")
+
+            if(H5T_conv_enum_init(src, dst, cdata) < 0)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to initialize private data")
             break;
 
         case H5T_CONV_FREE:
@@ -2747,26 +2753,28 @@ H5T_conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             break;
 
         case H5T_CONV_CONV:
-            if (NULL == (src = (H5T_t *)H5I_object(src_id)) ||
-                    NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
-            assert (H5T_ENUM==src->shared->type);
-            assert (H5T_ENUM==dst->shared->type);
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
+            if(H5T_ENUM != src->shared->type)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_ENUM datatype")
+            if(H5T_ENUM != dst->shared->type) 
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_ENUM datatype")
 
             /* priv->src2dst map was computed for certain sort keys. Make sure those same
              * sort keys are used here during conversion. See H5T_conv_enum_init(). But
              * we actually don't care about the source type's order when doing the O(1)
              * conversion algorithm, which is turned on by non-zero priv->length */
             H5T_sort_name(dst, NULL);
-            if (!priv->length) H5T_sort_value(src, NULL);
+            if(!priv->length)
+                H5T_sort_value(src, NULL);
 
             /*
              * Direction of conversion.
              */
-            if (buf_stride) {
+            if(buf_stride) {
                 src_delta = dst_delta = (int)buf_stride;
                 s = d = buf;
-            } else if (dst->shared->size <= src->shared->size) {
+            } else if(dst->shared->size <= src->shared->size) {
                 src_delta = (int)src->shared->size; /*overflow shouldn't be possible*/
                 dst_delta = (int)dst->shared->size; /*overflow shouldn't be possible*/
                 s = d = buf;
@@ -2778,25 +2786,24 @@ H5T_conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             }
 
             /* Get the plist structure */
-            if(NULL == (plist = H5P_object_verify(dxpl_id,H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID");
+            if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))
+                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
 
             /* Get conversion exception callback property */
-            if (H5P_get(plist,H5D_XFER_CONV_CB_NAME,&cb_struct)<0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback");
+            if(H5P_get(plist, H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
+                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
-            for (i=0; i<nelmts; i++, s+=src_delta, d+=dst_delta) {
-                if (priv->length) {
+            for(i = 0; i < nelmts; i++, s += src_delta, d += dst_delta) {
+                if(priv->length) {
                     /* Use O(1) lookup */
-                    if (1==src->shared->size) {
+                    if(1 == src->shared->size)
                         n = *((signed char*)s);
-                    } else if (sizeof(short)==src->shared->size) {
+                    else if(sizeof(short) == src->shared->size)
                         n = *((short*)s);
-                    } else {
+                    else
                         n = *((int*)s);
-                    }
                     n -= priv->base;
-                    if (n<0 || n>=priv->length || priv->src2dst[n]<0) {
+                    if(n < 0 || n >= priv->length || priv->src2dst[n] < 0) {
                         /*overflow*/
                         except_ret = H5T_CONV_UNHANDLED;
                         if(cb_struct.func) { /*If user's exception handler is present, use it*/
@@ -2818,19 +2825,19 @@ H5T_conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                     int lt = 0;
                     int rt = src->shared->u.enumer.nmembs;
                     int md, cmp;
-                    while (lt<rt) {
-                        md = (lt+rt)/2;
-                        cmp = HDmemcmp(s, src->shared->u.enumer.value+md*src->shared->size,
+
+                    while(lt < rt) {
+                        md = (lt + rt) / 2;
+                        cmp = HDmemcmp(s, src->shared->u.enumer.value + md * src->shared->size,
                                        src->shared->size);
-                        if (cmp<0) {
+                        if(cmp < 0)
                             rt = md;
-                        } else if (cmp>0) {
-                            lt = md+1;
-                        } else {
+                        else if(cmp > 0)
+                            lt = md + 1;
+                        else
                             break;
-                        }
-                    }
-                    if (lt>=rt) {
+                    } /* end while */
+                    if(lt >= rt) {
                         except_ret = H5T_CONV_UNHANDLED;
                         if(cb_struct.func) { /*If user's exception handler is present, use it*/
                             except_ret = (cb_struct.func)(H5T_CONV_EXCEPT_RANGE_HI, src_id, dst_id,
@@ -2841,23 +2848,24 @@ H5T_conv_enum(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                             HDmemset(d, 0xff, dst->shared->size);
                         } else if(except_ret == H5T_CONV_ABORT)
                             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTCONVERT, FAIL, "can't handle conversion exception")
-                    } else {
+                    } /* end if */
+                    else {
                         HDmemcpy(d,
                                  dst->shared->u.enumer.value+priv->src2dst[md]*dst->shared->size,
                                  dst->shared->size);
-                    }
+                    } /* end else */
                 }
             }
             break;
 
         default:
             /* Some other command we don't know about yet.*/
-            HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command");
-    }
+            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command")
+    } /* end switch */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5T_conv_enum() */
 
 
 /*-------------------------------------------------------------------------
@@ -2930,7 +2938,7 @@ H5T_conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
     FUNC_ENTER_NOAPI(H5T_conv_vlen, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
             /*
              * First, determine if this conversion function applies to the
@@ -2940,9 +2948,11 @@ H5T_conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
              * conversion path.
              */
             if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
-            HDassert(H5T_VLEN == src->shared->type);
-            HDassert(H5T_VLEN == dst->shared->type);
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a datatype")
+            if(H5T_VLEN != src->shared->type)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_VLEN datatype")
+            if(H5T_VLEN != dst->shared->type) 
+                HGOTO_ERROR(H5E_DATATYPE, H5E_BADTYPE, FAIL, "not a H5T_VLEN datatype")
 
             /* Variable-length types don't need a background buffer */
             cdata->need_bkg = H5T_BKG_NO;
@@ -3173,9 +3183,9 @@ H5T_conv_vlen(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
             /* Release the temporary datatype IDs used */
             if(tsrc_id >= 0)
-                H5I_dec_ref(tsrc_id, FALSE);
+                H5I_dec_ref(tsrc_id);
             if(tdst_id >= 0)
-                H5I_dec_ref(tdst_id, FALSE);
+                H5I_dec_ref(tdst_id);
             break;
 
         default:    /* Some other command we don't know about yet.*/
@@ -3325,14 +3335,14 @@ H5T_conv_array(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
             /* Release the temporary datatype IDs used */
             if(tsrc_id >= 0)
-                H5I_dec_ref(tsrc_id, FALSE);
+                H5I_dec_ref(tsrc_id);
             if(tdst_id >= 0)
-                H5I_dec_ref(tdst_id, FALSE);
+                H5I_dec_ref(tdst_id);
             break;
 
         default:    /* Some other command we don't know about yet.*/
-            HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command");
-    }   /* end switch */
+            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command")
+    } /* end switch */
 
 done:
     /* Release the background buffer, if we have one */
@@ -3340,7 +3350,7 @@ done:
         bkg_buf = H5FL_BLK_FREE(array_seq, bkg_buf);
 
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* end H5T_conv_array() */
+} /* end H5T_conv_array() */
 
 
 /*-------------------------------------------------------------------------
@@ -3396,19 +3406,16 @@ H5T_conv_i_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
     FUNC_ENTER_NOAPI(H5T_conv_i_i, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
-            if (NULL==(src=(H5T_t *)H5I_object(src_id)) ||
-                    NULL==(dst=(H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR (H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
-            if (H5T_ORDER_LE!=src->shared->u.atomic.order &&
-                    H5T_ORDER_BE!=src->shared->u.atomic.order)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order");
-            if (H5T_ORDER_LE!=dst->shared->u.atomic.order &&
-                    H5T_ORDER_BE!=dst->shared->u.atomic.order)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order");
-            if (dst->shared->size>sizeof dbuf)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination size is too large");
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
+            if(H5T_ORDER_LE != src->shared->u.atomic.order && H5T_ORDER_BE != src->shared->u.atomic.order)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order")
+            if(H5T_ORDER_LE != dst->shared->u.atomic.order && H5T_ORDER_BE != dst->shared->u.atomic.order)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order")
+            if(dst->shared->size > sizeof dbuf)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination size is too large")
             cdata->need_bkg = H5T_BKG_NO;
             break;
 
@@ -3417,9 +3424,8 @@ H5T_conv_i_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
         case H5T_CONV_CONV:
             /* Get the datatypes */
-            if (NULL==(src=(H5T_t *)H5I_object(src_id)) ||
-                    NULL==(dst=(H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR (H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
 
             /*
              * Do we process the values from beginning to end or vice versa? Also,
@@ -3441,18 +3447,18 @@ H5T_conv_i_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                 double olap_d = HDceil((double)(src->shared->size)/
                                        (double)(dst->shared->size-src->shared->size));
                 olap = (size_t)olap_d;
-                sp = (uint8_t*)buf + (nelmts-1) * src->shared->size;
-                dp = (uint8_t*)buf + (nelmts-1) * dst->shared->size;
+                sp = (uint8_t*)buf + (nelmts - 1) * src->shared->size;
+                dp = (uint8_t*)buf + (nelmts - 1) * dst->shared->size;
                 direction = -1;
             }
 
             /* Get the plist structure */
-            if(NULL == (plist = H5P_object_verify(dxpl_id,H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID");
+            if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))
+                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
 
             /* Get conversion exception callback property */
-            if (H5P_get(plist,H5D_XFER_CONV_CB_NAME,&cb_struct)<0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback");
+            if(H5P_get(plist,H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
+                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t*)H5MM_calloc(src->shared->size);
@@ -3741,14 +3747,14 @@ H5T_conv_i_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             break;
 
         default:
-            HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command");
-    }
+            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command")
+    } /* end switch */
 
 done:
     if(src_rev)
         H5MM_free(src_rev);
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5T_conv_i_i() */
 
 
 /*-------------------------------------------------------------------------
@@ -3783,7 +3789,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5T_conv_f_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
+H5T_conv_f_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t buf_stride, size_t UNUSED bkg_stride, void *buf, void UNUSED *bkg,
     hid_t dxpl_id)
 {
@@ -3799,44 +3805,43 @@ H5T_conv_f_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t	olap;			/*num overlapping elements	*/
     ssize_t	bitno = 0;		/*bit number			*/
     uint8_t	*s, *sp, *d, *dp;	/*source and dest traversal ptrs*/
-    uint8_t     *src_rev=NULL;          /*order-reversed source buffer  */
+    uint8_t     *src_rev = NULL;        /*order-reversed source buffer  */
     uint8_t	dbuf[64];		/*temp destination buffer	*/
     uint8_t     tmp1, tmp2;             /*temp variables for swapping bytes*/
 
     /* Conversion-related variables */
     hssize_t	expo;			/*exponent			*/
     hssize_t	expo_max;		/*maximum possible dst exponent	*/
-    size_t	msize=0;		/*useful size of mantissa in src*/
+    size_t	msize = 0;		/*useful size of mantissa in src*/
     size_t	mpos;			/*offset to useful mant is src	*/
     hssize_t    sign;                   /*source sign bit value         */
     size_t	mrsh;			/*amount to right shift mantissa*/
-    hbool_t	carry=0;		/*carry after rounding mantissa	*/
+    hbool_t	carry = 0;		/*carry after rounding mantissa	*/
     size_t	i;			/*miscellaneous counters	*/
     size_t	implied;		/*destination implied bits	*/
-    hbool_t     denormalized=FALSE;     /*is either source or destination denormalized?*/
+    hbool_t     denormalized = FALSE;   /*is either source or destination denormalized?*/
     H5P_genplist_t      *plist;         /*property list pointer         */
-    H5T_conv_cb_t       cb_struct={NULL, NULL};      /*conversion callback structure */
+    H5T_conv_cb_t       cb_struct = {NULL, NULL};      /*conversion callback structure */
     H5T_conv_ret_t      except_ret;     /*return of callback function   */
     hbool_t             reverse;        /*if reverse the order of destination        */
-    herr_t      ret_value=SUCCEED;      /*return value                 */
+    herr_t      ret_value = SUCCEED;    /*return value                 */
 
     FUNC_ENTER_NOAPI(H5T_conv_f_f, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
-            if (NULL==(src_p=(H5T_t *)H5I_object(src_id)) ||
-                    NULL==(dst_p=(H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR (H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
+            if(NULL == (src_p = (H5T_t *)H5I_object(src_id)) || NULL == (dst_p = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             src = src_p->shared->u.atomic;
             dst = dst_p->shared->u.atomic;
-            if (H5T_ORDER_LE!=src.order && H5T_ORDER_BE!=src.order && H5T_ORDER_VAX!=src.order)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order");
-            if (H5T_ORDER_LE!=dst.order && H5T_ORDER_BE!=dst.order && H5T_ORDER_VAX!=dst.order)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order");
-            if (dst_p->shared->size>sizeof(dbuf))
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination size is too large");
-            if (8*sizeof(expo)-1<src.u.f.esize || 8*sizeof(expo)-1<dst.u.f.esize)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "exponent field is too large");
+            if(H5T_ORDER_LE != src.order && H5T_ORDER_BE != src.order && H5T_ORDER_VAX != src.order)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order")
+            if(H5T_ORDER_LE != dst.order && H5T_ORDER_BE != dst.order && H5T_ORDER_VAX != dst.order)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order")
+            if(dst_p->shared->size > sizeof(dbuf))
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination size is too large")
+            if(8 * sizeof(expo) - 1 < src.u.f.esize || 8 * sizeof(expo) - 1 < dst.u.f.esize)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "exponent field is too large")
             cdata->need_bkg = H5T_BKG_NO;
             break;
 
@@ -3845,9 +3850,8 @@ H5T_conv_f_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
         case H5T_CONV_CONV:
             /* Get the datatypes */
-            if (NULL==(src_p=(H5T_t *)H5I_object(src_id)) ||
-                    NULL==(dst_p=(H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR (H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
+            if(NULL == (src_p = (H5T_t *)H5I_object(src_id)) || NULL == (dst_p = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             src = src_p->shared->u.atomic;
             dst = dst_p->shared->u.atomic;
             expo_max = ((hssize_t)1 << dst.u.f.esize) - 1;
@@ -3878,11 +3882,11 @@ H5T_conv_f_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
             /* Get the plist structure */
             if(NULL == (plist = H5P_object_verify(dxpl_id,H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID");
+                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
 
             /* Get conversion exception callback property */
-            if (H5P_get(plist,H5D_XFER_CONV_CB_NAME,&cb_struct)<0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback");
+            if(H5P_get(plist,H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
+                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t*)H5MM_calloc(src_p->shared->size);
@@ -4319,15 +4323,15 @@ H5T_conv_f_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             break;
 
         default:
-            HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command");
-    }
+            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command")
+    } /* end switch */
 
 done:
     if(src_rev)
         H5MM_free(src_rev);
 
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5T_conv_f_f() */
 
 
 /*-------------------------------------------------------------------------
@@ -4365,22 +4369,21 @@ H5T_conv_s_s(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
     FUNC_ENTER_NOAPI(H5T_conv_s_s, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
-            if (NULL==(src=(H5T_t *)H5I_object(src_id)) ||
-                    NULL==(dst=(H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
-            if (8*src->shared->size != src->shared->u.atomic.prec || 8*dst->shared->size != dst->shared->u.atomic.prec)
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad precision");
-            if (0 != src->shared->u.atomic.offset || 0 != dst->shared->u.atomic.offset)
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad offset");
-            if (H5T_CSET_ASCII != src->shared->u.atomic.u.s.cset && H5T_CSET_UTF8 != src->shared->u.atomic.u.s.cset)
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad source character set");
-            if (H5T_CSET_ASCII != dst->shared->u.atomic.u.s.cset && H5T_CSET_UTF8 != dst->shared->u.atomic.u.s.cset)
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad destination character set");
-            if (src->shared->u.atomic.u.s.pad<0 || src->shared->u.atomic.u.s.pad>=H5T_NPAD ||
-                    dst->shared->u.atomic.u.s.pad<0 || dst->shared->u.atomic.u.s.pad>=H5T_NPAD)
-                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad character padding");
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
+            if(8 * src->shared->size != src->shared->u.atomic.prec || 8 * dst->shared->size != dst->shared->u.atomic.prec)
+                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad precision")
+            if(0 != src->shared->u.atomic.offset || 0 != dst->shared->u.atomic.offset)
+                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad offset")
+            if(H5T_CSET_ASCII != src->shared->u.atomic.u.s.cset && H5T_CSET_UTF8 != src->shared->u.atomic.u.s.cset)
+                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad source character set")
+            if(H5T_CSET_ASCII != dst->shared->u.atomic.u.s.cset && H5T_CSET_UTF8 != dst->shared->u.atomic.u.s.cset)
+                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad destination character set")
+            if(src->shared->u.atomic.u.s.pad < 0 || src->shared->u.atomic.u.s.pad >= H5T_NPAD ||
+                    dst->shared->u.atomic.u.s.pad < 0 || dst->shared->u.atomic.u.s.pad >= H5T_NPAD)
+                HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "bad character padding")
             cdata->need_bkg = H5T_BKG_NO;
             break;
 
@@ -4389,9 +4392,8 @@ H5T_conv_s_s(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
         case H5T_CONV_CONV:
             /* Get the datatypes */
-            if (NULL==(src=(H5T_t *)H5I_object(src_id)) ||
-                    NULL==(dst=(H5T_t *)H5I_object(dst_id)))
-                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
+            if(NULL == (src = (H5T_t *)H5I_object(src_id)) || NULL == (dst = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
 
             /*
              * Do we process the values from beginning to end or vice versa? Also,
@@ -4422,22 +4424,22 @@ H5T_conv_s_s(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             }
 
             /* Allocate the overlap buffer */
-            if (NULL==(dbuf=(uint8_t *)H5MM_malloc(dst->shared->size)))
-                HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed for string conversion");
+            if(NULL == (dbuf = (uint8_t *)H5MM_malloc(dst->shared->size)))
+                HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed for string conversion")
 
             /* The conversion loop. */
-            for (elmtno=0; elmtno<nelmts; elmtno++) {
+            for(elmtno = 0; elmtno < nelmts; elmtno++) {
 
                 /*
                  * If the source and destination buffers overlap then use a
                  * temporary buffer for the destination.
                  */
-                if (direction>0) {
+                if(direction > 0) {
                     s = sp;
-                    d = elmtno<olap ? dbuf : dp;
+                    d = elmtno < olap ? dbuf : dp;
                 } else {
                     s = sp;
-                    d = elmtno+olap >= nelmts ? dbuf : dp;
+                    d = elmtno + olap >= nelmts ? dbuf : dp;
                 }
 #ifndef NDEBUG
                 /* I don't quite trust the overlap calculations yet --rpm */
@@ -4453,7 +4455,7 @@ H5T_conv_s_s(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 #endif
 
                 /* Copy characters from source to destination */
-                switch (src->shared->u.atomic.u.s.pad) {
+                switch(src->shared->u.atomic.u.s.pad) {
                     case H5T_STR_NULLTERM:
                         for (nchars=0;
                              nchars<dst->shared->size && nchars<src->shared->size && s[nchars];
@@ -4493,24 +4495,24 @@ H5T_conv_s_s(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                     case H5T_STR_RESERVED_14:
                     case H5T_STR_RESERVED_15:
                     case H5T_STR_ERROR:
-                        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "source string padding method not supported");
-                }
+                        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "source string padding method not supported")
+                } /* end switch */
 
                 /* Terminate or pad the destination */
-                switch (dst->shared->u.atomic.u.s.pad) {
+                switch(dst->shared->u.atomic.u.s.pad) {
                     case H5T_STR_NULLTERM:
-                        while (nchars<dst->shared->size)
+                        while(nchars < dst->shared->size)
                             d[nchars++] = '\0';
-                        d[dst->shared->size-1] = '\0';
+                        d[dst->shared->size - 1] = '\0';
                         break;
 
                     case H5T_STR_NULLPAD:
-                        while (nchars<dst->shared->size)
+                        while(nchars < dst->shared->size)
                             d[nchars++] = '\0';
                         break;
 
                     case H5T_STR_SPACEPAD:
-                        while (nchars<dst->shared->size)
+                        while(nchars < dst->shared->size)
                             d[nchars++] = ' ';
                         break;
 
@@ -4528,8 +4530,8 @@ H5T_conv_s_s(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                     case H5T_STR_RESERVED_14:
                     case H5T_STR_RESERVED_15:
                     case H5T_STR_ERROR:
-                        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination string padding method not supported");
-                }
+                        HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination string padding method not supported")
+                } /* end switch */
 
                 /*
                  * If we used a temporary buffer for the destination then we
@@ -4544,17 +4546,18 @@ H5T_conv_s_s(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
                     sp += direction * src->shared->size;
                     dp += direction * dst->shared->size;
                 }
-            }
+            } /* end for */
             break;
 
         default:
-            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown converson command");
-    }
+            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown converson command")
+    } /* end switch */
 
 done:
     H5MM_xfree(dbuf);
+
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5T_conv_s_s() */
 
 
 /*-------------------------------------------------------------------------
@@ -9714,7 +9717,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5T_conv_f_i (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
+H5T_conv_f_i(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t buf_stride, size_t UNUSED bkg_stride, void *buf, void UNUSED *bkg,
     hid_t dxpl_id)
 {
@@ -9750,19 +9753,18 @@ H5T_conv_f_i (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
     FUNC_ENTER_NOAPI(H5T_conv_f_i, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
-            if (NULL==(src_p=(H5T_t*)H5I_object(src_id)) ||
-                    NULL==(dst_p=(H5T_t*)H5I_object(dst_id)))
-                HGOTO_ERROR (H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
+            if(NULL == (src_p = (H5T_t*)H5I_object(src_id)) || NULL == (dst_p = (H5T_t*)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             src = src_p->shared->u.atomic;
             dst = dst_p->shared->u.atomic;
-            if (H5T_ORDER_LE!=src.order && H5T_ORDER_BE!=src.order && H5T_ORDER_VAX!=src.order)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order");
-            if (dst_p->shared->size>sizeof(dbuf))
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination size is too large");
-            if (8*sizeof(expo)-1<src.u.f.esize)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "exponent field is too large");
+            if(H5T_ORDER_LE != src.order && H5T_ORDER_BE != src.order && H5T_ORDER_VAX != src.order)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order")
+            if(dst_p->shared->size > sizeof(dbuf))
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination size is too large")
+            if(8 * sizeof(expo) - 1 < src.u.f.esize)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "exponent field is too large")
             cdata->need_bkg = H5T_BKG_NO;
             break;
 
@@ -9771,9 +9773,8 @@ H5T_conv_f_i (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
         case H5T_CONV_CONV:
             /* Get the datatypes */
-            if (NULL==(src_p=(H5T_t*)H5I_object(src_id)) ||
-                    NULL==(dst_p=(H5T_t*)H5I_object(dst_id)))
-                HGOTO_ERROR (H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
+            if(NULL == (src_p = (H5T_t*)H5I_object(src_id)) || NULL == (dst_p = (H5T_t*)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             src = src_p->shared->u.atomic;
             dst = dst_p->shared->u.atomic;
 
@@ -9782,7 +9783,7 @@ H5T_conv_f_i (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
              * how many of the elements have the source and destination areas
              * overlapping?
              */
-            if (src_p->shared->size==dst_p->shared->size || buf_stride) {
+            if(src_p->shared->size==dst_p->shared->size || buf_stride) {
                 sp = dp = (uint8_t*)buf;
                 direction = 1;
                 olap = nelmts;
@@ -9809,11 +9810,11 @@ H5T_conv_f_i (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
             /* Get the plist structure. Do I need to close it? */
             if(NULL == (plist = H5P_object_verify(dxpl_id, H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID");
+                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
 
             /* Get conversion exception callback property */
             if(H5P_get(plist, H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback");
+                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t*)H5MM_calloc(src_p->shared->size);
@@ -10265,16 +10266,17 @@ H5T_conv_f_i (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             break;
 
         default:
-            HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command");
-    }
+            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command")
+    } /* end switch */
 
 done:
     if(int_buf)
         H5MM_xfree(int_buf);
     if(src_rev)
         H5MM_free(src_rev);
+
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5T_conv_f_i() */
 
 
 /*-------------------------------------------------------------------------
@@ -10302,7 +10304,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5T_conv_i_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
+H5T_conv_i_f(hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t buf_stride, size_t UNUSED bkg_stride, void *buf, void UNUSED *bkg,
     hid_t dxpl_id)
 {
@@ -10317,7 +10319,7 @@ H5T_conv_i_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t      tsize;                  /*type size for swapping bytes  */
     size_t	olap;			/*num overlapping elements	*/
     uint8_t	*s, *sp, *d, *dp;	/*source and dest traversal ptrs*/
-    uint8_t     *src_rev=NULL;          /*order-reversed source buffer  */
+    uint8_t     *src_rev = NULL;        /*order-reversed source buffer  */
     uint8_t	dbuf[64];		/*temp destination buffer	*/
     uint8_t     tmp1, tmp2;             /*temp variables for swapping bytes*/
 
@@ -10327,32 +10329,31 @@ H5T_conv_i_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
     size_t      sign;                   /*source sign bit value         */
     hbool_t     is_max_neg;             /*source is maximal negative value*/
     hbool_t     do_round;               /*whether there is roundup      */
-    uint8_t     *int_buf=NULL;          /*buffer for temporary value    */
+    uint8_t     *int_buf = NULL;        /*buffer for temporary value    */
     size_t      buf_size;               /*buffer size for temporary value */
     size_t	i;			/*miscellaneous counters	*/
     size_t	first;                  /*first bit(MSB) in an integer  */
     ssize_t	sfirst;			/*a signed version of `first'	*/
     H5P_genplist_t      *plist;         /*Property list pointer         */
-    H5T_conv_cb_t       cb_struct={NULL, NULL};      /*conversion callback structure */
+    H5T_conv_cb_t       cb_struct = {NULL, NULL};      /*conversion callback structure */
     H5T_conv_ret_t      except_ret;     /*return of callback function   */
     hbool_t             reverse;        /*if reverse the order of destination   */
-    herr_t      ret_value=SUCCEED;      /* Return value */
+    herr_t      ret_value = SUCCEED;    /* Return value */
 
     FUNC_ENTER_NOAPI(H5T_conv_i_f, FAIL)
 
-    switch (cdata->command) {
+    switch(cdata->command) {
         case H5T_CONV_INIT:
-            if (NULL==(src_p=(H5T_t*)H5I_object(src_id)) ||
-                    NULL==(dst_p=(H5T_t*)H5I_object(dst_id)))
-                HGOTO_ERROR (H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
+            if(NULL == (src_p = (H5T_t *)H5I_object(src_id)) || NULL == (dst_p = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             src = src_p->shared->u.atomic;
             dst = dst_p->shared->u.atomic;
-            if (H5T_ORDER_LE!=dst.order && H5T_ORDER_BE!=dst.order && H5T_ORDER_VAX!=dst.order)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order");
-            if (dst_p->shared->size>sizeof(dbuf))
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination size is too large");
-            if (8*sizeof(expo)-1<src.u.f.esize)
-                HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "exponent field is too large");
+            if(H5T_ORDER_LE != dst.order && H5T_ORDER_BE != dst.order && H5T_ORDER_VAX != dst.order)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unsupported byte order")
+            if(dst_p->shared->size > sizeof(dbuf))
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "destination size is too large")
+            if(8 * sizeof(expo) - 1 < src.u.f.esize)
+                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "exponent field is too large")
             cdata->need_bkg = H5T_BKG_NO;
             break;
 
@@ -10361,9 +10362,8 @@ H5T_conv_i_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
         case H5T_CONV_CONV:
             /* Get the datatypes */
-            if (NULL==(src_p=(H5T_t*)H5I_object(src_id)) ||
-                    NULL==(dst_p=(H5T_t*)H5I_object(dst_id)))
-                HGOTO_ERROR (H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
+            if(NULL == (src_p = (H5T_t *)H5I_object(src_id)) || NULL == (dst_p = (H5T_t *)H5I_object(dst_id)))
+                HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
             src = src_p->shared->u.atomic;
             dst = dst_p->shared->u.atomic;
 
@@ -10399,11 +10399,11 @@ H5T_conv_i_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
 
             /* Get the plist structure */
             if(NULL == (plist = H5P_object_verify(dxpl_id,H5P_DATASET_XFER)))
-                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID");
+                HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find property list for ID")
 
             /* Get conversion exception callback property */
-            if (H5P_get(plist,H5D_XFER_CONV_CB_NAME,&cb_struct)<0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback");
+            if(H5P_get(plist,H5D_XFER_CONV_CB_NAME, &cb_struct) < 0)
+                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get conversion exception callback")
 
             /* Allocate space for order-reversed source buffer */
             src_rev = (uint8_t*)H5MM_calloc(src_p->shared->size);
@@ -10696,16 +10696,17 @@ H5T_conv_i_f (hid_t src_id, hid_t dst_id, H5T_cdata_t *cdata, size_t nelmts,
             break;
 
         default:
-            HGOTO_ERROR (H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command");
-    }
+            HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "unknown conversion command")
+    } /* end switch */
 
 done:
     if(int_buf)
         H5MM_xfree(int_buf);
     if(src_rev)
         H5MM_free(src_rev);
+
     FUNC_LEAVE_NOAPI(ret_value)
-}
+} /* end H5T_conv_i_f() */
 
 
 /*-------------------------------------------------------------------------

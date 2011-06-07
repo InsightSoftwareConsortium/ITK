@@ -24,6 +24,12 @@
 #include "H5Oprivate.h"
 #include "H5Vprivate.h"
 
+/* Local typedefs */
+typedef struct H5V_memcpy_ud_t {
+    unsigned char *dst;         /* Pointer to destination buffer */
+    const unsigned char *src;   /* Pointer to source buffer */
+} H5V_memcpy_ud_t;
+
 /* Local macros */
 #define H5V_HYPER_NDIMS H5O_LAYOUT_NDIMS
 
@@ -1149,9 +1155,9 @@ done:
  *
  *-------------------------------------------------------------------------
  */
-herr_t
-H5V_array_calc_pre(hsize_t offset, unsigned n, const hsize_t *total_size,
-    const hsize_t *down, hsize_t *coords)
+static herr_t
+H5V_array_calc_pre(hsize_t offset, unsigned n, const hsize_t *down,
+    hsize_t *coords)
 {
     unsigned    u;                      /* Local index variable */
 
@@ -1159,7 +1165,6 @@ H5V_array_calc_pre(hsize_t offset, unsigned n, const hsize_t *total_size,
 
     /* Sanity check */
     HDassert(n <= H5V_HYPER_NDIMS);
-    HDassert(total_size);
     HDassert(coords);
 
     /* Compute the coordinates from the offset */
@@ -1210,7 +1215,7 @@ H5V_array_calc(hsize_t offset, unsigned n, const hsize_t *total_size, hsize_t *c
         HGOTO_ERROR(H5E_INTERNAL, H5E_BADVALUE, FAIL, "can't compute down sizes")
 
     /* Compute the coordinates from the offset */
-    if(H5V_array_calc_pre(offset, n, total_size, idx, coords) < 0)
+    if(H5V_array_calc_pre(offset, n, idx, coords) < 0)
         HGOTO_ERROR(H5E_INTERNAL, H5E_BADVALUE, FAIL, "can't compute coordinates")
 
 done:
@@ -1287,6 +1292,212 @@ H5V_chunk_index(unsigned ndims, const hsize_t *coord, const uint32_t *chunk,
 
 
 /*-------------------------------------------------------------------------
+ * Function:	H5V_opvv
+ *
+ * Purpose:	Perform an operation on a source & destination sequences
+ *		of offset/length pairs.  Each set of sequnces has an array
+ *		of lengths, an array of offsets, the maximum number of
+ *		sequences and the current sequence to start at in the sequence.
+ *
+ *              There may be different numbers of bytes in the source and
+ *              destination sequences, the operation stops when either the
+ *              source or destination sequence runs out of information.
+ *
+ * Note:	The algorithm in this routine is [basically] the same as for
+ *		H5V_memcpyvv().  Changes should be made to both!
+ *
+ * Return:	Non-negative # of bytes operated on, on success/Negative on failure
+ *
+ * Programmer:	Quincey Koziol
+ *		Thursday, September 30, 2010
+ *
+ *-------------------------------------------------------------------------
+ */
+ssize_t
+H5V_opvv(size_t dst_max_nseq, size_t *dst_curr_seq, size_t dst_len_arr[],
+    hsize_t dst_off_arr[],
+    size_t src_max_nseq, size_t *src_curr_seq, size_t src_len_arr[],
+    hsize_t src_off_arr[],
+    H5V_opvv_func_t op, void *op_data)
+{
+    hsize_t *max_dst_off_ptr, *max_src_off_ptr;  /* Pointers to max. source and destination offset locations */
+    hsize_t *dst_off_ptr, *src_off_ptr; /* Pointers to source and destination offset arrays */
+    size_t *dst_len_ptr, *src_len_ptr;  /* Pointers to source and destination length arrays */
+    hsize_t tmp_dst_off, tmp_src_off;   /* Temporary source and destination offset values */
+    size_t tmp_dst_len, tmp_src_len;    /* Temporary source and destination length values */
+    size_t acc_len;             /* Accumulated length of sequences */
+    ssize_t ret_value = 0;      /* Return value (Total size of sequence in bytes) */
+
+    FUNC_ENTER_NOAPI(H5V_opvv, FAIL)
+
+    /* Sanity check */
+    HDassert(dst_curr_seq);
+    HDassert(*dst_curr_seq < dst_max_nseq);
+    HDassert(dst_len_arr);
+    HDassert(dst_off_arr);
+    HDassert(src_curr_seq);
+    HDassert(*src_curr_seq < src_max_nseq);
+    HDassert(src_len_arr);
+    HDassert(src_off_arr);
+    HDassert(op);
+
+    /* Set initial offset & length pointers */
+    dst_len_ptr = dst_len_arr + *dst_curr_seq;
+    dst_off_ptr = dst_off_arr + *dst_curr_seq;
+    src_len_ptr = src_len_arr + *src_curr_seq;
+    src_off_ptr = src_off_arr + *src_curr_seq;
+
+    /* Get temporary source & destination sequence offsets & lengths */
+    tmp_dst_len = *dst_len_ptr;
+    tmp_dst_off = *dst_off_ptr;
+    tmp_src_len = *src_len_ptr;
+    tmp_src_off = *src_off_ptr;
+
+    /* Compute maximum offset pointer values */
+    max_dst_off_ptr = dst_off_arr + dst_max_nseq;
+    max_src_off_ptr = src_off_arr + src_max_nseq;
+
+/* Work through the sequences */
+/* (Choose smallest sequence available initially) */
+
+    /* Source sequence is less than destination sequence */
+    if(tmp_src_len < tmp_dst_len) {
+src_smaller:
+        acc_len = 0;
+        do {
+            /* Make operator callback */
+            if((*op)(tmp_dst_off, tmp_src_off, tmp_src_len, op_data) < 0)
+                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation")
+
+            /* Accumulate number of bytes copied */
+            acc_len += tmp_src_len;
+
+            /* Update destination length */
+            tmp_dst_off += tmp_src_len;
+            tmp_dst_len -= tmp_src_len;
+
+            /* Advance source offset & check for being finished */
+            src_off_ptr++;
+            if(src_off_ptr >= max_src_off_ptr) {
+                /* Roll accumulated changes into appropriate counters */
+                *dst_off_ptr = tmp_dst_off;
+                *dst_len_ptr = tmp_dst_len;
+
+                /* Done with sequences */
+                goto finished;
+            } /* end if */
+            tmp_src_off = *src_off_ptr;
+
+            /* Update source information */
+            src_len_ptr++;
+            tmp_src_len = *src_len_ptr;
+        } while(tmp_src_len < tmp_dst_len);
+
+        /* Roll accumulated sequence lengths into return value */
+        ret_value += (ssize_t)acc_len;
+
+        /* Transition to next state */
+        if(tmp_dst_len < tmp_src_len)
+            goto dst_smaller;
+        else
+            goto equal;
+    } /* end if */
+    /* Destination sequence is less than source sequence */
+    else if(tmp_dst_len < tmp_src_len) {
+dst_smaller:
+        acc_len = 0;
+        do {
+            /* Make operator callback */
+            if((*op)(tmp_dst_off, tmp_src_off, tmp_dst_len, op_data) < 0)
+                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation")
+
+            /* Accumulate number of bytes copied */
+            acc_len += tmp_dst_len;
+
+            /* Update source length */
+            tmp_src_off += tmp_dst_len;
+            tmp_src_len -= tmp_dst_len;
+
+            /* Advance destination offset & check for being finished */
+            dst_off_ptr++;
+            if(dst_off_ptr >= max_dst_off_ptr) {
+                /* Roll accumulated changes into appropriate counters */
+                *src_off_ptr = tmp_src_off;
+                *src_len_ptr = tmp_src_len;
+
+                /* Done with sequences */
+                goto finished;
+            } /* end if */
+            tmp_dst_off = *dst_off_ptr;
+
+            /* Update destination information */
+            dst_len_ptr++;
+            tmp_dst_len = *dst_len_ptr;
+        } while(tmp_dst_len < tmp_src_len);
+
+        /* Roll accumulated sequence lengths into return value */
+        ret_value += (ssize_t)acc_len;
+
+        /* Transition to next state */
+        if(tmp_src_len < tmp_dst_len)
+            goto src_smaller;
+        else
+            goto equal;
+    } /* end else-if */
+    /* Destination sequence and source sequence are same length */
+    else {
+equal:
+        acc_len = 0;
+        do {
+            /* Make operator callback */
+            if((*op)(tmp_dst_off, tmp_src_off, tmp_dst_len, op_data) < 0)
+                HGOTO_ERROR(H5E_INTERNAL, H5E_CANTOPERATE, FAIL, "can't perform operation")
+
+            /* Accumulate number of bytes copied */
+            acc_len += tmp_dst_len;
+
+            /* Advance source & destination offset & check for being finished */
+            src_off_ptr++;
+            dst_off_ptr++;
+            if(src_off_ptr >= max_src_off_ptr || dst_off_ptr >= max_dst_off_ptr)
+                /* Done with sequences */
+                goto finished;
+            tmp_src_off = *src_off_ptr;
+            tmp_dst_off = *dst_off_ptr;
+
+            /* Update source information */
+            src_len_ptr++;
+            tmp_src_len = *src_len_ptr;
+
+            /* Update destination information */
+            dst_len_ptr++;
+            tmp_dst_len = *dst_len_ptr;
+        } while(tmp_dst_len == tmp_src_len);
+
+        /* Roll accumulated sequence lengths into return value */
+        ret_value += (ssize_t)acc_len;
+
+        /* Transition to next state */
+        if(tmp_dst_len < tmp_src_len)
+            goto dst_smaller;
+        else
+            goto src_smaller;
+    } /* end else */
+
+finished:
+    /* Roll accumulated sequence lengths into return value */
+    ret_value += (ssize_t)acc_len;
+
+    /* Update current sequence vectors */
+    *dst_curr_seq = (size_t)(dst_off_ptr - dst_off_arr);
+    *src_curr_seq = (size_t)(src_off_ptr - src_off_arr);
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5V_opvv() */
+
+
+/*-------------------------------------------------------------------------
  * Function:	H5V_memcpyvv
  *
  * Purpose:	Given source and destination buffers in memory (SRC & DST)
@@ -1299,12 +1510,13 @@ H5V_chunk_index(unsigned ndims, const hsize_t *coord, const uint32_t *chunk,
  *              destination sequences, data copying stops when either the
  *              source or destination buffer runs out of sequence information.
  *
+ * Note:	The algorithm in this routine is [basically] the same as for
+ *		H5V_opvv().  Changes should be made to both!
+ *
  * Return:	Non-negative # of bytes copied on success/Negative on failure
  *
  * Programmer:	Quincey Koziol
  *		Friday, May 2, 2003
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -1316,64 +1528,181 @@ H5V_memcpyvv(void *_dst,
 {
     unsigned char *dst;         /* Destination buffer pointer */
     const unsigned char *src;   /* Source buffer pointer */
-    size_t total_size=0;        /* Total size of sequence in bytes */
-    size_t size;                /* Size of sequence in bytes */
-    size_t u,v;                 /* Local index variables */
-    ssize_t ret_value;          /* Return value */
+    hsize_t *max_dst_off_ptr, *max_src_off_ptr;  /* Pointers to max. source and destination offset locations */
+    hsize_t *dst_off_ptr, *src_off_ptr;  /* Pointers to source and destination offset arrays */
+    size_t *dst_len_ptr, *src_len_ptr;  /* Pointers to source and destination length arrays */
+    size_t tmp_dst_len;         /* Temporary dest. length value */
+    size_t tmp_src_len;         /* Temporary source length value */
+    size_t acc_len;             /* Accumulated length of sequences */
+    ssize_t ret_value = 0;      /* Return value (Total size of sequence in bytes) */
 
     FUNC_ENTER_NOAPI_NOFUNC(H5V_memcpyvv)
 
     /* Sanity check */
-    assert(_dst);
-    assert(dst_curr_seq);
-    assert(*dst_curr_seq<dst_max_nseq);
-    assert(dst_len_arr);
-    assert(dst_off_arr);
-    assert(_src);
-    assert(src_curr_seq);
-    assert(*src_curr_seq<src_max_nseq);
-    assert(src_len_arr);
-    assert(src_off_arr);
+    HDassert(_dst);
+    HDassert(dst_curr_seq);
+    HDassert(*dst_curr_seq < dst_max_nseq);
+    HDassert(dst_len_arr);
+    HDassert(dst_off_arr);
+    HDassert(_src);
+    HDassert(src_curr_seq);
+    HDassert(*src_curr_seq < src_max_nseq);
+    HDassert(src_len_arr);
+    HDassert(src_off_arr);
 
-    /* Work through all the sequences */
-    for(u=*dst_curr_seq, v=*src_curr_seq; u<dst_max_nseq && v<src_max_nseq; ) {
-        /* Choose smallest buffer to write */
-        if(src_len_arr[v]<dst_len_arr[u])
-            size=src_len_arr[v];
+    /* Set initial offset & length pointers */
+    dst_len_ptr = dst_len_arr + *dst_curr_seq;
+    dst_off_ptr = dst_off_arr + *dst_curr_seq;
+    src_len_ptr = src_len_arr + *src_curr_seq;
+    src_off_ptr = src_off_arr + *src_curr_seq;
+
+    /* Get temporary source & destination sequence lengths */
+    tmp_dst_len = *dst_len_ptr;
+    tmp_src_len = *src_len_ptr;
+
+    /* Compute maximum offset pointer values */
+    max_dst_off_ptr = dst_off_arr + dst_max_nseq;
+    max_src_off_ptr = src_off_arr + src_max_nseq;
+
+    /* Compute buffer offsets */
+    dst = (unsigned char *)_dst + *dst_off_ptr;
+    src = (const unsigned char *)_src + *src_off_ptr;
+
+/* Work through the sequences */
+/* (Choose smallest sequence available initially) */
+
+    /* Source sequence is less than destination sequence */
+    if(tmp_src_len < tmp_dst_len) {
+src_smaller:
+        acc_len = 0;
+        do {
+            /* Copy data */
+            HDmemcpy(dst, src, tmp_src_len);
+
+            /* Accumulate number of bytes copied */
+            acc_len += tmp_src_len;
+
+            /* Update destination length */
+            tmp_dst_len -= tmp_src_len;
+
+            /* Advance source offset & check for being finished */
+            src_off_ptr++;
+            if(src_off_ptr >= max_src_off_ptr) {
+                /* Roll accumulated changes into appropriate counters */
+                *dst_off_ptr += acc_len;
+                *dst_len_ptr = tmp_dst_len;
+
+                /* Done with sequences */
+                goto finished;
+            } /* end if */
+
+            /* Update destination pointer */
+            dst += tmp_src_len;
+
+            /* Update source information */
+            src_len_ptr++;
+            tmp_src_len = *src_len_ptr;
+            src = (const unsigned char *)_src + *src_off_ptr;
+        } while(tmp_src_len < tmp_dst_len);
+
+        /* Roll accumulated sequence lengths into return value */
+        ret_value += (ssize_t)acc_len;
+
+        /* Transition to next state */
+        if(tmp_dst_len < tmp_src_len)
+            goto dst_smaller;
         else
-            size=dst_len_arr[u];
+            goto equal;
+    } /* end if */
+    /* Destination sequence is less than source sequence */
+    else if(tmp_dst_len < tmp_src_len) {
+dst_smaller:
+        acc_len = 0;
+        do {
+            /* Copy data */
+            HDmemcpy(dst, src, tmp_dst_len);
 
-        /* Compute offset on disk */
-        dst=(unsigned char *)_dst+dst_off_arr[u];
+            /* Accumulate number of bytes copied */
+            acc_len += tmp_dst_len;
 
-        /* Compute offset in memory */
-        src=(const unsigned char *)_src+src_off_arr[v];
+            /* Update source length */
+            tmp_src_len -= tmp_dst_len;
 
-        /* Copy data */
-        HDmemcpy(dst,src,size);
+            /* Advance destination offset & check for being finished */
+            dst_off_ptr++;
+            if(dst_off_ptr >= max_dst_off_ptr) {
+                /* Roll accumulated changes into appropriate counters */
+                *src_off_ptr += acc_len;
+                *src_len_ptr = tmp_src_len;
 
-        /* Update source information */
-        src_len_arr[v]-=size;
-        src_off_arr[v]+=size;
-        if(src_len_arr[v]==0)
-            v++;
+                /* Done with sequences */
+                goto finished;
+            } /* end if */
 
-        /* Update destination information */
-        dst_len_arr[u]-=size;
-        dst_off_arr[u]+=size;
-        if(dst_len_arr[u]==0)
-            u++;
+            /* Update source pointer */
+            src += tmp_dst_len;
 
-        /* Increment number of bytes copied */
-        total_size+=size;
-    } /* end for */
+            /* Update destination information */
+            dst_len_ptr++;
+            tmp_dst_len = *dst_len_ptr;
+            dst = (unsigned char *)_dst + *dst_off_ptr;
+        } while(tmp_dst_len < tmp_src_len);
+
+        /* Roll accumulated sequence lengths into return value */
+        ret_value += (ssize_t)acc_len;
+
+        /* Transition to next state */
+        if(tmp_src_len < tmp_dst_len)
+            goto src_smaller;
+        else
+            goto equal;
+    } /* end else-if */
+    /* Destination sequence and source sequence are same length */
+    else {
+equal:
+        acc_len = 0;
+        do {
+            /* Copy data */
+            HDmemcpy(dst, src, tmp_dst_len);
+
+            /* Accumulate number of bytes copied */
+            acc_len += tmp_dst_len;
+
+            /* Advance source & destination offset & check for being finished */
+            src_off_ptr++;
+            dst_off_ptr++;
+            if(src_off_ptr >= max_src_off_ptr || dst_off_ptr >= max_dst_off_ptr)
+                /* Done with sequences */
+                goto finished;
+
+            /* Update source information */
+            src_len_ptr++;
+            tmp_src_len = *src_len_ptr;
+            src = (const unsigned char *)_src + *src_off_ptr;
+
+            /* Update destination information */
+            dst_len_ptr++;
+            tmp_dst_len = *dst_len_ptr;
+            dst = (unsigned char *)_dst + *dst_off_ptr;
+        } while(tmp_dst_len == tmp_src_len);
+
+        /* Roll accumulated sequence lengths into return value */
+        ret_value += (ssize_t)acc_len;
+
+        /* Transition to next state */
+        if(tmp_dst_len < tmp_src_len)
+            goto dst_smaller;
+        else
+            goto src_smaller;
+    } /* end else */
+
+finished:
+    /* Roll accumulated sequence lengths into return value */
+    ret_value += (ssize_t)acc_len;
 
     /* Update current sequence vectors */
-    *dst_curr_seq=u;
-    *src_curr_seq=v;
-
-    /* Set return value */
-    H5_ASSIGN_OVERFLOW(ret_value,total_size,size_t,ssize_t);
+    *dst_curr_seq = (size_t)(dst_off_ptr - dst_off_arr);
+    *src_curr_seq = (size_t)(src_off_ptr - src_off_arr);
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5V_memcpyvv() */

@@ -6,12 +6,14 @@ PROJECT (HDF5_CPP)
 #-----------------------------------------------------------------------------
 IF (BUILD_SHARED_LIBS)
   SET (CPP_BUILT_AS_DYNAMIC_LIB 1)
+ELSE (BUILD_SHARED_LIBS)
+  SET (CPP_BUILT_AS_STATIC_LIB 1)
 ENDIF (BUILD_SHARED_LIBS)
 
 #-----------------------------------------------------------------------------
 # Generate configure file
 #-----------------------------------------------------------------------------
-CONFIGURE_FILE (${HDF5_SOURCE_DIR}/Resources/H5cxx_config.h.in
+CONFIGURE_FILE (${HDF5_RESOURCES_DIR}/H5cxx_config.h.in
                 ${HDF5_BINARY_DIR}/H5cxx_pubconf.h
 )
 
