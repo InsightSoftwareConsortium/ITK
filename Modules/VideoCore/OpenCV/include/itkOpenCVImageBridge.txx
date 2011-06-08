@@ -195,7 +195,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
 //
 template<class TOutputImageType>
 typename TOutputImageType::Pointer
-OpenCVImageBridge::CVMatToITKImage(const cv::Mat in)
+OpenCVImageBridge::CVMatToITKImage(const cv::Mat & in)
 {
   const IplImage converted = in;
   return IplImageToITKImage<TOutputImageType>(&converted);
@@ -206,7 +206,7 @@ OpenCVImageBridge::CVMatToITKImage(const cv::Mat in)
 //
 template<class TInputImageType>
 IplImage*
-OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in)
+OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Channels)
 {
   // Typedefs
   typedef TInputImageType ImageType;
@@ -224,12 +224,17 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in)
     {
     itkGenericExceptionMacro("OpenCV only supports 2D and 1D images");
     }
-  unsigned int nChannels = itk::NumericTraits<InputPixelType>::MeasurementVectorType::Dimension;
-  if (nChannels != 1 && nChannels != 3)
+  unsigned int inChannels = itk::NumericTraits<InputPixelType>::MeasurementVectorType::Dimension;
+  if (inChannels != 1 && inChannels != 3)
     {
     itkGenericExceptionMacro("OpenCV only supports scalar and 3-channel data");
     }
 
+  unsigned int outChannels = inChannels;
+  if (force3Channels)
+    {
+    outChannels = 3;
+    }
 
   //
   // Set up the output image
@@ -243,61 +248,71 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in)
   //
   if (typeid(ValueType) == typeid(unsigned char))
     {
-    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8U, nChannels);
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8U, outChannels);
     }
   else if (typeid(ValueType) == typeid(char))
     {
-    if (nChannels != 1)
+    if (outChannels != 1)
       {
       itkGenericExceptionMacro("OpenCV does not support color images with pixels of type char");
       }
-    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8S, nChannels);
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8S, outChannels);
     }
   else if (typeid(ValueType) == typeid(unsigned short))
     {
-    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16U, nChannels);
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16U, outChannels);
     }
   else if (typeid(ValueType) == typeid(short))
     {
-    if (nChannels != 1)
+    if (outChannels != 1)
       {
       itkGenericExceptionMacro("OpenCV does not support color images with pixels of type short");
       }
-    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16S, nChannels);
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16S, outChannels);
     }
   else if (typeid(ValueType) == typeid(float))
     {
-    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_32F, nChannels);
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_32F, outChannels);
     }
   else if (typeid(ValueType) == typeid(double))
     {
-    if (nChannels != 1)
+    if (outChannels != 1)
       {
       itkGenericExceptionMacro("OpenCV does not support color images with pixels of type double");
       }
-    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_64F, nChannels);
+    out = cvCreateImage(cvSize(w,h), IPL_DEPTH_64F, outChannels);
     }
   else
     {
     itkGenericExceptionMacro("OpenCV does not support the input pixel type");
     }
 
-  //Scalar
-  if (out->nChannels == 1)
+  // Scalar output
+  if (outChannels == 1)
     {
     memcpy(out->imageData, in->GetBufferPointer(), out->imageSize);
     }
 
-  // RGB
+  // BGR output
   else
     {
     // Set up an IplImage pointing at the input's buffer. It's ok to do the
     // const cast because it will only get used to copy pixels
-    IplImage* temp = new IplImage(*out);
+    IplImage* temp = cvCreateImageHeader(cvSize(w,h), out->depth, inChannels);
     temp->imageData = reinterpret_cast<char*>(
       const_cast<InputPixelType*>(in->GetBufferPointer()));
-    cvCvtColor(temp, out, CV_RGB2BGR);
-    delete temp;
+
+    // Already 3 channels
+    if (inChannels == 3)
+      {
+      cvCvtColor(temp, out, CV_RGB2BGR);
+      }
+
+    // input 1 channel, but forcing 3 channel output
+    else
+      {
+      cvCvtColor(temp, out, CV_GRAY2BGR);
+      }
     }
 
   //
@@ -311,10 +326,10 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in)
 //
 template<class TInputImageType>
 cv::Mat
-OpenCVImageBridge::ITKImageToCVMat(const TInputImageType* in)
+OpenCVImageBridge::ITKImageToCVMat(const TInputImageType* in, bool force3Channels)
 {
   // Extra copy, but necessary to prevent memory leaks
-  IplImage* temp = ITKImageToIplImage<TInputImageType>(in);
+  IplImage* temp = ITKImageToIplImage<TInputImageType>(in, force3Channels);
   cv::Mat out(temp, true);
   cvReleaseImage(&temp);
   return out;

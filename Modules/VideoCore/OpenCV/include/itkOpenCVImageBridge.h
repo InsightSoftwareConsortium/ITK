@@ -53,15 +53,15 @@ public:
 
   /** cv::Mat -> itk::Image */
   template<class TOutputImageType>
-  static typename TOutputImageType::Pointer CVMatToITKImage(const cv::Mat in);
+  static typename TOutputImageType::Pointer CVMatToITKImage(const cv::Mat & in);
 
   /** itk::Image -> IplImage* */
   template<class TInputImageType>
-  static IplImage* ITKImageToIplImage(const TInputImageType* in);
+  static IplImage* ITKImageToIplImage(const TInputImageType* in, bool force3Channels = false);
 
   /** itk::Image -> cv::Mat */
   template<class TInputImageType>
-  static cv::Mat ITKImageToCVMat(const TInputImageType* in);
+  static cv::Mat ITKImageToCVMat(const TInputImageType* in, bool force3Channels = false);
 
 private:
   OpenCVImageBridge(const Self &); //purposely not implemented
