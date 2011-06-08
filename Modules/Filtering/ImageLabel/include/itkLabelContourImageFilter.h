@@ -141,7 +141,7 @@ protected:
   void AfterThreadedGenerateData();
 
   void ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 
   /** LabelContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -183,7 +183,7 @@ private:
 
   LineMapType           m_LineMap;
   OutputImagePixelType  m_BackgroundValue;
-  int                   m_NumberOfThreads;
+  ThreadIdType          m_NumberOfThreads;
   bool                  m_FullyConnected;
 
   bool CheckNeighbors(const OutputIndexType & A,

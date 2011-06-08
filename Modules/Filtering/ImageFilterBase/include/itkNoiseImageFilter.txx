@@ -37,7 +37,7 @@ template< class TInputImage, class TOutputImage >
 void
 NoiseImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   unsigned int i;
 

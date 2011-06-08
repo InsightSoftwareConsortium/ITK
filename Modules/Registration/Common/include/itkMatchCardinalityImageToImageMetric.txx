@@ -129,7 +129,7 @@ template< class TFixedImage, class TMovingImage >
 void
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::ThreadedGetValue(const FixedImageRegionType & regionForThread,
-                   int threadId)
+                   ThreadIdType threadId)
 {
   FixedImageConstPointer fixedImage = this->GetFixedImage();
 

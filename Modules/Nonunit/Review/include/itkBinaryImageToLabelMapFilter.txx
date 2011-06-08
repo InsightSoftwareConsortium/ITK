@@ -106,7 +106,7 @@ template< class TInputImage, class TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();

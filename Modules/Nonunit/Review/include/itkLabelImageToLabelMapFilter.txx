@@ -64,7 +64,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
   // init the temp images - one per thread
   m_TemporaryImages.resize( this->GetNumberOfThreads() );
 
-  for ( int i = 0; i < this->GetNumberOfThreads(); i++ )
+  for ( ThreadIdType i = 0; i < this->GetNumberOfThreads(); i++ )
     {
     if ( i == 0 )
       {
@@ -85,7 +85,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & regionForThread, int threadId)
+::ThreadedGenerateData(const OutputImageRegionType & regionForThread, ThreadIdType threadId)
 {
   ProgressReporter progress( this, threadId, regionForThread.GetNumberOfPixels() );
 
@@ -133,7 +133,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 
   // merge the lines from the temporary images in the output image
   // don't use the first image - that's the output image
-  for ( int i = 1; i < this->GetNumberOfThreads(); i++ )
+  for ( ThreadIdType i = 1; i < this->GetNumberOfThreads(); i++ )
     {
     typedef typename OutputImageType::LabelObjectContainerType LabelObjectContainerType;
     const LabelObjectContainerType & labelObjectContainer = m_TemporaryImages[i]->GetLabelObjectContainer();

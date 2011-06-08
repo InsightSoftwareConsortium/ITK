@@ -47,7 +47,7 @@ void
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
 {
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   //  Allocate and initialize the thread temporaries
   m_ThreadUnderflow.SetSize(numberOfThreads);
@@ -61,13 +61,13 @@ void
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
 {
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   m_UnderflowCount = 0;
   m_OverflowCount = 0;
 
   // Accumulate counts for each thread
-  for ( int i = 0; i < numberOfThreads; i++ )
+  for ( ThreadIdType i = 0; i < numberOfThreads; i++ )
     {
     m_UnderflowCount += m_ThreadUnderflow[i];
     m_OverflowCount += m_ThreadOverflow[i];
@@ -78,7 +78,7 @@ template< class TInputImage >
 void
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   RealType value;
 

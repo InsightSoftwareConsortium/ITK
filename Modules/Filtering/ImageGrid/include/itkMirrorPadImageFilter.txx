@@ -622,7 +622,7 @@ template< class TInputImage, class TOutputImage >
 void
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   unsigned int dimCtr, i;
   int          regCtr;

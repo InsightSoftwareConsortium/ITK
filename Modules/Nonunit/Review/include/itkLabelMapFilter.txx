@@ -107,7 +107,7 @@ LabelMapFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData( const OutputImageRegionType &, int itkNotUsed(threadId) )
+::ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType itkNotUsed(threadId) )
 {
   while ( true )
     {

@@ -88,7 +88,7 @@ template< typename TInputImage, typename TOutputImage >
 void
 LabelVotingImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread,
-                        int itkNotUsed(threadId) )
+                        ThreadIdType itkNotUsed(threadId) )
 {
   typedef ImageRegionConstIterator< TInputImage > IteratorType;
   typedef ImageRegionIterator< TOutputImage >     OutIteratorType;

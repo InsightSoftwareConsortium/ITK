@@ -106,7 +106,7 @@ public:
     ParametersType firstBulkParameters =  firstBulkTransform->GetParameters();
     double firstBulkEntry = firstBulkParameters[0];
 
-    for ( int i=0; i<metric->GetThreader()->GetNumberOfThreads()-1; i++)
+    for ( ThreadIdType i=0; i<metric->GetThreader()->GetNumberOfThreads()-1; i++)
       {
         //Verify that BSpline transform pointer is being copied
         if (transformPtr[i].IsNull())

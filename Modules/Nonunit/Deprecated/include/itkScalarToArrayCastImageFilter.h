@@ -69,7 +69,7 @@ protected:
   virtual ~ScalarToArrayCastImageFilter() {}
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 
 private:
   ScalarToArrayCastImageFilter(const Self &); //purposely not implemented

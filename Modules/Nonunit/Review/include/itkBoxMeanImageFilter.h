@@ -87,7 +87,7 @@ protected:
   ~BoxMeanImageFilter() {}
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, int threadId);
+  void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
 private:
   BoxMeanImageFilter(const Self &); //purposely not implemented

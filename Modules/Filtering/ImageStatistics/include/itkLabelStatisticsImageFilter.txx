@@ -100,13 +100,13 @@ void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::BeforeThreadedGenerateData()
 {
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   // Resize the thread temporaries
   m_LabelStatisticsPerThread.resize(numberOfThreads);
 
   // Initialize the temporaries
-  for ( int i = 0; i < numberOfThreads; ++i )
+  for ( ThreadIdType i = 0; i < numberOfThreads; ++i )
     {
     m_LabelStatisticsPerThread[i].clear();
     }
@@ -122,8 +122,8 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 {
   MapIterator      mapIt;
   MapConstIterator threadIt;
-  int              i;
-  int              numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType     i;
+  ThreadIdType     numberOfThreads = this->GetNumberOfThreads();
 
   // Run through the map for each thread and accumulate the count,
   // sum, and sumofsquares
@@ -240,7 +240,7 @@ template< class TInputImage, class TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   RealType       value;
   LabelPixelType label;

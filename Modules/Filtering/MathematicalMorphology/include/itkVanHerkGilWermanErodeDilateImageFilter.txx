@@ -36,7 +36,7 @@ template< class TImage, class TKernel, class TFunction1 >
 void
 VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
 ::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // check that we are using a decomposable kernel
   if ( !this->GetKernel().GetDecomposable() )

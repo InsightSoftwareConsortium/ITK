@@ -61,7 +61,7 @@ class ITKCommon_EXPORT ProgressReporter
 {
 public:
   /** Constructor sets progress to 0 because the filter is starting.  */
-  ProgressReporter(ProcessObject *filter, int threadId,
+  ProgressReporter(ProcessObject *filter, ThreadIdType threadId,
                    SizeValueType numberOfPixels,
                    SizeValueType numberOfUpdates = 100,
                    float initialProgress = 0.0f,

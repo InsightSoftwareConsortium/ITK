@@ -200,7 +200,7 @@ protected:
   /** Standard pipeline method. This filter is implemented as a multi-threaded
    * filter. */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 
   /** BilateralImageFilter needs a larger input requested region than
    * the output requested region (larger by the size of the domain

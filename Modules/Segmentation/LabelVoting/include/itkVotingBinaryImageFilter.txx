@@ -95,7 +95,7 @@ template< class TInputImage, class TOutputImage >
 void
 VotingBinaryImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
 

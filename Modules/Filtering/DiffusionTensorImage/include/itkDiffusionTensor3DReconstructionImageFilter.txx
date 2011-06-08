@@ -181,7 +181,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TTensorPixelType,
                                                  TMaskImageType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int)
+                       ThreadIdType)
 {
   typename OutputImageType::Pointer outputImage =
     static_cast< OutputImageType * >( this->ProcessObject::GetOutput(0) );

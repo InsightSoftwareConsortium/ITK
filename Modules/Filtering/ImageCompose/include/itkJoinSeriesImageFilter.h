@@ -112,7 +112,7 @@ protected:
    * \sa ImageSource::ThreadedGenerateData(),
    *     ImageSource::GenerateData() */
   virtual void ThreadedGenerateData(const OutputImageRegionType &
-                                    outputRegionForThread, int threadId);
+                                    outputRegionForThread, ThreadIdType threadId);
 
 private:
   JoinSeriesImageFilter(const Self &); //purposely not implemented

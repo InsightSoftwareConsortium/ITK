@@ -32,7 +32,7 @@
 
 namespace itk
 {
-int MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
+ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
 {
   int num;
   // If we are not multithreading, the number of threads should
@@ -43,7 +43,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
 
 void MultiThreader::MultipleMethodExecute()
 {
-  int thread_loop;
+  ThreadIdType thread_loop;
 
   // obey the global maximum number of threads limit
   if ( m_NumberOfThreads > m_GlobalMaximumNumberOfThreads )
@@ -108,7 +108,7 @@ int MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
   return id;
 }
 
-void MultiThreader::TerminateThread(int ThreadID)
+void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 {
   if ( !m_SpawnedThreadActiveFlag[ThreadID] )
     {

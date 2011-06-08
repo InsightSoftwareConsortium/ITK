@@ -129,7 +129,7 @@ template< class TInputImage, class TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   int i;
 

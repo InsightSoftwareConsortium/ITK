@@ -147,7 +147,7 @@ protected:
    *     ImageToImageFilter::GenerateData()
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 };
 } //end of namespace itk
 

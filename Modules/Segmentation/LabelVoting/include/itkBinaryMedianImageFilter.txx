@@ -94,7 +94,7 @@ template< class TInputImage, class TOutputImage >
 void
 BinaryMedianImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
 

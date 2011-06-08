@@ -136,7 +136,7 @@ template< class TInputImage, class TSourceImage, class TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   itkDebugMacro(<< "Actually executing");
 

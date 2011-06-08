@@ -64,7 +64,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
 
-  int nbOfThreads = this->GetNumberOfThreads();
+  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
   if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -92,7 +92,7 @@ template< class TInputImage, class TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
@@ -215,7 +215,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   OffsetValueType linecount = pixelcount / xsize;
 
   SizeValueType lastLineIdForThread =  linecount;
-  if ( threadId != (int)m_NumberOfThreads - 1 )
+  if ( threadId != m_NumberOfThreads - 1 )
     {
     lastLineIdForThread = firstLineIdForThread
                           + RegionType( outputRegionIdx,

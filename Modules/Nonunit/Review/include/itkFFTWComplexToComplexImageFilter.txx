@@ -119,7 +119,7 @@ BeforeThreadedGenerateData()
 template <class TImage>
 void
 FFTWComplexToComplexImageFilter< TImage >::
-ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int itkNotUsed(threadId) )
+ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) )
 {
   //
   // Normalize the output if backward transform

@@ -21,7 +21,7 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-IterationReporter::IterationReporter(ProcessObject *filter, int threadId,
+IterationReporter::IterationReporter(ProcessObject *filter, ThreadIdType threadId,
                                      unsigned long stepsPerUpdate):
   m_Filter(filter),
   m_ThreadId(threadId),

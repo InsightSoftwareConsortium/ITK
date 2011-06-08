@@ -181,7 +181,7 @@ protected:
    * called. */
   void ThreadedGenerateData(const OutputImageRegionType &
                             outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 
 private:
   GrayscaleGeodesicDilateImageFilter(const Self &); //purposely not implemented

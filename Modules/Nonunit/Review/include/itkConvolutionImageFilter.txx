@@ -60,7 +60,7 @@ ConvolutionImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 ConvolutionImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputRegionType & outputRegionForThread, int threadId)
+::ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId)
 {
   // setup the progress reporter
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );

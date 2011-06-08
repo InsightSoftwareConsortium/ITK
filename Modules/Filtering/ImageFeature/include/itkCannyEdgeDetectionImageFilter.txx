@@ -157,7 +157,7 @@ template< class TInputImage, class TOutputImage >
 void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::ThreadedCompute2ndDerivative(const OutputImageRegionType &
-                               outputRegionForThread, int threadId)
+                               outputRegionForThread, ThreadIdType threadId)
 {
   ZeroFluxNeumannBoundaryCondition< TInputImage > nbc;
 
@@ -485,7 +485,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::ThreadedCompute2ndDerivativePos(const OutputImageRegionType & outputRegionForThread, int threadId)
+::ThreadedCompute2ndDerivativePos(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
   ZeroFluxNeumannBoundaryCondition< TInputImage > nbc;
 
