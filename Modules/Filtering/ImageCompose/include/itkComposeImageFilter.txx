@@ -114,7 +114,7 @@ template< class TInputImage, class TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       int)
+                       ThreadIdType)
 {
   typename OutputImageType::Pointer outputImage =
     static_cast< OutputImageType * >( this->ProcessObject::GetOutput(0) );
