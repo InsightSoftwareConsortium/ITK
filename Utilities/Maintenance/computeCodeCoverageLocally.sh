@@ -16,25 +16,35 @@
 #   limitations under the License.
 #
 #==========================================================================*/
-#
-#  How to use this script
-#
-#   0)  Use Linux or Mac
-#
-#   1)  Add the CMake flags:
-#
-#       CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage
-#       CMAKE_C_FLAGS:STRING= -g -O0  -fprofile-arcs -ftest-coverage
-#
-#   2)  Compile ITK for Debug
-#
-#                     CMAKE_BUILD_TYPE  Debug
-#
-#   3)  From the binary directory type the path to this script in the ITK
-#       source tree.  This will run all tests in ITK and generate code
-#       coverage for the entire toolkit.  The code coverage report will be
-#       generated in HTML and will be presented with Firefox.
-#
+if [[ $1 == "--help" ]]
+then
+echo "      "
+echo "  How to use this script      "
+echo "      "
+echo "   0)  Use Linux or Mac      "
+echo "      "
+echo "   1)  Add the CMake flags:      "
+echo "      "
+echo "       CMAKE_CXX_FLAGS:STRING=-g -O0  -fprofile-arcs -ftest-coverage     "
+echo "       CMAKE_C_FLAGS:STRING= -g -O0  -fprofile-arcs -ftest-coverage      "
+echo "      "
+echo "   2)  Compile ITK for Debug      "
+echo "      "
+echo "                     CMAKE_BUILD_TYPE  Debug      "
+echo "      "
+echo "   3)  From the binary directory type the path to this script in the ITK   "
+echo "       source tree.  This will run all tests in ITK and generate code      "
+echo "       coverage for the entire toolkit.  The code coverage report will be  "
+echo "       generated in HTML and can be opened with your favorite browser.     "
+echo "    "
+echo "       For example, "
+echo "    "
+echo "          In Linux, you can do        firefox  ./index.html     "
+echo "          In Mac,   you can do        open     ./index.html     "
+echo "    "
+
+else
+
 #==========================================================================
 
 lcov --directory . --zerocounters
@@ -42,4 +52,5 @@ ctest
 lcov --directory . --capture --output-file app.info
 lcov --remove app.info '*test*'  '*ThirdParty*' '/usr/*' --output-file  app.info2
 genhtml app.info2
-firefox ./index.html
+
+fi
