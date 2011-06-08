@@ -1,11 +1,7 @@
 project(ITK-GDCM)
 set(ITK-GDCM_THIRD_PARTY 1)
 
-option(ITK_USE_SYSTEM_GDCM "Use an outside build of GDCM." OFF)
-mark_as_advanced(ITK_USE_SYSTEM_GDCM)
-
 if(ITK_USE_SYSTEM_GDCM)
-  find_package(GDCM REQUIRED)
   set(ITK-GDCM_SYSTEM_INCLUDE_DIRS
     ${GDCM_INCLUDE_DIRS}
     )
