@@ -91,7 +91,7 @@ protected:
 
   virtual void BeforeThreadedGenerateData();
 
-  virtual void ThreadedGenerateData(const RegionType & outputRegionForThread, int);
+  virtual void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType);
 
 private:
   ComposeImageFilter(const Self &); //purposely not implemented
