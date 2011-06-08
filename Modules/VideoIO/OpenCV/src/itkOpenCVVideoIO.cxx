@@ -572,6 +572,13 @@ void OpenCVVideoIO::Write(const void *buffer)
     itkExceptionMacro("Can not write with empty parameters. You probably need to call SetWriterParameters");
     }
 
+  // Make sure the number of channels is 1 or 3
+  if (this->m_NumberOfComponents != 1 && this->m_NumberOfComponents != 3)
+    {
+    itkExceptionMacro("OpenCV only supports 1 and 3 component images. NumberOfComponents = "
+      << this->m_NumberOfComponents);
+    }
+
   // If the writer isn't open yet, open it
   if (!this->m_WriterOpen)
     {
@@ -581,8 +588,9 @@ void OpenCVVideoIO::Write(const void *buffer)
   // Place the contents of the buffer into an OpenCV image
   if (this->m_CVImage == NULL)
     {
+    // The output image always has to be 3 components for the OpenCV writer
     this->m_CVImage = cvCreateImage( cvSize(this->m_Dimensions[0],this->m_Dimensions[1]),
-                                     IPL_DEPTH_8U, this->m_NumberOfComponents );
+                                     IPL_DEPTH_8U, 3 );
     }
   if (this->m_TempImage == NULL)
     {
@@ -594,8 +602,16 @@ void OpenCVVideoIO::Write(const void *buffer)
   cvSetData(this->m_TempImage,
     reinterpret_cast<char*>(const_cast<void*>(buffer)), this->m_TempImage->widthStep);
 
-  // Convert to BGR
-  cvCvtColor(this->m_TempImage, this->m_CVImage, CV_RGB2BGR);
+  // Handle grayscale
+  if (this->m_NumberOfComponents == 1)
+    {
+    cvCvtColor(this->m_TempImage, this->m_CVImage, CV_GRAY2BGR);
+    }
+  // Guaranteed to be 3 channels
+  else
+    {
+    cvCvtColor(this->m_TempImage, this->m_CVImage, CV_RGB2BGR);
+    }
 
   // Write the frame
   cvWriteFrame(this->m_Writer, this->m_CVImage);
