@@ -175,6 +175,20 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char** argv)
     return EXIT_FAILURE;
     }
 
+  // Test number of channels after force3Channels (if type is supported for color images)
+  if (typeid(PixelType) == typeid(unsigned short) ||
+      typeid(PixelType) == typeid(unsigned char) ||
+      typeid(PixelType) == typeid(float))
+    {
+    cvReleaseImage(&outIpl);
+    outIpl = itk::OpenCVImageBridge::ITKImageToIplImage< ImageType >(baselineImage, true);
+    if (outIpl->nChannels != 3)
+      {
+      std::cerr << "force3Channels failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
   //
   // Test itk::Image -> cv::Mat
   //
