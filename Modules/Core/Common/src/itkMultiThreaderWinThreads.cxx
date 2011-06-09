@@ -38,18 +38,17 @@
 
 namespace itk
 {
-int MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
+ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
 {
-  int num;
   SYSTEM_INFO sysInfo;
   GetSystemInfo(&sysInfo);
-  num = sysInfo.dwNumberOfProcessors;
+  ThreadIdType num = sysInfo.dwNumberOfProcessors;
   return num;
 }
 
 void MultiThreader::MultipleMethodExecute()
 {
-  int thread_loop;
+  ThreadIdType thread_loop;
 
   DWORD  threadId;
   HANDLE process_id[ITK_MAX_THREADS];
@@ -119,7 +118,7 @@ void MultiThreader::MultipleMethodExecute()
 
 int MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
 {
-  int id = 0;
+  ThreadIdType id = 0;
 
   DWORD threadId;
 
@@ -165,7 +164,7 @@ int MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
   return id;
 }
 
-void MultiThreader::TerminateThread(int ThreadID)
+void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 {
   if ( !m_SpawnedThreadActiveFlag[ThreadID] )
     {
