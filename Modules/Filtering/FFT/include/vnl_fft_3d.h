@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 // This is vxl/vnl/algo/vnl_fft_3d.h
-#ifndef vnl_fft_3d_h_
-#define vnl_fft_3d_h_
+#ifndef __vnl_fft_3d_h
+#define __vnl_fft_3d_h
 #ifdef VCL_NEEDS_PRAGMA_INTERFACE
 #pragma interface
 #endif
