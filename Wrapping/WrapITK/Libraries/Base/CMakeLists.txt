@@ -1,7 +1,6 @@
 WRAP_LIBRARY(Base)
 
 set(WRAPPER_LIBRARY_GROUPS
-  itkEventObjects
   ITKCommonBase
   itkOffset
   itkArray
@@ -22,7 +21,7 @@ set(WRAPPER_LIBRARY_GROUPS
   itkRGBPixel
   itkRGBAPixel
   itkVariableLengthVector
-  ITKRegions
+  itkImageRegion
   itkMatrix
   itkSymmetricSecondRankTensor
   itkImage

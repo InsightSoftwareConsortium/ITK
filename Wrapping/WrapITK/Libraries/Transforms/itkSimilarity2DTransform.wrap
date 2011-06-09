@@ -1,0 +1,6 @@
+FILTER_DIMS(d2 2)
+if(d2)
+  WRAP_CLASS("itk::Similarity2DTransform" POINTER)
+    WRAP_TEMPLATE("${ITKM_D}" "${ITKT_D}")
+  END_WRAP_CLASS()
+endif(d2)

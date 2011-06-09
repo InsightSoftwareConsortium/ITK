@@ -3,11 +3,12 @@ WRAP_LIBRARY(Transforms)
 set(WRAPPER_LIBRARY_GROUPS
   itkTransform
   itkMatrixOffsetTransformBase
-  ITKRigidTransforms
-  ITKEulerTransform
+  itkEuler2DTransform
+  itkEuler3DTransform
   itkVersorTransform
-  ITKVersorRigidTransform
-  ITKSimilarityTransforms
+  itkVersorRigid3DTransform
+  itkSimilarity2DTransform
+  itkSimilarity3DTransform
   itkAffineTransform
   itkScalableAffineTransform
   itkScaleTransform

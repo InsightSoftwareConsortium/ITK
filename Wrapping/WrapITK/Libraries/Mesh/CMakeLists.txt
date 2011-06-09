@@ -9,7 +9,7 @@ set(WRAPPER_LIBRARY_GROUPS
   itkGeometricalQuadEdge
   itkQuadEdgeMeshPoint
   itkQuadEdgeMeshTraits
-  itkQuadEdgeMeshCellTraitsInfo
+  itkQuadEdgeCellTraitsInfo
   itkCellInterface
   itkQuadEdgeMeshBase
   itkQuadEdgeMeshLineCell

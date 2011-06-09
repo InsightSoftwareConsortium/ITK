@@ -7,18 +7,32 @@ WRAP_INCLUDE("itkQuadEdgeMeshParamMatrixCoefficients.h")
 FILTER_DIMS(d3 3)
 if(d3)
 
-  set(classes
-      MatrixCoefficients
-      OnesMatrixCoefficients
-      InverseEuclideanDistanceMatrixCoefficients
-      ConformalMatrixCoefficients
-      AuthalicMatrixCoefficients
-      IntrinsicMatrixCoefficients
-      HarmonicMatrixCoefficients
-      )
-  foreach(c ${classes})
-    WRAP_CLASS("itk::${c}")
+    WRAP_CLASS("itk::MatrixCoefficients")
       WRAP_TEMPLATE("QEM${ITKM_D}3" "itk::QuadEdgeMesh< ${ITKT_D},3 >")
     END_WRAP_CLASS()
-  endforeach(c)
+
+    WRAP_CLASS("itk::OnesMatrixCoefficients")
+      WRAP_TEMPLATE("QEM${ITKM_D}3" "itk::QuadEdgeMesh< ${ITKT_D},3 >")
+    END_WRAP_CLASS()
+
+    WRAP_CLASS("itk::InverseEuclideanDistanceMatrixCoefficients")
+      WRAP_TEMPLATE("QEM${ITKM_D}3" "itk::QuadEdgeMesh< ${ITKT_D},3 >")
+    END_WRAP_CLASS()
+
+    WRAP_CLASS("itk::ConformalMatrixCoefficients")
+      WRAP_TEMPLATE("QEM${ITKM_D}3" "itk::QuadEdgeMesh< ${ITKT_D},3 >")
+    END_WRAP_CLASS()
+
+    WRAP_CLASS("itk::AuthalicMatrixCoefficients")
+      WRAP_TEMPLATE("QEM${ITKM_D}3" "itk::QuadEdgeMesh< ${ITKT_D},3 >")
+    END_WRAP_CLASS()
+
+    WRAP_CLASS("itk::IntrinsicMatrixCoefficients")
+      WRAP_TEMPLATE("QEM${ITKM_D}3" "itk::QuadEdgeMesh< ${ITKT_D},3 >")
+    END_WRAP_CLASS()
+
+    WRAP_CLASS("itk::HarmonicMatrixCoefficients")
+      WRAP_TEMPLATE("QEM${ITKM_D}3" "itk::QuadEdgeMesh< ${ITKT_D},3 >")
+    END_WRAP_CLASS()
+
 endif(d3)
