@@ -132,8 +132,8 @@ itkHDF5ImageIOStreamingReadWriteTest(int ac, char * av [])
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5ImageIOFactory::New() );
 
   int result(0);
-  result += HDF5ReadWriteTest2<unsigned char>("UCharImage.hdf5");
-  result += HDF5ReadWriteTest2<float>("FloatImage.hdf5");
-  result += HDF5ReadWriteTest2<itk::RGBPixel<unsigned char> >("RGBImage.hdf5");
+  result += HDF5ReadWriteTest2<unsigned char>("StreamingUCharImage.hdf5");
+  result += HDF5ReadWriteTest2<float>("StreamingFloatImage.hdf5");
+  result += HDF5ReadWriteTest2<itk::RGBPixel<unsigned char> >("StreamingRGBImage.hdf5");
   return result != 0;
 }
