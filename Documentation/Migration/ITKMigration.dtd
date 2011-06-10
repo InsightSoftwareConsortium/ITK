@@ -1,0 +1,23 @@
+<!ELEMENT Change ( Title, Author*, Date*, Description, SampleCode*, Gerrit-ChangeId, FileList, MigrationFix-Automatic*, MigrationFix-Manual* ) >
+
+<!ELEMENT Description ( #PCDATA ) >
+
+<!ELEMENT FileList ( #PCDATA ) >
+
+<!ELEMENT Gerrit-ChangeId ( #PCDATA ) >
+
+<!ELEMENT MigrationFix-Automatic ( Old, New ) >
+
+<!ELEMENT MigrationFix-Manual ( Old, New ) >
+
+<!ELEMENT New ( #PCDATA ) >
+
+<!ELEMENT Old ( #PCDATA ) >
+
+<!ELEMENT SampleCode ( Old*, New* ) >
+
+<!ELEMENT Title ( #PCDATA ) >
+
+<!ELEMENT Author ( #PCDATA ) >
+
+<!ELEMENT Date ( #PCDATA ) >

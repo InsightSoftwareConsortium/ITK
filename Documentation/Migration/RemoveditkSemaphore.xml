@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** RemoveditkSemaphore.xml
@@ -64,6 +64,7 @@
       </Old>
 
       <New>
+        <![CDATA[
         int m_Semaphore;
         SimpleMutexLock m_Lockl
         ConditionalVariable::Pointer m_Condition = ConditionalVariable::New();
@@ -80,6 +81,7 @@
         }
         --m_Semaphore;
         m_Lock.Unlock();
+        ]]>
       </New>
 
     </SampleCode>

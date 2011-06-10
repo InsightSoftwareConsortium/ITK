@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--***************************************************************************
 **
 ** MoveGetSetLengthMeasurementVectorTraits.xml
@@ -24,6 +24,7 @@
   ** English language description of what was changed and why
   **-->
   <Description>
+  <![CDATA[
   This change updates the attribute names for the LabelObject system.  The
   changes are:
 
@@ -43,24 +44,37 @@
   Sigma                   -> StandardDeviation
   Size                    -> NumberOfPixels
   SizeOnBorder            -> NumberOfPixelsOnBorder
+  ]]>
   </Description>
 
   <!--
   ** Sample code to illustrate the fix process
   **-->
   <SampleCode>
-    <OldCode>
+    <Old>
+    <![CDATA[
     typedef ShapeLabelObject LabelObjectType;
     LabelObjectType::Pointer labelObject;
     LabelObjectType::RegionType region = labelObject->GetRegion();
-    </OldCode>
+    ]]>
+    </Old>
 
-    <NewCode>
+    <New>
+    <![CDATA[
     typedef TLabelObject LabelObjectType;
     LabelObjectType::Pointer labelObject;
     LabelObjectType::RegionType region = labelObject->GetBoundingBox();
-    </NewCode>
+    ]]>
+    </New>
   </SampleCode>
+
+
+  <!--
+  ** The asociated Gerrit entry for this API change
+  **-->
+  <Gerrit-ChangeId>
+  Ib5bdca1cd1809490f1c5a0f991c7cc2714d33c70
+  </Gerrit-ChangeId>
 
   <!--
   ** List of all files that were changed (might be automatically populated by
@@ -91,12 +105,6 @@
   Testing/Code/Review/itkShapeLabelObjectAccessorsTest1.cxx
   </FileList>
 
-  <!--
-  ** The asociated Gerrit entry for this API change
-  **-->
-  <Gerrit-ChangeId>
-  Ib5bdca1cd1809490f1c5a0f991c7cc2714d33c70
-  </Gerrit-ChangeId>
 
 
   <!--

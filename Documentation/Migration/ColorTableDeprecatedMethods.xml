@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** ColorTableDeprecatedMethods.xml
@@ -17,6 +17,7 @@
       ** Plain text description of the change
       **-->
   <Description>
+   <![CDATA[
     The methods useDiscrete, useGray and useHeat didn't conform to
     ITK method naming standards, and were deprecated in ITK 3.X. They
     are removed in ITK4.
@@ -25,7 +26,8 @@
       RGBPixel< TPixel > *color(unsigned int c);
       char *colorName(unsigned int);
       RGBPixel< TPixel > *GetColor(unsigned int);
-      unsigned int size();
+      unsigned int size()
+   ]]>
   </Description>
 
   <!--**
@@ -33,90 +35,136 @@
       **-->
   <SampleCode>
     <Old>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer colors = ColorTableType::New();
       colors->useHeat();
       colors->useGray();
       colors->useDiscrete();
+     ]]>
     </Old>
+  </SampleCode>
+  <SampleCode>
     <New>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer colors = ColorTableType::New();
       colors->UseHeatColors();
       colors->UseGrayColors();
       colors->UseDiscreteColors();
+     ]]>
     </New>
+  </SampleCode>
+  <SampleCode>
     <Old>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->useGray();
       unsigned char green = ctable->color(0, 1);
+     ]]>
     </Old>
+  </SampleCode>
+  <SampleCode>
     <New>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->UseGrayColors();
       unsigned char green = ctable->GetColorComponent(0, 1);
+     ]]>
     </New>
+  </SampleCode>
+  <SampleCode>
     <Old>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->useHeat();
       unsigned char blue = ctable->color(3)->GetBlue();
+     ]]>
     </Old>
+  </SampleCode>
+  <SampleCode>
     <New>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->UseHeatColors();
       unsigned char blue = ctable->GetColor(3).GetBlue();
+     ]]>
     </New>
+  </SampleCode>
+  <SampleCode>
     <Old>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->useHeat();
       unsigned char blue = ctable->GetColor(3)->GetBlue();
+     ]]>
     </Old>
+  </SampleCode>
+  <SampleCode>
     <New>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->UseHeatColors();
       unsigned char blue = ctable->GetColor(3).GetBlue();
+     ]]>
     </New>
+  </SampleCode>
+  <SampleCode>
     <Old>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->useHeat();
       char *name = ctable->GetColorName(5);
+     ]]>
     </Old>
+  </SampleCode>
+  <SampleCode>
     <New>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->UseHeatColors();
       std::string name = ctable->GetColorName(5);
+     ]]>
     </New>
+  </SampleCode>
+  <SampleCode>
     <Old>
+     <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->useHeat();
       char *name = ctable->colorName(5);
+     ]]>
     </Old>
+  </SampleCode>
+  <SampleCode>
     <New>
+      <![CDATA[
       #include "itkColorTable.h"
       typedef itk::ColorTable<unsigned char> ColorTableType;
       ColorTableType::Pointer ctable = ColorTableType::New();
       ctable->UseHeatColors();
       std::string name = ctable->GetColorName(5);
+      ]]>
     </New>
   </SampleCode>
 
@@ -133,7 +181,7 @@
   <FileList>
     Code/Common/itkColorTable.h
   </FileList>
-</Change>
+
 
 <MigrationFix-Automatic>
   <Old>
@@ -179,3 +227,5 @@
     GetColorComponent(unsigned int, char)
   </New>
 </MigrationFix-Automatic>
+
+</Change>

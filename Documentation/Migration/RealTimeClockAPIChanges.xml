@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** RealTimeClockAPIChanges.xml
@@ -31,14 +31,18 @@
       **-->
   <SampleCode>
     <Old>
+      <![CDATA[
       #include "itkRealTimeClock.h"
       itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
       double timeStart = clock->GetTimeStamp();
+      ]]>
     </Old>
     <New>
+      <![CDATA[
       #include "itkRealTimeClock.h"
       itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
       itk::RealTimeClock::TimeStampType timeStart = clock->GetTimeInSeconds();
+      ]]>
     </New>
   </SampleCode>
 
@@ -56,7 +60,6 @@
     Code/Common/itkRealTimeClock.h
     Code/Common/itkRealTimeClock.cxx
   </FileList>
-</Change>
 
 <MigrationFix-Automatic>
   <Old>
@@ -66,3 +69,5 @@
     GetTimeInSeconds
   </New>
 </MigrationFix-Automatic>
+
+</Change>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <!--**
 **
 ** RemoveConstantOperationFilters.xml
@@ -51,17 +51,21 @@
     **-->
     <SampleCode>
       <Old>
+      <![CDATA[
       #include "itkMultiplyByConstantImageFilter.h"
       typedef MultiplyByConstantImageFilter<
         DeformationFieldType,
         TimeStepType, DeformationFieldType >                MultiplyType;
+      ]]>
       </Old>
 
       <New>
+      <![CDATA[
       #include "itkMultiplyImageFilter.h"
       typedef MultiplyImageFilter< DeformationFieldType,
         itk::Image<TimeStepType, ImageDimension>,
         DeformationFieldType >                              MultiplyType;
+      ]]>
       </New>
 
     </SampleCode>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
 <Change>
+  <Title>
+  Histogram Increase Frequency Disambiguation
+  </Title>
   <!--
   ** English language description of what was changed and why
   **-->
@@ -13,16 +16,16 @@
   ** Sample code to illustrate the fix process
   **-->
   <SampleCode>
-    <OldCode>
+    <Old>
       typename HistogramType::IndexType index;
       typename HistogramType::MeasurementVectorType measurement;
       measurement.SetSize(1);
       measurement[0] = value;
       histogram->IncreaseFrequency(measurement, 1.0F);
       histogram->IncreaseFrequency(index, 1.0F);
-    </OldCode>
+    </Old>
 
-    <NewCode>
+    <New>
       typename HistogramType::IndexType index;
       typename HistogramType::MeasurementVectorType measurement;
       measurement.SetSize(1);
@@ -34,17 +37,9 @@
       histogram->IncreaseFrequency(measurement, 1.0F);
       histogram->IncreaseFrequency(index, 1.0F);
 #endif
-    </NewCode>
+    </New>
   </SampleCode>
 
-  <!--
-  ** List of all files that were changed (might be automatically populated by
-  ** git hook?)
-  **-->
-  <FileList>
-  Code/Numerics/Statistics/itkHistogram.h
-  Code/Numerics/Statistics/itkHistogram.txx
-  </FileList>
 
   <!--
   ** The asociated Gerrit entry for this API change
@@ -55,18 +50,29 @@
 
 
   <!--
+  ** List of all files that were changed (might be automatically populated by
+  ** git hook?)
+  **-->
+  <FileList>
+  Code/Numerics/Statistics/itkHistogram.h
+  Code/Numerics/Statistics/itkHistogram.txx
+  </FileList>
+
+
+  <!--
   ** Migration guide rules
   **-->
-  <MigrationFix-Manual type="MethodRefactor">
+  <MigrationFix-Manual >
     <Old>
     IncreaseFrequency
     </Old>
-    <!--
+    <New>
     Based on signature, perhaps replace with
     IncreaseFrequencyOfMeasurement
     IncreaseFrequencyOfIndex
-    >
+    </New>
   </MigrationFix-Manual>
+
 
 
 </Change>
