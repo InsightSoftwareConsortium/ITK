@@ -234,7 +234,7 @@ HDF5TransformIO::Read()
       {
       std::string transformName(GetTransformName(i));
       // open /TransformGroup/N
-      H5::Group transformGroup = this->m_H5File->openGroup(transformName);
+      H5::Group currentTransformGroup = this->m_H5File->openGroup(transformName);
       //
       // read transform type
       std::string transformType;
@@ -262,6 +262,7 @@ HDF5TransformIO::Read()
       paramsName += transformParamsName;
       params = this->ReadParameters(paramsName);
       transform->SetParametersByValue(params);
+      currentTransformGroup.close();
       }
     transformGroup.close();
     }
