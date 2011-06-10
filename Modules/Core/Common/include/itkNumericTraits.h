@@ -92,6 +92,12 @@ public:
    *  to save memory */
   typedef float FloatType;
 
+  /** Type for real-valued scalar operations. */
+  typedef double RealType;
+
+  /** Type for real-valued scalar operations. */
+  typedef RealType ScalarRealType;
+
   /** Additive identity. */
   static const T Zero;
 
