@@ -31,7 +31,7 @@ extern "C"
 void itkPNGWriteErrorFunction( png_structp png_ptr,
                                png_const_charp itkNotUsed(error_msg) )
 {
-  longjmp(png_ptr->jmpbuf, 1);
+  longjmp(png_jmpbuf(png_ptr), 1);
 }
 }
 
@@ -207,7 +207,11 @@ void PNGImageIO::Read(void *buffer)
   // minimum of a byte per pixel
   if ( colorType == PNG_COLOR_TYPE_GRAY && bitDepth < 8 )
     {
+#if (PNG_LIBPNG_VER_MAJOR < 2 && PNG_LIBPNG_VER_MINOR < 4)
     png_set_gray_1_2_4_to_8(png_ptr);
+#else
+    png_set_expand_gray_1_2_4_to_8(png_ptr);
+#endif
     }
 
   // add alpha if any alpha found
@@ -223,10 +227,19 @@ void PNGImageIO::Read(void *buffer)
 #endif
     }
 
+#if (PNG_LIBPNG_VER_MAJOR < 2 && PNG_LIBPNG_VER_MINOR < 5)
   if ( info_ptr->valid & PNG_INFO_sBIT )
     {
     png_set_shift( png_ptr, &( info_ptr->sig_bit ) );
     }
+#else
+  if ( png_get_valid(png_ptr, info_ptr,PNG_INFO_sBIT ) )
+    {
+    png_color_8p bits;
+    png_get_sBIT(png_ptr,info_ptr,&bits);
+    png_set_shift( png_ptr, bits);
+    }
+#endif
   // have libpng handle interlacing
   //int number_of_passes = png_set_interlace_handling(png_ptr);
   // update the info now that we have defined the filters
@@ -338,7 +351,11 @@ void PNGImageIO::ReadImageInformation()
   // minimum of a byte per pixel
   if ( colorType == PNG_COLOR_TYPE_GRAY && bitDepth < 8 )
     {
+#if (PNG_LIBPNG_VER_MAJOR < 2 && PNG_LIBPNG_VER_MINOR < 4)
     png_set_gray_1_2_4_to_8(png_ptr);
+#else
+    png_set_expand_gray_1_2_4_to_8(png_ptr);
+#endif
     }
 
   // add alpha if any alpha found
@@ -490,7 +507,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
 #if !defined( _MSC_VER ) || _MSC_VER != 1310
   png_set_error_fn(png_ptr, png_ptr,
                    itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
-  if ( setjmp(png_ptr->jmpbuf) )
+  if ( setjmp(png_jmpbuf(png_ptr)) )
     {
     fclose(fp);
     itkExceptionMacro( "Error while writing Slice to file: "
@@ -553,8 +570,10 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
   //      set the unit_type to unknown.  if we add units to ITK, we should
   //          convert pixel size to meters and store units as meters (png
   //          has three set of units: meters, radians, and unknown).
+#if (PNG_LIBPNG_VER_MAJOR < 2 && PNG_LIBPNG_VER_MINOR < 4)
   png_set_sCAL(png_ptr, info_ptr, PNG_SCALE_UNKNOWN, colSpacing,
                rowSpacing);
+#endif
 
   //std::cout << "PNG_INFO_sBIT: " << PNG_INFO_sBIT << std::endl;
 
