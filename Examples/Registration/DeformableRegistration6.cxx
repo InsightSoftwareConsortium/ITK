@@ -172,69 +172,29 @@ int main( int argc, char *argv[] )
 
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
 
- registration->SetFixedImageRegion( fixedRegion );
+  registration->SetFixedImageRegion( fixedRegion );
 
-  //  Software Guide : BeginLatex
-  //
-  //  Here we define the parameters of the BSplineDeformableTransform grid.  We
-  //  arbitrarily decide to use a grid with $5 \times 5$ nodes within the image.
-  //  The reader should note that the BSpline computation requires a
-  //  finite support region ( 1 grid node at the lower borders and 2
-  //  grid nodes at upper borders). Therefore in this example, we set
-  //  the grid size to be $8 \times 8$ and place the grid origin such that
-  //  grid node (1,1) coincides with the first pixel in the fixed image.
-  //
-  //  \index{BSplineDeformableTransform}
-  //
-  //  Software Guide : EndLatex
+  unsigned int numberOfGridNodes = 8;
 
+  TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
+  TransformType::MeshSizeType             meshSize;
+  TransformType::OriginType               fixedOrigin;
 
-  typedef TransformType::RegionType RegionType;
-  RegionType bsplineRegionLow;
-  RegionType::SizeType   gridBorderSize;
-  RegionType::SizeType   totalGridSize;
-
-  gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
-
-   //  Software Guide : BeginLatex
-  //
-  //  Here we define the parameters of the BSpline transform at low resolution
-  //
-  //  \index{BSplineDeformableTransform}
-  //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  RegionType::SizeType   gridLowSizeOnImage;
-  gridLowSizeOnImage.Fill( 5 );
-  totalGridSize = gridLowSizeOnImage + gridBorderSize;
-
-  RegionType bsplineRegion;
-  bsplineRegion.SetSize( totalGridSize );
-
-  typedef TransformType::SpacingType SpacingType;
-  SpacingType spacingLow = fixedImage->GetSpacing();
-
-  typedef TransformType::OriginType OriginType;
-  OriginType originLow = fixedImage->GetOrigin();
-
-  FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
-
-  for(unsigned int r=0; r<ImageDimension; r++)
+  for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    spacingLow[r] *= static_cast<double>(fixedImageSize[r] - 1)  /
-                     static_cast<double>(gridLowSizeOnImage[r] - 1);
+    fixedOrigin = fixedImage->GetOrigin()[i];
+    fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
+      static_cast<double>(
+      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
+  meshSize.Fill( numberOfGridNodes - SplineOrder );
 
-  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
-  SpacingType gridOriginOffsetLow = gridDirection * spacingLow;
+  transformLow->SetTransformDomainOrigin( fixedOrigin );
+  transformLow->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions );
+  transformLow->SetTransformDomainMeshSize( meshSize );
+  transformLow->SetTransformDomainDirection( fixedImage->GetDirection() );
 
-  OriginType gridOriginLow = originLow - gridOriginOffsetLow;
-
-  transformLow->SetGridSpacing( spacingLow );
-  transformLow->SetGridOrigin( gridOriginLow );
-  transformLow->SetGridRegion( bsplineRegion );
-  transformLow->SetGridDirection( gridDirection );
 
   typedef TransformType::ParametersType     ParametersType;
 
@@ -294,30 +254,22 @@ int main( int argc, char *argv[] )
 
   TransformType::Pointer  transformHigh = TransformType::New();
 
-  RegionType::SizeType   gridHighSizeOnImage;
-  gridHighSizeOnImage.Fill( 10 );
-  totalGridSize = gridHighSizeOnImage + gridBorderSize;
+  numberOfGridNodes = 12;
 
-  bsplineRegion.SetSize( totalGridSize );
-
-  SpacingType spacingHigh = fixedImage->GetSpacing();
-  OriginType  originHigh  = fixedImage->GetOrigin();
-
-  for(unsigned int rh=0; rh<ImageDimension; rh++)
+  for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    spacingHigh[rh] *= static_cast<double>(fixedImageSize[rh] - 1)  /
-                       static_cast<double>(gridHighSizeOnImage[rh] - 1);
+    fixedOrigin = fixedImage->GetOrigin()[i];
+    fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
+      static_cast<double>(
+      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
+  meshSize.Fill( numberOfGridNodes - SplineOrder );
 
-  SpacingType gridOriginOffsetHigh = gridDirection * spacingHigh;
-
-  OriginType gridOriginHigh = originHigh - gridOriginOffsetHigh;
-
-
-  transformHigh->SetGridSpacing( spacingHigh );
-  transformHigh->SetGridOrigin( gridOriginHigh );
-  transformHigh->SetGridRegion( bsplineRegion );
-  transformHigh->SetGridDirection( gridDirection );
+  transformHigh->SetTransformDomainOrigin( fixedOrigin );
+  transformHigh->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions );
+  transformHigh->SetTransformDomainMeshSize( meshSize );
+  transformHigh->SetTransformDomainDirection( fixedImage->GetDirection() );
 
   ParametersType parametersHigh( transformHigh->GetNumberOfParameters() );
   parametersHigh.Fill( 0.0 );
@@ -346,12 +298,15 @@ int main( int argc, char *argv[] )
     typedef itk::IdentityTransform<double,SpaceDimension> IdentityTransformType;
     IdentityTransformType::Pointer identity = IdentityTransformType::New();
 
-    upsampler->SetInput( transformLow->GetCoefficientImage()[k] );
+    upsampler->SetInput( transformLow->GetCoefficientImages()[k] );
     upsampler->SetInterpolator( function );
     upsampler->SetTransform( identity );
-    upsampler->SetSize( transformHigh->GetGridRegion().GetSize() );
-    upsampler->SetOutputSpacing( transformHigh->GetGridSpacing() );
-    upsampler->SetOutputOrigin( transformHigh->GetGridOrigin() );
+    upsampler->SetSize( transformHigh->GetCoefficientImages()[k]->
+      GetLargestPossibleRegion().GetSize() );
+    upsampler->SetOutputSpacing(
+      transformHigh->GetCoefficientImages()[k]->GetSpacing() );
+    upsampler->SetOutputOrigin(
+      transformHigh->GetCoefficientImages()[k]->GetOrigin() );
     upsampler->SetOutputDirection( fixedImage->GetDirection() );
 
     typedef itk::BSplineDecompositionImageFilter<ParametersImageType,ParametersImageType>
@@ -366,7 +321,8 @@ int main( int argc, char *argv[] )
 
     // copy the coefficients into the parameter array
     typedef itk::ImageRegionIterator<ParametersImageType> Iterator;
-    Iterator it( newCoefficients, transformHigh->GetGridRegion() );
+    Iterator it( newCoefficients,
+      transformHigh->GetCoefficientImages()[k]->GetLargestPossibleRegion() );
     while ( !it.IsAtEnd() )
       {
       parametersHigh[ counter++ ] = it.Get();

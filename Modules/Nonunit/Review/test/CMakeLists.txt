@@ -8,8 +8,6 @@ itkBoxSigmaImageFilterTest.cxx
 itkBruker2DSEQImageIOTest.cxx
 itkBSplineControlPointImageFilterTest.cxx
 itkBSplineControlPointImageFunctionTest.cxx
-itkBSplineDeformableTransformInitializerTest1.cxx
-itkBSplineDeformableTransformInitializerTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
@@ -183,12 +181,6 @@ itk_add_test(NAME itkBSplineControlPointImageFilterTest2
     itkBSplineControlPointImageFilterTest 3 ${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_3D.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz)
 itk_add_test(NAME itkBSplineControlPointImageFunctionTest
       COMMAND ITKReviewTestDriver itkBSplineControlPointImageFunctionTest)
-itk_add_test(NAME itkBSplineDeformableTransformInitializerTest1
-      COMMAND ITKReviewTestDriver itkBSplineDeformableTransformInitializerTest1
-              ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest1.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest1DeformationField.mhd)
-itk_add_test(NAME itkBSplineDeformableTransformInitializerTest2
-      COMMAND ITKReviewTestDriver itkBSplineDeformableTransformInitializerTest2
-              ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest2.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformInitializerTest2DeformationField.mhd)
 itk_add_test(NAME itkTransformToDeformationFieldSourceTest03
       COMMAND ITKReviewTestDriver
     --compare ${TEMP}/transformedImage.nii

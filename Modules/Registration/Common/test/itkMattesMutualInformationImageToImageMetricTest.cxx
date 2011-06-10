@@ -501,44 +501,23 @@ int TestMattesMetricWithBSplineDeformableTransform(
   typedef itk::BSplineDeformableTransform<
     double, ImageDimension, 3 > TransformType;
   typedef typename TransformType::ParametersType ParametersType;
+  typename TransformType::PhysicalDimensionsType dimensions;
+  for( unsigned int d = 0; d < ImageDimension; d++ )
+    {
+    dimensions[d] = imgFixed->GetSpacing()[d] *
+      ( imgFixed->GetLargestPossibleRegion().GetSize()[d] - 1 );
+    }
+  typename TransformType::MeshSizeType meshSize;
+  meshSize.Fill( 4 );
 
   typename TransformType::Pointer transformer = TransformType::New();
 
-  // set up a 3x3 region
-  typename TImage::SizeType gridSize;
-  typename TImage::RegionType gridRegion;
-  gridSize.Fill( 7 );
-  gridRegion.SetSize( gridSize );
+  transformer->SetTransformDomainPhysicalDimensions( dimensions );
+  transformer->SetTransformDomainOrigin( imgFixed->GetOrigin() );
+  transformer->SetTransformDomainDirection( imgFixed->GetDirection() );
+  transformer->SetTransformDomainMeshSize( meshSize );
 
-  transformer->SetGridRegion( gridRegion );
-
-  typedef itk::Point<double,ImageDimension> PointType;
-  PointType startPosition;
-  PointType endPosition;
-  itk::Offset<ImageDimension> offset;
-
-  index = imgFixed->GetBufferedRegion().GetIndex();
-  imgFixed->TransformIndexToPhysicalPoint( index, startPosition );
-
-  index += imgFixed->GetBufferedRegion().GetSize();
-  offset.Fill( 1 );
-  index -= offset;
-  imgFixed->TransformIndexToPhysicalPoint( index, endPosition );
-
-  typename TransformType::SpacingType spacing;
-  typename TransformType::OriginType  origin;
-
-  for( unsigned int j = 0; j < ImageDimension; j++ )
-    {
-    spacing[j] = ( endPosition[j] - startPosition[j] ) /
-      static_cast<double>( gridSize[j] - 3 );
-    origin[j] = -1.0 * spacing[j];
-    }
-
- transformer->SetGridSpacing( spacing );
- transformer->SetGridOrigin( origin );
-
- transformer->Print( std::cout );
+  transformer->Print( std::cout );
 
 //------------------------------------------------------------
 // Set up the metric

@@ -165,34 +165,22 @@ static int RunTest(int argc, char * argv [] )
   size.Fill( numberOfGridNodes );
   bsplineRegion.SetSize( size );
 
-  typedef typename TransformType::SpacingType SpacingType;
-  SpacingType spacing;
 
-  typedef typename TransformType::OriginType OriginType;
-  OriginType origin;
+  typedef typename TransformType::MeshSizeType MeshSizeType;
+  MeshSizeType meshSize;
+  meshSize.Fill( numberOfGridCells );
 
-  spacing[0] = fixedSpacing[0] * fixedSize[0]  / numberOfGridCells;
-  spacing[1] = fixedSpacing[1] * fixedSize[1]  / numberOfGridCells;
+  typedef typename TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  PhysicalDimensionsType fixedDimensions;
+  for( unsigned int d = 0; d < ImageDimension; d++ )
+    {
+    fixedDimensions[d] = fixedSpacing[d] * ( fixedSize[d] - 1.0 );
+    }
 
-  const unsigned int orderShift = VSplineOrder / 2;
-
-  origin[0] = fixedOrigin[0] - orderShift * spacing[0] - fixedSpacing[0] / 2.0;
-  origin[1] = fixedOrigin[1] - orderShift * spacing[1] - fixedSpacing[1] / 2.0;
-
-  bsplineTransform->SetGridSpacing( spacing );
-  bsplineTransform->SetGridOrigin( origin );
-  bsplineTransform->SetGridRegion( bsplineRegion );
-  bsplineTransform->SetGridDirection( fixedImage->GetDirection() );
-
-  typedef itk::Similarity2DTransform<CoordinateRepType> BulkTransformType;
-  BulkTransformType::Pointer bulkTransform = BulkTransformType::New();
-  bulkTransform->SetIdentity();
-
-  BulkTransformType::ParametersType bulkParameters = bulkTransform->GetParameters();
-  bulkParameters[0]= 0.5; //half the scale.
-  bulkTransform->SetParameters( bulkParameters );
-  std::cout << " parameters " << bulkTransform->GetParameters() << "\n";
-  bsplineTransform->SetBulkTransform( bulkTransform );
+  bsplineTransform->SetTransformDomainOrigin( fixedOrigin );
+  bsplineTransform->SetTransformDomainDirection( fixedDirection );
+  bsplineTransform->SetTransformDomainPhysicalDimensions( fixedDimensions );
+  bsplineTransform->SetTransformDomainMeshSize( meshSize );
 
   typedef typename TransformType::ParametersType     ParametersType;
 
