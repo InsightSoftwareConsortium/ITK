@@ -46,7 +46,7 @@ std::string GetClampTypeName()
   name = unmangled;
   free(unmangled);
 #else
-  name = typeid( t ).name();
+  name = typeid( T ).name();
 #endif
 
   return name;
