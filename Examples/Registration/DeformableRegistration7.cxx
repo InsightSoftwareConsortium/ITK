@@ -217,58 +217,29 @@ int main( int argc, char *argv[] )
 
  registration->SetFixedImageRegion( fixedRegion );
 
-  //  Software Guide : BeginLatex
-  //
-  //  Here we define the parameters of the BSplineDeformableTransform grid.  We
-  //  arbitrarily decide to use a grid with $5 \times 5$ nodes within the image.
-  //  The reader should note that the BSpline computation requires a
-  //  finite support region ( 1 grid node at the lower borders and 2
-  //  grid nodes at upper borders). Therefore in this example, we set
-  //  the grid size to be $8 \times 8$ and place the grid origin such that
-  //  grid node (1,1) coincides with the first pixel in the fixed image.
-  //
-  //  \index{BSplineDeformableTransform}
-  //
-  //  Software Guide : EndLatex
-
-
   // Software Guide : BeginCodeSnippet
   typedef TransformType::RegionType RegionType;
-  RegionType bsplineRegion;
-  RegionType::SizeType   gridSizeOnImage;
-  RegionType::SizeType   gridBorderSize;
-  RegionType::SizeType   totalGridSize;
 
-  gridSizeOnImage.Fill( 5 );
-  gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
-  totalGridSize = gridSizeOnImage + gridBorderSize;
+  unsigned int numberOfGridNodes = 8;
 
-  bsplineRegion.SetSize( totalGridSize );
+  TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
+  TransformType::MeshSizeType             meshSize;
+  TransformType::OriginType               fixedOrigin;
 
-  typedef TransformType::SpacingType SpacingType;
-  SpacingType spacing = fixedImage->GetSpacing();
-
-  typedef TransformType::OriginType OriginType;
-  OriginType origin = fixedImage->GetOrigin();
-
-  FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
-
-  for(unsigned int r=0; r<ImageDimension; r++)
+  for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  /
-                  static_cast<double>(gridSizeOnImage[r] - 1);
+    fixedOrigin = fixedImage->GetOrigin()[i];
+    fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
+      static_cast<double>(
+      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
+  meshSize.Fill( numberOfGridNodes - SplineOrder );
 
-  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
-  SpacingType gridOriginOffset = gridDirection * spacing;
-
-  OriginType gridOrigin = origin - gridOriginOffset;
-
-  transform->SetGridSpacing( spacing );
-  transform->SetGridOrigin( gridOrigin );
-  transform->SetGridRegion( bsplineRegion );
-  transform->SetGridDirection( gridDirection );
-
+  transform->SetTransformDomainOrigin( fixedOrigin );
+  transform->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions );
+  transform->SetTransformDomainMeshSize( meshSize );
+  transform->SetTransformDomainDirection( fixedImage->GetDirection() );
 
   typedef TransformType::ParametersType     ParametersType;
 

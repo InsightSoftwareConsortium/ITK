@@ -13,8 +13,8 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  *=========================================================================*/
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -27,7 +27,6 @@
 //  \index{BSplineDeformableTransform}
 //
 //  Software Guide : EndLatex
-
 
 
 // Software Guide : BeginCodeSnippet
@@ -51,8 +50,8 @@ class CommandProgressUpdate : public itk::Command
 {
 public:
   typedef  CommandProgressUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef  itk::Command            Superclass;
+  typedef  itk::SmartPointer<Self> Pointer;
   itkNewMacro( Self );
 protected:
   CommandProgressUpdate() {};
@@ -91,7 +90,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   const     unsigned int   ImageDimension = 2;
 
-  typedef   unsigned char  PixelType;
+  typedef   unsigned char                            PixelType;
   typedef   itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef   itk::Image< PixelType, ImageDimension >  MovingImageType;
 
@@ -186,77 +185,36 @@ int main( int argc, char * argv[] )
 
 //  Software Guide : EndCodeSnippet
 
-
-//  Software Guide : BeginLatex
-//
-//  Since we are using a B-spline of order 3, the coverage of the BSpling grid
-//  should exceed by one the spatial extent of the image on the lower region of
-//  image indices, and by two grid points on the upper region of image indices.
-//  We choose here to use a $8 \times 8$ B-spline grid, from which only a $5
-//  \times 5$ sub-grid will be covering the input image. If we use an input
-//  image of size $500 \times 500$ pixels, and pixel spacing $2.0 \times 2.0$
-//  then we need the $5 \times 5$ B-spline grid to cover a physical extent of $1000
-//  \times 1000$ mm. This can be achieved by setting the pixel spacing of the
-//  B-spline grid to $250.0 \times 250.0$ mm. The origin of the B-spline grid
-//  must be set at one grid position away from the origin of the desired output
-//  image. All this is done with the following lines of code.
-//
-//  \index{BSplineDeformableTransform}
-//
-//  Software Guide : EndLatex
-
-
 // Software Guide : BeginCodeSnippet
-  typedef TransformType::RegionType RegionType;
-  RegionType bsplineRegion;
-  RegionType::SizeType   size;
 
-  const unsigned int numberOfGridNodesOutsideTheImageSupport = 3;
+  const unsigned int numberOfGridNodes = 8;
 
-  const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
-
-  const unsigned int numberOfGridNodes =
-                        numberOfGridNodesInsideTheImageSupport +
-                        numberOfGridNodesOutsideTheImageSupport;
-
-  const unsigned int numberOfGridCells =
-                        numberOfGridNodesInsideTheImageSupport - 1;
-
-  size.Fill( numberOfGridNodes );
-  bsplineRegion.SetSize( size );
-
-  typedef TransformType::SpacingType SpacingType;
-  SpacingType spacing;
-
-  typedef TransformType::OriginType OriginType;
-  OriginType origin;
+  TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
+  TransformType::MeshSizeType             meshSize;
 
   for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    spacing[i] = fixedSpacing[i] * (fixedSize[i] - 1) / numberOfGridCells;
+    fixedPhysicalDimensions[i] = fixedSpacing[i] * static_cast<double>(
+      fixedSize[i] - 1 );
     }
+  meshSize.Fill( numberOfGridNodes - SplineOrder );
 
-  origin  = fixedOrigin - fixedDirection * spacing;
-
-  bsplineTransform->SetGridSpacing( spacing );
-  bsplineTransform->SetGridOrigin( origin );
-  bsplineTransform->SetGridRegion( bsplineRegion );
-  bsplineTransform->SetGridDirection( fixedDirection );
+  bsplineTransform->SetTransformDomainOrigin( fixedOrigin );
+  bsplineTransform->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions );
+  bsplineTransform->SetTransformDomainMeshSize( meshSize );
+  bsplineTransform->SetTransformDomainDirection( fixedDirection );
 
 
   typedef TransformType::ParametersType     ParametersType;
-
   const unsigned int numberOfParameters =
                bsplineTransform->GetNumberOfParameters();
-
 
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
   ParametersType parameters( numberOfParameters );
+
 //  Software Guide : EndCodeSnippet
-
-
-
 
 //  Software Guide : BeginLatex
 //
@@ -293,8 +251,6 @@ int main( int argc, char * argv[] )
   infile.close();
 //  Software Guide : EndCodeSnippet
 
-
-
 //  Software Guide : BeginLatex
 //
 //   Finally the array is passed to the B-spline transform using the
@@ -307,8 +263,6 @@ int main( int argc, char * argv[] )
   bsplineTransform->SetParameters( parameters );
 
 //  Software Guide : EndCodeSnippet
-
-
 
    CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
@@ -339,8 +293,8 @@ int main( int argc, char * argv[] )
 //  Software Guide : EndCodeSnippet
 
 
-  typedef itk::Point<  float, ImageDimension >  PointType;
-  typedef itk::Vector< float, ImageDimension >  VectorType;
+  typedef itk::Point<  float, ImageDimension >      PointType;
+  typedef itk::Vector< float, ImageDimension >      VectorType;
   typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
 
   DeformationFieldType::Pointer field = DeformationFieldType::New();
@@ -370,8 +324,6 @@ int main( int argc, char * argv[] )
     fi.Set( displacement );
     ++fi;
     }
-
-
 
   typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
@@ -414,4 +366,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

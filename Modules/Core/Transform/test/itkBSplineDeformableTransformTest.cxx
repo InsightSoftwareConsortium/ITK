@@ -60,31 +60,35 @@ int itkBSplineDeformableTransformTest1()
   unsigned int j;
 
   /**
-   * Define the deformable grid region, spacing and origin
+   * Define the transformation domain
    */
-  typedef TransformType::RegionType RegionType;
-  RegionType region;
-  RegionType::SizeType   size;
-  size.Fill( 10 );
-  region.SetSize( size );
-  std::cout << region << std::endl;
-
-  typedef TransformType::SpacingType SpacingType;
-  SpacingType spacing;
-  spacing.Fill( 2.0 );
 
   typedef TransformType::OriginType OriginType;
   OriginType origin;
   origin.Fill( 0.0 );
+
+  typedef TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  PhysicalDimensionsType dimensions;
+  dimensions.Fill( 100 );
+
+  typedef TransformType::MeshSizeType MeshSizeType;
+  MeshSizeType meshSize;
+  meshSize.Fill( 10 );
+
+  typedef TransformType::DirectionType DirectionType;
+  DirectionType direction;
+  direction.SetIdentity();
 
   /**
    * Instantiate a transform
    */
   TransformType::Pointer transform = TransformType::New();
 
-  transform->SetGridSpacing( spacing );
-  transform->SetGridOrigin( origin );
-  transform->SetGridRegion( region );
+  transform->SetTransformDomainOrigin( origin );
+  transform->SetTransformDomainPhysicalDimensions( dimensions );
+  transform->SetTransformDomainMeshSize( meshSize );
+  transform->SetTransformDomainDirection( direction );
+
   transform->Print( std::cout );
 
   /**
@@ -102,16 +106,22 @@ int itkBSplineDeformableTransformTest1()
   typedef itk::Image<CoefficientType,SpaceDimension>  CoefficientImageType;
 
   CoefficientImageType::Pointer coeffImage[SpaceDimension];
-  unsigned int numberOfPixels = region.GetNumberOfPixels();
+  CoefficientImageType::SizeType size;
+  unsigned int numberOfControlPoints = 0;
+  for( j = 0; j < SpaceDimension; j++ )
+    {
+    size[j] = ( meshSize[j] + SplineOrder );
+    numberOfControlPoints += size[j];
+    }
   CoefficientType * dataPointer = parameters.data_block();
 
   for ( j = 0; j < SpaceDimension; j++ )
     {
     coeffImage[j] = CoefficientImageType::New();
-    coeffImage[j]->SetRegions( region );
+    coeffImage[j]->SetRegions( size );
     coeffImage[j]->GetPixelContainer()->
-      SetImportPointer( dataPointer, numberOfPixels );
-    dataPointer += numberOfPixels;
+      SetImportPointer( dataPointer, numberOfControlPoints );
+    dataPointer += numberOfControlPoints;
     coeffImage[j]->FillBuffer( 0.0 );
     }
 
@@ -125,7 +135,7 @@ int itkBSplineDeformableTransformTest1()
   coeffImage[1]->SetPixel( index, 1.0 );
 
   unsigned long n = coeffImage[1]->ComputeOffset( index ) +
-    numberOfPixels;
+    numberOfControlPoints;
 
   /**
    * Set the parameters in the transform
@@ -167,17 +177,6 @@ int itkBSplineDeformableTransformTest1()
     return EXIT_FAILURE;
     }
 
-
-  /**
-   * Set a bulk transform
-   */
-  typedef itk::VersorRigid3DTransform<CoordinateRepType> BulkTransformType;
-  BulkTransformType::Pointer bulkTransform = BulkTransformType::New();
-
-  // optional: set bulk transform parameters
-
-  transform->SetBulkTransform( bulkTransform );
-  std::cout << "BulkTransform: " << transform->GetBulkTransform() << std::endl;
 
   /**
    * Transform some points
@@ -235,9 +234,6 @@ int itkBSplineDeformableTransformTest1()
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
-
-  // set bulk transform to NULL
-  transform->SetBulkTransform( NULL );
 
   // use the other version of TransformPoint
   typedef TransformType::WeightsType              WeightsType;
@@ -299,13 +295,12 @@ int itkBSplineDeformableTransformTest1()
 
   {
     // point inside the grid support region
-    inputPoint.Fill( 10.0 );
+    inputPoint.Fill( 7.5 );
     const JacobianType & jacobian = transform->GetJacobian( inputPoint );
     PRINT_VALUE( 0, n );
     PRINT_VALUE( 1, n );
     PRINT_VALUE( 2, n );
     std::cout << std::endl;
-
   }
 
 
@@ -432,10 +427,10 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Exercise other methods
    */
-  std::cout << transform->GetGridRegion() << std::endl;
-  std::cout << transform->GetGridSpacing() << std::endl;
-  std::cout << transform->GetGridOrigin() << std::endl;
-  std::cout << transform->GetValidRegion() << std::endl;
+  std::cout << transform->GetTransformDomainPhysicalDimensions() << std::endl;
+  std::cout << transform->GetTransformDomainOrigin() << std::endl;
+  std::cout << transform->GetTransformDomainMeshSize() << std::endl;
+  std::cout << transform->GetTransformDomainDirection() << std::endl;
 
   typedef itk::BSplineDeformableTransform<CoordinateRepType,SpaceDimension,2>
     EvenOrderTransformType;
@@ -460,10 +455,10 @@ int itkBSplineDeformableTransformTest1()
   {
     std::cout << "Exercising SetIdentity() " << std::endl;
     TransformType::Pointer transform2 = TransformType::New();
-    transform2->SetGridSpacing( spacing );
-    transform2->SetGridOrigin( origin );
-    transform2->SetGridRegion( region );
-    transform2->SetParameters( parameters );
+    transform2->SetTransformDomainOrigin( origin );
+    transform2->SetTransformDomainPhysicalDimensions( dimensions );
+    transform2->SetTransformDomainMeshSize( meshSize );
+    transform2->SetTransformDomainDirection( direction );
     transform2->SetIdentity();
     TransformType::ParametersType parameters2 = transform2->GetParameters();
     const unsigned int numberOfParameters2 = transform2->GetNumberOfParameters();
@@ -553,12 +548,12 @@ int itkBSplineDeformableTransformTest2()
   outputPoint = transform->TransformPoint( inputPoint );
 
   // Set the coefficient images
-  transform->SetCoefficientImage( field );
+  transform->SetCoefficientImages( field );
 
   // Exercise get and print methods
   transform->Print( std::cout );
   std::cout << "CoefficientImage[0]: "
-            << transform->GetCoefficientImage()[0].GetPointer() << std::endl;
+            << transform->GetCoefficientImages()[0].GetPointer() << std::endl;
 
   /**
    * Transform some points
@@ -589,8 +584,8 @@ int itkBSplineDeformableTransformTest2()
     std::cout << std::endl;
 
     // try a point outside the valid region
-    inputPoint[0] = 20.0;
-    inputPoint[1] = 30.0;
+    inputPoint[0] = 220.0;
+    inputPoint[1] = 230.0;
     outputPoint = transform->TransformPoint( inputPoint );
     std::cout << " InputPoint: " << inputPoint;
     std::cout << " OutputPoint: " << outputPoint;
@@ -626,31 +621,35 @@ int itkBSplineDeformableTransformTest3()
   unsigned int j;
 
   /**
-   * Define the deformable grid region, spacing and origin
+   * Define the transformation domain
    */
-  typedef TransformType::RegionType RegionType;
-  RegionType region;
-  RegionType::SizeType   size;
-  size.Fill( 10 );
-  region.SetSize( size );
-  std::cout << region << std::endl;
-
-  typedef TransformType::SpacingType SpacingType;
-  SpacingType spacing;
-  spacing.Fill( 2.0 );
 
   typedef TransformType::OriginType OriginType;
   OriginType origin;
   origin.Fill( 0.0 );
+
+  typedef TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  PhysicalDimensionsType dimensions;
+  dimensions.Fill( 100 );
+
+  typedef TransformType::MeshSizeType MeshSizeType;
+  MeshSizeType meshSize;
+  meshSize.Fill( 10 );
+
+  typedef TransformType::DirectionType DirectionType;
+  DirectionType direction;
+  direction.SetIdentity();
 
   /**
    * Instantiate a transform
    */
   TransformType::Pointer transform = TransformType::New();
 
-  transform->SetGridSpacing( spacing );
-  transform->SetGridOrigin( origin );
-  transform->SetGridRegion( region );
+  transform->SetTransformDomainOrigin( origin );
+  transform->SetTransformDomainPhysicalDimensions( dimensions );
+  transform->SetTransformDomainMeshSize( meshSize );
+  transform->SetTransformDomainDirection( direction );
+
   transform->Print( std::cout );
 
   /**
@@ -668,16 +667,22 @@ int itkBSplineDeformableTransformTest3()
   typedef itk::Image<CoefficientType,SpaceDimension>    CoefficientImageType;
 
   CoefficientImageType::Pointer coeffImage[SpaceDimension];
-  unsigned int numberOfPixels = region.GetNumberOfPixels();
+  CoefficientImageType::SizeType size;
+  unsigned int numberOfControlPoints = 0;
+  for( j = 0; j < SpaceDimension; j++ )
+    {
+    size[j] = ( meshSize[j] + SplineOrder );
+    numberOfControlPoints += size[j];
+    }
   CoefficientType * dataPointer = parameters.data_block();
 
   for ( j = 0; j < SpaceDimension; j++ )
     {
     coeffImage[j] = CoefficientImageType::New();
-    coeffImage[j]->SetRegions( region );
+    coeffImage[j]->SetRegions( size );
     coeffImage[j]->GetPixelContainer()->
-      SetImportPointer( dataPointer, numberOfPixels );
-    dataPointer += numberOfPixels;
+      SetImportPointer( dataPointer, numberOfControlPoints );
+    dataPointer += numberOfControlPoints;
     coeffImage[j]->FillBuffer( 0.0 );
     }
 

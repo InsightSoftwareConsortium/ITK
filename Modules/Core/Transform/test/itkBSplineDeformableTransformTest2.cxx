@@ -145,58 +145,32 @@ static int RunTest(int argc, char * argv [] )
 
   typename TransformType::Pointer bsplineTransform = TransformType::New();
 
+  typedef typename TransformType::MeshSizeType MeshSizeType;
+  MeshSizeType meshSize;
+  meshSize.Fill( 4 );
 
-  typedef typename TransformType::RegionType RegionType;
-  RegionType bsplineRegion;
-  typename RegionType::SizeType   size;
+  typedef typename TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  PhysicalDimensionsType fixedDimensions;
+  for( unsigned int d = 0; d < ImageDimension; d++ )
+    {
+    fixedDimensions[d] = fixedSpacing[d] * ( fixedSize[d] - 1.0 );
+    }
 
-  const unsigned int numberOfGridNodesOutsideTheImageSupport = VSplineOrder;
+  bsplineTransform->SetTransformDomainOrigin( fixedOrigin );
+  bsplineTransform->SetTransformDomainDirection( fixedDirection );
+  bsplineTransform->SetTransformDomainPhysicalDimensions( fixedDimensions );
+  bsplineTransform->SetTransformDomainMeshSize( meshSize );
 
-  const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
-
-  const unsigned int numberOfGridNodes =
-                        numberOfGridNodesInsideTheImageSupport +
-                        numberOfGridNodesOutsideTheImageSupport;
-
-  const unsigned int numberOfGridCells =
-                        numberOfGridNodesInsideTheImageSupport - 1;
-
-  size.Fill( numberOfGridNodes );
-  bsplineRegion.SetSize( size );
-
-  typedef typename TransformType::SpacingType SpacingType;
-  SpacingType spacing;
-
-  typedef typename TransformType::OriginType OriginType;
-  OriginType origin;
-
-  spacing[0] = fixedSpacing[0] * fixedSize[0]  / numberOfGridCells;
-  spacing[1] = fixedSpacing[1] * fixedSize[1]  / numberOfGridCells;
-
-  const unsigned int orderShift = VSplineOrder / 2;
-
-  origin[0] = fixedOrigin[0] - orderShift * spacing[0] - fixedSpacing[0] / 2.0;
-  origin[1] = fixedOrigin[1] - orderShift * spacing[1] - fixedSpacing[1] / 2.0;
-
-  bsplineTransform->SetGridSpacing( spacing );
-  bsplineTransform->SetGridOrigin( origin );
-  bsplineTransform->SetGridRegion( bsplineRegion );
-  bsplineTransform->SetGridDirection( fixedImage->GetDirection() );
-
-
-  typedef typename TransformType::ParametersType     ParametersType;
-
-  const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
-
-  const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
-
+  typedef typename TransformType::ParametersType ParametersType;
+  const unsigned int numberOfParameters =
+    bsplineTransform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
-
 
   std::ifstream infile;
 
   infile.open( argv[1] );
 
+  const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
   for( unsigned int n=0; n < numberOfNodes; n++ )
     {
     infile >>  parameters[n];
@@ -205,14 +179,11 @@ static int RunTest(int argc, char * argv [] )
 
   infile.close();
 
-
   bsplineTransform->SetParameters( parameters );
-
 
   typename CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
   resampler->AddObserver( itk::ProgressEvent(), observer );
-
 
   resampler->SetTransform( bsplineTransform );
 

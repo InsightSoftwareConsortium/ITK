@@ -92,47 +92,6 @@ public:
       exit(EXIT_FAILURE);
       }
 
-    const TransformType *firstBSpline=
-       static_cast<TransformType*>(transformPtr[0].GetPointer());
-    typedef typename TransformType::BulkTransformPointer BulkTransformPointer;
-    BulkTransformPointer firstBulkTransform = firstBSpline->GetBulkTransform();
-
-    // The bulk transform may be IdentityTransform, which has no parameters
-    if (firstBulkTransform->GetNumberOfParameters() == 0)
-      {
-      return;
-      }
-
-    ParametersType firstBulkParameters =  firstBulkTransform->GetParameters();
-    double firstBulkEntry = firstBulkParameters[0];
-
-    for ( ThreadIdType i=0; i<metric->GetThreader()->GetNumberOfThreads()-1; i++)
-      {
-        //Verify that BSpline transform pointer is being copied
-        if (transformPtr[i].IsNull())
-          {
-          exit(EXIT_FAILURE);
-          }
-
-        //Verify that bulk transform matrix in BSpline pointer is being copied
-        const TransformType *loopBSpline=
-           static_cast<TransformType*>(transformPtr[i].GetPointer());
-        BulkTransformPointer loopBulkTransform = loopBSpline->GetBulkTransform();
-
-        // The bulk transform may be IdentityTransform, which has no parameters
-        if (loopBulkTransform->GetNumberOfParameters() == 0)
-          {
-          return;
-          }
-        ParametersType loopBulkParameters =  loopBulkTransform->GetParameters();
-        double loopBulkEntry = loopBulkParameters[0];
-        double entryComparisonTolerance = 0.001;
-
-        if (fabs(loopBulkEntry - firstBulkEntry)>entryComparisonTolerance)
-          {
-          exit(EXIT_FAILURE);
-          }
-      }
     }
     //Other registration functionality tested in
     //OptImageToImageTest.cxx... skip the rest
@@ -254,53 +213,30 @@ void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
 
   typename TransformType::Pointer bsplineTransform = TransformType::New();
 
-  typedef typename TransformType::RegionType RegionType;
-  RegionType bsplineRegion;
-  typename RegionType::SizeType   size;
-
-  const unsigned int numberOfGridNodesOutsideTheImageSupport = VSplineOrder;
-
-  const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
-
-  const unsigned int numberOfGridNodes =
-                        numberOfGridNodesInsideTheImageSupport +
-                        numberOfGridNodesOutsideTheImageSupport;
-
-  const unsigned int numberOfGridCells =
-                        numberOfGridNodesInsideTheImageSupport - 1;
-
-  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  size.Fill( numberOfGridNodes );
-  bsplineRegion.SetSize( size );
-  typedef typename TransformType::SpacingType SpacingType;
-  SpacingType spacing;
-
-  typedef typename TransformType::OriginType OriginType;
-  OriginType origin;
-
-  spacing[0] = fixedSpacing[0] * fixedSize[0]  / numberOfGridCells;
-  spacing[1] = fixedSpacing[1] * fixedSize[1]  / numberOfGridCells;
-
-  const unsigned int orderShift = VSplineOrder / 2;
-
-  origin[0] = fixedOrigin[0] - orderShift * spacing[0] - fixedSpacing[0] / 2.0;
-  origin[1] = fixedOrigin[1] - orderShift * spacing[1] - fixedSpacing[1] / 2.0;
-
-  bsplineTransform->SetGridSpacing( spacing );
-  bsplineTransform->SetGridOrigin( origin );
-  bsplineTransform->SetGridRegion( bsplineRegion );
-  bsplineTransform->SetGridDirection( fixedImage->GetDirection() );
+  typename TransformType::MeshSizeType meshSize;
+  typename TransformType::PhysicalDimensionsType physicalDimensions;
+  for( unsigned int d = 0; d < SpaceDimension; d++ )
+    {
+    physicalDimensions[d] = fixedSpacing[d] *
+      static_cast<CoordinateRepType>( fixedSize[d] - 1 );
+    meshSize[d] = 4;
+    }
+  bsplineTransform->SetTransformDomainOrigin( fixedOrigin );
+  bsplineTransform->SetTransformDomainDirection( fixedDirection );
+  bsplineTransform->SetTransformDomainPhysicalDimensions( physicalDimensions );
+  bsplineTransform->SetTransformDomainMeshSize( meshSize );
 
   typedef typename TransformType::ParametersType     ParametersType;
 
-  const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
-
+  const unsigned int numberOfParameters =
+    bsplineTransform->GetNumberOfParameters();
 
   ParametersType parameters( numberOfParameters );
 
-  BasicTest(fixedImageReader, movingImageReader, interpolator.GetPointer(),
-            bsplineTransform.GetPointer());
+  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
+  BasicTest( fixedImageReader, movingImageReader, interpolator.GetPointer(),
+    bsplineTransform.GetPointer() );
 }
 
 } // end namespace itk
