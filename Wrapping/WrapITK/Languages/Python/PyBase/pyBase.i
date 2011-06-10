@@ -329,19 +329,19 @@
                 else:
                     return itk.down_cast(outputs[item])
 
-                def __call__(self, *args, **kargs):
-                    """Change the inputs and attributes of the object and update it.
+            def __call__(self, *args, **kargs):
+                """Change the inputs and attributes of the object and update it.
 
-                    The syntax is the same as the one used in New().
-                    UpdateLargestPossibleRegion() is ran once the input are changed, and
-                    the current object is returned, to make is easier to get one of the
-                    outputs. Something like 'filter(newInput, Threshold=10)[0]' would
-                    return the first output of the filter up to date.
-                    """
-                    import itk
-                    itk.set_inputs( self, args, kargs )
-                    self.UpdateLargestPossibleRegion()
-                    return self
+                The syntax is the same as the one used in New().
+                UpdateLargestPossibleRegion() is ran once the input are changed, and
+                the current object is returned, to make is easier to get one of the
+                outputs. Something like 'filter(newInput, Threshold=10)[0]' would
+                return the first output of the filter up to date.
+                """
+                import itk
+                itk.set_inputs( self, args, kargs )
+                self.UpdateLargestPossibleRegion()
+                return self
             }
     }
 
