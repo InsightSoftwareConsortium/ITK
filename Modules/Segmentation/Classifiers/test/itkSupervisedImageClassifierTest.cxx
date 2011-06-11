@@ -286,12 +286,6 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   MembershipFunctionPointerVector membershipFunctions =
     applyEstimateModel->GetMembershipFunctions();
 
-  for(unsigned int idx=0; idx < membershipFunctions.size(); idx++ )
-    {
-    std::cout << "Number of samples for class " << idx << " is " <<
-      membershipFunctions[ idx ]->GetNumberOfSamples() << std::endl;
-    }
-
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------

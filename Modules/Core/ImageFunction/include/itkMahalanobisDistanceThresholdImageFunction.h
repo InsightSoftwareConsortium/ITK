@@ -31,7 +31,7 @@ namespace itk
  * Mahalanobis distance below the value specided by the threshold. The
  * Mahalanobis distance is computed with the
  * MahalanobisDistanceMembershipFunction class which has to be initialized with
- * the mean an covariance to be used. This class is intended to be used only
+ * a mean and covariance. This class is intended to be used only
  * with images whose pixel type is a vector (array).
  *
  * The input image is set via method SetInputImage().
@@ -140,14 +140,14 @@ public:
   /** Method to set mean */
   void SetMean(const MeanVectorType & mean);
 
+  /** Method to get the mean. */
   const MeanVectorType & GetMean() const;
 
   /**
-   * Method to set covariance matrix
-   * Also, this function calculates inverse covariance and pre factor of
-   * MahalanobisDistance Distribution to speed up GetProbability */
+   * Method to set covariance matrix **/
   void SetCovariance(const CovarianceMatrixType & cov);
 
+  /** Get the covariance matrix **/
   const CovarianceMatrixType & GetCovariance() const;
 
 protected:
@@ -171,6 +171,12 @@ private:
 
   typedef typename MahalanobisDistanceFunctionType::Pointer MahalanobisDistanceFunctionPointer;
   MahalanobisDistanceFunctionPointer m_MahalanobisDistanceMembershipFunction;
+
+  // Cached versions of the mean and covariance to manage the
+  // difference in vector/matrix types between this class and the
+  // membership function used internally.
+  MeanVectorType m_Mean;
+  CovarianceMatrixType m_Covariance;
 };
 } // end namespace itk
 

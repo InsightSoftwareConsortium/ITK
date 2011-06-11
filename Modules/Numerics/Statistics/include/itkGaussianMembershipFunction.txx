@@ -28,12 +28,17 @@ template< class TMeasurementVector >
 GaussianMembershipFunction< TMeasurementVector >
 ::GaussianMembershipFunction()
 {
-  for( unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++ )
-    {
-    this->m_Mean[i] = 0;
-    }
-  this->m_PreFactor = 0.0;
-  this->m_Covariance.SetIdentity();
+  NumericTraits<MeanVectorType>::SetLength(m_Mean, this->GetMeasurementVectorSize());
+  m_Mean.Fill( 0.0 );
+
+  m_PreFactor = 1.0 / vcl_sqrt(2.0 * vnl_math::pi); // default univariate
+
+  m_Covariance.SetSize(this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
+  m_Covariance.SetIdentity();
+
+  m_InverseCovariance = m_Covariance;
+
+  m_DeterminantOK = true;
 }
 
 template< class TMeasurementVector >
@@ -49,22 +54,24 @@ GaussianMembershipFunction< TMeasurementVector >
   os << indent << "InverseCovariance: " << std::endl;
   os << indent << m_InverseCovariance.GetVnlMatrix();
   os << indent << "Prefactor: " << m_PreFactor << std::endl;
+  os << indent << "Non-null covariance: " <<
+    (m_DeterminantOK ? "true" : "false") << std::endl;
 }
 
 template< class TMeasurementVector >
 void
 GaussianMembershipFunction< TMeasurementVector >
-::SetMean(const MeanType & mean)
+::SetMean(const MeanVectorType & mean)
 {
   if ( this->GetMeasurementVectorSize() )
     {
     MeasurementVectorTraits::Assert(mean,
                                     this->GetMeasurementVectorSize(),
-                                    "GaussianMembershipFunction::SetMean Size of measurement vectors in \
-    the sample must the same as the size of the mean." );
+                                    "GaussianMembershipFunction::SetMean(): Size of mean vector specified does not match the size of a measurement vector.");
     }
   else
     {
+    // not already set, cache the size
     this->SetMeasurementVectorSize( mean.Size() );
     }
 
@@ -78,7 +85,7 @@ GaussianMembershipFunction< TMeasurementVector >
 template< class TMeasurementVector >
 void
 GaussianMembershipFunction< TMeasurementVector >
-::SetCovariance(const CovarianceType & cov)
+::SetCovariance(const CovarianceMatrixType & cov)
 {
   // Sanity check
   if ( cov.GetVnlMatrix().rows() != cov.GetVnlMatrix().cols() )
@@ -89,13 +96,20 @@ GaussianMembershipFunction< TMeasurementVector >
     {
     if ( cov.GetVnlMatrix().rows() != this->GetMeasurementVectorSize() )
       {
-      itkExceptionMacro(<< "Length of measurement vectors in the sample must be"
+      itkExceptionMacro(<< "Length of measurement vectors must be"
                         << " the same as the size of the covariance.");
       }
     }
   else
     {
+    // not already set, cache the size
     this->SetMeasurementVectorSize( cov.GetVnlMatrix().rows() );
+    }
+
+  if (m_Covariance == cov)
+    {
+    // no need to copy the matrix, compute the inverse, or the normalization
+    return;
     }
 
   m_Covariance = cov;
@@ -125,6 +139,8 @@ GaussianMembershipFunction< TMeasurementVector >
         vcl_pow( vcl_sqrt(2.0 * vnl_math::pi),
                static_cast< double >( this->GetMeasurementVectorSize() ) ) );
     }
+
+  this->Modified();
 }
 
 template< class TMeasurementVector >
@@ -168,9 +184,9 @@ GaussianMembershipFunction< TMeasurementVector >
 }
 
 template< class TVector >
-typename GaussianMembershipFunction< TVector >::Pointer
+typename GaussianMembershipFunction< TVector >::MembershipFunctionPointer
 GaussianMembershipFunction< TVector >
-::Clone()
+::Clone() const
 {
   Pointer membershipFunction = GaussianMembershipFunction< TVector >::New();
 
@@ -178,7 +194,8 @@ GaussianMembershipFunction< TVector >
   membershipFunction->SetMean( this->GetMean() );
   membershipFunction->SetCovariance( this->GetCovariance() );
 
-  return membershipFunction;
+  MembershipFunctionPointer sptr = membershipFunction.GetPointer();
+  return sptr;
 }
 } // end namespace Statistics
 } // end of namespace itk

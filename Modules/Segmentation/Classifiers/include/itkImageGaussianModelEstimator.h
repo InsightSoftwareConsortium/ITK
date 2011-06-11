@@ -112,6 +112,7 @@ public:
   typedef ImageRegionIterator< TTrainingImage > TrainingImageIterator;
 
   /** Type definitions for the membership function . */
+  typedef TMembershipFunction MembershipFunctionType;
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
 
   /** Set the training image. */
@@ -132,14 +133,12 @@ private:
   void operator=(const Self &);              //purposely not implemented
 
   typedef vnl_matrix< double > MatrixType;
-  typedef vnl_vector< double > VectorType;
 
   typedef typename TInputImage::SizeType InputImageSizeType;
 
   /** Dimension of each individual pixel vector. */
   itkStaticConstMacro(VectorDimension, unsigned int,
                       InputImagePixelType::Dimension);
-  typedef vnl_matrix_fixed< double, 1, itkGetStaticConstMacro(VectorDimension) > ColumnVectorType;
 
   MatrixType  m_NumberOfSamples;
   MatrixType  m_Means;

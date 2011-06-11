@@ -128,8 +128,8 @@ protected:
     MeanVectorType       mean(NumberOfComponents);
     CovarianceMatrixType covariance(NumberOfComponents, NumberOfComponents);
 
-    mean.fill(NumericTraits< ITK_TYPENAME FeatureScalarType::ValueType >::Zero);
-    covariance.fill(NumericTraits< ITK_TYPENAME FeatureScalarType::ValueType >::Zero);
+    mean.Fill(NumericTraits< ITK_TYPENAME FeatureScalarType::ValueType >::Zero);
+    covariance.Fill(NumericTraits< ITK_TYPENAME FeatureScalarType::ValueType >::Zero);
 
     m_Mahalanobis = MahalanobisFunctionType::New();
     m_Mahalanobis->SetMean(mean);

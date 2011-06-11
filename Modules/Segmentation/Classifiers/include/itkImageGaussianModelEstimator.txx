@@ -130,19 +130,23 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
   // Populate the membership functions for all the classes
   //-------------------------------------------------------------------
   MembershipFunctionPointer membershipFunction;
+  typename MembershipFunctionType::MeanVectorType tmean;
+  typename MembershipFunctionType::CovarianceMatrixType tcov;
 
+  NumericTraits<typename MembershipFunctionType::MeanVectorType>::SetLength(tmean, VectorDimension);
   for ( unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++ )
     {
     membershipFunction = TMembershipFunction::New();
 
-    membershipFunction->
-    SetNumberOfSamples( m_NumberOfSamples(classIndex, 0) );
+    // Convert to the datatype used for the mean
+    for (unsigned int i=0; i < VectorDimension; ++i)
+      {
+      tmean[i] = m_Means.get(classIndex, i);
+      }
+    membershipFunction->SetMean( tmean );
 
-    membershipFunction->
-    SetMean( m_Means.get_row(classIndex) );
-
-    membershipFunction->
-    SetCovariance(m_Covariance[classIndex]);
+    tcov = m_Covariance[classIndex]; // convert cov for membership fn
+    membershipFunction->SetCovariance(tcov);
 
     this->AddMembershipFunction(membershipFunction);
     }
