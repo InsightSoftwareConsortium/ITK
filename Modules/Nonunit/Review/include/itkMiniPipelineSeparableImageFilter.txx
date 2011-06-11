@@ -69,7 +69,7 @@ MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
 template< class TInputImage, class TOutputImage, class TFilter >
 void
 MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
-::SetNumberOfThreads(int nb)
+::SetNumberOfThreads(ThreadIdType nb)
 {
   Superclass::SetNumberOfThreads(nb);
   for ( unsigned i = 0; i < ImageDimension; i++ )

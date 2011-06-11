@@ -108,7 +108,7 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SetNumberOfThreads(int nb)
+::SetNumberOfThreads(ThreadIdType nb)
 {
   Superclass::SetNumberOfThreads(nb);
   for ( unsigned int i = 0; i < ImageDimension - 1; i++ )

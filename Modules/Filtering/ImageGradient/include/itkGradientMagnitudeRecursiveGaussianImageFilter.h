@@ -131,7 +131,7 @@ public:
   void SetNormalizeAcrossScale(bool normalizeInScaleSpace);
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
-  void SetNumberOfThreads(int nb);
+  void SetNumberOfThreads(ThreadIdType nb);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

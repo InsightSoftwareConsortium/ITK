@@ -41,7 +41,7 @@ GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
 template< class TInputImage, class TOutputImage, class TKernel >
 void
 GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
-::SetNumberOfThreads(int nb)
+::SetNumberOfThreads(ThreadIdType nb)
 {
   Superclass::SetNumberOfThreads(nb);
   m_HistogramFilter->SetNumberOfThreads(nb);
