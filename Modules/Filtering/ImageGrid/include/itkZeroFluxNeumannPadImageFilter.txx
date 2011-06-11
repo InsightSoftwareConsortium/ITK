@@ -81,7 +81,7 @@ void
 ZeroFluxNeumannPadImageFilter< TInputImage, TOutputImage > // support progress methods/callbacks
 
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   unsigned int dimCtr, regCtr, ctr = 0;
   unsigned int numRegions = 1; // number of regions in our decomposed space.
