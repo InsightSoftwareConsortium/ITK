@@ -182,9 +182,9 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-int
+unsigned int
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
-::SplitRequestedRegion(int i, int num, OutputImageRegionType & splitRegion)
+::SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion)
 {
   // Get the output pointer
   OutputImageType *outputPtr = this->GetOutput();
@@ -216,8 +216,8 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 
   // determine the actual number of pieces that will be generated
   typename TOutputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  int valuesPerThread = (int)vcl_ceil(range / (double)num);
-  int maxThreadIdUsed = (int)vcl_ceil(range / (double)valuesPerThread) - 1;
+  unsigned int valuesPerThread = (unsigned int)vcl_ceil(range / (double)num);
+  unsigned int maxThreadIdUsed = (unsigned int)vcl_ceil(range / (double)valuesPerThread) - 1;
 
   // Split the region
   if ( i < maxThreadIdUsed )

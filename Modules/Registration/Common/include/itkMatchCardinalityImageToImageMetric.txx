@@ -195,9 +195,9 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 
 //----------------------------------------------------------------------------
 template< class TFixedImage, class TMovingImage >
-int
+ThreadIdType
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
-::SplitFixedRegion(int i, int num, FixedImageRegionType & splitRegion)
+::SplitFixedRegion(ThreadIdType i, int num, FixedImageRegionType & splitRegion)
 {
   // Get the output pointer
   const typename FixedImageRegionType::SizeType & fixedRegionSize =
@@ -227,7 +227,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   // determine the actual number of pieces that will be generated
   typename FixedImageRegionType::SizeType::SizeValueType range = fixedRegionSize[splitAxis];
   int valuesPerThread = Math::Ceil< int >(range / (double)num);
-  int maxThreadIdUsed = Math::Ceil< int >(range / (double)valuesPerThread) - 1;
+  ThreadIdType maxThreadIdUsed = Math::Ceil< int >(range / (double)valuesPerThread) - 1;
 
   // Split the region
   if ( i < maxThreadIdUsed )
@@ -260,7 +260,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::ThreaderCallback(void *arg)
 {
   ThreadStruct *str;
-  int           total, threadId, threadCount;
+  ThreadIdType  total, threadId, threadCount;
 
   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;

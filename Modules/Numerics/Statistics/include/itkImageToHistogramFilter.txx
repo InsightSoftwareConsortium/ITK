@@ -119,7 +119,7 @@ ImageToHistogramFilter< TImage >
 template< class TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedGenerateData(const RegionType & inputRegionForThread, int threadId)
+::ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId)
 {
   long nbOfPixels = inputRegionForThread.GetNumberOfPixels();
   if( this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum() )
@@ -253,7 +253,7 @@ ImageToHistogramFilter< TImage >
 template< class TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress )
+::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )
 {
   unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramMeasurementVectorType min( nbOfComponents );
@@ -284,7 +284,7 @@ ImageToHistogramFilter< TImage >
 template< class TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedComputeHistogram(const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress )
+::ThreadedComputeHistogram(const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )
 {
   unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   ImageRegionConstIterator< TImage > inputIt( this->GetInput(), inputRegionForThread );

@@ -98,7 +98,7 @@ public:
 
 protected:
   ProcessObject *m_Filter;
-  int            m_ThreadId;
+  ThreadIdType   m_ThreadId;
   float          m_InverseNumberOfPixels;
   SizeValueType  m_CurrentPixel;
   SizeValueType  m_PixelsPerUpdate;

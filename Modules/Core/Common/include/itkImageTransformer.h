@@ -172,7 +172,7 @@ protected:
    * \sa GenerateData(), SplitRequestedRegion() */
   virtual
   void ThreadedGenerateData(const InputImageRegionType & inputRegionForThread,
-                            int threadId) ITK_NO_RETURN;
+                            ThreadIdType threadId) ITK_NO_RETURN;
 
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
@@ -211,7 +211,7 @@ protected:
    * the routine is capable of splitting the input RequestedRegion,
    * i.e. return value is less than or equal to "num". */
   virtual
-  int SplitRequestedRegion(int i, int num, InputImageRegionType & splitRegion);
+  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, InputImageRegionType & splitRegion);
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the

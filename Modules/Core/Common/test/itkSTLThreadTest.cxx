@@ -109,7 +109,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   std::cout << "threader->GetGlobalMaximumNumberOfThreads(): "
             << threader->GetGlobalMaximumNumberOfThreads() << std::endl;
 
-  int threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, 0);
+  itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, 0);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
             << threadId << std::endl;
   threader->TerminateThread(threadId);
@@ -127,7 +127,7 @@ ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
   // thread.
   itk::MultiThreader::ThreadInfoStruct* info =
     static_cast<itk::MultiThreader::ThreadInfoStruct*>(infoIn);
-  int tnum = info->ThreadID;
+  itk::ThreadIdType tnum = info->ThreadID;
   int* results = static_cast<int*>(info->UserData);
   if(results)
     {

@@ -123,14 +123,14 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void BeforeThreadedGenerateData(void);
-  void ThreadedGenerateData(const RegionType & inputRegionForThread, int threadId);
+  void ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId);
   void AfterThreadedGenerateData(void);
 
   /** Method that construct the outputs */
   DataObject::Pointer  MakeOutput(unsigned int);
 
-  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress );
-  virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, int threadId, ProgressReporter & progress );
+  virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );
+  virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress );
 
   std::vector< HistogramPointer >               m_Histograms;
   std::vector< HistogramMeasurementVectorType > m_Minimums;

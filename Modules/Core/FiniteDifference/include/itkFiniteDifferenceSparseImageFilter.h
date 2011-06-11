@@ -139,7 +139,7 @@ private:
   };
 protected:
   /** This function returns a single region for use in multi-threading. */
-  int GetSplitRegion(int i, int num, ThreadRegionType & splitRegion);
+  ThreadIdType GetSplitRegion(ThreadIdType i, ThreadIdType num, ThreadRegionType & splitRegion);
 
   /** This function updates the m_Data variable in the output image nodes using
       the update values computed by CalculateChange. */

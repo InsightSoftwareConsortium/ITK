@@ -114,7 +114,7 @@ ITK_THREAD_RETURN_TYPE
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
 {
-  unsigned int threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+  ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   NarrowBandImageFilterBaseThreadStruct *str =
     (NarrowBandImageFilterBaseThreadStruct *)

@@ -103,7 +103,7 @@ protected:
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
-  int SplitRequestedRegion(int i, int num, OutputImageRegionType & splitRegion);
+  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
 
   /** RecursiveSeparableImageFilter needs all of the input only in the
    *  "Direction" dimension. Therefore we enlarge the output's

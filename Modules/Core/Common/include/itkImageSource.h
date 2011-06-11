@@ -281,7 +281,7 @@ protected:
    * the routine is capable of splitting the output RequestedRegion,
    * i.e. return value is less than or equal to "num". */
   virtual
-  int SplitRequestedRegion(int i, int num, OutputImageRegionType & splitRegion);
+  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the

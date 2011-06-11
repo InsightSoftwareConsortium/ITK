@@ -92,7 +92,7 @@ ITK_THREAD_RETURN_TYPE ConditionVariableTestWatchCount( void *ptr )
 
 ITK_THREAD_RETURN_TYPE ConditionVariableTestCallback( void *ptr )
 {
-  int threadID = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
+  itk::ThreadIdType threadID = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
 
   if ( threadID == 0 )
     {

@@ -49,7 +49,7 @@ public:
 
 ITK_THREAD_RETURN_TYPE BarrierTestIncrement( void *ptr )
 {
-  int threadID = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
+  itk::ThreadIdType threadID = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
   BarrierTestUserData *data = static_cast<BarrierTestUserData *>(
                   ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
@@ -92,7 +92,7 @@ ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
 
 ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
 {
-  int threadID = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
+  itk::ThreadIdType threadID = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
 
   if (threadID == 3)
     {

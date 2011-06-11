@@ -177,8 +177,8 @@ ITK_THREAD_RETURN_TYPE
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::CalculateChangeThreaderCallback(void *arg)
 {
-  int threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  int threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+  ThreadIdType threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
   DenseFDThreadStruct * str = (DenseFDThreadStruct *)
       ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
@@ -188,7 +188,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   // Using the SplitRequestedRegion method from itk::ImageSource.
   ThreadRegionType splitRegion;
 
-  int total = str->Filter->SplitRequestedRegion( threadId,
+  ThreadIdType total = str->Filter->SplitRequestedRegion( threadId,
                                                  threadCount,
                                                  splitRegion );
 

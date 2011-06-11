@@ -196,9 +196,9 @@ ImageTransformer< TInputImage >
 
 //----------------------------------------------------------------------------
 template< class TInputImage >
-int
+unsigned int
 ImageTransformer< TInputImage >
-::SplitRequestedRegion(int i, int num, InputImageRegionType & splitRegion)
+::SplitRequestedRegion(unsigned int i, unsigned int num, InputImageRegionType & splitRegion)
 {
   // Get the input pointer
   InputImageType *inputPtr = this->GetInput();
@@ -229,8 +229,8 @@ ImageTransformer< TInputImage >
 
   // determine the actual number of pieces that will be generated
   typename TInputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  int valuesPerThread = Math::Ceil< int >(range / (double)num);
-  int maxThreadIdUsed = Math::Ceil< int >(range / (double)valuesPerThread) - 1;
+  unsigned int valuesPerThread = Math::Ceil< unsigned int >(range / (double)num);
+  unsigned int maxThreadIdUsed = Math::Ceil< unsigned int >(range / (double)valuesPerThread) - 1;
 
   // Split the region
   if ( i < maxThreadIdUsed )
@@ -298,7 +298,7 @@ template< class TInputImage >
 void
 ImageTransformer< TInputImage >
 ::ThreadedGenerateData(const InputImageRegionType &,
-                       int)
+                       ThreadIdType)
 {
 // The following code is equivalent to:
 // itkExceptionMacro("subclass should override this method!!!");
@@ -321,7 +321,7 @@ ImageTransformer< TInputImage >
 ::ThreaderCallback(void *arg)
 {
   ThreadStruct *str;
-  int           total, threadId, threadCount;
+  ThreadIdType  total, threadId, threadCount;
 
   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
