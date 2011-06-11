@@ -21,6 +21,39 @@
 #include <fstream>
 #include "itkTIFFImageIO.h"
 
+template<class T>
+bool BUG_12266( const std::string &fname, T*)
+{
+  typedef T                               ImageType;
+  typedef itk::ImageFileReader<ImageType> ReaderType;
+
+  typename ReaderType::Pointer reader = ReaderType::New();
+
+  itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
+  reader->SetFileName( fname.c_str() );
+  reader->SetImageIO( io );
+
+  try
+    {
+
+    // this is designed to test 2 Reads with only one ReadImageInformation
+    reader->GetOutput()->SetRequestedRegionToLargestPossibleRegion();
+    reader->GetOutput()->UpdateOutputInformation();
+    reader->GetOutput()->PropagateRequestedRegion();
+    reader->GetOutput()->UpdateOutputData();
+    reader->GetOutput()->ReleaseData();
+    reader->GetOutput()->UpdateOutputData();
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::cerr << "exception in file reader for bug  " << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  return true;
+}
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
@@ -46,6 +79,8 @@ template<class T> int DoIt( int, char * argv[], typename T::Pointer)
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
+
+  BUG_12266<T>( argv[1], NULL );
 
 
   typename T::Pointer image = reader->GetOutput();
