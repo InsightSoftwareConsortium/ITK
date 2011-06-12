@@ -25,14 +25,13 @@ from sys import argv
 
 reader = itk.ImageFileReader.IUC2.New( FileName=argv[1] )
 
-watcher = itk.XMLFilterWatcher( filter, "filter" )
-
 # test the deduction of the template parameter from the input
 filter  = itk.MedianImageFilter.New( reader )
+watcher = itk.XMLFilterWatcher( filter, "filter" )
 
 # test the update of the filter with the __call__ operator
 # and the setting of parameter inside it
 filter( Radius=eval(argv[3]) )
 
 # test the write method
-itk.write( filter, FileName=argv[2] )
+itk.write( filter, argv[2] )
