@@ -18,15 +18,12 @@
 import itk
 from sys import argv
 
-try:
-    md = itk.MetaDataDictionary()
-    # one way of setting and retrieving double value in the dictionary
-    dv = itk.MetaDataObject.D.New()
-    dv.SetMetaDataObjectValue(10.0)
-    md.Set("double", dv)
-    print md.Get("double")
-    # other way of setting and retrieving double value (levereges on Python's weak type system)
-    md['double'] = 10.0
-    print md['double']
-except Exception as e:
-    raise
+md = itk.MetaDataDictionary()
+# one way of setting and retrieving double value in the dictionary
+dv = itk.MetaDataObject.D.New()
+dv.SetMetaDataObjectValue(10.0)
+md.Set("double", dv)
+print md.Get("double")
+# other way of setting and retrieving double value (levereges on Python's weak type system)
+md['double'] = 10.0
+print md['double']
