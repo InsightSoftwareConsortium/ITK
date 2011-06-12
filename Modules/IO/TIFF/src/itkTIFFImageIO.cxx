@@ -65,6 +65,7 @@ public:
   unsigned int   m_TileHeight;
   unsigned short m_NumberOfTiles;
   unsigned int   m_SubFiles;
+  unsigned int   m_IgnoredSubFiles;
   unsigned int   m_ResolutionUnit;
   float          m_XResolution;
   float          m_YResolution;
@@ -122,6 +123,7 @@ void TIFFReaderInternal::Clean()
   this->m_XResolution = 1;
   this->m_YResolution = 1;
   this->m_SubFiles = 0;
+  this->m_IgnoredSubFiles = 0;
   this->m_SampleFormat = 1;
   this->m_ResolutionUnit = 1; // none
   this->m_IsOpen = false;
@@ -199,6 +201,7 @@ int TIFFReaderInternal::Initialize()
     if ( this->m_NumberOfPages > 1 )
       {
       this->m_SubFiles = 0;
+      this->m_IgnoredSubFiles = 0;
 
       for ( unsigned int page = 0; page < this->m_NumberOfPages; page++ )
         {
@@ -209,11 +212,18 @@ int TIFFReaderInternal::Initialize()
             {
             this->m_SubFiles += 1;
             }
+          // ignored flags
+          else if ( subfiletype & FILETYPE_REDUCEDIMAGE
+                    || subfiletype & FILETYPE_MASK )
+            {
+            ++this->m_IgnoredSubFiles;
+            }
+
           }
         TIFFReadDirectory(this->m_Image);
         }
 
-      // Set the directory to the first image
+      // Set the directory to the first image, and reads it
       TIFFSetDirectory(this->m_Image, 0);
       }
 
@@ -1039,13 +1049,15 @@ void TIFFImageIO::ReadVolume(void *buffer)
 
   for ( unsigned int page = 0; page < m_InternalImage->m_NumberOfPages; page++ )
     {
-    if ( m_InternalImage->m_SubFiles > 0 )
+    if ( m_InternalImage->m_IgnoredSubFiles > 0 )
       {
       int32 subfiletype = 6;
       if ( TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype) )
         {
-        if ( subfiletype != 0 )
+        if ( subfiletype & FILETYPE_REDUCEDIMAGE
+             || subfiletype & FILETYPE_MASK )
           {
+          // skip subfile
           TIFFReadDirectory(m_InternalImage->m_Image);
           continue;
           }
@@ -1528,7 +1540,7 @@ void TIFFImageIO::ReadImageInformation()
     }
 
   // if the tiff file is multi-pages
-  if ( m_InternalImage->m_NumberOfPages > 1 )
+  if ( m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles > 1 )
     {
     this->SetNumberOfDimensions(3);
     if ( m_InternalImage->m_SubFiles > 0 )
@@ -1537,7 +1549,7 @@ void TIFFImageIO::ReadImageInformation()
       }
     else
       {
-      m_Dimensions[2] = m_InternalImage->m_NumberOfPages;
+      m_Dimensions[2] = m_InternalImage->m_NumberOfPages - m_InternalImage->m_IgnoredSubFiles;
       }
     m_Spacing[2] = 1.0;
     m_Origin[2] = 0.0;
