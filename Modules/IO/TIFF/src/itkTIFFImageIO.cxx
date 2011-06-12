@@ -1275,6 +1275,17 @@ void TIFFImageIO::ReadVolume(void *buffer)
 
 void TIFFImageIO::Read(void *buffer)
 {
+
+  // re-open the file if it was closed
+  if ( !m_InternalImage->m_IsOpen )
+    {
+    if ( !this->CanReadFile( m_FileName.c_str() ) )
+      {
+      itkExceptionMacro(<< "Cannot open file " << this->m_FileName << "!");
+      return;
+      }
+    }
+
   if ( m_InternalImage->m_Compression == COMPRESSION_OJPEG )
     {
     itkExceptionMacro(<< "This reader cannot read old JPEG compression");
@@ -1423,7 +1434,7 @@ void TIFFImageIO::ReadImageInformation()
     {
     if ( !this->CanReadFile( m_FileName.c_str() ) )
       {
-      itkExceptionMacro(<< "Cannot open the file!");
+      itkExceptionMacro(<< "Cannot open file " << this->m_FileName << "!");
       return;
       }
     }
