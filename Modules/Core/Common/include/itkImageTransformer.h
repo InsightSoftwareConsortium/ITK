@@ -218,6 +218,20 @@ protected:
    * control to ThreadedGenerateData(). */
   static ITK_THREAD_RETURN_TYPE ThreaderCallback(void *arg);
 
+  /**
+   * PushBackInput(), PushFrontInput() in the public section force the
+   * input to be the type expected by an ImageTransformer. However,
+   * these methods end up "hiding" the versions from the superclass
+   * (ProcessObject) whose arguments are DataObjects. Here, we re-expose
+   * the versions from ProcessObject to avoid warnings about hiding
+   * methods from the superclass.
+   * NOTE: The same code resides in ImageToImageFilter
+   */
+  void PushBackInput(const DataObject *input)
+  { Superclass::PushBackInput(input); }
+  void PushFrontInput(const DataObject *input)
+  { Superclass::PushFrontInput(input); }
+
   /** Internal structure used for passing image data into the threading library
     */
   struct ThreadStruct {
