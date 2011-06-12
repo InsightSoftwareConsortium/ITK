@@ -25,9 +25,11 @@
 namespace itk
 {
 /** \class LaplacianRecursiveGaussianImageFilter
- * \brief Computes the Laplacian of an image by convolution with the second derivative of a Gaussian.
+ * \brief Computes the Laplacian of Gaussian (LoG) of an image.
  *
- * This filter is implemented using the recursive gaussian filters
+ * Computes the Laplacian of Gaussian (LoG) of an image by convolution
+ * with the second derivative of a Gaussian.
+ * This filter is implemented using the recursive gaussian filters.
  *
  * \ingroup GradientFilters
  * \ingroup Singlethreaded
