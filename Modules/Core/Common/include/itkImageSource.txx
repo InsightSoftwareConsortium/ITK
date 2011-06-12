@@ -270,7 +270,9 @@ ImageSource< TOutputImage >
   std::ostringstream message;
 
   message << "itk::ERROR: " << this->GetNameOfClass()
-          << "(" << this << "): " << "Subclass should override this method!!!";
+          << "(" << this << "): " << "Subclass should override this method!!!" << std::endl
+          << "The signature of ThreadedGenerateData() has been changed in ITK v4 to use the new ThreadIdType." << std::endl
+          << this->GetNameOfClass() << "::ThreadedGenerateData() might need to be updated to used it.";
   ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
   throw e_;
 }
