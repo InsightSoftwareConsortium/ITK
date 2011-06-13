@@ -225,7 +225,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
   DWORD             pid = GetCurrentProcessId();
   ULONG             n = 50;
   PSYSTEM_PROCESSES sp = new SYSTEM_PROCESSES[n];
-  // as we can't know how many processes running, we loop and test a new size
+  // as we can't know how many processes are running, we loop and test a new size
   // everytime.
   while ( ZwQuerySystemInformation(SystemProcessesAndThreadsInformation,
                                    sp, n * sizeof *sp, 0)
@@ -351,7 +351,7 @@ SunSolarisMemoryUsageObserver::~SunSolarisMemoryUsageObserver()
 {}
 
 /** On Sun Solaris machines, the system call pmap returns information on process.
- *  calling "pmap PID", the output shall be like the following:
+ *  Calling "pmap PID", the output shall be like the following:
  *  102905:    *my_app*
  *  00010000    192K r-x--  /usr/bin/my_app
  *  00042000     40K rwx--    [ heap ]

@@ -27,9 +27,10 @@
 namespace itk
 {
 /** \class VectorContainer
- * Define a front-end to the STL "vector" container that conforms to the
- * IndexedContainerInterface.  This is a full-fleged Object, so
- * there is modification time, debug, and reference count information.
+ * \brief This class defines a front-end to the STL "vector" container
+ * that conforms to the IndexedContainerInterface.  This is a
+ * full-fleged Object, so there is modification time, debug,
+ * and reference count information.
  *
  * Template parameters for VectorContainer:
  *

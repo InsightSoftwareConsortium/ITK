@@ -112,7 +112,7 @@ public:
   typedef ImageRegionConstIterator     Self;
   typedef ImageConstIterator< TImage > Superclass;
 
-  /** Dimension of the image the iterator walks.  This constant is needed so
+  /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
@@ -120,7 +120,7 @@ public:
                       Superclass::ImageIteratorDimension);
 
   /**
-   * Index typedef support. While these were already typdef'ed in the superclass
+   * Index typedef support. While these were already typdef'ed in the superclass,
    * they need to be redone here for this subclass to compile properly with gcc.
    */
   /** Types inherited from the Superclass */
@@ -156,7 +156,7 @@ public:
   }
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionConstIterator. Many routines return an ImageIterator but for a
+   * ImageRegionConstIterator. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRegionConstIterator.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
@@ -173,7 +173,7 @@ public:
   }
 
   /** Constructor that can be used to cast from an ImageConstIterator to an
-   * ImageRegionConstIterator. Many routines return an ImageIterator but for a
+   * ImageRegionConstIterator. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRegionConstIterator.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an

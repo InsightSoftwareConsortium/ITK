@@ -30,9 +30,9 @@ namespace Functor
  *
  *  This class is useful for visualizing labeled images which cannot be mapped
  *  succefully into grayscale images.  Images of unsigned long integers, for
- *  example may have too many graylevels to visualize effectively.
+ *  example, may have too many graylevels to visualize effectively.
  *
- *  The hashing scheme used is designed to spread close scalar values very
+ *  The hashing scheme used is designed to spread close scalar values of very
  *  different colors by using the least significant bits (fastest changing) of
  *  the scalar type to determine the color.  Because labeled images may
  *  typically use sequential values, it is desirable that those values result

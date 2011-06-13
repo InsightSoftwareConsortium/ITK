@@ -57,15 +57,15 @@ LineConstIterator< TImage >
   m_ReduceErrorAfterIncrement.Fill(2 * maxDistance);
 
   // Need to set m_EndIndex to be one pixel past the m_LastIndex along
-  // the bresenham line. THis is tricky to
-  // do. m_EndIndex[m_MainDirection] is always offset by one from the
+  // the bresenham line. This is tricky to do.
+  // m_EndIndex[m_MainDirection] is always offset by one from the
   // m_LastIndex[m_MainDirection].  The other indices may or may not
   // be incremented depending on the accumulated error to that point.
   //
   // To avoid traversing the line to determine whether the other
   // components need to be adjusted, we merely set the main direction
   // to be incremented and keep the remaining indices to be same as
-  // LastIndex. THen in the test for IsAtEnd, we just check the
+  // LastIndex. Then in the test for IsAtEnd, we just check the
   // MainDirection component of the index.
   for ( i = 0; i < TImage::ImageDimension; ++i )
     {

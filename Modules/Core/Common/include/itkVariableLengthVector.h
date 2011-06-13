@@ -160,10 +160,8 @@ public:
   const Self & operator=(TValueType const & v);
 
   /** Return the number of elements in the Array  */
-  inline unsigned int Size(void) const
-  { return m_NumElements; }
-  inline unsigned int GetNumberOfElements(void) const
-  { return m_NumElements; }
+  inline unsigned int Size(void) const { return m_NumElements; }
+  inline unsigned int GetNumberOfElements(void) const { return m_NumElements; }
 
   /** Return reference to the element at specified index. No range checking. */
   TValueType       & operator[](unsigned int i) { return this->m_Data[i]; }
@@ -171,12 +169,10 @@ public:
   TValueType const & operator[](unsigned int i) const { return this->m_Data[i]; }
 
   /** Get one element */
-  inline const TValueType & GetElement(unsigned int i) const
-  { return m_Data[i]; }
+  inline const TValueType & GetElement(unsigned int i) const { return m_Data[i]; }
 
   /** Set one element */
-  void SetElement(unsigned int i, const TValueType & value)
-  { m_Data[i] = value; }
+  void SetElement(unsigned int i, const TValueType & value) { m_Data[i] = value; }
 
   /** Set the size to that given.
    *
@@ -194,8 +190,7 @@ public:
    * true. */
   void DestroyExistingData();
 
-  inline unsigned int GetSize(void) const
-  { return m_NumElements; }
+  inline unsigned int GetSize(void) const { return m_NumElements; }
 
   /** Set the pointer from which the data is imported.
    * If "LetArrayManageMemory" is false, then the application retains

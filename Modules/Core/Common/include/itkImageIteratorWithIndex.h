@@ -62,7 +62,6 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  *
- *
  * \ingroup ITK-Common
  */
 template< typename TImage >
@@ -72,7 +71,7 @@ public:
   /** Standard class typedefs. */
   typedef ImageIteratorWithIndex Self;
 
-  /** Dimension of the image the iterator walks.  This constant is needed so
+  /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
@@ -117,7 +116,7 @@ public:
   void Set(const PixelType & value) const
   { this->m_PixelAccessor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
 
-  /** Return a reference to the pixel
+  /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)

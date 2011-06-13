@@ -26,13 +26,13 @@ namespace itk
 /** \class ImageSliceIteratorWithIndex
  * \brief A multi-dimensional image iterator that extends the
  * ImageLinearIteratorWithIndex from iteration along lines in an image to
- * iteration along both lines and planes (slices) within an image.  A slice is
- * defined as a 2D plane spanned by two vectors pointing along orthogonal
- * coordinate axes.
+ * iteration along both lines and planes (slices) within an image.
  *
- * Most of the functionality is inherited from the ImageSliceConstIteratorWithIndex.
- * The current class only adds write access to image pixels.  See
- * ImageSliceConstIteratorWithIndex for details.
+ * A slice is defined as a 2D plane spanned by two vectors pointing along
+ * orthogonal coordinate axes. Most of the functionality is inherited from
+ * the ImageSliceConstIteratorWithIndex. The current class only adds
+ * write access to image pixels. See ImageSliceConstIteratorWithIndex
+ * for details.
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
@@ -93,7 +93,7 @@ public:
   ImageSliceIteratorWithIndex(ImageType *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageSliceIteratorWithIndex. Many routines return an ImageIterator but for a
+   * ImageSliceIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageSliceIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
@@ -104,13 +104,13 @@ public:
   void Set(const PixelType & value) const
   { this->m_PixelAccessorFunctor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
 
-  /** Return a reference to the pixel
+  /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
   { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
 protected:
-  /** the construction from a const iterator is declared protected
+  /** The construction from a const iterator is declared protected
       in order to enforce const correctness. */
   ImageSliceIteratorWithIndex(const ImageSliceConstIteratorWithIndex< TImage > & it);
   Self & operator=(const ImageSliceConstIteratorWithIndex< TImage > & it);

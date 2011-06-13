@@ -26,7 +26,7 @@
 namespace itk
 {
 /** \class RealTimeClock
- * \brief The RealTimeClock provides a timestamp from a real-time clock
+ * \brief The RealTimeClock provides a timestamp from a real-time clock.
  *
  * This class represents a real-time clock object
  * and provides a timestamp in platform-independent format.
@@ -82,7 +82,7 @@ private:
   TimeStampType m_Origin;
 
   // We hide this method in the private section, because it returns the
-  // Modified time of the itk::Object.  That modified time is ambiguous with
+  // modified time of the itk::Object.  That modified time is ambiguous with
   // the role of the RealTimeStamp.
   virtual const TimeStamp & GetTimeStamp() const;
 };

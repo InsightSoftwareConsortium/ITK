@@ -107,26 +107,26 @@ public:
   typedef ImageLinearConstIteratorWithIndex     Self;
   typedef ImageConstIteratorWithIndex< TImage > Superclass;
 
-  /** Index typedef support. While this was already typdef'ed in the superclass
+  /** Index typedef support. While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
+   * Note that we have to rescope Index back to itk::Index so that it is not
    * confused with ImageIterator::Index. */
   typedef typename TImage::IndexType IndexType;
 
-  /** Region typedef support. While this was already typdef'ed in the superclass
+  /** Region typedef support. While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Region back to itk::ImageRegion so that is
-   * it not confused with ImageIterator::Index. */
+   * Note that we have to rescope Region back to itk::ImageRegion so that it
+   * is not confused with ImageIterator::Index. */
   typedef typename TImage::RegionType RegionType;
 
-  /** Image typedef support. While this was already typdef'ed in the superclass
+  /** Image typedef support. While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
-   * Note that we have to rescope Index back to itk::Index to that is it not
+   * Note that we have to rescope Index back to itk::Index so that it is not
    * confused with ImageIterator::Index. */
   typedef TImage ImageType;
 
   /** PixelContainer typedef support. Used to refer to the container for
-   * the pixel data. While this was already typdef'ed in the superclass
+   * the pixel data. While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename TImage::PixelContainer  PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
@@ -235,27 +235,27 @@ ImageLinearConstIteratorWithIndex< TImage >
   this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];
 
   for ( unsigned int n = 0; n < TImage::ImageDimension; n++ )
-    {
+  {
     this->m_Remaining = false;
 
     if ( n == m_Direction )
-      {
+    {
       continue;
-      }
+    }
 
     this->m_PositionIndex[n]++;
     if ( this->m_PositionIndex[n] <  this->m_EndIndex[n] )
-      {
+    {
       this->m_Position += this->m_OffsetTable[n];
       this->m_Remaining = true;
       break;
-      }
+    }
     else
-      {
+    {
       this->m_Position -= this->m_OffsetTable[n] * ( this->m_Region.GetSize()[n] - 1 );
       this->m_PositionIndex[n] = this->m_BeginIndex[n];
-      }
     }
+  }
 }
 
 //----------------------------------------------------------------------
@@ -273,27 +273,27 @@ ImageLinearConstIteratorWithIndex< TImage >
   this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction] - 1;
 
   for ( unsigned int n = 0; n < TImage::ImageDimension; n++ )
-    {
+  {
     this->m_Remaining = false;
 
     if ( n == m_Direction )
-      {
+    {
       continue;
-      }
+    }
 
     this->m_PositionIndex[n]--;
     if ( this->m_PositionIndex[n] >=  this->m_BeginIndex[n] )
-      {
+    {
       this->m_Position -= this->m_OffsetTable[n];
       this->m_Remaining = true;
       break;
-      }
+    }
     else
-      {
+    {
       this->m_Position += this->m_OffsetTable[n] * ( this->m_Region.GetSize()[n] - 1 );
       this->m_PositionIndex[n] = this->m_EndIndex[n] - 1;
-      }
     }
+  }
 }
 } // end namespace itk
 

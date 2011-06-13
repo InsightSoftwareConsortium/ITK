@@ -28,7 +28,7 @@ namespace itk
  *
  * LineIterator is an iterator that walks a Bresenham line
  * through an image.  The iterator is constructed similar to other
- * image iterators except for instead of specifying a region to
+ * image iterators, except instead of specifying a region to
  * traverse, you specify two indices. The interval specified by
  * the two indices is closed.  So, a line iterator specified with
  * the same start and end index will visit exactly one pixel.
@@ -58,7 +58,7 @@ public:
   /** Standard class typedefs. */
   typedef LineIterator Self;
 
-  /** Dimension of the image the iterator walks.  This constant is needed so
+  /** Dimension of the image that the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
@@ -94,7 +94,7 @@ public:
     SetPixel(this->m_CurrentImageIndex, value);
   }
 
-  /** Return a reference to the pixel
+  /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   const PixelType & Value(void)

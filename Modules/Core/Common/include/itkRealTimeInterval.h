@@ -101,7 +101,7 @@ private:
   SecondsDifferenceType        m_Seconds;
 
   /** Number of Microseconds since the second.
-   *  should be in the range -999,999 to 999,999
+   *  Should be in the range -999,999 to 999,999
    *  and it must always have the same sign as
    *  the m_Seconds member variable. */
   MicroSecondsDifferenceType   m_MicroSeconds;

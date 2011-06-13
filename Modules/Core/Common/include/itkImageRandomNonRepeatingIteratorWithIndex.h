@@ -98,7 +98,7 @@ public:
   ImageRandomNonRepeatingIteratorWithIndex(ImageType *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRandomNonRepeatingIteratorWithIndex. Many routines return an ImageIterator but for a
+   * ImageRandomNonRepeatingIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRandomNonRepeatingIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
@@ -109,13 +109,13 @@ public:
   void Set(const PixelType & value) const
   { this->m_PixelAccessorFunctor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
 
-  /** Return a reference to the pixel
+  /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
   { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
 protected:
-  /** the construction from a const iterator is declared protected
+  /** The construction from a const iterator is declared protected
       in order to enforce const correctness. */
   ImageRandomNonRepeatingIteratorWithIndex(const ImageRandomNonRepeatingConstIteratorWithIndex< TImage > & it);
   Self & operator=(const ImageRandomNonRepeatingConstIteratorWithIndex< TImage > & it);

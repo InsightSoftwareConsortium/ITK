@@ -55,7 +55,7 @@ namespace itk
  * coordinate representations, falling back to the generic method for
  * unrecognized and/or unoptimized coordinate representations.
  *
- * There are three sets of meta-data describing portians of a
+ * There are three sets of meta-data describing portions of a
  * SpecialCoordinatesImages. These are "Region" objects that define a portion of
  * an image via a starting index for the image array and a size. The ivar
  * LargestPossibleRegion defines the size and starting index of the image
@@ -234,41 +234,33 @@ public:
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  TPixel & operator[](const IndexType & index)
-  { return this->GetPixel(index); }
+  TPixel & operator[](const IndexType & index) { return this->GetPixel(index); }
 
   /** \brief Access a pixel. This version can only be an rvalue.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const TPixel & operator[](const IndexType & index) const
-  { return this->GetPixel(index); }
+  const TPixel & operator[](const IndexType & index) const { return this->GetPixel(index); }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  TPixel * GetBufferPointer()
-  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
-  const TPixel * GetBufferPointer() const
-  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
+  TPixel * GetBufferPointer() { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
+  const TPixel * GetBufferPointer() const { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
 
   /** Return a pointer to the container. */
-  PixelContainer * GetPixelContainer()
-  { return m_Buffer.GetPointer(); }
+  PixelContainer * GetPixelContainer() { return m_Buffer.GetPointer(); }
 
-  const PixelContainer * GetPixelContainer() const
-  { return m_Buffer.GetPointer(); }
+  const PixelContainer * GetPixelContainer() const { return m_Buffer.GetPointer(); }
 
   /** Set the container to use. Note that this does not cause the
    * DataObject to be modified. */
   void SetPixelContainer(PixelContainer *container);
 
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor(void)
-  { return AccessorType(); }
+  AccessorType GetPixelAccessor(void) { return AccessorType(); }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor(void) const
-  { return AccessorType(); }
+  const AccessorType GetPixelAccessor(void) const { return AccessorType(); }
 
   /** These functions do NOTHING!  They exist only to not break the pipeline.
    * It is vital that the user specify any and all physical-spacing parameters

@@ -144,13 +144,15 @@ public:
   ImageRandomConstIteratorWithIndex(const ImageType *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRandomConstIteratorWithIndex. Many routines return an ImageIterator but for a
+   * ImageRandomConstIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRandomConstIteratorWithIndex.  Rather than
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomConstIteratorWithIndex. */
   ImageRandomConstIteratorWithIndex(const ImageConstIteratorWithIndex< TImage > & it)
-  { this->ImageConstIteratorWithIndex< TImage >::operator=(it); }
+  {
+    this->ImageConstIteratorWithIndex< TImage >::operator=(it);
+  }
 
   /** Move an iterator to the beginning of the region. */
   void GoToBegin(void)
@@ -168,11 +170,15 @@ public:
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
-  { return ( m_NumberOfSamplesDone == 0L ); }
+  {
+    return ( m_NumberOfSamplesDone == 0L );
+  }
 
   /** Is the iterator at the end of the region? */
   bool IsAtEnd(void) const
-  { return ( m_NumberOfSamplesDone >= m_NumberOfSamplesRequested );  }
+  {
+    return ( m_NumberOfSamplesDone >= m_NumberOfSamplesRequested );
+  }
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */

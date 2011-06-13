@@ -326,7 +326,7 @@ public:
   void TransformLocalVectorToPhysicalVector(
     const FixedArray< TCoordRep, 3 > & inputGradient,
     FixedArray< TCoordRep, 3 > & outputGradient) const
-  {}
+    {}
 
 protected:
   PhasedArray3DSpecialCoordinatesImage()

@@ -23,6 +23,11 @@
 
 namespace itk
 {
+/** \class itkTreeIteratorClone
+ *  \brief itkTreeIteratorClone class
+ *  \ingroup DataRepresentation
+ *  \ingroup ITK-Common
+ */
 template< class TObjectType >
 class ITK_EXPORT TreeIteratorClone
 {
@@ -33,10 +38,7 @@ public:
   typedef TObjectType                      ObjectType;
 
   /** Constructor  */
-  TreeIteratorClone ()
-  {
-    m_Pointer = 0;
-  }
+  TreeIteratorClone () { m_Pointer = 0; }
 
   /** Copy constructor  */
   TreeIteratorClone (const TreeIteratorClone< ObjectType > & p)
@@ -73,47 +75,36 @@ public:
   }
 
   /** Overload operator ->  */
-  ObjectType * operator->() const
-  { return m_Pointer; }
+  ObjectType * operator->() const { return m_Pointer; }
 
   /** Test if the pointer has been initialized */
-  bool IsNotNull() const
-  { return m_Pointer != 0; }
-  bool IsNull() const
-  { return m_Pointer == 0; }
+  bool IsNotNull() const { return m_Pointer != 0; }
+  bool IsNull() const { return m_Pointer == 0; }
 
   /** Template comparison operators. */
   template< typename TR >
-  bool operator==(TR r) const
-  { return ( m_Pointer == (ObjectType *)( r ) ); }
+  bool operator==(TR r) const { return ( m_Pointer == (ObjectType *)( r ) ); }
 
   template< typename TR >
-  bool operator!=(TR r) const
-  { return ( m_Pointer != (ObjectType *)( r ) ); }
+  bool operator!=(TR r) const { return ( m_Pointer != (ObjectType *)( r ) ); }
 
   /** Access function to pointer. */
-  ObjectType * GetPointer() const
-  { return m_Pointer; }
+  ObjectType * GetPointer() const { return m_Pointer; }
 
   /** Comparison of pointers. Less than comparison.  */
-  bool operator<(const TreeIteratorClone & r) const
-  { return (void *)m_Pointer < (void *)r.m_Pointer; }
+  bool operator<(const TreeIteratorClone & r) const { return (void *)m_Pointer < (void *)r.m_Pointer;  }
 
   /** Comparison of pointers. Greater than comparison.  */
-  bool operator>(const TreeIteratorClone & r) const
-  { return (void *)m_Pointer > (void *)r.m_Pointer; }
+  bool operator>(const TreeIteratorClone & r) const { return (void *)m_Pointer > (void *)r.m_Pointer; }
 
   /** Comparison of pointers. Less than or equal to comparison.  */
-  bool operator<=(const TreeIteratorClone & r) const
-  { return (void *)m_Pointer <= (void *)r.m_Pointer; }
+  bool operator<=(const TreeIteratorClone & r) const { return (void *)m_Pointer <= (void *)r.m_Pointer; }
 
   /** Comparison of pointers. Greater than or equal to comparison.  */
-  bool operator>=(const TreeIteratorClone & r) const
-  { return (void *)m_Pointer >= (void *)r.m_Pointer; }
+  bool operator>=(const TreeIteratorClone & r) const { return (void *)m_Pointer >= (void *)r.m_Pointer; }
 
   /** Overload operator assignment.  */
-  TreeIteratorClone & operator=(const TreeIteratorClone & r)
-  { return this->operator=( r.GetPointer() ); }
+  TreeIteratorClone & operator=(const TreeIteratorClone & r) { return this->operator=( r.GetPointer() ); }
 
   /** Overload operator assignment.  */
   TreeIteratorClone & operator=(const ObjectType *r)
