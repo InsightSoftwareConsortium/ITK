@@ -35,9 +35,7 @@ typedef ShortImage::IndexValueType IndexValueType;
 typedef itk::ZeroFluxNeumannPadImageFilter< ShortImage, ShortImage > FilterType;
 
 static bool VerifyFilterOutput(const ShortImage * inputImage,
-                               const ShortImage * outputImage,
-                               const SizeValueType * lowerBound,
-                               const SizeValueType * upperBound)
+                               const ShortImage * outputImage)
 {
   ShortImage::RegionType inputRegion  = inputImage->GetLargestPossibleRegion();
   ShortImage::IndexType inputIndex = inputRegion.GetIndex();
@@ -159,8 +157,7 @@ static bool VerifyFilter(const ShortImage * inputImage,
   padFilter->UpdateLargestPossibleRegion();
 
   std::cout << "Verifying filter output pixels." << std::endl;
-  if ( !VerifyFilterOutput( inputImage, padFilter->GetOutput(),
-                            lowerBound, upperBound ) )
+  if ( !VerifyFilterOutput( inputImage, padFilter->GetOutput() ) )
     {
     std::cerr << "[FAILED]" << std::endl;
     return false;
@@ -176,8 +173,7 @@ static bool VerifyFilter(const ShortImage * inputImage,
 
   std::cout << "Verifying streaming filter output pixels." << std::endl;
 
-  if ( !VerifyFilterOutput( inputImage, stream->GetOutput(),
-                            lowerBound, upperBound ) )
+  if ( !VerifyFilterOutput( inputImage, stream->GetOutput() ) )
     {
     std::cerr << "[FAILED]" << std::endl;
     return false;
