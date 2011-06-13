@@ -23,7 +23,8 @@
 namespace itk
 {
 /** \class MaskNeighborhoodOperatorImageFilter
- * \brief Applies a single NeighborhoodOperator to an image,  processing only those pixels that are under a mask
+ * \brief Applies a single NeighborhoodOperator to an image,
+ * processing only those pixels that are under a mask.
  *
  * This filter calculates successive inner products between a single
  * NeighborhoodOperator and a NeighborhoodIterator, which is swept

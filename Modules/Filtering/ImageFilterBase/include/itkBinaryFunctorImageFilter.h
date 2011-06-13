@@ -24,7 +24,8 @@
 namespace itk
 {
 /** \class BinaryFunctorImageFilter
- * \brief Implements pixel-wise generic operation of two images, or of an image and a constant
+ * \brief Implements pixel-wise generic operation of two images,
+ * or of an image and a constant.
  *
  * This class is parameterized over the types of the two input images
  * and the type of the output image.  It is also parameterized by the
@@ -105,16 +106,16 @@ public:
   /** Set the second operand as a constant */
   virtual void SetConstant2(const Input2ImagePixelType &input2);
   void SetConstant(Input2ImagePixelType ct)
-    {
-      this->SetConstant2(ct);
-    }
+  {
+    this->SetConstant2(ct);
+  }
   const Input2ImagePixelType & GetConstant() const
-    {
-      return this->GetConstant2();
-    }
+  {
+    return this->GetConstant2();
+  }
 
   /** Get the constant value of the second operand. An exception is sent if
-   * the second operand is not a constant
+   * the second operand is not a constant.
    */
   virtual const Input2ImagePixelType & GetConstant2() const;
 
