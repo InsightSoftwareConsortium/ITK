@@ -51,6 +51,12 @@ namespace itk
  * SetInput1( image1 );
  * SetInput2( image2 );
  *
+ * Additionally, this filter can be used to add a constant to every pixel of an
+ * image by using
+ *
+ * SetInput1( image1 );
+ * SetConstant2( constant );
+ *
  * \warning No numeric overflow checking is performed in this filter.
  *
  * \ingroup IntensityImageFilters  Multithreaded
