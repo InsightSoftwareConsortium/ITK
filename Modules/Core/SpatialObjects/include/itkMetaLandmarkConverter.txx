@@ -101,7 +101,7 @@ MetaLandmarkConverter< NDimensions >
   return landmarkSO.GetPointer();
 }
 
-/** Convert an Landmark SpatialObject into a metaLandmark */
+/** Convert a Landmark SpatialObject into a metaLandmark */
 template< unsigned int NDimensions >
 typename MetaLandmarkConverter< NDimensions >::MetaObjectType *
 MetaLandmarkConverter< NDimensions >
@@ -118,7 +118,6 @@ MetaLandmarkConverter< NDimensions >
   MetaLandmark *landmarkMO = new MetaLandmark(NDimensions);
 
   // fill in the Landmark information
-
   typename LandmarkSpatialObjectType::PointListType::const_iterator it;
   for ( it = landmarkSO->GetPoints().begin(); it != landmarkSO->GetPoints().end(); ++it )
     {

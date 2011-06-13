@@ -68,7 +68,7 @@ MetaGroupConverter< NDimensions >
   return groupSO.GetPointer();
 }
 
-/** Convert an group SpatialObject into a metaGroup */
+/** Convert a group SpatialObject into a metaGroup */
 template< unsigned int NDimensions >
 typename MetaGroupConverter< NDimensions >::MetaObjectType *
 MetaGroupConverter< NDimensions >

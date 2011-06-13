@@ -102,7 +102,7 @@ MetaBlobConverter< NDimensions >
   return SpatialObjectPointer(blob.GetPointer());
 }
 
-/** Convert an Blob SpatialObject into a metaBlob */
+/** Convert a Blob SpatialObject into a metaBlob */
 template< unsigned int NDimensions >
 typename MetaBlobConverter<NDimensions>::MetaObjectType *
 MetaBlobConverter< NDimensions >
@@ -117,7 +117,6 @@ MetaBlobConverter< NDimensions >
   BlobMetaObjectType *Blob = new MetaBlob(NDimensions);
 
   // fill in the Blob information
-
   typename BlobSpatialObjectType::PointListType::const_iterator i;
   for ( i = blobSO->GetPoints().begin();
         i != blobSO->GetPoints().end();

@@ -106,7 +106,7 @@ MetaSurfaceConverter< NDimensions >
   return surfaceSO.GetPointer();
 }
 
-/** Convert an Surface SpatialObject into a metaSurface */
+/** Convert a Surface SpatialObject into a metaSurface */
 template< unsigned int NDimensions >
 typename MetaSurfaceConverter< NDimensions >::MetaObjectType *
 MetaSurfaceConverter< NDimensions >
@@ -122,7 +122,6 @@ MetaSurfaceConverter< NDimensions >
   MetaSurface *surfaceMO = new MetaSurface(NDimensions);
 
   // fill in the Surface information
-
   typename SurfaceSpatialObjectType::PointListType::const_iterator it;
   for ( it = surfaceSO->GetPoints().begin();
         it != surfaceSO->GetPoints().end();
