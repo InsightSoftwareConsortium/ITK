@@ -23,8 +23,14 @@ itk_add_test(NAME itkContourMeanDistanceImageFilterTest
       COMMAND ITK-DistanceMapTestDriver itkContourMeanDistanceImageFilterTest)
 itk_add_test(NAME itkContourDirectedMeanDistanceImageFilterTest
       COMMAND ITK-DistanceMapTestDriver itkContourDirectedMeanDistanceImageFilterTest)
-itk_add_test(NAME itkFastChamferDistanceImageFilterTest
-      COMMAND ITK-DistanceMapTestDriver itkFastChamferDistanceImageFilterTest)
+itk_add_test(NAME itkFastChamferDistanceImageFilterTest1
+      COMMAND ITK-DistanceMapTestDriver itkFastChamferDistanceImageFilterTest 1)
+itk_add_test(NAME itkFastChamferDistanceImageFilterTest2
+      COMMAND ITK-DistanceMapTestDriver itkFastChamferDistanceImageFilterTest 2)
+itk_add_test(NAME itkFastChamferDistanceImageFilterTest3
+      COMMAND ITK-DistanceMapTestDriver itkFastChamferDistanceImageFilterTest 3)
+itk_add_test(NAME itkFastChamferDistanceImageFilterTest4
+      COMMAND ITK-DistanceMapTestDriver itkFastChamferDistanceImageFilterTest 4)
 itk_add_test(NAME itkHausdorffDistanceImageFilterTest
       COMMAND ITK-DistanceMapTestDriver itkHausdorffDistanceImageFilterTest)
 itk_add_test(NAME itkReflectiveImageRegionIteratorTest

@@ -25,30 +25,29 @@
 namespace itk
 {
 /** \class FastChamferDistanceImageFilter
- *   \brief This class compute the signed (positive and negative) chamfer distance in a narrow band
+ * \brief This class compute the signed (positive and negative) chamfer distance in a narrow band
  *
- *   \par OVERVIEW
- *   This filter computes a Signed Chamfer Distance Map of the input image
- *   specialy designed to work within the Level Set framework,
- *   in the Narrow Band Reinitialization (generally applied after
- *   IsoContourDistanceImageFilter ).
- *   It can however be used for other purposes.
+ * \par OVERVIEW
+ * This filter computes a Signed Chamfer Distance Map of the input image
+ * specialy designed to work within the Level Set framework,
+ * in the Narrow Band Reinitialization (generally applied after
+ * IsoContourDistanceImageFilter ).
+ * It can however be used for other purposes.
  *
- *   The input is assumed to contain voxels with values higher than
- *   the Maximal Computed Distance,
- *   or values between -1 and 1 for voxels close to the 0-isosurface
- *   from which we compute the distance.
+ * The input is assumed to contain voxels with values higher than
+ * the Maximal Computed Distance,
+ * or values between -1 and 1 for voxels close to the 0-isosurface
+ * from which we compute the distance.
  *
- *   This filter is N-dimensional.
+ * This filter is N-dimensional.
  *
- *   \par REFERENCES
- *   Fast and Accurate Redistancing for Level Set Methods
- *  `Krissian K. and Westin C.F.',
- *   EUROCAST NeuroImaging Workshop Las Palmas Spain,
- *   Ninth International Conference on Computer Aided Systems Theory , pages 48-51, Feb 2003.
+ * \par REFERENCES
+ * Fast and Accurate Redistancing for Level Set Methods
+ * `Krissian K. and Westin C.F.',
+ * EUROCAST NeuroImaging Workshop Las Palmas Spain,
+ * Ninth International Conference on Computer Aided Systems Theory , pages 48-51, Feb 2003.
  *
  * \ingroup ImageFeatureExtraction
- *
  * \ingroup ITK-DistanceMap
  */
 
@@ -115,33 +114,13 @@ public:
   itkGetConstMacro(MaximumDistance, float);
 
   /** */
-  void SetRegionToProcess(const RegionType & r)
-  {
-    if ( m_RegionToProcess != r )
-      {
-      m_RegionToProcess = r;
-      this->Modified();
-      }
-  }
+  void SetRegionToProcess(const RegionType & r);
 
-  RegionType GetRegionToProcess() const
-  {
-    return m_RegionToProcess;
-  }
+  RegionType GetRegionToProcess() const;
 
-  void SetNarrowBand(NarrowBandType *ptr)
-  {
-    if ( m_NarrowBand != ptr )
-      {
-      m_NarrowBand = ptr;
-      this->Modified();
-      }
-  }
+  void SetNarrowBand(NarrowBandType *ptr);
 
-  NarrowBandPointer GetNarrowBand() const
-  {
-    return m_NarrowBand;
-  }
+  NarrowBandPointer GetNarrowBand() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -170,12 +149,12 @@ protected:
   virtual ~FastChamferDistanceImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** Compute a Signed Chamfer Distance Map up to the specified maximal distance
-      in n dimensions */
+  /** Compute a Signed Chamfer Distance Map up to the specified maximal
+  distance in n dimensions */
   void GenerateDataND();
 
-  /** Compute a Signed Chamfer Distance Map up to the specified maximal distance
-    */
+  /** Compute a Signed Chamfer Distance Map up to the specified maximal
+  distance */
   void GenerateData();
 
 private:
@@ -190,7 +169,7 @@ private:
   NarrowBandPointer m_NarrowBand;
 
   /** Region in the image to process.  */
-  typename InputImageType::RegionType m_RegionToProcess;
+  RegionType m_RegionToProcess;
 }; // end of FastChamferDistanceImageFilter class
 } //end namespace itk
 

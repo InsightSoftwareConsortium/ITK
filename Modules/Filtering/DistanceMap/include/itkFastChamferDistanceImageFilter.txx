@@ -30,7 +30,6 @@ template< class TInputImage, class TOutputImage >
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::FastChamferDistanceImageFilter()
 {
-  unsigned int i;
   unsigned int dim = ImageDimension;
 
   switch ( dim )
@@ -45,14 +44,53 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
       break;
     default:
       itkWarningMacro(<< "Dimension " << ImageDimension << " with Default weights ");
-      for ( i = 1; i <= ImageDimension; i++ )
+      for ( unsigned int i = 1; i <= ImageDimension; i++ )
         {
-        m_Weights[i - 1] = vcl_sqrt( (float)i );
+        m_Weights[i - 1] = vcl_sqrt( static_cast< float >( i ) );
         }
     }
 
   m_MaximumDistance = 10.0;
   m_NarrowBand = 0;
+}
+
+template< class TInputImage, class TOutputImage >
+void
+FastChamferDistanceImageFilter< TInputImage, TOutputImage >
+::SetRegionToProcess(const RegionType & r)
+{
+  if ( m_RegionToProcess != r )
+    {
+    m_RegionToProcess = r;
+    this->Modified();
+    }
+}
+
+template< class TInputImage, class TOutputImage >
+typename FastChamferDistanceImageFilter< TInputImage, TOutputImage >::RegionType
+FastChamferDistanceImageFilter< TInputImage, TOutputImage >
+::GetRegionToProcess() const
+{
+  return m_RegionToProcess;
+}
+
+template< class TInputImage, class TOutputImage >
+void
+FastChamferDistanceImageFilter< TInputImage, TOutputImage >::
+SetNarrowBand(NarrowBandType *ptr)
+{
+  if ( m_NarrowBand != ptr )
+    {
+    m_NarrowBand = ptr;
+    this->Modified();
+    }
+}
+
+template< class TInputImage, class TOutputImage >
+typename FastChamferDistanceImageFilter< TInputImage, TOutputImage >::NarrowBandPointer
+FastChamferDistanceImageFilter< TInputImage, TOutputImage >::GetNarrowBand() const
+{
+  return m_NarrowBand;
 }
 
 template< class TInputImage, class TOutputImage >
@@ -68,9 +106,8 @@ void FastChamferDistanceImageFilter< TInputImage, TOutputImage >
   r.Fill(1);
   NeighborhoodIterator< TInputImage > it(r, this->GetOutput(), m_RegionToProcess);
 
-  const unsigned int center_voxel = it.Size() / 2;
-  int *              neighbor_type;
-  neighbor_type = new int[it.Size()];
+  const unsigned int center_voxel  = it.Size() / 2;
+  int *              neighbor_type = new int[it.Size()];
   int          i;
   unsigned int n;
   float        val[ImageDimension];
@@ -89,7 +126,7 @@ void FastChamferDistanceImageFilter< TInputImage, TOutputImage >
     neighbor_type[i] = -1;
     for ( n = 0; n < ImageDimension; n++ )
       {
-      neighbor_type[i] += ( it.GetOffset(i)[n] != 0 );
+      neighbor_type[i] += static_cast< int >( it.GetOffset(i)[n] != 0 );
       }
     }
 
@@ -243,17 +280,18 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
 
+  m_RegionToProcess = this->GetInput()->GetRequestedRegion();
+
   ImageRegionIterator< TOutputImage >
-  out( this->GetOutput(), this->GetInput()->GetRequestedRegion() );
+  out( this->GetOutput(), m_RegionToProcess );
+
   ImageRegionConstIterator< TOutputImage >
-  in( this->GetInput(), this->GetInput()->GetRequestedRegion() );
+  in( this->GetInput(), m_RegionToProcess );
 
   for ( in.GoToBegin(), out.GoToBegin(); !in.IsAtEnd(); ++in, ++out )
     {
-    out.Set( in.Get() );
+    out.Set( static_cast< typename TOutputImage::PixelType >( in.Get() ) );
     }
-
-  m_RegionToProcess = this->GetInput()->GetRequestedRegion();
 
   //If the NarrowBand has been set, we update m_MaximumDistance using
   //narrowband TotalRadius plus a margin of 1 pixel.
@@ -270,11 +308,9 @@ void
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  unsigned int i;
-
   Superclass::PrintSelf(os, indent);
 
-  for ( i = 0; i < ImageDimension; i++ )
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     os << indent << "Chamfer weight " << i << ": " << m_Weights[i] << std::endl;
     }
