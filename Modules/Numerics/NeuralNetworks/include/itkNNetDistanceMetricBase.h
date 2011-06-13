@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class NNetDistanceMetricBase
+ * \brief This is the itkNNetDistanceMetricBase class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class TMeasurementVector>
 class NNetDistanceMetricBase : public FunctionBase<TMeasurementVector, double>

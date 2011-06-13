@@ -24,6 +24,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class ErrorFunctionBase
+ * \brief This is the itkErrorFunctionBase class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class TMeasurementVector, class TTargetVector>
 class ErrorFunctionBase : public FunctionBase<TMeasurementVector, TTargetVector>

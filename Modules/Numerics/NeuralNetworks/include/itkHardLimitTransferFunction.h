@@ -24,6 +24,12 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class HardLimitTransferFunction
+ * \brief This is the itkHardLimitTransferFunction class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
+
 template<class ScalarType>
 class HardLimitTransferFunction : public TransferFunctionBase<ScalarType>
 {

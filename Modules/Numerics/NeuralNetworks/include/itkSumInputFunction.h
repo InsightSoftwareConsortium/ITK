@@ -26,6 +26,11 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class SumInputFunction
+ * \brief This is the itkSumInputFunction class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class TMeasurementVector, class ScalarType>
 class SumInputFunction : public InputFunctionBase<TMeasurementVector, ScalarType>

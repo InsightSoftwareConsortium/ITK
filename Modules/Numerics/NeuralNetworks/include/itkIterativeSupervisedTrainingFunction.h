@@ -20,11 +20,15 @@
 
 #include "itkTrainingFunctionBase.h"
 
-
 namespace itk
 {
 namespace Statistics
 {
+/** \class IterativeSupervisedTrainingFunction
+ * \brief This is the itkIterativeSupervisedTrainingFunction class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
 
 template<class TSample, class TTargetVector, class ScalarType>
 class IterativeSupervisedTrainingFunction : public TrainingFunctionBase<TSample, TTargetVector, ScalarType>

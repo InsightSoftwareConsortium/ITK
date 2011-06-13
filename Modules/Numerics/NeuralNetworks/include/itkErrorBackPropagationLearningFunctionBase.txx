@@ -52,7 +52,6 @@ ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
   inputweightset->SetDBValues(DB.data_block());
 }
 
-/** */
 template<class LayerType, class TTargetVector>
 void
 ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>

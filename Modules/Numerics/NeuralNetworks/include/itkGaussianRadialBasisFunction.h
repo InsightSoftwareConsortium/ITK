@@ -25,6 +25,12 @@ namespace itk
 {
 namespace Statistics
 {
+/** \class GaussianRadialBasisFunction
+ * \brief This is the itkGaussianRadialBasisFunction class.
+ *
+ * \ingroup ITK-NeuralNetworks
+ */
+
 template<class ScalarType>
 class GaussianRadialBasisFunction : public RadialBasisFunctionBase<ScalarType>
 {
