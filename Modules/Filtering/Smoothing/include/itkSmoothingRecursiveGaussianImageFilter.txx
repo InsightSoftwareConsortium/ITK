@@ -36,7 +36,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   // NB: The first filter is the last dimension because it does not
   // always run in-place. As this dimension provides the least amount
   // of cache coherency, it will provide the least  amount of performance
-  // gains from running in-place. Infact some performance tests
+  // gains from running in-place. In fact, some performance tests
   // indicate that the running in-place in the 3rd dimesion the
   // performance actually declines compared to not in-place methods.
   m_FirstSmoothingFilter = FirstGaussianFilterType::New();
@@ -69,10 +69,9 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   this->InPlaceOff();
 
-  //
   // NB: We must call SetSigma in order to initialize the smoothing
   // filters with the default scale.  However, m_Sigma must first be
-  // initialized (it is used inside SetSigma) and it must be different
+  // initialized (it is used inside SetSigma), and it must be different
   // from 1.0 or the call will be ignored.
   this->m_Sigma.Fill(0.0);
   this->SetSigma(1.0);
@@ -98,7 +97,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   // Note: There are two different ways this filter may try to run
   // in-place:
-  // 1) Simular to the standard way, when the input and output image
+  // 1) Similar to the standard way, when the input and output image
   // are of the same type, they can share the bulk data. The output
   // will be grafted onto the last filter. In this fashion the input
   // and output will be the same bulk data, but the intermediate
@@ -113,7 +112,6 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   return m_FirstSmoothingFilter->CanRunInPlace() || this->Superclass::CanRunInPlace();
 }
 
-
 // Set value of Sigma (isotropic)
 template< typename TInputImage, typename TOutputImage >
 void
@@ -125,8 +123,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   this->SetSigmaArray(sigmas);
 }
 
-// Set value of Sigma (an-isotropic)
-
+// Set value of Sigma (anisotropic)
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -183,17 +180,14 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-//
-//
-//
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 throw( InvalidRequestedRegionError )
 {
-  // call the superclass' implementation of this method. this should
-  // copy the output requested region to the input requested region
+  // Call the superclass' implementation of this method. This should
+  // copy the output requested region to the input requested region.
   Superclass::GenerateInputRequestedRegion();
 
   // This filter needs all of the input
@@ -206,9 +200,6 @@ throw( InvalidRequestedRegionError )
     }
 }
 
-//
-//
-//
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -248,13 +239,13 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  // If this filter is running in-place then set the first smoothing
+  // If this filter is running in-place, then set the first smoothing
   // filter to steal the bulk data, by running in-place.
   if ( this->CanRunInPlace() && this->GetInPlace() )
     {
     m_FirstSmoothingFilter->InPlaceOn();
 
-    // to make this filter's input and out share the same data, call
+    // To make this filter's input and out share the same data, call
     // the InPlace's/Superclass's allocate methods, which takes care
     // of the needed bulk data sharing.
     this->AllocateOutputs();
@@ -265,18 +256,18 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     }
 
   // If the last filter is running in-place then this bulk data is not
-  // needed, release it to save memory
+  // needed, release it to save memory.
   if ( m_CastingFilter->CanRunInPlace() )
     {
     this->GetOutput()->ReleaseData();
     }
 
-  // Create a process accumulator for tracking the progress of this minipipeline
+  // Create a process accumulator for tracking the progress of this minipipeline.
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Register the filter with the with progress accumulator using
-  // equal weight proportion
+  // equal weight proportion.
   for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
     {
     progress->RegisterInternalFilter( m_SmoothingFilters[i], 1.0 / ( ImageDimension ) );
@@ -285,9 +276,9 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   progress->RegisterInternalFilter( m_FirstSmoothingFilter, 1.0 / ( ImageDimension ) );
   m_FirstSmoothingFilter->SetInput(inputImage);
 
-  // graft our output to the internal filter to force the proper regions
+  // Graft our output to the internal filter to force the proper regions
   // to be generated, and the bulk data which be be from the input due
-  // to the in-place option
+  // to the in-place option.
   m_CastingFilter->GraftOutput( this->GetOutput() );
   m_CastingFilter->Update();
   this->GraftOutput( m_CastingFilter->GetOutput() );
