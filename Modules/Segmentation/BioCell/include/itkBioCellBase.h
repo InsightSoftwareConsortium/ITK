@@ -28,7 +28,8 @@ namespace itk
 namespace bio
 {
 /** \class CellBase
- * \brief non-templated Base class from which the templated Cell classes will be derived.
+ * \brief Non-templated Base class from which the templated Cell classes will be derived.
+ * 
  * Derived classes are instantiated for a specific space dimension.
  * \ingroup ITK-BioCell
  */
@@ -48,14 +49,15 @@ public:
 
   IdentifierType GetParentIdentifier(void) const;
 
-  enum CellCycleState {
+  enum CellCycleState
+  {
     M = 1UL,
     Gap1,
     S,
     Gap2,
     Gap0,
     Apop
-    };
+  };
 protected:
   CellBase();
   virtual ~CellBase();
