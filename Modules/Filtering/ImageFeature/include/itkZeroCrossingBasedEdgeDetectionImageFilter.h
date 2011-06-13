@@ -24,34 +24,34 @@
 namespace itk
 {
 /** \class ZeroCrossingBasedEdgeDetectionImageFilter
+ * \brief This filter implements a zero-crossing based edge detecor.
  *
- * This filter implements a zero-crossing based edge detecor. The zero-crossing
- * based edge detector looks for pixels in the Laplacian of an image where the
- * value of the Laplacian passes through zero --- points where the Laplacian
- * changes sign.  Such points often occur at ``edges'' in images ---
- * i.e. points where the intensity of the image changes rapidly, but they also
- * occur at places that are not as easy to associate with edges. It is best to
- * think of the zero crossing detector as some sort of feature detector rather
- * than as a specific edge detector.
+ * The zero-crossing based edge detector looks for pixels in the Laplacian of
+ * an image where the value of the Laplacian passes through zero --- points
+ * where the Laplacian changes sign.  Such points often occur at ``edges'' in
+ * images --- i.e. points where the intensity of the image changes rapidly,
+ * but they also occur at places that are not as easy to associate with edges.
+ * It is best to think of the zero crossing detector as some sort of feature
+ * detector rather than as a specific edge detector.
  *
- * /par
+ * \par
  * Zero crossings always lie on closed contours and so the output from the zero
  * crossing detector is usually a binary image with single pixel thickness
  * lines showing the positions of the zero crossing points.
  *
- * /par
+ * \par
  * In this implementation, the input image is first smoothed with a Gaussian
  * filter, then the LaplacianImageFilter is applied to smoothed image. Finally
  * the zero-crossing of the Laplacian of the smoothed image is detected. The
  * output is a binary image.
  *
- * /par Inputs and Outputs
+ * \par Inputs and Outputs
  * The input to the filter should be a scalar, itk::Image of arbitrary
  * dimension.  The output image is a binary, labeled image.  See
  * itkZeroCrossingImageFilter for more information on requirements of the data
  * type of the output.
  *
- * /par
+ * \par
  * To use this filter, first set the parameters (variance and maximum error)
  * needed by the embedded DiscreteGaussianImageFilter, i.e.  See
  * DiscreteGaussianImageFilter for information about these parameters.

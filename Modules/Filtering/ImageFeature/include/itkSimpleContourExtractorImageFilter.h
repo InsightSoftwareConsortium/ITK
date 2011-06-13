@@ -25,16 +25,17 @@
 namespace itk
 {
 /** \class SimpleContourExtractorImageFilter
-* \brief Computes an image of contours from
+* \brief Computes an image of contours which will be the contour
+* of the first image.
 *
-* Computes an image which will be the contour of the first image. A
-* pixel of the source image  is considered to belong to the contour,
-* if its pixel value is equal to the input Foreground value  and it
+* A pixel of the source image is considered to belong to the contour
+* if its pixel value is equal to the input foreground value and it
 * has in its neighborhood at least one pixel which its pixel value is
-* equal to the input background  value. The output image will have
+* equal to the input background value. The output image will have
 * pixels which will be set to the output foreground value if they
 * belong to the contour, otherwise they will be set to the ouput
 * background value.
+*
 * The neighborhood "radius" is set thanks to the radius params.
 *
 * \sa Image

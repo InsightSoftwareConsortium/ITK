@@ -32,10 +32,10 @@ namespace itk
  * \brief Performs the Hough Transform to find 2D straight lines
  *        in a 2D image.
  *
- * This filter derives from ImageToImageFilter
+ * This filter derives from ImageToImageFilter.
  * The input is an image, and all pixels above some threshold are those
  * to be extracted. The output is the image of the accumulator.
- * GetLines() returns a list of LinesSpatialObjects
+ * GetLines() returns a list of LinesSpatialObjects.
  *
  * Lines are parameterized in the form: R = x*vcl_cos(Teta)+y*vcl_sin(Teta)
  * where R is the perpendicular distance from the origin and Teta
