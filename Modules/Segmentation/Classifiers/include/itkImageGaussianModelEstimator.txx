@@ -85,23 +85,23 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
   //Do some error checking
   InputImagePointer inputImage = this->GetInputImage();
 
-  // Check if the training and input image dimensions are same
+  // Check if the training and input image dimensions are the same
   if ( (int)(TInputImage::ImageDimension) != (int)(TTrainingImage::ImageDimension) )
     {
     throw ExceptionObject(__FILE__, __LINE__, "Training and input image dimensions are not the same.", ITK_LOCATION);
     }
 
   InputImageSizeType
-    inputImageSize = inputImage->GetBufferedRegion().GetSize();
+  inputImageSize = inputImage->GetBufferedRegion().GetSize();
 
   typedef InputImageSizeType TrainingImageSizeType;
 
   TrainingImagePointer trainingImage = this->GetTrainingImage();
 
   TrainingImageSizeType
-    trainingImageSize = trainingImage->GetBufferedRegion().GetSize();
+  trainingImageSize = trainingImage->GetBufferedRegion().GetSize();
 
-  // Check if size of the two inputs are same
+  // Check if size of the two inputs are the same
   for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
     {
     if ( inputImageSize[i] != trainingImageSize[i] ) { throw ExceptionObject(
@@ -119,7 +119,7 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 
   //-------------------------------------------------------------------
   // Call local function to estimate mean variances of the various
-  // class labels in the training set
+  // class labels in the training set.
   // The statistics class functions have not been used since all the
   // class statistics are calculated simultaneously here.
   //-------------------------------------------------------------------
@@ -184,7 +184,7 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 
   // delete previous allocation first
   if ( m_Covariance ) { delete[] m_Covariance; }
-  //Number of covariance matrices are equal to number of classes
+  //Number of covariance matrices are equal to the number of classes
   m_Covariance = (MatrixType *)new MatrixType[numberOfModels];
 
   for ( unsigned int i = 0; i < numberOfModels; i++ )
@@ -223,7 +223,7 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
       }
     } // end for
 
-  //Loop through the classes to calculate the means and
+  //Loop through the classes to calculate the means and covariance
   for ( unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++ )
     {
     if ( m_NumberOfSamples[classIndex][0] != 0 )

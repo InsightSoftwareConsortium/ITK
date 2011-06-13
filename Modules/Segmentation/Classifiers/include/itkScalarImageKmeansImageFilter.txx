@@ -51,7 +51,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   typename AdaptorType::Pointer adaptor = AdaptorType::New();
 
   // Setup the regions here if a sub-region has been specified to restrict
-  // classification on.. Since this is not ThreadedGenenerateData, we are
+  // classification on. Since this is not ThreadedGenenerateData, we are
   // safe...
   if ( m_ImageRegionDefined )
     {
@@ -96,8 +96,6 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   typedef typename InputImageType::SizeType   SizeType;
 
   // Now classify the samples
-  //
-
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   typename ClassifierType::Pointer classifier = ClassifierType::New();
 
@@ -210,8 +208,9 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 }
 
 /**
- * Add a new class for the classifier. This requires to explicitly set the
- * initial mean value for that class.
+ * Add a new class for the classifier.
+ * This requires that the initial mean value
+ * for that class has been explicitly set.
  */
 template< class TInputImage, class TOutputImage >
 void
