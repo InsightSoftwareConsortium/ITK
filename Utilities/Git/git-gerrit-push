@@ -91,7 +91,7 @@ data_refs() {
   git rev-list "$@" |
   git diff-tree --no-commit-id --root -c -r --diff-filter=AM --stdin |
   egrep '\.(md5)$' |
-  sed 's/.* \([0-9a-f]\+\) [AM]\+\t\(.*\)/\1 \2/' |
+  awk '{print $4 " " $6}' |
   while read obj file; do
     # Identify the hash algorithm used.
     case "$file" in
