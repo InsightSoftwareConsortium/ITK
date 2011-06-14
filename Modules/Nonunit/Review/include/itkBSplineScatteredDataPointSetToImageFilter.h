@@ -44,12 +44,66 @@ namespace itk
  *
  * In addition to specifying the input point set, one must specify the number
  * of control points.  The specified number of control points must be
- * > m_SplineOrder.  If one wishes to use the multilevel component of
+ * greater than m_SplineOrder.  If one wishes to use the multilevel component of
  * this algorithm, one must also specify the number of levels in the
  * hierarchy.  If this is desired, the number of control points becomes
  * the number of control points for the coarsest level.  The algorithm
  * then increases the number of control points at each level so that
  * the B-spline n-D grid is refined to twice the previous level.
+ *
+ * There are two parts to fitting scattered data: the parameterization
+ * assignment problem and the fitting problem given a parameterization.
+ * This filter only addresses the second problem in that the user must
+ * provide a parametric value for each scattered datum. Different parametric
+ * assignment schemes result in different B-spline object outputs.
+ *
+ * This filter is general in that it accepts n-D scattered data in m-D parametric
+ * dimensions.  Input to this filter is an m-D point set with a Vector data type
+ * of n dimensions.  This means that the parametric values are stored in the
+ * points container of the point set whereas the scattered data are stored in
+ * the points data container of the point set.
+ *
+ * Typical B-spline objects include curves, which have a parametric dimension of
+ * 1 and a data dimension of 2 or 3 (depending on the space in which the curve
+ * resides) and deformation fields which commonly have parametric and data
+ * dimensions of 2 or 3 (again depending on the space of the field).
+ * As an example, a curve through a set of 2D points has data dimension 2 and
+ * parametric dimension 1. The univariate curve could be represented as: <x(u),y(u)>
+ * Another example is a 3D deformation of 3D points, which has parametric
+ * dimension 3 and data dimension 3 and can be represented as:
+ * <dx(u,v,w), dy(u,v,w), dz(u,v,w)>.  However, as mentioned before, the code is
+ * general such that, if the user wanted, she could model a time varying 3-D
+ * displacement field which resides in 4-D space as
+ * <dx(u, v, w, t), dy(u, v, w, t), dz(u, v, w, t)>.
+ *
+ * The output is an image defining the sampled B-spline parametric domain where
+ * each pixel houses the sampled B-spline object value.  For a curve fit to 3-D
+ * points, the output is a 1-D image  where each voxel contains a vector with
+ * the approximated (x,y,z) location. The continous, finite, rectilinear domain
+ * (as well as the sampling rate) is specified via the combination of the SetSpacing()
+ * and SetSize() functions.  For a 2-D deformation on 2-D points, the output is a 2-D image
+ * where each voxel contains the approximated (dx, dy) vector.
+ *
+ * The parameterization must be specified using SetPoint, where the actual
+ * coordinates of the point are set via SetPointData. For example, to compute a
+ * spline through the (ordered) 2D points (5,6) and (7,8), you should use:
+ *
+ * \code
+ * typedef itk::Vector< float, 2 > DataType;
+ * PointSetType::PointType param0;
+ * param0[0] = 0.0;
+ * DataType p0;
+ * p0[0] =  10.0; p0[1]= 10.0;
+ * pointSet->SetPoint(0, param0);
+ * pointSet->SetPointData( 0, p0 );
+ *
+ * PointSetType::PointType param1;
+ * param1[0] = 1.0;
+ * DataType p1;
+ * p1[0] =  80.0; p1[1]= 50.0;
+ * pointSet->SetPoint(1, param1);
+ * pointSet->SetPointData( 1, p1 );
+ * \endcode
  *
  * \author Nicholas J. Tustison
  *
