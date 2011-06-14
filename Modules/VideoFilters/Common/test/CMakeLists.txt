@@ -3,6 +3,7 @@ set(Video-Filters-CommonTests
   itkFrameAverageVideoFilterTest.cxx
   itkDecimateFramesVideoFilterTest.cxx
   itkImageFilterToVideoFilterWrapperTest.cxx
+  itkFrameDifferenceVideoFilterTest.cxx
 )
 
 CreateTestDriver(Video-Filters-Common  "${Video-Filters-Common-Test_LIBRARIES}" "${Video-Filters-CommonTests}")
@@ -32,4 +33,9 @@ add_video_test(NAME ImageFilterToVideoFilterWrapperTest
               "MIDAS{frame0.jpg.md5},MIDAS{frame1.jpg.md5},MIDAS{frame2.jpg.md5},MIDAS{frame3.jpg.md5},MIDAS{frame4.jpg.md5}"
               # Output
               "${ITK_TEST_OUTPUT_DIR}/wrapper_frame0.png,${ITK_TEST_OUTPUT_DIR}/wrapper_frame1.png,${ITK_TEST_OUTPUT_DIR}/wrapper_frame2.png,${ITK_TEST_OUTPUT_DIR}/wrapper_frame3.png,${ITK_TEST_OUTPUT_DIR}/wrapper_frame4.png"
+              )
+
+# FrameDifferenceVideoFilter
+add_video_test(NAME FrameDifferenceVideoFilterTest
+              COMMAND Video-Filters-CommonTestDriver itkFrameDifferenceVideoFilterTest
               )
