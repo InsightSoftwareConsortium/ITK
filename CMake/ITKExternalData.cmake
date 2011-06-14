@@ -6,4 +6,11 @@ list(APPEND ExternalData_URL_TEMPLATES
 
   # Data published by MIDAS
   "http://midas.kitware.com/api/rest/midas.bitstream.by.hash?hash=%(hash)&algorithm=%(algo)"
+
+  # Data published by developers using git-gerrit-push.
+  "http://www.itk.org/files/ExternalData/%(algo)/%(hash)"
   )
+
+# Tell ExternalData commands to transform raw files to content links.
+# TODO: Condition this feature on presence of our pre-commit hook.
+set(ExternalData_LINK_CONTENT MD5)
