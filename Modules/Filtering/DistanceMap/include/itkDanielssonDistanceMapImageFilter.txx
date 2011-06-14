@@ -100,7 +100,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
   OutputImagePointer voronoiMap = this->GetVoronoiMap();
 
   InputImagePointer inputImage  =
-    dynamic_cast< const TInputImage  * >( ProcessObject::GetInput(0) );
+    dynamic_cast< const InputImageType * >( ProcessObject::GetInput(0) );
 
   voronoiMap->SetLargestPossibleRegion(
     inputImage->GetLargestPossibleRegion() );
@@ -129,9 +129,10 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
   typename OutputImageType::RegionType region  = voronoiMap->GetRequestedRegion();
 
   // find the largest of the image dimensions
-  typename TInputImage::SizeType size = region.GetSize();
-  unsigned int maxLength = 0;
-  for ( unsigned int dim = 0; dim < TInputImage::ImageDimension; dim++ )
+  SizeType size = region.GetSize();
+  SizeValueType maxLength = 0;
+
+  for ( unsigned int dim = 0; dim < InputImageDimension; dim++ )
     {
     if ( maxLength < size[dim] )
       {
@@ -139,8 +140,8 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
       }
     }
 
-  ImageRegionConstIteratorWithIndex< TInputImage > it(inputImage,  region);
-  ImageRegionIteratorWithIndex< TOutputImage >     ot(voronoiMap,  region);
+  ImageRegionConstIteratorWithIndex< InputImageType > it(inputImage,  region);
+  ImageRegionIteratorWithIndex< OutputImageType >     ot(voronoiMap,  region);
 
   it.GoToBegin();
   ot.GoToBegin();
@@ -148,7 +149,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
   itkDebugMacro(<< "PrepareData: Copy input to output");
   if ( m_InputIsBinary )
     {
-    unsigned int npt = 1;
+    IdentifierType npt = 1;
     while ( !ot.IsAtEnd() )
       {
       if ( it.Get() )
@@ -167,7 +168,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
     {
     while ( !ot.IsAtEnd() )
       {
-      ot.Set( static_cast< typename OutputImageType::PixelType >( it.Get() ) );
+      ot.Set( static_cast< OutputPixelType >( it.Get() ) );
       ++it;
       ++ot;
       }
@@ -188,8 +189,8 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
 
   ImageRegionIteratorWithIndex< VectorImageType > ct(distanceComponents,  region);
 
-  typename VectorImageType::PixelType maxValue;
-  typename VectorImageType::PixelType minValue;
+  OffsetType maxValue;
+  OffsetType minValue;
 
   for ( unsigned int j = 0; j < InputImageDimension; j++ )
     {
@@ -256,8 +257,8 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
       {
       for ( unsigned int i = 0; i < InputImageDimension; i++ )
         {
-        double spacingComponent = static_cast< double >( spacing[i] );
-        distance += distanceVector[i] * distanceVector[i] * spacingComponent * spacingComponent;
+        double component = distanceVector[i] * static_cast< double >( spacing[i] );
+        distance += component * component;
         }
       }
     else
@@ -270,11 +271,11 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
 
     if ( m_SquaredDistance )
       {
-      dt.Set( static_cast< typename OutputImageType::PixelType >( distance ) );
+      dt.Set( static_cast< OutputPixelType >( distance ) );
       }
     else
       {
-      dt.Set( static_cast< typename OutputImageType::PixelType >( vcl_sqrt(distance) ) );
+      dt.Set( static_cast< OutputPixelType >( vcl_sqrt(distance) ) );
       }
     ++ot;
     ++ct;
@@ -297,7 +298,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
   OffsetType offsetValueHere  = components->GetPixel(here);
   OffsetType offsetValueThere = components->GetPixel(there) + offset;
 
-  typename InputImageType::SpacingType spacing = Self::GetInput()->GetSpacing();
+  SpacingType spacing = this->GetInput()->GetSpacing();
 
   double norm1 = 0.0;
   double norm2 = 0.0;
@@ -319,7 +320,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
 
   if ( norm1 > norm2 )
     {
-    components->GetPixel(here) = offsetValueThere;
+    components->SetPixel( here, offsetValueThere );
     }
 }
 
@@ -338,7 +339,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
   OutputImagePointer voronoiMap             =  this->GetVoronoiMap();
   VectorImagePointer distanceComponents     =  this->GetVectorDistanceMap();
 
-  typename InputImageType::RegionType region  = voronoiMap->GetRequestedRegion();
+  RegionType region  = voronoiMap->GetRequestedRegion();
 
   itkDebugMacro (<< "Region to process: " << region);
 
@@ -346,8 +347,9 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
 
   ReflectiveImageRegionConstIterator< VectorImageType >
   it(distanceComponents, region);
+
   typename VectorImageType::OffsetType voffset;
-  for ( unsigned int dim = 0; dim < VectorImageType::ImageDimension; dim++ )
+  for ( unsigned int dim = 0; dim < InputImageDimension; dim++ )
     {
     if ( region.GetSize()[dim] > 1 )
       {
@@ -368,8 +370,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
   // Each pixel is visited 2^InputImageDimension times, and the number
   // of visits per pixel needs to be computed for progress reporting.
   SizeValueType visitsPerPixel = ( 1 << InputImageDimension );
-  SizeValueType updateVisits, i = 0;
-  updateVisits = region.GetNumberOfPixels() * visitsPerPixel / 10;
+  SizeValueType updateVisits = region.GetNumberOfPixels() * visitsPerPixel / 10;
   if ( updateVisits < 1 )
     {
     updateVisits = 1;
@@ -381,16 +382,18 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage >
   OffsetType offset;
   offset.Fill(0);
 
+  SizeValueType i = 0;
+
   itkDebugMacro(<< "GenerateData: Computing distance transform");
   while ( !it.IsAtEnd() )
     {
     if ( !( i % updateVisits ) )
       {
-      this->UpdateProgress( (float)i / updatePeriod );
+      this->UpdateProgress( static_cast< float >( i ) / updatePeriod );
       }
 
     IndexType here = it.GetIndex();
-    for ( unsigned int dim = 0; dim < VectorImageType::ImageDimension; dim++ )
+    for ( unsigned int dim = 0; dim < InputImageDimension; dim++ )
       {
       if ( region.GetSize()[dim] <= 1 )
         {
