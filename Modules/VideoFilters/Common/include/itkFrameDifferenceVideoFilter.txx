@@ -70,9 +70,6 @@ SetFrameOffset(unsigned long numFrames)
   // Expand the input stencil
   this->TemporalProcessObject::m_UnitInputNumberOfFrames = numFrames + 1;
 
-  // Always use the frame number of the last frame in the stencil
-  this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = numFrames;
-
   // Mark modified
   this->Modified();
 }
