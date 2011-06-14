@@ -37,7 +37,10 @@ FrameDifferenceVideoFilter()
   this->TemporalProcessObject::m_UnitOutputNumberOfFrames = 1;
 
   // Use the frame number of the last frame in the stencil
-  this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 1;
+  this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 0;
+
+  // Move forward one frame of input for every frame of output
+  this->TemporalProcessObject::m_FrameSkipPerOutput = 1;
 }
 
 

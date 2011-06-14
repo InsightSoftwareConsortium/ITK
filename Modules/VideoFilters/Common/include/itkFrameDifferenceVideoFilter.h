@@ -25,7 +25,7 @@ namespace itk
 
 /** \class FrameDifferenceVideoFilter
  * \brief Compute the squared intensity difference between frame x and frame
- * x-n
+ * x+n
  *
  * This filter computes the squared intensity difference between a frame and
  * the nth previous frame.
