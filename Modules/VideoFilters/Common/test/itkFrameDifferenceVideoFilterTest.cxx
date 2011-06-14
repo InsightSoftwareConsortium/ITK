@@ -113,10 +113,10 @@ int itkFrameDifferenceVideoFilterTest( int argc, char* argv[] )
     filter->GetOutput()->GetLargestPossibleTemporalRegion();
   unsigned long outputStart = outputLargestTempRegion.GetFrameStart();
   unsigned long outputDuration = outputLargestTempRegion.GetFrameDuration();
-  if (outputStart != 1)
+  if (outputStart != 0)
     {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect start. Got: "
-      << outputStart << " Expected: 1" << std::endl;
+      << outputStart << " Expected: 0" << std::endl;
     return EXIT_FAILURE;
     }
   if (outputDuration != numInputFrames - 1)
@@ -164,10 +164,10 @@ int itkFrameDifferenceVideoFilterTest( int argc, char* argv[] )
   outputLargestTempRegion = filter->GetOutput()->GetLargestPossibleTemporalRegion();
   outputStart = outputLargestTempRegion.GetFrameStart();
   outputDuration = outputLargestTempRegion.GetFrameDuration();
-  if (outputStart != 2)
+  if (outputStart != 0)
     {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect start. Got: "
-      << outputStart << " Expected: 2" << std::endl;
+      << outputStart << " Expected: 0" << std::endl;
     return EXIT_FAILURE;
     }
   if (outputDuration != numInputFrames - 2)
