@@ -54,7 +54,7 @@ public:
 
   itkTypeMacro(DecimateFramesVideoFilter, VideoToVideoFilter);
 
-  /** Get/Set the number of frames to average over */
+  /** Get/Set the spacing of the preserved frames */
   void SetPreservedFrameSpacing(unsigned long numFrames);
   unsigned long GetPreservedFrameSpacing();
 

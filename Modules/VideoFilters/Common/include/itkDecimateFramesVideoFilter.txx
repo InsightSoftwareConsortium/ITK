@@ -29,13 +29,8 @@ template<class TVideoStream>
 DecimateFramesVideoFilter<TVideoStream>::
 DecimateFramesVideoFilter()
 {
-  // Default to average over 2 frames
   this->TemporalProcessObject::m_UnitInputNumberOfFrames = 1;
-
-  // Always output a single frame
   this->TemporalProcessObject::m_UnitOutputNumberOfFrames = 1;
-
-  // The output frame gets the number of the first frame in the set
   this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 0;
 
   // Set the frame skip amount using our SetPreservedFrameSpacing method.
