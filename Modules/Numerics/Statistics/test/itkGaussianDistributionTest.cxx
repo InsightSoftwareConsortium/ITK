@@ -287,8 +287,6 @@ int itkGaussianDistributionTest(int, char* [] )
     }
   std::cout << std::endl;
 
-
-
   std::cout << "Inverse Gaussian CDF" << std::endl;
   // put the parameters back
   distributionFunction->SetParameters( params );
