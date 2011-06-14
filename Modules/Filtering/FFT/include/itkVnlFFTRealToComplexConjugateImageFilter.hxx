@@ -17,38 +17,27 @@
  *=========================================================================*/
 #ifndef __itkVnlFFTRealToComplexConjugateImageFilter_hxx
 #define __itkVnlFFTRealToComplexConjugateImageFilter_hxx
+
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
 #include "itkFFTRealToComplexConjugateImageFilter.hxx"
-#include <iostream>
-#include "itkIndent.h"
-#include "itkMetaDataObject.h"
+#include "itkProgressReporter.h"
+
 #include "vnl/algo/vnl_fft_base.h"
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"
 #include "vnl_fft_3d.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
-#define DEBUG_PRINT(x) x
 
 template< class TInputImage, class TOutputImage >
-bool VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::Legaldim(int n)
+bool VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+::IsDimensionSizeLegal(InputSizeValueType n)
 {
   int ifac = 2;
 
   for ( int l = 1; l <= 3; l++ )
     {
-    // Original code
-//       k = 0;
-//       L10:
-//       if (n % ifac != 0) goto L20;
-//       ++k;
-//       N /= ifac;
-//       goto L10;
-//       L20:
-//       pqr[l-1] = k;
-//       ifac += l;
     for (; n % ifac == 0; )
       {
       n /= ifac;
@@ -60,12 +49,11 @@ bool VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::Legal
 
 template< class TInputImage, class TOutputImage >
 void
-VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::GenerateData()
+VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+::GenerateData()
 {
-  unsigned int i;
-
-  // get pointers to the input and output
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
+  // Get pointers to the input and output.
+  typename InputImageType::ConstPointer inputPtr = this->GetInput();
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -73,67 +61,69 @@ VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::GenerateDa
     return;
     }
 
-  // we don't have a nice progress to report, but at least this simple line
-  // reports the begining and the end of the process
-  ProgressReporter progress(this, 0, 1);
+  // We don't have a nice progress to report, but at least this simple line
+  // reports the begining and the end of the process.
+  ProgressReporter progress( this, 0, 1 );
 
-  const typename InputImageType::SizeType &   inputSize =
-    inputPtr->GetLargestPossibleRegion().GetSize();
-  unsigned int num_dims = inputPtr->GetImageDimension();
+  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
 
-  if ( num_dims != outputPtr->GetImageDimension() )
-    {
-    return;
-    }
-  InputPixelType *in = const_cast< InputPixelType * >( inputPtr->GetBufferPointer() );
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
   OutputPixelType *out = outputPtr->GetBufferPointer();
 
-  unsigned int vec_size = 1;
-  for ( i = 0; i < num_dims; i++ )
+  unsigned int vectorSize = 1;
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    //#if 0
-    if ( !this->Legaldim(inputSize[i]) )
+    if ( !this->IsDimensionSizeLegal( inputSize[i] ) )
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("Illegal Array DIM for FFT");
-      exception.SetLocation(ITK_LOCATION);
-      throw exception;
+      itkExceptionMacro(<< "Cannot compute FFT of image with size "
+                        << inputSize << ". VnlFFTRealToComplexConjugateImageFilter operates "
+                        << "only on images whose size in each dimension is a multiple of "
+                        << "2, 3, or 5." );
       }
-    //#endif
-    vec_size *= inputSize[i];
+    vectorSize *= inputSize[i];
     }
-  vnl_vector< vcl_complex< InputPixelType > > signal(vec_size);
-  for ( i = 0; i < vec_size; i++ )
+
+  const InputPixelType *in = inputPtr->GetBufferPointer();
+  vnl_vector< vcl_complex< InputPixelType > > signal( vectorSize );
+  for ( unsigned int i = 0; i < vectorSize; i++ )
     {
     signal[i] = in[i];
     }
 
-  switch ( num_dims )
+  // In the following, we use the VNL "bwd_transform" even though this
+  // filter is actually taking the forward transform.  This is done
+  // because the VNL definitions are switched from the standard
+  // definition.  The standard definition uses a negative exponent for
+  // the forward transform and positive for the reverse transform.
+  // VNL does the opposite.
+  switch ( ImageDimension )
     {
     case 1:
       {
-      vnl_fft_1d< InputPixelType > v1d(vec_size);
-      v1d.bwd_transform(signal);
+      vnl_fft_1d< InputPixelType > v1d( vectorSize );
+      v1d.vnl_fft_1d< InputPixelType >::base::transform( signal.data_block(), -1 );
       }
       break;
     case 2:
       {
-      vnl_fft_2d< InputPixelType > v2d(inputSize[1], inputSize[0]);
-      v2d.vnl_fft_2d< InputPixelType >::base::transform(signal.data_block(), -1);
+      // The arguments are specified in the order rows, columns.
+      vnl_fft_2d< InputPixelType > v2d( inputSize[1], inputSize[0] );
+      v2d.vnl_fft_2d< InputPixelType >::base::transform( signal.data_block(), -1 );
       }
       break;
     case 3:
       {
-      vnl_fft_3d< InputPixelType > v3d(inputSize[2], inputSize[1], inputSize[0]);
-      v3d.vnl_fft_3d< InputPixelType >::base::transform(signal.data_block(), -1);
+      vnl_fft_3d< InputPixelType > v3d( inputSize[2], inputSize[1], inputSize[0] );
+      v3d.vnl_fft_3d< InputPixelType >::base::transform( signal.data_block(), -1 );
       }
       break;
     default:
       break;
     }
-  for ( i = 0; i < vec_size; i++ )
+
+  // Copy the VNL output back to the ITK image.
+  for ( unsigned int i = 0; i < vectorSize; i++ )
     {
     out[i] = signal[i];
     }
@@ -141,7 +131,8 @@ VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::GenerateDa
 
 template< class TInputImage, class TOutputImage >
 bool
-VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >::FullMatrix()
+VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
+::FullMatrix()
 {
   return true;
 }

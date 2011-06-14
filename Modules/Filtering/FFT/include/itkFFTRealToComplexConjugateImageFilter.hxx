@@ -28,10 +28,10 @@
 namespace itk
 {
 
-template <typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel>
+template< typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel >
 struct DispatchFFTW_R2C_New
 {
-  static TSelfPointer apply()
+  static TSelfPointer Apply()
     {
       return VnlFFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
@@ -39,10 +39,10 @@ struct DispatchFFTW_R2C_New
 };
 
 #ifdef USE_FFTWD
-template <typename TSelfPointer, class TInputImage, class TOutputImage>
-struct DispatchFFTW_R2C_New<TSelfPointer, TInputImage, TOutputImage, double>
+template< typename TSelfPointer, class TInputImage, class TOutputImage >
+struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
-  static TSelfPointer apply()
+  static TSelfPointer Apply()
     {
       return FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
@@ -51,10 +51,10 @@ struct DispatchFFTW_R2C_New<TSelfPointer, TInputImage, TOutputImage, double>
 #endif
 
 #ifdef USE_FFTWF
-template <typename TSelfPointer, class TInputImage, class TOutputImage>
-struct DispatchFFTW_R2C_New<TSelfPointer, TInputImage, TOutputImage, float>
+template< typename TSelfPointer, class TInputImage, class TOutputImage >
+struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, float >
 {
-  static TSelfPointer apply()
+  static TSelfPointer Apply()
     {
       return FFTWRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
@@ -71,7 +71,7 @@ FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 
   if ( smartPtr.IsNull() )
     {
-    smartPtr = DispatchFFTW_R2C_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::apply();
+    smartPtr = DispatchFFTW_R2C_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
     }
 
   return smartPtr;
@@ -82,18 +82,17 @@ void
 FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method.
   Superclass::GenerateOutputInformation();
   //
-  // If this implementation returns a full result
-  // instead of a 'half-complex' matrix, then none of this
-  // is necessary
+  // If this implementation returns a full result instead of a
+  // 'half-complex' matrix, then none of this is necessary.
   if ( this->FullMatrix() )
     {
     return;
     }
 
-  // get pointers to the input and output
+  // Get pointers to the input and output.
   typename InputImageType::ConstPointer inputPtr  = this->GetInput();
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
@@ -102,48 +101,43 @@ FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  //
   // This is all based on the same function in itk::ShrinkImageFilter
   // ShrinkImageFilter also modifies the image spacing, but spacing
   // has no meaning in the result of an FFT.
-  unsigned int i;
-  const typename InputImageType::SizeType &   inputSize =
-    inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename InputImageType::IndexType &  inputStartIndex =
-    inputPtr->GetLargestPossibleRegion().GetIndex();
+  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const InputIndexType inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  typename OutputImageType::SizeType outputSize;
-  typename OutputImageType::IndexType outputStartIndex;
+  OutputSizeType outputSize;
+  OutputIndexType outputStartIndex;
 
-  //
-  // in 4.3.4 of the FFTW documentation, they indicate the size of
+  // In 4.3.4 of the FFTW documentation, they indicate the size of
   // of a real-to-complex FFT is N * N ... + (N /2+1)
   //                              1   2        d
   // complex numbers.
-  // static_cast prob. not necessary but want to make sure integer
+  // static_cast probably not necessary but want to make sure integer
   // division is used.
   outputSize[0] = static_cast< unsigned int >( inputSize[0] ) / 2 + 1;
   outputStartIndex[0] = inputStartIndex[0];
 
-  for ( i = 1; i < OutputImageType::ImageDimension; i++ )
+  for ( unsigned int i = 1; i < OutputImageType::ImageDimension; i++ )
     {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];
     }
-  //
-  // the halving of the input size hides the actual size of the input.
-  // to get the same size image out of the IFFT, need to send it as
+
+  // The halving of the input size hides the actual size of the input.
+  // To get the same size image out of the IFFT, need to send it as
   // Metadata.
   typedef typename OutputImageType::SizeType::SizeValueType SizeScalarType;
-  itk::MetaDataDictionary & OutputDic = outputPtr->GetMetaDataDictionary();
-  itk::EncapsulateMetaData< SizeScalarType >(OutputDic,
-                                             std::string("FFT_Actual_RealImage_Size"),
-                                             inputSize[0]);
+  itk::MetaDataDictionary & outputDictionary = outputPtr->GetMetaDataDictionary();
+  itk::EncapsulateMetaData< SizeScalarType >( outputDictionary,
+                                              std::string("FFT_Actual_RealImage_Size"),
+                                              inputSize[0] );
   typename OutputImageType::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize(outputSize);
-  outputLargestPossibleRegion.SetIndex(outputStartIndex);
+  outputLargestPossibleRegion.SetSize( outputSize );
+  outputLargestPossibleRegion.SetIndex( outputStartIndex );
 
-  outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+  outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
 template< class TInputImage, class TOutputImage >
@@ -151,10 +145,10 @@ void
 FFTRealToComplexConjugateImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass implementation of this method.
   Superclass::GenerateInputRequestedRegion();
 
-  // get pointers to the inputs
+  // Get pointer to the input.
   typename InputImageType::Pointer input  =
     const_cast< InputImageType * >( this->GetInput() );
 

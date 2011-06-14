@@ -19,7 +19,6 @@
 #define __itkFFTRealToComplexConjugateImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include <complex>
 
 namespace itk
 {
@@ -29,7 +28,7 @@ namespace itk
  *
  * This is a base class for the "forward" or "direct" discrete Fourier
  * Transform.  This is an abstract base class: the actual implementation is
- * provided by the best child available on the the system when the object is
+ * provided by the best child class available on the system when the object is
  * created via the object factory system.
  *
  * This class transforms a real input image into its complex Fourier Transform.
@@ -53,8 +52,12 @@ public:
   /** Standard class typedefs. */
   typedef TInputImage                          InputImageType;
   typedef typename InputImageType::PixelType   InputPixelType;
+  typedef typename InputImageType::IndexType   InputIndexType;
+  typedef typename InputImageType::SizeType    InputSizeType;
   typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
+  typedef typename OutputImageType::IndexType  OutputIndexType;
+  typedef typename OutputIndexType::SizeType   OutputSizeType;
 
   typedef FFTRealToComplexConjugateImageFilter                    Self;
   typedef ImageToImageFilter< InputImageType, OutputImageType >   Superclass;
@@ -67,22 +70,16 @@ public:
   /** Customized object creation methods that support configuration-based
     * selection of FFT implementation.
     *
-    * Default implementation is VnlFFT.
-    */
+    * Default implementation is VnlFFT. */
   static Pointer New(void);
 
-  /** Image type typedef support. */
-  typedef InputImageType                    ImageType;
-  typedef typename InputImageType::SizeType ImageSizeType;
 protected:
   FFTRealToComplexConjugateImageFilter() {}
-  virtual ~FFTRealToComplexConjugateImageFilter(){}
+  virtual ~FFTRealToComplexConjugateImageFilter() {}
 
   /** The output may be a different size from the input if complex conjugate
    * symmetry is implicit. */
-  virtual void GenerateOutputInformation(); // figure out allocation for output
-                                            // image
-
+  virtual void GenerateOutputInformation();
 
   /** This class requires the entire input. */
   virtual void GenerateInputRequestedRegion();
@@ -95,10 +92,8 @@ protected:
   virtual bool FullMatrix() = 0; // must be implemented in child
 
 private:
-  FFTRealToComplexConjugateImageFilter(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-                                                      // implemented
+  FFTRealToComplexConjugateImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                       //purposely not implemented
 };
 } // end namespace itk
 

@@ -27,11 +27,12 @@
 
 namespace itk
 {
-// Partial Specialization allows avoiding runtime type choice
-template <typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel>
+
+// Partial specialization allows avoiding runtime type choice
+template< typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel >
 struct Dispatch_C2R_New
 {
-  static TSelfPointer apply()
+  static TSelfPointer Apply()
     {
       return VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
@@ -39,10 +40,10 @@ struct Dispatch_C2R_New
 };
 
 #ifdef USE_FFTWD
-template <typename TSelfPointer, class TInputImage, class TOutputImage>
-struct Dispatch_C2R_New<TSelfPointer, TInputImage, TOutputImage, double>
+template < typename TSelfPointer, class TInputImage, class TOutputImage >
+struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
-  static TSelfPointer apply()
+  static TSelfPointer Apply()
     {
       return FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
@@ -51,10 +52,10 @@ struct Dispatch_C2R_New<TSelfPointer, TInputImage, TOutputImage, double>
 #endif
 
 #ifdef USE_FFTWF
-template <typename TSelfPointer, class TInputImage, class TOutputImage>
-struct Dispatch_C2R_New<TSelfPointer, TInputImage, TOutputImage, float>
+template< typename TSelfPointer, class TInputImage, class TOutputImage >
+struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, float >
 {
-  static TSelfPointer apply()
+  static TSelfPointer Apply()
     {
       return FFTWComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
         ::New().GetPointer();
@@ -71,7 +72,7 @@ FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 
   if ( smartPtr.IsNull() )
     {
-    smartPtr = Dispatch_C2R_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::apply();
+    smartPtr = Dispatch_C2R_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
     }
 
   return smartPtr;
@@ -102,13 +103,11 @@ FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  //
-  // This is all based on the same function in itk::ShrinkImageFilter
+  // This is all based on the same function in itk::ShrinkImageFilter.
   // ShrinkImageFilter also modifies the image spacing, but spacing
   // has no meaning in the result of an FFT. For an IFFT, since the
   // spacing is propagated to the complex result, we can use the spacing
   // from the input to propagate back to the output.
-  unsigned int i;
   const typename InputImageType::SizeType &   inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
   const typename InputImageType::IndexType &  inputStartIndex =
@@ -117,16 +116,14 @@ FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
   typename OutputImageType::SizeType outputSize;
   typename OutputImageType::IndexType outputStartIndex;
 
-  //
-  // in 4.3.4 of the FFT documentation, they indicate the size of
+  // In 4.3.4 of the FFTW documentation, they indicate the size of
   // of a real-to-complex FFT is N * N ... + (N /2+1)
   //                              1   2        d
   // complex numbers.
-  // going from complex to real, you know the output is at least
+  // Going from complex to real, you know the output is at least
   // twice the size in the last dimension as the input, but it might
   // be 2*size+1.  Consequently, the output of the FFT:R2C operation
-  //
-  MetaDataDictionary & InputDic =
+  MetaDataDictionary & inputDictionary =
     const_cast< MetaDataDictionary & >( inputPtr->GetMetaDataDictionary() );
 
   typedef typename InputImageType::SizeType::SizeValueType SizeScalarType;
@@ -138,25 +135,25 @@ FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
     {
     outputSize[0]++;
     }
-  // backwards compatible/deprecated version
+  // Backwards compatible/deprecated version
   if ( ExposeMetaData< SizeScalarType >
-         (InputDic, std::string("FFT_Actual_RealImage_Size"), x) )
+         ( inputDictionary, std::string( "FFT_Actual_RealImage_Size" ), x ) )
     {
     outputSize[0] = x;
     }
 
   outputStartIndex[0] = inputStartIndex[0];
 
-  for ( i = 1; i < OutputImageType::ImageDimension; i++ )
+  for ( unsigned int i = 1; i < OutputImageType::ImageDimension; i++ )
     {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];
     }
   typename OutputImageType::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize(outputSize);
-  outputLargestPossibleRegion.SetIndex(outputStartIndex);
+  outputLargestPossibleRegion.SetSize( outputSize );
+  outputLargestPossibleRegion.SetIndex( outputStartIndex );
 
-  outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+  outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
 template< class TInputImage, class TOutputImage >
@@ -180,7 +177,7 @@ FFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 }
 #endif

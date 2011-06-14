@@ -19,8 +19,8 @@
 #define __itkFFTWComplexConjugateToRealImageFilter_h
 
 #include "itkFFTComplexConjugateToRealImageFilter.h"
-#include "itkFFTWCommon.h"
 
+#include "itkFFTWCommon.h"
 
 namespace itk
 {
@@ -30,8 +30,8 @@ namespace itk
  *
  * This filter computes the reverse Fourier transform of an image. The implementation is
  * based on the FFTW library.
- * This filter is multithreaded and supports input images with sizes which are not
- * a power of two.
+ *
+ * This filter is multithreaded and supports input images of any size.
  *
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/10380/3154
@@ -53,20 +53,21 @@ public:
   /** Standard class typedefs. */
   typedef TInputImage                          InputImageType;
   typedef typename InputImageType::PixelType   InputPixelType;
+  typedef typename InputImageType::SizeType    InputSizeType;
   typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
+  typedef typename OutputImageType::SizeType   OutputSizeType;
 
   typedef FFTWComplexConjugateToRealImageFilter                                   Self;
   typedef FFTComplexConjugateToRealImageFilter< InputImageType, OutputImageType > Superclass;
   typedef SmartPointer< Self >                                                    Pointer;
   typedef SmartPointer< const Self >                                              ConstPointer;
-  //
-  // the proxy type is a wrapper for the fftw API
-  // since the proxy is only defined over double and float,
-  // trying to use any other pixel type is inoperative, as
-  // is trying to use double if only the float FFTW version is
-  // configured in, or float if only double is configured.
-  //
+
+  /** The proxy type is a wrapper for the FFTW API since the proxy is
+   * only defined over double and float, trying to use any other pixel
+   * type is unsupported, as is trying to use double if only the float
+   * FFTW version is configured in, or float if only double is
+   * configured. */
   typedef typename fftw::Proxy< OutputPixelType > FFTWProxyType;
 
   typedef typename OutputImageType::RegionType OutputImageRegionType;
@@ -78,17 +79,13 @@ public:
   itkTypeMacro(FFTWComplexConjugateToRealImageFilter,
                FFTComplexConjugateToRealImageFilter);
 
-  /** Image type typedef support. */
-  typedef typename InputImageType::SizeType ImageSizeType;
-
+  /** Define the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
-  //
-  // these should be defined in every FFT filter class
+  /** These should be defined in every FFT filter class. */
   virtual bool FullMatrix();
 
-  /**
-   * Set/Get the behavior of wisdom plan creation. The default is
+  /** Set/Get the behavior of wisdom plan creation. The default is
    * provided by FFTWGlobalConfiguration::GetPlanRigor().
    *
    * The parameter is one of the FFTW planner rigor flags FFTW_ESTIMATE, FFTW_MEASURE,
@@ -97,7 +94,7 @@ public:
    */
   virtual void SetPlanRigor( const int & value )
   {
-    // use that method to check the value
+    // Use that method to check the value.
     FFTWGlobalConfiguration::GetPlanRigorName( value );
     if( m_PlanRigor != value )
       {
@@ -112,17 +109,13 @@ public:
   }
 
 protected:
-  FFTWComplexConjugateToRealImageFilter()
-    {
-    m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
-    }
-  virtual ~FFTWComplexConjugateToRealImageFilter()
-    {
-    }
+  FFTWComplexConjugateToRealImageFilter();
+  virtual ~FFTWComplexConjugateToRealImageFilter() {}
 
   virtual void UpdateOutputData(DataObject *output);
 
   virtual void BeforeThreadedGenerateData();
+
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
 
   void PrintSelf(std::ostream & os, Indent indent) const;

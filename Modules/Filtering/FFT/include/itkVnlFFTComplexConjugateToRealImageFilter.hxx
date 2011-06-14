@@ -20,22 +20,39 @@
 
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"
 #include "itkFFTComplexConjugateToRealImageFilter.hxx"
-#include <complex>
+#include "itkProgressReporter.h"
+
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"
 #include "vnl_fft_3d.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
+
+template< class TInputImage, class TOutputImage >
+bool VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+::IsDimensionSizeLegal(InputSizeValueType n)
+{
+  int ifac = 2;
+
+  for ( int l = 1; l <= 3; l++ )
+    {
+    for (; n % ifac == 0; )
+      {
+      n /= ifac;
+      }
+    ifac += l;
+    }
+  return ( n == 1 ); // return false if decomposition failed
+}
+
 template< class TInputImage, class TOutputImage >
 void
-VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::GenerateData()
+VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+::GenerateData()
 {
-  unsigned int i;
-
-  // get pointers to the input and output
-  typename InputImageType::ConstPointer inputPtr  = this->GetInput();
+  // Get pointers to the input and output.
+  typename InputImageType::ConstPointer inputPtr = this->GetInput();
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
@@ -43,72 +60,86 @@ VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::GenerateDa
     return;
     }
 
-  // we don't have a nice progress to report, but at least this simple line
-  // reports the begining and the end of the process
-  ProgressReporter progress(this, 0, 1);
+  // We don't have a nice progress to report, but at least this simple line
+  // reports the begining and the end of the process.
+  ProgressReporter progress( this, 0, 1 );
 
-  const typename InputImageType::SizeType &   outputSize =
-    outputPtr->GetLargestPossibleRegion().GetSize();
-  unsigned int num_dims = outputPtr->GetImageDimension();
+  const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
-  if ( num_dims != outputPtr->GetImageDimension() )
-    {
-    return;
-    }
-
-  // allocate output buffer memory
+  // Allocate output buffer memory
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  InputPixelType *in = const_cast< InputPixelType * >
-                               ( inputPtr->GetBufferPointer() );
+  const InputPixelType *in = inputPtr->GetBufferPointer();
 
-  unsigned int vec_size = 1;
-  for ( i = 0; i < num_dims; i++ )
+  unsigned int vectorSize = 1;
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    vec_size *= outputSize[i];
+    if ( !this->IsDimensionSizeLegal( outputSize[i] ) )
+      {
+      itkExceptionMacro(<< "Cannot compute FFT of image with size "
+                        << outputSize << ". VnlFFTComplexConjugateToRealImageFilter operates "
+                        << "only on images whose size in each dimension is a multiple of "
+                        << "2, 3, or 5." );
+      }
+    vectorSize *= outputSize[i];
     }
 
-  vnl_vector< InputPixelType > signal(vec_size);
-  for ( i = 0; i < vec_size; i++ )
+  vnl_vector< InputPixelType > signal( vectorSize );
+  for (unsigned int i = 0; i < vectorSize; i++ )
     {
     signal[i] = in[i];
     }
 
   OutputPixelType *out = outputPtr->GetBufferPointer();
 
-  switch ( num_dims )
+  // In the following, we use the VNL "fwd_transform" even though this
+  // filter is actually taking the reverse transform.  This is done
+  // because the VNL definitions are switched from the standard
+  // definition.  The standard definition uses a negative exponent for
+  // the forward transform and positive for the reverse transform.
+  // VNL does the opposite.
+  switch ( ImageDimension )
     {
     case 1:
       {
-      vnl_fft_1d< OutputPixelType > v1d(vec_size);
-      v1d.fwd_transform(signal);
+      vnl_fft_1d< OutputPixelType > v1d( vectorSize );
+      v1d.vnl_fft_1d< OutputPixelType >::base::transform( signal.data_block(), 1 );
       }
       break;
     case 2:
       {
-      vnl_fft_2d< OutputPixelType > v2d(outputSize[1], outputSize[0]);
-      v2d.vnl_fft_2d< OutputPixelType >::base::transform(signal.data_block(), +1);
+      // The arguments are specified in the order rows, columns.
+      vnl_fft_2d< OutputPixelType > v2d( outputSize[1], outputSize[0] );
+      v2d.vnl_fft_2d< OutputPixelType >::base::transform( signal.data_block(), 1 );
       }
       break;
     case 3:
       {
-      vnl_fft_3d< OutputPixelType > v3d(outputSize[2], outputSize[1], outputSize[0]);
-      v3d.vnl_fft_3d< OutputPixelType >::base::transform(signal.data_block(), +1);
+      vnl_fft_3d< OutputPixelType > v3d( outputSize[2], outputSize[1], outputSize[0] );
+      v3d.vnl_fft_3d< OutputPixelType >::base::transform( signal.data_block(), 1 );
       }
       break;
     default:
       break;
     }
-  for ( i = 0; i < vec_size; i++ )
+
+  // Copy the VNL output back to the ITK image.
+  // Extract the real part of the signal.
+  // Ideally, the normalization by the number of elements
+  // should have been accounted for by the VNL inverse Fourier transform,
+  // but it is not.  So, we take care of it by dividing the signal by
+  // the vectorSize.
+  for ( unsigned int i = 0; i < vectorSize; i++ )
     {
-    out[i] = signal[i].real() / vec_size;
+    out[i] = signal[i].real() / vectorSize;
     }
 }
 
 template< class TInputImage, class TOutputImage >
 bool
-VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >::FullMatrix()
+VnlFFTComplexConjugateToRealImageFilter< TInputImage, TOutputImage >
+::FullMatrix()
 {
   return true;
 }
