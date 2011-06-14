@@ -152,7 +152,7 @@ protected:
    * the routine is capable of splitting the FixedImageRegion,
    * i.e. return value is less than or equal to "num". */
   virtual
-  int SplitFixedRegion(int i, int num, FixedImageRegionType & splitRegion);
+  ThreadIdType SplitFixedRegion(ThreadIdType i, int num, FixedImageRegionType & splitRegion);
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the

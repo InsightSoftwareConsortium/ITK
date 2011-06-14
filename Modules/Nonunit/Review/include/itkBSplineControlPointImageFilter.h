@@ -240,7 +240,7 @@ private:
    * Based on the way CollapsePhiLattice() is written, we want to split on the
    * the last dimension.
    */
-  int SplitRequestedRegion( int, int, OutputImageRegionType & );
+  unsigned int SplitRequestedRegion( unsigned int, unsigned int, OutputImageRegionType & );
 
   /**
    * Sub-function used by GenerateOutputImageFast() to generate the sampled

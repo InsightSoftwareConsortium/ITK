@@ -114,7 +114,7 @@ private:
 
   MultiThreader::Pointer m_Threader;
 
-  int m_ThreadID;
+  ThreadIdType m_ThreadID;
 
   OperationContainerType m_OperationQ;
 

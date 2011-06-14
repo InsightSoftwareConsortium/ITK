@@ -281,7 +281,7 @@ protected:
 
   void AfterThreadedGenerateData();
 
-  int SplitRequestedRegion( int, int, RegionType & );
+  unsigned int SplitRequestedRegion( unsigned int, unsigned int, RegionType & );
 
   void GenerateData();
 

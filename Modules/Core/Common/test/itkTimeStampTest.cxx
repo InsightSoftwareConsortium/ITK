@@ -36,7 +36,7 @@ ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
 
   ThreadInfoType * infoStruct = static_cast< ThreadInfoType * >( ptr );
 
-  const unsigned int threadId = infoStruct->ThreadID;
+  const itk::ThreadIdType threadId = infoStruct->ThreadID;
 
   TimeStampTestHelper * helper =
     static_cast< TimeStampTestHelper * >( infoStruct->UserData );

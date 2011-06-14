@@ -146,7 +146,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 template< class TImageType, class TCoordRep, class TCoefficientType >
 void
 BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
-::SetNumberOfThreads(unsigned int numThreads)
+::SetNumberOfThreads(ThreadIdType numThreads)
 {
   m_NumberOfThreads = numThreads;
   this->GeneratePointsToIndex();
@@ -158,7 +158,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::OutputType
 BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::EvaluateAtContinuousIndex(const ContinuousIndexType & x,
-                            unsigned int threadID) const
+                            ThreadIdType threadID) const
 {
 // FIXME -- Review this "fix" and ensure it works.
 #if 1
@@ -215,7 +215,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::CovariantVectorType
 BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::EvaluateDerivativeAtContinuousIndex(const ContinuousIndexType & x,
-                                      unsigned int threadID) const
+                                      ThreadIdType threadID) const
 {
 // FIXME -- Review this "fix" and ensure it works.
 #if 1
@@ -297,7 +297,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::EvaluateValueAndDerivativeAtContinuousIndex(const ContinuousIndexType & x,
                                               OutputType & value,
                                               CovariantVectorType & derivativeValue,
-                                              unsigned int threadID) const
+                                              ThreadIdType threadID) const
 {
 // FIXME -- Review this "fix" and ensure it works.
 #if 1

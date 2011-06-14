@@ -286,7 +286,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 {
   CannyThreadStruct *str;
 
-  int total, threadId, threadCount;
+  ThreadIdType total, threadId, threadCount;
 
   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
@@ -604,7 +604,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
 {
   CannyThreadStruct *str;
 
-  int total, threadId, threadCount;
+  ThreadIdType total, threadId, threadCount;
 
   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;

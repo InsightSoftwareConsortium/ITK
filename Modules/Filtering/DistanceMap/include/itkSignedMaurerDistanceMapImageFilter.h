@@ -154,7 +154,7 @@ protected:
 
   void GenerateData();
 
-  int SplitRequestedRegion(int i, int num, OutputImageRegionType & splitRegion);
+  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 

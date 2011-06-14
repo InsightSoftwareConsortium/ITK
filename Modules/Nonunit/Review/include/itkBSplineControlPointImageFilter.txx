@@ -373,9 +373,9 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
 }
 
 template<class TInputImage, class TOutputImage>
-int
+unsigned int
 BSplineControlPointImageFilter<TInputImage, TOutputImage>
-::SplitRequestedRegion( int i, int num, OutputImageRegionType &splitRegion )
+::SplitRequestedRegion( unsigned int i, unsigned int num, OutputImageRegionType &splitRegion )
 {
   // Get the output pointer
   OutputImageType *outputPtr = this->GetOutput();
@@ -397,9 +397,9 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
 
   // determine the actual number of pieces that will be generated
   typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  int valuesPerThread = static_cast<int>( vcl_ceil(
+  unsigned int valuesPerThread = static_cast<unsigned int>( vcl_ceil(
     range / static_cast<double>( num ) ) );
-  int maxThreadIdUsed = static_cast<int>( vcl_ceil(
+  unsigned int maxThreadIdUsed = static_cast<unsigned int>( vcl_ceil(
     range / static_cast<double>( valuesPerThread ) ) - 1 );
 
   // Split the region

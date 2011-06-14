@@ -447,7 +447,7 @@ protected:
 
   /** */
   void ProcessStatusList(LayerType *InputList, const StatusType& ChangeToStatus,
-                         const StatusType& SearchForStatus, unsigned int ThreadId);
+                         const StatusType& SearchForStatus, ThreadIdType ThreadId);
 
   /** Adjusts the values associated with all the index layers of the sparse
    * field by propagating out one layer at a time from the active set. This
@@ -474,9 +474,9 @@ protected:
   /** Each thread allocates and initializes the data it will use by itself.
    *  This maintains the memory locality of data w.r.t. the thread in a shared
    *  memory environment. */
-  void ThreadedAllocateData(unsigned int ThreadId);
+  void ThreadedAllocateData(ThreadIdType ThreadId);
 
-  void ThreadedInitializeData(unsigned int ThreadId, const ThreadRegionType & ThreadRegion);
+  void ThreadedInitializeData(ThreadIdType ThreadId, const ThreadRegionType & ThreadRegion);
 
   /** This performs the initial load distribution among the threads.  Every
    *  thread gets a slab of the data to work on. The slabs created along a specific
@@ -493,7 +493,7 @@ protected:
   unsigned int GetThreadNumber(unsigned int splitAxisValue);
 
   /** Obtain a thread's region split as per the load balancing is done. */
-  void GetThreadRegionSplitByBoundary(unsigned int ThreadId, ThreadRegionType & ThreadRegion);
+  void GetThreadRegionSplitByBoundary(ThreadIdType ThreadId, ThreadRegionType & ThreadRegion);
 
   /** Delete the data and synchronization primitives used by the threads during
    *  iterations. */
@@ -519,7 +519,7 @@ protected:
    * output values are applied during each iteration.  The default simply
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration. */
-  inline virtual ValueType ThreadedCalculateUpdateValue(const unsigned int itkNotUsed(ThreadId),
+  inline virtual ValueType ThreadedCalculateUpdateValue(const ThreadIdType itkNotUsed(ThreadId),
                                                         const IndexType itkNotUsed(index),
                                                         const TimeStepType & dt,
                                                         const ValueType & value,
@@ -534,14 +534,14 @@ protected:
   // 'value' parameter.
   virtual void ThreadedProcessPixelEnteringActiveLayer( const IndexType& itkNotUsed(index),
                                                         const ValueType& itkNotUsed(value),
-                                                        unsigned int itkNotUsed(ThreadId) );
+                                                        ThreadIdType itkNotUsed(ThreadId) );
 
   /** This method is not implemented or necessary for this solver */
   void ApplyUpdate(const TimeStepType&) {}
 
   /** Does the actual work of updating the output from the UpdateContainer over
    *  an output region supplied by the multithreading mechanism.  */
-  virtual void ThreadedApplyUpdate(const TimeStepType& dt, unsigned int ThreadId);
+  virtual void ThreadedApplyUpdate(const TimeStepType& dt, ThreadIdType ThreadId);
 
   /** This method is not implemented or necessary for this solver */
   TimeStepType CalculateChange()
@@ -551,7 +551,7 @@ protected:
 
   /** This method does the actual work of calculating change over a region
    *  supplied by the multithreading mechanism.  */
-  virtual TimeStepType ThreadedCalculateChange(unsigned int ThreadId);
+  virtual TimeStepType ThreadedCalculateChange(ThreadIdType ThreadId);
 
   /** 1. Updates the values (in the output-image) of the nodes in the active layer
    *  that are moving OUT of the active layer. These values are used in the
@@ -560,23 +560,23 @@ protected:
    *  2. This function also constructs the up/down lists for nodes that are moving
    *  out of the active layer. */
   void ThreadedUpdateActiveLayerValues( const TimeStepType& dt,
-    LayerType *StatusUpList,
-    LayerType *StatusDownList,
-    unsigned int ThreadId);
+    LayerType   *StatusUpList,
+    LayerType   *StatusDownList,
+    ThreadIdType ThreadId);
 
   /** Make a copy of the nodes in the FromList and insert them into the ToList.
     */
-  void CopyInsertList( unsigned int ThreadId,
+  void CopyInsertList( ThreadIdType ThreadId,
     LayerPointerType FromListPtr,
     LayerPointerType ToListPtr);
 
   /** Delete all nodes in the List */
-  void ClearList(unsigned int ThreadId, LayerPointerType ListPtr);
+  void ClearList(ThreadIdType ThreadId, LayerPointerType ListPtr);
 
   /** Make a copy of the nodes given to one thread by its neighbors to process
    *  and insert them into the thread's own list. */
   void CopyInsertInterNeighborNodeTransferBufferLayers(
-    unsigned int ThreadId,
+    ThreadIdType ThreadId,
     LayerPointerType InputList,
     unsigned int InOrOut,
     unsigned int BufferLayerNumber);
@@ -584,7 +584,7 @@ protected:
   /** Delete all nodes in a thread's own lists which its used to transfer nodes
    *  to neighboring threads. */
   void ClearInterNeighborNodeTransferBufferLayers(
-    unsigned int ThreadId, unsigned int InOrOut,
+    ThreadIdType ThreadId, unsigned int InOrOut,
     unsigned int BufferLayerNumber);
 
   /** Performs two tasks. The situation here is that ThreadedProcessStatusList
@@ -600,7 +600,7 @@ protected:
     const StatusType& SearchForStatus,
     unsigned int InOrOut,
     unsigned int BufferLayerNumber,
-    unsigned int ThreadId);
+    ThreadIdType ThreadId);
 
   /** Push each index in the input list into its appropriate status layer
    *  (ChangeToStatus) and update the status image value at that index.
@@ -614,7 +614,7 @@ protected:
     const StatusType& SearchForStatus,
     unsigned int InOrOut,
     unsigned int BufferLayerNumber,
-    unsigned int ThreadId);
+    ThreadIdType ThreadId);
 
   /** Push each index in the input list into its appropriate status layer
    *  (ChangeToStatus) and ... ... update the status image value at that index
@@ -624,7 +624,7 @@ protected:
     const StatusType& ChangeToStatus,
     unsigned int InOrOut,
     unsigned int BufferLayerNumber,
-    unsigned int ThreadId);
+    ThreadIdType ThreadId);
 
   /** */
   void ThreadedPropagateLayerValues(
@@ -632,12 +632,12 @@ protected:
     const StatusType& to,
     const StatusType& promote,
     unsigned int InorOut,
-    unsigned int ThreadId);
+    ThreadIdType ThreadId);
 
   /** Split the volume uniformly along the chosen dimension for post processing
    *  the output. */
   void GetThreadRegionSplitUniformly(
-    unsigned int ThreadId, ThreadRegionType & ThreadRegion);
+    ThreadIdType ThreadId, ThreadRegionType & ThreadRegion);
 
   /** Assign background pixels INSIDE the sparse field layers to a new level set
    *  with value less than the innermost layer.  Assign background pixels
@@ -660,27 +660,27 @@ protected:
 
   /** Redistribute an load among the threads to obtain a more balanced load distribution.
    *  This is performed in parallel by all the threads. */
-  virtual void ThreadedLoadBalance(unsigned int ThreadId);
+  virtual void ThreadedLoadBalance(ThreadIdType ThreadId);
 
   /** Thread synchronization methods. */
   void WaitForAll();
 
-  void SignalNeighborsAndWait(unsigned int ThreadId);
+  void SignalNeighborsAndWait(ThreadIdType ThreadId);
 
-  void SignalNeighbor(unsigned int SemaphoreArrayNumber, unsigned int ThreadId);
+  void SignalNeighbor(unsigned int SemaphoreArrayNumber, ThreadIdType ThreadId);
 
-  void WaitForNeighbor(unsigned int SemaphoreArrayNumber, unsigned int ThreadId);
+  void WaitForNeighbor(unsigned int SemaphoreArrayNumber, ThreadIdType ThreadId);
 
   /** If child classes need an entry point to the start of every iteration step
    * they can override this method. This method is defined but empty in this class. */
-  virtual void ThreadedInitializeIteration(unsigned int ThreadId);
+  virtual void ThreadedInitializeIteration(ThreadIdType ThreadId);
 
   /**  For debugging.  Writes the active layer set (grid-points closest to evolving
    *  interface) to a file. */
   //  void WriteActivePointsToFile ();
 
   /** The number of threads to use. */
-  unsigned int m_NumOfThreads;
+  ThreadIdType m_NumOfThreads;
 
   /** The dimension along which to distribute the load. */
   unsigned int m_SplitAxis;

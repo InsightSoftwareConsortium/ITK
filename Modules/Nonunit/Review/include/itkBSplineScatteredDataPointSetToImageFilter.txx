@@ -450,9 +450,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 }
 
 template<class TInputPointSet, class TOutputImage>
-int
+unsigned int
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::SplitRequestedRegion( int i, int num, RegionType &splitRegion )
+::SplitRequestedRegion( unsigned int i, unsigned int num, RegionType &splitRegion )
 {
   // For fitting, the image regions are not used so we always return a valid
   // number.
@@ -482,9 +482,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
     // determine the actual number of pieces that will be generated
     typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-    int valuesPerThread = static_cast<int>( vcl_ceil(
+    unsigned int valuesPerThread = static_cast<unsigned int>( vcl_ceil(
       range / static_cast<double>( num ) ) );
-    int maxThreadIdUsed = static_cast<int>( vcl_ceil(
+    unsigned int maxThreadIdUsed = static_cast<unsigned int>( vcl_ceil(
       range / static_cast<double>( valuesPerThread ) ) - 1 );
 
     // Split the region

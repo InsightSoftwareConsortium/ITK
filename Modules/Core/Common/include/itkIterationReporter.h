@@ -78,7 +78,7 @@ public:
 
 protected:
   ProcessObject *m_Filter;
-  int            m_ThreadId;
+  ThreadIdType   m_ThreadId;
   unsigned long  m_StepsPerUpdate;
   unsigned long  m_StepsBeforeUpdate;
 };

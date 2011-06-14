@@ -199,8 +199,8 @@ public:
   itkGetConstReferenceMacro(UseFixedImageIndexes, bool);
 
   /** Set/Get number of threads to use for computations. */
-  void SetNumberOfThreads(unsigned int numberOfThreads);
-  itkGetConstReferenceMacro(NumberOfThreads, unsigned int);
+  void SetNumberOfThreads(ThreadIdType numberOfThreads);
+  itkGetConstReferenceMacro(NumberOfThreads, ThreadIdType);
 
   /** Set/Get gradient computation. */
   itkSetMacro(ComputeGradient, bool);
@@ -397,7 +397,7 @@ public:
   FixedImageMaskConstPointer  m_FixedImageMask;
   MovingImageMaskConstPointer m_MovingImageMask;
 
-  unsigned int m_NumberOfThreads;
+  ThreadIdType m_NumberOfThreads;
 
   bool m_UseAllPixels;
   bool m_UseSequentialSampling;
@@ -477,14 +477,14 @@ public:
                               MovingImagePointType & mappedPoint,
                               bool & sampleWithinSupportRegion,
                               double & movingImageValue,
-                              unsigned int threadID) const;
+                              ThreadIdType threadID) const;
 
   virtual void TransformPointWithDerivatives(unsigned int sampleNumber,
                                              MovingImagePointType & mappedPoint,
                                              bool & sampleWithinSupportRegion,
                                              double & movingImageValue,
                                              ImageDerivativesType & gradient,
-                                             unsigned int threadID) const;
+                                             ThreadIdType threadID) const;
 
   /** Boolean to indicate if the interpolator BSpline. */
   bool m_InterpolatorIsBSpline;
@@ -497,7 +497,7 @@ public:
   /** Compute image derivatives at a point. */
   virtual void ComputeImageDerivatives(const MovingImagePointType & mappedPoint,
                                        ImageDerivativesType & gradient,
-                                       unsigned int threadID) const;
+                                       ThreadIdType threadID) const;
 
   /**
    * Types and variables related to multi-threading
@@ -525,20 +525,20 @@ public:
 
   static ITK_THREAD_RETURN_TYPE  GetValueMultiThreadedPostProcess(void *arg);
 
-  virtual inline void       GetValueThread(unsigned int threadID) const;
+  virtual inline void       GetValueThread(ThreadIdType threadID) const;
 
   virtual inline void       GetValueThreadPreProcess(
-    unsigned int itkNotUsed(threadID),
+    ThreadIdType itkNotUsed(threadID),
     bool itkNotUsed(withinSampleThread) ) const
   {}
   virtual inline bool       GetValueThreadProcessSample(
-    unsigned int itkNotUsed(threadID),
+    ThreadIdType itkNotUsed(threadID),
     SizeValueType itkNotUsed(fixedImageSample),
     const MovingImagePointType & itkNotUsed(mappedPoint),
     double itkNotUsed(movingImageValue) ) const
   { return false; }
   virtual inline void       GetValueThreadPostProcess(
-    unsigned int itkNotUsed(threadID),
+    ThreadIdType itkNotUsed(threadID),
     bool itkNotUsed(withinSampleThread) ) const
   {}
 
@@ -554,21 +554,21 @@ public:
 
   static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreadedPostProcess(void *arg);
 
-  virtual inline void  GetValueAndDerivativeThread(unsigned int threadID) const;
+  virtual inline void  GetValueAndDerivativeThread(ThreadIdType threadID) const;
 
   virtual inline void  GetValueAndDerivativeThreadPreProcess(
-    unsigned int itkNotUsed(threadID),
+    ThreadIdType itkNotUsed(threadID),
     bool itkNotUsed(withinSampleThread) ) const
   {}
   virtual inline bool  GetValueAndDerivativeThreadProcessSample(
-    unsigned int itkNotUsed(threadID),
+    ThreadIdType itkNotUsed(threadID),
     SizeValueType itkNotUsed(fixedImageSample),
     const MovingImagePointType & itkNotUsed(mappedPoint),
     double itkNotUsed(movingImageValue),
     const ImageDerivativesType & itkNotUsed(movingImageGradientValue) ) const
   { return false; }
   virtual inline void  GetValueAndDerivativeThreadPostProcess(
-    unsigned int itkNotUsed(threadID),
+    ThreadIdType itkNotUsed(threadID),
     bool itkNotUsed(withinSampleThread) ) const
   {}
 
