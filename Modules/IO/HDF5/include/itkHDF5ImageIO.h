@@ -56,28 +56,28 @@ class MetaDataDictionary;
  * \ingroup ITK-IO-HDF5
  *
  * HDF5 paths for elements in file
- * N is dimension of image
- * /ITKVersion                 ITK Library Version string
- * /HDFVersion                 HDF Version String
- * /ITKImage                   Root Image Group
- * /ITKImage/<name>            name is arbitrary, but to parallel Transform I/O
- *                             keep an image in a subgroup. The idea is to
- *                             parallel transform file structure.
- * /ITKIMage/<name>/Origin     N-D point double
- * /ITKImage/<name>/Directions N N-vectors double
- * /ITKImage/<name>/Spacing    N-vector double
- * /ITKImage/<name>/Dimensions N-vector ::itk::SizeValueType
- * /ITKImage/<name>/VoxelType  String representing voxel type.
+ * \li N is dimension of image
+ * \li \/ITKVersion                   ITK Library Version string
+ * \li \/HDFVersion                   HDF Version String
+ * \li \/ITKImage                     Root Image Group
+ * \li \/ITKImage\/\<name\>             name is arbitrary, but to parallel Transform I/O
+ *                                    keep an image in a subgroup. The idea is to
+ *                                    parallel transform file structure.
+ * \li \/ITKImage\/\<name\>\/Origin     N-D point double
+ * \li \/ITKImage\/\<name\>\/Directions N N-vectors double
+ * \li \/ITKImage\/\<name\>\/Spacing    N-vector double
+ * \li \/ITKImage\/\<name\>\/Dimensions N-vector ::itk::SizeValueType
+ * \li \/ITKImage\/\<name\>\/VoxelType  String representing voxel type.
  *                             This can be inferred from the VoxelData
  *                             type info, but it makes the file more
  *                             user friendly with respect to HDF5 viewers.
- * /ITKImage/<name>/VoxelData  multi-dim array of voxel data
+ * \li \/ITKImage\/\<name\>\/VoxelData  multi-dim array of voxel data
  *                             in the case of non-scalar voxel type,
  *                             keep voxel components together, to make
  *                             loading possible without
- * /ITKImage/<name>/MetaData   Group for storing metadata from
+ * \li \/ITKImage\/\<name\>\/MetaData   Group for storing metadata from
  *                             MetaDataDictionary
- * /ITKImage/<name>/MetaData/<item-name>
+ * \li \/ITKImage\/\<name\>\/MetaData\/\<item-name\>
  *                             Dataset containing data for item-name
  *                             in the MetaDataDictionary
  * re-arrangement.
