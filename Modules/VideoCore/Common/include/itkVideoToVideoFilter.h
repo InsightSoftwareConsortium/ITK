@@ -113,6 +113,11 @@ protected:
    * requested input frames. */
   virtual void GenerateInputRequestedRegion();
 
+  /** Method that gets called before individual temporal requests are
+   * dispatched by GenerateData. The default implementation makes sure that
+   * the input's buffer can hold enough frames for a single input request. */
+  virtual void BeforeTemporalStreamingGenerateData();
+
   VideoToVideoFilter();
   virtual ~VideoToVideoFilter() {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const
