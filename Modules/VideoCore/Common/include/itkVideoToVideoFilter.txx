@@ -226,6 +226,18 @@ GenerateInputRequestedRegion()
     }
 }
 
+//
+// BeforeTemporalStreamingGenerateData
+//
+template<class TInputVideoStream, class TOutputVideoStream>
+void
+VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
+BeforeTemporalStreamingGenerateData()
+{
+  InputVideoStreamType* input = this->GetInput();
+  input->SetMinimumBufferSize(this->TemporalProcessObject::m_UnitInputNumberOfFrames);
+}
+
 } // end namespace itk
 
 #endif

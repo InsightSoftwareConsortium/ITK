@@ -70,6 +70,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoStream, TemporalDataObject);
 
+  /** Safely expand the internal ring buffer. */
+  void SetMinimumBufferSize(unsigned long minimumNumberOfFrames);
+
   /** Initialize any empty frames. This method makes sure that the frame buffer
    * is large enough to hold the number of frames needed for the buffered
    * temporal region. It goes through the necessary number of frames making
@@ -222,7 +225,6 @@ public:
    * \endcode
    */
   void Allocate();
-
 
   /** Graft the data and information from one VideoStream to this one. This
    * just copies the meta information using TemporalProcessObject's Graft then

@@ -258,6 +258,44 @@ VideoStream<TFrameType>::SetFrameBuffer(
 }
 
 //
+// SetMinimumBufferSize
+//
+template<class TFrameType>
+void
+VideoStream<TFrameType>::SetMinimumBufferSize(unsigned long minimumNumberOfFrames)
+{
+  // If we don't have enough buffer space to handle the number of requested
+  // frames, we need to resize the ring buffer. Just resizing can cause data to
+  // be in the wrong place. For example if the head of the buffer is at index 0
+  // and the buffer has 3 slots, setting frame number 3 will actually place the
+  // data into slot 0.  If we then resize the buffer to have 4 slots, the data
+  // for frame 3 will live in slot 0 even though a request for frame 3 will
+  // return the data from the newly created slot 3. To circumvent this problem,
+  // we move the buffered data to the proper indices in the ring buffer after
+  // resizing.
+  if (m_DataObjectBuffer->GetNumberOfBuffers() < minimumNumberOfFrames)
+    {
+    // Save the indices of all frames in the currently buffered region
+    unsigned long bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
+    unsigned long bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
+    std::map<unsigned long, DataObject*> frameNumPtrMap;
+    for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
+      {
+      frameNumPtrMap[i] = m_DataObjectBuffer->GetBufferContents(i);
+      }
+
+    // Resize the ring buffer
+    m_DataObjectBuffer->SetNumberOfBuffers(minimumNumberOfFrames);
+
+    // Move previously buffered data to the locations where their frame numbers now map
+    for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
+      {
+      m_DataObjectBuffer->SetBufferContents(i, frameNumPtrMap[i]);
+      }
+    }
+}
+
+//
 // InitializeEmptyFrames
 //
 template<class TFrameType>
@@ -271,35 +309,9 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
     return;
     }
 
-  // If we don't have enough buffer space to handle the number of requested
-  // frames, we need to resize the ring buffer. Just resizing can cause data to
-  // be in the wrong place. For example if the head of the buffer is at index 0
-  // and the buffer has 3 slots, setting frame number 3 will actually place the
-  // data into slot 0.  If we then resize the buffer to have 4 slots, the data
-  // for frame 3 will live in slot 0 even though a request for frame 3 will
-  // return the data from the newly created slot 3. To circumvent this problem,
-  // we move the buffered data to the proper indices in the ring buffer after
-  // resizing.
-  if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
-    {
-    // Save the indices of all frames in the currently buffered region
-    unsigned long bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
-    unsigned long bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
-    std::map<unsigned long, DataObject*> frameNumPtrMap;
-    for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
-      {
-      frameNumPtrMap[i] = m_DataObjectBuffer->GetBufferContents(i);
-      }
 
-    // Resize the ring buffer
-    m_DataObjectBuffer->SetNumberOfBuffers(numFrames);
-
-    // Move previously buffered data to the locations where their frame numbers now map
-    for (unsigned long i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
-      {
-      m_DataObjectBuffer->SetBufferContents(i, frameNumPtrMap[i]);
-      }
-    }
+  // Safely expand the ring buffer if necessary
+  this->SetMinimumBufferSize(numFrames);
 
   // Go through the number of required frames and make sure none are empty
   unsigned long startFrame = m_RequestedTemporalRegion.GetFrameStart();
