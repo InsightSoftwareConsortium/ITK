@@ -103,6 +103,12 @@
 # CMAKE_SOURCE_DIR.  ExternalData_SOURCE_ROOT and CMAKE_SOURCE_DIR must refer
 # to directories within a single source distribution (e.g. they come together
 # in one tarball).
+#
+# Variables ExternalData_TIMEOUT_INACTIVITY and ExternalData_TIMEOUT_ABSOLUTE
+# set the download inactivity and absolute timeouts, in seconds.  The defaults
+# are 60 seconds and 300 seconds, respectively.  Set either timeout to 0
+# seconds to disable enforcement.  The inactivity timeout is enforced only
+# with CMake >= 2.8.5.
 
 #=============================================================================
 # Copyright 2010-2011 Kitware, Inc.
@@ -507,6 +513,41 @@ function(_ExternalData_link_or_copy src dst)
   file(RENAME "${tmp}" "${dst}")
 endfunction()
 
+function(_ExternalData_download_file url file err_var msg_var)
+  set(retry 3)
+  while(retry)
+    math(EXPR retry "${retry} - 1")
+    if("${CMAKE_VERSION}" VERSION_GREATER 2.8.4.20110602)
+      if(ExternalData_TIMEOUT_INACTIVITY)
+        set(inactivity_timeout INACTIVITY_TIMEOUT ${ExternalData_TIMEOUT_INACTIVITY})
+      elseif(NOT "${ExternalData_TIMEOUT_INACTIVITY}" EQUAL 0)
+        set(inactivity_timeout INACTIVITY_TIMEOUT 60)
+      else()
+        set(inactivity_timeout "")
+      endif()
+    else()
+      set(inactivity_timeout "")
+    endif()
+    if(ExternalData_TIMEOUT_ABSOLUTE)
+      set(absolute_timeout TIMEOUT ${ExternalData_TIMEOUT_ABSOLUTE})
+    elseif(NOT "${ExternalData_TIMEOUT_ABSOLUTE}" EQUAL 0)
+      set(absolute_timeout TIMEOUT 300)
+    else()
+      set(absolute_timeout "")
+    endif()
+    file(DOWNLOAD "${url}" "${file}" STATUS status ${inactivity_timeout} ${absolute_timeout} SHOW_PROGRESS)
+    list(GET status 0 err)
+    list(GET status 1 msg)
+    if(NOT err OR NOT "${msg}" MATCHES "partial|timeout")
+      break()
+    elseif(retry)
+      message(STATUS "[download terminated: ${msg}, retries left: ${retry}]")
+    endif()
+  endwhile()
+  set("${err_var}" "${err}" PARENT_SCOPE)
+  set("${msg_var}" "${msg}" PARENT_SCOPE)
+endfunction()
+
 function(_ExternalData_download_object name hash algo var_obj)
   set(obj "${ExternalData_OBJECT_DIR}/${algo}/${hash}")
   if(EXISTS "${obj}")
@@ -523,11 +564,9 @@ function(_ExternalData_download_object name hash algo var_obj)
     string(REPLACE "%(hash)" "${hash}" url_tmp "${url_template}")
     string(REPLACE "%(algo)" "${algo}" url "${url_tmp}")
     message(STATUS "Fetching \"${url}\"")
-    file(DOWNLOAD "${url}" "${tmp}" STATUS status SHOW_PROGRESS) # TODO: timeout
+    _ExternalData_download_file("${url}" "${tmp}" err errMsg)
     set(tried "${tried}\n  ${url}")
-    list(GET status 0 err)
     if(err)
-      list(GET status 1 errMsg)
       set(tried "${tried} (${errMsg})")
     else()
       # Verify downloaded object.
