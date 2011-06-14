@@ -87,7 +87,14 @@ bool PNGImageIO::CanReadFile(const char *file)
     return false;
     }
   unsigned char header[8];
-  fread(header, 1, 8, pngfp.m_FilePointer);
+  size_t temp = fread(header, 1, 8, pngfp.m_FilePointer);
+  if( temp != 8 )
+    {
+    itkExceptionMacro( "PNGImageIO failed to read header for file: "
+      << this->GetFileName() << std::endl
+      << "Reason: fread read only " << temp
+      << " instead of 8" );
+    }
   bool is_png = !png_sig_cmp(header, 0, 8);
   if ( !is_png )
     {
@@ -141,7 +148,15 @@ void PNGImageIO::Read(void *buffer)
     return;
     }
   unsigned char header[8];
-  fread(header, 1, 8, fp);
+  size_t temp = fread(header, 1, 8, fp);
+  if( temp != 8 )
+    {
+    itkExceptionMacro( "PNGImageIO failed to read header for file: "
+      << this->GetFileName() << std::endl
+      << "Reason: fread read only " << temp
+      << " instead of 8" );
+    }
+
   bool is_png = !png_sig_cmp(header, 0, 8);
   if ( !is_png )
     {
@@ -299,7 +314,15 @@ void PNGImageIO::ReadImageInformation()
     return;
     }
   unsigned char header[8];
-  fread(header, 1, 8, fp);
+  size_t temp = fread(header, 1, 8, fp);
+  if( temp != 8 )
+    {
+    itkExceptionMacro( "PNGImageIO failed to read header for file: "
+      << this->GetFileName() << std::endl
+      << "Reason: fread read only " << temp
+      << " instead of 8" );
+    }
+
   bool is_png = !png_sig_cmp(header, 0, 8);
   if ( !is_png )
     {
