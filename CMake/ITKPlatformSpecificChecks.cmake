@@ -154,6 +154,17 @@ if(CMAKE_COMPILER_IS_GNUCXX)
   endforeach(COMP_OPTION)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
+#-----------------------------------------------------------------------------
+# Set the compiler-specific flag for disabling optimization.
+if(MSVC)
+  set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "/Od")
+elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(GNU|Intel)$")
+  set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "-O0")
+endif()
+if(DEFINED ITK_CXX_DISABLE_OPTIMIZATION_FLAG)
+  itkCHECK_CXX_ACCEPTS_FLAGS(${ITK_CXX_DISABLE_OPTIMIZATION_FLAG} CXX_HAS_DISABLE_OPTIMIZATION_FLAG)
+endif()
+
 #---------------------------------------------------------------
 # run try compiles and tests for ITK
 include(CMake/itkTestFriendTemplatedFunction.cmake)

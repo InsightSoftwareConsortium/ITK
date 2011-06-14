@@ -10,6 +10,20 @@ itkCastImageFilterTest.cxx
 itkClampImageFilterTest.cxx
 )
 
+# Disable optimization on the tests below to avoid possible
+# optimization bugs in some compilers. This option will appear on the
+# command line after any other optimization flag (including those from
+# CMAKE_CXX_FLAGS) which means that on gcc, MSVC, and the Intel
+# compiler, it will override any other optimization flag.
+if (DEFINED ITK_CXX_DISABLE_OPTIMIZATION_FLAG)
+  set_source_files_properties(
+    itkCastImageFilterTest.cxx
+    itkClampImageFilterTest.cxx
+    PROPERTIES COMPILE_FLAGS ${ITK_CXX_DISABLE_OPTIMIZATION_FLAG}
+  )
+endif()
+
+
 CreateTestDriver(ITK-ImageFilterBase  "${ITK-ImageFilterBase-Test_LIBRARIES}" "${ITK-ImageFilterBaseTests}")
 
 itk_add_test(NAME itkImageFilterBaseHeaderTest
