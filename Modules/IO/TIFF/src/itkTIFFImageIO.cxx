@@ -464,6 +464,10 @@ void TIFFImageIO::ReadGenericImage(void *out,
   int          row, inc;
   tdata_t      buf = _TIFFmalloc(isize);
 
+  // It is necessary to re-initialize the colors for eachread so
+  // that the colormap remains valid.
+  this->InitializeColors();
+
   if ( m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG )
     {
     itkExceptionMacro(<< "This reader can only do PLANARCONFIG_CONTIG");
