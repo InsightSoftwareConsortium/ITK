@@ -92,6 +92,10 @@ TemporalStreamingGenerateData()
 
   // Set the output frame
   output->SetFrame(outFrameNum, m_ImageFilter->GetOutput());
+
+  // Make a new output for the filter so this output doesn't get destroyed
+  m_ImageFilter->GetOutput()->DisconnectPipeline();
+  m_ImageFilter->MakeOutput(0);
 }
 
 
