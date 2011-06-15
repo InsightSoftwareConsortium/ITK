@@ -21,3 +21,6 @@ CMakeLists.txt.user*
 # kdevelop
 *.kdev*
 .kdev*
+
+# back-up files when conflicts occur
+*.orig
