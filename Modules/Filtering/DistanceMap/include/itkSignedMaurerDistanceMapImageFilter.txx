@@ -21,42 +21,18 @@
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkBinaryThresholdImageFilter.h"
-#include "itkBinaryBallStructuringElement.h"
-#include "itkBinaryErodeImageFilter.h"
+#include "itkBinaryContourImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkProgressAccumulator.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_math.h"
 
-//Simple functor to invert an image for Outside Danielsson distance map
-namespace itk
-{
-namespace Functor
-{
-template< class InputPixelType >
-class InvertBinaryIntensityFunctor
-{
-public:
-  InputPixelType operator()(InputPixelType input) const
-  {
-    if ( input )
-      {
-      return NumericTraits< InputPixelType >::Zero;
-      }
-    else
-      {
-      return NumericTraits< InputPixelType >::One;
-      }
-  }
-};
-}
-}
-
 namespace itk
 {
 template< class TInputImage, class TOutputImage >
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
-::SignedMaurerDistanceMapImageFilter():m_BackgroundValue(0),
+::SignedMaurerDistanceMapImageFilter():
+  m_BackgroundValue( NumericTraits< InputPixelType >::Zero ),
   m_InsideIsPositive(false),
   m_UseImageSpacing(false),
   m_SquaredDistance(true)
@@ -70,40 +46,41 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 unsigned int
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
-::SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion)
+::SplitRequestedRegion(unsigned int i, unsigned int num,
+  OutputImageRegionType & splitRegion)
 {
   // Get the output pointer
   OutputImageType *outputPtr = this->GetOutput();
 
-  const typename TOutputImage::SizeType & requestedRegionSize =
-    outputPtr->GetRequestedRegion().GetSize();
-
-  int splitAxis;
-  typename TOutputImage::IndexType splitIndex;
-  typename TOutputImage::SizeType splitSize;
-
   // Initialize the splitRegion to the output requested region
   splitRegion = outputPtr->GetRequestedRegion();
-  splitIndex = splitRegion.GetIndex();
-  splitSize = splitRegion.GetSize();
+
+  const OutputSizeType & requestedRegionSize = splitRegion.GetSize();
+
+  OutputIndexType splitIndex = splitRegion.GetIndex();
+  OutputSizeType  splitSize  = splitRegion.GetSize();
 
   // split on the outermost dimension available
   // and avoid the current dimension
-  splitAxis = outputPtr->GetImageDimension() - 1;
-  while ( requestedRegionSize[splitAxis] == 1 || splitAxis == (int)m_CurrentDimension )
+  int splitAxis = static_cast< int >( outputPtr->GetImageDimension() ) - 1;
+  while ( ( requestedRegionSize[splitAxis] == 1 ) ||
+          ( splitAxis == static_cast< int >( m_CurrentDimension ) ) )
     {
     --splitAxis;
     if ( splitAxis < 0 )
       { // cannot split
-      itkDebugMacro("  Cannot Split");
+      itkDebugMacro("Cannot Split");
       return 1;
       }
     }
 
   // determine the actual number of pieces that will be generated
-  typename TOutputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  unsigned int valuesPerThread = (unsigned int)vcl_ceil(range / (double)num);
-  unsigned int maxThreadIdUsed = (unsigned int)vcl_ceil(range / (double)valuesPerThread) - 1;
+  double range = static_cast< double >( requestedRegionSize[splitAxis] );
+
+  unsigned int valuesPerThread =
+    static_cast< unsigned int >( vcl_ceil( range / static_cast< double >( num ) ) );
+  unsigned int maxThreadIdUsed =
+    static_cast< unsigned int >( vcl_ceil( range / static_cast< double >( valuesPerThread ) ) ) - 1;
 
   // Split the region
   if ( i < maxThreadIdUsed )
@@ -122,7 +99,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   splitRegion.SetIndex(splitIndex);
   splitRegion.SetSize(splitSize);
 
-  itkDebugMacro("  Split Piece: " << splitRegion);
+  itkDebugMacro("Split Piece: " << splitRegion);
 
   return maxThreadIdUsed + 1;
 }
@@ -132,6 +109,8 @@ void
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
+  ThreadIdType nbthreads = this->GetNumberOfThreads();
+
   // prepare the data
   this->AllocateOutputs();
   this->m_Spacing = this->GetOutput()->GetSpacing();
@@ -139,10 +118,8 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   // store the binary image in an image with a pixel type as small as possible
   // instead of keeping the native input pixel type to avoid using too much
   // memory.
-  typedef Image< unsigned char, InputImageDimension > BinaryImageType;
-
   typedef BinaryThresholdImageFilter< InputImageType,
-                                      BinaryImageType >  BinaryFilterType;
+                                      OutputImageType > BinaryFilterType;
 
   ProgressAccumulator::Pointer progressAcc = ProgressAccumulator::New();
   progressAcc->SetMiniPipelineFilter(this);
@@ -154,83 +131,50 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 
   binaryFilter->SetLowerThreshold(this->m_BackgroundValue);
   binaryFilter->SetUpperThreshold(this->m_BackgroundValue);
-  binaryFilter->SetInsideValue(0);
-  binaryFilter->SetOutsideValue(1);
+  binaryFilter->SetInsideValue( NumericTraits< OutputPixelType >::max() );
+  binaryFilter->SetOutsideValue( NumericTraits< OutputPixelType >::Zero );
   binaryFilter->SetInput( this->GetInput() );
-  binaryFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
-//   progressAcc->RegisterInternalFilter( binaryFilter, 0.1f );
+  binaryFilter->SetNumberOfThreads( nbthreads );
+  progressAcc->RegisterInternalFilter( binaryFilter, 0.1f );
+  binaryFilter->GraftOutput( this->GetOutput() );
   binaryFilter->Update();
 
   // Dilate the inverted image by 1 pixel to give it the same boundary
   // as the univerted this->GetInput().
-  // This part is not threaded yet, and should be replaced by a contour
-  // detector like in http://voxel.jouy.inra.fr/darcs/contrib-itk/watershed/
-  // itkSignedMaurerDistanceMapImageFilter.txx
+  typedef BinaryContourImageFilter< OutputImageType,
+                                    OutputImageType > BorderFilterType;
+  typename BorderFilterType::Pointer borderFilter = BorderFilterType::New();
+  borderFilter->SetInput( binaryFilter->GetOutput() );
+  borderFilter->SetForegroundValue( NumericTraits< OutputPixelType >::Zero );
+  borderFilter->SetBackgroundValue( NumericTraits< OutputPixelType >::max() );
+  borderFilter->SetFullyConnected( true );
+  borderFilter->SetNumberOfThreads( nbthreads );
+  progressAcc->RegisterInternalFilter( borderFilter, 0.23f );
+  borderFilter->Update();
 
-  typedef BinaryBallStructuringElement<
-    unsigned char,
-    InputImageDimension  > StructuringElementType;
-
-  typedef BinaryErodeImageFilter<
-    BinaryImageType,
-    BinaryImageType,
-    StructuringElementType >     ErodeType;
-
-  typename ErodeType::Pointer erode = ErodeType::New();
-
-  StructuringElementType structuringElement;
-  structuringElement.SetRadius(1);
-  structuringElement.CreateStructuringElement();
-  erode->SetKernel(structuringElement);
-  erode->SetForegroundValue(1);
-  erode->SetBackgroundValue(2);
-  erode->SetInput( binaryFilter->GetOutput() );
-  progressAcc->RegisterInternalFilter(erode, 0.33f);
-  erode->Update();
-
-  typedef ImageRegionConstIterator< BinaryImageType > InputIterator;
-
-  InputIterator inIterator( erode->GetOutput(),
-                            erode->GetOutput()->GetRequestedRegion() );
-
-  typedef ImageRegionIterator< OutputImageType > OutputIterator;
-
-  OutputIterator outIterator( this->GetOutput(),
-                              this->GetOutput()->GetRequestedRegion() );
-
-  for (  inIterator.GoToBegin(), outIterator.GoToBegin();
-         !inIterator.IsAtEnd();
-         ++inIterator, ++outIterator )
-    {
-    if ( inIterator.Get() == 2 )
-      {
-      outIterator.Set(NumericTraits< OutputPixelType >::Zero);
-      }
-    else
-      {
-      outIterator.Set( NumericTraits< OutputPixelType >::max() );
-      }
-    }
+  this->GraftOutput( borderFilter->GetOutput() );
 
   // Set up the multithreaded processing
-  typename ImageSource< TOutputImage >::ThreadStruct str;
+  typename ImageSource< OutputImageType >::ThreadStruct str;
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-  this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
+  MultiThreader* multithreader = this->GetMultiThreader();
+  multithreader->SetNumberOfThreads( nbthreads );
+  multithreader->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
-  for ( unsigned int d = 0; d < ImageDimension; d++ )
+  for( unsigned int d=0; d<ImageDimension; d++ )
     {
     m_CurrentDimension = d;
-    this->GetMultiThreader()->SingleMethodExecute();
+    multithreader->SingleMethodExecute();
     }
 }
 
 template< class TInputImage, class TOutputImage >
 void
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                       ThreadIdType threadId)
 {
   vnl_vector< unsigned int > k(InputImageDimension - 1);
 
@@ -238,11 +182,10 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 
   InputRegionType region = outputRegionForThread;
   InputSizeType   size   = region.GetSize();
-  typename InputImageType::RegionType::IndexType startIndex;
-  startIndex = outputRegionForThread.GetIndex();
+  InputIndexType  startIndex = outputRegionForThread.GetIndex();
 
   // compute the number of rows first, so we can setup a progress reporter
-  typename std::vector< unsigned int > NumberOfRows;
+  std::vector< InputSizeValueType > NumberOfRows;
 
   for ( unsigned int i = 0; i < InputImageDimension; i++ )
     {
@@ -259,17 +202,18 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   // set the progress reporter. Use a pointer to be able to destroy it before
   // the creation of progress2
   // so it won't set wrong progress at the end of ThreadedGenerateData()
-  float progressPerDimension = 0.67f / ImageDimension;
+  float progressPerDimension = 0.67f / static_cast< float >( ImageDimension );
   if ( !this->m_SquaredDistance )
     {
-    progressPerDimension = 0.67f / ( ImageDimension + 1 );
+    progressPerDimension = 0.67f / ( static_cast< float >( ImageDimension ) + 1 );
     }
-  ProgressReporter *progress = new ProgressReporter(this,
-                                                    threadId,
-                                                    NumberOfRows[m_CurrentDimension],
-                                                    30,
-                                                    0.33f + m_CurrentDimension * progressPerDimension,
-                                                    progressPerDimension);
+  ProgressReporter *progress =
+      new ProgressReporter(this,
+                           threadId,
+                           NumberOfRows[m_CurrentDimension],
+                           30,
+                           0.33f + static_cast< float >( m_CurrentDimension * progressPerDimension ),
+                           progressPerDimension);
 
   OutputIndexType idx;
   idx.Fill(0);
@@ -277,25 +221,28 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   k[0] = 1;
   unsigned int count = 1;
 
-  for ( unsigned int d = m_CurrentDimension + 2; d < m_CurrentDimension + InputImageDimension; d++ )
+  for ( unsigned int d = m_CurrentDimension + 2;
+       d < m_CurrentDimension + InputImageDimension;
+       d++ )
     {
     k[count] = k[count - 1] * size[d % InputImageDimension];
     count++;
     }
   k.flip();
 
-  unsigned int index;
-  for ( unsigned int n = 0; n < NumberOfRows[m_CurrentDimension]; n++ )
+  InputSizeValueType index;
+  InputSizeValueType tempRow = NumberOfRows[m_CurrentDimension];
+
+  for ( InputSizeValueType n = 0; n < tempRow; n++ )
     {
     index = n;
     count = 0;
-    for ( unsigned int d = m_CurrentDimension + 1; d < m_CurrentDimension + InputImageDimension; d++ )
+    for ( unsigned int d = m_CurrentDimension + 1;
+         d < m_CurrentDimension + InputImageDimension; d++ )
       {
       idx[d % InputImageDimension] =
-        static_cast< unsigned int >(
-          static_cast< double >( index )
-          / static_cast< double >( k[count] ) )
-        + startIndex[d % InputImageDimension];
+        static_cast< OutputIndexValueType >( static_cast< double >( index ) / static_cast< double >( k[count] ) )
+        + static_cast< OutputIndexValueType >( startIndex[d % InputImageDimension] );
 
       index %= k[count];
       count++;
@@ -319,16 +266,18 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
     It.GoToBegin();
 
     ProgressReporter progress2(this, threadId,
-                               outputRegionForThread.GetNumberOfPixels(), 30, 0.33f + ImageDimension
-                               * progressPerDimension, progressPerDimension);
+                               outputRegionForThread.GetNumberOfPixels(), 30,
+                               0.33f + static_cast< float >( ImageDimension * progressPerDimension ),
+                               progressPerDimension);
+
+    typedef typename NumericTraits< OutputPixelType >::RealType OutputRealType;
+
     while ( !Ot.IsAtEnd() )
       {
       // cast to a real type is required on some platforms
-      // TODO: use "typename NumericTraits<OutputPixelType>::RealType" instead
-      // double. cableswig currently fail to build it with msvc 7.1
       const OutputPixelType outputValue =
         static_cast< OutputPixelType >(
-          vcl_sqrt( static_cast< double >( vnl_math_abs( Ot.Get() ) ) ) );
+          vcl_sqrt( static_cast< OutputRealType >( vnl_math_abs( Ot.Get() ) ) ) );
 
       if ( It.Get() != this->m_BackgroundValue )
         {
@@ -365,14 +314,16 @@ void
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 ::Voronoi(unsigned int d, OutputIndexType idx)
 {
-  typename OutputImageType::Pointer output( this->GetOutput() );
-  unsigned int                      nd = output->GetRequestedRegion().GetSize()[d];
+  OutputImagePointer    output = this->GetOutput();
+  OutputRegionType      oRegion = output->GetRequestedRegion();
+  OutputSizeValueType   nd = oRegion.GetSize()[d];
 
-  vnl_vector< OutputPixelType > g(nd);  g = 0;
-  vnl_vector< OutputPixelType > h(nd);  h = 0;
+  vnl_vector< OutputPixelType > g(nd, 0 );
+  vnl_vector< OutputPixelType > h(nd, 0 );
 
-  typename InputImageType::RegionType::IndexType startIndex;
-  startIndex = this->GetInput()->GetRequestedRegion().GetIndex();
+  InputImageConstPointer input = this->GetInput();
+  InputRegionType iRegion = input->GetRequestedRegion();
+  InputIndexType startIndex = iRegion.GetIndex();
 
   OutputPixelType di;
 
@@ -388,7 +339,8 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 
     if ( this->GetUseImageSpacing() )
       {
-      iw = static_cast< OutputPixelType >( i * this->m_Spacing[d] );
+      iw = static_cast< OutputPixelType >( i ) *
+           static_cast< OutputPixelType >( this->m_Spacing[d] );
       }
     else
       {
@@ -490,8 +442,11 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   OutputPixelType b = xf - x2;
   OutputPixelType c = xf - x1;
 
-  return ( (   c * vnl_math_abs(d2) - b * vnl_math_abs(d1)
-               - a * vnl_math_abs(df) - a * b * c ) > 0 );
+  OutputPixelType value =
+      ( c * vnl_math_abs(d2) - b * vnl_math_abs(d1)
+       - a * vnl_math_abs(df) - a * b * c );
+
+  return ( value > 0 );
 }
 
 /**
