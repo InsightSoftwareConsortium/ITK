@@ -20,29 +20,60 @@
 
 #include "metaBlob.h"
 #include "itkBlobSpatialObject.h"
-#include "itkSpatialObject.h"
+#include "itkMetaConverterBase.h"
 
 namespace itk
 {
+/** \class MetaBlobConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaBlobConverter
+class ITK_EXPORT MetaBlobConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
+  /** Standard class typedefs */
+  typedef MetaBlobConverter                Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaBlobConverter, MetaConverterBase);
+
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
+
+  /** Specific class types for conversion */
+  typedef BlobSpatialObject<NDimensions>               BlobSpatialObjectType;
+  typedef typename BlobSpatialObjectType::Pointer      BlobSpatialObjectPointer;
+  typedef typename BlobSpatialObjectType::ConstPointer BlobSpatialObjectConstPointer;
+  typedef MetaBlob                                     BlobMetaObjectType;
+
+
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+
+protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
 
   MetaBlobConverter();
   ~MetaBlobConverter() {}
 
-  typedef itk::BlobSpatialObject< NDimensions >     SpatialObjectType;
-  typedef typename SpatialObjectType::TransformType TransformType;
-  typedef typename SpatialObjectType::Pointer       SpatialObjectPointer;
+private:
+  MetaBlobConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaBlobToBlobSpatialObject(MetaBlob *Blob);
-
-  MetaBlob * BlobSpatialObjectToMetaBlob(SpatialObjectType *spatialObject);
 };
 } // end namespace itk
 

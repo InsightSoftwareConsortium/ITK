@@ -20,29 +20,59 @@
 
 #include "itkGroupSpatialObject.h"
 #include "metaGroup.h"
+#include "itkMetaConverterBase.h"
 
 namespace itk
 {
+/** \class MetaGroupConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaGroupConverter
+class ITK_EXPORT MetaGroupConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
+  /** Standard class typedefs */
+  typedef MetaGroupConverter               Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaGroupConverter, MetaConverterBase);
+
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
+
+  /** Specific class types for conversion */
+  typedef GroupSpatialObject<NDimensions>               GroupSpatialObjectType;
+  typedef typename GroupSpatialObjectType::Pointer      GroupSpatialObjectPointer;
+  typedef typename GroupSpatialObjectType::ConstPointer GroupSpatialObjectConstPointer;
+  typedef MetaGroup                                     GroupMetaObjectType;
+
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+
+protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
 
   MetaGroupConverter();
   ~MetaGroupConverter() {}
 
-  typedef itk::GroupSpatialObject< NDimensions >    SpatialObjectType;
-  typedef typename SpatialObjectType::TransformType TransformType;
+private:
+  MetaGroupConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
-
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaGroupToGroupSpatialObject(MetaGroup *group);
-
-  MetaGroup * GroupSpatialObjectToMetaGroup(SpatialObjectType *spatialObject);
 };
 } // end namespace itk
 

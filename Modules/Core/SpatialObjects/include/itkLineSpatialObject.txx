@@ -46,16 +46,6 @@ LineSpatialObject< TDimension >
 ::~LineSpatialObject()
 {}
 
-/** Returns a reference to the list of the Line points. */
-template< unsigned int TDimension >
-typename LineSpatialObject< TDimension >::PointListType &
-LineSpatialObject< TDimension >
-::GetPoints()
-{
-  itkDebugMacro("Getting LinePoint list");
-  return m_Points;
-}
-
 /** Set the list of Line points. */
 template< unsigned int TDimension >
 void

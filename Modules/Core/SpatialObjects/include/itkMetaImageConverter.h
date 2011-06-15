@@ -22,35 +22,67 @@
 // to avoid an Internal Compiler Error in Visual Studio 6.0
 //
 #include "metaImage.h"
-#include "itkImageMaskSpatialObject.h"
+#include "itkMetaConverterBase.h"
+#include "itkImageSpatialObject.h"
+#include "itkMetaConverterBase.h"
 
 namespace itk
 {
-template< unsigned int NDimensions = 3, class PixelType = unsigned char >
-class ITK_EXPORT MetaImageConverter
+
+/** \class MetaImageConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
+template< unsigned int NDimensions = 3,
+          typename TPixel = unsigned char,
+          typename TSpatialObjectType = ImageSpatialObject< NDimensions,TPixel > >
+class ITK_EXPORT MetaImageConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
+  /** Standard class typedefs */
+  typedef MetaImageConverter               Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaImageConverter, MetaConverterBase);
+
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
+
+  /** Specific class types for conversion */
+  typedef TSpatialObjectType                            ImageSpatialObjectType;
+  typedef typename ImageSpatialObjectType::Pointer      ImageSpatialObjectPointer;
+  typedef typename ImageSpatialObjectType::ConstPointer ImageSpatialObjectConstPointer;
+  typedef MetaImage                                     ImageMetaObjectType;
+  typedef Image<TPixel,NDimensions>                     ImageType;
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
+  virtual const char *GetMetaObjectSubType();
+
+  typename ImageType::Pointer AllocateImage(const ImageMetaObjectType *image);
 
   MetaImageConverter();
   ~MetaImageConverter() {}
 
-  typedef itk::ImageSpatialObject< NDimensions, PixelType > SpatialObjectType;
-  typedef typename SpatialObjectType::TransformType         TransformType;
-  typedef itk::ImageMaskSpatialObject< NDimensions >        MaskSpatialObjectType;
-
-  typedef typename SpatialObjectType::Pointer     SpatialObjectPointer;
-  typedef typename MaskSpatialObjectType::Pointer MaskSpatialObjectPointer;
-
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaImageToImageSpatialObject(MetaImage *image);
-
-  MaskSpatialObjectPointer MetaImageToImageMaskSpatialObject(MetaImage *image);
-
-  MetaImage * ImageSpatialObjectToMetaImage(SpatialObjectType *spatialObject);
+private:
+  MetaImageConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -10,6 +10,7 @@ itk_module(ITK-SpatialObjects
     ITK-ImageFunction
     ITK-Mesh
     ITK-IO-Base
+    ITK-MetaIO
   TEST_DEPENDS
     ITK-TestKernel
   DESCRIPTION

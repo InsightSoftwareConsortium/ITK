@@ -33,14 +33,28 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 ::MetaMeshConverter()
 {}
 
+template < unsigned int NDimensions, typename PixelType, typename TMeshTraits >
+typename MetaMeshConverter< NDimensions, PixelType, TMeshTraits >::MetaObjectType *
+MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new MeshMetaObjectType);
+}
+
 /** Convert a metaMesh into an Mesh SpatialObject  */
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
-typename
-MetaMeshConverter< NDimensions, PixelType, TMeshTraits >::SpatialObjectPointer
+typename MetaMeshConverter< NDimensions, PixelType, TMeshTraits >::SpatialObjectPointer
 MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
-::MetaMeshToMeshSpatialObject(MetaMesh *_mesh)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  typename SpatialObjectType::Pointer meshSO = SpatialObjectType::New();
+  const MeshMetaObjectType *_mesh =
+    dynamic_cast<const MeshMetaObjectType *>(mo);
+  if(_mesh == 0)
+    {
+    itkExceptionMacro(<< "Can't convert MetaObject to MetaMesh");
+    }
+
+  typename MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
 
   double spacing[NDimensions];
 
@@ -62,7 +76,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   typename MeshType::Pointer mesh = MeshType::New();
 
   // Add Points
-  typedef typename MetaMesh::PointListType PointListType;
+  typedef typename MeshMetaObjectType::PointListType PointListType;
   const PointListType points = _mesh->GetPoints();
   typename PointListType::const_iterator it_points = points.begin();
 
@@ -206,18 +220,25 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 
   // Add the mesh
   meshSO->SetMesh(mesh);
-  return meshSO;
+  return meshSO.GetPointer();
 }
 
 /** Convert an Mesh SpatialObject into a metaMesh */
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
-MetaMesh *
+typename MetaMeshConverter< NDimensions, PixelType, TMeshTraits >::MetaObjectType *
 MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
-::MeshSpatialObjectToMetaMesh(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *so)
 {
-  MetaMesh *metamesh = new MetaMesh(NDimensions);
+  const MeshSpatialObjectConstPointer meshSO =
+    dynamic_cast<const MeshSpatialObjectType *>(so);
 
-  typename MeshType::Pointer mesh = spatialObject->GetMesh();
+  if(meshSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to MeshSpatialObject");
+    }
+  MeshMetaObjectType *metamesh = new MeshMetaObjectType(NDimensions);
+
+  typename MeshType::ConstPointer mesh = meshSO->GetMesh();
 
   if ( !mesh )
     {
@@ -227,7 +248,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
     }
 
   // fill in the Mesh information
-  metamesh->ID( spatialObject->GetId() );
+  metamesh->ID( meshSO->GetId() );
 
   // Add Points
   typedef typename MeshType::PointsContainer PointsContainer;
@@ -371,33 +392,6 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   return metamesh;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
-typename MetaMeshConverter< NDimensions, PixelType,
-                            TMeshTraits >::SpatialObjectPointer
-MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaMesh *           Mesh = new MetaMesh();
-
-  Mesh->Read(name);
-  spatialObject = MetaMeshToMeshSpatialObject(Mesh);
-
-  return spatialObject;
-}
-
-/** Write a meta Mesh file */
-template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
-bool
-MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaMesh *mesh = MeshSpatialObjectToMetaMesh(spatialObject);
-
-  mesh->Write(name);
-  return true;
-}
 } // end namespace itk
 
 #endif

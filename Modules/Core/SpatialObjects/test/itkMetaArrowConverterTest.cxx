@@ -116,7 +116,11 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   //
   // test itk to metaArrow
   //
-  MetaArrow* newMetaArrow = converter->ArrowSpatialObjectToMetaArrow(itkArrow);
+  MetaArrow* newMetaArrow = dynamic_cast<MetaArrow *>(converter->SpatialObjectToMetaObject(itkArrow));
+  if(newMetaArrow == 0)
+    {
+    itkGenericExceptionMacro(<< "Failed to downcast from MetaObject to MetaArrow");
+    }
 
   // check length
   double metaLength = newMetaArrow->Length();
@@ -190,7 +194,8 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   //
   // test metaArrow to itk
   //
-  SpatialObjectType::Pointer newItkArrow = converter->MetaArrowToArrowSpatialObject(metaArrow);
+  SpatialObjectType::Pointer newItkArrow =
+    dynamic_cast<SpatialObjectType *>(converter->MetaObjectToSpatialObject(metaArrow).GetPointer());
 
   // check length
   if (vcl_fabs(newItkArrow->GetLength() - metaArrow->Length()) > precisionLimit)
@@ -266,12 +271,11 @@ int itkMetaArrowConverterTest(int ac, char* av[])
     }
   std::cout << "[PASSED] SpatialObject write as MetaObject" << std::endl;
 
-
-
   //
   // test reading
   //
-  SpatialObjectType::Pointer reLoad = converter->ReadMeta(av[1]);
+  SpatialObjectType::Pointer reLoad =
+    dynamic_cast<SpatialObjectType *>(converter->ReadMeta(av[1]).GetPointer());
 
   // check length
   if (vcl_fabs(reLoad->GetLength() - length) > precisionLimit)
@@ -326,8 +330,6 @@ int itkMetaArrowConverterTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED]  Reading: direction" << std::endl;
-
-
 
   // All tests executed successfully
   return EXIT_SUCCESS;

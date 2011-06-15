@@ -22,9 +22,22 @@
 #include "itkMetaEvent.h"
 #include "itkSceneSpatialObject.h"
 #include "itkDefaultStaticMeshTraits.h"
+#include "itkMetaConverterBase.h"
+#include <string>
+#include <map>
 
 namespace itk
 {
+/** \class MetaSceneConverter
+ *  \brief converts between MetaObject and SpaitalObject scenes
+ *
+ *  SpatialObject hierarchies are written to disk using the MetaIO
+ *  library. This class is responsible for converting between MetaIO
+ *  scenes and SpatialObject scenes
+ *
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions,
           typename PixelType = unsigned char,
           typename TMeshTraits =
@@ -34,16 +47,24 @@ class ITK_EXPORT MetaSceneConverter
 {
 public:
 
+  /** SpatialObject Scene types */
+  typedef itk::SceneSpatialObject< NDimensions > SceneType;
+  typedef typename  SceneType::Pointer           ScenePointer;
+
+  /** Typedef for auxiliary conversion classes */
+  typedef MetaConverterBase< NDimensions >              MetaConverterBaseType;
+  typedef typename MetaConverterBaseType::Pointer       MetaConverterPointer;
+  typedef std::map< std::string, MetaConverterPointer > ConverterMapType;
+
   MetaSceneConverter();
   ~MetaSceneConverter();
 
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 
-  typedef itk::SceneSpatialObject< NDimensions > SceneType;
-  typedef typename  SceneType::Pointer           ScenePointer;
-
+  /** Read a MetaFile and create a Scene SpatialObject */
   ScenePointer ReadMeta(const char *name);
 
+  /** write out a Scene SpatialObject */
   bool WriteMeta(SceneType *scene, const char *fileName,
                  unsigned int depth = MaximumDepth,
                  char *spatialObjectTypeName = NULL);
@@ -54,11 +75,11 @@ public:
   /** Set if the points should be saved in binary/ASCII */
   void SetBinaryPoints(bool binary) { m_BinaryPoints = binary; }
 
+  /** set/get the precision for writing out numbers as plain text */
   void SetTransformPrecision(unsigned int precision)
   {
     m_TransformPrecision = precision;
   }
-
   unsigned int GetTransformPrecision(){ return m_TransformPrecision; }
 
   /** Set if the images should be written in different files */
@@ -66,7 +87,21 @@ public:
   {
     m_WriteImagesInSeparateFile = separate;
   }
+  /** add new SpatialObject/MetaObject converters at runtime
+   *
+   *  Every Converter is mapped to both a metaObject type name
+   * and a spatialObject type name -- these need to match what
+   * gets read from & written to the MetaIO file
+   */
+  void RegisterMetaConverter(const char *metaTypeName,
+                             const char *spatialObjectTypeName,
+                             MetaConverterBaseType *converter);
 
+  MetaScene * CreateMetaScene(SceneType *scene,
+                              unsigned int depth = MaximumDepth,
+                              char *name = NULL);
+
+  ScenePointer CreateSpatialObjectScene(MetaScene *scene);
 private:
 
   typedef itk::SpatialObject< NDimensions >         SpatialObjectType;
@@ -75,12 +110,20 @@ private:
 
   typedef std::list< MetaObject * > MetaObjectListType;
 
-  MetaScene * CreateMetaScene(SceneType *scene,
-                              unsigned int depth = MaximumDepth,
-                              char *name = NULL);
-
-  ScenePointer CreateSpatialObjectScene(MetaScene *scene);
-
+  template <typename TConverter>
+    MetaObject *SpatialObjectToMetaObject(SpatialObjectPointer &so)
+  {
+    typename TConverter::Pointer converter = TConverter::New();
+    // needed just for Image & ImageMask
+    converter->SetWriteImagesInSeparateFile(this->m_WriteImagesInSeparateFile);
+    return converter->SpatialObjectToMetaObject(so.GetPointer());
+  }
+  template <typename TConverter>
+    SpatialObjectPointer MetaObjectToSpatialObject(const MetaObject *mo)
+  {
+    typename TConverter::Pointer converter = TConverter::New();
+    return converter->MetaObjectToSpatialObject(mo);
+  }
   void SetTransform(MetaObject *obj, TransformType *transform);
 
   void SetTransform(SpatialObjectType *so, MetaObject *obj);
@@ -89,10 +132,11 @@ private:
   double m_Position[10];
   double m_CenterOfRotation[10];
 
-  MetaEvent *  m_Event;
-  bool         m_BinaryPoints;
-  bool         m_WriteImagesInSeparateFile;
-  unsigned int m_TransformPrecision;
+  MetaEvent *      m_Event;
+  bool             m_BinaryPoints;
+  bool             m_WriteImagesInSeparateFile;
+  unsigned int     m_TransformPrecision;
+  ConverterMapType m_ConverterMap;
 };
 } // end namespace itk
 

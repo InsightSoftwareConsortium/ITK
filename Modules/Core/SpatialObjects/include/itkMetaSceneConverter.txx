@@ -25,7 +25,9 @@
 #include "itkMetaVesselTubeConverter.h"
 #include "itkMetaGroupConverter.h"
 #include "itkMetaImageConverter.h"
+#include "itkMetaImageMaskConverter.h"
 #include "itkMetaBlobConverter.h"
+#include "itkMetaGaussianConverter.h"
 #include "itkMetaMeshConverter.h"
 #include "itkMetaLandmarkConverter.h"
 #include "itkMetaLineConverter.h"
@@ -33,7 +35,6 @@
 #include "itkMetaLandmarkConverter.h"
 #include "itkMetaArrowConverter.h"
 #include "itkMetaContourConverter.h"
-
 
 #include <algorithm>
 
@@ -136,145 +137,94 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
   MetaScene::ObjectListType::iterator it = list->begin();
   MetaScene::ObjectListType::iterator itEnd = list->end();
 
+  SpatialObjectPointer currentSO;
+
   while ( it != itEnd )
     {
+    const std::string objectTypeName(( *it )->ObjectTypeName());
+    const std::string objectSubTypeName(( *it )->ObjectSubTypeName());
     /** New object goes here */
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Tube", 4 ) )
+    if ( objectTypeName == "Tube" )
       {
       // If there is the subtype is a vessel
-      if ( !strncmp( ( *it )->ObjectSubTypeName(), "Vessel", 6 ) )
+      if ( objectSubTypeName == "Vessel" )
         {
-        MetaVesselTubeConverter< NDimensions > tubeConverter;
-        typename itk::VesselTubeSpatialObject< NDimensions >::Pointer so =
-          tubeConverter.MetaVesselTubeToVesselTubeSpatialObject(
-            (MetaVesselTube *)*it);
-        this->SetTransform(so, *it);
-        soScene->AddSpatialObject(so);
+        currentSO = this->MetaObjectToSpatialObject<MetaVesselTubeConverter< NDimensions > > ( *it );
         }
-      else if ( !strncmp( ( *it )->ObjectSubTypeName(), "DTI", 3 ) )
+      else if ( objectSubTypeName == "DTI" )
         {
-        MetaDTITubeConverter< NDimensions > tubeConverter;
-        typename itk::DTITubeSpatialObject< NDimensions >::Pointer so =
-          tubeConverter.MetaDTITubeToDTITubeSpatialObject(
-            (MetaDTITube *)*it);
-        this->SetTransform(so, *it);
-        soScene->AddSpatialObject(so);
+        currentSO = this->MetaObjectToSpatialObject< MetaDTITubeConverter<NDimensions> > ( *it );
         }
       else
         {
-        MetaTubeConverter< NDimensions > tubeConverter;
-        typename itk::TubeSpatialObject< NDimensions >::Pointer so =
-          tubeConverter.MetaTubeToTubeSpatialObject( (MetaTube *)*it );
-        this->SetTransform(so, *it);
-        soScene->AddSpatialObject(so);
+        currentSO = this->MetaObjectToSpatialObject< MetaTubeConverter<NDimensions> > ( *it );
         }
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Group", 5 )
-         || !strncmp( ( *it )->ObjectTypeName(), "AffineTransform", 15 ) )
+    else if ( objectTypeName == "Group" || objectTypeName == "AffineTransform" )
       {
-      MetaGroupConverter< NDimensions > groupConverter;
-      typename itk::GroupSpatialObject< NDimensions >::Pointer so =
-        groupConverter.MetaGroupToGroupSpatialObject( (MetaGroup *)*it );
-      this->SetTransform(so, *it);
-      soScene->AddSpatialObject(so);
+      currentSO = this->MetaObjectToSpatialObject< MetaGroupConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Ellipse", 7 ) )
+    else if ( objectTypeName == "Ellipse" )
       {
-      MetaEllipseConverter< NDimensions > ellipseConverter;
-      typename itk::EllipseSpatialObject< NDimensions >::Pointer so =
-        ellipseConverter.MetaEllipseToEllipseSpatialObject( (MetaEllipse *)*it );
-      this->SetTransform(so, *it);
-      soScene->AddSpatialObject(so);
+      currentSO = this->MetaObjectToSpatialObject< MetaEllipseConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Arrow", 5 ) )
+    else if ( objectTypeName == "Arrow" )
       {
-      typedef MetaArrowConverter< NDimensions > MetaArrowConverterType;
-      typename MetaArrowConverterType::Pointer arrowConverter = MetaArrowConverterType::New();
-      typename itk::ArrowSpatialObject< NDimensions >::Pointer so =
-        arrowConverter->MetaArrowToArrowSpatialObject( (MetaArrow *)*it );
-      this->SetTransform(so, *it);
-      soScene->AddSpatialObject(so);
+      currentSO = this->MetaObjectToSpatialObject< MetaArrowConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Image", 5 ) )
+    else if ( objectTypeName == "Image" )
       {
       // If there is the subtype is a mask
-      if ( !strncmp( ( *it )->ObjectSubTypeName(), "Mask", 6 ) )
+      if ( objectSubTypeName == "Mask" )
         {
-        MetaImageConverter< NDimensions, unsigned char > imageConverter;
-        typename itk::ImageMaskSpatialObject< NDimensions >::Pointer so =
-          imageConverter.MetaImageToImageMaskSpatialObject( (MetaImage *)*it );
-        this->SetTransform(so, *it);
-        soScene->AddSpatialObject(so);
+        currentSO = this->MetaObjectToSpatialObject< MetaImageMaskConverter< NDimensions > > ( *it );
         }
       else
         {
-        MetaImageConverter< NDimensions, PixelType > imageConverter;
-        typename itk::ImageSpatialObject< NDimensions, PixelType >::Pointer so =
-          imageConverter.MetaImageToImageSpatialObject( (MetaImage *)*it );
-        this->SetTransform(so, *it);
-        soScene->AddSpatialObject(so);
+        currentSO = this->MetaObjectToSpatialObject< MetaImageConverter<NDimensions,PixelType> > ( *it );
         }
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Blob", 4 ) )
+    else if ( objectTypeName == "Blob" )
       {
-      MetaBlobConverter< NDimensions > blobConverter;
-      typename itk::BlobSpatialObject< NDimensions >::Pointer
-      so = blobConverter.MetaBlobToBlobSpatialObject( (MetaBlob *)*it );
-      this->SetTransform(so, *it);
-      soScene->AddSpatialObject( (SpatialObjectType *)so.GetPointer() );
+      currentSO = this->MetaObjectToSpatialObject< MetaBlobConverter<NDimensions> > ( *it );
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Landmark", 8 ) )
+    else if ( objectTypeName == "Gaussian" )
       {
-      MetaLandmarkConverter< NDimensions > landmarkConverter;
-      typename itk::LandmarkSpatialObject< NDimensions >::Pointer
-      so = landmarkConverter.MetaLandmarkToLandmarkSpatialObject(
-        (MetaLandmark *)*it);
-      soScene->AddSpatialObject( (SpatialObjectType *)so.GetPointer() );
+      currentSO = this->MetaObjectToSpatialObject< MetaGaussianConverter<NDimensions> > ( *it );
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Surface", 7 ) )
+    else if ( objectTypeName == "Landmark" )
       {
-      MetaSurfaceConverter< NDimensions > surfaceConverter;
-      typename itk::SurfaceSpatialObject< NDimensions >::Pointer so =
-        surfaceConverter.MetaSurfaceToSurfaceSpatialObject( (MetaSurface *)*it );
-      this->SetTransform(so, *it);
-      soScene->AddSpatialObject(so);
+      currentSO = this->MetaObjectToSpatialObject< MetaLandmarkConverter<NDimensions> > ( *it );
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Line", 4 ) )
+    else if ( objectTypeName == "Surface" )
       {
-      MetaLineConverter< NDimensions > lineConverter;
-      typename itk::LineSpatialObject< NDimensions >::Pointer so =
-        lineConverter.MetaLineToLineSpatialObject( (MetaLine *)*it );
-      this->SetTransform(so, *it);
-      soScene->AddSpatialObject(so);
+      currentSO = this->MetaObjectToSpatialObject< MetaSurfaceConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Mesh", 4 ) )
+    else if ( objectTypeName == "Line" )
       {
-      typedef itk::Mesh< PixelType, NDimensions, TMeshTraits > MeshType;
-      MetaMeshConverter< NDimensions, PixelType, TMeshTraits > meshConverter;
-      typename itk::MeshSpatialObject< MeshType >::Pointer so =
-        meshConverter.MetaMeshToMeshSpatialObject( (MetaMesh *)*it );
-      this->SetTransform(so, *it);
-      soScene->AddSpatialObject(so);
+      currentSO = this->MetaObjectToSpatialObject< MetaLineConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->ObjectTypeName(), "Contour", 7 ) )
+    else if ( objectTypeName == "Mesh" )
       {
-      MetaContourConverter< NDimensions > contourConverter;
-      typename itk::ContourSpatialObject< NDimensions >::Pointer
-      so = contourConverter.MetaContourToContourSpatialObject(
-        (MetaContour *)*it);
-      soScene->AddSpatialObject( (SpatialObjectType *)so.GetPointer() );
+      currentSO = this->MetaObjectToSpatialObject< MetaMeshConverter< NDimensions, PixelType, TMeshTraits > > ( *it );
       }
+    else if ( objectTypeName == "Contour" )
+      {
+      currentSO = this->MetaObjectToSpatialObject< MetaContourConverter< NDimensions > > ( *it );
+      }
+    else
+      {
+      typename ConverterMapType::iterator converterIt = this->m_ConverterMap.find(objectTypeName);
 
+      if(converterIt == this->m_ConverterMap.end())
+        {
+        itkGenericExceptionMacro(<< "Unable to find MetaObject -> SpatialObject converter for "
+                          << objectTypeName);
+        }
+      currentSO = converterIt->second->MetaObjectToSpatialObject( *it );
+      }
+    this->SetTransform(currentSO, *it);
+    soScene->AddSpatialObject(currentSO);
     it++;
     }
 
@@ -325,244 +275,90 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
   typename ListType::iterator it = childrenList->begin();
   typename ListType::iterator itEnd = childrenList->end();
 
+  MetaObject *currentMeta;
+
   while ( it != itEnd )
     {
-    if ( !strncmp( ( *it )->GetTypeName(), "GroupSpatialObject", 18 )
-         || !strncmp( ( *it )->GetTypeName(), "AffineTransformSpatialObject", 28 ) )
+    std::string spatialObjectTypeName( ( *it )->GetTypeName() );
+    if ( spatialObjectTypeName == "GroupSpatialObject"
+         || spatialObjectTypeName == "AffineTransformSpatialObject" )
       {
-      MetaGroupConverter< NDimensions > converter;
-      MetaGroup *                       group = converter.GroupSpatialObjectToMetaGroup(
-        dynamic_cast< itk::GroupSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        group->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      group->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( group, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(group);
+      currentMeta = this->SpatialObjectToMetaObject< MetaGroupConverter< NDimensions > > ( *it );
       }
-    if ( !strncmp( ( *it )->GetTypeName(), "TubeSpatialObject", 17 ) )
+    else if ( spatialObjectTypeName == "TubeSpatialObject" )
       {
-      MetaTubeConverter< NDimensions > converter;
-      MetaTube *                       tube = converter.TubeSpatialObjectToMetaTube(
-        dynamic_cast< itk::TubeSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        tube->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      tube->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( tube, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(tube);
+      currentMeta = this->SpatialObjectToMetaObject< MetaTubeConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "VesselTubeSpatialObject", 23 ) )
+    else if ( spatialObjectTypeName == "VesselTubeSpatialObject" )
       {
-      MetaVesselTubeConverter< NDimensions > converter;
-      MetaVesselTube *                       tube = converter.VesselTubeSpatialObjectToMetaVesselTube(
-        dynamic_cast< itk::VesselTubeSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        tube->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      tube->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( tube, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(tube);
+      currentMeta = this->SpatialObjectToMetaObject< MetaVesselTubeConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "DTITubeSpatialObject", 20 ) )
+    else if ( spatialObjectTypeName == "DTITubeSpatialObject" )
       {
-      MetaDTITubeConverter< NDimensions > converter;
-      MetaDTITube *                       tube = converter.DTITubeSpatialObjectToMetaDTITube(
-        dynamic_cast< itk::DTITubeSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        tube->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      tube->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( tube, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(tube);
+      currentMeta = this->SpatialObjectToMetaObject< MetaDTITubeConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "EllipseSpatialObject", 20 ) )
+    else if ( spatialObjectTypeName == "EllipseSpatialObject" )
       {
-      MetaEllipseConverter< NDimensions > converter;
-      MetaEllipse *                       ellipse = converter.EllipseSpatialObjectToMetaEllipse(
-        dynamic_cast< itk::EllipseSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-
-      if ( ( *it )->GetParent() )
-        {
-        ellipse->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      ellipse->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( ellipse, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(ellipse);
+      currentMeta = this->SpatialObjectToMetaObject< MetaEllipseConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "ArrowSpatialObject", 18 ) )
+    else if ( spatialObjectTypeName == "ArrowSpatialObject" )
       {
-      typedef MetaArrowConverter< NDimensions > MetaArrowConverterType;
-      typename MetaArrowConverterType::Pointer arrowConverter = MetaArrowConverterType::New();
-      MetaArrow * arrow = arrowConverter->ArrowSpatialObjectToMetaArrow(
-        dynamic_cast< itk::ArrowSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-
-      if ( ( *it )->GetParent() )
-        {
-        arrow->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      arrow->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( arrow, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(arrow);
+      currentMeta = this->SpatialObjectToMetaObject< MetaArrowConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "ImageSpatialObject", 17 )
-         || !strncmp( ( *it )->GetTypeName(), "ImageMaskSpatialObject", 21 ) )
+    else if ( spatialObjectTypeName == "ImageSpatialObject" )
       {
-      MetaImage *image;
-      if ( !strncmp( ( *it )->GetTypeName(), "ImageMaskSpatialObject", 21 ) )
-        {
-        MetaImageConverter< NDimensions, unsigned char > converter;
-        image = converter.ImageSpatialObjectToMetaImage(
-          dynamic_cast< itk::ImageSpatialObject< NDimensions, unsigned char > * >(
-            ( *it ).GetPointer() ) );
-        image->ObjectSubTypeName("Mask");
-        }
-      else
-        {
-        MetaImageConverter< NDimensions, PixelType > converter;
-        image = converter.ImageSpatialObjectToMetaImage(
-          dynamic_cast< itk::ImageSpatialObject< NDimensions, PixelType > * >(
-            ( *it ).GetPointer() ) );
-        }
-
-      if ( ( *it )->GetParent() )
-        {
-        image->ParentID( ( *it )->GetParent()->GetId() );
-        }
-
-      if ( m_WriteImagesInSeparateFile )
-        {
-        if ( ( *it )->GetProperty()->GetName().size() == 0 )
-          {
-          std::cout << "Error: you should set the image name when using"
-                    << " WriteImagesInSeparateFile." << std::endl;
-          std::cout << "The image will be written locally." << std::endl;
-          image->ElementDataFileName("LOCAL");
-          }
-        else
-          {
-          std::string filename = ( *it )->GetProperty()->GetName();
-          filename += ".raw";
-          image->ElementDataFileName( filename.c_str() );
-          }
-        }
-      else
-        {
-        image->ElementDataFileName("LOCAL");
-        }
-
-      image->BinaryData(true);
-      image->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( image, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(image);
+      currentMeta = this->SpatialObjectToMetaObject< MetaImageConverter< NDimensions, PixelType > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "BlobSpatialObject", 17 ) )
+    else if ( spatialObjectTypeName == "ImageMaskSpatialObject" )
       {
-      MetaBlobConverter< NDimensions > converter;
-      MetaBlob *                       blob = converter.BlobSpatialObjectToMetaBlob(
-        dynamic_cast< itk::BlobSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        blob->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      blob->BinaryData(true);
-      blob->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( blob, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(blob);
+      currentMeta = this->SpatialObjectToMetaObject< MetaImageMaskConverter< NDimensions > > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "LandmarkSpatialObject", 20 ) )
+    else if ( spatialObjectTypeName == "BlobSpatialObject" )
       {
-      MetaLandmarkConverter< NDimensions > converter;
-      MetaLandmark *                       landmark = converter.LandmarkSpatialObjectToMetaLandmark(
-        dynamic_cast< itk::LandmarkSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        landmark->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      landmark->BinaryData(true);
-      landmark->Name( ( *it )->GetProperty()->GetName().c_str() );
-      metaScene->AddObject(landmark);
+      currentMeta = this->SpatialObjectToMetaObject< MetaBlobConverter<NDimensions> > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "ContourSpatialObject", 20 ) )
+    else if ( spatialObjectTypeName == "GaussianSpatialObject" )
       {
-      MetaContourConverter< NDimensions > converter;
-      MetaContour *                       contour = converter.ContourSpatialObjectToMetaContour(
-        dynamic_cast< itk::ContourSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        contour->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      contour->BinaryData(true);
-      contour->Name( ( *it )->GetProperty()->GetName().c_str() );
-      metaScene->AddObject(contour);
+      currentMeta = this->SpatialObjectToMetaObject< MetaGaussianConverter<NDimensions> > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "SurfaceSpatialObject", 20 ) )
+    else if ( spatialObjectTypeName == "LandmarkSpatialObject" )
       {
-      MetaSurfaceConverter< NDimensions > converter;
-      MetaSurface *                       surface = converter.SurfaceSpatialObjectToMetaSurface(
-        dynamic_cast< itk::SurfaceSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        surface->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      surface->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( surface, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(surface);
+      currentMeta = this->SpatialObjectToMetaObject< MetaLandmarkConverter<NDimensions> > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "LineSpatialObject", 17 ) )
+    else if ( spatialObjectTypeName == "ContourSpatialObject" )
       {
-      MetaLineConverter< NDimensions > converter;
-      MetaLine *                       line = converter.LineSpatialObjectToMetaLine(
-        dynamic_cast< itk::LineSpatialObject< NDimensions > * >(
-          ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        line->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      line->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( line, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(line);
+      currentMeta = this->SpatialObjectToMetaObject< MetaContourConverter<NDimensions> > ( *it );
       }
-
-    if ( !strncmp( ( *it )->GetTypeName(), "MeshSpatialObject", 17 ) )
+    else if ( spatialObjectTypeName == "SurfaceSpatialObject" )
+      {
+      currentMeta = this->SpatialObjectToMetaObject< MetaSurfaceConverter< NDimensions > > ( *it );
+      }
+    else if ( spatialObjectTypeName == "LineSpatialObject" )
+      {
+      currentMeta = this->SpatialObjectToMetaObject< MetaLineConverter<NDimensions> > ( *it );
+      }
+    else if ( spatialObjectTypeName == "MeshSpatialObject" )
       {
       typedef itk::Mesh< PixelType, NDimensions, TMeshTraits > MeshType;
-      MetaMeshConverter< NDimensions, PixelType, TMeshTraits > converter;
-      MetaMesh *                                               mesh = converter.MeshSpatialObjectToMetaMesh(
-        dynamic_cast< itk::MeshSpatialObject< MeshType > * >( ( *it ).GetPointer() ) );
-      if ( ( *it )->GetParent() )
-        {
-        mesh->ParentID( ( *it )->GetParent()->GetId() );
-        }
-      mesh->Name( ( *it )->GetProperty()->GetName().c_str() );
-      this->SetTransform( mesh, ( *it )->GetObjectToParentTransform() );
-      metaScene->AddObject(mesh);
+      currentMeta = this->SpatialObjectToMetaObject< MetaMeshConverter< NDimensions, PixelType, TMeshTraits > > ( *it );
       }
-
+    else
+      {
+      typename ConverterMapType::iterator converterIt = this->m_ConverterMap.find(spatialObjectTypeName);
+      if(converterIt == this->m_ConverterMap.end())
+        {
+        itkGenericExceptionMacro(<< "Unable to find MetaObject -> SpatialObject converter for "
+                          << spatialObjectTypeName);
+        }
+      currentMeta = converterIt->second->SpatialObjectToMetaObject( *it );
+      }
+    if ( ( *it )->GetParent() )
+      {
+      currentMeta->ParentID( ( *it )->GetParent()->GetId() );
+      }
+    currentMeta->Name( ( *it )->GetProperty()->GetName().c_str() );
+    this->SetTransform( currentMeta, ( *it )->GetObjectToParentTransform() );
+    metaScene->AddObject(currentMeta);
     it++;
     }
 
@@ -586,6 +382,20 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 
   return true;
 }
+
+template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
+void
+MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
+::RegisterMetaConverter(const char *metaTypeName,
+                      const char *spatialObjectTypeName,
+                      MetaConverterBaseType *converter)
+{
+  std::string metaType(metaTypeName);
+  std::string spatialObjectType(spatialObjectTypeName);
+  this->m_ConverterMap[metaType] = converter;
+  this->m_ConverterMap[spatialObjectType] = converter;
+}
+
 } // end namespace itk
 
 #endif

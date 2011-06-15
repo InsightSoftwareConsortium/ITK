@@ -20,32 +20,62 @@
 
 #include "metaLine.h"
 #include "itkLineSpatialObject.h"
-#include "itkSpatialObject.h"
+#include "itkMetaConverterBase.h"
 
 namespace itk
 {
+
+/** \class MetaLineConverter
+ *  \brief converts between MetaObject<->SpatialObject
+ *  \sa MetaConverterBase
+ *  \ingroup ITK-SpatialObjects
+ */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaLineConverter
+class ITK_EXPORT MetaLineConverter :
+    public MetaConverterBase< NDimensions >
 {
 public:
+  /** Standard class typedefs */
+  typedef MetaLineConverter                Self;
+  typedef MetaConverterBase< NDimensions > Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaLineConverter, MetaConverterBase);
+
+  typedef typename Superclass::SpatialObjectType SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
+  typedef typename Superclass::MetaObjectType    MetaObjectType;
+
+  /** Specific class types for conversion */
+  typedef LineSpatialObject<NDimensions>               LineSpatialObjectType;
+  typedef typename LineSpatialObjectType::Pointer      LineSpatialObjectPointer;
+  typedef typename LineSpatialObjectType::ConstPointer LineSpatialObjectConstPointer;
+  typedef MetaLine                                     LineMetaObjectType;
+
+  /** Convert the MetaObject to Spatial Object */
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo);
+
+  /** Convert the SpatialObject to MetaObject */
+  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+
+protected:
+  /** Create the specific MetaObject for this class */
+  virtual MetaObjectType *CreateMetaObject();
 
   MetaLineConverter();
   ~MetaLineConverter() {}
 
-  typedef itk::LineSpatialObject< NDimensions > SpatialObjectType;
+private:
+  MetaLineConverter(const Self &);   //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
-  typedef typename SpatialObjectType::TransformType TransformType;
-
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
-
-  SpatialObjectPointer ReadMeta(const char *name);
-
-  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
-
-  SpatialObjectPointer MetaLineToLineSpatialObject(MetaLine *Line);
-
-  MetaLine * LineSpatialObjectToMetaLine(SpatialObjectType *spatialObject);
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -22,48 +22,62 @@
 
 namespace itk
 {
+
 /** Constructor */
 template< unsigned int NDimensions >
 MetaContourConverter< NDimensions >
 ::MetaContourConverter()
 {}
 
+template< unsigned int NDimensions >
+typename MetaContourConverter< NDimensions >::MetaObjectType *
+MetaContourConverter< NDimensions>
+::CreateMetaObject()
+{
+  return dynamic_cast<MetaObjectType *>(new ContourMetaObjectType);
+}
+
 /** Convert a metaContour into an Contour SpatialObject  */
 template< unsigned int NDimensions >
 typename MetaContourConverter< NDimensions >::SpatialObjectPointer
 MetaContourConverter< NDimensions >
-::MetaContourToContourSpatialObject(MetaContour *Contour)
+::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  typedef itk::ContourSpatialObject< NDimensions > ContourSpatialObjectType;
-  typename ContourSpatialObjectType::Pointer contour =
+  const ContourMetaObjectType *contourMO = dynamic_cast<const MetaContour *>(mo);
+  if(contourMO == 0)
+    {
+    itkExceptionMacro(<< "Can't downcast MetaObject to MetaContour");
+    }
+
+  ContourSpatialObjectPointer contourSO =
     ContourSpatialObjectType::New();
 
   double spacing[NDimensions];
 
-  unsigned int ndims = Contour->NDims();
+  unsigned int ndims = contourMO->NDims();
   for ( unsigned int i = 0; i < ndims; i++ )
     {
-    spacing[i] = Contour->ElementSpacing()[i];
+    spacing[i] = contourMO->ElementSpacing()[i];
     }
-  contour->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  contour->GetProperty()->SetName( Contour->Name() );
-  contour->SetId( Contour->ID() );
-  contour->SetParentId( Contour->ParentID() );
-  contour->GetProperty()->SetRed(Contour->Color()[0]);
-  contour->GetProperty()->SetGreen(Contour->Color()[1]);
-  contour->GetProperty()->SetBlue(Contour->Color()[2]);
-  contour->GetProperty()->SetAlpha(Contour->Color()[3]);
-  contour->SetClosed( Contour->Closed() );
-  contour->SetAttachedToSlice( Contour->AttachedToSlice() );
-  contour->SetDisplayOrientation( Contour->DisplayOrientation() );
+  contourSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  contourSO->GetProperty()->SetName( contourMO->Name() );
+  contourSO->SetId( contourMO->ID() );
+  contourSO->SetParentId( contourMO->ParentID() );
+  contourSO->GetProperty()->SetRed(contourMO->Color()[0]);
+  contourSO->GetProperty()->SetGreen(contourMO->Color()[1]);
+  contourSO->GetProperty()->SetBlue(contourMO->Color()[2]);
+  contourSO->GetProperty()->SetAlpha(contourMO->Color()[3]);
+  contourSO->SetClosed( const_cast<ContourMetaObjectType *>(contourMO)->Closed() );
+  contourSO->SetAttachedToSlice( const_cast<ContourMetaObjectType *>(contourMO)->AttachedToSlice() );
+  contourSO->SetDisplayOrientation( const_cast<ContourMetaObjectType *>(contourMO)->DisplayOrientation() );
 
   // First the control points
   typedef typename ContourSpatialObjectType::ControlPointType ControlPointType;
 
-  typedef MetaContour::ControlPointListType ControlListType;
-  ControlListType::iterator itCP = Contour->GetControlPoints().begin();
+  typename ContourMetaObjectType::ControlPointListType::const_iterator itCP =
+    contourMO->GetControlPoints().begin();
 
-  for ( unsigned int identifier = 0; identifier < Contour->GetControlPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < contourMO->GetControlPoints().size(); identifier++ )
     {
     ControlPointType pnt;
 
@@ -99,17 +113,16 @@ MetaContourConverter< NDimensions >
     pnt.SetPickedPoint(pickedPoint);
     pnt.SetNormal(normal);
 
-    contour->GetControlPoints().push_back(pnt);
+    contourSO->GetControlPoints().push_back(pnt);
     itCP++;
     }
 
   // Then the interpolated points
-  typedef typename ContourSpatialObjectType::InterpolatedPointType InterpolatedPointType;
-  typedef MetaContour::InterpolatedPointListType                   InterpolatedListType;
+  typedef typename ContourSpatialObjectType::InterpolatedPointType  InterpolatedPointType;
+  typename ContourMetaObjectType::InterpolatedPointListType::const_iterator
+    itI = contourMO->GetInterpolatedPoints().begin();
 
-  InterpolatedListType::iterator itI = Contour->GetInterpolatedPoints().begin();
-
-  for ( unsigned int identifier = 0; identifier < Contour->GetInterpolatedPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < contourMO->GetInterpolatedPoints().size(); identifier++ )
     {
     InterpolatedPointType pnt;
 
@@ -131,25 +144,33 @@ MetaContourConverter< NDimensions >
     pnt.SetAlpha( ( *itI )->m_Color[3] );
 
     pnt.SetPosition(point);
-    contour->GetInterpolatedPoints().push_back(pnt);
+    contourSO->GetInterpolatedPoints().push_back(pnt);
     itI++;
     }
 
-  return contour;
+  return contourSO.GetPointer();
 }
 
 /** Convert an Contour SpatialObject into a metaContour */
 template< unsigned int NDimensions >
-MetaContour *
+typename MetaContourConverter< NDimensions>::MetaObjectType *
 MetaContourConverter< NDimensions >
-::ContourSpatialObjectToMetaContour(SpatialObjectType *spatialObject)
+::SpatialObjectToMetaObject(const SpatialObjectType *so)
 {
-  MetaContour *Contour = new MetaContour(NDimensions);
+  ContourSpatialObjectConstPointer contourSO =
+    dynamic_cast<const ContourSpatialObjectType *>(so);
+  if(contourSO.IsNull())
+    {
+    itkExceptionMacro(<< "Can't downcast SpatialObject to ContourSpatialObject");
+    }
+  MetaContour *contourMO = new MetaContour(NDimensions);
+
 
   // fill in the control points information
-  typename SpatialObjectType::ControlPointListType::const_iterator itCP;
-  for ( itCP = dynamic_cast< SpatialObjectType * >( spatialObject )->GetControlPoints().begin();
-        itCP != dynamic_cast< SpatialObjectType * >( spatialObject )->GetControlPoints().end();
+  typename ContourSpatialObjectType::ControlPointListType::const_iterator itCP;
+
+  for ( itCP = contourSO->GetControlPoints().begin();
+        itCP != contourSO->GetControlPoints().end();
         itCP++ )
     {
     ContourControlPnt *pnt = new ContourControlPnt(NDimensions);
@@ -176,22 +197,22 @@ MetaContourConverter< NDimensions >
     pnt->m_Color[2] = ( *itCP ).GetBlue();
     pnt->m_Color[3] = ( *itCP ).GetAlpha();
 
-    Contour->GetControlPoints().push_back(pnt);
+    contourMO->GetControlPoints().push_back(pnt);
     }
 
   if ( NDimensions == 2 )
     {
-    Contour->ControlPointDim("id x y xp yp v1 v2 r g b a");
+    contourMO->ControlPointDim("id x y xp yp v1 v2 r g b a");
     }
   else if ( NDimensions == 3 )
     {
-    Contour->ControlPointDim("id x y z xp yp zp v1 v2 v3 r gn be a");
+    contourMO->ControlPointDim("id x y z xp yp zp v1 v2 v3 r gn be a");
     }
 
   // fill in the interpolated points information
-  typename SpatialObjectType::InterpolatedPointListType::const_iterator itI;
-  for ( itI = dynamic_cast< SpatialObjectType * >( spatialObject )->GetInterpolatedPoints().begin();
-        itI != dynamic_cast< SpatialObjectType * >( spatialObject )->GetInterpolatedPoints().end();
+  typename ContourSpatialObjectType::InterpolatedPointListType::const_iterator itI;
+  for ( itI = contourSO->GetInterpolatedPoints().begin();
+        itI != contourSO->GetInterpolatedPoints().end();
         itI++ )
     {
     ContourInterpolatedPnt *pnt = new ContourInterpolatedPnt(NDimensions);
@@ -207,84 +228,59 @@ MetaContourConverter< NDimensions >
     pnt->m_Color[2] = ( *itI ).GetBlue();
     pnt->m_Color[3] = ( *itI ).GetAlpha();
 
-    Contour->GetInterpolatedPoints().push_back(pnt);
+    contourMO->GetInterpolatedPoints().push_back(pnt);
     }
 
   if ( NDimensions == 2 )
     {
-    Contour->InterpolatedPointDim("id x y r g b a");
+    contourMO->InterpolatedPointDim("id x y r g b a");
     }
   else if ( NDimensions == 3 )
     {
-    Contour->InterpolatedPointDim("id x y z r g b a");
+    contourMO->InterpolatedPointDim("id x y z r g b a");
     }
 
   // Set the interpolation type
-  switch ( spatialObject->GetInterpolationType() )
+  switch ( contourSO->GetInterpolationType() )
     {
-    case SpatialObjectType::EXPLICIT_INTERPOLATION:
-      Contour->Interpolation(MET_EXPLICIT_INTERPOLATION);
+    case ContourSpatialObjectType::EXPLICIT_INTERPOLATION:
+      contourMO->Interpolation(MET_EXPLICIT_INTERPOLATION);
       break;
-    case SpatialObjectType::LINEAR_INTERPOLATION:
-      Contour->Interpolation(MET_LINEAR_INTERPOLATION);
+    case ContourSpatialObjectType::LINEAR_INTERPOLATION:
+      contourMO->Interpolation(MET_LINEAR_INTERPOLATION);
       break;
-    case SpatialObjectType::BEZIER_INTERPOLATION:
-      Contour->Interpolation(MET_BEZIER_INTERPOLATION);
+    case ContourSpatialObjectType::BEZIER_INTERPOLATION:
+      contourMO->Interpolation(MET_BEZIER_INTERPOLATION);
       break;
     default:
-      Contour->Interpolation(MET_NO_INTERPOLATION);
+      contourMO->Interpolation(MET_NO_INTERPOLATION);
     }
 
   float color[4];
   for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i] = spatialObject->GetProperty()->GetColor()[i];
+    color[i] = contourSO->GetProperty()->GetColor()[i];
     }
-  Contour->Color(color);
-  Contour->ID( spatialObject->GetId() );
-  Contour->Closed( spatialObject->GetClosed() );
-  Contour->AttachedToSlice( spatialObject->GetAttachedToSlice() );
-  Contour->DisplayOrientation( spatialObject->GetDisplayOrientation() );
+  contourMO->Color(color);
+  contourMO->ID( contourSO->GetId() );
+  contourMO->Closed( contourSO->GetClosed() );
+  contourMO->AttachedToSlice( contourSO->GetAttachedToSlice() );
+  contourMO->DisplayOrientation( contourSO->GetDisplayOrientation() );
 
-  if ( spatialObject->GetParent() )
+  if ( contourSO->GetParent() )
     {
-    Contour->ParentID( spatialObject->GetParent()->GetId() );
+    contourMO->ParentID( contourSO->GetParent()->GetId() );
     }
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    Contour->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
+    contourMO->ElementSpacing(i, contourSO->GetIndexToObjectTransform()
                             ->GetScaleComponent()[i]);
     }
-  return Contour;
+  contourMO->BinaryData(true);
+  return contourMO;
 }
 
-/** Read a meta file give the type */
-template< unsigned int NDimensions >
-typename MetaContourConverter< NDimensions >::SpatialObjectPointer
-MetaContourConverter< NDimensions >
-::ReadMeta(const char *name)
-{
-  SpatialObjectPointer spatialObject;
-  MetaContour *        Contour = new MetaContour();
-
-  Contour->Read(name);
-  spatialObject = MetaContourToContourSpatialObject(Contour);
-
-  return spatialObject;
-}
-
-/** Write a meta Contour file */
-template< unsigned int NDimensions >
-bool
-MetaContourConverter< NDimensions >
-::WriteMeta(SpatialObjectType *spatialObject, const char *name)
-{
-  MetaContour *Contour = ContourSpatialObjectToMetaContour(spatialObject);
-
-  Contour->Write(name);
-  return true;
-}
 } // end namespace itk
 
 #endif
