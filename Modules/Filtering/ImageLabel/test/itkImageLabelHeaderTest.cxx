@@ -23,6 +23,7 @@
 
 #include "itkChangeLabelImageFilter.txx"
 #include "itkLabelContourImageFilter.txx"
+#include "itkBinaryContourImageFilter.txx"
 
 int itkImageLabelHeaderTest ( int , char * [] )
 {

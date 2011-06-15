@@ -37,7 +37,7 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const int dim = 3;
+  const unsigned int dim = 3;
 
   typedef unsigned char            PType;
   typedef itk::Image< PType, dim > IType;
@@ -90,7 +90,6 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
 
 
   // set the inputs
-
   filter->SetInput( reader->GetOutput() );
 
   filter->FullyConnectedOff();

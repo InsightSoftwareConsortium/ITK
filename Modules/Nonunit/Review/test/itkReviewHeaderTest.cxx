@@ -35,7 +35,6 @@
 #include "itkAutoCropLabelMapFilter.txx"
 #include "itkAutumnColormapFunction.txx"
 #include "itkBinaryClosingByReconstructionImageFilter.txx"
-#include "itkBinaryContourImageFilter.txx"
 #include "itkBinaryFillholeImageFilter.txx"
 #include "itkBinaryGrindPeakImageFilter.txx"
 #include "itkBinaryImageToLabelMapFilter.txx"
