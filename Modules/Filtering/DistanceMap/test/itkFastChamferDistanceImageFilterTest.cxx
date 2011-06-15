@@ -181,8 +181,20 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
 
   //Exercising filter methods
   float inweights[VDimension];
-  inweights[0]=0.926;
-  inweights[1]=1.34;
+  for( unsigned int dim = 0; dim < VDimension; dim++ )
+    {
+    inweights[dim] = 0.;
+    }
+
+  if( VDimension > 0 )
+    {
+    inweights[0]=0.926;
+    }
+
+  if( VDimension > 1 )
+    {
+    inweights[1]=1.34;
+    }
   filter->SetWeights(inweights);
   const float *outweights =  filter->GetWeights().GetDataPointer();
 
