@@ -31,6 +31,29 @@
 namespace itk
 {
 template< class TInputImage, class TOutputImage >
+BinaryContourImageFilter< TInputImage, TOutputImage >
+::BinaryContourImageFilter()
+{
+  m_FullyConnected = false;
+  m_ForegroundValue = NumericTraits< InputImagePixelType >::max();
+  m_BackgroundValue = NumericTraits< OutputImagePixelType >::Zero;
+  m_NumberOfThreads = 0;
+
+  this->SetInPlace(false);
+}
+
+template< class TInputImage, class TOutputImage >
+void
+BinaryContourImageFilter< TInputImage, TOutputImage >
+::Wait()
+{
+  if ( m_NumberOfThreads > 1 )
+    {
+    m_Barrier->Wait();
+    }
+}
+
+template< class TInputImage, class TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -44,7 +67,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
     {
     return;
     }
-  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
+  input->SetRequestedRegionToLargestPossibleRegion();
 }
 
 template< class TInputImage, class TOutputImage >
@@ -52,8 +75,8 @@ void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  OutputImagePointer output = this->GetOutput();
+  output->SetRequestedRegionToLargestPossibleRegion();
 }
 
 template< class TInputImage, class TOutputImage >
@@ -61,30 +84,37 @@ void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  typename TOutputImage::Pointer output = this->GetOutput();
-  typename TInputImage::ConstPointer input = this->GetInput();
+  OutputImagePointer output = this->GetOutput();
+  InputImageConstPointer input = this->GetInput();
 
   ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
+  ThreadIdType maxNumberOfThreads = itk::MultiThreader::GetGlobalMaximumNumberOfThreads();
+  if ( maxNumberOfThreads != 0 )
     {
-    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), maxNumberOfThreads );
     }
   // number of threads can be constrained by the region size, so call the
   // SplitRequestedRegion
   // to get the real number of threads which will be used
-  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call
+  RegionType splitRegion;  // dummy region - just to call
                                                   // the following method
   nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
 
   m_Barrier = Barrier::New();
   m_Barrier->Initialize(nbOfThreads);
-  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+
+  RegionType tempRegion = output->GetRequestedRegion();
+  SizeValueType pixelcount = tempRegion.GetNumberOfPixels();
+
+  SizeValueType xsize = tempRegion.GetSize()[0];
   SizeValueType linecount = pixelcount / xsize;
+
   m_ForegroundLineMap.clear();
   m_ForegroundLineMap.resize(linecount);
+
   m_BackgroundLineMap.clear();
   m_BackgroundLineMap.resize(linecount);
+
   m_NumberOfThreads = nbOfThreads;
 }
 
@@ -94,17 +124,19 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  typename TOutputImage::Pointer output = this->GetOutput();
-  typename TInputImage::ConstPointer input = this->GetInput();
+  OutputImagePointer      output  = this->GetOutput();
+  InputImageConstPointer  input   = this->GetInput();
 
   // create a line iterator
   typedef itk::ImageLinearConstIteratorWithIndex< InputImageType >
-  InputLineIteratorType;
+    InputLineIteratorType;
+
   InputLineIteratorType inLineIt(input, outputRegionForThread);
   inLineIt.SetDirection(0);
 
   typedef itk::ImageLinearIteratorWithIndex< OutputImageType >
-  OutputLineIteratorType;
+    OutputLineIteratorType;
+
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
   outLineIt.SetDirection(0);
 
@@ -115,9 +147,10 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   ProgressReporter progress(this, threadId, linecountForThread * 2);
 
   // find the split axis
-  IndexType outputRegionIdx = output->GetRequestedRegion().GetIndex();
-  IndexType outputRegionForThreadIdx = outputRegionForThread.GetIndex();
-  int       splitAxis = 0;
+  IndexType     outputRegionIdx = output->GetRequestedRegion().GetIndex();
+  IndexType     outputRegionForThreadIdx = outputRegionForThread.GetIndex();
+  unsigned int  splitAxis = 0;
+
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     if ( outputRegionIdx[i] != outputRegionForThreadIdx[i] )
@@ -129,7 +162,10 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   // compute the number of pixels before that thread
   SizeType outputRegionSize = output->GetRequestedRegion().GetSize();
   outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
-  SizeValueType firstLineIdForThread = RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
+
+  SizeValueType firstLineIdForThread =
+    RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
+
   SizeValueType lineId = firstLineIdForThread;
 
   OffsetVec LineOffsets;
@@ -142,24 +178,26 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
     {
     inLineIt.GoToBeginOfLine();
     outLineIt.GoToBeginOfLine();
-    lineEncoding fgLine;
-    lineEncoding bgLine;
+
+    LineEncodingType fgLine;
+    LineEncodingType bgLine;
+
     while ( !inLineIt.IsAtEndOfLine() )
       {
-      InputPixelType PVal = inLineIt.Get();
+      InputImagePixelType PVal = inLineIt.Get();
 
       if ( PVal == m_ForegroundValue )
         {
         // We've hit the start of a run
-        runLength thisRun;
         SizeValueType length = 0;
-        IndexType thisIndex;
-        thisIndex = inLineIt.GetIndex();
+        IndexType thisIndex = inLineIt.GetIndex();
 
         outLineIt.Set(m_BackgroundValue);
+
         ++length;
         ++inLineIt;
         ++outLineIt;
+
         while ( !inLineIt.IsAtEndOfLine()
                 && inLineIt.Get() == m_ForegroundValue )
           {
@@ -169,17 +207,13 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
           ++outLineIt;
           }
         // create the run length object to go in the vector
-        thisRun.length = length;
-        thisRun.where = thisIndex;
-        fgLine.push_back(thisRun);
+        fgLine.push_back( runLength( length, thisIndex ) );
         }
       else
         {
         // We've hit the start of a run
-        runLength thisRun;
         SizeValueType length = 0;
-        IndexType thisIndex;
-        thisIndex = inLineIt.GetIndex();
+        IndexType thisIndex = inLineIt.GetIndex();
 
         outLineIt.Set(PVal);
         ++length;
@@ -194,9 +228,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
           ++outLineIt;
           }
         // create the run length object to go in the vector
-        thisRun.length = length;
-        thisRun.where = thisIndex;
-        bgLine.push_back(thisRun);
+        bgLine.push_back( runLength( length, thisIndex ) );
         }
       }
 
@@ -222,24 +254,28 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
                                         outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread;
     }
 
-  for ( SizeValueType ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx )
+  for ( SizeValueType thisIdx = firstLineIdForThread;
+        thisIdx < lastLineIdForThread;
+        ++thisIdx )
     {
-    if ( !m_ForegroundLineMap[ThisIdx].empty() )
+    if ( !m_ForegroundLineMap[thisIdx].empty() )
       {
       for ( typename OffsetVec::const_iterator I = LineOffsets.begin();
-            I != LineOffsets.end(); ++I )
+            I != LineOffsets.end();
+            ++I )
         {
-        OffsetValueType NeighIdx = ThisIdx + ( *I );
+        OffsetValueType NeighIdx = thisIdx + ( *I );
+
         // check if the neighbor is in the map
         if ( NeighIdx >= 0 && NeighIdx < linecount && !m_BackgroundLineMap[NeighIdx].empty() )
           {
           // Now check whether they are really neighbors
           bool areNeighbors =
-            CheckNeighbors(m_ForegroundLineMap[ThisIdx][0].where, m_BackgroundLineMap[NeighIdx][0].where);
+            CheckNeighbors(m_ForegroundLineMap[thisIdx][0].m_Where, m_BackgroundLineMap[NeighIdx][0].m_Where);
           if ( areNeighbors )
             {
             // Compare the two lines
-            CompareLines(m_ForegroundLineMap[ThisIdx], m_BackgroundLineMap[NeighIdx]);
+            CompareLines(m_ForegroundLineMap[thisIdx], m_BackgroundLineMap[NeighIdx]);
             }
           }
         }
@@ -268,31 +304,38 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   // We are going to mis-use the neighborhood iterators to compute the
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
-  typename TOutputImage::Pointer output = this->GetOutput();
-  typedef Image< OffsetValueType, TOutputImage::ImageDimension - 1 >     PretendImageType;
+  OutputImagePointer output = this->GetOutput();
+
+  const unsigned int PretendDimension = ImageDimension - 1;
+
+  typedef Image< OffsetValueType, PretendDimension >          PretendImageType;
+  typedef typename PretendImageType::Pointer                  PretendImagePointer;
+  typedef typename PretendImageType::RegionType               PretendImageRegionType;
   typedef typename PretendImageType::RegionType::SizeType     PretendSizeType;
   typedef typename PretendImageType::RegionType::IndexType    PretendIndexType;
-  typedef ConstShapedNeighborhoodIterator< PretendImageType > LineNeighborhoodType;
 
-  typename PretendImageType::Pointer fakeImage;
-  fakeImage = PretendImageType::New();
+  PretendImagePointer fakeImage = PretendImageType::New();
 
-  typename PretendImageType::RegionType LineRegion;
+  PretendImageRegionType LineRegion;
   //LineRegion = PretendImageType::RegionType::New();
 
-  OutSizeType OutSize = output->GetRequestedRegion().GetSize();
+  OutputSizeType OutSize = output->GetRequestedRegion().GetSize();
 
   PretendSizeType PretendSize;
+
   // The first dimension has been collapsed
-  for ( unsigned int i = 0; i < PretendSize.GetSizeDimension(); i++ )
+  for ( unsigned int i = 0; i < PretendDimension; i++ )
     {
     PretendSize[i] = OutSize[i + 1];
     }
 
   LineRegion.SetSize(PretendSize);
   fakeImage->SetRegions(LineRegion);
+
   PretendSizeType kernelRadius;
   kernelRadius.Fill(1);
+
+  typedef ConstShapedNeighborhoodIterator< PretendImageType > LineNeighborhoodType;
   LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
 
   setConnectivity(&lnit, m_FullyConnected);
@@ -305,10 +348,12 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   PretendIndexType idx = LineRegion.GetIndex();
   OffsetValueType  offset = fakeImage->ComputeOffset(idx);
 
-  for ( LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); LI++ )
+  for ( LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); ++LI )
     {
-    LineOffsets.push_back(fakeImage->ComputeOffset( idx + lnit.GetOffset(*LI) ) - offset);
+    LineOffsets.push_back(
+      fakeImage->ComputeOffset( idx + lnit.GetOffset(*LI) ) - offset );
     }
+
   LineOffsets.push_back(0);
   // LineOffsets is the thing we wanted.
 }
@@ -322,11 +367,9 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   // this checks whether the line encodings are really neighbors. The
   // first dimension gets ignored because the encodings are along that
   // axis
-  OutputOffsetType Off = A - B;
-
-  for ( unsigned i = 1; i < OutputImageDimension; i++ )
+  for ( unsigned int i = 1; i < ImageDimension; i++ )
     {
-    if ( vnl_math_abs(Off[i]) > 1 )
+    if ( vnl_math_abs( A[i] - B[i] ) > 1 )
       {
       return ( false );
       }
@@ -337,16 +380,17 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
-::CompareLines(lineEncoding & current, const lineEncoding & Neighbour)
+::CompareLines(LineEncodingType & current, const LineEncodingType & Neighbour)
 {
   bool             sameLine = true;
-  OutputOffsetType Off = current[0].where - Neighbour[0].where;
+  OutputOffsetType Off = current[0].m_Where - Neighbour[0].m_Where;
 
-  for ( unsigned i = 1; i < OutputImageDimension; i++ )
+  for ( unsigned int i = 1; i < ImageDimension; i++ )
     {
     if ( Off[i] != 0 )
       {
       sameLine = false;
+      break;
       }
     }
 
@@ -356,24 +400,28 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
     offset = 1;
     }
 
-  typename TOutputImage::Pointer output = this->GetOutput();
+  OutputImagePointer output = this->GetOutput();
 
-  typename lineEncoding::const_iterator nIt, mIt;
-  typename lineEncoding::iterator cIt;
+  // out marker iterator
+  LineEncodingConstIterator mIt = Neighbour.begin();
 
-  mIt = Neighbour.begin(); // out marker iterator
-
-  for ( cIt = current.begin(); cIt != current.end(); ++cIt )
+  for ( LineEncodingIterator cIt = current.begin();
+        cIt != current.end();
+        ++cIt )
     {
-    //runLength cL = *cIt;
-    OffsetValueType cStart = cIt->where[0];  // the start x position
-    OffsetValueType cLast = cStart + cIt->length - 1;
+    // the start x position
+    OffsetValueType cStart = cIt->m_Where[0];
+    OffsetValueType cLast = cStart + cIt->m_Length - 1;
+
     bool lineCompleted = false;
-    for ( nIt = mIt; nIt != Neighbour.end() && !lineCompleted; ++nIt )
+
+    for ( LineEncodingConstIterator nIt = mIt;
+          nIt != Neighbour.end() && !lineCompleted;
+          ++nIt )
       {
-      //runLength nL = *nIt;
-      OffsetValueType nStart = nIt->where[0];
-      OffsetValueType nLast = nStart + nIt->length - 1;
+      OffsetValueType nStart = nIt->m_Where[0];
+      OffsetValueType nLast = nStart + nIt->m_Length - 1;
+
       // there are a few ways that neighbouring lines might overlap
       //   neighbor      S------------------E
       //   current    S------------------------E
@@ -389,9 +437,12 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
       //-------------
       OffsetValueType ss1 = nStart - offset;
       OffsetValueType ee2 = nLast + offset;
+
       bool eq = false;
+
       OffsetValueType oStart = 0;
       OffsetValueType oLast = 0;
+
       // the logic here can probably be improved a lot
       if ( ( ss1 >= cStart ) && ( ee2 <= cLast ) )
         {
@@ -425,8 +476,8 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
       if ( eq )
         {
         itkAssertOrThrowMacro( ( oStart <= oLast ), "Start and Last out of order" );
-        IndexType idx = cIt->where;
-        for ( int x = oStart; x <= oLast; x++ )
+        IndexType idx = cIt->m_Where;
+        for ( OffsetValueType x = oStart; x <= oLast; x++ )
           {
           idx[0] = x;
           output->SetPixel(idx, m_ForegroundValue);

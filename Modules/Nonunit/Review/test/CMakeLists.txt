@@ -12,7 +12,6 @@ itkAttributeRelabelLabelMapFilterTest1.cxx
 itkAttributeUniqueLabelMapFilterTest1.cxx
 itkAutoCropLabelMapFilterTest1.cxx
 itkBinaryClosingByReconstructionImageFilterTest.cxx
-itkBinaryContourImageFilterTest.cxx
 itkBinaryFillholeImageFilterTest1.cxx
 itkBinaryGrindPeakImageFilterTest1.cxx
 itkBinaryImageToLabelMapFilterTest.cxx
@@ -291,16 +290,6 @@ itk_add_test(NAME itkBinaryClosingByReconstructionImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryClosingByReconstructionImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
     itkBinaryClosingByReconstructionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1-bin.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png 0 255 10)
-itk_add_test(NAME itkBinaryContourImageFilterTest0
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryContourImageFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest0.png
-    itkBinaryContourImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest0.png 0 200 0)
-itk_add_test(NAME itkBinaryContourImageFilterTest1
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryContourImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest1.png
-    itkBinaryContourImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest1.png 1 200 0)
 itk_add_test(NAME itkBinaryFillholeImageFilterTest1
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryFillholeImageFilterTest1.png
