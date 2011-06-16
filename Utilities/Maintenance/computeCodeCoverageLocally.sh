@@ -32,10 +32,10 @@ echo "   2)  Compile ITK for Debug      "
 echo "      "
 echo "                     CMAKE_BUILD_TYPE  Debug      "
 echo "      "
-echo "   3)  From the binary directory type the path to this script in the ITK   "
-echo "       source tree.  This will run all tests in ITK and generate code      "
-echo "       coverage for the entire toolkit.  The code coverage report will be  "
-echo "       generated in HTML and can be opened with your favorite browser.     "
+echo "   3)  From the TOP of the binary directory type the path to this script "
+echo "       int the ITK source tree.  This will run all tests in ITK and generate "
+echo "       code coverage for the entire toolkit.  The code coverage report will "
+echo "       be generated in HTML and can be opened with your favorite browser.     "
 echo "    "
 echo "       For example, "
 echo "    "
@@ -52,5 +52,7 @@ ctest
 lcov --directory . --capture --output-file app.info
 lcov --remove app.info '*test*'  '*ThirdParty*' '/usr/*' --output-file  app.info2
 genhtml app.info2
+echo "To view results on Linux, type firefox ./Index.html"
+echo "To view results on Mac, type open ./Index.html"
 
 fi
