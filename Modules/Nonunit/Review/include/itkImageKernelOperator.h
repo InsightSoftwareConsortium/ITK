@@ -45,7 +45,7 @@ namespace itk
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_EXPORT ImageKernelOperator:
+class ITK_EXPORT ImageKernelOperator :
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
@@ -54,6 +54,7 @@ public:
   typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
 
   typedef Image< TPixel, VDimension >            ImageType;
+  typedef typename Superclass::SizeType          SizeType;
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
   /** Constructor. */
@@ -71,12 +72,15 @@ public:
     return *this;
   }
 
-  void SetImageKernel(ImageType *kernel)
-  {
-    this->m_ImageKernel = kernel;
-  }
+  /** Set the image kernel. Only images with odd size in all
+   * dimensions are allowed. If an image with an even size is passed
+   * as an argument, an exception will be thrown. */
+  void SetImageKernel(const ImageType *kernel);
 
-  /** Prints some debugging information. */
+  /** Get the image kernel. */
+  const ImageType * GetImageKernel() const;
+
+  /** Prints information about the object. */
   virtual void PrintSelf(std::ostream & os, Indent i) const
   {
     os << i << "ImageKernelOperator { this=" << this
@@ -85,7 +89,6 @@ public:
   }
 
 protected:
-
   /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients();
 
@@ -93,12 +96,12 @@ protected:
   void Fill(const CoefficientVector & coeff);
 
 private:
-
-  typename ImageType::Pointer m_ImageKernel;
+  typename ImageType::ConstPointer m_ImageKernel;
 
   /** For compatibility with itkWarningMacro */
   const char * GetNameOfClass()
   { return "itkImageKernelOperator"; }
+
 };
 } // namespace itk
 

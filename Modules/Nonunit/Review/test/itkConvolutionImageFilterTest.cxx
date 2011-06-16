@@ -94,7 +94,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
   catch( itk::ExceptionObject & excp )
     {
     std::cout << excp << std::endl;
-    std::cout << "catched EXPECTED exception for emtpy image as input" << std::endl;
+    std::cout << "caught EXPECTED exception for empty image as input" << std::endl;
     }
 
   convoluter->NormalizeOn();

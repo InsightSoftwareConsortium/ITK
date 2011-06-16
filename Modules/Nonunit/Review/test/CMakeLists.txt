@@ -480,6 +480,16 @@ itk_add_test(NAME itkConvolutionImageFilterTestSobelY
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTestSobelY.nii.gz
               ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nii.gz
     itkConvolutionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sobel_y.nii.gz ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nii.gz)
+itk_add_test(NAME itkConvolutionImageFilterTest4x4Mean
+      COMMAND ITK-ReviewTestDriver
+    --compare DATA{Baseline/itkConvolutionImageFilterTest4x4Mean.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4Mean.png
+    itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png DATA{Input/4x4-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4Mean.png 1)
+itk_add_test(NAME itkConvolutionImageFilterTest4x5Mean
+      COMMAND ITK-ReviewTestDriver
+    --compare DATA{Baseline/itkConvolutionImageFilterTest4x5Mean.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5Mean.png
+    itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png DATA{Input/4x5-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5Mean.png 1)
 itk_add_test(NAME itkConvolutionImageFilterTest5x5Mean
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTest5x5Mean.png
