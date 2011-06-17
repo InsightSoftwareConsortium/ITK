@@ -28,6 +28,7 @@ itkEllipseSpatialObjectTest.cxx
 itkMeshSpatialObjectTest.cxx
 itkArrowSpatialObjectTest.cxx
 itkLineSpatialObjectTest.cxx
+itkSpatialObjectTreeContainerIteratorTest.cxx
 )
 
 CreateTestDriver(ITK-SpatialObjects  "${ITK-SpatialObjects-Test_LIBRARIES}" "${ITK-SpatialObjectsTests}")
@@ -92,3 +93,5 @@ itk_add_test(NAME itkArrowSpatialObjectTest
       COMMAND ITK-SpatialObjectsTestDriver itkArrowSpatialObjectTest)
 itk_add_test(NAME itkLineSpatialObjectTest
       COMMAND ITK-SpatialObjectsTestDriver itkLineSpatialObjectTest)
+itk_add_test(NAME itkSpatialObjectTreeContainerIteratorTest
+      COMMAND ITK-SpatialObjectsTestDriver itkSpatialObjectTreeContainerIteratorTest)

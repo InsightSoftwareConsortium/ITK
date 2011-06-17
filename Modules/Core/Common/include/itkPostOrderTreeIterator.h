@@ -65,14 +65,18 @@ template< class TTreeType >
 PostOrderTreeIterator< TTreeType >::PostOrderTreeIterator(TTreeType *tree):
   TreeIteratorBase< TTreeType >(tree, NULL)
 {
-  this->m_Position = const_cast< TreeNode< ValueType > * >( tree->GetRoot() );
-
-  if ( this->m_Position == NULL )
+  if ( tree->GetRoot() == 0 )
     {
-    this->m_Begin = NULL;
+    this->m_Begin = 0;
     }
   else
     {
+    const TreeNodeType *root = dynamic_cast<const TreeNodeType *>(tree->GetRoot());
+    if(root == 0)
+      {
+      itkGenericExceptionMacro(<< "Can't downcast root node to TreeNodeType *");
+      }
+    this->m_Position = const_cast<TreeNodeType *>(root);
     this->m_Position = const_cast< TreeNodeType * >( FindMostRightLeaf(this->m_Position) );
     this->m_Begin = this->m_Position;
     }
@@ -122,8 +126,16 @@ PostOrderTreeIterator< TTreeType >::FindNextNode() const
     {
     return FindMostRightLeaf(sister);
     }
-
-  return this->m_Position->GetParent();
+  if(this->m_Position->GetParent() == 0)
+    {
+    return 0;
+    }
+  TreeNodeType *rval = dynamic_cast<TreeNodeType *>(this->m_Position->GetParent());
+  if(rval == 0)
+    {
+      itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
+    }
+  return rval;
 }
 
 /** Find the sister node */
@@ -136,19 +148,30 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
     return NULL;
     }
 
-  TreeNodeType *parent = node->GetParent();
+  TreeNodeType *parent = dynamic_cast<TreeNodeType *>(node->GetParent());
+  if(parent == 0)
+    {
+    itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
+    }
+
   int           childPosition = parent->ChildPosition(node);
   int           lastChildPosition = parent->CountChildren() - 1;
 
   while ( childPosition < lastChildPosition )
     {
-    TreeNodeType *sister = parent->GetChild(childPosition + 1);
-
-    if ( sister != NULL )
+    if(parent->GetChild(childPosition + 1) == 0)
       {
+      childPosition++;
+      }
+    else
+      {
+      TreeNodeType *sister = dynamic_cast<TreeNodeType *>(parent->GetChild(childPosition + 1));
+      if ( sister == 0)
+      {
+      itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
+      }
       return sister;
       }
-    childPosition++;
     }
   return NULL;
 }
@@ -166,7 +189,18 @@ PostOrderTreeIterator< TTreeType >::FindMostRightLeaf(TreeNodeType *node) const
 
     do
       {
-      helpNode = node->GetChild(i);
+      if(node->GetChild(i) == 0)
+        {
+        helpNode = 0;
+        }
+      else
+        {
+        helpNode = dynamic_cast<TreeNodeType *>(node->GetChild(i));
+       if(helpNode == 0)
+          {
+          itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
+          }
+        }
       i++;
       }
     while ( helpNode == NULL && i < childCount );
