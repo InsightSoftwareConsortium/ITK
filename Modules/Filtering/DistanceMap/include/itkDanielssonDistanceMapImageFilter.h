@@ -34,15 +34,15 @@ namespace itk
  * The input is assumed to contain numeric codes defining objects.
  * The filter will produce as output the following images:
  *
- * \li A Voronoi partition using the same numeric codes as the input.
- * \li A distance map with the approximation to the euclidean distance.
+ * \li A <b>Voronoi partition</b> using the same numeric codes as the input.
+ * \li A <b>distance map</b> with the approximation to the euclidean distance.
  *   from a particular pixel to the nearest object to this pixel
  *   in the input image.
- * \li A vector map containing the component of the vector relating
+ * \li A <b>vector map</b> containing the component of the vector relating
  *   the current pixel with the closest point of the closest object
  *   to this pixel. Given that the components of the distance are
  *   computed in "pixels", the vector is represented by an
- *   itk::Offset.  That is, physical coordinates are not used.
+ *   itk::Offset. That is, physical coordinates are not used.
  *
  * This filter is N-dimensional and known to be efficient
  * in computational time. The algorithm is the N-dimensional version
@@ -76,9 +76,8 @@ public:
   /** Type for input image. */
   typedef   TInputImage InputImageType;
 
-  /** Type for two of the three output images: the VoronoiMap and the
-   * DistanceMap.  */
-  typedef   TOutputImage OutputImageType;
+  /** Type for input image pixel.*/
+  typedef typename InputImageType::PixelType InputPixelType;
 
   /** Type for the region of the input image. */
   typedef typename InputImageType::RegionType RegionType;
@@ -89,8 +88,22 @@ public:
   /** Type for the index of the input image. */
   typedef typename InputImageType::OffsetType OffsetType;
 
+  /** Type for the spacing of the input image. */
+  typedef typename InputImageType::SpacingType      SpacingType;
+  typedef typename InputImageType::SpacingValueType SpacingValueType;
+
   /** Type for the size of the input image. */
   typedef typename RegionType::SizeType SizeType;
+
+  /** Type for one size element of the input image.*/
+  typedef typename SizeType::SizeValueType SizeValueType;
+
+  /** Type for two of the three output images: the VoronoiMap and the
+   * DistanceMap.  */
+  typedef   TOutputImage OutputImageType;
+
+  /** Type for output image pixel.*/
+  typedef typename OutputImageType::PixelType OutputPixelType;
 
   /** The dimension of the input and output images. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -166,15 +179,15 @@ public:
   /** Begin concept checking */
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  itkConceptMacro( UnsignedIntConvertibleToOutputCheck,
-                   ( Concept::Convertible< unsigned int, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( IdentifierTypeConvertibleToOutputCheck,
+                   ( Concept::Convertible< IdentifierType, OutputPixelType > ) );
   itkConceptMacro( IntConvertibleToOutputCheck,
-                   ( Concept::Convertible< int, typename TOutputImage::PixelType > ) );
+                   ( Concept::Convertible< int, OutputPixelType > ) );
   itkConceptMacro( DoubleConvertibleToOutputCheck,
-                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+                   ( Concept::Convertible< double, OutputPixelType > ) );
   itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType > ) );
+                   ( Concept::Convertible< InputPixelType,
+                                           OutputPixelType > ) );
   /** End concept checking */
 #endif
 protected:
