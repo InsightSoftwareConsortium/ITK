@@ -99,15 +99,13 @@ public:
   typedef typename NumericTraits< InputImage1PixelType >::RealType RealType;
 
   /** Set the first input. */
-  void SetInput1(const InputImage1Type *image)
-  { this->SetInput(image); }
+  void SetInput1(const InputImage1Type *image);
 
   /** Set the second input. */
   void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1(void)
-  { return this->GetInput(); }
+  const InputImage1Type * GetInput1(void);
 
   /** Get the second input. */
   const InputImage2Type * GetInput2(void);
@@ -160,15 +158,16 @@ private:
   // implemented
 
   typedef Image< RealType, itkGetStaticConstMacro(ImageDimension) > DistanceMapType;
+  typedef typename DistanceMapType::Pointer                         DistanceMapPointer;
 
-  typename DistanceMapType::Pointer m_DistanceMap;
+  DistanceMapPointer      m_DistanceMap;
 
-  Array< RealType >     m_MaxDistance;
-  Array< unsigned int > m_PixelCount;
-  Array< RealType >     m_Sum;
-  RealType              m_DirectedHausdorffDistance;
-  RealType              m_AverageHausdorffDistance;
-  bool                  m_UseImageSpacing;
+  Array< RealType >       m_MaxDistance;
+  Array< IdentifierType > m_PixelCount;
+  Array< RealType >       m_Sum;
+  RealType                m_DirectedHausdorffDistance;
+  RealType                m_AverageHausdorffDistance;
+  bool                    m_UseImageSpacing;
 }; // end of class
 } // end namespace itk
 
