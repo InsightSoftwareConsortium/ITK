@@ -40,9 +40,26 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 template< class TInputImage1, class TInputImage2 >
 void
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
+::SetInput1(const InputImage1Type *image)
+{
+  this->SetInput( image );
+}
+
+template< class TInputImage1, class TInputImage2 >
+void
+HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput2(const TInputImage2 *image)
 {
   this->SetNthInput( 1, const_cast< TInputImage2 * >( image ) );
+}
+
+template< class TInputImage1, class TInputImage2 >
+const typename HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
+::InputImage1Type *
+HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
+::GetInput1()
+{
+  return this->GetInput();
 }
 
 template< class TInputImage1, class TInputImage2 >
@@ -95,6 +112,8 @@ void
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::GenerateData()
 {
+  ThreadIdType nbthreads = this->GetNumberOfThreads();
+
   // Pass the first input through as the output
   InputImage1Pointer image =
     const_cast< TInputImage1 * >( this->GetInput1() );
@@ -114,6 +133,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 
   filter12->SetInput1( this->GetInput1() );
   filter12->SetInput2( this->GetInput2() );
+  filter12->SetNumberOfThreads( nbthreads );
 
   typedef DirectedHausdorffDistanceImageFilter< InputImage2Type, InputImage1Type >
   Filter21Type;
@@ -122,6 +142,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 
   filter21->SetInput1( this->GetInput2() );
   filter21->SetInput2( this->GetInput1() );
+  filter21->SetNumberOfThreads( nbthreads );
 
   filter12->SetUseImageSpacing(m_UseImageSpacing);
   filter21->SetUseImageSpacing(m_UseImageSpacing);
