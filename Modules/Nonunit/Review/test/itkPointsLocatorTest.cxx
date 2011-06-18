@@ -100,7 +100,7 @@ int itkPointsLocatorTest( int, char*[] )
   std::cout << "Test:  FindPointsWithinRadius()" << std::endl;
 
   pointsLocator->FindPointsWithinRadius( coords, radius, neighborhood );
-  if( neighborhood.size() != 10 )
+  if( neighborhood.size() != 11 )
     {
     std::cerr << "Error with FindPointsWithinRadius()" << std::endl;
     return EXIT_FAILURE;
@@ -109,7 +109,7 @@ int itkPointsLocatorTest( int, char*[] )
   std::cout << "Test:  Search() 2" << std::endl;
 
   pointsLocator->Search( coords, radius, neighborhood );
-  if( neighborhood.size() != 10 )
+  if( neighborhood.size() != 11 )
     {
     std::cerr << "Error with Search() 2" << std::endl;
     return EXIT_FAILURE;

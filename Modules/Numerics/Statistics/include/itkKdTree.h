@@ -59,16 +59,18 @@ namespace Statistics
  * KdTreeTerminalNode
  * \ingroup ITK-Statistics
  */
-template< class TSample >
-struct KdTreeNode {
+template<class TSample>
+
+struct KdTreeNode
+  {
   /** type alias for itself */
-  typedef KdTreeNode< TSample > Self;
+  typedef KdTreeNode<TSample> Self;
 
   /** Measurement type, not the measurement vector type */
   typedef typename TSample::MeasurementType MeasurementType;
 
   /** Centroid type */
-  typedef Array< double > CentroidType;
+  typedef Array<double> CentroidType;
 
   /** Instance identifier type (index value type for the measurement
    * vector in a sample */
@@ -83,34 +85,37 @@ struct KdTreeNode {
    * right child among k dimensions) and the partitionValue (the
    * measurement value on the partitionDimension divides the left and the
    * right child */
-  virtual void GetParameters(unsigned int & partitionDimension,
-                             MeasurementType & partitionValue) const = 0;
+  virtual void GetParameters( unsigned int &, MeasurementType & ) const = 0;
 
   /** Returns the pointer to the left child of this node */
-  virtual Self * Left()       = 0;
+  virtual Self * Left() = 0;
 
+  /** Returns the const pointer to the left child of this node */
   virtual const Self * Left() const = 0;
 
   /** Returns the pointer to the right child of this node */
-  virtual Self * Right()       = 0;
+  virtual Self * Right() = 0;
 
+  /** Returns the const pointer to the right child of this node */
   virtual const Self * Right() const = 0;
 
-  /** Returs the number of measurement vectors under this node including
-   * its children */
+  /**
+   * Returs the number of measurement vectors under this node including
+   * its children
+   */
   virtual unsigned int Size() const = 0;
 
   /** Returns the vector sum of the all measurement vectors under this node */
-  virtual void GetWeightedCentroid(CentroidType & centroid) = 0;
+  virtual void GetWeightedCentroid( CentroidType & ) = 0;
 
   /** Returns the centroid. weighted centroid divided by the size */
-  virtual void GetCentroid(CentroidType & centroid) = 0;
+  virtual void GetCentroid( CentroidType & ) = 0;
 
   /** Retuns the instance identifier of the index-th measurement vector */
-  virtual InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier index) const = 0;
+  virtual InstanceIdentifier GetInstanceIdentifier( InstanceIdentifier ) const = 0;
 
   /** Add an instance to this node */
-  virtual void AddInstanceIdentifier(InstanceIdentifier id) = 0;
+  virtual void AddInstanceIdentifier( InstanceIdentifier ) = 0;
 
   /** Destructor */
   virtual ~KdTreeNode() {}  // needed to subclasses will actually be deleted
@@ -128,17 +133,17 @@ struct KdTreeNode {
  * \sa KdTreeNode, KdTreeWeightedCentroidNonterminalNode, KdTreeGenerator
  * \ingroup ITK-Statistics
  */
-template< class TSample >
-struct KdTreeNonterminalNode:public KdTreeNode< TSample > {
-  typedef KdTreeNode< TSample >                   Superclass;
+template<class TSample>
+
+struct KdTreeNonterminalNode:public KdTreeNode<TSample>
+  {
+  typedef KdTreeNode<TSample>                     Superclass;
   typedef typename Superclass::MeasurementType    MeasurementType;
   typedef typename Superclass::CentroidType       CentroidType;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
 
-  KdTreeNonterminalNode(unsigned int partitionDimension,
-                        MeasurementType partitionValue,
-                        Superclass *left,
-                        Superclass *right);
+  KdTreeNonterminalNode( unsigned int, MeasurementType, Superclass *,
+    Superclass * );
 
   virtual ~KdTreeNonterminalNode() {}
 
@@ -147,58 +152,77 @@ struct KdTreeNonterminalNode:public KdTreeNode< TSample > {
     return false;
   }
 
-  void GetParameters(unsigned int & partitionDimension,
-                     MeasurementType & partitionValue) const;
+  void GetParameters( unsigned int &, MeasurementType & ) const;
 
+  /** Returns the pointer to the left child of this node */
   Superclass * Left()
   {
     return m_Left;
   }
 
+  /** Returns the pointer to the right child of this node */
   Superclass * Right()
   {
     return m_Right;
   }
 
+  /** Returns the const pointer to the left child of this node */
   const Superclass * Left() const
   {
     return m_Left;
   }
 
+  /** Returns the const pointer to the right child of this node */
   const Superclass * Right() const
   {
     return m_Right;
   }
 
+  /**
+   * Returs the number of measurement vectors under this node including
+   * its children
+   */
   unsigned int Size() const
   {
     return 0;
   }
 
-  void GetWeightedCentroid(CentroidType &)
+  /**
+   * Returns the vector sum of the all measurement vectors under this node.
+   * Do nothing for this class.
+   */
+  void GetWeightedCentroid( CentroidType & ) {}
+
+  /**
+   * Returns the centroid. weighted centroid divided by the size. Do nothing for
+   * this class.
+   */
+  void GetCentroid( CentroidType & ) {}
+
+  /**
+   * Returns the identifier of the only MeasurementVector associated with
+   * this node in the tree. This MeasurementVector will be used later during
+   * the distance computation when querying the tree.
+   */
+  InstanceIdentifier GetInstanceIdentifier( InstanceIdentifier ) const
   {
-    /* do nothing */
+    return this->m_InstanceIdentifier;
   }
 
-  void GetCentroid(CentroidType &)
+  /**
+   * Set the identifier of the node.
+   */
+  void AddInstanceIdentifier( InstanceIdentifier valueId )
   {
-    /* do nothing */
+    this->m_InstanceIdentifier = valueId;
   }
-
-  // Returns the identifier of the only MeasurementVector associated with
-  // this node in the tree. This MeasurementVector will be used later during
-  // the distance computation when querying the tree.
-  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const
-  { return this->m_InstanceIdentifier; }
-
-  void AddInstanceIdentifier(InstanceIdentifier valueId)
-  { this->m_InstanceIdentifier = valueId; }
 private:
-  unsigned int m_PartitionDimension;
-  MeasurementType m_PartitionValue;
-  InstanceIdentifier m_InstanceIdentifier;
-  Superclass *m_Left;
-  Superclass *m_Right;
+
+  unsigned int           m_PartitionDimension;
+  MeasurementType        m_PartitionValue;
+  InstanceIdentifier     m_InstanceIdentifier;
+  Superclass            *m_Left;
+  Superclass            *m_Right;
 };  // end of class
 
 /** \class KdTreeWeightedCentroidNonterminalNode
@@ -216,29 +240,28 @@ private:
  * \sa KdTreeNode, KdTreeNonterminalNode, WeightedCentroidKdTreeGenerator
  * \ingroup ITK-Statistics
  */
-template< class TSample >
-struct KdTreeWeightedCentroidNonterminalNode:public KdTreeNode< TSample > {
-  typedef KdTreeNode< TSample >                       Superclass;
+template<class TSample>
+struct KdTreeWeightedCentroidNonterminalNode:public KdTreeNode<TSample>
+  {
+  typedef KdTreeNode<TSample>                         Superclass;
   typedef typename Superclass::MeasurementType        MeasurementType;
   typedef typename Superclass::CentroidType           CentroidType;
   typedef typename Superclass::InstanceIdentifier     InstanceIdentifier;
   typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
-  KdTreeWeightedCentroidNonterminalNode(unsigned int partitionDimension,
-                                        MeasurementType partitionValue,
-                                        Superclass *left,
-                                        Superclass *right,
-                                        CentroidType & centroid,
-                                        unsigned int size);
+  KdTreeWeightedCentroidNonterminalNode( unsigned int, MeasurementType,
+    Superclass *, Superclass *, CentroidType &, unsigned int );
+
   virtual ~KdTreeWeightedCentroidNonterminalNode() {}
 
+  /** Not a terminal node. */
   virtual bool IsTerminal() const
   {
     return false;
   }
 
-  void GetParameters(unsigned int & partitionDimension,
-                     MeasurementType & partitionValue) const;
+  /** Return the parameters of the node. */
+  void GetParameters( unsigned int &, MeasurementType & ) const;
 
   /** Return the length of a measurement vector */
   MeasurementVectorSizeType GetMeasurementVectorSize() const
@@ -246,61 +269,80 @@ struct KdTreeWeightedCentroidNonterminalNode:public KdTreeNode< TSample > {
     return m_MeasurementVectorSize;
   }
 
+  /** Return the left tree pointer. */
   Superclass * Left()
   {
     return m_Left;
   }
 
+  /** Return the right tree pointer. */
   Superclass * Right()
   {
     return m_Right;
   }
 
+  /** Return the left tree const pointer. */
   const Superclass * Left() const
   {
     return m_Left;
   }
 
+  /** Return the right tree const pointer. */
   const Superclass * Right() const
   {
     return m_Right;
   }
 
+  /** Return the size of the node. */
   unsigned int Size() const
   {
     return m_Size;
   }
 
+  /**
+   * Returns the vector sum of the all measurement vectors under this node.
+   */
   void GetWeightedCentroid(CentroidType & centroid)
   {
     centroid = m_WeightedCentroid;
   }
 
+  /**
+   * Returns the centroid. weighted centroid divided by the size.
+   */
   void GetCentroid(CentroidType & centroid)
   {
     centroid = m_Centroid;
   }
 
+  /**
+   * Returns the identifier of the only MeasurementVector associated with
+   * this node in the tree. This MeasurementVector will be used later during
+   * the distance computation when querying the tree.
+   */
   InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const
   {
     return this->m_InstanceIdentifier;
   }
 
+  /**
+   * Set the identifier of the node.
+   */
   void AddInstanceIdentifier(InstanceIdentifier valueId)
   {
     this->m_InstanceIdentifier = valueId;
   }
 
 private:
-  MeasurementVectorSizeType m_MeasurementVectorSize;
-  unsigned int m_PartitionDimension;
-  MeasurementType m_PartitionValue;
-  CentroidType m_WeightedCentroid;
-  CentroidType m_Centroid;
-  InstanceIdentifier m_InstanceIdentifier;
-  unsigned int m_Size;
-  Superclass *m_Left;
-  Superclass *m_Right;
+  MeasurementVectorSizeType     m_MeasurementVectorSize;
+  unsigned int                  m_PartitionDimension;
+  MeasurementType               m_PartitionValue;
+  CentroidType                  m_WeightedCentroid;
+  CentroidType                  m_Centroid;
+  InstanceIdentifier            m_InstanceIdentifier;
+  unsigned int                  m_Size;
+  Superclass                   *m_Left;
+  Superclass                   *m_Right;
 };  // end of class
 
 /** \class KdTreeTerminalNode
@@ -315,9 +357,10 @@ private:
  * KdTreeWeightedCentroidNonterminalNode
  * \ingroup ITK-Statistics
  */
-template< class TSample >
-struct KdTreeTerminalNode:public KdTreeNode< TSample > {
-  typedef KdTreeNode< TSample >                   Superclass;
+template<class TSample>
+struct KdTreeTerminalNode:public KdTreeNode<TSample>
+  {
+  typedef KdTreeNode<TSample>                     Superclass;
   typedef typename Superclass::MeasurementType    MeasurementType;
   typedef typename Superclass::CentroidType       CentroidType;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
@@ -329,57 +372,73 @@ struct KdTreeTerminalNode:public KdTreeNode< TSample > {
     this->m_InstanceIdentifiers.clear();
   }
 
+  /** A terminal node. */
   bool IsTerminal() const
   {
     return true;
   }
 
-  void GetParameters(unsigned int &,
-                     MeasurementType &) const {}
+  /** Return the parameters of the node. */
+  void GetParameters( unsigned int &, MeasurementType & ) const {}
 
+  /** Return the left tree pointer. Null for terminal nodes. */
   Superclass * Left()
   {
     return 0;
   }
 
+  /** Return the right tree pointer. Null for terminal nodes. */
   Superclass * Right()
   {
     return 0;
   }
 
+  /** Return the left tree const pointer. Null for terminal nodes. */
   const Superclass * Left() const
   {
     return 0;
   }
 
+  /** Return the right tree const pointer. Null for terminal nodes. */
   const Superclass * Right() const
   {
     return 0;
   }
 
+  /** Return the size of the node. */
   unsigned int Size() const
   {
     return static_cast< unsigned int >( m_InstanceIdentifiers.size() );
   }
 
-  void GetWeightedCentroid(CentroidType &)
-  {
-    /* do nothing */
-  }
+  /**
+   * Returns the vector sum of the all measurement vectors under this node.
+   * Do nothing for this case.
+   */
+  void GetWeightedCentroid( CentroidType & ) {}
 
-  void GetCentroid(CentroidType &)
-  {
-    /* do nothing */
-  }
+  /**
+   * Returns the centroid. weighted centroid divided by the size.  Do nothing
+   * for this case.
+   */
+  void GetCentroid( CentroidType & ) {}
 
-  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier index) const
+  /**
+   * Returns the identifier of the only MeasurementVector associated with
+   * this node in the tree. This MeasurementVector will be used later during
+   * the distance computation when querying the tree.
+   */
+  InstanceIdentifier GetInstanceIdentifier( InstanceIdentifier index ) const
   {
     return m_InstanceIdentifiers[index];
   }
 
-  void AddInstanceIdentifier(InstanceIdentifier id)
+  /**
+   * Set the identifier of the node.
+   */
+  void AddInstanceIdentifier( InstanceIdentifier id )
   {
-    m_InstanceIdentifiers.push_back(id);
+    m_InstanceIdentifiers.push_back( id );
   }
 
 private:
@@ -419,7 +478,7 @@ private:
  * \ingroup ITK-Statistics
  */
 
-template< class TSample >
+template<class TSample>
 class ITK_EXPORT KdTree:public Object
 {
 public:
@@ -446,13 +505,13 @@ public:
 
   /** Get Macro to get the length of a measurement vector in the KdTree.
    * The length is obtained from the input sample. */
-  itkGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
+  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
 
   /** DistanceMetric type for the distance calculation and comparison */
   typedef EuclideanDistanceMetric< MeasurementVectorType > DistanceMetricType;
 
   /** Node type of the KdTree */
-  typedef KdTreeNode< TSample > KdTreeNodeType;
+  typedef KdTreeNode<TSample> KdTreeNodeType;
 
   /** Neighbor type. The first element of the std::pair is the instance
    * identifier and the second one is the distance between the measurement
@@ -482,12 +541,12 @@ public:
 
     /** Initialize the internal instance identifier and distance holders
      * with the size, k */
-    void resize(unsigned int k)
+    void resize( unsigned int k )
     {
       m_Identifiers.clear();
       m_Identifiers.resize( k, NumericTraits< IdentifierType >::max() );
       m_Distances.clear();
-      m_Distances.resize( k, NumericTraits< double >::max() );
+      m_Distances.resize( k, NumericTraits<double>::max() );
       m_FarthestNeighborIndex = 0;
     }
 
@@ -499,11 +558,11 @@ public:
 
     /** Replaces the farthest neighbor's instance identifier and
      * distance value with the id and the distance */
-    void ReplaceFarthestNeighbor(InstanceIdentifier id, double distance)
+    void ReplaceFarthestNeighbor( InstanceIdentifier id, double distance )
     {
       m_Identifiers[m_FarthestNeighborIndex] = id;
       m_Distances[m_FarthestNeighborIndex] = distance;
-      double             farthestDistance = NumericTraits< double >::min();
+      double farthestDistance = NumericTraits<double>::min();
       const unsigned int size = static_cast< unsigned int >( m_Distances.size() );
       for ( unsigned int i = 0; i < size; i++ )
         {
@@ -529,7 +588,7 @@ public:
     }
 
     /** Returns the vector of k-neighbors' instance identifiers */
-    const std::vector< double > & GetDistances() const
+    const std::vector<double> & GetDistances() const
     {
       return m_Distances;
     }
@@ -543,16 +602,16 @@ private:
 
     /** Storage for the distance values of k-neighbors from the query
      * point */
-    std::vector< double > m_Distances;
+    std::vector<double> m_Distances;
   };
 
   /** Sets the number of measurement vectors that can be stored in a
    * terminal node */
-  void SetBucketSize(unsigned int size);
+  void SetBucketSize( unsigned int );
 
   /** Sets the input sample that provides the measurement vectors to the k-d
    * tree */
-  void SetSample(const TSample *sample);
+  void SetSample( const TSample * );
 
   /** Returns the pointer to the input sample */
   const TSample * GetSample() const
@@ -580,7 +639,7 @@ private:
   {
     if ( this->m_Root )
       {
-      this->DeleteNode(this->m_Root);
+      this->DeleteNode( this->m_Root );
       }
     this->m_Root = root;
   }
@@ -593,16 +652,17 @@ private:
 
   /** Returns the measurement vector identified by the instance
    * identifier that is an identifier defiend for the input sample */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const
+  const MeasurementVectorType & GetMeasurementVector( InstanceIdentifier id )
+    const
   {
-    return m_Sample->GetMeasurementVector(id);
+    return m_Sample->GetMeasurementVector( id );
   }
 
   /** Returns the frequency of the measurement vector identified by
    * the instance identifier */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id ) const
   {
-    return m_Sample->GetFrequency(id);
+    return m_Sample->GetFrequency( id );
   }
 
   /** Get the pointer to the distance metric. */
@@ -612,57 +672,43 @@ private:
   }
 
   /** Searches the k-nearest neighbors */
-  void Search(const MeasurementVectorType & query,
-              unsigned int numberOfNeighborsRequested,
-              InstanceIdentifierVectorType & result) const;
+  void Search( const MeasurementVectorType &, unsigned int,
+    InstanceIdentifierVectorType & ) const;
 
   /** Searches the neighbors fallen into a hypersphere */
-  void Search(const MeasurementVectorType & query,
-              double radius,
-              InstanceIdentifierVectorType & result) const;
-
-  /** Returns the number of measurement vectors that have been visited
-   * to find the k-nearest neighbors. */
-  int GetNumberOfVisits() const
-  {
-    return m_NumberOfVisits;
-  }
+  void Search( const MeasurementVectorType &, double,
+    InstanceIdentifierVectorType & ) const;
 
   /** Returns true if the intermediate k-nearest neighbors exist within
    * the the bounding box defined by the lowerBound and the
    * upperBound. Otherwise returns false. Returns false if the ball
    * defined by the distance between the query point and the farthest
    * neighbor touch the surface of the bounding box. */
-  bool BallWithinBounds(const MeasurementVectorType & query,
-                        MeasurementVectorType & lowerBound,
-                        MeasurementVectorType & upperBound,
-                        double radius) const;
+  bool BallWithinBounds( const MeasurementVectorType &,
+    MeasurementVectorType &, MeasurementVectorType &, double ) const;
 
   /** Returns true if the ball defined by the distance between the query
    * point and the farthest neighbor overlaps with the bounding box
    * defined by the lower and the upper bounds. */
-  bool BoundsOverlapBall(const MeasurementVectorType & query,
-                         MeasurementVectorType & lowerBound,
-                         MeasurementVectorType & upperBound,
-                         double radius) const;
+  bool BoundsOverlapBall( const MeasurementVectorType &,
+    MeasurementVectorType &, MeasurementVectorType &, double) const;
 
   /** Deletes the node recursively */
-  void DeleteNode(KdTreeNodeType *node);
+  void DeleteNode( KdTreeNodeType * );
 
   /** Prints out the tree information */
-  void PrintTree(std::ostream & os) const;
+  void PrintTree( std::ostream & ) const;
 
   /** Prints out the tree information */
-  void PrintTree(KdTreeNodeType *node, unsigned int level,
-                 unsigned int activeDimension,
-                 std::ostream & os = std::cout) const;
+  void PrintTree( KdTreeNodeType *, unsigned int, unsigned int,
+    std::ostream & os = std::cout ) const;
 
   /** Draw out the tree information to a ostream using
    * the format of the Graphviz dot tool. */
-  void PlotTree(std::ostream & os) const;
+  void PlotTree( std::ostream & os ) const;
 
   /** Prints out the tree information */
-  void PlotTree(KdTreeNodeType *node, std::ostream & os = std::cout) const;
+  void PlotTree( KdTreeNodeType *node, std::ostream & os = std::cout ) const;
 
   typedef typename TSample::Iterator      Iterator;
   typedef typename TSample::ConstIterator ConstIterator;
@@ -674,22 +720,21 @@ protected:
   /** Destructor: deletes the root node and the empty terminal node. */
   virtual ~KdTree();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  void PrintSelf( std::ostream & os, Indent indent ) const;
 
   /** search loop */
-  int NearestNeighborSearchLoop(const KdTreeNodeType *node,
-                                const MeasurementVectorType & query,
-                                MeasurementVectorType & lowerBound,
-                                MeasurementVectorType & upperBound) const;
+  int NearestNeighborSearchLoop( const KdTreeNodeType *,
+    const MeasurementVectorType &, MeasurementVectorType &,
+    MeasurementVectorType &, NearestNeighbors & ) const;
 
   /** search loop */
-  int SearchLoop(const KdTreeNodeType *node, const MeasurementVectorType & query,
-                 MeasurementVectorType & lowerBound,
-                 MeasurementVectorType & upperBound) const;
+  int SearchLoop( const KdTreeNodeType *, const MeasurementVectorType &,
+    double, MeasurementVectorType &, MeasurementVectorType &,
+    InstanceIdentifierVectorType & ) const;
 
 private:
-  KdTree(const Self &);         //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  KdTree( const Self & );         //purposely not implemented
+  void operator=( const Self & ); //purposely not implemented
 
   /** Pointer to the input sample */
   const TSample *m_Sample;
@@ -705,30 +750,6 @@ private:
 
   /** Distance metric smart pointer */
   typename DistanceMetricType::Pointer m_DistanceMetric;
-
-  mutable bool m_IsNearestNeighborSearch;
-
-  mutable double m_SearchRadius;
-
-  mutable InstanceIdentifierVectorType m_Neighbors;
-
-  /** k-nearest neighbors */
-  mutable NearestNeighbors m_NearestNeighbors;
-
-  /** Temporary lower bound in the SearchLoop. */
-  mutable MeasurementVectorType m_LowerBound;
-
-  /** Temporary upper bound in the SearchLoop. */
-  mutable MeasurementVectorType m_UpperBound;
-
-  /** Number of measurment vectors to find k-nearest neighbors. */
-  mutable int m_NumberOfVisits;
-
-  /** Flag to stop the SearchLoop. */
-  mutable bool m_StopSearch;
-
-  /** Temporary neighbor */
-  mutable NeighborType m_TempNeighbor;
 
   /** Measurement vector size */
   MeasurementVectorSizeType m_MeasurementVectorSize;

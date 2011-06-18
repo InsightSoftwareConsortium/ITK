@@ -11,6 +11,7 @@ itkKdTreeBasedKmeansEstimatorTest.cxx
 itkKdTreeGeneratorTest.cxx
 itkKdTreeTest1.cxx
 itkKdTreeTest2.cxx
+itkKdTreeTest3.cxx
 itkKdTreeTestSamplePoints.cxx
 itkStatisticsHeaderTest.cxx
 itkMaximumDecisionRuleTest.cxx
@@ -115,6 +116,12 @@ itk_add_test(NAME itkKdTreeGeneratorTest
 itk_add_test(NAME itkKdTreeTest1
       COMMAND ITK-StatisticsTestDriver itkKdTreeTest1
               100 100 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot)
+itk_add_test(NAME itkKdTreeTest2
+      COMMAND ITK-StatisticsTestDriver itkKdTreeTest2
+              ${ITK_DATA_ROOT}/Input/pointsForKdTree.txt 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot)
+itk_add_test(NAME itkKdTreeTest3
+      COMMAND ITK-StatisticsTestDriver itkKdTreeTest2
+              ${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
 itk_add_test(NAME itkKdTreeTest4
       COMMAND ITK-StatisticsTestDriver itkKdTreeTest1
               1000 1000 1)
@@ -136,12 +143,9 @@ itk_add_test(NAME itkKdTreeTest9
 itk_add_test(NAME itkKdTreeTest10
       COMMAND ITK-StatisticsTestDriver itkKdTreeTest1
               1000 1000 100)
-itk_add_test(NAME itkKdTreeTest2
-      COMMAND ITK-StatisticsTestDriver itkKdTreeTest2
-              ${ITK_DATA_ROOT}/Input/pointsForKdTree.txt 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot)
-itk_add_test(NAME itkKdTreeTest3
-      COMMAND ITK-StatisticsTestDriver itkKdTreeTest2
-              ${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt 1 ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
+itk_add_test(NAME itkKdTreeTest11
+      COMMAND ITK-StatisticsTestDriver itkKdTreeTest3
+              1000 100 20 16)
 
 #
 #  The following tests generate graphical plots of the KdTree organization.
