@@ -50,9 +50,16 @@ void
 ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+
+  OutputImagePointer output = this->GetOutput();
+
+  typedef typename OutputImageType::RegionType OutputRegionType;
+  OutputRegionType oRegion = output->GetRequestedRegion();
+
   // calculate the largest possible distance in the output image.
   // this maximum is the distance from one corner of the image to the other.
-  OutputSizeType      outputSize = this->GetOutput()->GetRequestedRegion().GetSize();
+  OutputSizeType      outputSize = oRegion.GetSize();
   OutputSizeValueType maximumDistance = 0;
 
   for ( unsigned int i = 0; i < InputImageDimension; i++ )
@@ -63,7 +70,7 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   // double,
   // which is the general SizeValueType.
   maximumDistance =
-    static_cast< OutputSizeValueType >( vcl_sqrt( static_cast< float >( maximumDistance ) ) );
+    static_cast< OutputSizeValueType >( vcl_sqrt( static_cast< double >( maximumDistance ) ) );
 
   // Allocate the output
   this->AllocateOutputs();
@@ -77,16 +84,18 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   // set up the isocontour filter
   m_IsoContourFilter->SetInput( this->GetInput() );
   m_IsoContourFilter->SetFarValue(maximumDistance + 1);
+  m_IsoContourFilter->SetNumberOfThreads( numberOfThreads );
   InputPixelType levelSetValue = ( m_InsideValue + m_OutsideValue ) / 2;
   m_IsoContourFilter->SetLevelSetValue(levelSetValue);
 
   // set up the chamfer filter
   m_ChamferFilter->SetInput( m_IsoContourFilter->GetOutput() );
   m_ChamferFilter->SetMaximumDistance(maximumDistance);
+  m_ChamferFilter->SetNumberOfThreads( numberOfThreads );
 
   // graft our output to the chamfer filter to force the proper regions
   // to be generated
-  m_ChamferFilter->GraftOutput( this->GetOutput() );
+  m_ChamferFilter->GraftOutput( output );
 
   // create the distance map
   m_ChamferFilter->Update();
@@ -106,8 +115,7 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   // flip the sign of the output image.
   if ( m_InsideValue > m_OutsideValue )
     {
-    ImageRegionIterator< OutputImageType > ot( this->GetOutput(),
-                                               this->GetOutput()->GetRequestedRegion() );
+    ImageRegionIterator< OutputImageType > ot( output, oRegion );
     ot.GoToBegin();
     while ( !ot.IsAtEnd() )
       {
