@@ -20,7 +20,6 @@
 
 #include "itkIsoContourDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkNumericTraits.h"
 #include "itkIndex.h"
 
@@ -125,12 +124,14 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 {
   // Instead of using GetNumberOfThreads, we need to split the image into the
   // number of regions that will actually be returned by
-  // itkImageSource::SplitRequestedRegion.  Sometimes this number is less than
+  // itkImageSource::SplitRequestedRegion. Sometimes this number is less than
   // the number of threads requested.
-  typename TOutputImage::RegionType dummy;
+  OutputImageRegionType dummy;
   unsigned int actualThreads = this->SplitRequestedRegion(
     0, this->GetNumberOfThreads(),
     dummy);
+
+  m_Spacing = this->GetInput()->GetSpacing();
 
   // Initialize the barrier for the thread synchronization in
   // the narrowband case.
@@ -164,17 +165,19 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
   IteratorType outIt (outputPtr,
                       outputRegionForThread);
 
+  PixelType negFarValue = -m_FarValue;
+
   //Initialize output image. Thi needs to be done regardless of the
   // NarrowBanding or Full implementation
   while ( !inIt.IsAtEnd() )
     {
     if ( inIt.Get() > m_LevelSetValue )
       {
-      outIt.Set(+m_FarValue);
+      outIt.Set( m_FarValue );
       }
     else if ( inIt.Get() < m_LevelSetValue )
       {
-      outIt.Set(-(double)m_FarValue);
+      outIt.Set( negFarValue );
       }
     else
       {
@@ -188,7 +191,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
   this->m_Barrier->Wait();
 
   //Iterate over split region or split band as convinient.
-  if ( m_NarrowBanding == false )
+  if ( !m_NarrowBanding )
     {
     this->ThreadedGenerateDataFull(outputRegionForThread, threadId);
     }
@@ -211,121 +214,38 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
   ImageConstPointer inputPtr = this->GetInput();
   OutputPointer     outputPtr = this->GetOutput();
 
-  unsigned int n, ng;
+  InputSizeType radiusIn;
+  SizeType      radiusOut;
 
-  InputSizeType radius_in;
-  SizeType      radius_out;
+  unsigned int n;
+
   for ( n = 0; n < ImageDimension; n++ )
     {
-    radius_in[n] = 2;
-    radius_out[n] = 1;
+    radiusIn[n] = 2;
+    radiusOut[n] = 1;
     }
 
   //Define Neighborhood iterator
-  ConstNeighborhoodIterator< InputImageType > inNeigIt(radius_in, inputPtr,
+  ConstNeighborhoodIterator< InputImageType > inNeigIt(radiusIn, inputPtr,
                                                        outputRegionForThread);
-  NeighborhoodIterator< OutputImageType > outNeigIt(radius_out, outputPtr,
+  NeighborhoodIterator< OutputImageType > outNeigIt(radiusOut, outputPtr,
                                                     outputRegionForThread);
-  PixelType val, val0, val1, val0_new, val1_new, diff;
-  PixelType norm;
-  bool      sign, neigh_sign;
-
-  PixelType grad0[ImageDimension];
-  PixelType grad1[ImageDimension];
-  PixelType grad[ImageDimension];
-
-  PixelType alpha0 = 0.5;  //Interpolation factor
-  PixelType alpha1 = 0.5;  //Interpolation factor
-  const typename InputImageType::SpacingType & vs = inputPtr->GetSpacing();
-  double vs_2[ImageDimension];
-
-  for ( n = 0; n < ImageDimension; n++ )
-    {
-    vs_2[n] = 2 * vs[n];
-    }
-
   //Get Stride information to move across dimension
-  OffsetValueType stride[ImageDimension];
-  unsigned int center;
+  std::vector< OffsetValueType > stride(ImageDimension, 0 );
 
   for ( n = 0; n < ImageDimension; n++ )
     {
     stride[n] = inNeigIt.GetStride(n);
     }
-  center = inNeigIt.Size() / 2;
+
+  unsigned int center = inNeigIt.Size() / 2;
 
   for ( inNeigIt.GoToBegin(); !inNeigIt.IsAtEnd(); ++inNeigIt, ++outNeigIt )
     {
-    val0 = inNeigIt.GetPixel(center) - static_cast< PixelType >( m_LevelSetValue );
-    sign = ( val0 > 0 );
-
-    //Compute gradient at val0
-    for ( ng = 0; ng < ImageDimension; ng++ )
-      {
-      grad0[ng] = static_cast< PixelType >( inNeigIt.GetNext(ng, 1) )
-                  - static_cast< PixelType >( inNeigIt.GetPrevious(ng, 1) );
-      }
-
-    for ( n = 0; n < ImageDimension; n++ )
-      {
-      val1 =  static_cast< PixelType >( inNeigIt.GetPixel(center + stride[n]) )
-             - static_cast< PixelType >( m_LevelSetValue );
-
-      neigh_sign = ( val1 > 0 );
-
-      if ( sign != neigh_sign )
-        {
-        for ( ng = 0; ng < ImageDimension; ng++ )
-          {
-          grad1[ng] = static_cast< PixelType >( inNeigIt.GetPixel(center + stride[n] + stride[ng]) )
-                      - static_cast< PixelType >( inNeigIt.GetPixel(center + stride[n] - stride[ng]) );
-          }
-        if ( sign )
-          {
-          diff = val0 - val1;
-          }
-        else
-          {
-          diff = val1 - val0;
-          }
-        if ( diff < NumericTraits< PixelType >::min() )
-          {
-          //do something: printf, or thorw exception. ??
-          continue;
-          }
-        //Interpolate values
-        norm = NumericTraits< PixelType >::Zero;
-        for ( ng = 0; ng < ImageDimension; ng++ )
-          {
-          grad[ng] = ( grad0[ng] * alpha0 + grad1[ng] * alpha1 ) / vs_2[ng];
-          norm += grad[ng] * grad[ng];
-          }
-        norm = vcl_sqrt( (float)norm );
-
-        if ( norm > NumericTraits< PixelType >::min() )
-          {
-          val = vcl_fabs( (float)grad[n] ) * vs[n] / norm / diff;
-
-          val0_new = val0 * val;
-          val1_new = val1 * val;
-
-          if ( vcl_fabs( (float)val0_new ) < vcl_fabs( (float)outNeigIt.GetNext(n, 0) ) )
-            {
-            outNeigIt.SetNext( n, 0, static_cast< PixelType >( val0_new ) );
-            }
-          if ( vcl_fabs( (float)val1_new ) < vcl_fabs( (float)outNeigIt.GetNext(n, 1) ) )
-            {
-            outNeigIt.SetNext( n, 1, static_cast< PixelType >( val1_new ) );
-            }
-          }
-        else
-          {
-          itkExceptionMacro(<< "Gradient norm is lower than pixel precision");
-          }
-        } // end if (sign != sign_neigh)
-      }   //end for n
+    ComputeValue( inNeigIt, outNeigIt, center, stride );
     }
-}
+  }
+
 
 // The execute method created by the subclass.
 template< class TInputImage, class TOutputImage >
@@ -346,128 +266,135 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
   typedef ImageRegionConstIterator< InputImageType > ConstIteratorType;
   typedef ImageRegionIterator< OutputImageType >     IteratorType;
 
-  unsigned int n, ng;
+  unsigned int n;
 
-  InputSizeType radius_in;
-  SizeType      radius_out;
+  InputSizeType radiusIn;
+  SizeType      radiusOut;
   for ( n = 0; n < ImageDimension; n++ )
     {
-    //radius_in[n]= 2*NumericTraits<InputSizeType>::One();
-    radius_in[n] = 2;
-    radius_out[n] = 1;
-    //radius_out[n]= NumericTraits<SizeType>::One();
+    radiusIn[n] = 2;
+    radiusOut[n] = 1;
     }
 
   //Create neighborhood iterator
-  ConstNeighborhoodIterator< InputImageType > inNeigIt( radius_in, inputPtr,
-                                                        inputPtr->GetRequestedRegion() );
-  NeighborhoodIterator< OutputImageType > outNeigIt( radius_out, outputPtr,
-                                                     outputPtr->GetRequestedRegion() );
-  PixelType val, val0, val1, val0_new, val1_new, diff;
-  PixelType norm;
-  bool      sign, neigh_sign;
+  InputNeighbordIteratorType inNeigIt( radiusIn, inputPtr,
+                                      inputPtr->GetRequestedRegion() );
+  OutputNeighborhoodIteratorType outNeigIt( radiusOut, outputPtr,
+                                           outputPtr->GetRequestedRegion() );
 
-  PixelType grad0[ImageDimension];
-  PixelType grad1[ImageDimension];
-  PixelType grad[ImageDimension];
-
-  PixelType alpha0 = 0.5;  //Interpolation factor
-  PixelType alpha1 = 0.5;  //Interpolation factor
-  const typename InputImageType::SpacingType & vs = inputPtr->GetSpacing();
-  double vs_2[ImageDimension];
-
-  for ( n = 0; n < ImageDimension; n++ )
-    {
-    vs_2[n] = 2 * vs[n];
-    }
   //Get Stride information to move across dimension
-  OffsetValueType stride[ImageDimension];
-  unsigned int center;
+  std::vector< OffsetValueType > stride( ImageDimension, 0 );
 
   for ( n = 0; n < ImageDimension; n++ )
     {
     stride[n] = inNeigIt.GetStride(n);
     }
-  center = inNeigIt.Size() / 2;
+  unsigned int center = inNeigIt.Size() / 2;
 
-  for (; bandIt != bandEnd; bandIt++ )
+  while( bandIt != bandEnd )
     {
     inNeigIt.SetLocation(bandIt->m_Index);
     outNeigIt.SetLocation(bandIt->m_Index);
 
-    val0 = inNeigIt.GetPixel(center) - m_LevelSetValue;
-    sign = ( val0 > 0 );
+    ComputeValue( inNeigIt, outNeigIt, center, stride );
 
-    //Compute gradient at val0
-    for ( ng = 0; ng < ImageDimension; ng++ )
-      {
-      grad0[ng] = inNeigIt.GetNext(ng, 1) - inNeigIt.GetPrevious(ng, 1);
-      }
-    //Compute gradient at val0
-    for ( ng = 0; ng < ImageDimension; ng++ )
-      {
-      grad0[ng] = inNeigIt.GetNext(ng, 1) - inNeigIt.GetPrevious(ng, 1);
-      }
-
-    for ( n = 0; n < ImageDimension; n++ )
-      {
-      val1 = inNeigIt.GetPixel(center + stride[n]) - m_LevelSetValue;
-
-      neigh_sign = ( val1 > 0 );
-
-      if ( sign != neigh_sign )
-        {
-        for ( ng = 0; ng < ImageDimension; ng++ )
-          {
-          grad1[ng] = inNeigIt.GetPixel(center + stride[n] + stride[ng])
-                      - inNeigIt.GetPixel(center + stride[n] - stride[ng]);
-          }
-        if ( sign )
-          {
-          diff = val0 - val1;
-          }
-        else
-          {
-          diff = val1 - val0;
-          }
-        if ( diff < NumericTraits< PixelType >::min() )
-          {
-          //do something: printf, or thorw exception.??
-          continue;
-          }
-        //Interpolate values
-        norm = NumericTraits< PixelType >::Zero;
-        for ( ng = 0; ng < ImageDimension; ng++ )
-          {
-          grad[ng] = ( grad0[ng] * alpha0 + grad1[ng] * alpha1 ) / vs_2[ng];
-          norm += grad[ng] * grad[ng];
-          }
-        norm = vcl_sqrt( (float)norm );
-
-        if ( norm > NumericTraits< PixelType >::min() )
-          {
-          val = vcl_fabs( (float)grad[n] ) * vs[n] / norm / diff;
-
-          val0_new = val0 * val;
-          val1_new = val1 * val;
-
-          if ( vcl_fabs( (float)val0_new ) < vcl_fabs( (float)outNeigIt.GetNext(n, 0) ) )
-            {
-            outNeigIt.SetNext( n, 0, static_cast< PixelType >( val0_new ) );
-            }
-          if ( vcl_fabs( (float)val1_new ) < vcl_fabs( (float)outNeigIt.GetNext(n, 1) ) )
-            {
-            outNeigIt.SetNext( n, 1, static_cast< PixelType >( val1_new ) );
-            }
-          }
-        else
-          {
-          itkExceptionMacro(<< "Gradient norm is lower than pixel precision");
-          }
-        } // end if (sign != sign_neigh)
-      }   //end for n
+    ++bandIt;
     }     //Band iteratior
 }
+
+template< class TInputImage, class TOutputImage >
+void
+IsoContourDistanceImageFilter< TInputImage, TOutputImage >
+::ComputeValue( const InputNeighbordIteratorType& inNeigIt,
+               OutputNeighborhoodIteratorType& outNeigIt,
+               unsigned int center,
+               const std::vector< OffsetValueType >& stride )
+{
+  PixelType val0 = static_cast< PixelType >( inNeigIt.GetPixel(center) )
+      - static_cast< PixelType >( m_LevelSetValue );
+  bool sign = ( val0 > 0 );
+
+  PixelType grad0[ImageDimension];
+
+  //Compute gradient at val0
+  for ( unsigned int ng = 0; ng < ImageDimension; ng++ )
+    {
+    grad0[ng] = static_cast< PixelType >( inNeigIt.GetNext(ng, 1) )
+        - static_cast< PixelType >( inNeigIt.GetPrevious(ng, 1) );
+    }
+
+  for ( unsigned int n = 0; n < ImageDimension; n++ )
+    {
+    PixelType val1 =  static_cast< PixelType >( inNeigIt.GetPixel(center + stride[n]) )
+        - static_cast< PixelType >( m_LevelSetValue );
+
+    bool neighSign = ( val1 > 0 );
+
+    if ( sign != neighSign )
+      {
+      PixelType grad1[ImageDimension];
+
+      for ( unsigned int ng = 0; ng < ImageDimension; ng++ )
+        {
+        grad1[ng] =
+            static_cast< PixelType >( inNeigIt.GetPixel(center + stride[n] + stride[ng]) )
+            - static_cast< PixelType >( inNeigIt.GetPixel(center + stride[n] - stride[ng]) );
+        }
+      PixelType diff;
+      if ( sign )
+        {
+        diff = val0 - val1;
+        }
+      else
+        {
+        diff = val1 - val0;
+        }
+      if ( diff < NumericTraits< PixelType >::min() )
+        {
+        itkGenericExceptionMacro( << "diff " << diff
+                                 << " < NumericTraits< PixelType >::min()" );
+        continue;
+        }
+
+      //Interpolate values
+      PixelType grad[ImageDimension];
+
+      PixelType alpha0 = 0.5;  //Interpolation factor
+      PixelType alpha1 = 0.5;  //Interpolation factor
+
+      PixelType norm = NumericTraits< PixelType >::Zero;
+
+      for ( unsigned int ng = 0; ng < ImageDimension; ng++ )
+        {
+        grad[ng] = ( grad0[ng] * alpha0 + grad1[ng] * alpha1 ) / ( 2. * m_Spacing[ng] );
+        norm += grad[ng] * grad[ng];
+        }
+      norm = vcl_sqrt( norm );
+
+      if ( norm > NumericTraits< PixelType >::min() )
+        {
+        PixelType val = vcl_fabs( grad[n] ) * m_Spacing[n] / norm / diff;
+
+        PixelType valNew0 = val0 * val;
+        PixelType valNew1 = val1 * val;
+
+        if ( vcl_fabs( valNew0 ) < vcl_fabs( outNeigIt.GetNext(n, 0) ) )
+          {
+          outNeigIt.SetNext( n, 0, static_cast< PixelType >( valNew0 ) );
+          }
+        if ( vcl_fabs( valNew1 ) < vcl_fabs( outNeigIt.GetNext(n, 1) ) )
+          {
+          outNeigIt.SetNext( n, 1, static_cast< PixelType >( valNew1 ) );
+          }
+        }
+      else
+        {
+        itkExceptionMacro(<< "Gradient norm is lower than pixel precision");
+        }
+      } // end if (sign != signNeigh)
+    }   //end for n
+}
+
 } // namespace itk
 
 #endif
