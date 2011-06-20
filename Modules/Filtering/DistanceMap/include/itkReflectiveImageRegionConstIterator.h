@@ -27,22 +27,21 @@ namespace itk
  *
  * ReflectiveImageRegionConstIterator is a templated class to represent a
  * multi-dimensional iterator. ReflectiveImageRegionConstIterator is templated
- * over the image type.  ReflectiveImageRegionConstIterator is constrained to
+ * over the image type. ReflectiveImageRegionConstIterator is constrained to
  * walk only within the specified region.
  *
  * ReflectiveImageRegionConstIterator will perform two passes over the image
  * along each dimension. It is useful for algorithms that require to
  * go back and forth (once) over the data.
  *
- * By setting the BeginOffset and EndOffset parameters, you can
- * arrange for the starting point, when going forwards, to be
- * different from the ending point, when going backwards.  Along
- * dimension d, when going forwards the iterator traverses the
- * interval [BeginIndex[d]+BeginOffset[d], EndIndex[d]).  When going
- * back, it traverses the interval (EndIndex[d]-EndOffset[d],
+ * By setting the BeginOffset and EndOffset parameters, you can arrange for
+ * the starting point, when going forwards, to be different from the ending
+ * point, when going backwards. Along dimension d, when going forwards the
+ * iterator traverses the interval [BeginIndex[d]+BeginOffset[d], EndIndex[d]).
+ * When going back, it traverses the interval (EndIndex[d]-EndOffset[d],
  * BeginIndex[d]].  Setting both offsets to (1, ..., 1) enables the
- * DanielssonDistanceMapImageFilter to process the entire image,
- * rather than removing a one-pixel border.
+ * DanielssonDistanceMapImageFilter to process the entire image, rather
+ * than removing a one-pixel border.
  *
  * \sa DanielssonDistanceMapImageFilter
  *
@@ -81,7 +80,9 @@ public:
    * properly with gcc.  Note that we have to rescope Region back to
    * itk::ImageRegion so that is it not confused with
    * ImageIterator::Index. */
-  typedef typename TImage::RegionType RegionType;
+  typedef typename TImage::RegionType     RegionType;
+  typedef typename TImage::SizeType       SizeType;
+  typedef typename TImage::SizeValueType  SizeValueType;
 
   /** Type of the Offset taken from the image.  These typedefs are
    * duplicated from the superclass for gcc support. */
