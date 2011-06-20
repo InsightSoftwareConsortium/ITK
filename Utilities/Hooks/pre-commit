@@ -32,7 +32,7 @@ die() {
 ExternalData_stage_linked_content() {
   # Identify the hash algorithm used.
   case "$file" in
-    *.md5) algo=MD5 ; validate="^[0-9a-fA-F]{32}$" ;;
+    *.md5) algo=MD5 ; base="${file/.md5}" ; validate="^[0-9a-fA-F]{32}$" ;;
     *) die "$file: invalid content link (unrecognized extension)" ;;
   esac
 
@@ -40,6 +40,12 @@ ExternalData_stage_linked_content() {
   hash=$(git cat-file blob $dst_obj) || hash=""
   echo "$hash" | egrep-q "$validate" ||
   die "$file: invalid content link (does not match '$validate')"
+
+  # Reject simultaneous raw file and content link.
+  files=$(git ls-files -- "$base")
+  if test -n "$files"; then
+    die "$file: content link may not coexist with $files"
+  fi
 
   # Find the content referenced by the link.
   staged="$(dirname "$file")/.ExternalData_${algo}_${hash}"
@@ -71,6 +77,14 @@ ExternalData_stage_linked_content() {
   fi
 }
 
+ExternalData_non_content_link() {
+  # Reject simultaneous raw file and content link.
+  files=$(git ls-files -- "$file.md5")
+  if test -n "$files"; then
+    die "$file: file may not coexist with $files"
+  fi
+}
+
 #-----------------------------------------------------------------------------
 
 # Local ExternalData object repository.
@@ -78,7 +92,10 @@ ExternalData_STORE=".ExternalData"
 
 # Process content links created by/for the CMake ExternalData module.
 git diff-index --cached HEAD --diff-filter=AM |
-egrep '^:[0-7]* 100644 .*\.(md5)$' |
 while read src_mode dst_mode src_obj dst_obj status file; do
-  ExternalData_stage_linked_content
+  if echo "$dst_mode $file" | egrep-q '^100644 .*\.(md5)$'; then
+    ExternalData_stage_linked_content
+  else
+    ExternalData_non_content_link
+  fi
 done || exit 1
