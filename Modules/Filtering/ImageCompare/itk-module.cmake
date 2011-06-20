@@ -4,4 +4,11 @@ perform regression testing or to compare the outcome of segmentations. In
 particular you will find here: checkerboard filter, absolute value differences,
 similarity index and STAPLE.")
 
-itk_module(ITK-ImageCompare DEPENDS ITK-ImageIntensity TEST_DEPENDS ITK-TestKernel DESCRIPTION "${DOCUMENTATION}")
+itk_module(ITK-ImageCompare
+  DEPENDS
+    ITK-ImageIntensity
+  TEST_DEPENDS
+    ITK-TestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
+)

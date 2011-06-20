@@ -6,6 +6,18 @@ images, particulaly when mapping them between coordinate systems. Transforms
 are a large family in ITK and form a prolific group of classes in the
 toolkit.")
 
-itk_module(ITK-Transform DEPENDS ITK-Statistics ITK-HDF5 TEST_DEPENDS ITK-TestKernel ITK-ImageFunction ITK-ImageGrid ITK-SpatialObjects DESCRIPTION "${DOCUMENTATION}")
-# Extra test depedency on ImageFunction and ImageGrid is introduced by itkBSplineDeformableTransformTest.
+itk_module(ITK-Transform
+  DEPENDS
+    ITK-Statistics
+    ITK-HDF5
+  TEST_DEPENDS
+    ITK-TestKernel
+    ITK-ImageFunction
+    ITK-ImageGrid
+    ITK-SpatialObjects
+  DESCRIPTION
+    "${DOCUMENTATION}"
+)
+
+# Extra test dependencies on ImageFunction and ImageGrid are introduced by itkBSplineDeformableTransformTest.
 # Extra test dependency on  SpatialObjects is introduced by itkCenteredVersorTransformInitializerTest.

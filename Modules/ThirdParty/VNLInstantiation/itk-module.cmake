@@ -1,1 +1,4 @@
-itk_module(ITK-VNLInstantiation DEPENDS ITK-VNL)
+itk_module(ITK-VNLInstantiation
+  DEPENDS
+    ITK-VNL
+)

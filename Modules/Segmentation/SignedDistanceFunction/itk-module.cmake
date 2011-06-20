@@ -1,1 +1,6 @@
-itk_module(ITK-SignedDistanceFunction DEPENDS ITK-ImageFunction TEST_DEPENDS ITK-TestKernel)
+itk_module(ITK-SignedDistanceFunction
+  DEPENDS
+    ITK-ImageFunction
+  TEST_DEPENDS
+    ITK-TestKernel
+)

@@ -6,7 +6,10 @@ labels.")
 
 itk_module(ITK-ImageLabel
   DEPENDS
-  ITK-ImageFilterBase
-  ITK-ImageIntensity
-  TEST_DEPENDS ITK-TestKernel
-  DESCRIPTION "${DOCUMENTATION}")
+    ITK-ImageFilterBase
+    ITK-ImageIntensity
+  TEST_DEPENDS
+    ITK-TestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
+)

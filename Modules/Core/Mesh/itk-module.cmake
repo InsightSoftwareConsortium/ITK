@@ -5,5 +5,14 @@ of the Mesh properties are defined in Traits helper classes, and then propagate
 to the components of the Mesh. These classes are typically used for
 representing the outcome of image segmentation.")
 
-itk_module(ITK-Mesh DEPENDS ITK-Transform TEST_DEPENDS ITK-TestKernel ITK-IO-SpatialObjects DESCRIPTION "${DOCUMENTATION}")
+itk_module(ITK-Mesh
+  DEPENDS
+    ITK-Transform
+  TEST_DEPENDS
+    ITK-TestKernel
+    ITK-IO-SpatialObjects
+  DESCRIPTION
+    "${DOCUMENTATION}"
+)
+
 # Extra test dependency on IO-SpatialObjects is caused by itkMeshSpatialObjectIOTest.
