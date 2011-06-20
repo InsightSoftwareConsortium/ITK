@@ -108,8 +108,8 @@ void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::GenerateInputRequestedRegion()
 {
-  // this filter requires the all of the input images
-  // to be at the size of the output requested region
+  // this filter requires that all of the input images
+  // are the size of the output requested region
   InputImagePointer inputPtr =
     const_cast< InputImageType * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
@@ -129,8 +129,8 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 ::EnlargeOutputRequestedRegion(
   DataObject *output)
 {
-  // this filter requires the all of the output image to be in
-  // the buffer
+  // this filter requires that all of the output images
+  // are in the buffer
   TClassifiedImage *imgData;
 
   imgData = dynamic_cast< TClassifiedImage * >( output );
@@ -229,7 +229,7 @@ void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetNeighborhoodRadius(const SizeValueType radiusValue)
 {
-  //Set up the neighbor hood
+  //Set up the neighborhood
   NeighborhoodRadiusType radius;
 
   for ( unsigned int i = 0; i < InputImageDimension; ++i )
@@ -250,7 +250,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
     {
     radius[i] = radiusArray[i];
     }
-  //Set up the neighbor hood
+  //Set up the neighborhood
   this->SetNeighborhoodRadius(radius);
 } // end SetNeighborhoodRadius
 
@@ -283,7 +283,7 @@ void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetDefaultMRFNeighborhoodWeight()
 {
-  // Set the beta matrix of a 3x3x3 kernel
+  // Set the beta matrix of a 3x3x3 kernel.
   // The index starts from 0 going along the three dimensions
   // in the order of [coloumn], [row], [depth].
 
