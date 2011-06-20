@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class HistogramMatchingImageFilter
- * \brief Normalize the grayscale values between two image by histogram
+ * \brief Normalize the grayscale values between two images by histogram
  * matching.
  *
  * HistogramMatchingImageFilter normalizes the grayscale values of a source

@@ -24,12 +24,13 @@
 namespace itk
 {
 /** \class Hessian3DToVesselnessMeasureImageFilter
- * \brief
- * Line filter to provide a vesselness measure for tubular objects from the
- * hessian matrix. The filter takes as input an image of hessian pixels
+ * \brief Line filter to provide a vesselness measure for tubular objects from the
+ * hessian matrix.
+ *
+ * The filter takes as input an image of hessian pixels
  * (SymmetricSecondRankTensor pixels) and preserves pixels that have
  * eigen values \f$ \lambda_3 \f$ close to 0 and \f$\lambda_2\f$ and \f$\lambda_1\f$ as
- * large negative values. (for bright tubular structures).
+ * large negative values (for bright tubular structures).
  *
  * \f[ | \lambda_1 | < | \lambda_2 | < | \lambda_3 | \f]
  *
