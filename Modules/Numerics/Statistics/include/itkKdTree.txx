@@ -24,126 +24,119 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
-KdTreeNonterminalNode< TSample >
-::KdTreeNonterminalNode(unsigned int partitionDimension,
-                        MeasurementType partitionValue,
-                        Superclass *left,
-                        Superclass *right)
+template<class TSample>
+KdTreeNonterminalNode<TSample>
+::KdTreeNonterminalNode( unsigned int partitionDimension,
+  MeasurementType partitionValue, Superclass *left, Superclass *right )
 {
-  m_PartitionDimension = partitionDimension;
-  m_PartitionValue = partitionValue;
-  m_Left = left;
-  m_Right = right;
+  this->m_PartitionDimension = partitionDimension;
+  this->m_PartitionValue = partitionValue;
+  this->m_Left = left;
+  this->m_Right = right;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTreeNonterminalNode< TSample >
-::GetParameters(unsigned int & partitionDimension,
-                MeasurementType & partitionValue) const
+KdTreeNonterminalNode<TSample>
+::GetParameters( unsigned int &partitionDimension,
+  MeasurementType &partitionValue ) const
 {
-  partitionDimension = m_PartitionDimension;
-  partitionValue = m_PartitionValue;
+  partitionDimension = this->m_PartitionDimension;
+  partitionValue = this->m_PartitionValue;
 }
 
-template< class TSample >
-KdTreeWeightedCentroidNonterminalNode< TSample >
-::KdTreeWeightedCentroidNonterminalNode(unsigned int partitionDimension,
-                                        MeasurementType partitionValue,
-                                        Superclass *left,
-                                        Superclass *right,
-                                        CentroidType & centroid,
-                                        unsigned int size)
+template<class TSample>
+KdTreeWeightedCentroidNonterminalNode<TSample>
+::KdTreeWeightedCentroidNonterminalNode( unsigned int partitionDimension,
+  MeasurementType partitionValue, Superclass *left, Superclass *right,
+  CentroidType & centroid, unsigned int size )
 {
-  m_PartitionDimension = partitionDimension;
-  m_PartitionValue = partitionValue;
-  m_Left = left;
-  m_Right = right;
-  m_WeightedCentroid = centroid;
-  m_MeasurementVectorSize = NumericTraits<CentroidType>::GetLength(centroid);
+  this->m_PartitionDimension = partitionDimension;
+  this->m_PartitionValue = partitionValue;
+  this->m_Left = left;
+  this->m_Right = right;
+  this->m_WeightedCentroid = centroid;
+  this->m_MeasurementVectorSize =
+    NumericTraits<CentroidType>::GetLength( centroid );
 
-  m_Centroid = m_WeightedCentroid / double(size);
+  this->m_Centroid = this->m_WeightedCentroid / static_cast<double>( size );
 
-  m_Size = size;
+  this->m_Size = size;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTreeWeightedCentroidNonterminalNode< TSample >
-::GetParameters(unsigned int & partitionDimension,
-                MeasurementType & partitionValue) const
+KdTreeWeightedCentroidNonterminalNode<TSample>
+::GetParameters( unsigned int &partitionDimension,
+  MeasurementType &partitionValue) const
 {
-  partitionDimension = m_PartitionDimension;
-  partitionValue = m_PartitionValue;
+  partitionDimension = this->m_PartitionDimension;
+  partitionValue = this->m_PartitionValue;
 }
 
-template< class TSample >
-KdTree< TSample >
+template<class TSample>
+KdTree<TSample>
 ::KdTree()
 {
-  m_EmptyTerminalNode =
-    new KdTreeTerminalNode< TSample >();
+  this->m_EmptyTerminalNode = new KdTreeTerminalNode<TSample>();
 
-  m_DistanceMetric = DistanceMetricType::New();
-  m_Sample = 0;
-  m_Root = 0;
-  m_BucketSize = 16;
-  m_MeasurementVectorSize = 0;
+  this->m_DistanceMetric = DistanceMetricType::New();
+  this->m_Sample = 0;
+  this->m_Root = 0;
+  this->m_BucketSize = 16;
+  this->m_MeasurementVectorSize = 0;
 }
 
-template< class TSample >
-KdTree< TSample >
+template<class TSample>
+KdTree<TSample>
 ::~KdTree()
 {
-  if ( m_Root != 0 )
+  if( this->m_Root != 0 )
     {
-    this->DeleteNode(m_Root);
+    this->DeleteNode( this->m_Root );
     }
-
-  delete m_EmptyTerminalNode;
+  delete this->m_EmptyTerminalNode;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::PrintSelf(std::ostream & os, Indent indent) const
+KdTree<TSample>
+::PrintSelf( std::ostream &os, Indent indent ) const
 {
-  Superclass::PrintSelf(os, indent);
+  Superclass::PrintSelf( os, indent );
 
   os << indent << "Input Sample: ";
-  if ( m_Sample != 0 )
+  if( this->m_Sample != 0 )
     {
-    os << m_Sample << std::endl;
+    os << this->m_Sample << std::endl;
     }
   else
     {
     os << "not set." << std::endl;
     }
-
-  os << indent << "Bucket Size: " << m_BucketSize << std::endl;
+  os << indent << "Bucket Size: " << this->m_BucketSize << std::endl;
   os << indent << "Root Node: ";
-  if ( m_Root != 0 )
+  if( this->m_Root != 0 )
     {
-    os << m_Root << std::endl;
+    os << this->m_Root << std::endl;
     }
   else
     {
     os << "not set." << std::endl;
     }
   os << indent << "MeasurementVectorSize: "
-     << m_MeasurementVectorSize << std::endl;
+     << this->m_MeasurementVectorSize << std::endl;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::DeleteNode(KdTreeNodeType *node)
+KdTree<TSample>
+::DeleteNode( KdTreeNodeType *node )
 {
-  if ( node->IsTerminal() )
+  if( node->IsTerminal() )
     {
     // terminal node
-    if ( node == m_EmptyTerminalNode )
+    if( node == this->m_EmptyTerminalNode )
       {
       // empty node
       return;
@@ -153,12 +146,12 @@ KdTree< TSample >
     }
 
   // non-terminal node
-  if ( node->Left() != 0 )
+  if( node->Left() != 0 )
     {
     this->DeleteNode( node->Left() );
     }
 
-  if ( node->Right() != 0 )
+  if( node->Right() != 0 )
     {
     this->DeleteNode( node->Right() );
     }
@@ -166,100 +159,96 @@ KdTree< TSample >
   delete node;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::SetSample(const TSample *sample)
+KdTree<TSample>
+::SetSample( const TSample *sample )
 {
-  m_Sample = sample;
-  this->m_MeasurementVectorSize = m_Sample->GetMeasurementVectorSize();
+  this->m_Sample = sample;
+  this->m_MeasurementVectorSize = this->m_Sample->GetMeasurementVectorSize();
   this->m_DistanceMetric->SetMeasurementVectorSize(
-    this->m_MeasurementVectorSize);
+    this->m_MeasurementVectorSize );
   this->Modified();
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
+KdTree<TSample>
 ::SetBucketSize(unsigned int size)
 {
-  m_BucketSize = size;
+  this->m_BucketSize = size;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::Search(const MeasurementVectorType & query, unsigned int numberOfNeighborsRequested,
-         InstanceIdentifierVectorType & result) const
+KdTree<TSample>
+::Search( const MeasurementVectorType & query,
+  unsigned int numberOfNeighborsRequested, InstanceIdentifierVectorType &result ) const
 {
-  if ( numberOfNeighborsRequested > this->Size() )
+  if( numberOfNeighborsRequested > this->Size() )
     {
-    itkExceptionMacro(
-      <<
-      "The numberOfNeighborsRequested for the nearest neighbor search should be less than or equal to the number of the measurement vectors.");
+    itkExceptionMacro( "The numberOfNeighborsRequested for the nearest "
+      << "neighbor search should be less than or equal to the number of "
+      << "the measurement vectors." );
     }
 
-  m_NearestNeighbors.resize(numberOfNeighborsRequested);
+  NearestNeighbors nearestNeighbors;
+  nearestNeighbors.resize( numberOfNeighborsRequested );
 
   MeasurementVectorType lowerBound;
   MeasurementVectorType upperBound;
-  NumericTraits<MeasurementVectorType>::SetLength(lowerBound, m_MeasurementVectorSize);
-  NumericTraits<MeasurementVectorType>::SetLength(upperBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength( lowerBound,
+    this->m_MeasurementVectorSize );
+  NumericTraits<MeasurementVectorType>::SetLength( upperBound,
+    this->m_MeasurementVectorSize );
 
-  for ( unsigned int d = 0; d < this->m_MeasurementVectorSize; d++ )
+  for(  unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d )
     {
-    lowerBound[d] =
-      static_cast< MeasurementType >( -vcl_sqrt( -static_cast< double >( NumericTraits< MeasurementType >::
-                                                                         NonpositiveMin() ) ) / 2.0 );
-    upperBound[d] =
-      static_cast< MeasurementType >( vcl_sqrt(static_cast< double >( NumericTraits< MeasurementType >::max() ) / 2.0) );
+    lowerBound[d] = static_cast< MeasurementType >( -vcl_sqrt(
+      -static_cast< double >( NumericTraits< MeasurementType >::
+      NonpositiveMin() ) ) / 2.0 );
+    upperBound[d] = static_cast< MeasurementType >( vcl_sqrt(
+      static_cast<double >( NumericTraits< MeasurementType >::max() ) / 2.0 ) );
     }
+  this->NearestNeighborSearchLoop( this->m_Root, query, lowerBound, upperBound,
+    nearestNeighbors );
 
-  m_NumberOfVisits = 0;
-  m_StopSearch = false;
-
-  this->NearestNeighborSearchLoop(m_Root, query, lowerBound, upperBound);
-
-  m_Neighbors = m_NearestNeighbors.GetNeighbors();
-  result = m_Neighbors;
+  result = nearestNeighbors.GetNeighbors();
 }
 
-template< class TSample >
+template<class TSample>
 inline int
-KdTree< TSample >
-::NearestNeighborSearchLoop(const KdTreeNodeType *node,
-                            const MeasurementVectorType & query,
-                            MeasurementVectorType & lowerBound,
-                            MeasurementVectorType & upperBound) const
+KdTree<TSample>
+::NearestNeighborSearchLoop( const KdTreeNodeType *node,
+  const MeasurementVectorType &query, MeasurementVectorType &lowerBound,
+  MeasurementVectorType &upperBound, NearestNeighbors &nearestNeighbors ) const
 {
   unsigned int       i;
   InstanceIdentifier tempId;
   double             tempDistance;
 
-  if ( node->IsTerminal() )
+  if( node->IsTerminal() )
     {
     // terminal node
-    if ( node == m_EmptyTerminalNode )
+    if( node == this->m_EmptyTerminalNode )
       {
       // empty node
       return 0;
       }
 
-    for ( i = 0; i < node->Size(); i++ )
+    for(  i = 0; i < node->Size(); ++i )
       {
       tempId = node->GetInstanceIdentifier(i);
-      tempDistance =
-        m_DistanceMetric->
-        Evaluate( query, m_Sample->GetMeasurementVector(tempId) );
-      m_NumberOfVisits++;
-      if ( tempDistance < m_NearestNeighbors.GetLargestDistance() )
+      tempDistance = this->m_DistanceMetric->Evaluate( query,
+        this->m_Sample->GetMeasurementVector( tempId ) );
+      if( tempDistance < nearestNeighbors.GetLargestDistance() )
         {
-        m_NearestNeighbors.ReplaceFarthestNeighbor(tempId, tempDistance);
+        nearestNeighbors.ReplaceFarthestNeighbor( tempId, tempDistance );
         }
       }
 
-    if ( this->BallWithinBounds( query, lowerBound, upperBound,
-                                 m_NearestNeighbors.GetLargestDistance() ) )
+    if( this->BallWithinBounds( query, lowerBound, upperBound,
+      nearestNeighbors.GetLargestDistance() ) )
       {
       return 1;
       }
@@ -270,28 +259,30 @@ KdTree< TSample >
   unsigned int    partitionDimension;
   MeasurementType partitionValue;
   MeasurementType tempValue;
-  node->GetParameters(partitionDimension, partitionValue);
+  node->GetParameters( partitionDimension, partitionValue );
 
   //
   // Check the point associated with the nonterminal node
   // and potentially add it to the list of nearest neighbors
   //
   tempId = node->GetInstanceIdentifier(0);
-  tempDistance = m_DistanceMetric->Evaluate( query, m_Sample->GetMeasurementVector(tempId) );
-  if ( tempDistance < m_NearestNeighbors.GetLargestDistance() )
+  tempDistance = this->m_DistanceMetric->Evaluate( query,
+    this->m_Sample->GetMeasurementVector( tempId ) );
+  if( tempDistance < nearestNeighbors.GetLargestDistance() )
     {
-    m_NearestNeighbors.ReplaceFarthestNeighbor(tempId, tempDistance);
+    nearestNeighbors.ReplaceFarthestNeighbor( tempId, tempDistance );
     }
 
   //
   // Now check both child sub-trees
   //
-  if ( query[partitionDimension] <= partitionValue )
+  if( query[partitionDimension] <= partitionValue )
     {
     // search the closer child node
     tempValue = upperBound[partitionDimension];
     upperBound[partitionDimension] = partitionValue;
-    if ( NearestNeighborSearchLoop(node->Left(), query, lowerBound, upperBound) )
+    if( this->NearestNeighborSearchLoop( node->Left(), query, lowerBound,
+      upperBound, nearestNeighbors ) )
       {
       return 1;
       }
@@ -300,10 +291,11 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = lowerBound[partitionDimension];
     lowerBound[partitionDimension] = partitionValue;
-    if ( this->BoundsOverlapBall( query, lowerBound, upperBound,
-                                  m_NearestNeighbors.GetLargestDistance() ) )
+    if( this->BoundsOverlapBall( query, lowerBound, upperBound,
+      nearestNeighbors.GetLargestDistance() ) )
       {
-      NearestNeighborSearchLoop(node->Right(), query, lowerBound, upperBound);
+      this->NearestNeighborSearchLoop( node->Right(), query, lowerBound,
+        upperBound, nearestNeighbors );
       }
     lowerBound[partitionDimension] = tempValue;
     }
@@ -312,7 +304,8 @@ KdTree< TSample >
     // search the closer child node
     tempValue = lowerBound[partitionDimension];
     lowerBound[partitionDimension] = partitionValue;
-    if ( NearestNeighborSearchLoop(node->Right(), query, lowerBound, upperBound) )
+    if( this->NearestNeighborSearchLoop( node->Right(), query, lowerBound,
+      upperBound, nearestNeighbors ) )
       {
       return 1;
       }
@@ -321,17 +314,18 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = upperBound[partitionDimension];
     upperBound[partitionDimension] = partitionValue;
-    if ( this->BoundsOverlapBall( query, lowerBound, upperBound,
-                                  m_NearestNeighbors.GetLargestDistance() ) )
+    if( this->BoundsOverlapBall( query, lowerBound, upperBound,
+      nearestNeighbors.GetLargestDistance() ) )
       {
-      NearestNeighborSearchLoop(node->Left(), query, lowerBound, upperBound);
+      this->NearestNeighborSearchLoop( node->Left(), query, lowerBound,
+        upperBound, nearestNeighbors );
       }
     upperBound[partitionDimension] = tempValue;
     }
 
   // stop or continue search
-  if ( this->BallWithinBounds( query, lowerBound, upperBound,
-                               m_NearestNeighbors.GetLargestDistance() ) )
+  if( this->BallWithinBounds( query, lowerBound, upperBound,
+    nearestNeighbors.GetLargestDistance() ) )
     {
     return 1;
     }
@@ -339,90 +333,93 @@ KdTree< TSample >
   return 0;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::Search(const MeasurementVectorType & query, double radius,
-         InstanceIdentifierVectorType & result) const
+KdTree<TSample>
+::Search( const MeasurementVectorType & query, double radius,
+  InstanceIdentifierVectorType & result ) const
 {
   MeasurementVectorType lowerBound;
   MeasurementVectorType upperBound;
 
-  NumericTraits<MeasurementVectorType>::SetLength(lowerBound, m_MeasurementVectorSize);
-  NumericTraits<MeasurementVectorType>::SetLength(upperBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength( lowerBound,
+    this->m_MeasurementVectorSize );
+  NumericTraits<MeasurementVectorType>::SetLength( upperBound,
+    this->m_MeasurementVectorSize );
 
-  for ( unsigned int d = 0; d < this->m_MeasurementVectorSize; d++ )
+  for(  unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d )
     {
-    lowerBound[d] =
-      static_cast< MeasurementType >( -vcl_sqrt( -static_cast< double >( NumericTraits< MeasurementType >::
-                                                                         NonpositiveMin() ) ) / 2.0 );
-    upperBound[d] =
-      static_cast< MeasurementType >( vcl_sqrt(static_cast< double >( NumericTraits< MeasurementType >::max() ) / 2.0) );
+    lowerBound[d] = static_cast<MeasurementType>( -vcl_sqrt(
+      -static_cast<double>( NumericTraits<MeasurementType>::
+      NonpositiveMin() ) ) / 2.0 );
+    upperBound[d] = static_cast< MeasurementType >( vcl_sqrt(
+      static_cast<double>( NumericTraits< MeasurementType >::max() ) / 2.0 ) );
     }
 
-  m_NumberOfVisits = 0;
-  m_StopSearch = false;
-
-  m_Neighbors.clear();
-  m_SearchRadius = radius;
-  this->SearchLoop(m_Root, query, lowerBound, upperBound);
-  result = m_Neighbors;
+  result.clear();
+  this->SearchLoop( this->m_Root, query, radius, lowerBound, upperBound, result );
 }
 
-template< class TSample >
+template<class TSample>
 inline int
-KdTree< TSample >
-::SearchLoop(const KdTreeNodeType *node,
-             const MeasurementVectorType & query,
-             MeasurementVectorType & lowerBound,
-             MeasurementVectorType & upperBound) const
+KdTree<TSample>
+::SearchLoop( const KdTreeNodeType *node, const MeasurementVectorType &query,
+  double radius, MeasurementVectorType &lowerBound, MeasurementVectorType
+  &upperBound, InstanceIdentifierVectorType &neighbors ) const
 {
-  unsigned int       i;
   InstanceIdentifier tempId;
   double             tempDistance;
 
-  if ( node->IsTerminal() )
+  if( node->IsTerminal() )
     {
     // terminal node
-    if ( node == m_EmptyTerminalNode )
+    if( node == this->m_EmptyTerminalNode )
       {
       // empty node
       return 0;
       }
 
-    for ( i = 0; i < node->Size(); i++ )
+    for( unsigned int i = 0; i < node->Size(); ++i )
       {
-      tempId = node->GetInstanceIdentifier(i);
-      tempDistance =
-        m_DistanceMetric->
-        Evaluate( query, m_Sample->GetMeasurementVector(tempId) );
-      m_NumberOfVisits++;
-      if ( tempDistance < m_SearchRadius )
+      tempId = node->GetInstanceIdentifier( i );
+      tempDistance = this->m_DistanceMetric->Evaluate( query,
+        this->m_Sample->GetMeasurementVector( tempId ) );
+      if( tempDistance <= radius )
         {
-        m_Neighbors.push_back(tempId);
+        neighbors.push_back( tempId );
         }
       }
 
-    if ( this->BallWithinBounds(query, lowerBound, upperBound,
-                                m_SearchRadius) )
+    if( this->BallWithinBounds( query, lowerBound, upperBound, radius ) )
       {
       return 1;
       }
 
     return 0;
     }
+  if( node->IsTerminal() == false )
+    {
+    tempId = node->GetInstanceIdentifier( 0 );
+    tempDistance = this->m_DistanceMetric->Evaluate( query,
+      this->m_Sample->GetMeasurementVector( tempId ) );
+    if( tempDistance <= radius )
+      {
+      neighbors.push_back( tempId );
+      }
+    }
 
   unsigned int    partitionDimension;
   MeasurementType partitionValue;
   MeasurementType tempValue;
-  node->GetParameters(partitionDimension, partitionValue);
+  node->GetParameters( partitionDimension, partitionValue );
 
-  if ( query[partitionDimension] <= partitionValue )
+  if( query[partitionDimension] <= partitionValue )
     {
     // search the closer child node
     tempValue = upperBound[partitionDimension];
     upperBound[partitionDimension] = partitionValue;
-    if ( SearchLoop(node->Left(), query, lowerBound, upperBound) )
+    if( this->SearchLoop( node->Left(), query, radius, lowerBound, upperBound,
+      neighbors ) )
       {
       return 1;
       }
@@ -431,10 +428,10 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = lowerBound[partitionDimension];
     lowerBound[partitionDimension] = partitionValue;
-    if ( this->BoundsOverlapBall(query, lowerBound, upperBound,
-                                 m_SearchRadius) )
+    if( this->BoundsOverlapBall( query, lowerBound, upperBound, radius ) )
       {
-      SearchLoop(node->Right(), query, lowerBound, upperBound);
+      this->SearchLoop( node->Right(), query, radius, lowerBound, upperBound,
+        neighbors );
       }
     lowerBound[partitionDimension] = tempValue;
     }
@@ -443,7 +440,8 @@ KdTree< TSample >
     // search the closer child node
     tempValue = lowerBound[partitionDimension];
     lowerBound[partitionDimension] = partitionValue;
-    if ( SearchLoop(node->Right(), query, lowerBound, upperBound) )
+    if( this->SearchLoop( node->Right(), query, radius, lowerBound, upperBound,
+      neighbors ) )
       {
       return 1;
       }
@@ -452,17 +450,16 @@ KdTree< TSample >
     // search the other node, if necessary
     tempValue = upperBound[partitionDimension];
     upperBound[partitionDimension] = partitionValue;
-    if ( this->BoundsOverlapBall(query, lowerBound, upperBound,
-                                 m_SearchRadius) )
+    if( this->BoundsOverlapBall( query, lowerBound, upperBound, radius ) )
       {
-      SearchLoop(node->Left(), query, lowerBound, upperBound);
+      this->SearchLoop( node->Left(), query, radius, lowerBound, upperBound,
+        neighbors );
       }
     upperBound[partitionDimension] = tempValue;
     }
 
   // stop or continue search
-  if ( this->BallWithinBounds(query, lowerBound, upperBound,
-                              m_SearchRadius) )
+  if( this->BallWithinBounds( query, lowerBound, upperBound, radius ) )
     {
     return 1;
     }
@@ -470,24 +467,17 @@ KdTree< TSample >
   return 0;
 }
 
-template< class TSample >
+template<class TSample>
 inline bool
-KdTree< TSample >
-::BallWithinBounds(const MeasurementVectorType & query,
-                   MeasurementVectorType & lowerBound,
-                   MeasurementVectorType & upperBound,
-                   double radius) const
+KdTree<TSample>
+::BallWithinBounds( const MeasurementVectorType & query, MeasurementVectorType
+  &lowerBound, MeasurementVectorType & upperBound, double radius ) const
 {
-  unsigned int dimension;
-
-  for ( dimension = 0; dimension < this->m_MeasurementVectorSize; dimension++ )
+  for( unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d )
     {
-    if ( ( m_DistanceMetric->Evaluate(query[dimension],
-                                      lowerBound[dimension]) <=
-           radius )
-         || ( m_DistanceMetric->Evaluate(query[dimension],
-                                         upperBound[dimension]) <=
-              radius ) )
+    if( ( this->m_DistanceMetric->Evaluate( query[d], lowerBound[d] ) <=
+      radius ) || ( this->m_DistanceMetric->Evaluate( query[d],
+      upperBound[d] ) <= radius ) )
       {
       return false;
       }
@@ -495,37 +485,31 @@ KdTree< TSample >
   return true;
 }
 
-template< class TSample >
+template<class TSample>
 inline bool
-KdTree< TSample >
-::BoundsOverlapBall(const MeasurementVectorType & query,
-                    MeasurementVectorType & lowerBound,
-                    MeasurementVectorType & upperBound,
-                    double radius) const
+KdTree<TSample>
+::BoundsOverlapBall( const MeasurementVectorType &query, MeasurementVectorType
+  &lowerBound, MeasurementVectorType &upperBound, double radius ) const
 {
-  double       sum = NumericTraits< double >::Zero;
-  double       temp;
-  unsigned int dimension;
-  double       squaredSearchRadius = radius * radius;
+  double squaredSearchRadius = vnl_math_sqr( radius );
 
-  for ( dimension = 0; dimension < m_MeasurementVectorSize; dimension++ )
+  double sum = 0.0;
+  for( unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d )
     {
-    if ( query[dimension] <= lowerBound[dimension] )
+    if( query[d] <= lowerBound[d] )
       {
-      temp = m_DistanceMetric->Evaluate(query[dimension],
-                                        lowerBound[dimension]);
-      sum += temp * temp;
-      if ( sum < squaredSearchRadius )
+      sum += vnl_math_sqr( this->m_DistanceMetric->Evaluate( query[d],
+        lowerBound[d] ) );
+      if( sum < squaredSearchRadius )
         {
         return true;
         }
       }
-    else if ( query[dimension] >= upperBound[dimension] )
+    else if( query[d] >= upperBound[d] )
       {
-      temp = m_DistanceMetric->Evaluate(query[dimension],
-                                        upperBound[dimension]);
-      sum += temp * temp;
-      if ( sum < squaredSearchRadius )
+      sum += vnl_math_sqr( this->m_DistanceMetric->Evaluate( query[d],
+        upperBound[d] ) );
+      if( sum < squaredSearchRadius )
         {
         return true;
         }
@@ -534,40 +518,41 @@ KdTree< TSample >
   return false;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::PrintTree(std::ostream & os) const
+KdTree<TSample>
+::PrintTree( std::ostream & os ) const
 {
   const unsigned int topLevel = 0;
   const unsigned int activeDimension = 0;
 
-  this->PrintTree(this->m_Root, topLevel, activeDimension, os);
+  this->PrintTree( this->m_Root, topLevel, activeDimension, os );
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::PrintTree(KdTreeNodeType *node, unsigned int level, unsigned int activeDimension, std::ostream & os) const
+KdTree<TSample>
+::PrintTree( KdTreeNodeType *node, unsigned int level,
+  unsigned int activeDimension, std::ostream &os ) const
 {
   level++;
-  if ( node->IsTerminal() )
+  if( node->IsTerminal() )
     {
     // terminal node
-    if ( node == m_EmptyTerminalNode )
+    if( node == this->m_EmptyTerminalNode )
       {
       // empty node
       os << "Empty node: level = " << level << std::endl;
       return;
       }
-
-    os << "Terminal: level = " << level
-       << " dim = " << activeDimension << std::endl;
+    os << "Terminal: level = " << level << " dim = " << activeDimension
+       << std::endl;
     os << "          ";
-    for ( unsigned int i = 0; i < node->Size(); i++ )
+    for(  unsigned int i = 0; i < node->Size(); ++i )
       {
-      os << "[" << node->GetInstanceIdentifier(i) << "] "
-         << m_Sample->GetMeasurementVector( node->GetInstanceIdentifier(i) ) << ", ";
+      os << "[" << node->GetInstanceIdentifier( i ) << "] "
+         << this->m_Sample->GetMeasurementVector(
+         node->GetInstanceIdentifier( i ) ) << ", ";
       }
     os << std::endl;
     return;
@@ -576,7 +561,7 @@ KdTree< TSample >
   unsigned int    partitionDimension;
   MeasurementType partitionValue;
 
-  node->GetParameters(partitionDimension, partitionValue);
+  node->GetParameters( partitionDimension, partitionValue );
   typename KdTreeNodeType::CentroidType centroid;
   node->GetWeightedCentroid(centroid);
   os << "Nonterminal: level = " << level << std::endl;
@@ -584,17 +569,18 @@ KdTree< TSample >
   os << "             value = " << partitionValue << std::endl;
   os << "             weighted centroid = " << centroid;
   os << "             size = " << node->Size() << std::endl;
-  os << "             identifier = " << node->GetInstanceIdentifier(0);
-  os << m_Sample->GetMeasurementVector( node->GetInstanceIdentifier(0) ) << std::endl;
+  os << "             identifier = " << node->GetInstanceIdentifier( 0 );
+  os << this->m_Sample->GetMeasurementVector( node->GetInstanceIdentifier( 0 ) )
+     << std::endl;
 
-  this->PrintTree(node->Left(),  level, partitionDimension, os);
-  this->PrintTree(node->Right(), level, partitionDimension, os);
+  this->PrintTree( node->Left(),  level, partitionDimension, os );
+  this->PrintTree( node->Right(), level, partitionDimension, os );
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::PlotTree(std::ostream & os) const
+KdTree<TSample>
+::PlotTree( std::ostream & os ) const
 {
   //
   // Graph header
@@ -604,7 +590,7 @@ KdTree< TSample >
   //
   // Recursively visit the tree and add entries for the nodes
   //
-  this->PlotTree(this->m_Root, os);
+  this->PlotTree( this->m_Root, os );
 
   //
   // Graph footer
@@ -612,30 +598,30 @@ KdTree< TSample >
   os << "}" << std::endl;
 }
 
-template< class TSample >
+template<class TSample>
 void
-KdTree< TSample >
-::PlotTree(KdTreeNodeType *node, std::ostream & os) const
+KdTree<TSample>
+::PlotTree( KdTreeNodeType *node, std::ostream & os ) const
 {
   unsigned int    partitionDimension;
   MeasurementType partitionValue;
 
-  node->GetParameters(partitionDimension, partitionValue);
+  node->GetParameters( partitionDimension, partitionValue );
 
   KdTreeNodeType *left  = node->Left();
   KdTreeNodeType *right = node->Right();
 
   char partitionDimensionCharSymbol = ( 'X' + partitionDimension );
 
-  if ( node->IsTerminal() )
+  if( node->IsTerminal() )
     {
     // terminal node
-    if ( node != m_EmptyTerminalNode )
+    if( node != this->m_EmptyTerminalNode )
       {
       os << "\"" << node << "\" [label=\"";
-      for ( unsigned int i = 0; i < node->Size(); i++ )
+      for(  unsigned int i = 0; i < node->Size(); ++i )
         {
-        os << this->GetMeasurementVector( node->GetInstanceIdentifier(i) );
+        os << this->GetMeasurementVector( node->GetInstanceIdentifier( i ) );
         os << " ";
         }
       os << "\" ];" << std::endl;
@@ -644,21 +630,21 @@ KdTree< TSample >
   else
     {
     os << "\"" << node << "\" [label=\"";
-    os << this->GetMeasurementVector( node->GetInstanceIdentifier(0) );
+    os << this->GetMeasurementVector( node->GetInstanceIdentifier( 0 ) );
     os << " " << partitionDimensionCharSymbol << "=" << partitionValue;
     os << "\" ];" << std::endl;
     }
 
-  if ( left &&  ( left != m_EmptyTerminalNode ) )
+  if( left &&  ( left != this->m_EmptyTerminalNode ) )
     {
     os << "\"" << node << "\" -> \"" << left << "\";" << std::endl;
-    this->PlotTree(left, os);
+    this->PlotTree( left, os );
     }
 
-  if ( right && ( right != m_EmptyTerminalNode ) )
+  if( right && ( right != this->m_EmptyTerminalNode ) )
     {
     os << "\"" << node << "\" -> \"" << right << "\";" << std::endl;
-    this->PlotTree(right, os);
+    this->PlotTree( right, os );
     }
 }
 } // end of namespace Statistics
