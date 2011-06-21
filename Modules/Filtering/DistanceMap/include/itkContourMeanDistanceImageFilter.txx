@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkContourMeanDistanceImageFilter_txx
 #define __itkContourMeanDistanceImageFilter_txx
+
 #include "itkContourMeanDistanceImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -38,10 +39,28 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 template< class TInputImage1, class TInputImage2 >
 void
 ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
+::SetInput1(const InputImage1Type *image)
+{
+  this->SetInput( image );
+}
+
+template< class TInputImage1, class TInputImage2 >
+void
+ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput2(const TInputImage2 *image)
 {
   this->SetNthInput( 1, const_cast< TInputImage2 * >( image ) );
 }
+
+template< class TInputImage1, class TInputImage2 >
+const typename ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
+::InputImage1Type *
+ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
+::GetInput1()
+{
+  return this->GetInput();
+}
+
 
 template< class TInputImage1, class TInputImage2 >
 const typename ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
@@ -99,8 +118,6 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 
   this->GraftOutput(image);
 
-  RealType distance12, distance21;
-
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
@@ -127,9 +144,9 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   progress->RegisterInternalFilter(filter21, .5f);
 
   filter12->Update();
-  distance12 = filter12->GetContourDirectedMeanDistance();
+  RealType distance12 = filter12->GetContourDirectedMeanDistance();
   filter21->Update();
-  distance21 = filter21->GetContourDirectedMeanDistance();
+  RealType distance21 = filter21->GetContourDirectedMeanDistance();
 
   if ( distance12 > distance21 )
     {

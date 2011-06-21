@@ -55,10 +55,9 @@ namespace itk
  *
  * \sa ContourDirectedMeanDistanceImageFilter
  *
- * \ingroup MultiThreaded
- *
  * \author Teo Popa, ISIS Center, Georgetown University
  *
+ * \ingroup MultiThreaded
  * \ingroup ITK-DistanceMap
  *
  * \wiki
@@ -105,19 +104,13 @@ public:
   typedef typename NumericTraits< InputImage1PixelType >::RealType RealType;
 
   /** Set the first input. */
-  void SetInput1(const InputImage1Type *image)
-  {
-    this->SetInput(image);
-  }
+  void SetInput1(const InputImage1Type *image);
 
   /** Set the second input. */
   void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1(void)
-  {
-    return this->GetInput(); \
-  }
+  const InputImage1Type * GetInput1(void);
 
   /** Get the second input. */
   const InputImage2Type * GetInput2(void);
