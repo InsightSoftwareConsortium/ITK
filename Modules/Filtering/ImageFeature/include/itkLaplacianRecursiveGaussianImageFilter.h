@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITK-ImageFeature
  *
  * \wiki
- * \wikiexample{EdgesAndGradients/LaplacianRecursiveGaussianImageFilter,Compute the Laplacian of an image}
+ * \wikiexample{EdgesAndGradients/LaplacianRecursiveGaussianImageFilter,Compute the Laplacian of Gaussian (LoG) of an image}
  * \endwiki
  */
 template< typename TInputImage,

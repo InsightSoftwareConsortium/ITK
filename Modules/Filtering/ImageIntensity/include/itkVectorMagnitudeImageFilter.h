@@ -35,6 +35,10 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
+ * \wikiexample{VectorImages/VectorMagnitudeImageFilter,Compute the magnitude of each pixel in a vector image to produce a magnitude image}
+ * \endwiki
  */
 
 namespace Functor
