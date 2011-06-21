@@ -41,6 +41,14 @@ namespace itk
  *
  * All the subclasses of LabelObject have to reinplement the CopyAttributesFrom() method.
  *
+ * The pixels locations belonging to the LabelObject can be obtained using:
+ * \code
+ * for(unsigned int pixelId = 0; pixelId < labelObject->Size(); pixelId++)
+ *   {
+ *   std::cout << labelObject->GetIndex(pixelId);
+ *   }
+ * \endcode
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
@@ -133,7 +141,11 @@ public:
 
   bool Empty() const;
 
-  IndexType GetIndex(SizeValueType offset) const;
+  /**
+   * Get the index of the ith pixel associated with the object.
+   * Valid indices are from 0 to LabelObject->GetSize() - 1.
+   */
+  IndexType GetIndex(SizeValueType i) const;
 
   /** Copy the attributes of another node to this one */
   virtual void CopyAttributesFrom(const Self *src);
