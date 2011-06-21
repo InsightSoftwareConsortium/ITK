@@ -44,9 +44,26 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 template< class TInputImage1, class TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
+::SetInput1(const InputImage1Type *image)
+{
+  this->SetInput(image);
+}
+
+template< class TInputImage1, class TInputImage2 >
+void
+ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput2(const TInputImage2 *image)
 {
   this->SetNthInput( 1, const_cast< TInputImage2 * >( image ) );
+}
+
+template< class TInputImage1, class TInputImage2 >
+const typename ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
+::InputImage1Type *
+ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
+::GetInput1(void)
+{
+  return this->GetInput();
 }
 
 template< class TInputImage1, class TInputImage2 >
@@ -138,15 +155,13 @@ void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::AfterThreadedGenerateData()
 {
-  ThreadIdType i;
-
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   // find mean over all threads
-  int      count = 0;
-  RealType sum = NumericTraits< RealType >::Zero;
+  IdentifierType  count = 0;
+  RealType        sum = NumericTraits< RealType >::Zero;
 
-  for ( i = 0; i < numberOfThreads; i++ )
+  for ( ThreadIdType i = 0; i < numberOfThreads; i++ )
     {
     sum += m_MeanDistance[i];
     count += m_Count[i];
@@ -167,32 +182,28 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  unsigned int i;
-
   ZeroFluxNeumannBoundaryCondition< InputImage1Type > nbc;
 
   ConstNeighborhoodIterator< InputImage1Type > bit;
 
-  typename  InputImage1Type::ConstPointer input  = this->GetInput();
+  InputImage1ConstPointer input  = this->GetInput();
 
   // Find the data-set boundary "faces"
-  typedef typename InputImage1Type::SizeType InputSizeType;
-  InputSizeType radius;
+  SizeType radius;
   radius.Fill(1);
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImage1Type >::FaceListType faceList;
+
+  typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImage1Type >::FaceListType
+    FaceListType;
+
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImage1Type > bC;
-  faceList = bC(input, outputRegionForThread, radius);
-
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImage1Type >::FaceListType::iterator fit;
-
-  typedef typename InputImage1Type::PixelType InputPixelType;
+  FaceListType faceList = bC(input, outputRegionForThread, radius);
 
   // support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
+  for ( typename FaceListType::iterator fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
     ImageRegionConstIterator< DistanceMapType > it2 (m_DistanceMap, *fit);
     bit = ConstNeighborhoodIterator< InputImage1Type >(radius, input, *fit);
@@ -201,21 +212,19 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    bool bIsOnContour;
-
     while ( !bit.IsAtEnd() )
       {
       // first test
       // if current pixel is not on, let's continue
-      if ( bit.GetCenterPixel() != NumericTraits< InputPixelType >::Zero )
+      if ( bit.GetCenterPixel() != NumericTraits< InputImage1PixelType >::Zero )
         {
-        bIsOnContour = false;
+        bool bIsOnContour = false;
 
-        for ( i = 0; i < neighborhoodSize; ++i )
+        for ( unsigned int i = 0; i < neighborhoodSize; ++i )
           {
           // second test if at least one neighbour pixel is off
           // the center pixel belongs to contour
-          if ( bit.GetPixel(i) == NumericTraits< InputPixelType >::Zero )
+          if ( bit.GetPixel(i) == NumericTraits< InputImage1PixelType >::Zero )
             {
             bIsOnContour = true;
             break;

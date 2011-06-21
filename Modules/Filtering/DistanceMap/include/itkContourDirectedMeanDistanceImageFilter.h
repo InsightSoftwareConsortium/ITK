@@ -38,15 +38,15 @@ namespace itk
  * to the nearest neighbor in \f$B\f$. Note that this function is not
  * is not symmetric and hence is not a true distance.
  *
- * In particular, this filter uses the SignedDanielssonDistanceMapImageFilter inside
- * to compute distance map from all non-zero pixels in the second image. It
- * then computes the mean distance (in pixels) within the boundary pixels of
- * non-zero regions in the first image.
+ * In particular, this filter uses the SignedDanielssonDistanceMapImageFilter
+ * inside to compute distance map from all non-zero pixels in the second image.
+ * It then computes the mean distance (in pixels) within the boundary pixels
+ *  of non-zero regions in the first image.
  *
  * Use MeanDistanceImageFilter to compute the full Mean distance.
  *
  * This filter requires the largest possible region of the first image and the
- * same corresponding region in the second image.  It behaves as filter with
+ * same corresponding region in the second image. It behaves as filter with
  * two input and one output. Thus it can be inserted in a pipeline with other
  * filters. The filter passes the first input through unmodified.
  *
@@ -102,19 +102,13 @@ public:
   typedef typename NumericTraits< InputImage1PixelType >::RealType RealType;
 
   /** Set the first input. */
-  void SetInput1(const InputImage1Type *image)
-  {
-    this->SetInput(image);
-  }
+  void SetInput1(const InputImage1Type *image);
 
   /** Set the second input. */
   void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
-  const InputImage1Type * GetInput1(void)
-  {
-    return this->GetInput();
-  }
+  const InputImage1Type * GetInput1(void);
 
   /** Get the second input. */
   const InputImage2Type * GetInput2(void);
@@ -166,9 +160,9 @@ private:
 
   typename DistanceMapType::Pointer m_DistanceMap;
 
-  Array< RealType > m_MeanDistance;
-  Array< int >      m_Count;
-  RealType          m_ContourDirectedMeanDistance;
+  Array< RealType >       m_MeanDistance;
+  Array< IdentifierType > m_Count;
+  RealType                m_ContourDirectedMeanDistance;
 }; // end of class
 } // end namespace itk
 
