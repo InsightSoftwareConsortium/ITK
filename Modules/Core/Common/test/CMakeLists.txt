@@ -145,6 +145,7 @@ itkMemoryLeakTest.cxx
 itkVectorGeometryTest.cxx
 itkVNLRoundProfileTest1.cxx
 itkZeroFluxBoundaryConditionTest.cxx
+itkMemoryProbesCollecterBaseTest.cxx
 )
 
 CreateTestDriver(ITK-Common1 "${ITK-Common_LIBRARIES}" "${ITK-Common1Tests}")
@@ -361,7 +362,8 @@ itk_add_test(NAME itkVariableSizeMatrixTest COMMAND ITK-Common2TestDriver itkVar
 itk_add_test(NAME itkVectorGeometryTest COMMAND ITK-Common2TestDriver itkVectorGeometryTest)
 itk_add_test(NAME itkZeroFluxBoundaryConditionTest COMMAND ITK-Common2TestDriver itkZeroFluxBoundaryConditionTest)
  itk_add_test(NAME itkVNLRoundProfileTest1 COMMAND ITK-Common2TestDriver itkVNLRoundProfileTest1)
-
+ itk_add_test(NAME itkMemoryProbesCollecterBaseTest COMMAND ITK-Common2TestDriver
+   itkMemoryProbesCollecterBaseTest)
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4 )
   itk_add_test(NAME itkImageFillBufferTest4.1 COMMAND ITK-Common2TestDriver itkImageFillBufferTest 4.1)
 endif()
