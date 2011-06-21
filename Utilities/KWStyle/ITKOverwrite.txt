@@ -129,3 +129,7 @@ itkIntTypes.h Typedefs Disable
 itkv3Rigid3DTransform.h Namespace Disable
 itkNeighborhoodIteratorTestCommon.txx Namespace Disable
 itkSimpleMultiResolutionImageRegistrationUI.h Namespace Disable
+QuickView.h Namespace Disable
+QuickView.cxx Namespace Disable
+QuickViewTest.cxx Namespace Disable
+vtkCaptureScreen.h Namespace Disable
