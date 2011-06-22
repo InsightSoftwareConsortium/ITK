@@ -188,12 +188,16 @@ ENDIF(UNIX)
 
 #-----------------------------------------------------------------------------
 # Build the main lib...
-IF(MSVC OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Intel")
-  INCLUDE_DIRECTORIES(
-    "${GDCM_SOURCE_DIR}/Utilities/C99"
-  )
-  # Process the install rules from C99
-  SUBDIRS(Utilities/C99)
+IF( NOT GDCM_HAVE_STDINT_H )
+  IF( WIN32 )
+    IF( MSVC OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Intel" )
+      INCLUDE_DIRECTORIES(
+        "${GDCM_SOURCE_DIR}/Utilities/C99"
+        )
+      # Process the install rules from C99
+      SUBDIRS(Utilities/C99)
+    endif()
+  endif()
 ENDIF()
 
 # --------------------------------------------------------------------------
