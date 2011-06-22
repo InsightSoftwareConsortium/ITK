@@ -145,7 +145,7 @@ public:
 
   /**
    * Set/Get the attribute to use to select the object to keep. The default
-   * is "Size".
+   * is "NumberOfPixels".
    */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
