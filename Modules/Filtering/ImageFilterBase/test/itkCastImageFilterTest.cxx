@@ -23,7 +23,9 @@
 
 #include "itkImage.h"
 #include "itkCastImageFilter.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkRandomImageSource.h"
+#include "itkVectorImage.h"
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
@@ -137,6 +139,81 @@ bool TestCastFrom()
   return success;
 }
 
+bool TestVectorImageCast()
+{
+  // This function casts a VectorImage<float, 2>
+  // to a VectorImage<unsigned char, 2>
+  std::cout << "Casting from a VectorImage<float, 2> \
+                to VectorImage<unsigned char, 2> ..." << std::endl;
+
+  typedef itk::VectorImage<unsigned char, 2>  UnsignedCharVectorImageType;
+  typedef itk::VectorImage<float, 2>  FloatVectorImageType;
+
+  // Create a 1x3 image of 2D vectors
+  FloatVectorImageType::Pointer image = FloatVectorImageType::New();
+
+  itk::Size<2> size;
+  size[0] = 1;
+  size[1] = 3;
+
+  itk::Index<2> start;
+  start.Fill(0);
+
+  itk::ImageRegion<2> region(start,size);
+  image->SetNumberOfComponentsPerPixel(2);
+  image->SetRegions(region);
+  image->Allocate();
+  itk::VariableLengthVector<float> vec;
+  vec.SetSize(2);
+  // All pixels will be the vector (1.3, 5.3)
+  vec[0] = 1.3;
+  vec[1] = 5.3;
+  image->FillBuffer(vec);
+
+  typedef itk::CastImageFilter< FloatVectorImageType,
+               UnsignedCharVectorImageType > CastImageFilterType;
+  CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
+  castImageFilter->SetInput(image);
+  castImageFilter->Update();
+
+  // Setup iterators for the original and casted images
+  itk::ImageRegionConstIterator<UnsignedCharVectorImageType>
+       castedImageIterator(castImageFilter->GetOutput(),
+       castImageFilter->GetOutput()->GetLargestPossibleRegion());
+
+  itk::ImageRegionConstIterator<FloatVectorImageType>
+    originalImageIterator(image, image->GetLargestPossibleRegion());
+
+  // Compare both dimensions of all of the pixels from the manually
+  // casted original image to the corresponding pixels in the filter-casted
+  // image
+  bool success = true;
+  while(!originalImageIterator.IsAtEnd())
+    {
+    if(static_cast<unsigned char>(originalImageIterator.Get()[0]) !=
+                                  castedImageIterator.Get()[0] ||
+       static_cast<unsigned char>(originalImageIterator.Get()[1]) !=
+                                  castedImageIterator.Get()[1])
+      {
+      std::cerr << "Error in TestVectorImageCast!" << std::endl;
+      success = false;
+      }
+    ++originalImageIterator;
+    ++castedImageIterator;
+    }
+
+  if ( success )
+    {
+    std::cout << "[PASSED]" << std::endl;
+    }
+  else
+    {
+    std::cout << "[FAILED]" << std::endl;
+    }
+
+  return success;
+}
+
 
 int itkCastImageFilterTest( int, char* [] )
 {
@@ -154,7 +231,8 @@ int itkCastImageFilterTest( int, char* [] )
     TestCastFrom< long long >() &&
     TestCastFrom< unsigned long long >() &&
     TestCastFrom< float >() &&
-    TestCastFrom< double >();
+    TestCastFrom< double >() &&
+    TestVectorImageCast();
 
   std::cout << std::endl;
   if ( !success )
