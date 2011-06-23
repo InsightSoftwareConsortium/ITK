@@ -115,28 +115,28 @@ public:
 
   typedef enum DirectionCollaspeStrategyEnum {
     DIRECTIONCOLLAPSETOUNKOWN=0,
-    DIRECTIONCOLLASPETOIDENTITY=1,
-    DIRECTIONCOLLASPETOSUBMATRIX=2,
-    DIRECTIONCOLLASPETOGUESS=3
-  } DIRECTIONCOLLASPESTRATEGY;
+    DIRECTIONCOLLAPSETOIDENTITY=1,
+    DIRECTIONCOLLAPSETOSUBMATRIX=2,
+    DIRECTIONCOLLAPSETOGUESS=3
+  } DIRECTIONCOLLAPSESTRATEGY;
 
 
   /**
    * Set the strategy to be used to collapse pysical space dimensions.
    *
-   * itk::itkExtractSliceImageFilter::DIRECTIONCOLLASPETOIDENTITY
+   * itk::itkExtractSliceImageFilter::DIRECTIONCOLLAPSETOIDENTITY
    * Set the strategy so that all collapsed images have an identity direction.
    * Use this strategy when you know that retention of the physical space
    * orientation of the collapsed image is not important.
    *
-   * itk::itkExtractSliceImageFilter::DIRECTIONCOLLASPETOGUESS
+   * itk::itkExtractSliceImageFilter::DIRECTIONCOLLAPSETOGUESS
    * Set the strategy so that all collapsed images where
    * output direction is the sub-matrix it it is positive definite, else
    * return identity. This is backwards compatible with ITKv3, but
    * is highly discouraged because the results are difficult to
    * anticipate under differing data scenerios.
    *
-   * itk::itkExtractSliceImageFilter::DIRECTIONCOLLASPETOSUBMATRIX
+   * itk::itkExtractSliceImageFilter::DIRECTIONCOLLAPSETOSUBMATRIX
    * Set the strategy so that all collapsed images where
    * output direction is the sub-matrix it it is positive definite,
    * else throw an exception.  Use this strategy when it is known
@@ -145,13 +145,13 @@ public:
    * example when the applicaiton programmer knows that a 4D image
    * is 3D+time, and that the 3D sub-space is properly defined.
    */
-  void SetDirectionCollapseToStrategy(const DIRECTIONCOLLASPESTRATEGY choosenStrategy)
+  void SetDirectionCollapseToStrategy(const DIRECTIONCOLLAPSESTRATEGY choosenStrategy)
     {
     switch(choosenStrategy)
       {
-    case DIRECTIONCOLLASPETOGUESS:
-    case DIRECTIONCOLLASPETOIDENTITY:
-    case DIRECTIONCOLLASPETOSUBMATRIX:
+    case DIRECTIONCOLLAPSETOGUESS:
+    case DIRECTIONCOLLAPSETOIDENTITY:
+    case DIRECTIONCOLLAPSETOSUBMATRIX:
       break;
     case DIRECTIONCOLLAPSETOUNKOWN:
     default:
@@ -170,7 +170,7 @@ public:
   /**
    * Get the currently set strategy for collapsing directions of physical space.
    */
-  DIRECTIONCOLLASPESTRATEGY GetDirectionCollapseToStrategy() const
+  DIRECTIONCOLLAPSESTRATEGY GetDirectionCollapseToStrategy() const
     {
     return this->m_DirectionCollaspeStrategy;
     }
@@ -178,19 +178,19 @@ public:
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToGuess()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOGUESS);
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOGUESS);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToIdentity()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOIDENTITY);
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOIDENTITY);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToSubmatrix()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLASPETOSUBMATRIX);
+    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOSUBMATRIX);
     }
 
 
@@ -267,7 +267,7 @@ private:
   ExtractSliceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 
-  DIRECTIONCOLLASPESTRATEGY m_DirectionCollaspeStrategy;
+  DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy;
 };
 } // end namespace Testing
 } // end namespace itk

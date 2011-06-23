@@ -34,7 +34,7 @@ template< class TInputImage, class TOutputImage >
 ExtractSliceImageFilter< TInputImage, TOutputImage >
 ::ExtractSliceImageFilter():
 #ifdef ITKV3_COMPATIBILITY
-  m_DirectionCollaspeStrategy(DIRECTIONCOLLASPETOGUESS)
+  m_DirectionCollaspeStrategy(DIRECTIONCOLLAPSETOGUESS)
 #else
   m_DirectionCollaspeStrategy(DIRECTIONCOLLAPSETOUNKOWN)
 #endif
@@ -213,12 +213,12 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
     // length cosine vector, reset the directions to identity.
     switch(m_DirectionCollaspeStrategy)
       {
-    case DIRECTIONCOLLASPETOIDENTITY:
+    case DIRECTIONCOLLAPSETOIDENTITY:
         {
         outputDirection.SetIdentity();
         }
       break;
-    case DIRECTIONCOLLASPETOSUBMATRIX:
+    case DIRECTIONCOLLAPSETOSUBMATRIX:
         {
         if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
           {
@@ -226,7 +226,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
           }
         }
       break;
-    case DIRECTIONCOLLASPETOGUESS:
+    case DIRECTIONCOLLAPSETOGUESS:
         {
         if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
           {
