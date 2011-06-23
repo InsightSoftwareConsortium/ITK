@@ -1,1 +1,6 @@
-itk_module(ITK-IO-BMP DEPENDS ITK-IO-Base TEST_DEPENDS ITK-TestKernel)
+itk_module(ITK-IO-BMP
+  DEPENDS
+    ITK-IO-Base
+  TEST_DEPENDS
+    ITK-TestKernel
+)

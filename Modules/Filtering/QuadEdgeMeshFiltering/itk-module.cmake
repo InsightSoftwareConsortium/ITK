@@ -6,4 +6,11 @@ ensures the proper topological orientation of the surface. Filters in this
 module include: smoothing, decimation, curvature computation (mean, gaussian,
 min, max, principal), and normal computation, among others.")
 
-itk_module(ITK-QuadEdgeMeshFiltering DEPENDS ITK-QuadEdgeMesh TEST_DEPENDS ITK-TestKernel DESCRIPTION "${DOCUMENTATION}")
+itk_module(ITK-QuadEdgeMeshFiltering
+  DEPENDS
+    ITK-QuadEdgeMesh
+  TEST_DEPENDS
+    ITK-TestKernel
+  DESCRIPTION
+    "${DOCUMENTATION}"
+)

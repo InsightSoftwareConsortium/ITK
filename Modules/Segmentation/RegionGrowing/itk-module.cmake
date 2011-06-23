@@ -1,1 +1,6 @@
-itk_module(ITK-RegionGrowing DEPENDS ITK-Thresholding TEST_DEPENDS ITK-TestKernel)
+itk_module(ITK-RegionGrowing
+  DEPENDS
+    ITK-Thresholding
+  TEST_DEPENDS
+    ITK-TestKernel
+)
