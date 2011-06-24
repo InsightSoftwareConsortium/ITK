@@ -51,6 +51,9 @@ if (BUILD_DOCUMENTATION)
   configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                  ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config)
 
+  configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/single-doxygen.config.in
+                 ${ITK_BINARY_DIR}/single-doxygen.config)
+
   configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
                  ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
 
