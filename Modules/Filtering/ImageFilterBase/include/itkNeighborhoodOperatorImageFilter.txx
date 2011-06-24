@@ -91,12 +91,6 @@ NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
   BFC                                                           faceCalculator;
   FaceListType                                                  faceList;
 
-  // This filter can only operate on data types that are signed.
-   if ( !NumericTraits< typename NumericTraits< OutputPixelType  >::ValueType >::is_signed )
-    {
-    itkExceptionMacro(<< "This filter can only create images of signed data type.");
-    }
-
   // Allocate output
   OutputImageType *output = this->GetOutput();
 
