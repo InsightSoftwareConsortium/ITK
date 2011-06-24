@@ -144,11 +144,11 @@ void DoFace(typename TImage::ConstPointer input,
   for ( unsigned int it = 0; it < face.GetNumberOfPixels(); it++ )
     {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned start, end, len;
+    unsigned start, end;
     if ( FillLineBuffer< TImage, TBres, TLine >(input, Ind, NormLine, tol, LineOffsets,
                                                 AllImage, pixbuffer, start, end) )
       {
-      len = end - start + 1;
+      const unsigned len = end - start + 1;
       // compat
       pixbuffer[0] = border;
       pixbuffer[len + 1] = border;

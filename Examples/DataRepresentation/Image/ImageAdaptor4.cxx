@@ -66,6 +66,8 @@ public:
   typedef unsigned char      InternalType;
   typedef unsigned char      ExternalType;
 
+  ThresholdingPixelAccessor() : m_Threshold(0) {};
+
   ExternalType Get( const InternalType & input ) const
     {
     return (input > m_Threshold) ? 1 : 0;

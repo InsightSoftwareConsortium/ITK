@@ -127,7 +127,7 @@ public:
     VHGW = 3
     } AlgorithmChoice;
 
-  void SetNumberOfThreads(int nb);
+  void SetNumberOfThreads(ThreadIdType nb);
 
 protected:
   GrayscaleDilateImageFilter();

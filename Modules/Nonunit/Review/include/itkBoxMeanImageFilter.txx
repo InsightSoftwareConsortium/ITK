@@ -44,7 +44,7 @@ BoxMeanImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 BoxMeanImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, int threadId)
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
   // Accumulate type is too small
   typedef typename NumericTraits< PixelType >::RealType    AccPixType;

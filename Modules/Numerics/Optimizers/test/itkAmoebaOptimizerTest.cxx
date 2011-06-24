@@ -20,7 +20,6 @@
 #endif
 
 
-
 #include "itkAmoebaOptimizer.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_vector.h"
@@ -30,9 +29,10 @@
 #include <cstdlib>
 
 
-
 /**
- *  The objectif function is the quadratic form:
+ * \class amoebaCostFunction
+ *
+ *  The objective function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
  *
@@ -54,7 +54,7 @@ class amoebaCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef amoebaCostFunction                    Self;
+  typedef amoebaCostFunction                Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
@@ -148,8 +148,8 @@ class CommandIterationUpdateAmoeba : public itk::Command
 {
 public:
   typedef  CommandIterationUpdateAmoeba   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef  itk::Command                   Superclass;
+  typedef itk::SmartPointer<Self>         Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdateAmoeba()
@@ -188,7 +188,6 @@ private:
   itk::FunctionEvaluationIterationEvent m_FunctionEvent;
   itk::GradientEvaluationIterationEvent m_GradientEvent;
 };
-
 
 
 int itkAmoebaOptimizerTest(int, char* [] )
@@ -383,12 +382,49 @@ int itkAmoebaOptimizerTest(int, char* [] )
     }
   }
 
+  std::cout << "Testing behavior when AutomaticInitialSimplex is off."
+            << std::endl << std::endl;
+  itkOptimizer->AutomaticInitialSimplexOff();
 
+  std::cout << "Testing that exception is not thrown when size of initial "
+            << "simplex is the same as the size of the parameters." << std::endl;
 
+  OptimizerType::ParametersType delta( initialValue.GetSize() );
+  delta.Fill( 1.0 );
+  itkOptimizer->SetInitialSimplexDelta( delta );
+  itkOptimizer->SetMaximumNumberOfIterations( 1 );
+
+  try
+    {
+    itkOptimizer->StartOptimization();
+    std::cout << "[PASS]" << std::endl;
+    }
+  catch ( itk::ExceptionObject & e )
+    {
+    std::cout << "[FAIL]" << std::endl;
+    std::cout << "Caught unexpected exception " << e << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Testing if exception is thrown when size of initial simplex "
+            << "is not the same as the size of the parameters." << std::endl;
+
+  delta = OptimizerType::ParametersType( initialValue.GetSize() + 1);
+  delta.Fill( 1.0 );
+  itkOptimizer->SetInitialSimplexDelta( delta );
+
+  try
+    {
+    itkOptimizer->StartOptimization();
+    std::cout << "[FAIL]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch ( itk::ExceptionObject & e )
+    {
+    std::cout << "[PASS]" << std::endl;
+    std::cout << "Caught expected exception " << e << std::endl;
+    }
 
   std::cout << "Test done." << std::endl;
   return EXIT_SUCCESS;
 }
-
-
-

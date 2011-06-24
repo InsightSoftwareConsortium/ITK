@@ -11,7 +11,7 @@ ENDIF (BUILD_SHARED_LIBS)
 #-----------------------------------------------------------------------------
 # List Source files
 #-----------------------------------------------------------------------------
-INCLUDE_DIRECTORIES (${HDF5_HL_SOURCE_DIR}/src)
+INCLUDE_DIRECTORIES (${HDF5_HL_SRC_DIR}/src)
 
 SET (HL_SRCS
     ${HDF5_HL_SRC_SOURCE_DIR}/H5DS.c
@@ -47,6 +47,8 @@ INSTALL (
         ${HL_HEADERS}
     DESTINATION
         ${HDF5_INSTALL_INCLUDE_DIR}
+    COMPONENT
+        hlheaders
 )
 
 #-----------------------------------------------------------------------------

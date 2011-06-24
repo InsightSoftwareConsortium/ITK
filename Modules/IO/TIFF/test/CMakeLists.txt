@@ -93,3 +93,13 @@ itk_add_test(NAME itkTIFFImageIOMultiPagesTest2
     --compare ${ITK_DATA_ROOT}/Baseline/IO/rampShort.tif
               ${ITK_TEST_OUTPUT_DIR}/rampShort.tif
     itkTIFFImageIOTest ${ITK_DATA_ROOT}/Input/rampShort.tif ${ITK_TEST_OUTPUT_DIR}/rampShort.tif 3 3)
+itk_add_test(NAME itkTIFFImageIOMultResTest1
+   COMMAND ITK-IO-TIFFTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif
+              ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOMultResTest1.tif
+    itkTIFFImageIOTest ${ITK_DATA_ROOT}/Input/cthead1-multires.tif ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOMultResTest1.tif)
+itk_add_test(NAME itkTIFFImageIOMultResTest2
+   COMMAND ITK-IO-TIFFTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif
+              ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOMultResTest2.tif
+    itkTIFFImageIOTest ${ITK_DATA_ROOT}/Input/cthead1-multires.tif ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOMultResTest2.tif 3)

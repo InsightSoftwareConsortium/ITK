@@ -22,11 +22,10 @@
 #include <iostream>
 
 #include "itkDiffusionTensor3DReconstructionImageFilter.txx"
-
-
+#include "itkTensorFractionalAnisotropyImageFilter.h"
+#include "itkTensorRelativeAnisotropyImageFilter.h"
 
 int itkDiffusionTensorImageHeaderTest ( int , char * [] )
 {
-
   return EXIT_SUCCESS;
 }

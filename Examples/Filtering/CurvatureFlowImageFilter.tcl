@@ -21,13 +21,13 @@
 #
 package require InsightToolkit
 
-set reader [ itkImageFileReaderUS2_New ]
-set writer [ itkImageFileWriterUS2_New ]
+set reader [ itkImageFileReaderIUC2_New ]
+set writer [ itkImageFileWriterIUC2_New ]
 
-set inputCast  [ itkCastImageFilterUS2F2_New    ]
-set outputCast [ itkRescaleIntensityImageFilterF2US2_New ]
+set inputCast  [ itkCastImageFilterIUC2IF2_New    ]
+set outputCast [ itkRescaleIntensityImageFilterIF2IUC2_New ]
 
-set filter [ itkCurvatureFlowImageFilterF2F2_New ]
+set filter [ itkCurvatureFlowImageFilterIF2IF2_New ]
 
 $inputCast  SetInput [ $reader     GetOutput ]
 $filter     SetInput [ $inputCast  GetOutput ]
@@ -40,7 +40,7 @@ $writer SetFileName [lindex $argv 1]
 
 
 $outputCast SetOutputMinimum       0
-$outputCast SetOutputMaximum   65535
+$outputCast SetOutputMaximum     255
 
 set numberOfIterations [expr [lindex $argv 2]]
 set timeStep           [expr [lindex $argv 3]]

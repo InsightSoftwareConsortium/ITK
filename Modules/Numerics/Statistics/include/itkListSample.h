@@ -120,7 +120,10 @@ public:
   /** Method to graft another sample */
   virtual void Graft(const DataObject *thatObject);
 
-  /** \class ConstIterator  \ingroup ITK-Statistics */
+  /** \class ConstIterator
+   * \brief Const Iterator
+   * \ingroup ITK-Statistics
+   */
   class ConstIterator
   {
     friend class ListSample;
@@ -194,7 +197,10 @@ private:
     InstanceIdentifier m_InstanceIdentifier;
   };
 
-  /** \class Iterator  \ingroup ITK-Statistics */
+  /** \class Iterator
+   * \brief Iterator
+   * \ingroup ITK-Statistics
+   */
   class Iterator:public ConstIterator
   {
     friend class ListSample;

@@ -94,7 +94,7 @@ template< class TInputImage, class TMaskImage, class TOutputImage, class TOperat
 void
 NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // This filter can only operate on data types that are signed.
   if ( !NumericTraits< OutputPixelType >::is_signed )

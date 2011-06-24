@@ -28,6 +28,8 @@ SingleValuedVnlCostFunctionAdaptor
   m_ScalesInitialized = false;
   m_NegateCostFunction = false;
   m_Reporter = Object::New();
+  m_CachedValue = NumericTraits< MeasureType >::Zero;
+  m_CachedDerivative.Fill(0);
 }
 
 /** Set current parameters scaling. */
@@ -154,12 +156,12 @@ SingleValuedVnlCostFunctionAdaptor
       {
       *fun = static_cast< InternalMeasureType >( -measure );
       }
+    // Notify observers. This is used for overcoming the limitaion of VNL
+    // optimizers of not providing callbacks per iteration.
+    // Note that m_CachedDerivative is already loaded in the GetDerivative()
+    // above.
+    m_CachedValue = *fun;
     }
-  // Notify observers. This is used for overcoming the limitaion of VNL
-  // optimizers of not providing callbacks per iteration.
-  // Note that m_CachedDerivative is already loaded in the GetDerivative()
-  // above.
-  m_CachedValue = *fun;
   m_CachedCurrentParameters = parameters;
   this->ReportIteration( FunctionAndGradientEvaluationIterationEvent() );
 }

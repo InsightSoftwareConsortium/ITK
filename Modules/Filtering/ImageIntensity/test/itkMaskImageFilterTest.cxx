@@ -19,6 +19,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkImage.h"
+#include "itkVectorImage.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMaskImageFilter.h"
@@ -30,9 +31,9 @@ int itkMaskImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
+  typedef itk::Image<float, myDimension>           myImageType1;
   typedef itk::Image<unsigned short, myDimension>  myImageType2;
-  typedef itk::Image<float, myDimension>  myImageType3;
+  typedef itk::Image<float, myDimension>           myImageType3;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
@@ -153,11 +154,126 @@ int itkMaskImageFilterTest(int, char* [] )
 
   filter->Print( std::cout );
 
+  // Vector image tests
+  typedef itk::VectorImage<float, myDimension>
+    myVectorImageType;
+  typedef itk::ImageRegionIteratorWithIndex<myVectorImageType>
+    myVectorIteratorType;
+
+  myVectorImageType::Pointer inputVectorImage  = myVectorImageType::New();
+  inputVectorImage->SetLargestPossibleRegion( region );
+  inputVectorImage->SetBufferedRegion( region );
+  inputVectorImage->SetRequestedRegion( region );
+  inputVectorImage->SetNumberOfComponentsPerPixel(3);
+  inputVectorImage->Allocate();
+
+  typedef itk::MaskImageFilter< myVectorImageType,
+                                myImageType2,
+                                myVectorImageType> myVectorFilterType;
+
+  myVectorFilterType::Pointer vectorFilter = myVectorFilterType::New();
+  vectorFilter->SetInput1( inputVectorImage );
+  vectorFilter->SetMaskImage( inputImageB );
+
+  myVectorImageType::PixelType outsideValue = vectorFilter->GetOutsideValue();
+  if ( outsideValue.GetSize() != 0 )
+    {
+    std::cerr << "Default outside value prior to running filter does not "
+              << "have 0 components." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  try
+    {
+    vectorFilter->Update();
+    }
+  catch ( itk::ExceptionObject& e )
+    {
+    std::cout << "Caught unexpected exception when default outside value "
+              << "is used." << e;
+    }
+
+  // Check that the outside value consists of three zeros.
+  myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
+  myVectorImageType::PixelType threeZeros( 3 );
+  threeZeros.Fill( 0.0f );
+  if ( outsideValue3 != threeZeros )
+    {
+    std::cerr << "Unexpected default outside value after running filter "
+              << "on image with 3 components." << std::endl;
+    std::cerr << "Got " << outsideValue3 << " and expected " << threeZeros << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Try out non-zero outside value.
+  outsideValue = myVectorImageType::PixelType( 3 );
+  outsideValue[0] = 1.0;
+  outsideValue[1] = 2.0;
+  outsideValue[2] = 3.0;
+  vectorFilter->SetOutsideValue( outsideValue );
+
+  try
+    {
+    vectorFilter->Update();
+    }
+  catch ( itk::ExceptionObject& e )
+    {
+    std::cerr << "Caught unexpected exception:" << e;
+    return EXIT_FAILURE;
+    }
+
+  // Add components to image
+  inputVectorImage->Initialize();
+  inputVectorImage->SetLargestPossibleRegion( region );
+  inputVectorImage->SetBufferedRegion( region );
+  inputVectorImage->SetRequestedRegion( region );
+  inputVectorImage->SetNumberOfComponentsPerPixel( 5 );
+  inputVectorImage->Allocate();
+
+  try
+    {
+    vectorFilter->Update();
+    std::cerr << "Expected exception not caught when number of components in."
+              << "outside value is not the same as number of components in "
+              << "image and non-default value is used." << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch ( itk::ExceptionObject& e )
+    {
+    std::cout << "Caught expected exception: " << e;
+    }
+
+  // Reset the outside value to zero vector of length 23.
+  myVectorImageType::PixelType zeros23( 23 );
+  zeros23.Fill( 0.0f );
+  vectorFilter->SetOutsideValue( zeros23 );
+
+  try
+    {
+    vectorFilter->Update();
+    }
+  catch ( itk::ExceptionObject& e )
+    {
+    std::cerr << "Caught unexpected exception when resetting outside value "
+              << "to  vector of length 0." << e;
+    return EXIT_FAILURE;
+    }
+
+  // Check updated outside value.
+  myVectorImageType::PixelType outsideValue5 = vectorFilter->GetOutsideValue();
+  myVectorImageType::PixelType fiveZeros( 5 );
+  fiveZeros.Fill( 0.0f );
+  if ( outsideValue5 != fiveZeros )
+    {
+    std::cerr << "Unexpected default outside value after running filter "
+              << "on image with 5 components." << std::endl;
+    std::cerr << "Got " << outsideValue5 << " and expected " << fiveZeros << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "[PASSED]" << std::endl;
+
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
 
 }
-
-
-
-

@@ -162,10 +162,10 @@ static integer c__2 = 2;
             mu = 4 - mu;
         }
 /*<       ss = 1.0 >*/
-        ss = (float)1.;
+        ss = 1.f;
 /*<       if (mu.eq.3) ss = -1.0 >*/
         if (mu == 3) {
-            ss = (float)-1.;
+            ss = -1.f;
         }
 
 /*<       if (mh.eq.0) go to 200 >*/
@@ -678,13 +678,13 @@ L300:
             mu = 8 - mu;
         }
 /*<       c1 = 1.0 >*/
-        c1 = (float)1.;
+        c1 = 1.f;
 /*<       if (mu.eq.3.or.mu.eq.7) c1 = -1.0 >*/
         if (mu == 3 || mu == 7) {
-            c1 = (float)-1.;
+            c1 = -1.f;
         }
 /*<       c2 = sqrt(0.5) >*/
-        c2 = sqrt((float).5);
+        c2 = sqrt(.5f);
 /*<       if (mu.eq.3.or.mu.eq.5) c2 = -c2 >*/
         if (mu == 3 || mu == 5) {
             c2 = -c2;
@@ -1275,10 +1275,10 @@ L400:
             mu = 4 - mu;
         }
 /*<       ss = 1.0 >*/
-        ss = (float)1.;
+        ss = 1.f;
 /*<       if (mu.eq.3) ss = -1.0 >*/
         if (mu == 3) {
-            ss = (float)-1.;
+            ss = -1.f;
         }
 
 /*<       do 480 ipass = mh+1 , m >*/

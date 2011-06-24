@@ -21,12 +21,12 @@
 #
 package require InsightToolkit
 
-set reader [ itkImageFileReaderF2_New ]
-set writer [ itkImageFileWriterUC2_New ]
+set reader [ itkImageFileReaderIF2_New ]
+set writer [ itkImageFileWriterIUC2_New ]
 
-set outputCast [ itkRescaleIntensityImageFilterF2UC2_New ]
+set outputCast [ itkRescaleIntensityImageFilterIF2IUC2_New ]
 
-set filter [ itkCannyEdgeDetectionImageFilterF2F2_New ]
+set filter [ itkCannyEdgeDetectionImageFilterIF2IF2_New ]
 
 $filter     SetInput [ $reader     GetOutput ]
 $outputCast SetInput [ $filter     GetOutput ]

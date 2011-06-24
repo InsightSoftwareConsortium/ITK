@@ -288,7 +288,7 @@ template< class TInputImage, class TOutputImage, class THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   int          i;
   unsigned int j;

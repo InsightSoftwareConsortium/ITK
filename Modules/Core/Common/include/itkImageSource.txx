@@ -140,9 +140,9 @@ ImageSource< TOutputImage >
 
 //----------------------------------------------------------------------------
 template< class TOutputImage >
-int
+unsigned int
 ImageSource< TOutputImage >
-::SplitRequestedRegion(int i, int num, OutputImageRegionType & splitRegion)
+::SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion)
 {
   // Get the output pointer
   OutputImageType *outputPtr = this->GetOutput();
@@ -173,8 +173,8 @@ ImageSource< TOutputImage >
 
   // determine the actual number of pieces that will be generated
   typename TOutputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  int valuesPerThread = Math::Ceil< int >(range / (double)num);
-  int maxThreadIdUsed = Math::Ceil< int >(range / (double)valuesPerThread) - 1;
+  unsigned int valuesPerThread = Math::Ceil< unsigned int >(range / (double)num);
+  unsigned int maxThreadIdUsed = Math::Ceil< unsigned int >(range / (double)valuesPerThread) - 1;
 
   // Split the region
   if ( i < maxThreadIdUsed )
@@ -261,7 +261,7 @@ template< class TOutputImage >
 void
 ImageSource< TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType &,
-                       int)
+                       ThreadIdType)
 {
 // The following code is equivalent to:
 // itkExceptionMacro("subclass should override this method!!!");
@@ -270,7 +270,9 @@ ImageSource< TOutputImage >
   std::ostringstream message;
 
   message << "itk::ERROR: " << this->GetNameOfClass()
-          << "(" << this << "): " << "Subclass should override this method!!!";
+          << "(" << this << "): " << "Subclass should override this method!!!" << std::endl
+          << "The signature of ThreadedGenerateData() has been changed in ITK v4 to use the new ThreadIdType." << std::endl
+          << this->GetNameOfClass() << "::ThreadedGenerateData() might need to be updated to used it.";
   ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
   throw e_;
 }
@@ -284,7 +286,7 @@ ImageSource< TOutputImage >
 ::ThreaderCallback(void *arg)
 {
   ThreadStruct *str;
-  int           total, threadId, threadCount;
+  ThreadIdType  total, threadId, threadCount;
 
   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;

@@ -79,6 +79,18 @@ public:
   Array(const ValueType *data, unsigned int sz,
         bool LetArrayManageMemory = false);
 
+  /** Constructor to initialize an array from another of any data type */
+  template< class TArrayValue >
+  Array(const Array< TArrayValue > & r)
+  {
+    this->m_LetArrayManageMemory = true;
+    this->SetSize( r.GetSize() );
+    for( unsigned int i=0; i<r.GetSize(); i++ )
+      {
+      this->operator[](i) = static_cast< TValueType >( r[i] );
+      }
+  }
+
   /** Set the all the elements of the array to the specified value */
   void Fill(TValueType const & v) { this->fill(v); }
 

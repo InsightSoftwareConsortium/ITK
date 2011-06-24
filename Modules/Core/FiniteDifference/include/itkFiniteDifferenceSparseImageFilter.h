@@ -139,7 +139,7 @@ private:
   };
 protected:
   /** This function returns a single region for use in multi-threading. */
-  int GetSplitRegion(int i, int num, ThreadRegionType & splitRegion);
+  ThreadIdType GetSplitRegion(ThreadIdType i, ThreadIdType num, ThreadRegionType & splitRegion);
 
   /** This function updates the m_Data variable in the output image nodes using
       the update values computed by CalculateChange. */
@@ -150,7 +150,7 @@ protected:
 
   virtual void ThreadedApplyUpdate(const TimeStepType& dt,
                                    const ThreadRegionType & regionToProcess,
-                                   int threadId);
+                                   ThreadIdType threadId);
 
   /** This method computes changes to the output image using the
       ComputeSparseUpdate method in the Sparse Function object. */
@@ -160,7 +160,7 @@ protected:
   static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback(void *arg);
 
   virtual TimeStepType ThreadedCalculateChange
-    (const ThreadRegionType & regionToProcess, int threadId);
+    (const ThreadRegionType & regionToProcess, ThreadIdType threadId);
 
   /** This method provides a means of performing a first pass for computing the
    *  change and storing intermediate values that will then be used by
@@ -171,7 +171,7 @@ protected:
   static ITK_THREAD_RETURN_TYPE PrecalculateChangeThreaderCallback(void *arg);
 
   virtual void ThreadedPrecalculateChange
-    (const ThreadRegionType & regionToProcess, int threadId);
+    (const ThreadRegionType & regionToProcess, ThreadIdType threadId);
 
   /** Structure for passing information into static callback methods.
    *  Used in  the subclasses' threading mechanisms. */

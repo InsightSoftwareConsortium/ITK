@@ -214,7 +214,7 @@ template< typename TInputImage, typename TRealType, typename TOutputImage >
 void
 VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   ZeroFluxNeumannBoundaryCondition< RealVectorImageType > nbc;
   ConstNeighborhoodIteratorType                           bit;

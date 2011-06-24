@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITK-ImageStatistics
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInputPixel, class TOutputPixel >
 class BinaryAccumulator
@@ -91,14 +91,14 @@ public:
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT BinaryProjectionImageFilter:
   public ProjectionImageFilter< TInputImage, TOutputImage,
-                                Function::BinaryAccumulator<
+                                Functor::BinaryAccumulator<
                                   typename TInputImage::PixelType,
                                   typename TOutputImage::PixelType > >
 {
 public:
   typedef BinaryProjectionImageFilter Self;
   typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Function::BinaryAccumulator<
+                                 Functor::BinaryAccumulator<
                                    typename TInputImage::PixelType,
                                    typename TOutputImage::PixelType > > Superclass;
 

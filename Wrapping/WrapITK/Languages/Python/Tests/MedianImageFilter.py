@@ -23,16 +23,15 @@
 import itk
 from sys import argv
 
-dim = 2
-IType = itk.Image[itk.US, dim]
-OIType = itk.Image[itk.UC, dim]
+reader = itk.ImageFileReader.IUC2.New( FileName=argv[1] )
 
-reader = itk.ImageFileReader[IType].New( FileName=argv[1] )
-filter  = itk.MedianImageFilter[IType, IType].New( reader, Radius=eval( argv[3] ) )
-
+# test the deduction of the template parameter from the input
+filter  = itk.MedianImageFilter.New( reader )
 watcher = itk.XMLFilterWatcher( filter, "filter" )
 
-cast = itk.CastImageFilter[IType, OIType].New(filter)
-writer = itk.ImageFileWriter[OIType].New( cast, FileName=argv[2] )
+# test the update of the filter with the __call__ operator
+# and the setting of parameter inside it
+filter( Radius=eval(argv[3]) )
 
-writer.Update()
+# test the write method
+itk.write( filter, argv[2] )

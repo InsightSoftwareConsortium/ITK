@@ -3,12 +3,17 @@
 %include <exception.i>
 %include <typemaps.i>
 
-%include std_iostream.i
-%include std_sstream.i
+%include <std_string.i>
 %include <std_vector.i>
 %include <std_map.i>
 %include <std_list.i>
 %include <std_set.i>
+
+// must be included in the end to avoid wrong std::string typemaps
+%include std_iostream.i
+// broken for now when used after std_string.i: error: ‘basic_string’ has not been declared
+// TODO: make a bug report to swig
+// %include std_sstream.i
 
 %exception {
   try {
@@ -159,6 +164,548 @@
         ptr->Register();
   }
 }
+
+%extend itkMetaDataDictionary {
+    std::string __str__() {
+        std::ostringstream msg;
+        self->Print( msg );
+        return msg.str();
+    }
+    %pythoncode {
+        def __setitem__(self,key,item):
+            import itk
+            if isinstance(item, str):
+                object = itk.MetaDataObject.S.New()
+            elif isinstance(item, int):
+                object = itk.MetaDataObject.SI.New()
+            elif isinstance( item, float):
+                object = itk.MetaDataObject.F.New()
+            elif isinstance( item, bool):
+                object = itk.MetaDataObject.B.New()
+            else:
+                object = None
+            if object != None:
+                object.SetMetaDataObjectValue(item)
+                self.Set(key, object)
+        def __getitem__(self,key):
+            import itk
+            obj = self.Get(key)
+            return itk.down_cast(obj).GetMetaDataObjectValue()
+        def __len__(self):
+            return self.GetKeys().size()
+        def __iter__(self):
+            keys = self.GetKeys()
+            for key in keys:
+                yield self.Get(key)
+    }
+}
+
+%extend itkLightObject {
+    std::string __str__() {
+        std::ostringstream msg;
+        self->Print( msg );
+        return msg.str();
+    }
+    bool __eq__( itkLightObject* obj ) {
+        return self == obj;
+    }
+    size_t __hash__() {
+        return reinterpret_cast<size_t>(self);
+    }
+}
+
+// swig generates invalid code with that simple typemap
+//     %typemap(in) itkLightObject##_Pointer const & {
+//       // tralala
+//       itkLightObject* ptr;
+//     //          if ((SWIG_ConvertPtr($input,(void **) &ptr, $descriptor(itkLightObject), 0)) == -1) return NULL;
+//    $1 = ptr;
+//    }
+
+
+%extend itkComponentTreeNode {
+    %pythoncode {
+        def __len__(self):
+            return self.GetChildren().size()
+        def __getitem__(self, i):
+            return self.GetNthChild(i)
+        def __iter__(self):
+            for child in self.GetChildren():
+                yield child
+    }
+    std::string __str__() {
+        std::ostringstream msg;
+        self->Print( msg );
+        return msg.str();
+    }
+}
+
+// Macros for template classes
+
+%define DECL_PYTHON_SPATIALOBJECTPPOINT_CLASS(swig_name)
+
+    %extend swig_name {
+        std::string __str__() {
+            std::ostringstream msg;
+            self->Print( msg );
+            return msg.str();
+        }
+    }
+
+%enddef
+
+
+%define DECL_PYTHON_LABELMAP_CLASS(swig_name)
+
+    %extend swig_name {
+        %pythoncode {
+            def __len__(self):
+                return self.GetNumberOfLabelObjects()
+            def __getitem__(self, label):
+                return self.GetLabelObject(label)
+            def __iter__(self):
+                labels = self.GetLabels()
+                for label in labels:
+                    yield self.GetLabelObject(label)
+        }
+    }
+
+%enddef
+
+
+%define DECL_PYTHON_IMAGEREGION_CLASS(swig_name)
+
+    %extend swig_name {
+        std::string __repr__() {
+            std::ostringstream msg;
+            msg << "swig_name(" << self->GetIndex() << ", " << self->GetSize()  << ")";
+            return msg.str();
+    }
+}
+
+%enddef
+
+
+%define DECL_PYTHON_OBJECT_CLASS(swig_name)
+
+    %pythonprepend itkObject::AddObserver %{
+        import itk
+        if len(args) == 3 and not issubclass(args[2].__class__, itk.Command) and callable(args[2]):
+            args = list(args)
+            pycommand = itk.PyCommand.New()
+            pycommand.SetCommandCallable( args[2] )
+            args[2] = pycommand
+            args = tuple(args)
+        elif len(args) == 2 and not issubclass(args[1].__class__, itk.Command) and callable(args[1]):
+            args = list(args)
+            pycommand = itk.PyCommand.New()
+            pycommand.SetCommandCallable( args[1] )
+            args[1] = pycommand
+            args = tuple(args)
+    %}
+
+%enddef
+
+%define DECL_PYTHON_PROCESSOBJECT_CLASS(swig_name)
+
+    %extend itkProcessObject {
+        %pythoncode {
+            def __len__(self):
+                """Returns the number of outputs of that object.
+                """
+                return self.GetNumberOfOutputs()
+
+            def __getitem__(self, item):
+                """Returns the outputs of that object.
+
+                The outputs are casted to their real type.
+                Several outputs may be returned by using the slice notation.
+                """
+                import itk
+                outputs = self.GetOutputs()
+                if isinstance(item, slice):
+                    indices = item.indices(len(self))
+                    return [itk.down_cast(outputs[i]) for i in range(*indices)]
+                else:
+                    return itk.down_cast(outputs[item])
+
+            def __call__(self, *args, **kargs):
+                """Change the inputs and attributes of the object and update it.
+
+                The syntax is the same as the one used in New().
+                UpdateLargestPossibleRegion() is ran once the input are changed, and
+                the current object is returned, to make is easier to get one of the
+                outputs. Something like 'filter(newInput, Threshold=10)[0]' would
+                return the first output of the filter up to date.
+                """
+                import itk
+                itk.set_inputs( self, args, kargs )
+                self.UpdateLargestPossibleRegion()
+                return self
+            }
+    }
+
+%enddef
+
+
+%define DECL_PYTHON_IMAGEBASE_CLASS(swig_name, template_params)
+
+    %extend swig_name {
+        itkIndex##template_params TransformPhysicalPointToIndex( itkPointD##template_params & point ) {
+            itkIndex##template_params idx;
+            self->TransformPhysicalPointToIndex<double>( point, idx );
+            return idx;
+         }
+
+        itkContinuousIndexD##template_params TransformPhysicalPointToContinuousIndex( itkPointD##template_params & point ) {
+            itkContinuousIndexD##template_params idx;
+            self->TransformPhysicalPointToContinuousIndex<double>( point, idx );
+            return idx;
+        }
+
+        itkPointD##template_params TransformContinuousIndexToPhysicalPoint( itkContinuousIndexD##template_params & idx ) {
+            itkPointD##template_params point;
+            self->TransformContinuousIndexToPhysicalPoint<double>( idx, point );
+            return point;
+        }
+
+        itkPointD##template_params TransformIndexToPhysicalPoint( itkIndex##template_params & idx ) {
+            itkPointD##template_params point;
+            self->TransformIndexToPhysicalPoint<double>( idx, point );
+            return point;
+        }
+
+        # TODO: also add that method. But with which types?
+        #  template<class TCoordRep>
+        #  void TransformLocalVectorToPhysicalVector(
+        #    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
+        #          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
+    }
+
+%enddef
+
+
+%define DECL_PYTHON_VCL_COMPLEX_CLASS(swig_name)
+
+%extend swig_name {
+    %pythoncode {
+        def __repr__(self):
+            return "swig_name (%s, %s)" % (self.real(), self.imag())
+
+        def __complex__(self):
+            return complex(self.real(), self.imag())
+    }
+}
+
+%enddef
+
+%define DECL_PYTHON_VEC_TYPEMAP(swig_name, type, dim)
+
+    %typemap(in) swig_name & (swig_name itks) {
+        if ((SWIG_ConvertPtr($input,(void **)(&$1),$1_descriptor, 0)) == -1) {
+            PyErr_Clear();
+            if (PySequence_Check($input) && PyObject_Length($input) == dim) {
+                for (int i =0; i < dim; i++) {
+                    PyObject *o = PySequence_GetItem($input,i);
+                    if (PyInt_Check(o)) {
+                        itks[i] = PyInt_AsLong(o);
+                    } else if (PyFloat_Check(o)) {
+                        itks[i] = (type)PyFloat_AsDouble(o);
+                    } else {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
+                        return NULL;
+                    }
+                }
+                $1 = &itks;
+            }else if (PyInt_Check($input)) {
+                for (int i =0; i < dim; i++) {
+                    itks[i] = PyInt_AsLong($input);
+                }
+                $1 = &itks;
+            }else if (PyFloat_Check($input)) {
+                for (int i =0; i < dim; i++) {
+                    itks[i] = (type)PyFloat_AsDouble($input);
+                }
+                $1 = &itks;
+            } else {
+                PyErr_SetString(PyExc_TypeError,"Expecting an swig_name, an int, a float, a sequence of int or a sequence of float.");
+                SWIG_fail;
+            }
+        }
+    }
+
+    %typemap(typecheck) swig_name & {
+        void *ptr;
+        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) == -1
+            && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
+            && !PyInt_Check($input) && !PyFloat_Check($input) ) {
+            _v = 0;
+            PyErr_Clear();
+        } else {
+            _v = 1;
+        }
+    }
+
+    %typemap(in) swig_name (swig_name itks) {
+        swig_name * s;
+        if ((SWIG_ConvertPtr($input,(void **)(&s),$descriptor(swig_name *), 0)) == -1) {
+            PyErr_Clear();
+            if (PySequence_Check($input) && PyObject_Length($input) == dim) {
+                for (int i =0; i < dim; i++) {
+                    PyObject *o = PySequence_GetItem($input,i);
+                    if (PyInt_Check(o)) {
+                        itks[i] = PyInt_AsLong(o);
+                    } else if (PyFloat_Check(o)) {
+                        itks[i] = (type)PyFloat_AsDouble(o);
+                    } else {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
+                        return NULL;
+                    }
+                }
+                $1 = itks;
+            }else if (PyInt_Check($input)) {
+                for (int i =0; i < dim; i++) {
+                    itks[i] = PyInt_AsLong($input);
+                }
+                $1 = itks;
+            }else if (PyFloat_Check($input)) {
+                for (int i =0; i < dim; i++) {
+                    itks[i] = (type)PyFloat_AsDouble($input);
+                }
+                $1 = itks;
+            } else {
+                PyErr_SetString(PyExc_TypeError,"Expecting an swig_name, an int, a float, a sequence of int or a sequence of float.");
+                SWIG_fail;
+            }
+        } else if( s != NULL ) {
+            $1 = *s;
+        } else {
+            PyErr_SetString(PyExc_ValueError, "Value can't be None");
+            SWIG_fail;
+        }
+    }
+
+    %typemap(typecheck) swig_name {
+        void *ptr;
+        if (SWIG_ConvertPtr($input, &ptr, $descriptor(swig_name *), 0) == -1
+            && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
+            && !PyInt_Check($input) && !PyFloat_Check($input) ) {
+            _v = 0;
+            PyErr_Clear();
+        } else {
+            _v = 1;
+        }
+    }
+
+    %extend swig_name {
+        type __getitem__(unsigned long d) {
+            if (d >= dim) { throw std::out_of_range("swig_name index out of range."); }
+            return self->operator[]( d );
+        }
+        void __setitem__(unsigned long d, type v) {
+            if (d >= dim) { throw std::out_of_range("swig_name index out of range."); }
+            self->operator[]( d ) = v;
+        }
+        unsigned int __len__() {
+            return dim;
+        }
+        std::string __repr__() {
+            std::ostringstream msg;
+            msg << "swig_name (" << *self << ")";
+            return msg.str();
+        }
+    }
+
+%enddef
+
+
+%define DECL_PYTHON_VARLEN_SEQ_TYPEMAP(type, value_type)
+
+    %typemap(in) type& (type itks) {
+        if ((SWIG_ConvertPtr($input,(void **)(&$1),$1_descriptor, 0)) == -1) {
+            PyErr_Clear();
+            itks = type( PyObject_Length($input) );
+            for (unsigned int i =0; i < itks.Size(); i++) {
+                PyObject *o = PySequence_GetItem($input,i);
+                if (PyInt_Check(o)) {
+                    itks[i] = (value_type)PyInt_AsLong(o);
+                } else if (PyFloat_Check(o)) {
+                    itks[i] = (value_type)PyFloat_AsDouble(o);
+                } else {
+                    PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
+                    return NULL;
+                }
+            }
+            $1 = &itks;
+        }
+}
+
+%typemap(typecheck) type & {
+    void *ptr;
+    if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) == -1
+        && !PySequence_Check($input) ) {
+        _v = 0;
+        PyErr_Clear();
+    } else {
+        _v = 1;
+    }
+}
+
+%typemap(in) type (type itks) {
+    type * s;
+    if ((SWIG_ConvertPtr($input,(void **)(&s),$descriptor(type *), 0)) == -1) {
+        PyErr_Clear();
+        itks = type( PyObject_Length($input) );
+        for (unsigned int i =0; i < itks.Size(); i++) {
+            PyObject *o = PySequence_GetItem($input,i);
+            if (PyInt_Check(o)) {
+                itks[i] = (value_type)PyInt_AsLong(o);
+            } else if (PyFloat_Check(o)) {
+                itks[i] = (value_type)PyFloat_AsDouble(o);
+            } else {
+                PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
+                return NULL;
+            }
+        }
+        $1 = itks;
+    }
+}
+
+%typemap(typecheck) type {
+    void *ptr;
+    if (SWIG_ConvertPtr($input, &ptr, $descriptor(type *), 0) == -1
+        && !PySequence_Check($input) ) {
+        _v = 0;
+        PyErr_Clear();
+    } else {
+        _v = 1;
+    }
+}
+
+%extend type {
+    value_type __getitem__(unsigned long dim) {
+        if (dim >= self->Size()) { throw std::out_of_range("type index out of range."); }
+        return self->operator[]( dim );
+    }
+    void __setitem__(unsigned long dim, value_type v) {
+        if (dim >= self->Size()) { throw std::out_of_range("type index out of range."); }
+        self->operator[]( dim ) = v;
+    }
+    unsigned int __len__() {
+        return self->Size();
+    }
+    std::string __repr__() {
+        std::ostringstream msg;
+        msg << "swig_name (" << *self << ")";
+        return msg.str();
+    }
+}
+
+%enddef
+
+
+%define DECL_PYTHON_SEQ_TYPEMAP(swig_name, dim)
+
+    %typemap(in) swig_name & (swig_name itks) {
+        if ((SWIG_ConvertPtr($input,(void **)(&$1),$1_descriptor, 0)) == -1) {
+            PyErr_Clear();
+            if (PySequence_Check($input) && PyObject_Length($input) == dim) {
+                for (int i =0; i < dim; i++) {
+                    PyObject *o = PySequence_GetItem($input,i);
+                    if (!PyInt_Check(o)) {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int");
+                        return NULL;
+                    }
+                    itks[i] = PyInt_AsLong(o);
+                }
+                $1 = &itks;
+            }else if (PyInt_Check($input)) {
+                for (int i =0; i < dim; i++) {
+                    itks[i] = PyInt_AsLong($input);
+                }
+                $1 = &itks;
+            } else {
+                PyErr_SetString(PyExc_TypeError,"Expecting an swig_name, an int or sequence of int");
+                SWIG_fail;
+            }
+        }
+    }
+
+    %typemap(typecheck) swig_name & {
+        void *ptr;
+        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) == -1
+            && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
+            && !PyInt_Check($input) ) {
+            _v = 0;
+            PyErr_Clear();
+        } else {
+            _v = 1;
+        }
+    }
+
+    %typemap(in) swig_name (swig_name itks) {
+        swig_name * s;
+        if ((SWIG_ConvertPtr($input,(void **)(&s),$descriptor(swig_name *), 0)) == -1) {
+            PyErr_Clear();
+            if (PySequence_Check($input) && PyObject_Length($input) == dim) {
+                for (int i =0; i < dim; i++) {
+                    PyObject *o = PySequence_GetItem($input,i);
+                    if (!PyInt_Check(o)) {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int");
+                        return NULL;
+                    }
+                    itks[i] = PyInt_AsLong(o);
+                }
+                $1 = itks;
+            }else if (PyInt_Check($input)) {
+                for (int i =0; i < dim; i++) {
+                    itks[i] = PyInt_AsLong($input);
+                }
+                $1 = itks;
+            } else {
+                PyErr_SetString(PyExc_TypeError,"Expecting an swig_name, an int or sequence of int");
+                SWIG_fail;
+            }
+        }else if( s != NULL ) {
+            $1 = *s;
+        } else {
+            PyErr_SetString(PyExc_ValueError, "Value can't be None");
+            SWIG_fail;
+        }
+    }
+
+    %typemap(typecheck) swig_name {
+        void *ptr;
+        if (SWIG_ConvertPtr($input, &ptr, $descriptor(swig_name *), 0) == -1
+            && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
+            && !PyInt_Check($input) ) {
+            _v = 0;
+            PyErr_Clear();
+        } else {
+            _v = 1;
+        }
+    }
+
+    %extend swig_name {
+        long __getitem__(unsigned long d) {
+            if (d >= dim) { throw std::out_of_range("swig_name index out of range."); }
+            return self->operator[]( d );
+        }
+        void __setitem__(unsigned long d, long int v) {
+            if (d >= dim) { throw std::out_of_range("swig_name index out of range."); }
+            self->operator[]( d ) = v;
+        }
+        unsigned int __len__() {
+            return dim;
+        }
+        std::string __repr__() {
+            std::ostringstream msg;
+            msg << "swig_name (" << *self << ")";
+            return msg.str();
+        }
+    }
+
+%enddef
 
 // some code from stl
 

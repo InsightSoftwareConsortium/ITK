@@ -283,7 +283,7 @@ template< class TInputImage, class TOutputImage >
 void
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // Set up the progress reporter
   ProgressReporter progress(this, threadId,

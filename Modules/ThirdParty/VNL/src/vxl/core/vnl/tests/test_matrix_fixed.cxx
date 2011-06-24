@@ -104,6 +104,8 @@ void test_int()
   TEST("(m0 == m2)", (m0 == m2), true);
   TEST("m2.put(1,1,3)", (m2.put(1,1,3),m2.get(1,1)), 3);
   TEST("m2.get(1,1)", m2.get(1,1), 3);
+  int v2_data[] = {2,3};
+  TEST("m2.get_diagonal()", m2.get_diagonal(), vnl_vector<int>(2,2,v2_data));
   TEST("m0 == m2", (m0 == m2), false);
   TEST("m0 != m2", (m0 != m2), true);
   TEST("m1.fill(3)",
@@ -224,6 +226,8 @@ void test_float()
   TEST("(d0 == d2)", (d0==d2), true);
   TEST("d2.put(1,1,3.0)", (d2.put(1,1,(float)3.0),d2.get(1,1)), (float)3.0);
   TEST("d2.get(1,1)", d2.get(1,1), (float)3.0);
+  float v2_data[] = {2.f,3.f};
+  TEST("d2.get_diagonal()", d2.get_diagonal(), vnl_vector<float>(2,2,v2_data));
   TEST("d0 == d2", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
   TEST("d1.fill(3.0)",
@@ -322,6 +326,8 @@ void test_double()
   TEST("(d0 == d2)", (d0==d2), true);
   TEST("d2.put(1,1,3.0)", (d2.put(1,1,3.0),d2.get(1,1)), 3.0);
   TEST("d2.get(1,1)", d2.get(1,1), 3.0);
+  double v2_data[] = {2.0,3.0};
+  TEST("d2.get_diagonal()", d2.get_diagonal(), vnl_vector<double>(2,2,v2_data));
   TEST("d0 == d2", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
   TEST("d1.fill(3.0)",
@@ -458,10 +464,12 @@ void test_matrix_fixed()
   TEST("fill(1)", B(0,0)==1 && B(0,1)==1 && B(1,2)==1 && B(2,2)==1, true);
   B.fill_diagonal(4.0);
   TEST("fill_diagonal(4)", B(0,0)==4 && B(0,1)==1 && B(1,2)==1 && B(2,2)==4, true);
+  B.set_diagonal(vnl_double_3(7,9,16));
+  TEST("set_diagonal(7,9,16))",B(0,0)==7 && B(1,1)==9 && B(2,2)==16 && B(1,2)==1, true);
 
   // apply sqrt to every element
   B = B.apply(vcl_sqrt);
-  TEST("apply(sqrt)", B(1,1)==2 && B(0,2)==1 && B(2,1)==1 && B(2,2)==2, true);
+  TEST("apply(sqrt)", B(1,1)==3 && B(0,2)==1 && B(2,1)==1 && B(2,2)==4, true);
 
   test_multiply();
   test_size();

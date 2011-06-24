@@ -101,7 +101,7 @@ public:
   vnl_vector<Element::Float> rhs;
 
   /** Default constructor */
-  LoadBCMFC() {}
+  LoadBCMFC() : Index(0) {}
 
   /**
    * With this constructor, we can easy fix the global

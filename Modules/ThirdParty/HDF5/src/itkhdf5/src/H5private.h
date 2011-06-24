@@ -38,8 +38,12 @@
 
 /* include the pthread header */
 #ifdef H5_HAVE_THREADSAFE
+#ifdef H5_HAVE_PTHREAD_H
 #include <pthread.h>
-#endif
+#else /* H5_HAVE_PTHREAD_H */
+#define H5_HAVE_WIN_THREADS
+#endif /* H5_HAVE_PTHREAD_H */
+#endif /* H5_HAVE_THREADSAFE */
 
 /*
  * Include ANSI-C header files.
@@ -159,8 +163,12 @@
 
 
 #ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN		/*Exclude rarely-used stuff from Windows headers */
 
-#define VC_EXTRALEAN		/*Exclude rarely-used stuff from Windows headers */
+#ifdef H5_HAVE_WINSOCK_H
+#include <winsock2.h>
+#endif
+
 #include <windows.h>
 #include <direct.h>         /* For _getcwd() */
 
@@ -410,11 +418,6 @@
 #   error "nothing appropriate for int32_t"
 #endif
 
-/* Definition of uint32_t was moved to H5public.h */
-
-/* Definition of int64_t was moved to H5public.h */
-/* Definition of uint64_t was moved to H5public.h */
-
 /*
  * Maximum and minimum values.	These should be defined in <limits.h> for the
  * most part.
@@ -491,8 +494,9 @@ typedef struct {
  * function (or any other non-HDF5 function) in the source!
  */
 
- /* Use platform-specific versions if necessary */
-#include "H5win32defs.h"
+/* Put all platform-specific definitions in the following file */
+/* so that the following definitions are platform free. */
+#include "H5win32defs.h"	/* For Windows-specific definitions */
 
 #ifndef HDabort
     #define HDabort()		abort()
@@ -920,11 +924,14 @@ H5_DLL int HDfprintf (FILE *stream, const char *fmt, ...);
 #ifndef HDlongjmp
     #define HDlongjmp(J,N)		longjmp(J,N)
 #endif /* HDlongjmp */
+/* HDlseek and HDoff_t must be defined together for consistency. */
 #ifndef HDlseek
     #ifdef H5_HAVE_LSEEK64
-       #define HDlseek(F,O,W)	lseek64(F,O,W)
+        #define HDlseek(F,O,W)	lseek64(F,O,W)
+        #define HDoff_t		off64_t
     #else
-       #define HDlseek(F,O,W)	lseek(F,O,W)
+        #define HDlseek(F,O,W)	lseek(F,O,W)
+	#define HDoff_t		off_t
     #endif
 #endif /* HDlseek */
 #ifndef HDmalloc
@@ -1535,6 +1542,11 @@ typedef enum {
     H5_NPKGS				/*Must be last			*/
 } H5_pkg_t;
 
+typedef struct H5_debug_open_stream_t {
+    FILE        *stream;                /* Open output stream */
+    struct H5_debug_open_stream_t *next; /* Next open output stream */
+} H5_debug_open_stream_t;
+
 typedef struct H5_debug_t {
     FILE		*trace;		/*API trace output stream	*/
     hbool_t             ttop;           /*Show only top-level calls?    */
@@ -1543,6 +1555,7 @@ typedef struct H5_debug_t {
 	const char	*name;		/*package name			*/
 	FILE		*stream;	/*output stream	or NULL		*/
     } pkg[H5_NPKGS];
+    H5_debug_open_stream_t *open_stream; /* Stack of open output streams */
 } H5_debug_t;
 
 extern H5_debug_t		H5_debug_g;
@@ -1670,8 +1683,11 @@ typedef struct H5_api_struct {
 #define H5_INIT_GLOBAL H5_g.H5_libinit_g
 
 /* Macro for first thread initialization */
-#define H5_FIRST_THREAD_INIT                                                  \
-   pthread_once(&H5TS_first_init_g, H5TS_first_thread_init);
+#ifdef H5_HAVE_WIN_THREADS
+#define H5_FIRST_THREAD_INIT InitOnceExecuteOnce(&H5TS_first_init_g, H5TS_win32_first_thread_init, NULL, NULL);
+#else
+#define H5_FIRST_THREAD_INIT pthread_once(&H5TS_first_init_g, H5TS_pthread_first_thread_init);
+#endif
 
 /* Macros for threadsafe HDF-5 Phase I locks */
 #define H5_API_LOCK                                                           \
@@ -1714,7 +1730,7 @@ extern hbool_t H5_libinit_g;    /* Has the library been initialized? */
 /* Include required function stack header */
 #include "H5CSprivate.h"
 
-#define H5_PUSH_FUNC(func_name) H5CS_push(#func_name)
+#define H5_PUSH_FUNC(func_name) H5CS_push(#func_name);
 #define H5_POP_FUNC             H5CS_pop();
 #else /* H5_HAVE_CODESTACK */
 #define H5_PUSH_FUNC(func_name) /* void */
@@ -1841,7 +1857,7 @@ static herr_t		H5_INTERFACE_INIT_FUNC(void);
  */
 #define FUNC_ENTER_API_NOINIT(func_name) {{                                   \
     FUNC_ENTER_API_COMMON(func_name)                                          \
-    H5_PUSH_FUNC(func_name);                                                  \
+    H5_PUSH_FUNC(func_name)                                                  \
     BEGIN_MPE_LOG(func_name);                                                 \
     {
 
@@ -1895,7 +1911,7 @@ static herr_t		H5_INTERFACE_INIT_FUNC(void);
  */
 #define FUNC_ENTER_NOAPI_NOINIT(func_name) {                                  \
     FUNC_ENTER_COMMON(func_name, !H5_IS_API(#func_name));                     \
-    H5_PUSH_FUNC(func_name);                                                  \
+    H5_PUSH_FUNC(func_name)                                                  \
     {
 
 /*
@@ -1926,7 +1942,7 @@ static herr_t		H5_INTERFACE_INIT_FUNC(void);
  */
 #define FUNC_ENTER_NOAPI_NOINIT_NOFUNC(func_name) {                           \
     FUNC_ENTER_COMMON_NOFUNC(func_name,!H5_IS_API(#func_name));               \
-    H5_PUSH_FUNC(func_name);                                                  \
+    H5_PUSH_FUNC(func_name)                                                  \
     {
 
 /*

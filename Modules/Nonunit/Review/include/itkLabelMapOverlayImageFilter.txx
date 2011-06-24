@@ -64,7 +64,7 @@ void
 LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
-  int nbOfThreads = this->GetNumberOfThreads();
+  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
   if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -86,7 +86,7 @@ LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
 template<class TInputImage, class TFeatureImage, class TOutputImage>
 void
 LabelMapOverlayImageFilter<TInputImage, TFeatureImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, int threadId )
+::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
   OutputImageType * output = this->GetOutput();
   InputImageType * input = const_cast<InputImageType *>(this->GetInput());

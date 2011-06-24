@@ -21,13 +21,9 @@
 
 #include <iostream>
 
-#include "itkCompose2DCovariantVectorImageFilter.h"
-#include "itkCompose3DVectorImageFilter.h"
-#include "itkComposeRGBImageFilter.h"
-#include "itkCompose2DVectorImageFilter.h"
-#include "itkImageToVectorImageFilter.txx"
-#include "itkCompose3DCovariantVectorImageFilter.h"
-
+#include "itkComposeImageFilter.h"
+#include "itkJoinSeriesImageFilter.txx"
+#include "itkJoinImageFilter.h"
 
 
 int itkImageComposeHeaderTest ( int , char * [] )

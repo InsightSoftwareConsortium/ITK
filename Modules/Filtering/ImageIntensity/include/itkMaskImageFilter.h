@@ -20,6 +20,7 @@
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -62,7 +63,10 @@ class MaskInput
 public:
   typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
 
-  MaskInput():m_OutsideValue(NumericTraits< TOutput >::Zero) {}
+  MaskInput()
+  {
+    InitializeOutsideValue( static_cast<TOutput*>( NULL ) );
+  }
   ~MaskInput() {}
   bool operator!=(const MaskInput &) const
   {
@@ -99,6 +103,20 @@ public:
   }
 
 private:
+
+  template < class TPixelType >
+  void InitializeOutsideValue( TPixelType * )
+  {
+    this->m_OutsideValue = NumericTraits< TPixelType >::Zero;
+  }
+
+  template < class TValueType >
+  void InitializeOutsideValue( VariableLengthVector<TValueType> * )
+  {
+    // set the outside value to be of zero length
+    this->m_OutsideValue = VariableLengthVector< TValueType >(0);
+  }
+
   TOutput m_OutsideValue;
 };
 }
@@ -164,6 +182,12 @@ public:
     return this->GetFunctor().GetOutsideValue();
   }
 
+  void BeforeThreadedGenerateData()
+  {
+    typedef typename TOutputImage::PixelType PixelType;
+    this->CheckOutsideValue( static_cast<PixelType*>(NULL) );
+  }
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( MaskEqualityComparableCheck,
@@ -186,6 +210,41 @@ protected:
 private:
   MaskImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented
+
+  template < class TPixelType >
+  void CheckOutsideValue( const TPixelType * ) {}
+
+  template < class TValue >
+  void CheckOutsideValue( const VariableLengthVector< TValue > * )
+  {
+    // Check to see if the outside value contains only zeros. If so,
+    // resize it to have the same number of zeros as the output
+    // image. Otherwise, check that the number of components in the
+    // outside value is the same as the number of components in the
+    // output image. If not, throw an exception.
+    VariableLengthVector< TValue > currentValue =
+      this->GetFunctor().GetOutsideValue();
+    VariableLengthVector< TValue > zeroVector( currentValue.GetSize() );
+    zeroVector.Fill( NumericTraits< TValue >::Zero );
+
+    if ( currentValue == zeroVector )
+      {
+      zeroVector.SetSize( this->GetOutput()->GetVectorLength() );
+      zeroVector.Fill( NumericTraits< TValue >::Zero );
+      this->GetFunctor().SetOutsideValue( zeroVector );
+      }
+    else if ( this->GetFunctor().GetOutsideValue().GetSize() !=
+              this->GetOutput()->GetVectorLength() )
+      {
+      itkExceptionMacro(
+        << "Number of components in OutsideValue: "
+        <<  this->GetFunctor().GetOutsideValue().GetSize()
+        << " is not the same as the "
+        << "number of components in the image: "
+        << this->GetOutput()->GetVectorLength());
+      }
+  }
+
 };
 } // end namespace itk
 

@@ -81,12 +81,29 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 
    option(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING "Turn on warnings on 64bits to 32bits truncations." OFF)
    mark_as_advanced(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING)
+
+   # -fopenmp breaks compiling the HDF5 library in shared library mode
+   # on the OS X platform -- at least with gcc 4.2 from XCode.
+   set(compile_flag_lists CMAKE_C_FLAGS CMAKE_CXX_FLAGS
+     CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_MINSIZEREL
+     CMAKE_C_FLAGS_RELEASE CMAKE_C_FLAGS_RELWITHDEBINFO
+     CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_MINSIZEREL
+     CMAKE_CXX_FLAGS_RELEASE CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+   foreach(listname ${compile_flag_lists})
+     if("${${listname}}" MATCHES ".*-fopenmp.*")
+       string(REPLACE "-fopenmp" "" tmpFlags "${${listname}}")
+       set(${listname} "${tmpFlags}")
+       message("-fopenmp causes incorrect compliation of HDF, removing from ${listname}")
+     endif()
+   endforeach(listname ${compile_flag_lists})
+
  endif(APPLE)
 
  # gcc must have -msse2 option to enable sse2 support
  if(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
    set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -msse2")
  endif(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
+
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 #-----------------------------------------------------------------------------
@@ -136,6 +153,17 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     endif("${COMP_OPTION}" STREQUAL "-ffloat-store")
   endforeach(COMP_OPTION)
 endif(CMAKE_COMPILER_IS_GNUCXX)
+
+#-----------------------------------------------------------------------------
+# Set the compiler-specific flag for disabling optimization.
+if(MSVC)
+  set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "/Od")
+elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "^(GNU|Intel)$")
+  set(ITK_CXX_DISABLE_OPTIMIZATION_FLAG "-O0")
+endif()
+if(DEFINED ITK_CXX_DISABLE_OPTIMIZATION_FLAG)
+  itkCHECK_CXX_ACCEPTS_FLAGS(${ITK_CXX_DISABLE_OPTIMIZATION_FLAG} CXX_HAS_DISABLE_OPTIMIZATION_FLAG)
+endif()
 
 #---------------------------------------------------------------
 # run try compiles and tests for ITK

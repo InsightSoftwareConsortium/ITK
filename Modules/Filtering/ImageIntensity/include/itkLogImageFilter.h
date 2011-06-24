@@ -29,7 +29,7 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
  */
-namespace Function
+namespace Functor
 {
 template< class TInput, class TOutput >
 class Log
@@ -57,16 +57,16 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT LogImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Function::Log< typename TInputImage::PixelType,
-                                          typename TOutputImage::PixelType >   >
+                           Functor::Log< typename TInputImage::PixelType,
+                                         typename TOutputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
   typedef LogImageFilter Self;
   typedef UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
-    Function::Log< typename TInputImage::PixelType,
-                   typename TOutputImage::PixelType > > Superclass;
+    Functor::Log< typename TInputImage::PixelType,
+                  typename TOutputImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

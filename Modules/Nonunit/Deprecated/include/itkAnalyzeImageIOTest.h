@@ -28,6 +28,7 @@
 
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkAnalyzeImageIO.h"
+#include "itkIOTestHelper.h"
 #include <stdio.h>
 #include "itk_zlib.h"
 #include "itkNiftiImageIOTest.h"
@@ -184,7 +185,6 @@ MakeImage(const std::string & AugmentName)
     message += "\n";
     message += ex.GetDescription();
     std::cerr << message << std::endl;
-//--//      Remove(filename);
     return EXIT_FAILURE;
     }
 
@@ -202,12 +202,12 @@ MakeImage(const std::string & AugmentName)
   catch (itk::ExceptionObject &e)
     {
     e.Print(std::cerr);
-//--//      Remove(filename);
     return EXIT_FAILURE;
     }
-//--//  Remove(filename);
+  itk::IOTestHelper::Remove(filename.c_str());
   return EXIT_SUCCESS;
 }
+
 template <class ImageType>
 typename ImageType::Pointer NewRGBImage()
 {
@@ -224,8 +224,7 @@ typename ImageType::Pointer NewRGBImage()
     }
   region.SetSize(size);
   region.SetIndex(index);
-  AllocateImageFromRegionAndSpacing(ImageType, rval, region, spacing);
-  return rval;
+  return rval = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
 }
 
 int WriteAnalyzeTestFiles(const std::string & AugmentName);

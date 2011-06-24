@@ -54,7 +54,7 @@
 #include "itkBSplineL2ResampleImageFilterBase.txx"
 #include "itkVectorResampleImageFilter.h"
 #include "itkBSplineDownsampleImageFilter.txx"
-
+#include "itkZeroFluxNeumannPadImageFilter.txx"
 
 
 int itkImageGridHeaderTest ( int , char * [] )

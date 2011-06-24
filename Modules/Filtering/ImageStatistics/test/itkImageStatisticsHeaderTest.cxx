@@ -26,8 +26,7 @@
 #include "itkBinaryProjectionImageFilter.h"
 #include "itkGetAverageSliceImageFilter.txx"
 #include "itkHistogramAlgorithmBase.txx"
-//BUG  11909
-//#include "itkImageMomentsCalculator.txx"
+#include "itkImageMomentsCalculator.txx"
 #include "itkImagePCADecompositionCalculator.txx"
 #include "itkImagePCAShapeModelEstimator.txx"
 #include "itkImageShapeModelEstimatorBase.txx"

@@ -2,11 +2,11 @@
 #ifdef VCL_NEEDS_PRAGMA_INTERFACE
 #pragma implementation
 #endif
+#include "vnl_matlab_read.h"
 //:
 // \file
 // \author fsm
 #include <vxl_config.h>
-#include "vnl_matlab_read.h"
 #include <vcl_ios.h> // for vcl_ios_cur
 #include <vcl_iostream.h>
 #include <vcl_cstring.h> // memset()

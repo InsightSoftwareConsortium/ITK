@@ -25,7 +25,7 @@ from sys import argv
 itk.auto_progress(2)
 
 dim = 2
-IType = itk.Image[itk.US, dim]
+IType = itk.Image[itk.F, dim]
 OIType = itk.Image[itk.UC, dim]
 
 reader = itk.ImageFileReader[IType].New( FileName=argv[1] )

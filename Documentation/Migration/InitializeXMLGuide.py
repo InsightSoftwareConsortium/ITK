@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
   # get directory info
   migrationDir = sys.path[0]
-  baseDir = stripSuffix(migrationDir, "/Migration")
+  baseDir = stripSuffix(migrationDir, "/Documentation/Migration")
 
   # get XMLFileName (loop until name is unique)
   uniqueName = False

@@ -173,7 +173,7 @@ add_java_test(JavaBinaryThresholdImageFilter
   ${WrapITK_SOURCE_DIR}/images/cthead1.png
   BinaryThresholdImageFilter.png
   50 150
-  0 65535
+  0 255
   --compare BinaryThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png
 )
 
@@ -184,7 +184,7 @@ add_java_test(JavaCastImageFilter
   ${WrapITK_SOURCE_DIR}/images/cthead1.png
   CastImageFilter.png
   50 150
-  0 65535
+  0 255
   --compare CastImageFilter.png ${WrapITK_SOURCE_DIR}/images/cthead1.png
 )
 
@@ -206,6 +206,12 @@ add_java_test(JavaCurvatureFlowImageFilter
   ${WrapITK_SOURCE_DIR}/images/cthead1.png
   CurvatureFlowImageFilter.png
   5 0.125 1.0
+)
+
+build_java_test(MetaDataDictionary class_path IO)
+add_java_test(JavaMetaDataDictionary
+  ${class_path}
+  MetaDataDictionary
 )
 
 build_java_test(SigmoidImageFilter class_path IO  IntensityFilters)

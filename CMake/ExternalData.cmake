@@ -78,6 +78,37 @@
 # members named <prefix><number><suffix>.  Note that the <suffix> of a series
 # does not include a hash-algorithm extension.  Both series configuration
 # variables have default values that work well for common cases.
+#
+# The DATA{} syntax can alternatively match files associated with the named
+# file and contained in the same directory.  Associated files may be specified
+# by options using the syntax DATA{<name>,<opt1>,<opt2>,...}.  Each option may
+# specify one file by name or specify a regular expression to match file names
+# using the syntax REGEX:<regex>.  For example, the arguments
+#   DATA{MyData/MyInput.mhd,MyInput.img}             # File pair
+#   DATA{MyData/MyFrames00.png,MyFrames[0-9]+\\.png} # Series
+# will pass MyInput.mha and MyFrames00.png on the command line but ensure
+# that the associated files are present next to them.
+#
+# The variable ExternalData_LINK_CONTENT may be set to the name of a supported
+# hash algorithm to enable automatic conversion of real data files referenced
+# by the DATA{} syntax into content links.  For each such <file> a content
+# link named "<file><ext>" is created.  The original file is renamed to the
+# form ".ExternalData_<algo>_<hash>" to stage it for future transmission to
+# one of the locations in the list of URL templates (by means outside the
+# scope of this module).  The data fetch rule created for the content link
+# will use the staged object if it cannot be found using any URL template.
+#
+# The variable ExternalData_SOURCE_ROOT may be set to the highest source
+# directory containing any path named by a DATA{} reference.  The default is
+# CMAKE_SOURCE_DIR.  ExternalData_SOURCE_ROOT and CMAKE_SOURCE_DIR must refer
+# to directories within a single source distribution (e.g. they come together
+# in one tarball).
+#
+# Variables ExternalData_TIMEOUT_INACTIVITY and ExternalData_TIMEOUT_ABSOLUTE
+# set the download inactivity and absolute timeouts, in seconds.  The defaults
+# are 60 seconds and 300 seconds, respectively.  Set either timeout to 0
+# seconds to disable enforcement.  The inactivity timeout is enforced only
+# with CMake >= 2.8.5.
 
 #=============================================================================
 # Copyright 2010-2011 Kitware, Inc.
@@ -208,7 +239,57 @@ endfunction()
 set(_ExternalData_SELF "${CMAKE_CURRENT_LIST_FILE}")
 get_filename_component(_ExternalData_SELF_DIR "${_ExternalData_SELF}" PATH)
 
-function(_ExternalData_arg target arg data var_file)
+function(_ExternalData_compute_hash var_hash algo file)
+  if("${algo}" STREQUAL "MD5")
+    # TODO: Errors
+    execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
+      OUTPUT_VARIABLE output)
+    string(SUBSTRING "${output}" 0 32 hash)
+    set("${var_hash}" "${hash}" PARENT_SCOPE)
+  else()
+    # TODO: Other hashes.
+    message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
+  endif()
+endfunction()
+
+function(_ExternalData_exact_regex regex_var string)
+  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" regex "${string}")
+  set("${regex_var}" "${regex}" PARENT_SCOPE)
+endfunction()
+
+function(_ExternalData_atomic_write file content)
+  string(RANDOM LENGTH 6 random)
+  set(tmp "${file}.tmp${random}")
+  file(WRITE "${tmp}" "${content}")
+  file(RENAME "${tmp}" "${file}")
+endfunction()
+
+function(_ExternalData_link_content name var_ext)
+  if("${ExternalData_LINK_CONTENT}" MATCHES "^(MD5)$")
+    set(algo "${ExternalData_LINK_CONTENT}")
+  else()
+    message(FATAL_ERROR
+      "Unknown hash algorithm specified by ExternalData_LINK_CONTENT:\n"
+      "  ${ExternalData_LINK_CONTENT}")
+  endif()
+  _ExternalData_compute_hash(hash "${algo}" "${name}")
+  get_filename_component(dir "${name}" PATH)
+  set(staged "${dir}/.ExternalData_${algo}_${hash}")
+  set(ext ".md5")
+  _ExternalData_atomic_write("${name}${ext}" "${hash}\n")
+  file(RENAME "${name}" "${staged}")
+  set("${var_ext}" "${ext}" PARENT_SCOPE)
+
+  file(RELATIVE_PATH relname "${ExternalData_SOURCE_ROOT}" "${name}${ext}")
+  message(STATUS "Linked ${relname} to ExternalData ${algo}/${hash}")
+endfunction()
+
+function(_ExternalData_arg target arg options var_file)
+  # Separate data path from the options.
+  string(REPLACE "," ";" options "${options}")
+  list(GET options 0 data)
+  list(REMOVE_AT options 0)
+
   # Convert to full path.
   if(IS_ABSOLUTE "${data}")
     set(absdata "${data}")
@@ -218,7 +299,10 @@ function(_ExternalData_arg target arg data var_file)
   endif()
 
   # Convert to relative path under the source tree.
-  set(top_src "${CMAKE_SOURCE_DIR}")
+  if(NOT ExternalData_SOURCE_ROOT)
+    set(ExternalData_SOURCE_ROOT "${CMAKE_SOURCE_DIR}")
+  endif()
+  set(top_src "${ExternalData_SOURCE_ROOT}")
   file(RELATIVE_PATH reldata "${top_src}" "${absdata}")
   if(IS_ABSOLUTE "${reldata}" OR "${reldata}" MATCHES "^\\.\\./")
     message(FATAL_ERROR "Data file referenced by argument\n"
@@ -228,69 +312,38 @@ function(_ExternalData_arg target arg data var_file)
   endif()
   set(top_bin "${CMAKE_BINARY_DIR}/ExternalData") # TODO: .../${target} ?
 
-  # Configure series parsing and matching.
-  if(ExternalData_SERIES_PARSE)
-    if(NOT "${ExternalData_SERIES_PARSE}" MATCHES
-        "^\\^\\([^()]*\\)\\([^()]*\\)\\([^()]*\\)\\$$")
-      message(FATAL_ERROR
-        "ExternalData_SERIES_PARSE is set to\n"
-        "  ${ExternalData_SERIES_PARSE}\n"
-        "which is not of the form\n"
-        "  ^(...)(...)(...)$\n")
-    endif()
-    set(series_parse "${ExternalData_SERIES_PARSE}")
-  else()
-    set(series_parse "^(.*[A-Za-z_.-])([0-9]*)(\\.[^.]*)$")
-  endif()
-  if(ExternalData_SERIES_MATCH)
-    set(series_match "${ExternalData_SERIES_MATCH}")
-  else()
-    set(series_match "[_.]?[0-9]*")
-  endif()
-
-  # Parse the base, number, and extension components of the series.
-  string(REGEX REPLACE "${series_parse}" "\\1;\\2;\\3" tuple "${reldata}")
-  list(LENGTH tuple len)
-  if(NOT "${len}" EQUAL 3)
-    message(FATAL_ERROR "Data file referenced by argument\n"
-      "  ${arg}\n"
-      "corresponds to path\n"
-      "  ${reldata}\n"
-      "that does not match regular expression\n"
-      "  ${series_parse}")
-  endif()
-
-  # Glob files that might match the series.
-  list(GET tuple 0 relbase)
-  list(GET tuple 2 ext)
-  set(pattern "${relbase}*${ext}*")
-  file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}")
-
-  # Match base, number, and extension perhaps followed by a hash ext.
-  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" series_base "${relbase}")
-  string(REGEX REPLACE "([][+.*()^])" "\\\\\\1" series_ext "${ext}")
-  set(series_regex "^(${series_base}${series_match}${series_ext})(\\.[^.]*|)$")
   set(external "") # Entries external to the source tree.
   set(internal "") # Entries internal to the source tree.
   set(have_original 0)
-  foreach(entry IN LISTS globbed)
-    string(REGEX REPLACE "${series_regex}" "\\1;\\2" tuple "${entry}")
-    list(LENGTH tuple len)
-    if("${len}" EQUAL 2)
-      list(GET tuple 0 relname)
-      list(GET tuple 1 alg)
-      set(name "${top_src}/${relname}")
-      set(file "${top_bin}/${relname}")
-      if(alg)
-        list(APPEND external "${file}|${name}|${alg}")
-      else()
-        list(APPEND internal "${file}|${name}")
-      endif()
-      if("${relname}" STREQUAL "${reldata}")
-        set(have_original 1)
-      endif()
+
+  # Process options.
+  set(associated_files "")
+  set(associated_regex "")
+  foreach(opt ${options})
+    if("x${opt}" MATCHES "^xREGEX:[^:/]+$")
+      # Regular expression to match associated files.
+      string(REGEX REPLACE "^REGEX:" "" regex "${opt}")
+      list(APPEND associated_regex "${regex}")
+    elseif("x${opt}" MATCHES "^[^][:/*?]+$")
+      # Specific associated file.
+      list(APPEND associated_files "${opt}")
+    else()
+      message(FATAL_ERROR "Unknown option \"${opt}\" in argument\n"
+        "  ${arg}\n")
     endif()
   endforeach()
+
+  if(associated_files OR associated_regex)
+    # Load the named data file and listed/matching associated files.
+    _ExternalData_arg_single()
+    _ExternalData_arg_associated()
+  elseif("${reldata}" MATCHES "(^|/)[^/.]+$")
+    # Files with no extension cannot be a series.
+    _ExternalData_arg_single()
+  else()
+    # Match a whole file series by default.
+    _ExternalData_arg_series()
+  endif()
 
   if(NOT have_original)
     message(FATAL_ERROR "Data file referenced by argument\n"
@@ -311,6 +364,107 @@ function(_ExternalData_arg target arg data var_file)
     # The whole series is in the source tree.
     set("${var_file}" "${top_src}/${reldata}" PARENT_SCOPE)
   endif()
+endfunction()
+
+macro(_ExternalData_arg_associated)
+  # Associated files lie in the same directory.
+  get_filename_component(reldir "${reldata}" PATH)
+  if(reldir)
+    set(reldir "${reldir}/")
+  endif()
+  _ExternalData_exact_regex(reldir_regex "${reldir}")
+
+  # Find files named explicitly.
+  foreach(file ${associated_files})
+    _ExternalData_exact_regex(file_regex "${file}")
+    _ExternalData_arg_find_files("${reldir}${file}" "${reldir_regex}${file_regex}")
+  endforeach()
+
+  # Find files matching the given regular expressions.
+  set(all "")
+  set(sep "")
+  foreach(regex ${associated_regex})
+    set(all "${all}${sep}${reldir_regex}${regex}")
+    set(sep "|")
+  endforeach()
+  _ExternalData_arg_find_files("${reldir}" "${all}")
+endmacro()
+
+macro(_ExternalData_arg_single)
+  # Match only the named data by itself.
+  _ExternalData_exact_regex(data_regex "${reldata}")
+  _ExternalData_arg_find_files("${reldata}" "${data_regex}")
+endmacro()
+
+macro(_ExternalData_arg_series)
+  # Configure series parsing and matching.
+  if(ExternalData_SERIES_PARSE)
+    if(NOT "${ExternalData_SERIES_PARSE}" MATCHES
+        "^\\^\\([^()]*\\)\\([^()]*\\)\\([^()]*\\)\\$$")
+      message(FATAL_ERROR
+        "ExternalData_SERIES_PARSE is set to\n"
+        "  ${ExternalData_SERIES_PARSE}\n"
+        "which is not of the form\n"
+        "  ^(...)(...)(...)$\n")
+    endif()
+    set(series_parse "${ExternalData_SERIES_PARSE}")
+  else()
+    set(series_parse "^(.*)()(\\.[^./]*)$")
+  endif()
+  if(ExternalData_SERIES_MATCH)
+    set(series_match "${ExternalData_SERIES_MATCH}")
+  else()
+    set(series_match "[_.]?[0-9]*")
+  endif()
+
+  # Parse the base, number, and extension components of the series.
+  string(REGEX REPLACE "${series_parse}" "\\1;\\2;\\3" tuple "${reldata}")
+  list(LENGTH tuple len)
+  if(NOT "${len}" EQUAL 3)
+    message(FATAL_ERROR "Data file referenced by argument\n"
+      "  ${arg}\n"
+      "corresponds to path\n"
+      "  ${reldata}\n"
+      "that does not match regular expression\n"
+      "  ${series_parse}")
+  endif()
+  list(GET tuple 0 relbase)
+  list(GET tuple 2 ext)
+
+  # Glob files that might match the series.
+  # Then match match base, number, and extension.
+  _ExternalData_exact_regex(series_base "${relbase}")
+  _ExternalData_exact_regex(series_ext "${ext}")
+  _ExternalData_arg_find_files("${relbase}*${ext}"
+    "${series_base}${series_match}${series_ext}")
+endmacro()
+
+function(_ExternalData_arg_find_files pattern regex)
+  file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
+  foreach(entry IN LISTS globbed)
+    string(REGEX REPLACE "^(${regex})(\\.md5|)$" "\\1;\\2" tuple "${entry}")
+    list(LENGTH tuple len)
+    if("${len}" EQUAL 2)
+      list(GET tuple 0 relname)
+      list(GET tuple 1 alg)
+      set(name "${top_src}/${relname}")
+      set(file "${top_bin}/${relname}")
+      if(alg)
+        list(APPEND external "${file}|${name}|${alg}")
+      elseif(ExternalData_LINK_CONTENT)
+        _ExternalData_link_content("${name}" alg)
+        list(APPEND external "${file}|${name}|${alg}")
+      else()
+        list(APPEND internal "${file}|${name}")
+      endif()
+      if("${relname}" STREQUAL "${reldata}")
+        set(have_original 1)
+      endif()
+    endif()
+  endforeach()
+  set(external "${external}" PARENT_SCOPE)
+  set(internal "${internal}" PARENT_SCOPE)
+  set(have_original "${have_original}" PARENT_SCOPE)
 endfunction()
 
 #-----------------------------------------------------------------------------
@@ -359,20 +513,49 @@ function(_ExternalData_link_or_copy src dst)
   file(RENAME "${tmp}" "${dst}")
 endfunction()
 
-function(_ExternalData_compute_hash var_hash algo file)
-  if("${algo}" STREQUAL "MD5")
-    # TODO: Errors
-    execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
-      OUTPUT_VARIABLE output)
-    string(SUBSTRING ${output} 0 32 hash)
-    set("${var_hash}" "${hash}" PARENT_SCOPE)
-  else()
-    # TODO: Other hashes.
-    message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
-  endif()
+function(_ExternalData_download_file url file err_var msg_var)
+  set(retry 3)
+  while(retry)
+    math(EXPR retry "${retry} - 1")
+    if("${CMAKE_VERSION}" VERSION_GREATER 2.8.4.20110602)
+      if(ExternalData_TIMEOUT_INACTIVITY)
+        set(inactivity_timeout INACTIVITY_TIMEOUT ${ExternalData_TIMEOUT_INACTIVITY})
+      elseif(NOT "${ExternalData_TIMEOUT_INACTIVITY}" EQUAL 0)
+        set(inactivity_timeout INACTIVITY_TIMEOUT 60)
+      else()
+        set(inactivity_timeout "")
+      endif()
+    else()
+      set(inactivity_timeout "")
+    endif()
+    if(ExternalData_TIMEOUT_ABSOLUTE)
+      set(absolute_timeout TIMEOUT ${ExternalData_TIMEOUT_ABSOLUTE})
+    elseif(NOT "${ExternalData_TIMEOUT_ABSOLUTE}" EQUAL 0)
+      set(absolute_timeout TIMEOUT 300)
+    else()
+      set(absolute_timeout "")
+    endif()
+    file(DOWNLOAD "${url}" "${file}" STATUS status ${inactivity_timeout} ${absolute_timeout} SHOW_PROGRESS)
+    list(GET status 0 err)
+    list(GET status 1 msg)
+    if(NOT err OR NOT "${msg}" MATCHES "partial|timeout")
+      break()
+    elseif(retry)
+      message(STATUS "[download terminated: ${msg}, retries left: ${retry}]")
+    endif()
+  endwhile()
+  set("${err_var}" "${err}" PARENT_SCOPE)
+  set("${msg_var}" "${msg}" PARENT_SCOPE)
 endfunction()
 
-function(_ExternalData_download_object hash algo obj)
+function(_ExternalData_download_object name hash algo var_obj)
+  set(obj "${ExternalData_OBJECT_DIR}/${algo}/${hash}")
+  if(EXISTS "${obj}")
+    message(STATUS "Found object: \"${obj}\"")
+    set("${var_obj}" "${obj}" PARENT_SCOPE)
+    return()
+  endif()
+
   string(RANDOM LENGTH 6 random)
   set(tmp "${obj}.tmp${random}")
   set(found 0)
@@ -381,11 +564,9 @@ function(_ExternalData_download_object hash algo obj)
     string(REPLACE "%(hash)" "${hash}" url_tmp "${url_template}")
     string(REPLACE "%(algo)" "${algo}" url "${url_tmp}")
     message(STATUS "Fetching \"${url}\"")
-    file(DOWNLOAD "${url}" "${tmp}" STATUS status SHOW_PROGRESS) # TODO: timeout
+    _ExternalData_download_file("${url}" "${tmp}" err errMsg)
     set(tried "${tried}\n  ${url}")
-    list(GET status 0 err)
     if(err)
-      list(GET status 1 errMsg)
       set(tried "${tried} (${errMsg})")
     else()
       # Verify downloaded object.
@@ -399,11 +580,21 @@ function(_ExternalData_download_object hash algo obj)
     endif()
     file(REMOVE "${tmp}")
   endforeach()
-  if(NOT found)
+
+  get_filename_component(dir "${name}" PATH)
+  set(staged "${dir}/.ExternalData_${algo}_${hash}")
+
+  if(found)
+    file(RENAME "${tmp}" "${obj}")
+    message(STATUS "Downloaded object: \"${obj}\"")
+  elseif(EXISTS "${staged}")
+    set(obj "${staged}")
+    message(STATUS "Staged object: \"${obj}\"")
+  else()
     message(FATAL_ERROR "Object ${algo}=${hash} not found at:${tried}")
   endif()
 
-  file(RENAME "${tmp}" "${obj}")
+  set("${var_obj}" "${obj}" PARENT_SCOPE)
 endfunction()
 
 if("${ExternalData_ACTION}" STREQUAL "fetch")
@@ -422,13 +613,7 @@ if("${ExternalData_ACTION}" STREQUAL "fetch")
     message(FATAL_ERROR "Unknown hash algorithm extension \"${ext}\"")
   endif()
 
-  set(obj "${ExternalData_OBJECT_DIR}/${algo}/${hash}")
-  if(EXISTS "${obj}")
-    message(STATUS "Found object: \"${obj}\"")
-  else()
-    _ExternalData_download_object("${hash}" "${algo}" "${obj}")
-    message(STATUS "Downloaded object: \"${obj}\"")
-  endif()
+  _ExternalData_download_object("${name}" "${hash}" "${algo}" obj)
 
   # Check if file already corresponds to the object.
   set(file_up_to_date 0)
@@ -449,10 +634,7 @@ if("${ExternalData_ACTION}" STREQUAL "fetch")
   endif()
 
   # Atomically update the hash/timestamp file to record the object referenced.
-  string(RANDOM LENGTH 6 random)
-  set(tmp "${file}${ext}.tmp${random}")
-  file(WRITE "${tmp}" "${hash}\n")
-  file(RENAME "${tmp}" "${file}${ext}")
+  _ExternalData_atomic_write("${file}${ext}" "${hash}\n")
 elseif("${ExternalData_ACTION}" STREQUAL "local")
   foreach(v file name)
     if(NOT DEFINED "${v}")

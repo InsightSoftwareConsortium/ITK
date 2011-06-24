@@ -39,13 +39,14 @@ TestDegenerateHeaderFiles()
     return EXIT_FAILURE;
     }
   header.seekg(40,std::ios::beg); // go to location of first element of dim array.
-  short int zero(0);
-  header.write(reinterpret_cast<const char *>(&zero),sizeof(short int));
+  short int zero[8];
+  zero[0] = zero[1] = zero[2] = zero[3] = zero[4] = zero[5] = zero[6] = zero[7] = 0;
+  header.write(reinterpret_cast<const char *>(zero),sizeof(zero));
   header.close();
   int error(0);
   try
     {
-    img = ReadImage<ImageType>(fname);
+    img = itk::IOTestHelper::ReadImage<ImageType>(fname);
     }
   catch( itk::ExceptionObject & err )
     {

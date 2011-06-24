@@ -450,9 +450,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 }
 
 template<class TInputPointSet, class TOutputImage>
-int
+unsigned int
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::SplitRequestedRegion( int i, int num, RegionType &splitRegion )
+::SplitRequestedRegion( unsigned int i, unsigned int num, RegionType &splitRegion )
 {
   // For fitting, the image regions are not used so we always return a valid
   // number.
@@ -482,9 +482,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
     // determine the actual number of pieces that will be generated
     typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-    int valuesPerThread = static_cast<int>( vcl_ceil(
+    unsigned int valuesPerThread = static_cast<unsigned int>( vcl_ceil(
       range / static_cast<double>( num ) ) );
-    int maxThreadIdUsed = static_cast<int>( vcl_ceil(
+    unsigned int maxThreadIdUsed = static_cast<unsigned int>( vcl_ceil(
       range / static_cast<double>( valuesPerThread ) ) - 1 );
 
     // Split the region
@@ -513,7 +513,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 template<class TInputPointSet, class TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::ThreadedGenerateData( const RegionType &region, int threadId )
+::ThreadedGenerateData( const RegionType &region, ThreadIdType threadId )
 {
   if( !this->m_IsFittingComplete )
     {
@@ -529,7 +529,7 @@ template<class TInputPointSet, class TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 ::ThreadedGenerateDataForFitting(
-  const RegionType & itkNotUsed( region ), int threadId )
+  const RegionType & itkNotUsed( region ), ThreadIdType threadId )
 {
   /**
    * Ignore the output region as we're only interested in dividing the
@@ -582,7 +582,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   /**
    * Determine which points should be handled by this particular thread.
    */
-  int numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
   SizeValueType numberOfPointsPerThread = static_cast<SizeValueType>(
     this->GetInput()->GetNumberOfPoints() / numberOfThreads );
 
@@ -691,7 +691,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 template<class TInputPointSet, class TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::ThreadedGenerateDataForReconstruction( const RegionType &region, int
+::ThreadedGenerateDataForReconstruction( const RegionType &region, ThreadIdType
   itkNotUsed( threadId ) )
 {
   typename PointDataImageType::Pointer collapsedPhiLattices[ImageDimension + 1];
@@ -797,7 +797,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       this->m_OmegaLatticePerThread[0],
       this->m_OmegaLatticePerThread[0]->GetLargestPossibleRegion() );
 
-    for( int n = 1; n < this->GetNumberOfThreads(); n++ )
+    for( ThreadIdType n = 1; n < this->GetNumberOfThreads(); n++ )
       {
       ImageRegionIterator< PointDataImageType > Itd(
         this->m_DeltaLatticePerThread[n],

@@ -27,13 +27,13 @@
 namespace itk
 {
 /** \class ValarrayImageContainer
- * Defines a front-end to the std::<valarray> container that conforms to the
+ * Defines a front-end to the std\\::\<valarray\> container that conforms to the
  * ImageContainerInterface.  This is a full-fleged Object, so
  * there is modification time, debug, and reference count information.
  *
  * \tparam TElementIdentifier
  *    An INTEGRAL type for use in indexing the valarray.
- *    It must have a < operator defined for ordering.
+ *    It must have a \< operator defined for ordering.
  *
  * \tparam TElement
  *    The element type stored in the container.

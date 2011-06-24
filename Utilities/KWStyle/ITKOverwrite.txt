@@ -15,6 +15,9 @@ vnl_matrix_fixed_ref+double.4.4-.cxx Header Disable
 vnl_vector+char-.cxx Header Disable
 vnl_vector+short-.cxx Header Disable
 vnl_vector+ushort-.cxx Header Disable
+vnl_fft_3d.h InternalVariables Disable
+vnl_fft_3d.h Namespace Disable
+vnl_fft_3d.h Typedefs Disable
 itkWeakPointer.h Template Disable
 itkBSplineInterpolationWeightFunction.txx Namespace Disable
 itkCannyEdgeDetectionImageFilter.h InternalVariables Disable
@@ -89,6 +92,17 @@ itkMetaDataObject.txx Namespace Disable
 itkMersenneTwisterRandomVariateGenerator.h InternalVariables Disable
 itkNeighborhoodAllocator.h Typedefs Disable
 itkNodeList.h InternalVariables Disable
+itkNumericTraitsArrayPixel.h Comments Disable
+itkNumericTraitsCovariantVectorPixel.h Comments Disable
+itkNumericTraitsDiffusionTensor3DPixel.h Comments Disable
+itkNumericTraitsFixedArrayPixel.h Comments Disable
+itkNumericTraitsPointPixel.h Comments Disable
+itkNumericTraitsRGBAPixel.h Comments Disable
+itkNumericTraitsRGBPixel.h Comments Disable
+itkNumericTraitsStdVector.h Comments Disable
+itkNumericTraitsTensorPixel.h Comments Disable
+itkNumericTraitsVariableLengthVectorPixel.h Comments Disable
+itkNumericTraitsVectorPixel.h Comments Disable
 itkNumericTraitsArrayPixel.h InternalVariables Disable
 itkNumericTraitsPointPixel.h InternalVariables Disable
 itkNumericTraitsCovariantVectorPixel.h InternalVariables Disable

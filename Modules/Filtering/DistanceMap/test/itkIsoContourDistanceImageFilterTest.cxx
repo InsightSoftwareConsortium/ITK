@@ -57,7 +57,7 @@ SimpleSignedDistance( const TPoint & p )
   double accum = 0.0;
   for( unsigned int j = 0; j < TPoint::PointDimension; j++ )
     {
-    accum += vnl_math_sqr( p[j] - center[j] );
+    accum += vnl_math_sqr( p[j] - static_cast< double >( center[j] ) );
     }
   accum = vcl_sqrt( accum );
   return ( accum - radius );
@@ -66,18 +66,15 @@ SimpleSignedDistance( const TPoint & p )
 
 }
 
-
-
 int itkIsoContourDistanceImageFilterTest(int, char* [] )
 {
-
   const unsigned int ImageDimension = 2;
   typedef float PixelType;
 
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef itk::Image<unsigned char,ImageDimension> OutputImageType;
-  typedef ImageType::IndexType IndexType;
-  typedef itk::Point<double,ImageDimension> PointType;
+  typedef itk::Image<PixelType,ImageDimension>      ImageType;
+  typedef itk::Image<unsigned char,ImageDimension>  OutputImageType;
+  typedef ImageType::IndexType                      IndexType;
+  typedef itk::Point<double,ImageDimension>         PointType;
 
   // Fill an input image with simple signed distance function
   ImageType::Pointer image = ImageType::New();
@@ -114,6 +111,12 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   isocontour->SetFarValue(10);
   //  isocontour->SetNumberOfThreads(8);
 
+  if( isocontour->GetFarValue() != 10 )
+    {
+    std::cout << "isocontour->GetFarValue() != 10" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   ShowProgressObject progressWatch(isocontour);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
@@ -122,80 +125,58 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   isocontour->AddObserver( itk::ProgressEvent(), command);
 
   // For debugging
-try {
-
-//  typedef itk::ImageFileWriter<ImageType> WriterType;
-//  WriterType::Pointer writer = WriterType::New();
-//  writer->SetInput( image );
-//  writer->SetFileName( "input.mhd" );
-//  writer->Write();
-
-
-    typedef itk::RescaleIntensityImageFilter<
-                               ImageType,
-                               OutputImageType >   CastFilterType;
+  typedef itk::RescaleIntensityImageFilter<
+                                ImageType,
+                                OutputImageType >   CastFilterType;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput(isocontour->GetOutput());
-  //caster->Update();
-  /*
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( isocontour->GetOutput() );
-  writer->SetFileName( "output.mhd" );
-  writer->Write();
-  */
-  }
+
+  try
+    {
+    caster->Update();
+    }
   catch (itk::ExceptionObject &err)
     {
-      (&err)->Print(std::cerr);
-      return 2;
+    (&err)->Print(std::cerr);
+    return EXIT_FAILURE;
     }
 
  //Create narrowband
-  typedef ImageType::IndexType IndexType;
-  typedef ImageType::PixelType DataType;
-  typedef IsoContourType::BandNodeType BandNodeType;
-  typedef IsoContourType::NarrowBandType NarrowBandType;
+  typedef ImageType::IndexType            IndexType;
+  typedef ImageType::PixelType            DataType;
+  typedef IsoContourType::BandNodeType    BandNodeType;
+  typedef IsoContourType::NarrowBandType  NarrowBandType;
   //typedef itk::NarrowBand<BandNodeType> NarrowBandType;
 
   NarrowBandType::Pointer band = NarrowBandType::New();
   //Create nodes
   BandNodeType node;
 
- iter.GoToBegin();
- while (!iter.IsAtEnd())
- {
-      if (vnl_math_abs(iter.Get()) < 5)
-         {
-         node.m_Index=iter.GetIndex();
-         band->PushBack(node);
-         }
-    ++iter;
- }
-
- // Run isocontour with narrowband
- isocontour->NarrowBandingOn();
- // isocontour->SetNumberOfThreads(8);
- isocontour->SetNarrowBand(band.GetPointer());
-
- try {
-  isocontour->Update();
-  /* For debuggin
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( isocontour->GetOutput() );
-  writer->SetFileName( "output2.mhd" );
-  writer->Write();
-  */
-  }
-  catch (itk::ExceptionObject &err)
+  iter.GoToBegin();
+  while (!iter.IsAtEnd())
     {
-      (&err)->Print(std::cerr);
-      return 2;
+    if (vnl_math_abs(iter.Get()) < 5)
+      {
+      node.m_Index=iter.GetIndex();
+      band->PushBack(node);
+      }
+    ++iter;
     }
 
+  // Run isocontour with narrowband
+  isocontour->NarrowBandingOn();
+  // isocontour->SetNumberOfThreads(8);
+  isocontour->SetNarrowBand(band.GetPointer());
 
-
+  try
+    {
+    isocontour->Update();
+    }
+  catch (itk::ExceptionObject &err)
+    {
+    (&err)->Print(std::cerr);
+    return EXIT_FAILURE;
+    }
 
   // Check if inside/outside points remain the same after reinitialization
   typedef itk::MultiplyImageFilter<ImageType,ImageType,ImageType> CheckerType;

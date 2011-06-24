@@ -113,7 +113,7 @@ protected:
   virtual void GenerateInputRequestedRegion();
 
   virtual void ThreadedGenerateData(
-    const OutputImageRegionType & outputRegionForThread, int threadId);
+    const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
   virtual AccumulatorType NewAccumulator( SizeValueType ) const;
 

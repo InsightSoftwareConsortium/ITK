@@ -34,9 +34,10 @@ namespace itk
  *
  * \wiki
  * \wikiexample{ImageProcessing/MultiplyImageFilter,Multiply two images together}
+ * \wikiexample{ImageProcessing/MultiplyByConstantImageFilter,Multiply every pixel in an image by a constant}
  * \endwiki
  */
-namespace Function
+namespace Functor
 {
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Mult
@@ -63,7 +64,7 @@ template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputIm
 class ITK_EXPORT MultiplyImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Function::Mult<
+                            Functor::Mult<
                               typename TInputImage1::PixelType,
                               typename TInputImage2::PixelType,
                               typename TOutputImage::PixelType >   >
@@ -72,7 +73,7 @@ public:
   /** Standard class typedefs. */
   typedef MultiplyImageFilter Self;
   typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                                    Function::Mult<
+                                    Functor::Mult<
                                       typename TInputImage1::PixelType,
                                       typename TInputImage2::PixelType,
                                       typename TOutputImage::PixelType >

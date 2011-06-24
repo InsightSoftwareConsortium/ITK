@@ -32,7 +32,6 @@ itkComplexToPhaseFilterAndAdaptorTest.cxx
 itkIntensityWindowingImageFilterTest.cxx
 itkTernaryMagnitudeImageFilterTest.cxx
 itkAbsImageFilterAndAdaptorTest.cxx
-itkJoinSeriesImageFilterTest.cxx
 itkMaximumImageFilterTest.cxx
 itkBinaryMagnitudeImageFilterTest.cxx
 itkMatrixIndexSelectionImageFilterTest.cxx
@@ -55,7 +54,6 @@ itkVectorExpandImageFilterTest.cxx
 itkAdaptImageFilterTest.cxx
 itkOrImageFilterTest.cxx
 itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
-itkJoinImageFilterTest.cxx
 itkXorImageFilterTest.cxx
 itkSubtractImageFilterTest.cxx
 itkComplexToImaginaryFilterAndAdaptorTest.cxx
@@ -63,7 +61,10 @@ itkVectorToRGBImageAdaptorTest.cxx
 itkSinImageFilterAndAdaptorTest.cxx
 itkPolylineMask2DImageFilterTest.cxx
 itkPolylineMaskImageFilterTest.cxx
+itkPromoteDimensionImageTest.cxx
 itkModulusImageFilterTest.cxx
+itkVectorMagnitudeImageFilterTest.cxx
+itkNormalizeToConstantImageFilterTest.cxx
 )
 
 CreateTestDriver(ITK-ImageIntensity  "${ITK-ImageIntensity-Test_LIBRARIES}" "${ITK-ImageIntensityTests}")
@@ -146,8 +147,6 @@ itk_add_test(NAME itkTernaryMagnitudeImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkTernaryMagnitudeImageFilterTest)
 itk_add_test(NAME itkAbsImageFilterAndAdaptorTest
       COMMAND ITK-ImageIntensityTestDriver itkAbsImageFilterAndAdaptorTest)
-itk_add_test(NAME itkJoinSeriesImageFilterTest
-      COMMAND ITK-ImageIntensityTestDriver itkJoinSeriesImageFilterTest)
 itk_add_test(NAME itkMaximumImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkMaximumImageFilterTest)
 itk_add_test(NAME itkBinaryMagnitudeImageFilterTest
@@ -197,8 +196,6 @@ itk_add_test(NAME itkOrImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkOrImageFilterTest)
 itk_add_test(NAME itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
       COMMAND ITK-ImageIntensityTestDriver itkRGBToLuminanceImageFilterAndAdaptorTest)
-itk_add_test(NAME itkJoinImageFilterTest
-      COMMAND ITK-ImageIntensityTestDriver itkJoinImageFilterTest)
 itk_add_test(NAME itkXorImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkXorImageFilterTest)
 itk_add_test(NAME itkSubtractImageFilterTest
@@ -214,8 +211,17 @@ itk_add_test(NAME itkPolylineMask2DImageFilterTest
               ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
 itk_add_test(NAME itkPolylineMaskImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver itkPolylineMaskImageFilterTest)
+itk_add_test(NAME itkPromoteDimensionImageTest
+      COMMAND ITK-ImageIntensityTestDriver
+    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd
+              ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
+    itkPromoteDimensionImageTest ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd)
 itk_add_test(NAME itkModulusImageFilterTest
       COMMAND ITK-ImageIntensityTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
     itkModulusImageFilterTest ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png)
+itk_add_test(NAME itkVectorMagnitudeImageFilterTest
+      COMMAND ITK-ImageIntensityTestDriver itkVectorMagnitudeImageFilterTest)
+itk_add_test(NAME itkNormalizeToConstantImageFilterTest
+      COMMAND ITK-ImageIntensityTestDriver itkNormalizeToConstantImageFilterTest)

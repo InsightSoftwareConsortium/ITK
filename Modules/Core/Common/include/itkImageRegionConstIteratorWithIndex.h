@@ -88,7 +88,7 @@ namespace itk
  *
  * \par MORE INFORMATION
  *
- * \example Iterators/ImageRegionIteratorWithIndex.cxx
+ * \example ImageRegionIteratorWithIndex.cxx
  *
  * For a complete description of the ITK Image Iterators and their API, please
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
@@ -119,6 +119,8 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITK-Common
+ *
+ * \example itkImageIteratorTest.cxx
  *
  * \wiki
  * \wikiexample{Iterators/ImageRegionConstIteratorWithIndex,Iterate over a region of an image with efficient access to the current index (without write access)}
@@ -184,9 +186,6 @@ public:
    * \sa operator++ */
   Self & operator--();
 };
-
-/** \example itkImageIteratorTest.cpp */
-/** \example itkIteratorTests.cpp */
 } // end namespace itk
 
 // Define instantiation macro for this template.

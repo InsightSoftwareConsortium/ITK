@@ -35,7 +35,7 @@ namespace itk
   *
   * \ingroup ITK-Common
 */
-class StoppingCriterionBase : public Object
+class ITKCommon_EXPORT StoppingCriterionBase : public Object
 {
 public:
   typedef StoppingCriterionBase       Self;

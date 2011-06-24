@@ -103,6 +103,7 @@ public:
   { return (void *)m_Pointer >= (void *)r.m_Pointer; }
 
   /** Overload operator assignment.  */
+  // cppcheck-suppress operatorEqVarError
   WeakPointer & operator=(const WeakPointer & r)
   { return this->operator=( r.GetPointer() ); }
 

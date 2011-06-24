@@ -1,0 +1,7 @@
+extern int dsgets_(integer *ishift, char *which, integer *kev, integer *np, doublereal *ritz, doublereal *bounds, doublereal *shifts, ftnlen which_len);
+/* comlen debug_ 96 */
+/* comlen timing_ 124 */
+/*:ref: second_ 14 1 6 */
+/*:ref: dsortr_ 14 6 13 12 4 7 7 124 */
+/*:ref: dswap_ 14 5 4 7 4 7 4 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */

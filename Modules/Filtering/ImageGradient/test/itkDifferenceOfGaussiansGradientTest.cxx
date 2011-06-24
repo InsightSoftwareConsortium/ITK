@@ -33,12 +33,11 @@
 // DOG gradient related stuff
 #include "itkBinomialBlurImageFilter.h"
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
-#include "itkGradientToMagnitudeImageFilter.h"
+#include "itkVectorMagnitudeImageFilter.h"
 
 /*
 This file tests:
   itkDifferenceOfGaussiansGradientImageFilter
-  itkGradientToMagnitudeImageFilter
 */
 
 int itkDifferenceOfGaussiansGradientTest(int, char* [] )
@@ -124,11 +123,11 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   // show seed indices
   std::cout << "Seeds for FloodFilledSpatialFunctionConditionalIterator"
             << std::endl;
-  for(TItType::SeedsContainerType::const_iterator it
+  for(TItType::SeedsContainerType::const_iterator s_it
         = seeds.begin();
-      it != seeds.end(); it++)
+      s_it != seeds.end(); ++s_it)
     {
-    std::cout << (*it) << " ";
+    std::cout << (*s_it) << " ";
     }
   std::cout << std::endl;
 
@@ -184,14 +183,14 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   // Go!
   DOGFilter->Update();
 
-  //-------------Test gradient magnitude-------------
-  typedef itk::GradientToMagnitudeImageFilter<TDOGFilterType::TOutputImage,
-    itk::Image<unsigned char, dim> > TGradMagType;
+  //-------------Test vector magnitude-------------
+  typedef itk::VectorMagnitudeImageFilter<TDOGFilterType::TOutputImage,
+    itk::Image<unsigned char, dim> > VectorMagType;
 
-  TGradMagType::Pointer gradMagFilter = TGradMagType::New();
+  VectorMagType::Pointer vectorMagFilter = VectorMagType::New();
 
-  gradMagFilter->SetInput(gradientImage);
-  gradMagFilter->Update();
+  vectorMagFilter->SetInput(gradientImage);
+  vectorMagFilter->Update();
 
   return EXIT_SUCCESS;
 }

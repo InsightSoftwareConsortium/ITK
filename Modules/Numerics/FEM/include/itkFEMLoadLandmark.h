@@ -179,7 +179,7 @@ public:
   /**
    * Default constructors
    */
-  LoadLandmark() {}
+  LoadLandmark() : eta(0) {}
 };
 
 FEM_CLASS_INIT(LoadLandmark)

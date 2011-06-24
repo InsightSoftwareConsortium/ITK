@@ -50,8 +50,8 @@ int itkNiftiImageIOTest6(int ac, char *av[])
     spacing[i] = 1.0;
     }
   imageRegion.SetSize(size); imageRegion.SetIndex(index);
-  VectorImageType::Pointer vecImage;
-  AllocateVecImageFromRegionAndSpacing(VectorImageType, vecImage, imageRegion, spacing,vecLength);
+  VectorImageType::Pointer vecImage =
+    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion, spacing,vecLength);
 
   itk::ImageRegionIterator<VectorImageType>
     it(vecImage,vecImage->GetLargestPossibleRegion());
@@ -70,8 +70,8 @@ int itkNiftiImageIOTest6(int ac, char *av[])
   VectorImageType::Pointer readback;
   try
     {
-    WriteImage<VectorImageType>(vecImage,testfname);
-    readback = ReadImage<VectorImageType>(testfname);
+    itk::IOTestHelper::WriteImage<VectorImageType,itk::NiftiImageIO>(vecImage,testfname);
+    readback = itk::IOTestHelper::ReadImage<VectorImageType>(testfname);
     }
   catch(itk::ExceptionObject &err)
     {
@@ -103,6 +103,6 @@ int itkNiftiImageIOTest6(int ac, char *av[])
       break;
       }
     }
-  Remove(testfname.c_str());
+  itk::IOTestHelper::Remove(testfname.c_str());
   return success;
 }

@@ -74,8 +74,8 @@ void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  int nbOfThreads = this->GetNumberOfThreads();
-  int global_nb_threads = itk::MultiThreader::GetGlobalMaximumNumberOfThreads();
+  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
+  ThreadIdType global_nb_threads = itk::MultiThreader::GetGlobalMaximumNumberOfThreads();
 
   if ( global_nb_threads != 0 )
     {
@@ -110,7 +110,7 @@ template< class TInputImage, class TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   OutputImagePointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();

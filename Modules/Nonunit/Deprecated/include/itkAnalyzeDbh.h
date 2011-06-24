@@ -38,16 +38,16 @@
 
 /**
  * \file itkAnalyzeDbh.h
- * This file contains notes about the Analyze 7.5 file format gathered from 
- * several sources. A special note of thanks to Dennis P. Hanson for his 
+ * This file contains notes about the Analyze 7.5 file format gathered from
+ * several sources. A special note of thanks to Dennis P. Hanson for his
  * generous contributions in getting this information correct.
- * - NOTE: The comments were addded as part of the Insight Segmentation 
+ * - NOTE: The comments were addded as part of the Insight Segmentation
  *         And Registration Toolkit.
  *
  * Function:      This file contains the structure definition for Analyze files
  */
- 
- 
+
+
 #ifndef __itkAnalyzeDbh_h
 #define __itkAnalyzeDbh_h
 

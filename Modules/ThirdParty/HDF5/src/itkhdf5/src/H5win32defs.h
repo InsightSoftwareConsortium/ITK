@@ -44,18 +44,28 @@ typedef __int64             h5_stat_size_t;
 #define HDstat(S,B)         _stati64(S,B)
 #define HDgetcwd(S,Z)       _getcwd(S,Z)
 #define HDgetdcwd(D,S,Z)    _getdcwd(D,S,Z)
-#ifndef H5_HAVE_GETTIMEOFDAY
-    #ifdef __cplusplus
+
+#ifdef __MINGW32__
+# define HDgettimeofday(V,Z) gettimeofday(V,Z)
+#else
+struct timezone {
+    int tz_minuteswest;
+    int tz_dsttime;
+};
+
+#ifdef __cplusplus
         extern "C" {
-    #endif /* __cplusplus */
-    H5_DLL int HDgettimeofday(struct timeval *tv, void *tz);
-    #ifdef __cplusplus
+#endif /* __cplusplus */
+H5_DLL int Wgettimeofday(struct timeval *tv, struct timezone *tz);
+#ifdef __cplusplus
         }
-    #endif /* __cplusplus */
-    #define HDgettimeofday(V,Z) HDgettimeofday(V,Z)
-#endif /* H5_HAVE_GETTIMEOFDAY */
+#endif /* __cplusplus */
+#define HDgettimeofday(V,Z) Wgettimeofday(V,Z)
+#endif
+
 #define HDgetdrive()        _getdrive()
 #define HDlseek(F,O,W)      _lseeki64(F,O,W)
+#define HDoff_t             __int64
 #define HDmemset(X,C,Z)     memset((void*)(X),C,Z)
 #define HDmkdir(S,M)        _mkdir(S)
 #define HDopen(S,F,M)       _open(S,F|_O_BINARY,M)

@@ -12,14 +12,11 @@ itkAttributeRelabelLabelMapFilterTest1.cxx
 itkAttributeUniqueLabelMapFilterTest1.cxx
 itkAutoCropLabelMapFilterTest1.cxx
 itkBinaryClosingByReconstructionImageFilterTest.cxx
-itkBinaryContourImageFilterTest.cxx
 itkBinaryFillholeImageFilterTest1.cxx
 itkBinaryGrindPeakImageFilterTest1.cxx
 itkBinaryImageToLabelMapFilterTest.cxx
 itkBinaryImageToShapeLabelMapFilterTest1.cxx
 itkBinaryImageToStatisticsLabelMapFilterTest1.cxx
-itkBinaryMorphologicalClosingImageFilterTest.cxx
-itkBinaryMorphologicalOpeningImageFilterTest.cxx
 itkBinaryOpeningByReconstructionImageFilterTest.cxx
 itkBinaryReconstructionByDilationImageFilterTest.cxx
 itkBinaryReconstructionByErosionImageFilterTest.cxx
@@ -40,7 +37,6 @@ itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
 itkChangeLabelLabelMapFilterTest.cxx
 itkChangeRegionLabelMapFilterTest1.cxx
-itkComposeRGBAImageFilterTest.cxx
 itkCompositeTransformTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
@@ -72,7 +68,6 @@ itkGridImageSourceTest.cxx
 itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx
 itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
-itkImageReadRealAndImaginaryWriteComplexTest.cxx
 itkImageFunctionTest.cxx
 itkJPEG2000ImageIOFactoryTest01.cxx
 itkJPEG2000ImageIORegionOfInterest.cxx
@@ -139,6 +134,7 @@ itkOptImageToImageMetricsTest.cxx
 itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
 itkPadLabelMapFilterTest1.cxx
+itkPointsLocatorTest.cxx
 itkPhilipsRECImageIOTest.cxx
 itkRankImageFilterTest.cxx
 itkRegionalMaximaImageFilterTest.cxx
@@ -294,16 +290,6 @@ itk_add_test(NAME itkBinaryClosingByReconstructionImageFilterTest
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryClosingByReconstructionImageFilterTest.png
               ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
     itkBinaryClosingByReconstructionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1-bin.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png 0 255 10)
-itk_add_test(NAME itkBinaryContourImageFilterTest0
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryContourImageFilterTest0.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest0.png
-    itkBinaryContourImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest0.png 0 200 0)
-itk_add_test(NAME itkBinaryContourImageFilterTest1
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryContourImageFilterTest1.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest1.png
-    itkBinaryContourImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest1.png 1 200 0)
 itk_add_test(NAME itkBinaryFillholeImageFilterTest1
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryFillholeImageFilterTest1.png
@@ -347,21 +333,6 @@ itk_add_test(NAME itkBinaryImageToStatisticsLabelMapFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/Spots-binaryimage-to-statisticslabel.mha
               ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-statisticslabel.mha
     itkBinaryImageToStatisticsLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_DATA_ROOT}/Input/Spots.png ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-statisticslabel.mha 1 0 0 1 1 1 128)
-itk_add_test(NAME itkBinaryMorphologicalClosingImageFilterTest$
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryMorphologicalClosingImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png
-    itkBinaryMorphologicalClosingImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png 40 1 200)
-itk_add_test(NAME itkBinaryMorphologicalClosingImageFilterTestUnsafe$
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
-    itkBinaryMorphologicalClosingImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png 40 0 200)
-itk_add_test(NAME itkBinaryMorphologicalOpeningImageFilterTest$
-      COMMAND ITK-ReviewTestDriver
-    --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryMorphologicalOpeningImageFilterTest.png
-              ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png
-    itkBinaryMorphologicalOpeningImageFilterTest ${ITK_DATA_ROOT}/Input/2th_cthead1.png ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png 8 150 200)
 itk_add_test(NAME itkBinaryOpeningByReconstructionImageFilterTest
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkBinaryOpeningByReconstructionImageFilterTest.png
@@ -465,9 +436,6 @@ itk_add_test(NAME itkChangeRegionLabelMapFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-changeregion.mha
               ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changeregion.mha
     itkChangeRegionLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changeregion.mha 50 100 120 150)
-itk_add_test(NAME itkComposeRGBAImageFilterTest
-      COMMAND ITK-ReviewTestDriver itkComposeRGBAImageFilterTest
-              ${ITK_TEST_OUTPUT_DIR}/itkComposeRGBAImageFilterTestOutput.png ${ITK_DATA_ROOT}/Input/Number1inText.png ${ITK_DATA_ROOT}/Input/Number2inText.png ${ITK_DATA_ROOT}/Input/Number3inText.png ${ITK_DATA_ROOT}/Input/IntensityRamp64.png)
 itk_add_test(NAME itkCompositeTransformTest
       COMMAND ITK-ReviewTestDriver itkCompositeTransformTest)
 itk_add_test(NAME itkConformalFlatteningMeshFilterTest1
@@ -501,6 +469,16 @@ itk_add_test(NAME itkConvolutionImageFilterTestSobelY
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTestSobelY.nii.gz
               ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nii.gz
     itkConvolutionImageFilterTest ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/sobel_y.nii.gz ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nii.gz)
+itk_add_test(NAME itkConvolutionImageFilterTest4x4Mean
+      COMMAND ITK-ReviewTestDriver
+    --compare DATA{Baseline/itkConvolutionImageFilterTest4x4Mean.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4Mean.png
+    itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png DATA{Input/4x4-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4Mean.png 1)
+itk_add_test(NAME itkConvolutionImageFilterTest4x5Mean
+      COMMAND ITK-ReviewTestDriver
+    --compare DATA{Baseline/itkConvolutionImageFilterTest4x5Mean.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5Mean.png
+    itkConvolutionImageFilterTestInt ${ITK_DATA_ROOT}/Input/cthead1.png DATA{Input/4x5-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5Mean.png 1)
 itk_add_test(NAME itkConvolutionImageFilterTest5x5Mean
       COMMAND ITK-ReviewTestDriver
     --compare ${ITK_DATA_ROOT}/Baseline/Review/itkConvolutionImageFilterTest5x5Mean.png
@@ -688,9 +666,6 @@ itk_add_test(NAME itkImageReadComplexWriteMagnitudeAndPhaseTest
 itk_add_test(NAME itkImageReadMagnitudeAndPhaseWriteComplexTest
       COMMAND ITK-ReviewTestDriver itkImageReadMagnitudeAndPhaseWriteComplexTest
               ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplexMagnitude.mha ${ITK_EXAMPLE_DATA_ROOT}/itkBrainSliceComplexPhase.mha ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
-itk_add_test(NAME itkImageReadRealAndImaginaryWriteComplexTest
-      COMMAND ITK-ReviewTestDriver itkImageReadRealAndImaginaryWriteComplexTest
-              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha)
 itk_add_test(NAME itkImageFunctionTest
       COMMAND ITK-ReviewTestDriver itkImageFunctionTest)
 itk_add_test(NAME itkJPEG2000Test00
@@ -1265,6 +1240,8 @@ itk_add_test(NAME itkPadLabelMapFilterTest1
     --compare ${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-pad.mha
               ${ITK_TEST_OUTPUT_DIR}/cthead1-label-pad.mha
     itkPadLabelMapFilterTest1 ${ITK_DATA_ROOT}/Input/cthead1Label.png ${ITK_TEST_OUTPUT_DIR}/cthead1-label-pad.mha 40 50)
+itk_add_test(NAME itkPointsLocatorTest
+      COMMAND ITK-ReviewTestDriver itkPointsLocatorTest)
 itk_add_test(NAME itkPhilipsRECImageIOTest1
       COMMAND ITK-ReviewTestDriver itkPhilipsRECImageIOTest
               ${ITK_DATA_ROOT}/Input/T1_MEASUREMENT_4_1.PAR ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest1.mha)

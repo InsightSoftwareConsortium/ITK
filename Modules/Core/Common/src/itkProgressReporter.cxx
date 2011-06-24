@@ -21,7 +21,7 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-ProgressReporter::ProgressReporter(ProcessObject *filter, int threadId,
+ProgressReporter::ProgressReporter(ProcessObject *filter, ThreadIdType threadId,
                                    SizeValueType numberOfPixels,
                                    SizeValueType numberOfUpdates,
                                    float initialProgress,

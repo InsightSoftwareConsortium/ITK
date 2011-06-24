@@ -64,9 +64,9 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 }
 
 template< class TInputImageType, class TSparseOutputImageType >
-int
+ThreadIdType
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
-::GetSplitRegion(int i, int num, ThreadRegionType & splitRegion)
+::GetSplitRegion(ThreadIdType i, ThreadIdType num, ThreadRegionType & splitRegion)
 {
   splitRegion.first = m_RegionList[i].first;
   splitRegion.last = m_RegionList[i].last;
@@ -98,7 +98,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::ApplyUpdateThreaderCallback(void *arg)
 {
   FDThreadStruct *str;
-  int             total, threadId, threadCount;
+  ThreadIdType    total, threadId, threadCount;
 
   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
@@ -125,7 +125,7 @@ void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::ThreadedApplyUpdate(const TimeStepType& dt,
                       const ThreadRegionType & regionToProcess,
-                      int)
+                      ThreadIdType)
 {
   typename NodeListType::Iterator it;
 
@@ -181,7 +181,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   // various threads.  There is one distinct slot for each possible thread,
   // so this data structure is thread-safe.  All of the time steps calculated
   // in each thread will be combined in the ResolveTimeStepMethod.
-  int threadCount = this->GetMultiThreader()->GetNumberOfThreads();
+  ThreadIdType threadCount = this->GetMultiThreader()->GetNumberOfThreads();
 
   str.TimeStepList.resize(threadCount, false);
   str.ValidTimeStepList.resize(threadCount);
@@ -205,7 +205,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::CalculateChangeThreaderCallback(void *arg)
 {
   FDThreadStruct *str;
-  int             total, threadId, threadCount;
+  ThreadIdType    total, threadId, threadCount;
 
   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
@@ -236,7 +236,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::PrecalculateChangeThreaderCallback(void *arg)
 {
   FDThreadStruct *str;
-  int             total, threadId, threadCount;
+  ThreadIdType    total, threadId, threadCount;
 
   threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
@@ -263,7 +263,7 @@ template< class TInputImageType, class TSparseOutputImageType >
 typename FiniteDifferenceSparseImageFilter< TInputImageType,
                                             TSparseOutputImageType >::TimeStepType
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
-::ThreadedCalculateChange(const ThreadRegionType & regionToProcess, int)
+::ThreadedCalculateChange(const ThreadRegionType & regionToProcess, ThreadIdType)
 {
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType
   NeighborhoodIteratorType;
@@ -305,7 +305,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 template< class TInputImageType, class TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
-::ThreadedPrecalculateChange(const ThreadRegionType & regionToProcess, int)
+::ThreadedPrecalculateChange(const ThreadRegionType & regionToProcess, ThreadIdType)
 {
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType
   NeighborhoodIteratorType;

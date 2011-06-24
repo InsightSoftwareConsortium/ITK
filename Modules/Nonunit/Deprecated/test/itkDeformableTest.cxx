@@ -272,11 +272,13 @@ int itkDeformableTest(int , char *[])
 
 
   /** raise coverage */
- myGradientImageType::Pointer grad_tmp = m_dfilter->GetGradient();
+  myGradientImageType::Pointer grad_tmp = m_dfilter->GetGradient();
 
   std::cout << m_dfilter->GetStepThreshold() << std::endl;
 
   double2DVector stiff_tmp = m_dfilter->GetStiffness();
+
+  std::cout << stiff_tmp <<std::endl;
 
   std::cout << m_dfilter->GetTimeStep() << std::endl;
 

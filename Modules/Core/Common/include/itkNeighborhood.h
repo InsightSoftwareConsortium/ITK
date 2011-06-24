@@ -70,7 +70,7 @@ public:
   typedef TPixel PixelType;
 
   /** Iterator typedef support. Note the naming is intentional, i.e.,
-  * ::iterator and ::const_iterator, because the allocator may be a
+  * \\::iterator and \\::const_iterator, because the allocator may be a
   * vnl object or other type, which uses this form. */
   typedef typename AllocatorType::iterator       Iterator;
   typedef typename AllocatorType::const_iterator ConstIterator;
@@ -154,7 +154,7 @@ public:
    * length is the number of pixels between adjacent pixels along the
    * given dimension. */
   OffsetValueType GetStride(DimensionValueType axis) const
-  {     return m_StrideTable[axis];  }
+  { return ( axis < VDimension ) ? m_StrideTable[axis] : 0;  }
 
   /** STL-style iterator support. */
   Iterator End()

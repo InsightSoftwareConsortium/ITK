@@ -253,7 +253,7 @@ H5Gcreate1(hid_t loc_id, const char *name, size_t size_hint)
 
 done:
     if(tmp_gcpl > 0 && tmp_gcpl != H5P_GROUP_CREATE_DEFAULT)
-        if(H5I_dec_ref(tmp_gcpl, FALSE) < 0)
+        if(H5I_dec_ref(tmp_gcpl) < 0)
             HDONE_ERROR(H5E_SYM, H5E_CLOSEERROR, FAIL, "unable to release property list")
 
     if(ret_value < 0)
@@ -893,7 +893,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5G_get_objinfo_cb(H5G_loc_t *grp_loc/*in*/, const char *name, const H5O_link_t *lnk,
+H5G_get_objinfo_cb(H5G_loc_t UNUSED *grp_loc/*in*/, const char *name, const H5O_link_t *lnk,
     H5G_loc_t *obj_loc, void *_udata/*in,out*/, H5G_own_loc_t *own_loc/*out*/)
 {
     H5G_trav_goi_t *udata = (H5G_trav_goi_t *)_udata;   /* User data passed in */
@@ -910,7 +910,6 @@ H5G_get_objinfo_cb(H5G_loc_t *grp_loc/*in*/, const char *name, const H5O_link_t 
         H5G_stat_t *statbuf = udata->statbuf;   /* Convenience pointer for statbuf */
 
         /* Common code to retrieve the file's fileno */
-        /* (Use the object location's file info, if it's available) */
         if(H5F_get_fileno((obj_loc ? obj_loc : grp_loc)->oloc->file, &statbuf->fileno[0]) < 0)
             HGOTO_ERROR(H5E_FILE, H5E_BADVALUE, FAIL, "unable to read fileno")
 
@@ -922,6 +921,7 @@ H5G_get_objinfo_cb(H5G_loc_t *grp_loc/*in*/, const char *name, const H5O_link_t 
 
             /* Go retrieve the object information */
             /* (don't need index & heap info) */
+            HDassert(obj_loc);
             if(H5O_get_info(obj_loc->oloc, udata->dxpl_id, FALSE, &oinfo) < 0)
                 HGOTO_ERROR(H5E_OHDR, H5E_CANTGET, FAIL, "unable to get object info")
 

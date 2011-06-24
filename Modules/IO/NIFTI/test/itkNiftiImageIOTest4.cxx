@@ -24,8 +24,6 @@
 #include "itkNiftiImageIO.h"
 #include "itkNiftiImageIOTest.h"
 
-
-
 typedef itk::Image<unsigned char,3> Test4ImageType;
 
 void
@@ -56,7 +54,6 @@ int itkNiftiImageIOTest4(int ac, char* av[])
     }
 
   //
-  Test4ImageType::Pointer test4Image = Test4ImageType::New();
   Test4ImageType::RegionType imageRegion;
   Test4ImageType::SizeType size;
   Test4ImageType::IndexType index;
@@ -72,7 +69,8 @@ int itkNiftiImageIOTest4(int ac, char* av[])
 
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  AllocateImageFromRegionAndSpacing(Test4ImageType, test4Image, imageRegion, spacing);
+  Test4ImageType::Pointer test4Image =
+    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<Test4ImageType>(imageRegion, spacing);
   test4Image->FillBuffer(0);
 
   Test4ImageType::DirectionType dir;
@@ -81,8 +79,10 @@ int itkNiftiImageIOTest4(int ac, char* av[])
   // arbitrarily rotate the unit vectors to pick random direction
   // cosines;
   vnl_random randgen(8775070);
+
   typedef itk::AffineTransform<double,3>  TransformType;
-  typedef itk::Vector<double,3> AxisType;
+  typedef itk::Vector<double,3>           AxisType;
+
   TransformType::Pointer transform = TransformType::New();
   AxisType axis;
   axis[0] = 1.0; axis[1] = 0.0; axis[2] = 0.0;
@@ -108,7 +108,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
   std::string fname("directionsTest.nii.gz");
   try
     {
-    WriteImage<Test4ImageType>(test4Image,fname);
+    itk::IOTestHelper::WriteImage<Test4ImageType,itk::NiftiImageIO>(test4Image,fname);
     }
   catch(itk::ExceptionObject &ex)
     {
@@ -117,7 +117,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
     message += fname; message += "\n";
     message += ex.GetLocation(); message += "\n";
     message += ex.GetDescription(); std::cout << message << std::endl;
-    Remove(fname.c_str());
+    itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
     }
   //
@@ -125,7 +125,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
   Test4ImageType::Pointer readback;
   try
     {
-    readback = ReadImage<Test4ImageType>(fname);
+    readback = itk::IOTestHelper::ReadImage<Test4ImageType>(fname);
     }
   catch(itk::ExceptionObject &ex)
     {
@@ -134,10 +134,10 @@ int itkNiftiImageIOTest4(int ac, char* av[])
     message += fname; message += "\n";
     message += ex.GetLocation(); message += "\n";
     message += ex.GetDescription(); std::cout << message << std::endl;
-    Remove(fname.c_str());
+    itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
     }
-  Remove(fname.c_str());
+  itk::IOTestHelper::Remove(fname.c_str());
   Test4ImageType::DirectionType dir2 = readback->GetDirection();
 
   std::cerr << "Original direction" << std::endl;

@@ -23,7 +23,6 @@
 #include "itkMacro.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
 #include "vxl_version.h"
-
 #include <iostream>
 
 namespace itk {
@@ -264,12 +263,13 @@ void LinearSystemWrapperVNL::MultiplyMatrixMatrix(unsigned int ResultMatrixIndex
   delete (*m_Matrices)[ResultMatrixIndex];
   (*m_Matrices)[ResultMatrixIndex] = new vnl_sparse_matrix<Float>( this->GetSystemOrder(), this->GetSystemOrder() );
 
-#if VXL_VERSION_MAJOR == 1 && VXL_VERSION_MINOR == 9
-  ((*m_Matrices)[LeftMatrixIndex])->mult( *((*m_Matrices)[RightMatrixIndex]), *((*m_Matrices)[ResultMatrixIndex]) );
-#else
+#if VXL_VERSION_DATE_FULL >= 20100109
   *((*m_Matrices)[ResultMatrixIndex]) =
     *((*m_Matrices)[LeftMatrixIndex]) * ( *((*m_Matrices)[RightMatrixIndex]));
+#else
+  ((*m_Matrices)[LeftMatrixIndex])->mult( *((*m_Matrices)[RightMatrixIndex]), *((*m_Matrices)[ResultMatrixIndex]) );
 #endif
+
 }
 
 

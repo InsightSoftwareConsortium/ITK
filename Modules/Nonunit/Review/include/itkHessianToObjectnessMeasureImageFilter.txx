@@ -60,7 +60,7 @@ template< typename TInputImage, typename TOutputImage >
 void
 HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   typename OutputImageType::Pointer output = this->GetOutput();
   typename InputImageType::ConstPointer input = this->GetInput();

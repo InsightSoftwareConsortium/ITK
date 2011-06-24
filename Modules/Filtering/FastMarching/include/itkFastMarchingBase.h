@@ -98,10 +98,10 @@ public:
   typedef typename Traits::OutputDomainPointer    OutputDomainPointer;
   typedef typename Traits::OutputPixelType        OutputPixelType;
 
-  /** \typedef NodeType type of node */
+  /** NodeType type of node */
   typedef typename Traits::NodeType                 NodeType;
 
-  /** \typedef NodePairType pair of node and corresponding value */
+  /** NodePairType pair of node and corresponding value */
   typedef typename Traits::NodePairType             NodePairType;
   typedef typename Traits::NodePairContainerType    NodePairContainerType;
   typedef typename Traits::NodePairContainerPointer NodePairContainerPointer;
@@ -110,7 +110,7 @@ public:
 
   typedef typename Traits::LabelType                LabelType;
 
-  /** \typedef StoppingCriterionType stopping criterion */
+  /** StoppingCriterionType stopping criterion */
   typedef FastMarchingStoppingCriterionBase< TInput, TOutput > StoppingCriterionType;
   typedef typename StoppingCriterionType::Pointer              StoppingCriterionPointer;
 

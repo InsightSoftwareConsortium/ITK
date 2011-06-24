@@ -63,15 +63,15 @@ int itkNiftiImageIOTest11(int ac, char *av[])
 
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  ImageType::Pointer im;
-  AllocateImageFromRegionAndSpacing(ImageType,im,imageRegion,spacing);
+  ImageType::Pointer im =
+    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion,spacing);
   ImageType::DirectionType dir(CORDirCosines<ImageType>());
   std::cout << "itkNiftiImageIOTest11" << std::endl;
   std::cout << "Direction = " << dir << std::endl;
   im->SetDirection(dir);
   try
     {
-    WriteImage<ImageType>(im,testfilename);
+    itk::IOTestHelper::WriteImage<ImageType,itk::NiftiImageIO>(im,testfilename);
     std::cerr << "FAILED to catch expected exception" << std::endl;
     return EXIT_FAILURE;
     }

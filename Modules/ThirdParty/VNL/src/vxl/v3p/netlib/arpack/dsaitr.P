@@ -1,0 +1,12 @@
+extern int dsaitr_(integer *ido, char *bmat, integer *n, integer *k, integer *np, integer *mode, doublereal *resid, doublereal *rnorm, doublereal *v, integer *ldv, doublereal *h__, integer *ldh, integer *ipntr, doublereal *workd, integer *info, ftnlen bmat_len);
+/* comlen debug_ 96 */
+/* comlen timing_ 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: second_ 14 1 6 */
+/*:ref: dgetv0_ 14 14 4 13 4 12 4 4 7 4 7 7 4 7 4 124 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: dlascl_ 14 11 13 4 4 7 7 4 4 7 4 4 124 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: dnrm2_ 7 3 4 7 4 */
+/*:ref: dgemv_ 14 12 13 4 4 7 7 4 7 4 7 7 4 124 */

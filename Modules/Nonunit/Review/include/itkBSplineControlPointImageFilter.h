@@ -223,7 +223,7 @@ protected:
   /**
    * Multithreaded function which generates the output sampled B-spline object.
    */
-  void ThreadedGenerateData( const OutputImageRegionType &, int );
+  void ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType );
 
 private:
   BSplineControlPointImageFilter( const Self& ); //purposely not implemented
@@ -240,7 +240,7 @@ private:
    * Based on the way CollapsePhiLattice() is written, we want to split on the
    * the last dimension.
    */
-  int SplitRequestedRegion( int, int, OutputImageRegionType & );
+  unsigned int SplitRequestedRegion( unsigned int, unsigned int, OutputImageRegionType & );
 
   /**
    * Sub-function used by GenerateOutputImageFast() to generate the sampled

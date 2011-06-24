@@ -220,7 +220,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImag
 template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
 void
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
-::ApplyUpdate(TimeStepType dt)
+::ApplyUpdate(const TimeStepType& dt)
 {
   // unused dt parameter
   (void)dt;

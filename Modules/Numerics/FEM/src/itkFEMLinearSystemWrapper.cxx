@@ -335,8 +335,7 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
     {
     if ( *nextRowsIt == rowNumber )
       {
-      nextRows.erase(nextRowsIt);
-      --nextRowsIt;
+      nextRowsIt = nextRows.erase(nextRowsIt);
       }
     }
 
@@ -382,8 +381,7 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
         {
         if (reverseMapping[*rowBufferIt] < this->m_Order )
           {
-          rowBuffer.erase(rowBufferIt);
-          --rowBufferIt;
+          rowBufferIt = rowBuffer.erase(rowBufferIt);
           }
         }
 

@@ -83,7 +83,7 @@ protected:
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                             int threadId);
+                             ThreadIdType threadId);
 
   // should be set by the meta filter
   InputImagePixelType m_Boundary;

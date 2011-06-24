@@ -49,15 +49,15 @@ template< class TInputDomain,
 class FastMarchingTraitsBase
   {
 public:
-  /** \typedef Input Domain Type */
+  /** Input Domain Type */
   typedef TInputDomain                                        InputDomainType;
   typedef typename InputDomainType::Pointer                   InputDomainPointer;
   typedef typename InputDomainType::PixelType                 InputPixelType;
 
-  /** \typedef Node type */
+  /** Node type */
   typedef TNode                                               NodeType;
 
-  /** \typedef Output Domain Type */
+  /** Output Domain Type */
   typedef TOutputDomain                                       OutputDomainType;
   typedef typename OutputDomainType::Pointer                  OutputDomainPointer;
   typedef typename OutputDomainType::PixelType                OutputPixelType;

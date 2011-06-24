@@ -42,7 +42,7 @@ template <class T>
 vcl_ostream& operator<<(vcl_ostream& s,
                         const vnl_scalar_join_iterator_indexed_pair<T>& p)
 {
-  return s << p.original_index << " " << *(p.object) << '\n';
+  return s << p.original_index << ' ' << *(p.object) << '\n';
 }
 
 template <class T>
@@ -152,7 +152,7 @@ unsigned vnl_scalar_join_iterator<T>::row2() const
 
 //: Postfix ++ should not be used. Only present for instantiation purposes.
 template <class T>
-vnl_scalar_join_iterator<T>& vnl_scalar_join_iterator<T>::operator++(int)
+vnl_scalar_join_iterator<T> vnl_scalar_join_iterator<T>::operator++(int)
 {
   vcl_cerr << "This should not happen! postfix ++ called\n";
   return *this;

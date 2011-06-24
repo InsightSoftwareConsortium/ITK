@@ -80,7 +80,7 @@ template< class TInputImage, class TOutputImage, class TOperatorValueType >
 void
 NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >
   BFC;
@@ -90,12 +90,6 @@ NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
   NeighborhoodInnerProduct< InputImageType, OperatorValueType, ComputingPixelType > smartInnerProduct;
   BFC                                                           faceCalculator;
   FaceListType                                                  faceList;
-
-  // This filter can only operate on data types that are signed.
-   if ( !NumericTraits< typename NumericTraits< OutputPixelType  >::ValueType >::is_signed )
-    {
-    itkExceptionMacro(<< "This filter can only create images of signed data type.");
-    }
 
   // Allocate output
   OutputImageType *output = this->GetOutput();

@@ -39,6 +39,7 @@ set(io_classes
   VoxBoCUBImageIO
   MRCImageIO
   JPEG2000ImageIO
+  HDF5ImageIO
 )
 
 foreach(c ${io_classes})

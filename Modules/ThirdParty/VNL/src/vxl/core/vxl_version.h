@@ -26,9 +26,9 @@
 
 //: Version date.  This is updated every day.
 // Formats are year=CCYY, month=MM, day=DD
-#define VXL_VERSION_DATE_YEAR 2010
-#define VXL_VERSION_DATE_MONTH 11
-#define VXL_VERSION_DATE_DAY 30
+#define VXL_VERSION_DATE_YEAR 2011
+#define VXL_VERSION_DATE_MONTH 04
+#define VXL_VERSION_DATE_DAY 28
 
 //: ITK Modification: Defined to indicate this vxl is in ITK.
 #define VXL_VERSION_ITK

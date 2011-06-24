@@ -86,7 +86,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     m_Input = input;
     }
 
-  long nbOfThreads = this->GetNumberOfThreads();
+  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
   if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -97,7 +97,6 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   typename TOutputImage::RegionType splitRegion;  // dummy region - just to call
                                                   // the following method
   nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
-//  std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
 
   // set up the vars used in the threads
   m_NumberOfLabels.clear();
@@ -115,12 +114,12 @@ template< class TInputImage, class TOutputImage, class TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
 
-  long nbOfThreads = m_NumberOfLabels.size();
+  ThreadIdType nbOfThreads = m_NumberOfLabels.size();
 
   // create a line iterator
   typedef itk::ImageLinearConstIteratorWithIndex< InputImageType >
@@ -208,7 +207,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 
   // compute the total number of labels
   nbOfLabels = 0;
-  for ( int i = 0; i < nbOfThreads; i++ )
+  for ( ThreadIdType i = 0; i < nbOfThreads; i++ )
     {
     nbOfLabels += m_NumberOfLabels[i];
     }
@@ -290,7 +289,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 
   while ( m_FirstLineIdToJoin.size() != 0 )
     {
-    if ( threadId * 2 < (int)m_FirstLineIdToJoin.size() )
+    if ( threadId * 2 < static_cast<ThreadIdType>( m_FirstLineIdToJoin.size() ) )
       {
       for ( SizeValueType ThisIdx = m_FirstLineIdToJoin[threadId * 2];
             ThisIdx < m_FirstLineIdToJoin[threadId * 2] + nbOfLineIdToJoin;

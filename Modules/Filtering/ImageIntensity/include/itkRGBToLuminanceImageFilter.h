@@ -33,7 +33,7 @@ namespace itk
  * \ingroup IntensityImageFilters  Multithreaded
  * \ingroup ITK-ImageIntensity
  */
-namespace Function
+namespace Functor
 {
 template< class TInput, class TOutput >
 class RGBToLuminance
@@ -63,7 +63,7 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT RGBToLuminanceImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Function::RGBToLuminance<
+                           Functor::RGBToLuminance<
                              typename TInputImage::PixelType,
                              typename TOutputImage::PixelType >   >
 {
@@ -72,8 +72,8 @@ public:
   typedef RGBToLuminanceImageFilter Self;
   typedef UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
-    Function::RGBToLuminance< typename TInputImage::PixelType,
-                              typename TOutputImage::PixelType > >  Superclass;
+    Functor::RGBToLuminance< typename TInputImage::PixelType,
+                             typename TOutputImage::PixelType > >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

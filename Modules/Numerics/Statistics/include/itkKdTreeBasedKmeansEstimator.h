@@ -164,7 +164,10 @@ protected:
 
   void FillClusterLabels(KdTreeNodeType *node, int closestIndex);
 
-  /** \class CandidateVector  \ingroup ITK-Statistics */
+  /** \class CandidateVector
+   * \brief Candidate Vector
+   * \ingroup ITK-Statistics
+   */
   class CandidateVector
   {
 public:

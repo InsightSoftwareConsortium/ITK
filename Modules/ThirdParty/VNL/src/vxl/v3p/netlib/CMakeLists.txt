@@ -62,6 +62,7 @@ SET(V3P_NETLIB_libf2c_SOURCES
      libf2c/pow_di.c
      libf2c/pow_ii.c
      libf2c/pow_ri.c
+     libf2c/pow_zi.c
      libf2c/r_cnjg.c
      libf2c/r_imag.c
      libf2c/r_sign.c
@@ -124,6 +125,7 @@ SET(V3P_NETLIB_blas_SOURCES
      blas/zgemm.c blas/zgemm.h
      blas/zgemv.c blas/zgemv.h
      blas/zgerc.c blas/zgerc.h
+     blas/zgeru.c blas/zgeru.h
      blas/zscal.c blas/zscal.h
      blas/zswap.c blas/zswap.h
      blas/ztrmm.c blas/ztrmm.h
@@ -197,6 +199,20 @@ SET(V3P_NETLIB_laso_SOURCES
      laso/dvsort.c laso/dvsort.h
      laso/urand.c laso/urand.h
    )
+SET(V3P_NETLIB_arpack_SOURCES
+     arpack/dgetv0.c arpack/dgetv0.h
+     arpack/dsaitr.c arpack/dsaitr.h
+     arpack/dsapps.c arpack/dsapps.h
+     arpack/dsaup2.c arpack/dsaup2.h
+     arpack/dsaupd.c arpack/dsaupd.h
+     arpack/dsconv.c arpack/dsconv.h
+     arpack/dseigt.c arpack/dseigt.h
+     arpack/dsesrt.c arpack/dsesrt.h
+     arpack/dseupd.c arpack/dseupd.h
+     arpack/dsgets.c arpack/dsgets.h
+     arpack/dsortr.c arpack/dsortr.h
+     arpack/dstqrb.c arpack/dstqrb.h
+   )
 SET(V3P_NETLIB_lapack_SOURCES
      lapack/complex16/zgebak.c lapack/complex16/zgebak.h
      lapack/complex16/zgebal.c lapack/complex16/zgebal.h
@@ -224,6 +240,33 @@ SET(V3P_NETLIB_lapack_SOURCES
      lapack/complex16/zung2r.c lapack/complex16/zung2r.h
      lapack/complex16/zunghr.c lapack/complex16/zunghr.h
      lapack/complex16/zungqr.c lapack/complex16/zungqr.h
+     lapack/complex16/ztgsyl.c lapack/complex16/ztgsyl.h
+     lapack/complex16/zrot.c lapack/complex16/zrot.h
+     lapack/complex16/zlatdf.c lapack/complex16/zlatdf.h
+     lapack/complex16/zlacn2.c lapack/complex16/zlacn2.h
+     lapack/complex16/ztgsy2.c lapack/complex16/ztgsy2.h
+     lapack/complex16/ztgexc.c lapack/complex16/ztgexc.h
+     lapack/complex16/zggbak.c lapack/complex16/zggbak.h
+     lapack/complex16/zgetc2.c lapack/complex16/zgetc2.h
+     lapack/complex16/zhgeqz.c lapack/complex16/zhgeqz.h
+     lapack/complex16/zgges.c lapack/complex16/zgges.h
+     lapack/complex16/zlaswp.c lapack/complex16/zlaswp.h
+     lapack/complex16/zdrscl.c lapack/complex16/zdrscl.h
+     lapack/complex16/zlartg.c lapack/complex16/zlartg.h
+     lapack/complex16/zggbal.c lapack/complex16/zggbal.h
+     lapack/complex16/zgeqr2.c lapack/complex16/zgeqr2.h
+     lapack/complex16/zgecon.c lapack/complex16/zgecon.h
+     lapack/complex16/zunmqr.c lapack/complex16/zunmqr.h
+     lapack/complex16/zunm2r.c lapack/complex16/zunm2r.h
+     lapack/complex16/zgeqrf.c lapack/complex16/zgeqrf.h
+     lapack/complex16/ztgex2.c lapack/complex16/ztgex2.h
+     lapack/complex16/zgesc2.c lapack/complex16/zgesc2.h
+     lapack/complex16/ztgsen.c lapack/complex16/ztgsen.h
+     lapack/complex16/zgghrd.c lapack/complex16/zgghrd.h
+     lapack/complex16/zgees.c lapack/complex16/zgees.h
+     lapack/complex16/ztrexc.c lapack/complex16/ztrexc.h
+     lapack/complex16/ztrsen.c lapack/complex16/ztrsen.h
+     lapack/complex16/ztrsyl.c lapack/complex16/ztrsyl.h
      lapack/double/dgecon.c lapack/double/dgecon.h
      lapack/double/dgeqr2.c lapack/double/dgeqr2.h
      lapack/double/dgeqrf.c lapack/double/dgeqrf.h
@@ -273,6 +316,14 @@ SET(V3P_NETLIB_lapack_SOURCES
      lapack/double/dtgsen.c lapack/double/dtgsen.h
      lapack/double/dtgsy2.c lapack/double/dtgsy2.h
      lapack/double/dtgsyl.c lapack/double/dtgsyl.h
+     lapack/double/dlae2.c lapack/double/dlae2.h
+     lapack/double/dlanst.c lapack/double/dlanst.h
+     lapack/double/dlarnv.c lapack/double/dlarnv.h
+     lapack/double/dlaruv.c lapack/double/dlaruv.h
+     lapack/double/dlasr.c lapack/double/dlasr.h
+     lapack/double/dlasrt.c lapack/double/dlasrt.h
+     lapack/double/dsteqr.c lapack/double/dsteqr.h
+     lapack/double/dzsum1.c lapack/double/dzsum1.h
      lapack/single/sgeqpf.c lapack/single/sgeqpf.h
      lapack/single/sgeqr2.c lapack/single/sgeqr2.h
      lapack/single/sgerq2.c lapack/single/sgerq2.h
@@ -297,6 +348,7 @@ SET(V3P_NETLIB_lapack_SOURCES
      lapack/single/stgsja.c lapack/single/stgsja.h
      lapack/util/ieeeck.c lapack/util/ieeeck.h
      lapack/util/ilaenv.c lapack/util/ilaenv.h
+     lapack/util/izmax1.c lapack/util/izmax1.h
      lapack/util/lsame.c lapack/util/lsame.h
    )
 SET(V3P_NETLIB_napack_SOURCES
@@ -344,6 +396,7 @@ SET(v3p_netlib_sources
      ${V3P_NETLIB_base_SOURCES}
      ${V3P_NETLIB_libf2c_SOURCES}
      ${V3P_NETLIB_blas_SOURCES}
+     ${V3P_NETLIB_arpack_SOURCES}
      ${V3P_NETLIB_linpack_SOURCES}
      ${V3P_NETLIB_temperton_SOURCES}
      ${V3P_NETLIB_eispack_SOURCES}

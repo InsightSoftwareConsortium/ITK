@@ -48,9 +48,7 @@ extern "C" {
         return 0;
     }
 /*<       if (abs(real(ca)) + abs(aimag(ca)) .eq. 0.0 ) return >*/
-    r__1 = ca->r;
-    r__2 = (real)(r_imag(ca));
-    if ( dabs(r__1) + dabs(r__2) == (real)0.) {
+    if ((r__1 = ca->r, dabs(r__1)) + (r__2 = r_imag(ca), dabs(r__2)) == 0.f) {
         return 0;
     }
 /*<       if(incx.eq.1.and.incy.eq.1)go to 20 >*/

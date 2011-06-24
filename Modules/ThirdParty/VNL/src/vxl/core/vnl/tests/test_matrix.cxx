@@ -1,6 +1,7 @@
 // This is core/vnl/tests/test_matrix.cxx
 #include <vcl_iostream.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/vnl_vector.h> // necessary for tests of methods set_diagonal() and get_diagonal()
 #include <vnl/vnl_copy.h>
 #include <testlib/testlib_test.h>
 #include <vcl_cmath.h> // sqrt()
@@ -39,6 +40,8 @@ void test_int()
   TEST("(m0 == m2)", (m0 == m2), true);
   TEST("m2.put(1,1,3)", (m2.put(1,1,3),m2.get(1,1)), 3);
   TEST("m2.get(1,1)", m2.get(1,1), 3);
+  int v2_data[] = {2,3};
+  TEST("m2.get_diagonal()", m2.get_diagonal(), vnl_vector<int>(2,2,v2_data));
   TEST("m0 == m2", (m0 == m2), false);
   TEST("m0 != m2", (m0 != m2), true);
   TEST("(m0 == m2)", (m0 == m2), false);
@@ -49,6 +52,13 @@ void test_int()
        (m2.fill(2),
         (m2.get(0,0)==2 && m2.get(0,1)==2 && m2.get(1,0)==2 && m2.get(1,1)==2)), true);
   TEST("vnl_matrix<int>(2,2).fill(2)", vnl_matrix<int>(2,2).fill(2), m2);
+  TEST("m0.fill_diagonal(3)",
+       (m0.fill_diagonal(3),
+        (m0.get(0,0)==3 && m0.get(1,1)==3 && m0.get(0,1)==2 && m0.get(1,0)==2)), true);
+  int m0values [] = {7,9};
+  TEST("m0.set_diagonal(vnl_vector<int>))",
+       (m0.set_diagonal(vnl_vector<int>(2,2,m0values)),
+        (m0.get(0,0)==7 && m0.get(1,1)==9 && m0.get(0,1)==2 && m0.get(1,0)==2)), true);
   int m3values [] = {1,2,3};
   vnl_matrix<int> m3(1,3,3, m3values);
   TEST("m3(1,3,3,{1,2,3})",
@@ -241,6 +251,8 @@ void test_float()
   TEST("(d0 == d2)", (d0==d2), true);
   TEST("d2.put(1,1,3.0)", (d2.put(1,1,(float)3.0),d2.get(1,1)), (float)3.0);
   TEST("d2.get(1,1)", d2.get(1,1), (float)3.0);
+  float v2_data[] = {2.f,3.f};
+  TEST("d2.get_diagonal()", d2.get_diagonal(), vnl_vector<float>(2,2,v2_data));
   TEST("d0 == d2", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
   TEST("(d0 == d2)", (d0==d2), false);
@@ -251,6 +263,13 @@ void test_float()
        (d2.fill(2.f),
         (d2.get(0,0)==2.f && d2.get(0,1)==2.f && d2.get(1,0)==2.f && d2.get(1,1)==2.f)), true);
   TEST("vnl_matrix<float>(2,2).fill(2.f)", vnl_matrix<float>(2,2).fill(2.f), d2);
+  TEST("d0.fill_diagonal(3.f)",
+       (d0.fill_diagonal(3.f),
+        (d0.get(0,0)==3.f && d0.get(1,1)==3.f && d0.get(0,1)==2.f && d0.get(1,0)==2.f)), true);
+  float d0values [] = {7.f,9.f};
+  TEST("d0.set_diagonal(vnl_vector<float>))",
+       (d0.set_diagonal(vnl_vector<float>(2,2,d0values)),
+        (d0.get(0,0)==7.f && d0.get(1,1)==9.f && d0.get(0,1)==2.f && d0.get(1,0)==2.f)), true);
   float d3values [] = {1.0,2.0,3.0};
   vnl_matrix<float> d3(1,3,3,d3values);
   TEST("d3(1,3,3,{1.0,2.0,3.0})",
@@ -373,6 +392,8 @@ void test_double()
   TEST("(d0 == d2)", (d0==d2), true);
   TEST("d2.put(1,1,3.0)", (d2.put(1,1,3.0),d2.get(1,1)), 3.0);
   TEST("d2.get(1,1)", d2.get(1,1), 3.0);
+  double v2_data[] = {2.0,3.0};
+  TEST("d2.get_diagonal()", d2.get_diagonal(), vnl_vector<double>(2,2,v2_data));
   TEST("d0 == d2", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
   TEST("(d0 == d2)", (d0==d2), false);
@@ -383,6 +404,13 @@ void test_double()
        (d2.fill(2.0),
         (d2.get(0,0)==2.0 && d2.get(0,1)==2.0 && d2.get(1,0)==2.0 && d2.get(1,1)==2.0)), true);
   TEST("vnl_matrix<double>(2,2).fill(2.0)", vnl_matrix<double>(2,2).fill(2.0), d2);
+  TEST("d0.fill_diagonal(3.0)",
+       (d0.fill_diagonal(3.0),
+        (d0.get(0,0)==3.0 && d0.get(1,1)==3.0 && d0.get(0,1)==2.0 && d0.get(1,0)==2.0)), true);
+  double d0values [] = {7.0,9.0};
+  TEST("d0.set_diagonal(vnl_vector<double>))",
+       (d0.set_diagonal(vnl_vector<double>(2,2,d0values)),
+        (d0.get(0,0)==7.0 && d0.get(1,1)==9.0 && d0.get(0,1)==2.0 && d0.get(1,0)==2.0)), true);
   double d3values [] = {1.0,2.0,3.0};
   vnl_matrix<double> d3(1,3,3,d3values);
   TEST("d3(1,3,3,{1.0,2.0,3.0})",

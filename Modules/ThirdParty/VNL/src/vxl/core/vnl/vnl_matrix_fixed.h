@@ -22,6 +22,7 @@
 //   Jul.2003 - Paul Smyth     - fixed end() bug, made op*=() more general
 //   Mar.2009 - Peter Vanroose - added arg_min() and arg_max()
 //   Oct.2010 - Peter Vanroose - mutators and filling methods now return *this
+//   Jan.2011 - Peter Vanroose - added methods set_diagonal() & get_diagonal()
 // \endverbatim
 //-----------------------------------------------------------------------------
 
@@ -277,6 +278,12 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   //  \endcode
   vnl_matrix_fixed& fill_diagonal(T);
 
+  //: Sets the diagonal elements of this matrix to the specified list of values.
+  //  Returning "*this" allows "chaining" two or more operations: see the
+  //  reasoning (and the examples) in the documentation for method
+  //  fill_diagonal().
+  vnl_matrix_fixed& set_diagonal(vnl_vector<T> const&);
+
   //: Fills (laminates) this matrix with the given data, then returns it.
   //  We assume that the argument points to a contiguous rows*cols array, stored rowwise.
   //  No bounds checking on the array.
@@ -468,6 +475,9 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   //: Get n columns beginning at colstart
   vnl_matrix<T> get_n_columns(unsigned colstart, unsigned n) const;
+
+  //: Return a vector with the content of the (main) diagonal
+  vnl_vector<T> get_diagonal() const;
 
   // ==== mutators ====
 

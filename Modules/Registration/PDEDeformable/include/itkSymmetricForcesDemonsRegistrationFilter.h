@@ -135,7 +135,7 @@ protected:
   virtual void InitializeIteration();
 
   /** Apply update. */
-  virtual void ApplyUpdate(TimeStepType dt);
+  virtual void ApplyUpdate(const TimeStepType& dt);
 
 private:
   SymmetricForcesDemonsRegistrationFilter(const Self &); //purposely not

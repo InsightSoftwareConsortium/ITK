@@ -2121,12 +2121,14 @@ int remove_ext_list( nifti_image * nim, char ** elist, int len )
       if( extval < 0 || extval >= nim->num_ext ){
          fprintf(stderr,"** ext #%d (= %d) is out of range [0,%d] for %s\n",
                  ec, extval, nim->num_ext-1, nim->fname);
-         free(marks); return -1;
+         free(marks);
+         return -1;
       }
 
       if( marks[extval] ){
          fprintf(stderr,"** ext #%d (= %d) is a duplicate", ec, extval);
-         free(marks); return -1;
+         free(marks);
+         return -1;
       }
 
       marks[extval]++;
@@ -2159,6 +2161,7 @@ int remove_ext_list( nifti_image * nim, char ** elist, int len )
       nim->ext_list = NULL;
    }
 
+   free(marks);
    return 0;
 }
 

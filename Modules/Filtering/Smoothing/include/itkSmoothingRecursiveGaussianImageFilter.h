@@ -137,7 +137,7 @@ public:
 
   // See super class for doxygen documentation
   //
-  void SetNumberOfThreads(int nb);
+  void SetNumberOfThreads(ThreadIdType nb);
 
   // See super class for doxygen documentation
   //

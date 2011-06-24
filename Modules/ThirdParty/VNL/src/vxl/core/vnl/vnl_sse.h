@@ -123,13 +123,13 @@ static VNL_SSE_FORCE_INLINE void vnl_sse_free( void* v, unsigned n, unsigned s )
 #endif
 
 //: Custom memory allocation function to force 16 byte alignment of data
-VNL_SSE_FORCE_INLINE void* vnl_sse_alloc(unsigned n, unsigned size)
+VNL_SSE_FORCE_INLINE void* vnl_sse_alloc(vcl_size_t n, unsigned size)
 {
   return VNL_SSE_ALLOC(n,size,16);
 }
 
 //: Custom memory deallocation function to free 16 byte aligned of data
-VNL_SSE_FORCE_INLINE void vnl_sse_dealloc(void* mem, unsigned n, unsigned size)
+VNL_SSE_FORCE_INLINE void vnl_sse_dealloc(void* mem, vcl_size_t n, unsigned size)
 {
   VNL_SSE_FREE(mem,n,size);
 }

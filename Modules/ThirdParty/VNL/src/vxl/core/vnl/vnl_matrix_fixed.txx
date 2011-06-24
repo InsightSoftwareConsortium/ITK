@@ -113,8 +113,8 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::fill (T value)
 {
-  for (unsigned int i = 0; i < nrows; i++)
-    for (unsigned int j = 0; j < ncols; j++)
+  for (unsigned int i = 0; i < nrows; ++i)
+    for (unsigned int j = 0; j < ncols; ++j)
       this->data_[i][j] = value;
   return *this;
 }
@@ -124,8 +124,22 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::fill_diagonal (T value)
 {
-  for (unsigned int i = 0; i < nrows && i < ncols; i++)
+  for (unsigned int i = 0; i < nrows && i < ncols; ++i)
     this->data_[i][i] = value;
+  return *this;
+}
+
+
+template<class T, unsigned nrows, unsigned ncols>
+vnl_matrix_fixed<T,nrows,ncols>&
+vnl_matrix_fixed<T,nrows,ncols>::set_diagonal(vnl_vector<T> const& diag)
+{
+  assert(diag.size() >= nrows || diag.size() >= ncols);
+  // The length of the diagonal of a non-square matrix is the minimum of
+  // the matrix's width & height; that explains the "||" in the assert,
+  // and the "&&" in the upper bound for the "for".
+  for (unsigned int i = 0; i < nrows && i < ncols; ++i)
+    this->data_[i][i] = diag[i];
   return *this;
 }
 
@@ -134,10 +148,10 @@ template<class T, unsigned nrows, unsigned ncols>
 void
 vnl_matrix_fixed<T,nrows,ncols>::print(vcl_ostream& os) const
 {
-  for (unsigned int i = 0; i < nrows; i++)
+  for (unsigned int i = 0; i < nrows; ++i)
   {
     os << this->data_[i][0];
-    for (unsigned int j = 1; j < ncols; j++)
+    for (unsigned int j = 1; j < ncols; ++j)
       os << ' ' << this->data_[i][j];
     os << '\n';
   }
@@ -170,8 +184,8 @@ vnl_matrix_fixed<T,ncols,nrows>
 vnl_matrix_fixed<T,nrows,ncols>::transpose() const
 {
   vnl_matrix_fixed<T,ncols,nrows> result;
-  for (unsigned int i = 0; i < cols(); i++)
-    for (unsigned int j = 0; j < rows(); j++)
+  for (unsigned int i = 0; i < cols(); ++i)
+    for (unsigned int j = 0; j < rows(); ++j)
       result(i,j) = this->data_[j][i];
   return result;
 }
@@ -199,8 +213,8 @@ vnl_matrix_fixed<T,nrows,ncols>::update (vnl_matrix<T> const& m,
     vnl_error_matrix_dimension ("update",
                                 bottom, right, m.rows(), m.cols());
 #endif
-  for (unsigned int i = top; i < bottom; i++)
-    for (unsigned int j = left; j < right; j++)
+  for (unsigned int i = top; i < bottom; ++i)
+    for (unsigned int j = left; j < right; ++j)
       this->data_[i][j] = m(i-top,j-left);
   return *this;
 }
@@ -231,8 +245,8 @@ vnl_matrix_fixed<T,nrows,ncols>::extract (vnl_matrix<T>& sub_matrix,
     vnl_error_matrix_dimension ("extract",
                                 nrows, ncols, bottom, right);
 #endif
-  for (unsigned int i = 0; i < rowz; i++)      // actual copy of all elements
-    for (unsigned int j = 0; j < colz; j++)    // in submatrix
+  for (unsigned int i = 0; i < rowz; ++i)      // actual copy of all elements
+    for (unsigned int j = 0; j < colz; ++j)    // in submatrix
       sub_matrix(i,j) = this->data_[top+i][left+j];
 }
 
@@ -277,17 +291,17 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::normalize_rows()
 {
-  for (unsigned int i = 0; i < nrows; i++)
+  for (unsigned int i = 0; i < nrows; ++i)
   {
     abs_t norm(0); // double will not do for all types.
-    for (unsigned int j = 0; j < ncols; j++)
+    for (unsigned int j = 0; j < ncols; ++j)
       norm += vnl_math_squared_magnitude( this->data_[i][j] );
 
     if (norm != 0)
     {
       typedef typename vnl_numeric_traits<abs_t>::real_t real_t;
       real_t scale = real_t(1)/vcl_sqrt((real_t)norm);
-      for (unsigned int j = 0; j < ncols; j++)
+      for (unsigned int j = 0; j < ncols; ++j)
       {
         // FIXME need correct rounding here
         // There is e.g. no *standard* operator*=(complex<float>, double), hence the T() cast.
@@ -302,16 +316,16 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::normalize_columns()
 {
-  for (unsigned int j = 0; j < ncols; j++) {  // For each column in the Matrix
+  for (unsigned int j = 0; j < ncols; ++j) {  // For each column in the Matrix
     abs_t norm(0); // double will not do for all types.
-    for (unsigned int i = 0; i < nrows; i++)
+    for (unsigned int i = 0; i < nrows; ++i)
       norm += vnl_math_squared_magnitude( this->data_[i][j] );
 
     if (norm != 0)
     {
       typedef typename vnl_numeric_traits<abs_t>::real_t real_t;
       real_t scale = real_t(1)/vcl_sqrt((real_t)norm);
-      for (unsigned int i = 0; i < nrows; i++)
+      for (unsigned int i = 0; i < nrows; ++i)
       {
         // FIXME need correct rounding here
         // There is e.g. no *standard* operator*=(complex<float>, double), hence the T() cast.
@@ -330,7 +344,7 @@ vnl_matrix_fixed<T,nrows,ncols>::scale_row(unsigned row_index, T value)
   if (row_index >= nrows)
     vnl_error_matrix_row_index("scale_row", row_index);
 #endif
-  for (unsigned int j = 0; j < ncols; j++)
+  for (unsigned int j = 0; j < ncols; ++j)
     this->data_[row_index][j] *= value;
   return *this;
 }
@@ -343,7 +357,7 @@ vnl_matrix_fixed<T,nrows,ncols>::scale_column(unsigned column_index, T value)
   if (column_index >= ncols)
     vnl_error_matrix_col_index("scale_column", column_index);
 #endif
-  for (unsigned int j = 0; j < nrows; j++)
+  for (unsigned int j = 0; j < nrows; ++j)
     this->data_[j][column_index] *= value;
   return *this;
 }
@@ -388,7 +402,7 @@ vnl_vector_fixed<T,ncols> vnl_matrix_fixed<T,nrows,ncols>::get_row(unsigned row_
 #endif
 
   vnl_vector_fixed<T,ncols> v;
-  for (unsigned int j = 0; j < ncols; j++)    // For each element in row
+  for (unsigned int j = 0; j < ncols; ++j)    // For each element in row
     v[j] = this->data_[row_index][j];
   return v;
 }
@@ -403,8 +417,18 @@ vnl_vector_fixed<T,nrows> vnl_matrix_fixed<T,nrows,ncols>::get_column(unsigned c
 #endif
 
   vnl_vector_fixed<T,nrows> v;
-  for (unsigned int j = 0; j < nrows; j++)
+  for (unsigned int j = 0; j < nrows; ++j)
     v[j] = this->data_[j][column_index];
+  return v;
+}
+
+//: Return a vector with the content of the (main) diagonal
+template<class T, unsigned nrows, unsigned ncols>
+vnl_vector<T> vnl_matrix_fixed<T,nrows,ncols>::get_diagonal() const
+{
+  vnl_vector<T> v(nrows < ncols ? nrows : ncols);
+  for (unsigned int j = 0; j < nrows && j < ncols; ++j)
+    v[j] = this->data_[j][j];
   return v;
 }
 
@@ -414,7 +438,7 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::set_row(unsigned row_index, T const *v)
 {
-  for (unsigned int j = 0; j < ncols; j++)
+  for (unsigned int j = 0; j < ncols; ++j)
     this->data_[row_index][j] = v[j];
   return *this;
 }
@@ -423,7 +447,11 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::set_row(unsigned row_index, vnl_vector<T> const &v)
 {
-  set_row(row_index,v.data_block());
+  if (v.size() >= ncols)
+    set_row(row_index,v.data_block());
+  else
+    for (unsigned int j = 0; j < v.size(); ++j)
+      this->data_[row_index][j] = v[j];
   return *this;
 }
 
@@ -439,7 +467,7 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::set_row(unsigned row_index, T v)
 {
-  for (unsigned int j = 0; j < ncols; j++)
+  for (unsigned int j = 0; j < ncols; ++j)
     this->data_[row_index][j] = v;
   return *this;
 }
@@ -450,7 +478,7 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::set_column(unsigned column_index, T const *v)
 {
-  for (unsigned int i = 0; i < nrows; i++)
+  for (unsigned int i = 0; i < nrows; ++i)
     this->data_[i][column_index] = v[i];
   return *this;
 }
@@ -459,7 +487,11 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::set_column(unsigned column_index, vnl_vector<T> const &v)
 {
-  set_column(column_index,v.data_block());
+  if (v.size() >= nrows)
+    set_column(column_index,v.data_block());
+  else
+    for (unsigned int i = 0; i < v.size(); ++i)
+      this->data_[i][column_index] = v[i];
   return *this;
 }
 
@@ -475,7 +507,7 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::set_column(unsigned column_index, T v)
 {
-  for (unsigned int j = 0; j < nrows; j++)
+  for (unsigned int j = 0; j < nrows; ++j)
     this->data_[j][column_index] = v;
   return *this;
 }
@@ -485,16 +517,8 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::set_columns(unsigned starting_column, vnl_matrix<T> const& m)
 {
-#ifndef NDEBUG
-  if (nrows != m.rows() ||
-      ncols < m.cols() + starting_column)           // Size match?
-    vnl_error_matrix_dimension ("set_columns",
-                                nrows, ncols,
-                                m.rows(), m.cols());
-#endif
-
-  for (unsigned int j = 0; j < m.cols(); ++j)
-    for (unsigned int i = 0; i < nrows; i++)
+  for (unsigned int j = 0; j < m.cols() && starting_column+j < ncols; ++j) // don't go too far right; possibly only use part of m
+    for (unsigned int i = 0; i < nrows && i < m.rows(); ++i) // smallest of the two heights; possibly only use part of m
       this->data_[i][starting_column + j] = m(i,j);
   return *this;
 }
@@ -738,8 +762,8 @@ RM
 outer_product_fixed_calc_helper<VecA,VecB,RM>::calc( VecA const& a, VecB const& b )
 {
   RM out; // RM should be a vnl_matrix_fixed of VecA::SIZE by VecB::SIZE
-  for (unsigned int i = 0; i < VecA::SIZE; i++)
-    for (unsigned int j = 0; j < VecB::SIZE; j++)
+  for (unsigned int i = 0; i < VecA::SIZE; ++i)
+    for (unsigned int j = 0; j < VecB::SIZE; ++j)
       out[i][j] = a[i] * b[j];
   return out;
 };
@@ -756,8 +780,8 @@ vnl_matrix_fixed<T,m,n>
 outer_product(vnl_vector_fixed<T,m> const& a, vnl_vector_fixed<T,n> const& b)
 {
   vnl_matrix_fixed<T,m,n> out; // = a.column() * b.row()
-  for (unsigned int i = 0; i < m; i++)
-    for (unsigned int j = 0; j < n; j++)
+  for (unsigned int i = 0; i < m; ++i)
+    for (unsigned int j = 0; j < n; ++j)
       out[i][j] = a[i] * b[j];
   return out;
 }

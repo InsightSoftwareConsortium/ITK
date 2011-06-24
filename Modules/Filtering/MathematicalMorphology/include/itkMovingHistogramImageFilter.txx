@@ -40,7 +40,7 @@ template< class TInputImage, class TOutputImage, class TKernel, class THistogram
 void
 MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   // instantiate the histogram
   HistogramType histogram;

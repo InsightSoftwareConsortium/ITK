@@ -39,9 +39,9 @@
 #   include <sys/resource.h>
 #endif
 
-#ifdef H5_HAVE_GETTIMEOFDAY
+#if defined(H5_HAVE_GETTIMEOFDAY) && defined(H5_HAVE_SYS_TIME_H)
 #include <sys/time.h>
-#endif /* H5_HAVE_GETTIMEOFDAY */
+#endif
 
 
 /****************/

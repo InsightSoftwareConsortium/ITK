@@ -20,7 +20,7 @@
 #endif
 
 #include "itkImage.h"
-#include "itkMultiplyByConstantImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSubtractImageFilter.h"
 
@@ -91,8 +91,8 @@ int itkMultiplyByConstantImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the Log filter
-  typedef itk::MultiplyByConstantImageFilter<
-    InputImageType, FactorType, OutputImageType  >   FilterType;
+  typedef itk::MultiplyImageFilter<
+    InputImageType, InputImageType, OutputImageType  >   FilterType;
 
 
   // Create an ADD Filter
@@ -100,14 +100,14 @@ int itkMultiplyByConstantImageFilterTest(int, char* [] )
 
 
   // Connect the input images
-  filter->SetInput( inputImage );
+  filter->SetInput2( inputImage );
 
   // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   const FactorType factor = 17.0;
 
-  filter->SetConstant( factor );
+  filter->SetInput1( factor );
 
   // Execute the filter
   filter->Update();

@@ -39,10 +39,10 @@ namespace itk
  * NeighborhoodOperator is a pure virtual object that must be
  * subclassed to be used.  A user's subclass must implement two methods:
  *
- * (1) GenerateScalarCoefficients -- the algorithm that computes the scalar
+ * (1) GenerateCoefficients -- the algorithm that computes the scalar
  *   coefficients of the operator.
  *
- * (2) ScalarFill -- the algorithm that places the scalar coefficients into
+ * (2) Fill -- the algorithm that places the scalar coefficients into
  *   the memory buffer of the operator (arranges them spatially in the
  *   neighborhood).
  *

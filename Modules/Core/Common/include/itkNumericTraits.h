@@ -92,6 +92,12 @@ public:
    *  to save memory */
   typedef float FloatType;
 
+  /** Type for real-valued scalar operations. */
+  typedef double RealType;
+
+  /** Type for real-valued scalar operations. */
+  typedef RealType ScalarRealType;
+
   /** Additive identity. */
   static const T Zero;
 
@@ -128,6 +134,69 @@ public:
    * where a vector of the correct size is built. */
   static T max(const T & val) { return TraitsType::max(); }
   static T min(const T & val) { return TraitsType::min(); }
+
+  /** Scalars cannot be resized, so an exception will
+   * be thrown if the input size is not 1.  If the size is valid
+   * the will be zeros. This API is needed for VariableLengthVector because
+   * its length is only known at run-time. Specializations of the
+   * VariableLengthVector will provide a different implementation
+   * where a vector of the correct size is built.
+   */
+  static void SetLength(T &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
+  /** Return the length of the scalar. This API is needed for
+   * VariableLengthVector because
+   * its length is only known at run-time. Specializations of the
+   * VariableLengthVector will provide a different implementation
+   * where a vector of the correct size is built.
+   */
+  static unsigned int GetLength(const T &)
+  {
+    return GetLength();
+  }
+
+  /** Return the length of the scalar: 1. Array types can return a different value */
+  static unsigned int GetLength()
+  {
+    return 1;
+  }
+
+  /** Smallest (most nonpositive) value. This API is needed for
+   * VariableLengthVector because its length is only known at run-time.
+   */
+  static T NonpositiveMin(const T &)
+  {
+    return NonpositiveMin();
+  }
+
+  /** Zero value. This API is needed for
+   * VariableLengthVector because its length is only known at run-time.
+   */
+  static T ZeroValue(const T &)
+  {
+    return ZeroValue();
+  }
+
+  /** One value. This API is needed for
+   * VariableLengthVector because its length is only known at run-time.
+   */
+  static T OneValue(const T &)
+  {
+    return OneValue();
+  }
+
+  /** assign the value to an array */
+  template<class TArray>
+  static void AssignToArray( const T & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+
 };
 
 /** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
@@ -166,6 +235,25 @@ public:
   static bool IsNonnegative(bool val) { return val ? true : true; }
   static bool ZeroValue() { return Zero; }
   static bool OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
+
 };
 
 /** \class NumericTraits<char>
@@ -208,6 +296,24 @@ public:
   static bool IsNonnegative(char val) { return val >= Zero; }
   static char ZeroValue() { return Zero; }
   static char OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<char>
@@ -242,6 +348,24 @@ public:
   static bool IsNonnegative(signed char val) { return val >= Zero; }
   static signed char  ZeroValue() { return Zero; }
   static signed char OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<unsigned char>
@@ -274,6 +398,24 @@ public:
   static bool IsNonnegative(unsigned char val) { return val ? true : true; }
   static unsigned char  ZeroValue() { return Zero; }
   static unsigned char OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<short>
@@ -304,6 +446,24 @@ public:
   static bool IsNonnegative(short val) { return val >= Zero; }
   static short  ZeroValue() { return Zero; }
   static short OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<unsigned short>
@@ -333,8 +493,26 @@ public:
   static bool IsNonpositive(unsigned short val) { return val == Zero; }
   static bool IsNegative(unsigned short val) { return val ? false : false; }
   static bool IsNonnegative(unsigned short val) { return val ? true : true; }
-  static unsigned short  ZeroValue() { return Zero; }
+  static unsigned short ZeroValue() { return Zero; }
   static unsigned short OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<int>
@@ -365,6 +543,24 @@ public:
   static bool IsNonnegative(int val) { return val >= Zero; }
   static int  ZeroValue() { return Zero; }
   static int OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<unsigned int>
@@ -399,6 +595,24 @@ public:
   static bool IsNonnegative(unsigned int val) { return val ? true : true; }
   static unsigned int  ZeroValue() { return Zero; }
   static unsigned int OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<long>
@@ -430,6 +644,24 @@ public:
   static bool IsNonnegative(long val) { return val >= Zero; }
   static long  ZeroValue() { return Zero; }
   static long OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<unsigned long>
@@ -461,6 +693,24 @@ public:
   static bool IsNonnegative(unsigned long) { return true; }
   static unsigned long  ZeroValue() { return Zero; }
   static unsigned long  OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<float>
@@ -492,6 +742,24 @@ public:
   static bool IsNonnegative(float val) { return val >= Zero; }
   static float  ZeroValue() { return Zero; }
   static float  OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<double>
@@ -523,6 +791,24 @@ public:
   static bool IsNonnegative(double val) { return val >= Zero; }
   static double  ZeroValue() { return Zero; }
   static double  OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<long double>
@@ -562,6 +848,24 @@ public:
   static bool IsNonnegative(long double val) { return val >= Zero; }
   static long double ZeroValue() { return Zero; }
   static long double OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits< std::complex<float> >
@@ -573,32 +877,54 @@ template< >
 class NumericTraits< std::complex< float > >
 {
 public:
-  typedef std::complex< float >  TheType;
+  typedef std::complex< float >  Self;
+  // for backward compatibility
+  typedef Self                   TheType;
   typedef float                  ValueType;
-  typedef TheType                PrintType;
+  typedef Self                   PrintType;
   typedef double                 AbsType;
-  typedef TheType                AccumulateType;
+  typedef Self                   AccumulateType;
   typedef std::complex< double > RealType;
   typedef double                 ScalarRealType;
   typedef std::complex< float >  FloatType;
-  typedef FixedArray<TheType, 1> MeasurementVectorType;
+  typedef FixedArray<float, 2>   MeasurementVectorType;
 
-  static const TheType ITKCommon_EXPORT Zero;
-  static const TheType ITKCommon_EXPORT One;
+  static const Self ITKCommon_EXPORT Zero;
+  static const Self ITKCommon_EXPORT One;
 
-  static TheType min(TheType) { return vcl_numeric_limits< ValueType >::min(); }
-  static TheType max(TheType) { return vcl_numeric_limits< ValueType >::max(); }
-  static TheType NonpositiveMin()
+  static Self min() { return vcl_numeric_limits< Self >::min(); }
+  static Self max() { return vcl_numeric_limits< Self >::max(); }
+  static Self min(Self) { return min(); }
+  static Self max(Self) { return max(); }
+  static Self NonpositiveMin()
   {
-    return TheType(-NumericTraits< float >::NonpositiveMin(), 0.0f);
+    return Self(-NumericTraits< float >::NonpositiveMin(), 0.0f);
   }
 
-  static bool IsPositive(TheType val) { return val.real() > 0.0; }
-  static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
-  static bool IsNegative(TheType val) { return val.real() < 0.0; }
-  static bool IsNonnegative(TheType val) { return val.real() >= 0.0; }
-  static TheType ZeroValue() { return Zero; }
-  static TheType OneValue() { return One; }
+  static bool IsPositive(Self val) { return val.real() > 0.0; }
+  static bool IsNonpositive(Self val) { return val.real() <= 0.0; }
+  static bool IsNegative(Self val) { return val.real() < 0.0; }
+  static bool IsNonnegative(Self val) { return val.real() >= 0.0; }
+  static Self ZeroValue() { return Zero; }
+  static Self OneValue() { return One; }
+  static unsigned int GetLength(const Self &) { return 2; }
+  static unsigned int GetLength() { return 2; }
+  static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
+  static Self ZeroValue(const Self &) { return ZeroValue(); }
+  static Self OneValue(const Self &) { return OneValue(); }
+  template<class TArray>
+  static void AssignToArray( const Self & v, TArray & mv )
+  {
+    mv[0] = v.real();
+    mv[1] = v.imag();
+  }
+  static void SetLength(Self &, const unsigned int s)
+  {
+    if ( s != 2 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits< std::complex<double> >
@@ -610,32 +936,54 @@ template< >
 class NumericTraits< std::complex< double > >
 {
 public:
-  typedef std::complex< double > TheType;
+  typedef std::complex< double > Self;
+  // for backward compatibility
+  typedef Self                   TheType;
   typedef double                 ValueType;
-  typedef TheType                PrintType;
+  typedef Self                   PrintType;
   typedef double                 AbsType;
-  typedef TheType                AccumulateType;
+  typedef Self                   AccumulateType;
   typedef std::complex< double > RealType;
   typedef double                 ScalarRealType;
   typedef std::complex< float >  FloatType;
-  typedef FixedArray<TheType, 1> MeasurementVectorType;
+  typedef FixedArray<double, 2>  MeasurementVectorType;
 
-  static const TheType ITKCommon_EXPORT Zero;
-  static const TheType ITKCommon_EXPORT One;
+  static const Self ITKCommon_EXPORT Zero;
+  static const Self ITKCommon_EXPORT One;
 
-  static TheType min(TheType) { return vcl_numeric_limits< ValueType >::min(); }
-  static TheType max(TheType) { return vcl_numeric_limits< ValueType >::max(); }
-  static TheType NonpositiveMin()
+  static Self min() { return vcl_numeric_limits< ValueType >::min(); }
+  static Self max() { return vcl_numeric_limits< ValueType >::max(); }
+  static Self min(Self) { return min(); }
+  static Self max(Self) { return max(); }
+  static Self NonpositiveMin()
   {
-    return TheType(-NumericTraits< double >::NonpositiveMin(), 0.0);
+    return Self(-NumericTraits< double >::NonpositiveMin(), 0.0);
   }
 
-  static bool IsPositive(TheType val) { return val.real() > 0.0; }
-  static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
-  static bool IsNegative(TheType val) { return val.real() < 0.0; }
-  static bool IsNonnegative(TheType val) { return val.real() >= 0.0; }
-  static TheType ZeroValue() { return Zero; }
-  static TheType OneValue() { return One; }
+  static bool IsPositive(Self val) { return val.real() > 0.0; }
+  static bool IsNonpositive(Self val) { return val.real() <= 0.0; }
+  static bool IsNegative(Self val) { return val.real() < 0.0; }
+  static bool IsNonnegative(Self val) { return val.real() >= 0.0; }
+  static Self ZeroValue() { return Zero; }
+  static Self OneValue() { return One; }
+  static unsigned int GetLength(const Self &) { return 2; }
+  static unsigned int GetLength() { return 2; }
+  static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
+  static Self ZeroValue(const Self &) { return ZeroValue(); }
+  static Self OneValue(const Self &) { return OneValue(); }
+  template<class TArray>
+  static void AssignToArray( const Self & v, TArray & mv )
+  {
+    mv[0] = v.real();
+    mv[1] = v.imag();
+  }
+  static void SetLength(Self &, const unsigned int s)
+  {
+    if ( s != 2 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<long long>
@@ -668,6 +1016,24 @@ public:
   static bool IsNonnegative(ValueType val) { return val >= Zero; }
   static ValueType  ZeroValue() { return Zero; }
   static ValueType  OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \class NumericTraits<unsigned long long>
@@ -700,6 +1066,24 @@ public:
   static bool IsNonnegative(ValueType) { return true; }
   static ValueType ZeroValue() { return Zero; }
   static ValueType OneValue() { return One; }
+  static unsigned int GetLength(const ValueType &) { return 1; }
+  static unsigned int GetLength() { return 1; }
+  static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
+  static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
+  static ValueType OneValue(const ValueType &) { return OneValue(); }
+
+  template<class TArray>
+  static void AssignToArray( const ValueType & v, TArray & mv )
+  {
+    mv[0] = v;
+  }
+  static void SetLength(ValueType &, const unsigned int s)
+  {
+    if ( s != 1 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
+      }
+  }
 };
 
 /** \endcond */

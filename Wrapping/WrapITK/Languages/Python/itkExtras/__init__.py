@@ -108,17 +108,7 @@ def echo(object, f=sys.stderr) :
    If the object has a method Print(), this method is used.
    repr(object) is used otherwise
    """
-   import itk
-   ss = itk.stringstream()
-   try :
-      try:
-         object.Print(ss)
-      except:
-         object.Print(ss, Indent.New());
-   except:
-      print >> f, repr(object)
-   else:
-      print >> f, ss.str()
+   print >> f, object
 del sys
 
 
@@ -479,11 +469,11 @@ def show(input, **kargs) :
 class show2D :
   """Display a 2D image
   """
-  def __init__(self, imageOrFilter, Label=False) :
+  def __init__(self, imageOrFilter, Label=False, Title=None) :
     import tempfile, itk, os
     # get some data from the environment
-    command = os.environ.get("WRAPITK_SHOW2D_COMMAND", "imview %s -fork")
-    label_command = os.environ.get("WRAPITK_SHOW2D_LABEL_COMMAND", "imview %s -c regions.lut -fork")
+    command = os.environ.get("WRAPITK_SHOW2D_COMMAND", "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' &")
+    label_command = os.environ.get("WRAPITK_SHOW2D_LABEL_COMMAND", "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' -run '3-3-2 RGB' &")
     compress = os.environ.get("WRAPITK_SHOW2D_COMPRESS", "true").lower() in ["on", "true", "yes", "1"]
     extension = os.environ.get("WRAPITK_SHOW2D_EXTENSION", ".tif")
     # use the tempfile module to get a non used file name and to put
@@ -493,6 +483,36 @@ class show2D :
     img = output(imageOrFilter)
     img.UpdateOutputInformation()
     img.Update()
+    if Title == None:
+      # try to generate a title
+      s = img.GetSource()
+      if s:
+        s = itk.down_cast(s)
+        if hasattr(img, "GetSourceOutputIndex"):
+          o = '[%s]' % img.GetSourceOutputIndex()
+        elif hasattr(img, "GetSourceOutputName"):
+          o = '[%s]' % img.GetSourceOutputName()
+        else:
+          o = ""
+        Title = "%s%s" % (s.__class__.__name__, o)
+      else:
+        Title = img.__class__.__name__
+      try:
+        import IPython.ipapi
+        ip = IPython.ipapi.get()
+        if ip != None:
+          names = []
+          ref = imageOrFilter
+          if s:
+            ref = s
+          for n, v in ip.user_ns.iteritems():
+            if isinstance(v, itk.LightObject) and v == ref:
+              names.append(n)
+          if names != []:
+            Title = ", ".join(names)+" - "+Title
+      except ImportError:
+        # just do nothing
+        pass
     # change the LabelMaps to an Image, so we can look at them easily
     if 'LabelMap' in dir(itk) and img.GetNameOfClass() == 'LabelMap':
       # retreive the biggest label in the label map
@@ -508,9 +528,9 @@ class show2D :
     # now run imview
     import os
     if Label:
-      os.system( label_command % self.__tmpFile__.name)
+      os.system( label_command % {"image":self.__tmpFile__.name, "title": Title} )
     else:
-      os.system( command % self.__tmpFile__.name)
+      os.system( command % {"image":self.__tmpFile__.name, "title": Title} )
     #tmpFile.close()
 
 
@@ -906,6 +926,84 @@ def number_of_objects( i ):
   i =  itk.output(i)
   return i.GetNumberOfLabelObjects()
 
+def ipython_kw_matches(text):
+  """Match named ITK object's named parameters"""
+  import IPython.ipapi, itk, re, inspect, itkTemplate
+  regexp =  re.compile(r'''
+          '.*?' |    # single quoted strings or
+          ".*?" |    # double quoted strings or
+          \w+   |    # identifier
+          \S         # other characters
+          ''', re.VERBOSE | re.DOTALL)
+  ip = IPython.ipapi.get()
+  if "." in text: # a parameter cannot be dotted
+    return []
+  # 1. find the nearest identifier that comes before an unclosed
+  # parenthesis e.g. for "foo (1+bar(x), pa", the candidate is "foo".
+  # Use get_endidx() to find the indentifier at the cursor position
+  tokens = regexp.findall(ip.IP.Completer.get_line_buffer()[:ip.IP.Completer.get_endidx()])
+  tokens.reverse()
+  iterTokens = iter(tokens); openPar = 0
+  for token in iterTokens:
+    if token == ')':
+      openPar -= 1
+    elif token == '(':
+      openPar += 1
+      if openPar > 0:
+        # found the last unclosed parenthesis
+        break
+  else:
+    return []
+  # 2. Concatenate dotted names ("foo.bar" for "foo.bar(x, pa" )
+  ids = []
+  isId = re.compile(r'\w+$').match
+  while True:
+    try:
+      ids.append(iterTokens.next())
+      if not isId(ids[-1]):
+        ids.pop(); break
+      if not iterTokens.next() == '.':
+        break
+    except StopIteration:
+      break
+  # lookup the candidate callable matches either using global_matches
+  # or attr_matches for dotted names
+  if len(ids) == 1:
+    callableMatches = ip.IP.Completer.global_matches(ids[0])
+  else:
+    callableMatches = ip.IP.Completer.attr_matches('.'.join(ids[::-1]))
+  argMatches = []
+  for callableMatch in callableMatches:
+    # drop the .New at this end, so we can search in the class members
+    if callableMatch.endswith(".New"):
+      callableMatch = callableMatch[:-4]
+    try:
+      object = eval(callableMatch, ip.IP.Completer.namespace)
+      if isinstance(object, itkTemplate.itkTemplate):
+        # this is a template - lets grab the first entry to search for the methods
+        object = object.values()[0]
+      namedArgs = []
+      if isinstance(object, itk.LightObject) or (inspect.isclass(object) and issubclass(object, itk.LightObject)):
+        namedArgs = [n[3:] for n in dir(object) if n.startswith("Set")]
+    except Exception, e:
+      print e
+      continue
+    for namedArg in namedArgs:
+      if namedArg.startswith(text):
+        argMatches.append("%s=" %namedArg)
+  return argMatches
+
+# install progress callback and custom completer if we are in ipython interpreter
+try:
+  import itkConfig, IPython.ipapi
+  if IPython.ipapi.get():
+    IPython.ipapi.get().IP.Completer.matchers.insert(0, ipython_kw_matches)
+    itkConfig.ProgressCallback = terminal_progress_callback
+  # some cleanup
+  del itkConfig, IPython
+except ImportError:
+  # fail silently
+  pass
 
 # now loads the other modules we may found in the same directory
 import os.path, sys

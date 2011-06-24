@@ -109,7 +109,7 @@ template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   unsigned int    i;
   OutputPixelType gradient;

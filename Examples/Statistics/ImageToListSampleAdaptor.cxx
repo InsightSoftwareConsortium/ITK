@@ -43,13 +43,13 @@
 // file for the Image class.  For illustration, we use the
 // \doxygen{RandomImageSource} that generates an image with random pixel
 // values. So, we need to include the header file for this class.  Another
-// convenient filter is the \doxygen{ScalarToArrayCastImageFilter} which
+// convenient filter is the \doxygen{ComposeImageFilter} which
 // creates an image with pixels of array type from one or more input images
 // have pixels of scalar type.  Since an element of a
 // Sample object is a measurement \emph{vector}, you
 // cannot plug-in an image of scalar pixels. However, if we
 // want to use an image with scalar pixels without the help from the
-// ScalarToArrayCastImageFilter, we can use the
+// ComposeImageFilter, we can use the
 // \subdoxygen{Statistics}{ScalarImageToListSampleAdaptor} class that is derived
 // from the \subdoxygen{Statistics}{ImageToListSampleAdaptor}. The usage of the
 // ScalarImageToListSampleAdaptor is identical to that of the ImageToListSampleAdaptor.
@@ -61,7 +61,7 @@
 #include "itkImageToListSampleAdaptor.h"
 #include "itkImage.h"
 #include "itkRandomImageSource.h"
-#include "itkScalarToArrayCastImageFilter.h"
+#include "itkComposeImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 int main()
@@ -115,7 +115,7 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef itk::FixedArray< float, 1 > MeasurementVectorType;
   typedef itk::Image< MeasurementVectorType, 2 > ArrayImageType;
-  typedef itk::ScalarToArrayCastImageFilter< FloatImage2DType, ArrayImageType >
+  typedef itk::ComposeImageFilter< FloatImage2DType, ArrayImageType >
     CasterType;
 
   CasterType::Pointer caster = CasterType::New();

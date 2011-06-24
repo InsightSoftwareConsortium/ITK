@@ -209,7 +209,7 @@ struct hashtable_iterator {
   hash_table *ht;
 
   hashtable_iterator(node *n, hash_table *tab):cur(n), ht(tab) {}
-  hashtable_iterator() {}
+  hashtable_iterator(): cur(NULL), ht(NULL) {}
   reference operator*() const
   {
     return cur->val;
@@ -243,7 +243,7 @@ struct hashtable_const_iterator {
   const hash_table *ht;
 
   hashtable_const_iterator(const node *n, const hash_table *tab):cur(n), ht(tab) {}
-  hashtable_const_iterator() {}
+  hashtable_const_iterator(): cur(NULL), ht(NULL) {}
   hashtable_const_iterator(const iterator & it):cur(it.cur), ht(it.ht) {}
 
   const_reference operator*() const { return cur->val; }

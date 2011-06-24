@@ -258,7 +258,7 @@ protected:
    * parameter "outputRegionForThread"
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 
   InputImageRegionType m_ExtractionRegion;
 

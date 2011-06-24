@@ -94,7 +94,7 @@ public:
 
   virtual void Modified() const;
 
-  virtual void SetNumberOfThreads(int nb);
+  virtual void SetNumberOfThreads(ThreadIdType nb);
 
 protected:
   MiniPipelineSeparableImageFilter();

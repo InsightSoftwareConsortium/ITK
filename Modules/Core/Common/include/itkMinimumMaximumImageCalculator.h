@@ -34,6 +34,7 @@ namespace itk
  *
  * \wiki
  * \wikiexample{ImageProcessing/MinimumMaximumImageCalculator,Find the minimum and maximum value (and the position of the value) in an image}
+ * \wikiexample{Developer/OilPaintingImageFilter,Multi-threaded oil painting image filter}
  * \endwiki
  */
 template< class TInputImage >

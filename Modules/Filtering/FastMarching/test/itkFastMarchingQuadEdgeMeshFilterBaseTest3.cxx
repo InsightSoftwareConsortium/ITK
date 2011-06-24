@@ -164,6 +164,11 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest3( int , char * [] )
     ++o_data_it;
     }
 
+  if( error )
+    {
+    return EXIT_FAILURE;
+    }
+
   typedef itk::QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( fmm_filter->GetOutput() );

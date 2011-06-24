@@ -152,7 +152,8 @@ public:
 
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  typedef typename Superclass::SpacingType SpacingType;
+  typedef typename Superclass::SpacingType      SpacingType;
+  typedef typename Superclass::SpacingValueType SpacingValueType;
 
   /** Origin typedef support.  The origin is the geometric coordinates
    * of the index (0,0). */
@@ -286,6 +287,9 @@ public:
   /** Return the NeighborhoodAccessor functor */
   const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
   { return NeighborhoodAccessorFunctorType(); }
+
+  virtual unsigned int GetNumberOfComponentsPerPixel() const;
+
 protected:
   Image();
   void PrintSelf(std::ostream & os, Indent indent) const;

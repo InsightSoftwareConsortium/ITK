@@ -1370,7 +1370,6 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
     {
     InputImagePointer input = this->m_LevelSet[fId];
     InputPointType    origin = input->GetOrigin();
-    InputSpacingType  spacing = input->GetSpacing();
 
     // Local iterator
     ImageRegionIterator< InputImageType > inIt ( this->m_LevelSet[fId],

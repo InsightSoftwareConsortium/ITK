@@ -77,6 +77,7 @@ public:
     return *m_ChangePosition;
   }
 
+  // cppcheck-suppress uninitVar
   TreeChangeEvent(const Self & s):itk::ModifiedEvent(s) {}
 protected:
 

@@ -353,43 +353,43 @@ void vnl_c_vector_inf_norm(T const *p, unsigned n, S *out)
 //---------------------------------------------------------------------------
 
 
-inline void* vnl_c_vector_alloc(int n, int size)
+inline void* vnl_c_vector_alloc(vcl_size_t n, unsigned size)
 {
   return vnl_sse_alloc(n,size);
 }
 
 
-inline void vnl_c_vector_dealloc(void* v, int n, int size)
+inline void vnl_c_vector_dealloc(void* v, vcl_size_t n, unsigned size)
 {
   vnl_sse_dealloc(v,n,size);
 }
 
 template<class T>
-T** vnl_c_vector<T>::allocate_Tptr(int n)
+T** vnl_c_vector<T>::allocate_Tptr(vcl_size_t n)
 {
   return (T**)vnl_c_vector_alloc(n, sizeof (T*));
 }
 
 template<class T>
-void vnl_c_vector<T>::deallocate(T** v, int n)
+void vnl_c_vector<T>::deallocate(T** v, vcl_size_t n)
 {
   vnl_c_vector_dealloc(v, n, sizeof (T*));
 }
 
 // "T *" is POD, but "T" might not be.
 #include <vcl_new.h>
-template <class T> inline void vnl_c_vector_construct(T *p, int n)
+template <class T> inline void vnl_c_vector_construct(T *p, vcl_size_t n)
 {
-  for (int i=0; i<n; ++i)
+  for (vcl_size_t i=0; i<n; ++i)
     new (p+i) T();
 }
 
-inline void vnl_c_vector_construct(float *, int) { }
-inline void vnl_c_vector_construct(double *, int) { }
-inline void vnl_c_vector_construct(long double *, int) { }
-inline void vnl_c_vector_construct(vcl_complex<float> *, int) { }
-inline void vnl_c_vector_construct(vcl_complex<double> *, int) { }
-inline void vnl_c_vector_construct(vcl_complex<long double> *, int) { }
+inline void vnl_c_vector_construct(float *, vcl_size_t) { }
+inline void vnl_c_vector_construct(double *, vcl_size_t) { }
+inline void vnl_c_vector_construct(long double *, vcl_size_t) { }
+inline void vnl_c_vector_construct(vcl_complex<float> *, vcl_size_t) { }
+inline void vnl_c_vector_construct(vcl_complex<double> *, vcl_size_t) { }
+inline void vnl_c_vector_construct(vcl_complex<long double> *, vcl_size_t) { }
 
 #ifdef __BORLANDC__
 // The compiler is confused
@@ -400,9 +400,9 @@ inline void vnl_c_vector_construct(vcl_complex<long double> *, int) { }
 #endif
 
 
-template <class T> inline void vnl_c_vector_destruct(T *p, int n)
+template <class T> inline void vnl_c_vector_destruct(T *p, vcl_size_t n)
 {
-  for (int i=0; i<n; ++i)
+  for (vcl_size_t i=0; i<n; ++i)
     (p+i)->~T();
 }
 
@@ -411,15 +411,15 @@ template <class T> inline void vnl_c_vector_destruct(T *p, int n)
 #endif
 
 
-inline void vnl_c_vector_destruct(float *, int) { }
-inline void vnl_c_vector_destruct(double *, int) { }
-inline void vnl_c_vector_destruct(long double *, int) { }
-inline void vnl_c_vector_destruct(vcl_complex<float> *, int) { }
-inline void vnl_c_vector_destruct(vcl_complex<double> *, int) { }
-inline void vnl_c_vector_destruct(vcl_complex<long double> *, int) { }
+inline void vnl_c_vector_destruct(float *, vcl_size_t) { }
+inline void vnl_c_vector_destruct(double *, vcl_size_t) { }
+inline void vnl_c_vector_destruct(long double *, vcl_size_t) { }
+inline void vnl_c_vector_destruct(vcl_complex<float> *, vcl_size_t) { }
+inline void vnl_c_vector_destruct(vcl_complex<double> *, vcl_size_t) { }
+inline void vnl_c_vector_destruct(vcl_complex<long double> *, vcl_size_t) { }
 
 template<class T>
-T* vnl_c_vector<T>::allocate_T(int n)
+T* vnl_c_vector<T>::allocate_T(vcl_size_t n)
 {
   T *p = (T*)vnl_c_vector_alloc(n, sizeof (T));
   vnl_c_vector_construct(p, n);
@@ -427,7 +427,7 @@ T* vnl_c_vector<T>::allocate_T(int n)
 }
 
 template<class T>
-void vnl_c_vector<T>::deallocate(T* p, int n)
+void vnl_c_vector<T>::deallocate(T* p, vcl_size_t n)
 {
   vnl_c_vector_destruct(p, n);
   vnl_c_vector_dealloc(p, n, sizeof (T));

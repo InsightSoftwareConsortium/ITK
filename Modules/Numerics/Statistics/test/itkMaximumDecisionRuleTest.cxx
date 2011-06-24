@@ -31,52 +31,47 @@ int itkMaximumDecisionRuleTest(int,char *[] )
   std::cout << "==================================" << std::endl;
   std::cout << "Testing MaximumDecionRule " << std::endl << std::endl;
 
-  typedef itk::MaximumDecisionRule  DecisionRuleType ;
+  typedef itk::MaximumDecisionRule  DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  std::vector< double > discriminantScores ;
-  discriminantScores.resize( 3 ) ;
+  std::vector< double > discriminantScores;
+  discriminantScores.resize( 3 );
 
-  discriminantScores[0] = 0.0 ;
-  discriminantScores[1] = 1.0 ;
-  discriminantScores[2] = 2.0 ;
+  discriminantScores[0] = 0.0;
+  discriminantScores[1] = 1.0;
+  discriminantScores[2] = 2.0;
 
   if ( decisionRule->Evaluate( discriminantScores ) != 2 )
     {
-    std::cout << "[FAILED]" << std::endl ;
-    return EXIT_FAILURE ;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
     }
 
+  DecisionRuleType::VectorType discriminantScores2;
+  discriminantScores2.resize( 3 );
 
-
-  DecisionRuleType::VectorType discriminantScores2 ;
-  discriminantScores2.resize( 3 ) ;
-
-  discriminantScores2[0] = 0.0 ;
-  discriminantScores2[1] = 1.0 ;
-  discriminantScores2[2] = 2.0 ;
+  discriminantScores2[0] = 0.0;
+  discriminantScores2[1] = 1.0;
+  discriminantScores2[2] = 2.0;
 
   if ( decisionRule->Evaluate( discriminantScores2 ) != 2 )
     {
-    std::cout << "[FAILED]" << std::endl ;
-    return EXIT_FAILURE ;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
     }
 
+  DecisionRuleType::ArrayType discriminantScores3(3);
 
-  DecisionRuleType::ArrayType discriminantScores3(3) ;
-
-  discriminantScores3[0] = 0.0 ;
-  discriminantScores3[1] = 1.0 ;
-  discriminantScores3[2] = 2.0 ;
+  discriminantScores3[0] = 0.0;
+  discriminantScores3[1] = 1.0;
+  discriminantScores3[2] = 2.0;
 
   if ( decisionRule->Evaluate( discriminantScores3 ) != 2 )
     {
-    std::cout << "[FAILED]" << std::endl ;
-    return EXIT_FAILURE ;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
     }
 
-
-
-  std::cout << "[SUCCEEDED]" << std::endl ;
+  std::cout << "[SUCCEEDED]" << std::endl;
   return EXIT_SUCCESS;
 }

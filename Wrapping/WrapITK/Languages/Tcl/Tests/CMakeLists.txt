@@ -29,7 +29,7 @@ add_tcl_test(TclListAll ${CMAKE_CURRENT_SOURCE_DIR}/ListAll.tcl)
 # add_tcl_test(TclPrintAll ${CMAKE_CURRENT_SOURCE_DIR}/PrintAll.tcl)
 
 INTERSECTION(WRAP_2 2 "${WRAP_ITK_DIMS}")
-if(WRAP_unsigned_short AND WRAP_2)
+if(WRAP_unsigned_char AND WRAP_2)
 #  add_tcl_test(TclBinaryDilateImageFilter
 #    ${CMAKE_CURRENT_SOURCE_DIR}/BinaryDilateImageFilter.tcl
 #    ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
@@ -49,7 +49,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
     BinaryThresholdImageFilter.png
     50 150
-    0 65535
+    0 255
     --compare BinaryThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png
   )
 
@@ -99,7 +99,7 @@ if(WRAP_unsigned_short AND WRAP_2)
     --compare ThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/ThresholdImageFilter.png
   )
 
-endif(WRAP_unsigned_short AND WRAP_2)
+endif(WRAP_unsigned_char AND WRAP_2)
 
 
 

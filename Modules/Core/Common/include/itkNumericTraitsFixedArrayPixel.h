@@ -23,15 +23,17 @@
 
 namespace itk
 {
-/** \class NumericTraits<FixedArray< T > >
+/**
  * \brief Define numeric traits for FixedArray.
+ * \tparam T Component type of the FixedArray
+ * \tparam D Dimension of the FixedArray
  *
  * We provide here a generic implementation based on creating types of
  * FixedArray whose components are the types of the NumericTraits from
  * the original FixedArray components. This implementation require
  * support for partial specializations, since it is based on the
  * concept that:
- *   NumericTraits<FixedArray< T > >  is defined piecewise by
+ *   NumericTraits<FixedArray< T, D > >  is defined piecewise by
  *   FixedArray< NumericTraits< T > >
  *
  * \sa NumericTraits
@@ -117,6 +119,21 @@ public:
     return Self( NumericTraits< T >::OneValue() );
   }
 
+  static const Self NonpositiveMin(const Self &)
+  {
+    return NonpositiveMin();
+  }
+
+  static const Self ZeroValue(const Self &)
+  {
+    return ZeroValue();
+  }
+
+  static const Self OneValue(const Self &)
+  {
+    return OneValue();
+  }
+
   /** Fixed length vectors cannot be resized, so an exception will
    *  be thrown if the input size is not valid.  If the size is valid
    *  the vector will be filled with zeros. */
@@ -134,6 +151,26 @@ public:
   static unsigned int GetLength(const FixedArray< T, D > &)
   {
     return D;
+  }
+
+  /** Return the length of the array. */
+  static unsigned int GetLength()
+  {
+    return D;
+  }
+
+  static void AssignToArray( const Self & v, MeasurementVectorType & mv )
+  {
+    mv = v;
+  }
+
+  template<class TArray>
+  static void AssignToArray( const Self & v, TArray & mv )
+  {
+    for( unsigned int i=0; i<D; i++ )
+      {
+      mv[i] = v[i];
+      }
   }
 
   /** \note: the functions are prefered over the member variables as

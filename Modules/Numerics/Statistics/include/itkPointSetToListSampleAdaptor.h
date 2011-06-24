@@ -104,7 +104,9 @@ public:
   /** returns the size of this container */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
-  /** \class ConstIterator  \ingroup ITK-Statistics */
+  /** \class ConstIterator
+   * \ingroup ITK-Statistics
+   */
   class ConstIterator
   {
     friend class PointSetToListSampleAdaptor;
@@ -177,7 +179,9 @@ private:
     InstanceIdentifier               m_InstanceIdentifier;
   };
 
-  /** \class Iterator  \ingroup ITK-Statistics */
+  /** \class Iterator
+   * \ingroup ITK-Statistics
+   */
   class Iterator:public ConstIterator
   {
     friend class PointSetToListSampleAdaptor;

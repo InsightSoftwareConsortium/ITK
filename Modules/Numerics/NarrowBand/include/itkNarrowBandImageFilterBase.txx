@@ -114,7 +114,7 @@ ITK_THREAD_RETURN_TYPE
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
 {
-  unsigned int threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+  ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   NarrowBandImageFilterBaseThreadStruct *str =
     (NarrowBandImageFilterBaseThreadStruct *)
@@ -128,9 +128,8 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
-::ThreadedIterate(void *arg, int threadId)
+::ThreadedIterate(void *arg, ThreadIdType threadId)
 {
-  int              threadCount;
   ThreadRegionType splitRegion;
 
   //Implement iterative loop in thread function
@@ -139,8 +138,6 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   NarrowBandImageFilterBaseThreadStruct *str =
     (NarrowBandImageFilterBaseThreadStruct *)
     ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
-
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
   IdentifierType iter = 0;
   while ( !( this->ThreadedHalt(arg) ) )
@@ -251,7 +248,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::InitializeIteration()
 {
   //Set m_Touched flag from threads information
-  for ( int i = 0; i < this->GetMultiThreader()->GetNumberOfThreads(); i++ )
+  for ( ThreadIdType i = 0; i < this->GetMultiThreader()->GetNumberOfThreads(); i++ )
     {
     m_Touched = ( m_Touched || m_TouchedForThread[i] );
     m_TouchedForThread[i] = false;
@@ -276,7 +273,7 @@ void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::ThreadedApplyUpdate(const TimeStepType& dt,
                       const ThreadRegionType & regionToProcess,
-                      int threadId)
+                      ThreadIdType threadId)
 {
   //const int INNER_MASK = 2;
   const signed char INNER_MASK = 2;
@@ -303,7 +300,7 @@ typename
 NarrowBandImageFilterBase< TInputImage, TOutputImage >::TimeStepType
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::ThreadedCalculateChange( const ThreadRegionType & regionToProcess,
-                           int itkNotUsed(threadId) )
+                           ThreadIdType itkNotUsed(threadId) )
 {
   typedef typename OutputImageType::SizeType OutputSizeType;
 

@@ -31,13 +31,40 @@
  */
 #include "H5FDmpi.h"            /* MPI-based file drivers		*/
 
-/* Macros */
+
+/**************************/
+/* Library Private Macros */
+/**************************/
+
+/* Length of filename buffer */
+#define H5FD_MAX_FILENAME_LEN      1024
+
+
+/****************************/
+/* Library Private Typedefs */
+/****************************/
+
+/* File operations */
+typedef enum {
+    OP_UNKNOWN = 0,             /* Unknown last file operation */
+    OP_READ = 1,                /* Last file I/O operation was a read */
+    OP_WRITE = 2                /* Last file I/O operation was a write */
+} H5FD_file_op_t;
+
+
+/*****************************/
+/* Library Private Variables */
+/*****************************/
+
+
+/******************************/
+/* Library Private Prototypes */
+/******************************/
 
 /* Forward declarations for prototype arguments */
 struct H5P_genplist_t;
 struct H5F_t;
 
-/* Prototypes */
 H5_DLL int H5FD_term_interface(void);
 H5_DLL H5FD_class_t *H5FD_get_class(hid_t id);
 H5_DLL hsize_t H5FD_sb_size(H5FD_t *file);

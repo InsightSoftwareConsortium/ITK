@@ -182,7 +182,7 @@ protected:
    * called. */
   void ThreadedGenerateData(const OutputImageRegionType &
                             outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 
 private:
   GrayscaleGeodesicErodeImageFilter(const Self &); //purposely not implemented

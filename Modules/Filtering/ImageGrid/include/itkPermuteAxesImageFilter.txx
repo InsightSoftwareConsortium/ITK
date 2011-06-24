@@ -225,7 +225,7 @@ template< class TImage >
 void
 PermuteAxesImageFilter< TImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   unsigned int  j;
 

@@ -1,3 +1,10 @@
+if(ITK_USE_SYSTEM_GDCM)
+  add_library(ITK-GDCM ITK-GDCM.cxx)
+  target_link_libraries(ITK-GDCM gdcmDICT gdcmMSFF)
+  itk_module_target(ITK-GDCM)
+  return()
+endif()
+
 set(GDCM_TARGETS_NAME ${ITK-GDCM-targets})
 set(GDCM_INSTALL_BIN_DIR ${ITK-GDCM_INSTALL_RUNTIME_DIR})
 set(GDCM_INSTALL_LIB_DIR ${ITK-GDCM_INSTALL_LIBRARY_DIR})

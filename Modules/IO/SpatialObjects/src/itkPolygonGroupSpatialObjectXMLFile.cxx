@@ -202,6 +202,17 @@ PolygonGroupSpatialObjectXMLFileWriter::CanWriteFile( const char *itkNotUsed(nam
   return true;                  // not sure what else to say
 }
 
+// Define ZeroValue() for std::string so that the value can be
+// initialized before calling ExposeMetaData. Since ExposeMetaData can
+// return without setting a value, some compilers warn about using an
+// initialized variable.
+template< >
+class NumericTraits< std::string >
+{
+public:
+  static const std::string ZeroValue() { return std::string(""); }
+};
+
 template< typename T >
 void
 WriteMetaDataAttribute(PolygonGroupSpatialObjectXMLFileWriter *This,
@@ -210,7 +221,7 @@ WriteMetaDataAttribute(PolygonGroupSpatialObjectXMLFileWriter *This,
                        const char *const attName,
                        std::ofstream & output)
 {
-  T value;
+  T value = NumericTraits<T>::ZeroValue();
 
   if ( ExposeMetaData< T >(thisDic, MetaName, value) )
     {

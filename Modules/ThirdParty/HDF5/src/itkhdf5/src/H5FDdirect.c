@@ -120,7 +120,7 @@ typedef struct H5FD_direct_t {
 #   define file_offset_t	off64_t
 #   define file_seek		lseek64
 #   define file_truncate	ftruncate64
-#elif defined (_WIN32) && !defined(__MWERKS__)
+#elif defined (_WIN32)
 # /*MSVC*/
 #   define file_offset_t __int64
 #   define file_seek _lseeki64

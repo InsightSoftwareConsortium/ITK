@@ -356,6 +356,6 @@ else {
 }
 
 
-
+free(data);
 return(0);
 }

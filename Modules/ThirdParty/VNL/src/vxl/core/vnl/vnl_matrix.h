@@ -9,7 +9,28 @@
 // \brief An ordinary mathematical matrix
 // \verbatim
 //  Modifications
+//   Apr 21, 1989 - MBN - Initial design and implementation
+//   Jun 22, 1989 - MBN - Removed non-destructive methods
+//   Aug 09, 1989 - LGO - Inherit from Generic
+//   Aug 20, 1989 - MBN - Changed template usage to reflect new syntax
+//   Sep 11, 1989 - MBN - Added conditional exception handling and base class
+//   Oct 05, 1989 - LGO - Don't re-allocate data in operator= when same size
+//   Oct 19, 1989 - LGO - Add extra parameter to varargs constructor
+//   Oct 19, 1989 - MBN - Added optional argument to set_compare method
+//   Dec 08, 1989 - LGO - Allocate column data in one chunk
+//   Dec 08, 1989 - LGO - Clean-up get and put, add const everywhere.
+//   Dec 19, 1989 - LGO - Remove the map and reduce methods
+//   Feb 22, 1990 - MBN - Changed size arguments from int to unsigned int
+//   Jun 30, 1990 - MJF - Added base class name to constructor initializer
+//   Feb 21, 1992 - VDN - New lite version
+//   May 05, 1992 - VDN - Use envelope to avoid unnecessary copying
+//   Sep 30, 1992 - VDN - Matrix inversion with singular value decomposition
+//   Aug 21, 1996 - AWF - set_identity, normalize_rows, scale_row.
+//   Sep 30, 1996 - AWF - set_row/column methods. Const-correct data_block().
+//   14 Feb 1997  - AWF - get_n_rows, get_n_columns.
+//   20 Mar 1997  - PVR - get_row, get_column.
 //   24-Oct-2010 - Peter Vanroose - mutators and filling methods now return *this
+//   18-Jan-2011 - Peter Vanroose - added methods set_diagonal() & get_diagonal()
 // \endverbatim
 
 #include <vcl_iosfwd.h>
@@ -227,6 +248,12 @@ class vnl_matrix
   //  \endcode
   vnl_matrix& fill_diagonal(T const&);
 
+  //: Sets the diagonal elements of this matrix to the specified list of values.
+  //  Returning "*this" allows "chaining" two or more operations: see the
+  //  reasoning (and the examples) in the documentation for method
+  //  fill_diagonal().
+  vnl_matrix& set_diagonal(vnl_vector<T> const&);
+
   //: Fills (laminates) this matrix with the given data, then returns it.
   //  We assume that the argument points to a contiguous rows*cols array, stored rowwise.
   //  No bounds checking on the array.
@@ -368,6 +395,9 @@ class vnl_matrix
 
   //: Get n columns beginning at colstart
   vnl_matrix<T> get_n_columns(unsigned colstart, unsigned n) const;
+
+  //: Return a vector with the content of the (main) diagonal
+  vnl_vector<T> get_diagonal() const;
 
   // ==== mutators ====
 
@@ -520,10 +550,10 @@ class vnl_matrix
 
   //: Return true if all elements equal to zero, within given tolerance
   bool is_zero(double tol) const;
- 
+
   //:  Return true if all elements of both matrices are equal, within given tolerance
   bool is_equal(vnl_matrix<T> const& rhs, double tol) const;
-  
+
   //: Return true if finite
   bool is_finite() const;
 

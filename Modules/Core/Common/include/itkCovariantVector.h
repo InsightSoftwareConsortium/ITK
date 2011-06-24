@@ -275,8 +275,17 @@ ITKCommon_EXPORT void CrossProduct(CovariantVector< int, 3 >,
 #include "Templates/itkCovariantVector+-.h"
 #endif
 
-#if ITK_TEMPLATE_TXX
+//
+// Numeric traits must be included after (optionally) including the explicit
+// instantiations control of this class, in case the implicit instantiation
+// needs to be disabled.
+//
+// NumericTraits must be included before (optionally) including the .txx file,
+// in case the .txx requires to use NumericTraits.
+//
 #include "itkNumericTraitsCovariantVectorPixel.h"
+
+#if ITK_TEMPLATE_TXX
 #include "itkCovariantVector.txx"
 #endif
 

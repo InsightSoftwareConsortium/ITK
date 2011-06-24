@@ -86,7 +86,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             int threadId);
+                             ThreadIdType threadId);
 
 private:
   BoxSigmaImageFilter(const Self &); //purposely not implemented

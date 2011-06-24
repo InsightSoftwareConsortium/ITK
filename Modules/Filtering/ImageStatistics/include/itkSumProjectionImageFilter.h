@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITK-ImageStatistics
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInputPixel, class TOuputPixel >
 class SumAccumulator
@@ -77,13 +77,13 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SumProjectionImageFilter:
   public
   ProjectionImageFilter< TInputImage, TOutputImage,
-                         Function::SumAccumulator<
+                         Functor::SumAccumulator<
                            typename TInputImage::PixelType, typename TOutputImage::PixelType > >
 {
 public:
   typedef SumProjectionImageFilter Self;
   typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Function::SumAccumulator<
+                                 Functor::SumAccumulator<
                                    typename TInputImage::PixelType,
                                    typename TOutputImage::PixelType > > Superclass;
 

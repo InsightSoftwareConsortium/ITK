@@ -31,7 +31,7 @@ namespace itk
  * special Register()/UnRegister() methods directly.
  *
  * To compile / test this class
- * Windows: cl SmartPointerTest.cxx; .\SmartPointerTest.exe
+ * Windows: cl SmartPointerTest.cxx; .\\SmartPointerTest.exe
  * linux:   c++ SmartPointerTest.cxx ./a.out
  * other:   CCcompiler SmartPointerTest.cxx  ./a.out
  *
@@ -110,6 +110,7 @@ public:
   { return (void *)m_Pointer >= (void *)r.m_Pointer; }
 
   /** Overload operator assignment.  */
+  // cppcheck-suppress operatorEqVarError
   SmartPointer & operator=(const SmartPointer & r)
   { return this->operator=( r.GetPointer() ); }
 

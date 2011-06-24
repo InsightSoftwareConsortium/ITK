@@ -79,6 +79,7 @@ namespace itk
     cl_int errid;
     m_Program = clCreateProgramWithSource(m_Manager->GetCurrentContext(), 1, (const char **)&cSourceString, &szFinalLength, &errid);
     OclCheckError(errid);
+    free(cSourceString);
     if(errid != CL_SUCCESS)
     {
       itkWarningMacro("Cannot create GPU program");
@@ -117,6 +118,7 @@ namespace itk
       return false;
     }
 
+    free(cSourceString);
     return true;
   }
 

@@ -53,7 +53,10 @@ public:
    *
    * \param ptr Pointer to the object of Solution class.
    */
-  virtual void SetSolution(Solution::ConstPointer) {}
+  virtual void SetSolution(Solution::ConstPointer ptr)
+    { // this is to prevent a warning about an unused variable
+    (void) ptr;
+    }
   virtual Solution::ConstPointer GetSolution( ) { return 0;}
 
 };

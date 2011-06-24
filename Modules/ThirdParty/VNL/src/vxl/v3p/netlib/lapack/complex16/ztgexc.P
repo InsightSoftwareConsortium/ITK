@@ -1,0 +1,3 @@
+extern int ztgexc_(logical *wantq, logical *wantz, integer *n, doublecomplex *a, integer *lda, doublecomplex *b, integer *ldb, doublecomplex *q, integer *ldq, doublecomplex *z__, integer *ldz, integer *ifst, integer *ilst, integer *info);
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: ztgex2_ 14 13 12 12 4 9 4 9 4 9 4 9 4 4 4 */

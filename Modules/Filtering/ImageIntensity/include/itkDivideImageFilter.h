@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITK-ImageIntensity
  */
 
-namespace Function
+namespace Functor
 {
 template< class TInput1, class TInput2, class TOutput >
 class Div
@@ -71,7 +71,7 @@ template< class TInputImage1, class TInputImage2, class TOutputImage >
 class ITK_EXPORT DivideImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Function::Div<
+                            Functor::Div<
                               typename TInputImage1::PixelType,
                               typename TInputImage2::PixelType,
                               typename TOutputImage::PixelType >   >
@@ -86,7 +86,7 @@ public:
    * Standard "Superclass" typedef.
    */
   typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                                    Function::Div<
+                                    Functor::Div<
                                       typename TInputImage1::PixelType,
                                       typename TInputImage2::PixelType,
                                       typename TOutputImage::PixelType >
@@ -122,6 +122,22 @@ protected:
   virtual ~DivideImageFilter() {}
   DivideImageFilter(const Self &) {}
   void operator=(const Self &) {}
+
+  void GenerateData()
+    {
+    const typename Superclass::DecoratedInput2ImagePixelType *input
+       = dynamic_cast< const typename Superclass::DecoratedInput2ImagePixelType * >(
+        this->ProcessObject::GetInput(1) );
+    if( input != NULL && input->Get() == itk::NumericTraits< typename TInputImage2::PixelType >::Zero )
+      {
+      itkGenericExceptionMacro(<<"The constant value used as denominator should not be set to zero");
+      }
+    else
+      {
+      Superclass::GenerateData();
+      }
+    }
+
 };
 } // end namespace itk
 

@@ -123,17 +123,16 @@
     )
 
 /* Size of managed indirect block */
-#define H5HF_MAN_INDIRECT_SIZE(h, i) (                                        \
+#define H5HF_MAN_INDIRECT_SIZE(h, r) (                                        \
     /* General metadata fields */                                             \
     H5HF_METADATA_PREFIX_SIZE(TRUE)                                           \
                                                                               \
     /* Fractal heap managed, absolutely mapped indirect block specific fields */ \
     + (h)->sizeof_addr          /* File address of heap owning the block */   \
     + (h)->heap_off_size        /* Offset of the block in the heap */         \
-    + (MIN((i)->nrows, (h)->man_dtable.max_direct_rows) * (h)->man_dtable.cparam.width * H5HF_MAN_INDIRECT_CHILD_DIR_ENTRY_SIZE(h)) /* Size of entries for direct blocks */ \
-    + ((((i)->nrows > (h)->man_dtable.max_direct_rows) ? ((i)->nrows - (h)->man_dtable.max_direct_rows) : 0)  * (h)->man_dtable.cparam.width * (h)->sizeof_addr) /* Size of entries for indirect blocks */ \
+    + (MIN(r, (h)->man_dtable.max_direct_rows) * (h)->man_dtable.cparam.width * H5HF_MAN_INDIRECT_CHILD_DIR_ENTRY_SIZE(h)) /* Size of entries for direct blocks */ \
+    + (((r > (h)->man_dtable.max_direct_rows) ? (r - (h)->man_dtable.max_direct_rows) : 0)  * (h)->man_dtable.cparam.width * (h)->sizeof_addr) /* Size of entries for indirect blocks */ \
     )
-
 
 /* Compute the # of bytes required to store an offset into a given buffer size */
 #define H5HF_SIZEOF_OFFSET_BITS(b)   (((b) + 7) / 8)
@@ -485,6 +484,13 @@ typedef struct H5HF_iblock_cache_ud_t {
 typedef struct H5HF_dblock_cache_ud_t {
     H5HF_parent_t par_info;     /* Parent info */
     H5F_t * f;                  /* File pointer */
+    size_t odi_size;		/* On disk image size of the direct block.
+				 * Note that there is no necessary relation
+				 * between this value, and the actual
+				 * direct block size, as conpression may
+				 * reduce the size of the on disk image,
+				 * and check sums may increase it.
+				 */
     size_t dblock_size;		/* size of the direct block, which bears
 				 * no necessary relation to the block
 				 * odi_size -- the size of the on disk

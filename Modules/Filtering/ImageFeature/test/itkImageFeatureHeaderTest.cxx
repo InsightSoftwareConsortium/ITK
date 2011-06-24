@@ -39,8 +39,6 @@
 #include "itkGradientVectorFlowImageFilter.txx"
 #include "itkLaplacianImageFilter.txx"
 #include "itkHoughTransform2DLinesImageFilter.txx"
-#include "itkTensorRelativeAnisotropyImageFilter.h"
-#include "itkTensorFractionalAnisotropyImageFilter.h"
 
 
 

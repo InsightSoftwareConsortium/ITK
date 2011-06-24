@@ -43,13 +43,13 @@
 namespace itk
 {
 // Initialize static member that controls global maximum number of threads.
-int MultiThreader:: m_GlobalMaximumNumberOfThreads = ITK_MAX_THREADS;
+ThreadIdType MultiThreader:: m_GlobalMaximumNumberOfThreads = ITK_MAX_THREADS;
 
 // Initialize static member that controls global default number of threads : 0
 // => Not initialized.
-int MultiThreader:: m_GlobalDefaultNumberOfThreads = 0;
+ThreadIdType MultiThreader:: m_GlobalDefaultNumberOfThreads = 0;
 
-void MultiThreader::SetGlobalMaximumNumberOfThreads(int val)
+void MultiThreader::SetGlobalMaximumNumberOfThreads(ThreadIdType val)
 {
   m_GlobalMaximumNumberOfThreads = val;
 
@@ -70,12 +70,12 @@ void MultiThreader::SetGlobalMaximumNumberOfThreads(int val)
     }
 }
 
-int MultiThreader::GetGlobalMaximumNumberOfThreads()
+ThreadIdType MultiThreader::GetGlobalMaximumNumberOfThreads()
 {
   return m_GlobalMaximumNumberOfThreads;
 }
 
-void MultiThreader::SetGlobalDefaultNumberOfThreads(int val)
+void MultiThreader::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
 {
   m_GlobalDefaultNumberOfThreads = val;
 
@@ -90,7 +90,7 @@ void MultiThreader::SetGlobalDefaultNumberOfThreads(int val)
     }
 }
 
-void MultiThreader::SetNumberOfThreads(int numberOfThreads)
+void MultiThreader::SetNumberOfThreads(ThreadIdType numberOfThreads)
 {
   if ( m_NumberOfThreads == numberOfThreads &&
        numberOfThreads <= m_GlobalMaximumNumberOfThreads )
@@ -112,7 +112,7 @@ void MultiThreader::SetNumberOfThreads(int numberOfThreads)
 }
 
 
-int MultiThreader::GetGlobalDefaultNumberOfThreads()
+ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
 {
   // if default number has been set then don't try to update it; just
   // return the value
@@ -133,7 +133,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
   // otherwise, set number of threads based on system information
   if ( m_GlobalDefaultNumberOfThreads <= 0 )
     {
-    int num;
+    ThreadIdType num;
     num = GetGlobalDefaultNumberOfThreadsByPlatform();
     m_GlobalDefaultNumberOfThreads = num;
     }
@@ -159,7 +159,7 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 // and will not change.
 MultiThreader::MultiThreader()
 {
-  for ( int i = 0; i < ITK_MAX_THREADS; i++ )
+  for ( ThreadIdType i = 0; i < ITK_MAX_THREADS; i++ )
     {
     m_ThreadInfoArray[i].ThreadID           = i;
     m_ThreadInfoArray[i].ActiveFlag         = 0;
@@ -193,7 +193,7 @@ void MultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 // threads when MultipleMethodExecute is called. This method should be
 // called with index = 0, 1, ..,  NumberOfThreads-1 to set up all the
 // required user defined methods
-void MultiThreader::SetMultipleMethod(int index, ThreadFunctionType f, void *data)
+void MultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, void *data)
 {
   // You can only set the method for 0 through NumberOfThreads-1
   if ( index >= m_NumberOfThreads )
@@ -210,7 +210,7 @@ void MultiThreader::SetMultipleMethod(int index, ThreadFunctionType f, void *dat
 // Execute the method set as the SingleMethod on NumberOfThreads threads.
 void MultiThreader::SingleMethodExecute()
 {
-  int                 thread_loop = 0;
+  ThreadIdType                 thread_loop = 0;
   ThreadProcessIDType process_id[ITK_MAX_THREADS];
 
   if ( !m_SingleMethod )

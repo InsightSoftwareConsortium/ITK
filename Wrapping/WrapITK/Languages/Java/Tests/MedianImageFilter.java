@@ -31,10 +31,10 @@ public class MedianImageFilter
   {
     System.out.println("MedianImageFilter Example");
 
-    itkImageFileReaderIUS2 reader = new itkImageFileReaderIUS2();
-    itkImageFileWriterIUS2 writer = new itkImageFileWriterIUS2();
+    itkImageFileReaderIUC2 reader = new itkImageFileReaderIUC2();
+    itkImageFileWriterIUC2 writer = new itkImageFileWriterIUC2();
 
-    itkMedianImageFilterIUS2IUS2 filter = new itkMedianImageFilterIUS2IUS2();
+    itkMedianImageFilterIUC2IUC2 filter = new itkMedianImageFilterIUC2IUC2();
 
     filter.SetInput( reader.GetOutput() );
     writer.SetInput( filter.GetOutput() );

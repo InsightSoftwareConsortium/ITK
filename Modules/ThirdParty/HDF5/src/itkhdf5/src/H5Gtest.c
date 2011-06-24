@@ -635,3 +635,158 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G_verify_cached_stab_test() */
 
+
+/*-------------------------------------------------------------------------
+ * Function:    H5G_verify_cached_stabs_test_cb
+ *
+ * Purpose:     Verify that all entries in this node contain cached symbol
+ *              table information if and only if the entry refers to a
+ *              group with a symbol table, and that that information is
+ *              correct.
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *
+ * Programmer:  Neil Fortner
+ *              Apr 8, 2011
+ *
+ *-------------------------------------------------------------------------
+ */
+static int
+H5G_verify_cached_stabs_test_cb(H5F_t *f, hid_t dxpl_id,
+    const void UNUSED *_lt_key, haddr_t addr, const void UNUSED *_rt_key,
+    void UNUSED *udata)
+{
+    H5G_node_t          *sn = NULL;
+    H5O_loc_t           targ_oloc;
+    H5O_t               *targ_oh = NULL;
+    htri_t              stab_exists;
+    H5O_stab_t          stab;
+    unsigned            i;
+    int                 ret_value = H5_ITER_CONT;
+
+    FUNC_ENTER_NOAPI(H5G_verify_cached_stabs_test_cb, H5_ITER_ERROR)
+
+    /*
+     * Check arguments.
+     */
+    HDassert(f);
+    HDassert(H5F_addr_defined(addr));
+
+    /* Load the node */
+    if(NULL == (sn = (H5G_node_t *)H5AC_protect(f, dxpl_id, H5AC_SNODE, addr, f, H5AC_READ)))
+        HGOTO_ERROR(H5E_SYM, H5E_CANTLOAD, H5_ITER_ERROR, "unable to load symbol table node")
+
+    /* Check each target object to see if its stab message (if present) matches
+     * the cached stab (if present).  If one exists, both must exist. */
+    /* Initialize constant fields in target oloc */
+    targ_oloc.file = f;
+    targ_oloc.holding_file = FALSE;
+
+    /* Iterate over entries */
+    for(i=0; i<sn->nsyms; i++) {
+        /* Update oloc address */
+        targ_oloc.addr = sn->entry[i].header;
+
+        /* Load target object header */
+        if(NULL == (targ_oh = H5O_protect(&targ_oloc, dxpl_id, H5AC_READ)))
+            HGOTO_ERROR(H5E_SYM, H5E_CANTPROTECT, H5_ITER_ERROR, "unable to protect target object header")
+
+        /* Check if a symbol table message exists */
+        if((stab_exists = H5O_msg_exists_oh(targ_oh, H5O_STAB_ID)) < 0)
+            HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, H5_ITER_ERROR, "unable to check for STAB message")
+
+        if(stab_exists) {
+            /* Read symbol table message */
+            if(NULL == H5O_msg_read_oh(f, dxpl_id, targ_oh, H5O_STAB_ID, &stab))
+                HGOTO_ERROR(H5E_SYM, H5E_CANTGET, H5_ITER_ERROR, "unable to read STAB message")
+
+            /* Check if the stab matches the cached stab info */
+            if(sn->entry[i].type != H5G_CACHED_STAB)
+                HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, H5_ITER_ERROR, "STAB message is not cached in group node")
+
+            if((sn->entry[i].cache.stab.btree_addr != stab.btree_addr)
+                    || (sn->entry[i].cache.stab.heap_addr != stab.heap_addr))
+                HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, H5_ITER_ERROR, "cached symbol table information is incorrect")
+        } /* end if */
+        else if(sn->entry[i].type == H5G_CACHED_STAB)
+            HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, H5_ITER_ERROR, "nonexistent STAB message is cached")
+
+        /* Unprotect target object */
+        if(H5O_unprotect(&targ_oloc, dxpl_id, targ_oh, H5AC__NO_FLAGS_SET) < 0)
+            HGOTO_ERROR(H5E_SYM, H5E_CANTUNPROTECT, H5_ITER_ERROR, "unable to release object header");
+        targ_oh = NULL;
+    } /* end for */
+
+done:
+    if(sn && H5AC_unprotect(f, dxpl_id, H5AC_SNODE, addr, sn, H5AC__NO_FLAGS_SET) < 0)
+        HDONE_ERROR(H5E_SYM, H5E_PROTECT, H5_ITER_ERROR, "unable to release object header")
+
+    if(targ_oh) {
+        HDassert(ret_value == H5_ITER_ERROR);
+        if(H5O_unprotect(&targ_oloc, dxpl_id, targ_oh, H5AC__NO_FLAGS_SET) < 0)
+            HDONE_ERROR(H5E_SYM, H5E_CANTUNPROTECT, H5_ITER_ERROR, "unable to release object header");
+    } /* end if */
+
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5G_verify_cached_stabs_test_cb() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:    H5G_verify_cached_stabs_test
+ *
+ * Purpose:     If the provided group contains a symbol table, verifies
+ *              that all links in the group contain cached symbol table
+ *              information if and only if the link points to a group
+ *              with a symbol table, and that that information is correct.
+ *              If the provided group does not contain a symbol table,
+ *              does nothing.
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *
+ * Programmer:  Neil Fortner
+ *              nfortne2@hdfgroup.org
+ *              April 6 2011
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5G_verify_cached_stabs_test(hid_t gid)
+{
+    H5G_t               *grp = NULL;            /* Group */
+    htri_t              stab_exists;
+    H5O_stab_t          stab;                   /* Symbol table message */
+    H5G_bt_common_t     udata = {NULL, NULL};   /* Dummy udata so H5B_iterate doesn't freak out */
+    herr_t              ret_value = SUCCEED;    /* Return value */
+
+    FUNC_ENTER_NOAPI(H5G_verify_cached_stabs_test, FAIL)
+
+    /* check args */
+    HDassert(gid >= 0);
+
+    /* Check args */
+    if(NULL == (grp = (H5G_t *)H5I_object_verify(gid, H5I_GROUP)))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a group")
+
+    /* Check for group having a symbol table message */
+    /* Check for the group having a group info message */
+    if((stab_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID,
+            H5AC_ind_dxpl_id)) < 0)
+        HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
+
+    /* No need to check anything if the symbol table doesn't exist */
+    if(!stab_exists)
+        HGOTO_DONE(SUCCEED);
+
+    /* Read the stab */
+    if(NULL == H5O_msg_read(&(grp->oloc), H5O_STAB_ID, &stab, H5AC_ind_dxpl_id))
+        HGOTO_ERROR(H5E_SYM, H5E_BADMESG, FAIL, "can't get symbol table info")
+
+    /* Iterate over the b-tree, checking validity of cached information */
+    if((ret_value = H5B_iterate(grp->oloc.file, H5AC_ind_dxpl_id, H5B_SNODE,
+            stab.btree_addr, H5G_verify_cached_stabs_test_cb, &udata)) < 0)
+        HGOTO_ERROR(H5E_SYM, H5E_CANTNEXT, FAIL, "iteration operator failed");
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5G_verify_cached_stabs_test() */
+

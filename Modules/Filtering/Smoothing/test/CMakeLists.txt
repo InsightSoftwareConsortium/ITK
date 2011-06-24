@@ -6,6 +6,10 @@ itkMeanImageFilterTest.cxx
 itkDiscreteGaussianImageFilterTest.cxx
 itkMedianImageFilterTest.cxx
 itkSmoothingHeaderTest.cxx
+itkRecursiveGaussianImageFiltersOnTensorsTest.cxx
+itkRecursiveGaussianImageFiltersOnVectorImageTest.cxx
+itkRecursiveGaussianImageFiltersTest.cxx
+itkRecursiveGaussianScaleSpaceTest1.cxx
 )
 
 CreateTestDriver(ITK-Smoothing  "${ITK-Smoothing-Test_LIBRARIES}" "${ITK-SmoothingTests}")
@@ -25,3 +29,12 @@ itk_add_test(NAME itkDiscreteGaussianImageFilterTest
       COMMAND ITK-SmoothingTestDriver itkDiscreteGaussianImageFilterTest)
 itk_add_test(NAME itkMedianImageFilterTest
       COMMAND ITK-SmoothingTestDriver itkMedianImageFilterTest)
+itk_add_test(NAME itkRecursiveGaussianImageFiltersOnTensorsTest
+      COMMAND ITK-SmoothingTestDriver itkRecursiveGaussianImageFiltersOnTensorsTest)
+itk_add_test(NAME itkRecursiveGaussianImageFiltersOnVectorImageTest
+      COMMAND ITK-SmoothingTestDriver itkRecursiveGaussianImageFiltersOnVectorImageTest)
+itk_add_test(NAME itkRecursiveGaussianImageFiltersTest
+      COMMAND ITK-SmoothingTestDriver itkRecursiveGaussianImageFiltersTest)
+itk_add_test(NAME itkRecursiveGaussianScaleSpaceTest1
+      COMMAND ITK-SmoothingTestDriver
+              itkRecursiveGaussianScaleSpaceTest1)

@@ -151,7 +151,7 @@ protected:
   virtual
   void ThreadedApplyUpdate(const TimeStepType& dt,
                            const ThreadRegionType & regionToProcess,
-                           int threadId);
+                           ThreadIdType threadId);
 
   /** Does the actual work of calculating change over a region supplied by
    * the multithreading mechanism.
@@ -159,7 +159,7 @@ protected:
    * \sa CalculateChangeThreaderCallback */
   virtual
   TimeStepType ThreadedCalculateChange(const ThreadRegionType & regionToProcess,
-                                       int threadId);
+                                       ThreadIdType threadId);
 
 private:
   DenseFiniteDifferenceImageFilter(const Self &); //purposely not implemented

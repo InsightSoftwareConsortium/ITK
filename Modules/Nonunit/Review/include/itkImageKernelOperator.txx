@@ -20,9 +20,7 @@
 
 #include "itkImageKernelOperator.h"
 
-#include "itkImageRegionIterator.h"
-
-#include "vnl/vnl_math.h"
+#include "itkImageRegionConstIterator.h"
 
 /*
  *
@@ -37,16 +35,57 @@
 
 namespace itk
 {
+
 template< class TPixel, unsigned int VDimension, class TAllocator >
-typename ImageKernelOperator< TPixel, VDimension, TAllocator >
-::CoefficientVector
+void
+ImageKernelOperator< TPixel, VDimension, TAllocator >
+::SetImageKernel(const ImageType *kernel)
+{
+  m_ImageKernel = kernel;
+}
+
+template< class TPixel, unsigned int VDimension, class TAllocator >
+const typename ImageKernelOperator< TPixel, VDimension, TAllocator >::ImageType *
+ImageKernelOperator< TPixel, VDimension, TAllocator >
+::GetImageKernel() const
+{
+  return m_ImageKernel;
+}
+
+template< class TPixel, unsigned int VDimension, class TAllocator >
+typename ImageKernelOperator< TPixel, VDimension, TAllocator >::CoefficientVector
 ImageKernelOperator< TPixel, VDimension, TAllocator >
 ::GenerateCoefficients()
 {
+  // Check that the input image is fully buffered.
+  if ( m_ImageKernel->GetBufferedRegion() != m_ImageKernel->GetLargestPossibleRegion() )
+    {
+    itkExceptionMacro( << "ImageKernel is not fully buffered. " << std::endl
+                       << "Buffered region: " << m_ImageKernel->GetBufferedRegion()
+                       << std::endl
+                       << "Largest possible region: " << m_ImageKernel->GetLargestPossibleRegion()
+                       << std::endl
+                       << "You should call UpdateLargestPossibleRegion() on "
+                       << "the filter whose output is passed to "
+                       << "SetImageKernel()." );
+    }
+
+  // Check that the size of the kernel is odd in all dimensions.
+  for ( unsigned int i = 0; i < VDimension; i++)
+    {
+    if ( m_ImageKernel->GetLargestPossibleRegion().GetSize()[i] % 2 == 0 )
+      {
+      itkExceptionMacro( << "ImageKernelOperator requires an input image "
+                         << "whose size is odd in all dimensions. The provided "
+                         << "image has size "
+                         << m_ImageKernel->GetLargestPossibleRegion().GetSize() );
+      }
+    }
+
   CoefficientVector coeff;
 
-  ImageRegionIterator< ImageType > It( this->m_ImageKernel,
-                                       this->m_ImageKernel->GetLargestPossibleRegion() );
+  ImageRegionConstIterator< ImageType > It( m_ImageKernel,
+                                            m_ImageKernel->GetLargestPossibleRegion() );
 
   for ( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {

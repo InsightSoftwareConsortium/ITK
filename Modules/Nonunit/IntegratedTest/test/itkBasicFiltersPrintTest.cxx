@@ -45,7 +45,7 @@
 #include "itkBloxBoundaryProfileImageToBloxCoreAtomImageFilter.h"
 #include "itkCannyEdgeDetectionImageFilter.h"
 #include "itkChangeInformationImageFilter.h"
-#include "itkComposeRGBImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkConfidenceConnectedImageFilter.h"
 #include "itkConnectedThresholdImageFilter.h"
 #include "itkConstantPadImageFilter.h"
@@ -232,9 +232,9 @@ int itkBasicFiltersPrintTest(int , char* [])
     itk::ChangeInformationImageFilter<InputType>::New();
   std::cout << "-------------ChangeInformationImageFilter" << ChangeInformationImageFilterObj;
 
-  itk::ComposeRGBImageFilter<InputType>::Pointer ComposeRGBImageFilterObj =
-    itk::ComposeRGBImageFilter<InputType>::New();
-  std::cout << "-------------ComposeRGBImageFilter" << ComposeRGBImageFilterObj;
+  itk::ComposeImageFilter<InputType>::Pointer ComposeImageFilterObj =
+    itk::ComposeImageFilter<InputType>::New();
+  std::cout << "-------------ComposeImageFilter" << ComposeImageFilterObj;
 
   itk::ConfidenceConnectedImageFilter<InputType,OutputType>::Pointer ConfidenceConnectedImageFilterObj =
     itk::ConfidenceConnectedImageFilter<InputType,OutputType>::New();

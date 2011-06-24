@@ -22,7 +22,6 @@
 
 #include "itkImage.h"
 #include "itkDiscreteGaussianDerivativeImageFilter.h"
-#include "itkMultiplyByConstantImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 

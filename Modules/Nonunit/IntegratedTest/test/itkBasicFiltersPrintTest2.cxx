@@ -62,7 +62,7 @@
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkResampleImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkScalarToArrayCastImageFilter.h"
+#include "itkComposeImageFilter.h"
 #include "itkShiftScaleInPlaceImageFilter.h"
 #include "itkSigmoidImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
@@ -291,9 +291,9 @@ int itkBasicFiltersPrintTest2(int , char* [])
     itk::RescaleIntensityImageFilter<InputType,OutputType>::New();
   std::cout << "-------------RescaleIntensityImageFilter" << RescaleIntensityImageFilterObj;
 
-  itk::ScalarToArrayCastImageFilter<InputType,VectorImageType>::Pointer ScalarToArrayCastImageFilterObj =
-    itk::ScalarToArrayCastImageFilter<InputType,VectorImageType>::New();
-  std::cout << "-------------ScalarToArrayCastImageFilter" << ScalarToArrayCastImageFilterObj;
+  itk::ComposeImageFilter<InputType,VectorImageType>::Pointer ComposeImageFilterObj =
+    itk::ComposeImageFilter<InputType,VectorImageType>::New();
+  std::cout << "-------------ComposeImageFilter" << ComposeImageFilterObj;
 
   itk::ShiftScaleImageFilter<InputType,OutputType>::Pointer ShiftScaleImageFilterObj =
     itk::ShiftScaleImageFilter<InputType,OutputType>::New();

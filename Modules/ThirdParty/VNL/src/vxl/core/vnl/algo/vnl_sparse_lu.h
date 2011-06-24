@@ -17,8 +17,6 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_sparse_matrix.h>
-#include <sparse/spMatrix.h>
-
 
 //: Linear system solver for Mx = b using LU decomposition of a sparse matrix
 //  Encapsulating Sparse 1.3 by Kenneth S. Kundert.
@@ -108,7 +106,10 @@ class vnl_sparse_lu
   //: Assignment operator - privatised to avoid it being used
   vnl_sparse_lu& operator=(vnl_sparse_lu const & that);
   //: The internal matrix representation
-  spMatrix pmatrix_;
+  //
+  // We don't use the typedef spMatrix directly here to avoid exposing
+  // the implementation detail (sparse/spMatrix.h) to the user.
+  void* pmatrix_;
 };
 
 #endif // vnl_sparse_lu_h_

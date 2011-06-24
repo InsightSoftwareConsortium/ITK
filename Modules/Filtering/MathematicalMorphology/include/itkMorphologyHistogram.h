@@ -130,6 +130,7 @@ public:
       m_CurrentValue = m_InitValue;
       m_Direction = 1;
       }
+    m_Boundary = 0;
   }
 
   inline void AddBoundary()

@@ -76,6 +76,9 @@ namespace itk
  * \warning This filter assumes that the input type, output type
  * and deformation field type all have the same number of dimensions.
  *
+ * \warning WarpVectorImageFilter works only with input images
+ * of the type Image< Vector< T, D >, N > and not VectorImage< T, N >.
+ *
  * \author  Corinne Mattmann
  *
  * \ingroup GeometricTransforms MultiThreaded
@@ -221,7 +224,7 @@ protected:
    * As such, it needs to provide and implementation for
    * ThreadedGenerateData(). */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            int threadId);
+                            ThreadIdType threadId);
 
 private:
   WarpVectorImageFilter(const Self &); //purposely not implemented

@@ -152,7 +152,7 @@ public:
   }
 
   virtual OutputType Evaluate(const PointType & point,
-                              unsigned int threadID) const
+                              ThreadIdType threadID) const
   {
     ContinuousIndexType index;
 
@@ -178,7 +178,7 @@ public:
 
   virtual OutputType EvaluateAtContinuousIndex(const ContinuousIndexType &
                                                index,
-                                               unsigned int threadID) const;
+                                               ThreadIdType threadID) const;
 
   CovariantVectorType EvaluateDerivative(const PointType & point) const
   {
@@ -191,7 +191,7 @@ public:
   }
 
   CovariantVectorType EvaluateDerivative(const PointType & point,
-                                         unsigned int threadID) const
+                                         ThreadIdType threadID) const
   {
     ContinuousIndexType index;
 
@@ -222,7 +222,7 @@ public:
 
   CovariantVectorType EvaluateDerivativeAtContinuousIndex(
     const ContinuousIndexType & x,
-    unsigned int threadID) const;
+    ThreadIdType threadID) const;
 
   void EvaluateValueAndDerivative(const PointType & point,
                                   OutputType & value,
@@ -242,7 +242,7 @@ public:
   void EvaluateValueAndDerivative(const PointType & point,
                                   OutputType & value,
                                   CovariantVectorType & deriv,
-                                  unsigned int threadID) const
+                                  ThreadIdType threadID) const
   {
     ContinuousIndexType index;
 
@@ -283,7 +283,7 @@ public:
     const ContinuousIndexType & x,
     OutputType & value,
     CovariantVectorType & deriv,
-    unsigned int threadID) const;
+    ThreadIdType threadID) const;
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
@@ -291,9 +291,9 @@ public:
 
   itkGetConstMacro(SplineOrder, int);
 
-  void SetNumberOfThreads(unsigned int numThreads);
+  void SetNumberOfThreads(ThreadIdType numThreads);
 
-  itkGetConstMacro(NumberOfThreads, int);
+  itkGetConstMacro(NumberOfThreads, ThreadIdType);
 
   /** Set the input image.  This must be set by the user. */
   virtual void SetInputImage(const TImageType *inputData);
@@ -411,7 +411,7 @@ private:
   // derivatives.
   bool m_UseImageDirection;
 
-  unsigned int          m_NumberOfThreads;
+  ThreadIdType          m_NumberOfThreads;
   vnl_matrix< long > *  m_ThreadedEvaluateIndex;
   vnl_matrix< double > *m_ThreadedWeights;
   vnl_matrix< double > *m_ThreadedWeightsDerivative;

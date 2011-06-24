@@ -181,7 +181,7 @@ void
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
-  int threadId)
+  ThreadIdType threadId)
 {
   // Get the output pointers
   OutputImagePointer outputPtr = this->GetOutput();

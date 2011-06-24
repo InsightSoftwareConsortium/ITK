@@ -49,6 +49,10 @@ class Command;
  * \ingroup ITKSystemObjects
  * \ingroup DataRepresentation
  * \ingroup ITK-Common
+ *
+ * \wiki
+ * \wikiexample{Utilities/CreateAnother,Copy a filter}
+ * \endwiki
  */
 class ITKCommon_EXPORT Object:public LightObject
 {
@@ -110,9 +114,9 @@ public:
   static bool GetGlobalWarningDisplay();
 
   static void GlobalWarningDisplayOn()
-  { Object::SetGlobalWarningDisplay(true); }
+  { SetGlobalWarningDisplay(true); }
   static void GlobalWarningDisplayOff()
-  { Object::SetGlobalWarningDisplay(false); }
+  { SetGlobalWarningDisplay(false); }
 
   /** Allow people to add/remove/invoke observers (callbacks) to any ITK
    * object. This is an implementation of the subject/observer design

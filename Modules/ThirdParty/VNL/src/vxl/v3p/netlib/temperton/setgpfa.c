@@ -140,7 +140,7 @@ L20:
     nj[2] = pow_ii(&c__5, &ir);
 
 /*<       TWOPI = 4.0 * ASIN(1.0) >*/
-    twopi = asin((float)1.) * (float)4.;
+    twopi = asin(1.f) * 4.f;
 /*<       I = 1 >*/
     i__ = 1;
 

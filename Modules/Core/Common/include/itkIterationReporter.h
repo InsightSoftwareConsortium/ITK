@@ -56,7 +56,7 @@ class ITKCommon_EXPORT IterationReporter
 {
 public:
   /** Constructor sets progress to 0 because the filter is starting.  */
-  IterationReporter(ProcessObject *filter, int threadId,
+  IterationReporter(ProcessObject *filter, ThreadIdType threadId,
                     unsigned long stepsPerUpdate = 100);
 
   /** Destructor */
@@ -78,7 +78,7 @@ public:
 
 protected:
   ProcessObject *m_Filter;
-  int            m_ThreadId;
+  ThreadIdType   m_ThreadId;
   unsigned long  m_StepsPerUpdate;
   unsigned long  m_StepsBeforeUpdate;
 };

@@ -96,7 +96,7 @@ namespace itk
 #endif
 
 //This is probably better, but requires a lot of extra work
-//for gettting ExplicitInstantiation to work properly. #define
+//for gettting ExplicitInstantiation to work properly. \#define
 // itkStaticConstMacro(name, type, value) static const type name = value
 #define itkStaticConstMacro(name, type, value) enum { name = value }
 
@@ -131,14 +131,10 @@ namespace itk
 #define itkGetInputMacro(name, type, number)                                                                     \
   virtual const type * Get##name##Input() const                                                              \
     {                                                                                                            \
-    itkDebugMacro( "returning input " << #name " of "                                                           \
-                                      << static_cast< const type * >( this->ProcessObject::GetInput(number) ) ); \
     return static_cast< const type * >( this->ProcessObject::GetInput(number) );                                 \
     }                                                                                                            \
   virtual const type *GetInput##number() const                                                                 \
     {                                                                                                            \
-    itkDebugMacro( "returning input " << #number " of "                                                         \
-                                      << static_cast< const type * >( this->ProcessObject::GetInput(number) ) ); \
     return static_cast< const type * >( this->ProcessObject::GetInput(number) );                                 \
     }
 
@@ -165,7 +161,6 @@ namespace itk
     }                                                                \
   virtual const type & Get##name() const                             \
     {                                                                \
-    itkDebugMacro("Getting input " #name);                           \
     typedef SimpleDataObjectDecorator< type > DecoratorType;         \
     const DecoratorType *input =                                     \
       static_cast< const DecoratorType * >(                          \
@@ -216,7 +211,6 @@ namespace itk
 #define itkGetMacro(name, type)                                       \
   virtual type Get##name ()                                         \
     {                                                                 \
-    itkDebugMacro("returning " << #name " of " << this->m_##name); \
     return this->m_##name;                                          \
     }
 
@@ -226,7 +220,6 @@ namespace itk
 #define itkGetConstMacro(name, type)                                  \
   virtual type Get##name () const                                   \
     {                                                                 \
-    itkDebugMacro("returning " << #name " of " << this->m_##name); \
     return this->m_##name;                                          \
     }
 
@@ -237,7 +230,6 @@ namespace itk
 #define itkGetConstReferenceMacro(name, type)                         \
   virtual const type &Get##name () const                            \
     {                                                                 \
-    itkDebugMacro("returning " << #name " of " << this->m_##name); \
     return this->m_##name;                                          \
     }
 
@@ -260,11 +252,10 @@ namespace itk
   * This should be use when the type is an enum. It is use to avoid warnings on
   * some compilers with non specified enum types passed to
   * itkDebugMacro. */
-#define itkGetEnumMacro(name, type)                                                            \
-  virtual type Get##name () const                                                            \
-    {                                                                                          \
-    itkDebugMacro( "returning " << #name " of " << static_cast< long >( this->m_##name ) ); \
-    return this->m_##name;                                                                   \
+#define itkGetEnumMacro(name, type)                                           \
+  virtual type Get##name () const                                             \
+    {                                                                         \
+    return this->m_##name;                                                    \
     }
 
 /** Set character string.  Creates member Set"name"()
@@ -300,7 +291,7 @@ namespace itk
     }
 
 /** Set built-in type where value is constrained between min/max limits.
- * Create member Set"name"() (e.q., SetRadius()). #defines are
+ * Create member Set"name"() (e.q., SetRadius()). \#defines are
  * convienience for clamping open-ended values. */
 #define itkSetClampMacro(name, type, min, max)                                    \
   virtual void Set##name (type _arg)                                            \
@@ -333,7 +324,6 @@ namespace itk
 #define itkGetObjectMacro(name, type)                                   \
   virtual type * Get##name ()                                         \
     {                                                                   \
-    itkDebugMacro("returning " #name " address " << this->m_##name); \
     return this->m_##name.GetPointer();                               \
     }
 
@@ -357,17 +347,15 @@ namespace itk
 #define itkGetConstObjectMacro(name, type)                              \
   virtual const type * Get##name () const                             \
     {                                                                   \
-    itkDebugMacro("returning " #name " address " << this->m_##name); \
     return this->m_##name.GetPointer();                               \
     }
 
 /** Get a const reference to a smart pointer to an object.
  * Creates the member Get"name"() (e.g., GetPoints()). */
 #define itkGetConstReferenceObjectMacro(name, type)                     \
-  virtual const typename type::Pointer & Get##name () const           \
+  virtual const typename type::Pointer & Get##name () const             \
     {                                                                   \
-    itkDebugMacro("returning " #name " address " << this->m_##name); \
-    return this->m_##name;                                            \
+    return this->m_##name;                                              \
     }
 
 /** Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
@@ -504,8 +492,8 @@ namespace itk
  * The following is used to output debug, warning, and error messages.
  * Use a global function which actually calls:
  * OutputWindow::GetInstance()->DisplayText();
- * This is to avoid Object #include of OutputWindow
- * while OutputWindow #includes Object. */
+ * This is to avoid Object \#include of OutputWindow
+ * while OutputWindow \#includes Object. */
 extern ITKCommon_EXPORT void OutputWindowDisplayText(const char *);
 
 extern ITKCommon_EXPORT void OutputWindowDisplayErrorText(const char *);
@@ -860,7 +848,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #define ITK_TEMPLATE_IMPORT_WORKS 0
 #endif
 
-/* Define macros to export and import template instantiations.  These
+/** Define macros to export and import template instantiations.  These
    depend on each class providing a macro defining the instantiations
    given template arguments in X.  The argument X is of the form
    N(a1[,a2...,aN]).  The argument Y is a valid preprocessing token
@@ -869,14 +857,14 @@ itkTypeMacro(newexcp, parentexcp);                                              
      ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Foo, (int), I)
      ITK_EXPORT_TEMPLATE(itkfoo_EXPORT, Bar, (int, char), IC)
 
-   The ITK_TEMPLATE_<name> macro should be defined in itk<name>.h and
+   The ITK_TEMPLATE_\<name\> macro should be defined in itk\<name\>.h and
    is of the following form:
 
-     #define ITK_TEMPLATE_<name>(_, EXPORT, TypeX, TypeY) \
+     \#define ITK_TEMPLATE_\<name\>(_, EXPORT, TypeX, TypeY) \
     namespace itk { \
-       _(<n>(class EXPORT <name>< ITK_TEMPLATE_<n> x >)) \
+       _(\<n\>(class EXPORT \<name\>< ITK_TEMPLATE_<n> x >)) \
        namespace Templates { \
-    typedef <name>< ITK_TEMPLATE_<n> x > <name>##TypeY; \
+    typedef \<name\>\< ITK_TEMPLATE_\<n\> x \> \<name\>\#\#TypeY; \
    }\
      }
 
@@ -889,29 +877,29 @@ itkTypeMacro(newexcp, parentexcp);                                              
    given template arguments and should be used to construct typedef
    names for the instantiations.
 
-   Note the use of ITK_TEMPLATE_<n>, where <n> is the number of
+   Note the use of ITK_TEMPLATE_\<n\>, where \<n\> is the number of
    template arguments for the class template.  Note also that the
    number of template arguments is usually the length of the list
    nested within the inner parentheses, so the instantiation is listed
-   with the form <n>(...).  Example definitions:
+   with the form \<n\>(...).  Example definitions:
 
-     #define ITK_TEMPLATE_Foo(_, EXPORT, TypeX, TypeY) \
+     \#define ITK_TEMPLATE_Foo(_, EXPORT, TypeX, TypeY) \
     namespace itk { \
-       _(1(class EXPORT Foo< ITK_TEMPLATE_1 TypeX >)) \
+       _(1(class EXPORT Foo\< ITK_TEMPLATE_1 TypeX \>)) \
        _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                            const Foo< ITK_TEMPLATE_1 TypeX >&))) \
        namespace Templates { \
-    typedef Foo< ITK_TEMPLATE_1 TypeX > Foo##TypeY; \
+    typedef Foo< ITK_TEMPLATE_1 TypeX > Foo\#\#TypeY; \
    }\
      }
 
-     #define ITK_TEMPLATE_Bar(_, EXPORT, TypeX, TypeY) \
+     \#define ITK_TEMPLATE_Bar(_, EXPORT, TypeX, TypeY) \
     namespace itk { \
        _(2(class EXPORT Bar< ITK_TEMPLATE_2 TypeX >)) \
        _(1(EXPORT std::ostream& operator<<(std::ostream&, \
                                            const Bar< ITK_TEMPLATE_2 TypeX >&))) \
        namespace Templates { \
-    typedef Bar< ITK_TEMPLATE_2 TypeX > Bar##TypeY; \
+    typedef Bar< ITK_TEMPLATE_2 TypeX > Bar\#\#TypeY; \
    }\
      }
 

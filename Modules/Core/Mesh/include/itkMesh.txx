@@ -173,6 +173,19 @@ Mesh< TPixelType, VDimension, TMeshTraits >
   return m_CellDataContainer;
 }
 
+template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
+const typename Mesh< TPixelType, VDimension, TMeshTraits >::BoundingBoxType *
+Mesh< TPixelType, VDimension, TMeshTraits >
+::GetBoundingBox(void) const
+{
+  m_BoundingBox->SetPoints( this->m_PointsContainer.GetPointer() );
+  if ( m_BoundingBox->GetMTime() > this->GetMTime() )
+    {
+    m_BoundingBox->ComputeBoundingBox();
+    }
+  return m_BoundingBox;
+}
+
 /**
  * Access routine to set the boundary assignment container for a given
  * dimension.
@@ -1033,6 +1046,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
   m_CellsContainer = CellsContainer::New();
   m_CellDataContainer =  CellDataContainer::New();
   m_CellLinksContainer = CellLinksContainer::New();
+  m_BoundingBox = BoundingBoxType::New();
   m_BoundaryAssignmentsContainers = BoundaryAssignmentsContainerVector(MaxTopologicalDimension);
   m_CellsAllocationMethod = CellsAllocatedDynamicallyCellByCell;
 }

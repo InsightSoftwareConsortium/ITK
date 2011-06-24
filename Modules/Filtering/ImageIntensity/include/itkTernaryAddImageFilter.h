@@ -32,7 +32,7 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITK-ImageIntensity
  */
-namespace Function
+namespace Functor
 {
 template< class TInput1, class TInput2, class TInput3, class TOutput >
 class Add3
@@ -63,10 +63,10 @@ class ITK_EXPORT TernaryAddImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage1, TInputImage2,
                              TInputImage3, TOutputImage,
-                             Function::Add3< typename TInputImage1::PixelType,
-                                             typename TInputImage2::PixelType,
-                                             typename TInputImage3::PixelType,
-                                             typename TOutputImage::PixelType >   >
+                             Functor::Add3< typename TInputImage1::PixelType,
+                                            typename TInputImage2::PixelType,
+                                            typename TInputImage3::PixelType,
+                                            typename TOutputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
@@ -74,10 +74,10 @@ public:
   typedef TernaryFunctorImageFilter<
     TInputImage1, TInputImage2,
     TInputImage3, TOutputImage,
-    Function::Add3< typename TInputImage1::PixelType,
-                    typename TInputImage2::PixelType,
-                    typename TInputImage3::PixelType,
-                    typename TOutputImage::PixelType >   >  Superclass;
+    Functor::Add3< typename TInputImage1::PixelType,
+                   typename TInputImage2::PixelType,
+                   typename TInputImage3::PixelType,
+                   typename TOutputImage::PixelType >   >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

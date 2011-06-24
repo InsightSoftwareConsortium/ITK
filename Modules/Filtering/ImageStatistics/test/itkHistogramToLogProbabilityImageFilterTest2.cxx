@@ -120,7 +120,7 @@ int itkHistogramToLogProbabilityImageFilterTest2( int argc, char * argv [] )
   typedef HistogramFilterType::HistogramType  HistogramType;
   const HistogramType * histogram = histogramFilter->GetOutput();
 
-  typedef itk::HistogramToLogProbabilityImageFilter< HistogramType, NumberOfComponents > HistogramToImageFilterType;
+  typedef itk::HistogramToLogProbabilityImageFilter< HistogramType > HistogramToImageFilterType;
   HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
 
   histogramToImageFilter->SetInput( histogram );

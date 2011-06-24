@@ -53,9 +53,9 @@ public:
   virtual ~OctreeNode(void);
 
   /**
-   * Returns the value of the specified Child for for this OctreeNode
+   * Returns the value of the specified Child for this OctreeNode
    * \param ChildID The numerical identifier of the desired child.
-   * \return A pointer to the Disired child. NOTE: This is always an
+   * \return A pointer to the Desired child. NOTE: This is always an
    * instance of an OctreeNode.
    * @{
    */
@@ -65,27 +65,23 @@ public:
 
   /** @} */
   /**
-   * Determines the color value of the specified Child for for this OctreeNode
-   * \param ChildID The numerical identifier of the desired child.
-   * \return A value between 0 and 255 to indicate the color of the Disired child.
+   * Determines the color value of the specified Child for this OctreeNode
+   * \return A value between 0 and 255 to indicate the color of the Desired child.
    * \pre Must determine that the specified node is colored (Use IsNodeColored()
    * member function.  Behavior is undefined when the child is another Octree.
    */
   int GetColor(void) const;
 
   /**
-   * Sets the color value of the specified Child for for this OctreeNode
-   * \param ChildID The numerical identifier of the desired child.
-   * \param NodeColor The disired color of this node.
+   * Sets the color value of the specified Child for this OctreeNode
+   * \param NodeColor The desired color of this node.
    * \post All children of the specified child are removed, and the child is set to
    * the desired value.
    */
   void SetColor(int NodeColor);
 
   /**
-   * Sets the color value of the specified Child for for this OctreeNode
-   * \param ChildID The numerical identifier of the desired child.
-   * \param NodeColor The disired color of this node.
+   * Sets the color value of the specified Child for this OctreeNode
    * \post All children of the specified child are removed, and the child is set to
    * the desired value.
    */
@@ -93,7 +89,6 @@ public:
 
   /**
    * Determines if the child is a leaf node (colored), or a branch node (uncolored)
-   * \param ChildID The numerical identifier of the desired child.
    * \return true if it is colored, false if it is not
    */
   bool IsNodeColored(void) const;

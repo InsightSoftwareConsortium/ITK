@@ -18,7 +18,7 @@
 
 // use C++ overloading to call the right linpack routine from the template code :
 #define macro(p, T) \
-inline void vnl_linpack_svdc(vnl_netlib_svd_proto(T)) \
+inline void vnl_linpack_svdc_fixed(vnl_netlib_svd_proto(T)) \
 { v3p_netlib_##p##svdc_(vnl_netlib_svd_params); }
 macro(s, float);
 macro(d, double);
@@ -28,7 +28,7 @@ macro(z, vcl_complex<double>);
 
 //--------------------------------------------------------------------------------
 
-static bool test_heavily = false;
+static bool vnl_svd_fixed_test_heavily = false;
 #include <vnl/vnl_matlab_print.h>
 
 template <class T, unsigned int R, unsigned int C>
@@ -52,13 +52,13 @@ vnl_svd_fixed<T,R,C>::vnl_svd_fixed(vnl_matrix_fixed<T,R,C> const& M, double zer
     // Call Linpack SVD
     long info = 0;
     const long job = 21; // min(n,p) svs in U, n svs in V (i.e. economy size)
-    vnl_linpack_svdc((T*)X, &n, &n, &p,
-                     wspace.data_block(),
-                     espace.data_block(),
-                     uspace.data_block(), &n,
-                     vspace.data_block(), &p,
-                     work.data_block(),
-                     &job, &info);
+    vnl_linpack_svdc_fixed((T*)X, &n, &n, &p,
+                           wspace.data_block(),
+                           espace.data_block(),
+                           uspace.data_block(), &n,
+                           vspace.data_block(), &p,
+                           work.data_block(),
+                           &job, &info);
 
     // Error return?
     if (info != 0)
@@ -121,7 +121,7 @@ vnl_svd_fixed<T,R,C>::vnl_svd_fixed(vnl_matrix_fixed<T,R,C> const& M, double zer
     }
   }
 
-  if (test_heavily)
+  if (vnl_svd_fixed_test_heavily)
   {
     // Test that recomposed matrix == M
     typedef typename vnl_numeric_traits<T>::abs_t abs_t;
@@ -194,14 +194,14 @@ void vnl_svd_fixed<T,R,C>::zero_out_relative(double tol) // sqrt(machine epsilon
   zero_out_absolute(tol * vcl_abs(sigma_max()));
 }
 
-static bool w=false;
-inline bool warned() { if (w) return true; else { w=true; return false; } }
+static bool wf=false;
+inline bool warned_f() { if (wf) return true; else { wf=true; return false; } }
 
 //: Calculate determinant as product of diagonals in W.
 template <class T, unsigned int R, unsigned int C>
 typename vnl_svd_fixed<T,R,C>::singval_t vnl_svd_fixed<T,R,C>::determinant_magnitude() const
 {
-  if (!warned() && R != C)
+  if (!warned_f() && R != C)
     vcl_cerr << __FILE__ ": called determinant_magnitude() on SVD of non-square matrix\n"
              << "(This warning is displayed only once)\n";
   singval_t product = W_(0, 0);

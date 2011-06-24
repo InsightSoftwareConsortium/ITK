@@ -21,7 +21,7 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkGradientImageFilter.h"
-#include "itkGradientToMagnitudeImageFilter.h"
+#include "itkVectorMagnitudeImageFilter.h"
 #include "itkDerivativeImageFilter.h"
 #include "itkGradientVectorFlowImageFilter.h"
 
@@ -53,8 +53,8 @@ int itkGradientVectorFlowImageFilterTest(int , char *[])
   typedef itk::GradientImageFilter<myImageType, double, double>
                                               myGFilterType;
 
-  typedef itk::GradientToMagnitudeImageFilter<myGradientImageType, myImageType>
-                                              myGToMFilterType;
+  typedef itk::VectorMagnitudeImageFilter<myGradientImageType, myImageType>
+                                              myVectorMagnitudeFilterType;
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();
   myImageType::Pointer interImage  = myImageType::New();
@@ -136,7 +136,7 @@ int itkGradientVectorFlowImageFilterTest(int , char *[])
   myFilterType::Pointer filter = myFilterType::New();
 
   myGFilterType::Pointer gfilter = myGFilterType::New();
-  myGToMFilterType::Pointer gtomfilter = myGToMFilterType::New();
+  myVectorMagnitudeFilterType::Pointer gtomfilter = myVectorMagnitudeFilterType::New();
 
   // Connect the input images
   filter->SetInput( inputImage );

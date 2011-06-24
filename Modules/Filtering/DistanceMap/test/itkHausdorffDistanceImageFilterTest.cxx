@@ -210,6 +210,47 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
     }
   }
 
+  // compute the Hausdorff distance H(image2,image1)
+  {
+  Image1Type::SpacingType spacing1 = image1->GetSpacing();
+  spacing1[0]=spacing1[0]/2;
+  spacing1[1]=spacing1[1]/2;
+  spacing1[2]=spacing1[2]/2;
+  image1->SetSpacing(spacing1);
+  Image2Type::SpacingType spacing2 = image2->GetSpacing();
+  spacing2[0]=spacing2[0]/2;
+  spacing2[1]=spacing2[1]/2;
+  spacing2[2]=spacing2[2]/2;
+  image2->SetSpacing(spacing2);
+  typedef itk::HausdorffDistanceImageFilter<Image2Type,Image1Type> FilterType;
+  FilterType::Pointer filter = FilterType::New();
+
+  filter->SetInput1( image2 );
+  filter->SetInput2( image1 );
+  filter->SetUseImageSpacing(true);
+  filter->Update();
+
+  // check results
+  FilterType::RealType trueDistance = 10 *
+    vcl_sqrt( spacing1[0]*spacing1[0]+spacing1[1]*spacing1[1]+spacing1[2]*spacing1[2]);
+  FilterType::RealType trueAverageDistance = 4.5 * spacing1[0];
+  FilterType::RealType distance = filter->GetHausdorffDistance();
+
+  std::cout << " True distance: " << trueDistance << std::endl;
+  std::cout << " Computed computed: " << distance << std::endl;
+  std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
+
+  if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
+    {
+    std::cout << "Test failed. " << std::endl;
+    return EXIT_FAILURE;
+    }
+  if ( vnl_math_abs( trueAverageDistance - filter->GetAverageHausdorffDistance() ) > 0.1 )
+    {
+    std::cout << "Test failed, average distance too great. " << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
 
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;

@@ -76,8 +76,6 @@ namespace itk
  * \warning Incrementing the iterator (++it) followed by a decrement (--it)
  * or vice versa does not in general return the iterator to the same position.
  *
- * \example  itkImageRandomConstIteratorWithIndex.cxx
- *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide

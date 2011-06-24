@@ -104,12 +104,12 @@ $resampler SetOutputSpacing [ $fixedImage GetSpacing ]
 $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
 $resampler SetDefaultPixelValue 100
 
-set outputCast  [itkRescaleIntensityImageFilterF2US2_New]
+set outputCast  [itkRescaleIntensityImageFilterF2UC2_New]
 $outputCast SetOutputMinimum  0
 $outputCast SetOutputMaximum 65535
 $outputCast SetInput [$resampler GetOutput]
 
-set writer [ itkImageFileWriterUS2_New ]
+set writer [ itkImageFileWriterUC2_New ]
 
 $writer SetFileName [lindex $argv 2]
 $writer SetInput [ $outputCast GetOutput ]

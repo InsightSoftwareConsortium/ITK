@@ -138,7 +138,7 @@ typedef struct H5FD_mpiposix_t {
 #   define file_offset_t	off64_t
 #   define file_seek		lseek64
 #   define file_truncate	ftruncate64
-#elif defined (_WIN32) && !defined(__MWERKS__)
+#elif defined (_WIN32)
 # /*MSVC*/
 #   define file_offset_t __int64
 #   define file_seek _lseeki64
@@ -1274,9 +1274,11 @@ H5FD_mpiposix_write(H5FD_t *_file, H5FD_mem_t type, hid_t dxpl_id, haddr_t addr,
                 HMPI_GOTO_ERROR(FAIL, "MPI_Barrier failed", mpi_code)
 #endif /* JRM */
 
+#if 0 /* JRM -- 3/23/10 */ /* this is no longer always the case */
         /* Only one process will do the actual write if all procs in comm write same metadata */
         if (file->mpi_rank != H5_PAR_META_WRITE)
             HGOTO_DONE(SUCCEED) /* skip the actual write */
+#endif /* JRM */
     } /* end if */
 
 #ifdef REPORT_IO

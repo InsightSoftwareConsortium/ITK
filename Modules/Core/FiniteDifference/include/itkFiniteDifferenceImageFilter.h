@@ -207,6 +207,12 @@ public:
   itkGetConstReferenceMacro(ManualReinitialization, bool);
   itkBooleanMacro(ManualReinitialization);
 
+  itkSetMacro( IsInitialized, bool );
+  itkGetMacro( IsInitialized, bool );
+
+  void SetStateToUninitialized() { this->SetIsInitialized( false ); }
+  void SetStateToInitialized() { this->SetIsInitialized( true ); }
+
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( OutputPixelIsFloatingPointCheck,
@@ -303,7 +309,6 @@ protected:
    * to ThreadedGenerateData.
    * \param valid The set of flags indicating which of "list" elements are
    *  valid
-   * \param size The size of "list" and "valid"
    *
    * The default is to return the minimum value in the list. */
   virtual TimeStepType ResolveTimeStep(const std::vector< TimeStepType >& timeStepList,
