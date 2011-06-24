@@ -66,7 +66,7 @@ macro(WRAP_LIBRARY_SWIG_INTERFACE library_name)
   # store the content of the .i file for the module - a set of import of all the .i files generated for the module
   set(SWIG_INTERFACE_MODULE_CONTENT )
   # store the content of the .includes files - a set of #includes for that module
-  set(SWIG_INTERFACE_INCLUDES_CONTENT )
+  set(SWIG_INTERFACE_INCLUDES )
   # the list of .idx files generated for the module
   set(SWIG_INTERFACE_IDX_FILES )
   # build a list of modules to create the ignerator custom command in
@@ -87,11 +87,21 @@ macro(END_WRAP_LIBRARY_SWIG_INTERFACE)
 #    set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${basename}\n")
   endforeach(source)
 
-  set(incs )
+
+  set(SWIG_INTERFACE_INCLUDES_CONTENT )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-    set(incs "${incs}#include \"${dep}.includes\"\n")
+    set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${dep}.includes\"\n")
   endforeach(dep)
-  set(SWIG_INTERFACE_INCLUDES_CONTENT "${incs}\n\n${SWIG_INTERFACE_INCLUDES_CONTENT}")
+  if(SWIG_INTERFACE_INCLUDES)
+    list(REMOVE_DUPLICATES SWIG_INTERFACE_INCLUDES)
+    foreach(include_file ${SWIG_INTERFACE_INCLUDES})
+      if("${include_file}" MATCHES "<.*>")
+        set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include ${include_file}\n")
+      else()
+        set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${include_file}\"\n")
+      endif()
+    endforeach()
+  endif()
 
   # the list of .i files generated for the module
   set(SWIG_INTERFACE_FILES )
@@ -231,12 +241,7 @@ endmacro(END_WRAP_LIBRARY_SWIG_INTERFACE)
 
 
 macro(WRAP_INCLUDE_SWIG_INTERFACE include_file)
-  # TODO: don't include the same file several times
-  if("${include_file}" MATCHES "<.*>")
-  set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include ${include_file}\n")
-  else("${include_file}" MATCHES "<.*>")
-    set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${include_file}\"\n")
-  endif("${include_file}" MATCHES "<.*>")
+  list(APPEND SWIG_INTERFACE_INCLUDES ${include_file})
 endmacro(WRAP_INCLUDE_SWIG_INTERFACE)
 
 
