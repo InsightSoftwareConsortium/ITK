@@ -23,35 +23,12 @@
 
 namespace itk
 {
-/** \class MaskNegatedImageFilter
- * \brief Implements an operator for pixel-wise masking of the input
- * image with the negative of a mask.
- *
- * This class is parametrized over the types of the
- * input image type, the mask image type and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- *
- * The pixel type of the input 2 image must have a valid defintion of the
- * operator != with zero. This condition is required because internally this
- * filter will perform the operation
- *
- *        if pixel_from_mask_image != 0
- *             pixel_output_image = output_value
- *        else
- *             pixel_output_image = pixel_input_image
- *
- * The pixel from the input 1 is cast to the pixel type of the output image.
- *
- * Note that the input and the mask images must be of the same size.
- *
- * \warning Any pixel value other than 0 will not be masked out.
- *
- * \sa MaskImageFilter
- * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITKImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class MaskNegatedInput
+ * \brief
+ */
 template< class TInput, class TMask, class TOutput = TInput >
 class MaskNegatedInput
 {
@@ -98,6 +75,34 @@ private:
   TOutput m_OutsideValue;
 };
 }
+/** \class MaskNegatedImageFilter
+ * \brief Mask an image with the negative of a mask.
+ *
+ * This class is templated over the types of the
+ * input image type, the mask image type and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * The pixel type of the input 2 image must have a valid defintion of the
+ * operator != with zero. This condition is required because internally this
+ * filter will perform the operation
+ *
+ * \code
+ *        if pixel_from_mask_image != 0
+ *             pixel_output_image = output_value
+ *        else
+ *             pixel_output_image = pixel_input_image
+ * \endcode
+ *
+ * The pixel from the input 1 is cast to the pixel type of the output image.
+ *
+ * Note that the input and the mask images must be of the same size.
+ *
+ * \warning Any pixel value other than 0 will not be masked out.
+ *
+ * \sa MaskImageFilter
+ * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
+ */
 template< class TInputImage, class TMaskImage, class TOutputImage = TInputImage >
 class ITK_EXPORT MaskNegatedImageFilter:
   public

@@ -23,14 +23,12 @@
 
 namespace itk
 {
-/** \class SinImageFilter
- * \brief Computes the vcl_sin(x) pixel-wise
- *
- * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITKImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Sin
+ * \brief
+ */
 template< class TInput, class TOutput >
 class Sin
 {
@@ -51,7 +49,14 @@ public:
   { return (TOutput)vcl_sin( (double)A ); }
 };
 }
-
+/** \class SinImageFilter
+ * \brief Computes the sine of each pixel.
+ *
+ * The computations are performed using vcl_sin(x).
+ *
+ * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SinImageFilter:
   public

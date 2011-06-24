@@ -23,29 +23,12 @@
 
 namespace itk
 {
-/** \class AtanImageFilter
- * \brief Computes the vcl_atan(x) pixel-wise
- *
- * This filter is templated over the pixel type of the input image
- * and the pixel type of the output image.
- *
- * The filter will walk over all the pixels in the input image, and for
- * each one of them it will do the following:
- *
- * - cast the pixel value to \c double,
- * - apply the \c vcl_atan() function to the \c double value
- * - cast the \c double value resulting from \c vcl_atan() to the pixel type of the output image
- * - store the casted value into the output image.
- *
- * The filter expect both images to have the same dimension (e.g. both 2D, or both 3D, or both ND)
-*
- **
- *
- * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITKImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Atan
+ * \brief
+ */
 template< class TInput, class TOutput >
 class Atan
 {
@@ -68,6 +51,24 @@ public:
   }
 };
 }
+/** \class AtanImageFilter
+ * \brief Computes the one-argument inverse tangent of each pixel.
+ *
+ * This filter is templated over the pixel type of the input image
+ * and the pixel type of the output image.
+ *
+ * The filter walks over all the pixels in the input image, and for
+ * each pixel does the following:
+ *
+ * \li cast the pixel value to \c double,
+ * \li apply the \c vcl_atan() function to the \c double value,
+ * \li cast the \c double value resulting from \c vcl_atan() to the pixel
+ * type of the output image,
+ * \li store the cast value into the output image.
+ *
+ * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT AtanImageFilter:
   public

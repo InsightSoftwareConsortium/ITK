@@ -24,6 +24,10 @@ namespace itk
 {
 namespace Functor
 {
+/**
+ * \class InvertIntensityTransform
+ * \brief
+ */
 template< typename TInput, typename  TOutput >
 class InvertIntensityTransform
 {
@@ -61,9 +65,9 @@ private:
 }  // end namespace functor
 
 /** \class InvertIntensityImageFilter
- * \brief Invert intensity of an image
+ * \brief Invert the intensity of an image.
  *
- * InvertIntensityImageFilter invert intensity of pixels by
+ * InvertIntensityImageFilter inverts intensity of pixels by
  * subtracting pixel value to a maximum value. The maximum value can
  * be set with SetMaximum and defaults the maximum of input pixel
  * type. This filter can be used to invert, for example, a binary

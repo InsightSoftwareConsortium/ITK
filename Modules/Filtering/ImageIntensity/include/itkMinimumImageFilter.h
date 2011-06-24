@@ -22,25 +22,12 @@
 
 namespace itk
 {
-/** \class MinimumImageFilter
- * \brief Implements a pixel-wise operator Min(a,b) between two images.
- *
- * The pixel values of the output image are the minimum between the
- * corresponding pixels of the two input images.
- *
- * This class is parametrized over the types of the two
- * input images and the type of the output image.
- * Numeric conversions (castings) are done by the C++ defaults.
- * + *
- * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITKImageIntensity
- *
- * \wiki
- * \wikiexample{ImageProcessing/MinimumImageFilter,Pixel wise compare two input images and set the output pixel to their min}
- * \endwiki
- */
 namespace Functor
 {
+/**
+ * \class Minimum
+ * \brief
+ */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
 class Minimum
 {
@@ -61,7 +48,23 @@ public:
   { return static_cast< TOutput >( ( A < B ) ? A : B ); }
 };
 }
-
+/** \class MinimumImageFilter
+ * \brief Implements a pixel-wise operator Min(a,b) between two images.
+ *
+ * The pixel values of the output image are the minimum between the
+ * corresponding pixels of the two input images.
+ *
+ * This class is templated over the types of the two
+ * input images and the type of the output image.
+ * Numeric conversions (castings) are done by the C++ defaults.
+ *
+ * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
+ *
+ * \wiki
+ * \wikiexample{ImageProcessing/MinimumImageFilter,Pixel wise compare two input images and set the output pixel to their min}
+ * \endwiki
+ */
 template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
 class ITK_EXPORT MinimumImageFilter:
   public

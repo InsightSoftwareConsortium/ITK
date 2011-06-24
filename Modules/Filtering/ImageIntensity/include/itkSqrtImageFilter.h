@@ -23,14 +23,12 @@
 
 namespace itk
 {
-/** \class SqrtImageFilter
- * \brief Computes the vcl_sqrt(x) pixel-wise
- *
- * \ingroup IntensityImageFilters  MultiThreaded
- * \ingroup ITKImageIntensity
- */
 namespace Functor
 {
+/**
+ * \class Sqrt
+ * \brief
+ */
 template< class TInput, class TOutput >
 class Sqrt
 {
@@ -53,6 +51,14 @@ public:
   }
 };
 }
+/** \class SqrtImageFilter
+ * \brief Computes the square root of each pixel.
+ *
+ * The computations are performed using vcl_sqrt(x).
+ *
+ * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup ITK-ImageIntensity
+ */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SqrtImageFilter:
   public
