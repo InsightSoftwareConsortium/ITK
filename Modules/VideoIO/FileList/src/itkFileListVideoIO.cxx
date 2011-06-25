@@ -144,7 +144,7 @@ void FileListVideoIO::SetFileName(const char* fileList)
 }
 
 //
-// SplitFileNames ';'
+// SplitFileNames ','
 //
 std::vector<std::string> FileListVideoIO::SplitFileNames(const char* fileList)
 {
