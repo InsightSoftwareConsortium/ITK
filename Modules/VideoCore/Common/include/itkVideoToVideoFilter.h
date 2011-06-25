@@ -37,6 +37,8 @@ namespace itk
  * spatial regions. The default implementation simply takes the requested
  * spatial region from the first frame of output and uses that as the requested
  * region for each of the input frames.
+ *
+ * \ingroup Video-Core-Common
  */
 template< class TInputVideoStream, class TOutputVideoStream >
 class ITK_EXPORT VideoToVideoFilter : public VideoSource< TOutputVideoStream >

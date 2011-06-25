@@ -31,10 +31,12 @@
 namespace itk
 {
 /** \class TemporalRegion
- * \brief Region subclass that holds a spatial region as well as beginning and
- * end time-points
+ * \brief Region subclass that holds a region in time
  *
- * Time points are stored in both frame numbers and with RealTimeStamps
+ * A temporal region is represented using a starting point and a duration. Here
+ * time can be measured both in frame numbers or real time (or both).
+ *
+ * \ingroup Video-Core-Common
  */
 class ITK_EXPORT TemporalRegion : public Region
 {
