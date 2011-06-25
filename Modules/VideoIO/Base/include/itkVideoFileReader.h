@@ -35,6 +35,8 @@ namespace itk
  * uses the temporal streaming implementation provided by TemporalProcessObject
  * to load a single frame at a time into the frame buffer of the output
  * VideoSource.
+ *
+ * \ingroup Video-IO-Base
  */
 template< class TOutputVideoStream >
 class ITK_EXPORT VideoFileReader:public VideoSource< TOutputVideoStream >

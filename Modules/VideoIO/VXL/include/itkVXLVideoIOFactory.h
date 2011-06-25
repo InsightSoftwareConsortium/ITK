@@ -25,6 +25,8 @@ namespace itk
 {
 /** \class VXLVideoIOFactory
  * \brief Create instances of VXLVideoIO objects using an object factory.
+ *
+ * \ingroup Video-IO-VXL
  */
 class ITK_EXPORT VXLVideoIOFactory:public ObjectFactoryBase
 {

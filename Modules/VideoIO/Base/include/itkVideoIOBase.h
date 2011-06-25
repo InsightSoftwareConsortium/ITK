@@ -30,21 +30,20 @@ namespace itk
  * \brief Abstract superclass defines video IO interface.
  *
  * VideoIOBase is a class that reads and/or writes video data
- * of a particular using a particular external library (eg OpenCV or vxl). The
+ * using a particular external technique or external library (OpenCV, vxl). The
  * VideoIOBase encapsulates both the reading and writing of data. The
  * VideoIOBase is used by the VideoFileReader class (to read data)
- * and the VideoFileWriter (to write data) into a single file. Normally the
- * user does not directly
- * manipulate this class other than to instantiate it, set the FileName,
- * and assign it to a VideoFileReader/VideoFileWriter.
+ * and the VideoFileWriter (to write data). Normally the user does not directly
+ * manipulate this class directly.
  *
- * A Pluggable factory pattern is used this allows different kinds of
+ * A Pluggable factory pattern is used. This allows different kinds of
  * readers to be registered (even at run time) without having to
  * modify the code in this class.
  *
  * \sa VideoFileWriter
  * \sa VideoFileReader
  *
+ * \ingroup Video-IO-Base
  */
 class ITK_EXPORT VideoIOBase:public ImageIOBase
 {

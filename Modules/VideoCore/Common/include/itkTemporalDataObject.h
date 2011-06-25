@@ -28,6 +28,15 @@ namespace itk
 /** \class TemporalDataObject
  * \brief DataObject subclass with knowledge of temporal region
  *
+ * This class represents a data object that relies on temporal regions. It uses
+ * an itk::RingBuffer to store DataObject pointers in sequential order. The
+ * pointers in the ring buffer should correspond to the BufferedTemporalRegion.
+ * The LargestPossibleTemporalRegion should indicate the maximum extent that
+ * data object is logically capable of holding, and the RequestedTemporalRegion
+ * is used in the pipeline to request that a certain temporal region be
+ * buffered
+ *
+ * \ingroup Video-Core-Common
  */
 class ITK_EXPORT TemporalDataObject : public DataObject
 {

@@ -33,9 +33,15 @@ namespace itk
 {
 /** \class FileListVideoIO
  *
- * \brief VideoIO object for reading and writing videos using FileList
+ * \brief VideoIO object for reading and writing videos as a sequence of frame
+ *        files
  *
- * \ingroup IOFilters
+ * This VideoIO treats a sequential list of file names as the frames of a
+ * video. The frames must be specified in a comma-separated list. Also, the
+ * SplitFileNames(...) static method is made public in order to allow the
+ * splitting functionality to be accessed publically.
+ *
+ * \ingroup Video-IO-FileList
  *
  */
 class ITK_EXPORT FileListVideoIO:public VideoIOBase

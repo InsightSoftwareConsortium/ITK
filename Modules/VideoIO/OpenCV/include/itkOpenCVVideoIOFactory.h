@@ -25,6 +25,8 @@ namespace itk
 {
 /** \class OpenCVVideoIOFactory
  * \brief Create instances of OpenCVVideoIO objects using an object factory.
+ *
+ * \ingroup Video-IO-OpenCV
  */
 class ITK_EXPORT OpenCVVideoIOFactory:public ObjectFactoryBase
 {

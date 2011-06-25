@@ -35,16 +35,33 @@ class TemporalDataObject;
  *
  * TemporalProcessObject acts as a pass-through in the inheritance tree in
  * order to require that subclasses properly implement handeling of temporal
- * regions. The three methods that a subclass must implement are:
+ * regions. The key parameters of a temporal process object are:
  *
- * EnlargeOutputRequestedTemporalRegion(TemporalDataObject*)
- * GenerateOutputRequestedTemporalRegion(TemporalDataObject*)
- * GenerateInputRequestedTemporalRegion(TemporalDataObject*)
+ * m_UnitInputNumberOfFrames
+ * m_UnitOutputNumberOfFrames
+ * m_FrameSkipPerOutput
+ * m_InputStencilCurrentFrameIndex
  *
- * These three methods mirror the similarly named methods in ProcessObject but
- * require that the inputs be TemporalDataObjects. These methods are called by
- * the corresponding RequestedRegion methods after ensuring that the DataObject
- * outputs can be cast to TemporalDataObject.
+ * These parameters are protected by default so that the filter writer can
+ * choose which to expose and which to keep constant. For a full explanation of
+ * each parameter, see the individual comments with their declarations.
+ * Subclasses of TemporalProcessObject must implement one of the following:
+ *
+ * GenerateData()
+ * TemporalStreamingGenerateData()
+ *
+ * By default, GenerateData will split the requested temporal region of the
+ * input and output temporal data objects into sub-requests of unit input and
+ * unit output size. For example, if the output requests 3 frames and the
+ * filter has unit input size of 2 and unit output size of 1, GenerateData will
+ * produce 3 sub-requests that each require the input to provide 2 frames.
+ * Using this default behavior, TemporalStreamingGenerateData must be
+ * implemented and can assume that the RequestedTemporalRegion on the input and
+ * output are unit size. If the temporal streaming behavior is not desired,
+ * GenerateData can be implemented to directly handle the full output requested
+ * temporal region in a single pass.
+ *
+ * \ingroup Video-Core-Common
  */
 class TemporalProcessObject:public ProcessObject
 {

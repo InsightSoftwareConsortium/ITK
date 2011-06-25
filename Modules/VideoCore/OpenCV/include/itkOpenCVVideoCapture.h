@@ -29,6 +29,13 @@ namespace itk
 /** \class OpenCVVideoCapture
  * \brief This class implements OpenCV's VideoCapture API and takes an itk
  * VideoStream as input
+ *
+ * This implementation of cv::VideoCapture provides the additional method
+ * open( itk::VideoStream* ) to "open" video data from an ITK pipeline. The
+ * traditional open methods will throw exceptions, so it can only be used to
+ * access the output of an ITK video pipeline from an OpenCV capture context.
+ *
+ * \ingroup Video-Core-OpenCV
  */
 template<class TVideoStream>
 class OpenCVVideoCapture : public cv::VideoCapture

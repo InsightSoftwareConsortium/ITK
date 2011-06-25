@@ -26,7 +26,12 @@ namespace itk
 /** \class RingBuffer
  *  \brief Templated ring buffer for holding anything
  *
- * This ring buffer can hold any type of class
+ * This ring buffer can hold any type of class. A HEAD pointer is maintained
+ * and the buffer pointers can be accessed in order using either positive or
+ * negative offsets. The HEAD pointer can also be moved forward or backward in
+ * the ring.
+ *
+ * \ingroup Video-Core-Common
  */
 
 template< class TElementType >

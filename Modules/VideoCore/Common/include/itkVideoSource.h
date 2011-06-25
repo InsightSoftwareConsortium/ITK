@@ -36,6 +36,8 @@ namespace itk
  * TemporalProcessObject. This implementation mirrors the implementation in
  * ImageSource except that each thread will be able to operate on a spatial
  * region of each frame in the current temporal region that is being processed.
+ *
+ * \ingroup Video-Core-Common
  */
 template< class TOutputVideoStream >
 class ITK_EXPORT VideoSource : public TemporalProcessObject

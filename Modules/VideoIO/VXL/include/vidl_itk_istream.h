@@ -26,6 +26,14 @@ namespace itk
 
 /** \class vidl_itk_istream
  * \brief implementation of VXL's vidl_istream using an itk VideoStream
+ *
+ * This implementation of VXL's vidl_istream can be placed at the end of an ITK
+ * video pipeline and allow the processed frames to be accessed in the standard
+ * VXL istream pattern.
+ *
+ * TODO: Move this to Video-Core-VXL
+ *
+ * \ingroup Video-IO-VXL
  */
 template< class TVideoStream >
 class vidl_itk_istream : public vidl_istream

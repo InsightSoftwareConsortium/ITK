@@ -29,6 +29,8 @@ namespace itk
  *
  * This filter computes the squared intensity difference between a frame and
  * the nth previous frame.
+ *
+ * \ingroup Video-Filters-Common
  */
 template<class TInputVideoStream, class TOutputVideoStream>
 class ITK_EXPORT FrameDifferenceVideoFilter :

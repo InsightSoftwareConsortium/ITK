@@ -28,6 +28,8 @@ namespace itk
  *
  * This filter computes the average of X frames at once from an input video. It
  * processes one frame forward at a time.
+ *
+ * \ingroup Video-Filters-Common
  */
 template<class TInputVideoStream, class TOutputVideoStream>
 class ITK_EXPORT FrameAverageVideoFilter :
