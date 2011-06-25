@@ -38,8 +38,7 @@ namespace itk
  *
  * \brief VideoIO object for reading and writing videos using OpenCV
  *
- * \ingroup IOFilters
- *
+ * \ingroup Video-IO-OpenCV
  */
 class ITK_EXPORT OpenCVVideoIO:public VideoIOBase
 {
