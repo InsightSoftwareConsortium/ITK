@@ -39,7 +39,7 @@ namespace itk
  *
  * \brief VideoIO object for reading and writing videos using VXL
  *
- * \ingroup IOFilters
+ * \ingroup Video-IO-VXL
  *
  */
 class ITK_EXPORT VXLVideoIO:public VideoIOBase
