@@ -30,6 +30,10 @@ namespace itk
  *
  * This class is a subclass of TemporalProcessObject which specifically takes a
  * single VideoStream as input and writes the frames out to a file in sequence.
+ * A call to Update() will write the entire requested temporal region to the
+ * file. If no temporal region is requested, the largest possible will be used.
+ *
+ * \ingroup Video-IO-Base
  */
 template< class TInputVideoStream >
 class ITK_EXPORT VideoFileWriter:public TemporalProcessObject

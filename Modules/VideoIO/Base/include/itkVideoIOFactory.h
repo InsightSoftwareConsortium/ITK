@@ -26,6 +26,12 @@ namespace itk
 
 /** \class VideoIOFactory
  * \brief Create instances of VideoIO objects using an object factory.
+ *
+ * This class will create a VideoIO instance that can read/write to/from the
+ * desired file or camera. In order for a specific VideoIO type to be
+ * considered, it must be registered with the ITK ObjectFactoryBase.
+ *
+ * \ingroup Video-IO-Base
  */
 class ITK_EXPORT VideoIOFactory:public Object
 {
@@ -35,12 +41,6 @@ public:
   typedef Object                     Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
-
-  /** Class Methods used to interface with the registered factories */
-  //enum LIBRARY_USED { 
-  //        ITK_USE_OPENCV,
-  //        ITK_USE_VXL
-  //        };
 
   /** Mode in which the VideoIO is intended to be used */
   typedef enum { ReadFileMode, ReadCameraMode, WriteMode } IOModeType;
