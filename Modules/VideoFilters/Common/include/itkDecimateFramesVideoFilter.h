@@ -28,6 +28,8 @@ namespace itk
  *
  * This filter simply takes an input video and passes every Nth frame through
  * to the output.
+ *
+ * \ingroup Video-Filters-Common
  */
 template<class TVideoStream>
 class ITK_EXPORT DecimateFramesVideoFilter :

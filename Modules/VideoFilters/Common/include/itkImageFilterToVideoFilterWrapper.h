@@ -26,6 +26,14 @@ namespace itk
 /** \class ImageFilterToVideoFilterWrapper
  * \brief Wrap an ImageToImageFilter as a VideoToVideoFilter that operates on
  * a single frame at a time
+ *
+ * This filter wrapper allows all of the standard ITK image filters to be used
+ * in a video pipeline. This is done by instantiating the image filter, setting
+ * its parameters, and then using the SetImageFilter() method of this wrapper
+ * to use the filter to process each in a video pipeline. An instance of this
+ * wrapper must be templated over the apropriate image filter type.
+ *
+ * \ingroup Video-Filters-Common
  */
 template<class TImageToImageFilter>
 class ITK_EXPORT ImageFilterToVideoFilterWrapper :
