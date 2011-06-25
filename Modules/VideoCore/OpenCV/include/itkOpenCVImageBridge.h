@@ -39,6 +39,8 @@ namespace itk
  *
  * Each method is templated over the type of itk::Image used.  The conversions
  * copy the data and convert between types if necessary.
+ *
+ * \ingroup Video-Core-OpenCV
  */
 class OpenCVImageBridge
 {
