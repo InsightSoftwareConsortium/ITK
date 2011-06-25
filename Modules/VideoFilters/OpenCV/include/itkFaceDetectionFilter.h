@@ -48,7 +48,7 @@ namespace itk
  * \sa PasteImageFilter
  * \sa RegionOfInterestImageFilter
  *
- * \ingroup OpenCVFilters
+ * \ingroup Video-Filters-OpenCV
  */
 
 
