@@ -138,7 +138,16 @@ itk_add_test(NAME itkResampleImageTest2
               ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.png
     --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ResampleImageTest2.png
               ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png
-    itkResampleImageTest2 ${ITK_DATA_ROOT}/Input/cthead1.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.png ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png)
+    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.png}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.png
+    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.png}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.png
+    itkResampleImageTest2 ${ITK_DATA_ROOT}/Input/cthead1.png
+                          ${ITK_DATA_ROOT}/Input/circle.png
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.png
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.png
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.png
+                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.png)
 itk_add_test(NAME itkResamplePhasedArray3DSpecialCoordinatesImageTest
       COMMAND ITK-ImageGridTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 itk_add_test(NAME itkPushPopTileImageFilterTest

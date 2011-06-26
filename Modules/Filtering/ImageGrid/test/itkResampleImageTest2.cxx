@@ -28,6 +28,7 @@
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkNearestNeighborExtrapolateImageFunction.h"
 
 /* Further testing of itkResampleImageFilter
  * Output is compared with baseline image using the cmake add_test
@@ -73,7 +74,9 @@ int itkResampleImageTest2(int argc, char * argv [] )
     std::cerr << "Missing arguments ! " << std::endl;
     std::cerr << "Usage : " << std::endl;
     std::cerr << argv[0] << "inputImage referenceImage "
-              << "resampledImageLinear resampledImageNonLinear";
+              << "resampledImageLinear resampledImageNonLinear "
+              << "resampledImageLinearNearestExtrapolate"
+              << "resampledImageNonLinearNearestExtrapolate";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -92,21 +95,31 @@ int itkResampleImageTest2(int argc, char * argv [] )
                                                  NonlinearAffineTransformType;
   typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
                                                  InterpolatorType;
+  typedef itk::NearestNeighborExtrapolateImageFunction<ImageType,CoordRepType>
+                                                 ExtrapolatorType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
+  ReaderType::Pointer reader3 = ReaderType::New();
+  ReaderType::Pointer reader4 = ReaderType::New();
 
   WriterType::Pointer writer1 = WriterType::New();
   WriterType::Pointer writer2 = WriterType::New();
+  WriterType::Pointer writer3 = WriterType::New();
+  WriterType::Pointer writer4 = WriterType::New();
 
   reader1->SetFileName( argv[1] );
   reader2->SetFileName( argv[2] );
+  reader3->SetFileName( argv[3] );
+  reader4->SetFileName( argv[4] );
 
   writer1->SetFileName( argv[3] );
   writer2->SetFileName( argv[4] );
+  writer3->SetFileName( argv[5] );
+  writer4->SetFileName( argv[6] );
 
   // Create an affine transformation
   AffineTransformType::Pointer affineTransform = AffineTransformType::New();
@@ -114,6 +127,9 @@ int itkResampleImageTest2(int argc, char * argv [] )
 
   // Create a linear interpolation image function
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
+
+  // Create a nearest neighbor extrapolate image function
+  ExtrapolatorType::Pointer extrapolator = ExtrapolatorType::New();
 
   // Create and configure a resampling filter
   typedef itk::ResampleImageFilter< ImageType, ImageType > ResampleFilterType;
@@ -162,6 +178,37 @@ int itkResampleImageTest2(int argc, char * argv [] )
   try
     {
     writer2->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Instead of using the default pixel when sampling outside the input image,
+  // we use a nearest neighbor extrapolator.
+  resample->SetTransform( affineTransform );
+  resample->SetExtrapolator( extrapolator );
+  writer3->SetInput( resample->GetOutput() );
+  std::cout << "Test with nearest neighbor extrapolator, affine transform." << std::endl;
+  try
+    {
+    writer3->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Instead of using the default pixel when sampling outside the input image,
+  // we use a nearest neighbor extrapolator.
+  resample->SetTransform( nonlinearAffineTransform );
+  writer4->SetInput( resample->GetOutput() );
+  std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << std::endl;
+  try
+    {
+    writer4->Update();
     }
   catch( itk::ExceptionObject & excp )
     {
