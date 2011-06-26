@@ -1,4 +1,5 @@
-set(DOCUMENTATION "This module contains classes that provide an interface bewteen ITK and VTK.")
+set(DOCUMENTATION "This module contains classes that provide an
+interface between ITK and VTK.")
 
 itk_module(ITK-ItkVtkGlue
   DEPENDS
