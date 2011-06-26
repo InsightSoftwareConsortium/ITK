@@ -32,5 +32,8 @@ zap.pl           crlf=input
 *.txt            whitespace=tab-in-indent,no-lf-at-eof
 *.cmake          whitespace=tab-in-indent,no-lf-at-eof
 
+# ExternalData content links must have LF newlines
+*.md5            crlf=input
+
 # Third-party code need not pass our style checks.
 /Utilities/*    -hooks.style
